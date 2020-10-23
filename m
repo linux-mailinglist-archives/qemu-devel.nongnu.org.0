@@ -2,102 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22E12297818
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:11:32 +0200 (CEST)
-Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21219297831
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:24:43 +0200 (CEST)
+Received: from localhost ([::1]:42268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW3PP-0000qb-5q
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:11:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
+	id 1kW3c9-0005Si-Mg
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:24:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kW3LE-0004t5-Ug
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:12 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5270)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kW3LC-0003jt-Ma
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:12 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09NK29ox182264; Fri, 23 Oct 2020 16:07:09 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=P3TPXiTUGaxAmCIhw8Qg77Q02Z3Vw0oLUCLlve8GL20=;
- b=ETEVHW7Qz21JHrGVqjutzkK183XK2XVC5QOYN7MMUXDvrphqOH3WlHFQK1MfX8g6BV6U
- y69a+pFyRycHvsKjVJM2gVHMsG0NzIyuaoGGnjJk+VIHJF849w4619rWUi83R9YYjj3A
- GGtJHhuEPkr5k0jbW9zmsYuIM+Dt7UvMz8pFrcUaaMXKoMpcbswPl9A+RqU2HfAFVgl4
- b4Kc88daeOzodFzcc0jCGbCz1GYUtBo+JkxiKTxB6VbsO0MP65Ybdw57PBBW3Vqfa6lQ
- UxbBwKg5tlEoyLRxSoG0DCWeiOkCexcf2n/5UZHaP51jIkFW75S8XOXArkNhaq8Hh+CF RQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34c2j9dg1g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 16:07:09 -0400
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09NK2IAh182894;
- Fri, 23 Oct 2020 16:07:08 -0400
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34c2j9dg0x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 16:07:08 -0400
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09NJvKX1001629;
- Fri, 23 Oct 2020 20:07:07 GMT
-Received: from b03cxnp07029.gho.boulder.ibm.com
- (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
- by ppma05wdc.us.ibm.com with ESMTP id 347r89jw3h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 20:07:07 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09NK767k32440650
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Oct 2020 20:07:06 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 97EBE6A054;
- Fri, 23 Oct 2020 20:07:06 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DE3A76A04D;
- Fri, 23 Oct 2020 20:07:05 +0000 (GMT)
-Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.212.19])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 23 Oct 2020 20:07:05 +0000 (GMT)
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kW3b6-0004hM-WA
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:23:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29200)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kW3b4-0005Vk-94
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:23:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603484612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ihvi2mo5hD+NEe/DKlWqo3YO8djqorywMVnMJdYPyC8=;
+ b=TFm7aJdaEq1W4R6aipO0l7mZ58LhvxyUkTJGj6AE+KVYvqpSl03GlWLI9MPXJqGWH+m0QE
+ mQew6XCD9yRTQUm4AFFtcv5cXP7dGK8/xnmBPTKiIRd6mlT7mWcq0dr74mWO1gMa5u1QAl
+ EoNs94YCl9YlaKiR342w9MPuQnNKh0M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-148-fcKcyCEmOqyTovmsibG5EQ-1; Fri, 23 Oct 2020 16:23:28 -0400
+X-MC-Unique: fcKcyCEmOqyTovmsibG5EQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C84E805F19;
+ Fri, 23 Oct 2020 20:23:26 +0000 (UTC)
+Received: from [10.3.113.7] (ovpn-113-7.phx2.redhat.com [10.3.113.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7B3BC5B4C1;
+ Fri, 23 Oct 2020 20:23:05 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 6/6] configure: add support for Control-Flow Integrity
-Date: Fri, 23 Oct 2020 16:06:44 -0400
-Message-Id: <20201023200645.1055-7-dbuono@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
+References: <20201023183652.478921-1-eblake@redhat.com>
+ <20201023183652.478921-13-eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v5 12/12] qapi: Use QAPI_LIST_ADD() where possible
+Message-ID: <a8e32a7b-c895-5f3b-14ec-50e5af9426b1@redhat.com>
+Date: Fri, 23 Oct 2020 15:23:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201023183652.478921-13-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
- definitions=2020-10-23_14:2020-10-23,
- 2020-10-23 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0
- mlxscore=0 suspectscore=1 priorityscore=1501 mlxlogscore=999 spamscore=0
- impostorscore=0 bulkscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010230119
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 16:06:56
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,171 +84,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>, Alexander Bulekov <alxndr@bu.edu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Richard Henderson <rth@twiddle.net>, Thomas Huth <thuth@redhat.com>,
+ Jiri Pirko <jiri@resnulli.us>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:S390 KVM CPUs" <qemu-s390x@nongnu.org>, vsementsov@virtuozzo.com,
+ stefanha@redhat.com, David Gibson <david@gibson.dropbear.id.au>,
+ kwolf@redhat.com, "open list:GLUSTER" <integration@gluster.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Max Reitz <mreitz@redhat.com>, "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a flag to enable/disable control flow integrity checks
-on indirect function calls.
-This feature only allows indirect function calls at runtime to functions
-with compatible signatures.
+On 10/23/20 1:36 PM, Eric Blake wrote:
+> Anywhere we create a list of just one item or by prepending items
+> (typically because order doesn't matter), we can use the now-public
+> macro.  But places where we must keep the list in order by appending
+> remain open-coded.
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  docs/devel/writing-qmp-commands.txt | 13 +++------
 
-This feature is only provided by LLVM/Clang, and depends on link-time
-optimization which is currently supported only with LLVM/Clang >= 6.0
+> +++ b/docs/devel/writing-qmp-commands.txt
+> @@ -531,15 +531,10 @@ TimerAlarmMethodList *qmp_query_alarm_methods(Error **errp)
+>      bool current = true;
+> 
+>      for (p = alarm_timers; p->name; p++) {
+> -        TimerAlarmMethodList *info = g_malloc0(sizeof(*info));
+> -        info->value = g_malloc0(sizeof(*info->value));
+> -        info->value->method_name = g_strdup(p->name);
+> -        info->value->current = current;
+> -
+> -        current = false;
+> -
+> -        info->next = method_list;
+> -        method_list = info;
+> +	TimerAlarmMethod *value = g_new0(TimerAlarmMethod, 1);
+> +        value->method_name = g_strdup(p->name);
 
-We also add an option to enable a debugging version of cfi, with verbose
-output in case of a CFI violation.
+Oops, tab damage.
 
-CFI on indirect function calls does not support calls to functions in
-shared libraries (since they were not known at compile time), and such
-calls are forbidden. QEMU relies on dlopen/dlsym when using modules,
-so we make modules incompatible with CFI.
-
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
----
- configure   | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- meson.build |  2 ++
- 2 files changed, 86 insertions(+)
-
-diff --git a/configure b/configure
-index e964040522..f996c4462e 100755
---- a/configure
-+++ b/configure
-@@ -272,6 +272,8 @@ debug_info="yes"
- lto="false"
- stack_protector=""
- safe_stack=""
-+cfi="no"
-+cfi_debug="no"
- use_containers="yes"
- gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
- 
-@@ -1199,6 +1201,16 @@ for opt do
-   ;;
-   --disable-safe-stack) safe_stack="no"
-   ;;
-+  --enable-cfi)
-+      cfi="yes" ;
-+      lto="true" ;
-+  ;;
-+  --disable-cfi) cfi="no"
-+  ;;
-+  --enable-cfi-debug) cfi_debug="yes"
-+  ;;
-+  --disable-cfi-debug) cfi_debug="no"
-+  ;;
-   --disable-curses) curses="disabled"
-   ;;
-   --enable-curses) curses="enabled"
-@@ -1772,6 +1784,13 @@ disabled with --disable-FEATURE, default is enabled if available:
-   sparse          sparse checker
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
-+  cfi             Enable Control-Flow Integrity for indirect function calls.
-+                  In case of a cfi violation, QEMU is terminated with SIGILL
-+                  Depends on lto and is incompatible with modules
-+                  Automatically enables Link-Time Optimization (lto)
-+  cfi-debug       In case of a cfi violation, a message containing the line that
-+                  triggered the error is written to stderr. After the error,
-+                  QEMU is still terminated with SIGILL
- 
-   gnutls          GNUTLS cryptography support
-   nettle          nettle cryptography support
-@@ -5312,6 +5331,64 @@ EOF
-   CONFIGURE_CFLAGS="$QEMU_CFLAGS -flto"
-   CONFIGURE_LDFLAGS="$QEMU_LDFLAGS -flto"
- fi
-+
-+########################################
-+# cfi (Control Flow Integrity)
-+
-+if test "$cfi" = "yes"; then
-+  # Compiler/Linker Flags that needs to be added for cfi:
-+  # -fsanitize=cfi-icall to enable control-flow integrity checks on
-+  #            indirect function calls.
-+  # -fsanitize-cfi-icall-generalize-pointers to allow indirect function calls
-+  #            with pointers of a different type (i.e. pass a void* to a
-+  #            function that expects a char*). Used in some spots in QEMU,
-+  #            with compile-time type checks done by macros
-+  # -fno-sanitize-trap=cfi-icall, when debug is enabled, to display the
-+  #            position in the code that triggered a CFI violation
-+
-+  # Make sure that LTO is enabled
-+  if test "$lto" != "true"; then
-+    error_exit "Control Flow Integrity requires Link-Time Optimization (LTO)"
-+  fi
-+
-+  test_cflag="-fsanitize=cfi-icall -fsanitize-cfi-icall-generalize-pointers"
-+  test_ldflag="-fsanitize=cfi-icall"
-+
-+  if test "$cfi_debug" = "yes"; then
-+    # Disable the default trap mechanism so that a error message is displayed
-+    # when a CFI violation happens. The code is still terminated after the
-+    # message
-+    test_cflag="${test_cflag} -fno-sanitize-trap=cfi-icall"
-+    test_ldflag="${test_ldflag} -fno-sanitize-trap=cfi-icall"
-+  fi
-+
-+  # Check that cfi is supported.
-+  cat > $TMPC << EOF
-+int main(int argc, char *argv[]) {
-+  return 0;
-+}
-+EOF
-+  # Manually add -flto because even if is enabled, flags for it will be
-+  # set up later by meson
-+  if ! compile_prog "-Werror $test_cflag" "$test_ldflag"; then
-+    error_exit "Control Flow Integrity is not supported by your compiler"
-+  fi
-+
-+  # Check for incompatible options
-+  if test "$modules" = "yes"; then
-+    error_exit "Control Flow Integrity is not compatible with modules"
-+  fi
-+
-+  #### All good, add the flags for CFI to our CFLAGS and LDFLAGS
-+  # Flag needed both at compilation and at linking
-+  QEMU_CFLAGS="$QEMU_CFLAGS $test_cflag"
-+  QEMU_LDFLAGS="$QEMU_LDFLAGS $test_ldflag"
-+else
-+  if test "$cfi_debug" = "yes"; then
-+    error_exit "Cannot enable Control Flow Integrity debugging since CFI is not enabled"
-+  fi
-+fi
-+
- # See if __attribute__((alias)) is supported.
- # This false for Xcode 9, but has been remedied for Xcode 10.
- # Unfortunately, travis uses Xcode 9 by default.
-@@ -6972,6 +7049,13 @@ if test "$safe_stack" = "yes"; then
-   echo "CONFIG_SAFESTACK=y" >> $config_host_mak
- fi
- 
-+if test "$cfi" = "yes"; then
-+  echo "CONFIG_CFI=y" >> $config_host_mak
-+  if test "$cfi_debug" = "yes"; then
-+    echo "CONFIG_CFI_DEBUG=y" >> $config_host_mak
-+  fi
-+fi
-+
- # If we're using a separate build tree, set it up now.
- # DIRS are directories which we simply mkdir in the build tree;
- # LINKS are things to symlink back into the source tree
-diff --git a/meson.build b/meson.build
-index 50e5c527df..be74a232a0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2071,6 +2071,8 @@ if targetos == 'windows'
-   summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
- endif
- summary_info += {'seccomp support':   config_host.has_key('CONFIG_SECCOMP')}
-+summary_info += {'cfi support':       config_host.has_key('CONFIG_CFI')}
-+summary_info += {'cfi debug support': config_host.has_key('CONFIG_CFI_DEBUG')}
- summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
- summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
- summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
 -- 
-2.17.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
