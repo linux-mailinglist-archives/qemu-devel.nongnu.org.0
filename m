@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1019297347
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:13:03 +0200 (CEST)
-Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BE8C2973BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:30:31 +0200 (CEST)
+Received: from localhost ([::1]:46086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzgc-0005gh-Nj
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:13:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37410)
+	id 1kVzxW-0006Wk-6s
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:30:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFy-00031L-1Y; Fri, 23 Oct 2020 11:45:32 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:6195)
+ id 1kVzFu-0002yj-9y; Fri, 23 Oct 2020 11:45:27 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:6188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFi-0003lZ-T7; Fri, 23 Oct 2020 11:45:28 -0400
+ id 1kVzFl-0003kI-3e; Fri, 23 Oct 2020 11:45:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603467915; x=1635003915;
+ t=1603467917; x=1635003917;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=dA/j7k0iZxbv9GK+9DV55QACBClboYEOT9u77fvDdZA=;
- b=lfJ9H/JvTYuv6uE8MZqzo81B6qDPzn4ketyH5+prtKj8cURoIBLK5kFd
- P91PoHXxsD8Oh+nZihkpcp95GewdjhxtoUWKnohDaOuoUxqdiqanqrR3b
- 4sTAfZUeWxyp1j2QjCdDdvTu27/eQR9pqIGGI5/Nxir89GMTxbwBbHFCs
- rkqv7D9J20c9XI2NsktPCRnfgYXZRgF9LcoDrvwF00LQykw0Q8wiemkZh
- 32BNl90wD0xTIaSVf8GGaVjAD3f6qAOEmhboEP0JS2nKmrWFfWOHXUkQx
- Gfy+LK6DR/ZYFSCSii6kp6S295icnnriU6kdNyUQlrDmkMNfjeUyyrTJf A==;
-IronPort-SDR: tLQlkx0hd4BduWbo8B+moMV2vUAs6kOLCJXpHdCU3n5NcMWFA+mb/RPcDKiZmaEX9kZsyT8tNT
- DoSp7LTP90jUxaxoEn5XZl8t6FZez8asQVOdPns6kstCl/Dh6HFdB++pXGOGTIMPmAooqWRbcI
- mAzFFBJz+ney3DhSiQW7zPAGejqCojIbXFVJxy8W97qus0EvHewHRmv77SU4D6E0P5VoUOzYM6
- t+bJS/QUvLrb39sIMMKxGZNN9Qkl9TseQuTfiMireCW+4rreiGMRoa0Lgyya/Pft6CJaM7sndd
- nGc=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="151960175"
+ bh=O3sfZ2KzydHNy1g6w/eUT+Fc1jPN29GudGPR1+ohh/U=;
+ b=dxtlUfDRhzlP8GEip96j4Vh9GQB4wOErBIqSF3B5ZXlML4Ezb7h6345P
+ bNII8BkO+VjNpwwJN444q4IhHmNwzTX1NGhe96/WjxTKlLzmNxXc8pH0b
+ V31oE8MyMNeKcVVRMfBSsFLStjqIR/xT3x3bV/pSajJJ90+JJomyUO07L
+ jv51hta6MBdaenKowzuJRRaGR+o7pA/juwv00IKt9jIyIsNxVP30JlLJp
+ gJtpHwwbKmSyu7t5F7cj4+XCeDvSoVb+6XJmA00ac934jkyqdivmrMFKf
+ xOmqeljogFG5sTEi7NoLFapOAMUO6HTkYyrqhvUJUhfLZOBd0CL7+Rjc4 g==;
+IronPort-SDR: UUC7FZCjz5revNemiNGnSEhq9GIOHN4ZvubZIKpERdb4mK9iC8JoBI6L04qVNtvKZ+B+BPmFu6
+ 4BXgkqg0MzccNvys51eaEZ4UB6iYi8baCjoEoxqRy19yxnSvZ5h9zacfjz948SrR6sWN+DY8VC
+ RQlizlGqbbKC4HhRiAgwb2wLv154LVy9/S+8b70YNCjAwxxoae+vjNjGnSIPzClRyBVDqPSV1L
+ gGce3pCjsIQzRn207Bk/Wyjbn4pOx2Fiea/Q+B31Ax3d9N9nOkBjK9iSt+eKJvJa55Y9Rnsuuv
+ aC4=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="151960178"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:45:13 +0800
-IronPort-SDR: iJ3wJ4M4QlsE5GAUMpS6lJqSuta7I7/lVPJowuMOk9GYCDEwu7jTKHMO1++SQrbD8RnZNwY6hi
- QnHyRGNqxv/K1nwIpK6+UgcDvVqNkg8N6mOVpwOAlPuYh5oT10WwD7XeXQM44srn7AFrP8Aqox
- 5u3ihb9OJlMV3JwQ5OLC751+FQd5VQBx02GQnG/1jRj63+hMkamGnOQNNt/B0wDv7l0ksiax8/
- DGKbz7/IJGnY3Y5pRHzO9X54P6Rhri7IR/yopLd6d6iDLPYhHjclFzBEFK55wAsbj37HCzjpC+
- 9mw2T09ezbH0eU+kUqQPrrjC
+ by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:45:15 +0800
+IronPort-SDR: zkVkEUPiNQ5aiYWrclyzHCLRTCFm7ijOUva5nqNJc3pLsa2XTjzCvNu04gmdP1cip44/+gGYnN
+ VrPWxnnsr6l2V76jb/Dex0rH0ISID4tl1GA7UHYfv+AI09KV0+wn3yK/S1E8JkQpU197p8bVYy
+ QUhfJuq2Ut/1abVfJl/cw7cRXDAwJXzpSojPAgAM5g5gayNQ266N4INSydmyJ4irjPYeIpWvKs
+ Clld3YAdBPeI8PKLO400LWLM2BpYKasSgHQUI56rlij6zp23woUVsEtaczWUee0Q++4yzE/J9F
+ pzFz/ImBqrEeODpHWMxbHvk5
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:31:34 -0700
-IronPort-SDR: jWPZWx1Z53PMeQvAJK++JyFPFpbODe+kXVSswPeMRMpa+kaDFDK3Z64dbPVTi4pzvdmHqYGfvA
- SuErD4Um9+3WJmXXwYNgFEVL1LTtGAXaVOCWfF1Pu1a2jlAoCg415IJaWLv0YhQfrqeceI+CTy
- gPvv7voUK0Jh2E9GI6bF+mEFmw9Jou01OmiItaIPE8VCMho4CVNMQLpvX2Vz2eYeJzftJaF4/m
- nkoIQPmaKf5DxNGSRuj4Mo4DjaQDZ8z4DJxVyvw11qMzdwetJpjHWkcuUOHhzEsMZvilWyDhZJ
- y0E=
+ 23 Oct 2020 08:31:37 -0700
+IronPort-SDR: mhye8snEVw+tCpwrYf2DWCtoGdjkDEukkz9JFm1qRmwELw1v0BuG/d2UlTr2bQCNFK4xhLhkfu
+ bZtyGYkspua8IoruSWxf325mUXi8nTtlzschfNd4I5JpWUZE02QYCUCOQ5bgxSLdLAr+PqZ2xP
+ 5vQj0CGRGPRT1fGA9DatBT2VgTlBIMTk79IwuXChnssIVI1gXSG68agxV8+EciyZO9M+4wG7Z6
+ B/aRDMpZoGRw2y7x04uwYPfFByXmwpiqY3ClCT5gEqaf6VBRG40ewdNLrim8pINOx7HddQwCxp
+ O00=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:45:12 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:45:15 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 14/16] target/riscv: cpu: Set XLEN independently from target
-Date: Fri, 23 Oct 2020 08:33:51 -0700
-Message-Id: <0316e1e7b7d81d1e6265fc125983a1e2872c0fe1.1603467169.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 15/16] target/riscv: Convert the get/set_field() to support
+ 64-bit values
+Date: Fri, 23 Oct 2020 08:33:54 -0700
+Message-Id: <b1d3b41c49c5c7373ffde9908ffd340731807d13.1603467169.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1603467169.git.alistair.francis@wdc.com>
 References: <cover.1603467169.git.alistair.francis@wdc.com>
@@ -97,92 +98,33 @@ Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Allow the get_field() and set_field() macros to work on 64-bit values
+even on 32-bit RISC-V.
+
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 25 ++++++++++++++++---------
- 1 file changed, 16 insertions(+), 9 deletions(-)
+ target/riscv/cpu_bits.h | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 1b3efc1c81..c77687ccb2 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -150,14 +150,14 @@ static void riscv_any_cpu_init(Object *obj)
-     set_priv_version(env, PRIV_VERSION_1_11_0);
- }
+diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+index d9ad694b3f..db46739b1c 100644
+--- a/target/riscv/cpu_bits.h
++++ b/target/riscv/cpu_bits.h
+@@ -4,10 +4,10 @@
+ #define TARGET_RISCV_CPU_BITS_H
  
--static void riscv_base_cpu_init(Object *obj)
-+#if defined(TARGET_RISCV64)
-+static void rv64_base_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
--    set_misa(env, 0);
-+    set_misa(env, RV64);
- }
+ #define get_field(reg, mask) (((reg) & \
+-                 (target_ulong)(mask)) / ((mask) & ~((mask) << 1)))
+-#define set_field(reg, mask, val) (((reg) & ~(target_ulong)(mask)) | \
+-                 (((target_ulong)(val) * ((mask) & ~((mask) << 1))) & \
+-                 (target_ulong)(mask)))
++                 (uint64_t)(mask)) / ((mask) & ~((mask) << 1)))
++#define set_field(reg, mask, val) (((reg) & ~(uint64_t)(mask)) | \
++                 (((uint64_t)(val) * ((mask) & ~((mask) << 1))) & \
++                 (uint64_t)(mask)))
  
--#ifdef TARGET_RISCV64
- static void rv64_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -173,6 +173,13 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     qdev_prop_set_bit(DEVICE(obj), "mmu", false);
- }
- #else
-+static void rv32_base_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    /* We set this in the realise function */
-+    set_misa(env, RV32);
-+}
-+
- static void rv32_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -369,7 +376,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-     RISCVCPUClass *mcc = RISCV_CPU_GET_CLASS(dev);
-     int priv_version = PRIV_VERSION_1_11_0;
-     int vext_version = VEXT_VERSION_0_07_1;
--    target_ulong target_misa = 0;
-+    target_ulong target_misa = env->misa;
-     Error *local_err = NULL;
- 
-     cpu_exec_realizefn(cs, &local_err);
-@@ -404,8 +411,8 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
- 
-     set_resetvec(env, cpu->cfg.resetvec);
- 
--    /* If misa isn't set (rv32 and rv64 machines) set it here */
--    if (!env->misa) {
-+    /* If only XLEN is set for misa, then set misa from properties */
-+    if (env->misa == RV32 || env->misa == RV64) {
-         /* Do some ISA extension error checking */
-         if (cpu->cfg.ext_i && cpu->cfg.ext_e) {
-             error_setg(errp,
-@@ -501,7 +508,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
-             set_vext_version(env, vext_version);
-         }
- 
--        set_misa(env, RVXLEN | target_misa);
-+        set_misa(env, target_misa);
-     }
- 
-     riscv_cpu_register_gdb_regs_for_features(cs);
-@@ -659,13 +666,13 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-     },
-     DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
- #if defined(TARGET_RISCV32)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           riscv_base_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
- #elif defined(TARGET_RISCV64)
--    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           riscv_base_cpu_init),
-+    DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
- #endif
+ /* Floating point round mode */
+ #define FSR_RD_SHIFT        5
 -- 
 2.28.0
 
