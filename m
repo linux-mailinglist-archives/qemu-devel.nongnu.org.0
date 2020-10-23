@@ -2,70 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C57AB2975F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:44:30 +0200 (CEST)
-Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BDF129760E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:48:36 +0200 (CEST)
+Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW177-0005u4-KK
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:44:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
+	id 1kW1B5-0001Gw-3U
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kW15R-0004qx-7X; Fri, 23 Oct 2020 13:42:45 -0400
-Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:41629)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kW15L-0002WG-Qk; Fri, 23 Oct 2020 13:42:43 -0400
-Received: by mail-yb1-xb44.google.com with SMTP id c129so1853925yba.8;
- Fri, 23 Oct 2020 10:42:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=c6n2eHqG4+PsWDOtCAeejiImndE+pLOyantk6AYGU1A=;
- b=gUw6JxC9LVqslYqxBwuZj9MEPZt6ee7F0LTFUAjeb9yMOrHBr+mt1BNNbmU8MYHMEL
- NlRr0XBl4Jw2gz4UK7ZpgdIqcX823hP6Oa70XuMY89uvMtQdvLB3oE4v3g3k2UMmRfO0
- WcHAlE8hFuW7iLsSItMg94vSkYe3s7rNnYh2pJ7AJ77wBRgZ+rdL+rj/+vbRXKQN3POa
- NmcmTOgOCxthkkYgc/VndhQyTM0VgGW/6ci85XiPGvrHNocjHj8AlCsbDmmSWmAEjP1A
- +IJqwzXnzBKHqjQogbY6XQewob2GSSeueT42M8Y7oKNDOGRz6LHw+b+yWyA56/riV8yo
- hBYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=c6n2eHqG4+PsWDOtCAeejiImndE+pLOyantk6AYGU1A=;
- b=XcFBUA9e3n0EO8OuWPaJl2n5ckhPOTcnfVfxPBT/qf93SVh+7tQjp1trGEl3P1Mc//
- 2ftixX5kJ/CojssoAUZnK1SoJeoRFaNuk+hjQtYWP3wYwPPUcNflMuqer9g1yKklPj4H
- qQjf2xRyeXZ0DXgSL9N1OrWuk1IbzGwf8FNZIzrxffhCQ7M8O7NN/pypJtVFZfN7WQys
- JyCmPZVLL/6GLorv0ma3CFl5Lpd7gNHCydwbdmJe0b7RrdXqKvvFaLfMC8mFr3HGCH/6
- LTW+5xzJU591Ic9V/kIDbP1rXCUn0BP6T5OovsPVrkuN5xg3RXrABEiqqBWewWI0kABz
- uj/A==
-X-Gm-Message-State: AOAM531Irdeg6LF/AoWUCNo+FUMFuNX39a9yB8VFKblIVKyD7ag6jNPh
- M55zp0jkwKbA8pKIG32aqC4TbuAkXG8NHvOduVY=
-X-Google-Smtp-Source: ABdhPJzAUiLF2nkGoIO2zu/F8ABRGDwQi1j2PFbkFiwvdstjQS2rGAWhQOg9fbrPyUkd7QGonjZbxGmb0Db/laU2GnM=
-X-Received: by 2002:a25:386:: with SMTP id 128mr4828364ybd.122.1603474957926; 
- Fri, 23 Oct 2020 10:42:37 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marius.vlad@collabora.com>)
+ id 1kW19O-0000HS-FX
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:46:51 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:53966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <marius.vlad@collabora.com>)
+ id 1kW19M-00034n-6N
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:46:50 -0400
+Received: from xpredator (unknown
+ [IPv6:2a02:2f08:4b07:8e00:24d7:51ff:fed6:906d])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: mvlad)
+ by bhuna.collabora.co.uk (Postfix) with ESMTPSA id C22CA1F468FE;
+ Fri, 23 Oct 2020 18:46:44 +0100 (BST)
+Date: Fri, 23 Oct 2020 20:46:41 +0300
+From: Marius Vlad <marius.vlad@collabora.com>
+To: agl-dev-community@lists.automotivelinux.org
+Subject: Re: [agl-dev-community] Tips for debugging GPU acceleration.
+Message-ID: <20201023174641.GA49109@xpredator>
+Mail-Followup-To: agl-dev-community@lists.automotivelinux.org,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <87o8kttj2e.fsf@linaro.org>
+ <20201023105120.sqharyxujgh7nppk@sirius.home.kraxel.org>
+ <87d019tb0u.fsf@linaro.org> <20201023123217.GA18593@xpredator>
+ <CAHDbmO2_6=MgcJBgy3f8K4tkjHs_c34CvoL_krob+55CwL32hw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201023131808.3198005-1-f4bug@amsat.org>
-In-Reply-To: <20201023131808.3198005-1-f4bug@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sat, 24 Oct 2020 01:42:26 +0800
-Message-ID: <CAEUhbmWJQHJgdvgjXRy3jzJLQC9w3cCdft40ium0TbjEq=9pQw@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/4] tests/acceptance: Test U-Boot/Linux from Armbian
- 20.08 on Orange Pi PC
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b44;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb44.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WIyZ46R2i8wDzkSu"
+Content-Disposition: inline
+In-Reply-To: <CAHDbmO2_6=MgcJBgy3f8K4tkjHs_c34CvoL_krob+55CwL32hw@mail.gmail.com>
+Received-SPF: pass client-ip=46.235.227.227;
+ envelope-from=marius.vlad@collabora.com; helo=bhuna.collabora.co.uk
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 13:46:45
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,62 +63,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
 
-On Fri, Oct 23, 2020 at 9:18 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> Series meant to help Bin Meng to debug the SD card issue
-> reported by Michael Roth.
+--WIyZ46R2i8wDzkSu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for the patches.
+On Fri, Oct 23, 2020 at 05:28:22PM +0100, Alex Benn=E9e wrote:
+> Thanks - that seems to do the trick.
+> I can't find where in the agl repo that is set. The recipe seems to be in:
+>=20
+>   meta-agl-cluster-demo/recipie-graphics/wayland/weston-ini-conf/virtual-=
+landscape.cfg
+>=20
+> but I can't see where the "transform=3D270" got added.
+I assume from
+meta-agl/meta-agl-bsp/meta-aglprofilegraphical/recipes-graphics/wayland/wes=
+ton-ini-conf/virtual.cfg
+>=20
+> Visually it looks a lot nicer now although I could still do with
+> getting rid of the quite large AGL lower banner which is cropping out
+> the main display.
+Yes, like I've said, but apparently I've substituted landscape w/
+portrait, applications are designed to accommodate portrait orientation.
+The panels, are added dynamically by homescreen.
+>=20
+> On Fri, 23 Oct 2020 at 13:32, Marius Vlad <marius.vlad@collabora.com> wro=
+te:
+> >
+> > On Fri, Oct 23, 2020 at 12:52:17PM +0100, Alex Benn=E9e wrote:
+> > >
+> > > Gerd Hoffmann <kraxel@redhat.com> writes:
+> > >
+> > > >   Hi,
+> > > >
+> > > >>   [    2.930300] [drm] virgl 3d acceleration not supported by host
+> > > >
+> > > > Nope, not active.
+> > > >
+> > > >>     -display gtk,show-cursor=3Don \
+> > > >
+> > > > Needs -display gtk,gl=3Don for opengl support.
+> > >
+> > > Awesome - even on TCG the display is now nice and snappy.
+> > >
+> > > For bonus points:
+> > >
+> > > The AGL panel display is rotated 90 degrees which is putting a bit of=
+ a
+> > > crink in my neck. Is their anyway to rotate the view port. I tried
+> > > inverting xres and yres but that didn't do anything.
+> > Hi,
+> >
+> > The output is rotated, edit /etc/xdg/weston/weston.ini and comment out
+> > transform ini entry from the Virtual-1 output section. Reboot, or
+> > restart weston@display service. Note that the apps are optimized for
+> > landscape.
+> >
+> > Enabling 3D with qemu might be something worth adding in the docs.
+> > >
+> > > >>     -device virtio-gpu-pci,virgl=3Dtrue
+> > > >
+> > > > virgl is silently turned off in case opengl support is not availabl=
+e.
+> > > > Ideally virgl should be OnOffAuto not bool, but I fear changing that
+> > > > now (and start throwing errors on virgl=3Don if opengl is not avail=
+able)
+> > > > will break stuff ...
+> > >
+> > > At least a warn_report maybe?
+> > >
+> > > >
+> > > > take care,
+> > > >   Gerd
+> > >
+> > >
+> > > --
+> > > Alex Benn=E9e
+> > >
+> > >
+> > >
+> > >
+> > >
+> >
+> >
+> >=20
+> >
+> >
+>=20
+>=20
+> --=20
+> Alex Benn=E9e
+> KVM/QEMU Hacker for Linaro
+>=20
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#8773): https://lists.automotivelinux.org/g/agl-dev-co=
+mmunity/message/8773
+> Mute This Topic: https://lists.automotivelinux.org/mt/77748325/4043866
+> Group Owner: agl-dev-community+owner@lists.automotivelinux.org
+> Unsubscribe: https://lists.automotivelinux.org/g/agl-dev-community/leave/=
+7327001/516878461/xyzzy [marius.vlad@collabora.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+>=20
 
->
-> Philippe Mathieu-Daud=C3=A9 (4):
->   Revert "hw/sd: Fix incorrect populated function switch status data
->     structure"
->   tests/acceptance: Allow running Orange Pi test using cached artifacts
->   tests/acceptance: Extract do_test_arm_orangepi_armbian_uboot() method
->   tests/acceptance: Test U-Boot/Linux from Armbian 20.08 on Orange Pi PC
->
->  hw/sd/sd.c                             |  3 +-
->  tests/acceptance/boot_linux_console.py | 68 +++++++++++++++++++-------
->  2 files changed, 50 insertions(+), 21 deletions(-)
+--WIyZ46R2i8wDzkSu
+Content-Type: application/pgp-signature; name="signature.asc"
 
-With this series, I used:
+-----BEGIN PGP SIGNATURE-----
 
-$ ARMBIAN_ARTIFACTS_CACHED=3D1 AVOCADO_ALLOW_LARGE_STORAGE=3D1 make check-a=
-cceptance
+iQIzBAABCAAdFiEEcDKHej6x6uPk3J379jQS5glH1u8FAl+TFv0ACgkQ9jQS5glH
+1u99FRAAxa0NwsQ+tB9O8Ukcn9iYnJLOmw7msu5wr7rH335ti9T3OyeJICOVweQu
+7HoUq9+TiBhZbIGRM173Ta06N62W/kMckrR8Pod0cvb/omYN2p8hpY/FRQ4JkF8z
+nC9i30Qswi+EwAVAhahQi3AnPMO/oi0CFoSzhhh4TMaJlKd1zDVW8SZG/e0xdnYQ
+DmecTwwJaprmGmswqrEjLAWs3YGOdIJwBSfjNAogWB2q7MFfdOQkbUNv5tgRX9Oj
+v4N3Z4ozfCAMVkMNJwOHBDJQ7g8ZzcvFkkjiTLF6ucXUyPFaGgEiTM3wi+b6qEc3
+X1c91RQA4lQ9gt1cGeWpEnqkwgPFvgUYNTEohCNf5e7pwLjo8b4AP/2HxvQiRhye
+RI1qG26kSurbtpTFX3GYbDUsnINbHXlPHTvFB3E2UNLOYklEwo1t6jZesPHboCJ2
+374Yz5hI0YvCS7gIcoGZmo9d46uan5hPi4jgE2ogyoib5ribevYb6ubE11qXOp89
+PWS4imcFjg7hgH1YTXY7bVEg3R767NShBNEJuUfkPuizmav7FtJ4yJCnI0FQfPf/
+CPKmDbT1t8orteddaYzWuzNzqdxWLgzJYJEW3Byq6YKJUCICFoKmXHkJeXhpZGRU
+3h1lYBaMGPWOQ94068HlZJlQgTtGpyTZ2fU0m0EtL10OYi7rvKw=
+=9l1C
+-----END PGP SIGNATURE-----
 
-It looks that the failure still exists? Log below:
-
-13-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_arm_orangep=
-i_bionic_20_08/debug.log:
-
-01:11:27 DEBUG| =3D> boot
-01:11:27 DEBUG| unable to select a mode
-01:11:27 DEBUG| Device 0: unknown device
-01:11:27 DEBUG| BOOTP broadcast 1
-01:11:27 DEBUG| DHCP client bound to address 10.0.2.15 (1 ms)
-01:11:27 DEBUG| *** Warning: no boot file name; using '0A00020F.img'
-01:11:27 DEBUG| Using ethernet@1c30000 device
-01:11:27 DEBUG| TFTP from server 10.0.2.2; our IP address is 10.0.2.15
-01:11:27 DEBUG| Filename '0A00020F.img'.
-01:11:27 DEBUG| Load address: 0x42000000
-01:11:27 DEBUG| Loading: *^H
-01:11:27 DEBUG| TFTP error: 'Access violation' (2)
-01:11:27 DEBUG| Not retrying...
-
-Regards,
-Bin
+--WIyZ46R2i8wDzkSu--
 
