@@ -2,88 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D4C297581
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:06:27 +0200 (CEST)
-Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB1B2975A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:16:08 +0200 (CEST)
+Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0WI-0007iZ-PM
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:06:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53250)
+	id 1kW0ff-0001a8-Vx
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:16:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kW0Df-0004i4-Ch
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:47:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26040)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW0GT-0007ns-Ai
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:50:05 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kW0Dc-0003ez-NI
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:47:11 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW0GR-0003vT-2l
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:50:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603471626;
+ s=mimecast20190719; t=1603471802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UrttzmvHmF79uLtAEn1jGxXIZ0AP46F13fIMggVntOs=;
- b=FSvJjOPA6OhxuhFgi/WCfDnRn/JS219haze+AjZYF4PQkVugJgBr8P/mAWdMJC0Mf2afLX
- 1d0z1kGsSId1j2BZYFRLt45NPE6K0sfdfPQ3YwU5kGxfUTMdFaoVFCOUnbD8TAcp0A/XRp
- FhlInS8r8o7+ZSZHhx50qBhDNPw23Os=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-EGDrV68tOQCnpuciAexLbA-1; Fri, 23 Oct 2020 12:47:05 -0400
-X-MC-Unique: EGDrV68tOQCnpuciAexLbA-1
-Received: by mail-qv1-f72.google.com with SMTP id d41so1330185qvc.23
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:47:05 -0700 (PDT)
+ bh=YxgP9AD59gDL6aQ96qyDjbhP4x8bXG3rp795fp2AuMk=;
+ b=XVPGvgS0eQUd6j1SVqZ5iFfe+o9YMOWCVpm3bI9+s++CWTtPO9Yiqpyn4e5MMdUY4o7hK5
+ D3rPzkDNkHZBvPAV95/dbDHcjPDnExiTekVND27194ZT8+DxC8jzx51rdT928I+eCrKSDv
+ 7QJKP+pVUhrUM4xGGVYGArO1hEnQcYs=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-3cUbEoCaMmmFBxFMXJFg_A-1; Fri, 23 Oct 2020 12:49:58 -0400
+X-MC-Unique: 3cUbEoCaMmmFBxFMXJFg_A-1
+Received: by mail-wm1-f69.google.com with SMTP id u5so490887wme.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:49:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=UrttzmvHmF79uLtAEn1jGxXIZ0AP46F13fIMggVntOs=;
- b=Fn0+l0ft1A4oO9MMTHTR1JjnOPWh1utxK1sLsLkCyfdf/AcB47F41pbE07QLaksfei
- TBp51gaALz8eDDcJuUvQ6h7hbszRVKxF0Zn2HAm7Wpuj+HaZr7rJ2efCo+m1LGJOZfFd
- hSDTlZwVD9cr5ZYEkJYlZIob3ZBO2Hk6JS9pk35zzzJrGF1qZ19pnCBj09YuhKhBGbYl
- diRMQMnYJdGSbcd5D0LukdsEU+96NWwtzsJhIQ/ZcuOXJOP/myelhGaYoMZYgTiyKB7q
- 4oMBKVVzlVlssoXsnKXlFWO66LRbCgtFzoyiC8N/PG8Bn6qyeEk10Kzq51met2wnZ5vK
- WBVQ==
-X-Gm-Message-State: AOAM532KbKtrm005VlE3HojxjXDQat6Ear/Cvmjox/L4CKdKaCHVBYod
- LAR/HDfW3uEtB86vhHclq9kUj+azWfTRHcPkOVVdoc4jUq0lriTGLi+ySUnjWa/i1XAzpdPGPJS
- M+aiVjeQDKnYy8l4=
-X-Received: by 2002:a0c:9021:: with SMTP id o30mr3146909qvo.1.1603471624661;
- Fri, 23 Oct 2020 09:47:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeaW9XBBQmxIMcxy+M3qIo4gfsRBG7hGp63DnvoQ1Tjn0HvSYn9Shv0q5AbjbIyDfPtO4b1g==
-X-Received: by 2002:a0c:9021:: with SMTP id o30mr3146887qvo.1.1603471624386;
- Fri, 23 Oct 2020 09:47:04 -0700 (PDT)
-Received: from xz-x1 (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca.
- [174.95.215.133])
- by smtp.gmail.com with ESMTPSA id v5sm1245968qtd.28.2020.10.23.09.47.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 09:47:03 -0700 (PDT)
-Date: Fri, 23 Oct 2020 12:47:02 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: Re: [PATCH v10 09/10] virtio-iommu: Set supported page size mask
-Message-ID: <20201023164702.GF3208@xz-x1>
-References: <20201008171558.410886-1-jean-philippe@linaro.org>
- <20201008171558.410886-10-jean-philippe@linaro.org>
- <20201019213539.GC3203@xz-x1> <20201022163937.GB1808268@myrica>
- <20201022205616.GD3208@xz-x1> <20201023074858.GA2265982@myrica>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YxgP9AD59gDL6aQ96qyDjbhP4x8bXG3rp795fp2AuMk=;
+ b=klL+1F1PahIE3aCbJ4pYFqN0XQ5kGdNddWt6wmHL1MDuTB6bXzUNhlMQYp2KYlQufk
+ fRNy1MJRMuiKpRtbODE9smLYZzSpNWH6emRdaFNNQOH3/TV0qhce6y24roncPV/RuBtu
+ ZfrxLMgIxykvGpNbjJ4E2UrObAMpjMVEHqhrzIRlvmQxWsvH+m74ahqZE+iD8HWQOs3v
+ 7lKID0kZyWgZ0Hjfckw2fTlsmXrcU+9BaH7w3YKkIVcmZvoSZ7Wd3YoTTIQkgTgCFNYg
+ DiyAxp25wb6n4F0UzPWiZm2lYv2BiHbYq2nmQib+iz+vUTWya/d4+xMyFJxyRmfAWcGR
+ 9cJg==
+X-Gm-Message-State: AOAM531KU0+wE0j4tInIz6/N6rfNCofGcAa4UgPI8aFpC1UMe+hRJtJ8
+ 7N+/pqyUGftBN6/BqLaUZ5XylZ6r3+Bcg3vPzkkBF5SgVg8E0GHKCeT8K4L2YxFl9B29PCWdgVk
+ PUofBLmDwXtZwsM0=
+X-Received: by 2002:adf:cc82:: with SMTP id p2mr3626428wrj.177.1603471797830; 
+ Fri, 23 Oct 2020 09:49:57 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzkr3eqW7sw1wTTVpSijgs3WYWDGhDgTQBppLIM6jUIWc9lZvadTMCq5pflQHG6yOGsUf723g==
+X-Received: by 2002:adf:cc82:: with SMTP id p2mr3626376wrj.177.1603471797574; 
+ Fri, 23 Oct 2020 09:49:57 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id q8sm4397533wro.32.2020.10.23.09.49.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 09:49:56 -0700 (PDT)
+Subject: Re: [PATCH v11 02/19] multi-process: Add config option for
+ multi-process QEMU
+To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1602784930.git.jag.raman@oracle.com>
+ <acf32d0e54e0aec669723f2f1b64f87788b2c8b4.1602784930.git.jag.raman@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <071dc8d8-ecbd-a1ad-f503-bc278efce038@redhat.com>
+Date: Fri, 23 Oct 2020 18:49:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201023074858.GA2265982@myrica>
+In-Reply-To: <acf32d0e54e0aec669723f2f1b64f87788b2c8b4.1602784930.git.jag.raman@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,33 +101,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
- alex.williamson@redhat.com, pbonzini@redhat.com, bbhushan2@marvell.com
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, quintela@redhat.com,
+ mst@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 23, 2020 at 09:48:58AM +0200, Jean-Philippe Brucker wrote:
-> Arm CPUs and SMMU support 4k, 16k and 64k page sizes. I don't think 16k is
-> used anywhere but some distributions chose 64k (RHEL, I think?), others
-> 4k, so we need to support both.
+On 10/15/20 8:04 PM, Jagannathan Raman wrote:
+> Add a configuration option to separate multi-process code
 > 
-> Unfortunately as noted above host64k-guest4k is not possible without
-> adding a negotiation mechanism to virtio-iommu, host VFIO and IOMMU
-> driver.
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   configure   | 10 ++++++++++
+>   meson.build |  1 +
+>   2 files changed, 11 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index f839c2a..2025e89 100755
+> --- a/configure
+> +++ b/configure
+> @@ -447,6 +447,7 @@ meson=""
+>   ninja=""
+>   skip_meson=no
+>   gettext=""
+> +mpqemu="no"
+>   
+>   bogus_os="no"
+>   malloc_trim="auto"
+> @@ -1520,6 +1521,10 @@ for opt do
+>     ;;
+>     --disable-libdaxctl) libdaxctl=no
+>     ;;
+> +  --enable-mpqemu) mpqemu=yes
+> +  ;;
+> +  --disable-mpqemu) mpqemu=no
+> +  ;;
+>     *)
+>         echo "ERROR: unknown option $opt"
+>         echo "Try '$0 --help' for more information"
+> @@ -1838,6 +1843,8 @@ disabled with --disable-FEATURE, default is enabled if available:
+>     xkbcommon       xkbcommon support
+>     rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
+>     libdaxctl       libdaxctl support
+> +  mpqemu          multi-process QEMU support
 
-I see.  Then it seems we would still need to support host4k-guest64k.
-
-Maybe for assigned case, we can simply AND all the psize_masks of all the vfio
-containers that supported to replace the default psize mask (TARGET_PAGE_SIZE)
-without caring about whether it's shrinking or not?  Note that current patch
-only update config.psize_mask to the new one, but I think we need to calculate
-the subset of all containers rather than a simply update.  Then with the help
-of 39b3b3c9cac1 imho we'll gracefully fail the probe if the psize is not
-suitable anyway, e.g., host64k-guest4k.
-
-Thanks,
-
--- 
-Peter Xu
+When I first heard about this, I was expecting something
+else. It could be better named as "remote-device emulation"
+or maybe "manifold (device) emulation" :) Anyway too late
+I presume.
 
 
