@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAF542975F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:46:25 +0200 (CEST)
-Received: from localhost ([::1]:57598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E4AE2975D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:36:33 +0200 (CEST)
+Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW18y-0007lo-R1
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:46:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
+	id 1kW0zP-0000hm-QF
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:36:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <havard@skinnemoen.net>)
- id 1kVzpm-0003ld-L2
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:22:30 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:45415)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kW0yK-0007sR-Az; Fri, 23 Oct 2020 13:35:24 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44343)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <havard@skinnemoen.net>)
- id 1kVzpk-0000Le-Bx
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:22:30 -0400
-Received: by mail-ej1-x643.google.com with SMTP id dt13so3145782ejb.12
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:22:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kW0yI-0001is-GS; Fri, 23 Oct 2020 13:35:24 -0400
+Received: by mail-wr1-x442.google.com with SMTP id t9so2922173wrq.11;
+ Fri, 23 Oct 2020 10:35:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NI09Uc39mli2ta8kC3GYABD4cNjyNFvZiFOE5UsnVSw=;
- b=tPNnku7faJA+E/2TYSj7yUWS8i5434gLayq9onzL6/KkTcCxq7bb1R1kDi9+c9ig8E
- 98q+eeZqoFeVDcIxJfF+JgaJxXbJxhS9r8Av1KdxE+PZ08/3i8HqsalDMLnaVEQyhSjw
- Uk5iuM7uYLuuZaGPJCo869zdqoX5sKMnklJ0Jtkh/XUymVB+6HNSeb78reEL2i/OXc83
- c+tahLEY0vy6DSBAhSEz5inU9fBcjblYUZn8vtD+ihT47CFP+anaaGvH3Bdv7uF4vnD5
- 0lAZUKydEpiPzWhU0NLm3qmRF1RvXwRidYa1Rh70PT4nAK1ai7th5aKWiKbKWUivbTWG
- efjQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=fNj5eXTv9uSww8Em5BotaPpbN3t9ohV8mupF1oepGKc=;
+ b=YzyXkEL1uJSfxjHsFprrnb1g503YnEWB83y/X7TVe39JUd3O2jKMwJGnFRJ8BxFEDF
+ ObQlesC8ZqmGwKYlDzug0dD48M0vlD7APoUO1X6///NwffVXZL/TnMtv/4CftYBz8Eos
+ 73VgBMTNoD8i5YSp3YweZugN7StYD/lw0mLt1lMOlDAvLriyhPVTs4JCvEqSlG/+pSA0
+ Qar/ZuCc/1Sc3MgU3+N42YJbGjkauRZhtYThyvI83S5oxbrGtksjiCG/v6a1NXe5U9of
+ JJUDFrHg9lmrMqUdctOnHEB6gi3QVi7oAog+oIhHudStGETydmzCy4l7OPKFBmdRR7vl
+ ESyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NI09Uc39mli2ta8kC3GYABD4cNjyNFvZiFOE5UsnVSw=;
- b=mPtOMGfuMm3JR+BeckbUkMnEDZ2oAhYxekZV6y7w4sdcRzzRgp6vS5Mc5ZuWjLUR9D
- aJnNWBun1ThTPAx4TO7v/FrQV6kV5+fJ77r0jOOGCNDRN04Ape2oZ/o84jFVpIFps0bd
- c5qESKm1zsjStCgcwDqWJG029G3jtxdPVVunjk9XTlyGekYW6DJv4jhBfvaRhsDPvWts
- RbhRlXkop+DBDYGomZwpLNzN9IwCkLYn4uzQnJmRMA5fi7+WoiIKfD6kQMfUSczHdczI
- qRzQvq++zZuBRYGmgh3i+6XBAacd+rVO8h7OdBAO2gN8xZBZ1GiT15/sOQ0N/xn4qz54
- SxVg==
-X-Gm-Message-State: AOAM530oCTwgnyp2thj3HkhS45Kd99sqTFjBFSjAoQ2mQJcOwBErcmd5
- gyic5L5oAxVErg+PhGi8hrgQ7NxzScTbSdhEYTewqg==
-X-Google-Smtp-Source: ABdhPJwWmU3jwHWDIK8jT0oniI87trq5WufXB56ZYMNdxUCkVus7eKewMGSo1EytBD2cPz7aoPj0occuWqPQogehEgo=
-X-Received: by 2002:a17:906:3a49:: with SMTP id
- a9mr2842567ejf.95.1603470146005; 
- Fri, 23 Oct 2020 09:22:26 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fNj5eXTv9uSww8Em5BotaPpbN3t9ohV8mupF1oepGKc=;
+ b=kFJou2d/BiN9PVR0SP1zE1Mf3BOtb1DEikiOn3qLSsNhKP1mBhj4zUmBRpzM59/LlK
+ N98x0iXFH0OmFTFIs5QKtIP4dpov3nL1GIAR0lnab08aeS0JnCNteGzdD3C4Xpqbr9wM
+ 1RBhA/75Uq8vpxYzODq0EBGVAdmDwfExctOxGGN3b/glFKuwPjN4H+bLI94EB3krdiR3
+ cfLO51XZUjy2AOd/KPDTuik0xhi8A07sSofCG/o3dfK7gIPHsQzWrjjzzimK8H7UVSRy
+ 09osVXMBjk9s21gM6NBS5i8ywLItKkwpLEHUAbC89MDmJqVdRex3cVHY4p0KAjeZ3sBz
+ GxnA==
+X-Gm-Message-State: AOAM531fETJMvdc4FIvPQOKxNqSdkiEY51kRyrBL3nAhimSfXXZkAZeE
+ irD03GEng0qVwBWFGyCsDXg=
+X-Google-Smtp-Source: ABdhPJwQ5N5grPnj9pPCPNUAwQYjFkwEzBJk0i2l1wzre8AwfA3c7goaKPCOm3njjP4uydU5tFO6ug==
+X-Received: by 2002:adf:e447:: with SMTP id t7mr3749423wrm.384.1603474520619; 
+ Fri, 23 Oct 2020 10:35:20 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id g8sm5498228wma.36.2020.10.23.10.35.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 10:35:19 -0700 (PDT)
+Subject: Re: [PATCH v3 8/9] hw/arm/raspi: Add the Raspberry Pi Zero machine
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20201018203358.1530378-1-f4bug@amsat.org>
+ <20201018203358.1530378-9-f4bug@amsat.org>
+ <20201023175130.50a379bd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <af02ebea-0aeb-9e6a-5f79-95aeb10b1bb4@amsat.org>
+Date: Fri, 23 Oct 2020 19:35:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201023150514.2734046-1-pbonzini@redhat.com>
-In-Reply-To: <20201023150514.2734046-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?H=C3=A5vard_Skinnemoen?= <hskinnemoen@gmail.com>
-Date: Fri, 23 Oct 2020 09:22:14 -0700
-Message-ID: <CACiLriQHisqC1OC5YDgwcwo98RHZQPn_YCr334O2JKEYZQhrOA@mail.gmail.com>
-Subject: Re: [PATCH] Makefile: separate meson rerun from the rest of the ninja
- invocation
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007628ba05b258fc26"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=havard@skinnemoen.net; helo=mail-ej1-x643.google.com
+In-Reply-To: <20201023175130.50a379bd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.108,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 23 Oct 2020 13:42:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,335 +90,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?H=C3=A5vard_Skinnemoen?= <hskinnemoen@google.com>,
- qemu-devel@nongnu.org, Havard Skinnemoen <hskinnemoen@gmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
+ qemu-devel@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ qemu-arm@nongnu.org, Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007628ba05b258fc26
-Content-Type: text/plain; charset="UTF-8"
+Hi Igor,
 
-On Fri, Oct 23, 2020 at 8:05 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On 10/23/20 5:51 PM, Igor Mammedov wrote:
+> On Sun, 18 Oct 2020 22:33:57 +0200
+> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> 
+>> Similarly to the Pi A, the Pi Zero uses a BCM2835 SoC (ARMv6Z core).
+>>
+>> Example booting the machine using content from [*]:
+>>
+>>    $ qemu-system-arm -M raspi0 -serial stdio \
+>>        -kernel raspberrypi/firmware/boot/kernel.img \
+>>        -dtb raspberrypi/firmware/boot/bcm2708-rpi-zero.dtb \
+>>        -append 'printk.time=0 earlycon=pl011,0x20201000 console=ttyAMA0'
+>>    [    0.000000] Booting Linux on physical CPU 0x0
+>>    [    0.000000] Linux version 4.19.118+ (dom@buildbot) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1311 Mon Apr 27 14:16:15 BST 2020
+>>    [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
+>>    [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
+>>    [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero
+>>    ...
+>>
+>> [*] http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20200512-2_armhf.deb
+>>
+>> Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   hw/arm/raspi.c | 13 +++++++++++++
+>>   1 file changed, 13 insertions(+)
+>>
+>> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+>> index 91a59d1d489..1510ca01afe 100644
+>> --- a/hw/arm/raspi.c
+>> +++ b/hw/arm/raspi.c
+>> @@ -319,6 +319,15 @@ static void raspi_machine_class_common_init(MachineClass *mc,
+>>       mc->default_ram_id = "ram";
+>>   };
+>>   
+>> +static void raspi0_machine_class_init(ObjectClass *oc, void *data)
+>> +{
+>> +    MachineClass *mc = MACHINE_CLASS(oc);
+>> +    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
+>> +
+>> +    rmc->board_rev = 0x900092;
+> 
+> shouldn't it be
+> 920092	Zero	1.2	512MB	Embest
+> or
+> 920093  Zero	1.3	512MB	Embest
 
-> The rules to build Makefile.mtest are suffering from the "tunnel vision"
-> problem that is common with recursive makefiles.  Makefile.mtest depends
-> on build.ninja, but Make does not know when build.ninja needs to be
-> rebuilt before creating Makefile.mtest.
->
-> To fix this, separate the ninja invocation into the "regenerate build
-> files" phase and the QEMU build phase.  Sentinel files such as
-> meson-private/coredata.dat or build.ninja are used to figure out the
-> phases that haven't run yet; however, because those files' timestamps
-> are not guaranteed to be touched, the usual makefile stamp-file trick
-> is used on top.
->
+I took the value from the "New-style revision codes"
+table listed in hw/arm/raspi.c before the REV_CODE
+register definitions:
 
-Thanks for the quick response. Unfortunately, it doesn't seem to work quite
-right for me.
+https://www.raspberrypi.org/documentation/hardware/raspberrypi/revision-codes/README.md
 
-I think it should be possible to reproduce on unmodified upstream sources
-like this:
+90009x's manufacturer is "Sony UK", 92009x is "Embest".
+I guess we don't care much the manufacturer :)
 
-$ cd bin/opt/arm
-$ ../../../configure --target-list=arm-softmmu
-$ make check-qtest  # Feel free to interrupt after verifying that
-npcm7xx_timer-test is run
-$ cd -
-$ git revert 19d50149c857e50ccb1ee35dd4277f9d4954877f
-Removing tests/qtest/npcm7xx_timer-test.c
-[meson-test 3ce2b719aa] Revert "tests/qtest: Add npcm7xx timer test"
- 2 files changed, 563 deletions(-)
- delete mode 100644 tests/qtest/npcm7xx_timer-test.c
-$ cd -
-$ make check-qtest
+The Revision 1.3 exposed the MIPI camera interface.
+As we don't model it, I prefer to use the 1.2 revision
+which matches better.
 
-After the revert, check-qtest still runs npcm7xx_timer-test. Note that it
-doesn't fail because the patch I reverted only adds a new test, it doesn't
-touch the device being tested.
+I'll add this information in the commit description.
 
-If you run 'make check-qtest' again, npcm7xx_timer-test does not run.
-Interestingly, it looks like Makefile.mtest gets regenerated here -- I
-didn't notice that happening in the first run, nor does it happen if I run
-make check-qtest a third time.
+Thanks for reviewing!
 
-I pasted the output from the last two runs of make check-qtest here:
-https://gist.github.com/hskinnemoen/1773edafeb190773661076e00fdc14de
-
-Reported-by: Havard Skinnemoen <hskinnemoen@gmail.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  Makefile | 42 +++++++++++++++++++++++++++++++-----------
->  1 file changed, 31 insertions(+), 11 deletions(-)
->
-> diff --git a/Makefile b/Makefile
-> index 18f026eac3..007ad4d863 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -92,6 +92,8 @@ endif
->  ifeq ($(NINJA),)
->  .PHONY: config-host.mak
->  x := $(shell rm -rf meson-private meson-info meson-logs)
-> +else
-> +export NINJA
->  endif
->  ifeq ($(wildcard build.ninja),)
->  .PHONY: config-host.mak
-> @@ -100,31 +102,46 @@ endif
->
->  # 1. ensure config-host.mak is up-to-date
->  config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios
-> $(SRC_PATH)/VERSION
-> -       @echo $@ is out-of-date, running configure
-> +       @echo config-host.mak is out-of-date, running configure
->         @if test -f meson-private/coredata.dat; then \
->           ./config.status --skip-meson; \
->         else \
-> -         ./config.status; \
-> +         ./config.status && touch build.ninja.stamp; \
->         fi
->
-> -# 2. ensure generated build files are up-to-date
-> +# 2. meson.stamp exists if meson has run at least once (so ninja
-> reconfigure
-> +# works), but otherwise never needs to be updated
-> +meson-private/coredata.dat: meson.stamp
-> +meson.stamp: config-host.mak
-> +       @touch meson.stamp
-> +
-> +# 3. ensure generated build files are up-to-date
->
-> -ifneq ($(NINJA),)
->  # A separate rule is needed for Makefile dependencies to avoid -n
-> -export NINJA
-> +ifneq ($(MESON),)
-> +build.ninja: build.ninja.stamp
-> +build.ninja.stamp: meson.stamp
-> +       $(NINJA) $(if $V,-v,) reconfigure && touch $@
-> +endif
-> +
-> +ifneq ($(NINJA),)
->  Makefile.ninja: build.ninja
-> -       $(quiet-@){ echo 'ninja-targets = \'; $(NINJA) -t targets all |
-> sed 's/:.*//; $$!s/$$/ \\/'; } > $@
-> +       $(quiet-@){ \
-> +         echo 'ninja-targets = \'; \
-> +         $(NINJA) -t targets all | sed 's/:.*//; $$!s/$$/ \\/'; \
-> +         echo 'build-files = \'; \
-> +         $(NINJA) -t query build.ninja | sed -n '1,/^  input:/d; /^
-> outputs:/q; s/$$/ \\/p'; \
-> +       } > $@.tmp && mv $@.tmp $@
->  -include Makefile.ninja
->  endif
->
->  ifneq ($(MESON),)
-> -# The dependency on config-host.mak ensures that meson has run
-> -Makefile.mtest: build.ninja scripts/mtest2make.py config-host.mak
-> +Makefile.mtest: build.ninja scripts/mtest2make.py
->         $(MESON) introspect --targets --tests --benchmarks | $(PYTHON)
-> scripts/mtest2make.py > $@
->  -include Makefile.mtest
->  endif
->
-> -# 3. Rules to bridge to other makefiles
-> +# 4. Rules to bridge to other makefiles
->
->  ifneq ($(NINJA),)
->  NINJAFLAGS = $(if $V,-v,) \
-> @@ -135,7 +152,10 @@ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
->  ninja-cmd-goals += $(foreach t, $(.tests), $(.test.deps.$t))
->
->  makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
-> -ninja-targets := $(filter-out $(makefile-targets), $(ninja-targets))
-> +# "ninja -t targets" also lists all prerequisites.  If build system
-> +# files are marked as PHONY, however, Make will always try to execute
-> +# "ninja reconfigure" to rebuild build.ninja.
-> +ninja-targets := $(filter-out $(build-files) $(makefile-targets),
-> $(ninja-targets))
->  .PHONY: $(ninja-targets) run-ninja
->  $(ninja-targets): run-ninja
->
-> @@ -214,7 +234,7 @@ distclean: clean
->         rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
->         rm -f *-config-target.h *-config-devices.mak *-config-devices.h
->         rm -rf meson-private meson-logs meson-info compile_commands.json
-> -       rm -f Makefile.ninja Makefile.mtest
-> +       rm -f Makefile.ninja Makefile.mtest build.ninja.stamp meson.stamp
->         rm -f config.log
->         rm -f linux-headers/asm
->         rm -Rf .sdk
-> --
-> 2.26.2
->
->
-
---0000000000007628ba05b258fc26
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Oct 23, 2020 at 8:05 AM Paolo Bon=
-zini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt;=
- wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">The rules to build Makefile.mtest are suffering from the=
- &quot;tunnel vision&quot;<br>
-problem that is common with recursive makefiles.=C2=A0 Makefile.mtest depen=
-ds<br>
-on build.ninja, but Make does not know when build.ninja needs to be<br>
-rebuilt before creating Makefile.mtest.<br>
-<br>
-To fix this, separate the ninja invocation into the &quot;regenerate build<=
-br>
-files&quot; phase and the QEMU build phase.=C2=A0 Sentinel files such as<br=
->
-meson-private/coredata.dat or build.ninja are used to figure out the<br>
-phases that haven&#39;t run yet; however, because those files&#39; timestam=
-ps<br>
-are not guaranteed to be touched, the usual makefile stamp-file trick<br>
-is used on top.<br></blockquote><div><br></div><div>Thanks for the quick re=
-sponse. Unfortunately, it doesn&#39;t seem to work quite right for me.</div=
-><div><br></div><div>I think it should be possible to reproduce on unmodifi=
-ed upstream sources like this:</div><div><br></div><div>$ cd bin/opt/arm</d=
-iv><div>$ ../../../configure --target-list=3Darm-softmmu</div><div>$ make c=
-heck-qtest=C2=A0 # Feel free to interrupt after verifying that npcm7xx_time=
-r-test is run</div><div>$ cd -</div><div>$ git revert 19d50149c857e50ccb1ee=
-35dd4277f9d4954877f<br></div><div>Removing tests/qtest/npcm7xx_timer-test.c=
-<br>[meson-test 3ce2b719aa] Revert &quot;tests/qtest: Add npcm7xx timer tes=
-t&quot;<br>=C2=A02 files changed, 563 deletions(-)<br>=C2=A0delete mode 100=
-644 tests/qtest/npcm7xx_timer-test.c<br></div><div>$ cd -</div><div>$ make =
-check-qtest</div><div><br></div><div>After the revert, check-qtest still ru=
-ns npcm7xx_timer-test. Note that it doesn&#39;t fail because the patch I re=
-verted only adds a new test, it doesn&#39;t touch the device being tested.<=
-/div><div><br></div><div>If you run &#39;make check-qtest&#39; again, npcm7=
-xx_timer-test does not run. Interestingly, it looks like Makefile.mtest get=
-s regenerated here -- I didn&#39;t notice that happening in the first run, =
-nor does it happen if I run make check-qtest a third time.</div><div><br></=
-div><div>I pasted the output from the last two runs of make check-qtest her=
-e:=C2=A0<a href=3D"https://gist.github.com/hskinnemoen/1773edafeb1907736610=
-76e00fdc14de">https://gist.github.com/hskinnemoen/1773edafeb190773661076e00=
-fdc14de</a></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-Reported-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@gmail.com"=
- target=3D"_blank">hskinnemoen@gmail.com</a>&gt;<br>
-Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
-get=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
----<br>
-=C2=A0Makefile | 42 +++++++++++++++++++++++++++++++-----------<br>
-=C2=A01 file changed, 31 insertions(+), 11 deletions(-)<br>
-<br>
-diff --git a/Makefile b/Makefile<br>
-index 18f026eac3..007ad4d863 100644<br>
---- a/Makefile<br>
-+++ b/Makefile<br>
-@@ -92,6 +92,8 @@ endif<br>
-=C2=A0ifeq ($(NINJA),)<br>
-=C2=A0.PHONY: config-host.mak<br>
-=C2=A0x :=3D $(shell rm -rf meson-private meson-info meson-logs)<br>
-+else<br>
-+export NINJA<br>
-=C2=A0endif<br>
-=C2=A0ifeq ($(wildcard build.ninja),)<br>
-=C2=A0.PHONY: config-host.mak<br>
-@@ -100,31 +102,46 @@ endif<br>
-<br>
-=C2=A0# 1. ensure config-host.mak is up-to-date<br>
-=C2=A0config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH=
-)/VERSION<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0@echo $@ is out-of-date, running configure<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@echo config-host.mak is out-of-date, running c=
-onfigure<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 @if test -f meson-private/coredata.dat; then \<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ./config.status --skip-meson; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0./config.status; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0./config.status &amp;&amp; touch build.n=
-inja.stamp; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-<br>
--# 2. ensure generated build files are up-to-date<br>
-+# 2. meson.stamp exists if meson has run at least once (so ninja reconfigu=
-re<br>
-+# works), but otherwise never needs to be updated<br>
-+meson-private/coredata.dat: meson.stamp<br>
-+meson.stamp: config-host.mak<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@touch meson.stamp<br>
-+<br>
-+# 3. ensure generated build files are up-to-date<br>
-<br>
--ifneq ($(NINJA),)<br>
-=C2=A0# A separate rule is needed for Makefile dependencies to avoid -n<br>
--export NINJA<br>
-+ifneq ($(MESON),)<br>
-+build.ninja: build.ninja.stamp<br>
-+build.ninja.stamp: meson.stamp<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0$(NINJA) $(if $V,-v,) reconfigure &amp;&amp; to=
-uch $@<br>
-+endif<br>
-+<br>
-+ifneq ($(NINJA),)<br>
-=C2=A0Makefile.ninja: build.ninja<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0$(quiet-@){ echo &#39;ninja-targets =3D \&#39;;=
- $(NINJA) -t targets all | sed &#39;s/:.*//; $$!s/$$/ \\/&#39;; } &gt; $@<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0$(quiet-@){ \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;ninja-targets =3D \&#39;; \<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(NINJA) -t targets all | sed &#39;s/:.*=
-//; $$!s/$$/ \\/&#39;; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;build-files =3D \&#39;; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(NINJA) -t query build.ninja | sed -n &=
-#39;1,/^=C2=A0 input:/d; /^=C2=A0 outputs:/q; s/$$/ \\/p&#39;; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0} &gt; $@.tmp &amp;&amp; mv $@.tmp $@<br>
-=C2=A0-include Makefile.ninja<br>
-=C2=A0endif<br>
-<br>
-=C2=A0ifneq ($(MESON),)<br>
--# The dependency on config-host.mak ensures that meson has run<br>
--Makefile.mtest: build.ninja scripts/mtest2make.py config-host.mak<br>
-+Makefile.mtest: build.ninja scripts/mtest2make.py<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(MESON) introspect --targets --tests --benchma=
-rks | $(PYTHON) scripts/mtest2make.py &gt; $@<br>
-=C2=A0-include Makefile.mtest<br>
-=C2=A0endif<br>
-<br>
--# 3. Rules to bridge to other makefiles<br>
-+# 4. Rules to bridge to other makefiles<br>
-<br>
-=C2=A0ifneq ($(NINJA),)<br>
-=C2=A0NINJAFLAGS =3D $(if $V,-v,) \<br>
-@@ -135,7 +152,10 @@ ninja-cmd-goals =3D $(or $(MAKECMDGOALS), all)<br>
-=C2=A0ninja-cmd-goals +=3D $(foreach t, $(.tests), $(.test.deps.$t))<br>
-<br>
-=C2=A0makefile-targets :=3D build.ninja ctags TAGS cscope dist clean uninst=
-all<br>
--ninja-targets :=3D $(filter-out $(makefile-targets), $(ninja-targets))<br>
-+# &quot;ninja -t targets&quot; also lists all prerequisites.=C2=A0 If buil=
-d system<br>
-+# files are marked as PHONY, however, Make will always try to execute<br>
-+# &quot;ninja reconfigure&quot; to rebuild build.ninja.<br>
-+ninja-targets :=3D $(filter-out $(build-files) $(makefile-targets), $(ninj=
-a-targets))<br>
-=C2=A0.PHONY: $(ninja-targets) run-ninja<br>
-=C2=A0$(ninja-targets): run-ninja<br>
-<br>
-@@ -214,7 +234,7 @@ distclean: clean<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f qemu-plugins-ld.symbols qemu-plugins-ld64=
-.symbols<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f *-config-target.h *-config-devices.mak *-=
-config-devices.h<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf meson-private meson-logs meson-info comp=
-ile_commands.json<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f Makefile.ninja Makefile.mtest<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f Makefile.ninja Makefile.mtest build.ninja=
-.stamp meson.stamp<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f config.log<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f linux-headers/asm<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -Rf .sdk<br>
--- <br>
-2.26.2<br>
-<br>
-</blockquote></div></div>
-
---0000000000007628ba05b258fc26--
+> 
+>> +    raspi_machine_class_common_init(mc, rmc->board_rev);
+>> +};
+>> +
+>>   static void raspi1ap_machine_class_init(ObjectClass *oc, void *data)
+>>   {
+>>       MachineClass *mc = MACHINE_CLASS(oc);
+>> @@ -352,6 +361,10 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+>>   
+>>   static const TypeInfo raspi_machine_types[] = {
+>>       {
+>> +        .name           = MACHINE_TYPE_NAME("raspi0"),
+>> +        .parent         = TYPE_RASPI_MACHINE,
+>> +        .class_init     = raspi0_machine_class_init,
+>> +    }, {
+>>           .name           = MACHINE_TYPE_NAME("raspi1ap"),
+>>           .parent         = TYPE_RASPI_MACHINE,
+>>           .class_init     = raspi1ap_machine_class_init,
+> 
+> 
 
