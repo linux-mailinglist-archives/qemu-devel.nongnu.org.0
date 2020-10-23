@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741E929724A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:28:39 +0200 (CEST)
-Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4B86297225
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:21:38 +0200 (CEST)
+Received: from localhost ([::1]:47292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVyze-0003fk-Em
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:28:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57320)
+	id 1kVysr-0002x9-TP
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:21:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyr0-00019W-13
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37246)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyr5-0001Dv-N3
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyqx-00009a-SC
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyr3-00009w-NZ
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603466378;
+ s=mimecast20190719; t=1603466383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bg0ARfy/nreX1sEGkRPdNpsWLKtbHdvINaE794GWGps=;
- b=IinAWouyWeF2LYIdiluK7KOVLqlEGOuZxqNhiD2EPqgovHQ5KD0c4tANOpdQBTa8O1sA1K
- RRBYoAYEinHng8bWxsSRHbxXom5vhmvwJvlW06Q6TVK3dFMOS85DH+2CwjHjtKUUNZvi4Y
- EQB2RYFpd+F7lyRWUzDExB+ft/QPSXY=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-YRvszuRFOEW7KcHQhVVrMw-1; Fri, 23 Oct 2020 11:19:37 -0400
-X-MC-Unique: YRvszuRFOEW7KcHQhVVrMw-1
-Received: by mail-wr1-f70.google.com with SMTP id t17so699715wrm.13
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:19:36 -0700 (PDT)
+ bh=ttvgS+r+18VpM2OBoh4lfYK/eRzxtUcQdupc1VVh/ow=;
+ b=Vnv1GYOJnp7spJsw2DnCHnwzvKS2bxFY9l2Dy0g1QGjPYXUPgQ4nkqdADyu7lTkpl12Dwk
+ rpLktafO7Fj5W7/V4VPNwBwFqTPGlVLbpAoHv8rU2Tv/N22Ovg9vESQeErazSwm4v3UALs
+ LmQ41+E1NnI707TxtRCkmglw9YGM7nM=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-I7UTSGHDPGaSJkuCsXCTwA-1; Fri, 23 Oct 2020 11:19:41 -0400
+X-MC-Unique: I7UTSGHDPGaSJkuCsXCTwA-1
+Received: by mail-wm1-f70.google.com with SMTP id v14so573611wmj.6
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:19:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Bg0ARfy/nreX1sEGkRPdNpsWLKtbHdvINaE794GWGps=;
- b=F91lL5zDRJ/XY3Cg8bQ5ttgrRaIAcKukVcKNqLyj/gG9d1eIvQTDA+Ca0b565X80Bn
- 35YiVRiwkx8+fMbhcCWZwFw4MtsSZhB7oPDp3mezrexepz2aZ/WinYZhjjajlO4vPULX
- Y4ZJVzj6+9eoeoH/jJks/EItpMo90dJ8C/1nZJq6cYUKSIWz+E3il0seHJbIkxPFblg/
- n645I03GuMSBdXM00DsztE1W1eiJu+8CMiFyptOOAFj1X/7qpBr1jp/PGP3h29vP7XKP
- 3h/kLCunbCUCbPwBwJPcYaogkN/C8zw+A/Jm/YorTcdC+NuOYin+z+D3BBvgP0Hydtpz
- c9rg==
-X-Gm-Message-State: AOAM533E6HfJIjX6Ftd8s/U2aPwn/1XfZEjjsY3bRA6I0mBrVeAoTW5j
- dxk82TsSMf/lQcrH3Pcvz9f4Wd1tUaCE01l3Cf2ogdyZBl1qC0y2gq3HsHyNwCh71YS/HVv9LZX
- h7jl2aJT/HmoqWOw=
-X-Received: by 2002:a05:600c:1149:: with SMTP id
- z9mr3046885wmz.180.1603466375036; 
- Fri, 23 Oct 2020 08:19:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJykkgTDIIxfR6ojyPbFkVPnULp6JstlvtxPH536EGvfoM2VrTaNGtmWDdXzRndSse/Y2fxJwQ==
-X-Received: by 2002:a05:600c:1149:: with SMTP id
- z9mr3046868wmz.180.1603466374846; 
- Fri, 23 Oct 2020 08:19:34 -0700 (PDT)
+ bh=ttvgS+r+18VpM2OBoh4lfYK/eRzxtUcQdupc1VVh/ow=;
+ b=E9za6/hdr1vjPeHbaEUXvAXZXOFDNsQf+Au0KKvmY1MY6k428U9TP/Etw3OMiAKJLk
+ tFByK2mO2t668rIqKuzdKti1dpYvDjzZSdROWNXikJgWZ2jSZUP6IbFTZA6+ZMp7RED7
+ WpsePUvIis4U6yhzX5ghxUy6jbsZ3LPhk116ciMxVQPOXn3xmJdQ6cddc6b1/o6WDTas
+ OAXR24YdD0Tm5/DXK6jrxNXKke9ytOFQPBBOU3EyReF2tX6Hfb7fhN7KrTJyCPWfcj1T
+ 0d/6SSlCfs/05hEXyd0zgyD61qwPGMgmLHeXSnoVXmuMgGY6j0GCClgtCsz2TYKhoTsO
+ FK0A==
+X-Gm-Message-State: AOAM530GF+ElQYRcSDXVSDPV/OhAxsb7wCmG7N/zwfoRYQ5mDmILIN4U
+ c2Qc7BmUym1Hufjt8QrpnoEUumjLl8hGxpshFYaBTgF+lzNZXwJyW6g26IaHo4suCztfrOPogLa
+ jzVIWODtowORvOMo=
+X-Received: by 2002:a1c:49c2:: with SMTP id w185mr2821863wma.70.1603466379995; 
+ Fri, 23 Oct 2020 08:19:39 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzmKJiCewP/Mt8BrNai0LshClxUJRKHhdZVFaM0xhEmiieM7Ky/xXkCrumd5nWJ/dEjxHNScA==
+X-Received: by 2002:a1c:49c2:: with SMTP id w185mr2821852wma.70.1603466379767; 
+ Fri, 23 Oct 2020 08:19:39 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id g4sm3665361wmh.13.2020.10.23.08.19.33
+ by smtp.gmail.com with ESMTPSA id n4sm3566236wrr.91.2020.10.23.08.19.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 08:19:34 -0700 (PDT)
+ Fri, 23 Oct 2020 08:19:39 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 02/10] docs/devel/loads-stores: Add regexp for DMA
- functions
-Date: Fri, 23 Oct 2020 17:19:15 +0200
-Message-Id: <20201023151923.3243652-3-philmd@redhat.com>
+Subject: [PATCH RESEND v3 03/10] dma: Document
+ address_space_map/address_space_unmap() prototypes
+Date: Fri, 23 Oct 2020 17:19:16 +0200
+Message-Id: <20201023151923.3243652-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023151923.3243652-1-philmd@redhat.com>
 References: <20201023151923.3243652-1-philmd@redhat.com>
@@ -75,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,26 +103,69 @@ Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add documentation based on address_space_map / address_space_unmap.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- docs/devel/loads-stores.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ include/sysemu/dma.h | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/docs/devel/loads-stores.rst b/docs/devel/loads-stores.rst
-index 59c1225391c..ee43f5dfee2 100644
---- a/docs/devel/loads-stores.rst
-+++ b/docs/devel/loads-stores.rst
-@@ -483,6 +483,8 @@ make sure our existing code is doing things correctly.
+diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
+index 80c5bc3e02d..c6e12b4c243 100644
+--- a/include/sysemu/dma.h
++++ b/include/sysemu/dma.h
+@@ -1,7 +1,7 @@
+ /*
+  * DMA helper functions
+  *
+- * Copyright (c) 2009 Red Hat
++ * Copyright (c) 2009, 2020 Red Hat
+  *
+  * This work is licensed under the terms of the GNU General Public License
+  * (GNU GPL), version 2 or later.
+@@ -125,6 +125,19 @@ static inline int dma_memory_write(AddressSpace *as, dma_addr_t addr,
  
- Regexes for git grep
-  - ``\<dma_memory_\(read\|write\|rw\)\>``
-+ - ``\<ldu\?[bwlq]\(_[bl]e\)\?_dma\>``
-+ - ``\<st[bwlq]\(_[bl]e\)\?_dma\>``
+ int dma_memory_set(AddressSpace *as, dma_addr_t addr, uint8_t c, dma_addr_t len);
  
- ``pci_dma_*`` and ``{ld,st}*_pci_dma``
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++/**
++ * address_space_map: Map a physical memory region into a host virtual address.
++ *
++ * May map a subset of the requested range, given by and returned in @plen.
++ * May return %NULL and set *@plen to zero(0), if resources needed to perform
++ * the mapping are exhausted.
++ * Use only for reads OR writes - not for read-modify-write operations.
++ *
++ * @as: #AddressSpace to be accessed
++ * @addr: address within that address space
++ * @len: pointer to length of buffer; updated on return
++ * @dir: indicates the transfer direction
++ */
+ static inline void *dma_memory_map(AddressSpace *as,
+                                    dma_addr_t addr, dma_addr_t *len,
+                                    DMADirection dir)
+@@ -138,6 +151,20 @@ static inline void *dma_memory_map(AddressSpace *as,
+     return p;
+ }
+ 
++/**
++ * address_space_unmap: Unmaps a memory region previously mapped
++ *                      by dma_memory_map()
++ *
++ * Will also mark the memory as dirty if @dir == %DMA_DIRECTION_FROM_DEVICE.
++ * @access_len gives the amount of memory that was actually read or written
++ * by the caller.
++ *
++ * @as: #AddressSpace used
++ * @buffer: host pointer as returned by address_space_map()
++ * @len: buffer length as returned by address_space_map()
++ * @dir: indicates the transfer direction
++ * @access_len: amount of data actually transferred
++ */
+ static inline void dma_memory_unmap(AddressSpace *as,
+                                     void *buffer, dma_addr_t len,
+                                     DMADirection dir, dma_addr_t access_len)
 -- 
 2.26.2
 
