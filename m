@@ -2,72 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AD2296DEF
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:49:13 +0200 (CEST)
-Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA7B296DFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:54:25 +0200 (CEST)
+Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVvZI-0004Hp-D3
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:49:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
+	id 1kVveK-00049X-Et
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:54:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kVvWC-0002q8-OT
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:46:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kVvWA-0004Ba-El
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:46:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603453556;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/n3GyqthkNT9ARJ6I1uP87NUnvZ2LcSztobR3wNcDI0=;
- b=PsZT0UJSj+mkFTVDTZ8mjnPekyCQkRi+uqSk6kVrh0e/BkPJZrniwoX42B6Tt4Dy1q3fpG
- eneABtktSZKrGuBARlxXnQJGbY18Sxf3hbKrMmla6Yy672652Raqm9LIMhxHUnQOKPOt5G
- K6PuaWWkt62Gfw8R1+KHeOSBh647DVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-110-LIUMc4eHPF6JOH-XYZicFg-1; Fri, 23 Oct 2020 07:45:54 -0400
-X-MC-Unique: LIUMc4eHPF6JOH-XYZicFg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 063601009E21;
- Fri, 23 Oct 2020 11:45:52 +0000 (UTC)
-Received: from gondolin (ovpn-112-221.ams2.redhat.com [10.36.112.221])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2578D55775;
- Fri, 23 Oct 2020 11:45:39 +0000 (UTC)
-Date: Fri, 23 Oct 2020 13:45:37 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v28 06/17] vfio: Add migration state change notifier
-Message-ID: <20201023134537.103db694.cohuck@redhat.com>
-In-Reply-To: <1603449643-12851-7-git-send-email-kwankhede@nvidia.com>
-References: <1603449643-12851-1-git-send-email-kwankhede@nvidia.com>
- <1603449643-12851-7-git-send-email-kwankhede@nvidia.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kVvcO-0002Sr-GM
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:52:24 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40329)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kVvcL-0005FV-P9
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:52:24 -0400
+Received: by mail-wr1-x431.google.com with SMTP id h5so1472299wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 04:52:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Yl5icqtET+OiBcIfafAo7TWMRE6keOrILdb3EyR0vK0=;
+ b=QLFULd8UuWEQMjSJgV5crNyjPI3RTKzdxzARQuFnv36T3ujoyu9xsq2n14hMzA+46n
+ Y9BvurmbmbKyQubYajSVzQpjoNEXPwk/uDuUMj/0dfb72KYDYn58QKWY+eZCRcx/tTt/
+ eAnhy4h+N0bLWVWvyC3pBEe+gX7rrXOAijYsyzcsXY5UM4ieP3AfzHIhINGzdpxVr7Aq
+ 9Qr+MzYv84Dj1P9idveuFKIGa9Va0f2OjtkZnD2xEh1Cjzm+7kKILAKS1lbaoZ9c/32R
+ CmvvgikOtZGjUpMmzuKKMS4AHSb1sUHPVFHqBulanCHPj7YFEvszzidQh8bo+hp1zuvy
+ ESeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Yl5icqtET+OiBcIfafAo7TWMRE6keOrILdb3EyR0vK0=;
+ b=nHuHJWIcFp5a/kr04u3DfS6Q2BavCitAmulLpcQKYsPqQ7MZNaoq5xA1dKUnJ2llXI
+ hGXfG6s7TQa3JVg1VSWhG1bXvMLaLsKqPca7EzGFK5CFkIVm3+u2oNPDkNYmls+MWw6J
+ 2j9VJ6giE1UUy4gfh8FiLzOvH2wv+jw2hYJBUUytK4rRbKXBuxIvNP06HCTLC8uNEHQa
+ TQEh2j5xLr4lzwrj80adNkRMizfJ1leccLsAq0WIDtSfYh9Pzcz7w2hqbifw62d4beB3
+ /MKWf3qBZoLwJajbXTSs3cKNPWzzkkRedUqmRfN44lY3CL+xbGWdhLusdz8lnFQTVa7b
+ aoag==
+X-Gm-Message-State: AOAM530pCRPa0emgDD/6hnO5MPrKOEQ2hGj/l8B34P6kCi09SnWUzwoW
+ y//JQjsdjGLwQ2oCj56cFdImvw==
+X-Google-Smtp-Source: ABdhPJzSinLY3f/jThMkx9dNCRo6zK92/zlaR3+eZ/XWD1TYgA3iAE66G2c9iOCpTTP4PhCyWvuC6Q==
+X-Received: by 2002:a5d:6110:: with SMTP id v16mr2408428wrt.219.1603453939458; 
+ Fri, 23 Oct 2020 04:52:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y2sm3118472wrh.0.2020.10.23.04.52.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Oct 2020 04:52:18 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 89D5F1FF7E;
+ Fri, 23 Oct 2020 12:52:17 +0100 (BST)
+References: <87o8kttj2e.fsf@linaro.org>
+ <20201023105120.sqharyxujgh7nppk@sirius.home.kraxel.org>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: Tips for debugging GPU acceleration.
+In-reply-to: <20201023105120.sqharyxujgh7nppk@sirius.home.kraxel.org>
+Date: Fri, 23 Oct 2020 12:52:17 +0100
+Message-ID: <87d019tb0u.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,35 +89,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
- Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com,
- dnigam@nvidia.com
+Cc: qemu-devel@nongnu.org, agl-dev-community@lists.automotivelinux.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 16:10:32 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-> Added migration state change notifier to get notification on migration state
-> change. These states are translated to VFIO device state and conveyed to
-> vendor driver.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/vfio/migration.c           | 28 ++++++++++++++++++++++++++++
->  hw/vfio/trace-events          |  1 +
->  include/hw/vfio/vfio-common.h |  2 ++
->  3 files changed, 31 insertions(+)
+Gerd Hoffmann <kraxel@redhat.com> writes:
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>   Hi,
+>
+>>   [    2.930300] [drm] virgl 3d acceleration not supported by host
+>
+> Nope, not active.
+>
+>>     -display gtk,show-cursor=3Don \
+>
+> Needs -display gtk,gl=3Don for opengl support.
 
+Awesome - even on TCG the display is now nice and snappy.
+
+For bonus points:
+
+The AGL panel display is rotated 90 degrees which is putting a bit of a
+crink in my neck. Is their anyway to rotate the view port. I tried
+inverting xres and yres but that didn't do anything.
+
+>>     -device virtio-gpu-pci,virgl=3Dtrue
+>
+> virgl is silently turned off in case opengl support is not available.
+> Ideally virgl should be OnOffAuto not bool, but I fear changing that
+> now (and start throwing errors on virgl=3Don if opengl is not available)
+> will break stuff ...
+
+At least a warn_report maybe?
+
+>
+> take care,
+>   Gerd
+
+
+--=20
+Alex Benn=C3=A9e
 
