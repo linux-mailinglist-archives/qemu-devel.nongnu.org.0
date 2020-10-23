@@ -2,72 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCA2296AE8
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 10:07:31 +0200 (CEST)
-Received: from localhost ([::1]:54820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171D5296AEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 10:09:47 +0200 (CEST)
+Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVs6k-0000El-IW
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 04:07:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41476)
+	id 1kVs8w-00035y-50
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 04:09:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kVs5L-0007Yu-VO
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:03 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kVs5J-0006Lj-Ut
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:03 -0400
-Received: by mail-ej1-x643.google.com with SMTP id c15so1156699ejs.0
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 01:06:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CS9HTdrhUV9OsVNdmyf38kkBA3wNT8t1M62rGmTPbr8=;
- b=oAsopSTut94VsBKtDeIEaWUkgXu8KJWYZrQXK5FgFhaZFRxzJ4IGAWnnXCgQU/DSCI
- omxFDcyK+sjd+OwGrkhx8Dq2WuO9qBOMQVAU7uH1pJh+/j6Nkelm9UFBZGqlDCxxcrBu
- 8GUt+yJMxaIYaTwsWu4waSbjGLeDnWWJS/TIqug1R8S7EbW5+26YLiymEi4/dTfVOtGm
- 3m++pduvQDnINWEJVzij4xsEJIf4GYc7c+oeyIhaNBCz0in3k1mMalnnF1xksPSErKug
- F63Xskp7xFPGbf2ETCjoHyUdrxG6wGCwgDrEkyb13Lk7eJ0SG4lgBtgpCPVD+Hx/IHRn
- muKw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs5U-0007hf-Ch
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23989)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs5S-0006Ni-0a
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:12 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603440367;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/kjGCHtsRxV39syqhm4jalNJx7Y5lR3W0xXXv+P/xoA=;
+ b=ZVXsvLGWMGyqFAhqm+Rla589DwNevksIxrOMm3n2ypFmug+AikDco3HB1civZAsKH+osOV
+ x9vbW625F3I8Mfc3wMuBu964hKytR3JzpOp+3qnTnfjh26XzARCWL+eJmQEHp7lvYTCdWj
+ pY4su3arvNMW9Wxn+eNsbs/Fu5bmEzs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-348-cSYUN7YWPw27t2130Q5p2g-1; Fri, 23 Oct 2020 04:06:05 -0400
+X-MC-Unique: cSYUN7YWPw27t2130Q5p2g-1
+Received: by mail-wm1-f71.google.com with SMTP id y83so78180wmc.8
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 01:06:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CS9HTdrhUV9OsVNdmyf38kkBA3wNT8t1M62rGmTPbr8=;
- b=YFLuMxOgXS/N9Ivgmvk+IVphfqAtnBauSpX2+mc5szB48HRj52XwNLQiVXNLKmuPb0
- cp4xpnEPczf9r9vDdM6ilocxnBQddokV9NvPuV+w2Ki5HCrT3ZzZHieaZL3c+nYVtCL2
- vPrfeDSs9wQURWaJgqmlgU3S395HdDrMQsGvTcX44WpfMVSg2ltjtUSIg89fYwgBk5t+
- ignkH+0Gk3TTub1siyU/JZHmVIuTT/+MWmPwq+AdvngAp2bY4shV2KDkOMTgPfGTFolN
- O6d+yFNFuqLj1WMVT436LJK/bZ8m7vYawJdRnb1w5aXTaCzKYgM6KtUZliQyEraLErpd
- 8m9w==
-X-Gm-Message-State: AOAM530Q358eEGROl0wzWhoO2vUtw++MZom5lOM4aa7DLwHtIh6E+B4e
- Ia+FV/P7ag9DDgewKxZg6253MnUFL3zLUlUBcOM=
-X-Google-Smtp-Source: ABdhPJz2ZQiFYEY4MFSQHQSdF6vnwQkBPj1NOjnSM6VeF08kyT5vPoeh6t9q6oQGd1aAsaxL3BEjCChd0zwVYiNPqlg=
-X-Received: by 2002:a17:906:388d:: with SMTP id
- q13mr801497ejd.92.1603440359918; 
- Fri, 23 Oct 2020 01:05:59 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/kjGCHtsRxV39syqhm4jalNJx7Y5lR3W0xXXv+P/xoA=;
+ b=i1t9bNuZc2EJpbFOAla4Tq09+FPjGGwd1YW4e6ZHESdyoVgA28ipcSpOI13ZIwy+Ko
+ cE0nrYK+R0CIF22nZqGHMUi34k6ETsaCuCkdR6sEKMevg2gACnhQZrxjufQu+5eOAF16
+ gRPL2GN5xs4sHQVW46spfi89VosGQUJD82+Sdalvv8MU8vcMdzeZKIVoP7gGTTm2npja
+ ltRqF67g54svRVn3Nww0+yGAvApqdzPcXCO9J7cgNIfoxh1rPWnogLZKb5zR3RU/j2ZJ
+ i/xRSdHWLQdxJ1niHM074Lov2kuaA115xjRHhLFgpMnJjThLioW+Sw1aLZV/E52/xcAy
+ HnEA==
+X-Gm-Message-State: AOAM530P7JXEVIaG/JOQ48YFFTGKAAACAs23E+41PocDLcSTjNg3SbS3
+ /9LddrWqM250AfIj2OzncZyQ4GlNsuZoU29cuIJSylVBgnL0dNC9f4pEEZmH0CWCI/IzPgs+TH0
+ UzIjyCfTHjvqdWq8=
+X-Received: by 2002:a5d:4282:: with SMTP id k2mr1197924wrq.270.1603440364461; 
+ Fri, 23 Oct 2020 01:06:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxrRaaRtM+KSYB3HQy6w4YekV1mC3Bo3ySe80ANBTJ2fzw//zW9ysEFs8alKj2LYSCDMwPzkA==
+X-Received: by 2002:a5d:4282:: with SMTP id k2mr1197914wrq.270.1603440364344; 
+ Fri, 23 Oct 2020 01:06:04 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id v189sm1570946wmg.14.2020.10.23.01.06.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 01:06:03 -0700 (PDT)
+Subject: Re: [PATCH 2/4] test/acceptance: Remove the CONTINUOUS_INTEGRATION
+ tags
+To: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201023073351.251332-1-thuth@redhat.com>
+ <20201023073351.251332-3-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3b7aa6a8-77b3-ee21-dc3a-fd3ad2f64e50@redhat.com>
+Date: Fri, 23 Oct 2020 10:06:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201023064618.21409-1-kraxel@redhat.com>
- <20201023064618.21409-2-kraxel@redhat.com>
-In-Reply-To: <20201023064618.21409-2-kraxel@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 23 Oct 2020 12:05:48 +0400
-Message-ID: <CAJ+F1CK0A1+vOMZq55guJi9OPg1zyVyRQ_azYA7NNVg5Kx5hDA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] virtio-gpu: add virtio-gpu-pci module
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000012519105b2520d6a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20201023073351.251332-3-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,219 +102,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000012519105b2520d6a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/23/20 9:33 AM, Thomas Huth wrote:
+> We are not running the acceptance tests on Travis anymore, so these
+> checks can be removed now.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   tests/acceptance/ppc_prep_40p.py | 2 --
+>   1 file changed, 2 deletions(-)
 
-On Fri, Oct 23, 2020 at 10:46 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> Build virtio-gpu pci devices modular.  Must be a separate module because
-> not all qemu softmmu variants come with PCI support.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
->
-
-Hmm, I realize we have a different behaviour when building devices as
-modules shared by different qemu system binaries.
-
-It will attempt to load any kind of modules:
-
-./qemu-system-m68k  -kernel ~/Downloads/vmlinux-5.8.0-3-m68k  -device
-virtio-gpu-pci
-Failed to open module:
-/home/elmarco/src/qemu/buildnodoc/hw-display-virtio-gpu-pci.so: undefined
-symbol: virtio_instance_init_common
-qemu-system-m68k: -device virtio-gpu-pci: 'virtio-gpu-pci' is not a valid
-device model name
-
-
-And this is not a new problem, for example with qemu 5.1.0-5.fc33:
-
-$ qemu-system-m68k -device help
-Failed to open module: /usr/lib64/qemu/hw-usb-smartcard.so: undefined
-symbol: ccid_card_send_apdu_to_guest
-Failed to open module: /usr/lib64/qemu/hw-display-qxl.so: undefined symbol:
-vga_ioport_read
-...
-
-What would be the solution? load modules from an arch-specific directory?
-link to a common shared library location? Ex:
-/usr/lib64/qemu/x86_64/hw-usb-smartcard.so ->
-/usr/lib64/qemu/hw-usb-smartcard.so
-
-
----
->  util/module.c          |  3 +++
->  hw/display/meson.build | 11 +++++++++--
->  2 files changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/util/module.c b/util/module.c
-> index fe3b82dd4d37..9490f975d303 100644
-> --- a/util/module.c
-> +++ b/util/module.c
-> @@ -301,6 +301,9 @@ static struct {
->      { "qxl",                   "hw-", "display-qxl"           },
->      { "virtio-gpu-device",     "hw-", "display-virtio-gpu"    },
->      { "vhost-user-gpu",        "hw-", "display-virtio-gpu"    },
-> +    { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
-> +    { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
-> +    { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
->      { "chardev-braille",       "chardev-", "baum"             },
->      { "chardev-spicevmc",      "chardev-", "spice"            },
->      { "chardev-spiceport",     "chardev-", "spice"            },
-> diff --git a/hw/display/meson.build b/hw/display/meson.build
-> index 0d5ddecd6503..669935371335 100644
-> --- a/hw/display/meson.build
-> +++ b/hw/display/meson.build
-> @@ -62,8 +62,15 @@ if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
->    hw_display_modules +=3D {'virtio-gpu': virtio_gpu_ss}
->  endif
->
-> -softmmu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI'], if_true=
-:
-> files('virtio-gpu-pci.c'))
-> -softmmu_ss.add(when: ['CONFIG_VHOST_USER_GPU', 'CONFIG_VIRTIO_PCI'],
-> if_true: files('vhost-user-gpu-pci.c'))
-> +if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
-> +  virtio_gpu_pci_ss =3D ss.source_set()
-> +  virtio_gpu_pci_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRTIO_PCI']=
-,
-> +                        if_true: [files('virtio-gpu-pci.c'), pixman])
-> +  virtio_gpu_pci_ss.add(when: ['CONFIG_VHOST_USER_GPU',
-> 'CONFIG_VIRTIO_PCI'],
-> +                        if_true: files('vhost-user-gpu-pci.c'))
-> +  hw_display_modules +=3D {'virtio-gpu-pci': virtio_gpu_pci_ss}
-> +endif
-> +
->  softmmu_ss.add(when: 'CONFIG_VIRTIO_VGA', if_true: files('virtio-vga.c')=
-)
->  softmmu_ss.add(when: 'CONFIG_VHOST_USER_VGA', if_true:
-> files('vhost-user-vga.c'))
->
-> --
-> 2.27.0
->
->
->
-Otherwise patch works well:
-
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000012519105b2520d6a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 23, 2020 at 10:46 AM Gerd=
- Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Build v=
-irtio-gpu pci devices modular.=C2=A0 Must be a separate module because<br>
-not all qemu softmmu variants come with PCI support.<br>
-<br>
-Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><br></div><div class=
-=3D"gmail_quote">Hmm, I realize we have a different behaviour when building=
- devices as modules shared by different qemu system binaries.<br></div><div=
- class=3D"gmail_quote"><div><br></div><div>It will attempt to load any kind=
- of modules:</div><div><br></div><div>./qemu-system-m68k =C2=A0-kernel ~/Do=
-wnloads/vmlinux-5.8.0-3-m68k =C2=A0-device virtio-gpu-pci<br>Failed to open=
- module: /home/elmarco/src/qemu/buildnodoc/hw-display-virtio-gpu-pci.so: un=
-defined symbol: virtio_instance_init_common<br>qemu-system-m68k: -device vi=
-rtio-gpu-pci: &#39;virtio-gpu-pci&#39; is not a valid device model name</di=
-v><div><br></div><div><br></div><div>And this is not a new problem, for exa=
-mple with qemu 5.1.0-5.fc33:</div><div><br></div><div>$ qemu-system-m68k -d=
-evice help =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<br>Faile=
-d to open module: /usr/lib64/qemu/hw-usb-smartcard.so: undefined symbol: cc=
-id_card_send_apdu_to_guest<br>Failed to open module: /usr/lib64/qemu/hw-dis=
-play-qxl.so: undefined symbol: vga_ioport_read</div><div>...</div><div><br>=
-</div><div>What would be the solution? load modules from an arch-specific d=
-irectory? link to a common shared library location? Ex:<br></div><div>/usr/=
-lib64/qemu/x86_64/hw-usb-smartcard.so -&gt; /usr/lib64/qemu/hw-usb-smartcar=
-d.so</div><div><br></div><div><br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">
----<br>
-=C2=A0util/module.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +++<br>
-=C2=A0hw/display/meson.build | 11 +++++++++--<br>
-=C2=A02 files changed, 12 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/util/module.c b/util/module.c<br>
-index fe3b82dd4d37..9490f975d303 100644<br>
---- a/util/module.c<br>
-+++ b/util/module.c<br>
-@@ -301,6 +301,9 @@ static struct {<br>
-=C2=A0 =C2=A0 =C2=A0{ &quot;qxl&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;hw-&quot;, &quot;display-qxl&quot;=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0},<br>
-=C2=A0 =C2=A0 =C2=A0{ &quot;virtio-gpu-device&quot;,=C2=A0 =C2=A0 =C2=A0&qu=
-ot;hw-&quot;, &quot;display-virtio-gpu&quot;=C2=A0 =C2=A0 },<br>
-=C2=A0 =C2=A0 =C2=A0{ &quot;vhost-user-gpu&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;hw-&quot;, &quot;display-virtio-gpu&quot;=C2=A0 =C2=A0 },<br>
-+=C2=A0 =C2=A0 { &quot;virtio-gpu-pci-base&quot;,=C2=A0 =C2=A0&quot;hw-&quo=
-t;, &quot;display-virtio-gpu-pci&quot; },<br>
-+=C2=A0 =C2=A0 { &quot;virtio-gpu-pci&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
-ot;hw-&quot;, &quot;display-virtio-gpu-pci&quot; },<br>
-+=C2=A0 =C2=A0 { &quot;vhost-user-gpu-pci&quot;,=C2=A0 =C2=A0 &quot;hw-&quo=
-t;, &quot;display-virtio-gpu-pci&quot; },<br>
-=C2=A0 =C2=A0 =C2=A0{ &quot;chardev-braille&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0&quot;chardev-&quot;, &quot;baum&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0},<br>
-=C2=A0 =C2=A0 =C2=A0{ &quot;chardev-spicevmc&quot;,=C2=A0 =C2=A0 =C2=A0 &qu=
-ot;chardev-&quot;, &quot;spice&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 },<br>
-=C2=A0 =C2=A0 =C2=A0{ &quot;chardev-spiceport&quot;,=C2=A0 =C2=A0 =C2=A0&qu=
-ot;chardev-&quot;, &quot;spice&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 },<br>
-diff --git a/hw/display/meson.build b/hw/display/meson.build<br>
-index 0d5ddecd6503..669935371335 100644<br>
---- a/hw/display/meson.build<br>
-+++ b/hw/display/meson.build<br>
-@@ -62,8 +62,15 @@ if config_all_devices.has_key(&#39;CONFIG_VIRTIO_GPU&#39=
-;)<br>
-=C2=A0 =C2=A0hw_display_modules +=3D {&#39;virtio-gpu&#39;: virtio_gpu_ss}<=
-br>
-=C2=A0endif<br>
-<br>
--softmmu_ss.add(when: [&#39;CONFIG_VIRTIO_GPU&#39;, &#39;CONFIG_VIRTIO_PCI&=
-#39;], if_true: files(&#39;virtio-gpu-pci.c&#39;))<br>
--softmmu_ss.add(when: [&#39;CONFIG_VHOST_USER_GPU&#39;, &#39;CONFIG_VIRTIO_=
-PCI&#39;], if_true: files(&#39;vhost-user-gpu-pci.c&#39;))<br>
-+if config_all_devices.has_key(&#39;CONFIG_VIRTIO_PCI&#39;)<br>
-+=C2=A0 virtio_gpu_pci_ss =3D ss.source_set()<br>
-+=C2=A0 virtio_gpu_pci_ss.add(when: [&#39;CONFIG_VIRTIO_GPU&#39;, &#39;CONF=
-IG_VIRTIO_PCI&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if_true: [files(&#39;virtio-gpu-pci.c&#39;), pixman])<br>
-+=C2=A0 virtio_gpu_pci_ss.add(when: [&#39;CONFIG_VHOST_USER_GPU&#39;, &#39;=
-CONFIG_VIRTIO_PCI&#39;],<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if_true: files(&#39;vhost-user-gpu-pci.c&#39;))<br>
-+=C2=A0 hw_display_modules +=3D {&#39;virtio-gpu-pci&#39;: virtio_gpu_pci_s=
-s}<br>
-+endif<br>
-+<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_VIRTIO_VGA&#39;, if_true: files(&#39=
-;virtio-vga.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_VHOST_USER_VGA&#39;, if_true: files(=
-&#39;vhost-user-vga.c&#39;))<br>
-<br>
--- <br>
-2.27.0<br>
-<br>
-<br>
-</blockquote></div><div><br></div><div>Otherwise patch works well:</div><di=
-v><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:=
-marcandre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;<br></div><=
-br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau=
-<br></div></div>
-
---00000000000012519105b2520d6a--
 
