@@ -2,104 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E9329721A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:17:00 +0200 (CEST)
-Received: from localhost ([::1]:34526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2ED297234
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:26:04 +0200 (CEST)
+Received: from localhost ([::1]:32922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVyoN-0005nO-C8
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:16:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+	id 1kVyx9-0000VE-7i
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyg9-00043M-Qu
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:31 -0400
-Received: from mail-bn7nam10on2131.outbound.protection.outlook.com
- ([40.107.92.131]:42497 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyg7-0007Ao-IU
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:28 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=RZ/1m7MWnLKHq3A7WhDCMCtsEl/B+OMB6D87D/TaLeeDmt4OGC+va6/crNcZ+NNrxvjDyH25DlDOSprd6I9/fT1WqFFH2kdeU3QseTg0QptK91rmoJYMsM7wzngvuzTBDRE3Ms4jwS3Qn/RMx8aPyqDHgIgIP41moUf2xeYLK0S/ZS/06zIHgHKFwv+GOwjKctIF+X133HT5jOjv0qeXES/ynZizPXXqM7k8twlke1N4lX2z2ZnrKnG6lk+v0QD1om5vac5HmCAWDQQQQzxStu2x8i8Qm9vQJxmIrVE1kgX8CzDBS8qkq003GG3Vu9fEBPQADmeS8/yVWDr+sPYvcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MqH9vnWqMAR2Mfmm/R7rEWV0ea8cuyiyLEoww1AqzTI=;
- b=KD/YxOzK+obl1nr8QMdBzB/2tIjwFoOpMAb7/TvOtpYZ6WPM5I+Fvby+gJvVdXvrZoeAUDrKnZpTJat2KoolBNp60LgJHwDW0otBSSUkNipAfy/wi+N3EmNj91c3s7AjlDBeY6MhnWmGChuKSqryAyl8rR4d1AtGP9vQW3s9gQrQzsj8R1N9juja5wZOcBVnw4k5jhzxeLmbNfJydEiZ5dyDAteYea8OIk4bdeT5Sys4/4cXWbdruci/B4dTD5sEAK5t0LLQuufBv1lyx+m9xS1vc7BYQHbonFSoxFo+tkC5gO4iL+D9OjQARkAFhuSlzVDK83BhNu37FDU2nQq9hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MqH9vnWqMAR2Mfmm/R7rEWV0ea8cuyiyLEoww1AqzTI=;
- b=5ICYjjYavd6r62txFWFCpGNKK/7/VHnIIE/I8dK08/8mG/1pjgZhGjrAWtTByiqMI9KxkF96tyJFmYvmQ91AccqiUep4Obnslm+SJCU9xLEB3/lujSTg4uKiwSBcxpEMGJosI/9EYBon4Cs0/Q3VAVO6hi8gDymXDCxWT3U/5YU=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA0PR03MB5516.namprd03.prod.outlook.com (2603:10b6:806:bf::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Fri, 23 Oct
- 2020 15:08:19 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Fri, 23 Oct 2020
- 15:08:19 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 17/17] scripts/oss-fuzz: ignore the generic-fuzz target
-Date: Fri, 23 Oct 2020 11:07:46 -0400
-Message-Id: <20201023150746.107063-18-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201023150746.107063-1-alxndr@bu.edu>
-References: <20201023150746.107063-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.93.72.163]
-X-ClientProxiedBy: MN2PR01CA0065.prod.exchangelabs.com (2603:10b6:208:23f::34)
- To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyho-0006Mc-99
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:10:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyhj-0007K8-BD
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:10:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603465804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VCFiKM9r31iSz+0w3GgYriDALNKarg3PwnkOFLl/y2k=;
+ b=IQCpdaA0++vUMTx5C9C9SFGI9m0Jc8cgieIov8mt8rDO4O6h7SUCtT0I2RzvlgzEUuH2nv
+ lM11SlYX+moFoMpey1G5DODHQCjA6R30FIt2vQp7mG3uPMWbRtiKBhwKa8/cIqPU/eElZ5
+ y9THOfYxzskvG+4lysexbpvrC+7e02s=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-66-pnZWj_IEP0W114TmdP8fpg-1; Fri, 23 Oct 2020 11:09:59 -0400
+X-MC-Unique: pnZWj_IEP0W114TmdP8fpg-1
+Received: by mail-wm1-f72.google.com with SMTP id o15so565971wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:09:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VCFiKM9r31iSz+0w3GgYriDALNKarg3PwnkOFLl/y2k=;
+ b=lYW+Ebs4Yzn+r+qwOj3uD5c+F/iyB1lALJzfT/6pnpHFmDXsGozgOPcl6NWrKrW69h
+ rFcoxhbQIGVfnaplCOIGtRJdkpJTa/WyJ/mrML5jd2XavPW294CvdK67jAJTZzeERp1A
+ u6+r4yFCNcF5r0WAn9jBFGkqbHy93vBIrgutcN5OwdLEE9akxlKyAr/79IujaDibqtOg
+ ailNxy4u5U0EgoB1tnsMnjadKHGTKqxHZVHaEVq0mXndCrNbM9oJsSEEpzI4U680gvyL
+ f1YfXwxY7MGYUxUQ3LL2sCuXnwtwZSJCyBd86giQx2T263BohHDReuOCHZZt4mvjmCTZ
+ xPcQ==
+X-Gm-Message-State: AOAM533FxXvsnPM4OMJyMNQSSm9+qmb3Hv95q/Wdm1YiYW2AShBB4E9y
+ /w9P+wAPoR3JcSJOVAF3o3IZl0fNkvXciZPE56pV3sGnMo43hLjRTOcf2AsfviP/Y6VlfDAbGpP
+ 2LVYTHDdvPgtO1k0=
+X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr2913159wmg.151.1603465794079; 
+ Fri, 23 Oct 2020 08:09:54 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPeqxPAWtDkAru7cfTUlF5BCbxZonr89vbJYqoOcBWev98qoXCBuiw5/4RQZ50XxPdWYZkVg==
+X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr2913142wmg.151.1603465793832; 
+ Fri, 23 Oct 2020 08:09:53 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id l3sm5343572wmg.32.2020.10.23.08.09.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 08:09:53 -0700 (PDT)
+Subject: Re: [PATCH RESEND v2 00/16] hw: Let DMA/PCI API take MemTxAttrs
+ argument and propagate MemTxResult
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20201001172519.1620782-1-philmd@redhat.com>
+ <e25101fd-5a14-13ff-6e5b-d46b780a8ca5@redhat.com>
+Message-ID: <7b6f9053-206d-f301-808d-d2c990320207@redhat.com>
+Date: Fri, 23 Oct 2020 17:09:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.93.72.163) by
- MN2PR01CA0065.prod.exchangelabs.com (2603:10b6:208:23f::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Fri, 23 Oct 2020 15:08:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f1f8863b-7ca8-4e02-3494-08d877657a07
-X-MS-TrafficTypeDiagnostic: SA0PR03MB5516:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB55164DB667D004A02CD483B5BA1A0@SA0PR03MB5516.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BdC9CrylQOpoYnQqTXJ6Y1FinrO+sY18BOm01MG00tyV82CHyv8PHzwiE9CI3lLNN2yGqNHPDsY2NlHAGBXUSE5R282aummFAoy0DKtnulK0Y3027G5Xo2YkIA7WzmezBRWKX0AdcktWLV2byBWfA8J+k+MKKiOnpUzvN0wLlK0XJUunCvvZEQkbt9tn5QJVI40pCnvvS0h+xDdMWKfC9W7rGN8myJueHs0UzUtvPoZMSJP2hLQaP4i3NZtdhBYQIoiCd8j0+ld11/cLiXZ3KzMLCyi+A6hqX0rRqklwAHCsAjAJchjzWhgXk1AaM4wWAelb1W5yz74T3qr4JNNnVvjNY2/Q8HgnFGX+lqfd9m8fPJ1+18juM0eNzhIJMF2a
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(2616005)(4326008)(1076003)(6512007)(478600001)(5660300002)(83380400001)(8936002)(8676002)(86362001)(2906002)(956004)(36756003)(6506007)(66476007)(6916009)(786003)(66556008)(75432002)(66946007)(52116002)(6666004)(186003)(26005)(6486002)(316002)(16526019)(41533002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 5PE9Xl7cCx7AROr9W7bL5oelJa31T4QrTYsKFHLb8Qi5yAiKoCfjzrPOr3j8EKaYCyZJadWkr7JAcH3h7iafFy7cYgmROUaI+uqQPYSJeCUat2fBMbMzFTsO8rJreL1Odo2Qjme6rPMm7083jFuwWDkjCbj8551kZ3ZLllcDB1XFCU4y/8uGUROPHzPqLAr8q8F+SIQmYOdPKWBjNP+w8EUKIEWe9St7T5M5S61pfbmZVFb1ZjvkN11WND/sT3F+A5yMBhXI+nawL1+ZpMLUYfFyzEtajyQ6pxoxL4HpbqdJyLZKJj+j9jvpStFnsJlnD/ja4cdOD1+i40AV0T+HzzWnt8anQ5resq/NqLQMptYxsW7W2SCLndK8Nj0YlZo1fZZ9li3IV4wXnMnNP/llNisJfLvFfbfXbq8eOimhR4VXHjPtu0NFLi3UZCxJm0Xa/tQn0QbJ3OWM9WcPl5Dj3g2SCO6M8+gnvNu27Rvxc/2e0U2CQPFFp9Y6Wu5DX19Dtne/0Hzx1El3IdjdQ3LOlC+uIkwB/UzPeDfkHcBN6ojfMSoOhlStD/fP/ccDNCv+OOpdYk2agPgHE9OucviG6Jolea9XjCioG3utQtjGLR0EA+DUD9lZLfJ4Lfi5lVRfWVZgapVb31mUBhDpEO5aJQ==
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1f8863b-7ca8-4e02-3494-08d877657a07
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 15:08:19.6819 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5WJrsOkx4fZaYMjQ1YzI9xN/QiVYdtpMonaiJ0oworOCtfEHNtcCYLiSqkQvFuCa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5516
-Received-SPF: pass client-ip=40.107.92.131; envelope-from=alxndr@bu.edu;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:08:19
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.63,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <e25101fd-5a14-13ff-6e5b-d46b780a8ca5@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,45 +101,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org,
- darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
- pbonzini@redhat.com, dimastep@yandex-team.ru
+Cc: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-generic-fuzz is not a standalone fuzzer - it requires some env variables
-to be set. On oss-fuzz, we set these with some predefined
-generic-fuzz-{...} targets, that are thin wrappers around generic-fuzz.
-Do not make a link for the generic-fuzz from the oss-fuzz build, so
-oss-fuzz does not treat it as a standalone fuzzer.
+Hi Paolo,
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- scripts/oss-fuzz/build.sh | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+On 10/22/20 4:44 PM, Philippe Mathieu-Daudé wrote:
+> ping?
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 0ce2867732..40e15985cf 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -99,8 +99,14 @@ cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
- # executable name)
- for target in $(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
- do
--    ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
--        "$DEST_DIR/qemu-fuzz-i386-target-$target"
-+    # Ignore the generic-fuzz target, as it requires some environment variables to
-+    # be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets that
-+    # are thin wrappers around this target that set the required environment
-+    # variables according to predefined configs.
-+    if [ "$target" != "generic-fuzz" ]; then
-+        ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
-+            "$DEST_DIR/qemu-fuzz-i386-target-$target"
-+    fi
- done
- 
- echo "Done. The fuzzers are located in $DEST_DIR"
--- 
-2.28.0
+In case the rationale is not clear, the motivation
+for this series is to make the API more robust to
+enforce correct use by the consumers.
+
+Currently the MemTxResult return value is not
+propagated, so lost.
+
+If adding the MemTxAttrs argument could introduce
+security issues and you need more time to consider
+this change, I can repost only the MemTxResult
+propagation patches, and we'll discuss the MemTxAttrs
+after the 5.2 release.
+
+Laszlo Ersek pointed me to commit f794aa4a2fd
+("target-i386: introduce cpu_get_mem_attrs") to
+understand how MemTxAttrs is used by SMM on X86.
+
+ From the review comment from Edgar in v1, I understand
+there should not be security issues with the current
+codebase.
+https://www.mail-archive.com/qemu-block@nongnu.org/msg74077.html
+
+Regards,
+
+Phil.
+
+> 
+> On 10/1/20 7:25 PM, Philippe Mathieu-Daudé wrote:
+>> This is a respin of:
+>>
+>> "dma: Let the DMA API take MemTxAttrs argument and propagate MemTxResult"
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
+>>
+>> and:
+>> "pci: Let PCI DMA API functions propagate a MemTxResult"
+>> https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02048.html
+>>
+>> (resent using correct git-profile).
+>>
+>> The DMA API propagates MemTxResult:
+>> - MEMTX_OK,
+>> - MEMTX_device_ERROR,
+>> - MEMTX_DECODE_ERROR.
+>>
+>> Let the PCI DMA API propagate them, as they are
+>> clearer than an undocumented 'int'.
+>>
+>> Klaus Jensen (1):
+>>    pci: pass along the return value of dma_memory_rw
+>>
+>> Philippe Mathieu-Daudé (15):
+>>    docs/devel/loads-stores: Add regexp for DMA functions
+>>    dma: Document address_space_map/address_space_unmap() prototypes
+>>    dma: Let dma_memory_set() propagate MemTxResult
+>>    dma: Let dma_memory_rw() propagate MemTxResult
+>>    dma: Let dma_memory_read() propagate MemTxResult
+>>    dma: Let dma_memory_write() propagate MemTxResult
+>>    dma: Let dma_memory_valid() take MemTxAttrs argument
+>>    dma: Let dma_memory_set() take MemTxAttrs argument
+>>    dma: Let dma_memory_rw_relaxed() take MemTxAttrs argument
+>>    dma: Let dma_memory_rw() take MemTxAttrs argument
+>>    dma: Let dma_memory_read/write() take MemTxAttrs argument
+>>    dma: Let dma_memory_map() take MemTxAttrs argument
+>>    pci: Let pci_dma_rw() propagate MemTxResult
+>>    pci: Let pci_dma_read() propagate MemTxResult
+>>    pci: Let pci_dma_write() propagate MemTxResult
 
 
