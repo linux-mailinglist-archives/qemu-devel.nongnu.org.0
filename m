@@ -2,94 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E20D2975B1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:22:03 +0200 (CEST)
-Received: from localhost ([::1]:47836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3402975C6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:29:59 +0200 (CEST)
+Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0lO-0007GB-CU
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:22:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32810)
+	id 1kW0t4-0005ej-K2
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:29:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW0kJ-0005xc-49
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:20:55 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52764)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kW0rq-0005Aa-Pl
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:28:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW0kH-00084N-AL
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:20:54 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kW0rn-0000pn-I8
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:28:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603473651;
+ s=mimecast20190719; t=1603474117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=69OMIhUVcp9Fhq5x4AhrZCowV7wj/k+vCHsAXln3F3o=;
- b=RUyNtm8NnN8Kw13Z8XISKT0nnreWC20gA4/Bj4mT58RG1uFUJtTQffBirUaXgboildKLhN
- EDlqMoQTuqpJlSVBziNMpRGzHaNgbGtxAR77B5gRr1i12YgKyvzKaiiToDmFnzyYQsR026
- WugCxuscFTWaBZ7Gd+2qoLRi5vL1XWg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-gANZYnfAO666-Jaej0J02Q-1; Fri, 23 Oct 2020 13:20:49 -0400
-X-MC-Unique: gANZYnfAO666-Jaej0J02Q-1
-Received: by mail-wr1-f69.google.com with SMTP id t3so838346wrq.2
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 10:20:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=69OMIhUVcp9Fhq5x4AhrZCowV7wj/k+vCHsAXln3F3o=;
- b=OoXYCKmnN86llLtvMj1PI/i7jKUNHnWWyFS7ysNRUY9h+uL5rRo6cYPivpYl3jQkCs
- +lfK4xTh0vfiHfdSNtSLKeWHdI8D45kB1DoOiqp2/UlK4kX2QZ6V5M3Rrrb1J98RX5uR
- P6iVCTfl5PQZCYMgm1k5IHFNocFk5UV05awIBxMwj3voGdQPBkOf4nBp52QqRnuevsG7
- mmScPbtEarcAqVas1b9ukkPd3eIQWGZGJtxhTpvg0aefIfiUR3E5gvHSMQG9ROGwaOby
- p+EmxB2y18s99zrYZzPsUVHD+T+2eqHy7QM/Ggl7FM+Bnibpor8VgZVybBJUXKF9f6M5
- H6Tw==
-X-Gm-Message-State: AOAM531XJqgdfIjAFFHbKeIIRzG9auGkA8MKDmIN0InNe5mn+nKg1G72
- UbIU1JWbzyQM0RTiDu15z7OeRHWlCs3iF0rNVWDtD/DcMscJtMczoIrCm4EU2Gr5FD9KN3gTWIN
- IqWeMLeeMvayznOo=
-X-Received: by 2002:a1c:4c13:: with SMTP id z19mr3343366wmf.121.1603473648247; 
- Fri, 23 Oct 2020 10:20:48 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxdhb/w9s96nAbbUlnMpmjTsXH3zjIr1OSw5TCb3niccSUE6cxcNMnUeCpIarNLDQPrMkOf6w==
-X-Received: by 2002:a1c:4c13:: with SMTP id z19mr3343349wmf.121.1603473648065; 
- Fri, 23 Oct 2020 10:20:48 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id m12sm4076581wrs.92.2020.10.23.10.20.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 10:20:47 -0700 (PDT)
-Subject: Re: [PATCH v11 12/19] multi-process: Forward PCI config space acceses
- to the remote process
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1602784930.git.jag.raman@oracle.com>
- <1a1490ba03686fe29a0f627bec1556a0051fed18.1602784930.git.jag.raman@oracle.com>
- <47f25366-4cf3-7167-d199-1b82d7fd1ec2@redhat.com>
-Message-ID: <e219fd9f-dbc2-2ddd-603a-8340e8e22d53@redhat.com>
-Date: Fri, 23 Oct 2020 19:20:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=s4B9HjSFH3WCMv3APy5oLWe35uzGvHymgqmqQgiBcZo=;
+ b=Etknw65eGoupy6RM+PrEaMXK5IGqjGxfgrBrcVir3Kf9vWKwWyxzNl3xUKLWAhHxdezR8r
+ Yvg7oLNm6oXsL7NAGi2dyrUZ4SFsTSuYkygrTGMtBzOhB4goIK7LXHUsVS3MAw+ZoSU6N+
+ jI1N5ZRWuLPjNslhaBOKQrWC8Qp8/W8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-201-Uv3A92SNOlCZpmVGpZ-Jbg-1; Fri, 23 Oct 2020 13:28:36 -0400
+X-MC-Unique: Uv3A92SNOlCZpmVGpZ-Jbg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 522788DFFF7;
+ Fri, 23 Oct 2020 17:28:21 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5040981F41;
+ Fri, 23 Oct 2020 17:27:57 +0000 (UTC)
+Date: Fri, 23 Oct 2020 19:27:55 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
+ not ready
+Message-ID: <20201023192755.1845b060@redhat.com>
+In-Reply-To: <20201023115029-mutt-send-email-mst@kernel.org>
+References: <20201022080354-mutt-send-email-mst@kernel.org>
+ <20201022235632.7f69ddc9@yekko.fritz.box>
+ <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
+ <20201022100028-mutt-send-email-mst@kernel.org>
+ <CAC_L=vWctLK0Yjod_Vz=+xzFKFp4UoUdjSVa4jWeDm+g8en6wQ@mail.gmail.com>
+ <20201022102857-mutt-send-email-mst@kernel.org>
+ <CAC_L=vX0+H-SfQHneVPd-Mc3wFxHBSbkKHt3SpNOBOY_JsYDUA@mail.gmail.com>
+ <20201022110016-mutt-send-email-mst@kernel.org>
+ <20201023144901.5bd908a1@yekko.fritz.box>
+ <CAC_L=vUh8LU5c8c00OhnbEiW7EzZFWKU61vOdub7c11wDMXeRg@mail.gmail.com>
+ <20201023115029-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <47f25366-4cf3-7167-d199-1b82d7fd1ec2@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,52 +91,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, quintela@redhat.com,
- mst@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, thanos.makatos@nutanix.com
+Cc: Libvirt Mailing List <libvir-list@redhat.com>,
+ David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>,
+ qemu devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 6:59 PM, Philippe Mathieu-Daudé wrote:
-> On 10/15/20 8:05 PM, Jagannathan Raman wrote:
->> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
->>
->> The Proxy Object sends the PCI config space accesses as messages
->> to the remote process over the communication channel
-...
+On Fri, 23 Oct 2020 11:54:40 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
->> +static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
->> +                                MPQemuMsg *msg)
->> +{
->> +    ConfDataMsg *conf = (ConfDataMsg *)&msg->data.conf_data;
->> +    MPQemuMsg ret = { 0 };
->> +    Error *local_err = NULL;
->> +
->> +    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
->> +        error_report("Bad address received when reading PCI config, 
->> pid %d",
->> +                     getpid());
->> +        ret.data.u64 = UINT64_MAX;
->> +    } else {
->> +        ret.data.u64 = pci_default_read_config(dev, conf->addr, 
->> conf->l);
-> 
-> Isn't it endianess issue here? It might makes sense to
-> declare ConfDataMsg and PCI_CONFIG_READ/PCI_CONFIG_WRITE
-> packets in little endian.
+> On Fri, Oct 23, 2020 at 09:47:14AM +0300, Marcel Apfelbaum wrote:
+> > Hi David,
+> >=20
+> > On Fri, Oct 23, 2020 at 6:49 AM David Gibson <dgibson@redhat.com> wrote=
+:
+> >=20
+> >     On Thu, 22 Oct 2020 11:01:04 -0400
+> >     "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >  =20
+> >     > On Thu, Oct 22, 2020 at 05:50:51PM +0300, Marcel Apfelbaum wrote:
+> >     >=C3=83=E2=80=9A=C3=82=C2=A0 [...]=C3=83=E2=80=9A=C3=82=C2=A0
+> >     >
+> >     > Right. After detecting just failing unconditionally it a bit too
+> >     > simplistic IMHO. =20
+> >=20
+> >     There's also another factor here, which I thought I'd mentioned
+> >     already, but looks like I didn't: I think we're still missing some
+> >     details in what's going on.
+> >=20
+> >     The premise for this patch is that plugging while the indicator is =
+in
+> >     transition state is allowed to fail in any way on the guest side.=
+=C3=83=E2=80=9A=C3=82=C2=A0 I
+> >     don't think that's a reasonable interpretation, because it's unwork=
+able
+> >     for physical hotplug.=C3=83=E2=80=9A=C3=82=C2=A0 If the indicator s=
+tarts blinking while you're in
+> >     the middle of shoving a card in, you'd be in trouble.
+> >=20
+> >     So, what I'm assuming here is that while "don't plug while blinking=
+" is
+> >     the instruction for the operator to obey as best they can, on the g=
+uest
+> >     side the rule has to be "start blinking, wait a while and by the ti=
+me
+> >     you leave blinking state again, you can be confident any plugs or
+> >     unplugs have completed".=C3=83=E2=80=9A=C3=82=C2=A0 Obviously still=
+ racy in the strict computer
+> >     science sense, but about the best you can do with slow humans in th=
+e
+> >     mix.
+> >=20
+> >     So, qemu should of course endeavour to follow that rule as though i=
+t
+> >     was a human operator on a physical machine and not plug when the
+> >     indicator is blinking.=C3=83=E2=80=9A=C3=82=C2=A0 *But* the qemu pl=
+ug will in practice be fast
+> >     enough that if we're hitting real problems here, it suggests the gu=
+est
+> >     is still doing something wrong.
+> >=20
+> >=20
+> > I personally think there is a little bit of over-engineering=C3=83=E2=
+=80=9A=C3=82=C2=A0here.
+> > Let's start with the spec:
+> >=20
+> > =C3=83=E2=80=9A=C3=82=C2=A0 =C3=83=E2=80=9A=C3=82=C2=A0 Power Indicator=
+ Blinking
+> > =C3=83=E2=80=9A=C3=82=C2=A0 =C3=83=E2=80=9A=C3=82=C2=A0 A blinking Powe=
+r Indicator indicates that the slot is powering up or
+> > powering down and that
+> > =C3=83=E2=80=9A=C3=82=C2=A0 =C3=83=E2=80=9A=C3=82=C2=A0 insertion or re=
+moval of the adapter is not permitted.
+> >=20
+> > What exactly is an interpretation here?
+> > As you stated, the races are theoretical, the whole point of the indica=
+tor
+> > is to let the operator know he can't plug the device just yet.
+> >=20
+> > I understand it would be more user friendly if the QEMU would wait inte=
+rnally
+> > for the
+> > blinking to end, but the whole point of the indicator is to let the ope=
+rator=C3=83=E2=80=9A=C3=82=C2=A0
+> > (human or machine)
+> > know they can't plug the device at a specific time.
+> > Should QEMU take the responsibility=C3=83=E2=80=9A=C3=82=C2=A0of the op=
+erator? Is it even correct?
+> >=20
+> > Even if we would want such a feature, how is it related to this patch?
+> > The patch simply refuses to start a hotplug operation when it knows it =
+will not
+> > succeed.=C3=83=E2=80=9A=C3=82=C2=A0
+> > =C3=83=E2=80=9A=C3=82=C2=A0
+> > Another way that would make sense to me would be=C3=83=E2=80=9A=C3=82=
+=C2=A0 is a new QEMU interface other
+> > than
+> > "add_device", let's say "adding_device_allowed", that would return true=
+ if the
+> > hotplug is allowed
+> > at this point of time. (I am aware of the theoretical races)=C3=83=E2=
+=80=9A=C3=82=C2=A0 =20
+>=20
+> Rather than adding_device_allowed, something like "query slot"
+> might be helpful for debugging. That would help user figure out
+> e.g. why isn't device visible without any races.
 
-Bah Stefan told me to look at the specs which are included in
-the latest patch (docs/multi-process.rst). As I process patches
-of this series in order I haven't looked at it yet. Still,
-why not put it first in your series?
+Would be new command useful tough? What we end up is broken guest
+(if I read commit message right) and a user who has no idea if=20
+device_add was successful or not.
+So what user should do in this case
+  - wait till it explodes?
+  - can user remove it or it would be stuck there forever?
+  - poll slot before hotplug, manually?
 
-Regards,
+(if this is the case then failing device_add cleanly doesn't sound bad,
+it looks similar to another error we have "/* Check if hot-plug is disabled=
+ on the slot */"
+in pcie_cap_slot_pre_plug_cb)
 
-Phil.
+CCing libvirt, as it concerns not only QEMU.
+
+>=20
+> > The above will at least mimic the mechanics of the pyhs=C3=83=E2=80=9A=
+=C3=82=C2=A0world.=C3=83=E2=80=9A=C3=82=C2=A0 The operator
+> > looks at the indicator,
+> > the management software checks if adding the device is allowed.
+> > Since it is a corner case I would prefer the device_add to fail rather =
+than
+> > introducing a new interface,
+> > but that's just me.
+> >=20
+> > Thanks,
+> > Marcel
+> >  =20
+>=20
+> I think we want QEMU management interface to be reasonably
+> abstract and agnostic if possible. Pushing knowledge of hardware
+> detail to management will just lead to pain IMHO.
+> We supported device_add which practically never fails for years,
+
+For CPUs and RAM, device_add can fail so maybe management is also
+prepared to handle errors on PCI hotplug path.
+
+> at this point it's easier to keep supporting it than
+> change all users ...
+>=20
+>=20
+> >=20
+> >     --
+> >     David Gibson <dgibson@redhat.com>
+> >     Principal Software Engineer, Virtualization, Red Hat
+> >  =20
+>=20
+>=20
 
 
