@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF26F296F7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:38:57 +0200 (CEST)
-Received: from localhost ([::1]:53686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC17296F8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:41:18 +0200 (CEST)
+Received: from localhost ([::1]:33806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVwLQ-0003D7-Sb
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41170)
+	id 1kVwNh-0006ie-9j
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:41:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwFS-0005Uw-Ka; Fri, 23 Oct 2020 08:32:46 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:33710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwFR-00033p-1s; Fri, 23 Oct 2020 08:32:46 -0400
-Received: by mail-pf1-x444.google.com with SMTP id j18so1145824pfa.0;
- Fri, 23 Oct 2020 05:32:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sPIubaKDXBZyfP5/7ULBVygvzUJbLkV4DcGzF/tKnNk=;
- b=RiDTN9064xAWIcAQBAIiAGN1Xv1ZJur21GPNk/Fhdrt87Z5b3DrXvp8Z/+Ci6GVfLR
- t9OjlShAsWIlE2lT+6wR4tbqXEtNOyIbY9xATrCNxN1QSrPof0Nlbx5IPIaNelHkMr5v
- Ewyt3sakLU6UmEjkTpLZXbiMa+IUe3lP1M07UXgxGYwkh7QFMDQOLMIkg29kFuZ1Firs
- 3Jj7P74pQ0lLQG0dcsLOV9JPUIISyaG8pHamTTKIRXGVL2LBgdP4MikZz8mnEO+CCFuG
- DvDLcNquzcJaHC828lMZ7+DWPQO/gFZZCzRnN6ERWGJC1kPQl7JNesg3LyLgVGsz6zZG
- aasQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=sPIubaKDXBZyfP5/7ULBVygvzUJbLkV4DcGzF/tKnNk=;
- b=dvRLoVtypNXpJRfWQsSgcK8j2H9btp2FI21azvSWmRaP0a6IsE6hemcgCy3ej1Bn9b
- H+zU5QLGkzxznu8iD7Do6nbCcWpVYMTHnBhkVEgdLT61E8WPtuNdiqTZ5C3+gc6+5e2U
- ehXufIm5c5Cim3V8c8O3FGLkjnlK7LDrdBfWgBsHTrtAnBjLtOCeBgB54GKJVXRBgplh
- sXQ4sn/TLQ/Or6TVrK7xUGEKx3Ey2P0B+83CpLiVzuNMOof2ktxhPtzaxKEARhlg+vwZ
- V8ZlZr5nJmPiIUNDyM1/sNgMLZlZZR89q4ejCZaaNsIQZRm/s/RfDuyx77CV4sw66PEO
- gIXQ==
-X-Gm-Message-State: AOAM532blFMhWLTdAacgyugIq5K/PLMg7Ppdq7PVKoVEhMufqW0spba3
- K6sG0D6DWvvPWc266d6martbZzw+qTeTv5y7
-X-Google-Smtp-Source: ABdhPJzAjyDcjIcpAWDPJNqKmjZlsG7wIouwOmbu1eABuc/W6im9Y6IYJ97xTk8DtUH6UaLZPSFQbw==
-X-Received: by 2002:a63:541a:: with SMTP id i26mr1889571pgb.117.1603456363064; 
- Fri, 23 Oct 2020 05:32:43 -0700 (PDT)
-Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id n6sm2280197pjo.31.2020.10.23.05.32.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:32:42 -0700 (PDT)
-From: Chetan Pant <chetan4windows@gmail.com>
-To: qemu-trivial@nongnu.org
-Subject: [PATCH 20/30] migration: Fix Lesser GPL version number
-Date: Fri, 23 Oct 2020 12:31:30 +0000
-Message-Id: <20201023123130.19656-1-chetan4windows@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
-References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kVwF6-0005KO-Oo
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:32:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kVwF4-00031n-KE
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:32:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603456339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/fimE3P1o7WJqLZ0e7dh4TQEnXdSfR2QJ2mm8zKoBgQ=;
+ b=cyCar2gjUL8wcv9GR3ZDjHyQJtQ/ZS4kDdoA9MrRkDLhVv94sa5cOEo+Y9TLmG9bAc5ZRt
+ vjJYxTtxZM3aVBB4qDJXoHkV+mom4kS6aQNxlafxqW2RmYDR+ZrdI0Y84WbUwOUfk9eT/V
+ 44sg9hKE5nliC18XVhHF2GfCzR9PuVA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-93-0WTgGhjVMtyuXUe0g_5WSA-1; Fri, 23 Oct 2020 08:32:17 -0400
+X-MC-Unique: 0WTgGhjVMtyuXUe0g_5WSA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57B5F805F06;
+ Fri, 23 Oct 2020 12:32:16 +0000 (UTC)
+Received: from [10.36.114.18] (ovpn-114-18.ams2.redhat.com [10.36.114.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C598650DA;
+ Fri, 23 Oct 2020 12:32:15 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] target/s390x: Improve SUB LOGICAL WITH BORROW
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201020185533.1508487-1-richard.henderson@linaro.org>
+ <20201020185533.1508487-5-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <aaf3ae61-5cc4-6743-c126-e3db9b74f70e@redhat.com>
+Date: Fri, 23 Oct 2020 14:32:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
+MIME-Version: 1.0
+In-Reply-To: <20201020185533.1508487-5-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,49 +84,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chetan Pant <chetan4windows@gmail.com>, qemu-devel@nongnu.org,
- quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no "version 2" of the "Lesser" General Public License.
-It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-This patch replaces all occurrences of "Lesser GPL version 2" with
-"Lesser GPL version 2.1" in comment section.
+On 20.10.20 20:55, Richard Henderson wrote:
+> Now that SUB LOGICAL outputs borrow, we can use that as input directly.
+> It also means we can re-use CC_OP_SUBU and produce an output borrow
+> directly from SUB LOGICAL WITH BORROW.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
----
- migration/tls.c | 2 +-
- migration/tls.h | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thanks!
 
-diff --git a/migration/tls.c b/migration/tls.c
-index 66c6f43..abb149d 100644
---- a/migration/tls.c
-+++ b/migration/tls.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/migration/tls.h b/migration/tls.h
-index 0cfbe36..de4fe2c 100644
---- a/migration/tls.h
-+++ b/migration/tls.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+Reviewed-by: David Hildenbrand <david@redhat.com>
+
 -- 
-2.17.1
+Thanks,
+
+David / dhildenb
 
 
