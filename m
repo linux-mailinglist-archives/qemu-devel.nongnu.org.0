@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3402975C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:29:59 +0200 (CEST)
-Received: from localhost ([::1]:35204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAF542975F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:46:25 +0200 (CEST)
+Received: from localhost ([::1]:57598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0t4-0005ej-K2
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:29:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
+	id 1kW18y-0007lo-R1
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:46:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kW0rq-0005Aa-Pl
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:28:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kW0rn-0000pn-I8
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:28:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603474117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s4B9HjSFH3WCMv3APy5oLWe35uzGvHymgqmqQgiBcZo=;
- b=Etknw65eGoupy6RM+PrEaMXK5IGqjGxfgrBrcVir3Kf9vWKwWyxzNl3xUKLWAhHxdezR8r
- Yvg7oLNm6oXsL7NAGi2dyrUZ4SFsTSuYkygrTGMtBzOhB4goIK7LXHUsVS3MAw+ZoSU6N+
- jI1N5ZRWuLPjNslhaBOKQrWC8Qp8/W8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-201-Uv3A92SNOlCZpmVGpZ-Jbg-1; Fri, 23 Oct 2020 13:28:36 -0400
-X-MC-Unique: Uv3A92SNOlCZpmVGpZ-Jbg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 522788DFFF7;
- Fri, 23 Oct 2020 17:28:21 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5040981F41;
- Fri, 23 Oct 2020 17:27:57 +0000 (UTC)
-Date: Fri, 23 Oct 2020 19:27:55 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201023192755.1845b060@redhat.com>
-In-Reply-To: <20201023115029-mutt-send-email-mst@kernel.org>
-References: <20201022080354-mutt-send-email-mst@kernel.org>
- <20201022235632.7f69ddc9@yekko.fritz.box>
- <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
- <20201022100028-mutt-send-email-mst@kernel.org>
- <CAC_L=vWctLK0Yjod_Vz=+xzFKFp4UoUdjSVa4jWeDm+g8en6wQ@mail.gmail.com>
- <20201022102857-mutt-send-email-mst@kernel.org>
- <CAC_L=vX0+H-SfQHneVPd-Mc3wFxHBSbkKHt3SpNOBOY_JsYDUA@mail.gmail.com>
- <20201022110016-mutt-send-email-mst@kernel.org>
- <20201023144901.5bd908a1@yekko.fritz.box>
- <CAC_L=vUh8LU5c8c00OhnbEiW7EzZFWKU61vOdub7c11wDMXeRg@mail.gmail.com>
- <20201023115029-mutt-send-email-mst@kernel.org>
+ (Exim 4.90_1) (envelope-from <havard@skinnemoen.net>)
+ id 1kVzpm-0003ld-L2
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:22:30 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:45415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <havard@skinnemoen.net>)
+ id 1kVzpk-0000Le-Bx
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:22:30 -0400
+Received: by mail-ej1-x643.google.com with SMTP id dt13so3145782ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:22:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NI09Uc39mli2ta8kC3GYABD4cNjyNFvZiFOE5UsnVSw=;
+ b=tPNnku7faJA+E/2TYSj7yUWS8i5434gLayq9onzL6/KkTcCxq7bb1R1kDi9+c9ig8E
+ 98q+eeZqoFeVDcIxJfF+JgaJxXbJxhS9r8Av1KdxE+PZ08/3i8HqsalDMLnaVEQyhSjw
+ Uk5iuM7uYLuuZaGPJCo869zdqoX5sKMnklJ0Jtkh/XUymVB+6HNSeb78reEL2i/OXc83
+ c+tahLEY0vy6DSBAhSEz5inU9fBcjblYUZn8vtD+ihT47CFP+anaaGvH3Bdv7uF4vnD5
+ 0lAZUKydEpiPzWhU0NLm3qmRF1RvXwRidYa1Rh70PT4nAK1ai7th5aKWiKbKWUivbTWG
+ efjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NI09Uc39mli2ta8kC3GYABD4cNjyNFvZiFOE5UsnVSw=;
+ b=mPtOMGfuMm3JR+BeckbUkMnEDZ2oAhYxekZV6y7w4sdcRzzRgp6vS5Mc5ZuWjLUR9D
+ aJnNWBun1ThTPAx4TO7v/FrQV6kV5+fJ77r0jOOGCNDRN04Ape2oZ/o84jFVpIFps0bd
+ c5qESKm1zsjStCgcwDqWJG029G3jtxdPVVunjk9XTlyGekYW6DJv4jhBfvaRhsDPvWts
+ RbhRlXkop+DBDYGomZwpLNzN9IwCkLYn4uzQnJmRMA5fi7+WoiIKfD6kQMfUSczHdczI
+ qRzQvq++zZuBRYGmgh3i+6XBAacd+rVO8h7OdBAO2gN8xZBZ1GiT15/sOQ0N/xn4qz54
+ SxVg==
+X-Gm-Message-State: AOAM530oCTwgnyp2thj3HkhS45Kd99sqTFjBFSjAoQ2mQJcOwBErcmd5
+ gyic5L5oAxVErg+PhGi8hrgQ7NxzScTbSdhEYTewqg==
+X-Google-Smtp-Source: ABdhPJwWmU3jwHWDIK8jT0oniI87trq5WufXB56ZYMNdxUCkVus7eKewMGSo1EytBD2cPz7aoPj0occuWqPQogehEgo=
+X-Received: by 2002:a17:906:3a49:: with SMTP id
+ a9mr2842567ejf.95.1603470146005; 
+ Fri, 23 Oct 2020 09:22:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20201023150514.2734046-1-pbonzini@redhat.com>
+In-Reply-To: <20201023150514.2734046-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?H=C3=A5vard_Skinnemoen?= <hskinnemoen@gmail.com>
+Date: Fri, 23 Oct 2020 09:22:14 -0700
+Message-ID: <CACiLriQHisqC1OC5YDgwcwo98RHZQPn_YCr334O2JKEYZQhrOA@mail.gmail.com>
+Subject: Re: [PATCH] Makefile: separate meson rerun from the rest of the ninja
+ invocation
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000007628ba05b258fc26"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=havard@skinnemoen.net; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 23 Oct 2020 13:42:48 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -91,159 +82,335 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Libvirt Mailing List <libvir-list@redhat.com>,
- David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
+Cc: =?UTF-8?Q?H=C3=A5vard_Skinnemoen?= <hskinnemoen@google.com>,
+ qemu-devel@nongnu.org, Havard Skinnemoen <hskinnemoen@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 11:54:40 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+--0000000000007628ba05b258fc26
+Content-Type: text/plain; charset="UTF-8"
 
-> On Fri, Oct 23, 2020 at 09:47:14AM +0300, Marcel Apfelbaum wrote:
-> > Hi David,
-> >=20
-> > On Fri, Oct 23, 2020 at 6:49 AM David Gibson <dgibson@redhat.com> wrote=
-:
-> >=20
-> >     On Thu, 22 Oct 2020 11:01:04 -0400
-> >     "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> >  =20
-> >     > On Thu, Oct 22, 2020 at 05:50:51PM +0300, Marcel Apfelbaum wrote:
-> >     >=C3=83=E2=80=9A=C3=82=C2=A0 [...]=C3=83=E2=80=9A=C3=82=C2=A0
-> >     >
-> >     > Right. After detecting just failing unconditionally it a bit too
-> >     > simplistic IMHO. =20
-> >=20
-> >     There's also another factor here, which I thought I'd mentioned
-> >     already, but looks like I didn't: I think we're still missing some
-> >     details in what's going on.
-> >=20
-> >     The premise for this patch is that plugging while the indicator is =
-in
-> >     transition state is allowed to fail in any way on the guest side.=
-=C3=83=E2=80=9A=C3=82=C2=A0 I
-> >     don't think that's a reasonable interpretation, because it's unwork=
-able
-> >     for physical hotplug.=C3=83=E2=80=9A=C3=82=C2=A0 If the indicator s=
-tarts blinking while you're in
-> >     the middle of shoving a card in, you'd be in trouble.
-> >=20
-> >     So, what I'm assuming here is that while "don't plug while blinking=
-" is
-> >     the instruction for the operator to obey as best they can, on the g=
-uest
-> >     side the rule has to be "start blinking, wait a while and by the ti=
-me
-> >     you leave blinking state again, you can be confident any plugs or
-> >     unplugs have completed".=C3=83=E2=80=9A=C3=82=C2=A0 Obviously still=
- racy in the strict computer
-> >     science sense, but about the best you can do with slow humans in th=
-e
-> >     mix.
-> >=20
-> >     So, qemu should of course endeavour to follow that rule as though i=
-t
-> >     was a human operator on a physical machine and not plug when the
-> >     indicator is blinking.=C3=83=E2=80=9A=C3=82=C2=A0 *But* the qemu pl=
-ug will in practice be fast
-> >     enough that if we're hitting real problems here, it suggests the gu=
-est
-> >     is still doing something wrong.
-> >=20
-> >=20
-> > I personally think there is a little bit of over-engineering=C3=83=E2=
-=80=9A=C3=82=C2=A0here.
-> > Let's start with the spec:
-> >=20
-> > =C3=83=E2=80=9A=C3=82=C2=A0 =C3=83=E2=80=9A=C3=82=C2=A0 Power Indicator=
- Blinking
-> > =C3=83=E2=80=9A=C3=82=C2=A0 =C3=83=E2=80=9A=C3=82=C2=A0 A blinking Powe=
-r Indicator indicates that the slot is powering up or
-> > powering down and that
-> > =C3=83=E2=80=9A=C3=82=C2=A0 =C3=83=E2=80=9A=C3=82=C2=A0 insertion or re=
-moval of the adapter is not permitted.
-> >=20
-> > What exactly is an interpretation here?
-> > As you stated, the races are theoretical, the whole point of the indica=
-tor
-> > is to let the operator know he can't plug the device just yet.
-> >=20
-> > I understand it would be more user friendly if the QEMU would wait inte=
-rnally
-> > for the
-> > blinking to end, but the whole point of the indicator is to let the ope=
-rator=C3=83=E2=80=9A=C3=82=C2=A0
-> > (human or machine)
-> > know they can't plug the device at a specific time.
-> > Should QEMU take the responsibility=C3=83=E2=80=9A=C3=82=C2=A0of the op=
-erator? Is it even correct?
-> >=20
-> > Even if we would want such a feature, how is it related to this patch?
-> > The patch simply refuses to start a hotplug operation when it knows it =
-will not
-> > succeed.=C3=83=E2=80=9A=C3=82=C2=A0
-> > =C3=83=E2=80=9A=C3=82=C2=A0
-> > Another way that would make sense to me would be=C3=83=E2=80=9A=C3=82=
-=C2=A0 is a new QEMU interface other
-> > than
-> > "add_device", let's say "adding_device_allowed", that would return true=
- if the
-> > hotplug is allowed
-> > at this point of time. (I am aware of the theoretical races)=C3=83=E2=
-=80=9A=C3=82=C2=A0 =20
->=20
-> Rather than adding_device_allowed, something like "query slot"
-> might be helpful for debugging. That would help user figure out
-> e.g. why isn't device visible without any races.
+On Fri, Oct 23, 2020 at 8:05 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Would be new command useful tough? What we end up is broken guest
-(if I read commit message right) and a user who has no idea if=20
-device_add was successful or not.
-So what user should do in this case
-  - wait till it explodes?
-  - can user remove it or it would be stuck there forever?
-  - poll slot before hotplug, manually?
+> The rules to build Makefile.mtest are suffering from the "tunnel vision"
+> problem that is common with recursive makefiles.  Makefile.mtest depends
+> on build.ninja, but Make does not know when build.ninja needs to be
+> rebuilt before creating Makefile.mtest.
+>
+> To fix this, separate the ninja invocation into the "regenerate build
+> files" phase and the QEMU build phase.  Sentinel files such as
+> meson-private/coredata.dat or build.ninja are used to figure out the
+> phases that haven't run yet; however, because those files' timestamps
+> are not guaranteed to be touched, the usual makefile stamp-file trick
+> is used on top.
+>
 
-(if this is the case then failing device_add cleanly doesn't sound bad,
-it looks similar to another error we have "/* Check if hot-plug is disabled=
- on the slot */"
-in pcie_cap_slot_pre_plug_cb)
+Thanks for the quick response. Unfortunately, it doesn't seem to work quite
+right for me.
 
-CCing libvirt, as it concerns not only QEMU.
+I think it should be possible to reproduce on unmodified upstream sources
+like this:
 
->=20
-> > The above will at least mimic the mechanics of the pyhs=C3=83=E2=80=9A=
-=C3=82=C2=A0world.=C3=83=E2=80=9A=C3=82=C2=A0 The operator
-> > looks at the indicator,
-> > the management software checks if adding the device is allowed.
-> > Since it is a corner case I would prefer the device_add to fail rather =
-than
-> > introducing a new interface,
-> > but that's just me.
-> >=20
-> > Thanks,
-> > Marcel
-> >  =20
->=20
-> I think we want QEMU management interface to be reasonably
-> abstract and agnostic if possible. Pushing knowledge of hardware
-> detail to management will just lead to pain IMHO.
-> We supported device_add which practically never fails for years,
+$ cd bin/opt/arm
+$ ../../../configure --target-list=arm-softmmu
+$ make check-qtest  # Feel free to interrupt after verifying that
+npcm7xx_timer-test is run
+$ cd -
+$ git revert 19d50149c857e50ccb1ee35dd4277f9d4954877f
+Removing tests/qtest/npcm7xx_timer-test.c
+[meson-test 3ce2b719aa] Revert "tests/qtest: Add npcm7xx timer test"
+ 2 files changed, 563 deletions(-)
+ delete mode 100644 tests/qtest/npcm7xx_timer-test.c
+$ cd -
+$ make check-qtest
 
-For CPUs and RAM, device_add can fail so maybe management is also
-prepared to handle errors on PCI hotplug path.
+After the revert, check-qtest still runs npcm7xx_timer-test. Note that it
+doesn't fail because the patch I reverted only adds a new test, it doesn't
+touch the device being tested.
 
-> at this point it's easier to keep supporting it than
-> change all users ...
->=20
->=20
-> >=20
-> >     --
-> >     David Gibson <dgibson@redhat.com>
-> >     Principal Software Engineer, Virtualization, Red Hat
-> >  =20
->=20
->=20
+If you run 'make check-qtest' again, npcm7xx_timer-test does not run.
+Interestingly, it looks like Makefile.mtest gets regenerated here -- I
+didn't notice that happening in the first run, nor does it happen if I run
+make check-qtest a third time.
 
+I pasted the output from the last two runs of make check-qtest here:
+https://gist.github.com/hskinnemoen/1773edafeb190773661076e00fdc14de
+
+Reported-by: Havard Skinnemoen <hskinnemoen@gmail.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  Makefile | 42 +++++++++++++++++++++++++++++++-----------
+>  1 file changed, 31 insertions(+), 11 deletions(-)
+>
+> diff --git a/Makefile b/Makefile
+> index 18f026eac3..007ad4d863 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -92,6 +92,8 @@ endif
+>  ifeq ($(NINJA),)
+>  .PHONY: config-host.mak
+>  x := $(shell rm -rf meson-private meson-info meson-logs)
+> +else
+> +export NINJA
+>  endif
+>  ifeq ($(wildcard build.ninja),)
+>  .PHONY: config-host.mak
+> @@ -100,31 +102,46 @@ endif
+>
+>  # 1. ensure config-host.mak is up-to-date
+>  config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios
+> $(SRC_PATH)/VERSION
+> -       @echo $@ is out-of-date, running configure
+> +       @echo config-host.mak is out-of-date, running configure
+>         @if test -f meson-private/coredata.dat; then \
+>           ./config.status --skip-meson; \
+>         else \
+> -         ./config.status; \
+> +         ./config.status && touch build.ninja.stamp; \
+>         fi
+>
+> -# 2. ensure generated build files are up-to-date
+> +# 2. meson.stamp exists if meson has run at least once (so ninja
+> reconfigure
+> +# works), but otherwise never needs to be updated
+> +meson-private/coredata.dat: meson.stamp
+> +meson.stamp: config-host.mak
+> +       @touch meson.stamp
+> +
+> +# 3. ensure generated build files are up-to-date
+>
+> -ifneq ($(NINJA),)
+>  # A separate rule is needed for Makefile dependencies to avoid -n
+> -export NINJA
+> +ifneq ($(MESON),)
+> +build.ninja: build.ninja.stamp
+> +build.ninja.stamp: meson.stamp
+> +       $(NINJA) $(if $V,-v,) reconfigure && touch $@
+> +endif
+> +
+> +ifneq ($(NINJA),)
+>  Makefile.ninja: build.ninja
+> -       $(quiet-@){ echo 'ninja-targets = \'; $(NINJA) -t targets all |
+> sed 's/:.*//; $$!s/$$/ \\/'; } > $@
+> +       $(quiet-@){ \
+> +         echo 'ninja-targets = \'; \
+> +         $(NINJA) -t targets all | sed 's/:.*//; $$!s/$$/ \\/'; \
+> +         echo 'build-files = \'; \
+> +         $(NINJA) -t query build.ninja | sed -n '1,/^  input:/d; /^
+> outputs:/q; s/$$/ \\/p'; \
+> +       } > $@.tmp && mv $@.tmp $@
+>  -include Makefile.ninja
+>  endif
+>
+>  ifneq ($(MESON),)
+> -# The dependency on config-host.mak ensures that meson has run
+> -Makefile.mtest: build.ninja scripts/mtest2make.py config-host.mak
+> +Makefile.mtest: build.ninja scripts/mtest2make.py
+>         $(MESON) introspect --targets --tests --benchmarks | $(PYTHON)
+> scripts/mtest2make.py > $@
+>  -include Makefile.mtest
+>  endif
+>
+> -# 3. Rules to bridge to other makefiles
+> +# 4. Rules to bridge to other makefiles
+>
+>  ifneq ($(NINJA),)
+>  NINJAFLAGS = $(if $V,-v,) \
+> @@ -135,7 +152,10 @@ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
+>  ninja-cmd-goals += $(foreach t, $(.tests), $(.test.deps.$t))
+>
+>  makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
+> -ninja-targets := $(filter-out $(makefile-targets), $(ninja-targets))
+> +# "ninja -t targets" also lists all prerequisites.  If build system
+> +# files are marked as PHONY, however, Make will always try to execute
+> +# "ninja reconfigure" to rebuild build.ninja.
+> +ninja-targets := $(filter-out $(build-files) $(makefile-targets),
+> $(ninja-targets))
+>  .PHONY: $(ninja-targets) run-ninja
+>  $(ninja-targets): run-ninja
+>
+> @@ -214,7 +234,7 @@ distclean: clean
+>         rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
+>         rm -f *-config-target.h *-config-devices.mak *-config-devices.h
+>         rm -rf meson-private meson-logs meson-info compile_commands.json
+> -       rm -f Makefile.ninja Makefile.mtest
+> +       rm -f Makefile.ninja Makefile.mtest build.ninja.stamp meson.stamp
+>         rm -f config.log
+>         rm -f linux-headers/asm
+>         rm -Rf .sdk
+> --
+> 2.26.2
+>
+>
+
+--0000000000007628ba05b258fc26
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, Oct 23, 2020 at 8:05 AM Paolo Bon=
+zini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@redhat.com</a>&gt;=
+ wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">The rules to build Makefile.mtest are suffering from the=
+ &quot;tunnel vision&quot;<br>
+problem that is common with recursive makefiles.=C2=A0 Makefile.mtest depen=
+ds<br>
+on build.ninja, but Make does not know when build.ninja needs to be<br>
+rebuilt before creating Makefile.mtest.<br>
+<br>
+To fix this, separate the ninja invocation into the &quot;regenerate build<=
+br>
+files&quot; phase and the QEMU build phase.=C2=A0 Sentinel files such as<br=
+>
+meson-private/coredata.dat or build.ninja are used to figure out the<br>
+phases that haven&#39;t run yet; however, because those files&#39; timestam=
+ps<br>
+are not guaranteed to be touched, the usual makefile stamp-file trick<br>
+is used on top.<br></blockquote><div><br></div><div>Thanks for the quick re=
+sponse. Unfortunately, it doesn&#39;t seem to work quite right for me.</div=
+><div><br></div><div>I think it should be possible to reproduce on unmodifi=
+ed upstream sources like this:</div><div><br></div><div>$ cd bin/opt/arm</d=
+iv><div>$ ../../../configure --target-list=3Darm-softmmu</div><div>$ make c=
+heck-qtest=C2=A0 # Feel free to interrupt after verifying that npcm7xx_time=
+r-test is run</div><div>$ cd -</div><div>$ git revert 19d50149c857e50ccb1ee=
+35dd4277f9d4954877f<br></div><div>Removing tests/qtest/npcm7xx_timer-test.c=
+<br>[meson-test 3ce2b719aa] Revert &quot;tests/qtest: Add npcm7xx timer tes=
+t&quot;<br>=C2=A02 files changed, 563 deletions(-)<br>=C2=A0delete mode 100=
+644 tests/qtest/npcm7xx_timer-test.c<br></div><div>$ cd -</div><div>$ make =
+check-qtest</div><div><br></div><div>After the revert, check-qtest still ru=
+ns npcm7xx_timer-test. Note that it doesn&#39;t fail because the patch I re=
+verted only adds a new test, it doesn&#39;t touch the device being tested.<=
+/div><div><br></div><div>If you run &#39;make check-qtest&#39; again, npcm7=
+xx_timer-test does not run. Interestingly, it looks like Makefile.mtest get=
+s regenerated here -- I didn&#39;t notice that happening in the first run, =
+nor does it happen if I run make check-qtest a third time.</div><div><br></=
+div><div>I pasted the output from the last two runs of make check-qtest her=
+e:=C2=A0<a href=3D"https://gist.github.com/hskinnemoen/1773edafeb1907736610=
+76e00fdc14de">https://gist.github.com/hskinnemoen/1773edafeb190773661076e00=
+fdc14de</a></div><div><br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+Reported-by: Havard Skinnemoen &lt;<a href=3D"mailto:hskinnemoen@gmail.com"=
+ target=3D"_blank">hskinnemoen@gmail.com</a>&gt;<br>
+Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" tar=
+get=3D"_blank">pbonzini@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0Makefile | 42 +++++++++++++++++++++++++++++++-----------<br>
+=C2=A01 file changed, 31 insertions(+), 11 deletions(-)<br>
+<br>
+diff --git a/Makefile b/Makefile<br>
+index 18f026eac3..007ad4d863 100644<br>
+--- a/Makefile<br>
++++ b/Makefile<br>
+@@ -92,6 +92,8 @@ endif<br>
+=C2=A0ifeq ($(NINJA),)<br>
+=C2=A0.PHONY: config-host.mak<br>
+=C2=A0x :=3D $(shell rm -rf meson-private meson-info meson-logs)<br>
++else<br>
++export NINJA<br>
+=C2=A0endif<br>
+=C2=A0ifeq ($(wildcard build.ninja),)<br>
+=C2=A0.PHONY: config-host.mak<br>
+@@ -100,31 +102,46 @@ endif<br>
+<br>
+=C2=A0# 1. ensure config-host.mak is up-to-date<br>
+=C2=A0config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH=
+)/VERSION<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0@echo $@ is out-of-date, running configure<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0@echo config-host.mak is out-of-date, running c=
+onfigure<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 @if test -f meson-private/coredata.dat; then \<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ./config.status --skip-meson; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0./config.status; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0./config.status &amp;&amp; touch build.n=
+inja.stamp; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+-# 2. ensure generated build files are up-to-date<br>
++# 2. meson.stamp exists if meson has run at least once (so ninja reconfigu=
+re<br>
++# works), but otherwise never needs to be updated<br>
++meson-private/coredata.dat: meson.stamp<br>
++meson.stamp: config-host.mak<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0@touch meson.stamp<br>
++<br>
++# 3. ensure generated build files are up-to-date<br>
+<br>
+-ifneq ($(NINJA),)<br>
+=C2=A0# A separate rule is needed for Makefile dependencies to avoid -n<br>
+-export NINJA<br>
++ifneq ($(MESON),)<br>
++build.ninja: build.ninja.stamp<br>
++build.ninja.stamp: meson.stamp<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0$(NINJA) $(if $V,-v,) reconfigure &amp;&amp; to=
+uch $@<br>
++endif<br>
++<br>
++ifneq ($(NINJA),)<br>
+=C2=A0Makefile.ninja: build.ninja<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0$(quiet-@){ echo &#39;ninja-targets =3D \&#39;;=
+ $(NINJA) -t targets all | sed &#39;s/:.*//; $$!s/$$/ \\/&#39;; } &gt; $@<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0$(quiet-@){ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;ninja-targets =3D \&#39;; \<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(NINJA) -t targets all | sed &#39;s/:.*=
+//; $$!s/$$/ \\/&#39;; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &#39;build-files =3D \&#39;; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(NINJA) -t query build.ninja | sed -n &=
+#39;1,/^=C2=A0 input:/d; /^=C2=A0 outputs:/q; s/$$/ \\/p&#39;; \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0} &gt; $@.tmp &amp;&amp; mv $@.tmp $@<br>
+=C2=A0-include Makefile.ninja<br>
+=C2=A0endif<br>
+<br>
+=C2=A0ifneq ($(MESON),)<br>
+-# The dependency on config-host.mak ensures that meson has run<br>
+-Makefile.mtest: build.ninja scripts/mtest2make.py config-host.mak<br>
++Makefile.mtest: build.ninja scripts/mtest2make.py<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 $(MESON) introspect --targets --tests --benchma=
+rks | $(PYTHON) scripts/mtest2make.py &gt; $@<br>
+=C2=A0-include Makefile.mtest<br>
+=C2=A0endif<br>
+<br>
+-# 3. Rules to bridge to other makefiles<br>
++# 4. Rules to bridge to other makefiles<br>
+<br>
+=C2=A0ifneq ($(NINJA),)<br>
+=C2=A0NINJAFLAGS =3D $(if $V,-v,) \<br>
+@@ -135,7 +152,10 @@ ninja-cmd-goals =3D $(or $(MAKECMDGOALS), all)<br>
+=C2=A0ninja-cmd-goals +=3D $(foreach t, $(.tests), $(.test.deps.$t))<br>
+<br>
+=C2=A0makefile-targets :=3D build.ninja ctags TAGS cscope dist clean uninst=
+all<br>
+-ninja-targets :=3D $(filter-out $(makefile-targets), $(ninja-targets))<br>
++# &quot;ninja -t targets&quot; also lists all prerequisites.=C2=A0 If buil=
+d system<br>
++# files are marked as PHONY, however, Make will always try to execute<br>
++# &quot;ninja reconfigure&quot; to rebuild build.ninja.<br>
++ninja-targets :=3D $(filter-out $(build-files) $(makefile-targets), $(ninj=
+a-targets))<br>
+=C2=A0.PHONY: $(ninja-targets) run-ninja<br>
+=C2=A0$(ninja-targets): run-ninja<br>
+<br>
+@@ -214,7 +234,7 @@ distclean: clean<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f qemu-plugins-ld.symbols qemu-plugins-ld64=
+.symbols<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f *-config-target.h *-config-devices.mak *-=
+config-devices.h<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf meson-private meson-logs meson-info comp=
+ile_commands.json<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f Makefile.ninja Makefile.mtest<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f Makefile.ninja Makefile.mtest build.ninja=
+.stamp meson.stamp<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f config.log<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f linux-headers/asm<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -Rf .sdk<br>
+-- <br>
+2.26.2<br>
+<br>
+</blockquote></div></div>
+
+--0000000000007628ba05b258fc26--
 
