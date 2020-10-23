@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5340429759E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:14:41 +0200 (CEST)
-Received: from localhost ([::1]:59666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D4C297581
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:06:27 +0200 (CEST)
+Received: from localhost ([::1]:37244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0eG-0000Cy-B9
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50498)
+	id 1kW0WI-0007iZ-PM
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:06:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW036-0006H7-8l
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:36:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30842)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kW0Df-0004i4-Ch
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:47:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW034-0002Dz-NP
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:36:15 -0400
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kW0Dc-0003ez-NI
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:47:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603470973;
+ s=mimecast20190719; t=1603471626;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wgSM33K/lHKUrdkZ1FgzRnNuhfYt5gPmJS4shbZ90R0=;
- b=Z6knIjnfybDoRaLNX7DnVPX1F4Gw2gFQP/ZrCkUZA4wlKXzAK5qFjItExjxQW25M9KoWeG
- 1QNILr6Mh8GgTxEua5rQ6VPxoAzuxhTqNzWiNux4mjcRhNx/2fyndNCmaLBKixBzXu3RTx
- SSos9/cL2pssqmKyQqRbvlBlon6L7TU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-hy2m64wwMUeeeeeB0K3zWQ-1; Fri, 23 Oct 2020 12:36:11 -0400
-X-MC-Unique: hy2m64wwMUeeeeeB0K3zWQ-1
-Received: by mail-wm1-f70.google.com with SMTP id u5so477588wme.3
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:36:11 -0700 (PDT)
+ bh=UrttzmvHmF79uLtAEn1jGxXIZ0AP46F13fIMggVntOs=;
+ b=FSvJjOPA6OhxuhFgi/WCfDnRn/JS219haze+AjZYF4PQkVugJgBr8P/mAWdMJC0Mf2afLX
+ 1d0z1kGsSId1j2BZYFRLt45NPE6K0sfdfPQ3YwU5kGxfUTMdFaoVFCOUnbD8TAcp0A/XRp
+ FhlInS8r8o7+ZSZHhx50qBhDNPw23Os=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-560-EGDrV68tOQCnpuciAexLbA-1; Fri, 23 Oct 2020 12:47:05 -0400
+X-MC-Unique: EGDrV68tOQCnpuciAexLbA-1
+Received: by mail-qv1-f72.google.com with SMTP id d41so1330185qvc.23
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:47:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wgSM33K/lHKUrdkZ1FgzRnNuhfYt5gPmJS4shbZ90R0=;
- b=pXgILS/bM2i6/CtVY3j91RUhddnNCJ6dmC/qKdsm18iP0lwH6rp3g+ZknVd9ytnoAL
- GoKA5vQsjZi1d8n3o+8ylm+VmOgJcfhD1JYGRoqFpFd+rg4UzWgNP6JSDFTIr2nSTYdP
- 9IEqap9asGYpZADaqpnNj5PAQn3G0QzgL799jcnwDgt76x7pXONBf24K5r6SB4WjRcwZ
- e+nEK2Z3K4O5B+cNnPCe7rb/6Y6VUCQpkWFSAd1XTC88nchRxPxdDCDJY29cc14ynj3P
- xO2C5AOZ5zhgFoMF567qQMe6xV5ezn3mO3Kj2aNEdt8JEOZNEFaiZ7iemyAFWLYKGs9i
- 9q3A==
-X-Gm-Message-State: AOAM531BV1boViGKRUme/RKsAqrnG3uBosYo+tR/FBOz4H26Y7WouXKq
- YUSxZRIEYZVdQO9Z1s6jZbP43ffvkqt14Np3y6tdRiYZJd/YreP5Gk6dS4fTCJ6Xhey11aS3QQ4
- mP+L3BwdAkSKssPU=
-X-Received: by 2002:adf:c045:: with SMTP id c5mr3515165wrf.405.1603470970225; 
- Fri, 23 Oct 2020 09:36:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyntZBB6uobIG1xds1qP+wWp24HNFAl/U7vYZteWy0MIOHKLN1C6CXcf9iiXRL8NUDRmVtFIA==
-X-Received: by 2002:adf:c045:: with SMTP id c5mr3515142wrf.405.1603470970051; 
- Fri, 23 Oct 2020 09:36:10 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id o140sm4675866wme.43.2020.10.23.09.36.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 09:36:09 -0700 (PDT)
-Subject: Re: [PATCH v11 05/19] multi-process: add qio channel function to
- transmit
-To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
-References: <cover.1602784930.git.jag.raman@oracle.com>
- <599c6eb3f07b3ef16f29ad8fda005ddecc038566.1602784930.git.jag.raman@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <51fa6f71-b01b-d700-8c7d-7aa7e9634554@redhat.com>
-Date: Fri, 23 Oct 2020 18:36:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=UrttzmvHmF79uLtAEn1jGxXIZ0AP46F13fIMggVntOs=;
+ b=Fn0+l0ft1A4oO9MMTHTR1JjnOPWh1utxK1sLsLkCyfdf/AcB47F41pbE07QLaksfei
+ TBp51gaALz8eDDcJuUvQ6h7hbszRVKxF0Zn2HAm7Wpuj+HaZr7rJ2efCo+m1LGJOZfFd
+ hSDTlZwVD9cr5ZYEkJYlZIob3ZBO2Hk6JS9pk35zzzJrGF1qZ19pnCBj09YuhKhBGbYl
+ diRMQMnYJdGSbcd5D0LukdsEU+96NWwtzsJhIQ/ZcuOXJOP/myelhGaYoMZYgTiyKB7q
+ 4oMBKVVzlVlssoXsnKXlFWO66LRbCgtFzoyiC8N/PG8Bn6qyeEk10Kzq51met2wnZ5vK
+ WBVQ==
+X-Gm-Message-State: AOAM532KbKtrm005VlE3HojxjXDQat6Ear/Cvmjox/L4CKdKaCHVBYod
+ LAR/HDfW3uEtB86vhHclq9kUj+azWfTRHcPkOVVdoc4jUq0lriTGLi+ySUnjWa/i1XAzpdPGPJS
+ M+aiVjeQDKnYy8l4=
+X-Received: by 2002:a0c:9021:: with SMTP id o30mr3146909qvo.1.1603471624661;
+ Fri, 23 Oct 2020 09:47:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyeaW9XBBQmxIMcxy+M3qIo4gfsRBG7hGp63DnvoQ1Tjn0HvSYn9Shv0q5AbjbIyDfPtO4b1g==
+X-Received: by 2002:a0c:9021:: with SMTP id o30mr3146887qvo.1.1603471624386;
+ Fri, 23 Oct 2020 09:47:04 -0700 (PDT)
+Received: from xz-x1 (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca.
+ [174.95.215.133])
+ by smtp.gmail.com with ESMTPSA id v5sm1245968qtd.28.2020.10.23.09.47.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Oct 2020 09:47:03 -0700 (PDT)
+Date: Fri, 23 Oct 2020 12:47:02 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v10 09/10] virtio-iommu: Set supported page size mask
+Message-ID: <20201023164702.GF3208@xz-x1>
+References: <20201008171558.410886-1-jean-philippe@linaro.org>
+ <20201008171558.410886-10-jean-philippe@linaro.org>
+ <20201019213539.GC3203@xz-x1> <20201022163937.GB1808268@myrica>
+ <20201022205616.GD3208@xz-x1> <20201023074858.GA2265982@myrica>
 MIME-Version: 1.0
-In-Reply-To: <599c6eb3f07b3ef16f29ad8fda005ddecc038566.1602784930.git.jag.raman@oracle.com>
+In-Reply-To: <20201023074858.GA2265982@myrica>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,34 +96,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, kraxel@redhat.com, quintela@redhat.com,
- mst@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
- felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
- konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- stefanha@redhat.com, pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com,
- berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, thanos.makatos@nutanix.com
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/15/20 8:04 PM, Jagannathan Raman wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+On Fri, Oct 23, 2020 at 09:48:58AM +0200, Jean-Philippe Brucker wrote:
+> Arm CPUs and SMMU support 4k, 16k and 64k page sizes. I don't think 16k is
+> used anywhere but some distributions chose 64k (RHEL, I think?), others
+> 4k, so we need to support both.
 > 
-> The entire array of the memory regions and file handlers.
+> Unfortunately as noted above host64k-guest4k is not possible without
+> adding a negotiation mechanism to virtio-iommu, host VFIO and IOMMU
+> driver.
 
-I don't understand the description... Did you forgot the
-verb?
+I see.  Then it seems we would still need to support host4k-guest64k.
 
-> Will be used in the next patch.
-> 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   include/io/channel.h | 24 ++++++++++++++++++++++++
->   io/channel.c         | 45 +++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 69 insertions(+)
+Maybe for assigned case, we can simply AND all the psize_masks of all the vfio
+containers that supported to replace the default psize mask (TARGET_PAGE_SIZE)
+without caring about whether it's shrinking or not?  Note that current patch
+only update config.psize_mask to the new one, but I think we need to calculate
+the subset of all containers rather than a simply update.  Then with the help
+of 39b3b3c9cac1 imho we'll gracefully fail the probe if the psize is not
+suitable anyway, e.g., host64k-guest4k.
+
+Thanks,
+
+-- 
+Peter Xu
 
 
