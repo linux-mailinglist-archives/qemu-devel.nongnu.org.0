@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E95CB296F74
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:36:10 +0200 (CEST)
-Received: from localhost ([::1]:44734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABC5296F42
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:32:58 +0200 (CEST)
+Received: from localhost ([::1]:36926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVwIj-0007qn-Pe
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40088)
+	id 1kVwFd-0004Uz-0J
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:32:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwBo-0002d4-Ii; Fri, 23 Oct 2020 08:29:00 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:32768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwBl-0002QF-Cq; Fri, 23 Oct 2020 08:29:00 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id l18so1145717pgg.0;
- Fri, 23 Oct 2020 05:28:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=I8TcJcetukylqtSiwaulLXqKDBZmUVsoTY3dwBK47u8=;
- b=gPncezgguCstemAzmqd5TMN4wj1M8vAjMEs55wAvHQSNFnZOiN8e3sjVwoZJt/NVy+
- YbukPkmNX2Pyd75ylnB4LceQ1Uv0mUgBmj/k0Fn3NkqHTy2bxRwh1wugPer5NstF5oDm
- aRVQbLmNHq4WQfuzKgk4/2RlWJI0oMvPFRJphdTbjiEesy8IgpQ0DAuVsVtV2eZhqvIr
- SqGNUyIgw/YX49WlCUuVkIOaqhaLkL0lITqKGkhFxaG8DOuT5RV7Yw4YwlVGOA/UPdWT
- emMktDBeQX6x5AAIgHZawrdgbXRQmJ1eZacavOFWcG17CC9QmvlVghI5KT1l6wrM3mGJ
- brDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=I8TcJcetukylqtSiwaulLXqKDBZmUVsoTY3dwBK47u8=;
- b=XdJ2GrB/mngXy5oaLPNTy2x9LrgV/x0e8q9NxJBHoE2AOJdgr3jJJgxZZHycmY0X5h
- E7NUEDhAZ8msS2Oa7bUk0lnYeXfguIB2CMw8Weumgp6R6hSrH9ZePRhubaIZNh72HfDx
- nCWV/4wQT3WDnNsZrUjsJyD/IbLoBac0eeMsk795qv6Rz25YSfVbJAAiK/gpxhvBoyBz
- vodHTnkBOz8vf9IKW3DdtgEjFkJp434vFyJpe251+cxS+kvR6uLaN1qR2s96uyz+BE50
- 4O61AWAAXn8H1OXNq4mHvWck3Jb3AidQECcWAx0bqiPnPcuV0D7XfOK6sij653J9wQyD
- fc6w==
-X-Gm-Message-State: AOAM5312hTi0zQhokKHth6ixB5atWdah8XGvDCLwsVd4r9A3jVkzjDTV
- yigH8TUhxGu01JFbmjgTRV4NZY87C08I/KdO
-X-Google-Smtp-Source: ABdhPJzcRCPnk9zLi3vhY9aMAn8aOpXP+RTDD7VNTrN2JkK+vK6ykTcD07ZdRGuCF8b5ZqhOV2MVTw==
-X-Received: by 2002:a17:90b:3798:: with SMTP id
- mz24mr2189004pjb.46.1603456134978; 
- Fri, 23 Oct 2020 05:28:54 -0700 (PDT)
-Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id q4sm1916868pgj.44.2020.10.23.05.28.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:28:54 -0700 (PDT)
-From: Chetan Pant <chetan4windows@gmail.com>
-To: qemu-trivial@nongnu.org
-Subject: [PATCH 17/30] x86 tcg cpus: Fix Lesser GPL version number
-Date: Fri, 23 Oct 2020 12:28:01 +0000
-Message-Id: <20201023122801.19514-1-chetan4windows@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
-References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=chetan4windows@gmail.com; helo=mail-pg1-x52e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVwBB-0002Nm-7P
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:28:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVwB7-0002L2-QT
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:28:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603456093;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DEFD1ki1mn2HlWZvRDdWLbvnUZcy4Zvea1gOSAcm/aM=;
+ b=jWD81EOKO8rL69J4xtamL6e9iRWudZ0icR4FQ+xT/0cOGDeujVgrOufp5jfHuN0sXT/1pN
+ DvVEZaI2lobOZJswU2pisMXNkZB5gz3j2smArHVbIF/mAURK/gy+FNv0oG49UchZqTyH7u
+ TzPz9U4zUQV/q4xjEITHqY9BlghRYyM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-3qT-dl5iPZmcrc0YSMeDtw-1; Fri, 23 Oct 2020 08:28:10 -0400
+X-MC-Unique: 3qT-dl5iPZmcrc0YSMeDtw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B70F5804B6A;
+ Fri, 23 Oct 2020 12:28:09 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-206.ams2.redhat.com [10.36.113.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B1B96EF42;
+ Fri, 23 Oct 2020 12:28:08 +0000 (UTC)
+Date: Fri, 23 Oct 2020 14:28:07 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 3/6] qapi: Remove wrapper struct for simple unions
+Message-ID: <20201023122807.GC4793@merkur.fritz.box>
+References: <20201023101222.250147-1-kwolf@redhat.com>
+ <20201023101222.250147-4-kwolf@redhat.com>
+ <CAJ+F1CJAzbRwab5E7XQUEpTXX1e+DE_QkknoEgvYqmHAeqY2MQ@mail.gmail.com>
+ <CAJ+F1CKd24SSYyTje=rVFJa9+Oew2y4OXabP2ZqnqhtW33AoZg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJ+F1CKd24SSYyTje=rVFJa9+Oew2y4OXabP2ZqnqhtW33AoZg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,315 +82,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org,
- Chetan Pant <chetan4windows@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no "version 2" of the "Lesser" General Public License.
-It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-This patch replaces all occurrences of "Lesser GPL version 2" with
-"Lesser GPL version 2.1" in comment section.
+Am 23.10.2020 um 13:06 hat Marc-André Lureau geschrieben:
+> On Fri, Oct 23, 2020 at 2:40 PM Marc-André Lureau <marcandre.lureau@gmail.com> wrote:
+> > On Fri, Oct 23, 2020 at 2:14 PM Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> >> Variants of simple unions are always contained in a wrapper object
+> >> called 'data' that serves no real use. When mapping a QAPI object to the
+> >> command line, this becomes very visible to users because they have to
+> >> add one or more useless 'data.' to many option names.
+> >>
+> >> As a first step towards avoiding this painful CLI experience, this gets
+> >> rid of the 'data' indirection internally: The QAPI parser doesn't use a
+> >> wrapper object as the variant type any more, so the indirection is
+> >> removed from the generated C types. As a result, the C type looks the
+> >> same for flat and simple unions now. A large part of this patch is
+> >> mechanical conversion of C code to remove the 'data' indirection.
+> >>
+> >> Conceptually, the important change is that variants can now have flat
+> >> and wrapped representations. For a transitioning period, we'll allow
+> >> variants to support both representations in a later patch. Eventually,
+> >> the plan is to deprecate and remove wrapped representations entirely,
+> >> unifying simple and flat unions.
+> >>
+> >> The externally visible interfaces stay unchanged: Visitors still expect
+> >> the 'data' wrappers, and introspection still shows it.
+> >>
+> >> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> >
+> > breaks the build for me:
 
-Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
----
- target/i386/bpt_helper.c            | 2 +-
- target/i386/cc_helper.c             | 2 +-
- target/i386/cc_helper_template.h    | 2 +-
- target/i386/cpu.c                   | 2 +-
- target/i386/cpu.h                   | 2 +-
- target/i386/excp_helper.c           | 2 +-
- target/i386/fpu_helper.c            | 2 +-
- target/i386/gdbstub.c               | 2 +-
- target/i386/helper.c                | 2 +-
- target/i386/int_helper.c            | 2 +-
- target/i386/mem_helper.c            | 2 +-
- target/i386/misc_helper.c           | 2 +-
- target/i386/mpx_helper.c            | 2 +-
- target/i386/ops_sse.h               | 2 +-
- target/i386/ops_sse_header.h        | 2 +-
- target/i386/seg_helper.c            | 2 +-
- target/i386/shift_helper_template.h | 2 +-
- target/i386/smm_helper.c            | 2 +-
- target/i386/svm_helper.c            | 2 +-
- target/i386/tcg-stub.c              | 2 +-
- target/i386/translate.c             | 2 +-
- 21 files changed, 21 insertions(+), 21 deletions(-)
+Oops, apparently I'm not compiling spice code. I've installed the
+libraries now and will fix this for v2 (it's just the same mechanical
+conversion as elsewhere).
 
-diff --git a/target/i386/bpt_helper.c b/target/i386/bpt_helper.c
-index c3a8ea7..e6cc292 100644
---- a/target/i386/bpt_helper.c
-+++ b/target/i386/bpt_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/cc_helper.c b/target/i386/cc_helper.c
-index c9c90e1..924dd3c 100644
---- a/target/i386/cc_helper.c
-+++ b/target/i386/cc_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/cc_helper_template.h b/target/i386/cc_helper_template.h
-index 607311f..bb611fe 100644
---- a/target/i386/cc_helper_template.h
-+++ b/target/i386/cc_helper_template.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 3ffd877..3ff1cdf 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index f519d2b..97f2b4b 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/excp_helper.c b/target/i386/excp_helper.c
-index b10c7ec..1914717 100644
---- a/target/i386/excp_helper.c
-+++ b/target/i386/excp_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/fpu_helper.c b/target/i386/fpu_helper.c
-index 4ea7387..03b3544 100644
---- a/target/i386/fpu_helper.c
-+++ b/target/i386/fpu_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index 9ae43bd..4a3de5f 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 70be53e..d46999b 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
-index 334469c..4f89436 100644
---- a/target/i386/int_helper.c
-+++ b/target/i386/int_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/mem_helper.c b/target/i386/mem_helper.c
-index 3a6d3ae..21ca3e3 100644
---- a/target/i386/mem_helper.c
-+++ b/target/i386/mem_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/misc_helper.c b/target/i386/misc_helper.c
-index b6b1d41..ae259d9 100644
---- a/target/i386/misc_helper.c
-+++ b/target/i386/misc_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/mpx_helper.c b/target/i386/mpx_helper.c
-index ade5d24..fd96617 100644
---- a/target/i386/mpx_helper.c
-+++ b/target/i386/mpx_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/ops_sse.h b/target/i386/ops_sse.h
-index c7614f8..6f1fc17 100644
---- a/target/i386/ops_sse.h
-+++ b/target/i386/ops_sse.h
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/ops_sse_header.h b/target/i386/ops_sse_header.h
-index 094aafc..6c0c849 100644
---- a/target/i386/ops_sse_header.h
-+++ b/target/i386/ops_sse_header.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/seg_helper.c b/target/i386/seg_helper.c
-index b96de06..16311e5 100644
---- a/target/i386/seg_helper.c
-+++ b/target/i386/seg_helper.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/shift_helper_template.h b/target/i386/shift_helper_template.h
-index cf91a2d..54f15d6 100644
---- a/target/i386/shift_helper_template.h
-+++ b/target/i386/shift_helper_template.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/smm_helper.c b/target/i386/smm_helper.c
-index eb5aa6e..d20e8ed 100644
---- a/target/i386/smm_helper.c
-+++ b/target/i386/smm_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/svm_helper.c b/target/i386/svm_helper.c
-index 6224387..3893158 100644
---- a/target/i386/svm_helper.c
-+++ b/target/i386/svm_helper.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/tcg-stub.c b/target/i386/tcg-stub.c
-index b00e23d..8d45579 100644
---- a/target/i386/tcg-stub.c
-+++ b/target/i386/tcg-stub.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index caea6f5..4c57307 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
--- 
-2.17.1
+See below for the changes I'm squashing in.
+
+> Other than that, I like the change, and it looks quite
+> straightforward. I hope it's acceptable and we are not missing the
+> reasons that extra data indirection was necessary.
+> 
+> Having to support both flat and wrapped versions in the externally visible
+> interfaces might be tricky though.
+
+It's actually pretty simple, I have some quickly hacked up draft patches
+because Markus wanted to see what the path is for eventually getting rid
+of the wrapped versions (and with that, the difference between simple
+and flat unions).
+
+Essentially what I'm doing is calling visit_optional("data") and if it's
+there I do the visit_start/end_struct thing for wrapped representation,
+and if not, it's flat.
+
+This would be problematic if we had a simple union with a variant that
+contains an option "data" (because then it would be ambiguous), but in
+this case we're lucky for a change.
+
+After that, it's setting the "deprecated" feature on the "data" member,
+waiting for two releases and eventually removing the support for wrapped
+representation.
+
+I'm expecting the first part to happen in the 6.0 release cycle, and the
+removal could be done in 6.2 then.
+
+Kevin
+
+
+diff --git a/chardev/spice.c b/chardev/spice.c
+index 1104426e3a..8d8502dca7 100644
+--- a/chardev/spice.c
++++ b/chardev/spice.c
+@@ -258,7 +258,7 @@ static void qemu_chr_open_spice_vmc(Chardev *chr,
+                                     bool *be_opened,
+                                     Error **errp)
+ {
+-    ChardevSpiceChannel *spicevmc = backend->u.spicevmc.data;
++    ChardevSpiceChannel *spicevmc = &backend->u.spicevmc;
+     const char *type = spicevmc->type;
+     const char **psubtype = spice_server_char_device_recognized_subtypes();
+
+@@ -294,7 +294,7 @@ static void qemu_chr_open_spice_port(Chardev *chr,
+                                      bool *be_opened,
+                                      Error **errp)
+ {
+-    ChardevSpicePort *spiceport = backend->u.spiceport.data;
++    ChardevSpicePort *spiceport = &backend->u.spiceport;
+     const char *name = spiceport->fqdn;
+     SpiceChardev *s;
+
+@@ -321,14 +321,13 @@ static void qemu_chr_parse_spice_vmc(QemuOpts *opts, ChardevBackend *backend,
+                                      Error **errp)
+ {
+     const char *name = qemu_opt_get(opts, "name");
+-    ChardevSpiceChannel *spicevmc;
++    ChardevSpiceChannel *spicevmc = &backend->u.spicevmc;
+
+     if (name == NULL) {
+         error_setg(errp, "chardev: spice channel: no name given");
+         return;
+     }
+     backend->type = CHARDEV_BACKEND_KIND_SPICEVMC;
+-    spicevmc = backend->u.spicevmc.data = g_new0(ChardevSpiceChannel, 1);
+     qemu_chr_parse_common(opts, qapi_ChardevSpiceChannel_base(spicevmc));
+     spicevmc->type = g_strdup(name);
+ }
+@@ -337,14 +336,13 @@ static void qemu_chr_parse_spice_port(QemuOpts *opts, ChardevBackend *backend,
+                                       Error **errp)
+ {
+     const char *name = qemu_opt_get(opts, "name");
+-    ChardevSpicePort *spiceport;
++    ChardevSpicePort *spiceport = &backend->u.spiceport;
+ 
+     if (name == NULL) {
+         error_setg(errp, "chardev: spice port: no name given");
+         return;
+     }
+     backend->type = CHARDEV_BACKEND_KIND_SPICEPORT;
+-    spiceport = backend->u.spiceport.data = g_new0(ChardevSpicePort, 1);
+     qemu_chr_parse_common(opts, qapi_ChardevSpicePort_base(spiceport));
+     spiceport->fqdn = g_strdup(name);
+ }
+diff --git a/ui/spice-app.c b/ui/spice-app.c
+index 026124ef56..b542e927e5 100644
+--- a/ui/spice-app.c
++++ b/ui/spice-app.c
+@@ -60,7 +60,6 @@ chr_spice_backend_new(void)
+     ChardevBackend *be = g_new0(ChardevBackend, 1);
+ 
+     be->type = CHARDEV_BACKEND_KIND_SPICEPORT;
+-    be->u.spiceport.data = g_new0(ChardevSpicePort, 1);
+ 
+     return be;
+ }
+@@ -83,7 +82,7 @@ static void vc_chr_open(Chardev *chr,
+     }
+ 
+     be = chr_spice_backend_new();
+-    be->u.spiceport.data->fqdn = fqdn ?
++    be->u.spiceport.fqdn = fqdn ?
+         g_strdup(fqdn) : g_strdup_printf("org.qemu.console.%s", chr->label);
+     vc->parent_open(chr, be, be_opened, errp);
+     qapi_free_ChardevBackend(be);
+@@ -182,7 +181,7 @@ static void spice_app_display_init(DisplayState *ds, DisplayOptions *opts)
+     GError *err = NULL;
+     gchar *uri;
+ 
+-    be->u.spiceport.data->fqdn = g_strdup("org.qemu.monitor.qmp.0");
++    be->u.spiceport.fqdn = g_strdup("org.qemu.monitor.qmp.0");
+     qemu_chardev_new("org.qemu.monitor.qmp", TYPE_CHARDEV_SPICEPORT,
+                      be, NULL, &error_abort);
+     qopts = qemu_opts_create(qemu_find_opts("mon"),
 
 
