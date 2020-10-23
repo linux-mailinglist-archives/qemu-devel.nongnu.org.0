@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 970EB29731A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:03:02 +0200 (CEST)
-Received: from localhost ([::1]:36720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6417729732F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:06:35 +0200 (CEST)
+Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzWv-0008Pw-JS
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:03:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60334)
+	id 1kVzaM-0004oU-36
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:06:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyys-0004HK-3d
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:50 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26168)
+ id 1kVyyv-0004KG-K8
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:54 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyq-0001Xq-4y
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:49 -0400
+ id 1kVyyr-0001YB-Gz
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466867; x=1635002867;
+ t=1603466869; x=1635002869;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=KlL4/TccFf5vxuzV2NRnKp7iPznMCUwsa6I/bO5AZFM=;
- b=Bd/T0e5PBr4c6ftak/672zHlun83sQh2m8Xv1k9hOl4PaqFzVrgk3DRp
- ak82hcvueptEm5p7/pkGWVFD5gFXKa75sXLDrNubbVBWqRTRmbSIoH7P9
- wkDJXifcthadX6yfEAxjuT20ARdd+iGl8ne4R6faSd0uvlOGiLuRxk+yD
- NK9h2ABbpWrZCCFO+87W0ApBmFXa3dW/Z8onCNepNNyADBv/HhkbNDFQx
- YSEcVmeLuZy4uy0/3r3lXZ3VLlRHMsWJxm1ae2c46mcRG7NAOGxu5rN1B
- TPUZijRYLIsnBX8H1qhDhNmmrhLBKHKUvzZhoQu7cqQswXKjScJKzCR+U w==;
-IronPort-SDR: Mp5KFvAjXxWZq4m6gFxvkSa/w6a/OFQi9TXN/xiLy/lw44k/4geI8iChv3C0IUoCBf6MtgBkF5
- 6LYAP9NwBmvarRI8VsPeN0BgvSFFka0SuerIwQL8Z8909BTmzpdzYMu4l9hNzPoBPE3v8Kl6Ja
- Kd8JXi8q/xhn73Ar2PSqTBmYCK887QqZ5DUHRYlvxR2UDuJYVKwp/6BYzqZlxsK0HTupNXhJKM
- UUNx0UuZPoSHh091dmtJ9aGf7lzFRSzAsj521S2ggS+eVijpA8v/h4LxyoYWz/OGeU5T93PLh1
- Fug=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652319"
+ bh=gRLFW5UCKjh4yvdZBvLQXqEJVfV48oDYZ79tpYj1D7Q=;
+ b=FhO+lpplcE/M+Jwl4Q+KrkHHZD9KhuzErCkLUgnevwJvOeBBlRc3Kmqi
+ K3XQenCVYXblj9XT5vIOqFMddLecl1/RRT2ihkLgCr33KEFuv5XkSu6w7
+ fmzno+yqojdgcXbZmQ5rqwycLIxk7tPdLAaLwuymHk1kvY8l+Tupay/o+
+ OK7r7NUILG3eMaH1+/YukaxukJPdl/knr/VufDp9t/Y4q3eDa7n/KZyrN
+ vePf7wb8p0wTThKRuI1CjE4mmbg6bAVr5/jsK9rzAc2I2DG1X1Ac1lCse
+ GpxkkZnvVLrwHqkZaz9Dxi4j3SXE6Khx9FyGZyvaabQxbFm5rkY5UHXYT g==;
+IronPort-SDR: KIv2oBvMkcOjDj2kH+PrWgul7DRxgH2y0LJcVUM79E5JV/MhaZ7bzk9mRwb9GRTw63S8Lq/s3c
+ 5bEptVR3UiqwutKqtnm30fRDxH7IuuCQgWwIvsmcRi5s5ByIdKoo3XUpt/6UPNrvQNbs8/IpYr
+ n2g0Tj7so9i3WrAiGzBdQT+oLC51w6eCVXxdMuJq99TyylTpbp9yOlBe4C8Z6AZsl0FaH/VaEK
+ +H2sfT93ntOAd6arh9vIa+Zr+VFDXlIppOLLDojoAzsbZkyZfIDj+rEavfhgkJR8iXqmzoBJ2i
+ FY4=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652321"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:43 +0800
-IronPort-SDR: N1am2D9oiOY9eUuVVvip+AdisqgQUHFFay+QwN9Qtp4kVnjpNigzGEFl6+fvrQukCf55eEkWTg
- fd1J9deEiWgY0aZ1z4DHBvu2teQ5MkQet3kL4vJMfG6yp8yzYQTBj9e9PVsxBblvdTP8orK02v
- NmB9ZQEODTo5pTabcUxauv5dGgI55zgStagi9PYPWM4MPwiPGSudO2YHOAlORAyuqL8ubv7VRj
- sTB/TOCdh3KS7zCEZbjIGZEkuiIosY5UF6uX4Su/3qgpHaY+nw3j0MfMrhWAz/9/40NvYQLKlN
- kV9v8LYwQC4zuQVs+GnkXUiL
+IronPort-SDR: W0bfe6gLH7Rsyl0H6TZRxS5JRuyZZpVrtCQ2hXkWd+7toBw3WCiCAZ7x38nn2QI1T+HL/LPMeS
+ hB1gKvYY3SjuAU9k576TTE0+QQUH7T1UtiUxtZ44JR3NsXvP9PfNJrlsZhjIHOC7y0BlDB+CFy
+ n7jGDy1z0m1BPeqPX9a+I4iVABkNmpH6vQrOxh60nSZzLL4h2Wbgj/5Df+7bXxaIUV9xLOZeSq
+ eSyDc3AFCBVT+T1UOs8coLoHE03hD/MT+bL8LyNzT0jV2Pv1lzmSW5q+LQzJAqMaiaCfCFzc+a
+ mWkbyjIB+WbcmQ2ncmuzuDHL
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:12:58 -0700
-IronPort-SDR: Egof5XNtYD2OcWUuhYPQFelEAVOZWyhjoyaSROwmiFJGBy2B1R+tNtk92OOzf1d6YHDnMZuwdg
- czetI/ppoPQI8kBAJbQw7XREkKQY+UkKkkCzLNwu6MJgGx/YAW7kkkIbSm8Q7cI2Z0PfKgbgHx
- Te7eDwe8rwApYzOb5oEMWtXvyhIM3Ia6CWr0zi/dxbLXCktG+JehAlvQOJWMXGNzALLOtAXf5R
- yAyteXMorg3tt29fJG2lPKtp4FBWSneuRIvpzhpZPMriZWEdA5cXGnBFFngukqmdkSfmBLV8+L
- 5MM=
+ 23 Oct 2020 08:12:59 -0700
+IronPort-SDR: Uym5J0JqYHMp8vu3fkrO9a5wU3qkxZl21fCIgJydQoF6PXJjpDt5pi81nSjnA6xV+wHudDYFmZ
+ 1MeemGmgolWaCgcm0h0+Uzpqs3f9mJOiPVDQ+VurPe3hv3knSodKFw6jNv9glla0H+h7S8o2Zr
+ okxqadq3ZF+f3Yg1fcYsutOzfd29nPawcHzgfzI0qJnZT6xvcdTrlEmVyLGolZpY0J6i+ffXvS
+ 3aooc7hklsgMCxo+Ob+ZO96FnontMUpXR9Hs1ygp/5GeLM8ek8ZYo7Q/VPFtnnsX3mplm0lQQ6
+ CSk=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
@@ -62,13 +62,14 @@ Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 03/12] target/riscv: Fix update of hstatus.SPVP
-Date: Fri, 23 Oct 2020 08:16:10 -0700
-Message-Id: <20201023151619.3175155-4-alistair.francis@wdc.com>
+Subject: [PULL 05/12] target/riscv: Fix implementation of HLVX.WU instruction
+Date: Fri, 23 Oct 2020 08:16:12 -0700
+Message-Id: <20201023151619.3175155-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=558518344=alistair.francis@wdc.com;
@@ -95,39 +96,46 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+ Georg Kotheimer <georg.kotheimer@kernkonzept.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
 
-When trapping from virt into HS mode, hstatus.SPVP was set to
-the value of sstatus.SPP, as according to the specification both
-flags should be set to the same value.
-However, the assignment of SPVP takes place before SPP itself is
-updated, which results in SPVP having an outdated value.
+The HLVX.WU instruction is supposed to read a machine word,
+but prior to this change it read a byte instead.
 
+Fixes: 8c5362acb57 ("target/riscv: Allow generating hlv/hlvx/hsv instructions")
 Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201013151054.396481-1-georg.kotheimer@kernkonzept.com
+Message-id: 20201013172223.443645-1-georg.kotheimer@kernkonzept.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/riscv/op_helper.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 6c68239a46..47d05fe34c 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -938,7 +938,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-                 /* Trap into HS mode, from virt */
-                 riscv_cpu_swap_hypervisor_regs(env);
-                 env->hstatus = set_field(env->hstatus, HSTATUS_SPVP,
--                                         get_field(env->mstatus, SSTATUS_SPP));
-+                                         env->priv);
-                 env->hstatus = set_field(env->hstatus, HSTATUS_SPV,
-                                          riscv_cpu_virt_enabled(env));
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index e987bd262f..4ce73575a7 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -333,12 +333,12 @@ target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
+         riscv_cpu_set_two_stage_lookup(env, true);
  
+         switch (memop) {
+-        case MO_TEUL:
+-            pte = cpu_ldub_data_ra(env, address, GETPC());
+-            break;
+         case MO_TEUW:
+             pte = cpu_lduw_data_ra(env, address, GETPC());
+             break;
++        case MO_TEUL:
++            pte = cpu_ldl_data_ra(env, address, GETPC());
++            break;
+         default:
+             g_assert_not_reached();
+         }
 -- 
 2.28.0
 
