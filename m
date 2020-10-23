@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B97297250
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:30:03 +0200 (CEST)
-Received: from localhost ([::1]:45518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 741E929724A
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:28:39 +0200 (CEST)
+Received: from localhost ([::1]:40378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVz10-0005s8-MB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:30:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57306)
+	id 1kVyze-0003fk-Em
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:28:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyqv-00014p-WC
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23958)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyr0-00019W-13
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyqs-000099-Cu
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:37 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyqx-00009a-SC
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:19:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603466373;
+ s=mimecast20190719; t=1603466378;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=woEn3sc6gXxf1+d8nTxR4+S5Pfst+tMKZK/gRYER+Og=;
- b=hMjB0Favt5f/wYxcPgUjc8efCWaqu7tOXpvu3YePOCrW65oRCKF5qoezRrFBxsELy6RG3H
- 8mz19RIIW9jG+kQDtW8rAnYF6oX4gcpbF6DUFzyvjCYMdkjvM4kyIrI6D2WC4XH15+EaqZ
- 93t35QJhwiReLYTUoWZIUBb3o63q/O4=
+ bh=Bg0ARfy/nreX1sEGkRPdNpsWLKtbHdvINaE794GWGps=;
+ b=IinAWouyWeF2LYIdiluK7KOVLqlEGOuZxqNhiD2EPqgovHQ5KD0c4tANOpdQBTa8O1sA1K
+ RRBYoAYEinHng8bWxsSRHbxXom5vhmvwJvlW06Q6TVK3dFMOS85DH+2CwjHjtKUUNZvi4Y
+ EQB2RYFpd+F7lyRWUzDExB+ft/QPSXY=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-KqStS-i2ORiIrjpOa4UUYQ-1; Fri, 23 Oct 2020 11:19:31 -0400
-X-MC-Unique: KqStS-i2ORiIrjpOa4UUYQ-1
-Received: by mail-wr1-f70.google.com with SMTP id 2so700557wrd.14
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:19:31 -0700 (PDT)
+ us-mta-461-YRvszuRFOEW7KcHQhVVrMw-1; Fri, 23 Oct 2020 11:19:37 -0400
+X-MC-Unique: YRvszuRFOEW7KcHQhVVrMw-1
+Received: by mail-wr1-f70.google.com with SMTP id t17so699715wrm.13
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:19:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=woEn3sc6gXxf1+d8nTxR4+S5Pfst+tMKZK/gRYER+Og=;
- b=U2io50h3kCrM7oVgIbhAyHst8do+yg2XJ4wPdrn1u6C6nGR35NkXfpv0bV65wYfoc8
- 3OU6HlXJrBXRMXG4XLljCtTD70FRF1/ygu+hqnp2TAaayS5NwGmMiWcGQHsIh3FaCQXh
- ozLDN/02vA5Hgul8s3zg06WAvqflrCAweLnOmJRZXtDjqtmImw18JnYQaqx6RiZYaGCM
- jumQPV5cKaRCcm+H1eOXpiKz55q4QhHsRbVMF9O2A+eo6ZbbF5F69wN2XMQsbxsAIW8T
- mgScKoRNBDSp2s9WqmNuV9lAG/RfAK+McoF5zIMEuAt5wOljZet4HanmOG1+aaCVZcEV
- pUmg==
-X-Gm-Message-State: AOAM533zLgvDW9bUd7Zu33eC4PmkgvQ0T+lJC8u4QGQSflkO50CNKiOi
- D/LmdTQY9gVkIVWTZQ3XBz4u6/TOW7xSReo57v0PdNLfVRKcieZhOv6qcCfxH31EdyyFjK0MPtq
- a7FrQCee/1gUEKeY=
-X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr2970315wmk.91.1603466370320;
- Fri, 23 Oct 2020 08:19:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwgsgQv+WrSHRvo7gMkXRybAvm8gaV/Vqvr+EjqJahvToCQ9n2nuHw6FZj8+jSZuavxNDqb9A==
-X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr2970289wmk.91.1603466370113;
- Fri, 23 Oct 2020 08:19:30 -0700 (PDT)
+ bh=Bg0ARfy/nreX1sEGkRPdNpsWLKtbHdvINaE794GWGps=;
+ b=F91lL5zDRJ/XY3Cg8bQ5ttgrRaIAcKukVcKNqLyj/gG9d1eIvQTDA+Ca0b565X80Bn
+ 35YiVRiwkx8+fMbhcCWZwFw4MtsSZhB7oPDp3mezrexepz2aZ/WinYZhjjajlO4vPULX
+ Y4ZJVzj6+9eoeoH/jJks/EItpMo90dJ8C/1nZJq6cYUKSIWz+E3il0seHJbIkxPFblg/
+ n645I03GuMSBdXM00DsztE1W1eiJu+8CMiFyptOOAFj1X/7qpBr1jp/PGP3h29vP7XKP
+ 3h/kLCunbCUCbPwBwJPcYaogkN/C8zw+A/Jm/YorTcdC+NuOYin+z+D3BBvgP0Hydtpz
+ c9rg==
+X-Gm-Message-State: AOAM533E6HfJIjX6Ftd8s/U2aPwn/1XfZEjjsY3bRA6I0mBrVeAoTW5j
+ dxk82TsSMf/lQcrH3Pcvz9f4Wd1tUaCE01l3Cf2ogdyZBl1qC0y2gq3HsHyNwCh71YS/HVv9LZX
+ h7jl2aJT/HmoqWOw=
+X-Received: by 2002:a05:600c:1149:: with SMTP id
+ z9mr3046885wmz.180.1603466375036; 
+ Fri, 23 Oct 2020 08:19:35 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJykkgTDIIxfR6ojyPbFkVPnULp6JstlvtxPH536EGvfoM2VrTaNGtmWDdXzRndSse/Y2fxJwQ==
+X-Received: by 2002:a05:600c:1149:: with SMTP id
+ z9mr3046868wmz.180.1603466374846; 
+ Fri, 23 Oct 2020 08:19:34 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id u5sm5123339wru.63.2020.10.23.08.19.28
+ by smtp.gmail.com with ESMTPSA id g4sm3665361wmh.13.2020.10.23.08.19.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 08:19:29 -0700 (PDT)
+ Fri, 23 Oct 2020 08:19:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 01/10] pci: pass along the return value of
- dma_memory_rw
-Date: Fri, 23 Oct 2020 17:19:14 +0200
-Message-Id: <20201023151923.3243652-2-philmd@redhat.com>
+Subject: [PATCH RESEND v3 02/10] docs/devel/loads-stores: Add regexp for DMA
+ functions
+Date: Fri, 23 Oct 2020 17:19:15 +0200
+Message-Id: <20201023151923.3243652-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023151923.3243652-1-philmd@redhat.com>
 References: <20201023151923.3243652-1-philmd@redhat.com>
@@ -73,16 +75,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,49 +99,32 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Li Qiang <liq3ea@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
-
-Some might actually care about the return value of dma_memory_rw. So
-let us pass it along instead of ignoring it.
-
-There are no existing users of the return value, so this patch should be
-safe.
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Keith Busch <kbusch@kernel.org>
-Message-Id: <20191011070141.188713-2-its@irrelevant.dk>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/pci/pci.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ docs/devel/loads-stores.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 0a59a06b149..f19ffe6b4fe 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -783,8 +783,7 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
- static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
-                              void *buf, dma_addr_t len, DMADirection dir)
- {
--    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
--    return 0;
-+    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
- }
+diff --git a/docs/devel/loads-stores.rst b/docs/devel/loads-stores.rst
+index 59c1225391c..ee43f5dfee2 100644
+--- a/docs/devel/loads-stores.rst
++++ b/docs/devel/loads-stores.rst
+@@ -483,6 +483,8 @@ make sure our existing code is doing things correctly.
  
- static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+ Regexes for git grep
+  - ``\<dma_memory_\(read\|write\|rw\)\>``
++ - ``\<ldu\?[bwlq]\(_[bl]e\)\?_dma\>``
++ - ``\<st[bwlq]\(_[bl]e\)\?_dma\>``
+ 
+ ``pci_dma_*`` and ``{ld,st}*_pci_dma``
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 2.26.2
 
