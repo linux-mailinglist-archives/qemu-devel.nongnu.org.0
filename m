@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AA7C29790D
+	by mail.lfdr.de (Postfix) with ESMTPS id B8E5529790E
 	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 23:47:45 +0200 (CEST)
-Received: from localhost ([::1]:33122 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:33178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW4uV-0006HN-U4
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 17:47:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56216)
+	id 1kW4uW-0006Iw-Qm
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 17:47:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW4sE-0005Gp-FL
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 17:45:22 -0400
-Received: from home.keithp.com ([63.227.221.253]:42416 helo=elaine.keithp.com)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW4sF-0005H7-Nl
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 17:45:23 -0400
+Received: from home.keithp.com ([63.227.221.253]:42418 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW4sA-0007G0-B0
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 17:45:22 -0400
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW4sA-0007G1-B3
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 17:45:23 -0400
 Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 742773F2DD13
+ by elaine.keithp.com (Postfix) with ESMTP id 896C23F2DD15
  for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 14:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603489513; bh=Jzuf/ZbbXBaQuCVsIs7n+MzaXMCO3H7M3MRjBaqvroQ=;
- h=From:To:Subject:Date:From;
- b=Kdu5KAWO39HL7jED7wL64gfRd/FoCxNS8golgngBZ7i1cxhmIGlypQ06BuYFwM34P
- TAZFwGSIaxHYpQxd98GCbMl3W5U8iR2Iqh/VaByFdvz3C79OHAecskgjy9mUMDZDP+
- eaHIXGq0rhG6sryC2WFKH92xcD/wq4ESdRzjhmIohAqaVZM/t63x3n2zhBFeu+D8ha
- fUq15zXRtEyhYqozIa4dIoPgHyZeixw9RSi+eOyEIakFgfAGdGoYg0ulyNA5H1XvzY
- U2VWMNPK5sJUuU0TvTE7AYWYiqwVWr4yHGsCtQp+0TLGDquHE578WGkt/p1iLAQtWV
- Shv65xHIUW/cA==
+ t=1603489513; bh=o9FSc9IqFdAVRsYbyKeZduUk4m6kW9TmMdzQOXB/0Xw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=k9S7XY+mRROGKh0fL8fe1LvmiDJYV/JvgnIhsm9BUlZQrZX3G8HDYfXnoCsXhpzqs
+ vg8kpxl1mOPEtKfFoktaz2NAcf1OmCnNcRtd0qi+uDEBRIt8W4yDBvmCMz7x/iA/fS
+ W8mRS3D+AER0gl15B11H35mXTpAkyVdfQPOzXaMjUZfuu4HyGHOiMzIS1ygIQXqD7D
+ JiqqGvznboHoV/sXvZl2xVlqGepWfnlHcM/d0myX5nJpXW0+J0gYRMQcsNe3j08WUn
+ +ynd+zhDBHculPpLAjbN3v6GTsmZIELKQ/J7BNMeDMYfjmZSbb+7hSdBDBFLFmrKor
+ UI+35QtBlpiUA==
 X-Virus-Scanned: Debian amavisd-new at keithp.com
 Received: from elaine.keithp.com ([127.0.0.1])
  by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id 680zWvY4cYGn for <qemu-devel@nongnu.org>;
- Fri, 23 Oct 2020 14:45:13 -0700 (PDT)
+ with LMTP id uXvQ_44UuN9a; Fri, 23 Oct 2020 14:45:13 -0700 (PDT)
 Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 270FF3F2DD10
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 14:45:13 -0700 (PDT)
+ by elaine.keithp.com (Postfix) with ESMTPSA id 3B4A13F2DD11;
+ Fri, 23 Oct 2020 14:45:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603489513; bh=Jzuf/ZbbXBaQuCVsIs7n+MzaXMCO3H7M3MRjBaqvroQ=;
- h=From:To:Subject:Date:From;
- b=Kdu5KAWO39HL7jED7wL64gfRd/FoCxNS8golgngBZ7i1cxhmIGlypQ06BuYFwM34P
- TAZFwGSIaxHYpQxd98GCbMl3W5U8iR2Iqh/VaByFdvz3C79OHAecskgjy9mUMDZDP+
- eaHIXGq0rhG6sryC2WFKH92xcD/wq4ESdRzjhmIohAqaVZM/t63x3n2zhBFeu+D8ha
- fUq15zXRtEyhYqozIa4dIoPgHyZeixw9RSi+eOyEIakFgfAGdGoYg0ulyNA5H1XvzY
- U2VWMNPK5sJUuU0TvTE7AYWYiqwVWr4yHGsCtQp+0TLGDquHE578WGkt/p1iLAQtWV
- Shv65xHIUW/cA==
+ t=1603489513; bh=o9FSc9IqFdAVRsYbyKeZduUk4m6kW9TmMdzQOXB/0Xw=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=k9S7XY+mRROGKh0fL8fe1LvmiDJYV/JvgnIhsm9BUlZQrZX3G8HDYfXnoCsXhpzqs
+ vg8kpxl1mOPEtKfFoktaz2NAcf1OmCnNcRtd0qi+uDEBRIt8W4yDBvmCMz7x/iA/fS
+ W8mRS3D+AER0gl15B11H35mXTpAkyVdfQPOzXaMjUZfuu4HyGHOiMzIS1ygIQXqD7D
+ JiqqGvznboHoV/sXvZl2xVlqGepWfnlHcM/d0myX5nJpXW0+J0gYRMQcsNe3j08WUn
+ +ynd+zhDBHculPpLAjbN3v6GTsmZIELKQ/J7BNMeDMYfjmZSbb+7hSdBDBFLFmrKor
+ UI+35QtBlpiUA==
 Received: by keithp.com (Postfix, from userid 1000)
- id 02CE515821A3; Fri, 23 Oct 2020 14:45:12 -0700 (PDT)
+ id 0726915821A2; Fri, 23 Oct 2020 14:45:13 -0700 (PDT)
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] riscv: Add SiFive test device to sifive targets
-Date: Fri, 23 Oct 2020 14:45:04 -0700
-Message-Id: <20201023214506.917601-1-keithp@keithp.com>
+Cc: Keith Packard <keithp@keithp.com>
+Subject: [PATCH 1/2] riscv: Add sifive test device to sifive_e target
+Date: Fri, 23 Oct 2020 14:45:05 -0700
+Message-Id: <20201023214506.917601-2-keithp@keithp.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201023214506.917601-1-keithp@keithp.com>
+References: <20201023214506.917601-1-keithp@keithp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
@@ -82,10 +84,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Keith Packard <keithp@keithp.com>
 From: Keith Packard via <qemu-devel@nongnu.org>
 
-The SiFive test device, which is already available in the qemu tree,
-allows the system under emulation to shut down qemu. This is currently
-used by OpenSBI to terminate QEMU at powerdown time. These two patches
-add this device to the two sifive models.
+The SiFive test device provides a mechanism for terminating the qemu
+instance from the emulated system. This patch adds that device to the
+sifive_e target.
 
+Signed-off-by: Keith Packard <keithp@keithp.com>
+---
+ hw/riscv/sifive_e.c         | 4 ++++
+ include/hw/riscv/sifive_e.h | 1 +
+ 2 files changed, 5 insertions(+)
+
+diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+index fcfac16816..417e3a5409 100644
+--- a/hw/riscv/sifive_e.c
++++ b/hw/riscv/sifive_e.c
+@@ -11,6 +11,7 @@
+  * 3) PRCI (Power, Reset, Clock, Interrupt)
+  * 4) Registers emulated as RAM: AON, GPIO, QSPI, PWM
+  * 5) Flash memory emulated as RAM
++ * 6) TEST (Test device)
+  *
+  * The Mask ROM reset vector jumps to the flash payload at 0x2040_0000.
+  * The OTP ROM and Flash boot code will be emulated in a future version.
+@@ -45,6 +46,7 @@
+ #include "hw/intc/sifive_clint.h"
+ #include "hw/intc/sifive_plic.h"
+ #include "hw/misc/sifive_e_prci.h"
++#include "hw/misc/sifive_test.h"
+ #include "chardev/char.h"
+ #include "sysemu/arch_init.h"
+ #include "sysemu/sysemu.h"
+@@ -57,6 +59,7 @@ static const struct MemmapEntry {
+     [SIFIVE_E_DEV_DEBUG] =    {        0x0,     0x1000 },
+     [SIFIVE_E_DEV_MROM] =     {     0x1000,     0x2000 },
+     [SIFIVE_E_DEV_OTP] =      {    0x20000,     0x2000 },
++    [SIFIVE_E_DEV_TEST] =     {   0x100000,     0x1000 },
+     [SIFIVE_E_DEV_CLINT] =    {  0x2000000,    0x10000 },
+     [SIFIVE_E_DEV_PLIC] =     {  0xc000000,  0x4000000 },
+     [SIFIVE_E_DEV_AON] =      { 0x10000000,     0x8000 },
+@@ -216,6 +219,7 @@ static void sifive_e_soc_realize(DeviceState *dev, Error **errp)
+         memmap[SIFIVE_E_DEV_CLINT].size, 0, ms->smp.cpus,
+         SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE,
+         SIFIVE_CLINT_TIMEBASE_FREQ, false);
++    sifive_test_create(memmap[SIFIVE_E_DEV_TEST].base);
+     create_unimplemented_device("riscv.sifive.e.aon",
+         memmap[SIFIVE_E_DEV_AON].base, memmap[SIFIVE_E_DEV_AON].size);
+     sifive_e_prci_create(memmap[SIFIVE_E_DEV_PRCI].base);
+diff --git a/include/hw/riscv/sifive_e.h b/include/hw/riscv/sifive_e.h
+index 83604da805..92bab6d0d4 100644
+--- a/include/hw/riscv/sifive_e.h
++++ b/include/hw/riscv/sifive_e.h
+@@ -56,6 +56,7 @@ enum {
+     SIFIVE_E_DEV_DEBUG,
+     SIFIVE_E_DEV_MROM,
+     SIFIVE_E_DEV_OTP,
++    SIFIVE_E_DEV_TEST,
+     SIFIVE_E_DEV_CLINT,
+     SIFIVE_E_DEV_PLIC,
+     SIFIVE_E_DEV_AON,
+-- 
+2.28.0
 
 
