@@ -2,52 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33193296DF4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:51:02 +0200 (CEST)
-Received: from localhost ([::1]:51014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1AB296DB6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:31:58 +0200 (CEST)
+Received: from localhost ([::1]:46110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVvb3-0007mo-7M
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:51:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57576)
+	id 1kVvIb-0001yz-Al
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:31:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <ee01926a11b1f9bffcd6cdec0961dd9d1882da71@lizzy.crudebyte.com>)
- id 1kVvY0-0003si-GJ
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:47:52 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:45537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <ee01926a11b1f9bffcd6cdec0961dd9d1882da71@lizzy.crudebyte.com>)
- id 1kVvXh-0004GW-OY
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:47:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=9yD19keIkp51kv1y74QDaQabTucgjzlqCLausHOKVt0=; b=S+Z0n
- IyE8z5DTLnGZ4/W3L7F2Qx2CouuF1GYwm5KP/oKxRDuxKCM1kAPba2SpbX2zXESpR+XetrqpR6adq
- nDXUfeAql7KFgQ32tpnzBXR+BQVvAJrCDdkmEDym0X/V8sV+ZvqCS2JQ0WcL728+DBZ/8/AQYk9D5
- 6yci627V+oVKsdsx3tL4T7MpjlLcL2KjdDtrfOBH7C2zYH6PPoKMybs/lCFy78OxtYAXAu+lGm51J
- wMGYmtmduXTRONWvDWnu9DuEGRwGUpBnshltOcLKxkARlaw/sy6R2MopY8+NrysJYNWbksJMZ0E+/
- 3YeneZ4Xea6AM248N5GXSO1wgxnTQ==;
-Message-Id: <cover.1603452058.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 23 Oct 2020 13:20:58 +0200
-Subject: [PULL 00/13] 9p queue 2020-10-23
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=ee01926a11b1f9bffcd6cdec0961dd9d1882da71@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 07:46:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kVvAS-00038Y-FP
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:23:32 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:43322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kVvAQ-0000J2-Cm
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:23:32 -0400
+Received: by mail-ed1-x544.google.com with SMTP id dn5so1165754edb.10
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 04:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hOLmDxXU8fco/yA2w4sIJT+MlLEwJyvxf5DlLCKMw2Y=;
+ b=CCg7fjYj1we60pC3BHLFBJPVmL66lLI3V6SvRxLkOrXT/+Ksp3iKfe7eh3K8u3pQ2R
+ Vc175EtKW+2TO4W7/FGLibsr2K9jS0CigNnjkzB+ye7m+I4JTe8PxM9RpR8eFjoYdfli
+ ra1Df1HzPsa+WnIhteWXquJPGCXiaVYI8WLfJWb1UcjRhpznvB5nTuG7xK1FGxvFwDFb
+ ZNJ6DrB9RX+TW18fzIn9Hvqwy6DNKcDP/lki/DxkB8avs2W90mg6oihAC0JVprBtCRKb
+ OYNgH7vg8tH9awZD180b9qk1nU/AMgQmdqvJdtcGAjg+jWDHAjKRovHv2J74xQs311hG
+ 4PsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hOLmDxXU8fco/yA2w4sIJT+MlLEwJyvxf5DlLCKMw2Y=;
+ b=TiVpba2TZ7fTrdQXi60pgN1tCEb/VF37cHVPH9dHxCgqfD+r2eLzcOyqiG42itoejx
+ 6h7kfaHLS9dsdIFppL+pxFAX5WqMCmbDbODaCLNuaZdXSsWeuO1+6k2GEuFov3LVqFuf
+ L0Q7MgsUrgDOr6Dch8G2wxqvDVi+LAonh3T5admCdDTQ07hHrViLRKb3EDd1GvEmWoPU
+ ljrPkKb/FTTqzRGqPU0wu72eyywhCL//1Jw29mEu7kuWtE7ccaKvKR5/cHQ4QeK6VNWU
+ ET306C39dE8GIhlvWmTaN+3d7MFjFsDp/FHxACWQzWeiQCdBYzEThAvqLNV0CCHP3Y0T
+ 3KJw==
+X-Gm-Message-State: AOAM533xEjfJWChiowvS8hK3zW37yZp4KdmfjWcb58lOXQ1JpHK/6bAC
+ svICa0sfqkDNmA9VQm+CcCeJxO2f1xiTfyraIgQ=
+X-Google-Smtp-Source: ABdhPJxb6sviqf+njCNoEqSAgBi7YCjI2961nJWqRNr1yuTqegLTJWFWt2v6P420l0HmuBIJkevCl6nK+pugdKSdVRw=
+X-Received: by 2002:aa7:cd98:: with SMTP id x24mr1592842edv.237.1603452208843; 
+ Fri, 23 Oct 2020 04:23:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201020091024.320381-1-luc@lmichel.fr>
+In-Reply-To: <20201020091024.320381-1-luc@lmichel.fr>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 23 Oct 2020 15:23:16 +0400
+Message-ID: <CAJ+F1C+CZhxA1=pW=8H8=E8nCM27YKNuiGJc-jbtcs+TMi6DEQ@mail.gmail.com>
+Subject: Re: [PATCH v2] hw/core/qdev-clock: add a reference on aliased clocks
+To: Luc Michel <luc@lmichel.fr>
+Content-Type: multipart/alternative; boundary="00000000000052901905b254cff1"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,54 +78,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Damien Hedde <damien.hedde@greensocs.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ QEMU <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+--00000000000052901905b254cff1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+Hi
 
-are available in the Git repository at:
+On Tue, Oct 20, 2020 at 1:11 PM Luc Michel <luc@lmichel.fr> wrote:
 
-  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201023
+> When aliasing a clock with the qdev_alias_clock() function, a new link
+> property is created on the device aliasing the clock. The link points
+> to the aliased clock and use the OBJ_PROP_LINK_STRONG flag. This
+> property is read only since it does not provide a check callback for
+> modifications.
+>
+> The object_property_add_link() documentation stats that with
+> OBJ_PROP_LINK_STRONG properties, the linked object reference count get
+> decremented when the property is deleted. But it is _not_ incremented on
+> creation (object_property_add_link() does not actually know the link).
+>
+> This commit increments the reference count on the aliased clock to
+> ensure the aliased clock stays alive during the property lifetime, and
+> to avoid a double-free memory error when the property gets deleted.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Signed-off-by: Luc Michel <luc@lmichel.fr>
+> ---
+>
 
-for you to fetch changes up to ee01926a11b1f9bffcd6cdec0961dd9d1882da71:
+In principle, that makes sense. But I don't see any users of that API yet.
 
-  tests/9pfs: add local Tunlinkat hard link test (2020-10-22 20:26:33 +0200)
+It would have been nice to have some unit tests for qdev-clock.h..
 
-----------------------------------------------------------------
-9pfs: more tests using local fs driver
+ hw/core/qdev-clock.c | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>
+> diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c
+> index 6a9a340d0f..eb05f2a13c 100644
+> --- a/hw/core/qdev-clock.c
+> +++ b/hw/core/qdev-clock.c
+> @@ -59,10 +59,18 @@ static NamedClockList *qdev_init_clocklist(DeviceStat=
+e
+> *dev, const char *name,
+>      } else {
+>          object_property_add_link(OBJECT(dev), name,
+>                                   object_get_typename(OBJECT(clk)),
+>                                   (Object **) &ncl->clock,
+>                                   NULL, OBJ_PROP_LINK_STRONG);
+> +        /*
+> +         * Since the link property has the OBJ_PROP_LINK_STRONG flag, th=
+e
+> clk
+> +         * object reference count gets decremented on property deletion.
+> +         * However object_property_add_link does not increment it since =
+it
+> +         * doesn't know the linked object. Increment it here to ensure t=
+he
+> +         * aliased clock stays alive during this device life-time.
+> +         */
+> +        object_ref(OBJECT(clk));
+>      }
+>
+>      ncl->clock =3D clk;
+>
+>      QLIST_INSERT_HEAD(&dev->clocks, ncl, node);
+> --
+> 2.28.0
+>
+>
+>
 
-Only 9pfs test case changes this time:
+--=20
+Marc-Andr=C3=A9 Lureau
 
-* Refactor: Rename functions to make top-level test functions fs_*()
-  easily distinguishable from utility test functions do_*().
+--00000000000052901905b254cff1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* Refactor: Drop unnecessary function arguments in utility test
-  functions.
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 20, 2020 at 1:11 PM Luc=
+ Michel &lt;<a href=3D"mailto:luc@lmichel.fr">luc@lmichel.fr</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">When aliasing a=
+ clock with the qdev_alias_clock() function, a new link<br>
+property is created on the device aliasing the clock. The link points<br>
+to the aliased clock and use the OBJ_PROP_LINK_STRONG flag. This<br>
+property is read only since it does not provide a check callback for<br>
+modifications.<br>
+<br>
+The object_property_add_link() documentation stats that with<br>
+OBJ_PROP_LINK_STRONG properties, the linked object reference count get<br>
+decremented when the property is deleted. But it is _not_ incremented on<br=
+>
+creation (object_property_add_link() does not actually know the link).<br>
+<br>
+This commit increments the reference count on the aliased clock to<br>
+ensure the aliased clock stays alive during the property lifetime, and<br>
+to avoid a double-free memory error when the property gets deleted.<br>
+<br>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.=
+org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br>
+Signed-off-by: Luc Michel &lt;<a href=3D"mailto:luc@lmichel.fr" target=3D"_=
+blank">luc@lmichel.fr</a>&gt;<br>
+---<br></blockquote><div><br></div><div>In principle, that makes sense. But=
+ I don&#39;t see any users of that API yet.</div><div><br></div><div>It wou=
+ld have been nice to have some unit tests for qdev-clock.h..</div><div><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0hw/core/qdev-clock.c | 8 ++++++++<br>
+=C2=A01 file changed, 8 insertions(+)<br>
+<br>
+diff --git a/hw/core/qdev-clock.c b/hw/core/qdev-clock.c<br>
+index 6a9a340d0f..eb05f2a13c 100644<br>
+--- a/hw/core/qdev-clock.c<br>
++++ b/hw/core/qdev-clock.c<br>
+@@ -59,10 +59,18 @@ static NamedClockList *qdev_init_clocklist(DeviceState =
+*dev, const char *name,<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0object_property_add_link(OBJECT(dev), nam=
+e,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 object_get_typename(OBJECT(cl=
+k)),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (Object **) &amp;ncl-&gt;cloc=
+k,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, OBJ_PROP_LINK_STRONG);<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /*<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* Since the link property has the OBJ_PR=
+OP_LINK_STRONG flag, the clk<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* object reference count gets decremente=
+d on property deletion.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* However object_property_add_link does =
+not increment it since it<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* doesn&#39;t know the linked object. In=
+crement it here to ensure the<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0* aliased clock stays alive during this =
+device life-time.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_ref(OBJECT(clk));<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0ncl-&gt;clock =3D clk;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0QLIST_INSERT_HEAD(&amp;dev-&gt;clocks, ncl, node);<br>
+-- <br>
+2.28.0<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-* More test cases using the 9pfs 'local' filesystem driver backend,
-  namely for the following 9p requests: Tunlinkat, Tlcreate, Tsymlink
-  and Tlink.
-
-----------------------------------------------------------------
-Christian Schoenebeck (8):
-      tests/9pfs: simplify do_mkdir()
-      tests/9pfs: add local Tunlinkat directory test
-      tests/9pfs: add local Tlcreate test
-      tests/9pfs: add local Tunlinkat file test
-      tests/9pfs: add local Tsymlink test
-      tests/9pfs: add local Tunlinkat symlink test
-      tests/9pfs: add local Tlink test
-      tests/9pfs: add local Tunlinkat hard link test
-
-Greg Kurz (5):
-      tests/9pfs: Factor out do_version() helper
-      tests/9pfs: Set alloc in fs_create_dir()
-      tests/9pfs: Factor out do_attach() helper
-      tests/9pfs: Turn fs_readdir_split() into a helper
-      tests/9pfs: Turn fs_mkdir() into a helper
-
- tests/qtest/virtio-9p-test.c | 467 +++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 431 insertions(+), 36 deletions(-)
+--00000000000052901905b254cff1--
 
