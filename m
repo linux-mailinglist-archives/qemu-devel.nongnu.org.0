@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09169297252
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:31:15 +0200 (CEST)
-Received: from localhost ([::1]:48698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96FBB29725F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:34:13 +0200 (CEST)
+Received: from localhost ([::1]:56928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVz2A-0007FW-1l
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:31:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57422)
+	id 1kVz52-0002YT-M6
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:34:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyrN-0001gu-I0
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:20:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59612)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyra-0001mQ-6T
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:20:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27795)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyrL-0000B9-NY
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:20:05 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVyrS-0000Bi-F6
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:20:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603466403;
+ s=mimecast20190719; t=1603466408;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E6cKAl65zW1qyY38kdhpIGpdqbKF2puemJ9sAGdpEGk=;
- b=VUuaZRsGT9AFOZ12UfSJKcxnaPZo0LFcnmdzZRaUqqKEeYw0YDPGwxUXu48eiEkE6dklOw
- VMjBMIFkKrjLiWJ1lOQ4xBP9LBLw4qZRRXAYlp2hGr/6KuE7IiFGttUv15+obIiOpuA7ZH
- KcL+JKptRGb0fVb78jhOF44BUsTzkoY=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-87-0F8vc1QsNd6N4lpFzkVixA-1; Fri, 23 Oct 2020 11:20:00 -0400
-X-MC-Unique: 0F8vc1QsNd6N4lpFzkVixA-1
-Received: by mail-wr1-f71.google.com with SMTP id t17so700067wrm.13
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:20:00 -0700 (PDT)
+ bh=RJinNb06Gf0QcNRno4TNgRALIvb6H/vJjFM/EgfOCIw=;
+ b=eqVHQKaZCXrT2G2UUJy1hNEcO2zzLfAogS4zioeKQ2wNNzjWh3gRY1CCRRjJlzDRAmnN8A
+ zZ+2oDvAQOJvLi6ZuG8MXgO/piTHMzoBYVrtLdAtmayjlES+Q21KhJW/qxDtZfF7+mYE1D
+ V4I5iFJM/bYrbUvA1OQwM3GqDobPeJI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-E5I4AXo5NLuC136TzQbVqA-1; Fri, 23 Oct 2020 11:20:05 -0400
+X-MC-Unique: E5I4AXo5NLuC136TzQbVqA-1
+Received: by mail-wr1-f69.google.com with SMTP id v5so714662wrr.0
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:20:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=E6cKAl65zW1qyY38kdhpIGpdqbKF2puemJ9sAGdpEGk=;
- b=MdlyfXFxFCotOA9fghaXQ+9jW6SaicpVntVzphcXLo5yDINb1nckm3Cyn0NDNoISLF
- k/hpH1FtCPySnknFrfJ9Ubm2PERHf1tKNZyhQh8bB2fIHA79pevd8PgJAS5+0vLftv2W
- ylJR7goSMlstW91JIUU4WYG58NVF9pDfLTL9ndym1fwIuSYAUBn49wxESnInsYz0qhRD
- lIqpO9oGSqv9JZLtswOxtaYMmVJXv+b5sxnafCKt2xdfZoqvpzhdncOXnKG27h5fO97k
- iVK6gxoQ4uFP+rylAG8Tg/mdMn9WMls/s/+Ydfq0Q2QT9+DlqUJl6hjzGYXfIKNRyw/+
- dhkQ==
-X-Gm-Message-State: AOAM531LYJPoUc/LE9+4mE4JpnBP0lMBtSnmVh3PE+rqqQguwdPTSPGi
- YaSjryXx+N87oKJSMyu8zDnhwJbJmtZw+URnd+3EnpAQBXl1ezvEMO0Vxdz4fZXfo8H6uazGBqk
- 7xsF/rf6bbu8cD7Q=
-X-Received: by 2002:adf:9f0a:: with SMTP id l10mr3004586wrf.427.1603466398991; 
- Fri, 23 Oct 2020 08:19:58 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx6SANdtk0trnDse1dOiwg/trn2UoCu6ZDnKMlQdgTPRyQdT038mLI5VBv/zvFMpTXeqTn23Q==
-X-Received: by 2002:adf:9f0a:: with SMTP id l10mr3004564wrf.427.1603466398833; 
- Fri, 23 Oct 2020 08:19:58 -0700 (PDT)
+ bh=RJinNb06Gf0QcNRno4TNgRALIvb6H/vJjFM/EgfOCIw=;
+ b=bfkQGQcoSXRapiom7Q9FEXlAwX8cza4QX3GR2348bktCaAIrXkBy9zv+F02gyyjUAQ
+ aFix5wNlAEY9QXCK5NYSpshpRSB1yDdA69iE00lrFWV3pvSHsBkmzicPH3W7IH3INzfr
+ 5nxUuEyPkWa9pe1jGsgvkyfgEvyTUN2hxf5aUVECthAFtMI47lr/Xf0ZO94HwosQ0gC8
+ xeDdj6QHIV5kN0jRynKqEOFGeSFRCZxUMmIRxNODILD4XFfPF2QJeM4E3k+KlMcSoKlM
+ Fc+2Rq8brAWtiHhsL8bkT2gGnEG+nNKMLijNAyzpxkFR3TbFxQPbx5dHrqzX104d6ypA
+ MaXQ==
+X-Gm-Message-State: AOAM531VG71CVlprQ4ds8mnrkzj6eu7BnmhkLOXcdIAJbdRSmFjwiRHz
+ Go5r1KevZVYnFdchwy+gzUwhVOtHEeNSt95r5noBOsAOOj0x/nnGkf3bUoqPFN03CDVdLNS8ww6
+ kqSAQNF48/IKKeuM=
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr3025585wmb.129.1603466403590; 
+ Fri, 23 Oct 2020 08:20:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxedeCEGIRMyJ+he0rOhNoWB6qoAf5QCSiSC5rcP5S4uAE2bhbhMRIAXFcF1EleEetzVNdGJQ==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr3025568wmb.129.1603466403425; 
+ Fri, 23 Oct 2020 08:20:03 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id a127sm4252674wmh.13.2020.10.23.08.19.57
+ by smtp.gmail.com with ESMTPSA id c15sm3622655wmb.27.2020.10.23.08.20.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 08:19:58 -0700 (PDT)
+ Fri, 23 Oct 2020 08:20:02 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND v3 07/10] dma: Let dma_memory_write() propagate
- MemTxResult
-Date: Fri, 23 Oct 2020 17:19:20 +0200
-Message-Id: <20201023151923.3243652-8-philmd@redhat.com>
+Subject: [PATCH RESEND v3 08/10] pci: Let pci_dma_rw() propagate MemTxResult
+Date: Fri, 23 Oct 2020 17:19:21 +0200
+Message-Id: <20201023151923.3243652-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023151923.3243652-1-philmd@redhat.com>
 References: <20201023151923.3243652-1-philmd@redhat.com>
@@ -96,64 +95,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Li Qiang <liq3ea@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Li Qiang <liq3ea@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-dma_memory_rw_relaxed() returns a MemTxResult type.
+dma_memory_rw() returns a MemTxResult type.
 Do not discard it, return it to the caller.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/sysemu/dma.h | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ include/hw/pci/pci.h | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/include/sysemu/dma.h b/include/sysemu/dma.h
-index df170047eb3..a052f7bca3f 100644
---- a/include/sysemu/dma.h
-+++ b/include/sysemu/dma.h
-@@ -96,8 +96,10 @@ static inline MemTxResult dma_memory_read_relaxed(AddressSpace *as,
-     return dma_memory_rw_relaxed(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index f19ffe6b4fe..b8780ea18c1 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -780,8 +780,22 @@ static inline AddressSpace *pci_get_address_space(PCIDevice *dev)
+     return &dev->bus_master_as;
  }
  
--static inline int dma_memory_write_relaxed(AddressSpace *as, dma_addr_t addr,
--                                           const void *buf, dma_addr_t len)
-+static inline MemTxResult dma_memory_write_relaxed(AddressSpace *as,
-+                                                   dma_addr_t addr,
-+                                                   const void *buf,
-+                                                   dma_addr_t len)
- {
-     return dma_memory_rw_relaxed(as, addr, (void *)buf, len,
-                                  DMA_DIRECTION_FROM_DEVICE);
-@@ -143,8 +145,20 @@ static inline MemTxResult dma_memory_read(AddressSpace *as, dma_addr_t addr,
-     return dma_memory_rw(as, addr, buf, len, DMA_DIRECTION_TO_DEVICE);
- }
- 
--static inline int dma_memory_write(AddressSpace *as, dma_addr_t addr,
--                                   const void *buf, dma_addr_t len)
+-static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+-                             void *buf, dma_addr_t len, DMADirection dir)
 +/**
-+ * address_space_write: Write to address space from DMA controller.
++ * pci_dma_rw: Read from or write to an address space from PCI device.
 + *
 + * Return a MemTxResult indicating whether the operation succeeded
 + * or failed (eg unassigned memory, device rejected the transaction,
 + * IOMMU fault).
 + *
-+ * @as: #AddressSpace to be accessed
-+ * @addr: address within that address space
++ * @dev: #PCIDevice doing the memory access
++ * @addr: address within the #PCIDevice address space
 + * @buf: buffer with the data transferred
-+ * @len: the number of bytes to write
++ * @len: the number of bytes to read or write
++ * @dir: indicates the transfer direction
 + */
-+static inline MemTxResult dma_memory_write(AddressSpace *as, dma_addr_t addr,
-+                                           const void *buf, dma_addr_t len)
++static inline MemTxResult pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
++                                     void *buf, dma_addr_t len,
++                                     DMADirection dir)
  {
-     return dma_memory_rw(as, addr, (void *)buf, len,
-                          DMA_DIRECTION_FROM_DEVICE);
+     return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+ }
 -- 
 2.26.2
 
