@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6417729732F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:06:35 +0200 (CEST)
-Received: from localhost ([::1]:48386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B7A297317
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:02:21 +0200 (CEST)
+Received: from localhost ([::1]:34686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzaM-0004oU-36
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60366)
+	id 1kVzWG-0007Yp-Db
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyv-0004KG-K8
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:54 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26170)
+ id 1kVyyx-0004Kc-9b
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:56 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyr-0001YB-Gz
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:53 -0400
+ id 1kVyys-0001Xq-Ai
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:54 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466869; x=1635002869;
+ t=1603466870; x=1635002870;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=gRLFW5UCKjh4yvdZBvLQXqEJVfV48oDYZ79tpYj1D7Q=;
- b=FhO+lpplcE/M+Jwl4Q+KrkHHZD9KhuzErCkLUgnevwJvOeBBlRc3Kmqi
- K3XQenCVYXblj9XT5vIOqFMddLecl1/RRT2ihkLgCr33KEFuv5XkSu6w7
- fmzno+yqojdgcXbZmQ5rqwycLIxk7tPdLAaLwuymHk1kvY8l+Tupay/o+
- OK7r7NUILG3eMaH1+/YukaxukJPdl/knr/VufDp9t/Y4q3eDa7n/KZyrN
- vePf7wb8p0wTThKRuI1CjE4mmbg6bAVr5/jsK9rzAc2I2DG1X1Ac1lCse
- GpxkkZnvVLrwHqkZaz9Dxi4j3SXE6Khx9FyGZyvaabQxbFm5rkY5UHXYT g==;
-IronPort-SDR: KIv2oBvMkcOjDj2kH+PrWgul7DRxgH2y0LJcVUM79E5JV/MhaZ7bzk9mRwb9GRTw63S8Lq/s3c
- 5bEptVR3UiqwutKqtnm30fRDxH7IuuCQgWwIvsmcRi5s5ByIdKoo3XUpt/6UPNrvQNbs8/IpYr
- n2g0Tj7so9i3WrAiGzBdQT+oLC51w6eCVXxdMuJq99TyylTpbp9yOlBe4C8Z6AZsl0FaH/VaEK
- +H2sfT93ntOAd6arh9vIa+Zr+VFDXlIppOLLDojoAzsbZkyZfIDj+rEavfhgkJR8iXqmzoBJ2i
- FY4=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652321"
+ bh=L0zM4Ec9Du3VjXk0D2sog4reuXMCNB9GtHWmH3J6P3k=;
+ b=GZuBTbb3cIHolxnaPFStoS4eC0HoMUj5U5ObvYL3KUKhQFnTQrLQjRz/
+ oca+w251DedqVYSHCp+2mtj2g4MHbBXfAU6S2pZa1SoYnEvMF7J13mgUG
+ 3iQOCcvES7ikYCbUbwX573D/+1HpB1keqZcb2zgx+hOwjLIlk1rVbj2XK
+ mZb6Hh/C65B3Kelnxh5PduPwFltaGSi7x7CvtNEOsShqlRQu/lRUyuN1X
+ d618Tt7dDG3ba1Hy0ZzM01ZnJS8rwQnGWTkFmoKEyrV/4fIKW08Aik+ik
+ vl4Dks+Aln4BprPjyBkkgR4Jv4DDh6ApRDZ1ygpgvQneGWw0jDWKHuKOi Q==;
+IronPort-SDR: UMbbNC47FlWlQ+M2QWDO0uPKrBzYgSwVItxQkrM421y/4eD+Tbh2MDVL2+8Xm6X6WcSfHAXfBH
+ qA9pBFHSYhvW1uH32Nc9GVJingpkX427Wpi2zDB9ZCDGtkDygYgtfCAA4d1d7OzY0WXnmm3BDW
+ uY/x6c1ldvH6IRzABqFLGGOcvS7BMDHCSwFG0pZPmdhUq9R8jtEf+h5czphu2rd7stXMRurmAA
+ 4v+z1N0lyPuwxvGHeE7w+WDyDKeyw5TyQq7OOdpFuivnMA4mwepIKUK0i2+Z4NcWXa3XrOY65A
+ bKw=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652322"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:43 +0800
-IronPort-SDR: W0bfe6gLH7Rsyl0H6TZRxS5JRuyZZpVrtCQ2hXkWd+7toBw3WCiCAZ7x38nn2QI1T+HL/LPMeS
- hB1gKvYY3SjuAU9k576TTE0+QQUH7T1UtiUxtZ44JR3NsXvP9PfNJrlsZhjIHOC7y0BlDB+CFy
- n7jGDy1z0m1BPeqPX9a+I4iVABkNmpH6vQrOxh60nSZzLL4h2Wbgj/5Df+7bXxaIUV9xLOZeSq
- eSyDc3AFCBVT+T1UOs8coLoHE03hD/MT+bL8LyNzT0jV2Pv1lzmSW5q+LQzJAqMaiaCfCFzc+a
- mWkbyjIB+WbcmQ2ncmuzuDHL
+ by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:44 +0800
+IronPort-SDR: 6vlaS1SwUQfTgvr9iBQcmHOghXT+3t9JDbjZyogKVY6TQvf6wSCKLKkeIuzRIPmkhN2tMoNvgN
+ ebPrEWZcJLMU3aLG6ertfDIBRripthAWvf6EZYGDo5so1h5lYXUjzz4Bfm785yzdiWNsWi2m++
+ RA/61t/7EbFYna31Zvz2/hVOVA0cqWO/XlfFDvh3lceea4PkRwD7Xth9dHyjLVM62e3K1GRpJh
+ 4c1MqzHtn3UNNNKloCy3Z+f65coNbr58P7r3akDhFWj5kdrxenHn3/VLnRJqZAcW18tK1dHEo0
+ c0Xa28GQ5cBFoDWGwCMZ+lC5
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Oct 2020 08:12:59 -0700
-IronPort-SDR: Uym5J0JqYHMp8vu3fkrO9a5wU3qkxZl21fCIgJydQoF6PXJjpDt5pi81nSjnA6xV+wHudDYFmZ
- 1MeemGmgolWaCgcm0h0+Uzpqs3f9mJOiPVDQ+VurPe3hv3knSodKFw6jNv9glla0H+h7S8o2Zr
- okxqadq3ZF+f3Yg1fcYsutOzfd29nPawcHzgfzI0qJnZT6xvcdTrlEmVyLGolZpY0J6i+ffXvS
- 3aooc7hklsgMCxo+Ob+ZO96FnontMUpXR9Hs1ygp/5GeLM8ek8ZYo7Q/VPFtnnsX3mplm0lQQ6
- CSk=
+IronPort-SDR: t2cAvG8Sx08WNpBvsnm8plfJY/ZJziv+H+p/CXj4KOjPUWepWsxV1PQcfOc/GkEPlvwbJXegsG
+ 5e87cdYNDJF/r1GgRGk43uhxF7cb0YQidDMk52oaFVRk2UyceNMELUijJOmJMRJHScORDxn5xu
+ Gp7X/bdwvdYIv1IHVwkl6EnBjMwgP73Ium2jswVGnqjgcrHido4zht8xaXewrosIU11DH6BA5T
+ oZIXVn8mf/SS/PLQmz6HDGR+ZFGeDh5snxXMZ2oyYt2+K05bxmTP46zD7fUeNxD/ZKhCxVR1i8
+ 1eU=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:27:43 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:27:44 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 05/12] target/riscv: Fix implementation of HLVX.WU instruction
-Date: Fri, 23 Oct 2020 08:16:12 -0700
-Message-Id: <20201023151619.3175155-6-alistair.francis@wdc.com>
+Subject: [PULL 06/12] hw/riscv: sifive_u: Allow specifying the CPU
+Date: Fri, 23 Oct 2020 08:16:13 -0700
+Message-Id: <20201023151619.3175155-7-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.42;
  envelope-from=prvs=558518344=alistair.francis@wdc.com;
@@ -95,47 +94,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Georg Kotheimer <georg.kotheimer@kernkonzept.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Palmer Dabbelt <palmerdabbelt@google.com>, alistair23@gmail.com,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Allow the user to specify the main application CPU for the sifive_u
+machine.
 
-The HLVX.WU instruction is supposed to read a machine word,
-but prior to this change it read a byte instead.
-
-Fixes: 8c5362acb57 ("target/riscv: Allow generating hlv/hlvx/hsv instructions")
-Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201013172223.443645-1-georg.kotheimer@kernkonzept.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Message-id: b8412086c8aea0eff30fb7a17f0acf2943381b6a.1602634524.git.alistair.francis@wdc.com
 ---
- target/riscv/op_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ include/hw/riscv/sifive_u.h |  1 +
+ hw/riscv/sifive_u.c         | 18 +++++++++++++-----
+ 2 files changed, 14 insertions(+), 5 deletions(-)
 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index e987bd262f..4ce73575a7 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -333,12 +333,12 @@ target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
-         riscv_cpu_set_two_stage_lookup(env, true);
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index 22e7e6efa1..a9f7b4a084 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -48,6 +48,7 @@ typedef struct SiFiveUSoCState {
+     CadenceGEMState gem;
  
-         switch (memop) {
--        case MO_TEUL:
--            pte = cpu_ldub_data_ra(env, address, GETPC());
--            break;
-         case MO_TEUW:
-             pte = cpu_lduw_data_ra(env, address, GETPC());
-             break;
-+        case MO_TEUL:
-+            pte = cpu_ldl_data_ra(env, address, GETPC());
-+            break;
-         default:
-             g_assert_not_reached();
-         }
+     uint32_t serial;
++    char *cpu_type;
+ } SiFiveUSoCState;
+ 
+ #define TYPE_RISCV_U_MACHINE MACHINE_TYPE_NAME("sifive_u")
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 6ad975d692..5f3ad9bc0f 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -424,6 +424,8 @@ static void sifive_u_machine_init(MachineState *machine)
+     object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_U_SOC);
+     object_property_set_uint(OBJECT(&s->soc), "serial", s->serial,
+                              &error_abort);
++    object_property_set_str(OBJECT(&s->soc), "cpu-type", machine->cpu_type,
++                             &error_abort);
+     qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+ 
+     /* register RAM */
+@@ -590,6 +592,11 @@ static void sifive_u_machine_class_init(ObjectClass *oc, void *data)
+     mc->init = sifive_u_machine_init;
+     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
+     mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
++#if defined(TARGET_RISCV32)
++    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U34;
++#elif defined(TARGET_RISCV64)
++    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U54;
++#endif
+     mc->default_cpus = mc->min_cpus;
+ 
+     object_class_property_add_bool(oc, "start-in-flash",
+@@ -618,7 +625,6 @@ type_init(sifive_u_machine_init_register_types)
+ 
+ static void sifive_u_soc_instance_init(Object *obj)
+ {
+-    MachineState *ms = MACHINE(qdev_get_machine());
+     SiFiveUSoCState *s = RISCV_U_SOC(obj);
+ 
+     object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
+@@ -636,10 +642,6 @@ static void sifive_u_soc_instance_init(Object *obj)
+ 
+     object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
+                             TYPE_RISCV_HART_ARRAY);
+-    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
+-    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
+-    qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", SIFIVE_U_CPU);
+-    qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
+ 
+     object_initialize_child(obj, "prci", &s->prci, TYPE_SIFIVE_U_PRCI);
+     object_initialize_child(obj, "otp", &s->otp, TYPE_SIFIVE_U_OTP);
+@@ -661,6 +663,11 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+     int i;
+     NICInfo *nd = &nd_table[0];
+ 
++    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
++    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
++    qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
++    qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
++
+     sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_abort);
+     /*
+@@ -792,6 +799,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+ 
+ static Property sifive_u_soc_props[] = {
+     DEFINE_PROP_UINT32("serial", SiFiveUSoCState, serial, OTP_SERIAL),
++    DEFINE_PROP_STRING("cpu-type", SiFiveUSoCState, cpu_type),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 2.28.0
 
