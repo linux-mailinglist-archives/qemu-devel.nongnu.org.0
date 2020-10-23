@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5224F296F82
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:39:25 +0200 (CEST)
-Received: from localhost ([::1]:55056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3172296F8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:41:22 +0200 (CEST)
+Received: from localhost ([::1]:34190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVwLs-0003ms-CA
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:39:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42418)
+	id 1kVwNl-0006sX-RT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:41:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwIe-0000gF-7P; Fri, 23 Oct 2020 08:36:04 -0400
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:35467)
+ id 1kVwKD-0002gt-Lf; Fri, 23 Oct 2020 08:37:41 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwIX-0003YU-Eo; Fri, 23 Oct 2020 08:36:03 -0400
-Received: by mail-pf1-x431.google.com with SMTP id h7so1148627pfn.2;
- Fri, 23 Oct 2020 05:35:55 -0700 (PDT)
+ id 1kVwKB-0003jS-Us; Fri, 23 Oct 2020 08:37:41 -0400
+Received: by mail-pl1-x642.google.com with SMTP id bh6so790342plb.5;
+ Fri, 23 Oct 2020 05:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=agnwUKzL+zyHdH6roUOKcRrSPu8n52OSR+lxRMXby5k=;
- b=QxVcXBsSU2Igyv+u/PRFjpB3atQRBrGFbB6MQkHDqOQbsd8lotzUblU86kmjnrQ44b
- /1Qk8/UjCbBG5H4xhJ0NBIzPoxr5iTu5939yRd3byswW3b8ej0002nO4hQUrNHShx+LA
- GFrd0Lezxn6tcrCvmIdnEPHFK4gWuBFmvpRR7uH2ARrz/cpYhYGUnvTJHb2VW4tZ06zA
- VFOFbuKK4YJstKFASHo0oanzEUvXA8cbpYkX6KvHBP28TNqKw+3WVXPTbXJ42zrluehc
- zF35PZs3kChep1vIs5tADKfBqvMAdUlb00+Rk0Vf4A/BknPZnM8pGsLix7H2/gS2D8Fd
- Kpjg==
+ bh=HF7WxCoU141NN82TMoYgFYduXuLv/LrNAeQnct+AkvY=;
+ b=slNatfOy7/n6EOvu6SbgmnGR/WaOIdBVCjdwJlPiMzu2Zwt8QvCqf9peRMIWCdkdMe
+ N1PBtfLSIb8vkkj88zFZg1S5Ek6F/PFAiuYS8p4Aki8uDjeYpHN0NVS1Yfm4ZM8NWK4k
+ RFVFG5XlDBgcAxzVaoZvQORrNYZXgtZtvTFVYE8knKv4prnbuqpiKAL4N6HlA93N4drg
+ fZM+E/F4KLQoKnBTdJVfisnAPOX+Gt1gBoo1nvE15NypfZjiZOtCwhmcQ2xlEjVbhdMk
+ +nBVzPwzmbVbDu6S2kCTEXO1b5Eblv5VpS9B+7BMRgvfKj0YZcBXJK9WTwtvqWG/tvOi
+ odXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=agnwUKzL+zyHdH6roUOKcRrSPu8n52OSR+lxRMXby5k=;
- b=eVWlESstI4kkMH/78VvKOHK3C6Izv92H6dxenuGddg8Jpqo4JZtk4rq5g5wKgS3ydU
- d7jbsHnGnaYqOgeJetz2VhIbkY5Yv2BjMX+QbF+4GWRNzwbAA+dtwMBXilADBMgojV0D
- LSFyLEmCpW/WiqunergXWuHX5vod+WAqudAiQE1/EdFegY225RLZfq4vm14Thu61qVAQ
- rz4hLtjD2Rtlc3+CDStPGDY0X6DDRcdK5yuVvYxnRx/8u2Yq6l5m2ePhCaxONLLOVsPV
- FyrKKdy+afl6Cya5ejyeRfZ/wZbHUv7ktNh0zl+EFQlyhAF4D74r7Fx1UzfELSazCudf
- R9mQ==
-X-Gm-Message-State: AOAM530r8lQAthVqSOFZZ5r7zqyLL69jmpwf+QLRYr69pG9CZ6l2ZI53
- YWS6sLT0mZZfpdHH5KH7/TgnqRzv+9Lb2aWt
-X-Google-Smtp-Source: ABdhPJzh7tXvAkX+gvGsphu6nRvA+pMOBe7AfZOLiM/l3+ormu9/OYi8+UIEQuCvI2cHeWX60w8hXQ==
-X-Received: by 2002:a17:90a:b293:: with SMTP id
- c19mr2341057pjr.122.1603456554642; 
- Fri, 23 Oct 2020 05:35:54 -0700 (PDT)
+ bh=HF7WxCoU141NN82TMoYgFYduXuLv/LrNAeQnct+AkvY=;
+ b=KFG/dPzviadVwRXVMybzt6QQ3yJUpUKB46ac/VNhiH01GtL5vd9eDfhyBNfmAMIbT5
+ 97uKRFLk9/UoN0WQZvBpfcGFokFfiRMaVeRSiMWNSHYSNzxsoJh1a5m+1XjydZ0p3xvj
+ Tp4Ln7oZM9iaVvllJsNy2TXG3eDleIkDA1vHZsn2pwUg9u5IVxUkfKgRD6Nbkp8vCDtc
+ 9gSIKtNUF70anMcuyzbye72yKlTcmJ0TKacZBvZhKfZovFUrvhUI24z9NihDzgoh2SBq
+ /FmT3DO8l0UaQysrGPkgrjuadvUtMrzq4WOw6770cpFPqfcD+HSOwHLT2V+anO9ZuuvZ
+ P3Bg==
+X-Gm-Message-State: AOAM5313zLRicaICt7agsE5FuEGeLv9O3WYXQWyBn7VayFrpjSfTtitK
+ fveZCj4CwtAA5qHNL5mSEsI86jWtRE05zyL8
+X-Google-Smtp-Source: ABdhPJzZM9nJ5w6FDW5iCielKYeHSigIWURLAsr9T/mBvDxOHlvuJ+Z+uWfqbMhiMJltbT2iVOQ9uA==
+X-Received: by 2002:a17:902:204:b029:d3:9c43:3715 with SMTP id
+ 4-20020a1709020204b02900d39c433715mr1991511plc.74.1603456657563; 
+ Fri, 23 Oct 2020 05:37:37 -0700 (PDT)
 Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id c127sm2041114pfc.115.2020.10.23.05.35.52
+ by smtp.gmail.com with ESMTPSA id t30sm782734pfg.126.2020.10.23.05.37.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:35:53 -0700 (PDT)
+ Fri, 23 Oct 2020 05:37:36 -0700 (PDT)
 From: Chetan Pant <chetan4windows@gmail.com>
 To: qemu-trivial@nongnu.org
-Subject: [PATCH 23/30] tpm: Fix Lesser GPL version number
-Date: Fri, 23 Oct 2020 12:35:16 +0000
-Message-Id: <20201023123516.19843-1-chetan4windows@gmail.com>
+Subject: [PATCH 24/30] w32: Fix Lesser GPL version number
+Date: Fri, 23 Oct 2020 12:36:24 +0000
+Message-Id: <20201023123624.19891-1-chetan4windows@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
 References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=chetan4windows@gmail.com; helo=mail-pl1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,8 +80,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chetan Pant <chetan4windows@gmail.com>, qemu-devel@nongnu.org,
- stefanb@linux.ibm.com
+Cc: sw@weilnetz.de, qemu-devel@nongnu.org,
+ Chetan Pant <chetan4windows@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,70 +92,14 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 ---
- backends/tpm/tpm_emulator.c    | 2 +-
- backends/tpm/tpm_passthrough.c | 2 +-
- backends/tpm/tpm_util.c        | 2 +-
- hw/tpm/tpm_prop.h              | 2 +-
- include/sysemu/tpm_util.h      | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ util/oslib-win32.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 201cd38..a012adc 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -14,7 +14,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/backends/tpm/tpm_passthrough.c b/backends/tpm/tpm_passthrough.c
-index 8f6f499..21b7459 100644
---- a/backends/tpm/tpm_passthrough.c
-+++ b/backends/tpm/tpm_passthrough.c
-@@ -11,7 +11,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/backends/tpm/tpm_util.c b/backends/tpm/tpm_util.c
-index b58d298..e6aeb63 100644
---- a/backends/tpm/tpm_util.c
-+++ b/backends/tpm/tpm_util.c
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/tpm/tpm_prop.h b/hw/tpm/tpm_prop.h
-index 85e1ae5..d19e40c 100644
---- a/hw/tpm/tpm_prop.h
-+++ b/hw/tpm/tpm_prop.h
-@@ -8,7 +8,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/sysemu/tpm_util.h b/include/sysemu/tpm_util.h
-index 63e872c..08f0517 100644
---- a/include/sysemu/tpm_util.h
-+++ b/include/sysemu/tpm_util.h
-@@ -8,7 +8,7 @@
+diff --git a/util/oslib-win32.c b/util/oslib-win32.c
+index c654daf..48e34c1 100644
+--- a/util/oslib-win32.c
++++ b/util/oslib-win32.c
+@@ -367,7 +367,7 @@ char *qemu_get_exec_dir(void)
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
