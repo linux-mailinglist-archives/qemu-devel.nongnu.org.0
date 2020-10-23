@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E36829738E
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:25:44 +0200 (CEST)
-Received: from localhost ([::1]:58378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 114E92973B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:28:15 +0200 (CEST)
+Received: from localhost ([::1]:37980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzst-00085V-BB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:25:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37024)
+	id 1kVzvK-00039M-47
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:28:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFC-00022t-HY; Fri, 23 Oct 2020 11:44:44 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:6144)
+ id 1kVzFG-00024v-9a; Fri, 23 Oct 2020 11:44:47 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:43662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFA-0003gF-HX; Fri, 23 Oct 2020 11:44:42 -0400
+ id 1kVzFE-0003gp-DR; Fri, 23 Oct 2020 11:44:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603467881; x=1635003881;
+ t=1603467884; x=1635003884;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=tVeLQH5d/2Mry1kB+Oc8jJWYNBfxFWaNX19V7lAW+bs=;
- b=prMEvlm5K7b4rjOEWn/jRsGMTXHz9XhZ0dnVCXwQBIRjSWjg2grp6ILP
- ey30X1ycSYlXJw/jNh2ifY4gFP2fidsMUeqqeEQOY7OiT8+n8qttLM6Pv
- CoxLJ4i1oVMIHYCsjpQFp+5vCujn9FvBN6ZTO1BrFF4Vduz2pqBs4rYOb
- sOLyRQTugVQFM0Lt4zCJjplCP3kxayxhtig1s8DxsQTsy7wpwYOFl+v+p
- zCQiInUXthzgaHH688hG4+bSXMgJeEfitUz49pVvjD89lw8YzWVGGV3ju
- f6pgEP6Y3MDXWSGtuRJXRea3V2WGyVDUL6YUCFFmbbmmjskMbuIYxfa0u w==;
-IronPort-SDR: d3xymO1EL4XrqP1P/qbJre2UcUDawZ2ZPJ4k86/IcksfJ3D4RqPMsv2EamAsnBM05P4YBRQ5XT
- M+gZZY+qXt07eOVpCzqQYOuFV4DkjMO2HBHPU1eRgPdYrpt0Y3Z5+OYtiqEmZk6mm6KwfrLdmh
- H8Q9MS/XORQBMCc9LDluAWxkq/nRpUqNFe2XLqhstyjuhhrP070MKUWYbpPMQQolXTQjA8aEcZ
- nYooaTLtABI/Ufc7f+IyLltluDuSZrWmYL+RT7VLa65U94lc1svQ+wD3KUms1PDL3rb0fnUlDA
- PgI=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="151960153"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:44:40 +0800
-IronPort-SDR: FZ0U56zvdIWhzJXm7DzBj4hqc3NKH7+SdZ0THwvlSSx4txJULuwQrkaa6tIoyRPg7t/eP0yrMO
- AEr628ObRUHDWggS1+Vimds4EvMz2JD/dvK3oUkoUPW+MqGgfmf4CdRCb2OCrveCh1dD4PF0F7
- BhIdEeHhH2zaBRB1mCdz1p//0GXTACN0LFBXGnw0PuU4WSS2dkubHpNXclMOMvRYNJNIs9q6ww
- Vpt6EdKDewzFaxC+YImcM/FCP0mb6NlP5/XwVOhVIjAoza16Ap1+V+D89DdKDPAoz+kkV/zlq+
- X+kviG/9hXCB/w9Gk9aapa86
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:31:01 -0700
-IronPort-SDR: uyjIx8T53X8w1vm+0Md1+RQdsr9PyE/420kgkdvHtoYLlotvazEzKm50oari98EuMlz2mycAPp
- hANlagEvjABGhk0DiGUKMEPc9oinD9z/Ym3mp5AjdcSOs2Dzj1Ullxnn5l/h25/efUwYZQ/hSt
- BhDg+5VO9X2hguzZXuw7z/eJWx8D1S3vAIq+qRf4L3B9DrAkWZDMjCS+WM9iWf0xd8rMFiDzKB
- Mf+OBA2uB8E84fMjNFqlHb4gmmU5DSnt5mfivpMY/nvvltC/dwGxk5vA9btbjAl0yw/Yno1EmU
- fao=
+ bh=mO2KDDBwgipSRnDouZyuQauB4BvzjCpnifeQek8HSUw=;
+ b=gwB+N8uOGX8LXNCTaKG+DhY3y70QQdlfOZY8RBdUMUeDp86dcw6YI9y9
+ ZJQ4bTzP0YR08MJl0v5PkVmgMjS0XXu85IdOpjqUDYJXNRezVabCGf43p
+ vDqZY4P69+BlpFO4+/JEpqDtxrL3Pk/1emWS6QrtTbbz2sh7H/1CCTS5C
+ zpfllFM/HMlJqE/49izyA5s9nVBl34ITdpDGlY+0LmU4+L2PHnnVD9Vre
+ c/3+WB4rHIUV+PfLA/Uh1Yj5fCNLgtwx1EFYGw+erEtKRwdcKecUP/IKJ
+ C4AFALR+pKwbBNxhfZydu9npW5f/GxQzoaRkXuSbviv4KtHdkmu0WZy7h A==;
+IronPort-SDR: XmUK2ZMPxSlvQtw/O/cCpLZ5qTLVkJ54xDLdoUdg+dnIJ0JGtPG9oeuqV3OWqwdXd7LeGpSL0q
+ ND7gTm3s/3f3vWa3wbTeQBS/D8gEZxUD7BlmKfj1nmbHusntpXu5OLT7/2deRPCylefI0BFzar
+ I61xyEv92NBntWg9ehleDi19pQQxkZY8a+pmCeOxp3Hd0o6lO2iPI8d/vfd21mbgfQTCKvRLdG
+ cAr40i3FWJjjrb9QaCijbI7GxVB9x5Y+rX7aNfqoDHpg1P2qN8v84TJO0YTqjqwPRQHy6kWPYI
+ MtE=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150812572"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:44:42 +0800
+IronPort-SDR: XyNvr5gYUPKDB2zY+GKE9voYnvcHG59slZkwkqMble4rx3JdvQhyVVVFKO7IW24KCs5tYHMC3p
+ QS03QoqF6rl5h3xJY4JiS0WAd8DYMksbGuzYmUGiDhkMhMhYOn6LWqdu9TqNSIaIHQOUH4Fd1D
+ B0K9nx+uTDfkZ53ofb92XcyCKfflnTwQA++UPE1vvT8iFM4AcPkEVHYpiuMkO3ffA9RGceg9m0
+ /52fLVFtyG4zy3F4k5A9PA9ggE1JXZ7QfP69cx3NoZXErcEN3LS2yNtpNjUdvGBGiwEOblbpT2
+ 66+b9QbiT0JVnOd3QXBtbVCF
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2020 08:29:57 -0700
+IronPort-SDR: UZkSApcc2+K/I5TtgOdQXy8kX025DKJPNpVAB9NfwyGdHepyLZYfLxvpxWgrmSUYcHy4NRJjxa
+ 8B2lyXL/RYROEkM6bs2dy9/6MjmjI2B/zrGi+CntNIKNSGlgz61faxxegDdCOTHZU8YZ74rAjL
+ DwQJdxiQmGCnxXaRgId50Jy7aSFJz0U5PR3FqTWYwL6Zij/rLu0nCBNDMgOATEOxcRRtG7SQzR
+ 4NxSdrJu3ukKjxDKyl+VS0zFK3fpsJMoXzfdv3toKvmx1eb/g2Yk2ZnGpJMCGTNfeMc4geriiR
+ HqQ=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:44:39 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 23 Oct 2020 08:44:42 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v1 02/16] riscv: spike: Remove target macro conditionals
-Date: Fri, 23 Oct 2020 08:33:18 -0700
-Message-Id: <2f7f2621dda197492b848fcf186f1cb6fb3eb53d.1603467169.git.alistair.francis@wdc.com>
+Subject: [PATCH v1 03/16] riscv: virt: Remove target macro conditionals
+Date: Fri, 23 Oct 2020 08:33:21 -0700
+Message-Id: <9710f7917b7a1fcffce2d926005efc3bb84c0152.1603467169.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1603467169.git.alistair.francis@wdc.com>
 References: <cover.1603467169.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
+Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=558518344=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:44:34
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:44:42
 X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -99,38 +99,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/spike.h | 6 ------
- hw/riscv/spike.c         | 2 +-
+ include/hw/riscv/virt.h | 6 ------
+ hw/riscv/virt.c         | 2 +-
  2 files changed, 1 insertion(+), 7 deletions(-)
 
-diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-index cddeca2e77..cdd1a13011 100644
---- a/include/hw/riscv/spike.h
-+++ b/include/hw/riscv/spike.h
-@@ -47,10 +47,4 @@ enum {
-     SPIKE_DRAM
- };
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index b4ed9a32eb..84b7a3848f 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -89,10 +89,4 @@ enum {
+ #define FDT_INT_MAP_WIDTH     (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + 1 + \
+                                FDT_PLIC_ADDR_CELLS + FDT_PLIC_INT_CELLS)
  
 -#if defined(TARGET_RISCV32)
--#define SPIKE_V1_10_0_CPU TYPE_RISCV_CPU_BASE32
+-#define VIRT_CPU TYPE_RISCV_CPU_BASE32
 -#elif defined(TARGET_RISCV64)
--#define SPIKE_V1_10_0_CPU TYPE_RISCV_CPU_BASE64
+-#define VIRT_CPU TYPE_RISCV_CPU_BASE64
 -#endif
 -
  #endif
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index facac6e7d2..29f07f47b1 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -317,7 +317,7 @@ static void spike_machine_class_init(ObjectClass *oc, void *data)
-     mc->init = spike_board_init;
-     mc->max_cpus = SPIKE_CPUS_MAX;
-     mc->is_default = true;
--    mc->default_cpu_type = SPIKE_V1_10_0_CPU;
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 6bfd10dfc7..5f1fcebdc6 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -693,7 +693,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->desc = "RISC-V VirtIO board";
+     mc->init = virt_machine_init;
+     mc->max_cpus = VIRT_CPUS_MAX;
+-    mc->default_cpu_type = VIRT_CPU;
 +    mc->default_cpu_type = TYPE_RISCV_CPU_BASE;
+     mc->pci_allow_0_address = true;
      mc->possible_cpu_arch_ids = riscv_numa_possible_cpu_arch_ids;
      mc->cpu_index_to_instance_props = riscv_numa_cpu_index_to_props;
-     mc->get_default_cpu_node_id = riscv_numa_get_default_cpu_node_id;
 -- 
 2.28.0
 
