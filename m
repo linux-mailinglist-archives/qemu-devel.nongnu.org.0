@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E63732975AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:19:36 +0200 (CEST)
-Received: from localhost ([::1]:41054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C008A2975B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:24:14 +0200 (CEST)
+Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0j2-0004M4-11
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:19:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56096)
+	id 1kW0nV-0001sp-Jn
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:24:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kW0Oo-0001NY-Nj
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:58:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45563)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW0Ph-0002Lg-IK
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:59:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kW0Oi-0005AZ-K9
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:58:42 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kW0Pf-0005GS-9I
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:59:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603472315;
+ s=mimecast20190719; t=1603472374;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9+wyqoxRoHamLhKSdNFz5fBLOjHkBSk5R3XheaiQ8mE=;
- b=DDhLBLAvhM/WdXtssoQ9+7YqM4iLHokhLCelQpgnntU1SHHVscoskuFlrCnZjb3NffhXZ7
- ZAgXz7A6b8FMnzT2JR3b7nnE38AJlcjfDQkdvxHqzcnqqSpx60406Zc09WvuB8wQLTdGU0
- O0xK35BMf499uBoeb6fIWsJlRBz74AA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-273-Z76WtehkPXehvlWWVGpBeQ-1; Fri, 23 Oct 2020 12:58:34 -0400
-X-MC-Unique: Z76WtehkPXehvlWWVGpBeQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 136C81007463
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 16:58:33 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-113-212.ams2.redhat.com
- [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7F241002388;
- Fri, 23 Oct 2020 16:58:31 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
- dinechin@redhat.com, virtio-fs@redhat.com
-Subject: [PATCH v4 5/5] tools/virtiofsd: xattr name mappings: Simple 'map'
-Date: Fri, 23 Oct 2020 17:58:12 +0100
-Message-Id: <20201023165812.36028-6-dgilbert@redhat.com>
-In-Reply-To: <20201023165812.36028-1-dgilbert@redhat.com>
-References: <20201023165812.36028-1-dgilbert@redhat.com>
+ bh=LscKBPJWNCYEYxMndciasWda8dumSJGIBNmJkm1fYwU=;
+ b=hxZ2wpLJ+wyoOnjbMpA3ZcQ9LZimhhMkdFJ3vg0a4rtsBjDErHlQEX5MQfSEyqSgmnstFq
+ ZRYy9zWn94oxEVOGQcZCm2jMESCQsDNAOAqjg3DcnTHTxO5iJAes/M3JLlTU8VxD60+cOy
+ v75V4Kj8a4Fzh4LA9hVBONSgL7WjABg=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-536-oliujPjiP62xkiekAGvbqQ-1; Fri, 23 Oct 2020 12:59:31 -0400
+X-MC-Unique: oliujPjiP62xkiekAGvbqQ-1
+Received: by mail-wr1-f70.google.com with SMTP id b11so814171wrm.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:59:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LscKBPJWNCYEYxMndciasWda8dumSJGIBNmJkm1fYwU=;
+ b=AFF197aI00BvPELjg+O9U0PzEXsWJpPqB66HTHzWoNEShFqsWF7xAvrqTBEIX94Abh
+ 6KVodQya3iAqtOA3bpVHthIJtyg2TYeDV0O4TD9GZFMaXRHc5tEcQ5NZQ9AH4wNtyQOK
+ /dJhdyopi+/QmUAr/KL4t9jxmfn0t6+8psD/SNQeMGe16pPIZeHA1Dy2lPa7Ww4106CM
+ 7n/QZlqhmxA/FZokTklaE949aK6iV7OojgxVVu9KTyxxhERSQKuu1cPi3xZYhAGCz5At
+ Mdl4C1owYT1U1acz1OMjEItqlK8W9wRggQ869/2lVKnl/0WdmJD4XJNBYeyVnZpXg1fG
+ RI2w==
+X-Gm-Message-State: AOAM533FlPzTTByslukZWmtJ3mY0+t6GMX+b1B6RhSMXLU7bgldHn2Fa
+ cmq2qoVKX8gXsOt5FanT+Gk/NPivRURLcwhnDXULQ01DT8BBKcePZ+DB4XjrteaR80/G8rCQUgG
+ gup/dpNOWM1cPH08=
+X-Received: by 2002:adf:ed45:: with SMTP id u5mr3490977wro.48.1603472370405;
+ Fri, 23 Oct 2020 09:59:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzsRqxw4famDvDllTblUWJoda+8aqodjsMyfibTSBRBR7w0SHkNRF8BXbHUqZ7279qvc/nfSQ==
+X-Received: by 2002:adf:ed45:: with SMTP id u5mr3490933wro.48.1603472370092;
+ Fri, 23 Oct 2020 09:59:30 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id m12sm3977222wrs.92.2020.10.23.09.59.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 09:59:29 -0700 (PDT)
+Subject: Re: [PATCH v11 12/19] multi-process: Forward PCI config space acceses
+ to the remote process
+To: Jagannathan Raman <jag.raman@oracle.com>, qemu-devel@nongnu.org
+References: <cover.1602784930.git.jag.raman@oracle.com>
+ <1a1490ba03686fe29a0f627bec1556a0051fed18.1602784930.git.jag.raman@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <47f25366-4cf3-7167-d199-1b82d7fd1ec2@redhat.com>
+Date: Fri, 23 Oct 2020 18:59:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <1a1490ba03686fe29a0f627bec1556a0051fed18.1602784930.git.jag.raman@oracle.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,218 +101,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
+ john.g.johnson@oracle.com, kraxel@redhat.com, quintela@redhat.com,
+ mst@redhat.com, armbru@redhat.com, kanth.ghatraju@oracle.com,
+ felipe@nutanix.com, thuth@redhat.com, ehabkost@redhat.com,
+ konrad.wilk@oracle.com, dgilbert@redhat.com, alex.williamson@redhat.com,
+ stefanha@redhat.com, pbonzini@redhat.com, rth@twiddle.net, kwolf@redhat.com,
+ berrange@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
+ marcandre.lureau@gmail.com, thanos.makatos@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 10/15/20 8:05 PM, Jagannathan Raman wrote:
+> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> 
+> The Proxy Object sends the PCI config space accesses as messages
+> to the remote process over the communication channel
+> 
+> TODO:
+> Investigate if the local PCI config writes can be dropped.
+> Without the proxy local PCI config space writes for the device,
+> the driver in the guest times out on the probing.
+> We have tried to only refer to the remote for the PCI config writes,
+> but the driver timeout in the guest forced as to left this
+> as it is (removing local PCI config only).
 
-The mapping rule system implemented in the last few patches is
-extremely flexible, but not easy to use.  Add a simple
-'map' type as a sprinkling of sugar to make it easy.
+I expect this TODO to be lost in git history. Better to
+commit it in the code and remove it once resolved IMHO.
 
-e.g.
+> 
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>   hw/i386/remote-msg.c     | 62 ++++++++++++++++++++++++++++++++++++++++++++++++
+>   hw/pci/proxy.c           | 50 ++++++++++++++++++++++++++++++++++++++
+>   include/io/mpqemu-link.h |  9 +++++++
+>   io/mpqemu-link.c         |  6 +++++
+>   4 files changed, 127 insertions(+)
 
-  -o xattrmap=":map::user.virtiofs.:"
+Please have a look at scripts/git.orderfile, it helps
+reviewers to avoid scrolling down/up the patches.
 
-would be sufficient to prefix all xattr's
-or
+> 
+> diff --git a/hw/i386/remote-msg.c b/hw/i386/remote-msg.c
+> index 6451b77..94937db 100644
+> --- a/hw/i386/remote-msg.c
+> +++ b/hw/i386/remote-msg.c
+> @@ -15,6 +15,12 @@
+>   #include "io/mpqemu-link.h"
+>   #include "qapi/error.h"
+>   #include "sysemu/runstate.h"
+> +#include "hw/pci/pci.h"
+> +
+> +static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
+> +                                 MPQemuMsg *msg);
+> +static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
+> +                                MPQemuMsg *msg);
+>   
+>   void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+>   {
+> @@ -43,6 +49,12 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+>           }
+>   
+>           switch (msg.cmd) {
+> +        case PCI_CONFIG_WRITE:
+> +            process_config_write(com->ioc, pci_dev, &msg);
+> +            break;
+> +        case PCI_CONFIG_READ:
+> +            process_config_read(com->ioc, pci_dev, &msg);
+> +            break;
+>           default:
+>               error_setg(&local_err,
+>                          "Unknown command (%d) received for device %s (pid=%d)",
+> @@ -60,3 +72,53 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+>   
+>       return;
+>   }
+> +
+> +static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
+> +                                 MPQemuMsg *msg)
+> +{
+> +    ConfDataMsg *conf = (ConfDataMsg *)&msg->data.conf_data;
+> +    MPQemuMsg ret = { 0 };
+> +    Error *local_err = NULL;
+> +
+> +    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
+> +        error_report("Bad address received when writing PCI config, pid %d",
+> +                     getpid());
+> +        ret.data.u64 = UINT64_MAX;
+> +    } else {
+> +        pci_default_write_config(dev, conf->addr, conf->val, conf->l);
+> +    }
+> +
+> +    ret.cmd = RET_MSG;
+> +    ret.size = sizeof(ret.data.u64);
+> +
+> +    mpqemu_msg_send(&ret, ioc, &local_err);
+> +    if (local_err) {
+> +        error_report("Could not send message to proxy from pid %d",
+> +                     getpid());
+> +    }
+> +}
+> +
+> +static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
+> +                                MPQemuMsg *msg)
+> +{
+> +    ConfDataMsg *conf = (ConfDataMsg *)&msg->data.conf_data;
+> +    MPQemuMsg ret = { 0 };
+> +    Error *local_err = NULL;
+> +
+> +    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
+> +        error_report("Bad address received when reading PCI config, pid %d",
+> +                     getpid());
+> +        ret.data.u64 = UINT64_MAX;
+> +    } else {
+> +        ret.data.u64 = pci_default_read_config(dev, conf->addr, conf->l);
 
-  -o xattrmap=":map:trusted.:user.virtiofs.:"
+Isn't it endianess issue here? It might makes sense to
+declare ConfDataMsg and PCI_CONFIG_READ/PCI_CONFIG_WRITE
+packets in little endian.
 
-would just prefix 'trusted.' xattr's and leave
-everything else alone.
+> +    }
+> +
+> +    ret.cmd = RET_MSG;
+> +    ret.size = sizeof(ret.data.u64);
+> +
+> +    mpqemu_msg_send(&ret, ioc, &local_err);
+> +    if (local_err) {
+> +        error_report("Could not send message to proxy from pid %d",
+> +                     getpid());
+> +    }
+> +}
+> diff --git a/hw/pci/proxy.c b/hw/pci/proxy.c
+> index 7a12f23..27714fe 100644
+> --- a/hw/pci/proxy.c
+> +++ b/hw/pci/proxy.c
+> @@ -16,6 +16,8 @@
+>   #include "hw/qdev-properties.h"
+>   #include "monitor/monitor.h"
+>   #include "migration/blocker.h"
+> +#include "io/mpqemu-link.h"
+> +#include "qemu/error-report.h"
+>   
+>   static void proxy_set_socket(PCIProxyDev *pdev, int fd, Error **errp)
+>   {
+> @@ -69,6 +71,51 @@ static void pci_proxy_dev_exit(PCIDevice *pdev)
+>       error_free(dev->migration_blocker);
+>   }
+>   
+> +static int config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
+> +                          int l, unsigned int op)
+> +{
+> +    MPQemuMsg msg = { 0 };
+> +    uint64_t ret = -EINVAL;
+> +    Error *local_err = NULL;
+> +
+> +    msg.cmd = op;
+> +    msg.data.conf_data.addr = addr;
+> +    msg.data.conf_data.val = (op == PCI_CONFIG_WRITE) ? *val : 0;
+> +    msg.data.conf_data.l = l;
+> +    msg.size = sizeof(ConfDataMsg);
+> +
+> +    ret = mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +    }
+> +    if (op == PCI_CONFIG_READ) {
+> +        *val = (uint32_t)ret;
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+> +static uint32_t pci_proxy_read_config(PCIDevice *d, uint32_t addr, int len)
+> +{
+> +    uint32_t val;
+> +
+> +    (void)config_op_send(PCI_PROXY_DEV(d), addr, &val, len, PCI_CONFIG_READ);
+> +
+> +    return val;
+> +}
+> +
+> +static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t val,
+> +                                   int l)
+> +{
+> +    /*
+> +     * Some of the functions access the copy of the remote device
+> +     * PCI config space, therefore maintain it updated.
+> +     */
+> +    pci_default_write_config(d, addr, val, l);
+> +
+> +    (void)config_op_send(PCI_PROXY_DEV(d), addr, &val, l, PCI_CONFIG_WRITE);
+> +}
+> +
+>   static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+>   {
+>       DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -76,6 +123,9 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+>   
+>       k->realize = pci_proxy_dev_realize;
+>       k->exit = pci_proxy_dev_exit;
+> +    k->config_read = pci_proxy_read_config;
+> +    k->config_write = pci_proxy_write_config;
+> +
+>       device_class_set_props(dc, proxy_properties);
+>   }
+>   
+> diff --git a/include/io/mpqemu-link.h b/include/io/mpqemu-link.h
+> index 4bea5da..459d345 100644
+> --- a/include/io/mpqemu-link.h
+> +++ b/include/io/mpqemu-link.h
+> @@ -34,6 +34,8 @@ typedef enum {
+>       MPQEMU_CMD_INIT,
+>       SYNC_SYSMEM,
+>       RET_MSG,
+> +    PCI_CONFIG_WRITE,
+> +    PCI_CONFIG_READ,
+>       MPQEMU_CMD_MAX,
+>   } MPQemuCmd;
+>   
+> @@ -43,6 +45,12 @@ typedef struct {
+>       off_t offsets[REMOTE_MAX_FDS];
+>   } SyncSysmemMsg;
+>   
+> +typedef struct {
+> +    uint32_t addr;
+> +    uint32_t val;
+> +    int l;
+> +} ConfDataMsg;
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- docs/tools/virtiofsd.rst         |  19 ++++++
- tools/virtiofsd/passthrough_ll.c | 112 ++++++++++++++++++++++++++++++-
- 2 files changed, 130 insertions(+), 1 deletion(-)
+Maybe name this PciConfDataMsg?
 
-diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 4e74690eca..24268fd67e 100644
---- a/docs/tools/virtiofsd.rst
-+++ b/docs/tools/virtiofsd.rst
-@@ -129,6 +129,7 @@ Each rule consists of a number of fields separated with a separator that is the
- first non-white space character in the rule.  This separator must then be used
- for the whole rule.
- White space may be added before and after each rule.
-+
- Using ':' as the separator a rule is of the form:
- 
- ``:type:scope:key:prepend:``
-@@ -201,6 +202,14 @@ e.g.:
- 
-   would hide 'security.' xattr's in listxattr from the server.
- 
-+A simpler 'map' type provides a shorter syntax for the common case:
-+
-+``:map:key:prepend:``
-+
-+The 'map' type adds a number of separate rules to add **prepend** as a prefix
-+to the matched **key** (or all attributes if **key** is empty).
-+There may be at most one 'map' rule and it must be the last rule in the set.
-+
- xattr-mapping Examples
- ----------------------
- 
-@@ -216,6 +225,11 @@ the first rule prefixes and strips 'user.virtiofs.',
- the second rule hides any non-prefixed attributes that
- the host set.
- 
-+This is equivalent to the 'map' rule:
-+
-+::
-+-o xattrmap=":map::user.virtiofs.:"
-+
- 2) Prefix 'trusted.' attributes, allow others through
- 
- ::
-@@ -238,6 +252,11 @@ the 'user.viritofs.' path directly.
- Finally, the fourth rule lets all remaining attributes
- through.
- 
-+This is equivalent to the 'map' rule:
-+
-+::
-+-o xattrmap="/map/trusted./user.virtiofs./"
-+
- 3) Hide 'security.' attributes, and allow everything else
- 
- ::
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 57f584ee49..9f1ad9698d 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2078,6 +2078,109 @@ static void free_xattrmap(struct lo_data *lo)
-     lo->xattr_map_nentries = -1;
- }
- 
-+/*
-+ * Handle the 'map' type, which is sugar for a set of commands
-+ * for the common case of prefixing a subset or everything,
-+ * and allowing anything not prefixed through.
-+ * It must be the last entry in the stream, although there
-+ * can be other entries before it.
-+ * The form is:
-+ *    :map:key:prefix:
-+ *
-+ * key maybe empty in which case all entries are prefixed.
-+ */
-+static void parse_xattrmap_map(struct lo_data *lo,
-+                               const char *rule, char sep)
-+{
-+    const char *tmp;
-+    char *key;
-+    char *prefix;
-+    XattrMapEntry tmp_entry;
-+
-+    if (*rule != sep) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "%s: Expecting '%c' after 'map' keyword, found '%c'\n",
-+                 __func__, sep, *rule);
-+        exit(1);
-+    }
-+
-+    rule++;
-+
-+    /* At start of 'key' field */
-+    tmp = strchr(rule, sep);
-+    if (!tmp) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "%s: Missing '%c' at end of key field in map rule\n",
-+                 __func__, sep);
-+        exit(1);
-+    }
-+
-+    key = g_strndup(rule, tmp - rule);
-+    rule = tmp + 1;
-+
-+    /* At start of prefix field */
-+    tmp = strchr(rule, sep);
-+    if (!tmp) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "%s: Missing '%c' at end of prefix field in map rule\n",
-+                 __func__, sep);
-+        exit(1);
-+    }
-+
-+    prefix = g_strndup(rule, tmp - rule);
-+    rule = tmp + 1;
-+
-+    /*
-+     * This should be the end of the string, we don't allow
-+     * any more commands after 'map'.
-+     */
-+    if (*rule) {
-+        fuse_log(FUSE_LOG_ERR,
-+                 "%s: Expecting end of command after map, found '%c'\n",
-+                 __func__, *rule);
-+        exit(1);
-+    }
-+
-+    /* 1st: Prefix matches/everything */
-+    tmp_entry.flags = XATTR_MAP_FLAG_PREFIX | XATTR_MAP_FLAG_ALL;
-+    tmp_entry.key = g_strdup(key);
-+    tmp_entry.prepend = g_strdup(prefix);
-+    add_xattrmap_entry(lo, &tmp_entry);
-+
-+    if (!*key) {
-+        /* Prefix all case */
-+
-+        /* 2nd: Hide any non-prefixed entries on the host */
-+        tmp_entry.flags = XATTR_MAP_FLAG_BAD | XATTR_MAP_FLAG_ALL;
-+        tmp_entry.key = g_strdup("");
-+        tmp_entry.prepend = g_strdup("");
-+        add_xattrmap_entry(lo, &tmp_entry);
-+    } else {
-+        /* Prefix matching case */
-+
-+        /* 2nd: Hide non-prefixed but matching entries on the host */
-+        tmp_entry.flags = XATTR_MAP_FLAG_BAD | XATTR_MAP_FLAG_SERVER;
-+        tmp_entry.key = g_strdup(""); /* Not used */
-+        tmp_entry.prepend = g_strdup(key);
-+        add_xattrmap_entry(lo, &tmp_entry);
-+
-+        /* 3rd: Stop the client accessing prefixed attributes directly */
-+        tmp_entry.flags = XATTR_MAP_FLAG_BAD | XATTR_MAP_FLAG_CLIENT;
-+        tmp_entry.key = g_strdup(prefix);
-+        tmp_entry.prepend = g_strdup(""); /* Not used */
-+        add_xattrmap_entry(lo, &tmp_entry);
-+
-+        /* 4th: Everything else is OK */
-+        tmp_entry.flags = XATTR_MAP_FLAG_OK | XATTR_MAP_FLAG_ALL;
-+        tmp_entry.key = g_strdup("");
-+        tmp_entry.prepend = g_strdup("");
-+        add_xattrmap_entry(lo, &tmp_entry);
-+    }
-+
-+    g_free(key);
-+    g_free(prefix);
-+}
-+
- static void parse_xattrmap(struct lo_data *lo)
- {
-     const char *map = lo->xattrmap;
-@@ -2106,10 +2209,17 @@ static void parse_xattrmap(struct lo_data *lo)
-             tmp_entry.flags |= XATTR_MAP_FLAG_OK;
-         } else if (strstart(map, "bad", &map)) {
-             tmp_entry.flags |= XATTR_MAP_FLAG_BAD;
-+        } else if (strstart(map, "map", &map)) {
-+            /*
-+             * map is sugar that adds a number of rules, and must be
-+             * the last entry.
-+             */
-+            parse_xattrmap_map(lo, map, sep);
-+            return;
-         } else {
-             fuse_log(FUSE_LOG_ERR,
-                      "%s: Unexpected type;"
--                     "Expecting 'prefix', 'ok', or 'bad' in rule %zu\n",
-+                     "Expecting 'prefix', 'ok', 'bad' or 'map' in rule %zu\n",
-                      __func__, lo->xattr_map_nentries);
-             exit(1);
-         }
--- 
-2.28.0
+> +
+>   /**
+>    * MPQemuMsg:
+>    * @cmd: The remote command
+> @@ -60,6 +68,7 @@ typedef struct {
+>   
+>       union {
+>           uint64_t u64;
+> +        ConfDataMsg conf_data;
+>           SyncSysmemMsg sync_sysmem;
+>       } data;
+>   
+> diff --git a/io/mpqemu-link.c b/io/mpqemu-link.c
+> index 1339cc7..5ef82da 100644
+> --- a/io/mpqemu-link.c
+> +++ b/io/mpqemu-link.c
+> @@ -278,6 +278,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+>               return false;
+>           }
+>           break;
+> +    case PCI_CONFIG_WRITE:
+> +    case PCI_CONFIG_READ:
+> +        if (msg->size != sizeof(ConfDataMsg)) {
+> +            return false;
+> +        }
+> +        break;
+>       default:
+>           break;
+>       }
+> 
 
 
