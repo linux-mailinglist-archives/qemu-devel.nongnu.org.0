@@ -2,88 +2,123 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E38F296C06
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 11:24:49 +0200 (CEST)
-Received: from localhost ([::1]:38712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E46296C42
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 11:40:53 +0200 (CEST)
+Received: from localhost ([::1]:51650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVtJY-00083G-I8
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 05:24:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56452)
+	id 1kVtZ6-0006Fn-3H
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 05:40:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVtIE-0007Pf-KC; Fri, 23 Oct 2020 05:23:26 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39555)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kVtIC-0008Gd-Rz; Fri, 23 Oct 2020 05:23:26 -0400
-Received: by mail-wr1-x444.google.com with SMTP id y12so1005143wrp.6;
- Fri, 23 Oct 2020 02:23:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6WcAI9LqJXniaPU6wS68WgkQq4afR52p4cXzIvB+4bY=;
- b=JZk/xoY2lAtCzpCM/W6AqoeoBOknlnn1ePqygyIhbmTUs8AUhOWGxiQGDAbcvp/0PH
- x9We/ITPaCMiziJX0RtsqyirB1fjJnHqN2PnBmKesRjv9jyaLIXwBV3rv7N35xABHmCc
- vu+r9Ab1gVKDwynBYkMN3dkqaMlD1BDZKq21XQmof8FEgfD+ijpM4XwfzD9bcOLOg7Nn
- 7wHN8KNd7WnbtLIsfa8dXhOLJ6yIYVmpVITRGu+71RJOsir5iXmEdQ7h8tOvX0HBWeu5
- mbNQYtwKB6EPiuy2h5mLyeskd/7NLnYs2GKMyGxmS3bYeT7ce0D7wqR+XdFwCq8ffZQ5
- QW0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6WcAI9LqJXniaPU6wS68WgkQq4afR52p4cXzIvB+4bY=;
- b=lcsrGzRXJHTSZJfbsKaSbz7aab08EECyz3NCXW+yCBxDXs/+ag50DDddGLlCQ1hpx5
- bYNtR6ePjIvoRG2J5jG0mi4zFolQR+HjAVQLTQEEwjAyH22acAEY1KnMVrhXLOhyX/N1
- zHELnYyVQux1VVCdh+GMJ6gAEE7Hx5uIX7GwT2eD6GF8KfQXggV8NmMiAXe7fRGGm6es
- aUlIbRSk8g4yka0Bo4/XSaeYzoBY8fvn4l2jlZqeUs13X4nevh5X405IkiC5vBRqUC++
- Kj0vbjSFi1Kb3+KEDuRis3kQRmItxk7N5vQyDzIn/85GnUOUS3/kOSfYN5oiGUxFP5FQ
- V0ZA==
-X-Gm-Message-State: AOAM531xTnpuzLslTzz4LrGk1kScsmO0xgwCzAdBFqj8WRFsqW7CGeld
- 6GJkqtqsiWHzJUY0pj3otcK3QAx6WC0=
-X-Google-Smtp-Source: ABdhPJyEmadX2JC0m/tI0eaujivh+MZUaQqmPxBA7CPHeH5qAuXn2EFJFM80UKBUJMMal4yJjgSreg==
-X-Received: by 2002:adf:91a4:: with SMTP id 33mr1689539wri.170.1603445002235; 
- Fri, 23 Oct 2020 02:23:22 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id l8sm2060367wrn.28.2020.10.23.02.23.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 02:23:21 -0700 (PDT)
-Subject: Re: [PULL 22/23] hw/sd: Fix incorrect populated function switch
- status data structure
-To: Bin Meng <bmeng.cn@gmail.com>, Niek Linnenbank <nieklinnenbank@gmail.com>
-References: <20200821172916.1260954-1-f4bug@amsat.org>
- <20200821172916.1260954-23-f4bug@amsat.org>
- <e378932a-1de3-83c1-834f-ae6526604cb7@amsat.org>
- <CAEUhbmVFZ8aWdv48D8acdfFRp6WMYL6n=ENeo4hBZfmqE9TrDA@mail.gmail.com>
- <a0ac3805-ec48-2a0e-6511-b142bfc6f214@amsat.org>
- <CAEUhbmVLFJWND=KHexD12mrCMJSO3mcE6k7_tRE+v8pNZjhN_A@mail.gmail.com>
- <CAPan3Wqx-psi6zgz3NyM1Hu_PHaGq4Nn3_RJf_zueqwXFNKuWg@mail.gmail.com>
- <CAEUhbmXGbNNXkJYt8-sX_+nT_ReXoyerYaf+KROxx55-89wbHA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <db561779-005b-c358-3e72-e1169ef49faf@amsat.org>
-Date: Fri, 23 Oct 2020 11:23:20 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kVtY5-0005bu-DI
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 05:39:49 -0400
+Received: from mail-dm6nam10on2070.outbound.protection.outlook.com
+ ([40.107.93.70]:40833 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1kVtY2-0005bX-Tu
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 05:39:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QMoPuPwy4ouiG2W2sE1GgySlnOePQYwss8TF3Zi3jYyGADygHDvywXOFeKm4uqaJ+mdXXTAzHfq6RhxvJoctDD63s0klIK9zjsLo5JIx5qMqNsaGeI9p9EBCh63NuSZOeIDJ+3+LqBYF7bp2igLJ3MoDjzJb8RKt9a8FTGn72hcFxijH/djzipE4EAtfk0hZLpmmKslpQ6EHS782wuVfefFz8cTyuGPLjpYVxJiRUmzvIiIQ2DZ75iwHdz59SE3eARILw2IfY4fhLHnFRmnWtJxuaHCK8b2nxCH+L/ktGgN3qxFLwsZubzo0Un+KZ163nnA8j/LY6knx2qm9UNYJiQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Odi3NI1+kMTTUsjVQha67cCDo2sOQK4+WmLSIqPVPKE=;
+ b=JuvUydt7NFDq+gu/TLP/IqOekSdRS5ElbgW2I4hKabgkF9tmjmn+MCLDUrbZlGqvYCnPYD78tPjjnzIHc+WlqOBbYOd38kqJCOdJFe3Bw+I1EB2fzabISSYxdliqhXJMNhSuJLWYwdNzy5YikZfRSOY9oTsNS+9AIOw83m7J5C9CpkESTanFzWIxrazR/asERWfJmeGSNv+hUOmX+LGnXROS8b3yjADJYMLTuy5fklozq1pbM8crxJTWUqXilzqdBgHFJQHqP+wRuAlhO6xfeZsBlMiz2vTP9CAGXJXbQ/xgk0lymSFT1+GM+M1Vu4fMQkQaajfXTZpHvQqij9qaXg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=gmail.com smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Odi3NI1+kMTTUsjVQha67cCDo2sOQK4+WmLSIqPVPKE=;
+ b=RsavJHp08ACv4eTh4oOxaylNNOEkZy1H8Kdj/vZWh85fDzWf0dScdQ5JV++GN5e4slB9maXzEPFcUp7rtWzqxBWYeojE6ef3S7niXHDavWscBsWSQ8cV081iPxneT2bn21pnzJV6cNG6R/2KwanJZ2xI85QOfNLf1OGd31niBxM=
+Received: from CY4PR19CA0046.namprd19.prod.outlook.com (2603:10b6:903:103::32)
+ by DM5PR02MB2236.namprd02.prod.outlook.com (2603:10b6:3:51::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.27; Fri, 23 Oct 2020 09:24:41 +0000
+Received: from CY1NAM02FT006.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:903:103:cafe::57) by CY4PR19CA0046.outlook.office365.com
+ (2603:10b6:903:103::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend
+ Transport; Fri, 23 Oct 2020 09:24:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ CY1NAM02FT006.mail.protection.outlook.com (10.152.74.104) with Microsoft SMTP
+ Server id 15.20.3499.20 via Frontend Transport; Fri, 23 Oct 2020 09:24:41
+ +0000
+Received: from [149.199.38.66] (port=49763 helo=smtp.xilinx.com)
+ by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+ (envelope-from <edgar@xilinx.com>)
+ id 1kVtIT-0005dG-So; Fri, 23 Oct 2020 02:23:41 -0700
+Received: from [127.0.0.1] (helo=localhost)
+ by smtp.xilinx.com with smtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1kVtJR-0005v3-9A; Fri, 23 Oct 2020 02:24:41 -0700
+Received: from xsj-pvapsmtp01 (mail.xilinx.com [149.199.38.66])
+ by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 09N9OVY6010284; 
+ Fri, 23 Oct 2020 02:24:31 -0700
+Received: from [10.71.116.235] (helo=localhost)
+ by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+ (envelope-from <edgar@xilinx.com>)
+ id 1kVtJH-0005to-AF; Fri, 23 Oct 2020 02:24:31 -0700
+Date: Fri, 23 Oct 2020 11:27:18 +0200
+From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Subject: Re: [PATCH v12 0/3] Add Versal usb model
+Message-ID: <20201023092718.GN18995@toto>
+References: <1603369056-4168-1-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-In-Reply-To: <CAEUhbmXGbNNXkJYt8-sX_+nT_ReXoyerYaf+KROxx55-89wbHA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1603369056-4168-1-git-send-email-sai.pavan.boddu@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3d02030c-830b-4913-d034-08d8773578ba
+X-MS-TrafficTypeDiagnostic: DM5PR02MB2236:
+X-Microsoft-Antispam-PRVS: <DM5PR02MB223693F6C59E8E2FBCD676C7C21A0@DM5PR02MB2236.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:3044;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: z/7+HBlJ/Aeamak4EoMUJgIwNyTt/iebhG0NN64HpYNhSlt7dunwXQqXBKLNnC/x7aY1gyLcSZXyHbJC7/pbSmB2NlweDxTIrV8JM4yKcCFzPrcddFMMB0GK+ZTUlGekxrgf/Q9zigyampJ078M1NIabNUT4M8T9QzzftbZgtd6XHQVOloIUEGJ4PAHUdDqwp4VSC3+s0Vik7KknnI7pQ61OVeqzbDXYqX5WzlXTm/3F4id5nHXK4soQyeHc3FKw4ThAofVjzx7FcLo7q+QcJ3uHUFfdR2hmctYrU4bO0EtPjiM1/S9uJCQnKHewcD4Sacnv5Hb90gi4fTcHjxOYkqceNyM7ORWFFjAUSybxso9KyBuyjHAI+ILfQevB9sch9iFazRHhISoi3eCmLhvZlA==
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapsmtpgw01; PTR:unknown-60-83.xilinx.com; CAT:NONE;
+ SFS:(4636009)(7916004)(39860400002)(136003)(396003)(346002)(376002)(46966005)(426003)(107886003)(336012)(6666004)(9686003)(26005)(7416002)(316002)(54906003)(186003)(81166007)(2906002)(33656002)(1076003)(70586007)(8936002)(70206006)(9786002)(82310400003)(83380400001)(5660300002)(33716001)(356005)(4326008)(82740400003)(6862004)(47076004)(8676002)(478600001)(6636002);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 09:24:41.5246 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d02030c-830b-4913-d034-08d8773578ba
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.60.83];
+ Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT006.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2236
+Received-SPF: pass client-ip=40.107.93.70; envelope-from=edgar@xilinx.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 05:39:44
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.107,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,69 +131,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-block@nongnu.org,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm <qemu-arm@nongnu.org>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?iso-8859-1?Q?'Marc-Andr=E9?= Lureau' <marcandre.lureau@redhat.com>,
+ Ying Fang <fangying1@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ 'Philippe =?iso-8859-1?Q?Mathieu-Daud=E9'?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 4:02 AM, Bin Meng wrote:
-> Hi Niek,
-> 
-> On Thu, Oct 22, 2020 at 11:20 PM Niek Linnenbank
-> <nieklinnenbank@gmail.com> wrote:
->>
->> Hi Bin, Philippe,
->>
->> If im correct the acceptance tests for orange pi need to be run with a flag ARMBIAN_ARTIFACTS_CACHED set that explicitly allows them to be run using the armbian mirror. So if you pass that flag on the same command that Philippe gave, the rests should run.
-> 
-> Thank you for the hints. Actually I noticed the environment variable
-> ARMBIAN_ARTIFACTS_CACHED when looking at the test codes, but after I
-> turned on the flag it still could not download the test asset from the
-> apt.armbian.com website.
+On Thu, Oct 22, 2020 at 05:47:33PM +0530, Sai Pavan Boddu wrote:
+> This patch series attempts to make 'hcd-xhci' an independent model so it can be used by both pci and system-bus interface.
 
-This patch could help you, but it use a different image [*]:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg737760.html
-(I haven't tested the image yet but I assume the same bug is present).
+
+On the series:
+
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+
+
 
 > 
->> I have a follow up question and Im interested to hear your opinion on that Philippe. Should we perhaps update the orange pi tests (and maybe others) so they use a reliable mirror that we can control, for example a github repo? I would be happy to create a repo for that, at least for the orange pi tests. But maybe there is already something planned as a more general solution for artifacts of other machines as well?
-
-This is a technical debt between the Avocado and QEMU communities
-(or a misunderstanding?).
-
-QEMU community understood the Avocado caching would be an helpful
-feature, but it ended being more of a problem.
-
-
-I.e. here Niek, Michael Roth and myself still have the image cached,
-so we can keep running the tests committed to the repository. You
-Bin can not, as the armbian mirror is not stable and remove the old
-image.
-
-The old image (Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.img)
-has been manually tested by Niek and myself, I enabled tracing and
-look at the SD packets for some time, was happy how the model worked
-and decided we should keep running a test with this particular image.
-
-Armbian released new images, in particular the one Cleber sent in [*]:
-Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz. While it might
-work similarly, I haven't tested it, and don't have time to do again
-the same audit.
- From my experience with the Raspberry Pi, these images never work the
-same way, as the Linux kernel evolves quickly with these kinda recent
-embedded boards. The QEMU raspi models have to emulate new devices
-(or complete current ones) every years, because Linux started to use
-a device differently, or started to use a part of the SoC that was not
-used before. Either the kernel doesn't boot, or there are side-effect
-later when userspace program is executed. PITA to debug TBH. For this
-reason I disagree with updating test images to the latest releases.
-
-It would be nice to know QEMU works with the latest Armbian, but
-nobody popped up on the mailing list asking for it. I am personally
-happy enough using the 19.11 release for now.
+> Changes for V2:
+>     Make XHCIState non-qom
+>     Use container_of functions for retriving pci device instance
+>     Initialize the AddressSpace pointer in PATCH 1/3 itself Changes for V3:
+>     Convert XHCIState to TYPE_DEVICE and register as a child of XHCIPciState.
+> Changes for V4:
+>     Add DWC3 usb controller
+>     Add versal, usb2-reg module
+>     Connect sysbus xhci to versal virt board Changes for V5:
+>     Add extra info about dwc3 and usb2_regs devices in commit messages
+>     Use only one irq for versal usb controller
+>     Mark the unimplemented registers in dwc3 controller
+>     Rebase the patches over master.
+>     Move few mispalced contents from patch 2/7 to 3/7.
+>     Fix the author names in the header.
+>     Move the inclusion of "sysemu/dma.h" from patch 1/7 to 3/7 Changes for V6:
+>     Fixed style issue in patch 7/7
+>     Renamed usb2_reg model to VersalUsb2CtrlReg
+>     Fixed author in headers
+> Changes for V7:
+>     Create a usb structure to keep things clean
+>     Remove the repeated patch in the series i.e 5/7 Changes for V8:
+>     Fix vmstate sturcts to support cross version migration.
+> Changes for V9:
+>     Added recommended changes to fix vmstate migration.
+>     Fixed commit message on 3/7.
+> Changes for V10:
+>     use vmstate_post_load avaialble in VMStateDescription
+>     tested vmstate cross migration.
+> Changes for V11:
+>     Removed the patches which got accepted
+>     Changed object name "USB2Reg" -> "ctrl"
+>     Updated Subject line on cover letter.
+> Changes for V12:
+>     Use reset class for usb2-ctrl-regs module
+>     Move the few register update to realize
+>     Marked registers which are unimplemented in regapi model
+> 
+> 
+> Sai Pavan Boddu (1):
+>   misc: Add versal-usb2-ctrl-regs module
+> 
+> Vikram Garhwal (2):
+>   usb: Add DWC3 model
+>   Versal: Connect DWC3 controller with virt-versal
+> 
+>  hw/arm/xlnx-versal-virt.c                    |  58 +++
+>  hw/arm/xlnx-versal.c                         |  34 ++
+>  hw/misc/meson.build                          |   1 +
+>  hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 229 +++++++++
+>  hw/usb/Kconfig                               |   6 +
+>  hw/usb/hcd-dwc3.c                            | 666 +++++++++++++++++++++++++++
+>  hw/usb/meson.build                           |   1 +
+>  include/hw/arm/xlnx-versal.h                 |  14 +
+>  include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  45 ++
+>  include/hw/usb/hcd-dwc3.h                    |  55 +++
+>  10 files changed, 1109 insertions(+)
+>  create mode 100644 hw/misc/xlnx-versal-usb2-ctrl-regs.c
+>  create mode 100644 hw/usb/hcd-dwc3.c
+>  create mode 100644 include/hw/misc/xlnx-versal-usb2-ctrl-regs.h
+>  create mode 100644 include/hw/usb/hcd-dwc3.h
+> 
+> -- 
+> 2.7.4
+> 
 
