@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27B96297362
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:19:09 +0200 (CEST)
-Received: from localhost ([::1]:33988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE54D29737B
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:23:35 +0200 (CEST)
+Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzmW-0005xM-4d
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:19:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40588)
+	id 1kVzqo-00045N-V6
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:23:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kVzQs-00027F-FX
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:56:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27000)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kVzQq-0005OP-Ix
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:56:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603468604;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fUpIiA80kzCQG3WyAunrf71WbEpFTyhfJoK4ohi5mgw=;
- b=UvtBLtUSykln/af3QmwK43VjuWjq7WTewliH8CL0JqlG/stnCgR9vZie0h3h6E1jp4GyRv
- xyekBiHrw94kI3FhnML+w4uhFlpFO74y5/cIuGEIiAZxead5DscEJ/LhLGil6Gy5hAvKC2
- 7qvvxZilzMCe2NbCXDkdEOzUi3XfLx0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-435-S_xAAfnnMjiYZsHdI4Pg-w-1; Fri, 23 Oct 2020 11:56:40 -0400
-X-MC-Unique: S_xAAfnnMjiYZsHdI4Pg-w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25F8C805729;
- Fri, 23 Oct 2020 15:55:59 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B3BB60DA0;
- Fri, 23 Oct 2020 15:55:56 +0000 (UTC)
-Date: Fri, 23 Oct 2020 17:55:55 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 7/9] hw/arm/raspi: Add the Raspberry Pi A+ machine
-Message-ID: <20201023175555.669c415b@redhat.com>
-In-Reply-To: <20201018203358.1530378-8-f4bug@amsat.org>
-References: <20201018203358.1530378-1-f4bug@amsat.org>
- <20201018203358.1530378-8-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kVzX0-0001Nq-BI
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:03:06 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:42780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
+ id 1kVzWy-00069U-4x
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:03:05 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09NFj2vQ094976;
+ Fri, 23 Oct 2020 16:02:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=corp-2020-01-29;
+ bh=zBopEL4Etwy5c7KrNeOieWK5K+UD0axO8fGeD1mZRSI=;
+ b=O9ocu3gtYiiu4ZCJzzYAyYSuDwFKlFnNkQMRUMDKSXgDCKbsR4FF2A9bAUeFICrBRI9m
+ yr2E8SM+nkBGUodZ2stuDSBneo1n6RSjKohiyQIFBZpzAPKZOP4Zphkz29i+40x7h4xD
+ NNzlbuRHSKUUMXg9QSRv7ZzKxW4NOyfwtyXRrCUfWcOYPu/FfJFwpwTGHHVfsKPahs5n
+ KbY9oYEhVz5hD7vZSRL35tcNOdzGL+FFxf9l/82FindliRjCp2EgbHR+Q+B/5HMsmuzi
+ 0CMuf5V/FxJ+kukq5OPve5OvRRV1ss7aTlQaQCm/L1EdWuozjocexoWj0ClzyuNA8a7F +Q== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 349jrq4162-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Fri, 23 Oct 2020 16:02:59 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09NFkIc3100492;
+ Fri, 23 Oct 2020 16:02:58 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by userp3020.oracle.com with ESMTP id 34ak1b7340-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Oct 2020 16:02:58 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09NG2uXV022959;
+ Fri, 23 Oct 2020 16:02:56 GMT
+Received: from starbug-mbp.localdomain (/79.97.215.145)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Fri, 23 Oct 2020 09:02:56 -0700
+Received: by starbug-mbp.localdomain (Postfix, from userid 501)
+ id 7B1AF1DC1A44; Fri, 23 Oct 2020 17:02:44 +0100 (IST)
+From: Darren Kenny <darren.kenny@oracle.com>
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v7 16/17] scripts/oss-fuzz: use hardlinks instead of
+ copying
+In-Reply-To: <20201023150746.107063-17-alxndr@bu.edu>
+References: <20201023150746.107063-1-alxndr@bu.edu>
+ <20201023150746.107063-17-alxndr@bu.edu>
+Date: Fri, 23 Oct 2020 17:02:44 +0100
+Message-ID: <m2sga5lyl7.fsf@oracle.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9782
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=2
+ mlxscore=0 phishscore=0
+ spamscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010230106
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9782
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0
+ mlxlogscore=999 mlxscore=0 spamscore=0 suspectscore=2 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010230106
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=darren.kenny@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 12:03:01
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,78 +100,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: thuth@redhat.com, f4bug@amsat.org, Alexander Bulekov <alxndr@bu.edu>,
+ bsd@redhat.com, stefanha@redhat.com, pbonzini@redhat.com,
+ dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Oct 2020 22:33:56 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+On Friday, 2020-10-23 at 11:07:45 -04, Alexander Bulekov wrote:
+> Prior to this, fuzzers in the output oss-fuzz directory were exactly
+> the same executable, with a different name to do argv[0]-based
+> fuzz-target selection. This is a waste of space, especially since these
+> binaries can weigh many MB.
+>
+> Instead of copying, use hard links, to cut down on wasted space. We need
+> to place the primary copy of the executable into DEST_DIR, since this is
+> a separate file-system on oss-fuzz. We should not place it directly into
+> $DEST_DIR, since oss-fuzz will treat it as an independent fuzzer and try
+> to run it for fuzzing. Instead, we create a DEST_DIR/bin directory to
+> store the primary copy.
+>
+> Suggested-by: Darren Kenny <darren.kenny@oracle.com>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-> The Pi A is almost the first machine released.
-> It uses a BCM2835 SoC which includes a ARMv6Z core.
->=20
-> Example booting the machine using content from [*]
-> (we use the device tree from the B model):
->=20
->   $ qemu-system-arm -M raspi1ap -serial stdio \
->       -kernel raspberrypi/firmware/boot/kernel.img \
->       -dtb raspberrypi/firmware/boot/bcm2708-rpi-b-plus.dtb \
->       -append 'earlycon=3Dpl011,0x20201000 console=3DttyAMA0'
->   [    0.000000] Booting Linux on physical CPU 0x0
->   [    0.000000] Linux version 4.19.118+ (dom@buildbot) (gcc version 4.9.=
-3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1311 Mon Apr 27 14:16:15=
- BST 2020
->   [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (A=
-RMv7), cr=3D00c5387d
->   [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
->   [    0.000000] OF: fdt: Machine model: Raspberry Pi Model B+
->   ...
->=20
-> [*] http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmwar=
-e/raspberrypi-kernel_1.20200512-2_armhf.deb
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 
 > ---
->  hw/arm/raspi.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-> index 30fafa59ecb..91a59d1d489 100644
-> --- a/hw/arm/raspi.c
-> +++ b/hw/arm/raspi.c
-> @@ -319,6 +319,15 @@ static void raspi_machine_class_common_init(MachineC=
-lass *mc,
->      mc->default_ram_id =3D "ram";
->  };
-> =20
-> +static void raspi1ap_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
+>  scripts/oss-fuzz/build.sh | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+> index 0c3ca9e06f..0ce2867732 100755
+> --- a/scripts/oss-fuzz/build.sh
+> +++ b/scripts/oss-fuzz/build.sh
+> @@ -62,6 +62,9 @@ fi
+>  
+>  mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
+>  
+> +mkdir -p "$DEST_DIR/bin/"  # Copy executables that shouldn't
+> +                           # be treated as fuzzers by oss-fuzz here
 > +
-> +    rmc->board_rev =3D 0x900021;
-> +    raspi_machine_class_common_init(mc, rmc->board_rev);
-> +};
+>  # Build once to get the list of dynamic lib paths, and copy them over
+>  ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
+>      --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
+> @@ -88,13 +91,16 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
+>  # Copy over the datadir
+>  cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
+>  
+> +cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
 > +
->  static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
-> @@ -343,6 +352,10 @@ static void raspi3b_machine_class_init(ObjectClass *=
-oc, void *data)
-> =20
->  static const TypeInfo raspi_machine_types[] =3D {
->      {
-> +        .name           =3D MACHINE_TYPE_NAME("raspi1ap"),
-> +        .parent         =3D TYPE_RASPI_MACHINE,
-> +        .class_init     =3D raspi1ap_machine_class_init,
-> +    }, {
->          .name           =3D MACHINE_TYPE_NAME("raspi2b"),
->          .parent         =3D TYPE_RASPI_MACHINE,
->          .class_init     =3D raspi2b_machine_class_init,
-
+>  # Run the fuzzer with no arguments, to print the help-string and get the list
+>  # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
+>  # to each available fuzz target (See 05509c8e6d fuzz: select fuzz target using
+>  # executable name)
+>  for target in $(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
+>  do
+> -    cp qemu-fuzz-i386 "$DEST_DIR/qemu-fuzz-i386-target-$target"
+> +    ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
+> +        "$DEST_DIR/qemu-fuzz-i386-target-$target"
+>  done
+>  
+>  echo "Done. The fuzzers are located in $DEST_DIR"
+> -- 
+> 2.28.0
 
