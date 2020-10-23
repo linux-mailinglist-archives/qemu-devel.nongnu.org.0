@@ -2,89 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08C82975EA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:41:56 +0200 (CEST)
-Received: from localhost ([::1]:46848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57AB2975F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:44:30 +0200 (CEST)
+Received: from localhost ([::1]:53416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW14d-00037X-I2
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:41:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36932)
+	id 1kW177-0005u4-KK
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:44:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kW12E-0001cL-1q
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:39:26 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36570)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kW15R-0004qx-7X; Fri, 23 Oct 2020 13:42:45 -0400
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:41629)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kW12C-00027l-5l
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:39:25 -0400
-Received: by mail-wm1-x333.google.com with SMTP id e2so2722355wme.1
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 10:39:22 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kW15L-0002WG-Qk; Fri, 23 Oct 2020 13:42:43 -0400
+Received: by mail-yb1-xb44.google.com with SMTP id c129so1853925yba.8;
+ Fri, 23 Oct 2020 10:42:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=O6aqUefLW9GBb8KwKTuT3BFpgSVPbZXotiNam4qAmuQ=;
- b=N9wlkKuJOSDKlGb9kL5kE5gADNOuolwxyT7DOfS53bi5hjpcGbKdzbodNOmCt7tdIP
- vpkcdbsG+8CylJ1s8K1wEaBWJEKYa2k45yrwDUzX5b/F1VvuuN3PEUjoxDQBVE+2btvQ
- jU5yrX5muN8emwvY91r1e7zF+dmMlpkCDiJ0NJxBsNplmLXQLGcUjC2OawZMDYbyHxxd
- Lz1FfJ2u9mnwtnWmqDhT4vYzE3ESNVbvBBf0mKbqO2cd1iQutTr8N4tresRS2CDbhRt9
- E7Sag6lrlF+HKpM1UTseBy3sI9b+KBwzJyH4UDB1Hwe7opOJPMpS3G3OaR29tE/KLoI7
- OzRQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=c6n2eHqG4+PsWDOtCAeejiImndE+pLOyantk6AYGU1A=;
+ b=gUw6JxC9LVqslYqxBwuZj9MEPZt6ee7F0LTFUAjeb9yMOrHBr+mt1BNNbmU8MYHMEL
+ NlRr0XBl4Jw2gz4UK7ZpgdIqcX823hP6Oa70XuMY89uvMtQdvLB3oE4v3g3k2UMmRfO0
+ WcHAlE8hFuW7iLsSItMg94vSkYe3s7rNnYh2pJ7AJ77wBRgZ+rdL+rj/+vbRXKQN3POa
+ NmcmTOgOCxthkkYgc/VndhQyTM0VgGW/6ci85XiPGvrHNocjHj8AlCsbDmmSWmAEjP1A
+ +IJqwzXnzBKHqjQogbY6XQewob2GSSeueT42M8Y7oKNDOGRz6LHw+b+yWyA56/riV8yo
+ hBYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=O6aqUefLW9GBb8KwKTuT3BFpgSVPbZXotiNam4qAmuQ=;
- b=DSePYl3QB5gbLlJ4UAN8BVMGwS9N6Khs6dH8bcfiXPOjTf5wgndqN/gcZvt/QV/UG8
- aIyme1O41Ow7pNksy3k0yesgshHDaCu1M9TnF7ryzOUO4fwXQVAD2WhZFDeRMJkGgmSl
- 50PaVuKscGv6xNMI3TPVYA6TQhRgQ2zYQOMboDwykDJiZrmYb7Q7n6mrXgdP8vWdDp/Q
- nXm8tUbDkSy77cMIieFfbyIJp5/dSFqN/uwfvu7G07obG3bQUQpEx824RACH8CMG3E2Q
- WF7tT8ja025QH4XbZacWx6y8TH7HsQG5aDlBXFOYWqnd0htSDZ1t7Sns212AciVtFBbk
- 8heg==
-X-Gm-Message-State: AOAM530SSAqwybd6kj4n52Z/Jd4u9hqoh6GdkdOXpQCyhcNEcn0Gd+Xb
- 6uDpAGFA5hD1GWw08G8fRrr/c0zrBCQ=
-X-Google-Smtp-Source: ABdhPJwcxQlGBTGOoq8zUwz56z2BsuCnOO27kwbOiulbn46YM1PNJ4JtJL8buAgXt43OnzjkMYcz2g==
-X-Received: by 2002:a7b:cd8f:: with SMTP id y15mr518199wmj.9.1603474758789;
- Fri, 23 Oct 2020 10:39:18 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id 1sm4959362wre.61.2020.10.23.10.39.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 10:39:17 -0700 (PDT)
-Subject: Re: [PULL 25/33] tests/acceptance: Add a test for the N800 and N810
- arm machines
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20200228163840.23585-1-peter.maydell@linaro.org>
- <20200228163840.23585-26-peter.maydell@linaro.org>
- <a049110f-b7cb-52bd-de77-6e1193b5b6de@amsat.org>
- <6ce6a790-c68e-e3ed-962e-ba6f49244315@redhat.com>
- <f02d74fb-af6e-6e04-7ce7-48ab09a20e4f@amsat.org>
- <f2f276a9-a6ad-a2f8-2fbc-f1aca5423f79@amsat.org>
- <20201023174351.31838a86@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c80350d2-3591-6541-abf3-960b69cedf7d@amsat.org>
-Date: Fri, 23 Oct 2020 19:39:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c6n2eHqG4+PsWDOtCAeejiImndE+pLOyantk6AYGU1A=;
+ b=XcFBUA9e3n0EO8OuWPaJl2n5ckhPOTcnfVfxPBT/qf93SVh+7tQjp1trGEl3P1Mc//
+ 2ftixX5kJ/CojssoAUZnK1SoJeoRFaNuk+hjQtYWP3wYwPPUcNflMuqer9g1yKklPj4H
+ qQjf2xRyeXZ0DXgSL9N1OrWuk1IbzGwf8FNZIzrxffhCQ7M8O7NN/pypJtVFZfN7WQys
+ JyCmPZVLL/6GLorv0ma3CFl5Lpd7gNHCydwbdmJe0b7RrdXqKvvFaLfMC8mFr3HGCH/6
+ LTW+5xzJU591Ic9V/kIDbP1rXCUn0BP6T5OovsPVrkuN5xg3RXrABEiqqBWewWI0kABz
+ uj/A==
+X-Gm-Message-State: AOAM531Irdeg6LF/AoWUCNo+FUMFuNX39a9yB8VFKblIVKyD7ag6jNPh
+ M55zp0jkwKbA8pKIG32aqC4TbuAkXG8NHvOduVY=
+X-Google-Smtp-Source: ABdhPJzAUiLF2nkGoIO2zu/F8ABRGDwQi1j2PFbkFiwvdstjQS2rGAWhQOg9fbrPyUkd7QGonjZbxGmb0Db/laU2GnM=
+X-Received: by 2002:a25:386:: with SMTP id 128mr4828364ybd.122.1603474957926; 
+ Fri, 23 Oct 2020 10:42:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201023174351.31838a86@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+References: <20201023131808.3198005-1-f4bug@amsat.org>
+In-Reply-To: <20201023131808.3198005-1-f4bug@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 24 Oct 2020 01:42:26 +0800
+Message-ID: <CAEUhbmWJQHJgdvgjXRy3jzJLQC9w3cCdft40ium0TbjEq=9pQw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/4] tests/acceptance: Test U-Boot/Linux from Armbian
+ 20.08 on Orange Pi PC
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b44;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb44.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.108,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,82 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 5:43 PM, Igor Mammedov wrote:
-> On Mon, 19 Oct 2020 11:43:13 +0200
-> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>> FYI this test is failing:
->>>>>
->>>>> qemu-system-arm: kernel 'meego-arm-n8x0-1.0.80.20100712.1431-vml
->>>>> inuz-2.6.35~rc4-129.1-n8x0' is too large to fit in RAM (kernel size
->>>>> 1964608,
->>>>> RAM size 0)
->>>
->>> FWIW:
->>>
->>> 7998beb9c2e280f0b7424223747941f106e2e854 is the first bad commit
->>> commit 7998beb9c2e280f0b7424223747941f106e2e854
->>> Author: Igor Mammedov <imammedo@redhat.com>
->>> Date:   Wed Feb 19 11:08:59 2020 -0500
->>>
->>>       arm/nseries: use memdev for RAM
->>>
->>>       memory_region_allocate_system_memory() API is going away, so
->>>       replace it with memdev allocated MemoryRegion. The later is
->>>       initialized by generic code, so board only needs to opt in
->>>       to memdev scheme by providing
->>>         MachineClass::default_ram_id
->>>       and using MachineState::ram instead of manually initializing
->>>       RAM memory region.
->>>
->>>       PS:
->>>        while at it add check for user supplied RAM size and error
->>>        out if it mismatches board expected value.
->>>
->>>       Signed-off-by: Igor Mammedov <imammedo@redhat.com>
->>>       Reviewed-by: Andrew Jones <drjones@redhat.com>
->>>       Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>>       Message-Id: <20200219160953.13771-26-imammedo@redhat.com>
->>
->> This fixes the issue:
->>
->> -- >8 --
->> diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
->> index e48092ca047..76fd7fe9854 100644
->> --- a/hw/arm/nseries.c
->> +++ b/hw/arm/nseries.c
->> @@ -1318,6 +1318,7 @@ static void n8x0_init(MachineState *machine,
->>            g_free(sz);
->>            exit(EXIT_FAILURE);
->>        }
->> +    binfo->ram_size = machine->ram_size;
->>
->>        memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE,
->>                                    machine->ram);
-> 
-> we really should replace binfo->ram_size with machine->ram_size to avoid
-> duplicating the same data, but as a quick fix this should fix issue.
+Hi Philippe,
 
-Hmm this is the 'ARM kernel loader' API in "arm/boot.h":
+On Fri, Oct 23, 2020 at 9:18 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> Series meant to help Bin Meng to debug the SD card issue
+> reported by Michael Roth.
 
-struct arm_boot_info {
-     uint64_t ram_size;
-     const char *kernel_filename;
-     const char *kernel_cmdline;
-     const char *initrd_filename;
-     const char *dtb_filename;
+Thank you for the patches.
 
-and:
+>
+> Philippe Mathieu-Daud=C3=A9 (4):
+>   Revert "hw/sd: Fix incorrect populated function switch status data
+>     structure"
+>   tests/acceptance: Allow running Orange Pi test using cached artifacts
+>   tests/acceptance: Extract do_test_arm_orangepi_armbian_uboot() method
+>   tests/acceptance: Test U-Boot/Linux from Armbian 20.08 on Orange Pi PC
+>
+>  hw/sd/sd.c                             |  3 +-
+>  tests/acceptance/boot_linux_console.py | 68 +++++++++++++++++++-------
+>  2 files changed, 50 insertions(+), 21 deletions(-)
 
-   void (*write_secondary_boot)(ARMCPU *cpu,
-                                const struct arm_boot_info *info);
-   void (*secondary_cpu_reset_hook)(ARMCPU *cpu,
-                                    const struct arm_boot_info *info);
+With this series, I used:
 
-Are you saying arm_boot_info should hold a pointer to MachineState*
-instead of duplicating?
+$ ARMBIAN_ARTIFACTS_CACHED=3D1 AVOCADO_ALLOW_LARGE_STORAGE=3D1 make check-a=
+cceptance
+
+It looks that the failure still exists? Log below:
+
+13-tests_acceptance_boot_linux_console.py_BootLinuxConsole.test_arm_orangep=
+i_bionic_20_08/debug.log:
+
+01:11:27 DEBUG| =3D> boot
+01:11:27 DEBUG| unable to select a mode
+01:11:27 DEBUG| Device 0: unknown device
+01:11:27 DEBUG| BOOTP broadcast 1
+01:11:27 DEBUG| DHCP client bound to address 10.0.2.15 (1 ms)
+01:11:27 DEBUG| *** Warning: no boot file name; using '0A00020F.img'
+01:11:27 DEBUG| Using ethernet@1c30000 device
+01:11:27 DEBUG| TFTP from server 10.0.2.2; our IP address is 10.0.2.15
+01:11:27 DEBUG| Filename '0A00020F.img'.
+01:11:27 DEBUG| Load address: 0x42000000
+01:11:27 DEBUG| Loading: *^H
+01:11:27 DEBUG| TFTP error: 'Access violation' (2)
+01:11:27 DEBUG| Not retrying...
+
+Regards,
+Bin
 
