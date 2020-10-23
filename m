@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF49296D9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:25:43 +0200 (CEST)
-Received: from localhost ([::1]:60200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 810BE296DA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:27:20 +0200 (CEST)
+Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVvCY-0004ND-98
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:25:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50636)
+	id 1kVvE6-0006DJ-0A
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:27:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50638)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVv2X-00016s-Cd
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:15:22 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2774)
+ id 1kVv2Y-00017Q-IW
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:15:24 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2767)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kVv2U-0007cK-Lm
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:15:21 -0400
+ id 1kVv2U-0007c4-L4
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:15:22 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f92bae60001>; Fri, 23 Oct 2020 04:13:42 -0700
+ id <B5f92bae60000>; Fri, 23 Oct 2020 04:13:42 -0700
 Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
  (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 23 Oct
- 2020 11:15:01 +0000
+ 2020 11:15:10 +0000
 Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Fri, 23 Oct 2020 11:14:52 +0000
+ Transport; Fri, 23 Oct 2020 11:15:02 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v28 11/17] vfio: Get migration capability flags for container
-Date: Fri, 23 Oct 2020 16:10:37 +0530
-Message-ID: <1603449643-12851-12-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v28 12/17] vfio: Add function to start and stop dirty pages
+ tracking
+Date: Fri, 23 Oct 2020 16:10:38 +0530
+Message-ID: <1603449643-12851-13-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603449643-12851-1-git-send-email-kwankhede@nvidia.com>
 References: <1603449643-12851-1-git-send-email-kwankhede@nvidia.com>
@@ -40,15 +41,15 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603451622; bh=2p5u5tjgKgOSQCead7vzfs4+pQllRva7sP9NuiWlzPo=;
+ t=1603451622; bh=XDjtvIism5NFTR2TsvsuLdrL5UzcEH4/hKiga85v7Ls=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=eYIhkjCIwTtan3jDixJBQ9KKSj7+BFKAHvk5GG3f28Wq6t90FWUL7VSZqMckjsdIa
- lqXRhYWIhezDP65qmYFYtHdYYPnaAiUhPbJ88PIX0uXp6R0Wwtg1JsoRDyD96JNH1y
- LBdz7kLcxeqViPOqRtd0zTmafddrHJkFJBQ0S33j43vLcXeAJNE4QuCeJ2hvc8+yC1
- H8rA1UczotT57wjH53P75CkV8rfTdYYcD4ItRb9BLdYZDCfTpQUi5hXD2lMk1/uct5
- h81ROOJwCl5wAO/FbNwbleaa+AhHZP8w10Ow8zHoCJfNMPqgBJb0rgzn0/ILKvLOij
- +Kt4VuI+OMF0w==
+ b=jZKbG8SRDzskkTuRKp2RaNck+b/AxVCpF+JeAi2caBgEo4xBxUFtREQ0Wwk5dSPPE
+ 8/1EUEb9Uw1aAvxFJqucOUmaghidezy4clRFZO//TZJ1qfuu92YogSnryFno4h02FE
+ v9ZaQ/R07Itwze7V1EebULI8nCEqP08g/R4N4V7rCYpuUFggNCNK80ofHzqBhfv8Eq
+ VxeWtHOgIcCM5spwcgxVVeNzxkIGEUqmQ9v9f1KdFqAlT82wCTILH92rpb1P1VqSe7
+ uDHwfW0s6MtH0zOIEWI3/F5GDCsZ29k9Ee7loJ7ujTTPY86wyL7QH5PV4IrQ1NXhjz
+ Smt3pWSB4ZLNg==
 Received-SPF: pass client-ip=216.228.121.143;
  envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 05:59:19
@@ -80,190 +81,85 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
  armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
  felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
  kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- Eric Auger <eric.auger@redhat.com>, changpeng.liu@intel.com,
- eskultet@redhat.com, Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com,
- dnigam@nvidia.com
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added helper functions to get IOMMU info capability chain.
-Added function to get migration capability information from that
-capability chain for IOMMU container.
-
-Similar change was proposed earlier:
-https://lists.gnu.org/archive/html/qemu-devel/2018-05/msg03759.html
-
-Disable migration for devices if IOMMU module doesn't support migration
-capability.
+Call VFIO_IOMMU_DIRTY_PAGES ioctl to start and stop dirty pages tracking
+for VFIO devices.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Cc: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-Cc: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/vfio/common.c              | 90 +++++++++++++++++++++++++++++++++++++++----
- hw/vfio/migration.c           |  7 +++-
- include/hw/vfio/vfio-common.h |  3 ++
- 3 files changed, 91 insertions(+), 9 deletions(-)
+ hw/vfio/migration.c | 36 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index c6e98b8d61be..d4959c036dd1 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -1228,6 +1228,75 @@ static int vfio_init_container(VFIOContainer *container, int group_fd,
-     return 0;
- }
- 
-+static int vfio_get_iommu_info(VFIOContainer *container,
-+                               struct vfio_iommu_type1_info **info)
-+{
-+
-+    size_t argsz = sizeof(struct vfio_iommu_type1_info);
-+
-+    *info = g_new0(struct vfio_iommu_type1_info, 1);
-+again:
-+    (*info)->argsz = argsz;
-+
-+    if (ioctl(container->fd, VFIO_IOMMU_GET_INFO, *info)) {
-+        g_free(*info);
-+        *info = NULL;
-+        return -errno;
-+    }
-+
-+    if (((*info)->argsz > argsz)) {
-+        argsz = (*info)->argsz;
-+        *info = g_realloc(*info, argsz);
-+        goto again;
-+    }
-+
-+    return 0;
-+}
-+
-+static struct vfio_info_cap_header *
-+vfio_get_iommu_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
-+{
-+    struct vfio_info_cap_header *hdr;
-+    void *ptr = info;
-+
-+    if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
-+        return NULL;
-+    }
-+
-+    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-+        if (hdr->id == id) {
-+            return hdr;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+static void vfio_get_iommu_info_migration(VFIOContainer *container,
-+                                         struct vfio_iommu_type1_info *info)
-+{
-+    struct vfio_info_cap_header *hdr;
-+    struct vfio_iommu_type1_info_cap_migration *cap_mig;
-+
-+    hdr = vfio_get_iommu_info_cap(info, VFIO_IOMMU_TYPE1_INFO_CAP_MIGRATION);
-+    if (!hdr) {
-+        return;
-+    }
-+
-+    cap_mig = container_of(hdr, struct vfio_iommu_type1_info_cap_migration,
-+                            header);
-+
-+    /*
-+     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
-+     * TARGET_PAGE_SIZE to mark those dirty.
-+     */
-+    if (cap_mig->pgsize_bitmap & TARGET_PAGE_SIZE) {
-+        container->dirty_pages_supported = true;
-+        container->max_dirty_bitmap_size = cap_mig->max_dirty_bitmap_size;
-+        container->dirty_pgsizes = cap_mig->pgsize_bitmap;
-+    }
-+}
-+
- static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-                                   Error **errp)
- {
-@@ -1297,6 +1366,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     container->space = space;
-     container->fd = fd;
-     container->error = NULL;
-+    container->dirty_pages_supported = false;
-     QLIST_INIT(&container->giommu_list);
-     QLIST_INIT(&container->hostwin_list);
- 
-@@ -1309,7 +1379,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-     case VFIO_TYPE1v2_IOMMU:
-     case VFIO_TYPE1_IOMMU:
-     {
--        struct vfio_iommu_type1_info info;
-+        struct vfio_iommu_type1_info *info;
- 
-         /*
-          * FIXME: This assumes that a Type1 IOMMU can map any 64-bit
-@@ -1318,15 +1388,19 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-          * existing Type1 IOMMUs generally support any IOVA we're
-          * going to actually try in practice.
-          */
--        info.argsz = sizeof(info);
--        ret = ioctl(fd, VFIO_IOMMU_GET_INFO, &info);
--        /* Ignore errors */
--        if (ret || !(info.flags & VFIO_IOMMU_INFO_PGSIZES)) {
-+        ret = vfio_get_iommu_info(container, &info);
-+
-+        if (ret || !(info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
-             /* Assume 4k IOVA page size */
--            info.iova_pgsizes = 4096;
-+            info->iova_pgsizes = 4096;
-         }
--        vfio_host_win_add(container, 0, (hwaddr)-1, info.iova_pgsizes);
--        container->pgsizes = info.iova_pgsizes;
-+        vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
-+        container->pgsizes = info->iova_pgsizes;
-+
-+        if (!ret) {
-+            vfio_get_iommu_info_migration(container, info);
-+        }
-+        g_free(info);
-         break;
-     }
-     case VFIO_SPAPR_TCE_v2_IOMMU:
 diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index 240646592b39..0dc40e34a4de 100644
+index 0dc40e34a4de..d4ba24c2dfae 100644
 --- a/hw/vfio/migration.c
 +++ b/hw/vfio/migration.c
-@@ -837,9 +837,14 @@ err:
+@@ -11,6 +11,7 @@
+ #include "qemu/main-loop.h"
+ #include "qemu/cutils.h"
+ #include <linux/vfio.h>
++#include <sys/ioctl.h>
  
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
- {
+ #include "sysemu/runstate.h"
+ #include "hw/vfio/vfio-common.h"
+@@ -391,10 +392,40 @@ static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
+     return qemu_file_get_error(f);
+ }
+ 
++static int vfio_set_dirty_page_tracking(VFIODevice *vbasedev, bool start)
++{
++    int ret;
++    VFIOMigration *migration = vbasedev->migration;
 +    VFIOContainer *container = vbasedev->group->container;
-     struct vfio_region_info *info = NULL;
-     Error *local_err = NULL;
--    int ret;
-+    int ret = -ENOTSUP;
++    struct vfio_iommu_type1_dirty_bitmap dirty = {
++        .argsz = sizeof(dirty),
++    };
 +
-+    if (!container->dirty_pages_supported) {
-+        goto add_blocker;
++    if (start) {
++        if (migration->device_state & VFIO_DEVICE_STATE_SAVING) {
++            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_START;
++        } else {
++            return -EINVAL;
++        }
++    } else {
++            dirty.flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_STOP;
 +    }
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, &dirty);
++    if (ret) {
++        error_report("Failed to set dirty tracking flag 0x%x errno: %d",
++                     dirty.flags, errno);
++        return -errno;
++    }
++    return ret;
++}
++
+ static void vfio_migration_cleanup(VFIODevice *vbasedev)
+ {
+     VFIOMigration *migration = vbasedev->migration;
  
-     ret = vfio_get_dev_region_info(vbasedev, VFIO_REGION_TYPE_MIGRATION,
-                                    VFIO_REGION_SUBTYPE_MIGRATION, &info);
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index f4ebdae013ad..b1c1b18fd228 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -84,6 +84,9 @@ typedef struct VFIOContainer {
-     unsigned iommu_type;
-     Error *error;
-     bool initialized;
-+    bool dirty_pages_supported;
-+    uint64_t dirty_pgsizes;
-+    uint64_t max_dirty_bitmap_size;
-     unsigned long pgsizes;
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
++    vfio_set_dirty_page_tracking(vbasedev, false);
++
+     if (migration->region.mmaps) {
+         vfio_region_unmap(&migration->region);
+     }
+@@ -435,6 +466,11 @@ static int vfio_save_setup(QEMUFile *f, void *opaque)
+         return ret;
+     }
+ 
++    ret = vfio_set_dirty_page_tracking(vbasedev, true);
++    if (ret) {
++        return ret;
++    }
++
+     qemu_put_be64(f, VFIO_MIG_FLAG_END_OF_STATE);
+ 
+     ret = qemu_file_get_error(f);
 -- 
 2.7.0
 
