@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F331296995
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 08:14:35 +0200 (CEST)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93973296996
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 08:15:01 +0200 (CEST)
+Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVqLS-0001jE-3w
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 02:14:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49814)
+	id 1kVqLs-000232-IS
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 02:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kVqJp-0000Bu-4v; Fri, 23 Oct 2020 02:12:53 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:5205 helo=huawei.com)
+ id 1kVqJp-0000Bs-4j; Fri, 23 Oct 2020 02:12:53 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:5204 helo=huawei.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kVqJn-0000uy-3q; Fri, 23 Oct 2020 02:12:52 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
- by Forcepoint Email with ESMTP id 7040B41E4B0349170A3E;
+ id 1kVqJm-0000ux-Tf; Fri, 23 Oct 2020 02:12:52 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
+ by Forcepoint Email with ESMTP id B23FBF6EE23FC696F94D;
  Fri, 23 Oct 2020 14:12:40 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
  (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Fri, 23 Oct 2020
- 14:12:32 +0800
+ 14:12:34 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH RESEND v2 3/7] elf2dmp/qemu_elf: Plug memleak in QEMU_Elf_init
-Date: Fri, 23 Oct 2020 14:12:14 +0800
-Message-ID: <20201023061218.2080844-4-kuhn.chenqun@huawei.com>
+Subject: [PATCH RESEND v2 4/7] elf2dmp/pdb: Plug memleak in pdb_init_from_file
+Date: Fri, 23 Oct 2020 14:12:15 +0800
+Message-ID: <20201023061218.2080844-5-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
 References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
@@ -67,7 +67,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Pan Nengyuan <pannengyuan@huawei.com>
 
-Missing g_error_free in QEMU_Elf_init() error path. Fix that.
+Missing g_error_free in pdb_init_from_file() error path. Fix that.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
@@ -75,17 +75,17 @@ Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
 Reviewed-by: Li Qiang <liq3ea@gmail.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
- contrib/elf2dmp/qemu_elf.c | 1 +
+ contrib/elf2dmp/pdb.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/contrib/elf2dmp/qemu_elf.c b/contrib/elf2dmp/qemu_elf.c
-index 0db7816586..b601b6d7ba 100644
---- a/contrib/elf2dmp/qemu_elf.c
-+++ b/contrib/elf2dmp/qemu_elf.c
-@@ -126,6 +126,7 @@ int QEMU_Elf_init(QEMU_Elf *qe, const char *filename)
-     qe->gmf = g_mapped_file_new(filename, TRUE, &gerr);
+diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
+index a5bd40c99d..b3a6547068 100644
+--- a/contrib/elf2dmp/pdb.c
++++ b/contrib/elf2dmp/pdb.c
+@@ -285,6 +285,7 @@ int pdb_init_from_file(const char *name, struct pdb_reader *reader)
+     reader->gmf = g_mapped_file_new(name, TRUE, &gerr);
      if (gerr) {
-         eprintf("Failed to map ELF dump file \'%s\'\n", filename);
+         eprintf("Failed to map PDB file \'%s\'\n", name);
 +        g_error_free(gerr);
          return 1;
      }
