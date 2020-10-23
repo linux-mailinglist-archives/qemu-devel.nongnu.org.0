@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF9D29781C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:13:49 +0200 (CEST)
-Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E12297818
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:11:32 +0200 (CEST)
+Received: from localhost ([::1]:33608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW3Rc-0002YR-3u
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:13:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38676)
+	id 1kW3PP-0000qb-5q
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:11:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kW3LC-0004o4-Kd
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:10 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:28402)
+ id 1kW3LE-0004t5-Ug
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:12 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kW3LA-0003jf-O7
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:10 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ id 1kW3LC-0003jt-Ma
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:12 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09NK2K1V089487; Fri, 23 Oct 2020 16:07:07 -0400
+ 09NK29ox182264; Fri, 23 Oct 2020 16:07:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=lH1vjam/uAwj77DuuJwX4duoeCbG9KbpZcBIQApIcck=;
- b=m/02+aEovCXl2AejaUP54JsKoFieGN6CyPiX7RgD4JkLjhT1QyxjPRPihrZ3ca6hFFK8
- XDno7annpEQAbkN+6YHCmRfNLuDxOBD9M1Zj5RQJawBpJN9mYDFlNi/ENKQWDfmT5eao
- TVOa+2sXIVzA0VvPANv2Psnp/S+NJ21c70PA5K6szQkdorkLAU9WBifCO3L28s+fFxle
- q0VfGt6mByXZIBk66EA9jWCzpDs9NAgz8MWfgggP12K6KlWs6t0VvzJ60PxCXUWMOy+h
- zPuo80Y2rf6f8xP7aHukxUob5Sgfrak3WBytW6AMTj1k4hoiTg9r+NunoMSSYNDw0sVa 2w== 
+ bh=P3TPXiTUGaxAmCIhw8Qg77Q02Z3Vw0oLUCLlve8GL20=;
+ b=ETEVHW7Qz21JHrGVqjutzkK183XK2XVC5QOYN7MMUXDvrphqOH3WlHFQK1MfX8g6BV6U
+ y69a+pFyRycHvsKjVJM2gVHMsG0NzIyuaoGGnjJk+VIHJF849w4619rWUi83R9YYjj3A
+ GGtJHhuEPkr5k0jbW9zmsYuIM+Dt7UvMz8pFrcUaaMXKoMpcbswPl9A+RqU2HfAFVgl4
+ b4Kc88daeOzodFzcc0jCGbCz1GYUtBo+JkxiKTxB6VbsO0MP65Ybdw57PBBW3Vqfa6lQ
+ UxbBwKg5tlEoyLRxSoG0DCWeiOkCexcf2n/5UZHaP51jIkFW75S8XOXArkNhaq8Hh+CF RQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34bm6wbssq-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34c2j9dg1g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 16:07:07 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09NK2Rfh089914;
- Fri, 23 Oct 2020 16:07:06 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34bm6wbsse-1
+ Fri, 23 Oct 2020 16:07:09 -0400
+Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09NK2IAh182894;
+ Fri, 23 Oct 2020 16:07:08 -0400
+Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.27])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34c2j9dg0x-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 16:07:06 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09NJwATk003078;
- Fri, 23 Oct 2020 20:07:06 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 347r8a7wjr-1
+ Fri, 23 Oct 2020 16:07:08 -0400
+Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
+ by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09NJvKX1001629;
+ Fri, 23 Oct 2020 20:07:07 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma05wdc.us.ibm.com with ESMTP id 347r89jw3h-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 20:07:05 +0000
+ Fri, 23 Oct 2020 20:07:07 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09NK6xJd24838414
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09NK767k32440650
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Oct 2020 20:06:59 GMT
+ Fri, 23 Oct 2020 20:07:06 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ABD8F6A04D;
- Fri, 23 Oct 2020 20:07:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 97EBE6A054;
+ Fri, 23 Oct 2020 20:07:06 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 01A256A047;
- Fri, 23 Oct 2020 20:07:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id DE3A76A04D;
+ Fri, 23 Oct 2020 20:07:05 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.212.19])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 23 Oct 2020 20:07:03 +0000 (GMT)
+ Fri, 23 Oct 2020 20:07:05 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/6] check-block: enable iotests with cfi-icall
-Date: Fri, 23 Oct 2020 16:06:43 -0400
-Message-Id: <20201023200645.1055-6-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v2 6/6] configure: add support for Control-Flow Integrity
+Date: Fri, 23 Oct 2020 16:06:44 -0400
+Message-Id: <20201023200645.1055-7-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
 References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
@@ -82,15 +82,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
  definitions=2020-10-23_14:2020-10-23,
  2020-10-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- malwarescore=0 mlxlogscore=626 mlxscore=0 clxscore=1015 bulkscore=0
- phishscore=0 suspectscore=1 lowpriorityscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010230119
+ phishscore=0 malwarescore=0
+ mlxscore=0 suspectscore=1 priorityscore=1501 mlxlogscore=999 spamscore=0
+ impostorscore=0 bulkscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010230119
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 16:06:56
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -116,51 +116,164 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cfi-icall is a form of Control-Flow Integrity for indirect function
-calls implemented by llvm. It is enabled with a -fsanitize flag.
+This patch adds a flag to enable/disable control flow integrity checks
+on indirect function calls.
+This feature only allows indirect function calls at runtime to functions
+with compatible signatures.
 
-iotests are currently disabled when -fsanitize options is used, with the
-exception of SafeStack.
+This feature is only provided by LLVM/Clang, and depends on link-time
+optimization which is currently supported only with LLVM/Clang >= 6.0
 
-This patch implements a generic filtering mechanism to allow iotests
-with a set of known-to-be-safe -fsanitize option. Then marks SafeStack
-and the new options used for cfi-icall safe for iotests
+We also add an option to enable a debugging version of cfi, with verbose
+output in case of a CFI violation.
+
+CFI on indirect function calls does not support calls to functions in
+shared libraries (since they were not known at compile time), and such
+calls are forbidden. QEMU relies on dlopen/dlsym when using modules,
+so we make modules incompatible with CFI.
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
- tests/check-block.sh | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ configure   | 84 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ meson.build |  2 ++
+ 2 files changed, 86 insertions(+)
 
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index f6b1bda7b9..fb4c1baae9 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -21,14 +21,18 @@ if grep -q "CONFIG_GPROF=y" config-host.mak 2>/dev/null ; then
-     exit 0
+diff --git a/configure b/configure
+index e964040522..f996c4462e 100755
+--- a/configure
++++ b/configure
+@@ -272,6 +272,8 @@ debug_info="yes"
+ lto="false"
+ stack_protector=""
+ safe_stack=""
++cfi="no"
++cfi_debug="no"
+ use_containers="yes"
+ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
+ 
+@@ -1199,6 +1201,16 @@ for opt do
+   ;;
+   --disable-safe-stack) safe_stack="no"
+   ;;
++  --enable-cfi)
++      cfi="yes" ;
++      lto="true" ;
++  ;;
++  --disable-cfi) cfi="no"
++  ;;
++  --enable-cfi-debug) cfi_debug="yes"
++  ;;
++  --disable-cfi-debug) cfi_debug="no"
++  ;;
+   --disable-curses) curses="disabled"
+   ;;
+   --enable-curses) curses="enabled"
+@@ -1772,6 +1784,13 @@ disabled with --disable-FEATURE, default is enabled if available:
+   sparse          sparse checker
+   safe-stack      SafeStack Stack Smash Protection. Depends on
+                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
++  cfi             Enable Control-Flow Integrity for indirect function calls.
++                  In case of a cfi violation, QEMU is terminated with SIGILL
++                  Depends on lto and is incompatible with modules
++                  Automatically enables Link-Time Optimization (lto)
++  cfi-debug       In case of a cfi violation, a message containing the line that
++                  triggered the error is written to stderr. After the error,
++                  QEMU is still terminated with SIGILL
+ 
+   gnutls          GNUTLS cryptography support
+   nettle          nettle cryptography support
+@@ -5312,6 +5331,64 @@ EOF
+   CONFIGURE_CFLAGS="$QEMU_CFLAGS -flto"
+   CONFIGURE_LDFLAGS="$QEMU_LDFLAGS -flto"
+ fi
++
++########################################
++# cfi (Control Flow Integrity)
++
++if test "$cfi" = "yes"; then
++  # Compiler/Linker Flags that needs to be added for cfi:
++  # -fsanitize=cfi-icall to enable control-flow integrity checks on
++  #            indirect function calls.
++  # -fsanitize-cfi-icall-generalize-pointers to allow indirect function calls
++  #            with pointers of a different type (i.e. pass a void* to a
++  #            function that expects a char*). Used in some spots in QEMU,
++  #            with compile-time type checks done by macros
++  # -fno-sanitize-trap=cfi-icall, when debug is enabled, to display the
++  #            position in the code that triggered a CFI violation
++
++  # Make sure that LTO is enabled
++  if test "$lto" != "true"; then
++    error_exit "Control Flow Integrity requires Link-Time Optimization (LTO)"
++  fi
++
++  test_cflag="-fsanitize=cfi-icall -fsanitize-cfi-icall-generalize-pointers"
++  test_ldflag="-fsanitize=cfi-icall"
++
++  if test "$cfi_debug" = "yes"; then
++    # Disable the default trap mechanism so that a error message is displayed
++    # when a CFI violation happens. The code is still terminated after the
++    # message
++    test_cflag="${test_cflag} -fno-sanitize-trap=cfi-icall"
++    test_ldflag="${test_ldflag} -fno-sanitize-trap=cfi-icall"
++  fi
++
++  # Check that cfi is supported.
++  cat > $TMPC << EOF
++int main(int argc, char *argv[]) {
++  return 0;
++}
++EOF
++  # Manually add -flto because even if is enabled, flags for it will be
++  # set up later by meson
++  if ! compile_prog "-Werror $test_cflag" "$test_ldflag"; then
++    error_exit "Control Flow Integrity is not supported by your compiler"
++  fi
++
++  # Check for incompatible options
++  if test "$modules" = "yes"; then
++    error_exit "Control Flow Integrity is not compatible with modules"
++  fi
++
++  #### All good, add the flags for CFI to our CFLAGS and LDFLAGS
++  # Flag needed both at compilation and at linking
++  QEMU_CFLAGS="$QEMU_CFLAGS $test_cflag"
++  QEMU_LDFLAGS="$QEMU_LDFLAGS $test_ldflag"
++else
++  if test "$cfi_debug" = "yes"; then
++    error_exit "Cannot enable Control Flow Integrity debugging since CFI is not enabled"
++  fi
++fi
++
+ # See if __attribute__((alias)) is supported.
+ # This false for Xcode 9, but has been remedied for Xcode 10.
+ # Unfortunately, travis uses Xcode 9 by default.
+@@ -6972,6 +7049,13 @@ if test "$safe_stack" = "yes"; then
+   echo "CONFIG_SAFESTACK=y" >> $config_host_mak
  fi
  
--# Disable tests with any sanitizer except for SafeStack
--CFLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
--SANITIZE_FLAGS=""
--#Remove all occurrencies of -fsanitize=safe-stack
--for i in ${CFLAGS}; do
--        if [ "${i}" != "-fsanitize=safe-stack" ]; then
--                SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
-+# Disable tests with any sanitizer except for specific ones
-+SANITIZE_FLAGS=$( grep "CFLAGS.*-fsanitize" config-host.mak 2>/dev/null )
-+ALLOWED_SANITIZE_FLAGS="safe-stack cfi-icall"
-+#Remove all occurrencies of allowed Sanitize flags
-+for j in ${ALLOWED_SANITIZE_FLAGS}; do
-+    TMP_FLAGS=${SANITIZE_FLAGS}
-+    SANITIZE_FLAGS=""
-+    for i in ${TMP_FLAGS}; do
-+        if ! echo ${i} | grep -q "${j}" 2>/dev/null; then
-+            SANITIZE_FLAGS="${SANITIZE_FLAGS} ${i}"
-         fi
-+    done
- done
- if echo ${SANITIZE_FLAGS} | grep -q "\-fsanitize" 2>/dev/null; then
-     # Have a sanitize flag that is not allowed, stop
++if test "$cfi" = "yes"; then
++  echo "CONFIG_CFI=y" >> $config_host_mak
++  if test "$cfi_debug" = "yes"; then
++    echo "CONFIG_CFI_DEBUG=y" >> $config_host_mak
++  fi
++fi
++
+ # If we're using a separate build tree, set it up now.
+ # DIRS are directories which we simply mkdir in the build tree;
+ # LINKS are things to symlink back into the source tree
+diff --git a/meson.build b/meson.build
+index 50e5c527df..be74a232a0 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2071,6 +2071,8 @@ if targetos == 'windows'
+   summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
+ endif
+ summary_info += {'seccomp support':   config_host.has_key('CONFIG_SECCOMP')}
++summary_info += {'cfi support':       config_host.has_key('CONFIG_CFI')}
++summary_info += {'cfi debug support': config_host.has_key('CONFIG_CFI_DEBUG')}
+ summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
+ summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
+ summary_info += {'debug stack usage': config_host.has_key('CONFIG_DEBUG_STACK_USAGE')}
 -- 
 2.17.1
 
