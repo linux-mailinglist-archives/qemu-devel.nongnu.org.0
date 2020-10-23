@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD695297560
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:57:07 +0200 (CEST)
-Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9577B297574
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:02:30 +0200 (CEST)
+Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0NG-0007Z5-UD
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55196)
+	id 1kW0ST-0003O5-M1
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:02:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kW0Ls-0006GW-7x
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:55:40 -0400
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:39832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kW0Lq-0004kS-7V
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:55:39 -0400
-Received: by mail-pg1-x52e.google.com with SMTP id o7so1702133pgv.6
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:55:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=gLvUfrphDwZ2K++jmWO2A1JJHtXH+x3MhJqdTjBYNjE=;
- b=VGICWJQlWWp4aPXV96ePhgji9wf6WSv/exuSyeqZq8zotPP86u6pevsdJjLeuvALKb
- X9IpeqIzVFnTE0K8VRdLNHpQKh3IzRvKm7dcW0yVJwXocywB+TsVs4dKYzH+tu2wkcA+
- w5egXZwGhdTGADTILUEQhA8fp0WDFjPTscZ59WiMahriQw9JqpyV8ZS8T9fkXVzsJGV3
- yKiR2j0UBuCKXCjo5/G9a/l6+0M87DssseR56J8V4nl+fTo1KHS+HQ3/xoxd55fmFZvl
- dkd2/1QnSTSdhmGX/pVSufut4fCgGOR/sNEBIVnKiwU4Pu0V8yo6EMKkImYew6fIInrS
- I1aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=gLvUfrphDwZ2K++jmWO2A1JJHtXH+x3MhJqdTjBYNjE=;
- b=hICJLgxDBxP6yCwi/QPjq6l4qUX7LLp+RMKj9/xRKGcfsXZfZHmaV72320rug/M7bq
- 1hfIitoNFBFUp/BHrAOpVC3IvsrBttQao7FX6KFtPpIyC86TXy1a4IEtte/+XOrDO04F
- yqrIBMWpwwd+S57gA+PeAdDKj6fUYx3sRGpvvhMH+FtbOpe9SwXAYOsvsSVjv/UKsreU
- 4XnRz8upN/30s5+cXlDnbWnfh+wn8LpSxSY7sSrCRSU6JYAhC1+54Vd00ZbRad9x8viT
- Hq9eYnFdvup6D7HsWxn7kfHQbdQdO/3if0kZFSw7eQLYMxnTpps7zBcEuzH+1BJ1+KfN
- RngA==
-X-Gm-Message-State: AOAM530ESIQnaiuW3JkQNpFmM0E+zWTEQwDBPLd1ocQTSY7ZeRAN5l1R
- bBrPWiZr3pVCeSba/5c8UdOx0A==
-X-Google-Smtp-Source: ABdhPJx5dj7VAvfjFLTtUZiGdWTwELic4Aa4AoXUwALk33KYPtXzZHNhE+dh52CM0nchZPpds+WY6Q==
-X-Received: by 2002:a62:644c:0:b029:155:fdf4:52ed with SMTP id
- y73-20020a62644c0000b0290155fdf452edmr97002pfb.9.1603472136259; 
- Fri, 23 Oct 2020 09:55:36 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id h21sm2459692pgi.88.2020.10.23.09.55.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 09:55:35 -0700 (PDT)
-Subject: Re: [PATCH v1 16/16] target/riscv: Consolidate *statush registers
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1603467169.git.alistair.francis@wdc.com>
- <ce9e33fdd36df39878df6657ecdc10e42c629b85.1603467169.git.alistair.francis@wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8c6d868d-6ce1-0b8c-587b-f555f35a636e@linaro.org>
-Date: Fri, 23 Oct 2020 09:55:33 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVzXb-000230-QU
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:03:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVzXY-0006D6-6m
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:03:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603469017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=lSfWWpmzSw4rX2o3LemtfdTgjZIS5q+X4XJk85b8bk0=;
+ b=P8bsp9KKcER5dScA80lEx8nVOQT9zXMBZiDpFXtIfPflkGctkPSOr1qiHgOaRaxcC5+zUP
+ MoWJRXkgYFSOKwyE5/BaYKakJTvXyXuFzL/pjS6/VTAPI0HvXP2KDd1JHvBVcVH8dWfKeh
+ 4ulpFM7sYd7CgBrUZ/qzik/8+NqDM7o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-58-vnAJ5WjGNIGmI6GywoO_nw-1; Fri, 23 Oct 2020 12:03:36 -0400
+X-MC-Unique: vnAJ5WjGNIGmI6GywoO_nw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FB73804B6A;
+ Fri, 23 Oct 2020 16:03:34 +0000 (UTC)
+Received: from redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8809210013D0;
+ Fri, 23 Oct 2020 16:03:23 +0000 (UTC)
+Date: Fri, 23 Oct 2020 12:03:19 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 0/8] arm/virt: add usb support
+Message-ID: <20201023120306-mutt-send-email-mst@kernel.org>
+References: <20201023071022.24916-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ce9e33fdd36df39878df6657ecdc10e42c629b85.1603467169.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+In-Reply-To: <20201023071022.24916-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.108,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,15 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, qemu-devel@nongnu.org,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 8:33 AM, Alistair Francis wrote:
-> +        qemu_fprintf(f, " %s %016lx\n", "vsstatus ", env->vsstatus);
+On Fri, Oct 23, 2020 at 09:10:14AM +0200, Gerd Hoffmann wrote:
+> Bring new microvm goodies to arm virt too.  Wire up
+> -machine usb=on, add sysbus-xhci in case it is enabled.
 
-You need PRIx64 here.
 
+For ACPI bits:
 
-r~
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+
+> Gerd Hoffmann (8):
+>   tests/acpi: allow updates for expected data files
+>   tests/acpi: add empty tests/data/acpi/virt/DSDT.usb file
+>   arm/virt: add support for -machine usb=on
+>   arm/virt: add device tree node for xhci
+>   arm/virt: add acpi dsdt entry for xhci
+>   tests/acpi: add usb testcase for virt
+>   tests/acpi: update expected data files
+>   tests/acpi: disallow updates for expected data files
+> 
+>  include/hw/arm/virt.h            |   1 +
+>  hw/arm/virt-acpi-build.c         |   6 ++++++
+>  hw/arm/virt.c                    |  36 +++++++++++++++++++++++++++++++
+>  hw/usb/hcd-xhci-sysbus.c         |   2 ++
+>  tests/qtest/bios-tables-test.c   |  18 ++++++++++++++++
+>  hw/arm/Kconfig                   |   1 +
+>  tests/data/acpi/microvm/DSDT.usb | Bin 414 -> 426 bytes
+>  tests/data/acpi/virt/DSDT.usb    | Bin 0 -> 5257 bytes
+>  8 files changed, 64 insertions(+)
+>  create mode 100644 tests/data/acpi/virt/DSDT.usb
+> 
+> -- 
+> 2.27.0
+> 
+
 
