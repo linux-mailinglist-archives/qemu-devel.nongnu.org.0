@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13D2297318
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:02:55 +0200 (CEST)
-Received: from localhost ([::1]:36044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC51297373
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:21:17 +0200 (CEST)
+Received: from localhost ([::1]:41448 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzWo-00087b-ME
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:02:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36322)
+	id 1kVzoa-0000pt-Jd
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:21:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVzBq-0005Ud-Ta
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:41:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37999)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kVzEa-0001as-1u
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:44:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38023)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVzBn-0003O1-TJ
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:41:14 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kVzEX-0003co-Mx
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:44:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603467669;
+ s=mimecast20190719; t=1603467840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PcJFFMS9JMpYYzfwu7abHe1MvZKgD5AjjoCZONizOWs=;
- b=ccTG2RZQI/cMoZWXgJBxqEuW/Cruz1AC+uKE7OYfFmorZkwp1cgH9ZUI5nPQzILjip0uq2
- goTxYz7ptiN+8Ze9W1TzVFVt9Fms/hIPpVe7U9yDrK9cBHlyBYpejB+XNnnT4G+grSYCWh
- U820tLdvFrwiq5QPcGuqEowQNfnDte4=
+ bh=lbUP88NTT4nGnLhbE3+UFCBt3Kw+zbtZK7+FwOZd5nU=;
+ b=MJHG3R23LJSTGhNCKkE6R/L0VQK6mRn3/Gs8rM9MukV8DAN+UvPQueZINfqsxPOvoW58I+
+ GZeewdDrToIxBHN4PC/fP6j8q6Xv+EPYIlO3SGkskSanw7mcGODSbuTBLeQxg+HTC4iQWs
+ f70NJWRvmFL3Ue8x5C5TT2+nhpMya0k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-SipzwcLvNWW7CJcjCQJ3Pg-1; Fri, 23 Oct 2020 11:41:05 -0400
-X-MC-Unique: SipzwcLvNWW7CJcjCQJ3Pg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-269-zOO4_cC2NS2S5L15763HOA-1; Fri, 23 Oct 2020 11:43:56 -0400
+X-MC-Unique: zOO4_cC2NS2S5L15763HOA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A66E1020900;
- Fri, 23 Oct 2020 15:41:04 +0000 (UTC)
-Received: from redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC5C6282CA;
- Fri, 23 Oct 2020 15:41:01 +0000 (UTC)
-Date: Fri, 23 Oct 2020 11:40:58 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] vhost: Don't special case vq->used_phys in
- vhost_get_log_size()
-Message-ID: <20201023114003-mutt-send-email-mst@kernel.org>
-References: <160208823418.29027.15172801181796272300.stgit@bahia.lan>
- <30e455d0-ac84-0be4-f1bb-5b7a98b1b66b@redhat.com>
- <20201023131006.3bdb98bf@bahia.lan>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E4F61074642;
+ Fri, 23 Oct 2020 15:43:55 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 594FC60BFA;
+ Fri, 23 Oct 2020 15:43:52 +0000 (UTC)
+Date: Fri, 23 Oct 2020 17:43:51 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PULL 25/33] tests/acceptance: Add a test for the N800 and N810
+ arm machines
+Message-ID: <20201023174351.31838a86@redhat.com>
+In-Reply-To: <f2f276a9-a6ad-a2f8-2fbc-f1aca5423f79@amsat.org>
+References: <20200228163840.23585-1-peter.maydell@linaro.org>
+ <20200228163840.23585-26-peter.maydell@linaro.org>
+ <a049110f-b7cb-52bd-de77-6e1193b5b6de@amsat.org>
+ <6ce6a790-c68e-e3ed-962e-ba6f49244315@redhat.com>
+ <f02d74fb-af6e-6e04-7ce7-48ab09a20e4f@amsat.org>
+ <f2f276a9-a6ad-a2f8-2fbc-f1aca5423f79@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20201023131006.3bdb98bf@bahia.lan>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,79 +86,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Alex =?UTF-8?B?QmVu?= =?UTF-8?B?bsOpZQ==?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 23, 2020 at 01:10:06PM +0200, Greg Kurz wrote:
-> On Sat, 10 Oct 2020 11:30:28 +0800
-> Jason Wang <jasowang@redhat.com> wrote:
-> 
-> > 
-> > On 2020/10/8 上午12:30, Greg Kurz wrote:
-> > > The first loop in vhost_get_log_size() computes the size of the dirty log
-> > > bitmap so that it allows to track changes in the entire guest memory, in
-> > > terms of GPA.
-> > >
-> > > When not using a vIOMMU, the address of the vring's used structure,
-> > > vq->used_phys, is a GPA. It is thus already covered by the first loop.
-> > >
-> > > When using a vIOMMU, vq->used_phys is a GIOVA that will be translated
-> > > to an HVA when the vhost backend needs to update the used structure. It
-> > > will log the corresponding GPAs into the bitmap but it certainly won't
-> > > log the GIOVA.
-> > >
-> > > So in any case, vq->used_phys shouldn't be explicitly used to size the
-> > > bitmap. Drop the second loop.
-> > >
-> > > This fixes a crash of the source when migrating a guest using in-kernel
-> > > vhost-net and iommu_platform=on on POWER, because DMA regions are put
-> > > over 0x800000000000000ULL. The resulting insanely huge log size causes
-> > > g_malloc0() to abort.
-> > >
-> > > BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1879349
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >
-> > > This supersedes "vhost: Ignore vrings in dirty log when using a vIOMMU"
-> > >
-> > > http://patchwork.ozlabs.org/project/qemu-devel/patch/160105498386.68108.2145229309875282336.stgit@bahia.lan/
-> > > ---
-> > >   hw/virtio/vhost.c |   10 ----------
-> > >   1 file changed, 10 deletions(-)
-> > >
-> > > diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-> > > index 011951625442..c02b658b597f 100644
-> > > --- a/hw/virtio/vhost.c
-> > > +++ b/hw/virtio/vhost.c
-> > > @@ -172,16 +172,6 @@ static uint64_t vhost_get_log_size(struct vhost_dev *dev)
-> > >                                          reg->memory_size);
-> > >           log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
-> > >       }
-> > > -    for (i = 0; i < dev->nvqs; ++i) {
-> > > -        struct vhost_virtqueue *vq = dev->vqs + i;
-> > > -
-> > > -        if (!vq->used_phys && !vq->used_size) {
-> > > -            continue;
-> > > -        }
-> > > -
-> > > -        uint64_t last = vq->used_phys + vq->used_size - 1;
-> > > -        log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
-> > > -    }
-> > >       return log_size;
-> > >   }
-> > >   
-> > 
-> > 
-> > Acked-by: Jason Wang <jasowang@redhat.com>
-> > 
-> 
-> Ping ?
+On Mon, 19 Oct 2020 11:43:13 +0200
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
 
-tagged, thanks!
+> On 10/19/20 11:30 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 10/19/20 8:31 AM, Thomas Huth wrote: =20
+> >> On 17/10/2020 19.51, Philippe Mathieu-Daud=C3=A9 wrote: =20
+> >>> Hi Peter, Igor, Thomas,
+> >>>
+> >>> On 2/28/20 5:38 PM, Peter Maydell wrote: =20
+> >>>> From: Thomas Huth <thuth@redhat.com>
+> >>>>
+> >>>> Old kernels from the Meego project can be used to check that Linux
+> >>>> is at least starting on these machines.
+> >>>>
+> >>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> >>>> Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> >>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>>> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >>>> Message-id: 20200225172501.29609-2-philmd@redhat.com
+> >>>> Message-Id: <20200129131920.22302-1-thuth@redhat.com>
+> >>>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> >>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> >>>> ---
+> >>>> =C2=A0=C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> >>>> =C2=A0=C2=A0 tests/acceptance/machine_arm_n8x0.py | 49=20
+> >>>> ++++++++++++++++++++++++++++
+> >>>> =C2=A0=C2=A0 2 files changed, 50 insertions(+)
+> >>>> =C2=A0=C2=A0 create mode 100644 tests/acceptance/machine_arm_n8x0.py
+> >>>>
+> >>>> diff --git a/MAINTAINERS b/MAINTAINERS
+> >>>> index b66c46dcb9f..264374adbe8 100644
+> >>>> --- a/MAINTAINERS
+> >>>> +++ b/MAINTAINERS
+> >>>> @@ -686,6 +686,7 @@ F: hw/rtc/twl92230.c
+> >>>> =C2=A0=C2=A0 F: include/hw/display/blizzard.h
+> >>>> =C2=A0=C2=A0 F: include/hw/input/tsc2xxx.h
+> >>>> =C2=A0=C2=A0 F: include/hw/misc/cbus.h
+> >>>> +F: tests/acceptance/machine_arm_n8x0.py
+> >>>> =C2=A0=C2=A0 =C2=A0 Palm
+> >>>> =C2=A0=C2=A0 M: Andrzej Zaborowski <balrogg@gmail.com>
+> >>>> diff --git a/tests/acceptance/machine_arm_n8x0.py
+> >>>> b/tests/acceptance/machine_arm_n8x0.py
+> >>>> new file mode 100644
+> >>>> index 00000000000..e5741f2d8d1
+> >>>> --- /dev/null
+> >>>> +++ b/tests/acceptance/machine_arm_n8x0.py
+> >>>> @@ -0,0 +1,49 @@
+> >>>> +# Functional test that boots a Linux kernel and checks the console
+> >>>> +#
+> >>>> +# Copyright (c) 2020 Red Hat, Inc.
+> >>>> +#
+> >>>> +# Author:
+> >>>> +#=C2=A0 Thomas Huth <thuth@redhat.com>
+> >>>> +#
+> >>>> +# This work is licensed under the terms of the GNU GPL, version 2 o=
+r
+> >>>> +# later.=C2=A0 See the COPYING file in the top-level directory.
+> >>>> +
+> >>>> +import os
+> >>>> +
+> >>>> +from avocado import skipUnless
+> >>>> +from avocado_qemu import Test
+> >>>> +from avocado_qemu import wait_for_console_pattern
+> >>>> +
+> >>>> +class N8x0Machine(Test):
+> >>>> +=C2=A0=C2=A0=C2=A0 """Boots the Linux kernel and checks that the co=
+nsole is=20
+> >>>> operational"""
+> >>>> +
+> >>>> +=C2=A0=C2=A0=C2=A0 timeout =3D 90
+> >>>> +
+> >>>> +=C2=A0=C2=A0=C2=A0 def __do_test_n8x0(self):
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel_url =3D ('http://=
+stskeeps.subnetmask.net/meego-n8x0/'
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'meego-arm-n8x=
+0-1.0.80.20100712.1431-'
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'vmlinuz-2.6.3=
+5~rc4-129.1-n8x0')
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel_hash =3D 'e9d5ab8=
+d7548923a0061b6fbf601465e479ed269'
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kernel_path =3D self.fet=
+ch_asset(kernel_url,=20
+> >>>> asset_hash=3Dkernel_hash)
+> >>>> +
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.vm.set_console(cons=
+ole_index=3D1)
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.vm.add_args('-kerne=
+l', kernel_path,
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 '-append', 'printk.time=3D0 console=3DttyS1')
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.vm.launch()
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wait_for_console_pattern=
+(self, 'TSC2005 driver initializing')
+> >>>> +
+> >>>> +=C2=A0=C2=A0=C2=A0 @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_C=
+ODE'),=20
+> >>>> 'untrusted code')
+> >>>> +=C2=A0=C2=A0=C2=A0 def test_n800(self):
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:ar=
+m
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine=
+:n800
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.__do_test_n8x0()
+> >>>> +
+> >>>> +=C2=A0=C2=A0=C2=A0 @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_C=
+ODE'),=20
+> >>>> 'untrusted code')
+> >>>> +=C2=A0=C2=A0=C2=A0 def test_n810(self):
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Darch:ar=
+m
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 :avocado: tags=3Dmachine=
+:n810
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
+> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.__do_test_n8x0()
+> >>>> =20
+> >>>
+> >>> FYI this test is failing:
+> >>>
+> >>> qemu-system-arm: kernel 'meego-arm-n8x0-1.0.80.20100712.1431-vml
+> >>> inuz-2.6.35~rc4-129.1-n8x0' is too large to fit in RAM (kernel size=
+=20
+> >>> 1964608,
+> >>> RAM size 0) =20
+> >=20
+> > FWIW:
+> >=20
+> > 7998beb9c2e280f0b7424223747941f106e2e854 is the first bad commit
+> > commit 7998beb9c2e280f0b7424223747941f106e2e854
+> > Author: Igor Mammedov <imammedo@redhat.com>
+> > Date:=C2=A0=C2=A0 Wed Feb 19 11:08:59 2020 -0500
+> >=20
+> >  =C2=A0=C2=A0=C2=A0 arm/nseries: use memdev for RAM
+> >=20
+> >  =C2=A0=C2=A0=C2=A0 memory_region_allocate_system_memory() API is going=
+ away, so
+> >  =C2=A0=C2=A0=C2=A0 replace it with memdev allocated MemoryRegion. The =
+later is
+> >  =C2=A0=C2=A0=C2=A0 initialized by generic code, so board only needs to=
+ opt in
+> >  =C2=A0=C2=A0=C2=A0 to memdev scheme by providing
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MachineClass::default_ram_id
+> >  =C2=A0=C2=A0=C2=A0 and using MachineState::ram instead of manually ini=
+tializing
+> >  =C2=A0=C2=A0=C2=A0 RAM memory region.
+> >=20
+> >  =C2=A0=C2=A0=C2=A0 PS:
+> >  =C2=A0=C2=A0=C2=A0=C2=A0 while at it add check for user supplied RAM s=
+ize and error
+> >  =C2=A0=C2=A0=C2=A0=C2=A0 out if it mismatches board expected value.
+> >=20
+> >  =C2=A0=C2=A0=C2=A0 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> >  =C2=A0=C2=A0=C2=A0 Reviewed-by: Andrew Jones <drjones@redhat.com>
+> >  =C2=A0=C2=A0=C2=A0 Reviewed-by: Richard Henderson <richard.henderson@l=
+inaro.org>
+> >  =C2=A0=C2=A0=C2=A0 Message-Id: <20200219160953.13771-26-imammedo@redha=
+t.com> =20
+>=20
+> This fixes the issue:
+>=20
+> -- >8 -- =20
+> diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+> index e48092ca047..76fd7fe9854 100644
+> --- a/hw/arm/nseries.c
+> +++ b/hw/arm/nseries.c
+> @@ -1318,6 +1318,7 @@ static void n8x0_init(MachineState *machine,
+>           g_free(sz);
+>           exit(EXIT_FAILURE);
+>       }
+> +    binfo->ram_size =3D machine->ram_size;
+>=20
+>       memory_region_add_subregion(get_system_memory(), OMAP2_Q2_BASE,
+>                                   machine->ram);
 
--- 
-MST
+we really should replace binfo->ram_size with machine->ram_size to avoid
+duplicating the same data, but as a quick fix this should fix issue.
+
+Acked-by: Igor Mammedov <imammedo@redhat.com>
+
+
+> ---
+>=20
+> >  =20
+> >>>
+> >>> Alex, Thomas, can we enable AVOCADO_ALLOW_UNTRUSTED_CODE on GitLab
+> >>> to avoid such regressions? =20
+> >>
+> >> Yes, please, if you've got some spare minutes to work on such a patch,=
+=20
+> >> that
+> >> would be great! ... I once already wanted to send such a patch, but II=
+RC
+> >> there were some other ALLOW_UNTRUSTED_CODE tests failing at that poing=
+ in
+> >> time, and I never got around to fix them...
+> >>
+> >> =C2=A0 Thomas
+> >>
+> >> =20
+> >  =20
+>=20
 
 
