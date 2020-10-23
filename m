@@ -2,73 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807E82974D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:44:42 +0200 (CEST)
-Received: from localhost ([::1]:35428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8BBA2974D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:46:45 +0200 (CEST)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0BF-0000Ej-Ia
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:44:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39368)
+	id 1kW0DE-0002t9-TA
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:46:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kVzM5-0003I8-Ex
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:51:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21413)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVzOR-0006UO-6H
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:54:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kVzM3-0004kT-Jz
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:51:49 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVzOP-0004xo-Hy
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:54:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603468306;
+ s=mimecast20190719; t=1603468452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rf5/DbVGf5xNwzm7YAsFh69eT8u+FhDSXb+hwn0eXSs=;
- b=feS8mMsNSYSBlz7Wdrxc8bLig0rg1gRVBdLBwRn5RrYpIZFOs71sg7u4YyHu2CcA4hqnB3
- D2rutRT5WtsijKVJXwvMJ3Wvdos4Yjz8zXHhjTPv3dq0echD1t4qNKUoQMoOqhfx+z93Nb
- 6cnKjEJE/Nn5XAeMJLzQQbuP59u8u0E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-QCsaEQK2PM27PIF4NnJKgQ-1; Fri, 23 Oct 2020 11:51:36 -0400
-X-MC-Unique: QCsaEQK2PM27PIF4NnJKgQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28455804B71;
- Fri, 23 Oct 2020 15:51:35 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A75DE1002C17;
- Fri, 23 Oct 2020 15:51:32 +0000 (UTC)
-Date: Fri, 23 Oct 2020 17:51:30 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 8/9] hw/arm/raspi: Add the Raspberry Pi Zero machine
-Message-ID: <20201023175130.50a379bd@redhat.com>
-In-Reply-To: <20201018203358.1530378-9-f4bug@amsat.org>
-References: <20201018203358.1530378-1-f4bug@amsat.org>
- <20201018203358.1530378-9-f4bug@amsat.org>
+ bh=IOZhoJ29FH7QTkuusUR0+0yDW05xUF/iF0ZddsU6y3U=;
+ b=gq9eOrWSRxkjdV2udEMz2lfz6JbCNRqVARO84f/Kin3534jS0o5Wwjzyr7Pc3Sznw24G5j
+ wjXoYpHikptV6ywt9viOSk6EWKsjV/gSzATRexNmVyQViUZczPbao0/FTDZBOjanLh/L8l
+ DogkfeaxsYotklERdOUSdOjvZE8XKyw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-376-MtcQrpgVMgy7UEfyd6p2bw-1; Fri, 23 Oct 2020 11:54:10 -0400
+X-MC-Unique: MtcQrpgVMgy7UEfyd6p2bw-1
+Received: by mail-wm1-f69.google.com with SMTP id s25so610006wmj.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:54:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IOZhoJ29FH7QTkuusUR0+0yDW05xUF/iF0ZddsU6y3U=;
+ b=RWP39oAfpBovcIFKj++2qumjurv1KF2yVMCfrLLojsnDw6G8V01FgSE+nwVFV7s38g
+ U51YP4SSkLRFK60wRdwd07OL8tLuVsHo5a3Zs3HX3607pytwcQOjIjkmtZWgyUf2qqrB
+ acFn1tU3KS6YKDh3IHiwKbs82Z1osJgfFjeYAZohWPi6t8QoZMsgBKjJ/Lq1COb9e6wM
+ 6E59IYnopJMTl2oUv7xn0861qAG0UpVlg+rWqc4GMAinY5EZ4O3tIiEdubrzJFLv+IEk
+ EEmTLaOuxvoZ0H4YJYfq+WS1EJuami+dsPGv5ZaidMRx+qW3GvdMD4SZExVt4V+iaKR7
+ o2VA==
+X-Gm-Message-State: AOAM5316nchH83vEznTHuTND9AuxFRLMK2noSnEbJGkJiep33d4oIpAN
+ T8IXhoeqsGStyxpLkRedCxJrP03U9eDnC8Aa5tdigQfuqux+GJq4ORrnr3OHx0Fb5T9lP3EogAU
+ ZyU2bCKxALxUUjhc=
+X-Received: by 2002:adf:9361:: with SMTP id 88mr3190431wro.37.1603468449068;
+ Fri, 23 Oct 2020 08:54:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyuD07Cv/pqX8QEkIAcYv8SioYO6kaxRHGhJhxMfVQVSYgSyaK8NS7pUG9bnpeFxEBubT626g==
+X-Received: by 2002:adf:9361:: with SMTP id 88mr3190421wro.37.1603468448882;
+ Fri, 23 Oct 2020 08:54:08 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id i10sm4647150wrq.27.2020.10.23.08.54.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 08:54:08 -0700 (PDT)
+Subject: Re: [PATCH] hw/vfio: Use lock guard macros
+To: Amey Narkhede <ameynarkhede03@gmail.com>, alex.williamson@redhat.com
+References: <20201023124342.17793-1-ameynarkhede03@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9ec4834c-18bf-ad84-a117-228f8c3d06a6@redhat.com>
+Date: Fri, 23 Oct 2020 17:54:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201023124342.17793-1-ameynarkhede03@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,81 +99,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
- qemu-devel@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>,
- qemu-arm@nongnu.org, Luc Michel <luc.michel@greensocs.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Oct 2020 22:33:57 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
-
-> Similarly to the Pi A, the Pi Zero uses a BCM2835 SoC (ARMv6Z core).
->=20
-> Example booting the machine using content from [*]:
->=20
->   $ qemu-system-arm -M raspi0 -serial stdio \
->       -kernel raspberrypi/firmware/boot/kernel.img \
->       -dtb raspberrypi/firmware/boot/bcm2708-rpi-zero.dtb \
->       -append 'printk.time=3D0 earlycon=3Dpl011,0x20201000 console=3DttyA=
-MA0'
->   [    0.000000] Booting Linux on physical CPU 0x0
->   [    0.000000] Linux version 4.19.118+ (dom@buildbot) (gcc version 4.9.=
-3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1311 Mon Apr 27 14:16:15=
- BST 2020
->   [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (A=
-RMv7), cr=3D00c5387d
->   [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
->   [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero
->   ...
->=20
-> [*] http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmwar=
-e/raspberrypi-kernel_1.20200512-2_armhf.deb
->=20
-> Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 10/23/20 2:43 PM, Amey Narkhede wrote:
+> Use qemu LOCK_GUARD macros in hw/vfio.
+> Saves manual unlock calls
+> 
+> Signed-off-by: Amey Narkhede <ameynarkhede03@gmail.com>
 > ---
->  hw/arm/raspi.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-> index 91a59d1d489..1510ca01afe 100644
-> --- a/hw/arm/raspi.c
-> +++ b/hw/arm/raspi.c
-> @@ -319,6 +319,15 @@ static void raspi_machine_class_common_init(MachineC=
-lass *mc,
->      mc->default_ram_id =3D "ram";
->  };
-> =20
-> +static void raspi0_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
-> +
-> +    rmc->board_rev =3D 0x900092;
+>   hw/vfio/platform.c | 7 ++-----
+>   1 file changed, 2 insertions(+), 5 deletions(-)
 
-shouldn't it be=20
-920092=09Zero=091.2=09512MB=09Embest
-or
-920093  Zero=091.3=09512MB=09Embest
-
-> +    raspi_machine_class_common_init(mc, rmc->board_rev);
-> +};
-> +
->  static void raspi1ap_machine_class_init(ObjectClass *oc, void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
-> @@ -352,6 +361,10 @@ static void raspi3b_machine_class_init(ObjectClass *=
-oc, void *data)
-> =20
->  static const TypeInfo raspi_machine_types[] =3D {
->      {
-> +        .name           =3D MACHINE_TYPE_NAME("raspi0"),
-> +        .parent         =3D TYPE_RASPI_MACHINE,
-> +        .class_init     =3D raspi0_machine_class_init,
-> +    }, {
->          .name           =3D MACHINE_TYPE_NAME("raspi1ap"),
->          .parent         =3D TYPE_RASPI_MACHINE,
->          .class_init     =3D raspi1ap_machine_class_init,
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
