@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B583A29732A
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:05:42 +0200 (CEST)
-Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AF3829733D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:10:24 +0200 (CEST)
+Received: from localhost ([::1]:33508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzZV-0003qb-O2
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:05:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60478)
+	id 1kVze3-0001tA-46
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyzB-0004Ns-BL
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:11 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26169)
+ id 1kVyzH-0004RB-62
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:15 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyz0-0001Y4-S6
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:09 -0400
+ id 1kVyzD-0001YB-43
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466878; x=1635002878;
+ t=1603466890; x=1635002890;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=5LshL2NkcHA1RDGV9snQE3sw9voWmOvgUlT4WW/q4e0=;
- b=HOlI6UeF90UAztDeBaJm/b+5NEFlGPJyllPKtPPIgyvxVM9UjRGU0Iia
- 3fnyaTwBB0r6iKtnTWzdaDLvFk6bRPBy7e41WSop6Qscnof9AJkyTmuzP
- H+0670s3DLeuXK5RecOdD4pwAIv1TGE4blz4e2fbNqUl6cxRcVjXzPDNs
- 1xI/5fZPzYM6APpeq0c76sRysJxXwWbsF70P2GEZV1d4+48r9wsxACOyl
- ZMDHsh3ZuxPHu2P5qiphnItFFq5c9q6LYHoQ8YcKWUbVJ/Q5mZAygmiaL
- Skew3l3ksEEGIo7/DLpQ0YoDry2xtxIe30CrbDSqBnbr40ztrQ2VDpNtu w==;
-IronPort-SDR: 9GdCm0geRiWfAv7p+gTGpiPuFQSVtsnrp1++bP/FJKCLwgRvD3b9QpMx7mnZ5HpKFk4t+1f+rN
- z0auT74gd/EnK+U/44mjjj1PZsMTWeyUderp7Bwq1+zZR8mPSQo058/pP5Z+MXlgbH2iGkZCrm
- CrxmWTjkccBNbxTRSLYixnFS/J7bsNlwbqPnFu0UClg1smvUuxbMCudSAYOfI+5R+uPhx8kFvI
- YkYgPswivvgyK14zKtBeytBiYf+Q85BhrGH7tulp+9bh8x7dU3mJcmSJBplOfnkZW+SGdyALRw
- 1O4=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652326"
+ bh=JRKNZm3JZXoXP8vrq/yexaKtcj6lWAF7ME1cCL7Nrn8=;
+ b=dYgJBg9AA8s6emz9tyPzLRSxEH8eLJFfT577Quvn/UVTUM6bLwWHNMuf
+ aaNjS1vhQvA6ybHD+Kd5t313DIiR0s6slUzPkQnS2tEyIiJx25Erlh0ft
+ a44HdlssyhtWAm0wrDmfGMui8YOC/nQnSlV1FbHvyvALUuv0poo8hcvqP
+ sjKa6IgnTM2Cl6D3dhjUdEgTPUK5cPon5+SIrDtXoHRB2mOMdRdz5Ske4
+ 0SMvMyv2q1p7z5/V17KHUqbsujO6NccbiTggTGdoQscvvUCpdEIVZIzBI
+ lk9f4VnDaHGWXwb9eHkrqQvMEe24B9ZCgSrLZ4KCdZTddwBHBOSzP1erP Q==;
+IronPort-SDR: UHO4yr4YXC0c6a2vlnNXYg2kSgvjyRmD14Ql/oTaxi9NLELTqhBtfZULZ2Ua7SHubay86U0WaP
+ J+7jruDt49TNu0VGSi3AbU793uxmE52TL1X53z2UmLOUjZwTP1pFBlN0YJ5g+cn3V+J0jBz70+
+ uCQ4wM8NI7jt3zEywlQ//mwRV8RwCoJJC7dm8XwC5zAh4JyNOjppKXR/n/omYUeMgxWylYwVlP
+ 8eHL/bkvtnxO1w/l7jV8+RFYZAy5t2W6eyVqQBD7Z7aGaTWMmSBPqrVrgtIzasDwLQC7czpe6w
+ jFQ=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652329"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:45 +0800
-IronPort-SDR: UxWvT9DUC+oLSgQ0HQwN8Hk2yV48mQnsDKglEm0FLF7O8/i9RYxd5SI9DqGIdazq7JTcpXwgHg
- l3+CUtNH0Qc60B22v61EF/BPjX3n7dNmWU0SFTxA6OSctqoXXTzCC0qULR2oOvvER+GK2CPd9b
- Z8koTpWYBrnMoZIlu3o0X/UQHR0lHi7KJGMAB2yUVpVS/E2/g20uBTrW/A59buj2K8jmBgD4i0
- jGa+YoLBBS1VLlfzGIbukVzm7A/6mBR+udskPPO90qRDybJ/8KqCsdSVYLCoTxgeXirmMyydDH
- Huo1hCLA1WTNNjkRyFJzmFGq
+IronPort-SDR: vGyKT9c4tbCtfyWRh+BZ/cljWnU4xDzo6TCw/goddCkZvWR8NB7RKaMy30zZFM3PwhHes4RkUw
+ DQurKe3nn4SzrBfHdoBnkzM6lB091cXq23bKR0wsrCKeYERkmmHBH7HxfIIlQ6BfH1GVf2URk0
+ v74oIMX6oAoPGkUp32Tp4Sa6+kiwKNDo0+C2POJg8iPizXuBtvQ4MwnfCJe/RKieV6ScbcY2x/
+ O9DS1HMXlG++Li/xvOfvghHz+3Ehy/ffMORZICgSsaw6xifcC8AM2Mbh7ycf8u6dWjHn6mE8kx
+ M13oVK2vxW2RHXEf72wkRmuq
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Oct 2020 08:13:00 -0700
-IronPort-SDR: zc6MpyBZw7AP1W4jEM4xryJatBXrK2SrJcenL4QGN5jVnf/DRIOojpyDrBFcUYhIZxE4nxmg72
- jRTxqG6QMZI8W3oUPPSRfb69b7Atw7RBbCQxBD9REoiDtMmHQC0hAky7KG6U9TzZmYy6VQ/L1K
- cJwbWsLISKUz+f5zxFQtHNdGr9YQo2/Vh1HJ3P1HxeMxxfiWmmDa9EUXlhbSvZLKU0FZUH5Ybo
- bHQ7j1qkKVrxYxYIULHq5+abLEU26WYPNJk7H5wzJJF9mbdXp3ySN6/rAQ80Xtsx6KjdVYN243
- 82E=
+IronPort-SDR: +eIxOTGSppOm9GoWaP874wtpFYoRqx2VvVPHjweMCQ+WLg6aXXseVMloL4vglqUQfP2bbbzE3X
+ gBRZN3+FgFOKaQDMrnJvOh2QAyt8z5DkIfndwloOE4kmJbIcirel1JqAn8zmw/nrbIMuIu48Q2
+ UOsL1+DckO4p2LZmUNcKVlxAJcpq2AGaa+ViiL91/dnX9kV+YyrKiOj2A7+3bX1bsNvNnCXqUj
+ t3gfjVk+mFXu8ngCKmdprWK53L4vPzXFrvfon5QC+6Ouus9XjHBShlZUjZ1K2+zNLaMC9itn3b
+ MZg=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
@@ -62,10 +62,10 @@ Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 10/12] target/riscv: raise exception to HS-mode at
- get_physical_address
-Date: Fri, 23 Oct 2020 08:16:17 -0700
-Message-Id: <20201023151619.3175155-11-alistair.francis@wdc.com>
+Subject: [PULL 11/12] hw/misc/sifive_u_otp: Add write function and write-once
+ protection
+Date: Fri, 23 Oct 2020 08:16:18 -0700
+Message-Id: <20201023151619.3175155-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
@@ -95,155 +95,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Yifei Jiang <jiangyifei@huawei.com>, Yipeng Yin <yinyipeng1@huawei.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Green Wan <green.wan@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yifei Jiang <jiangyifei@huawei.com>
+From: Green Wan <green.wan@sifive.com>
 
-VS-stage translation at get_physical_address needs to translate pte
-address by G-stage translation. But the G-stage translation error
-can not be distinguished from VS-stage translation error in
-riscv_cpu_tlb_fill. On migration, destination needs to rebuild pte,
-and this G-stage translation error must be handled by HS-mode. So
-introduce TRANSLATE_STAGE2_FAIL so that riscv_cpu_tlb_fill could
-distinguish and raise it to HS-mode.
+ - Add write operation to update fuse data bit when PWE bit is on.
+ - Add array, fuse_wo, to store the 'written' status for all bits
+   of OTP to block the write operation.
 
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+Signed-off-by: Green Wan <green.wan@sifive.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201014101728.848-1-jiangyifei@huawei.com
-[ Change by AF:
- - Clarify the fault_pte_addr shift
-]
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Message-id: 20201020033732.12921-2-green.wan@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h        | 10 +++++++---
- target/riscv/cpu_helper.c | 36 +++++++++++++++++++++++++++---------
- 2 files changed, 34 insertions(+), 12 deletions(-)
+ include/hw/misc/sifive_u_otp.h |  3 +++
+ hw/misc/sifive_u_otp.c         | 30 +++++++++++++++++++++++++++++-
+ 2 files changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index de275782e6..de4705bb57 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -82,9 +82,13 @@ enum {
+diff --git a/include/hw/misc/sifive_u_otp.h b/include/hw/misc/sifive_u_otp.h
+index 82c9176c8f..ebffbc1fa5 100644
+--- a/include/hw/misc/sifive_u_otp.h
++++ b/include/hw/misc/sifive_u_otp.h
+@@ -36,6 +36,8 @@
+ #define SIFIVE_U_OTP_PTRIM      0x34
+ #define SIFIVE_U_OTP_PWE        0x38
  
- #define VEXT_VERSION_0_07_1 0x00000701
- 
--#define TRANSLATE_PMP_FAIL 2
--#define TRANSLATE_FAIL 1
--#define TRANSLATE_SUCCESS 0
-+enum {
-+    TRANSLATE_SUCCESS,
-+    TRANSLATE_FAIL,
-+    TRANSLATE_PMP_FAIL,
-+    TRANSLATE_G_STAGE_FAIL
-+};
++#define SIFIVE_U_OTP_PWE_EN     (1 << 0)
 +
- #define MMU_USER_IDX 3
+ #define SIFIVE_U_OTP_PCE_EN     (1 << 0)
  
- #define MAX_RISCV_PMPS (16)
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f363c1013c..4652082df1 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -316,6 +316,9 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-  * @physical: This will be set to the calculated physical address
-  * @prot: The returned protection attributes
-  * @addr: The virtual address to be translated
-+ * @fault_pte_addr: If not NULL, this will be set to fault pte address
-+ *                  when a error occurs on pte address translation.
-+ *                  This will already be shifted to match htval.
-  * @access_type: The type of MMU access
-  * @mmu_idx: Indicates current privilege level
-  * @first_stage: Are we in first stage translation?
-@@ -324,6 +327,7 @@ void riscv_cpu_set_mode(CPURISCVState *env, target_ulong newpriv)
-  */
- static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-                                 int *prot, target_ulong addr,
-+                                target_ulong *fault_pte_addr,
-                                 int access_type, int mmu_idx,
-                                 bool first_stage, bool two_stage)
+ #define SIFIVE_U_OTP_PDSTB_EN   (1 << 0)
+@@ -75,6 +77,7 @@ struct SiFiveUOTPState {
+     uint32_t ptrim;
+     uint32_t pwe;
+     uint32_t fuse[SIFIVE_U_OTP_NUM_FUSES];
++    uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
+     /* config */
+     uint32_t serial;
+ };
+diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+index c2f3c8e129..b9238d64cb 100644
+--- a/hw/misc/sifive_u_otp.c
++++ b/hw/misc/sifive_u_otp.c
+@@ -25,6 +25,14 @@
+ #include "qemu/module.h"
+ #include "hw/misc/sifive_u_otp.h"
+ 
++#define WRITTEN_BIT_ON 0x1
++
++#define SET_FUSEARRAY_BIT(map, i, off, bit)    \
++    map[i] = bit ? (map[i] | bit << off) : (map[i] & ~(0x1 << off))
++
++#define GET_FUSEARRAY_BIT(map, i, off)    \
++    ((map[i] >> off) & 0x1)
++
+ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
  {
-@@ -447,11 +451,14 @@ restart:
- 
-             /* Do the second stage translation on the base PTE address. */
-             int vbase_ret = get_physical_address(env, &vbase, &vbase_prot,
--                                                 base, MMU_DATA_LOAD,
-+                                                 base, NULL, MMU_DATA_LOAD,
-                                                  mmu_idx, false, true);
- 
-             if (vbase_ret != TRANSLATE_SUCCESS) {
--                return vbase_ret;
-+                if (fault_pte_addr) {
-+                    *fault_pte_addr = (base + idx * ptesize) >> 2;
-+                }
-+                return TRANSLATE_G_STAGE_FAIL;
-             }
- 
-             pte_addr = vbase + idx * ptesize;
-@@ -632,13 +639,13 @@ hwaddr riscv_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     int prot;
-     int mmu_idx = cpu_mmu_index(&cpu->env, false);
- 
--    if (get_physical_address(env, &phys_addr, &prot, addr, 0, mmu_idx,
-+    if (get_physical_address(env, &phys_addr, &prot, addr, NULL, 0, mmu_idx,
-                              true, riscv_cpu_virt_enabled(env))) {
-         return -1;
-     }
- 
-     if (riscv_cpu_virt_enabled(env)) {
--        if (get_physical_address(env, &phys_addr, &prot, phys_addr,
-+        if (get_physical_address(env, &phys_addr, &prot, phys_addr, NULL,
-                                  0, mmu_idx, false, true)) {
-             return -1;
-         }
-@@ -727,19 +734,30 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     if (riscv_cpu_virt_enabled(env) ||
-         (riscv_cpu_two_stage_lookup(env) && access_type != MMU_INST_FETCH)) {
-         /* Two stage lookup */
--        ret = get_physical_address(env, &pa, &prot, address, access_type,
-+        ret = get_physical_address(env, &pa, &prot, address,
-+                                   &env->guest_phys_fault_addr, access_type,
-                                    mmu_idx, true, true);
- 
-+        /*
-+         * A G-stage exception may be triggered during two state lookup.
-+         * And the env->guest_phys_fault_addr has already been set in
-+         * get_physical_address().
-+         */
-+        if (ret == TRANSLATE_G_STAGE_FAIL) {
-+            first_stage_error = false;
-+            access_type = MMU_DATA_LOAD;
+     SiFiveUOTPState *s = opaque;
+@@ -123,7 +131,24 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+         s->ptrim = val32;
+         break;
+     case SIFIVE_U_OTP_PWE:
+-        s->pwe = val32;
++        s->pwe = val32 & SIFIVE_U_OTP_PWE_EN;
++
++        /* PWE is enabled. Ignore PAS=1 (no redundancy cell) */
++        if (s->pwe && !s->pas) {
++            if (GET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio)) {
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "write once error: idx<%u>, bit<%u>\n",
++                              s->pa, s->paio);
++                break;
++            }
++
++            /* write bit data */
++            SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
++
++            /* update written bit */
++            SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
 +        }
 +
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s 1st-stage address=%" VADDR_PRIx " ret %d physical "
-                       TARGET_FMT_plx " prot %d\n",
-                       __func__, address, ret, pa, prot);
+         break;
+     default:
+         qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write: addr=0x%" HWADDR_PRIx
+@@ -165,6 +190,9 @@ static void sifive_u_otp_reset(DeviceState *dev)
+     /* Make a valid content of serial number */
+     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
+     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
++
++    /* Initialize write-once map */
++    memset(s->fuse_wo, 0x00, sizeof(s->fuse_wo));
+ }
  
--        if (ret != TRANSLATE_FAIL) {
-+        if (ret == TRANSLATE_SUCCESS) {
-             /* Second stage lookup */
-             im_address = pa;
- 
--            ret = get_physical_address(env, &pa, &prot2, im_address,
-+            ret = get_physical_address(env, &pa, &prot2, im_address, NULL,
-                                        access_type, mmu_idx, false, true);
- 
-             qemu_log_mask(CPU_LOG_MMU,
-@@ -768,8 +786,8 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         }
-     } else {
-         /* Single stage lookup */
--        ret = get_physical_address(env, &pa, &prot, address, access_type,
--                                   mmu_idx, true, false);
-+        ret = get_physical_address(env, &pa, &prot, address, NULL,
-+                                   access_type, mmu_idx, true, false);
- 
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s address=%" VADDR_PRIx " ret %d physical "
+ static void sifive_u_otp_class_init(ObjectClass *klass, void *data)
 -- 
 2.28.0
 
