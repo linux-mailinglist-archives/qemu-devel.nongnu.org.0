@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EBDE297712
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 20:35:54 +0200 (CEST)
-Received: from localhost ([::1]:45480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F06C0297726
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 20:39:36 +0200 (CEST)
+Received: from localhost ([::1]:52528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW1ur-0007v1-1x
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 14:35:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49754)
+	id 1kW1yR-0002il-VZ
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 14:39:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kW1tk-00072y-Ro
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 14:34:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52934)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kW1w3-0000tD-2e
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 14:37:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kW1tj-00018x-Bv
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 14:34:44 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kW1vy-0001V7-L8
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 14:37:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603478082;
+ s=mimecast20190719; t=1603478221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=54vRvNP2niJDvIDEZu13+zYc34Xn7omul0lVlg8bNo0=;
- b=Ykr3zp6xwhzbZiKHREGTVrZMQYuAKAAJV27TXlFiRNMl1Z9/U4MpqVffv6Z6UFVoxytBEB
- s0eAxr1nbBxERteRqn4M0cETiiEEwAY26Zs8kXZ2FfYArafyXHHbvb9VMKHQ8TZ4Pzen1f
- dLnyD4NYHNQvBylZZmpruRJlDjBewZY=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=TtmXdJZofvyTEiGuHu+im7J0Fiu+INRV0BZQE0VaXAI=;
+ b=fYtYgonzncGscG21jGAGFl3YIZ/p+5AWsUWr5wL56/QJuRxalVYYddEl721uy8/2Ogdqo7
+ jPbW/94juJYImhuityJNjBqj6/S168NrnkGRoZd7bhIeYB0hBxf6FTiMdhXak4KNQCaIp4
+ VC8g47SV7ZdHk5M9sUYu0lSN5Fhblnc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-15-MbzMEwoJOkqfVeR6sQbnKQ-1; Fri, 23 Oct 2020 14:34:40 -0400
-X-MC-Unique: MbzMEwoJOkqfVeR6sQbnKQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-283-fhA5dsH1MPKC40RPaglPcQ-1; Fri, 23 Oct 2020 14:36:57 -0400
+X-MC-Unique: fhA5dsH1MPKC40RPaglPcQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB08018C89CE;
- Fri, 23 Oct 2020 18:34:39 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC91260DA0;
- Fri, 23 Oct 2020 18:34:37 +0000 (UTC)
-Date: Fri, 23 Oct 2020 20:34:36 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 18/24] arm/cpu64: Register "aarch64" as class property
-Message-ID: <20201023203436.1f6d5d87@redhat.com>
-In-Reply-To: <20200921221045.699690-19-ehabkost@redhat.com>
-References: <20200921221045.699690-1-ehabkost@redhat.com>
- <20200921221045.699690-19-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5111610866B0;
+ Fri, 23 Oct 2020 18:36:56 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-7.phx2.redhat.com [10.3.113.7])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6FC860BFA;
+ Fri, 23 Oct 2020 18:36:52 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/12] Exposing backing-chain allocation over NBD
+Date: Fri, 23 Oct 2020 13:36:40 -0500
+Message-Id: <20201023183652.478921-1-eblake@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,71 +75,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Daniel P. Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, stefanha@redhat.com,
+ qemu-block@nongnu.org, rjones@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Sep 2020 18:10:39 -0400
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+v4 was here:
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02708.html
 
-> Class properties make QOM introspection simpler and easier, as
-> they don't require an object to be instantiated.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Since then:
+- rebase to master
+- patches 1, 2, and 12 are new based on Vladimir's observation of QAPI_LIST_ADD
+- patches 10-11 are new based on prior discussion on exposing actual
+depth in addition to a tri-state encoding
+- patch 3 has a nasty bug fixed that was causing iotest failures
+- patch 6 updated to take advantage of patch 2
+- other minor tweaks based on review comments
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+001/12:[down] 'qapi: Move GenericList to qapi/util.h'
+002/12:[down] 'qapi: Make QAPI_LIST_ADD() public'
+003/12:[0002] [FC] 'nbd: Utilize QAPI_CLONE for type conversion'
+004/12:[0010] [FC] 'nbd: Add new qemu:allocation-depth metadata context'
+005/12:[----] [--] 'nbd: Add 'qemu-nbd -A' to expose allocation depth'
+006/12:[0014] [FC] 'nbd: Update qapi to support exporting multiple bitmaps'
+007/12:[----] [--] 'nbd: Simplify qemu bitmap context name'
+008/12:[----] [--] 'nbd: Refactor counting of metadata contexts'
+009/12:[0017] [FC] 'nbd: Allow export of multiple bitmaps for one device'
+010/12:[down] 'block: Return depth level during bdrv_is_allocated_above'
+011/12:[down] 'nbd: Expose actual depth in qemu:allocation-depth'
+012/12:[down] 'qapi: Use QAPI_LIST_ADD() where possible'
 
-> ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  target/arm/cpu64.c | 16 ++++++----------
->  1 file changed, 6 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 3c2b3d95993..349c9fa3a3a 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -758,15 +758,6 @@ static void aarch64_cpu_set_aarch64(Object *obj, bool value, Error **errp)
->      }
->  }
->  
-> -static void aarch64_cpu_initfn(Object *obj)
-> -{
-> -    object_property_add_bool(obj, "aarch64", aarch64_cpu_get_aarch64,
-> -                             aarch64_cpu_set_aarch64);
-> -    object_property_set_description(obj, "aarch64",
-> -                                    "Set on/off to enable/disable aarch64 "
-> -                                    "execution state ");
-> -}
-> -
->  static void aarch64_cpu_finalizefn(Object *obj)
->  {
->  }
-> @@ -786,6 +777,12 @@ static void aarch64_cpu_class_init(ObjectClass *oc, void *data)
->      cc->gdb_num_core_regs = 34;
->      cc->gdb_core_xml_file = "aarch64-core.xml";
->      cc->gdb_arch_name = aarch64_gdb_arch_name;
-> +
-> +    object_class_property_add_bool(oc, "aarch64", aarch64_cpu_get_aarch64,
-> +                                   aarch64_cpu_set_aarch64);
-> +    object_class_property_set_description(oc, "aarch64",
-> +                                          "Set on/off to enable/disable aarch64 "
-> +                                          "execution state ");
->  }
->  
->  static void aarch64_cpu_instance_init(Object *obj)
-> @@ -823,7 +820,6 @@ static const TypeInfo aarch64_cpu_type_info = {
->      .name = TYPE_AARCH64_CPU,
->      .parent = TYPE_ARM_CPU,
->      .instance_size = sizeof(ARMCPU),
-> -    .instance_init = aarch64_cpu_initfn,
->      .instance_finalize = aarch64_cpu_finalizefn,
->      .abstract = true,
->      .class_size = sizeof(AArch64CPUClass),
+Eric Blake (12):
+  qapi: Move GenericList to qapi/util.h
+  qapi: Make QAPI_LIST_ADD() public
+  nbd: Utilize QAPI_CLONE for type conversion
+  nbd: Add new qemu:allocation-depth metadata context
+  nbd: Add 'qemu-nbd -A' to expose allocation depth
+  nbd: Update qapi to support exporting multiple bitmaps
+  nbd: Simplify qemu bitmap context name
+  nbd: Refactor counting of metadata contexts
+  nbd: Allow export of multiple bitmaps for one device
+  block: Return depth level during bdrv_is_allocated_above
+  nbd: Expose actual depth in qemu:allocation-depth
+  qapi: Use QAPI_LIST_ADD() where possible
+
+ docs/devel/writing-qmp-commands.txt |  13 +-
+ docs/interop/nbd.txt                |  31 +++-
+ docs/system/deprecated.rst          |   4 +-
+ docs/tools/qemu-nbd.rst             |   8 +-
+ qapi/block-core.json                |   7 +-
+ qapi/block-export.json              |  22 ++-
+ include/qapi/visitor.h              |   9 +-
+ hw/net/rocker/rocker_fp.h           |   2 +-
+ include/block/nbd.h                 |  14 +-
+ include/qapi/util.h                 |  16 ++
+ block/io.c                          |  11 +-
+ block.c                             |  15 +-
+ block/commit.c                      |   2 +-
+ block/gluster.c                     |  19 +--
+ block/mirror.c                      |   2 +-
+ block/stream.c                      |   2 +-
+ blockdev-nbd.c                      |  28 ++--
+ chardev/char.c                      |  21 ++-
+ hw/core/machine.c                   |   6 +-
+ hw/net/rocker/rocker.c              |   8 +-
+ hw/net/rocker/rocker_fp.c           |  14 +-
+ hw/net/virtio-net.c                 |  21 +--
+ migration/migration.c               |   7 +-
+ migration/postcopy-ram.c            |   7 +-
+ monitor/hmp-cmds.c                  |  11 +-
+ nbd/server.c                        | 222 ++++++++++++++++++++++------
+ qemu-img.c                          |   5 +-
+ qemu-nbd.c                          |  30 ++--
+ qga/commands-posix.c                |  13 +-
+ qga/commands-win32.c                |  17 +--
+ qga/commands.c                      |   6 +-
+ qom/qom-qmp-cmds.c                  |  29 +---
+ target/arm/helper.c                 |   6 +-
+ target/arm/monitor.c                |  13 +-
+ target/i386/cpu.c                   |   6 +-
+ target/mips/helper.c                |   6 +-
+ target/s390x/cpu_models.c           |  12 +-
+ tests/test-clone-visitor.c          |   7 +-
+ tests/test-qobject-output-visitor.c |  42 +++---
+ tests/test-visitor-serialization.c  |   5 +-
+ trace/qmp.c                         |  22 ++-
+ ui/vnc.c                            |  21 +--
+ util/qemu-config.c                  |  14 +-
+ target/ppc/translate_init.c.inc     |  12 +-
+ tests/qemu-iotests/291              |   6 +-
+ tests/qemu-iotests/309              |  73 +++++++++
+ tests/qemu-iotests/309.out          |  22 +++
+ tests/qemu-iotests/group            |   1 +
+ 48 files changed, 529 insertions(+), 361 deletions(-)
+ create mode 100755 tests/qemu-iotests/309
+ create mode 100644 tests/qemu-iotests/309.out
+
+-- 
+2.29.0
 
 
