@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B7C296A17
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 09:12:54 +0200 (CEST)
-Received: from localhost ([::1]:40970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE2F2296A22
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 09:15:59 +0200 (CEST)
+Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVrFt-0002nP-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 03:12:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
+	id 1kVrIo-0006dV-Il
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 03:15:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDm-000131-6h
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54200)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDo-00019y-Ld
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34595)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDi-0003e5-2a
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:41 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDi-0003eL-Kr
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603437037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=d/oAIn3nkyhrnG3V7Kj8kK6d6f9GUUSepLt603/6FAI=;
- b=bbRuMAxGb4Ibk5jSc6iklRwhy0WrysCqMe7wEKTR+H/dOp/Z3QAWHagJ0CaVRC2Sr7RV+P
- vNOgpHy72JORYXt82SxheiXf3qnWErXHQYK1bhy4A+tzaNPu/OZcsfQLnZ7itzv9ZCdD8n
- gyjYPfrM4kfc4HfyFMCj7/jK2qjwk+E=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5SZ9EZ04KSxvcAj2egyF4ZXsrUlIi61zoWGJNS7PnBc=;
+ b=gIsXL4W1Il1YukTZUCuV1WEZAQ0o+xqoW/OjdUOlMRd3fXwid5skwQNkSj9EBxVclSXPnm
+ 1LvU8ZKngyQ/JjAJ0bknn7CnEYy4cRxLvrIqCE3GC8p4o9GpD6H63kSiVm8e0BJjxujw10
+ tTABdUO3xa9DR2UB30HdFz7Wf47hdMY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170-_zzv-H9pMwGmD-alitzdhw-1; Fri, 23 Oct 2020 03:10:33 -0400
-X-MC-Unique: _zzv-H9pMwGmD-alitzdhw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-190-iuzA7nNbPJabd3Qnbz3Rlw-1; Fri, 23 Oct 2020 03:10:33 -0400
+X-MC-Unique: iuzA7nNbPJabd3Qnbz3Rlw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EE7F5F9D5;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 566C0804B71;
  Fri, 23 Oct 2020 07:10:32 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04BB05B4A1;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03495196F3;
  Fri, 23 Oct 2020 07:10:23 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 1D5F816E31; Fri, 23 Oct 2020 09:10:22 +0200 (CEST)
+ id 25533A1EE; Fri, 23 Oct 2020 09:10:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/8] arm/virt: add usb support
-Date: Fri, 23 Oct 2020 09:10:14 +0200
-Message-Id: <20201023071022.24916-1-kraxel@redhat.com>
+Subject: [PATCH 1/8] tests/acpi: allow updates for expected data files
+Date: Fri, 23 Oct 2020 09:10:15 +0200
+Message-Id: <20201023071022.24916-2-kraxel@redhat.com>
+In-Reply-To: <20201023071022.24916-1-kraxel@redhat.com>
+References: <20201023071022.24916-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
@@ -65,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,32 +92,20 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Bring new microvm goodies to arm virt too.  Wire up=0D
--machine usb=3Don, add sysbus-xhci in case it is enabled.=0D
-=0D
-Gerd Hoffmann (8):=0D
-  tests/acpi: allow updates for expected data files=0D
-  tests/acpi: add empty tests/data/acpi/virt/DSDT.usb file=0D
-  arm/virt: add support for -machine usb=3Don=0D
-  arm/virt: add device tree node for xhci=0D
-  arm/virt: add acpi dsdt entry for xhci=0D
-  tests/acpi: add usb testcase for virt=0D
-  tests/acpi: update expected data files=0D
-  tests/acpi: disallow updates for expected data files=0D
-=0D
- include/hw/arm/virt.h            |   1 +=0D
- hw/arm/virt-acpi-build.c         |   6 ++++++=0D
- hw/arm/virt.c                    |  36 +++++++++++++++++++++++++++++++=0D
- hw/usb/hcd-xhci-sysbus.c         |   2 ++=0D
- tests/qtest/bios-tables-test.c   |  18 ++++++++++++++++=0D
- hw/arm/Kconfig                   |   1 +=0D
- tests/data/acpi/microvm/DSDT.usb | Bin 414 -> 426 bytes=0D
- tests/data/acpi/virt/DSDT.usb    | Bin 0 -> 5257 bytes=0D
- 8 files changed, 64 insertions(+)=0D
- create mode 100644 tests/data/acpi/virt/DSDT.usb=0D
-=0D
---=20=0D
-2.27.0=0D
-=0D
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dfb8523c8bf4..5d523ded1282 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1 +1,3 @@
+ /* List of comma-separated changed AML files to ignore */
++"tests/data/acpi/microvm/DSDT.usb",
++"tests/data/acpi/virt/DSDT.usb",
+-- 
+2.27.0
 
 
