@@ -2,74 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37EA72977B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 21:24:47 +0200 (CEST)
-Received: from localhost ([::1]:55484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD39297810
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:08:31 +0200 (CEST)
+Received: from localhost ([::1]:54792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW2gA-0008Eu-Az
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 15:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
+	id 1kW3MU-00069Z-31
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:08:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kW2fP-0007n0-6d
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 15:23:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kW2fN-0007C6-Ci
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 15:23:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603481036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fWeDVo1ItSIjLGvzc9UaK1o9wogPbm/pW1RQgc4FjA4=;
- b=P6918UvVzr1VUMunHr+p6pMqxwXy+cmP1RLvIl+f5ZZaytuXx7+WeR6R87AKlzUxFgbfiJ
- EPUoqDskxZ7Iitm02PowoEcWIv2vgqbz+TcjW/drbKiLTgw3wO4gaH5ZL1/xqVEdKOEbn8
- HQyyg+s/r1jmmPp0ADkvwpKpFiJD97w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-YnUE4kmYOtaqJ-JSYa29bQ-1; Fri, 23 Oct 2020 15:23:54 -0400
-X-MC-Unique: YnUE4kmYOtaqJ-JSYa29bQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C0ED1006702;
- Fri, 23 Oct 2020 19:23:53 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1AD3F60BFA;
- Fri, 23 Oct 2020 19:23:47 +0000 (UTC)
-Date: Fri, 23 Oct 2020 21:23:46 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH] ACPI: Avoid infinite recursion when dump-vmstate
-Message-ID: <20201023212346.79e54986@redhat.com>
-In-Reply-To: <20201023185441.GP3038@work-vm>
-References: <20201019093156.2993284-1-liangpeng10@huawei.com>
- <20201023180933.2fe23875@redhat.com>
- <20201023185441.GP3038@work-vm>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kW3L5-0004dS-E8
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:03 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kW3L1-0003iJ-OM
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:03 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09NK1i9o099463; Fri, 23 Oct 2020 16:06:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=OTfcehDknONaImhz4tafuHRcB91Lpv5LpoHNfqLgmAM=;
+ b=HRQsuc01Kqn+LEubUVEXYB3wdmrMeXTx09tp5Hdel/QnNVIMme3Eup7peQ/6AXebX4iG
+ f5Jw4lhDNGQGx7D8pDN8/HTx1G9eU7HN0ANKf918KZQqkxOWlV8AgFENddB5cE7yKaFp
+ Adcc6Ri4nlUQ8rn/+ER1Stp/TxnOQkYfgI9tLDZGujITi/mTaQGv4ZBvM6N6O0lR9ANu
+ lC5T2y0ZBWpOuiRoLlAl12gk11LEanV1zybFno0d4aXb76fuiK+EWb1Tm5o70a8HLn8N
+ 07DsAYzuz+Yk2jUCwcCd9Ck8kyG/Z2jOuAxtdWeBDO4HMtQkVL2013wWfpfeGHhHtIRo Iw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34c4t9htf7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Oct 2020 16:06:55 -0400
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09NK1lah101266;
+ Fri, 23 Oct 2020 16:06:55 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34c4t9htf2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Oct 2020 16:06:55 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09NJv12r011838;
+ Fri, 23 Oct 2020 20:06:54 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01dal.us.ibm.com with ESMTP id 34bhyqhars-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 23 Oct 2020 20:06:54 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09NK6lbH26280680
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 23 Oct 2020 20:06:47 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D341D6A051;
+ Fri, 23 Oct 2020 20:06:52 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1C1F86A047;
+ Fri, 23 Oct 2020 20:06:52 +0000 (GMT)
+Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.212.19])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Fri, 23 Oct 2020 20:06:51 +0000 (GMT)
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/6] Add support for Control-Flow Integrity
+Date: Fri, 23 Oct 2020 16:06:38 -0400
+Message-Id: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
+ definitions=2020-10-23_14:2020-10-23,
+ 2020-10-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ phishscore=0 spamscore=0 mlxlogscore=999 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 mlxscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010230119
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 16:06:56
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,97 +107,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peng Liang <liangpeng10@huawei.com>, mst@redhat.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, zhang.zhanghailiang@huawei.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 19:54:41 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+v2: Several months (and structural changes in QEMU) have passed since v1.
+While the spirit of the patch is similar, the implementation is changed
+in multiple points, and should address most if not all the comments
+received in v1.
+* Instead of disabling CFI in specific functions by using a filter file,
+  disable cfi by using a new decorator to be prefixed to the function
+  definition. The decorator is automatically expanded to an attribute
+  asking clang to disable cfi-icall on the function.
+  This should simplify tracking of sensitive function, compared to
+  keeping the list in a separate file
+  I tentatively added myself as maintainer of a new include file defined for
+  that purpose, in case a maintainer is considered needed.
+* Updated patch to work with the new build system based on meson
+* Split LTO and CFI options. Now LTO can be used independently of CFI.
+  LTO uses the meson option to build and can now work, in general, with
+  any linker (ld, gold, lld). LTO with meson works fine with clang >=6
+  and requires the use of LLVM's ar to handle shared libraries with
+  intermediate code (selectable by setting the environment variable
+  AR to llvm-ar-xx).
+* Introduce a small patch for the linker script used by fuzzing targets,
+  so that it works properly with both bfd and lld >=12
+* Disable a couple of warning check that trigger errors with clang >= 11 
+* Add additional checks for fuzzing and LTO. At the moment, only LLVM's
+  lld linker v12 is able to support fuzzing and LTO, because of a bug in the
+  bfd linker when handling --wrap with LTO. Therefore, automatically
+  select lld if fuzzing and LTO are both enabled.
+* Made sure that fuzzing works with LTO and CFI enabled.
 
-> * Igor Mammedov (imammedo@redhat.com) wrote:
-> > On Mon, 19 Oct 2020 17:31:56 +0800
-> > Peng Liang <liangpeng10@huawei.com> wrote:
-> >   
-> > > There is a field with vmstate_ghes_state as vmsd in vmstate_ghes_state,
-> > > which will lead to infinite recursion in dump_vmstate_vmsd.
-> > > 
-> > > Fixes: a08a64627b ("ACPI: Record the Generic Error Status Block address")
-> > > Reported-by: Euler Robot <euler.robot@huawei.com>
-> > > Signed-off-by: Peng Liang <liangpeng10@huawei.com>
-> > > ---
-> > >  hw/acpi/generic_event_device.c | 3 +--
-> > >  1 file changed, 1 insertion(+), 2 deletions(-)
-> > > 
-> > > diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-> > > index 6df400e1ee16..4b6867300a55 100644
-> > > --- a/hw/acpi/generic_event_device.c
-> > > +++ b/hw/acpi/generic_event_device.c
-> > > @@ -334,8 +334,7 @@ static const VMStateDescription vmstate_ghes_state = {
-> > >      .minimum_version_id = 1,
-> > >      .needed = ghes_needed,
-> > >      .fields      = (VMStateField[]) {
-> > > -        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
-> > > -                       vmstate_ghes_state, AcpiGhesState),
-> > > +        VMSTATE_UINT64(ghes_state.ghes_addr_le, AcpiGedState),  
-> > 
-> > not sure its' ok handle it this way,
-> > 
-> > see how it is done with another structure:
-> > 
-> > static const VMStateDescription vmstate_ged_state = {                            
-> >     .name = "acpi-ged-state",                                                    
-> >     .version_id = 1,                                                             
-> >     .minimum_version_id = 1,                                                     
-> >     .fields      = (VMStateField[]) {                                            
-> >         VMSTATE_UINT32(sel, GEDState),                                           
-> >         VMSTATE_END_OF_LIST()                                                    
-> >     }                                                                            
-> > }; 
-> > 
-> > ...
-> > 
-> > VMSTATE_STRUCT(ged_state, AcpiGedState, 1, vmstate_ged_state, GEDState),
-> > 
-> > i.e. it looks like we are missing structure definition for AcpiGhesState
-> > 
-> > CCing David,
-> >  to help with migration magic in case I'm wrong or missed something  
-> 
-> Yeh that's confusing :-)
-> 
-> Given a:
-> 
->   VMSTATE_STRUCT(a, B, 1, vmstate_c, C)
-> 
-> We're saying there's a field 'a' in type B, and field 'a'
-> should be of type C and be serialised using vmstate_c.
-> 
-> That also means that in any vmstate_c, we're expecting it
-> to be passed a type C generally.
-> 
-> Having said that; you don't need a struct - you can get away
-> with that VMSTATE_UINT64, there's two problems:
-> 
->   a) That assumes that your ghes always stays that simple.
->   b) If you wanted to store a Ghes from a number of different
-> parent structures then you're stuck because your vmstate_ghes_state
-> is bound to being a strict field of AcpiGedState.
-> 
-> So yes, it's neatest to do it using a VMSD for AcpiGhesState
-> 
-> And congratulations on finding a loop; I don't think we've ever had one
-> before :-)
+-----
+v1's cover letter starts here
+-----
 
-can we make compilation fail in case VMSTATE_STRUCT is used but
-is not actually provided like it was in this case?
+LLVM/Clang supports multiple types of forward-edge Control-Flow Integrity
+(CFI), including runtime checks on indirect function calls.
 
-> 
-> Dave
-> 
-> > >          VMSTATE_END_OF_LIST()
-> > >      }
-> > >  };  
-> >   
+CFI on indirect function calls can have a huge impact in enhancing QEMU
+security, by significantly limiting one of the most used attack vectors
+for VM Escape. Attacks demonstrated in [1],[2] and [3] will, at some
+point, change a function pointer in a QEMU data structure.
+
+At high level, LLVM's implementation relies on compile-time information
+to create a range of consecutive trampolines for "compatible functions".
+At runtime, if the pointer is not in the valid range, it is assumed that
+the control flow was hijacked, and the process is terminated with an
+"Illegal Instruction" exception.
+
+CAVEATS:
+
+1) For this CFI check to work, the code must always respect the function
+signature when using function pointer. While this is generally true
+in QEMU, there are a few instances where pointers are handled as
+generic void* from the caller. Since this is a common approach, Clang
+offer a flag to relax pointer checks and consider all pointer types
+to be compatible.
+
+2) Since CFI relies on compile-time information, it requires using
+link-time optimization (LTO) to support CFI across compilation units.
+This adds a requirement for the gold linker, and LLVM's versions of
+static libraries tools (ar, ranlib, nm).
+
+3) CFI checks cannot be performed on shared libraries (given that functions
+are not known at compile time). This means that indirect function calls
+will fail if the function pointer belong to a shared library.
+This does not seem to be a big issue for a standard QEMU deployment today,
+but QEMU modules won't be able to work when CFI is enabled.
+There is a way to allow shared library pointers, but it is experimental
+in LLVM, requires some work and reduces performance and security. For
+these reasons, I think it's best to start with this version, and discuss
+an extension for modules later.
+
+4) CFI cannot be fully applied to TCG. The purpose of TCG is to transform
+code on-the-fly from one ISA to another. In doing so, binary blobs of
+executable code are created and called with function pointers.
+Since the code did not exist at compile time, runtime CFI checks find such
+functions illegal. To allow the code to keep running, CFI checks are not
+performed in the core function of TCG/TCI, and in the code that
+implements TCG plugins.
+This does not affect QEMU when executed with KVM, and all the device
+emulation code is always protected, even when using TCG.
+
+5) Most of the logic to enable CFI goes in the configure, since it's
+just a matter of checking for dependencies and incompatible options.
+However, I had to disable CFI checks for a few TCG functions.
+This can only be done through a blacklist file. I added a file in the
+root of QEMU, called cfi-blacklist.txt for such purpose. I am open to
+suggestions on where the file should go, and I am willing to become the
+maintainer of it, if deemed necessary.
+
+PERFORMANCE:
+
+Enabling CFI creates a larger binary, which may be an issue in some use
+cases. However, the increase is not exceptionally large. On my Ubuntu
+system, with default options, I see an increase of stripped size from
+14MiB to 15.3MiB when enabling CFI with Clang v9.
+
+There is also a possible performance issue, since for every indirect
+function call, and additional address check is performed, followed by
+an additional indirect call to the trampoline function.
+However, especially in the case of KVM-based virtualization, the impact
+should be minimal, since indirect function pointers should be used mostly
+for device emulation.
+
+I used Kata Container's metrics tests since that is a simple,
+reproducible set of tests to stress storage and network between VMs,
+and run a Lifecycle test to measure VM startup times under a specific
+workload. A full report is available here [4].
+
+The difference between LLVM with and without CFI is generally low.
+Sometimes CFI is actually offering better performance, which may be
+explained by having a different binary layout because of LTO.
+Lifecycle and network do not seem to be affected much. With storage,
+the situation is a bit more variable, but the oscillations seem to be
+more related to the benchmark variability than the CFI overhead.
+
+I also run a quick check-acceptance on full system VMs with and without CFI,
+the results are at [4] and show comparable results, with CFI slightly
+outperforming the default binary produced by LLVM.
+
+----
+
+[1] Mehdi Talbi and Paul Fariello. VM escape - QEMU Case Study
+[2] Nelson Elhage. Virtunoid: Breaking out of KVM
+[3] Marco Grassi and Kira. Vulnerability Discovery and Exploitation
+of Virtualization Solutions for Cloud Computing and Desktops
+[4] https://github.com/dbuono/QEMU-CFI-Performance
+
+*** BLURB HERE ***
+
+Daniele Buono (6):
+  fuzz: Make fork_fuzz.ld compatible with LLVM's LLD
+  configure: avoid new clang 11+ warnings
+  configure: add option to enable LTO
+  cfi: Initial support for cfi-icall in QEMU
+  check-block: enable iotests with cfi-icall
+  configure: add support for Control-Flow Integrity
+
+ MAINTAINERS                   |   5 +
+ accel/tcg/cpu-exec.c          |   9 ++
+ configure                     | 214 ++++++++++++++++++++++++++++++++++
+ include/qemu/sanitizers.h     |  22 ++++
+ meson.build                   |   3 +
+ plugins/core.c                |  25 ++++
+ plugins/loader.c              |   5 +
+ tcg/tci.c                     |   5 +
+ tests/check-block.sh          |  18 +--
+ tests/qtest/fuzz/fork_fuzz.ld |  12 +-
+ util/main-loop.c              |   9 ++
+ util/oslib-posix.c            |   9 ++
+ 12 files changed, 328 insertions(+), 8 deletions(-)
+ create mode 100644 include/qemu/sanitizers.h
+
+-- 
+2.17.1
 
 
