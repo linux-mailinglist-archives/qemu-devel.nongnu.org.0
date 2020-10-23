@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CF89297589
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:08:54 +0200 (CEST)
-Received: from localhost ([::1]:46558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568F72975B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:21:34 +0200 (CEST)
+Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0Yf-00038y-JR
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:08:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58246)
+	id 1kW0kv-0006KX-Di
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:21:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kW0XB-0001cA-N5
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:07:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22551)
+ id 1kW0jI-0004uY-9E
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:19:52 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22481)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kW0X9-0006LU-TV
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:07:21 -0400
+ id 1kW0jF-0007oz-TD
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 13:19:51 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603472838;
+ s=mimecast20190719; t=1603473588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uv348hOlmwnXCqW0YKJPMk8st5yikMTDxnAgbpXKkIw=;
- b=MMOFR3UFXsc0p/+qYFKXvA5bW09cHU6Za47X7ykO/X6Zp8HZ0N6Saaitve8HeKfbqGkiVh
- pmbnd5QrinMNzgyAERe+Nx+ymjwD4TQoIk2ahs/4r26Gzitgl1tl+IfqytpL9tVrn2d66N
- SkH3dIHeSIk6XPSqnB4NDPeo/qcOgD0=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-QabkRt8iPsiAgGLx7bqSlg-1; Fri, 23 Oct 2020 13:07:17 -0400
-X-MC-Unique: QabkRt8iPsiAgGLx7bqSlg-1
-Received: by mail-wr1-f69.google.com with SMTP id i6so807101wrx.11
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 10:07:16 -0700 (PDT)
+ bh=Oxql+6JwcZu4ZUdxGTeI5NLksjNTRzhz/K7SZzv6UTA=;
+ b=PhTetiBepuI/N5dgeNGf1h1sehGxbZB9CxrDSwWUGkzIJVrHCzHfluT9soVk1XCsrLFDEg
+ uevWfUjBDm+T7wurQNvv3M5Y66hyzjZNgXBukLcF2k4AXnxwnsQ1WgwGWFc8h7/kpfrxPT
+ gCgoWXTuvAayXzCUD5bHE+uSh0eEOnI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-w8UtTJRsOgC5-p8DpGpEOw-1; Fri, 23 Oct 2020 13:19:46 -0400
+X-MC-Unique: w8UtTJRsOgC5-p8DpGpEOw-1
+Received: by mail-wm1-f71.google.com with SMTP id r19so698744wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 10:19:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uv348hOlmwnXCqW0YKJPMk8st5yikMTDxnAgbpXKkIw=;
- b=c593BzMA+oKnzdsWcVJ3gQapFeTdG5FDfV8NYiryegt/DQjs2Ogde+KzNSU1hV58+r
- dNd2Tjtq6GlLZXs0mCMIvgVYfimZ7nLm2kbrqQW+8tVSrqPioshhOnsHU8uKysziqOfp
- z+UCBZPvp/o+nRqqfLL7tEWEBuO2nDd0Y2+JY0DWNrnJmUXsiSvpg2B3Zdc3cZsqCfbi
- /4ndpQ9wCpPSErOfjizKGtyXJT03b1DRHbwLTfP8TBlpsaGZmJwwH/V+VsfgwQQ+YiOn
- ikDX0lCsWfnVZUk131tBJ+hMztThnkHBabjEJa4AVnRw2gyEC7fLCf+a41WTHdqI82sH
- U+8g==
-X-Gm-Message-State: AOAM5324mdJtDx4CwuFyclku4TNMoXmz5bOROI/aR9W4xrBzo6sXBMIG
- Besy3QmWtrYRcLFHPJMYjFuAz66zS1E2UffWdjgu0RYNXVIJidXlp8TbH/bqBBpneZO6puhRFW4
- hRYd5InhsF2BjdYg=
-X-Received: by 2002:a1c:2601:: with SMTP id m1mr3134483wmm.12.1603472832774;
- Fri, 23 Oct 2020 10:07:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwtrU3Q52WqZZY7bvliRrgwoDopMnzV1GRRrPLoh1IEas0fcCOEs/AdqtoiVDD2HH0BTsjUeQ==
-X-Received: by 2002:a1c:2601:: with SMTP id m1mr3134475wmm.12.1603472832591;
- Fri, 23 Oct 2020 10:07:12 -0700 (PDT)
+ bh=Oxql+6JwcZu4ZUdxGTeI5NLksjNTRzhz/K7SZzv6UTA=;
+ b=IsQ4GoP/HPT0Jvh3/VHeqwpiXRcqaBmmUd8SU3USEUhBhQem4hGhmAFvAJ93MelD8P
+ tg0FdoX7YJ3YYJDd4aB5AsDuMP1FOkx2NGfjntAyHxsILLQ8nvu9cwaNxPdrbzL64QPF
+ w/74rOSBAIUTqrXtvwxp4wHAF1fzD+bw6WlnWom6wVi/n4C13a4O5wt7qs3EVAyiYzhq
+ ZYsFuwHQYqUtD0FHiF/el1WF5mqCM37pzT8OuFP7oCOGVjgYaTTC5foL9SyN1RjcpHHy
+ nueb4bMbG/bLRQTVEPGPL68A1XVk1weJV/m5aNdLLJML5nB/kMt9XkFTndQ0QnmJ+Fgu
+ 9UmQ==
+X-Gm-Message-State: AOAM532/FKrLT8C5+HWWjJKz3/60ZcROQI2741S7kD5tRPKPoK6tEPXU
+ QyPLMkzjr2l8ZrH6Ew6f3WgefWFj6qBOZbpg0xyw5q2LUQLFr88RPPOw8H6jNKLpeKADoiTEnIF
+ ruo49yOsILkqkdG8=
+X-Received: by 2002:adf:8462:: with SMTP id 89mr3688405wrf.389.1603473585047; 
+ Fri, 23 Oct 2020 10:19:45 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwarPEeiYzvQl6Js9jmyEcHLPk5hNfLjGrFAD/Wben9AC4OUmA65DA9QpLaL9WK2ZVThwEOow==
+X-Received: by 2002:adf:8462:: with SMTP id 89mr3688391wrf.389.1603473584844; 
+ Fri, 23 Oct 2020 10:19:44 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a199sm4847229wmd.8.2020.10.23.10.07.11
+ by smtp.gmail.com with ESMTPSA id 30sm4699568wrr.35.2020.10.23.10.19.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 10:07:11 -0700 (PDT)
-Subject: Re: [qemu-web PATCH 6/7] Add link to "edit this page" for all pages
+ Fri, 23 Oct 2020 10:19:43 -0700 (PDT)
+Subject: Re: [qemu-web PATCH 5/7] Simplify and restructure the page footer
 To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20201023152957.488974-1-berrange@redhat.com>
- <20201023152957.488974-7-berrange@redhat.com>
- <d61c100e-fb49-6f13-77e0-2262cb06946d@redhat.com>
- <20201023161912.GB463062@redhat.com>
+ <20201023152957.488974-6-berrange@redhat.com>
+ <54f37d84-a66e-bbfa-b410-2dba44d88ac9@redhat.com>
+ <20201023164600.GC463062@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <d50d8fe4-c980-2765-7a37-feffff5bfb9a@redhat.com>
-Date: Fri, 23 Oct 2020 19:07:11 +0200
+Message-ID: <2879ebb5-8444-572f-4755-be4baf1a60b7@redhat.com>
+Date: Fri, 23 Oct 2020 19:19:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201023161912.GB463062@redhat.com>
+In-Reply-To: <20201023164600.GC463062@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -108,16 +108,25 @@ Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/10/20 18:19, Daniel P. Berrangé wrote:
->> I think this is a good idea *if* we switch to merge requests for website
->> edits---which isn't something I'm opposed to.
-> Note if you disable merge requests, then the page we link to doesn't
-> show a live editor. It merely shows the read-only source. Not as
-> useful, at least the user can see which source file they need to
-> touch in their fork, which is still a step forwards I think.
-> 
+On 23/10/20 18:46, Daniel P. Berrangé wrote:
+>> I would rather keep this column, the idea is that this information can
+>> be found with a quick Ctrl-F "bug" or "Ctrl-F "faq".
+>
+> If there are useful links that are hidden such that people have to use
+> "Ctrl-f <term>" to search for them, then I think we've failed at design
+> already.
 
-I agree, so I think if you change it to "View source" it's okay.
+As you said the links are already mostly available from the "contribute"
+page.  "Report a bug" is a bit of an in-the-middle case that is niche
+enough that it should not be too prominent, but still worth being
+available in the home page in some way.
+
+> IMHO the front page has way too much real estate taken up with the
+> screenshots and big headings, and very little useful content right
+> now.
+
+Yeah, that's true (that is something that was inherited from template I
+used, which you can see for reference at https://templated.co/linear).
 
 Paolo
 
