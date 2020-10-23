@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007A2297202
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:11:51 +0200 (CEST)
-Received: from localhost ([::1]:45828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8A3297200
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:11:41 +0200 (CEST)
+Received: from localhost ([::1]:45198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVyjN-00075H-W6
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:11:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
+	id 1kVyjE-0006pq-IH
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:11:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyft-0003cZ-O5
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:13 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyfv-0003hj-Qh
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:15 -0400
 Received: from mail-bn7nam10on2090.outbound.protection.outlook.com
  ([40.107.92.90]:50400 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyfr-000767-Pe
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:13 -0400
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyft-000767-W0
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:15 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ij7LTS8b55G/VBLyZkcwpAqPsJ+S2DTiw+nH6/DFbnjXEofVzcEtvf1Ike7b533v1EgeJ453NI6XbbV9OyF9681g7bJF+HVGX0G8CGtbkOR/tY1BH4Joc0yYT3M6tyt30UCjxBqkb6KcXRz9f1p3EpvuBZ18mQBIlBcYH2QLyX+jAo6INF6wL4AhFHOmJWoAYqtC+6W42LJ8viDKn81zVBR61OjVyY60nPXsnj80A6aGiyx9PzAcjeoKbo4n1hJ4wNnrLHdCGXb1+5w5UlDY/WS5Fw3ooS4aepe4jSzxi6gQ7a7akbcayNAprFSqv3pqjYCCgnjz7uLlUDoTuQC6+Q==
+ b=YsCV2zx/xZglNVWyhrxuxwP/2OVue+VUfvzTSb20zKzEVpttlLSPpSMi/LuEz1dnWAc8e50vNQ4wg2LSpxdpk7o/u/YRpNKWL3jwsuMXGWNxRSiRVbxnIpO52gFCcs02S9Rs9ZcvsXyENZFjTsTXOlBTP4numOA90mmjP+JnOMP80+DoOTqplKB27Ez7QYdbLYuAPB50NicnrcTU0WJzizWphKZstu/PJcJHQHEifTcsbBdXaw40t/+QYFB3XaAlKvx9yXNuMnE0sSKIAZOyyk8g3tchNjQgDGPKq4VsH/0BDCqqATW/L6qui2XLxdGVulCae1fkGrDj//TdhbPR3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jwIF3gf92vZDxFBP03YeyaRybQtRjP+EanamgiyoT6U=;
- b=jDFXcQCl+WRgmdZ/JYummOO7/xV+S0b1bmnSLibRbRix7Hwh8RGsJwWUhIjcUy3FL0xqw3clmThE3wEUdzEmhPL733amlzEntbphg9JHtpMIfW0ID723VGiuivh4UoXbRtYkFPwJW9HMgh6jW1NctczdZhk7PN3yfamqlvDCJlMKgaygjoQVsRRFA42LUz8FLfDZ0cwlA8XTmP/3Xp3mfB27PuZNs2YGhALjSPliKxGzyJ5uA6kD6XebJ9KHFdqfsBxCV+kjkJTjbMrwFKN7ZDLIZuoXYpdsF1BLXzFWURwoZqf1/d3JvAF95lk+nodbtkKL8aUKi0GoCpEndsa2pQ==
+ bh=Ijboq53E0ffl27ylMXmPDv3YcQtx1rxw+6EHMhfq77o=;
+ b=l6ZQeBPXavvCz4OQcO4v7AeV861FpnVoD6ClxJpJJZzMTodkJ9XaUpFFuO82d2z8c+anINsPctJX9050sQOVSaoMGZajBuqlxgmoCsufdxjrU2N3icsuxJbsZLM9ebWGho9qgN2oxpQg/mrG+6u9UK27O8LvUJJOKvn+xeber5hT8rEM7+nEzQ+zUchtfB2bqQL/FBp3XMQ4h/V0Yxd2lNI3Iu8bMKdd4RXqrdzZtfzJ/fH2EflRx3Xq+y2iXH09tY/WZw4XiC3Qa8EkSduDln05iumFDEPpk8tUhDVXxBMUzotIVMCW1Q98vhd2EyUk8KfbGZ+ZQkvQVey+C1Rcow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jwIF3gf92vZDxFBP03YeyaRybQtRjP+EanamgiyoT6U=;
- b=7+ZqbfJH3AVJWP6GheaX1mE5d7O3+imlQPJ8DPufkOfMf42F3OQNkfHLW6HvgdXlBDYox+qsqV/m0lLTTH+bVqJEJ8MhSiIYdfBoWs2nK0dwdC1wHmjpzSVjxeZ2U+WxBq8fQJj9u/Z2ME+I/IvBcRQJLKOCbjK7VkEJWgmkVMI=
+ bh=Ijboq53E0ffl27ylMXmPDv3YcQtx1rxw+6EHMhfq77o=;
+ b=dvb0P9K1dcfQl5gksmOOZa9vPuMAvWapkTynT4qiUKXqP/A51eQ++LcBaVeL0zy6BVauHRF84josoASCjxmf1xPkh+xIXk0crC6PYwMJQZmMvS5MII5oV9RFhkjQoMhMJyreY4ndXxxJGT34YJaq/59qS+e77rTnF1NHswmUkyw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA0PR03MB5516.namprd03.prod.outlook.com (2603:10b6:806:bf::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Fri, 23 Oct
- 2020 15:08:08 +0000
+ 2020 15:08:09 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Fri, 23 Oct 2020
- 15:08:08 +0000
+ 15:08:09 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 08/17] fuzz: add a DISABLE_PCI op to generic-fuzzer
-Date: Fri, 23 Oct 2020 11:07:37 -0400
-Message-Id: <20201023150746.107063-9-alxndr@bu.edu>
+Subject: [PATCH v7 09/17] fuzz: add a crossover function to generic-fuzzer
+Date: Fri, 23 Oct 2020 11:07:38 -0400
+Message-Id: <20201023150746.107063-10-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023150746.107063-1-alxndr@bu.edu>
 References: <20201023150746.107063-1-alxndr@bu.edu>
@@ -63,30 +63,30 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from stormtrooper.vrmnet (72.93.72.163) by
  MN2PR01CA0065.prod.exchangelabs.com (2603:10b6:208:23f::34) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Fri, 23 Oct 2020 15:08:07 +0000
+ 15.20.3499.18 via Frontend Transport; Fri, 23 Oct 2020 15:08:08 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f54048dd-6fbb-4d52-eb17-08d87765732b
+X-MS-Office365-Filtering-Correlation-Id: 1d6d8ebb-49e4-4507-af3b-08d8776573da
 X-MS-TrafficTypeDiagnostic: SA0PR03MB5516:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB55160011E2889A674B27C501BA1A0@SA0PR03MB5516.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:40;
+X-Microsoft-Antispam-PRVS: <SA0PR03MB5516420B6B9DE89CC5CCF92ABA1A0@SA0PR03MB5516.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pTvhuzz+gzXajfgm023fp2VbImuGmvQNXwKxdXwDtNQ7z01nxZQqDZkV5tJHeyF4P+EhIG+lCk8O/hvfljfpmkGYyFjVSfKDJGqmYXCBTwsbN62dIL8EC7ePpPedljjtdl+uLLF3UiYuXFpOvqtLfkQX3llGRbzMkYAOgWqKz2L8OKH0IpGWtp+OYzUm4ARd1YumuAtgF1lc5DAIksr/Ro0whNJmoTmtTiGXNk3U0Sja69EaEphMZ/eLWXIrtqabb3GjRZgaet6gwIgcwtpyob+zOxIID7kUBRxcgP0Bxt7TwiVI0LcJ4XqpkRB0Bu5ap0gsa8JfpUjZF7FYTNqjBFR9EqvT4yIuLkV37A1rAaZ0PEQpO/JeTQ0N/gs0RRPn
+X-Microsoft-Antispam-Message-Info: roIVUzaBXAoZYTdNH5sV6PCe30Bj/sFx0KGGeKMrILI+5gTFCrej3CIxW91mekl4EX/0vJGiUmfSXf7FuHKgfF9amxGi2AMD/CRYP914Suzyzrjsyucq6EsKwWc6NKfcy/K6NLoyaBbF7AIDDVyLKNg9a6FHsBFR6OIxIJeVdgDActOE611/TS40oQTE8NeRVMz9a0j2DcspYoyHOsM+mTawSgM/5iIMNDz0tfp0+jpgFww+pBl3eHt/PXgyAQt+eoLe7R5Asqjyv3b+o7uhPx//8pqCYzYfnVdnvCNvLZNZjH7R/f9BQJT1/ucwRwRo9MP8ZgOfpoRuLAadDOr2OU6H4qWuGtzIrPS5feM3lbizYJdgv2RsvNhE5TzgjVWH
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(2616005)(4326008)(1076003)(6512007)(478600001)(5660300002)(83380400001)(8936002)(8676002)(86362001)(2906002)(956004)(36756003)(6506007)(66476007)(6916009)(786003)(66556008)(75432002)(66946007)(52116002)(6666004)(186003)(26005)(6486002)(316002)(54906003)(16526019)(41533002);
+ SFS:(4636009)(366004)(396003)(136003)(346002)(39860400002)(376002)(2616005)(4326008)(1076003)(6512007)(478600001)(5660300002)(8936002)(8676002)(86362001)(2906002)(956004)(36756003)(6506007)(66476007)(6916009)(786003)(66556008)(75432002)(66946007)(52116002)(6666004)(186003)(26005)(6486002)(316002)(54906003)(16526019)(41533002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: JJy2YBxsfIfCVIs9mbrSr+m8XWvGBwMmKVv+QJtSphEArAG9I+q9oXJ5JeJJu1/9WDfzCnZi0exUW+XTVN37SqsjyWI6q5Wblwm0cZzwqaat2F+uoeddd+ETnhozLdcVXFD66Hm1lXT6e4YCfM3fnwXh0oYo5FCrzJPrRZSZ6NZMyyejmeSXjqYLhNtGti3SEiRTJIj3EonhSENXOKor+a1eczIhMeYi8i3Vb7EFm3n8ffOwdpbVDpP+fxT5/tdJzCVpvex+IyuvKwO5yONeb/27/FSXZP2SwPp/8tVNZeC3Tu9o9GJVkWnrlkv+ITfDBKGptvn3RyOXN25V1f4j92dFacjaBgP9iiz4QfA7Br+xzfsG7TDX5S4u5j/TyEIn0nmgqr8Uv58fPiZTj8FYo9n9cqRwdbzw4PG3WN1c+SXoEiGLLbv9oempW+jfQBDQPXPJxCOh+P2iVyNOVXE/TvLUCdKpBRCSxR+YbxS3JwUzMfQmEPBpvs57HCI/412vpLXof5y3n05XtC8nXxeExN4vy9Qzne3OwgPdEZ8w9peLtz4ANqOKgSWQ/fkreFPDAZSQ1Xgh3sMmy2p1LuBGM7W5TnUHH2igs3cT6nAIzzWLQTV5/ubxoDWQQwXKsLufNkFXyn0vorwMzzkjA8WbvA==
+X-MS-Exchange-AntiSpam-MessageData: 2InbQFbC0Wn85E3cd9BbSDEMFe6ATJgbXI0gOAyhqyEHnRWSJiwYeNXOvHHkgHK/e1gTPAif4dZgON50hTSaa1I5RVsM0EVqhG3GOHIkFWyVGR5C0kJjOiPDfW+8uhdJKYGuhyGi1uqiC7EB0gngRVrV2qjF5+WIo8TxoYQet8WXzD3tmvTXSFvyJjHqxM/WVMne3dxAYK6MPMcG6fJZgjIMvJKh6jpqa+W8KG/yoExTTTWYbBGpgDj5jWy9PQCiaJobO8fo9WEHsDbg6ddVa3UysS+jIRSmpjhuMozgA1RB5/vSQxwdo5xhIkA+E8e8NR5LwvZ1aW7rZ4eEQH0B9RZhSmawYOzYEC2C6wQL7rB0F4uJhdY5/FZ8Qwh6wWwgV6SI4ClaveOgj6uNcWEfkOHig/xskGx9OMduIHUnkmhUXrjsUU8TLdhIc16a1QPQvJckoBejj5Dub543w6jPOAwxbZzmcCJaZSivTS9aRTqDM9zuCAqVqVa38fnyptxXWKnbSUyG6lhSDhxyLrnE+Plt9cp1t7r0KC30q0m1PZpOA9nZiNuZhDOjN1kK3sDonTzIFWfds9t5EUT4V6dNIXtCpvlbnExw9GbD9zt0KEiW2jWki9X7Tbh4Ksz1xC4//PODCklGqtlBGP2AHnhPbw==
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: f54048dd-6fbb-4d52-eb17-08d87765732b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d6d8ebb-49e4-4507-af3b-08d8776573da
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 15:08:08.2114 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 15:08:09.3648 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: r5gszpib11gVgr1BoAgPdX9qiR3eI1EZqf2xLvjPDw/Miz8iXbDmBiCCY8QD/KUu
+X-MS-Exchange-CrossTenant-UserPrincipalName: we8PWyPqNLpO5YQlua91lJbRB+dYWOiu9hbAUfZOsAmjojGliBo2qw/HOwyymWPN
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5516
 Received-SPF: pass client-ip=40.107.92.90; envelope-from=alxndr@bu.edu;
  helo=NAM10-BN7-obe.outbound.protection.outlook.com
@@ -119,82 +119,116 @@ Cc: Laurent Vivier <lvivier@redhat.com>, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This new operation is used in the next commit, which concatenates two
-fuzzer-generated inputs. With this operation, we can prevent the second
-input from clobbering the PCI configuration performed by the first.
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 86 +++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
 diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index e6b18e4276..d8fb78d13b 100644
+index d8fb78d13b..1a1bb7b9db 100644
 --- a/tests/qtest/fuzz/generic_fuzz.c
 +++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -39,6 +39,7 @@ enum cmds {
-     OP_WRITE,
-     OP_PCI_READ,
-     OP_PCI_WRITE,
-+    OP_DISABLE_PCI,
-     OP_ADD_DMA_PATTERN,
-     OP_CLEAR_DMA_PATTERNS,
-     OP_CLOCK_STEP,
-@@ -116,6 +117,7 @@ static GArray *dma_regions;
- 
- static GArray *dma_patterns;
- static int dma_pattern_index;
-+static bool pci_disabled;
- 
- /*
-  * Allocate a block of memory and populate it with a pattern.
-@@ -482,7 +484,7 @@ static void op_pci_read(QTestState *s, const unsigned char * data, size_t len)
-         uint8_t base;
-         uint8_t offset;
-     } a;
--    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
-+    if (len < sizeof(a) || fuzzable_pci_devices->len == 0 || pci_disabled) {
-         return;
-     }
-     memcpy(&a, data, sizeof(a));
-@@ -512,7 +514,7 @@ static void op_pci_write(QTestState *s, const unsigned char * data, size_t len)
-         uint8_t offset;
-         uint32_t value;
-     } a;
--    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
-+    if (len < sizeof(a) || fuzzable_pci_devices->len == 0 || pci_disabled) {
-         return;
-     }
-     memcpy(&a, data, sizeof(a));
-@@ -567,6 +569,11 @@ static void op_clock_step(QTestState *s, const unsigned char *data, size_t len)
-     qtest_clock_step_next(s);
+@@ -808,6 +808,91 @@ static void generic_pre_fuzz(QTestState *s)
+     counter_shm_init();
  }
  
-+static void op_disable_pci(QTestState *s, const unsigned char *data, size_t len)
++/*
++ * When libfuzzer gives us two inputs to combine, return a new input with the
++ * following structure:
++ *
++ * Input 1 (data1)
++ * SEPARATOR
++ * Clear out the DMA Patterns
++ * SEPARATOR
++ * Disable the pci_read/write instructions
++ * SEPARATOR
++ * Input 2 (data2)
++ *
++ * The idea is to collate the core behaviors of the two inputs.
++ * For example:
++ * Input 1: maps a device's BARs, sets up three DMA patterns, and triggers
++ *          device functionality A
++ * Input 2: maps a device's BARs, sets up one DMA pattern, and triggers device
++ *          functionality B
++ *
++ * This function attempts to produce an input that:
++ * Ouptut: maps a device's BARs, set up three DMA patterns, triggers
++ *          functionality A device, replaces the DMA patterns with a single
++ *          patten, and triggers device functionality B.
++ */
++static size_t generic_fuzz_crossover(const uint8_t *data1, size_t size1, const
++                                     uint8_t *data2, size_t size2, uint8_t *out,
++                                     size_t max_out_size, unsigned int seed)
 +{
-+    pci_disabled = true;
++    size_t copy_len = 0, size = 0;
++
++    /* Check that we have enough space for data1 and at least part of data2 */
++    if (max_out_size <= size1 + strlen(SEPARATOR) * 3 + 2) {
++        return 0;
++    }
++
++    /* Copy_Len in the first input */
++    copy_len = size1;
++    memcpy(out + size, data1, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Append a separator */
++    copy_len = strlen(SEPARATOR);
++    memcpy(out + size, SEPARATOR, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Clear out the DMA Patterns */
++    copy_len = 1;
++    if (copy_len) {
++        out[size] = OP_CLEAR_DMA_PATTERNS;
++    }
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Append a separator */
++    copy_len = strlen(SEPARATOR);
++    memcpy(out + size, SEPARATOR, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Disable PCI ops. Assume data1 took care of setting up PCI */
++    copy_len = 1;
++    if (copy_len) {
++        out[size] = OP_DISABLE_PCI;
++    }
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Append a separator */
++    copy_len = strlen(SEPARATOR);
++    memcpy(out + size, SEPARATOR, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Copy_Len over the second input */
++    copy_len = MIN(size2, max_out_size);
++    memcpy(out + size, data2, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    return  size;
 +}
 +
- static void handle_timeout(int sig)
++
+ static GString *generic_fuzz_cmdline(FuzzTarget *t)
  {
-     if (qtest_log_enabled) {
-@@ -622,6 +629,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-         [OP_WRITE]              = op_write,
-         [OP_PCI_READ]           = op_pci_read,
-         [OP_PCI_WRITE]          = op_pci_write,
-+        [OP_DISABLE_PCI]        = op_disable_pci,
-         [OP_ADD_DMA_PATTERN]    = op_add_dma_pattern,
-         [OP_CLEAR_DMA_PATTERNS] = op_clear_dma_patterns,
-         [OP_CLOCK_STEP]         = op_clock_step,
-@@ -654,6 +662,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-         }
+     GString *cmd_line = g_string_new(TARGET_NAME);
+@@ -828,6 +913,7 @@ static void register_generic_fuzz_targets(void)
+             .get_init_cmdline = generic_fuzz_cmdline,
+             .pre_fuzz = generic_pre_fuzz,
+             .fuzz = generic_fuzz,
++            .crossover = generic_fuzz_crossover
+     });
+ }
  
-         op_clear_dma_patterns(s, NULL, 0);
-+        pci_disabled = false;
- 
-         while (cmd && Size) {
-             /* Get the length until the next command or end of input */
 -- 
 2.28.0
 
