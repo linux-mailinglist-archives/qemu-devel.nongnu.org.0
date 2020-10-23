@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2562296FAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:47:10 +0200 (CEST)
-Received: from localhost ([::1]:53538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A790C296FBA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:52:57 +0200 (CEST)
+Received: from localhost ([::1]:40858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVwTN-0006ZP-PG
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:47:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44318)
+	id 1kVwYy-0004mB-OS
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:52:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwOm-0001O8-ML; Fri, 23 Oct 2020 08:42:24 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41029)
+ id 1kVwQE-0002z1-VR; Fri, 23 Oct 2020 08:43:54 -0400
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:46944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVwOi-0004NO-Ex; Fri, 23 Oct 2020 08:42:24 -0400
-Received: by mail-pf1-x443.google.com with SMTP id c20so1143854pfr.8;
- Fri, 23 Oct 2020 05:42:19 -0700 (PDT)
+ id 1kVwQC-0004V2-Ns; Fri, 23 Oct 2020 08:43:54 -0400
+Received: by mail-pf1-x434.google.com with SMTP id y14so1130964pfp.13;
+ Fri, 23 Oct 2020 05:43:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=JNQ+gmzxbuIn34M0VRwTLJO0XNoE7EW69GDWhOy9j7k=;
- b=gC+iIczjM+BEPL3ptzhyqKh6R190TUa3bs8rgd/Gr9O32KD5BOVgKBObdDbq7M6gWG
- 2LBxIoV/YTL0tQStO2gPfAZf5xMqmhnwEPD1Jt/oBB0sr7u6xRLrNRf1kDfeQydsE2m6
- 6UbkiknDWDGYDo36N9yv+o8nfVUQe0epE5jQfWeKFF3uojaXfN3zTGxMn7fj26h6TGK8
- pBUN++iq98aKBpoTYK3bN9fkHRRpr6A7TWNg4sbZXJnw5lLrQs4JHmlkcBHGgBdU6i4O
- +UzoMMlp1o7Ggc9Cfmu8IbKEXt+flZMh+c8any2/cAinG10NWBxoPvQzIo16JUA29PsM
- Bt6w==
+ bh=N71JKzU24oBuhTcmBZ9xvzyy7si6JkxguZiAOyAYpEI=;
+ b=cw4rFfgOpbOFP76c8Ivq+8AKS9jQZqCr3RhMU37wT3INkI5w1PdydrxbHFcEDEEUBQ
+ B7pVJFQvPXJMEI+/N3bsC8UroroxcgSQ9+YhRjTCaoe+s22t1mMLJuG6gIFGkon6kvs5
+ XEL6AAQS5xyoTvnXiRcBQHASoNbnA/2u0oj4TzO01gVYsVWOZHXyZ2/OfmZrISF5PBjq
+ OCqSQlxLVtohKgNcuPZjf7Oy9TIgBCjyCgX5lBHaF6Pot36s9A6fPI9ndThaDahzax/Y
+ q5o7z2UCxNq4BF1xQ7ZrYaobKQZ+9U9COm6S3kbNXAPUo7+GLqWficNLdLluRe7afem2
+ EsYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=JNQ+gmzxbuIn34M0VRwTLJO0XNoE7EW69GDWhOy9j7k=;
- b=aVcwFg3C+3iKYp8Opae8QtKQScB3QrTn6lhIOGElckTr2apmRq1QD1cIVDveSJGVCK
- y3OAikWvWQojWW861Swn/Qqi0858u5UuvXEmCYrZM//T+Z61i7/Oy/CzJt+5BUB3amY9
- Uvwi1PiEEgTIHo+72vsU57u0sgq7cVvzP8i60sN5JdaN7lDVf/Y3RxweoMTkqeM+iWXC
- AYWq1ncAhzR74BOd5af96H98R2m2aWs9gVtGaZcjSfHALtJpNgGIRFP8ISxE5gMAySCw
- N3eMgVyHROGZsendKug78UhXhq3omTqnbhnZPuNrrn/OY3Zwkb067VxHxMEA5aGnriXS
- Zqzg==
-X-Gm-Message-State: AOAM5312t2KygREcXXRoD3KVfE6xt8KR5tsxwFGA1iKGqTWpIU2PIlA4
- tdRQO4q84kQUtfSJs4HhZz7yv8anyxHEZoNT
-X-Google-Smtp-Source: ABdhPJxLQ341K5whiV2LoAR6T9CPdCA8b9BG2jR8oW5APGzNisYVewAsue4ah/TvzD8Gp+L5hnU68w==
-X-Received: by 2002:a65:67d4:: with SMTP id b20mr1847617pgs.245.1603456938213; 
- Fri, 23 Oct 2020 05:42:18 -0700 (PDT)
+ bh=N71JKzU24oBuhTcmBZ9xvzyy7si6JkxguZiAOyAYpEI=;
+ b=mpF5iiBC181r3epiCOaN9+SkxVuEEcHn/RC+tIQ1VVWh8E7k8Fu4cQN7XVlkG3cGEP
+ IrGUmRLEISa/gSq9odAwJFmzU1fmPdiG8QUVRdJzQr6/4cyH1fOxJH11DzwBQlbNo10e
+ SCGde0pvcqOH3ifddVfe+KAtU3GcYh5MJRYjOeXRPEC1zfLbCJjfJzom5X4N1gUYaeJk
+ xvD+g42VvcmH6cnXF7QISxYY2MEOzIWegUeDA4Rw7C3wxUKfnde7Ifs458RDPcl8px1r
+ WWWvKj9oK9uNuGsogoAbw94KHwWNy7EC9rweCmruW4q4OTYiTvSFso4Ga696pk9y+km+
+ IaOg==
+X-Gm-Message-State: AOAM531ub9bz0BkPsK5iASWfrma6IzVx9hEg77QaVU5/bVJxcUdBtrxw
+ e7vn8OBCFY6kG5wJhUhKYFcjiP0BZA+LLAUj
+X-Google-Smtp-Source: ABdhPJyJrcHPNwQrf8471wpkOrP6HR9J4LT4NoOQWJ1Aw4D9qcUof5Tib1n3llAdesnz18ar98Ez1w==
+X-Received: by 2002:a17:90a:6ba7:: with SMTP id
+ w36mr2304916pjj.12.1603457030503; 
+ Fri, 23 Oct 2020 05:43:50 -0700 (PDT)
 Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id n139sm2024825pfd.167.2020.10.23.05.42.15
+ by smtp.gmail.com with ESMTPSA id w5sm2060155pgf.61.2020.10.23.05.43.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:42:17 -0700 (PDT)
+ Fri, 23 Oct 2020 05:43:49 -0700 (PDT)
 From: Chetan Pant <chetan4windows@gmail.com>
 To: qemu-trivial@nongnu.org
-Subject: [PATCH 28/30] e1000e: Fix Lesser GPL version number
-Date: Fri, 23 Oct 2020 12:41:34 +0000
-Message-Id: <20201023124134.20083-1-chetan4windows@gmail.com>
+Subject: [PATCH 29/30] sparc tcg cpus: Fix Lesser GPL version number
+Date: Fri, 23 Oct 2020 12:42:35 +0000
+Message-Id: <20201023124235.20130-1-chetan4windows@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
 References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::443;
- envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x443.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -79,7 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: dmitry.fleytman@gmail.com, qemu-devel@nongnu.org,
+Cc: mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
  Chetan Pant <chetan4windows@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -91,78 +92,176 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 ---
- hw/net/e1000e.c        | 2 +-
- hw/net/e1000e_core.c   | 2 +-
- hw/net/e1000e_core.h   | 2 +-
- hw/net/e1000x_common.c | 2 +-
- hw/net/e1000x_common.h | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ target/sparc/cc_helper.c    | 2 +-
+ target/sparc/cpu.c          | 2 +-
+ target/sparc/fop_helper.c   | 2 +-
+ target/sparc/gdbstub.c      | 2 +-
+ target/sparc/helper.c       | 2 +-
+ target/sparc/int32_helper.c | 2 +-
+ target/sparc/int64_helper.c | 2 +-
+ target/sparc/ldst_helper.c  | 2 +-
+ target/sparc/mmu_helper.c   | 2 +-
+ target/sparc/translate.c    | 2 +-
+ target/sparc/vis_helper.c   | 2 +-
+ target/sparc/win_helper.c   | 2 +-
+ 12 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/net/e1000e.c b/hw/net/e1000e.c
-index b6f1ae3..a8a77ec 100644
---- a/hw/net/e1000e.c
-+++ b/hw/net/e1000e.c
-@@ -22,7 +22,7 @@
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
-+* version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index bcfd466..d8b9e4b 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -22,7 +22,7 @@
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
-+* version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/net/e1000e_core.h b/hw/net/e1000e_core.h
-index aee32f7..4ddb4d2 100644
---- a/hw/net/e1000e_core.h
-+++ b/hw/net/e1000e_core.h
-@@ -22,7 +22,7 @@
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
-+* version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
-index 717f9df..a8d9387 100644
---- a/hw/net/e1000x_common.c
-+++ b/hw/net/e1000x_common.c
-@@ -11,7 +11,7 @@
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
-+* version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
-index 19c56f4..b774277 100644
---- a/hw/net/e1000x_common.h
-+++ b/hw/net/e1000x_common.h
-@@ -11,7 +11,7 @@
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
--* version 2 of the License, or (at your option) any later version.
-+* version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/cc_helper.c b/target/sparc/cc_helper.c
+index a410a0b..7ad5b9b 100644
+--- a/target/sparc/cc_helper.c
++++ b/target/sparc/cc_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index cf21efd..701e794 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/fop_helper.c b/target/sparc/fop_helper.c
+index e6dd3fc..f54fa9b 100644
+--- a/target/sparc/fop_helper.c
++++ b/target/sparc/fop_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/gdbstub.c b/target/sparc/gdbstub.c
+index 78dc8dc..5d1e808 100644
+--- a/target/sparc/gdbstub.c
++++ b/target/sparc/gdbstub.c
+@@ -7,7 +7,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/helper.c b/target/sparc/helper.c
+index 07d87ef..c7bcaa3 100644
+--- a/target/sparc/helper.c
++++ b/target/sparc/helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/int32_helper.c b/target/sparc/int32_helper.c
+index 9a71e1a..e1c4f9f 100644
+--- a/target/sparc/int32_helper.c
++++ b/target/sparc/int32_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/int64_helper.c b/target/sparc/int64_helper.c
+index f3e7f32..ba95bf2 100644
+--- a/target/sparc/int64_helper.c
++++ b/target/sparc/int64_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index e91cfde..22327d7 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index afbfba7..a44473a 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 1a4efd4..30c73f8 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -7,7 +7,7 @@
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+-   version 2 of the License, or (at your option) any later version.
++   version 2.1 of the License, or (at your option) any later version.
+ 
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/vis_helper.c b/target/sparc/vis_helper.c
+index 8a9b763..f917e59 100644
+--- a/target/sparc/vis_helper.c
++++ b/target/sparc/vis_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/target/sparc/win_helper.c b/target/sparc/win_helper.c
+index 8290a21..5b57892 100644
+--- a/target/sparc/win_helper.c
++++ b/target/sparc/win_helper.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
 -- 
 2.17.1
 
