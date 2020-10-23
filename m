@@ -2,71 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C3CF2971F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:08:45 +0200 (CEST)
-Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2219B297207
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:13:18 +0200 (CEST)
+Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVygO-0002yO-5Z
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:08:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
+	id 1kVykn-0000UE-1v
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:13:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVydA-0001Pw-Q2
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:05:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21768)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVyd7-0006jw-A3
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:05:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603465520;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=z+WGKzV4+Sbs0xEq//8HOafTBRVoRyzD1+CnlO6EdlM=;
- b=FPSYcw2gHZuKWxQrkd/47h4YQdyQ3/CaQU1ZISxf/W+uSAP7TuzDMxSsT3u8mJ0Jlxk5Vn
- dT+f3FKrWyn+Lk0/LanQ0sKijvLrQ17qpNJb4AnQo7muV81DcqBVL3rVV4l1d9CENqUNVh
- 3ohSarKBBHsHHG7iFNoVsEGbIJcZGmA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-7O3ttrJLO9iUwgxwbv1VvQ-1; Fri, 23 Oct 2020 11:05:17 -0400
-X-MC-Unique: 7O3ttrJLO9iUwgxwbv1VvQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 438A780BCA3;
- Fri, 23 Oct 2020 15:05:16 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D294F5B4AC;
- Fri, 23 Oct 2020 15:05:15 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyfr-0003W6-Kk
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:11 -0400
+Received: from mail-dm6nam12on2109.outbound.protection.outlook.com
+ ([40.107.243.109]:44513 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kVyfp-00076m-Ut
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:08:11 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SSoPSvQSfyQ9wNjibhw5HCTZgVawK6+XG4jGjQe5lKZA5HlnVD+MMsD5SdeoBlXQVWgybqdIElk9f6A+9AsSntSpGA63LffewuSXldOqgqTCwiL52DsDuZNs9TkG2gT9A/K1AuNnRjyELhaMGYp6Bh8l4Z7xux1WHdUc+gL5FdOWqSbqbrvgKT2sxYo8u1VCzMtw4nW2Wqp/+rN0ZfA1ZyIgzISbFedoO5Im1sz0/hA0fOYjz6fcXxWjOPelpotDFUi+tfflXWgLeDHDwX+pevR9iAjb4+EIiVj04VXVwua2bqJX3ByBud8peuCN/W4TYWVdgCteU6Gle6V9HhEj+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oS+x2NyRq3SEc2lMRVqPaA/yOwChrjZZjY9J7JLnJvg=;
+ b=hU+8wfdDvr1ncTg23bsQa3kw+mL5tBwAc0GHXxrtTgZV8s+iAqFIk5SQ8G0ifBVr4AF21qAUhcK7pGWakmdlK2YWyCSFk7vs8OOYwI+tyXugUuELyE4POeTacBqdNKk4aw1Dm4b27CFO2zoTeaILXqd709bRKXwa8twVKgPbBUwYL3iX9mxUlOEjR/7koQlZuPx4ksQnNXCS+/sqwfWvlZfWTkYc+qvrlFaFC0LCzwBn4tzR34txS86CSI5CEfP3IU5yiTz5P4ZCeOJyJDZsXsNhoZwHUzfPTd53Tf901c/Synf5Sx4cgHqQkfwFRY02iwbTxb056ue/aSeeYnz70A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oS+x2NyRq3SEc2lMRVqPaA/yOwChrjZZjY9J7JLnJvg=;
+ b=1NMkVXcFEDvIwdthLiHa6cC8ndX4+5MJBmn+jAnpXwSPhsGa+XYA/lpaWfGU5jA/LEQWUODkvSDIGnBFD6zHKGKhbJ64YxQlb5WiYP8FpF1fR1FpVlzdMJAYMPlHREov9+FLnHigPov2n+1L5yV/XFR62H9azQ3J3UmAC5mqQOw=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB4368.namprd03.prod.outlook.com (2603:10b6:805:f4::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Fri, 23 Oct
+ 2020 15:07:59 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3477.028; Fri, 23 Oct 2020
+ 15:07:59 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Makefile: separate meson rerun from the rest of the ninja
- invocation
-Date: Fri, 23 Oct 2020 11:05:14 -0400
-Message-Id: <20201023150514.2734046-1-pbonzini@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Subject: [PATCH v7 01/17] memory: Add FlatView foreach function
+Date: Fri, 23 Oct 2020 11:07:30 -0400
+Message-Id: <20201023150746.107063-2-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201023150746.107063-1-alxndr@bu.edu>
+References: <20201023150746.107063-1-alxndr@bu.edu>
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [72.93.72.163]
+X-ClientProxiedBy: MN2PR01CA0065.prod.exchangelabs.com (2603:10b6:208:23f::34)
+ To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.93.72.163) by
+ MN2PR01CA0065.prod.exchangelabs.com (2603:10b6:208:23f::34) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Fri, 23 Oct 2020 15:07:58 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 45e1f9b7-81f4-42f2-d627-08d877656dc1
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4368:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB4368EEDA995D4035282948B7BA1A0@SN6PR03MB4368.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2657;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: e/HUf5BlVBggLXvLPH/afUjPGRVsjyb4O7PAw+q4LVrjjZUDzY6biSSI+/VC3WEUqsO93cyg1Y3qkOJAonaHrkTu19UX+1VwLMUZiduHPTXNCyaH1eNSKZ+EM1IeIFnkHaka6NEDge0KUVOlMMNJzZ4MaUxkQc/Ux2wKEcpPpf7cRoGzTJgiUooFyQymWRi6vRUpTY3bWewdnhwzvTeY8etJIn140FN+y8mQ/CJ5RtjYQeY1+kuqtPxixWMNaoI8IL0Qei0erIQQ6FzJ3bDt1o9Rf3FmaVGuXfM42UvGY7QChAv0fK/rXGGdO8flYMYaN7kSORwOEk7rloCLUK5gQQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39860400002)(136003)(366004)(376002)(396003)(346002)(478600001)(956004)(8676002)(1076003)(186003)(26005)(316002)(6486002)(16526019)(8936002)(75432002)(6506007)(786003)(6916009)(86362001)(66946007)(66556008)(66476007)(6666004)(2616005)(36756003)(52116002)(5660300002)(6512007)(4326008)(2906002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: +7EqVMLmcUBSYVFAtGW6HO+uhYspjcpVm3t52MCxqhJExWAGrng9XV2l1LAFpw5IE5/m/g7P1YBSoVwnKpUQmlRRjo9DBj82jY1FCY1vpfUjk1CoLMFHq2rHyvZrOgaAY+RJv7DThwgDU/SLoh2EU3NSrBtdj7wsDx4uVXZOtM3DQSteCOL7DNHwPHcqdsHNGPLVJV7B5OjRmv4yjLiNvEZqmri5Bv+oerBffO5EC1z7AGpjrJLlPlspQkQayCnC6U6CxiPdIDSFt2y6XqABgJ11fbmmW/HSqg3qJghQ2g8das6IfowwTX+eg4tQvGy2U+99oMoGdB2lWQKvZN+2lIDwVY9tNEn+nCPg1iXnKypZrCgHKYMvOe/vxgL3elWRkxFbCEeIzFDUp7OXy/1ziY+E1xzMXTXR5dN3PMhhx+UUv1RqBnIHic8fkdWfWvNuxIeLi8/CJYFPD+ff9E7Q/6LPPA+OsftNsqGLwLeLP5zZLCNRgkhFffAnjJsQhsZ5Hg/Z02GXW/8lr2VGp0gTHAqguFOylFJHBUMpDaVoUAnvc17X6dxyGvvb/QAE6CvaT3o4KsgDjoLAS6vPx8z06zV7+IDrGQcZahMGvMHVdbB+FSJEtGnF3JgivVaVtsTXDmBcbXSWlsHXVb1f0Sp72w==
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45e1f9b7-81f4-42f2-d627-08d877656dc1
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2020 15:07:59.2105 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z3Q7njSRBRj0qTvlxYARhK6EpGg6KxqDc3USQz+Kaw0ioqOgXiXF7Mi+ubuYvbd3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4368
+Received-SPF: pass client-ip=40.107.243.109; envelope-from=alxndr@bu.edu;
+ helo=NAM12-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:08:08
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.63,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,119 +112,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Havard Skinnemoen <hskinnemoen@gmail.com>
+Cc: thuth@redhat.com, Alexander Bulekov <alxndr@bu.edu>, f4bug@amsat.org,
+ darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The rules to build Makefile.mtest are suffering from the "tunnel vision"
-problem that is common with recursive makefiles.  Makefile.mtest depends
-on build.ninja, but Make does not know when build.ninja needs to be
-rebuilt before creating Makefile.mtest.
-
-To fix this, separate the ninja invocation into the "regenerate build
-files" phase and the QEMU build phase.  Sentinel files such as
-meson-private/coredata.dat or build.ninja are used to figure out the
-phases that haven't run yet; however, because those files' timestamps
-are not guaranteed to be touched, the usual makefile stamp-file trick
-is used on top.
-
-Reported-by: Havard Skinnemoen <hskinnemoen@gmail.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- Makefile | 42 +++++++++++++++++++++++++++++++-----------
- 1 file changed, 31 insertions(+), 11 deletions(-)
+ include/exec/memory.h |  5 +++++
+ softmmu/memory.c      | 13 +++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 18f026eac3..007ad4d863 100644
---- a/Makefile
-+++ b/Makefile
-@@ -92,6 +92,8 @@ endif
- ifeq ($(NINJA),)
- .PHONY: config-host.mak
- x := $(shell rm -rf meson-private meson-info meson-logs)
-+else
-+export NINJA
- endif
- ifeq ($(wildcard build.ninja),)
- .PHONY: config-host.mak
-@@ -100,31 +102,46 @@ endif
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 622207bde1..042918dd16 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -719,6 +719,11 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+     return qatomic_rcu_read(&as->current_map);
+ }
  
- # 1. ensure config-host.mak is up-to-date
- config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
--	@echo $@ is out-of-date, running configure
-+	@echo config-host.mak is out-of-date, running configure
- 	@if test -f meson-private/coredata.dat; then \
- 	  ./config.status --skip-meson; \
- 	else \
--	  ./config.status; \
-+	  ./config.status && touch build.ninja.stamp; \
- 	fi
- 
--# 2. ensure generated build files are up-to-date
-+# 2. meson.stamp exists if meson has run at least once (so ninja reconfigure
-+# works), but otherwise never needs to be updated
-+meson-private/coredata.dat: meson.stamp
-+meson.stamp: config-host.mak
-+	@touch meson.stamp
++typedef int (*flatview_cb)(Int128 start,
++                           Int128 len,
++                           const MemoryRegion*, void*);
 +
-+# 3. ensure generated build files are up-to-date
++void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque);
  
--ifneq ($(NINJA),)
- # A separate rule is needed for Makefile dependencies to avoid -n
--export NINJA
-+ifneq ($(MESON),)
-+build.ninja: build.ninja.stamp
-+build.ninja.stamp: meson.stamp
-+	$(NINJA) $(if $V,-v,) reconfigure && touch $@
-+endif
+ /**
+  * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 403ff3abc9..a5d1641820 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -656,6 +656,19 @@ static void render_memory_region(FlatView *view,
+     }
+ }
+ 
++void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
++{
++    FlatRange *fr;
 +
-+ifneq ($(NINJA),)
- Makefile.ninja: build.ninja
--	$(quiet-@){ echo 'ninja-targets = \'; $(NINJA) -t targets all | sed 's/:.*//; $$!s/$$/ \\/'; } > $@
-+	$(quiet-@){ \
-+	  echo 'ninja-targets = \'; \
-+	  $(NINJA) -t targets all | sed 's/:.*//; $$!s/$$/ \\/'; \
-+	  echo 'build-files = \'; \
-+	  $(NINJA) -t query build.ninja | sed -n '1,/^  input:/d; /^  outputs:/q; s/$$/ \\/p'; \
-+	} > $@.tmp && mv $@.tmp $@
- -include Makefile.ninja
- endif
- 
- ifneq ($(MESON),)
--# The dependency on config-host.mak ensures that meson has run
--Makefile.mtest: build.ninja scripts/mtest2make.py config-host.mak
-+Makefile.mtest: build.ninja scripts/mtest2make.py
- 	$(MESON) introspect --targets --tests --benchmarks | $(PYTHON) scripts/mtest2make.py > $@
- -include Makefile.mtest
- endif
- 
--# 3. Rules to bridge to other makefiles
-+# 4. Rules to bridge to other makefiles
- 
- ifneq ($(NINJA),)
- NINJAFLAGS = $(if $V,-v,) \
-@@ -135,7 +152,10 @@ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
- ninja-cmd-goals += $(foreach t, $(.tests), $(.test.deps.$t))
- 
- makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
--ninja-targets := $(filter-out $(makefile-targets), $(ninja-targets))
-+# "ninja -t targets" also lists all prerequisites.  If build system
-+# files are marked as PHONY, however, Make will always try to execute
-+# "ninja reconfigure" to rebuild build.ninja.
-+ninja-targets := $(filter-out $(build-files) $(makefile-targets), $(ninja-targets))
- .PHONY: $(ninja-targets) run-ninja
- $(ninja-targets): run-ninja
- 
-@@ -214,7 +234,7 @@ distclean: clean
- 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
- 	rm -f *-config-target.h *-config-devices.mak *-config-devices.h
- 	rm -rf meson-private meson-logs meson-info compile_commands.json
--	rm -f Makefile.ninja Makefile.mtest
-+	rm -f Makefile.ninja Makefile.mtest build.ninja.stamp meson.stamp
- 	rm -f config.log
- 	rm -f linux-headers/asm
- 	rm -Rf .sdk
++    assert(fv);
++    assert(cb);
++
++    FOR_EACH_FLAT_RANGE(fr, fv) {
++        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
++            break;
++    }
++}
++
+ static MemoryRegion *memory_region_get_flatview_root(MemoryRegion *mr)
+ {
+     while (mr->enabled) {
 -- 
-2.26.2
+2.28.0
 
 
