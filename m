@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA7B296DD2
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:38:47 +0200 (CEST)
-Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61AD2296DEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 13:49:13 +0200 (CEST)
+Received: from localhost ([::1]:42278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVvPC-0008Ka-BA
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55048)
+	id 1kVvZI-0004Hp-D3
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 07:49:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kVvMq-0006Tr-Hd
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:36:20 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:37432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kVvMo-00024a-61
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:36:20 -0400
-Received: by mail-ed1-x542.google.com with SMTP id o18so1216788edq.4
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 04:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jfXHH5WuqJm+72/h8E93hQ4Ys/i5xCqPEgRGw9GYTnI=;
- b=fDWLpd/nAqfyreCQzwVUXf2WOmv/qPLmzP77ulIhc+NjSgFsUV3zysfltr1haBwty3
- hMqS3MphPUl/2zuVg9jhTV9wWUj0QDnabVn/C9/DQqM3ajBREyB+uz2s3fVhbXyqjXrt
- UqC8QngT3Wq5KQ7Ypnt9gPrQjIxRIKyuRZgvYc/l38LANdEY2XnZhizbC27jdCuyU2Fq
- xK8KQEfix1spJt/ZY1l7FosvjBcs19ExVSxCJ62FCTvsA8VcoEwifdCx7/C7u2Xifo98
- cjgGxoToALtIjtH9/NwKqjU+kff2FAKJaVKBvAFZfoJqvNUCk0mWlnJsQXA1t4v6Qm9C
- 8dbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jfXHH5WuqJm+72/h8E93hQ4Ys/i5xCqPEgRGw9GYTnI=;
- b=Mw7rWgRDrT4QLurL35BnPRMuAVy9kdFwLrbgL0Vd/UJJL8fzjfdYRyB2Q9O0xlFPnz
- DneuWTJpDVoD2OTbeUjFUA4PuHaDfvp40ZaoONy1UZd/lpaGNO5Yh8ifOCU/8+k27OKY
- t5j0SCQoI1V+T94l+tMerXSRo0vFeTt01liMiKEvV3d3jd4f+84k0DgbSn8huls468Jc
- ZX5MCIpEKFvaSuwec/D+4Qvw08s/ha5YCKqV3DmJr2Nhz6Ufo5QAIB7P+dQNw49pEq3F
- jlA5XA9E46ybQWzH5Ck5xGURIp/hgOWnbVt2WXd+A2M8jEuFY/Z8Upk4RKR8FnY54FYW
- crAQ==
-X-Gm-Message-State: AOAM533UOVLYSLBS4GBYMV92V7zUfipb7QULG0DA/0FyVT11ltBpqePO
- tKHzL6piRCZzvf6q9Ikd/yTKAARg1efFBuqOGxsQQQ==
-X-Google-Smtp-Source: ABdhPJylhrISR29vZ52L+gYRFEtEies0qFQu33TsTrk9ls2T3xhhLlBmhieqwVfJ/4rkUIHm8uuVtB4nrAjYqnAFEps=
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr1684811edq.146.1603452976330; 
- Fri, 23 Oct 2020 04:36:16 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kVvWC-0002q8-OT
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:46:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47526)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kVvWA-0004Ba-El
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 07:46:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603453556;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/n3GyqthkNT9ARJ6I1uP87NUnvZ2LcSztobR3wNcDI0=;
+ b=PsZT0UJSj+mkFTVDTZ8mjnPekyCQkRi+uqSk6kVrh0e/BkPJZrniwoX42B6Tt4Dy1q3fpG
+ eneABtktSZKrGuBARlxXnQJGbY18Sxf3hbKrMmla6Yy672652Raqm9LIMhxHUnQOKPOt5G
+ K6PuaWWkt62Gfw8R1+KHeOSBh647DVw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-110-LIUMc4eHPF6JOH-XYZicFg-1; Fri, 23 Oct 2020 07:45:54 -0400
+X-MC-Unique: LIUMc4eHPF6JOH-XYZicFg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 063601009E21;
+ Fri, 23 Oct 2020 11:45:52 +0000 (UTC)
+Received: from gondolin (ovpn-112-221.ams2.redhat.com [10.36.112.221])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2578D55775;
+ Fri, 23 Oct 2020 11:45:39 +0000 (UTC)
+Date: Fri, 23 Oct 2020 13:45:37 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v28 06/17] vfio: Add migration state change notifier
+Message-ID: <20201023134537.103db694.cohuck@redhat.com>
+In-Reply-To: <1603449643-12851-7-git-send-email-kwankhede@nvidia.com>
+References: <1603449643-12851-1-git-send-email-kwankhede@nvidia.com>
+ <1603449643-12851-7-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-References: <20201023071022.24916-1-kraxel@redhat.com>
-In-Reply-To: <20201023071022.24916-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 23 Oct 2020 12:36:05 +0100
-Message-ID: <CAFEAcA-gEeHUJtuF9CX4XhXh6dnANNut-TJWz0nM8obAmMa3yA@mail.gmail.com>
-Subject: Re: [PATCH 0/8] arm/virt: add usb support
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com,
+ dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 at 08:10, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> Bring new microvm goodies to arm virt too.  Wire up
-> -machine usb=on, add sysbus-xhci in case it is enabled.
+On Fri, 23 Oct 2020 16:10:32 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-So my question here is the usual one -- why can't we
-just use a PCI USB controller ?
+> Added migration state change notifier to get notification on migration state
+> change. These states are translated to VFIO device state and conveyed to
+> vendor driver.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/migration.c           | 28 ++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |  1 +
+>  include/hw/vfio/vfio-common.h |  2 ++
+>  3 files changed, 31 insertions(+)
 
-thanks
--- PMM
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+
 
