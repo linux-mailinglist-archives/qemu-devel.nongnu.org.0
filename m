@@ -2,58 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A0D2971F3
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:08:58 +0200 (CEST)
-Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7AE32971F1
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:08:11 +0200 (CEST)
+Received: from localhost ([::1]:35338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVygb-0003O4-BB
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:08:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52606)
+	id 1kVyfq-0002WU-Jz
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:08:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1kVyc6-0000nC-SB; Fri, 23 Oct 2020 11:04:19 -0400
-Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18]:58322)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1kVyc2-0006Yy-AX; Fri, 23 Oct 2020 11:04:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9GPSaTdOaQSSNugLLXIHZmdo7eSAbYWd69+h8xZWBgQ=; b=N5vQRgQd1jQ8kJnBXxljfw333T
- nn5ID66RssELKrA9u6rnUxFDJeuQmiwZzvpjCiWWZhi5EDyle/z4+UnTPBHspx9Bhr0FiFd4cs5Tb
- P1DrJ+Gyw/Rxo1rkVuON6Z3J/xgr3yFsRVaqwn7w69Ym+ncLvTXDUM99IsNV2YaWRVo4=;
-Date: Fri, 23 Oct 2020 17:04:06 +0200
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: Chetan Pant <chetan4windows@gmail.com>
-Subject: Re: [PATCH 13/30] tricore tcg cpus: Fix Lesser GPL version number
-Message-ID: <20201023150406.225urj4k4ttirsae@schnipp-desktop>
-References: <20201014134248.14146-1-chetan4windows@gmail.com>
- <20201023122157.19321-1-chetan4windows@gmail.com>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kVyci-00012f-Vn
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:04:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kVycb-0006bv-96
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:04:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603465484;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=909Gfe4u8PCGeTj+SdqtzMct+iP9Q+E+HPx6e5qbeNM=;
+ b=bS3lQWemiSF8UuHH5vIpqadtuE8Rabx8c/a75J3lW38VsI+TgUpB8cp5+TW3TLuUmVuZvc
+ j+jNFKGFvx0UhreiRPzajxpQD2xJ6u938l17OMjogef7CZkGBYUGM2bftrO1XNXFh3wPFr
+ 6BD2zAaoPqQXRBAdaFBgvbOsz7B9YkE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-oyiyJGtsMJOt93BF7xH5Zw-1; Fri, 23 Oct 2020 11:04:43 -0400
+X-MC-Unique: oyiyJGtsMJOt93BF7xH5Zw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 241CE804B71
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 15:04:42 +0000 (UTC)
+Received: from work-vm (ovpn-113-212.ams2.redhat.com [10.36.113.212])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE19E1002C03;
+ Fri, 23 Oct 2020 15:04:31 +0000 (UTC)
+Date: Fri, 23 Oct 2020 16:04:29 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v3 2/5] tools/virtiofsd: xattr name mappings: Map client
+ xattr names
+Message-ID: <20201023150429.GF3038@work-vm>
+References: <20201014180209.49299-1-dgilbert@redhat.com>
+ <20201014180209.49299-3-dgilbert@redhat.com>
+ <20201022152853.GC512900@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201022152853.GC512900@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201023122157.19321-1-chetan4windows@gmail.com>
-X-IMT-Spam-Score: 0.0 ()
-X-Sophos-SenderHistory: ip=2a02:908:2214:e5bc::95d, fs=19102831, da=91074512,
- mc=375, sc=3, hc=372, sp=0, fso=19102831, re=0, sd=0, hd=0
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2020.10.23.145717, AntiVirus-Engine: 5.77.0,
- AntiVirus-Data: 2020.10.20.5770002
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
-Received-SPF: pass client-ip=2001:638:502:c003::18;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,21 +83,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
+Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
+ stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 23, 2020 at 12:21:57PM +0000, Chetan Pant wrote:
-> There is no "version 2" of the "Lesser" General Public License.
-> It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-> This patch replaces all occurrences of "Lesser GPL version 2" with
-> "Lesser GPL version 2.1" in comment section.
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> On Wed, Oct 14, 2020 at 07:02:06PM +0100, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Map xattr names originating at the client; from get/set/remove xattr.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 101 ++++++++++++++++++++++++++++++-
+> >  1 file changed, 98 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index f5a33014f9..57ebe17ed6 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -2183,20 +2183,80 @@ static XattrMapEntry *parse_xattrmap(struct lo_data *lo)
+> >      return res;
+> >  }
+> >  
+> > -static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
+> > +/*
+> > + * For use with getxattr/setxattr/removexattr, where the client
+> > + * gives us a name and we may need to choose a different one.
+> > + * Allocates a buffer for the result placing it in *out_name.
+> > + *   If there's no change then *out_name is not set.
+> > + * Returns 0 on success
+> > + * Can return -EPERM to indicate we block a given attribute
+> > + *   (in which case out_name is not allocated)
+> > + * Can return -ENOMEM to indicate out_name couldn't be allocated.
+> > + */
+> > +static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+> > +                            char **out_name)
+> > +{
+> > +    const XattrMapEntry *cur_entry;
+> > +
+> > +    for (cur_entry = lo->xattr_map_list; ; cur_entry++) {
+> > +        if ((cur_entry->flags & XATTR_MAP_FLAG_CLIENT) &&
+> > +            (strstart(client_name, cur_entry->key, NULL))) {
+> > +            if (cur_entry->flags & XATTR_MAP_FLAG_END_BAD) {
+> > +                return -EPERM;
+> > +            }
+> > +            if (cur_entry->flags & XATTR_MAP_FLAG_END_OK) {
+> > +                /* Unmodified name */
+> > +                return 0;
+> > +            }
+> > +            if (cur_entry->flags & XATTR_MAP_FLAG_PREFIX) {
 > 
-> Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-> ---
+> I am wondering why do have "END" substring in BAD and OK flags while
+> we don't have one in PREFIX flag. IOW, why not simply call these
+> flags as XATTR_MAP_FLAG_OK and XATTR_MAP_FLAG_BAD respectively.
 
-Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+OK, the END_'s have gone.
 
-Cheers,
-Bastian
+> > +                *out_name = g_try_malloc(strlen(client_name) +
+> > +                                         strlen(cur_entry->prepend) + 1);
+> 
+> Should we check for cur_entry->prepend to be NULL before we try to
+> allocate out_name. One could say.
+> 
+> "prefix:client:trusted.::". In that case we are not supposed to prefix
+> anything?
+
+We shouldn't need to do the NULL check; cur_entry->prepend should = ""
+in that case, not NULL.
+
+Dave
+
+
+> > +                if (!*out_name) {
+> > +                    return -ENOMEM;
+> > +                }
+> > +                sprintf(*out_name, "%s%s", cur_entry->prepend, client_name);
+> > +                return 0;
+> > +            }
+> > +        }
+> > +    }
+> > +
+> > +    /* Shouldn't get here - rules should have an END_* */
+> > +    abort();
+> > +}
+> 
+> Thanks
+> Vivek
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
