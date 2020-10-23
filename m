@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2CA4297452
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:36:05 +0200 (CEST)
-Received: from localhost ([::1]:34296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09D4F2974C7
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:41:13 +0200 (CEST)
+Received: from localhost ([::1]:49644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW02u-00050Q-Mo
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:36:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37420)
+	id 1kW07s-0002ss-3g
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:41:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFz-00032F-6w; Fri, 23 Oct 2020 11:45:32 -0400
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:6193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVzFu-0003ka-1n; Fri, 23 Oct 2020 11:45:30 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603467926; x=1635003926;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=jda6uFyOihTzKaAVgRYuX/hf6RU8mxfJGD/+tT4Ywhs=;
- b=rza2IUJLWd7pRBQyH7EtDkHBEOZLmZyqavSOcLoLAVEanu4rae7MOBF0
- vBVfBE7Dci2TjFk8ewQmEAwT8849S5Kr3U19tanWU3urP97C8FpceEjO9
- cbg6xoPZ7tIlYh6M/KfjJc4fW8FcvPOIGLNDl8J0FUcmWfAPC8zPppSfO
- /vmUBPshuoYnkDYrgI3JwK4EXY2xF7YTbgIfPLEJIAnE/WCIn1EaRsTYv
- 2cpmqpjFu6YdsXo6RBoiwUXtH89k8xB9qBRmFpzwbnpg90wZrznQ8h2GZ
- ilc1LYvwq5neiV0DqEdrFOW1FrNxn3gD3xpVO8WRg3AodcBBrApdFdgaG Q==;
-IronPort-SDR: gzy9iNYFddtqeyYnTOAIqiUQ9WCu3nYP9qv3DZSz+PyEpjOtI9OpmsFCOpuM0sMntXTReflH15
- DdoGs1aFtsoNIvFo7lpQhhwsXUaM/6b9hwnDfL/X7ErZVG8AtMmyBt/ykwsTpRMP7Y4Z2VOgGC
- +EP/55XM9Y3PfebuVkiJNa8p98Z5Fzl0QdvHjerzfHBMERdYS3CaR+aeYGiBY1Y5lWltFoKifg
- JKq1DY4zF3DtHlaPXXztgfZfXizB3Wq8lSEEnjH4zB3R/AgpfTS2MhTHDQzAZrYPmAhbHPoM4e
- E8c=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="151960182"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:45:18 +0800
-IronPort-SDR: izfu8yR+CLTCf0+zAqdC9ltaSufhP6UBPEw9F/ECVp8ivsxNZca8AN7o91ebhrorAWNHDa2dMB
- /7Tt/tt9+eiE76+MJjFgrFmSlkMNa7RpRDCEfl0LK/LMJ5jqVfpV5rTEBuFrRR7F2z+PoadfYq
- bGbGI8GVKP+teMtyTB1oG//VOOYS3Qou2U56v71bU1TDUZ18ty2WR6xA2srFLVyw3QOHc94Fax
- /OUMXSUhcAHiW+R/pWkO0SjkfziuCVQg8WrdZZKszimK8C6irmiBOHz2qbWzqD3hX7/UEoiSry
- SqMmBMUnDgfTOKaPX601eRyo
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:31:40 -0700
-IronPort-SDR: XzTyfU6IdPRk8is2Opukr4FD1ubWonGCfqPowhLY67Hq5q8wb+BRjZvC06hJ0d4QobB3/xNV2j
- 6RM6SFbx7dmxFZorA/N5juzmKolh35xgLfEDNghR8AXfB3C6SF5SohL3Z8J37YBwTHAltcc9vw
- XfiYeCmpb1vyqC9We7W1U87vNPCqKvLriuHg8LJCIdsF3dmkyqr7Q35hRUv1xEoMs93fcTAOYx
- kb9Yjc2N0nEcpVKP6kKb+lwe8DaK90VU5dlfqUFmp71+u15/CPnfpWq18aK17OpRKConLiznLG
- xA4=
-WDCIronportException: Internal
-Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.60.46])
- by uls-op-cesaip01.wdc.com with ESMTP; 23 Oct 2020 08:45:17 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v1 16/16] target/riscv: Consolidate *statush registers
-Date: Fri, 23 Oct 2020 08:33:56 -0700
-Message-Id: <ce9e33fdd36df39878df6657ecdc10e42c629b85.1603467169.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1603467169.git.alistair.francis@wdc.com>
-References: <cover.1603467169.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kVzHy-0004ys-3K; Fri, 23 Oct 2020 11:47:34 -0400
+Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:37529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kVzHv-0004Az-UZ; Fri, 23 Oct 2020 11:47:33 -0400
+Received: by mail-io1-xd42.google.com with SMTP id q25so2323382ioh.4;
+ Fri, 23 Oct 2020 08:47:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Q0zhBuJwVfaqWFxVDvRV6NmbWfYwQwjqyLOvb6HnaOo=;
+ b=BPXWEqqwSKCrYmOPf2dmlb/NdjOA+3/T1KBwcxXbKvrezDVt/U6Rwey1JIg0LSqFPR
+ fiELqCyuIvHWp8z9qz0laUB7UvsodIWIq3d4Rmnzr2INwP6UdgQqFMjtgwnAmK3pviLc
+ 2rBl5H3jo1+8Rh9biHM3QFTPRN3P3bsWti1hMu3lhgCnYKHXJqa8h0btcOe0oJb6Rkop
+ fQdUqMAZoSmNBX/tq5/sv15i63ZkkafBycmEYnxP+hj6R6axV1qMpT6rLDuBA4mD+P3k
+ W2hiT4eDMMs/ZrKqdeq5QNee3BgnaMUjVr1S9tykskJQka7LYYx08cL22QJuXMqz9cDd
+ 4GUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Q0zhBuJwVfaqWFxVDvRV6NmbWfYwQwjqyLOvb6HnaOo=;
+ b=R1MVDbiFuAiIxpF68vOLjEdCbKF+zwVdmCqisDapXWCsQRGvieU4JKpCkgMefAsrGC
+ HpAE8Tg0VoKFIaLPw2UzTkgRT0viAs39z25zAPPQEUthHu7Oe7+cN41IEUn4QKx6axsN
+ vMjmWmU2muQ9giWNNI3Exq7YY6SqxZXVqj5Jc73n5yCWF6nOd3bD06TUzNSwG+B+WccK
+ sIhORNX/XFdckMyrKgAIijju5qtx4kJlwMWf3bQX9o/YAcPcHE33bRdJDaN8EmVx2Pgv
+ VaTBIWUL226tkAF3gIfftzH4QSwg5m5qyT8jRIWjxvcBStKKUeo5mDIyFpJQ84ianP6d
+ Z4gA==
+X-Gm-Message-State: AOAM533EGbw6ta3bsP18fM3CZBg1TTPamsjdS/0+/s5C+nNXI3afMl7A
+ UdgR4lt9ybv8+Pv+cdO/FA3lRF3LAC4JpDlUa8k=
+X-Google-Smtp-Source: ABdhPJw3usEvnAShsrwsaSGjnr7oHPjh0r00VfbjESsA//+BSur0QqlIQyc1UMWcLOwlejxXM1TufgcvT11xjQ21BuE=
+X-Received: by 2002:a05:6638:1696:: with SMTP id
+ f22mr2586337jat.8.1603468050333; 
+ Fri, 23 Oct 2020 08:47:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=558518344=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:44:34
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20201021170842.25762-1-alex.bennee@linaro.org>
+ <20201021170842.25762-3-alex.bennee@linaro.org>
+In-Reply-To: <20201021170842.25762-3-alex.bennee@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 23 Oct 2020 08:35:43 -0700
+Message-ID: <CAKmqyKNdUQ4cEOzm4Ldd9nyPkiALktz-m0YKAo+vtkn4t8QcOg@mail.gmail.com>
+Subject: Re: [PATCH v1 2/4] hw/riscv: migrate fdt field to generic MachineState
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,297 +81,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: julien@xen.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Masami Hiramatsu <masami.hiramatsu@linaro.org>, andre.przywara@arm.com,
+ stefano.stabellini@linaro.org,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Takahiro Akashi <takahiro.akashi@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Alistair Francis <Alistair.Francis@wdc.com>, stefano.stabellini@xilinx.com,
+ "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/cpu.h        | 24 ++++++++++++++---------
- target/riscv/cpu_bits.h   | 14 ++-----------
- target/riscv/cpu.c        |  7 ++-----
- target/riscv/cpu_helper.c | 41 ++++++++++-----------------------------
- target/riscv/csr.c        | 15 ++++++++------
- target/riscv/op_helper.c  | 11 ++++-------
- 6 files changed, 42 insertions(+), 70 deletions(-)
+On Wed, Oct 21, 2020 at 10:13 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+>
+> This is a mechanical change to make the fdt available through
+> MachineState.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 8bde15544d..de864a947b 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -150,9 +150,11 @@ struct CPURISCVState {
-     target_ulong resetvec;
- 
-     target_ulong mhartid;
--    target_ulong mstatus;
--    /* This is RV32 only */
--    target_ulong mstatush;
-+    /*
-+     * For RV32 this is 32-bit mstatus and 32-bit mstatush.
-+     * For RV64 this is a 64-bit mstatus.
-+     */
-+    uint64_t mstatus;
- 
-     target_ulong mip;
- 
-@@ -187,15 +189,17 @@ struct CPURISCVState {
-     uint64_t htimedelta;
- 
-     /* Virtual CSRs */
--    target_ulong vsstatus;
-     target_ulong vstvec;
-     target_ulong vsscratch;
-     target_ulong vsepc;
-     target_ulong vscause;
-     target_ulong vstval;
-     target_ulong vsatp;
--    /* This is RV32 only */
--    target_ulong vsstatush;
-+    /*
-+     * For RV32 this is 32-bit mstatus and 32-bit mstatush.
-+     * For RV64 this is a 64-bit mstatus.
-+     */
-+    uint64_t vsstatus;
- 
-     target_ulong mtval2;
-     target_ulong mtinst;
-@@ -207,9 +211,11 @@ struct CPURISCVState {
-     target_ulong scause_hs;
-     target_ulong stval_hs;
-     target_ulong satp_hs;
--    target_ulong mstatus_hs;
--    /* This is RV32 only */
--    target_ulong mstatush_hs;
-+    /*
-+     * For RV32 this is 32-bit mstatus and 32-bit mstatush.
-+     * For RV64 this is a 64-bit mstatus.
-+     */
-+    uint64_t mstatus_hs;
- 
-     target_ulong scounteren;
-     target_ulong mcounteren;
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index db46739b1c..4b75d2766e 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -381,19 +381,9 @@
- #define MSTATUS_TVM         0x00100000 /* since: priv-1.10 */
- #define MSTATUS_TW          0x20000000 /* since: priv-1.10 */
- #define MSTATUS_TSR         0x40000000 /* since: priv-1.10 */
--#if defined(TARGET_RISCV64)
--#define MSTATUS_GVA         0x4000000000ULL
--#define MSTATUS_MPV         0x8000000000ULL
--#elif defined(TARGET_RISCV32)
--#define MSTATUS_GVA         0x00000040
--#define MSTATUS_MPV         0x00000080
--#endif
- 
--#ifdef TARGET_RISCV32
--# define MSTATUS_MPV_ISSET(env)  get_field(env->mstatush, MSTATUS_MPV)
--#else
--# define MSTATUS_MPV_ISSET(env)  get_field(env->mstatus, MSTATUS_MPV)
--#endif
-+#define MSTATUS_GVA      0x4000000000ULL
-+#define MSTATUS_MPV      0x8000000000ULL
- 
- #define MSTATUS64_UXL       0x0000000300000000ULL
- #define MSTATUS64_SXL       0x0000000C00000000ULL
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c77687ccb2..74c5ac5777 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -245,13 +245,10 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "pc      ", env->pc);
- #ifndef CONFIG_USER_ONLY
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mhartid ", env->mhartid);
--    qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatus ", env->mstatus);
--    if (riscv_cpu_is_32bit(env)) {
--        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mstatush ", env->mstatush);
--    }
-+    qemu_fprintf(f, " %s %016lx\n", "mstatus ", env->mstatus);
-     if (riscv_has_ext(env, RVH)) {
-         qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "hstatus ", env->hstatus);
--        qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "vsstatus ", env->vsstatus);
-+        qemu_fprintf(f, " %s %016lx\n", "vsstatus ", env->vsstatus);
-     }
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mip     ", env->mip);
-     qemu_fprintf(f, " %s " TARGET_FMT_lx "\n", "mie     ", env->mie);
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 62aed24feb..b109529ace 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -110,27 +110,19 @@ bool riscv_cpu_fp_enabled(CPURISCVState *env)
- 
- void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
- {
--    target_ulong mstatus_mask = MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
--                                MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE;
-+    uint64_t mstatus_mask = MSTATUS_MXR | MSTATUS_SUM | MSTATUS_FS |
-+                            MSTATUS_SPP | MSTATUS_SPIE | MSTATUS_SIE |
-+                            MSTATUS64_UXL;
-     bool current_virt = riscv_cpu_virt_enabled(env);
- 
-     g_assert(riscv_has_ext(env, RVH));
- 
--#if defined(TARGET_RISCV64)
--    mstatus_mask |= MSTATUS64_UXL;
--#endif
--
-     if (current_virt) {
-         /* Current V=1 and we are about to change to V=0 */
-         env->vsstatus = env->mstatus & mstatus_mask;
-         env->mstatus &= ~mstatus_mask;
-         env->mstatus |= env->mstatus_hs;
- 
--        if (riscv_cpu_is_32bit(env)) {
--            env->vsstatush = env->mstatush;
--            env->mstatush |= env->mstatush_hs;
--        }
--
-         env->vstvec = env->stvec;
-         env->stvec = env->stvec_hs;
- 
-@@ -154,11 +146,6 @@ void riscv_cpu_swap_hypervisor_regs(CPURISCVState *env)
-         env->mstatus &= ~mstatus_mask;
-         env->mstatus |= env->vsstatus;
- 
--        if (riscv_cpu_is_32bit(env)) {
--            env->mstatush_hs = env->mstatush;
--            env->mstatush |= env->vsstatush;
--        }
--
-         env->stvec_hs = env->stvec;
-         env->stvec = env->vstvec;
- 
-@@ -729,7 +716,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     if (riscv_has_ext(env, RVH) && env->priv == PRV_M &&
-         access_type != MMU_INST_FETCH &&
-         get_field(env->mstatus, MSTATUS_MPRV) &&
--        MSTATUS_MPV_ISSET(env)) {
-+        get_field(env->mstatus, MSTATUS_MPV)) {
-         riscv_cpu_set_two_stage_lookup(env, true);
-     }
- 
-@@ -801,7 +788,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     if (riscv_has_ext(env, RVH) && env->priv == PRV_M &&
-         access_type != MMU_INST_FETCH &&
-         get_field(env->mstatus, MSTATUS_MPRV) &&
--        MSTATUS_MPV_ISSET(env)) {
-+        get_field(env->mstatus, MSTATUS_MPV)) {
-         riscv_cpu_set_two_stage_lookup(env, false);
-     }
- 
-@@ -864,7 +851,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-     bool force_hs_execp = riscv_cpu_force_hs_excep_enabled(env);
--    target_ulong s;
-+    uint64_t s;
- 
-     /* cs->exception is 32-bits wide unlike mcause which is XLEN-bits wide
-      * so we mask off the MSB and separate into trap type and cause.
-@@ -997,18 +984,10 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-             if (riscv_cpu_virt_enabled(env)) {
-                 riscv_cpu_swap_hypervisor_regs(env);
-             }
--            if (riscv_cpu_is_32bit(env)) {
--                env->mstatush = set_field(env->mstatush, MSTATUS_MPV,
--                                           riscv_cpu_virt_enabled(env));
--                if (riscv_cpu_virt_enabled(env) && tval) {
--                    env->mstatush = set_field(env->mstatush, MSTATUS_GVA, 1);
--                }
--            } else {
--                env->mstatus = set_field(env->mstatus, MSTATUS_MPV,
--                                          riscv_cpu_virt_enabled(env));
--                if (riscv_cpu_virt_enabled(env) && tval) {
--                    env->mstatus = set_field(env->mstatus, MSTATUS_GVA, 1);
--                }
-+            env->mstatus = set_field(env->mstatus, MSTATUS_MPV,
-+                                     riscv_cpu_virt_enabled(env));
-+            if (riscv_cpu_virt_enabled(env) && tval) {
-+                env->mstatus = set_field(env->mstatus, MSTATUS_GVA, 1);
-             }
- 
-             mtval2 = env->guest_phys_fault_addr;
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index b153cdfec3..7132a9bcd0 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -473,8 +473,8 @@ static int validate_vm(CPURISCVState *env, target_ulong vm)
- 
- static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
- {
--    target_ulong mstatus = env->mstatus;
--    target_ulong mask = 0;
-+    uint64_t mstatus = env->mstatus;
-+    uint64_t mask = 0;
-     int dirty;
- 
-     /* flush tlb on mstatus fields that affect VM */
-@@ -507,19 +507,22 @@ static int write_mstatus(CPURISCVState *env, int csrno, target_ulong val)
- 
- static int read_mstatush(CPURISCVState *env, int csrno, target_ulong *val)
- {
--    *val = env->mstatush;
-+    *val = env->mstatus >> 32;
-     return 0;
- }
- 
- static int write_mstatush(CPURISCVState *env, int csrno, target_ulong val)
- {
--    if ((val ^ env->mstatush) & (MSTATUS_MPV)) {
-+    uint64_t val64 = (uint64_t) val << 32;
-+
-+    if ((val64 ^ env->mstatus) & (MSTATUS_MPV)) {
-         tlb_flush(env_cpu(env));
-     }
- 
--    val &= MSTATUS_MPV | MSTATUS_GVA;
-+    val64 &= MSTATUS_MPV | MSTATUS_GVA;
- 
--    env->mstatush = val;
-+    env->mstatus &= 0xFFFFFFFF;
-+    env->mstatus |= val64;
- 
-     return 0;
- }
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 4ce73575a7..f9361e3af8 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -78,7 +78,8 @@ target_ulong helper_csrrc(CPURISCVState *env, target_ulong src,
- 
- target_ulong helper_sret(CPURISCVState *env, target_ulong cpu_pc_deb)
- {
--    target_ulong prev_priv, prev_virt, mstatus;
-+    target_ulong prev_priv, prev_virt;
-+    uint64_t mstatus;
- 
-     if (!(env->priv >= PRV_S)) {
-         riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
-@@ -147,18 +148,14 @@ target_ulong helper_mret(CPURISCVState *env, target_ulong cpu_pc_deb)
-         riscv_raise_exception(env, RISCV_EXCP_INST_ADDR_MIS, GETPC());
-     }
- 
--    target_ulong mstatus = env->mstatus;
-+    uint64_t mstatus = env->mstatus;
-     target_ulong prev_priv = get_field(mstatus, MSTATUS_MPP);
--    target_ulong prev_virt = MSTATUS_MPV_ISSET(env);
-+    target_ulong prev_virt = !!get_field(env->mstatus, MSTATUS_MPV);
-     mstatus = set_field(mstatus, MSTATUS_MIE,
-                         get_field(mstatus, MSTATUS_MPIE));
-     mstatus = set_field(mstatus, MSTATUS_MPIE, 1);
-     mstatus = set_field(mstatus, MSTATUS_MPP, PRV_U);
--#ifdef TARGET_RISCV32
--    env->mstatush = set_field(env->mstatush, MSTATUS_MPV, 0);
--#else
-     mstatus = set_field(mstatus, MSTATUS_MPV, 0);
--#endif
-     env->mstatus = mstatus;
-     riscv_cpu_set_mode(env, prev_priv);
- 
--- 
-2.28.0
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
+
+> ---
+>  include/hw/riscv/virt.h |  1 -
+>  hw/riscv/virt.c         | 18 +++++++++---------
+>  2 files changed, 9 insertions(+), 10 deletions(-)
+>
+> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+> index b4ed9a32eb..6505ae8d23 100644
+> --- a/include/hw/riscv/virt.h
+> +++ b/include/hw/riscv/virt.h
+> @@ -41,7 +41,6 @@ struct RISCVVirtState {
+>      DeviceState *plic[VIRT_SOCKETS_MAX];
+>      PFlashCFI01 *flash[2];
+>
+> -    void *fdt;
+>      int fdt_size;
+>  };
+>
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 41bd2f38ba..17c0706156 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -194,7 +194,7 @@ static void create_fdt(RISCVVirtState *s, const struc=
+t MemmapEntry *memmap,
+>      hwaddr flashsize =3D virt_memmap[VIRT_FLASH].size / 2;
+>      hwaddr flashbase =3D virt_memmap[VIRT_FLASH].base;
+>
+> -    fdt =3D s->fdt =3D create_device_tree(&s->fdt_size);
+> +    fdt =3D mc->fdt =3D create_device_tree(&s->fdt_size);
+>      if (!fdt) {
+>          error_report("create_device_tree() failed");
+>          exit(1);
+> @@ -434,12 +434,12 @@ static void create_fdt(RISCVVirtState *s, const str=
+uct MemmapEntry *memmap,
+>      g_free(name);
+>
+>      name =3D g_strdup_printf("/soc/flash@%" PRIx64, flashbase);
+> -    qemu_fdt_add_subnode(s->fdt, name);
+> -    qemu_fdt_setprop_string(s->fdt, name, "compatible", "cfi-flash");
+> -    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
+> +    qemu_fdt_add_subnode(mc->fdt, name);
+> +    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
+> +    qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
+>                                   2, flashbase, 2, flashsize,
+>                                   2, flashbase + flashsize, 2, flashsize)=
+;
+> -    qemu_fdt_setprop_cell(s->fdt, name, "bank-width", 4);
+> +    qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
+>      g_free(name);
+>  }
+>
+> @@ -613,9 +613,9 @@ static void virt_machine_init(MachineState *machine)
+>              hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
+>                                             machine->ram_size, kernel_ent=
+ry,
+>                                             &start);
+> -            qemu_fdt_setprop_cell(s->fdt, "/chosen",
+> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+>                                    "linux,initrd-start", start);
+> -            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
+> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
+-end",
+>                                    end);
+>          }
+>      } else {
+> @@ -636,11 +636,11 @@ static void virt_machine_init(MachineState *machine=
+)
+>
+>      /* Compute the fdt load address in dram */
+>      fdt_load_addr =3D riscv_load_fdt(memmap[VIRT_DRAM].base,
+> -                                   machine->ram_size, s->fdt);
+> +                                   machine->ram_size, machine->fdt);
+>      /* load the reset vector */
+>      riscv_setup_rom_reset_vec(start_addr, virt_memmap[VIRT_MROM].base,
+>                                virt_memmap[VIRT_MROM].size, kernel_entry,
+> -                              fdt_load_addr, s->fdt);
+> +                              fdt_load_addr, machine->fdt);
+>
+>      /* SiFive Test MMIO device */
+>      sifive_test_create(memmap[VIRT_TEST].base);
+> --
+> 2.20.1
+>
+>
 
