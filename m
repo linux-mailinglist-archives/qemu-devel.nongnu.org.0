@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9577B297574
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:02:30 +0200 (CEST)
-Received: from localhost ([::1]:55208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA76A29757D
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:05:15 +0200 (CEST)
+Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0ST-0003O5-M1
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:02:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42782)
+	id 1kW0V8-00066Y-PN
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:05:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVzXb-000230-QU
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:03:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30954)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVzcE-0000X6-DV
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:08:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kVzXY-0006D6-6m
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:03:43 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVzcA-0006oe-Vg
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:08:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603469017;
+ s=mimecast20190719; t=1603469305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lSfWWpmzSw4rX2o3LemtfdTgjZIS5q+X4XJk85b8bk0=;
- b=P8bsp9KKcER5dScA80lEx8nVOQT9zXMBZiDpFXtIfPflkGctkPSOr1qiHgOaRaxcC5+zUP
- MoWJRXkgYFSOKwyE5/BaYKakJTvXyXuFzL/pjS6/VTAPI0HvXP2KDd1JHvBVcVH8dWfKeh
- 4ulpFM7sYd7CgBrUZ/qzik/8+NqDM7o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-vnAJ5WjGNIGmI6GywoO_nw-1; Fri, 23 Oct 2020 12:03:36 -0400
-X-MC-Unique: vnAJ5WjGNIGmI6GywoO_nw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FB73804B6A;
- Fri, 23 Oct 2020 16:03:34 +0000 (UTC)
-Received: from redhat.com (ovpn-113-117.ams2.redhat.com [10.36.113.117])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8809210013D0;
- Fri, 23 Oct 2020 16:03:23 +0000 (UTC)
-Date: Fri, 23 Oct 2020 12:03:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 0/8] arm/virt: add usb support
-Message-ID: <20201023120306-mutt-send-email-mst@kernel.org>
-References: <20201023071022.24916-1-kraxel@redhat.com>
+ bh=lib8ul2hnM2Ay7nyb8PdPlhe2nUjSLdqJ57iNBIPOzc=;
+ b=hIkHLYUObYlpwj6zkXHNYkG7oTkTtVt6FNPnm5rx0pCRzot3D8quG0RDCIAbj0109lOqqA
+ 2EWBfK5pJ9KfdqVXpYrVwxK+cXndHdhP/aJscKsJMUhFanIrkMJKA+KlHKElr7oRU2C8jh
+ 2rUInvmsXU469Mx7LN61l5+fFncIyNI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-574-JZyZH_sDMBaUkhvoKaYleQ-1; Fri, 23 Oct 2020 12:08:23 -0400
+X-MC-Unique: JZyZH_sDMBaUkhvoKaYleQ-1
+Received: by mail-wm1-f70.google.com with SMTP id r19so624882wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:08:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lib8ul2hnM2Ay7nyb8PdPlhe2nUjSLdqJ57iNBIPOzc=;
+ b=Q4s29BQnK85JpupVv8rOZnBluKymWrsZLCQi6x8hcC/foqBXd7JH/R8iW5ycDQwoUx
+ ScBaKXJyfl7NI22ndWZisU9hO5UoNpaM2wA1fs+7nNbolg8eSr0Ak++wef8bufjF9++f
+ EQbCyAZ6Dp5PmbXgEJvyt3z6dARQT2rXI69ZJwpCXT6nhQw1IBHHrLgWBZ9zOoRwAxWa
+ KMhWTlcyTLeJiWHyTTuQYJqfxXZ2EOJxG52ZiJNN7MX1ITyiJ7UnT+xVh+ShzPFEAYQQ
+ JkBLrcq7skTwCPuqnhdfkceBJ6WGuQLDfFJ1r5GJZUP1aLkuQFR44ZDtCqC4fBD8HvBK
+ gPcA==
+X-Gm-Message-State: AOAM533NcuTCX2lsYit2BjIm47UED/jJ+oP+yzORTqWdHkjdbJky+c7I
+ VU9IUjKnO+++8Oe3RZB4Yn/r6ZSXKHmZgoFycs1RhEzpGUu3mBeZWDEV6mhExXSyYD1Ijy6TR34
+ a232rK/34azv2qhU=
+X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr3209989wmk.91.1603469302450;
+ Fri, 23 Oct 2020 09:08:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxThHLjO2aKi6T7AfhEEZxsXH9f0xfl8lPunnF8HxcpLuENP4d1UNYf8qAc8W4kOddZJc6xGg==
+X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr3209954wmk.91.1603469302175;
+ Fri, 23 Oct 2020 09:08:22 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id y206sm4461898wmd.34.2020.10.23.09.08.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 09:08:20 -0700 (PDT)
+To: Markus Armbruster <armbru@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20201023101222.250147-1-kwolf@redhat.com>
+ <20201023103603.GG445638@redhat.com> <87blgtoybe.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/6] qemu-storage-daemon: QAPIfy --chardev
+Message-ID: <ae2ffc01-84e3-70bc-c764-b9a69eba6b92@redhat.com>
+Date: Fri, 23 Oct 2020 18:08:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201023071022.24916-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <87blgtoybe.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,48 +103,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, qemu-devel@nongnu.org,
- Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, marcandre.lureau@redhat.com,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 23, 2020 at 09:10:14AM +0200, Gerd Hoffmann wrote:
-> Bring new microvm goodies to arm virt too.  Wire up
-> -machine usb=on, add sysbus-xhci in case it is enabled.
-
-
-For ACPI bits:
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-> Gerd Hoffmann (8):
->   tests/acpi: allow updates for expected data files
->   tests/acpi: add empty tests/data/acpi/virt/DSDT.usb file
->   arm/virt: add support for -machine usb=on
->   arm/virt: add device tree node for xhci
->   arm/virt: add acpi dsdt entry for xhci
->   tests/acpi: add usb testcase for virt
->   tests/acpi: update expected data files
->   tests/acpi: disallow updates for expected data files
+On 23/10/20 15:40, Markus Armbruster wrote:
+>>
+>> The benefit of the user creatable object approach is that we dont
+>> have to add custom CLI args for different types of object, nor write
+>> code to populate QOM from QAPI. The downside is that we're divorced
+>> from the QAPI schema, so loose introspection, and have a different
+>> type of tedious boilerplate code to write.
+> Loss of QAPI introspection is the killer.
 > 
->  include/hw/arm/virt.h            |   1 +
->  hw/arm/virt-acpi-build.c         |   6 ++++++
->  hw/arm/virt.c                    |  36 +++++++++++++++++++++++++++++++
->  hw/usb/hcd-xhci-sysbus.c         |   2 ++
->  tests/qtest/bios-tables-test.c   |  18 ++++++++++++++++
->  hw/arm/Kconfig                   |   1 +
->  tests/data/acpi/microvm/DSDT.usb | Bin 414 -> 426 bytes
->  tests/data/acpi/virt/DSDT.usb    | Bin 0 -> 5257 bytes
->  8 files changed, 64 insertions(+)
->  create mode 100644 tests/data/acpi/virt/DSDT.usb
-> 
-> -- 
-> 2.27.0
-> 
+> We have QOM introspection, but it's far too weak to serve as
+> replacement.  Besides, two introspection facilities is one too many.
+
+Wouldn't Eduardo+Kevin's work on object-add provide that too?
+
+> Nevertheless, we need Kevin's work now to get a decent storage daemon
+> CLI while that's still easy to do.  We'll have to promise stability
+> soon, and then changes get much harder.
+
+I think we haven't answered the question of whether qsd needs a CLI at all.
+
+I looked recently at qemu_init and it struck me that, in principle, the
+only _really_ necessary command line options for QEMU are -sandbox,
+-name and possibly -trace (only to be able to trace the monitor).  For
+everything else, one could use LISTEN_FDS socket activation mechanism,
+or if there's no LISTEN_FDS environment variable open a QMP socket on
+stdin/stdout.
+
+For qemu-standard-daemon, that would be _really_ true and not just in
+principle I understand that having a command-line can be useful to
+developers as it's less unwieldy than JSON, but why does it have to be
+stable?  Could we default to only 2-3 command-line options in the same
+fashion, and only accept --blockdev and friends if the user starts the
+command line with "qemu-storage-daemon --i-am-not-a-script"?
+
+Paolo
 
 
