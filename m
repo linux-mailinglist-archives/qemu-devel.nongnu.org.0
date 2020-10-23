@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597502970CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 15:42:54 +0200 (CEST)
-Received: from localhost ([::1]:41646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F9C62970CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 15:43:14 +0200 (CEST)
+Received: from localhost ([::1]:42858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVxLJ-00069D-DS
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 09:42:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58896)
+	id 1kVxLd-0006dk-5H
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 09:43:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kVxJq-0004ni-Hk
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 09:41:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45314)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVxK9-0005LI-Ay
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 09:41:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kVxJm-00040n-Km
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 09:41:22 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kVxK7-00043f-8b
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 09:41:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603460476;
+ s=mimecast20190719; t=1603460497;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=24USLKaX0C7fVHdgB3iRgbBthN0DOh2vvObYCPqssXo=;
- b=WKMN6UCAzCh5ep1+tb0HSz7VD95peugiCPpeqAXWGVj98q6DQoozO7XjGuEjfTlrTH/JI2
- hMMW2aH4qFCZl9uBK/2PqhzJ76rBkHG7C5vjJgQ6wAPJDvHz29V8NEZuUalbWz8bv6leDB
- dwL7tJqyQUXUTCmWEr0gRHNSd2FA/yM=
+ bh=Ih0+E/CL8EuV4vGTKRBpCl3T+F4ucIndPKkaeQE7GI0=;
+ b=aSEq+FHuQoedleWfp0TEEhhCKg7ffT2vZwszjgCAXxV5wa63S6Oz/c3rmbrjrW/QXu9bPJ
+ 3dBrTOm4Dec0HtLv08OJVRckB5rNfQ1m0XKmNvuM+9xkIs0TUElcQZ+CV2vTz+Dc8gEW77
+ 1zYbhEH7zWzuRPFBzN+5HK+koWS03Mo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-fdNFnPuGMyyBxg4hcyEe-Q-1; Fri, 23 Oct 2020 09:41:15 -0400
-X-MC-Unique: fdNFnPuGMyyBxg4hcyEe-Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-74-fQF1T6tyPq-8mjsXRi8XtQ-1; Fri, 23 Oct 2020 09:41:33 -0400
+X-MC-Unique: fQF1T6tyPq-8mjsXRi8XtQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5422A85C737;
- Fri, 23 Oct 2020 13:40:23 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6E7055785;
- Fri, 23 Oct 2020 13:40:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 55FAF113865F; Fri, 23 Oct 2020 15:40:21 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 0/6] qemu-storage-daemon: QAPIfy --chardev
-References: <20201023101222.250147-1-kwolf@redhat.com>
- <20201023103603.GG445638@redhat.com>
-Date: Fri, 23 Oct 2020 15:40:21 +0200
-In-Reply-To: <20201023103603.GG445638@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
- =?utf-8?Q?rrang=C3=A9=22's?=
- message of "Fri, 23 Oct 2020 11:36:03 +0100")
-Message-ID: <87blgtoybe.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B275119080A6;
+ Fri, 23 Oct 2020 13:41:14 +0000 (UTC)
+Received: from localhost (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2E4206EF42;
+ Fri, 23 Oct 2020 13:41:14 +0000 (UTC)
+Date: Fri, 23 Oct 2020 14:41:13 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [RFC] Using gitlab for upstream qemu repo?
+Message-ID: <20201023134113.GA812157@stefanha-x1.localdomain>
+References: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
+ <9f6c63c6-599b-ac15-42e2-b9c1991fc7ee@redhat.com>
+ <20201023085131.GC445638@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201023085131.GC445638@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="pf9I7BMVVzbSWLtt"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,108 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, pbonzini@redhat.com,
- marcandre.lureau@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+--pf9I7BMVVzbSWLtt
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Fri, Oct 23, 2020 at 12:12:16PM +0200, Kevin Wolf wrote:
->> While the qemu-storage-daemon command line is still considered unstable,
->> let's change --chardev from the old QemuOpts-based parser to QAPI, so
->> that it becomes a simple mapping of chardev-add to the command line and
->> will fit in a future fully QAPIfied command line without later
->> incompatible changes or additional compatibility glue.
->
-> NB, I am *not* objecting to this series in what I'm about to write,
-> but I want to point out that I don't think we should assume that
-> this proposed QAPIified CLI is neccessarily the long term end point.
-> Below I outline potential incompatible changes that would end up
-> turning -chardev into legacy / deprecated syntax.
->
->
-> The chardev QAPI-ification is a good example of the gap between QOM
-> and QAPI.
->
-> The chardev backends are QOM classes, but they lack the "user creatable"
-> interface.
->
-> Thus instead of configuring them using -object / object_add, we have a
-> QAPI model, custom args/commands -chardev / chardev_add, and then code
-> that populates the object instance properties from the QAPI model. Except
-> we've not really exposed them as object instance properties - they are
-> mostly just struct fields directly accessed.
->
->
-> The benefit of the chardev approach is that we have an introspectable
-> QAPI model. The downside is that we have a bunch of conversion code
-> for QAPI to QOM mapping.
->
-> The benefit of the user creatable object approach is that we dont
-> have to add custom CLI args for different types of object, nor write
-> code to populate QOM from QAPI. The downside is that we're divorced
-> from the QAPI schema, so loose introspection, and have a different
-> type of tedious boilerplate code to write.
+On Fri, Oct 23, 2020 at 09:51:31AM +0100, Daniel P. Berrang=E9 wrote:
+> Not commonly known is that GitLab also has support for Git push options,
+> which let you create merge requests using a plain "git push":
+>=20
+>   https://docs.gitlab.com/ee/user/project/push_options.html
+>=20
+> eg if you have a remote called "gitlab", you can open a MR from the CLI
+> using
+>=20
+>  $ git push -o merge_request.create \
+>             -o merge_request.title=3D"Do awesome thing" \
+>             gitlab my-branch
+>=20
+> This is something that I could see being easily wired up into a
+> "git-publish" like tool for example.
 
-Loss of QAPI introspection is the killer.
+Nice, thanks for mentioning this GitLab feature.
 
-We have QOM introspection, but it's far too weak to serve as
-replacement.  Besides, two introspection facilities is one too many.
+Stefan
 
-> The fact that we have this custom -chardev arg, instead of just using
-> -object is related to the ordering problems we have in main() in the
-> system emulators.
->
-> We have some -object types that need creating before the chardev
-> types, and some -object types that need creating after the chardevs.
->
-> If -chardev didn't exist, and we used -object for chardev creation,
-> then the ordering problem would trivially not exist, as we would
-> simply be processing all -object args in order that we receive them.
->
->
-> IOW, if we're considering our ideal long term configuration goals
-> for QEMU, then I think we should be looking at a solution to bridge
-> the gap, so that we can get the best of both worlds, and have a single
-> way todo things.
->
-> IMHO, ideally none of -netdev, -chardev, -device, etc would exist
-> in any "modern" CLI, they would just be considered legacy syntax.
-> Essentially everything would be created using the same -object arg
-> and object_add  commands.
->
->
-> What I think this means is that we need to use QAPI to represent
-> the properties of an object, and auto-generate the QOM code to
-> register properties, provider setters/getters, constructors, etc.
+--pf9I7BMVVzbSWLtt
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Use of a QAPI schema rather than code to define user-facing QOM
-properties provides QAPI introspection for QOM.  Having that would be
-lovely.
+-----BEGIN PGP SIGNATURE-----
 
-Bonus: in QOM, documenting types takes effort.  Consequently,
-user-facing QOM is mostly undocumented.  In a QAPI schema, *not*
-documenting stuff takes effort: the QAPI generator insists on
-documentation.
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+S3XgACgkQnKSrs4Gr
+c8giYAf+PwdpgEiSHg3ArhN0wmQmxMEWXOfM5LXR5EBRdmb9uwYyfMDPx6E2oyPG
+XAn2o9xR1M1jLlpd9nVhBhh4CvbTLUp7zaESDB0RPTDIzSaF59ba9iQKsds9sw3I
+ov9E2xhCFSot+CMT56wKYLmjkeDo1JaUr51FZNCxJGXIjpChBAzHAwLUZVI0tr8+
+D6VvrssFwQBmqjS86O9zsLo0hTSnMsxF43ZKWVRIkjoNHr+7/qK0O0zAA2007K5/
+H6ZaHKL6tUlCPlwO60gJLC94wgvMJvZjdg/zDpaG9jYUuzSN5tnIjPalk/5g6C5H
+f2Dq/uZYlDuN6dJt4SA6vj4Fa6cfBg==
+=4aot
+-----END PGP SIGNATURE-----
 
-Eduardo (cc'ed) mentioned he'd like to work towards defining properties
-in a QAPI schema.
-
-> For existing user creatable objects this would largely involve
-> deleting lots of existing code and defining some simple QAPI
-> schemas. This is probably quite easy, if tedious.
->
-> For the chardev/netdev/etc objects we already have the QAPI schema,
-> but would need to add code genration parts to turn them into full
-> user creatable object classes. This is likely harder more involved
-> work, especially to keep backcompat working well.
-
-I sympathize with this long term vision.
-
-Nevertheless, we need Kevin's work now to get a decent storage daemon
-CLI while that's still easy to do.  We'll have to promise stability
-soon, and then changes get much harder.
+--pf9I7BMVVzbSWLtt--
 
 
