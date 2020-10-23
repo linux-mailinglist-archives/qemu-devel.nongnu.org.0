@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5641E296E40
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:14:03 +0200 (CEST)
-Received: from localhost ([::1]:35132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C490296E44
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:16:47 +0200 (CEST)
+Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVvxJ-0008NP-Uq
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:14:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35716)
+	id 1kVvzy-0001L8-9V
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kVvw8-0007Vf-IV
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:12:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20694)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kVvyY-0000l4-Hz
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:15:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kVvw3-00006n-2f
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:12:48 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kVvyW-0000Wy-C0
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 08:15:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603455162;
+ s=mimecast20190719; t=1603455315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B6nQjWCeN/YNsZcz+5ak5uPQvbxI8eSNoTUYovDRqeI=;
- b=WWp5oelXyEWu/od2N7Bx13PyMHZZx8Kp+6mqEOejIoNR+9nD6DtwF1Xb2+3EoHM7YrJfYK
- iLUTy+4WGTW7L8ZFXQ63draJ1px+vwalnFpEHsuHimSOPlFEyugF7yNjk6YVxP1Xvg8R0j
- OLEiQtx/fw8hoLorEd7cRBdN3Ao0/Mo=
+ bh=zVZGiUqo+OOse7/MeaEs/I2zhtE68Z6khl47Gyf09W0=;
+ b=CEX3go13o1VeuWMeC5ydSZbH4YuTSjkl/lZR+Xz1f4yezk5t6oKmC6mTJ+V7u6fJgntLTS
+ 7GDQHtttBTEAnlNQmLZi7hDJrlNut7XqoFQlNZCk+S8hZ1Gty7WmmSLu9yDmykeCdelVNI
+ 1jeMgp8uygLoS2IpjJS62oVsclo3L+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-gdUv__-DN1q0PMXivU1_RQ-1; Fri, 23 Oct 2020 08:12:38 -0400
-X-MC-Unique: gdUv__-DN1q0PMXivU1_RQ-1
+ us-mta-574-Atq_MM8yNq2kc0CoX8EYug-1; Fri, 23 Oct 2020 08:15:13 -0400
+X-MC-Unique: Atq_MM8yNq2kc0CoX8EYug-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 22D345F9DB;
- Fri, 23 Oct 2020 12:12:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4598E188C127;
+ Fri, 23 Oct 2020 12:15:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 208136EF66;
- Fri, 23 Oct 2020 12:12:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 160CD6EF5D;
+ Fri, 23 Oct 2020 12:15:12 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 87D1E113865F; Fri, 23 Oct 2020 14:12:32 +0200 (CEST)
+ id BE748113865F; Fri, 23 Oct 2020 14:15:10 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/6] char/stdio: Fix QMP default for 'signal'
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [PATCH 2/6] char: Factor out qemu_chr_print_types()
 References: <20201023101222.250147-1-kwolf@redhat.com>
- <20201023101222.250147-2-kwolf@redhat.com>
-Date: Fri, 23 Oct 2020 14:12:32 +0200
-In-Reply-To: <20201023101222.250147-2-kwolf@redhat.com> (Kevin Wolf's message
- of "Fri, 23 Oct 2020 12:12:17 +0200")
-Message-ID: <87d019qgy7.fsf@dusky.pond.sub.org>
+ <20201023101222.250147-3-kwolf@redhat.com>
+ <CAJ+F1C+s8cYgL20PXe2yRrC2jjpW+ANW215o4Z6jCgrkOewkZw@mail.gmail.com>
+Date: Fri, 23 Oct 2020 14:15:10 +0200
+In-Reply-To: <CAJ+F1C+s8cYgL20PXe2yRrC2jjpW+ANW215o4Z6jCgrkOewkZw@mail.gmail.com>
+ (=?utf-8?Q?=22Marc-Andr=C3=A9?= Lureau"'s message of "Fri, 23 Oct 2020
+ 14:38:58 +0400")
+Message-ID: <878sbxqgtt.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
@@ -58,7 +61,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
@@ -82,82 +86,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
+Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
 
-> Commit 02c4bdf1 tried to make signal=on the default for stdio chardevs
-> except for '-serial mon:stdio', but it forgot about QMP and accidentally
-> switched the QMP default from true (except for -nographic) to false
-> (always). The documentation was kept unchanged and still describes the
-
-The QMP documentation, actually.  CLI documentation was updated.
-
-> opposite of the old behaviour (which is an even older documentation
-> bug).
-
-Hardly surprising, given how vague the documentation was (and is).  See
-below.
-
-> Fix all of this by making signal=true the default in ChardevStdio and
-> documenting it as such.
+> On Fri, Oct 23, 2020 at 2:14 PM Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> Fixes: 02c4bdf1d2ca8c02a9bae16398f260b5c08d08bf
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qapi/char.json       | 3 +--
->  chardev/char-stdio.c | 4 +---
->  2 files changed, 2 insertions(+), 5 deletions(-)
+>> We'll want to call the same from a non-QemuOpts code path.
+>>
+>> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> ---
+>>  include/chardev/char.h |  1 +
+>>  chardev/char.c         | 17 +++++++++++------
+>>  2 files changed, 12 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/include/chardev/char.h b/include/chardev/char.h
+>> index db42f0a8c6..3b91645081 100644
+>> --- a/include/chardev/char.h
+>> +++ b/include/chardev/char.h
+>> @@ -212,6 +212,7 @@ void qemu_chr_be_update_read_handlers(Chardev *s,
+>>   */
+>>  void qemu_chr_be_event(Chardev *s, QEMUChrEvent event);
+>>
+>> +void qemu_chr_print_types(void);
+>>  int qemu_chr_add_client(Chardev *s, int fd);
+>>  Chardev *qemu_chr_find(const char *name);
+>>
+>> diff --git a/chardev/char.c b/chardev/char.c
+>> index 78553125d3..028612c333 100644
+>> --- a/chardev/char.c
+>> +++ b/chardev/char.c
+>> @@ -633,6 +633,16 @@ ChardevBackend *qemu_chr_parse_opts(QemuOpts *opts,
+>> Error **errp)
+>>      return backend;
+>>  }
+>>
+>> +void qemu_chr_print_types(void)
+>> +{
+>> +    GString *str =3D g_string_new("");
+>>
 >
-> diff --git a/qapi/char.json b/qapi/char.json
-> index b4d66ec90b..43486d1daa 100644
-> --- a/qapi/char.json
-> +++ b/qapi/char.json
-> @@ -321,8 +321,7 @@
->  # Configuration info for stdio chardevs.
->  #
->  # @signal: Allow signals (such as SIGINT triggered by ^C)
-> -#          be delivered to qemu.  Default: true in -nographic mode,
-> -#          false otherwise.
-> +#          be delivered to qemu.  Default: true.
->  #
->  # Since: 1.5
->  ##
+> Suggest g_auto here
 
-What does it mean to "allow signals to be delivered"?
+g_autoptr(GList) str =3D ..., I presume.
 
-To understand, I had to check what the QEMU code does with it (@signal
-off clears termios c_lflag ISIG), and I had to look up what that means
-(tcsetattr(3): "When any of the characters INTR, QUIT, SUSP, or DSUSP
-are received, generate the corresponding signal").
-
-Stealing that sentence verbatim from tcsetattr(3) would be a marked
-improvement over what we have, in my opinion.
-
-Nothing wrong with this patch, of course, but if you need to respin for
-some other reason, consider improving the comment.
-
-> diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-> index 82eaebc1db..403da308c9 100644
-> --- a/chardev/char-stdio.c
-> +++ b/chardev/char-stdio.c
-> @@ -112,9 +112,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
->  
->      qemu_chr_open_fd(chr, 0, 1);
->  
-> -    if (opts->has_signal) {
-> -        stdio_allow_signal = opts->signal;
-> -    }
-> +    stdio_allow_signal = !opts->has_signal || opts->signal;
->      qemu_chr_set_echo_stdio(chr, false);
->  }
->  #endif
-
-Preferably with s/documentation/QMP documentation/ in the commit
-message:
+> +
+>> +    chardev_name_foreach(help_string_append, str);
+>> +
+>> +    qemu_printf("Available chardev backend types: %s\n", str->str);
+>> +    g_string_free(str, true);
+>> +}
+>> +
+>>  Chardev *qemu_chr_new_from_opts(QemuOpts *opts, GMainContext *context,
+>>                                  Error **errp)
+>>  {
+>> @@ -644,12 +654,7 @@ Chardev *qemu_chr_new_from_opts(QemuOpts *opts,
+>> GMainContext *context,
+>>      char *bid =3D NULL;
+>>
+>>      if (name && is_help_option(name)) {
+>> -        GString *str =3D g_string_new("");
+>> -
+>> -        chardev_name_foreach(help_string_append, str);
+>> -
+>> -        qemu_printf("Available chardev backend types: %s\n", str->str);
+>> -        g_string_free(str, true);
+>> +        qemu_chr_print_types();
+>>          return NULL;
+>>      }
+>>
+>> --
+>> 2.28.0
+>>
+>>
+>>
+> anyway
+> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
