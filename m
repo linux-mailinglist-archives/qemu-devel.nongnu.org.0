@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F337A297849
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:34:28 +0200 (CEST)
-Received: from localhost ([::1]:48036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D510A2978A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 23:09:40 +0200 (CEST)
+Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW3lb-0000OO-K0
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:34:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
+	id 1kW4Jf-0004nF-T5
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 17:09:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kW3kr-0008JY-JB
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:33:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45306)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kW3kp-0006a7-8e
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:33:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603485217;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JjlIW9wQg1A4Y9WMEdL7IeCk1Hfj4WtDNTvL/XPZr+0=;
- b=HnXnIySzrDfvRcFn2YXXrMk2Aa6Fgwnw6D8d2OX9FHo46B7BPWG7WZKciaOxnj0qFmsClw
- fOLe1mVa0G+uHhBCVQ4CmLgSTNANxoBQfg44V622+tS+Tyyq2A7w60ImQMZlQwuSgFnjOz
- njs3MAgsUE3GTpHC4yzowQLC8t0I2Bo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-452-rxo7Ola9P6SJUhBPI2EL-Q-1; Fri, 23 Oct 2020 16:33:34 -0400
-X-MC-Unique: rxo7Ola9P6SJUhBPI2EL-Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED6401868400;
- Fri, 23 Oct 2020 20:33:32 +0000 (UTC)
-Received: from [10.3.113.7] (ovpn-113-7.phx2.redhat.com [10.3.113.7])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 650D71002388;
- Fri, 23 Oct 2020 20:33:32 +0000 (UTC)
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH v2 0/6] Add support for Control-Flow Integrity
-Message-ID: <947e698f-a582-956d-5b42-1dee6442f15d@redhat.com>
-Date: Fri, 23 Oct 2020 15:33:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from
+ <34UWTXwsKCrwjumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com>)
+ id 1kW4Gs-0000W0-7e
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 17:06:46 -0400
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:42419)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <34UWTXwsKCrwjumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com>)
+ id 1kW4Gp-0002CT-Tz
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 17:06:45 -0400
+Received: by mail-pg1-x549.google.com with SMTP id 1so2302430pgd.9
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 14:06:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=BcWlM65XM0AJmQPnrbCqbi2frM12dvXHvxEJRRIHk+8=;
+ b=JZ8jWW5W4XarKCgbfvEA4hbRO4uwMdFIV0HouWaz52ZIPRLmFIcwSqmFcaU5wf9Y/o
+ TYVF7J+8kaTHn2hcK+Vj91F96QeWk4mbjQbdEE7yMeNWI6Ha9WJEku7fo93gZQiOjCA6
+ yJc+yFMrCCOK8JtXUsPicg5e+EkHYGraitmR/3F0bUIa1Lv/nW9AA2iMl2ltlyuRt96D
+ LWOynzOqwGOxRwpI7YCWGEdZEdhyE84MvNP7BbNuDqcAXxrqOKtdaUcdZ8FsnWTG9Ril
+ bVC7pYUZ26bxV2pDeIWjx6N64GOXgRbXb7k2M86isBWqIcf0XtA2IUfCnLU9DTWTsl9d
+ i5wA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=BcWlM65XM0AJmQPnrbCqbi2frM12dvXHvxEJRRIHk+8=;
+ b=Bx0pGFOGPJa9IA/qcZIunKro6ue2gnn9diUaefXevRxn6+RTue8gcd5/r43/NcIWGT
+ 93z2g8/+iyK4j7+w8jUvsBxfJNAvTkymL8loCtBZZHce5wg4lOY2uVPifSWyc/kamP8T
+ ZNzrmdvIlYzId8v9Aq5HIbHsQvk9hz4p54aBFdq4+FDT12b+8RARDL1c44K1GcOxCma2
+ /VhkGqJXEAd5BK97bmFVOpSxdZjnZzLET+nnr17kog3Hr9vsgAVECwW0IvX8sPvMtXD1
+ zQ7wVZpknhTK53pEXLPwhAcQKm6Al1R+5J2JrZhz02KGkUU6VTcKquwFl7uOrvzTUNoe
+ ACLQ==
+X-Gm-Message-State: AOAM530ou1hO0u1MUthdewSXTvtidemO8tYgxMQDNHgL6AAqjg99Es1M
+ HJurM3mTv9yNtSFG2PB/s6nheJq/PosfA9ZbOQ==
+X-Google-Smtp-Source: ABdhPJx1osAiGje+EzxRhO3a7aR1BQRQJxAKOYN5Y90ka/+xGsPQigTQ5FgHbOZoj96CIn5T6noElGVqe8CrYn/g6A==
+X-Received: from skybert.c.googlers.com ([fda3:e722:ac3:10:24:72f4:c0a8:3107])
+ (user=hskinnemoen job=sendgmr) by 2002:a17:90a:7f03:: with SMTP id
+ k3mr528507pjl.1.1603487201189;
+ Fri, 23 Oct 2020 14:06:41 -0700 (PDT)
+Date: Fri, 23 Oct 2020 14:06:31 -0700
+Message-Id: <20201023210637.351238-1-hskinnemoen@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
+Subject: [PATCH v3 0/6] Additional NPCM7xx features, devices and tests
+To: peter.maydell@linaro.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, Avi.Fishman@nuvoton.com, 
+ kfting@nuvoton.com, venture@google.com, wuhaotsh@google.com, thuth@redhat.com, 
+ Havard Skinnemoen <hskinnemoen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
+ envelope-from=34UWTXwsKCrwjumkppgoqgpiqqing.eqosgow-fgxgnpqpipw.qti@flex--hskinnemoen.bounces.google.com;
+ helo=mail-pg1-x549.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,62 +84,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: Havard Skinnemoen <hskinnemoen@google.com>
+From: Havard Skinnemoen via <qemu-devel@nongnu.org>
 
-On 10/23/20 3:06 PM, Daniele Buono wrote:
-> v2: Several months (and structural changes in QEMU) have passed since v1.
-> While the spirit of the patch is similar, the implementation is changed
-> in multiple points, and should address most if not all the comments
-> received in v1.
+This is an update to the initial NPCM7xx patch series adding
 
-> 5) Most of the logic to enable CFI goes in the configure, since it's
-> just a matter of checking for dependencies and incompatible options.
-> However, I had to disable CFI checks for a few TCG functions.
-> This can only be done through a blacklist file. I added a file in the
-> root of QEMU, called cfi-blacklist.txt for such purpose. I am open to
-> suggestions on where the file should go, and I am willing to become the
-> maintainer of it, if deemed necessary.
+  - Watchdog timer support. This makes the reboot command work.
+  - Random Number Generator device.
+  - USB Host Controllers.
+  - GPIO Controllers.
 
-In the meantime, we have commits like:
+The watchdog was implemented by my new teammate Hao Wu. Expect to see more
+patches from him in the near future.
 
-commit b199c682f1f0aaee22b2170a5fb885250057eec2
-Author: Philippe Mathieu-Daudé <philmd@redhat.com>
-Date:   Thu Sep 10 09:01:31 2020 +0200
+This series has also been pushed to the npcm7xx-5.2-update branch of my github
+repository at
 
-    target/i386/kvm: Rename host_tsx_blacklisted() as host_tsx_broken()
+  https://github.com/hskinnemoen/qemu
 
-    In order to use inclusive terminology, rename host_tsx_blacklisted()
-    as host_tsx_broken().
+Changes since v2:
 
-which may help you in coming up with a more appropriate name for the new
-file.
+  - Watchdog timer test now uses libqos/libqtest.h API consistently instead of
+    a mix of that and libqtest-single.h.
+  - Made all npcm7xx-related tests conditional on CONFIG_NPCM7XX. An extra
+    patch was added for the previously submitted timer test.
 
-> 
->  MAINTAINERS                   |   5 +
->  accel/tcg/cpu-exec.c          |   9 ++
->  configure                     | 214 ++++++++++++++++++++++++++++++++++
->  include/qemu/sanitizers.h     |  22 ++++
->  meson.build                   |   3 +
->  plugins/core.c                |  25 ++++
->  plugins/loader.c              |   5 +
->  tcg/tci.c                     |   5 +
->  tests/check-block.sh          |  18 +--
->  tests/qtest/fuzz/fork_fuzz.ld |  12 +-
->  util/main-loop.c              |   9 ++
->  util/oslib-posix.c            |   9 ++
->  12 files changed, 328 insertions(+), 8 deletions(-)
->  create mode 100644 include/qemu/sanitizers.h
+Changes since v1:
 
-although I don't see a new file by that name here, so perhaps the v1
-overview is now stale?
+  - Dropped the timer test since it's already applied (thanks Peter).
+  - Watchdog reset signaling is now using GPIOs instead of a custom API
+    (thanks Peter for suggesting, and Hao for implementing it).
+  - Various comment updates for the timer.
+  - VMState added to GPIO device.
+  - Missing VMstate terminator added to RNG device.
+  - Include order in RNG test fixed.
+
+Again, thanks a lot for reviewing!
+
+Havard
+
+Hao Wu (1):
+  hw/timer: Adding watchdog for NPCM7XX Timer.
+
+Havard Skinnemoen (5):
+  tests/qtest: Make npcm7xx_timer-test conditional on CONFIG_NPCM7XX
+  Move npcm7xx_timer_reached_zero call out of npcm7xx_timer_pause
+  hw/misc: Add npcm7xx random number generator
+  hw/arm/npcm7xx: Add EHCI and OHCI controllers
+  hw/gpio: Add GPIO model for Nuvoton NPCM7xx
+
+ docs/system/arm/nuvoton.rst               |   6 +-
+ hw/usb/hcd-ehci.h                         |   1 +
+ include/hw/arm/npcm7xx.h                  |   8 +
+ include/hw/gpio/npcm7xx_gpio.h            |  55 +++
+ include/hw/misc/npcm7xx_clk.h             |   2 +
+ include/hw/misc/npcm7xx_rng.h             |  34 ++
+ include/hw/timer/npcm7xx_timer.h          |  48 ++-
+ hw/arm/npcm7xx.c                          | 126 ++++++-
+ hw/gpio/npcm7xx_gpio.c                    | 424 ++++++++++++++++++++++
+ hw/misc/npcm7xx_clk.c                     |  28 ++
+ hw/misc/npcm7xx_rng.c                     | 180 +++++++++
+ hw/timer/npcm7xx_timer.c                  | 270 +++++++++++---
+ hw/usb/hcd-ehci-sysbus.c                  |  19 +
+ tests/qtest/npcm7xx_gpio-test.c           | 385 ++++++++++++++++++++
+ tests/qtest/npcm7xx_rng-test.c            | 278 ++++++++++++++
+ tests/qtest/npcm7xx_watchdog_timer-test.c | 320 ++++++++++++++++
+ MAINTAINERS                               |   1 +
+ hw/gpio/meson.build                       |   1 +
+ hw/gpio/trace-events                      |   7 +
+ hw/misc/meson.build                       |   1 +
+ hw/misc/trace-events                      |   4 +
+ tests/qtest/meson.build                   |   7 +-
+ 22 files changed, 2143 insertions(+), 62 deletions(-)
+ create mode 100644 include/hw/gpio/npcm7xx_gpio.h
+ create mode 100644 include/hw/misc/npcm7xx_rng.h
+ create mode 100644 hw/gpio/npcm7xx_gpio.c
+ create mode 100644 hw/misc/npcm7xx_rng.c
+ create mode 100644 tests/qtest/npcm7xx_gpio-test.c
+ create mode 100644 tests/qtest/npcm7xx_rng-test.c
+ create mode 100644 tests/qtest/npcm7xx_watchdog_timer-test.c
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.29.0.rc1.297.gfa9743e501-goog
 
 
