@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64B7A297317
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:02:21 +0200 (CEST)
-Received: from localhost ([::1]:34686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B48DF29733C
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:08:58 +0200 (CEST)
+Received: from localhost ([::1]:56628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzWG-0007Yp-Db
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:02:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
+	id 1kVzcf-00089I-Kn
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:08:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyx-0004Kc-9b
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:56 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26168)
+ id 1kVyyz-0004Kl-3H
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:58 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyys-0001Xq-Ai
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:54 -0400
+ id 1kVyyv-0001Y4-Bq
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466870; x=1635002870;
+ t=1603466873; x=1635002873;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=L0zM4Ec9Du3VjXk0D2sog4reuXMCNB9GtHWmH3J6P3k=;
- b=GZuBTbb3cIHolxnaPFStoS4eC0HoMUj5U5ObvYL3KUKhQFnTQrLQjRz/
- oca+w251DedqVYSHCp+2mtj2g4MHbBXfAU6S2pZa1SoYnEvMF7J13mgUG
- 3iQOCcvES7ikYCbUbwX573D/+1HpB1keqZcb2zgx+hOwjLIlk1rVbj2XK
- mZb6Hh/C65B3Kelnxh5PduPwFltaGSi7x7CvtNEOsShqlRQu/lRUyuN1X
- d618Tt7dDG3ba1Hy0ZzM01ZnJS8rwQnGWTkFmoKEyrV/4fIKW08Aik+ik
- vl4Dks+Aln4BprPjyBkkgR4Jv4DDh6ApRDZ1ygpgvQneGWw0jDWKHuKOi Q==;
-IronPort-SDR: UMbbNC47FlWlQ+M2QWDO0uPKrBzYgSwVItxQkrM421y/4eD+Tbh2MDVL2+8Xm6X6WcSfHAXfBH
- qA9pBFHSYhvW1uH32Nc9GVJingpkX427Wpi2zDB9ZCDGtkDygYgtfCAA4d1d7OzY0WXnmm3BDW
- uY/x6c1ldvH6IRzABqFLGGOcvS7BMDHCSwFG0pZPmdhUq9R8jtEf+h5czphu2rd7stXMRurmAA
- 4v+z1N0lyPuwxvGHeE7w+WDyDKeyw5TyQq7OOdpFuivnMA4mwepIKUK0i2+Z4NcWXa3XrOY65A
- bKw=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652322"
+ bh=cHLv6Xa/Mv6eHkYaJhgq25XI2qqlc+Or3T2F3M6qC9c=;
+ b=HLLNxssjxeTDBPqNOWWhulH7BhNOi7abuK3/4LVExDdPQh8GpRDEY0to
+ Gz7turfQsN9U9jHVNHUrzZlT8AxKLjwVyheHNMgBXZ7B4J6SuWWHb8gWO
+ u5JkG+iwnepf3DZ1KICp5O1SVNBh+GCHQYTwsbNtYQJEOPQxg2yz0mZMa
+ J0LcQrwWw8tkee5DhzLWfK+RCD/jrInSIuo7i/tYhxqg+SReWmofwt5cV
+ ilfzbE43HCZsNI9F/RlUrzsVLrYr+2lYdpSrpFuy4UeHEbFHSdkr6Voqg
+ sae10O6EN219259NvfNJit938TU3P/uh1qfb7xfKm4FQIiswB7zsBpxe1 A==;
+IronPort-SDR: hlf1f3EYlArM6YNBdkFhdY2wKQ0c4ZSgV0SAcBnDUlxNavbiHHBlrQKJT/umx3ilBlssbeAdrC
+ hsHGHud1dZZrIl5vEWHCKG7x8eqXQITUX4odetFEm080l8Vn+GFYB+XT4ZQ8r2r4dqjR0WfiPl
+ i9JNPT2iyciYWcrRWe4Nh3rv+Ct1Jfzt/1C2eVfsE4jYBWCwnCrOY/4K2jMFMIFbY3m+VSZcM2
+ 6n+G14J9jjtFCg6KWVauM7TeEoJrsHfhNCKVtlWU83cYOXEC6Xdm/QuHmMaT/QL0wyBrnFh1bb
+ dwA=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652323"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:44 +0800
-IronPort-SDR: 6vlaS1SwUQfTgvr9iBQcmHOghXT+3t9JDbjZyogKVY6TQvf6wSCKLKkeIuzRIPmkhN2tMoNvgN
- ebPrEWZcJLMU3aLG6ertfDIBRripthAWvf6EZYGDo5so1h5lYXUjzz4Bfm785yzdiWNsWi2m++
- RA/61t/7EbFYna31Zvz2/hVOVA0cqWO/XlfFDvh3lceea4PkRwD7Xth9dHyjLVM62e3K1GRpJh
- 4c1MqzHtn3UNNNKloCy3Z+f65coNbr58P7r3akDhFWj5kdrxenHn3/VLnRJqZAcW18tK1dHEo0
- c0Xa28GQ5cBFoDWGwCMZ+lC5
+IronPort-SDR: 6/Jc7hSM2D06k3QU+/2tNVxZgo//lt7sUWuFJy17QzrO5seRcGhZV5fwjCBvoMBCN++SCNruGD
+ usr2s3R4MFusfvmh6G6j3yFdLwvq0tYdNVsqNzX9wcMHlcTjKiYWJMv8NukhZQND8l5NljtaiJ
+ AE9puQw+yQST5LGZ4M4FYCBCDcVL4LbRo48jfKGmHrOYK0blB/TLaoko4mHnnCMvPxO+8WBiLY
+ sO+uiDZKduVUAePZf1rxFDyxGCoPFG856SbQbfmDfLOHe/fM+OSiIaFT/gbazgFvdFaeRVt78J
+ 9K+NHhjAaPFBy/PU5UW2857X
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Oct 2020 08:12:59 -0700
-IronPort-SDR: t2cAvG8Sx08WNpBvsnm8plfJY/ZJziv+H+p/CXj4KOjPUWepWsxV1PQcfOc/GkEPlvwbJXegsG
- 5e87cdYNDJF/r1GgRGk43uhxF7cb0YQidDMk52oaFVRk2UyceNMELUijJOmJMRJHScORDxn5xu
- Gp7X/bdwvdYIv1IHVwkl6EnBjMwgP73Ium2jswVGnqjgcrHido4zht8xaXewrosIU11DH6BA5T
- oZIXVn8mf/SS/PLQmz6HDGR+ZFGeDh5snxXMZ2oyYt2+K05bxmTP46zD7fUeNxD/ZKhCxVR1i8
- 1eU=
+IronPort-SDR: A7XZXZVrV5KsdZGuYjVAiBL0D+/f2Yd4FNfc3DGOWzxUfUoqmjJO+kk501Fwv9brjl3tkzN1u4
+ 6qfA1UZyIhRxhlq/smgtrwQI6GRgS2/37L3XlAPCB5fB0zxQ3ByuR42XpkIGzV00A2fgLGSD7E
+ /C70T7uz9m2PQp6ioN3Mz/5YaZUbNB5UsdPF4JDC6qIRduA6TmUY0gOKYyhon6j3H9GVlkVsXI
+ Zb+impGNCSeIfqI554piNhi90qDs3G53StYJcpxNYtH/FCyY4qXG4q1zzokUUogSzCP8n0f1zi
+ 278=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
@@ -62,9 +62,9 @@ Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 06/12] hw/riscv: sifive_u: Allow specifying the CPU
-Date: Fri, 23 Oct 2020 08:16:13 -0700
-Message-Id: <20201023151619.3175155-7-alistair.francis@wdc.com>
+Subject: [PULL 07/12] hw/riscv: Return the end address of the loaded firmware
+Date: Fri, 23 Oct 2020 08:16:14 -0700
+Message-Id: <20201023151619.3175155-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
@@ -94,100 +94,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>, alistair23@gmail.com,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com,
+ Palmer Dabbelt <palmerdabbelt@google.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the user to specify the main application CPU for the sifive_u
-machine.
+Instead of returning the unused entry address from riscv_load_firmware()
+instead return the end address. Also return the end address from
+riscv_find_and_load_firmware().
+
+This tells the caller if a firmware was loaded and how big it is. This
+can be used to determine the load address of the next image (usually the
+kernel).
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
 Tested-by: Bin Meng <bin.meng@windriver.com>
-Message-id: b8412086c8aea0eff30fb7a17f0acf2943381b6a.1602634524.git.alistair.francis@wdc.com
+Message-id: 558cf67162342d65a23262248b040563716628b2.1602634524.git.alistair.francis@wdc.com
 ---
- include/hw/riscv/sifive_u.h |  1 +
- hw/riscv/sifive_u.c         | 18 +++++++++++++-----
- 2 files changed, 14 insertions(+), 5 deletions(-)
+ include/hw/riscv/boot.h |  8 ++++----
+ hw/riscv/boot.c         | 28 +++++++++++++++++-----------
+ 2 files changed, 21 insertions(+), 15 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index 22e7e6efa1..a9f7b4a084 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -48,6 +48,7 @@ typedef struct SiFiveUSoCState {
-     CadenceGEMState gem;
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index 451338780a..0acbd8aa6e 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -23,10 +23,10 @@
+ #include "exec/cpu-defs.h"
+ #include "hw/loader.h"
  
-     uint32_t serial;
-+    char *cpu_type;
- } SiFiveUSoCState;
+-void riscv_find_and_load_firmware(MachineState *machine,
+-                                  const char *default_machine_firmware,
+-                                  hwaddr firmware_load_addr,
+-                                  symbol_fn_t sym_cb);
++target_ulong riscv_find_and_load_firmware(MachineState *machine,
++                                          const char *default_machine_firmware,
++                                          hwaddr firmware_load_addr,
++                                          symbol_fn_t sym_cb);
+ char *riscv_find_firmware(const char *firmware_filename);
+ target_ulong riscv_load_firmware(const char *firmware_filename,
+                                  hwaddr firmware_load_addr,
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 21adaae56e..fa699308a0 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -40,12 +40,13 @@
+ #define fw_dynamic_info_data(__val)     cpu_to_le64(__val)
+ #endif
  
- #define TYPE_RISCV_U_MACHINE MACHINE_TYPE_NAME("sifive_u")
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 6ad975d692..5f3ad9bc0f 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -424,6 +424,8 @@ static void sifive_u_machine_init(MachineState *machine)
-     object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_U_SOC);
-     object_property_set_uint(OBJECT(&s->soc), "serial", s->serial,
-                              &error_abort);
-+    object_property_set_str(OBJECT(&s->soc), "cpu-type", machine->cpu_type,
-+                             &error_abort);
-     qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
- 
-     /* register RAM */
-@@ -590,6 +592,11 @@ static void sifive_u_machine_class_init(ObjectClass *oc, void *data)
-     mc->init = sifive_u_machine_init;
-     mc->max_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + SIFIVE_U_COMPUTE_CPU_COUNT;
-     mc->min_cpus = SIFIVE_U_MANAGEMENT_CPU_COUNT + 1;
-+#if defined(TARGET_RISCV32)
-+    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U34;
-+#elif defined(TARGET_RISCV64)
-+    mc->default_cpu_type = TYPE_RISCV_CPU_SIFIVE_U54;
-+#endif
-     mc->default_cpus = mc->min_cpus;
- 
-     object_class_property_add_bool(oc, "start-in-flash",
-@@ -618,7 +625,6 @@ type_init(sifive_u_machine_init_register_types)
- 
- static void sifive_u_soc_instance_init(Object *obj)
+-void riscv_find_and_load_firmware(MachineState *machine,
+-                                  const char *default_machine_firmware,
+-                                  hwaddr firmware_load_addr,
+-                                  symbol_fn_t sym_cb)
++target_ulong riscv_find_and_load_firmware(MachineState *machine,
++                                          const char *default_machine_firmware,
++                                          hwaddr firmware_load_addr,
++                                          symbol_fn_t sym_cb)
  {
--    MachineState *ms = MACHINE(qdev_get_machine());
-     SiFiveUSoCState *s = RISCV_U_SOC(obj);
+     char *firmware_filename = NULL;
++    target_ulong firmware_end_addr = firmware_load_addr;
  
-     object_initialize_child(obj, "e-cluster", &s->e_cluster, TYPE_CPU_CLUSTER);
-@@ -636,10 +642,6 @@ static void sifive_u_soc_instance_init(Object *obj)
+     if ((!machine->firmware) || (!strcmp(machine->firmware, "default"))) {
+         /*
+@@ -60,9 +61,12 @@ void riscv_find_and_load_firmware(MachineState *machine,
  
-     object_initialize_child(OBJECT(&s->u_cluster), "u-cpus", &s->u_cpus,
-                             TYPE_RISCV_HART_ARRAY);
--    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
--    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
--    qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", SIFIVE_U_CPU);
--    qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
- 
-     object_initialize_child(obj, "prci", &s->prci, TYPE_SIFIVE_U_PRCI);
-     object_initialize_child(obj, "otp", &s->otp, TYPE_SIFIVE_U_OTP);
-@@ -661,6 +663,11 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
-     int i;
-     NICInfo *nd = &nd_table[0];
- 
-+    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "num-harts", ms->smp.cpus - 1);
-+    qdev_prop_set_uint32(DEVICE(&s->u_cpus), "hartid-base", 1);
-+    qdev_prop_set_string(DEVICE(&s->u_cpus), "cpu-type", s->cpu_type);
-+    qdev_prop_set_uint64(DEVICE(&s->u_cpus), "resetvec", 0x1004);
+     if (firmware_filename) {
+         /* If not "none" load the firmware */
+-        riscv_load_firmware(firmware_filename, firmware_load_addr, sym_cb);
++        firmware_end_addr = riscv_load_firmware(firmware_filename,
++                                                firmware_load_addr, sym_cb);
+         g_free(firmware_filename);
+     }
 +
-     sysbus_realize(SYS_BUS_DEVICE(&s->e_cpus), &error_abort);
-     sysbus_realize(SYS_BUS_DEVICE(&s->u_cpus), &error_abort);
-     /*
-@@ -792,6 +799,7 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
++    return firmware_end_addr;
+ }
  
- static Property sifive_u_soc_props[] = {
-     DEFINE_PROP_UINT32("serial", SiFiveUSoCState, serial, OTP_SERIAL),
-+    DEFINE_PROP_STRING("cpu-type", SiFiveUSoCState, cpu_type),
-     DEFINE_PROP_END_OF_LIST()
- };
+ char *riscv_find_firmware(const char *firmware_filename)
+@@ -91,17 +95,19 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
+                                  hwaddr firmware_load_addr,
+                                  symbol_fn_t sym_cb)
+ {
+-    uint64_t firmware_entry;
++    uint64_t firmware_entry, firmware_size, firmware_end;
  
+     if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
+-                         &firmware_entry, NULL, NULL, NULL,
++                         &firmware_entry, NULL, &firmware_end, NULL,
+                          0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+-        return firmware_entry;
++        return firmware_end;
+     }
+ 
+-    if (load_image_targphys_as(firmware_filename, firmware_load_addr,
+-                               ram_size, NULL) > 0) {
+-        return firmware_load_addr;
++    firmware_size = load_image_targphys_as(firmware_filename,
++                                           firmware_load_addr, ram_size, NULL);
++
++    if (firmware_size > 0) {
++        return firmware_load_addr + firmware_size;
+     }
+ 
+     error_report("could not load firmware '%s'", firmware_filename);
 -- 
 2.28.0
 
