@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85BD6296ECB
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:23:47 +0200 (CEST)
-Received: from localhost ([::1]:48052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 033E4296EA4
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:23:25 +0200 (CEST)
+Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVw6k-0005Yt-Jg
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:23:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37212)
+	id 1kVw6O-0005Fh-14
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:23:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVw2R-0002ul-CZ; Fri, 23 Oct 2020 08:19:19 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36680)
+ id 1kVw3u-00043U-Km; Fri, 23 Oct 2020 08:20:50 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:43824)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVw2P-00011g-AH; Fri, 23 Oct 2020 08:19:19 -0400
-Received: by mail-pg1-x542.google.com with SMTP id b23so1114245pgb.3;
- Fri, 23 Oct 2020 05:19:16 -0700 (PDT)
+ id 1kVw3s-0001IU-SJ; Fri, 23 Oct 2020 08:20:50 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id a200so1077306pfa.10;
+ Fri, 23 Oct 2020 05:20:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=z2WuP28xT86WpPobv7ndJGF5Was6IrYab0319WrXnpU=;
- b=stkGGQDRRHEE5Yb2ANrVCfLcZYCuFOTf0JOyzbKPES0NGpt6Xrobdk2ydsCjTJqqUh
- IZDb/xB4jpfFgYvsMKaIQ9I62JBVYoW7sFQA9EPldGPRN8DqqNrNiYaX1PeC2c1MdtJB
- OGrUWc5OuIl81eY8HuidigbzVwNcJuSVu2aoyZBy1bPgN5AZ3oUNGbjY+Hk3cRZ7H2GG
- YTON8pc0yv3CwEL5oClkuFXUOCMsFMAeLVdgZECRU89omyUKrxMA3rPb7ZS4gjXJVgjR
- OMVa3fhjvGYIIrc16ZzWpCOzMjIJfPEJ/2CB/a95lKSdSISvKWGzQXGoidvbKG19QDfo
- BENg==
+ bh=dGYC16kRLr+K+bWkoObF8naoY/6hygFVxJewUXsQEC8=;
+ b=FdY+F/bd7Zeu6QzA690ElOVWs0had1Z12pFpsVrVrvsOgb2zUOSDF6X7+2SjCfr+Vv
+ HAyDv7dc/lJzCAYyR4o0bqCD8dtcYHwr3Hfz5ojCAtmCY7Hr5/ltq6d6/dezwATmkHYS
+ 59XF9KFZPOg5/6GOUZyXL9Htx5sbbDDlsi4jaM2md9fjeszq09H1qNoF4wfV6a60i21p
+ zdn0YenmswBIai8Wdj4VrlAuGZbByWNBnZS+xHZWFEaGyFhBQtU8uz9AAiUW93SdZLmf
+ LNctPMVDA+Qtc6sdS6CB/iuId0q1UlgtusUaMyEXuLrAb1o5qkPreehRGpXVzS8VjV/c
+ zgUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=z2WuP28xT86WpPobv7ndJGF5Was6IrYab0319WrXnpU=;
- b=iixpp8TkT9cNGZkxFwihSW5LjvCRcNcTI4ln9ULusoHMW4Y9eNE6Q3YIFF0RPmYiCA
- dweuTUhmNyeOlEbCJw2yrhP/HmdAUdYOAFJsFFsAKptDo5jxvvdq7u7N6DjZMW1pKl9+
- vYsoKkkV+vjF5JwZlJ2s8U23Em4vbGmOasuGITRNFeBYvmV71lUqCNWIH9sOJEBXTHAp
- EPJ7bdlaMI7+F6Lv2MZNmgloWy5Kwl1VE9OyHyWNVT3yq7+YrA0x0P8KMD8JZmfk+OC1
- W+MfYjND6uILcLfUat8zPh/MfUU2E7SrQHpbHqBy/3lUr4HhQI4aEovWuxVA8XTHHrR1
- xNYw==
-X-Gm-Message-State: AOAM530xJL8shAwqPlVRHeVdamAhZBHIkS/D/qGX/RpJaJP022qiLSPP
- TlThGvL+UEvLajslsGafmiyOYeF+VHbIOcUv
-X-Google-Smtp-Source: ABdhPJwBVLRnVJk9ITf/iiacUVNF4OoIe4Pe2qX87WR53+jJ8Hts2hWr4/WFqddXDfdDw2KQo3dd+w==
-X-Received: by 2002:aa7:9e05:0:b029:158:ca8c:fe36 with SMTP id
- y5-20020aa79e050000b0290158ca8cfe36mr1889357pfq.62.1603455555024; 
- Fri, 23 Oct 2020 05:19:15 -0700 (PDT)
+ bh=dGYC16kRLr+K+bWkoObF8naoY/6hygFVxJewUXsQEC8=;
+ b=krJuMiT3dErwbzNMo6pBVLHMBnm6d+P7SxXJZTh5X1XfGEAalLiWWn4WJFUV3d0APh
+ H3mG/Aj4mQCJ59K5TrstcvSgbdpVubjCsf+hSPowt0UgtZKH42pZ8aTbH9P59PrVRZTh
+ hhDw9fXwbBVdImTYmW+CPX3zdT8p3LiSsmaRqtyagz2/cA5rQ5EYHH3ZmQvfmHemh7FI
+ S2k8ltTS1xUpFRZ2B+D7fh+jYWFpVOPylX0xUpQSiiGGI5m/l6RklYWDV0fvB2anAaCw
+ oaNtYIEq7TOXk2qmMS4pm7ueu6UizUDyrQMkSju6es0/vMWwUTnyVZ2esCljn4TFe+IF
+ nmsw==
+X-Gm-Message-State: AOAM530415hehlA/0hAnv9H8m4G279QH5zH0hhZgBywR0ToEEiPWm7PZ
+ OpDx49+MONtFVIctQViVlMDNUE86NR08N7zW
+X-Google-Smtp-Source: ABdhPJw9gMkCbh10UX4/akvV825cqpo1Ed7IZ0JXxMjAqJyP/If/B9Rdv/VIg+8zGrg2Lm8Jo2TSiw==
+X-Received: by 2002:a17:90a:e998:: with SMTP id
+ v24mr2151099pjy.5.1603455646919; 
+ Fri, 23 Oct 2020 05:20:46 -0700 (PDT)
 Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id e4sm1756237pgg.37.2020.10.23.05.19.12
+ by smtp.gmail.com with ESMTPSA id x12sm1957555pfr.156.2020.10.23.05.20.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:19:14 -0700 (PDT)
+ Fri, 23 Oct 2020 05:20:46 -0700 (PDT)
 From: Chetan Pant <chetan4windows@gmail.com>
 To: qemu-trivial@nongnu.org
-Subject: [PATCH 10/30] microblaze tcg cpus: Fix Lesser GPL version number
-Date: Fri, 23 Oct 2020 12:18:21 +0000
-Message-Id: <20201023121821.19179-1-chetan4windows@gmail.com>
+Subject: [PATCH 11/30] prep: Fix Lesser GPL version number
+Date: Fri, 23 Oct 2020 12:19:33 +0000
+Message-Id: <20201023121933.19227-1-chetan4windows@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
 References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=chetan4windows@gmail.com; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,7 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgar.iglesias@gmail.com, qemu-devel@nongnu.org,
+Cc: hpoussin@reactos.org, qemu-devel@nongnu.org,
  Chetan Pant <chetan4windows@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -92,112 +92,14 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 ---
- target/microblaze/cpu.h       | 2 +-
- target/microblaze/gdbstub.c   | 2 +-
- target/microblaze/helper.c    | 2 +-
- target/microblaze/machine.c   | 2 +-
- target/microblaze/mmu.c       | 2 +-
- target/microblaze/mmu.h       | 2 +-
- target/microblaze/op_helper.c | 2 +-
- target/microblaze/translate.c | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+ hw/isa/i82378.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-index 297b368..c1c2641 100644
---- a/target/microblaze/cpu.h
-+++ b/target/microblaze/cpu.h
+diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
+index 8285b06..2a2ff05 100644
+--- a/hw/isa/i82378.c
++++ b/hw/isa/i82378.c
 @@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/gdbstub.c b/target/microblaze/gdbstub.c
-index be39fd4..2e6e070 100644
---- a/target/microblaze/gdbstub.c
-+++ b/target/microblaze/gdbstub.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
-index 3d6ce1b..cda14a1 100644
---- a/target/microblaze/helper.c
-+++ b/target/microblaze/helper.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/machine.c b/target/microblaze/machine.c
-index acdb8d0..c2074bb 100644
---- a/target/microblaze/machine.c
-+++ b/target/microblaze/machine.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/mmu.c b/target/microblaze/mmu.c
-index 1dbbb27..2baaef7 100644
---- a/target/microblaze/mmu.c
-+++ b/target/microblaze/mmu.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/mmu.h b/target/microblaze/mmu.h
-index 7d0fbb8..09e4075 100644
---- a/target/microblaze/mmu.h
-+++ b/target/microblaze/mmu.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
-index 757f3ff..58d6335 100644
---- a/target/microblaze/op_helper.c
-+++ b/target/microblaze/op_helper.c
-@@ -7,7 +7,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/target/microblaze/translate.c b/target/microblaze/translate.c
-index abfcc7e..c1b13f4 100644
---- a/target/microblaze/translate.c
-+++ b/target/microblaze/translate.c
-@@ -7,7 +7,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
