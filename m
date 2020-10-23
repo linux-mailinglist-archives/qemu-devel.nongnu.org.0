@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2F2296A22
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 09:15:59 +0200 (CEST)
-Received: from localhost ([::1]:50438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F199296A18
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 09:13:00 +0200 (CEST)
+Received: from localhost ([::1]:41462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVrIo-0006dV-Il
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 03:15:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60168)
+	id 1kVrFz-00030U-3b
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 03:12:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDo-00019y-Ld
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34595)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDi-0000vR-Jo
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDi-0003eL-Kr
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:44 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDg-0003c2-2R
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603437037;
+ s=mimecast20190719; t=1603437034;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5SZ9EZ04KSxvcAj2egyF4ZXsrUlIi61zoWGJNS7PnBc=;
- b=gIsXL4W1Il1YukTZUCuV1WEZAQ0o+xqoW/OjdUOlMRd3fXwid5skwQNkSj9EBxVclSXPnm
- 1LvU8ZKngyQ/JjAJ0bknn7CnEYy4cRxLvrIqCE3GC8p4o9GpD6H63kSiVm8e0BJjxujw10
- tTABdUO3xa9DR2UB30HdFz7Wf47hdMY=
+ bh=+9HKCEY7PeyytYMMAkm21tXDmuRxndkLeIX+HeKhYCk=;
+ b=QtYisxdxT9ubncR8Y9jxv+qw+AzfsiB2T8QcilC72wmxvhs3kKfjLP2X12PdakX6TVJ3yc
+ /6wujbP6/lN6BNGjc4y6eFZtpj/pC7OVoF7P4PxjKt2N1b/4jeKC3k6GFjN1/0/pRRfckT
+ 0k68xyYSfbWD6t1cAXbV8wDZMvVHljE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-iuzA7nNbPJabd3Qnbz3Rlw-1; Fri, 23 Oct 2020 03:10:33 -0400
-X-MC-Unique: iuzA7nNbPJabd3Qnbz3Rlw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-160-4KCx7HXAOFerXJuNFZfFfg-1; Fri, 23 Oct 2020 03:10:33 -0400
+X-MC-Unique: 4KCx7HXAOFerXJuNFZfFfg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 566C0804B71;
- Fri, 23 Oct 2020 07:10:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 889AA107B471;
+ Fri, 23 Oct 2020 07:10:31 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03495196F3;
- Fri, 23 Oct 2020 07:10:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F38EF5D9CC;
+ Fri, 23 Oct 2020 07:10:22 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 25533A1EE; Fri, 23 Oct 2020 09:10:22 +0200 (CEST)
+ id 2C7631FCE5; Fri, 23 Oct 2020 09:10:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/8] tests/acpi: allow updates for expected data files
-Date: Fri, 23 Oct 2020 09:10:15 +0200
-Message-Id: <20201023071022.24916-2-kraxel@redhat.com>
+Subject: [PATCH 2/8] tests/acpi: add empty tests/data/acpi/virt/DSDT.usb file
+Date: Fri, 23 Oct 2020 09:10:16 +0200
+Message-Id: <20201023071022.24916-3-kraxel@redhat.com>
 In-Reply-To: <20201023071022.24916-1-kraxel@redhat.com>
 References: <20201023071022.24916-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,17 +94,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/qtest/bios-tables-test-allowed-diff.h | 2 ++
- 1 file changed, 2 insertions(+)
+ tests/data/acpi/virt/DSDT.usb | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 tests/data/acpi/virt/DSDT.usb
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8bf4..5d523ded1282 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,3 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/microvm/DSDT.usb",
-+"tests/data/acpi/virt/DSDT.usb",
+diff --git a/tests/data/acpi/virt/DSDT.usb b/tests/data/acpi/virt/DSDT.usb
+new file mode 100644
+index 000000000000..e69de29bb2d1
 -- 
 2.27.0
 
