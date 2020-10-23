@@ -2,102 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F5E2296C40
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 11:39:10 +0200 (CEST)
-Received: from localhost ([::1]:48698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72A36296C47
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 11:42:46 +0200 (CEST)
+Received: from localhost ([::1]:53764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVtXR-0004qt-Jj
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 05:39:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58890)
+	id 1kVtav-0007Co-Hj
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 05:42:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVtW7-00040z-RK
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 05:37:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVtW5-0004n2-Is
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 05:37:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603445864;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qH8RqactvSPHpsjt6azvc1zBXlxbssPGIGkLQRwOYOI=;
- b=T+68tYoj5JwZDOw9EWanPxQ8lfdzuPvymLxaNRESm5SRlPK9NZd5jiEqgivvNFDtAzXe/m
- AZFvoLFyG1IXumFLVzp11M872aYMaMoL3BYXgMfQ882Gq7isKengmJHD/+s4EIXXZ0kQIo
- RYn6GxvMh+u0RyVcv2qoNDlIaMugt20=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-mZuDSVGTNZWtj_AFr2eccA-1; Fri, 23 Oct 2020 05:37:42 -0400
-X-MC-Unique: mZuDSVGTNZWtj_AFr2eccA-1
-Received: by mail-wm1-f69.google.com with SMTP id v14so232518wmj.6
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 02:37:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qH8RqactvSPHpsjt6azvc1zBXlxbssPGIGkLQRwOYOI=;
- b=gheFuxANO8mbQyUvl6Fb/fwcmjcKTAcbHgHmfnVK+XzVuep7WosHhC+Bv6hg6A8m/n
- wRNfTdwKUOzxaqOeovIc4rr5h6AvFRCdPXTC58UbeDyrdfiOJh+riKEhn/syy+uRuzU8
- sCGzJUY2JJFdfImzAPd1eNQykS+7Je2Wk463GDfvBa9oXL4f+lrid1+imjkIpUYrBb9R
- efwWIBl39O9ItX/fKLNoJhvo3ZN0aAMVGVUVONaXTExsbrEPzSs+OTHpo5SkR/Ji2kWh
- kMq+g2PBlC81BQo1U9e9Yga/WPlg+mC0qDwdTPXCrmr4xindn/o93FDgqjw9tc/++MmK
- nY3w==
-X-Gm-Message-State: AOAM5320csehUALynHgTdXr082n5bNSkOVgVlsy3/M9fZbiqkdvwU+xW
- Ctzj3mmIlxaP6apwGghZ/qLvBIVAKrufp4lFetl/YG86MDC/9UwRqqNDY3yjcaXsxnadfvfE/mw
- I5O6Sq8IPKG1WJek=
-X-Received: by 2002:a05:600c:2888:: with SMTP id
- g8mr1377950wmd.130.1603445861493; 
- Fri, 23 Oct 2020 02:37:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCJF8DDsQg1xFuDsdLgxyGRWeq4UOS8V8sOcieUnhM4WGutka0y7hmjmm7iqd/rgVMBgGaNw==
-X-Received: by 2002:a05:600c:2888:: with SMTP id
- g8mr1377935wmd.130.1603445861270; 
- Fri, 23 Oct 2020 02:37:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h206sm2141383wmf.47.2020.10.23.02.37.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 02:37:40 -0700 (PDT)
-Subject: Re: [RFC] Using gitlab for upstream qemu repo?
-To: Eric Blake <eblake@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
- <9f6c63c6-599b-ac15-42e2-b9c1991fc7ee@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <b8090f8a-1592-0959-7bd7-0c5b18a13f11@redhat.com>
-Date: Fri, 23 Oct 2020 11:37:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kVtZa-0006mI-BB; Fri, 23 Oct 2020 05:41:22 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:2945 helo=huawei.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangyifei@huawei.com>)
+ id 1kVtZX-0006Dk-HT; Fri, 23 Oct 2020 05:41:21 -0400
+Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.57])
+ by Forcepoint Email with ESMTP id 26E749EBEFB06B6A1720;
+ Fri, 23 Oct 2020 17:41:09 +0800 (CST)
+Received: from dggemm754-chm.china.huawei.com (10.1.198.60) by
+ DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Fri, 23 Oct 2020 17:41:08 +0800
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ dggemm754-chm.china.huawei.com (10.1.198.60) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Fri, 23 Oct 2020 17:41:08 +0800
+Received: from dggpemm000001.china.huawei.com ([7.185.36.245]) by
+ dggpemm000001.china.huawei.com ([7.185.36.245]) with mapi id 15.01.1913.007;
+ Fri, 23 Oct 2020 17:41:08 +0800
+From: Jiangyifei <jiangyifei@huawei.com>
+To: "Alistair.Francis@wdc.com" <Alistair.Francis@wdc.com>
+Subject: RE: [PATCH V3 1/6] target/riscv: Merge m/vsstatus and m/vsstatush
+ into one uint64_t unit
+Thread-Topic: [PATCH V3 1/6] target/riscv: Merge m/vsstatus and m/vsstatush
+ into one uint64_t unit
+Thread-Index: AQHWqRys4dCH1TwnVkqlZ+p9iNToy6mk7YzQ
+Date: Fri, 23 Oct 2020 09:41:08 +0000
+Message-ID: <6b5533929fa74311b3e5264b126a1d18@huawei.com>
+References: <20201023091225.224-1-jiangyifei@huawei.com>
+ <20201023091225.224-2-jiangyifei@huawei.com>
+In-Reply-To: <20201023091225.224-2-jiangyifei@huawei.com>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.186.209]
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-In-Reply-To: <9f6c63c6-599b-ac15-42e2-b9c1991fc7ee@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.187;
+ envelope-from=jiangyifei@huawei.com; helo=huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 05:41:09
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -110,22 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "qemu-riscv@nongnu.org" <qemu-riscv@nongnu.org>,
+ Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "sagark@eecs.berkeley.edu" <sagark@eecs.berkeley.edu>,
+ "kbastian@mail.uni-paderborn.de" <kbastian@mail.uni-paderborn.de>,
+ "Zhangxiaofeng \(F\)" <victor.zhangxiaofeng@huawei.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "palmer@dabbelt.com" <palmer@dabbelt.com>, yinyipeng <yinyipeng1@huawei.com>,
+ "Wubin \(H\)" <wu.wubin@huawei.com>, "dengkai \(A\)" <dengkai1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/10/20 19:24, Eric Blake wrote:
-> Does this proposal mean that pull requests would have to switch to
-> gitlab merge requests, or would there be a transition period where
-> submaintainers still send pull requests via whichever means desired
-> (mail or gitlab merge request), but the eventual committer repackages
-> that as a gitlab merge request before it is upstream?
 
-No, all it means is that Peter would have to do "git push gitlab"
-instead of "git push origin" :) and likewise for qemu-web and openbios.
+> -----Original Message-----
+> From: Jiangyifei
+> Sent: Friday, October 23, 2020 5:12 PM
+> To: qemu-devel@nongnu.org; qemu-riscv@nongnu.org
+> Cc: palmer@dabbelt.com; Alistair.Francis@wdc.com;
+> sagark@eecs.berkeley.edu; kbastian@mail.uni-paderborn.de;
+> richard.henderson@linaro.org; Zhangxiaofeng (F)
+> <victor.zhangxiaofeng@huawei.com>; Wubin (H) <wu.wubin@huawei.com>;
+> Zhanghailiang <zhang.zhanghailiang@huawei.com>; dengkai (A)
+> <dengkai1@huawei.com>; yinyipeng <yinyipeng1@huawei.com>; Jiangyifei
+> <jiangyifei@huawei.com>
+> Subject: [PATCH V3 1/6] target/riscv: Merge m/vsstatus and m/vsstatush in=
+to
+> one uint64_t unit
+>=20
+> mstatus/mstatush and vsstatus/vsstatush are two halved for RISCV32.
+> This patch expands mstatus and vsstatus to uint64_t instead of target_ulo=
+ng
+> so that it can be saved as one unit and reduce some ifdefs in the code.
+>=20
+> Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
+> Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+> ---
+......
+>  static int write_mstatush(CPURISCVState *env, int csrno, target_ulong va=
+l)
+> {
+> -    if ((val ^ env->mstatush) & (MSTATUS_MPV)) {
+> +    uint64_t valh =3D (uint64_t)val << 32;
+> +    uint64_t mask =3D MSTATUS_MPV | MSTATUS_GVA;
+> +
+> +    if ((valh ^ env->mstatus) & (MSTATUS_MPV)) {
+>          tlb_flush(env_cpu(env));
+>      }
+>=20
+> -    val &=3D MSTATUS_MPV | MSTATUS_GVA;
+> -
+> -    env->mstatush =3D val;
+> +    env->mstatus =3D (env->mstatus & ~mask) | (valh & mask);
+>=20
+>      return 0;
+>  }
 
-I'm open to switching (later) to merge requests for qemu-web, but that's
-a different story.
+Hi Alistair,
 
-Paolo
+It's a little different here.
+
+Previously, except for MPV and GVA, other bits were cleared.
+Now, except for MPV and GVA, other bits are reserved.
+Refer to write_mstatus () and specification, I think it's better now.
+How does it sound?
+
+Yifei
 
 
