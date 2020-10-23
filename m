@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BC3296BE4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 11:14:40 +0200 (CEST)
-Received: from localhost ([::1]:42748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A113296BF6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 11:20:11 +0200 (CEST)
+Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVt9j-000661-PK
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 05:14:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
+	id 1kVtF4-0004EO-61
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 05:20:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kVt85-0004Xv-3G; Fri, 23 Oct 2020 05:12:57 -0400
-Resent-Date: Fri, 23 Oct 2020 05:12:57 -0400
-Resent-Message-Id: <E1kVt85-0004Xv-3G@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kVt82-0004jK-Hb; Fri, 23 Oct 2020 05:12:56 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1603444363; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=QLxUH0ZvgKCmUDJ5SsybGVpw8r6fDSXEhANRw5UUfJ8BJUEqdYq5EfoSTiyeVPs1QTa0dcX3KE0FauFv6pTrMxPn/KXl9QLS9SMwFcziv9aBxJJfjMBePHD161xMwkYJJkdTlLPCfdcXPX50RdYL0X+w+bAd4AIWonnJRpSDqII=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1603444363;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=g8zbOrwzOMrjh5uTA9EO0lQKHF5O6PEBteRMpROlEfI=; 
- b=mc1WAJ1Pa2prP1xnfkCIlZF0EM7WdRUIIl1zpVmg4kLdYoSUiVGs2iI52hLH5iOa4pPa0EsgK9sg6SKziodhtsbRdCqPnTAcTbGC9ByRPriHbkAYkn8DP7h74ewIu56695m2dCT6V4TwZ+U+M8CeFehEqxj0XKuCLxZ4Wk7B30c=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1603444360964852.0995928118759;
- Fri, 23 Oct 2020 02:12:40 -0700 (PDT)
-Subject: Re: [PATCH] virtio-net: Add check for mac address while peer is vdpa
-Message-ID: <160344435949.26284.12794378379370899524@66eaa9a8a123>
-In-Reply-To: <20201023090743.3023-1-lulu@redhat.com>
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kVtBL-0000Jr-U5
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 05:16:21 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28980)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1kVtBD-0005t4-8p
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 05:16:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603444569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wLqOaose11JnLhrDs68jnz2CUX9OtGn5WkQ0rU1vf1A=;
+ b=iupsXU9s8H3r4qhTXm2ZBfckDzO3mZ3zD11p4IfpKXmAVpKPM4CUCxuBKshI9N2Y6tQBby
+ HCW7BzUh0F6BdDoxjvsBo9CYSsZc60jEpd72j9i7mrMUCwN7QMZuruFCoZBrgVLNRFGkZS
+ uEzkyXxQkuMwrovTJRPz17xdMmoL2Ik=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-S8RZQS-8OSSmUBdPFCQX7A-1; Fri, 23 Oct 2020 05:16:07 -0400
+X-MC-Unique: S8RZQS-8OSSmUBdPFCQX7A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD0541018F64;
+ Fri, 23 Oct 2020 09:16:06 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-12-21.pek2.redhat.com [10.72.12.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F205326335;
+ Fri, 23 Oct 2020 09:16:01 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: mst@redhat.com,
+	jasowang@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2] virtio-net: Add check for mac address while peer is vdpa
+Date: Fri, 23 Oct 2020 17:15:59 +0800
+Message-Id: <20201023091559.4858-1-lulu@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: lulu@redhat.com
-Date: Fri, 23 Oct 2020 02:12:40 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 05:12:48
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,44 +77,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: jasowang@redhat.com, qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- lulu@redhat.com, mst@redhat.com
+Cc: qemu-stable@nongnu.org, Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAyMzA5MDc0My4zMDIz
-LTEtbHVsdUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUgc29t
-ZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5mb3Jt
-YXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEwMjMwOTA3NDMuMzAyMy0xLWx1
-bHVAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0hdIHZpcnRpby1uZXQ6IEFkZCBjaGVjayBmb3Ig
-bWFjIGFkZHJlc3Mgd2hpbGUgcGVlciBpcyB2ZHBhCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
-CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
-bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
-UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
-MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFn
-IHVwZGF0ZV0gICAgICBwYXRjaGV3LzE2MDM0Mzg1NDkxMi44NDYwLjE3OTE1MjM4NTE3Nzk5MTMy
-MzcxLnN0Z2l0QHBhc2hhLVRoaW5rUGFkLVgyODAgLT4gcGF0Y2hldy8xNjAzNDM4NTQ5MTIuODQ2
-MC4xNzkxNTIzODUxNzc5OTEzMjM3MS5zdGdpdEBwYXNoYS1UaGlua1BhZC1YMjgwCiAtIFt0YWcg
-dXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMDEwMjMwNjQ2MTguMjE0MDktMS1rcmF4ZWxAcmVkaGF0
-LmNvbSAtPiBwYXRjaGV3LzIwMjAxMDIzMDY0NjE4LjIxNDA5LTEta3JheGVsQHJlZGhhdC5jb20K
-IC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIwMTAyMzA3MzM1MS4yNTEzMzItMS10aHV0
-aEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMDEwMjMwNzMzNTEuMjUxMzMyLTEtdGh1dGhAcmVk
-aGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjAxMDIzMDkwNzQzLjMwMjMt
-MS1sdWx1QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIwMTAyMzA5MDc0My4zMDIzLTEtbHVsdUBy
-ZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZTFjYzEzYiB2aXJ0aW8t
-bmV0OiBBZGQgY2hlY2sgZm9yIG1hYyBhZGRyZXNzIHdoaWxlIHBlZXIgaXMgdmRwYQoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KRVJST1I6IE1pc3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZShzKQoKdG90
-YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxOSBsaW5lcyBjaGVja2VkCgpDb21taXQgZTFjYzEz
-YjhiYzc3ICh2aXJ0aW8tbmV0OiBBZGQgY2hlY2sgZm9yIG1hYyBhZGRyZXNzIHdoaWxlIHBlZXIg
-aXMgdmRwYSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
-ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
-bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpU
-ZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFi
-bGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDEwMjMwOTA3NDMuMzAyMy0xLWx1bHVA
-cmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
-bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
-UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+Sometime vdpa get an all 0 mac address from the hardware, this will cause the traffic down
+So we add the check for this part.
+if we get an 0 mac address we will use the default mac address instead
+
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+---
+ hw/net/virtio-net.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 9179013ac4..f1648fc47d 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+     VirtIONet *n = VIRTIO_NET(vdev);
+     struct virtio_net_config netcfg;
+     NetClientState *nc = qemu_get_queue(n->nic);
++    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
+ 
+     int ret = 0;
+     memset(&netcfg, 0 , sizeof(struct virtio_net_config));
+@@ -151,7 +152,11 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+         ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+                                    n->config_size);
+         if (ret != -1) {
+-            memcpy(config, &netcfg, n->config_size);
++            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) != 0) {
++                memcpy(config, &netcfg, n->config_size);
++        } else {
++                error_report("Get an all zero mac address from hardware");
++            }
+         }
+     }
+ }
+-- 
+2.21.3
+
 
