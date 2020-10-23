@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3C329780D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:08:04 +0200 (CEST)
-Received: from localhost ([::1]:53276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D4BA297817
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 22:09:59 +0200 (CEST)
+Received: from localhost ([::1]:58978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW3M3-0005Ws-HH
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:08:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38574)
+	id 1kW3Nu-0007vW-3W
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 16:09:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kW3L4-0004dE-L7
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:02 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7082)
+ id 1kW3L6-0004de-21
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:04 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:13384
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kW3L1-0003iS-OU
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:02 -0400
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09NK2K26089486; Fri, 23 Oct 2020 16:06:58 -0400
+ id 1kW3L4-0003id-CX
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 16:07:03 -0400
+Received: from pps.filterd (m0098414.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09NJXbfL151695; Fri, 23 Oct 2020 16:07:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=z5M+CfLfcIamQglRSlI21ks6h3CpiPOTkWkfiogbSq4=;
- b=UwHvAt1CzTYN6BHBuo7uTYjgozLC9vtqdFHK3BQEA6zOXpgX/wiknQpUCb3ZWmIVnDg0
- 6x42+FXrjU50hggSZp26gzHY/XOWSEu7M5BSkgNKqF1Qxfbs2Mq39x/btYeKxfQSYSQw
- Y7SKxe47jFbd+2HbOJQIZf5ormZM/vXL/PD3n/16nst4gkyva6dCqgJ+WWwjxiIaFgVX
- Q5Xxo55BWh3U7hmp+s8LstrUh3DcvBBvNqZDQt3IKSBq4yq9kiwSpcp66NRutL1rSF6D
- m5JUnsuz/p6lFzcx73yRt3/CI4zBfkO42zih3jhXePr+HMBdoioNioI6vmpebg91GfaT vw== 
+ bh=okw3TffWEdn/PVkFEUH/mlJtiTHXtPak0FlBw9YMJDw=;
+ b=enJ8C7movXuFPIEyRI4B+ovqWZgBdvWrKXa4gkkw7E1SwmW6d/QYpW9j5uQeOo/H+Ep6
+ EqlUVZF/j3yprMqckLfiF1+h6XSvArbyZZnoB3nSP2Y3WA052KzVLZsV7jI+uNV0zuM0
+ 7KOICi2+SbAwTd5UEUR48n6LfozptJDMw3VIkYGImXf5pNT8zAX4nD+KE2VUXTawzyjH
+ Q8qPail+wNkg1Jb0iyb0XLRINkcl7JLdbtHmp5TEADTchMp8bVfOH7eAXCLLgKQLBhjw
+ 36VyOrj0hqyUrWOVLLZVLowOqNB/ifB84m29t21xfJS2wQymkfxKSTewURVHUPPYsNOJ 8w== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34bm6wbsnh-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34c4vh1sk9-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 16:06:57 -0400
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09NK2llu090635;
- Fri, 23 Oct 2020 16:06:57 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34bm6wbsn9-1
+ Fri, 23 Oct 2020 16:07:00 -0400
+Received: from m0098414.ppops.net (m0098414.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09NK0WTc028726;
+ Fri, 23 Oct 2020 16:06:59 -0400
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34c4vh1sk0-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 16:06:57 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09NJw6oj017944;
- Fri, 23 Oct 2020 20:06:56 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04dal.us.ibm.com with ESMTP id 347r8a7xhn-1
+ Fri, 23 Oct 2020 16:06:59 -0400
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09NK6x84027463;
+ Fri, 23 Oct 2020 20:06:59 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma01dal.us.ibm.com with ESMTP id 34bhyqhase-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 23 Oct 2020 20:06:56 +0000
+ Fri, 23 Oct 2020 20:06:58 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09NK6okm60031266
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09NK6nHg5636760
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 23 Oct 2020 20:06:50 GMT
+ Fri, 23 Oct 2020 20:06:49 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4CC606A04F;
- Fri, 23 Oct 2020 20:06:55 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 281BD6A051;
+ Fri, 23 Oct 2020 20:06:57 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 587F16A054;
- Fri, 23 Oct 2020 20:06:54 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 6E42D6A057;
+ Fri, 23 Oct 2020 20:06:56 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.212.19])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Fri, 23 Oct 2020 20:06:54 +0000 (GMT)
+ Fri, 23 Oct 2020 20:06:56 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/6] fuzz: Make fork_fuzz.ld compatible with LLVM's LLD
-Date: Fri, 23 Oct 2020 16:06:39 -0400
-Message-Id: <20201023200645.1055-2-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
+Date: Fri, 23 Oct 2020 16:06:40 -0400
+Message-Id: <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
 References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
@@ -82,15 +83,15 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
  definitions=2020-10-23_14:2020-10-23,
  2020-10-23 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- malwarescore=0 mlxlogscore=969 mlxscore=0 clxscore=1015 bulkscore=0
- phishscore=0 suspectscore=1 lowpriorityscore=0 impostorscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ impostorscore=0 bulkscore=0
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
+ adultscore=0 suspectscore=1 mlxscore=0 spamscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2010230119
-Received-SPF: none client-ip=148.163.156.1;
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 16:06:56
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 16:07:01
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -110,62 +111,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
+ Daniele Buono <dbuono@linux.vnet.ibm.com>, Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LLVM's linker, LLD, supports the keyword "INSERT AFTER", starting with
-version 11.
-However, when multiple sections are defined in the same "INSERT AFTER",
-they are added in a reversed order, compared to BFD's LD.
+Clang 11 finds a couple of spots in the code that trigger new warnings:
 
-This patch makes fork_fuzz.ld generic enough to work with both linkers.
-Each section now has its own "INSERT AFTER" keyword, so proper ordering is
-defined between the sections added.
+../qemu-base/hw/usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+    uas_iu                    status;
+                              ^
+1 error generated.
+
+The data structure is UASStatus, which must end with a QTAILQ_ENTRY, so
+I believe we cannot have uas_iu at the end. Since this is a gnu
+extension but CLANG supports it, just add
+-Wno-gnu-variable-sized-type-not-at-end
+to remove the warning.
+
+../qemu-base/target/s390x/cpu_models.c:985:21: error: cast to smaller integer type 'S390Feat' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390Feat feat = (S390Feat) opaque;
+                    ^~~~~~~~~~~~~~~~~
+../qemu-base/target/s390x/cpu_models.c:1002:21: error: cast to smaller integer type 'S390Feat' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390Feat feat = (S390Feat) opaque;
+                    ^~~~~~~~~~~~~~~~~
+../qemu-base/target/s390x/cpu_models.c:1036:27: error: cast to smaller integer type 'S390FeatGroup' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390FeatGroup group = (S390FeatGroup) opaque;
+                          ^~~~~~~~~~~~~~~~~~~~~~
+../qemu-base/target/s390x/cpu_models.c:1057:27: error: cast to smaller integer type 'S390FeatGroup' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
+    S390FeatGroup group = (S390FeatGroup) opaque;
+                          ^~~~~~~~~~~~~~~~~~~~~~
+4 errors generated.
+
+These are void * that get casted to enums, which are (or can be)
+smaller than a 64bit pointer.
+A code reorg may be better on the long term, but for now will
+fix this adding
+-Wno-void-pointer-to-enum-cast
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
- tests/qtest/fuzz/fork_fuzz.ld | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ configure | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/qtest/fuzz/fork_fuzz.ld b/tests/qtest/fuzz/fork_fuzz.ld
-index bfb667ed06..cfb88b7fdb 100644
---- a/tests/qtest/fuzz/fork_fuzz.ld
-+++ b/tests/qtest/fuzz/fork_fuzz.ld
-@@ -16,6 +16,11 @@ SECTIONS
-       /* Lowest stack counter */
-       *(__sancov_lowest_stack);
-   }
-+}
-+INSERT AFTER .data;
-+
-+SECTIONS
-+{
-   .data.fuzz_ordered :
-   {
-       /*
-@@ -34,6 +39,11 @@ SECTIONS
-        */
-        *(.bss._ZN6fuzzer3TPCE);
-   }
-+}
-+INSERT AFTER .data.fuzz_start;
-+
-+SECTIONS
-+{
-   .data.fuzz_end : ALIGN(4K)
-   {
-       __FUZZ_COUNTERS_END = .;
-@@ -43,4 +53,4 @@ SECTIONS
-  * Don't overwrite the SECTIONS in the default linker script. Instead insert the
-  * above into the default script
-  */
--INSERT AFTER .data;
-+INSERT AFTER .data.fuzz_ordered;
+diff --git a/configure b/configure
+index e6754c1e87..9dc05cfb8a 100755
+--- a/configure
++++ b/configure
+@@ -2000,6 +2000,8 @@ add_to nowarn_flags -Wno-shift-negative-value
+ add_to nowarn_flags -Wno-string-plus-int
+ add_to nowarn_flags -Wno-typedef-redefinition
+ add_to nowarn_flags -Wno-tautological-type-limit-compare
++add_to nowarn_flags -Wno-gnu-variable-sized-type-not-at-end
++add_to nowarn_flags -Wno-void-pointer-to-enum-cast
+ add_to nowarn_flags -Wno-psabi
+ 
+ gcc_flags="$warn_flags $nowarn_flags"
 -- 
 2.17.1
 
