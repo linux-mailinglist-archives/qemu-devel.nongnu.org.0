@@ -2,51 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E7629699F
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 08:17:22 +0200 (CEST)
-Received: from localhost ([::1]:48948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCA72969B6
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 08:30:21 +0200 (CEST)
+Received: from localhost ([::1]:58682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVqO9-0004ls-4r
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 02:17:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49836)
+	id 1kVqag-0000xb-Qb
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 02:30:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kVqJq-0000CU-1H; Fri, 23 Oct 2020 02:12:54 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:47496 helo=huawei.com)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kVqUv-0000Dx-L1; Fri, 23 Oct 2020 02:24:21 -0400
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:38985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kVqJn-0000wi-JC; Fri, 23 Oct 2020 02:12:53 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by Forcepoint Email with ESMTP id 883A9695B20B134086C6;
- Fri, 23 Oct 2020 14:12:45 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS402-HUB.china.huawei.com
- (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Fri, 23 Oct 2020
- 14:12:39 +0800
-From: Chen Qun <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH RESEND v2 7/7] block/file-posix: fix a possible undefined
- behavior
-Date: Fri, 23 Oct 2020 14:12:18 +0800
-Message-ID: <20201023061218.2080844-8-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
-References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kVqUt-0004Zs-PA; Fri, 23 Oct 2020 02:24:21 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 452745C00FE;
+ Fri, 23 Oct 2020 02:24:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Fri, 23 Oct 2020 02:24:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=dmEPFgjWvZxhwXnsdWxO2Er6ecl
+ mDB2Jf3m785ZL6Ac=; b=GdkVgb7APw7lZ8Yct7urORc/2XIb5SilTnUVCjv9izI
+ 9QSee81EvIHRtTh7icrchLInlOdHgmjFhoxl+rKNiFDFKVVDMFQZdA9QOf7XKyL0
+ G0q7EXwhCvAsON1mfB0wMlAyyiIBvVL0XFnEPvgQJKLWdrFrlDKOn8bHFd593yDF
+ HAJSnVa1ywreibWPVJxQLmR+YRQsunDDPa5cEg+9jANWPsNee2qEvZke7LYbb9kk
+ MRpRbJa0fICcyK56vrC4lGToKOJ3+Lz+HxfuUxu8EdnOj7qZNYARVYH69nlxangh
+ fy9WRdYFqnKQRRWGXlNBby9w784QXwsVaf/PjWVUuww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dmEPFg
+ jWvZxhwXnsdWxO2Er6eclmDB2Jf3m785ZL6Ac=; b=oc/nVAeQCzkDK4WZ7VUDmK
+ pyiaCSu6LVY5k/UYlGjjSgtkkofNNz9QVXdIKTscEUjfg2A+2q/YeaAEhgqlLgAO
+ crct2vdIMZ2ctJ2GaJbrqHCfsBjhvBcgpBuj/7wo6o0AECcaGbWCxE83BlG60MwM
+ LrphX3zZ8KTv8u8g/wkLac9Y3Vdm/ZsiC1TnWPvYI2svUsi5Ob3esLW4stHFYpR5
+ 6iUWtVL0gTguDoB5TzC5OhQ8oaRvbhAM3yVC+Wb2AnM0e9oZFBPJTf22GbqwNIaL
+ SYrnC8N7eu4y76az6gz8tybx0mz9jKgnHwVpsOSzXKSkfwpB7g6hoHXg2fcvDyTA
+ ==
+X-ME-Sender: <xms:EXeSX1FQABAPhpmXzY7XO4jUf-tpAqCpD6q3xLLFePn_w8ZeNyGVSQ>
+ <xme:EXeSX6UU7ajiqxsmU9tCl3dPrB5dAgvQUZzWbMD2zeWVgMr7KOHs5UeMeLLXhqrrt
+ Fg69YxeJhTlPCL950o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrjeelgddutdelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:EXeSX3Jg-gIIxp2vqEsOKJp_ZD0xXVm1tqwtG0EkhPQ92p4snJH9BQ>
+ <xmx:EXeSX7HoPEFKUIjp4-u_YEtCYBjy45KEpd4xFh3Kdc5g3reU0u5PoA>
+ <xmx:EXeSX7Xdbb2LcxYmjAepSPNir62N81JhhNPOcU5RZhmnEU_sMM9y-g>
+ <xmx:EneSXxfLB5IB_BIHNjazf3hTy45bfVocEKDfGXXxxsO5fC435WDKoQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D6DCC328005D;
+ Fri, 23 Oct 2020 02:24:15 -0400 (EDT)
+Date: Fri, 23 Oct 2020 08:24:14 +0200
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v5 2/2] hw/block/nvme: add the dataset management command
+Message-ID: <20201023062414.GB244769@apples.localdomain>
+References: <20201022184959.240505-1-its@irrelevant.dk>
+ <20201022184959.240505-3-its@irrelevant.dk>
+ <05c41ab7-039f-f327-c6a0-5864430f5ba6@redhat.com>
+ <20201023052512.GA244769@apples.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=kuhn.chenqun@huawei.com; helo=huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:12:37
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yNb1oOkm5a9FJOVX"
+Content-Disposition: inline
+In-Reply-To: <20201023052512.GA244769@apples.localdomain>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:25:16
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,44 +98,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Kevin
- Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
- Li Qiang <liq3ea@gmail.com>, pannengyuan@huawei.com, ganqixin@huawei.com,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pan Nengyuan <pannengyuan@huawei.com>
 
-local_err is not initialized to NULL, it will cause a assert error as below:
-qemu/util/error.c:59: error_setv: Assertion `*errp == NULL' failed.
+--yNb1oOkm5a9FJOVX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixes: c6447510690
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Pan Nengyuan <pannengyuan@huawei.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
- block/file-posix.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Oct 23 07:25, Klaus Jensen wrote:
+> On Oct 22 23:02, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 10/22/20 8:49 PM, Klaus Jensen wrote:
+> > > -    /* support DULBE */
+> > > -    id_ns->nsfeat |=3D 0x4;
+> > > +    /* support DULBE and I/O optimization fields */
+> > > +    id_ns->nsfeat |=3D (0x4 | 0x10);
+> >=20
+> > The comment helps, but isn't needed if you use explicit definitions
+> > for these flags. You already introduced the NVME_ID_NS_NSFEAT_DULBE
+> > and NVME_ID_NS_FLBAS_EXTENDED but they are restricted to extract bits.
+> > This is why I personally prefer the registerfields API (see
+> > "hw/registerfields.h").
+> >=20
+>=20
+> I've been wanting to fix those constants - but the convention that they
+> only extract bits pre-dates the nvme device and is from when the nvme
+> block driver was introduced - I have just been following the precedence
+> by defining them like that.
+>=20
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index c63926d592..b711124672 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -2110,7 +2110,7 @@ static void raw_aio_attach_aio_context(BlockDriverState *bs,
- #endif
- #ifdef CONFIG_LINUX_IO_URING
-     if (s->use_linux_io_uring) {
--        Error *local_err;
-+        Error *local_err = NULL;
-         if (!aio_setup_linux_io_uring(new_context, &local_err)) {
-             error_reportf_err(local_err, "Unable to use linux io_uring, "
-                                          "falling back to thread pool: ");
--- 
-2.23.0
+I did not know about the hw/registerfields.h API. Looks promising!
 
+--yNb1oOkm5a9FJOVX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+SdwsACgkQTeGvMW1P
+Delpswf+KYL3bZzBdoW8LfNhCn/yOE+YnrzphIEbCfSD/l9U096XHjNt52oSiGgG
+rfQMAOZ9x7eo8xKfMljWxT+Itx3+WhqXMUS7+GR6AK+qT7HsQdBLjILx/iEQN/+F
+1igWF3XPiCiAJZKaDYtEadVIi9IiRaJWoeN9cCwgiyPwZzVzXy8KJWIN0HVRLLrt
+5CAsuzyb4BAbIy7t46aF2FStW6HP8L+fQWDg5Kkbyt1vGWgF1zKLt16hj4EXpY0o
+eOz7fMHBdIsgle20urRZ7nvFSzCkxUgAug6cu4mHUq20lFZ++kRVPQO5dF2ANlDX
+geZvg/Pdb7daMWnsqAQWCEA3RgcOBw==
+=qbzu
+-----END PGP SIGNATURE-----
+
+--yNb1oOkm5a9FJOVX--
 
