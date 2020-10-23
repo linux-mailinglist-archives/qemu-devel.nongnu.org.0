@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9B6296C93
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 12:14:34 +0200 (CEST)
-Received: from localhost ([::1]:38500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD8C296C95
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 12:15:01 +0200 (CEST)
+Received: from localhost ([::1]:39688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVu5g-00074N-NP
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 06:14:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37618)
+	id 1kVu68-0007Yo-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 06:15:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVu4C-0005Pr-CW
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 06:13:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47926)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVu4F-0005S4-0H
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 06:13:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVu4A-0001bI-00
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 06:13:00 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVu4B-0001bQ-JL
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 06:13:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603447976;
+ s=mimecast20190719; t=1603447977;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gSp78aYnfBQazXAWBJcm69s0Ji1f69fThU0FHl/a+8Y=;
- b=egEprZDMH90d6gpptN3jxLxsCQ7QitO2htc7Q1pntgAYOJlkjRTQXhSfFWjEcoWhSBV+6J
- Fc0Jzq1czFEXWv0UiAxhtEudupOcQ6MTYh3r375SP691QYHXztzlGXUtmwxqFtMOyRgZ8z
- EAbvFEL4+j9Evcqb/wwj2hFEi/3ebfo=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nR0t/64OoqS3nHIc7Q1It3GOdTGMs995nQA4f69q28k=;
+ b=Cu9bBpGNeLdBMJ7G/H3jQ/6nonwG+S2ngyzgxsL+f89uJIbpgkGwZ5BP0WN7lqChzx9uBw
+ S6SA38Z8Xb2T2QKGW2SjN/PbSUsV752NOglazkcTL3mIS498nOwtiDSgCcXNEYu8Nnsaxx
+ CHJU2cSTWA7WK48UyLLvZWs0OsX6LZg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-IdF_BeBAN4-QqyoUMZ5YIA-1; Fri, 23 Oct 2020 06:12:54 -0400
-X-MC-Unique: IdF_BeBAN4-QqyoUMZ5YIA-1
+ us-mta-422-gprlVrXtNrqxqQNXZfAyRA-1; Fri, 23 Oct 2020 06:12:56 -0400
+X-MC-Unique: gprlVrXtNrqxqQNXZfAyRA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D4E3805F05;
- Fri, 23 Oct 2020 10:12:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 248AD804B6E;
+ Fri, 23 Oct 2020 10:12:55 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-206.ams2.redhat.com [10.36.113.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEC786EF65;
- Fri, 23 Oct 2020 10:12:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A7DF06EF41;
+ Fri, 23 Oct 2020 10:12:53 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/6] qemu-storage-daemon: QAPIfy --chardev
-Date: Fri, 23 Oct 2020 12:12:16 +0200
-Message-Id: <20201023101222.250147-1-kwolf@redhat.com>
+Subject: [PATCH 1/6] char/stdio: Fix QMP default for 'signal'
+Date: Fri, 23 Oct 2020 12:12:17 +0200
+Message-Id: <20201023101222.250147-2-kwolf@redhat.com>
+In-Reply-To: <20201023101222.250147-1-kwolf@redhat.com>
+References: <20201023101222.250147-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -80,100 +83,52 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While the qemu-storage-daemon command line is still considered unstable,
-let's change --chardev from the old QemuOpts-based parser to QAPI, so
-that it becomes a simple mapping of chardev-add to the command line and
-will fit in a future fully QAPIfied command line without later
-incompatible changes or additional compatibility glue.
+Commit 02c4bdf1 tried to make signal=on the default for stdio chardevs
+except for '-serial mon:stdio', but it forgot about QMP and accidentally
+switched the QMP default from true (except for -nographic) to false
+(always). The documentation was kept unchanged and still describes the
+opposite of the old behaviour (which is an even older documentation
+bug).
 
-Kevin Wolf (6):
-  char/stdio: Fix QMP default for 'signal'
-  char: Factor out qemu_chr_print_types()
-  qapi: Remove wrapper struct for simple unions
-  qapi: Optionally parse simple unions as flat
-  tests/qapi-schema: Flat representation of simple unions
-  qemu-storage-daemon: Use qmp_chardev_add() for --chardev
+Fix all of this by making signal=true the default in ChardevStdio and
+documenting it as such.
 
- qapi/char.json                                |  6 +-
- docs/devel/qapi-code-gen.txt                  | 43 +++++++---
- include/chardev/char.h                        |  1 +
- include/qapi/visitor-impl.h                   |  3 +
- include/qapi/visitor.h                        | 10 +++
- backends/tpm/tpm_emulator.c                   |  3 +-
- backends/tpm/tpm_passthrough.c                |  4 +-
- block/crypto.c                                |  3 +-
- block/qcow2.c                                 |  9 +-
- block/vmdk.c                                  | 14 ++--
- blockdev.c                                    | 36 ++++----
- chardev/char-file.c                           |  5 +-
- chardev/char-mux.c                            |  5 +-
- chardev/char-parallel.c                       |  5 +-
- chardev/char-pipe.c                           |  7 +-
- chardev/char-ringbuf.c                        |  5 +-
- chardev/char-serial.c                         |  5 +-
- chardev/char-socket.c                         | 13 ++-
- chardev/char-stdio.c                          |  9 +-
- chardev/char-udp.c                            | 11 +--
- chardev/char.c                                | 27 +++---
- chardev/msmouse.c                             |  4 +-
- chardev/wctablet.c                            |  4 +-
- hw/core/numa.c                                |  6 +-
- hw/display/xenfb.c                            |  8 +-
- hw/input/hid.c                                |  8 +-
- hw/input/ps2.c                                |  6 +-
- hw/input/virtio-input-hid.c                   |  8 +-
- hw/mem/pc-dimm.c                              | 18 ++--
- hw/virtio/virtio-mem-pci.c                    |  3 +-
- hw/virtio/virtio-pmem-pci.c                   |  3 +-
- monitor/hmp-cmds.c                            | 14 ++--
- qapi/qapi-visit-core.c                        | 10 +++
- qemu-keymap.c                                 |  2 +-
- replay/replay-input.c                         | 46 +++++-----
- storage-daemon/qemu-storage-daemon.c          | 47 +++++++++--
- tests/test-char.c                             | 12 ++-
- tests/test-clone-visitor.c                    | 14 ++--
- tests/test-qmp-cmds.c                         |  2 +-
- tests/test-qobject-input-visitor.c            | 24 +++---
- tests/test-qobject-output-visitor.c           | 24 +++---
- ui/console.c                                  |  5 +-
- ui/input-keymap.c                             | 12 +--
- ui/input-legacy.c                             | 12 +--
- ui/input.c                                    | 43 +++++-----
- util/qemu-sockets.c                           |  8 +-
- scripts/qapi/expr.py                          |  7 +-
- scripts/qapi/introspect.py                    |  7 +-
- scripts/qapi/schema.py                        | 63 +++++++++++---
- scripts/qapi/visit.py                         | 36 ++++++++
- tests/qapi-schema/doc-good.out                |  8 +-
- tests/qapi-schema/flat-union-allow-flat.err   |  2 +
- tests/qapi-schema/flat-union-allow-flat.json  | 10 +++
- tests/qapi-schema/flat-union-allow-flat.out   |  0
- tests/qapi-schema/meson.build                 |  4 +
- tests/qapi-schema/qapi-schema-test.json       | 10 +++
- tests/qapi-schema/qapi-schema-test.out        | 84 +++++++------------
- tests/qapi-schema/union-allow-flat-bad.err    |  2 +
- tests/qapi-schema/union-allow-flat-bad.json   |  5 ++
- tests/qapi-schema/union-allow-flat-bad.out    |  0
- .../union-allow-flat-builtin-type.err         |  2 +
- .../union-allow-flat-builtin-type.json        |  5 ++
- .../union-allow-flat-builtin-type.out         |  0
- tests/qapi-schema/union-clash-member.err      |  2 +
- tests/qapi-schema/union-clash-member.json     |  6 ++
- tests/qapi-schema/union-clash-member.out      |  0
- 66 files changed, 484 insertions(+), 336 deletions(-)
- create mode 100644 tests/qapi-schema/flat-union-allow-flat.err
- create mode 100644 tests/qapi-schema/flat-union-allow-flat.json
- create mode 100644 tests/qapi-schema/flat-union-allow-flat.out
- create mode 100644 tests/qapi-schema/union-allow-flat-bad.err
- create mode 100644 tests/qapi-schema/union-allow-flat-bad.json
- create mode 100644 tests/qapi-schema/union-allow-flat-bad.out
- create mode 100644 tests/qapi-schema/union-allow-flat-builtin-type.err
- create mode 100644 tests/qapi-schema/union-allow-flat-builtin-type.json
- create mode 100644 tests/qapi-schema/union-allow-flat-builtin-type.out
- create mode 100644 tests/qapi-schema/union-clash-member.err
- create mode 100644 tests/qapi-schema/union-clash-member.json
- create mode 100644 tests/qapi-schema/union-clash-member.out
+Fixes: 02c4bdf1d2ca8c02a9bae16398f260b5c08d08bf
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ qapi/char.json       | 3 +--
+ chardev/char-stdio.c | 4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
+diff --git a/qapi/char.json b/qapi/char.json
+index b4d66ec90b..43486d1daa 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -321,8 +321,7 @@
+ # Configuration info for stdio chardevs.
+ #
+ # @signal: Allow signals (such as SIGINT triggered by ^C)
+-#          be delivered to qemu.  Default: true in -nographic mode,
+-#          false otherwise.
++#          be delivered to qemu.  Default: true.
+ #
+ # Since: 1.5
+ ##
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..403da308c9 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -112,9 +112,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
+ 
+     qemu_chr_open_fd(chr, 0, 1);
+ 
+-    if (opts->has_signal) {
+-        stdio_allow_signal = opts->signal;
+-    }
++    stdio_allow_signal = !opts->has_signal || opts->signal;
+     qemu_chr_set_echo_stdio(chr, false);
+ }
+ #endif
 -- 
 2.28.0
 
