@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 171D5296AEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 10:09:47 +0200 (CEST)
-Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7171C296AE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 10:08:37 +0200 (CEST)
+Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVs8w-00035y-50
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 04:09:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41540)
+	id 1kVs7o-0001JX-HW
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 04:08:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs5U-0007hf-Ch
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23989)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs5u-0008J4-HP
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs5S-0006Ni-0a
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:12 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs5t-0006Wk-5m
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:06:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603440367;
+ s=mimecast20190719; t=1603440396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/kjGCHtsRxV39syqhm4jalNJx7Y5lR3W0xXXv+P/xoA=;
- b=ZVXsvLGWMGyqFAhqm+Rla589DwNevksIxrOMm3n2ypFmug+AikDco3HB1civZAsKH+osOV
- x9vbW625F3I8Mfc3wMuBu964hKytR3JzpOp+3qnTnfjh26XzARCWL+eJmQEHp7lvYTCdWj
- pY4su3arvNMW9Wxn+eNsbs/Fu5bmEzs=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-cSYUN7YWPw27t2130Q5p2g-1; Fri, 23 Oct 2020 04:06:05 -0400
-X-MC-Unique: cSYUN7YWPw27t2130Q5p2g-1
-Received: by mail-wm1-f71.google.com with SMTP id y83so78180wmc.8
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 01:06:05 -0700 (PDT)
+ bh=V08BVp0omfUQxfrM0QXR93eKxkkj0/clyzjQCD16s3U=;
+ b=MtVf+5gF9BKmdKexBLyvd1zbid/BQJg6kR+HE4M3dBvtUnl3EDE95Kk5DsV8VuEPyUP9BP
+ nVgDsQ/HzmyXY4CiIGcJ4jDbkARISh7ESX+hdzTxFSsA+w9jLN2+A6q4ojEGwFRoutOeQB
+ kbPaWPypKqFkpQbX225LuI7XgmI+rW4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-265-Gb7mg_09NfW-KJ8xvUi7OA-1; Fri, 23 Oct 2020 04:06:34 -0400
+X-MC-Unique: Gb7mg_09NfW-KJ8xvUi7OA-1
+Received: by mail-wr1-f70.google.com with SMTP id u15so306303wrn.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 01:06:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/kjGCHtsRxV39syqhm4jalNJx7Y5lR3W0xXXv+P/xoA=;
- b=i1t9bNuZc2EJpbFOAla4Tq09+FPjGGwd1YW4e6ZHESdyoVgA28ipcSpOI13ZIwy+Ko
- cE0nrYK+R0CIF22nZqGHMUi34k6ETsaCuCkdR6sEKMevg2gACnhQZrxjufQu+5eOAF16
- gRPL2GN5xs4sHQVW46spfi89VosGQUJD82+Sdalvv8MU8vcMdzeZKIVoP7gGTTm2npja
- ltRqF67g54svRVn3Nww0+yGAvApqdzPcXCO9J7cgNIfoxh1rPWnogLZKb5zR3RU/j2ZJ
- i/xRSdHWLQdxJ1niHM074Lov2kuaA115xjRHhLFgpMnJjThLioW+Sw1aLZV/E52/xcAy
- HnEA==
-X-Gm-Message-State: AOAM530P7JXEVIaG/JOQ48YFFTGKAAACAs23E+41PocDLcSTjNg3SbS3
- /9LddrWqM250AfIj2OzncZyQ4GlNsuZoU29cuIJSylVBgnL0dNC9f4pEEZmH0CWCI/IzPgs+TH0
- UzIjyCfTHjvqdWq8=
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr1197924wrq.270.1603440364461; 
- Fri, 23 Oct 2020 01:06:04 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxrRaaRtM+KSYB3HQy6w4YekV1mC3Bo3ySe80ANBTJ2fzw//zW9ysEFs8alKj2LYSCDMwPzkA==
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr1197914wrq.270.1603440364344; 
- Fri, 23 Oct 2020 01:06:04 -0700 (PDT)
+ bh=V08BVp0omfUQxfrM0QXR93eKxkkj0/clyzjQCD16s3U=;
+ b=Evkb2/5LW09AW26e3mQ+1pr6fBuDO2I50Z6dLzWiXeEoXVhJOhjFOO7kbFpq9FLQcc
+ jt9DyN/ICKE9aSExz5tBq5HlUY2Q2DqkzVsKfYCaB7pzkqPZOztat7kukxF5an8dicui
+ t3swQslt46n9eQvttla4K/1LLKRCkMNRM38oalzczhf+cMtIuWBo13JmaXsvAEvZAB7E
+ cOPhT3+L2EWLXrviyUk3TOSh9DLa054XUgiKyVUHPLerbQ8Y09j7vjub4HZ2tRTcgJkn
+ C7kmfotYc6NI77K70DOzxNtSTpVGELKM16Ua1bdG7DxpUokNpDT8+Ahnx+1czlqmNPCz
+ UmSA==
+X-Gm-Message-State: AOAM531S7DdEaiVn6yckPGnaazdPHTLGVw4qCVC7Dyv3YYBhbFi187m9
+ sVyyFxso0w5AMdQsOiMhZGMA1F/5qhR728DesJBj7xylfYj+/V9tVaU81BhUw0Z2nNAfgLFLuP5
+ Nly2fRJVSePqLoh8=
+X-Received: by 2002:adf:ee44:: with SMTP id w4mr1313909wro.114.1603440393379; 
+ Fri, 23 Oct 2020 01:06:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3E24pXGGgRHYkxqEkNQdFsrjjeQompue0WHRsWbKZXWJXMSrLDubxJg3vJ9nayM1S3l56Ag==
+X-Received: by 2002:adf:ee44:: with SMTP id w4mr1313894wro.114.1603440393193; 
+ Fri, 23 Oct 2020 01:06:33 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id v189sm1570946wmg.14.2020.10.23.01.06.03
+ by smtp.gmail.com with ESMTPSA id g83sm1559804wmf.15.2020.10.23.01.06.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 01:06:03 -0700 (PDT)
-Subject: Re: [PATCH 2/4] test/acceptance: Remove the CONTINUOUS_INTEGRATION
- tags
+ Fri, 23 Oct 2020 01:06:32 -0700 (PDT)
+Subject: Re: [PATCH 3/4] tests/acceptance: Enable AVOCADO_ALLOW_UNTRUSTED_CODE
+ in the gitlab-CI
 To: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
  qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20201023073351.251332-1-thuth@redhat.com>
- <20201023073351.251332-3-thuth@redhat.com>
+ <20201023073351.251332-4-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <3b7aa6a8-77b3-ee21-dc3a-fd3ad2f64e50@redhat.com>
-Date: Fri, 23 Oct 2020 10:06:02 +0200
+Message-ID: <3290ef69-1d0f-290b-2174-503babfcf649@redhat.com>
+Date: Fri, 23 Oct 2020 10:06:31 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201023073351.251332-3-thuth@redhat.com>
+In-Reply-To: <20201023073351.251332-4-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,16 +78,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -109,13 +109,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/23/20 9:33 AM, Thomas Huth wrote:
-> We are not running the acceptance tests on Travis anymore, so these
-> checks can be removed now.
+> The tests are running in containers here, so it should be OK to
+> run with AVOCADO_ALLOW_UNTRUSTED_CODE enabled in this case.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   tests/acceptance/ppc_prep_40p.py | 2 --
->   1 file changed, 2 deletions(-)
+>   .gitlab-ci.yml | 1 +
+>   1 file changed, 1 insertion(+)
+
+Thanks :)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
