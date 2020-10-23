@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D4F2974C7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:41:13 +0200 (CEST)
-Received: from localhost ([::1]:49644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6041F29747F
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:38:31 +0200 (CEST)
+Received: from localhost ([::1]:43214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW07s-0002ss-3g
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:41:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37942)
+	id 1kW05G-0000HX-Dq
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:38:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kVzHy-0004ys-3K; Fri, 23 Oct 2020 11:47:34 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:37529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kVzHv-0004Az-UZ; Fri, 23 Oct 2020 11:47:33 -0400
-Received: by mail-io1-xd42.google.com with SMTP id q25so2323382ioh.4;
- Fri, 23 Oct 2020 08:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Q0zhBuJwVfaqWFxVDvRV6NmbWfYwQwjqyLOvb6HnaOo=;
- b=BPXWEqqwSKCrYmOPf2dmlb/NdjOA+3/T1KBwcxXbKvrezDVt/U6Rwey1JIg0LSqFPR
- fiELqCyuIvHWp8z9qz0laUB7UvsodIWIq3d4Rmnzr2INwP6UdgQqFMjtgwnAmK3pviLc
- 2rBl5H3jo1+8Rh9biHM3QFTPRN3P3bsWti1hMu3lhgCnYKHXJqa8h0btcOe0oJb6Rkop
- fQdUqMAZoSmNBX/tq5/sv15i63ZkkafBycmEYnxP+hj6R6axV1qMpT6rLDuBA4mD+P3k
- W2hiT4eDMMs/ZrKqdeq5QNee3BgnaMUjVr1S9tykskJQka7LYYx08cL22QJuXMqz9cDd
- 4GUA==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVzHZ-0004YI-Kk
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:47:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kVzHO-000465-7T
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:47:07 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603468015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FFAFn6yjzTaPPEeEDX9PIgSh6b3Myg1TaCjEQmzvdOE=;
+ b=dae7NsVxN3NsUoiAIFFonCkjlJdw/FHdMTVfREfUEe5ZT2i4t3EVMRmIyoCIubdz/lculW
+ jB8ZJqkV3E/TsKXe32axYbnOcAMjs7T/b+QamswIGZuezj9bmWjbp2YFjr3MugF3v2hjdt
+ cgxYkGdS0x7LjNxvlJvoXus+2sV0f4Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-531-DiJbzc0gMoysQBwq9FqoTQ-1; Fri, 23 Oct 2020 11:46:52 -0400
+X-MC-Unique: DiJbzc0gMoysQBwq9FqoTQ-1
+Received: by mail-wm1-f72.google.com with SMTP id s25so602773wmj.7
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 08:46:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Q0zhBuJwVfaqWFxVDvRV6NmbWfYwQwjqyLOvb6HnaOo=;
- b=R1MVDbiFuAiIxpF68vOLjEdCbKF+zwVdmCqisDapXWCsQRGvieU4JKpCkgMefAsrGC
- HpAE8Tg0VoKFIaLPw2UzTkgRT0viAs39z25zAPPQEUthHu7Oe7+cN41IEUn4QKx6axsN
- vMjmWmU2muQ9giWNNI3Exq7YY6SqxZXVqj5Jc73n5yCWF6nOd3bD06TUzNSwG+B+WccK
- sIhORNX/XFdckMyrKgAIijju5qtx4kJlwMWf3bQX9o/YAcPcHE33bRdJDaN8EmVx2Pgv
- VaTBIWUL226tkAF3gIfftzH4QSwg5m5qyT8jRIWjxvcBStKKUeo5mDIyFpJQ84ianP6d
- Z4gA==
-X-Gm-Message-State: AOAM533EGbw6ta3bsP18fM3CZBg1TTPamsjdS/0+/s5C+nNXI3afMl7A
- UdgR4lt9ybv8+Pv+cdO/FA3lRF3LAC4JpDlUa8k=
-X-Google-Smtp-Source: ABdhPJw3usEvnAShsrwsaSGjnr7oHPjh0r00VfbjESsA//+BSur0QqlIQyc1UMWcLOwlejxXM1TufgcvT11xjQ21BuE=
-X-Received: by 2002:a05:6638:1696:: with SMTP id
- f22mr2586337jat.8.1603468050333; 
- Fri, 23 Oct 2020 08:47:30 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FFAFn6yjzTaPPEeEDX9PIgSh6b3Myg1TaCjEQmzvdOE=;
+ b=nWLHA/bRQ7iiWdIWAt1Q2tbpyOG8963qQWYXU16a9PDGs53bdG5B2V7NTOtnGbfMLM
+ tZtOMzWPWA6FGpwkCmBB+hgafbThM89sZLyv0los7eJL1xBGu0lyytP3IL+3qRxAe37b
+ 8Q62ppGXN7oD65dF0BnY8lTET3XccQDxJvz7vMHBGdB38ZEr7TiWygOS6brxo0VvKaay
+ C6bt8CYSceVL3u3G/4AUgR+mg5mh2MgMq5l9hFOx2dY3ccpWNuCyhuE8WIvUrv/vC3xW
+ Ssicnhep4Ep3sLPpG+VgQzfKFj4s3Pz6Y4z42In6IJ2HNXE90tNInQGtm4eDNbh8Yg5B
+ Ve/w==
+X-Gm-Message-State: AOAM533L/Kd5HAiSjEeOA6mJlvhFfCjcf0fhhm1gnqu9RrL5ESRmW9Gk
+ 7b5rrkZR8OAWgL2Sf6ZYYSPNg+0kypw4MZld7F4qCN7Afj/JjWbSGtZn82m4Sr2EhCfPeePLnku
+ okGtSoC1paRd0vRM=
+X-Received: by 2002:a05:6000:4c:: with SMTP id
+ k12mr3167232wrx.278.1603468011057; 
+ Fri, 23 Oct 2020 08:46:51 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJznurcYKrt80x09tt1NzBygNP08ij+JDsAxvch4Gi88jGAqpabDigv55qqLkeTCVuP+Il9QKQ==
+X-Received: by 2002:a05:6000:4c:: with SMTP id
+ k12mr3167200wrx.278.1603468010775; 
+ Fri, 23 Oct 2020 08:46:50 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e25sm4396193wra.71.2020.10.23.08.46.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 23 Oct 2020 08:46:50 -0700 (PDT)
+Subject: Re: [qemu-web PATCH 5/7] Simplify and restructure the page footer
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201023152957.488974-1-berrange@redhat.com>
+ <20201023152957.488974-6-berrange@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <54f37d84-a66e-bbfa-b410-2dba44d88ac9@redhat.com>
+Date: Fri, 23 Oct 2020 17:46:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201021170842.25762-1-alex.bennee@linaro.org>
- <20201021170842.25762-3-alex.bennee@linaro.org>
-In-Reply-To: <20201021170842.25762-3-alex.bennee@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 23 Oct 2020 08:35:43 -0700
-Message-ID: <CAKmqyKNdUQ4cEOzm4Ldd9nyPkiALktz-m0YKAo+vtkn4t8QcOg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/4] hw/riscv: migrate fdt field to generic MachineState
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201023152957.488974-6-berrange@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,112 +105,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Masami Hiramatsu <masami.hiramatsu@linaro.org>, andre.przywara@arm.com,
- stefano.stabellini@linaro.org,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Takahiro Akashi <takahiro.akashi@linaro.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Alistair Francis <Alistair.Francis@wdc.com>, stefano.stabellini@xilinx.com,
- "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- stratos-dev@op-lists.linaro.org
+Cc: Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 21, 2020 at 10:13 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> =
-wrote:
->
-> This is a mechanical change to make the fdt available through
-> MachineState.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+On 23/10/20 17:29, Daniel P. Berrangé wrote:
+> +	<div id="external-links">
+>  		<ul class="style">
+> -			<li><a href="{{ relative_root }}/">Home</a></li>
+> -			<li><a href="{{ relative_root }}/download">Download</a></li>
+> -			<li><a href="{{ relative_root }}/conservancy/">Conservancy / Committee</a></li>
+> -			<li><a href="http://qemu-advent-calendar.org">QEMU advent calendar</a></li>
+> -		</ul>
+> -		<ul class="style">
+> -			<li><a href="{{ relative_root }}/contribute">Contribute</a></li>
+> -			<li><a href="{{ relative_root }}/contribute/report-a-bug">Reporting a bug</a></li>
+> -			<li><a href="https://wiki.qemu.org/Documentation/GettingStartedDevelopers">New contributors</a></li>
+> -			<li><a href="https://wiki.qemu.org/Contribute/SubmitAPatch">Submitting a patch</a></li>
+> -			<li><a href="https://wiki.qemu.org/Contribute/FAQ">Contributor FAQ</a></li>
+> -		</ul>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+I would rather keep this column, the idea is that this information can
+be found with a quick Ctrl-F "bug" or "Ctrl-F "faq".
 
-Alistair
+Otherwise I agree it's an improvement.
 
-> ---
->  include/hw/riscv/virt.h |  1 -
->  hw/riscv/virt.c         | 18 +++++++++---------
->  2 files changed, 9 insertions(+), 10 deletions(-)
->
-> diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-> index b4ed9a32eb..6505ae8d23 100644
-> --- a/include/hw/riscv/virt.h
-> +++ b/include/hw/riscv/virt.h
-> @@ -41,7 +41,6 @@ struct RISCVVirtState {
->      DeviceState *plic[VIRT_SOCKETS_MAX];
->      PFlashCFI01 *flash[2];
->
-> -    void *fdt;
->      int fdt_size;
->  };
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 41bd2f38ba..17c0706156 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -194,7 +194,7 @@ static void create_fdt(RISCVVirtState *s, const struc=
-t MemmapEntry *memmap,
->      hwaddr flashsize =3D virt_memmap[VIRT_FLASH].size / 2;
->      hwaddr flashbase =3D virt_memmap[VIRT_FLASH].base;
->
-> -    fdt =3D s->fdt =3D create_device_tree(&s->fdt_size);
-> +    fdt =3D mc->fdt =3D create_device_tree(&s->fdt_size);
->      if (!fdt) {
->          error_report("create_device_tree() failed");
->          exit(1);
-> @@ -434,12 +434,12 @@ static void create_fdt(RISCVVirtState *s, const str=
-uct MemmapEntry *memmap,
->      g_free(name);
->
->      name =3D g_strdup_printf("/soc/flash@%" PRIx64, flashbase);
-> -    qemu_fdt_add_subnode(s->fdt, name);
-> -    qemu_fdt_setprop_string(s->fdt, name, "compatible", "cfi-flash");
-> -    qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
-> +    qemu_fdt_add_subnode(mc->fdt, name);
-> +    qemu_fdt_setprop_string(mc->fdt, name, "compatible", "cfi-flash");
-> +    qemu_fdt_setprop_sized_cells(mc->fdt, name, "reg",
->                                   2, flashbase, 2, flashsize,
->                                   2, flashbase + flashsize, 2, flashsize)=
-;
-> -    qemu_fdt_setprop_cell(s->fdt, name, "bank-width", 4);
-> +    qemu_fdt_setprop_cell(mc->fdt, name, "bank-width", 4);
->      g_free(name);
->  }
->
-> @@ -613,9 +613,9 @@ static void virt_machine_init(MachineState *machine)
->              hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
->                                             machine->ram_size, kernel_ent=
-ry,
->                                             &start);
-> -            qemu_fdt_setprop_cell(s->fdt, "/chosen",
-> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
->                                    "linux,initrd-start", start);
-> -            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-> +            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
--end",
->                                    end);
->          }
->      } else {
-> @@ -636,11 +636,11 @@ static void virt_machine_init(MachineState *machine=
-)
->
->      /* Compute the fdt load address in dram */
->      fdt_load_addr =3D riscv_load_fdt(memmap[VIRT_DRAM].base,
-> -                                   machine->ram_size, s->fdt);
-> +                                   machine->ram_size, machine->fdt);
->      /* load the reset vector */
->      riscv_setup_rom_reset_vec(start_addr, virt_memmap[VIRT_MROM].base,
->                                virt_memmap[VIRT_MROM].size, kernel_entry,
-> -                              fdt_load_addr, s->fdt);
-> +                              fdt_load_addr, machine->fdt);
->
->      /* SiFive Test MMIO device */
->      sifive_test_create(memmap[VIRT_TEST].base);
-> --
-> 2.20.1
->
->
+Paolo
+
+> -		<ul class="style">
+> -			<li><a href="{{ relative_root }}/documentation">Documentation</a></li>
+> -			<li><a href="https://www.qemu.org/docs/master/">Main docs</a></li>
+> -			<li><a href="https://wiki.qemu.org/Category:Developer_documentation">Developer docs</a></li>
+> -			<li><a href="https://wiki.qemu.org/">Wiki</a></li>
+> -		</ul>
+> -		<ul class="style">
+> -			<li><a href="https://planet.virt-tools.org/">virt tools planet</a></li>
+> +			<li><a href="http://qemu-advent-calendar.org">Advent calendar</a></li>
+> +			<li><a href="https://planet.virt-tools.org/">Blog planet</a></li>
+
 
