@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3904297305
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:59:17 +0200 (CEST)
-Received: from localhost ([::1]:54692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067442972D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:49:31 +0200 (CEST)
+Received: from localhost ([::1]:50250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzTI-0003xz-OW
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:59:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60358)
+	id 1kVzJp-0006zy-K1
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:49:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyt-0004Ii-6J
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:51 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26169)
+ id 1kVyzJ-0004Sz-E0
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:17 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyr-0001Y4-9G
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:50 -0400
+ id 1kVyzH-0001Xq-Ab
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466869; x=1635002869;
+ t=1603466895; x=1635002895;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2mb5Uz+f+98KKWE+4ncQgKVHsa+GuxEN2KmJeLlwP94=;
- b=g1K3Wu0Q5ARK7C/hfOS7uHMEZ1LwrL4nyTSxmau282ZIbb6AHtGGZ5Y2
- miACT/bA1T7HtmSYVw/oBjuNCX90FxzyF0EgGx9g0rPb/O9rqeAV2P+8Q
- WrlRRkpFZC//qBNjzw0TiRPfFpuVzrT9XQiz6Pl7FcyAv23kJ6eYjb1A0
- OAIWQG5tVXVzWraI7iEUIlA3DfrarC3cOdOzUIF9zHhryehW3Qu0PoHuu
- Y7oqIX+UIVMMDy17IwIpuDzQACInN6aeuglOsB395JHhcWS2hRw9yHW3G
- lNSy0G8QJFa1DqqDnU9jz3lLFyRVchjkqM/U7zG5kC4z3MFq0ftqlg7lH g==;
-IronPort-SDR: BGkZjERc49T/3LjmdOxAK3BTAyCHGHuAAyWgBKfiPj0f4xGMfUHztIiF7ot6tKG9pJNzwSjKIi
- eOReDN0qayosSC6hRVjSdVp9A8sUF6x46LH1I0tADxDjshC2CPMIntMeUly+O3fc1b6bTpJR1m
- 6lsaPK/tlHm/b0yCqUoASknkNuBUgzfyeXg+QHdnYXFeG4OCmX7D9RR8fYIlyNRCHlZH+pnT3T
- /LlLyoufY1J5ZPcpZ04vfxnScZDG+MrvwYXTyqnBm8WMchUaCotXpWbEF3uN5cEi5XzAghZZ6b
- UPg=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652320"
+ bh=QxxpnjE6UQxURuz1kdJyV9BtXyZ2wTvZTkGBbbGNMKY=;
+ b=Zqt6IuwKojPMZPl3pvwgJ3l4CyTDq2N7HATvMVTSBZcurYPAzsGBfsB3
+ L1v3KSKST06/LgyNxSWC9aT5Weqfs1CbqIfQ2ubVUrG1EaI6Wt8ZHP4AQ
+ 0Q+LcToHzyMMUp/DJFpN9Zh2DiWuJOPvB3wb4W3RBebb+rDoX42qOK8HF
+ QGtbcyOQX6T1As/nL5EiRjuo288Pd4EsUHUwFHW4YjliyD/qAUhzEjjkX
+ 3GDfeplLKoeEE6iZ3QfXK5P9n9muFNwusWmEg1ts4RSWfOy5FWvlOuxrZ
+ dAxkvKIvI8d2OwLSIWWsLvnmdUgI2HOf61u6/3XSO/A2akKH3YCR/XDw8 Q==;
+IronPort-SDR: oa1M1JXn57Qf4HpNXCaJGM3rgraeZbgc9PZXQ34JLQpRZQZh7FrVztlxPwBF80deuNymc/kesi
+ ivKiErKHpMYHuHA8KNP4PWLxlA+IsnGcgY2oZm6QE6zoZ7FdPeUnfanD60uqltwPufhMErAa0E
+ Nas+HxtqQ1pXmc3W0V2mbZr5HEBUg4ORYlTg5JIuggiEqagJVAezFkykWBNc/GKz2FAyQF8CH8
+ a0BSuwv0fjf0wpPkboQVPCc1pl+vjnOgVTkhbEiZfTwxYjyFPo61a0lpxOEURar8qiWyN7Xlrs
+ VoE=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652330"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:43 +0800
-IronPort-SDR: zI9NjwApgkaX1IPmatZd/vSvGMCRrK/lbsCeQkY9R2VVHTME9Y77AwEbQdqxGcKT1RTnmULxPj
- G9tuZfqTPd85sknPD0R3zuzIjwJeOkPsOh5HLajy9lIjbtZGy9thiWXwSPzlwMA/8d4t3lIRPQ
- qa9iwHuPgYOTcFQEgzny8eAav6GynlfwEAnxKbC5bpQQ4XcP5vNPOqrowhlOKmDAGaGdCUf/yn
- k1dvELA8TqVZH8LG2xhGlUhs97C2Btu13Ch/4jsz1Wd2z9JrUwjdUGhn+o9DrpmS6GZ2Pa5gq9
- OJ0xWcutWwuxw/cGZ9v0/KSq
+ by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:45 +0800
+IronPort-SDR: Fa/cjtGHo43eFfNiqYEic6UAiaeeEOdb1rhWqYhqLjYH/NL9ELsigTl7sso5iiX+5IC1QRhbPZ
+ jYFnHXCTRUsOg4WUVKe2ghN5qNQ1/yJ1GS1R1L2aA0vlGi1pBMhqLZ+GeZwWeOGp8jqAcSjfen
+ bCZ9jn+AF0poRiWuRdkqiRVcpK3Y380ZrzYffiDuQ7uhZ8uAWmMEp2vRJ6nLIVIHcInmQXOQAi
+ X9FeeIKfaQycFPpb1w/CNkKCzsWbB5+TeevTPcq86BZ/3pnSQP0NoZR+q25ojt7nAp8z3MTQyi
+ co2yEyCBoHi6E9QQO+A5TnPG
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:12:58 -0700
-IronPort-SDR: XBw71uOThxux0V+eQRurenEtIy7aoHD3nGMv62b9FUubXCGtMVr9RiV/4XJrMHvIRjYM0BMQCM
- WLdTn6UZcSgoLdxBssInOG/76sgRbiJ5/O5+TDOk80TjL6UNH2sSOEl8/zhlFDANbW9iybukqW
- Ol9HrinSd05m18Rnf5i8yp23NKStzgifWF3mYIQszVXSKjGm5g1hB12DA0TU7iZvIdqpCX7Cxs
- c88IT86xKwEdnUMAZrP3avsjHKxjQ93Fh4fFimmVXu5W2lx05KbXIyAdRWQK6brHrr76UaKNGb
- b3w=
+ 23 Oct 2020 08:13:01 -0700
+IronPort-SDR: LgBbZms+w/jj63DzoKDHz6v4NK21A9CVFshITOAe/hN4co52YZk3PW6sHM2HhgP+Bs2wZ/25ki
+ wF4rqjK+s0G8Nj5iuor8cJjaqwYunyrpYhcH55HR0Kn1x2CU7deVAG1hpAT/9uLaGbJlxaq61B
+ kYFzQB8pPsxjuddX4SDuRNNV70JqCyfwBEZgI0O84s1dKjlG72uTm7mKuH8FEXFX0Bl/Q4zRP/
+ QRkHVDfCHYENcOUo6ZeyhN3nCyoUVtOJJRiEKQ6ysLuy+D+efz3HCamdLifqDU5/CiWOEZfaX4
+ p/0=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
- by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:27:43 -0700
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:27:45 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 04/12] target/riscv: Fix update of hstatus.GVA in
- riscv_cpu_do_interrupt
-Date: Fri, 23 Oct 2020 08:16:11 -0700
-Message-Id: <20201023151619.3175155-5-alistair.francis@wdc.com>
+Subject: [PULL 12/12] hw/misc/sifive_u_otp: Add backend drive support
+Date: Fri, 23 Oct 2020 08:16:19 -0700
+Message-Id: <20201023151619.3175155-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
@@ -95,53 +94,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Green Wan <green.wan@sifive.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
+From: Green Wan <green.wan@sifive.com>
 
-The hstatus.GVA bit was not set if the faulting guest virtual address
-was zero.
+Add '-drive' support to OTP device. Allow users to assign a raw file
+as OTP image.
 
-Signed-off-by: Georg Kotheimer <georg.kotheimer@kernkonzept.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201013173054.451135-1-georg.kotheimer@kernkonzept.com
+test commands for 16k otp.img filled with zero:
+
+$ dd if=/dev/zero of=./otp.img bs=1k count=16
+$ ./qemu-system-riscv64 -M sifive_u -m 256M -nographic -bios none \
+-kernel ../opensbi/build/platform/sifive/fu540/firmware/fw_payload.elf \
+-d guest_errors -drive if=none,format=raw,file=otp.img
+
+Signed-off-by: Green Wan <green.wan@sifive.com>
+Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20201020033732.12921-3-green.wan@sifive.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_helper.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ include/hw/misc/sifive_u_otp.h |  2 ++
+ hw/misc/sifive_u_otp.c         | 65 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+)
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 47d05fe34c..f363c1013c 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -852,6 +852,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-     bool async = !!(cs->exception_index & RISCV_EXCP_INT_FLAG);
-     target_ulong cause = cs->exception_index & RISCV_EXCP_INT_MASK;
-     target_ulong deleg = async ? env->mideleg : env->medeleg;
-+    bool write_tval = false;
-     target_ulong tval = 0;
-     target_ulong htval = 0;
-     target_ulong mtval2 = 0;
-@@ -873,6 +874,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-         case RISCV_EXCP_INST_PAGE_FAULT:
-         case RISCV_EXCP_LOAD_PAGE_FAULT:
-         case RISCV_EXCP_STORE_PAGE_FAULT:
-+            write_tval  = true;
-             tval = env->badaddr;
-             break;
-         default:
-@@ -910,7 +912,7 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-             target_ulong hdeleg = async ? env->hideleg : env->hedeleg;
+diff --git a/include/hw/misc/sifive_u_otp.h b/include/hw/misc/sifive_u_otp.h
+index ebffbc1fa5..5d0d7df455 100644
+--- a/include/hw/misc/sifive_u_otp.h
++++ b/include/hw/misc/sifive_u_otp.h
+@@ -46,6 +46,7 @@
  
-             if ((riscv_cpu_virt_enabled(env) ||
--                 riscv_cpu_two_stage_lookup(env)) && tval) {
-+                 riscv_cpu_two_stage_lookup(env)) && write_tval) {
-                 /*
-                  * If we are writing a guest virtual address to stval, set
-                  * this to 1. If we are trapping to VS we will set this to 0
+ #define SIFIVE_U_OTP_PA_MASK        0xfff
+ #define SIFIVE_U_OTP_NUM_FUSES      0x1000
++#define SIFIVE_U_OTP_FUSE_WORD      4
+ #define SIFIVE_U_OTP_SERIAL_ADDR    0xfc
+ 
+ #define SIFIVE_U_OTP_REG_SIZE       0x1000
+@@ -80,6 +81,7 @@ struct SiFiveUOTPState {
+     uint32_t fuse_wo[SIFIVE_U_OTP_NUM_FUSES];
+     /* config */
+     uint32_t serial;
++    BlockBackend *blk;
+ };
+ 
+ #endif /* HW_SIFIVE_U_OTP_H */
+diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+index b9238d64cb..60066375ab 100644
+--- a/hw/misc/sifive_u_otp.c
++++ b/hw/misc/sifive_u_otp.c
+@@ -19,11 +19,14 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qapi/error.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ #include "hw/misc/sifive_u_otp.h"
++#include "sysemu/blockdev.h"
++#include "sysemu/block-backend.h"
+ 
+ #define WRITTEN_BIT_ON 0x1
+ 
+@@ -54,6 +57,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+         if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
+             (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
+             (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
++
++            /* read from backend */
++            if (s->blk) {
++                int32_t buf;
++
++                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
++                          SIFIVE_U_OTP_FUSE_WORD);
++                return buf;
++            }
++
+             return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
+         } else {
+             return 0xff;
+@@ -145,6 +158,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+             /* write bit data */
+             SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
+ 
++            /* write to backend */
++            if (s->blk) {
++                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
++                           &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD, 0);
++            }
++
+             /* update written bit */
+             SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
+         }
+@@ -168,16 +187,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
+ 
+ static Property sifive_u_otp_properties[] = {
+     DEFINE_PROP_UINT32("serial", SiFiveUOTPState, serial, 0),
++    DEFINE_PROP_DRIVE("drive", SiFiveUOTPState, blk),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+ {
+     SiFiveUOTPState *s = SIFIVE_U_OTP(dev);
++    DriveInfo *dinfo;
+ 
+     memory_region_init_io(&s->mmio, OBJECT(dev), &sifive_u_otp_ops, s,
+                           TYPE_SIFIVE_U_OTP, SIFIVE_U_OTP_REG_SIZE);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
++
++    dinfo = drive_get_next(IF_NONE);
++    if (dinfo) {
++        int ret;
++        uint64_t perm;
++        int filesize;
++        BlockBackend *blk;
++
++        blk = blk_by_legacy_dinfo(dinfo);
++        filesize = SIFIVE_U_OTP_NUM_FUSES * SIFIVE_U_OTP_FUSE_WORD;
++        if (blk_getlength(blk) < filesize) {
++            error_setg(errp, "OTP drive size < 16K");
++            return;
++        }
++
++        qdev_prop_set_drive_err(dev, "drive", blk, errp);
++
++        if (s->blk) {
++            perm = BLK_PERM_CONSISTENT_READ |
++                   (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
++            ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
++            if (ret < 0) {
++                return;
++            }
++
++            if (blk_pread(s->blk, 0, s->fuse, filesize) != filesize) {
++                error_setg(errp, "failed to read the initial flash content");
++            }
++        }
++    }
+ }
+ 
+ static void sifive_u_otp_reset(DeviceState *dev)
+@@ -191,6 +242,20 @@ static void sifive_u_otp_reset(DeviceState *dev)
+     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
+     s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
+ 
++    if (s->blk) {
++        /* Put serial number to backend as well*/
++        uint32_t serial_data;
++        int index = SIFIVE_U_OTP_SERIAL_ADDR;
++
++        serial_data = s->serial;
++        blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
++                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
++
++        serial_data = ~(s->serial);
++        blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
++                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
++    }
++
+     /* Initialize write-once map */
+     memset(s->fuse_wo, 0x00, sizeof(s->fuse_wo));
+ }
 -- 
 2.28.0
 
