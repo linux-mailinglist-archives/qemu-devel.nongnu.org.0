@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41CD0296A25
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 09:17:08 +0200 (CEST)
-Received: from localhost ([::1]:52812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3E9296A21
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 09:15:16 +0200 (CEST)
+Received: from localhost ([::1]:49342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVrJz-0007gz-1f
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 03:17:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60084)
+	id 1kVrIA-0006Aq-VG
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 03:15:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDk-0000yB-Ao
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52175)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDl-00011S-L7
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52799)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDh-0003dk-Fr
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:39 -0400
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kVrDi-0003eY-L1
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 03:10:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603437036;
+ s=mimecast20190719; t=1603437038;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=chRhdyqhJeU3vaWtXMlHrEVu9ohXTyMhht/61+Hx6+4=;
- b=beUgTGMZ8wR7LSW0VDDOb/SzrEfN5KhyvkAnMbPKoz3GE9G/cuiitKDqFDkDyfsQbeFEf3
- 2OK1MY1NunWxH0UpHjpN6PkGD1d9Q6mSI6tPftDpDFf2ppT+J24BXczMDa7D+V+tGwVwvb
- DS+3YGqGxDFnImhHLGizdnAXvT786Xw=
+ bh=eWkdInSjGNjGML1dW+2HIPwAc6XN/W7Ms3osxO/bjYA=;
+ b=i/ZxFiJpxLtfiONtw9ozSbpOiDDzJvPVK2dOMwzbAE3a3LN6vx1aw2TLC6Xw5VjCmcij84
+ vwGZhy5Y5pR2GvjuBlmkO9S2Ucl0oIOJB5iEmy0O2SqVt72t47Kjil6Z+4mvGoeSAsnMf+
+ 0lYXCpzey2H9wuC4wrmrnv1yKccjuY8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-5COFfMteOtC3aBdiUWBckg-1; Fri, 23 Oct 2020 03:10:33 -0400
-X-MC-Unique: 5COFfMteOtC3aBdiUWBckg-1
+ us-mta-35-ddXiReYYOrW7qLJR8VP07Q-1; Fri, 23 Oct 2020 03:10:34 -0400
+X-MC-Unique: ddXiReYYOrW7qLJR8VP07Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86899186DD41;
- Fri, 23 Oct 2020 07:10:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B81C95F9DA;
+ Fri, 23 Oct 2020 07:10:32 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 063995D9D5;
- Fri, 23 Oct 2020 07:10:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74CBC5D9CC;
+ Fri, 23 Oct 2020 07:10:32 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 41379204A1; Fri, 23 Oct 2020 09:10:22 +0200 (CEST)
+ id 4BEA9204A6; Fri, 23 Oct 2020 09:10:22 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/8] arm/virt: add device tree node for xhci
-Date: Fri, 23 Oct 2020 09:10:18 +0200
-Message-Id: <20201023071022.24916-5-kraxel@redhat.com>
+Subject: [PATCH 5/8] arm/virt: add acpi dsdt entry for xhci
+Date: Fri, 23 Oct 2020 09:10:19 +0200
+Message-Id: <20201023071022.24916-6-kraxel@redhat.com>
 In-Reply-To: <20201023071022.24916-1-kraxel@redhat.com>
 References: <20201023071022.24916-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -58,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,43 +92,72 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Also tweak xhci_sysbus_build_aml, add _UID and _CCA.
+Without _CCA the linux kernel's xhci probe fails on arm.
+
+ASL changes:
+
+         Device (XHCI)
+         {
+             Name (_HID, EisaId ("PNP0D10") /* XHCI USB Controller with debug */)  // _HID: Hardware ID
++            Name (_UID, Zero)  // _UID: Unique ID
++            Name (_CCA, One)  // _CCA: Cache Coherency Attribute
+             Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
+             {
+                 Memory32Fixed (ReadWrite,
+                     0xFE900000,         // Address Base
+                     0x00004000,         // Address Length
+                     )
+                 Interrupt (ResourceConsumer, Level, ActiveHigh, Exclusive, ,, )
+                 {
+                     0x0000000A,
+                 }
+             })
+         }
+
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/arm/virt.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/arm/virt-acpi-build.c | 6 ++++++
+ hw/usb/hcd-xhci-sysbus.c | 2 ++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index f2b34fd33be4..4319dd95ef78 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -812,7 +812,10 @@ static void create_rtc(const VirtMachineState *vms)
- static void create_xhci(const VirtMachineState *vms)
- {
-     hwaddr base = base_memmap[VIRT_XHCI].base;
-+    hwaddr size = base_memmap[VIRT_XHCI].size;
-     int irq = vms->irqmap[VIRT_XHCI];
-+    const char compat[] = "generic-xhci";
-+    char *nodename;
-     DeviceState *dev;
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index 9747a6458f0b..147332b37597 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -54,6 +54,7 @@
+ #include "kvm_arm.h"
+ #include "migration/vmstate.h"
+ #include "hw/acpi/ghes.h"
++#include "hw/usb/xhci.h"
  
-     dev = qdev_new(TYPE_XHCI_SYSBUS);
-@@ -823,6 +826,16 @@ static void create_xhci(const VirtMachineState *vms)
-     sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-     sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, qdev_get_gpio_in(vms->gic, irq));
+ #define ARM_SPI_BASE 32
+ 
+@@ -631,6 +632,11 @@ build_dsdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+         }
+     }
+ 
++    if (machine_usb(MACHINE(vms))) {
++        xhci_sysbus_build_aml(scope, memmap[VIRT_XHCI].base,
++                              irqmap[VIRT_XHCI] + ARM_SPI_BASE);
++    }
 +
-+    nodename = g_strdup_printf("/usb@%" PRIx64, base);
-+    qemu_fdt_add_subnode(vms->fdt, nodename);
-+    qemu_fdt_setprop(vms->fdt, nodename, "compatible", compat, sizeof(compat));
-+    qemu_fdt_setprop_sized_cells(vms->fdt, nodename, "reg",
-+                                 2, base, 2, size);
-+    qemu_fdt_setprop_cells(vms->fdt, nodename, "interrupts",
-+                           GIC_FDT_IRQ_TYPE_SPI, irq,
-+                           GIC_FDT_IRQ_FLAGS_LEVEL_HI);
-+    g_free(nodename);
- }
+     acpi_dsdt_add_power_button(scope);
+     acpi_dsdt_add_tpm(scope, vms);
  
- static DeviceState *gpio_key_dev;
+diff --git a/hw/usb/hcd-xhci-sysbus.c b/hw/usb/hcd-xhci-sysbus.c
+index 29185d2261fb..fa963a5de4fa 100644
+--- a/hw/usb/hcd-xhci-sysbus.c
++++ b/hw/usb/hcd-xhci-sysbus.c
+@@ -79,6 +79,8 @@ void xhci_sysbus_build_aml(Aml *scope, uint32_t mmio, unsigned int irq)
+                                   AML_EXCLUSIVE, &irq, 1));
+ 
+     aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0D10")));
++    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
+     aml_append(dev, aml_name_decl("_CRS", crs));
+     aml_append(scope, dev);
+ }
 -- 
 2.27.0
 
