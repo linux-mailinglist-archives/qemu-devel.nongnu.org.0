@@ -2,60 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EB9297355
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:15:01 +0200 (CEST)
-Received: from localhost ([::1]:50422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C3DF297388
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:24:15 +0200 (CEST)
+Received: from localhost ([::1]:52340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVziW-0000li-Ox
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:15:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33376)
+	id 1kVzrS-0005aQ-M8
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:24:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kVz35-0001R5-Lb
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:32:11 -0400
-Received: from 5.mo51.mail-out.ovh.net ([188.165.49.213]:40600)
+ (Exim 4.90_1)
+ (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
+ id 1kVzF8-0001zk-Rn; Fri, 23 Oct 2020 11:44:38 -0400
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:6144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kVz32-00026K-Du
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:32:11 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.66])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 0284F2327E9;
- Fri, 23 Oct 2020 17:32:03 +0200 (CEST)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 23 Oct
- 2020 17:32:03 +0200
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003e61b585c-4dec-48de-940b-8b3b665ed247,
- C0BA1F4BE5C42AD64430581CA289E8EEBB8A5892) smtp.auth=groug@kaod.org
-Date: Fri, 23 Oct 2020 17:32:02 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PULL 01/13] tests/9pfs: Factor out do_version() helper
-Message-ID: <20201023172950.4b148e3f@bahia.lan>
-In-Reply-To: <ccc858509ddfa3f6244cc4caf92c4149b7269b43.1603452058.git.qemu_oss@crudebyte.com>
-References: <cover.1603452058.git.qemu_oss@crudebyte.com>
- <ccc858509ddfa3f6244cc4caf92c4149b7269b43.1603452058.git.qemu_oss@crudebyte.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1)
+ (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
+ id 1kVzF5-0003gF-Uy; Fri, 23 Oct 2020 11:44:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1603467876; x=1635003876;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=u23rg6vBDGmDEewsmSCU+NOvC8v3UBs+iesU7HWgke0=;
+ b=CoFzHsldvQ/FTUJkQ37RruFq1e7ZhrSXi8TfdDuKkf5lbzrGVmPa6+X7
+ pYyI+5msqP7LXKqtenqKizeUR8+eIPR+yYiBFoo9FdmusG/C1d6qxzziy
+ 077wada/3uZqwCmMCQrI1uRUX0AVTtvhZIOFGIQmePEsRTgOsaewM6Zv/
+ CoQO4BLkyAzixtaax5LeIq6FqCcRZEDipg4r+gJPg3Wsn/xm69qTAoywp
+ V+yw8gPSXkqT2S1vmVKs7MGQIXmsstU2YkiaV9pYIpFWJ97WvOXUuDWjN
+ ScIX4Ly/tcfGyR8Cqra8t6X8hFGriylzur7ykstYRg98Pb2OZijRBiW5v Q==;
+IronPort-SDR: rwXXBF3ruf3KyE0T+PFqKF1WimZy49vyTrQQP2ctC99G1JjQLx7luCDvA1DVHuqfLqpd48TQDN
+ qMzlYTW3aikmfBWnnJCi15nofxBkCrR1ql5Yw+P1HPkVB8XTwOspB1mY/ZfD1RBnuXJsbmOFU2
+ blGzOa0yJRx7gOtLJTg7qbo+kIsLYiNy2z37imEolqX+0iO/nDjU2d/pemL515rCoU/3tLqvTW
+ xvYDBtuVaJGf+dhVo0nEp8RbqmFSyAlYWGopQC2Rosa9SpJZjOAi45p4TAQw4sxtZjKHja9xNx
+ xB4=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="151960140"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:44:34 +0800
+IronPort-SDR: ixlmnr7PScScj/u/Fm6iWHgwTPDSg50zk6V4W8Myguf7CgqndkUgNfApTKkI388Ochxdii71SI
+ h+NObqC1dGqsBGaP3bpHffsxfnPcHHiaUOp2ojgdaggFHGM2gBJu2QhA7h/xyzQSIKux1PPqzy
+ mwAFr33L7AD3Hfo1aRdKE20XxX9qvsygCT2lQNyaK9uT+Kk0bNrpYBjKCtoje5WhxQXTsGxBoT
+ kK0WKbbQz9G9PN6WLbdrxnL9YAy1RGFVCTdqjETday3dV5y48PAxI6ibhnmAtpS8P+V+t/WVKq
+ dbGq8wHMaGhOXRhlNFhZNwWd
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Oct 2020 08:30:56 -0700
+IronPort-SDR: LTJCRavRIiELbkhAUHysGlgtljIbz+0KZC8Q8TxKQRJk6PLvGdeaeYyt1IqJBl3IaWYSJxCNWQ
+ 4qlqDtIe5+rr6nH90LFa2W4LbCO5NFyyzP57b9wWi1VAdIXEjRJgIrJTh2wrw2FFTVOz6u9QUo
+ t/6/weKnbtEqRPtdeZqILFw0T2pK+3o1zHvC8ayiY10RoBtuiZGQdCUB1YPeVJGLyjaUwjEnkG
+ x4e1hI5+KN+tdi+25hl67AyoKh1EW2PGiMbopw6wJff5InvZqIVykT2W3i62974JD2JXrDwnQT
+ dj4=
+WDCIronportException: Internal
+Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.60.46])
+ by uls-op-cesaip02.wdc.com with ESMTP; 23 Oct 2020 08:44:34 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v1 00/16]  RISC-V: Start to remove xlen preprocess
+Date: Fri, 23 Oct 2020 08:33:13 -0700
+Message-Id: <cover.1603467169.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 116d6bd5-5420-428f-9677-d69b5087557d
-X-Ovh-Tracer-Id: 17830595349952960989
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkedtgdeltdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhg
-Received-SPF: pass client-ip=188.165.49.213; envelope-from=groug@kaod.org;
- helo=5.mo51.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:32:05
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.45;
+ envelope-from=prvs=558518344=alistair.francis@wdc.com;
+ helo=esa6.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 11:44:34
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,77 +90,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It feels weird to receive a mail I didn't send with my address
-in the top From: header. I would have expected yours instead and
-another From: with my address in the changelog...
+The RISC-V QEMU port currently has lot of preprocessor directives that
+check if we are targetting a 32-bit or 64-bit CPU. This means that the
+64-bit RISC-V target can not run 32-bit CPUs. This is different to most
+other QEMU architectures and doesn't allow us to mix xlens (such as when
+running Hypervisors with different xlen guests).
 
+This series is a step toward removing some of those to allow us to use
+32-bit CPUs on 64-bit RISC-V targets.
 
-On Tue, 20 Oct 2020 18:09:14 +0200
-Greg Kurz <groug@kaod.org> wrote:
+Alistair Francis (16):
+  target/riscv: Add a TYPE_RISCV_CPU_BASE CPU
+  riscv: spike: Remove target macro conditionals
+  riscv: virt: Remove target macro conditionals
+  hw/riscv: boot: Remove compile time XLEN checks
+  hw/riscv: virt: Remove compile time XLEN checks
+  hw/riscv: spike: Remove compile time XLEN checks
+  hw/riscv: sifive_u: Remove compile time XLEN checks
+  target/riscv: fpu_helper: Match function defs in HELPER macros
+  target/riscv: Add a riscv_cpu_is_32bit() helper function
+  target/riscv: Specify the XLEN for CPUs
+  target/riscv: cpu: Remove compile time XLEN checks
+  target/riscv: cpu_helper: Remove compile time XLEN checks
+  target/riscv: csr: Remove compile time XLEN checks
+  target/riscv: cpu: Set XLEN independently from target
+  target/riscv: Convert the get/set_field() to support 64-bit values
+  target/riscv: Consolidate *statush registers
 
-... here.
+ include/hw/riscv/boot.h   |   8 +-
+ include/hw/riscv/spike.h  |   6 --
+ include/hw/riscv/virt.h   |   6 --
+ target/riscv/cpu.h        |  36 ++++---
+ target/riscv/cpu_bits.h   |  24 ++---
+ hw/riscv/boot.c           |  55 ++++++-----
+ hw/riscv/sifive_u.c       |  59 ++++++------
+ hw/riscv/spike.c          |  50 +++++-----
+ hw/riscv/virt.c           |  36 +++----
+ target/riscv/cpu.c        |  83 ++++++++++------
+ target/riscv/cpu_helper.c |  47 +++------
+ target/riscv/csr.c        | 197 ++++++++++++++++++++------------------
+ target/riscv/fpu_helper.c |  16 ++--
+ target/riscv/op_helper.c  |  11 +--
+ 14 files changed, 328 insertions(+), 306 deletions(-)
 
-> fs_version() is a top level test function. Factor out the reusable
-> code to a separate helper instead of hijacking it in other tests.
-> 
-
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Message-Id: <160321015403.266767.4533967728943968456.stgit@bahia.lan>
-> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  tests/qtest/virtio-9p-test.c | 14 +++++++++-----
->  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-> index c15908f27b..59bcea4c30 100644
-> --- a/tests/qtest/virtio-9p-test.c
-> +++ b/tests/qtest/virtio-9p-test.c
-> @@ -567,10 +567,8 @@ static void v9fs_rflush(P9Req *req)
->      v9fs_req_free(req);
->  }
->  
-> -static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-> +static void do_version(QVirtio9P *v9p)
->  {
-> -    QVirtio9P *v9p = obj;
-> -    alloc = t_alloc;
->      const char *version = "9P2000.L";
->      uint16_t server_len;
->      char *server_version;
-> @@ -585,13 +583,19 @@ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
->      g_free(server_version);
->  }
->  
-> +static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-> +{
-> +    alloc = t_alloc;
-> +    do_version(obj);
-> +}
-> +
->  static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
->  {
->      QVirtio9P *v9p = obj;
->      alloc = t_alloc;
->      P9Req *req;
->  
-> -    fs_version(v9p, NULL, t_alloc);
-> +    do_version(v9p);
->      req = v9fs_tattach(v9p, 0, getuid(), 0);
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rattach(req, NULL);
-> @@ -831,7 +835,7 @@ static void fs_walk_dotdot(void *obj, void *data, QGuestAllocator *t_alloc)
->      v9fs_qid root_qid, *wqid;
->      P9Req *req;
->  
-> -    fs_version(v9p, NULL, t_alloc);
-> +    do_version(v9p);
->      req = v9fs_tattach(v9p, 0, getuid(), 0);
->      v9fs_req_wait_for_reply(req, NULL);
->      v9fs_rattach(req, &root_qid);
-
+-- 
+2.28.0
 
 
