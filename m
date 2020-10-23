@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033E4296EA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:23:25 +0200 (CEST)
-Received: from localhost ([::1]:47274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D314296EE0
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 14:24:06 +0200 (CEST)
+Received: from localhost ([::1]:49826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVw6O-0005Fh-14
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:23:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37482)
+	id 1kVw73-0006IK-FA
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 08:24:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVw3u-00043U-Km; Fri, 23 Oct 2020 08:20:50 -0400
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:43824)
+ id 1kVw4k-0004tL-Vz; Fri, 23 Oct 2020 08:21:43 -0400
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:46098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <chetan4windows@gmail.com>)
- id 1kVw3s-0001IU-SJ; Fri, 23 Oct 2020 08:20:50 -0400
-Received: by mail-pf1-x42f.google.com with SMTP id a200so1077306pfa.10;
- Fri, 23 Oct 2020 05:20:48 -0700 (PDT)
+ id 1kVw4j-0001N7-Cd; Fri, 23 Oct 2020 08:21:42 -0400
+Received: by mail-pl1-x632.google.com with SMTP id t4so747188plq.13;
+ Fri, 23 Oct 2020 05:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=dGYC16kRLr+K+bWkoObF8naoY/6hygFVxJewUXsQEC8=;
- b=FdY+F/bd7Zeu6QzA690ElOVWs0had1Z12pFpsVrVrvsOgb2zUOSDF6X7+2SjCfr+Vv
- HAyDv7dc/lJzCAYyR4o0bqCD8dtcYHwr3Hfz5ojCAtmCY7Hr5/ltq6d6/dezwATmkHYS
- 59XF9KFZPOg5/6GOUZyXL9Htx5sbbDDlsi4jaM2md9fjeszq09H1qNoF4wfV6a60i21p
- zdn0YenmswBIai8Wdj4VrlAuGZbByWNBnZS+xHZWFEaGyFhBQtU8uz9AAiUW93SdZLmf
- LNctPMVDA+Qtc6sdS6CB/iuId0q1UlgtusUaMyEXuLrAb1o5qkPreehRGpXVzS8VjV/c
- zgUg==
+ bh=n4QDti4vRx17oXnzc6q69gHNnWPoEkyA83OEyqCk3+0=;
+ b=WfNmH0QGQtPQFK0lfMR+daTksw4ZvCemSB8fM+QYPr9qXheyx2h9nZII1Y2C3Tco5/
+ MDMfgkw6Fa+mQpyV4mF4gHxrNuiEcpLfN8/LIGT3Dp5Siclvf8sK4+YkRUeIEeqB0gTS
+ pZBIsZ6v3ZjElq5BLb5zfar0m2fT7Lpo6uHtL8exJ8kWxnck6hQn/nOB6nG96kaXQjrA
+ szaTn7N6spXPRztJb5S1J1pl/NT7LNUhenNQBTguiWrCj8jECDLNpHKmYkf1ruTEYJ+9
+ 80AMIcZK8+CDdYptcAVMVVBikO6e78XTs2fYo67c4PgUnO8Sn9+rAPtQMvMfktg0WV/5
+ jRpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=dGYC16kRLr+K+bWkoObF8naoY/6hygFVxJewUXsQEC8=;
- b=krJuMiT3dErwbzNMo6pBVLHMBnm6d+P7SxXJZTh5X1XfGEAalLiWWn4WJFUV3d0APh
- H3mG/Aj4mQCJ59K5TrstcvSgbdpVubjCsf+hSPowt0UgtZKH42pZ8aTbH9P59PrVRZTh
- hhDw9fXwbBVdImTYmW+CPX3zdT8p3LiSsmaRqtyagz2/cA5rQ5EYHH3ZmQvfmHemh7FI
- S2k8ltTS1xUpFRZ2B+D7fh+jYWFpVOPylX0xUpQSiiGGI5m/l6RklYWDV0fvB2anAaCw
- oaNtYIEq7TOXk2qmMS4pm7ueu6UizUDyrQMkSju6es0/vMWwUTnyVZ2esCljn4TFe+IF
- nmsw==
-X-Gm-Message-State: AOAM530415hehlA/0hAnv9H8m4G279QH5zH0hhZgBywR0ToEEiPWm7PZ
- OpDx49+MONtFVIctQViVlMDNUE86NR08N7zW
-X-Google-Smtp-Source: ABdhPJw9gMkCbh10UX4/akvV825cqpo1Ed7IZ0JXxMjAqJyP/If/B9Rdv/VIg+8zGrg2Lm8Jo2TSiw==
-X-Received: by 2002:a17:90a:e998:: with SMTP id
- v24mr2151099pjy.5.1603455646919; 
- Fri, 23 Oct 2020 05:20:46 -0700 (PDT)
+ bh=n4QDti4vRx17oXnzc6q69gHNnWPoEkyA83OEyqCk3+0=;
+ b=cScls8pvnnlheaWGuBmH0R8ShNMWwaT/D8vQ5EqPbibcFxKf/NxJ6neQsLoero3RdT
+ f7YFdhQ8EUhtiQYi/3kj8ttLm5oicro/YpNjFKsH0QRd00G5Q+Njj+jVxfWyCQfBxYyK
+ 8rZDSiMO2x20g3AP/jH1vDzJXGdbOfYOeTmpiRMDpWihkuxzdx6zHDP2qPSbKsg4SFWV
+ Loqe5Nu9b3Jjw3IBikNk9EnS4Rt4oqDYgw1EsG7xXhcFvCQebFewM6cYuykXv1kA/9Uj
+ EQmirqbUAj7yQirLOnsJJVrcSXVdhsjfXPZ1Nk640mWzkpgypkbYB2ZmRbJeTvIccaQr
+ A3DA==
+X-Gm-Message-State: AOAM530Ce0n4C+ypL08tiezeRxNDyZjq6UOzbmszpyO1P/Pua56q3iCA
+ 5MBclWe6zoOjENnUnqw7wUGPWa1dhiUClLyg
+X-Google-Smtp-Source: ABdhPJxVGJM8j459Gfs5GTDMUvCMivZt4KpMiiAI4gzlBtzVo8IrD1K+mHQFrPSg6ztJYECjgq9I+Q==
+X-Received: by 2002:a17:902:7fcd:b029:d3:f037:d9dc with SMTP id
+ t13-20020a1709027fcdb02900d3f037d9dcmr2132036plb.79.1603455699221; 
+ Fri, 23 Oct 2020 05:21:39 -0700 (PDT)
 Received: from pulp100.localdomain ([103.199.158.131])
- by smtp.gmail.com with ESMTPSA id x12sm1957555pfr.156.2020.10.23.05.20.44
+ by smtp.gmail.com with ESMTPSA id il17sm1930133pjb.39.2020.10.23.05.21.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 23 Oct 2020 05:20:46 -0700 (PDT)
+ Fri, 23 Oct 2020 05:21:38 -0700 (PDT)
 From: Chetan Pant <chetan4windows@gmail.com>
 To: qemu-trivial@nongnu.org
-Subject: [PATCH 11/30] prep: Fix Lesser GPL version number
-Date: Fri, 23 Oct 2020 12:19:33 +0000
-Message-Id: <20201023121933.19227-1-chetan4windows@gmail.com>
+Subject: [PATCH 12/30] xtensa tcg cpus: Fix Lesser GPL version number
+Date: Fri, 23 Oct 2020 12:20:51 +0000
+Message-Id: <20201023122051.19274-1-chetan4windows@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201014134248.14146-1-chetan4windows@gmail.com>
 References: <20201014134248.14146-1-chetan4windows@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=chetan4windows@gmail.com; helo=mail-pf1-x42f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=chetan4windows@gmail.com; helo=mail-pl1-x632.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,7 +80,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: hpoussin@reactos.org, qemu-devel@nongnu.org,
+Cc: jcmvbkbc@gmail.com, qemu-devel@nongnu.org,
  Chetan Pant <chetan4windows@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
@@ -92,14 +92,14 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 ---
- hw/isa/i82378.c | 2 +-
+ target/xtensa/gdbstub.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index 8285b06..2a2ff05 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -6,7 +6,7 @@
+diff --git a/target/xtensa/gdbstub.c b/target/xtensa/gdbstub.c
+index 4d43f13..b669606 100644
+--- a/target/xtensa/gdbstub.c
++++ b/target/xtensa/gdbstub.c
+@@ -7,7 +7,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
