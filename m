@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9371297482
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:39:05 +0200 (CEST)
-Received: from localhost ([::1]:45244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC863297531
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:53:03 +0200 (CEST)
+Received: from localhost ([::1]:59982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW05o-00017d-PY
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:39:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40776)
+	id 1kW0JK-000234-QI
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:53:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kVzRU-0002hk-08
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:57:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26811)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kVzRR-0005Rq-1j
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:57:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603468639;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FI0S6qNYi/9jzC8gUVxersyLo/zq/Zwv/35wVgMW1o8=;
- b=cSTWx9t1ygO95PyJSWPqlUGDRQNkvWPLu8oxNxQX9b0ODsIxJsN40o3FGpRzRr3P5uaGzz
- zx+7QEjt4/0aNAb7C8Iy/iNMGmT65IyH6cZ+XjJnu4m1mK6pvz7wcY47Md+BE74Ugv30Lf
- kYZZ+AJ6FNoLs2gQx4F0AYJ0RaBrusw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-495-NwUrnVN5P6aLq_1_5iwpEQ-1; Fri, 23 Oct 2020 11:57:15 -0400
-X-MC-Unique: NwUrnVN5P6aLq_1_5iwpEQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FC0964152;
- Fri, 23 Oct 2020 15:57:14 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7F15360CCC;
- Fri, 23 Oct 2020 15:57:12 +0000 (UTC)
-Date: Fri, 23 Oct 2020 17:57:11 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
-Subject: Re: [PATCH v3 9/9] hw/arm/raspi: Add the Raspberry Pi 3 model A+
-Message-ID: <20201023175711.74865d7d@redhat.com>
-In-Reply-To: <20201018203358.1530378-10-f4bug@amsat.org>
-References: <20201018203358.1530378-1-f4bug@amsat.org>
- <20201018203358.1530378-10-f4bug@amsat.org>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 01:44:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kVzV5-0007Bm-PA
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:01:09 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:36828)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kVzUz-0005vN-6M
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:01:07 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id c5so1306026qtw.3
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=x3HzKkx6lPNCdrtmHwZ5BJWLYIYYeagcYSVMA3RXMcA=;
+ b=wDP8OxwNIeAXUJuWCP7EsiXcZhCe7nIFfLx1apvyceO7UdZ9QJlA0an/XyQkNsYCgP
+ bIG3yKvi44wCMUBhSlXkn7O2eqMxtDLZHKCxc554Ms29KxEYyV98OOZWyrq8InTVNIqE
+ oY2p3+cBiHJQf7ftWfmvYPExppQf9VIwolkOJht+n0Agwkx+tPDV3CU/wTOplXmGroZB
+ mFxlCkwS95QhaxwFmyaS/VE4ZMr1QTtxAC6vj/+UxndrzGxds9ngLJN7KFhqGNqn1CIV
+ 5Bv+RSG2y1I9jg89gRVfx35/US/kpfCibc3R4d/VI54awyNdC2S8EadKGU5I08Mlzokw
+ i0sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=x3HzKkx6lPNCdrtmHwZ5BJWLYIYYeagcYSVMA3RXMcA=;
+ b=ak0VTnqURY0K7CEvg+zm3wBCS7XhxbgIUH+yl3ncwt73j4F+quKtVSYQOXZxiCsDiQ
+ 5RigAZY54PB2ULk57vizp1eOrKRpsxeKgx3IUqSZtolpBI1+bK5Yw8Z8d2XB2SeaGJt6
+ C08jY3r7c28lFcMODr+D4val9jdGSZrqb8AB9t0+mm3ht41Rqni6ns6dSqZ02O17n5JM
+ OSGU70mlLr6RITHL5fvre8wKayXkhFKWr7aF5cOqgIt979714Ixs41eigR4XdTqLM3vC
+ /saC55rHDtdSq2MN0xmqQUvFnqNxUnJHwWVqKIM88pXEt4ETKEv/wvmQMtXc/ZGll/Js
+ CDPw==
+X-Gm-Message-State: AOAM531U751eV/cw3Ee10BLYQWSRZuGNoaVo2yTmJnQXWqCRAE/ZooDd
+ BrVNsAV4M+PNegp1efnzgrMe1g==
+X-Google-Smtp-Source: ABdhPJxRL403S4Td7Xw9LbU8vwo3LFw/0B6PcF1Mzgmd2YcmGokntnad7Yjev9F63UBATsHe/BpJRA==
+X-Received: by 2002:ac8:64d:: with SMTP id e13mr2914214qth.23.1603468859525;
+ Fri, 23 Oct 2020 09:00:59 -0700 (PDT)
+Received: from localhost.localdomain
+ (stsvon1503w-lp130-06-174-91-97-36.dsl.bell.ca. [174.91.97.36])
+ by smtp.googlemail.com with ESMTPSA id k16sm1144957qtu.45.2020.10.23.09.00.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 23 Oct 2020 09:00:58 -0700 (PDT)
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: peter.maydell@linaro.org,
+	leif@nuviainc.com,
+	rad@semihalf.com
+Subject: [PATCH v7 0/2] Add watchdog support for SbsaQemu
+Date: Fri, 23 Oct 2020 12:00:55 -0400
+Message-Id: <20201023160057.21543-1-shashi.mallela@linaro.org>
+X-Mailer: git-send-email 2.18.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82f;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qt1-x82f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,60 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Luc Michel <luc@lmichel.fr>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Oct 2020 22:33:58 +0200
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> wrote:
+This patch series adds watchdog timer support for SbsaQemu platform.
 
-> The Pi 3A+ is a stripped down version of the 3B:
-> - 512 MiB of RAM instead of 1 GiB
-> - no on-board ethernet chipset
->=20
-> Add it as it is a closer match to what we model.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+The watchdog timer has been implemented first based on the generic
+watchdog timer specifications from ARM SBSA v6.0 and then used 
+in the SbsaQemu reference platform
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Changes in v7:
+- review comments addressed
 
-> ---
->  hw/arm/raspi.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->=20
-> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-> index 1510ca01afe..4ea200572ea 100644
-> --- a/hw/arm/raspi.c
-> +++ b/hw/arm/raspi.c
-> @@ -348,6 +348,15 @@ static void raspi2b_machine_class_init(ObjectClass *=
-oc, void *data)
->  };
-> =20
->  #ifdef TARGET_AARCH64
-> +static void raspi3ap_machine_class_init(ObjectClass *oc, void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    RaspiMachineClass *rmc =3D RASPI_MACHINE_CLASS(oc);
-> +
-> +    rmc->board_rev =3D 0x9020e0;
-> +    raspi_machine_class_common_init(mc, rmc->board_rev);
-> +};
-> +
->  static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
-> @@ -373,6 +382,10 @@ static const TypeInfo raspi_machine_types[] =3D {
->          .parent         =3D TYPE_RASPI_MACHINE,
->          .class_init     =3D raspi2b_machine_class_init,
->  #ifdef TARGET_AARCH64
-> +    }, {
-> +        .name           =3D MACHINE_TYPE_NAME("raspi3ap"),
-> +        .parent         =3D TYPE_RASPI_MACHINE,
-> +        .class_init     =3D raspi3ap_machine_class_init,
->      }, {
->          .name           =3D MACHINE_TYPE_NAME("raspi3b"),
->          .parent         =3D TYPE_RASPI_MACHINE,
+Shashi Mallela (2):
+  hw/watchdog: Implement SBSA watchdog device
+  hw/arm/sbsa-ref: add SBSA watchdog device
+
+ hw/arm/Kconfig                  |   1 +
+ hw/arm/sbsa-ref.c               |  23 +++
+ hw/watchdog/Kconfig             |   3 +
+ hw/watchdog/meson.build         |   1 +
+ hw/watchdog/sbsa_gwdt.c         | 304 ++++++++++++++++++++++++++++++++
+ include/hw/watchdog/sbsa_gwdt.h |  79 +++++++++
+ 6 files changed, 411 insertions(+)
+ create mode 100644 hw/watchdog/sbsa_gwdt.c
+ create mode 100644 include/hw/watchdog/sbsa_gwdt.h
+
+-- 
+2.18.4
 
 
