@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6612296AEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 10:09:04 +0200 (CEST)
-Received: from localhost ([::1]:59766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C456F296AF5
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 10:12:05 +0200 (CEST)
+Received: from localhost ([::1]:37920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVs8F-0002Gu-PL
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 04:09:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41704)
+	id 1kVsBA-0004zq-SR
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 04:12:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs6W-0000l8-5i
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:07:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kVs6U-0006ix-Lj
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:07:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603440433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YH7soUrbpMwOavOi4ky8xSq0KFSlsUajDzn9G+M1WWI=;
- b=iimMsu2B0h55VwdQk29c5H9UmHF+IQ4LD7mQYIMrenRH+jqkMjygzniJaCtqliOlC/i2t7
- EP8BMKGJ8Trv3BTDj5SD+3ZvocF8IsdPwiHNQLL6uk8HxtAmSeFyPEDq6kPeACGsavOUTS
- vwMpXJ7bLOX/ml3pY88MIGe4nVu6IfU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-384-lWkcmfy0Nk68yeJEUSh8Eg-1; Fri, 23 Oct 2020 04:07:12 -0400
-X-MC-Unique: lWkcmfy0Nk68yeJEUSh8Eg-1
-Received: by mail-wr1-f71.google.com with SMTP id r8so304442wrp.5
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 01:07:11 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kVs70-0001lj-DA
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:07:46 -0400
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37544)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kVs6y-0006tS-Hi
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 04:07:46 -0400
+Received: by mail-ed1-x52b.google.com with SMTP id o18so681759edq.4
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 01:07:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=tvOspeJfUC7lOwhudqLIhaY8C3mRkpRLrj/yjDdLR1Q=;
+ b=mk/nERDsT1ybv/JbhdvXm4cZ9qaABsjJTGx7GsBQQm1nG6kGbVH8+MCia9i1mGdoSo
+ SWC4QBIkQRUU1Qml5hcn0zzVYbE3oceuUvPE3vZGl1veVeAdCGsFlHAbmLiJm6Hv0gWj
+ cDN7Lpsbik5wu9Ho4jNpHgX7C5wFIO+QbjUWq+qh3lOJkZBa6I2qkZJMb1eATKA/IxAf
+ hhOqAoofzRRLvC8Q/+3IfM8jzN08Juj5NKLoYanpB8a1ey1w0OG7A1xrLjOyrKJAnMsm
+ cuNMs9yDkB+YL8+RpsmXGApueiAHkOP3qU1SEYEoFKHIg55RvckZpZJ2yt4AfjI7Vw+z
+ nDTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=YH7soUrbpMwOavOi4ky8xSq0KFSlsUajDzn9G+M1WWI=;
- b=N1CxQ1MD89eYUMyIWDMPjnekrT/NYtOI7M1FA5Znp2tm7Jf+TG7APjAB/g3KyhYxUv
- lOK4DsIgtEYicy2z+QxA04URRF9RSVUhRYqN+tZPwV7sATjeWa7cVDEpDsYkdlQuPgNe
- l8rYW5Pf9oil+Iynl4mmEJfp02I6yzJCxbq9UZEdsMzAOG95p8tjKT5lX8YI07kArT99
- TvH5Vzsap2qhBQJZ5InQSV5LQ7//AGz0sRwPznC4Yg4qBZKJ8QTs7VUA8f5wQQCV/R/V
- pwDogGsUUuKIDlw7bTBu3NSzy0sLdtewfW2OmqXgR6vSe1lGnUXA5eSGYrFlgLV+Vqvv
- RyiQ==
-X-Gm-Message-State: AOAM532fiux6IwL+ExmDg3CEldwUFgpd704e7V+q4GJkvxxPricqzDsK
- s8EWJ9RWt89lQllFEAX7kK7ESkckKgl1aihTkgOyxgv7L+TKIgfV/91KexR/Kl57fbqDeK4xH5T
- H1SJltilS9p3iTDo=
-X-Received: by 2002:a5d:654d:: with SMTP id z13mr1259405wrv.6.1603440430832;
- Fri, 23 Oct 2020 01:07:10 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzPZdqrSbg0Gb4gDjchGh88J5/CJ2zhMeVYzOCFmEfv8UXWdZaBqL4Dhe6TMgtyDc/0izWgOQ==
-X-Received: by 2002:a5d:654d:: with SMTP id z13mr1259394wrv.6.1603440430642;
- Fri, 23 Oct 2020 01:07:10 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id 67sm1688102wmb.31.2020.10.23.01.07.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 01:07:10 -0700 (PDT)
-Subject: Re: [PATCH 4/4] test/docker/dockerfiles: Add missing packages for
- acceptance tests
-To: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201023073351.251332-1-thuth@redhat.com>
- <20201023073351.251332-5-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9191ef94-c040-8474-ed8f-5a6e7b53c706@redhat.com>
-Date: Fri, 23 Oct 2020 10:07:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=tvOspeJfUC7lOwhudqLIhaY8C3mRkpRLrj/yjDdLR1Q=;
+ b=DTgjac73U38eZBCq7uLdrtFdIJIgxkz5XurYR31lPOYGQCjcO9BKQcl8/xLvFnVU+D
+ 9aT/QQX2x+RBQcX16j1XT1B4kzVJllG0sBubnFEVmK1HyAwiFNE1+9M/eAM2YUtAvfiH
+ 4mfPN9LZFHQS9y0e0U6IJCEmvXTgoYVXHV/hXH45Mw2amPpa9w+NvSBFUU1TjIY+MTKr
+ /r7BRM4MveRoq1HVNoNBM8XdUG+905lPM2dBMvd6e8/15VyIQ/70saP0AQg9INx7iPay
+ JrER2Qvgj+21bhsR+V1LlHUyhgU4jEaHwDwEP9yfQsiJlSCuJ1CGGG/MTk987ykT7Aa3
+ HgCA==
+X-Gm-Message-State: AOAM532TfjMOqD93RcgcPndjsoPYfF2nzvUzghTQX2jhjv5xOgXybOHH
+ 8htmEby3QqxQ3eTaMxqvY4f7RevgSnngDqcKFTE=
+X-Google-Smtp-Source: ABdhPJzanjglbBFihJ43CZEJiKoUC7SLuj4CCYtbHtrCaxgcTxgvfSl0oFbHUeulNLtieCftkiW4/8kS9IBTOWtIph8=
+X-Received: by 2002:a50:a267:: with SMTP id 94mr1049968edl.30.1603440462964;
+ Fri, 23 Oct 2020 01:07:42 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201023073351.251332-5-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20201023064618.21409-1-kraxel@redhat.com>
+ <20201023064618.21409-3-kraxel@redhat.com>
+In-Reply-To: <20201023064618.21409-3-kraxel@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 23 Oct 2020 12:07:31 +0400
+Message-ID: <CAJ+F1C+JdhrzWw9JzGOJ1BHCKtRiygRZMrWDT+2_U4SLQkW_Dg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] virtio-gpu: add virtio-vga module
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000036abd605b25213a2"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52b.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.107, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,27 +79,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 9:33 AM, Thomas Huth wrote:
-> Some of the "check-acceptance" tests are still skipped in the CI
-> since the docker images do not provide the necessary packages, e.g.
-> the netcat binary. Add them to get more test coverage.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/docker/dockerfiles/centos8.docker      | 1 +
->   tests/docker/dockerfiles/debian-amd64.docker | 3 +++
->   tests/docker/dockerfiles/fedora.docker       | 1 +
->   tests/docker/dockerfiles/ubuntu2004.docker   | 1 +
->   4 files changed, 6 insertions(+)
+--00000000000036abd605b25213a2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Finally...
+On Fri, Oct 23, 2020 at 10:48 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Build virtio-gpu vga devices modular.  Must be a separate module because
+> not all qemu softmmu variants come with VGA support.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+>
 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+---
+>  util/module.c          |  3 +++
+>  hw/display/meson.build | 10 ++++++++--
+>  2 files changed, 11 insertions(+), 2 deletions(-)
+>
+> diff --git a/util/module.c b/util/module.c
+> index 9490f975d303..503c399421c5 100644
+> --- a/util/module.c
+> +++ b/util/module.c
+> @@ -304,6 +304,9 @@ static struct {
+>      { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
+>      { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
+>      { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
+> +    { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
+> +    { "virtio-vga",            "hw-", "display-virtio-vga"    },
+> +    { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
+>      { "chardev-braille",       "chardev-", "baum"             },
+>      { "chardev-spicevmc",      "chardev-", "spice"            },
+>      { "chardev-spiceport",     "chardev-", "spice"            },
+> diff --git a/hw/display/meson.build b/hw/display/meson.build
+> index 669935371335..11ea2895c5fe 100644
+> --- a/hw/display/meson.build
+> +++ b/hw/display/meson.build
+> @@ -71,8 +71,14 @@ if config_all_devices.has_key('CONFIG_VIRTIO_PCI')
+>    hw_display_modules +=3D {'virtio-gpu-pci': virtio_gpu_pci_ss}
+>  endif
+>
+> -softmmu_ss.add(when: 'CONFIG_VIRTIO_VGA', if_true: files('virtio-vga.c')=
+)
+> -softmmu_ss.add(when: 'CONFIG_VHOST_USER_VGA', if_true:
+> files('vhost-user-vga.c'))
+> +if config_all_devices.has_key('CONFIG_VIRTIO_VGA')
+> +  virtio_vga_ss =3D ss.source_set()
+> +  virtio_vga_ss.add(when: 'CONFIG_VIRTIO_VGA',
+> +                    if_true: [files('virtio-vga.c'), pixman])
+> +  virtio_vga_ss.add(when: 'CONFIG_VHOST_USER_VGA',
+> +                    if_true: files('vhost-user-vga.c'))
+> +  hw_display_modules +=3D {'virtio-vga': virtio_vga_ss}
+> +endif
+>
+>  specific_ss.add(when: [x11, opengl, 'CONFIG_MILKYMIST_TMU2'], if_true:
+> files('milkymist-tmu2.c'))
+>  specific_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_lcdc.c'))
+> --
+> 2.27.0
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000036abd605b25213a2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 23, 2020 at 10:48 AM Gerd=
+ Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Build v=
+irtio-gpu vga devices modular.=C2=A0 Must be a separate module because<br>
+not all qemu softmmu variants come with VGA support.<br>
+<br>
+Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
+t=3D"_blank">kraxel@redhat.com</a>&gt;<br></blockquote><div><br></div><div>=
+Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
+redhat.com">marcandre.lureau@redhat.com</a>&gt;</div><div> <br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0util/module.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +++<br>
+=C2=A0hw/display/meson.build | 10 ++++++++--<br>
+=C2=A02 files changed, 11 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/util/module.c b/util/module.c<br>
+index 9490f975d303..503c399421c5 100644<br>
+--- a/util/module.c<br>
++++ b/util/module.c<br>
+@@ -304,6 +304,9 @@ static struct {<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;virtio-gpu-pci-base&quot;,=C2=A0 =C2=A0&quot;hw=
+-&quot;, &quot;display-virtio-gpu-pci&quot; },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;virtio-gpu-pci&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 &quot;hw-&quot;, &quot;display-virtio-gpu-pci&quot; },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;vhost-user-gpu-pci&quot;,=C2=A0 =C2=A0 &quot;hw=
+-&quot;, &quot;display-virtio-gpu-pci&quot; },<br>
++=C2=A0 =C2=A0 { &quot;virtio-vga-base&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0&qu=
+ot;hw-&quot;, &quot;display-virtio-vga&quot;=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 { &quot;virtio-vga&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 &quot;hw-&quot;, &quot;display-virtio-vga&quot;=C2=A0 =C2=A0 },<br>
++=C2=A0 =C2=A0 { &quot;vhost-user-vga&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=A0 &qu=
+ot;hw-&quot;, &quot;display-virtio-vga&quot;=C2=A0 =C2=A0 },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;chardev-braille&quot;,=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&quot;chardev-&quot;, &quot;baum&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0},<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;chardev-spicevmc&quot;,=C2=A0 =C2=A0 =C2=A0 &qu=
+ot;chardev-&quot;, &quot;spice&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 },<br>
+=C2=A0 =C2=A0 =C2=A0{ &quot;chardev-spiceport&quot;,=C2=A0 =C2=A0 =C2=A0&qu=
+ot;chardev-&quot;, &quot;spice&quot;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 },<br>
+diff --git a/hw/display/meson.build b/hw/display/meson.build<br>
+index 669935371335..11ea2895c5fe 100644<br>
+--- a/hw/display/meson.build<br>
++++ b/hw/display/meson.build<br>
+@@ -71,8 +71,14 @@ if config_all_devices.has_key(&#39;CONFIG_VIRTIO_PCI&#39=
+;)<br>
+=C2=A0 =C2=A0hw_display_modules +=3D {&#39;virtio-gpu-pci&#39;: virtio_gpu_=
+pci_ss}<br>
+=C2=A0endif<br>
+<br>
+-softmmu_ss.add(when: &#39;CONFIG_VIRTIO_VGA&#39;, if_true: files(&#39;virt=
+io-vga.c&#39;))<br>
+-softmmu_ss.add(when: &#39;CONFIG_VHOST_USER_VGA&#39;, if_true: files(&#39;=
+vhost-user-vga.c&#39;))<br>
++if config_all_devices.has_key(&#39;CONFIG_VIRTIO_VGA&#39;)<br>
++=C2=A0 virtio_vga_ss =3D ss.source_set()<br>
++=C2=A0 virtio_vga_ss.add(when: &#39;CONFIG_VIRTIO_VGA&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if_t=
+rue: [files(&#39;virtio-vga.c&#39;), pixman])<br>
++=C2=A0 virtio_vga_ss.add(when: &#39;CONFIG_VHOST_USER_VGA&#39;,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if_t=
+rue: files(&#39;vhost-user-vga.c&#39;))<br>
++=C2=A0 hw_display_modules +=3D {&#39;virtio-vga&#39;: virtio_vga_ss}<br>
++endif<br>
+<br>
+=C2=A0specific_ss.add(when: [x11, opengl, &#39;CONFIG_MILKYMIST_TMU2&#39;],=
+ if_true: files(&#39;milkymist-tmu2.c&#39;))<br>
+=C2=A0specific_ss.add(when: &#39;CONFIG_OMAP&#39;, if_true: files(&#39;omap=
+_lcdc.c&#39;))<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000036abd605b25213a2--
 
