@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA76A29757D
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:05:15 +0200 (CEST)
-Received: from localhost ([::1]:33574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE61C297584
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:07:35 +0200 (CEST)
+Received: from localhost ([::1]:41348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0V8-00066Y-PN
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:05:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43830)
+	id 1kW0XO-00010G-VT
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:07:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVzcE-0000X6-DV
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:08:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50705)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVzhN-00088y-At
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:13:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kVzcA-0006oe-Vg
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:08:29 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kVzhF-0007jh-DD
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:13:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603469305;
+ s=mimecast20190719; t=1603469620;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lib8ul2hnM2Ay7nyb8PdPlhe2nUjSLdqJ57iNBIPOzc=;
- b=hIkHLYUObYlpwj6zkXHNYkG7oTkTtVt6FNPnm5rx0pCRzot3D8quG0RDCIAbj0109lOqqA
- 2EWBfK5pJ9KfdqVXpYrVwxK+cXndHdhP/aJscKsJMUhFanIrkMJKA+KlHKElr7oRU2C8jh
- 2rUInvmsXU469Mx7LN61l5+fFncIyNI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-JZyZH_sDMBaUkhvoKaYleQ-1; Fri, 23 Oct 2020 12:08:23 -0400
-X-MC-Unique: JZyZH_sDMBaUkhvoKaYleQ-1
-Received: by mail-wm1-f70.google.com with SMTP id r19so624882wmh.9
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 09:08:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lib8ul2hnM2Ay7nyb8PdPlhe2nUjSLdqJ57iNBIPOzc=;
- b=Q4s29BQnK85JpupVv8rOZnBluKymWrsZLCQi6x8hcC/foqBXd7JH/R8iW5ycDQwoUx
- ScBaKXJyfl7NI22ndWZisU9hO5UoNpaM2wA1fs+7nNbolg8eSr0Ak++wef8bufjF9++f
- EQbCyAZ6Dp5PmbXgEJvyt3z6dARQT2rXI69ZJwpCXT6nhQw1IBHHrLgWBZ9zOoRwAxWa
- KMhWTlcyTLeJiWHyTTuQYJqfxXZ2EOJxG52ZiJNN7MX1ITyiJ7UnT+xVh+ShzPFEAYQQ
- JkBLrcq7skTwCPuqnhdfkceBJ6WGuQLDfFJ1r5GJZUP1aLkuQFR44ZDtCqC4fBD8HvBK
- gPcA==
-X-Gm-Message-State: AOAM533NcuTCX2lsYit2BjIm47UED/jJ+oP+yzORTqWdHkjdbJky+c7I
- VU9IUjKnO+++8Oe3RZB4Yn/r6ZSXKHmZgoFycs1RhEzpGUu3mBeZWDEV6mhExXSyYD1Ijy6TR34
- a232rK/34azv2qhU=
-X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr3209989wmk.91.1603469302450;
- Fri, 23 Oct 2020 09:08:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxThHLjO2aKi6T7AfhEEZxsXH9f0xfl8lPunnF8HxcpLuENP4d1UNYf8qAc8W4kOddZJc6xGg==
-X-Received: by 2002:a7b:c7c9:: with SMTP id z9mr3209954wmk.91.1603469302175;
- Fri, 23 Oct 2020 09:08:22 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y206sm4461898wmd.34.2020.10.23.09.08.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 23 Oct 2020 09:08:20 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20201023101222.250147-1-kwolf@redhat.com>
- <20201023103603.GG445638@redhat.com> <87blgtoybe.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/6] qemu-storage-daemon: QAPIfy --chardev
-Message-ID: <ae2ffc01-84e3-70bc-c764-b9a69eba6b92@redhat.com>
-Date: Fri, 23 Oct 2020 18:08:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=4hAcHBxfAsWMIPxoDg2wZqNqjmzQ3sOup2C/MfbYCi4=;
+ b=YREgWw7RUJwiu1nimnhQM0XeTt7DWsSCPNguyKE8jEMPcDhWzj78PYeyTVwRqspHTbLiEh
+ 4YsGK+LgnF+D/HTxGXEmWHrYl/8kibANihbhIDP5Rbs8U97TuNUXydcnxRlQq+iMMsu4go
+ lHhmoWNi4YqgYbFi5IOIVnHisbOAXzU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-MljUXI3yMPylNt4ck-QaqQ-1; Fri, 23 Oct 2020 12:13:38 -0400
+X-MC-Unique: MljUXI3yMPylNt4ck-QaqQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A82101054FB9;
+ Fri, 23 Oct 2020 16:13:31 +0000 (UTC)
+Received: from merkur.redhat.com (ovpn-113-206.ams2.redhat.com [10.36.113.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3DD355C1CF;
+ Fri, 23 Oct 2020 16:13:30 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v2 1/6] char/stdio: Fix QMP default for 'signal'
+Date: Fri, 23 Oct 2020 18:13:07 +0200
+Message-Id: <20201023161312.460406-2-kwolf@redhat.com>
+In-Reply-To: <20201023161312.460406-1-kwolf@redhat.com>
+References: <20201023161312.460406-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87blgtoybe.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/23 02:46:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.108, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,46 +78,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, marcandre.lureau@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com,
+ marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/10/20 15:40, Markus Armbruster wrote:
->>
->> The benefit of the user creatable object approach is that we dont
->> have to add custom CLI args for different types of object, nor write
->> code to populate QOM from QAPI. The downside is that we're divorced
->> from the QAPI schema, so loose introspection, and have a different
->> type of tedious boilerplate code to write.
-> Loss of QAPI introspection is the killer.
-> 
-> We have QOM introspection, but it's far too weak to serve as
-> replacement.  Besides, two introspection facilities is one too many.
+Commit 02c4bdf1 tried to make signal=on the default for stdio chardevs
+except for '-serial mon:stdio', but it forgot about QMP and accidentally
+switched the QMP default from true (except for -nographic) to false
+(always). The QMP documentation was kept unchanged and still describes
+the opposite of the old behaviour (which is an even older documentation
+bug).
 
-Wouldn't Eduardo+Kevin's work on object-add provide that too?
+Fix all of this by making signal=true the default in ChardevStdio and
+documenting it as such.
 
-> Nevertheless, we need Kevin's work now to get a decent storage daemon
-> CLI while that's still easy to do.  We'll have to promise stability
-> soon, and then changes get much harder.
+Fixes: 02c4bdf1d2ca8c02a9bae16398f260b5c08d08bf
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ qapi/char.json       | 3 +--
+ chardev/char-stdio.c | 4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-I think we haven't answered the question of whether qsd needs a CLI at all.
-
-I looked recently at qemu_init and it struck me that, in principle, the
-only _really_ necessary command line options for QEMU are -sandbox,
--name and possibly -trace (only to be able to trace the monitor).  For
-everything else, one could use LISTEN_FDS socket activation mechanism,
-or if there's no LISTEN_FDS environment variable open a QMP socket on
-stdin/stdout.
-
-For qemu-standard-daemon, that would be _really_ true and not just in
-principle I understand that having a command-line can be useful to
-developers as it's less unwieldy than JSON, but why does it have to be
-stable?  Could we default to only 2-3 command-line options in the same
-fashion, and only accept --blockdev and friends if the user starts the
-command line with "qemu-storage-daemon --i-am-not-a-script"?
-
-Paolo
+diff --git a/qapi/char.json b/qapi/char.json
+index b4d66ec90b..43486d1daa 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -321,8 +321,7 @@
+ # Configuration info for stdio chardevs.
+ #
+ # @signal: Allow signals (such as SIGINT triggered by ^C)
+-#          be delivered to qemu.  Default: true in -nographic mode,
+-#          false otherwise.
++#          be delivered to qemu.  Default: true.
+ #
+ # Since: 1.5
+ ##
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..403da308c9 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -112,9 +112,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
+ 
+     qemu_chr_open_fd(chr, 0, 1);
+ 
+-    if (opts->has_signal) {
+-        stdio_allow_signal = opts->signal;
+-    }
++    stdio_allow_signal = !opts->has_signal || opts->signal;
+     qemu_chr_set_echo_stdio(chr, false);
+ }
+ #endif
+-- 
+2.28.0
 
 
