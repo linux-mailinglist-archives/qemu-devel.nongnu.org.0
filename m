@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5D94297308
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:59:45 +0200 (CEST)
-Received: from localhost ([::1]:56730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4DB2972FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 17:56:39 +0200 (CEST)
+Received: from localhost ([::1]:46610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzTk-0004o7-Re
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:59:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60278)
+	id 1kVzQk-0000Y8-2N
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 11:56:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyp-0004D3-U1
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:47 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26168)
+ id 1kVyyr-0004FZ-3X
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:49 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26169)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyn-0001Xq-DE
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:47 -0400
+ id 1kVyyn-0001Y4-Rl
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1603466865; x=1635002865;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=RLFX80Xpql0C4xhJ9t67Cmi2z97fy3kDvnRc3xd7dGI=;
- b=rsCp6/QTAPl0ns/ow9pEZq0rDyBY1+EGUyS+DHVJsG4xB7zRPNwk4v1T
- yBtzDePlf9b+kDYs4OMtOUQ26ePp8ufES4MzjPB3f54EKrfMfXxbQoMoq
- Cu4GyDfzmRcZ7QJjwxgui+xIu5zZV0MJZyAgfoagP+HM8hpCk4kogJ6dP
- LoR9vARxtv37tPGeraOvENB5qUV3BNo1UzVjhfREhdNmn4kCRYseRt1kf
- D5FsyuTpvNfflVKUUOm30tlg8Lk3rfVICmJu6snUgi9jlzWjp3O6i8tiu
- ShXhWlvbYaaenCE2iVmsCPQllX6nF3x/2hk4ctNrVDR9yH/e5rjJIUhIy w==;
-IronPort-SDR: pYsSo0YeZWKdu4Q6JlyILJRg0dAjh7TmZcCKIyFUq4maUjX4CT2nL2LOTNnxhHr5DS59c/SigX
- aG+rEfm6T/FsaT6NN3o2BIPY807F77uHa80mFfoE9BBu0AQG8N6cfXAm+9i5H61CWd7mbkfmB3
- iHp27CbXNG9jC5iM3/UJiyWtQFaxZHRuMCqNFIDoh/6qpIGBADNk5e4UgERzMkFamITqTCPB94
- kcUt3YRSTUrTJdYxZusFPLDQN1cK8masUl5RwKX05XEGhD4Jj1d6xN01V4C+Nj42YqhA5w0bs3
- SJ8=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652316"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=qFWvR5KAMA47jbNsvf8MmZ6kG1i3mjBIrx/D3hW3FeI=;
+ b=hY9oeFj4RCNRd0uMKqxwgEnmTY5MHh/0YAoOwMyoRPwey9OMKcCrY/55
+ DntYcf8GC2l+qD/EGEIkfdpKSjTHwt5J+c5Ss1pPnB+0ODtbnBWIhl1UD
+ ONgCzYxfqR2Ep5guPUfun6zZK5mwT8Can4itiqXbZxMYSuKB5JcacUIvw
+ DkyMuEjjp04iA0pTIgir22Ff/tizvZ5fAGmPugmF3Q8FpDCGI38aIYUhk
+ +GRQ4ZVQRaw6HqUXHLYcsdBsbL5CEtH6o3d3Q5o8wTyu/7F7O86mSCkot
+ QC8Y4UHcF1vo6tBeUe3Z2QZyF5P2J+oIOG1IGFe5Mv7SfEFpRGrs7lRIs g==;
+IronPort-SDR: 84qF3Gu3gU/0GdKzNUMsGWemigqSnNKk0tVU/hZi2DOzVj9bCusV9CbZA+rdSykpLA1WZ39nF3
+ aKh7qXoBmmfGdJYauX0ThfkRyqqGQD7X4aboPQfqOPRZV0lzXZLJyeyCJY4AUbk/nNxK+ZFVHe
+ UyB5Mj3uFm/xM+dDAE5rBqI4YtB9LKdowmLzBzfb70DGba5biCTXsgdAv2zJpblzu5p0QrUpMm
+ RomJlJf31/Cy0iUIKqm0lKAnOZBbn3p/pRvs+iD3j3cNs6YoWoJs4LzT1mEIwUIunkL1EUicQN
+ Nfw=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652317"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:42 +0800
-IronPort-SDR: nPCrzbyJBOf0HfLRdCKnwQZxhJiGjyQGKPxMwc4DtMi1XqUxZssoq3DokUcjHs94iRtvAzpdAS
- 4azunCXmSz6lNzPKnkp67m51fXEM+tqxA9Ws2NWLLfWJp7e24VcC4DGZct4UCfNYHFL0OntKTd
- kGFvQZRnpz5K/0c5+yGXA7zxU+Ms+PNYbc+3zEc6ZdtMR564aqriDeWaXzQDP35Gmqj6toeRIG
- G8WVB4XXcQo2S4o0KoLb7eesrXAG6Nlj6kcYrJDcb3HaIDSnEE8nrtEYMkh0es95o7AzFSOzCH
- 4zvEmintiQPRomQsOM3ovrkU
+IronPort-SDR: 4O0RbvWX3nqjEyeFPqZErjhzTENO2EYl4wGiUlnbMRRdripRHoxeI21RpKqMtY4GhMPRUyWh9P
+ xYJBxaxYYyymJwp8MCSMYuILQrC0rCgDI/iwSorO76iGHYrLTXfPynPc0wmhQKNKMzGKh4WbBt
+ fXrEtMkyeJWhSpEB8sljfwmy1JaLqJD9CvtKGzsq1yoQkPVBpZO3XUFIKFoAGi1wcorgm0xYGq
+ Jx2Ue0bCyf3axnNGjzZWLhosWj4TmOwarMwYw9Yqt1WVDmoMzQNj+WSCdAfr6J2/nzQQGfDv0L
+ I9BhK2MzPU36UK6RGBmq7uG7
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Oct 2020 08:12:57 -0700
-IronPort-SDR: hw8s0of+U4APhC+odBxKjrQniUGkqy3jjHeJDt1lBl2ARSNTBp/1wkQElTj92yLZ1pnS/LixTP
- yZTzwQ1YfJm7tpD1ftro4pWzjvM3MnHOUKKIJKy13bYjAGoPxpZf2C5h2xPbcObN8AvMuwrpuk
- JehLccy++dT57wrAyrgqrFWSAB1mDe4j2q51I9QKvK1FlNCguIvDRZ+8xww9kqx2b+8Zy6jozm
- iFE+RNzFijvP7KgUFGRFHItL/zFE4KDssBfQzmwNaOg1OpJ56V5fyMON5YQXDXmHrLauem2QkB
- liY=
+ 23 Oct 2020 08:12:58 -0700
+IronPort-SDR: 6j6gXNlgnBDBxelCL1wscQaDzpdq1O7JG4Cmrzj1gCoE/H7daFRV83KVrBWJ8gN/acMKLQNoG9
+ l3W2+IvH7H2xH9KbXxz8InImuNcOQiAjMV6UAsHTPtLmOTOle2oYYRW0cmTUHjyJaD0y4AHrkw
+ g6iP5foNLjSJkC3yzbquHtGPZv/3s4aSZvTrwQLqYDHYXw7/fqRHHfHp11hSZu+zNKcTVbyIq9
+ A3QofMzv75pP9TwYTKU/kltk6Bg8IcCOHr2zlXfX7Ox2CcOVBzXYtYHZNoGn/3S7RhiFrJH9RV
+ hk8=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
@@ -62,10 +62,12 @@ Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 00/12] riscv-to-apply queue
-Date: Fri, 23 Oct 2020 08:16:07 -0700
-Message-Id: <20201023151619.3175155-1-alistair.francis@wdc.com>
+Subject: [PULL 01/12] riscv: Convert interrupt logs to use qemu_log_mask()
+Date: Fri, 23 Oct 2020 08:16:08 -0700
+Message-Id: <20201023151619.3175155-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
+References: <20201023151619.3175155-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -93,68 +95,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+Currently we log interrupts and exceptions using the trace backend in
+riscv_cpu_do_interrupt(). We also log exceptions using the interrupt log
+mask (-d int) in riscv_raise_exception().
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+This patch converts riscv_cpu_do_interrupt() to log both interrupts and
+exceptions with the interrupt log mask, so that both are printed when a
+user runs QEMU with -d int.
 
-are available in the Git repository at:
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 29a8c766c7c4748d0f2711c3a0abb81208138c5e.1601652179.git.alistair.francis@wdc.com
+---
+ target/riscv/cpu_helper.c | 8 +++++++-
+ target/riscv/op_helper.c  | 1 -
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201023
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 904899054d..6c68239a46 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -895,7 +895,13 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+     }
+ 
+     trace_riscv_trap(env->mhartid, async, cause, env->pc, tval,
+-        riscv_cpu_get_trap_name(cause, async));
++                     riscv_cpu_get_trap_name(cause, async));
++
++    qemu_log_mask(CPU_LOG_INT,
++                  "%s: hart:"TARGET_FMT_ld", async:%d, cause:"TARGET_FMT_lx", "
++                  "epc:0x"TARGET_FMT_lx", tval:0x"TARGET_FMT_lx", desc=%s\n",
++                  __func__, env->mhartid, async, cause, env->pc, tval,
++                  riscv_cpu_get_trap_name(cause, async));
+ 
+     if (env->priv <= PRV_S &&
+             cause < TARGET_LONG_BITS && ((deleg >> cause) & 1)) {
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index 9b9ada45a9..e987bd262f 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -29,7 +29,6 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
+                                           uint32_t exception, uintptr_t pc)
+ {
+     CPUState *cs = env_cpu(env);
+-    qemu_log_mask(CPU_LOG_INT, "%s: %d\n", __func__, exception);
+     cs->exception_index = exception;
+     cpu_loop_exit_restore(cs, pc);
+ }
+-- 
+2.28.0
 
-for you to fetch changes up to 51b6c1bbc3dd1b139a9e9b021d87bcfd7d82299e:
-
-  hw/misc/sifive_u_otp: Add backend drive support (2020-10-22 12:00:50 -0700)
-
-----------------------------------------------------------------
-A collection of RISC-V fixes for the next QEMU release.
-
-This includes:
- - Improvements to logging output
- - Hypervisor instruction fixups
- - The ability to load a noMMU kernel
- - SiFive OTP support
-
-----------------------------------------------------------------
-Alistair Francis (5):
-      riscv: Convert interrupt logs to use qemu_log_mask()
-      hw/riscv: sifive_u: Allow specifying the CPU
-      hw/riscv: Return the end address of the loaded firmware
-      hw/riscv: Add a riscv_is_32_bit() function
-      hw/riscv: Load the kernel after the firmware
-
-Bin Meng (1):
-      hw/intc: Move sifive_plic.h to the include directory
-
-Georg Kotheimer (3):
-      target/riscv: Fix update of hstatus.SPVP
-      target/riscv: Fix update of hstatus.GVA in riscv_cpu_do_interrupt
-      target/riscv: Fix implementation of HLVX.WU instruction
-
-Green Wan (2):
-      hw/misc/sifive_u_otp: Add write function and write-once protection
-      hw/misc/sifive_u_otp: Add backend drive support
-
-Yifei Jiang (1):
-      target/riscv: raise exception to HS-mode at get_physical_address
-
- {hw => include/hw}/intc/sifive_plic.h |  0
- include/hw/misc/sifive_u_otp.h        |  5 ++
- include/hw/riscv/boot.h               | 13 +++--
- include/hw/riscv/sifive_u.h           |  1 +
- target/riscv/cpu.h                    | 10 ++--
- hw/misc/sifive_u_otp.c                | 95 ++++++++++++++++++++++++++++++++++-
- hw/riscv/boot.c                       | 56 +++++++++++++++------
- hw/riscv/opentitan.c                  |  3 +-
- hw/riscv/sifive_e.c                   |  3 +-
- hw/riscv/sifive_u.c                   | 28 ++++++++---
- hw/riscv/spike.c                      | 11 ++--
- hw/riscv/virt.c                       | 11 ++--
- target/riscv/cpu_helper.c             | 50 +++++++++++++-----
- target/riscv/op_helper.c              |  7 ++-
- 14 files changed, 238 insertions(+), 55 deletions(-)
- rename {hw => include/hw}/intc/sifive_plic.h (100%)
 
