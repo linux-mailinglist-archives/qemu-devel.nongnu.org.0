@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6452975A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:18:29 +0200 (CEST)
-Received: from localhost ([::1]:38952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4FAB2975AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 19:21:23 +0200 (CEST)
+Received: from localhost ([::1]:44580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW0hw-0003Tc-GM
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:18:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56056)
+	id 1kW0kk-0005wX-NC
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 13:21:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kW0On-0001Le-Fm
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:58:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28812)
+ id 1kW0Op-0001P4-9S
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:58:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kW0Oi-0005AE-Ie
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:58:41 -0400
+ id 1kW0Oi-0005AM-Ki
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 12:58:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603472312;
+ s=mimecast20190719; t=1603472314;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gDwvzkFNIweZmShw1wlRU7uHBoUQJTTBSzbW+CLl6CM=;
- b=TV/xjn/v1APmMflUlLk8f2FaIBkoZX4C+GloCF0ZvPx9u+tty/DBqdNIkCKtPU0hAjpbDT
- VdsfU0qev/3Dy6eOAfQ2McLKscHDesvbyRFsh7Oo+aB9Ax4GwXtmbXocUMOhC8cVR82lb+
- Q1QviIpDrPJnFL5mbGZV4Mo6TqlfR2c=
+ bh=Kmj8Qu9zk6u8styP1oVh44uMPcepAPf0nIT1VcNsAjw=;
+ b=dqOIudcUTWnIbGXxEwQkUrzsAM08dfaam2mftWSt/+yt0EqTJRruP84RJTT6P8sApZI+K2
+ 3ZCELzalfOWPeuLub0/Z/c1rjQgMDQ1bUEI6S5LtKflSWIMWl0JOeZRQIT9mduh6bf/7Hj
+ ya6RIacldXexFs6AY5KktZ3u64H22C0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-jfg-zVE4PgSounPqtOUYmw-1; Fri, 23 Oct 2020 12:58:31 -0400
-X-MC-Unique: jfg-zVE4PgSounPqtOUYmw-1
+ us-mta-35-yMyevcvJPyKXAjlgBScccQ-1; Fri, 23 Oct 2020 12:58:32 -0400
+X-MC-Unique: yMyevcvJPyKXAjlgBScccQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07D45804B7A
- for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 16:58:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 885091007466
+ for <qemu-devel@nongnu.org>; Fri, 23 Oct 2020 16:58:31 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-113-212.ams2.redhat.com
  [10.36.113.212])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C628E10013D7;
- Fri, 23 Oct 2020 16:58:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52D4A10013D7;
+ Fri, 23 Oct 2020 16:58:30 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
  dinechin@redhat.com, virtio-fs@redhat.com
-Subject: [PATCH v4 3/5] tools/virtiofsd: xattr name mappings: Map server xattr
- names
-Date: Fri, 23 Oct 2020 17:58:10 +0100
-Message-Id: <20201023165812.36028-4-dgilbert@redhat.com>
+Subject: [PATCH v4 4/5] tools/virtiofsd: xattr name mapping examples
+Date: Fri, 23 Oct 2020 17:58:11 +0100
+Message-Id: <20201023165812.36028-5-dgilbert@redhat.com>
 In-Reply-To: <20201023165812.36028-1-dgilbert@redhat.com>
 References: <20201023165812.36028-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,124 +87,75 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Map xattr names coming from the server, i.e. the host filesystem;
-currently this is only from listxattr.
+Add a few examples of xattrmaps to the documentation.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 90 ++++++++++++++++++++++++++++++++
- 1 file changed, 90 insertions(+)
+ docs/tools/virtiofsd.rst | 50 ++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
 
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index ec3ef7b50d..57f584ee49 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2217,6 +2217,44 @@ static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-     return -EPERM;
- }
+diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
+index 868fa0e97b..4e74690eca 100644
+--- a/docs/tools/virtiofsd.rst
++++ b/docs/tools/virtiofsd.rst
+@@ -201,6 +201,56 @@ e.g.:
  
-+/*
-+ * For use with listxattr where the server fs gives us a name and we may need
-+ * to sanitize this for the client.
-+ * Returns a pointer to the result in *out_name
-+ *   This is always the original string or the current string with some prefix
-+ *   removed; no reallocation is done.
-+ * Returns 0 on success
-+ * Can return -ENODATA to indicate the name should be dropped from the list.
-+ */
-+static int xattr_map_server(const struct lo_data *lo, const char *server_name,
-+                            const char **out_name)
-+{
-+    size_t i;
-+    const char *end;
+   would hide 'security.' xattr's in listxattr from the server.
+ 
++xattr-mapping Examples
++----------------------
 +
-+    for (i = 0; i < lo->xattr_map_nentries; i++) {
-+        const XattrMapEntry *cur_entry = lo->xattr_map_list + i;
++1) Prefix all attributes with 'user.virtiofs.'
 +
-+        if ((cur_entry->flags & XATTR_MAP_FLAG_SERVER) &&
-+            (strstart(server_name, cur_entry->prepend, &end))) {
-+            if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
-+                return -ENODATA;
-+            }
-+            if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
-+                *out_name = server_name;
-+                return 0;
-+            }
-+            if (cur_entry->flags & XATTR_MAP_FLAG_PREFIX) {
-+                /* Remove prefix */
-+                *out_name = end;
-+                return 0;
-+            }
-+        }
-+    }
++::
 +
-+    return -ENODATA;
-+}
++-o xattrmap=":prefix:all::user.virtiofs.::bad:all:::"
 +
- static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-                         size_t size)
- {
-@@ -2371,8 +2409,60 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
-         if (ret == 0) {
-             goto out;
-         }
 +
-+        if (lo->xattr_map_list) {
-+            /*
-+             * Map the names back, some attributes might be dropped,
-+             * some shortened, but not increased, so we shouldn't
-+             * run out of room.
-+             */
-+            size_t out_index, in_index;
-+            out_index = 0;
-+            in_index = 0;
-+            while (in_index < ret) {
-+                const char *map_out;
-+                char *in_ptr = value + in_index;
-+                /* Length of current attribute name */
-+                size_t in_len = strlen(value + in_index) + 1;
++This uses two rules, using : as the field separator;
++the first rule prefixes and strips 'user.virtiofs.',
++the second rule hides any non-prefixed attributes that
++the host set.
 +
-+                int mapret = xattr_map_server(lo, in_ptr, &map_out);
-+                if (mapret != -ENODATA && mapret != 0) {
-+                    /* Shouldn't happen */
-+                    saverr = -mapret;
-+                    goto out;
-+                }
-+                if (mapret == 0) {
-+                    /* Either unchanged, or truncated */
-+                    size_t out_len;
-+                    if (map_out != in_ptr) {
-+                        /* +1 copies the NIL */
-+                        out_len = strlen(map_out) + 1;
-+                    } else {
-+                        /* No change */
-+                        out_len = in_len;
-+                    }
-+                    /*
-+                     * Move result along, may still be needed for an unchanged
-+                     * entry if a previous entry was changed.
-+                     */
-+                    memmove(value + out_index, map_out, out_len);
++2) Prefix 'trusted.' attributes, allow others through
 +
-+                    out_index += out_len;
-+                }
-+                in_index += in_len;
-+            }
-+            ret = out_index;
-+            if (ret == 0) {
-+                goto out;
-+            }
-+        }
-         fuse_reply_buf(req, value, ret);
-     } else {
-+        /*
-+         * xattrmap only ever shortens the result,
-+         * so we don't need to do anything clever with the
-+         * allocation length here.
-+         */
-         fuse_reply_xattr(req, ret);
-     }
- out_free:
++::
++
++   "/prefix/all/trusted./user.virtiofs./
++    /bad/server//trusted./
++    /bad/client/user.virtiofs.//
++    /ok/all///"
++
++
++Here there are four rules, using / as the field
++separator, and also demonstrating that new lines can
++be included between rules.
++The first rule is the prefixing of 'trusted.' and
++stripping of 'user.virtiofs.'.
++The second rule hides unprefixed 'trusted.' attributes
++on the host.
++The third rule stops a guest from explicitly setting
++the 'user.viritofs.' path directly.
++Finally, the fourth rule lets all remaining attributes
++through.
++
++3) Hide 'security.' attributes, and allow everything else
++
++::
++
++    "/bad/all/security./security./
++     /ok/all///'
++
++The first rule combines what could be separate client and server
++rules into a single 'all' rule, matching 'security.' in either
++client arguments or lists returned from the host.  This stops
++the client seeing any 'security.' attributes on the server and
++stops it setting any.
++
+ Examples
+ --------
+ 
 -- 
 2.28.0
 
