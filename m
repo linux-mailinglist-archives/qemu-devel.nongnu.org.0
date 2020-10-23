@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B48DF29733C
-	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:08:58 +0200 (CEST)
-Received: from localhost ([::1]:56628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4967E297327
+	for <lists+qemu-devel@lfdr.de>; Fri, 23 Oct 2020 18:05:32 +0200 (CEST)
+Received: from localhost ([::1]:45228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kVzcf-00089I-Kn
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:08:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60408)
+	id 1kVzZL-0003TK-A6
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 12:05:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyz-0004Kl-3H
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:58 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26169)
+ id 1kVyz1-0004Lk-83
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:28:01 -0400
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:26170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=558518344=alistair.francis@wdc.com>)
- id 1kVyyv-0001Y4-Bq
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:56 -0400
+ id 1kVyyx-0001YB-1B
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 11:27:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603466873; x=1635002873;
+ t=1603466874; x=1635002874;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=cHLv6Xa/Mv6eHkYaJhgq25XI2qqlc+Or3T2F3M6qC9c=;
- b=HLLNxssjxeTDBPqNOWWhulH7BhNOi7abuK3/4LVExDdPQh8GpRDEY0to
- Gz7turfQsN9U9jHVNHUrzZlT8AxKLjwVyheHNMgBXZ7B4J6SuWWHb8gWO
- u5JkG+iwnepf3DZ1KICp5O1SVNBh+GCHQYTwsbNtYQJEOPQxg2yz0mZMa
- J0LcQrwWw8tkee5DhzLWfK+RCD/jrInSIuo7i/tYhxqg+SReWmofwt5cV
- ilfzbE43HCZsNI9F/RlUrzsVLrYr+2lYdpSrpFuy4UeHEbFHSdkr6Voqg
- sae10O6EN219259NvfNJit938TU3P/uh1qfb7xfKm4FQIiswB7zsBpxe1 A==;
-IronPort-SDR: hlf1f3EYlArM6YNBdkFhdY2wKQ0c4ZSgV0SAcBnDUlxNavbiHHBlrQKJT/umx3ilBlssbeAdrC
- hsHGHud1dZZrIl5vEWHCKG7x8eqXQITUX4odetFEm080l8Vn+GFYB+XT4ZQ8r2r4dqjR0WfiPl
- i9JNPT2iyciYWcrRWe4Nh3rv+Ct1Jfzt/1C2eVfsE4jYBWCwnCrOY/4K2jMFMIFbY3m+VSZcM2
- 6n+G14J9jjtFCg6KWVauM7TeEoJrsHfhNCKVtlWU83cYOXEC6Xdm/QuHmMaT/QL0wyBrnFh1bb
- dwA=
-X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652323"
+ bh=yE5+hyUffpnvJ1ZCmkpKdCuq12nvG7F0ktIepyst7zw=;
+ b=MkRiwiBry+qmiXVn3q7lVHI+KzTAbD91JRD/bflpzF7HUlxRa5apuGYb
+ K0sUPRYuvwgKw9KIEpsqym8b8jPfzr7SsH0xWWmiwF+TW/z5xyaOoQ4ws
+ qVVaLbyXtTkcxvpGOvT7iORLbs5LLBdaEIT7FEHMKTIPyxszhMa2KP097
+ JlIyrkdZfiF4fhZzQ+fX5SJEKMeRt+zVyQEIHRGr5TdxDlskkfh6BZ0SG
+ IyV/sHwy/uk4M7s2sUJ8hmHxGYi0NP9Hp37k5eVjRJLCfugrqj/qOVl5K
+ 7YbncWtlcojkKK/xG8FLbVlS795Bt0b3Qo+gzXUHwDpzt11N0RekiePYo w==;
+IronPort-SDR: rhQYuJ3uLEPf7dazjkXt9OdGtNnxudgyhZ8pSk3qopVPUielJ7/dySWrNTRkHnI17b33kgjCmt
+ TsnS+wnBizAmHAB9/j0yVz/NF+8KyiI4GroMpC15tbHyO7yzHgqPn1fTcerqxEw8mLF+n7O8+H
+ EbWf4MJyql29Y/fEQeI29OLQeUdJxlY3Ze+SW7LnWflVLaVzwLCEThc/6+BJvfkWfr/sCYlQ0i
+ BVt55HGG4MFf35ouafs5+CfowhfBI7mR1CjuG5YznWB42E1BlFROhVPT3AlSpDcU+2DwS4ZYxC
+ uAo=
+X-IronPort-AV: E=Sophos;i="5.77,408,1596470400"; d="scan'208";a="150652324"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
  ([199.255.45.15])
  by ob1.hgst.iphmx.com with ESMTP; 23 Oct 2020 23:27:44 +0800
-IronPort-SDR: 6/Jc7hSM2D06k3QU+/2tNVxZgo//lt7sUWuFJy17QzrO5seRcGhZV5fwjCBvoMBCN++SCNruGD
- usr2s3R4MFusfvmh6G6j3yFdLwvq0tYdNVsqNzX9wcMHlcTjKiYWJMv8NukhZQND8l5NljtaiJ
- AE9puQw+yQST5LGZ4M4FYCBCDcVL4LbRo48jfKGmHrOYK0blB/TLaoko4mHnnCMvPxO+8WBiLY
- sO+uiDZKduVUAePZf1rxFDyxGCoPFG856SbQbfmDfLOHe/fM+OSiIaFT/gbazgFvdFaeRVt78J
- 9K+NHhjAaPFBy/PU5UW2857X
+IronPort-SDR: Ju1xbu79q094sol0WuPh0grpDTw7UjCyjrXRW38Y+PvHtIBhwVFBpVlOWkGvI3TWB0Soh8AZH2
+ pzusxyX7T/0O3PIgjs+lKGauZdUs3vvZankFJD5d1+uGo+4dzQ2ozIKWxgcfRpUUIaoDNZDGCZ
+ BAyHryDb+TAxJcu6XJkPJm+qI62H4+AgIfURVEzsGWp2q366V6ZeUJHw5NAAFz0hThuZem9u6z
+ t6L7PeBsCJcrGsdz278LO9frL/af3OoLnT19aZRHBmMrL77G8oBZ9O6U1PDD/LkBoeLCoMlE+B
+ mtQ5GOiecCtU0xD9X9ciS5Dw
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  23 Oct 2020 08:12:59 -0700
-IronPort-SDR: A7XZXZVrV5KsdZGuYjVAiBL0D+/f2Yd4FNfc3DGOWzxUfUoqmjJO+kk501Fwv9brjl3tkzN1u4
- 6qfA1UZyIhRxhlq/smgtrwQI6GRgS2/37L3XlAPCB5fB0zxQ3ByuR42XpkIGzV00A2fgLGSD7E
- /C70T7uz9m2PQp6ioN3Mz/5YaZUbNB5UsdPF4JDC6qIRduA6TmUY0gOKYyhon6j3H9GVlkVsXI
- Zb+impGNCSeIfqI554piNhi90qDs3G53StYJcpxNYtH/FCyY4qXG4q1zzokUUogSzCP8n0f1zi
- 278=
+IronPort-SDR: eifaaHkjO/mk24lCjubU+bvgeVxZIsP/YIEzsTSfoOxeyKhYVTS0G7drn5ilN8nc9aBA4kItk1
+ iNjKSXDQraZwIbn8yMhDXcL1fK2xAx7GmHGi72GE6WeoanDhbpmDwAwP7otk519XY0AEzeUi2V
+ X9OzKUCFC3Fv8fsMblkUXwBK3kGqII0Yj3wKSgVUe8xjVe+gB1FIIWe4n5pDrTmCV2q7yMcDI6
+ wG2diwnB7KOMx/RhIXlTg3nzstJsf4AlrFU75crDeEfs4rLSdOH4XvLBXdvM7AX0Qgte+z8qg/
+ 7WY=
 WDCIronportException: Internal
 Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.46])
@@ -62,9 +62,9 @@ Received: from cnf006900.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 07/12] hw/riscv: Return the end address of the loaded firmware
-Date: Fri, 23 Oct 2020 08:16:14 -0700
-Message-Id: <20201023151619.3175155-8-alistair.francis@wdc.com>
+Subject: [PULL 08/12] hw/riscv: Add a riscv_is_32_bit() function
+Date: Fri, 23 Oct 2020 08:16:15 -0700
+Message-Id: <20201023151619.3175155-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023151619.3175155-1-alistair.francis@wdc.com>
 References: <20201023151619.3175155-1-alistair.francis@wdc.com>
@@ -100,105 +100,49 @@ Cc: Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of returning the unused entry address from riscv_load_firmware()
-instead return the end address. Also return the end address from
-riscv_find_and_load_firmware().
-
-This tells the caller if a firmware was loaded and how big it is. This
-can be used to determine the load address of the next image (usually the
-kernel).
-
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
 Reviewed-by: Bin Meng <bin.meng@windriver.com>
 Tested-by: Bin Meng <bin.meng@windriver.com>
-Message-id: 558cf67162342d65a23262248b040563716628b2.1602634524.git.alistair.francis@wdc.com
+Message-id: 4c6a85dfb6dd470aa79356ebc1b02f479c2758e0.1602634524.git.alistair.francis@wdc.com
 ---
- include/hw/riscv/boot.h |  8 ++++----
- hw/riscv/boot.c         | 28 +++++++++++++++++-----------
- 2 files changed, 21 insertions(+), 15 deletions(-)
+ include/hw/riscv/boot.h | 2 ++
+ hw/riscv/boot.c         | 9 +++++++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 451338780a..0acbd8aa6e 100644
+index 0acbd8aa6e..2975ed1a31 100644
 --- a/include/hw/riscv/boot.h
 +++ b/include/hw/riscv/boot.h
-@@ -23,10 +23,10 @@
+@@ -23,6 +23,8 @@
  #include "exec/cpu-defs.h"
  #include "hw/loader.h"
  
--void riscv_find_and_load_firmware(MachineState *machine,
--                                  const char *default_machine_firmware,
--                                  hwaddr firmware_load_addr,
--                                  symbol_fn_t sym_cb);
-+target_ulong riscv_find_and_load_firmware(MachineState *machine,
-+                                          const char *default_machine_firmware,
-+                                          hwaddr firmware_load_addr,
-+                                          symbol_fn_t sym_cb);
- char *riscv_find_firmware(const char *firmware_filename);
- target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr,
++bool riscv_is_32_bit(MachineState *machine);
++
+ target_ulong riscv_find_and_load_firmware(MachineState *machine,
+                                           const char *default_machine_firmware,
+                                           hwaddr firmware_load_addr,
 diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 21adaae56e..fa699308a0 100644
+index fa699308a0..5dea644f47 100644
 --- a/hw/riscv/boot.c
 +++ b/hw/riscv/boot.c
-@@ -40,12 +40,13 @@
+@@ -40,6 +40,15 @@
  #define fw_dynamic_info_data(__val)     cpu_to_le64(__val)
  #endif
  
--void riscv_find_and_load_firmware(MachineState *machine,
--                                  const char *default_machine_firmware,
--                                  hwaddr firmware_load_addr,
--                                  symbol_fn_t sym_cb)
-+target_ulong riscv_find_and_load_firmware(MachineState *machine,
-+                                          const char *default_machine_firmware,
-+                                          hwaddr firmware_load_addr,
-+                                          symbol_fn_t sym_cb)
- {
-     char *firmware_filename = NULL;
-+    target_ulong firmware_end_addr = firmware_load_addr;
- 
-     if ((!machine->firmware) || (!strcmp(machine->firmware, "default"))) {
-         /*
-@@ -60,9 +61,12 @@ void riscv_find_and_load_firmware(MachineState *machine,
- 
-     if (firmware_filename) {
-         /* If not "none" load the firmware */
--        riscv_load_firmware(firmware_filename, firmware_load_addr, sym_cb);
-+        firmware_end_addr = riscv_load_firmware(firmware_filename,
-+                                                firmware_load_addr, sym_cb);
-         g_free(firmware_filename);
-     }
++bool riscv_is_32_bit(MachineState *machine)
++{
++    if (!strncmp(machine->cpu_type, "rv32", 4)) {
++        return true;
++    } else {
++        return false;
++    }
++}
 +
-+    return firmware_end_addr;
- }
- 
- char *riscv_find_firmware(const char *firmware_filename)
-@@ -91,17 +95,19 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-                                  hwaddr firmware_load_addr,
-                                  symbol_fn_t sym_cb)
- {
--    uint64_t firmware_entry;
-+    uint64_t firmware_entry, firmware_size, firmware_end;
- 
-     if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
--                         &firmware_entry, NULL, NULL, NULL,
-+                         &firmware_entry, NULL, &firmware_end, NULL,
-                          0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
--        return firmware_entry;
-+        return firmware_end;
-     }
- 
--    if (load_image_targphys_as(firmware_filename, firmware_load_addr,
--                               ram_size, NULL) > 0) {
--        return firmware_load_addr;
-+    firmware_size = load_image_targphys_as(firmware_filename,
-+                                           firmware_load_addr, ram_size, NULL);
-+
-+    if (firmware_size > 0) {
-+        return firmware_load_addr + firmware_size;
-     }
- 
-     error_report("could not load firmware '%s'", firmware_filename);
+ target_ulong riscv_find_and_load_firmware(MachineState *machine,
+                                           const char *default_machine_firmware,
+                                           hwaddr firmware_load_addr,
 -- 
 2.28.0
 
