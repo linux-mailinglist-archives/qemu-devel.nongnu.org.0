@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90C63297E4D
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 22:00:10 +0200 (CEST)
-Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F632297E4E
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 22:02:14 +0200 (CEST)
+Received: from localhost ([::1]:47316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWPhx-0006QO-K3
-	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 16:00:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59036)
+	id 1kWPjx-000860-2U
+	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 16:02:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPge-0005A1-Kj
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:58:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24625)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPhc-0006fm-GZ
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:59:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25998)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPgc-0000LX-Or
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:58:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPha-0000PL-Ov
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:59:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603569525;
+ s=mimecast20190719; t=1603569585;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ah4epusYiLuOXkJ5P+PFFOSaogT25MCSFKiW2E6P2mM=;
- b=EkJWbabqyrTEk/XNjG5fBoscvKaHM4rZotmiiaKLMiyBWfAE0bgxoCJVm+dMXxjU4mt/d+
- 3641AaRHdmyxT1ra/MU9qyTEP7mjKv/DDqEG/rPKNZ/kigU31j/t7L+X0KP8WKIM7D3iSL
- MiEH0auA4kXsn3KTAJNPmww1Zz7LkuQ=
+ bh=TVJxg8p+uCywNQtn53etvx9DPIog8lwUeMlRmVnOeBE=;
+ b=HZ7AdpqKizSsxZv0L2xAaFRux/HY+FBYck4HX8a2A+nfFTa5K7yDyBmnuGM46oKv/IpfTJ
+ 6OlEsuhl/VUKsmUG+Minjw4gIX9B3beDAMFhnKbdH8GsFQVdm4K/iu6UYE9kaL9Vtz5dAg
+ 4M0+2ecuXkCk6RNDtRW4sBz2slqunBY=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-r5k0qv93OmqPSoctoIF6qg-1; Sat, 24 Oct 2020 15:58:41 -0400
-X-MC-Unique: r5k0qv93OmqPSoctoIF6qg-1
-Received: by mail-wr1-f70.google.com with SMTP id t17so3727618wrm.13
- for <qemu-devel@nongnu.org>; Sat, 24 Oct 2020 12:58:41 -0700 (PDT)
+ us-mta-469-w9iJXoaGN_amIhcFdCb3MA-1; Sat, 24 Oct 2020 15:59:44 -0400
+X-MC-Unique: w9iJXoaGN_amIhcFdCb3MA-1
+Received: by mail-wr1-f70.google.com with SMTP id t11so3721741wrv.10
+ for <qemu-devel@nongnu.org>; Sat, 24 Oct 2020 12:59:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Ah4epusYiLuOXkJ5P+PFFOSaogT25MCSFKiW2E6P2mM=;
- b=IzgYgkj90Vo42gxJAqaBtyBSxx6FV61zCCbITSR6sS8wFKDTsmgWiVY/zJ+TGgdEK+
- 4106vHC3FM1jvvRRORSZqbPAUdsMxdr0uEEL73z2rMGdanwJr6TXmTRBcVNoWIKR94/U
- O94+jk/NMqHvU+LBPpHRrqjPPLf+SzjtYSkoCnU/vFtoYFBjOOeKEBAjHwcIw4penuB9
- H6N3q/3CiwNxPXeciQIfLZG6a2l8v+wHh/slBp18/lOnrXVkZLo8jKVQnyMAfH0qqIev
- N8LNErrVjN+XQ7VGKROgxcg70QDHcH+JbOHZVmNiXpd0A2pnzu9xXjK2lDpkMV3kzpKO
- URIg==
-X-Gm-Message-State: AOAM530HV1oYxHhzS788QsVbr1fV1HSTw04gARs8tsvCHoCllzotIirP
- hchBRHwx4CvXcyTjwIf4DRFSnpRmCi0Wxz4ZdI2xVSzONdPSZ0BhC3+aq5Da8s6yOsnCyGbStKF
- YEHBhodb918SDQ8Q=
-X-Received: by 2002:a1c:9e93:: with SMTP id h141mr8128744wme.153.1603569520338; 
- Sat, 24 Oct 2020 12:58:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwT8YTkCeOWVRy+t2aGaKxbtzwHYgZJHgAeEdBHj8M5kr2/uLhNBqDl+7YYJFnUZVrdCxAgSw==
-X-Received: by 2002:a1c:9e93:: with SMTP id h141mr8128734wme.153.1603569520203; 
- Sat, 24 Oct 2020 12:58:40 -0700 (PDT)
+ bh=TVJxg8p+uCywNQtn53etvx9DPIog8lwUeMlRmVnOeBE=;
+ b=IlM/jD6XtPtksg0mRgPdphDN1KIXtjX5qpGQ6RHsQyZ0BxxZdarfMxAwAl2FHLaS/z
+ wy8+TpTLL4Dd4jPu+TE3V5YzHbK7bKEdbz7uT33YXEuCH57doUw8HfLi3Ka/xyQvuL30
+ syIAf0+4SO1H56zk+MN9MMmRqxR6psrybogY3vMcVnR0zqTsOL8ekOqYlBcJnbKKxP8V
+ XpqeGbCZ4eFPK4EqPgqhx9c+/FpsJxpTie4ZJb0hVN3lXxdCHZICFBknLcGm93Wk3L1l
+ Qs9WmWKpyRKJoM6bdt04wuVCXVTjrmeFyt3SF3xZeimqVPN+26wMIl+ahGRrLKfAnd8J
+ D9uw==
+X-Gm-Message-State: AOAM531CCn+ZeqFI6T4q2aWFDXfDvbr1YCl7PqLs9KUchNAymMwoCzcW
+ /vAbxL376WCKCpQvcyBKvrXRlBqxOLppb+EAA6IX1+yb3IrJCv/I9QpBug9Sn6uliOPIUSP+4MA
+ EH0pnxe8omAzQ6OE=
+X-Received: by 2002:adf:e412:: with SMTP id g18mr9086235wrm.211.1603569582866; 
+ Sat, 24 Oct 2020 12:59:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx+OVuILbm4A01gGEh/wvjPy1y3E5hRFIYtM0Jc3NDTM5HTfn4ujVlE8g0Gif+zEdvsZoULrw==
+X-Received: by 2002:adf:e412:: with SMTP id g18mr9086211wrm.211.1603569582597; 
+ Sat, 24 Oct 2020 12:59:42 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id j130sm12069524wmj.15.2020.10.24.12.58.39
+ by smtp.gmail.com with ESMTPSA id f8sm12580659wrw.85.2020.10.24.12.59.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Oct 2020 12:58:39 -0700 (PDT)
-Subject: Re: [PATCH 04/15] scripts/qom-fuse: apply isort rules
+ Sat, 24 Oct 2020 12:59:42 -0700 (PDT)
+Subject: Re: [PATCH 03/15] scripts/qmp: redirect qom-xxx scripts to
+ python/qemu/qmp/
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20201021185208.1611145-1-jsnow@redhat.com>
- <20201021185208.1611145-5-jsnow@redhat.com>
+ <20201021185208.1611145-4-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <52cac079-041f-1670-0455-f7e7e5923223@redhat.com>
-Date: Sat, 24 Oct 2020 21:58:38 +0200
+Message-ID: <544573e3-e4a2-3dfc-c1c9-7cb334ffcaa9@redhat.com>
+Date: Sat, 24 Oct 2020 21:59:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201021185208.1611145-5-jsnow@redhat.com>
+In-Reply-To: <20201021185208.1611145-4-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -106,14 +107,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/21/20 8:51 PM, John Snow wrote:
-> Hint: you can use symlinks to create qom_fuse.py in python/qemu/qmp/ and
-> point to scripts/qom-fuse to apply the standard linting rules to this
-> script.
+> Redirect to the new qom scripts. These forwarders can be deleted
+> eventually when there has been more time for the dust on the Python
+> packaging to settle and people understand how to find these commands.
+> 
+> Note: You can run these by setting $PYTHONPATH in your shell and then
+> running "python3 -m qemu.qmp.qom", or you can install the qemu namespace
+> package and use the "qom" or "qom-set" scripts.
+> 
+> I've written how to install the package elsewhere, but for the sake of
+> git-blame, cd to ./python, and then do:
+> 
+> - pip3 install [--user] [-e] .
+> 
+> --user will install to your local user install (will not work inside of
+>    a venv), omitting this flag installs to your system-wide packages
+>    (outside of a venv) or to your current virtual environment (inside the
+>    venv).
+> 
+>    When installing to a venv or to your system-wide packages, "qom"
+>    should be in your $PATH already. If you do a user install, you may
+>    need to add ~/.local/bin to your $PATH if you haven't already.
+> 
+> -e installs in editable mode: the installed package is effectively just
+>   a symlink to this folder; so changes to your git working tree are
+>   reflected in the installed package.
+> 
+> Alternatively to the above, If you have `pipenv` installed (`pip3
+> install --user pipenv`), you may also invoke 'pipenv shell' to enter a
+> pipenv-managed virtual environment (as a shell process that you may
+> leave with ctrt+d) that has 'qom' already in $PATH.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   scripts/qmp/qom-fuse | 12 +++++++++---
->   1 file changed, 9 insertions(+), 3 deletions(-)
+>   scripts/qmp/qom-get  | 66 +++------------------------------------
+>   scripts/qmp/qom-list | 63 +++----------------------------------
+>   scripts/qmp/qom-set  | 63 +++----------------------------------
+>   scripts/qmp/qom-tree | 74 +++-----------------------------------------
+>   4 files changed, 16 insertions(+), 250 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
