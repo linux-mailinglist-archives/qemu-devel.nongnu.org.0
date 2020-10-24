@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F56A297D90
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 19:04:28 +0200 (CEST)
-Received: from localhost ([::1]:56670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0EC297DA5
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 19:06:41 +0200 (CEST)
+Received: from localhost ([::1]:36846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWMxu-0000YY-Pe
-	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 13:04:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
+	id 1kWN04-0004Kl-9V
+	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 13:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWMvC-0007FM-Tc; Sat, 24 Oct 2020 13:01:38 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:47087)
+ id 1kWMvE-0007H1-DT; Sat, 24 Oct 2020 13:01:40 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:46274)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWMv7-0005gk-Mn; Sat, 24 Oct 2020 13:01:38 -0400
-Received: by mail-wr1-x430.google.com with SMTP id n6so6435486wrm.13;
- Sat, 24 Oct 2020 10:01:32 -0700 (PDT)
+ id 1kWMvB-0005hB-QP; Sat, 24 Oct 2020 13:01:39 -0400
+Received: by mail-wr1-x442.google.com with SMTP id n6so6435658wrm.13;
+ Sat, 24 Oct 2020 10:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b99Jgjfu69tr+44eIjnFaQhT7BY0ffzrdIZPOKeBNwc=;
- b=nZbgAtktSMIATd5pWd+X5E3+QHeT7/X5A8zPhLLzmK+D0GL0CtjyXgb0yEi0D0BSAf
- O7zKphFXscM1XfNPaiQ8HsoyF0FZ8ISLE6DLQBbRoJTuVeSEo2CzdbYoNdv0spof6HPU
- JqzR1N+/PDhGNzBWrUMUKUl/HpRgmo4KMMn6uUf8fdoaFFjzcBmEJPFC4pypdHick0s/
- JKVIGV+qpMDglWZOZPakTLDJMQnNFbPVXomKhy23CvTlv/vuPghdQVYXzJnSUxt6kfJy
- 7+pwbDLVvhoAkAXMxEDWbTTH98mxYtnUv5bZDkQhrgBn8ZNtWBUuV5Pn4CHAAAuhe+9B
- I3Sg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=JltEwXbGzmO7Iz477A1CNJvyjNGP/jwshVCvgGssOxI=;
+ b=GwzJh/5HvIMW1HN/x+/u1vbdXDls3UbtgIv9AuP4kGrCnbou9hLYR8d4YvmCJRYXpv
+ VXP7PE7EPk38lVmbvSExFhND/2l6IxIxImJX4UKYH5iSCmcYhqxrWFG8hKMRVsr7Cuum
+ odKSxvIQn7XP6tIlw2O9NQk86zzyIGGoqjfT5dTFWwNbXCp2alM3WHRhLL1TrUgISpAq
+ DCSuV2yU42az2baWrrx1vfrrP4/TMwMueCBz16T8VsvAcJNXnU3a4qJ5+4AgYS9op3eb
+ SixzTLQiev/1sRhMnYZHjZCqwZpLOaic1J7mqkIQtm7M45hDr2PtlavkyrmxNMn7ujLm
+ 7XsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=b99Jgjfu69tr+44eIjnFaQhT7BY0ffzrdIZPOKeBNwc=;
- b=GHHoUNS5NHdECm2XlTSkkhUCwhuRpxhNM5kX8ms5qOe2nj7rakV/jkO0mloYLIG9rq
- +3h1tsHT2WalNToW/ovV+Fh1bNvqBbLcSLCApGqHAXW7VG2Lx951p4Zp8k9Aia9lTFs2
- +iwTJLKtmcZbhZvITo3LB3++eu0r1L5YrPKgNd6X59y8So24wal7vP556XSQxCmeODkd
- J1/5hp+0NgMf/cqxDvNamem+GzSs4i7dAPeVQ2oRfybZ/KdnMKT+DFkkLEPur+SNLk20
- 7QQBBp7B1FvqraLRQgXt1M8DX0ZdP4h3sflF+/JFCatOp7LITyafOcDGONlt/FoFj0V1
- N0DQ==
-X-Gm-Message-State: AOAM532X2SJ5cP7AfGURAx5qxTvXr+T2OmeINJ7KpywH5XhehADLCJGq
- UBfb7RFKTLNsewCh3lj8TyOgNr0lsMA=
-X-Google-Smtp-Source: ABdhPJxi++K3JddZrhLGGVzwH8UbQbuTZYknWMubq4Dc3RxBOcq8u1E2Oza/c08PwZjoKr6SoByOrQ==
-X-Received: by 2002:a5d:54d0:: with SMTP id x16mr8338550wrv.75.1603558890255; 
- Sat, 24 Oct 2020 10:01:30 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=JltEwXbGzmO7Iz477A1CNJvyjNGP/jwshVCvgGssOxI=;
+ b=O/JK5RKF2OYcAKJ2cp0bjnalDhSPTT8zXAZscFkwa82ec/llIDZ3jvL/T4+gaDVWvy
+ 4KcysnNbqelD5FwbQODnjyTd776glLiusnk6M8+CQjPuFgZylLN9YVXyi7Yv1CGBeBAi
+ eQS4HuOdSW3l5Ha9VreRAogYeXRBd0u2pHfLZ2YJ7OEpRIGZohbZ0SRnsqmvKQ5r0BUX
+ jrqaW0hBOoFC2dFkZZ2sKh/TLC1Occ+HoAka73+Ex1L5fcynU23rm80Q6VSHYX7DsyPW
+ sgxmzZF9r8r5Qnpo2PTUwK77fCklcuG8ExjzKjFud6w0+K3CblbnrcNEB/iyY3T9NMW9
+ rTFg==
+X-Gm-Message-State: AOAM530rgTN5VN016Isd0c9EpASwoIkYZWL5UlRApdRYj8A34vLBko1c
+ /1o/+k2O5znQ22LUvx9z/emXDWLYcns=
+X-Google-Smtp-Source: ABdhPJxIMeyJQrJINxobfBB/6PSTQH2Jk+bKOwynBJmuLLuecA+/z95+RbCLVJM4h57tnZ42TJEEnA==
+X-Received: by 2002:a5d:66d2:: with SMTP id k18mr9226262wrw.229.1603558895163; 
+ Sat, 24 Oct 2020 10:01:35 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id i10sm13167338wrq.27.2020.10.24.10.01.28
+ by smtp.gmail.com with ESMTPSA id q5sm13581801wrs.54.2020.10.24.10.01.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 24 Oct 2020 10:01:29 -0700 (PDT)
+ Sat, 24 Oct 2020 10:01:34 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/9] hw/arm: Add raspi Zero, 1A+ and 3A+ machines
-Date: Sat, 24 Oct 2020 19:01:18 +0200
-Message-Id: <20201024170127.3592182-1-f4bug@amsat.org>
+Subject: [PATCH v4 1/9] hw/arm/bcm2836: Restrict BCM283XInfo declaration to C
+ source
+Date: Sat, 24 Oct 2020 19:01:19 +0200
+Message-Id: <20201024170127.3592182-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201024170127.3592182-1-f4bug@amsat.org>
+References: <20201024170127.3592182-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -83,46 +86,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Luc Michel <luc@lmichel.fr>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+ Andrew Baumann <Andrew.Baumann@microsoft.com>, qemu-arm@nongnu.org,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add the raspi0/1/3A+ machines.=0D
-=0D
-All series reviewed :)=0D
-=0D
-Since v3:=0D
-- Addressed Igor's review comment and added his R-b tag=0D
-=0D
-Since v2:=0D
-- Rebased=0D
-- Addressed Igor comment=0D
-- Added Luc R-b=0D
-- Added model 3A+=0D
-=0D
-Since v1:=0D
-- Use more specific machine names=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (9):=0D
-  hw/arm/bcm2836: Restrict BCM283XInfo declaration to C source=0D
-  hw/arm/bcm2836: QOM'ify more by adding class_init() to each SoC type=0D
-  hw/arm/bcm2836: Introduce BCM283XClass::core_count=0D
-  hw/arm/bcm2836: Only provide "enabled-cpus" property to multicore SoCs=0D
-  hw/arm/bcm2836: Split out common realize() code=0D
-  hw/arm/bcm2836: Introduce the BCM2835 SoC=0D
-  hw/arm/raspi: Add the Raspberry Pi A+ machine=0D
-  hw/arm/raspi: Add the Raspberry Pi Zero machine=0D
-  hw/arm/raspi: Add the Raspberry Pi 3 model A+=0D
-=0D
- include/hw/arm/bcm2836.h |   9 +-=0D
- hw/arm/bcm2836.c         | 182 ++++++++++++++++++++++++++-------------=0D
- hw/arm/raspi.c           |  41 +++++++++=0D
- 3 files changed, 162 insertions(+), 70 deletions(-)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+No code out of bcm2836.c uses (or requires) the BCM283XInfo
+declarations. Move it locally to the C source file.
+
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/arm/bcm2836.h |  8 --------
+ hw/arm/bcm2836.c         | 14 ++++++++++++++
+ 2 files changed, 14 insertions(+), 8 deletions(-)
+
+diff --git a/include/hw/arm/bcm2836.h b/include/hw/arm/bcm2836.h
+index 428c15d316e..43e9f8cd0ef 100644
+--- a/include/hw/arm/bcm2836.h
++++ b/include/hw/arm/bcm2836.h
+@@ -43,12 +43,4 @@ struct BCM283XState {
+     BCM2835PeripheralState peripherals;
+ };
+ 
+-typedef struct BCM283XInfo BCM283XInfo;
+-
+-struct BCM283XClass {
+-    DeviceClass parent_class;
+-    const BCM283XInfo *info;
+-};
+-
+-
+ #endif /* BCM2836_H */
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index f15cc3b4053..e7cc2c930d9 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -17,6 +17,15 @@
+ #include "hw/arm/raspi_platform.h"
+ #include "hw/sysbus.h"
+ 
++typedef struct BCM283XInfo BCM283XInfo;
++
++typedef struct BCM283XClass {
++    /*< private >*/
++    DeviceClass parent_class;
++    /*< public >*/
++    const BCM283XInfo *info;
++} BCM283XClass;
++
+ struct BCM283XInfo {
+     const char *name;
+     const char *cpu_type;
+@@ -25,6 +34,11 @@ struct BCM283XInfo {
+     int clusterid;
+ };
+ 
++#define BCM283X_CLASS(klass) \
++    OBJECT_CLASS_CHECK(BCM283XClass, (klass), TYPE_BCM283X)
++#define BCM283X_GET_CLASS(obj) \
++    OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
++
+ static const BCM283XInfo bcm283x_socs[] = {
+     {
+         .name = TYPE_BCM2836,
+-- 
+2.26.2
+
 
