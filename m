@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4436D297E4A
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 21:59:39 +0200 (CEST)
-Received: from localhost ([::1]:41182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C63297E4D
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 22:00:10 +0200 (CEST)
+Received: from localhost ([::1]:43662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWPhS-0005Pd-Ag
-	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 15:59:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58834)
+	id 1kWPhx-0006QO-K3
+	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 16:00:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPfW-00045g-9r
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:57:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57372)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPge-0005A1-Kj
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:58:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPfT-0000DY-3M
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:57:36 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWPgc-0000LX-Or
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 15:58:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603569453;
+ s=mimecast20190719; t=1603569525;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=L1djc2uC6li7icZmBiP53sYdm4keIKkSxKA0UycuWZ8=;
- b=iwj1ZXHdan4Tgcy0NOO5uLDnd2nTBa8nZJ4gFaJP7egh1hM4b24swMRi0vt0NGN37W/kq4
- oDJneiWTpfoWsdCIm3QXWbtbdM+yPIitPIjsO9KtfK+QFmlBURTkrFKbDcYd/n3qV0U3P9
- mXjXZ3Vf9X1SmDl0HE8ERnqCh49TCgY=
+ bh=Ah4epusYiLuOXkJ5P+PFFOSaogT25MCSFKiW2E6P2mM=;
+ b=EkJWbabqyrTEk/XNjG5fBoscvKaHM4rZotmiiaKLMiyBWfAE0bgxoCJVm+dMXxjU4mt/d+
+ 3641AaRHdmyxT1ra/MU9qyTEP7mjKv/DDqEG/rPKNZ/kigU31j/t7L+X0KP8WKIM7D3iSL
+ MiEH0auA4kXsn3KTAJNPmww1Zz7LkuQ=
 Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
  [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-nZxdMTt4OEOKnYXN_I1MVw-1; Sat, 24 Oct 2020 15:57:31 -0400
-X-MC-Unique: nZxdMTt4OEOKnYXN_I1MVw-1
-Received: by mail-wr1-f70.google.com with SMTP id p6so3677365wrm.23
- for <qemu-devel@nongnu.org>; Sat, 24 Oct 2020 12:57:31 -0700 (PDT)
+ us-mta-421-r5k0qv93OmqPSoctoIF6qg-1; Sat, 24 Oct 2020 15:58:41 -0400
+X-MC-Unique: r5k0qv93OmqPSoctoIF6qg-1
+Received: by mail-wr1-f70.google.com with SMTP id t17so3727618wrm.13
+ for <qemu-devel@nongnu.org>; Sat, 24 Oct 2020 12:58:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=L1djc2uC6li7icZmBiP53sYdm4keIKkSxKA0UycuWZ8=;
- b=AZlT6QxMk2kZRXP+8bMCRePP8fbVGzkpb6jyyTlC/rgbhxdw1im2cdUOPXoQHJlIwz
- MPe77D5JZ+TvKtR1nfovd/75PZ1EjELmjeKOYDHIZ9/1bTAfMUNT4O667xsu53jHhxYg
- Pne5hTrSXXtbfvhagdTymb5DKJdJ3HtTHnVU2OTEjwLaWtaPUzg8+RxddacCUj66ioTY
- Y7bfwBSiNHgyowA2nZVJk7+f0icZJ0hQ6cM5O9KPON/ZoHDqTyJ6fhWm8P6mrCpwcl9M
- 80rGqwgN38bYgTSb6msFUSl/AYivqTNpAWUddcC/V5+c7PBs8ptYpPVdGQt5B7AO66ka
- qQpw==
-X-Gm-Message-State: AOAM532pJVjWECivTxT2U9+PXY+H5JNrZu3vBvKLZ3W5rYbzr1o4Jr6U
- ZbE2ULkWtAq6TvZJLwZJmvSN5aDsKieglErG9tsklzsYhnsySKnuZBXCTj3sTKQoz4V4EG7QsUQ
- 5MIOd8XJS6tvWG9g=
-X-Received: by 2002:a1c:bc06:: with SMTP id m6mr8953995wmf.68.1603569450378;
- Sat, 24 Oct 2020 12:57:30 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy/mv4K3ScjY1s0QkROFoctCEDO16ZLg8kE1vBeuRvsCP/60l9Z6BkV2691AeymEDwULCvdNw==
-X-Received: by 2002:a1c:bc06:: with SMTP id m6mr8953982wmf.68.1603569450192;
- Sat, 24 Oct 2020 12:57:30 -0700 (PDT)
+ bh=Ah4epusYiLuOXkJ5P+PFFOSaogT25MCSFKiW2E6P2mM=;
+ b=IzgYgkj90Vo42gxJAqaBtyBSxx6FV61zCCbITSR6sS8wFKDTsmgWiVY/zJ+TGgdEK+
+ 4106vHC3FM1jvvRRORSZqbPAUdsMxdr0uEEL73z2rMGdanwJr6TXmTRBcVNoWIKR94/U
+ O94+jk/NMqHvU+LBPpHRrqjPPLf+SzjtYSkoCnU/vFtoYFBjOOeKEBAjHwcIw4penuB9
+ H6N3q/3CiwNxPXeciQIfLZG6a2l8v+wHh/slBp18/lOnrXVkZLo8jKVQnyMAfH0qqIev
+ N8LNErrVjN+XQ7VGKROgxcg70QDHcH+JbOHZVmNiXpd0A2pnzu9xXjK2lDpkMV3kzpKO
+ URIg==
+X-Gm-Message-State: AOAM530HV1oYxHhzS788QsVbr1fV1HSTw04gARs8tsvCHoCllzotIirP
+ hchBRHwx4CvXcyTjwIf4DRFSnpRmCi0Wxz4ZdI2xVSzONdPSZ0BhC3+aq5Da8s6yOsnCyGbStKF
+ YEHBhodb918SDQ8Q=
+X-Received: by 2002:a1c:9e93:: with SMTP id h141mr8128744wme.153.1603569520338; 
+ Sat, 24 Oct 2020 12:58:40 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwT8YTkCeOWVRy+t2aGaKxbtzwHYgZJHgAeEdBHj8M5kr2/uLhNBqDl+7YYJFnUZVrdCxAgSw==
+X-Received: by 2002:a1c:9e93:: with SMTP id h141mr8128734wme.153.1603569520203; 
+ Sat, 24 Oct 2020 12:58:40 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id l11sm12302142wro.89.2020.10.24.12.57.29
+ by smtp.gmail.com with ESMTPSA id j130sm12069524wmj.15.2020.10.24.12.58.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Oct 2020 12:57:29 -0700 (PDT)
-Subject: Re: [PATCH 07/15] scripts/qom-fuse: Apply pylint rules
+ Sat, 24 Oct 2020 12:58:39 -0700 (PDT)
+Subject: Re: [PATCH 04/15] scripts/qom-fuse: apply isort rules
 To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 References: <20201021185208.1611145-1-jsnow@redhat.com>
- <20201021185208.1611145-8-jsnow@redhat.com>
+ <20201021185208.1611145-5-jsnow@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a57f69ae-49de-159a-29f1-0d19d49953fd@redhat.com>
-Date: Sat, 24 Oct 2020 21:57:28 +0200
+Message-ID: <52cac079-041f-1670-0455-f7e7e5923223@redhat.com>
+Date: Sat, 24 Oct 2020 21:58:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201021185208.1611145-8-jsnow@redhat.com>
+In-Reply-To: <20201021185208.1611145-5-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -105,15 +105,15 @@ Cc: Cleber Rosa <crosa@redhat.com>, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/21/20 8:52 PM, John Snow wrote:
-> - Catch specific exceptions from QMP
-> - Reraise errors with explicit context
-> - method parameters should match parent's names
+On 10/21/20 8:51 PM, John Snow wrote:
+> Hint: you can use symlinks to create qom_fuse.py in python/qemu/qmp/ and
+> point to scripts/qom-fuse to apply the standard linting rules to this
+> script.
 > 
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->   scripts/qmp/qom-fuse | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   scripts/qmp/qom-fuse | 12 +++++++++---
+>   1 file changed, 9 insertions(+), 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
