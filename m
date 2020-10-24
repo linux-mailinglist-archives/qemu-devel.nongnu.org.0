@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76FF2979E0
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 02:16:13 +0200 (CEST)
-Received: from localhost ([::1]:57280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7789F2979E4
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 02:18:01 +0200 (CEST)
+Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kW7EC-0008Kl-OE
-	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 20:16:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54602)
+	id 1kW7Fw-0002K0-Im
+	for lists+qemu-devel@lfdr.de; Fri, 23 Oct 2020 20:18:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW7BO-00062W-L1
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 20:13:18 -0400
-Received: from home.keithp.com ([63.227.221.253]:42952 helo=elaine.keithp.com)
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW7DK-0008Nr-Qe
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 20:15:20 -0400
+Received: from home.keithp.com ([63.227.221.253]:42970 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW7BK-0007Ra-B2
- for qemu-devel@nongnu.org; Fri, 23 Oct 2020 20:13:18 -0400
+ (Exim 4.90_1) (envelope-from <keithp@keithp.com>) id 1kW7DI-0007ej-IP
+ for qemu-devel@nongnu.org; Fri, 23 Oct 2020 20:15:18 -0400
 Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 6EB7A3F2DD13;
- Fri, 23 Oct 2020 17:13:10 -0700 (PDT)
+ by elaine.keithp.com (Postfix) with ESMTP id BDC923F2DD13;
+ Fri, 23 Oct 2020 17:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603498390; bh=6z3XBZyJXageL+uutf/KQ30suIRAyWPctZDuf1unqrI=;
+ t=1603498514; bh=7dSDwMftl0c8NIjOsuaz6fMrclsGqYasEYCzNh3jA9A=;
  h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=N6eWqYJaOaZ0DpAwqyadD2tu3g5fFNf7mD1yGAgj6cprQxM+x/Ap5O0l3LX5NPpk7
- LqQghoYCXyp43ldhXPWhlEooliWuETmkEEfLbHUeIUrmJdWgA9d/S9cGeTgW0cB8hY
- X5HyXe/q1EOeuAMnfZdTWqkwbeF0hJcRlvtXcBm7WAS1Pgf140pb0Vj4d9LA5OQSmP
- 4r4IevkyrA5+j0Uq4UllXWtzHGeWR4xEJMaUREcjQSSe5XItjqEjmuTiUGJjhZ9hNY
- oBibWCZfNcVQ+wMyok0At+FbGZ39kY7ELyDDj8U9vuVlJAQSFh5g0qAYiAgRYL14Rn
- N2IObnRndNHXg==
+ b=BpPoIR0XauOFWBi5GNomGgTaM+8pp6Jv2rgQ+fyrD12v46dT831tLRGmrTmtBGVeN
+ 04jpru+HETpEphUjjGt8hjcv1HhHcHLcciEj5x0jYSNIDW7wR2aKh013SnB0tkjTF5
+ +EGVwR27q0dcpjqOXQw1Yuh31zasy1e32xMz0+2mBqWyQTREnxxvJKeS0p5Yq0NW6v
+ IaCuPupxyA9I5Ath8KCUbWTx6UxWrUC7etudIgdMJcXURsxtERXOKRJm9Q5lR3njg5
+ EEWiBgj/ns5gLpmoHG8dRvEGVVb8SQ8d91SK60cub9186FtZs3aoYtIO5m9dHIaKmc
+ +HCQaXU0y5rsA==
 X-Virus-Scanned: Debian amavisd-new at keithp.com
 Received: from elaine.keithp.com ([127.0.0.1])
  by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id BYsshI_7z7II; Fri, 23 Oct 2020 17:13:10 -0700 (PDT)
+ with LMTP id 3x2EJjcPl5jL; Fri, 23 Oct 2020 17:15:14 -0700 (PDT)
 Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 2ACC03F2DD0B;
- Fri, 23 Oct 2020 17:13:10 -0700 (PDT)
+ by elaine.keithp.com (Postfix) with ESMTPSA id 77F7D3F2DD0B;
+ Fri, 23 Oct 2020 17:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603498390; bh=6z3XBZyJXageL+uutf/KQ30suIRAyWPctZDuf1unqrI=;
+ t=1603498514; bh=7dSDwMftl0c8NIjOsuaz6fMrclsGqYasEYCzNh3jA9A=;
  h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=N6eWqYJaOaZ0DpAwqyadD2tu3g5fFNf7mD1yGAgj6cprQxM+x/Ap5O0l3LX5NPpk7
- LqQghoYCXyp43ldhXPWhlEooliWuETmkEEfLbHUeIUrmJdWgA9d/S9cGeTgW0cB8hY
- X5HyXe/q1EOeuAMnfZdTWqkwbeF0hJcRlvtXcBm7WAS1Pgf140pb0Vj4d9LA5OQSmP
- 4r4IevkyrA5+j0Uq4UllXWtzHGeWR4xEJMaUREcjQSSe5XItjqEjmuTiUGJjhZ9hNY
- oBibWCZfNcVQ+wMyok0At+FbGZ39kY7ELyDDj8U9vuVlJAQSFh5g0qAYiAgRYL14Rn
- N2IObnRndNHXg==
+ b=BpPoIR0XauOFWBi5GNomGgTaM+8pp6Jv2rgQ+fyrD12v46dT831tLRGmrTmtBGVeN
+ 04jpru+HETpEphUjjGt8hjcv1HhHcHLcciEj5x0jYSNIDW7wR2aKh013SnB0tkjTF5
+ +EGVwR27q0dcpjqOXQw1Yuh31zasy1e32xMz0+2mBqWyQTREnxxvJKeS0p5Yq0NW6v
+ IaCuPupxyA9I5Ath8KCUbWTx6UxWrUC7etudIgdMJcXURsxtERXOKRJm9Q5lR3njg5
+ EEWiBgj/ns5gLpmoHG8dRvEGVVb8SQ8d91SK60cub9186FtZs3aoYtIO5m9dHIaKmc
+ +HCQaXU0y5rsA==
 Received: by keithp.com (Postfix, from userid 1000)
- id 06EF715821A3; Fri, 23 Oct 2020 17:13:10 -0700 (PDT)
+ id 6448F15821A3; Fri, 23 Oct 2020 17:15:14 -0700 (PDT)
 To: Alistair Francis <alistair23@gmail.com>
 Cc: "qemu-devel\@nongnu.org Developers" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH 1/2] riscv: Add sifive test device to sifive_e target
-In-Reply-To: <CAKmqyKN20Fg_cKXmh2-vUaY4gPkE=PtPome5vwoTW9rM1gBTog@mail.gmail.com>
+Subject: Re: [PATCH 2/2] riscv: Add sifive test device to sifive_u target
+In-Reply-To: <CAKmqyKPtV4fsKhaaiSTwsOgi=w-B3oUP=_93ftLgpqBY6874iA@mail.gmail.com>
 References: <20201023214506.917601-1-keithp@keithp.com>
- <20201023214506.917601-2-keithp@keithp.com>
- <CAKmqyKN20Fg_cKXmh2-vUaY4gPkE=PtPome5vwoTW9rM1gBTog@mail.gmail.com>
-Date: Fri, 23 Oct 2020 17:13:09 -0700
-Message-ID: <87eelo7a7e.fsf@keithp.com>
+ <20201023214506.917601-3-keithp@keithp.com>
+ <CAKmqyKPtV4fsKhaaiSTwsOgi=w-B3oUP=_93ftLgpqBY6874iA@mail.gmail.com>
+Date: Fri, 23 Oct 2020 17:15:14 -0700
+Message-ID: <87blgs7a3x.fsf@keithp.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; boundary="=-=-=";
  micalg=pgp-sha256; protocol="application/pgp-signature"
@@ -92,14 +92,10 @@ Content-Transfer-Encoding: quoted-printable
 
 Alistair Francis <alistair23@gmail.com> writes:
 
-> I don't see this mentioned in the FE310 data sheet. Is it included in
-> the hardware?
+> I also don't see this in the FU540 memory map.
 
-This is strictly a virtual device used to support 'power off' when
-running under QEMU. We need either this or semihosting support for doing
-automated testing. Our tests currently use this device, but I'd be happy
-to switch them over to using semihosting instead, if you'd be interested
-in getting that merged...
+Same as for the FE310 -- this is a QEMU-only device. In addition,
+OpenSBI expects to use this when built for QEMU.
 
 =2D-=20
 =2Dkeith
@@ -109,19 +105,19 @@ Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl+TcZUACgkQ2yIaaQAA
-ABEw0BAAjV0NpUIl4SVvVGOpYrYgFGK7C2AuDVLhL/bnGEXm8zrAxNJuxfu8J9AW
-MF6Vto5jGM+zDwbydwYq86/sBciK924EWUGOO1aABI5saMKy2kwwj77i2x4OJtlS
-PsHCRjnGUCLjv67ieMRdWN6nPun/0RA1Ewmy5LZlC4LiCuLnwYbm5r4gDjfDZjlQ
-X+rtIX1iSAnOyLSuovPKhC4EJOOxORqEQxIh8Vqiw1JMX9lM2FGzUUgfKCBpZ8Ot
-UFI4Px9P4LuznVibDQQTaqzlz0bMseuGpM6o0/UX95qSgZbIoDy8J/KDICbHxdh/
-V7drhH4nl2fRYWIWndLIQrKUDhCvTRObhQYK0J9G5bHhAy/Wuf43RqMTAof6yr6x
-IJdf0uf7AqsVFUjOVwBmtvir/4zCaa6AN3XrSErAlQL9qmTmMubweBkuGEHZI3I5
-n2dejj666TNXI9tFMo981IRZoecx+DzkkgEf3fyYl7Q4gdjIBwqdXxusyS+gcnZB
-vs/I3gQCg4F65hmhNJYoDxTV8ZCbvufrxq3sWdfYaYS3lqEbPEqCBbfhAeuPFv4s
-sp9+9G4tvmECT9Kd+ZLIx7Pe5dBcD/9Qtyr1BQJZS/HwEcMYg8Jby9VvA6amvqG8
-0SK8g7Ahufldn6zGYJB6+0wlO33JpXIjD7EAF5Lcitos30ZEtvY=
-=b4DV
+iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl+TchIACgkQ2yIaaQAA
+ABFcEQ/+MneO4IxMgAiIwiLhA3FjEClCksnTTGwa4N0EnRCxawbpCztunzJ3GmR9
+1q2Vsa++gto39rjHugQB7gwgvsuLepvvTr+lW3tU5jBnxcXrMtIeqghQRudMA8HK
+XX1EqHcSJ2p/z6bvDzo88xYI39b/beTLEjCNDpXjisRbTe5uIRqLYoAZDpchh54d
+Fn1QQamzV5w3Rutw0JfMZ/yGjCePmTQOwcRzXh2MLhE2rJfDOm0ZU5+u9mykRgM5
+TUd46OkSXoVVxMLd9PCDBxscdF1sEjfvnRHzAv/bQkAE4vToQKP7i6ICO6jD3Fll
+I8D4tWLrM8KHqPNb8aDFOGSDlGupgLvLhEw1nsWfzLLD5bJzznTWbDkJCT7iOPZe
+LtkdBN/qHZy8dnD8cQd+G3ZhJcljzyQyn67t3faHcvEmd+Is6bmlyF4wh7QNiaQW
+rqMTa+y2In55QAoDYuw5scOqyCOrXpTa/p8/ekh6BsjkU7xbYF358GeWCCH/MQES
+Uzamfj8ktHZS5z21ixzBeJSCvmG24mQxJhDjRoeb3y2tKeawl7UCd1vwoAj6MlGR
+KSsiRfiLEQj0XaiceNYxB8lNn8zxffLPYPbiN7AYF1y8zY3RUUDZ5jQCdHjrIcgK
+oSTivFXFwu4p9UMnXZY0FniJlr1fblp2sf6ZRYye3uZuFipYP5Y=
+=1QKq
 -----END PGP SIGNATURE-----
 --=-=-=--
 
