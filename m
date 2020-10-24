@@ -2,61 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D763E297C33
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 14:04:31 +0200 (CEST)
-Received: from localhost ([::1]:41572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B1F297C31
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 14:01:15 +0200 (CEST)
+Received: from localhost ([::1]:34772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWIHe-0005BY-VI
-	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 08:04:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42104)
+	id 1kWIEM-00026j-Ji
+	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 08:01:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1kWICz-0001o1-VD
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 07:59:41 -0400
-Received: from mga09.intel.com ([134.134.136.24]:17846)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kWICR-0001AH-SX
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 07:59:07 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38784
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yan.y.zhao@intel.com>)
- id 1kWICx-0004kt-HL
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 07:59:41 -0400
-IronPort-SDR: BmTcd3CfNjR5lokARVa6x8gOKsr9X9FGKZphN5xTHhQJW6LZ7IqqvpY2Y+AEA7sZLHjNcbJM9O
- 3X12CZKWVAVA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9783"; a="167892047"
-X-IronPort-AV: E=Sophos;i="5.77,412,1596524400"; d="scan'208";a="167892047"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2020 04:59:38 -0700
-IronPort-SDR: geuU1WV8J38+QMbK5clPE2mauoTs5YjS1PrFP7vGoLkaCS6JtNKNes/rpXq5q3wvBM5ca1rUQt
- gpLkU1iLmH5w==
-X-IronPort-AV: E=Sophos;i="5.77,412,1596524400"; d="scan'208";a="534740985"
-Received: from joy-optiplex-7040.sh.intel.com (HELO yzhao56-desk)
- ([10.239.13.16])
- by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 24 Oct 2020 04:59:31 -0700
-Date: Sat, 24 Oct 2020 19:58:13 +0800
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v28 09/17] vfio: Add load state functions to SaveVMHandlers
-Message-ID: <20201024115813.GB11827@yzhao56-desk>
-References: <1603449643-12851-1-git-send-email-kwankhede@nvidia.com>
- <1603449643-12851-10-git-send-email-kwankhede@nvidia.com>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kWICP-0004i1-92
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 07:59:07 -0400
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09OBWFI5030444; Sat, 24 Oct 2020 07:59:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=SrHFH0SvFjh+xCKzcgPGVMymFkTR2WlGotvsXXlG9L8=;
+ b=KnhkAWgywD59Jeg/kGDCA+1OgJvHA4sTouE3SRgXhgGFtyzDC8nqL1jtXpSHFLhVRiOx
+ 1EyIzbHfRa7DM9qbU4kODCk0CzChEGezIv9G6dyEIthlgcMKr7na/j/WenleIsj3p6tm
+ AkWnHAQnZf2sIid6slw9AdkxEASDelmF84n4W+28eIjCw/8+P/Zre+4+4J6R60nfRoKn
+ 2kB7QxsOx7qXE59d8dYXF5qCuOcbiIJJMARpXnwj81ow8gMpuaLv1n3za4wB1SgfFOA3
+ j5UQ2eSirDLMCyKBUuNfxYvB5/vzhL8zqyhOkGCJsXLbrXOJFaICr3Ty6IpiYB/cJT9Q Zg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34cjvw8w63-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 24 Oct 2020 07:59:03 -0400
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09OBg8Gh051281;
+ Sat, 24 Oct 2020 07:59:02 -0400
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34cjvw8w61-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 24 Oct 2020 07:59:02 -0400
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09OBwCSv006949;
+ Sat, 24 Oct 2020 11:59:02 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma03dal.us.ibm.com with ESMTP id 34cbw8audj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Sat, 24 Oct 2020 11:59:02 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09OBx0Av49742096
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Sat, 24 Oct 2020 11:59:00 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CAFB66A047;
+ Sat, 24 Oct 2020 11:59:00 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 150756A04D;
+ Sat, 24 Oct 2020 11:58:59 +0000 (GMT)
+Received: from [9.160.36.16] (unknown [9.160.36.16])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Sat, 24 Oct 2020 11:58:59 +0000 (GMT)
+Subject: Re: [PATCH v2 0/6] Add support for Control-Flow Integrity
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
+ <947e698f-a582-956d-5b42-1dee6442f15d@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <ca8020e4-53ac-9713-51d1-d80ca75a22e2@linux.vnet.ibm.com>
+Date: Sat, 24 Oct 2020 07:58:57 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1603449643-12851-10-git-send-email-kwankhede@nvidia.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Received-SPF: pass client-ip=134.134.136.24; envelope-from=yan.y.zhao@intel.com;
- helo=mga09.intel.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/24 07:59:38
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <947e698f-a582-956d-5b42-1dee6442f15d@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
+ definitions=2020-10-24_09:2020-10-23,
+ 2020-10-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ mlxlogscore=999 impostorscore=0 suspectscore=0 spamscore=0 clxscore=1015
+ phishscore=0 bulkscore=0 adultscore=0 mlxscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010240082
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/24 07:59:04
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.107,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,279 +115,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: cohuck@redhat.com, cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, dgilbert@redhat.com, alex.williamson@redhat.com,
- changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
+On 10/23/2020 4:33 PM, Eric Blake wrote:
+> On 10/23/20 3:06 PM, Daniele Buono wrote:
+>> v2: Several months (and structural changes in QEMU) have passed since v1.
+>> While the spirit of the patch is similar, the implementation is changed
+>> in multiple points, and should address most if not all the comments
+>> received in v1.
+> 
+>> 5) Most of the logic to enable CFI goes in the configure, since it's
+>> just a matter of checking for dependencies and incompatible options.
+>> However, I had to disable CFI checks for a few TCG functions.
+>> This can only be done through a blacklist file. I added a file in the
+>> root of QEMU, called cfi-blacklist.txt for such purpose. I am open to
+>> suggestions on where the file should go, and I am willing to become the
+>> maintainer of it, if deemed necessary.
+> 
+> In the meantime, we have commits like:
+> 
+> commit b199c682f1f0aaee22b2170a5fb885250057eec2
+> Author: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Date:   Thu Sep 10 09:01:31 2020 +0200
+> 
+>      target/i386/kvm: Rename host_tsx_blacklisted() as host_tsx_broken()
+> 
+>      In order to use inclusive terminology, rename host_tsx_blacklisted()
+>      as host_tsx_broken().
+> 
+> which may help you in coming up with a more appropriate name for the new
+> file.
+> 
+>>
+>>   MAINTAINERS                   |   5 +
+>>   accel/tcg/cpu-exec.c          |   9 ++
+>>   configure                     | 214 ++++++++++++++++++++++++++++++++++
+>>   include/qemu/sanitizers.h     |  22 ++++
+>>   meson.build                   |   3 +
+>>   plugins/core.c                |  25 ++++
+>>   plugins/loader.c              |   5 +
+>>   tcg/tci.c                     |   5 +
+>>   tests/check-block.sh          |  18 +--
+>>   tests/qtest/fuzz/fork_fuzz.ld |  12 +-
+>>   util/main-loop.c              |   9 ++
+>>   util/oslib-posix.c            |   9 ++
+>>   12 files changed, 328 insertions(+), 8 deletions(-)
+>>   create mode 100644 include/qemu/sanitizers.h
+> 
+> although I don't see a new file by that name here, so perhaps the v1
+> overview is now stale?
+> 
+Correct, the v1 overview is stale on that regard. V2 is not using a
+"broken" file anymore. CFI is now disabled by using an attribute
+directly on the code.
 
-On Fri, Oct 23, 2020 at 04:10:35PM +0530, Kirti Wankhede wrote:
-> Sequence  during _RESUMING device state:
-> While data for this device is available, repeat below steps:
-> a. read data_offset from where user application should write data.
-> b. write data of data_size to migration region from data_offset.
-> c. write data_size which indicates vendor driver that data is written in
->    staging buffer.
-> 
-> For user, data is opaque. User should write data in the same order as
-> received.
-> 
-> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  hw/vfio/migration.c  | 195 +++++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/vfio/trace-events |   4 ++
->  2 files changed, 199 insertions(+)
-> 
-> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> index be9e4aba541d..240646592b39 100644
-> --- a/hw/vfio/migration.c
-> +++ b/hw/vfio/migration.c
-> @@ -257,6 +257,77 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
->      return ret;
->  }
->  
-> +static int vfio_load_buffer(QEMUFile *f, VFIODevice *vbasedev,
-> +                            uint64_t data_size)
-> +{
-> +    VFIORegion *region = &vbasedev->migration->region;
-> +    uint64_t data_offset = 0, size, report_size;
-> +    int ret;
-> +
-> +    do {
-> +        ret = vfio_mig_read(vbasedev, &data_offset, sizeof(data_offset),
-> +                      region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_offset));
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +
-> +        if (data_offset + data_size > region->size) {
-> +            /*
-> +             * If data_size is greater than the data section of migration region
-> +             * then iterate the write buffer operation. This case can occur if
-> +             * size of migration region at destination is smaller than size of
-> +             * migration region at source.
-> +             */
-> +            report_size = size = region->size - data_offset;
-> +            data_size -= size;
-> +        } else {
-> +            report_size = size = data_size;
-> +            data_size = 0;
-> +        }
-> +
-> +        trace_vfio_load_state_device_data(vbasedev->name, data_offset, size);
-> +
-> +        while (size) {
-> +            void *buf;
-> +            uint64_t sec_size;
-> +            bool buf_alloc = false;
-> +
-> +            buf = get_data_section_size(region, data_offset, size, &sec_size);
-> +
-> +            if (!buf) {
-> +                buf = g_try_malloc(sec_size);
-> +                if (!buf) {
-> +                    error_report("%s: Error allocating buffer ", __func__);
-> +                    return -ENOMEM;
-> +                }
-> +                buf_alloc = true;
-> +            }
-> +
-> +            qemu_get_buffer(f, buf, sec_size);
-> +
-> +            if (buf_alloc) {
-> +                ret = vfio_mig_write(vbasedev, buf, sec_size,
-> +                        region->fd_offset + data_offset);
-> +                g_free(buf);
-> +
-> +                if (ret < 0) {
-> +                    return ret;
-> +                }
-> +            }
-> +            size -= sec_size;
-> +            data_offset += sec_size;
-> +        }
-> +
-> +        ret = vfio_mig_write(vbasedev, &report_size, sizeof(report_size),
-> +                        region->fd_offset + VFIO_MIG_STRUCT_OFFSET(data_size));
-> +        if (ret < 0) {
-> +            return ret;
-> +        }
-> +    } while (data_size);
-> +
-> +    return 0;
-> +}
-> +
->  static int vfio_update_pending(VFIODevice *vbasedev)
->  {
->      VFIOMigration *migration = vbasedev->migration;
-> @@ -293,6 +364,33 @@ static int vfio_save_device_config_state(QEMUFile *f, void *opaque)
->      return qemu_file_get_error(f);
->  }
->  
-> +static int vfio_load_device_config_state(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    uint64_t data;
-> +
-> +    if (vbasedev->ops && vbasedev->ops->vfio_load_config) {
-> +        int ret;
-> +
-> +        ret = vbasedev->ops->vfio_load_config(vbasedev, f);
-> +        if (ret) {
-> +            error_report("%s: Failed to load device config space",
-> +                         vbasedev->name);
-> +            return ret;
-> +        }
-> +    }
-> +
-> +    data = qemu_get_be64(f);
-> +    if (data != VFIO_MIG_FLAG_END_OF_STATE) {
-> +        error_report("%s: Failed loading device config space, "
-> +                     "end flag incorrect 0x%"PRIx64, vbasedev->name, data);
-> +        return -EINVAL;
-> +    }
-> +
-> +    trace_vfio_load_device_config_state(vbasedev->name);
-> +    return qemu_file_get_error(f);
-> +}
-> +
->  static void vfio_migration_cleanup(VFIODevice *vbasedev)
->  {
->      VFIOMigration *migration = vbasedev->migration;
-> @@ -483,12 +581,109 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
->      return ret;
->  }
->  
-> +static int vfio_load_setup(QEMUFile *f, void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    VFIOMigration *migration = vbasedev->migration;
-> +    int ret = 0;
-> +
-> +    if (migration->region.mmaps) {
-> +        ret = vfio_region_mmap(&migration->region);
-> +        if (ret) {
-> +            error_report("%s: Failed to mmap VFIO migration region %d: %s",
-> +                         vbasedev->name, migration->region.nr,
-> +                         strerror(-ret));
-> +            error_report("%s: Falling back to slow path", vbasedev->name);
-> +        }
-> +    }
-> +
-> +    ret = vfio_migration_set_state(vbasedev, ~VFIO_DEVICE_STATE_MASK,
-> +                                   VFIO_DEVICE_STATE_RESUMING);
-> +    if (ret) {
-> +        error_report("%s: Failed to set state RESUMING", vbasedev->name);
-> +        if (migration->region.mmaps) {
-> +            vfio_region_unmap(&migration->region);
-> +        }
-> +    }
-> +    return ret;
-> +}
-> +
-> +static int vfio_load_cleanup(void *opaque)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +
-> +    vfio_migration_cleanup(vbasedev);
-> +    trace_vfio_load_cleanup(vbasedev->name);
-> +    return 0;
-> +}
-> +
-> +static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
-> +{
-> +    VFIODevice *vbasedev = opaque;
-> +    int ret = 0;
-> +    uint64_t data;
-> +
-> +    data = qemu_get_be64(f);
-> +    while (data != VFIO_MIG_FLAG_END_OF_STATE) {
-> +
-> +        trace_vfio_load_state(vbasedev->name, data);
-> +
-> +        switch (data) {
-> +        case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
-> +        {
-> +            ret = vfio_load_device_config_state(f, opaque);
-> +            if (ret) {
-> +                return ret;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_SETUP_STATE:
-> +        {
-> +            data = qemu_get_be64(f);
-> +            if (data == VFIO_MIG_FLAG_END_OF_STATE) {
-> +                return ret;
-> +            } else {
-> +                error_report("%s: SETUP STATE: EOS not found 0x%"PRIx64,
-> +                             vbasedev->name, data);
-> +                return -EINVAL;
-> +            }
-> +            break;
-> +        }
-> +        case VFIO_MIG_FLAG_DEV_DATA_STATE:
-> +        {
-> +            uint64_t data_size = qemu_get_be64(f);
-> +
-> +            if (data_size) {
-> +                ret = vfio_load_buffer(f, vbasedev, data_size);
-> +                if (ret < 0) {
-> +                    return ret;
-> +                }
-> +            }
-> +            break;
-> +        }
-> +        default:
-> +            error_report("%s: Unknown tag 0x%"PRIx64, vbasedev->name, data);
-> +            return -EINVAL;
-> +        }
-> +
-> +        data = qemu_get_be64(f);
-> +        ret = qemu_file_get_error(f);
-> +        if (ret) {
-> +            return ret;
-> +        }
-> +    }
-> +    return ret;
-> +}
-> +
->  static SaveVMHandlers savevm_vfio_handlers = {
->      .save_setup = vfio_save_setup,
->      .save_cleanup = vfio_save_cleanup,
->      .save_live_pending = vfio_save_pending,
->      .save_live_iterate = vfio_save_iterate,
->      .save_live_complete_precopy = vfio_save_complete_precopy,
-> +    .load_setup = vfio_load_setup,
-> +    .load_cleanup = vfio_load_cleanup,
-> +    .load_state = vfio_load_state,
->  };
->  
->  /* ---------------------------------------------------------------------- */
-> diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-> index 9f5712dab1ea..a75b5208818c 100644
-> --- a/hw/vfio/trace-events
-> +++ b/hw/vfio/trace-events
-> @@ -159,3 +159,7 @@ vfio_save_device_config_state(const char *name) " (%s)"
->  vfio_save_pending(const char *name, uint64_t precopy, uint64_t postcopy, uint64_t compatible) " (%s) precopy 0x%"PRIx64" postcopy 0x%"PRIx64" compatible 0x%"PRIx64
->  vfio_save_iterate(const char *name, int data_size) " (%s) data_size %d"
->  vfio_save_complete_precopy(const char *name) " (%s)"
-> +vfio_load_device_config_state(const char *name) " (%s)"
-> +vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
-> +vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
-> +vfio_load_cleanup(const char *name) " (%s)"
-> -- 
-> 2.7.0
-> 
+ From the v2 overview:
+* Instead of disabling CFI in specific functions by using a filter file,
+   disable cfi by using a new decorator to be prefixed to the function
+   definition.
+
+Beside the removal of a non-inclusive term, I believe this is a better
+way to track functions, since it is directly inside the code so everyone
+working on those functions will see it immediately. It's safer with
+regards of function naming changes and, hopefully, this will make
+maintaining cfi easier.
 
