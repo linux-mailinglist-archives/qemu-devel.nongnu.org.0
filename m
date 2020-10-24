@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC22D297C05
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 12:58:33 +0200 (CEST)
-Received: from localhost ([::1]:53896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B7B297C13
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 13:26:04 +0200 (CEST)
+Received: from localhost ([::1]:57260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWHFo-0007bl-Bh
-	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 06:58:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35182)
+	id 1kWHgR-000361-Cv
+	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 07:26:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kWHEo-0007BI-PZ
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 06:57:31 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:50821)
+ id 1kWHen-0002Ym-B1
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 07:24:21 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:55953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kWHEn-0004zU-1R
- for qemu-devel@nongnu.org; Sat, 24 Oct 2020 06:57:30 -0400
+ id 1kWHel-0000xY-9b
+ for qemu-devel@nongnu.org; Sat, 24 Oct 2020 07:24:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
  Content-ID:Content-Description;
- bh=gC8Ex5UlfQMZaeYKNGLV2dnbPWlh5aGiZIOv66GCSbQ=; b=jSwII/pIZBKhs+yImdc3A8500k
- YVu4E/C/2efkHt5XcY30dq3sMtO/rX9HJSR+J8Giwyq2ABQ0nNla7kgwNOSoG1AP2R4YSXxUjunK0
- n8sEQoAo6wOYqORpka0wEAnyXs2rDbaO4522lnP8EPqmJvMj+l+cRkSLKYYeb19vUBIpUj0i9EEjd
- OIuCKK35M7H6omPOMZrQ9MhmGGClxSAtsVhdHAgoRMDkO025QLOaDXwyociJF2K4/xHpeez56nv2G
- aMX/NbAlS1kSS1P2hjFJ3InYvKcTb9ncmCt7QJc8sTeWFIcrASxNU8ti4R6tmePukoVXWioav3RGD
- IiAFZLwg==;
+ bh=/do8Z5bCL/tiZ7OXP0vxO4ekeFeWE3ZXlgQdEOinvCI=; b=kF3CJVyBY1nFi+JzazFlM+cq9c
+ rNk52nTI3DWuImldGBJala4+0HKqn+GMUjfDAF1CiQ9EEGFvDrHqlhlPRiHFYstpmvwPinREjvSXn
+ 4RPmZ4tI0MuPFdm9sOBsptld/Tpsg3hdLrOhRCUzz/3wsygR/kmg95961gpt7KTXXOzHFKSgvfUTs
+ 0PrIBLTbXP4bawjwchVDIHBrz1NS+icHQZ/HW3i4GdS8ytAZVfXftDmeu/akTXBbnFOMLGSIeOwM7
+ etEyUQFMAceuu5vzY3Tv44gQnfdT8oyez5G0V1e/4wRuKxDP0/dDsGAL0TcDBUBH+guB5J7i98Uvf
+ Swt67BQw==;
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
 Cc: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
  Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
  Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>,
- Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v4 06/12] tests/qtest/qos-test: dump environment variables
- if verbose
-Date: Sat, 24 Oct 2020 12:57:24 +0200
-Message-ID: <2424005.3xPeN8Jrzi@silver>
-In-Reply-To: <348b9b3c-33a5-1503-5db2-9956c0a2f9eb@redhat.com>
+ Greg Kurz <groug@kaod.org>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v4 04/12] libqos/qgraph: add qos_dump_graph()
+Date: Sat, 24 Oct 2020 13:24:15 +0200
+Message-ID: <6217010.FX5ceaG2Km@silver>
+In-Reply-To: <8c8c8cf1-ed97-3f27-2d0e-7440433169f7@redhat.com>
 References: <cover.1602182956.git.qemu_oss@crudebyte.com>
- <a35f491b087eafd4f07a14094ef3db1cc94581d9.1602182956.git.qemu_oss@crudebyte.com>
- <348b9b3c-33a5-1503-5db2-9956c0a2f9eb@redhat.com>
+ <5f493b816595f0f6fe50a3f83e46432ab48d881b.1602182956.git.qemu_oss@crudebyte.com>
+ <8c8c8cf1-ed97-3f27-2d0e-7440433169f7@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
@@ -72,32 +70,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Samstag, 24. Oktober 2020 07:56:10 CEST Thomas Huth wrote:
+On Samstag, 24. Oktober 2020 08:04:20 CEST Thomas Huth wrote:
 > On 08/10/2020 20.34, Christian Schoenebeck wrote:
-> > If qtests are run in verbose mode (i.e. if --verbose CL argument
-> > was provided) then print all environment variables to stdout
-> > before running the individual tests.
+> > This new function is purely for debugging purposes. It prints the
+> > current qos graph to stdout and allows to identify problems in the
+> > created qos graph e.g. when writing new qos tests.
+> > 
+> > Coloured output is used to mark available nodes in green colour,
+> > whereas unavailable nodes are marked in red colour.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> > 
+> >  tests/qtest/libqos/qgraph.c | 56 +++++++++++++++++++++++++++++++++++++
+> >  tests/qtest/libqos/qgraph.h | 20 +++++++++++++
+> >  2 files changed, 76 insertions(+)
+> > 
+> > diff --git a/tests/qtest/libqos/qgraph.c b/tests/qtest/libqos/qgraph.c
+> > index 61faf6b27d..af93e38dcb 100644
+> > --- a/tests/qtest/libqos/qgraph.c
+> > +++ b/tests/qtest/libqos/qgraph.c
+> > @@ -805,3 +805,59 @@ void qos_delete_cmd_line(const char *name)
+> > 
+> >          node->command_line = NULL;
+> >      
+> >      }
+> >  
+> >  }
+> > 
+> > +
+> > +#define RED(txt) (    \
+> > +    "\033[0;91m" txt  \
+> > +    "\033[0m"         \
+> > +)
+> > +
+> > +#define GREEN(txt) (  \
+> > +    "\033[0;92m" txt  \
+> > +    "\033[0m"         \
+> > +)
 > 
-> Why? ... you should provide some rationale in the patch description here, at
-> least to me this is not obvious why it is needed / desired.
+> I don't think this is very portable - and it will only make logs ugly to
+> read in text editors. Could you please simply drop these macros?
 > 
 >  Thomas
 
-In my particular case I wanted to know whether there is already some config 
-vector for 'please use this test directory for file tests'. As I didn't find 
-one in any API, I also looked for environment variables to be sure. Especially 
-as there are a bunch of qtest related environment variables already.
+The precise way I did it here is definitely unclean. And the use case is 
+trivial, so on doubt I could just drop it of course.
 
-In general though it is common nowadays, at least being able to output all 
-config vectors in a build chain, especially if it is required to investigate 
-build- and test-issues on foreign/remote machines, which includes environment 
-variables.
+But allow me one attempt to promote coloured terminal output in general: These 
+are ANSI color escape sequences, a standard with its youngest revision dating 
+back to 1991. It is a well supported standard on all major platforms nowadays:
 
-Staying in the context of writing test cases: there are a bunch of other use 
-cases that would come to my mind from the PoV of a test case author:
-"Is there an option for short vs. long tests?", "Is there a desired size 
-limitation for large file tests?", "Is there a deadline for the runtime of 
-tests?", ...
+	https://en.wikipedia.org/wiki/ANSI_escape_code
+
+It works on macOS's standard terminal for at least 20 years, with cmd.exe on 
+Windows 10, on essentially all Linux and BSD distros, and even on many web 
+based CI platforms.
+
+So what about introducing some globally shared macros for coloured output 
+instead? Then there would be one central place for changing coloured output 
+support for the entire code base; and I would change the macros to fallback to 
+plain text output if there is any doubt the terminal would not support it.
+
+Besides, QEMU just switched to meson which uses coloured output as well, as do 
+clang, GCC, git and many other tools in your build chain.
 
 Best regards,
 Christian Schoenebeck
