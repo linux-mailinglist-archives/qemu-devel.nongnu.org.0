@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11FF5297E58
-	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 22:11:55 +0200 (CEST)
-Received: from localhost ([::1]:58120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B89FA297E59
+	for <lists+qemu-devel@lfdr.de>; Sat, 24 Oct 2020 22:12:56 +0200 (CEST)
+Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWPtK-0004tr-40
-	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 16:11:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32772)
+	id 1kWPuJ-0005QR-R8
+	for lists+qemu-devel@lfdr.de; Sat, 24 Oct 2020 16:12:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWPrh-0003yQ-96; Sat, 24 Oct 2020 16:10:13 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53558)
+ id 1kWPsG-0004Lb-Ge; Sat, 24 Oct 2020 16:10:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWPrf-0001nJ-QZ; Sat, 24 Oct 2020 16:10:12 -0400
-Received: by mail-wm1-x344.google.com with SMTP id d78so6215062wmd.3;
- Sat, 24 Oct 2020 13:10:11 -0700 (PDT)
+ id 1kWPsE-0001xP-Vc; Sat, 24 Oct 2020 16:10:48 -0400
+Received: by mail-wr1-x444.google.com with SMTP id y12so6929535wrp.6;
+ Sat, 24 Oct 2020 13:10:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MUmH2epfmw9o66zS7lrGrHlb9yh3ChkmdMMlhDv4IEA=;
- b=Z6jC4ANA7Sy+sINiGSlG4s5h1hlYPe/csHd1LF7t4+jwkW6qPhHxG7jiA1o7mVVooi
- 46Ga7/rlaZZ9UdPbBUW8ulQzgdTt4UpRRxlphwh5dBAxaKMm1KfcvQJk3YJToVSLCkLs
- ItFGLccLK96zSWsFbvPzsVQSEVXLljY+PX4nJ/iHcpVJeck4JA4/MNqeePUuVlI++GNS
- PrYw8XW6CA9Qs4FTneHzVrHqM53xIbfdEDLiINZ0EE9CmCigK5h4bMaEHo9aSHDi5sO+
- V6AJ3qWVJGwm9eLP/nB8qofveXyrzWtUHu7e4tgfSBqwn/Bd2deSdSTGkgNw4nPZQoRZ
- g6mQ==
+ bh=iwqDWawN4yHV2wS3lQhrrQziWlCFkYgrnQkpFiVzIAY=;
+ b=UoX3b/ZTMbbC/5SNEA4tCVp1Zg5sXVn9gCaO6jNHeboKPqBX3pZ5dlDO2obGzLBC7P
+ Ivh3ue0gGnHULzPYP8m54pfFrd39XRmmw3dRWrlDN5lZjzyWIi+31D9HW6ZQpKaQKYAo
+ uGq+qnJ21rIbhVxqZOQMk0HvF9N8Mqm1/HJYeNgdrwjkH33tuoUbPmJhgc3upZyAuKaF
+ hELBq6lt0+q8Fsd5ShkGBA47eY8aUbbRSh9o1CiBVa1V2yGedr6zoyyTXDrjNZpmwfom
+ YMN2YMH1Xi1nQOraZ/N5/AgC75dhARHsETy5GM+2Tycfmrd56E6XUfxnyDW9PLGNJn99
+ XDSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MUmH2epfmw9o66zS7lrGrHlb9yh3ChkmdMMlhDv4IEA=;
- b=qT+QSwe2VBrEOm88jC8i9Z22Y3uJbmtQhLw9DrbCp++V/pipBgZTRsbH5C7X5Wrofz
- jGlljZrZwpD8gKNfVt+Q5IeA3uaAR9AEbfv7fbJRtpJhzyCm1O8IzPLarcEcpZLfARna
- d3vnbhTAu0584PWGidxqMs3NSjrdqAjVQdrelS2/COZmGL94S5JYe9PLVw0SF/y/XpcE
- l6DdMi3Yfbluekis/NQRtvItIZBl5rwrFfK9YTNsnUY7W26SPna4xXct9MsSU0Ox1+Gi
- iK8txlwBo8Ljx0rlbPDFcw8dTYTj5nZenRMvzE5CfQGoeG1EGZHti44zgxb6rlpv8qdm
- IQHw==
-X-Gm-Message-State: AOAM530tS2OV4YXkbOSC5DGKyXOX4S2AH+2UnVTOLw81Ps9tSOqQtuRI
- VXNd2Mi9X7J+4ndnRKNArMjJ6lOV+/w=
-X-Google-Smtp-Source: ABdhPJwq4wBz0JsCK69mZ1vZ/FmytBluDGHmLsFnaDF5GXWjwUWD6sELJDQ9hbPbbPwDxNtbG1PVFQ==
-X-Received: by 2002:a1c:7e82:: with SMTP id z124mr8300759wmc.8.1603570210066; 
- Sat, 24 Oct 2020 13:10:10 -0700 (PDT)
+ bh=iwqDWawN4yHV2wS3lQhrrQziWlCFkYgrnQkpFiVzIAY=;
+ b=NZgerMjtPCDkDID4bB+gy7P/KURS0gLpwBwYLVbcH8oWcF1F4Q2Nm0C5eyH2EG//wS
+ cLGjGYA/6BikzmyXFbA/3n6a/PvD7ZhqvGDbMbjcbTYW/lalUQl+jibUi/EgT1yBHLNq
+ MqrOqEmwtRa7qTJHa4zBnpYyywRwb81f+dnZ2uwXuyg4RdFZnCwUFpdLLL05gVxd5wnQ
+ RCIbtgR3xtpPjlmxcUP1CkjMasU9UwwEu2a64dUOryetWkvtVGzugZWCb/0mLZwMG+pE
+ ClmUrcleMRDEDl8zAnh+IvF7N8m9UTmFIkSlN+y/FnPQNsXGDETYmyWQblCE9J0UtAp2
+ DBIQ==
+X-Gm-Message-State: AOAM532w6kGRntGwTMEbOjhYJUht4n9YX2Uk9ulINhLbMJDzbpkzULun
+ oU88Qpixubs74UePPfDKNPE=
+X-Google-Smtp-Source: ABdhPJx6szxUafVoDgBLF9+REZVIT8OWvazHBs4gUq2GsBcRuZXV961lA+EJR/FCXoPTThEgkhPA5Q==
+X-Received: by 2002:a5d:6345:: with SMTP id b5mr9578448wrw.288.1603570245112; 
+ Sat, 24 Oct 2020 13:10:45 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id f6sm12167491wru.50.2020.10.24.13.10.08
+ by smtp.gmail.com with ESMTPSA id i126sm12837150wmi.0.2020.10.24.13.10.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 24 Oct 2020 13:10:09 -0700 (PDT)
-Subject: Re: [PATCH 2/3] hw/timer/sh_timer: Silence warnings about missing
- fallthrough statements
+ Sat, 24 Oct 2020 13:10:44 -0700 (PDT)
+Subject: Re: [PATCH 3/3] hw/timer/sh_timer: Remove superfluous "break"
+ statements
 To: Thomas Huth <thuth@redhat.com>,
  Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
 References: <20201020153935.54315-1-thuth@redhat.com>
- <20201020153935.54315-3-thuth@redhat.com>
+ <20201020153935.54315-4-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <41f00a68-b0ef-9c2c-6f69-3fe710aea2e4@amsat.org>
-Date: Sat, 24 Oct 2020 22:10:08 +0200
+Message-ID: <eb29a32b-9fb1-8876-c76f-defd710c5b28@amsat.org>
+Date: Sat, 24 Oct 2020 22:10:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201020153935.54315-3-thuth@redhat.com>
+In-Reply-To: <20201020153935.54315-4-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -15
@@ -96,18 +96,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/20/20 5:39 PM, Thomas Huth wrote:
-> When compiling with -Werror=implicit-fallthrough, gcc complains about
-> missing fallthrough annotations in this file. Looking at the code,
-> the fallthrough is very likely intended here, so add some comments
-> to silence the compiler warnings.
+> hw_error() is marked as QEMU_NORETURN, so the "break" statements
+> after this function are just dead code.
 > 
-
-Fixes: cd1a3f6840e ("Stand-alone TMU emulation code")
-
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   hw/timer/sh_timer.c | 4 ++++
->   1 file changed, 4 insertions(+)
+>   hw/timer/sh_timer.c | 3 ---
+>   1 file changed, 3 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
