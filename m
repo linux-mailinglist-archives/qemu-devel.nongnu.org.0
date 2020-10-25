@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4DB2981A1
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 13:24:46 +0100 (CET)
-Received: from localhost ([::1]:46450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 780272981D4
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 14:16:38 +0100 (CET)
+Received: from localhost ([::1]:39772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWf4l-0005b2-8Y
-	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 08:24:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33822)
+	id 1kWfsz-0001gu-Ak
+	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 09:16:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWf2m-00055f-OK
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 08:22:41 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:35853)
+ (Exim 4.90_1) (envelope-from <wangzhiqiang.bj@bytedance.com>)
+ id 1kWfrC-0000Lf-15
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 09:14:46 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:44302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWf2k-0005SM-Rt
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 08:22:40 -0400
-Received: by mail-wr1-x444.google.com with SMTP id x7so9417442wrl.3
- for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 05:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xbDFpkldMCQMjOuYmPHkQCEwhVMi1pfU+Fnv+neJ5qU=;
- b=Yuks+cAYToOkcwlrfFPj2E9mo3QbP9wCNEfsePcDnHG7im7ZByMK56279x/0kwrsBZ
- v6GM0/Bx7/OKoCJsFsms+5FVR/LgmNbO8l+ZfT2A+banwOC5dAIwCPtZhd09uFuOizb/
- CU1ncxBhLLbmp23s/a4bHShHR+dEvCoO9VdTNez1Zc8mKnyiGhhOzb8B+IiXQvZ9bMWg
- PcAMUXoU3p/9pVspmhKvrc9FPW6n70JnXmIUk6q4tBBRad79YO0qXXJ1hE0FVN6MWOgw
- rtPauQ8jeqUxTEtIquehkENGCW/WcpZodCuY47JJoakDKyDFQuRLLMq2jDe/LvR7EYSE
- vHZw==
+ (Exim 4.90_1) (envelope-from <wangzhiqiang.bj@bytedance.com>)
+ id 1kWfr6-0002N3-4C
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 09:14:43 -0400
+Received: by mail-pl1-x636.google.com with SMTP id h2so3364406pll.11
+ for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 06:14:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id;
+ bh=95LtK+mOAjWk/jT1lnBF6+rktUK8JP7X6ieakwHTeEs=;
+ b=bBYWMDcYAaKM6iESjDKlvLCSOAwE+C6D4r7eRXW3eO6jukg/QUeRt2j1uXzK4kdlnm
+ EbfCvIY5B7MSm6SbCwd+GOKinjQOjBkGWOIVbLjBa/TVpVpQCpSMkK0pThv/+Jp1E1N5
+ U4tFpEV6FUBU1ncT+UL7ZrxuhQQyzH2UoiTdYUiHf+1JFUBcIfY2yDWpoMHT9yRY1TzQ
+ k9/jNDHvkXF2jU8QNiHt0eiis9NPWlSOXGwEIv1UFGe8kgOHDwUdJidPkTyzY0CyhVsW
+ MXLdoqv/Z5sJwkIXcIG5wssnnVpYrFSCF4jLD+2mktj2t1Gg+oUtO2R3RVatZJ2vXACt
+ JUUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xbDFpkldMCQMjOuYmPHkQCEwhVMi1pfU+Fnv+neJ5qU=;
- b=kUGF5rusPI0JjzEfq90lvy7XuUJ+nwFEGrm878MmEJHFRyyBVfwLCMaGCLj39/aPjP
- 8qiyxJJe6azgx8x/qKgv4mHRTZhX0lmh69THHMeLCmASBb+gcopXvIF56wDVb4RAsnv3
- 35h0aC3VvEwA1MMwBA3HXSRfxj2IBMXYdkrkenNkwuDaACgimMYR19X8OvNGVhmfd5Gr
- DPCWLSzUULTg81oZdXhrFFXk1RVcqKgmRJtooj3AKmTtBNZKQc/0cBJIz6XcIhIOussi
- P0zwQKYjy7N2umkK9D+bAgYf/4WWAt2GrEnQ494uKZS3NBsFxCi1ERvuMUeNa9kj39VZ
- hpaA==
-X-Gm-Message-State: AOAM533lunW7yb7G39xLRQAVu/TNhsvTFhwutvtpcAxiivDaztdwCVqi
- /1UR9Ku0M+LDMVss1uNzoxQ=
-X-Google-Smtp-Source: ABdhPJwW3YhtF2aqNAzUckEOffQMc+YXDPNKFMwd4RPjuSJyHjxKL3H1ZNCjmlhi11z2D/95INmjPQ==
-X-Received: by 2002:a5d:5748:: with SMTP id q8mr12559095wrw.299.1603628556821; 
- Sun, 25 Oct 2020 05:22:36 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id q8sm16977560wro.32.2020.10.25.05.22.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Oct 2020 05:22:35 -0700 (PDT)
-Subject: Re: [PATCH 0/6] tests/acceptance: Test the Fuloong 2E machine
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20201021105035.2477784-1-f4bug@amsat.org>
- <54a947e4-929c-aaa4-52b0-339827a010b8@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d2851fba-040c-9f39-ccf7-2d22b862ec2b@amsat.org>
-Date: Sun, 25 Oct 2020 13:22:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <54a947e4-929c-aaa4-52b0-339827a010b8@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=95LtK+mOAjWk/jT1lnBF6+rktUK8JP7X6ieakwHTeEs=;
+ b=IvQuVxtzxYBQolg0zOqkdVyq16hVVc8iLi3X+JH5vFEOQwyZZwe9IDqszZpC5HEsV0
+ kyaUeITkPLWTG2jzAwc4JRZ5WRSCzMylzcJSkbDuSAgLBD2Hh8sWaKpphtE4QnSmEaWM
+ i+0Zqh7xVpHk6PSknrhDeVmjgKGFDBLbCLETo8sJLSKp0l9zVAfpWQfw302/YQWeP3BS
+ iv/KRx5IN4HvPzlKEkiIqshbvEcAAIoM02z8+h2vKMsFP+hCY1S7djdyUgQhfXy4Is88
+ p+hB9FWbeEIigAc97DeIpX47JN9XDQjF07jTMc9fvw3rQxoVrdL0yUqX6fH6Uh2nGiBE
+ nUQQ==
+X-Gm-Message-State: AOAM5307RBCE+DjPAiIX2ptOaxeepgS4m3XNznW6aSrDntYFGt0VtphP
+ /Gxl1W6TbivPzxIOzZ3ZjLLfKw==
+X-Google-Smtp-Source: ABdhPJzaNCUVFu6bWsjPdRMyM/9H1QcqoJ4wyvAQCccxblpLo4G4l+8t773e46Kj9kuYvwoJlc5Gsg==
+X-Received: by 2002:a17:90a:62c1:: with SMTP id
+ k1mr11985234pjs.135.1603631677349; 
+ Sun, 25 Oct 2020 06:14:37 -0700 (PDT)
+Received: from localhost ([103.136.220.131])
+ by smtp.gmail.com with ESMTPSA id t10sm9344642pjr.37.2020.10.25.06.14.36
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Sun, 25 Oct 2020 06:14:36 -0700 (PDT)
+From: John Wang <wangzhiqiang.bj@bytedance.com>
+To: clg@kaod.org, xuxiaohan@bytedance.com, yulei.sh@bytedance.com,
+ joel@jms.id.au, f4bug@amsat.org
+Subject: [PATCH v3 1/2] hw/misc: add an EMC141{3,4} device model
+Date: Sun, 25 Oct 2020 13:14:34 +0000
+Message-Id: <20201025131435.144-1-wangzhiqiang.bj@bytedance.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=wangzhiqiang.bj@bytedance.com; helo=mail-pl1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,76 +80,429 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Cleber Rosa <crosa@redhat.com>,
- Huacai Chen <chenhc@lemote.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/20 12:18 PM, Mark Cave-Ayland wrote:
-> On 21/10/2020 11:50, Philippe Mathieu-Daudé wrote:
-> 
->> This series add tests for the MIPS Fuloong 2E machine.
->>
->> I have been using these tests for over 1 year now.
->> After recent discussions with Huacai and Mark regarding
->> how to contribute tests for machines using private blob,
->> I think it is time to publish this series, to see how
->> the final part will be discussed, as it tests a blob
->> which Lemote company doesn't publish the sources. The
->> binary is know to work and has been used for various
->> years on real hardware. Its MD5 is also know (I am not
->> using SHA-1 because it has been published with MD5).
->>
->> The idea is to be able to share tests without infringing
->> licenses issues.
->>
->> Please comment :)
->>
->> Phil.
->>
->> Philippe Mathieu-Daudé (6):
->>    tests/acceptance: Remove unused import
->>    tests/acceptance: Use .ppm extention for Portable PixMap files
->>    tests/acceptance: Extract tesseract_available() helper in new
->>      namespace
->>    tests/acceptance: Introduce tesseract_ocr() helper
->>    tests/acceptance: Test Linux on the Fuloong 2E machine
->>    tests/acceptance: Test PMON on the Fuloong 2E machine
->>
->>   MAINTAINERS                                |   1 +
->>   tests/acceptance/machine_m68k_nextcube.py  |  51 ++---------
->>   tests/acceptance/machine_mips_fuloong2e.py | 101 +++++++++++++++++++++
->>   tests/acceptance/tesseract_utils.py        |  46 ++++++++++
->>   4 files changed, 158 insertions(+), 41 deletions(-)
->>   create mode 100644 tests/acceptance/machine_mips_fuloong2e.py
->>   create mode 100644 tests/acceptance/tesseract_utils.py
-> 
-> In general this looks good: certainly I don't see any reason why the 
-> tesseract_ocr helper changes shouldn't be merged, since I expect that 
-> this is something that will be used more in future.
-> 
-> Looking at the fuloong test it seems that it stops fairly early in the 
-> kernel boot: one of the problems that Zoltan's VIA southbridge patches 
-> were trying to solve earlier in the year was because of problems with 
-> PCI IRQ routing, so it would be nice to include a small OS image that 
-> can be used to boot to userspace to ensure that such problems can be 
-> detected in future.
+Largely inspired by the TMP421 temperature sensor, here is a model for
+the EMC1413/EMC1414 temperature sensors.
 
-The Linux tests (ab)use of the rescue image prepared for the Yeeloong
-machine which we don't model (Loongson 2F CPU, 1GB of DRAM). The kernel
-triggers DATA ABORT while accessing >256MB because we do not model
-mapping more than 256MB :/ (The Fuloong comes with 512MB extensible to 
-1GB). I have a branch adding that but had the idea nobody was interested
-in the Fuloong 2E so I didn't insist (I have more interest in embedded
-32-bit CPUs). I might try to post it after the release, as it makes this
-test complete.
+Specs can be found here :
+  http://ww1.microchip.com/downloads/en/DeviceDoc/20005274A.pdf
 
-Thanks for giving it a try!
+Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
+---
+v3:
+  - update the link to the spec
+  - Rename emc1413.c to emc141x.c
+  - Add sensors_count in EMC141XClass
+  - Make emc1413_read/write easier to review :)
+v2:
+  - Remove DeviceInfo
+  - commit message: TMP423 -> TMP421
+---
+ hw/arm/Kconfig      |   1 +
+ hw/misc/Kconfig     |   4 +
+ hw/misc/emc141x.c   | 347 ++++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build |   1 +
+ 4 files changed, 353 insertions(+)
+ create mode 100644 hw/misc/emc141x.c
 
-Phil.
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 7d040827af..3dd651a236 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -403,6 +403,7 @@ config ASPEED_SOC
+     select SSI_M25P80
+     select TMP105
+     select TMP421
++    select EMC141X
+     select UNIMP
+ 
+ config MPS2
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 3185456110..169d087d3d 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -13,6 +13,10 @@ config TMP421
+     bool
+     depends on I2C
+ 
++config EMC141X
++    bool
++    depends on I2C
++
+ config ISA_DEBUG
+     bool
+     depends on ISA_BUS
+diff --git a/hw/misc/emc141x.c b/hw/misc/emc141x.c
+new file mode 100644
+index 0000000000..a2bce74719
+--- /dev/null
++++ b/hw/misc/emc141x.c
+@@ -0,0 +1,347 @@
++/*
++ * SMSC EMC141X temperature sensor.
++ *
++ * Copyright (c) 2020 Bytedance Corporation
++ * Written by John Wang <wangzhiqiang.bj@bytedance.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/i2c/i2c.h"
++#include "migration/vmstate.h"
++#include "qapi/error.h"
++#include "qapi/visitor.h"
++#include "qemu/module.h"
++#include "qom/object.h"
++
++#define EMC1413_DEVICE_ID                0x21
++#define EMC1414_DEVICE_ID                0x25
++#define MANUFACTURER_ID                  0x5d
++#define REVISION                         0x04
++
++#define SENSORS_COUNT_MAX    4
++
++struct EMC141XState {
++    I2CSlave i2c;
++    uint8_t temperature[SENSORS_COUNT_MAX];
++    uint8_t min[SENSORS_COUNT_MAX];
++    uint8_t max[SENSORS_COUNT_MAX];
++    uint8_t len;
++    uint8_t data;
++    uint8_t pointer;
++};
++
++struct EMC141XClass {
++    I2CSlaveClass parent_class;
++    uint8_t model;
++    unsigned sensors_count;
++};
++
++#define TYPE_EMC141X "emc141x"
++OBJECT_DECLARE_TYPE(EMC141XState, EMC141XClass, EMC141X)
++
++
++/* the EMC141X registers */
++#define EMC141X_TEMP_HIGH0               0x00
++#define EMC141X_TEMP_HIGH1               0x01
++#define EMC141X_TEMP_HIGH2               0x23
++#define EMC141X_TEMP_HIGH3               0x2a
++#define EMC141X_TEMP_MAX_HIGH0           0x05
++#define EMC141X_TEMP_MIN_HIGH0           0x06
++#define EMC141X_TEMP_MAX_HIGH1           0x07
++#define EMC141X_TEMP_MIN_HIGH1           0x08
++#define EMC141X_TEMP_MAX_HIGH2           0x15
++#define EMC141X_TEMP_MIN_HIGH2           0x16
++#define EMC141X_TEMP_MAX_HIGH3           0x2c
++#define EMC141X_TEMP_MIN_HIGH3           0x2d
++#define EMC141X_DEVICE_ID                0xfd
++#define EMC141X_MANUFACTURER_ID          0xfe
++#define EMC141X_REVISION                 0xff
++
++static void emc141x_get_temperature(Object *obj, Visitor *v, const char *name,
++                                   void *opaque, Error **errp)
++{
++    EMC141XState *s = EMC141X(obj);
++    EMC141XClass *sc = EMC141X_GET_CLASS(s);
++    int64_t value;
++    int tempid;
++
++    if (sscanf(name, "temperature%d", &tempid) != 1) {
++        error_setg(errp, "error reading %s: %s", name, g_strerror(errno));
++        return;
++    }
++
++    if (tempid >= sc->sensors_count || tempid < 0) {
++        error_setg(errp, "error reading %s", name);
++        return;
++    }
++
++    value = s->temperature[tempid] * 1000;
++
++    visit_type_int(v, name, &value, errp);
++}
++
++static void emc141x_set_temperature(Object *obj, Visitor *v, const char *name,
++                                   void *opaque, Error **errp)
++{
++    EMC141XState *s = EMC141X(obj);
++    EMC141XClass *sc = EMC141X_GET_CLASS(s);
++    int64_t temp;
++    int tempid;
++
++    if (!visit_type_int(v, name, &temp, errp)) {
++        return;
++    }
++
++    if (sscanf(name, "temperature%d", &tempid) != 1) {
++        error_setg(errp, "error reading %s: %s", name, g_strerror(errno));
++        return;
++    }
++
++    if (tempid >= sc->sensors_count || tempid < 0) {
++        error_setg(errp, "error reading %s", name);
++        return;
++    }
++
++    s->temperature[tempid] = temp / 1000;
++}
++
++static void emc141x_read(EMC141XState *s)
++{
++    EMC141XClass *sc = EMC141X_GET_CLASS(s);
++    switch (s->pointer) {
++    case EMC141X_DEVICE_ID:
++        s->data = sc->model;
++        break;
++    case EMC141X_MANUFACTURER_ID:
++        s->data = MANUFACTURER_ID;
++        break;
++    case EMC141X_REVISION:
++        s->data = REVISION;
++        break;
++    case EMC141X_TEMP_HIGH0:
++        s->data = s->temperature[0];
++        break;
++    case EMC141X_TEMP_HIGH1:
++        s->data = s->temperature[1];
++        break;
++    case EMC141X_TEMP_HIGH2:
++        s->data = s->temperature[2];
++        break;
++    case EMC141X_TEMP_HIGH3:
++        s->data = s->temperature[3];
++        break;
++    case EMC141X_TEMP_MAX_HIGH0:
++        s->data = s->max[0];
++        break;
++    case EMC141X_TEMP_MAX_HIGH1:
++        s->data = s->max[1];
++        break;
++    case EMC141X_TEMP_MAX_HIGH2:
++        s->data = s->max[2];
++        break;
++    case EMC141X_TEMP_MAX_HIGH3:
++        s->data = s->max[3];
++        break;
++    case EMC141X_TEMP_MIN_HIGH0:
++        s->data = s->min[0];
++        break;
++    case EMC141X_TEMP_MIN_HIGH1:
++        s->data = s->min[1];
++        break;
++    case EMC141X_TEMP_MIN_HIGH2:
++        s->data = s->min[2];
++        break;
++    case EMC141X_TEMP_MIN_HIGH3:
++        s->data = s->min[3];
++        break;
++    default:
++        s->data = 0;
++    }
++}
++
++static void emc141x_write(EMC141XState *s)
++{
++    switch (s->pointer) {
++    case EMC141X_TEMP_MAX_HIGH0:
++        s->max[0] = s->data;
++        break;
++    case EMC141X_TEMP_MAX_HIGH1:
++        s->max[1] = s->data;
++        break;
++    case EMC141X_TEMP_MAX_HIGH2:
++        s->max[2] = s->data;
++        break;
++    case EMC141X_TEMP_MAX_HIGH3:
++        s->max[3] = s->data;
++        break;
++    case EMC141X_TEMP_MIN_HIGH0:
++        s->min[0] = s->data;
++        break;
++    case EMC141X_TEMP_MIN_HIGH1:
++        s->min[1] = s->data;
++        break;
++    case EMC141X_TEMP_MIN_HIGH2:
++        s->min[2] = s->data;
++        break;
++    case EMC141X_TEMP_MIN_HIGH3:
++        s->min[3] = s->data;
++        break;
++    default:
++        s->data = 0;
++    }
++}
++
++static uint8_t emc141x_rx(I2CSlave *i2c)
++{
++    EMC141XState *s = EMC141X(i2c);
++
++    if (s->len == 0) {
++        s->len++;
++        return s->data;
++    } else {
++        return 0xff;
++    }
++}
++
++static int emc141x_tx(I2CSlave *i2c, uint8_t data)
++{
++    EMC141XState *s = EMC141X(i2c);
++
++    if (s->len == 0) {
++        /* first byte is the reg pointer */
++        s->pointer = data;
++        s->len++;
++    } else if (s->len == 1) {
++        s->data = data;
++        emc141x_write(s);
++    }
++
++    return 0;
++}
++
++static int emc141x_event(I2CSlave *i2c, enum i2c_event event)
++{
++    EMC141XState *s = EMC141X(i2c);
++
++    if (event == I2C_START_RECV) {
++        emc141x_read(s);
++    }
++
++    s->len = 0;
++    return 0;
++}
++
++static const VMStateDescription vmstate_emc141x = {
++    .name = "EMC141X",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8(len, EMC141XState),
++        VMSTATE_UINT8(data, EMC141XState),
++        VMSTATE_UINT8(pointer, EMC141XState),
++        VMSTATE_UINT8_ARRAY(temperature, EMC141XState, SENSORS_COUNT_MAX),
++        VMSTATE_UINT8_ARRAY(min, EMC141XState, SENSORS_COUNT_MAX),
++        VMSTATE_UINT8_ARRAY(max, EMC141XState, SENSORS_COUNT_MAX),
++        VMSTATE_I2C_SLAVE(i2c, EMC141XState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void emc141x_reset(DeviceState *dev)
++{
++    EMC141XState *s = EMC141X(dev);
++
++    memset(s->min, 0, sizeof(s->min));
++    memset(s->max, 0x55, sizeof(s->max));
++    s->pointer = 0;
++    s->len = 0;
++}
++
++static void emc141x_initfn(Object *obj)
++{
++    object_property_add(obj, "temperature0", "int",
++                        emc141x_get_temperature,
++                        emc141x_set_temperature, NULL, NULL);
++    object_property_add(obj, "temperature1", "int",
++                        emc141x_get_temperature,
++                        emc141x_set_temperature, NULL, NULL);
++    object_property_add(obj, "temperature2", "int",
++                        emc141x_get_temperature,
++                        emc141x_set_temperature, NULL, NULL);
++    object_property_add(obj, "temperature3", "int",
++                        emc141x_get_temperature,
++                        emc141x_set_temperature, NULL, NULL);
++}
++
++static void emc141x_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    I2CSlaveClass *k = I2C_SLAVE_CLASS(klass);
++
++    dc->reset = emc141x_reset;
++    k->event = emc141x_event;
++    k->recv = emc141x_rx;
++    k->send = emc141x_tx;
++    dc->vmsd = &vmstate_emc141x;
++}
++
++static void emc1413_class_init(ObjectClass *klass, void *data)
++{
++    EMC141XClass *ec = EMC141X_CLASS(klass);
++
++    emc141x_class_init(klass, data);
++    ec->model = EMC1413_DEVICE_ID;
++    ec->sensors_count = 3;
++}
++
++static void emc1414_class_init(ObjectClass *klass, void *data)
++{
++    EMC141XClass *ec = EMC141X_CLASS(klass);
++
++    emc141x_class_init(klass, data);
++    ec->model = EMC1414_DEVICE_ID;
++    ec->sensors_count = 4;
++}
++
++static const TypeInfo emc141x_info = {
++    .name          = TYPE_EMC141X,
++    .parent        = TYPE_I2C_SLAVE,
++    .instance_size = sizeof(EMC141XState),
++    .class_size    = sizeof(EMC141XClass),
++    .instance_init = emc141x_initfn,
++    .abstract      = true,
++};
++
++static const TypeInfo emc1413_info = {
++    .name          = "emc1413",
++    .parent        = TYPE_EMC141X,
++    .class_init    = emc1413_class_init,
++};
++
++static const TypeInfo emc1414_info = {
++    .name          = "emc1414",
++    .parent        = TYPE_EMC141X,
++    .class_init    = emc1414_class_init,
++};
++
++static void emc141x_register_types(void)
++{
++    type_register_static(&emc141x_info);
++    type_register_static(&emc1413_info);
++    type_register_static(&emc1414_info);
++}
++
++type_init(emc141x_register_types)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 793d45b1dc..b18693c9af 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -9,6 +9,7 @@ softmmu_ss.add(when: 'CONFIG_PCI_TESTDEV', if_true: files('pci-testdev.c'))
+ softmmu_ss.add(when: 'CONFIG_SGA', if_true: files('sga.c'))
+ softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files('tmp105.c'))
+ softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
++softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
+ softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
+ softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
+ 
+-- 
+2.17.1
+
 
