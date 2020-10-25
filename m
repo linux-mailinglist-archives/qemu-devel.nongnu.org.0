@@ -2,88 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF07029817E
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 12:43:49 +0100 (CET)
-Received: from localhost ([::1]:55294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86152298183
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 12:52:48 +0100 (CET)
+Received: from localhost ([::1]:35342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWeRA-0003Lm-BZ
-	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 07:43:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57118)
+	id 1kWeZr-0007J3-95
+	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 07:52:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWeOi-0002id-Vo
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 07:41:20 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38928)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kWeXo-0006Zc-Qx
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 07:50:41 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWeOg-0001XY-9R
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 07:41:15 -0400
-Received: by mail-wr1-x443.google.com with SMTP id y12so9266319wrp.6
- for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 04:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=iIE8It2FXNG0XWUL/CSj00U0tv985rXsk6j+tNxgJz4=;
- b=W0bflVeiZeyQAlDPDQb2CjK+zoeQNiWPm8dktKLyg485pG1subUor5S+06HNJmKE3T
- Zxp7bQABGU7ZgJ3p9jY8l4BQ4gMUiX6czvEkDhJtDfr6rFGr+5MpV6LvITQdCo1KlnB3
- 8O8MEHvx9Luu/t3g7Wk1VTPy+0Jprxdp+poz16Z2+SP/ypzx4HMs4hZDP7AKHbMlSaiY
- MgNGH+qwN6Swog7DWNogj4oyU7b9H6e6g/40BMMlqhOMVetb/2IrWtf8/W1zS5mjVsfl
- DhxDgGtXESpo+TJlvHgKb42C9F5Ale/W6yuFlRD0NbxuTvSrxJ3eY32d5ZJ2ecc+FUoU
- UJLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iIE8It2FXNG0XWUL/CSj00U0tv985rXsk6j+tNxgJz4=;
- b=VlVWv55tUwWl0chj0m/M+mXEGliyB5DPXPmGddXlfhzGA7D2F6ClIhlRo4co8jWzlz
- MCNdf5TaNy/ULZ8VcKhmVMHc0SNf0g7wogo7GR9CMw65InFS2X5SNttXd3XmqxR3pofQ
- 50F9hI8T2FCyI5L1fWCSqDX1rBvqiBorfPB0/zRHiZFd+dQyUWRF6Y1xZE+hL++/of7u
- eqUCUNrt9jROoAjDpqEgjdKXlcMHed8/gBcifsUhQ4Y72qvM5mi02rLl8C15ywHGc7GU
- VkkMYixh/9v1IAlESvHGSmhGKoMxcdE2RPjkEc7AyBZ0lBlO9nk2dNCfmOmJ4r7LA23k
- F3Mg==
-X-Gm-Message-State: AOAM531c21wVrysCND0iO2hFhSG6uPzsbq8D9FSEOdJ94kCzmqpA5UWw
- Eg4DYgZ3g5K4L72YmICJfecEgRitNEs=
-X-Google-Smtp-Source: ABdhPJxQuUEK7UNiTCp+XxJcAILGyMUB+5voyaiU6bS8SrPU20UcqjAFyfwH4sd4WvENJ7E5dY514w==
-X-Received: by 2002:a5d:5092:: with SMTP id a18mr11843874wrt.323.1603626071049; 
- Sun, 25 Oct 2020 04:41:11 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id u6sm14520881wmj.40.2020.10.25.04.41.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 25 Oct 2020 04:41:10 -0700 (PDT)
-Subject: Re: [PATCH] sabre: use object_initialize_child() for iommu child
- object
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org
-References: <20201021114300.11579-1-mark.cave-ayland@ilande.co.uk>
- <24f4d006-f8b4-4eac-5319-67ad14b182b5@ilande.co.uk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4dc23e8c-8527-9334-477c-2aed648c621b@amsat.org>
-Date: Sun, 25 Oct 2020 12:41:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kWeXl-0002P6-Dg
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 07:50:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kWeXj-00081L-5L
+ for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 11:50:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2431F2E811E
+ for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 11:50:35 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <24f4d006-f8b4-4eac-5319-67ad14b182b5@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 25 Oct 2020 11:42:24 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1892540@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: sparc testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: gson laurent-vivier mark-cave-ayland mst-0 philmd
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <159803735569.2614.10182276398047269277.malonedeb@chaenomeles.canonical.com>
+ <20201024205100.3623006-1-f4bug@amsat.org>
+ <8744a7c0-4fb8-65ce-cecf-0013468eeb10@ilande.co.uk>
+Message-Id: <117a8dd2-9234-e90d-33c3-39e3dc4c1e9e@amsat.org>
+Subject: [Bug 1892540] Re: [PATCH v3] hw/display/tcx: Allow 64-bit accesses to
+ framebuffer stippler and blitter
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
+X-Launchpad-Hash: 12a2f9793cf7dd9d6c073b40becb070766d34655
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 07:00:47
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -92,113 +76,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1892540 <1892540@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/25/20 12:11 PM, Mark Cave-Ayland wrote:
-> On 21/10/2020 12:43, Mark Cave-Ayland wrote:
-> 
->> Store the child object directly within the sabre object rather than using
->> link properties.
+On 10/25/20 11:55 AM, Mark Cave-Ayland wrote:
+> On 24/10/2020 21:51, Philippe Mathieu-Daud=C3=A9 wrote:
+> =
+
+>> The S24/TCX datasheet is listed as "Unable to locate" on [1].
 >>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> However the NetBSD revision 1.32 of the driver introduced
+>> 64-bit accesses to the stippler and blitter [2]. It is safe
+>> to assume these memory regions are 64-bit accessible.
+>> QEMU implementation is 32-bit, so fill the 'impl' fields.
+>>
+>> Michael Lorenz (author of the NetBSD code [2]) provided us with more
+>> information in [3]:
+>>
+>>> IIRC the real hardware *requires* 64bit accesses for stipple and
+>>> blitter operations to work. For stipples you write a 64bit word into
+>>> STIP space, the address defines where in the framebuffer you want to
+>>> draw, the data contain a 32bit bitmask, foreground colour and a ROP.
+>>> BLIT space works similarly, the 64bit word contains an offset were to
+>>> read pixels from, and how many you want to copy.
+>>>
+>>> One more thing since there seems to be some confusion - 64bit accesses
+>>> on the framebuffer are fine as well. TCX/S24 is *not* an SBus device,
+>>> even though its node says it is.
+>>> S24 is a card that plugs into a special slot on the SS5 mainboard,
+>>> which is shared with an SBus slot and looks a lot like a horizontal
+>>> UPA slot. Both S24 and TCX are accessed through the Micro/TurboSPARC's
+>>> AFX bus which is 64bit wide and intended for graphics.
+>>> Early FFB docs even mentioned connecting to both AFX and UPA,
+>>> no idea if that was ever realized in hardware though.
+>>
+>> [1] =
+
+>> http://web.archive.org/web/20111209011516/http://wikis.sun.com/display/F=
+OSSdocs/Home =
+
+>>
+>> [2] =
+
+>> http://cvsweb.netbsd.org/bsdweb.cgi/src/sys/dev/sbus/tcx.c.diff?r1=3D1.3=
+1&r2=3D1.32 =
+
+>>
+>> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg734928.html
+>>
+>> Reported-by: Andreas Gustafsson <gson@gson.org>
+>> Buglink: https://bugs.launchpad.net/bugs/1892540
+>> Fixes: 55d7bfe2293 ("tcx: Implement hardware acceleration")
+>> Tested-by: Michael S. Tsirkin <mst@redhat.com>
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>> Tested-by: Andreas Gustafsson <gson@gson.org>
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >> ---
->>   hw/pci-host/sabre.c         | 10 ++++------
->>   hw/sparc64/sun4u.c          |  8 +-------
->>   include/hw/pci-host/sabre.h |  2 +-
->>   3 files changed, 6 insertions(+), 14 deletions(-)
+>> Since v2:
+>> - added Michael's memories
+>> - added R-b/T-b tags
 >>
->> diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
->> index f41a0cc301..aaa93acd6e 100644
->> --- a/hw/pci-host/sabre.c
->> +++ b/hw/pci-host/sabre.c
->> @@ -383,9 +383,10 @@ static void sabre_realize(DeviceState *dev, Error 
->> **errp)
->>       pci_create_simple(phb->bus, 0, TYPE_SABRE_PCI_DEVICE);
->>       /* IOMMU */
->> +    sysbus_realize(SYS_BUS_DEVICE(&s->iommu), &error_fatal);
->>       memory_region_add_subregion_overlap(&s->sabre_config, 0x200,
->> -                    sysbus_mmio_get_region(SYS_BUS_DEVICE(s->iommu), 
->> 0), 1);
->> -    pci_setup_iommu(phb->bus, sabre_pci_dma_iommu, s->iommu);
->> +                    sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->iommu), 
->> 0), 1);
->> +    pci_setup_iommu(phb->bus, sabre_pci_dma_iommu, &s->iommu);
->>       /* APB secondary busses */
->>       pci_dev = pci_new_multifunction(PCI_DEVFN(1, 0), true,
->> @@ -422,10 +423,7 @@ static void sabre_init(Object *obj)
->>       s->pci_irq_in = 0ULL;
->>       /* IOMMU */
->> -    object_property_add_link(obj, "iommu", TYPE_SUN4U_IOMMU,
->> -                             (Object **) &s->iommu,
->> -                             qdev_prop_allow_set_link_before_realize,
->> -                             0);
->> +    object_initialize_child(obj, "iommu", &s->iommu, TYPE_SUN4U_IOMMU);
->>       /* sabre_config */
->>       memory_region_init_io(&s->sabre_config, OBJECT(s), 
->> &sabre_config_ops, s,
->> diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
->> index 2f8fc670cf..a33f1eccfd 100644
->> --- a/hw/sparc64/sun4u.c
->> +++ b/hw/sparc64/sun4u.c
->> @@ -562,7 +562,7 @@ static void sun4uv_init(MemoryRegion 
->> *address_space_mem,
->>       PCIBus *pci_bus, *pci_busA, *pci_busB;
->>       PCIDevice *ebus, *pci_dev;
->>       SysBusDevice *s;
->> -    DeviceState *iommu, *dev;
->> +    DeviceState *dev;
->>       FWCfgState *fw_cfg;
->>       NICInfo *nd;
->>       MACAddr macaddr;
->> @@ -571,10 +571,6 @@ static void sun4uv_init(MemoryRegion 
->> *address_space_mem,
->>       /* init CPUs */
->>       cpu = sparc64_cpu_devinit(machine->cpu_type, hwdef->prom_addr);
->> -    /* IOMMU */
->> -    iommu = qdev_new(TYPE_SUN4U_IOMMU);
->> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(iommu), &error_fatal);
->> -
->>       /* set up devices */
->>       ram_init(0, machine->ram_size);
->> @@ -584,8 +580,6 @@ static void sun4uv_init(MemoryRegion 
->> *address_space_mem,
->>       sabre = SABRE(qdev_new(TYPE_SABRE));
->>       qdev_prop_set_uint64(DEVICE(sabre), "special-base", 
->> PBM_SPECIAL_BASE);
->>       qdev_prop_set_uint64(DEVICE(sabre), "mem-base", PBM_MEM_BASE);
->> -    object_property_set_link(OBJECT(sabre), "iommu", OBJECT(iommu),
->> -                             &error_abort);
->>       sysbus_realize_and_unref(SYS_BUS_DEVICE(sabre), &error_fatal);
->>       /* sabre_config */
->> diff --git a/include/hw/pci-host/sabre.h b/include/hw/pci-host/sabre.h
->> index 01190241bb..05bf741cde 100644
->> --- a/include/hw/pci-host/sabre.h
->> +++ b/include/hw/pci-host/sabre.h
->> @@ -34,7 +34,7 @@ struct SabreState {
->>       MemoryRegion pci_mmio;
->>       MemoryRegion pci_ioport;
->>       uint64_t pci_irq_in;
->> -    IOMMUState *iommu;
->> +    IOMMUState iommu;
->>       PCIBridge *bridgeA;
->>       PCIBridge *bridgeB;
->>       uint32_t pci_control[16];
-> 
-> No further comments (and I'm happier that this is a better solution than 
-> having an "optional" link property) so I've applied this to my 
-> qemu-sparc branch.
+>> Since v1:
+>> - added missing uncommitted staged changes... (tcx_blit_ops)
+>> ---
+>> =C2=A0 hw/display/tcx.c | 18 +++++++++++++++---
+>> =C2=A0 1 file changed, 15 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/display/tcx.c b/hw/display/tcx.c
+>> index c9d5e45cd1f..878ecc8c506 100644
+>> --- a/hw/display/tcx.c
+>> +++ b/hw/display/tcx.c
+>> @@ -549,20 +549,28 @@ static const MemoryRegionOps tcx_stip_ops =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .read =3D tcx_stip_readl,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .write =3D tcx_stip_writel,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .endianness =3D DEVICE_NATIVE_ENDIAN,
+>> -=C2=A0=C2=A0=C2=A0 .valid =3D {
+>> +=C2=A0=C2=A0=C2=A0 .impl =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =
+=3D 4,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =
+=3D 4,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>> +=C2=A0=C2=A0=C2=A0 .valid =3D {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =3D 4,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =3D 8,
+>> +=C2=A0=C2=A0=C2=A0 },
+>> =C2=A0 };
+>> =C2=A0 static const MemoryRegionOps tcx_rstip_ops =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .read =3D tcx_stip_readl,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .write =3D tcx_rstip_writel,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .endianness =3D DEVICE_NATIVE_ENDIAN,
+>> -=C2=A0=C2=A0=C2=A0 .valid =3D {
+>> +=C2=A0=C2=A0=C2=A0 .impl =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =
+=3D 4,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =
+=3D 4,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>> +=C2=A0=C2=A0=C2=A0 .valid =3D {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =3D 4,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =3D 8,
+>> +=C2=A0=C2=A0=C2=A0 },
+>> =C2=A0 };
+>> =C2=A0 static uint64_t tcx_blit_readl(void *opaque, hwaddr addr,
+>> @@ -651,10 +659,14 @@ static const MemoryRegionOps tcx_rblit_ops =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .read =3D tcx_blit_readl,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .write =3D tcx_rblit_writel,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .endianness =3D DEVICE_NATIVE_ENDIAN,
+>> -=C2=A0=C2=A0=C2=A0 .valid =3D {
+>> +=C2=A0=C2=A0=C2=A0 .impl =3D {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =
+=3D 4,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =
+=3D 4,
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+>> +=C2=A0=C2=A0=C2=A0 .valid =3D {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .min_access_size =3D 4,
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .max_access_size =3D 8,
+>> +=C2=A0=C2=A0=C2=A0 },
+>> =C2=A0 };
+>> =C2=A0 static void tcx_invalidate_cursor_position(TCXState *s)
+> =
 
-Sorry I had this patch tagged for review but am having trouble
-managing that folder. This is certainly better, thanks for this
-cleanup.
+> I'd already queued v2 of this patch (see my earlier email) with the =
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> intent to send a PR today, however I'll replace it with this v3 instead.
 
-> 
-> 
+Thanks! Since there is no code change with v2, I assumed it wouldn't be
+a problem to replace it, without having to re-run your tests.
+
+> =
+
+> =
+
 > ATB,
-> 
+> =
+
 > Mark.
-> 
+>
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892540
+
+Title:
+  qemu can no longer boot NetBSD/sparc
+
+Status in QEMU:
+  New
+
+Bug description:
+  Booting NetBSD/sparc in qemu no longer works.  It broke between qemu
+  version 5.0.0 and 5.1.0, and a bisection identified the following as
+  the offending commit:
+
+    [5d971f9e672507210e77d020d89e0e89165c8fc9] memory: Revert "memory:
+  accept mismatching sizes in memory_region_access_valid"
+
+  It's still broken as of 7fd51e68c34fcefdb4d6fd646ed3346f780f89f4.
+
+  To reproduce, run
+
+    wget http://ftp.netbsd.org/pub/NetBSD/NetBSD-9.0/images/NetBSD-9.0-spar=
+c.iso
+    qemu-system-sparc -nographic -cdrom NetBSD-9.0-sparc.iso -boot d
+
+  The expected behavior is that the guest boots to the prompt
+
+    Installation medium to load the additional utilities from:
+
+  The observed behavior is a panic:
+
+    [   1.0000050] system[0]: trap 0x29: pc=3D0xf0046b14 sfsr=3D0xb6 sfva=
+=3D0x54000000
+    [   1.0000050] cpu0: data fault: pc=3D0xf0046b14 addr=3D0x54000000 sfsr=
+=3D0xb6<PERR=3D0x0,LVL=3D0x0,AT=3D0x5,FT=3D0x5,FAV,OW>
+    [   1.0000050] panic: kernel fault
+    [   1.0000050] halted
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892540/+subscriptions
 
