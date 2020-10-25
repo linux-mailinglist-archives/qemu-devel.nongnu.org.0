@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47417298243
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 16:26:15 +0100 (CET)
-Received: from localhost ([::1]:48580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8611298247
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 16:33:29 +0100 (CET)
+Received: from localhost ([::1]:54842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWhuP-0005T2-Qj
-	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 11:26:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45862)
+	id 1kWi1R-00005b-2S
+	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 11:33:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kWht9-0004rr-E1; Sun, 25 Oct 2020 11:24:55 -0400
-Received: from 10.mo52.mail-out.ovh.net ([87.98.187.244]:46194)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kWht7-0003Bx-Fe; Sun, 25 Oct 2020 11:24:55 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.235])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id CFDE21FF573;
- Sun, 25 Oct 2020 16:24:46 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Sun, 25 Oct
- 2020 16:24:45 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002ef50abc6-4b1a-468b-8b77-ff00f373087a,
- 5F9C93A9F3AD2D257DE4C2DCE7DBF4E7A6D9743C) smtp.auth=groug@kaod.org
-Date: Sun, 25 Oct 2020 16:24:44 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
- properties
-Message-ID: <20201025162444.0fdec88a@bahia.lan>
-In-Reply-To: <20201023211509.5c316c01@redhat.com>
-References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
- <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
- <20201023211509.5c316c01@redhat.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kWhzC-0007Y2-34; Sun, 25 Oct 2020 11:31:10 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:36839)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kWhz8-00042C-Vp; Sun, 25 Oct 2020 11:31:09 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id f140so5567815ybg.3;
+ Sun, 25 Oct 2020 08:31:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=8k9W7heNWf310LbU1MGkloWciXvS7ZYGJRs1ES0KcV0=;
+ b=Jto3EeFw+PHl1DnoR+jSTqDM/nBIs61S0gTpeux6rBr3SB1bF+bEV8pSGPiQxVARqk
+ TnsynWYFdZ/YCF8sbNp094fngLfFsmW9IpHL7pzGbSeu0HxqdXgLPIDIWNjw9kXGsRRa
+ nEQDYbyliONqXnxqePDk4TQdLsxkdjaFYevRgsg9864rWe6nT/ge0khAr0NR/dYzF1yF
+ DfYRSmxdc/r9LA2MzHFlX/mCgb8Jsla5TR4oVzkU61QWND0WUMXSRc+V1SM04PZ/1EiO
+ 6u4M6w3iS8mrwC49Jk7Pa58NZ+PlPgcHSu1bFkIXtEQFMuVsYfzv+CMTGiBOKzuwU+/k
+ mkWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8k9W7heNWf310LbU1MGkloWciXvS7ZYGJRs1ES0KcV0=;
+ b=OAvuUceFGg0yHY9O8g5AsxCqefSwbgbfontdYO4LcCVumafMZ3YTNuUMyNqxqcJyHf
+ hsYxmc0ep+v8Us2jeO2Ce7cIcoiwn7Vm/uVyRdy0R01ENA7srToHsnEIMBU2EPrxoonC
+ mqQjAafwNlKZvTmGdtDFWU/fPhE4TL2pV96kXkzt+HuG15vCXzL/gFag5jgtXN7OhdSs
+ Ryl2AL5D3GhdkvwQh98G18SAPOmdhDnclcPCOttecoT6GJY8YLhHCP955GjjvayVrvAh
+ MwRwH7zOvMiyS0YbYo34TMWC9yIGCbF9C4XD5q7zngY+B4GT0sCB322FdtYkbSlIcn64
+ E86g==
+X-Gm-Message-State: AOAM533g6QPJ/HL/xoCWhJ/ro08LRiRw1r4hjh9k56T7otVAlaRmZov3
+ gKKqmgDhb0g73nPsyW8FtH6mvkH4aNYWZH8Cc/U=
+X-Google-Smtp-Source: ABdhPJxMNgQZU6IbzltupheVNCXlOpudLJFIsfjTkR0o5JKZUSHB2RxY4EQqMEOEFWxnETOqwiTKivucu8xFT8okMA0=
+X-Received: by 2002:a25:4113:: with SMTP id o19mr15190094yba.314.1603639865575; 
+ Sun, 25 Oct 2020 08:31:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 11b92afa-85a7-4191-be27-9e4abac1a41e
-X-Ovh-Tracer-Id: 11006234540100917752
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeeggdejkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheprhhthhesthifihguughlvgdrnhgvth
-Received-SPF: pass client-ip=87.98.187.244; envelope-from=groug@kaod.org;
- helo=10.mo52.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 11:24:50
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20201024215200.494209-1-nieklinnenbank@gmail.com>
+ <fd949ad0-f7fd-561e-33d8-57133a9afd31@amsat.org>
+ <3bb92403-f955-d887-a301-1ff38259b49f@amsat.org>
+In-Reply-To: <3bb92403-f955-d887-a301-1ff38259b49f@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 25 Oct 2020 23:30:54 +0800
+Message-ID: <CAEUhbmV9Q-+4zF62xwq4dHdBCiwOU43dnJKvdYEx10Wg=H8POw@mail.gmail.com>
+Subject: Re: [PATCH] tests/acceptance: expand Orange Pi PC SD images for
+ NetBSD, Armbian above nearest power of two
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb41.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,108 +82,80 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>,
- David Gibson <david@gibson.dropbear.id.au>
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 21:15:09 +0200
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Sun, Oct 25, 2020 at 8:13 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 10/25/20 2:31 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > Hi Niek,
+> >
+> > On 10/24/20 11:52 PM, Niek Linnenbank wrote:
+> >> The acceptance tests for the Orange Pi PC need to expand the SD card
+> >> images
+> >> to a size which is a power of two. As Qemu uses the size of the SD
+> >> image file
+> >> as well for the size of the emulated SD card, this can sometimes give
+> >> problems
+> >> for guests that assume a certain minimum size of the SD card.
+> >>
+> >> This commit resolves the following acceptance test error for the
+> >> NetBSD 9.0 test
+> >> of the Orange Pi PC by increasing the size of the expanded SD card
+> >> image to two times
+> >> the nearest power of two:
+> >>
+> >>     (5/5)
+> >> tests/acceptance/boot_linux_console.py:BootLinuxConsole.test_arm_orang=
+epi_uboot_netbsd9:
+> >> |console: U-Boot SPL 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)
+> >>    console: DRAM: 1024 MiB
+> >>    console: Failed to set core voltage! Can't set CPU frequency
+> >>    /console: Trying to boot from MMC1
+> >>    console: U-Boot 2020.01+dfsg-1 (Jan 08 2020 - 08:19:44 +0000)
+> >> Allwinner Technology
+> >>    ...
+> >>    console: Starting kernel ...
+> >>    console: [   1.0000000] NetBSD/evbarm (fdt) booting ...
+> >>    ...
+> >>    console: [   1.3300167] sdmmc0: SD card status: 4-bit, C0
+> >>    console: [   1.3300167] ld0 at sdmmc0:
+> >> <0xaa:0x5859:QEMU!:0x01:0xdeadbeef:0x062>
+> >
+> > The test has this comment:
+> >
+> >     # This test download a 304MB compressed image and expand it to 2GB
+> >
+> > Once uncompressed the image is ~1.2GB before rounding to 2GB.
+> >
+> >>    console: [   1.3430678] ld0: 1024 MB, 1040 cyl, 32 head, 63 sec,
+> >> 512 bytes/sect x 2097152 sectors
+> >
+> > Why the card appears as 1GB??     ^^^^^^^
+> >
+> > Can you try reverting commit 6d2d4069c47?
+> > ("sd: Correct the maximum size of a Standard Capacity SD Memory Card")
+>
+> Now I remember, I hit the similar problem 2 years ago :S
+>
+> See the description of the C_SIZE field in CSD register:
+>
+>    "To indicate 2 GByte card, BLOCK_LEN shall be 1024 bytes."
 
-> On Mon, 19 Oct 2020 10:48:41 +0200
-> Greg Kurz <groug@kaod.org> wrote:
-> 
-> > Both PC_DIMM_SLOT_PROP and PC_DIMM_ADDR_PROP are defined in the
-> > default property list of the PC DIMM device class:
-> > 
-> >     DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
-> > 
-> >     DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
-> >                       PC_DIMM_UNASSIGNED_SLOT),
-> > 
-> > They should thus be always gettable for both PC DIMMs and NVDIMMs.
-> > An error in getting them can only be the result of a programming
-> > error. It doesn't make much sense to propagate the error in this
-> > case. Abort instead.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> 
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> 
-> TODO for future,
-> get rid of local_err in spapr_memory_plug() altogether, it should not fail.
-> it needs moving check from spapr_drc_attach() to spapr_memory_pre_plug() time.
-> 
-> that will clear up (a bit) road for dropping errp in spapr_memory_plug()
+Ah, yes! 2 GiB is special in the spec. Thanks Philippe!
 
-Igor,
+>
+> This model uses a fixed BLOCK_LEN =3D 512 bytes.
+>
 
-I could find time to look a bit into attaching DRCs at pre-plug and I
-think this isn't possible. The problem is that there doesn't seem to be
-a reverse operation for pre-plug. If realize fails for the DIMM device,
-spapr_drc_detach() wouldn't be called, which would be wrong.
+Niek, could you please try the following patch?
+http://patchwork.ozlabs.org/project/qemu-devel/patch/20201025152357.11865-1=
+-bmeng.cn@gmail.com/
 
-Am I missing something ?
-
-> > ---
-> >  hw/ppc/spapr.c |   17 +++--------------
-> >  1 file changed, 3 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 1b173861152f..62f217a6b914 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -3443,19 +3443,13 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-> >  
-> >      if (!is_nvdimm) {
-> >          addr = object_property_get_uint(OBJECT(dimm),
-> > -                                        PC_DIMM_ADDR_PROP, &local_err);
-> > -        if (local_err) {
-> > -            goto out_unplug;
-> > -        }
-> > +                                        PC_DIMM_ADDR_PROP, &error_abort);
-> >          spapr_add_lmbs(dev, addr, size,
-> >                         spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
-> >                         &local_err);
-> >      } else {
-> >          slot = object_property_get_int(OBJECT(dimm),
-> > -                                       PC_DIMM_SLOT_PROP, &local_err);
-> > -        if (local_err) {
-> > -            goto out_unplug;
-> > -        }
-> > +                                       PC_DIMM_SLOT_PROP, &error_abort);
-> >          /* We should have valid slot number at this point */
-> >          g_assert(slot >= 0);
-> >          spapr_add_nvdimm(dev, slot, &local_err);
-> > @@ -3634,7 +3628,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
-> >                                          DeviceState *dev, Error **errp)
-> >  {
-> >      SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
-> > -    Error *local_err = NULL;
-> >      PCDIMMDevice *dimm = PC_DIMM(dev);
-> >      uint32_t nr_lmbs;
-> >      uint64_t size, addr_start, addr;
-> > @@ -3650,11 +3643,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
-> >      nr_lmbs = size / SPAPR_MEMORY_BLOCK_SIZE;
-> >  
-> >      addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
-> > -                                         &local_err);
-> > -    if (local_err) {
-> > -        error_propagate(errp, local_err);
-> > -        return;
-> > -    }
-> > +                                          &error_abort);
-> >  
-> >      /*
-> >       * An existing pending dimm state for this DIMM means that there is an
-> > 
-> > 
-> > 
-> 
-
+Regards,
+Bin
 
