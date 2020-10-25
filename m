@@ -2,78 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CF62981D3
-	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 14:16:31 +0100 (CET)
-Received: from localhost ([::1]:39316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0A529821E
+	for <lists+qemu-devel@lfdr.de>; Sun, 25 Oct 2020 15:31:55 +0100 (CET)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWfsr-0001SK-JX
-	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 09:16:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41026)
+	id 1kWh3q-0008AD-IS
+	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 10:31:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangzhiqiang.bj@bytedance.com>)
- id 1kWfrB-0000Mf-Ho
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 09:14:45 -0400
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:44753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wangzhiqiang.bj@bytedance.com>)
- id 1kWfr6-0002NM-Sd
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 09:14:44 -0400
-Received: by mail-pf1-x432.google.com with SMTP id f19so4600977pfj.11
- for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 06:14:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bytedance-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=23AGIYOjutcJfv1ctNotYBakQrdg8uSFPn1/2ih38R8=;
- b=Y7dUSpnUwk1ZwIW4Y2x/5sL6/dnZ1WuvkoiQvRgK4luNpRKKLT2jpuCBmlDbEqU5Cy
- J+oRTZdgy3Zc6or8Fkn3r5l/zdN1smAIcO6xIbXW4Y6LjMsYcD4i3jz2AfumpbdTbydD
- xMkkLJECGN1xozJ4436ocU5rnfekuwCmtVSLdABsLGFr+wQMwVoqQb51nC+5KriOFKf3
- pCJiYRizK+YmXKxNj6YQjW/3VGaCoFfOuXQ3fu0bTCP9D4BFM8wXDvxxn3D1P1QeE9Ce
- yg+ybXOLHK9Q5A51g3IbBjRgUfLeqsMjqR9LZM3M0tsRrqi58HLJipUnuhsiTg4dIaeo
- WpgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=23AGIYOjutcJfv1ctNotYBakQrdg8uSFPn1/2ih38R8=;
- b=gJ27JYLL+SoxnGuSgqyuqQB0aiFKTVKAf5eGuTjc1LkbgrgLPxPDcnlV8jMZ7xV+E5
- naBmfzQMz9sVlQ8CUDHGk2eUg2m/er6wNye+X15JtGxMN6ftd8mn40XZE73pctJlGFMM
- L12DMRyzIQvloT71e4F9zN6zpP41VLt2n7j0oasMw7wTj7G9ffg6qc9UqQHv36FKUbzJ
- MBO7IvFt2dg93TLKeHk7LzBDvwzCcBYoagv4wzrrEe0TCcOmumCOGFWI9BYyZc54tdAV
- /F1lUF+ZvKiNGiW5AauA5vGsrWKl12fKanrLh4C7FmeMx0uJuSAB+kViwMwrcuX/m4hP
- 71CQ==
-X-Gm-Message-State: AOAM533c/m1POwk9stlYMAErk1DoGYfx5ZO1TVzpbPliomr9HPbXWHy6
- gxnLvEC3KzabUSTtg+qIx8DzEQ==
-X-Google-Smtp-Source: ABdhPJwcKGw2lhIVQk07Ue035X6n9gZI2bXxbxW2EzIxhZb5v2s8vTpWKswlL/6l/gWQhI0GsU8Xuw==
-X-Received: by 2002:a62:7942:0:b029:162:bf9f:6457 with SMTP id
- u63-20020a6279420000b0290162bf9f6457mr2742748pfc.59.1603631679392; 
- Sun, 25 Oct 2020 06:14:39 -0700 (PDT)
-Received: from localhost ([103.136.220.131])
- by smtp.gmail.com with ESMTPSA id y1sm9813364pjl.12.2020.10.25.06.14.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Sun, 25 Oct 2020 06:14:39 -0700 (PDT)
-From: John Wang <wangzhiqiang.bj@bytedance.com>
-To: clg@kaod.org, xuxiaohan@bytedance.com, yulei.sh@bytedance.com,
- joel@jms.id.au, f4bug@amsat.org
-Subject: [PATCH v3 2/2] aspeed: Add support for the g220a-bmc board
-Date: Sun, 25 Oct 2020 13:14:35 +0000
-Message-Id: <20201025131435.144-2-wangzhiqiang.bj@bytedance.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201025131435.144-1-wangzhiqiang.bj@bytedance.com>
-References: <20201025131435.144-1-wangzhiqiang.bj@bytedance.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kWh2P-0007d3-OL
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 10:30:25 -0400
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:26654)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1kWh2M-00044v-Eu
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 10:30:24 -0400
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C00E87475FE;
+ Sun, 25 Oct 2020 15:30:07 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 96A687475FA; Sun, 25 Oct 2020 15:30:07 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 94A3A746333;
+ Sun, 25 Oct 2020 15:30:07 +0100 (CET)
+Date: Sun, 25 Oct 2020 15:30:07 +0100 (CET)
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 0/6] tests/acceptance: Test the Fuloong 2E machine
+In-Reply-To: <d2851fba-040c-9f39-ccf7-2d22b862ec2b@amsat.org>
+Message-ID: <ed6d6b59-cd2c-a59-5d8-4c93c7fa88ef@eik.bme.hu>
+References: <20201021105035.2477784-1-f4bug@amsat.org>
+ <54a947e4-929c-aaa4-52b0-339827a010b8@ilande.co.uk>
+ <d2851fba-040c-9f39-ccf7-2d22b862ec2b@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=wangzhiqiang.bj@bytedance.com; helo=mail-pf1-x432.google.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-1305300983-1603636207=:24248"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,120 +60,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
- "open list:ASPEED BMCs" <qemu-arm@nongnu.org>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Cleber Rosa <crosa@redhat.com>,
+ Huacai Chen <chenhc@lemote.com>,
+ =?ISO-8859-15?Q?Alex_Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to: BALATON Zoltan <balaton@eik.bme.hu>
+From: BALATON Zoltan via <qemu-devel@nongnu.org>
 
-G220A is a 2 socket x86 motherboard supported by OpenBMC.
-Strapping configuration was obtained from hardware.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: John Wang <wangzhiqiang.bj@bytedance.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
----
-v3:
-  - No changes
-v2:
-  - No changes
----
- hw/arm/aspeed.c | 60 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+--3866299591-1305300983-1603636207=:24248
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index bdb981d2f8..04c8ad2bcd 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -120,6 +120,20 @@ struct AspeedMachineState {
-         SCU_AST2500_HW_STRAP_ACPI_ENABLE |                              \
-         SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER))
- 
-+#define G220A_BMC_HW_STRAP1 (                                      \
-+        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     \
-+        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        \
-+        SCU_AST2500_HW_STRAP_UART_DEBUG |                               \
-+        SCU_AST2500_HW_STRAP_RESERVED28 |                               \
-+        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              \
-+        SCU_HW_STRAP_2ND_BOOT_WDT |                                     \
-+        SCU_HW_STRAP_VGA_CLASS_CODE |                                   \
-+        SCU_HW_STRAP_LPC_RESET_PIN |                                    \
-+        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_MASTER) |                \
-+        SCU_AST2500_HW_STRAP_SET_AXI_AHB_RATIO(AXI_AHB_RATIO_2_1) |     \
-+        SCU_HW_STRAP_VGA_SIZE_SET(VGA_64M_DRAM) |                       \
-+        SCU_AST2500_HW_STRAP_RESERVED1)
-+
- /* Witherspoon hardware value: 0xF10AD216 (but use romulus definition) */
- #define WITHERSPOON_BMC_HW_STRAP1 ROMULUS_BMC_HW_STRAP1
- 
-@@ -559,6 +573,30 @@ static void witherspoon_bmc_i2c_init(AspeedMachineState *bmc)
-     /* Bus 11: TODO ucd90160@64 */
- }
- 
-+static void g220a_bmc_i2c_init(AspeedMachineState *bmc)
-+{
-+    AspeedSoCState *soc = &bmc->soc;
-+    DeviceState *dev;
-+
-+    dev = DEVICE(i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 3),
-+                                         "emc1413", 0x4c));
-+    object_property_set_int(OBJECT(dev), "temperature0", 31000, &error_abort);
-+    object_property_set_int(OBJECT(dev), "temperature1", 28000, &error_abort);
-+    object_property_set_int(OBJECT(dev), "temperature2", 20000, &error_abort);
-+
-+    dev = DEVICE(i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 12),
-+                                         "emc1413", 0x4c));
-+    object_property_set_int(OBJECT(dev), "temperature0", 31000, &error_abort);
-+    object_property_set_int(OBJECT(dev), "temperature1", 28000, &error_abort);
-+    object_property_set_int(OBJECT(dev), "temperature2", 20000, &error_abort);
-+
-+    dev = DEVICE(i2c_slave_create_simple(aspeed_i2c_get_bus(&soc->i2c, 13),
-+                                         "emc1413", 0x4c));
-+    object_property_set_int(OBJECT(dev), "temperature0", 31000, &error_abort);
-+    object_property_set_int(OBJECT(dev), "temperature1", 28000, &error_abort);
-+    object_property_set_int(OBJECT(dev), "temperature2", 20000, &error_abort);
-+}
-+
- static bool aspeed_get_mmio_exec(Object *obj, Error **errp)
- {
-     return ASPEED_MACHINE(obj)->mmio_exec;
-@@ -798,6 +836,24 @@ static void aspeed_machine_tacoma_class_init(ObjectClass *oc, void *data)
-         aspeed_soc_num_cpus(amc->soc_name);
- };
- 
-+static void aspeed_machine_g220a_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    AspeedMachineClass *amc = ASPEED_MACHINE_CLASS(oc);
-+
-+    mc->desc       = "Bytedance G220A BMC (ARM1176)";
-+    amc->soc_name  = "ast2500-a1";
-+    amc->hw_strap1 = G220A_BMC_HW_STRAP1;
-+    amc->fmc_model = "n25q512a";
-+    amc->spi_model = "mx25l25635e";
-+    amc->num_cs    = 2;
-+    amc->macs_mask  = ASPEED_MAC1_ON | ASPEED_MAC2_ON;
-+    amc->i2c_init  = g220a_bmc_i2c_init;
-+    mc->default_ram_size = 1024 * MiB;
-+    mc->default_cpus = mc->min_cpus = mc->max_cpus =
-+        aspeed_soc_num_cpus(amc->soc_name);
-+};
-+
- static const TypeInfo aspeed_machine_types[] = {
-     {
-         .name          = MACHINE_TYPE_NAME("palmetto-bmc"),
-@@ -835,6 +891,10 @@ static const TypeInfo aspeed_machine_types[] = {
-         .name          = MACHINE_TYPE_NAME("tacoma-bmc"),
-         .parent        = TYPE_ASPEED_MACHINE,
-         .class_init    = aspeed_machine_tacoma_class_init,
-+    }, {
-+        .name          = MACHINE_TYPE_NAME("g220a-bmc"),
-+        .parent        = TYPE_ASPEED_MACHINE,
-+        .class_init    = aspeed_machine_g220a_class_init,
-     }, {
-         .name          = TYPE_ASPEED_MACHINE,
-         .parent        = TYPE_MACHINE,
--- 
-2.17.1
+On Sun, 25 Oct 2020, Philippe Mathieu-Daudé wrote:
+> On 10/25/20 12:18 PM, Mark Cave-Ayland wrote:
+>> On 21/10/2020 11:50, Philippe Mathieu-Daudé wrote:
+>> 
+>>> This series add tests for the MIPS Fuloong 2E machine.
+>>> 
+>>> I have been using these tests for over 1 year now.
+>>> After recent discussions with Huacai and Mark regarding
+>>> how to contribute tests for machines using private blob,
+>>> I think it is time to publish this series, to see how
+>>> the final part will be discussed, as it tests a blob
+>>> which Lemote company doesn't publish the sources. The
+>>> binary is know to work and has been used for various
+>>> years on real hardware. Its MD5 is also know (I am not
+>>> using SHA-1 because it has been published with MD5).
+>>> 
+>>> The idea is to be able to share tests without infringing
+>>> licenses issues.
+>>> 
+>>> Please comment :)
+>>> 
+>>> Phil.
+>>> 
+>>> Philippe Mathieu-Daudé (6):
+>>>    tests/acceptance: Remove unused import
+>>>    tests/acceptance: Use .ppm extention for Portable PixMap files
+>>>    tests/acceptance: Extract tesseract_available() helper in new
+>>>      namespace
+>>>    tests/acceptance: Introduce tesseract_ocr() helper
+>>>    tests/acceptance: Test Linux on the Fuloong 2E machine
+>>>    tests/acceptance: Test PMON on the Fuloong 2E machine
+>>> 
+>>>   MAINTAINERS                                |   1 +
+>>>   tests/acceptance/machine_m68k_nextcube.py  |  51 ++---------
+>>>   tests/acceptance/machine_mips_fuloong2e.py | 101 +++++++++++++++++++++
+>>>   tests/acceptance/tesseract_utils.py        |  46 ++++++++++
+>>>   4 files changed, 158 insertions(+), 41 deletions(-)
+>>>   create mode 100644 tests/acceptance/machine_mips_fuloong2e.py
+>>>   create mode 100644 tests/acceptance/tesseract_utils.py
+>> 
+>> In general this looks good: certainly I don't see any reason why the 
+>> tesseract_ocr helper changes shouldn't be merged, since I expect that this 
+>> is something that will be used more in future.
+>> 
+>> Looking at the fuloong test it seems that it stops fairly early in the 
+>> kernel boot: one of the problems that Zoltan's VIA southbridge patches were 
+>> trying to solve earlier in the year was because of problems with PCI IRQ 
+>> routing, so it would be nice to include a small OS image that can be used 
+>> to boot to userspace to ensure that such problems can be detected in 
+>> future.
+>
+> The Linux tests (ab)use of the rescue image prepared for the Yeeloong
+> machine which we don't model (Loongson 2F CPU, 1GB of DRAM). The kernel
+> triggers DATA ABORT while accessing >256MB because we do not model
+> mapping more than 256MB :/ (The Fuloong comes with 512MB extensible to 1GB). 
+> I have a branch adding that but had the idea nobody was interested
+> in the Fuloong 2E so I didn't insist (I have more interest in embedded
+> 32-bit CPUs). I might try to post it after the release, as it makes this
+> test complete.
 
+I've noticed that missing high RAM when cleaning up SPD EEPROMs and addded 
+a FIXME comment but did't know MIPS enough to attemt to fix it. Anyway I'm 
+also only interested in fuloong2e as a test case for the devices also used 
+by Pegasos2 (that I'll need to update and clean up to submit eventually) 
+but not beyond that.
+
+I haven't seen these patches before, so I've spotted only now that your 
+test case uses -vga std. Shouldn't it work with ati-vga,model=rv100 which 
+I think is the default for this machine and that's what the pmon firmware 
+expects and has a driver for?
+
+Regards,
+BALATON Zoltan
+--3866299591-1305300983-1603636207=:24248--
 
