@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12612991BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:02:45 +0100 (CET)
-Received: from localhost ([::1]:33908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73E632991D6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:05:55 +0100 (CET)
+Received: from localhost ([::1]:42198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX4xI-0001sK-Ph
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:02:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52490)
+	id 1kX50M-0005Oj-6q
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:05:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
- id 1kX4sY-0006Ic-3A
+ id 1kX4sY-0006Kk-Cw
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:57:50 -0400
-Received: from foss.arm.com ([217.140.110.172]:35860)
+Received: from foss.arm.com ([217.140.110.172]:35908)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <steven.price@arm.com>) id 1kX4sV-0005CS-8O
+ (envelope-from <steven.price@arm.com>) id 1kX4sV-0005D5-KQ
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:57:49 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
- by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0E5F11042;
- Mon, 26 Oct 2020 08:57:40 -0700 (PDT)
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E3F8E11FB;
+ Mon, 26 Oct 2020 08:57:45 -0700 (PDT)
 Received: from e112269-lin.arm.com (unknown [172.31.20.19])
- by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7EC673F719;
- Mon, 26 Oct 2020 08:57:37 -0700 (PDT)
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 589CC3F719;
+ Mon, 26 Oct 2020 08:57:43 -0700 (PDT)
 From: Steven Price <steven.price@arm.com>
 To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
  Will Deacon <will@kernel.org>
-Subject: [PATCH v4 0/2] MTE support for KVM guest
-Date: Mon, 26 Oct 2020 15:57:25 +0000
-Message-Id: <20201026155727.36685-1-steven.price@arm.com>
+Subject: [PATCH v4 2/2] arm64: kvm: Introduce MTE VCPU feature
+Date: Mon, 26 Oct 2020 15:57:27 +0000
+Message-Id: <20201026155727.36685-3-steven.price@arm.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201026155727.36685-1-steven.price@arm.com>
+References: <20201026155727.36685-1-steven.price@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=217.140.110.172;
@@ -68,44 +70,145 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds support for Arm's Memory Tagging Extension (MTE) to
-KVM, allowing KVM guests to make use of it. This builds on the existing
-user space support already in v5.10-rc1, see [1] for an overview.
+Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+for a VM. This exposes the feature to the guest and automatically tags
+memory pages touched by the VM as PG_mte_tagged (and clears the tags
+storage) to ensure that the guest cannot see stale tags, and so that the
+tags are correctly saved/restored across swap.
 
-[1] https://lwn.net/Articles/834289/
+Signed-off-by: Steven Price <steven.price@arm.com>
+Reviewed-by: Andrew Jones <drjones@redhat.com>
+---
+ arch/arm64/include/asm/kvm_emulate.h |  3 +++
+ arch/arm64/include/asm/kvm_host.h    |  3 +++
+ arch/arm64/kvm/arm.c                 |  9 +++++++++
+ arch/arm64/kvm/mmu.c                 | 20 ++++++++++++++++++++
+ arch/arm64/kvm/sys_regs.c            |  6 +++++-
+ include/uapi/linux/kvm.h             |  1 +
+ 6 files changed, 41 insertions(+), 1 deletion(-)
 
-Changes since v3[2]:
-
- * Rebased on v5.10-rc1 (required updating KVM_CAP number).
-
- * Clarified redundant test for system_supports_mte() with a comment.
-
- * Added Reviewed-by tags from Andrew - thanks!
-
-[2] https://lore.kernel.org/r/20200925093607.3051-1-steven.price%40arm.com
-
-Haibo plans to start looking at the QEMU support for this. I believe
-what is in this series should be sufficient, but there is still some
-concern that we need more kernel support for easily accessing the tags
-for migrating the VM. I don't expect any extra support to change the
-interfaces defined here, but rather build on them. My only reservation
-would be whether we want to expose the KVM_CAP before everything is
-ready.
-
-Steven Price (2):
-  arm64: kvm: Save/restore MTE registers
-  arm64: kvm: Introduce MTE VCPU feature
-
- arch/arm64/include/asm/kvm_emulate.h       |  3 +++
- arch/arm64/include/asm/kvm_host.h          |  7 +++++++
- arch/arm64/include/asm/sysreg.h            |  3 ++-
- arch/arm64/kvm/arm.c                       |  9 +++++++++
- arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 14 ++++++++++++++
- arch/arm64/kvm/mmu.c                       | 20 ++++++++++++++++++++
- arch/arm64/kvm/sys_regs.c                  | 20 +++++++++++++++-----
- include/uapi/linux/kvm.h                   |  1 +
- 8 files changed, 71 insertions(+), 6 deletions(-)
-
+diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+index 5ef2669ccd6c..66c0d9e7c2b4 100644
+--- a/arch/arm64/include/asm/kvm_emulate.h
++++ b/arch/arm64/include/asm/kvm_emulate.h
+@@ -79,6 +79,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+ 	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+ 	    vcpu_el1_is_32bit(vcpu))
+ 		vcpu->arch.hcr_el2 |= HCR_TID2;
++
++	if (vcpu->kvm->arch.mte_enabled)
++		vcpu->arch.hcr_el2 |= HCR_ATA;
+ }
+ 
+ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 95ab7345dcc8..cd993aec0440 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -118,6 +118,9 @@ struct kvm_arch {
+ 	 */
+ 	unsigned long *pmu_filter;
+ 	unsigned int pmuver;
++
++	/* Memory Tagging Extension enabled for the guest */
++	bool mte_enabled;
+ };
+ 
+ struct kvm_vcpu_fault_info {
+diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+index f56122eedffc..7ee93bcac017 100644
+--- a/arch/arm64/kvm/arm.c
++++ b/arch/arm64/kvm/arm.c
+@@ -89,6 +89,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+ 		r = 0;
+ 		kvm->arch.return_nisv_io_abort_to_user = true;
+ 		break;
++	case KVM_CAP_ARM_MTE:
++		if (!system_supports_mte() || kvm->created_vcpus)
++			return -EINVAL;
++		r = 0;
++		kvm->arch.mte_enabled = true;
++		break;
+ 	default:
+ 		r = -EINVAL;
+ 		break;
+@@ -210,6 +216,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 		 */
+ 		r = 1;
+ 		break;
++	case KVM_CAP_ARM_MTE:
++		r = system_supports_mte();
++		break;
+ 	case KVM_CAP_STEAL_TIME:
+ 		r = kvm_arm_pvtime_supported();
+ 		break;
+diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+index 19aacc7d64de..38fe25310ca1 100644
+--- a/arch/arm64/kvm/mmu.c
++++ b/arch/arm64/kvm/mmu.c
+@@ -862,6 +862,26 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+ 	if (vma_pagesize == PAGE_SIZE && !force_pte)
+ 		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+ 							   &pfn, &fault_ipa);
++
++	/*
++	 * The otherwise redundant test for system_supports_mte() allows the
++	 * code to be compiled out when CONFIG_ARM64_MTE is not present.
++	 */
++	if (system_supports_mte() && kvm->arch.mte_enabled && pfn_valid(pfn)) {
++		/*
++		 * VM will be able to see the page's tags, so we must ensure
++		 * they have been initialised.
++		 */
++		struct page *page = pfn_to_page(pfn);
++		long i, nr_pages = compound_nr(page);
++
++		/* if PG_mte_tagged is set, tags have already been initialised */
++		for (i = 0; i < nr_pages; i++, page++) {
++			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
++				mte_clear_page_tags(page_address(page));
++		}
++	}
++
+ 	if (writable) {
+ 		prot |= KVM_PGTABLE_PROT_W;
+ 		kvm_set_pfn_dirty(pfn);
+diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+index 430e36e1a13d..35a3dc448231 100644
+--- a/arch/arm64/kvm/sys_regs.c
++++ b/arch/arm64/kvm/sys_regs.c
+@@ -1132,7 +1132,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+ 		    arm64_get_spectre_v2_state() == SPECTRE_UNAFFECTED)
+ 			val |= (1UL << ID_AA64PFR0_CSV2_SHIFT);
+ 	} else if (id == SYS_ID_AA64PFR1_EL1) {
+-		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
++		if (!vcpu->kvm->arch.mte_enabled)
++			val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
+ 	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
+ 		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
+ 			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
+@@ -1394,6 +1395,9 @@ static bool access_mte_regs(struct kvm_vcpu *vcpu, struct sys_reg_params *p,
+ static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
+ 				   const struct sys_reg_desc *rd)
+ {
++	if (vcpu->kvm->arch.mte_enabled)
++		return 0;
++
+ 	return REG_HIDDEN_USER | REG_HIDDEN_GUEST;
+ }
+ 
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index ca41220b40b8..3e6fb5b580a9 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1053,6 +1053,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_X86_USER_SPACE_MSR 188
+ #define KVM_CAP_X86_MSR_FILTER 189
+ #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
++#define KVM_CAP_ARM_MTE 191
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
 -- 
 2.20.1
 
