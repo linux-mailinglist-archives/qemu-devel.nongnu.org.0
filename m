@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05182299046
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:56:19 +0100 (CET)
-Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47070298FFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:53:24 +0100 (CET)
+Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3v0-0007Vn-0l
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:56:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54650)
+	id 1kX3sB-00048A-3s
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:53:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX3kE-0004vo-Oe
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:45:10 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX3kB-0001dB-I6
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:45:10 -0400
-Received: by mail-ej1-x644.google.com with SMTP id dt13so13923166ejb.12
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 07:45:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=szdpdUzzaZ8jLqAZWjRW/SfAG1gnOzMA+My6CI7nSOE=;
- b=FlfvNpwyi9rvJ6JfEyU9JmhGIYEKR4RX2NPzH3WhTK6sIdSVS4atFh0Pjb2i2JGrf3
- AHnlEZAj/eK4idYm6uLeMo6il+H3lD1Pf+dTiwMZ2Kbg8Xog92LuQOgpBguPtmuV0Gh8
- MHnZitnjKlPlyad7ZSfsSaeLELvThEqjRxXsl31y+DzFZj8v7WJ9tZZjXV9HkT1QEhS0
- AYTDT08eLDn71bup1DWDwTGr2+Mkw5KFnn+chBHthXewqwLqHsktTlITQmU+2JDI7+Lw
- HyDw5ENG03fdr2bD0ylFxJ6GZO+sCAnmAxsusyYVYkZDIK0Aa+T6rUiYBW7txtdAWm+l
- CFUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=szdpdUzzaZ8jLqAZWjRW/SfAG1gnOzMA+My6CI7nSOE=;
- b=AdaM3clk2bZOyjNRKDjRw1dA+HqZrb/aa9bAZuSWTzUINp95tdTP38INKGSnnxWzD1
- RCHufwUNSYLeqz5VMaDJlJpcFIQDJScwvB8r0jISQsgmBtgEt4/XbzFK40IgOg6XEr2H
- u+zce0jnXCjx2flk/Fbhvwmx9lcW8H3j9M45I3LNbE30CxTLeo+1k3T0Fo8mlhNLeV2S
- qdyRQybTLIVwdYIv8zy2dJt+C70XAasOrBWGp+P5Za/zF3/xfEHMKhwjZlUzLlXzYbSD
- X+APp62HBtU9Ch27rz40Y4XbQElgxK8eqg2psElxM1jOZU+aKPXvbPI+JtN+toWEl9ZN
- +glA==
-X-Gm-Message-State: AOAM532XQQnWo5KxSdQ6GjjFlE42qER4cJaCJDr67tf0xa0O2ImCaMdP
- tow7Tjqd3jXugc/sXfS0ehBfRfaFzjUxCO3NGGOvFQ==
-X-Google-Smtp-Source: ABdhPJwmgOQPJNArllW623MtnGtF+YvBSd2nDONIf/p+u4j0wVy0H5489dhTMmtHE8kkgDBNyWZWMssHpUBNPJhADSc=
-X-Received: by 2002:a17:906:7254:: with SMTP id
- n20mr15382743ejk.382.1603723505151; 
- Mon, 26 Oct 2020 07:45:05 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3lx-0006qQ-79
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:46:57 -0400
+Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:46678)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3lt-0001xM-GH
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:46:56 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.107])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 8688B2311BA;
+ Mon, 26 Oct 2020 15:46:49 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 26 Oct
+ 2020 15:46:49 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003714acb2a-6ee3-4cdd-9946-3f090ed9112c,
+ D69A261E470FD7A087455D2B3B9CC66C186A091D) smtp.auth=groug@kaod.org
+Date: Mon, 26 Oct 2020 15:46:47 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH 1/4] spapr: qemu_memalign() doesn't return NULL
+Message-ID: <20201026154647.4a421bc5@bahia.lan>
+In-Reply-To: <7b6abe52-c17e-09b8-9239-e0e38d4d0a1f@redhat.com>
+References: <160371602625.305923.7832478283946753271.stgit@bahia.lan>
+ <160371603337.305923.17158585537944509438.stgit@bahia.lan>
+ <7b6abe52-c17e-09b8-9239-e0e38d4d0a1f@redhat.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-3-pbonzini@redhat.com>
-In-Reply-To: <20201026143028.3034018-3-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 14:44:54 +0000
-Message-ID: <CAFEAcA_VYpdo+KBxTkBfDzoOh7eCUrhFTxeh0VXpMB4Yv89NFA@mail.gmail.com>
-Subject: Re: [PATCH 02/15] digic: stash firmware into DigicState
-To: Paolo Bonzini <pbonzini@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 56c60f93-2e46-4637-8056-b678b123b3de
+X-Ovh-Tracer-Id: 16238009934842272224
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeejgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
+ helo=10.mo51.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 08:54:00
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,79 +70,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 at 14:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Prepare for removing bios_name.
->
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/arm/digic_boards.c  | 5 +++--
->  include/hw/arm/digic.h | 1 +
->  2 files changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-> index d5524d3e72..d320b54c44 100644
-> --- a/hw/arm/digic_boards.c
-> +++ b/hw/arm/digic_boards.c
-> @@ -55,6 +55,7 @@ static void digic4_board_init(MachineState *machine, DigicBoard *board)
->      DigicState *s = DIGIC(object_new(TYPE_DIGIC));
->      MachineClass *mc = MACHINE_GET_CLASS(machine);
->
-> +    s->firmware = machine->firmware;
->      if (machine->ram_size != mc->default_ram_size) {
->          char *sz = size_to_str(mc->default_ram_size);
->          error_report("Invalid RAM size, should be %s", sz);
-> @@ -91,8 +92,8 @@ static void digic_load_rom(DigicState *s, hwaddr addr,
->          return;
->      }
->
-> -    if (bios_name) {
-> -        filename = bios_name;
-> +    if (s->firmware) {
-> +        filename = s->firmware;
->      } else {
->          filename = def_filename;
->      }
+On Mon, 26 Oct 2020 14:43:08 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-The existing code is a little odd, because if the user passes -bios
-then we use it in both the add_rom0 and add_rom1 callbacks;
-however this ends up not mattering for the moment because the
-only supported Digic board has just the rom1 and no rom0.
+> On 10/26/20 1:40 PM, Greg Kurz wrote:
+> > qemu_memalign() aborts if OOM. Drop some dead code.
+> >=20
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >   hw/ppc/spapr.c       |    6 ------
+> >   hw/ppc/spapr_hcall.c |    8 ++------
+> >   2 files changed, 2 insertions(+), 12 deletions(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 0cc19b5863a4..f098d0ee6d98 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -1521,12 +1521,6 @@ void spapr_reallocate_hpt(SpaprMachineState *spa=
+pr, int shift,
+> >           int i;
+> >  =20
+> >           spapr->htab =3D qemu_memalign(size, size);
+> > -        if (!spapr->htab) {
+> > -            error_setg_errno(errp, errno,
+> > -                             "Could not allocate HPT of order %d", shi=
+ft);
+> > -            return;
+>=20
+> Wasn't the idea to use qemu_try_memalign() here?
+>=20
 
-Anyway, rather than stashing the firmware filename in the
-DigicState, you could lift the "decide whether to use
-machine->firmware or the def_filename" choice up to
-the callsites in digic4_board_init():
+Well... I have mixed feeling around this. The HTAB was first
+introduced by commit:
 
-    if (board->add_rom0) {
-        board->add_rom0(s, DIGIC4_ROM0_BASE,
-                        machine->firmware ?: board->rom0_def_filename);
-    }
-(and similarly for rom1).
+commit f43e35255cffb6ac6230dd09d308f7909f823f96
+Author: David Gibson <david@gibson.dropbear.id.au>
+Date:   Fri Apr 1 15:15:22 2011 +1100
 
-Then you can delete the
-    if (bios_name) {
-        filename = bios_name;
-    } else {
-        filename = def_filename;
-    }
-block from digic_load_rom() and rename the arguments of
-digic_load_rom() and digic4_add_k8p3215uqb_rom() to just
-"filename" rather than "def_filename".
+    Virtual hash page table handling on pSeries machine
 
-Doing it that way avoids passing things around that we don't
-need to, and makes it clear in the digic4_board_init() code
-that we're doing something a bit suspect in possibly using
-the machine->firmware file twice -- if we ever need to fix
-that bug then it'll be a simple change to the logic in that
-one function.
+using qemu_mallocz(), which was aborting on OOM. It then got
+replaced by g_malloc0() when qemu_mallocz() got deprecated
+and eventually by qemu_memalign() when KVM support was added.
 
-thanks
--- PMM
+Surviving OOM when allocating the HTAB never seemed to be an
+option until this commit that introduced the check:
+
+commit c5f54f3e31bf693f70a98d4d73ea5dbe05689857
+Author: David Gibson <david@gibson.dropbear.id.au>
+Date:   Tue Feb 9 10:21:56 2016 +1000
+
+    pseries: Move hash page table allocation to reset time
+
+I don't really see in the patch and in the changelog an obvious
+desire to try to handle OOM.
+
+> > -        }
+> > -
+> >           memset(spapr->htab, 0, size);
+> >           spapr->htab_shift =3D shift;
+> >  =20
+> > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> > index 607740150fa2..34e146f628fb 100644
+> > --- a/hw/ppc/spapr_hcall.c
+> > +++ b/hw/ppc/spapr_hcall.c
+> > @@ -361,12 +361,8 @@ static void *hpt_prepare_thread(void *opaque)
+> >       size_t size =3D 1ULL << pending->shift;
+> >  =20
+> >       pending->hpt =3D qemu_memalign(size, size);
+> > -    if (pending->hpt) {
+> > -        memset(pending->hpt, 0, size);
+> > -        pending->ret =3D H_SUCCESS;
+> > -    } else {
+> > -        pending->ret =3D H_NO_MEM;
+>=20
+> Ditto.
+>=20
+
+This one was introduced by commit:
+
+commit 0b0b831016ae93bc14698a5d7202eb77feafea75
+Author: David Gibson <david@gibson.dropbear.id.au>
+Date:   Fri May 12 15:46:49 2017 +1000
+
+    pseries: Implement HPT resizing
+
+I agree that maybe the intent here could have been to use qemu_try_memalign=
+(),
+but again I don't quite see any strong justification to handle OOM in the
+changelog.
+
+David,
+
+Any insight to share ?
+
+> > -    }
+> > +    memset(pending->hpt, 0, size);
+> > +    pending->ret =3D H_SUCCESS;
+> >  =20
+> >       qemu_mutex_lock_iothread();
+> >  =20
+>=20
+
 
