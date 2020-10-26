@@ -2,68 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1D1A2989D5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:52:28 +0100 (CET)
-Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFE92989B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:47:00 +0100 (CET)
+Received: from localhost ([::1]:40188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzAx-0004Eq-Vc
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:52:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34196)
+	id 1kWz5f-0007py-9W
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:46:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kWz9S-0003IE-3s
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:50:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44760)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kWz9N-0000ow-0v
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:50:53 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kWz9I-0005dc-Hc
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:50:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 37D852E8152
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:50:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1kWz3s-0007Fs-8O
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:45:08 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:39258)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1kWz3q-00072u-JK
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:45:07 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id EF33E4D8;
+ Mon, 26 Oct 2020 10:45:04 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id queAIUnTYpox; Mon, 26 Oct 2020 10:45:04 +0100 (CET)
+Received: from function (lfbn-bor-1-56-204.w90-50.abo.wanadoo.fr
+ [90.50.148.204])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 0FE7CB8;
+ Mon, 26 Oct 2020 10:45:04 +0100 (CET)
+Received: from samy by function with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1kWz3m-006i3v-Fq; Mon, 26 Oct 2020 10:45:02 +0100
+Date: Mon, 26 Oct 2020 10:45:02 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 6/9] dev-serial: add always-plugged property to ensure
+ USB device is always attached
+Message-ID: <20201026094502.b75mb5h2isa4lysx@function>
+References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
+ <20201026083401.13231-7-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2020 09:44:27 -0000
-From: Dave G <1901440@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: player-001 th-huth
-X-Launchpad-Bug-Reporter: Dave G (player-001)
-X-Launchpad-Bug-Modifier: Dave G (player-001)
-References: <160365777400.12451.12378376347775649238.malonedeb@soybean.canonical.com>
-Message-Id: <160370546789.31228.5402996367236319900.malone@gac.canonical.com>
-Subject: [Bug 1901440] Re: Instability in IVSHMEM after updating QEMU 4.2 ->
- 5.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
-X-Launchpad-Hash: 21f4f1eb89966d34462cdfcf324810f724b388f5
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 04:15:38
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026083401.13231-7-mark.cave-ayland@ilande.co.uk>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 05:37:31
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,76 +68,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1901440 <1901440@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This problem occurred with the QEMU 5.0 version that was distributed
-with the Ubuntu 20.10 update.
+Mark Cave-Ayland, le lun. 26 oct. 2020 08:33:58 +0000, a ecrit:
+> Some operating systems will generate a new device ID when a USB device is unplugged
+> and then replugged into the USB. If this is done whilst switching between multiple
+> applications over a virtual serial port, the change of device ID requires going
+> back into the OS/application to locate the new device accordingly.
+> 
+> Add a new always-plugged property that if specified will ensure that the device
+> always remains attached to the USB regardless of the state of the backend
+> chardev.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
--- =
+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1901440
+> ---
+>  hw/usb/dev-serial.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+> index 92c35615eb..919e25e1d9 100644
+> --- a/hw/usb/dev-serial.c
+> +++ b/hw/usb/dev-serial.c
+> @@ -97,6 +97,7 @@ struct USBSerialState {
+>      uint8_t event_chr;
+>      uint8_t error_chr;
+>      uint8_t event_trigger;
+> +    bool always_plugged;
+>      QEMUSerialSetParams params;
+>      int latency;        /* ms */
+>      CharBackend cs;
+> @@ -516,12 +517,12 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
+>          s->event_trigger |= FTDI_BI;
+>          break;
+>      case CHR_EVENT_OPENED:
+> -        if (!s->dev.attached) {
+> +        if (!s->always_plugged && !s->dev.attached) {
+>              usb_device_attach(&s->dev, &error_abort);
+>          }
+>          break;
+>      case CHR_EVENT_CLOSED:
+> -        if (s->dev.attached) {
+> +        if (!s->always_plugged && s->dev.attached) {
+>              usb_device_detach(&s->dev);
+>          }
+>          break;
+> @@ -556,7 +557,8 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
+>                               usb_serial_event, NULL, s, NULL, true);
+>      usb_serial_handle_reset(dev);
+>  
+> -    if (qemu_chr_fe_backend_open(&s->cs) && !dev->attached) {
+> +    if (s->always_plugged || (qemu_chr_fe_backend_open(&s->cs) &&
+> +                              !dev->attached)) {
+>          usb_device_attach(dev, &error_abort);
+>      }
+>      s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+> @@ -584,6 +586,7 @@ static const VMStateDescription vmstate_usb_serial = {
+>  
+>  static Property serial_properties[] = {
+>      DEFINE_PROP_CHR("chardev", USBSerialState, cs),
+> +    DEFINE_PROP_BOOL("always-plugged", USBSerialState, always_plugged, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> -- 
+> 2.20.1
+> 
 
-Title:
-  Instability in IVSHMEM after updating QEMU 4.2 -> 5.0
-
-Status in QEMU:
-  New
-
-Bug description:
-  Updating Ubuntu from 20.08 to 20.10 which updates QEMU from 4.2 to 5.0
-  results in the virtual machines freezing when the IVSHMEM interface is
-  active.  This workstation typically runs several windows 10 virtual
-  machines that are accessed locally:  two using the spice viewer and
-  one that uses an passthrough assigned GPU accessed through a viewer
-  called Looking Glass.  Looking Glass uses the IVSHMEM device interface
-  to pass captured frames from the windows virtual machine to the linux
-  host for display by a viewer application.
-
-  This workstation was 100% stable under Ubuntu 20.08 (QEMU 4.2).  It
-  handled a variety of heavy loads all day it never froze or crashed.
-  It became unstable under Ubuntu 20.10 (QEMU 5.0), seemingly triggered
-  by high levels of SHM activity.  I was able to reliably reproduce the
-  problem when playing a video in the looking-glass vm while playing
-  another video in a spice vm.  Other scenarios would also trigger this
-  problem less reliably, but this video playback scenario would trigger
-  it after 3-5 minutes of playback.
-
-  The result of this new instability would manifest itself by all
-  running vms on the host freezing but the host was not visibly
-  effected.  I could find no warnings or errors in any relevant system
-  or QEMU logs.  It wasn't just spice, when I accessed the gpu-passthru
-  vm via directly assigned devices it was frozen, still outputting video
-  of the last frame before the crash.  All vms would have to be force-
-  shutdown and the host rebooted to regain vm functionality.  Just
-  forcing shutdown and restarting a vm would result in showing 'running'
-  status but it would be frozen and inaccessible until system reboot.
-
-  I suspect this is a QEMU host / kernel error for several reasons:
-  Having to reboot the host, insensitivity to VM changes including
-  virtio-win version, etc.  I suspect it's related to IVSHMEM due to the
-  correlation of the freeze to the looking-glass related activity.
-
-  This might be kernel / PCIe / power management related in some way.
-  While experimenting to troubleshoot this issue I was able to trigger
-  the error more quickly by disabling PCIe power management in the BIOS.
-
-  The system was 100% stable under QEMU 5.0 when not running the
-  looking-glass vm, quite stable when the looking-glass vm was idle or
-  lightly used, but appeared increasingly unstable as SHM activity
-  increased.
-
-  Sorry if this is a bit anecdotal, this is my work machine and
-  unfortunately today I was forced to rollback restore to Ubuntu 20.08
-  (QEMU 4.2) from backup so I can work on Monday.  The system returned
-  to 100% stability after returning to 20.08.
-
-  If requested I can restore the Ubuntu 20.10 snapshot to reproduce &
-  gather information as directed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1901440/+subscriptions
+-- 
+Samuel
+"...[Linux's] capacity to talk via any medium except smoke signals."
+(By Dr. Greg Wettstein, Roger Maris Cancer Center)
 
