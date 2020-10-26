@@ -2,100 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8AD2990B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:13:21 +0100 (CET)
-Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 173042990C1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:14:26 +0100 (CET)
+Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX4BU-0001hH-Eo
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
+	id 1kX4CX-0002nD-5u
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX4AS-0001G8-4S
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:12:16 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32738)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX4AQ-0005mJ-ES
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:12:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603725133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UpWHRxPv0IM71EXU0korKAgr/a1o32AyVALKHKJphNE=;
- b=NeMmlc3sBGIQYjXsfEGzXrikza33erYn7PS8Ek3KBCgu4YM8qPTX+xB4vmlx11F3jb74PZ
- sFYkSO19lrgQGzx0Fzh4tXVCPKeke6xiy1xBWAAkjJynfwsnGyxht90U8MbjFKYr6e6FMh
- SVd0b7RPGCMuSdHvEen+eNZj12qNlY8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-HMUxVusrMdiY3OpaSuJaIQ-1; Mon, 26 Oct 2020 11:12:11 -0400
-X-MC-Unique: HMUxVusrMdiY3OpaSuJaIQ-1
-Received: by mail-wm1-f69.google.com with SMTP id c204so6598875wmd.5
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 08:12:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UpWHRxPv0IM71EXU0korKAgr/a1o32AyVALKHKJphNE=;
- b=hLM4vtrhsctEn8B+PzbhbLzwlPuEjCPKhzrb/8EGo3jgDpnuavl2LGgbWmUgbhR/+5
- jcH7fECD9eaQ/00s5R+gRNhgkI/2uTmNmIX8nP1Za2+IPH6Sz9bLl/gIcHPFzkBpEqpV
- smXrx3ltiXZ4OIypIpDhVMHipK4f26LlbyejjF56rKdd/iUYSdkA+inkDCAovojWkEO9
- 1+oB/MufGRSX4CAj1VfLWek1m1CHTmhTcA85xauiQvMFJRS2Y0s7CamsYxrzD+HRXlD4
- mYEUvmd9B5FiqBxYIYnyB7GTANWJJHwaTrDKxsCBEHIzLKhtpNhluv0r4T8ugrquDUt9
- H7Hw==
-X-Gm-Message-State: AOAM532QGktiYjyVU5h8OxLHY8fzWVpMjw6iC8YYvNE0iNqLxMju0JRE
- LudMXAcoSQ4iadNrC0NmWM5vhIrIWl+PK0RSLwA4I4GwQdzkSkndhwT7v9gVsjTdCgFIUq6ay/H
- lf9z2FpwObETk1gM=
-X-Received: by 2002:a05:6000:1084:: with SMTP id
- y4mr17402266wrw.138.1603725129959; 
- Mon, 26 Oct 2020 08:12:09 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJysZcowqRbLP9fQACTm3NwL99PvSuM23IagkfvQx33xy37E6nqlS4CvZzeM1z3bqi0DPUTmzA==
-X-Received: by 2002:a05:6000:1084:: with SMTP id
- y4mr17402244wrw.138.1603725129693; 
- Mon, 26 Oct 2020 08:12:09 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id e15sm22109144wro.13.2020.10.26.08.12.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 08:12:09 -0700 (PDT)
-Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
- <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
- <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
-Date: Mon, 26 Oct 2020 16:12:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+ (Exim 4.90_1)
+ (envelope-from <bounces+19088175-f42a-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1kX4Bl-0002Js-BB
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:13:37 -0400
+Received: from o1.dev.nutanix.com ([198.21.4.205]:52529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <bounces+19088175-f42a-qemu-devel=nongnu.org@sendgrid.net>)
+ id 1kX4Bj-0005vP-OZ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:13:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendgrid.net;
+ h=from:subject:to:cc:content-type:content-transfer-encoding;
+ s=smtpapi; bh=jaanafTkjnT9BbTRRApXu/QeiKkgwYKMKutp+gyNGPI=;
+ b=C+cEi/VW8mQ9uaQyUry5bwTa1lDLQplGzSv6z2zPH5PH+/4tHqGG+f7S0u/6troeRe0l
+ zsSrWTZDvH3GJl3/yug+2/9DxymK5V4/gRBW67X22d5rhJyaQ5j4bCSJ3Qg3ma5WY01Yjb
+ Lly6udbOezuCxfw+BzrrhVpdzytxAWXvY=
+Received: by filterdrecv-p3las1-bf7bc68d5-fmkt4 with SMTP id
+ filterdrecv-p3las1-bf7bc68d5-fmkt4-19-5F96E79C-8E
+ 2020-10-26 15:13:32.665192997 +0000 UTC m=+422065.423749127
+Received: from felipe-franciosi-cent7-umvm1.dev.nutanix.com (unknown)
+ by ismtpd0004p1sjc2.sendgrid.net (SG) with ESMTP
+ id W-jp9stEQvCIceFl7tuICw Mon, 26 Oct 2020 15:13:32.538 +0000 (UTC)
+From: Felipe Franciosi <felipe@nutanix.com>
+Subject: [PATCH] virtio: skip guest index check on device load
+Date: Mon, 26 Oct 2020 15:13:32 +0000 (UTC)
+Message-Id: <20201026151328.77611-1-felipe@nutanix.com>
+X-Mailer: git-send-email 2.18.4
+X-SG-EID: =?us-ascii?Q?W9goRmNI2M6BaZDnSanVWLdj2DuGbkuGfTWZsqFIAk59ONbkkaLXMDCghpkcaI?=
+ =?us-ascii?Q?PehS=2FLuf7=2F3t083SnZbMEjVxFPrrK521N5u7r+e?=
+ =?us-ascii?Q?7gR2ZIIk++M23YxqkvjCwQFt2W5uyP2wMCHFym2?=
+ =?us-ascii?Q?AQVeWr=2Fjk5XodB2P8URd+X08wBcCROglJjjCPEz?=
+ =?us-ascii?Q?a5wczAk5c0d061q1si7TvWpISrhwMlTO0YqeItO?=
+ =?us-ascii?Q?l0+PaXhxqFcdZejBgJ7cj0b2KSzcSfLWyZmowwR?=
+ =?us-ascii?Q?Q4eKU90A+X61rfIIjbR+w=3D=3D?=
+To: qemu-devel@nongnu.org
+X-Entity-ID: IZcDqzhM+W+fx+coAjH1TQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=198.21.4.205;
+ envelope-from=bounces+19088175-f42a-qemu-devel=nongnu.org@sendgrid.net;
+ helo=o1.dev.nutanix.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 11:13:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,40 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/10/20 16:03, Daniele Buono wrote:
-> Hi Paolo,
-> I reorganized UASStatus to put uas_iu at the end and it works fine.
-> Unfortunately, this uncovered another part of the code with a similar
-> issue (variable sized type not at the end of the struct), here:
-> 
-> In file included from ../qemu-cfi-v3/target/s390x/diag.c:21:
-> ../qemu-cfi-v3/hw/s390x/ipl.h:161:23: error: field 'iplb' with variable
-> sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at
-> the end of a struct or class is a GNU extension
-> [-Werror,-Wgnu-variable-sized-type-not-at-end]
->     IplParameterBlock iplb;
->                       ^
-> ../qemu-cfi-v3/hw/s390x/ipl.h:162:23: error: field 'iplb_pv' with
-> variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock')
-> not at the end of a struct or class is a GNU extension
-> [-Werror,-Wgnu-variable-sized-type-not-at-end]
->     IplParameterBlock iplb_pv;
-> 
-> My understanding is that each of these IplParameterBlock may contain
-> either a IPLBlockPV or a IplBlockFcp, which both end with a variable
-> sized field (an array).
-> 
-> Adding maintainers of s390x to see if they have a suggested solution to
-> avoid disabling the warning.
+QEMU must be careful when loading device state off migration streams to
+prevent a malicious source from exploiting the emulator. Overdoing these
+checks has the side effect of allowing a guest to "pin itself" in cloud
+environments by messing with state which is entirely in its control.
 
-This one seems okay because the union constrains the size to 4K. If
-"[0]" is enough to shut up the compiler, I'd say do that.
+Similarly to what f3081539 achieved in usb_device_post_load(), this
+commit removes such a check from virtio_load(). Worth noting, the result
+of a load without this check is the same as if a guest enables a VQ with
+invalid indexes to begin with. That is, the virtual device is set in a
+broken state (by the datapath handler) and must be reset.
 
-Paolo
+Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
+---
+ hw/virtio/virtio.c | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 6f8f865aff..0561bdb857 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3136,8 +3136,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
+     RCU_READ_LOCK_GUARD();
+     for (i = 0; i < num; i++) {
+         if (vdev->vq[i].vring.desc) {
+-            uint16_t nheads;
+-
+             /*
+              * VIRTIO-1 devices migrate desc, used, and avail ring addresses so
+              * only the region cache needs to be set up.  Legacy devices need
+@@ -3157,16 +3155,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
+                 continue;
+             }
+ 
+-            nheads = vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_avail_idx;
+-            /* Check it isn't doing strange things with descriptor numbers. */
+-            if (nheads > vdev->vq[i].vring.num) {
+-                error_report("VQ %d size 0x%x Guest index 0x%x "
+-                             "inconsistent with Host index 0x%x: delta 0x%x",
+-                             i, vdev->vq[i].vring.num,
+-                             vring_avail_idx(&vdev->vq[i]),
+-                             vdev->vq[i].last_avail_idx, nheads);
+-                return -1;
+-            }
+             vdev->vq[i].used_idx = vring_used_idx(&vdev->vq[i]);
+             vdev->vq[i].shadow_avail_idx = vring_avail_idx(&vdev->vq[i]);
+ 
+-- 
+2.18.4
 
 
