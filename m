@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F34298AC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:53:32 +0100 (CET)
-Received: from localhost ([::1]:58554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CDB3298AC8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:53:27 +0100 (CET)
+Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX083-0003oi-SN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:53:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
+	id 1kX07y-0003dw-Mj
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:53:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kWzyU-00017X-Iq
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:43:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31841)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1kX05c-00027i-CW
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:51:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kWzyQ-00038B-J9
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:43:37 -0400
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1kX05Y-0006Hb-Hw
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:50:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603709012;
+ s=mimecast20190719; t=1603709455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HnRu1imVa6WrgcuXb3u0XjybwlD2HwewTklUrOUp13A=;
- b=QGFH2tdlmkStLA5gV7QuoHO7LLaUQdM0eZqNkpuU9SI3t+xvx3ukc2olHgUT7ifdR+9r6v
- cK1ZepggpctO0FiIH/bWs86M5TC1lKxextr5uGFKfkWF0zQ/3JFw13/0Ko/pAmjftbcAdt
- 4/KvWCU62cfqNGqDyQqkd8zJVQt2ArQ=
+ bh=4C1c6ZL3IrqZyoFgtVPGmCxIg+IZO0dXVfN5gxBox7w=;
+ b=JLSbMbvA1TbFY9HWxqbYzWKiwbmWA7M5jjIAUr4hG6DmL+HAtcI9Qoc0YEBb2h85uwobRK
+ DDHy4mC2MIHT6TbYn/ys0T846rcUEsDmaLLsA0dR6tuq0zQV1Ay3s9I3HS/+tEm4smpS4h
+ kcWFxSt9P+QBTJVjkBHckrRn2GM203M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-O8a212Z8PtSyAyLSsOlypw-1; Mon, 26 Oct 2020 06:43:29 -0400
-X-MC-Unique: O8a212Z8PtSyAyLSsOlypw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-486-IVfgzSrWMHmCIeYTH-bH-g-1; Mon, 26 Oct 2020 06:50:51 -0400
+X-MC-Unique: IVfgzSrWMHmCIeYTH-bH-g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4CB361182
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:43:28 +0000 (UTC)
-Received: from [10.36.113.62] (ovpn-113-62.ams2.redhat.com [10.36.113.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C113875124;
- Mon, 26 Oct 2020 10:43:23 +0000 (UTC)
-Subject: Re: [PATCH RFC] memory: pause all vCPUs for the duration of memory
- transactions
-To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
-References: <20201026084916.3103221-1-vkuznets@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <294a987d-b0ef-1b58-98ac-0d4d43075d6e@redhat.com>
-Date: Mon, 26 Oct 2020 11:43:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91A6B804B74;
+ Mon, 26 Oct 2020 10:50:50 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 36B3910013D0;
+ Mon, 26 Oct 2020 10:50:41 +0000 (UTC)
+Date: Mon, 26 Oct 2020 11:50:39 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v5 06/12] nbd: Update qapi to support exporting multiple
+ bitmaps
+Message-ID: <20201026105039.GC727443@angien.pipo.sk>
+References: <20201023183652.478921-1-eblake@redhat.com>
+ <20201023183652.478921-7-eblake@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201026084916.3103221-1-vkuznets@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201023183652.478921-7-eblake@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,113 +84,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ stefanha@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26.10.20 09:49, Vitaly Kuznetsov wrote:
-> Currently, KVM doesn't provide an API to make atomic updates to memmap when
-> the change touches more than one memory slot, e.g. in case we'd like to
-> punch a hole in an existing slot.
+On Fri, Oct 23, 2020 at 13:36:46 -0500, Eric Blake wrote:
+> Since 'nbd-server-add' is deprecated, and 'block-export-add' is new to
+> 5.2, we can still tweak the interface.  Allowing 'bitmaps':['str'] is
+> nicer than 'bitmap':'str'.  This wires up the qapi and qemu-nbd
+> changes to permit passing multiple bitmaps as distinct metadata
+> contexts that the NBD client may request, but the actual support for
+> more than one will require a further patch to the server.
 > 
-> Reports are that multi-CPU Q35 VMs booted with OVMF sometimes print something
-> like
-> 
-> !!!! X64 Exception Type - 0E(#PF - Page-Fault)  CPU Apic ID - 00000003 !!!!
-> ExceptionData - 0000000000000010  I:1 R:0 U:0 W:0 P:0 PK:0 SS:0 SGX:0
-> RIP  - 000000007E35FAB6, CS  - 0000000000000038, RFLAGS - 0000000000010006
-> RAX  - 0000000000000000, RCX - 000000007E3598F2, RDX - 00000000078BFBFF
-> ...
-> 
-> The problem seems to be that TSEG manipulations on one vCPU are not atomic
-> from other vCPUs views. In particular, here's the strace:
-> 
-> Initial creation of the 'problematic' slot:
-> 
-> 10085 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
->    memory_size=2146435072, userspace_addr=0x7fb89bf00000}) = 0
-> 
-> ... and then the update (caused by e.g. mch_update_smram()) later:
-> 
-> 10090 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
->    memory_size=0, userspace_addr=0x7fb89bf00000}) = 0
-> 10090 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
->    memory_size=2129657856, userspace_addr=0x7fb89bf00000}) = 0
-> 
-> In case KVM has to handle any event on a different vCPU in between these
-> two calls the #PF will get triggered.
-> 
-> An ideal solution to the problem would probably require KVM to provide a
-> new API to do the whole transaction in one shot but as a band-aid we can
-> just pause all vCPUs to make memory transations atomic.
-> 
-> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
-> RFC: Generally, memap updates happen only a few times during guest boot but
-> I'm not sure there are no scenarios when pausing all vCPUs is undesireable
-> from performance point of view. Also, I'm not sure if kvm_enabled() check
-> is needed.
-> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> ---
->  softmmu/memory.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
+>  docs/system/deprecated.rst |  4 +++-
+>  qapi/block-export.json     | 18 ++++++++++++------
+>  blockdev-nbd.c             | 13 +++++++++++++
+>  nbd/server.c               | 19 +++++++++++++------
+>  qemu-nbd.c                 | 10 +++++-----
+>  5 files changed, 46 insertions(+), 18 deletions(-)
 > 
-> diff --git a/softmmu/memory.c b/softmmu/memory.c
-> index fa280a19f7f7..0bf6f3f6d5dc 100644
-> --- a/softmmu/memory.c
-> +++ b/softmmu/memory.c
-> @@ -28,6 +28,7 @@
->  
->  #include "exec/memory-internal.h"
->  #include "exec/ram_addr.h"
-> +#include "sysemu/cpus.h"
->  #include "sysemu/kvm.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/tcg.h"
-> @@ -1057,7 +1058,9 @@ static void address_space_update_topology(AddressSpace *as)
->  void memory_region_transaction_begin(void)
->  {
->      qemu_flush_coalesced_mmio_buffer();
-> -    ++memory_region_transaction_depth;
-> +    if ((++memory_region_transaction_depth == 1) && kvm_enabled()) {
-> +        pause_all_vcpus();
-> +    }
->  }
->  
->  void memory_region_transaction_commit(void)
-> @@ -1087,7 +1090,11 @@ void memory_region_transaction_commit(void)
->              }
->              ioeventfd_update_pending = false;
->          }
-> -   }
-> +
-> +        if (kvm_enabled()) {
-> +            resume_all_vcpus();
-> +        }
-> +    }
->  }
->  
->  static void memory_region_destructor_none(MemoryRegion *mr)
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 905628f3a0cb..d6cd027ac740 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -268,7 +268,9 @@ the 'wait' field, which is only applicable to sockets in server mode
+>  ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 > 
+>  Use the more generic commands ``block-export-add`` and ``block-export-del``
+> -instead.
+> +instead.  As part of this deprecation, it is now preferred to export a
+> +list of dirty bitmaps via ``bitmaps``, rather than a single bitmap via
+> +``bitmap``.
+> 
+>  Human Monitor Protocol (HMP) commands
+>  -------------------------------------
+> diff --git a/qapi/block-export.json b/qapi/block-export.json
+> index 893d5cde5dfe..c7c749d61097 100644
+> --- a/qapi/block-export.json
+> +++ b/qapi/block-export.json
+> @@ -74,10 +74,10 @@
+>  # @description: Free-form description of the export, up to 4096 bytes.
+>  #               (Since 5.0)
+>  #
+> -# @bitmap: Also export the dirty bitmap reachable from @device, so the
+> -#          NBD client can use NBD_OPT_SET_META_CONTEXT with the
+> -#          metadata context name "qemu:dirty-bitmap:NAME" to inspect the
+> -#          bitmap. (since 4.0)
+> +# @bitmaps: Also export each of the named dirty bitmaps reachable from
+> +#           @device, so the NBD client can use NBD_OPT_SET_META_CONTEXT with
+> +#           the metadata context name "qemu:dirty-bitmap:BITMAP" to inspect
+> +#           each bitmap. (since 5.2)
 
-This is in general unsafe. pause_all_vcpus() will temporarily drop the
-BQL, resulting in bad things happening to caller sites.
+Given unsynchronised release cycles between qemu and management apps
+it's not cool to deprecate an interface without having at least one
+release where the replacement interface is already stable.
 
-I studies the involved issues quite intensively when wanting to resize
-memory regions from virtio-mem code. It's not that easy.
+This means that any project wanting to stay up to date will either have
+to use deprecated interfaces for at least one release and develop the
+replacement only when there's a stable interface or hope that they don't
+have to change the interfaces too often.
 
-Have a look at my RFC for resizing. You can apply something similar to
-other operations.
+This specifically impacts libvirt as we have validators which notify us
+that a deprecated interface is used and we want to stay in sync, so that
+there's one less group of users to worry about at the point qemu will
+want to delete the interface.
 
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg684979.html
+>  # @allocation-depth: Also export the allocation depth map for @device, so
+>  #                    the NBD client can use NBD_OPT_SET_META_CONTEXT with
+> @@ -88,7 +88,7 @@
+>  ##
+>  { 'struct': 'BlockExportOptionsNbd',
+>    'data': { '*name': 'str', '*description': 'str',
+> -            '*bitmap': 'str', '*allocation-depth': 'bool' } }
+> +            '*bitmaps': ['str'], '*allocation-depth': 'bool' } }
 
+This adds 'bitmaps' also to nbd-server-add, which should not happen. You
+probably want to stop using 'base' for 'NbdServerAddOptions' and just
+duplicate everything else.
 
--- 
-Thanks,
+>  # @NbdServerAddOptions:
+> @@ -100,12 +100,18 @@
+>  # @writable: Whether clients should be able to write to the device via the
+>  #            NBD connection (default false).
+>  #
+> +# @bitmap: Also export a single dirty bitmap reachable from @device, so the
+> +#          NBD client can use NBD_OPT_SET_META_CONTEXT with the metadata
+> +#          context name "qemu:dirty-bitmap:BITMAP" to inspect the bitmap
+> +#          (since 4.0).  Mutually exclusive with @bitmaps, and newer
+> +#          clients should use that instead.
 
-David / dhildenb
+This doesn't make sense, nbd-server-add never had @bitmaps. Also adding
+features to a deprecated interface doesn't IMO make sense if you want to
+motivate users switch to thne new one.
+
+> +#
+>  # Since: 5.0
+>  ##
+>  { 'struct': 'NbdServerAddOptions',
+>    'base': 'BlockExportOptionsNbd',
+>    'data': { 'device': 'str',
+> -            '*writable': 'bool' } }
+> +            '*writable': 'bool', '*bitmap': 'str' } }
+> 
+>  ##
+>  # @nbd-server-add:
 
 
