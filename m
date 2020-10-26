@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2B46299A7D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:32:15 +0100 (CET)
-Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C88A299A7F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:32:17 +0100 (CET)
+Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXByI-00054y-UF
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:32:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
+	id 1kXByK-00054Y-2J
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:32:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBw5-00037D-D9
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:29:58 -0400
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40491)
+ id 1kXBwE-00038h-6h
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:07 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBw3-0000Go-UZ
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:29:57 -0400
-Received: by mail-ed1-x531.google.com with SMTP id p93so1163742edd.7
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:29:55 -0700 (PDT)
+ id 1kXBw9-0000H1-Vv
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:04 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id s15so11930615ejf.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IPy8xSDiS043tJ1qMib/hHCsnldOT9q1j5PDtKMfWf4=;
- b=YjyO25H7f/AlgxZ5zvDpiKR2vl+Tonxb/fesN+Lhox3oU9iYqtExyvrDPb6UElb54C
- uB59d+9aximzMS544QjdpUTAE64RGtjMpV/NYUueabxJIAoMZxqpzdooiOewpcnOOPXZ
- EX9tNd7sBh8BbwVXO+JhAkwqO+n8AraQcnCblpA1NpAYrZTYTv23j0YBXcpYJWmPgI8v
- S2sS/oNWJYWhpBj6hrZ/uapW95jxDblqkBJeNrHmus9kRmQ9htoBsup/srj9mtmgywko
- w3hmwR2VymCvtLLMDE5eTlvwxHpXI4COkuLUQ8CHzYH5foaZ4faBHwtmJa/Y7t44lBuy
- 1eXw==
+ bh=2OjR/wUfEEBugepvrkgMq+mri256jiLmUAh08vclpww=;
+ b=bIW7W8qmw+I/hh1l0NKHHt88h0LKNmG1nWv8jbPk/BlX3yFIeVyaP3k6FnhhM59K1w
+ 7BbUMwMCNQUrFlXYfq+G72Rtx69AFlvfv6W3P8mGhfP9UwzOhAxN/kyHDIjGrkTbtFfc
+ caun4lWhNcXLOUmZZd7f4+q5BrrlOj3y7VvE2yLoAvSxkqnb3p9WweQPkOWQjcUudwaN
+ 9DaCeMV8Qj6cNGqKGemQwTopNAH88ez5OUnWWyR3BZCqZbnKEx6qrH91AVSB+GyqlV7V
+ amVKbCIcgqGWvrVX0/3HGTCM81MVLwmhO9hCRhnXvKkabcJ+4gGtrbiQ5dp725luku38
+ LIww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IPy8xSDiS043tJ1qMib/hHCsnldOT9q1j5PDtKMfWf4=;
- b=arZmaLlXXMRxDr1cTPO0reSIQG1OqCLzRozyr+y6dA6+YXN0W4W7/zmphfpGzt6WH6
- smdq+TWdHipYhznzjSP4ZJOxMjk4g0gLXAY+JuY0ulICWJu+U6DVo1w7EO6ZDE6T1WiH
- UUhtH1SNrJIPOo/K/t3cKTje4Gds/nxV9EBUCd0t9eOXoX0O5RnkYftKLKqNEOktQSX/
- 4G8DLtm96NEAWCZ0CBDHObqVN/KrQhpqCdQ3/F4qL9igjhmk6Hj7xAtcot5DMMrXPoNO
- 1rTI+YeELcIDVPCYH/DtZ/xItvytGDnwZdtWh1zuvRgMbhF/WUEM14nfXPC442QnMiUA
- LO+Q==
-X-Gm-Message-State: AOAM530rjZvr+PVLWelKrRUZD6vmJuRwgNKsZuRYvt1Pif4pM1jgO3Zh
- nS4on6scw+NtV8ZpbRwH0v1aXSWtAH0=
-X-Google-Smtp-Source: ABdhPJy8qozl7+BUfvRi4eLSqZDBe8zDdIX521ymCx58GbHStOofoFONEal03BDnOO4StkVlSAGnGQ==
-X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr18733480eds.379.1603754994405; 
- Mon, 26 Oct 2020 16:29:54 -0700 (PDT)
+ bh=2OjR/wUfEEBugepvrkgMq+mri256jiLmUAh08vclpww=;
+ b=aOoAFcrBmW0busG236DPUH/IkrY+L5d36WLSJGuvGOti+M4diRoz/UZjsWqGK02x9Y
+ DJGfc6CKeJNGfdGgEQWi170rLqH0JeBbxbGf94gpMLmKBq9qwqQ6/wQvlsS7g/IgrG9n
+ ddbtTtwFUQo3h5USKBdla2Q1y0mJrRhYJjyrqdh8ml+4O/W/CDhKQGudYuRAxnxd8nad
+ 9Bl3qpTuTQNqyQFBHANWpvpptIkEYo3Q2oZmkqAmvewayhPEycvuoAi9Wk/ihWvGKD7b
+ 18Wevp13yk3ifDY87YlNQT4DoJEUze9AyMsDOcUrvGURv6NBLxVTHiy6ca+CLwiWn80S
+ 8PPw==
+X-Gm-Message-State: AOAM530NSSTv1X22MQvvd14eBc90dkIzJgvxRIN5nI0gAQq8PDJNKZjH
+ y+Dc9T8zIn8LbTSxVOzKdIuXFkV9XkU=
+X-Google-Smtp-Source: ABdhPJxnD0XrshsqAsbiYsU2dfkGZR59jox1zaGn5TYf4myTczI15Kve6jh4wb/d/oTcBm9nte9C/w==
+X-Received: by 2002:a17:906:1107:: with SMTP id
+ h7mr17808599eja.481.1603754999863; 
+ Mon, 26 Oct 2020 16:29:59 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id c5sm6003342edx.58.2020.10.26.16.29.52
+ by smtp.gmail.com with ESMTPSA id n22sm5969260edr.11.2020.10.26.16.29.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 16:29:53 -0700 (PDT)
+ Mon, 26 Oct 2020 16:29:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] hw/timer/sh_timer: Silence warnings about missing
- fallthrough statements
-Date: Tue, 27 Oct 2020 00:29:30 +0100
-Message-Id: <20201026232935.92777-4-f4bug@amsat.org>
+Subject: [PULL 4/8] hw/timer/sh_timer: Remove superfluous "break" statements
+Date: Tue, 27 Oct 2020 00:29:31 +0100
+Message-Id: <20201026232935.92777-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026232935.92777-1-f4bug@amsat.org>
 References: <20201026232935.92777-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -97,57 +97,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-When compiling with -Werror=implicit-fallthrough, gcc complains about
-missing fallthrough annotations in this file. Looking at the code,
-the fallthrough is very likely intended here, so add some comments
-to silence the compiler warnings.
+hw_error() is marked as QEMU_NORETURN, so the "break" statements
+after this function are just dead code.
 
-Fixes: cd1a3f6840e ("Stand-alone TMU emulation code")
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201020153935.54315-3-thuth@redhat.com>
+Message-Id: <20201020153935.54315-4-thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/sh_timer.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/timer/sh_timer.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index b09e30f9388..934daaa7dcc 100644
+index 934daaa7dcc..58af1a1edbd 100644
 --- a/hw/timer/sh_timer.c
 +++ b/hw/timer/sh_timer.c
-@@ -122,6 +122,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             if (s->feat & TIMER_FEAT_EXTCLK) {
-                 break;
-             }
-+            /* fallthrough */
+@@ -125,7 +125,6 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             /* fallthrough */
          default:
              hw_error("sh_timer_write: Reserved TPSC value\n");
-             break;
-@@ -135,6 +136,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             if (s->feat & TIMER_FEAT_EXTCLK) {
-                 break;
-             }
-+            /* fallthrough */
+-            break;
+         }
+         switch ((value & TIMER_TCR_CKEG) >> 3) {
+         case 0:
+@@ -139,7 +138,6 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             /* fallthrough */
          default:
              hw_error("sh_timer_write: Reserved CKEG value\n");
-             break;
-@@ -147,6 +149,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             if (s->feat & TIMER_FEAT_CAPT) {
-                 break;
-             }
-+            /* fallthrough */
+-            break;
+         }
+         switch ((value & TIMER_TCR_ICPE) >> 6) {
+         case 0:
+@@ -152,7 +150,6 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             /* fallthrough */
          default:
              hw_error("sh_timer_write: Reserved ICPE value\n");
-             break;
-@@ -180,6 +183,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             s->tcpr = value;
-             break;
+-            break;
          }
-+        /* fallthrough */
-     default:
-         hw_error("sh_timer_write: Bad offset %x\n", (int)offset);
-     }
+         if ((value & TIMER_TCR_UNF) == 0) {
+             s->int_level = 0;
 -- 
 2.26.2
 
