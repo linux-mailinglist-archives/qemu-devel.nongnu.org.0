@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F84D2994DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:09:49 +0100 (CET)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83BF52994D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:06:49 +0100 (CET)
+Received: from localhost ([::1]:49814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6wG-0003Hw-4N
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:09:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52540)
+	id 1kX6tM-0006lc-JR
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:06:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX6Ja-0006ug-4M
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:29:50 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42830)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX6JY-0001YE-IV
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:29:49 -0400
-Received: by mail-wr1-x443.google.com with SMTP id j7so13572507wrt.9
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:29:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=BfPtaKJyW4ck6EQodbzUJt8ki3ZLhjBVdDnTJBnp8SQ=;
- b=KiNcCt4j60ouQsWUxDiBO/TVpFv31b9DqFA4ERcg19k00hO5YfcjrfF00fMK4ExTuc
- 7Tjc2W15HBI+aDYA23mD4t4RbkTgIF51XewOJ3SGe/Ss8EsC7Equ6FAWsPMoDmWnDVBH
- meI/agsF/Lfbq/xNo0wndA2F1sFPdKV6fReQpQiVB9gQLS8mAqpImbIFV+GG7IBved9k
- yTEhRuE5QnUtmthxpMIJRUhoBAxqV6qX5goziRzPz9Dt6Gxg+CUYwzxk3Bp67pk1/lg0
- HKhcRpPWYbQzbO694qSIA6O/Nt9mkTfhtpO01NK2Eg7l3S7h7J/OezdI3g00CaRVp0wy
- VyWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=BfPtaKJyW4ck6EQodbzUJt8ki3ZLhjBVdDnTJBnp8SQ=;
- b=uJTibg88ihoaLm5VU7ta2Q1aIj2afIk3EUxmepH+AxlJWfs/DH/zkdu9wzHOjlrAP/
- jNuQ0M6Zutj7Anx6CC+EgeuP4ea46rbbfymGmTJUro18HluVJF+bYlKSAjL+CdQcdzvp
- ntwxA5GnY08DexyhbVGjLrgIWpZNtn2zxzgN/mRvQCf+ghEnIikdMLr7rwOpI/pJ+9Ww
- LcmXdlIIh9gKOV4qPxnVSivjPolfuq8rlznYyyPQcOtESTIoMBzfi/9g7HCXrWHi5olB
- Q3jesiiZzYMbLdYK4tnNMiOpxvw3zLzRmf5pKg6S4bHlk3KJNMEkuip77SN7kdfNt9Ey
- vZZg==
-X-Gm-Message-State: AOAM530C0x0THr48IVV40AqYS9kUKfLj/tcLKawT9adBKNkWl3OG5tY2
- BNYPIaFoEfWYKMC6xcG8U9gpeqQwVkxBlQ==
-X-Google-Smtp-Source: ABdhPJyUhs6CcQO+a0JaUc+adUBB+57NOmAtRLJ3CyDtZs/UbEQG1e1Ua9iAdn+rkq7EpGCD62qUgQ==
-X-Received: by 2002:a05:6000:4c:: with SMTP id
- k12mr18258575wrx.278.1603733385997; 
- Mon, 26 Oct 2020 10:29:45 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d2sm23031859wrq.34.2020.10.26.10.29.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 10:29:44 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2CAC21FF7E;
- Mon, 26 Oct 2020 17:29:44 +0000 (GMT)
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-14-pbonzini@redhat.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 13/15] sh4: remove bios_name
-In-reply-to: <20201026143028.3034018-14-pbonzini@redhat.com>
-Date: Mon, 26 Oct 2020 17:29:44 +0000
-Message-ID: <87ft60gak7.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kX6Ka-0008Kf-3h
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:30:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36861)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kX6KX-0001oY-Jc
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:30:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603733446;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=+vjTXe9xZk0KDIqG5ITJTGeg4lOhws0mil+Ji/UN2zc=;
+ b=V+TkcWRJgy3z9NffKsgdmy8L2Wkzcen2t/34YpgF1rS/+JVY4SId8ByrqmR1RA/pDhz6i3
+ bZ++r1hGOW2slfQ9Hk2WHHWsIRTuBLAS8a47bkLz1aU+eFvCtcmUJPLjz8EiWyOGWBLh0O
+ GBh9J32J9eZmDHcP8jAJ9GyKlyy5sBM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-308-IbWxtS3zOXei3nhoJ47lNQ-1; Mon, 26 Oct 2020 13:30:44 -0400
+X-MC-Unique: IbWxtS3zOXei3nhoJ47lNQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0E10108E1AF
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 17:30:43 +0000 (UTC)
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B713A19728;
+ Mon, 26 Oct 2020 17:30:32 +0000 (UTC)
+Date: Mon, 26 Oct 2020 17:30:30 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
+ dinechin@redhat.com, virtio-fs@redhat.com
+Subject: Re: [PATCH v4 0/5] virtiofsd xattr name mappings
+Message-ID: <20201026173030.GE152260@work-vm>
+References: <20201023165812.36028-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201023165812.36028-1-dgilbert@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,20 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org,
- Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Dr. David Alan Gilbert (git) (dgilbert@redhat.com) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> This is the 4th cut of an xattr name mapping option for virtiofsd.
+> It allows the user of virtiofsd to define a fairly flexible mapping
+> from the view of the xattr names the host fs has and the ones that the
+> guest sees.
+> 
+>   The hope is this allows things like:
+>     a) Different selinux attributes on host/guest
+>     b) separation of trusted. attributes that clash on overlayfs
+>     c) support for privileged xattr's in guests running with an
+>        unprivileged virtiofsd.
+> 
+> There's no apparent standard for this kind of mapping, so I made
+> it flexible by specifying a mapping rule in the option.
+> 
+> Prefix's can be added (selectively or globally), xattr's can be
+> dropped in either direction or passed through.
+> 
+> v4
+>   cleanups from Stefan and Vivek's reviews
+> 
+> Dave
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Queued
 
-> Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> 
+> 
+> Dr. David Alan Gilbert (5):
+>   tools/virtiofsd: xattr name mappings: Add option
+>   tools/virtiofsd: xattr name mappings: Map client xattr names
+>   tools/virtiofsd: xattr name mappings: Map server xattr names
+>   tools/virtiofsd: xattr name mapping examples
+>   tools/virtiofsd: xattr name mappings: Simple 'map'
+> 
+>  docs/tools/virtiofsd.rst         | 161 +++++++++++
+>  tools/virtiofsd/passthrough_ll.c | 474 ++++++++++++++++++++++++++++++-
+>  2 files changed, 632 insertions(+), 3 deletions(-)
+> 
+> -- 
+> 2.28.0
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-<snip>
-
---=20
-Alex Benn=C3=A9e
 
