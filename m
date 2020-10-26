@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6B0B2988AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:42:26 +0100 (CET)
-Received: from localhost ([::1]:49346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0796D2988A8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:41:30 +0100 (CET)
+Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWy5B-0002x0-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:42:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46080)
+	id 1kWy4H-0001uf-1M
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:41:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kWxxu-0003LZ-9o
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:55 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46990
+ id 1kWxxv-0003MK-L7
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46998
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kWxxo-00062n-Op
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:54 -0400
+ id 1kWxxt-00064F-Vx
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:55 -0400
 Received: from host86-148-103-79.range86-148.btcentralplus.com
  ([86.148.103.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kWxxs-00082O-3R; Mon, 26 Oct 2020 08:34:56 +0000
+ id 1kWxxw-00082O-Tz; Mon, 26 Oct 2020 08:35:01 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com,
 	samuel.thibault@ens-lyon.org
-Date: Mon, 26 Oct 2020 08:33:59 +0000
-Message-Id: <20201026083401.13231-8-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 26 Oct 2020 08:34:00 +0000
+Message-Id: <20201026083401.13231-9-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
 References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
@@ -39,8 +39,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 7/9] dev-serial: add support for setting data_bits in
- QEMUSerialSetParams
+Subject: [PATCH 8/9] dev-serial: fix FTDI_GET_MDM_ST response
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -68,55 +67,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Also implement the behaviour reported in Linux's ftdi_sio.c whereby if an invalid
-data_bits value is provided then the hardware defaults to using 8.
+The FTDI_GET_MDM_ST response should only return a single byte indicating the
+modem status with bit 0 cleared (as documented in the Linux ftdi_sio.h header
+file).
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/usb/dev-serial.c | 17 +++++++++++++++++
- hw/usb/trace-events |  1 +
- 2 files changed, 18 insertions(+)
+ hw/usb/dev-serial.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 919e25e1d9..4c374d0790 100644
+index 4c374d0790..fa734bcf54 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -308,6 +308,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+@@ -360,9 +360,8 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+         /* TODO: TX ON/OFF */
          break;
-     }
-     case VendorDeviceOutRequest | FTDI_SET_DATA:
-+        switch (value & 0xff) {
-+        case 7:
-+            s->params.data_bits = 7;
-+            break;
-+        case 8:
-+            s->params.data_bits = 8;
-+            break;
-+        default:
-+            /*
-+             * According to a comment in Linux's ftdi_sio.c original FTDI
-+             * chips fall back to 8 data bits for unsupported data_bits
-+             */
-+            trace_usb_serial_unsupported_data_bits(bus->busnr, dev->addr,
-+                                                   value & 0xff);
-+            s->params.data_bits = 8;
-+        }
-+
-         switch (value & FTDI_PARITY) {
-         case 0:
-             s->params.parity = 'N';
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 9e984b2e0c..0d0a3e5f2a 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -327,6 +327,7 @@ usb_serial_handle_control(int bus, int addr, int request, int value) "dev %d:%d
- usb_serial_unsupported_parity(int bus, int addr, int value) "dev %d:%d unsupported parity %d"
- usb_serial_unsupported_stopbits(int bus, int addr, int value) "dev %d:%d unsupported stop bits %d"
- usb_serial_unsupported_control(int bus, int addr, int request, int value) "dev %d:%d got unsupported/bogus control 0x%x, value 0x%x"
-+usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%d unsupported data bits %d, falling back to 8"
- usb_serial_bad_token(int bus, int addr) "dev %d:%d bad token"
- usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%d baud rate %d"
- usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%d parity %c, data bits %d, stop bits %d"
+     case VendorDeviceRequest | FTDI_GET_MDM_ST:
+-        data[0] = usb_get_modem_lines(s) | 1;
+-        data[1] = FTDI_THRE | FTDI_TEMT;
+-        p->actual_length = 2;
++        data[0] = usb_get_modem_lines(s);
++        p->actual_length = 1;
+         break;
+     case VendorDeviceOutRequest | FTDI_SET_EVENT_CHR:
+         /* TODO: handle it */
 -- 
 2.20.1
 
