@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB432999B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:33:02 +0100 (CET)
-Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4B542999BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:35:26 +0100 (CET)
+Received: from localhost ([::1]:51300 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXB2z-0002r3-9R
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42810)
+	id 1kXB5J-0003nQ-PT
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:35:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXApI-0008UV-Rh
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:18:52 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:41448)
+ id 1kXAwL-00062f-WE; Mon, 26 Oct 2020 18:26:10 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38341)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXApH-0007QD-24
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:18:52 -0400
-Received: by mail-ed1-x541.google.com with SMTP id l24so11329829edj.8
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:18:50 -0700 (PDT)
+ id 1kXAwK-000058-50; Mon, 26 Oct 2020 18:26:09 -0400
+Received: by mail-ej1-x643.google.com with SMTP id ce10so16169429ejc.5;
+ Mon, 26 Oct 2020 15:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=2LlLySCA6Qbm1gB6rd8wGTNDIdS0m+sDATuCX6JpgHs=;
- b=hZyV926CCdDRhkAz/YCoXPn104eDte/hRYi1u3mBUfHVqz25bqXiuXG0HQQspP7IYS
- Jb1hTviFKtcXKDPtb4DtYxW4g+dDv2AP5AbrERYiLTjAIVwW+07uVDsIKkeD9rIcn1k1
- 41N8dXFTRYboRsSfYNAwfnQtwNA3mM7frFLtTjKNheDJOGlPTXY4KepMTC8vkOugd3iP
- Eh329ww9E2lxQnsleIJ65U+Bi5TvoQQR0hYV0Q8PO5/3HXusgVgxyrQunwFTD23NBdbR
- U1jCQ0eix8wCTz4603Wq5BugIflPU32dbF3BVyiyXFKY9W3aN35PqNDCV6EyJe/V6cLt
- Lc2w==
+ bh=uiasqVfucua531Ai9drGAEvhhayzBZ4sO3Uq2/OVqDA=;
+ b=qDv0DaXKCol5r+4WqryBOIx1Ynow8NDAqypmO4ziYYALlqjU/qfsufHRTPOWrlpDsu
+ iRpurxrFPF4sKGNisbGMD4a8GQhE6Us+YDkV4dvEeKDvKBvR9k9+Ziki3rMbXKCoO5rN
+ BPVWe2wkCsDWmXf7fMfuGTS86j1GaJgDV06VOdEl1MB8SHfvJl3jmGk8yeF/mMWF9x/T
+ TUdsR32C1xAD5d/2WYo2LTBX+dbgU+63I7sq4NGJFgE6DIWEUwEHVh9bLzUiGo77Fb96
+ IN11tZFjNqeuQKvcRoe5VP8ahMS19E2U8TLIgnehBareihe92jVI4hxpZ4bN9gEwDgJa
+ 4tYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=2LlLySCA6Qbm1gB6rd8wGTNDIdS0m+sDATuCX6JpgHs=;
- b=LTgPUY41VHTH4OJatzILTGI1XxFA8SuFibxc/r2JVp1S5SS6YHeY+N0ntlDelwLxDv
- 9kAWiLkf4Te58lbA84Ndwg7NN/R35Ror400n7uFp3X4uwY7GEGz/QEGsQdq+ls0pLB1r
- WZ6ZdvCxi3wORQOeGhyd9AJXchZyXg5mHIafq7Ybvf7xwAwtB2oal8a5kDGdbRAh8xW7
- mup/EH4Nza03WqDffAaStf0sYwWWPPfh2v3ga9auOwJT4PooCZpTny6ijVbD91AFCZT5
- YOfaD4oulelg2m34nZmQTcBOMqa5p/hNwGuaicanqfV+KZRYPmE6BhBWOlPQAXXFXmUn
- FQ/w==
-X-Gm-Message-State: AOAM531ciARs1a5+o0IgKf4rgMxJ2I6AetppD5vTJd+px9o6NjwREY/L
- h8sqpKHbvrx7pOjRtX7ZMN65C5yGgRA=
-X-Google-Smtp-Source: ABdhPJxbxFdaIk/YEjHnyhLoHCDUa1rGf7Fb7A/2PLJ43CcXU2sw550XMUGck4eMh1JdNgWicKqeEA==
-X-Received: by 2002:aa7:dcc2:: with SMTP id w2mr18081096edu.121.1603750729325; 
- Mon, 26 Oct 2020 15:18:49 -0700 (PDT)
+ bh=uiasqVfucua531Ai9drGAEvhhayzBZ4sO3Uq2/OVqDA=;
+ b=A4FTRJr2I0vTtJ4QmJZoVe4OMzc9Es7YcYxhE0zmnDTPFfeZACyrf8Xe0TD5n4OFMp
+ 7hrcJkh2IcRdUBrqJZ6qBZFJ65oqh+q2gwkxUorouGGOtr3oW7HcMvv7mnuIToBBBbb8
+ dMAqO2hy3Fls5FZqNqzYc6FcdhQXkPWC0xf442IWmH5RXhffo57mCzNX1LcP+Buj7RV0
+ TSwc0TiXxri2arnhPVwROZFCYg8/Fbuni3jxsBFRxcCe9+sTP2N3GgfCHZ0vHyfRd4Wm
+ Pjt/3e9UM+FkccJ47dIwHgUTtLXc9/gZBDziPQ2mqXcCNaff91cuzmrfWmI4+xDOiwtW
+ BcOg==
+X-Gm-Message-State: AOAM531nDR3yX7B3ilWrU9qcqpCLUWz8+vU3VEgv/qfd2PgsaVE1QMsq
+ 7CEdK0bB+b6kQIiEZPaaRY8=
+X-Google-Smtp-Source: ABdhPJykhFtIu6T62ZDVfqhCvEtnghWIgsGeGKl1rQEN3QMbQQ7EnkSOkO47uJE4sHAz7LYU64VXOQ==
+X-Received: by 2002:a17:906:4a14:: with SMTP id
+ w20mr17349921eju.513.1603751166029; 
+ Mon, 26 Oct 2020 15:26:06 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id rl1sm6609674ejb.36.2020.10.26.15.18.47
+ by smtp.gmail.com with ESMTPSA id l20sm5556800edr.56.2020.10.26.15.26.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 15:18:48 -0700 (PDT)
-Subject: Re: [PATCH 1/1] include/elf.h: Add EM_RX.
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20200814131438.28406-1-ysato@users.sourceforge.jp>
+ Mon, 26 Oct 2020 15:26:05 -0700 (PDT)
+Subject: Re: [PATCH 26/30] renesas rx cpus: Fix Lesser GPL version number
+To: Chetan Pant <chetan4windows@gmail.com>, qemu-trivial@nongnu.org
+References: <20201014134248.14146-1-chetan4windows@gmail.com>
+ <20201023123840.19988-1-chetan4windows@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1a217ab5-4ced-b694-b218-c3554c7bc1a3@amsat.org>
-Date: Mon, 26 Oct 2020 23:18:46 +0100
+Message-ID: <23e08867-c7de-06ff-5c5e-7b5e1339fa63@amsat.org>
+Date: Mon, 26 Oct 2020 23:26:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20200814131438.28406-1-ysato@users.sourceforge.jp>
+In-Reply-To: <20201023123840.19988-1-chetan4windows@gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -36
@@ -90,17 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 8/14/20 3:14 PM, Yoshinori Sato wrote:
-> RX's ELF machine not defined elf.h.
-> Added it.
+On 10/23/20 2:38 PM, Chetan Pant wrote:
+> There is no "version 2" of the "Lesser" General Public License.
+> It is either "GPL version 2.0" or "Lesser GPL version 2.1".
+> This patch replaces all occurrences of "Lesser GPL version 2" with
+> "Lesser GPL version 2.1" in comment section.
 > 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 > ---
->   include/elf.h | 2 ++
->   1 file changed, 2 insertions(+)
+>   target/rx/insns.decode | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/target/rx/insns.decode b/target/rx/insns.decode
+> index 232a61f..ca9334b 100644
+> --- a/target/rx/insns.decode
+> +++ b/target/rx/insns.decode
+> @@ -7,7 +7,7 @@
+>   # This library is free software; you can redistribute it and/or
+>   # modify it under the terms of the GNU Lesser General Public
+>   # License as published by the Free Software Foundation; either
+> -# version 2 of the License, or (at your option) any later version.
+> +# version 2.1 of the License, or (at your option) any later version.
+>   #
+>   # This library is distributed in the hope that it will be useful,
+>   # but WITHOUT ANY WARRANTY; without even the implied warranty of
+> 
 
-Thanks, applied to renesas-next.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+And applied to renesas-next, thanks.
 
