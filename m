@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54314298AA3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:46:28 +0100 (CET)
-Received: from localhost ([::1]:36222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A50C298A6F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:33:29 +0100 (CET)
+Received: from localhost ([::1]:52294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX01D-0002nx-Cr
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:46:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40874)
+	id 1kWzoe-0002YG-1n
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:33:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kWzUa-0002ed-1K
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:12:44 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13416)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kWzUV-0000RO-UG
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:12:43 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f96a11d0000>; Mon, 26 Oct 2020 03:12:45 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
- 2020 10:12:28 +0000
-Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 26 Oct 2020 10:12:19 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v29 17/17] qapi: Add VFIO devices migration stats in Migration
- stats
-Date: Mon, 26 Oct 2020 15:06:27 +0530
-Message-ID: <1603704987-20977-18-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
-References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
-MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603707165; bh=IbvRYcO7qbh8ctrnsvRfiDS+EkQBdWbXdekBTs9LAPo=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
- References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=ckuf1G7zXLLMEF8/gIbBbHbmmWU6cxrqcDyRUExP/mnefGtTxMdzgVqlXkHMBbvcI
- jhWMka12HXdRbU7Wkhvw7YGej7XCisUpuN5Mouf6YoJP7GGAIcwCN3O6z+Ppi0tn9P
- iHgqQXIGREunHAz3h/0HqMN2tGimTaVrsWobdEtg3jMVAObUa9+XPCswnKvNXynJGJ
- L45rci2aXNYlsb9YNlNKiZtPrOsPK2MnFcEk2q6aWD1YFxDiB9ChIK34DSWKttuVJv
- l75J8UhsmZKtEDTgF/tYGVRJoOCxwV0DQNLaKpD1n2RGiirHELzv+sKgEKB2Sy27e5
- peimRgpmx16hA==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 06:10:03
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPL-0002ye-US
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22452)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPH-0006kp-Df
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603706834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=jta5pCSiEwBdmPKVB9/zb0GLa6GuoN2cpd51+Aozuoc=;
+ b=ASzSpnTd2oKeqa8+Ggq2Q38NlujmK2suuOY8pfIVMQx9FdsyJOiAXDFaVHjIhkx4OYfBDF
+ OtWzB0sshC7rs5UXks5pizcyv36lt33mEl2yY/e8JE1PCx/Ag+2zJb6CJymtp8NrrnBt51
+ vlyqW3ZbIib6+ixluyTtXvsB+ZtG3qw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-fb_1nQOYN86EqjRZLrpYiA-1; Mon, 26 Oct 2020 06:07:12 -0400
+X-MC-Unique: fb_1nQOYN86EqjRZLrpYiA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44F8EA0C01;
+ Mon, 26 Oct 2020 10:07:11 +0000 (UTC)
+Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 31A798B842;
+ Mon, 26 Oct 2020 10:07:09 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 23/31] fuzz: register predefined generic-fuzz configs
+Date: Mon, 26 Oct 2020 11:06:24 +0100
+Message-Id: <20201026100632.212530-24-thuth@redhat.com>
+In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
+References: <20201026100632.212530-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,225 +75,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added amount of bytes transferred to the VM at destination by all VFIO
-devices
+From: Alexander Bulekov <alxndr@bu.edu>
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+We call get_generic_fuzz_configs, which fills an array with
+predefined {name, args, objects} triples. For each of these, we add a
+new FuzzTarget, that uses a small wrapper to set
+QEMU_FUZZ_{ARGS,OBJECTS} to the corresponding predefined values.
+
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20201023150746.107063-16-alxndr@bu.edu>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/vfio/common.c              | 19 +++++++++++++++++++
- hw/vfio/migration.c           |  9 +++++++++
- include/hw/vfio/vfio-common.h |  3 +++
- migration/migration.c         | 17 +++++++++++++++++
- monitor/hmp-cmds.c            |  6 ++++++
- qapi/migration.json           | 17 +++++++++++++++++
- 6 files changed, 71 insertions(+)
+ tests/qtest/fuzz/generic_fuzz.c | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 49c68a5253ae..56f6fee66a55 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -292,6 +292,25 @@ const MemoryRegionOps vfio_region_ops = {
-  * Device state interfaces
-  */
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 592b78ffe2..a8f5864883 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -26,6 +26,7 @@
+ #include "hw/qdev-core.h"
+ #include "hw/pci/pci.h"
+ #include "hw/boards.h"
++#include "generic_fuzz_configs.h"
  
-+bool vfio_mig_active(void)
-+{
-+    VFIOGroup *group;
-+    VFIODevice *vbasedev;
-+
-+    if (QLIST_EMPTY(&vfio_group_list)) {
-+        return false;
-+    }
-+
-+    QLIST_FOREACH(group, &vfio_group_list, next) {
-+        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-+            if (vbasedev->migration_blocker) {
-+                return false;
-+            }
-+        }
-+    }
-+    return true;
-+}
-+
- static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
- {
-     VFIOGroup *group;
-diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-index ffedbcca179d..2d657289c68e 100644
---- a/hw/vfio/migration.c
-+++ b/hw/vfio/migration.c
-@@ -45,6 +45,8 @@
- #define VFIO_MIG_FLAG_DEV_SETUP_STATE   (0xffffffffef100003ULL)
- #define VFIO_MIG_FLAG_DEV_DATA_STATE    (0xffffffffef100004ULL)
- 
-+static int64_t bytes_transferred;
-+
- static inline int vfio_mig_access(VFIODevice *vbasedev, void *val, int count,
-                                   off_t off, bool iswrite)
- {
-@@ -255,6 +257,7 @@ static int vfio_save_buffer(QEMUFile *f, VFIODevice *vbasedev, uint64_t *size)
-         *size = data_size;
-     }
- 
-+    bytes_transferred += data_size;
-     return ret;
+ /*
+  * SEPARATOR is used to separate "operations" in the fuzz input
+@@ -907,6 +908,17 @@ static GString *generic_fuzz_cmdline(FuzzTarget *t)
+     return cmd_line;
  }
  
-@@ -785,6 +788,7 @@ static void vfio_migration_state_notifier(Notifier *notifier, void *data)
-     case MIGRATION_STATUS_CANCELLING:
-     case MIGRATION_STATUS_CANCELLED:
-     case MIGRATION_STATUS_FAILED:
-+        bytes_transferred = 0;
-         ret = vfio_migration_set_state(vbasedev,
-                       ~(VFIO_DEVICE_STATE_SAVING | VFIO_DEVICE_STATE_RESUMING),
-                       VFIO_DEVICE_STATE_RUNNING);
-@@ -866,6 +870,11 @@ err:
- 
- /* ---------------------------------------------------------------------- */
- 
-+int64_t vfio_mig_bytes_transferred(void)
++static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
 +{
-+    return bytes_transferred;
++    const generic_fuzz_config *config;
++    g_assert(t->opaque);
++
++    config = t->opaque;
++    setenv("QEMU_FUZZ_ARGS", config->args, 1);
++    setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
++    return generic_fuzz_cmdline(t);
 +}
 +
- int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+ static void register_generic_fuzz_targets(void)
  {
-     VFIOContainer *container = vbasedev->group->container;
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index b1c1b18fd228..24e299d97425 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -203,6 +203,9 @@ extern const MemoryRegionOps vfio_region_ops;
- typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
- extern VFIOGroupList vfio_group_list;
- 
-+bool vfio_mig_active(void);
-+int64_t vfio_mig_bytes_transferred(void);
+     fuzz_add_target(&(FuzzTarget){
+@@ -917,6 +929,26 @@ static void register_generic_fuzz_targets(void)
+             .fuzz = generic_fuzz,
+             .crossover = generic_fuzz_crossover
+     });
 +
- #ifdef CONFIG_LINUX
- int vfio_get_region_info(VFIODevice *vbasedev, int index,
-                          struct vfio_region_info **info);
-diff --git a/migration/migration.c b/migration/migration.c
-index 0575ecb37953..995ccd96a774 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -57,6 +57,10 @@
- #include "qemu/queue.h"
- #include "multifd.h"
- 
-+#ifdef CONFIG_VFIO
-+#include "hw/vfio/vfio-common.h"
-+#endif
++    GString *name;
++    const generic_fuzz_config *config;
 +
- #define MAX_THROTTLE  (128 << 20)      /* Migration transfer speed throttling */
- 
- /* Amount of time to allocate to each "chunk" of bandwidth-throttled
-@@ -1002,6 +1006,17 @@ static void populate_disk_info(MigrationInfo *info)
-     }
++    for (int i = 0;
++         i < sizeof(predefined_configs) / sizeof(generic_fuzz_config);
++         i++) {
++        config = predefined_configs + i;
++        name = g_string_new("generic-fuzz");
++        g_string_append_printf(name, "-%s", config->name);
++        fuzz_add_target(&(FuzzTarget){
++                .name = name->str,
++                .description = "Predefined generic-fuzz config.",
++                .get_init_cmdline = generic_fuzz_predefined_config_cmdline,
++                .pre_fuzz = generic_pre_fuzz,
++                .fuzz = generic_fuzz,
++                .crossover = generic_fuzz_crossover,
++                .opaque = (void *)config
++        });
++    }
  }
  
-+static void populate_vfio_info(MigrationInfo *info)
-+{
-+#ifdef CONFIG_VFIO
-+    if (vfio_mig_active()) {
-+        info->has_vfio = true;
-+        info->vfio = g_malloc0(sizeof(*info->vfio));
-+        info->vfio->transferred = vfio_mig_bytes_transferred();
-+    }
-+#endif
-+}
-+
- static void fill_source_migration_info(MigrationInfo *info)
- {
-     MigrationState *s = migrate_get_current();
-@@ -1026,6 +1041,7 @@ static void fill_source_migration_info(MigrationInfo *info)
-         populate_time_info(info, s);
-         populate_ram_info(info, s);
-         populate_disk_info(info);
-+        populate_vfio_info(info);
-         break;
-     case MIGRATION_STATUS_COLO:
-         info->has_status = true;
-@@ -1034,6 +1050,7 @@ static void fill_source_migration_info(MigrationInfo *info)
-     case MIGRATION_STATUS_COMPLETED:
-         populate_time_info(info, s);
-         populate_ram_info(info, s);
-+        populate_vfio_info(info);
-         break;
-     case MIGRATION_STATUS_FAILED:
-         info->has_status = true;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 9789f4277f50..56e9bad33d94 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -357,6 +357,12 @@ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-         }
-         monitor_printf(mon, "]\n");
-     }
-+
-+    if (info->has_vfio) {
-+        monitor_printf(mon, "vfio device transferred: %" PRIu64 " kbytes\n",
-+                       info->vfio->transferred >> 10);
-+    }
-+
-     qapi_free_MigrationInfo(info);
- }
- 
-diff --git a/qapi/migration.json b/qapi/migration.json
-index a5da513c9e05..3c7582052725 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -147,6 +147,18 @@
-             'active', 'postcopy-active', 'postcopy-paused',
-             'postcopy-recover', 'completed', 'failed', 'colo',
-             'pre-switchover', 'device', 'wait-unplug' ] }
-+##
-+# @VfioStats:
-+#
-+# Detailed VFIO devices migration statistics
-+#
-+# @transferred: amount of bytes transferred to the target VM by VFIO devices
-+#
-+# Since: 5.2
-+#
-+##
-+{ 'struct': 'VfioStats',
-+  'data': {'transferred': 'int' } }
- 
- ##
- # @MigrationInfo:
-@@ -208,11 +220,16 @@
- #
- # @socket-address: Only used for tcp, to know what the real port is (Since 4.0)
- #
-+# @vfio: @VfioStats containing detailed VFIO devices migration statistics,
-+#        only returned if VFIO device is present, migration is supported by all
-+#        VFIO devices and status is 'active' or 'completed' (since 5.2)
-+#
- # Since: 0.14.0
- ##
- { 'struct': 'MigrationInfo',
-   'data': {'*status': 'MigrationStatus', '*ram': 'MigrationStats',
-            '*disk': 'MigrationStats',
-+           '*vfio': 'VfioStats',
-            '*xbzrle-cache': 'XBZRLECacheStats',
-            '*total-time': 'int',
-            '*expected-downtime': 'int',
+ fuzz_target_init(register_generic_fuzz_targets);
 -- 
-2.7.0
+2.18.2
 
 
