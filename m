@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75E282998D0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:32:26 +0100 (CET)
-Received: from localhost ([::1]:49560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C8472998EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:35:33 +0100 (CET)
+Received: from localhost ([::1]:56310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXA6K-00007C-1o
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:32:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58802)
+	id 1kXA9M-00039e-Ic
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:35:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kXA3K-0006Nh-4O; Mon, 26 Oct 2020 17:29:18 -0400
-Received: from home.keithp.com ([63.227.221.253]:57166 helo=elaine.keithp.com)
+ id 1kXA3M-0006PA-Jp; Mon, 26 Oct 2020 17:29:20 -0400
+Received: from home.keithp.com ([63.227.221.253]:57152 helo=elaine.keithp.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kXA3G-0000Yp-VW; Mon, 26 Oct 2020 17:29:16 -0400
+ id 1kXA3H-0000Yj-LP; Mon, 26 Oct 2020 17:29:20 -0400
 Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id 87D003F2DD66;
+ by elaine.keithp.com (Postfix) with ESMTP id 13DCE3F2DD63;
  Mon, 26 Oct 2020 14:29:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603747751; bh=h5maS+Ga+vOmYNo0Gj4CRNOdrG+2EENdlc0yMuInjXk=;
- h=From:To:Cc:Subject:Date:From;
- b=RCyO3IKznZkge2TLn3UprmuZqvgEAN+KvvviY10/VbtFfSEdQ0Wo+g8ipP3XVWkC0
- hTuKHUIZXTApZnR3mH9Gle0rtOCSfxBKKW+FoMYIqeWeb/RwYAzf0JeqNUCmINW5Ya
- TkcfZTqfTLQXftPvYVF+vsKeeH5VMUYLjqRLprgUQpqFGVzQUKbFw8hbQuqKvc/rLv
- MEbe5bWFKPA9wJw6TagCEpvr8ntvwYxs2+mg0AiAE2mr9hYVgXtqdkS6P+XpQZxiiX
- 55hr7ZOV9dQ/63xFClWLeGAv4QSkYBklXgEYwq9uEmLWWYCnZb0d2/adAPBMvtjUMK
- HQXON7M2C4Lbw==
+ t=1603747751; bh=Rt/tnJ8MibG2sDkJbt0tLtUaw7w6ozqvsygGFzhNqcQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=C/fbFmHmTdtAZFY+UlOZ/TpxGubJezOaL8zk8upyFkgSPDT7H6NG9jcv/lHqL2qIb
+ lXE0pT3NQSBsyod8B50IuTHLwBNQrT6juUEVYYtortuJI1r0yyHAlRaEVUNvgsju6Y
+ VVNb7jAkyXm+Ink9ienrybaTBuBJ408hMJRliNr5Oih0b+MUHKUsc6yA8GkmP2zl/V
+ 9zTGxtNiLXrf3u35Z7J5Fp1V0fV7zRFXDYsYPQHdsE8sMR7S2DdqFbnE9aNfLgrXIU
+ 9w19J4U50o9/j/9GBAM8GJLn1fUC0eaAduU1K0tlRLaGQeCi6VOprl7y6LYwkgkGn4
+ SFiYShwDocVrA==
 X-Virus-Scanned: Debian amavisd-new at keithp.com
 Received: from elaine.keithp.com ([127.0.0.1])
  by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id rSVIRRspRVFZ; Mon, 26 Oct 2020 14:29:11 -0700 (PDT)
+ with LMTP id dO-qTp-LHU3x; Mon, 26 Oct 2020 14:29:10 -0700 (PDT)
 Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id AF45E3F2DD60;
+ by elaine.keithp.com (Postfix) with ESMTPSA id B165F3F2DD61;
  Mon, 26 Oct 2020 14:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603747749; bh=h5maS+Ga+vOmYNo0Gj4CRNOdrG+2EENdlc0yMuInjXk=;
- h=From:To:Cc:Subject:Date:From;
- b=i0Si6+8RZDFZh318UTulzuflo2yXtTS9hHlDQCyq1b9eBPGB0PaZRhpCBEe6waaHx
- IBR4KyBRvqbx1ZqGnVriU7fkkRigdxEMoCNWqE0GHplJW+xqeeYYzKhJ0xmyqkOUPf
- deyaxk7JMd/NtE3wv3lpPJgaCA36pwPKK8vvs4pDEOPM1D25EUKhP4Op45VMolIZ+P
- 39ld052CoCa0486jS62V8E1PtlqbGHgtlVCsYEIIH9OyEtXm5lN/N+6jUQBweHd5E/
- JfGgq5MttJCYI5+ELTHprra6U0VVv3i6vA0ctnFHjBYdP7/tBYKz91sYdd7mqtJWa9
- J5wGA1FuQn8vQ==
+ t=1603747749; bh=Rt/tnJ8MibG2sDkJbt0tLtUaw7w6ozqvsygGFzhNqcQ=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ZIsOX0/0iWLDLwz0ECZifYd4M7wrxJSt+Yc/BPr7iG3zTe5mJryQ/VSgKChcJ1UMr
+ sd970/gspSAB5FYlu7WIlxk732v6UBYJFEG9gYA//HAqG3pY4yFPFtHDKVL6lm6UNc
+ YfuiO1XTNzcz5gYKASqqsJZt18BYxOuq1slVndf5O7qw/LrrOWZafeB8CWMMywGt/p
+ iDIWUWKBeJ4Vg7sWa2Dmkj8JIf0kTFCdQwZHymLOCfwsiWcVu2IM2Vg8+h81XYUvkP
+ 8Kv+H5Zp9heC06Hic17v1VcHEKsK5IbtjUDz3BbHfAGfFlhXtg580rNha9R8Rtbkoh
+ JP7IjPR/TwzKQ==
 Received: by keithp.com (Postfix, from userid 1000)
- id 8E3F71582210; Mon, 26 Oct 2020 14:29:09 -0700 (PDT)
+ id 953481582211; Mon, 26 Oct 2020 14:29:09 -0700 (PDT)
 To: qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
@@ -54,11 +54,15 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
  Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-riscv@nongnu.org
-Subject: [PATCH 0/4] riscv: Add semihosting support [v10]
-Date: Mon, 26 Oct 2020 14:28:49 -0700
-Message-Id: <20201026212853.92880-1-keithp@keithp.com>
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-riscv@nongnu.org,
+ Keith Packard <keithp@keithp.com>
+Subject: [PATCH 1/4] semihosting: Move ARM semihosting code to shared
+ directories
+Date: Mon, 26 Oct 2020 14:28:50 -0700
+Message-Id: <20201026212853.92880-2-keithp@keithp.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201026212853.92880-1-keithp@keithp.com>
+References: <20201026212853.92880-1-keithp@keithp.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
@@ -88,22 +92,83 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Keith Packard <keithp@keithp.com>
 From: Keith Packard via <qemu-devel@nongnu.org>
 
-This series first adapts the existing ARM semihosting code to be
-architecture-neutral, then adds RISC-V semihosting support using that.
+This commit renames two files which provide ARM semihosting support so
+that they can be shared by other architectures:
 
-Patch 1/4 moves the ARM semihosting support code to common directories and
-adapts the build system to match.
+ 1. target/arm/arm-semi.c     -> hw/semihosting/common-semi.c
+ 2. linux-user/arm/semihost.c -> linux-user/semihost.c
 
-Patch 2/4 changes the public API to this code to use
-architecture-independent names and types.
+The build system was modified to reflect this change, but the contents
+of the two files are unchanged.
 
-Patch 3/4 changes the internals of this code to use architecture
-neutral types where practical, and adds helper functions to abstract
-away the architecture-specific details.
+Signed-off-by: Keith Packard <keithp@keithp.com>
+---
+ target/arm/arm-semi.c => hw/semihosting/common-semi.c | 0
+ hw/semihosting/meson.build                            | 2 ++
+ linux-user/arm/meson.build                            | 3 ---
+ linux-user/meson.build                                | 2 ++
+ linux-user/{arm => }/semihost.c                       | 0
+ target/arm/meson.build                                | 2 --
+ 6 files changed, 4 insertions(+), 5 deletions(-)
+ rename target/arm/arm-semi.c => hw/semihosting/common-semi.c (100%)
+ rename linux-user/{arm => }/semihost.c (100%)
 
-Patch 4/4 adds the RISC-V support, including modifying the breakpoint
-handling code to recognize a semihosting sequence and adding RISC-V
-specific implementations of the helper functions.
-
+diff --git a/target/arm/arm-semi.c b/hw/semihosting/common-semi.c
+similarity index 100%
+rename from target/arm/arm-semi.c
+rename to hw/semihosting/common-semi.c
+diff --git a/hw/semihosting/meson.build b/hw/semihosting/meson.build
+index f40ac574c4..fbd2841e59 100644
+--- a/hw/semihosting/meson.build
++++ b/hw/semihosting/meson.build
+@@ -2,3 +2,5 @@ specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
+   'config.c',
+   'console.c',
+ ))
++
++specific_ss.add(when: 'CONFIG_TCG', if_true: files ('common-semi.c'))
+diff --git a/linux-user/arm/meson.build b/linux-user/arm/meson.build
+index 432984b58e..5a93c925cf 100644
+--- a/linux-user/arm/meson.build
++++ b/linux-user/arm/meson.build
+@@ -1,6 +1,3 @@
+-linux_user_ss.add(when: 'TARGET_AARCH64', if_true: files('semihost.c'))
+-linux_user_ss.add(when: 'TARGET_ARM', if_true: files('semihost.c'))
+-
+ subdir('nwfpe')
+ 
+ syscall_nr_generators += {
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index 2b94e4ba24..2fdd12cee5 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -17,6 +17,8 @@ linux_user_ss.add(rt)
+ linux_user_ss.add(when: 'TARGET_HAS_BFLT', if_true: files('flatload.c'))
+ linux_user_ss.add(when: 'TARGET_I386', if_true: files('vm86.c'))
+ 
++linux_user_ss.add(when: 'TARGET_AARCH64', if_true: files('semihost.c'))
++linux_user_ss.add(when: 'TARGET_ARM', if_true: files('semihost.c'))
+ 
+ syscall_nr_generators = {}
+ 
+diff --git a/linux-user/arm/semihost.c b/linux-user/semihost.c
+similarity index 100%
+rename from linux-user/arm/semihost.c
+rename to linux-user/semihost.c
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index f5de2a77b8..15b936c101 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -32,8 +32,6 @@ arm_ss.add(files(
+ ))
+ arm_ss.add(zlib)
+ 
+-arm_ss.add(when: 'CONFIG_TCG', if_true: files('arm-semi.c'))
+-
+ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
+ 
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
+-- 
+2.28.0
 
 
