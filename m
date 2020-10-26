@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 138E1298F88
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:39:11 +0100 (CET)
-Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F8B298F63
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:34:03 +0100 (CET)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3eQ-0004ex-2L
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50514)
+	id 1kX3ZS-00061J-1r
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX3W9-00044m-Rn
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38323)
+ id 1kX3WA-00046l-Os
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX3W6-0007yh-Lu
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:37 -0400
+ id 1kX3W8-0007zB-2i
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603722633;
+ s=mimecast20190719; t=1603722635;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r3li5OQv5njVdQAQl/B/nGvaueuiWERo40ET4aTjiwQ=;
- b=DVzlRx/bHiaEBGQCe7iUfc+XXm5aMy5jfFXDMNmE9MZHAK68nzMqHFhaLidd57hB8FqiWY
- tr7ROFYLiuItkE6Cqoh6crUygq+0j8MIh4HxDgBN5TIRpZCY0EBaPXkc/I6RL04gqh8rLs
- lYMJL6b8p3xObckIh/dFMb5bJi/TFy4=
+ bh=rX+Fb0ofI4sAprt4OiKFl2wdVtmp7wSTpoUMdVCDy+w=;
+ b=RO+v9Nb3NcUv+hM4/qydMhKIT9u5NUQB6l5RVlR7XiwCVN2PANAfrLxaUX77UqP3t69qYm
+ 2voIxkfXSj/sJjlR2Lz3PHsBdJSzwy0WoTCsTBz1cGUfQKZxpkfsAxxVl3O4NTEbEipFLo
+ r9lOTum0LROnpNwdpxPka1MBlsDAux0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-MnmpeqPjPfytuj5mBIh7Tg-1; Mon, 26 Oct 2020 10:30:31 -0400
-X-MC-Unique: MnmpeqPjPfytuj5mBIh7Tg-1
+ us-mta-220-hYv36cAiMQahscFDH9itSg-1; Mon, 26 Oct 2020 10:30:32 -0400
+X-MC-Unique: hYv36cAiMQahscFDH9itSg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C22591016CE6;
- Mon, 26 Oct 2020 14:30:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39192804320;
+ Mon, 26 Oct 2020 14:30:31 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 702C010021AA;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB932104326F;
  Mon, 26 Oct 2020 14:30:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/15] arm: remove bios_name
-Date: Mon, 26 Oct 2020 10:30:16 -0400
-Message-Id: <20201026143028.3034018-4-pbonzini@redhat.com>
+Subject: [PATCH 04/15] hppa: remove bios_name
+Date: Mon, 26 Oct 2020 10:30:17 -0400
+Message-Id: <20201026143028.3034018-5-pbonzini@redhat.com>
 In-Reply-To: <20201026143028.3034018-1-pbonzini@redhat.com>
 References: <20201026143028.3034018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,167 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, philmd@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Get the firmware name from the MachineState object.
-
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/arm/cubieboard.c     | 2 +-
- hw/arm/highbank.c       | 8 ++++----
- hw/arm/npcm7xx_boards.c | 5 +----
- hw/arm/orangepi.c       | 2 +-
- hw/arm/sbsa-ref.c       | 2 ++
- hw/arm/vexpress.c       | 8 ++++----
- hw/arm/virt.c           | 2 ++
- 7 files changed, 15 insertions(+), 14 deletions(-)
+ hw/hppa/machine.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/arm/cubieboard.c b/hw/arm/cubieboard.c
-index 1c6c792eb6..9d0d728180 100644
---- a/hw/arm/cubieboard.c
-+++ b/hw/arm/cubieboard.c
-@@ -40,7 +40,7 @@ static void cubieboard_init(MachineState *machine)
-     DeviceState *carddev;
- 
-     /* BIOS is not supported by this board */
--    if (bios_name) {
-+    if (machine->firmware) {
-         error_report("BIOS not supported for this machine");
+diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+index d5164457ee..5e745d5ea9 100644
+--- a/hw/hppa/machine.c
++++ b/hw/hppa/machine.c
+@@ -213,8 +213,7 @@ static void machine_hppa_init(MachineState *machine)
+        but one explicitly written for the emulation, we might as
+        well load it directly from an ELF image.  */
+     firmware_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
+-                                       bios_name ? bios_name :
+-                                       "hppa-firmware.img");
++                                       machine->firmware ?: "hppa-firmware.img");
+     if (firmware_filename == NULL) {
+         error_report("no firmware provided");
          exit(1);
-     }
-diff --git a/hw/arm/highbank.c b/hw/arm/highbank.c
-index da0510d7ce..8c18971790 100644
---- a/hw/arm/highbank.c
-+++ b/hw/arm/highbank.c
-@@ -295,16 +295,16 @@ static void calxeda_init(MachineState *machine, enum cxmachines machine_id)
-     memory_region_init_ram(sysram, NULL, "highbank.sysram", 0x8000,
-                            &error_fatal);
-     memory_region_add_subregion(sysmem, 0xfff88000, sysram);
--    if (bios_name != NULL) {
--        sysboot_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-+    if (machine->firmware != NULL) {
-+        sysboot_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware);
-         if (sysboot_filename != NULL) {
-             if (load_image_targphys(sysboot_filename, 0xfff88000, 0x8000) < 0) {
--                error_report("Unable to load %s", bios_name);
-+                error_report("Unable to load %s", machine->firmware);
-                 exit(1);
-             }
-             g_free(sysboot_filename);
-         } else {
--            error_report("Unable to find %s", bios_name);
-+            error_report("Unable to find %s", machine->firmware);
-             exit(1);
-         }
-     }
-diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 79e2e2744c..9821013bc6 100644
---- a/hw/arm/npcm7xx_boards.c
-+++ b/hw/arm/npcm7xx_boards.c
-@@ -33,13 +33,10 @@ static const char npcm7xx_default_bootrom[] = "npcm7xx_bootrom.bin";
- 
- static void npcm7xx_load_bootrom(MachineState *machine, NPCM7xxState *soc)
- {
-+    const char *bios_name = machine->firmware ?: npcm7xx_default_bootrom;
-     g_autofree char *filename = NULL;
-     int ret;
- 
--    if (!bios_name) {
--        bios_name = npcm7xx_default_bootrom;
--    }
--
-     filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-     if (!filename) {
-         error_report("Could not find ROM image '%s'", bios_name);
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index 17a568a2b4..d6306dfdda 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -41,7 +41,7 @@ static void orangepi_init(MachineState *machine)
-     DeviceState *carddev;
- 
-     /* BIOS is not supported by this board */
--    if (bios_name) {
-+    if (machine->firmware) {
-         error_report("BIOS not supported for this machine");
-         exit(1);
-     }
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 01863510d0..8372ed901d 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -294,6 +294,7 @@ static bool sbsa_firmware_init(SBSAMachineState *sms,
-                                MemoryRegion *sysmem,
-                                MemoryRegion *secure_sysmem)
- {
-+    const char *bios_name;
-     int i;
-     BlockBackend *pflash_blk0;
- 
-@@ -307,6 +308,7 @@ static bool sbsa_firmware_init(SBSAMachineState *sms,
- 
-     pflash_blk0 = pflash_cfi01_get_blk(sms->flash[0]);
- 
-+    bios_name = MACHINE(sms)->firmware;
-     if (bios_name) {
-         char *fname;
-         MemoryRegion *mr;
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index 531f3a122a..1adb663d77 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -560,7 +560,7 @@ static void vexpress_common_init(MachineState *machine)
-     /*
-      * If a bios file was provided, attempt to map it into memory
-      */
--    if (bios_name) {
-+    if (machine->firmware) {
-         char *fn;
-         int image_size;
- 
-@@ -570,16 +570,16 @@ static void vexpress_common_init(MachineState *machine)
-                          "but you cannot use both options at once");
-             exit(1);
-         }
--        fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-+        fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware);
-         if (!fn) {
--            error_report("Could not find ROM image '%s'", bios_name);
-+            error_report("Could not find ROM image '%s'", machine->firmware);
-             exit(1);
-         }
-         image_size = load_image_targphys(fn, map[VE_NORFLASH0],
-                                          VEXPRESS_FLASH_SIZE);
-         g_free(fn);
-         if (image_size < 0) {
--            error_report("Could not load ROM image '%s'", bios_name);
-+            error_report("Could not load ROM image '%s'", machine->firmware);
-             exit(1);
-         }
-     }
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e465a988d6..5c7e3d18db 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -1047,6 +1047,7 @@ static bool virt_firmware_init(VirtMachineState *vms,
-                                MemoryRegion *secure_sysmem)
- {
-     int i;
-+    const char *bios_name;
-     BlockBackend *pflash_blk0;
- 
-     /* Map legacy -drive if=pflash to machine properties */
-@@ -1059,6 +1060,7 @@ static bool virt_firmware_init(VirtMachineState *vms,
- 
-     pflash_blk0 = pflash_cfi01_get_blk(vms->flash[0]);
- 
-+    bios_name = MACHINE(vms)->firmware;
-     if (bios_name) {
-         char *fname;
-         MemoryRegion *mr;
 -- 
 2.26.2
 
