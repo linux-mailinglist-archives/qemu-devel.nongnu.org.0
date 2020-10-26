@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BEB7298996
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:42:56 +0100 (CET)
-Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D1A2989D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:52:28 +0100 (CET)
+Received: from localhost ([::1]:51042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWz1j-000528-5k
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:42:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60470)
+	id 1kWzAx-0004Eq-Vc
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:52:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kWz0T-0003lm-L5
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:41:37 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:55986)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kWz0R-0005pX-RQ
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:41:37 -0400
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 5FEBBB8;
- Mon, 26 Oct 2020 10:41:34 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id wWMiCo2B_gHJ; Mon, 26 Oct 2020 10:41:33 +0100 (CET)
-Received: from function (lfbn-bor-1-56-204.w90-50.abo.wanadoo.fr
- [90.50.148.204])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 773829D;
- Mon, 26 Oct 2020 10:41:33 +0100 (CET)
-Received: from samy by function with local (Exim 4.94)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1kWz0O-006i2p-Qg; Mon, 26 Oct 2020 10:41:32 +0100
-Date: Mon, 26 Oct 2020 10:41:32 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 5/9] dev-serial: replace DeviceOutVendor/DeviceInVendor
- with equivalent macros from usb.h
-Message-ID: <20201026094132.65noafdyxe6ssxi7@function>
-References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
- <20201026083401.13231-6-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kWz9S-0003IE-3s
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:50:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kWz9N-0000ow-0v
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:50:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kWz9I-0005dc-Hc
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:50:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 37D852E8152
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:50:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201026083401.13231-6-mark.cave-ayland@ilande.co.uk>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-Received-SPF: softfail client-ip=2a0c:e300::1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2020 09:44:27 -0000
+From: Dave G <1901440@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: player-001 th-huth
+X-Launchpad-Bug-Reporter: Dave G (player-001)
+X-Launchpad-Bug-Modifier: Dave G (player-001)
+References: <160365777400.12451.12378376347775649238.malonedeb@soybean.canonical.com>
+Message-Id: <160370546789.31228.5402996367236319900.malone@gac.canonical.com>
+Subject: [Bug 1901440] Re: Instability in IVSHMEM after updating QEMU 4.2 ->
+ 5.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
+X-Launchpad-Hash: 21f4f1eb89966d34462cdfcf324810f724b388f5
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 04:15:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,113 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Reply-To: Bug 1901440 <1901440@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland, le lun. 26 oct. 2020 08:33:57 +0000, a ecrit:
-> The DeviceOutVendor and DeviceInVendor macros can be replaced with their
-> equivalent VendorDeviceOutRequest and VendorDeviceRequest macros from usb.h.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+This problem occurred with the QEMU 5.0 version that was distributed
+with the Ubuntu 20.10 update.
 
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+-- =
 
-> ---
->  hw/usb/dev-serial.c | 25 ++++++++++---------------
->  1 file changed, 10 insertions(+), 15 deletions(-)
-> 
-> diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-> index badf8785db..92c35615eb 100644
-> --- a/hw/usb/dev-serial.c
-> +++ b/hw/usb/dev-serial.c
-> @@ -37,11 +37,6 @@
->  #define FTDI_SET_LATENCY       9
->  #define FTDI_GET_LATENCY       10
->  
-> -#define DeviceOutVendor \
-> -           ((USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
-> -#define DeviceInVendor \
-> -           ((USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
-> -
->  /* RESET */
->  
->  #define FTDI_RESET_SIO 0
-> @@ -253,7 +248,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->          break;
->  
->      /* Class specific requests.  */
-> -    case DeviceOutVendor | FTDI_RESET:
-> +    case VendorDeviceOutRequest | FTDI_RESET:
->          switch (value) {
->          case FTDI_RESET_SIO:
->              usb_serial_reset(s);
-> @@ -268,7 +263,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->              break;
->          }
->          break;
-> -    case DeviceOutVendor | FTDI_SET_MDM_CTRL:
-> +    case VendorDeviceOutRequest | FTDI_SET_MDM_CTRL:
->      {
->          static int flags;
->          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_GET_TIOCM, &flags);
-> @@ -289,10 +284,10 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
->          break;
->      }
-> -    case DeviceOutVendor | FTDI_SET_FLOW_CTRL:
-> +    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
->          /* TODO: ioctl */
->          break;
-> -    case DeviceOutVendor | FTDI_SET_BAUD: {
-> +    case VendorDeviceOutRequest | FTDI_SET_BAUD: {
->          static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
->          int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
->                                       | ((index & 1) << 2)];
-> @@ -311,7 +306,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
->          break;
->      }
-> -    case DeviceOutVendor | FTDI_SET_DATA:
-> +    case VendorDeviceOutRequest | FTDI_SET_DATA:
->          switch (value & FTDI_PARITY) {
->          case 0:
->              s->params.parity = 'N';
-> @@ -346,23 +341,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
->          /* TODO: TX ON/OFF */
->          break;
-> -    case DeviceInVendor | FTDI_GET_MDM_ST:
-> +    case VendorDeviceRequest | FTDI_GET_MDM_ST:
->          data[0] = usb_get_modem_lines(s) | 1;
->          data[1] = FTDI_THRE | FTDI_TEMT;
->          p->actual_length = 2;
->          break;
-> -    case DeviceOutVendor | FTDI_SET_EVENT_CHR:
-> +    case VendorDeviceOutRequest | FTDI_SET_EVENT_CHR:
->          /* TODO: handle it */
->          s->event_chr = value;
->          break;
-> -    case DeviceOutVendor | FTDI_SET_ERROR_CHR:
-> +    case VendorDeviceOutRequest | FTDI_SET_ERROR_CHR:
->          /* TODO: handle it */
->          s->error_chr = value;
->          break;
-> -    case DeviceOutVendor | FTDI_SET_LATENCY:
-> +    case VendorDeviceOutRequest | FTDI_SET_LATENCY:
->          s->latency = value;
->          break;
-> -    case DeviceInVendor | FTDI_GET_LATENCY:
-> +    case VendorDeviceRequest | FTDI_GET_LATENCY:
->          data[0] = s->latency;
->          p->actual_length = 1;
->          break;
-> -- 
-> 2.20.1
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1901440
 
--- 
-Samuel
-How do I type "for i in *.dvi do xdvi i done" in a GUI?
-(Discussion in comp.os.linux.misc on the intuitiveness of interfaces.)
+Title:
+  Instability in IVSHMEM after updating QEMU 4.2 -> 5.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  Updating Ubuntu from 20.08 to 20.10 which updates QEMU from 4.2 to 5.0
+  results in the virtual machines freezing when the IVSHMEM interface is
+  active.  This workstation typically runs several windows 10 virtual
+  machines that are accessed locally:  two using the spice viewer and
+  one that uses an passthrough assigned GPU accessed through a viewer
+  called Looking Glass.  Looking Glass uses the IVSHMEM device interface
+  to pass captured frames from the windows virtual machine to the linux
+  host for display by a viewer application.
+
+  This workstation was 100% stable under Ubuntu 20.08 (QEMU 4.2).  It
+  handled a variety of heavy loads all day it never froze or crashed.
+  It became unstable under Ubuntu 20.10 (QEMU 5.0), seemingly triggered
+  by high levels of SHM activity.  I was able to reliably reproduce the
+  problem when playing a video in the looking-glass vm while playing
+  another video in a spice vm.  Other scenarios would also trigger this
+  problem less reliably, but this video playback scenario would trigger
+  it after 3-5 minutes of playback.
+
+  The result of this new instability would manifest itself by all
+  running vms on the host freezing but the host was not visibly
+  effected.  I could find no warnings or errors in any relevant system
+  or QEMU logs.  It wasn't just spice, when I accessed the gpu-passthru
+  vm via directly assigned devices it was frozen, still outputting video
+  of the last frame before the crash.  All vms would have to be force-
+  shutdown and the host rebooted to regain vm functionality.  Just
+  forcing shutdown and restarting a vm would result in showing 'running'
+  status but it would be frozen and inaccessible until system reboot.
+
+  I suspect this is a QEMU host / kernel error for several reasons:
+  Having to reboot the host, insensitivity to VM changes including
+  virtio-win version, etc.  I suspect it's related to IVSHMEM due to the
+  correlation of the freeze to the looking-glass related activity.
+
+  This might be kernel / PCIe / power management related in some way.
+  While experimenting to troubleshoot this issue I was able to trigger
+  the error more quickly by disabling PCIe power management in the BIOS.
+
+  The system was 100% stable under QEMU 5.0 when not running the
+  looking-glass vm, quite stable when the looking-glass vm was idle or
+  lightly used, but appeared increasingly unstable as SHM activity
+  increased.
+
+  Sorry if this is a bit anecdotal, this is my work machine and
+  unfortunately today I was forced to rollback restore to Ubuntu 20.08
+  (QEMU 4.2) from backup so I can work on Monday.  The system returned
+  to 100% stability after returning to 20.08.
+
+  If requested I can restore the Ubuntu 20.10 snapshot to reproduce &
+  gather information as directed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1901440/+subscriptions
 
