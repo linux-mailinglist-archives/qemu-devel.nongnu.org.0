@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98994299991
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:24:05 +0100 (CET)
-Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61C092999A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:27:30 +0100 (CET)
+Received: from localhost ([::1]:39242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAuK-0003Za-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:24:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40596)
+	id 1kXAxd-0006L2-56
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:27:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXAfc-0003Il-Gu
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:08:52 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:37837)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXAky-0002f2-NG; Mon, 26 Oct 2020 18:14:24 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXAfa-0006BA-9c
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:08:51 -0400
-Received: by mail-ej1-x644.google.com with SMTP id p9so16106826eji.4
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=me26iJrznqyuvEhMdjJDmLgY+AMVVooodzRz1j0xz7E=;
- b=cfe05G18loL2dYPGJmie95wdqKPpkNrZ0v3c2+glP7WtIN4mjdWXUp4kT40eQ9YHjE
- 9pnkRw963kFndOEQyZrnE0bWNgn2Db0EljGjoraKxtt5g/YZHuTirUKfZIWLjvNrVUhD
- bePgmoNUc7v7YgPAnY4uNllWUHEPjxrI2+hRBX0SPTiPremaQAxgiFxGbhcHibtfUuEu
- YLmF8fa0vt4Gl5+wmkUp4Mqm9US5/9jpQ7wF/wfxd6t/4pYQdY3HHgWMEIWK7a7vSR8x
- 5Kjy2uZnFHIOBcjdj0uhloG9SPZ6M+SKPMvhpGua4QQODqsf8MCveeHyYWOTiEvpQXmK
- sreA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXAkw-0006px-UJ; Mon, 26 Oct 2020 18:14:24 -0400
+Received: by mail-ej1-x642.google.com with SMTP id p9so16132069eji.4;
+ Mon, 26 Oct 2020 15:14:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IqZdFuxZIgRYJvizMKfIjMdKNCayeP/lE7qlR7OAGGM=;
+ b=u856KuGF2eMWOyTgaIw/+CAmbSxpECpBnJpfCBqbVIBV9yoALMh65SpJHE4nw5+RJR
+ GE87hX2cjrzVj+lQQ+Dc7hgqIBC3Udkn2upyCMlOGe3Fe103/zquTawGHUa+0+bydyq2
+ jEXbOsQZF/wB7pzkBnB2dVmVrbsjYDg8Ngvo9vaLwyNnOG8sZLg3+dZhqHFyDWzxldCc
+ 68nbc6xDOEySShrE+AeUpd16B2PPZtNgnSZGVgBZ+cq5aE1uaGP/hN6KrWwDFQLGfOpG
+ KxyZ/dCLZ2pmBWkSSsYtimHTQwysZWvvSSX6nNZ/YrO1Riz5Qz9rP6+y3T9nM9S5viAU
+ CGMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=me26iJrznqyuvEhMdjJDmLgY+AMVVooodzRz1j0xz7E=;
- b=Zrrr5kKVmCosyrpSjZ+RC+hKARndZ4v3XIhVApvYovFz0TIp3VlkGCCjSCzUkeU5ov
- 4DSEvjLCY3ZYl5wEBxf2UF4PfosjF5jEMZkcjvDBmx7mpLIEZRTjBXc7UnbqpQDHAnx7
- 8rfj5KR5s46VuT5ULLcPjGGfwtMO/5gWc5AU1X+QDkBYGokD4xBC4Zn8IQzeQthpW4sI
- +NQD45jAyTffQ0gm1alJ2xZlO+mAtMWnYPCNU9bwBJrSr7ERLO2yqpb/rktc3uYCsU/s
- 63KkB6oCP+ImUj4GzG8hgGkrgZYuUydgzrdOTrMLB0YVY4Z8MG420Z7CSAOQrRzV6eDC
- rQvA==
-X-Gm-Message-State: AOAM532tTA7+nQSGyk2thKSBgFuGzN92JEvwgIzL6M6uuiopnvCiR6fP
- itGAUSgDLOTAdV4xhDZUOsfLAiRXEaKxrdtGfnGbJzi8yagBSw==
-X-Google-Smtp-Source: ABdhPJweBg7c0vp13o9XkvWql8oUPONWfGXiHJwaWBe26jzg4YDQ+USWItCChnaBcb4rOdSNbayqPCtbCM/fXiCnaSo=
-X-Received: by 2002:a17:906:af8d:: with SMTP id
- mj13mr17422451ejb.85.1603750128545; 
- Mon, 26 Oct 2020 15:08:48 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IqZdFuxZIgRYJvizMKfIjMdKNCayeP/lE7qlR7OAGGM=;
+ b=sIWxJg05oawZRr6x4DQbkCYG6PPVWBoV+MxE6L1+fcR/KhyZfMpsjG9L9dWZTko4+D
+ wKQ2fAsZTwTTsNKERgIG91PeJB2wUTCUNRoctW1YofUzipVqplzntKdcbbHyjMziK7um
+ CNu4La1fPuNhC0W+vgoEl91Ji8Ln5neEP6jhDQ25U4i6WBWd1Rkun4hYpHGPH1SnoWnC
+ aAhzJdcT1/zUEVz3PV4MnxVvmqG9zp6ZLcstbGnx2xNfTNoFZYkkZLVo5b+Stjnxhe83
+ zPSmBSPm1nO8sZDl/Fip2MOpkIQ8EnAB9RrwAJtRLkc9BGCHfbr3j0xitbgwClIR5/4w
+ RpAQ==
+X-Gm-Message-State: AOAM5308NOx4WkQx7c2Fpi63vAqJ2VqZWOvTmDbiX5fYvPRpchGQC6D4
+ PfLVpMjZGwy70OS2arAGzIdiK+O2Znw=
+X-Google-Smtp-Source: ABdhPJzaX/PvxR/HxCo7701bBUJW2BNtqB/PvzDJQOxMmkhQ+cOhI8A4DXu9qYFyA2tyToiy+ETKxQ==
+X-Received: by 2002:a17:907:118c:: with SMTP id
+ uz12mr18127479ejb.98.1603750458776; 
+ Mon, 26 Oct 2020 15:14:18 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id op24sm6576255ejb.56.2020.10.26.15.14.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 15:14:18 -0700 (PDT)
+Subject: Re: [PATCH V2 04/14] rx/: fix some comment spelling errors
+To: zhaolichang <zhaolichang@huawei.com>, qemu-trivial@nongnu.org
+References: <20201009064449.2336-1-zhaolichang@huawei.com>
+ <20201009064449.2336-5-zhaolichang@huawei.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <bb1673cc-4edf-9ec3-b7e6-b179fad29f41@amsat.org>
+Date: Mon, 26 Oct 2020 23:14:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
- <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
- <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
- <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
-In-Reply-To: <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 22:08:37 +0000
-Message-ID: <CAFEAcA_9YiFoPE_8Yx7dbo+R=Y9Cu4ETx+EoZ0mn9r05MWKdsw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+In-Reply-To: <20201009064449.2336-5-zhaolichang@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,24 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Daniele Buono <dbuono@linux.vnet.ibm.com>
+Cc: David Edmondson <david.edmondson@oracle.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 at 15:13, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> This one seems okay because the union constrains the size to 4K. If
-> "[0]" is enough to shut up the compiler, I'd say do that.
+On 10/9/20 8:44 AM, zhaolichang wrote:
+> I found that there are many spelling errors in the comments of qemu/target/rx.
+> I used spellcheck to check the spelling errors and found some errors in the folder.
+> 
+> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+> Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
+> ---
+>   target/rx/op_helper.c | 2 +-
+>   target/rx/translate.c | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
 
-Do you mean converting a C flexible array member (declared as
-"foo[]") into a gcc zero-length array (declared as "foo[0]") ?
-That seems like it would be going backwards from the direction
-we started in with commits f7795e4096d8bd1c and 880a7817c1a82
-of preferring flexible arrays to the GNU extension, so it's
-maybe not ideal, but I guess it's expedient.
-
-thanks
--- PMM
+Thanks, applied to renesas-next.
 
