@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5F5298998
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:43:44 +0100 (CET)
-Received: from localhost ([::1]:37866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BEB7298996
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:42:56 +0100 (CET)
+Received: from localhost ([::1]:34016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWz2V-0006dH-G9
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60206)
+	id 1kWz1j-000528-5k
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:42:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kWyzM-0002fA-54
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:40:28 -0400
-Received: from hera.aquilenet.fr ([185.233.100.1]:39218)
+ id 1kWz0T-0003lm-L5
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:41:37 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:55986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kWyzK-0005Dx-J0
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:40:27 -0400
+ id 1kWz0R-0005pX-RQ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:41:37 -0400
 Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 06902615;
- Mon, 26 Oct 2020 10:40:25 +0100 (CET)
+ by hera.aquilenet.fr (Postfix) with ESMTP id 5FEBBB8;
+ Mon, 26 Oct 2020 10:41:34 +0100 (CET)
 X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
 Received: from hera.aquilenet.fr ([127.0.0.1])
  by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id c2kkTuvtXZUm; Mon, 26 Oct 2020 10:40:24 +0100 (CET)
+ with ESMTP id wWMiCo2B_gHJ; Mon, 26 Oct 2020 10:41:33 +0100 (CET)
 Received: from function (lfbn-bor-1-56-204.w90-50.abo.wanadoo.fr
  [90.50.148.204])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 5E2FA4CC;
- Mon, 26 Oct 2020 10:40:24 +0100 (CET)
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 773829D;
+ Mon, 26 Oct 2020 10:41:33 +0100 (CET)
 Received: from samy by function with local (Exim 4.94)
  (envelope-from <samuel.thibault@gnu.org>)
- id 1kWyzH-006i2P-Hx; Mon, 26 Oct 2020 10:40:23 +0100
-Date: Mon, 26 Oct 2020 10:40:23 +0100
+ id 1kWz0O-006i2p-Qg; Mon, 26 Oct 2020 10:41:32 +0100
+Date: Mon, 26 Oct 2020 10:41:32 +0100
 From: Samuel Thibault <samuel.thibault@gnu.org>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 4/9] dev-serial: add trace-events for baud rate and data
- parameters
-Message-ID: <20201026094023.7xmowepzmdhsu5ba@function>
+Subject: Re: [PATCH 5/9] dev-serial: replace DeviceOutVendor/DeviceInVendor
+ with equivalent macros from usb.h
+Message-ID: <20201026094132.65noafdyxe6ssxi7@function>
 References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
- <20201026083401.13231-5-mark.cave-ayland@ilande.co.uk>
+ <20201026083401.13231-6-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201026083401.13231-5-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20201026083401.13231-6-mark.cave-ayland@ilande.co.uk>
 Organization: I am not organized
 User-Agent: NeoMutt/20170609 (1.8.3)
-Received-SPF: softfail client-ip=185.233.100.1;
+Received-SPF: softfail client-ip=2a0c:e300::1;
  envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 05:37:31
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -73,55 +72,109 @@ Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland, le lun. 26 oct. 2020 08:33:56 +0000, a ecrit:
+Mark Cave-Ayland, le lun. 26 oct. 2020 08:33:57 +0000, a ecrit:
+> The DeviceOutVendor and DeviceInVendor macros can be replaced with their
+> equivalent VendorDeviceOutRequest and VendorDeviceRequest macros from usb.h.
+> 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 
 > ---
->  hw/usb/dev-serial.c | 3 +++
->  hw/usb/trace-events | 2 ++
->  2 files changed, 5 insertions(+)
+>  hw/usb/dev-serial.c | 25 ++++++++++---------------
+>  1 file changed, 10 insertions(+), 15 deletions(-)
 > 
 > diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-> index abc316c7bf..badf8785db 100644
+> index badf8785db..92c35615eb 100644
 > --- a/hw/usb/dev-serial.c
 > +++ b/hw/usb/dev-serial.c
-> @@ -307,6 +307,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->          }
+> @@ -37,11 +37,6 @@
+>  #define FTDI_SET_LATENCY       9
+>  #define FTDI_GET_LATENCY       10
 >  
->          s->params.speed = (48000000 / 2) / (8 * divisor + subdivisor8);
-> +        trace_usb_serial_set_baud(bus->busnr, dev->addr, s->params.speed);
+> -#define DeviceOutVendor \
+> -           ((USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
+> -#define DeviceInVendor \
+> -           ((USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
+> -
+>  /* RESET */
+>  
+>  #define FTDI_RESET_SIO 0
+> @@ -253,7 +248,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+>          break;
+>  
+>      /* Class specific requests.  */
+> -    case DeviceOutVendor | FTDI_RESET:
+> +    case VendorDeviceOutRequest | FTDI_RESET:
+>          switch (value) {
+>          case FTDI_RESET_SIO:
+>              usb_serial_reset(s);
+> @@ -268,7 +263,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+>              break;
+>          }
+>          break;
+> -    case DeviceOutVendor | FTDI_SET_MDM_CTRL:
+> +    case VendorDeviceOutRequest | FTDI_SET_MDM_CTRL:
+>      {
+>          static int flags;
+>          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_GET_TIOCM, &flags);
+> @@ -289,10 +284,10 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+>          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
+>          break;
+>      }
+> -    case DeviceOutVendor | FTDI_SET_FLOW_CTRL:
+> +    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
+>          /* TODO: ioctl */
+>          break;
+> -    case DeviceOutVendor | FTDI_SET_BAUD: {
+> +    case VendorDeviceOutRequest | FTDI_SET_BAUD: {
+>          static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
+>          int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
+>                                       | ((index & 1) << 2)];
+> @@ -311,7 +306,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
 >          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
 >          break;
 >      }
-> @@ -340,6 +341,8 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
->              goto fail;
->          }
->  
-> +        trace_usb_serial_set_data(bus->busnr, dev->addr, s->params.parity,
-> +                                  s->params.data_bits, s->params.stop_bits);
+> -    case DeviceOutVendor | FTDI_SET_DATA:
+> +    case VendorDeviceOutRequest | FTDI_SET_DATA:
+>          switch (value & FTDI_PARITY) {
+>          case 0:
+>              s->params.parity = 'N';
+> @@ -346,23 +341,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
 >          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
 >          /* TODO: TX ON/OFF */
 >          break;
-> diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-> index e5871cbbbc..9e984b2e0c 100644
-> --- a/hw/usb/trace-events
-> +++ b/hw/usb/trace-events
-> @@ -328,3 +328,5 @@ usb_serial_unsupported_parity(int bus, int addr, int value) "dev %d:%d unsupport
->  usb_serial_unsupported_stopbits(int bus, int addr, int value) "dev %d:%d unsupported stop bits %d"
->  usb_serial_unsupported_control(int bus, int addr, int request, int value) "dev %d:%d got unsupported/bogus control 0x%x, value 0x%x"
->  usb_serial_bad_token(int bus, int addr) "dev %d:%d bad token"
-> +usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%d baud rate %d"
-> +usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%d parity %c, data bits %d, stop bits %d"
+> -    case DeviceInVendor | FTDI_GET_MDM_ST:
+> +    case VendorDeviceRequest | FTDI_GET_MDM_ST:
+>          data[0] = usb_get_modem_lines(s) | 1;
+>          data[1] = FTDI_THRE | FTDI_TEMT;
+>          p->actual_length = 2;
+>          break;
+> -    case DeviceOutVendor | FTDI_SET_EVENT_CHR:
+> +    case VendorDeviceOutRequest | FTDI_SET_EVENT_CHR:
+>          /* TODO: handle it */
+>          s->event_chr = value;
+>          break;
+> -    case DeviceOutVendor | FTDI_SET_ERROR_CHR:
+> +    case VendorDeviceOutRequest | FTDI_SET_ERROR_CHR:
+>          /* TODO: handle it */
+>          s->error_chr = value;
+>          break;
+> -    case DeviceOutVendor | FTDI_SET_LATENCY:
+> +    case VendorDeviceOutRequest | FTDI_SET_LATENCY:
+>          s->latency = value;
+>          break;
+> -    case DeviceInVendor | FTDI_GET_LATENCY:
+> +    case VendorDeviceRequest | FTDI_GET_LATENCY:
+>          data[0] = s->latency;
+>          p->actual_length = 1;
+>          break;
 > -- 
 > 2.20.1
 > 
 
 -- 
 Samuel
- J'ai un gros problème: j'ai cet exercice à rendre demain lundi, mais ma
- TI 89 ne sait pas le faire...
- Est-ce que quelqu'un pourrait m'aider??
- -+- OD In Guide du Neuneu Usenet : Comment ça ! Il faut réfléchir ?-+-
+How do I type "for i in *.dvi do xdvi i done" in a GUI?
+(Discussion in comp.os.linux.misc on the intuitiveness of interfaces.)
 
