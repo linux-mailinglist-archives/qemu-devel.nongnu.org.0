@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81695299955
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:09:10 +0100 (CET)
-Received: from localhost ([::1]:47296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E60299967
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:14:56 +0100 (CET)
+Received: from localhost ([::1]:38198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAft-0002Ps-6H
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:09:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39236)
+	id 1kXAlT-00022D-2B
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:14:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAak-0005fb-Rm
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:51 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:34111)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAai-0005cg-SW
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:34001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAai-0005Fq-Ka
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:50 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAah-0005FB-2s
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:48 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MrQ2R-1k0cye0Ncd-00oYja; Mon, 26 Oct 2020 23:03:43 +0100
+ id 1MD9nd-1kfjA62qDx-0099Rk; Mon, 26 Oct 2020 23:03:43 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/8] linux-user: update syscall_nr.h to Linux 5.9-rc7
-Date: Mon, 26 Oct 2020 23:03:34 +0100
-Message-Id: <20201026220339.195790-4-laurent@vivier.eu>
+Subject: [PULL 4/8] linux-user: update mips/syscall-args-o32.c.inc to Linux
+ 5.9-rc7
+Date: Mon, 26 Oct 2020 23:03:35 +0100
+Message-Id: <20201026220339.195790-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026220339.195790-1-laurent@vivier.eu>
 References: <20201026220339.195790-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Re4Nz3e6YcUkR6hCst04ANZ72i8YrvsVOrFQJnv6QGZzKHxZ1r8
- hTe7EUMBsmvJfM2UXKdpGgFIbDXeDro0q+oaXp7FRryxTKDVH3NN7ypDxx1a71l4Y9sFDy2
- u3XHFgTUdE2N/+hDw7BE8EckMsZnRT0CVgEXa+w5d9HUIj9B29WMCmRUQeZ40kww4pO80w8
- TFdGr14wBRT+GAfghYYXA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JZ5NMj+GE8Q=:MnOUKPrV1d5icNzeI+5Y0V
- KsfJU1o67BTMwAGv7JUjd8tuo6e2PIEKefaeVxUpJXonh4Suk2DYhUvW6aVywdTZD0Yl7v8Sq
- BDD8a3ih5x172ZLAextN94rfXBHb9bgtHWHlxRFz3OPgHfXbEfXd3sAEK6BPP+zZDzOSBbt+q
- vZSbjyKMqk/TOC5on+O2y6ffjsrC5G77eqfiRuD6utKbYfCXtuSSv3hDL5118iULPxsM3HD9Q
- 3kCXE3t58kHv5YFL8Ikty2vflh/+E9O+atrtKsFMwMxptozL0ywV5xzpsyiit5yoWjfuzNVnT
- uu/JfYW2yAYn8rarj+em0aI3UIa1Ntfvmysmjc1tHMtmw3ihAdOKYhHAufbgj2L0wn7/KXcXN
- 3BI3xuhxoWn6aToKbWafxWfx/I3Vw5Lbj97UEZQQ5YCVTrpskgnEuzeHVTi7U
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:39gxY8zbYF5wRP6WSzIWuuv77Ru4bWDfw1Ezo+Mj4tDeFze11jl
+ 9uKdBKst6eE83JNB4XZPNnuzP/S9BjONbH8y1odpDCFlFU2ul1ET5Pc0PCyNcBw3KDkFYV6
+ FnZvzAoXJ8pmykcgAlar0AwlAh0kltWh+w9Fabm9pa0TYceXQvNs359eS5zh5k0Jkfvpsax
+ QH71RoAOgi6rXcdyNAb4w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:qDkUNIn1q1Y=:POLv1YzuHhzVfiHgL08xRm
+ mp9ExwiuDEpU7Y0UBu2ddjv5y1CUG3M4osfLhYunlMPKchJkeWHXEr9YKZwHVh4hSYKueDDWL
+ 23Mc7yIRSSyrP89xIW7xhjDbDTN/OsXwquqSeF9zXjaJ1bIOjk5W48W7E+CWnMCv1U9WqLUAW
+ blD4iLLJv+x9LsnBmdGLri9ZRCcfbHhq79um5t2qcbjMK+iTi2owBseMTmc+0rKC1nZLWxbAa
+ k+2d+qPDHjHJbp97nOtNhHnmPgB+hH89BH6kYoIvA9riwm4HKZxoA5/g9J5qJtRlc6jWepz0M
+ dif7m6hSrLkvfrasoAQjZKaH61JWEkZXOTJ2neokkiUQutNygwGXctRZqUvlmcp5fO5o6ct8r
+ jndmmINZituKAQXFTOPHXHUNPHYqbBG9j3tdm8jMI0ImOp1TXghpJp0L4ZKOzmHD/fANpDi8n
+ bsWu3AEY1w==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 18:03:47
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 18:03:45
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -64,143 +67,34 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Laurent Vivier <laurent@vivier.eu>
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update gensyscalls.sh not to generate an empty line at the end of the file
-
-And then automatically update syscall_nr.h running scripts/gensyscalls.sh
+Updated running scripts/update-mips-syscall-args.sh
 
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20200930003033.554124-2-laurent@vivier.eu>
+Message-Id: <20200930003033.554124-3-laurent@vivier.eu>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/aarch64/syscall_nr.h  | 7 +++++--
- linux-user/nios2/syscall_nr.h    | 7 +++++--
- linux-user/openrisc/syscall_nr.h | 8 ++++++--
- linux-user/riscv/syscall32_nr.h  | 8 +++++++-
- linux-user/riscv/syscall64_nr.h  | 8 +++++++-
- scripts/gensyscalls.sh           | 3 +--
- 6 files changed, 31 insertions(+), 10 deletions(-)
+ linux-user/mips/syscall-args-o32.c.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/aarch64/syscall_nr.h b/linux-user/aarch64/syscall_nr.h
-index 85de000b2490..6fd5b331e780 100644
---- a/linux-user/aarch64/syscall_nr.h
-+++ b/linux-user/aarch64/syscall_nr.h
-@@ -298,7 +298,10 @@
- #define TARGET_NR_fspick 433
- #define TARGET_NR_pidfd_open 434
- #define TARGET_NR_clone3 435
--#define TARGET_NR_syscalls 436
-+#define TARGET_NR_close_range 436
-+#define TARGET_NR_openat2 437
-+#define TARGET_NR_pidfd_getfd 438
-+#define TARGET_NR_faccessat2 439
-+#define TARGET_NR_syscalls 440
- 
- #endif /* LINUX_USER_AARCH64_SYSCALL_NR_H */
--
-diff --git a/linux-user/nios2/syscall_nr.h b/linux-user/nios2/syscall_nr.h
-index 32d485dc9ae8..e37f40179bf3 100644
---- a/linux-user/nios2/syscall_nr.h
-+++ b/linux-user/nios2/syscall_nr.h
-@@ -318,7 +318,10 @@
- #define TARGET_NR_fsmount 432
- #define TARGET_NR_fspick 433
- #define TARGET_NR_pidfd_open 434
--#define TARGET_NR_syscalls 436
-+#define TARGET_NR_close_range 436
-+#define TARGET_NR_openat2 437
-+#define TARGET_NR_pidfd_getfd 438
-+#define TARGET_NR_faccessat2 439
-+#define TARGET_NR_syscalls 440
- 
- #endif /* LINUX_USER_NIOS2_SYSCALL_NR_H */
--
-diff --git a/linux-user/openrisc/syscall_nr.h b/linux-user/openrisc/syscall_nr.h
-index 340383beb2c6..a8fc0295109a 100644
---- a/linux-user/openrisc/syscall_nr.h
-+++ b/linux-user/openrisc/syscall_nr.h
-@@ -318,7 +318,11 @@
- #define TARGET_NR_fsmount 432
- #define TARGET_NR_fspick 433
- #define TARGET_NR_pidfd_open 434
--#define TARGET_NR_syscalls 436
-+#define TARGET_NR_clone3 435
-+#define TARGET_NR_close_range 436
-+#define TARGET_NR_openat2 437
-+#define TARGET_NR_pidfd_getfd 438
-+#define TARGET_NR_faccessat2 439
-+#define TARGET_NR_syscalls 440
- 
- #endif /* LINUX_USER_OPENRISC_SYSCALL_NR_H */
--
-diff --git a/linux-user/riscv/syscall32_nr.h b/linux-user/riscv/syscall32_nr.h
-index 4fef73e954da..079b804daef5 100644
---- a/linux-user/riscv/syscall32_nr.h
-+++ b/linux-user/riscv/syscall32_nr.h
-@@ -1,5 +1,7 @@
- /*
-  * This file contains the system call numbers.
-+ * Do not modify.
-+ * This file is generated by scripts/gensyscalls.sh
-  */
- #ifndef LINUX_USER_RISCV_SYSCALL32_NR_H
- #define LINUX_USER_RISCV_SYSCALL32_NR_H
-@@ -290,6 +292,10 @@
- #define TARGET_NR_fspick 433
- #define TARGET_NR_pidfd_open 434
- #define TARGET_NR_clone3 435
--#define TARGET_NR_syscalls 436
-+#define TARGET_NR_close_range 436
-+#define TARGET_NR_openat2 437
-+#define TARGET_NR_pidfd_getfd 438
-+#define TARGET_NR_faccessat2 439
-+#define TARGET_NR_syscalls 440
- 
- #endif /* LINUX_USER_RISCV_SYSCALL32_NR_H */
-diff --git a/linux-user/riscv/syscall64_nr.h b/linux-user/riscv/syscall64_nr.h
-index cc82f3244f55..d54224ccec64 100644
---- a/linux-user/riscv/syscall64_nr.h
-+++ b/linux-user/riscv/syscall64_nr.h
-@@ -1,5 +1,7 @@
- /*
-  * This file contains the system call numbers.
-+ * Do not modify.
-+ * This file is generated by scripts/gensyscalls.sh
-  */
- #ifndef LINUX_USER_RISCV_SYSCALL64_NR_H
- #define LINUX_USER_RISCV_SYSCALL64_NR_H
-@@ -296,6 +298,10 @@
- #define TARGET_NR_fspick 433
- #define TARGET_NR_pidfd_open 434
- #define TARGET_NR_clone3 435
--#define TARGET_NR_syscalls 436
-+#define TARGET_NR_close_range 436
-+#define TARGET_NR_openat2 437
-+#define TARGET_NR_pidfd_getfd 438
-+#define TARGET_NR_faccessat2 439
-+#define TARGET_NR_syscalls 440
- 
- #endif /* LINUX_USER_RISCV_SYSCALL64_NR_H */
-diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
-index b7b8456f6312..bba9fb052c47 100755
---- a/scripts/gensyscalls.sh
-+++ b/scripts/gensyscalls.sh
-@@ -86,8 +86,7 @@ generate_syscall_nr()
-     read_includes $arch $bits | filter_defines | rename_defines | \
-                                 evaluate_values | sort -n -k 3
-     echo
--    echo "#endif /* ${guard} */"
--    echo) > "$file"
-+    echo "#endif /* ${guard} */") > "$file"
- }
- 
- mkdir "$TMP/asm"
+diff --git a/linux-user/mips/syscall-args-o32.c.inc b/linux-user/mips/syscall-args-o32.c.inc
+index 0ad35857b4e4..92ee4f921ec7 100644
+--- a/linux-user/mips/syscall-args-o32.c.inc
++++ b/linux-user/mips/syscall-args-o32.c.inc
+@@ -434,3 +434,7 @@
+     [ 433] = 3, /* fspick */
+     [ 434] = 2, /* pidfd_open */
+     [ 435] = 2, /* clone3 */
++    [ 436] = 3, /* close_range */
++    [ 437] = 4, /* openat2 */
++    [ 438] = 3, /* pidfd_getfd */
++    [ 439] = 4, /* faccessat2 */
 -- 
 2.26.2
 
