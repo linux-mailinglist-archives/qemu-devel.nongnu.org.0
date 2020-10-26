@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 930532997DB
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:22:09 +0100 (CET)
-Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4B829979E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:08:12 +0100 (CET)
+Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX90K-0000f4-Jt
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:22:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60714)
+	id 1kX8mp-0007r8-Ub
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8Ij-0006we-0k
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:37:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24301)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Om-0006a2-MK
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:20 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50536)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8Ib-0002TK-4s
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:37:02 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Oh-00038K-K4
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603741016;
+ s=mimecast20190719; t=1603741394;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+rBwul389EePhtiA1BcUNknP1vMAArlrW8UMon7CiSA=;
- b=dKaGTV1QW+fpjvmxjU/znlVZBR6qunTIlA2ErB5A52K6LchuFO04PzNUwD7jktj04EIurX
- Q0Gd/pwyvtAs0zLelbLlUmRWUrseEiwKmO0FxEoUtSO88LDmR/jN9kZl9/kZhVxX/bGd3m
- I3gpSI0AzqCW6rdSHZ6vvvcMdAFqVeM=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=NS7GuZOZomlBwMDkfqMsEGS70Im1nb/zmllpfmWqJaM=;
+ b=elSvWb5ois9bXL/navVsIBcs0Ble/ZFNYYSCGStJw9jzJ9sqS/2X5WlhmAlcPFHd27bp2b
+ pe1AD8da5Ex7WOZWwYGb2raf/AyX54FtdApb7+CpTsSub9kH7oja3YenSdD59pJCpoSGZX
+ sRzLh+UcUUoaS5bN06YDDCEyHbTMRO4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-299-KGD_O2mUPHWkZGUhmO9fbA-1; Mon, 26 Oct 2020 15:36:53 -0400
-X-MC-Unique: KGD_O2mUPHWkZGUhmO9fbA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-267-kH3TNXVcPaybA14AuKXQ2Q-1; Mon, 26 Oct 2020 15:43:11 -0400
+X-MC-Unique: kH3TNXVcPaybA14AuKXQ2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A49C8186841C;
- Mon, 26 Oct 2020 19:36:52 +0000 (UTC)
-Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B7645C1BB;
- Mon, 26 Oct 2020 19:36:52 +0000 (UTC)
-Subject: [PULL 32/32] vfio: fix incorrect print type
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 26 Oct 2020 13:36:52 -0600
-Message-ID: <160374101204.22414.5469893743685681968.stgit@gimli.home>
-In-Reply-To: <160374054442.22414.10832953989449611268.stgit@gimli.home>
-References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
-User-Agent: StGit/0.21-dirty
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B41C88C7AA
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:07 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A35605B4C9;
+ Mon, 26 Oct 2020 19:42:52 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v2 00/11] qapi: static typing conversion, pt2
+Date: Mon, 26 Oct 2020 15:42:40 -0400
+Message-Id: <20201026194251.11075-1-jsnow@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -82,42 +76,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengui li <lizhengui@huawei.com>
+Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhengui li <lizhengui@huawei.com>
-
-The type of input variable is unsigned int
-while the printer type is int. So fix incorrect print type.
-
-Signed-off-by: Zhengui li <lizhengui@huawei.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/common.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 5b369e15b381..99bd91ece405 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -205,7 +205,7 @@ void vfio_region_write(void *opaque, hwaddr addr,
-         buf.qword = cpu_to_le64(data);
-         break;
-     default:
--        hw_error("vfio: unsupported write size, %d bytes", size);
-+        hw_error("vfio: unsupported write size, %u bytes", size);
-         break;
-     }
- 
-@@ -262,7 +262,7 @@ uint64_t vfio_region_read(void *opaque,
-         data = le64_to_cpu(buf.qword);
-         break;
-     default:
--        hw_error("vfio: unsupported read size, %d bytes", size);
-+        hw_error("vfio: unsupported read size, %u bytes", size);
-         break;
-     }
- 
+Hi, this series adds static type hints to the QAPI module.=0D
+This is part two, and covers introspect.py.=0D
+=0D
+Part 2: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt2=0D
+Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
+=0D
+- Requires Python 3.6+=0D
+- Requires mypy 0.770 or newer (for type analysis only)=0D
+- Requires pylint 2.6.0 or newer (for lint checking only)=0D
+=0D
+Type hints are added in patches that add *only* type hints and change no=0D
+other behavior. Any necessary changes to behavior to accommodate typing=0D
+are split out into their own tiny patches.=0D
+=0D
+Every commit should pass with:=0D
+ - flake8 qapi/=0D
+ - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
+ - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
+=0D
+V2:=0D
+ - Dropped all R-B from previous series; enough has changed.=0D
+ - pt2 is now introspect.py, expr.py is pushed to pt3.=0D
+ - Reworked again to have less confusing (?) type names=0D
+ - Added an assertion to prevent future accidental breakage=0D
+=0D
+John Snow (11):=0D
+  [DO-NOT-MERGE] docs: replace single backtick (`) with double-backtick=0D
+    (``)=0D
+  [DO-NOT-MERGE] docs/sphinx: change default role to "any"=0D
+  [DO-NOT-MERGE] docs: enable sphinx-autodoc for scripts/qapi=0D
+  qapi/introspect.py: add assertions and casts=0D
+  qapi/introspect.py: add preliminary type hint annotations=0D
+  qapi/introspect.py: add _gen_features helper=0D
+  qapi/introspect.py: Unify return type of _make_tree()=0D
+  qapi/introspect.py: replace 'extra' dict with 'comment' argument=0D
+  qapi/introspect.py: create a typed 'Annotated' data strutcure=0D
+  qapi/introspect.py: improve readability of _tree_to_qlit=0D
+  qapi/introspect.py: Add docstring to _tree_to_qlit=0D
+=0D
+ docs/conf.py                           |   6 +-=0D
+ docs/devel/build-system.rst            | 120 +++++------=0D
+ docs/devel/index.rst                   |   1 +=0D
+ docs/devel/migration.rst               |  59 +++---=0D
+ docs/devel/python/index.rst            |   7 +=0D
+ docs/devel/python/qapi.commands.rst    |   7 +=0D
+ docs/devel/python/qapi.common.rst      |   7 +=0D
+ docs/devel/python/qapi.error.rst       |   7 +=0D
+ docs/devel/python/qapi.events.rst      |   7 +=0D
+ docs/devel/python/qapi.expr.rst        |   7 +=0D
+ docs/devel/python/qapi.gen.rst         |   7 +=0D
+ docs/devel/python/qapi.introspect.rst  |   7 +=0D
+ docs/devel/python/qapi.main.rst        |   7 +=0D
+ docs/devel/python/qapi.parser.rst      |   8 +=0D
+ docs/devel/python/qapi.rst             |  26 +++=0D
+ docs/devel/python/qapi.schema.rst      |   7 +=0D
+ docs/devel/python/qapi.source.rst      |   7 +=0D
+ docs/devel/python/qapi.types.rst       |   7 +=0D
+ docs/devel/python/qapi.visit.rst       |   7 +=0D
+ docs/devel/tcg-plugins.rst             |  14 +-=0D
+ docs/devel/testing.rst                 |   2 +-=0D
+ docs/interop/live-block-operations.rst |   4 +-=0D
+ docs/system/arm/cpu-features.rst       | 110 +++++-----=0D
+ docs/system/arm/nuvoton.rst            |   2 +-=0D
+ docs/system/s390x/protvirt.rst         |  10 +-=0D
+ qapi/block-core.json                   |   4 +-=0D
+ scripts/qapi/introspect.py             | 277 +++++++++++++++++--------=0D
+ scripts/qapi/mypy.ini                  |   5 -=0D
+ scripts/qapi/schema.py                 |   2 +-=0D
+ 29 files changed, 487 insertions(+), 254 deletions(-)=0D
+ create mode 100644 docs/devel/python/index.rst=0D
+ create mode 100644 docs/devel/python/qapi.commands.rst=0D
+ create mode 100644 docs/devel/python/qapi.common.rst=0D
+ create mode 100644 docs/devel/python/qapi.error.rst=0D
+ create mode 100644 docs/devel/python/qapi.events.rst=0D
+ create mode 100644 docs/devel/python/qapi.expr.rst=0D
+ create mode 100644 docs/devel/python/qapi.gen.rst=0D
+ create mode 100644 docs/devel/python/qapi.introspect.rst=0D
+ create mode 100644 docs/devel/python/qapi.main.rst=0D
+ create mode 100644 docs/devel/python/qapi.parser.rst=0D
+ create mode 100644 docs/devel/python/qapi.rst=0D
+ create mode 100644 docs/devel/python/qapi.schema.rst=0D
+ create mode 100644 docs/devel/python/qapi.source.rst=0D
+ create mode 100644 docs/devel/python/qapi.types.rst=0D
+ create mode 100644 docs/devel/python/qapi.visit.rst=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
