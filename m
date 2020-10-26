@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19226298A03
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:08:44 +0100 (CET)
-Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA25F298A10
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:11:13 +0100 (CET)
+Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzQh-00045l-3C
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:08:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
+	id 1kWzT6-0007Wt-N5
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:11:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOn-0002P8-DT
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20865)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOp-0002QL-Qo
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26280)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOl-0006ZR-2u
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:44 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOl-0006aN-DS
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706800;
+ s=mimecast20190719; t=1603706802;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=U/8TwMow7JFz41G6l7+MQj+1KDG2MIh2y51jl6IvirY=;
- b=EpIR0FiCSEaBA+mAv9OJRIidiFHLkKasEA3TWpqV3yiz+Prsz9UfMlENqI5Yf2lV2ogqjl
- Iavvd5ssF1kMX3MqE5K2HFrfb2nlcBHz2c5h2LutDjmqnIMbR+thKJucHFcK9lVS01I4/A
- eDtNJ4Yk5QiWHoe+u5lNcTFBqtLu1rM=
+ references:references; bh=+LT4RxKVcAVhYRwncs0L+BQ1wRj6aHo9PM7a1P0TdeU=;
+ b=Cj0yF21UHXYtFH8YURMQELE7Oc/ni9R7LZHzsgAG/T68tzTtNw1xOMHCYVc7QoSt2jTHJy
+ YU6ijikwSMdnzZW0dUZASSau+5Xau9R1wvoBeYvb385SVDPsRMkHoH2Ibf1VlAMY0JQaqN
+ Kw45SOHjPCCOTLVR2YnZeaL7QSBSK/U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-TA7i9RzbMiWUjGe8AM3IIw-1; Mon, 26 Oct 2020 06:06:38 -0400
-X-MC-Unique: TA7i9RzbMiWUjGe8AM3IIw-1
+ us-mta-390-IPZHlRcPPEa5doNrH5yJmw-1; Mon, 26 Oct 2020 06:06:40 -0400
+X-MC-Unique: IPZHlRcPPEa5doNrH5yJmw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FB031882FA7;
- Mon, 26 Oct 2020 10:06:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBE295A09A;
+ Mon, 26 Oct 2020 10:06:38 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E28E8B849;
- Mon, 26 Oct 2020 10:06:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE0A38B843;
+ Mon, 26 Oct 2020 10:06:37 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 01/31] tests/migration: fix memleak in
- wait_command/wait_command_fd
-Date: Mon, 26 Oct 2020 11:06:02 +0100
-Message-Id: <20201026100632.212530-2-thuth@redhat.com>
+Subject: [PULL 02/31] tests/qtest/libqtest: Fix detection of architecture for
+ binaries without path
+Date: Mon, 26 Oct 2020 11:06:03 +0100
+Message-Id: <20201026100632.212530-3-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -80,87 +80,45 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+The qtests can be run directly by specifying the QEMU binary with the
+QTEST_QEMU_BINARY environment variable, for example:
 
-Properly free each command resp to avoid memory leak.
-ASAN shows memory leak stack:
+ $ QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64 tests/qtest/test-hmp
 
-Indirect leak of 2352520 byte(s) in 571 object(s) allocated from:
-    #0 0x7f6ca3308d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
-    #1 0x7f6ca3127a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
-    #2 0x557bf3c71d2b in qdict_new ../qobject/qdict.c:29
-    #3 0x557bf3c9caba in parse_object ../qobject/json-parser.c:318
-    #4 0x557bf3c9ce75 in json_parser_parse ../qobject/json-parser.c:580
-    #5 0x557bf3c8c8cf in json_message_process_token ../qobject/json-streamer.c:92
-    #6 0x557bf3c9ea59 in json_lexer_feed_char ../qobject/json-lexer.c:313
-    #7 0x557bf3c9eeb5 in json_lexer_feed ../qobject/json-lexer.c:350
-    #8 0x557bf3c4793a in qmp_fd_receive ../tests/qtest/libqtest.c:608
-    #9 0x557bf3c47b58 in qtest_qmp_receive ../tests/qtest/libqtest.c:618
-    #10 0x557bf3c44245 in wait_command ../tests/qtest/migration-helpers.c:59
-    #11 0x557bf3c445cb in migrate_query_status ../tests/qtest/migration-helpers.c:108
-    #12 0x557bf3c44642 in check_migration_status ../tests/qtest/migration-helpers.c:124
-    #13 0x557bf3c447e7 in wait_for_migration_status ../tests/qtest/migration-helpers.c:148
-    #14 0x557bf3c43b8f in test_migrate_auto_converge ../tests/qtest/migration-test.c:1243
-    ......
+However, if you specify a binary without a path, for example with
+QTEST_QEMU_BINARY=qemu-system-x86_64 if the QEMU binary is in your
+$PATH, then the test currently simply crashes.
 
-Fix: 5e34005571af5
+Let's try a little bit smarter here by looking for the final '-'
+instead of the slash.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Message-Id: <20201023061218.2080844-2-kuhn.chenqun@huawei.com>
+Message-Id: <20201012114816.43546-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/migration-helpers.c | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ tests/qtest/libqtest.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
-index b799dbafb7..4ee26014b7 100644
---- a/tests/qtest/migration-helpers.c
-+++ b/tests/qtest/migration-helpers.c
-@@ -32,7 +32,7 @@ static void check_stop_event(QTestState *who)
- QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 08929f5ff6..b9ff29055b 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -870,9 +870,14 @@ char *qtest_hmp(QTestState *s, const char *fmt, ...)
+ const char *qtest_get_arch(void)
  {
-     va_list ap;
--    QDict *resp;
-+    QDict *resp, *ret;
+     const char *qemu = qtest_qemu_binary();
+-    const char *end = strrchr(qemu, '/');
++    const char *end = strrchr(qemu, '-');
  
-     va_start(ap, command);
-     qtest_qmp_vsend_fds(who, &fd, 1, command, ap);
-@@ -44,7 +44,11 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
-     g_assert(!qdict_haskey(resp, "error"));
-     g_assert(qdict_haskey(resp, "return"));
- 
--    return qdict_get_qdict(resp, "return");
-+    ret = qdict_get_qdict(resp, "return");
-+    qobject_ref(ret);
-+    qobject_unref(resp);
+-    return end + strlen("/qemu-system-");
++    if (!end) {
++        fprintf(stderr, "Can't determine architecture from binary name.\n");
++        abort();
++    }
 +
-+    return ret;
++    return end + 1;
  }
  
- /*
-@@ -53,7 +57,7 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
- QDict *wait_command(QTestState *who, const char *command, ...)
- {
-     va_list ap;
--    QDict *resp;
-+    QDict *resp, *ret;
- 
-     va_start(ap, command);
-     resp = qtest_vqmp(who, command, ap);
-@@ -64,7 +68,11 @@ QDict *wait_command(QTestState *who, const char *command, ...)
-     g_assert(!qdict_haskey(resp, "error"));
-     g_assert(qdict_haskey(resp, "return"));
- 
--    return qdict_get_qdict(resp, "return");
-+    ret = qdict_get_qdict(resp, "return");
-+    qobject_ref(ret);
-+    qobject_unref(resp);
-+
-+    return ret;
- }
- 
- /*
+ bool qtest_get_irq(QTestState *s, int num)
 -- 
 2.18.2
 
