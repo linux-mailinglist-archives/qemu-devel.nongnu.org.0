@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20A85298FF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:53:09 +0100 (CET)
-Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B37A929904F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:58:05 +0100 (CET)
+Received: from localhost ([::1]:60960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3rw-0003jk-73
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:53:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
+	id 1kX3wi-0001TG-Q4
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:58:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3mZ-0007NW-7l
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:47:35 -0400
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:41585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3mX-00020H-11
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:47:34 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.68])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id E06A61FFD66;
- Mon, 26 Oct 2020 15:47:28 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 26 Oct
- 2020 15:47:28 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003c3b2a2d3-5704-487b-aa99-9f8972f0b8ca,
- D69A261E470FD7A087455D2B3B9CC66C186A091D) smtp.auth=groug@kaod.org
-Date: Mon, 26 Oct 2020 15:47:22 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 4/4] spapr: Improve spapr_reallocate_hpt() error reporting
-Message-ID: <20201026154722.3b573be7@bahia.lan>
-In-Reply-To: <b67330f6-797c-f088-b6fa-7e81075e2245@redhat.com>
-References: <160371602625.305923.7832478283946753271.stgit@bahia.lan>
- <160371605460.305923.5890143959901241157.stgit@bahia.lan>
- <b67330f6-797c-f088-b6fa-7e81075e2245@redhat.com>
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX3p0-0001tq-Ig
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:50:07 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:40504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX3oy-0002GF-CF
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:50:05 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id z5so13953841ejw.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 07:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fCzMZ4/zBnaNjDQMNHnoegvUGFLvTjrtT6DGtzRtX8s=;
+ b=t2YEE5xPisrhAKJV6q1BMitGWQUKKiFfBygY15UV5+lRDPRGs2uJTZbcH098iUDJHL
+ VPASPFpBSy6oKVavoPu0BCVGgFNHUYC93+llOIu1R92qZmWfLE8xdQ9IleyX8AltKts6
+ O59cIhGLSDyw8rXNVFpFETlV1NcvPWWDHo9EA2S9nWZ90xr1FvRo8+pv9LzP20FKY6SM
+ ujLwjO9rf7IcRECHOPv5vuABM/w2Fj3P37iZrrsHImfgxjO8fex5iYcPbTdXrh5QAuVS
+ umOlcy11jol5E8wvJicb20lbcNx/PAhl74IbhTXNVx6K+D3ivqxSuUCVZhU/xsS8CQn9
+ /nhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fCzMZ4/zBnaNjDQMNHnoegvUGFLvTjrtT6DGtzRtX8s=;
+ b=orjNdqz/p0BufIJDJivCjAEad7EuGxDP6cxBzNdVegIetIx9uHtxm6vpc0j9Qs9d6j
+ aP8KpFCL5l154JDv76+49+2es+tqcCHbsPKS7r0RvPeAoMFiQtGwjR56KJ50IZ1/MQ3+
+ BEwsmP8lQkoD3UIZ3dwg6xleDqxZjWWUadPIxeu7IPiilegEIxUSdLARmUYQNki7TNCE
+ TsXtAeq9fFJVlBbxHxwAz6G33VZzZvhCRdNWOXpAJOSjPMukEL0WBDZSfOhvUuQVaJol
+ 8ccCYOAwbNNFJhuBFFCsOpvr+NWP6Lq3++OAlrOYpEs+ewPwX8pxo2c4Zf6yDNha2HrR
+ yEJA==
+X-Gm-Message-State: AOAM530RinAw557yaT++cQn4vqKiQ45CBPJJRMHcSaIjr7IfVaSAMcYc
+ KVsSC933Glbd6Ps4T4jfqSQt2rtA4UNDZ2lKqNA7lf54mX8=
+X-Google-Smtp-Source: ABdhPJwqC6meC4jCEcK+4YJmTSYVSMVYUza2zIqriPt05cFi2AGpaPaZh1C5uggRA1BQjL//DH+mlDpwXuSW3rglL38=
+X-Received: by 2002:a17:906:3b59:: with SMTP id
+ h25mr16723341ejf.56.1603723802631; 
+ Mon, 26 Oct 2020 07:50:02 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201026100632.212530-1-thuth@redhat.com>
+In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 14:49:51 +0000
+Message-ID: <CAFEAcA-AiPpGUy28y=pm907Km9FCt1UBy-tWyCn0N8NCfduJmA@mail.gmail.com>
+Subject: Re: [PULL 00/31] qtests and gitlab-CI/acceptance patches
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: d7dde868-e3a4-4be8-ba91-7c37d7606c7c
-X-Ovh-Tracer-Id: 16248987459836221920
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeejgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 10:47:30
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,120 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Alexander Bulekov <alxndr@bu.edu>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 14:49:34 +0100
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On Mon, 26 Oct 2020 at 10:06, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter,
+>
+> the following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2020-10-26
+>
+> for you to fetch changes up to 28bbe20ce281659e317b807f34f568bde6d99760:
+>
+>   tests/acceptance: Use .ppm extention for Portable PixMap files (2020-10-26 09:54:16 +0100)
+>
+> ----------------------------------------------------------------
+> * qtest fixes (e.g. memory leaks)
+> * Fix for Xen dummy cpu loop (which happened due to qtest accel rework)
+> * Introduction of the generic device fuzzer
+> * Run more check-acceptance tests in the gitlab-CI
+> ----------------------------------------------------------------
 
-> On 10/26/20 1:40 PM, Greg Kurz wrote:
-> > spapr_reallocate_hpt() has three users, two of which pass &error_fatal
-> > and the third one, htab_load(), passes &local_err, uses it to detect
-> > failures and simply propagates -EINVAL up to vmstate_load(), which will
-> > cause QEMU to exit. It is thus confusing that spapr_reallocate_hpt()
-> > doesn't return right away when an error is detected in some cases. Also,
-> > the comment suggesting that the caller is welcome to try to carry on
-> > seems like a remnant in this respect.
-> >=20
-> > This can be improved:
-> > - change spapr_reallocate_hpt() to always report a negative errno on
-> >    failure, either as reported by KVM or -ENOSPC if the HPT is smaller
-> >    than what was asked,
-> > - use that to detect failures in htab_load() which is preferred over
-> >    checking &local_err,
-> > - propagate this negative errno to vmstate_load() because it is more
-> >    accurate than propagating -EINVAL for all possible errors.
-> >=20
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> ...
->=20
-> > -void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
-> > -                          Error **errp)
-> > +int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **=
-errp)
-> >   {
-> >       ERRP_GUARD();
-> >       long rc;
-> > @@ -1496,7 +1495,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
-r, int shift,
-> >  =20
-> >       if (rc =3D=3D -EOPNOTSUPP) {
-> >           error_setg(errp, "HPT not supported in nested guests");
-> > -        return;
-> > +        return -EOPNOTSUPP;
-> >       }
-> >  =20
-> >       if (rc < 0) {
-> > @@ -1504,8 +1503,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
-r, int shift,
-> >           error_setg_errno(errp, errno, "Failed to allocate KVM HPT of =
-order %d",
-> >                            shift);
-> >           error_append_hint(errp, "Try smaller maxmem?\n");
-> > -        /* This is almost certainly fatal, but if the caller really
-> > -         * wants to carry on with shift =3D=3D 0, it's welcome to try =
-*/
-> > +        return -errno;
->=20
-> Maybe returning here should be in a previous patch.
-> Otherwise patch looks good.
->=20
 
-It could have been indeed...
+Applied, thanks.
 
-> >       } else if (rc > 0) {
-> >           /* kernel-side HPT allocated */
-> >           if (rc !=3D shift) {
-> > @@ -1513,6 +1511,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
-r, int shift,
-> >                          "Requested order %d HPT, but kernel allocated =
-order %ld",
-> >                          shift, rc);
-> >               error_append_hint(errp, "Try smaller maxmem?\n");
-> > +            return -ENOSPC;
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-... along with this one.
-
-I didn't go this way because it doesn't really affect the final behavior si=
-nce
-QEMU exits in all cases. It's mostly about propagating an appropriate errno=
- up
-to VMState in the case of htab_load(). But if you find it clearer and I need
-to post a v2, I can certainly do that.
-
-> >           }
-> >  =20
-> >           spapr->htab_shift =3D shift;
-> > @@ -1533,6 +1532,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
-r, int shift,
-> >       /* We're setting up a hash table, so that means we're not radix */
-> >       spapr->patb_entry =3D 0;
-> >       spapr_set_all_lpcrs(0, LPCR_HR | LPCR_UPRT);
-> > +    return 0;
-> >   }
-> >  =20
-> >   void spapr_setup_hpt(SpaprMachineState *spapr)
-> > @@ -2286,11 +2286,13 @@ static int htab_load(QEMUFile *f, void *opaque,=
- int version_id)
-> >       }
-> >  =20
-> >       if (section_hdr) {
-> > +        int ret;
-> > +
-> >           /* First section gives the htab size */
-> > -        spapr_reallocate_hpt(spapr, section_hdr, &local_err);
-> > -        if (local_err) {
-> > +        ret =3D spapr_reallocate_hpt(spapr, section_hdr, &local_err);
-> > +        if (ret < 0) {
-> >               error_report_err(local_err);
-> > -            return -EINVAL;
-> > +            return ret;
-> >           }
-> >           return 0;
-> >       }
-> ...
->=20
-
+-- PMM
 
