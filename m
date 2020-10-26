@@ -2,109 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00BFA29907F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:06:36 +0100 (CET)
-Received: from localhost ([::1]:45516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05683299090
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:08:36 +0100 (CET)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX44w-0007AY-LU
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:06:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32836)
+	id 1kX46t-0000Pp-37
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:08:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kX42n-00060a-96
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:04:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:6276
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1kX436-0006Bh-R4
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:04:42 -0400
+Received: from hera.aquilenet.fr ([185.233.100.1]:41694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kX42l-0004SC-71
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:04:20 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09QF2E7o040940; Mon, 26 Oct 2020 11:03:38 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=fUo/CbtR93IWmloNEI5z8uaF6pZDm7C/WI3uoVXNMeY=;
- b=L8o1eeXNthEL9z0wM+EocFu3Kjumeji/VHhiZGasl/yvbA4q/F8H8W97UaLUwRrEwHPO
- jNjKm7/rhAnRiCqlrGyipHSh38fqNYc7slQYIvg3Sqd09h0MjizustyiebnldkLeDbto
- xRmqw0D2ykmWiUId5c7JwWzpaiUzc6mld+XAB3Jt9YD3dC4rXsqmdnBvbQu0INijQ+4N
- fY6bHFwfnWVlc62mktecLU6ksse4ndUug4L/Gs3Nr61vjm+VUnHoUr+mqFUjEy/IKDWm
- RPSnOukyVCpj2rdluKWkS2PL2po1LZQ5bzMDp64EotSka+vtmdElFg+7+RO3AvuTzbuz Vg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34duwd1bb2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 11:03:38 -0400
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09QF2Lte041659;
- Mon, 26 Oct 2020 11:03:38 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0b-001b2d01.pphosted.com with ESMTP id 34duwd1bap-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 11:03:38 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09QEwCPU029097;
- Mon, 26 Oct 2020 15:03:37 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 34cbw8vfqr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 15:03:37 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09QF3Zxs25952734
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 26 Oct 2020 15:03:36 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D6E016A051;
- Mon, 26 Oct 2020 15:03:35 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id ED9236A05F;
- Mon, 26 Oct 2020 15:03:34 +0000 (GMT)
-Received: from [9.160.17.83] (unknown [9.160.17.83])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 26 Oct 2020 15:03:34 +0000 (GMT)
-Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
-To: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
- <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
-Date: Mon, 26 Oct 2020 11:03:33 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
+ id 1kX435-0004Yq-0D
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:04:40 -0400
+Received: from localhost (localhost [127.0.0.1])
+ by hera.aquilenet.fr (Postfix) with ESMTP id 5B38265C;
+ Mon, 26 Oct 2020 16:04:34 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+ by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 43JuhXPVY4MP; Mon, 26 Oct 2020 16:04:33 +0100 (CET)
+Received: from function.home (unknown
+ [IPv6:2a01:cb19:956:1b00:9eb6:d0ff:fe88:c3c7])
+ by hera.aquilenet.fr (Postfix) with ESMTPSA id 6CE7A363;
+ Mon, 26 Oct 2020 16:04:33 +0100 (CET)
+Received: from samy by function.home with local (Exim 4.94)
+ (envelope-from <samuel.thibault@gnu.org>)
+ id 1kX42y-007qIv-Ag; Mon, 26 Oct 2020 16:04:32 +0100
+Date: Mon, 26 Oct 2020 16:04:32 +0100
+From: Samuel Thibault <samuel.thibault@gnu.org>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH 8/9] dev-serial: fix FTDI_GET_MDM_ST response
+Message-ID: <20201026150432.yqkyceke5uppqom5@function>
+References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
+ <20201026083401.13231-9-mark.cave-ayland@ilande.co.uk>
+ <20201026095450.ko6snc4dusk3pvnw@function>
+ <547c0ea5-dad4-d246-1de8-844a2e9a9507@ilande.co.uk>
+ <20201026111406.jvpexlkh53g4fxff@function>
+ <CAKf6xpvcnmEs+v3+Tm1srQfo=m37EAGRPynJDJy4HkMuCmD6NQ@mail.gmail.com>
+ <38110b4a-34b1-3e97-5a7f-4fad1bfff080@ilande.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
- definitions=2020-10-26_06:2020-10-26,
- 2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 mlxscore=0
- mlxlogscore=999 bulkscore=0 impostorscore=0 lowpriorityscore=0
- malwarescore=0 spamscore=0 phishscore=0 adultscore=0 suspectscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010260106
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 11:03:39
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <38110b4a-34b1-3e97-5a7f-4fad1bfff080@ilande.co.uk>
+Organization: I am not organized
+User-Agent: NeoMutt/20170609 (1.8.3)
+Received-SPF: softfail client-ip=185.233.100.1;
+ envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 11:04:34
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,54 +72,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Jason Andryuk <jandryuk@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
-I reorganized UASStatus to put uas_iu at the end and it works fine.
-Unfortunately, this uncovered another part of the code with a similar
-issue (variable sized type not at the end of the struct), here:
+Mark Cave-Ayland, le lun. 26 oct. 2020 13:40:05 +0000, a ecrit:
+> On 26/10/2020 13:00, Jason Andryuk wrote:
+> > On Mon, Oct 26, 2020 at 7:21 AM Samuel Thibault <samuel.thibault@gnu.org> wrote:
+> > > Aurelien, you introduced the "| 1" in
+> > > 
+> > > commit abb8a13918ecc1e8160aa78582de9d5224ea70df
+> > > Author: Aurelien Jarno <aurelien@aurel32.net>
+> > > Date:   Wed Aug 13 04:23:17 2008 +0000
+> > > 
+> > >      usb-serial: add support for modem lines
+> > > 
+> > > [...]
+> > > @@ -357,9 +393,9 @@ static int usb_serial_handle_control(USBDevice *dev, int request, int value,
+> > >           /* TODO: TX ON/OFF */
+> > >           break;
+> > >       case DeviceInVendor | FTDI_GET_MDM_ST:
+> > > -        /* TODO: return modem status */
+> > > -        data[0] = 0;
+> > > -        ret = 1;
+> > > +        data[0] = usb_get_modem_lines(s) | 1;
+> > > +        data[1] = 0;
+> > > +        ret = 2;
+> > >           break;
+> > 
+> > I'm not particularly familiar with the FTDI USB serial devices.  I
+> > found setting FTDI_THRE | FTDI_TEMT by comparing with real hardware.
+> > 
+> > A little searching found this:
+> > https://elixir.bootlin.com/linux/latest/source/drivers/usb/serial/ftdi_sio.h#L541
+> > 
+> > That shows "B0   Reserved - must be 1", so maybe that is why "| 1" was added?
+> 
+> Right - that's for the modem status returned as part of the first 2 status
+> bytes for incoming data which is slightly different from modem status
+> returned directly from FTDI_SIO_GET_MODEM_STATUS: https://elixir.bootlin.com/linux/latest/source/drivers/usb/serial/ftdi_sio.h#L423.
+> 
+> It is the latter which this patch changes and appears to match what I see on
+> my Chipi-X hardware here.
 
-In file included from ../qemu-cfi-v3/target/s390x/diag.c:21:
-../qemu-cfi-v3/hw/s390x/ipl.h:161:23: error: field 'iplb' with variable 
-sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at 
-the end of a struct or class is a GNU extension 
-[-Werror,-Wgnu-variable-sized-type-not-at-end]
-     IplParameterBlock iplb;
-                       ^
-../qemu-cfi-v3/hw/s390x/ipl.h:162:23: error: field 'iplb_pv' with 
-variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock') 
-not at the end of a struct or class is a GNU extension 
-[-Werror,-Wgnu-variable-sized-type-not-at-end]
-     IplParameterBlock iplb_pv;
+Aurelien, do you remember the reason for the addition of 1 here? It does
+look like the confusion between the incoming data bytes and the modem
+status bytes.
 
-My understanding is that each of these IplParameterBlock may contain
-either a IPLBlockPV or a IplBlockFcp, which both end with a variable
-sized field (an array).
-
-Adding maintainers of s390x to see if they have a suggested solution to
-avoid disabling the warning.
-
-On 10/26/2020 5:50 AM, Paolo Bonzini wrote:
-> On 23/10/20 22:06, Daniele Buono wrote:
->> 1 error generated.
->>
->> The data structure is UASStatus, which must end with a QTAILQ_ENTRY, so
->> I believe we cannot have uas_iu at the end. Since this is a gnu
->> extension but CLANG supports it, just add
->> -Wno-gnu-variable-sized-type-not-at-end
-> 
-> This is potentially a real bug, in this case it works only because
-> UASStatus's packet is never uas_iu_command (which has the variable sized
-> type).
-> 
-> The QTAILQ_ENTRY need not be at the end, please rearrange UASStatus's
-> field so that the "usb_ui status" field is the last.
-> 
-> Thanks,
-> 
-> Paolo
-> 
+Samuel
 
