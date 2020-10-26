@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4606C299913
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:50:37 +0100 (CET)
-Received: from localhost ([::1]:37276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C1A829992D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:56:24 +0100 (CET)
+Received: from localhost ([::1]:47314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXANq-0002OP-WC
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:50:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60610)
+	id 1kXATX-0006rz-6u
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:56:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAo-00049P-3M
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22833)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAu-0004AX-Eb
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAi-0001WY-MX
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:01 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAi-0001Wk-MX
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603748214;
+ s=mimecast20190719; t=1603748215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BzR1jpkyEvGckWPaDmHWHkzzpNd44v+7R6OfTtEDH+4=;
- b=ai7vVRuYeWb67kw6uWumS827eIlfWTPuXo5olEEVmI0lFXPcLdg/5A7okIyVryIMRNfqSp
- Wxum5cFjkn90HhgXYTY3s9xvT7hGVK/byxDdEjMWOmaCYVOfFqBwNbaJQEaziFMkp9VtIs
- ZcG/E3dfJbZwDb8js0OUHWkFekyvlfk=
+ bh=ML+qe2yQqzou6+7JqLkJ3Tzy6XHzJrxKeTvXUwHkH2c=;
+ b=Z8EG5Nct/jXYIKb0sfedGYGvYjENs66PXd95lSe9rnuRoHdQsB7hnE4tSq+8t7TyB0oHcZ
+ dkoiizrBMzba4yNY0ur2jNZ+70E3JE/NaviyOIBdeuRpoD1o6dFVQJl51r4lmuy90iLMqQ
+ KIeWM4fBELYIHiTXQ+u02Vtmf16kjE4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-155-Tbxvh5SfNJ24Eyvs5WQ9zw-1; Mon, 26 Oct 2020 17:36:52 -0400
-X-MC-Unique: Tbxvh5SfNJ24Eyvs5WQ9zw-1
+ us-mta-62-W-WP03WjMZKtyIfsxGxIdQ-1; Mon, 26 Oct 2020 17:36:53 -0400
+X-MC-Unique: W-WP03WjMZKtyIfsxGxIdQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3745809DD5
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC7B58030B2
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:52 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B90519728;
- Mon, 26 Oct 2020 21:36:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2026319728;
+ Mon, 26 Oct 2020 21:36:52 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 15/16] qapi/expr.py: move related checks inside check_xxx
- functions
-Date: Mon, 26 Oct 2020 17:36:36 -0400
-Message-Id: <20201026213637.47087-16-jsnow@redhat.com>
+Subject: [PATCH v2 16/16] qapi/expr.py: Use an expression checker dispatch
+ table
+Date: Mon, 26 Oct 2020 17:36:37 -0400
+Message-Id: <20201026213637.47087-17-jsnow@redhat.com>
 In-Reply-To: <20201026213637.47087-1-jsnow@redhat.com>
 References: <20201026213637.47087-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -57,18 +57,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,137 +85,124 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's not a big obvious difference between the types of checks that
-happen in the main function versus the kind that happen in the
-functions. Now they're in one place for each of the main types.
-
-As part of the move, spell out the required and optional keywords so
-they're obvious at a glance.
+This enforces a type signature against all of the top-level expression
+check routines without necessarily needing to create some
+overcomplicated class hierarchy for them.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/expr.py | 55 ++++++++++++++++++++++++++------------------
- 1 file changed, 33 insertions(+), 22 deletions(-)
+ scripts/qapi/expr.py | 69 ++++++++++++++++++++++----------------------
+ 1 file changed, 35 insertions(+), 34 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 9253560cd9ce..3b62e801a42c 100644
+index 3b62e801a42c..3b0a589652c9 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -347,6 +347,10 @@ def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'enum',
-+               required=('enum', 'data'),
-+               optional=('if', 'features', 'prefix'))
-+
-     name = expr['enum']
-     members = expr['data']
-     prefix = expr.get('prefix')
-@@ -377,6 +381,11 @@ def check_struct(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'struct',
-+               required=('struct', 'data'),
-+               optional=('base', 'if', 'features'))
-+    normalize_members(expr['data'])
-+
-     name = cast(str, expr['struct'])  # Asserted in check_exprs
-     members = expr['data']
+@@ -31,8 +31,11 @@
+ structures and contextual semantic validation.
+ """
  
-@@ -391,6 +400,13 @@ def check_union(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'union',
-+               required=('union', 'data'),
-+               optional=('base', 'discriminator', 'if', 'features'))
-+
-+    normalize_members(expr.get('base'))
-+    normalize_members(expr['data'])
-+
-     name = cast(str, expr['union'])  # Asserted in check_exprs
-     base = expr.get('base')
-     discriminator = expr.get('discriminator')
-@@ -423,6 +439,11 @@ def check_alternate(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: Expression to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'alternate',
-+               required=('alternate', 'data'),
-+               optional=('if', 'features'))
-+    normalize_members(expr['data'])
-+
-     members = expr['data']
++from enum import Enum
+ import re
+ from typing import (
++    Callable,
++    Dict,
+     Iterable,
+     List,
+     MutableMapping,
+@@ -508,6 +511,26 @@ def check_event(expr: Expression, info: QAPISourceInfo) -> None:
+     check_type(args, info, "'data'", allow_dict=not boxed)
  
-     if not members:
-@@ -446,6 +467,13 @@ def check_command(expr: Expression, info: QAPISourceInfo) -> None:
-     :param expr: `Expression` to validate.
-     :param info: QAPI source file information.
-     """
-+    check_keys(expr, info, 'command',
-+               required=['command'],
-+               optional=('data', 'returns', 'boxed', 'if', 'features',
-+                         'gen', 'success-response', 'allow-oob',
-+                         'allow-preconfig', 'coroutine'))
-+    normalize_members(expr.get('data'))
-+
-     args = expr.get('data')
-     rets = expr.get('returns')
-     boxed = expr.get('boxed', False)
-@@ -467,6 +495,11 @@ def check_event(expr: Expression, info: QAPISourceInfo) -> None:
-       :if: ``Optional[Ifcond]`` (see: `check_if`)
-       :features: ``Optional[Features]`` (see: `check_features`)
-     """
-+    check_keys(expr, info, 'event',
-+               required=['event'],
-+               optional=('data', 'boxed', 'if', 'features'))
-+    normalize_members(expr.get('data'))
-+
-     args = expr.get('data')
-     boxed = expr.get('boxed', False)
  
-@@ -534,38 +567,16 @@ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
++class ExpressionType(str, Enum):
++    INCLUDE = 'include'
++    ENUM = 'enum'
++    UNION = 'union'
++    ALTERNATE = 'alternate'
++    STRUCT = 'struct'
++    COMMAND = 'command'
++    EVENT = 'event'
++
++
++_CHECK_FN: Dict[str, Callable[[Expression, QAPISourceInfo], None]] = {
++    'enum': check_enum,
++    'union': check_union,
++    'alternate': check_alternate,
++    'struct': check_struct,
++    'command': check_command,
++    'event': check_event,
++}
++
++
+ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
+     """
+     Validate and normalize a list of parsed QAPI schema expressions. [RW]
+@@ -534,28 +557,20 @@ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
+         assert tmp is None or isinstance(tmp, QAPIDoc)
+         doc: Optional[QAPIDoc] = tmp
+ 
+-        if 'include' in expr:
+-            continue
+-
+-        if 'enum' in expr:
+-            meta = 'enum'
+-        elif 'union' in expr:
+-            meta = 'union'
+-        elif 'alternate' in expr:
+-            meta = 'alternate'
+-        elif 'struct' in expr:
+-            meta = 'struct'
+-        elif 'command' in expr:
+-            meta = 'command'
+-        elif 'event' in expr:
+-            meta = 'event'
++        for kind in ExpressionType:
++            if kind in expr:
++                meta = kind
++                break
+         else:
+             raise QAPISemError(info, "expression is missing metatype")
+ 
++        if meta == ExpressionType.INCLUDE:
++            continue
++
+         name = cast(str, expr[meta])  # asserted right below:
+-        check_name_is_str(name, info, "'%s'" % meta)
+-        info.set_defn(meta, name)
+-        check_defn_name_str(name, info, meta)
++        check_name_is_str(name, info, "'%s'" % meta.value)
++        info.set_defn(meta.value, name)
++        check_defn_name_str(name, info, meta.value)
+ 
+         if doc:
+             if doc.symbol != name:
+@@ -566,22 +581,8 @@ def check_exprs(exprs: List[_JSObject]) -> List[_JSObject]:
+             raise QAPISemError(info,
                                 "documentation comment required")
  
-         if meta == 'enum':
--            check_keys(expr, info, meta,
--                       ['enum', 'data'], ['if', 'features', 'prefix'])
-             check_enum(expr, info)
-         elif meta == 'union':
--            check_keys(expr, info, meta,
--                       ['union', 'data'],
--                       ['base', 'discriminator', 'if', 'features'])
--            normalize_members(expr.get('base'))
--            normalize_members(expr['data'])
-             check_union(expr, info)
-         elif meta == 'alternate':
--            check_keys(expr, info, meta,
--                       ['alternate', 'data'], ['if', 'features'])
--            normalize_members(expr['data'])
-             check_alternate(expr, info)
-         elif meta == 'struct':
--            check_keys(expr, info, meta,
--                       ['struct', 'data'], ['base', 'if', 'features'])
--            normalize_members(expr['data'])
-             check_struct(expr, info)
-         elif meta == 'command':
--            check_keys(expr, info, meta,
--                       ['command'],
--                       ['data', 'returns', 'boxed', 'if', 'features',
--                        'gen', 'success-response', 'allow-oob',
--                        'allow-preconfig', 'coroutine'])
--            normalize_members(expr.get('data'))
-             check_command(expr, info)
-         elif meta == 'event':
--            check_keys(expr, info, meta,
--                       ['event'], ['data', 'boxed', 'if', 'features'])
--            normalize_members(expr.get('data'))
-             check_event(expr, info)
-         else:
-             assert False, 'unexpected meta type'
+-        if meta == 'enum':
+-            check_enum(expr, info)
+-        elif meta == 'union':
+-            check_union(expr, info)
+-        elif meta == 'alternate':
+-            check_alternate(expr, info)
+-        elif meta == 'struct':
+-            check_struct(expr, info)
+-        elif meta == 'command':
+-            check_command(expr, info)
+-        elif meta == 'event':
+-            check_event(expr, info)
+-        else:
+-            assert False, 'unexpected meta type'
+-
+-        check_if(expr, info, meta)
++        _CHECK_FN[meta](expr, info)
++        check_if(expr, info, meta.value)
+         check_features(expr.get('features'), info)
+         check_flags(expr, info)
+ 
 -- 
 2.26.2
 
