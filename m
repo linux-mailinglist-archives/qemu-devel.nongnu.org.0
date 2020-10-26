@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9CB29946A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:53:50 +0100 (CET)
-Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1128299484
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:56:21 +0100 (CET)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6gn-0007xY-7n
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:53:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49990)
+	id 1kX6jE-00030m-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:56:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX6AL-0000p8-Jc
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:20:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27839)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX6AH-00006t-UJ
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:20:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603732812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Ykof1hbJtqIcuVoIi96MWeulNjqmlmjeonGQCj55wFI=;
- b=S+5uPfsJFt5Xe52jlwqhRtYk9PZCRmci982m5QTjg9r5X5h3ojJSlB+EZge1aoIANkfW4n
- 8FU+gF4QrL8BNRvD4ZsDZyn0wVV3XSlCPf8Jf/jwIXrmfVixGQQ63vV03bXxW5Ei39NKL/
- AWZn2JJEQjfiTRNJDuvbJDPssBJtxUM=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-FFnX4so5Nuynp42xc8JKQw-1; Mon, 26 Oct 2020 13:20:08 -0400
-X-MC-Unique: FFnX4so5Nuynp42xc8JKQw-1
-Received: by mail-ej1-f72.google.com with SMTP id z18so5552233eji.1
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:20:08 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kX6Ah-0001HF-Nf
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:20:39 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52033)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kX6Ad-0000FR-Po
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:20:39 -0400
+Received: by mail-wm1-x344.google.com with SMTP id v5so12468742wmh.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=t1AOSQTE36bHKr52gzFnFEt7JxcuPqZNh6I/4MIqcME=;
+ b=JpasA9FPWkYYBM9YJBjrH3T7D+lR1LLw6PMenFugsmMFvgdb+Ny0JnnC2lOnAVcfXr
+ 5LEM0w/fjz194SGWsPbB8gNO2JB2N+tXuWWZ02zg8qq/BoI+ykx+zupMfrqUqqWx+xG7
+ tQj3mPwyOflPrFq25WaZIDpy1FTYEl4ZMBWS2QBqHiiYr7GUCw4dgbQO6cTzSZL0E8vw
+ hyUNOzfGBQCTKiDREAtvYlp+KgRAWtq7+x8ZlK5f+t8KhTap71ZDxDdhiOrrQuQVShu4
+ Cpu9+aCqU+6SLDl3IWZ7COwr5F/G0q1GYzkQ8ht4c9dRUgreY/cIKFg7K50+1wZX1iAP
+ lRtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Ykof1hbJtqIcuVoIi96MWeulNjqmlmjeonGQCj55wFI=;
- b=UPrWYA4Lw+BZ11/3StBmhX8bzPlfrNy2YTV8Y8/SMcYL2u+BxuAdkF1ap1VFXhQqVF
- 44B75nebbkvRmYcQ/qNAA4iN0cX14+XFUk0E8Z8gamBgtpLXteRP2BvzfE116AlGoubU
- jnTwlhuE+Wj4UXmVkMI8vTNZYG61NyH1jWxHcMNBNlIdHmas7j9bhIWWc6p1TIRCYuLJ
- iuliOof4Kk+qf+r5LOuv8nKuVGwPXfBL+CUTNnrUPqXr/b8TNiNmXrjzD/hYDATUJCLj
- UwIk4x0UQuoG0wsM/rTCoZDnZntalgUIzPXJSRYwZjclJLoMwJ5Q30kDdPahHb3P9j2c
- VWTg==
-X-Gm-Message-State: AOAM532X2tUWqmCOfViP1Bz3bo5z1hYS3U3m9Lq6gQjfPGUMFJCY/hcb
- r3gSJOQtyttqCsLlkkBmCCrZOyY3Fe6cfKt9Z8GA9YliCbpnG/HOO35WtopT8IJ6ViLkDAWHKtJ
- sUDH4k2KuhY+in6s=
-X-Received: by 2002:aa7:cb82:: with SMTP id r2mr16597760edt.306.1603732807461; 
- Mon, 26 Oct 2020 10:20:07 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxGnRRCetvvHXPG/+Cj7fjIjtexcBL5FLsVBhkslF0dszV6Ma0/NaDNRbMx/OX/SZ2nmLakQQ==
-X-Received: by 2002:aa7:cb82:: with SMTP id r2mr16597744edt.306.1603732807285; 
- Mon, 26 Oct 2020 10:20:07 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id bt16sm6248638ejb.89.2020.10.26.10.20.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 10:20:06 -0700 (PDT)
-Subject: Re: [PATCH 0/6] tests/acceptance: Test the Fuloong 2E machine
-To: qemu-devel@nongnu.org
-References: <20201021105035.2477784-1-f4bug@amsat.org>
- <4a82d8e0-5c3d-532e-495c-c3db65f32b67@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1d32ced0-57da-c8e4-e00d-463245f5e65d@redhat.com>
-Date: Mon, 26 Oct 2020 18:20:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=t1AOSQTE36bHKr52gzFnFEt7JxcuPqZNh6I/4MIqcME=;
+ b=pSz7SguPvmXDkAWilCVumC4XywVESJcshM0FauJLdaVQZsO/nvQ+4YW7tjdTERHpBi
+ Siz5zhfhOiuhAaI24lf7OpiSZ2vqWMuDyQfAe0CHWt+oGV5a/DbVm5BHKesVD8tiTXc7
+ L41bAgXWg6g5QPxDq16dtRwlNHMUmFblAj+VowCAkyHjNt/p3Qla0yR+uN/FI1qtiScL
+ KqZKv2gYy1Em4Cfcrbh9HhtC7FGx9qGuze1+RDluTURQjyJj0QAFe2lHhrYVj+oIPYfP
+ 6i1sY6S3Sh0xJ3gMGISIcOBdDQTHRFeh16xBZPOyQ5c4BWOhwDgOvOPbVZ7rgZm8Li85
+ Kqgw==
+X-Gm-Message-State: AOAM530poH8RpLcGBvtnObvL/UQ/ielAVfceERtKbvnrIpd5mR/OCm5+
+ Y78B/ZjanVyPm9amGKd27Hjsn2MvxbtT7A==
+X-Google-Smtp-Source: ABdhPJw5C/lOB1J9g5mboCjFKFCqki4ZzNZwXOGeCRxH1FfAvlWlDt01N6EHyt1VHqY7kueHWVePog==
+X-Received: by 2002:a1c:2b05:: with SMTP id r5mr17080712wmr.179.1603732830453; 
+ Mon, 26 Oct 2020 10:20:30 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w6sm16303428wmb.28.2020.10.26.10.20.29
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Oct 2020 10:20:29 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 83E671FF7E;
+ Mon, 26 Oct 2020 17:20:28 +0000 (GMT)
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-9-pbonzini@redhat.com>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 08/15] mips: remove bios_name
+In-reply-to: <20201026143028.3034018-9-pbonzini@redhat.com>
+Date: Mon, 26 Oct 2020 17:20:28 +0000
+Message-ID: <87tuuggazn.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <4a82d8e0-5c3d-532e-495c-c3db65f32b67@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,37 +89,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <zltjiangshi@gmail.com>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Huacai Chen <chenhc@lemote.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 9:50 AM, Philippe Mathieu-Daudé wrote:
-> On 10/21/20 12:50 PM, Philippe Mathieu-Daudé wrote:
->> Philippe Mathieu-Daudé (6):
->>    tests/acceptance: Remove unused import
->>    tests/acceptance: Use .ppm extention for Portable PixMap files
->>    tests/acceptance: Extract tesseract_available() helper in new
->>      namespace
->>    tests/acceptance: Introduce tesseract_ocr() helper
->>    tests/acceptance: Test Linux on the Fuloong 2E machine
->>    tests/acceptance: Test PMON on the Fuloong 2E machine
->>
->>   MAINTAINERS                                |   1 +
->>   tests/acceptance/machine_m68k_nextcube.py  |  51 ++---------
->>   tests/acceptance/machine_mips_fuloong2e.py | 101 +++++++++++++++++++++
->>   tests/acceptance/tesseract_utils.py        |  46 ++++++++++
->>   4 files changed, 158 insertions(+), 41 deletions(-)
->>   create mode 100644 tests/acceptance/machine_mips_fuloong2e.py
->>   create mode 100644 tests/acceptance/tesseract_utils.py
-> 
-> Thanks, patches #1 and #2 applied to my acceptance-testing tree.
 
-Dequeuing as Thomas already merged them.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
+> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
