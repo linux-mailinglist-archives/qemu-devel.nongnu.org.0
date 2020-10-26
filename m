@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC38D298C21
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:29:33 +0100 (CET)
-Received: from localhost ([::1]:53292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B65B1298C2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:43:00 +0100 (CET)
+Received: from localhost ([::1]:37068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0gu-00080L-QU
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:29:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60366)
+	id 1kX0tv-0005b1-Mv
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:42:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX0f9-0006Iw-1b
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:27:43 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:40109)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kX0rt-0004ot-Ud
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:45038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX0f6-00036b-Mn
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:27:42 -0400
-Received: by mail-ed1-x542.google.com with SMTP id p13so8863781edi.7
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 04:27:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tZg5817myEGlIzefrMUwLZfHx7SkEO5yndjEeNCKcRc=;
- b=omo+dQftV7Ci2NF3YekzPuj+rReeV8xo0Sz032Nv9+A7Qznk1TrgS1vMKMzh3YHvxI
- l2pUC/WMIXPY3T4GWuirlDSZWycQFDUdGLRyN+n1gUeATa3aW7lSNu4iA0wvK0GNdKkg
- LjWqeChxMGjFYRFWa/ld+SPwdFqJqWE+KDA9ujgjNZax0O2XQA+GUU0EScpVnSYRBb7a
- M2xVzPk/kHDcKMNU/EX6PrP38E+nurgStqLN94Uc28oM0xKNm8OwGBCdnfnfTanhcTma
- hjMPPnO7hrOoWgeevqdX1b2C3QouYkkXOxZitEyWIc9hR0rQrjrxMsmMXtKd4fQz0OZ8
- m4kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tZg5817myEGlIzefrMUwLZfHx7SkEO5yndjEeNCKcRc=;
- b=PrtPknDoveoVCQzgSn22wHC1IuRomkM5/6AmRHZnPmYB8rAMtsppfi4HivJFUjSar0
- c9qqY9G3p0aIj0rQmjrPwxQlTN2E+3cgQbKluvoIWZSClzj8hOUavsYVyxbyiBjsXphu
- xBFyt8tAHThETJEbD/DcEdseHlrpqFk3EiPgn91R4mNwOno0tl3op8qjL4rhnOxm4U8R
- VweKOSHLZKGSEqNdM4SYAp/bj0+e2BA3gIkk5fUrB56Oa0sMpD7UjdEzzAGSVD6L0+G5
- TVARqyWrS9+wucd55RdRYXR4BGY/+gI2B2PgHqZY/1XTrPjuVUwTb4C7A1OwcJGxXv4C
- vQQw==
-X-Gm-Message-State: AOAM531VCUq361ItONgjlzya4olHVDFUCOFb4B3HxxX3nYBxXjRmcSih
- RKg5z/tFCxOCQz8kk8h6qGBGY+858ns2fEODjOAAgg==
-X-Google-Smtp-Source: ABdhPJwBKL2n5QaWewYuqhGh5PW4rd0WrlHsngLxsHpuLTnOhBpHqDR5Mn6UJ0ETmoKPJMzCE+TQon14MKb4hEl7yWw=
-X-Received: by 2002:aa7:d699:: with SMTP id d25mr7395756edr.44.1603711658665; 
- Mon, 26 Oct 2020 04:27:38 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kX0rr-0007Ep-QJ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:40:53 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kX0rq-0005W3-1h
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0215C2E812F
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:40:50 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201023152147.1016281-1-stefanha@redhat.com>
-In-Reply-To: <20201023152147.1016281-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 11:27:27 +0000
-Message-ID: <CAFEAcA9Vk25qF1-+UGEikjAiNmo97et8mdsfBvAudL2ENFbpcw@mail.gmail.com>
-Subject: Re: [PULL v3 00/28] Block patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2020 11:32:58 -0000
+From: "Cheol-Woo,Myung" <1901532@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cwmyung
+X-Launchpad-Bug-Reporter: Cheol-Woo,Myung (cwmyung)
+X-Launchpad-Bug-Modifier: Cheol-Woo,Myung (cwmyung)
+Message-Id: <160371197903.29636.2526014342409272320.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1901532] [NEW] Assertion failure `mr != NULL' failed through
+ usb-ehci
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
+X-Launchpad-Hash: 926139494c467a5f472bba827ed10fcde97f60ce
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 04:15:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,42 +71,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1901532 <1901532@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 at 16:21, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stefanha/qemu.git tags/block-pull-request
->
-> for you to fetch changes up to 4f193168af097ef664287f4c801724f063a60fc2:
->
->   iotests: add commit top->base cases to 274 (2020-10-23 13:42:16 +0100)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> v3:
->  * Fix linker error on FreeBSD and other !CONFIG_LINUX host OSes [Peter]
->
-> ----------------------------------------------------------------
+Public bug reported:
+
+Hello,
+
+Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
+usb-ehci.
+
+This was found in version 5.0.1 (stable-5.0).
+
+--------
+
+qemu-system-i386: src/qemu-repro/exec.c:3581: address_space_unmap: Assertio=
+n `mr !=3D NULL' failed.
+[1]    14721 abort      src/qemu-repro/build/i386-softmmu/qemu-system-i386
 
 
-Applied, thanks.
+To reproduce the assertion failure, please run the QEMU with following comm=
+and line.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+```
+$ qemu-system-i386 -drive file=3D./hyfuzz.img,index=3D0,media=3Ddisk,format=
+=3Draw -m 512 -drive if=3Dnone,id=3Dstick,file=3D./usbdisk.img -device usb-=
+ehci,id=3Dehci -device usb-storage,bus=3Dehci.0,drive=3Dstick
+```
 
--- PMM
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "attachment.zip"
+   https://bugs.launchpad.net/bugs/1901532/+attachment/5427245/+files/attac=
+hment.zip
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1901532
+
+Title:
+  Assertion failure `mr !=3D NULL' failed through usb-ehci
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+
+  Using hypervisor fuzzer, hyfuzz, I found an assertion failure through
+  usb-ehci.
+
+  This was found in version 5.0.1 (stable-5.0).
+
+  --------
+
+  qemu-system-i386: src/qemu-repro/exec.c:3581: address_space_unmap: Assert=
+ion `mr !=3D NULL' failed.
+  [1]    14721 abort      src/qemu-repro/build/i386-softmmu/qemu-system-i386
+
+  =
+
+  To reproduce the assertion failure, please run the QEMU with following co=
+mmand line.
+
+  ```
+  $ qemu-system-i386 -drive file=3D./hyfuzz.img,index=3D0,media=3Ddisk,form=
+at=3Draw -m 512 -drive if=3Dnone,id=3Dstick,file=3D./usbdisk.img -device us=
+b-ehci,id=3Dehci -device usb-storage,bus=3Dehci.0,drive=3Dstick
+  ```
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1901532/+subscriptions
 
