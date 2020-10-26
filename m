@@ -2,71 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA4BB299221
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:17:09 +0100 (CET)
-Received: from localhost ([::1]:41770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6FD2991E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:11:06 +0100 (CET)
+Received: from localhost ([::1]:55392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5BE-0000c4-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:17:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54200)
+	id 1kX55M-0002cB-EQ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:11:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX4xj-0003KC-IA
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:03:12 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:36447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX4xh-0005u2-6U
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:03:11 -0400
-Received: by mail-ej1-x642.google.com with SMTP id w27so14387116ejb.3
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:03:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nEAOEE2OqMC6Dka/XEM1yk542AFlUGnm5u3rydQEqKo=;
- b=dLzEd+AOb9SlLuOxppmJl1mZ/ji+DCh+1+Akk2oV5pwNs8I13vsIfTDvFd3x9fhADa
- vyimx9m+O7m3SgDEgptcbLhlZsdMSMiaN/2N2+9Z+aVqA3aO1hjOiV7MqpIgLwzwldph
- 3l+hi0ImgWBQFKGCkfwGYKVbOUMiyJQTrwUgesRkOJM1Ukqz6dmfrjxk+VF7s7byqLR8
- kEDEKlX2JS4TEIOYO6rFq7T5eLPNHfmRIfAjHDPiRTnqLw/v8e8RT7YKFOQYK0DWeCfO
- Gro6Btf59jP1uKfr/eifxCuitSUiV/rjvKX4I17nEKZi/cv147SAVE/D4MYObNfD/AvR
- m5EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nEAOEE2OqMC6Dka/XEM1yk542AFlUGnm5u3rydQEqKo=;
- b=qQDXokpIr/R3EnWsIV/PdeiJfF9MK0Nk0GJ0CGUurP0FECvFJ5aydcMnGdbKgOEFzj
- MAqOkRtNsUJrXWjXX1dnDDVgM8fgDZHbsOXq3RMrz5HDVzjCiCyhNJytOYc1klx6YD/q
- QJmZCElm8jK/FvshvRFIjxJX1GOSeV48vBDyDnboo/p8TbFkWvKhedWeE1mr+N+rkwSB
- RRZyfmMrRPJWE6yBHidqsrR1dL70885QCP97swXnR+RQrNWkeHgpA5K+XDkJJxcfB40M
- Ly+junIR41CG1AgX/4ivLBZY2IUffECmMsY88ANwQCPofrTt9TqGt8gmn0nO1lJXvWv+
- Dh7g==
-X-Gm-Message-State: AOAM533vY5g/jgQzpfp4OlvxPucQg+YdIDhZOtRgv5z0zbNDwjTOHmfA
- G7J0Rluvj9g8vIf788u+e8PZewoDjtdn6kAzPN30/A==
-X-Google-Smtp-Source: ABdhPJz+auM2AQ0Xv8tMviHA6xLLjnEln9gclmk1MnqUX9XLnMvdcLzWA8SY7wGT3EkB0V0ag30laQRtfvSp+JEekLM=
-X-Received: by 2002:a17:906:3a97:: with SMTP id
- y23mr16349315ejd.250.1603728187664; 
- Mon, 26 Oct 2020 09:03:07 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kX4yE-00042r-79; Mon, 26 Oct 2020 12:03:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60778)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kX4yB-0005wn-Gz; Mon, 26 Oct 2020 12:03:41 -0400
+Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id E88BD22409;
+ Mon, 26 Oct 2020 16:03:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603728216;
+ bh=BKnBFFMi1F3OcmRVjJGk2Hco0RFEVTeV52UgmJCm19Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Qt5mtKwCNj9dETWvBFfkNZuAR94UQljNz7wUJNQW5OUweQlUniXcrDYYdlnFXIyW2
+ Agf5/z9Ay8aLYMBMWuSfpnyVt+1y/M6PytBevM9E4N3BcX29dh+/0uAfC1TJBISZqz
+ 3ZyQ9g5QsL6ABwTGSwtplbuXdQzr91DcN+VYPCPU=
+Date: Mon, 26 Oct 2020 09:03:34 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v6 3/3] hw/block/nvme: add the dataset management command
+Message-ID: <20201026160334.GA1940105@dhcp-10-100-145-180.wdc.com>
+References: <20201026060101.371900-1-its@irrelevant.dk>
+ <20201026060101.371900-4-its@irrelevant.dk>
 MIME-Version: 1.0
-References: <1603369056-4168-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1603369056-4168-2-git-send-email-sai.pavan.boddu@xilinx.com>
-In-Reply-To: <1603369056-4168-2-git-send-email-sai.pavan.boddu@xilinx.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 16:02:56 +0000
-Message-ID: <CAFEAcA_UuL=ymba+v1O75EOZqXBopLq_HOEtgZ8vZSyJ3AcF3Q@mail.gmail.com>
-Subject: Re: [PATCH v12 1/3] misc: Add versal-usb2-ctrl-regs module
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201026060101.371900-4-its@irrelevant.dk>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 12:03:36
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,49 +63,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
- Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 22 Oct 2020 at 13:11, Sai Pavan Boddu
-<sai.pavan.boddu@xilinx.com> wrote:
->
-> This module emulates control registers of versal usb2 controller, this is added
-> just to make guest happy. In general this module would control the phy-reset
-> signal from usb controller, data coherency of the transactions, signals
-> the host system errors received from controller.
->
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-> ---
->  hw/misc/meson.build                          |   1 +
->  hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 229 +++++++++++++++++++++++++++
->  include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  45 ++++++
+On Mon, Oct 26, 2020 at 07:01:01AM +0100, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Add support for the Dataset Management command and the Deallocate
+> attribute. Deallocation results in discards being sent to the underlying
+> block device. Whether of not the blocks are actually deallocated is
+> affected by the same factors as Write Zeroes (see previous commit).
+> 
+>      format | discard | dsm (512B)  dsm (4KiB)  dsm (64KiB)
+>     --------------------------------------------------------
+>       qcow2    ignore   n           n           n
+>       qcow2    unmap    n           n           y
+>       raw      ignore   n           n           n
+>       raw      unmap    n           y           y
+> 
+> Again, a raw format and 4KiB LBAs are preferable.
+> 
+> In order to set the Namespace Preferred Deallocate Granularity and
+> Alignment fields (NPDG and NPDA), choose a sane minimum discard
+> granularity of 4KiB. If we are using a passthru device supporting
+> discard at a 512B granularity, user should set the discard_granularity
+> property explicitly. NPDG and NPDA will also account for the
+> cluster_size of the block driver if required (i.e. for QCOW2).
+> 
+> See NVM Express 1.3d, Section 6.7 ("Dataset Management command").
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-This seems a bit odd. If it's a USB device (or part of a USB
-device) then it should be under hw/usb, shouldn't it?
+Looks fine
 
-> +static void ir_status_postw(RegisterInfo *reg, uint64_t val64)
-> +{
-> +    VersalUsb2CtrlRegs *s = XILINX_VERSAL_USB2_CTRL_REGS(reg->opaque);
-> +    /*
-> +     * TODO: This should also clear USBSTS.HSE field in USB XHCI register.
-> +     * May be combine both the modules.
-> +     */
-
-What does the hardware for this look like? You've modelled
-it as two completely separate devices (this one and the
-TYPE_USB_DWC3) but would it be closer to the hardware
-structure to have a top-level device which has-a DWC3 ?
-
-thanks
--- PMM
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
