@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 336D1299725
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:38:56 +0100 (CET)
-Received: from localhost ([::1]:39484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2783299740
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:43:25 +0100 (CET)
+Received: from localhost ([::1]:52540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8KU-00086m-WB
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:38:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58918)
+	id 1kX8Oq-0005Q8-O6
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:43:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8EF-0000xx-Uf
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:32:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31288)
+ id 1kX8EM-0001GD-VI
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:32:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8EC-0001my-7t
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:32:26 -0400
+ id 1kX8EK-0001o6-MI
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:32:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603740742;
+ s=mimecast20190719; t=1603740751;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HXoojwubq/yI87es5qzrfWb9w5FXqXfc2QY4Aiwhd9U=;
- b=fjVjGN1YiLyhXWsdFJl6EKqn5EzEFTClClSaFUEV6Lg6zIQsna+nrozkekF9ZpIGiNilRs
- BJess/eOKCALLNca7nZYq90+yGY7nn6gCpFacOoJO1w68e4CUkIZQUE/bWAb1r2eh/kvR7
- HW8QDSi6QefGlr8gRQWM4u4v4DHxtBI=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=gRBv8gtvtb+BxoGYfOE4XPwq2UrnEob7q3biKmwLgeM=;
+ b=TaKrA+a4HuFbZPRcQMCLQyEGQ0k7WP8gkJO/pS0wo4NzCKO/HoQgPKdTGVHh3DihCxoOIF
+ Ulpp2GGhoEQLOidoOHMgYprcpfVSDr0ZvB9nWysVG4sLsIY43RBUKM3Ynwno9oHtfm/4O7
+ Syzp3UNf+hPzZaozloK4mJc7GUL9siw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-GLVvelDIPhCzhEabzN7X3w-1; Mon, 26 Oct 2020 15:32:20 -0400
-X-MC-Unique: GLVvelDIPhCzhEabzN7X3w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-234-I3ij_1qQN6OXVPIVFfgPBg-1; Mon, 26 Oct 2020 15:32:28 -0400
+X-MC-Unique: I3ij_1qQN6OXVPIVFfgPBg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5E63656BE3;
- Mon, 26 Oct 2020 19:32:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B74E61074649;
+ Mon, 26 Oct 2020 19:32:27 +0000 (UTC)
 Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A8FF5C1BB;
- Mon, 26 Oct 2020 19:32:11 +0000 (UTC)
-Subject: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5913C6EF46;
+ Mon, 26 Oct 2020 19:32:23 +0000 (UTC)
+Subject: [PULL 01/32] vfio: Add function to unmap VFIO region
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Oct 2020 13:32:11 -0600
-Message-ID: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+Date: Mon, 26 Oct 2020 13:32:23 -0600
+Message-ID: <160374074345.22414.4431652222183906358.stgit@gimli.home>
+In-Reply-To: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
 User-Agent: StGit/0.21-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,142 +82,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Artem Polyakov <artemp@nvidia.com>, Zhengui li <lizhengui@huawei.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Eric Auger <eric.auger@redhat.com>, Neo Jia <cjia@nvidia.com>,
- Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Amey Narkhede <ameynarkhede03@gmail.com>,
- Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: Kirti Wankhede <kwankhede@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Neo Jia <cjia@nvidia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a5fac424c76d6401ecde4ecb7d846e656d0d6e89:
+From: Kirti Wankhede <kwankhede@nvidia.com>
 
-  Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2020-10-26 10:33:59 +0000)
+This function will be used for migration region.
+Migration region is mmaped when migration starts and will be unmapped when
+migration is complete.
 
-are available in the Git repository at:
+Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Neo Jia <cjia@nvidia.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+---
+ hw/vfio/common.c              |   32 ++++++++++++++++++++++++++++----
+ hw/vfio/trace-events          |    1 +
+ include/hw/vfio/vfio-common.h |    1 +
+ 3 files changed, 30 insertions(+), 4 deletions(-)
 
-  git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20201026.0
-
-for you to fetch changes up to 5219bf8e0fa86573427aa8812bbfe93d83c3d664:
-
-  vfio: fix incorrect print type (2020-10-26 12:07:46 -0600)
-
-----------------------------------------------------------------
-VFIO update 2020-10-26
-
- * Migration support (Kirti Wankhede)
- * s390 DMA limiting (Matthew Rosato)
- * zPCI hardware info (Matthew Rosato)
- * Lock guard (Amey Narkhede)
- * Print fixes (Zhengui li)
-
-----------------------------------------------------------------
-Amey Narkhede (1):
-      hw/vfio: Use lock guard macros
-
-Kirti Wankhede (17):
-      vfio: Add function to unmap VFIO region
-      vfio: Add vfio_get_object callback to VFIODeviceOps
-      vfio: Add save and load functions for VFIO PCI devices
-      vfio: Add migration region initialization and finalize function
-      vfio: Add VM state change handler to know state of VM
-      vfio: Add migration state change notifier
-      vfio: Register SaveVMHandlers for VFIO device
-      vfio: Add save state functions to SaveVMHandlers
-      vfio: Add load state functions to SaveVMHandlers
-      memory: Set DIRTY_MEMORY_MIGRATION when IOMMU is enabled
-      vfio: Get migration capability flags for container
-      vfio: Add function to start and stop dirty pages tracking
-      vfio: Add vfio_listener_log_sync to mark dirty pages
-      vfio: Dirty page tracking when vIOMMU is enabled
-      vfio: Add ioctl to get dirty pages bitmap during dma unmap
-      vfio: Make vfio-pci device migration capable
-      qapi: Add VFIO devices migration stats in Migration stats
-
-Matthew Rosato (10):
-      update-linux-headers: Add vfio_zdev.h
-      linux-headers: update against 5.10-rc1
-      s390x/pci: Move header files to include/hw/s390x
-      vfio: Create shared routine for scanning info capabilities
-      vfio: Find DMA available capability
-      s390x/pci: Add routine to get the vfio dma available count
-      s390x/pci: Honor DMA limits set by vfio
-      s390x/pci: clean up s390 PCI groups
-      vfio: Add routine for finding VFIO_DEVICE_GET_INFO capabilities
-      s390x/pci: get zPCI function info from host
-
-Pierre Morel (3):
-      s390x/pci: create a header dedicated to PCI CLP
-      s390x/pci: use a PCI Group structure
-      s390x/pci: use a PCI Function structure
-
-Zhengui Li (1):
-      vfio: fix incorrect print type
-
- MAINTAINERS                                        |   1 +
- hw/s390x/meson.build                               |   1 +
- hw/s390x/s390-pci-bus.c                            |  91 +-
- hw/s390x/s390-pci-inst.c                           |  78 +-
- hw/s390x/s390-pci-vfio.c                           | 276 ++++++
- hw/s390x/s390-virtio-ccw.c                         |   2 +-
- hw/s390x/trace-events                              |   6 +
- hw/vfio/common.c                                   | 507 ++++++++++-
- hw/vfio/meson.build                                |   1 +
- hw/vfio/migration.c                                | 933 +++++++++++++++++++++
- hw/vfio/pci.c                                      |  87 +-
- hw/vfio/pci.h                                      |   1 -
- hw/vfio/platform.c                                 |   7 +-
- hw/vfio/trace-events                               |  21 +
- {hw => include/hw}/s390x/s390-pci-bus.h            |  22 +
- .../hw/s390x/s390-pci-clp.h                        | 123 +--
- include/hw/s390x/s390-pci-inst.h                   | 119 +++
- include/hw/s390x/s390-pci-vfio.h                   |  23 +
- include/hw/vfio/vfio-common.h                      |  30 +
- .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h        |   2 +-
- include/standard-headers/linux/ethtool.h           |   2 +
- include/standard-headers/linux/fuse.h              |  50 +-
- include/standard-headers/linux/input-event-codes.h |   4 +
- include/standard-headers/linux/pci_regs.h          |   6 +-
- include/standard-headers/linux/virtio_fs.h         |   3 +
- include/standard-headers/linux/virtio_gpu.h        |  19 +
- include/standard-headers/linux/virtio_mmio.h       |  11 +
- include/standard-headers/linux/virtio_pci.h        |  11 +-
- linux-headers/asm-arm64/kvm.h                      |  25 +
- linux-headers/asm-arm64/mman.h                     |   1 +
- linux-headers/asm-generic/hugetlb_encode.h         |   1 +
- linux-headers/asm-generic/unistd.h                 |  18 +-
- linux-headers/asm-mips/unistd_n32.h                |   1 +
- linux-headers/asm-mips/unistd_n64.h                |   1 +
- linux-headers/asm-mips/unistd_o32.h                |   1 +
- linux-headers/asm-powerpc/unistd_32.h              |   1 +
- linux-headers/asm-powerpc/unistd_64.h              |   1 +
- linux-headers/asm-s390/unistd_32.h                 |   1 +
- linux-headers/asm-s390/unistd_64.h                 |   1 +
- linux-headers/asm-x86/kvm.h                        |  20 +
- linux-headers/asm-x86/unistd_32.h                  |   1 +
- linux-headers/asm-x86/unistd_64.h                  |   1 +
- linux-headers/asm-x86/unistd_x32.h                 |   1 +
- linux-headers/linux/kvm.h                          |  19 +
- linux-headers/linux/mman.h                         |   1 +
- linux-headers/linux/vfio.h                         |  29 +-
- linux-headers/linux/vfio_zdev.h                    |  78 ++
- migration/migration.c                              |  17 +
- monitor/hmp-cmds.c                                 |   6 +
- qapi/migration.json                                |  17 +
- scripts/update-linux-headers.sh                    |   2 +-
- softmmu/memory.c                                   |   2 +-
- 52 files changed, 2466 insertions(+), 217 deletions(-)
- create mode 100644 hw/s390x/s390-pci-vfio.c
- create mode 100644 hw/vfio/migration.c
- rename {hw => include/hw}/s390x/s390-pci-bus.h (94%)
- rename hw/s390x/s390-pci-inst.h => include/hw/s390x/s390-pci-clp.h (59%)
- create mode 100644 include/hw/s390x/s390-pci-inst.h
- create mode 100644 include/hw/s390x/s390-pci-vfio.h
- create mode 100644 linux-headers/linux/vfio_zdev.h
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 13471ae29436..c6e98b8d61be 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -924,6 +924,18 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+     return 0;
+ }
+ 
++static void vfio_subregion_unmap(VFIORegion *region, int index)
++{
++    trace_vfio_region_unmap(memory_region_name(&region->mmaps[index].mem),
++                            region->mmaps[index].offset,
++                            region->mmaps[index].offset +
++                            region->mmaps[index].size - 1);
++    memory_region_del_subregion(region->mem, &region->mmaps[index].mem);
++    munmap(region->mmaps[index].mmap, region->mmaps[index].size);
++    object_unparent(OBJECT(&region->mmaps[index].mem));
++    region->mmaps[index].mmap = NULL;
++}
++
+ int vfio_region_mmap(VFIORegion *region)
+ {
+     int i, prot = 0;
+@@ -954,10 +966,7 @@ int vfio_region_mmap(VFIORegion *region)
+             region->mmaps[i].mmap = NULL;
+ 
+             for (i--; i >= 0; i--) {
+-                memory_region_del_subregion(region->mem, &region->mmaps[i].mem);
+-                munmap(region->mmaps[i].mmap, region->mmaps[i].size);
+-                object_unparent(OBJECT(&region->mmaps[i].mem));
+-                region->mmaps[i].mmap = NULL;
++                vfio_subregion_unmap(region, i);
+             }
+ 
+             return ret;
+@@ -982,6 +991,21 @@ int vfio_region_mmap(VFIORegion *region)
+     return 0;
+ }
+ 
++void vfio_region_unmap(VFIORegion *region)
++{
++    int i;
++
++    if (!region->mem) {
++        return;
++    }
++
++    for (i = 0; i < region->nr_mmaps; i++) {
++        if (region->mmaps[i].mmap) {
++            vfio_subregion_unmap(region, i);
++        }
++    }
++}
++
+ void vfio_region_exit(VFIORegion *region)
+ {
+     int i;
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index 93a0bc2522f8..a0c7b49a2ebc 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -113,6 +113,7 @@ vfio_region_mmap(const char *name, unsigned long offset, unsigned long end) "Reg
+ vfio_region_exit(const char *name, int index) "Device %s, region %d"
+ vfio_region_finalize(const char *name, int index) "Device %s, region %d"
+ vfio_region_mmaps_set_enabled(const char *name, bool enabled) "Region %s mmaps enabled: %d"
++vfio_region_unmap(const char *name, unsigned long offset, unsigned long end) "Region %s unmap [0x%lx - 0x%lx]"
+ vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Device %s region %d: %d sparse mmap entries"
+ vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
+ vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c78f3ff5593c..dc95f527b583 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -171,6 +171,7 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+                       int index, const char *name);
+ int vfio_region_mmap(VFIORegion *region);
+ void vfio_region_mmaps_set_enabled(VFIORegion *region, bool enabled);
++void vfio_region_unmap(VFIORegion *region);
+ void vfio_region_exit(VFIORegion *region);
+ void vfio_region_finalize(VFIORegion *region);
+ void vfio_reset_handler(void *opaque);
 
 
