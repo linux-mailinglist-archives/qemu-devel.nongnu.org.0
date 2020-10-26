@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51009298FE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:50:15 +0100 (CET)
-Received: from localhost ([::1]:39720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05182299046
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:56:19 +0100 (CET)
+Received: from localhost ([::1]:55454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3p8-00010E-Bb
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:50:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53514)
+	id 1kX3v0-0007Vn-0l
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kX3gs-0000eN-FB
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:41:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41051)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kX3gp-0001Cj-28
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:41:42 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603723297;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VRTse6vWGwDMrc/6eK4CzzO+8Zu1B2sG+mIsGywxh/o=;
- b=FQY9MSskmM/UptmWM0SR7fTqAyWAXG8WrhIW8wvWwObm697l/7Bq0/zbnIfFHZN5weOwjr
- 6yPGyQ4qOrVdHOacc/UNkqGISBaMGaywbhddg8wQJimuNiQvfTcwxuHfKxakCVty8cqctL
- UhtIT9obWbfy9OAM6IRKfDX2Gdw7lMI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-wlVcYa4lPiWTqvNbi9ibyQ-1; Mon, 26 Oct 2020 10:41:34 -0400
-X-MC-Unique: wlVcYa4lPiWTqvNbi9ibyQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9621A1087D65;
- Mon, 26 Oct 2020 14:41:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B7F21C4;
- Mon, 26 Oct 2020 14:41:30 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AA264113865F; Mon, 26 Oct 2020 15:41:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v5 03/12] nbd: Utilize QAPI_CLONE for type conversion
-References: <20201023183652.478921-1-eblake@redhat.com>
- <20201023183652.478921-4-eblake@redhat.com>
-Date: Mon, 26 Oct 2020 15:41:28 +0100
-In-Reply-To: <20201023183652.478921-4-eblake@redhat.com> (Eric Blake's message
- of "Fri, 23 Oct 2020 13:36:43 -0500")
-Message-ID: <87r1pl3v8n.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX3kE-0004vo-Oe
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:45:10 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45095)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX3kB-0001dB-I6
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:45:10 -0400
+Received: by mail-ej1-x644.google.com with SMTP id dt13so13923166ejb.12
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 07:45:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=szdpdUzzaZ8jLqAZWjRW/SfAG1gnOzMA+My6CI7nSOE=;
+ b=FlfvNpwyi9rvJ6JfEyU9JmhGIYEKR4RX2NPzH3WhTK6sIdSVS4atFh0Pjb2i2JGrf3
+ AHnlEZAj/eK4idYm6uLeMo6il+H3lD1Pf+dTiwMZ2Kbg8Xog92LuQOgpBguPtmuV0Gh8
+ MHnZitnjKlPlyad7ZSfsSaeLELvThEqjRxXsl31y+DzFZj8v7WJ9tZZjXV9HkT1QEhS0
+ AYTDT08eLDn71bup1DWDwTGr2+Mkw5KFnn+chBHthXewqwLqHsktTlITQmU+2JDI7+Lw
+ HyDw5ENG03fdr2bD0ylFxJ6GZO+sCAnmAxsusyYVYkZDIK0Aa+T6rUiYBW7txtdAWm+l
+ CFUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=szdpdUzzaZ8jLqAZWjRW/SfAG1gnOzMA+My6CI7nSOE=;
+ b=AdaM3clk2bZOyjNRKDjRw1dA+HqZrb/aa9bAZuSWTzUINp95tdTP38INKGSnnxWzD1
+ RCHufwUNSYLeqz5VMaDJlJpcFIQDJScwvB8r0jISQsgmBtgEt4/XbzFK40IgOg6XEr2H
+ u+zce0jnXCjx2flk/Fbhvwmx9lcW8H3j9M45I3LNbE30CxTLeo+1k3T0Fo8mlhNLeV2S
+ qdyRQybTLIVwdYIv8zy2dJt+C70XAasOrBWGp+P5Za/zF3/xfEHMKhwjZlUzLlXzYbSD
+ X+APp62HBtU9Ch27rz40Y4XbQElgxK8eqg2psElxM1jOZU+aKPXvbPI+JtN+toWEl9ZN
+ +glA==
+X-Gm-Message-State: AOAM532XQQnWo5KxSdQ6GjjFlE42qER4cJaCJDr67tf0xa0O2ImCaMdP
+ tow7Tjqd3jXugc/sXfS0ehBfRfaFzjUxCO3NGGOvFQ==
+X-Google-Smtp-Source: ABdhPJwmgOQPJNArllW623MtnGtF+YvBSd2nDONIf/p+u4j0wVy0H5489dhTMmtHE8kkgDBNyWZWMssHpUBNPJhADSc=
+X-Received: by 2002:a17:906:7254:: with SMTP id
+ n20mr15382743ejk.382.1603723505151; 
+ Mon, 26 Oct 2020 07:45:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-3-pbonzini@redhat.com>
+In-Reply-To: <20201026143028.3034018-3-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 14:44:54 +0000
+Message-ID: <CAFEAcA_VYpdo+KBxTkBfDzoOh7eCUrhFTxeh0VXpMB4Yv89NFA@mail.gmail.com>
+Subject: Re: [PATCH 02/15] digic: stash firmware into DigicState
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,88 +80,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- rjones@redhat.com, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- stefanha@redhat.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
-
-> Rather than open-coding the translation from the deprecated
-> NbdServerAddOptions type to the preferred BlockExportOptionsNbd, it's
-> better to utilize QAPI_CLONE_MEMBERS.  This solves a couple of issues:
-> first, if we do any more refactoring of the base type (which an
-> upcoming patch plans to do), we don't have to revisit the open-coding.
-> Second, our assignment to arg->name is fishy: the generated QAPI code
-> currently does not visit it if arg->has_name is false, but if it DID
-> visit it, we would have introduced a double-free situation when arg is
-> finally freed.
+On Mon, 26 Oct 2020 at 14:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
 >
-> Signed-off-by: Eric Blake <eblake@redhat.com>
+> Prepare for removing bios_name.
+>
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  blockdev-nbd.c | 15 ++++++---------
->  1 file changed, 6 insertions(+), 9 deletions(-)
+>  hw/arm/digic_boards.c  | 5 +++--
+>  include/hw/arm/digic.h | 1 +
+>  2 files changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/blockdev-nbd.c b/blockdev-nbd.c
-> index 8174023e5c47..cee9134b12eb 100644
-> --- a/blockdev-nbd.c
-> +++ b/blockdev-nbd.c
-> @@ -14,6 +14,8 @@
->  #include "sysemu/block-backend.h"
->  #include "hw/block/block.h"
->  #include "qapi/error.h"
-> +#include "qapi/clone-visitor.h"
-> +#include "qapi/qapi-visit-block-export.h"
->  #include "qapi/qapi-commands-block-export.h"
->  #include "block/nbd.h"
->  #include "io/channel-socket.h"
-> @@ -195,7 +197,8 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
->       * the device name as a default here for compatibility.
->       */
->      if (!arg->has_name) {
-> -        arg->name = arg->device;
-> +        arg->has_name = true;
-> +        arg->name = g_strdup(arg->device);
+> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
+> index d5524d3e72..d320b54c44 100644
+> --- a/hw/arm/digic_boards.c
+> +++ b/hw/arm/digic_boards.c
+> @@ -55,6 +55,7 @@ static void digic4_board_init(MachineState *machine, DigicBoard *board)
+>      DigicState *s = DIGIC(object_new(TYPE_DIGIC));
+>      MachineClass *mc = MACHINE_GET_CLASS(machine);
+>
+> +    s->firmware = machine->firmware;
+>      if (machine->ram_size != mc->default_ram_size) {
+>          char *sz = size_to_str(mc->default_ram_size);
+>          error_report("Invalid RAM size, should be %s", sz);
+> @@ -91,8 +92,8 @@ static void digic_load_rom(DigicState *s, hwaddr addr,
+>          return;
+>      }
+>
+> -    if (bios_name) {
+> -        filename = bios_name;
+> +    if (s->firmware) {
+> +        filename = s->firmware;
+>      } else {
+>          filename = def_filename;
 >      }
 
-This is the fix you mentioned in the commit message.
+The existing code is a little odd, because if the user passes -bios
+then we use it in both the add_rom0 and add_rom1 callbacks;
+however this ends up not mattering for the moment because the
+only supported Digic board has just the rom1 and no rom0.
 
->
->      export_opts = g_new(BlockExportOptions, 1);
-> @@ -205,15 +208,9 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
-       *export_opts = (BlockExportOptions) {
-           .type                   = BLOCK_EXPORT_TYPE_NBD,
-           .id                     = g_strdup(arg->name),
->          .node_name              = g_strdup(bdrv_get_node_name(bs)),
->          .has_writable           = arg->has_writable,
->          .writable               = arg->writable,
+Anyway, rather than stashing the firmware filename in the
+DigicState, you could lift the "decide whether to use
+machine->firmware or the def_filename" choice up to
+the callsites in digic4_board_init():
 
-Explicit initialization of all the common members, except for
-@writethrough.  @writethrough is optional, so not mentioning it makes it
-absent.  I don't mind.
+    if (board->add_rom0) {
+        board->add_rom0(s, DIGIC4_ROM0_BASE,
+                        machine->firmware ?: board->rom0_def_filename);
+    }
+(and similarly for rom1).
 
-> -        .u.nbd = {
-> -            .has_name           = true,
-> -            .name               = g_strdup(arg->name),
-> -            .has_description    = arg->has_description,
-> -            .description        = g_strdup(arg->description),
-> -            .has_bitmap         = arg->has_bitmap,
-> -            .bitmap             = g_strdup(arg->bitmap),
+Then you can delete the
+    if (bios_name) {
+        filename = bios_name;
+    } else {
+        filename = def_filename;
+    }
+block from digic_load_rom() and rename the arguments of
+digic_load_rom() and digic4_add_k8p3215uqb_rom() to just
+"filename" rather than "def_filename".
 
-Explicit initialization of all the variant members: copy of @arg.
+Doing it that way avoids passing things around that we don't
+need to, and makes it clear in the digic4_board_init() code
+that we're doing something a bit suspect in possibly using
+the machine->firmware file twice -- if we ever need to fix
+that bug then it'll be a simple change to the logic in that
+one function.
 
-> -        },
->      };
-> +    QAPI_CLONE_MEMBERS(BlockExportOptionsNbd, &export_opts->u.nbd,
-> +                       qapi_NbdServerAddOptions_base(arg));
-
-Another (and better) way to copy.
-
->
->      /*
->       * nbd-server-add doesn't complain when a read-only device should be
-
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+thanks
+-- PMM
 
