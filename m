@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071B2298EDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:07:55 +0100 (CET)
-Received: from localhost ([::1]:48206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959DB298EDD
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:08:15 +0100 (CET)
+Received: from localhost ([::1]:49492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3A9-0006Xc-To
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39676)
+	id 1kX3AU-00073n-KN
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:08:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2ur-0005qa-Hy
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55721)
+ id 1kX2ut-0005x0-HL
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2uo-0001lo-6a
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:05 -0400
+ id 1kX2ug-0001le-68
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720302;
+ s=mimecast20190719; t=1603720301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LfIiDQwTy2juH+OOnhgr+JgrKxNbYPcVhpVCYRhsDRM=;
- b=a1qMSRsDKAQoq8okCzHojKA31fiXSMelA2TL6bkygYSsQZUk2JgxwTaODZ45eF8YUwJ6ep
- ps3qdO8BjKnjMTiZrtmP4mdf+5WIvnEmA8JYMQvDCWiLpA2OjNG1K+dtbtH7khtGJtkBSq
- K9bKF68G5b3GH9k4mDDTU45KNauxwqs=
+ bh=6zyuao6p7/K0jMw3GBouKUVe5X+y77/fWzKmTRdf6wc=;
+ b=CmbbL1Xw4ChpKTSjZ2gYjDqOySfTVwPdDdyfkP+cLDg4p+b1B8ZfGiUlULvUg1t6FyVlMg
+ v2aWAghfcHy25UWVrSUcIzwNyx2h7bfEn7nMFMoTniWX92nDDW6XaAPgRapCELLT/eLLIy
+ eLb8BTe8tOM2sYK6XMxi1botujE4QX4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-JuLm2UGUMJK2fFaK2KowuQ-1; Mon, 26 Oct 2020 09:51:39 -0400
-X-MC-Unique: JuLm2UGUMJK2fFaK2KowuQ-1
+ us-mta-323-nAhYQDOhMPWHdy7gjlfLnw-1; Mon, 26 Oct 2020 09:51:39 -0400
+X-MC-Unique: nAhYQDOhMPWHdy7gjlfLnw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3EC2108E1D9;
- Mon, 26 Oct 2020 13:51:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BBF81060BBF;
+ Mon, 26 Oct 2020 13:51:38 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 837781002391;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE11F1043268;
  Mon, 26 Oct 2020 13:51:37 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/17] WHPX: Fix WHPX build break
-Date: Mon, 26 Oct 2020 09:51:27 -0400
-Message-Id: <20201026135131.3006712-14-pbonzini@redhat.com>
+Subject: [PULL 14/17] win32: boot broken when bind & data dir are the same
+Date: Mon, 26 Oct 2020 09:51:28 -0400
+Message-Id: <20201026135131.3006712-15-pbonzini@redhat.com>
 In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
 References: <20201026135131.3006712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -87,32 +87,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Sunil Muthuswamy <sunilmut@microsoft.com>
 
-With upstream commit#8a19980e3fc4, logic was introduced to only
-allow WHPX build on x64. But, the logic checks for the cpu family
-and not the cpu. On my fedora container build, the cpu family is
-x86 and the cpu is x86_64. Fixing the build break by checking for
-the cpu, instead of the cpu family.
+With upstream commit#ea1edcd7da1a "vl: relocate paths to data
+directories", the data dir logic was unified between POSIX &
+Win32. That patch moved to using 'get_relocated_path()', to
+find the data dir. There is a latent bug in get_relocated_path
+which can cause it to spin indefinitely, when the bind dir is
+the same as the passed in dir (in this case, it was the data
+dir).
 
 Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-Message-Id: <SN4PR2101MB0880D706A85793DDFC411304C01D0@SN4PR2101MB0880.namprd21.prod.outlook.com>
+Message-Id: <SN4PR2101MB08802BF242C429A15DDB32ACC01B0@SN4PR2101MB0880.namprd21.prod.outlook.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 2 +-
+ util/cutils.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 342b8bcab5..61919c024a 100644
---- a/meson.build
-+++ b/meson.build
-@@ -204,7 +204,7 @@ else
-   have_xen_pci_passthrough = false
- endif
- if not get_option('whpx').disabled() and targetos == 'windows'
--  if get_option('whpx').enabled() and cpu != 'x86_64'
-+  if get_option('whpx').enabled() and host_machine.cpu() != 'x86_64'
-     error('WHPX requires 64-bit host')
-   elif cc.has_header('WinHvPlatform.h', required: get_option('whpx')) and \
-        cc.has_header('WinHvEmulation.h', required: get_option('whpx'))
+diff --git a/util/cutils.c b/util/cutils.c
+index be4e43a9ef..c395974fab 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -949,7 +949,7 @@ char *get_relocated_path(const char *dir)
+         bindir += len_bindir;
+         dir = next_component(dir, &len_dir);
+         bindir = next_component(bindir, &len_bindir);
+-    } while (len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
++    } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
+ 
+     /* Ascend from bindir to the common prefix with dir.  */
+     while (len_bindir) {
 -- 
 2.26.2
 
