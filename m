@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A711299292
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:36:43 +0100 (CET)
-Received: from localhost ([::1]:44716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BF89299280
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:33:02 +0100 (CET)
+Received: from localhost ([::1]:60756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5UA-0000EA-5p
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:36:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60650)
+	id 1kX5Qb-0003bW-7r
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:33:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Ew-00057t-HV
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39698)
+ id 1kX5Ey-0005CZ-Mx
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:21:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Eu-0000N4-GM
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:58 -0400
+ id 1kX5Eu-0000OR-Hg
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:21:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603729253;
+ s=mimecast20190719; t=1603729254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ecw+/l7luLc7WvskempfGO0Am9K8TfzYcmpD33bw7Uo=;
- b=KUpweo0kTAbXLcqTx+1lN+pX63D6EvZMHLdfZ3CzoDYhl3HbTfYhlFwl/KIKHwMyFirDc6
- 9F5hGDVa/vUvtjnUr3UlqRBPiO2cwPd+MLuDY2wbzRMfqAQN+hhLquKXKk/ZlrUnZAQTBO
- pCA1MAoolnWMDvQM1zPx4CojIDwB31U=
+ bh=LeSYKSnUUTv72sw4cyfXobZIwEsSZnxB3Iqlyr17jUc=;
+ b=EeLOnuhJKiRqE0Og4gTuJDeKgE+roMEh8Ivbg76kq5hBAunqMk3lqxGaF1wKEgnVBQoFUn
+ XynL3TVrtSOVmabDu+JUlj9tlxRhilb0TXyXFUGNqK8oaHDCgMf4FQjINwsOHyHV8YCWnZ
+ y4IbrxuSgaihT9CUEkgWucBONWuw5EM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-Mu7haeCWPqCcNjGGoTa9CA-1; Mon, 26 Oct 2020 12:20:50 -0400
-X-MC-Unique: Mu7haeCWPqCcNjGGoTa9CA-1
+ us-mta-563-PaK8-H47Oa-ZrKxcqmYGpA-1; Mon, 26 Oct 2020 12:20:52 -0400
+X-MC-Unique: PaK8-H47Oa-ZrKxcqmYGpA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A93B2106B26C;
- Mon, 26 Oct 2020 16:20:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34E47101F7A0;
+ Mon, 26 Oct 2020 16:20:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 79B4C5D9E4;
- Mon, 26 Oct 2020 16:20:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 036945D9E4;
+ Mon, 26 Oct 2020 16:20:49 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, yubihong@huawei.com, peterx@redhat.com,
  peter.maydell@linaro.org
-Subject: [PULL 15/16] migration/postcopy: Release fd before going into
- 'postcopy-pause'
-Date: Mon, 26 Oct 2020 16:19:51 +0000
-Message-Id: <20201026161952.149188-16-dgilbert@redhat.com>
+Subject: [PULL 16/16] migration-test: Only hide error if !QTEST_LOG
+Date: Mon, 26 Oct 2020 16:19:52 +0000
+Message-Id: <20201026161952.149188-17-dgilbert@redhat.com>
 In-Reply-To: <20201026161952.149188-1-dgilbert@redhat.com>
 References: <20201026161952.149188-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -89,63 +88,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-Logically below race could trigger with the old code:
+The errors are very useful when debugging qtest failures, especially when
+QTEST_LOG=1 is set.  Let's allow override MigrateStart.hide_stderr when
+QTEST_LOG=1 is specified, because that means the user wants to be verbose.
 
-          test program                        migration thread
-          ------------                        ----------------
-       wait_until('postcopy-pause')
-                                          postcopy_pause()
-                                            set_state('postcopy-pause')
-       do_postcopy_recover()
-         arm s->to_dst_file with new fd
-                                            release s->to_dst_file [1]
+Not very nice to introduce the first QTEST_LOG env access in migration-test.c,
+however it should be handy.  Without this patch, I was hacking error_report()
+when debugging such errors.  Let's make things easier.
 
-Here [1] could have released the just-installed recoverying channel.  Then the
-migration could hang without really resuming.
-
-Instead, it should be very safe to release the fd before setting the state into
-'postcopy-pause', because there's no reason for any other thread to touch it
-during 'postcopy-active'.
-
-Dave reported a very rare postcopy recovery hang that the migration-test
-program waited for the migration to complete in migrate_postcopy_complete().
-We do suspect it's the same thing that we're gonna fix here.  Hard to tell.
-However since we've noticed this, fix this irrelevant of the hang report.
-
-Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20201021212721.440373-6-peterx@redhat.com>
+Message-Id: <20201021212721.440373-7-peterx@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/migration-test.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.c b/migration/migration.c
-index 5421042d4a..627f194b8b 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3178,9 +3178,6 @@ static MigThrError postcopy_pause(MigrationState *s)
-     while (true) {
-         QEMUFile *file;
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index f410ec5996..f2142fbd3c 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -464,6 +464,10 @@ static void migrate_postcopy_start(QTestState *from, QTestState *to)
+ }
  
--        migrate_set_state(&s->state, s->state,
--                          MIGRATION_STATUS_POSTCOPY_PAUSED);
--
-         /* Current channel is possibly broken. Release it. */
-         assert(s->to_dst_file);
-         qemu_mutex_lock(&s->qemu_file_lock);
-@@ -3191,6 +3188,9 @@ static MigThrError postcopy_pause(MigrationState *s)
-         qemu_file_shutdown(file);
-         qemu_fclose(file);
+ typedef struct {
++    /*
++     * QTEST_LOG=1 may override this.  When QTEST_LOG=1, we always dump errors
++     * unconditionally, because it means the user would like to be verbose.
++     */
+     bool hide_stderr;
+     bool use_shmem;
+     /* only launch the target process */
+@@ -557,7 +561,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
  
-+        migrate_set_state(&s->state, s->state,
-+                          MIGRATION_STATUS_POSTCOPY_PAUSED);
-+
-         error_report("Detected IO failure for postcopy. "
-                      "Migration paused.");
+     g_free(bootpath);
  
+-    if (args->hide_stderr) {
++    if (!getenv("QTEST_LOG") && args->hide_stderr) {
+         ignore_stderr = "2>/dev/null";
+     } else {
+         ignore_stderr = "";
 -- 
 2.28.0
 
