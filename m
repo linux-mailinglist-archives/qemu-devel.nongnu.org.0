@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311E7299759
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:50:47 +0100 (CET)
-Received: from localhost ([::1]:37720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C53729976F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:53:56 +0100 (CET)
+Received: from localhost ([::1]:45688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8Vy-00037F-7D
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:50:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33150)
+	id 1kX8Z0-0006nm-R5
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:53:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kX8Lf-000371-9D
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:40:07 -0400
+ id 1kX8Lh-0003Bn-DA
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:40:09 -0400
 Received: from mga09.intel.com ([134.134.136.24]:62565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ben.widawsky@intel.com>)
- id 1kX8Lb-0002kJ-Is
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:40:06 -0400
-IronPort-SDR: BtJiAeXmN2CmX3limi6tXmCXoGVoFo1w5X/ZtnapfJF0Qf0lwe07vIMdsAM8S7xjapBvyLFU5J
- 3vWkZxT9421g==
-X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="168103244"
-X-IronPort-AV: E=Sophos;i="5.77,420,1596524400"; d="scan'208";a="168103244"
+ id 1kX8Lf-0002kJ-GI
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:40:09 -0400
+IronPort-SDR: lx/+YXnimXKlQ35YPAtJL4PkYFgmZ0/c6UTTQ/HJXemvek90ekMzq0eflFS+1vdyJO3n3yybPe
+ Bdx+Ti9rzTmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9786"; a="168103249"
+X-IronPort-AV: E=Sophos;i="5.77,420,1596524400"; d="scan'208";a="168103249"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  26 Oct 2020 12:39:56 -0700
-IronPort-SDR: ddc8LcyvM1RG4yDkNiBA2AND+wNCLGiBU/eQa6XE+6XsuamwIM8ncwm6nIlKispqiIx4g3giB7
- 03DzGsdQWWzQ==
-X-IronPort-AV: E=Sophos;i="5.77,420,1596524400"; d="scan'208";a="334140296"
+IronPort-SDR: d/JXoVTLHd1Wd0oiGXdUxvd+QlFIiJnRLFyhmJpCix7EQ1av7knxiZc7M8m0Y8g98uGiSePL4b
+ YzcJtMGaOB6g==
+X-IronPort-AV: E=Sophos;i="5.77,420,1596524400"; d="scan'208";a="334140300"
 Received: from alhertig-mobl1.amr.corp.intel.com (HELO bwidawsk-mobl5.local)
  ([10.252.135.229])
  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Oct 2020 12:39:55 -0700
+ 26 Oct 2020 12:39:56 -0700
 From: Ben Widawsky <ben.widawsky@intel.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] acpi/crs: Prevent bad ranges for host bridges
-Date: Mon, 26 Oct 2020 12:39:23 -0700
-Message-Id: <20201026193924.985014-1-ben.widawsky@intel.com>
+Subject: [PATCH 2/2] acpi/crs: Support ranges > 32b for hosts
+Date: Mon, 26 Oct 2020 12:39:24 -0700
+Message-Id: <20201026193924.985014-2-ben.widawsky@intel.com>
 X-Mailer: git-send-email 2.29.1
+In-Reply-To: <20201026193924.985014-1-ben.widawsky@intel.com>
+References: <20201026193924.985014-1-ben.widawsky@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=134.134.136.24;
@@ -72,38 +74,46 @@ Cc: Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prevent _CRS resources being quietly chopped off and instead throw an
-assertion. _CRS is used by host bridges to declare regions of io and/or
-memory that they consume. On some (all?) platforms the host bridge
-doesn't have PCI header space and so they need some way to convey the
-information.
+According to PCIe spec 5.0 Type 1 header space Base Address Registers
+are defined by 7.5.1.2.1 Base Address Registers (same as Type 0). The
+_CRS region should allow for the same range (up to 64b). Prior to this
+change, any host bridge utilizing more than 32b for the BAR would have
+the address truncated and likely lead to conflicts when the operating
+systems reads the _CRS object.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 
 ---
-
-1. I'm not aware of this being a real issue on platforms today as I think
-   many platforms that use ACPI and actually have regions, constrain to
-   32b to be complaint with legacy.
-2. Since host bridges aren't usually hot plugged, it can't be invoked by
-   a user, so assert() seems like the right way to handle this.
+I don't think this effects any code currently in QEMU. You'd need to
+have a host bridge which has a BAR, and that BAR wants to be > 32b. I've
+hit this because I have a modified PXB device that does advertise a 64b
+BAR. Also, you'd need a platform that cares about ACPI, which, many do
+not.
 ---
- hw/i386/acpi-build.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/i386/acpi-build.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index eee7b57c37..df13abecf4 100644
+index df13abecf4..75604bdc74 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -869,6 +869,8 @@ static Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-     crs_range_merge(temp_range_set.mem_ranges);
-     for (i = 0; i < temp_range_set.mem_ranges->len; i++) {
-         entry = g_ptr_array_index(temp_range_set.mem_ranges, i);
-+        assert(entry->limit <= UINT32_MAX &&
-+               (entry->limit - entry->base + 1) <= UINT32_MAX);
-         aml_append(crs,
-                    aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
+@@ -789,8 +789,14 @@ static Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+                 crs_range_insert(temp_range_set.io_ranges,
+                                  range_base, range_limit);
+             } else { /* "memory" */
+-                crs_range_insert(temp_range_set.mem_ranges,
+-                                 range_base, range_limit);
++                uint64_t length = range_limit - range_base + 1;
++                if (range_limit <= UINT32_MAX && length <= UINT32_MAX) {
++                    crs_range_insert(temp_range_set.mem_ranges, range_base,
++                                     range_limit);
++                } else {
++                    crs_range_insert(temp_range_set.mem_64bit_ranges,
++                                     range_base, range_limit);
++                }
+             }
+         }
+ 
 -- 
 2.29.1
 
