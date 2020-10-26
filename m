@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8213299254
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:25:22 +0100 (CET)
-Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8D92299252
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:25:07 +0100 (CET)
+Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5JB-0001XV-Ly
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:25:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60352)
+	id 1kX5Iw-0000vm-Pq
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:25:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Ea-0004QU-R7
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56044)
+ id 1kX5Ed-0004Xo-QA
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38334)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5EX-0000EZ-EO
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:36 -0400
+ id 1kX5Ea-0000Ey-SO
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603729232;
+ s=mimecast20190719; t=1603729236;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=43e7h9zDqKhu4As2rtz/PEXJHWJMgs2H27vgB1zdqi0=;
- b=DO+R9vSXI72QZ3cILn++PT7sTNCkYE+GnWmhXcASHUqM2kJCfj4HJRyk5/SsNe7A+hcqGy
- H5/lCVvnFBEi92NB7a9rjlQdwG8cO9WCodLRd924RSHuDAtyo4V7tamvN+BI1+GIeDmKby
- VzhX5XmTkrsCjGsBDhE3aI8IGDQg7A8=
+ bh=HdZSo4zL5HxLrqA8KjdUTNdghcRyfN2rA70LPzDMvsM=;
+ b=H/FH0SXc1Pl6Hn4qRErI2MOfGadgToiT4/jHOD7E2BGnx4c2uesHxqW1V0tJOUp54qSO/7
+ va7mijo2zdrHyXMtIjXIJi/eXX9/MujhBxiJ4LxGESJiQBD+s7MGGsyWqJHHPhI2xJK2LG
+ AygHk3tL4x5BGJwUMjM+MvpUAkDFObw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-kPmHv1zFN0OKmDOndbuU2A-1; Mon, 26 Oct 2020 12:20:30 -0400
-X-MC-Unique: kPmHv1zFN0OKmDOndbuU2A-1
+ us-mta-339-BMBNScRpOFaAjgPmRAYcOw-1; Mon, 26 Oct 2020 12:20:33 -0400
+X-MC-Unique: BMBNScRpOFaAjgPmRAYcOw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 466CA1891EA7;
- Mon, 26 Oct 2020 16:20:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6DBC18B9EF2;
+ Mon, 26 Oct 2020 16:20:32 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A14A5D9E8;
- Mon, 26 Oct 2020 16:20:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93C125D9E4;
+ Mon, 26 Oct 2020 16:20:29 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, yubihong@huawei.com, peterx@redhat.com,
  peter.maydell@linaro.org
-Subject: [PULL 05/16] migration: Open brace '{' following struct go on the
- same line
-Date: Mon, 26 Oct 2020 16:19:41 +0000
-Message-Id: <20201026161952.149188-6-dgilbert@redhat.com>
+Subject: [PULL 06/16] migration: Add braces {} for if statement
+Date: Mon, 26 Oct 2020 16:19:42 +0000
+Message-Id: <20201026161952.149188-7-dgilbert@redhat.com>
 In-Reply-To: <20201026161952.149188-1-dgilbert@redhat.com>
 References: <20201026161952.149188-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -92,27 +91,36 @@ From: Bihong Yu <yubihong@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <1603163448-27122-5-git-send-email-yubihong@huawei.com>
+Message-Id: <1603163448-27122-6-git-send-email-yubihong@huawei.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/migration.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ migration/ram.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index deb411aaad..99784b44bd 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -124,8 +124,7 @@ struct MigrationClass {
-     DeviceClass parent_class;
- };
+diff --git a/migration/ram.c b/migration/ram.c
+index 0aea78f8a1..09178cc3a3 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -101,14 +101,16 @@ static struct {
  
--struct MigrationState
--{
-+struct MigrationState {
-     /*< private >*/
-     DeviceState parent_obj;
+ static void XBZRLE_cache_lock(void)
+ {
+-    if (migrate_use_xbzrle())
++    if (migrate_use_xbzrle()) {
+         qemu_mutex_lock(&XBZRLE.lock);
++    }
+ }
  
+ static void XBZRLE_cache_unlock(void)
+ {
+-    if (migrate_use_xbzrle())
++    if (migrate_use_xbzrle()) {
+         qemu_mutex_unlock(&XBZRLE.lock);
++    }
+ }
+ 
+ /**
 -- 
 2.28.0
 
