@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD7FB2988A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:41:08 +0100 (CET)
-Received: from localhost ([::1]:45388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D996F29885D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:37:07 +0100 (CET)
+Received: from localhost ([::1]:34664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWy3v-0001F0-Ng
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:41:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46042)
+	id 1kWy02-00059a-VB
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kWxxj-0003JD-ON
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:43 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46974
+ id 1kWxxm-0003KE-Rx
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:50 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:46980
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kWxxg-000601-T7
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:43 -0400
+ id 1kWxxj-00061K-Sh
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:34:46 -0400
 Received: from host86-148-103-79.range86-148.btcentralplus.com
  ([86.148.103.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kWxxj-00082O-UZ; Mon, 26 Oct 2020 08:34:48 +0000
+ id 1kWxxo-00082O-Ps; Mon, 26 Oct 2020 08:34:52 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com,
 	samuel.thibault@ens-lyon.org
-Date: Mon, 26 Oct 2020 08:33:57 +0000
-Message-Id: <20201026083401.13231-6-mark.cave-ayland@ilande.co.uk>
+Date: Mon, 26 Oct 2020 08:33:58 +0000
+Message-Id: <20201026083401.13231-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
 References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
@@ -39,8 +39,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH 5/9] dev-serial: replace DeviceOutVendor/DeviceInVendor with
- equivalent macros from usb.h
+Subject: [PATCH 6/9] dev-serial: add always-plugged property to ensure USB
+ device is always attached
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -68,99 +68,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The DeviceOutVendor and DeviceInVendor macros can be replaced with their
-equivalent VendorDeviceOutRequest and VendorDeviceRequest macros from usb.h.
+Some operating systems will generate a new device ID when a USB device is unplugged
+and then replugged into the USB. If this is done whilst switching between multiple
+applications over a virtual serial port, the change of device ID requires going
+back into the OS/application to locate the new device accordingly.
+
+Add a new always-plugged property that if specified will ensure that the device
+always remains attached to the USB regardless of the state of the backend
+chardev.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/usb/dev-serial.c | 25 ++++++++++---------------
- 1 file changed, 10 insertions(+), 15 deletions(-)
+ hw/usb/dev-serial.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index badf8785db..92c35615eb 100644
+index 92c35615eb..919e25e1d9 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -37,11 +37,6 @@
- #define FTDI_SET_LATENCY       9
- #define FTDI_GET_LATENCY       10
- 
--#define DeviceOutVendor \
--           ((USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
--#define DeviceInVendor \
--           ((USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
--
- /* RESET */
- 
- #define FTDI_RESET_SIO 0
-@@ -253,7 +248,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+@@ -97,6 +97,7 @@ struct USBSerialState {
+     uint8_t event_chr;
+     uint8_t error_chr;
+     uint8_t event_trigger;
++    bool always_plugged;
+     QEMUSerialSetParams params;
+     int latency;        /* ms */
+     CharBackend cs;
+@@ -516,12 +517,12 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
+         s->event_trigger |= FTDI_BI;
          break;
- 
-     /* Class specific requests.  */
--    case DeviceOutVendor | FTDI_RESET:
-+    case VendorDeviceOutRequest | FTDI_RESET:
-         switch (value) {
-         case FTDI_RESET_SIO:
-             usb_serial_reset(s);
-@@ -268,7 +263,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-             break;
+     case CHR_EVENT_OPENED:
+-        if (!s->dev.attached) {
++        if (!s->always_plugged && !s->dev.attached) {
+             usb_device_attach(&s->dev, &error_abort);
          }
          break;
--    case DeviceOutVendor | FTDI_SET_MDM_CTRL:
-+    case VendorDeviceOutRequest | FTDI_SET_MDM_CTRL:
-     {
-         static int flags;
-         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_GET_TIOCM, &flags);
-@@ -289,10 +284,10 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
+     case CHR_EVENT_CLOSED:
+-        if (s->dev.attached) {
++        if (!s->always_plugged && s->dev.attached) {
+             usb_device_detach(&s->dev);
+         }
          break;
+@@ -556,7 +557,8 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
+                              usb_serial_event, NULL, s, NULL, true);
+     usb_serial_handle_reset(dev);
+ 
+-    if (qemu_chr_fe_backend_open(&s->cs) && !dev->attached) {
++    if (s->always_plugged || (qemu_chr_fe_backend_open(&s->cs) &&
++                              !dev->attached)) {
+         usb_device_attach(dev, &error_abort);
      }
--    case DeviceOutVendor | FTDI_SET_FLOW_CTRL:
-+    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
-         /* TODO: ioctl */
-         break;
--    case DeviceOutVendor | FTDI_SET_BAUD: {
-+    case VendorDeviceOutRequest | FTDI_SET_BAUD: {
-         static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
-         int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
-                                      | ((index & 1) << 2)];
-@@ -311,7 +306,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
-         break;
-     }
--    case DeviceOutVendor | FTDI_SET_DATA:
-+    case VendorDeviceOutRequest | FTDI_SET_DATA:
-         switch (value & FTDI_PARITY) {
-         case 0:
-             s->params.parity = 'N';
-@@ -346,23 +341,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
-         /* TODO: TX ON/OFF */
-         break;
--    case DeviceInVendor | FTDI_GET_MDM_ST:
-+    case VendorDeviceRequest | FTDI_GET_MDM_ST:
-         data[0] = usb_get_modem_lines(s) | 1;
-         data[1] = FTDI_THRE | FTDI_TEMT;
-         p->actual_length = 2;
-         break;
--    case DeviceOutVendor | FTDI_SET_EVENT_CHR:
-+    case VendorDeviceOutRequest | FTDI_SET_EVENT_CHR:
-         /* TODO: handle it */
-         s->event_chr = value;
-         break;
--    case DeviceOutVendor | FTDI_SET_ERROR_CHR:
-+    case VendorDeviceOutRequest | FTDI_SET_ERROR_CHR:
-         /* TODO: handle it */
-         s->error_chr = value;
-         break;
--    case DeviceOutVendor | FTDI_SET_LATENCY:
-+    case VendorDeviceOutRequest | FTDI_SET_LATENCY:
-         s->latency = value;
-         break;
--    case DeviceInVendor | FTDI_GET_LATENCY:
-+    case VendorDeviceRequest | FTDI_GET_LATENCY:
-         data[0] = s->latency;
-         p->actual_length = 1;
-         break;
+     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
+@@ -584,6 +586,7 @@ static const VMStateDescription vmstate_usb_serial = {
+ 
+ static Property serial_properties[] = {
+     DEFINE_PROP_CHR("chardev", USBSerialState, cs),
++    DEFINE_PROP_BOOL("always-plugged", USBSerialState, always_plugged, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
 -- 
 2.20.1
 
