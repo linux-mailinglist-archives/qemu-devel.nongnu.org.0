@@ -2,61 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54912299398
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:20:31 +0100 (CET)
-Received: from localhost ([::1]:56862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E2D12993B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:23:52 +0100 (CET)
+Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6AY-00081m-DP
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:20:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48486)
+	id 1kX6Dn-00050q-5k
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:23:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX665-0004IH-Bz
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:15:53 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:38366)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kX666-0004Lh-HQ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:15:54 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:56247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX65z-00080Y-5B
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:15:53 -0400
-Received: by mail-ed1-x541.google.com with SMTP id bc23so10215828edb.5
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:15:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kX664-000824-U8
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:15:54 -0400
+Received: by mail-wm1-x342.google.com with SMTP id a72so12457302wme.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:15:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ai6RaFRCXCkUW0OuzoM32f4zvP1b4tXnEOZCvs5/W/s=;
- b=Q4024UNpJsl8FHzmSqO1zeS2FS/xkD/TYY9R8FKvIiIgN2KvTaq2/TzPg1TW6VJYxV
- 2qZyRe8wJD41dbcRQ+zgx0wFG1EhCiXNfe+4gHReYltaGWn+9s04d9HTuFJb5ey0XEOQ
- Fv+Zs83PYtUO54wjBQYN3iNq7ptm1gXs1dspvEAIFyoNQ26/TAIvmN2nQag66LgWJzyf
- 0F79UYxxyvV9ZadzJp6sNfQdzesU3fpk1KiYfx1UOKsyZVIzwZ/ZtXMCu4BE8PTOlERc
- GA2wC5OE4RCgJJcUrlXPDTjb3mxLcc5SiynIDuXOU+Rlk4VBNcMS11a1IrZGvBcGYKLP
- 2dVA==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=1rGfK5KmDVjuMmXxy2nUSwHH6sMFKvTP3cU4+dNKII8=;
+ b=Kg1qMtEpRCVQVitELpZFu3wrwTX1cJE/7Ly6Su2bvTmBvD/BCm4ZGMhTtOSkxFUZGq
+ EBk4mwjW00CwpGhaUS0IbbUOJQpXBIryGoATdagHY92/hmy34iJgmrEQFKKXCKK3Xtjq
+ LmYI4ePVCwLo01Krbi0vvldgShtbLJLDLrbn7eW9rJyhckpLcQnSepp08Kdi7/06k4Hq
+ cdp2Vg+tntkdSkMLRYo0M1KzK24NVrqP9+y8adZPz8rH/QPz622mfhrK7UkuLFNSdcSk
+ vmmdLVBg9nvWID753NROCAH8gIxPPeR3fKKoA2KpyUwO4nPPmpPnO7u8XiRkOOD64hkr
+ M+gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ai6RaFRCXCkUW0OuzoM32f4zvP1b4tXnEOZCvs5/W/s=;
- b=J/oXaKSrLbM+1jqaEGtxu/cM8TGu9w/ew49dLOA4/dVFplHnGH8oIl9rsjjNLZKSL3
- H47z+rLi/Vx7FyLodS3DoFUJKRV5FTstncNVokv0pwslccYXVUZeN2COysV+ErwoMzTk
- Q+80yj1tgjwFsPV7b9i/F+DKXKUhM4JsgpJ9aDQp238Jw5YJYfS+epn45AHEMZ7tASJ8
- gTchtwOTF9OGb+7s0A2PysgGvtbcQHzX3pm5KwuMhgccxg79rx6tKCrnj60jEhSjhwlW
- UKZbX/a35NdE+yQRpvLDZGegA1/ON/JO3Tdi+l84BX2o1wQk+EBYnCRjtmrZli4rKrA5
- vVcA==
-X-Gm-Message-State: AOAM533mBgCmOALBgy/M29NH2pJT09TA04ZExCP4d3uL6aIDcydQ3p3D
- aEXiAH7DRNcxEFRUl5KPeRWs5CJshhkWqPWM1YMTfg==
-X-Google-Smtp-Source: ABdhPJzozDySIik0SkCI26PaRPFx5MdHOaBEGMz9JLTbtfYpDaqXyl6ReP+ZdpRH8CA3HPI77izgbm5VgEV05FGysEM=
-X-Received: by 2002:aa7:d699:: with SMTP id d25mr8862915edr.44.1603732545027; 
- Mon, 26 Oct 2020 10:15:45 -0700 (PDT)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=1rGfK5KmDVjuMmXxy2nUSwHH6sMFKvTP3cU4+dNKII8=;
+ b=lRCsH4pXZotcekO3rLWqjsB27euIWzJOqAtI7NGqrZupArZff+WEJjyOvnANiin+Rx
+ vIKnTvWCUgvAqhi9yqh9A3afo7rt0/HHLS8J8HM93TDfVIplJnlQ7gvZt+wp40qiIX0W
+ CW4gXvU2UpGHxcbpdTXH2leiN0AEvE+nkg/aygb9ht0Mhcv8W+pgF5dGJQYkC42STU4Y
+ bIy0cFe2tYlw2fGnQDkgiB1Kd9V5shWUtuTLfqLrqtJhZt+VbbmpLXJjV7NqW7iipnve
+ k57qXcQgGfy27B5Y3mA8jeu/KgaCvRTK7O7T9N7/aFG8xtFHAHauEXMMdnZWiJcodxw0
+ 4dSw==
+X-Gm-Message-State: AOAM531fDtmc6YoenMi2PS2B89zaj0OVVYyn6NoiidJgXndfu8rJI7mG
+ 3OsDoaAgRnx5VKHrvH8SVGSSSTMS4fCh9Q==
+X-Google-Smtp-Source: ABdhPJyew9HBOrOJiDrOS0jRWibgS7lxmgHtGkEPh+xZxZrYRJ7BeDlSlILlbjuI6lYl5Krsg+oJkQ==
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+ x19mr17059611wmj.170.1603732543715; 
+ Mon, 26 Oct 2020 10:15:43 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o186sm22091676wmb.12.2020.10.26.10.15.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Oct 2020 10:15:42 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BCAC61FF7E;
+ Mon, 26 Oct 2020 17:15:41 +0000 (GMT)
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-7-pbonzini@redhat.com>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 06/15] lm32: remove bios_name
+In-reply-to: <20201026143028.3034018-7-pbonzini@redhat.com>
+Date: Mon, 26 Oct 2020 17:15:41 +0000
+Message-ID: <87zh48gb7m.fsf@linaro.org>
 MIME-Version: 1.0
-References: <20201023210637.351238-1-hskinnemoen@google.com>
-In-Reply-To: <20201023210637.351238-1-hskinnemoen@google.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 17:15:33 +0000
-Message-ID: <CAFEAcA97Y2arMBKRjTwWXSym-g_nAXu5gZ1G=DA5q8GLw_=K5Q@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] Additional NPCM7xx features, devices and tests
-To: Havard Skinnemoen <hskinnemoen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -65,7 +77,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,35 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, venture@google.com,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
- CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: Michael Walle <michael@walle.cc>, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 at 22:06, Havard Skinnemoen <hskinnemoen@google.com> wrote:
->
-> This is an update to the initial NPCM7xx patch series adding
->
->   - Watchdog timer support. This makes the reboot command work.
->   - Random Number Generator device.
->   - USB Host Controllers.
->   - GPIO Controllers.
->
-> The watchdog was implemented by my new teammate Hao Wu. Expect to see more
-> patches from him in the near future.
->
-> This series has also been pushed to the npcm7xx-5.2-update branch of my github
-> repository at
->
->   https://github.com/hskinnemoen/qemu
 
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
+> Cc: Michael Walle <michael@walle.cc>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Applied to target-arm.next, thanks. (I fixed a stray blank line at
-the end of npcm_watchdog_timer-test.c because 'git am' happened
-to complain about it.)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
--- PMM
+--=20
+Alex Benn=C3=A9e
 
