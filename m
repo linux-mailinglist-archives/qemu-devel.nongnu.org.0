@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AD6298FCA
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:48:02 +0100 (CET)
-Received: from localhost ([::1]:33672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A3C298FFA
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:53:21 +0100 (CET)
+Received: from localhost ([::1]:46982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3mz-0006vI-5l
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:48:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52304)
+	id 1kX3s8-00043y-LG
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:53:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kX3cy-0003MZ-Rk
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:37:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28820)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kX3eQ-0005ww-Cr
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:39:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kX3cv-0000Wg-Vd
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:37:40 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kX3eO-0000kN-Re
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:39:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603723056;
+ s=mimecast20190719; t=1603723147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lXuRNbVSFOMOuQz3o2Gzb/k3kJKt+47V6Z2hCBFuc8g=;
- b=Twz7yQRWJWW9VuOUucSWj3QACtxBgGMJuIwfmb3hb2UwKtPnyytNFqYdEuC5PD2rKPlfMc
- A9BelqVWgoFrDrmhDosmZDPpBK3QQJAbMe3pg+cGxSPN+SpvNPDLu/7zvEFyOwnTqDQ44C
- yKUfCBeH6Q41ctKvjhfwKynilrdILBs=
+ bh=FC7uDYskSiwdeFskvuhQ0Nr3GuPsiFmlPOIpHooM2Aw=;
+ b=HMfFLB7Pm/J24+j2QGNy8YAVJkk5HoW1GdBySLq5tODBvmeWoPpNMPHhjiSkGZPtdqFjwR
+ jNUnUsgsZ5q+8os56kGfAw5VS0sds2Tbqk2G/TwNo/OZ8CcycMHVZTIY9ryo6CSjOsqFNR
+ hJeaVXmc9p7R1bqg+xoWMWY48vHzN8g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-M5cGUoI6OVKl9I71xK7u4w-1; Mon, 26 Oct 2020 10:37:35 -0400
-X-MC-Unique: M5cGUoI6OVKl9I71xK7u4w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-539-I9MFUL_kMY-SM6HcwJBrPA-1; Mon, 26 Oct 2020 10:39:03 -0400
+X-MC-Unique: I9MFUL_kMY-SM6HcwJBrPA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E50C2809DC5;
- Mon, 26 Oct 2020 14:37:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0DBE188C136;
+ Mon, 26 Oct 2020 14:39:01 +0000 (UTC)
 Received: from [10.3.112.145] (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46E775D9E4;
- Mon, 26 Oct 2020 14:37:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F87310021AA;
+ Mon, 26 Oct 2020 14:38:58 +0000 (UTC)
 Subject: Re: [PATCH v5 02/12] qapi: Make QAPI_LIST_ADD() public
+From: Eric Blake <eblake@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>
 References: <20201023183652.478921-1-eblake@redhat.com>
  <20201023183652.478921-3-eblake@redhat.com>
  <87v9ex3vzl.fsf@dusky.pond.sub.org>
-From: Eric Blake <eblake@redhat.com>
+ <19e7105e-534e-7e4e-702f-3227a5f714e7@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <19e7105e-534e-7e4e-702f-3227a5f714e7@redhat.com>
-Date: Mon, 26 Oct 2020 09:37:29 -0500
+Message-ID: <c6259b99-a7db-0afd-d7c8-facf80097e86@redhat.com>
+Date: Mon, 26 Oct 2020 09:38:57 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <87v9ex3vzl.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <19e7105e-534e-7e4e-702f-3227a5f714e7@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,80 +93,20 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 9:25 AM, Markus Armbruster wrote:
-> Eric Blake <eblake@redhat.com> writes:
+On 10/26/20 9:37 AM, Eric Blake wrote:
+
+>> PATCH 12 has more.  I wonder whether PATCH 12 should be squashed into
+>> this one.  You decide.
 > 
->> We have a useful macro for inserting at the front of any
->> QAPI-generated list; move it from block.c to qapi/util.h so more
->> places can use it, including one earlier place in block.c.
->>
->> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Signed-off-by: Eric Blake <eblake@redhat.com>
->> ---
->>  include/qapi/util.h |  8 ++++++++
->>  block.c             | 15 +++------------
->>  2 files changed, 11 insertions(+), 12 deletions(-)
->>
->> diff --git a/include/qapi/util.h b/include/qapi/util.h
->> index 50201896c7a4..b6083055ce69 100644
->> --- a/include/qapi/util.h
->> +++ b/include/qapi/util.h
->> @@ -30,4 +30,12 @@ int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
->>
->>  int parse_qapi_name(const char *name, bool complete);
->>
->> +/* For any GenericList @list, insert @element at the front. */
->> +#define QAPI_LIST_ADD(list, element) do { \
->> +    typeof(list) _tmp = g_new(typeof(*(list)), 1); \
-> 
-> g_new(typeof(*p), 1) is an rather roundabout way to say
-> g_malloc(sizeof(*p).  Yes, it returns typeof(p) instead of void *, but
-> the chance of this catching mistakes here rounds to zero.
-> 
-> Not this patch's problem.  Ignore me :)
+> Patch 12 has a LOT more.  And we're really close to soft freeze.  I kept
+> them separate to minimize the risk of landing my QAPI changes (4/12)
 
-typeof is a gcc/clang extension; using sizeof makes the code slightly
-more portable (but doesn't affect qemu's usage).  I'm happy to change
-it, although it would require more commit message finesse since that
-becomes more than just code motion.
+Correction - the QAPI change was 6/12 of v5 (whereas it moves earlier in
+the series in my upcoming v6 posting)
 
-
->> @@ -5221,22 +5222,12 @@ BlockDeviceInfoList *bdrv_named_nodes_list(bool flat,
->>              qapi_free_BlockDeviceInfoList(list);
->>              return NULL;
->>          }
->> -        entry = g_malloc0(sizeof(*entry));
->> -        entry->value = info;
->> -        entry->next = list;
->> -        list = entry;
->> +        QAPI_LIST_ADD(list, info);
->>      }
->>
->>      return list;
->>  }
-> 
-> PATCH 12 has more.  I wonder whether PATCH 12 should be squashed into
-> this one.  You decide.
-
-Patch 12 has a LOT more.  And we're really close to soft freeze.  I kept
-them separate to minimize the risk of landing my QAPI changes (4/12)
-before 5.2 (that MUST happen, or we've locked in a problematic API with
-block-export-add), vs. cleanup changes that may require review from a
-lot more areas in the tree.  Given the timeline, I prefer to keep them
-separate for v6.
-
-I also still wonder if it is possible to make Coccinelle identify
-candidates, rather than my manual audit that produced patch 12.
-
-But for v6, I _will_ update the commit message to mention that more
-conversions are possible, and saved for a later patch.
-
-> 
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
-Thanks; I think I can keep this even for v6, since all I am changing is
-an enhanced commit message.
-
+> before 5.2 (that MUST happen, or we've locked in a problematic API with
+> block-export-add), vs. cleanup changes that may require review from a
+> lot more areas in the tree.
 -- 
 Eric Blake, Principal Software Engineer
 Red Hat, Inc.           +1-919-301-3226
