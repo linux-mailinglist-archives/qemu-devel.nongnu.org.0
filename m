@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A00298A49
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:22:00 +0100 (CET)
-Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88DA2298A42
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:19:35 +0100 (CET)
+Received: from localhost ([::1]:38730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzdX-0005It-FN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:21:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
+	id 1kWzbC-0001lJ-HH
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:19:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPG-0002l7-Ui
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45801)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPG-0002k8-HT
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56337)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPA-0006hj-EL
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPA-0006jg-E3
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706824;
+ s=mimecast20190719; t=1603706825;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=WbjpSFd8Wy+vijEQr6h3rVLa4JiCyrzL8aZ0esPPjcU=;
- b=BAo0W96UtlHILF+SCJ6YTbXr2sTBtI///KvgNEjUDCr0C8tTppBLy4mcwnsAPdy0gINgFi
- RJzbsioRge0Rpg2o24Xy7eNR9wmunf6t8saFAvZTQEChNdeM/10jUeV0VYiG+FOctyWqvr
- NOlkdXpMf2bsb5mVjWtanvaBNDqrVcQ=
+ references:references; bh=gJZy3kz//wBAQSHK401ir7KhMFQGorLzyO/DPPZAjnI=;
+ b=PFvmWAmLpwl3yVFpYePgLqQq4+UF7B0fIpQ0NH7pp5+EXkx2/rh0FHbrlBAl+8Jubnpm9p
+ KPfiC2G1Uk9Lq3vkW6mkgkvULrrGciOe3XdsKIvfUKgM6hc2PSB1cmj/kKQbdFsjNwJ1kq
+ 58xtjNriA3H0nS1nCTusG5rPy2r1uBg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-C3BiNeECMhKfY0O13VytPg-1; Mon, 26 Oct 2020 06:07:02 -0400
-X-MC-Unique: C3BiNeECMhKfY0O13VytPg-1
+ us-mta-576-mOGKAc7ZMduH5s_mzQI80w-1; Mon, 26 Oct 2020 06:07:03 -0400
+X-MC-Unique: mOGKAc7ZMduH5s_mzQI80w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCDE480B723;
- Mon, 26 Oct 2020 10:07:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D9281009E3D;
+ Mon, 26 Oct 2020 10:07:02 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1EF18B842;
- Mon, 26 Oct 2020 10:06:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4A2328B842;
+ Mon, 26 Oct 2020 10:07:01 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 16/31] fuzz: add a DISABLE_PCI op to generic-fuzzer
-Date: Mon, 26 Oct 2020 11:06:17 +0100
-Message-Id: <20201026100632.212530-17-thuth@redhat.com>
+Subject: [PULL 17/31] fuzz: add a crossover function to generic-fuzzer
+Date: Mon, 26 Oct 2020 11:06:18 +0100
+Message-Id: <20201026100632.212530-18-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -81,84 +81,118 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-This new operation is used in the next commit, which concatenates two
-fuzzer-generated inputs. With this operation, we can prevent the second
-input from clobbering the PCI configuration performed by the first.
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20201023150746.107063-9-alxndr@bu.edu>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20201023150746.107063-10-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 86 +++++++++++++++++++++++++++++++++
+ 1 file changed, 86 insertions(+)
 
 diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 62a94de9dd..6ec20464bd 100644
+index 6ec20464bd..592b78ffe2 100644
 --- a/tests/qtest/fuzz/generic_fuzz.c
 +++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -39,6 +39,7 @@ enum cmds {
-     OP_WRITE,
-     OP_PCI_READ,
-     OP_PCI_WRITE,
-+    OP_DISABLE_PCI,
-     OP_ADD_DMA_PATTERN,
-     OP_CLEAR_DMA_PATTERNS,
-     OP_CLOCK_STEP,
-@@ -116,6 +117,7 @@ static GArray *dma_regions;
- 
- static GArray *dma_patterns;
- static int dma_pattern_index;
-+static bool pci_disabled;
- 
- /*
-  * Allocate a block of memory and populate it with a pattern.
-@@ -484,7 +486,7 @@ static void op_pci_read(QTestState *s, const unsigned char * data, size_t len)
-         uint8_t base;
-         uint8_t offset;
-     } a;
--    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
-+    if (len < sizeof(a) || fuzzable_pci_devices->len == 0 || pci_disabled) {
-         return;
-     }
-     memcpy(&a, data, sizeof(a));
-@@ -514,7 +516,7 @@ static void op_pci_write(QTestState *s, const unsigned char * data, size_t len)
-         uint8_t offset;
-         uint32_t value;
-     } a;
--    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
-+    if (len < sizeof(a) || fuzzable_pci_devices->len == 0 || pci_disabled) {
-         return;
-     }
-     memcpy(&a, data, sizeof(a));
-@@ -569,6 +571,11 @@ static void op_clock_step(QTestState *s, const unsigned char *data, size_t len)
-     qtest_clock_step_next(s);
+@@ -810,6 +810,91 @@ static void generic_pre_fuzz(QTestState *s)
+     counter_shm_init();
  }
  
-+static void op_disable_pci(QTestState *s, const unsigned char *data, size_t len)
++/*
++ * When libfuzzer gives us two inputs to combine, return a new input with the
++ * following structure:
++ *
++ * Input 1 (data1)
++ * SEPARATOR
++ * Clear out the DMA Patterns
++ * SEPARATOR
++ * Disable the pci_read/write instructions
++ * SEPARATOR
++ * Input 2 (data2)
++ *
++ * The idea is to collate the core behaviors of the two inputs.
++ * For example:
++ * Input 1: maps a device's BARs, sets up three DMA patterns, and triggers
++ *          device functionality A
++ * Input 2: maps a device's BARs, sets up one DMA pattern, and triggers device
++ *          functionality B
++ *
++ * This function attempts to produce an input that:
++ * Ouptut: maps a device's BARs, set up three DMA patterns, triggers
++ *          functionality A device, replaces the DMA patterns with a single
++ *          patten, and triggers device functionality B.
++ */
++static size_t generic_fuzz_crossover(const uint8_t *data1, size_t size1, const
++                                     uint8_t *data2, size_t size2, uint8_t *out,
++                                     size_t max_out_size, unsigned int seed)
 +{
-+    pci_disabled = true;
++    size_t copy_len = 0, size = 0;
++
++    /* Check that we have enough space for data1 and at least part of data2 */
++    if (max_out_size <= size1 + strlen(SEPARATOR) * 3 + 2) {
++        return 0;
++    }
++
++    /* Copy_Len in the first input */
++    copy_len = size1;
++    memcpy(out + size, data1, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Append a separator */
++    copy_len = strlen(SEPARATOR);
++    memcpy(out + size, SEPARATOR, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Clear out the DMA Patterns */
++    copy_len = 1;
++    if (copy_len) {
++        out[size] = OP_CLEAR_DMA_PATTERNS;
++    }
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Append a separator */
++    copy_len = strlen(SEPARATOR);
++    memcpy(out + size, SEPARATOR, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Disable PCI ops. Assume data1 took care of setting up PCI */
++    copy_len = 1;
++    if (copy_len) {
++        out[size] = OP_DISABLE_PCI;
++    }
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Append a separator */
++    copy_len = strlen(SEPARATOR);
++    memcpy(out + size, SEPARATOR, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    /* Copy_Len over the second input */
++    copy_len = MIN(size2, max_out_size);
++    memcpy(out + size, data2, copy_len);
++    size += copy_len;
++    max_out_size -= copy_len;
++
++    return  size;
 +}
 +
- static void handle_timeout(int sig)
++
+ static GString *generic_fuzz_cmdline(FuzzTarget *t)
  {
-     if (qtest_log_enabled) {
-@@ -624,6 +631,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-         [OP_WRITE]              = op_write,
-         [OP_PCI_READ]           = op_pci_read,
-         [OP_PCI_WRITE]          = op_pci_write,
-+        [OP_DISABLE_PCI]        = op_disable_pci,
-         [OP_ADD_DMA_PATTERN]    = op_add_dma_pattern,
-         [OP_CLEAR_DMA_PATTERNS] = op_clear_dma_patterns,
-         [OP_CLOCK_STEP]         = op_clock_step,
-@@ -656,6 +664,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
-         }
+     GString *cmd_line = g_string_new(TARGET_NAME);
+@@ -830,6 +915,7 @@ static void register_generic_fuzz_targets(void)
+             .get_init_cmdline = generic_fuzz_cmdline,
+             .pre_fuzz = generic_pre_fuzz,
+             .fuzz = generic_fuzz,
++            .crossover = generic_fuzz_crossover
+     });
+ }
  
-         op_clear_dma_patterns(s, NULL, 0);
-+        pci_disabled = false;
- 
-         while (cmd && Size) {
-             /* Get the length until the next command or end of input */
 -- 
 2.18.2
 
