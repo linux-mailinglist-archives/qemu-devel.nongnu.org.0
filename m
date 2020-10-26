@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DFB299AB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:36:37 +0100 (CET)
-Received: from localhost ([::1]:41292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00DC4299A90
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:34:03 +0100 (CET)
+Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXC2W-0002tj-Va
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:36:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59114)
+	id 1kXC02-0008Ub-0S
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:34:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBwO-0003Ch-2e
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:17 -0400
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:44809)
+ id 1kXBwX-0003H8-Ae
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:25 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38745)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBwL-0000Jh-Bt
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:15 -0400
-Received: by mail-ej1-x634.google.com with SMTP id d6so11818677ejb.11
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:11 -0700 (PDT)
+ id 1kXBwR-0000LW-Ky
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:20 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id ce10so16481129ejc.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XhnjuVobHMzU6+7R+rNCPQc+fD9fjM3UbUM8qny37GM=;
- b=fmSh1O100g+ggujU0fOeG1lI443JULq4WW/bGa3PZ4NsygMZjUhUEJ+r1II/W9QVhz
- DgshmaODpuRkjmF9QaubUmAACcq70utUbq4afukVTzpdlwPQJizcFwSO1ptfQNvdAAiC
- QrG4rgxMjz622CdmG3oM9HwsKMItaOjoouqUqhoFhYklIu1GbdQ/Lk54wqVbubYjS28h
- o6MiK3pmzjesXXS0K4H054iTLyRxjgdn5rLAX3M8+cDw3BdwniSsOb8gESc8E+ev7Nvb
- JnGZQrj+tLNm1s/S6zoxBoFXCBS7vjJNOzE7umQ517bSJOdffBb9QVFRGrod+I/+5mPh
- A5zQ==
+ bh=pEqSKEMY04puZYBT7KxO2knLfSLveelIAXH747evHJ0=;
+ b=MvwyJshDxZ7tllBWWiu5xhHIL9RNwRAgI4uwjqbfbGzpZ/IWd5K7angs5wbpSQ9+Lv
+ s5hYBNlY2/yoOZ3RpSjBhr/qGv6UbO+NsJW1XN0JUUtuKLUJ7vZntIfx8ykQSESk2aUM
+ /kCdvka9J8xwaHlX8Su+cnH2mzkswJD3wkXcJmwRxCvQ0BxcjrDxTU3TgsjlRQWfUZ6Q
+ xQ7dP6aRamwnnpsre4q/5NJ7MjZ9+WTpVUelLq0spSuEbarGHzD4JJvrMWg50pwZ36pX
+ 9f3sLzYk1hveFeFgftzGw/Qx6SuYkYbw99mK7XwV3eW9LMXS0gTKIjjgGj0KYopW87gq
+ 3jWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XhnjuVobHMzU6+7R+rNCPQc+fD9fjM3UbUM8qny37GM=;
- b=kCnE3qWS6HinkYC4BLNIXtPOex8qyYoPq1LnKsqK7ZVJx2w86l3d52XE1U5WFraISo
- IHRJ/pYhDRcjh/Rb36F1zeuuAIOEMEIsumKFtN8tnL6bUP7dbE/YYqj5KcS9jj285xiG
- lBaYSVmbgfy32auKAEuPHc4F4FsKRB+5gn+QVYoVfqYrEXg/dqi5MH/NTL3+5KFPS/px
- NnDxwYbSxQyKMSATzuisHKOV8Mxh6VHffmSY7nSxKiMd6A9+tSkcz1wibHg+fWYrhxbK
- TB+dC6Q7Q2C+bWWx6HAWOVAKDPfdlQaDS6ARBofF4tlw6TUFybgOAjWFvJ+CZcuOh935
- zpPg==
-X-Gm-Message-State: AOAM5325HvqwmPT+X+j4+E99VBLULe1PSQLTKCGNGWy2WZWmmxwU/dQO
- JO4Supv7f0I+/Z+8fOoXTlR1apqh7fE=
-X-Google-Smtp-Source: ABdhPJxdJ/T0Qj0ELeG+hiYmQBkWvA5R8uuBXtIUB1ZeqFuY3VHcf2hLlB41R7Dx9x8qeJGzQWcwEw==
-X-Received: by 2002:a17:906:1b51:: with SMTP id
- p17mr8622847ejg.462.1603755010770; 
- Mon, 26 Oct 2020 16:30:10 -0700 (PDT)
+ bh=pEqSKEMY04puZYBT7KxO2knLfSLveelIAXH747evHJ0=;
+ b=ERJcVN/Nd2wjOQdV4VstC/r7F+Ljgk7hnIif3U2xi4BZLmII5g/hMZRhjOVyFLeri1
+ NYCOZs4rs3gAxay5Vdt08CoRkmXKR0psq+CDp7+4PT4Ot0tr6dCwxyrc2Og1PxgeJdML
+ L8o0dS88yRCyc4HduhAXUW9F5KHeFugpBydnJrcThkcaQhYHi7TtZxWMRISKWXXZgag7
+ fPkfwzzjfruQKxxT/KQg2a8OEelUozlk5HIP7YtZLX2uafYOx2quhjuGucWaUJ9HH3bH
+ c+SXuupqUK9TcJfQXWSVwGt7wWS1UQFLs6Qj0dTR2BVZRPFtMPo4jTeU5tBGAvCQsYXp
+ p0cA==
+X-Gm-Message-State: AOAM532yYraiZSdNmVIcEPvugRLzXgrEGZfakCy0VAbdzFM+kg1LVykt
+ kh9N0IgXll8k5G0lpXqB2+5Mep7XVK4=
+X-Google-Smtp-Source: ABdhPJxNvylgZNUJpuhj3ahISda1unkvX7kRgyYwiHTUo5YBfCKnAe+6VQm2N0fIGUZLhoh9VOSmhA==
+X-Received: by 2002:a17:906:824b:: with SMTP id
+ f11mr17585521ejx.16.1603755016520; 
+ Mon, 26 Oct 2020 16:30:16 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id o15sm6717627ejm.38.2020.10.26.16.30.09
+ by smtp.gmail.com with ESMTPSA id m11sm5970344edv.14.2020.10.26.16.30.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 16:30:10 -0700 (PDT)
+ Mon, 26 Oct 2020 16:30:15 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/8] target/sh4: fix some comment spelling errors
-Date: Tue, 27 Oct 2020 00:29:33 +0100
-Message-Id: <20201026232935.92777-7-f4bug@amsat.org>
+Subject: [PULL 7/8] target/rx: Fix some comment spelling errors
+Date: Tue, 27 Oct 2020 00:29:34 +0100
+Message-Id: <20201026232935.92777-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026232935.92777-1-f4bug@amsat.org>
 References: <20201026232935.92777-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -97,59 +97,45 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Lichang Zhao <zhaolichang@huawei.com>
 
-There are many spelling errors in the comments of target/sh4.
+There are many spelling errors in the comments of target/rx.
 Use spellcheck to check the spelling errors, then fix them.
 
 Signed-off-by: zhaolichang <zhaolichang@huawei.com>
 Reviewed-by: David Edmondson <david.edmondson@oracle.com>
 Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
-Message-Id: <20201009064449.2336-10-zhaolichang@huawei.com>
+Message-Id: <20201009064449.2336-5-zhaolichang@huawei.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/sh4/cpu.h       | 2 +-
- target/sh4/op_helper.c | 2 +-
- target/sh4/translate.c | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ target/rx/op_helper.c | 2 +-
+ target/rx/translate.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index dbe58c7888f..714e3b56413 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -160,7 +160,7 @@ typedef struct CPUSH4State {
-     uint32_t pteh;		/* page table entry high register */
-     uint32_t ptel;		/* page table entry low register */
-     uint32_t ptea;		/* page table entry assistance register */
--    uint32_t ttb;		/* tranlation table base register */
-+    uint32_t ttb;               /* translation table base register */
-     uint32_t tea;		/* TLB exception address register */
-     uint32_t tra;		/* TRAPA exception register */
-     uint32_t expevt;		/* exception event register */
-diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
-index fcd9ac7271c..c0cbb953828 100644
---- a/target/sh4/op_helper.c
-+++ b/target/sh4/op_helper.c
-@@ -401,7 +401,7 @@ float32 helper_fsrra_FT(CPUSH4State *env, float32 t0)
-     /*
-      * Since this is supposed to be an approximation, an imprecision
-      * exception is required.  One supposes this also follows the usual
--     * IEEE rule that other exceptions take precidence.
-+     * IEEE rule that other exceptions take precedence.
-      */
-     if (get_float_exception_flags(&env->fp_status) == 0) {
-         set_float_exception_flags(float_flag_inexact, &env->fp_status);
-diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-index ec5b04889e1..93127906237 100644
---- a/target/sh4/translate.c
-+++ b/target/sh4/translate.c
-@@ -1960,7 +1960,7 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
-     switch (ctx->opcode & 0xf00f) {
-     case 0x6003: /* mov Rm,Rn */
-         /*
--         * Here we want to recognize ld_dst being saved for later consumtion,
-+         * Here we want to recognize ld_dst being saved for later consumption,
-          * or for another input register being copied so that ld_dst need not
-          * be clobbered during the operation.
-          */
+diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+index f89d294f2b2..59389f49921 100644
+--- a/target/rx/op_helper.c
++++ b/target/rx/op_helper.c
+@@ -318,7 +318,7 @@ void helper_swhile(CPURXState *env, uint32_t sz)
+     env->psw_c = (tmp <= env->regs[2]);
+ }
+ 
+-/* accumlator operations */
++/* accumulator operations */
+ void helper_rmpa(CPURXState *env, uint32_t sz)
+ {
+     uint64_t result_l, prev;
+diff --git a/target/rx/translate.c b/target/rx/translate.c
+index 482278edd25..9ea941c6302 100644
+--- a/target/rx/translate.c
++++ b/target/rx/translate.c
+@@ -1089,7 +1089,7 @@ static void rx_sub(TCGv ret, TCGv arg1, TCGv arg2)
+     tcg_gen_xor_i32(temp, arg1, arg2);
+     tcg_gen_and_i32(cpu_psw_o, cpu_psw_o, temp);
+     tcg_temp_free_i32(temp);
+-    /* CMP not requred return */
++    /* CMP not required return */
+     if (ret) {
+         tcg_gen_mov_i32(ret, cpu_psw_s);
+     }
 -- 
 2.26.2
 
