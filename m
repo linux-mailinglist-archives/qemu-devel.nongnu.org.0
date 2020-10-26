@@ -2,54 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09AE2298714
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 07:51:43 +0100 (CET)
-Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0472986E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 07:37:11 +0100 (CET)
+Received: from localhost ([::1]:40748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWwM2-00041I-3d
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 02:51:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56896)
+	id 1kWw7y-00084E-GX
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 02:37:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kWwKt-0003RO-E3; Mon, 26 Oct 2020 02:50:31 -0400
-Received: from ozlabs.org ([203.11.71.1]:55665)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kWwKq-0000q8-Ui; Mon, 26 Oct 2020 02:50:30 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CKQSj2PJJz9sTL; Mon, 26 Oct 2020 17:50:13 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603695013;
- bh=TbqVDzI6j2hZea3x1TPf+SYQIEAZcI0AWGvle7aOl8Q=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=lufFVoPZeIuLLZQMjfV1Kbz0W0jibIvLQJSmH5ZtXxypokJKHBg5cn0e9rDJvBWHT
- RW4Ifd7zU4uwYWhgEjbrtfj1tZ5zfDzoR+VTzisAkXZeptnLhmzc+SHtE5UbdSxDKY
- /A7gHIO92zFe3MiqeWeGU84GLc4LwnjWWgA4yNjw=
-Date: Mon, 26 Oct 2020 16:44:08 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 0/5] spapr: Error handling fixes and cleanups (round 3)
-Message-ID: <20201026054408.GA4671@yekko.fritz.box>
-References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
- <20201022041142.GG1821515@yekko.fritz.box>
- <20201025111340.48e2a40c@bahia.lan>
- <20201025223306.0ca3ee0a@bahia.lan>
+ (Exim 4.90_1) (envelope-from <dgibson@redhat.com>)
+ id 1kWw74-0007dn-Cu
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 02:36:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46975)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgibson@redhat.com>)
+ id 1kWw70-00047X-Pm
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 02:36:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603694167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bgL9sQZRfay6L/RP2n3RAzF4RMmXZzmaN4d7+RuD2io=;
+ b=XsEtdnHhIYWB+/wzIWRDs6ph5JX8guz9D+rlsgKOM7D6TwqFjzQ2DA0wbediuHtXa9vB3Z
+ n/CBtuIyLPGyvufy5qml+aCx/N3fa8hrYTy7OVtj9kxYBJk+C3qAYgeC2e6ZuCCeyGFky7
+ vrl+SpqG1SQdvErJJpwxuzVn1tGa0uA=
+Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com
+ [209.85.215.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-480-t2FQPotiP4GUdxFCgHQfTg-1; Mon, 26 Oct 2020 02:36:01 -0400
+X-MC-Unique: t2FQPotiP4GUdxFCgHQfTg-1
+Received: by mail-pg1-f199.google.com with SMTP id j5so1229816pgt.4
+ for <qemu-devel@nongnu.org>; Sun, 25 Oct 2020 23:36:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+ :references:mime-version;
+ bh=bFXzCNJ5u3hW7ju9P0QDAKj01Wht8wM+nf/pvEuvaA4=;
+ b=XDCdYmoXVEgYgMU9/r6MTNSuwnrmIip6LN3kQgw+n+1oSYkYea6BSfL7w1FCqIWyNg
+ jF8u+Bj55iD4L8nr4tv+9UPIDXIz6s50Sf+slmLDiXGZFce1XTLxjNLM+xRhemLoDUmZ
+ 3g6KE8xZiqceKyEESJicp9I8Xbc/yJbkLEb413xvnRd5MMU34/V4XfISyHhFkWx/KH/g
+ GJ8WTRZGfQvUnPm4Eiafq1SFe8zuk967tFP/Yyxy1vKWdw+EmWNVPcjVHUsSjytSBppK
+ cwd6AQxDxMaSwlaUOcyR18rqQjVzDS/u1bbuNmfrcwzN0iZ8//Tu8gKOPCw80tSaTM7m
+ WhQA==
+X-Gm-Message-State: AOAM530/VZquxVB92C2sMo366XeToCLtCVw3tgZbpBvt+FTnGUePWJ4a
+ c4Q2DSSArXgv7IBxQC+hwRaWp9ZcWDa009goigyR7/ZY8rc3Bo/XbPmfclFtxhUDMXuEz1DDTCK
+ MMOmgIzYLhbbn/N4=
+X-Received: by 2002:aa7:9192:0:b029:15c:ebd2:971c with SMTP id
+ x18-20020aa791920000b029015cebd2971cmr9894003pfa.33.1603694160297; 
+ Sun, 25 Oct 2020 23:36:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxlItANGTexBqkYS91yzKD8Ec75MZoVON9seWniHM94mtuEBCb/kGeX4eJNIoZUVcOGjA3+Zg==
+X-Received: by 2002:aa7:9192:0:b029:15c:ebd2:971c with SMTP id
+ x18-20020aa791920000b029015cebd2971cmr9893978pfa.33.1603694159908; 
+ Sun, 25 Oct 2020 23:35:59 -0700 (PDT)
+Received: from yekko.fritz.box ([2001:4479:e200:1100:3c24:4d96:ea81:be55])
+ by smtp.gmail.com with ESMTPSA id t10sm11167847pjr.37.2020.10.25.23.35.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 25 Oct 2020 23:35:59 -0700 (PDT)
+Date: Mon, 26 Oct 2020 17:35:48 +1100
+From: David Gibson <dgibson@redhat.com>
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
+ not ready
+Message-ID: <20201026173548.113ce1fd@yekko.fritz.box>
+In-Reply-To: <CAC_L=vUh8LU5c8c00OhnbEiW7EzZFWKU61vOdub7c11wDMXeRg@mail.gmail.com>
+References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
+ <20201022080354-mutt-send-email-mst@kernel.org>
+ <20201022235632.7f69ddc9@yekko.fritz.box>
+ <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
+ <20201022100028-mutt-send-email-mst@kernel.org>
+ <CAC_L=vWctLK0Yjod_Vz=+xzFKFp4UoUdjSVa4jWeDm+g8en6wQ@mail.gmail.com>
+ <20201022102857-mutt-send-email-mst@kernel.org>
+ <CAC_L=vX0+H-SfQHneVPd-Mc3wFxHBSbkKHt3SpNOBOY_JsYDUA@mail.gmail.com>
+ <20201022110016-mutt-send-email-mst@kernel.org>
+ <20201023144901.5bd908a1@yekko.fritz.box>
+ <CAC_L=vUh8LU5c8c00OhnbEiW7EzZFWKU61vOdub7c11wDMXeRg@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
-Content-Disposition: inline
-In-Reply-To: <20201025223306.0ca3ee0a@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:50:13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgibson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; boundary="Sig_/CO1kh3IKGZ08rNtjX0YlAeR";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgibson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,119 +108,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Julia Suvorova <jusual@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---5mCyUwZo2JvN/JJP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/CO1kh3IKGZ08rNtjX0YlAeR
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 25, 2020 at 10:33:06PM +0100, Greg Kurz wrote:
-> On Sun, 25 Oct 2020 11:13:40 +0100
-> Greg Kurz <groug@kaod.org> wrote:
->=20
-> > On Thu, 22 Oct 2020 15:11:42 +1100
-> > David Gibson <david@gibson.dropbear.id.au> wrote:
-> >=20
-> > > On Mon, Oct 19, 2020 at 10:47:52AM +0200, Greg Kurz wrote:
-> > > > Hi,
-> > > >=20
-> > > > This is a followup to a previous cleanup for the sPAPR code:
-> > > >=20
-> > > > https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg04860.html
-> > > >=20
-> > > > The last two patches had to be dropped because they were wrongly as=
-suming
-> > > > that object_property_get_uint() returning zero meant failure. This =
-led to
-> > > > a discussion in which arose a consensus that most of the time (not =
-to say
-> > > > always) object property getters should never fail actually, ie. fai=
-lure
-> > > > is very likely the result of a programming error and QEMU should ab=
-ort.
-> > > >=20
-> > > > This series aims at demonstrating a revelant case I've found while =
-auditing
-> > > > object property getters (this is patch 4 that I've isolated from a =
-huge
-> > > > 50-patch series I haven't dared to post yet). The sPAPR memory hotp=
-lug code
-> > > > is tailored to support either regular PC DIMMs or NVDIMMs, which in=
-herit
-> > > > from PC DIMMs. They expect to get some properties from the DIMM obj=
-ect,
-> > > > which happens to be set by default at the PC DIMM class level. It t=
-hus
-> > > > doesn't make sense to pass an error object and propagate it when ge=
-tting
-> > > > them since this would lure the user into thinking they did somethin=
-g wrong.
-> > > >=20
-> > > > Some preliminary cleanup is done on the way, especially dropping an=
- unused
-> > > > @errp argument of pc_dimm_plug(). This affects several platforms ot=
-her than
-> > > > sPAPR but I guess the patch is trivial enough to go through David's=
- tree
-> > > > if it gets acks from the relevant maintainers.
-> > >=20
-> > > Since this series mostly affects ppc, I've applied it to ppc-for-5.2.
-> > >=20
-> > > It would be nice to have an acked-by from Igor or Michael for the
-> > > first patch, though.
-> > >=20
-> >=20
-> > David,
-> >=20
-> > Igor sent a R-b for patches 1 and 4. He also suggested to call
-> > spapr_drc_attach() at pre-plug time. I'll look into this, so maybe
-> > you can drop patch 5 from ppc-for-5.2 (or the entire series at
-> > your convenience).
-> >=20
->=20
-> It seems that spapr_drc_attach() cannot be called at pre-plug time
-> actually because there is no way to call spapr_drc_detach() if
-> the device fails to realize. I think you there's nothing else to do
-> for this series than adding Igor's r-b to patches 1 and 4.
+On Fri, 23 Oct 2020 09:47:14 +0300
+Marcel Apfelbaum <marcel.apfelbaum@gmail.com> wrote:
 
-Ok.  In fact I'd already added Igor's r-b, just hadn't pushed out my
-latest tree.
+> Hi David,
+>=20
+> On Fri, Oct 23, 2020 at 6:49 AM David Gibson <dgibson@redhat.com> wrote:
+>=20
+> > On Thu, 22 Oct 2020 11:01:04 -0400
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > =20
+> > > On Thu, Oct 22, 2020 at 05:50:51PM +0300, Marcel Apfelbaum wrote:
+> > >  [...]
+> > >
+> > > Right. After detecting just failing unconditionally it a bit too
+> > > simplistic IMHO. =20
+> >
+> > There's also another factor here, which I thought I'd mentioned
+> > already, but looks like I didn't: I think we're still missing some
+> > details in what's going on.
+> >
+> > The premise for this patch is that plugging while the indicator is in
+> > transition state is allowed to fail in any way on the guest side.  I
+> > don't think that's a reasonable interpretation, because it's unworkable
+> > for physical hotplug.  If the indicator starts blinking while you're in
+> > the middle of shoving a card in, you'd be in trouble.
+> >
+> > So, what I'm assuming here is that while "don't plug while blinking" is
+> > the instruction for the operator to obey as best they can, on the guest
+> > side the rule has to be "start blinking, wait a while and by the time
+> > you leave blinking state again, you can be confident any plugs or
+> > unplugs have completed".  Obviously still racy in the strict computer
+> > science sense, but about the best you can do with slow humans in the
+> > mix.
+> >
+> > So, qemu should of course endeavour to follow that rule as though it
+> > was a human operator on a physical machine and not plug when the
+> > indicator is blinking.  *But* the qemu plug will in practice be fast
+> > enough that if we're hitting real problems here, it suggests the guest
+> > is still doing something wrong.
+> > =20
+>=20
+> I personally think there is a little bit of over-engineering here.
+> Let's start with the spec:
+>=20
+>     Power Indicator Blinking
+>     A blinking Power Indicator indicates that the slot is powering up or
+> powering down and that
+>     insertion or removal of the adapter is not permitted.
+
+Right, but the weird bit here is that IIUC, the kernel during general
+probe is switching the indicator from off -> blinking -> off without it
+ever going to "on" state.  And it seems to do the power on and presence
+check with the indicator still in blinking state.  This is different
+from the normal sequence on a hotplug:
+=09press button
+=09indicator goes to blinking
+=09...wait...
+=09indicator goes to full on
+=09slot powers on
+=09presence detect
+
+Or am I missing something?
+
+> What exactly is an interpretation here?
+> As you stated, the races are theoretical, the whole point of the indicato=
+r
+> is to let the operator know he can't plug the device just yet.
+>=20
+> I understand it would be more user friendly if the QEMU would wait
+> internally for the
+> blinking to end, but the whole point of the indicator is to let the
+> operator (human or machine)
+> know they can't plug the device at a specific time.
+> Should QEMU take the responsibility of the operator? Is it even correct?
+
+I don't think there's an unambiguous correct answer here.  But I think
+it's reasonable to interpret a general "device_add" as "instruct the
+virtual operator to plug in the card ASAP" as easily as "shove the
+virtual card in right now".  device_add already covers a bunch of
+different pluggable interfaces, so I don't think precisely aligning to
+pci-e semantics is really a priority.
+
+> Even if we would want such a feature, how is it related to this patch?
+> The patch simply refuses to start a hotplug operation when it knows it wi=
+ll
+> not succeed.
+
+I don't think I was clear.  There are two separate and unrelated things
+I'm bringing up here.  The first is that having the device_add fail for
+transitory reasons that the management layer doesn't really care about
+is really bad UX.
+
+But the second point I'm raising here is that "don't plug when blinking"
+is not, strictly speaking an implementable strategy for a human
+operator.  That makes me conclude that the idea here is plugs started
+at basically the same time as the blinking starts (which could be a
+little before or a little after, humans being fuzzy) should actually be
+acceptable, even if they finish after the indicator is blinking.  It's
+not clear to me that the kernel's current behaviour actually permits
+that.
+
+> Another way that would make sense to me would be  is a new QEMU interface
+> other than
+> "add_device", let's say "adding_device_allowed", that would return true i=
+f
+> the hotplug is allowed
+> at this point of time. (I am aware of the theoretical races)
+>=20
+> The above will at least mimic the mechanics of the pyhs world.  The
+> operator looks at the indicator,
+> the management software checks if adding the device is allowed.
+> Since it is a corner case I would prefer the device_add to fail rather th=
+an
+> introducing a new interface,
+> but that's just me.
+
+Oh, no, that's not what I'm suggesting.  Adding an "is allowed" command
+is even worse.  It makes the management's task *more* complex, which
+making any possible race here even wider.
 
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+David Gibson <dgibson@redhat.com>
+Principal Software Engineer, Virtualization, Red Hat
 
---5mCyUwZo2JvN/JJP
-Content-Type: application/pgp-signature; name="signature.asc"
+--Sig_/CO1kh3IKGZ08rNtjX0YlAeR
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+WYiYACgkQbDjKyiDZ
-s5LAkQ/8CBKngxYlI+UGrKDzzvPSl+cOS2yRR7q15CEs6zTHMhaHQ69dz1neoRtE
-vu7z15nyKuZg7pAv8qeMI1z6jtwjIHDGghji4SyaoicWBWRrbvk9vvXNYRQLl31j
-M8syPHuIdv7Zf1g9q10ZAqMz1mbzjzOGuFK6CC11m6jdKITBtb6s3DIZ7hCWP/2/
-5g4leS+QsiyS/2HXhWpupMz9HnX0o1O2vG47tBgwg+QgccWW6XoriDqZQwD2IDqL
-a0a/22PELRrXPxFFWpQcy9Wb494XDmWeeS1JspXA4BqKwmpZgpVOaNEwbQPyeyp+
-vTx6r8jvZ8Dkyf1tZvPwNa6LSdr6DpfxH+Xu+vSM0lpRD4LLwk6ulvyLVcET3EwJ
-q84Xe7FVQYxw4IyOgSwbz/uARFyx8rpm/p0OUAwU9YRBpIc2ZH62vYF5rGJjzHxD
-CVBwClNHpaOeseQSifgA5y9BwbEiKrfoGiJVhogc42y8zJ0XHfFQ+JpaLGl9qZ11
-njJTW9e4ctXR2LSKfXs/WLGMtea/uJG45bBLcuMxkeIDV0NCJd/YC4w6SP8UJkhr
-GpQxUiuaJKJM5sdwnnYSc6foncEgmcIjIMsd3cT6cyTCtYdcNg+2UNcsaHxYkjA5
-tEve6fdh/ck6IOvqq87galUCA0uQ/csWl5EFX3ghB9srR4nqq7I=
-=N07k
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+WbkQACgkQbDjKyiDZ
+s5J5AhAA3gSSQAjnPwCO/9iCAw6lI49HXEev4Unl7NQvPuZLNuq2U0sMfdAC6rgU
+HqXNCOrMMjGHTctV6gsNdZjOHLkkkATIErGVu6A3rrVJCXxoDMGJln/WxEMILaAu
+G7SEjOqshOfDJpr0MTvYQweOdtGIXGJA+BTIhvybi75fNfJrxUdwNSOrFTH/izWb
+lauY7RcISbmqBCr0Snv/jCji8OJJQzVBht78IPvg00de0yUFba/pUY7ZB/V48v82
+GQccFpTyDmtNY6E4bt7FtFHWimuU8w/+t8JIRx6USqyeKlQQqorVXrBBF84pJIyc
+ppV+LaLglbmbe6+ysXY/r92DeaTk/5EMOjPS8g6aHODhKI0nxCnKDDB5FHcjmlFP
+WwT3yTA1oYt5FsJ+awrEWmn4XRbuuxfXiKHLxVX/uxcEO+DPiFap1SyDireIOkDs
+Z34mHT69w+gIA8NssMck5v82ExmQ4bKywO43L1v+MYZg+zuzfdixr12urRZa6+2d
+kQr1OnJxu0OByy+BcQijYiPaUFWevdVNo2Gv2gpv3WAlbUpGtEQjqwQEDQvQRsr9
+O/DMKmp6ZWbRAmkFcl1BpAnEQ6Un6YcAMTOXnJuZxUNOIN14rFi8E58gwCmgpAo0
+kLMx5jMFg/gOOlebuKh77Qr1Rq/0zUmSJgVnzNyKaxj9QbKbwcI=
+=Ot+d
 -----END PGP SIGNATURE-----
 
---5mCyUwZo2JvN/JJP--
+--Sig_/CO1kh3IKGZ08rNtjX0YlAeR--
+
 
