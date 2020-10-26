@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F1F2298B52
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:05:40 +0100 (CET)
-Received: from localhost ([::1]:32892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15419298B5D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:10:42 +0100 (CET)
+Received: from localhost ([::1]:47972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0Jj-0000QM-Rw
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:05:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
+	id 1kX0Of-0006wa-4q
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:10:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0AT-0007kh-Qy
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54822)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0AY-0007vV-5l
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0AS-0008NM-5T
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0AW-0008Os-6a
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603709759;
+ s=mimecast20190719; t=1603709763;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oHVBY2K3BEOh3WYNJplbtMVpgw2LML5s1ozFmG/8CV0=;
- b=CSKqDEi+MvozPrO0aeOIp72Fc/yYIQRuSV+V3j/5Onzqz898ks5zRy5vGWVBtj0dwK6GnF
- baCko2vrmLy0GZ+V/cH6KuXC/LxSucZVZBGre6Z15HueWoMc+XQYntL9rHxTR6vnzhxR+g
- qkp3Pc00kwm2QoIxAZMJs2vPUcek+EQ=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-196-SwhKkUP4P22wvltBZT1Fkg-1; Mon, 26 Oct 2020 06:55:57 -0400
-X-MC-Unique: SwhKkUP4P22wvltBZT1Fkg-1
-Received: by mail-wr1-f71.google.com with SMTP id j15so835268wro.4
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:55:57 -0700 (PDT)
+ bh=nFpAvnhzKFUahLqtIDcPSll9W0TpjYlTTuISswcMLmQ=;
+ b=WaJ3v6Fq0QI2EOJD+XY5P4zvTx8ODsNtKELsPVC7zJttwLyb2JmqXnTyMPVu6hA+WNL/TX
+ PkT1X7Onqw2SnaxMWlJMRrCo9LkYFNgHSGnKIbOBUWXWKhCX6CeLRf5pNjanZe706kBQCw
+ xUlrC9Uw41TwNt0/MmIp72euGBhEBI0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-AH5FnfSYNmufBk6guIBQyA-1; Mon, 26 Oct 2020 06:56:02 -0400
+X-MC-Unique: AH5FnfSYNmufBk6guIBQyA-1
+Received: by mail-wr1-f72.google.com with SMTP id t11so8201341wrv.10
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:56:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oHVBY2K3BEOh3WYNJplbtMVpgw2LML5s1ozFmG/8CV0=;
- b=YpHJEuqndVmaXTVv/BnV0VmlX8yayjMniTVvYqsEZONjBvhTuegPkE5lZKGJM303ua
- GE81uSVqT/dUcnGicF4QIuVPJKPYC+P2pcuB3JcBAFULkU/FH0n9poxyuKTwmcWH4Ntf
- hBaprBXxq4yB9wljYK1lw9TK2IE5u8x5QKLw6dNGmE+yIuPWh94UB0p5K6j+MdHCbMEo
- yZB4zPNG6np2pCRHMFYX2T8aTzun+/K73Pli7jw0+X0POwLa3juQmX1CfUTNkxIoXdPp
- Rd+SGuQ82+BM0dqARteoVNMxiftg835L5ym3Yjm4/IYoES0kFBN+yXoiYOvoPvnyznO/
- Vrlg==
-X-Gm-Message-State: AOAM531Xw6InFmY0kn0gATCM57OQM9N/qcGypGlKG/4wPAFoHsVKhrED
- nUVA5C+DOha2mzi8ImEvW7BVAKsPe7l3JVfPj9xymWtPlf0TNfoxCKfkke4Ut7IUoAa5a54Yfw9
- 5y1ijUL+7WM9fXFo=
-X-Received: by 2002:a1c:f417:: with SMTP id z23mr14729766wma.57.1603709755329; 
- Mon, 26 Oct 2020 03:55:55 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyCwY2JOp0h6FKsVOdUTCO82Wo6A+ht+zGe4PvsjEl46DKFMTvOXPgQlVs5gWNyFd2CvfrfxQ==
-X-Received: by 2002:a1c:f417:: with SMTP id z23mr14729747wma.57.1603709755185; 
- Mon, 26 Oct 2020 03:55:55 -0700 (PDT)
+ bh=nFpAvnhzKFUahLqtIDcPSll9W0TpjYlTTuISswcMLmQ=;
+ b=BgmUhccGta/RdNshCCx1OoUVagx97Yut6N0+gFVoi1cJz9CV0BBl0QHF9pEPmfyo+L
+ HU+A/qP5BuJQ+GMLmNf8tujs4U0/TbghKF6O7jy/cfDQdH3nlhgdlM6UvxubU78tqioL
+ 9L63EviwIc/rQn4vAPLBIQbk/7gmYVF+Hz3GhD5frtU/3u6rRpdEr2DUeSrEMwTbdMuV
+ dr+HfzQZYvCKadUGgX9/KKCVAvYLaHZwujHTuhqk0dGwSw35KJmmrcFEOcDcKat7zT+w
+ /uJPKS8Ny54L1cXK9/zXseMoOaUhcUT/cqCQF6ikt9w/i7DhHV+WFWc1koqGwjzA3fIa
+ PC1Q==
+X-Gm-Message-State: AOAM532uDJFzOU+WKhRVQc3abSk1lVk2WaXTSJcGFmB/FPbm+jUOWpeH
+ EIcQZ71TudZZj2u2FLv2YuLyelkUXuABtnpuOp7GcUUaWgh/P85LnNMeeY2UXAGAPUlZ2w9C7bj
+ 8BNCLjWI6vWksBmY=
+X-Received: by 2002:adf:a50e:: with SMTP id i14mr17333459wrb.121.1603709760293; 
+ Mon, 26 Oct 2020 03:56:00 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz8GK1OLplsiLuQMJxuiurJRsDQasKsAKfLItgMABPsNy9NlED7VnK9OxF8sRAIiKLQ26jIdA==
+X-Received: by 2002:adf:a50e:: with SMTP id i14mr17333431wrb.121.1603709760085; 
+ Mon, 26 Oct 2020 03:56:00 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id o4sm21504181wrv.8.2020.10.26.03.55.53
+ by smtp.gmail.com with ESMTPSA id n6sm22440143wrj.60.2020.10.26.03.55.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 03:55:54 -0700 (PDT)
+ Mon, 26 Oct 2020 03:55:59 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/19] util/vfio-helpers: Convert vfio_dump_mapping to
- trace events
-Date: Mon, 26 Oct 2020 11:54:55 +0100
-Message-Id: <20201026105504.4023620-11-philmd@redhat.com>
+Subject: [PATCH v2 11/19] util/vfio-helpers: Let qemu_vfio_dma_map() propagate
+ Error
+Date: Mon, 26 Oct 2020 11:54:56 +0100
+Message-Id: <20201026105504.4023620-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026105504.4023620-1-philmd@redhat.com>
 References: <20201026105504.4023620-1-philmd@redhat.com>
@@ -73,17 +73,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,63 +105,133 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The QEMU_VFIO_DEBUG definition is only modifiable at build-time.
-Trace events can be enabled at run-time. As we prefer the latter,
-convert qemu_vfio_dump_mappings() to use trace events instead
-of fprintf().
+Currently qemu_vfio_dma_map() displays errors on stderr.
+When using management interface, this information is simply
+lost. Pass qemu_vfio_dma_map() an Error* argument so it can
+propagate the error to callers.
 
 Reviewed-by: Fam Zheng <fam@euphon.net>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/vfio-helpers.c | 19 ++++---------------
- util/trace-events   |  1 +
- 2 files changed, 5 insertions(+), 15 deletions(-)
+ include/qemu/vfio-helpers.h |  2 +-
+ block/nvme.c                | 14 +++++++-------
+ util/vfio-helpers.c         | 12 +++++++-----
+ 3 files changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index c24a510df82..73f7bfa7540 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -521,23 +521,12 @@ QEMUVFIOState *qemu_vfio_open_pci(const char *device, Error **errp)
-     return s;
- }
- 
--static void qemu_vfio_dump_mapping(IOVAMapping *m)
--{
--    if (QEMU_VFIO_DEBUG) {
--        printf("  vfio mapping %p %" PRIx64 " to %" PRIx64 "\n", m->host,
--               (uint64_t)m->size, (uint64_t)m->iova);
--    }
--}
--
- static void qemu_vfio_dump_mappings(QEMUVFIOState *s)
- {
--    int i;
--
--    if (QEMU_VFIO_DEBUG) {
--        printf("vfio mappings\n");
--        for (i = 0; i < s->nr_mappings; ++i) {
--            qemu_vfio_dump_mapping(&s->mappings[i]);
--        }
-+    for (int i = 0; i < s->nr_mappings; ++i) {
-+        trace_qemu_vfio_dump_mapping(s->mappings[i].host,
-+                                     s->mappings[i].iova,
-+                                     s->mappings[i].size);
+diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
+index 4491c8e1a6e..bde9495b254 100644
+--- a/include/qemu/vfio-helpers.h
++++ b/include/qemu/vfio-helpers.h
+@@ -18,7 +18,7 @@ typedef struct QEMUVFIOState QEMUVFIOState;
+ QEMUVFIOState *qemu_vfio_open_pci(const char *device, Error **errp);
+ void qemu_vfio_close(QEMUVFIOState *s);
+ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+-                      bool temporary, uint64_t *iova_list);
++                      bool temporary, uint64_t *iova_list, Error **errp);
+ int qemu_vfio_dma_reset_temporary(QEMUVFIOState *s);
+ void qemu_vfio_dma_unmap(QEMUVFIOState *s, void *host);
+ void *qemu_vfio_pci_map_bar(QEMUVFIOState *s, int index,
+diff --git a/block/nvme.c b/block/nvme.c
+index 3b6d3972ec2..6f1ebdf031f 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -167,9 +167,9 @@ static void nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
+         return;
+     }
+     memset(q->queue, 0, bytes);
+-    r = qemu_vfio_dma_map(s->vfio, q->queue, bytes, false, &q->iova);
++    r = qemu_vfio_dma_map(s->vfio, q->queue, bytes, false, &q->iova, errp);
+     if (r) {
+-        error_setg(errp, "Cannot map queue");
++        error_prepend(errp, "Cannot map queue: ");
      }
  }
  
-diff --git a/util/trace-events b/util/trace-events
-index 8598066acdb..7faad2a718c 100644
---- a/util/trace-events
-+++ b/util/trace-events
-@@ -80,6 +80,7 @@ qemu_mutex_unlock(void *mutex, const char *file, const int line) "released mutex
- qemu_vfio_dma_reset_temporary(void *s) "s %p"
- qemu_vfio_ram_block_added(void *s, void *p, size_t size) "s %p host %p size 0x%zx"
- qemu_vfio_ram_block_removed(void *s, void *p, size_t size) "s %p host %p size 0x%zx"
-+qemu_vfio_dump_mapping(void *host, uint64_t iova, size_t size) "vfio mapping %p to iova 0x%08" PRIx64 " size 0x%zx"
- qemu_vfio_find_mapping(void *s, void *p) "s %p host %p"
- qemu_vfio_new_mapping(void *s, void *host, size_t size, int index, uint64_t iova) "s %p host %p size 0x%zx index %d iova 0x%"PRIx64
- qemu_vfio_do_mapping(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%"PRIx64 " size 0x%zx"
+@@ -223,7 +223,7 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
+     q->completion_bh = aio_bh_new(aio_context, nvme_process_completion_bh, q);
+     r = qemu_vfio_dma_map(s->vfio, q->prp_list_pages,
+                           s->page_size * NVME_NUM_REQS,
+-                          false, &prp_list_iova);
++                          false, &prp_list_iova, errp);
+     if (r) {
+         goto fail;
+     }
+@@ -514,9 +514,9 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+         error_setg(errp, "Cannot allocate buffer for identify response");
+         goto out;
+     }
+-    r = qemu_vfio_dma_map(s->vfio, id, sizeof(*id), true, &iova);
++    r = qemu_vfio_dma_map(s->vfio, id, sizeof(*id), true, &iova, errp);
+     if (r) {
+-        error_setg(errp, "Cannot map buffer for DMA");
++        error_prepend(errp, "Cannot map buffer for DMA: ");
+         goto out;
+     }
+ 
+@@ -1003,7 +1003,7 @@ try_map:
+         r = qemu_vfio_dma_map(s->vfio,
+                               qiov->iov[i].iov_base,
+                               qiov->iov[i].iov_len,
+-                              true, &iova);
++                              true, &iova, NULL);
+         if (r == -ENOMEM && retry) {
+             retry = false;
+             trace_nvme_dma_flush_queue_wait(s);
+@@ -1450,7 +1450,7 @@ static void nvme_register_buf(BlockDriverState *bs, void *host, size_t size)
+     int ret;
+     BDRVNVMeState *s = bs->opaque;
+ 
+-    ret = qemu_vfio_dma_map(s->vfio, host, size, false, NULL);
++    ret = qemu_vfio_dma_map(s->vfio, host, size, false, NULL, NULL);
+     if (ret) {
+         /* FIXME: we may run out of IOVA addresses after repeated
+          * bdrv_register_buf/bdrv_unregister_buf, because nvme_vfio_dma_unmap
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 73f7bfa7540..c03fe0b7156 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -462,7 +462,7 @@ static void qemu_vfio_ram_block_added(RAMBlockNotifier *n,
+ {
+     QEMUVFIOState *s = container_of(n, QEMUVFIOState, ram_notifier);
+     trace_qemu_vfio_ram_block_added(s, host, size);
+-    qemu_vfio_dma_map(s, host, size, false, NULL);
++    qemu_vfio_dma_map(s, host, size, false, NULL, NULL);
+ }
+ 
+ static void qemu_vfio_ram_block_removed(RAMBlockNotifier *n,
+@@ -477,6 +477,7 @@ static void qemu_vfio_ram_block_removed(RAMBlockNotifier *n,
+ 
+ static int qemu_vfio_init_ramblock(RAMBlock *rb, void *opaque)
+ {
++    Error *local_err = NULL;
+     void *host_addr = qemu_ram_get_host_addr(rb);
+     ram_addr_t length = qemu_ram_get_used_length(rb);
+     int ret;
+@@ -485,10 +486,11 @@ static int qemu_vfio_init_ramblock(RAMBlock *rb, void *opaque)
+     if (!host_addr) {
+         return 0;
+     }
+-    ret = qemu_vfio_dma_map(s, host_addr, length, false, NULL);
++    ret = qemu_vfio_dma_map(s, host_addr, length, false, NULL, &local_err);
+     if (ret) {
+-        fprintf(stderr, "qemu_vfio_init_ramblock: failed %p %" PRId64 "\n",
+-                host_addr, (uint64_t)length);
++        error_reportf_err(local_err,
++                          "qemu_vfio_init_ramblock: failed %p %" PRId64 ":",
++                          host_addr, (uint64_t)length);
+     }
+     return 0;
+ }
+@@ -724,7 +726,7 @@ qemu_vfio_find_temp_iova(QEMUVFIOState *s, size_t size, uint64_t *iova)
+  * mapping status within this area is not allowed).
+  */
+ int qemu_vfio_dma_map(QEMUVFIOState *s, void *host, size_t size,
+-                      bool temporary, uint64_t *iova)
++                      bool temporary, uint64_t *iova, Error **errp)
+ {
+     int ret = 0;
+     int index;
 -- 
 2.26.2
 
