@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D92299252
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:25:07 +0100 (CET)
-Received: from localhost ([::1]:34012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3EF29925D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:27:05 +0100 (CET)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5Iw-0000vm-Pq
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60420)
+	id 1kX5Kq-0004j6-0i
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:27:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Ed-0004Xo-QA
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38334)
+ id 1kX5Eg-0004do-73
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Ea-0000Ey-SO
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:39 -0400
+ id 1kX5Ee-0000GA-E3
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:20:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603729236;
+ s=mimecast20190719; t=1603729239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HdZSo4zL5HxLrqA8KjdUTNdghcRyfN2rA70LPzDMvsM=;
- b=H/FH0SXc1Pl6Hn4qRErI2MOfGadgToiT4/jHOD7E2BGnx4c2uesHxqW1V0tJOUp54qSO/7
- va7mijo2zdrHyXMtIjXIJi/eXX9/MujhBxiJ4LxGESJiQBD+s7MGGsyWqJHHPhI2xJK2LG
- AygHk3tL4x5BGJwUMjM+MvpUAkDFObw=
+ bh=rPLoMqMCKVLqhUZlpGITRNomqB7f41VGbMtvUfgTbGg=;
+ b=IlgaB4Mm6+rymFqBDWKyfjXyt0oowq1lyekYdJaOB4WO0lRKQK/9DEybm65Msz+GOXHcLk
+ WYm/6zG6k/9HIxajMWkRFV+/lUFZXD2hAy7JHQMo2r9CS08yMO2BwMJZuu/W13zPRPqUgC
+ 1Yq15nBkF20p0auROM4xANwp1hpQGdM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-BMBNScRpOFaAjgPmRAYcOw-1; Mon, 26 Oct 2020 12:20:33 -0400
-X-MC-Unique: BMBNScRpOFaAjgPmRAYcOw-1
+ us-mta-149-4bQq0ptHM_2Tw_4mOJVH1A-1; Mon, 26 Oct 2020 12:20:37 -0400
+X-MC-Unique: 4bQq0ptHM_2Tw_4mOJVH1A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6DBC18B9EF2;
- Mon, 26 Oct 2020 16:20:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEDBBEC1A0;
+ Mon, 26 Oct 2020 16:20:35 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 93C125D9E4;
- Mon, 26 Oct 2020 16:20:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE1D25D9E4;
+ Mon, 26 Oct 2020 16:20:34 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, yubihong@huawei.com, peterx@redhat.com,
  peter.maydell@linaro.org
-Subject: [PULL 06/16] migration: Add braces {} for if statement
-Date: Mon, 26 Oct 2020 16:19:42 +0000
-Message-Id: <20201026161952.149188-7-dgilbert@redhat.com>
+Subject: [PULL 08/16] migration: Open brace '{' following function
+ declarations go on the next line
+Date: Mon, 26 Oct 2020 16:19:44 +0000
+Message-Id: <20201026161952.149188-9-dgilbert@redhat.com>
 In-Reply-To: <20201026161952.149188-1-dgilbert@redhat.com>
 References: <20201026161952.149188-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -91,36 +92,26 @@ From: Bihong Yu <yubihong@huawei.com>
 Signed-off-by: Bihong Yu <yubihong@huawei.com>
 Reviewed-by: Chuan Zheng <zhengchuan@huawei.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <1603163448-27122-6-git-send-email-yubihong@huawei.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <1603163448-27122-8-git-send-email-yubihong@huawei.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ migration/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index 0aea78f8a1..09178cc3a3 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -101,14 +101,16 @@ static struct {
- 
- static void XBZRLE_cache_lock(void)
- {
--    if (migrate_use_xbzrle())
-+    if (migrate_use_xbzrle()) {
-         qemu_mutex_lock(&XBZRLE.lock);
-+    }
+diff --git a/migration/rdma.c b/migration/rdma.c
+index 0eb42b74f0..ca4d315597 100644
+--- a/migration/rdma.c
++++ b/migration/rdma.c
+@@ -273,7 +273,8 @@ static uint64_t htonll(uint64_t v)
+     return u.llv;
  }
  
- static void XBZRLE_cache_unlock(void)
- {
--    if (migrate_use_xbzrle())
-+    if (migrate_use_xbzrle()) {
-         qemu_mutex_unlock(&XBZRLE.lock);
-+    }
- }
- 
- /**
+-static uint64_t ntohll(uint64_t v) {
++static uint64_t ntohll(uint64_t v)
++{
+     union { uint32_t lv[2]; uint64_t llv; } u;
+     u.llv = v;
+     return ((uint64_t)ntohl(u.lv[0]) << 32) | (uint64_t) ntohl(u.lv[1]);
 -- 
 2.28.0
 
