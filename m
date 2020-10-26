@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47070298FFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:53:24 +0100 (CET)
-Received: from localhost ([::1]:47156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A85298FF6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:53:09 +0100 (CET)
+Received: from localhost ([::1]:46254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3sB-00048A-3s
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:53:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55092)
+	id 1kX3rw-0003jk-73
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:53:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3lx-0006qQ-79
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:46:57 -0400
-Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:46678)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3mZ-0007NW-7l
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:47:35 -0400
+Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:41585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3lt-0001xM-GH
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:46:56 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.107])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 8688B2311BA;
- Mon, 26 Oct 2020 15:46:49 +0100 (CET)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kX3mX-00020H-11
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:47:34 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.68])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id E06A61FFD66;
+ Mon, 26 Oct 2020 15:47:28 +0100 (CET)
 Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 26 Oct
- 2020 15:46:49 +0100
+ 2020 15:47:28 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003714acb2a-6ee3-4cdd-9946-3f090ed9112c,
+ (GARM-100R003c3b2a2d3-5704-487b-aa99-9f8972f0b8ca,
  D69A261E470FD7A087455D2B3B9CC66C186A091D) smtp.auth=groug@kaod.org
-Date: Mon, 26 Oct 2020 15:46:47 +0100
+Date: Mon, 26 Oct 2020 15:47:22 +0100
 From: Greg Kurz <groug@kaod.org>
 To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/4] spapr: qemu_memalign() doesn't return NULL
-Message-ID: <20201026154647.4a421bc5@bahia.lan>
-In-Reply-To: <7b6abe52-c17e-09b8-9239-e0e38d4d0a1f@redhat.com>
+Subject: Re: [PATCH 4/4] spapr: Improve spapr_reallocate_hpt() error reporting
+Message-ID: <20201026154722.3b573be7@bahia.lan>
+In-Reply-To: <b67330f6-797c-f088-b6fa-7e81075e2245@redhat.com>
 References: <160371602625.305923.7832478283946753271.stgit@bahia.lan>
- <160371603337.305923.17158585537944509438.stgit@bahia.lan>
- <7b6abe52-c17e-09b8-9239-e0e38d4d0a1f@redhat.com>
+ <160371605460.305923.5890143959901241157.stgit@bahia.lan>
+ <b67330f6-797c-f088-b6fa-7e81075e2245@redhat.com>
 X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
  (172.16.2.71)
-X-Ovh-Tracer-GUID: 56c60f93-2e46-4637-8056-b678b123b3de
-X-Ovh-Tracer-Id: 16238009934842272224
+X-Ovh-Tracer-GUID: d7dde868-e3a4-4be8-ba91-7c37d7606c7c
+X-Ovh-Tracer-Id: 16248987459836221920
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeejgdefvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
- helo=10.mo51.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 08:54:00
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
+ helo=7.mo52.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 10:47:30
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,106 +75,115 @@ Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 14:43:08 +0100
+On Mon, 26 Oct 2020 14:49:34 +0100
 Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
 > On 10/26/20 1:40 PM, Greg Kurz wrote:
-> > qemu_memalign() aborts if OOM. Drop some dead code.
+> > spapr_reallocate_hpt() has three users, two of which pass &error_fatal
+> > and the third one, htab_load(), passes &local_err, uses it to detect
+> > failures and simply propagates -EINVAL up to vmstate_load(), which will
+> > cause QEMU to exit. It is thus confusing that spapr_reallocate_hpt()
+> > doesn't return right away when an error is detected in some cases. Also,
+> > the comment suggesting that the caller is welcome to try to carry on
+> > seems like a remnant in this respect.
+> >=20
+> > This can be improved:
+> > - change spapr_reallocate_hpt() to always report a negative errno on
+> >    failure, either as reported by KVM or -ENOSPC if the HPT is smaller
+> >    than what was asked,
+> > - use that to detect failures in htab_load() which is preferred over
+> >    checking &local_err,
+> > - propagate this negative errno to vmstate_load() because it is more
+> >    accurate than propagating -EINVAL for all possible errors.
 > >=20
 > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> >   hw/ppc/spapr.c       |    6 ------
-> >   hw/ppc/spapr_hcall.c |    8 ++------
-> >   2 files changed, 2 insertions(+), 12 deletions(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 0cc19b5863a4..f098d0ee6d98 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1521,12 +1521,6 @@ void spapr_reallocate_hpt(SpaprMachineState *spa=
-pr, int shift,
-> >           int i;
+> ...
+>=20
+> > -void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+> > -                          Error **errp)
+> > +int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **=
+errp)
+> >   {
+> >       ERRP_GUARD();
+> >       long rc;
+> > @@ -1496,7 +1495,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
+r, int shift,
 > >  =20
-> >           spapr->htab =3D qemu_memalign(size, size);
-> > -        if (!spapr->htab) {
-> > -            error_setg_errno(errp, errno,
-> > -                             "Could not allocate HPT of order %d", shi=
-ft);
-> > -            return;
+> >       if (rc =3D=3D -EOPNOTSUPP) {
+> >           error_setg(errp, "HPT not supported in nested guests");
+> > -        return;
+> > +        return -EOPNOTSUPP;
+> >       }
+> >  =20
+> >       if (rc < 0) {
+> > @@ -1504,8 +1503,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
+r, int shift,
+> >           error_setg_errno(errp, errno, "Failed to allocate KVM HPT of =
+order %d",
+> >                            shift);
+> >           error_append_hint(errp, "Try smaller maxmem?\n");
+> > -        /* This is almost certainly fatal, but if the caller really
+> > -         * wants to carry on with shift =3D=3D 0, it's welcome to try =
+*/
+> > +        return -errno;
 >=20
-> Wasn't the idea to use qemu_try_memalign() here?
+> Maybe returning here should be in a previous patch.
+> Otherwise patch looks good.
 >=20
 
-Well... I have mixed feeling around this. The HTAB was first
-introduced by commit:
+It could have been indeed...
 
-commit f43e35255cffb6ac6230dd09d308f7909f823f96
-Author: David Gibson <david@gibson.dropbear.id.au>
-Date:   Fri Apr 1 15:15:22 2011 +1100
+> >       } else if (rc > 0) {
+> >           /* kernel-side HPT allocated */
+> >           if (rc !=3D shift) {
+> > @@ -1513,6 +1511,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
+r, int shift,
+> >                          "Requested order %d HPT, but kernel allocated =
+order %ld",
+> >                          shift, rc);
+> >               error_append_hint(errp, "Try smaller maxmem?\n");
+> > +            return -ENOSPC;
 
-    Virtual hash page table handling on pSeries machine
+... along with this one.
 
-using qemu_mallocz(), which was aborting on OOM. It then got
-replaced by g_malloc0() when qemu_mallocz() got deprecated
-and eventually by qemu_memalign() when KVM support was added.
+I didn't go this way because it doesn't really affect the final behavior si=
+nce
+QEMU exits in all cases. It's mostly about propagating an appropriate errno=
+ up
+to VMState in the case of htab_load(). But if you find it clearer and I need
+to post a v2, I can certainly do that.
 
-Surviving OOM when allocating the HTAB never seemed to be an
-option until this commit that introduced the check:
-
-commit c5f54f3e31bf693f70a98d4d73ea5dbe05689857
-Author: David Gibson <david@gibson.dropbear.id.au>
-Date:   Tue Feb 9 10:21:56 2016 +1000
-
-    pseries: Move hash page table allocation to reset time
-
-I don't really see in the patch and in the changelog an obvious
-desire to try to handle OOM.
-
-> > -        }
-> > -
-> >           memset(spapr->htab, 0, size);
+> >           }
+> >  =20
 > >           spapr->htab_shift =3D shift;
+> > @@ -1533,6 +1532,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
+r, int shift,
+> >       /* We're setting up a hash table, so that means we're not radix */
+> >       spapr->patb_entry =3D 0;
+> >       spapr_set_all_lpcrs(0, LPCR_HR | LPCR_UPRT);
+> > +    return 0;
+> >   }
 > >  =20
-> > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> > index 607740150fa2..34e146f628fb 100644
-> > --- a/hw/ppc/spapr_hcall.c
-> > +++ b/hw/ppc/spapr_hcall.c
-> > @@ -361,12 +361,8 @@ static void *hpt_prepare_thread(void *opaque)
-> >       size_t size =3D 1ULL << pending->shift;
+> >   void spapr_setup_hpt(SpaprMachineState *spapr)
+> > @@ -2286,11 +2286,13 @@ static int htab_load(QEMUFile *f, void *opaque,=
+ int version_id)
+> >       }
 > >  =20
-> >       pending->hpt =3D qemu_memalign(size, size);
-> > -    if (pending->hpt) {
-> > -        memset(pending->hpt, 0, size);
-> > -        pending->ret =3D H_SUCCESS;
-> > -    } else {
-> > -        pending->ret =3D H_NO_MEM;
->=20
-> Ditto.
->=20
-
-This one was introduced by commit:
-
-commit 0b0b831016ae93bc14698a5d7202eb77feafea75
-Author: David Gibson <david@gibson.dropbear.id.au>
-Date:   Fri May 12 15:46:49 2017 +1000
-
-    pseries: Implement HPT resizing
-
-I agree that maybe the intent here could have been to use qemu_try_memalign=
-(),
-but again I don't quite see any strong justification to handle OOM in the
-changelog.
-
-David,
-
-Any insight to share ?
-
-> > -    }
-> > +    memset(pending->hpt, 0, size);
-> > +    pending->ret =3D H_SUCCESS;
-> >  =20
-> >       qemu_mutex_lock_iothread();
-> >  =20
+> >       if (section_hdr) {
+> > +        int ret;
+> > +
+> >           /* First section gives the htab size */
+> > -        spapr_reallocate_hpt(spapr, section_hdr, &local_err);
+> > -        if (local_err) {
+> > +        ret =3D spapr_reallocate_hpt(spapr, section_hdr, &local_err);
+> > +        if (ret < 0) {
+> >               error_report_err(local_err);
+> > -            return -EINVAL;
+> > +            return ret;
+> >           }
+> >           return 0;
+> >       }
+> ...
 >=20
 
 
