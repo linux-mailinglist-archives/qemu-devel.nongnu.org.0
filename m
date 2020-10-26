@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF36E298EE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:10:21 +0100 (CET)
-Received: from localhost ([::1]:57118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F112298EE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:13:36 +0100 (CET)
+Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3CW-0001sW-Qz
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:10:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42330)
+	id 1kX3Ff-0004L1-9n
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:13:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX35i-0002oy-0S
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:03:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX35e-0003bf-AH
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:03:17 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720991;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IIwPRN4YsTd2zXRwDH/Bxh7PumdUnSzyScM22M6b85U=;
- b=d4LCpKM/92xoxoRN3r/l4SZgJJM2I3y1BilOSwIdfUQ6aO3hMra6N80SvGnrzHzmgq00oi
- rQTfg/TppSXeLKg8e/ewgr4znYWHVY2hq+KU6YhrjNgZdaM3utDxN2OLQsalZT8OSYu2jX
- VZkragykTO2sRV/9JfxTo97CL4+2ITY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-582-IHRB3MBKNjqY7JoEPwPAkA-1; Mon, 26 Oct 2020 10:03:08 -0400
-X-MC-Unique: IHRB3MBKNjqY7JoEPwPAkA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82DDA1019638;
- Mon, 26 Oct 2020 14:03:03 +0000 (UTC)
-Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4DAC25B4A4;
- Mon, 26 Oct 2020 14:02:58 +0000 (UTC)
-Date: Mon, 26 Oct 2020 08:02:57 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v29 05/17] vfio: Add VM state change handler to know
- state of VM
-Message-ID: <20201026080257.2f9d3506@w520.home>
-In-Reply-To: <ce6c6864-a8a3-269e-a9c2-3fe4d2b265b8@nvidia.com>
-References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
- <1603704987-20977-6-git-send-email-kwankhede@nvidia.com>
- <20201026070056.42bb04de@w520.home>
- <ce6c6864-a8a3-269e-a9c2-3fe4d2b265b8@nvidia.com>
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1kX37G-0004Yp-OE
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:04:54 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:34078)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
+ id 1kX37D-0003k5-GU
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:04:54 -0400
+Received: by mail-lj1-x241.google.com with SMTP id y16so10297561ljk.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 07:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lO2teJbqfei5HCYIxtT5ppWnmsb4ThM15yZGiTFoJ0c=;
+ b=SLlWpUSRORjK7X3tguqqnRHMdK/7Lu5+Iw91h77JpHBK9SnEe3gZ2FpuW0Tbo8XIfN
+ ap1MwQEkNdnljAX4XLZV6uEsfjf5fjj+JDnZmoh5zkY/BqZGRzvN7F7tJvtw88afVWzs
+ DpPAC/sBlBmEE/n5t9o3+gEkVjaMaXyTc7capDTu2IkaYDlp6qOfHla0IvSoirPkCgXd
+ DlCqgA1VnYRUqAsoodLoZnG/kD4oC0weagGawW+kkODDHKVwiha+t+EiwNGZeOpDzoVI
+ G55zmc0XHyhfpr5A42T6i5iYSHtp2Y/TNSCYEjrC4nw9XnICXvbiwLlh0DL/S/8v7Do1
+ KhIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lO2teJbqfei5HCYIxtT5ppWnmsb4ThM15yZGiTFoJ0c=;
+ b=qspESdqe4xAnNBlXYaKJxaa0guVCl7xL63ilVm7WL5tM+Q79e0u8WwW870vlTETbko
+ hguTuDWO2NzfBYScTcRhOT8ENgL0ksav6e7iGY3/SgPBerXY4+dDhSPDZytmFP3J3ZEJ
+ C6QNhtSxjwvrQPsiMz6BZF5JjhTuiPxGzOofEtCq7fyhR0HZeRAgX7i0fYBZ47bWn8j1
+ 7PoERzzRuzL5a+9RgYIdCFU08zuDLlkJdB3TdAtou4WcLrDncniGRbNu7+xRyjUcjjuB
+ 1AcVie3nwIbbN7pcFKtyHEs6VbCsvWdye1XBYLQBtwSkPq1ZxIXcMI/EtD9jz1cZ45w+
+ nC/Q==
+X-Gm-Message-State: AOAM533YwRspm8yYi7Mu7zuTUR08h6X3t7UWHjJo45S1K7gWTd0Pf8og
+ 2sCebrRRU4cwHmEiJnVKzxTpDykEckFZsJftfoI=
+X-Google-Smtp-Source: ABdhPJwO7OVXFr0UA5xdgFD4z0GW0xnbAl1ElxAqgsm8lBrRY7bvwZbibzNdq03CfNFo3fYOJlQG40WFkjNE/alp1hQ=
+X-Received: by 2002:a2e:9ccd:: with SMTP id g13mr6186612ljj.127.1603721089414; 
+ Mon, 26 Oct 2020 07:04:49 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
+ <20201026083401.13231-9-mark.cave-ayland@ilande.co.uk>
+ <20201026095450.ko6snc4dusk3pvnw@function>
+ <547c0ea5-dad4-d246-1de8-844a2e9a9507@ilande.co.uk>
+ <20201026111406.jvpexlkh53g4fxff@function>
+ <CAKf6xpvcnmEs+v3+Tm1srQfo=m37EAGRPynJDJy4HkMuCmD6NQ@mail.gmail.com>
+ <38110b4a-34b1-3e97-5a7f-4fad1bfff080@ilande.co.uk>
+In-Reply-To: <38110b4a-34b1-3e97-5a7f-4fad1bfff080@ilande.co.uk>
+From: Jason Andryuk <jandryuk@gmail.com>
+Date: Mon, 26 Oct 2020 10:04:37 -0400
+Message-ID: <CAKf6xpvz=a=q27LxAgVzQVyzR+2HSrvxNAn_NbmnYqmr9GNMxA@mail.gmail.com>
+Subject: Re: [PATCH 8/9] dev-serial: fix FTDI_GET_MDM_ST response
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::241;
+ envelope-from=jandryuk@gmail.com; helo=mail-lj1-x241.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,103 +84,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ Samuel Thibault <samuel.thibault@gnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 19:18:51 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
-
-> On 10/26/2020 6:30 PM, Alex Williamson wrote:
-> > On Mon, 26 Oct 2020 15:06:15 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >   
-> >> VM state change handler is called on change in VM's state. Based on
-> >> VM state, VFIO device state should be changed.
-> >> Added read/write helper functions for migration region.
-> >> Added function to set device_state.
+On Mon, Oct 26, 2020 at 9:40 AM Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> On 26/10/2020 13:00, Jason Andryuk wrote:
+>
+> > On Mon, Oct 26, 2020 at 7:21 AM Samuel Thibault <samuel.thibault@gnu.org> wrote:
 > >>
-> >> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-> >> Reviewed-by: Neo Jia <cjia@nvidia.com>
-> >> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> >> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> >> ---
-> >>   hw/vfio/migration.c           | 158 ++++++++++++++++++++++++++++++++++++++++++
-> >>   hw/vfio/trace-events          |   2 +
-> >>   include/hw/vfio/vfio-common.h |   4 ++
-> >>   3 files changed, 164 insertions(+)
+> >> Mark Cave-Ayland, le lun. 26 oct. 2020 10:58:43 +0000, a ecrit:
+> >>> On 26/10/2020 09:54, Samuel Thibault wrote:
+> >>>> Mark Cave-Ayland, le lun. 26 oct. 2020 08:34:00 +0000, a ecrit:
+> >>>>> The FTDI_GET_MDM_ST response should only return a single byte indicating the
+> >>>>> modem status with bit 0 cleared (as documented in the Linux ftdi_sio.h header
+> >>>>> file).
+> >>>>>
+> >>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> >>>>> ---
+> >>>>>    hw/usb/dev-serial.c | 5 ++---
+> >>>>>    1 file changed, 2 insertions(+), 3 deletions(-)
+> >>>>>
+> >>>>> diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+> >>>>> index 4c374d0790..fa734bcf54 100644
+> >>>>> --- a/hw/usb/dev-serial.c
+> >>>>> +++ b/hw/usb/dev-serial.c
+> >>>>> @@ -360,9 +360,8 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+> >>>>>            /* TODO: TX ON/OFF */
+> >>>>>            break;
+> >>>>>        case VendorDeviceRequest | FTDI_GET_MDM_ST:
+> >>>>> -        data[0] = usb_get_modem_lines(s) | 1;
+> >>>>> -        data[1] = FTDI_THRE | FTDI_TEMT;
+> >>>>> -        p->actual_length = 2;
+> >>>>> +        data[0] = usb_get_modem_lines(s);
+> >>>>> +        p->actual_length = 1;
+> >>>>
+> >> [...]
+> >>> A quick test shows my Chipi-X returns 0x1 0x60 with nothing attached in
+> >>> response to FTDI_SIO_GET_MODEM_STATUS_REQUEST: assuming the reply length
+> >>> should be 2 bytes, the comment about B0-B3 being zero and the response from
+> >>> my Chip-X above suggests that the "| 1" should still be dropped from the
+> >>> response.
 > >>
-> >> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
-> >> index fd7faf423cdc..65ce735d667b 100644
-> >> --- a/hw/vfio/migration.c
-> >> +++ b/hw/vfio/migration.c  
-> > [snip]  
-> >> @@ -64,6 +216,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-> >>           ret = -EINVAL;
-> >>           goto err;
-> >>       }
-> >> +
-> >> +    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
-> >> +                                                           vbasedev);
-> >>       return 0;
-> >>   
-> >>   err:  
-> > 
-> > Fails to build, @migration is not defined.  We could use
-> > vbasedev->migration or pull defining and setting @migration from patch
-> > 06.  Thanks,
-> >   
-> 
-> Pulling and setting migration from patch 06 seems better option.
-> Should I resend patch 5 & 6 only?
+> >> Aurelien, you introduced the "| 1" in
+> >>
+> >> commit abb8a13918ecc1e8160aa78582de9d5224ea70df
+> >> Author: Aurelien Jarno <aurelien@aurel32.net>
+> >> Date:   Wed Aug 13 04:23:17 2008 +0000
+> >>
+> >>      usb-serial: add support for modem lines
+> >>
+> >> [...]
+> >> @@ -357,9 +393,9 @@ static int usb_serial_handle_control(USBDevice *dev, int request, int value,
+> >>           /* TODO: TX ON/OFF */
+> >>           break;
+> >>       case DeviceInVendor | FTDI_GET_MDM_ST:
+> >> -        /* TODO: return modem status */
+> >> -        data[0] = 0;
+> >> -        ret = 1;
+> >> +        data[0] = usb_get_modem_lines(s) | 1;
+> >> +        data[1] = 0;
+> >> +        ret = 2;
+> >>           break;
+> >>
+> >> do you know exactly what it is for?
+> >
+> > Hi,
+> >
+> > I'm not particularly familiar with the FTDI USB serial devices.  I
+> > found setting FTDI_THRE | FTDI_TEMT by comparing with real hardware.
+> >
+> > A little searching found this:
+> > https://elixir.bootlin.com/linux/latest/source/drivers/usb/serial/ftdi_sio.h#L541
+> >
+> > That shows "B0   Reserved - must be 1", so maybe that is why "| 1" was added?
+>
+> Right - that's for the modem status returned as part of the first 2 status bytes for
+> incoming data which is slightly different from modem status returned directly from
+> FTDI_SIO_GET_MODEM_STATUS:
+> https://elixir.bootlin.com/linux/latest/source/drivers/usb/serial/ftdi_sio.h#L423.
 
-I've resolved this locally as patch 05:
+Okay, sorry for the confusion there.
 
-@@ -38,6 +190,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
- {
-     int ret;
-     Object *obj;
-+    VFIOMigration *migration;
- 
-     if (!vbasedev->ops->vfio_get_object) {
-         return -EINVAL;
-@@ -64,6 +217,10 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-         ret = -EINVAL;
-         goto err;
-     }
-+
-+    migration = vbasedev->migration;
-+    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
-+                                                           vbasedev);
-     return 0;
- 
- err:
+I thought your "it's the SIO chipsets that return 1 byte which are older
+than the chipset being emulated by QEMU" meant you thought your change
+to 1 byte was unnecessary.  You also posted two bytes (0x1 0x60) from
+your hardware.
 
-patch 06:
+> It is the latter which this patch changes and appears to match what I see on my
+> Chipi-X hardware here.
 
-@@ -219,8 +243,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
-     }
- 
-     migration = vbasedev->migration;
-+    migration->vbasedev = vbasedev;
-     migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
-                                                            vbasedev);
-+    migration->migration_state.notify = vfio_migration_state_notifier;
-+    add_migration_state_change_notifier(&migration->migration_state);
-     return 0;
- 
- err:
+I don't have my hardware readily available, but I must have been
+seeing 2 bytes from FTDI_GET_MDM_ST with data[1] = FTDI_THRE |
+FTDI_TEMT; to make the change.
 
-If you're satisfied with that, no need to resend.  Thanks,
+I don't have the USB captures anymore to compare the lowest bit value.
 
-Alex
+So right now you are just interested in dropping the lowest bit
+setting but preserving the 2 bytes modem status?
 
+Regards,
+Jason
 
