@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FE42997EE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:27:30 +0100 (CET)
-Received: from localhost ([::1]:51980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C94462997BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:13:12 +0100 (CET)
+Received: from localhost ([::1]:47630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX95V-0003zY-Fz
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:27:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33890)
+	id 1kX8rf-0006Vd-R4
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:13:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Ou-0006rm-3j
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20684)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Ot-0006qE-EF
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Or-0003Ag-RN
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Or-0003Ae-Op
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603741405;
@@ -23,30 +23,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4eUg6LT7gsw3dKkSYM4rPrTxwyf7+tULCjWNaTzPOmg=;
- b=CE/ccpO/HWbYxKK/XhjEzh36GSz8fzYDz75uUgMBhsqyISRPJNG1Khea3oRFYzyjYYLZtq
- 4oww2Q4VkMaHI/wRJbWTK1UZBNL5xZGYfKW/utieSE0H6rM/GgkdzUMHzRp4qSzwqNIyTY
- z/7dZW2cPO/E3ciHCWHorykJn+pTLCE=
+ bh=nmL49+J4OR+6hssCRsu/KikhOrorn3ewX7oqAGz7W/A=;
+ b=G+CG5mPNPZylfLJQVfmqbUuYIUVQqz7CHq8ya5trhCkGii1zE33zXaSq4NOJEjBK3uOi2C
+ Gbuu8eRyXeeAHspcL79xkAEOuu4wMjuRVf2N4zoO15BG7T4KnZ2gwzSHElDhn2cf/rAC8a
+ VBNq08rJAoGyi1nmeoAxI4CwFA7Azac=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-gDhC7bAcOCOvWLsrJ9VCPA-1; Mon, 26 Oct 2020 15:43:22 -0400
-X-MC-Unique: gDhC7bAcOCOvWLsrJ9VCPA-1
+ us-mta-71-N7s848nxNL-pAwy2vOYJOQ-1; Mon, 26 Oct 2020 15:43:22 -0400
+X-MC-Unique: N7s848nxNL-pAwy2vOYJOQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDD6710A0B8D
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C83D0879539
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:11 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D5F625B4B9;
- Mon, 26 Oct 2020 19:43:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E7E0C5B4AE;
+ Mon, 26 Oct 2020 19:43:10 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 03/11] [DO-NOT-MERGE] docs: enable sphinx-autodoc for
- scripts/qapi
-Date: Mon, 26 Oct 2020 15:42:43 -0400
-Message-Id: <20201026194251.11075-4-jsnow@redhat.com>
+Subject: [PATCH v2 04/11] qapi/introspect.py: add assertions and casts
+Date: Mon, 26 Oct 2020 15:42:44 -0400
+Message-Id: <20201026194251.11075-5-jsnow@redhat.com>
 In-Reply-To: <20201026194251.11075-1-jsnow@redhat.com>
 References: <20201026194251.11075-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,284 +84,44 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just POC to prove that the docstrings, where they are written,
-are correct to some minimum standard. It is included here for
-reviewing/testing convenience.
+This is necessary to keep mypy passing in the next patch when we add
+preliminary type hints. It will be removed shortly.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/conf.py                          |  3 ++-
- docs/devel/index.rst                  |  1 +
- docs/devel/python/index.rst           |  7 +++++++
- docs/devel/python/qapi.commands.rst   |  7 +++++++
- docs/devel/python/qapi.common.rst     |  7 +++++++
- docs/devel/python/qapi.error.rst      |  7 +++++++
- docs/devel/python/qapi.events.rst     |  7 +++++++
- docs/devel/python/qapi.expr.rst       |  7 +++++++
- docs/devel/python/qapi.gen.rst        |  7 +++++++
- docs/devel/python/qapi.introspect.rst |  7 +++++++
- docs/devel/python/qapi.main.rst       |  7 +++++++
- docs/devel/python/qapi.parser.rst     |  8 ++++++++
- docs/devel/python/qapi.rst            | 26 ++++++++++++++++++++++++++
- docs/devel/python/qapi.schema.rst     |  7 +++++++
- docs/devel/python/qapi.source.rst     |  7 +++++++
- docs/devel/python/qapi.types.rst      |  7 +++++++
- docs/devel/python/qapi.visit.rst      |  7 +++++++
- 17 files changed, 128 insertions(+), 1 deletion(-)
- create mode 100644 docs/devel/python/index.rst
- create mode 100644 docs/devel/python/qapi.commands.rst
- create mode 100644 docs/devel/python/qapi.common.rst
- create mode 100644 docs/devel/python/qapi.error.rst
- create mode 100644 docs/devel/python/qapi.events.rst
- create mode 100644 docs/devel/python/qapi.expr.rst
- create mode 100644 docs/devel/python/qapi.gen.rst
- create mode 100644 docs/devel/python/qapi.introspect.rst
- create mode 100644 docs/devel/python/qapi.main.rst
- create mode 100644 docs/devel/python/qapi.parser.rst
- create mode 100644 docs/devel/python/qapi.rst
- create mode 100644 docs/devel/python/qapi.schema.rst
- create mode 100644 docs/devel/python/qapi.source.rst
- create mode 100644 docs/devel/python/qapi.types.rst
- create mode 100644 docs/devel/python/qapi.visit.rst
+ scripts/qapi/introspect.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index bbc71ebdc36..9cbaecfb669 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -70,7 +70,8 @@
- # Add any Sphinx extension module names here, as strings. They can be
- # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
- # ones.
--extensions = ['kerneldoc', 'qmp_lexer', 'hxtool', 'depfile', 'qapidoc']
-+extensions = ['kerneldoc', 'qmp_lexer', 'hxtool',
-+              'depfile', 'qapidoc', 'sphinx.ext.autodoc']
+diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+index fafec94e022..63f721ebfb6 100644
+--- a/scripts/qapi/introspect.py
++++ b/scripts/qapi/introspect.py
+@@ -10,6 +10,8 @@
+ See the COPYING file in the top-level directory.
+ """
  
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 77baae5c771..7c5c94997e8 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -34,3 +34,4 @@ Contents:
-    clocks
-    qom
-    block-coroutine-wrapper
-+   python/index
-diff --git a/docs/devel/python/index.rst b/docs/devel/python/index.rst
-new file mode 100644
-index 00000000000..31c470154b3
---- /dev/null
-+++ b/docs/devel/python/index.rst
-@@ -0,0 +1,7 @@
-+qapi
-+====
++from typing import Optional, Sequence, cast
 +
-+.. toctree::
-+   :maxdepth: 4
-+
-+   qapi
-diff --git a/docs/devel/python/qapi.commands.rst b/docs/devel/python/qapi.commands.rst
-new file mode 100644
-index 00000000000..018f7b08a9c
---- /dev/null
-+++ b/docs/devel/python/qapi.commands.rst
-@@ -0,0 +1,7 @@
-+qapi.commands module
-+====================
-+
-+.. automodule:: qapi.commands
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.common.rst b/docs/devel/python/qapi.common.rst
-new file mode 100644
-index 00000000000..128a90d74be
---- /dev/null
-+++ b/docs/devel/python/qapi.common.rst
-@@ -0,0 +1,7 @@
-+qapi.common module
-+==================
-+
-+.. automodule:: qapi.common
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.error.rst b/docs/devel/python/qapi.error.rst
-new file mode 100644
-index 00000000000..980e32b63de
---- /dev/null
-+++ b/docs/devel/python/qapi.error.rst
-@@ -0,0 +1,7 @@
-+qapi.error module
-+=================
-+
-+.. automodule:: qapi.error
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.events.rst b/docs/devel/python/qapi.events.rst
-new file mode 100644
-index 00000000000..1fce85b044e
---- /dev/null
-+++ b/docs/devel/python/qapi.events.rst
-@@ -0,0 +1,7 @@
-+qapi.events module
-+==================
-+
-+.. automodule:: qapi.events
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.expr.rst b/docs/devel/python/qapi.expr.rst
-new file mode 100644
-index 00000000000..0660270629c
---- /dev/null
-+++ b/docs/devel/python/qapi.expr.rst
-@@ -0,0 +1,7 @@
-+qapi.expr module
-+================
-+
-+.. automodule:: qapi.expr
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.gen.rst b/docs/devel/python/qapi.gen.rst
-new file mode 100644
-index 00000000000..7b495fd4bf2
---- /dev/null
-+++ b/docs/devel/python/qapi.gen.rst
-@@ -0,0 +1,7 @@
-+qapi.gen module
-+===============
-+
-+.. automodule:: qapi.gen
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.introspect.rst b/docs/devel/python/qapi.introspect.rst
-new file mode 100644
-index 00000000000..f65ebfccd1b
---- /dev/null
-+++ b/docs/devel/python/qapi.introspect.rst
-@@ -0,0 +1,7 @@
-+qapi.introspect module
-+======================
-+
-+.. automodule:: qapi.introspect
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.main.rst b/docs/devel/python/qapi.main.rst
-new file mode 100644
-index 00000000000..1255fcda633
---- /dev/null
-+++ b/docs/devel/python/qapi.main.rst
-@@ -0,0 +1,7 @@
-+qapi.main module
-+================
-+
-+.. automodule:: qapi.main
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.parser.rst b/docs/devel/python/qapi.parser.rst
-new file mode 100644
-index 00000000000..1a8f7b347eb
---- /dev/null
-+++ b/docs/devel/python/qapi.parser.rst
-@@ -0,0 +1,8 @@
-+qapi.parser module
-+==================
-+
-+.. automodule:: qapi.parser
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-+   :private-members:
-diff --git a/docs/devel/python/qapi.rst b/docs/devel/python/qapi.rst
-new file mode 100644
-index 00000000000..c762019aad3
---- /dev/null
-+++ b/docs/devel/python/qapi.rst
-@@ -0,0 +1,26 @@
-+qapi package
-+============
-+
-+.. automodule:: qapi
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-+
-+Submodules
-+----------
-+
-+.. toctree::
-+
-+   qapi.commands
-+   qapi.common
-+   qapi.error
-+   qapi.events
-+   qapi.expr
-+   qapi.gen
-+   qapi.introspect
-+   qapi.main
-+   qapi.parser
-+   qapi.schema
-+   qapi.source
-+   qapi.types
-+   qapi.visit
-diff --git a/docs/devel/python/qapi.schema.rst b/docs/devel/python/qapi.schema.rst
-new file mode 100644
-index 00000000000..a08f75ed720
---- /dev/null
-+++ b/docs/devel/python/qapi.schema.rst
-@@ -0,0 +1,7 @@
-+qapi.schema module
-+==================
-+
-+.. automodule:: qapi.schema
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.source.rst b/docs/devel/python/qapi.source.rst
-new file mode 100644
-index 00000000000..e61e9f60212
---- /dev/null
-+++ b/docs/devel/python/qapi.source.rst
-@@ -0,0 +1,7 @@
-+qapi.source module
-+==================
-+
-+.. automodule:: qapi.source
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.types.rst b/docs/devel/python/qapi.types.rst
-new file mode 100644
-index 00000000000..6eea827557d
---- /dev/null
-+++ b/docs/devel/python/qapi.types.rst
-@@ -0,0 +1,7 @@
-+qapi.types module
-+=================
-+
-+.. automodule:: qapi.types
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
-diff --git a/docs/devel/python/qapi.visit.rst b/docs/devel/python/qapi.visit.rst
-new file mode 100644
-index 00000000000..84307cbc236
---- /dev/null
-+++ b/docs/devel/python/qapi.visit.rst
-@@ -0,0 +1,7 @@
-+qapi.visit module
-+=================
-+
-+.. automodule:: qapi.visit
-+   :members:
-+   :undoc-members:
-+   :show-inheritance:
+ from .common import (
+     c_name,
+     gen_endif,
+@@ -30,6 +32,7 @@ def _make_tree(obj, ifcond, features, extra=None):
+     if ifcond:
+         extra['if'] = ifcond
+     if features:
++        assert isinstance(obj, dict)
+         obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
+     if extra:
+         return (obj, extra)
+@@ -43,7 +46,7 @@ def indent(level):
+ 
+     if isinstance(obj, tuple):
+         ifobj, extra = obj
+-        ifcond = extra.get('if')
++        ifcond = cast(Optional[Sequence[str]], extra.get('if'))
+         comment = extra.get('comment')
+         ret = ''
+         if comment:
 -- 
 2.26.2
 
