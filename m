@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C88A299A7F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:32:17 +0100 (CET)
-Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BDA4299A91
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:34:05 +0100 (CET)
+Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXByK-00054Y-2J
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:32:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59034)
+	id 1kXC04-00006E-5s
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:34:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBwE-00038h-6h
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:07 -0400
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40995)
+ id 1kXBwK-0003BF-4T
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:15 -0400
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:33455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBw9-0000H1-Vv
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:04 -0400
-Received: by mail-ej1-x62a.google.com with SMTP id s15so11930615ejf.8
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:01 -0700 (PDT)
+ id 1kXBwF-0000JD-B5
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:10 -0400
+Received: by mail-ej1-x62f.google.com with SMTP id c15so16522189ejs.0
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2OjR/wUfEEBugepvrkgMq+mri256jiLmUAh08vclpww=;
- b=bIW7W8qmw+I/hh1l0NKHHt88h0LKNmG1nWv8jbPk/BlX3yFIeVyaP3k6FnhhM59K1w
- 7BbUMwMCNQUrFlXYfq+G72Rtx69AFlvfv6W3P8mGhfP9UwzOhAxN/kyHDIjGrkTbtFfc
- caun4lWhNcXLOUmZZd7f4+q5BrrlOj3y7VvE2yLoAvSxkqnb3p9WweQPkOWQjcUudwaN
- 9DaCeMV8Qj6cNGqKGemQwTopNAH88ez5OUnWWyR3BZCqZbnKEx6qrH91AVSB+GyqlV7V
- amVKbCIcgqGWvrVX0/3HGTCM81MVLwmhO9hCRhnXvKkabcJ+4gGtrbiQ5dp725luku38
- LIww==
+ bh=ByHyPPqDa1B0Z2A0GB22PMBVgYYCiahQCzikXG3rHfE=;
+ b=nCDVqzfHJDfKssmIVW/lJS3qdYaCfFEqyYwpayAM5sTxjHLP0WJjNHlmIqKcGgS0RW
+ 7qvqDPL5AVXF1DgaTBqTtbSsx3w9OUPzg48I/tqniVHQA8U+80b+SnKOlDmy65HeXE3M
+ HTKu3i1ZDkrZYqwl8VsD7oNCDoqx0FANLGbdkaqacc0T/LWaki1wFdiWt2uy+wGlbcl4
+ FaHwsERLQosvuqd/zksmqlpmSCNIZFM25+IYK11CUf/GTSYqlJZ+LbbpWsyRkjMcBIrW
+ D8GsIFUXNqBRepLJ+0JFunPVQQPZUBv9nP7VhG/QAWiz+0e//nR2soMTjhcSs1uasXbU
+ alQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2OjR/wUfEEBugepvrkgMq+mri256jiLmUAh08vclpww=;
- b=aOoAFcrBmW0busG236DPUH/IkrY+L5d36WLSJGuvGOti+M4diRoz/UZjsWqGK02x9Y
- DJGfc6CKeJNGfdGgEQWi170rLqH0JeBbxbGf94gpMLmKBq9qwqQ6/wQvlsS7g/IgrG9n
- ddbtTtwFUQo3h5USKBdla2Q1y0mJrRhYJjyrqdh8ml+4O/W/CDhKQGudYuRAxnxd8nad
- 9Bl3qpTuTQNqyQFBHANWpvpptIkEYo3Q2oZmkqAmvewayhPEycvuoAi9Wk/ihWvGKD7b
- 18Wevp13yk3ifDY87YlNQT4DoJEUze9AyMsDOcUrvGURv6NBLxVTHiy6ca+CLwiWn80S
- 8PPw==
-X-Gm-Message-State: AOAM530NSSTv1X22MQvvd14eBc90dkIzJgvxRIN5nI0gAQq8PDJNKZjH
- y+Dc9T8zIn8LbTSxVOzKdIuXFkV9XkU=
-X-Google-Smtp-Source: ABdhPJxnD0XrshsqAsbiYsU2dfkGZR59jox1zaGn5TYf4myTczI15Kve6jh4wb/d/oTcBm9nte9C/w==
-X-Received: by 2002:a17:906:1107:: with SMTP id
- h7mr17808599eja.481.1603754999863; 
- Mon, 26 Oct 2020 16:29:59 -0700 (PDT)
+ bh=ByHyPPqDa1B0Z2A0GB22PMBVgYYCiahQCzikXG3rHfE=;
+ b=H5cb9QBBnxbyDncBdc9oy+E5f1PUhntD75+B8mMzE+nsAd30C7JIk5JKdSPdKPsveb
+ AeYThNa00Tuczrp88Ob0CmGBTk10Ev4bfm8WP18bU9v+23eyDIcrI7l/H6TBA0n3ZVnG
+ e0OFya3ld50Jocb35Y51a3z8GLrq1UZXykRPudjtpwC/egLXmPoxtsgn/Oc7gCgjVk4K
+ u0SrEttEee9JaxqnMEt0NmpyzMZUICSXF3ssVqjOjDJ0fmU505NE/lF9EOs4HbZvtsxM
+ 2A4kSbxpYJFgNI6/yLz3J9oIJqctphW8xOeob4w0jxvAispy/pUdLKPrRWmhDKRgX02g
+ lIcw==
+X-Gm-Message-State: AOAM530KdRK27aefvcqULdesZmdw9jfSMm388lesugLppFey/ENkiMWG
+ xBnV2L46AtJDrF2f8AF87XMvd7SJjRY=
+X-Google-Smtp-Source: ABdhPJz2kjBKqV0Pjh0ofWny0kDlaRA08V2CrKQXUnnZRnuvqs+G6Kf3MM4Czb/b7pedng1X9deghA==
+X-Received: by 2002:a17:906:4351:: with SMTP id
+ z17mr17968767ejm.110.1603755005557; 
+ Mon, 26 Oct 2020 16:30:05 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id n22sm5969260edr.11.2020.10.26.16.29.58
+ by smtp.gmail.com with ESMTPSA id d20sm5907484edp.85.2020.10.26.16.30.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 16:29:59 -0700 (PDT)
+ Mon, 26 Oct 2020 16:30:04 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] hw/timer/sh_timer: Remove superfluous "break" statements
-Date: Tue, 27 Oct 2020 00:29:31 +0100
-Message-Id: <20201026232935.92777-5-f4bug@amsat.org>
+Subject: [PULL 5/8] target/sh4: Update coding style to make checkpatch.pl happy
+Date: Tue, 27 Oct 2020 00:29:32 +0100
+Message-Id: <20201026232935.92777-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026232935.92777-1-f4bug@amsat.org>
 References: <20201026232935.92777-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,55 +88,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Magnus Damm <magnus.damm@gmail.com>,
+Cc: Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+Avoid checkpatch.pl warnings in the next commit.
 
-hw_error() is marked as QEMU_NORETURN, so the "break" statements
-after this function are just dead code.
-
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201020153935.54315-4-thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/sh_timer.c | 3 ---
- 1 file changed, 3 deletions(-)
+ target/sh4/op_helper.c | 8 +++++---
+ target/sh4/translate.c | 8 +++++---
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index 934daaa7dcc..58af1a1edbd 100644
---- a/hw/timer/sh_timer.c
-+++ b/hw/timer/sh_timer.c
-@@ -125,7 +125,6 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             /* fallthrough */
-         default:
-             hw_error("sh_timer_write: Reserved TPSC value\n");
--            break;
-         }
-         switch ((value & TIMER_TCR_CKEG) >> 3) {
-         case 0:
-@@ -139,7 +138,6 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             /* fallthrough */
-         default:
-             hw_error("sh_timer_write: Reserved CKEG value\n");
--            break;
-         }
-         switch ((value & TIMER_TCR_ICPE) >> 6) {
-         case 0:
-@@ -152,7 +150,6 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-             /* fallthrough */
-         default:
-             hw_error("sh_timer_write: Reserved ICPE value\n");
--            break;
-         }
-         if ((value & TIMER_TCR_UNF) == 0) {
-             s->int_level = 0;
+diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
+index 14c3db0f485..fcd9ac7271c 100644
+--- a/target/sh4/op_helper.c
++++ b/target/sh4/op_helper.c
+@@ -398,9 +398,11 @@ float32 helper_fsrra_FT(CPUSH4State *env, float32 t0)
+     /* "Approximate" 1/sqrt(x) via actual computation.  */
+     t0 = float32_sqrt(t0, &env->fp_status);
+     t0 = float32_div(float32_one, t0, &env->fp_status);
+-    /* Since this is supposed to be an approximation, an imprecision
+-       exception is required.  One supposes this also follows the usual
+-       IEEE rule that other exceptions take precidence.  */
++    /*
++     * Since this is supposed to be an approximation, an imprecision
++     * exception is required.  One supposes this also follows the usual
++     * IEEE rule that other exceptions take precidence.
++     */
+     if (get_float_exception_flags(&env->fp_status) == 0) {
+         set_float_exception_flags(float_flag_inexact, &env->fp_status);
+     }
+diff --git a/target/sh4/translate.c b/target/sh4/translate.c
+index 60c863d9e1b..ec5b04889e1 100644
+--- a/target/sh4/translate.c
++++ b/target/sh4/translate.c
+@@ -1959,9 +1959,11 @@ static void decode_gusa(DisasContext *ctx, CPUSH4State *env)
+     NEXT_INSN;
+     switch (ctx->opcode & 0xf00f) {
+     case 0x6003: /* mov Rm,Rn */
+-        /* Here we want to recognize ld_dst being saved for later consumtion,
+-           or for another input register being copied so that ld_dst need not
+-           be clobbered during the operation.  */
++        /*
++         * Here we want to recognize ld_dst being saved for later consumtion,
++         * or for another input register being copied so that ld_dst need not
++         * be clobbered during the operation.
++         */
+         op_dst = B11_8;
+         mv_src = B7_4;
+         if (op_dst == ld_dst) {
 -- 
 2.26.2
 
