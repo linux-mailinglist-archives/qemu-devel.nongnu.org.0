@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3902985E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 04:21:00 +0100 (CET)
-Received: from localhost ([::1]:48040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AF92985EE
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 04:32:13 +0100 (CET)
+Received: from localhost ([::1]:50376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWt47-0004R1-Dd
-	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 23:20:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54104)
+	id 1kWtEx-0006Xb-PM
+	for lists+qemu-devel@lfdr.de; Sun, 25 Oct 2020 23:32:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kWt3E-0003ql-9r
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 23:20:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40591)
+ id 1kWtDX-0005yB-9A
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 23:30:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kWt3B-0007mn-Lf
- for qemu-devel@nongnu.org; Sun, 25 Oct 2020 23:20:03 -0400
+ id 1kWtDT-0003dv-Js
+ for qemu-devel@nongnu.org; Sun, 25 Oct 2020 23:30:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603682400;
+ s=mimecast20190719; t=1603683037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9ToSuX7RjEXYgkToi8mgHi9/GtrfaZztNxrJ+ziQT4o=;
- b=ZijKHnfnhF62qtO/INvffksL9O9E+H5FL33NixdMhYNMgfTi/wrqaTu7abzFxT060LZ82h
- 8HJWOKQ+u7/0CmGzcyZNFMk6rqrLxK1aVr4S24zz0VKss3vFbuwPrG9nP6HyAU1Sn7GQ1o
- CZAoxvnkU4QY/05OVwMP2FvwwbC30/E=
+ bh=d+wHZTCJ/B5jjhOcbId3YbszfTR3EBDZdk+YOb/Z5dU=;
+ b=OcOiUfCXzPFyc6lABhYq50I+5hjPxVOY24RR9KlVolts0xHaukaJM4lF125FwIac40DkZz
+ eKGNmWbnK12cpmzaGs8U7Al2W62KBUrLl74oLS1PnvVVeT/nw2q9VGzc/LN4a70XMYhWO3
+ lnDet061ky6BtcxhvKmn3mTakH+LZ3Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-377-GNlPuESxO-mF79GG-xYByQ-1; Sun, 25 Oct 2020 23:19:57 -0400
-X-MC-Unique: GNlPuESxO-mF79GG-xYByQ-1
+ us-mta-585-fkHdW2t_Ol2JymUXyQes3Q-1; Sun, 25 Oct 2020 23:30:35 -0400
+X-MC-Unique: fkHdW2t_Ol2JymUXyQes3Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89334805F17;
- Mon, 26 Oct 2020 03:19:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5C1C1074655;
+ Mon, 26 Oct 2020 03:30:33 +0000 (UTC)
 Received: from [10.72.13.201] (ovpn-13-201.pek2.redhat.com [10.72.13.201])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 197925578F;
- Mon, 26 Oct 2020 03:19:51 +0000 (UTC)
-Subject: Re: [PATCH v2] virtio-net: Add check for mac address while peer is
- vdpa
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AFB255790;
+ Mon, 26 Oct 2020 03:30:24 +0000 (UTC)
+Subject: Re: [PATCH v3] net: remove an assert call in eth_get_gso_type
+To: P J P <ppandit@redhat.com>
+References: <20201021060550.1652896-1-ppandit@redhat.com>
+ <38575304-e5ff-c93e-c1e8-997d4148e579@redhat.com>
+ <nycvar.YSQ.7.78.906.2010211440290.1506567@xnncv>
 From: Jason Wang <jasowang@redhat.com>
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
-References: <20201023091559.4858-1-lulu@redhat.com>
- <462e6df3-8a34-9cfb-0696-49481aba4d46@redhat.com>
-Message-ID: <1bd85488-7186-d869-9bc2-2536d23c1e78@redhat.com>
-Date: Mon, 26 Oct 2020 11:19:49 +0800
+Message-ID: <012c023d-9351-1bfc-1c1b-77b47a54434e@redhat.com>
+Date: Mon, 26 Oct 2020 11:30:12 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <462e6df3-8a34-9cfb-0696-49481aba4d46@redhat.com>
+In-Reply-To: <nycvar.YSQ.7.78.906.2010211440290.1506567@xnncv>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
@@ -73,7 +73,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,67 +86,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Gaoning Pan <pgn@zju.edu.cn>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/10/26 上午10:43, Jason Wang wrote:
+On 2020/10/21 下午5:23, P J P wrote:
+> +-- On Wed, 21 Oct 2020, Jason Wang wrote --+
+> | It should not be a guest error, since guest is allowed to send a packet
+> | other than IPV4(6).
 >
-> On 2020/10/23 下午5:15, Cindy Lu wrote:
->> Sometime vdpa get an all 0 mac address from the hardware, this will 
->> cause the traffic down
->> So we add the check for this part.
->> if we get an 0 mac address we will use the default mac address instead
->>
->> Signed-off-by: Cindy Lu <lulu@redhat.com>
->> ---
->>   hw/net/virtio-net.c | 7 ++++++-
->>   1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
->> index 9179013ac4..f1648fc47d 100644
->> --- a/hw/net/virtio-net.c
->> +++ b/hw/net/virtio-net.c
->> @@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice 
->> *vdev, uint8_t *config)
->>       VirtIONet *n = VIRTIO_NET(vdev);
->>       struct virtio_net_config netcfg;
->>       NetClientState *nc = qemu_get_queue(n->nic);
->> +    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
->>         int ret = 0;
->>       memset(&netcfg, 0 , sizeof(struct virtio_net_config));
->> @@ -151,7 +152,11 @@ static void virtio_net_get_config(VirtIODevice 
->> *vdev, uint8_t *config)
->>           ret = vhost_net_get_config(get_vhost_net(nc->peer), 
->> (uint8_t *)&netcfg,
->>                                      n->config_size);
->>           if (ret != -1) {
->> -            memcpy(config, &netcfg, n->config_size);
->> +            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) != 0) {
->> +                memcpy(config, &netcfg, n->config_size);
->> +        } else {
->> +                error_report("Get an all zero mac address from 
->> hardware");
->> +            }
->>           }
->>       }
->>   }
+> * Ah...sigh! :(
 >
+> * I very hesitantly used guest_error mask, since it was g_assert-ing before.
+>    To me both guest_error and log_unimp seem mismatching. Because no GSO is
+>    also valid IIUC. That's why in patch v2 I used plain qemu_log(). But plain
+>    qemu_log is also not good it seems.
 >
-> Applied.
->
-> Thanks
->
->
+> * I'm okay either way. Please let me know which one to use. OR I'm fine if you
+>    fix it while merging upstream too.
 
-Speak too fast. Some questions:
 
-1) Any reason that you do such check or get_config() instead of doing it 
-once in device initalization
-2) the indentation looks wrong
-3) There's no need for an error here since we can workaround it
+I see.
+
+I applied the patch as is.
 
 Thanks
+
+
+>
+>
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+>
+>
 
 
