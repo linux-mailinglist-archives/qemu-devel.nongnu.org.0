@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FBE298BD9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:22:15 +0100 (CET)
-Received: from localhost ([::1]:53644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07287298BDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:22:20 +0100 (CET)
+Received: from localhost ([::1]:54028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0Zq-0004oB-2f
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:22:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54326)
+	id 1kX0Zu-0004yb-Te
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:22:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kX0I0-0008Lr-9X; Mon, 26 Oct 2020 07:03:48 -0400
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50224)
+ id 1kX0I0-0008Lv-8f; Mon, 26 Oct 2020 07:03:48 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kX0Hx-0002hg-7T; Mon, 26 Oct 2020 07:03:47 -0400
-Received: by mail-wm1-x331.google.com with SMTP id 13so11163579wmf.0;
- Mon, 26 Oct 2020 04:03:41 -0700 (PDT)
+ id 1kX0Hx-0002ht-AR; Mon, 26 Oct 2020 07:03:47 -0400
+Received: by mail-wr1-x441.google.com with SMTP id t9so11879429wrq.11;
+ Mon, 26 Oct 2020 04:03:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CaEc+EndnthM/jQRSTritjVWMWjtPivpLOdnvFGKtOc=;
- b=B51UdXVNUMxIJXfJbtOeTXONrMoctRM+wW11QjE6H/PSYVoSRYayynce9vro6AfVkW
- 8GKbBCnOo1VvecTZaTVZq5fx962sOXz9AeSJvUPkKPiDpS6WQrKnR3CvGQjz+i1VjJ5x
- FyiHUtyctPri1rqi2p/OHAkFRFrBS6yqSBQRRiT5CcYnvGbvdkEqYcNLEbbPLwTsvC45
- V1RdzZX7OxyPZG/Di85O8ZPk1EDt6fzwBObdQfj3s2Zhs8VWRqHai4EsOKIJFK+gt4pR
- JVsUcVGYGGBLKVdsKo7UbSL9vUJbzA5A4NYpR9qn/qHLDWRQnZVuwVjJRen/YeWHoGed
- I/dA==
+ bh=5U8VWtvmcB+mOzFUXcILRLEPHX5B//Lhi6i5VjZPllk=;
+ b=UOj5nkljlDKhYh9w621rfwoxMHKbnxCtTvOi7lU7FI8flRBUzf+nAAxVssUzllX74M
+ PrCAc78J5684apPjU6UYhL/KuhuqY71UuKKAmwdwasNwnpmi2JJmnl13dCB7XcPNolFx
+ 6mXVG1h5iHavMb7U0Y+fe1SIPZvB+a6MjUuDLLrocZXZVKZbaCDMCG9jxyhM+u7eTzGM
+ JMMgD/clOYZ9B0CvxBUSnMZpCh5Hbwt4bWfrDCTDgQ/zP5UArL/awQw9T+ug6dNFp0np
+ 0gvos3DU+wxUabBMgH770AGviFtwxcmGng2NjgVv2S8kReNsACBy+W/d5LhxvmuFpeIZ
+ pKRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CaEc+EndnthM/jQRSTritjVWMWjtPivpLOdnvFGKtOc=;
- b=P+J842Q6eN7fkj8KNtstbPWvXd8b7cX2Im/x108jwLqzBVTOj6ClSvcu662XI8rMPO
- eyf5Wj6WBS+7cFEz9kVtpc5wo9m8u9O9P7c8rVTWDuomkLcMBuKEhlpW/bkpjucCLOdA
- vQaC3QYtJcexKdvqvFmlvfavRaU194jbClaY5L8PnQAFopomOZzhaGITM0xTAUOU8N9S
- shJkvqq7TETNcsmhNE1IbNHU9ug6krqdbZkaRq+fJWo40JVGhB3ZSg7sUIOXOkE1QvKK
- 2gR+MgtD0YWl43iexTXUZecPl61Eknugy3NToFjyURLLQFo5Bk2cAaflJsNv0gJtFzDw
- DAJA==
-X-Gm-Message-State: AOAM530Xn2vbI1Xn2AbYLy7YqEmW+TvRZT2PzTdkORbt8aUw8vOJuvCk
- HBf7HpVXBHw5cwCV3QLh/M110G9gtf0=
-X-Google-Smtp-Source: ABdhPJyF1JOQLXzJb3x+ZLCPuqMyMqIwI8BIc/uwm2/AcK/dwJkNka42hifUNxBvR6TNrLS6P3KkBg==
-X-Received: by 2002:a1c:2302:: with SMTP id j2mr15469805wmj.100.1603710217030; 
- Mon, 26 Oct 2020 04:03:37 -0700 (PDT)
+ bh=5U8VWtvmcB+mOzFUXcILRLEPHX5B//Lhi6i5VjZPllk=;
+ b=sOR/s4UUTuzMJS5V36bu+eu57EoAmHccpVEazBKxarrUenJ+5JslYmdlBhVmHO1nE4
+ 7t5xA+qW7/O3KBBGlGGxBmtavw4oAOjy8E31ZySzl2b6pnuVKHiI4Mucjd3fyPbEeR2C
+ gRNO5D0nYT3jJXrdye/FNeUmKWJVKPn/GgAAML5uLcF0CGF9sQck4P6cZx0j8ggT9amH
+ eW9bnrhttORUYCGbr9x54CDKbNsHeJDgNnO/aXl26XauSlLlpGl1h9lhdS956yjI4Ecw
+ W0Ew7Wwfy0YRsVnXPt/Ou8emQPeK0FxzqBuWKjV+ZI6Urcg9o2J8dqko8AKU+weoaWGY
+ 0/xQ==
+X-Gm-Message-State: AOAM533cu+uSuUxD3shpipgml/MZzTkpJAhXLMd3RK8hGm0PZ+s926ih
+ MScN69kPk8+EYRy37VB5v/Tjc10hJCU=
+X-Google-Smtp-Source: ABdhPJwIJMSkzJ9ZdoIAXXHOUZikvdrmcf4UsVi4o8MR3oHqi50bixMugLvnZ1sXYwCqLf/R1z5AIg==
+X-Received: by 2002:a5d:6551:: with SMTP id z17mr17252423wrv.266.1603710222066; 
+ Mon, 26 Oct 2020 04:03:42 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id h4sm21987467wrv.11.2020.10.26.04.03.35
+ by smtp.gmail.com with ESMTPSA id k18sm21141582wrx.96.2020.10.26.04.03.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 04:03:36 -0700 (PDT)
+ Mon, 26 Oct 2020 04:03:41 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/5] hw/sd/sdcard: Make iolen unsigned
-Date: Mon, 26 Oct 2020 12:03:14 +0100
-Message-Id: <20201026110315.4026183-5-f4bug@amsat.org>
+Subject: [PULL 5/5] hw/sd/sdcard: Zero out function selection fields before
+ being populated
+Date: Mon, 26 Oct 2020 12:03:15 +0100
+Message-Id: <20201026110315.4026183-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026110315.4026183-1-f4bug@amsat.org>
 References: <20201026110315.4026183-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -85,50 +86,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+ qemu-block@nongnu.org, Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I/O request length can not be negative.
+From: Bin Meng <bin.meng@windriver.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+The function selection fields (399:376) should be zeroed out to
+prevent leftover from being or'ed into the switch function status
+data structure.
+
+This fixes the boot failure as seen in the acceptance testing on
+the orangepi target.
+
+Fixes: b638627c723a ("hw/sd: Fix incorrect populated function switch status data structure")
+Reported-by: Michael Roth <mdroth@linux.vnet.ibm.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201024014954.21330-1-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200630133912.9428-15-f4bug@amsat.org>
 ---
- hw/sd/sd.c         | 2 +-
- hw/sd/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/sd/sd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index aa6059d2ad6..fcbc1fd9d6e 100644
+index fcbc1fd9d6e..30913826145 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1982,7 +1982,7 @@ uint8_t sd_read_byte(SDState *sd)
- {
-     /* TODO: Append CRCs */
-     uint8_t ret;
--    int io_len;
-+    uint32_t io_len;
+@@ -827,6 +827,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
+     sd->data[12] = 0x80;	/* Supported group 1 functions */
+     sd->data[13] = 0x03;
  
-     if (!sd->blk || !blk_is_inserted(sd->blk) || !sd->enable)
-         return 0x00;
-diff --git a/hw/sd/trace-events b/hw/sd/trace-events
-index 96c7ea5e52f..4140e485403 100644
---- a/hw/sd/trace-events
-+++ b/hw/sd/trace-events
-@@ -52,7 +52,7 @@ sdcard_unlock(void) ""
- sdcard_read_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
- sdcard_write_block(uint64_t addr, uint32_t len) "addr 0x%" PRIx64 " size 0x%x"
- sdcard_write_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint8_t value) "%s %20s/ CMD%02d value 0x%02x"
--sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, int length) "%s %20s/ CMD%02d len %d"
-+sdcard_read_data(const char *proto, const char *cmd_desc, uint8_t cmd, uint32_t length) "%s %20s/ CMD%02d len %" PRIu32
- sdcard_set_voltage(uint16_t millivolts) "%u mV"
- 
- # milkymist-memcard.c
++    memset(&sd->data[14], 0, 3);
+     for (i = 0; i < 6; i ++) {
+         new_func = (arg >> (i * 4)) & 0x0f;
+         if (mode && new_func != 0x0f)
 -- 
 2.26.2
 
