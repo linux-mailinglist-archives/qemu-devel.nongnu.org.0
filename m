@@ -2,96 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D22A2989F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:03:30 +0100 (CET)
-Received: from localhost ([::1]:47150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3B592989FC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:06:34 +0100 (CET)
+Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzLd-0006cc-AV
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:03:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36698)
+	id 1kWzOb-0001iG-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:06:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWzJ2-0004rJ-Fd
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:00:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWzIz-0004Tb-HT
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:00:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pOMCclc21vjUH40ISk/gsqpOXuo0RH/Du+IAJDGnYuo=;
- b=aE+d6J/n/MKF/a3FgoE6RZwS1K56hPEe8/xWCbbiTsrCPs8M2IWzxj9P+2EfFs/GKvjV1Q
- gyAN/XFvktEMDoFn/8GGdiS7SHkSjxRiQ644vIy5jD5/lidJ8tsjqxwWuHoacUwfvd1hs4
- SmGXkmDP6Im1EuuKJOFuj91t0UghMC8=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-U5hoxdtSP1OM913ThQ4L4w-1; Mon, 26 Oct 2020 06:00:41 -0400
-X-MC-Unique: U5hoxdtSP1OM913ThQ4L4w-1
-Received: by mail-wr1-f72.google.com with SMTP id 91so8103636wrk.20
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:00:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pOMCclc21vjUH40ISk/gsqpOXuo0RH/Du+IAJDGnYuo=;
- b=IF4Vtq0M/8G3Hv9UzpTJi+c1647w5MdkumGQRsi+RA6tEx/ZQ0Sc4dK+bSmnTjr5K3
- ff4Tszv3DGa4bFPJBCpL+k8Wny2gBTtGmwWqfiWNyNLBkKr8bnP2yaJeoLMqhpMc/p7v
- 8eqZerCSg8i8yer1KSDwRE8l2xLos19VPuvrq7jN+gpVSc7c2+ELXOCGSrsYPqrwZ4FJ
- cn4qtZ0dwjBG++vQbY5SrTb7Z1VfT+/cTD4T7/mne/fXTaGmNa2gipyqCtXFaTwbLGdw
- P2i6r1zcWOib0aPft8j4YrDGuqpuJKanYW7yNUUKUFentJq1xNXh6FTCkhhmVSULzZ0c
- kW6g==
-X-Gm-Message-State: AOAM533bROUpRu2F2uu3nhd0jk5fs62K5GmbkGq1Gqj2BnqPiktQBmCr
- 7i7x5sM3zVlzNBtlNbCiRuPL+KEp9GZlSgBX/Om3WWLpbZIw8eu78PSMNufrsVJZg1ZnheBSzha
- uj4wkrsl+1MBVEEs=
-X-Received: by 2002:a05:600c:2211:: with SMTP id
- z17mr15749006wml.92.1603706440462; 
- Mon, 26 Oct 2020 03:00:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzYB7Sg4VYvADZtF7lhxCjDELzR06PH86wnAVRf8yB5DZD3pW6URQk2U3nC5rFaMoPuJ7swOw==
-X-Received: by 2002:a05:600c:2211:: with SMTP id
- z17mr15748980wml.92.1603706440218; 
- Mon, 26 Oct 2020 03:00:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t83sm21339927wmt.43.2020.10.26.03.00.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 03:00:39 -0700 (PDT)
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-7-dbuono@linux.vnet.ibm.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v2 6/6] configure: add support for Control-Flow Integrity
-Message-ID: <7fef8ff2-9c15-e3a0-5af8-a50e6c49f37f@redhat.com>
-Date: Mon, 26 Oct 2020 11:00:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kWzMJ-0008W1-Ay; Mon, 26 Oct 2020 06:04:11 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:54939)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kWzMG-0005cM-MD; Mon, 26 Oct 2020 06:04:10 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.227])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 52F98688C70A;
+ Mon, 26 Oct 2020 11:04:04 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Mon, 26 Oct
+ 2020 11:04:03 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0041cac9db5-2a58-45c0-8ff4-bce6d3e73037,
+ D69A261E470FD7A087455D2B3B9CC66C186A091D) smtp.auth=groug@kaod.org
+Date: Mon, 26 Oct 2020 11:04:02 +0100
+From: Greg Kurz <groug@kaod.org>
+To: zhaolichang <zhaolichang@huawei.com>
+Subject: Re: [PATCH V2 02/14] ppc/: fix some comment spelling errors
+Message-ID: <20201026110402.09be2ba8@bahia.lan>
+In-Reply-To: <20ff189b-0d88-8c5c-c132-1bb33714dcaa@redhat.com>
+References: <20201009064449.2336-1-zhaolichang@huawei.com>
+ <20201009064449.2336-3-zhaolichang@huawei.com>
+ <20ff189b-0d88-8c5c-c132-1bb33714dcaa@redhat.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201023200645.1055-7-dbuono@linux.vnet.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 65b1e0f1-be38-4fcb-81e1-fbbe4682ddf8
+X-Ovh-Tracer-Id: 11462786954315536745
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeeigdduudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 06:04:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,62 +69,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, David Edmondson <david.edmondson@oracle.com>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/10/20 22:06, Daniele Buono wrote:
-> +
-> +if test "$cfi" = "yes"; then
-> +  # Compiler/Linker Flags that needs to be added for cfi:
-> +  # -fsanitize=cfi-icall to enable control-flow integrity checks on
-> +  #            indirect function calls.
-> +  # -fsanitize-cfi-icall-generalize-pointers to allow indirect function calls
-> +  #            with pointers of a different type (i.e. pass a void* to a
-> +  #            function that expects a char*). Used in some spots in QEMU,
-> +  #            with compile-time type checks done by macros
-> +  # -fno-sanitize-trap=cfi-icall, when debug is enabled, to display the
-> +  #            position in the code that triggered a CFI violation
-> +
-> +  # Make sure that LTO is enabled
-> +  if test "$lto" != "true"; then
-> +    error_exit "Control Flow Integrity requires Link-Time Optimization (LTO)"
-> +  fi
-> +
-> +  test_cflag="-fsanitize=cfi-icall -fsanitize-cfi-icall-generalize-pointers"
-> +  test_ldflag="-fsanitize=cfi-icall"
+On Mon, 26 Oct 2020 10:14:00 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-Can you pass both options to the linker for simplicity?
+> On 09/10/2020 08.44, zhaolichang wrote:
+> > I found that there are many spelling errors in the comments of qemu/target/ppc.
+> > I used spellcheck to check the spelling errors and found some errors in the folder.
+> > 
+> > Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+> > Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+> > ---
 
-Unless you need to add the flag to CONFIGURE_CFLAGS/CONFIGURE_LDFLAGS,
-please do all the tests in meson instead, it's much simpler to do
-something like
+PPC folks don't look at qemu-devel that often. Thanks to Thomas for Cc'ing
+qemu-ppc and David :-)
 
-if get_option('cfi')
-  cfi_flags=['-fsanitize=cfi-icall',
-             '-fsanitize-cfi-icall-generalize-pointers']
-  if get_option('cfi_debug')
-    cfi_flags += 'fno-sanitize-trap=cfi-icall'
-  endif
-  if cc.get_supported_arguments(cfi_flags).length() != cfi_flags.length()
-    error('...')
-  endif
-  add_project_arguments(cfi_flags, native: false, language: ['c', 'cpp',
-'objc'])
-)
-  add_project_link_arguments(cfi_flags, native: false, language: ['c',
-'cpp', 'objc'])
-)
-endif
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-> +  if test "$cfi_debug" = "yes"; then
-> +    error_exit "Cannot enable Control Flow Integrity debugging since CFI is not enabled"
-> +  fi
-> +fi
-
-Generally dependent options are ignored so you can remove this part.
-
-Paolo
+> >  target/ppc/cpu.h                | 6 +++---
+> >  target/ppc/excp_helper.c        | 6 +++---
+> >  target/ppc/fpu_helper.c         | 2 +-
+> >  target/ppc/internal.h           | 2 +-
+> >  target/ppc/kvm.c                | 2 +-
+> >  target/ppc/machine.c            | 2 +-
+> >  target/ppc/mmu-hash64.c         | 2 +-
+> >  target/ppc/mmu_helper.c         | 4 ++--
+> >  target/ppc/translate_init.c.inc | 2 +-
+> >  9 files changed, 14 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> > index 766e9c5c26..ba5ebb13fc 100644
+> > --- a/target/ppc/cpu.h
+> > +++ b/target/ppc/cpu.h
+> > @@ -615,7 +615,7 @@ enum {
+> >  #define FPSCR_VXCVI  8  /* Floating-point invalid operation exception (int)  */
+> >  #define FPSCR_VE     7  /* Floating-point invalid operation exception enable */
+> >  #define FPSCR_OE     6  /* Floating-point overflow exception enable          */
+> > -#define FPSCR_UE     5  /* Floating-point undeflow exception enable          */
+> > +#define FPSCR_UE     5  /* Floating-point underflow exception enable          */
+> >  #define FPSCR_ZE     4  /* Floating-point zero divide exception enable       */
+> >  #define FPSCR_XE     3  /* Floating-point inexact exception enable           */
+> >  #define FPSCR_NI     2  /* Floating-point non-IEEE mode                      */
+> > @@ -2331,13 +2331,13 @@ enum {
+> >      /* Internal hardware exception sources */
+> >      PPC_INTERRUPT_DECR,           /* Decrementer exception                */
+> >      PPC_INTERRUPT_HDECR,          /* Hypervisor decrementer exception     */
+> > -    PPC_INTERRUPT_PIT,            /* Programmable inteval timer interrupt */
+> > +    PPC_INTERRUPT_PIT,            /* Programmable interval timer interrupt */
+> >      PPC_INTERRUPT_FIT,            /* Fixed interval timer interrupt       */
+> >      PPC_INTERRUPT_WDT,            /* Watchdog timer interrupt             */
+> >      PPC_INTERRUPT_CDOORBELL,      /* Critical doorbell interrupt          */
+> >      PPC_INTERRUPT_DOORBELL,       /* Doorbell interrupt                   */
+> >      PPC_INTERRUPT_PERFM,          /* Performance monitor interrupt        */
+> > -    PPC_INTERRUPT_HMI,            /* Hypervisor Maintainance interrupt    */
+> > +    PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
+> >      PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
+> >      PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
+> >  };
+> > diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> > index a988ba15f4..d7411bcc81 100644
+> > --- a/target/ppc/excp_helper.c
+> > +++ b/target/ppc/excp_helper.c
+> > @@ -231,7 +231,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+> >      }
+> >  
+> >      /*
+> > -     * Exception targetting modifiers
+> > +     * Exception targeting modifiers
+> >       *
+> >       * LPES0 is supported on POWER7/8/9
+> >       * LPES1 is not supported (old iSeries mode)
+> > @@ -1015,7 +1015,7 @@ static void ppc_hw_interrupt(CPUPPCState *env)
+> >           * This means we will incorrectly execute past the power management
+> >           * instruction instead of triggering a reset.
+> >           *
+> > -         * It generally means a discrepancy between the wakup conditions in the
+> > +         * It generally means a discrepancy between the wakeup conditions in the
+> >           * processor has_work implementation and the logic in this function.
+> >           */
+> >          cpu_abort(env_cpu(env),
+> > @@ -1191,7 +1191,7 @@ void helper_rfi(CPUPPCState *env)
+> >  void helper_rfid(CPUPPCState *env)
+> >  {
+> >      /*
+> > -     * The architeture defines a number of rules for which bits can
+> > +     * The architecture defines a number of rules for which bits can
+> >       * change but in practice, we handle this in hreg_store_msr()
+> >       * which will be called by do_rfi(), so there is no need to filter
+> >       * here
+> > diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
+> > index ae43b08eb5..9b8c8b70b6 100644
+> > --- a/target/ppc/fpu_helper.c
+> > +++ b/target/ppc/fpu_helper.c
+> > @@ -1804,7 +1804,7 @@ uint32_t helper_efdcmpeq(CPUPPCState *env, uint64_t op1, uint64_t op2)
+> >  
+> >  
+> >  /*
+> > - * VSX_ADD_SUB - VSX floating point add/subract
+> > + * VSX_ADD_SUB - VSX floating point add/subtract
+> >   *   name  - instruction mnemonic
+> >   *   op    - operation (add or sub)
+> >   *   nels  - number of elements (1, 2 or 4)
+> > diff --git a/target/ppc/internal.h b/target/ppc/internal.h
+> > index 15d655b356..b4df127f4a 100644
+> > --- a/target/ppc/internal.h
+> > +++ b/target/ppc/internal.h
+> > @@ -1,5 +1,5 @@
+> >  /*
+> > - *  PowerPC interal definitions for qemu.
+> > + *  PowerPC internal definitions for qemu.
+> >   *
+> >   * This library is free software; you can redistribute it and/or
+> >   * modify it under the terms of the GNU Lesser General Public
+> > diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> > index d85ba8ffe0..e85ef2ea9e 100644
+> > --- a/target/ppc/kvm.c
+> > +++ b/target/ppc/kvm.c
+> > @@ -487,7 +487,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
+> >              /*
+> >               * KVM-HV has transactional memory on POWER8 also without
+> >               * the KVM_CAP_PPC_HTM extension, so enable it here
+> > -             * instead as long as it's availble to userspace on the
+> > +             * instead as long as it's available to userspace on the
+> >               * host.
+> >               */
+> >              if (qemu_getauxval(AT_HWCAP2) & PPC_FEATURE2_HAS_HTM) {
+> > diff --git a/target/ppc/machine.c b/target/ppc/machine.c
+> > index 109d071162..f6a24a9c9a 100644
+> > --- a/target/ppc/machine.c
+> > +++ b/target/ppc/machine.c
+> > @@ -337,7 +337,7 @@ static int cpu_post_load(void *opaque, int version_id)
+> >  
+> >      /*
+> >       * If we're operating in compat mode, we should be ok as long as
+> > -     * the destination supports the same compatiblity mode.
+> > +     * the destination supports the same compatibility mode.
+> >       *
+> >       * Otherwise, however, we require that the destination has exactly
+> >       * the same CPU model as the source.
+> > diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
+> > index c31d21e6a9..977b2d1561 100644
+> > --- a/target/ppc/mmu-hash64.c
+> > +++ b/target/ppc/mmu-hash64.c
+> > @@ -883,7 +883,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
+> >      /*
+> >       * Note on LPCR usage: 970 uses HID4, but our special variant of
+> >       * store_spr copies relevant fields into env->spr[SPR_LPCR].
+> > -     * Similarily we filter unimplemented bits when storing into LPCR
+> > +     * Similarly we filter unimplemented bits when storing into LPCR
+> >       * depending on the MMU version. This code can thus just use the
+> >       * LPCR "as-is".
+> >       */
+> > diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> > index 8972714775..50aa18a763 100644
+> > --- a/target/ppc/mmu_helper.c
+> > +++ b/target/ppc/mmu_helper.c
+> > @@ -179,7 +179,7 @@ static inline int ppc6xx_tlb_pte_check(mmu_ctx_t *ctx, target_ulong pte0,
+> >              }
+> >              /* Compute access rights */
+> >              access = pp_check(ctx->key, pp, ctx->nx);
+> > -            /* Keep the matching PTE informations */
+> > +            /* Keep the matching PTE information */
+> >              ctx->raddr = pte1;
+> >              ctx->prot = access;
+> >              ret = check_prot(ctx->prot, rw, type);
+> > @@ -2176,7 +2176,7 @@ void helper_store_sr(CPUPPCState *env, target_ulong srnum, target_ulong value)
+> >          env->sr[srnum] = value;
+> >          /*
+> >           * Invalidating 256MB of virtual memory in 4kB pages is way
+> > -         * longer than flusing the whole TLB.
+> > +         * longer than flushing the whole TLB.
+> >           */
+> >  #if !defined(FLUSH_ALL_TLBS) && 0
+> >          {
+> > diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+> > index bb66526280..3e0810fd6d 100644
+> > --- a/target/ppc/translate_init.c.inc
+> > +++ b/target/ppc/translate_init.c.inc
+> > @@ -792,7 +792,7 @@ static void gen_spr_generic(CPUPPCState *env)
+> >                   &spr_read_xer, &spr_write_xer,
+> >                   &spr_read_xer, &spr_write_xer,
+> >                   0x00000000);
+> > -    /* Branch contol */
+> > +    /* Branch control */
+> >      spr_register(env, SPR_LR, "LR",
+> >                   &spr_read_lr, &spr_write_lr,
+> >                   &spr_read_lr, &spr_write_lr,
+> > 
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> 
 
 
