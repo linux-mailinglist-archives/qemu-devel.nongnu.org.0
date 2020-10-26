@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 669EA298B8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:12:43 +0100 (CET)
-Received: from localhost ([::1]:56538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D323C298B59
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:09:01 +0100 (CET)
+Received: from localhost ([::1]:42154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0Qc-0002BT-6N
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:12:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51398)
+	id 1kX0N2-0004Tq-Rg
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:09:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0Av-0008Mq-04
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52765)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0Ax-0008Pn-Nw
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35283)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0Ar-00006I-HH
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:28 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0Au-00007Q-OL
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603709784;
+ s=mimecast20190719; t=1603709787;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UchhDxvfvK9mvljYS5+MFH11t7RpYY2MHNXuIXgkVCI=;
- b=WmFoSbhqEzWpB1uV4QnWWNT07jNzoBdLJgujKNGpHZm9JuvdTJJrR2bnD36p2sdcn5tr3j
- XCPL9RB3JTnNulLVpqZorAr5DvLvImDnTa+SyBRcE8Nxr90f4TBIi6cqSI/ilYc/RB8FlJ
- IHELs31E0JzdkbLodYUZJi+QtLUDRJE=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-C6nYZDcMPg2MNr-ORblXjQ-1; Mon, 26 Oct 2020 06:56:21 -0400
-X-MC-Unique: C6nYZDcMPg2MNr-ORblXjQ-1
-Received: by mail-wr1-f70.google.com with SMTP id 47so8217483wrc.19
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:56:20 -0700 (PDT)
+ bh=na09npuagCae1jkRDHu8fQc6bmdR06DBBHFCPQpb2ds=;
+ b=d2PNgGCvdToR9UWJ6zyAJ81Y+zZvpT24w2qaAtY4zRjDVSGMaMfOBkAXcscLz0pgvRVao/
+ CIclbcGSiEm8YiqaAUNpJexn3hfdX2exzW4lktnOpCHprDInPib4noQcFOJKhRFqq8ENAa
+ iJjsg7oIhQR7DTs1voJfPP10sm3xew4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-WZm5aZsoPsCIaGvaeYbKKA-1; Mon, 26 Oct 2020 06:56:26 -0400
+X-MC-Unique: WZm5aZsoPsCIaGvaeYbKKA-1
+Received: by mail-wm1-f72.google.com with SMTP id z62so3951425wmb.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:56:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UchhDxvfvK9mvljYS5+MFH11t7RpYY2MHNXuIXgkVCI=;
- b=QQ6YrTCy5K5X/YaMghssAlQqj5g/of1LE18SfeKEo/V3thwR5Xi1On8G7+WsP6Didq
- Cke6nk5lK9bqWGHkJ9uDppylVZRAXmNl1iMKi0QCtP0MCafd4LjCEFj45iCxCxhXIkjC
- 0hWhQhpD6nxCQD/IbL3R27g5C6nYWZ3gnxxaBTqySE7jAnaK9J/S1pwY/bCPA2r5YdqJ
- JknNT+wix05RRBK0Si/lBPSxk6PGuFkeV5FBWvam1R5iE7zTk1d5pi6P+JZYiAP0VesY
- oGB53jG5ve3Tb8QhN2IQzdvz3Qg4ezaCi/cfqhjpG8unyxWQbiGCEV1+AW651dQUQjCz
- zFgg==
-X-Gm-Message-State: AOAM530LoLYNPrMR2MCEl8glxq+4I9hiSy08q5W+Ax7GezqJ55wCTbjf
- +Yemzg56ddycxgHiy+ElCRyamztTvsx9VSnFJpXvNg62iMHN3IlN9BBav8txk85CmaABrSL5vyA
- YijKltu3H2tPVX34=
-X-Received: by 2002:a7b:c3d3:: with SMTP id t19mr10792121wmj.139.1603709779454; 
- Mon, 26 Oct 2020 03:56:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxK+reWy6GKPqc0RXEbvbCmYmcLuekj14GSWO7nIOUhrD91W9ScTna0LeoOJcD4rgpvatBiKA==
-X-Received: by 2002:a7b:c3d3:: with SMTP id t19mr10792101wmj.139.1603709779242; 
- Mon, 26 Oct 2020 03:56:19 -0700 (PDT)
+ bh=na09npuagCae1jkRDHu8fQc6bmdR06DBBHFCPQpb2ds=;
+ b=oe2GJjow6FAZqsaVbkpavNTvJUeM+i35gg3s4dqxj/Xu0Phpb06OJ4P6on/eCUw1bB
+ kCZe7UouB4dK6dXCfVKtMdcYT+raqHIZvDy7d1kqACGEpVxVZi96xkcK9q+EFtQVnFrQ
+ thgzBZbEUCmK3bskT3bP8yJyARpjtQxdooe3hcrZTV1PTjsHUlXf6uLs7bTFQdwXekr0
+ 6UrsW9rxeIjYkV/ZvuR+yKta+fLS6ggzZRjqhpy9QM6op5a3C+l1eUcoP0EaByWmHltK
+ slZsT8m23JUUxJ0whmFz86pzcU6NLoBVuS0Xzd4vIFI5fQWs7rwMqLuJV57/HigcLVrR
+ 6Aig==
+X-Gm-Message-State: AOAM530Zc2TnJh0puTRAwclU8oJ31vzde/ctJ39jlepUeD6PfgItTWQI
+ qyaLUpdUg+9JgLrwd5GM0btoSzcv85yjc4fJUbUK8oOMW7qALTLFvHrU+W2lrGgFDM7aplX1aNw
+ baak71aEq9K3GGd0=
+X-Received: by 2002:adf:f043:: with SMTP id t3mr16377498wro.234.1603709784431; 
+ Mon, 26 Oct 2020 03:56:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxpt9jt5u2ibRJg874zc7T/p1gdb7BGoBhmVbY5NvnSjELDjLyNuFmNU/z1wQKaS0Mf/U8enQ==
+X-Received: by 2002:adf:f043:: with SMTP id t3mr16377473wro.234.1603709784176; 
+ Mon, 26 Oct 2020 03:56:24 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id z15sm10503227wmk.4.2020.10.26.03.56.18
+ by smtp.gmail.com with ESMTPSA id b18sm560318wmj.41.2020.10.26.03.56.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 03:56:18 -0700 (PDT)
+ Mon, 26 Oct 2020 03:56:23 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/19] util/vfio-helpers: Report error when IOMMU page size
- is not supported
-Date: Mon, 26 Oct 2020 11:55:00 +0100
-Message-Id: <20201026105504.4023620-16-philmd@redhat.com>
+Subject: [PATCH v2 16/19] util/vfio-helpers: Introduce
+ qemu_vfio_pci_msix_init_irqs()
+Date: Mon, 26 Oct 2020 11:55:01 +0100
+Message-Id: <20201026105504.4023620-17-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026105504.4023620-1-philmd@redhat.com>
 References: <20201026105504.4023620-1-philmd@redhat.com>
@@ -105,98 +105,147 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This driver uses the host page size to align its memory regions,
-but this size is not always compatible with the IOMMU. Add a
-check if the size matches, and bails out providing a hint what
-is the minimum page size the driver should use.
+qemu_vfio_pci_init_irq() allows us to initialize any type of IRQ,
+but only one. Introduce qemu_vfio_pci_msix_init_irqs() which is
+specific to MSIX IRQ type, and allow us to use multiple IRQs
+(thus passing multiple eventfd notifiers).
+All eventfd notifiers are initialized with the special '-1' value
+meaning "un-assigned".
 
-Suggested-by: Alex Williamson <alex.williamson@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- util/vfio-helpers.c | 28 ++++++++++++++++++++++++++--
- util/trace-events   |  1 +
- 2 files changed, 27 insertions(+), 2 deletions(-)
+ include/qemu/vfio-helpers.h |  6 +++-
+ util/vfio-helpers.c         | 65 ++++++++++++++++++++++++++++++++++++-
+ util/trace-events           |  1 +
+ 3 files changed, 70 insertions(+), 2 deletions(-)
 
+diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
+index 4b97a904e93..492072cba2f 100644
+--- a/include/qemu/vfio-helpers.h
++++ b/include/qemu/vfio-helpers.h
+@@ -1,11 +1,13 @@
+ /*
+  * QEMU VFIO helpers
+  *
+- * Copyright 2016 - 2018 Red Hat, Inc.
++ * Copyright 2016 - 2020 Red Hat, Inc.
+  *
+  * Authors:
+  *   Fam Zheng <famz@redhat.com>
++ *   Philippe Mathieu-Daudé <philmd@redhat.com>
+  *
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  * This work is licensed under the terms of the GNU GPL, version 2 or later.
+  * See the COPYING file in the top-level directory.
+  */
+@@ -29,5 +31,7 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
+                              uint64_t offset, uint64_t size);
+ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+                            int irq_type, Error **errp);
++int qemu_vfio_pci_msix_init_irqs(QEMUVFIOState *s,
++                                 unsigned *irq_count, Error **errp);
+ 
+ #endif
 diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 5e288dfa113..874d76c2a2a 100644
+index 874d76c2a2a..d88e2c7dc1f 100644
 --- a/util/vfio-helpers.c
 +++ b/util/vfio-helpers.c
-@@ -11,6 +11,7 @@
+@@ -1,11 +1,13 @@
+ /*
+  * VFIO utility
+  *
+- * Copyright 2016 - 2018 Red Hat, Inc.
++ * Copyright 2016 - 2020 Red Hat, Inc.
+  *
+  * Authors:
+  *   Fam Zheng <famz@redhat.com>
++ *   Philippe Mathieu-Daudé <philmd@redhat.com>
+  *
++ * SPDX-License-Identifier: GPL-2.0-or-later
+  * This work is licensed under the terms of the GNU GPL, version 2 or later.
+  * See the COPYING file in the top-level directory.
   */
- 
- #include "qemu/osdep.h"
-+#include "qemu/cutils.h"
- #include <sys/ioctl.h>
- #include <linux/vfio.h>
- #include "qapi/error.h"
-@@ -288,7 +289,7 @@ static void collect_usable_iova_ranges(QEMUVFIOState *s, void *buf)
+@@ -230,6 +232,67 @@ int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+     return 0;
  }
  
- static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
--                              Error **errp)
-+                              size_t *requested_page_size, Error **errp)
++/**
++ * Initialize device MSIX IRQs and register event notifiers.
++ * @irq_count: pointer to number of MSIX IRQs to initialize
++ *
++ * If the number of IRQs requested exceeds the available on the device,
++ * store the number of available IRQs in @irq_count and return -EOVERFLOW.
++ */
++int qemu_vfio_pci_msix_init_irqs(QEMUVFIOState *s,
++                                 unsigned *irq_count, Error **errp)
++{
++    int r;
++    size_t irq_set_size;
++    struct vfio_irq_set *irq_set;
++    struct vfio_irq_info irq_info = {
++        .argsz = sizeof(irq_info),
++        .index = VFIO_PCI_MSIX_IRQ_INDEX
++    };
++
++    if (ioctl(s->device, VFIO_DEVICE_GET_IRQ_INFO, &irq_info)) {
++        error_setg_errno(errp, errno, "Failed to get device interrupt info");
++        return -errno;
++    }
++    trace_qemu_vfio_msix_info_irqs(irq_info.count, *irq_count);
++    if (irq_info.count < *irq_count) {
++        error_setg(errp, "Not enough device interrupts available");
++        *irq_count = irq_info.count;
++        return -EOVERFLOW;
++    }
++    if (!(irq_info.flags & VFIO_IRQ_INFO_EVENTFD)) {
++        error_setg(errp, "Device interrupt doesn't support eventfd");
++        return -EINVAL;
++    }
++
++    irq_set_size = sizeof(*irq_set) + *irq_count * sizeof(int32_t);
++    irq_set = g_malloc0(irq_set_size);
++
++    /* Get to a known IRQ state */
++    *irq_set = (struct vfio_irq_set) {
++        .argsz = irq_set_size,
++        .flags = VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_TRIGGER,
++        .index = VFIO_PCI_MSIX_IRQ_INDEX,
++        .start = 0,
++        .count = *irq_count,
++    };
++
++    for (unsigned i = 0; i < *irq_count; i++) {
++        ((int32_t *)&irq_set->data)[i] = -1; /* un-assigned: skip */
++    }
++    r = ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
++    g_free(irq_set);
++    if (r < 0) {
++        error_setg_errno(errp, errno, "Failed to setup device interrupts");
++        return -errno;
++    } else if (r > 0) {
++        error_setg(errp, "Not enough device interrupts available");
++        *irq_count = r;
++        return -EOVERFLOW;
++    }
++    return 0;
++}
++
+ static int qemu_vfio_pci_read_config(QEMUVFIOState *s, void *buf,
+                                      int size, int ofs)
  {
-     int ret;
-     int i;
-@@ -299,6 +300,8 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
-     struct vfio_device_info device_info = { .argsz = sizeof(device_info) };
-     char *group_file = NULL;
- 
-+    assert(requested_page_size && is_power_of_2(*requested_page_size));
-+
-     s->usable_iova_ranges = NULL;
- 
-     /* Create a new container */
-@@ -373,6 +376,27 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
-         ret = -errno;
-         goto fail;
-     }
-+    if (!(iommu_info->flags & VFIO_IOMMU_INFO_PGSIZES)) {
-+        error_setg(errp, "Failed to get IOMMU page size info");
-+        ret = -EINVAL;
-+        goto fail;
-+    }
-+    trace_qemu_vfio_iommu_iova_pgsizes(iommu_info->iova_pgsizes);
-+    if (!(iommu_info->iova_pgsizes & *requested_page_size)) {
-+        g_autofree char *req_page_size_str = size_to_str(*requested_page_size);
-+        g_autofree char *min_page_size_str = NULL;
-+        uint64_t pgsizes_masked;
-+
-+        pgsizes_masked = MAKE_64BIT_MASK(0, ctz64(*requested_page_size));
-+        *requested_page_size = 1U << ctz64(iommu_info->iova_pgsizes
-+                                           & ~pgsizes_masked);
-+        min_page_size_str = size_to_str(*requested_page_size);
-+        error_setg(errp, "Unsupported IOMMU page size: %s", req_page_size_str);
-+        error_append_hint(errp, "Minimum IOMMU page size: %s\n",
-+                          min_page_size_str);
-+        ret = -EINVAL;
-+        goto fail;
-+    }
- 
-     /*
-      * if the kernel does not report usable IOVA regions, choose
-@@ -520,7 +544,7 @@ QEMUVFIOState *qemu_vfio_open_pci(const char *device, size_t *min_page_size,
-     int r;
-     QEMUVFIOState *s = g_new0(QEMUVFIOState, 1);
- 
--    r = qemu_vfio_init_pci(s, device, errp);
-+    r = qemu_vfio_init_pci(s, device, min_page_size, errp);
-     if (r) {
-         g_free(s);
-         return NULL;
 diff --git a/util/trace-events b/util/trace-events
-index 7faad2a718c..3c36def9f30 100644
+index 3c36def9f30..ec93578b125 100644
 --- a/util/trace-events
 +++ b/util/trace-events
 @@ -87,6 +87,7 @@ qemu_vfio_do_mapping(void *s, void *host, uint64_t iova, size_t size) "s %p host
  qemu_vfio_dma_map(void *s, void *host, size_t size, bool temporary, uint64_t *iova) "s %p host %p size 0x%zx temporary %d &iova %p"
  qemu_vfio_dma_mapped(void *s, void *host, uint64_t iova, size_t size) "s %p host %p <-> iova 0x%"PRIx64" size 0x%zx"
  qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
-+qemu_vfio_iommu_iova_pgsizes(uint64_t iova_pgsizes) "iommu page size bitmask: 0x%08"PRIx64
++qemu_vfio_msix_info_irqs(uint32_t count, unsigned asked) "msix irqs %"PRIu32" (asked: %u)"
+ qemu_vfio_iommu_iova_pgsizes(uint64_t iova_pgsizes) "iommu page size bitmask: 0x%08"PRIx64
  qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size %d (region ofs 0x%"PRIx64" size %"PRId64")"
  qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size %d (region ofs 0x%"PRIx64" size %"PRId64")"
- qemu_vfio_region_info(const char *desc, uint64_t offset, uint64_t size, uint32_t cap_offset) "region '%s' ofs 0x%"PRIx64" size %"PRId64" cap_ofs %"PRId32
 -- 
 2.26.2
 
