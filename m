@@ -2,73 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2550298A58
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:26:53 +0100 (CET)
-Received: from localhost ([::1]:35230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F19298A70
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:33:44 +0100 (CET)
+Received: from localhost ([::1]:53294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWziG-0003Wk-Tl
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:26:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
+	id 1kWzot-00031J-Iw
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:33:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kWzSJ-0007sN-SW
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kWzSF-00080d-97
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603707016;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O/dIZ7gfHCDJ7wj9EUyK3nvk2G4/IOzcq/t671w4bkc=;
- b=fIsD6Cci93DJ2LDvnSbAJ0LkxSQgranEnF8hKAHWw8acri0+rWT08astF3hU3Vhs5BpQdr
- 6Zo4ll+PsWMU2U4x3/qFTF/6PSwhcSK/dT6hMRIX1lMJQaOK16tH8yEKcMN1OcbpzVF0p9
- +shC3T6Ecwvq0WFvQYzk43OxYYnbg2g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-yAh7R8bMM7yt7OG8QDAPbg-1; Mon, 26 Oct 2020 06:10:12 -0400
-X-MC-Unique: yAh7R8bMM7yt7OG8QDAPbg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9962561239;
- Mon, 26 Oct 2020 10:10:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DE431043269;
- Mon, 26 Oct 2020 10:10:07 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C10FA1138461; Mon, 26 Oct 2020 11:10:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] char/stdio: Fix QMP default for 'signal'
-Date: Mon, 26 Oct 2020 11:10:02 +0100
-Message-Id: <20201026101005.2940615-2-armbru@redhat.com>
-In-Reply-To: <20201026101005.2940615-1-armbru@redhat.com>
-References: <20201026101005.2940615-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kWzSb-0008Np-8G
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:41 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:13261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kWzSY-0008C9-U0
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:40 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f96a0a50000>; Mon, 26 Oct 2020 03:10:45 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
+ 2020 10:10:28 +0000
+Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Mon, 26 Oct 2020 10:10:20 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v29 04/17] vfio: Add migration region initialization and
+ finalize function
+Date: Mon, 26 Oct 2020 15:06:14 +0530
+Message-ID: <1603704987-20977-5-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+In-Reply-To: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
+References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
+X-NVConfidentiality: public
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603707045; bh=oOD0hvnyZ4ExpQVscA0M1yP+hP3NwO35YFSCX6A0PQQ=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+ References:X-NVConfidentiality:MIME-Version:Content-Type;
+ b=Ss6hrYIh8oQGOugUwJPgSTv6g92nanJGOcM2/FTZlcjzokJ/uBimPNT1hs28EiHYf
+ 7iKIMxA2oGvTeJxxq7SwnDMZJtWz0/94SAqxO6CcCfwfGjH7i7Qg1kdRhXi+Yzk72i
+ +NOCW2hw4KrDHcQW0lqQ5E64E8O7ejo3nYqPG+HuXh1KEfrdPlPdcMw+nOqWcsj9VF
+ c6wiVVNUq7ScXLKJpC9UAe1sBAdNr/+tZ+B+3CBPf0YzElVBH1eDzC/SCXv2qVPunc
+ +Www1jXJfYXyGeh+Tu4SMUtvfnsBVr0wcnMVGXvvV+s9micALSCDwxIGMWzhWnoqbc
+ Wzg0EJbAZrT+w==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 06:10:03
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,63 +73,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, qemu-block@nongnu.org,
- pbonzini@redhat.com
+Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com,
+ Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, artemp@nvidia.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kevin Wolf <kwolf@redhat.com>
+Whether the VFIO device supports migration or not is decided based of
+migration region query. If migration region query is successful and migration
+region initialization is successful then migration is supported else
+migration is blocked.
 
-Commit 02c4bdf1 tried to make signal=on the default for stdio chardevs
-except for '-serial mon:stdio', but it forgot about QMP and accidentally
-switched the QMP default from true (except for -nographic) to false
-(always). The QMP documentation was kept unchanged and still describes
-the opposite of the old behaviour (which is an even older documentation
-bug).
-
-Fix all of this by making signal=true the default in ChardevStdio and
-documenting it as such.
-
-Fixes: 02c4bdf1d2ca8c02a9bae16398f260b5c08d08bf
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20201023161312.460406-2-kwolf@redhat.com>
+Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Neo Jia <cjia@nvidia.com>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- qapi/char.json       | 3 +--
- chardev/char-stdio.c | 4 +---
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ hw/vfio/meson.build           |   1 +
+ hw/vfio/migration.c           | 122 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events          |   3 ++
+ include/hw/vfio/vfio-common.h |   9 ++++
+ 4 files changed, 135 insertions(+)
+ create mode 100644 hw/vfio/migration.c
 
-diff --git a/qapi/char.json b/qapi/char.json
-index b4d66ec90b..43486d1daa 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -321,8 +321,7 @@
- # Configuration info for stdio chardevs.
- #
- # @signal: Allow signals (such as SIGINT triggered by ^C)
--#          be delivered to qemu.  Default: true in -nographic mode,
--#          false otherwise.
-+#          be delivered to qemu.  Default: true.
- #
- # Since: 1.5
- ##
-diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
-index 82eaebc1db..403da308c9 100644
---- a/chardev/char-stdio.c
-+++ b/chardev/char-stdio.c
-@@ -112,9 +112,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
+diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
+index 37efa74018bc..da9af297a0c5 100644
+--- a/hw/vfio/meson.build
++++ b/hw/vfio/meson.build
+@@ -2,6 +2,7 @@ vfio_ss = ss.source_set()
+ vfio_ss.add(files(
+   'common.c',
+   'spapr.c',
++  'migration.c',
+ ))
+ vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
+   'display.c',
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+new file mode 100644
+index 000000000000..fd7faf423cdc
+--- /dev/null
++++ b/hw/vfio/migration.c
+@@ -0,0 +1,122 @@
++/*
++ * Migration support for VFIO devices
++ *
++ * Copyright NVIDIA, Inc. 2020
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2. See
++ * the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include <linux/vfio.h>
++
++#include "hw/vfio/vfio-common.h"
++#include "cpu.h"
++#include "migration/migration.h"
++#include "migration/qemu-file.h"
++#include "migration/register.h"
++#include "migration/blocker.h"
++#include "migration/misc.h"
++#include "qapi/error.h"
++#include "exec/ramlist.h"
++#include "exec/ram_addr.h"
++#include "pci.h"
++#include "trace.h"
++
++static void vfio_migration_exit(VFIODevice *vbasedev)
++{
++    VFIOMigration *migration = vbasedev->migration;
++
++    vfio_region_exit(&migration->region);
++    vfio_region_finalize(&migration->region);
++    g_free(vbasedev->migration);
++    vbasedev->migration = NULL;
++}
++
++static int vfio_migration_init(VFIODevice *vbasedev,
++                               struct vfio_region_info *info)
++{
++    int ret;
++    Object *obj;
++
++    if (!vbasedev->ops->vfio_get_object) {
++        return -EINVAL;
++    }
++
++    obj = vbasedev->ops->vfio_get_object(vbasedev);
++    if (!obj) {
++        return -EINVAL;
++    }
++
++    vbasedev->migration = g_new0(VFIOMigration, 1);
++
++    ret = vfio_region_setup(obj, vbasedev, &vbasedev->migration->region,
++                            info->index, "migration");
++    if (ret) {
++        error_report("%s: Failed to setup VFIO migration region %d: %s",
++                     vbasedev->name, info->index, strerror(-ret));
++        goto err;
++    }
++
++    if (!vbasedev->migration->region.size) {
++        error_report("%s: Invalid zero-sized VFIO migration region %d",
++                     vbasedev->name, info->index);
++        ret = -EINVAL;
++        goto err;
++    }
++    return 0;
++
++err:
++    vfio_migration_exit(vbasedev);
++    return ret;
++}
++
++/* ---------------------------------------------------------------------- */
++
++int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
++{
++    struct vfio_region_info *info = NULL;
++    Error *local_err = NULL;
++    int ret;
++
++    ret = vfio_get_dev_region_info(vbasedev, VFIO_REGION_TYPE_MIGRATION,
++                                   VFIO_REGION_SUBTYPE_MIGRATION, &info);
++    if (ret) {
++        goto add_blocker;
++    }
++
++    ret = vfio_migration_init(vbasedev, info);
++    if (ret) {
++        goto add_blocker;
++    }
++
++    g_free(info);
++    trace_vfio_migration_probe(vbasedev->name, info->index);
++    return 0;
++
++add_blocker:
++    error_setg(&vbasedev->migration_blocker,
++               "VFIO device doesn't support migration");
++    g_free(info);
++
++    ret = migrate_add_blocker(vbasedev->migration_blocker, &local_err);
++    if (local_err) {
++        error_propagate(errp, local_err);
++        error_free(vbasedev->migration_blocker);
++        vbasedev->migration_blocker = NULL;
++    }
++    return ret;
++}
++
++void vfio_migration_finalize(VFIODevice *vbasedev)
++{
++    if (vbasedev->migration) {
++        vfio_migration_exit(vbasedev);
++    }
++
++    if (vbasedev->migration_blocker) {
++        migrate_del_blocker(vbasedev->migration_blocker);
++        error_free(vbasedev->migration_blocker);
++        vbasedev->migration_blocker = NULL;
++    }
++}
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index a0c7b49a2ebc..9ced5ec6277c 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -145,3 +145,6 @@ vfio_display_edid_link_up(void) ""
+ vfio_display_edid_link_down(void) ""
+ vfio_display_edid_update(uint32_t prefx, uint32_t prefy) "%ux%u"
+ vfio_display_edid_write_error(void) ""
++
++# migration.c
++vfio_migration_probe(const char *name, uint32_t index) " (%s) Region %d"
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index ba6169cd926e..8275c4c68f45 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -57,6 +57,10 @@ typedef struct VFIORegion {
+     uint8_t nr; /* cache the region number for debug */
+ } VFIORegion;
  
-     qemu_chr_open_fd(chr, 0, 1);
++typedef struct VFIOMigration {
++    VFIORegion region;
++} VFIOMigration;
++
+ typedef struct VFIOAddressSpace {
+     AddressSpace *as;
+     QLIST_HEAD(, VFIOContainer) containers;
+@@ -113,6 +117,8 @@ typedef struct VFIODevice {
+     unsigned int num_irqs;
+     unsigned int num_regions;
+     unsigned int flags;
++    VFIOMigration *migration;
++    Error *migration_blocker;
+ } VFIODevice;
  
--    if (opts->has_signal) {
--        stdio_allow_signal = opts->signal;
--    }
-+    stdio_allow_signal = !opts->has_signal || opts->signal;
-     qemu_chr_set_echo_stdio(chr, false);
- }
- #endif
+ struct VFIODeviceOps {
+@@ -204,4 +210,7 @@ int vfio_spapr_create_window(VFIOContainer *container,
+ int vfio_spapr_remove_window(VFIOContainer *container,
+                              hwaddr offset_within_address_space);
+ 
++int vfio_migration_probe(VFIODevice *vbasedev, Error **errp);
++void vfio_migration_finalize(VFIODevice *vbasedev);
++
+ #endif /* HW_VFIO_VFIO_COMMON_H */
 -- 
-2.26.2
+2.7.0
 
 
