@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0B7D2989D4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:52:05 +0100 (CET)
-Received: from localhost ([::1]:49860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01DFF2989DB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:54:01 +0100 (CET)
+Received: from localhost ([::1]:55242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzAa-0003jm-L9
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:52:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33938)
+	id 1kWzCR-00063f-9o
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:53:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWz8k-0002oH-MA
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:50:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39200)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kWzA1-0003ir-NT
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:51:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWz8i-0000TJ-2c
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:50:09 -0400
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kWz9u-000160-JA
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:51:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603705806;
+ s=mimecast20190719; t=1603705881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tPRK3qsTu7aENZjyr/nAblbKUmtQ/UgEQABsDTFzZhM=;
- b=cKOXJNjQhBBCMZas4bYkgVPN8Ch2uEJI4bNYg9e9ly3aHtAOGIa2MI4FDcZYMjXIbXW013
- pfgmqI7+QBndW7hLjo3UIO9Bb4oVDEAYc/Ae+nExqyBoiahDcdwiWICym0bKnI5hUVcIrw
- kiW90J6QVLPskJLQDFRf6+tv9gQZ8qg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-tvQ0d31OM22zgvHck479hg-1; Mon, 26 Oct 2020 05:50:04 -0400
-X-MC-Unique: tvQ0d31OM22zgvHck479hg-1
-Received: by mail-wr1-f69.google.com with SMTP id k14so8125015wrd.6
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 02:50:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tPRK3qsTu7aENZjyr/nAblbKUmtQ/UgEQABsDTFzZhM=;
- b=iHuIVhU5YB9xke8PJopkm4m+dBEq9jWLHxKhLI2lrMElUOxyREmdofT5V4NTv2OsVu
- j9ZjnOCERSVhn21iKnhTEs6phvFP+tdO+7I6xhpyebypotqAniwC8qtho0PqVIIlcGd0
- cq5pneEilvA5YsID3CZ659BqaunwtDZIEvTqI2jGdNlK+s7A3tR0tB27wCGdnB4oAubM
- g88rbz+VGzukCglEvh2DZwdbplUCoDSreamgsJLzf3A3gpipiDJcxR27pelpOoDl3ZMa
- SokVBeFfAjxZ2b6QuTAfGU6TTzpjQH02aOPahEp/YoXE42GksJSlCBCLCNTu93zd5B8a
- j52g==
-X-Gm-Message-State: AOAM532M5BLPLzpcy0MtqwgUNbgivEAZpE0Wwmm5jQzYoXoaMs7/7/+Z
- 8caNicF3jTFouy6Qw/jSkSKK0sszLEOycaby1XmvdYS5ikYN0fh4CxtGV61xr9a9H4yXMUwNA/f
- 59nvgROPVFz1jKCw=
-X-Received: by 2002:adf:ef02:: with SMTP id e2mr16061267wro.381.1603705803513; 
- Mon, 26 Oct 2020 02:50:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzJNqe6vFbKo9qeui/l3RUbOgJwYNBGKUFSv7WCvV/tGnlm2THaQy9a7kf0nP5Nu8i5ZwzoIA==
-X-Received: by 2002:adf:ef02:: with SMTP id e2mr16061244wro.381.1603705803256; 
- Mon, 26 Oct 2020 02:50:03 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id l6sm23073481wrt.7.2020.10.26.02.50.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 02:50:02 -0700 (PDT)
-Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
-Date: Mon, 26 Oct 2020 10:50:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=JtBvTBYuFiOb6GeNPX+1IvLQcxRnqQU8PYKj+vwd0+w=;
+ b=LJbI+jOP6CpEdlhC2WP90deIFX+rZWPcKAqVT6/GP8Hf1s4bi2gOZDDnUyKGZXqnSiulhm
+ kW7EWUEw018KEiDWoIcpkRz8KG2ohMaAd5Pco2CoyMmbuRe4eXwKudYlVv1eUZmnhLHp74
+ Z7GPWbBdpoQcyrAfuFKXUge5kvwQ3fs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-cOxLbZ42MTyE9AazQD2HUQ-1; Mon, 26 Oct 2020 05:51:19 -0400
+X-MC-Unique: cOxLbZ42MTyE9AazQD2HUQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 668481009E2D;
+ Mon, 26 Oct 2020 09:51:17 +0000 (UTC)
+Received: from starship (unknown [10.35.206.187])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B79EA5B4B3;
+ Mon, 26 Oct 2020 09:51:11 +0000 (UTC)
+Message-ID: <f90ddef4bccccb5b7edf8417e4b4e0898021d88e.camel@redhat.com>
+Subject: Re: [PATCH RESEND v2 1/7] tests/migration: fix memleak in
+ wait_command/wait_command_fd
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org, 
+ qemu-trivial@nongnu.org
+Date: Mon, 26 Oct 2020 11:51:09 +0200
+In-Reply-To: <20201023061218.2080844-2-kuhn.chenqun@huawei.com>
+References: <20201023061218.2080844-1-kuhn.chenqun@huawei.com>
+ <20201023061218.2080844-2-kuhn.chenqun@huawei.com>
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
-In-Reply-To: <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -87,9 +70,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,28 +84,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: lvivier@redhat.com, Thomas Huth <thuth@redhat.com>,
+ zhang.zhanghailiang@huawei.com, pannengyuan@huawei.com, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/10/20 22:06, Daniele Buono wrote:
-> 1 error generated.
+On Fri, 2020-10-23 at 14:12 +0800, Chen Qun wrote:
+> Properly free each command resp to avoid memory leak.
+> ASAN shows memory leak stack:
 > 
-> The data structure is UASStatus, which must end with a QTAILQ_ENTRY, so
-> I believe we cannot have uas_iu at the end. Since this is a gnu
-> extension but CLANG supports it, just add
-> -Wno-gnu-variable-sized-type-not-at-end
+> Indirect leak of 2352520 byte(s) in 571 object(s) allocated from:
+>     #0 0x7f6ca3308d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
+>     #1 0x7f6ca3127a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
+>     #2 0x557bf3c71d2b in qdict_new ../qobject/qdict.c:29
+>     #3 0x557bf3c9caba in parse_object ../qobject/json-parser.c:318
+>     #4 0x557bf3c9ce75 in json_parser_parse ../qobject/json-parser.c:580
+>     #5 0x557bf3c8c8cf in json_message_process_token ../qobject/json-streamer.c:92
+>     #6 0x557bf3c9ea59 in json_lexer_feed_char ../qobject/json-lexer.c:313
+>     #7 0x557bf3c9eeb5 in json_lexer_feed ../qobject/json-lexer.c:350
+>     #8 0x557bf3c4793a in qmp_fd_receive ../tests/qtest/libqtest.c:608
+>     #9 0x557bf3c47b58 in qtest_qmp_receive ../tests/qtest/libqtest.c:618
+>     #10 0x557bf3c44245 in wait_command ../tests/qtest/migration-helpers.c:59
+>     #11 0x557bf3c445cb in migrate_query_status ../tests/qtest/migration-helpers.c:108
+>     #12 0x557bf3c44642 in check_migration_status ../tests/qtest/migration-helpers.c:124
+>     #13 0x557bf3c447e7 in wait_for_migration_status ../tests/qtest/migration-helpers.c:148
+>     #14 0x557bf3c43b8f in test_migrate_auto_converge ../tests/qtest/migration-test.c:1243
+>     ......
+> 
+> Fix: 5e34005571af5
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> ---
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Maxim Levitsky <mlevitsk@redhat.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  tests/qtest/migration-helpers.c | 16 ++++++++++++----
+>  1 file changed, 12 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+> index b799dbafb7..4ee26014b7 100644
+> --- a/tests/qtest/migration-helpers.c
+> +++ b/tests/qtest/migration-helpers.c
+> @@ -32,7 +32,7 @@ static void check_stop_event(QTestState *who)
+>  QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+>  {
+>      va_list ap;
+> -    QDict *resp;
+> +    QDict *resp, *ret;
+>  
+>      va_start(ap, command);
+>      qtest_qmp_vsend_fds(who, &fd, 1, command, ap);
+> @@ -44,7 +44,11 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+>      g_assert(!qdict_haskey(resp, "error"));
+>      g_assert(qdict_haskey(resp, "return"));
+>  
+> -    return qdict_get_qdict(resp, "return");
+> +    ret = qdict_get_qdict(resp, "return");
+> +    qobject_ref(ret);
+> +    qobject_unref(resp);
+> +
+> +    return ret;
+>  }
+>  
+>  /*
+> @@ -53,7 +57,7 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+>  QDict *wait_command(QTestState *who, const char *command, ...)
+>  {
+>      va_list ap;
+> -    QDict *resp;
+> +    QDict *resp, *ret;
+>  
+>      va_start(ap, command);
+>      resp = qtest_vqmp(who, command, ap);
+> @@ -64,7 +68,11 @@ QDict *wait_command(QTestState *who, const char *command, ...)
+>      g_assert(!qdict_haskey(resp, "error"));
+>      g_assert(qdict_haskey(resp, "return"));
+>  
+> -    return qdict_get_qdict(resp, "return");
+> +    ret = qdict_get_qdict(resp, "return");
+> +    qobject_ref(ret);
+> +    qobject_unref(resp);
+> +
+> +    return ret;
+>  }
+>  
+>  /*
+This is a funny one. I was thinking that reference counters in qobject should take care of this.
+I guess not.
 
-This is potentially a real bug, in this case it works only because
-UASStatus's packet is never uas_iu_command (which has the variable sized
-type).
+Thanks for fixing it.
 
-The QTAILQ_ENTRY need not be at the end, please rearrange UASStatus's
-field so that the "usb_ui status" field is the last.
+Best regards,
+	Maxim Levitsky
 
-Thanks,
-
-Paolo
 
 
