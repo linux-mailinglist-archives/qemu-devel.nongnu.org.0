@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0E2298E6E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:48:24 +0100 (CET)
-Received: from localhost ([::1]:54710 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2588F298E57
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:45:11 +0100 (CET)
+Received: from localhost ([::1]:45264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX2rH-0001Xs-Be
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:48:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37596)
+	id 1kX2oA-0005vN-4v
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:45:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kX2mM-00044u-Ql
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:43:18 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2364)
+ id 1kX2mN-00045n-6O
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:43:19 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2361)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kX2mH-0000Jm-Li
+ id 1kX2mH-0000Jl-Lg
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:43:18 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CKbd22lSZz15M5N;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CKbd232rgz15MRD;
  Mon, 26 Oct 2020 21:43:02 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 26 Oct 2020
- 21:42:49 +0800
+ 21:42:50 +0800
 From: Chuan Zheng <zhengchuan@huawei.com>
 To: <quintela@redhat.com>, <dgilbert@redhat.com>
-Subject: [PATCH v1 2/4] migration/debug: Implement migration memory
+Subject: [PATCH v1 3/4] migration/debug: add checkpoint for migration
  consistency check
-Date: Mon, 26 Oct 2020 21:58:43 +0800
-Message-ID: <1603720725-81206-3-git-send-email-zhengchuan@huawei.com>
+Date: Mon, 26 Oct 2020 21:58:44 +0800
+Message-ID: <1603720725-81206-4-git-send-email-zhengchuan@huawei.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603720725-81206-1-git-send-email-zhengchuan@huawei.com>
 References: <1603720725-81206-1-git-send-email-zhengchuan@huawei.com>
@@ -65,123 +65,42 @@ Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Traverse all migratable ramblocks, calculate sha256 for memory consistency check
-
 Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 ---
- migration/ram.c | 73 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- migration/ram.h |  7 ++++++
- 2 files changed, 80 insertions(+)
+ migration/migration.c | 1 +
+ migration/savevm.c    | 7 +++++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index aa39908..f04594e 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -55,6 +55,8 @@
- #include "sysemu/cpu-throttle.h"
- #include "savevm.h"
- #include "qemu/iov.h"
-+#include "crypto/hash.h"
-+#include "qemu/typedefs.h"
- #include "multifd.h"
+diff --git a/migration/migration.c b/migration/migration.c
+index 0575ecb..f4434c4 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1678,6 +1678,7 @@ static void migrate_fd_cleanup(MigrationState *s)
+         tmp = s->to_dst_file;
+         s->to_dst_file = NULL;
+         qemu_mutex_unlock(&s->qemu_file_lock);
++        MIGRATION_RAM_CONSISTENCY_CHECK();
+         /*
+          * Close the file handle without the lock to make sure the
+          * critical section won't block for long.
+diff --git a/migration/savevm.c b/migration/savevm.c
+index ff33e21..5f989a8 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -2636,6 +2636,13 @@ int qemu_loadvm_state(QEMUFile *f)
+     }
  
- /***********************************************************/
-@@ -198,6 +200,77 @@ int foreach_not_ignored_block(RAMBlockIterFunc func, void *opaque)
+     qemu_loadvm_state_cleanup();
++    /*
++     * cpu_synchronize_all_post_init->kvm_put_msrs will update the
++     * kvmclock share-mem.
++     * So this's the latest point at which the ram is the same as source
++     */
++    MIGRATION_RAM_CONSISTENCY_CHECK();
++
+     cpu_synchronize_all_post_init();
+ 
      return ret;
- }
- 
-+#define SHA256_DIGEST_LENGTH 32
-+#define SHA256_CHUNK_SIZE 0x80000000
-+
-+static void ram_debug_dump_sha256(uint8_t *md, const char *idstr,
-+                                  const char *prefix)
-+{
-+    int i;
-+    char buf[2 * SHA256_DIGEST_LENGTH + 1] = { 0 };
-+
-+    for (i = 0; i < SHA256_DIGEST_LENGTH; i++) {
-+        sprintf(&buf[2 * i], "%02x", md[i]);
-+    }
-+
-+    fprintf(stderr, "CheckPoint: %s, Ramblock: %s, CheckValue: %s\n",
-+            prefix, idstr, buf);
-+}
-+
-+static void ram_debug_calc_sha256(RAMBlock *block, const char *idstr,
-+                                  const char *prefix)
-+{
-+    uint8_t *md = NULL;
-+    size_t sha256_len;
-+    size_t i, niov;
-+    void *addr = NULL;
-+    ram_addr_t remaining = 0;
-+    size_t resultlen = 0;
-+    struct iovec *iov_array = NULL;
-+
-+    sha256_len = qcrypto_hash_digest_len(QCRYPTO_HASH_ALG_SHA256);
-+    assert(sha256_len == SHA256_DIGEST_LENGTH);
-+
-+    niov = DIV_ROUND_UP(qemu_ram_get_used_length(block), SHA256_CHUNK_SIZE);
-+    iov_array = g_malloc0_n(niov, sizeof(struct iovec));
-+
-+    addr = qemu_ram_get_host_addr(block);
-+    remaining = qemu_ram_get_used_length(block);
-+    for (i = 0; i < niov; i++) {
-+        iov_array[i].iov_base = addr;
-+        iov_array[i].iov_len = MIN(SHA256_CHUNK_SIZE, remaining);
-+        addr += SHA256_CHUNK_SIZE;
-+        remaining -= SHA256_CHUNK_SIZE;
-+    }
-+
-+    if (qcrypto_hash_bytesv(QCRYPTO_HASH_ALG_SHA256,
-+                            iov_array, niov,
-+                            &md, &resultlen, NULL) || !md) {
-+        fprintf(stderr, "Consistency check(%s) calc failed.\n", prefix);
-+        goto out;
-+    }
-+
-+    ram_debug_dump_sha256(md, idstr, prefix);
-+
-+out:
-+    g_free(iov_array);
-+}
-+
-+static int ram_debug_consistency(RAMBlock *block, void *opaque)
-+{
-+    const char *prefix = opaque;
-+    const char *idstr = qemu_ram_get_idstr(block);
-+
-+    ram_debug_calc_sha256(block, idstr, prefix);
-+
-+    return 0;
-+}
-+
-+void migration_debug_ram_consistency(const char *prefix)
-+{
-+    foreach_migratable_block(ram_debug_consistency, (void *)prefix);
-+}
-+
- static void ramblock_recv_map_init(void)
- {
-     RAMBlock *rb;
-diff --git a/migration/ram.h b/migration/ram.h
-index 011e854..d73de6e 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -47,6 +47,13 @@ bool ramblock_is_ignored(RAMBlock *block);
-     INTERNAL_RAMBLOCK_FOREACH(block)                   \
-         if (!qemu_ram_is_migratable(block)) {} else
- 
-+void migration_debug_ram_consistency(const char *prefix);
-+
-+#define MIGRATION_RAM_CONSISTENCY_CHECK()              \
-+do {                                              \
-+        migration_debug_ram_consistency(__func__);      \
-+} while (0)
-+
- int xbzrle_cache_resize(int64_t new_size, Error **errp);
- uint64_t ram_bytes_remaining(void);
- uint64_t ram_bytes_total(void);
 -- 
 1.8.3.1
 
