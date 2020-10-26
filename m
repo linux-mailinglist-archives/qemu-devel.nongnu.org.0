@@ -2,57 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4B829979E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:08:12 +0100 (CET)
-Received: from localhost ([::1]:59084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3D62997AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:10:24 +0100 (CET)
+Received: from localhost ([::1]:39298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8mp-0007r8-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33776)
+	id 1kX8ox-0002we-BD
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:10:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Om-0006a2-MK
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50536)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Oq-0006kF-OD
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48275)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Oh-00038K-K4
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:20 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Oo-0003A6-WF
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603741394;
+ s=mimecast20190719; t=1603741402;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NS7GuZOZomlBwMDkfqMsEGS70Im1nb/zmllpfmWqJaM=;
- b=elSvWb5ois9bXL/navVsIBcs0Ble/ZFNYYSCGStJw9jzJ9sqS/2X5WlhmAlcPFHd27bp2b
- pe1AD8da5Ex7WOZWwYGb2raf/AyX54FtdApb7+CpTsSub9kH7oja3YenSdD59pJCpoSGZX
- sRzLh+UcUUoaS5bN06YDDCEyHbTMRO4=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ePw0EaZzkVqBbN+XU8sirJDxGZiTpNa05NyICZwsolQ=;
+ b=ebnn9IC/ZA9N72n85PZ+ikqPKPpkrh/DakQ4UVIAxASAHOmb53A31NCPBCCPnREuLJsjoX
+ k/1+wcCg1v16HkBcmSdimUxL4rTLeR0I+iBPUcjTIxKtHdQz6v3eVjGC4MeD+CNGJR4JfT
+ Iko4qmIFSxon6EaaYsmcgHhoTN0YoLQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-267-kH3TNXVcPaybA14AuKXQ2Q-1; Mon, 26 Oct 2020 15:43:11 -0400
-X-MC-Unique: kH3TNXVcPaybA14AuKXQ2Q-1
+ us-mta-361-gOcsMeqdP5KwoKvFE0PWeg-1; Mon, 26 Oct 2020 15:43:20 -0400
+X-MC-Unique: gOcsMeqdP5KwoKvFE0PWeg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B41C88C7AA
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0950108BC09
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A35605B4C9;
- Mon, 26 Oct 2020 19:42:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E46AE7B7A8;
+ Mon, 26 Oct 2020 19:43:08 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 00/11] qapi: static typing conversion, pt2
-Date: Mon, 26 Oct 2020 15:42:40 -0400
-Message-Id: <20201026194251.11075-1-jsnow@redhat.com>
+Subject: [PATCH v2 02/11] [DO-NOT-MERGE] docs/sphinx: change default role to
+ "any"
+Date: Mon, 26 Oct 2020 15:42:42 -0400
+Message-Id: <20201026194251.11075-3-jsnow@redhat.com>
+In-Reply-To: <20201026194251.11075-1-jsnow@redhat.com>
+References: <20201026194251.11075-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
@@ -81,93 +85,29 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, this series adds static type hints to the QAPI module.=0D
-This is part two, and covers introspect.py.=0D
-=0D
-Part 2: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt2=0D
-Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
-=0D
-- Requires Python 3.6+=0D
-- Requires mypy 0.770 or newer (for type analysis only)=0D
-- Requires pylint 2.6.0 or newer (for lint checking only)=0D
-=0D
-Type hints are added in patches that add *only* type hints and change no=0D
-other behavior. Any necessary changes to behavior to accommodate typing=0D
-are split out into their own tiny patches.=0D
-=0D
-Every commit should pass with:=0D
- - flake8 qapi/=0D
- - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
- - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
-=0D
-V2:=0D
- - Dropped all R-B from previous series; enough has changed.=0D
- - pt2 is now introspect.py, expr.py is pushed to pt3.=0D
- - Reworked again to have less confusing (?) type names=0D
- - Added an assertion to prevent future accidental breakage=0D
-=0D
-John Snow (11):=0D
-  [DO-NOT-MERGE] docs: replace single backtick (`) with double-backtick=0D
-    (``)=0D
-  [DO-NOT-MERGE] docs/sphinx: change default role to "any"=0D
-  [DO-NOT-MERGE] docs: enable sphinx-autodoc for scripts/qapi=0D
-  qapi/introspect.py: add assertions and casts=0D
-  qapi/introspect.py: add preliminary type hint annotations=0D
-  qapi/introspect.py: add _gen_features helper=0D
-  qapi/introspect.py: Unify return type of _make_tree()=0D
-  qapi/introspect.py: replace 'extra' dict with 'comment' argument=0D
-  qapi/introspect.py: create a typed 'Annotated' data strutcure=0D
-  qapi/introspect.py: improve readability of _tree_to_qlit=0D
-  qapi/introspect.py: Add docstring to _tree_to_qlit=0D
-=0D
- docs/conf.py                           |   6 +-=0D
- docs/devel/build-system.rst            | 120 +++++------=0D
- docs/devel/index.rst                   |   1 +=0D
- docs/devel/migration.rst               |  59 +++---=0D
- docs/devel/python/index.rst            |   7 +=0D
- docs/devel/python/qapi.commands.rst    |   7 +=0D
- docs/devel/python/qapi.common.rst      |   7 +=0D
- docs/devel/python/qapi.error.rst       |   7 +=0D
- docs/devel/python/qapi.events.rst      |   7 +=0D
- docs/devel/python/qapi.expr.rst        |   7 +=0D
- docs/devel/python/qapi.gen.rst         |   7 +=0D
- docs/devel/python/qapi.introspect.rst  |   7 +=0D
- docs/devel/python/qapi.main.rst        |   7 +=0D
- docs/devel/python/qapi.parser.rst      |   8 +=0D
- docs/devel/python/qapi.rst             |  26 +++=0D
- docs/devel/python/qapi.schema.rst      |   7 +=0D
- docs/devel/python/qapi.source.rst      |   7 +=0D
- docs/devel/python/qapi.types.rst       |   7 +=0D
- docs/devel/python/qapi.visit.rst       |   7 +=0D
- docs/devel/tcg-plugins.rst             |  14 +-=0D
- docs/devel/testing.rst                 |   2 +-=0D
- docs/interop/live-block-operations.rst |   4 +-=0D
- docs/system/arm/cpu-features.rst       | 110 +++++-----=0D
- docs/system/arm/nuvoton.rst            |   2 +-=0D
- docs/system/s390x/protvirt.rst         |  10 +-=0D
- qapi/block-core.json                   |   4 +-=0D
- scripts/qapi/introspect.py             | 277 +++++++++++++++++--------=0D
- scripts/qapi/mypy.ini                  |   5 -=0D
- scripts/qapi/schema.py                 |   2 +-=0D
- 29 files changed, 487 insertions(+), 254 deletions(-)=0D
- create mode 100644 docs/devel/python/index.rst=0D
- create mode 100644 docs/devel/python/qapi.commands.rst=0D
- create mode 100644 docs/devel/python/qapi.common.rst=0D
- create mode 100644 docs/devel/python/qapi.error.rst=0D
- create mode 100644 docs/devel/python/qapi.events.rst=0D
- create mode 100644 docs/devel/python/qapi.expr.rst=0D
- create mode 100644 docs/devel/python/qapi.gen.rst=0D
- create mode 100644 docs/devel/python/qapi.introspect.rst=0D
- create mode 100644 docs/devel/python/qapi.main.rst=0D
- create mode 100644 docs/devel/python/qapi.parser.rst=0D
- create mode 100644 docs/devel/python/qapi.rst=0D
- create mode 100644 docs/devel/python/qapi.schema.rst=0D
- create mode 100644 docs/devel/python/qapi.source.rst=0D
- create mode 100644 docs/devel/python/qapi.types.rst=0D
- create mode 100644 docs/devel/python/qapi.visit.rst=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+This interprets single-backtick syntax in all of our Sphinx docs as a
+cross-reference to *something*, including Python symbols.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ docs/conf.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/docs/conf.py b/docs/conf.py
+index e584f683938..bbc71ebdc36 100644
+--- a/docs/conf.py
++++ b/docs/conf.py
+@@ -84,6 +84,9 @@
+ # The master toctree document.
+ master_doc = 'index'
+ 
++# Interpret `this` to be a cross-reference to "anything".
++default_role = 'any'
++
+ # General information about the project.
+ project = u'QEMU'
+ copyright = u'2020, The QEMU Project Developers'
+-- 
+2.26.2
 
 
