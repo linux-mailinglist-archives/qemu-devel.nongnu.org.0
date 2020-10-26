@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC1F298A04
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:08:46 +0100 (CET)
-Received: from localhost ([::1]:32998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6D8A298A15
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:13:28 +0100 (CET)
+Received: from localhost ([::1]:49446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzQj-0004ET-GD
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:08:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38698)
+	id 1kWzVH-0002lL-Lu
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:13:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOs-0002T6-7m
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOs-0002TL-C6
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34842)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOp-0006cB-9H
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:49 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOq-0006ch-N8
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706806;
+ s=mimecast20190719; t=1603706808;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=7py8/BqSRsB8PFotGN4dp1fcL9wxowisE7ZbOTCvJQs=;
- b=T0FnZH95nVSnQIVllOAZgHoIiNFMB2q9ORHqrMSoSn1tWlGwhiJguehWG3TXNOQowBM9gH
- QvBx9iRb+ykG7v5GJHYg0xeUTBoGUArL9vmwrLuugFyUKm48aSJdp9jnQc9c5AdIsITc7+
- UZwDn5ZBghMoNWfuvTNtlEIZdWHEZTE=
+ references:references; bh=q3npmmAYQgwjsXjr7HvTSfti3EGmRvKx+HzB3bP0fMU=;
+ b=RVkzIAbY+UBsSGiuXKjth56rRC5YLayos3ZUA6jreK5BpcToWa0WlMw3TgrWNKrN+UQUB/
+ 6DL9jTOSXFuFLygbdqJC9rcZcRASn4U9E4btTH/X9fpeDTAqPXHwdocfaLnIHhRqGMuWiI
+ emYr38MRDtfpueIIjy2lCnHDzm8fN+c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-353-MqbfGWHMPYqtKODVByZVCA-1; Mon, 26 Oct 2020 06:06:44 -0400
-X-MC-Unique: MqbfGWHMPYqtKODVByZVCA-1
+ us-mta-433-PffQBB1kPv-dYq66yNKTjQ-1; Mon, 26 Oct 2020 06:06:45 -0400
+X-MC-Unique: PffQBB1kPv-dYq66yNKTjQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E934800D53;
- Mon, 26 Oct 2020 10:06:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 992716123A;
+ Mon, 26 Oct 2020 10:06:44 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 238398B846;
- Mon, 26 Oct 2020 10:06:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7E86E8B843;
+ Mon, 26 Oct 2020 10:06:43 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 05/31] accel: Add xen CpusAccel using dummy-cpus
-Date: Mon, 26 Oct 2020 11:06:06 +0100
-Message-Id: <20201026100632.212530-6-thuth@redhat.com>
+Subject: [PULL 06/31] tests/qtest: Make npcm7xx_timer-test conditional on
+ CONFIG_NPCM7XX
+Date: Mon, 26 Oct 2020 11:06:07 +0100
+Message-Id: <20201026100632.212530-7-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -79,69 +80,37 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Andryuk <jandryuk@gmail.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-Xen was broken by commit 1583a3898853 ("cpus: extract out qtest-specific
-code to accel/qtest").  Xen relied on qemu_init_vcpu() calling
-qemu_dummy_start_vcpu() in the default case, but that was replaced by
-g_assert_not_reached().
+This test won't work if qemu was compiled without CONFIG_NPCM7XX, as
+pointed out by Thomas Huth on a different patch.
 
-Add a minimal "CpusAccel" for Xen using the dummy-cpus implementation
-used by qtest.
-
-Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
-Message-Id: <20201013140511.5681-4-jandryuk@gmail.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Acked-by: Anthony PERARD <anthony.perard@citrix.com>
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+Message-Id: <20201023210637.351238-2-hskinnemoen@google.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- accel/meson.build   | 1 +
- accel/xen/xen-all.c | 8 ++++++++
- 2 files changed, 9 insertions(+)
+ tests/qtest/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/accel/meson.build b/accel/meson.build
-index 9a417396bd..b26cca227a 100644
---- a/accel/meson.build
-+++ b/accel/meson.build
-@@ -12,3 +12,4 @@ dummy_ss.add(files(
- ))
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 28d4068718..7e0ecaa2c5 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -133,12 +133,13 @@ qtests_sparc64 = \
+   (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
+   ['prom-env-test', 'boot-serial-test']
  
- specific_ss.add_all(when: ['CONFIG_SOFTMMU', 'CONFIG_POSIX'], if_true: dummy_ss)
-+specific_ss.add_all(when: ['CONFIG_XEN'], if_true: dummy_ss)
-diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
-index 60b971d0a8..878a4089d9 100644
---- a/accel/xen/xen-all.c
-+++ b/accel/xen/xen-all.c
-@@ -16,6 +16,7 @@
- #include "hw/xen/xen_pt.h"
- #include "chardev/char.h"
- #include "sysemu/accel.h"
-+#include "sysemu/cpus.h"
- #include "sysemu/xen.h"
- #include "sysemu/runstate.h"
- #include "migration/misc.h"
-@@ -153,6 +154,10 @@ static void xen_setup_post(MachineState *ms, AccelState *accel)
-     }
- }
- 
-+const CpusAccel xen_cpus = {
-+    .create_vcpu_thread = dummy_start_vcpu_thread,
-+};
-+
- static int xen_init(MachineState *ms)
- {
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-@@ -180,6 +185,9 @@ static int xen_init(MachineState *ms)
-      * opt out of system RAM being allocated by generic code
-      */
-     mc->default_ram_id = NULL;
-+
-+    cpus_register_accel(&xen_cpus);
-+
-     return 0;
- }
- 
++qtests_npcm7xx = ['npcm7xx_timer-test']
+ qtests_arm = \
+   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
++  (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
+   ['arm-cpu-features',
+    'microbit-test',
+    'm25p80-test',
+-   'npcm7xx_timer-test',
+    'test-arm-mptimer',
+    'boot-serial-test',
+    'hexloader-test']
 -- 
 2.18.2
 
