@@ -2,54 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D880C2995D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:53:42 +0100 (CET)
-Received: from localhost ([::1]:43080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF1B2995B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:50:18 +0100 (CET)
+Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7cj-0002nT-TI
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:53:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45716)
+	id 1kX7ZR-00075h-4F
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:50:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7TE-0001mY-Ix
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49184)
+ id 1kX7TI-0001s5-8h
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7TC-0003Yq-NT
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:52 -0400
+ id 1kX7TF-0003Za-Vg
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603737830;
+ s=mimecast20190719; t=1603737833;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xPCkua7gV4LrgXrFdgJVa7CS07YPMvArpaMM7Iipcmk=;
- b=Qiab494s6Hiz/yfYPxMwa1615qav7EKCBpg8F4ex1bVCTMJiEUQOP2z8eakqO+Ab/djxwb
- BM/ns9yxtgrcIezwwL8M+nc3xD7HZXi/vpbDDsNRM0QPp5KQp9z4N31+C8kP2ouBmbvHFc
- SFxXIQrYwFSyGzT9Ne7ZlnbBjAaehpc=
+ bh=Sv1Qo7+CsFfaWKxUVr6u+y/lgrQ3vfxM4FjjEsXHMcc=;
+ b=XLDRlaE9mdy3V93mhRoLbjgj6MbR/wmSWa5PSL2Le64o/csQhZFr2lBsA3ErC6LekNxnmU
+ 3KJZJIOdRDp8I3AwAnhz0Tfvfaumst/NWg5Pp9s3UXPfUNHuMmHelR0C5bX8faCzpqtrB1
+ H7GgCz81MPRQpIwW7nwUnHANZv0PlrM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-517-7kq7t3RtOvaOek2xECjH0g-1; Mon, 26 Oct 2020 14:43:47 -0400
-X-MC-Unique: 7kq7t3RtOvaOek2xECjH0g-1
+ us-mta-581-bpvbcnEKPnCD66Iyn3wFUw-1; Mon, 26 Oct 2020 14:43:49 -0400
+X-MC-Unique: bpvbcnEKPnCD66Iyn3wFUw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A20381009E30;
- Mon, 26 Oct 2020 18:43:46 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BCBA1074649;
+ Mon, 26 Oct 2020 18:43:48 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3BE695D9CA;
- Mon, 26 Oct 2020 18:43:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F25DD5D9CA;
+ Mon, 26 Oct 2020 18:43:46 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com,
  misono.tomohiro@jp.fujitsu.com
-Subject: [PULL 03/16] virtiofsd: add container-friendly -o sandbox=chroot
- option
-Date: Mon, 26 Oct 2020 18:43:18 +0000
-Message-Id: <20201026184331.272953-4-dgilbert@redhat.com>
+Subject: [PULL 04/16] tools/virtiofsd: xattr name mappings: Add option
+Date: Mon, 26 Oct 2020 18:43:19 +0000
+Message-Id: <20201026184331.272953-5-dgilbert@redhat.com>
 In-Reply-To: <20201026184331.272953-1-dgilbert@redhat.com>
 References: <20201026184331.272953-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -87,207 +86,368 @@ Cc: virtio-fs@redhat.com, vgoyal@Redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-virtiofsd cannot run in a container because CAP_SYS_ADMIN is required to
-create namespaces.
+Add an option to define mappings of xattr names so that
+the client and server filesystems see different views.
+This can be used to have different SELinux mappings as
+seen by the guest, to run the virtiofsd with less privileges
+(e.g. in a case where it can't set trusted/system/security
+xattrs but you want the guest to be able to), or to isolate
+multiple users of the same name; e.g. trusted attributes
+used by stacking overlayfs.
 
-Introduce a weaker sandbox mode that is sufficient in container
-environments because the container runtime already sets up namespaces.
-Use chroot to restrict path traversal to the shared directory.
+A mapping engine is used with 3 simple rules; the rules can
+be combined to allow most useful mapping scenarios.
+The ruleset is defined by -o xattrmap='rules...'.
 
-virtiofsd loses the following:
+This patch doesn't use the rule maps yet.
 
-1. Mount namespace. The process chroots to the shared directory but
-   leaves the mounts in place. Seccomp rejects mount(2)/umount(2)
-   syscalls.
-
-2. Pid namespace. This should be fine because virtiofsd is the only
-   process running in the container.
-
-3. Network namespace. This should be fine because seccomp already
-   rejects the connect(2) syscall, but an additional layer of security
-   is lost. Container runtime-specific network security policies can be
-   used drop network traffic (except for the vhost-user UNIX domain
-   socket).
-
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201008085534.16070-1-stefanha@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Message-Id: <20201023165812.36028-2-dgilbert@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- docs/tools/virtiofsd.rst         | 32 ++++++++++++++----
- tools/virtiofsd/helper.c         |  8 +++++
- tools/virtiofsd/passthrough_ll.c | 57 ++++++++++++++++++++++++++++++--
- 3 files changed, 88 insertions(+), 9 deletions(-)
+ docs/tools/virtiofsd.rst         |  92 ++++++++++++++++
+ tools/virtiofsd/passthrough_ll.c | 173 +++++++++++++++++++++++++++++++
+ 2 files changed, 265 insertions(+)
 
 diff --git a/docs/tools/virtiofsd.rst b/docs/tools/virtiofsd.rst
-index 7ecee49834..65f8e76569 100644
+index 65f8e76569..67c16f9df0 100644
 --- a/docs/tools/virtiofsd.rst
 +++ b/docs/tools/virtiofsd.rst
-@@ -17,13 +17,24 @@ This program is designed to work with QEMU's ``--device vhost-user-fs-pci``
- but should work with any virtual machine monitor (VMM) that supports
- vhost-user.  See the Examples section below.
+@@ -127,6 +127,98 @@ Options
+   timeout.  ``always`` sets a long cache lifetime at the expense of coherency.
+   The default is ``auto``.
  
--This program must be run as the root user.  Upon startup the program will
--switch into a new file system namespace with the shared directory tree as its
--root.  This prevents "file system escapes" due to symlinks and other file
--system objects that might lead to files outside the shared directory.  The
--program also sandboxes itself using seccomp(2) to prevent ptrace(2) and other
--vectors that could allow an attacker to compromise the system after gaining
--control of the virtiofsd process.
-+This program must be run as the root user.  The program drops privileges where
-+possible during startup although it must be able to create and access files
-+with any uid/gid:
++xattr-mapping
++-------------
 +
-+* The ability to invoke syscalls is limited using seccomp(2).
-+* Linux capabilities(7) are dropped.
++By default the name of xattr's used by the client are passed through to the server
++file system.  This can be a problem where either those xattr names are used
++by something on the server (e.g. selinux client/server confusion) or if the
++virtiofsd is running in a container with restricted privileges where it cannot
++access some attributes.
 +
-+In "namespace" sandbox mode the program switches into a new file system
-+namespace and invokes pivot_root(2) to make the shared directory tree its root.
-+A new pid and net namespace is also created to isolate the process.
++A mapping of xattr names can be made using -o xattrmap=mapping where the ``mapping``
++string consists of a series of rules.
 +
-+In "chroot" sandbox mode the program invokes chroot(2) to make the shared
-+directory tree its root. This mode is intended for container environments where
-+the container runtime has already set up the namespaces and the program does
-+not have permission to create namespaces itself.
++The first matching rule terminates the mapping.
++The set of rules must include a terminating rule to match any remaining attributes
++at the end.
 +
-+Both sandbox modes prevent "file system escapes" due to symlinks and other file
-+system objects that might lead to files outside the shared directory.
++Each rule consists of a number of fields separated with a separator that is the
++first non-white space character in the rule.  This separator must then be used
++for the whole rule.
++White space may be added before and after each rule.
++Using ':' as the separator a rule is of the form:
++
++``:type:scope:key:prepend:``
++
++**scope** is:
++
++- 'client' - match 'key' against a xattr name from the client for
++             setxattr/getxattr/removexattr
++- 'server' - match 'prepend' against a xattr name from the server
++             for listxattr
++- 'all' - can be used to make a single rule where both the server
++          and client matches are triggered.
++
++**type** is one of:
++
++- 'prefix' - is designed to prepend and strip a prefix;  the modified
++  attributes then being passed on to the client/server.
++
++- 'ok' - Causes the rule set to be terminated when a match is found
++  while allowing matching xattr's through unchanged.
++  It is intended both as a way of explicitly terminating
++  the list of rules, and to allow some xattr's to skip following rules.
++
++- 'bad' - If a client tries to use a name matching 'key' it's
++  denied using EPERM; when the server passes an attribute
++  name matching 'prepend' it's hidden.  In many ways it's use is very like
++  'ok' as either an explict terminator or for special handling of certain
++  patterns.
++
++**key** is a string tested as a prefix on an attribute name originating
++on the client.  It maybe empty in which case a 'client' rule
++will always match on client names.
++
++**prepend** is a string tested as a prefix on an attribute name originating
++on the server, and used as a new prefix.  It may be empty
++in which case a 'server' rule will always match on all names from
++the server.
++
++e.g.:
++
++  ``:prefix:client:trusted.:user.virtiofs.:``
++
++  will match 'trusted.' attributes in client calls and prefix them before
++  passing them to the server.
++
++  ``:prefix:server::user.virtiofs.:``
++
++  will strip 'user.virtiofs.' from all server replies.
++
++  ``:prefix:all:trusted.:user.virtiofs.:``
++
++  combines the previous two cases into a single rule.
++
++  ``:ok:client:user.::``
++
++  will allow get/set xattr for 'user.' xattr's and ignore
++  following rules.
++
++  ``:ok:server::security.:``
++
++  will pass 'securty.' xattr's in listxattr from the server
++  and ignore following rules.
++
++  ``:ok:all:::``
++
++  will terminate the rule search passing any remaining attributes
++  in both directions.
++
++  ``:bad:server::security.:``
++
++  would hide 'security.' xattr's in listxattr from the server.
++
+ Examples
+ --------
  
- Options
- -------
-@@ -69,6 +80,13 @@ Options
-   * readdirplus|no_readdirplus -
-     Enable/disable readdirplus.  The default is ``readdirplus``.
- 
-+  * sandbox=namespace|chroot -
-+    Sandbox mode:
-+    - namespace: Create mount, pid, and net namespaces and pivot_root(2) into
-+    the shared directory.
-+    - chroot: chroot(2) into shared directory (use in containers).
-+    The default is "namespace".
-+
-   * source=PATH -
-     Share host directory tree located at PATH.  This option is required.
- 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 85770d63f1..2e181a49b5 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -166,6 +166,14 @@ void fuse_cmdline_help(void)
-            "                               enable/disable readirplus\n"
-            "                               default: readdirplus except with "
-            "cache=none\n"
-+           "    -o sandbox=namespace|chroot\n"
-+           "                               sandboxing mode:\n"
-+           "                               - namespace: mount, pid, and net\n"
-+           "                                 namespaces with pivot_root(2)\n"
-+           "                                 into shared directory\n"
-+           "                               - chroot: chroot(2) into shared\n"
-+           "                                 directory (use in containers)\n"
-+           "                               default: namespace\n"
-            "    -o timeout=<number>        I/O timeout (seconds)\n"
-            "                               default: depends on cache= option.\n"
-            "    -o writeback|no_writeback  enable/disable writeback cache\n"
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 13fdb12367..f03b1f9a69 100644
+index f03b1f9a69..cb24af27f5 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -137,8 +137,14 @@ enum {
-     CACHE_ALWAYS,
+@@ -64,6 +64,7 @@
+ #include <syslog.h>
+ #include <unistd.h>
+ 
++#include "qemu/cutils.h"
+ #include "passthrough_helpers.h"
+ #include "passthrough_seccomp.h"
+ 
+@@ -142,6 +143,12 @@ enum {
+     SANDBOX_CHROOT,
  };
  
-+enum {
-+    SANDBOX_NAMESPACE,
-+    SANDBOX_CHROOT,
-+};
++typedef struct xattr_map_entry {
++    char *key;
++    char *prepend;
++    unsigned int flags;
++} XattrMapEntry;
 +
  struct lo_data {
      pthread_mutex_t mutex;
-+    int sandbox;
-     int debug;
-     int writeback;
+     int sandbox;
+@@ -150,6 +157,7 @@ struct lo_data {
      int flock;
-@@ -163,6 +169,12 @@ struct lo_data {
- };
+     int posix_lock;
+     int xattr;
++    char *xattrmap;
+     char *source;
+     char *modcaps;
+     double timeout;
+@@ -163,6 +171,8 @@ struct lo_data {
+     struct lo_map ino_map; /* protected by lo->mutex */
+     struct lo_map dirp_map; /* protected by lo->mutex */
+     struct lo_map fd_map; /* protected by lo->mutex */
++    XattrMapEntry *xattr_map_list;
++    size_t xattr_map_nentries;
  
- static const struct fuse_opt lo_opts[] = {
-+    { "sandbox=namespace",
-+      offsetof(struct lo_data, sandbox),
-+      SANDBOX_NAMESPACE },
-+    { "sandbox=chroot",
-+      offsetof(struct lo_data, sandbox),
-+      SANDBOX_CHROOT },
-     { "writeback", offsetof(struct lo_data, writeback), 1 },
-     { "no_writeback", offsetof(struct lo_data, writeback), 0 },
-     { "source=%s", offsetof(struct lo_data, source), 0 },
-@@ -2660,6 +2672,41 @@ static void setup_capabilities(char *modcaps_in)
-     pthread_mutex_unlock(&cap.mutex);
+     /* An O_PATH file descriptor to /proc/self/fd/ */
+     int proc_self_fd;
+@@ -184,6 +194,7 @@ static const struct fuse_opt lo_opts[] = {
+     { "no_posix_lock", offsetof(struct lo_data, posix_lock), 0 },
+     { "xattr", offsetof(struct lo_data, xattr), 1 },
+     { "no_xattr", offsetof(struct lo_data, xattr), 0 },
++    { "xattrmap=%s", offsetof(struct lo_data, xattrmap), 0 },
+     { "modcaps=%s", offsetof(struct lo_data, modcaps), 0 },
+     { "timeout=%lf", offsetof(struct lo_data, timeout), 0 },
+     { "timeout=", offsetof(struct lo_data, timeout_set), 1 },
+@@ -2022,6 +2033,161 @@ static void lo_flock(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi,
+     fuse_reply_err(req, res == -1 ? errno : 0);
  }
  
++/* types */
 +/*
-+ * Use chroot as a weaker sandbox for environments where the process is
-+ * launched without CAP_SYS_ADMIN.
++ * Exit; process attribute unmodified if matched.
++ * An empty key applies to all.
 + */
-+static void setup_chroot(struct lo_data *lo)
++#define XATTR_MAP_FLAG_OK      (1 <<  0)
++/*
++ * The attribute is unwanted;
++ * EPERM on write, hidden on read.
++ */
++#define XATTR_MAP_FLAG_BAD     (1 <<  1)
++/*
++ * For attr that start with 'key' prepend 'prepend'
++ * 'key' may be empty to prepend for all attrs
++ * key is defined from set/remove point of view.
++ * Automatically reversed on read
++ */
++#define XATTR_MAP_FLAG_PREFIX  (1 <<  2)
++
++/* scopes */
++/* Apply rule to get/set/remove */
++#define XATTR_MAP_FLAG_CLIENT  (1 << 16)
++/* Apply rule to list */
++#define XATTR_MAP_FLAG_SERVER  (1 << 17)
++/* Apply rule to all */
++#define XATTR_MAP_FLAG_ALL   (XATTR_MAP_FLAG_SERVER | XATTR_MAP_FLAG_CLIENT)
++
++static void add_xattrmap_entry(struct lo_data *lo,
++                               const XattrMapEntry *new_entry)
 +{
-+    lo->proc_self_fd = open("/proc/self/fd", O_PATH);
-+    if (lo->proc_self_fd == -1) {
-+        fuse_log(FUSE_LOG_ERR, "open(\"/proc/self/fd\", O_PATH): %m\n");
-+        exit(1);
++    XattrMapEntry *res = g_realloc_n(lo->xattr_map_list,
++                                     lo->xattr_map_nentries + 1,
++                                     sizeof(XattrMapEntry));
++    res[lo->xattr_map_nentries++] = *new_entry;
++
++    lo->xattr_map_list = res;
++}
++
++static void free_xattrmap(struct lo_data *lo)
++{
++    XattrMapEntry *map = lo->xattr_map_list;
++    size_t i;
++
++    if (!map) {
++        return;
 +    }
 +
-+    /*
-+     * Make the shared directory the file system root so that FUSE_OPEN
-+     * (lo_open()) cannot escape the shared directory by opening a symlink.
-+     *
-+     * The chroot(2) syscall is later disabled by seccomp and the
-+     * CAP_SYS_CHROOT capability is dropped so that tampering with the chroot
-+     * is not possible.
-+     *
-+     * However, it's still possible to escape the chroot via lo->proc_self_fd
-+     * but that requires first gaining control of the process.
-+     */
-+    if (chroot(lo->source) != 0) {
-+        fuse_log(FUSE_LOG_ERR, "chroot(\"%s\"): %m\n", lo->source);
-+        exit(1);
++    for (i = 0; i < lo->xattr_map_nentries; i++) {
++        g_free(map[i].key);
++        g_free(map[i].prepend);
++    };
++
++    g_free(map);
++    lo->xattr_map_list = NULL;
++    lo->xattr_map_nentries = -1;
++}
++
++static void parse_xattrmap(struct lo_data *lo)
++{
++    const char *map = lo->xattrmap;
++    const char *tmp;
++
++    lo->xattr_map_nentries = 0;
++    while (*map) {
++        XattrMapEntry tmp_entry;
++        char sep;
++
++        if (isspace(*map)) {
++            map++;
++            continue;
++        }
++        /* The separator is the first non-space of the rule */
++        sep = *map++;
++        if (!sep) {
++            break;
++        }
++
++        tmp_entry.flags = 0;
++        /* Start of 'type' */
++        if (strstart(map, "prefix", &map)) {
++            tmp_entry.flags |= XATTR_MAP_FLAG_PREFIX;
++        } else if (strstart(map, "ok", &map)) {
++            tmp_entry.flags |= XATTR_MAP_FLAG_OK;
++        } else if (strstart(map, "bad", &map)) {
++            tmp_entry.flags |= XATTR_MAP_FLAG_BAD;
++        } else {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Unexpected type;"
++                     "Expecting 'prefix', 'ok', or 'bad' in rule %zu\n",
++                     __func__, lo->xattr_map_nentries);
++            exit(1);
++        }
++
++        if (*map++ != sep) {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Missing '%c' at end of type field of rule %zu\n",
++                     __func__, sep, lo->xattr_map_nentries);
++            exit(1);
++        }
++
++        /* Start of 'scope' */
++        if (strstart(map, "client", &map)) {
++            tmp_entry.flags |= XATTR_MAP_FLAG_CLIENT;
++        } else if (strstart(map, "server", &map)) {
++            tmp_entry.flags |= XATTR_MAP_FLAG_SERVER;
++        } else if (strstart(map, "all", &map)) {
++            tmp_entry.flags |= XATTR_MAP_FLAG_ALL;
++        } else {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Unexpected scope;"
++                     " Expecting 'client', 'server', or 'all', in rule %zu\n",
++                     __func__, lo->xattr_map_nentries);
++            exit(1);
++        }
++
++        if (*map++ != sep) {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Expecting '%c' found '%c'"
++                     " after scope in rule %zu\n",
++                     __func__, sep, *map, lo->xattr_map_nentries);
++            exit(1);
++        }
++
++        /* At start of 'key' field */
++        tmp = strchr(map, sep);
++        if (!tmp) {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Missing '%c' at end of key field of rule %zu",
++                     __func__, sep, lo->xattr_map_nentries);
++            exit(1);
++        }
++        tmp_entry.key = g_strndup(map, tmp - map);
++        map = tmp + 1;
++
++        /* At start of 'prepend' field */
++        tmp = strchr(map, sep);
++        if (!tmp) {
++            fuse_log(FUSE_LOG_ERR,
++                     "%s: Missing '%c' at end of prepend field of rule %zu",
++                     __func__, sep, lo->xattr_map_nentries);
++            exit(1);
++        }
++        tmp_entry.prepend = g_strndup(map, tmp - map);
++        map = tmp + 1;
++
++        add_xattrmap_entry(lo, &tmp_entry);
++        /* End of rule - go around again for another rule */
 +    }
 +
-+    /* Move into the chroot */
-+    if (chdir("/") != 0) {
-+        fuse_log(FUSE_LOG_ERR, "chdir(\"/\"): %m\n");
++    if (!lo->xattr_map_nentries) {
++        fuse_log(FUSE_LOG_ERR, "Empty xattr map\n");
 +        exit(1);
 +    }
 +}
 +
- /*
-  * Lock down this process to prevent access to other processes or files outside
-  * source directory.  This reduces the impact of arbitrary code execution bugs.
-@@ -2667,8 +2714,13 @@ static void setup_capabilities(char *modcaps_in)
- static void setup_sandbox(struct lo_data *lo, struct fuse_session *se,
-                           bool enable_syslog)
+ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
+                         size_t size)
  {
--    setup_namespaces(lo, se);
--    setup_mounts(lo->source);
-+    if (lo->sandbox == SANDBOX_NAMESPACE) {
-+        setup_namespaces(lo, se);
-+        setup_mounts(lo->source);
-+    } else {
-+        setup_chroot(lo);
+@@ -2858,6 +3024,8 @@ static void fuse_lo_data_cleanup(struct lo_data *lo)
+         close(lo->root.fd);
+     }
+ 
++    free(lo->xattrmap);
++    free_xattrmap(lo);
+     free(lo->source);
+ }
+ 
+@@ -2958,6 +3126,11 @@ int main(int argc, char *argv[])
+     } else {
+         lo.source = strdup("/");
+     }
++
++    if (lo.xattrmap) {
++        parse_xattrmap(&lo);
 +    }
 +
-     setup_seccomp(enable_syslog);
-     setup_capabilities(g_strdup(lo->modcaps));
- }
-@@ -2815,6 +2867,7 @@ int main(int argc, char *argv[])
-     struct fuse_session *se;
-     struct fuse_cmdline_opts opts;
-     struct lo_data lo = {
-+        .sandbox = SANDBOX_NAMESPACE,
-         .debug = 0,
-         .writeback = 0,
-         .posix_lock = 0,
+     if (!lo.timeout_set) {
+         switch (lo.cache) {
+         case CACHE_NONE:
 -- 
 2.28.0
 
