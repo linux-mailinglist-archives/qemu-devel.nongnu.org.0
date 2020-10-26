@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C9F9298E8E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:54:59 +0100 (CET)
-Received: from localhost ([::1]:40052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37CC0298EA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:57:59 +0100 (CET)
+Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX2xe-0007Ys-9I
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:54:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39486)
+	id 1kX30Y-0002zX-97
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:57:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2ud-0005eK-4b
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:51:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39031)
+ id 1kX2up-0005ld-JL
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:03 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28579)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2uS-0001l8-OZ
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:51:44 -0400
+ id 1kX2uf-0001mS-DT
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720299;
+ s=mimecast20190719; t=1603720305;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FbOo8wEROhvuapUxi+spC7ph9cftlZ0pa+Ca7HtewbE=;
- b=MUkdjHSi1EKhZogjI+nWlKLst0IaB5NhWs8p38f71GdXh9OxCPHNLRMKR5hhH851n/D/PK
- FhO2tzZaIyh01zm6ZUlCCmDVd6rIRAPQmwaB0W5+kTPDIjlVgJcqp3sDIZtVZYR/4sRJz4
- 1G9FuSPiHUelC+p82XUZbJgbazBnnNk=
+ bh=5LKvEkpPcLibyqkLS8s8WHoqonbFKyk3jZDn8Jd8wSQ=;
+ b=Pn2G1EQ4rvDMpcDH5JWajoukbS6937Zpfk2Nyzex2lnAOQb1FGBhCUlvkVJ+jP25AYII4V
+ b6a7nYYqqygNbWLUsjriCQN7vEmAaonCtQeO3BUm10jLyMRoDjy2K3YVFt42lG6fss9ta3
+ 7yLKu7yN4P013uw0s8ZA4VncG65F2pY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-2zJMmNioPzKPkXKfCoJg1A-1; Mon, 26 Oct 2020 09:51:36 -0400
-X-MC-Unique: 2zJMmNioPzKPkXKfCoJg1A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-91-We2Ts0oJP5epKsK1eGFYcQ-1; Mon, 26 Oct 2020 09:51:43 -0400
+X-MC-Unique: We2Ts0oJP5epKsK1eGFYcQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85C69188C12D;
- Mon, 26 Oct 2020 13:51:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A606C1099F65
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:41 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 384D96EF67;
- Mon, 26 Oct 2020 13:51:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 045C21002C00;
+ Mon, 26 Oct 2020 13:51:38 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/17] Makefile: separate meson rerun from the rest of the
- ninja invocation
-Date: Mon, 26 Oct 2020 09:51:22 -0400
-Message-Id: <20201026135131.3006712-9-pbonzini@redhat.com>
+Subject: [PULL 17/17] machine: move SMP initialization from vl.c
+Date: Mon, 26 Oct 2020 09:51:31 -0400
+Message-Id: <20201026135131.3006712-18-pbonzini@redhat.com>
 In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
 References: <20201026135131.3006712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
@@ -82,118 +81,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Havard Skinnemoen <hskinnemoen@gmail.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The rules to build Makefile.mtest are suffering from the "tunnel vision"
-problem that is common with recursive makefiles.  Makefile.mtest depends
-on build.ninja, but Make does not know when build.ninja needs to be
-rebuilt before creating Makefile.mtest.
+Initialize the object's values from the class when the object is
+created, no need to have vl.c do it for us.
 
-To fix this, separate the ninja invocation into the "regenerate build
-files" phase and the QEMU build phase.  Sentinel files such as
-meson-private/coredata.dat or build.ninja are used to figure out the
-phases that haven't run yet; however, because those files' timestamps
-are not guaranteed to be touched, the usual makefile stamp-file trick
-is used on top.
-
-Reported-by: Havard Skinnemoen <hskinnemoen@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile | 40 +++++++++++++++++++++++++++++-----------
- 1 file changed, 29 insertions(+), 11 deletions(-)
+ hw/core/machine.c | 7 +++++++
+ softmmu/vl.c      | 7 -------
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 18f026eac3..5236464d1f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -92,6 +92,8 @@ endif
- ifeq ($(NINJA),)
- .PHONY: config-host.mak
- x := $(shell rm -rf meson-private meson-info meson-logs)
-+else
-+export NINJA
- endif
- ifeq ($(wildcard build.ninja),)
- .PHONY: config-host.mak
-@@ -100,31 +102,44 @@ endif
- 
- # 1. ensure config-host.mak is up-to-date
- config-host.mak: $(SRC_PATH)/configure $(SRC_PATH)/pc-bios $(SRC_PATH)/VERSION
--	@echo $@ is out-of-date, running configure
-+	@echo config-host.mak is out-of-date, running configure
- 	@if test -f meson-private/coredata.dat; then \
- 	  ./config.status --skip-meson; \
- 	else \
--	  ./config.status; \
-+	  ./config.status && touch build.ninja.stamp; \
- 	fi
- 
--# 2. ensure generated build files are up-to-date
-+# 2. meson.stamp exists if meson has run at least once (so ninja reconfigure
-+# works), but otherwise never needs to be updated
-+meson-private/coredata.dat: meson.stamp
-+meson.stamp: config-host.mak
-+	@touch meson.stamp
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index 57463ad77a..c5e0e79e6d 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -907,6 +907,13 @@ static void machine_initfn(Object *obj)
+     /* Register notifier when init is done for sysbus sanity checks */
+     ms->sysbus_notifier.notify = machine_init_notify;
+     qemu_add_machine_init_done_notifier(&ms->sysbus_notifier);
 +
-+# 3. ensure generated build files are up-to-date
++    /* default to mc->default_cpus */
++    ms->smp.cpus = mc->default_cpus;
++    ms->smp.max_cpus = mc->default_cpus;
++    ms->smp.cores = 1;
++    ms->smp.threads = 1;
++    ms->smp.sockets = 1;
+ }
  
- ifneq ($(NINJA),)
--# A separate rule is needed for Makefile dependencies to avoid -n
--export NINJA
- Makefile.ninja: build.ninja
--	$(quiet-@){ echo 'ninja-targets = \'; $(NINJA) -t targets all | sed 's/:.*//; $$!s/$$/ \\/'; } > $@
-+	$(quiet-@){ \
-+	  echo 'ninja-targets = \'; \
-+	  $(NINJA) -t targets all | sed 's/:.*//; $$!s/$$/ \\/'; \
-+	  echo 'build-files = \'; \
-+	  $(NINJA) -t query build.ninja | sed -n '1,/^  input:/d; /^  outputs:/q; s/$$/ \\/p'; \
-+	} > $@.tmp && mv $@.tmp $@
- -include Makefile.ninja
-+
-+# A separate rule is needed for Makefile dependencies to avoid -n
-+build.ninja: build.ninja.stamp
-+build.ninja.stamp: meson.stamp $(build-files)
-+	$(NINJA) $(if $V,-v,) build.ninja && touch $@
- endif
+ static void machine_finalize(Object *obj)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 9b67ea300e..b7d7f43c88 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3970,13 +3970,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         exit(0);
+     }
  
- ifneq ($(MESON),)
--# The dependency on config-host.mak ensures that meson has run
--Makefile.mtest: build.ninja scripts/mtest2make.py config-host.mak
-+Makefile.mtest: build.ninja scripts/mtest2make.py
- 	$(MESON) introspect --targets --tests --benchmarks | $(PYTHON) scripts/mtest2make.py > $@
- -include Makefile.mtest
- endif
+-    /* default to machine_class->default_cpus */
+-    current_machine->smp.cpus = machine_class->default_cpus;
+-    current_machine->smp.max_cpus = machine_class->default_cpus;
+-    current_machine->smp.cores = 1;
+-    current_machine->smp.threads = 1;
+-    current_machine->smp.sockets = 1;
+-
+     machine_class->smp_parse(current_machine,
+         qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
  
--# 3. Rules to bridge to other makefiles
-+# 4. Rules to bridge to other makefiles
- 
- ifneq ($(NINJA),)
- NINJAFLAGS = $(if $V,-v,) \
-@@ -135,7 +150,10 @@ ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
- ninja-cmd-goals += $(foreach t, $(.tests), $(.test.deps.$t))
- 
- makefile-targets := build.ninja ctags TAGS cscope dist clean uninstall
--ninja-targets := $(filter-out $(makefile-targets), $(ninja-targets))
-+# "ninja -t targets" also lists all prerequisites.  If build system
-+# files are marked as PHONY, however, Make will always try to execute
-+# "ninja build.ninja".
-+ninja-targets := $(filter-out $(build-files) $(makefile-targets), $(ninja-targets))
- .PHONY: $(ninja-targets) run-ninja
- $(ninja-targets): run-ninja
- 
-@@ -214,7 +232,7 @@ distclean: clean
- 	rm -f qemu-plugins-ld.symbols qemu-plugins-ld64.symbols
- 	rm -f *-config-target.h *-config-devices.mak *-config-devices.h
- 	rm -rf meson-private meson-logs meson-info compile_commands.json
--	rm -f Makefile.ninja Makefile.mtest
-+	rm -f Makefile.ninja Makefile.mtest build.ninja.stamp meson.stamp
- 	rm -f config.log
- 	rm -f linux-headers/asm
- 	rm -Rf .sdk
 -- 
 2.26.2
-
 
 
