@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18AC298BB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:19:39 +0100 (CET)
-Received: from localhost ([::1]:45720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB402298BDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:22:18 +0100 (CET)
+Received: from localhost ([::1]:54044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0XK-0001Od-K8
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:19:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57092)
+	id 1kX0Zt-0004z2-SG
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:22:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0Rx-0005KM-TT
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54457)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0Rz-0005Om-V4
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:08 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27983)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0Rt-0006PU-M0
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:04 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0Rw-0006Q5-Tp
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:07 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603710839;
+ s=mimecast20190719; t=1603710842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NfvrFXDOPoyYpWQFWokubuaOdtoQEY26kZaIqeONIIY=;
- b=DKynrHQLnVdjki0NpE1pSqT9NJeLeg/X7BcZD9xq9yMDEVvYohQC1EVB2es2g0i1h8RPMb
- Su8583SxNoGVeE7eOAspr+iHHYbM3GJ1/RL3bT/uruKZVUDCA6hZY0GfFg0qyL80ep9qHh
- 1YE0adXQmUWi6JvivU/GKSQ13zQ15VU=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dgCzWiQZE84aGBa557DNAgNMPbPB8G3XLJlEEmi1Ygc=;
+ b=h2rsWCUA+F1DLUXUYEb/aXLJDwX/EvZhxQx6nowrPajzt/unWTLo5g0v6igcGQ6PI3lnAc
+ u+1ndnJp6GQfrNFKdycgxrGNU7wW7i8tijIimp2XXHVSOVwFGkkcmvqiLh18T6rMjDtyIE
+ xZy11nzQ04Uxaswjy8pfFqny6jxUQ+8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-sle9MGwSN7-lKpd1DsLj_A-1; Mon, 26 Oct 2020 07:13:55 -0400
-X-MC-Unique: sle9MGwSN7-lKpd1DsLj_A-1
+ us-mta-104-DIoqUQk5Nm2EDXaNM3_ZHQ-1; Mon, 26 Oct 2020 07:13:58 -0400
+X-MC-Unique: DIoqUQk5Nm2EDXaNM3_ZHQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88F0F846360;
- Mon, 26 Oct 2020 11:13:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02B4C84634C;
+ Mon, 26 Oct 2020 11:13:57 +0000 (UTC)
 Received: from gondolin.redhat.com (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 74C2C60BF3;
- Mon, 26 Oct 2020 11:13:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBCF260BF3;
+ Mon, 26 Oct 2020 11:13:54 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 0/3] s390x updates
-Date: Mon, 26 Oct 2020 12:13:44 +0100
-Message-Id: <20201026111347.252015-1-cohuck@redhat.com>
+Subject: [PULL 1/3] s390x/s390-virtio-ccw: Reset PCI devices during subsystem
+ reset
+Date: Mon, 26 Oct 2020 12:13:45 +0100
+Message-Id: <20201026111347.252015-2-cohuck@redhat.com>
+In-Reply-To: <20201026111347.252015-1-cohuck@redhat.com>
+References: <20201026111347.252015-1-cohuck@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
@@ -63,7 +67,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,43 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Eric Farman <farman@linux.ibm.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ qemu-stable@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+From: Matthew Rosato <mjrosato@linux.ibm.com>
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+Currently, a subsystem reset event leaves PCI devices enabled, causing
+issues post-reset in the guest (an example would be after a kexec).  These
+devices need to be reset during a subsystem reset, allowing them to be
+properly re-enabled afterwards.  Add the S390 PCI host bridge to the list
+of qdevs to be reset during subsystem reset.
 
-are available in the Git repository at:
+Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+Acked-by: Halil Pasic <pasic@linux.ibm.com>
+Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: qemu-stable@nongnu.org
+Message-Id: <1602767767-32713-1-git-send-email-mjrosato@linux.ibm.com>
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/s390x/s390-virtio-ccw.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-  https://github.com/cohuck/qemu tags/s390x-20201026
-
-for you to fetch changes up to 3ded270a2697852a71961b45291519ae044f25e3:
-
-  s390x: pv: Fix diag318 PV fencing (2020-10-22 15:47:27 +0200)
-
-----------------------------------------------------------------
-some s390x fixes
-
-----------------------------------------------------------------
-
-Janosch Frank (2):
-  s390x: pv: Remove sclp boundary checks
-  s390x: pv: Fix diag318 PV fencing
-
-Matthew Rosato (1):
-  s390x/s390-virtio-ccw: Reset PCI devices during subsystem reset
-
- hw/s390x/s390-virtio-ccw.c  | 1 +
- hw/s390x/sclp.c             | 5 -----
- target/s390x/cpu_features.c | 5 +++++
- target/s390x/cpu_features.h | 4 ++++
- target/s390x/cpu_models.c   | 4 ++++
- target/s390x/kvm.c          | 3 +--
- 6 files changed, 15 insertions(+), 7 deletions(-)
-
+diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+index e52182f94633..2e900335eaba 100644
+--- a/hw/s390x/s390-virtio-ccw.c
++++ b/hw/s390x/s390-virtio-ccw.c
+@@ -101,6 +101,7 @@ static const char *const reset_dev_types[] = {
+     "s390-sclp-event-facility",
+     "s390-flic",
+     "diag288",
++    TYPE_S390_PCI_HOST_BRIDGE,
+ };
+ 
+ static void subsystem_reset(void)
 -- 
 2.26.2
 
