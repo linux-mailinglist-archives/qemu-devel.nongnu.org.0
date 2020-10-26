@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CDB3298AC8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:53:27 +0100 (CET)
-Received: from localhost ([::1]:58126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD0B298AF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:59:05 +0100 (CET)
+Received: from localhost ([::1]:46894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX07y-0003dw-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:53:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49354)
+	id 1kX0DQ-0002aG-Gk
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:59:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kX05c-00027i-CW
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:51:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55686)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX09l-0006ra-Ds
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:55:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kX05Y-0006Hb-Hw
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:50:58 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX09i-0007vc-6A
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:55:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603709455;
+ s=mimecast20190719; t=1603709712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4C1c6ZL3IrqZyoFgtVPGmCxIg+IZO0dXVfN5gxBox7w=;
- b=JLSbMbvA1TbFY9HWxqbYzWKiwbmWA7M5jjIAUr4hG6DmL+HAtcI9Qoc0YEBb2h85uwobRK
- DDHy4mC2MIHT6TbYn/ys0T846rcUEsDmaLLsA0dR6tuq0zQV1Ay3s9I3HS/+tEm4smpS4h
- kcWFxSt9P+QBTJVjkBHckrRn2GM203M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-IVfgzSrWMHmCIeYTH-bH-g-1; Mon, 26 Oct 2020 06:50:51 -0400
-X-MC-Unique: IVfgzSrWMHmCIeYTH-bH-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91A6B804B74;
- Mon, 26 Oct 2020 10:50:50 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 36B3910013D0;
- Mon, 26 Oct 2020 10:50:41 +0000 (UTC)
-Date: Mon, 26 Oct 2020 11:50:39 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v5 06/12] nbd: Update qapi to support exporting multiple
- bitmaps
-Message-ID: <20201026105039.GC727443@angien.pipo.sk>
-References: <20201023183652.478921-1-eblake@redhat.com>
- <20201023183652.478921-7-eblake@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rHqzz119/JBAYae2xS1pvE7dXekxnB1Mkl9t7p2TKWk=;
+ b=i2CBHo+xRc9Czifv8UiVY/wgJqjTdqEvuDr56qnIatQRkaiI4v8iIkSc1psX19GriL7ieC
+ 2YOUPiy5Md0597cjaYOX3HxOFzbuR2CmIxDlCCM5VDlbKoeahoYHg4DZa5VKtdZVIZwF8n
+ VqLjR85tongizyFUvWU+mHFYHhAXjvI=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-vlACBLvVNiCMdNF-8PfOAw-1; Mon, 26 Oct 2020 06:55:11 -0400
+X-MC-Unique: vlACBLvVNiCMdNF-8PfOAw-1
+Received: by mail-wr1-f72.google.com with SMTP id m20so8187617wrb.21
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:55:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=rHqzz119/JBAYae2xS1pvE7dXekxnB1Mkl9t7p2TKWk=;
+ b=hYMNxPmsGojkLyazaFTgUD6Yz4b6MyeawpINfVMCi2TmIWf8lTFsoPCuP6HqayFHV6
+ TDomu3WOClJhhT1ZUgCCRyLB12UfiD1hzRe7gvbByNsVN4DzivGeWXiSSbT/4/lgKEc/
+ r+tDdsGW9t23lJbE2rO1pwmfiZGA2DfReg4+zYYVHkHJVszHhUjX8r//acRyzM24OTjw
+ VcDZYboAIY3doHeU+CPCRCV0L8Eygu3op6W7yna6/+8dj+JZqROc4Rh370n12PB9o8FI
+ z3SV/1D3hwVJFS/hRXSuCHwhhZrfByiT85dzoFdPgCVOrf6VHLWjuo+Rq34132wk9na/
+ Nlmg==
+X-Gm-Message-State: AOAM532wrYIkWcOr80szpiyc1LrclHfznZicWnwkK0fLbPT4+00iEBVb
+ KbzXANsIiW63PZatFGc6Y9T2caDCGPTGD/cS4Z2Zt8w+udnlSFXGhH2QRIAe/6HCicagldAlBoU
+ LXIIuJrHTyAy9aWo=
+X-Received: by 2002:a7b:cf04:: with SMTP id l4mr16613033wmg.137.1603709706961; 
+ Mon, 26 Oct 2020 03:55:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzg2nJm1sTqCZx8mU1zOOGJ96fD9e895iq03UArhgMV3BsGZXrsBPMgD3SevW5d2w9EE4LRNA==
+X-Received: by 2002:a7b:cf04:: with SMTP id l4mr16613005wmg.137.1603709706768; 
+ Mon, 26 Oct 2020 03:55:06 -0700 (PDT)
+Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id y2sm23213587wrh.0.2020.10.26.03.55.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Oct 2020 03:55:06 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/19] util/vfio-helpers: Allow using multiple MSIX IRQs
+Date: Mon, 26 Oct 2020 11:54:45 +0100
+Message-Id: <20201026105504.4023620-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201023183652.478921-7-eblake@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pkrempa@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,115 +92,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- "reviewer:Incompatible changes" <libvir-list@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- stefanha@redhat.com, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 23, 2020 at 13:36:46 -0500, Eric Blake wrote:
-> Since 'nbd-server-add' is deprecated, and 'block-export-add' is new to
-> 5.2, we can still tweak the interface.  Allowing 'bitmaps':['str'] is
-> nicer than 'bitmap':'str'.  This wires up the qapi and qemu-nbd
-> changes to permit passing multiple bitmaps as distinct metadata
-> contexts that the NBD client may request, but the actual support for
-> more than one will require a further patch to the server.
-> 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  docs/system/deprecated.rst |  4 +++-
->  qapi/block-export.json     | 18 ++++++++++++------
->  blockdev-nbd.c             | 13 +++++++++++++
->  nbd/server.c               | 19 +++++++++++++------
->  qemu-nbd.c                 | 10 +++++-----
->  5 files changed, 46 insertions(+), 18 deletions(-)
-> 
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 905628f3a0cb..d6cd027ac740 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -268,7 +268,9 @@ the 'wait' field, which is only applicable to sockets in server mode
->  ''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> 
->  Use the more generic commands ``block-export-add`` and ``block-export-del``
-> -instead.
-> +instead.  As part of this deprecation, it is now preferred to export a
-> +list of dirty bitmaps via ``bitmaps``, rather than a single bitmap via
-> +``bitmap``.
-> 
->  Human Monitor Protocol (HMP) commands
->  -------------------------------------
-> diff --git a/qapi/block-export.json b/qapi/block-export.json
-> index 893d5cde5dfe..c7c749d61097 100644
-> --- a/qapi/block-export.json
-> +++ b/qapi/block-export.json
-> @@ -74,10 +74,10 @@
->  # @description: Free-form description of the export, up to 4096 bytes.
->  #               (Since 5.0)
->  #
-> -# @bitmap: Also export the dirty bitmap reachable from @device, so the
-> -#          NBD client can use NBD_OPT_SET_META_CONTEXT with the
-> -#          metadata context name "qemu:dirty-bitmap:NAME" to inspect the
-> -#          bitmap. (since 4.0)
-> +# @bitmaps: Also export each of the named dirty bitmaps reachable from
-> +#           @device, so the NBD client can use NBD_OPT_SET_META_CONTEXT with
-> +#           the metadata context name "qemu:dirty-bitmap:BITMAP" to inspect
-> +#           each bitmap. (since 5.2)
-
-Given unsynchronised release cycles between qemu and management apps
-it's not cool to deprecate an interface without having at least one
-release where the replacement interface is already stable.
-
-This means that any project wanting to stay up to date will either have
-to use deprecated interfaces for at least one release and develop the
-replacement only when there's a stable interface or hope that they don't
-have to change the interfaces too often.
-
-This specifically impacts libvirt as we have validators which notify us
-that a deprecated interface is used and we want to stay in sync, so that
-there's one less group of users to worry about at the point qemu will
-want to delete the interface.
-
->  # @allocation-depth: Also export the allocation depth map for @device, so
->  #                    the NBD client can use NBD_OPT_SET_META_CONTEXT with
-> @@ -88,7 +88,7 @@
->  ##
->  { 'struct': 'BlockExportOptionsNbd',
->    'data': { '*name': 'str', '*description': 'str',
-> -            '*bitmap': 'str', '*allocation-depth': 'bool' } }
-> +            '*bitmaps': ['str'], '*allocation-depth': 'bool' } }
-
-This adds 'bitmaps' also to nbd-server-add, which should not happen. You
-probably want to stop using 'base' for 'NbdServerAddOptions' and just
-duplicate everything else.
-
->  # @NbdServerAddOptions:
-> @@ -100,12 +100,18 @@
->  # @writable: Whether clients should be able to write to the device via the
->  #            NBD connection (default false).
->  #
-> +# @bitmap: Also export a single dirty bitmap reachable from @device, so the
-> +#          NBD client can use NBD_OPT_SET_META_CONTEXT with the metadata
-> +#          context name "qemu:dirty-bitmap:BITMAP" to inspect the bitmap
-> +#          (since 4.0).  Mutually exclusive with @bitmaps, and newer
-> +#          clients should use that instead.
-
-This doesn't make sense, nbd-server-add never had @bitmaps. Also adding
-features to a deprecated interface doesn't IMO make sense if you want to
-motivate users switch to thne new one.
-
-> +#
->  # Since: 5.0
->  ##
->  { 'struct': 'NbdServerAddOptions',
->    'base': 'BlockExportOptionsNbd',
->    'data': { 'device': 'str',
-> -            '*writable': 'bool' } }
-> +            '*writable': 'bool', '*bitmap': 'str' } }
-> 
->  ##
->  # @nbd-server-add:
+This series allow using multiple MSIX IRQs=0D
+We currently share a single IRQ between 2 NVMe queues=0D
+(ADMIN and I/O). This series still uses 1 shared IRQ=0D
+but prepare for using multiple ones.=0D
+=0D
+Since v1:=0D
+- Addressed Stefan comment in patch #14=0D
+  "Pass minimum page size to qemu_vfio_open_pci"=0D
+  (check the page size is in range with device)=0D
+- To reduce (and simplify) changes in patch #14, added=0D
+  new patch #2 "Introduce device/iommu 'page_size_min' variables"=0D
+- Added "Trace controller capabilities" useful to test the=0D
+  previous changes=0D
+- "Set request_alignment at initialization" reported by Stefan=0D
+  (and tested by Eric off-list).=0D
+=0D
+Missing review: 2,3,4,14=0D
+=0D
+$ git backport-diff -u v1=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/19:[----] [--] 'block/nvme: Correct minimum device page size'=0D
+002/19:[down] 'block/nvme: Set request_alignment at initialization'=0D
+003/19:[down] 'block/nvme: Introduce device/iommu 'page_size_min' variables=
+'=0D
+004/19:[down] 'block/nvme: Trace controller capabilities'=0D
+005/19:[----] [--] 'util/vfio-helpers: Improve reporting unsupported IOMMU =
+ty=3D=0D
+pe'=0D
+006/19:[----] [-C] 'util/vfio-helpers: Trace PCI I/O config accesses'=0D
+007/19:[----] [-C] 'util/vfio-helpers: Trace PCI BAR region info'=0D
+008/19:[----] [-C] 'util/vfio-helpers: Trace where BARs are mapped'=0D
+009/19:[----] [-C] 'util/vfio-helpers: Improve DMA trace events'=0D
+010/19:[----] [-C] 'util/vfio-helpers: Convert vfio_dump_mapping to trace e=
+ve=3D=0D
+nts'=0D
+011/19:[----] [-C] 'util/vfio-helpers: Let qemu_vfio_dma_map() propagate Er=
+ro=3D=0D
+r'=0D
+012/19:[----] [--] 'util/vfio-helpers: Let qemu_vfio_do_mapping() propagate=
+ E=3D=0D
+rror'=0D
+013/19:[----] [--] 'util/vfio-helpers: Let qemu_vfio_verify_mappings() use =
+er=3D=0D
+ror_report()'=0D
+014/19:[0017] [FC] 'util/vfio-helpers: Pass minimum page size to qemu_vfio_=
+op=3D=0D
+en_pci()'=0D
+015/19:[----] [-C] 'util/vfio-helpers: Report error when IOMMU page size is=
+ n=3D=0D
+ot supported'=0D
+016/19:[----] [--] 'util/vfio-helpers: Introduce qemu_vfio_pci_msix_init_ir=
+qs=3D=0D
+()'=0D
+017/19:[----] [--] 'util/vfio-helpers: Introduce qemu_vfio_pci_msix_set_irq=
+()'=0D
+018/19:[----] [-C] 'block/nvme: Switch to using the MSIX API'=0D
+019/19:[----] [--] 'util/vfio-helpers: Remove now unused qemu_vfio_pci_init=
+_i=3D=0D
+rq()'=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (19):=0D
+  block/nvme: Correct minimum device page size=0D
+  block/nvme: Set request_alignment at initialization=0D
+  block/nvme: Introduce device/iommu 'page_size_min' variables=0D
+  block/nvme: Trace controller capabilities=0D
+  util/vfio-helpers: Improve reporting unsupported IOMMU type=0D
+  util/vfio-helpers: Trace PCI I/O config accesses=0D
+  util/vfio-helpers: Trace PCI BAR region info=0D
+  util/vfio-helpers: Trace where BARs are mapped=0D
+  util/vfio-helpers: Improve DMA trace events=0D
+  util/vfio-helpers: Convert vfio_dump_mapping to trace events=0D
+  util/vfio-helpers: Let qemu_vfio_dma_map() propagate Error=0D
+  util/vfio-helpers: Let qemu_vfio_do_mapping() propagate Error=0D
+  util/vfio-helpers: Let qemu_vfio_verify_mappings() use error_report()=0D
+  util/vfio-helpers: Pass minimum page size to qemu_vfio_open_pci()=0D
+  util/vfio-helpers: Report error when IOMMU page size is not supported=0D
+  util/vfio-helpers: Introduce qemu_vfio_pci_msix_init_irqs()=0D
+  util/vfio-helpers: Introduce qemu_vfio_pci_msix_set_irq()=0D
+  block/nvme: Switch to using the MSIX API=0D
+  util/vfio-helpers: Remove now unused qemu_vfio_pci_init_irq()=0D
+=0D
+ include/qemu/vfio-helpers.h |  15 ++-=0D
+ block/nvme.c                |  58 +++++++++---=0D
+ util/vfio-helpers.c         | 183 +++++++++++++++++++++++++++---------=0D
+ block/trace-events          |   1 +=0D
+ util/trace-events           |  13 ++-=0D
+ 5 files changed, 208 insertions(+), 62 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
 
