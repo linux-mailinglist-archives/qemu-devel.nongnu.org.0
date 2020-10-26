@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E2A299184
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:57:47 +0100 (CET)
-Received: from localhost ([::1]:50318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F73F299197
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:58:55 +0100 (CET)
+Received: from localhost ([::1]:54538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX4sU-00056M-CS
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:57:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51372)
+	id 1kX4ta-0006su-5g
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:58:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX4q3-0003ct-5b
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:55:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30451)
+ id 1kX4qL-0003nd-Mu
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:55:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59907)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX4q0-0004bZ-Ql
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:55:14 -0400
+ id 1kX4qH-0004iD-W1
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:55:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603727710;
+ s=mimecast20190719; t=1603727724;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=tXykLQ8EHZbjbviqGSgKAp6aqjycmtpxyw4+UfdyiH4=;
- b=I7DNazjhFKjmrjqLN/zuUXH6ki8SmS5ov6jV2B1pWVEb7B5o+lkGcNzMknSwBp8kje+HQe
- qF4XGL9TYZQzJgEXqm3Brcu4bO4WeeEQly5l4fi0u+WvZK9iFGe8ikrL9shO+IYN3nUrgJ
- ThA06nRIkvAebbIHNWapVZDoBqhN0MU=
+ bh=Jn9ArxiDxlQI8PA/H6fuobDqYuJm7LNsvrLlxOgd8jQ=;
+ b=i7OvRWa854wab9+BEdQ7ZfAK6W1rHxYfuxBlmCEZ8j8RJPEdMcH58MHXYx8gFF9yjS5wGn
+ NvriTlK24EB1zRWtaykq7XCm14g+xslZtJHvBcD2pFxkNvKQTA2FQkPsnEwRKukM0rU3OQ
+ Jlcx8aewQRxYRqAL/P1hyHHjV/NTOeg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-6DRSZgb7MvGDRsdQ17VCag-1; Mon, 26 Oct 2020 11:55:08 -0400
-X-MC-Unique: 6DRSZgb7MvGDRsdQ17VCag-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-542-bxRwYQdVM7CrLn--Xqdrtg-1; Mon, 26 Oct 2020 11:55:22 -0400
+X-MC-Unique: bxRwYQdVM7CrLn--Xqdrtg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 66D601087D9A
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:55:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B509107B26E
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:55:20 +0000 (UTC)
 Received: from localhost (ovpn-114-214.ams2.redhat.com [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 230A95D9E4;
- Mon, 26 Oct 2020 15:55:00 +0000 (UTC)
-Date: Mon, 26 Oct 2020 15:55:00 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA8F560BF3;
+ Mon, 26 Oct 2020 15:55:13 +0000 (UTC)
+Date: Mon, 26 Oct 2020 15:55:07 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 5/5] tools/virtiofsd: xattr name mappings: Simple 'map'
-Message-ID: <20201026155500.GG52035@stefanha-x1.localdomain>
+Subject: Re: [PATCH v4 0/5] virtiofsd xattr name mappings
+Message-ID: <20201026155507.GH52035@stefanha-x1.localdomain>
 References: <20201023165812.36028-1-dgilbert@redhat.com>
- <20201023165812.36028-6-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201023165812.36028-6-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201023165812.36028-1-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="S5HS5MvDw4DmbRmb"
+ protocol="application/pgp-signature"; boundary="0XhtP95kHFp3KGBe"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -86,54 +85,70 @@ Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---S5HS5MvDw4DmbRmb
+--0XhtP95kHFp3KGBe
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2020 at 05:58:12PM +0100, Dr. David Alan Gilbert (git) wrot=
+On Fri, Oct 23, 2020 at 05:58:07PM +0100, Dr. David Alan Gilbert (git) wrot=
 e:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >=20
-> The mapping rule system implemented in the last few patches is
-> extremely flexible, but not easy to use.  Add a simple
-> 'map' type as a sprinkling of sugar to make it easy.
+> This is the 4th cut of an xattr name mapping option for virtiofsd.
+> It allows the user of virtiofsd to define a fairly flexible mapping
+> from the view of the xattr names the host fs has and the ones that the
+> guest sees.
 >=20
-> e.g.
+>   The hope is this allows things like:
+>     a) Different selinux attributes on host/guest
+>     b) separation of trusted. attributes that clash on overlayfs
+>     c) support for privileged xattr's in guests running with an
+>        unprivileged virtiofsd.
 >=20
->   -o xattrmap=3D":map::user.virtiofs.:"
+> There's no apparent standard for this kind of mapping, so I made
+> it flexible by specifying a mapping rule in the option.
 >=20
-> would be sufficient to prefix all xattr's
-> or
+> Prefix's can be added (selectively or globally), xattr's can be
+> dropped in either direction or passed through.
 >=20
->   -o xattrmap=3D":map:trusted.:user.virtiofs.:"
+> v4
+>   cleanups from Stefan and Vivek's reviews
 >=20
-> would just prefix 'trusted.' xattr's and leave
-> everything else alone.
+> Dave
 >=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  docs/tools/virtiofsd.rst         |  19 ++++++
->  tools/virtiofsd/passthrough_ll.c | 112 ++++++++++++++++++++++++++++++-
->  2 files changed, 130 insertions(+), 1 deletion(-)
+>=20
+> Dr. David Alan Gilbert (5):
+>   tools/virtiofsd: xattr name mappings: Add option
+>   tools/virtiofsd: xattr name mappings: Map client xattr names
+>   tools/virtiofsd: xattr name mappings: Map server xattr names
+>   tools/virtiofsd: xattr name mapping examples
+>   tools/virtiofsd: xattr name mappings: Simple 'map'
+>=20
+>  docs/tools/virtiofsd.rst         | 161 +++++++++++
+>  tools/virtiofsd/passthrough_ll.c | 474 ++++++++++++++++++++++++++++++-
+>  2 files changed, 632 insertions(+), 3 deletions(-)
+>=20
+> --=20
+> 2.28.0
+>=20
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---S5HS5MvDw4DmbRmb
+--0XhtP95kHFp3KGBe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+W8VMACgkQnKSrs4Gr
-c8gMrgf/U9bEIcTXJKwnINyZQtQyBUXrrtVMMYXln8oRZ4667nGP6xf7Ei4HEqjb
-4uAx3Gfwq/HeKgq9G8nZk340kKYOpTntA3PIemcv2yJ7neVElt8/f5XuGyY+ztfx
-WheSPs4RO9mBMzp1VFcgTqbb4OnnJD1jFRCZqSabAx5ljyv/5vQooYOMd/o5GUbJ
-vtf5ac4WIC1KpbdaEd4qcCZiLcO/a+0UQJThd9zBumxkdpl6AQOAMpoE/ZTkpOzk
-z4pUCe7Tlp6kUQta4EdpQnlistHrm1u2uDVSRdyALa+zSHpCwVqTHV8hUWotGacj
-OjhRacNKKmZrvk8n63Pc6CGBC6D74w==
-=ny2B
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+W8VsACgkQnKSrs4Gr
+c8gSDQgAvoLJAzqUAZWE3ZAPKZQ4CxxMbubcbZmw7ayb4k77FlxwYxJNcxJ1Z3as
+ngcZY3KVCxcm9ra7fpxttaegIhdAb3p6r5lliABfltlIMlopjqRnEg5QhgVmmGoP
+wfn+OvL06ST886JUSAUcnSRHz4WFG8JEF6vL6rwQySx0HFhNnP+CVcJDb/AQ/go5
+CmEOoeTn18eZKty29q2EsIp+EgQuO1tWI4IXZzYeF9xMOTJkml4T5DTcbY4n+x6u
+fqSLTGZa+pQlhl7gWBCUYWKfi2Xk2fxsetAIQuqYg7I8sIvIry6130mzerXfnF0H
+Gh+TXTddfBABSWlftNTGvZCmQ74nEQ==
+=+dAG
 -----END PGP SIGNATURE-----
 
---S5HS5MvDw4DmbRmb--
+--0XhtP95kHFp3KGBe--
 
 
