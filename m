@@ -2,67 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F6F4299453
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:52:20 +0100 (CET)
-Received: from localhost ([::1]:33302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8832299479
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:56:05 +0100 (CET)
+Received: from localhost ([::1]:49308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6fL-0004Kh-59
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:52:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
+	id 1kX6iy-0002kb-Vo
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:56:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kX6Ff-0000Pe-Av
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:25:48 -0400
-Received: from mail-pl1-f196.google.com ([209.85.214.196]:34427)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kX6JP-0006UD-Jt
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:29:39 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41643)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kX6Fb-0001AB-6f
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:25:46 -0400
-Received: by mail-pl1-f196.google.com with SMTP id r3so5006191plo.1
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:25:42 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kX6JN-0001XB-Ko
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:29:38 -0400
+Received: by mail-wr1-x442.google.com with SMTP id s9so13569972wro.8
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=6R2VxZTPiaSahfUTK2ht+7VHLStg8UB6v4HCMT3qZRQ=;
+ b=Jmc36PC/r/b6jP9OjLlg86KmtyrtkwTl0/xdemebAibZO6yXOp2uXA8muINv1Pbh1P
+ K/kkIwI6nXenldAvblU/eI6VoXYCiwyWevgonM3m+cOjnEItMwSmBBHOnHFwM8w4VlaI
+ 5e5SyaWEr+sVGQAAMBV85DxUZL84VIn1yAX/mzZ01KpQds+en3RgGuF7MIjCXjTO7pW2
+ 76+Iou0PI2RsoPQGMgjWZA7Pdu56ef1zLHE96qCHtx6M982Ya6IkTDeQL0oxAZ++C9Nc
+ 5uwzyS1OiEokA5qo9pXXDf+rFyDbOD2dImi82e0B0tPCVEli1+w+vcoPvVVZ5oneIJRy
+ iQ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Yh/zwd8J3NXD+r3FYcs6OA7kJm9yhTuQacKIilSY6OQ=;
- b=aco5hUo3DJ0ipr62ZXPEwhS5oivUNerc4awRfsXgDREyBiY1oA1/AGkD4OQ6fsEXiK
- Hl3AAbT/zKHsZRIFfJ/G+arXmTIFukRRGn7Q5nYSmHY2Cr7tdcturqFaiBzpNMOHzbaX
- 8zyjkku1uBgUgOVh1kzD3D2arpP7/8t/BbgvSKNcJEw4k4zRQq7z7UlUlS8K5HjWv29j
- A2aQfzLGg4yYP6h4dWrIUPdKRRe27jJIDMk0Ts8WOQVfmAupk+sYqH/+US/roUFD+VeO
- TaU9jlGWE0d8wW9BdHPIFcxVP5IBF7PPA4y+UhcCsCRkNegRWU9VjutS+8Mi/2KNla8z
- oevQ==
-X-Gm-Message-State: AOAM532zML/OKuper6+LxNkhaLul/heRpC4zmFe5vsx6XkrBKxVpSv28
- b9JtrcQNqA0emebBW+2jJqm+clpIvwI=
-X-Google-Smtp-Source: ABdhPJxP1DtfrJROiDeksc831VUW/iizv8+/ygf9fe+W3n9bm/AorLW8ZlhXdPCp37TQxkMCr2wcww==
-X-Received: by 2002:a17:90a:c901:: with SMTP id
- v1mr17583259pjt.103.1603733141556; 
- Mon, 26 Oct 2020 10:25:41 -0700 (PDT)
-Received: from localhost.localdomain ([73.93.154.188])
- by smtp.gmail.com with ESMTPSA id j20sm12723075pfd.40.2020.10.26.10.25.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 26 Oct 2020 10:25:41 -0700 (PDT)
-From: Joelle van Dyne <j@getutm.app>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] tcg: implement mirror mapped JIT for Linux
-Date: Mon, 26 Oct 2020 10:25:33 -0700
-Message-Id: <20201026172535.10419-3-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201026172535.10419-1-j@getutm.app>
-References: <20201026172535.10419-1-j@getutm.app>
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=6R2VxZTPiaSahfUTK2ht+7VHLStg8UB6v4HCMT3qZRQ=;
+ b=QCjxyghGbDQz1Hhab5xp24x9FuEvC5J+irYnpTZRxY9eZM/Lrf4rxWcRGjtzb0ghaZ
+ kgoF0XOi8OVpB5wMWvQ1KED6SDuZ+LJJWEjfuWl6ikUt4bUnuhhOLjaRHE22k+SwYEx/
+ R+XctKv4annokKD8cdcuipLgAcv0wP0qXwhK8Qb7yBvY7UpuYVAh+sgN55ZS5C2eITEt
+ NgHndj+xO+NIMz0B12K5srBZqiFIVvakfyRPqVGvv/q9HdMGp944uTBQ9+3TbQLF+PEw
+ YuzqtTzTiiGI/lF5eTGZqZtMJYGDGaeF5WqiuSjRCgw8AB96Kcvarc+a2u3HvprCEyAr
+ WfLQ==
+X-Gm-Message-State: AOAM532nAVW+SUB1FNVPtM94wdl7pTyVjxowTDPEFvDc9IDqfxI6/HQB
+ 7V4jmXkAdI14c8z5B+LYZ0CpfRG6ME7OhA==
+X-Google-Smtp-Source: ABdhPJz7wuAv/zYq60ESVqr+Js6H+8gIwL9x3qo/B8Mi54bUC/SBLz0ZCKClQGyYj65Hxlo1XbGsUw==
+X-Received: by 2002:adf:cd8d:: with SMTP id q13mr18864757wrj.268.1603733375300; 
+ Mon, 26 Oct 2020 10:29:35 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c14sm23039292wrv.12.2020.10.26.10.29.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Oct 2020 10:29:33 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3880F1FF7E;
+ Mon, 26 Oct 2020 17:29:33 +0000 (GMT)
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-13-pbonzini@redhat.com>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 12/15] s390: remove bios_name
+In-reply-to: <20201026143028.3034018-13-pbonzini@redhat.com>
+Date: Mon, 26 Oct 2020 17:29:33 +0000
+Message-ID: <87imawgaki.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.214.196;
- envelope-from=osy86github@gmail.com; helo=mail-pl1-f196.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 13:25:42
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,280 +89,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Joelle van Dyne <j@getutm.app>,
- Richard Henderson <rth@twiddle.net>
+Cc: Thomas Huth <thuth@redhat.com>, philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When configured with --enable-debug-tcg on Linux, we enable JIT mirror map
-which separates the JIT allocation into a RX-only address and a RW-only
-address. The backing is a memfd_create() object.
 
-This allows us to catch bugs where we unintentionally write to the JIT
-region. However, the main use case will be for other platforms that require
-strict W^X separation to run.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- configure                 | 13 ++++++++
- meson.build               |  1 +
- include/exec/exec-all.h   |  8 +++++
- include/tcg/tcg.h         | 18 ++++++++++
- accel/tcg/cpu-exec.c      |  7 +++-
- accel/tcg/translate-all.c | 69 +++++++++++++++++++++++++++++++++++----
- 6 files changed, 108 insertions(+), 8 deletions(-)
+Might be worth mentioning the trixy path from qdev_prop_set_string to
+end up in ipl->firmware because it's not obvious just from the diff.
+Anyway:
 
-diff --git a/configure b/configure
-index e6754c1e87..9a632821c4 100755
---- a/configure
-+++ b/configure
-@@ -448,6 +448,7 @@ meson=""
- ninja=""
- skip_meson=no
- gettext=""
-+mirror_jit="no"
- 
- bogus_os="no"
- malloc_trim="auto"
-@@ -5725,6 +5726,14 @@ if test "$mingw32" = "yes" ; then
-     done
- fi
- 
-+# Enable mirror mapping if debug_tcg on supported platform
-+
-+if test "$debug_tcg" = "yes"; then
-+  if test "$linux" = "yes"; then
-+    mirror_jit=yes
-+  fi
-+fi
-+
- qemu_confdir="$sysconfdir/$qemu_suffix"
- qemu_moddir="$libdir/$qemu_suffix"
- qemu_datadir="$datadir/$qemu_suffix"
-@@ -6843,6 +6852,10 @@ if test "$safe_stack" = "yes"; then
-   echo "CONFIG_SAFESTACK=y" >> $config_host_mak
- fi
- 
-+if test "$mirror_jit" = "yes"; then
-+  echo "CONFIG_MIRROR_JIT=y" >> $config_host_mak
-+fi
-+
- # If we're using a separate build tree, set it up now.
- # DIRS are directories which we simply mkdir in the build tree;
- # LINKS are things to symlink back into the source tree
-diff --git a/meson.build b/meson.build
-index 7627a0ae46..9630edff9f 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2114,6 +2114,7 @@ endif
- summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
- summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
- summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
-+summary_info += {'mirror JIT':        config_host.has_key('CONFIG_MIRROR_JIT')}
- summary(summary_info, bool_yn: true)
- 
- if not supported_cpus.contains(cpu)
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 4707ac140c..921767a51b 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -519,6 +519,14 @@ struct TranslationBlock {
-     uintptr_t jmp_list_head;
-     uintptr_t jmp_list_next[2];
-     uintptr_t jmp_dest[2];
-+
-+#if defined(CONFIG_MIRROR_JIT)
-+    /*
-+     * Store difference to writable mirror
-+     * We need this when patching the jump instructions
-+     */
-+    ptrdiff_t code_rw_mirror_diff;
-+#endif
- };
- 
- extern bool parallel_cpus;
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 79c5ff8dab..a76c259d1b 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -627,6 +627,10 @@ struct TCGContext {
-     size_t code_gen_buffer_size;
-     void *code_gen_ptr;
-     void *data_gen_ptr;
-+#if defined(CONFIG_MIRROR_JIT)
-+    int code_gen_buffer_fd;
-+    ptrdiff_t code_rw_mirror_diff;
-+#endif
- 
-     /* Threshold to flush the translated code buffer.  */
-     void *code_gen_highwater;
-@@ -677,6 +681,20 @@ struct TCGContext {
-     target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
- };
- 
-+static inline void *tcg_mirror_ptr_rw(TCGContext *s, const void *rx)
-+{
-+#if defined(CONFIG_MIRROR_JIT)
-+    return (void *)rx + s->code_rw_mirror_diff;
-+#else
-+    return (void *)rx;
-+#endif
-+}
-+
-+static inline tcg_insn_unit *tcg_code_ptr_rw(TCGContext *s, const void *rx)
-+{
-+    return (tcg_insn_unit *)tcg_mirror_ptr_rw(s, rx);
-+}
-+
- extern TCGContext tcg_init_ctx;
- extern __thread TCGContext *tcg_ctx;
- extern TCGv_env cpu_env;
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 58aea605d8..f7eb6fcd77 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -354,7 +354,12 @@ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr)
-     if (TCG_TARGET_HAS_direct_jump) {
-         uintptr_t offset = tb->jmp_target_arg[n];
-         uintptr_t tc_ptr = (uintptr_t)tb->tc.ptr;
--        tb_target_set_jmp_target(tc_ptr, tc_ptr + offset, addr);
-+#if defined(CONFIG_MIRROR_JIT)
-+        uintptr_t wr_addr = tc_ptr + offset + tb->code_rw_mirror_diff;
-+#else
-+        uintptr_t wr_addr = tc_ptr + offset;
-+#endif
-+        tb_target_set_jmp_target(tc_ptr, tc_ptr + offset, addr, wr_addr);
-     } else {
-         tb->jmp_target_arg[n] = addr;
-     }
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index d76097296d..bfb856ac1a 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -59,6 +59,7 @@
- #include "sysemu/cpus.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/tcg.h"
-+#include "qemu/memfd.h"
- 
- /* #define DEBUG_TB_INVALIDATE */
- /* #define DEBUG_TB_FLUSH */
-@@ -302,10 +303,12 @@ static target_long decode_sleb128(uint8_t **pp)
- 
- static int encode_search(TranslationBlock *tb, uint8_t *block)
- {
--    uint8_t *highwater = tcg_ctx->code_gen_highwater;
--    uint8_t *p = block;
-+    const uint8_t *highwater, *start;
-+    uint8_t *p;
-     int i, j, n;
- 
-+    highwater = tcg_mirror_ptr_rw(tcg_ctx, tcg_ctx->code_gen_highwater);
-+    start = p = tcg_mirror_ptr_rw(tcg_ctx, block);
-     for (i = 0, n = tb->icount; i < n; ++i) {
-         target_ulong prev;
- 
-@@ -329,7 +332,7 @@ static int encode_search(TranslationBlock *tb, uint8_t *block)
-         }
-     }
- 
--    return p - block;
-+    return p - start;
- }
- 
- /* The cpu state corresponding to 'searched_pc' is restored.
-@@ -1067,12 +1070,29 @@ static inline void *alloc_code_gen_buffer(void)
- #else
- static inline void *alloc_code_gen_buffer(void)
- {
--    int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
--    int flags = MAP_PRIVATE | MAP_ANONYMOUS;
-+    int prot = PROT_READ | PROT_EXEC;
-+    int flags = 0;
-     size_t size = tcg_ctx->code_gen_buffer_size;
-+    int fd = -1;
-     void *buf;
- 
--    buf = mmap(NULL, size, prot, flags, -1, 0);
-+#if defined(CONFIG_MIRROR_JIT)
-+#if defined(CONFIG_LINUX)
-+    fd = qemu_memfd_create("tcg-jit", size, false, 0, 0, NULL);
-+    if (fd < 0) {
-+        return NULL;
-+    }
-+    tcg_ctx->code_gen_buffer_fd = fd;
-+    flags |= MAP_SHARED;
-+#else /* defined(CONFIG_LINUX) */
-+#error "Mirror JIT unimplemented for this platform."
-+#endif /* defined(CONFIG_LINUX) */
-+#else /* defined(CONFIG_MIRROR_JIT) */
-+    prot |= PROT_WRITE;
-+    flags |= MAP_ANONYMOUS | MAP_PRIVATE;
-+#endif /* defined(CONFIG_MIRROR_JIT) */
-+
-+    buf = mmap(NULL, size, prot, flags, fd, 0);
-     if (buf == MAP_FAILED) {
-         return NULL;
-     }
-@@ -1118,7 +1138,28 @@ static inline void *alloc_code_gen_buffer(void)
- }
- #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
- 
--static inline void code_gen_alloc(size_t tb_size)
-+#if defined(CONFIG_MIRROR_JIT)
-+#if defined(CONFIG_LINUX)
-+static inline void *alloc_jit_rw_mirror(void)
-+{
-+    int fd = tcg_ctx->code_gen_buffer_fd;
-+    size_t size = tcg_ctx->code_gen_buffer_size;
-+    void *buf;
-+
-+    assert(fd >= 0);
-+    buf = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-+    if (buf == MAP_FAILED) {
-+        return NULL;
-+    }
-+
-+    return buf;
-+}
-+#else
-+#error "Mirror JIT unimplemented for this platform."
-+#endif /* CONFIG_IOS */
-+#endif /* CONFIG_MIRROR_JIT */
-+
-+static inline void code_gen_alloc(size_t tb_size, bool mirror_jit)
- {
-     tcg_ctx->code_gen_buffer_size = size_code_gen_buffer(tb_size);
-     tcg_ctx->code_gen_buffer = alloc_code_gen_buffer();
-@@ -1126,6 +1167,17 @@ static inline void code_gen_alloc(size_t tb_size)
-         fprintf(stderr, "Could not allocate dynamic translator buffer\n");
-         exit(1);
-     }
-+#if defined(CONFIG_MIRROR_JIT)
-+    void *mirror;
-+
-+    /* For platforms that need a mirror mapping for code execution */
-+    mirror = alloc_jit_rw_mirror();
-+    if (mirror == NULL) {
-+        fprintf(stderr, "Could not remap code buffer mirror\n");
-+        exit(1);
-+    }
-+    tcg_ctx->code_rw_mirror_diff = mirror - tcg_ctx->code_gen_buffer;
-+#endif /* CONFIG_MIRROR_JIT */
- }
- 
- static bool tb_cmp(const void *ap, const void *bp)
-@@ -1721,6 +1773,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
-         cpu_loop_exit(cpu);
-     }
- 
-+#if defined(CONFIG_MIRROR_JIT)
-+    tb->code_rw_mirror_diff = tcg_ctx->code_rw_mirror_diff;
-+#endif
-     gen_code_buf = tcg_ctx->code_gen_ptr;
-     tb->tc.ptr = gen_code_buf;
-     tb->pc = pc;
--- 
-2.28.0
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
