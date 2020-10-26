@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD5CC298A75
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:36:24 +0100 (CET)
-Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6672298A7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:38:49 +0100 (CET)
+Received: from localhost ([::1]:40864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzrT-0006Ag-F3
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:36:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39140)
+	id 1kWzto-0001MP-T5
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:38:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPT-0003HZ-CQ
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35086)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPU-0003LX-QP
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPR-0006pv-HP
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:27 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPS-0006qG-UD
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706844;
+ s=mimecast20190719; t=1603706845;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xtGyUxgpbnAJC2pUaJOU8eGTDOM6Sv/l+7ShBPHTAog=;
- b=Veraqw3f1Bleaxsr7qQNNVJAIAbZqGZFRswMIxA8JJfSgd7+F9OuppKR8IL+emYo08W8g2
- 3rDNJ1WyJNvarGKDfoDVmYdiBCmTQZ3i2h78hBKZyK5F7aRrHNpIsPRag3mtZ/AXzGWjmb
- qAUN5ONgDNJTCaKsHknVvvmk5HS00iE=
+ bh=eYu3EUAAaV9viSHuaicHSt5ZTnVbdYj7opK/cMyTMLQ=;
+ b=QoiMBOjhizDOGbk1fokwVXpdhywk8w5s3W0QgNtOAxuNvE5R/LUk/ILyvW3vTsCd8UDoCF
+ 6u1kEo/4BcM9S0QVEVPV5LNcx7ZX+eQZiJiknRlNlCRQQHkj/BNFIEDzzGhRJnNoo4flm4
+ dcR1ngVdZIIMB9PwLZSoD33FnD24BWc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-HC5Op537Nqa0PK6xSbO8Ng-1; Mon, 26 Oct 2020 06:07:22 -0400
-X-MC-Unique: HC5Op537Nqa0PK6xSbO8Ng-1
+ us-mta-150-MUsGFFKqP0ahGQ9ucqvyGw-1; Mon, 26 Oct 2020 06:07:23 -0400
+X-MC-Unique: MUsGFFKqP0ahGQ9ucqvyGw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46B801009E44;
- Mon, 26 Oct 2020 10:07:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B271910E2185;
+ Mon, 26 Oct 2020 10:07:22 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B4158B840;
- Mon, 26 Oct 2020 10:07:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5FF78B840;
+ Mon, 26 Oct 2020 10:07:21 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 30/31] tests/acceptance: Remove unused import
-Date: Mon, 26 Oct 2020 11:06:31 +0100
-Message-Id: <20201026100632.212530-31-thuth@redhat.com>
+Subject: [PULL 31/31] tests/acceptance: Use .ppm extention for Portable PixMap
+ files
+Date: Mon, 26 Oct 2020 11:06:32 +0100
+Message-Id: <20201026100632.212530-32-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -85,26 +86,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
+The HMP 'screendump' command generates Portable PixMap files.
+Make it obvious by using the .ppm file extention.
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201021105035.2477784-2-f4bug@amsat.org>
-Tested-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201021105035.2477784-3-f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/acceptance/machine_m68k_nextcube.py | 1 -
- 1 file changed, 1 deletion(-)
+ tests/acceptance/machine_m68k_nextcube.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/tests/acceptance/machine_m68k_nextcube.py b/tests/acceptance/machine_m68k_nextcube.py
-index 32cf571f94..9d289f2fab 100644
+index 9d289f2fab..2baba5fdc2 100644
 --- a/tests/acceptance/machine_m68k_nextcube.py
 +++ b/tests/acceptance/machine_m68k_nextcube.py
-@@ -9,7 +9,6 @@ import os
- import re
- import time
- import logging
--import distutils.spawn
+@@ -69,7 +69,7 @@ class NextCubeMachine(Test):
  
- from avocado_qemu import Test
- from avocado import skipUnless
+     @skipUnless(PIL_AVAILABLE, 'Python PIL not installed')
+     def test_bootrom_framebuffer_size(self):
+-        screenshot_path = os.path.join(self.workdir, "dump.png")
++        screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+ 
+         width, height = Image.open(screenshot_path).size
+@@ -78,7 +78,7 @@ class NextCubeMachine(Test):
+ 
+     @skipUnless(tesseract_available(3), 'tesseract v3 OCR tool not available')
+     def test_bootrom_framebuffer_ocr_with_tesseract_v3(self):
+-        screenshot_path = os.path.join(self.workdir, "dump.png")
++        screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+ 
+         console_logger = logging.getLogger('console')
+@@ -94,7 +94,7 @@ class NextCubeMachine(Test):
+     # that it is still alpha-level software.
+     @skipUnless(tesseract_available(4), 'tesseract v4 OCR tool not available')
+     def test_bootrom_framebuffer_ocr_with_tesseract_v4(self):
+-        screenshot_path = os.path.join(self.workdir, "dump.png")
++        screenshot_path = os.path.join(self.workdir, "dump.ppm")
+         self.check_bootrom_framebuffer(screenshot_path)
+ 
+         console_logger = logging.getLogger('console')
 -- 
 2.18.2
 
