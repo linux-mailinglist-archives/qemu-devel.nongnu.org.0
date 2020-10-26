@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CC76298ED3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:04:46 +0100 (CET)
-Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36263298EC0
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:02:56 +0100 (CET)
+Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX377-0002vP-8z
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:04:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39688)
+	id 1kX35L-0001KI-6J
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:02:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2us-0005rx-4B
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49954)
+ id 1kX2uo-0005if-I3
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2uo-0001mM-8b
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:05 -0400
+ id 1kX2uW-0001kg-Mf
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720304;
+ s=mimecast20190719; t=1603720296;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=QNFG76g5YqT18tTGZ2Q6f9ulawRvNuC4N0n3jEsX0Kk=;
- b=Oz/nuu/K2HoHbSrKPkawQq2zaIgqhN9ciFnx8dS4S08EpLXxe/ujs5l9eB7SYgfAXgdVEM
- xh8xqH8iETVVA/hCdBuXDoLQvIpnyQSraMjRg6KKQc2g9Ext+a+i+Z0s22HtiQTrVC40+4
- W/hRrIoIAQr1sd2QoaQhBgUC6plYB9g=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jmqeimzHMB012rfAVLqb0I9/4/X5Fdg6WEMvNReylTc=;
+ b=eHLtU1jM8ZiJp61JGhfz7DOEKboWuSHrHmdPis9QoCeTGsFhiqWywg3AK9dHmNJ/DFWxm7
+ A60fJwXVi6pEdC620/i/SRVJpDQ04IBPdPTRsGSkMPGBp9q5dWKxDWVfTYNZibl8Tpz175
+ rojPvnwgyU7u4ursLpZaigkEiwU7+WM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-zqWBr5zTPGGqsxm6Y0lZXw-1; Mon, 26 Oct 2020 09:51:32 -0400
-X-MC-Unique: zqWBr5zTPGGqsxm6Y0lZXw-1
+ us-mta-306-0C3LqNcuOGu9WXCpofHOPw-1; Mon, 26 Oct 2020 09:51:33 -0400
+X-MC-Unique: 0C3LqNcuOGu9WXCpofHOPw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6B2DEC1A3
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 430EC876E3D;
+ Mon, 26 Oct 2020 13:51:32 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8BF8C6EF78
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E83006EF78;
+ Mon, 26 Oct 2020 13:51:31 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/17] Build system changes and misc fixes for QEMU 5.2 soft
- freeze
-Date: Mon, 26 Oct 2020 09:51:14 -0400
-Message-Id: <20201026135131.3006712-1-pbonzini@redhat.com>
+Subject: [PULL 01/17] build: fix macOS --enable-modules build
+Date: Mon, 26 Oct 2020 09:51:15 -0400
+Message-Id: <20201026135131.3006712-2-pbonzini@redhat.com>
+In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
+References: <20201026135131.3006712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,98 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Emmanuel Blot <eblot.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+Apple's nm implementation includes empty lines in the output that are not
+found in GNU binutils.  This confuses scripts/undefsym.py, though it did
+not confuse the scripts/undefsym.sh script that it replaced.  To fix
+this, ignore lines that do not have two fields.
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+Reported-by: Emmanuel Blot <eblot.ml@gmail.com>
+Tested-by: Emmanuel Blot <eblot.ml@gmail.com>
+Fixes: 604f3e4e90 ("meson: Convert undefsym.sh to undefsym.py", 2020-09-08)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ .cirrus.yml         |  2 +-
+ scripts/undefsym.py | 11 +++++------
+ 2 files changed, 6 insertions(+), 7 deletions(-)
 
-are available in the Git repository at:
-
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 8b0e484c8bf82e07bb0439bff04e248c63cdc86a:
-
-  machine: move SMP initialization from vl.c (2020-10-26 07:08:40 -0400)
-
-----------------------------------------------------------------
-* fix --disable-tcg builds (Claudio)
-* Fixes for macOS --enable-modules build and OpenBSD curses/iconv detection (myself)
-* Start preparing for meson 0.56 (myself)
-* Move directory configuration to meson (myself)
-* Start untangling qemu_init (myself)
-* Windows fixes (Sunil)
-* Remove -no-kbm (Thomas)
-
-----------------------------------------------------------------
-Claudio Fontana (2):
-      qtest: unbreak non-TCG builds in bios-tables-test
-      replay: do not build if TCG is not available
-
-Luc Michel (1):
-      hw/core/qdev-clock: add a reference on aliased clocks
-
-Paolo Bonzini (11):
-      build: fix macOS --enable-modules build
-      meson: rewrite curses/iconv test
-      do not use colons in test names
-      Makefile: separate meson rerun from the rest of the ninja invocation
-      configure: allow configuring localedir
-      configure: move directory options from config-host.mak to meson
-      configure: remove unused variable from config-host.mak
-      configure: move install_blobs from configure to meson
-      machine: remove deprecated -machine enforce-config-section option
-      machine: move UP defaults to class_base_init
-      machine: move SMP initialization from vl.c
-
-Sunil Muthuswamy (2):
-      WHPX: Fix WHPX build break
-      win32: boot broken when bind & data dir are the same
-
-Thomas Huth (1):
-      Remove deprecated -no-kvm option
-
- .cirrus.yml                        |   2 +-
- Makefile                           |  44 ++++++---
- block/meson.build                  |   3 +-
- configure                          |  64 +++----------
- contrib/vhost-user-gpu/meson.build |   2 +-
- docs/system/deprecated.rst         |  23 ++---
- hw/core/machine.c                  |  36 +++-----
- hw/core/qdev-clock.c               |   8 ++
- include/hw/boards.h                |   1 -
- meson.build                        | 178 ++++++++++++++++++++++---------------
- meson_options.txt                  |   4 +
- migration/migration.c              |  10 ---
- net/meson.build                    |   3 +-
- pc-bios/descriptors/meson.build    |   4 +-
- pc-bios/meson.build                |  15 ++--
- qemu-options.hx                    |  11 ---
- replay/meson.build                 |   4 +-
- replay/stubs-system.c              |  96 ++++++++++++++++++++
- scripts/undefsym.py                |  11 ++-
- softmmu/vl.c                       |  16 ----
- stubs/meson.build                  |   4 +-
- stubs/replay-tools.c               |  83 +++++++++++++++++
- stubs/replay-user.c                |   9 --
- stubs/replay.c                     |  78 ----------------
- tests/fp/meson.build               |   6 +-
- tests/ptimer-test-stubs.c          |   5 --
- tests/qtest/bios-tables-test.c     |  10 +++
- tests/qtest/meson.build            |   2 +-
- tests/qtest/qmp-cmd-test.c         |   3 +
- tools/virtiofsd/meson.build        |   2 +-
- ui/icons/meson.build               |   6 +-
- ui/meson.build                     |   2 +-
- util/cutils.c                      |   2 +-
- version.texi.in                    |   2 -
- 34 files changed, 416 insertions(+), 333 deletions(-)
- create mode 100644 replay/stubs-system.c
- create mode 100644 stubs/replay-tools.c
- delete mode 100644 stubs/replay-user.c
- delete mode 100644 version.texi.in
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 81a2960b1a..900437dd2a 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -40,7 +40,7 @@ macos_xcode_task:
+   script:
+     - mkdir build
+     - cd build
+-    - ../configure --extra-cflags='-Wno-error=deprecated-declarations'
++    - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
+                    --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+     - gmake check V=1
+diff --git a/scripts/undefsym.py b/scripts/undefsym.py
+index 69a895cd26..4b6a72d95f 100644
+--- a/scripts/undefsym.py
++++ b/scripts/undefsym.py
+@@ -15,12 +15,11 @@ def filter_lines_set(stdout, from_staticlib):
+     linesSet = set()
+     for line in stdout.splitlines():
+         tokens = line.split(b' ')
+-        if len(tokens) >= 1:
+-            if len(tokens) > 1:
+-                if from_staticlib and tokens[1] == b'U':
+-                    continue
+-                if not from_staticlib and tokens[1] != b'U':
+-                    continue
++        if len(tokens) >= 2:
++            if from_staticlib and tokens[1] == b'U':
++                continue
++            if not from_staticlib and tokens[1] != b'U':
++                continue
+             new_line = b'-Wl,-u,' + tokens[0]
+             if not new_line in linesSet:
+                 linesSet.add(new_line)
 -- 
 2.26.2
+
 
 
