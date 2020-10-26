@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74F932995BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:50:35 +0100 (CET)
-Received: from localhost ([::1]:34220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 281F229964B
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:58:33 +0100 (CET)
+Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7Zi-0007Pu-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:50:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45904)
+	id 1kX7hQ-0000oN-6U
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:58:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7TY-0002TH-5s
+ id 1kX7TY-0002St-2Y
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28839)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23204)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7TV-0003bi-Ue
+ id 1kX7TV-0003bc-70
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603737848;
@@ -25,30 +25,30 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Bbq2tJzmrcH24yVmBLU6uAs9JspIcR/2HGU/iKZ1HwY=;
- b=crl4QBWrBLgGDBUJ8mg4jCUU6vgEU90ocESDyadwGCPlamq4cS0wSd21XiTBtItTjmJrqt
- yNACvxYvmnJW9IPYmTMACq41H9y/7rm6xC0OwulFops8IJ7LboxFbCTuoxJI323kEIkZ9c
- ltX2Erp674mgUqHOL3YxDdiLrhim27E=
+ bh=sbZxJE8lItiisgE6vCpdmaJoXtvJ0tNwXj0lOiC4PRk=;
+ b=Bh9FkcDa/1i6tQSxqzURRqHtPrQIQSrwkQ+cWi4OCkSbIKhgn1+K8ln9S/dTki3ClmrYeC
+ QsNvoJWqoS2vPQIU3eA6UqhrWR9JRwa+h1j6H6Et/jkQKNwysMApzWnRrpDOOVm4u069q/
+ 0pSH53sBKy+aF4T0KpSq6ken91ftwKU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-74-tbtFoizXPDyUQV8o7vjEOA-1; Mon, 26 Oct 2020 14:44:04 -0400
-X-MC-Unique: tbtFoizXPDyUQV8o7vjEOA-1
+ us-mta-488-UlbZfj0oMmO8zs6tg2aRPA-1; Mon, 26 Oct 2020 14:44:06 -0400
+X-MC-Unique: UlbZfj0oMmO8zs6tg2aRPA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 208A7809DC5;
- Mon, 26 Oct 2020 18:44:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C7EF5809DC1;
+ Mon, 26 Oct 2020 18:44:04 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA29D5D9CA;
- Mon, 26 Oct 2020 18:44:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6E62B5D9E8;
+ Mon, 26 Oct 2020 18:44:03 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com,
  misono.tomohiro@jp.fujitsu.com
-Subject: [PULL 09/16] linux/fuse.h: Pull in from Linux
-Date: Mon, 26 Oct 2020 18:43:24 +0000
-Message-Id: <20201026184331.272953-10-dgilbert@redhat.com>
+Subject: [PULL 10/16] virtiofsd: Announce FUSE_ATTR_FLAGS
+Date: Mon, 26 Oct 2020 18:43:25 +0000
+Message-Id: <20201026184331.272953-11-dgilbert@redhat.com>
 In-Reply-To: <20201026184331.272953-1-dgilbert@redhat.com>
 References: <20201026184331.272953-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,63 +88,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Update the linux/fuse.h standard header from the kernel development tree
-that implements FUSE submounts.
-
-This adds the fuse_attr.flags field, the FUSE_ATTR_FLAGS INIT flag, and
-the FUSE_ATTR_SUBMOUNT flag for fuse_attr.flags.
+The fuse_attr.flags field is currently just initialized to 0, which is
+valid.  Thus, there is no reason not to always announce FUSE_ATTR_FLAGS
+(when the kernel supports it).
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200909184028.262297-2-mreitz@redhat.com>
+Message-Id: <20200909184028.262297-3-mreitz@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- include/standard-headers/linux/fuse.h | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ tools/virtiofsd/fuse_common.h   | 8 ++++++++
+ tools/virtiofsd/fuse_lowlevel.c | 7 +++++++
+ 2 files changed, 15 insertions(+)
 
-diff --git a/include/standard-headers/linux/fuse.h b/include/standard-headers/linux/fuse.h
-index f4df0a40f6..7dd7a3b992 100644
---- a/include/standard-headers/linux/fuse.h
-+++ b/include/standard-headers/linux/fuse.h
-@@ -227,7 +227,7 @@ struct fuse_attr {
- 	uint32_t	gid;
- 	uint32_t	rdev;
- 	uint32_t	blksize;
--	uint32_t	padding;
-+	uint32_t	flags;
- };
- 
- struct fuse_kstatfs {
-@@ -310,6 +310,7 @@ struct fuse_file_lock {
-  * FUSE_NO_OPENDIR_SUPPORT: kernel supports zero-message opendir
-  * FUSE_EXPLICIT_INVAL_DATA: only invalidate cached pages on explicit request
-  * FUSE_MAP_ALIGNMENT: map_alignment field is valid
-+ * FUSE_ATTR_FLAGS: fuse_attr.flags is present and valid
+diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
+index 686c42c0a5..870544fe13 100644
+--- a/tools/virtiofsd/fuse_common.h
++++ b/tools/virtiofsd/fuse_common.h
+@@ -352,6 +352,14 @@ struct fuse_file_info {
   */
- #define FUSE_ASYNC_READ		(1 << 0)
- #define FUSE_POSIX_LOCKS	(1 << 1)
-@@ -338,6 +339,7 @@ struct fuse_file_lock {
- #define FUSE_NO_OPENDIR_SUPPORT (1 << 24)
- #define FUSE_EXPLICIT_INVAL_DATA (1 << 25)
- #define FUSE_MAP_ALIGNMENT	(1 << 26)
-+#define FUSE_ATTR_FLAGS		(1 << 27)
- 
- /**
-  * CUSE INIT request/reply flags
-@@ -413,6 +415,13 @@ struct fuse_file_lock {
-  */
- #define FUSE_FSYNC_FDATASYNC	(1 << 0)
+ #define FUSE_CAP_NO_OPENDIR_SUPPORT (1 << 24)
  
 +/**
-+ * fuse_attr flags
++ * Indicates that the client will provide fuse_attr.flags, and the kernel will
++ * interpret it.
 + *
-+ * FUSE_ATTR_SUBMOUNT: File/directory is a submount point
++ * This feature is enabled by default when supported by the kernel.
 + */
-+#define FUSE_ATTR_SUBMOUNT      (1 << 0)
++#define FUSE_CAP_ATTR_FLAGS (1 << 27)
 +
- enum fuse_opcode {
- 	FUSE_LOOKUP		= 1,
- 	FUSE_FORGET		= 2,  /* no reply */
+ /**
+  * Ioctl flags
+  *
+diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+index 4d1ba2925d..8679594255 100644
+--- a/tools/virtiofsd/fuse_lowlevel.c
++++ b/tools/virtiofsd/fuse_lowlevel.c
+@@ -1988,6 +1988,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+             bufsize = max_bufsize;
+         }
+     }
++    if (arg->flags & FUSE_ATTR_FLAGS) {
++        se->conn.capable |= FUSE_CAP_ATTR_FLAGS;
++    }
+ #ifdef HAVE_SPLICE
+ #ifdef HAVE_VMSPLICE
+     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
+@@ -2014,6 +2017,7 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     LL_SET_DEFAULT(1, FUSE_CAP_ASYNC_DIO);
+     LL_SET_DEFAULT(1, FUSE_CAP_IOCTL_DIR);
+     LL_SET_DEFAULT(1, FUSE_CAP_ATOMIC_O_TRUNC);
++    LL_SET_DEFAULT(1, FUSE_CAP_ATTR_FLAGS);
+     LL_SET_DEFAULT(se->op.write_buf, FUSE_CAP_SPLICE_READ);
+     LL_SET_DEFAULT(se->op.getlk && se->op.setlk, FUSE_CAP_POSIX_LOCKS);
+     LL_SET_DEFAULT(se->op.flock, FUSE_CAP_FLOCK_LOCKS);
+@@ -2103,6 +2107,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
+     if (se->conn.want & FUSE_CAP_POSIX_ACL) {
+         outarg.flags |= FUSE_POSIX_ACL;
+     }
++    if (se->conn.want & FUSE_CAP_ATTR_FLAGS) {
++        outarg.flags |= FUSE_ATTR_FLAGS;
++    }
+     outarg.max_readahead = se->conn.max_readahead;
+     outarg.max_write = se->conn.max_write;
+     if (se->conn.max_background >= (1 << 16)) {
 -- 
 2.28.0
 
