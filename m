@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0065299649
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:58:23 +0100 (CET)
-Received: from localhost ([::1]:57594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC91929961C
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:55:50 +0100 (CET)
+Received: from localhost ([::1]:49852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7hH-0000WC-1s
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:58:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45970)
+	id 1kX7en-0005d0-Mc
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7Td-0002jK-TY
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26566)
+ id 1kX7Tb-0002cK-KM
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7Ta-0003cY-FX
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:17 -0400
+ id 1kX7TZ-0003cP-R7
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603737853;
+ s=mimecast20190719; t=1603737852;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mm6Tj7lkIwSgB7XZCF/5J0XlTgQktMlJMB87joXdMPs=;
- b=CnTu78WrcuuR47u1gi+XTfD/3GwKLsc4vNqetGUJMji8WXzeUvuQINisLlnHAvyD77krGR
- RYzLFlbUsuqfi8QJybMM6H3ydisviyOhHf0mP8VOrSHNdxo1UQatWC83oewVNpA6x/HghE
- hAbqsYznk7MKIP5+c9SloYlJ5XZA6uA=
+ bh=Oc+dmUX2To63s+lZkfkb1mzuLK1KZe6J4nW/upXzUv0=;
+ b=eKH+sEKuIOwBc8ZOeXAJBI6l3khCj9NulmPKb4QfSFhjgIuLl+w2fnSdEqnHrAbor/kHin
+ SZi4OIKiUQH5zLKPKVwces+hUBMFovXCv+Xb64033HPtf2P1nrHHiYGinMq4U35UvL7ET/
+ wN09kjLC50Xj18P9K80gNBMOVlYhPeY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-340-sqbngvIgPfuoY1zs1vk2wg-1; Mon, 26 Oct 2020 14:44:09 -0400
-X-MC-Unique: sqbngvIgPfuoY1zs1vk2wg-1
+ us-mta-512-rsQDjw4vOfGYC0ZpcjAiUQ-1; Mon, 26 Oct 2020 14:44:10 -0400
+X-MC-Unique: rsQDjw4vOfGYC0ZpcjAiUQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AE2D1009E2D;
- Mon, 26 Oct 2020 18:44:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDFE7803F4F;
+ Mon, 26 Oct 2020 18:44:09 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C4F305D9CA;
- Mon, 26 Oct 2020 18:44:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 779C15D9CA;
+ Mon, 26 Oct 2020 18:44:08 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com,
  misono.tomohiro@jp.fujitsu.com
-Subject: [PULL 12/16] virtiofsd: Add fuse_reply_attr_with_flags()
-Date: Mon, 26 Oct 2020 18:43:27 +0000
-Message-Id: <20201026184331.272953-13-dgilbert@redhat.com>
+Subject: [PULL 13/16] virtiofsd: Store every lo_inode's parent_dev
+Date: Mon, 26 Oct 2020 18:43:28 +0000
+Message-Id: <20201026184331.272953-14-dgilbert@redhat.com>
 In-Reply-To: <20201026184331.272953-1-dgilbert@redhat.com>
 References: <20201026184331.272953-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,81 +88,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-The plain fuse_reply_attr() function does not allow setting
-fuse_attr.flags, so add this new function that does.
+We want to detect mount points in the shared tree.  We report them to
+the guest by setting the FUSE_ATTR_SUBMOUNT flag in fuse_attr.flags, but
+because the FUSE client will create a submount for every directory that
+has this flag set, we must do this only for the actual mount points.
 
-Make fuse_reply_attr() a wrapper around it.
+We can detect mount points by comparing a directory's st_dev with its
+parent's st_dev.  To be able to do so, we need to store the parent's
+st_dev in the lo_inode object.
+
+Note that mount points need not necessarily be directories; a single
+file can be a mount point as well.  However, for the sake of simplicity
+let us ignore any non-directory mount points for now.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200909184028.262297-5-mreitz@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20200909184028.262297-6-mreitz@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_lowlevel.c | 14 ++++++++++++--
- tools/virtiofsd/fuse_lowlevel.h | 15 +++++++++++++++
- 2 files changed, 27 insertions(+), 2 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 00da84432c..5198f627bc 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -426,8 +426,8 @@ int fuse_reply_create(fuse_req_t req, const struct fuse_entry_param *e,
-     return send_reply_ok(req, buf, entrysize + sizeof(struct fuse_open_out));
- }
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index a0beb986f3..4188bf3ad2 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -125,6 +125,14 @@ struct lo_inode {
+     GHashTable *posix_locks; /* protected by lo_inode->plock_mutex */
  
--int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
--                    double attr_timeout)
-+int fuse_reply_attr_with_flags(fuse_req_t req, const struct stat *attr,
-+                               double attr_timeout, uint32_t attr_flags)
- {
-     struct fuse_attr_out arg;
-     size_t size = sizeof(arg);
-@@ -437,9 +437,19 @@ int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
-     arg.attr_valid_nsec = calc_timeout_nsec(attr_timeout);
-     convert_stat(attr, &arg.attr);
- 
-+    if (req->se->conn.capable & FUSE_CAP_ATTR_FLAGS) {
-+        arg.attr.flags = attr_flags;
-+    }
+     mode_t filetype;
 +
-     return send_reply_ok(req, &arg, size);
- }
++    /*
++     * So we can detect crossmount roots
++     * (As such, this only needs to be valid for directories.  Note
++     * that files can have multiple parents due to hard links, and so
++     * their parent_dev may fluctuate.)
++     */
++    dev_t parent_dev;
+ };
  
-+int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
-+                    double attr_timeout)
-+{
-+    return fuse_reply_attr_with_flags(req, attr, attr_timeout, 0);
-+}
-+
- int fuse_reply_readlink(fuse_req_t req, const char *linkname)
- {
-     return send_reply_ok(req, linkname, strlen(linkname));
-diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
-index 9c06240f9e..1ff6ba1e4f 100644
---- a/tools/virtiofsd/fuse_lowlevel.h
-+++ b/tools/virtiofsd/fuse_lowlevel.h
-@@ -1313,6 +1313,21 @@ int fuse_reply_create(fuse_req_t req, const struct fuse_entry_param *e,
- int fuse_reply_attr(fuse_req_t req, const struct stat *attr,
-                     double attr_timeout);
+ struct lo_cred {
+@@ -847,6 +855,7 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
+         g_hash_table_insert(lo->inodes, &inode->key, inode);
+         pthread_mutex_unlock(&lo->mutex);
+     }
++    inode->parent_dev = dir->key.dev;
+     e->ino = inode->fuse_ino;
+     lo_inode_put(lo, &inode);
+     lo_inode_put(lo, &dir);
+@@ -1073,6 +1082,14 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
+     fuse_log(FUSE_LOG_DEBUG, "  %lli/%s -> %lli\n", (unsigned long long)parent,
+              name, (unsigned long long)e.ino);
  
-+/**
-+ * Reply with attributes and set fuse_attr.flags
-+ *
-+ * Possible requests:
-+ *   getattr, setattr
-+ *
-+ * @param req request handle
-+ * @param attr the attributes
-+ * @param attr_timeout validity timeout (in seconds) for the attributes
-+ * @param attr_flags flags to put into fuse_attr.flags
-+ * @return zero for success, -errno for failure to send reply
-+ */
-+int fuse_reply_attr_with_flags(fuse_req_t req, const struct stat *attr,
-+                               double attr_timeout, uint32_t attr_flags);
++    /*
++     * No need to update inode->parent_dev, because
++     * (1) We cannot, the inode now has more than one parent,
++     * (2) Directories cannot have more than one parent, so link()
++     *     does not work for them; but parent_dev only needs to be
++     *     valid for directories.
++     */
 +
- /**
-  * Reply with the contents of a symbolic link
-  *
+     fuse_reply_entry(req, &e);
+     lo_inode_put(lo, &parent_inode);
+     lo_inode_put(lo, &inode);
 -- 
 2.28.0
 
