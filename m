@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0C0298F89
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:39:11 +0100 (CET)
-Received: from localhost ([::1]:36812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 618B5298FB8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:44:51 +0100 (CET)
+Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3eQ-0004gM-Mj
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:39:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50626)
+	id 1kX3ju-0003Jm-DN
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:44:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX3WJ-0004Me-HP
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60427)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX3WD-00080h-D3
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603722640;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vuKKjltZ65zd0yLoOQDLWBfxa5YvK11CmxvAJ/hWP64=;
- b=G/uYFWLRiiXnUyWoscmZYvllDrlvnqkQj1QGm/dwI9LFyFlKAwA+IiMDYrciChEFRH9HnB
- 66sk4MJiNhHAkh+kotfocQ+UmKV6LEDZK9arW8CxcxB0dnBLB/H+P0ESNDwDA879il2bEh
- Q+twZAqrwo+CILvDf1YEGdN5MwljHrw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-CAyexAHgObSRj_5-d_9Jew-1; Mon, 26 Oct 2020 10:30:38 -0400
-X-MC-Unique: CAyexAHgObSRj_5-d_9Jew-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11900804325
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 14:30:37 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C2F0D5C1C5;
- Mon, 26 Oct 2020 14:30:36 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 15/15] vl: remove bios_name
-Date: Mon, 26 Oct 2020 10:30:28 -0400
-Message-Id: <20201026143028.3034018-16-pbonzini@redhat.com>
-In-Reply-To: <20201026143028.3034018-1-pbonzini@redhat.com>
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX3YY-0005zp-AA
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:33:07 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33183)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX3YW-0008IF-3t
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:33:05 -0400
+Received: by mail-ej1-x644.google.com with SMTP id c15so13926476ejs.0
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 07:33:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uncv4OImQJQZbkjp9IT86wTIL1wthCu8fzrRY3mxxrs=;
+ b=jpMEIcoaWp4muwFgbwl1lO1mXLUyRBqy9TuUylteqjmoKnJ+jZJoMyv1PqH0ATj4uD
+ M87/5rWZsnL1CJ2d/71pvOjBlopswuUuruV1snR3AXKMoAaUKGRkrzMXELxx/7w0Hm/v
+ iZBw2PnbSsPEIZUmQfxDh41KBoONOe6DhXBuRm2TN82ub4pdlwE/mnt2kGNEOPgQisua
+ HXH45nQxlEqzaKYA79qDiwa/8f4sLlRNPTgINU0GmgqvPu4QLTEd77wDCyekv19BwmmX
+ qC7ETYPnVDyeQhfKK8gm91alVbllmLWMdOj5rnnIFqvjwO+mVBgswoMEAiVrTZDx8Xii
+ GF/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uncv4OImQJQZbkjp9IT86wTIL1wthCu8fzrRY3mxxrs=;
+ b=hQWDVXrKgWQDreqAV+BnIPBIfhUxMB0NlKID5Bqb9DD0CG+cqE36HtuGWxsaei+sK1
+ ToyH75PwVygZqio8+WvR3EU1r//Evu3V22WbC0kPEp8+PapI9Pk4z4rI6t/TU3BkOnjK
+ GTnJati6aLXFZ8CjjICRtddQpAFng7+z3z80WvyaLTN6ml1LqkSnLT587h/Vli/MXLCg
+ Fboylr21ezixDp+f7xuv7LFe2PcdbW3trJG1BeKS9Pv5U/fjpfGeAvxLNByYKzC+KBTQ
+ n0zyuE7lqYQ8sP+n9MDdrpEHymPt6r1/CsHKrDsFfDU8aBvyKUofJ5R83j2pNMJeGitm
+ Wjkg==
+X-Gm-Message-State: AOAM5312VcLx2WSs+z8j13mw2g3c7RpngaDWwDhBRz7bn8bEak/Llk8r
+ RhKDhH1+PmslBFM/3Ps3bxB1QPlXCwxwL1pSxldoug==
+X-Google-Smtp-Source: ABdhPJwSmA3xPZbAZ0TvXFvCnnGcZK8ygBd7tg44LKX3HO2yrNZSbq9JL7BT2JmD14IqiU94wBnS2p7Z2z4nIr9OScI=
+X-Received: by 2002:a17:906:c7d9:: with SMTP id
+ dc25mr15912929ejb.482.1603722782244; 
+ Mon, 26 Oct 2020 07:33:02 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
+ <CAFEAcA9n3T5MrBp2RbOQGWBptV5ObCssF00ygK8TDieP+V1Srg@mail.gmail.com>
+ <a6065386-a844-9d06-21ca-57baa98c8caf@oracle.com>
+In-Reply-To: <a6065386-a844-9d06-21ca-57baa98c8caf@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 14:32:48 +0000
+Message-ID: <CAFEAcA_LtW+B3EOye9STciNR+JKsh8HKQ=ecy=W+Ey-SZDSUFg@mail.gmail.com>
+Subject: Re: [PATCH 0/8] Add support for pvpanic mmio device
+To: Mihai Carabas <mihai.carabas@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bios_name was a legacy variable used by machine code, but it is
-no more.
+On Mon, 26 Oct 2020 at 13:51, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+> On 10/22/2020 1:17 PM, Peter Maydell wrote:
+> > I'm afraid the answer is still the same. You need to provide
+> > a convincing argument for why this needs to be an MMIO
+> > device rather than a PCI device. I really don't want to
+> > add MMIO devices to the virt board if I can avoid it,
+> > because they're all extra code and potential extra
+> > security boundary attack surface. PCI devices are guest
+> > probeable and user-pluggable so they're almost always
+> > nicer to use than MMIO.
+> >
+>
+> Thank you for your input.
+>
+> The reason why pvpanic should be MMIO is that is a special device which
+> is not used commonly by the user (aka VM), it is not need to be
+> hot-plugable and it does not have a hardware correspondent to be a PCI
+> device.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/sysemu/sysemu.h | 1 -
- softmmu/vl.c            | 2 --
- 2 files changed, 3 deletions(-)
+"Not used commonly by the user" is a good argument for
+"just use PCI" -- users who want the functionality can add
+it to their QEMU command line or VM config, and the bulk of
+users who don't don't have to worry about it.
 
-diff --git a/include/sysemu/sysemu.h b/include/sysemu/sysemu.h
-index 817ff4cf75..1336b4264a 100644
---- a/include/sysemu/sysemu.h
-+++ b/include/sysemu/sysemu.h
-@@ -8,7 +8,6 @@
- 
- /* vl.c */
- 
--extern const char *bios_name;
- extern int only_migratable;
- extern const char *qemu_name;
- extern QemuUUID qemu_uuid;
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b7d7f43c88..7909709879 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -119,7 +119,6 @@
- 
- static const char *data_dir[16];
- static int data_dir_idx;
--const char *bios_name = NULL;
- enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
- int display_opengl;
- const char* keyboard_layout = NULL;
-@@ -4205,7 +4204,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     kernel_filename = qemu_opt_get(machine_opts, "kernel");
-     initrd_filename = qemu_opt_get(machine_opts, "initrd");
-     kernel_cmdline = qemu_opt_get(machine_opts, "append");
--    bios_name = qemu_opt_get(machine_opts, "firmware");
- 
-     opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
-     if (opts) {
--- 
-2.26.2
+PCI devices don't have to support hotplug; I agree you don't
+need hotplug for this use case.
 
+Using a PCI device would match up with the way the x86 pvpanic
+device is an ISA bus device.
+
+> Another reason is that MMIO support was accepted in the kernel
+> driver and it is pretty useless there without a device.
+
+> I know it seems that I want to get this on the short-path, but at this
+> point having a kernel driver in the upstream and no device to test it
+> against it is pretty weird.
+
+That's the kernel folks' problem to deal with, because they accepted
+the kernel driver without having confirmed that QEMU was going to
+implement it. If I were them I'd deprecate and delete that driver code.
+(They should certainly fix the bit of the documentation that claims
+that QEMU implements it.)
+
+thanks
+-- PMM
 
