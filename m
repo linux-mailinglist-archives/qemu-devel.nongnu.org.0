@@ -2,81 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127A2298DDB
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:28:52 +0100 (CET)
-Received: from localhost ([::1]:51132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC228298EB9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:00:28 +0100 (CET)
+Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX2YN-0004AW-4m
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:28:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33858)
+	id 1kX32x-0006iY-Nx
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:00:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX2XU-0003bV-PP
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:27:56 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX2XR-0006Z4-TP
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:27:56 -0400
-Received: by mail-wm1-x342.google.com with SMTP id c16so12468252wmd.2
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 06:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=QIREdB84fznPFQlTmUHl67FrzO+f0E8x071A861HCLQ=;
- b=NiMLNPJ7G8Vof8UY4u9IRPZ716dLKoFQicGHS16WEFpYebRYEc4cql/I9mg7oaFdZ1
- 13pB2pzirGOUXAJ5lpGt80vz4dWPuFHWPxFWW/6oLafIqh9COqA4etGbsekNBA9wdL9c
- SCXvOf2dySVQ9dGHMJcssmM5QlDbbkGrxxOW5kiZwuMhntwRA2EpCdK0tlZbp1A6/dRE
- Zm4VkFGtFYL4yTUNX7g+samunRY7lT6NWF9hfW2cw95TBnU0TuU6N29t2IFn3nWwAfD7
- MsduIG8W3Hbt9Bp8gn1pL7u38F8VLR+BE1tHenCVaB2kcZWPI92Y+UNiwAoo/AoePZ5t
- H2YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=QIREdB84fznPFQlTmUHl67FrzO+f0E8x071A861HCLQ=;
- b=uWxfPxy561zLIj5oWWSA/NIUnh2/go4sEdp+L5uAGj9xgS4FSTie36tsYjzZzRyZKL
- AE2wN/hKHbQjffRucCkjYSRdTToz04bYX4VjvztKrkxxYwxw7KdcKZzPPDwao8Va5O7c
- bbFwoLirmnw9zAoy2GksiCRGViOzAdbZ8QMgvz+6gISADThefUN+DxKa0YwbLClgZEtz
- NuAAjktiTVETAkuotouWB/kZ2o6AO4g06a1eT7nfeWd5+MziNSxXN+0Gli0acvCd8k14
- 9buRG624asVoQCGCKZJoZy2y96rEcIdAmp+Jge+mll0svPm9l4znBSwotxOcCnjAQCHU
- 4JlQ==
-X-Gm-Message-State: AOAM532l73ZImMM93chz7c++qoCdHoCEEmONBBjn4vPsjdC4Zy7HrYE6
- 5ruA3SYXvafu+m0wxzomEZlusb9ob2DoUg==
-X-Google-Smtp-Source: ABdhPJzrOtQ7QZBUsR4pV8DgLBhjxfBkPtQmRdzFQThurgfmrE5YOkEKyidjFuV3A16pFdwLWN66ww==
-X-Received: by 2002:a1c:96ca:: with SMTP id y193mr11042997wmd.22.1603718871591; 
- Mon, 26 Oct 2020 06:27:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id e13sm22554582wrt.57.2020.10.26.06.27.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 06:27:50 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9BEFC1FF7E;
- Mon, 26 Oct 2020 13:27:49 +0000 (GMT)
-References: <20201023073351.251332-1-thuth@redhat.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 0/4] Test more "check-acceptance" tests in the gitlab-CI
-In-reply-to: <20201023073351.251332-1-thuth@redhat.com>
-Date: Mon, 26 Oct 2020 13:27:49 +0000
-Message-ID: <87mu09glre.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <peer.adelt@hni.uni-paderborn.de>)
+ id 1kWtjh-0003Bz-03
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 00:03:57 -0400
+Received: from hoth.uni-paderborn.de ([2001:638:502:c003::19]:59924)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peer.adelt@hni.uni-paderborn.de>)
+ id 1kWtjc-0007Si-3q
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 00:03:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=hni.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=z7HpJB4AR+Ce+6NuYNWu8cOHXkqB59L9e6aPGGx44Ng=; b=Ewm4ZLGhGd3sBZcKckfnD7o+uD
+ 5E/pswWQIs+TORYvERXk0Y5S3g1wirWocE5wMQ8TPfKTlFpDfZgDZk02eY25QSJvwVtlgdlfnBTcH
+ S6L43LlTZByOdN1iWYORTLL0SxK09GwIxUugXZ/3+uiDdIabfMMstCg4/XQrXySCqid4=;
+X-Envelope-From: <peer.adelt@hni.uni-paderborn.de>
+From: Peer Adelt <peer.adelt@hni.uni-paderborn.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] plugin: Fixes compiling errors on OSX
+Date: Mon, 26 Oct 2020 05:03:01 +0100
+Message-Id: <20201026040301.72054-1-peer.adelt@hni.uni-paderborn.de>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Content-Transfer-Encoding: 8bit
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2020.10.26.35418, AntiVirus-Engine: 5.77.0,
+ AntiVirus-Data: 2020.10.26.5770000
+X-Sophos-SenderHistory: ip=37.24.125.142, fs=44179600, da=91294088, mc=249,
+ sc=2, hc=247, sp=0, fso=44179600, re=0, sd=0, hd=0
+X-IMT-Spam-Score: 0.0 ()
+X-IMT-Authenticated-Sender: uid=adelt,ou=People,o=upb,c=de
+Received-SPF: neutral client-ip=2001:638:502:c003::19;
+ envelope-from=peer.adelt@hni.uni-paderborn.de; helo=hoth.uni-paderborn.de
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 26 Oct 2020 09:54:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -88,22 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- qemu-ppc@nongnu.org, Cleber Rosa <crosa@redhat.com>,
- =?utf-8?Q?Herv=C3=A9?= Poussineau <hpoussin@reactos.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peer Adelt <peer.adelt@hni.uni-paderborn.de>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Removed the following entries
+ - "qemu_plugin_register_vcpu_mem_haddr_cb"
+ - "qemu_plugin_ram_addr_from_host"
+ - "qemu_plugin_hwaddr_to_raddr"
+from file "plugins/qemu-plugins.symbols".
 
-Thomas Huth <thuth@redhat.com> writes:
+The exported symbols do not seem to be defined anywhere and cause
+errors when linking under OSX Mojave and Big Sur.
 
-> These patches enable more "check-acceptance" tests in the gitlab-CI,
-> fixing a broken URL, setting AVOCADO_ALLOW_UNTRUSTED_CODE and adding
-> some missing packages to the containers.
+Signed-off-by: Peer Adelt <peer.adelt@hni.uni-paderborn.de>
+---
+ plugins/qemu-plugins.symbols | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Queued to pr/261020-testing-and-misc-1, thanks.
+diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
+index 4bdb381f48..40b4ff3821 100644
+--- a/plugins/qemu-plugins.symbols
++++ b/plugins/qemu-plugins.symbols
+@@ -8,9 +8,7 @@
+   qemu_plugin_register_vcpu_insn_exec_cb;
+   qemu_plugin_register_vcpu_insn_exec_inline;
+   qemu_plugin_register_vcpu_mem_cb;
+-  qemu_plugin_register_vcpu_mem_haddr_cb;
+   qemu_plugin_register_vcpu_mem_inline;
+-  qemu_plugin_ram_addr_from_host;
+   qemu_plugin_register_vcpu_tb_trans_cb;
+   qemu_plugin_register_vcpu_tb_exec_cb;
+   qemu_plugin_register_vcpu_tb_exec_inline;
+@@ -32,7 +30,6 @@
+   qemu_plugin_mem_is_store;
+   qemu_plugin_get_hwaddr;
+   qemu_plugin_hwaddr_is_io;
+-  qemu_plugin_hwaddr_to_raddr;
+   qemu_plugin_vcpu_for_each;
+   qemu_plugin_n_vcpus;
+   qemu_plugin_n_max_vcpus;
+-- 
+2.29.1
 
---=20
-Alex Benn=C3=A9e
 
