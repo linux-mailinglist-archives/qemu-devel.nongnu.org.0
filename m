@@ -2,106 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD8E299519
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:17:30 +0100 (CET)
-Received: from localhost ([::1]:52802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E052994D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:07:25 +0100 (CET)
+Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX73h-0003Cj-Av
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:17:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55228)
+	id 1kX6tw-00085S-FE
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kX6U9-0001fK-Hw; Mon, 26 Oct 2020 13:40:49 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1kX6U6-0002xu-Gx; Mon, 26 Oct 2020 13:40:45 -0400
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09QHWItv074816; Mon, 26 Oct 2020 13:40:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=N8x87jjoTsSE/CXSSyEMfSvl2TFRL8kektPyYonN0kQ=;
- b=m7q5jypXsgEcpA9sODfiRlQP2X+DtS6lP3/0DehppPMwd2fmSVnAFTGmFm2fzqvQvx/a
- lLY7KcijCq8p9Euko0brGPw68k0ZKG4B0Yw3DTkB2kQKVg7zX+AnLJZWuos7e2IAv8hZ
- QGsg9nzF2lBHpD8D9tsP4attFVclLLcbRaZfSkfj/hhSNOJqDTmtndmE1DnBIyRH0+Z/
- fB8mGQlu5upfMJ+S6zJrFXu50wDWhge1WuYmoeLoFa+7/0LUCu2zYVXhy0tIw2fbR9f0
- AzZUZlB+z64qvpisqtC9k2ukSZskHV+3DA0CfR5drkERAEZ+lJWmyWSpqotlEpy479AA Nw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34dq9fn5p5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 13:40:40 -0400
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09QHWJNx074931;
- Mon, 26 Oct 2020 13:40:40 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34dq9fn5nx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 13:40:40 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09QHcJxr017804;
- Mon, 26 Oct 2020 17:40:39 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03dal.us.ibm.com with ESMTP id 34cbw8wsre-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 17:40:39 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09QHeWKW63963536
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 26 Oct 2020 17:40:32 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E45A5BE056;
- Mon, 26 Oct 2020 17:40:37 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 85D00BE05A;
- Mon, 26 Oct 2020 17:40:36 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.163.49.29])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 26 Oct 2020 17:40:36 +0000 (GMT)
-Subject: Re: [PATCH 02/13] linux-headers: update against 5.10-rc1
-To: Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <1603726481-31824-1-git-send-email-mjrosato@linux.ibm.com>
- <1603726481-31824-3-git-send-email-mjrosato@linux.ibm.com>
- <20201026113716.2c67aec6@w520.home>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <5ef1a7c9-66a1-8e88-7f29-1109d41e2bd0@linux.ibm.com>
-Date: Mon, 26 Oct 2020 13:40:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kX6iS-0002jT-DE
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:55:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kX6iO-0004yg-55
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:55:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603734927;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1f0xSmS9ka5VP6euVxr+4iJi6AIc3Maa8rn7FL7Oq9U=;
+ b=FNJnlpk3VctCnq4mTw0VBbRId+91+WFU81A1zrId1icmicoBvJ/a/ssaKnMsFIkNu7PCqh
+ poluWiTcovgqx6/FtS0j0ZhTKt2ZAnyopQ308mm0oDyVAjxSh5SGbXkoa9W6oDviLPdarn
+ xKaxVGdTjx1pDTU00xPGKYx+wUXoikk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-YFbQYHJ5P1-cefGH1AaiDw-1; Mon, 26 Oct 2020 13:55:12 -0400
+X-MC-Unique: YFbQYHJ5P1-cefGH1AaiDw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFAA1016CEC
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 17:55:11 +0000 (UTC)
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AE045C1DC;
+ Mon, 26 Oct 2020 17:55:00 +0000 (UTC)
+Date: Mon, 26 Oct 2020 17:54:57 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH 0/8] virtiofsd: Announce submounts to the guest
+Message-ID: <20201026175457.GF152260@work-vm>
+References: <20200909184028.262297-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201026113716.2c67aec6@w520.home>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
- definitions=2020-10-26_08:2020-10-26,
- 2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 suspectscore=0
- spamscore=0 impostorscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010260115
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 13:40:41
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20200909184028.262297-1-mreitz@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,114 +82,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, kvm@vger.kernel.org, pmorel@linux.ibm.com,
- david@redhat.com, cohuck@redhat.com, schnelle@linux.ibm.com,
- qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- qemu-s390x@nongnu.org, mst@redhat.com, pbonzini@redhat.com, philmd@redhat.com,
- rth@twiddle.net
+Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 1:37 PM, Alex Williamson wrote:
-> On Mon, 26 Oct 2020 11:34:30 -0400
-> Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+* Max Reitz (mreitz@redhat.com) wrote:
+> RFC: https://www.redhat.com/archives/virtio-fs/2020-May/msg00024.html
 > 
->> commit 3650b228f83adda7e5ee532e2b90429c03f7b9ec
->>
->> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
->> ---
->>   .../drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h | 14 ++--
->>   .../infiniband/hw/vmw_pvrdma/pvrdma_verbs.h        |  2 +-
->>   include/standard-headers/linux/ethtool.h           |  2 +
->>   include/standard-headers/linux/fuse.h              | 50 +++++++++++++-
->>   include/standard-headers/linux/input-event-codes.h |  4 ++
->>   include/standard-headers/linux/pci_regs.h          |  6 +-
->>   include/standard-headers/linux/virtio_fs.h         |  3 +
->>   include/standard-headers/linux/virtio_gpu.h        | 19 ++++++
->>   include/standard-headers/linux/virtio_mmio.h       | 11 +++
->>   include/standard-headers/linux/virtio_pci.h        | 11 ++-
->>   linux-headers/asm-arm64/kvm.h                      | 25 +++++++
->>   linux-headers/asm-arm64/mman.h                     |  1 +
->>   linux-headers/asm-generic/hugetlb_encode.h         |  1 +
->>   linux-headers/asm-generic/unistd.h                 | 18 ++---
->>   linux-headers/asm-mips/unistd_n32.h                |  1 +
->>   linux-headers/asm-mips/unistd_n64.h                |  1 +
->>   linux-headers/asm-mips/unistd_o32.h                |  1 +
->>   linux-headers/asm-powerpc/unistd_32.h              |  1 +
->>   linux-headers/asm-powerpc/unistd_64.h              |  1 +
->>   linux-headers/asm-s390/unistd_32.h                 |  1 +
->>   linux-headers/asm-s390/unistd_64.h                 |  1 +
->>   linux-headers/asm-x86/kvm.h                        | 20 ++++++
->>   linux-headers/asm-x86/unistd_32.h                  |  1 +
->>   linux-headers/asm-x86/unistd_64.h                  |  1 +
->>   linux-headers/asm-x86/unistd_x32.h                 |  1 +
->>   linux-headers/linux/kvm.h                          | 19 ++++++
->>   linux-headers/linux/mman.h                         |  1 +
->>   linux-headers/linux/vfio.h                         | 29 +++++++-
->>   linux-headers/linux/vfio_zdev.h                    | 78 ++++++++++++++++++++++
->>   29 files changed, 301 insertions(+), 23 deletions(-)
->>   create mode 100644 linux-headers/linux/vfio_zdev.h
->>
->> diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
->> index 7b4062a..acd4c83 100644
->> --- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
->> +++ b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
->> @@ -68,7 +68,7 @@ static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
->>   
->>   static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
->>   {
->> -	const unsigned int idx = qatomic_read(var);
->> +	const unsigned int idx = atomic_read(var);
->>   
->>   	if (pvrdma_idx_valid(idx, max_elems))
->>   		return idx & (max_elems - 1);
->> @@ -77,17 +77,17 @@ static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
->>   
->>   static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
->>   {
->> -	uint32_t idx = qatomic_read(var) + 1;	/* Increment. */
->> +	uint32_t idx = atomic_read(var) + 1;	/* Increment. */
->>   
->>   	idx &= (max_elems << 1) - 1;		/* Modulo size, flip gen. */
->> -	qatomic_set(var, idx);
->> +	atomic_set(var, idx);
->>   }
->>   
->>   static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
->>   					      uint32_t max_elems, uint32_t *out_tail)
->>   {
->> -	const uint32_t tail = qatomic_read(&r->prod_tail);
->> -	const uint32_t head = qatomic_read(&r->cons_head);
->> +	const uint32_t tail = atomic_read(&r->prod_tail);
->> +	const uint32_t head = atomic_read(&r->cons_head);
->>   
->>   	if (pvrdma_idx_valid(tail, max_elems) &&
->>   	    pvrdma_idx_valid(head, max_elems)) {
->> @@ -100,8 +100,8 @@ static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
->>   static inline int32_t pvrdma_idx_ring_has_data(const struct pvrdma_ring *r,
->>   					     uint32_t max_elems, uint32_t *out_head)
->>   {
->> -	const uint32_t tail = qatomic_read(&r->prod_tail);
->> -	const uint32_t head = qatomic_read(&r->cons_head);
->> +	const uint32_t tail = atomic_read(&r->prod_tail);
->> +	const uint32_t head = atomic_read(&r->cons_head);
->>   
->>   	if (pvrdma_idx_valid(tail, max_elems) &&
->>   	    pvrdma_idx_valid(head, max_elems)) {
-> 
-> 
-> The above is clearly just going to revert Stefan's changes to this file
-> via:
-> 
-> d73415a31547 )"qemu/atomic.h: rename atomic_ to qatomic_")
-> 
-> For now I'm just going to drop these changes (with comment) to avoid
-> that.  I'll leave it to others to fix the header update script to either
-> reimplement the s/atomic_/qatomic_/ conversion or remove these code
-> blocks altogether.  Sound ok?  Thanks,
-> 
-> Alex
+> Branch: https://github.com/XanClic/qemu.git virtiofs-submounts-v2
+> Branch: https://git.xanclic.moe/XanClic/qemu.git virtiofs-submounts-v2
 
-Yes, this makes sense to me.
+Queued
+
+> 
+> 
+> (Note that there is an accompanying Linux (kernel) series
+> “fuse: Mirror virtio-fs submounts”.)
+> 
+> 
+> Hi,
+> 
+> We want to (be able to) announce the host mount structure of the shared
+> directory to the guest so it can replicate that structure.  This ensures
+> that whenever the combination of st_dev and st_ino is unique on the
+> host, it will be unique in the guest as well.
+> 
+> This feature is optional and needs to be enabled explicitly, so that the
+> mount structure isn’t leaked to the guest if the user doesn’t want it to
+> be.
+> 
+> The last patch in this series adds a test script.  For it to pass, you
+> need to compile a kernel with the accompanying “fuse: Mirror virtio-fs
+> submounts” patch series, and provide it to the test (as described in the
+> test patch).
+> 
+> 
+> Known caveats:
+> - stat(2) doesn’t trigger auto-mounting.  Therefore, issuing a stat() on
+>   a sub-mountpoint before it’s been auto-mounted will show its parent’s
+>   st_dev together with the st_ino it has in the sub-mounted filesystem.
+> 
+>   For example, imagine you want to share a whole filesystem with the
+>   guest, which on the host first looks like this:
+> 
+>     root/           (st_dev=64, st_ino=128)
+>       sub_fs/       (st_dev=64, st_ino=234)
+> 
+>   And then you mount another filesystem under sub_fs, so it looks like
+>   this:
+> 
+>     root/           (st_dev=64, st_ino=128)
+>       sub_fs/       (st_dev=96, st_ino=128)
+>         ...
+> 
+>   As you can see, sub_fs becomes a mount point, so its st_dev and st_ino
+>   change from what they were on root’s filesystem to what they are in
+>   the sub-filesystem.  In fact, root and sub_fs now have the same
+>   st_ino, which is not unlikely given that both are root nodes in their
+>   respective filesystems.
+> 
+>   Now, this filesystem is shared with the guest through virtiofsd.
+>   There is no way for virtiofsd to uncover sub_fs’s original st_ino
+>   value of 234, so it will always provide st_ino=128 to the guest.
+>   However, virtiofsd does notice that sub_fs is a mount point and
+>   announces this fact to the guest.
+> 
+>   We want this to result in something like the following tree in the
+>   guest:
+> 
+>     root/           (st_dev=32, st_ino=128)
+>       sub_fs/       (st_dev=33, st_ino=128)
+>         ...
+> 
+>   That is, sub_fs should be a different filesystem that’s auto-mounted.
+>   However, as stated above, stat(2) doesn’t trigger auto-mounting, so
+>   before it happens, the following structure will be visible:
+> 
+>     root/           (st_dev=32, st_ino=128)
+>       sub_fs/       (st_dev=32, st_ino=128)
+> 
+>   That is, sub_fs and root will have the same st_dev/st_ino combination.
+> 
+>   This can easily be seen by executing find(1) on root in the guest,
+>   which will subsequently complain about an alleged filesystem loop.
+> 
+>   To properly fix this problem, we probably would have to be able to
+>   uncover sub_fs’s original st_ino value (i.e. 234) and let the guest
+>   use that until the auto-mount happens.  However, there is no way to
+>   get that value (from userspace at least).
+> 
+>   Note that NFS with crossmnt has the exact same issue.
+> 
+> 
+> - You can unmount auto-mounted submounts in the guest, but then you
+>   still cannot unmount them on the host.  The guest still holds a
+>   reference to the submount’s root directory, because that’s just a
+>   normal entry in its parent directory (on the submount’s parent
+>   filesystem).
+> 
+>   This is kind of related to the issue noted above: When the submount is
+>   unmounted, the guest shouldn’t have a reference to sub_fs as the
+>   submount’s root directory (host’s st_dev=96, st_ino=128), but to it as
+>   a normal entry in its parent filesystem (st_dev=64, st_ino=234).
+> 
+>   (When you have multiple nesting levels, you can unmount inner mounts
+>   when the outer ones have been unmounted in the guest.  For example,
+>   say you have a structure A/B/C/D, where each is a mount point, then
+>   unmounting D, C, and B in the guest will allow the host to unmount D
+>   and C.)
+> 
+> 
+> Max Reitz (8):
+>   linux/fuse.h: Pull in from Linux
+>   virtiofsd: Announce FUSE_ATTR_FLAGS
+>   virtiofsd: Add attr_flags to fuse_entry_param
+>   virtiofsd: Add fuse_reply_attr_with_flags()
+>   virtiofsd: Store every lo_inode's parent_dev
+>   virtiofsd: Announce sub-mount points
+>   tests/acceptance/boot_linux: Accept SSH pubkey
+>   tests/acceptance: Add virtiofs_submounts.py
+> 
+>  include/standard-headers/linux/fuse.h         |  11 +-
+>  tools/virtiofsd/fuse_common.h                 |   8 +
+>  tools/virtiofsd/fuse_lowlevel.h               |  20 ++
+>  tools/virtiofsd/fuse_lowlevel.c               |  34 ++-
+>  tools/virtiofsd/helper.c                      |   1 +
+>  tools/virtiofsd/passthrough_ll.c              |  84 ++++-
+>  tests/acceptance/boot_linux.py                |  13 +-
+>  tests/acceptance/virtiofs_submounts.py        | 289 ++++++++++++++++++
+>  .../virtiofs_submounts.py.data/cleanup.sh     |  46 +++
+>  .../guest-cleanup.sh                          |  30 ++
+>  .../virtiofs_submounts.py.data/guest.sh       | 138 +++++++++
+>  .../virtiofs_submounts.py.data/host.sh        | 127 ++++++++
+>  12 files changed, 780 insertions(+), 21 deletions(-)
+>  create mode 100644 tests/acceptance/virtiofs_submounts.py
+>  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/cleanup.sh
+>  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/guest-cleanup.sh
+>  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/guest.sh
+>  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/host.sh
+> 
+> -- 
+> 2.26.2
+> 
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
