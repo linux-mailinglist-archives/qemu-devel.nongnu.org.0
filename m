@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCE30298E88
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:54:52 +0100 (CET)
-Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6FB298EAC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:58:20 +0100 (CET)
+Received: from localhost ([::1]:50674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX2xX-0007Ei-S8
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:54:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39386)
+	id 1kX30t-0003ix-7C
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:58:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kX2u8-0005KY-AC; Mon, 26 Oct 2020 09:51:20 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:38860)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kX2u5-0001hu-Bz; Mon, 26 Oct 2020 09:51:19 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09QDnIFd068914;
- Mon, 26 Oct 2020 13:51:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=auub1rovbp8q0GUEyFyhFiazXj7YK8IRFXOXS11Xue4=;
- b=h4yVeNbVLs6kThH5LQ+nrp7UFQWfguDLUaWY6Ki3WyYImBOCEsRv3typc15osgEzRJcp
- BEi3WuzuZSXtzE9RZBTOOMf46CNmSiR/VMZM6A96PeNfDjH5wi+XwuoNjrAjEMagJmSF
- rroDkbC074ByPPF1UqZ6ML5Ye7wBHvVEfxNoQ35zGZkJmKU7/UX8RHeXUVaCRTL7jVre
- c0FjAI7HCSj82aYd+tEzoYPCvgTtBXvIdypSRgEUPG2vKHa436HLKf2E/arIk/jTrlSa
- PTvMl7M1TKKlBMlbiUtu3/opIwlp/QPTFehCv2eBqWh3xnkejJ34EsMgbUk6kvUJCSl6 5Q== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 34cc7kmpmk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
- Mon, 26 Oct 2020 13:51:09 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09QDoOXk152672;
- Mon, 26 Oct 2020 13:51:09 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by aserp3030.oracle.com with ESMTP id 34cwuk87h1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 26 Oct 2020 13:51:09 +0000
-Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09QDp7TE004625;
- Mon, 26 Oct 2020 13:51:08 GMT
-Received: from [192.168.248.100] (/86.120.250.68)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 26 Oct 2020 06:51:02 -0700
-Subject: Re: [PATCH 0/8] Add support for pvpanic mmio device
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
- <CAFEAcA9n3T5MrBp2RbOQGWBptV5ObCssF00ygK8TDieP+V1Srg@mail.gmail.com>
-From: Mihai Carabas <mihai.carabas@oracle.com>
-Message-ID: <a6065386-a844-9d06-21ca-57baa98c8caf@oracle.com>
-Date: Mon, 26 Oct 2020 15:50:59 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX2ug-0005hQ-G4
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:51:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41315)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX2uS-0001kt-Qx
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:51:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603720298;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q2/1xW3dbH1Lhr/F+FHDrEtNrsWDFmpxnRil/jGCbtM=;
+ b=QasAFqa7gJGxvdQYLIzdRGZiGaTfuFUAClscA40ZgLFQQYOvU8PLoXL9R/8DyrRwvW0SGr
+ HiUe/lGm5GYOmD+chca2fx8IinGd8giQ3kt2FnsiSHq2C/gUiNiUs8I6GCa5/UzQyylxQ0
+ tpi2FC58wabEiv3WPF0WQ9l5eG+Y588=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-kEk091TXOWCzPx1TR1rwIg-1; Mon, 26 Oct 2020 09:51:33 -0400
+X-MC-Unique: kEk091TXOWCzPx1TR1rwIg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CBE7188C12F
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:32 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 623016EF7B
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:32 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 02/17] meson: rewrite curses/iconv test
+Date: Mon, 26 Oct 2020 09:51:16 -0400
+Message-Id: <20201026135131.3006712-3-pbonzini@redhat.com>
+In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
+References: <20201026135131.3006712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9n3T5MrBp2RbOQGWBptV5ObCssF00ygK8TDieP+V1Srg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 bulkscore=0
- spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010260100
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785
- signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
- lowpriorityscore=0 adultscore=0
- malwarescore=0 spamscore=0 clxscore=1015 mlxscore=0 suspectscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 phishscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010260100
-Received-SPF: pass client-ip=141.146.126.78;
- envelope-from=mihai.carabas@oracle.com; helo=aserp2120.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 09:51:11
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,47 +81,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shannon Zhao <shannon.zhaosl@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/22/2020 1:17 PM, Peter Maydell wrote:
-> On Thu, 22 Oct 2020 at 09:25, Mihai Carabas <mihai.carabas@oracle.com> wrote:
->> The patchset was assembled from chuncks from some old patches from 2018 [1]
->> which were left unmerged and some additions from me. Surprisingly their Linux
->> kernel counterpart were merged (so the pvpanic driver from the kernel supports
->> mmio).
->>
->> I have seen the discussions about moving the pvpanic to PCI [1]. Those patches
->> were sent but nothing happened. Also they are not trivial and require major
->> modifications at the driver level also. Given the fact that we already have
->> mmio driver support for pvpanic in the Linux kernel, I have sent these patches
->> to ask again the maintainers if this can be merged.
-> 
-> I'm afraid the answer is still the same. You need to provide
-> a convincing argument for why this needs to be an MMIO
-> device rather than a PCI device. I really don't want to
-> add MMIO devices to the virt board if I can avoid it,
-> because they're all extra code and potential extra
-> security boundary attack surface. PCI devices are guest
-> probeable and user-pluggable so they're almost always
-> nicer to use than MMIO.
-> 
+Redo the curses test to do the same tests that the configure
+check used to do.  OpenBSD triggers the warning because
+it does not support NCURSES_WIDECHAR and thus the cc.links
+test fails.
 
-Thank you for your input.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ meson.build | 127 ++++++++++++++++++++++++++++++----------------------
+ 1 file changed, 73 insertions(+), 54 deletions(-)
 
-The reason why pvpanic should be MMIO is that is a special device which 
-is not used commonly by the user (aka VM), it is not need to be 
-hot-plugable and it does not have a hardware correspondent to be a PCI 
-device. Another reason is that MMIO support was accepted in the kernel 
-driver and it is pretty useless there without a device.
+diff --git a/meson.build b/meson.build
+index 7627a0ae46..0edde14ad7 100644
+--- a/meson.build
++++ b/meson.build
+@@ -465,70 +465,89 @@ endif
+ iconv = not_found
+ curses = not_found
+ if have_system and not get_option('curses').disabled()
+-  if not get_option('iconv').disabled()
+-    libiconv = cc.find_library('iconv',
+-                               required: false,
+-                               static: enable_static)
+-    if cc.links('''
+-      #include <iconv.h>
+-      int main(void) {
+-        iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
+-        return conv != (iconv_t) -1;
+-      }''', dependencies: [libiconv])
+-      iconv = declare_dependency(dependencies: [libiconv])
++  curses_test = '''
++    #include <locale.h>
++    #include <curses.h>
++    #include <wchar.h>
++    int main(void) {
++      wchar_t wch = L'w';
++      setlocale(LC_ALL, "");
++      resize_term(0, 0);
++      addwstr(L"wide chars\n");
++      addnwstr(&wch, 1);
++      add_wch(WACS_DEGREE);
++      return 0;
++    }'''
++
++  curses = dependency((targetos == 'windows' ? 'ncurses' : 'ncursesw'),
++                      required: false,
++                      method: 'pkg-config',
++                      static: enable_static)
++  msg = get_option('curses').enabled() ? 'curses library not found' : ''
++  if curses.found()
++    if cc.links(curses_test, dependencies: [curses])
++      curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [curses])
++    else
++      msg = 'curses package not usable'
++      curses = not_found
+     endif
+   endif
+-  if get_option('iconv').enabled() and not iconv.found()
+-    error('Cannot detect iconv API')
+-  endif
+-  if iconv.found()
+-    curses_libname_list = ['ncursesw', 'ncurses', 'cursesw', 'pdcurses']
+-    curses_test = '''
+-      #include <locale.h>
+-      #include <curses.h>
+-      #include <wchar.h>
+-      int main(void) {
+-        wchar_t wch = L'w';
+-        setlocale(LC_ALL, "");
+-        resize_term(0, 0);
+-        addwstr(L"wide chars\n");
+-        addnwstr(&wch, 1);
+-        add_wch(WACS_DEGREE);
+-        return 0;
+-      }'''
+-    foreach curses_libname : curses_libname_list
+-      libcurses = dependency(curses_libname,
+-                             required: false,
+-                             method: 'pkg-config',
+-                             static: enable_static)
+-
+-      if not libcurses.found()
+-        dirs = ['/usr/include/ncursesw']
+-        if targetos == 'windows'
+-          dirs = []
+-        endif
++  if not curses.found()
++    curses_compile_args = ['-DNCURSES_WIDECHAR']
++    has_curses_h = cc.has_header('curses.h', args: curses_compile_args)
++    if targetos != 'windows' and not has_curses_h
++      message('Trying with /usr/include/ncursesw')
++      curses_compile_args += ['-I/usr/include/ncursesw']
++      has_curses_h = cc.has_header('curses.h', args: curses_compile_args)
++    endif
++    if has_curses_h
++      curses_libname_list = (targetos == 'windows' ? ['pdcurses'] : ['ncursesw', 'cursesw'])
++      foreach curses_libname : curses_libname_list
+         libcurses = cc.find_library(curses_libname,
+                                     required: false,
+-                                    dirs: dirs,
+                                     static: enable_static)
+-      endif
+-      if libcurses.found()
+-        if cc.links(curses_test, dependencies: [libcurses])
+-          curses = declare_dependency(compile_args: '-DNCURSES_WIDECHAR', dependencies: [libcurses])
+-          break
++        if libcurses.found()
++          if cc.links(curses_test, args: curses_compile_args, dependencies: libcurses)
++            curses = declare_dependency(compile_args: curses_compile_args,
++                                        dependencies: [libcurses])
++            break
++          else
++            msg = 'curses library not usable'
++          endif
+         endif
++      endforeach
++    endif
++  endif
++  if not get_option('iconv').disabled()
++    foreach link_args : [ ['-liconv'], [] ]
++      # Programs will be linked with glib and this will bring in libiconv on FreeBSD.
++      # We need to use libiconv if available because mixing libiconv's headers with
++      # the system libc does not work.
++      # However, without adding glib to the dependencies -L/usr/local/lib will not be
++      # included in the command line and libiconv will not be found.
++      if cc.links('''
++        #include <iconv.h>
++        int main(void) {
++          iconv_t conv = iconv_open("WCHAR_T", "UCS-2");
++          return conv != (iconv_t) -1;
++        }''', args: config_host['GLIB_CFLAGS'].split() + config_host['GLIB_LIBS'].split() + link_args)
++        iconv = declare_dependency(link_args: link_args, dependencies: glib)
++        break
+       endif
+     endforeach
+   endif
+-  if not curses.found()
+-    if iconv.found()
+-      if get_option('curses').enabled()
+-        error('Cannot find curses')
+-      endif
+-    elif get_option('curses').enabled()
+-      error('iconv required for curses UI but not available')
++  if curses.found() and not iconv.found()
++    if get_option('iconv').enabled()
++      error('iconv not available')
++    endif
++    msg = 'iconv required for curses UI but not available'
++    curses = not_found
++  endif
++  if not curses.found() and msg != ''
++    if get_option('curses').enabled()
++      error(msg)
+     else
+-      warning('iconv required for curses UI but not available, disabling')
++      warning(msg + ', disabling')
+     endif
+   endif
+ endif
+-- 
+2.26.2
 
-I know it seems that I want to get this on the short-path, but at this 
-point having a kernel driver in the upstream and no device to test it 
-against it is pretty weird.
 
-Thank you,
-Mihai
 
