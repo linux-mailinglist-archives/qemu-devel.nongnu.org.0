@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9AB29992C
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:55:45 +0100 (CET)
-Received: from localhost ([::1]:45816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD8429991C
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:51:24 +0100 (CET)
+Received: from localhost ([::1]:38576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXASu-0006B8-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:55:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60682)
+	id 1kXAOh-0002xq-PC
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:51:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAv-0004Ea-V9
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48324)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAn-000493-SS
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAi-0001WO-O0
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:09 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAi-0001WS-Kt
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603748213;
+ s=mimecast20190719; t=1603748214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gGFAJIbWrsePAIhsW7EqR0u/1Qreg8w5S8GElOz37dI=;
- b=NhJbSqpxIp9u7GOchtLLR6EGg0DbnztI6kROPUMsd/GNAh3VXJG5HvXK8qEZY0oDAPc+Kw
- f3M2vSm3+iSVH89WKVXTQOkwwOnqtjukMCUPfXHz6abMITc905rRDgS2QUZBWjRP2j9z5w
- B/AdMoKwU/VrPcnHjpJ+ZM9M2bCqB0c=
+ bh=m+EZJX0eQxg+80kMWX3ibga94kOWka1lb3G7YdUIwjs=;
+ b=hD+WQ7LwkHrYIw82PYYc6CPAtBg5F6xk1GFKSDLxJZC2+XGV1CbBSnBWMrEnrjYLYauN9m
+ dxtT0Cpma6kJS9NcaGiI+JGmibBXhaGXervdE0KWLAMfxm47P4twEgNRmlpH4zI7Al+Dfo
+ BbxqENtSP6d7LIea4B5h1llBERwBTcY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-c67zQgCKOACKkR5HuOn70A-1; Mon, 26 Oct 2020 17:36:51 -0400
-X-MC-Unique: c67zQgCKOACKkR5HuOn70A-1
+ us-mta-478-JLAwioocMW-D33uKLlDKnA-1; Mon, 26 Oct 2020 17:36:52 -0400
+X-MC-Unique: JLAwioocMW-D33uKLlDKnA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BE4E8030B2
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 340D41868431
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:51 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C956E19D6C;
- Mon, 26 Oct 2020 21:36:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E03819728;
+ Mon, 26 Oct 2020 21:36:50 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 13/16] qapi/expr.py: Modify check_keys to accept any
- Iterable
-Date: Mon, 26 Oct 2020 17:36:34 -0400
-Message-Id: <20201026213637.47087-14-jsnow@redhat.com>
+Subject: [PATCH v2 14/16] qapi/expr.py: Use tuples instead of lists for static
+ data
+Date: Mon, 26 Oct 2020 17:36:35 -0400
+Message-Id: <20201026213637.47087-15-jsnow@redhat.com>
 In-Reply-To: <20201026213637.47087-1-jsnow@redhat.com>
 References: <20201026213637.47087-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,49 +85,33 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a very minor adjustment.
-
-a + b is list-specific behavior, but we can accept a wider variety of
-types in a more pythonic fashion if we avoid that behavior.
-
-Typing it this way allows callers to use things like dict.keys() and
-other iterables that are not their own discrete lists.
-
-Including it just as a statement of practice if nothing else: It's nice
-to use the least-specific type possible as function input and use the
-most-specific type for returns.
+It is -- maybe -- possibly -- three nanoseconds faster.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/expr.py | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qapi/expr.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 8ad82ca98864..883aa1781599 100644
+index 883aa1781599..9253560cd9ce 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -133,8 +133,8 @@ def check_defn_name_str(name: str, info: QAPISourceInfo, meta: str) -> None:
- def check_keys(value: _JSObject,
-                info: QAPISourceInfo,
-                source: str,
--               required: List[str],
--               optional: List[str]) -> None:
-+               required: Iterable[str] = (),
-+               optional: Iterable[str] = ()) -> None:
+@@ -172,11 +172,11 @@ def check_flags(expr: Expression, info: QAPISourceInfo) -> None:
+     :param expr: Expression to validate.
+     :param info: QAPI source file information.
      """
-     Ensures an object has a specific set of keys. [Const]
- 
-@@ -155,7 +155,7 @@ def pprint(elems: Iterable[str]) -> str:
-             "%s misses key%s %s"
-             % (source, 's' if len(missing) > 1 else '',
-                pprint(missing)))
--    allowed = set(required + optional)
-+    allowed = set(required) | set(optional)
-     unknown = set(value) - allowed
-     if unknown:
-         raise QAPISemError(
+-    for key in ['gen', 'success-response']:
++    for key in ('gen', 'success-response'):
+         if key in expr and expr[key] is not False:
+             raise QAPISemError(
+                 info, "flag '%s' may only use false value" % key)
+-    for key in ['boxed', 'allow-oob', 'allow-preconfig', 'coroutine']:
++    for key in ('boxed', 'allow-oob', 'allow-preconfig', 'coroutine'):
+         if key in expr and expr[key] is not True:
+             raise QAPISemError(
+                 info, "flag '%s' may only use true value" % key)
 -- 
 2.26.2
 
