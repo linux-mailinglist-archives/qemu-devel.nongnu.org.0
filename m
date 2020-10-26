@@ -2,51 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3247298EE4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:12:00 +0100 (CET)
-Received: from localhost ([::1]:60628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC76298ED3
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:04:46 +0100 (CET)
+Received: from localhost ([::1]:40020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3E7-0003Px-Ue
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:12:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60960)
+	id 1kX377-0002vP-8z
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:04:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kWz3U-0007Cb-Cr; Mon, 26 Oct 2020 05:44:44 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2482)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kWz3Q-0006qM-L3; Mon, 26 Oct 2020 05:44:43 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CKVKx0skczhbRk;
- Mon, 26 Oct 2020 17:44:37 +0800 (CST)
-Received: from [10.174.187.250] (10.174.187.250) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 26 Oct 2020 17:44:22 +0800
-To: <qemu-devel@nongnu.org>
-From: jokenzhang <zhangxinhao1@huawei.com>
-Subject: [PATCH] hw/acpi/nvdimm.c : Don't use '#' flag of printf format
-Message-ID: <af7fe174-c789-faf6-e067-80f7ebe21f0c@huawei.com>
-Date: Mon, 26 Oct 2020 17:44:21 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.3
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX2us-0005rx-4B
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX2uo-0001mM-8b
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603720304;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=QNFG76g5YqT18tTGZ2Q6f9ulawRvNuC4N0n3jEsX0Kk=;
+ b=Oz/nuu/K2HoHbSrKPkawQq2zaIgqhN9ciFnx8dS4S08EpLXxe/ujs5l9eB7SYgfAXgdVEM
+ xh8xqH8iETVVA/hCdBuXDoLQvIpnyQSraMjRg6KKQc2g9Ext+a+i+Z0s22HtiQTrVC40+4
+ W/hRrIoIAQr1sd2QoaQhBgUC6plYB9g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-zqWBr5zTPGGqsxm6Y0lZXw-1; Mon, 26 Oct 2020 09:51:32 -0400
+X-MC-Unique: zqWBr5zTPGGqsxm6Y0lZXw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C6B2DEC1A3
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:31 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8BF8C6EF78
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:31 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/17] Build system changes and misc fixes for QEMU 5.2 soft
+ freeze
+Date: Mon, 26 Oct 2020 09:51:14 -0400
+Message-Id: <20201026135131.3006712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.250]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhangxinhao1@huawei.com; helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 05:44:33
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 26 Oct 2020 09:54:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,94 +79,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Reported-by: Euler Robot <euler.robot@huawei.com>
----
- hw/acpi/nvdimm.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 8f7cc16add..dab3329890 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -556,7 +556,7 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
+  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
 
-     fit = fit_buf->fit;
+are available in the Git repository at:
 
--    nvdimm_debug("Read FIT: offset %#x FIT size %#x Dirty %s.\n",
-+    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
-                  read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-     if (read_fit->offset > fit->len) {
-@@ -664,7 +664,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
-     label_size = nvdimm->label_size;
-     mxfer = nvdimm_get_max_xfer_label_size();
+for you to fetch changes up to 8b0e484c8bf82e07bb0439bff04e248c63cdc86a:
 
--    nvdimm_debug("label_size %#x, max_xfer %#x.\n", label_size, mxfer);
-+    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
+  machine: move SMP initialization from vl.c (2020-10-26 07:08:40 -0400)
 
-     label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
-     label_size_out.label_size = cpu_to_le32(label_size);
-@@ -680,19 +680,19 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
-     uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
+----------------------------------------------------------------
+* fix --disable-tcg builds (Claudio)
+* Fixes for macOS --enable-modules build and OpenBSD curses/iconv detection (myself)
+* Start preparing for meson 0.56 (myself)
+* Move directory configuration to meson (myself)
+* Start untangling qemu_init (myself)
+* Windows fixes (Sunil)
+* Remove -no-kbm (Thomas)
 
-     if (offset + length < offset) {
--        nvdimm_debug("offset %#x + length %#x is overflow.\n", offset,
-+        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
-                      length);
-         return ret;
-     }
+----------------------------------------------------------------
+Claudio Fontana (2):
+      qtest: unbreak non-TCG builds in bios-tables-test
+      replay: do not build if TCG is not available
 
-     if (nvdimm->label_size < offset + length) {
--        nvdimm_debug("position %#x is beyond label data (len = %" PRIx64 ").\n",
-+        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
-                      offset + length, nvdimm->label_size);
-         return ret;
-     }
+Luc Michel (1):
+      hw/core/qdev-clock: add a reference on aliased clocks
 
-     if (length > nvdimm_get_max_xfer_label_size()) {
--        nvdimm_debug("length (%#x) is larger than max_xfer (%#x).\n",
-+        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
-                      length, nvdimm_get_max_xfer_label_size());
-         return ret;
-     }
-@@ -716,7 +716,7 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
-     get_label_data->offset = le32_to_cpu(get_label_data->offset);
-     get_label_data->length = le32_to_cpu(get_label_data->length);
+Paolo Bonzini (11):
+      build: fix macOS --enable-modules build
+      meson: rewrite curses/iconv test
+      do not use colons in test names
+      Makefile: separate meson rerun from the rest of the ninja invocation
+      configure: allow configuring localedir
+      configure: move directory options from config-host.mak to meson
+      configure: remove unused variable from config-host.mak
+      configure: move install_blobs from configure to meson
+      machine: remove deprecated -machine enforce-config-section option
+      machine: move UP defaults to class_base_init
+      machine: move SMP initialization from vl.c
 
--    nvdimm_debug("Read Label Data: offset %#x length %#x.\n",
-+    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
-                  get_label_data->offset, get_label_data->length);
+Sunil Muthuswamy (2):
+      WHPX: Fix WHPX build break
+      win32: boot broken when bind & data dir are the same
 
-     status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
-@@ -755,7 +755,7 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
-     set_label_data->offset = le32_to_cpu(set_label_data->offset);
-     set_label_data->length = le32_to_cpu(set_label_data->length);
+Thomas Huth (1):
+      Remove deprecated -no-kvm option
 
--    nvdimm_debug("Write Label Data: offset %#x length %#x.\n",
-+    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
-                  set_label_data->offset, set_label_data->length);
-
-     status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
-@@ -852,11 +852,11 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     in->function = le32_to_cpu(in->function);
-     in->handle = le32_to_cpu(in->handle);
-
--    nvdimm_debug("Revision %#x Handler %#x Function %#x.\n", in->revision,
-+    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
-                  in->handle, in->function);
-
-     if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
--        nvdimm_debug("Revision %#x is not supported, expect %#x.\n",
-+        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
-                      in->revision, 0x1);
-         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
-         goto exit;
+ .cirrus.yml                        |   2 +-
+ Makefile                           |  44 ++++++---
+ block/meson.build                  |   3 +-
+ configure                          |  64 +++----------
+ contrib/vhost-user-gpu/meson.build |   2 +-
+ docs/system/deprecated.rst         |  23 ++---
+ hw/core/machine.c                  |  36 +++-----
+ hw/core/qdev-clock.c               |   8 ++
+ include/hw/boards.h                |   1 -
+ meson.build                        | 178 ++++++++++++++++++++++---------------
+ meson_options.txt                  |   4 +
+ migration/migration.c              |  10 ---
+ net/meson.build                    |   3 +-
+ pc-bios/descriptors/meson.build    |   4 +-
+ pc-bios/meson.build                |  15 ++--
+ qemu-options.hx                    |  11 ---
+ replay/meson.build                 |   4 +-
+ replay/stubs-system.c              |  96 ++++++++++++++++++++
+ scripts/undefsym.py                |  11 ++-
+ softmmu/vl.c                       |  16 ----
+ stubs/meson.build                  |   4 +-
+ stubs/replay-tools.c               |  83 +++++++++++++++++
+ stubs/replay-user.c                |   9 --
+ stubs/replay.c                     |  78 ----------------
+ tests/fp/meson.build               |   6 +-
+ tests/ptimer-test-stubs.c          |   5 --
+ tests/qtest/bios-tables-test.c     |  10 +++
+ tests/qtest/meson.build            |   2 +-
+ tests/qtest/qmp-cmd-test.c         |   3 +
+ tools/virtiofsd/meson.build        |   2 +-
+ ui/icons/meson.build               |   6 +-
+ ui/meson.build                     |   2 +-
+ util/cutils.c                      |   2 +-
+ version.texi.in                    |   2 -
+ 34 files changed, 416 insertions(+), 333 deletions(-)
+ create mode 100644 replay/stubs-system.c
+ create mode 100644 stubs/replay-tools.c
+ delete mode 100644 stubs/replay-user.c
+ delete mode 100644 version.texi.in
 -- 
-2.29.0-rc1
+2.26.2
+
 
