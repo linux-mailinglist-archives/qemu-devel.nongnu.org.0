@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074BE2997AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:10:40 +0100 (CET)
-Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64D0C2997C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:15:41 +0100 (CET)
+Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8pD-0003Sb-1E
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:10:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33902)
+	id 1kX8u4-00018Q-DB
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:15:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Ow-0006wE-1B
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36691)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8P2-00072a-Op
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Ou-0003Ay-13
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:29 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8P0-0003BJ-MU
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603741407;
+ s=mimecast20190719; t=1603741412;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7t+TOdJbR+kZy9WPkNJWw2EXuADY2daXwYBT0hG7Sy8=;
- b=LVbBkQL08nyQqwsxjhKjB2QYmN1WuT5aGnBBPBe6RGZ/FYncCTC0P7WrmZzY5JnRGNEMUn
- vNGhYXkz9M3RA956NYAnxaKPTJMdf18SHWuZ3fiaHXs7PPbDFX/P+/m0KjC0GDqJGJXg85
- kJ+RK9Obnb0FBGdlFfHjLUGQFEp1uDo=
+ bh=REDnd9QKNyIFxZBMsmQu+NVSaxxfmukU0lq6x9MljOQ=;
+ b=idEfhEY78wjGFBxiILlecUV+U8IdzAosZORGRp7T2KKKeLTSNhBu4KP0PNxrClkDwgt0Hl
+ WCG+EfViSDUeO/UAjznJ5nIewBfLYrG2HYYcqLmzEwIDu64s5AQBj4PSGvM1NDOUKV9Arr
+ lSBsRSl5JVOVvj32S9tUP5QguvhQo4k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-290-7d82Xk0nPqW5TFPPNtbBUQ-1; Mon, 26 Oct 2020 15:43:25 -0400
-X-MC-Unique: 7d82Xk0nPqW5TFPPNtbBUQ-1
+ us-mta-594-2_AaZsLeO56ALMNOEflGag-1; Mon, 26 Oct 2020 15:43:18 -0400
+X-MC-Unique: 2_AaZsLeO56ALMNOEflGag-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9187AF9DA
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7EFC88EF23
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:14 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EED105B4BA;
- Mon, 26 Oct 2020 19:43:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E1DE85B4B9;
+ Mon, 26 Oct 2020 19:43:13 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 06/11] qapi/introspect.py: add _gen_features helper
-Date: Mon, 26 Oct 2020 15:42:46 -0400
-Message-Id: <20201026194251.11075-7-jsnow@redhat.com>
+Subject: [PATCH v2 07/11] qapi/introspect.py: Unify return type of _make_tree()
+Date: Mon, 26 Oct 2020 15:42:47 -0400
+Message-Id: <20201026194251.11075-8-jsnow@redhat.com>
 In-Reply-To: <20201026194251.11075-1-jsnow@redhat.com>
 References: <20201026194251.11075-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,79 +84,92 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-_make_tree might receive a dict or some other type. Adding features
-information should arguably be performed by the caller at such a time
-when we know the type of the object and don't have to re-interrogate it.
+Returning two different types conditionally can be complicated to
+type. Let's always return a tuple for consistency. Prohibit the use of
+annotations with dict-values in this circumstance. It can be implemented
+later if and when the need for it arises.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/introspect.py | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ scripts/qapi/introspect.py | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 803288a64e7..16282f2634b 100644
+index 16282f2634b..ef469b6c06e 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -76,16 +76,12 @@
- 
+@@ -77,14 +77,12 @@
  
  def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
--               features: List[QAPISchemaFeature],
                 extra: Optional[Annotations] = None
-                ) -> TreeValue:
+-               ) -> TreeValue:
++               ) -> Annotated:
      if extra is None:
          extra = {}
      if ifcond:
          extra['if'] = ifcond
--    if features:
--        assert isinstance(obj, dict)
--        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
-     if extra:
-         return (obj, extra)
-     return obj
-@@ -221,6 +217,11 @@ def _use_type(self, typ: QAPISchemaType) -> str:
-             return '[' + self._use_type(typ.element_type) + ']'
-         return self._name(typ.name)
+-    if extra:
+-        return (obj, extra)
+-    return obj
++    return (obj, extra)
  
-+    @classmethod
-+    def _gen_features(cls,
-+                      features: List[QAPISchemaFeature]) -> List[TreeValue]:
-+        return [_make_tree(f.name, f.ifcond) for f in features]
+ 
+ def _tree_to_qlit(obj: TreeValue,
+@@ -98,12 +96,16 @@ def indent(level: int) -> str:
+         ifobj, extra = obj
+         ifcond = cast(Optional[Sequence[str]], extra.get('if'))
+         comment = extra.get('comment')
 +
++        msg = "Comments and Conditionals not implemented for dict values"
++        assert not (suppress_first_indent and (ifcond or comment)), msg
++
+         ret = ''
+         if comment:
+             ret += indent(level) + '/* %s */\n' % comment
+         if ifcond:
+             ret += gen_if(ifcond)
+-        ret += _tree_to_qlit(ifobj, level)
++        ret += _tree_to_qlit(ifobj, level, suppress_first_indent)
+         if ifcond:
+             ret += '\n' + gen_endif(ifcond)
+         return ret
+@@ -152,7 +154,7 @@ def __init__(self, prefix: str, unmask: bool):
+             ' * QAPI/QMP schema introspection', __doc__)
+         self._unmask = unmask
+         self._schema: Optional[QAPISchema] = None
+-        self._trees: List[TreeValue] = []
++        self._trees: List[Annotated] = []
+         self._used_types: List[QAPISchemaType] = []
+         self._name_map: Dict[str, str] = {}
+         self._genc.add(mcgen('''
+@@ -219,7 +221,8 @@ def _use_type(self, typ: QAPISchemaType) -> str:
+ 
+     @classmethod
+     def _gen_features(cls,
+-                      features: List[QAPISchemaFeature]) -> List[TreeValue]:
++                      features: List[QAPISchemaFeature]
++                      ) -> List[Annotated]:
+         return [_make_tree(f.name, f.ifcond) for f in features]
+ 
      def _gen_tree(self, name: str, mtype: str, obj: _DObject,
-                   ifcond: List[str],
-                   features: Optional[List[QAPISchemaFeature]]) -> None:
-@@ -233,7 +234,9 @@ def _gen_tree(self, name: str, mtype: str, obj: _DObject,
-             name = self._name(name)
-         obj['name'] = name
-         obj['meta-type'] = mtype
--        self._trees.append(_make_tree(obj, ifcond, features, extra))
-+        if features:
-+            obj['features'] = self._gen_features(features)
-+        self._trees.append(_make_tree(obj, ifcond, extra))
+@@ -239,7 +242,7 @@ def _gen_tree(self, name: str, mtype: str, obj: _DObject,
+         self._trees.append(_make_tree(obj, ifcond, extra))
  
      def _gen_member(self,
-                     member: QAPISchemaObjectTypeMember) -> TreeValue:
-@@ -243,7 +246,9 @@ def _gen_member(self,
-         }
-         if member.optional:
-             obj['default'] = None
--        return _make_tree(obj, member.ifcond, member.features)
-+        if member.features:
-+            obj['features'] = self._gen_features(member.features)
-+        return _make_tree(obj, member.ifcond)
+-                    member: QAPISchemaObjectTypeMember) -> TreeValue:
++                    member: QAPISchemaObjectTypeMember) -> Annotated:
+         obj: _DObject = {
+             'name': member.name,
+             'type': self._use_type(member.type)
+@@ -255,7 +258,7 @@ def _gen_variants(self, tag_name: str,
+         return {'tag': tag_name,
+                 'variants': [self._gen_variant(v) for v in variants]}
  
-     def _gen_variants(self, tag_name: str,
-                       variants: List[QAPISchemaVariant]) -> _DObject:
-@@ -255,7 +260,7 @@ def _gen_variant(self, variant: QAPISchemaVariant) -> TreeValue:
+-    def _gen_variant(self, variant: QAPISchemaVariant) -> TreeValue:
++    def _gen_variant(self, variant: QAPISchemaVariant) -> Annotated:
+         obj: _DObject = {
              'case': variant.name,
              'type': self._use_type(variant.type)
-         }
--        return _make_tree(obj, variant.ifcond, None)
-+        return _make_tree(obj, variant.ifcond)
- 
-     def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
-                            json_type: str) -> None:
 -- 
 2.26.2
 
