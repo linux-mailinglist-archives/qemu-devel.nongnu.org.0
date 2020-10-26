@@ -2,82 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9619A298801
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:10:42 +0100 (CET)
-Received: from localhost ([::1]:43506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192C3298822
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:17:37 +0100 (CET)
+Received: from localhost ([::1]:47856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWxaT-0003bI-3c
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:10:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
+	id 1kWxhA-0005i3-68
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:17:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWxYt-0002bd-0U; Mon, 26 Oct 2020 04:09:03 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40920)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kWxYr-00059L-BN; Mon, 26 Oct 2020 04:09:02 -0400
-Received: by mail-wm1-x341.google.com with SMTP id k18so11450167wmj.5;
- Mon, 26 Oct 2020 01:09:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y8jPhiGQvTCWXAv0hYVCIpQDQLplznWE1yrPbus25zk=;
- b=TDFQgq3/gVQZL9xCeohGD+rqBNkYzVRXA+Vw0RSeTdTH9xjRXhPfl9zmH28Xytb88y
- /R8gf5vWtVM3ayqNuHjMrZeG0TlF24cQQZ88CIaPaJaGdX3LSd7A7D7Iv7XucbsOPuY4
- 0H+RS+zWxw93t7tMVefh2EheN66uxzTfPLngNXYyGfyf6mDHopKIz8oZFtyBqvDcwgiB
- 5cmMZ1HPKartlM+zaDKTB13uCnMU65wzQSPtaJMtokKrmNiaqeucqpIqfE1cMaa3XP5D
- nS98HMH9ximqqBUuZVmRmGqXUmezUpqJIFx5JFvqF8lhcI6IIRRp1ISo/JNcs8sSMjJR
- RYkQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWxg1-0004sX-3A
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:16:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30867)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kWxfx-0007zz-LN
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:16:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603700179;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Gj8R/Tq0+m3+CBLYJU7abG+Ea4vDV8t1S7LjzOQKs0=;
+ b=OtYSkm77t9DKHpeMUrIq0Pu92cb8HvopE+6KMCWVnQMKezxgFzusXQ5dUugQVZ1QFotzfD
+ +6bAWw2MShG0hmI16E9aDTyJkwysUdAsbkqoJqMIJsL7Yc0XWJpv3GiquQpoH2u/KZDRVl
+ WE3wolrRbVKsWBWYxv3PVfTVaoZt2lQ=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-6YQhhQ6VOg6OcWnOGuDXkA-1; Mon, 26 Oct 2020 04:16:17 -0400
+X-MC-Unique: 6YQhhQ6VOg6OcWnOGuDXkA-1
+Received: by mail-wm1-f70.google.com with SMTP id s25so6031598wmj.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 01:16:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y8jPhiGQvTCWXAv0hYVCIpQDQLplznWE1yrPbus25zk=;
- b=T889DzNjGUTgGC2vdfARsPUZ2d7W8HyV1KkEXW4h1Gfz8V1lb0KTNkJk/g+MO26voM
- Fvy/y8SPAxKP3wTg8lwQxPH+CBhjehpEy+jAbM/JrAzGDhr2CqS8WFVfj3daTcebFbc+
- uwtNcsSrlAyS6jpjeNI84o0b0J2aRMe1S3UqNVV3VeCqPXkUtR+l8AGV/PNsMCcT9IIU
- 1GxZHmgwh3m8JK0mzMJKJFW2kQncxgduk/FQCoH5I0X7Ls2nh7rrpoyuMVF/CSEJE3Pz
- QtrbY5ODlxKU/9vWr/TUXyeBM3e6KpCEk3DpPxvwRBqcy+u/WoOZKQLDDnbZqn4NOWND
- Gtfw==
-X-Gm-Message-State: AOAM533KynIBj9yG99Dwv1mDv0P/Vyt8nPg0pzY8OBs65MVZLZPsM6mr
- 7Qp+NByIEAFPW5SD1mr4zXQ=
-X-Google-Smtp-Source: ABdhPJwVIa0NCf1SiJfXiVGL44t3W6d3z3SPpwCIqeciGIci4TANBjGaPn42pCVZXjS3rlXwwsDqpA==
-X-Received: by 2002:a1c:7f97:: with SMTP id
- a145mr15289672wmd.160.1603699739457; 
- Mon, 26 Oct 2020 01:08:59 -0700 (PDT)
+ bh=TVOmc+XXKDBxmwlmjR0RLzR/w3Op4v4mamp0TBu0JC8=;
+ b=K9de85rK9KSirDmbdbnQL0L+n44FgzGYVl65NNWN3SQkwzmkkqtAg2HeiXEm6P3caU
+ MYpY1qKnj/eMZiGpW36i/1SsChbRbclajHBWLCVt+cRqYmPAj7jDBKCnox5tkqtTcYVI
+ wvLcqoHTZnzRfWBnMj1aaUO2O9iNs38VFRvSMSThFwcccc5Sp1DPRDuwuPzkcS1am4j3
+ DelkMy1/1xTNbCNz0s2rzRyC5h64m8LX8KteuoZTw3t/SIOM2yRB0a2MYDl1mYp/u5QF
+ MAbdl7B3KXIPuFQ1FnCf06YD3y3XplJROpPBjcqCXQgd5+dDDQei9NuaMWKmvl/p5ox9
+ wfgQ==
+X-Gm-Message-State: AOAM532HvxIKjeDD3whtXvzzdG+xui1fQFjk6UoDblQl5wxX8z9M4C/j
+ vOSHFBI21eyEBjyzhi2av4hfQqDsNYQie9b9weADMXnclUG5b/Wgbphh2lnO7UlQ8RHPl8NGl3m
+ 9xJps3EVmCCxJHFM=
+X-Received: by 2002:a1c:5585:: with SMTP id j127mr12958791wmb.90.1603700176244; 
+ Mon, 26 Oct 2020 01:16:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQwWptyQJiAfemjnksVKyte0GZxuPk8aOyx0h1kbLiC092flxLnSF2EcyIKRBq9J0QFOrtMw==
+X-Received: by 2002:a1c:5585:: with SMTP id j127mr12958774wmb.90.1603700176055; 
+ Mon, 26 Oct 2020 01:16:16 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id 1sm23408199wre.61.2020.10.26.01.08.57
+ by smtp.gmail.com with ESMTPSA id c130sm27751360wma.1.2020.10.26.01.16.14
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 01:08:58 -0700 (PDT)
-Subject: Re: [PATCH] hw/sd: Zero out function selection fields before being
- populated
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20201024014954.21330-1-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <1e4c44aa-7d2a-e773-fe8e-47b858137896@amsat.org>
-Date: Mon, 26 Oct 2020 09:08:57 +0100
+ Mon, 26 Oct 2020 01:16:15 -0700 (PDT)
+Subject: Re: [PATCH v2] tests/acceptance: Test case for detecting -object
+ crashes
+To: Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20201009202905.1845802-1-ehabkost@redhat.com>
+ <8daa726a-a359-c533-acb0-e3294b4c8aa7@redhat.com>
+ <20201012031859.GC887538@localhost.localdomain>
+ <20201013174611.GA5733@habkost.net>
+ <20201013180120.GB1065819@localhost.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6280d778-8fcb-346b-b41d-66282d892e42@redhat.com>
+Date: Mon, 26 Oct 2020 09:16:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201024014954.21330-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20201013180120.GB1065819@localhost.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=WINDOWS-1252; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,41 +104,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/20 3:49 AM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
+On 10/13/20 8:01 PM, Cleber Rosa wrote:
+> On Tue, Oct 13, 2020 at 01:46:11PM -0400, Eduardo Habkost wrote:
+>> On Sun, Oct 11, 2020 at 11:18:59PM -0400, Cleber Rosa wrote:
+>>> On Sat, Oct 10, 2020 at 09:54:16AM +0200, Philippe Mathieu-Daudé wrote:
+>>>> On 10/9/20 10:29 PM, Eduardo Habkost wrote:
+>>>>> Add a simple test case that will run QEMU directly (without QMP)
+>>>>> just to check for crashes when using `-object`.
+>>>>>
+>>>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>>>>> ---
+>>>>> Changes v1 -> v2:
+>>>>> * "Running command:" log message instead of "Command:" (Cleber)
+>>>>> * Use universal_newlines=True instead of encoding='utf-8' (Cleber)
+>>>>> * Rename devices() to get_devices() (Cleber)
+>>>>> * Use @avocado.fail_on(subprocess.CalledProcessError) (Cleber)
+>>>>> * Reword test_crash() docstring (Cleber)
+>>>>> * Reorder imports
+>>>>
+>>>> Assuming:
+>>>> Based-on: <20201008202713.1416823-1-ehabkost@redhat.com>
+>>>>
+>>>> I get:
+>>>>
+>>>>   (1/2) tests/acceptance/object_option.py:ObjectOption.test_help:
+>>>> qemu-system-avr: No machine specified, and there is no default
+>>>> Use -machine help to list supported machines
+>>>> FAIL: CalledProcessError(1, ['./qemu-system-avr', '-object', 'help']) (0.19
+>>>> s)
+>>>>   (2/2) tests/acceptance/object_option.py:ObjectOption.test_crash:
+>>>> qemu-system-avr: No machine specified, and there is no default
+>>>> Use -machine help to list supported machines
+>>>> FAIL: CalledProcessError(1, ['./qemu-system-avr', '-object', 'help']) (0.18
+>>>> s)
+>>>>
+>>>
+>>> Did you influence (test parameter?) the QEMU binary to be used?
+>>
+>> I'm assuming this was triggered by "make check-acceptance".  I
 > 
-> The function selection fields (399:376) should be zeroed out to
-> prevent leftover from being or'ed into the switch function status
-> data structure.
+> The output shows test 1/2 and 2/2, so I don't think it was triggered
+> by "make check-acceptance".
+
+I tested it in a build dir configured with:
+
+   ../configure --target-list=avr-softmmu
+
+I will test it again during the week.
+
 > 
-> This fixes the boot failure as seen in the acceptance testing on
-> the orangepi target.
+>> will change the test case to use '-machine none', which should
+>> work on all architectures.
+>>
 > 
-> Fixes: b638627c723a ("hw/sd: Fix incorrect populated function switch status data structure")
-> Reported-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
+> +1, sounds good!
+> - Cleber.
 > 
->   hw/sd/sd.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index c3febed243..bd10ec8fc4 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -824,6 +824,7 @@ static void sd_function_switch(SDState *sd, uint32_t arg)
->       sd->data[12] = 0x80;	/* Supported group 1 functions */
->       sd->data[13] = 0x03;
->   
-> +    memset(&sd->data[14], 0, 3);
->       for (i = 0; i < 6; i ++) {
->           new_func = (arg >> (i * 4)) & 0x0f;
->           if (mode && new_func != 0x0f)
+>> -- 
+>> Eduardo
 > 
 
-Thanks, series applied to sd-next tree.
 
