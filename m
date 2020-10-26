@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B542999BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:35:26 +0100 (CET)
-Received: from localhost ([::1]:51300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CC72999C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:38:54 +0100 (CET)
+Received: from localhost ([::1]:60180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXB5J-0003nQ-PT
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:35:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44392)
+	id 1kXB8f-0007Zg-8E
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:38:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXAwL-00062f-WE; Mon, 26 Oct 2020 18:26:10 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:38341)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXB5r-0004y6-Kx
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:35:59 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:40302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXAwK-000058-50; Mon, 26 Oct 2020 18:26:09 -0400
-Received: by mail-ej1-x643.google.com with SMTP id ce10so16169429ejc.5;
- Mon, 26 Oct 2020 15:26:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uiasqVfucua531Ai9drGAEvhhayzBZ4sO3Uq2/OVqDA=;
- b=qDv0DaXKCol5r+4WqryBOIx1Ynow8NDAqypmO4ziYYALlqjU/qfsufHRTPOWrlpDsu
- iRpurxrFPF4sKGNisbGMD4a8GQhE6Us+YDkV4dvEeKDvKBvR9k9+Ziki3rMbXKCoO5rN
- BPVWe2wkCsDWmXf7fMfuGTS86j1GaJgDV06VOdEl1MB8SHfvJl3jmGk8yeF/mMWF9x/T
- TUdsR32C1xAD5d/2WYo2LTBX+dbgU+63I7sq4NGJFgE6DIWEUwEHVh9bLzUiGo77Fb96
- IN11tZFjNqeuQKvcRoe5VP8ahMS19E2U8TLIgnehBareihe92jVI4hxpZ4bN9gEwDgJa
- 4tYA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXB5p-0001Pv-2R
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:35:58 -0400
+Received: by mail-ej1-x631.google.com with SMTP id z5so16204864ejw.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:35:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=9nO3FcwNBPpvstUhOZbMuUrgwTS31PjM2Wek0c0Ku8k=;
+ b=HVsXjO/60pR9Qq8ex3CIuAZ8Dlhj/wcpjwZy0uV8TU9ACUdAYGs8ij7+juzXKkyyJj
+ 59c1yC+yjwRyUNwXtah/rIh/GZSA0W2bdpr0h59+RhJPV4K+iNLoTVsJ421Irr/jc7OS
+ 6PeYvvsurC9okWFYNS2Zcv7iQfE6+5GoUJXZ9XdqRZJQlBRZ1ERCEItiJ5KTV9KnS5Vy
+ W5V3NJ4wEHb+7z1yRulJOmbVzrfcpDvXBifTQ8/ibvnzvkjyi7sYxUpm0EB+UgvNLK/k
+ hxa52p6c8ALht7OJML4UAHGsLVpiZTs6vEHoeedwEtzLlWmOtTzfIjdGo7Hr+uc7zaB+
+ 4Rkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uiasqVfucua531Ai9drGAEvhhayzBZ4sO3Uq2/OVqDA=;
- b=A4FTRJr2I0vTtJ4QmJZoVe4OMzc9Es7YcYxhE0zmnDTPFfeZACyrf8Xe0TD5n4OFMp
- 7hrcJkh2IcRdUBrqJZ6qBZFJ65oqh+q2gwkxUorouGGOtr3oW7HcMvv7mnuIToBBBbb8
- dMAqO2hy3Fls5FZqNqzYc6FcdhQXkPWC0xf442IWmH5RXhffo57mCzNX1LcP+Buj7RV0
- TSwc0TiXxri2arnhPVwROZFCYg8/Fbuni3jxsBFRxcCe9+sTP2N3GgfCHZ0vHyfRd4Wm
- Pjt/3e9UM+FkccJ47dIwHgUTtLXc9/gZBDziPQ2mqXcCNaff91cuzmrfWmI4+xDOiwtW
- BcOg==
-X-Gm-Message-State: AOAM531nDR3yX7B3ilWrU9qcqpCLUWz8+vU3VEgv/qfd2PgsaVE1QMsq
- 7CEdK0bB+b6kQIiEZPaaRY8=
-X-Google-Smtp-Source: ABdhPJykhFtIu6T62ZDVfqhCvEtnghWIgsGeGKl1rQEN3QMbQQ7EnkSOkO47uJE4sHAz7LYU64VXOQ==
-X-Received: by 2002:a17:906:4a14:: with SMTP id
- w20mr17349921eju.513.1603751166029; 
- Mon, 26 Oct 2020 15:26:06 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id l20sm5556800edr.56.2020.10.26.15.26.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 15:26:05 -0700 (PDT)
-Subject: Re: [PATCH 26/30] renesas rx cpus: Fix Lesser GPL version number
-To: Chetan Pant <chetan4windows@gmail.com>, qemu-trivial@nongnu.org
-References: <20201014134248.14146-1-chetan4windows@gmail.com>
- <20201023123840.19988-1-chetan4windows@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <23e08867-c7de-06ff-5c5e-7b5e1339fa63@amsat.org>
-Date: Mon, 26 Oct 2020 23:26:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=9nO3FcwNBPpvstUhOZbMuUrgwTS31PjM2Wek0c0Ku8k=;
+ b=OKzHDV0p79BH/Q6w9h8jLwyzgrdmyWufsKI/9ZBhRwnWGpEeNo2MLXHJ6MeCSFCn2a
+ r8foB9JkAZVetQP/tkYFjDhH6v1Jq56oXBYvWZGpbEQgPi5NLVBK0SJc9pPEtZ6F1X2u
+ Mos6wgSGIuH9x9Dw4YKSp47AjfdTAtjnNGGLEGInVF1DbKTINWLNK0TT+O9aedk5Z7vh
+ J68oOkfnUYPQKHFrKdZnjrqpMQdu2jwy+Z3i0yuWHS8kI9LmXGrl8DrVc8SPx1GoxdbW
+ IrNrJuWrPz+Jkoxfhz7lFfhYB4Rn7dyi68ffEOiAD6zdKz49DCeNSbhUl9esBV4NFO8L
+ oC3w==
+X-Gm-Message-State: AOAM533b2d1D9D47IUu+pjxuHU29VhsLEe9AmtclYDxdmDaHNcSkIU+C
+ ouVQsIX7vCt1zUpB3YkREnR8IovaQLP8P08Y2wPbrjgrjb4ZVg==
+X-Google-Smtp-Source: ABdhPJy1LNTF68BOh8gX9jVGkdxcvfMor3w5RtZMfB2C+t2caIFUVTnKUcoYJNKX20F4W//a09Vdjqvo6Q5PG/MNY7A=
+X-Received: by 2002:a17:906:af8d:: with SMTP id
+ mj13mr17514806ejb.85.1603751753625; 
+ Mon, 26 Oct 2020 15:35:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201023123840.19988-1-chetan4windows@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 22:35:42 +0000
+Message-ID: <CAFEAcA8z=vQ9E6hNKUuzk2EgH8Dpkxo=3YbnQ5iX0DYCQDr6bg@mail.gmail.com>
+Subject: runaway avocado
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,37 +76,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 2:38 PM, Chetan Pant wrote:
-> There is no "version 2" of the "Lesser" General Public License.
-> It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-> This patch replaces all occurrences of "Lesser GPL version 2" with
-> "Lesser GPL version 2.1" in comment section.
-> 
-> Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-> ---
->   target/rx/insns.decode | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/rx/insns.decode b/target/rx/insns.decode
-> index 232a61f..ca9334b 100644
-> --- a/target/rx/insns.decode
-> +++ b/target/rx/insns.decode
-> @@ -7,7 +7,7 @@
->   # This library is free software; you can redistribute it and/or
->   # modify it under the terms of the GNU Lesser General Public
->   # License as published by the Free Software Foundation; either
-> -# version 2 of the License, or (at your option) any later version.
-> +# version 2.1 of the License, or (at your option) any later version.
->   #
->   # This library is distributed in the hope that it will be useful,
->   # but WITHOUT ANY WARRANTY; without even the implied warranty of
-> 
+So, I somehow ended up with this process still running on my
+local machine after a (probably failed) 'make check-acceptance':
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+petmay01 13710 99.7  3.7 2313448 1235780 pts/16 Sl  16:10 378:00
+./qemu-system-aarch64 -display none -vga none -chardev
+socket,id=mon,path=/var/tmp/tmp5szft2yi/qemu-13290-monitor.sock -mon
+chardev=mon,mode=control -machine virt -chardev
+socket,id=console,path=/var/tmp/tmp5szft2yi/qemu-13290-console.sock,server,nowait
+-serial chardev:console -icount
+shift=7,rr=record,rrfile=/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin,rrsnapshot=init
+-net none -drive
+file=/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/disk.qcow2,if=none
+-kernel /home/petmay01/avocado/data/cache/by_location/a00ac4ae676ef0322126abd2f7d38f50cc9cbc95/vmlinuz
+-cpu cortex-a53
 
-And applied to renesas-next, thanks.
+and it was continuing to log to a deleted file
+/var/tmp/avocado_iv8dehpo/avocado_job_w9efukj5/32-tests_acceptance_reverse_debugging.py_ReverseDebugging_AArch64.test_aarch64_virt/replay.bin
+
+which was steadily eating my disk space and got up to nearly 100GB
+in used disk (invisible to du, of course, since it was an unlinked
+file) before I finally figured out what was going on and killed it
+about six hours later...
+
+Any suggestions for how we might improve the robustness of the
+relevant test ?
+
+thanks
+-- PMM
 
