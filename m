@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250C7298A50
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:24:03 +0100 (CET)
-Received: from localhost ([::1]:55032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2550298A58
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:26:53 +0100 (CET)
+Received: from localhost ([::1]:35230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzfW-00008T-61
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:24:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40146)
+	id 1kWziG-0003Wk-Tl
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:26:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kWzSH-0007ql-If
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53217)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kWzSJ-0007sN-SW
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kWzSB-0007xy-VC
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:21 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kWzSF-00080d-97
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603707014;
+ s=mimecast20190719; t=1603707016;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=p+IujnZWPGQj0aNiE/mW6CBg2QZPGg3hzAIjKQizlhE=;
- b=GwJxcTaDmyQP8q6CWvjG+rs36CHoqfSNpixGyKzSq0xXA9Iu36jcskEpMyBIz0km08tsPN
- VWyPJqqpVkv4/ikRSG72rhFq9m1yL2FroZHAs5D/OeLyT/0cpZcFDnnttk9vpkedauDu/l
- ZBc//3xF622LN9pkV/sON1GCYc0O+ls=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O/dIZ7gfHCDJ7wj9EUyK3nvk2G4/IOzcq/t671w4bkc=;
+ b=fIsD6Cci93DJ2LDvnSbAJ0LkxSQgranEnF8hKAHWw8acri0+rWT08astF3hU3Vhs5BpQdr
+ 6Zo4ll+PsWMU2U4x3/qFTF/6PSwhcSK/dT6hMRIX1lMJQaOK16tH8yEKcMN1OcbpzVF0p9
+ +shC3T6Ecwvq0WFvQYzk43OxYYnbg2g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-CTXlfeN_NSC4xInUi-Imfw-1; Mon, 26 Oct 2020 06:10:12 -0400
-X-MC-Unique: CTXlfeN_NSC4xInUi-Imfw-1
+ us-mta-193-yAh7R8bMM7yt7OG8QDAPbg-1; Mon, 26 Oct 2020 06:10:12 -0400
+X-MC-Unique: yAh7R8bMM7yt7OG8QDAPbg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C38AB1009E32;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9962561239;
  Mon, 26 Oct 2020 10:10:11 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DE91100238C;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DE431043269;
  Mon, 26 Oct 2020 10:10:07 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BECEA113865F; Mon, 26 Oct 2020 11:10:05 +0100 (CET)
+ id C10FA1138461; Mon, 26 Oct 2020 11:10:05 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] qemu-storage-daemon: QAPIfy --chardev the stupid way
-Date: Mon, 26 Oct 2020 11:10:01 +0100
-Message-Id: <20201026101005.2940615-1-armbru@redhat.com>
+Subject: [PATCH 1/4] char/stdio: Fix QMP default for 'signal'
+Date: Mon, 26 Oct 2020 11:10:02 +0100
+Message-Id: <20201026101005.2940615-2-armbru@redhat.com>
+In-Reply-To: <20201026101005.2940615-1-armbru@redhat.com>
+References: <20201026101005.2940615-1-armbru@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
@@ -83,174 +86,57 @@ Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin's "[PATCH v2 0/6] qemu-storage-daemon: QAPIfy --chardev"
-involves surgery to the QAPI generator.  Some (most?) of it should go
-away if we deprecate the "data" wrappers due to simple unions in QMP.
+From: Kevin Wolf <kwolf@redhat.com>
 
-Do we really need to mess with the code generator to solve the problem
-at hand?
+Commit 02c4bdf1 tried to make signal=on the default for stdio chardevs
+except for '-serial mon:stdio', but it forgot about QMP and accidentally
+switched the QMP default from true (except for -nographic) to false
+(always). The QMP documentation was kept unchanged and still describes
+the opposite of the old behaviour (which is an even older documentation
+bug).
 
+Fix all of this by making signal=true the default in ChardevStdio and
+documenting it as such.
 
-Let's recapitulate the problem:
+Fixes: 02c4bdf1d2ca8c02a9bae16398f260b5c08d08bf
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Message-Id: <20201023161312.460406-2-kwolf@redhat.com>
+---
+ qapi/char.json       | 3 +--
+ chardev/char-stdio.c | 4 +---
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-* We want to QAPIfy --chardev, i.e. define its argument as a QAPI
-  type.
-
-* We want --chardev to use the same internal interface as chardev-add.
-
-* The obvious way is to reuse chardev-add's arguments type for
-  --chardev.  We don't want to, because it's excessively nested:
-  it's a struct containing a simple union, with more simple unions
-  inside.  The result would be awful like this:
-
-    --chardev id=sock0,\
-    backend.type=socket,\
-    backend.data.addr.type=inet,\
-    backend.data.addr.data.host=0.0.0.0,\
-    backend.data.addr.data.port=2445
-
-Kevin's series solves this as follows:
-
-1. Internal flat representation: improve the QAPI generator to
-   represent simple unions more efficiently internally.
-
-2. Optional external flat representation: improve the QAPI code
-   generator and visitors to let code opt in to ditch the "data"
-   wrappers of simple unions in the external format.  Depends on 1.
-
-3. qemu-storage-daemon --chardev opts in.  This gets rid of the
-   unwanted nesting except for "backend."
-
-4. qemu-storage-daemon --chardev manually flattens "backend."
-
-Possible future work:
-
-5. Accept external flat representation in addition to nested,
-   deprecate nested.
-
-6. After the nested representation is gone for all simple unions,
-   simplify QAPI code generators and visitors again.
-
-7. Only then can we drop simple unions.
-
-Note that this tackles a wider problem than just qemu-storage-daemon
---chardev: the infrastructure changes support ditching "data" wrappers
-of simple unions *everywhere*, it just doesn't opt in elsewhere.
-Moreover, it provides a path towards deprecation and removal of these
-wrappers in QMP.
-
-A few things give me an uneasy feeling, though:
-
-* Given how close to the freeze we are, this feels awfully ambitious.
-
-* The QAPI code generator changes look okay, but they do make things
-  more complex.
-
-  If we manage to kill nested representation everywhere, most (all?)
-  of the complexity goes away.  To be frank, the "if" doesn't inspire
-  confidence in me.  Even if we pull it off, it'll probably take quite
-  some time.
-
-* Ditching simple unions may become much harder until we kill nested
-  representation everywhere.
-
-  Right now, simple unions are a syntactical convenience.  We could
-  rewrite them to flat in the schema, and simplify the QAPI code
-  generator.
-
-
-Let's take a step back and review the use of simple unions in our QAPI
-schema.  We have just eight of them.
-
-Three occur only in command results:
-
-* query-named-block-nodes and query-block use ImageInfoSpecific
-* query-memory-devices uses MemoryDeviceInfo
-* query-tpm uses TpmTypeOptions
-
-None of them will matter for a CLI.  Getting rid of "data" wrappers in
-results is even harder than for arguments.  I doubt it's worthwhile.
-
-Five occur only in command arguments: 
-
-* chardev-add and chardev-change use ChardevBackend and
-  SocketAddressLegacy
-
-  This is the problem at hand.
-
-* nbd-server-start uses SocketAddressLegacy
-
-  This is a solved problem: qemu-storage-daemon --nbd-server uses
-  SocketAddress instead.
-
-* send-key and send-event use KeyValue
-* transaction uses TransactionAction
-
-  These are non-problems, and likely to remain non-problems forever.
-
-The --chardev is the *only* instance of the wider "simple unions make
-the CLI unbearably ugly" problem, as far as I can tell.
-
-
-What's the stupidest solution that could possibly work?  The same as
-we used for --nbd-server: define a new, flat QAPI type.  Only
-stupider: leave the internal interface as is, and convert the new,
-flat QAPI type to the old, nested one.  We should really convert the
-other way, but the freeze makes me go for "stupidest" hard.
-
-This series does exactly that.  Lightly tested.
-
-
-Compare to Kevin's series:
-
-* Diffstat less PATCH 1+2 (which the two have in common):
-
-  mine:	        8 files changed, 315 insertions(+), 18 deletions(-)
-    *.json	1 file changed, 98 insertions(+), 8 deletions(-)
-    *.[ch]      6 files changed, 216 insertions(+), 10 deletions(-)
-
-  Kevin's:     71 files changed, 504 insertions(+), 340 deletions(-)
-    tests/     24 files changed, 128 insertions(+), 97 deletions(-)
-    *.json      1 file changed, 2 insertions(+), 1 deletion(-)
-    *.[ch]     40 files changed, 226 insertions(+), 209 deletions(-)
-
-* The bulk of my changes is straightforward and as safe as it gets: I
-  add schema definitions, and a mostly mechanical conversion function
-  that is only used by qemu-storage-daemon --chardev.
-
-  Kevin's changes are much more complex.  QAPI code generator and
-  visitor changes potentially affect everything.  As far as I can
-  tell, they don't, and they are solid.
-
-  Right now, the complexity doesn't really buy us anything.  See
-  "Possible future work" above for a few ideas on what it could buy us
-  down the road.
-
-
-Tell me what you think.
-
-
-KEVIN Wolf (3):
-  char/stdio: Fix QMP default for 'signal'
-  char: Factor out qemu_chr_print_types()
-  qemu-storage-daemon: QAPIfy --chardev
-
-Markus Armbruster (1):
-  char: Flat alternative to overly nested chardev-add arguments
-
- qapi/char.json                       | 109 +++++++++++++++++++--
- include/chardev/char.h               |   6 ++
- include/qemu/sockets.h               |   3 +
- chardev/char-legacy.c                | 140 +++++++++++++++++++++++++++
- chardev/char-socket.c                |   3 +-
- chardev/char-stdio.c                 |   4 +-
- chardev/char.c                       |  16 +--
- storage-daemon/qemu-storage-daemon.c |  37 +++++--
- util/qemu-sockets.c                  |  38 ++++++++
- chardev/meson.build                  |   1 +
- 10 files changed, 328 insertions(+), 29 deletions(-)
- create mode 100644 chardev/char-legacy.c
-
+diff --git a/qapi/char.json b/qapi/char.json
+index b4d66ec90b..43486d1daa 100644
+--- a/qapi/char.json
++++ b/qapi/char.json
+@@ -321,8 +321,7 @@
+ # Configuration info for stdio chardevs.
+ #
+ # @signal: Allow signals (such as SIGINT triggered by ^C)
+-#          be delivered to qemu.  Default: true in -nographic mode,
+-#          false otherwise.
++#          be delivered to qemu.  Default: true.
+ #
+ # Since: 1.5
+ ##
+diff --git a/chardev/char-stdio.c b/chardev/char-stdio.c
+index 82eaebc1db..403da308c9 100644
+--- a/chardev/char-stdio.c
++++ b/chardev/char-stdio.c
+@@ -112,9 +112,7 @@ static void qemu_chr_open_stdio(Chardev *chr,
+ 
+     qemu_chr_open_fd(chr, 0, 1);
+ 
+-    if (opts->has_signal) {
+-        stdio_allow_signal = opts->signal;
+-    }
++    stdio_allow_signal = !opts->has_signal || opts->signal;
+     qemu_chr_set_echo_stdio(chr, false);
+ }
+ #endif
 -- 
 2.26.2
 
