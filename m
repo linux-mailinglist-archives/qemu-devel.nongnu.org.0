@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB24299535
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:24:34 +0100 (CET)
-Received: from localhost ([::1]:38454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67E129957E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:36:41 +0100 (CET)
+Received: from localhost ([::1]:34454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7AX-0000yG-Aq
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:24:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36564)
+	id 1kX7MG-0003bF-Os
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:36:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kX6zc-0000Cy-SV
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:13:16 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:44202)
+ id 1kX6xt-0006LQ-47
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:11:29 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:37603)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kX6zb-0007OQ-9U
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:13:16 -0400
-Received: by mail-ed1-x542.google.com with SMTP id t20so10399256edr.11
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:13:14 -0700 (PDT)
+ id 1kX6xr-0007C0-J0
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:11:28 -0400
+Received: by mail-ej1-x641.google.com with SMTP id p9so15014498eji.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:11:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PIE9DEg3zRFso+AOQRE8wxGu3eIjoDiB4Q/heeIrdv4=;
- b=I0SracGbwneeMUIFCZReLgk2+TKFkr1F0dzturhWy0cN8b0rBFaoW6VeOBSnSDRkTv
- OxvLUWWFaKCX9SeyQqJy/U4/igX3H7/qxQAamsni3/OySw4dbUEn+wkPMr8LeCx+Sw29
- 7GQHlU6KyUzizstN3e70YNWbgtc97f9T+940udFYKDbe2DP3CS4Ar42OCSlRE83O6X81
- hc06U8zea1uAeU0xv1SgXueccF6l84x1iADxOIG3ycvQ+RZ34xMTAWZP6rNbc5KifcN8
- JNugnWP+YOrb0F1tjpIY6SylEp98yenfkLSvSTFJ3uuXxd42slx7540k8o3+CFEp0oLG
- LRTg==
+ bh=Dffak8BKJG+IYBFdXpktJ4BEfRLU2hqlsz9PIJj9l3g=;
+ b=NGJWycwx8wcNa9/rpznwirGoe0+T1HwZdee3WPdLxFYbWf7USqAfKKc394fLv+nBUH
+ V6i650Wlp2khsAH8ne6Z2dWhVlzzvkJAxuTTFNx7OIgPYdSHBpGi8ESYnSPbmny9UH/G
+ HHW8ZwuQoFa/xHrhDg5V9z3rsYyY4AjaDnXhqOUqlq8vIJx+QYR56BBs6vZBW9oBoYoY
+ mO2ILXbCSBvwdUlipuSP15Zevu9kEgimQeD7nRgtBDBuVAyeKKLp82UqiDpM+rQlmJSU
+ RxlkrIntP4BCpEfpPE06rstOGitrLqcF+qQbIpdCresXlGuYXpKpI7fJ/vjG0dn9IHDo
+ Uvnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=PIE9DEg3zRFso+AOQRE8wxGu3eIjoDiB4Q/heeIrdv4=;
- b=ip/n764Auf6wQjZPX9SgH+mrEhSTYbDRXRraDUhLwXHAjAuynGE0XEwRbfsCGvptU9
- xEO+emEGuUdFlyy/nhYG+NEE1Bfsb9oZo71J6IhyORflC7N89q8tuelpbthuKH4XYSKA
- 9QBgrnFGCGDgkzfKZIiXsuDt8g8yxwsnU/fzdT1zscpzyh1svA07LwQdOehbg0EfWOzc
- USAkTRGFrhuDEP+BppIfczmoV+mpEaT8wxO5d24Juzi88Rz5V+mg7xO38vJZROjKJdhM
- 19yrFj1NnfQtPpdzhrdceXBjQ/HdM7J/ou1rZN1Z53fYfof4aKJZDaq88+FTEsAzDJKY
- xuAA==
-X-Gm-Message-State: AOAM5326bnJos2wCraQZVDVeMmSa9g/u5LGsoSoKzRnGivDRp/trSrfZ
- cKqGX/iEzcpOU2vC6YTJ7p1tEmsRAUs=
-X-Google-Smtp-Source: ABdhPJwiXD/1UcrpmLnfmzswdggsw881112tRQGIW/e+DTpaQceEnVamQ+AYE7ViNdXRuDEcfTDfWg==
-X-Received: by 2002:aa7:c915:: with SMTP id b21mr16931568edt.25.1603735993903; 
- Mon, 26 Oct 2020 11:13:13 -0700 (PDT)
+ bh=Dffak8BKJG+IYBFdXpktJ4BEfRLU2hqlsz9PIJj9l3g=;
+ b=Nt7ft6gTq4cGfVkr9aTRNacARk5ZNHxI16PK302oFApq0PR6XVjWT9JwMISiQt3Nlg
+ RaOiPs75/+Cc2JfpEjWggTsCU8F00vBbnI4oa+x6Gl8OqbiGLxAeGv1wxcLGBL1oKDdC
+ ZBIWXM92sNx0At9ik5gHuJ7Y1X7DneTcdNy3cCx36hhmSGKRoiQmPd94YrLCAdyUQn2+
+ PnsvogfbvqdrSuWVlb4s592OszwfMD1jhvaLfOHvh9w7eBc/Bc2ldegrfw4zbzfB9Mwl
+ Qq+ULetZe73rLIQ2fgo4ZKDi661ZQb7Y0JYP166dBdz7TK6Iz0gYtoCEeNVpME1VCARq
+ gkww==
+X-Gm-Message-State: AOAM533i9pX+Xv/ex7HZKpy0bq7trc4v5JVgQH6bWTjlYPNtwP5tykX0
+ yoaaBh2n4Yi1VKwE8bCMy18=
+X-Google-Smtp-Source: ABdhPJycYkb8DR52ckldv7TrwY4CV/yLM4Tfks3V5GpYk9WyfYxcFjNYY1RlUBTifJl3nmZeT3bKCA==
+X-Received: by 2002:a17:906:5509:: with SMTP id
+ r9mr17282365ejp.12.1603735885382; 
+ Mon, 26 Oct 2020 11:11:25 -0700 (PDT)
 Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id n22sm5675161edr.11.2020.10.26.11.13.12
+ by smtp.gmail.com with ESMTPSA id i20sm5587769edv.96.2020.10.26.11.11.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 11:13:13 -0700 (PDT)
-Subject: Re: [PATCH 07/15] m68k: remove bios_name
+ Mon, 26 Oct 2020 11:11:24 -0700 (PDT)
+Subject: Re: [PATCH 04/15] hppa: remove bios_name
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-8-pbonzini@redhat.com>
+ <20201026143028.3034018-5-pbonzini@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <5c123916-f622-2123-fc94-1889cce8badc@amsat.org>
-Date: Mon, 26 Oct 2020 19:13:12 +0100
+Message-ID: <c060c37d-cd98-70b6-481a-699b8b06ad9a@amsat.org>
+Date: Mon, 26 Oct 2020 19:11:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201026143028.3034018-8-pbonzini@redhat.com>
+In-Reply-To: <20201026143028.3034018-5-pbonzini@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -36
@@ -91,18 +92,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/26/20 3:30 PM, Paolo Bonzini wrote:
-> Cc: Laurent Vivier <lvivier@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   hw/m68k/mcf5208.c   | 10 +++++-----
->   hw/m68k/next-cube.c |  4 +---
->   hw/m68k/q800.c      |  4 +---
->   3 files changed, 7 insertions(+), 11 deletions(-)
+>   hw/hppa/machine.c | 3 +--
+>   1 file changed, 1 insertion(+), 2 deletions(-)
+> 
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
