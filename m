@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B771F2996C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:24:21 +0100 (CET)
-Received: from localhost ([::1]:56368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24EE72996D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:29:16 +0100 (CET)
+Received: from localhost ([::1]:41376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX86O-0007SN-Pa
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:24:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56512)
+	id 1kX8B9-0004cO-47
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:29:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kX857-0006aO-06
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:23:01 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:33140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kX854-0000RT-Rv
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:23:00 -0400
-Received: by mail-pg1-x543.google.com with SMTP id l18so6635821pgg.0
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 12:22:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uqzoGeUiZyZ6lEYosQvqiZdWcrM0DYFKJVTGGrzKMQI=;
- b=wRb1uXnDB3B43Rad3kX5VqprVPRYTdwN7XTb4VwvQxlmeEOsYeVRCr1QTHwMyk30Td
- ueeSe7nMoprd3KVQtWqobif9tOS4qaK9iXNzlgey7AOduPagwyzALRkBJdwf/2Ui0Hac
- 6E5zHNxZJeAeCqU47iIrnYA2AvacFt6YPDI23ea3Sjn2Qx75CpZlpG5Hcu/j4KHjhhOL
- auiDSsYgfruonoIclahZpmzKc+pdIR4RULCHyIpDsg0S3bgDV33U6B6Qyx6P5ZNGbP0j
- D+qWuL9y/gPVxgl+gUHD5aoodY1xWWWPRzJR71wIzIVUlUm8znMcszROoNB2pZ/OSMPM
- CjcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uqzoGeUiZyZ6lEYosQvqiZdWcrM0DYFKJVTGGrzKMQI=;
- b=tcV5RPa3dukZAYT1HDVF88Pm0EEiGNQbIhQJ5rvh3dOfVbJ7z1SPcEQKWGByR8SvdC
- cb51op92on6Dj9FvPRTw88QlGHPmZriwIxk0AC0TEeqKmpjfca+VTvm9TfHKahoV7bfx
- xbOKe6BOQUBKW8V0FbsZ9u8qcbD7DOZ32XCmkCDBRYtcpVRFdfTGy2d7gl4G3zBtw8W9
- yp7gC66zoLVyZKjZkGwG86FaOoLExzUFzvSPijFhI8Fpc5m6aZp/Wl7Ubv6xL8cy2yTp
- 0BA7qdaWTdr+H0Ek/Kcq6BpHmq26Ogp5ovjIMbrJqt9q/4bYmVL7Mrc/28zVQdM7Oy86
- lk9Q==
-X-Gm-Message-State: AOAM533wjIh5qPsKAsoMR2Cmd9E7gSx/J/WvfsN9iuUmDb2jVayW4GlI
- zR5+MyZtCEzEFLJSUUbDido+uw==
-X-Google-Smtp-Source: ABdhPJwI9cmnbHNgeNxy5j91vddDTsf2YfcevExrkpztfMl9OMwFgRIhBYstoQHRoAw1nceyX8gC2w==
-X-Received: by 2002:a63:1357:: with SMTP id 23mr14808602pgt.13.1603740177435; 
- Mon, 26 Oct 2020 12:22:57 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id i22sm2099722pfq.160.2020.10.26.12.22.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 12:22:56 -0700 (PDT)
-Subject: Re: [PATCH] riscv: Add semihosting support [v8]
-To: Keith Packard <keithp@keithp.com>, qemu-devel@nongnu.org
-References: <20201023214940.917885-1-keithp@keithp.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4faf9e1f-45bd-9f47-8a5f-be7b6fcdf540@linaro.org>
-Date: Mon, 26 Oct 2020 12:22:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kX89g-00039d-LH; Mon, 26 Oct 2020 15:27:44 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:42259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kX89a-000169-K1; Mon, 26 Oct 2020 15:27:42 -0400
+Received: from [192.168.100.1] ([82.252.139.38]) by mrelayeu.kundenserver.de
+ (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1Mzhax-1kB51I1ko5-00vf9i; Mon, 26 Oct 2020 20:27:25 +0100
+Subject: Re: [PATCH 2/30] io: Fix Lesser GPL version number
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Chetan Pant <chetan4windows@gmail.com>
+References: <20201014134033.14095-1-chetan4windows@gmail.com>
+ <20201019104107.GF236912@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <020bfca2-5542-97f4-5315-5e05c4f97dbc@vivier.eu>
+Date: Mon, 26 Oct 2020 20:27:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201023214940.917885-1-keithp@keithp.com>
+In-Reply-To: <20201019104107.GF236912@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -42
-X-Spam_score: -4.3
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:uh0a98ym8GIz937OT9xvn9ahSzY1RNqENdtvGyopaI2JlrZieNC
+ 2R8c6WgSALqS0H1/nkEgK8vf0JYaxblDTYqArKog2CrJOqmbGznOYSwdWIJCCtKWhsnGnh7
+ eK4EWd6fHOgusRNqpSuXSRJFmyB4MKb+D1cWrH+45fQaYOGI2ysbiFQK+MCdjNrRtpGraR+
+ PXhLBOshPEpfJkqrkd4Fw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:QoYObQsk95E=:HeZ8HNV84pcefAiL55pQNu
+ ugV2Lo7DsgBi1rXjxbT4h8QbnPsikVIkty7cv2ouAEdf9nviG0vv2HALU8WWeAQRQDbVn7GKC
+ j7RC1iqpoz9jga/AmsjllbrE8CNmemZJFX6eTft0KmW1v7PwMcA5qKF0cYMrCBHDfF/9aP6cT
+ Dj07K2KDbELYtPPztHw6YVNiYHZ4YA4U3XqrMY5U11bxseWgYhGAg2AzQ3B+uEfu8pl9319ix
+ VDc+Tv/f15IN6Zn4KfEqui2F+Tqx2iaEI+H5tBZaalqPfg/56pKXh0bvzIM1jDvUFvUZbEuPK
+ GkZWxBS62r/2qiicn1C1LYi0/cVtuQY1FRnBkZT1MznrRcLsbK/D/g1mvweO+xuH+70Lw6NM/
+ 4A6F1hiIOlMlJYY+ZWUQjZuxKwr25GUn2IkI+xHYKxrtU2MNhYBCWC9emGCRPQ0cyUYktLB2F
+ HrmCUBPe9Q==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 15:27:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -40
+X-Spam_score: -4.1
 X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.167,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,35 +69,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Laurent Vivier <laurent@vivier.eu>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 2:49 PM, Keith Packard via wrote:
->  static bool trans_ebreak(DisasContext *ctx, arg_ebreak *a)
->  {
-> -    generate_exception(ctx, RISCV_EXCP_BREAKPOINT);
-> +    uint32_t pre    = opcode_at(&ctx->base, ctx->base.pc_next - 4);
-> +    uint32_t ebreak = opcode_at(&ctx->base, ctx->base.pc_next);
-> +    uint32_t post   = opcode_at(&ctx->base, ctx->base.pc_next + 4);
+Le 19/10/2020 à 12:41, Daniel P. Berrangé a écrit :
+> On Wed, Oct 14, 2020 at 01:40:33PM +0000, Chetan Pant wrote:
+>> There is no "version 2" of the "Lesser" General Public License.
+>> It is either "GPL version 2.0" or "Lesser GPL version 2.1".
+>> This patch replaces all occurrences of "Lesser GPL version 2" with
+>> "Lesser GPL version 2.1" in comment section.
+>>
+>> Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
+>> ---
+>>  include/io/channel-buffer.h     | 2 +-
+>>  include/io/channel-command.h    | 2 +-
+>>  include/io/channel-file.h       | 2 +-
+>>  include/io/channel-socket.h     | 2 +-
+>>  include/io/channel-tls.h        | 2 +-
+>>  include/io/channel-util.h       | 2 +-
+>>  include/io/channel-watch.h      | 2 +-
+>>  include/io/channel-websock.h    | 2 +-
+>>  include/io/channel.h            | 2 +-
+>>  include/io/dns-resolver.h       | 2 +-
+>>  include/io/task.h               | 2 +-
+>>  io/channel-buffer.c             | 2 +-
+>>  io/channel-command.c            | 2 +-
+>>  io/channel-file.c               | 2 +-
+>>  io/channel-socket.c             | 2 +-
+>>  io/channel-tls.c                | 2 +-
+>>  io/channel-util.c               | 2 +-
+>>  io/channel-watch.c              | 2 +-
+>>  io/channel-websock.c            | 2 +-
+>>  io/channel.c                    | 2 +-
+>>  io/dns-resolver.c               | 2 +-
+>>  io/task.c                       | 2 +-
+>>  tests/test-io-channel-buffer.c  | 2 +-
+>>  tests/test-io-channel-command.c | 2 +-
+>>  tests/test-io-channel-file.c    | 2 +-
+>>  tests/test-io-channel-socket.c  | 2 +-
+>>  tests/test-io-task.c            | 2 +-
+>>  27 files changed, 27 insertions(+), 27 deletions(-)
+> 
+> Acked-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Alistair asked if this approach is ok.  I think it is.  There are other places
-in which we scan forward (usually only forward, not backward, but this is a
-special nop, so it doesn't matter).
+Applied to my trivial-patches branch.
 
-However:
-
-(1) No need to re-read the current ebreak insn.  That is how we arrived here,
-after all.
-
-(2) You need to check for page boundaries before reading pre and post.
-Otherwise you could wind up with SIGSEGV (or the equivalent internal qemu
-exception) when you shouldn't.
+Thanks,
+Laurent
 
 
-r~
 
