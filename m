@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE37298EAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:58:26 +0100 (CET)
-Received: from localhost ([::1]:51386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F76F298E02
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:35:13 +0100 (CET)
+Received: from localhost ([::1]:56346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX30z-00040Z-K9
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:58:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
+	id 1kX2eV-0006ie-LY
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:35:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kWyPz-0002Uy-VD; Mon, 26 Oct 2020 05:03:55 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kWyPw-0008DN-Ka; Mon, 26 Oct 2020 05:03:55 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CKTQk5xtFz6xQl;
- Mon, 26 Oct 2020 17:03:42 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 26 Oct 2020
- 17:03:08 +0800
-From: jokenzhang <zhangxinhao1@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] hw/acpi/nvdimm.c : Don't use '#' flag of printf format
-Date: Mon, 26 Oct 2020 17:02:06 +0800
-Message-ID: <20201026090206.279087-1-zhangxinhao1@huawei.com>
-X-Mailer: git-send-email 2.29.0-rc1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kX2d6-0005fI-Lf
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:33:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kX2d4-0007LF-EL
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:33:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603719221;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=/sH0t7iqbKyVeHOQaisfus6iZfjvBhWUWuPltEdmoMI=;
+ b=MVd+x7TiZyUCACmi6sObqqgOjSgrXYR9MimxVz3aDCRZgmoEGeLiqpekF8zSeOoyBB8fEV
+ HomaYVvq5RDoG+Op1iIwLZP2GQqpvDvf58zNfC8b0vG3xgby+de12X8Nfu2/+FZH0Fun3o
+ Y30hfj7yySAXXvPGriS5D0k/FqagBNQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-204-oy1A_uPQMaOmRsmj0S9fLA-1; Mon, 26 Oct 2020 09:33:39 -0400
+X-MC-Unique: oy1A_uPQMaOmRsmj0S9fLA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 52A13875110;
+ Mon, 26 Oct 2020 13:33:38 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C78B55D9F1;
+ Mon, 26 Oct 2020 13:33:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 14C50113865F; Mon, 26 Oct 2020 14:33:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 6/6] qemu-storage-daemon: Use qmp_chardev_add() for
+ --chardev
+References: <20201023101222.250147-1-kwolf@redhat.com>
+ <20201023101222.250147-7-kwolf@redhat.com>
+Date: Mon, 26 Oct 2020 14:33:32 +0100
+In-Reply-To: <20201023101222.250147-7-kwolf@redhat.com> (Kevin Wolf's message
+ of "Fri, 23 Oct 2020 12:12:22 +0200")
+Message-ID: <87wnzdnmc2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=zhangxinhao1@huawei.com; helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 05:03:38
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 26 Oct 2020 09:54:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -57,103 +83,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, dengkai1@huawei.com
+Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
-Reported-by: Euler Robot <euler.robot@huawei.com>
----
- hw/acpi/nvdimm.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Kevin Wolf <kwolf@redhat.com> writes:
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 8f7cc16add..8ad5516142 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -556,7 +556,7 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
- 
-     fit = fit_buf->fit;
- 
--    nvdimm_debug("Read FIT: offset %#x FIT size %#x Dirty %s.\n",
-+    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
-                  read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
- 
-     if (read_fit->offset > fit->len) {
-@@ -664,7 +664,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
-     label_size = nvdimm->label_size;
-     mxfer = nvdimm_get_max_xfer_label_size();
- 
--    nvdimm_debug("label_size %#x, max_xfer %#x.\n", label_size, mxfer);
-+    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
- 
-     label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
-     label_size_out.label_size = cpu_to_le32(label_size);
-@@ -680,19 +680,19 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
-     uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
- 
-     if (offset + length < offset) {
--        nvdimm_debug("offset %#x + length %#x is overflow.\n", offset,
-+        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
-                      length);
-         return ret;
-     }
- 
-     if (nvdimm->label_size < offset + length) {
--        nvdimm_debug("position %#x is beyond label data (len = %" PRIx64 ").\n",
-+        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
-                      offset + length, nvdimm->label_size);
-         return ret;
-     }
- 
-     if (length > nvdimm_get_max_xfer_label_size()) {
--        nvdimm_debug("length (%#x) is larger than max_xfer (%#x).\n",
-+        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
-                      length, nvdimm_get_max_xfer_label_size());
-         return ret;
-     }
-@@ -716,7 +716,7 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
-     get_label_data->offset = le32_to_cpu(get_label_data->offset);
-     get_label_data->length = le32_to_cpu(get_label_data->length);
- 
--    nvdimm_debug("Read Label Data: offset %#x length %#x.\n",
-+    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
-                  get_label_data->offset, get_label_data->length);
- 
-     status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
-@@ -755,7 +755,7 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
-     set_label_data->offset = le32_to_cpu(set_label_data->offset);
-     set_label_data->length = le32_to_cpu(set_label_data->length);
- 
--    nvdimm_debug("Write Label Data: offset %#x length %#x.\n",
-+    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
-                  set_label_data->offset, set_label_data->length);
- 
-     status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
-@@ -838,7 +838,7 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     NvdimmDsmIn *in;
-     hwaddr dsm_mem_addr = val;
- 
--    nvdimm_debug("dsm memory address %#" HWADDR_PRIx ".\n", dsm_mem_addr);
-+    nvdimm_debug("dsm memory address 0x%" HWADDR_PRIx ".\n", dsm_mem_addr);
- 
-     /*
-      * The DSM memory is mapped to guest address space so an evil guest
-@@ -852,11 +852,11 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     in->function = le32_to_cpu(in->function);
-     in->handle = le32_to_cpu(in->handle);
- 
--    nvdimm_debug("Revision %#x Handler %#x Function %#x.\n", in->revision,
-+    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
-                  in->handle, in->function);
- 
-     if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
--        nvdimm_debug("Revision %#x is not supported, expect %#x.\n",
-+        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
-                      in->revision, 0x1);
-         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
-         goto exit;
--- 
-2.20.1 (Apple Git-117)
+> While this makes the code quite a bit longer and arguably isn't very
+> elegant, it removes the dependency on QemuOpts from the --chardev option
+> of the storage daemon.
+>
+> Going through qmp_chardev_add() already now ensures that semantics and
+> accessible features won't change incompatibly once we QAPIfy it fully.
+>
+> Note that there are a few differences between the command line option
+> -chardev in the system emulator and chardev-add in QMP. The --chardev
+> option of qemu-storage-daemon will follow QMP in these respects:
+>
+> * All chardev types using ChardevHostdev accept a "path" option on the
+>   command line, but QMP renamed it to "device"
+>
+> * ChardevSocket:
+>
+>   - Intentionally different defaults (documented as such): server=false
+>     and wait=true (if server=true) on the command line, but server=true
+>     and wait=false in QMP.
+>
+>   - Accidentally different defaults: tight=true on the command line, but
+>     tight=false in QMP (this is a bug in commit 776b97d3).
+>
+>   - QMP has a nested SocketAddressLegacy field, whereas the command line
+>     accepts "path"/"host"/"port"/"fd"/etc. on the top level.
+>
+>   - The command line has a "delay" option, but QMP has "nodelay"
+>
+> * ChardevUdp has two SocketAddressLegacy fields, the command line has
+>   "host"/"port"/"localaddr"/"localport" on the top level with defaults
+>   for values that are mandatory in SocketAddressLegacy
+
+I found a few more differences when I picked this patch into my "[PATCH
+0/4] qemu-storage-daemon: QAPIfy --chardev the stupid way" series.  I
+worked them into the commit message there.  Please have a look and steal
+the parts that are good.
+
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  storage-daemon/qemu-storage-daemon.c | 47 ++++++++++++++++++++++------
+>  1 file changed, 38 insertions(+), 9 deletions(-)
+>
+> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+> index e419ba9f19..b543c30951 100644
+> --- a/storage-daemon/qemu-storage-daemon.c
+> +++ b/storage-daemon/qemu-storage-daemon.c
+> @@ -37,6 +37,7 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-visit-block-core.h"
+>  #include "qapi/qapi-visit-block-export.h"
+> +#include "qapi/qapi-visit-char.h"
+>  #include "qapi/qapi-visit-control.h"
+>  #include "qapi/qmp/qdict.h"
+>  #include "qapi/qmp/qstring.h"
+> @@ -207,18 +208,46 @@ static void process_options(int argc, char *argv[])
+>              }
+>          case OPTION_CHARDEV:
+>              {
+> -                /* TODO This interface is not stable until we QAPIfy it */
+> -                QemuOpts *opts = qemu_opts_parse_noisily(&qemu_chardev_opts,
+> -                                                         optarg, true);
+> -                if (opts == NULL) {
+> -                    exit(EXIT_FAILURE);
+> -                }
+> +                QDict *args;
+> +                Visitor *v;
+> +                ChardevBackend *chr_options;
+> +                char *id;
+> +                bool help;
+>  
+> -                if (!qemu_chr_new_from_opts(opts, NULL, &error_fatal)) {
+> -                    /* No error, but NULL returned means help was printed */
+> +                args = keyval_parse(optarg, "type", &help, &error_fatal);
+> +                if (help) {
+> +                    if (qdict_haskey(args, "type")) {
+> +                        /* TODO Print help based on the QAPI schema */
+
+I phrased this as
+
+                           /* FIXME wrong where QAPI differs from QemuOpts */
+
+I think that's more accurate.
+
+I plan to work on generating bare-bones help for use with keyval_parse()
+from the QAPI schema.
+
+> +                        qemu_opts_print_help(&qemu_chardev_opts, true);
+> +                    } else {
+> +                        qemu_chr_print_types();
+> +                    }
+>                      exit(EXIT_SUCCESS);
+>                  }
+> -                qemu_opts_del(opts);
+> +
+> +                /*
+> +                 * TODO Flattened version of chardev-add in the QAPI schema
+> +                 *
+> +                 * While it's not there, parse 'id' manually from the QDict
+> +                 * and treat everything else as the 'backend' option for
+> +                 * chardev-add.
+> +                 */
+
+This is basically a manual flattening of chardev-add's implicit
+arguments type.  Okay.
+
+> +                id = g_strdup(qdict_get_try_str(args, "id"));
+> +                if (!id) {
+> +                    error_report("Parameter 'id' is missing");
+> +                    exit(EXIT_FAILURE);
+> +                }
+> +                qdict_del(args, "id");
+> +
+> +                v = qobject_input_visitor_new_keyval(QOBJECT(args));
+> +                visit_set_flat_simple_unions(v, true);
+> +                visit_type_ChardevBackend(v, NULL, &chr_options, &error_fatal);
+> +                visit_free(v);
+> +
+> +                qmp_chardev_add(id, chr_options, &error_fatal);
+> +                qapi_free_ChardevBackend(chr_options);
+> +                g_free(id);
+> +                qobject_unref(args);
+>                  break;
+>              }
+>          case OPTION_EXPORT:
+
+Preferably with the commit message improved:
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
 
