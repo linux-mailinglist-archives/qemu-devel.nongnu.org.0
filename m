@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2D3298A43
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:20:36 +0100 (CET)
-Received: from localhost ([::1]:41598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B554298A47
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:21:31 +0100 (CET)
+Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzcA-0002xU-UP
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:20:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39012)
+	id 1kWzd4-00051L-LT
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:21:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPK-0002va-Mv
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21417)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPO-00035H-M5
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPI-0006l9-Jb
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:18 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPM-0006nV-KD
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706835;
+ s=mimecast20190719; t=1603706839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=1A88vDyeWzKZh8wpgNrYx3cs/bqR5vdM561dmuGFsGg=;
- b=OMrWllbBliUWT0J298sZlnGrbFQnUUMRMghx4aMNm0/THVJFDQZ9onxV1GrUHSPBPXVo2O
- Wq08E/AmlSaS5vHxIL1xE4lV/sMjjcM+SlWpd8EdBOKrw0c1lBqfaaxhCRELOnWsd1UF9s
- tSDwcP4UT/VtaIMcFzG05F2AN42IlUk=
+ references:references; bh=3+2K7QseZ31G6O6eGWPUSYWr2X8ySATmc361BMEOoFg=;
+ b=YlxLIwY90rVjCOsUikMc7GCS46g48W6HRjSjSzAJJKeWKYEA9zwVpmjiOu6CzeEABXvpyf
+ df9mbSBDVRt425EsksUCUKbgUfD0eBqBBosQLrRVcCFIhrO/aAwMz1feAmS5ovqM+nqy28
+ FfD95OuhreQ1hjn1z2WJ7TZ1gO0nuB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-Ot9GQ0sePtWSnAf-OpuQYQ-1; Mon, 26 Oct 2020 06:07:13 -0400
-X-MC-Unique: Ot9GQ0sePtWSnAf-OpuQYQ-1
+ us-mta-369-YbN6D2GmMrmp-c6tnWNT7g-1; Mon, 26 Oct 2020 06:07:15 -0400
+X-MC-Unique: YbN6D2GmMrmp-c6tnWNT7g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A63C51009E27;
- Mon, 26 Oct 2020 10:07:12 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B9C310E2184;
+ Mon, 26 Oct 2020 10:07:14 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9B84255774;
- Mon, 26 Oct 2020 10:07:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 02C0F8B840;
+ Mon, 26 Oct 2020 10:07:12 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 24/31] scripts/oss-fuzz: use hardlinks instead of copying
-Date: Mon, 26 Oct 2020 11:06:25 +0100
-Message-Id: <20201026100632.212530-25-thuth@redhat.com>
+Subject: [PULL 25/31] scripts/oss-fuzz: ignore the generic-fuzz target
+Date: Mon, 26 Oct 2020 11:06:26 +0100
+Message-Id: <20201026100632.212530-26-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -81,56 +81,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-Prior to this, fuzzers in the output oss-fuzz directory were exactly
-the same executable, with a different name to do argv[0]-based
-fuzz-target selection. This is a waste of space, especially since these
-binaries can weigh many MB.
+generic-fuzz is not a standalone fuzzer - it requires some env variables
+to be set. On oss-fuzz, we set these with some predefined
+generic-fuzz-{...} targets, that are thin wrappers around generic-fuzz.
+Do not make a link for the generic-fuzz from the oss-fuzz build, so
+oss-fuzz does not treat it as a standalone fuzzer.
 
-Instead of copying, use hard links, to cut down on wasted space. We need
-to place the primary copy of the executable into DEST_DIR, since this is
-a separate file-system on oss-fuzz. We should not place it directly into
-$DEST_DIR, since oss-fuzz will treat it as an independent fuzzer and try
-to run it for fuzzing. Instead, we create a DEST_DIR/bin directory to
-store the primary copy.
-
-Suggested-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201023150746.107063-17-alxndr@bu.edu>
+Message-Id: <20201023150746.107063-18-alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+[thuth: Reformatted one comment to stay within the 80 columns limit]
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/oss-fuzz/build.sh | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ scripts/oss-fuzz/build.sh | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 0c3ca9e06f..0ce2867732 100755
+index 0ce2867732..fcae4a0c26 100755
 --- a/scripts/oss-fuzz/build.sh
 +++ b/scripts/oss-fuzz/build.sh
-@@ -62,6 +62,9 @@ fi
- 
- mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
- 
-+mkdir -p "$DEST_DIR/bin/"  # Copy executables that shouldn't
-+                           # be treated as fuzzers by oss-fuzz here
-+
- # Build once to get the list of dynamic lib paths, and copy them over
- ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
-     --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
-@@ -88,13 +91,16 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
- # Copy over the datadir
- cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
- 
-+cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
-+
- # Run the fuzzer with no arguments, to print the help-string and get the list
- # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
- # to each available fuzz target (See 05509c8e6d fuzz: select fuzz target using
+@@ -99,8 +99,14 @@ cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
  # executable name)
  for target in $(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
  do
--    cp qemu-fuzz-i386 "$DEST_DIR/qemu-fuzz-i386-target-$target"
-+    ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
-+        "$DEST_DIR/qemu-fuzz-i386-target-$target"
+-    ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
+-        "$DEST_DIR/qemu-fuzz-i386-target-$target"
++    # Ignore the generic-fuzz target, as it requires some environment variables
++    # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
++    # that are thin wrappers around this target that set the required
++    # environment variables according to predefined configs.
++    if [ "$target" != "generic-fuzz" ]; then
++        ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
++            "$DEST_DIR/qemu-fuzz-i386-target-$target"
++    fi
  done
  
  echo "Done. The fuzzers are located in $DEST_DIR"
