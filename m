@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E380F298A4F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:23:59 +0100 (CET)
-Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45383298A4D
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:22:59 +0100 (CET)
+Received: from localhost ([::1]:50028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzfS-0008Sr-Tj
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:23:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39088)
+	id 1kWzeU-0006W8-9L
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:22:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPP-00038U-PE
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPP-00036S-2r
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50072)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPN-0006o1-Jb
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:23 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPN-0006nc-2u
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603706840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zKsN/iAC05uvxgDfrZ6Mxdox1qphBhcT6J32MC45aOg=;
- b=GVn8lJdkOpwnUOPRnIHXwk3iDEEJwi68juwfP1/YwHrrXB/Y6KSl/An1KqjwAQW+yRd+7r
- WLLTp7k7DbxWzzqyeo5AFO5XSGUbOt+MrQlneij1l5hv5i1IH9e31KhhKIyWb2pQ3Ct0BQ
- k7IwtuY7jGnzhewt2QdgssNWn4oSA8g=
+ bh=lEYlJQc8unISlHVYrQcVwNIoZboimZpudB3FA//629w=;
+ b=VaRk4O9O5mIgAKEtbSjNatwJqCXr4+y5DKaZ/BKfkg7dL1b8N6Yl71uqNP0Z9YHnJ5zgpH
+ w/3NNYy3XHmGuqKVkcqa5YDMI5WdxPOKElM5UqoJ4FcTr3X+zeVP6XQZS04FjexayOpo56
+ 32Oe4SPL9FFJMpKvLJ3rddsTc04HEVA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-_t7emAljPQ6gPS8A2Y_uCw-1; Mon, 26 Oct 2020 06:07:16 -0400
-X-MC-Unique: _t7emAljPQ6gPS8A2Y_uCw-1
+ us-mta-386-Ze2GltQrPFKWkSzIN6G_2w-1; Mon, 26 Oct 2020 06:07:18 -0400
+X-MC-Unique: Ze2GltQrPFKWkSzIN6G_2w-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 860A31009E2C;
- Mon, 26 Oct 2020 10:07:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1014A0C07;
+ Mon, 26 Oct 2020 10:07:16 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A5ED8B847;
- Mon, 26 Oct 2020 10:07:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E4C108B840;
+ Mon, 26 Oct 2020 10:07:15 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 26/31] tests/acceptance/ppc_prep_40p: Fix the URL to the
- NetBSD-4.0 archive
-Date: Mon, 26 Oct 2020 11:06:27 +0100
-Message-Id: <20201026100632.212530-27-thuth@redhat.com>
+Subject: [PULL 27/31] test/acceptance: Remove the CONTINUOUS_INTEGRATION tags
+Date: Mon, 26 Oct 2020 11:06:28 +0100
+Message-Id: <20201026100632.212530-28-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,29 +83,36 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current URL on cdn.netbsd.org is failing - using archive.netbsd.org
-instead seems to be fine.
+We are not running the acceptance tests on Travis anymore, so these
+checks can be removed now.
 
-Message-Id: <20201023073351.251332-2-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201023073351.251332-3-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/acceptance/ppc_prep_40p.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/acceptance/ppc_prep_40p.py | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
-index 1515561249..e82755c9cf 100644
+index e82755c9cf..96ba13b894 100644
 --- a/tests/acceptance/ppc_prep_40p.py
 +++ b/tests/acceptance/ppc_prep_40p.py
-@@ -35,7 +35,7 @@ class IbmPrep40pMachine(Test):
-                     '7020-40p/P12H0456.IMG')
-         bios_hash = '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
-         bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
--        drive_url = ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-archive/'
-+        drive_url = ('https://archive.netbsd.org/pub/NetBSD-archive/'
-                      'NetBSD-4.0/prep/installation/floppy/generic_com0.fs')
-         drive_hash = 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
-         drive_path = self.fetch_asset(drive_url, asset_hash=drive_hash)
+@@ -22,7 +22,6 @@ class IbmPrep40pMachine(Test):
+     # All rights reserved.
+     # U.S. Government Users Restricted Rights - Use, duplication or disclosure
+     # restricted by GSA ADP Schedule Contract with IBM Corp.
+-    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
+     def test_factory_firmware_and_netbsd(self):
+         """
+@@ -61,7 +60,6 @@ class IbmPrep40pMachine(Test):
+         wait_for_console_pattern(self, '>> Memory: 192M')
+         wait_for_console_pattern(self, '>> CPU type PowerPC,604')
+ 
+-    @skipIf(os.getenv('CONTINUOUS_INTEGRATION'), 'Running on Travis-CI')
+     def test_openbios_and_netbsd(self):
+         """
+         :avocado: tags=arch:ppc
 -- 
 2.18.2
 
