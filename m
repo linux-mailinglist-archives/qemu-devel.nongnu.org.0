@@ -2,58 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C56299907
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:48:53 +0100 (CET)
-Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96408299937
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:00:52 +0100 (CET)
+Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAMF-00009e-LI
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:48:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
+	id 1kXAXr-0002Ht-Df
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:00:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kXAGd-0003EY-HK; Mon, 26 Oct 2020 17:43:03 -0400
-Resent-Date: Mon, 26 Oct 2020 17:43:03 -0400
-Resent-Message-Id: <E1kXAGd-0003EY-HK@lists.gnu.org>
-Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21757)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1kXAGa-0002Mz-I1; Mon, 26 Oct 2020 17:43:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1603748569; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=gJrClKVGhHtrZaCDtyb/U1zYjlkju1l1KEOd9GlMnZb4yowpmn+352DnIIISk/YvRqwtGwIeslBOTl5I+hndXwqC8q+5k2nHoi2x7lIMa9NbhHFJGogzOIWLHP1Z/uSQjmLsSOPlk0GbI3GkjRyDELYbhROB5hm9GiE40PMZ0o4=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1603748569;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=CFPafFmQFAsRUELl+V3vgWfrs1FXjjV1Aw7XDn8nCOE=; 
- b=j94/ZotjSqglD/nQCOUFIarB7ySE37tRaEw6yYSMAw6dMSD4OKnS91toeyJf/8yO9bkV/pZvXq5EyiQqoezSyP5kC49nkBWsCRrz9bG/PrH4cmLgcvvcvOFLee0CS5W4Q6A0H90Nh/Ai87I/ymXTZw4w57LX92nolsZqzNmwolQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1603748567918939.6933389170448;
- Mon, 26 Oct 2020 14:42:47 -0700 (PDT)
-Subject: Re: [PATCH 0/4] riscv: Add semihosting support [v10]
-Message-ID: <160374856633.1984.15781594896255988773@66eaa9a8a123>
-In-Reply-To: <20201026212853.92880-1-keithp@keithp.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXAUm-0000Tt-Ge; Mon, 26 Oct 2020 17:57:40 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:33704)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXAUk-0004F0-E3; Mon, 26 Oct 2020 17:57:40 -0400
+Received: by mail-ej1-x643.google.com with SMTP id c15so16079203ejs.0;
+ Mon, 26 Oct 2020 14:57:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+z2T54+lubO+eTL8uNz1bF4KBhuuk2J1BX73PNywKJg=;
+ b=MlwgjIPcyRgl2RBuPv3p7BPmlGScCZrGqRVkyXbrqufifeAtBIFHi9I1A9oRdzOEWA
+ IkZiUMOWUdyCQOIjWSnpFqnC5enMhQG9+cad9sij1HoxoIu+5DyIsI5mD6WF/ycqLkoR
+ TpIIh2vPBnDFvOdvaSzCjL4/zY5lHgGTFT1NsZyt39nFzi4kIQ5Z1A0EIMeNn81mYNAY
+ uwBwxIk+0FrGFJ3qShwJRraydkXD637SuSMs6f8+91I9imWbhXRZRult8/LH9OK8AuGs
+ txhBzR4z08QBdGXydB4hWGKniQklwHLPTeLDwkNdp1IychuORhX6T/84rJa8YxOxLcap
+ NeSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+z2T54+lubO+eTL8uNz1bF4KBhuuk2J1BX73PNywKJg=;
+ b=ra+wHZwZMLXpvAKvFadbXm8+aCkPpz6wbaakoihft8xXYPWfXPbipyv5i49qOhA3CJ
+ Jx/7jkOomzZRcprrxNs3a9CbUvkyEaOln142rW/LITJ4hMzjbBN04/haZBt7wXuUwMAW
+ XvF/RooiplAe4H8JmwmVL+TqU2amTSNXnG7n/WjUcJs4fRT2JmLX1SEzvXh9RFspUnU1
+ bMsYfw60Tw1gJFZavpYIK/GCS7X2sUF0opiI4vTjjn9w04CvFBOgvl6z4Jab490g4NSc
+ BBZcWU4Asmak8CrqLkLPr76iS/LVz99AzhE9CADgpaKo3V+IZrwgod3daKr5cG0+W1Iv
+ t/mg==
+X-Gm-Message-State: AOAM530SxeeS9B4zKgyENSvKRrhn2tHg8COlrimY/mx//Bev5F1pC8HV
+ LA8yIR/u6OyDqzxf4n0lmsDk2Aqhpls=
+X-Google-Smtp-Source: ABdhPJxB+Lhe7NTfnVSUvlegOc+4RaA4tXLuDHhfwgxR93YgF7eUFUuTydargTMXU8JvxrvswfD6kg==
+X-Received: by 2002:a17:906:d292:: with SMTP id
+ ay18mr18118111ejb.244.1603749456278; 
+ Mon, 26 Oct 2020 14:57:36 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id p3sm5814136edy.38.2020.10.26.14.57.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 14:57:35 -0700 (PDT)
+Subject: Re: [PATCH 2/2] hw/timer/armv7m_systick: Rewrite to use ptimers
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <20201015151829.14656-1-peter.maydell@linaro.org>
+ <20201015151829.14656-3-peter.maydell@linaro.org>
+ <CAFEAcA-4qq=kknVKck_tGdFaj6F8QP9MCOiqvydLcs4F+tmffA@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d9e1c66d-7b4d-3f3a-1e98-afdc8e2946cc@amsat.org>
+Date: Mon, 26 Oct 2020 22:57:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Mon, 26 Oct 2020 14:42:47 -0700 (PDT)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o57.zoho.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 16:54:56
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAFEAcA-4qq=kknVKck_tGdFaj6F8QP9MCOiqvydLcs4F+tmffA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,104 +92,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
- kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org, laurent@vivier.eu,
- qemu-arm@nongnu.org, palmer@dabbelt.com, Alistair.Francis@wdc.com,
- alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAyNjIxMjg1My45Mjg4
-MC0xLWtlaXRocEBrZWl0aHAuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
-c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
-b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEwMjYyMTI4NTMuOTI4ODAt
-MS1rZWl0aHBAa2VpdGhwLmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC80XSByaXNjdjogQWRkIHNlbWlo
-b3N0aW5nIHN1cHBvcnQgW3YxMF0KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
-c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
-bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
-VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
-cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
-CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
-aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAg
-ICAgIHBhdGNoZXcvMjAyMDEwMjYyMTI4NTMuOTI4ODAtMS1rZWl0aHBAa2VpdGhwLmNvbSAtPiBw
-YXRjaGV3LzIwMjAxMDI2MjEyODUzLjkyODgwLTEta2VpdGhwQGtlaXRocC5jb20KU3dpdGNoZWQg
-dG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplMTNhMWE2IHJpc2N2OiBBZGQgc2VtaWhvc3Rpbmcgc3Vw
-cG9ydCBbdjEwXQozZWNkYmEzIHNlbWlob3N0aW5nOiBDaGFuZ2UgaW50ZXJuYWwgY29tbW9uLXNl
-bWkgaW50ZXJmYWNlcyB0byB1c2UgQ1BVU3RhdGUgKgplZTZiYzE5IHNlbWlob3N0aW5nOiBDaGFu
-Z2UgY29tbW9uLXNlbWkgQVBJIHRvIGJlIGFyY2hpdGVjdHVyZS1pbmRlcGVuZGVudAo1NTY1YzYy
-IHNlbWlob3N0aW5nOiBNb3ZlIEFSTSBzZW1paG9zdGluZyBjb2RlIHRvIHNoYXJlZCBkaXJlY3Rv
-cmllcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS80IENoZWNraW5nIGNvbW1pdCA1NTY1YzYyZWJi
-MWEgKHNlbWlob3N0aW5nOiBNb3ZlIEFSTSBzZW1paG9zdGluZyBjb2RlIHRvIHNoYXJlZCBkaXJl
-Y3RvcmllcykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
-QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjE6IApyZW5hbWUgZnJvbSB0YXJnZXQvYXJtL2Fy
-bS1zZW1pLmMKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMjcgbGluZXMgY2hlY2tlZAoK
-UGF0Y2ggMS80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
-aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
-aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIvNCBDaGVja2luZyBjb21taXQg
-ZWU2YmMxOWQzNmRkIChzZW1paG9zdGluZzogQ2hhbmdlIGNvbW1vbi1zZW1pIEFQSSB0byBiZSBh
-cmNoaXRlY3R1cmUtaW5kZXBlbmRlbnQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
-IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzY2OiAKbmV3IGZpbGUg
-bW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTYzIGxpbmVzIGNoZWNr
-ZWQKClBhdGNoIDIvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
-b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
-aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgozLzQgQ2hlY2tpbmcgY29t
-bWl0IDNlY2RiYTM3MzNjZiAoc2VtaWhvc3Rpbmc6IENoYW5nZSBpbnRlcm5hbCBjb21tb24tc2Vt
-aSBpbnRlcmZhY2VzIHRvIHVzZSBDUFVTdGF0ZSAqKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNl
-c3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM4NjogRklMRTogaHcvc2VtaWhv
-c3RpbmcvY29tbW9uLXNlbWkuYzoxNDI6CisgICAgaWYgKGlzX2E2NChlbnYpKQpbLi4uXQorICAg
-IGVsc2UKWy4uLl0KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMg
-b2YgdGhpcyBzdGF0ZW1lbnQKIzk3OiBGSUxFOiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5j
-OjE1MzoKKyAgICBpZiAoaXNfYTY0KGVudikpClsuLi5dCisgICAgZWxzZQpbLi4uXQoKV0FSTklO
-RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIwNTogRklMRTogaHcvc2VtaWhvc3RpbmcvY29t
-bW9uLXNlbWkuYzozNDY6CitzdGF0aWMgdm9pZCBjb21tb25fc2VtaV9mbGVuX2NiKENQVVN0YXRl
-ICpjcywgdGFyZ2V0X3Vsb25nIHJldCwgdGFyZ2V0X3Vsb25nIGVycikKCldBUk5JTkc6IGxpbmUg
-b3ZlciA4MCBjaGFyYWN0ZXJzCiMyMTM6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1p
-LmM6MzUxOgorICAgIGNwdV9tZW1vcnlfcndfZGVidWcoY3MsIGNvbW1vbl9zZW1pX2ZsZW5fYnVm
-KGNzKSArIDMyLCAodWludDhfdCAqKSZzaXplLCA0LCAwKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiMyMzA6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6MzYw
-Ogorc3RhdGljIHZvaWQgY29tbW9uX3NlbWlfb3Blbl9jYihDUFVTdGF0ZSAqY3MsIHRhcmdldF91
-bG9uZyByZXQsIHRhcmdldF91bG9uZyBlcnIpCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
-dGVycwojMjU3OiBGSUxFOiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjM3MzoKK3N0YXRp
-YyB0YXJnZXRfdWxvbmcgY29tbW9uX3NlbWlfZ2RiX3N5c2NhbGwoQ1BVU3RhdGUgKmNzLCBnZGJf
-c3lzY2FsbF9jb21wbGV0ZV9jYiBjYiwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
-CiM1OTk6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6NzY1OgorICAgICAgICAg
-ICAgcmV0ID0gY29tbW9uX3NlbWlfZ2RiX3N5c2NhbGwoY3MsIGNvbW1vbl9zZW1pX29wZW5fY2Is
-ICJvcGVuLCVzLCV4LDFhNCIsIGFyZzAsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
-cwojNjAwOiBGSUxFOiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjc2NjoKKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChpbnQpYXJnMisxLCBnZGJfb3Blbl9t
-b2RlZmxhZ3NbYXJnMV0pOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycg
-KGN0eDpWeFYpCiM2MDA6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6NzY2Ogor
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKGludClhcmcyKzEsIGdk
-Yl9vcGVuX21vZGVmbGFnc1thcmcxXSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0
-ICcrJyAoY3R4OlZ4VikKIzcwMjogRklMRTogaHcvc2VtaWhvc3RpbmcvY29tbW9uLXNlbWkuYzo4
-NjM6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBhcmcwLCAoaW50
-KWFyZzErMSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBeCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzIyOiBGSUxF
-OiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjg4MToKKyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBhcmcwLCAoaW50KWFyZzErMSwgYXJnMiwgKGludClhcmcz
-KzEpOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiM3
-MjI6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6ODgxOgorICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFyZzAsIChpbnQpYXJnMSsxLCBhcmcyLCAo
-aW50KWFyZzMrMSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycg
-KGN0eDpWeFYpCiM3MjI6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6ODgxOgor
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFyZzAsIChpbnQpYXJn
-MSsxLCBhcmcyLCAoaW50KWFyZzMrMSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBz
-cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQojNzUwOiBGSUxFOiBody9z
-ZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjkwNzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBhcmcwLCAoaW50KWFyZzErMSk7CiAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDcgZXJyb3Jz
-LCA3IHdhcm5pbmdzLCA3NjcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy80IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo0LzQgQ2hlY2tpbmcgY29tbWl0IGUxM2ExYTYwZWNjNyAocmlzY3Y6IEFk
-ZCBzZW1paG9zdGluZyBzdXBwb3J0IFt2MTBdKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTAyNjIxMjg1My45Mjg4MC0xLWtlaXRocEBrZWl0
-aHAuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
-dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
-c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On 10/15/20 5:31 PM, Peter Maydell wrote:
+> On Thu, 15 Oct 2020 at 16:18, Peter Maydell <peter.maydell@linaro.org> wrote:
+>>
+>> The armv7m systick timer is a 24-bit decrementing, wrap-on-zero,
+>> clear-on-write counter. Our current implementation has various
+>> bugs and dubious workarounds in it (for instance see
+>> https://bugs.launchpad.net/qemu/+bug/1872237).
+
+Nice cleanup :)
+
+Nitpicking we should replace the 24-bit 0xffffff constant by
+a definition.
+
+> 
+> ...and 10 minutes after sending this I realized I'd forgotten
+> to finish removing the no-longer-needed state struct fields.
+> This should be squashed in:
+> 
+> diff --git a/include/hw/timer/armv7m_systick.h
+> b/include/hw/timer/armv7m_systick.h
+> index 84496faaf96..d57e299fd89 100644
+> --- a/include/hw/timer/armv7m_systick.h
+> +++ b/include/hw/timer/armv7m_systick.h
+> @@ -26,8 +26,6 @@ struct SysTickState {
+>       /*< public >*/
+> 
+>       uint32_t control;
+> -    uint32_t reload;
+> -    int64_t tick;
+>       ptimer_state *ptimer;
+>       MemoryRegion iomem;
+>       qemu_irq irq;
+> diff --git a/hw/timer/armv7m_systick.c b/hw/timer/armv7m_systick.c
+> index 2f192011eb0..5ac3a8a7e81 100644
+> --- a/hw/timer/armv7m_systick.c
+> +++ b/hw/timer/armv7m_systick.c
+> @@ -219,7 +219,6 @@ static const VMStateDescription vmstate_systick = {
+>       .minimum_version_id = 2,
+>       .fields = (VMStateField[]) {
+>           VMSTATE_UINT32(control, SysTickState),
+> -        VMSTATE_INT64(tick, SysTickState),
+>           VMSTATE_PTIMER(ptimer, SysTickState),
+>           VMSTATE_END_OF_LIST()
+>       }
+
+Patch + hunk:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
