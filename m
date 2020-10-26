@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C09F298A11
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:11:15 +0100 (CET)
-Received: from localhost ([::1]:41100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19226298A03
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:08:44 +0100 (CET)
+Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzT8-0007X0-Ik
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38656)
+	id 1kWzQh-00045l-3C
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:08:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOo-0002PR-KR
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30391)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOn-0002P8-DT
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOl-0006ZT-DS
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:46 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOl-0006ZR-2u
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706801;
+ s=mimecast20190719; t=1603706800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=h28I8XlaAusrISsoc5ViqK5BtVxZulQPI31/JqrxM/Q=;
- b=OgVsf6wLuIgiWNfmTlTG9LMXJoxHfqQABKgdMAq5yFgM0AK2xk8fm5OlDOosV6ODgiU+PT
- rxGNRup6D1OvaM7hi/1y5e4HBI7Wq00sBheh2nij12/dLmtb1vd9W7+99YmALkZMhfA0MN
- DggWE0OH1nSKle7sMwfQBb7dl4v7pHs=
+ to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
+ references:references; bh=U/8TwMow7JFz41G6l7+MQj+1KDG2MIh2y51jl6IvirY=;
+ b=EpIR0FiCSEaBA+mAv9OJRIidiFHLkKasEA3TWpqV3yiz+Prsz9UfMlENqI5Yf2lV2ogqjl
+ Iavvd5ssF1kMX3MqE5K2HFrfb2nlcBHz2c5h2LutDjmqnIMbR+thKJucHFcK9lVS01I4/A
+ eDtNJ4Yk5QiWHoe+u5lNcTFBqtLu1rM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-112-ENbA6xnrOoiC56gngQievg-1; Mon, 26 Oct 2020 06:06:37 -0400
-X-MC-Unique: ENbA6xnrOoiC56gngQievg-1
+ us-mta-332-TA7i9RzbMiWUjGe8AM3IIw-1; Mon, 26 Oct 2020 06:06:38 -0400
+X-MC-Unique: TA7i9RzbMiWUjGe8AM3IIw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0905C1007B00;
- Mon, 26 Oct 2020 10:06:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6FB031882FA7;
+ Mon, 26 Oct 2020 10:06:37 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D57DC8B849;
- Mon, 26 Oct 2020 10:06:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E28E8B849;
+ Mon, 26 Oct 2020 10:06:36 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/31] qtests and gitlab-CI/acceptance patches
-Date: Mon, 26 Oct 2020 11:06:01 +0100
-Message-Id: <20201026100632.212530-1-thuth@redhat.com>
-MIME-Version: 1.0
+Subject: [PULL 01/31] tests/migration: fix memleak in
+ wait_command/wait_command_fd
+Date: Mon, 26 Oct 2020 11:06:02 +0100
+Message-Id: <20201026100632.212530-2-thuth@redhat.com>
+In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
+References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
@@ -80,109 +80,88 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+From: Chen Qun <kuhn.chenqun@huawei.com>
 
-the following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+Properly free each command resp to avoid memory leak.
+ASAN shows memory leak stack:
 
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+Indirect leak of 2352520 byte(s) in 571 object(s) allocated from:
+    #0 0x7f6ca3308d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
+    #1 0x7f6ca3127a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
+    #2 0x557bf3c71d2b in qdict_new ../qobject/qdict.c:29
+    #3 0x557bf3c9caba in parse_object ../qobject/json-parser.c:318
+    #4 0x557bf3c9ce75 in json_parser_parse ../qobject/json-parser.c:580
+    #5 0x557bf3c8c8cf in json_message_process_token ../qobject/json-streamer.c:92
+    #6 0x557bf3c9ea59 in json_lexer_feed_char ../qobject/json-lexer.c:313
+    #7 0x557bf3c9eeb5 in json_lexer_feed ../qobject/json-lexer.c:350
+    #8 0x557bf3c4793a in qmp_fd_receive ../tests/qtest/libqtest.c:608
+    #9 0x557bf3c47b58 in qtest_qmp_receive ../tests/qtest/libqtest.c:618
+    #10 0x557bf3c44245 in wait_command ../tests/qtest/migration-helpers.c:59
+    #11 0x557bf3c445cb in migrate_query_status ../tests/qtest/migration-helpers.c:108
+    #12 0x557bf3c44642 in check_migration_status ../tests/qtest/migration-helpers.c:124
+    #13 0x557bf3c447e7 in wait_for_migration_status ../tests/qtest/migration-helpers.c:148
+    #14 0x557bf3c43b8f in test_migrate_auto_converge ../tests/qtest/migration-test.c:1243
+    ......
 
-are available in the Git repository at:
+Fix: 5e34005571af5
 
-  https://gitlab.com/huth/qemu.git tags/pull-request-2020-10-26
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Message-Id: <20201023061218.2080844-2-kuhn.chenqun@huawei.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/qtest/migration-helpers.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-for you to fetch changes up to 28bbe20ce281659e317b807f34f568bde6d99760:
-
-  tests/acceptance: Use .ppm extention for Portable PixMap files (2020-10-26 09:54:16 +0100)
-
-----------------------------------------------------------------
-* qtest fixes (e.g. memory leaks)
-* Fix for Xen dummy cpu loop (which happened due to qtest accel rework)
-* Introduction of the generic device fuzzer
-* Run more check-acceptance tests in the gitlab-CI
-----------------------------------------------------------------
-
-Alexander Bulekov (17):
-      memory: Add FlatView foreach function
-      fuzz: Add generic virtual-device fuzzer
-      fuzz: Add PCI features to the generic fuzzer
-      fuzz: Add DMA support to the generic-fuzzer
-      fuzz: Declare DMA Read callback function
-      fuzz: Add fuzzer callbacks to DMA-read functions
-      fuzz: Add support for custom crossover functions
-      fuzz: add a DISABLE_PCI op to generic-fuzzer
-      fuzz: add a crossover function to generic-fuzzer
-      scripts/oss-fuzz: Add script to reorder a generic-fuzzer trace
-      scripts/oss-fuzz: Add crash trace minimization script
-      fuzz: Add instructions for using generic-fuzz
-      fuzz: add an "opaque" to the FuzzTarget struct
-      fuzz: add generic-fuzz configs for oss-fuzz
-      fuzz: register predefined generic-fuzz configs
-      scripts/oss-fuzz: use hardlinks instead of copying
-      scripts/oss-fuzz: ignore the generic-fuzz target
-
-Chen Qun (1):
-      tests/migration: fix memleak in wait_command/wait_command_fd
-
-Havard Skinnemoen (1):
-      tests/qtest: Make npcm7xx_timer-test conditional on CONFIG_NPCM7XX
-
-Jason Andryuk (3):
-      accel: Remove _WIN32 ifdef from qtest-cpus.c
-      accel: move qtest CpusAccel functions to a common location
-      accel: Add xen CpusAccel using dummy-cpus
-
-Maxim Levitsky (2):
-      libqtest: fix the order of buffered events
-      libqtest: fix memory leak in the qtest_qmp_event_ref
-
-Philippe Mathieu-Daudé (2):
-      tests/acceptance: Remove unused import
-      tests/acceptance: Use .ppm extention for Portable PixMap files
-
-Thomas Huth (5):
-      tests/qtest/libqtest: Fix detection of architecture for binaries without path
-      tests/acceptance/ppc_prep_40p: Fix the URL to the NetBSD-4.0 archive
-      test/acceptance: Remove the CONTINUOUS_INTEGRATION tags
-      tests/acceptance: Enable AVOCADO_ALLOW_UNTRUSTED_CODE in the gitlab-CI
-      test/docker/dockerfiles: Add missing packages for acceptance tests
-
- .gitlab-ci.yml                                 |   1 +
- accel/{qtest/qtest-cpus.c => dummy-cpus.c}     |  27 +-
- accel/meson.build                              |   8 +
- accel/qtest/meson.build                        |   1 -
- accel/qtest/qtest-cpus.h                       |  17 -
- accel/qtest/qtest.c                            |   5 +-
- accel/xen/xen-all.c                            |   8 +
- docs/devel/fuzzing.txt                         |  39 +
- include/exec/memory.h                          |  21 +
- include/exec/memory_ldst_cached.h.inc          |   3 +
- include/sysemu/cpus.h                          |   3 +
- memory_ldst.c.inc                              |   4 +
- scripts/oss-fuzz/build.sh                      |  14 +-
- scripts/oss-fuzz/minimize_qtest_trace.py       | 157 ++++
- scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py | 103 +++
- softmmu/memory.c                               |  27 +
- softmmu/physmem.c                              |   2 +
- tests/acceptance/machine_m68k_nextcube.py      |   7 +-
- tests/acceptance/ppc_prep_40p.py               |   4 +-
- tests/docker/dockerfiles/centos8.docker        |   1 +
- tests/docker/dockerfiles/debian-amd64.docker   |   3 +
- tests/docker/dockerfiles/fedora.docker         |   1 +
- tests/docker/dockerfiles/ubuntu2004.docker     |   1 +
- tests/qtest/fuzz/fuzz.c                        |  13 +
- tests/qtest/fuzz/fuzz.h                        |  28 +
- tests/qtest/fuzz/generic_fuzz.c                | 954 +++++++++++++++++++++++++
- tests/qtest/fuzz/generic_fuzz_configs.h        | 121 ++++
- tests/qtest/fuzz/meson.build                   |   1 +
- tests/qtest/libqtest.c                         |  22 +-
- tests/qtest/meson.build                        |   3 +-
- tests/qtest/migration-helpers.c                |  16 +-
- 31 files changed, 1550 insertions(+), 65 deletions(-)
- rename accel/{qtest/qtest-cpus.c => dummy-cpus.c} (71%)
- delete mode 100644 accel/qtest/qtest-cpus.h
- create mode 100755 scripts/oss-fuzz/minimize_qtest_trace.py
- create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
- create mode 100644 tests/qtest/fuzz/generic_fuzz.c
- create mode 100644 tests/qtest/fuzz/generic_fuzz_configs.h
+diff --git a/tests/qtest/migration-helpers.c b/tests/qtest/migration-helpers.c
+index b799dbafb7..4ee26014b7 100644
+--- a/tests/qtest/migration-helpers.c
++++ b/tests/qtest/migration-helpers.c
+@@ -32,7 +32,7 @@ static void check_stop_event(QTestState *who)
+ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+ {
+     va_list ap;
+-    QDict *resp;
++    QDict *resp, *ret;
+ 
+     va_start(ap, command);
+     qtest_qmp_vsend_fds(who, &fd, 1, command, ap);
+@@ -44,7 +44,11 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+     g_assert(!qdict_haskey(resp, "error"));
+     g_assert(qdict_haskey(resp, "return"));
+ 
+-    return qdict_get_qdict(resp, "return");
++    ret = qdict_get_qdict(resp, "return");
++    qobject_ref(ret);
++    qobject_unref(resp);
++
++    return ret;
+ }
+ 
+ /*
+@@ -53,7 +57,7 @@ QDict *wait_command_fd(QTestState *who, int fd, const char *command, ...)
+ QDict *wait_command(QTestState *who, const char *command, ...)
+ {
+     va_list ap;
+-    QDict *resp;
++    QDict *resp, *ret;
+ 
+     va_start(ap, command);
+     resp = qtest_vqmp(who, command, ap);
+@@ -64,7 +68,11 @@ QDict *wait_command(QTestState *who, const char *command, ...)
+     g_assert(!qdict_haskey(resp, "error"));
+     g_assert(qdict_haskey(resp, "return"));
+ 
+-    return qdict_get_qdict(resp, "return");
++    ret = qdict_get_qdict(resp, "return");
++    qobject_ref(ret);
++    qobject_unref(resp);
++
++    return ret;
+ }
+ 
+ /*
+-- 
+2.18.2
 
 
