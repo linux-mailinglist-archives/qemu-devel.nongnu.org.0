@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B5E2995A9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:47:15 +0100 (CET)
-Received: from localhost ([::1]:53726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE221299622
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:56:15 +0100 (CET)
+Received: from localhost ([::1]:50770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7WU-0003eK-Ls
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:47:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45776)
+	id 1kX7fC-0005zf-T0
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:56:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7TJ-0001uu-Tp
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27038)
+ id 1kX7TK-0001vW-9F
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48951)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7TI-0003Zp-60
+ id 1kX7TI-0003Zr-Fo
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:43:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603737835;
@@ -25,31 +25,31 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eOz7Eo5NzzjVobNN7GnV+qU2azE/DDcO2n9f+17shj4=;
- b=cLHJq/szlQ0deo/z571FeTKaxzQxNh2YI7sAzYILP/pGtuCxaowv3PtIuNNbZldeyXttf6
- Ex3W2QwiUUeq5YkiisacYmKA+DAn83X57e9ySh96H3DvIm6w1MMgDC0Hh/GNNEL81Uduzg
- LfDuRBGAS56n95Q6o29w9Ljwmj2oR3o=
+ bh=ks0Irnz8eHi/bnIGi5HUdDfgs1llfwLxfRLkOZuL02I=;
+ b=Fj2sJ53disYbxZCwtMgYJXyyreZSQWIqxTWFk25q4rR0FulZTz4Yq7QvjVh1KzkYNqJ+SY
+ 2mIodzKlGfdPmpQlyoKWY6kBviKjrHO4TeDkpMjjZcqXSOSDwnBqR76LT7tLa6wRYZIQlp
+ M6mkDixDfPTcLGQ7s8pS77iF8QeLHyo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-J20nKnmHOgGIMOAFKBai-g-1; Mon, 26 Oct 2020 14:43:51 -0400
-X-MC-Unique: J20nKnmHOgGIMOAFKBai-g-1
+ us-mta-338-AJ5gofjWPIewaP-eFd7Tsg-1; Mon, 26 Oct 2020 14:43:52 -0400
+X-MC-Unique: AJ5gofjWPIewaP-eFd7Tsg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 144B264087;
- Mon, 26 Oct 2020 18:43:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C16C58030DF;
+ Mon, 26 Oct 2020 18:43:51 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ABF5C5D9CA;
- Mon, 26 Oct 2020 18:43:48 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 651E55D9CA;
+ Mon, 26 Oct 2020 18:43:50 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com,
  misono.tomohiro@jp.fujitsu.com
-Subject: [PULL 05/16] tools/virtiofsd: xattr name mappings: Map client xattr
+Subject: [PULL 06/16] tools/virtiofsd: xattr name mappings: Map server xattr
  names
-Date: Mon, 26 Oct 2020 18:43:20 +0000
-Message-Id: <20201026184331.272953-6-dgilbert@redhat.com>
+Date: Mon, 26 Oct 2020 18:43:21 +0000
+Message-Id: <20201026184331.272953-7-dgilbert@redhat.com>
 In-Reply-To: <20201026184331.272953-1-dgilbert@redhat.com>
 References: <20201026184331.272953-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,16 +60,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,195 +89,127 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Map xattr names originating at the client; from get/set/remove xattr.
+Map xattr names coming from the server, i.e. the host filesystem;
+currently this is only from listxattr.
 
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20201023165812.36028-3-dgilbert@redhat.com>
+Message-Id: <20201023165812.36028-4-dgilbert@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/passthrough_ll.c | 101 ++++++++++++++++++++++++++++++-
- 1 file changed, 98 insertions(+), 3 deletions(-)
+ tools/virtiofsd/passthrough_ll.c | 90 ++++++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
 
 diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index cb24af27f5..cf67737751 100644
+index cf67737751..8c0187498a 100644
 --- a/tools/virtiofsd/passthrough_ll.c
 +++ b/tools/virtiofsd/passthrough_ll.c
-@@ -2188,20 +2188,80 @@ static void parse_xattrmap(struct lo_data *lo)
-     }
+@@ -2229,6 +2229,44 @@ static int xattr_map_client(const struct lo_data *lo, const char *client_name,
+     return -EPERM;
  }
  
--static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
 +/*
-+ * For use with getxattr/setxattr/removexattr, where the client
-+ * gives us a name and we may need to choose a different one.
-+ * Allocates a buffer for the result placing it in *out_name.
-+ *   If there's no change then *out_name is not set.
++ * For use with listxattr where the server fs gives us a name and we may need
++ * to sanitize this for the client.
++ * Returns a pointer to the result in *out_name
++ *   This is always the original string or the current string with some prefix
++ *   removed; no reallocation is done.
 + * Returns 0 on success
-+ * Can return -EPERM to indicate we block a given attribute
-+ *   (in which case out_name is not allocated)
-+ * Can return -ENOMEM to indicate out_name couldn't be allocated.
++ * Can return -ENODATA to indicate the name should be dropped from the list.
 + */
-+static int xattr_map_client(const struct lo_data *lo, const char *client_name,
-+                            char **out_name)
++static int xattr_map_server(const struct lo_data *lo, const char *server_name,
++                            const char **out_name)
 +{
 +    size_t i;
++    const char *end;
++
 +    for (i = 0; i < lo->xattr_map_nentries; i++) {
 +        const XattrMapEntry *cur_entry = lo->xattr_map_list + i;
 +
-+        if ((cur_entry->flags & XATTR_MAP_FLAG_CLIENT) &&
-+            (strstart(client_name, cur_entry->key, NULL))) {
++        if ((cur_entry->flags & XATTR_MAP_FLAG_SERVER) &&
++            (strstart(server_name, cur_entry->prepend, &end))) {
 +            if (cur_entry->flags & XATTR_MAP_FLAG_BAD) {
-+                return -EPERM;
++                return -ENODATA;
 +            }
 +            if (cur_entry->flags & XATTR_MAP_FLAG_OK) {
-+                /* Unmodified name */
++                *out_name = server_name;
 +                return 0;
 +            }
 +            if (cur_entry->flags & XATTR_MAP_FLAG_PREFIX) {
-+                *out_name = g_try_malloc(strlen(client_name) +
-+                                         strlen(cur_entry->prepend) + 1);
-+                if (!*out_name) {
-+                    return -ENOMEM;
-+                }
-+                sprintf(*out_name, "%s%s", cur_entry->prepend, client_name);
++                /* Remove prefix */
++                *out_name = end;
 +                return 0;
 +            }
 +        }
 +    }
 +
-+    return -EPERM;
++    return -ENODATA;
 +}
 +
-+static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
+ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
                          size_t size)
  {
-     struct lo_data *lo = lo_data(req);
-     char *value = NULL;
-     char procname[64];
-+    const char *name;
-+    char *mapped_name;
-     struct lo_inode *inode;
-     ssize_t ret;
-     int saverr;
-     int fd = -1;
- 
-+    mapped_name = NULL;
-+    name = in_name;
-+    if (lo->xattrmap) {
-+        ret = xattr_map_client(lo, in_name, &mapped_name);
-+        if (ret < 0) {
-+            if (ret == -EPERM) {
-+                ret = -ENODATA;
+@@ -2383,8 +2421,60 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
+         if (ret == 0) {
+             goto out;
+         }
++
++        if (lo->xattr_map_list) {
++            /*
++             * Map the names back, some attributes might be dropped,
++             * some shortened, but not increased, so we shouldn't
++             * run out of room.
++             */
++            size_t out_index, in_index;
++            out_index = 0;
++            in_index = 0;
++            while (in_index < ret) {
++                const char *map_out;
++                char *in_ptr = value + in_index;
++                /* Length of current attribute name */
++                size_t in_len = strlen(value + in_index) + 1;
++
++                int mapret = xattr_map_server(lo, in_ptr, &map_out);
++                if (mapret != -ENODATA && mapret != 0) {
++                    /* Shouldn't happen */
++                    saverr = -mapret;
++                    goto out;
++                }
++                if (mapret == 0) {
++                    /* Either unchanged, or truncated */
++                    size_t out_len;
++                    if (map_out != in_ptr) {
++                        /* +1 copies the NIL */
++                        out_len = strlen(map_out) + 1;
++                    } else {
++                        /* No change */
++                        out_len = in_len;
++                    }
++                    /*
++                     * Move result along, may still be needed for an unchanged
++                     * entry if a previous entry was changed.
++                     */
++                    memmove(value + out_index, map_out, out_len);
++
++                    out_index += out_len;
++                }
++                in_index += in_len;
 +            }
-+            fuse_reply_err(req, -ret);
-+            return;
++            ret = out_index;
++            if (ret == 0) {
++                goto out;
++            }
 +        }
-+        if (mapped_name) {
-+            name = mapped_name;
-+        }
-+    }
-+
-     inode = lo_inode(req, ino);
-     if (!inode) {
-         fuse_reply_err(req, EBADF);
-+        g_free(mapped_name);
-         return;
+         fuse_reply_buf(req, value, ret);
+     } else {
++        /*
++         * xattrmap only ever shortens the result,
++         * so we don't need to do anything clever with the
++         * allocation length here.
++         */
+         fuse_reply_xattr(req, ret);
      }
- 
-@@ -2266,6 +2326,7 @@ out_err:
-     saverr = errno;
- out:
-     fuse_reply_err(req, saverr);
-+    g_free(mapped_name);
-     goto out_free;
- }
- 
-@@ -2343,19 +2404,35 @@ out:
-     goto out_free;
- }
- 
--static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *name,
-+static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-                         const char *value, size_t size, int flags)
- {
-     char procname[64];
-+    const char *name;
-+    char *mapped_name;
-     struct lo_data *lo = lo_data(req);
-     struct lo_inode *inode;
-     ssize_t ret;
-     int saverr;
-     int fd = -1;
- 
-+    mapped_name = NULL;
-+    name = in_name;
-+    if (lo->xattrmap) {
-+        ret = xattr_map_client(lo, in_name, &mapped_name);
-+        if (ret < 0) {
-+            fuse_reply_err(req, -ret);
-+            return;
-+        }
-+        if (mapped_name) {
-+            name = mapped_name;
-+        }
-+    }
-+
-     inode = lo_inode(req, ino);
-     if (!inode) {
-         fuse_reply_err(req, EBADF);
-+        g_free(mapped_name);
-         return;
-     }
- 
-@@ -2390,21 +2467,38 @@ out:
-     }
- 
-     lo_inode_put(lo, &inode);
-+    g_free(mapped_name);
-     fuse_reply_err(req, saverr);
- }
- 
--static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *name)
-+static void lo_removexattr(fuse_req_t req, fuse_ino_t ino, const char *in_name)
- {
-     char procname[64];
-+    const char *name;
-+    char *mapped_name;
-     struct lo_data *lo = lo_data(req);
-     struct lo_inode *inode;
-     ssize_t ret;
-     int saverr;
-     int fd = -1;
- 
-+    mapped_name = NULL;
-+    name = in_name;
-+    if (lo->xattrmap) {
-+        ret = xattr_map_client(lo, in_name, &mapped_name);
-+        if (ret < 0) {
-+            fuse_reply_err(req, -ret);
-+            return;
-+        }
-+        if (mapped_name) {
-+            name = mapped_name;
-+        }
-+    }
-+
-     inode = lo_inode(req, ino);
-     if (!inode) {
-         fuse_reply_err(req, EBADF);
-+        g_free(mapped_name);
-         return;
-     }
- 
-@@ -2439,6 +2533,7 @@ out:
-     }
- 
-     lo_inode_put(lo, &inode);
-+    g_free(mapped_name);
-     fuse_reply_err(req, saverr);
- }
- 
+ out_free:
 -- 
 2.28.0
 
