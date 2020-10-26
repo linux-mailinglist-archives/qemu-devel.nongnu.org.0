@@ -2,72 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2C02990F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:24:47 +0100 (CET)
-Received: from localhost ([::1]:36246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A8AD2990B9
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:13:21 +0100 (CET)
+Received: from localhost ([::1]:51826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX4MY-0007he-DE
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:24:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38898)
+	id 1kX4BU-0001hH-Eo
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:13:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kX4Lj-0007B3-S3; Mon, 26 Oct 2020 11:23:55 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:44840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kX4Li-0007SB-0A; Mon, 26 Oct 2020 11:23:55 -0400
-Received: by mail-io1-xd42.google.com with SMTP id z17so10469817iog.11;
- Mon, 26 Oct 2020 08:23:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=byLw1xQybCC0iKjKZLnDibY6WpaHJtmccGbhtFBNZDg=;
- b=PYwAbau/D1VbLcV92e6todQ+7VQuCFDq5MVhySuvax42JIz+mOLS2LTut/L6CL8286
- Trahv/ZEqrvOE/giqv87i0IpTflvp3G0cbXp8SxTDVXY7NhzZaQhsqlGDu6DZ6iBvu+q
- HTweC21Y5tPgQnJrVooRdSZdBuWM5v9gZaiweSNbsBEGeO26I1noyFXAReBcU1L3AlAy
- NcSPB0SUUJEcASkvPifShWAUowR6z/KvIrgOvnyKtjfdYLs1VlMx9FUmxNVTLV6dqH1r
- Ezl8DYnp2r4/euBOP1g7bdl5+1Rci3JbbAEexgSRRRqGZyOM9njQpDeUcXvMz3qUHNg8
- H39A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX4AS-0001G8-4S
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:12:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX4AQ-0005mJ-ES
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:12:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603725133;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UpWHRxPv0IM71EXU0korKAgr/a1o32AyVALKHKJphNE=;
+ b=NeMmlc3sBGIQYjXsfEGzXrikza33erYn7PS8Ek3KBCgu4YM8qPTX+xB4vmlx11F3jb74PZ
+ sFYkSO19lrgQGzx0Fzh4tXVCPKeke6xiy1xBWAAkjJynfwsnGyxht90U8MbjFKYr6e6FMh
+ SVd0b7RPGCMuSdHvEen+eNZj12qNlY8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-493-HMUxVusrMdiY3OpaSuJaIQ-1; Mon, 26 Oct 2020 11:12:11 -0400
+X-MC-Unique: HMUxVusrMdiY3OpaSuJaIQ-1
+Received: by mail-wm1-f69.google.com with SMTP id c204so6598875wmd.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 08:12:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=byLw1xQybCC0iKjKZLnDibY6WpaHJtmccGbhtFBNZDg=;
- b=NzVOM8BmrvN/zf2Stalvp4FjvurH3/g0f2kdLARbT2KEe7ZpMrBpyiyHlhoHn/GMrT
- bPN9NqDpRz2E68GsxrgX2watGmxy7s27gPMdfvW1mwy6RnxmL3ligHUjatS9uaNgiyRL
- hLOL6hIxsijRH4UGn5xxMQYow2NQM5bakYOYBUn1CQ+F5C9wQqj3cLc2nqhpngzmreGf
- ElaDj9uICM0fCDbzEgLIDm6GQ2J7fvcAw/IDVPwCSqsrxWacl/FtjZnKviuC17hAm1w9
- qdrwbDvmk25pMV9WOgd8njEmMHI50RrBuKkXM1ZHxHExjjpdaIg1HzA6fKy8mN1GFekh
- SpBA==
-X-Gm-Message-State: AOAM5320MBykSqTFMe4eGSgvI4e5D9bq7eBWDZol4bDfQED/gPGAZJMG
- LN4awVGXahDGnOgPI0ksZkCKV9rkBEXjj/P46KvVR2Nz8EQ=
-X-Google-Smtp-Source: ABdhPJyr/Ldb/rhuj3/uUv8HNYLWoxKe2wilDn0aMmEzZjknMTk6J0SQMbpzQzCZjg3JUY9/ju7EN/s11nDa19wf12o=
-X-Received: by 2002:a05:6602:2ac3:: with SMTP id
- m3mr11105537iov.105.1603725831888; 
- Mon, 26 Oct 2020 08:23:51 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UpWHRxPv0IM71EXU0korKAgr/a1o32AyVALKHKJphNE=;
+ b=hLM4vtrhsctEn8B+PzbhbLzwlPuEjCPKhzrb/8EGo3jgDpnuavl2LGgbWmUgbhR/+5
+ jcH7fECD9eaQ/00s5R+gRNhgkI/2uTmNmIX8nP1Za2+IPH6Sz9bLl/gIcHPFzkBpEqpV
+ smXrx3ltiXZ4OIypIpDhVMHipK4f26LlbyejjF56rKdd/iUYSdkA+inkDCAovojWkEO9
+ 1+oB/MufGRSX4CAj1VfLWek1m1CHTmhTcA85xauiQvMFJRS2Y0s7CamsYxrzD+HRXlD4
+ mYEUvmd9B5FiqBxYIYnyB7GTANWJJHwaTrDKxsCBEHIzLKhtpNhluv0r4T8ugrquDUt9
+ H7Hw==
+X-Gm-Message-State: AOAM532QGktiYjyVU5h8OxLHY8fzWVpMjw6iC8YYvNE0iNqLxMju0JRE
+ LudMXAcoSQ4iadNrC0NmWM5vhIrIWl+PK0RSLwA4I4GwQdzkSkndhwT7v9gVsjTdCgFIUq6ay/H
+ lf9z2FpwObETk1gM=
+X-Received: by 2002:a05:6000:1084:: with SMTP id
+ y4mr17402266wrw.138.1603725129959; 
+ Mon, 26 Oct 2020 08:12:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJysZcowqRbLP9fQACTm3NwL99PvSuM23IagkfvQx33xy37E6nqlS4CvZzeM1z3bqi0DPUTmzA==
+X-Received: by 2002:a05:6000:1084:: with SMTP id
+ y4mr17402244wrw.138.1603725129693; 
+ Mon, 26 Oct 2020 08:12:09 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id e15sm22109144wro.13.2020.10.26.08.12.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 08:12:09 -0700 (PDT)
+Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
+To: Daniele Buono <dbuono@linux.vnet.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
+ <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
+ <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
+ <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
+Date: Mon, 26 Oct 2020 16:12:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <cover.1603467169.git.alistair.francis@wdc.com>
- <7ce5ff70057b2fad2d455887d048c419a7e42746.1603467169.git.alistair.francis@wdc.com>
- <CAEUhbmXVDj0AJ9-0WC3G_Gk4jA6B78hQoFz6KX0SGdCPPCsVTQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmXVDj0AJ9-0WC3G_Gk4jA6B78hQoFz6KX0SGdCPPCsVTQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 26 Oct 2020 08:12:04 -0700
-Message-ID: <CAKmqyKOVzrJZMdNUMqtiohQG8ihKkGDW-cCEnEE-GmOQToG1Qg@mail.gmail.com>
-Subject: Re: [PATCH v1 07/16] hw/riscv: sifive_u: Remove compile time XLEN
- checks
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,158 +108,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 26, 2020 at 1:56 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> On Fri, Oct 23, 2020 at 11:44 PM Alistair Francis
-> <alistair.francis@wdc.com> wrote:
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/sifive_u.c | 57 ++++++++++++++++++++++++---------------------
-> >  1 file changed, 31 insertions(+), 26 deletions(-)
-> >
-> > diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> > index 978cfedd24..3bc32c9225 100644
-> > --- a/hw/riscv/sifive_u.c
-> > +++ b/hw/riscv/sifive_u.c
-> > @@ -60,12 +60,6 @@
-> >
-> >  #include <libfdt.h>
-> >
-> > -#if defined(TARGET_RISCV32)
-> > -# define BIOS_FILENAME "opensbi-riscv32-generic-fw_dynamic.bin"
-> > -#else
-> > -# define BIOS_FILENAME "opensbi-riscv64-generic-fw_dynamic.bin"
-> > -#endif
-> > -
-> >  static const struct MemmapEntry {
-> >      hwaddr base;
-> >      hwaddr size;
-> > @@ -93,7 +87,7 @@ static const struct MemmapEntry {
-> >  #define GEM_REVISION        0x10070109
-> >
-> >  static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-> > -    uint64_t mem_size, const char *cmdline)
-> > +                       uint64_t mem_size, const char *cmdline, bool is_32_bit)
-> >  {
-> >      MachineState *ms = MACHINE(qdev_get_machine());
-> >      void *fdt;
-> > @@ -167,11 +161,11 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
-> >          qemu_fdt_add_subnode(fdt, nodename);
-> >          /* cpu 0 is the management hart that does not have mmu */
-> >          if (cpu != 0) {
-> > -#if defined(TARGET_RISCV32)
-> > -            qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
-> > -#else
-> > -            qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
-> > -#endif
-> > +            if (is_32_bit) {
-> > +                qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv32");
-> > +            } else {
-> > +                qemu_fdt_setprop_string(fdt, nodename, "mmu-type", "riscv,sv48");
-> > +            }
-> >              isa = riscv_isa_string(&s->soc.u_cpus.harts[cpu - 1]);
-> >          } else {
-> >              isa = riscv_isa_string(&s->soc.e_cpus.harts[0]);
-> > @@ -414,7 +408,7 @@ static void sifive_u_machine_init(MachineState *machine)
-> >      MemoryRegion *system_memory = get_system_memory();
-> >      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-> >      MemoryRegion *flash0 = g_new(MemoryRegion, 1);
-> > -    target_ulong start_addr = memmap[SIFIVE_U_DEV_DRAM].base;
-> > +    uint64_t start_addr = memmap[SIFIVE_U_DEV_DRAM].base;
->
-> Why is this change necessary? If yes, should we do the same change to virt.c?
+On 26/10/20 16:03, Daniele Buono wrote:
+> Hi Paolo,
+> I reorganized UASStatus to put uas_iu at the end and it works fine.
+> Unfortunately, this uncovered another part of the code with a similar
+> issue (variable sized type not at the end of the struct), here:
+> 
+> In file included from ../qemu-cfi-v3/target/s390x/diag.c:21:
+> ../qemu-cfi-v3/hw/s390x/ipl.h:161:23: error: field 'iplb' with variable
+> sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at
+> the end of a struct or class is a GNU extension
+> [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>     IplParameterBlock iplb;
+>                       ^
+> ../qemu-cfi-v3/hw/s390x/ipl.h:162:23: error: field 'iplb_pv' with
+> variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock')
+> not at the end of a struct or class is a GNU extension
+> [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>     IplParameterBlock iplb_pv;
+> 
+> My understanding is that each of these IplParameterBlock may contain
+> either a IPLBlockPV or a IplBlockFcp, which both end with a variable
+> sized field (an array).
+> 
+> Adding maintainers of s390x to see if they have a suggested solution to
+> avoid disabling the warning.
 
-Good catch, this isn't required.
+This one seems okay because the union constrains the size to 4K. If
+"[0]" is enough to shut up the compiler, I'd say do that.
 
-I have removed this diff.
+Paolo
 
-Alistair
-
->
-> >      target_ulong firmware_end_addr, kernel_start_addr;
-> >      uint32_t start_addr_hi32 = 0x00000000;
-> >      int i;
-> > @@ -446,7 +440,8 @@ static void sifive_u_machine_init(MachineState *machine)
-> >                            qemu_allocate_irq(sifive_u_machine_reset, NULL, 0));
-> >
-> >      /* create device tree */
-> > -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline);
-> > +    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
-> > +               riscv_is_32_bit(machine));
-> >
-> >      if (s->start_in_flash) {
-> >          /*
-> > @@ -475,8 +470,15 @@ static void sifive_u_machine_init(MachineState *machine)
-> >          break;
-> >      }
-> >
-> > -    firmware_end_addr = riscv_find_and_load_firmware(machine, BIOS_FILENAME,
-> > -                                                     start_addr, NULL);
-> > +    if (riscv_is_32_bit(machine)) {
-> > +        firmware_end_addr = riscv_find_and_load_firmware(machine,
-> > +                                    "opensbi-riscv32-generic-fw_dynamic.bin",
-> > +                                    start_addr, NULL);
-> > +    } else {
-> > +        firmware_end_addr = riscv_find_and_load_firmware(machine,
-> > +                                    "opensbi-riscv64-generic-fw_dynamic.bin",
-> > +                                    start_addr, NULL);
-> > +    }
-> >
-> >      if (machine->kernel_filename) {
-> >          kernel_start_addr = riscv_calc_kernel_start_addr(machine,
-> > @@ -506,9 +508,9 @@ static void sifive_u_machine_init(MachineState *machine)
-> >      /* Compute the fdt load address in dram */
-> >      fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
-> >                                     machine->ram_size, s->fdt);
-> > -    #if defined(TARGET_RISCV64)
-> > -    start_addr_hi32 = start_addr >> 32;
-> > -    #endif
-> > +    if (!riscv_is_32_bit(machine)) {
-> > +        start_addr_hi32 = start_addr >> 32;
-> > +    }
-> >
-> >      /* reset vector */
-> >      uint32_t reset_vec[11] = {
-> > @@ -516,13 +518,8 @@ static void sifive_u_machine_init(MachineState *machine)
-> >          0x00000297,                    /* 1:  auipc  t0, %pcrel_hi(fw_dyn) */
-> >          0x02828613,                    /*     addi   a2, t0, %pcrel_lo(1b) */
-> >          0xf1402573,                    /*     csrr   a0, mhartid  */
-> > -#if defined(TARGET_RISCV32)
-> > -        0x0202a583,                    /*     lw     a1, 32(t0) */
-> > -        0x0182a283,                    /*     lw     t0, 24(t0) */
-> > -#elif defined(TARGET_RISCV64)
-> > -        0x0202b583,                    /*     ld     a1, 32(t0) */
-> > -        0x0182b283,                    /*     ld     t0, 24(t0) */
-> > -#endif
-> > +        0,
-> > +        0,
-> >          0x00028067,                    /*     jr     t0 */
-> >          start_addr,                    /* start: .dword */
-> >          start_addr_hi32,
-> > @@ -530,6 +527,14 @@ static void sifive_u_machine_init(MachineState *machine)
-> >          0x00000000,
-> >                                         /* fw_dyn: */
-> >      };
-> > +    if (riscv_is_32_bit(machine)) {
-> > +        reset_vec[4] = 0x0202a583;     /*     lw     a1, 32(t0) */
-> > +        reset_vec[5] = 0x0182a283;     /*     lw     t0, 24(t0) */
-> > +    } else {
-> > +        reset_vec[4] = 0x0202b583;     /*     ld     a1, 32(t0) */
-> > +        reset_vec[5] = 0x0182b283;     /*     ld     t0, 24(t0) */
-> > +    }
-> > +
-> >
-> >      /* copy in the reset vector in little_endian byte order */
-> >      for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
->
-> Regards,
-> Bin
 
