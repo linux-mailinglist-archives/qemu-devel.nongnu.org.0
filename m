@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618B5298FB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:44:51 +0100 (CET)
-Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A9D6298FC8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:47:28 +0100 (CET)
+Received: from localhost ([::1]:60258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3ju-0003Jm-DN
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:44:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51150)
+	id 1kX3mR-0006FR-4w
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:47:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX3YY-0005zp-AA
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:33:07 -0400
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:33183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX3YW-0008IF-3t
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:33:05 -0400
-Received: by mail-ej1-x644.google.com with SMTP id c15so13926476ejs.0
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 07:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uncv4OImQJQZbkjp9IT86wTIL1wthCu8fzrRY3mxxrs=;
- b=jpMEIcoaWp4muwFgbwl1lO1mXLUyRBqy9TuUylteqjmoKnJ+jZJoMyv1PqH0ATj4uD
- M87/5rWZsnL1CJ2d/71pvOjBlopswuUuruV1snR3AXKMoAaUKGRkrzMXELxx/7w0Hm/v
- iZBw2PnbSsPEIZUmQfxDh41KBoONOe6DhXBuRm2TN82ub4pdlwE/mnt2kGNEOPgQisua
- HXH45nQxlEqzaKYA79qDiwa/8f4sLlRNPTgINU0GmgqvPu4QLTEd77wDCyekv19BwmmX
- qC7ETYPnVDyeQhfKK8gm91alVbllmLWMdOj5rnnIFqvjwO+mVBgswoMEAiVrTZDx8Xii
- GF/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uncv4OImQJQZbkjp9IT86wTIL1wthCu8fzrRY3mxxrs=;
- b=hQWDVXrKgWQDreqAV+BnIPBIfhUxMB0NlKID5Bqb9DD0CG+cqE36HtuGWxsaei+sK1
- ToyH75PwVygZqio8+WvR3EU1r//Evu3V22WbC0kPEp8+PapI9Pk4z4rI6t/TU3BkOnjK
- GTnJati6aLXFZ8CjjICRtddQpAFng7+z3z80WvyaLTN6ml1LqkSnLT587h/Vli/MXLCg
- Fboylr21ezixDp+f7xuv7LFe2PcdbW3trJG1BeKS9Pv5U/fjpfGeAvxLNByYKzC+KBTQ
- n0zyuE7lqYQ8sP+n9MDdrpEHymPt6r1/CsHKrDsFfDU8aBvyKUofJ5R83j2pNMJeGitm
- Wjkg==
-X-Gm-Message-State: AOAM5312VcLx2WSs+z8j13mw2g3c7RpngaDWwDhBRz7bn8bEak/Llk8r
- RhKDhH1+PmslBFM/3Ps3bxB1QPlXCwxwL1pSxldoug==
-X-Google-Smtp-Source: ABdhPJwSmA3xPZbAZ0TvXFvCnnGcZK8ygBd7tg44LKX3HO2yrNZSbq9JL7BT2JmD14IqiU94wBnS2p7Z2z4nIr9OScI=
-X-Received: by 2002:a17:906:c7d9:: with SMTP id
- dc25mr15912929ejb.482.1603722782244; 
- Mon, 26 Oct 2020 07:33:02 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kX3cr-0003H4-IM
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:37:34 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:18236)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kX3co-0000WD-RZ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:37:33 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f96df300001>; Mon, 26 Oct 2020 07:37:36 -0700
+Received: from [10.40.102.184] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
+ 2020 14:37:10 +0000
+Subject: Re: [PATCH v29 05/17] vfio: Add VM state change handler to know state
+ of VM
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
+ <1603704987-20977-6-git-send-email-kwankhede@nvidia.com>
+ <20201026070056.42bb04de@w520.home>
+ <ce6c6864-a8a3-269e-a9c2-3fe4d2b265b8@nvidia.com>
+ <20201026080257.2f9d3506@w520.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <9c5e89fc-b247-5897-ef23-d198a97b48d3@nvidia.com>
+Date: Mon, 26 Oct 2020 20:07:07 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <1603352576-21671-1-git-send-email-mihai.carabas@oracle.com>
- <CAFEAcA9n3T5MrBp2RbOQGWBptV5ObCssF00ygK8TDieP+V1Srg@mail.gmail.com>
- <a6065386-a844-9d06-21ca-57baa98c8caf@oracle.com>
-In-Reply-To: <a6065386-a844-9d06-21ca-57baa98c8caf@oracle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 14:32:48 +0000
-Message-ID: <CAFEAcA_LtW+B3EOye9STciNR+JKsh8HKQ=ecy=W+Ey-SZDSUFg@mail.gmail.com>
-Subject: Re: [PATCH 0/8] Add support for pvpanic mmio device
-To: Mihai Carabas <mihai.carabas@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201026080257.2f9d3506@w520.home>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603723056; bh=Yd2diF01NySxd8/iLB7TeOX93u7QRtrs5GfS8/5jMNI=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=kP4KjtdwlOu3x57Rk7jB7FQ3zHXomL3X03RQipaGpPH1Cgr8YvjIbiUjyB6B1xToX
+ ljyQsW7+zZP/aLQA4IR45s/6OIHnROLSh28puw0vvULjzmkTI8PWL2Ds8z/eaQ6cfx
+ XTNUhEDFEQJdLAlkhffrWgbBMMwOlg1Ty5JEDUZ3vABP3g4r2njtCHgiQ96uCP+1sw
+ R23Y8Q448mxjYEJcv9WTQW+fUEmpCp9A/V4+eq0sXs2v3Bx/N8UmVVVSDIuSfgZX7V
+ rp+2GV2R1o7qvHo6IYl7N0wKA0DU6UEzmQgZeD0P3I4slG8WW/64qsh/TZinUytJg5
+ xoz3sHWuiH05Q==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 10:37:29
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -92
+X-Spam_score: -9.3
+X-Spam_bar: ---------
+X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,55 +81,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Shannon Zhao <shannon.zhaosl@gmail.com>,
- Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: cohuck@redhat.com, cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
+ jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 at 13:51, Mihai Carabas <mihai.carabas@oracle.com> wrote:
-> On 10/22/2020 1:17 PM, Peter Maydell wrote:
-> > I'm afraid the answer is still the same. You need to provide
-> > a convincing argument for why this needs to be an MMIO
-> > device rather than a PCI device. I really don't want to
-> > add MMIO devices to the virt board if I can avoid it,
-> > because they're all extra code and potential extra
-> > security boundary attack surface. PCI devices are guest
-> > probeable and user-pluggable so they're almost always
-> > nicer to use than MMIO.
-> >
->
-> Thank you for your input.
->
-> The reason why pvpanic should be MMIO is that is a special device which
-> is not used commonly by the user (aka VM), it is not need to be
-> hot-plugable and it does not have a hardware correspondent to be a PCI
-> device.
 
-"Not used commonly by the user" is a good argument for
-"just use PCI" -- users who want the functionality can add
-it to their QEMU command line or VM config, and the bulk of
-users who don't don't have to worry about it.
 
-PCI devices don't have to support hotplug; I agree you don't
-need hotplug for this use case.
+On 10/26/2020 7:32 PM, Alex Williamson wrote:
+> On Mon, 26 Oct 2020 19:18:51 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
+>> On 10/26/2020 6:30 PM, Alex Williamson wrote:
+>>> On Mon, 26 Oct 2020 15:06:15 +0530
+>>> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+>>>    
+>>>> VM state change handler is called on change in VM's state. Based on
+>>>> VM state, VFIO device state should be changed.
+>>>> Added read/write helper functions for migration region.
+>>>> Added function to set device_state.
+>>>>
+>>>> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+>>>> Reviewed-by: Neo Jia <cjia@nvidia.com>
+>>>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>>> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+>>>> ---
+>>>>    hw/vfio/migration.c           | 158 ++++++++++++++++++++++++++++++++++++++++++
+>>>>    hw/vfio/trace-events          |   2 +
+>>>>    include/hw/vfio/vfio-common.h |   4 ++
+>>>>    3 files changed, 164 insertions(+)
+>>>>
+>>>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>>>> index fd7faf423cdc..65ce735d667b 100644
+>>>> --- a/hw/vfio/migration.c
+>>>> +++ b/hw/vfio/migration.c
+>>> [snip]
+>>>> @@ -64,6 +216,9 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>>>>            ret = -EINVAL;
+>>>>            goto err;
+>>>>        }
+>>>> +
+>>>> +    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>>>> +                                                           vbasedev);
+>>>>        return 0;
+>>>>    
+>>>>    err:
+>>>
+>>> Fails to build, @migration is not defined.  We could use
+>>> vbasedev->migration or pull defining and setting @migration from patch
+>>> 06.  Thanks,
+>>>    
+>>
+>> Pulling and setting migration from patch 06 seems better option.
+>> Should I resend patch 5 & 6 only?
+> 
+> I've resolved this locally as patch 05:
+> 
+> @@ -38,6 +190,7 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>   {
+>       int ret;
+>       Object *obj;
+> +    VFIOMigration *migration;
+>   
+>       if (!vbasedev->ops->vfio_get_object) {
+>           return -EINVAL;
+> @@ -64,6 +217,10 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>           ret = -EINVAL;
+>           goto err;
+>       }
+> +
+> +    migration = vbasedev->migration;
+> +    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> +                                                           vbasedev);
+>       return 0;
+>   
+>   err:
+> 
+> patch 06:
+> 
+> @@ -219,8 +243,11 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>       }
+>   
+>       migration = vbasedev->migration;
+> +    migration->vbasedev = vbasedev;
+>       migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+>                                                              vbasedev);
+> +    migration->migration_state.notify = vfio_migration_state_notifier;
+> +    add_migration_state_change_notifier(&migration->migration_state);
+>       return 0;
+>   
+>   err:
+> 
+> If you're satisfied with that, no need to resend.  Thanks,
+> 
 
-Using a PCI device would match up with the way the x86 pvpanic
-device is an ISA bus device.
+Yes, this is exactly I was going to send.
+Thanks for fixing it.
 
-> Another reason is that MMIO support was accepted in the kernel
-> driver and it is pretty useless there without a device.
-
-> I know it seems that I want to get this on the short-path, but at this
-> point having a kernel driver in the upstream and no device to test it
-> against it is pretty weird.
-
-That's the kernel folks' problem to deal with, because they accepted
-the kernel driver without having confirmed that QEMU was going to
-implement it. If I were them I'd deprecate and delete that driver code.
-(They should certainly fix the bit of the documentation that claims
-that QEMU implements it.)
-
-thanks
--- PMM
+Thanks,
+Kirti
 
