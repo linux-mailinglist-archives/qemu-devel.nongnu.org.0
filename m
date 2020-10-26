@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A303298A63
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:29:43 +0100 (CET)
-Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 041B12989EC
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:02:06 +0100 (CET)
+Received: from localhost ([::1]:42998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzl0-0007hk-4k
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:29:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
+	id 1kWzKG-0004k0-Uk
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:02:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kWzSU-000851-8W
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:34 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17917)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kWzSQ-00087Z-SE
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:33 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f96a07e0003>; Mon, 26 Oct 2020 03:10:06 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
- 2020 10:10:19 +0000
-Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 26 Oct 2020 10:10:11 +0000
-From: Kirti Wankhede <kwankhede@nvidia.com>
-To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v29 03/17] vfio: Add save and load functions for VFIO PCI
- devices
-Date: Mon, 26 Oct 2020 15:06:13 +0530
-Message-ID: <1603704987-20977-4-git-send-email-kwankhede@nvidia.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
-References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
-X-NVConfidentiality: public
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kWzGX-0002AA-FZ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:58:14 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:38224)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kWzGR-0003Vf-96
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:58:12 -0400
+Received: by mail-ej1-x642.google.com with SMTP id ce10so12481743ejc.5
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 02:58:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=jT576pj8dcq2AGmBURRfGB5czAu36RJjkknOlj+UOhA=;
+ b=GAzur0CUJ8KwQvsK/JTz6FxETJqatHiqmIoAMKq3pmXHqpKBEiVz6l2B4zo16bcM5V
+ +KGsF2msI5q5IKQaUNFgqcNc6dioLQAHPs3kbLtlie8WOSTuWypV4WKWgrT1oUa3aB7/
+ ApwLRXWznS7XC+DZ68pcq4qnVF+YhWif2/1tLGnyXQg96gZrplJ3GvXVJhWjoV2SXwxH
+ PFPoWsZHTsDjz6oEF9foycuowC8UbKBzBq782NDBkz+dZZjoeoNZfWFCutbW2erxrceP
+ bzHatETGmS7sUiATZawUovFhkdsShF7r2b1rxdoDupr5kVycu+T0z1kq1MA73r3CMgnH
+ xFAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jT576pj8dcq2AGmBURRfGB5czAu36RJjkknOlj+UOhA=;
+ b=BSZTx5UWeVv8P0ARKooMNKq5Q80lFmSpTXTb2JKrEqJExUp1Ig24zRtN8UQJ/YsGbP
+ sguO3e4HLvIsel9BP+6ZqYz/Lr+jssthwAF5QMmEm158w6Kq4zBmSIUgzoH5Z2SEjBg3
+ z0nAUM4Vc8mMhbQ4wG56aOLr5DfUvOVhHXQUv2YL1zbOWPm/VaUv51T+e08CFbjgFH/K
+ PXEe+8YoXMU6GYcWDzUgqR61GmxUfJH5KtImm1QEJEOidvwyN9fTPfYOpr07P05guBic
+ pIY6W+n6OEvRwmvTVa3pGMLW9nadKZ45frwpuq0cgyr2cGx+OGjQgm4OgHrpFScwK2PP
+ PrWQ==
+X-Gm-Message-State: AOAM531eAdl7W1WstD1aQP0VIZVnLwyUGxjoDrXDuG9s/vis10IM1ld0
+ HvM3BYsAAxKMzO7QRSIAm9iJLTfxJLXH4CWZTCvsGQ==
+X-Google-Smtp-Source: ABdhPJywabhM8yjFxrv/3cI3Fl0q/OtHCcq6FGX/k6HXsW6SH/L6sEGPzt2MZrd7RirCayyqKC/PjoTo10M2stuYzOo=
+X-Received: by 2002:a17:906:3a97:: with SMTP id
+ y23mr14849253ejd.250.1603706284274; 
+ Mon, 26 Oct 2020 02:58:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603707006; bh=wFYJR3j7Lma3d+9P6CvA7wH3CuJoeUz+IV88m4558PE=;
- h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
- References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=i/Hqc4O7OmdSNKXQxurQVCblPiOh2k3+KD+Vo9lm1pk7EwoNw105ARzipGFRvluj3
- rSWAQQXBXfSxp+r0ZKMJByf8ocYmIXsIrutWcbYXvin2jrwPTpYPzitoXKlmBdqLOw
- wlVJe0np/GMTYiAxvm/azznVBaK6boAkZk7mN+r20NMD0A2UOF5iiT/VETtoTiVWvJ
- vRXW4qEmGt778anjI1qwdwX7SGtOQDyRo00r3yvr/7aIII9eaLNSwwtP7jkptGj4sq
- Z9LMZGEm9c15GDhPeaAm9XKt70OpkyjLTsOBXOOQcUNisV+Fp+tSe7d+tmxgE5RX6/
- /ciBobtxsSh9Q==
-Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
- helo=hqnvemgate26.nvidia.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 06:10:16
-X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <20201023071022.24916-1-kraxel@redhat.com>
+ <CAFEAcA-gEeHUJtuF9CX4XhXh6dnANNut-TJWz0nM8obAmMa3yA@mail.gmail.com>
+ <20201026070117.5ovcm4ep6iohjyfh@sirius.home.kraxel.org>
+In-Reply-To: <20201026070117.5ovcm4ep6iohjyfh@sirius.home.kraxel.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 09:57:52 +0000
+Message-ID: <CAFEAcA8vWzGQ3SG8bHzYwitqOat7fx71Kqs8tPQ8ZV6uWLHKXQ@mail.gmail.com>
+Subject: Re: [PATCH 0/8] arm/virt: add usb support
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,117 +81,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com,
- Kirti Wankhede <kwankhede@nvidia.com>, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, pbonzini@redhat.com, dnigam@nvidia.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added functions to save and restore PCI device specific data,
-specifically config space of PCI device.
+On Mon, 26 Oct 2020 at 07:01, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> On Fri, Oct 23, 2020 at 12:36:05PM +0100, Peter Maydell wrote:
+> > On Fri, 23 Oct 2020 at 08:10, Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > >
+> > > Bring new microvm goodies to arm virt too.  Wire up
+> > > -machine usb=on, add sysbus-xhci in case it is enabled.
+> >
+> > So my question here is the usual one -- why can't we
+> > just use a PCI USB controller ?
+>
+> Well, pci seems to come with some extra resource needs (see -M pc vs.
+> -M q35 memory footprint differences discussed some months ago).  Thats
+> why microvm started without pci support, and even now with pcie support
+> added it is optional (and off by default).
 
-Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
-Reviewed-by: Neo Jia <cjia@nvidia.com>
----
- hw/vfio/pci.c                 | 51 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/vfio/vfio-common.h |  2 ++
- 2 files changed, 53 insertions(+)
+I think PCI is too useful to discard. You can run anything
+you want (practically) via PCI. If we make it optional then
+we're going to give ourselves the task of reimplementing
+memory mapped versions of all the functionality it gives us,
+all of which is extra code and all of which adds to the
+amount of stuff on the guest-to-QEMU security boundary.
 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index bffd5bfe3b78..e27c88be6d85 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -41,6 +41,7 @@
- #include "trace.h"
- #include "qapi/error.h"
- #include "migration/blocker.h"
-+#include "migration/qemu-file.h"
- 
- #define TYPE_VFIO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
- 
-@@ -2401,11 +2402,61 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
-     return OBJECT(vdev);
- }
- 
-+static bool vfio_msix_present(void *opaque, int version_id)
-+{
-+    PCIDevice *pdev = opaque;
-+
-+    return msix_present(pdev);
-+}
-+
-+const VMStateDescription vmstate_vfio_pci_config = {
-+    .name = "VFIOPCIDevice",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(pdev, VFIOPCIDevice),
-+        VMSTATE_MSIX_TEST(pdev, VFIOPCIDevice, vfio_msix_present),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
-+{
-+    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-+
-+    vmstate_save_state(f, &vmstate_vfio_pci_config, vdev, NULL);
-+}
-+
-+static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-+{
-+    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-+    PCIDevice *pdev = &vdev->pdev;
-+    int ret;
-+
-+    ret = vmstate_load_state(f, &vmstate_vfio_pci_config, vdev, 1);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    vfio_pci_write_config(pdev, PCI_COMMAND,
-+                          pci_get_word(pdev->config + PCI_COMMAND), 2);
-+
-+    if (msi_enabled(pdev)) {
-+        vfio_msi_enable(vdev);
-+    } else if (msix_enabled(pdev)) {
-+        vfio_msix_enable(vdev);
-+    }
-+
-+    return ret;
-+}
-+
- static VFIODeviceOps vfio_pci_ops = {
-     .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
-     .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
-     .vfio_eoi = vfio_intx_eoi,
-     .vfio_get_object = vfio_pci_get_object,
-+    .vfio_save_config = vfio_pci_save_config,
-+    .vfio_load_config = vfio_pci_load_config,
- };
- 
- int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index fe99c36a693a..ba6169cd926e 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -120,6 +120,8 @@ struct VFIODeviceOps {
-     int (*vfio_hot_reset_multi)(VFIODevice *vdev);
-     void (*vfio_eoi)(VFIODevice *vdev);
-     Object *(*vfio_get_object)(VFIODevice *vdev);
-+    void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
-+    int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
- };
- 
- typedef struct VFIOGroup {
--- 
-2.7.0
+I think to be persuaded that no-PCI was a good idea I'd
+want to at least see solid figures based on doing this
+for Arm and on having put a lot of effort into slimming
+down the PCI handling code/overhead in the guest and still
+not being able to get near an MMIO setup. That is, try the
+"improve the guest" approach first.
 
+thanks
+-- PMM
 
