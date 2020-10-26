@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D7829978B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:58:07 +0100 (CET)
-Received: from localhost ([::1]:34028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CC14299726
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:39:11 +0100 (CET)
+Received: from localhost ([::1]:40882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8d4-0005R3-KC
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:58:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60038)
+	id 1kX8Kk-0000HU-6w
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:39:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8GZ-00044t-WB
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:34:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33063)
+ id 1kX8Gk-0004H4-Ab
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:35:02 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24386)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8GX-00027G-C6
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:34:51 -0400
+ id 1kX8Gi-00028J-DJ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:35:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603740888;
+ s=mimecast20190719; t=1603740899;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CyKUIlOOdJz5oD66oSIvL16tjQCLK60OdJh3p7eJnOA=;
- b=P1S0MldkGeIq4Jqp+QWBe/R9lRXMKSKrw3FwmRXtNBLpIP8O+H4nTLznbQQP4TTePNqHzj
- 1OQfhRd4+e94UQSbKj3sCdUOMJ9EROj7jUkawElYhA2NZVaCHu7pLH8qGIiZ2nlsTZtdxO
- QCApdsfWS+rKjLabF1xPGwZG5+h2IC0=
+ bh=FiN/z5VYj5wEGoBtgi/tEm/d4xxOfhzaydZsNrKljW0=;
+ b=V0w+SEYCYujLL9V+OIlsuZPZtmzKYnEQqxzF5VY5PfcUge+q95e8Jf6KbLRKB8vKy+1UZm
+ 3p04vp3qKlfVVPgrhrA7lzpU0tegn8RWcqJj4rBPLKTLpLBuG9wIJ8T8tjbVmkdR+4ptv0
+ wIgX9KMObKX3Zycffb9gwTf5LTgVE7o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-YbRCvrEmN-Gguzee-fVpBw-1; Mon, 26 Oct 2020 15:34:45 -0400
-X-MC-Unique: YbRCvrEmN-Gguzee-fVpBw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-595-MjxsO4iSP9-SIVmWVqNb6Q-1; Mon, 26 Oct 2020 15:34:54 -0400
+X-MC-Unique: MjxsO4iSP9-SIVmWVqNb6Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1669B1009E40;
- Mon, 26 Oct 2020 19:34:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DC7FB1084C85;
+ Mon, 26 Oct 2020 19:34:53 +0000 (UTC)
 Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B792D6EF67;
- Mon, 26 Oct 2020 19:34:35 +0000 (UTC)
-Subject: [PULL 15/32] vfio: Add ioctl to get dirty pages bitmap during dma
- unmap
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 991F560C07;
+ Mon, 26 Oct 2020 19:34:49 +0000 (UTC)
+Subject: [PULL 16/32] vfio: Make vfio-pci device migration capable
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Oct 2020 13:34:35 -0600
-Message-ID: <160374087514.22414.3514803987689298850.stgit@gimli.home>
+Date: Mon, 26 Oct 2020 13:34:49 -0600
+Message-ID: <160374088916.22414.314908881237178273.stgit@gimli.home>
 In-Reply-To: <160374054442.22414.10832953989449611268.stgit@gimli.home>
 References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
 User-Agent: StGit/0.21-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,163 +82,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kirti Wankhede <kwankhede@nvidia.com>, Neo Jia <cjia@nvidia.com>
+Cc: Kirti Wankhede <kwankhede@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ Neo Jia <cjia@nvidia.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kirti Wankhede <kwankhede@nvidia.com>
 
-With vIOMMU, IO virtual address range can get unmapped while in pre-copy
-phase of migration. In that case, unmap ioctl should return pages pinned
-in that range and QEMU should find its correcponding guest physical
-addresses and report those dirty.
+If the device is not a failover primary device, call
+vfio_migration_probe() and vfio_migration_finalize() to enable
+migration support for those devices that support it respectively to
+tear it down again.
+Removed migration blocker from VFIO PCI device specific structure and use
+migration blocker from generic structure of  VFIO device.
 
-Suggested-by: Alex Williamson <alex.williamson@redhat.com>
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c |   96 ++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 92 insertions(+), 4 deletions(-)
+ hw/vfio/pci.c |   28 ++++++++--------------------
+ hw/vfio/pci.h |    1 -
+ 2 files changed, 8 insertions(+), 21 deletions(-)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index c0b5b6245a47..49c68a5253ae 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -321,11 +321,94 @@ static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
-     return true;
- }
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index e27c88be6d85..58c0ce8971e3 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2791,17 +2791,6 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         return;
+     }
  
-+static bool vfio_devices_all_running_and_saving(VFIOContainer *container)
-+{
-+    VFIOGroup *group;
-+    VFIODevice *vbasedev;
-+    MigrationState *ms = migrate_get_current();
-+
-+    if (!migration_is_setup_or_active(ms->state)) {
-+        return false;
-+    }
-+
-+    QLIST_FOREACH(group, &container->group_list, container_next) {
-+        QLIST_FOREACH(vbasedev, &group->device_list, next) {
-+            VFIOMigration *migration = vbasedev->migration;
-+
-+            if (!migration) {
-+                return false;
-+            }
-+
-+            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
-+                (migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
-+                continue;
-+            } else {
-+                return false;
-+            }
+-    if (!pdev->failover_pair_id) {
+-        error_setg(&vdev->migration_blocker,
+-                "VFIO device doesn't support migration");
+-        ret = migrate_add_blocker(vdev->migration_blocker, errp);
+-        if (ret) {
+-            error_free(vdev->migration_blocker);
+-            vdev->migration_blocker = NULL;
+-            return;
+-        }
+-    }
+-
+     vdev->vbasedev.name = g_path_get_basename(vdev->vbasedev.sysfsdev);
+     vdev->vbasedev.ops = &vfio_pci_ops;
+     vdev->vbasedev.type = VFIO_DEVICE_TYPE_PCI;
+@@ -3069,6 +3058,13 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+         }
+     }
+ 
++    if (!pdev->failover_pair_id) {
++        ret = vfio_migration_probe(&vdev->vbasedev, errp);
++        if (ret) {
++            error_report("%s: Migration disabled", vdev->vbasedev.name);
 +        }
 +    }
-+    return true;
-+}
 +
-+static int vfio_dma_unmap_bitmap(VFIOContainer *container,
-+                                 hwaddr iova, ram_addr_t size,
-+                                 IOMMUTLBEntry *iotlb)
-+{
-+    struct vfio_iommu_type1_dma_unmap *unmap;
-+    struct vfio_bitmap *bitmap;
-+    uint64_t pages = TARGET_PAGE_ALIGN(size) >> TARGET_PAGE_BITS;
-+    int ret;
-+
-+    unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
-+
-+    unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
-+    unmap->iova = iova;
-+    unmap->size = size;
-+    unmap->flags |= VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP;
-+    bitmap = (struct vfio_bitmap *)&unmap->data;
-+
-+    /*
-+     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
-+     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap_pgsize to
-+     * TARGET_PAGE_SIZE.
-+     */
-+
-+    bitmap->pgsize = TARGET_PAGE_SIZE;
-+    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-+                   BITS_PER_BYTE;
-+
-+    if (bitmap->size > container->max_dirty_bitmap_size) {
-+        error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->size);
-+        ret = -E2BIG;
-+        goto unmap_exit;
-+    }
-+
-+    bitmap->data = g_try_malloc0(bitmap->size);
-+    if (!bitmap->data) {
-+        ret = -ENOMEM;
-+        goto unmap_exit;
-+    }
-+
-+    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
-+    if (!ret) {
-+        cpu_physical_memory_set_dirty_lebitmap((uint64_t *)bitmap->data,
-+                iotlb->translated_addr, pages);
-+    } else {
-+        error_report("VFIO_UNMAP_DMA with DIRTY_BITMAP : %m");
-+    }
-+
-+    g_free(bitmap->data);
-+unmap_exit:
-+    g_free(unmap);
-+    return ret;
-+}
-+
- /*
-  * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
-  */
- static int vfio_dma_unmap(VFIOContainer *container,
--                          hwaddr iova, ram_addr_t size)
-+                          hwaddr iova, ram_addr_t size,
-+                          IOMMUTLBEntry *iotlb)
- {
-     struct vfio_iommu_type1_dma_unmap unmap = {
-         .argsz = sizeof(unmap),
-@@ -334,6 +417,11 @@ static int vfio_dma_unmap(VFIOContainer *container,
-         .size = size,
-     };
+     vfio_register_err_notifier(vdev);
+     vfio_register_req_notifier(vdev);
+     vfio_setup_resetfn_quirk(vdev);
+@@ -3083,11 +3079,6 @@ out_teardown:
+     vfio_bars_exit(vdev);
+ error:
+     error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
+-    if (vdev->migration_blocker) {
+-        migrate_del_blocker(vdev->migration_blocker);
+-        error_free(vdev->migration_blocker);
+-        vdev->migration_blocker = NULL;
+-    }
+ }
  
-+    if (iotlb && container->dirty_pages_supported &&
-+        vfio_devices_all_running_and_saving(container)) {
-+        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-+    }
-+
-     while (ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap)) {
-         /*
-          * The type1 backend has an off-by-one bug in the kernel (71a7d3d78e3c
-@@ -381,7 +469,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
-      * the VGA ROM space.
-      */
-     if (ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0 ||
--        (errno == EBUSY && vfio_dma_unmap(container, iova, size) == 0 &&
-+        (errno == EBUSY && vfio_dma_unmap(container, iova, size, NULL) == 0 &&
-          ioctl(container->fd, VFIO_IOMMU_MAP_DMA, &map) == 0)) {
-         return 0;
+ static void vfio_instance_finalize(Object *obj)
+@@ -3099,10 +3090,6 @@ static void vfio_instance_finalize(Object *obj)
+     vfio_bars_finalize(vdev);
+     g_free(vdev->emulated_config_bits);
+     g_free(vdev->rom);
+-    if (vdev->migration_blocker) {
+-        migrate_del_blocker(vdev->migration_blocker);
+-        error_free(vdev->migration_blocker);
+-    }
+     /*
+      * XXX Leaking igd_opregion is not an oversight, we can't remove the
+      * fw_cfg entry therefore leaking this allocation seems like the safest
+@@ -3130,6 +3117,7 @@ static void vfio_exitfn(PCIDevice *pdev)
      }
-@@ -531,7 +619,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-                          iotlb->addr_mask + 1, vaddr, ret);
-         }
-     } else {
--        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1);
-+        ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
-         if (ret) {
-             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-                          "0x%"HWADDR_PRIx") = %d (%m)",
-@@ -834,7 +922,7 @@ static void vfio_listener_region_del(MemoryListener *listener,
-     }
+     vfio_teardown_msi(vdev);
+     vfio_bars_exit(vdev);
++    vfio_migration_finalize(&vdev->vbasedev);
+ }
  
-     if (try_unmap) {
--        ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
-+        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-         if (ret) {
-             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-                          "0x%"HWADDR_PRIx") = %d (%m)",
+ static void vfio_pci_reset(DeviceState *dev)
+diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+index bce71a9ac93f..1574ef983f8f 100644
+--- a/hw/vfio/pci.h
++++ b/hw/vfio/pci.h
+@@ -172,7 +172,6 @@ struct VFIOPCIDevice {
+     bool no_vfio_ioeventfd;
+     bool enable_ramfb;
+     VFIODisplay *dpy;
+-    Error *migration_blocker;
+     Notifier irqchip_change_notifier;
+ };
+ 
 
 
