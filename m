@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2237299466
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:53:44 +0100 (CET)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD812994AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:58:40 +0100 (CET)
+Received: from localhost ([::1]:57892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6gh-0007nk-Rx
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:53:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
+	id 1kX6lT-0006Kp-6v
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:58:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX6CY-00049t-Eq
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:22:35 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39390)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX6CU-0000ay-2s
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:22:34 -0400
-Received: by mail-ej1-x642.google.com with SMTP id qh17so14765974ejb.6
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:22:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=vxAv0lWoZx8C5WFTT6h0MSryuJV3P7Oh2D8vRQwO2kI=;
- b=UPI4Q1MBnMT52SoAnYtuQIUZqhJm3/7kRo7HTBvXsa+HOYgzcYneyanCv/dRS2iir9
- iOwJ7gURdOqNU+UMZZh4kRrlYGXTka/WehLQBbhBAU6RRP+LlY8grkFM5mhz0z8aC3JQ
- f7PW0FyNEDcnTpvgwKp9D0Mgxw4rmvEsE2p4Net7JNA6E+vmXnUo9NWVB2mE1YmnArVr
- 6ot8fmErY6Bb2ljXgRCzcK+qIUKQZv94OMWHDPRthex57FgCN1fQyW552am9bI9z485v
- N0a7TaZV3dlNHuQY+4TTl+cqtD8e8zbOsm5Noz4zMq/A0dg/tzTcTzVBz769cCBqJbXD
- aVeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=vxAv0lWoZx8C5WFTT6h0MSryuJV3P7Oh2D8vRQwO2kI=;
- b=GVlpW+Brw1Lxhz8Vao5+7i06zCNoRy9fG6dU5of4KMlNbOOK5tCvRqREmi5gC8Mc7T
- FRCC2nVzJ322iLTHoPJ1q6u7hAAa/zvRBnLmUnE28814KhgB/wCCyecLL71gGShk8ftn
- KoNgqCRCuOlYl1mOZOQ/j1ClHCm2QsxPKO6UGHuYGbnoFth7hqApFiaz1spp4Ede7e6r
- uE7eKuaFda5skKDDhRl0RxLMe+Bb2pISXmZV7Hh5xi31X1SVWc7LhhjRXBFaWF1NYZjK
- WWZ0wPG/NDul9aIybEF6fEknY9G9PW+IMgA76Wof2QXkVJ07qyt8mzoPG3L+LZ9WCQ58
- o+Cg==
-X-Gm-Message-State: AOAM532hx28iqW1hBjsypdsW2ZQtCQejqs+6T1g//OxOWBdqBOmwSA06
- Q/s906Mrtt6kq1AeYLw+067LExUm1Sy6jLHqy/He1g==
-X-Google-Smtp-Source: ABdhPJyedP9nXgvG5n4TwqIDF41sDyqy60siuzsmSdlhFHuCh/g7EsV1zL1+LjNNpv/o3X4ZonxcWC8zlmeIfUsEsjs=
-X-Received: by 2002:a17:906:3b59:: with SMTP id
- h25mr17396696ejf.56.1603732946895; 
- Mon, 26 Oct 2020 10:22:26 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kX6CV-000499-5u
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:22:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33199)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kX6CP-0000ak-8o
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:22:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603732944;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=PR/Xi/vZptZNXMDla+ROkGOGEHfql4Pe4OKWWxizXe0=;
+ b=E7Q1HVn79mp6JbctFqUmm8tQZbOw+sSAjL3v0+QHzxOw+YPEy5GcR1s8KjGp49jKLG5AOd
+ CQmuW6r2WdF7wxfqqnrThP/ZqGjFY18EMVnoXOfKClBs6UDY3WMw2+12+x7U11rVpgdanv
+ Du5BZ4xIJvHpp//+ImLvpgHDCcp2Cfc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-329-dAbtAQCtP4KWcYKzZJB0xA-1; Mon, 26 Oct 2020 13:22:22 -0400
+X-MC-Unique: dAbtAQCtP4KWcYKzZJB0xA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D60246123A;
+ Mon, 26 Oct 2020 17:22:20 +0000 (UTC)
+Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 992495C230;
+ Mon, 26 Oct 2020 17:22:20 +0000 (UTC)
+Date: Mon, 26 Oct 2020 13:22:19 -0400
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Dynamic instance properties in TYPE_ARM_CPU
+Message-ID: <20201026172219.GA5733@habkost.net>
 MIME-Version: 1.0
-References: <20201024170127.3592182-1-f4bug@amsat.org>
-In-Reply-To: <20201024170127.3592182-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 17:22:15 +0000
-Message-ID: <CAFEAcA_-HXBcS4qEcJ56uKv0-9jUetMDHz3-2=SqS_GssA758Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/9] hw/arm: Add raspi Zero, 1A+ and 3A+ machines
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,34 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Luc Michel <luc@lmichel.fr>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 24 Oct 2020 at 18:01, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Add the raspi0/1/3A+ machines.
->
-> All series reviewed :)
->
-> Since v3:
-> - Addressed Igor's review comment and added his R-b tag
->
-> Since v2:
-> - Rebased
-> - Addressed Igor comment
-> - Added Luc R-b
-> - Added model 3A+
->
-> Since v1:
-> - Use more specific machine names
+I've been trying to clean up the qdev property code (to bridge
+the gaps between qdev and QOM, and between QOM and QAPI), and
+I've noticed that TYPE_ARM_CPU is the only remaining user of
+qdev_property_add_static().
 
+qdev_property_add_static() has a misleading name: it won't
+register a static property.  It is actually a hack to use a
+static Property variable (defined using DEFINE_PROP*), but
+register it as a dynamic instance property.
 
+Dynamic instance properties make introspection hard.  What can we
+do to get rid of them in TYPE_ARM_CPU?
 
-Applied to target-arm.next, thanks.
+Can we just register all the properties unconditionally, and
+error out on realize if the requested CPU configuration is
+incompatible with the available CPU features?
 
--- PMM
+The following properties are registered as dynamic instance
+properties at arm_cpu_post_init():
+"cntfrq", "reset-cbar", "reset-hivecs", "rvbar", "has_el2",
+"has_el3", "cfgend", "vfp", "neon", "dsp", "has-mpu",
+"pmsav7-dregion", "secure-memory", "pmu", "idau", "init-svtor",
+"tag-memory", "secure-tag-memory".
+
+-- 
+Eduardo
+
 
