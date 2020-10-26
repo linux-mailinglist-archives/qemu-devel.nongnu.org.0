@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86C082994EC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:14:20 +0100 (CET)
-Received: from localhost ([::1]:45128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE92299518
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:17:25 +0100 (CET)
+Received: from localhost ([::1]:52344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX70d-0008IT-KL
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35022)
+	id 1kX73c-00031E-Nc
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:17:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kX6tA-0007qA-Dr
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:06:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43186)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kX6t8-0006Wv-Q1
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:06:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603735594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=j3zKK/C6nlb7gL9WjdPhn1g8qmcnQgsKca0KRpbIeSY=;
- b=HsJ4TGolMWoFY1qyVhnQFDEQIH7ZptHT+ddLWNynD+fKexllFuhu/cRlXqVLoTXF6J+WPp
- SzDTzG7Bw480nJJ7iAxU4fPdkQufqqqgxwzy8R8E3P4B5X5+uPsHjGY33PJTeCpgRN2sm9
- IDqfQ+k/0t11FcXTsJVgubJKSFBheos=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-GGZaxlAwOLGef-Hu0etT1Q-1; Mon, 26 Oct 2020 14:06:30 -0400
-X-MC-Unique: GGZaxlAwOLGef-Hu0etT1Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AEA1F56BE3;
- Mon, 26 Oct 2020 18:06:28 +0000 (UTC)
-Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37E0B5B4A4;
- Mon, 26 Oct 2020 18:06:21 +0000 (UTC)
-Subject: Re: [PATCH v2 07/19] util/vfio-helpers: Trace PCI BAR region info
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201026105504.4023620-1-philmd@redhat.com>
- <20201026105504.4023620-8-philmd@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <c95c0cc2-7e32-6fee-a51a-948051604161@redhat.com>
-Date: Mon, 26 Oct 2020 19:06:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kX6xd-0005tv-O5
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:11:13 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:33954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kX6xX-00079e-Mt
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:11:13 -0400
+Received: by mail-ej1-x641.google.com with SMTP id gs25so15044372ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:11:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PZrXk6W7mQs4ElV2C5DAdWPjGnR8Jcr+ipn/INYEJI4=;
+ b=LWT6fGYa9l/a+rIM0FaxT4Xbdh/KQoBdTB3EpKnlNa1d8QW2HTgeEIy8La4GQKR9Zt
+ X9xJHa7Yuh1vuMv3xaPfJ1IzNc6L0C75gDQbyktoA9a25yuHmxrbtibPHCQcI8xYh3RY
+ jmlORsINEsnBFNs8F5t906wsDR7yVSRakxEXX40Oq1lNPdWn1jiSytUIZuZ1bZmorn/w
+ F+UsFG5dX2FiowxfIlp2L/ghBOW2FHoiGxQr7d0fjwr52iLFOuzLb8/dNvOgchOsfuSM
+ 3jaLFGhIj1kUyW8yRa2Aqw5OoFpWoRAXnmKOTEFpgJlXUk93RMJXxtW1PR6oL9sX+KM1
+ BKMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PZrXk6W7mQs4ElV2C5DAdWPjGnR8Jcr+ipn/INYEJI4=;
+ b=AtaVMgDEpI6gEDBJMqpZFuvhVWb0LIA0MW89c8dcDvBmpOQ26VcIqZVVSGEzQIZwvR
+ MjjnqjmUEmqAJfmN0s7rwxLkcEvQx+Rrhoe9ZYZ5GSzxmweyLPfOIqkHSnfi70dXDK9e
+ fbqoQBYyObeuNDx//CEUB8yg2wB18EqOgLFK/HJ/pifKfSQMNBHY1Zz25sIgnwKn1yUh
+ Qjo7CNhxldejKyKlmnJStzAvMiMgOVlfWgF2HmkVb002wN8NDENyFfRV4OVeluNbX0/z
+ t5f4KIzz9G1DGzMkyXIi7eraKEQVZJjx8prMpFrxRKf4qppbVJNFqxCiK6ADIDkbA2g0
+ OWJQ==
+X-Gm-Message-State: AOAM532NNcTK5pW56Ee37dKityhHy3MsO/1V5GjSmnTd/p7CZgpFTTHk
+ IYXM6Z0IdvytZfTV5wZAykY=
+X-Google-Smtp-Source: ABdhPJzHwYNW2gsA17pMNyejBfj9IhEWVZ/9+Q/b6MTuhQDto9UQJYNmc2iaaWEx2v9ZGJnS28LJCw==
+X-Received: by 2002:a17:906:2b44:: with SMTP id
+ b4mr12253392ejg.73.1603735864203; 
+ Mon, 26 Oct 2020 11:11:04 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id ld2sm1051786ejb.94.2020.10.26.11.11.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 11:11:03 -0700 (PDT)
+Subject: Re: [PATCH 01/15] alpha: remove bios_name
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-2-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <5b95222d-a335-2589-375a-7b0f0621d5eb@amsat.org>
+Date: Mon, 26 Oct 2020 19:11:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201026105504.4023620-8-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20201026143028.3034018-2-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,73 +92,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On 10/26/20 11:54 AM, Philippe Mathieu-Daudé wrote:
-> For debug purpose, trace BAR regions info.
-> 
-> Reviewed-by: Fam Zheng <fam@euphon.net>
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 10/26/20 3:30 PM, Paolo Bonzini wrote:
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  util/vfio-helpers.c | 8 ++++++++
->  util/trace-events   | 1 +
->  2 files changed, 9 insertions(+)
-> 
-> diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-> index 1d4efafcaa4..cd6287c3a98 100644
-> --- a/util/vfio-helpers.c
-> +++ b/util/vfio-helpers.c
-> @@ -136,6 +136,7 @@ static inline void assert_bar_index_valid(QEMUVFIOState *s, int index)
->  
->  static int qemu_vfio_pci_init_bar(QEMUVFIOState *s, int index, Error **errp)
->  {
-> +    g_autofree char *barname = NULL;
->      assert_bar_index_valid(s, index);
->      s->bar_region_info[index] = (struct vfio_region_info) {
->          .index = VFIO_PCI_BAR0_REGION_INDEX + index,
-> @@ -145,6 +146,10 @@ static int qemu_vfio_pci_init_bar(QEMUVFIOState *s, int index, Error **errp)
->          error_setg_errno(errp, errno, "Failed to get BAR region info");
->          return -errno;
->      }
-> +    barname = g_strdup_printf("bar[%d]", index);
-> +    trace_qemu_vfio_region_info(barname, s->bar_region_info[index].offset,
-> +                                s->bar_region_info[index].size,
-> +                                s->bar_region_info[index].cap_offset);
->  
->      return 0;
->  }
-> @@ -416,6 +421,9 @@ static int qemu_vfio_init_pci(QEMUVFIOState *s, const char *device,
->          ret = -errno;
->          goto fail;
->      }
-> +    trace_qemu_vfio_region_info("config", s->config_region_info.offset,
-> +                                s->config_region_info.size,
-> +                                s->config_region_info.cap_offset);
->  
->      for (i = 0; i < ARRAY_SIZE(s->bar_region_info); i++) {
->          ret = qemu_vfio_pci_init_bar(s, i, errp);
-> diff --git a/util/trace-events b/util/trace-events
-> index c048f85f828..4d40c74a21f 100644
-> --- a/util/trace-events
-> +++ b/util/trace-events
-> @@ -87,3 +87,4 @@ qemu_vfio_dma_map(void *s, void *host, size_t size, bool temporary, uint64_t *io
->  qemu_vfio_dma_unmap(void *s, void *host) "s %p host %p"
->  qemu_vfio_pci_read_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "read cfg ptr %p ofs 0x%x size %d (region ofs 0x%"PRIx64" size %"PRId64")"
->  qemu_vfio_pci_write_config(void *buf, int ofs, int size, uint64_t region_ofs, uint64_t region_size) "write cfg ptr %p ofs 0x%x size %d (region ofs 0x%"PRIx64" size %"PRId64")"
-> +qemu_vfio_region_info(const char *desc, uint64_t offset, uint64_t size, uint32_t cap_offset) "region '%s' ofs 0x%"PRIx64" size %"PRId64" cap_ofs %"PRId32
-Use hexa too for the offsets and size. This is generally more readable.
+>   hw/alpha/dp264.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks
-
-Eric
-> 
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
