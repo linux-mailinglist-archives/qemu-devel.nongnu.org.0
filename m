@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88DA2298A42
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:19:35 +0100 (CET)
-Received: from localhost ([::1]:38730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E52D298A59
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:26:58 +0100 (CET)
+Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzbC-0001lJ-HH
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:19:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
+	id 1kWziL-0003gc-AS
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:26:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPG-0002k8-HT
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56337)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPH-0002me-N1
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54820)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPA-0006jg-E3
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:14 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPC-0006k7-ER
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706825;
+ s=mimecast20190719; t=1603706829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=gJZy3kz//wBAQSHK401ir7KhMFQGorLzyO/DPPZAjnI=;
- b=PFvmWAmLpwl3yVFpYePgLqQq4+UF7B0fIpQ0NH7pp5+EXkx2/rh0FHbrlBAl+8Jubnpm9p
- KPfiC2G1Uk9Lq3vkW6mkgkvULrrGciOe3XdsKIvfUKgM6hc2PSB1cmj/kKQbdFsjNwJ1kq
- 58xtjNriA3H0nS1nCTusG5rPy2r1uBg=
+ references:references; bh=ijFbgbhA9U4wuK2uqFm4kvGlGVKw2BLSDoKtZ2VHRZs=;
+ b=LakXWspRogGrS+WeAcB36qqy6cALcjAHJigJlHBsFdF9i0kTLyNe13KCArFZBK9ScYryH8
+ jyp+N/cHcWY2XbGdw8qNIIvW0oJh5Y24JSyIqoJkGL3zKxz4Uluh2aMHOqXx6InJoGmfUJ
+ vrcxL1ACMfRFjAQ6BTGPQXka4IUHnmw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-576-mOGKAc7ZMduH5s_mzQI80w-1; Mon, 26 Oct 2020 06:07:03 -0400
-X-MC-Unique: mOGKAc7ZMduH5s_mzQI80w-1
+ us-mta-88-4eucRKiEPqK2DVn2Tj9hLA-1; Mon, 26 Oct 2020 06:07:04 -0400
+X-MC-Unique: 4eucRKiEPqK2DVn2Tj9hLA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D9281009E3D;
- Mon, 26 Oct 2020 10:07:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5F3585EE96;
+ Mon, 26 Oct 2020 10:07:03 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4A2328B842;
- Mon, 26 Oct 2020 10:07:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AA79C8B842;
+ Mon, 26 Oct 2020 10:07:02 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 17/31] fuzz: add a crossover function to generic-fuzzer
-Date: Mon, 26 Oct 2020 11:06:18 +0100
-Message-Id: <20201026100632.212530-18-thuth@redhat.com>
+Subject: [PULL 18/31] scripts/oss-fuzz: Add script to reorder a generic-fuzzer
+ trace
+Date: Mon, 26 Oct 2020 11:06:19 +0100
+Message-Id: <20201026100632.212530-19-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -81,118 +82,134 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+The generic-fuzzer uses hooks to fulfill DMA requests just-in-time.
+This means that if we try to use QTEST_LOG=1 to build a reproducer, the
+DMA writes will be logged _after_ the in/out/read/write that triggered
+the DMA read. To work work around this, the generic-fuzzer annotates
+these just-in time DMA fulfilments with a tag that we can use to
+discern them. This script simply iterates over a raw qtest
+trace (including log messages, errors, timestamps etc), filters it and
+re-orders it so that DMA fulfillments are placed directly _before_ the
+qtest command that will cause the DMA access.
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201023150746.107063-10-alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Message-Id: <20201023150746.107063-11-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 86 +++++++++++++++++++++++++++++++++
- 1 file changed, 86 insertions(+)
+ .../oss-fuzz/reorder_fuzzer_qtest_trace.py    | 103 ++++++++++++++++++
+ 1 file changed, 103 insertions(+)
+ create mode 100755 scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 6ec20464bd..592b78ffe2 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -810,6 +810,91 @@ static void generic_pre_fuzz(QTestState *s)
-     counter_shm_init();
- }
- 
-+/*
-+ * When libfuzzer gives us two inputs to combine, return a new input with the
-+ * following structure:
-+ *
-+ * Input 1 (data1)
-+ * SEPARATOR
-+ * Clear out the DMA Patterns
-+ * SEPARATOR
-+ * Disable the pci_read/write instructions
-+ * SEPARATOR
-+ * Input 2 (data2)
-+ *
-+ * The idea is to collate the core behaviors of the two inputs.
-+ * For example:
-+ * Input 1: maps a device's BARs, sets up three DMA patterns, and triggers
-+ *          device functionality A
-+ * Input 2: maps a device's BARs, sets up one DMA pattern, and triggers device
-+ *          functionality B
-+ *
-+ * This function attempts to produce an input that:
-+ * Ouptut: maps a device's BARs, set up three DMA patterns, triggers
-+ *          functionality A device, replaces the DMA patterns with a single
-+ *          patten, and triggers device functionality B.
-+ */
-+static size_t generic_fuzz_crossover(const uint8_t *data1, size_t size1, const
-+                                     uint8_t *data2, size_t size2, uint8_t *out,
-+                                     size_t max_out_size, unsigned int seed)
-+{
-+    size_t copy_len = 0, size = 0;
+diff --git a/scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py b/scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
+new file mode 100755
+index 0000000000..890e1def85
+--- /dev/null
++++ b/scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py
+@@ -0,0 +1,103 @@
++#!/usr/bin/env python3
++# -*- coding: utf-8 -*-
 +
-+    /* Check that we have enough space for data1 and at least part of data2 */
-+    if (max_out_size <= size1 + strlen(SEPARATOR) * 3 + 2) {
-+        return 0;
-+    }
++"""
++Use this to convert qtest log info from a generic fuzzer input into a qtest
++trace that you can feed into a standard qemu-system process. Example usage:
 +
-+    /* Copy_Len in the first input */
-+    copy_len = size1;
-+    memcpy(out + size, data1, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++QEMU_FUZZ_ARGS="-machine q35,accel=qtest" QEMU_FUZZ_OBJECTS="*" \
++        ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=generic-pci-fuzz
++# .. Finds some crash
++QTEST_LOG=1 FUZZ_SERIALIZE_QTEST=1 \
++QEMU_FUZZ_ARGS="-machine q35,accel=qtest" QEMU_FUZZ_OBJECTS="*" \
++        ./i386-softmmu/qemu-fuzz-i386 --fuzz-target=generic-pci-fuzz
++        /path/to/crash 2> qtest_log_output
++scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py qtest_log_output > qtest_trace
++./i386-softmmu/qemu-fuzz-i386 -machine q35,accel=qtest \
++        -qtest stdin < qtest_trace
 +
-+    /* Append a separator */
-+    copy_len = strlen(SEPARATOR);
-+    memcpy(out + size, SEPARATOR, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++### Details ###
 +
-+    /* Clear out the DMA Patterns */
-+    copy_len = 1;
-+    if (copy_len) {
-+        out[size] = OP_CLEAR_DMA_PATTERNS;
-+    }
-+    size += copy_len;
-+    max_out_size -= copy_len;
++Some fuzzer make use of hooks that allow us to populate some memory range, just
++before a DMA read from that range. This means that the fuzzer can produce
++activity that looks like:
++    [start] read from mmio addr
++    [end]   read from mmio addr
++    [start] write to pio addr
++        [start] fill a DMA buffer just in time
++        [end]   fill a DMA buffer just in time
++        [start] fill a DMA buffer just in time
++        [end]   fill a DMA buffer just in time
++    [end]   write to pio addr
++    [start] read from mmio addr
++    [end]   read from mmio addr
 +
-+    /* Append a separator */
-+    copy_len = strlen(SEPARATOR);
-+    memcpy(out + size, SEPARATOR, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++We annotate these "nested" DMA writes, so with QTEST_LOG=1 the QTest trace
++might look something like:
++[R +0.028431] readw 0x10000
++[R +0.028434] outl 0xc000 0xbeef  # Triggers a DMA read from 0xbeef and 0xbf00
++[DMA][R +0.034639] write 0xbeef 0x2 0xAAAA
++[DMA][R +0.034639] write 0xbf00 0x2 0xBBBB
++[R +0.028431] readw 0xfc000
 +
-+    /* Disable PCI ops. Assume data1 took care of setting up PCI */
-+    copy_len = 1;
-+    if (copy_len) {
-+        out[size] = OP_DISABLE_PCI;
-+    }
-+    size += copy_len;
-+    max_out_size -= copy_len;
++This script would reorder the above trace so it becomes:
++readw 0x10000
++write 0xbeef 0x2 0xAAAA
++write 0xbf00 0x2 0xBBBB
++outl 0xc000 0xbeef
++readw 0xfc000
 +
-+    /* Append a separator */
-+    copy_len = strlen(SEPARATOR);
-+    memcpy(out + size, SEPARATOR, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++I.e. by the time, 0xc000 tries to read from DMA, those DMA buffers have already
++been set up, removing the need for the DMA hooks. We can simply provide this
++reordered trace via -qtest stdio to reproduce the input
 +
-+    /* Copy_Len over the second input */
-+    copy_len = MIN(size2, max_out_size);
-+    memcpy(out + size, data2, copy_len);
-+    size += copy_len;
-+    max_out_size -= copy_len;
++Note: this won't work for traces where the device tries to read from the same
++DMA region twice in between MMIO/PIO commands. E.g:
++    [R +0.028434] outl 0xc000 0xbeef
++    [DMA][R +0.034639] write 0xbeef 0x2 0xAAAA
++    [DMA][R +0.034639] write 0xbeef 0x2 0xBBBB
 +
-+    return  size;
-+}
++The fuzzer will annotate suspected double-fetches with [DOUBLE-FETCH]. This
++script looks for these tags and warns the users that the resulting trace might
++not reproduce the bug.
++"""
++
++import sys
++
++__author__     = "Alexander Bulekov <alxndr@bu.edu>"
++__copyright__  = "Copyright (C) 2020, Red Hat, Inc."
++__license__    = "GPL version 2 or (at your option) any later version"
++
++__maintainer__ = "Alexander Bulekov"
++__email__      = "alxndr@bu.edu"
 +
 +
- static GString *generic_fuzz_cmdline(FuzzTarget *t)
- {
-     GString *cmd_line = g_string_new(TARGET_NAME);
-@@ -830,6 +915,7 @@ static void register_generic_fuzz_targets(void)
-             .get_init_cmdline = generic_fuzz_cmdline,
-             .pre_fuzz = generic_pre_fuzz,
-             .fuzz = generic_fuzz,
-+            .crossover = generic_fuzz_crossover
-     });
- }
- 
++def usage():
++    sys.exit("Usage: {} /path/to/qtest_log_output".format((sys.argv[0])))
++
++
++def main(filename):
++    with open(filename, "r") as f:
++        trace = f.readlines()
++
++    # Leave only lines that look like logged qtest commands
++    trace[:] = [x.strip() for x in trace if "[R +" in x
++                or "[S +" in x and "CLOSED" not in x]
++
++    for i in range(len(trace)):
++        if i+1 < len(trace):
++            if "[DMA]" in trace[i+1]:
++                if "[DOUBLE-FETCH]" in trace[i+1]:
++                    sys.stderr.write("Warning: Likely double fetch on line"
++                                     "{}.\n There will likely be problems "
++                                     "reproducing behavior with the "
++                                     "resulting qtest trace\n\n".format(i+1))
++                trace[i], trace[i+1] = trace[i+1], trace[i]
++    for line in trace:
++        print(line.split("]")[-1].strip())
++
++
++if __name__ == '__main__':
++    if len(sys.argv) == 1:
++        usage()
++    main(sys.argv[1])
 -- 
 2.18.2
 
