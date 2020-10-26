@@ -2,72 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E10329935F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:07:49 +0100 (CET)
-Received: from localhost ([::1]:49544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B83299369
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:10:02 +0100 (CET)
+Received: from localhost ([::1]:56482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5yG-0001Ee-Ei
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:07:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45260)
+	id 1kX60P-00048W-LX
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:10:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX5vr-0008DX-Ix
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:05:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45753)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX5vp-0006PX-RG
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:05:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603731917;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yTAzjh0IBYYkL6Cj5XRvHM+n45NsFUhaKp+6Z2D1UZU=;
- b=ax5qbB46GSAqferEsF9S8tGUh4HEttx/Ptf5DT0Ew7rugIU6HhSrvpNjwqrSK5E9gZGogh
- Q68H0qgSVSQMIWWWAaNk1j9Pw4eMIpsizBSf1jj9gcc08HBwy6G93D8cwm3d3gctsMrmdJ
- /AKx37X0MdFcd4qpdS29V1Ou95PN/jU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-NFUNfDChObePEjX9xIEZRw-1; Mon, 26 Oct 2020 13:05:14 -0400
-X-MC-Unique: NFUNfDChObePEjX9xIEZRw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6772804B8C;
- Mon, 26 Oct 2020 17:05:13 +0000 (UTC)
-Received: from localhost (ovpn-114-214.ams2.redhat.com [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 08C2B1002393;
- Mon, 26 Oct 2020 17:05:09 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kX5wd-0000Nw-I1; Mon, 26 Oct 2020 13:06:07 -0400
+Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:45504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kX5wa-0006cO-8d; Mon, 26 Oct 2020 13:06:07 -0400
+Received: by mail-ej1-x644.google.com with SMTP id dt13so14661808ejb.12;
+ Mon, 26 Oct 2020 10:06:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=YtILxrTiQyFvjXojSK8Xu46NkvXLNpokkJRzWpf6lec=;
+ b=DnWBcbAYi2O6L7inVEEY8MywOdFVWOHIR5v0A08RcjkjEv7Bbntqulm1x+bL1ES9FP
+ 3R0Py4thBhXkesc++TLxMoff2O68YFlUTIpUOpbicBVb1EmIrcBEM75ej4izL7YDNgwA
+ SIW4I/rFhtIY+84LpgYT6JJKcrSbwlIQfJPm6sIXJFN6idZuDjNCLB5guWzWOzWXxBiX
+ 9iuhMiORZkrkp2O8hKY2F76F6LAx+FpRu90dXKw5bfy2dU/6WxYF2NlwreYGolGqCHjs
+ BedTNfPq2GjyP6uo0l+qKaYxCuB5fARVq4zqdxv4CvlgdHcPTp5talRLhVb8GwwH7uiA
+ zBJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YtILxrTiQyFvjXojSK8Xu46NkvXLNpokkJRzWpf6lec=;
+ b=D+CJjNGv64b3K1e7IqJU+VFfcjL/7gUHvHK7Lwr5zQZhGX1Ak/sCK+m83zNSKW6Hao
+ ThpH+u6/amdpBE7BGld2zALie48WJAX3Tb/jKC2w8nK1iH1kDFzrTITuivrAa1TfIYLq
+ i1KqPd0ppjPjzFSevWOutyU4vXrp5UJHGGVTooKHHwokKF5mNTA5d/LJRSM7rzIchk1I
+ dJeV6e4WDffJK3N6gkI9IWTnXuMy8GH4efMHOXF6kohPmMoJqCLrShehM2WOMSVt+t0U
+ yZYZknk4UnIOKcgO9IqyD9VXXg0Y3Kbw6GC72HIEq1R4N/lHtU9jCOeGjzbSBnOFLpdw
+ H3oQ==
+X-Gm-Message-State: AOAM530qbEfe3mEdpMBxK8KuZ4tTo4EwlNYqrupOG04HJZ4lqOIhOR7P
+ frgWJjJd7nAOYwnBBQTBbTM=
+X-Google-Smtp-Source: ABdhPJz0tgPtwE36f1bMGOr9nlHHawF3eOATHJNCVv8lS7vIT2K0yQxCPlusFOXXEpFgWXLDwThk6A==
+X-Received: by 2002:a17:906:aecf:: with SMTP id
+ me15mr17433570ejb.423.1603731958795; 
+ Mon, 26 Oct 2020 10:05:58 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id cw15sm6202168ejb.47.2020.10.26.10.05.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 10:05:57 -0700 (PDT)
+Subject: Re: [PATCH v2 0/3] hw/ssi: Rename SSI 'slave' as 'peripheral'
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 v2 2/2] Add execute bit back to scripts/tracetool.py
-Date: Mon, 26 Oct 2020 17:05:02 +0000
-Message-Id: <20201026170502.65786-3-stefanha@redhat.com>
-In-Reply-To: <20201026170502.65786-1-stefanha@redhat.com>
-References: <20201026170502.65786-1-stefanha@redhat.com>
+References: <20201012124955.3409127-1-f4bug@amsat.org>
+ <e15493bf-f31e-daf2-d216-b9d67ea638b1@amsat.org>
+Message-ID: <11aef83d-64ae-8954-e61f-911282896455@amsat.org>
+Date: Mon, 26 Oct 2020 18:05:55 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e15493bf-f31e-daf2-d216-b9d67ea638b1@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::644;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x644.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,27 +90,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony PERARD <anthony.perard@citrix.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Andrew Jeffery <andrew@aj.id.au>,
+ Alistair Francis <alistair@alistair23.me>, Max Reitz <mreitz@redhat.com>,
+ qemu-trivial@nongnu.org, qemu-arm@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogQW50aG9ueSBQRVJBUkQgPGFudGhvbnkucGVyYXJkQGNpdHJpeC5jb20+CgpDb21taXQg
-YTgxZGYxYjY4YjY1ICgibGlicWVtdXV0aWwsIHFhcGksIHRyYWNlOiBjb252ZXJ0IHRvIG1lc29u
-IikKcmVtb3ZlZCBpdCB3aXRob3V0IGV4cGxhbmF0aW9uIGFuZCBpdCBpcyB1c2VmdWwgdG8gYmUg
-YWJsZSB0byBydW4gYQpzY3JpcHQgd2l0aG91dCBoYXZpbmcgdG8gZmlndXJlIG91dCB3aGljaCBp
-bnRlcnByZXRlciB0byB1c2UuCgpTaWduZWQtb2ZmLWJ5OiBBbnRob255IFBFUkFSRCA8YW50aG9u
-eS5wZXJhcmRAY2l0cml4LmNvbT4KU2lnbmVkLW9mZi1ieTogU3RlZmFuIEhham5vY3ppIDxzdGVm
-YW5oYUByZWRoYXQuY29tPgpSZXZpZXdlZC1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBo
-aWxtZEByZWRoYXQuY29tPgpSZXZpZXdlZC1ieTogRGFuaWVsIFAuIEJlcnJhbmfDqSA8YmVycmFu
-Z2VAcmVkaGF0LmNvbT4KTWVzc2FnZS1JZDogPDIwMjAwOTIzMTAzNjIwLjE5ODAxNTEtMS1hbnRo
-b255LnBlcmFyZEBjaXRyaXguY29tPgotLS0KIHNjcmlwdHMvdHJhY2V0b29sLnB5IHwgMAogMSBm
-aWxlIGNoYW5nZWQsIDAgaW5zZXJ0aW9ucygrKSwgMCBkZWxldGlvbnMoLSkKIG1vZGUgY2hhbmdl
-IDEwMDY0NCA9PiAxMDA3NTUgc2NyaXB0cy90cmFjZXRvb2wucHkKCmRpZmYgLS1naXQgYS9zY3Jp
-cHRzL3RyYWNldG9vbC5weSBiL3NjcmlwdHMvdHJhY2V0b29sLnB5Cm9sZCBtb2RlIDEwMDY0NApu
-ZXcgbW9kZSAxMDA3NTUKLS0gCjIuMjYuMgoK
+ping^2?
 
+On 10/19/20 6:04 PM, Philippe Mathieu-Daudé wrote:
+> Ping for review?
+> 
+> On 10/12/20 2:49 PM, Philippe Mathieu-Daudé wrote:
+>> Since v1:
+>> - Fixed patch #1 subject (Kevin)
+>>
+>> In order to use inclusive terminology, rename SSI 'slave' as
+>> 'peripheral', following the resolution Paolo pointed in [*]:
+>> https://www.oshwa.org/a-resolution-to-redefine-spi-signal-names/
+>>
+>> Candidate to be merged via the ARM or Trivial trees.
+>>
+>> [*] https://www.mail-archive.com/qemu-devel@nongnu.org/msg739108.html
+>>
+>> Philippe Mathieu-Daudé (3):
+>>    hw/ssi/aspeed_smc: Rename 'max_slaves' variable as 'max_peripherals'
+>>    hw/ssi: Update coding style to make checkpatch.pl happy
+>>    hw/ssi: Rename SSI 'slave' as 'peripheral'
+>>
+>>   include/hw/misc/max111x.h   |  2 +-
+>>   include/hw/ssi/aspeed_smc.h |  2 +-
+>>   include/hw/ssi/ssi.h        | 56 +++++++++++++++++++------------------
+>>   hw/arm/spitz.c              | 32 ++++++++++-----------
+>>   hw/arm/stellaris.c          |  4 +--
+>>   hw/arm/tosa.c               | 12 ++++----
+>>   hw/arm/z2.c                 | 14 +++++-----
+>>   hw/block/m25p80.c           | 14 +++++-----
+>>   hw/display/ads7846.c        | 12 ++++----
+>>   hw/display/ssd0323.c        | 12 ++++----
+>>   hw/misc/max111x.c           | 18 ++++++------
+>>   hw/sd/ssi-sd.c              | 12 ++++----
+>>   hw/ssi/aspeed_smc.c         | 53 ++++++++++++++++++-----------------
+>>   hw/ssi/pl022.c              |  2 +-
+>>   hw/ssi/ssi.c                | 48 +++++++++++++++----------------
+>>   hw/ssi/xilinx_spips.c       |  7 +++--
+>>   16 files changed, 152 insertions(+), 148 deletions(-)
+>>
+> 
 
