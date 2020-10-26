@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7268299A8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:34:02 +0100 (CET)
-Received: from localhost ([::1]:34872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B46299A7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:32:15 +0100 (CET)
+Received: from localhost ([::1]:55146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXC01-0008Su-OD
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:34:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
+	id 1kXByI-00054y-UF
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:32:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBw0-00036a-1R
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:29:54 -0400
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41657)
+ id 1kXBw5-00037D-D9
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:29:58 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:40491)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBvy-0000GQ-8g
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:29:51 -0400
-Received: by mail-ed1-x52b.google.com with SMTP id l24so11566699edj.8
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:29:49 -0700 (PDT)
+ id 1kXBw3-0000Go-UZ
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:29:57 -0400
+Received: by mail-ed1-x531.google.com with SMTP id p93so1163742edd.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2kYJylSUVap5cHs18MspyX6fw/+yTmDa3KK/zRKs/IU=;
- b=I/UxKwqjsp0MGWHZl4jbkzpoKAd0QGPrQ9/bMFCKa7ieiSocyeOO4aMnkEJfAWUeHV
- 5rKyNz9mrOBpkVnZSGEiPPBSYuLGh/mny4MyoON9boj64sZJLLUYSi1HWqLuBYHFqRkk
- spzXqU4TdFKIMOlDmbsZNIEvBfoS4O4X/19RLfrK+UXITNpFWe5Ox/kl3ZhEdsFgyCT/
- 1hjdRlwylUj2wvnVEs8VInKVPE+qgeAYxkKBK0gx2U+W0yU0lfuWfNNB8o8JjLfH9Sp/
- PGovMBtdiuZeTicJL5HsEsTmLz5GeLg+VAlKBgzW1QQJD5FCJ5+3EASWMFX0a7RyMT9V
- J+Uw==
+ bh=IPy8xSDiS043tJ1qMib/hHCsnldOT9q1j5PDtKMfWf4=;
+ b=YjyO25H7f/AlgxZ5zvDpiKR2vl+Tonxb/fesN+Lhox3oU9iYqtExyvrDPb6UElb54C
+ uB59d+9aximzMS544QjdpUTAE64RGtjMpV/NYUueabxJIAoMZxqpzdooiOewpcnOOPXZ
+ EX9tNd7sBh8BbwVXO+JhAkwqO+n8AraQcnCblpA1NpAYrZTYTv23j0YBXcpYJWmPgI8v
+ S2sS/oNWJYWhpBj6hrZ/uapW95jxDblqkBJeNrHmus9kRmQ9htoBsup/srj9mtmgywko
+ w3hmwR2VymCvtLLMDE5eTlvwxHpXI4COkuLUQ8CHzYH5foaZ4faBHwtmJa/Y7t44lBuy
+ 1eXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2kYJylSUVap5cHs18MspyX6fw/+yTmDa3KK/zRKs/IU=;
- b=GLbAneYkNuDsBaafpqSAH4i7l60jNPg+h9Zux0Eti58g4YjMF6MvK9j69Px0fu2Z1D
- IGG9lNRVJ7RkDSIzuHPZkvImREtmgqlVsf+9o+lJN+cb+LNHArA4yWLRNcq7HQHVjg8w
- My6voFWqSVO//KS0U2feSMn0OlPQV1lEcs0n361JLGuH7wOzH9O3dhkSeCO7XpiQ41FW
- V99QHfRhMKjESZ+X98rwOIF9EQIcGDt0Lgklqam8zRdIxZ9KHczaJrbRPdkPsTT6iOoE
- xfrxp47KUXXsEoMz4Z248qdS/meUdBO1rU8N/07v+mDqeSlgVK/9LDTSQ9j2veCjVUz6
- A41Q==
-X-Gm-Message-State: AOAM531PFCqlq2JiegkVD02qRUw62UAYC8mEoEKkGOYYZ0PrUiIHvJ2d
- nlDb5SFOjAjRJKDSYBM85aQKYv54Qq0=
-X-Google-Smtp-Source: ABdhPJzli51YBxDrqx15oaQecjYaYeSkNVUgAQQsq5dCTGuDIYGa+JnK4pg046VKatbeFCb6W0eWDA==
-X-Received: by 2002:a50:e705:: with SMTP id a5mr13373894edn.29.1603754988641; 
- Mon, 26 Oct 2020 16:29:48 -0700 (PDT)
+ bh=IPy8xSDiS043tJ1qMib/hHCsnldOT9q1j5PDtKMfWf4=;
+ b=arZmaLlXXMRxDr1cTPO0reSIQG1OqCLzRozyr+y6dA6+YXN0W4W7/zmphfpGzt6WH6
+ smdq+TWdHipYhznzjSP4ZJOxMjk4g0gLXAY+JuY0ulICWJu+U6DVo1w7EO6ZDE6T1WiH
+ UUhtH1SNrJIPOo/K/t3cKTje4Gds/nxV9EBUCd0t9eOXoX0O5RnkYftKLKqNEOktQSX/
+ 4G8DLtm96NEAWCZ0CBDHObqVN/KrQhpqCdQ3/F4qL9igjhmk6Hj7xAtcot5DMMrXPoNO
+ 1rTI+YeELcIDVPCYH/DtZ/xItvytGDnwZdtWh1zuvRgMbhF/WUEM14nfXPC442QnMiUA
+ LO+Q==
+X-Gm-Message-State: AOAM530rjZvr+PVLWelKrRUZD6vmJuRwgNKsZuRYvt1Pif4pM1jgO3Zh
+ nS4on6scw+NtV8ZpbRwH0v1aXSWtAH0=
+X-Google-Smtp-Source: ABdhPJy8qozl7+BUfvRi4eLSqZDBe8zDdIX521ymCx58GbHStOofoFONEal03BDnOO4StkVlSAGnGQ==
+X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr18733480eds.379.1603754994405; 
+ Mon, 26 Oct 2020 16:29:54 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id ck19sm6596062ejb.99.2020.10.26.16.29.47
+ by smtp.gmail.com with ESMTPSA id c5sm6003342edx.58.2020.10.26.16.29.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 16:29:47 -0700 (PDT)
+ Mon, 26 Oct 2020 16:29:53 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] hw/timer/sh_timer: Coding style clean-up
-Date: Tue, 27 Oct 2020 00:29:29 +0100
-Message-Id: <20201026232935.92777-3-f4bug@amsat.org>
+Subject: [PULL 3/8] hw/timer/sh_timer: Silence warnings about missing
+ fallthrough statements
+Date: Tue, 27 Oct 2020 00:29:30 +0100
+Message-Id: <20201026232935.92777-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026232935.92777-1-f4bug@amsat.org>
 References: <20201026232935.92777-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -96,187 +97,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-Replace TAB characters with spaces, put code after case-statement on
-separate lines and add some curly braces in related lines to keep
-checkpatch.pl happy.
+When compiling with -Werror=implicit-fallthrough, gcc complains about
+missing fallthrough annotations in this file. Looking at the code,
+the fallthrough is very likely intended here, so add some comments
+to silence the compiler warnings.
 
+Fixes: cd1a3f6840e ("Stand-alone TMU emulation code")
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20201020153935.54315-2-thuth@redhat.com>
+Message-Id: <20201020153935.54315-3-thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/timer/sh_timer.c | 89 +++++++++++++++++++++++++++++----------------
- 1 file changed, 57 insertions(+), 32 deletions(-)
+ hw/timer/sh_timer.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/timer/sh_timer.c b/hw/timer/sh_timer.c
-index bb0e1c8ee53..b09e30f9388 100644
+index b09e30f9388..934daaa7dcc 100644
 --- a/hw/timer/sh_timer.c
 +++ b/hw/timer/sh_timer.c
-@@ -117,35 +117,55 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-         case 2: freq >>= 6; break;
-         case 3: freq >>= 8; break;
-         case 4: freq >>= 10; break;
--	case 6:
--	case 7: if (s->feat & TIMER_FEAT_EXTCLK) break;
--	default: hw_error("sh_timer_write: Reserved TPSC value\n"); break;
-+        case 6:
-+        case 7:
-+            if (s->feat & TIMER_FEAT_EXTCLK) {
-+                break;
-+            }
-+        default:
-+            hw_error("sh_timer_write: Reserved TPSC value\n");
-+            break;
-         }
-         switch ((value & TIMER_TCR_CKEG) >> 3) {
--	case 0: break;
-+        case 0:
-+            break;
-         case 1:
-         case 2:
--        case 3: if (s->feat & TIMER_FEAT_EXTCLK) break;
--	default: hw_error("sh_timer_write: Reserved CKEG value\n"); break;
-+        case 3:
-+            if (s->feat & TIMER_FEAT_EXTCLK) {
-+                break;
-+            }
-+        default:
-+            hw_error("sh_timer_write: Reserved CKEG value\n");
-+            break;
-         }
-         switch ((value & TIMER_TCR_ICPE) >> 6) {
--	case 0: break;
-+        case 0:
-+            break;
-         case 2:
--        case 3: if (s->feat & TIMER_FEAT_CAPT) break;
--	default: hw_error("sh_timer_write: Reserved ICPE value\n"); break;
-+        case 3:
-+            if (s->feat & TIMER_FEAT_CAPT) {
-+                break;
-+            }
-+        default:
-+            hw_error("sh_timer_write: Reserved ICPE value\n");
-+            break;
-         }
--	if ((value & TIMER_TCR_UNF) == 0)
-+        if ((value & TIMER_TCR_UNF) == 0) {
-             s->int_level = 0;
-+        }
- 
--	value &= ~TIMER_TCR_UNF;
-+        value &= ~TIMER_TCR_UNF;
- 
--	if ((value & TIMER_TCR_ICPF) && (!(s->feat & TIMER_FEAT_CAPT)))
-+        if ((value & TIMER_TCR_ICPF) && (!(s->feat & TIMER_FEAT_CAPT))) {
-             hw_error("sh_timer_write: Reserved ICPF value\n");
-+        }
- 
--	value &= ~TIMER_TCR_ICPF; /* capture not supported */
-+        value &= ~TIMER_TCR_ICPF; /* capture not supported */
- 
--	if (value & TIMER_TCR_RESERVED)
-+        if (value & TIMER_TCR_RESERVED) {
-             hw_error("sh_timer_write: Reserved TCR bits set\n");
-+        }
-         s->tcr = value;
-         ptimer_set_limit(s->timer, s->tcor, 0);
-         ptimer_set_freq(s->timer, freq);
-@@ -158,8 +178,8 @@ static void sh_timer_write(void *opaque, hwaddr offset,
-     case OFFSET_TCPR:
-         if (s->feat & TIMER_FEAT_CAPT) {
+@@ -122,6 +122,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             if (s->feat & TIMER_FEAT_EXTCLK) {
+                 break;
+             }
++            /* fallthrough */
+         default:
+             hw_error("sh_timer_write: Reserved TPSC value\n");
+             break;
+@@ -135,6 +136,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             if (s->feat & TIMER_FEAT_EXTCLK) {
+                 break;
+             }
++            /* fallthrough */
+         default:
+             hw_error("sh_timer_write: Reserved CKEG value\n");
+             break;
+@@ -147,6 +149,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
+             if (s->feat & TIMER_FEAT_CAPT) {
+                 break;
+             }
++            /* fallthrough */
+         default:
+             hw_error("sh_timer_write: Reserved ICPE value\n");
+             break;
+@@ -180,6 +183,7 @@ static void sh_timer_write(void *opaque, hwaddr offset,
              s->tcpr = value;
--	    break;
--	}
-+            break;
-+        }
+             break;
+         }
++        /* fallthrough */
      default:
          hw_error("sh_timer_write: Bad offset %x\n", (int)offset);
      }
-@@ -241,8 +261,9 @@ static uint64_t tmu012_read(void *opaque, hwaddr offset,
- #endif
- 
-     if (offset >= 0x20) {
--        if (!(s->feat & TMU012_FEAT_3CHAN))
--	    hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+        if (!(s->feat & TMU012_FEAT_3CHAN)) {
-+            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+        }
-         return sh_timer_read(s->timer[2], offset - 0x20);
-     }
- 
-@@ -272,33 +293,36 @@ static void tmu012_write(void *opaque, hwaddr offset,
- #endif
- 
-     if (offset >= 0x20) {
--        if (!(s->feat & TMU012_FEAT_3CHAN))
--	    hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+        if (!(s->feat & TMU012_FEAT_3CHAN)) {
-+            hw_error("tmu012_write: Bad channel offset %x\n", (int)offset);
-+        }
-         sh_timer_write(s->timer[2], offset - 0x20, value);
--	return;
-+        return;
-     }
- 
-     if (offset >= 0x14) {
-         sh_timer_write(s->timer[1], offset - 0x14, value);
--	return;
-+        return;
-     }
- 
-     if (offset >= 0x08) {
-         sh_timer_write(s->timer[0], offset - 0x08, value);
--	return;
-+        return;
-     }
- 
-     if (offset == 4) {
-         sh_timer_start_stop(s->timer[0], value & (1 << 0));
-         sh_timer_start_stop(s->timer[1], value & (1 << 1));
--        if (s->feat & TMU012_FEAT_3CHAN)
-+        if (s->feat & TMU012_FEAT_3CHAN) {
-             sh_timer_start_stop(s->timer[2], value & (1 << 2));
--	else
--            if (value & (1 << 2))
-+        } else {
-+            if (value & (1 << 2)) {
-                 hw_error("tmu012_write: Bad channel\n");
-+            }
-+        }
- 
--	s->tstr = value;
--	return;
-+        s->tstr = value;
-+        return;
-     }
- 
-     if ((s->feat & TMU012_FEAT_TOCR) && offset == 0) {
-@@ -314,8 +338,8 @@ static const MemoryRegionOps tmu012_ops = {
- 
- void tmu012_init(MemoryRegion *sysmem, hwaddr base,
-                  int feat, uint32_t freq,
--		 qemu_irq ch0_irq, qemu_irq ch1_irq,
--		 qemu_irq ch2_irq0, qemu_irq ch2_irq1)
-+                 qemu_irq ch0_irq, qemu_irq ch1_irq,
-+                 qemu_irq ch2_irq0, qemu_irq ch2_irq1)
- {
-     tmu012_state *s;
-     int timer_feat = (feat & TMU012_FEAT_EXTCLK) ? TIMER_FEAT_EXTCLK : 0;
-@@ -324,9 +348,10 @@ void tmu012_init(MemoryRegion *sysmem, hwaddr base,
-     s->feat = feat;
-     s->timer[0] = sh_timer_init(freq, timer_feat, ch0_irq);
-     s->timer[1] = sh_timer_init(freq, timer_feat, ch1_irq);
--    if (feat & TMU012_FEAT_3CHAN)
-+    if (feat & TMU012_FEAT_3CHAN) {
-         s->timer[2] = sh_timer_init(freq, timer_feat | TIMER_FEAT_CAPT,
--				    ch2_irq0); /* ch2_irq1 not supported */
-+                                    ch2_irq0); /* ch2_irq1 not supported */
-+    }
- 
-     memory_region_init_io(&s->iomem, NULL, &tmu012_ops, s,
-                           "timer", 0x100000000ULL);
 -- 
 2.26.2
 
