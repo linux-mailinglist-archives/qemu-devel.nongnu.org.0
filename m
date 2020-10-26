@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A0D298B8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:14:20 +0100 (CET)
-Received: from localhost ([::1]:33734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCD8C298B9A
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:18:50 +0100 (CET)
+Received: from localhost ([::1]:43012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0SB-0004SU-F4
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:14:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51494)
+	id 1kX0WX-0000BY-NL
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:18:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0B5-0000HC-Gt
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52264)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0BA-0000U7-8c
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0B3-00009r-Oe
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:39 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0B8-0000Cc-JM
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603709797;
+ s=mimecast20190719; t=1603709801;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=owqIkSbFHgdfPD7uMP3x2r37Kgl7CGcfC6ZJAfrhmJc=;
- b=ZDGq7RtErFHi3aNctJOhV6/b4tHE86VWn+rYLVe7Zb3Xnbhkpd3vDGOlgV7Wn/2LOxHR9s
- fwC9c8hNV5Cs/22beLjvM3jo1tTaMmiQ5pWCA+aFUIe1cQL4o7LkXZxGc0qACKnQFt25m6
- 5cDXp9IrWaL2YxF8mC/Swdh/UQm9oAk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-ypyj7U-xMC6-QStvdKCjEA-1; Mon, 26 Oct 2020 06:56:35 -0400
-X-MC-Unique: ypyj7U-xMC6-QStvdKCjEA-1
-Received: by mail-wr1-f72.google.com with SMTP id 31so8159199wrg.12
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:56:35 -0700 (PDT)
+ bh=tjiqDTNg6IlVQRDX7FtGh0Vb3qFf/kKU7hA/I3jkchg=;
+ b=StnC6G3k3oKDoyEiERmBwd1a2fWIs19sJaZHolWAvkoR2veVgQDflhPkn6kTAV7VFG+CoB
+ KvZngkgt9KkvctXjz0srT/tU4cBfqn/TPI3mf1Equc+Qv9WOmQ6Duq0jKKUtADY8GJcUOl
+ HVibXKy0Wn5JCJxUpNdxUFIqB4P63Rg=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-Zhda4dpxOLqySREpofiuAQ-1; Mon, 26 Oct 2020 06:56:40 -0400
+X-MC-Unique: Zhda4dpxOLqySREpofiuAQ-1
+Received: by mail-wr1-f69.google.com with SMTP id p6so8126966wrm.23
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:56:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=owqIkSbFHgdfPD7uMP3x2r37Kgl7CGcfC6ZJAfrhmJc=;
- b=D4KCHvX1f30qIA1kER/x3L7I50RkopHi0Hii3hvOqt0P4ywJ4JNRlCeLVxuMcGAYwp
- kUdZ4uP0tsrUjxFYmSpbNxeu0LCz/MHrHeAfyXQ5J596+s+8SXsOqnDt6Cp/4eI7JISw
- Cqoz6rGWg9L9HnpAJFXx60oP0zOKxqFMfjiNGMXu6BjbtLji0UCc+xZUQTJQatNTIWC8
- ayHZ5s0FArQ8zQmrfSh4YaPaomfyNolAUTQ+8LKDD25bJlpkiSEpsR6z6jZupqO6NGb1
- RdCRK96I2Sk5n7h95G62iVbSKAiA+yRRJ5KqjJsi9unNObj6Vkl77cMhgCLCHKxxLL/D
- o3aA==
-X-Gm-Message-State: AOAM532FrriYEMqgwCn8ON4/HMxnDVHjySf6u9Z5k1/DbW34yls3cbKn
- PI3feKlmK56Oy3sLtV+kvnX+3FC8qji33KkA3KhlHalMCoLkGiom/VVN648o/NrPWse/0QQAm/Z
- qRaZqu3UL/vzzxJY=
-X-Received: by 2002:adf:cd8d:: with SMTP id q13mr16960612wrj.268.1603709794047; 
- Mon, 26 Oct 2020 03:56:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyStCr9GxFzTzPbqA2g6ofgt9QpElmIywQhpDNkYRmZvTibmFmzj5jiI6159FHxiZD587MCGQ==
-X-Received: by 2002:adf:cd8d:: with SMTP id q13mr16960590wrj.268.1603709793897; 
- Mon, 26 Oct 2020 03:56:33 -0700 (PDT)
+ bh=tjiqDTNg6IlVQRDX7FtGh0Vb3qFf/kKU7hA/I3jkchg=;
+ b=iEhsO/6fB5R4Hg+ZT7TGugaN1WqUn1GJ/L17PR7SiKk2mPacmz88qmNUv1xPWXtckS
+ PQmw4J9k6/7Y1lAr2dRGmvqWGgC7P8lGBLq94cpMLrwXMaeCQFdtbUwbXch5QxnJgfOu
+ W1oY9KXEIkdoqP0TOr/AaoQwZMiYNE1LHP9HcGpp5oYybIdLgTrNbg+Su/Vu02GaGbn/
+ 7KMs8H24Oqq0gxaNj4B6MXBqPPmMkAtizsrYbZwXWaRPHKVyVQWpz1x+CqI8qov86TwC
+ ph688Daygy1ldy9+NqQRaBsb0fi2rj/9IbQctCQaCLyHE/5Hp8JpWlwsfJLWNip9k42N
+ dc0w==
+X-Gm-Message-State: AOAM532OBgwsQriF+r2skVc7RMVGh4jKJLKU4ZnGK1bsdqY0SS+vEZzf
+ NgrSo9lOSkuwAeDCVCC+MvUQBZse8LgYQICh04dCmvhmeqyIWG1QRl+1jwZC4nqfRce/Hb8ERud
+ 4MVjckdcYVbV8l8w=
+X-Received: by 2002:adf:df91:: with SMTP id z17mr16494475wrl.379.1603709798839; 
+ Mon, 26 Oct 2020 03:56:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytN3mEF4Hc6GaEYj3Y6qef4YQsPeZ8djC15U7IdK3PastNYOq167V0jsz8okdHtd5QnArKWg==
+X-Received: by 2002:adf:df91:: with SMTP id z17mr16494463wrl.379.1603709798676; 
+ Mon, 26 Oct 2020 03:56:38 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id k18sm21115302wrx.96.2020.10.26.03.56.32
+ by smtp.gmail.com with ESMTPSA id x22sm23311138wmj.25.2020.10.26.03.56.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 03:56:33 -0700 (PDT)
+ Mon, 26 Oct 2020 03:56:38 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/19] block/nvme: Switch to using the MSIX API
-Date: Mon, 26 Oct 2020 11:55:03 +0100
-Message-Id: <20201026105504.4023620-19-philmd@redhat.com>
+Subject: [PATCH v2 19/19] util/vfio-helpers: Remove now unused
+ qemu_vfio_pci_init_irq()
+Date: Mon, 26 Oct 2020 11:55:04 +0100
+Message-Id: <20201026105504.4023620-20-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026105504.4023620-1-philmd@redhat.com>
 References: <20201026105504.4023620-1-philmd@redhat.com>
@@ -72,17 +73,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,48 +105,83 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In preparation of using multiple IRQs, switch to using the recently
-introduced MSIX API. Instead of allocating and assigning IRQ in
-a single step, we now have to use two distinct calls.
+Our only user, the NVMe block driver, switched to the MSIX API.
+As this function is now unused, remove it.
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ include/qemu/vfio-helpers.h |  2 --
+ util/vfio-helpers.c         | 43 -------------------------------------
+ 2 files changed, 45 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index 46b09b3a3a7..191678540b6 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -693,6 +693,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     size_t device_page_size_min;
-     size_t device_page_size_max;
-     size_t iommu_page_size_min = 4096;
-+    unsigned irq_count = MSIX_IRQ_COUNT;
- 
-     qemu_co_mutex_init(&s->dma_map_lock);
-     qemu_co_queue_init(&s->dma_flush_queue);
-@@ -809,8 +810,17 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         }
+diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
+index 4c06694e03a..f42371d25d6 100644
+--- a/include/qemu/vfio-helpers.h
++++ b/include/qemu/vfio-helpers.h
+@@ -29,8 +29,6 @@ void *qemu_vfio_pci_map_bar(QEMUVFIOState *s, int index,
+                             Error **errp);
+ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
+                              uint64_t offset, uint64_t size);
+-int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+-                           int irq_type, Error **errp);
+ int qemu_vfio_pci_msix_init_irqs(QEMUVFIOState *s,
+                                  unsigned *irq_count, Error **errp);
+ int qemu_vfio_pci_msix_set_irq(QEMUVFIOState *s, unsigned irq_index,
+diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
+index 18142e6be86..83d6eef13fb 100644
+--- a/util/vfio-helpers.c
++++ b/util/vfio-helpers.c
+@@ -189,49 +189,6 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
      }
+ }
  
--    ret = qemu_vfio_pci_init_irq(s->vfio, s->irq_notifier,
--                                 VFIO_PCI_MSIX_IRQ_INDEX, errp);
-+    ret = qemu_vfio_pci_msix_init_irqs(s->vfio, &irq_count, errp);
-+    if (ret) {
-+        if (ret == -EOVERFLOW) {
-+            error_append_hint(errp, "%u IRQs requested but only %u available\n",
-+                              MSIX_IRQ_COUNT, irq_count);
-+        }
-+        goto out;
-+    }
-+
-+    ret = qemu_vfio_pci_msix_set_irq(s->vfio, MSIX_SHARED_IRQ_IDX,
-+                                     s->irq_notifier, errp);
-     if (ret) {
-         goto out;
-     }
+-/**
+- * Initialize device IRQ with @irq_type and register an event notifier.
+- */
+-int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
+-                           int irq_type, Error **errp)
+-{
+-    int r;
+-    struct vfio_irq_set *irq_set;
+-    size_t irq_set_size;
+-    struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info) };
+-
+-    irq_info.index = irq_type;
+-    if (ioctl(s->device, VFIO_DEVICE_GET_IRQ_INFO, &irq_info)) {
+-        error_setg_errno(errp, errno, "Failed to get device interrupt info");
+-        return -errno;
+-    }
+-    if (!(irq_info.flags & VFIO_IRQ_INFO_EVENTFD)) {
+-        error_setg(errp, "Device interrupt doesn't support eventfd");
+-        return -EINVAL;
+-    }
+-
+-    irq_set_size = sizeof(*irq_set) + sizeof(int);
+-    irq_set = g_malloc0(irq_set_size);
+-
+-    /* Get to a known IRQ state */
+-    *irq_set = (struct vfio_irq_set) {
+-        .argsz = irq_set_size,
+-        .flags = VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_TRIGGER,
+-        .index = irq_info.index,
+-        .start = 0,
+-        .count = 1,
+-    };
+-
+-    *(int *)&irq_set->data = event_notifier_get_fd(e);
+-    r = ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
+-    g_free(irq_set);
+-    if (r) {
+-        error_setg_errno(errp, errno, "Failed to setup device interrupt");
+-        return -errno;
+-    }
+-    return 0;
+-}
+-
+ /**
+  * Initialize a MSIX IRQ and register its event notifier.
+  * @irq_index: MSIX IRQ index
 -- 
 2.26.2
 
