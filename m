@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20778299951
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:07:02 +0100 (CET)
-Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF1F299950
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:07:01 +0100 (CET)
+Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAdp-0007Lv-3P
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:07:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39226)
+	id 1kXAdn-0007JC-W4
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:07:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAak-0005eQ-Ax
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:50 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:47613)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAah-0005aS-Ah
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:47 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:47085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAah-0005F2-3D
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:49 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAaf-0005Ec-BU
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:46 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MysiI-1kAhkl38iY-00vwkZ; Mon, 26 Oct 2020 23:03:41 +0100
+ id 1MWRmF-1kuX131Ofr-00XqGc; Mon, 26 Oct 2020 23:03:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] Fix stack smashing when handling PR_GET_PDEATHSIG
-Date: Mon, 26 Oct 2020 23:03:32 +0100
-Message-Id: <20201026220339.195790-2-laurent@vivier.eu>
+Subject: [PULL 2/8] linux-user: Support f_flags in statfs64 when available.
+Date: Mon, 26 Oct 2020 23:03:33 +0100
+Message-Id: <20201026220339.195790-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026220339.195790-1-laurent@vivier.eu>
 References: <20201026220339.195790-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:15vxF7go/XQMFN3i8nJigGNO8kI5rqgsx9En3d19jArHNduwS0Y
- 5hqtPsyPoZKJYOn6VkzYlVpGegbPYZqbZpqoYuiKsTJuYydKo1eYFhgDYk/m1LboSAUtuBd
- KqY+gYsoQt0gp5/jYyk2mQyTYjnlPaz+T93OWByjqPaHb4Jc8weY6QdR3AQwI8v8E3k23cD
- BbVKedXUcU7DhMZRpepBQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:CWFt4d6rj40=:cNiQn6H/r53l+vABA852wB
- LR2AlXwxkc3RfNoUWgaNNFqaYTbNbZe0VZO5oSg+DoXWomKydqnwyJLQpDFYD6dOzuTDKC29P
- 2RSLZoJ6hipY+iIlvQ9PpuyljC8LeitBozyqJ0nYXed2dOMLBaLLuY7P4nrLW6KgUHjv3oKhi
- Tmk0nq4x3g2RztAhwv788ijWOp30YkwUXbpENpMsc2v9wDqgI4f/lgR0hznTnMm/m468cWKyy
- 0g3uXbA/w4QjFdoFUrhyRh9k8pKOvV50AJtbgCAFqAMMA0R2+6o48tD5SXQ8hitr/tFF+AsKr
- H9ZX7m23iA61bwB373pmNJJwm68f9duyW+7+XQ/k4w7fj4jG8E4VXIjS8WZzOq9M7g40tlD1g
- 7M5DvWr9lTdra/nVmfDHXTHiZ63CQBNGS4e3hlGold7iVzJ6ulcHF+1JAyIhwVKU3/1ZnSjQa
- zI24ab4pcA==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:5f9zUHYgH9rAO/nYwfyBTWxSGUst/T65iCdLCEyBjdYTlTYPrgq
+ q53xhrOfAAiuL1WWmSQnn8my315nOpjzJ65dOvsgYAlBOaV3TOkNY3LPwWgL6qrH3O3Dylg
+ mzQvtBUHBuTQerf9utMZrBaprWuJ2ISV2k+we6Rjo70nWSoUqUzRhra+Rw4I4mLZcoggpvK
+ oDydw39bF12bc/tOQmuZg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Nco7D38+LM4=:bwo8vtBL2FEi1MP2Mpvbs0
+ CNm7yZcLni6Iuelpf62k8sKaxBzFGwWsm9k1AWByir5oZzs9MbEO3qHZ1ZkbbFo0Err/ZKlbU
+ S1L54xJal8S6ErjMz39JXLseX+zNRvVVQkaCKCOo8NPZ4k6+FJzeH3g8RvPaSmwzyzALBtuYl
+ dlZFq754qwz7BnYrwPs4TXvW61oQRDIFk6JEWz7rfMd+GlbczEUwIDJFNtYDYum+4FXnZM10N
+ feeSKW4fFuSyu9nCANa9FyVe2YBJmgDbXg7KJNY2HIJRWBvc8emrLMg7+oJ0MVK23vrNBc5d9
+ I05wkOVAaFTbbQCxSktFdYPGPO47onFiPAoze2ONSQ7crxwUBCJTGISvFxkqghmnGawYbM+Dt
+ KLCdzsI1ovnKKORctqKyR+wE22+HDZS2HGqlnUdh6oPfGsQGohEa8TNbQtLTl
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 18:03:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 18:03:44
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,45 +63,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ana Pazos <apazos@quicinc.com>, Laurent Vivier <laurent@vivier.eu>,
- Stephen Long <steplong@quicinc.com>
+Cc: Frajo <franz.haider@jolla.com>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stephen Long <steplong@quicinc.com>
+From: Frajo <franz.haider@jolla.com>
 
-The bug was triggered by the following code on aarch64-linux-user:
+Same as d4247ec2d79ef2477cb886fa688706b068119736 but for statfs64
+When running rpm within qemu-arm-dynamic this could cause rpm fail with
+an error like
+"installing package A needs B MB on the C filesystem" depending on what
+is in memory in f_flags.
+https://github.com/rpm-software-management/rpm/blob/af06db1d5558870f7fb8f5c502572c2d27af5c71/lib/transaction.c#L164
 
-int main(void)
-{
-  int PDeathSig = 0;
-  if (prctl(PR_GET_PDEATHSIG, &PDeathSig) == 0 && PDeathSig == SIGKILL)
-    prctl(PR_GET_PDEATHSIG, 0);
-  return (PDeathSig == SIGKILL);
-}
-
-Signed-off-by: Stephen Long <steplong@quicinc.com>
-Signed-off-by: Ana Pazos <apazos@quicinc.com>
+Signed-off-by: Franz-Josef Haider <franz.haider@jolla.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20200507130302.3684-1-steplong@quicinc.com>
+Message-Id: <2e405fe7-efab-dae5-93d6-02575773fd6e@jolla.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/syscall.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 897d20c076ce..3e0f14f2e67f 100644
+index 3e0f14f2e67f..cd520ae42e6d 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -10703,7 +10703,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             int deathsig;
-             ret = get_errno(prctl(arg1, &deathsig, arg3, arg4, arg5));
-             if (!is_error(ret) && arg2
--                && put_user_ual(deathsig, arg2)) {
-+                && put_user_s32(deathsig, arg2)) {
-                 return -TARGET_EFAULT;
-             }
-             return ret;
+@@ -9787,6 +9787,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             __put_user(stfs.f_fsid.__val[1], &target_stfs->f_fsid.val[1]);
+             __put_user(stfs.f_namelen, &target_stfs->f_namelen);
+             __put_user(stfs.f_frsize, &target_stfs->f_frsize);
++#ifdef _STATFS_F_FLAGS
++            __put_user(stfs.f_flags, &target_stfs->f_flags);
++#else
++            __put_user(0, &target_stfs->f_flags);
++#endif
+             memset(target_stfs->f_spare, 0, sizeof(target_stfs->f_spare));
+             unlock_user_struct(target_stfs, arg3, 1);
+         }
 -- 
 2.26.2
 
