@@ -2,98 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89A672987A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 08:58:40 +0100 (CET)
-Received: from localhost ([::1]:38476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDA1298820
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 09:16:55 +0100 (CET)
+Received: from localhost ([::1]:45878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWxOp-0000h4-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 03:58:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39410)
+	id 1kWxgU-0004vd-Of
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 04:16:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWxNx-0000E0-Eq
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 03:57:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWxNv-0001IN-Mk
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 03:57:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603699062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EgyA620ZbDwDcM1+E0O5qURI9RWQuJVzwYvDSBgh7dw=;
- b=P7z2KhiKjwQVpNPbnkHLfoWQnOUY3k44GSbXmk+AzsWcRXpFiM1DMerz1Plj3xzQO9TgL3
- vkU2Dj7EFI4Egs170sIMThYFDuKhzqMvIKNncpSBD1OcFESHO0cNeQX532FgHp5cGnh7c8
- CgMplMr2uc3jjZtdAgeac2x+77pFqTE=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-FI__EcOQMEeBdxYGXzXdMw-1; Mon, 26 Oct 2020 03:57:40 -0400
-X-MC-Unique: FI__EcOQMEeBdxYGXzXdMw-1
-Received: by mail-wr1-f69.google.com with SMTP id q15so7997999wrw.8
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 00:57:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=EgyA620ZbDwDcM1+E0O5qURI9RWQuJVzwYvDSBgh7dw=;
- b=iakPsiMXUBqG7ZO7xta2KTpK9ZS8bETeZlct4rlBYTnXXM3EC9DIrWTNBPwTf0GcGa
- rEVGxzy9bRLRiC/nJtgkl05iCxJ+NG1uvrkxp/5EVihQH+0yCpn7Js7Cks4N/1baBNS0
- 2KjtW75MUTHhELtlTM8w65SeagFZRPnWAcytw0IGGheX6nVOYut94ytvR+cjcuASvQJC
- Mp25jZ0tioBMkC0FHkPxwI6xwap6XjWQTFgWr8I2Mfk8yA9pp1Zb+4Acc0Lhgvuw+CXY
- ypi9tsSouKEJrAPGrwvg4HV2eDRdy3+AXjCZnyPJZmIOZgAVf2WUQ+hxrO8EfZYqKuOT
- o2DA==
-X-Gm-Message-State: AOAM532HefH6C8KPCfd1GLiyAZlemKmXfitGkE9FVCp4tKnW/QTbNVbb
- AVlZiL1tz73O5rNwwzqrPME0cwzXPshPLhU52hk+POqMRsLJVBLfIWmTjBthA75Jl6rTT1uPFXm
- bcGSqSVm59qmcFGE=
-X-Received: by 2002:a1c:a90e:: with SMTP id s14mr15109006wme.46.1603699059423; 
- Mon, 26 Oct 2020 00:57:39 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwnn+xIjWbd/fBlNzm3FtnOBMA9jjSzHeeJVVrs6blCpU+V7Eg/vL0Agyj21WD4/0YLGXQKhQ==
-X-Received: by 2002:a1c:a90e:: with SMTP id s14mr15108996wme.46.1603699059195; 
- Mon, 26 Oct 2020 00:57:39 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y4sm18554358wmj.2.2020.10.26.00.57.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 00:57:38 -0700 (PDT)
-Subject: Re: [PATCH] win32: boot broken when bind & data dir are the same
-To: Sunil Muthuswamy <sunilmut@microsoft.com>,
- Markus Armbruster <armbru@redhat.com>
-References: <SN4PR2101MB08802BF242C429A15DDB32ACC01B0@SN4PR2101MB0880.namprd21.prod.outlook.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <9a206344-aa59-fbba-938d-9def34b18c31@redhat.com>
-Date: Mon, 26 Oct 2020 08:57:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kWxfL-0004So-OW
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:15:43 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kWxfJ-0007e2-8k
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 04:15:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kWxfG-0003dr-4m
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 08:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 18F152E812F
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 08:15:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <SN4PR2101MB08802BF242C429A15DDB32ACC01B0@SN4PR2101MB0880.namprd21.prod.outlook.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 26 Oct 2020 08:07:44 -0000
+From: Thomas Huth <1901440@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: player-001 th-huth
+X-Launchpad-Bug-Reporter: Dave G (player-001)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <160365777400.12451.12378376347775649238.malonedeb@soybean.canonical.com>
+Message-Id: <160369966421.31539.15046287947018495673.malone@gac.canonical.com>
+Subject: [Bug 1901440] Re: Instability in IVSHMEM after updating QEMU 4.2 ->
+ 5.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bc5a16cfdc4ba776ecdf84a052201ef8fb1f3321"; Instance="production"
+X-Launchpad-Hash: d4ed41f352e7e8081ef22bb854149d761b4a895d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 04:15:38
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -102,41 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Reply-To: Bug 1901440 <1901440@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/10/20 11:14, Sunil Muthuswamy wrote:
-> With upstream commit#ea1edcd7da1a "vl: relocate paths to data
-> directories", the data dir logic was unified between POSIX &
-> Win32. That patch moved to using 'get_relocated_path()', to
-> find the data dir. There is a latent bug in get_relocated_path
-> which can cause it to spin indefinitely, when the bind dir is
-> the same as the passed in dir (in this case, it was the data
-> dir).
-> 
-> Signed-off-by: Sunil Muthuswamy <sunilmut@microsoft.com>
-> ---
->  util/cutils.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/util/cutils.c b/util/cutils.c
-> index be4e43a9ef..c395974fab 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -949,7 +949,7 @@ char *get_relocated_path(const char *dir)
->          bindir += len_bindir;
->          dir = next_component(dir, &len_dir);
->          bindir = next_component(bindir, &len_bindir);
-> -    } while (len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
-> +    } while (len_dir && len_dir == len_bindir && !memcmp(dir, bindir, len_dir));
->  
->      /* Ascend from bindir to the common prefix with dir.  */
->      while (len_bindir) {
-> 
+Can you reproduce this with the latest upstream QEMU release (v5.1)? Or
+did you only try with the versions that ship with Ubuntu?
 
-Queued, thanks.
+-- =
 
-Paolo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1901440
 
+Title:
+  Instability in IVSHMEM after updating QEMU 4.2 -> 5.0
+
+Status in QEMU:
+  New
+
+Bug description:
+  Updating Ubuntu from 20.08 to 20.10 which updates QEMU from 4.2 to 5.0
+  results in the virtual machines freezing when the IVSHMEM interface is
+  active.  This workstation typically runs several windows 10 virtual
+  machines that are accessed locally:  two using the spice viewer and
+  one that uses an passthrough assigned GPU accessed through a viewer
+  called Looking Glass.  Looking Glass uses the IVSHMEM device interface
+  to pass captured frames from the windows virtual machine to the linux
+  host for display by a viewer application.
+
+  This workstation was 100% stable under Ubuntu 20.08 (QEMU 4.2).  It
+  handled a variety of heavy loads all day it never froze or crashed.
+  It became unstable under Ubuntu 20.10 (QEMU 5.0), seemingly triggered
+  by high levels of SHM activity.  I was able to reliably reproduce the
+  problem when playing a video in the looking-glass vm while playing
+  another video in a spice vm.  Other scenarios would also trigger this
+  problem less reliably, but this video playback scenario would trigger
+  it after 3-5 minutes of playback.
+
+  The result of this new instability would manifest itself by all
+  running vms on the host freezing but the host was not visibly
+  effected.  I could find no warnings or errors in any relevant system
+  or QEMU logs.  It wasn't just spice, when I accessed the gpu-passthru
+  vm via directly assigned devices it was frozen, still outputting video
+  of the last frame before the crash.  All vms would have to be force-
+  shutdown and the host rebooted to regain vm functionality.  Just
+  forcing shutdown and restarting a vm would result in showing 'running'
+  status but it would be frozen and inaccessible until system reboot.
+
+  I suspect this is a QEMU host / kernel error for several reasons:
+  Having to reboot the host, insensitivity to VM changes including
+  virtio-win version, etc.  I suspect it's related to IVSHMEM due to the
+  correlation of the freeze to the looking-glass related activity.
+
+  This might be kernel / PCIe / power management related in some way.
+  While experimenting to troubleshoot this issue I was able to trigger
+  the error more quickly by disabling PCIe power management in the BIOS.
+
+  The system was 100% stable under QEMU 5.0 when not running the
+  looking-glass vm, quite stable when the looking-glass vm was idle or
+  lightly used, but appeared increasingly unstable as SHM activity
+  increased.
+
+  Sorry if this is a bit anecdotal, this is my work machine and
+  unfortunately today I was forced to rollback restore to Ubuntu 20.08
+  (QEMU 4.2) from backup so I can work on Monday.  The system returned
+  to 100% stability after returning to 20.08.
+
+  If requested I can restore the Ubuntu 20.10 snapshot to reproduce &
+  gather information as directed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1901440/+subscriptions
 
