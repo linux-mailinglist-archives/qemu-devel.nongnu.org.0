@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32F49299672
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:10:41 +0100 (CET)
-Received: from localhost ([::1]:57936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA8C299675
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:12:32 +0100 (CET)
+Received: from localhost ([::1]:34426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7tA-0004CY-8D
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:10:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
+	id 1kX7ux-0006KP-Vz
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:12:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX7qL-0002IN-Ar
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:07:45 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39443)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX7qV-0002Qm-Rh
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:07:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40442)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX7qJ-0006pw-IS
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:07:45 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX7qQ-0006qR-Bn
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:07:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603739262;
+ s=mimecast20190719; t=1603739269;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=R4NQKTT0N4YaHyuFI7iWRatURDvw2djrZGhLWKYnYYw=;
- b=bPXqDozQu0dgEsA/SMNauTxDvgQYwkTAb/YGjD3SRLMG91kmKeDmvI8rWLu8KStnh5opG7
- Kr5sliPbl7A7QNdF29vrag+fte5uY4wEZlbUjQFK9KhMF4HILKDqQ/TG4ncyNOnvv1erxU
- QO2C4yLBoBvI6jMnmQt7OybyX77RLHo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-qmuHN6VyNSO4MsiYrYLfEQ-1; Mon, 26 Oct 2020 15:07:40 -0400
-X-MC-Unique: qmuHN6VyNSO4MsiYrYLfEQ-1
-Received: by mail-ed1-f69.google.com with SMTP id dn20so5236945edb.14
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 12:07:40 -0700 (PDT)
+ bh=jbGe26nA5DAVeoeVhr1ezg+4GNEk52SyIQCQUZatzHg=;
+ b=FQNJMFIR+bOcFSrOBPqzYNdGnJjFqBAEt6RwJAZEmwQycPYkyDomzy8Y1H2B5lbYYRQUVp
+ 00s5Z+omvesy2vu3oxJvZ3roBJHjT12Rb5AZKE6cREnL0vEQfjnosB35SaSXiUVYAIM6Zh
+ pJwrHCYonu8Z7t7rK4mksdqJ59URsQ8=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-arphqcc0M6G70WzxVvvaAA-1; Mon, 26 Oct 2020 15:07:45 -0400
+X-MC-Unique: arphqcc0M6G70WzxVvvaAA-1
+Received: by mail-ej1-f72.google.com with SMTP id x12so5823503eju.22
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 12:07:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=R4NQKTT0N4YaHyuFI7iWRatURDvw2djrZGhLWKYnYYw=;
- b=OOxg6l9wxl1sycLwY33K8MyPzjauAOC5ll2ztZ8+JPywQVnuCKycve5cCYUSBvOZWI
- vZqPauE46ZAg+kmhDw+tmrIKIi44DJ6Nf+OCHUfxAerZZKkhPshDs13WX2ermMHZbm0C
- gmUvk2RTH7XL4EEeEfMbaX4y0qOVLQEP6Ox6Oh4Kq5a0OvkkOBY4bkrskImlomPT/xnP
- ORAjjTjoAKjpyIgyzAa8qTqjy6LxOGT35f2V5+pk5JXN5hAttXMyo2YPC7vMW6Niuj0W
- UPqW1ewasHDDUQsu60KlhEQ66X66xH+ERlRs4AxkA4CJgZVeC3OvqoENOhsjiYy6kB8z
- ABMw==
-X-Gm-Message-State: AOAM531XagbMXVyGZcMn0VmmGN5U5nFWFgrqyknXVYzZaXYRYLYXgaI3
- EeTIQd+huR1l5+ljDYlzR4hpnO71npoGfRsnL0E0vbA1VKwYAE9QfExnoHd7+yC7Z8ZgtSooyA9
- eoZ6Yr+4+6kuPBPc=
-X-Received: by 2002:a17:906:a149:: with SMTP id
- bu9mr16616410ejb.115.1603739258899; 
- Mon, 26 Oct 2020 12:07:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJw7JInhPPkFsh1VFBN7oZdYwF/goz23poAPdQGOx0aYSMWpQrfSxWZ1o3lvMldRmSfp/wRE1A==
-X-Received: by 2002:a17:906:a149:: with SMTP id
- bu9mr16616392ejb.115.1603739258703; 
- Mon, 26 Oct 2020 12:07:38 -0700 (PDT)
+ bh=jbGe26nA5DAVeoeVhr1ezg+4GNEk52SyIQCQUZatzHg=;
+ b=i01EVMsQ91hmqRrEJopZyOqrj8AhcjWcxq3gOz/rVFMqBi5xU0VgnzOPLOX1TWCSb/
+ O55d7aUgYPD+2lUvWEVxxGCyvM98RFZxe8VM11nrgp0awG1hYqaNDhyOeglSNwHPtPQW
+ hG1Yc32JHBMwPEGwLfGohxHiZhtMX0ue9QW7RObCOpxplnWs6bLpj+D1jwroqO8dhjri
+ 1gwZn2KaXAEUAcjd7gMS5Ygmw85GxbbTD0qr0gG8MAQ5yXvDQ/goPJtd2354CycnKJ6G
+ XoB/6AWhNxKeztGJxWWt3PRIKQr2PS0QuPqKEKxZMkkagBYmYA6GBBE8RrwPS/g7lAc8
+ G5Tg==
+X-Gm-Message-State: AOAM531pKPouVo1qVCKQNn+dDvcWyTvKp+sKI0m75IkTEvQ8hCQi1GwC
+ vUuwfSWv0VTaHmNblXvrha3fykl/tok3EcQeoM5QW3tLTL1+h4KTKtO5uRCLrI123xMie5XzBfv
+ w104tvHUhXheo85g=
+X-Received: by 2002:a17:906:a38d:: with SMTP id
+ k13mr17088754ejz.524.1603739264115; 
+ Mon, 26 Oct 2020 12:07:44 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwnuDvxB1/IqDcGfyOgGNu9L7M0MUUZye8VOxA3jCCZPHOMI+OTO9IbaofYvZ8TJE52k0R4Tg==
+X-Received: by 2002:a17:906:a38d:: with SMTP id
+ k13mr17088733ejz.524.1603739263930; 
+ Mon, 26 Oct 2020 12:07:43 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id h13sm5752787edz.43.2020.10.26.12.07.37
+ by smtp.gmail.com with ESMTPSA id 11sm6382536ejy.19.2020.10.26.12.07.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 12:07:38 -0700 (PDT)
+ Mon, 26 Oct 2020 12:07:43 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] tests/acceptance: Add a 'virt_kvm' test using the GICv3
-Date: Mon, 26 Oct 2020 20:07:24 +0100
-Message-Id: <20201026190726.19515-3-philmd@redhat.com>
+Subject: [PULL 3/4] tests/acceptance: Allow running Orange Pi test using
+ cached artifacts
+Date: Mon, 26 Oct 2020 20:07:25 +0100
+Message-Id: <20201026190726.19515-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026190726.19515-1-philmd@redhat.com>
 References: <20201026190726.19515-1-philmd@redhat.com>
@@ -74,16 +75,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,77 +98,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Cleber Rosa <crosa@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current 'virt_kvm' test is restricted to GICv2, but can also
-work with a GICv3. Duplicate it but add a GICv3 test which can be
-tested on some hardware.
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Noticed while running:
+Unfortunately the Armbian 19.11.3 image has been removed from the
+dl.armbian.com file server. Developers having the artifact cached
+can still run the test. Allow them to, until we find a proper
+solution to share binaries with the whole community.
 
- $ avocado --show=app run -t machine:virt tests/acceptance/
- ...
- (2/6) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm: ERROR: Unexpected empty reply from server (1.82 s)
+This avoids (when file manually added to cache):
 
-The job.log content is:
+  BootLinuxConsole.test_arm_orangepi_bionic_19_11: CANCEL: Missing asset https://dl.armbian.com/orangepipc/archive/Armbian_19.11.3_Orangepipc_bionic_current_5.3.9.7z (1.06 s)
 
-  L0351 DEBUG| Output: 'qemu-system-aarch64: host does not support in-kernel GICv2 emulation\n'
-
-With this patch:
-
- $ avocado --show=app run -t device:gicv3 tests/acceptance/
- (1/1) tests/acceptance/boot_linux.py:BootLinuxAarch64.test_virt_kvm_gicv3: PASS (55.10 s)
-
+Reported-by: Bin Meng <bmeng.cn@gmail.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Bin Meng <bin.meng@windriver.com>
+Tested-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
+Message-Id: <20201023131808.3198005-3-f4bug@amsat.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20200929224857.1225107-1-philmd@redhat.com>
 ---
- tests/acceptance/boot_linux.py | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
-index 0055dc7cee7..c743e231f47 100644
---- a/tests/acceptance/boot_linux.py
-+++ b/tests/acceptance/boot_linux.py
-@@ -182,10 +182,11 @@ def test_virt_tcg(self):
-         self.add_common_args()
-         self.launch_and_wait()
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index 415e32ef0d6..8f433a67f84 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -780,6 +780,8 @@ def test_arm_orangepi_sd(self):
+         # Wait for VM to shut down gracefully
+         self.vm.wait()
  
--    def test_virt_kvm(self):
-+    def test_virt_kvm_gicv2(self):
-         """
-         :avocado: tags=accel:kvm
-         :avocado: tags=cpu:host
-+        :avocado: tags=device:gicv2
-         """
-         if not kvm_available(self.arch, self.qemu_bin):
-             self.cancel(KVM_NOT_AVAILABLE)
-@@ -195,6 +196,20 @@ def test_virt_kvm(self):
-         self.add_common_args()
-         self.launch_and_wait()
- 
-+    def test_virt_kvm_gicv3(self):
-+        """
-+        :avocado: tags=accel:kvm
-+        :avocado: tags=cpu:host
-+        :avocado: tags=device:gicv3
-+        """
-+        if not kvm_available(self.arch, self.qemu_bin):
-+            self.cancel(KVM_NOT_AVAILABLE)
-+        self.vm.add_args("-accel", "kvm")
-+        self.vm.add_args("-cpu", "host")
-+        self.vm.add_args("-machine", "virt,gic-version=3")
-+        self.add_common_args()
-+        self.launch_and_wait()
-+
- 
- class BootLinuxPPC64(BootLinux):
-     """
++    @skipUnless(os.getenv('ARMBIAN_ARTIFACTS_CACHED'),
++                'Test artifacts fetched from unreliable dl.armbian.com')
+     @skipUnless(os.getenv('AVOCADO_ALLOW_LARGE_STORAGE'), 'storage limited')
+     @skipUnless(P7ZIP_AVAILABLE, '7z not installed')
+     def test_arm_orangepi_bionic(self):
 -- 
 2.26.2
 
