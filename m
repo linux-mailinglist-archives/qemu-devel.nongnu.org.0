@@ -2,111 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F08B29927B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:32:54 +0100 (CET)
-Received: from localhost ([::1]:60022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52CB2992B8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:45:13 +0100 (CET)
+Received: from localhost ([::1]:37384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5QT-0003J9-2c
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:32:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34490)
+	id 1kX5cO-0000Xi-VN
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:45:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kX5Lw-0007S7-TX
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:28:13 -0400
-Received: from de-smtp-delivery-102.mimecast.com ([51.163.158.102]:34507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <brogers@suse.com>) id 1kX5Lr-0001Lu-HC
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:28:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com;
- s=mimecast20200619; t=1603729683;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Hy2oee6mtRO3xpByolXKlTHDlPOGbLU80jg6eNqjdo8=;
- b=ln+0LCwOSUxtl8q/u9zBmdOjdbXfjSqk748K2fMvQiz9yzIUr4pdb+H9rYanSQcHUcBzCW
- hp9NXQGEvJ7Uqkgsnyw2cx0nc1YdbDGBvcD2lWb20s/gwnFogc3D5bA80oHlspO2u2UtEd
- Z3rWzWv1cTpzo3y3hDqMPJEyt7fUC+o=
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com
- (mail-db8eur05lp2109.outbound.protection.outlook.com [104.47.17.109])
- (Using TLS) by relay.mimecast.com with ESMTP id
- de-mta-3-aEZjsAEnMpKMqjLyckmggA-1; Mon, 26 Oct 2020 17:28:01 +0100
-X-MC-Unique: aEZjsAEnMpKMqjLyckmggA-1
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kKd69ppJ2BcIT6jLDFCs06UJhp79Q731wr2jhHNvrdf4lBD7BEjuTMpaeRBBM0cJEYdXXLcKD1RwofIK2+8YvEElYbtv94Jh5QmVRgg5U9c/y2MzkibcMq2bNaAQkgSmVQS9Hyys5EztIpQIed2boKlirm5GnqDGeCEfdC45x/jhgKYGTq4qYdNcNrFIH3m5VlKtbqSqnbzQ3X8FRA1SLIbvGGFm4gvO4uPjlDd+ljK6heN6+zS8FU6NcByRy9kV+mCVwyCAf6ldnlp6OudK25BsH7tDDEdG3EY+RT+y/BJA4Ytiec2rae8RSIs96cx08NphPlYwJM4wnZOx0Oofqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hy2oee6mtRO3xpByolXKlTHDlPOGbLU80jg6eNqjdo8=;
- b=KRaaufTmy6GomspzJRtAX8emKiraxQ9v9H4YcODWV7UB9K2Rle1UiSw5DQESTthSOGzABl1BiChqP3cnHxYqwgv97OXLWVzk5PngrSBSvNAc60ZEKJhIwqA+FH9UUDDskeknNWeUOc3CotQ39w/oD4KZkjm/CXKpv8p8/O1VKmhCZ8fT6eVsAw4VD9FMO4rV8Z3uAB+OM99ToTBpBLdXwO+vnHBykSTnLZWQZDV1u1h9PPP5+4ORUzUS+//eyFYoo0a3Lfquw3j1mWibBQkyEbf308Lr2IDV7oNQKr/DfIkIfhdn4gc4h5kuozFG6tQ7v6PUmq5eazL0+rvyBUxWMw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=suse.com; dmarc=pass action=none header.from=suse.com;
- dkim=pass header.d=suse.com; arc=none
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=suse.com;
-Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
- (2603:10a6:200:54::21) by AM0PR04MB6068.eurprd04.prod.outlook.com
- (2603:10a6:208:140::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Mon, 26 Oct
- 2020 16:28:00 +0000
-Received: from AM4PR0401MB2354.eurprd04.prod.outlook.com
- ([fe80::9891:ed4f:b5a2:6441]) by AM4PR0401MB2354.eurprd04.prod.outlook.com
- ([fe80::9891:ed4f:b5a2:6441%6]) with mapi id 15.20.3499.018; Mon, 26 Oct 2020
- 16:28:00 +0000
-Message-ID: <af8fc74d3c228fbb51933089dc5bce15524a009b.camel@suse.com>
-Subject: Re: [PATCH 00/14] ui: build spice and opengl as module.
-From: Bruce Rogers <brogers@suse.com>
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-Date: Mon, 26 Oct 2020 10:27:54 -0600
-In-Reply-To: <20201019075224.14803-1-kraxel@redhat.com>
-References: <20201019075224.14803-1-kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5 
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [63.248.145.198]
-X-ClientProxiedBy: AM0PR03CA0108.eurprd03.prod.outlook.com
- (2603:10a6:208:69::49) To AM4PR0401MB2354.eurprd04.prod.outlook.com
- (2603:10a6:200:54::21)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kX5bB-00083W-9I; Mon, 26 Oct 2020 12:43:57 -0400
+Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:46542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kX5b9-0003W5-Jg; Mon, 26 Oct 2020 12:43:56 -0400
+Received: by mail-il1-x141.google.com with SMTP id a20so8896756ilk.13;
+ Mon, 26 Oct 2020 09:43:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ap6M6fFnNHK3z8gDCOEj1os5xkDRJ+O2o46EJxSq3eQ=;
+ b=DHde+q97yQLDu3SjbG1z5iNhTymol7PMzm6NkEfwO/oJt+UNa2w9HXGhMDrQdaPdzi
+ 7U54Lgq1zavrLdEdHHvwTjKPud8f53xm5HdkmpSAuFI3Ch4/okGYNtR6auNchYZ3EYFo
+ KO9EXRG7uBwP9bUXVFDeiSlHCoHnz1+NYyLAGUKlgVjKwOMFHdE6k3PlmpkoGTO93A/W
+ kK1kTuYvYkC6LI/wFVO4Qz24oiAezcVLc1H0H/7ywvcqZXKcxbvdVS2bUIvIh/eC6gqq
+ UwoO76QvY7fTrVOsdQMaAyWulu0YCikddE4kex9geVeA5uqO4CPK2Setb33Fr2D9GjqJ
+ MqYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ap6M6fFnNHK3z8gDCOEj1os5xkDRJ+O2o46EJxSq3eQ=;
+ b=toRgIClzSJnjlTfSeHTTHht9XFYQC3aqSNzYotjCgSog9qHm1wAzxbQDPUNIKdZ8/J
+ Iy3jj+pgupkt0E8AVsScvu6hsciNJGVyoH4VpH0cx3hcFMgHPvdLJ8eWYdV3V7VbpjWF
+ zGwg0vs7NeZmgl7wdpPuUl0acLfKM/5LHFezMx8GRgeLW6iBug2gvsOPidVc2GhGpOEe
+ RP5r4zqGt7lJ45hpgIO4SS77eqJ/SGgw2bhavOf3HFSm2BEstli9Gj608VtxrYS8KTsF
+ dqRGKaXMX/90ar2I7Zwm7As90kYGvZ3KThEAtMxPg1PFZGsui1N1jDUcWWu9djeZVMj5
+ Rz+Q==
+X-Gm-Message-State: AOAM530DrooRUYSoxu7bs7SFbrA/hoT2RM6rSLRFMC7rLIgtlti1Tgut
+ fBWyMp+5xokdZORdXcDG/LiDxmvozc/rgCpfNbg=
+X-Google-Smtp-Source: ABdhPJy0mrhpDPS3NqeRowCvL77UPQ59CWuE1x4+YHuOkyHwoaUwwGgRhSs6BkUvqHGfM8BYQqloBI7JRezNm+UNU+w=
+X-Received: by 2002:a92:c0cc:: with SMTP id t12mr6843782ilf.227.1603730633910; 
+ Mon, 26 Oct 2020 09:43:53 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.5] (63.248.145.198) by
- AM0PR03CA0108.eurprd03.prod.outlook.com (2603:10a6:208:69::49) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3477.23 via Frontend Transport; Mon, 26 Oct 2020 16:27:58 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 39910bb3-b1bc-4e08-5eab-08d879cc1a77
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6068:
-X-Microsoft-Antispam-PRVS: <AM0PR04MB60684FDEC0F9C0F65CB41F41D9190@AM0PR04MB6068.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: EVPTW3zAHbQ+/3mQNVTVo07F/NsW2zcGAsVoFixXaR3PqT+T5hzblEL6my1eKbKmg6saJ4nMwC+mgwbvX91yjxqIRPf4FRcDPmpTDSC9Vcok7B8eoyE8UceBppW5uOZmws9ER1JRAzP2sXY7/IUWYDRpMV2j0hy1n3jCdbIVmNvH6Fp7VaBbEp5pmflyiElr2w+t4iXObiiFTKYqaq0ZL8BSsd5wPp713Gy9I6WYnOVce9bfTYPzNCGhie1esD9yVrKBxhwfg5ZDBWiO/u3Fddht79+WzjIxIirt88YXaAB7ZTcw1RVsQ13wqJmLWSGEonJStVCpLMXeBjSIqb+1vg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM4PR0401MB2354.eurprd04.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(346002)(366004)(376002)(39860400002)(136003)(36756003)(6486002)(2906002)(8936002)(66476007)(26005)(66556008)(478600001)(66946007)(86362001)(5660300002)(8676002)(4001150100001)(4326008)(54906003)(316002)(52116002)(83380400001)(16526019)(2616005)(6666004)(16576012)(956004)(186003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: JmEuDLcp3JzcOiCVHrw4jelrPy09jeud+YSRlSKf3w/jligJ3GJ7YtENz4ZWHWXDMcEwH2LseGRW/t2zda7VBgx3/32t4onVJ53BjpY24lFtQpghzEW/4CSwdvUhTkJd6VmHR2TzE2lzRanKvPcIYZtKybVwdwOcz89Yv5zQuG3AjGCkilJEJRLU57wFPaSCrvR67AqX16zcVZ7jyQmmxoxmMwrY+61urz2Y0hH/fqM8HtDnaxxTJ5Jcqoko/i/lBGpgq4mTVr5KEvqcOfrbiHd0RF1B0eoGoVaq/ZOmG7/eDZJhUEeaOOyTCByxIoHyo9RO1EBJ/03VS2nKrB+Q88IWCb+DK4IHCyTv58DH24198dS13J0kl3AojN0EXCfGEqnIYLaaca5XPpbbaF5hw/Ig6B3b3Zy8nHjyEU72Nzl27V/xhXMnmBbaEAsrEYq1rfdQkZKKz1aWpQigaWg+98D3x3tdKk1ndzRHtnILcgi+bBdlCvJyrB3siSs0dQqqbN+spkUHptUv+VNP8sH1N2EtWLhZk9l+gXhMcJ/wPMsu46C/DPqgMj0U7Ai+XsZO9Ex7QVzEnBDxfcVs2eOKSvtHAbyFY9u8XkNu6twmr6z0sU83RChv5J9Q89QACjBI5e00Nxu3wTeR/DyUGDr5EQ==
-X-OriginatorOrg: suse.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 39910bb3-b1bc-4e08-5eab-08d879cc1a77
-X-MS-Exchange-CrossTenant-AuthSource: AM4PR0401MB2354.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2020 16:28:00.1663 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: f7a17af6-1c5c-4a36-aa8b-f5be247aa4ba
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G4oUXQghRoXIKUIduWwkaLFJZsGDorFHpQAc1/AMzSiKHfcwPTxdTQ6e+c+sZONn3eCnlbM4j/tnTIMLInH1Ew==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6068
-Received-SPF: pass client-ip=51.163.158.102; envelope-from=brogers@suse.com;
- helo=de-smtp-delivery-102.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 12:28:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <cover.1603467169.git.alistair.francis@wdc.com>
+ <CAEUhbmUYkst2AL6cfiffJSr1T23VJyJsaqFBZe+UzDHreCqNpQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmUYkst2AL6cfiffJSr1T23VJyJsaqFBZe+UzDHreCqNpQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 26 Oct 2020 09:32:05 -0700
+Message-ID: <CAKmqyKOqifXUtTKrVeey20Rnd+jYCxxm1=j=j-Otw+22Vd0SfQ@mail.gmail.com>
+Subject: Re: [PATCH v1 00/16] RISC-V: Start to remove xlen preprocess
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -120,43 +78,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?ISO-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 2020-10-19 at 09:52 +0200, Gerd Hoffmann wrote:
-> - Add QemuSpiceOps, reorganize spice stubs.
-> - Add support for module dependencies.
-> - Build spice-core modular, and make the existing spice
->   modules (audio, chardev, qxl) depend on spice-core.
-> - Build egl-headless display and opengl helpers modular
->   (pretty easy thanks to module dependencies).
-> 
+On Mon, Oct 26, 2020 at 1:55 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Alistair,
+>
+> On Fri, Oct 23, 2020 at 11:44 PM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > The RISC-V QEMU port currently has lot of preprocessor directives that
+> > check if we are targetting a 32-bit or 64-bit CPU. This means that the
+> > 64-bit RISC-V target can not run 32-bit CPUs. This is different to most
+> > other QEMU architectures and doesn't allow us to mix xlens (such as when
+> > running Hypervisors with different xlen guests).
+> >
+> > This series is a step toward removing some of those to allow us to use
+> > 32-bit CPUs on 64-bit RISC-V targets.
+> >
+> > Alistair Francis (16):
+> >   target/riscv: Add a TYPE_RISCV_CPU_BASE CPU
+> >   riscv: spike: Remove target macro conditionals
+> >   riscv: virt: Remove target macro conditionals
+> >   hw/riscv: boot: Remove compile time XLEN checks
+> >   hw/riscv: virt: Remove compile time XLEN checks
+> >   hw/riscv: spike: Remove compile time XLEN checks
+> >   hw/riscv: sifive_u: Remove compile time XLEN checks
+> >   target/riscv: fpu_helper: Match function defs in HELPER macros
+> >   target/riscv: Add a riscv_cpu_is_32bit() helper function
+> >   target/riscv: Specify the XLEN for CPUs
+> >   target/riscv: cpu: Remove compile time XLEN checks
+> >   target/riscv: cpu_helper: Remove compile time XLEN checks
+> >   target/riscv: csr: Remove compile time XLEN checks
+> >   target/riscv: cpu: Set XLEN independently from target
+> >   target/riscv: Convert the get/set_field() to support 64-bit values
+> >   target/riscv: Consolidate *statush registers
+> >
+> >  include/hw/riscv/boot.h   |   8 +-
+> >  include/hw/riscv/spike.h  |   6 --
+> >  include/hw/riscv/virt.h   |   6 --
+> >  target/riscv/cpu.h        |  36 ++++---
+> >  target/riscv/cpu_bits.h   |  24 ++---
+> >  hw/riscv/boot.c           |  55 ++++++-----
+> >  hw/riscv/sifive_u.c       |  59 ++++++------
+> >  hw/riscv/spike.c          |  50 +++++-----
+> >  hw/riscv/virt.c           |  36 +++----
+> >  target/riscv/cpu.c        |  83 ++++++++++------
+> >  target/riscv/cpu_helper.c |  47 +++------
+> >  target/riscv/csr.c        | 197 ++++++++++++++++++++------------------
+> >  target/riscv/fpu_helper.c |  16 ++--
+> >  target/riscv/op_helper.c  |  11 +--
+> >  14 files changed, 328 insertions(+), 306 deletions(-)
+>
+> Test result:
+>
+> 64-bit virt & sifive_u, boots OpenSBI and kernel.
+> 32-bit virt boots OpenSBI and kernel. 32-bit sifive_u does not boot OpenSBI.
 
-Hi Gerd, others,
+Thanks, I have fixed the failure and added this to my automated test cases.
 
-I am happy to see the work you are doing with modularizing
-qemu, but I think there also needs to be corresponding work
-with libvirt's ability to properly detect qemu functionality
-in light of this modularization.
+Alistair
 
-Right now the QMP interface for probing "spice support" is
-quite a big hammer, and doesn't allow for any nuance.
-
-As I've looked into other aspects of how libvirt detects qemu
-functionality, it seems there is a lot of room for improvement in how
-qemu advertises it's functionality - which goes well beyond the issues
-of modularization.
-
-If you have any pointers to and discussion or plans in this regard, I'd
-appreciate it. Otherwise I'll look into doing something in this space
-myself.
-
-Thanks,
-
-Bruce
-
+>
+> Regards,
+> Bin
 
