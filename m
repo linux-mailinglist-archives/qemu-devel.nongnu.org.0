@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DED2996B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:19:52 +0100 (CET)
-Received: from localhost ([::1]:48580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9616E2996AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:18:57 +0100 (CET)
+Received: from localhost ([::1]:43728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX824-00045K-2r
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:19:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53714)
+	id 1kX81A-000268-KX
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:18:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kX7uI-0006AP-Rx
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:11:50 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:36535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kX7uG-0007bK-4d
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:11:50 -0400
-Received: from [192.168.100.1] ([82.252.139.38]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1N8GAQ-1kK9QE0p4i-014AG2; Mon, 26 Oct 2020 20:11:42 +0100
-Subject: Re: [PATCH 07/15] m68k: remove bios_name
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-8-pbonzini@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <457e6a0b-8c33-0d40-950b-6829d4f9a1d1@vivier.eu>
-Date: Mon, 26 Oct 2020 20:11:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1kX7y8-0000EO-AH
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:15:48 -0400
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:42738)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1kX7y5-000851-FP
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:15:47 -0400
+Received: by mail-pf1-f193.google.com with SMTP id x13so6724081pfa.9
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 12:15:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5IfNQG0ltMiJzuQKxgyzm5LOMHtl6mGtMjvGSiJ4MTY=;
+ b=M9myd61Gl2ktmcOxHa6Yu2YbrlvId1bbwWXYEA4lzmF5dw/5NxoG727AgJ6wTCrxcf
+ JVFp0xIJ9vWmdxCOX0nGkwSY1yoySnk4bKBjFfgbAp3qhQBbZOe/uNw/uthpopiRBEkJ
+ KFiTIqzaE91mmN1XbJKJEk7auGUNZyGEcaz2VAXxby3S/gBaCuz3bjlYvgsGfwKhThl1
+ tcbC1fAa6VQuSJlu9VDXPHVMiLmYovuNrCBKuMq9WfKHsWOGPnC0CSozwTrT4NXIKC5D
+ 6wAYgDQL7ZXkXM4dlEiPLoYmFRnCYntS0PD8CC9PKiMF1IrgzBul6t96X8qOKs0HhuG/
+ 4UGw==
+X-Gm-Message-State: AOAM533XFaLmP7vgvpvNvLFVHqO49qLY7DTnoaSKat3EDhwH80liLWeM
+ l1/NOSVJ3wgaVwDRgQZhU23M0EOJ0F8=
+X-Google-Smtp-Source: ABdhPJxmL8hjVnh61Cqyga/YlAZNvN442iROjyYhEhsQLiv8MVOprbCL0+ClK1zk2Qe68oBUxIs7TQ==
+X-Received: by 2002:a63:9a41:: with SMTP id e1mr14784766pgo.371.1603739742534; 
+ Mon, 26 Oct 2020 12:15:42 -0700 (PDT)
+Received: from localhost.localdomain ([73.93.153.41])
+ by smtp.gmail.com with ESMTPSA id gb13sm10233191pjb.55.2020.10.26.12.15.41
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 26 Oct 2020 12:15:41 -0700 (PDT)
+From: Joelle van Dyne <j@getutm.app>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RESEND 0/4] Mirror map JIT memory for TCG
+Date: Mon, 26 Oct 2020 12:15:36 -0700
+Message-Id: <20201026191540.12434-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201026143028.3034018-8-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:IL4h2fkqOVqzFk6boK74uZfJAwQtL9velJzM4/7REYpDwsIkc17
- YAV7J1TY8rzN0cS7SHoXL9UYrnkd6BN9eW5h1aF6SVISSdXMs3YIX/U77JOPWsDKFumLU1j
- HnsLGDq+B4c5angkeTYe7eph/YRyODOcebs51Rk+CY0viqUY/SHK1D2FihkAyqfz6Obkbng
- nyQXiiMkbSc1B5n7dmpJg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Dnjt7dBrZgU=:uuBaPgCR5SBbxoDAS30hMi
- u3B46Wy4yFLIPGiF7X6ESPHvoyJpDad6CL3zgGMhrtzljn8voaL13s+dTm5ADb5A7bwogc+Ca
- X0J1gTp36Y7Jar1x2WXaKsJ3KGEw8TogquLZh6417eeYnns3d3JzVgo3igzJoq1RjFCrGAznB
- +QkjaUQKHmsWkxj2lfZZ7TkTkbVL2+MenCb/mUrXwYEAvpomoJreX2nHtQZpJDHztOs3jdvbx
- YEYxz9oEbjY7ijkfJIwNSGpEBWjhvsS6NiIiGmSVaRf9/HC9hzA7uXUJEXAmPhFy7SsWs617c
- IgaJDlucJ5cecuTOnpVGGdUngKvNfSAEKrtu5qCzg0U1+U47yREtIMLdQcs0tj0nrm5MJl6Bj
- vj8/wpeebzqd31u67Enn8ejCNVIZVDo73ssLNmfGPhIdpU6PHzWTRjfBpCBIFOw/OeGz0Ebzn
- +R/d+IJBqw==
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 15:11:45
+Received-SPF: pass client-ip=209.85.210.193;
+ envelope-from=osy86github@gmail.com; helo=mail-pf1-f193.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 15:15:43
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -40
-X-Spam_score: -4.1
-X-Spam_bar: ----
-X-Spam_report: (-4.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,110 +73,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 26/10/2020 à 15:30, Paolo Bonzini a écrit :
-> Cc: Laurent Vivier <lvivier@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/m68k/mcf5208.c   | 10 +++++-----
->  hw/m68k/next-cube.c |  4 +---
->  hw/m68k/q800.c      |  4 +---
->  3 files changed, 7 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/m68k/mcf5208.c b/hw/m68k/mcf5208.c
-> index d310a98e7b..7c8ca5ddf6 100644
-> --- a/hw/m68k/mcf5208.c
-> +++ b/hw/m68k/mcf5208.c
-> @@ -301,17 +301,17 @@ static void mcf5208evb_init(MachineState *machine)
->      /* 0xfc0a8000 SDRAM controller.  */
->  
->      /* Load firmware */
-> -    if (bios_name) {
-> +    if (machine->firmware) {
->          char *fn;
->          uint8_t *ptr;
->  
-> -        fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
-> +        fn = qemu_find_file(QEMU_FILE_TYPE_BIOS, machine->firmware);
->          if (!fn) {
-> -            error_report("Could not find ROM image '%s'", bios_name);
-> +            error_report("Could not find ROM image '%s'", machine->firmware);
->              exit(1);
->          }
->          if (load_image_targphys(fn, 0x0, ROM_SIZE) < 8) {
-> -            error_report("Could not load ROM image '%s'", bios_name);
-> +            error_report("Could not load ROM image '%s'", machine->firmware);
->              exit(1);
->          }
->          g_free(fn);
-> @@ -323,7 +323,7 @@ static void mcf5208evb_init(MachineState *machine)
->  
->      /* Load kernel.  */
->      if (!kernel_filename) {
-> -        if (qtest_enabled() || bios_name) {
-> +        if (qtest_enabled() || machine->firmware) {
->              return;
->          }
->          error_report("Kernel image must be specified");
+To aid in debugging TCG, we enable a "mirror map" feature that, when enabled,
+will use memfd_create() to create two mappings of the same memory for RW and RX.
+The feature is only built when targeting system emulation on Linux and
+configured with --enable-debug-tcg. It can be disabled with the runtime argument
+`-accel tcg,mirror-jit=off`.
 
-Why do you do differently for mcf5208 than the others?
+Although this patch only enables this feature for Linux, the main goal of this
+is to enable, through a future patch, iOS JIT on older devices which require
+strict W^X separation.
 
-    const char *bios_name = machine->firmware;
+Resending because of merge conflict to current master.
 
-and no other changes?
+-j
 
-With or without this:
+Joelle van Dyne (4):
+  tcg: add const hints for code pointers
+  tcg: implement mirror mapped JIT for Linux
+  tcg: use mirror map JIT in code generation
+  tcg: make mirror mapped JIT optional
 
-Acked-by: Laurent Vivier <laurent@vivier.eu>
+ configure                    |  13 +++++
+ meson.build                  |   1 +
+ include/exec/exec-all.h      |   8 +++
+ include/sysemu/tcg.h         |   2 +-
+ include/tcg/tcg.h            |  26 +++++++--
+ tcg/aarch64/tcg-target.h     |  18 +++++-
+ tcg/arm/tcg-target.h         |  15 ++++-
+ tcg/i386/tcg-target.h        |  26 ++++++++-
+ tcg/mips/tcg-target.h        |  12 +++-
+ tcg/ppc/tcg-target.h         |  12 +++-
+ tcg/riscv/tcg-target.h       |  13 ++++-
+ tcg/s390/tcg-target.h        |  17 +++++-
+ tcg/sparc/tcg-target.h       |  12 +++-
+ tcg/tci/tcg-target.h         |   9 ++-
+ accel/tcg/cpu-exec.c         |   7 ++-
+ accel/tcg/tcg-all.c          |  31 +++++++++-
+ accel/tcg/translate-all.c    | 106 +++++++++++++++++++++++++++++------
+ bsd-user/main.c              |   2 +-
+ linux-user/main.c            |   2 +-
+ tcg/tcg.c                    |  60 +++++++++++++-------
+ qemu-options.hx              |  11 ++++
+ tcg/aarch64/tcg-target.c.inc |  48 +++++++++-------
+ tcg/arm/tcg-target.c.inc     |  33 ++++++-----
+ tcg/i386/tcg-target.c.inc    |  28 ++++-----
+ tcg/mips/tcg-target.c.inc    |  64 ++++++++++++---------
+ tcg/ppc/tcg-target.c.inc     |  57 ++++++++++++-------
+ tcg/riscv/tcg-target.c.inc   |  51 +++++++++--------
+ tcg/s390/tcg-target.c.inc    |  25 +++++----
+ tcg/sparc/tcg-target.c.inc   |  33 ++++++-----
+ tcg/tcg-ldst.c.inc           |   2 +-
+ tcg/tcg-pool.c.inc           |   9 +--
+ tcg/tci/tcg-target.c.inc     |   8 +--
+ 32 files changed, 555 insertions(+), 206 deletions(-)
 
-
-> diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-> index e7045980b7..37bc35dfa4 100644
-> --- a/hw/m68k/next-cube.c
-> +++ b/hw/m68k/next-cube.c
-> @@ -868,6 +868,7 @@ static void next_cube_init(MachineState *machine)
->      MemoryRegion *bmapm1 = g_new(MemoryRegion, 1);
->      MemoryRegion *bmapm2 = g_new(MemoryRegion, 1);
->      MemoryRegion *sysmem = get_system_memory();
-> +    const char *bios_name = machine->firmware ?: ROM_FILE;
->      NeXTState *ns = NEXT_MACHINE(machine);
->      DeviceState *dev;
->  
-> @@ -924,9 +925,6 @@ static void next_cube_init(MachineState *machine)
->      sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, 0x0200e000);
->  
->      /* Load ROM here */
-> -    if (bios_name == NULL) {
-> -        bios_name = ROM_FILE;
-> -    }
->      /* still not sure if the rom should also be mapped at 0x0*/
->      memory_region_init_rom(rom, NULL, "next.rom", 0x20000, &error_fatal);
->      memory_region_add_subregion(sysmem, 0x01000000, rom);
-> diff --git a/hw/m68k/q800.c b/hw/m68k/q800.c
-> index ce4b47c3e3..6ebcddcfb2 100644
-> --- a/hw/m68k/q800.c
-> +++ b/hw/m68k/q800.c
-> @@ -167,6 +167,7 @@ static void q800_init(MachineState *machine)
->      const char *kernel_filename = machine->kernel_filename;
->      const char *initrd_filename = machine->initrd_filename;
->      const char *kernel_cmdline = machine->kernel_cmdline;
-> +    const char *bios_name = machine->firmware ?: MACROM_FILENAME;
->      hwaddr parameters_base;
->      CPUState *cs;
->      DeviceState *dev;
-> @@ -400,9 +401,6 @@ static void q800_init(MachineState *machine)
->          rom = g_malloc(sizeof(*rom));
->          memory_region_init_rom(rom, NULL, "m68k_mac.rom", MACROM_SIZE,
->                                 &error_abort);
-> -        if (bios_name == NULL) {
-> -            bios_name = MACROM_FILENAME;
-> -        }
->          filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->          memory_region_add_subregion(get_system_memory(), MACROM_ADDR, rom);
->  
-> 
+-- 
+2.28.0
 
 
