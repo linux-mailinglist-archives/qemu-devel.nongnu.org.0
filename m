@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA25F298A10
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:11:13 +0100 (CET)
-Received: from localhost ([::1]:41096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B1CA298A02
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:08:43 +0100 (CET)
+Received: from localhost ([::1]:60978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzT6-0007Wt-N5
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38670)
+	id 1kWzQg-00048F-GD
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:08:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOp-0002QL-Qo
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26280)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOo-0002PL-AN
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOl-0006aN-DS
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:47 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOm-0006an-Im
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706802;
+ s=mimecast20190719; t=1603706803;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=+LT4RxKVcAVhYRwncs0L+BQ1wRj6aHo9PM7a1P0TdeU=;
- b=Cj0yF21UHXYtFH8YURMQELE7Oc/ni9R7LZHzsgAG/T68tzTtNw1xOMHCYVc7QoSt2jTHJy
- YU6ijikwSMdnzZW0dUZASSau+5Xau9R1wvoBeYvb385SVDPsRMkHoH2Ibf1VlAMY0JQaqN
- Kw45SOHjPCCOTLVR2YnZeaL7QSBSK/U=
+ references:references; bh=V0PRhaPjLl3QP5oLM98HuwMXBLJa28Xqbdj0nuobKHE=;
+ b=K0lWrdP+cGJJzBmF4BK/AvXlBiJyfio9ui532fa/gm/4Gi0AB701tVWZx4pg1ER4H2ZYci
+ iyCidmJptr8WyAIhNq5Nycx72dXg+h9LANUoamRWFuSimXeLvd00C74P2XBXx38OR7rhjm
+ qrluHM1MpXsrOw1odlGMAUv9dp6ypmA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-IPZHlRcPPEa5doNrH5yJmw-1; Mon, 26 Oct 2020 06:06:40 -0400
-X-MC-Unique: IPZHlRcPPEa5doNrH5yJmw-1
+ us-mta-77-uKTaoNz9NzC6lHhY_ahv3Q-1; Mon, 26 Oct 2020 06:06:41 -0400
+X-MC-Unique: uKTaoNz9NzC6lHhY_ahv3Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBE295A09A;
- Mon, 26 Oct 2020 10:06:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F7976123B;
+ Mon, 26 Oct 2020 10:06:40 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CE0A38B843;
- Mon, 26 Oct 2020 10:06:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43B6F8B841;
+ Mon, 26 Oct 2020 10:06:39 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/31] tests/qtest/libqtest: Fix detection of architecture for
- binaries without path
-Date: Mon, 26 Oct 2020 11:06:03 +0100
-Message-Id: <20201026100632.212530-3-thuth@redhat.com>
+Subject: [PULL 03/31] accel: Remove _WIN32 ifdef from qtest-cpus.c
+Date: Mon, 26 Oct 2020 11:06:04 +0100
+Message-Id: <20201026100632.212530-4-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -53,16 +52,16 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,45 +79,44 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qtests can be run directly by specifying the QEMU binary with the
-QTEST_QEMU_BINARY environment variable, for example:
+From: Jason Andryuk <jandryuk@gmail.com>
 
- $ QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64 tests/qtest/test-hmp
+dummy-cpus.c is only compiled with CONFIG_POSIX, so the _WIN32 condition
+will never evaluate true.  Remove it.
 
-However, if you specify a binary without a path, for example with
-QTEST_QEMU_BINARY=qemu-system-x86_64 if the QEMU binary is in your
-$PATH, then the test currently simply crashes.
-
-Let's try a little bit smarter here by looking for the final '-'
-instead of the slash.
-
-Message-Id: <20201012114816.43546-1-thuth@redhat.com>
+Signed-off-by: Jason Andryuk <jandryuk@gmail.com>
+Message-Id: <20201013140511.5681-2-jandryuk@gmail.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqtest.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ accel/qtest/qtest-cpus.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 08929f5ff6..b9ff29055b 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -870,9 +870,14 @@ char *qtest_hmp(QTestState *s, const char *fmt, ...)
- const char *qtest_get_arch(void)
- {
-     const char *qemu = qtest_qemu_binary();
--    const char *end = strrchr(qemu, '/');
-+    const char *end = strrchr(qemu, '-');
+diff --git a/accel/qtest/qtest-cpus.c b/accel/qtest/qtest-cpus.c
+index 7c5399ed9d..db094201c1 100644
+--- a/accel/qtest/qtest-cpus.c
++++ b/accel/qtest/qtest-cpus.c
+@@ -29,10 +29,6 @@
  
--    return end + strlen("/qemu-system-");
-+    if (!end) {
-+        fprintf(stderr, "Can't determine architecture from binary name.\n");
-+        abort();
-+    }
-+
-+    return end + 1;
+ static void *qtest_cpu_thread_fn(void *arg)
+ {
+-#ifdef _WIN32
+-    error_report("qtest is not supported under Windows");
+-    exit(1);
+-#else
+     CPUState *cpu = arg;
+     sigset_t waitset;
+     int r;
+@@ -69,7 +65,6 @@ static void *qtest_cpu_thread_fn(void *arg)
+     qemu_mutex_unlock_iothread();
+     rcu_unregister_thread();
+     return NULL;
+-#endif
  }
  
- bool qtest_get_irq(QTestState *s, int num)
+ static void qtest_start_vcpu_thread(CPUState *cpu)
 -- 
 2.18.2
 
