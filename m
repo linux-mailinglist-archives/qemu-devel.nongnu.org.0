@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEDBE2997BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:13:04 +0100 (CET)
-Received: from localhost ([::1]:46978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD406299799
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:05:38 +0100 (CET)
+Received: from localhost ([::1]:52198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8rY-0006E3-0R
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60364)
+	id 1kX8kL-0004sB-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8HK-0005Ag-7k
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:35:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38333)
+ id 1kX8HT-0005UD-0h
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:35:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51904)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kX8HH-0002I8-CC
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:35:37 -0400
+ id 1kX8HQ-0002Ib-8B
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:35:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603740934;
+ s=mimecast20190719; t=1603740943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TQxzsUB8c74VcjWw1vv1tUQXArsAmcN+3DXsuNfmQU4=;
- b=Yv5R1luNFk++w0dt1XS99qznnyTxza6s/IbJelnoXRYW7JEKOwqb8e/eX8PmGtZM7jmkOm
- Sp/zT1luLfaIIhxhfLx6MWJM3QeturDxcePyjR1MJQq2Chob7kQOqGfIGUxJ1uUDyahdqN
- viT6/rsH7R5Ip9hfaugM42+esmzoMMQ=
+ bh=hIJ0esh5DZW0RDKwxqS764eXBUHQIMgYJbBbhoudoIk=;
+ b=ORGvfQPg1XSksJQrMIQ4L7nGOgjc5C+SGLkAapLGenqDZuGbOWc93XkgmZdIYPdhySg51y
+ 83tzPJeQUZHq+pACozsRc47ag5oLOnrKB8tB2YPXkurpEzjLgfnuhqH0ov6Rs8mKJTzzwR
+ VU2/zLsjH9UxLMGVBYpHi0t759y/zmk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-ZPB8rkqoNxa4z_Gdc2OiWA-1; Mon, 26 Oct 2020 15:35:32 -0400
-X-MC-Unique: ZPB8rkqoNxa4z_Gdc2OiWA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-162-G3IjU9XyOhqh31UOqOjEpw-1; Mon, 26 Oct 2020 15:35:40 -0400
+X-MC-Unique: G3IjU9XyOhqh31UOqOjEpw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B6BF9CC02;
- Mon, 26 Oct 2020 19:35:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE895108E1A1;
+ Mon, 26 Oct 2020 19:35:39 +0000 (UTC)
 Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BDDD160C07;
- Mon, 26 Oct 2020 19:35:30 +0000 (UTC)
-Subject: [PULL 21/32] vfio: Create shared routine for scanning info
- capabilities
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8809910013C0;
+ Mon, 26 Oct 2020 19:35:36 +0000 (UTC)
+Subject: [PULL 22/32] vfio: Find DMA available capability
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 26 Oct 2020 13:35:30 -0600
-Message-ID: <160374093038.22414.17303374381715194483.stgit@gimli.home>
+Date: Mon, 26 Oct 2020 13:35:36 -0600
+Message-ID: <160374093618.22414.9317873776645408846.stgit@gimli.home>
 In-Reply-To: <160374054442.22414.10832953989449611268.stgit@gimli.home>
 References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
 User-Agent: StGit/0.21-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,66 +82,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cornelia Huck <cohuck@redhat.com>,
- Philippe =?utf-8?q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 
-Rather than duplicating the same loop in multiple locations,
-create a static function to do the work.
+The underlying host may be limiting the number of outstanding DMA
+requests for type 1 IOMMU.  Add helper functions to check for the
+DMA available capability and retrieve the current number of DMA
+mappings allowed.
 
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c |   21 +++++++++++++--------
- 1 file changed, 13 insertions(+), 8 deletions(-)
+ hw/vfio/common.c              |   31 +++++++++++++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |    2 ++
+ 2 files changed, 33 insertions(+)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 56f6fee66a55..3714f8bcb84e 100644
+index 3714f8bcb84e..246adcdcaefa 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -1124,17 +1124,12 @@ static void vfio_listener_release(VFIOContainer *container)
-     }
+@@ -1148,6 +1148,37 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
+     return vfio_get_cap((void *)info, info->cap_offset, id);
  }
  
--struct vfio_info_cap_header *
--vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
 +static struct vfio_info_cap_header *
-+vfio_get_cap(void *ptr, uint32_t cap_offset, uint16_t id)
- {
-     struct vfio_info_cap_header *hdr;
--    void *ptr = info;
- 
--    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
--        return NULL;
--    }
--
--    for (hdr = ptr + info->cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-+    for (hdr = ptr + cap_offset; hdr != ptr; hdr = ptr + hdr->next) {
-         if (hdr->id == id) {
-             return hdr;
-         }
-@@ -1143,6 +1138,16 @@ vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
-     return NULL;
- }
- 
-+struct vfio_info_cap_header *
-+vfio_get_region_info_cap(struct vfio_region_info *info, uint16_t id)
++vfio_get_iommu_type1_info_cap(struct vfio_iommu_type1_info *info, uint16_t id)
 +{
-+    if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS)) {
++    if (!(info->flags & VFIO_IOMMU_INFO_CAPS)) {
 +        return NULL;
 +    }
 +
 +    return vfio_get_cap((void *)info, info->cap_offset, id);
 +}
 +
++bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
++                             unsigned int *avail)
++{
++    struct vfio_info_cap_header *hdr;
++    struct vfio_iommu_type1_info_dma_avail *cap;
++
++    /* If the capability cannot be found, assume no DMA limiting */
++    hdr = vfio_get_iommu_type1_info_cap(info,
++                                        VFIO_IOMMU_TYPE1_INFO_DMA_AVAIL);
++    if (hdr == NULL) {
++        return false;
++    }
++
++    if (avail != NULL) {
++        cap = (void *) hdr;
++        *avail = cap->avail;
++    }
++
++    return true;
++}
++
  static int vfio_setup_region_sparse_mmaps(VFIORegion *region,
                                            struct vfio_region_info *info)
  {
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index 24e299d97425..8336f2e7ac19 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -198,6 +198,8 @@ VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
+ void vfio_put_group(VFIOGroup *group);
+ int vfio_get_device(VFIOGroup *group, const char *name,
+                     VFIODevice *vbasedev, Error **errp);
++bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
++                             unsigned int *avail);
+ 
+ extern const MemoryRegionOps vfio_region_ops;
+ typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
 
 
