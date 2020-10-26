@@ -2,86 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EB2E29933E
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:01:41 +0100 (CET)
-Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE2AC299348
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:03:25 +0100 (CET)
+Received: from localhost ([::1]:41904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5sK-0003rF-3q
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:01:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
+	id 1kX5u0-0006Hy-Pf
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:03:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX5pQ-0001nf-Sl
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:58:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33315)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX5qN-0002zV-Ku
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:59:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX5pP-0005XJ-7G
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:58:40 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX5qK-0005cL-RI
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:59:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603731518;
+ s=mimecast20190719; t=1603731576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=avlSF6aMWyCKKrcdJzKBRDQHzUtJDsbwDFSzQ30TCIc=;
- b=A0c2lnoGlUojc/6JaWqDpvsNyI0Gr9Z61nUa3Mv6BkaLj7ucX1uhHd+exoh9YWwuHL3211
- 73zWgqbERwL/Nwk+QoKKnbe3tjS0OqyfgGUfdDPmgQYtGvDVuVkeoOfeorxoHOaZb3VXp7
- SGeE/wYYDAGJyRJKfQqJI88ovA42hsM=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-187-NesjWvATORSIQn-I1Kgu1g-1; Mon, 26 Oct 2020 12:58:36 -0400
-X-MC-Unique: NesjWvATORSIQn-I1Kgu1g-1
-Received: by mail-wr1-f71.google.com with SMTP id h8so8931041wrt.9
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:58:36 -0700 (PDT)
+ bh=Z+kXbEM/Nq2H+uTRufx+cyFwcq6wPhqZXTX3wXf2zjs=;
+ b=MPLlDywQ+Pi7BtsZ1cNDJFwAA/RaqVFNVbuRDCkxZczyqpCQSEal/T816CGB0CYQO6vJP6
+ 8GIabJrBbCh9VenCB/KF2Yyg/4FwW4uKmpm/RpeJBLw0iIE1xk+qjAzoEDsRVr00yTTQ88
+ V63XBkPrYSH0G7dI8Kg3E1BpX6yipPA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-235-IM_plVwVOYmUJrOoRiPTLQ-1; Mon, 26 Oct 2020 12:59:34 -0400
+X-MC-Unique: IM_plVwVOYmUJrOoRiPTLQ-1
+Received: by mail-ed1-f72.google.com with SMTP id n16so4808274edw.19
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 09:59:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=avlSF6aMWyCKKrcdJzKBRDQHzUtJDsbwDFSzQ30TCIc=;
- b=DI52o34rEhuLFQWRMifUWlcJMN8j68kAu8aLkKKP1QsbBy/WoXtRy7WfTlou4TuduL
- DmT1f/BrJLUjObe23F0Zcz3BRk1csykh5Vwo3OJgAL+EvsYnb2fZx3FNuxsM5K3zRcfQ
- ppYdV7I8J95rvZ1lT6R6pjgenwaNivMhCCjO1GMyY9BQPRmvUPhqR5i/r6tUWWPevTwl
- i2HfDV9Q3QmL9cr4Vc0D284NC7A0uLYBH3eNWrr/g1MVOuzsY0BbkJDiDS8iPvpRZYUr
- 5bL5Eo2aVNMe9TIwTtzbVlF/pKVTirsebZQ7UmT0PYC5gCNU2ssD8876aCJLssNGmRVx
- Ea5w==
-X-Gm-Message-State: AOAM533cgnYr9YTexE+VJM7JYm7aXHcEq7UkhawnTDVM1PLXFI7It+Eg
- E/Wnp2uWY9GUKNzbPAVkf570KsICt6R9NJzuBWNhwiW/ScG0Qm/cyZCQQAh+8StAktynw/CR0Zm
- w5RKcA1C+uxCPz/g=
-X-Received: by 2002:a1c:e045:: with SMTP id x66mr17112057wmg.104.1603731515080; 
- Mon, 26 Oct 2020 09:58:35 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzTw9uS9TYD7OXKbuw0a4Qf0LAxclDaBv5kYgkDepFeSd1cxgNtjBWNfVrTHifbUIQdGnciEw==
-X-Received: by 2002:a1c:e045:: with SMTP id x66mr17111994wmg.104.1603731514505; 
- Mon, 26 Oct 2020 09:58:34 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x3sm20438030wmi.45.2020.10.26.09.58.28
+ bh=Z+kXbEM/Nq2H+uTRufx+cyFwcq6wPhqZXTX3wXf2zjs=;
+ b=PUpO0o1hFM3gVMPRW6d/KdCNkobQ3cLFDXX1aS/cgLPp3AXBhecbT6eJw3FkCDDDp/
+ /QR3oT6Y7oNbyZLzPeNE53Z1f0VaMJSESdm9Avga7mh3e9SNztDu+AESVmQ83CUCPd9+
+ z1LFqrEXm9tAreeNwznTL8Vtbu+ELVloxuSJZssqa5juu5G4QliREC9EEiHcIlhq2s7G
+ MULuTLGGY/TAvCEooF+c6laGii1iKg7S7brdLuU7w7ONp4bybiP83Ch16kPwt+axTU4r
+ 6gHjC/aO5DNliogAhB8yJcfSipMxRvWZ3BDzzG/1PXJOmUByoizsIwtth2UwvRuW4Gvt
+ eQTA==
+X-Gm-Message-State: AOAM530WcvBzpgzVen1wLoNTDdm016JeQkg8X0VlygChRN0qbkgDlToy
+ lezq1IVZAV9X2WQsy8sxFSa7dfFMUA1Eewmkb+Dqf94sc0TbF5wCLjN+/P9lKQAf7NNmeVBLso9
+ 48ZY2qtpKrj10cUs=
+X-Received: by 2002:a50:ef12:: with SMTP id m18mr16766497eds.313.1603731573344; 
+ Mon, 26 Oct 2020 09:59:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJytsbxFDVdtD9YDXVszXYc4Jt9K/gQWwtFwfn+1YINBANu444FwFPBndRVGWZVT5uW0Ici2Tg==
+X-Received: by 2002:a50:ef12:: with SMTP id m18mr16766407eds.313.1603731571617; 
+ Mon, 26 Oct 2020 09:59:31 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id e17sm6308135ejh.64.2020.10.26.09.59.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 09:58:29 -0700 (PDT)
-Subject: Re: [PATCH v29 10/17] memory: Set DIRTY_MEMORY_MIGRATION when IOMMU
- is enabled
-To: Alex Williamson <alex.williamson@redhat.com>,
- Kirti Wankhede <kwankhede@nvidia.com>
-References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
- <1603704987-20977-11-git-send-email-kwankhede@nvidia.com>
- <20201026104748.589b207d@w520.home>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <80e2181b-80ca-01d4-31ac-3839972393bb@redhat.com>
-Date: Mon, 26 Oct 2020 17:58:27 +0100
+ Mon, 26 Oct 2020 09:59:30 -0700 (PDT)
+Subject: Re: [PULL v2 0/2] Tracing patches
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20201026160221.62704-1-stefanha@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <d620c1d4-d3c2-47dc-5bc7-78c01944a1eb@redhat.com>
+Date: Mon, 26 Oct 2020 17:59:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201026104748.589b207d@w520.home>
+In-Reply-To: <20201026160221.62704-1-stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -105,59 +99,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cohuck@redhat.com, cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
- Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
- qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
- yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
- armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
- felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
- kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
- changpeng.liu@intel.com, eskultet@redhat.com, Ken.Xue@amd.com,
- jonathan.davies@nutanix.com, dnigam@nvidia.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/10/20 17:47, Alex Williamson wrote:
-> Paolo,
+Hi Stefan,
+
+On 10/26/20 5:02 PM, Stefan Hajnoczi wrote:
+> The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
 > 
-> Any objection to this change?  Thanks,
-
-Not at all.  Sorry I missed this change.
-
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-
-Paolo
-
-> Alex
+>    Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
 > 
-> On Mon, 26 Oct 2020 15:06:20 +0530
-> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> are available in the Git repository at:
 > 
->> mr->ram_block is NULL when mr->is_iommu is true, then fr.dirty_log_mask
->> wasn't set correctly due to which memory listener's log_sync doesn't
->> get called.
->> This patch returns log_mask with DIRTY_MEMORY_MIGRATION set when
->> IOMMU is enabled.
->>
->> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
->> Reviewed-by: Yan Zhao <yan.y.zhao@intel.com>
->> ---
->>  softmmu/memory.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 403ff3abc99b..94f606e9d9d9 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -1792,7 +1792,7 @@ bool memory_region_is_ram_device(MemoryRegion *mr)
->>  uint8_t memory_region_get_dirty_log_mask(MemoryRegion *mr)
->>  {
->>      uint8_t mask = mr->dirty_log_mask;
->> -    if (global_dirty_log && mr->ram_block) {
->> +    if (global_dirty_log && (mr->ram_block || memory_region_is_iommu(mr))) {
->>          mask |= (1 << DIRTY_MEMORY_MIGRATION);
->>      }
->>      return mask;
+>    https://gitlab.com/stefanha/qemu.git tags/tracing-pull-request
+> 
+> for you to fetch changes up to 1e8ebf1116a7023b4dd1919d31af8b4e17321da4:
+> 
+>    Add execute bit back to scripts/tracetool.py (2020-10-26 13:22:36 +0000)
+> 
+> ----------------------------------------------------------------
+> Pull request
+> 
+> ----------------------------------------------------------------
+> 
+> Anthony PERARD via (1):
+>    Add execute bit back to scripts/tracetool.py
+
+Author email is incorrect: Anthony PERARD via <qemu-devel@nongnu.org>
+
+> 
+> Josh DuBois (1):
+>    trace/simple: Enable tracing on startup only if the user specifies a
+>      trace option
+> 
+>   trace/control.c      | 6 +++++-
+>   scripts/tracetool.py | 0
+>   2 files changed, 5 insertions(+), 1 deletion(-)
+>   mode change 100644 => 100755 scripts/tracetool.py
 > 
 
 
