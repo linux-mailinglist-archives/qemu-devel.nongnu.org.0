@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAA929961B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:55:48 +0100 (CET)
-Received: from localhost ([::1]:49596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9774E299656
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:00:06 +0100 (CET)
+Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7el-0005Wi-TG
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:55:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46022)
+	id 1kX7iv-000323-LJ
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:00:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7Tg-0002ml-ST
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60722)
+ id 1kX7Ti-0002nM-27
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX7Te-0003eQ-Gt
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:20 -0400
+ id 1kX7Te-0003eT-P6
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:44:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603737857;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SuRSSzyf8b+9XH+gLT608at4jR7/gO2V/yGyhY+6rv4=;
- b=gUB3mWGBU8d3CGzNkk4qjKQaF95hoYXg4lqRdkkof7WduML9HAdTqSsRmgR8enzrA4tW4j
- LOiD8oNsvq1kS/G/juRO2TxJqM5W2S+F88/spv5otZzNBsA3Q8lm/3tQMFRgQG9GjBpdLm
- RrVo6fUofhIerZvGWmCCQVxJ0DH8ByQ=
+ bh=pfe9Fd89tvBz7nvuAzGdJdbttil4Z5jYzfE8MnKsjcE=;
+ b=cNMp3gSJCp0x4LuO0Z8a5eYZu0UHZW/2Eu+S6RS+A7HRKFJn0P6aCp7iD7Rasa/6c3uP+B
+ qJUbM5r4n1V38jEbNf5IC7uzzaONRruy4S6nnv8H7pJimoYOU4Rm7ggbbTlH/AHSmKhjNY
+ FG5Q6B23vAYFgbNch3v1JvoskDIYY3g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-419-R4H-cCUlMTmT2S_Pab4osg-1; Mon, 26 Oct 2020 14:44:12 -0400
-X-MC-Unique: R4H-cCUlMTmT2S_Pab4osg-1
+ us-mta-528-rgBe-Gq-PkCGaXYcgF-wbw-1; Mon, 26 Oct 2020 14:44:15 -0400
+X-MC-Unique: rgBe-Gq-PkCGaXYcgF-wbw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77597809DD1;
- Mon, 26 Oct 2020 18:44:11 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 227158030D5;
+ Mon, 26 Oct 2020 18:44:13 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
  [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 257AA5D9CA;
- Mon, 26 Oct 2020 18:44:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4D9F5D9CA;
+ Mon, 26 Oct 2020 18:44:11 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, stefanha@redhat.com, mreitz@redhat.com,
  misono.tomohiro@jp.fujitsu.com
-Subject: [PULL 14/16] virtiofsd: Announce sub-mount points
-Date: Mon, 26 Oct 2020 18:43:29 +0000
-Message-Id: <20201026184331.272953-15-dgilbert@redhat.com>
+Subject: [PULL 15/16] tests/acceptance/boot_linux: Accept SSH pubkey
+Date: Mon, 26 Oct 2020 18:43:30 +0000
+Message-Id: <20201026184331.272953-16-dgilbert@redhat.com>
 In-Reply-To: <20201026184331.272953-1-dgilbert@redhat.com>
 References: <20201026184331.272953-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -57,19 +57,20 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,183 +89,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-Whenever we encounter a directory with an st_dev that differs from that
-of its parent, we set the FUSE_ATTR_SUBMOUNT flag so the guest can
-create a submount for it.
-
-Make this behavior optional, so submounts are only announced to the
-guest with the announce_submounts option.  Some users may prefer the
-current behavior, so that the guest learns nothing about the host mount
-structure.
+Let download_cloudinit() take an optional pubkey, which subclasses of
+BootLinux can pass through setUp().
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20200909184028.262297-7-mreitz@redhat.com>
+Message-Id: <20200909184028.262297-8-mreitz@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: WIllian Rampazzo <willianr@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-  Manual merge
 ---
- tools/virtiofsd/helper.c         |  1 +
- tools/virtiofsd/passthrough_ll.c | 67 ++++++++++++++++++++++++++++----
- 2 files changed, 60 insertions(+), 8 deletions(-)
+ tests/acceptance/boot_linux.py | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/tools/virtiofsd/helper.c b/tools/virtiofsd/helper.c
-index 2e181a49b5..a212f32931 100644
---- a/tools/virtiofsd/helper.c
-+++ b/tools/virtiofsd/helper.c
-@@ -178,6 +178,7 @@ void fuse_cmdline_help(void)
-            "                               default: depends on cache= option.\n"
-            "    -o writeback|no_writeback  enable/disable writeback cache\n"
-            "                               default: no_writeback\n"
-+           "    -o announce_submounts      Announce sub-mount points to the guest\n"
-            "    -o xattr|no_xattr          enable/disable xattr\n"
-            "                               default: no_xattr\n"
-            "    -o modcaps=CAPLIST         Modify the list of capabilities\n"
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 4188bf3ad2..4db50046d4 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -40,6 +40,7 @@
- #include "fuse_virtio.h"
- #include "fuse_log.h"
- #include "fuse_lowlevel.h"
-+#include "standard-headers/linux/fuse.h"
- #include <assert.h>
- #include <cap-ng.h>
- #include <dirent.h>
-@@ -173,6 +174,7 @@ struct lo_data {
-     int timeout_set;
-     int readdirplus_set;
-     int readdirplus_clear;
-+    int announce_submounts;
-     int allow_direct_io;
-     struct lo_inode root;
-     GHashTable *inodes; /* protected by lo->mutex */
-@@ -211,6 +213,7 @@ static const struct fuse_opt lo_opts[] = {
-     { "cache=always", offsetof(struct lo_data, cache), CACHE_ALWAYS },
-     { "readdirplus", offsetof(struct lo_data, readdirplus_set), 1 },
-     { "no_readdirplus", offsetof(struct lo_data, readdirplus_clear), 1 },
-+    { "announce_submounts", offsetof(struct lo_data, announce_submounts), 1 },
-     { "allow_direct_io", offsetof(struct lo_data, allow_direct_io), 1 },
-     { "no_allow_direct_io", offsetof(struct lo_data, allow_direct_io), 0 },
-     FUSE_OPT_END
-@@ -608,22 +611,52 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-     }
- }
+diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux.py
+index 0055dc7cee..ad997c3f2e 100644
+--- a/tests/acceptance/boot_linux.py
++++ b/tests/acceptance/boot_linux.py
+@@ -57,7 +57,7 @@ class BootLinuxBase(Test):
+             self.cancel('Failed to download/prepare boot image')
+         return boot.path
  
-+/**
-+ * Call fstatat() and set st_rdev whenever a directory's st_dev
-+ * differs from the rparent's st_dev (@parent_dev).  This will
-+ * announce submounts to the FUSE client (unless @announce_submounts
-+ * is false).
-+ */
-+static int do_fstatat(int dirfd, const char *pathname, struct stat *statbuf,
-+                      int flags, dev_t parent_dev, uint32_t *fuse_attr_flags)
-+{
-+    int res = fstatat(dirfd, pathname, statbuf, flags);
-+    if (res == -1) {
-+        return res;
-+    }
-+
-+    if (statbuf->st_dev != parent_dev && S_ISDIR(statbuf->st_mode) &&
-+        fuse_attr_flags)
-+    {
-+        *fuse_attr_flags |= FUSE_ATTR_SUBMOUNT;
-+    }
-+
-+    return 0;
-+}
-+
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-                        struct fuse_file_info *fi)
- {
-     int res;
-     struct stat buf;
-     struct lo_data *lo = lo_data(req);
-+    struct lo_inode *inode = lo_inode(req, ino);
-+    uint32_t fuse_attr_flags = 0;
+-    def download_cloudinit(self):
++    def download_cloudinit(self, ssh_pubkey=None):
+         self.log.info('Preparing cloudinit image')
+         try:
+             cloudinit_iso = os.path.join(self.workdir, 'cloudinit.iso')
+@@ -67,7 +67,8 @@ class BootLinuxBase(Test):
+                           password='password',
+                           # QEMU's hard coded usermode router address
+                           phone_home_host='10.0.2.2',
+-                          phone_home_port=self.phone_home_port)
++                          phone_home_port=self.phone_home_port,
++                          authorized_key=ssh_pubkey)
+         except Exception:
+             self.cancel('Failed to prepared cloudinit image')
+         return cloudinit_iso
+@@ -80,19 +81,19 @@ class BootLinux(BootLinuxBase):
+     timeout = 900
+     chksum = None
  
-     (void)fi;
+-    def setUp(self):
++    def setUp(self, ssh_pubkey=None):
+         super(BootLinux, self).setUp()
+         self.vm.add_args('-smp', '2')
+         self.vm.add_args('-m', '1024')
+         self.prepare_boot()
+-        self.prepare_cloudinit()
++        self.prepare_cloudinit(ssh_pubkey)
  
--    res =
--        fstatat(lo_fd(req, ino), "", &buf, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+    res = do_fstatat(inode->fd, "", &buf, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW,
-+                     inode->parent_dev, &fuse_attr_flags);
-+    lo_inode_put(lo, &inode);
-     if (res == -1) {
-         return (void)fuse_reply_err(req, errno);
-     }
+     def prepare_boot(self):
+         path = self.download_boot()
+         self.vm.add_args('-drive', 'file=%s' % path)
  
--    fuse_reply_attr(req, &buf, lo->timeout);
-+    if (!lo->announce_submounts) {
-+        fuse_attr_flags &= ~FUSE_ATTR_SUBMOUNT;
-+    }
-+
-+    fuse_reply_attr_with_flags(req, &buf, lo->timeout, fuse_attr_flags);
- }
+-    def prepare_cloudinit(self):
+-        cloudinit_iso = self.download_cloudinit()
++    def prepare_cloudinit(self, ssh_pubkey=None):
++        cloudinit_iso = self.download_cloudinit(ssh_pubkey)
+         self.vm.add_args('-drive', 'file=%s,format=raw' % cloudinit_iso)
  
- static int lo_fi_fd(fuse_req_t req, struct fuse_file_info *fi)
-@@ -819,11 +852,16 @@ static int lo_do_lookup(fuse_req_t req, fuse_ino_t parent, const char *name,
-         goto out_err;
-     }
- 
--    res = fstatat(newfd, "", &e->attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+    res = do_fstatat(newfd, "", &e->attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW,
-+                     dir->key.dev, &e->attr_flags);
-     if (res == -1) {
-         goto out_err;
-     }
- 
-+    if (!lo->announce_submounts) {
-+        e->attr_flags &= ~FUSE_ATTR_SUBMOUNT;
-+    }
-+
-     inode = lo_find(lo, &e->attr);
-     if (inode) {
-         close(newfd);
-@@ -1069,11 +1107,17 @@ static void lo_link(fuse_req_t req, fuse_ino_t ino, fuse_ino_t parent,
-         goto out_err;
-     }
- 
--    res = fstatat(inode->fd, "", &e.attr, AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+    res = do_fstatat(inode->fd, "", &e.attr,
-+                     AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW,
-+                     parent_inode->key.dev, &e.attr_flags);
-     if (res == -1) {
-         goto out_err;
-     }
- 
-+    if (!lo->announce_submounts) {
-+        e.attr_flags &= ~FUSE_ATTR_SUBMOUNT;
-+    }
-+
-     pthread_mutex_lock(&lo->mutex);
-     inode->nlookup++;
-     pthread_mutex_unlock(&lo->mutex);
-@@ -1108,14 +1152,21 @@ static struct lo_inode *lookup_name(fuse_req_t req, fuse_ino_t parent,
- {
-     int res;
-     struct stat attr;
-+    struct lo_data *lo = lo_data(req);
-+    struct lo_inode *dir = lo_inode(req, parent);
-+
-+    if (!dir) {
-+        return NULL;
-+    }
- 
--    res = fstatat(lo_fd(req, parent), name, &attr,
--                  AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW);
-+    res = do_fstatat(dir->fd, name, &attr,
-+                     AT_EMPTY_PATH | AT_SYMLINK_NOFOLLOW, dir->key.dev, NULL);
-+    lo_inode_put(lo, &dir);
-     if (res == -1) {
-         return NULL;
-     }
- 
--    return lo_find(lo_data(req), &attr);
-+    return lo_find(lo, &attr);
- }
- 
- static void lo_rmdir(fuse_req_t req, fuse_ino_t parent, const char *name)
+     def launch_and_wait(self):
 -- 
 2.28.0
 
