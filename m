@@ -2,72 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37091298CF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 13:34:06 +0100 (CET)
-Received: from localhost ([::1]:53460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE02E298CF4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 13:36:40 +0100 (CET)
+Received: from localhost ([::1]:58904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX1hM-0002n2-Pk
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 08:34:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
+	id 1kX1jr-0005JO-Pp
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 08:36:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX1Yo-0008Ea-Qk
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 08:25:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33097)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX1Yf-000521-Q0
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 08:25:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603715104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VVjEaZYCCNWWiJR+IM4OLkD8tVrgII1U2RMm30QUANc=;
- b=P1pweP2EE9Fl4IQJhj9MCCdNWeQyWcyiyqr9pr1iiIsvPTbDF3okG3MfGqyPDp7aESM5uB
- eaBL3bxI7vsVWWMY7Oyc5YM78tpJ3TDFm2yUg3SREF66R4kzm2naJriuYzuZ3I1x7fs4bM
- L90mXCNVxga/BTDXuRu6lN+tSKOYci0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-xf39owNNN1SHoO2Wn-pYrg-1; Mon, 26 Oct 2020 08:25:01 -0400
-X-MC-Unique: xf39owNNN1SHoO2Wn-pYrg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D87BE80572E;
- Mon, 26 Oct 2020 12:24:59 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1927A19728;
- Mon, 26 Oct 2020 12:24:57 +0000 (UTC)
-Date: Mon, 26 Oct 2020 12:24:55 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Bihong Yu <yubihong@huawei.com>
-Subject: Re: [PATCH v3 0/8] Fix some style problems in migration
-Message-ID: <20201026122455.GA28658@work-vm>
-References: <1603163448-27122-1-git-send-email-yubihong@huawei.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kX1ac-0000KF-17; Mon, 26 Oct 2020 08:27:06 -0400
+Received: from mail-eopbgr80120.outbound.protection.outlook.com
+ ([40.107.8.120]:12502 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kX1aY-0005Kq-3u; Mon, 26 Oct 2020 08:27:04 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eEbwD4EojfPAD2z0tLlo4g1WSwrPmEW5/QttlD38TVIeKtj6dSv7K9W45EogxhJIsvk+1K1Qi0BgA9d9tjJa5mUOU5ZFmPEB1MNl9eYEInTlz0Qrq3ALamV6f1UKpEm98poROn6syXncMM3OSESKEhhYiMuFH1NpxviKQnaXQuJ8eG8orRN2aWzfS5VIr9Ai2l9mSJT5MeLEM078VvAS6+wGU9BBXIMRPLmUvxYviuwFvmvErqWMMXIGavNdD5IAJ8qj4CzagpcagzprX4Roh/euJfTLYlaapiBTpuTwlYV7bC92mvGDZZhRXpYr18NNP/yck/zm2hCrWbsYDw1Q8Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tVG5WrW+WV5QZUaVEimvfMnGGhnc6kpWmgquP66FXeA=;
+ b=hspV0gZiJmalRQnpf4TiiFz7oQWgN/vv6p4Y1h0bD8rX8UIgr+wL41hrO+1f5Shu0v0zPgWJBI5u/WQKWtFm4fzCcAyv9oFDRd254IVOZKVvIJuosJcaml15vc8O/90XMuDAdR5TfHSYii7EUYR0lLJmJXg7uOWG0lwflD/lIKb6JeeJBuqZssEVVdsB5pA/k5lxhkcGuZo2ivx1kwWpIHNcveGrFoxQOuUjI8zpY6YOoGm+mn/2mxB7KCMpo7KuoKucH9xJMiqeu+5Xl952sHWiBDd2K/RVt0hAiXrr+2f9HSf2uGY2GK8uAczRD6iihBaU1u7Eh2nBf7jqoUawzA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tVG5WrW+WV5QZUaVEimvfMnGGhnc6kpWmgquP66FXeA=;
+ b=K8jiDSgm5IGUySuWkL0i4zP1wMng9d0PTcnS6YKsy7wPOGlSpMiWNWDV0e8/8dNO0Y05Xr5rXljXDi1RrApx9TR6+LTgkAS0S9EGi7W80QM5p5b/BIZ43ncydRUk4rfkGSxG6KAPPTkRw1raWyrg5f1Hua5czCW2BQfyGdX9+dY=
+Authentication-Results: euphon.net; dkim=none (message not signed)
+ header.d=none;euphon.net; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM5PR0801MB1780.eurprd08.prod.outlook.com (2603:10a6:203:39::13)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Mon, 26 Oct
+ 2020 12:26:56 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Mon, 26 Oct 2020
+ 12:26:55 +0000
+Subject: Re: [PATCH v5 10/12] block: Return depth level during
+ bdrv_is_allocated_above
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, stefanha@redhat.com,
+ rjones@redhat.com, John Snow <jsnow@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Fam Zheng <fam@euphon.net>
+References: <20201023183652.478921-1-eblake@redhat.com>
+ <20201023183652.478921-11-eblake@redhat.com>
+ <caeff8a0-a4b6-0835-27c9-726cc8f94304@virtuozzo.com>
+Message-ID: <6c71221a-6267-75cb-0788-434d4d169c66@virtuozzo.com>
+Date: Mon, 26 Oct 2020 15:26:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+In-Reply-To: <caeff8a0-a4b6-0835-27c9-726cc8f94304@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [185.215.60.99]
+X-ClientProxiedBy: AM4PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:205::32)
+ To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <1603163448-27122-1-git-send-email-yubihong@huawei.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.99) by
+ AM4PR05CA0019.eurprd05.prod.outlook.com (2603:10a6:205::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Mon, 26 Oct 2020 12:26:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: c3547a69-3a56-4b85-af11-08d879aa6d42
+X-MS-TrafficTypeDiagnostic: AM5PR0801MB1780:
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1780C7AA373A93E0D1C1A647C1190@AM5PR0801MB1780.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HmQERh05gW4g4i2UkKAK6ce2SOc2+omobeNeMhc4YgJ1PcbRgwYp7B8K4SVe3DjnXV0el7MBYMhymI2bSiqmNmzgldbOT+4epmXuafsGMu2XPfT4UUjOH8q5T2Pm+Pu1tC7aRDTESQ2Tx0cO78811Fl4AzrQkVd/uc/3j027bqCnh7Eag+DpHpQNuBAYzY0Zewm7BqjZ90MpXJiE2kix79wEOeC22EZN7C/2ZmLHi+97UMCQHdxuIzwMwQ2E/seA+px39MfrQss06QCqVKe2bVAfk+eJ8E5O2P8ZyQ5Nyr3DQKUgh3oM6TT/+Nbh1307ZlG+RsCfRkGXqaWT0uKZba042lygFXxvFhQtxX8GuMI2+jo0OZIdDWIkYdYtFjFE
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(376002)(136003)(39840400004)(396003)(366004)(26005)(16576012)(54906003)(83380400001)(316002)(8936002)(2906002)(86362001)(186003)(6486002)(16526019)(66556008)(66476007)(36756003)(478600001)(31686004)(5660300002)(31696002)(8676002)(4326008)(2616005)(956004)(66946007)(52116002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: cuYY1Ohl7ghOYoVuY4QMfJogwVLAB5AyIls73unaAY+1IZaBHPpBQSwv4UlOXrrC0oumnN+5Yev8PCSqEqZnx+d9RTnx7L9lb5RkidVSv/5Aqt/nr2rjzXJEzFCwwXpYgQBSbTOiSsMwCBpw0yBZ3sFaq00DVN2tIHRIPLOMiT96Zqd7qVUaMgfuelloXNnJ9WKwRK+Tg2QpKODQV92JeantsskA59IyRpXEF61/p56j+4gutox4gnd3S0Hy3p03eVwYWB8XeqakisWLsrc2PuPrJjg0Q/S9d+BCpbqCcRz73WnUV0vkqE6OmQX7V4EFIHTJh4mTaH9LkkhDuc+9YEz6j+dOXDTn0z+erHhtbCCvjAgOfjaXdmVCD6ES6+tZfr85eeLXqdbPR9tgY5LbD+DrkxkppgNyI9womiRnv0YmSBRjuT+GJusDSvq6k0/gT7mF0IdvaDcOu88MgpKFFiv7Sx0ooMsr7AS0v+X61OpI1mEcssIqsORfDeqM/ZFXgXRFpkl1GheUu2INTE+H2eQBtS15QG1pxLMVen0fJRATX8tKw/FbX61jQ/2tL98wBqoduVFY7t7VZdxWWvMdLyIq6usC1HRfcejRZIdRdOmWBTkViTpQ7JKwFX4nxLTYcQfgRjMP/xNQBdD0ZN9GTA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c3547a69-3a56-4b85-af11-08d879aa6d42
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2020 12:26:55.8826 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JXMfiIge5Jvo1JzK2MMsF5tH20z6u6+I4rinK0Vxs30XQ+CVR9fG8iH7qYnjvLjnm7qa44iNzbKSmHYtYNITH3Mpk+pYjC3k00BRKQaPlZY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1780
+Received-SPF: pass client-ip=40.107.8.120;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 08:26:57
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,53 +120,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, quintela@redhat.com, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, armbru@redhat.com, alex.chen@huawei.com,
- wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Bihong Yu (yubihong@huawei.com) wrote:
-> Recently I am reading migration related code, find some style problems in
-> migration directory while using checkpatch.pl to check migration code. Fix the
-> error style problems.
+24.10.2020 12:49, Vladimir Sementsov-Ogievskiy wrote:
+> 23.10.2020 21:36, Eric Blake wrote:
+>> When checking for allocation across a chain, it's already easy to
+>> count the depth within the chain at which the allocation is found.
+>> Instead of throwing that information away, return it to the caller.
+>> Existing callers only cared about allocated/non-allocated, but having
+>> a depth available will be used by NBD in the next patch.
+>>
+>> Note that the previous code (since commit 188a7bbf94 in 2012) was
+>> lazy: for each layer deeper in the backing chain, it was issuing a
+>> bdrv_is_allocated request on the original 'bytes' amount, rather than
+>> on any smaller amount 'n' learned from an upper layer.  These
+>> semantics happened to work, since if you have:
+>>
+>> Base <- Active
+>> XX--    -XX-
+>>
+>> the consecutive results are offset 0: '11' with *pnum 2, followed by
+>> offset 2: '1' with *pnum 1, followed by offset 3: '0' with *pnum 1;
+>> the resulting sequence 1110 matches reality (the first three clusters
+>> are indeed allocated somewhere in the given range).  But post-patch,
+>> we correctly give the results offset 0: '2' with *pnum 1, followed by
+>> offset 1: '11' with *pnum 2, followed by offset 3: '0' with *pnum 1
+>> (2110), without over-reporting the length of contributions from the
+>> backing layers.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> This conflicts with block-status/is-allocated fix/merge patches in Stefan's "[PULL v3 00/28] Block patches"
 > 
 
-Queued
+the patches applied to master branch
 
-> v2:
-> - fix Signed-off-by error
-> - fix printf format error: "%0x" -> "0x%x"
-> 
-> v3:
-> - change "VMStateDescription * []" to "VMStateDescription *[]"
-> 
-> Bihong Yu (8):
->   migration: Do not use C99 // comments
->   migration: Don't use '#' flag of printf format
->   migration: Add spaces around operator
->   migration: Open brace '{' following struct go on the same line
->   migration: Add braces {} for if statement
->   migration: Do not initialise statics and globals to 0 or NULL
->   migration: Open brace '{' following function declarations go on the
->     next line
->   migration: Delete redundant spaces
-> 
->  migration/block.c        |  4 ++--
->  migration/migration.c    |  4 ++--
->  migration/migration.h    |  3 +--
->  migration/postcopy-ram.c |  2 +-
->  migration/ram.c          | 14 ++++++++------
->  migration/rdma.c         |  7 ++++---
->  migration/savevm.c       |  4 ++--
->  migration/vmstate.c      | 10 +++++-----
->  8 files changed, 25 insertions(+), 23 deletions(-)
-> 
-> -- 
-> 1.8.3.1
-> 
-> 
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Best regards,
+Vladimir
 
