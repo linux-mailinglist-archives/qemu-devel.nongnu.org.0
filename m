@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4255299816
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:37:20 +0100 (CET)
-Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39618299822
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:44:16 +0100 (CET)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX9F1-00049x-Ts
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:37:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46396)
+	id 1kX9Lj-0001CS-8v
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX9DP-0002rM-0P
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 16:35:39 -0400
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43155)
+ id 1kX9KM-0000kA-MR
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 16:42:50 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:37825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX9DN-0001kF-DL
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 16:35:38 -0400
-Received: by mail-ed1-x542.google.com with SMTP id dn5so10958052edb.10
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:35:36 -0700 (PDT)
+ id 1kX9KJ-0002yX-DP
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 16:42:50 -0400
+Received: by mail-ej1-x642.google.com with SMTP id p9so15728387eji.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:42:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3+gJPdgxJeehdTnI2InRs0AcqiXokE1aL5jQyui9O4s=;
- b=Lhd5j/fYiMdz7QwGBbpso46AqlAlkbi10Ln8alajU1Yxn8VwHRAPWqnTApuQGK3mOg
- C51seFcekJUZbUlS3WjM7Cf2KAelfspwZC26u14dkxUjnXsgcagbVtF4GJT5ltbwOusS
- eqGRfVQbgVp56vYjIz51IIBKWRHK3ZR0DlgIwIsaTfijqwLI+QYjYojUXINen90DJ6S8
- UrDwp03z1rb+IwJb0ASzew0ITuEJLAbXZ3fuhMHgdVufLNtt+AOebb7eyabzSt15daPx
- lC9viHqom0VLwo6CfdhUG0iFpHInI7RO7krn0BHYfemDKXI07kusYjGqVtdlXNQF2OEE
- uRcA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=iU+ZRCG+AFRiE68g8Pl07JSs3G5DgNs8ih7zug8A1HQ=;
+ b=PWzEIHvPW+VznJn19AVD7Bx+08i5IAOS2/6PE9JbTfLk6xl/cwYiX64tlup1eXpJF1
+ jirFSe4y4RBvPOT101PHq5wwsVROBTjiJ6dZR6z397LnMnhPlx7boOid2NNVJFbI0mki
+ n4Fo2lX3swyRIjT07qrxui8Xpln1JCdxpJqORpQp66ISL04KzeVITlDNEwDcdmwBVoUw
+ AgWpdXUcDl1EUGNVfZ7d7J/XsGNm/Q9VcS9SXvMPj7T7IAbELTESHuFw5ulQ54qIoOb6
+ 6kBlVO/foCIVb1cQVx++WO38bcZDlNG16Va3G0A0IrMilTjo7bUPfDT3N0F8k+H7d312
+ uR4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3+gJPdgxJeehdTnI2InRs0AcqiXokE1aL5jQyui9O4s=;
- b=rdEPLJExeoNqaH/QX6L4y8K5LE5pSgCwMF8w7AvvfTV6TAvcG8ibfdOMI7wj0dH4vM
- vZFiI+sf9QWa4OIXyfqIuLTR2m7rz7wHx+vwoumtNJ2LT/v1emOXKoV569O43mwAy9Ou
- y7cps3wLvrAZ+iKOs25sezCEElxFfCKttjICG0u3uYXZVOjAEhZhKJBF5Fb6dxJ8iITh
- OPJoQe/uCJk5D8OEXCieMZL+rt5tXKj0ghU9JPksoVo6AWXFmhCqRbQdTmD/hvuF9Pcx
- rAUZG1HkFhSZdxnwGbhmDQLft3FJoAdIN/m7WgOpafAdbRNXQpSTOESt2Nd6C30wn9OT
- PaBg==
-X-Gm-Message-State: AOAM5320a7XWWm4JF4+tjFIxVizuD8uZTBoTjIpffj9WQw4J5vjiYw8t
- ZdGHFF5QXm/4rKdwMTuSthboOfKehXvb5eBHfij3yA==
-X-Google-Smtp-Source: ABdhPJwsEk5jgrdxj5nxj2nReGxvq7yO//AaFfJDqqDQXlSMUz+hGa10yYjiI7GkLz5L71oIFOSOsj0Grg4vL9Qjs7A=
-X-Received: by 2002:a05:6402:3133:: with SMTP id
- dd19mr18044021edb.100.1603744534809; 
- Mon, 26 Oct 2020 13:35:34 -0700 (PDT)
+ :message-id:subject:to;
+ bh=iU+ZRCG+AFRiE68g8Pl07JSs3G5DgNs8ih7zug8A1HQ=;
+ b=LCAGn0g96Q/SLfimmguyXSbAyM6rjFzxcrIRou9aRoKtmQMhDQjfknObIGyjAN+ovL
+ anTzGSj3C8zPJSkPAMqDf5uAUSTp2PxDPxZ6D+/lVH51NmnMDJZDVVLGiwofgwKQ8J4f
+ 2/3kMGGNqYUcoRyLCSC63tIys/AhUe2FpG9DplJEOjgYJdOQW9H0gCS/0TrJvC423av+
+ 87qzTIWIzPNL8QIOIInElzrH1kAs5g3puY05ge+VFU+eS0yLzoppuqvcSEFV1lBwW2wE
+ G680/OcjP5anmCOCmxxNyTrmZN2leJ5vu9yqtzjDUe2GNGFeNQ4WlSrS+KsD7d4Z6t3Q
+ KhgQ==
+X-Gm-Message-State: AOAM5323xq+15++tyLF0hkMsNYD8ZRrY+S5Pk49vtr2JKB2zhQDQciNk
+ VtId1kxwSxkLkxoDzpxypA0yNogrWKydrrPlLl0MZ2r35eM=
+X-Google-Smtp-Source: ABdhPJzzJInurkN+I5jFNa5W7sVXhw5ctJ/TP4zXCR8hieW2KkkrM7oBdsnBPAlLtdjxChmpXypLWGqasTbWWq+DrNI=
+X-Received: by 2002:a17:906:af8d:: with SMTP id
+ mj13mr17134664ejb.85.1603744965414; 
+ Mon, 26 Oct 2020 13:42:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200814213938.369628-1-richard.henderson@linaro.org>
- <bcab99e8-f738-4d07-d42a-7dfbe9ac2b49@linaro.org>
-In-Reply-To: <bcab99e8-f738-4d07-d42a-7dfbe9ac2b49@linaro.org>
+References: <20201015151829.14656-1-peter.maydell@linaro.org>
+In-Reply-To: <20201015151829.14656-1-peter.maydell@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 20:35:23 +0000
-Message-ID: <CAFEAcA_3MXa+h7Wum6x14wgic4V2hh0zAn2NfB72_UB62je5+g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3] target/arm: Implement an IMPDEF pauth algorithm
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Mon, 26 Oct 2020 20:42:34 +0000
+Message-ID: <CAFEAcA8g-n4gqy0Az7cBsQJqcQpsc_vH2=VatqqdRt034YD5JQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] armv7m_systick: Rewrite to use ptimers
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,39 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>, Andrew Jones <drjones@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 18 Oct 2020 at 19:27, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Ping.
-
-Sorry I kind of ignored this series. (It's in that set of
-things where it would require thought about whether it's
-definitely what we want to do, and I haven't made time to
-think about it).
-
-Anyway, I tried to rebase it on current master, but it
-fails 'make check':
-
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img
-G_TEST_DBUS_DAEMON=/home/petmay01/linaro/qemu-from-laptop/qemu/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-aarch64 tests/qtest/arm-cpu-features
---tap -k
-**
-ERROR:../../tests/qtest/arm-cpu-features.c:439:pauth_tests_default:
-assertion failed: (_error)
-ERROR qtest-aarch64: arm-cpu-features - Bail out!
-ERROR:../../tests/qtest/arm-cpu-features.c:439:pauth_tests_default:
-assertion failed: (_error)
-
-That's the "can't enable pauth-impdef without pauth" test, I think.
+Ping for review ?
 
 thanks
 -- PMM
+
+On Thu, 15 Oct 2020 at 16:18, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> This patch series rewrites our implementation of the armv7m systick
+> timer to use ptimers.
+>
+> The armv7m systick timer is a 24-bit decrementing, wrap-on-zero,
+> clear-on-write counter.  Our current implementation has various bugs
+> and dubious workarounds in it (for instance see
+> https://bugs.launchpad.net/qemu/+bug/1872237).
+>
+> We have an implementation of a simple decrementing counter and we put
+> a lot of effort into making sure it handles the interesting corner
+> cases (like "spend a cycle at 0 before reloading"), so rather than
+> trying to fix these all over again in systick's hand-rolled countdown
+> code it's much simpler to just rewrite it to use a ptimer.
+>
+> Unfortunately this is a migration compatibility break, which will
+> affect all M-profile boards.
+>
+> Among other bugs, this fixes
+> https://bugs.launchpad.net/qemu/+bug/1872237 : now writes to SYST_CVR
+> when the timer is enabled correctly do nothing; when the timer is
+> enabled via SYST_CSR.ENABLE, the ptimer code will (because of
+> POLICY_NO_IMMEDIATE_RELOAD) arrange that after one timer tick the
+> counter is reloaded from SYST_RVR and then counts down from there, as
+> the architecture requires.
+>
+> Side note: the trace from the test program in LP1872237 won't look
+> quite like it does on the hardware: under QEMU the "waiting for 1000
+> ms" debug printing generally reports a SYST_CVR value of 0.  This is
+> because QEMU's emulated CPU is comparatively fast and our systick has a
+> hard-wired value of 1MHz for the frequency of the 'external reference
+> clock', which means that execution of the guest code reaches "read
+> SYST_CVR" before the first tick of the timer clock after enabling of
+> the timer (which is where the reload of SYST_CVR from SYST_RVR is
+> required).  The exception is the first iteration, where the time QEMU
+> takes to translate the guest code is enough that the timer tick
+> happens before the register read.  You can also get the timer tick to
+> win the race by fiddling around with the -icount option (which
+> effectively is slowing down the emulated CPU speed).
+>
+> Some day we should model both the 'system_clock_scale' (ie the CPU
+> clock frequency) and the 'external reference clock' as QEMU clock
+> source/sinks so that board code can specify the correct reference
+> clock frequency.
+>
+> Patch 1 is a minor tweak to the ptimer code to suppress a spurious
+> warning message for the "timer callback function disabled the ptimer"
+> case, which the systick timer uses.  Patch 2 is the actual
+> conversion.
+>
+> thanks
+> -- PMM
+>
+>
+> Peter Maydell (2):
+>   hw/core/ptimer: Support ptimer being disabled by timer callback
+>   hw/timer/armv7m_systick: Rewrite to use ptimers
+>
+>  include/hw/timer/armv7m_systick.h |   3 +-
+>  hw/core/ptimer.c                  |   4 +
+>  hw/timer/armv7m_systick.c         | 124 +++++++++++++-----------------
+>  3 files changed, 58 insertions(+), 73 deletions(-)
+>
+> --
+> 2.20.1
+>
 
