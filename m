@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D671629966D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:06:54 +0100 (CET)
-Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019A8299665
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:03:18 +0100 (CET)
+Received: from localhost ([::1]:41406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX7pV-0000dQ-TO
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:06:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50060)
+	id 1kX7m1-0005bl-2q
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:03:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kX7iJ-00038r-EB
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:59:27 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:38147)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kX7jk-0004P2-UG
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:00:57 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34641)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kX7iG-0005kJ-IR
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 14:59:27 -0400
-Received: by mail-lj1-x242.google.com with SMTP id m20so11452606ljj.5
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:59:23 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kX7jj-00063x-3Z
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:00:56 -0400
+Received: by mail-ed1-x541.google.com with SMTP id x1so10594154eds.1
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 12:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=8x+LHT39X5snWgd/p4SdR4bi1nm9tkg0nS8lugJkQWY=;
- b=uWsdzkbkqA2Ew/2aa/WF1ghhr7VsW/9GkXQez29mE5lOSpkjALvF4Yozerm3PHSq+h
- W4BRusfH3IVZCQRpbYXR2R+N6V1/QurxyWB3/621VMrsY2nPLdHW83F9muUC81pTKn22
- hqY4G9iBVzoYXGK4ogMDJaqoOxR6x8Ao4Jv6+Ooqa6BF9dt/Gp1mVZriU2KKgls8jkEd
- 9PplZBhlHvGIiiUTc+2uF1DktgdZ0fy7ko8QXZPAFbIC8eXUmOiMdkaEqk9MsotrEHDe
- GDN4igyh6MBUv/8Bp03S1eq3J/yw1Oy/1iBkHquFktjSDYeYGMH+ruzzYuu+cNquCZ9z
- ByRQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e0etMofaW9SaMB1wnsg0x/G5RNjt5vIKJ7MJQXxwx3M=;
+ b=bvOwJWFi664MCi6AIGRffX7BN7VJ4zo08SfvSQeC31S8W3A3cAU/vILdF9X4mMWxIc
+ bFhBm/DGRlqaMovQpDAcrsEeqZetMdbh0EcZT+lPH8qprr53ZUbVTrTyf/KcrKnN+uuv
+ nfyxswVevnQOSPDPC9v2htkFzFJk3cm0FeqJEWhVwbhtN4DlW+blUC3zQ1OQpK9JFVuC
+ 5+f69hVbIEy5+f6Seos4vwlFFeHtBEsdrG2A1cDcErnt68O4qEMhQk68kwbFJs2dKXy9
+ 4lqRFQ/nhgAU6xFPJcs7IweH4st5KlxVRRZ59SFUS20m5n1wHFaUDsF/JVoQGppQh7Q+
+ q7ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=8x+LHT39X5snWgd/p4SdR4bi1nm9tkg0nS8lugJkQWY=;
- b=KxNQJa/5+w+FOPVf3aE4gWFaxGmYOECC16CP7/zdJFSM9MMLd3+zV/BLXGSKPvNpIS
- NQdzvX5UtdaFspAE4AQzC/r5ZDXFNbSIJ8Wqy4xsG6JL0FuEvMibFx9QG2Dli2G5t509
- 4kJSi0HajGhdHoA0Ed2z1m5D6mr2ElbsGWxpCpjr//luCr2DMFNm0G2rbbDY+Wl5uAc/
- IUJxpm+0HOeLt2S2KTXIfgrmXwOp/4jOnskHfy/vjvSiZtYeZgSOLXCP6khrwoxi/ilR
- SG3PloZEZhmMbI7lPcgKP+i5cSNkTB5ymaeXevD73Q0Sou+LEbBObUWmEJe5/iTYZNK/
- UMEw==
-X-Gm-Message-State: AOAM5336rQizsmuQeT8ZqPkIjN3xJ6p4Qw7YHNlsBqZSI4Okton9MK6g
- x9/wPskZ9u8TcEaL9vhaOkhdyhvc6sPhi9oq+q4=
-X-Google-Smtp-Source: ABdhPJzaik0lAvslIzz2vWvZaJHyUaP52cLqwCfMGCo9VKmJRwH6EFAdyIJm17cJgNmgPlJ0Hqg+i0n8s79HxHtCfdg=
-X-Received: by 2002:a2e:9a17:: with SMTP id o23mr7189786lji.242.1603738762206; 
- Mon, 26 Oct 2020 11:59:22 -0700 (PDT)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e0etMofaW9SaMB1wnsg0x/G5RNjt5vIKJ7MJQXxwx3M=;
+ b=hW+LeSgXxx3YAaOSr/RjHRiVl486PSf7guR3JyxQXu01lFPpkiUNrQCS+pD+/teLKR
+ +J9ZTlYdLL5HaGOt77BHTPUt5pTwz22QVgjnBMULYUBpbe4lPeMdVQpGwD/D53qtQSwW
+ Uac7kPGIrZ3xICeW86gvjbkf+mX7LBMaRtRWYqUW9Od0iaor8HAdi/vp25uZ33kuPhE4
+ P21B9osb+x4910nW6oHAvrjME7e0NErcr0t6o5B0wnJvEJYarxHehkRjhKr0Nm0i6E/o
+ RL2bi9J0FWe7HkNPXRfo4wKrp3ToRGO9QgRj7SLx0WCElld5EnVZKiN4sxsbbVU0ZGdC
+ J21Q==
+X-Gm-Message-State: AOAM530ve+WVal3IL3Qr707u8Qix27LLzZXHya+moIVfb3OHUcJIs/DG
+ FnT7/CT+3kjdwdLe8nc5t/oFbsy1DUg=
+X-Google-Smtp-Source: ABdhPJyOvKqK5PmXho1UCcjMkj69ZTnhKL5r95fA/QkcWuMIGfh/RIJeybs3lRfqCMWE3sFkfwC7FA==
+X-Received: by 2002:a50:9ea6:: with SMTP id a35mr17617624edf.52.1603738850669; 
+ Mon, 26 Oct 2020 12:00:50 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id u2sm5725592edr.70.2020.10.26.12.00.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 12:00:49 -0700 (PDT)
+Subject: Re: [PATCH 11/15] rx: move BIOS load from MCU to board
+To: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-12-pbonzini@redhat.com> <87lffsgas5.fsf@linaro.org>
+ <53ddb690-db6d-cfce-ee9e-c274b18bfaa0@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <d76b93ed-0abf-9b77-7b46-66161d57c75f@amsat.org>
+Date: Mon, 26 Oct 2020 20:00:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201026135131.3006712-1-pbonzini@redhat.com>
- <CAFEAcA-WscaYcpooMQ0F2Etc+Rzf5M=Bb-b9Dw7pGsaaO8Od=g@mail.gmail.com>
-In-Reply-To: <CAFEAcA-WscaYcpooMQ0F2Etc+Rzf5M=Bb-b9Dw7pGsaaO8Od=g@mail.gmail.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Tue, 27 Oct 2020 02:59:10 +0800
-Message-ID: <CAE2XoE9AvG-G70Rm5S=q+Xz3C2_VVGdL6DHXme=ZFPU+OOwQng@mail.gmail.com>
-Subject: Re: [PULL 00/17] Build system changes and misc fixes for QEMU 5.2
- soft freeze
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000003be07f05b297878d"
-Received-SPF: pass client-ip=2a00:1450:4864:20::242;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x242.google.com
+In-Reply-To: <53ddb690-db6d-cfce-ee9e-c274b18bfaa0@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,103 +93,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003be07f05b297878d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 10/26/20 6:34 PM, Paolo Bonzini wrote:
+> On 26/10/20 18:24, Alex Bennée wrote:
+>>
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
+>>
+>>> The ROM loader state is global and not part of the MCU, and the
+>>> BIOS is in machine->firmware.  So just like the kernel case,
+>>> load it in the board.
+>>>
+>>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> ---
+>>>   hw/rx/rx-gdbsim.c | 7 +++++++
+>>>   hw/rx/rx62n.c     | 9 ---------
+>>>   2 files changed, 7 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+>>> index 417ec0564b..040006c1c5 100644
+>>> --- a/hw/rx/rx-gdbsim.c
+>>> +++ b/hw/rx/rx-gdbsim.c
+>>> @@ -142,6 +142,13 @@ static void rx_gdbsim_init(MachineState *machine)
+>>>               /* Set dtb address to R1 */
+>>>               RX_CPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
+>>>           }
+>>> +    } else {
+>>> +        if (machine->firmware) {
+>>> +            rom_add_file_fixed(machine->firmware, RX62N_CFLASH_BASE, 0);
+>>> +        } else if (!qtest_enabled()) {
+>>> +            error_report("No bios or kernel specified");
+>>> +            exit(1);
+>>> +        }
+>>>       }
+>>>   }
+>>>   
+>>> diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+>>> index 6eb4eea700..17ec73fc7b 100644
+>>> --- a/hw/rx/rx62n.c
+>>> +++ b/hw/rx/rx62n.c
+>>> @@ -245,15 +245,6 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+>>>                              rxc->rom_flash_size, &error_abort);
+>>>       memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flash);
+>>>   
+>>> -    if (!s->kernel) {
+>>> -        if (bios_name) {
+>>> -            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
 
-This pull request confused me, the windows msys2 build time slow down from
-40min to more than one hour.
+The acceptance test fails. There is some odd reset order problem,
+eventually related to this discussion "CPU reset handler priority":
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg686362.html
 
-On Tue, Oct 27, 2020 at 1:54 AM Peter Maydell <peter.maydell@linaro.org>
-wrote:
->
-> On Mon, 26 Oct 2020 at 14:04, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > The following changes since commit
-4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
-> >
-> >   Merge remote-tracking branch
-'remotes/kraxel/tags/modules-20201022-pull-request' into staging
-(2020-10-22 12:33:21 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> >
-> > for you to fetch changes up to 8b0e484c8bf82e07bb0439bff04e248c63cdc86a=
-:
-> >
-> >   machine: move SMP initialization from vl.c (2020-10-26 07:08:40 -0400=
-)
-> >
-> > ----------------------------------------------------------------
-> > * fix --disable-tcg builds (Claudio)
-> > * Fixes for macOS --enable-modules build and OpenBSD curses/iconv
-detection (myself)
-> > * Start preparing for meson 0.56 (myself)
-> > * Move directory configuration to meson (myself)
-> > * Start untangling qemu_init (myself)
-> > * Windows fixes (Sunil)
-> > * Remove -no-kbm (Thomas)
-> >
-> > ----------------------------------------------------------------
->
->
-> Applied, thanks.
->
-> Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-> for any user-visible changes.
->
-> -- PMM
->
+>>> -        }  else if (!qtest_enabled()) {
+>>> -            error_report("No bios or kernel specified");
+>>> -            exit(1);
+>>> -        }
+>>> -    }
+>>> -
+>>
+>> I'm confused because on the face of it these are two different models.
+>> I'll defer to the domain expert on this one.
 
+Yoshinori started to clean that here:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg734135.html
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+> 
+> rx62n is the SoC, rx-gdbsim.c instead includes the rx62n7 and rx62n8
+> machines.
+> 
+> Paolo
+> 
 
---0000000000003be07f05b297878d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">This pull request confused me, the windows msys2 build tim=
-e slow down from 40min to more than one hour.<br><br>On Tue, Oct 27, 2020 a=
-t 1:54 AM Peter Maydell &lt;<a href=3D"mailto:peter.maydell@linaro.org">pet=
-er.maydell@linaro.org</a>&gt; wrote:<br>&gt;<br>&gt; On Mon, 26 Oct 2020 at=
- 14:04, Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">pbonzini@r=
-edhat.com</a>&gt; wrote:<br>&gt; &gt;<br>&gt; &gt; The following changes si=
-nce commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:<br>&gt; &gt;<br>&gt; &=
-gt; =C2=A0 Merge remote-tracking branch &#39;remotes/kraxel/tags/modules-20=
-201022-pull-request&#39; into staging (2020-10-22 12:33:21 +0100)<br>&gt; &=
-gt;<br>&gt; &gt; are available in the Git repository at:<br>&gt; &gt;<br>&g=
-t; &gt; =C2=A0 <a href=3D"https://gitlab.com/bonzini/qemu.git">https://gitl=
-ab.com/bonzini/qemu.git</a> tags/for-upstream<br>&gt; &gt;<br>&gt; &gt; for=
- you to fetch changes up to 8b0e484c8bf82e07bb0439bff04e248c63cdc86a:<br>&g=
-t; &gt;<br>&gt; &gt; =C2=A0 machine: move SMP initialization from vl.c (202=
-0-10-26 07:08:40 -0400)<br>&gt; &gt;<br>&gt; &gt; -------------------------=
----------------------------------------<br>&gt; &gt; * fix --disable-tcg bu=
-ilds (Claudio)<br>&gt; &gt; * Fixes for macOS --enable-modules build and Op=
-enBSD curses/iconv detection (myself)<br>&gt; &gt; * Start preparing for me=
-son 0.56 (myself)<br>&gt; &gt; * Move directory configuration to meson (mys=
-elf)<br>&gt; &gt; * Start untangling qemu_init (myself)<br>&gt; &gt; * Wind=
-ows fixes (Sunil)<br>&gt; &gt; * Remove -no-kbm (Thomas)<br>&gt; &gt;<br>&g=
-t; &gt; ----------------------------------------------------------------<br=
->&gt;<br>&gt;<br>&gt; Applied, thanks.<br>&gt;<br>&gt; Please update the ch=
-angelog at <a href=3D"https://wiki.qemu.org/ChangeLog/5.2">https://wiki.qem=
-u.org/ChangeLog/5.2</a><br>&gt; for any user-visible changes.<br>&gt;<br>&g=
-t; -- PMM<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=E6=AD=
-=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0=
- =C2=A0 sincerely,<br>Yonggang Luo</div>
-
---0000000000003be07f05b297878d--
 
