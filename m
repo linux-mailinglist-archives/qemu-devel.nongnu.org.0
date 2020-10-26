@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37CC0298EA9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:57:59 +0100 (CET)
-Received: from localhost ([::1]:49000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24C5298E58
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:45:23 +0100 (CET)
+Received: from localhost ([::1]:46326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX30Y-0002zX-97
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:57:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39628)
+	id 1kX2oM-0006MN-Ly
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:45:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2up-0005ld-JL
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28579)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2uf-0001mS-DT
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720305;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5LKvEkpPcLibyqkLS8s8WHoqonbFKyk3jZDn8Jd8wSQ=;
- b=Pn2G1EQ4rvDMpcDH5JWajoukbS6937Zpfk2Nyzex2lnAOQb1FGBhCUlvkVJ+jP25AYII4V
- b6a7nYYqqygNbWLUsjriCQN7vEmAaonCtQeO3BUm10jLyMRoDjy2K3YVFt42lG6fss9ta3
- 7yLKu7yN4P013uw0s8ZA4VncG65F2pY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-We2Ts0oJP5epKsK1eGFYcQ-1; Mon, 26 Oct 2020 09:51:43 -0400
-X-MC-Unique: We2Ts0oJP5epKsK1eGFYcQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A606C1099F65
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:41 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 045C21002C00;
- Mon, 26 Oct 2020 13:51:38 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 17/17] machine: move SMP initialization from vl.c
-Date: Mon, 26 Oct 2020 09:51:31 -0400
-Message-Id: <20201026135131.3006712-18-pbonzini@redhat.com>
-In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
-References: <20201026135131.3006712-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kX2mM-00043t-En
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:43:18 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
+ id 1kX2mJ-0000Jo-0J
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:43:18 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CKbd22ZnYz15M3t;
+ Mon, 26 Oct 2020 21:43:02 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 26 Oct 2020
+ 21:42:48 +0800
+From: Chuan Zheng <zhengchuan@huawei.com>
+To: <quintela@redhat.com>, <dgilbert@redhat.com>
+Subject: [PATCH v1 0/4] migration/debug: Add migration ram consistency check
+Date: Mon, 26 Oct 2020 21:58:41 +0800
+Message-ID: <1603720725-81206-1-git-send-email-zhengchuan@huawei.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhengchuan@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 07:55:44
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,57 +57,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ xiexiangyou@huawei.com, alex.chen@huawei.com, wanghao232@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Initialize the object's values from the class when the object is
-created, no need to have vl.c do it for us.
+Sometimes we want to debug whether the ramblock we migrate is same between Src and Dst.
+For example, we could want to check ram when develop something related to dirty log sync.
+Consistency check is implemented in this series, it will sha256sum all migratable
+ramblock and print both in Src and Dst.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/core/machine.c | 7 +++++++
- softmmu/vl.c      | 7 -------
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Check results are shown as follow:
+Src:
+CheckPoint: migrate_fd_cleanup, Ramblock: mach-virt.ram, CheckValue: 4422e2e8f26835f32ee3a9f13e1df2772d48f973a58381f6a549ebbcfe485b72
+CheckPoint: migrate_fd_cleanup, Ramblock: virt.flash0, CheckValue: d5584b740ffcf81df8123ebc833793a71a03d47c1bb5a97170d05d18665c8b2e
+CheckPoint: migrate_fd_cleanup, Ramblock: virt.flash1, CheckValue: 1d6c818dfa81a88ca5b7b1da231a9ba57f4f87677c6ba8e76196195b5aa05f0c
+CheckPoint: migrate_fd_cleanup, Ramblock: /rom@etc/acpi/tables, CheckValue: db4c25623cb0192a70b56b5700e304e87c46f3016bc4b43b458a831b93d1cd54
+CheckPoint: migrate_fd_cleanup, Ramblock: /rom@etc/table-loader, CheckValue: b3e0b1026cd4df920884f7d090b90cfb64b4a3ab407feeb632300aabd9fb28fe
+CheckPoint: migrate_fd_cleanup, Ramblock: /rom@etc/acpi/rsdp, CheckValue: 7af8a2bc8c5f78db788a47ed60b30bffee50f28783529ee55224f9e3613cc28a
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 57463ad77a..c5e0e79e6d 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -907,6 +907,13 @@ static void machine_initfn(Object *obj)
-     /* Register notifier when init is done for sysbus sanity checks */
-     ms->sysbus_notifier.notify = machine_init_notify;
-     qemu_add_machine_init_done_notifier(&ms->sysbus_notifier);
-+
-+    /* default to mc->default_cpus */
-+    ms->smp.cpus = mc->default_cpus;
-+    ms->smp.max_cpus = mc->default_cpus;
-+    ms->smp.cores = 1;
-+    ms->smp.threads = 1;
-+    ms->smp.sockets = 1;
- }
- 
- static void machine_finalize(Object *obj)
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9b67ea300e..b7d7f43c88 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3970,13 +3970,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
-     }
- 
--    /* default to machine_class->default_cpus */
--    current_machine->smp.cpus = machine_class->default_cpus;
--    current_machine->smp.max_cpus = machine_class->default_cpus;
--    current_machine->smp.cores = 1;
--    current_machine->smp.threads = 1;
--    current_machine->smp.sockets = 1;
--
-     machine_class->smp_parse(current_machine,
-         qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
- 
+Dst:
+CheckPoint: qemu_loadvm_state, Ramblock: mach-virt.ram, CheckValue: 4422e2e8f26835f32ee3a9f13e1df2772d48f973a58381f6a549ebbcfe485b72
+CheckPoint: qemu_loadvm_state, Ramblock: virt.flash0, CheckValue: d5584b740ffcf81df8123ebc833793a71a03d47c1bb5a97170d05d18665c8b2e
+CheckPoint: qemu_loadvm_state, Ramblock: virt.flash1, CheckValue: 1d6c818dfa81a88ca5b7b1da231a9ba57f4f87677c6ba8e76196195b5aa05f0c
+CheckPoint: qemu_loadvm_state, Ramblock: /rom@etc/acpi/tables, CheckValue: db4c25623cb0192a70b56b5700e304e87c46f3016bc4b43b458a831b93d1cd54
+CheckPoint: qemu_loadvm_state, Ramblock: /rom@etc/table-loader, CheckValue: b3e0b1026cd4df920884f7d090b90cfb64b4a3ab407feeb632300aabd9fb28fe
+CheckPoint: qemu_loadvm_state, Ramblock: /rom@etc/acpi/rsdp, CheckValue: 7af8a2bc8c5f78db788a47ed60b30bffee50f28783529ee55224f9e3613cc28a
+
+Not for sure if it is valuable, any discussion and comment is welcome.
+
+Chuan Zheng (4):
+  migration/debug: Introduce foreach_migratable_block()
+  migration/debug: Implement migration memory consistency check
+  migration/debug: add checkpoint for migration consistency check
+  migration/debug: add DEBUG_MIGRATION_CONSISTENCY_CHECK macros
+
+ migration/migration.c |  3 ++
+ migration/ram.c       | 86 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ migration/ram.h       |  7 +++++
+ migration/savevm.c    |  9 ++++++
+ 4 files changed, 105 insertions(+)
+
 -- 
-2.26.2
+1.8.3.1
 
 
