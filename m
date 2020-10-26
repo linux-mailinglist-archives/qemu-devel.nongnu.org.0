@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF89299280
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:33:02 +0100 (CET)
-Received: from localhost ([::1]:60756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 316DE299291
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:35:53 +0100 (CET)
+Received: from localhost ([::1]:42914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX5Qb-0003bW-7r
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:33:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60668)
+	id 1kX5TM-0007sY-8O
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:35:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Ey-0005CZ-Mx
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:21:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40237)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX5IB-0001L2-9H
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:24:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX5Eu-0000OR-Hg
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:21:00 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX5I9-0000tE-Ir
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:24:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603729254;
+ s=mimecast20190719; t=1603729456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LeSYKSnUUTv72sw4cyfXobZIwEsSZnxB3Iqlyr17jUc=;
- b=EeLOnuhJKiRqE0Og4gTuJDeKgE+roMEh8Ivbg76kq5hBAunqMk3lqxGaF1wKEgnVBQoFUn
- XynL3TVrtSOVmabDu+JUlj9tlxRhilb0TXyXFUGNqK8oaHDCgMf4FQjINwsOHyHV8YCWnZ
- y4IbrxuSgaihT9CUEkgWucBONWuw5EM=
+ bh=qlPyrBzjf0GWK4BZ19lZ/OgTeZYhHxiaxiUxad17xG8=;
+ b=WDmGph4D1hEZ5agKNrr1WHvkdem2+2vXlo25SkmJj4Rbr0O6OmMbqSmuQxb0KBMIpNze5n
+ CeY+tqyavkrGJtNyljckivmPLabFmqVqZg4WpUj0oduNkLO78Y8rmttB/6P304lwQFmMXv
+ JxBQnF+1nyOtiXkGV4ICEtKCLIcjUyI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-563-PaK8-H47Oa-ZrKxcqmYGpA-1; Mon, 26 Oct 2020 12:20:52 -0400
-X-MC-Unique: PaK8-H47Oa-ZrKxcqmYGpA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-344-vf2RaRnQM2ueqa78mOClww-1; Mon, 26 Oct 2020 12:24:12 -0400
+X-MC-Unique: vf2RaRnQM2ueqa78mOClww-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34E47101F7A0;
- Mon, 26 Oct 2020 16:20:51 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-112-208.ams2.redhat.com
- [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 036945D9E4;
- Mon, 26 Oct 2020 16:20:49 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, yubihong@huawei.com, peterx@redhat.com,
- peter.maydell@linaro.org
-Subject: [PULL 16/16] migration-test: Only hide error if !QTEST_LOG
-Date: Mon, 26 Oct 2020 16:19:52 +0000
-Message-Id: <20201026161952.149188-17-dgilbert@redhat.com>
-In-Reply-To: <20201026161952.149188-1-dgilbert@redhat.com>
-References: <20201026161952.149188-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE8EE18A072B;
+ Mon, 26 Oct 2020 16:24:09 +0000 (UTC)
+Received: from gondolin (ovpn-113-108.ams2.redhat.com [10.36.113.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E24EB6EF46;
+ Mon, 26 Oct 2020 16:23:54 +0000 (UTC)
+Date: Mon, 26 Oct 2020 17:23:52 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Kirti Wankhede <kwankhede@nvidia.com>
+Subject: Re: [PATCH v29 04/17] vfio: Add migration region initialization and
+ finalize function
+Message-ID: <20201026172352.4536493f.cohuck@redhat.com>
+In-Reply-To: <1603704987-20977-5-git-send-email-kwankhede@nvidia.com>
+References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
+ <1603704987-20977-5-git-send-email-kwankhede@nvidia.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,53 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: quintela@redhat.com
+Cc: cjia@nvidia.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
+ Zhengxiao.zx@Alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+ qemu-devel@nongnu.org, peterx@redhat.com, eauger@redhat.com, artemp@nvidia.com,
+ yi.l.liu@intel.com, quintela@redhat.com, ziye.yang@intel.com,
+ armbru@redhat.com, mlevitsk@redhat.com, pasic@linux.ibm.com,
+ felipe@nutanix.com, zhi.a.wang@intel.com, mcrossley@nvidia.com,
+ kevin.tian@intel.com, yan.y.zhao@intel.com, dgilbert@redhat.com,
+ alex.williamson@redhat.com, changpeng.liu@intel.com, eskultet@redhat.com,
+ Ken.Xue@amd.com, jonathan.davies@nutanix.com, pbonzini@redhat.com,
+ dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+On Mon, 26 Oct 2020 15:06:14 +0530
+Kirti Wankhede <kwankhede@nvidia.com> wrote:
 
-The errors are very useful when debugging qtest failures, especially when
-QTEST_LOG=1 is set.  Let's allow override MigrateStart.hide_stderr when
-QTEST_LOG=1 is specified, because that means the user wants to be verbose.
+> Whether the VFIO device supports migration or not is decided based of
+> migration region query. If migration region query is successful and migration
+> region initialization is successful then migration is supported else
+> migration is blocked.
+> 
+> Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+> Reviewed-by: Neo Jia <cjia@nvidia.com>
+> Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  hw/vfio/meson.build           |   1 +
+>  hw/vfio/migration.c           | 122 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |   3 ++
+>  include/hw/vfio/vfio-common.h |   9 ++++
+>  4 files changed, 135 insertions(+)
+>  create mode 100644 hw/vfio/migration.c
 
-Not very nice to introduce the first QTEST_LOG env access in migration-test.c,
-however it should be handy.  Without this patch, I was hacking error_report()
-when debugging such errors.  Let's make things easier.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20201021212721.440373-7-peterx@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tests/qtest/migration-test.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index f410ec5996..f2142fbd3c 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -464,6 +464,10 @@ static void migrate_postcopy_start(QTestState *from, QTestState *to)
- }
- 
- typedef struct {
-+    /*
-+     * QTEST_LOG=1 may override this.  When QTEST_LOG=1, we always dump errors
-+     * unconditionally, because it means the user would like to be verbose.
-+     */
-     bool hide_stderr;
-     bool use_shmem;
-     /* only launch the target process */
-@@ -557,7 +561,7 @@ static int test_migrate_start(QTestState **from, QTestState **to,
- 
-     g_free(bootpath);
- 
--    if (args->hide_stderr) {
-+    if (!getenv("QTEST_LOG") && args->hide_stderr) {
-         ignore_stderr = "2>/dev/null";
-     } else {
-         ignore_stderr = "";
--- 
-2.28.0
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
