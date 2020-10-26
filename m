@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76E052994D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:07:25 +0100 (CET)
-Received: from localhost ([::1]:52772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80E002994E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:11:16 +0100 (CET)
+Received: from localhost ([::1]:36388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6tw-00085S-FE
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:07:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59210)
+	id 1kX6xd-0004Ym-S6
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:11:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX6iS-0002jT-DE
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:55:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51710)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kX6ky-0006dM-SA
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:58:09 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kX6iO-0004yg-55
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:55:31 -0400
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kX6kw-0005Ip-Ot
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:58:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603734927;
+ s=mimecast20190719; t=1603735084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1f0xSmS9ka5VP6euVxr+4iJi6AIc3Maa8rn7FL7Oq9U=;
- b=FNJnlpk3VctCnq4mTw0VBbRId+91+WFU81A1zrId1icmicoBvJ/a/ssaKnMsFIkNu7PCqh
- poluWiTcovgqx6/FtS0j0ZhTKt2ZAnyopQ308mm0oDyVAjxSh5SGbXkoa9W6oDviLPdarn
- xKaxVGdTjx1pDTU00xPGKYx+wUXoikk=
+ bh=rJfa0jC7Y3CUJJwA5JXbskXx8iclBV45WcZAZscCLGM=;
+ b=gxOlS3rSE7bc75OVQrkgYCkb0GhRkb0689kW6nByoHrWWi+opM1VEdCxU7g43JLQzfkC/W
+ i64Bi7bJ7oIMj0V0syHyZUM4CqR84DrMqMWG7pe0cqarSFgLRSB4DsFfbpXoTSCLTZGH03
+ GrcuQ5LuHnkLeyNCac0MoAop5zkt1sQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-YFbQYHJ5P1-cefGH1AaiDw-1; Mon, 26 Oct 2020 13:55:12 -0400
-X-MC-Unique: YFbQYHJ5P1-cefGH1AaiDw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-200-vbsQkWoaNVGpX8KevQ4_Uw-1; Mon, 26 Oct 2020 13:58:02 -0400
+X-MC-Unique: vbsQkWoaNVGpX8KevQ4_Uw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAFAA1016CEC
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 17:55:11 +0000 (UTC)
-Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AE045C1DC;
- Mon, 26 Oct 2020 17:55:00 +0000 (UTC)
-Date: Mon, 26 Oct 2020 17:54:57 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH 0/8] virtiofsd: Announce submounts to the guest
-Message-ID: <20201026175457.GF152260@work-vm>
-References: <20200909184028.262297-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0678804B61;
+ Mon, 26 Oct 2020 17:58:00 +0000 (UTC)
+Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DBF735D9E8;
+ Mon, 26 Oct 2020 17:57:51 +0000 (UTC)
+Subject: Re: [PATCH v2 04/19] block/nvme: Trace controller capabilities
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201026105504.4023620-1-philmd@redhat.com>
+ <20201026105504.4023620-5-philmd@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <791d70ed-667f-c979-a7b7-f6fc5ffcc2af@redhat.com>
+Date: Mon, 26 Oct 2020 18:57:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200909184028.262297-1-mreitz@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201026105504.4023620-5-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,151 +86,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, Miklos Szeredi <mszeredi@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Max Reitz (mreitz@redhat.com) wrote:
-> RFC: https://www.redhat.com/archives/virtio-fs/2020-May/msg00024.html
-> 
-> Branch: https://github.com/XanClic/qemu.git virtiofs-submounts-v2
-> Branch: https://git.xanclic.moe/XanClic/qemu.git virtiofs-submounts-v2
+Hi,
 
-Queued
+On 10/26/20 11:54 AM, Philippe Mathieu-Daudé wrote:
+> Controllers have different capabilities and report them in the
+> CAP register. We are particularly interested by the page size
+> limits.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  block/nvme.c       | 10 ++++++++++
+>  block/trace-events |  1 +
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 5abd7257cac..3b6d3972ec2 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -720,6 +720,16 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>       * Initialization". */
+>  
+>      cap = le64_to_cpu(regs->cap);
+> +    trace_nvme_controller_capability("Maximum Queue Entries Supported",
+> +                                     NVME_CAP_MQES(cap));
+> +    trace_nvme_controller_capability("Contiguous Queues Required",
+> +                                     NVME_CAP_CQR(cap));
+> +    trace_nvme_controller_capability("Subsystem  Reset Supported",
+nit extra space
+> +                                     NVME_CAP_NSSRS(cap));
+> +    trace_nvme_controller_capability("Memory Page Size Minimum",
+> +                                     NVME_CAP_MPSMIN(cap));
+> +    trace_nvme_controller_capability("Memory Page Size Maximum",
+> +                                     NVME_CAP_MPSMAX(cap));
+Don't you want to trace the true MPSMIN/MAX (I mean with the shift)?
 
+I would personally group those traces into a single one and avoid this
+generic trace format but well ...
+
+Thanks
+
+Eric
+>      if (!NVME_CAP_CSS(cap)) {
+>          error_setg(errp, "Device doesn't support NVMe command set");
+>          ret = -EINVAL;
+> diff --git a/block/trace-events b/block/trace-events
+> index 0e351c3fa3d..3f141dc6801 100644
+> --- a/block/trace-events
+> +++ b/block/trace-events
+> @@ -134,6 +134,7 @@ qed_aio_write_postfill(void *s, void *acb, uint64_t start, size_t len, uint64_t
+>  qed_aio_write_main(void *s, void *acb, int ret, uint64_t offset, size_t len) "s %p acb %p ret %d offset %"PRIu64" len %zu"
+>  
+>  # nvme.c
+> +nvme_controller_capability(const char *desc, uint64_t value) "%s: %"PRIu64
+>  nvme_kick(void *s, int queue) "s %p queue %d"
+>  nvme_dma_flush_queue_wait(void *s) "s %p"
+>  nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
 > 
-> 
-> (Note that there is an accompanying Linux (kernel) series
-> “fuse: Mirror virtio-fs submounts”.)
-> 
-> 
-> Hi,
-> 
-> We want to (be able to) announce the host mount structure of the shared
-> directory to the guest so it can replicate that structure.  This ensures
-> that whenever the combination of st_dev and st_ino is unique on the
-> host, it will be unique in the guest as well.
-> 
-> This feature is optional and needs to be enabled explicitly, so that the
-> mount structure isn’t leaked to the guest if the user doesn’t want it to
-> be.
-> 
-> The last patch in this series adds a test script.  For it to pass, you
-> need to compile a kernel with the accompanying “fuse: Mirror virtio-fs
-> submounts” patch series, and provide it to the test (as described in the
-> test patch).
-> 
-> 
-> Known caveats:
-> - stat(2) doesn’t trigger auto-mounting.  Therefore, issuing a stat() on
->   a sub-mountpoint before it’s been auto-mounted will show its parent’s
->   st_dev together with the st_ino it has in the sub-mounted filesystem.
-> 
->   For example, imagine you want to share a whole filesystem with the
->   guest, which on the host first looks like this:
-> 
->     root/           (st_dev=64, st_ino=128)
->       sub_fs/       (st_dev=64, st_ino=234)
-> 
->   And then you mount another filesystem under sub_fs, so it looks like
->   this:
-> 
->     root/           (st_dev=64, st_ino=128)
->       sub_fs/       (st_dev=96, st_ino=128)
->         ...
-> 
->   As you can see, sub_fs becomes a mount point, so its st_dev and st_ino
->   change from what they were on root’s filesystem to what they are in
->   the sub-filesystem.  In fact, root and sub_fs now have the same
->   st_ino, which is not unlikely given that both are root nodes in their
->   respective filesystems.
-> 
->   Now, this filesystem is shared with the guest through virtiofsd.
->   There is no way for virtiofsd to uncover sub_fs’s original st_ino
->   value of 234, so it will always provide st_ino=128 to the guest.
->   However, virtiofsd does notice that sub_fs is a mount point and
->   announces this fact to the guest.
-> 
->   We want this to result in something like the following tree in the
->   guest:
-> 
->     root/           (st_dev=32, st_ino=128)
->       sub_fs/       (st_dev=33, st_ino=128)
->         ...
-> 
->   That is, sub_fs should be a different filesystem that’s auto-mounted.
->   However, as stated above, stat(2) doesn’t trigger auto-mounting, so
->   before it happens, the following structure will be visible:
-> 
->     root/           (st_dev=32, st_ino=128)
->       sub_fs/       (st_dev=32, st_ino=128)
-> 
->   That is, sub_fs and root will have the same st_dev/st_ino combination.
-> 
->   This can easily be seen by executing find(1) on root in the guest,
->   which will subsequently complain about an alleged filesystem loop.
-> 
->   To properly fix this problem, we probably would have to be able to
->   uncover sub_fs’s original st_ino value (i.e. 234) and let the guest
->   use that until the auto-mount happens.  However, there is no way to
->   get that value (from userspace at least).
-> 
->   Note that NFS with crossmnt has the exact same issue.
-> 
-> 
-> - You can unmount auto-mounted submounts in the guest, but then you
->   still cannot unmount them on the host.  The guest still holds a
->   reference to the submount’s root directory, because that’s just a
->   normal entry in its parent directory (on the submount’s parent
->   filesystem).
-> 
->   This is kind of related to the issue noted above: When the submount is
->   unmounted, the guest shouldn’t have a reference to sub_fs as the
->   submount’s root directory (host’s st_dev=96, st_ino=128), but to it as
->   a normal entry in its parent filesystem (st_dev=64, st_ino=234).
-> 
->   (When you have multiple nesting levels, you can unmount inner mounts
->   when the outer ones have been unmounted in the guest.  For example,
->   say you have a structure A/B/C/D, where each is a mount point, then
->   unmounting D, C, and B in the guest will allow the host to unmount D
->   and C.)
-> 
-> 
-> Max Reitz (8):
->   linux/fuse.h: Pull in from Linux
->   virtiofsd: Announce FUSE_ATTR_FLAGS
->   virtiofsd: Add attr_flags to fuse_entry_param
->   virtiofsd: Add fuse_reply_attr_with_flags()
->   virtiofsd: Store every lo_inode's parent_dev
->   virtiofsd: Announce sub-mount points
->   tests/acceptance/boot_linux: Accept SSH pubkey
->   tests/acceptance: Add virtiofs_submounts.py
-> 
->  include/standard-headers/linux/fuse.h         |  11 +-
->  tools/virtiofsd/fuse_common.h                 |   8 +
->  tools/virtiofsd/fuse_lowlevel.h               |  20 ++
->  tools/virtiofsd/fuse_lowlevel.c               |  34 ++-
->  tools/virtiofsd/helper.c                      |   1 +
->  tools/virtiofsd/passthrough_ll.c              |  84 ++++-
->  tests/acceptance/boot_linux.py                |  13 +-
->  tests/acceptance/virtiofs_submounts.py        | 289 ++++++++++++++++++
->  .../virtiofs_submounts.py.data/cleanup.sh     |  46 +++
->  .../guest-cleanup.sh                          |  30 ++
->  .../virtiofs_submounts.py.data/guest.sh       | 138 +++++++++
->  .../virtiofs_submounts.py.data/host.sh        | 127 ++++++++
->  12 files changed, 780 insertions(+), 21 deletions(-)
->  create mode 100644 tests/acceptance/virtiofs_submounts.py
->  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/cleanup.sh
->  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/guest-cleanup.sh
->  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/guest.sh
->  create mode 100644 tests/acceptance/virtiofs_submounts.py.data/host.sh
-> 
-> -- 
-> 2.26.2
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
