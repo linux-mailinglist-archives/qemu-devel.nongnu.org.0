@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F9DA299927
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:53:47 +0100 (CET)
-Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D16F2998FF
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:45:10 +0100 (CET)
+Received: from localhost ([::1]:50720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAR0-0004nw-Ku
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:53:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60614)
+	id 1kXAIf-0004Y9-Cq
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:45:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAo-0004A3-LZ
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAq-0004AL-F5
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45231)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31979)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAi-0001W6-Ki
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:02 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAi-0001Wd-NR
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:37:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603748210;
+ s=mimecast20190719; t=1603748215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kQFpYUlfuuEMOo22umOn7LMFTEt2gX8PWZrAk866k+0=;
- b=g8o95OucDRIorFQ7tRC9HcGshancshCFzursb8zC+1UjQF8ZBsHbKOz4OKGRLHLM4K4gb1
- jGT4apBTbSlbmScETj1vo4s9VciyQZ+58p4oSA041k7FR64QghNNbQbG6xVSjrR5qLTe75
- WQG9n+t/EUkGMILSEfgo+Tp88XOB8HY=
+ bh=xsC1XwWe2xZB6jZsPUnPvk/vZ/eXiMvO0aLF5vyHpbM=;
+ b=HvZW4bCHRXjkhOhuQRLnMFPTVeJ+FDTN1ehNxrfm/2/nqETeObJZpVcn5CIcQE2RHTCia5
+ WSE4TLtBW9G4JgNZhrKnB/GVKYnzOW15vNN1YB6p1t+PozvEeXGj/xrLQp+tW6I8R31jNw
+ qCHJTvhO671PIimAKEqZr+EnWsjBHf0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-UXiP9CaWPY6F0yKQM46mXg-1; Mon, 26 Oct 2020 17:36:48 -0400
-X-MC-Unique: UXiP9CaWPY6F0yKQM46mXg-1
+ us-mta-577-OfVrLQb0PdCR_NwviTRFag-1; Mon, 26 Oct 2020 17:36:49 -0400
+X-MC-Unique: OfVrLQb0PdCR_NwviTRFag-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F37AA101EBE6
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEBBA64089
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:48 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E5F619728;
- Mon, 26 Oct 2020 21:36:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 475C11992F;
+ Mon, 26 Oct 2020 21:36:48 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 10/16] qapi/expr.py: Remove single-letter variable
-Date: Mon, 26 Oct 2020 17:36:31 -0400
-Message-Id: <20201026213637.47087-11-jsnow@redhat.com>
+Subject: [PATCH v2 11/16] qapi/expr.py: enable pylint checks
+Date: Mon, 26 Oct 2020 17:36:32 -0400
+Message-Id: <20201026213637.47087-12-jsnow@redhat.com>
 In-Reply-To: <20201026213637.47087-1-jsnow@redhat.com>
 References: <20201026213637.47087-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,38 +85,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Tested-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/expr.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ scripts/qapi/pylintrc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 4d4ee3daa002..99c5c2ff99b0 100644
---- a/scripts/qapi/expr.py
-+++ b/scripts/qapi/expr.py
-@@ -218,14 +218,14 @@ def check_features(features: Optional[object],
-         raise QAPISemError(info, "'features' must be an array")
-     features[:] = [f if isinstance(f, dict) else {'name': f}
-                    for f in features]
--    for f in features:
-+    for feature in features:
-         source = "'features' member"
--        assert isinstance(f, dict)
--        check_keys(f, info, source, ['name'], ['if'])
--        check_name_is_str(f['name'], info, source)
--        source = "%s '%s'" % (source, f['name'])
--        check_name_str(f['name'], info, source)
--        check_if(f, info, source)
-+        assert isinstance(feature, dict)
-+        check_keys(feature, info, source, ['name'], ['if'])
-+        check_name_is_str(feature['name'], info, source)
-+        source = "%s '%s'" % (source, feature['name'])
-+        check_name_str(feature['name'], info, source)
-+        check_if(feature, info, source)
+diff --git a/scripts/qapi/pylintrc b/scripts/qapi/pylintrc
+index b9e077a1642d..fb0386d529ac 100644
+--- a/scripts/qapi/pylintrc
++++ b/scripts/qapi/pylintrc
+@@ -3,7 +3,6 @@
+ # Add files or directories matching the regex patterns to the ignore list.
+ # The regex matches against base names, not paths.
+ ignore-patterns=error.py,
+-                expr.py,
+                 parser.py,
+                 schema.py,
  
- 
- def check_enum(expr: Expression, info: QAPISourceInfo) -> None:
 -- 
 2.26.2
 
