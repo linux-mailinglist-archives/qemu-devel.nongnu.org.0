@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EC7E298ED4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:04:58 +0100 (CET)
-Received: from localhost ([::1]:41148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE2D298EF8
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:17:59 +0100 (CET)
+Received: from localhost ([::1]:45580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX37J-0003Sf-5t
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:04:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39638)
+	id 1kX3Ju-0000ib-GF
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:17:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2up-0005mV-VS
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:04 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33289)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kX30k-0004bT-0u
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:58:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2ud-0001lm-3R
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:03 -0400
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kX30i-0002g6-1R
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:58:09 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720301;
+ s=mimecast20190719; t=1603720687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5IPxjIOUZn/1VGpToOU0+IAVfiE7t1Imy6ppH0DPjxg=;
- b=VT8o4rJJGPXzq7VObwU1l+yXJ1MWklKBmleBW8ZfQfQ4Qk6FIq21wTSwn9m00QFMYuZrNA
- 1AbDHUY6v9abyhAXKz8rEIh8f4spSDICrbdcoG52advsVkSOzY6loL5c4ANriYjpn7HXFD
- XB8L8JZ3bjiCYBzLO6B4wQXzCitcD9E=
+ bh=Ze5ZIO/PE/Fr+ZgJUryp5L48YVFnh9Sh3NG4sVbpK8w=;
+ b=ULPvRPhS5sBxpbL25mFgI85PIGjkdycBQNZewfyb30OPQr5I6OROBBEx7jTan33EQXUZp5
+ ZNrOMKCSSSyKi81KA0aGRIY4x4YJFkx9Yx1r52z5BQZszzjXEpJiMYfknOUedT7QNAPCuB
+ nBE21Lyzz9EwFG99Bo0JqMCdcckidYI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-LJ9sFaYYPxKVEP6_bbaBAw-1; Mon, 26 Oct 2020 09:51:39 -0400
-X-MC-Unique: LJ9sFaYYPxKVEP6_bbaBAw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-287-zMfhMhP0MVyR7EiqjCUA1w-1; Mon, 26 Oct 2020 09:58:05 -0400
+X-MC-Unique: zMfhMhP0MVyR7EiqjCUA1w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE73FEC501
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:38 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 91C331002C00;
- Mon, 26 Oct 2020 13:51:38 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 16/17] machine: move UP defaults to class_base_init
-Date: Mon, 26 Oct 2020 09:51:30 -0400
-Message-Id: <20201026135131.3006712-17-pbonzini@redhat.com>
-In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
-References: <20201026135131.3006712-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E76B61239;
+ Mon, 26 Oct 2020 13:58:04 +0000 (UTC)
+Received: from work-vm (ovpn-112-208.ams2.redhat.com [10.36.112.208])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DFE060C07;
+ Mon, 26 Oct 2020 13:57:59 +0000 (UTC)
+Date: Mon, 26 Oct 2020 13:57:56 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v6 0/6] migration/postcopy: Sync faulted addresses after
+ network recovered
+Message-ID: <20201026135756.GC28658@work-vm>
+References: <20201021212721.440373-1-peterx@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201021212721.440373-1-peterx@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,56 +81,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Clean up vl.c, default min/max/default_cpus to uniprocessor
-directly in the QOM class initialization code.
+* Peter Xu (peterx@redhat.com) wrote:
+> v6:
+> - fix page mask to use ramblock psize [Dave]
+> 
+> v5:
+> - added one test patch for easier debugging for migration-test
+> - added one fix patch [1] for another postcopy race
+> - fixed a bug that could trigger when host/guest page size differs
+> 
+> v4:
+> - use "void */ulong" instead of "uint64_t" where proper in patch 3/4 [Dave]
+> 
+> v3:
+> - fix build on 32bit hosts & rebase
+> - remove r-bs for the last 2 patches for Dave due to the changes
+> 
+> v2:
+> - add r-bs for Dave
+> - add patch "migration: Properly destroy variables on incoming side" as patch 1
+> - destroy page_request_mutex in migration_incoming_state_destroy() too [Dave]
+> - use WITH_QEMU_LOCK_GUARD in two places where we can [Dave]
+> 
+> We've seen conditional guest hangs on destination VM after postcopy recovered.
+> However the hang will resolve itself after a few minutes.
+> 
+> The problem is: after a postcopy recovery, the prioritized postcopy queue on
+> the source VM is actually missing.  So all the faulted threads before the
+> postcopy recovery happened will keep halted until (accidentally) the page got
+> copied by the background precopy migration stream.
+> 
+> The solution is to also refresh this information after postcopy recovery.  To
+> achieve this, we need to maintain a list of faulted addresses on the
+> destination node, so that we can resend the list when necessary.  This work is
+> done via patch 2-5.
+> 
+> With that, the last thing we need to do is to send this extra information to
+> source VM after recovered.  Very luckily, this synchronization can be
+> "emulated" by sending a bunch of page requests (although these pages have been
+> sent previously!) to source VM just like when we've got a page fault.  Even in
+> the 1st version of the postcopy code we'll handle duplicated pages well.  So
+> this fix does not even need a new capability bit and it'll work smoothly on old
+> QEMUs when we migrate from them to the new QEMUs.
+> 
+> Please review, thanks.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- hw/core/machine.c | 6 +++++-
- softmmu/vl.c      | 5 -----
- 2 files changed, 5 insertions(+), 6 deletions(-)
+Queued
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 7a0b263cda..57463ad77a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -853,8 +853,12 @@ static void machine_class_init(ObjectClass *oc, void *data)
- 
- static void machine_class_base_init(ObjectClass *oc, void *data)
- {
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    mc->max_cpus = mc->max_cpus ?: 1;
-+    mc->min_cpus = mc->min_cpus ?: 1;
-+    mc->default_cpus = mc->default_cpus ?: 1;
-+
-     if (!object_class_is_abstract(oc)) {
--        MachineClass *mc = MACHINE_CLASS(oc);
-         const char *cname = object_class_get_name(oc);
-         assert(g_str_has_suffix(cname, TYPE_MACHINE_SUFFIX));
-         mc->name = g_strndup(cname,
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 09b033ff73..9b67ea300e 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3970,11 +3970,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(0);
-     }
- 
--    /* machine_class: default to UP */
--    machine_class->max_cpus = machine_class->max_cpus ?: 1;
--    machine_class->min_cpus = machine_class->min_cpus ?: 1;
--    machine_class->default_cpus = machine_class->default_cpus ?: 1;
--
-     /* default to machine_class->default_cpus */
-     current_machine->smp.cpus = machine_class->default_cpus;
-     current_machine->smp.max_cpus = machine_class->default_cpus;
+Dave
+
+> 
+> Peter Xu (6):
+>   migration: Pass incoming state into qemu_ufd_copy_ioctl()
+>   migration: Introduce migrate_send_rp_message_req_pages()
+>   migration: Maintain postcopy faulted addresses
+>   migration: Sync requested pages after postcopy recovery
+>   migration/postcopy: Release fd before going into 'postcopy-pause'
+>   migration-test: Only hide error if !QTEST_LOG
+> 
+>  migration/migration.c        | 55 ++++++++++++++++++++++++++++++----
+>  migration/migration.h        | 21 ++++++++++++-
+>  migration/postcopy-ram.c     | 25 ++++++++++++----
+>  migration/savevm.c           | 57 ++++++++++++++++++++++++++++++++++++
+>  migration/trace-events       |  3 ++
+>  tests/qtest/migration-test.c |  6 +++-
+>  6 files changed, 154 insertions(+), 13 deletions(-)
+> 
+> -- 
+> 2.26.2
+> 
+> 
+> 
 -- 
-2.26.2
-
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
