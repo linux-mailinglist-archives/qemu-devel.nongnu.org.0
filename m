@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B522997BE
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:13:37 +0100 (CET)
-Received: from localhost ([::1]:48762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A8752997E6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:25:14 +0100 (CET)
+Received: from localhost ([::1]:48574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8s4-00070d-2c
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:13:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33986)
+	id 1kX93J-0002OV-Bw
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:25:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8P4-00075Q-Pd
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22086)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Os-0006op-Pf
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8P0-0003BT-Nz
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Or-0003AU-2x
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603741413;
+ s=mimecast20190719; t=1603741404;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=on5YqcSIhfWljRLv4oDXCK2tq8+YrnQBZVCFBdMkehY=;
- b=VlcDo2hYebsVfNQ9yZMu2JE3JcXWdj935P7POTu8b/c76yAcKZKPnWA2xVpE3rnl12Tt62
- qyZ52qGRfnuFbkS5mk73e6vpSe/nQLdBh8jnEnToFHDE1Imm/vADZKtJ2Ysj/gfuDahQc9
- HamP/UpV8hW9DZ13XDp4titItUjINIQ=
+ bh=w3CcewjopndRGh33OAF+Hw1ML2kb8rBcP4jGOP9my7Q=;
+ b=Lekr2kBXPcGO40gE3NDsNKamWhYuxDLU8pi+gdoaXGawz6ZFpQZDAxUzS9a5EklVOaogwO
+ +GWvC6Ypdtg+ixzrAJZjZuLeq5XX52XqAV2Jq9b5DOw93MIojnF5/R/AwO0V/PdhNIq+ib
+ SpZw+I/2pvQAONv45DZ4INT7D6B3po8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-411-RFifaAU8MNeEnWIOAEavlQ-1; Mon, 26 Oct 2020 15:43:30 -0400
-X-MC-Unique: RFifaAU8MNeEnWIOAEavlQ-1
+ us-mta-235-wM1BPADTPSSn-PBp5HKTJg-1; Mon, 26 Oct 2020 15:43:22 -0400
+X-MC-Unique: wM1BPADTPSSn-PBp5HKTJg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C319A1084CA3
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D3733195D575
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B67A25B4AE;
- Mon, 26 Oct 2020 19:43:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA0E05B4AE;
+ Mon, 26 Oct 2020 19:43:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 10/11] qapi/introspect.py: improve readability of
- _tree_to_qlit
-Date: Mon, 26 Oct 2020 15:42:50 -0400
-Message-Id: <20201026194251.11075-11-jsnow@redhat.com>
+Subject: [PATCH v2 11/11] qapi/introspect.py: Add docstring to _tree_to_qlit
+Date: Mon, 26 Oct 2020 15:42:51 -0400
+Message-Id: <20201026194251.11075-12-jsnow@redhat.com>
 In-Reply-To: <20201026194251.11075-1-jsnow@redhat.com>
 References: <20201026194251.11075-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,80 +84,42 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Subjective, but I find getting rid of the comprehensions helps. Also,
-divide the sections into scalar and non-scalar sections, and remove
-old-style string formatting.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/introspect.py | 37 +++++++++++++++++++++----------------
- 1 file changed, 21 insertions(+), 16 deletions(-)
+ scripts/qapi/introspect.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index a261e402d69..d4f28485ba5 100644
+index d4f28485ba5..8db9650adbc 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -100,7 +100,7 @@ def indent(level: int) -> str:
+@@ -1,10 +1,11 @@
+ """
+ QAPI introspection generator
  
-         ret = ''
-         if obj.comment:
--            ret += indent(level) + '/* %s */\n' % obj.comment
-+            ret += indent(level) + f"/* {obj.comment} */\n"
-         if obj.ifcond:
-             ret += gen_if(obj.ifcond)
-         ret += _tree_to_qlit(obj.value, level, suppress_first_indent)
-@@ -111,31 +111,36 @@ def indent(level: int) -> str:
-     ret = ''
-     if not suppress_first_indent:
-         ret += indent(level)
+-Copyright (C) 2015-2018 Red Hat, Inc.
++Copyright (C) 2015-2020 Red Hat, Inc.
+ 
+ Authors:
+  Markus Armbruster <armbru@redhat.com>
++ John Snow <jsnow@redhat.com>
+ 
+ This work is licensed under the terms of the GNU GPL, version 2.
+ See the COPYING file in the top-level directory.
+@@ -90,6 +91,13 @@ def __init__(self, value: _AnnoType, ifcond: Iterable[str],
+ 
+ def _tree_to_qlit(obj: TreeValue, level: int = 0,
+                   suppress_first_indent: bool = False) -> str:
++    """
++    Convert the type tree into a QLIT C string, recursively.
 +
-+    # Scalars:
-     if obj is None:
-         ret += 'QLIT_QNULL'
-     elif isinstance(obj, str):
--        ret += 'QLIT_QSTR(' + to_c_string(obj) + ')'
-+        ret += f"QLIT_QSTR({to_c_string(obj)})"
-+    elif isinstance(obj, bool):
-+        ret += "QLIT_QBOOL({:s})".format(str(obj).lower())
-+
-+    # Non-scalars:
-     elif isinstance(obj, list):
--        elts = [_tree_to_qlit(elt, level + 1).strip('\n')
--                for elt in obj]
--        elts.append(indent(level + 1) + "{}")
-         ret += 'QLIT_QLIST(((QLitObject[]) {\n'
--        ret += '\n'.join(elts) + '\n'
-+        for value in obj:
-+            ret += _tree_to_qlit(value, level + 1).strip('\n') + '\n'
-+        ret += indent(level + 1) + '{}\n'
-         ret += indent(level) + '}))'
-     elif isinstance(obj, dict):
--        elts = []
--        for key, value in sorted(obj.items()):
--            elts.append(indent(level + 1) + '{ %s, %s }' %
--                        (to_c_string(key),
--                         _tree_to_qlit(value, level + 1, True)))
--        elts.append(indent(level + 1) + '{}')
-         ret += 'QLIT_QDICT(((QLitDictEntry[]) {\n'
--        ret += ',\n'.join(elts) + '\n'
-+        for key, value in sorted(obj.items()):
-+            ret += indent(level + 1) + "{{ {:s}, {:s} }},\n".format(
-+                to_c_string(key),
-+                _tree_to_qlit(value, level + 1, suppress_first_indent=True)
-+            )
-+        ret += indent(level + 1) + '{}\n'
-         ret += indent(level) + '}))'
--    elif isinstance(obj, bool):
--        ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
-     else:
--        assert False                # not implemented
-+        raise NotImplementedError(
-+            f"type '{type(obj).__name__}' not implemented"
-+        )
-+
-     if level > 0:
-         ret += ','
-     return ret
++    :param obj: The value to convert.
++    :param level: The indentation level for this particular value.
++    :param suppress_first_indent: True for dict value children.
++    """
+ 
+     def indent(level: int) -> str:
+         return level * 4 * ' '
 -- 
 2.26.2
 
