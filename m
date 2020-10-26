@@ -2,73 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2D12993B2
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:23:52 +0100 (CET)
-Received: from localhost ([::1]:41526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598D62993A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:21:45 +0100 (CET)
+Received: from localhost ([::1]:33436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6Dn-00050q-5k
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:23:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48494)
+	id 1kX6Bk-0001gH-Dy
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:21:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX666-0004Lh-HQ
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:15:54 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:56247)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX676-0005Ps-DR
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:16:56 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:35502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX664-000824-U8
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:15:54 -0400
-Received: by mail-wm1-x342.google.com with SMTP id a72so12457302wme.5
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:15:48 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX672-0008AD-TB
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:16:56 -0400
+Received: by mail-ed1-x533.google.com with SMTP id w25so10243701edx.2
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:16:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=1rGfK5KmDVjuMmXxy2nUSwHH6sMFKvTP3cU4+dNKII8=;
- b=Kg1qMtEpRCVQVitELpZFu3wrwTX1cJE/7Ly6Su2bvTmBvD/BCm4ZGMhTtOSkxFUZGq
- EBk4mwjW00CwpGhaUS0IbbUOJQpXBIryGoATdagHY92/hmy34iJgmrEQFKKXCKK3Xtjq
- LmYI4ePVCwLo01Krbi0vvldgShtbLJLDLrbn7eW9rJyhckpLcQnSepp08Kdi7/06k4Hq
- cdp2Vg+tntkdSkMLRYo0M1KzK24NVrqP9+y8adZPz8rH/QPz622mfhrK7UkuLFNSdcSk
- vmmdLVBg9nvWID753NROCAH8gIxPPeR3fKKoA2KpyUwO4nPPmpPnO7u8XiRkOOD64hkr
- M+gQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BHvjmRW36opP6fRGjg2aSmK/k1J/rM5sk+EbpicADBQ=;
+ b=l9F20NEBhBeSOCZWmCT765OzQKQxWjeLkrrGrsvLCTmrK2rPIWzIPwmnkC4b2UYkEC
+ zUQZr+w+EpOK4oBlbed9OTfcZKTsJrLc4oXc8whVyBMjssMMSIZIhZn2IWoMD+Yd5raK
+ BtKa7sCsDzGM5vg2ZZ81rzgc+QrevJnB2fmbAnMBE3Uui6QL8a40Vh3jhwbXKvQoXS2A
+ rJQ0i1fb6mzEgLBFucJmF3Z7XeGWJBfgQua47AOz52C8rbpNcSs6AhEaPTdfspXxmqWi
+ Cy7MQppf6tWp6Hcf009coFbBvaXd/WGbki1JT8R+8RXsC+R42/JIk4VDetS1mjxIYU24
+ gKCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=1rGfK5KmDVjuMmXxy2nUSwHH6sMFKvTP3cU4+dNKII8=;
- b=lRCsH4pXZotcekO3rLWqjsB27euIWzJOqAtI7NGqrZupArZff+WEJjyOvnANiin+Rx
- vIKnTvWCUgvAqhi9yqh9A3afo7rt0/HHLS8J8HM93TDfVIplJnlQ7gvZt+wp40qiIX0W
- CW4gXvU2UpGHxcbpdTXH2leiN0AEvE+nkg/aygb9ht0Mhcv8W+pgF5dGJQYkC42STU4Y
- bIy0cFe2tYlw2fGnQDkgiB1Kd9V5shWUtuTLfqLrqtJhZt+VbbmpLXJjV7NqW7iipnve
- k57qXcQgGfy27B5Y3mA8jeu/KgaCvRTK7O7T9N7/aFG8xtFHAHauEXMMdnZWiJcodxw0
- 4dSw==
-X-Gm-Message-State: AOAM531fDtmc6YoenMi2PS2B89zaj0OVVYyn6NoiidJgXndfu8rJI7mG
- 3OsDoaAgRnx5VKHrvH8SVGSSSTMS4fCh9Q==
-X-Google-Smtp-Source: ABdhPJyew9HBOrOJiDrOS0jRWibgS7lxmgHtGkEPh+xZxZrYRJ7BeDlSlILlbjuI6lYl5Krsg+oJkQ==
-X-Received: by 2002:a05:600c:21d3:: with SMTP id
- x19mr17059611wmj.170.1603732543715; 
- Mon, 26 Oct 2020 10:15:43 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o186sm22091676wmb.12.2020.10.26.10.15.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 10:15:42 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BCAC61FF7E;
- Mon, 26 Oct 2020 17:15:41 +0000 (GMT)
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-7-pbonzini@redhat.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 06/15] lm32: remove bios_name
-In-reply-to: <20201026143028.3034018-7-pbonzini@redhat.com>
-Date: Mon, 26 Oct 2020 17:15:41 +0000
-Message-ID: <87zh48gb7m.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BHvjmRW36opP6fRGjg2aSmK/k1J/rM5sk+EbpicADBQ=;
+ b=EGDxW8xHas2OrkQiDYE7369ue4tMwo2uXOVK32raYvmkjHkhppXdWZGxy9oMMcFVWj
+ JHWGtkuc0tXifIblFglQZRBE6aw+QbijvQJQvYTXU5+gV6HzZgFjKWb0ujXNgiv/zFOn
+ Fpl043zMD4rH9zzxAj98dqKaMON7p+/7s0qe5iHIhRNKz73r/Zro4FksX9ujMZstO/k/
+ 2M4H4hnIbcFZj2paDnDEKc7mb7x/yiCtlEWsOhVo/txENAwSWcJVo7D44Rs7EuZf7b56
+ josMInabwsAVX5YNdGJoQ8EmICHnDL+nFhCpNDaKjdNcQgHkeMcmovMyf2eKRagHeMGG
+ Vc4g==
+X-Gm-Message-State: AOAM531UASt/CQDWdA5XxheaRbGYjkLyKmCk5Hat5j2hDLMgwOOmtxKH
+ vB/ofqbBXEQDjKk9TMW1k2yQG402MvVhlLHFnvzNHQ==
+X-Google-Smtp-Source: ABdhPJxyiXnh6ALukPl8rzH8uiY9M7zBRzopq+Sr441n4bnhTe9ug8gNB+9ufwhYppe84DXFMO9yeSW+WVvUXldTCdw=
+X-Received: by 2002:aa7:c683:: with SMTP id n3mr16461024edq.146.1603732611257; 
+ Mon, 26 Oct 2020 10:16:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+References: <20201019091508.197-1-yuzenghui@huawei.com>
+ <8afdbde3-5b5f-0237-d311-32974cf58a14@redhat.com>
+In-Reply-To: <8afdbde3-5b5f-0237-d311-32974cf58a14@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 17:16:39 +0000
+Message-ID: <CAFEAcA-281bGKytZEZSSYsnVBmRUzgQ8HPg=eHH+vYgR7TSqVg@mail.gmail.com>
+Subject: Re: [PATCH] [RFC] hw/arm/smmuv3: Set the restoration priority of the
+ vSMMUv3 explicitly
+To: Auger Eric <eric.auger@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -77,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,18 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Walle <michael@walle.cc>, philmd@redhat.com, qemu-devel@nongnu.org
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 26 Oct 2020 at 17:03, Auger Eric <eric.auger@redhat.com> wrote:
+>
+> Hi Zenghui,
+>
+> On 10/19/20 11:15 AM, Zenghui Yu wrote:
+> > Ensure the vSMMUv3 will be restored before all PCIe devices so that DMA
+> > translation can work properly during migration.
+>
+> Sorry I missed this patch. good catch!
+>
+> Acked-by: Eric Auger <eric.auger@redhat.com>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> Cc: Michael Walle <michael@walle.cc>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Applied to target-arm.next, thanks.
 
---=20
-Alex Benn=C3=A9e
+-- PMM
 
