@@ -2,69 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3961F2994DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:09:22 +0100 (CET)
-Received: from localhost ([::1]:58620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7532994E7
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:12:49 +0100 (CET)
+Received: from localhost ([::1]:40076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6vp-00024S-7a
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:09:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53240)
+	id 1kX6zA-0006DQ-IH
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:12:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX6MB-0000km-0g
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:32:31 -0400
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:42026)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kX6M9-0001yF-DN
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:32:30 -0400
-Received: by mail-ed1-x535.google.com with SMTP id v19so10279743edx.9
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:32:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=55eyuk42pE0LCxXjckrKgBEEyBU4OQQsjW8M+YVDNtI=;
- b=ZgpWtk03XcGWI3LJmox6frTtNbuBqsuKYDvvScWYFsMIbjb2Dt8aTCknk2EtPm7Med
- QlaITMsHAXAhGxdY5KRR0CB/9AyrAMnyg5WhuXlQcpfJ6g9WX8kfX19+5B/0HS3UOMO1
- zDh8jwCO2lvZH+68ph7qyNf827LeGrSftFP/qYM0/YT066DBWS9UpwFFrV573SXG5Vlp
- UzlTK4B1z4QU8pYfaNlOC1os8gyl2iwkXJI6MHB4knt1Y0LkKDCSXz3ArQyFo6AdNJvf
- hXqwoSCcAxEM+dszHSzrXfQb9dLggeMfNoxdJ2Nbw39dI7d2iSdVjBoRZx9sjtXHErsV
- k3Jw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX6OA-00030u-Ke
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:34:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kX6O8-00028G-Or
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:34:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603733671;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EPfiA+YBWBs48plVx8bAfP36wVADlIy2M62PRzsdiuc=;
+ b=Z3ouaDVwhHFaxxLEZpaqMrBqKy5itOSdGAfd5aJqK/zv0jPeNWPxz7RAIdPHZ0stqyNcvY
+ m0uWOhoWhnZ0TYM7MoDbQxJ9Wxj1dbVz7w6NZgL1S7tjame4hctmJhUnq9n1IMMOOtpUHz
+ LVFH23dLo96hom+YY0dNQYKMtY5PCP4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-glGZL8EfOD2CgPZO9dPUOA-1; Mon, 26 Oct 2020 13:34:30 -0400
+X-MC-Unique: glGZL8EfOD2CgPZO9dPUOA-1
+Received: by mail-wm1-f70.google.com with SMTP id l23so6218761wmg.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:34:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=55eyuk42pE0LCxXjckrKgBEEyBU4OQQsjW8M+YVDNtI=;
- b=Rd9FodTK4ksRDu0I553oWvCy+3UiXYJNexyVkVh1ktSQapQh0tAu+077zLcZzwN+UF
- Ks1Mr4ghRmQmCs9wpPzTZN9g5gUAHTHQyeqjWQ/ptqSXbf8zodMM0xzwTZjA3/4nZ1hj
- qo3R1CN1XBZDWQMWWvDBOadv2lAO/moH3ITbF7GJOaEsmro9XfnJX9LOLhCkHnwhpZbR
- uNxwV39TGVQLijJPphR8nIsRtU5+R3UWAJO6iA1wR5m+FLmhsVRMHuJJ/RNocFTZHLMU
- 8ldPIkvrROygE0yq5850rHEyuDPy4P+G74+hquZWG6rq1vZj0YgCvVC5JJgyexs5o4vi
- YU6g==
-X-Gm-Message-State: AOAM532sGJKQKCWp8rmuAFgGT5vFD/ugLd402eEKrkWw2BpwIQY04NJW
- sCVNHH2AvEZ3gjPOsEYdrsL7pIW5puNDZtZRt/IXCA==
-X-Google-Smtp-Source: ABdhPJySmrPcHjoryvF2Ptz63oqHlPyHrltApcUmAz0Mht7ixB2ztTINX932S+hGWoJJlPDCsHWgXmjdEnD/ZdO4Mtw=
-X-Received: by 2002:aa7:d699:: with SMTP id d25mr8936039edr.44.1603733547775; 
- Mon, 26 Oct 2020 10:32:27 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EPfiA+YBWBs48plVx8bAfP36wVADlIy2M62PRzsdiuc=;
+ b=QIc3yrVvCTqEf6119oGZp+Np58cw8GCkUBxc/ZeRPb0pKs0mSony6SWMT35R0fD2tw
+ 8Q3z4x/tkrauFTwiqwn/6pfWBfVlmdU140Tf8ztCpM4yGjZ0wENYacegnDkybiPqTC0R
+ ZTuArBtX/T5hlKhZWF6bEMFzY9LOGXZqBSuKzIeaM7Gk+SJZiE49pdGCwLFVEfgh/LqH
+ yI0OGaKbS2Bmz2DfgUKvSZZ1sl6BU5SW27nxVPL0VmEg4wYW0SERhdrzBKvKm9lhUwLh
+ aAyOXSIrH8C3ji8ESnAB+k9PHuMlBrjQlmim3o6DEuGsICeiYCSwPj9BlcmJnZmhH1Qm
+ U1BA==
+X-Gm-Message-State: AOAM533f2oGGLLs8ihOy/j8jadyQpC8J/+UsyytsPL2pveqmlEkL/qKC
+ rzrr5vH8ejGL9/n8EBMQO2xqHVlF+ZHEg938kCi1xLeltt8WytbyRrprGko/JYk6M9u7Wi1dBq+
+ o9vCgAtOVqzeaTyk=
+X-Received: by 2002:a1c:a749:: with SMTP id q70mr1632666wme.117.1603733668729; 
+ Mon, 26 Oct 2020 10:34:28 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJztV7Fg+WJrSo6PyjJrfX5fXl8/SNhrqQkkp8VMgkSYI899xcGkGhv9DRP0r9drxjx3WckGAw==
+X-Received: by 2002:a1c:a749:: with SMTP id q70mr1632647wme.117.1603733668542; 
+ Mon, 26 Oct 2020 10:34:28 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id y201sm10202716wmd.27.2020.10.26.10.34.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 26 Oct 2020 10:34:27 -0700 (PDT)
+Subject: Re: [PATCH 11/15] rx: move BIOS load from MCU to board
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
+ <20201026143028.3034018-12-pbonzini@redhat.com> <87lffsgas5.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <53ddb690-db6d-cfce-ee9e-c274b18bfaa0@redhat.com>
+Date: Mon, 26 Oct 2020 18:34:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201026172219.GA5733@habkost.net>
-In-Reply-To: <20201026172219.GA5733@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 26 Oct 2020 17:32:16 +0000
-Message-ID: <CAFEAcA96=ng8_SsVq0V3O8nvJkSFc+FZBATXmhok+hj1vOeELQ@mail.gmail.com>
-Subject: Re: Dynamic instance properties in TYPE_ARM_CPU
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87lffsgas5.fsf@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,64 +102,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- John Snow <jsnow@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 at 17:22, Eduardo Habkost <ehabkost@redhat.com> wrote:
-> I've been trying to clean up the qdev property code (to bridge
-> the gaps between qdev and QOM, and between QOM and QAPI), and
-> I've noticed that TYPE_ARM_CPU is the only remaining user of
-> qdev_property_add_static().
->
-> qdev_property_add_static() has a misleading name: it won't
-> register a static property.  It is actually a hack to use a
-> static Property variable (defined using DEFINE_PROP*), but
-> register it as a dynamic instance property.
->
-> Dynamic instance properties make introspection hard.  What can we
-> do to get rid of them in TYPE_ARM_CPU?
+On 26/10/20 18:24, Alex Bennée wrote:
+> 
+> Paolo Bonzini <pbonzini@redhat.com> writes:
+> 
+>> The ROM loader state is global and not part of the MCU, and the
+>> BIOS is in machine->firmware.  So just like the kernel case,
+>> load it in the board.
+>>
+>> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  hw/rx/rx-gdbsim.c | 7 +++++++
+>>  hw/rx/rx62n.c     | 9 ---------
+>>  2 files changed, 7 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+>> index 417ec0564b..040006c1c5 100644
+>> --- a/hw/rx/rx-gdbsim.c
+>> +++ b/hw/rx/rx-gdbsim.c
+>> @@ -142,6 +142,13 @@ static void rx_gdbsim_init(MachineState *machine)
+>>              /* Set dtb address to R1 */
+>>              RX_CPU(first_cpu)->env.regs[1] = SDRAM_BASE + dtb_offset;
+>>          }
+>> +    } else {
+>> +        if (machine->firmware) {
+>> +            rom_add_file_fixed(machine->firmware, RX62N_CFLASH_BASE, 0);
+>> +        } else if (!qtest_enabled()) {
+>> +            error_report("No bios or kernel specified");
+>> +            exit(1);
+>> +        }
+>>      }
+>>  }
+>>  
+>> diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
+>> index 6eb4eea700..17ec73fc7b 100644
+>> --- a/hw/rx/rx62n.c
+>> +++ b/hw/rx/rx62n.c
+>> @@ -245,15 +245,6 @@ static void rx62n_realize(DeviceState *dev, Error **errp)
+>>                             rxc->rom_flash_size, &error_abort);
+>>      memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flash);
+>>  
+>> -    if (!s->kernel) {
+>> -        if (bios_name) {
+>> -            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
+>> -        }  else if (!qtest_enabled()) {
+>> -            error_report("No bios or kernel specified");
+>> -            exit(1);
+>> -        }
+>> -    }
+>> -
+> 
+> I'm confused because on the face of it these are two different models.
+> I'll defer to the domain expert on this one.
 
-I'm in principle in favour of this because the Arm handling
-of this is a bit odd and it would make sense to bring it
-into line with how other parts of QEMU work. (Do other CPU
-architectures just provide the properties on all CPUs?)
+rx62n is the SoC, rx-gdbsim.c instead includes the rx62n7 and rx62n8
+machines.
 
-> Can we just register all the properties unconditionally, and
-> error out on realize if the requested CPU configuration is
-> incompatible with the available CPU features?
+Paolo
 
-I think you would probably also need to check for and
-adjust board/SoC code which assumes that presence of a
-property implies that it's OK to set it, eg this in virt.c:
-
-        if (object_property_find(cpuobj, "reset-cbar")) {
-            object_property_set_int(cpuobj, "reset-cbar",
-                                    vms->memmap[VIRT_CPUPERIPHS].base,
-                                    &error_abort);
-        }
-
-or which uses presence-of-property as its check for
-"does the CPU support this feature", eg this;
-                /*
-                 * The property exists only if MemTag is supported.
-                 * If it is, we must allocate the ram to back that up.
-                 */
-                if (!object_property_find(cpuobj, "tag-memory")) {
-                    error_report("MTE requested, but not supported "
-                                 "by the guest CPU");
-                    exit(1);
-                }
-
-> The following properties are registered as dynamic instance
-> properties at arm_cpu_post_init():
-> "cntfrq", "reset-cbar", "reset-hivecs", "rvbar", "has_el2",
-> "has_el3", "cfgend", "vfp", "neon", "dsp", "has-mpu",
-> "pmsav7-dregion", "secure-memory", "pmu", "idau", "init-svtor",
-> "tag-memory", "secure-tag-memory".
-
-thanks
--- PMM
 
