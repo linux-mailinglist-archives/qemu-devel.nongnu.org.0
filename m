@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36263298EC0
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:02:56 +0100 (CET)
-Received: from localhost ([::1]:36354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B3E9298ED6
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:06:10 +0100 (CET)
+Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX35L-0001KI-6J
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39596)
+	id 1kX38T-0004uu-Gm
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:06:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39604)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2uo-0005if-I3
+ id 1kX2uo-0005iw-JY
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60764)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX2uW-0001kg-Mf
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:01 -0400
+ id 1kX2uW-0001l6-Me
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 09:52:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603720296;
+ s=mimecast20190719; t=1603720298;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jmqeimzHMB012rfAVLqb0I9/4/X5Fdg6WEMvNReylTc=;
- b=eHLtU1jM8ZiJp61JGhfz7DOEKboWuSHrHmdPis9QoCeTGsFhiqWywg3AK9dHmNJ/DFWxm7
- A60fJwXVi6pEdC620/i/SRVJpDQ04IBPdPTRsGSkMPGBp9q5dWKxDWVfTYNZibl8Tpz175
- rojPvnwgyU7u4ursLpZaigkEiwU7+WM=
+ bh=GH14LsTnaeCVc39D/8a6ieYNRnbEw0Ngq6iIvuKEW1Q=;
+ b=DqLQpCy0gJvBsD3mCfQome0CbLa3z+QTwpiGt7yJYC0MK31TEDyapPeXio41X9wLEImlNV
+ 0PiRASP/xUvFzdPRpl7rTs9fXRHCndneJI9ubUWBdYYSVMlXjubxu1eU7yO/eB/MATFxRg
+ s/4qvjx3kUKELB2+ccvk1x4YhXEihHc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-0C3LqNcuOGu9WXCpofHOPw-1; Mon, 26 Oct 2020 09:51:33 -0400
-X-MC-Unique: 0C3LqNcuOGu9WXCpofHOPw-1
+ us-mta-544-twK6MpWsPmqJD7rq67IHbw-1; Mon, 26 Oct 2020 09:51:37 -0400
+X-MC-Unique: twK6MpWsPmqJD7rq67IHbw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 430EC876E3D;
- Mon, 26 Oct 2020 13:51:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1623804354
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:35 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E83006EF78;
- Mon, 26 Oct 2020 13:51:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A69D86EF40
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 13:51:35 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/17] build: fix macOS --enable-modules build
-Date: Mon, 26 Oct 2020 09:51:15 -0400
-Message-Id: <20201026135131.3006712-2-pbonzini@redhat.com>
+Subject: [PULL 09/17] configure: allow configuring localedir
+Date: Mon, 26 Oct 2020 09:51:23 -0400
+Message-Id: <20201026135131.3006712-10-pbonzini@redhat.com>
 In-Reply-To: <20201026135131.3006712-1-pbonzini@redhat.com>
 References: <20201026135131.3006712-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,59 +81,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Emmanuel Blot <eblot.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Apple's nm implementation includes empty lines in the output that are not
-found in GNU binutils.  This confuses scripts/undefsym.py, though it did
-not confuse the scripts/undefsym.sh script that it replaced.  To fix
-this, ignore lines that do not have two fields.
+Meson has a localedir option, so passing the path through that option
+is the cleanest way when we move directories out of config-host.mak.
+In preparation for doing that without changing semantics and without
+special-casing localedir code, add a configure option.
 
-Reported-by: Emmanuel Blot <eblot.ml@gmail.com>
-Tested-by: Emmanuel Blot <eblot.ml@gmail.com>
-Fixes: 604f3e4e90 ("meson: Convert undefsym.sh to undefsym.py", 2020-09-08)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- .cirrus.yml         |  2 +-
- scripts/undefsym.py | 11 +++++------
- 2 files changed, 6 insertions(+), 7 deletions(-)
+ configure | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/.cirrus.yml b/.cirrus.yml
-index 81a2960b1a..900437dd2a 100644
---- a/.cirrus.yml
-+++ b/.cirrus.yml
-@@ -40,7 +40,7 @@ macos_xcode_task:
-   script:
-     - mkdir build
-     - cd build
--    - ../configure --extra-cflags='-Wno-error=deprecated-declarations'
-+    - ../configure --extra-cflags='-Wno-error=deprecated-declarations' --enable-modules
-                    --enable-werror --cc=clang || { cat config.log meson-logs/meson-log.txt; exit 1; }
-     - gmake -j$(sysctl -n hw.ncpu)
-     - gmake check V=1
-diff --git a/scripts/undefsym.py b/scripts/undefsym.py
-index 69a895cd26..4b6a72d95f 100644
---- a/scripts/undefsym.py
-+++ b/scripts/undefsym.py
-@@ -15,12 +15,11 @@ def filter_lines_set(stdout, from_staticlib):
-     linesSet = set()
-     for line in stdout.splitlines():
-         tokens = line.split(b' ')
--        if len(tokens) >= 1:
--            if len(tokens) > 1:
--                if from_staticlib and tokens[1] == b'U':
--                    continue
--                if not from_staticlib and tokens[1] != b'U':
--                    continue
-+        if len(tokens) >= 2:
-+            if from_staticlib and tokens[1] == b'U':
-+                continue
-+            if not from_staticlib and tokens[1] != b'U':
-+                continue
-             new_line = b'-Wl,-u,' + tokens[0]
-             if not new_line in linesSet:
-                 linesSet.add(new_line)
+diff --git a/configure b/configure
+index e6754c1e87..c214e9b38e 100755
+--- a/configure
++++ b/configure
+@@ -962,6 +962,8 @@ for opt do
+   ;;
+   --docdir=*) docdir="$optarg"
+   ;;
++  --localedir=*) localedir="$optarg"
++  ;;
+   --sysconfdir=*) sysconfdir="$optarg"
+   ;;
+   --localstatedir=*) local_statedir="$optarg"
+@@ -971,7 +973,7 @@ for opt do
+   --host=*|--build=*|\
+   --disable-dependency-tracking|\
+   --sbindir=*|--sharedstatedir=*|\
+-  --oldincludedir=*|--datarootdir=*|--infodir=*|--localedir=*|\
++  --oldincludedir=*|--datarootdir=*|--infodir=*|\
+   --htmldir=*|--dvidir=*|--pdfdir=*|--psdir=*)
+     # These switches are silently ignored, for compatibility with
+     # autoconf-generated configure scripts. This allows QEMU's
+@@ -1525,6 +1527,7 @@ firmwarepath="${firmwarepath:-$prefix/share/qemu-firmware}"
+ libdir="${libdir:-$prefix/lib}"
+ libexecdir="${libexecdir:-$prefix/libexec}"
+ includedir="${includedir:-$prefix/include}"
++localedir="${localedir:-$datadir/locale}"
+ 
+ if test "$mingw32" = "yes" ; then
+     mandir="$prefix"
+@@ -1670,6 +1673,7 @@ Advanced options (experts only):
+   --static                 enable static build [$static]
+   --mandir=PATH            install man pages in PATH
+   --datadir=PATH           install firmware in PATH/$qemu_suffix
++  --localedir=PATH         install translation in PATH/$qemu_suffix
+   --docdir=PATH            install documentation in PATH/$qemu_suffix
+   --bindir=PATH            install binaries in PATH
+   --libdir=PATH            install libraries in PATH
+@@ -5728,7 +5732,6 @@ fi
+ qemu_confdir="$sysconfdir/$qemu_suffix"
+ qemu_moddir="$libdir/$qemu_suffix"
+ qemu_datadir="$datadir/$qemu_suffix"
+-qemu_localedir="$datadir/locale"
+ qemu_icondir="$datadir/icons"
+ qemu_desktopdir="$datadir/applications"
+ 
+@@ -5912,7 +5915,7 @@ if test "$mingw32" = "no" ; then
+   echo "qemu_localstatedir=$local_statedir" >> $config_host_mak
+ fi
+ echo "qemu_helperdir=$libexecdir" >> $config_host_mak
+-echo "qemu_localedir=$qemu_localedir" >> $config_host_mak
++echo "qemu_localedir=$localedir" >> $config_host_mak
+ echo "qemu_icondir=$qemu_icondir" >> $config_host_mak
+ echo "qemu_desktopdir=$qemu_desktopdir" >> $config_host_mak
+ echo "GIT=$git" >> $config_host_mak
 -- 
 2.26.2
 
