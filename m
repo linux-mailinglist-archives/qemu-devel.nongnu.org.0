@@ -2,62 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95BAB2986D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 07:24:50 +0100 (CET)
-Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09AE2298714
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 07:51:43 +0100 (CET)
+Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWvw1-000471-Mp
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 02:24:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52796)
+	id 1kWwM2-00041I-3d
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 02:51:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kWvu0-0002rQ-8I
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 02:22:44 -0400
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2482)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kWwKt-0003RO-E3; Mon, 26 Oct 2020 02:50:31 -0400
+Received: from ozlabs.org ([203.11.71.1]:55665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kWvtv-0007mY-KC
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 02:22:43 -0400
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4CKPrb3L0HzVhBY;
- Mon, 26 Oct 2020 14:22:23 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Mon, 26 Oct 2020 14:22:18 +0800
-Received: from [10.174.185.187] (10.174.185.187) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Mon, 26 Oct 2020 14:22:18 +0800
-Subject: Re: [PATCH] ACPI: Avoid infinite recursion when dump-vmstate
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Igor Mammedov
- <imammedo@redhat.com>
-References: <20201019093156.2993284-1-liangpeng10@huawei.com>
- <20201023180933.2fe23875@redhat.com> <20201023185441.GP3038@work-vm>
-From: Peng Liang <liangpeng10@huawei.com>
-Message-ID: <be52cdde-33de-d519-6509-5f0900ce4c36@huawei.com>
-Date: Mon, 26 Oct 2020 14:22:06 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kWwKq-0000q8-Ui; Mon, 26 Oct 2020 02:50:30 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CKQSj2PJJz9sTL; Mon, 26 Oct 2020 17:50:13 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1603695013;
+ bh=TbqVDzI6j2hZea3x1TPf+SYQIEAZcI0AWGvle7aOl8Q=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=lufFVoPZeIuLLZQMjfV1Kbz0W0jibIvLQJSmH5ZtXxypokJKHBg5cn0e9rDJvBWHT
+ RW4Ifd7zU4uwYWhgEjbrtfj1tZ5zfDzoR+VTzisAkXZeptnLhmzc+SHtE5UbdSxDKY
+ /A7gHIO92zFe3MiqeWeGU84GLc4LwnjWWgA4yNjw=
+Date: Mon, 26 Oct 2020 16:44:08 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 0/5] spapr: Error handling fixes and cleanups (round 3)
+Message-ID: <20201026054408.GA4671@yekko.fritz.box>
+References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
+ <20201022041142.GG1821515@yekko.fritz.box>
+ <20201025111340.48e2a40c@bahia.lan>
+ <20201025223306.0ca3ee0a@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20201023185441.GP3038@work-vm>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.187]
-X-ClientProxiedBy: dggeme715-chm.china.huawei.com (10.1.199.111) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=liangpeng10@huawei.com; helo=szxga01-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:22:20
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5mCyUwZo2JvN/JJP"
+Content-Disposition: inline
+In-Reply-To: <20201025223306.0ca3ee0a@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:50:13
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,128 +62,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- zhang.zhanghailiang@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/24/2020 2:54 AM, Dr. David Alan Gilbert wrote:
-> * Igor Mammedov (imammedo@redhat.com) wrote:
->> On Mon, 19 Oct 2020 17:31:56 +0800
->> Peng Liang <liangpeng10@huawei.com> wrote:
->>
->>> There is a field with vmstate_ghes_state as vmsd in vmstate_ghes_state,
->>> which will lead to infinite recursion in dump_vmstate_vmsd.
->>>
->>> Fixes: a08a64627b ("ACPI: Record the Generic Error Status Block address")
->>> Reported-by: Euler Robot <euler.robot@huawei.com>
->>> Signed-off-by: Peng Liang <liangpeng10@huawei.com>
->>> ---
->>>  hw/acpi/generic_event_device.c | 3 +--
->>>  1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
->>> index 6df400e1ee16..4b6867300a55 100644
->>> --- a/hw/acpi/generic_event_device.c
->>> +++ b/hw/acpi/generic_event_device.c
->>> @@ -334,8 +334,7 @@ static const VMStateDescription vmstate_ghes_state = {
->>>      .minimum_version_id = 1,
->>>      .needed = ghes_needed,
->>>      .fields      = (VMStateField[]) {
->>> -        VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
->>> -                       vmstate_ghes_state, AcpiGhesState),
->>> +        VMSTATE_UINT64(ghes_state.ghes_addr_le, AcpiGedState),
->>
->> not sure its' ok handle it this way,
->>
->> see how it is done with another structure:
->>
->> static const VMStateDescription vmstate_ged_state = {                            
->>     .name = "acpi-ged-state",                                                    
->>     .version_id = 1,                                                             
->>     .minimum_version_id = 1,                                                     
->>     .fields      = (VMStateField[]) {                                            
->>         VMSTATE_UINT32(sel, GEDState),                                           
->>         VMSTATE_END_OF_LIST()                                                    
->>     }                                                                            
->> }; 
->>
->> ...
->>
->> VMSTATE_STRUCT(ged_state, AcpiGedState, 1, vmstate_ged_state, GEDState),
->>
->> i.e. it looks like we are missing structure definition for AcpiGhesState
->>
->> CCing David,
->>  to help with migration magic in case I'm wrong or missed something
-> 
-> Yeh that's confusing :-)
-> 
-> Given a:
-> 
->   VMSTATE_STRUCT(a, B, 1, vmstate_c, C)
-> 
-> We're saying there's a field 'a' in type B, and field 'a'
-> should be of type C and be serialised using vmstate_c.
-> 
-> That also means that in any vmstate_c, we're expecting it
-> to be passed a type C generally.
-> 
-> Having said that; you don't need a struct - you can get away
-> with that VMSTATE_UINT64, there's two problems:
-> 
->   a) That assumes that your ghes always stays that simple.
->   b) If you wanted to store a Ghes from a number of different
-> parent structures then you're stuck because your vmstate_ghes_state
-> is bound to being a strict field of AcpiGedState.
-> 
-> So yes, it's neatest to do it using a VMSD for AcpiGhesState
-> 
-> And congratulations on finding a loop; I don't think we've ever had one
-> before :-)
-> 
-> Dave
-> 
->>>          VMSTATE_END_OF_LIST()
->>>      }
->>>  };
->>
 
-Do you mean that we need another VMStateDescription to describe
-AcpiGhesState instead of using VMSTATE_UINT64 directly?  Maybe like this:
+--5mCyUwZo2JvN/JJP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/acpi/generic_event_device.c b/hw/acpi/generic_event_device.c
-index 6df400e1ee16..5454be67d5f0 100644
---- a/hw/acpi/generic_event_device.c
-+++ b/hw/acpi/generic_event_device.c
-@@ -322,6 +322,16 @@ static const VMStateDescription vmstate_ged_state = {
-     }
- };
+On Sun, Oct 25, 2020 at 10:33:06PM +0100, Greg Kurz wrote:
+> On Sun, 25 Oct 2020 11:13:40 +0100
+> Greg Kurz <groug@kaod.org> wrote:
+>=20
+> > On Thu, 22 Oct 2020 15:11:42 +1100
+> > David Gibson <david@gibson.dropbear.id.au> wrote:
+> >=20
+> > > On Mon, Oct 19, 2020 at 10:47:52AM +0200, Greg Kurz wrote:
+> > > > Hi,
+> > > >=20
+> > > > This is a followup to a previous cleanup for the sPAPR code:
+> > > >=20
+> > > > https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg04860.html
+> > > >=20
+> > > > The last two patches had to be dropped because they were wrongly as=
+suming
+> > > > that object_property_get_uint() returning zero meant failure. This =
+led to
+> > > > a discussion in which arose a consensus that most of the time (not =
+to say
+> > > > always) object property getters should never fail actually, ie. fai=
+lure
+> > > > is very likely the result of a programming error and QEMU should ab=
+ort.
+> > > >=20
+> > > > This series aims at demonstrating a revelant case I've found while =
+auditing
+> > > > object property getters (this is patch 4 that I've isolated from a =
+huge
+> > > > 50-patch series I haven't dared to post yet). The sPAPR memory hotp=
+lug code
+> > > > is tailored to support either regular PC DIMMs or NVDIMMs, which in=
+herit
+> > > > from PC DIMMs. They expect to get some properties from the DIMM obj=
+ect,
+> > > > which happens to be set by default at the PC DIMM class level. It t=
+hus
+> > > > doesn't make sense to pass an error object and propagate it when ge=
+tting
+> > > > them since this would lure the user into thinking they did somethin=
+g wrong.
+> > > >=20
+> > > > Some preliminary cleanup is done on the way, especially dropping an=
+ unused
+> > > > @errp argument of pc_dimm_plug(). This affects several platforms ot=
+her than
+> > > > sPAPR but I guess the patch is trivial enough to go through David's=
+ tree
+> > > > if it gets acks from the relevant maintainers.
+> > >=20
+> > > Since this series mostly affects ppc, I've applied it to ppc-for-5.2.
+> > >=20
+> > > It would be nice to have an acked-by from Igor or Michael for the
+> > > first patch, though.
+> > >=20
+> >=20
+> > David,
+> >=20
+> > Igor sent a R-b for patches 1 and 4. He also suggested to call
+> > spapr_drc_attach() at pre-plug time. I'll look into this, so maybe
+> > you can drop patch 5 from ppc-for-5.2 (or the entire series at
+> > your convenience).
+> >=20
+>=20
+> It seems that spapr_drc_attach() cannot be called at pre-plug time
+> actually because there is no way to call spapr_drc_detach() if
+> the device fails to realize. I think you there's nothing else to do
+> for this series than adding Igor's r-b to patches 1 and 4.
 
-+static const VMStateDescription vmstate_ghes = {
-+    .name = "acpi-ghes",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields     = (VMStateField[]) {
-+        VMSTATE_UINT64(ghes_addr_le, AcpiGhesState),
-+        VMSTATE_END_OF_LIST()
-+    },
-+};
-+
- static bool ghes_needed(void *opaque)
- {
-     AcpiGedState *s = opaque;
-@@ -335,7 +345,7 @@ static const VMStateDescription vmstate_ghes_state = {
-     .needed = ghes_needed,
-     .fields      = (VMStateField[]) {
-         VMSTATE_STRUCT(ghes_state, AcpiGedState, 1,
--                       vmstate_ghes_state, AcpiGhesState),
-+                       vmstate_ghes, AcpiGhesState),
-         VMSTATE_END_OF_LIST()
-     }
- };
+Ok.  In fact I'd already added Igor's r-b, just hadn't pushed out my
+latest tree.
 
--- 
-Thanks,
-Peng
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--5mCyUwZo2JvN/JJP
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+WYiYACgkQbDjKyiDZ
+s5LAkQ/8CBKngxYlI+UGrKDzzvPSl+cOS2yRR7q15CEs6zTHMhaHQ69dz1neoRtE
+vu7z15nyKuZg7pAv8qeMI1z6jtwjIHDGghji4SyaoicWBWRrbvk9vvXNYRQLl31j
+M8syPHuIdv7Zf1g9q10ZAqMz1mbzjzOGuFK6CC11m6jdKITBtb6s3DIZ7hCWP/2/
+5g4leS+QsiyS/2HXhWpupMz9HnX0o1O2vG47tBgwg+QgccWW6XoriDqZQwD2IDqL
+a0a/22PELRrXPxFFWpQcy9Wb494XDmWeeS1JspXA4BqKwmpZgpVOaNEwbQPyeyp+
+vTx6r8jvZ8Dkyf1tZvPwNa6LSdr6DpfxH+Xu+vSM0lpRD4LLwk6ulvyLVcET3EwJ
+q84Xe7FVQYxw4IyOgSwbz/uARFyx8rpm/p0OUAwU9YRBpIc2ZH62vYF5rGJjzHxD
+CVBwClNHpaOeseQSifgA5y9BwbEiKrfoGiJVhogc42y8zJ0XHfFQ+JpaLGl9qZ11
+njJTW9e4ctXR2LSKfXs/WLGMtea/uJG45bBLcuMxkeIDV0NCJd/YC4w6SP8UJkhr
+GpQxUiuaJKJM5sdwnnYSc6foncEgmcIjIMsd3cT6cyTCtYdcNg+2UNcsaHxYkjA5
+tEve6fdh/ck6IOvqq87galUCA0uQ/csWl5EFX3ghB9srR4nqq7I=
+=N07k
+-----END PGP SIGNATURE-----
+
+--5mCyUwZo2JvN/JJP--
 
