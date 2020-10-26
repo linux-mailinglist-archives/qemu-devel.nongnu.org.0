@@ -2,82 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A14C299485
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:56:24 +0100 (CET)
-Received: from localhost ([::1]:50150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2547529943F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:48:20 +0100 (CET)
+Received: from localhost ([::1]:50116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6jH-00036M-9b
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:56:23 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51410)
+	id 1kX6bT-0007gV-0R
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:48:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX6Ez-0007T8-5C
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:25:05 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41581)
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1kX6Fb-0000N9-Qm
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:25:45 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:40290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX6Ex-0000yj-EE
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:25:04 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s9so13551452wro.8
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:25:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ysPxNijG4Aqx701ty20uzFlSvhmv1fPCzt8k8sSabLQ=;
- b=XUHRXmTtmw/q85FbL6mvWz4YUXTtz/6PoIsyS0gsiveSlZxfmSoPMjHnG6DpdR0tm3
- C+H8qmkcad3c7+giV2WdXfjUKLmgNmJqK3RKgR/vUvh0ckuM9G+5ikwDoEBUHw92+YUW
- 69hpWlyzuUZLhfAGnczsWU7v3rkNQTYmaNmycBL6OuReCRwZCAr24n3y8e7Eek8pW+wv
- +0TY5dZq0sr43EPOww9CSzQMKxRJWow5/B3fvclFrra1jlBVN84wNXE9vvpNhcuhXe31
- Fc2L6fR5veUoMCr22u5dD5eHsDqezH3yC1/vPuhokuGYkU20YpD12qwHJkIAlh8R/nE4
- ucyA==
+ (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
+ id 1kX6FZ-00019v-VR
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:25:43 -0400
+Received: by mail-pg1-f194.google.com with SMTP id x13so6439582pgp.7
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:25:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=ysPxNijG4Aqx701ty20uzFlSvhmv1fPCzt8k8sSabLQ=;
- b=neNEYOGqEbQTaHSAiC9J63J39+g2NMjZMxXU1UZn/LsNxAnySC4iUMIEShUzklQhNa
- Vt+0tFPz7suIuDTBgbHbNQlDOY3dL3qAPg+l+oP9jWH17fNoRrgKoNH8WsslXnTAN2PD
- DLoqjTyqcx4Kioi7wDvjaVqoM9nnqTQ9yAlyoQ6kuri+TO1VuLx01/ibTDCs+xZETejQ
- HI5izmYJYmjOfl2BNZpkNfisM32u2UDeeQhRg6zNxhPH49J0QMGIbGo7OzZnxCbrVQmf
- mg77iP4RERxq4ksW68hlzdPp8fBwZxbnhHn55AxyGObYjglzyEod77c5/t7CvG4odF5k
- J+sA==
-X-Gm-Message-State: AOAM532MDH1RB6wH4quzTrF/ttFkpna2O7gtyy44DqRRF5v/pXLRXsrI
- icLWJOZSqQXWRkme+ZPi3x1BMN7of0nKDA==
-X-Google-Smtp-Source: ABdhPJzaMCNy3K4sbIalJaZjyUZG4Iqn7l1PG1rN8A+ClCoMUzPyvfuf9fw6Cjm2aN753h7iXRE9iQ==
-X-Received: by 2002:a05:6000:1d1:: with SMTP id
- t17mr20075913wrx.164.1603733100679; 
- Mon, 26 Oct 2020 10:25:00 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b131sm2535776wmc.3.2020.10.26.10.24.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 10:24:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B070D1FF7E;
- Mon, 26 Oct 2020 17:24:58 +0000 (GMT)
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-12-pbonzini@redhat.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 11/15] rx: move BIOS load from MCU to board
-In-reply-to: <20201026143028.3034018-12-pbonzini@redhat.com>
-Date: Mon, 26 Oct 2020 17:24:58 +0000
-Message-ID: <87lffsgas5.fsf@linaro.org>
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=P/Rhlb1gCZwkT6/wkGjGH9rJ+eVm6ZKc183lCsLqGZ8=;
+ b=CKB3dMqEpKzemitpdIya8mYDJp8dKTbljvAF6lnbYTwOQmuEptWllhHl87bB0lcdt9
+ PR+TKLQH5L/AzKhGuD3eEg/w4d/hAraovrGc1S3gQemy0JeKagRM2dpIfqbzFTnQRMJ5
+ LN8UMT5DDjUNplPyM+CfT+31OcucsMG4mCkl9bUrEmM8uSTkKfgYotQs4sxFHQDpc6fd
+ IuvPSGdZQMsYGhTZxagd58/a4srahk/0b4NsZBMSuoFpMn8dxjXVwzEnKtPHHkWWFmmm
+ +5ODezb8qxPamiC7R+OoIO5Sor7n8DyTgZ15Y9h2JCB4mqIvC2LnG9p2UXldnYBoGwZR
+ irNw==
+X-Gm-Message-State: AOAM531o0cU6JuoVL+exrklXnd81scVVp9nxnC1izwwU5jQavpF7Dxo7
+ bmkxbxObQCY/9I4AIczOiQt6avJiivc=
+X-Google-Smtp-Source: ABdhPJyIs+h9KaHKP4IqeHlvy9qep9QNRW/8iXj0/r2USxTCBRcDq8UsATBTVXAzKLIxEKATXphjMA==
+X-Received: by 2002:a63:354c:: with SMTP id c73mr17996195pga.315.1603733138231; 
+ Mon, 26 Oct 2020 10:25:38 -0700 (PDT)
+Received: from localhost.localdomain ([73.93.154.188])
+ by smtp.gmail.com with ESMTPSA id j20sm12723075pfd.40.2020.10.26.10.25.36
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 26 Oct 2020 10:25:37 -0700 (PDT)
+From: Joelle van Dyne <j@getutm.app>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/4] Mirror map JIT memory for TCG
+Date: Mon, 26 Oct 2020 10:25:31 -0700
+Message-Id: <20201026172535.10419-1-j@getutm.app>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=209.85.215.194;
+ envelope-from=osy86github@gmail.com; helo=mail-pg1-f194.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 13:25:38
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,65 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+To aid in debugging TCG, we enable a "mirror map" feature that, when enabled,
+will use memfd_create() to create two mappings of the same memory for RW and RX.
+The feature is only built when targeting system emulation on Linux and
+configured with --enable-debug-tcg. It can be disabled with the runtime argument
+`-accel tcg,mirror-jit=off`.
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Although this patch only enables this feature for Linux, the main goal of this
+is to enable, through a future patch, iOS JIT on older devices which require
+strict W^X separation.
 
-> The ROM loader state is global and not part of the MCU, and the
-> BIOS is in machine->firmware.  So just like the kernel case,
-> load it in the board.
->
-> Cc: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/rx/rx-gdbsim.c | 7 +++++++
->  hw/rx/rx62n.c     | 9 ---------
->  2 files changed, 7 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
-> index 417ec0564b..040006c1c5 100644
-> --- a/hw/rx/rx-gdbsim.c
-> +++ b/hw/rx/rx-gdbsim.c
-> @@ -142,6 +142,13 @@ static void rx_gdbsim_init(MachineState *machine)
->              /* Set dtb address to R1 */
->              RX_CPU(first_cpu)->env.regs[1] =3D SDRAM_BASE + dtb_offset;
->          }
-> +    } else {
-> +        if (machine->firmware) {
-> +            rom_add_file_fixed(machine->firmware, RX62N_CFLASH_BASE, 0);
-> +        } else if (!qtest_enabled()) {
-> +            error_report("No bios or kernel specified");
-> +            exit(1);
-> +        }
->      }
->  }
->=20=20
-> diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-> index 6eb4eea700..17ec73fc7b 100644
-> --- a/hw/rx/rx62n.c
-> +++ b/hw/rx/rx62n.c
-> @@ -245,15 +245,6 @@ static void rx62n_realize(DeviceState *dev, Error **=
-errp)
->                             rxc->rom_flash_size, &error_abort);
->      memory_region_add_subregion(s->sysmem, RX62N_CFLASH_BASE, &s->c_flas=
-h);
->=20=20
-> -    if (!s->kernel) {
-> -        if (bios_name) {
-> -            rom_add_file_fixed(bios_name, RX62N_CFLASH_BASE, 0);
-> -        }  else if (!qtest_enabled()) {
-> -            error_report("No bios or kernel specified");
-> -            exit(1);
-> -        }
-> -    }
-> -
+-j
 
-I'm confused because on the face of it these are two different models.
-I'll defer to the domain expert on this one.
+Joelle van Dyne (4):
+  tcg: add const hints for code pointers
+  tcg: implement mirror mapped JIT for Linux
+  tcg: use mirror map JIT in code generation
+  tcg: make mirror mapped JIT optional
 
---=20
-Alex Benn=C3=A9e
+ configure                    |  13 +++++
+ meson.build                  |   1 +
+ include/exec/exec-all.h      |   8 +++
+ include/sysemu/tcg.h         |   2 +-
+ include/tcg/tcg.h            |  26 +++++++--
+ tcg/aarch64/tcg-target.h     |  18 +++++-
+ tcg/arm/tcg-target.h         |  15 ++++-
+ tcg/i386/tcg-target.h        |  26 ++++++++-
+ tcg/mips/tcg-target.h        |  12 +++-
+ tcg/ppc/tcg-target.h         |  12 +++-
+ tcg/riscv/tcg-target.h       |  13 ++++-
+ tcg/s390/tcg-target.h        |  17 +++++-
+ tcg/sparc/tcg-target.h       |  12 +++-
+ tcg/tci/tcg-target.h         |   9 ++-
+ accel/tcg/cpu-exec.c         |   7 ++-
+ accel/tcg/tcg-all.c          |  31 +++++++++-
+ accel/tcg/translate-all.c    | 106 +++++++++++++++++++++++++++++------
+ bsd-user/main.c              |   2 +-
+ linux-user/main.c            |   2 +-
+ tcg/tcg.c                    |  60 +++++++++++++-------
+ qemu-options.hx              |  11 ++++
+ tcg/aarch64/tcg-target.c.inc |  48 +++++++++-------
+ tcg/arm/tcg-target.c.inc     |  33 ++++++-----
+ tcg/i386/tcg-target.c.inc    |  28 ++++-----
+ tcg/mips/tcg-target.c.inc    |  64 ++++++++++++---------
+ tcg/ppc/tcg-target.c.inc     |  57 ++++++++++++-------
+ tcg/riscv/tcg-target.c.inc   |  51 +++++++++--------
+ tcg/s390/tcg-target.c.inc    |  25 +++++----
+ tcg/sparc/tcg-target.c.inc   |  33 ++++++-----
+ tcg/tcg-ldst.c.inc           |   2 +-
+ tcg/tcg-pool.c.inc           |   9 +--
+ tcg/tci/tcg-target.c.inc     |   8 +--
+ 32 files changed, 555 insertions(+), 206 deletions(-)
+
+-- 
+2.28.0
+
 
