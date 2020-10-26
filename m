@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10E3299208
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:13:21 +0100 (CET)
-Received: from localhost ([::1]:60878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC7AE2991DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 17:06:41 +0100 (CET)
+Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX57Y-00052k-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:13:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54042)
+	id 1kX516-00062J-Qh
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 12:06:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX4x8-0002vB-Ue
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:02:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20569)
+ id 1kX4xA-0002zN-K1
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:02:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX4x7-0005rJ-2R
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:02:34 -0400
+ id 1kX4x8-0005ra-JV
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 12:02:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603728152;
+ s=mimecast20190719; t=1603728153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=pVujzGXOlIuEv9NTkGhQPcnRAOW7vGixWHrQP+e65lQ=;
- b=Q8rp5HQ18ZcuDmRdzyd5ZMogdaET1okX47Q0SGyTAVvB/jG6Ci2Wrts2QxeVm0xTsVNSVB
- Url9KVFX60XelILTFEbFiZnxV9NamrHHr5aroEILoXoUam3YI6RMmzEHBb6EmyxhBJB+d3
- QtWq33TPYKYZ2atQERWPS3qHXt23tqs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LEuLy70bO9rGKypxbnX7ZHoOi/nKsVsUSyciGbs1XDI=;
+ b=VGNvagA7sfEwjcSEhTDBatNPr1ATJlHb5+Z7hs7AYG1rrkZ0MemxcHNXWsay8E4+V6eNMu
+ A68dqKdj9jaPR64wsE4Kyn+YRrDb1kSvOE6CqO5IIccK6XYkTIf4LzB1hVv/iK6fvGiAfA
+ NLphWYRVGnOed6PZjL6wB7a+IaizHQM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-QsVJQM93PZSz1ZwEzIgT0Q-1; Mon, 26 Oct 2020 12:02:29 -0400
-X-MC-Unique: QsVJQM93PZSz1ZwEzIgT0Q-1
+ us-mta-340-6F21LJZROjSmqDZEzbvP-Q-1; Mon, 26 Oct 2020 12:02:29 -0400
+X-MC-Unique: 6F21LJZROjSmqDZEzbvP-Q-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF442809DDD;
- Mon, 26 Oct 2020 16:02:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 703921060B73;
+ Mon, 26 Oct 2020 16:02:27 +0000 (UTC)
 Received: from localhost (ovpn-114-214.ams2.redhat.com [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 631775C1BB;
- Mon, 26 Oct 2020 16:02:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04D8E5C1BB;
+ Mon, 26 Oct 2020 16:02:26 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 0/2] Tracing patches
-Date: Mon, 26 Oct 2020 16:02:19 +0000
-Message-Id: <20201026160221.62704-1-stefanha@redhat.com>
+Subject: [PULL v2 1/2] trace/simple: Enable tracing on startup only if the
+ user specifies a trace option
+Date: Mon, 26 Oct 2020 16:02:20 +0000
+Message-Id: <20201026160221.62704-2-stefanha@redhat.com>
+In-Reply-To: <20201026160221.62704-1-stefanha@redhat.com>
+References: <20201026160221.62704-1-stefanha@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,28 +82,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Josh DuBois <josh@joshdubois.com>,
  Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-VGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdCA0YzViOTdiZmQwZGQ1NGRjMjc3MTdh
-ZThkMWNkMTBlMTRlZWYxNDMwOg0KDQogIE1lcmdlIHJlbW90ZS10cmFja2luZyBicmFuY2ggJ3Jl
-bW90ZXMva3JheGVsL3RhZ3MvbW9kdWxlcy0yMDIwMTAyMi1wdWxsLXJlcXVlc3QnIGludG8gc3Rh
-Z2luZyAoMjAyMC0xMC0yMiAxMjozMzoyMSArMDEwMCkNCg0KYXJlIGF2YWlsYWJsZSBpbiB0aGUg
-R2l0IHJlcG9zaXRvcnkgYXQ6DQoNCiAgaHR0cHM6Ly9naXRsYWIuY29tL3N0ZWZhbmhhL3FlbXUu
-Z2l0IHRhZ3MvdHJhY2luZy1wdWxsLXJlcXVlc3QNCg0KZm9yIHlvdSB0byBmZXRjaCBjaGFuZ2Vz
-IHVwIHRvIDFlOGViZjExMTZhNzAyM2I0ZGQxOTE5ZDMxYWY4YjRlMTczMjFkYTQ6DQoNCiAgQWRk
-IGV4ZWN1dGUgYml0IGJhY2sgdG8gc2NyaXB0cy90cmFjZXRvb2wucHkgKDIwMjAtMTAtMjYgMTM6
-MjI6MzYgKzAwMDApDQoNCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClB1bGwgcmVxdWVzdA0KDQotLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQoNCkFudGhv
-bnkgUEVSQVJEIHZpYSAoMSk6DQogIEFkZCBleGVjdXRlIGJpdCBiYWNrIHRvIHNjcmlwdHMvdHJh
-Y2V0b29sLnB5DQoNCkpvc2ggRHVCb2lzICgxKToNCiAgdHJhY2Uvc2ltcGxlOiBFbmFibGUgdHJh
-Y2luZyBvbiBzdGFydHVwIG9ubHkgaWYgdGhlIHVzZXIgc3BlY2lmaWVzIGENCiAgICB0cmFjZSBv
-cHRpb24NCg0KIHRyYWNlL2NvbnRyb2wuYyAgICAgIHwgNiArKysrKy0NCiBzY3JpcHRzL3RyYWNl
-dG9vbC5weSB8IDANCiAyIGZpbGVzIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlv
-bigtKQ0KIG1vZGUgY2hhbmdlIDEwMDY0NCA9PiAxMDA3NTUgc2NyaXB0cy90cmFjZXRvb2wucHkN
-Cg0KLS0gDQoyLjI2LjINCg0K
+RnJvbTogSm9zaCBEdUJvaXMgPGpvc2hAam9zaGR1Ym9pcy5jb20+CgpUcmFjaW5nIGNhbiBiZSBl
+bmFibGVkIGF0IHRoZSBjb21tYW5kIGxpbmUgb3IgdmlhIHRoZQptb25pdG9yLiBDb21tYW5kLWxp
+bmUgdHJhY2Ugb3B0aW9ucyBhcmUgcmVjb3JkZWQgZHVyaW5nCnRyYWNlX29wdF9wYXJzZSgpLCBi
+dXQgdHJhY2luZyBpcyBub3QgZW5hYmxlZCB1bnRpbCB0aGUgdmFyaW91cwpmcm9udC1lbmRzIGxh
+dGVyIGNhbGwgdHJhY2VfaW5pdF9maWxlKCkuIElmIHRoZSB1c2VyIHBhc3NlcyBhIHRyYWNlCm9w
+dGlvbiBvbiB0aGUgY29tbWFuZC1saW5lLCByZW1lbWJlciB0aGF0IGFuZCBlbmFibGUgdHJhY2lu
+ZyBkdXJpbmcKdHJhY2VfaW5pdF9maWxlKCkuICBPdGhlcndpc2UsIHRyYWNlX2luaXRfZmlsZSgp
+IHNob3VsZCByZWNvcmQgdGhlCnRyYWNlIGZpbGUgc3BlY2lmaWVkIGJ5IHRoZSBmcm9udGVuZCBh
+bmQgYXZvaWQgZW5hYmxpbmcgdHJhY2VzCnVudGlsIHRoZSB1c2VyIHJlcXVlc3RzIHRoZW0gdmlh
+IHRoZSBtb25pdG9yLgoKVGhpcyBmaXhlcyAxYjcxNTdiZTNhOGM0MzAwZmM4MDQ0ZDQwZjRiMmU2
+NGExNTJhMWI0IGFuZCBhbHNvCmRiMjVkNTZjMDE0YWExYTk2MzE5YzY2M2UwYTYwMzQ2YTIyM2Iz
+MWUsIGJ5IGFsbG93aW5nIHRoZSB1c2VyCnRvIGVuYWJsZSB0cmFjZXMgb24gdGhlIGNvbW1hbmQg
+bGluZSBhbmQgYWxzbyBhdm9pZGluZwp1bndhbnRlZCB0cmFjZS08cGlkPiBmaWxlcyB3aGVuIHRo
+ZSB1c2VyIGhhcyBub3QgYXNrZWQgZm9yIHRoZW0uCgpGaXhlczogMWI3MTU3YmUzYThjNDMwMGZj
+ODA0NGQ0MGY0YjJlNjRhMTUyYTFiNApTaWduZWQtb2ZmLWJ5OiBKb3NoIER1Qm9pcyA8am9zaEBq
+b3NoZHVib2lzLmNvbT4KTWVzc2FnZS1pZDogMjAyMDA4MTYxNzQ2MTAuMjAyNTMtMS1qb3NoQGpv
+c2hkdWJvaXMuY29tClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVk
+aGF0LmNvbT4KLS0tCiB0cmFjZS9jb250cm9sLmMgfCA2ICsrKysrLQogMSBmaWxlIGNoYW5nZWQs
+IDUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL3RyYWNlL2NvbnRy
+b2wuYyBiL3RyYWNlL2NvbnRyb2wuYwppbmRleCBiMzVlNTEyZGNlLi41NjY5ZGI3ZWVhIDEwMDY0
+NAotLS0gYS90cmFjZS9jb250cm9sLmMKKysrIGIvdHJhY2UvY29udHJvbC5jCkBAIC0zOSw2ICsz
+OSw3IEBAIHN0YXRpYyBUcmFjZUV2ZW50R3JvdXAgKmV2ZW50X2dyb3VwczsKIHN0YXRpYyBzaXpl
+X3QgbmV2ZW50X2dyb3VwczsKIHN0YXRpYyB1aW50MzJfdCBuZXh0X2lkOwogc3RhdGljIHVpbnQz
+Ml90IG5leHRfdmNwdV9pZDsKK3N0YXRpYyBib29sIGluaXRfdHJhY2Vfb25fc3RhcnR1cDsKIAog
+UWVtdU9wdHNMaXN0IHFlbXVfdHJhY2Vfb3B0cyA9IHsKICAgICAubmFtZSA9ICJ0cmFjZSIsCkBA
+IC0yMjUsNyArMjI2LDkgQEAgdm9pZCB0cmFjZV9pbml0X2ZpbGUoY29uc3QgY2hhciAqZmlsZSkK
+IHsKICNpZmRlZiBDT05GSUdfVFJBQ0VfU0lNUExFCiAgICAgc3Rfc2V0X3RyYWNlX2ZpbGUoZmls
+ZSk7Ci0gICAgc3Rfc2V0X3RyYWNlX2ZpbGVfZW5hYmxlZCh0cnVlKTsKKyAgICBpZiAoaW5pdF90
+cmFjZV9vbl9zdGFydHVwKSB7CisgICAgICAgIHN0X3NldF90cmFjZV9maWxlX2VuYWJsZWQodHJ1
+ZSk7CisgICAgfQogI2VsaWYgZGVmaW5lZCBDT05GSUdfVFJBQ0VfTE9HCiAgICAgLyoKICAgICAg
+KiBJZiBib3RoIHRoZSBzaW1wbGUgYW5kIHRoZSBsb2cgYmFja2VuZHMgYXJlIGVuYWJsZWQsICIt
+LXRyYWNlIGZpbGUiCkBAIC0yOTksNiArMzAyLDcgQEAgY2hhciAqdHJhY2Vfb3B0X3BhcnNlKGNv
+bnN0IGNoYXIgKm9wdGFyZykKICAgICB9CiAgICAgdHJhY2VfaW5pdF9ldmVudHMocWVtdV9vcHRf
+Z2V0KG9wdHMsICJldmVudHMiKSk7CiAgICAgdHJhY2VfZmlsZSA9IGdfc3RyZHVwKHFlbXVfb3B0
+X2dldChvcHRzLCAiZmlsZSIpKTsKKyAgICBpbml0X3RyYWNlX29uX3N0YXJ0dXAgPSB0cnVlOwog
+ICAgIHFlbXVfb3B0c19kZWwob3B0cyk7CiAKICAgICByZXR1cm4gdHJhY2VfZmlsZTsKLS0gCjIu
+MjYuMgoK
 
 
