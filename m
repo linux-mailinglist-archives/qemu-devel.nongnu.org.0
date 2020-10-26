@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3368E298C0D
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:24:51 +0100 (CET)
-Received: from localhost ([::1]:34324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5C5298C18
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:25:39 +0100 (CET)
+Received: from localhost ([::1]:37314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0cM-0008Vb-6R
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:24:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57164)
+	id 1kX0d8-0001Js-3G
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:25:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0S1-0005P1-6y
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56211)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0S9-0005jY-Kq
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0Rz-0006SG-DD
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:08 -0400
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kX0S7-0006Vb-Mz
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603710846;
+ s=mimecast20190719; t=1603710854;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=PaQtA9vdQ4ABoyOLaxUj5SLRInqyC718Ojxtk1bqNK4=;
- b=b37Q4lW3+YG+w4zJv3upXnw8V3m8XKXIfL3TEGj5ilfHw/chS7z/M1ipmmBxeOKZNd4IOx
- /5OUhlI3SaRHyDJjsTEMeurFkdzAiruOMxo+bffVP35ax+Jnjl7VpEa5HvaHzs06MVwaS2
- 8REvvwfbDMGXJS+TAn82IITm2zQeD8s=
+ bh=GkaNoBHpfpCUJ07C9leAfPW/7tEtt+kjYoWZ34Mpk3E=;
+ b=hIRJFlhM/W9RvrPp0U2UzPgiQ/Fi+KrKMsgK6Z7wMGcOJCL6Qr/ECpxXi7WWSqz0xLi4Uq
+ WD5ZQsm94SBMVkNvDjsI/tv65ScyZfzMQlRZpan/0P4p8WW1d7v/6htBYloiGJoiTHA0VC
+ j5RWk9bUyz8+hoZ26de9y3d0ZIDyLGs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-OIJzqYStPYWWhZ9qHKJ73g-1; Mon, 26 Oct 2020 07:14:04 -0400
-X-MC-Unique: OIJzqYStPYWWhZ9qHKJ73g-1
+ us-mta-101-6DaqxEe3OlGRQhex82mhdA-1; Mon, 26 Oct 2020 07:14:11 -0400
+X-MC-Unique: 6DaqxEe3OlGRQhex82mhdA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CFEE879539;
- Mon, 26 Oct 2020 11:14:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC8A81018F7C;
+ Mon, 26 Oct 2020 11:14:09 +0000 (UTC)
 Received: from gondolin.redhat.com (ovpn-113-108.ams2.redhat.com
  [10.36.113.108])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5510460BF3;
- Mon, 26 Oct 2020 11:13:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB54B60BF3;
+ Mon, 26 Oct 2020 11:14:02 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 2/3] s390x: pv: Remove sclp boundary checks
-Date: Mon, 26 Oct 2020 12:13:46 +0100
-Message-Id: <20201026111347.252015-3-cohuck@redhat.com>
+Subject: [PULL 3/3] s390x: pv: Fix diag318 PV fencing
+Date: Mon, 26 Oct 2020 12:13:47 +0100
+Message-Id: <20201026111347.252015-4-cohuck@redhat.com>
 In-Reply-To: <20201026111347.252015-1-cohuck@redhat.com>
 References: <20201026111347.252015-1-cohuck@redhat.com>
 MIME-Version: 1.0
@@ -79,53 +79,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Janosch Frank <frankja@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Halil Pasic <pasic@linux.ibm.com>,
+Cc: Collin Walling <walling@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Marc Hartmayer <mhartmay@linux.ibm.com>,
- Collin Walling <walling@linux.ibm.com>
+ Marc Hartmayer <mhartmay@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Janosch Frank <frankja@linux.ibm.com>
 
-The SCLP boundary cross check is done by the Ultravisor for a
-protected guest, hence we don't need to do it. As QEMU doesn't get a
-valid SCCB address in protected mode this is even problematic and can
-lead to QEMU reporting a false boundary cross error.
+Diag318 fencing needs to be determined on the current VM PV state and
+not on the state that the VM has when we create the CPU model.
 
-Fixes: db13387ca0 ("s390/sclp: rework sclp boundary checks")
+Fixes: fabdada935 ("s390: guest support for diagnose 0x318")
 Reported-by: Marc Hartmayer <mhartmay@linux.ibm.com>
 Signed-off-by: Janosch Frank <frankja@linux.ibm.com>
 Tested-by: Marc Hartmayer <mhartmay@linux.ibm.com>
 Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Collin Walling <walling@linux.ibm.com>
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
 Acked-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20201022103135.126033-2-frankja@linux.ibm.com>
+Message-Id: <20201022103135.126033-3-frankja@linux.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/sclp.c | 5 -----
- 1 file changed, 5 deletions(-)
+ target/s390x/cpu_features.c | 5 +++++
+ target/s390x/cpu_features.h | 4 ++++
+ target/s390x/cpu_models.c   | 4 ++++
+ target/s390x/kvm.c          | 3 +--
+ 4 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 00f1e4648db2..0cf229082670 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -285,11 +285,6 @@ int sclp_service_call_protected(CPUS390XState *env, uint64_t sccb,
-         goto out_write;
+diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
+index 31ea8df2460e..42fe0bf4ca7a 100644
+--- a/target/s390x/cpu_features.c
++++ b/target/s390x/cpu_features.c
+@@ -14,6 +14,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu/module.h"
+ #include "cpu_features.h"
++#include "hw/s390x/pv.h"
+ 
+ #define DEF_FEAT(_FEAT, _NAME, _TYPE, _BIT, _DESC) \
+     [S390_FEAT_##_FEAT] = {                        \
+@@ -105,6 +106,10 @@ void s390_fill_feat_block(const S390FeatBitmap features, S390FeatType type,
+         }
+         feat = find_next_bit(features, S390_FEAT_MAX, feat + 1);
+     }
++
++    if (type == S390_FEAT_TYPE_SCLP_FAC134 && s390_is_pv()) {
++        clear_be_bit(s390_feat_def(S390_FEAT_DIAG_318)->bit, data);
++    }
+ }
+ 
+ void s390_add_from_feat_block(S390FeatBitmap features, S390FeatType type,
+diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
+index ef52ffce83ec..87463f064d2a 100644
+--- a/target/s390x/cpu_features.h
++++ b/target/s390x/cpu_features.h
+@@ -81,6 +81,10 @@ const S390FeatGroupDef *s390_feat_group_def(S390FeatGroup group);
+ 
+ #define BE_BIT_NR(BIT) (BIT ^ (BITS_PER_LONG - 1))
+ 
++static inline void clear_be_bit(unsigned int bit_nr, uint8_t *array)
++{
++    array[bit_nr / 8] &= ~(0x80 >> (bit_nr % 8));
++}
+ static inline void set_be_bit(unsigned int bit_nr, uint8_t *array)
+ {
+     array[bit_nr / 8] |= 0x80 >> (bit_nr % 8);
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index ca484bfda7be..461e0b8f4a8d 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -29,6 +29,7 @@
+ #include "hw/pci/pci.h"
+ #endif
+ #include "qapi/qapi-commands-machine-target.h"
++#include "hw/s390x/pv.h"
+ 
+ #define CPUDEF_INIT(_type, _gen, _ec_ga, _mha_pow, _hmfai, _name, _desc) \
+     {                                                                    \
+@@ -238,6 +239,9 @@ bool s390_has_feat(S390Feat feat)
+         }
+         return 0;
+     }
++    if (feat == S390_FEAT_DIAG_318 && s390_is_pv()) {
++        return false;
++    }
+     return test_bit(feat, cpu->model->features);
+ }
+ 
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index f13eff688caf..baa070fdf7f9 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -2498,8 +2498,7 @@ void kvm_s390_get_host_cpu_model(S390CPUModel *model, Error **errp)
+      */
+     set_bit(S390_FEAT_EXTENDED_LENGTH_SCCB, model->features);
+ 
+-    /* DIAGNOSE 0x318 is not supported under protected virtualization */
+-    if (!s390_is_pv() && kvm_check_extension(kvm_state, KVM_CAP_S390_DIAG318)) {
++    if (kvm_check_extension(kvm_state, KVM_CAP_S390_DIAG318)) {
+         set_bit(S390_FEAT_DIAG_318, model->features);
      }
  
--    if (!sccb_verify_boundary(sccb, be16_to_cpu(work_sccb->h.length), code)) {
--        work_sccb->h.response_code = cpu_to_be16(SCLP_RC_SCCB_BOUNDARY_VIOLATION);
--        goto out_write;
--    }
--
-     sclp_c->execute(sclp, work_sccb, code);
- out_write:
-     s390_cpu_pv_mem_write(env_archcpu(env), 0, work_sccb,
 -- 
 2.26.2
 
