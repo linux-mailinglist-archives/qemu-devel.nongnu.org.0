@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1F29298F60
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:33:53 +0100 (CET)
-Received: from localhost ([::1]:47726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C106C298F76
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:36:31 +0100 (CET)
+Received: from localhost ([::1]:56200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX3ZI-0005nE-Sf
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:33:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50438)
+	id 1kX3bq-0000ze-PX
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:36:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX3W6-00041w-UD
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42063)
+ id 1kX3W7-00042a-MR
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kX3W5-0007yS-3Z
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:34 -0400
+ id 1kX3W6-0007yc-1N
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 10:30:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603722632;
+ s=mimecast20190719; t=1603722633;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=PHSViV4CrJ9nOE22U0e98lr4oVkk3f599fkGrP5C6qE=;
- b=BywORgkGzWi8AqWKuiK+LENQuVg+5d0SwXusu0lXq6YVZLEwtQgtmN3hgmtxruKxBlEzvy
- 7XMnwugKghQMq78Ht9ux8jjCa+Khfc6qpKy+eJt6ur5zw3lZJkhK4lCbm+vubVrpvKIbC8
- Bet+2WguX9QZAhHXBu/QlRgslawA59Q=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4Koqn9GJy0PBFiRRv3ablUTRY7jW5iM9Vw5JfK16g7U=;
+ b=bFNtNGqXv4HQ6YvunhX1/Mku20JRuhmAZB/98KG/I2R+8uTGdGo8WKGZ77f4sFefO3VI6G
+ bZNAqbM5EqjzhyrcUeHqJxHLry7nGrjlhtCcFYCAPIZMA734lL9IpYflNGpDaefxRZnMRN
+ X8NT6X5nvhAQOqATNVE4cZdtbkD4wQw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-U57hmB7kOXy1EqaatoZyaw-1; Mon, 26 Oct 2020 10:30:30 -0400
-X-MC-Unique: U57hmB7kOXy1EqaatoZyaw-1
+ us-mta-278-X2Tq6n_-PbKZV_rGYpPIBQ-1; Mon, 26 Oct 2020 10:30:31 -0400
+X-MC-Unique: X2Tq6n_-PbKZV_rGYpPIBQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83BEA18C9F42
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 14:30:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDA00101F7A5;
+ Mon, 26 Oct 2020 14:30:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40DCC1002391;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9E1351002391;
  Mon, 26 Oct 2020 14:30:29 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/15] remove bios_name variable
-Date: Mon, 26 Oct 2020 10:30:13 -0400
-Message-Id: <20201026143028.3034018-1-pbonzini@redhat.com>
+Subject: [PATCH 01/15] alpha: remove bios_name
+Date: Mon, 26 Oct 2020 10:30:14 -0400
+Message-Id: <20201026143028.3034018-2-pbonzini@redhat.com>
+In-Reply-To: <20201026143028.3034018-1-pbonzini@redhat.com>
+References: <20201026143028.3034018-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,76 +81,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The bios_name variable is mostly a duplicate of machine->firmware.
-Only three cases need some care (i386, digic and rx), everything else
-is mechanical.
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/alpha/dp264.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Paolo Bonzini (15):
-  alpha: remove bios_name
-  digic: stash firmware into DigicState
-  arm: remove bios_name
-  hppa: remove bios_name
-  i386: remove bios_name
-  lm32: remove bios_name
-  m68k: remove bios_name
-  mips: remove bios_name
-  moxie: remove bios_name
-  ppc: remove bios_name
-  rx: move BIOS load from MCU to board
-  s390: remove bios_name
-  sh4: remove bios_name
-  sparc: remove bios_name
-  vl: remove bios_name
-
- hw/alpha/dp264.c           |  2 +-
- hw/arm/cubieboard.c        |  2 +-
- hw/arm/digic_boards.c      |  5 +++--
- hw/arm/highbank.c          |  8 ++++----
- hw/arm/npcm7xx_boards.c    |  5 +----
- hw/arm/orangepi.c          |  2 +-
- hw/arm/sbsa-ref.c          |  2 ++
- hw/arm/vexpress.c          |  8 ++++----
- hw/arm/virt.c              |  2 ++
- hw/hppa/machine.c          |  3 +--
- hw/i386/microvm.c          |  7 +++----
- hw/i386/pc_sysfw.c         |  4 ++--
- hw/i386/x86.c              | 10 ++++------
- hw/lm32/milkymist.c        |  4 +---
- hw/m68k/mcf5208.c          | 10 +++++-----
- hw/m68k/next-cube.c        |  4 +---
- hw/m68k/q800.c             |  4 +---
- hw/mips/fuloong2e.c        |  6 +++---
- hw/mips/jazz.c             |  6 +++---
- hw/mips/malta.c            |  6 +++---
- hw/mips/mipssim.c          |  6 +++---
- hw/mips/r4k.c              |  4 +---
- hw/moxie/moxiesim.c        |  6 +++---
- hw/ppc/e500.c              |  4 ++--
- hw/ppc/mac_newworld.c      |  4 +---
- hw/ppc/mac_oldworld.c      |  4 +---
- hw/ppc/pnv.c               |  5 +----
- hw/ppc/ppc405_boards.c     |  6 ++----
- hw/ppc/prep.c              |  4 +---
- hw/ppc/spapr.c             |  4 +---
- hw/rx/rx-gdbsim.c          |  7 +++++++
- hw/rx/rx62n.c              |  9 ---------
- hw/s390x/ipl.c             |  8 ++------
- hw/s390x/s390-virtio-ccw.c |  3 ++-
- hw/sh4/shix.c              |  3 +--
- hw/sparc/leon3.c           |  4 +---
- hw/sparc/sun4m.c           |  2 +-
- hw/sparc64/sun4u.c         |  2 +-
- include/hw/arm/digic.h     |  1 +
- include/hw/i386/x86.h      |  3 ++-
- include/sysemu/sysemu.h    |  1 -
- softmmu/vl.c               |  2 --
- 42 files changed, 80 insertions(+), 112 deletions(-)
-
+diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+index 4d24518d1d..c4d407a9f1 100644
+--- a/hw/alpha/dp264.c
++++ b/hw/alpha/dp264.c
+@@ -107,7 +107,7 @@ static void clipper_init(MachineState *machine)
+        but one explicitly written for the emulation, we might as
+        well load it directly from and ELF image.  */
+     palcode_filename = qemu_find_file(QEMU_FILE_TYPE_BIOS,
+-                                bios_name ? bios_name : "palcode-clipper");
++                                      machine->firmware ?: "palcode-clipper");
+     if (palcode_filename == NULL) {
+         error_report("no palcode provided");
+         exit(1);
 -- 
 2.26.2
+
 
 
