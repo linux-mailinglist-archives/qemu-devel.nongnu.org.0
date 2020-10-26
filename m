@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C4D298A35
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:16:01 +0100 (CET)
-Received: from localhost ([::1]:57866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A00298A49
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:22:00 +0100 (CET)
+Received: from localhost ([::1]:47072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzXk-0006Ey-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:16:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38902)
+	id 1kWzdX-0005It-FN
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:21:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPF-0002gc-96
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60625)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPG-0002l7-Ui
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzP7-0006ha-M3
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:12 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPA-0006hj-EL
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706822;
+ s=mimecast20190719; t=1603706824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=QwqLwETTwMwtQBrfjojZlNqQn/DL9uFwH1MP8X5pkyA=;
- b=caAeYjqbaNDs25fzFs85gs/ZAfcEV05E2D1FNdy7QzZwjo1coXNr8C0E730Y2cWdNBK/m8
- UsZhCr6V4POEYBzvQusmKMkaRvw+BpZEtxOoyWONRPWtD3NpWgQMtynZVt6vWHo3839gFL
- Z7/Fz+vRqRomkhvtl35X2e85Zndj4NE=
+ references:references; bh=WbjpSFd8Wy+vijEQr6h3rVLa4JiCyrzL8aZ0esPPjcU=;
+ b=BAo0W96UtlHILF+SCJ6YTbXr2sTBtI///KvgNEjUDCr0C8tTppBLy4mcwnsAPdy0gINgFi
+ RJzbsioRge0Rpg2o24Xy7eNR9wmunf6t8saFAvZTQEChNdeM/10jUeV0VYiG+FOctyWqvr
+ NOlkdXpMf2bsb5mVjWtanvaBNDqrVcQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-VIJoKiMQOKipfCdKTGInqg-1; Mon, 26 Oct 2020 06:07:00 -0400
-X-MC-Unique: VIJoKiMQOKipfCdKTGInqg-1
+ us-mta-584-C3BiNeECMhKfY0O13VytPg-1; Mon, 26 Oct 2020 06:07:02 -0400
+X-MC-Unique: C3BiNeECMhKfY0O13VytPg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7584764AEB;
- Mon, 26 Oct 2020 10:06:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCDE480B723;
+ Mon, 26 Oct 2020 10:07:00 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E7D28B84C;
- Mon, 26 Oct 2020 10:06:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1EF18B842;
+ Mon, 26 Oct 2020 10:06:59 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 15/31] fuzz: Add support for custom crossover functions
-Date: Mon, 26 Oct 2020 11:06:16 +0100
-Message-Id: <20201026100632.212530-16-thuth@redhat.com>
+Subject: [PULL 16/31] fuzz: add a DISABLE_PCI op to generic-fuzzer
+Date: Mon, 26 Oct 2020 11:06:17 +0100
+Message-Id: <20201026100632.212530-17-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -81,90 +81,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-libfuzzer supports a "custom crossover function". Libfuzzer often tries
-to blend two inputs to create a new interesting input. Sometimes, we
-have a better idea about how to blend inputs together. This change
-allows fuzzers to specify a custom function for blending two inputs
-together.
+This new operation is used in the next commit, which concatenates two
+fuzzer-generated inputs. With this operation, we can prevent the second
+input from clobbering the PCI configuration performed by the first.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20201023150746.107063-8-alxndr@bu.edu>
+Message-Id: <20201023150746.107063-9-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/fuzz.c | 13 +++++++++++++
- tests/qtest/fuzz/fuzz.h | 27 +++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ tests/qtest/fuzz/generic_fuzz.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-index eb0070437f..7be7226bc0 100644
---- a/tests/qtest/fuzz/fuzz.c
-+++ b/tests/qtest/fuzz/fuzz.c
-@@ -118,6 +118,19 @@ static FuzzTarget *fuzz_get_target(char* name)
+diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
+index 62a94de9dd..6ec20464bd 100644
+--- a/tests/qtest/fuzz/generic_fuzz.c
++++ b/tests/qtest/fuzz/generic_fuzz.c
+@@ -39,6 +39,7 @@ enum cmds {
+     OP_WRITE,
+     OP_PCI_READ,
+     OP_PCI_WRITE,
++    OP_DISABLE_PCI,
+     OP_ADD_DMA_PATTERN,
+     OP_CLEAR_DMA_PATTERNS,
+     OP_CLOCK_STEP,
+@@ -116,6 +117,7 @@ static GArray *dma_regions;
+ 
+ static GArray *dma_patterns;
+ static int dma_pattern_index;
++static bool pci_disabled;
+ 
+ /*
+  * Allocate a block of memory and populate it with a pattern.
+@@ -484,7 +486,7 @@ static void op_pci_read(QTestState *s, const unsigned char * data, size_t len)
+         uint8_t base;
+         uint8_t offset;
+     } a;
+-    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
++    if (len < sizeof(a) || fuzzable_pci_devices->len == 0 || pci_disabled) {
+         return;
+     }
+     memcpy(&a, data, sizeof(a));
+@@ -514,7 +516,7 @@ static void op_pci_write(QTestState *s, const unsigned char * data, size_t len)
+         uint8_t offset;
+         uint32_t value;
+     } a;
+-    if (len < sizeof(a) || fuzzable_pci_devices->len == 0) {
++    if (len < sizeof(a) || fuzzable_pci_devices->len == 0 || pci_disabled) {
+         return;
+     }
+     memcpy(&a, data, sizeof(a));
+@@ -569,6 +571,11 @@ static void op_clock_step(QTestState *s, const unsigned char *data, size_t len)
+     qtest_clock_step_next(s);
  }
  
- 
-+/* Sometimes called by libfuzzer to mutate two inputs into one */
-+size_t LLVMFuzzerCustomCrossOver(const uint8_t *data1, size_t size1,
-+                                 const uint8_t *data2, size_t size2,
-+                                 uint8_t *out, size_t max_out_size,
-+                                 unsigned int seed)
++static void op_disable_pci(QTestState *s, const unsigned char *data, size_t len)
 +{
-+    if (fuzz_target->crossover) {
-+        return fuzz_target->crossover(data1, size1, data2, size2, out,
-+                                      max_out_size, seed);
-+    }
-+    return 0;
++    pci_disabled = true;
 +}
 +
- /* Executed for each fuzzing-input */
- int LLVMFuzzerTestOneInput(const unsigned char *Data, size_t Size)
+ static void handle_timeout(int sig)
  {
-diff --git a/tests/qtest/fuzz/fuzz.h b/tests/qtest/fuzz/fuzz.h
-index 8eb765edc8..ed9ce17154 100644
---- a/tests/qtest/fuzz/fuzz.h
-+++ b/tests/qtest/fuzz/fuzz.h
-@@ -77,6 +77,29 @@ typedef struct FuzzTarget {
-      */
-     void(*fuzz)(QTestState *, const unsigned char *, size_t);
+     if (qtest_log_enabled) {
+@@ -624,6 +631,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+         [OP_WRITE]              = op_write,
+         [OP_PCI_READ]           = op_pci_read,
+         [OP_PCI_WRITE]          = op_pci_write,
++        [OP_DISABLE_PCI]        = op_disable_pci,
+         [OP_ADD_DMA_PATTERN]    = op_add_dma_pattern,
+         [OP_CLEAR_DMA_PATTERNS] = op_clear_dma_patterns,
+         [OP_CLOCK_STEP]         = op_clock_step,
+@@ -656,6 +664,7 @@ static void generic_fuzz(QTestState *s, const unsigned char *Data, size_t Size)
+         }
  
-+    /*
-+     * The fuzzer can specify a "Custom Crossover" function for combining two
-+     * inputs from the corpus. This function is sometimes called by libfuzzer
-+     * when mutating inputs.
-+     *
-+     * data1: location of first input
-+     * size1: length of first input
-+     * data1: location of second input
-+     * size1: length of second input
-+     * out: where to place the resulting, mutated input
-+     * max_out_size: the maximum length of the input that can be placed in out
-+     * seed: the seed that should be used to make mutations deterministic, when
-+     *       needed
-+     *
-+     * See libfuzzer's LLVMFuzzerCustomCrossOver API for more info.
-+     *
-+     * Can be NULL
-+     */
-+    size_t(*crossover)(const uint8_t *data1, size_t size1,
-+                       const uint8_t *data2, size_t size2,
-+                       uint8_t *out, size_t max_out_size,
-+                       unsigned int seed);
-+
- } FuzzTarget;
+         op_clear_dma_patterns(s, NULL, 0);
++        pci_disabled = false;
  
- void flush_events(QTestState *);
-@@ -91,6 +114,10 @@ void fuzz_qtest_set_serialize(bool option);
-  */
- void fuzz_add_target(const FuzzTarget *target);
- 
-+size_t LLVMFuzzerCustomCrossOver(const uint8_t *data1, size_t size1,
-+                                 const uint8_t *data2, size_t size2,
-+                                 uint8_t *out, size_t max_out_size,
-+                                 unsigned int seed);
- int LLVMFuzzerTestOneInput(const unsigned char *Data, size_t Size);
- int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp);
- 
+         while (cmd && Size) {
+             /* Get the length until the next command or end of input */
 -- 
 2.18.2
 
