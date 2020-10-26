@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66CC298A6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:30:26 +0100 (CET)
-Received: from localhost ([::1]:47018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A303298A63
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:29:43 +0100 (CET)
+Received: from localhost ([::1]:44804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzlh-0000AD-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:30:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40226)
+	id 1kWzl0-0007hk-4k
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:29:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kWzSP-0007uT-2f
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:29 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17900)
+ id 1kWzSU-000851-8W
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:34 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:17917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1kWzSF-00080f-Fi
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:28 -0400
+ id 1kWzSQ-00087Z-SE
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:10:33 -0400
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
  hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B5f96a0730000>; Mon, 26 Oct 2020 03:09:55 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
- 2020 10:10:10 +0000
+ id <B5f96a07e0003>; Mon, 26 Oct 2020 03:10:06 -0700
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 26 Oct
+ 2020 10:10:19 +0000
 Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
  (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 26 Oct 2020 10:10:02 +0000
+ Transport; Mon, 26 Oct 2020 10:10:11 +0000
 From: Kirti Wankhede <kwankhede@nvidia.com>
 To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
-Subject: [PATCH v29 02/17] vfio: Add vfio_get_object callback to VFIODeviceOps
-Date: Mon, 26 Oct 2020 15:06:12 +0530
-Message-ID: <1603704987-20977-3-git-send-email-kwankhede@nvidia.com>
+Subject: [PATCH v29 03/17] vfio: Add save and load functions for VFIO PCI
+ devices
+Date: Mon, 26 Oct 2020 15:06:13 +0530
+Message-ID: <1603704987-20977-4-git-send-email-kwankhede@nvidia.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
 References: <1603704987-20977-1-git-send-email-kwankhede@nvidia.com>
@@ -40,15 +41,15 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1603706995; bh=mU8d8K+D3qa+ZRgdEnJg1v/fWKHItlS0NCXLsW8dowA=;
+ t=1603707006; bh=wFYJR3j7Lma3d+9P6CvA7wH3CuJoeUz+IV88m4558PE=;
  h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
  References:X-NVConfidentiality:MIME-Version:Content-Type;
- b=LkVXQIattpYAfMMfKzfw7YWJXP+K0q4Ue+NbriduhnUgmBk8ruRrV5qdhG6elB+iI
- 1FI6OXaNVJ5qYB9nHm5yRx1MGBBb2Zh9I+aeKDr//CnEhY9QTSd7zysN/PBx+zNzP9
- qG9LOPkBNdwlIvDHlU3jOhfWcPQfrgdmaBqjtYPILah7Y/VwtlCUTkO5nmdUEYFw7h
- sW2zKwKgd1AqVUGgcd7cWlQxE7lBIZFBGRsy/yvYLDjX6NaIMUUYIbmUZg6GpndMty
- EwPFlG96262fsj2plzr7eOMNX9kIL9/Z6nnbCnpp4uDvtJOOWExDuWxPkKWGfK4aQT
- nBCqhSxRVjysQ==
+ b=i/Hqc4O7OmdSNKXQxurQVCblPiOh2k3+KD+Vo9lm1pk7EwoNw105ARzipGFRvluj3
+ rSWAQQXBXfSxp+r0ZKMJByf8ocYmIXsIrutWcbYXvin2jrwPTpYPzitoXKlmBdqLOw
+ wlVJe0np/GMTYiAxvm/azznVBaK6boAkZk7mN+r20NMD0A2UOF5iiT/VETtoTiVWvJ
+ vRXW4qEmGt778anjI1qwdwX7SGtOQDyRo00r3yvr/7aIII9eaLNSwwtP7jkptGj4sq
+ Z9LMZGEm9c15GDhPeaAm9XKt70OpkyjLTsOBXOOQcUNisV+Fp+tSe7d+tmxgE5RX6/
+ /ciBobtxsSh9Q==
 Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
  helo=hqnvemgate26.nvidia.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 06:10:16
@@ -85,49 +86,100 @@ Cc: cohuck@redhat.com, zhi.wang.linux@gmail.com, aik@ozlabs.ru,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hook vfio_get_object callback for PCI devices.
+Added functions to save and restore PCI device specific data,
+specifically config space of PCI device.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
-Suggested-by: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/vfio/pci.c                 | 8 ++++++++
- include/hw/vfio/vfio-common.h | 1 +
- 2 files changed, 9 insertions(+)
+ hw/vfio/pci.c                 | 51 +++++++++++++++++++++++++++++++++++++++++++
+ include/hw/vfio/vfio-common.h |  2 ++
+ 2 files changed, 53 insertions(+)
 
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 0d83eb0e47bb..bffd5bfe3b78 100644
+index bffd5bfe3b78..e27c88be6d85 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -2394,10 +2394,18 @@ static void vfio_pci_compute_needs_reset(VFIODevice *vbasedev)
-     }
+@@ -41,6 +41,7 @@
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "migration/blocker.h"
++#include "migration/qemu-file.h"
+ 
+ #define TYPE_VFIO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
+ 
+@@ -2401,11 +2402,61 @@ static Object *vfio_pci_get_object(VFIODevice *vbasedev)
+     return OBJECT(vdev);
  }
  
-+static Object *vfio_pci_get_object(VFIODevice *vbasedev)
++static bool vfio_msix_present(void *opaque, int version_id)
++{
++    PCIDevice *pdev = opaque;
++
++    return msix_present(pdev);
++}
++
++const VMStateDescription vmstate_vfio_pci_config = {
++    .name = "VFIOPCIDevice",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(pdev, VFIOPCIDevice),
++        VMSTATE_MSIX_TEST(pdev, VFIOPCIDevice, vfio_msix_present),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
 +{
 +    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
 +
-+    return OBJECT(vdev);
++    vmstate_save_state(f, &vmstate_vfio_pci_config, vdev, NULL);
++}
++
++static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
++{
++    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
++    PCIDevice *pdev = &vdev->pdev;
++    int ret;
++
++    ret = vmstate_load_state(f, &vmstate_vfio_pci_config, vdev, 1);
++    if (ret) {
++        return ret;
++    }
++
++    vfio_pci_write_config(pdev, PCI_COMMAND,
++                          pci_get_word(pdev->config + PCI_COMMAND), 2);
++
++    if (msi_enabled(pdev)) {
++        vfio_msi_enable(vdev);
++    } else if (msix_enabled(pdev)) {
++        vfio_msix_enable(vdev);
++    }
++
++    return ret;
 +}
 +
  static VFIODeviceOps vfio_pci_ops = {
      .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
      .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
      .vfio_eoi = vfio_intx_eoi,
-+    .vfio_get_object = vfio_pci_get_object,
+     .vfio_get_object = vfio_pci_get_object,
++    .vfio_save_config = vfio_pci_save_config,
++    .vfio_load_config = vfio_pci_load_config,
  };
  
  int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index dc95f527b583..fe99c36a693a 100644
+index fe99c36a693a..ba6169cd926e 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -119,6 +119,7 @@ struct VFIODeviceOps {
-     void (*vfio_compute_needs_reset)(VFIODevice *vdev);
+@@ -120,6 +120,8 @@ struct VFIODeviceOps {
      int (*vfio_hot_reset_multi)(VFIODevice *vdev);
      void (*vfio_eoi)(VFIODevice *vdev);
-+    Object *(*vfio_get_object)(VFIODevice *vdev);
+     Object *(*vfio_get_object)(VFIODevice *vdev);
++    void (*vfio_save_config)(VFIODevice *vdev, QEMUFile *f);
++    int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
  };
  
  typedef struct VFIOGroup {
