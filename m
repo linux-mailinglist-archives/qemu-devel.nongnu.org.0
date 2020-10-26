@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A4C29995F
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:12:23 +0100 (CET)
-Received: from localhost ([::1]:58148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20778299951
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 23:07:02 +0100 (CET)
+Received: from localhost ([::1]:39204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAj0-0006zQ-BH
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:12:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39146)
+	id 1kXAdp-0007Lv-3P
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 18:07:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAag-0005YV-6V
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:46 -0400
-Received: from mout.kundenserver.de ([212.227.126.133]:43167)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAak-0005eQ-Ax
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:50 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:47613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAad-0005E9-Hy
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:45 -0400
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kXAah-0005F2-3D
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 18:03:49 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MirSu-1jscdV0XfY-00ey5x; Mon, 26 Oct 2020 23:03:41 +0100
+ id 1MysiI-1kAhkl38iY-00vwkZ; Mon, 26 Oct 2020 23:03:41 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] Linux user for 5.2 patches
-Date: Mon, 26 Oct 2020 23:03:31 +0100
-Message-Id: <20201026220339.195790-1-laurent@vivier.eu>
+Subject: [PULL 1/8] Fix stack smashing when handling PR_GET_PDEATHSIG
+Date: Mon, 26 Oct 2020 23:03:32 +0100
+Message-Id: <20201026220339.195790-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201026220339.195790-1-laurent@vivier.eu>
+References: <20201026220339.195790-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:6tZPfkYQztyG0YrePdMF4G47Pzo2A6e7ykYFUmTJVZO+825kfLe
- bHsU+jVzzmWQIz7eHfXSAgoMJgMmQZFTji1WgCtQGZHj0Mcr0YYo886Yopa7/Gq4GOLDSLH
- w5I0GFV5lD0js4HSexd5j+ulCV4dp0Xp5NJuXt2espfYqOnR4zOWbMjL2YSB08x5e1EDv8d
- T02QSuUSVvfKqAIIokvAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HiX0G50riI8=:ML0H2sXrzPU5uBgvVH6rxg
- OiaGsz8mpzfU1t7yWKpyUA4WXfnLtpTtafERRcUQNY5bmYc5RbuNZ7d23w6led5ciMY5cYJ2J
- NEQ2NrqyT2aOIqjgQI5vg2gUCn2oEu1wXQOei7TIu40s1StyRxNm9y5TQxaDYX3d8uTjF/i/x
- 9UyFIMLm5Zfv4NESCLzyc7malpXMFI0v08uJShibIja/Kj93jLRbQUzl3kolkQy6JOFDr5nOy
- z72BMYTjCQCrjRs1OCrGisAWnQ1LoRLq6TdMX9BFE+pyn/9ZHrFLN3EwOj8TMvHEojqzV+kmV
- PatTqzo7T6kXn6daMCWaCHPCoqGO2b2woQXubMxMJY3eJctKap0fBNUwh3BK3UfitL7DpxyiG
- OPg7u029NUy8vHjq3WmkuwR2oLWVZPc9dPlLOokFZV8txg3ebhL8E4cfi3yQOTKdkVk2cwQmO
- 13USbOo/tg==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:15vxF7go/XQMFN3i8nJigGNO8kI5rqgsx9En3d19jArHNduwS0Y
+ 5hqtPsyPoZKJYOn6VkzYlVpGegbPYZqbZpqoYuiKsTJuYydKo1eYFhgDYk/m1LboSAUtuBd
+ KqY+gYsoQt0gp5/jYyk2mQyTYjnlPaz+T93OWByjqPaHb4Jc8weY6QdR3AQwI8v8E3k23cD
+ BbVKedXUcU7DhMZRpepBQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CWFt4d6rj40=:cNiQn6H/r53l+vABA852wB
+ LR2AlXwxkc3RfNoUWgaNNFqaYTbNbZe0VZO5oSg+DoXWomKydqnwyJLQpDFYD6dOzuTDKC29P
+ 2RSLZoJ6hipY+iIlvQ9PpuyljC8LeitBozyqJ0nYXed2dOMLBaLLuY7P4nrLW6KgUHjv3oKhi
+ Tmk0nq4x3g2RztAhwv788ijWOp30YkwUXbpENpMsc2v9wDqgI4f/lgR0hznTnMm/m468cWKyy
+ 0g3uXbA/w4QjFdoFUrhyRh9k8pKOvV50AJtbgCAFqAMMA0R2+6o48tD5SXQ8hitr/tFF+AsKr
+ H9ZX7m23iA61bwB373pmNJJwm68f9duyW+7+XQ/k4w7fj4jG8E4VXIjS8WZzOq9M7g40tlD1g
+ 7M5DvWr9lTdra/nVmfDHXTHiZ63CQBNGS4e3hlGold7iVzJ6ulcHF+1JAyIhwVKU3/1ZnSjQa
+ zI24ab4pcA==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 18:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 18:03:45
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -63,79 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Ana Pazos <apazos@quicinc.com>, Laurent Vivier <laurent@vivier.eu>,
+ Stephen Long <steplong@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-r=
-eq=3D=0D
-uest' into staging (2020-10-22 12:33:21 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
-=0D
-for you to fetch changes up to ab97f0505bec6280c5455009b7678daf5c9278bc:=0D
-=0D
-  target/xtensa: enable all coprocessors for linux-user (2020-10-26 12:07:1=
-9 =3D=0D
-+0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Update syscall numbers to 5.9-rc7=0D
-Fixes for prctl(), accept4() and xtensa=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Frajo (1):=0D
-  linux-user: Support f_flags in statfs64 when available.=0D
-=0D
-Laurent Vivier (4):=0D
-  linux-user: update syscall_nr.h to Linux 5.9-rc7=0D
-  linux-user: update mips/syscall-args-o32.c.inc to Linux 5.9-rc7=0D
-  linux-user: update syscall.tbl to Linux 5.9-rc7=0D
-  linux-user: remove _sysctl=0D
-=0D
-Matus Kysel (1):=0D
-  linux-user: correct errno returned from accept4() syscall=0D
-=0D
-Max Filippov (1):=0D
-  target/xtensa: enable all coprocessors for linux-user=0D
-=0D
-Stephen Long (1):=0D
-  Fix stack smashing when handling PR_GET_PDEATHSIG=0D
-=0D
- linux-user/aarch64/syscall_nr.h        |   7 +-=0D
- linux-user/alpha/syscall.tbl           |   4 +-=0D
- linux-user/arm/syscall.tbl             |   4 +-=0D
- linux-user/hppa/syscall.tbl            |   8 +-=0D
- linux-user/i386/syscall_32.tbl         | 820 +++++++++++++------------=0D
- linux-user/m68k/syscall.tbl            |   4 +-=0D
- linux-user/microblaze/syscall.tbl      |   4 +-=0D
- linux-user/mips/syscall-args-o32.c.inc |   4 +=0D
- linux-user/mips/syscall_o32.tbl        |   8 +-=0D
- linux-user/mips64/syscall_n32.tbl      |   8 +-=0D
- linux-user/mips64/syscall_n64.tbl      |   4 +-=0D
- linux-user/nios2/syscall_nr.h          |   7 +-=0D
- linux-user/openrisc/syscall_nr.h       |   8 +-=0D
- linux-user/ppc/syscall.tbl             |  30 +-=0D
- linux-user/riscv/syscall32_nr.h        |   8 +-=0D
- linux-user/riscv/syscall64_nr.h        |   8 +-=0D
- linux-user/s390x/syscall.tbl           |   8 +-=0D
- linux-user/sh4/syscall.tbl             |   4 +-=0D
- linux-user/sparc/syscall.tbl           |   8 +-=0D
- linux-user/sparc64/syscall.tbl         |   8 +-=0D
- linux-user/syscall.c                   |  19 +-=0D
- linux-user/x86_64/syscall_64.tbl       | 742 +++++++++++-----------=0D
- linux-user/xtensa/syscall.tbl          |   4 +-=0D
- scripts/gensyscalls.sh                 |   3 +-=0D
- target/xtensa/cpu.c                    |   1 +=0D
- 25 files changed, 899 insertions(+), 834 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: Stephen Long <steplong@quicinc.com>
+
+The bug was triggered by the following code on aarch64-linux-user:
+
+int main(void)
+{
+  int PDeathSig = 0;
+  if (prctl(PR_GET_PDEATHSIG, &PDeathSig) == 0 && PDeathSig == SIGKILL)
+    prctl(PR_GET_PDEATHSIG, 0);
+  return (PDeathSig == SIGKILL);
+}
+
+Signed-off-by: Stephen Long <steplong@quicinc.com>
+Signed-off-by: Ana Pazos <apazos@quicinc.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20200507130302.3684-1-steplong@quicinc.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/syscall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 897d20c076ce..3e0f14f2e67f 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10703,7 +10703,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             int deathsig;
+             ret = get_errno(prctl(arg1, &deathsig, arg3, arg4, arg5));
+             if (!is_error(ret) && arg2
+-                && put_user_ual(deathsig, arg2)) {
++                && put_user_s32(deathsig, arg2)) {
+                 return -TARGET_EFAULT;
+             }
+             return ret;
+-- 
+2.26.2
+
 
