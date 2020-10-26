@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48F5E298B9B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:19:04 +0100 (CET)
-Received: from localhost ([::1]:43912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09F7298B8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:14:26 +0100 (CET)
+Received: from localhost ([::1]:34158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0Wl-0000aQ-8f
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:19:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
+	id 1kX0SH-0004cw-Og
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:14:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kX0Hm-0008HU-6y; Mon, 26 Oct 2020 07:03:38 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54310)
+ id 1kX0Hq-0008Hm-Q9; Mon, 26 Oct 2020 07:03:40 -0400
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kX0Hk-0002fE-P9; Mon, 26 Oct 2020 07:03:33 -0400
-Received: by mail-wm1-x329.google.com with SMTP id w23so10068518wmi.4;
- Mon, 26 Oct 2020 04:03:28 -0700 (PDT)
+ id 1kX0Hm-0002fn-4l; Mon, 26 Oct 2020 07:03:35 -0400
+Received: by mail-wr1-x434.google.com with SMTP id n18so11898877wrs.5;
+ Mon, 26 Oct 2020 04:03:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Yet6HVLB8K+LmlUq3G4sMPBL+CDXC+2uR7gzK1ybwmo=;
- b=UCo+P/KimaEH9WytkmPvQ/gRniaWbuuX5EwVTO78FshBUt9XvuxdcqKUYg2HRl2/HF
- uujgy62NrA307zdeDZagBpPrb/WBbmK6ejwOmopfjlJxceDfmhznY5D7Z3JCk8g0Smnu
- JhLVbOk/kmZrBxfpz8OR6d2BsVM3r8NABNpEu/WudgZe9NI7uvPKSQFuP6dkEJzV2pGG
- sYxzpmWo68kYWQpX7fY4ep45ReiTDtXAClQkBrLYwm+hcrdFgdiWvjWtkUJyoMbIBst+
- CVgSTIlAIZcGZX+rez0oJ/N/ZAo7trHBDrT+PNwt5jBUx+yH4JEBaWVqqMxfvNUIp10M
- mKRQ==
+ bh=3PqeCvMaRSfOqr/6xhOfmbV28LZjwldqha7vO+7WnUc=;
+ b=Dzfljq8fBMOykHo/ksRTTp5iGGkuIy5dPJHu6b4p5BLmM4tyMbfIvgS6BwRBgId/6l
+ ImdPHDmN4/Uu4EV++mPxvJScZZpf3VcKyU8DlSJBxRMham/HvasbhKW2wvtLmgAcE/Tk
+ 755Va/3x+YMrTaD35I+JHNuL35h0h3m/joSMHZZ9XmsPiG976L0+nnpDj08yKUfuvrhr
+ fDDTTo66XCptH8gO5oI29S6m0kWBOXnU+F/3wBbnW8TzUBzzmg8ou3HhFxLi3VHomkiq
+ swF6F+GOr7NHDKgJfyFRJxk6cjbv6+bN42MKhsSLm6HPvo3KOMdFDN3NnA/IBQsmvRxw
+ 1KfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Yet6HVLB8K+LmlUq3G4sMPBL+CDXC+2uR7gzK1ybwmo=;
- b=Wi2hOUSgIEG10H3Cqkhl6jLFIer7UWe4v4EslMSxoZJl8x1po0GIcpGf2f9xKkdr2O
- PkQIu1Sd7JJXlLm0u3NHQWCmNxIwx41TMb2KgQJQvpSh6km67q67GG9tKavw2OkNYIbX
- OJOArpd/eZe7wdTHA9RGToSSd+ifxTgCCaMSOcbNKzPGp4fVIW1xbscVxxnftMIKnf84
- 6GcwxbWnBNUqGSknadTlNuQ2aQgjMphLJi69APz+D0zFKHbh7ftSHH/Y1tYCwhnKhwI4
- 0WJfTuPIT/0O69rJT61TEe4pjfOcznqmC0H7vFkDsGNBmxLBxYzBOYMNIpGhBlhPdItH
- H5yQ==
-X-Gm-Message-State: AOAM532KkxmwbLTJLJY50rIuBB9q2Pz4Sc1MDYlZYrSHUa7KmI0dgPT/
- K6TNai8KPyJNxtmWno18H3iqDB6abi4=
-X-Google-Smtp-Source: ABdhPJySLdeCrCbVanjmhMuFWvOBkSLtLEZCareuAGPGAtFaAqKlTzrurMZUBBK7Bia6aOfWyrjV6w==
-X-Received: by 2002:a1c:1946:: with SMTP id 67mr15250854wmz.15.1603710207286; 
- Mon, 26 Oct 2020 04:03:27 -0700 (PDT)
+ bh=3PqeCvMaRSfOqr/6xhOfmbV28LZjwldqha7vO+7WnUc=;
+ b=sP0Xvkfq74HYlA4BmFHaZODPZW3D7nAyqc1wzFiBJ4v3Wc71kfijlxx7Nf3fZTWd32
+ g8vlTbGSXDOJnOgBbcd8IE9ghF/IOQP76ok5ENOxG1svs/+aAwxh2TXXemyN31MrmyH3
+ dL7IWtGKtJ6Jj2F8WdSoPV+CaqDtj+XubgV+3YY5oOuKPXq1OBxC2b1e1JPQ3F19w307
+ xJ4Go+ydZ/vc+lEp+cKdtcFdElu8zH3zvVhlFuWDM7cdSo54vOeedd1nYi5tyHLbwDG1
+ 5OF7slZtzrPLYGCDcbyYAmEypgz53ivmxR9EYeZQR6Mi1c0XUYlnFTabrBcxq5eG+1ln
+ gZUA==
+X-Gm-Message-State: AOAM533+cSdLvSAjKHBA4jH1J6PSZaf8Uv+8ji3MfQSDHS7UKw65mHTg
+ VfowuC4jfURxwd+hrD9YMDM/xrCKxAg=
+X-Google-Smtp-Source: ABdhPJxXPyQANOS53JmNBde6/D2k8al9tvWCuQLC+USjzFwj6ItTzX25RiIhbfb1ulBKL8GLsWuq6w==
+X-Received: by 2002:adf:ee4c:: with SMTP id w12mr16429071wro.22.1603710212265; 
+ Mon, 26 Oct 2020 04:03:32 -0700 (PDT)
 Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id d142sm3477530wmd.11.2020.10.26.04.03.26
+ by smtp.gmail.com with ESMTPSA id d129sm20226273wmf.19.2020.10.26.04.03.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 04:03:26 -0700 (PDT)
+ Mon, 26 Oct 2020 04:03:31 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] hw/sd/sdcard: Simplify cmd_valid_while_locked()
-Date: Mon, 26 Oct 2020 12:03:12 +0100
-Message-Id: <20201026110315.4026183-3-f4bug@amsat.org>
+Subject: [PULL 3/5] hw/sd/sdcard: Constify sd_crc*()'s message argument
+Date: Mon, 26 Oct 2020 12:03:13 +0100
+Message-Id: <20201026110315.4026183-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026110315.4026183-1-f4bug@amsat.org>
 References: <20201026110315.4026183-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,56 +92,49 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cmd_valid_while_locked() only needs to read SDRequest->cmd,
-pass it directly and make it const.
+CRC functions don't modify the buffer argument,
+make it const.
 
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20200630133912.9428-13-f4bug@amsat.org>
+Message-Id: <20200630133912.9428-14-f4bug@amsat.org>
 ---
- hw/sd/sd.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ hw/sd/sd.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 9b53053527e..5510a64401b 100644
+index 5510a64401b..aa6059d2ad6 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1679,7 +1679,7 @@ static sd_rsp_type_t sd_app_command(SDState *sd,
-     return sd_illegal;
- }
+@@ -254,11 +254,11 @@ static const int sd_cmd_class[SDMMC_CMD_MAX] = {
+     7,  7, 10,  7,  9,  9,  9,  8,  8, 10,  8,  8,  8,  8,  8,  8,
+ };
  
--static int cmd_valid_while_locked(SDState *sd, SDRequest *req)
-+static int cmd_valid_while_locked(SDState *sd, const uint8_t cmd)
+-static uint8_t sd_crc7(void *message, size_t width)
++static uint8_t sd_crc7(const void *message, size_t width)
  {
-     /* Valid commands in locked state:
-      * basic class (0)
-@@ -1690,13 +1690,12 @@ static int cmd_valid_while_locked(SDState *sd, SDRequest *req)
-      * Anything else provokes an "illegal command" response.
-      */
-     if (sd->expecting_acmd) {
--        return req->cmd == 41 || req->cmd == 42;
-+        return cmd == 41 || cmd == 42;
-     }
--    if (req->cmd == 16 || req->cmd == 55) {
-+    if (cmd == 16 || cmd == 55) {
-         return 1;
-     }
--    return sd_cmd_class[req->cmd] == 0
--            || sd_cmd_class[req->cmd] == 7;
-+    return sd_cmd_class[cmd] == 0 || sd_cmd_class[cmd] == 7;
+     int i, bit;
+     uint8_t shift_reg = 0x00;
+-    uint8_t *msg = (uint8_t *) message;
++    const uint8_t *msg = (const uint8_t *)message;
+ 
+     for (i = 0; i < width; i ++, msg ++)
+         for (bit = 7; bit >= 0; bit --) {
+@@ -270,11 +270,11 @@ static uint8_t sd_crc7(void *message, size_t width)
+     return shift_reg;
  }
  
- int sd_do_command(SDState *sd, SDRequest *req,
-@@ -1722,7 +1721,7 @@ int sd_do_command(SDState *sd, SDRequest *req,
-     }
+-static uint16_t sd_crc16(void *message, size_t width)
++static uint16_t sd_crc16(const void *message, size_t width)
+ {
+     int i, bit;
+     uint16_t shift_reg = 0x0000;
+-    uint16_t *msg = (uint16_t *) message;
++    const uint16_t *msg = (const uint16_t *)message;
+     width <<= 1;
  
-     if (sd->card_status & CARD_IS_LOCKED) {
--        if (!cmd_valid_while_locked(sd, req)) {
-+        if (!cmd_valid_while_locked(sd, req->cmd)) {
-             sd->card_status |= ILLEGAL_COMMAND;
-             sd->expecting_acmd = false;
-             qemu_log_mask(LOG_GUEST_ERROR, "SD: Card is locked\n");
+     for (i = 0; i < width; i ++, msg ++)
 -- 
 2.26.2
 
