@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557D5299490
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:57:34 +0100 (CET)
-Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2237299466
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 18:53:44 +0100 (CET)
+Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6kP-0004xt-BO
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:57:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50502)
+	id 1kX6gh-0007nk-Rx
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 13:53:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX6Bh-0002wX-74
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:21:41 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52043)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX6CY-00049t-Eq
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:22:35 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39390)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kX6Bf-0000Us-Nt
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:21:40 -0400
-Received: by mail-wm1-x342.google.com with SMTP id v5so12471852wmh.1
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:21:39 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kX6CU-0000ay-2s
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:22:34 -0400
+Received: by mail-ej1-x642.google.com with SMTP id qh17so14765974ejb.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 10:22:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=MN5XSL0Oco2LjEfDFO17M3TLIS3tkxXxZ1G7JnM38E8=;
- b=CbDA7d4c3fVUu8OfcGlGLb4RPyqRz3l2iy6ENDK7FOZuWs6uBDDOSG4d/16vwfRFiH
- g+GVbIYbB3OHX0eytHOEvQTJP4iag4ptLTTQdwYDphn6nX/yAR6YFwAkg2OvR0GBFszC
- mSvgdGW6aZ+PcaSftqAvGinGGs1+wDVily9O4WSro/2yq2g4Ai4OrADccb5nx0/pFgk2
- 2oHG6oF0MwznOe0Rmm1VRpxXo1EiCoA9IaBv9PkccEDbqepzx8O/QlBzQmVWLRJdPdag
- pgx6sOgoz903WkallYQG5ZqmIRtcCPO+GclHFoH5NP2DJnAD0636wndp+oOEwsDjOvfT
- XYvw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=vxAv0lWoZx8C5WFTT6h0MSryuJV3P7Oh2D8vRQwO2kI=;
+ b=UPI4Q1MBnMT52SoAnYtuQIUZqhJm3/7kRo7HTBvXsa+HOYgzcYneyanCv/dRS2iir9
+ iOwJ7gURdOqNU+UMZZh4kRrlYGXTka/WehLQBbhBAU6RRP+LlY8grkFM5mhz0z8aC3JQ
+ f7PW0FyNEDcnTpvgwKp9D0Mgxw4rmvEsE2p4Net7JNA6E+vmXnUo9NWVB2mE1YmnArVr
+ 6ot8fmErY6Bb2ljXgRCzcK+qIUKQZv94OMWHDPRthex57FgCN1fQyW552am9bI9z485v
+ N0a7TaZV3dlNHuQY+4TTl+cqtD8e8zbOsm5Noz4zMq/A0dg/tzTcTzVBz769cCBqJbXD
+ aVeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=MN5XSL0Oco2LjEfDFO17M3TLIS3tkxXxZ1G7JnM38E8=;
- b=bsmCdb2a1YO1fR48kllXAt7BwIglznlBf0ACpLmEj0BVwFnUHTpSmNtFZZtRvbhMx8
- bJ7WZQjNxr4krFig+FpaJQqATWEbOEgPlW/b8XacfBb4hYfAqxC/9S7ePnKHVLo6N4x/
- DoZG48xCZa6nySUXgjsU/L61Ho3QKMh/+Hss4T+BCiPz2Xr8M6JIxn/GlAsmLVXdir5P
- YkOfAfCEtXJL0YgwlQ2jHxlHr1u3Pb27Ii8DSktJMyUOpHwBmsV1tGK/O493NLqeknO7
- 0CCol8EVtTKxJOoduE7NbfYkjfqkGnA/zWPanVkP4aKxID0zL70t7pvB23w14Xh1wsml
- n6NA==
-X-Gm-Message-State: AOAM5301wJ/pF09CHysIHdeahlr95e7iM/kVd4sEAXqsW3m/h5Cbi1FJ
- W17uQ8asVMPHkEbXt4QQLwj7za97CHievA==
-X-Google-Smtp-Source: ABdhPJzU6hjrITum3E369IzzYeZ/mpk598kftknPamF4r/ZZJtT/r5jjObRLFi1y8Jb8aUsdeUbutg==
-X-Received: by 2002:a05:600c:608:: with SMTP id
- o8mr16870224wmm.86.1603732898213; 
- Mon, 26 Oct 2020 10:21:38 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z11sm22687132wrh.70.2020.10.26.10.21.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 10:21:37 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 60B491FF7E;
- Mon, 26 Oct 2020 17:21:36 +0000 (GMT)
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-11-pbonzini@redhat.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 10/15] ppc: remove bios_name
-In-reply-to: <20201026143028.3034018-11-pbonzini@redhat.com>
-Date: Mon, 26 Oct 2020 17:21:36 +0000
-Message-ID: <87o8kogaxr.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=vxAv0lWoZx8C5WFTT6h0MSryuJV3P7Oh2D8vRQwO2kI=;
+ b=GVlpW+Brw1Lxhz8Vao5+7i06zCNoRy9fG6dU5of4KMlNbOOK5tCvRqREmi5gC8Mc7T
+ FRCC2nVzJ322iLTHoPJ1q6u7hAAa/zvRBnLmUnE28814KhgB/wCCyecLL71gGShk8ftn
+ KoNgqCRCuOlYl1mOZOQ/j1ClHCm2QsxPKO6UGHuYGbnoFth7hqApFiaz1spp4Ede7e6r
+ uE7eKuaFda5skKDDhRl0RxLMe+Bb2pISXmZV7Hh5xi31X1SVWc7LhhjRXBFaWF1NYZjK
+ WWZ0wPG/NDul9aIybEF6fEknY9G9PW+IMgA76Wof2QXkVJ07qyt8mzoPG3L+LZ9WCQ58
+ o+Cg==
+X-Gm-Message-State: AOAM532hx28iqW1hBjsypdsW2ZQtCQejqs+6T1g//OxOWBdqBOmwSA06
+ Q/s906Mrtt6kq1AeYLw+067LExUm1Sy6jLHqy/He1g==
+X-Google-Smtp-Source: ABdhPJyedP9nXgvG5n4TwqIDF41sDyqy60siuzsmSdlhFHuCh/g7EsV1zL1+LjNNpv/o3X4ZonxcWC8zlmeIfUsEsjs=
+X-Received: by 2002:a17:906:3b59:: with SMTP id
+ h25mr17396696ejf.56.1603732946895; 
+ Mon, 26 Oct 2020 10:22:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20201024170127.3592182-1-f4bug@amsat.org>
+In-Reply-To: <20201024170127.3592182-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 26 Oct 2020 17:22:15 +0000
+Message-ID: <CAFEAcA_-HXBcS4qEcJ56uKv0-9jUetMDHz3-2=SqS_GssA758Q@mail.gmail.com>
+Subject: Re: [PATCH v4 0/9] hw/arm: Add raspi Zero, 1A+ and 3A+ machines
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,19 +81,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: philmd@redhat.com, qemu-devel@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, Luc Michel <luc@lmichel.fr>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sat, 24 Oct 2020 at 18:01, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Add the raspi0/1/3A+ machines.
+>
+> All series reviewed :)
+>
+> Since v3:
+> - Addressed Igor's review comment and added his R-b tag
+>
+> Since v2:
+> - Rebased
+> - Addressed Igor comment
+> - Added Luc R-b
+> - Added model 3A+
+>
+> Since v1:
+> - Use more specific machine names
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Applied to target-arm.next, thanks.
 
---=20
-Alex Benn=C3=A9e
+-- PMM
 
