@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06DD42989D9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:53:49 +0100 (CET)
-Received: from localhost ([::1]:54708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089842989E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 10:56:54 +0100 (CET)
+Received: from localhost ([::1]:59862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzCG-0005qE-4A
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:53:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34638)
+	id 1kWzFF-0008Ba-2C
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 05:56:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWzAO-00045P-JN
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:51:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48222)
+ id 1kWzBI-0005AW-C6
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:52:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kWzAL-0001Fg-Gr
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:51:52 -0400
+ id 1kWzBG-0001ai-Mr
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 05:52:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603705908;
+ s=mimecast20190719; t=1603705965;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=16OGB9Kvi8MPbR3GCy7IUPhMwJ+qeJkSkyzkBqKBsFM=;
- b=V5NgEhJnCZaAtrTDU1PBcXOoKvUuml7tP7TZsyF+pmBtW2f75GxUxpw9j3EXLRmc+9BDuq
- CYG6yaJ5KT8i2+JrwDpxGseR02igHSVa6kfHWZGdkRWmWRnWFgKbnf9xNViDwTEkB6n7uT
- 5KPmdfGrZjSYbt6aSH2Gm6eExQ3Vis8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-G5urmYklNyOg3aOu3VMTDw-1; Mon, 26 Oct 2020 05:51:46 -0400
-X-MC-Unique: G5urmYklNyOg3aOu3VMTDw-1
-Received: by mail-wr1-f71.google.com with SMTP id 2so8143863wrd.14
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 02:51:46 -0700 (PDT)
+ bh=IaeP7KKKmxO8MibyEMUeiU7p6h6rT8EI48aWMgO/ECY=;
+ b=g2TXKPeC3usgdZK60GbdC4YuA52Bi2uYNXYYDOb6kaG91dfXOdUyK8a3h04Mg2WSpJhqDX
+ AUkrjVb8F1em4zBgYI9P5MNiH1oTmGVmlD3pgXU7MBvUnraDDpCaREB1bIyar/UxnZIHdy
+ p/jhQvn3kmswxHc7L6gR81Q+LjkuOGU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-44-fjG__ouzPvm_qnorOwLdiw-1; Mon, 26 Oct 2020 05:52:43 -0400
+X-MC-Unique: fjG__ouzPvm_qnorOwLdiw-1
+Received: by mail-wr1-f69.google.com with SMTP id j15so771130wro.4
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 02:52:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=16OGB9Kvi8MPbR3GCy7IUPhMwJ+qeJkSkyzkBqKBsFM=;
- b=VqMfrxJqWTMOtJiVhcW6SIQrCUbEAzFHo3hVj6H27Ts6F8brSgP/bleWBeaTzUiuw9
- dG1ayhWL5MuKodRhkqY/weOmy4R2Zyghmh6ftAC6iEr2RywZe4S9fTrrPq6wkez8VGm2
- cgY8VoulG6qsMEFEliEZjkOhFKGCBmBcb+Zqc/aDwgpPCp7hlyMkobE7vdWWTVgmE5+R
- laK/83FLIXrwNJhnAiQqsdQF8gufwYhREDT1ZriZevulw0vGQVKN6ZAUJ9I4OWPmeg78
- NMsfAoUQ4ZSNGYbMxx1qdiBOcRPdi1Nre8ZywNFktpD1jBVyqzlJeYoyFHBUUPOBOziy
- jkwA==
-X-Gm-Message-State: AOAM531pkK8njng1NCHgfn6JIadXpPufFbixTkdLgnoBZN5vx4VKf8/+
- q5U+/LdrI95ah2IX76x36dr5EuUITgS8AyDTgUtttohIrBLZntgY9oPAhoznp3mpDRUF0mLHxhc
- 8sqjDcs5/GVbgleI=
-X-Received: by 2002:a7b:c183:: with SMTP id y3mr15070428wmi.84.1603705905333; 
- Mon, 26 Oct 2020 02:51:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwidYwr5cYEunlORaEGsvG7vBGKuH5/zNccHjbQk3gembDF5XoYVhAh8CX1teEEsLFX4lSxAw==
-X-Received: by 2002:a7b:c183:: with SMTP id y3mr15070409wmi.84.1603705905043; 
- Mon, 26 Oct 2020 02:51:45 -0700 (PDT)
+ bh=IaeP7KKKmxO8MibyEMUeiU7p6h6rT8EI48aWMgO/ECY=;
+ b=I6FYWMT8jXJN3lPmJ9cPP6c4mc5BaIyPnLaRLG5/rqGl6XOl1GhSPsFsQ0eYzWR0PI
+ jEsSsJFeG8r6U0qHzooIExUJ2XCbaRGc/cs8kz0T07ykS0B50ZaexbjWNrIFCrMXIGci
+ S+DVfuccqMr0KvpduUskOUjfmJncF4dqPk6wGEA7xywx+jcYWN5/dxR1XN1qkBNjTS0B
+ JUsEvbXqzNT8GL7aIF4dAZRzkvbm84r4Hl2/HxpcmldQb9rBWjV4TXM9C1+323fkisjX
+ ZhVLGf+ZEC3p0WQZGqeslFoXNnFAaku8kgF3xV7XasiTD+ehtVPC4phhpPC5ALCOMxr9
+ Qfxw==
+X-Gm-Message-State: AOAM530jOoIEDiIR2u5AHXT58GLqTzwXG46Kz2xO6ej+7wzR5blsVvN3
+ /Jcv9PstQMZZu5nzKCXfq6TFMsbMdZDcQhg9hVQdj7J3DtD/LbRt/+eahemAWd8unqyc9p0ItQX
+ KuyURpHayMrmw5X4=
+X-Received: by 2002:adf:f101:: with SMTP id r1mr17977313wro.392.1603705962500; 
+ Mon, 26 Oct 2020 02:52:42 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxG6zNG5If7O48x59KIH8zZgAVLYRn8SVYMt7zDMiqYjE4H91Drfbp4By6isAKN7grdYGkm6g==
+X-Received: by 2002:adf:f101:: with SMTP id r1mr17977298wro.392.1603705962309; 
+ Mon, 26 Oct 2020 02:52:42 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
  ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id 24sm19043075wmf.44.2020.10.26.02.51.44
+ by smtp.gmail.com with ESMTPSA id s11sm21420109wrm.56.2020.10.26.02.52.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 26 Oct 2020 02:51:44 -0700 (PDT)
-Subject: Re: [PATCH v2 3/6] configure: add option to enable LTO
+ Mon, 26 Oct 2020 02:52:41 -0700 (PDT)
+Subject: Re: [PATCH v2 4/6] cfi: Initial support for cfi-icall in QEMU
 To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
 References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-4-dbuono@linux.vnet.ibm.com>
+ <20201023200645.1055-5-dbuono@linux.vnet.ibm.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7aa00aba-ff8c-252a-899a-45ef4db7cc6e@redhat.com>
-Date: Mon, 26 Oct 2020 10:51:43 +0100
+Message-ID: <50a26676-722b-889a-b926-ad25e513d384@redhat.com>
+Date: Mon, 26 Oct 2020 10:52:41 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201023200645.1055-4-dbuono@linux.vnet.ibm.com>
+In-Reply-To: <20201023200645.1055-5-dbuono@linux.vnet.ibm.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -102,30 +102,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 23/10/20 22:06, Daniele Buono wrote:
-> This patch allows to compile QEMU with link-time optimization (LTO).
-> Compilation with LTO is handled directly by meson. This patch adds checks
-> in configure to make sure the toolchain supports LTO.
-> 
-> Currently, allow LTO only with clang, since I have found a couple of issues
-> with gcc-based LTO.
-> 
-> In case fuzzing is enabled, automatically switch to llvm's linker (lld).
-> The standard bfd linker has a bug where function wrapping (used by the fuzz*
-> targets) is used in conjunction with LTO.
-> 
-> Tested with all major versions of clang from 6 to 12
-> 
-> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+> +
+> +#ifdef CONFIG_CFI
+> +/* If CFI is enabled, use an attribute to disable cfi-icall on the following
+> + * function */
+> +#define __disable_cfi__ __attribute__((no_sanitize("cfi-icall")))
+> +#else
+> +/* If CFI is not enabled, use an empty define to not change the behavior */
+> +#define __disable_cfi__
+> +#endif
+> +
+> diff --git a/plugins/core.c b/plugins/core.c
 
-What are the problems like if you have GCC or you ar/linker are not up
-to the job?  I wouldn't mind omitting the tests since this has to be
-enabled explicitly by the user.
+__disable_cfi__ is a reserved identifier, since it starts with two
+underscores.  Please name it QEMU_DISABLE_CFI and put it in
+include/qemu/compiler.h.
+
+Thanks,
 
 Paolo
 
