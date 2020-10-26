@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E002994E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:11:16 +0100 (CET)
-Received: from localhost ([::1]:36388 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8392229953C
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:25:30 +0100 (CET)
+Received: from localhost ([::1]:41388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX6xd-0004Ym-S6
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:11:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60254)
+	id 1kX7BR-0002Bq-Io
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:25:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kX6ky-0006dM-SA
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:58:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51388)
+ id 1kX6lG-000717-BI
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:58:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kX6kw-0005Ip-Ot
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:58:08 -0400
+ id 1kX6lE-0005LI-Od
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:58:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603735084;
+ s=mimecast20190719; t=1603735103;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rJfa0jC7Y3CUJJwA5JXbskXx8iclBV45WcZAZscCLGM=;
- b=gxOlS3rSE7bc75OVQrkgYCkb0GhRkb0689kW6nByoHrWWi+opM1VEdCxU7g43JLQzfkC/W
- i64Bi7bJ7oIMj0V0syHyZUM4CqR84DrMqMWG7pe0cqarSFgLRSB4DsFfbpXoTSCLTZGH03
- GrcuQ5LuHnkLeyNCac0MoAop5zkt1sQ=
+ bh=whJIojkUcxUM6y99MizsmvD/QK1XQqHnmz8EVMq63XY=;
+ b=TwTfB9Npo3LqZP2l61boxVOmFf7+GXVFmy7x43XWu43jKhqOylRK8gL4nD3qu0B8SSwH+V
+ VmCyrQ5FIV/Gpk8pEWg78MNr6e8ZdtZwq0r6jbPtIPuYWNuY/YUAxhn73ZOfrCO0wlZCt1
+ DBsSOCVY5ijmXZfQHt1Mz2wMPZnE7PE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-vbsQkWoaNVGpX8KevQ4_Uw-1; Mon, 26 Oct 2020 13:58:02 -0400
-X-MC-Unique: vbsQkWoaNVGpX8KevQ4_Uw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-519-XhMZgzC4NNiKcHMPSN_TBg-1; Mon, 26 Oct 2020 13:58:19 -0400
+X-MC-Unique: XhMZgzC4NNiKcHMPSN_TBg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0678804B61;
- Mon, 26 Oct 2020 17:58:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2DDF38049D5;
+ Mon, 26 Oct 2020 17:58:18 +0000 (UTC)
 Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DBF735D9E8;
- Mon, 26 Oct 2020 17:57:51 +0000 (UTC)
-Subject: Re: [PATCH v2 04/19] block/nvme: Trace controller capabilities
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 842651002388;
+ Mon, 26 Oct 2020 17:58:01 +0000 (UTC)
+Subject: Re: [PATCH v2 01/19] block/nvme: Correct minimum device page size
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201026105504.4023620-1-philmd@redhat.com>
- <20201026105504.4023620-5-philmd@redhat.com>
+ <20201026105504.4023620-2-philmd@redhat.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <791d70ed-667f-c979-a7b7-f6fc5ffcc2af@redhat.com>
-Date: Mon, 26 Oct 2020 18:57:50 +0100
+Message-ID: <49ca9078-a0cc-684d-7223-575970085d31@redhat.com>
+Date: Mon, 26 Oct 2020 18:57:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201026105504.4023620-5-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201026105504.4023620-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,18 +62,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,61 +93,42 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Hi Philippe,
 
 On 10/26/20 11:54 AM, Philippe Mathieu-Daudé wrote:
-> Controllers have different capabilities and report them in the
-> CAP register. We are particularly interested by the page size
-> limits.
+> While trying to simplify the code using a macro, we forgot
+> the 12-bit shift... Correct that.
 > 
+> Fixes: fad1eb68862 ("block/nvme: Use register definitions from 'block/nvme.h'")
+> Reported-by: Eric Auger <eric.auger@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > ---
->  block/nvme.c       | 10 ++++++++++
->  block/trace-events |  1 +
->  2 files changed, 11 insertions(+)
+
+>  block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
 > diff --git a/block/nvme.c b/block/nvme.c
-> index 5abd7257cac..3b6d3972ec2 100644
+> index b48f6f25881..029694975b9 100644
 > --- a/block/nvme.c
 > +++ b/block/nvme.c
-> @@ -720,6 +720,16 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
->       * Initialization". */
+> @@ -724,7 +724,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>          goto out;
+>      }
 >  
->      cap = le64_to_cpu(regs->cap);
-> +    trace_nvme_controller_capability("Maximum Queue Entries Supported",
-> +                                     NVME_CAP_MQES(cap));
-> +    trace_nvme_controller_capability("Contiguous Queues Required",
-> +                                     NVME_CAP_CQR(cap));
-> +    trace_nvme_controller_capability("Subsystem  Reset Supported",
-nit extra space
-> +                                     NVME_CAP_NSSRS(cap));
-> +    trace_nvme_controller_capability("Memory Page Size Minimum",
-> +                                     NVME_CAP_MPSMIN(cap));
-> +    trace_nvme_controller_capability("Memory Page Size Maximum",
-> +                                     NVME_CAP_MPSMAX(cap));
-Don't you want to trace the true MPSMIN/MAX (I mean with the shift)?
+> -    s->page_size = MAX(4096, 1 << NVME_CAP_MPSMIN(cap));
+> +    s->page_size = MAX(4096, 1u << (12 + NVME_CAP_MPSMIN(cap)));
+nit the MAX(4096,) could have been removed
 
-I would personally group those traces into a single one and avoid this
-generic trace format but well ...
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Thanks
 
 Eric
->      if (!NVME_CAP_CSS(cap)) {
->          error_setg(errp, "Device doesn't support NVMe command set");
->          ret = -EINVAL;
-> diff --git a/block/trace-events b/block/trace-events
-> index 0e351c3fa3d..3f141dc6801 100644
-> --- a/block/trace-events
-> +++ b/block/trace-events
-> @@ -134,6 +134,7 @@ qed_aio_write_postfill(void *s, void *acb, uint64_t start, size_t len, uint64_t
->  qed_aio_write_main(void *s, void *acb, int ret, uint64_t offset, size_t len) "s %p acb %p ret %d offset %"PRIu64" len %zu"
->  
->  # nvme.c
-> +nvme_controller_capability(const char *desc, uint64_t value) "%s: %"PRIu64
->  nvme_kick(void *s, int queue) "s %p queue %d"
->  nvme_dma_flush_queue_wait(void *s) "s %p"
->  nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
+>      s->doorbell_scale = (4 << NVME_CAP_DSTRD(cap)) / sizeof(uint32_t);
+>      bs->bl.opt_mem_alignment = s->page_size;
+>      timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
 > 
 
 
