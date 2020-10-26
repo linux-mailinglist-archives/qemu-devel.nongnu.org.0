@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359E9299195
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:58:54 +0100 (CET)
-Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA928299181
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 16:56:29 +0100 (CET)
+Received: from localhost ([::1]:47468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX4tZ-0006pV-7g
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:58:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50916)
+	id 1kX4rE-0003uy-E1
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 11:56:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX4p0-0002FN-4J
+ id 1kX4p0-0002H6-OP
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:54:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46324)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31541)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kX4ou-0004Qm-IB
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:54:09 -0400
+ id 1kX4oy-0004R0-It
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 11:54:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603727643;
+ s=mimecast20190719; t=1603727646;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gW8t76qvg5frD181B1XRzwdd9hg1Fj2glAF8Q6WOGg8=;
- b=NVgi0+2OYF/OlNbduytzMjz9lULeqQYk74N0mQ48NzAF2RVbDL52J8safdcs0QC2dnugXH
- OtKWqHkqLL8xzHylcNnWHuY+P51Nr3t+ZpLHnKJwB+cHTrSXysi39jMvxMb2d27DDJDxW0
- RgLjcSSo6p5OCghhHIXk+I70STQqy/Q=
+ bh=PBwOXaeNHjnf/JWe1UpoDBIpPHqC7x3swBjInLyiQuo=;
+ b=a2xjMRz4/bS6oWskH48h525b/X3lTZZH5naor6nq0wqMtQsMGkRdqB2M5AVEXinaga3W2K
+ 4RAIBjcNy8GYPZZxXRpQYB4LI+fT46H9+INqZbaduHVV1J/D3nxw4rCt67N0HnQhhiu/Vd
+ EU3GIeTOIoS45X/60MAKoWtnDFl3f5U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-9_lLwvGQP2WFJP5bVh00QQ-1; Mon, 26 Oct 2020 11:54:01 -0400
-X-MC-Unique: 9_lLwvGQP2WFJP5bVh00QQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-511-SLcB0-vtOXSuY7dKG62_Qw-1; Mon, 26 Oct 2020 11:54:03 -0400
+X-MC-Unique: SLcB0-vtOXSuY7dKG62_Qw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F5D41020915
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:54:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF3AF809DD3
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 15:54:02 +0000 (UTC)
 Received: from localhost (ovpn-114-214.ams2.redhat.com [10.36.114.214])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 723FA19728;
- Mon, 26 Oct 2020 15:53:32 +0000 (UTC)
-Date: Mon, 26 Oct 2020 15:53:31 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 69BC210013C4;
+ Mon, 26 Oct 2020 15:54:02 +0000 (UTC)
+Date: Mon, 26 Oct 2020 15:53:58 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Subject: Re: [PATCH v4 2/5] tools/virtiofsd: xattr name mappings: Map client
+Subject: Re: [PATCH v4 3/5] tools/virtiofsd: xattr name mappings: Map server
  xattr names
-Message-ID: <20201026155331.GD52035@stefanha-x1.localdomain>
+Message-ID: <20201026155358.GE52035@stefanha-x1.localdomain>
 References: <20201023165812.36028-1-dgilbert@redhat.com>
- <20201023165812.36028-3-dgilbert@redhat.com>
+ <20201023165812.36028-4-dgilbert@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201023165812.36028-3-dgilbert@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201023165812.36028-4-dgilbert@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/unnNtmY43mpUSKx"
+ protocol="application/pgp-signature"; boundary="OZkY3AIuv2LYvjdk"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -87,39 +87,40 @@ Cc: dinechin@redhat.com, virtio-fs@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---/unnNtmY43mpUSKx
+--OZkY3AIuv2LYvjdk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2020 at 05:58:09PM +0100, Dr. David Alan Gilbert (git) wrot=
+On Fri, Oct 23, 2020 at 05:58:10PM +0100, Dr. David Alan Gilbert (git) wrot=
 e:
 > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 >=20
-> Map xattr names originating at the client; from get/set/remove xattr.
+> Map xattr names coming from the server, i.e. the host filesystem;
+> currently this is only from listxattr.
 >=20
 > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > ---
->  tools/virtiofsd/passthrough_ll.c | 101 ++++++++++++++++++++++++++++++-
->  1 file changed, 98 insertions(+), 3 deletions(-)
+>  tools/virtiofsd/passthrough_ll.c | 90 ++++++++++++++++++++++++++++++++
+>  1 file changed, 90 insertions(+)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---/unnNtmY43mpUSKx
+--OZkY3AIuv2LYvjdk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+W8PsACgkQnKSrs4Gr
-c8gG1wf+NLwQSl/ljSoEDi/UFH8LTDnuaqR1DKJzBqqscU6JcB9e+VC/cllFvGbV
-NGV9dwUz3+xmwSsuYGGebo1cn9tWIIqlaBLmpleu+FPKHmyUVHIo0+CqiRrFUO4X
-aEbGQmCIQ80zQXch3x4iZyyH93U2eWQUdIkpttgoAgCxTgqGZbwTSempo8W5oxZo
-dV4Yxa1yeqmTdIdfyH1w6b/te9epxb3cwjc5uAAMGW+COasQ246qk0I61WD44LaD
-ItsE3dBVvW08pHlA4QhSvSicKNaKZRRnMCnDDJM/h37al/lHUm1bWj+dcIJl9Vue
-7U2dKjy7ZXXa9Wz8+zzsg/+efiKX5w==
-=Fgeh
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+W8RYACgkQnKSrs4Gr
+c8hMJwf/Sn0wMUCvqqgiy4EUkBNuDyRs+bXMyL2GACXnXK6Msk1xDqvLKDQyAOjn
+4uKawLy55UkoX1HQ6qoDtgOc7h4kNxirMnEH3G6weWO6FbZS0N5skDqI/0/F+Uwh
+CWdCdTTKmnma3r2/UA67mm+yIqkd9308RqgIoJ6VTtwJD1ZHPfPh2UzcR6rXBCy/
++KkLaldP5kqhCBOEuZzaeLPFAeWTSDZbm2Xzbj2A8WwaYiY+HN3c3FnD+BSmyiKj
+xvGlvxXTQm4Q7sslnasvfW/iRNVVP070D5HvG97LkRi8mOF9Oy+F/0KmekIzOEtd
+PhlAVHdPAXtB7U6Bm11Qg/dZaK9Hvg==
+=U14g
 -----END PGP SIGNATURE-----
 
---/unnNtmY43mpUSKx--
+--OZkY3AIuv2LYvjdk--
 
 
