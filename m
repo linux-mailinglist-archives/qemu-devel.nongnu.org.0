@@ -2,88 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCD8C298B9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:18:50 +0100 (CET)
-Received: from localhost ([::1]:43012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29FC3298B79
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:11:58 +0100 (CET)
+Received: from localhost ([::1]:53102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0WX-0000BY-NL
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:18:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51536)
+	id 1kX0Pt-0000k3-5Y
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:11:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0BA-0000U7-8c
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:44 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20248)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kX0B8-0000Cc-JM
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:56:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603709801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tjiqDTNg6IlVQRDX7FtGh0Vb3qFf/kKU7hA/I3jkchg=;
- b=StnC6G3k3oKDoyEiERmBwd1a2fWIs19sJaZHolWAvkoR2veVgQDflhPkn6kTAV7VFG+CoB
- KvZngkgt9KkvctXjz0srT/tU4cBfqn/TPI3mf1Equc+Qv9WOmQ6Duq0jKKUtADY8GJcUOl
- HVibXKy0Wn5JCJxUpNdxUFIqB4P63Rg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-Zhda4dpxOLqySREpofiuAQ-1; Mon, 26 Oct 2020 06:56:40 -0400
-X-MC-Unique: Zhda4dpxOLqySREpofiuAQ-1
-Received: by mail-wr1-f69.google.com with SMTP id p6so8126966wrm.23
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 03:56:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=tjiqDTNg6IlVQRDX7FtGh0Vb3qFf/kKU7hA/I3jkchg=;
- b=iEhsO/6fB5R4Hg+ZT7TGugaN1WqUn1GJ/L17PR7SiKk2mPacmz88qmNUv1xPWXtckS
- PQmw4J9k6/7Y1lAr2dRGmvqWGgC7P8lGBLq94cpMLrwXMaeCQFdtbUwbXch5QxnJgfOu
- W1oY9KXEIkdoqP0TOr/AaoQwZMiYNE1LHP9HcGpp5oYybIdLgTrNbg+Su/Vu02GaGbn/
- 7KMs8H24Oqq0gxaNj4B6MXBqPPmMkAtizsrYbZwXWaRPHKVyVQWpz1x+CqI8qov86TwC
- ph688Daygy1ldy9+NqQRaBsb0fi2rj/9IbQctCQaCLyHE/5Hp8JpWlwsfJLWNip9k42N
- dc0w==
-X-Gm-Message-State: AOAM532OBgwsQriF+r2skVc7RMVGh4jKJLKU4ZnGK1bsdqY0SS+vEZzf
- NgrSo9lOSkuwAeDCVCC+MvUQBZse8LgYQICh04dCmvhmeqyIWG1QRl+1jwZC4nqfRce/Hb8ERud
- 4MVjckdcYVbV8l8w=
-X-Received: by 2002:adf:df91:: with SMTP id z17mr16494475wrl.379.1603709798839; 
- Mon, 26 Oct 2020 03:56:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJytN3mEF4Hc6GaEYj3Y6qef4YQsPeZ8djC15U7IdK3PastNYOq167V0jsz8okdHtd5QnArKWg==
-X-Received: by 2002:adf:df91:: with SMTP id z17mr16494463wrl.379.1603709798676; 
- Mon, 26 Oct 2020 03:56:38 -0700 (PDT)
-Received: from localhost.localdomain (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id x22sm23311138wmj.25.2020.10.26.03.56.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 03:56:38 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 19/19] util/vfio-helpers: Remove now unused
- qemu_vfio_pci_init_irq()
-Date: Mon, 26 Oct 2020 11:55:04 +0100
-Message-Id: <20201026105504.4023620-20-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201026105504.4023620-1-philmd@redhat.com>
-References: <20201026105504.4023620-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kX0DI-0003eS-LM
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:58:57 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:47404
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kX0DG-0000w7-0B; Mon, 26 Oct 2020 06:58:55 -0400
+Received: from host86-148-103-79.range86-148.btcentralplus.com
+ ([86.148.103.79] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1kX0DE-0000ek-Pg; Mon, 26 Oct 2020 10:58:59 +0000
+To: Samuel Thibault <samuel.thibault@gnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Jason Andryuk <jandryuk@gmail.com>
+References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
+ <20201026083401.13231-9-mark.cave-ayland@ilande.co.uk>
+ <20201026095450.ko6snc4dusk3pvnw@function>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <547c0ea5-dad4-d246-1de8-844a2e9a9507@ilande.co.uk>
+Date: Mon, 26 Oct 2020 10:58:43 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20201026095450.ko6snc4dusk3pvnw@function>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-SA-Exim-Connect-IP: 86.148.103.79
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 8/9] dev-serial: fix FTDI_GET_MDM_ST response
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,93 +67,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our only user, the NVMe block driver, switched to the MSIX API.
-As this function is now unused, remove it.
+On 26/10/2020 09:54, Samuel Thibault wrote:
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- include/qemu/vfio-helpers.h |  2 --
- util/vfio-helpers.c         | 43 -------------------------------------
- 2 files changed, 45 deletions(-)
+> Hello,
+> 
+> (Cc-ing Aurelien who introduced the support for modem control, and Jason
+> who added the missing THRE and TEMT flags).
+> 
+> Mark Cave-Ayland, le lun. 26 oct. 2020 08:34:00 +0000, a ecrit:
+>> The FTDI_GET_MDM_ST response should only return a single byte indicating the
+>> modem status with bit 0 cleared (as documented in the Linux ftdi_sio.h header
+>> file).
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/usb/dev-serial.c | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+>> index 4c374d0790..fa734bcf54 100644
+>> --- a/hw/usb/dev-serial.c
+>> +++ b/hw/usb/dev-serial.c
+>> @@ -360,9 +360,8 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+>>           /* TODO: TX ON/OFF */
+>>           break;
+>>       case VendorDeviceRequest | FTDI_GET_MDM_ST:
+>> -        data[0] = usb_get_modem_lines(s) | 1;
+>> -        data[1] = FTDI_THRE | FTDI_TEMT;
+>> -        p->actual_length = 2;
+>> +        data[0] = usb_get_modem_lines(s);
+>> +        p->actual_length = 1;
+> 
+> Err, but Linux' drivers/usb/serial/ftdi_sio.c:ftdi_process_packet()
+> contradicts this:
+> 
+> 	if (len < 2) {
+> 		dev_dbg(&port->dev, "malformed packet\n");
+> 		return 0;
+> 	}
+> 
+> 	status = buf[0] & FTDI_STATUS_B0_MASK;
+> 	if (status != priv->prev_status) {
+> 		char diff_status = status ^ priv->prev_status;
+> 
+> 		if (diff_status & FTDI_RS0_CTS)
+> 			port->icount.cts++;
+> 
+> [...]
+> 
+> 	/* save if the transmitter is empty or not */
+> 	if (buf[1] & FTDI_RS_TEMT)
+> 		priv->transmit_empty = 1;
+> 	else
+> 		priv->transmit_empty = 0;
+> 
+> Did you actually get an issue with seeing this packet contain two bytes?
 
-diff --git a/include/qemu/vfio-helpers.h b/include/qemu/vfio-helpers.h
-index 4c06694e03a..f42371d25d6 100644
---- a/include/qemu/vfio-helpers.h
-+++ b/include/qemu/vfio-helpers.h
-@@ -29,8 +29,6 @@ void *qemu_vfio_pci_map_bar(QEMUVFIOState *s, int index,
-                             Error **errp);
- void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
-                              uint64_t offset, uint64_t size);
--int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
--                           int irq_type, Error **errp);
- int qemu_vfio_pci_msix_init_irqs(QEMUVFIOState *s,
-                                  unsigned *irq_count, Error **errp);
- int qemu_vfio_pci_msix_set_irq(QEMUVFIOState *s, unsigned irq_index,
-diff --git a/util/vfio-helpers.c b/util/vfio-helpers.c
-index 18142e6be86..83d6eef13fb 100644
---- a/util/vfio-helpers.c
-+++ b/util/vfio-helpers.c
-@@ -189,49 +189,6 @@ void qemu_vfio_pci_unmap_bar(QEMUVFIOState *s, int index, void *bar,
-     }
- }
- 
--/**
-- * Initialize device IRQ with @irq_type and register an event notifier.
-- */
--int qemu_vfio_pci_init_irq(QEMUVFIOState *s, EventNotifier *e,
--                           int irq_type, Error **errp)
--{
--    int r;
--    struct vfio_irq_set *irq_set;
--    size_t irq_set_size;
--    struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info) };
--
--    irq_info.index = irq_type;
--    if (ioctl(s->device, VFIO_DEVICE_GET_IRQ_INFO, &irq_info)) {
--        error_setg_errno(errp, errno, "Failed to get device interrupt info");
--        return -errno;
--    }
--    if (!(irq_info.flags & VFIO_IRQ_INFO_EVENTFD)) {
--        error_setg(errp, "Device interrupt doesn't support eventfd");
--        return -EINVAL;
--    }
--
--    irq_set_size = sizeof(*irq_set) + sizeof(int);
--    irq_set = g_malloc0(irq_set_size);
--
--    /* Get to a known IRQ state */
--    *irq_set = (struct vfio_irq_set) {
--        .argsz = irq_set_size,
--        .flags = VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_TRIGGER,
--        .index = irq_info.index,
--        .start = 0,
--        .count = 1,
--    };
--
--    *(int *)&irq_set->data = event_notifier_get_fd(e);
--    r = ioctl(s->device, VFIO_DEVICE_SET_IRQS, irq_set);
--    g_free(irq_set);
--    if (r) {
--        error_setg_errno(errp, errno, "Failed to setup device interrupt");
--        return -errno;
--    }
--    return 0;
--}
--
- /**
-  * Initialize a MSIX IRQ and register its event notifier.
-  * @irq_index: MSIX IRQ index
--- 
-2.26.2
+Hi Samuel,
 
+Thanks for the review! There are 2 different places where the status is read: the one 
+above in ftdi_process_packet() relates to the control packet header for incoming data 
+which is always 2 bytes, whereas this relates to FTDI_SIO_GET_MODEM_STATUS_REQUEST in 
+https://elixir.bootlin.com/linux/latest/source/drivers/usb/serial/ftdi_sio.c#L2825.
+
+I have a FTDI Chipi-X adapter to compare with and that returns 2 bytes, but it looks 
+like I mis-read the code and it's the SIO chipsets that return 1 byte which are older 
+than the chipset being emulated by QEMU. This came from reading 
+https://elixir.bootlin.com/linux/latest/source/drivers/usb/serial/ftdi_sio.h#L415 
+which states that only 1 byte should be returned, but of course that comment could be 
+out of date.
+
+A quick test shows my Chipi-X returns 0x1 0x60 with nothing attached in response to 
+FTDI_SIO_GET_MODEM_STATUS_REQUEST: assuming the reply length should be 2 bytes, the 
+comment about B0-B3 being zero and the response from my Chip-X above suggests that 
+the "| 1" should still be dropped from the response.
+
+
+ATB,
+
+Mark.
 
