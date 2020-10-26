@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00DC4299A90
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:34:03 +0100 (CET)
-Received: from localhost ([::1]:34944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25AF3299AB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 00:36:39 +0100 (CET)
+Received: from localhost ([::1]:41444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXC02-0008Ub-0S
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:34:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59180)
+	id 1kXC2Y-0002xP-6S
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 19:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBwX-0003H8-Ae
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:25 -0400
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38745)
+ id 1kXBwa-0003Jd-RV
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:28 -0400
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXBwR-0000LW-Ky
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:20 -0400
-Received: by mail-ej1-x62f.google.com with SMTP id ce10so16481129ejc.5
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:17 -0700 (PDT)
+ id 1kXBwV-0000M4-L5
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 19:30:26 -0400
+Received: by mail-ej1-x631.google.com with SMTP id bn26so199882ejb.6
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 16:30:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pEqSKEMY04puZYBT7KxO2knLfSLveelIAXH747evHJ0=;
- b=MvwyJshDxZ7tllBWWiu5xhHIL9RNwRAgI4uwjqbfbGzpZ/IWd5K7angs5wbpSQ9+Lv
- s5hYBNlY2/yoOZ3RpSjBhr/qGv6UbO+NsJW1XN0JUUtuKLUJ7vZntIfx8ykQSESk2aUM
- /kCdvka9J8xwaHlX8Su+cnH2mzkswJD3wkXcJmwRxCvQ0BxcjrDxTU3TgsjlRQWfUZ6Q
- xQ7dP6aRamwnnpsre4q/5NJ7MjZ9+WTpVUelLq0spSuEbarGHzD4JJvrMWg50pwZ36pX
- 9f3sLzYk1hveFeFgftzGw/Qx6SuYkYbw99mK7XwV3eW9LMXS0gTKIjjgGj0KYopW87gq
- 3jWQ==
+ bh=W3Vv/QCWXUFg/foUe4To3UqDPWKAHvwPLF8rKVguBJk=;
+ b=fCXmF8FbDBx/SIXLzr9WdkSYJwYMIY27zgNwbRw76qP71b6mwta7DeMxs1l1QjgtWi
+ kSqYM2FCYTySMzjjU/gDQPafT5NySt+MnXK9OfQWhOpqdAmGaGkqrkSwjtmPlywIDCJd
+ 7bDXDW3XNEsf4KgqbvKMT2eBsROMVze9fqnw1M4U4d3PBSvzRViVrtniRwBbtSh6MdoG
+ vMpDGvneGZt2LioQEGXlPCGhjThYKGhLI5ORB/zgXISx6tsAhAKxY5GHOjaHDl7T9LtG
+ 68zf+vSvi8H09IzkZe9QXoLuvjm2cpxSOG6iSssQS+FZfWamdwGO0iTZ4qTu3I/9EzkL
+ SP0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pEqSKEMY04puZYBT7KxO2knLfSLveelIAXH747evHJ0=;
- b=ERJcVN/Nd2wjOQdV4VstC/r7F+Ljgk7hnIif3U2xi4BZLmII5g/hMZRhjOVyFLeri1
- NYCOZs4rs3gAxay5Vdt08CoRkmXKR0psq+CDp7+4PT4Ot0tr6dCwxyrc2Og1PxgeJdML
- L8o0dS88yRCyc4HduhAXUW9F5KHeFugpBydnJrcThkcaQhYHi7TtZxWMRISKWXXZgag7
- fPkfwzzjfruQKxxT/KQg2a8OEelUozlk5HIP7YtZLX2uafYOx2quhjuGucWaUJ9HH3bH
- c+SXuupqUK9TcJfQXWSVwGt7wWS1UQFLs6Qj0dTR2BVZRPFtMPo4jTeU5tBGAvCQsYXp
- p0cA==
-X-Gm-Message-State: AOAM532yYraiZSdNmVIcEPvugRLzXgrEGZfakCy0VAbdzFM+kg1LVykt
- kh9N0IgXll8k5G0lpXqB2+5Mep7XVK4=
-X-Google-Smtp-Source: ABdhPJxNvylgZNUJpuhj3ahISda1unkvX7kRgyYwiHTUo5YBfCKnAe+6VQm2N0fIGUZLhoh9VOSmhA==
-X-Received: by 2002:a17:906:824b:: with SMTP id
- f11mr17585521ejx.16.1603755016520; 
- Mon, 26 Oct 2020 16:30:16 -0700 (PDT)
+ bh=W3Vv/QCWXUFg/foUe4To3UqDPWKAHvwPLF8rKVguBJk=;
+ b=g9m7+S96Y3kVo7VVy4YAJ1ZHISRErRO4bZw7JjNrQ3bg7XHELEYVljG5xBYxN7G74U
+ nDbnFLrHDK1aXpOQIijTvwj7lgz/RmIZK/e6BoC3BudL+/fdRMD/heL6rUfdKxt7pZzL
+ d6v7ptGuBrUTRlurYqm5T8kqmadcrFJ2zuCf1b//PDp6CIRBIQRVsIN6PjzF3B47khP1
+ 0V/CKD5p1Y8fnFSOqu6mHXsK0FcSob2VABhF83LXQQbNI0sZU2oBRxYff+0kUhQVRPAL
+ S2IZMyv7q0lSM4sSzkyFESGK+QIJRD7uDUgHm1ee87qK840XFAybhYpVutUe4nINWbbu
+ N7EA==
+X-Gm-Message-State: AOAM531cf//dLtxQLpH9l2BIC9rMCRt5a3KCnPrum5DXzP3GVRjv5iSa
+ cXCkqHSGndeCobg/H7v00pHg2No0MNE=
+X-Google-Smtp-Source: ABdhPJzAvg8E4+MptrAi3QV3nzihfSdPJcEzv7+ee50wxEtscV190cgXAxvcNu8UjBkmvpHhuMtpjQ==
+X-Received: by 2002:a17:906:3406:: with SMTP id
+ c6mr17140314ejb.65.1603755021949; 
+ Mon, 26 Oct 2020 16:30:21 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id m11sm5970344edv.14.2020.10.26.16.30.15
+ by smtp.gmail.com with ESMTPSA id t15sm5948010edr.27.2020.10.26.16.30.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 16:30:15 -0700 (PDT)
+ Mon, 26 Oct 2020 16:30:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] target/rx: Fix some comment spelling errors
-Date: Tue, 27 Oct 2020 00:29:34 +0100
-Message-Id: <20201026232935.92777-8-f4bug@amsat.org>
+Subject: [PULL 8/8] target/rx: Fix Lesser GPL version number
+Date: Tue, 27 Oct 2020 00:29:35 +0100
+Message-Id: <20201026232935.92777-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201026232935.92777-1-f4bug@amsat.org>
 References: <20201026232935.92777-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,54 +88,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Edmondson <david.edmondson@oracle.com>,
- Lichang Zhao <zhaolichang@huawei.com>, Magnus Damm <magnus.damm@gmail.com>,
- Philippe Mathieu-Daude <f4bug@amsat.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Chetan Pant <chetan4windows@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Lichang Zhao <zhaolichang@huawei.com>
+From: Chetan Pant <chetan4windows@gmail.com>
 
-There are many spelling errors in the comments of target/rx.
-Use spellcheck to check the spelling errors, then fix them.
+There is no "version 2" of the "Lesser" General Public License.
+It is either "GPL version 2.0" or "Lesser GPL version 2.1".
+This patch replaces all occurrences of "Lesser GPL version 2" with
+"Lesser GPL version 2.1" in comment section.
 
-Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Reviewed-by: Philippe Mathieu-Daude<f4bug@amsat.org>
-Message-Id: <20201009064449.2336-5-zhaolichang@huawei.com>
+Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201023123840.19988-1-chetan4windows@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/rx/op_helper.c | 2 +-
- target/rx/translate.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ target/rx/insns.decode | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index f89d294f2b2..59389f49921 100644
---- a/target/rx/op_helper.c
-+++ b/target/rx/op_helper.c
-@@ -318,7 +318,7 @@ void helper_swhile(CPURXState *env, uint32_t sz)
-     env->psw_c = (tmp <= env->regs[2]);
- }
- 
--/* accumlator operations */
-+/* accumulator operations */
- void helper_rmpa(CPURXState *env, uint32_t sz)
- {
-     uint64_t result_l, prev;
-diff --git a/target/rx/translate.c b/target/rx/translate.c
-index 482278edd25..9ea941c6302 100644
---- a/target/rx/translate.c
-+++ b/target/rx/translate.c
-@@ -1089,7 +1089,7 @@ static void rx_sub(TCGv ret, TCGv arg1, TCGv arg2)
-     tcg_gen_xor_i32(temp, arg1, arg2);
-     tcg_gen_and_i32(cpu_psw_o, cpu_psw_o, temp);
-     tcg_temp_free_i32(temp);
--    /* CMP not requred return */
-+    /* CMP not required return */
-     if (ret) {
-         tcg_gen_mov_i32(ret, cpu_psw_s);
-     }
+diff --git a/target/rx/insns.decode b/target/rx/insns.decode
+index 232a61fc8ed..ca9334b37af 100644
+--- a/target/rx/insns.decode
++++ b/target/rx/insns.decode
+@@ -7,7 +7,7 @@
+ # This library is free software; you can redistribute it and/or
+ # modify it under the terms of the GNU Lesser General Public
+ # License as published by the Free Software Foundation; either
+-# version 2 of the License, or (at your option) any later version.
++# version 2.1 of the License, or (at your option) any later version.
+ #
+ # This library is distributed in the hope that it will be useful,
+ # but WITHOUT ANY WARRANTY; without even the implied warranty of
 -- 
 2.26.2
 
