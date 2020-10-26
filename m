@@ -2,20 +2,20 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DBE12998F4
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:39:29 +0100 (CET)
-Received: from localhost ([::1]:33690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDFB29990B
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:49:12 +0100 (CET)
+Received: from localhost ([::1]:32964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXADA-0005mc-Lj
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:39:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60470)
+	id 1kXAMZ-0000ZT-3h
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:49:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAb-00042y-Va
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:36:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43585)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAc-00043U-9t
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:36:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAa-0001VJ-3C
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXAAa-0001VO-Kd
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:36:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603748207;
@@ -23,29 +23,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=s6TkbQBjLoReAGUJyoH9pwS17iIr9tGt7G3z++5Tvc8=;
- b=E4lapc8V8wKstPqvpGvFbTJ0EHbew+v8mWLTK7A/inHBzDLmZcDLwCrqjWUkkYAK0Ad641
- 8qQNT280OeUusgmGYemHigMhgCNUm+BGzr7a3y47eaEa0O4nyM09MpH/bOJMLYMtuTw+Wj
- 22VNd9Xh/BeMMJvyRdaI67R/rY+HowM=
+ bh=cbUKR6b9mvrjVlK20WDv1InAUJLku0Kl9L49zrV3Jeo=;
+ b=Q6BpIDvhPXysF73Pa8rANvYOfdenp7H0n/cx0rAIqd/3dRve+b250nMRYRlKurREjkFIQF
+ UEUqfYbyBwRHPtSWrhfPLScRvjzF/LBIXzKtvucC0V95SFWiEy9k+redSd8ZLATcXhtoZA
+ i7jtKqxUFYTVWWsmikrk4olZzmhfbRM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-o5yPbsc3NE60B2_rtp5EKA-1; Mon, 26 Oct 2020 17:36:45 -0400
-X-MC-Unique: o5yPbsc3NE60B2_rtp5EKA-1
+ us-mta-162-iWW5IeSMO3aOI8CUizTXAQ-1; Mon, 26 Oct 2020 17:36:45 -0400
+X-MC-Unique: iWW5IeSMO3aOI8CUizTXAQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16C4964089
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAB306408A
  for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 21:36:44 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6F60A19728;
- Mon, 26 Oct 2020 21:36:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A80619728;
+ Mon, 26 Oct 2020 21:36:44 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org,
 	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 05/16] qapi/expr.py: move string check upwards in check_type
-Date: Mon, 26 Oct 2020 17:36:26 -0400
-Message-Id: <20201026213637.47087-6-jsnow@redhat.com>
+Subject: [PATCH v2 06/16] qapi/expr.py: Check type of 'data' member
+Date: Mon, 26 Oct 2020 17:36:27 -0400
+Message-Id: <20201026213637.47087-7-jsnow@redhat.com>
 In-Reply-To: <20201026213637.47087-1-jsnow@redhat.com>
 References: <20201026213637.47087-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,41 +84,40 @@ Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's a simple case, shimmy the early return upwards.
+Iterating over the members of data isn't going to work if it's not some
+form of dict anyway, but for type safety, formalize it.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
 ---
- scripts/qapi/expr.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/qapi/expr.py | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-index 2c4c341d5243..864363881682 100644
+index 864363881682..2654a72e8333 100644
 --- a/scripts/qapi/expr.py
 +++ b/scripts/qapi/expr.py
-@@ -150,6 +150,10 @@ def check_type(value, info, source,
-     if value is None:
-         return
+@@ -254,6 +254,9 @@ def check_union(expr, info):
+             raise QAPISemError(info, "'discriminator' requires 'base'")
+         check_name_is_str(discriminator, info, "'discriminator'")
  
-+    # Type name
-+    if isinstance(value, str):
-+        return
++    if not isinstance(members, dict):
++        raise QAPISemError(info, "'data' must be an object")
 +
-     # Array type
-     if isinstance(value, list):
-         if not allow_array:
-@@ -160,10 +164,6 @@ def check_type(value, info, source,
-                                source)
-         return
+     for (key, value) in members.items():
+         source = "'data' member '%s'" % key
+         check_name_str(key, info, source)
+@@ -267,6 +270,10 @@ def check_alternate(expr, info):
  
--    # Type name
--    if isinstance(value, str):
--        return
--
-     # Anonymous type
- 
-     if not allow_dict:
+     if not members:
+         raise QAPISemError(info, "'data' must not be empty")
++
++    if not isinstance(members, dict):
++        raise QAPISemError(info, "'data' must be an object")
++
+     for (key, value) in members.items():
+         source = "'data' member '%s'" % key
+         check_name_str(key, info, source)
 -- 
 2.26.2
 
