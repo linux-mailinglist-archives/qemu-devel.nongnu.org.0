@@ -2,58 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC228298EB9
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 15:00:28 +0100 (CET)
-Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE37298EAD
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 14:58:26 +0100 (CET)
+Received: from localhost ([::1]:51386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX32x-0006iY-Nx
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 10:00:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60362)
+	id 1kX30z-00040Z-K9
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 09:58:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peer.adelt@hni.uni-paderborn.de>)
- id 1kWtjh-0003Bz-03
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 00:03:57 -0400
-Received: from hoth.uni-paderborn.de ([2001:638:502:c003::19]:59924)
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kWyPz-0002Uy-VD; Mon, 26 Oct 2020 05:03:55 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peer.adelt@hni.uni-paderborn.de>)
- id 1kWtjc-0007Si-3q
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 00:03:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=hni.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version:
- Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=z7HpJB4AR+Ce+6NuYNWu8cOHXkqB59L9e6aPGGx44Ng=; b=Ewm4ZLGhGd3sBZcKckfnD7o+uD
- 5E/pswWQIs+TORYvERXk0Y5S3g1wirWocE5wMQ8TPfKTlFpDfZgDZk02eY25QSJvwVtlgdlfnBTcH
- S6L43LlTZByOdN1iWYORTLL0SxK09GwIxUugXZ/3+uiDdIabfMMstCg4/XQrXySCqid4=;
-X-Envelope-From: <peer.adelt@hni.uni-paderborn.de>
-From: Peer Adelt <peer.adelt@hni.uni-paderborn.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] plugin: Fixes compiling errors on OSX
-Date: Mon, 26 Oct 2020 05:03:01 +0100
-Message-Id: <20201026040301.72054-1-peer.adelt@hni.uni-paderborn.de>
-X-Mailer: git-send-email 2.29.1
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kWyPw-0008DN-Ka; Mon, 26 Oct 2020 05:03:55 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CKTQk5xtFz6xQl;
+ Mon, 26 Oct 2020 17:03:42 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Mon, 26 Oct 2020
+ 17:03:08 +0800
+From: jokenzhang <zhangxinhao1@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] hw/acpi/nvdimm.c : Don't use '#' flag of printf format
+Date: Mon, 26 Oct 2020 17:02:06 +0800
+Message-ID: <20201026090206.279087-1-zhangxinhao1@huawei.com>
+X-Mailer: git-send-email 2.29.0-rc1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2020.10.26.35418, AntiVirus-Engine: 5.77.0,
- AntiVirus-Data: 2020.10.26.5770000
-X-Sophos-SenderHistory: ip=37.24.125.142, fs=44179600, da=91294088, mc=249,
- sc=2, hc=247, sp=0, fso=44179600, re=0, sd=0, hd=0
-X-IMT-Spam-Score: 0.0 ()
-X-IMT-Authenticated-Sender: uid=adelt,ou=People,o=upb,c=de
-Received-SPF: neutral client-ip=2001:638:502:c003::19;
- envelope-from=peer.adelt@hni.uni-paderborn.de; helo=hoth.uni-paderborn.de
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=zhangxinhao1@huawei.com; helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 05:03:38
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Mon, 26 Oct 2020 09:54:52 -0400
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,48 +57,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peer Adelt <peer.adelt@hni.uni-paderborn.de>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Removed the following entries
- - "qemu_plugin_register_vcpu_mem_haddr_cb"
- - "qemu_plugin_ram_addr_from_host"
- - "qemu_plugin_hwaddr_to_raddr"
-from file "plugins/qemu-plugins.symbols".
-
-The exported symbols do not seem to be defined anywhere and cause
-errors when linking under OSX Mojave and Big Sur.
-
-Signed-off-by: Peer Adelt <peer.adelt@hni.uni-paderborn.de>
+Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
 ---
- plugins/qemu-plugins.symbols | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/acpi/nvdimm.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/plugins/qemu-plugins.symbols b/plugins/qemu-plugins.symbols
-index 4bdb381f48..40b4ff3821 100644
---- a/plugins/qemu-plugins.symbols
-+++ b/plugins/qemu-plugins.symbols
-@@ -8,9 +8,7 @@
-   qemu_plugin_register_vcpu_insn_exec_cb;
-   qemu_plugin_register_vcpu_insn_exec_inline;
-   qemu_plugin_register_vcpu_mem_cb;
--  qemu_plugin_register_vcpu_mem_haddr_cb;
-   qemu_plugin_register_vcpu_mem_inline;
--  qemu_plugin_ram_addr_from_host;
-   qemu_plugin_register_vcpu_tb_trans_cb;
-   qemu_plugin_register_vcpu_tb_exec_cb;
-   qemu_plugin_register_vcpu_tb_exec_inline;
-@@ -32,7 +30,6 @@
-   qemu_plugin_mem_is_store;
-   qemu_plugin_get_hwaddr;
-   qemu_plugin_hwaddr_is_io;
--  qemu_plugin_hwaddr_to_raddr;
-   qemu_plugin_vcpu_for_each;
-   qemu_plugin_n_vcpus;
-   qemu_plugin_n_max_vcpus;
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 8f7cc16add..8ad5516142 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -556,7 +556,7 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
+ 
+     fit = fit_buf->fit;
+ 
+-    nvdimm_debug("Read FIT: offset %#x FIT size %#x Dirty %s.\n",
++    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
+                  read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
+ 
+     if (read_fit->offset > fit->len) {
+@@ -664,7 +664,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
+     label_size = nvdimm->label_size;
+     mxfer = nvdimm_get_max_xfer_label_size();
+ 
+-    nvdimm_debug("label_size %#x, max_xfer %#x.\n", label_size, mxfer);
++    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
+ 
+     label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
+     label_size_out.label_size = cpu_to_le32(label_size);
+@@ -680,19 +680,19 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
+     uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
+ 
+     if (offset + length < offset) {
+-        nvdimm_debug("offset %#x + length %#x is overflow.\n", offset,
++        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
+                      length);
+         return ret;
+     }
+ 
+     if (nvdimm->label_size < offset + length) {
+-        nvdimm_debug("position %#x is beyond label data (len = %" PRIx64 ").\n",
++        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
+                      offset + length, nvdimm->label_size);
+         return ret;
+     }
+ 
+     if (length > nvdimm_get_max_xfer_label_size()) {
+-        nvdimm_debug("length (%#x) is larger than max_xfer (%#x).\n",
++        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
+                      length, nvdimm_get_max_xfer_label_size());
+         return ret;
+     }
+@@ -716,7 +716,7 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
+     get_label_data->offset = le32_to_cpu(get_label_data->offset);
+     get_label_data->length = le32_to_cpu(get_label_data->length);
+ 
+-    nvdimm_debug("Read Label Data: offset %#x length %#x.\n",
++    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
+                  get_label_data->offset, get_label_data->length);
+ 
+     status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
+@@ -755,7 +755,7 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
+     set_label_data->offset = le32_to_cpu(set_label_data->offset);
+     set_label_data->length = le32_to_cpu(set_label_data->length);
+ 
+-    nvdimm_debug("Write Label Data: offset %#x length %#x.\n",
++    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
+                  set_label_data->offset, set_label_data->length);
+ 
+     status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
+@@ -838,7 +838,7 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     NvdimmDsmIn *in;
+     hwaddr dsm_mem_addr = val;
+ 
+-    nvdimm_debug("dsm memory address %#" HWADDR_PRIx ".\n", dsm_mem_addr);
++    nvdimm_debug("dsm memory address 0x%" HWADDR_PRIx ".\n", dsm_mem_addr);
+ 
+     /*
+      * The DSM memory is mapped to guest address space so an evil guest
+@@ -852,11 +852,11 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     in->function = le32_to_cpu(in->function);
+     in->handle = le32_to_cpu(in->handle);
+ 
+-    nvdimm_debug("Revision %#x Handler %#x Function %#x.\n", in->revision,
++    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
+                  in->handle, in->function);
+ 
+     if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
+-        nvdimm_debug("Revision %#x is not supported, expect %#x.\n",
++        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
+                      in->revision, 0x1);
+         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
+         goto exit;
 -- 
-2.29.1
+2.20.1 (Apple Git-117)
 
 
