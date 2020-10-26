@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B503298A53
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:24:35 +0100 (CET)
-Received: from localhost ([::1]:58418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 382C4298A5C
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:28:04 +0100 (CET)
+Received: from localhost ([::1]:38590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzg2-0001Uz-JX
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:24:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39098)
+	id 1kWzjP-00057M-AM
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:28:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPQ-0003AZ-Gm
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51729)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPS-0003EG-2M
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPO-0006od-OU
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:24 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPP-0006ou-UD
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706841;
+ s=mimecast20190719; t=1603706842;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YMtRQrH9IZNsT/G1dPS6fD9Yz8Zn3wXQQYMwfK7Lefk=;
- b=Q9TpFtmms3eqJ5OwQ6jeKFtuyQgTf55vRG3XdCkSqRrTMlYUjtbO0D14vpj9lBwGAP9z0Y
- D4Z7sViSb4NInQnzL6dBuIlj9hSqtqSUZMZFei0XbJ93Evuwwsmudv6eX9BeJXXq//vt+9
- BKT+N8oh6IUgffzVoEr4irQNBoDvktU=
+ bh=eIcd7zNIDLSZPyeH0LlHqqlH7IKik6kk7NxlKYOMVI4=;
+ b=gQ+8+tnikTzSqvSNHAj/7yu0KEGvh2+r3wEqOhcs8gi8yf7UkAm4JeROP/lTMx8YmwYxFh
+ mz57xTx74s/ycqg5PgHW4+UKVFxYdPLiRfjsxcBUFZfafRrv5PRipRMC6tkXpjCp6I0xM2
+ 6cf9bVnRXDi5UEzKYPln2fJLPnaPMxk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-486-SXlFJhkPPDGWl4jvCloZjA-1; Mon, 26 Oct 2020 06:07:19 -0400
-X-MC-Unique: SXlFJhkPPDGWl4jvCloZjA-1
+ us-mta-464-9LW9HBsDMZqDKO2VetVllg-1; Mon, 26 Oct 2020 06:07:20 -0400
+X-MC-Unique: 9LW9HBsDMZqDKO2VetVllg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6862D1882FB3;
- Mon, 26 Oct 2020 10:07:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF7FAA0C00;
+ Mon, 26 Oct 2020 10:07:19 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 59F1E8B840;
- Mon, 26 Oct 2020 10:07:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3F358B847;
+ Mon, 26 Oct 2020 10:07:18 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 28/31] tests/acceptance: Enable AVOCADO_ALLOW_UNTRUSTED_CODE in
- the gitlab-CI
-Date: Mon, 26 Oct 2020 11:06:29 +0100
-Message-Id: <20201026100632.212530-29-thuth@redhat.com>
+Subject: [PULL 29/31] test/docker/dockerfiles: Add missing packages for
+ acceptance tests
+Date: Mon, 26 Oct 2020 11:06:30 +0100
+Message-Id: <20201026100632.212530-30-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -84,28 +84,70 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tests are running in containers here, so it should be OK to
-run with AVOCADO_ALLOW_UNTRUSTED_CODE enabled in this case.
+Some of the "check-acceptance" tests are still skipped in the CI
+since the docker images do not provide the necessary packages, e.g.
+the netcat binary. Add them to get more test coverage.
 
-Message-Id: <20201023073351.251332-4-thuth@redhat.com>
+Message-Id: <20201023073351.251332-5-thuth@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 1 +
- 1 file changed, 1 insertion(+)
+ tests/docker/dockerfiles/centos8.docker      | 1 +
+ tests/docker/dockerfiles/debian-amd64.docker | 3 +++
+ tests/docker/dockerfiles/fedora.docker       | 1 +
+ tests/docker/dockerfiles/ubuntu2004.docker   | 1 +
+ 4 files changed, 6 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 66ad7aa5c2..5d6773efd2 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -66,6 +66,7 @@ include:
-     - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
-         du -chs ${CI_PROJECT_DIR}/avocado-cache ;
-       fi
-+    - export AVOCADO_ALLOW_UNTRUSTED_CODE=1
-   after_script:
-     - cd build
-     - python3 -c 'import json; r = json.load(open("tests/results/latest/results.json")); [print(t["logfile"]) for t in r["tests"] if t["status"] not in ("PASS", "SKIP", "CANCEL")]' | xargs cat
+diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
+index 585dfad9be..a589142114 100644
+--- a/tests/docker/dockerfiles/centos8.docker
++++ b/tests/docker/dockerfiles/centos8.docker
+@@ -18,6 +18,7 @@ ENV PACKAGES \
+     lzo-devel \
+     make \
+     mesa-libEGL-devel \
++    nmap-ncat \
+     nettle-devel \
+     ninja-build \
+     perl-Test-Harness \
+diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
+index 314c6bae83..55075d9fce 100644
+--- a/tests/docker/dockerfiles/debian-amd64.docker
++++ b/tests/docker/dockerfiles/debian-amd64.docker
+@@ -23,6 +23,9 @@ RUN apt update && \
+         libsnappy-dev \
+         libvte-dev \
+         netcat-openbsd \
++        openssh-client \
++        python3-numpy \
++        python3-opencv \
+         python3-venv
+ 
+ # virgl
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index ac79d95418..0b5053f2d0 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -73,6 +73,7 @@ ENV PACKAGES \
+     mingw64-pixman \
+     mingw64-pkg-config \
+     mingw64-SDL2 \
++    nmap-ncat \
+     ncurses-devel \
+     nettle-devel \
+     ninja-build \
+diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+index 17b37cda38..355bbb3c63 100644
+--- a/tests/docker/dockerfiles/ubuntu2004.docker
++++ b/tests/docker/dockerfiles/ubuntu2004.docker
+@@ -47,6 +47,7 @@ ENV PACKAGES flex bison \
+     libxen-dev \
+     libzstd-dev \
+     make \
++    netcat-openbsd \
+     ninja-build \
+     python3-numpy \
+     python3-opencv \
 -- 
 2.18.2
 
