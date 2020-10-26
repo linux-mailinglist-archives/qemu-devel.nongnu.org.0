@@ -2,110 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13AED299932
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:57:32 +0100 (CET)
-Received: from localhost ([::1]:50712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79C56299907
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 22:48:53 +0100 (CET)
+Received: from localhost ([::1]:60208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXAUd-0008MH-4s
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:57:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33074)
+	id 1kXAMF-00009e-LI
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 17:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kXAEG-0008Q9-Vh
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:40:37 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:61036)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kXAGd-0003EY-HK; Mon, 26 Oct 2020 17:43:03 -0400
+Resent-Date: Mon, 26 Oct 2020 17:43:03 -0400
+Resent-Message-Id: <E1kXAGd-0003EY-HK@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kXAE8-000245-8t
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 17:40:33 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09QLWIlj039993; Mon, 26 Oct 2020 17:40:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=2zmftz9LLZVz3OQxnyydJlEXqtlvpDqudSSi69Aliy8=;
- b=LVI0rmRF0M39OLUe5UrJntzHpaZIB8LR8SEBokwHS7OAjpGEAPMnk5Hx51U0/NiTt/uB
- /LWOk3GnxCuDZbClx0rne16vE5Fi0nXwZnFELdhaSrN8iXmj1luCJwBJPGBS8GqOVb7H
- jwcsUUud8evG20lplWAXLAmtXq55SMNYwPz16LEm3K/ylWMkZL2lJneqyo170xZDb4cq
- 3KoL1MEWA0gzNYxX+MpwuxZaxLros9FNrvo5Yj4wZLX0I9+fogbjq8JpXTjelJTg+ONj
- 3EbERZcBZTksYZdijU8IkPwR6ycPv17rPyqC5ZW+r1bfQnc6SOvfO2ldSxYDXsQ97gpS rg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34dydsnc2r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 17:40:23 -0400
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09QLdHwm054853;
- Mon, 26 Oct 2020 17:40:23 -0400
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34dydsnc2j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 17:40:23 -0400
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09QLWF69024451;
- Mon, 26 Oct 2020 21:40:22 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma04dal.us.ibm.com with ESMTP id 34cbw8ydp2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 26 Oct 2020 21:40:22 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09QLeDoc50266436
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 26 Oct 2020 21:40:13 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 7B2A96A051;
- Mon, 26 Oct 2020 21:40:21 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D270C6A04D;
- Mon, 26 Oct 2020 21:40:20 +0000 (GMT)
-Received: from [9.160.17.83] (unknown [9.160.17.83])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 26 Oct 2020 21:40:20 +0000 (GMT)
-Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
-To: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
- <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
- <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
- <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <22deebcf-f5f0-8151-eea9-7acab98da952@linux.vnet.ibm.com>
-Date: Mon, 26 Oct 2020 17:40:20 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kXAGa-0002Mz-I1; Mon, 26 Oct 2020 17:43:03 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1603748569; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=gJrClKVGhHtrZaCDtyb/U1zYjlkju1l1KEOd9GlMnZb4yowpmn+352DnIIISk/YvRqwtGwIeslBOTl5I+hndXwqC8q+5k2nHoi2x7lIMa9NbhHFJGogzOIWLHP1Z/uSQjmLsSOPlk0GbI3GkjRyDELYbhROB5hm9GiE40PMZ0o4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1603748569;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=CFPafFmQFAsRUELl+V3vgWfrs1FXjjV1Aw7XDn8nCOE=; 
+ b=j94/ZotjSqglD/nQCOUFIarB7ySE37tRaEw6yYSMAw6dMSD4OKnS91toeyJf/8yO9bkV/pZvXq5EyiQqoezSyP5kC49nkBWsCRrz9bG/PrH4cmLgcvvcvOFLee0CS5W4Q6A0H90Nh/Ai87I/ymXTZw4w57LX92nolsZqzNmwolQ=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1603748567918939.6933389170448;
+ Mon, 26 Oct 2020 14:42:47 -0700 (PDT)
+Subject: Re: [PATCH 0/4] riscv: Add semihosting support [v10]
+Message-ID: <160374856633.1984.15781594896255988773@66eaa9a8a123>
+In-Reply-To: <20201026212853.92880-1-keithp@keithp.com>
 MIME-Version: 1.0
-In-Reply-To: <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235, 18.0.737
- definitions=2020-10-26_17:2020-10-26,
- 2020-10-26 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 spamscore=0
- mlxscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 phishscore=0 suspectscore=0 impostorscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010260138
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 17:40:25
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: qemu-devel@nongnu.org
+Date: Mon, 26 Oct 2020 14:42:47 -0700 (PDT)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 16:54:56
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,47 +67,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, qemu-riscv@nongnu.org, sagark@eecs.berkeley.edu,
+ kbastian@mail.uni-paderborn.de, qemu-devel@nongnu.org, laurent@vivier.eu,
+ qemu-arm@nongnu.org, palmer@dabbelt.com, Alistair.Francis@wdc.com,
+ alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using an array of length 0 seems to be enough to avoid the warning
-Will use that solution in v3.
-
-Thanks,
-Daniele
-
-On 10/26/2020 11:12 AM, Paolo Bonzini wrote:
-> On 26/10/20 16:03, Daniele Buono wrote:
->> Hi Paolo,
->> I reorganized UASStatus to put uas_iu at the end and it works fine.
->> Unfortunately, this uncovered another part of the code with a similar
->> issue (variable sized type not at the end of the struct), here:
->>
->> In file included from ../qemu-cfi-v3/target/s390x/diag.c:21:
->> ../qemu-cfi-v3/hw/s390x/ipl.h:161:23: error: field 'iplb' with variable
->> sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at
->> the end of a struct or class is a GNU extension
->> [-Werror,-Wgnu-variable-sized-type-not-at-end]
->>      IplParameterBlock iplb;
->>                        ^
->> ../qemu-cfi-v3/hw/s390x/ipl.h:162:23: error: field 'iplb_pv' with
->> variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock')
->> not at the end of a struct or class is a GNU extension
->> [-Werror,-Wgnu-variable-sized-type-not-at-end]
->>      IplParameterBlock iplb_pv;
->>
->> My understanding is that each of these IplParameterBlock may contain
->> either a IPLBlockPV or a IplBlockFcp, which both end with a variable
->> sized field (an array).
->>
->> Adding maintainers of s390x to see if they have a suggested solution to
->> avoid disabling the warning.
-> 
-> This one seems okay because the union constrains the size to 4K. If
-> "[0]" is enough to shut up the compiler, I'd say do that.
-> 
-> Paolo
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTAyNjIxMjg1My45Mjg4
+MC0xLWtlaXRocEBrZWl0aHAuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMDEwMjYyMTI4NTMuOTI4ODAt
+MS1rZWl0aHBAa2VpdGhwLmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC80XSByaXNjdjogQWRkIHNlbWlo
+b3N0aW5nIHN1cHBvcnQgW3YxMF0KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jh
+c2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0t
+bG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMg
+VHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0
+cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09
+CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20g
+aHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAg
+ICAgIHBhdGNoZXcvMjAyMDEwMjYyMTI4NTMuOTI4ODAtMS1rZWl0aHBAa2VpdGhwLmNvbSAtPiBw
+YXRjaGV3LzIwMjAxMDI2MjEyODUzLjkyODgwLTEta2VpdGhwQGtlaXRocC5jb20KU3dpdGNoZWQg
+dG8gYSBuZXcgYnJhbmNoICd0ZXN0JwplMTNhMWE2IHJpc2N2OiBBZGQgc2VtaWhvc3Rpbmcgc3Vw
+cG9ydCBbdjEwXQozZWNkYmEzIHNlbWlob3N0aW5nOiBDaGFuZ2UgaW50ZXJuYWwgY29tbW9uLXNl
+bWkgaW50ZXJmYWNlcyB0byB1c2UgQ1BVU3RhdGUgKgplZTZiYzE5IHNlbWlob3N0aW5nOiBDaGFu
+Z2UgY29tbW9uLXNlbWkgQVBJIHRvIGJlIGFyY2hpdGVjdHVyZS1pbmRlcGVuZGVudAo1NTY1YzYy
+IHNlbWlob3N0aW5nOiBNb3ZlIEFSTSBzZW1paG9zdGluZyBjb2RlIHRvIHNoYXJlZCBkaXJlY3Rv
+cmllcwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KMS80IENoZWNraW5nIGNvbW1pdCA1NTY1YzYyZWJi
+MWEgKHNlbWlob3N0aW5nOiBNb3ZlIEFSTSBzZW1paG9zdGluZyBjb2RlIHRvIHNoYXJlZCBkaXJl
+Y3RvcmllcykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBN
+QUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjE6IApyZW5hbWUgZnJvbSB0YXJnZXQvYXJtL2Fy
+bS1zZW1pLmMKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMjcgbGluZXMgY2hlY2tlZAoK
+UGF0Y2ggMS80IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0
+aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRh
+aW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjIvNCBDaGVja2luZyBjb21taXQg
+ZWU2YmMxOWQzNmRkIChzZW1paG9zdGluZzogQ2hhbmdlIGNvbW1vbi1zZW1pIEFQSSB0byBiZSBh
+cmNoaXRlY3R1cmUtaW5kZXBlbmRlbnQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
+IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzY2OiAKbmV3IGZpbGUg
+bW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTYzIGxpbmVzIGNoZWNr
+ZWQKClBhdGNoIDIvNCBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgozLzQgQ2hlY2tpbmcgY29t
+bWl0IDNlY2RiYTM3MzNjZiAoc2VtaWhvc3Rpbmc6IENoYW5nZSBpbnRlcm5hbCBjb21tb24tc2Vt
+aSBpbnRlcmZhY2VzIHRvIHVzZSBDUFVTdGF0ZSAqKQpFUlJPUjogYnJhY2VzIHt9IGFyZSBuZWNl
+c3NhcnkgZm9yIGFsbCBhcm1zIG9mIHRoaXMgc3RhdGVtZW50CiM4NjogRklMRTogaHcvc2VtaWhv
+c3RpbmcvY29tbW9uLXNlbWkuYzoxNDI6CisgICAgaWYgKGlzX2E2NChlbnYpKQpbLi4uXQorICAg
+IGVsc2UKWy4uLl0KCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxsIGFybXMg
+b2YgdGhpcyBzdGF0ZW1lbnQKIzk3OiBGSUxFOiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5j
+OjE1MzoKKyAgICBpZiAoaXNfYTY0KGVudikpClsuLi5dCisgICAgZWxzZQpbLi4uXQoKV0FSTklO
+RzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzIwNTogRklMRTogaHcvc2VtaWhvc3RpbmcvY29t
+bW9uLXNlbWkuYzozNDY6CitzdGF0aWMgdm9pZCBjb21tb25fc2VtaV9mbGVuX2NiKENQVVN0YXRl
+ICpjcywgdGFyZ2V0X3Vsb25nIHJldCwgdGFyZ2V0X3Vsb25nIGVycikKCldBUk5JTkc6IGxpbmUg
+b3ZlciA4MCBjaGFyYWN0ZXJzCiMyMTM6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1p
+LmM6MzUxOgorICAgIGNwdV9tZW1vcnlfcndfZGVidWcoY3MsIGNvbW1vbl9zZW1pX2ZsZW5fYnVm
+KGNzKSArIDMyLCAodWludDhfdCAqKSZzaXplLCA0LCAwKTsKCldBUk5JTkc6IGxpbmUgb3ZlciA4
+MCBjaGFyYWN0ZXJzCiMyMzA6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6MzYw
+Ogorc3RhdGljIHZvaWQgY29tbW9uX3NlbWlfb3Blbl9jYihDUFVTdGF0ZSAqY3MsIHRhcmdldF91
+bG9uZyByZXQsIHRhcmdldF91bG9uZyBlcnIpCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFj
+dGVycwojMjU3OiBGSUxFOiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjM3MzoKK3N0YXRp
+YyB0YXJnZXRfdWxvbmcgY29tbW9uX3NlbWlfZ2RiX3N5c2NhbGwoQ1BVU3RhdGUgKmNzLCBnZGJf
+c3lzY2FsbF9jb21wbGV0ZV9jYiBjYiwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
+CiM1OTk6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6NzY1OgorICAgICAgICAg
+ICAgcmV0ID0gY29tbW9uX3NlbWlfZ2RiX3N5c2NhbGwoY3MsIGNvbW1vbl9zZW1pX29wZW5fY2Is
+ICJvcGVuLCVzLCV4LDFhNCIsIGFyZzAsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojNjAwOiBGSUxFOiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjc2NjoKKyAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChpbnQpYXJnMisxLCBnZGJfb3Blbl9t
+b2RlZmxhZ3NbYXJnMV0pOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycg
+KGN0eDpWeFYpCiM2MDA6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6NzY2Ogor
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKGludClhcmcyKzEsIGdk
+Yl9vcGVuX21vZGVmbGFnc1thcmcxXSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICBeCgpFUlJPUjogc3BhY2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0
+ICcrJyAoY3R4OlZ4VikKIzcwMjogRklMRTogaHcvc2VtaWhvc3RpbmcvY29tbW9uLXNlbWkuYzo4
+NjM6CisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBhcmcwLCAoaW50
+KWFyZzErMSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBeCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojNzIyOiBGSUxF
+OiBody9zZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjg4MToKKyAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICBhcmcwLCAoaW50KWFyZzErMSwgYXJnMiwgKGludClhcmcz
+KzEpOwoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycgKGN0eDpWeFYpCiM3
+MjI6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6ODgxOgorICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFyZzAsIChpbnQpYXJnMSsxLCBhcmcyLCAo
+aW50KWFyZzMrMSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgXgoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhhdCAnKycg
+KGN0eDpWeFYpCiM3MjI6IEZJTEU6IGh3L3NlbWlob3N0aW5nL2NvbW1vbi1zZW1pLmM6ODgxOgor
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFyZzAsIChpbnQpYXJn
+MSsxLCBhcmcyLCAoaW50KWFyZzMrMSk7CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF4KCkVSUk9SOiBz
+cGFjZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJysnIChjdHg6VnhWKQojNzUwOiBGSUxFOiBody9z
+ZW1paG9zdGluZy9jb21tb24tc2VtaS5jOjkwNzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICBhcmcwLCAoaW50KWFyZzErMSk7CiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgXgoKdG90YWw6IDcgZXJyb3Jz
+LCA3IHdhcm5pbmdzLCA3NjcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy80IGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCgo0LzQgQ2hlY2tpbmcgY29tbWl0IGUxM2ExYTYwZWNjNyAocmlzY3Y6IEFk
+ZCBzZW1paG9zdGluZyBzdXBwb3J0IFt2MTBdKQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
+bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
+dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIwMTAyNjIxMjg1My45Mjg4MC0xLWtlaXRocEBrZWl0
+aHAuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
+dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
+c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
