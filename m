@@ -2,66 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B554298A47
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:21:31 +0100 (CET)
-Received: from localhost ([::1]:46406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E380F298A4F
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:23:59 +0100 (CET)
+Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzd4-00051L-LT
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:21:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39064)
+	id 1kWzfS-0008Sr-Tj
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPO-00035H-M5
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37246)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPP-00038U-PE
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50072)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPM-0006nV-KD
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:22 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPN-0006o1-Jb
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706839;
+ s=mimecast20190719; t=1603706840;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=3+2K7QseZ31G6O6eGWPUSYWr2X8ySATmc361BMEOoFg=;
- b=YlxLIwY90rVjCOsUikMc7GCS46g48W6HRjSjSzAJJKeWKYEA9zwVpmjiOu6CzeEABXvpyf
- df9mbSBDVRt425EsksUCUKbgUfD0eBqBBosQLrRVcCFIhrO/aAwMz1feAmS5ovqM+nqy28
- FfD95OuhreQ1hjn1z2WJ7TZ1gO0nuB0=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=zKsN/iAC05uvxgDfrZ6Mxdox1qphBhcT6J32MC45aOg=;
+ b=GVn8lJdkOpwnUOPRnIHXwk3iDEEJwi68juwfP1/YwHrrXB/Y6KSl/An1KqjwAQW+yRd+7r
+ WLLTp7k7DbxWzzqyeo5AFO5XSGUbOt+MrQlneij1l5hv5i1IH9e31KhhKIyWb2pQ3Ct0BQ
+ k7IwtuY7jGnzhewt2QdgssNWn4oSA8g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-369-YbN6D2GmMrmp-c6tnWNT7g-1; Mon, 26 Oct 2020 06:07:15 -0400
-X-MC-Unique: YbN6D2GmMrmp-c6tnWNT7g-1
+ us-mta-232-_t7emAljPQ6gPS8A2Y_uCw-1; Mon, 26 Oct 2020 06:07:16 -0400
+X-MC-Unique: _t7emAljPQ6gPS8A2Y_uCw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B9C310E2184;
- Mon, 26 Oct 2020 10:07:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 860A31009E2C;
+ Mon, 26 Oct 2020 10:07:15 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02C0F8B840;
- Mon, 26 Oct 2020 10:07:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7A5ED8B847;
+ Mon, 26 Oct 2020 10:07:14 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 25/31] scripts/oss-fuzz: ignore the generic-fuzz target
-Date: Mon, 26 Oct 2020 11:06:26 +0100
-Message-Id: <20201026100632.212530-26-thuth@redhat.com>
+Subject: [PULL 26/31] tests/acceptance/ppc_prep_40p: Fix the URL to the
+ NetBSD-4.0 archive
+Date: Mon, 26 Oct 2020 11:06:27 +0100
+Message-Id: <20201026100632.212530-27-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
+MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,44 +84,29 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+The current URL on cdn.netbsd.org is failing - using archive.netbsd.org
+instead seems to be fine.
 
-generic-fuzz is not a standalone fuzzer - it requires some env variables
-to be set. On oss-fuzz, we set these with some predefined
-generic-fuzz-{...} targets, that are thin wrappers around generic-fuzz.
-Do not make a link for the generic-fuzz from the oss-fuzz build, so
-oss-fuzz does not treat it as a standalone fuzzer.
-
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201023150746.107063-18-alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-[thuth: Reformatted one comment to stay within the 80 columns limit]
+Message-Id: <20201023073351.251332-2-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/oss-fuzz/build.sh | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ tests/acceptance/ppc_prep_40p.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index 0ce2867732..fcae4a0c26 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -99,8 +99,14 @@ cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
- # executable name)
- for target in $(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
- do
--    ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
--        "$DEST_DIR/qemu-fuzz-i386-target-$target"
-+    # Ignore the generic-fuzz target, as it requires some environment variables
-+    # to be configured. We have some generic-fuzz-{pc-q35, floppy, ...} targets
-+    # that are thin wrappers around this target that set the required
-+    # environment variables according to predefined configs.
-+    if [ "$target" != "generic-fuzz" ]; then
-+        ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
-+            "$DEST_DIR/qemu-fuzz-i386-target-$target"
-+    fi
- done
- 
- echo "Done. The fuzzers are located in $DEST_DIR"
+diff --git a/tests/acceptance/ppc_prep_40p.py b/tests/acceptance/ppc_prep_40p.py
+index 1515561249..e82755c9cf 100644
+--- a/tests/acceptance/ppc_prep_40p.py
++++ b/tests/acceptance/ppc_prep_40p.py
+@@ -35,7 +35,7 @@ class IbmPrep40pMachine(Test):
+                     '7020-40p/P12H0456.IMG')
+         bios_hash = '1775face4e6dc27f3a6ed955ef6eb331bf817f03'
+         bios_path = self.fetch_asset(bios_url, asset_hash=bios_hash)
+-        drive_url = ('https://cdn.netbsd.org/pub/NetBSD/NetBSD-archive/'
++        drive_url = ('https://archive.netbsd.org/pub/NetBSD-archive/'
+                      'NetBSD-4.0/prep/installation/floppy/generic_com0.fs')
+         drive_hash = 'dbcfc09912e71bd5f0d82c7c1ee43082fb596ceb'
+         drive_path = self.fetch_asset(drive_url, asset_hash=drive_hash)
 -- 
 2.18.2
 
