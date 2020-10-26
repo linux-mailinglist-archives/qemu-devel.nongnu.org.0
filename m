@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE702994F1
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:15:40 +0100 (CET)
-Received: from localhost ([::1]:48596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49F51299529
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 19:20:54 +0100 (CET)
+Received: from localhost ([::1]:58848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX71v-0001LE-BI
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:15:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54806)
+	id 1kX76z-0005uK-95
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 14:20:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kX6SQ-0000V6-GY
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:38:58 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32543)
+ id 1kX6SV-0000eN-MC
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:39:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kX6SN-0002eY-L0
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:38:58 -0400
+ id 1kX6SU-0002f9-7s
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 13:39:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603733934;
+ s=mimecast20190719; t=1603733941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AegaS1VTIJfnYl3OMfTO7USEYjr/XchHK32qhL+7rfU=;
- b=hChcoL4bmUTBfc5zIy2n54K+ZBqkAXaA5p1KEGnEzRHMsPQWdxzB8FO/p+iS2jG3dbNUuZ
- m0mXdeZ02Uj+9PYiw6jjLZkfqMm0xisMl+htMhBkgWAvayNxKRshXkgDu/jq64Pxe8mlCe
- vIu8bEka8XxuoEi5ModbYsMj05hoVyY=
+ bh=6XA1d3EJeySRjLo/5RWZERIOSiiASqjMOYpyytb8M+w=;
+ b=ZUI5waUzhfybTf8p9dxi/j/KZl4cYAD/Gv9gC01BCo+pf0x4jAXvcBqPd5c5Is16Ne6iMx
+ +JHfplU0Hz0Ghn6fQYG3LqFyJZjj0uNjj+wwroUqsd2qr4NNZSen3BuheI54fr6JMVP6WN
+ pU6Ig3NcL5EWDtqtBmTyiNrCvihk/3k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-5YT0nNBkOfyVjmepWYMzTA-1; Mon, 26 Oct 2020 13:38:52 -0400
-X-MC-Unique: 5YT0nNBkOfyVjmepWYMzTA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-587-LpBRGf9xPrSreDJBxrSQ4A-1; Mon, 26 Oct 2020 13:38:57 -0400
+X-MC-Unique: LpBRGf9xPrSreDJBxrSQ4A-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CFD7D10A0B80;
- Mon, 26 Oct 2020 17:38:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 837EF18B9F58;
+ Mon, 26 Oct 2020 17:38:56 +0000 (UTC)
 Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 75C3419D6C;
- Mon, 26 Oct 2020 17:38:44 +0000 (UTC)
-Subject: Re: [PATCH v2 03/19] block/nvme: Introduce device/iommu
- 'page_size_min' variables
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B375062A14;
+ Mon, 26 Oct 2020 17:38:48 +0000 (UTC)
+Subject: Re: [PATCH v2 02/19] block/nvme: Set request_alignment at
+ initialization
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201026105504.4023620-1-philmd@redhat.com>
- <20201026105504.4023620-4-philmd@redhat.com>
+ <20201026105504.4023620-3-philmd@redhat.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <81caffeb-832d-ab6f-b733-dc3ea61a9d93@redhat.com>
-Date: Mon, 26 Oct 2020 18:38:42 +0100
+Message-ID: <ef3d9a12-646a-5cec-7673-8693bc83ac0c@redhat.com>
+Date: Mon, 26 Oct 2020 18:38:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201026105504.4023620-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201026105504.4023620-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -63,16 +63,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -94,48 +94,38 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
+Hi,
 
 On 10/26/20 11:54 AM, Philippe Mathieu-Daudé wrote:
-> Introduce device/iommu 'page_size_min' variables to make
-> the code clearer.
-
-I am unclear how much the device and the iommu page size must equal. For
-instance, in [RFC 0/5] NVMe passthrough: Support 64kB page host, I have
-a 64kB host page and an MPS set to 4kB.
+> When introducing this driver in commit bdd6a90a9e5
+> ("block: Add VFIO based NVMe driver") we correctly
+> set the request_alignment in nvme_refresh_limits()
+> but forgot to set it at initialization. Do it now.
+> 
+> Reported-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Thanks
 
 Eric
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 > ---
->  block/nvme.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  block/nvme.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/block/nvme.c b/block/nvme.c
-> index aa290996679..5abd7257cac 100644
+> index 029694975b9..aa290996679 100644
 > --- a/block/nvme.c
 > +++ b/block/nvme.c
-> @@ -690,6 +690,8 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
->      uint64_t deadline, now;
->      Error *local_err = NULL;
->      volatile NvmeBar *regs = NULL;
-> +    size_t device_page_size_min;
-> +    size_t iommu_page_size_min = 4096;
->  
->      qemu_co_mutex_init(&s->dma_map_lock);
->      qemu_co_queue_init(&s->dma_flush_queue);
-> @@ -724,7 +726,8 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
->          goto out;
->      }
->  
-> -    s->page_size = MAX(4096, 1u << (12 + NVME_CAP_MPSMIN(cap)));
-> +    device_page_size_min = 1u << (12 + NVME_CAP_MPSMIN(cap));
-> +    s->page_size = MAX(iommu_page_size_min, device_page_size_min);
+> @@ -727,6 +727,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>      s->page_size = MAX(4096, 1u << (12 + NVME_CAP_MPSMIN(cap)));
 >      s->doorbell_scale = (4 << NVME_CAP_DSTRD(cap)) / sizeof(uint32_t);
 >      bs->bl.opt_mem_alignment = s->page_size;
->      bs->bl.request_alignment = s->page_size;
+> +    bs->bl.request_alignment = s->page_size;
+>      timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
+>  
+>      /* Reset device to get a clean state. */
 > 
 
 
