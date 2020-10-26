@@ -2,61 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8456A298C1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:26:44 +0100 (CET)
-Received: from localhost ([::1]:42562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82521298C1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 12:27:54 +0100 (CET)
+Received: from localhost ([::1]:47548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX0eB-0003Wr-J2
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:26:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57216)
+	id 1kX0fJ-0005ac-GG
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 07:27:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kX0S6-0005bH-Rz
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:14 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:56808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <samuel.thibault@gnu.org>)
- id 1kX0S4-0006TR-SP
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:14:14 -0400
-Received: from localhost (localhost [127.0.0.1])
- by hera.aquilenet.fr (Postfix) with ESMTP id 11E0D60E;
- Mon, 26 Oct 2020 12:14:09 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
- by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id lcQsYJDaj56D; Mon, 26 Oct 2020 12:14:08 +0100 (CET)
-Received: from function (lfbn-bor-1-56-204.w90-50.abo.wanadoo.fr
- [90.50.148.204])
- by hera.aquilenet.fr (Postfix) with ESMTPSA id 2616644E;
- Mon, 26 Oct 2020 12:14:08 +0100 (CET)
-Received: from samy by function with local (Exim 4.94)
- (envelope-from <samuel.thibault@gnu.org>)
- id 1kX0Ry-007FEC-9S; Mon, 26 Oct 2020 12:14:06 +0100
-Date: Mon, 26 Oct 2020 12:14:06 +0100
-From: Samuel Thibault <samuel.thibault@gnu.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH 8/9] dev-serial: fix FTDI_GET_MDM_ST response
-Message-ID: <20201026111406.jvpexlkh53g4fxff@function>
-References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
- <20201026083401.13231-9-mark.cave-ayland@ilande.co.uk>
- <20201026095450.ko6snc4dusk3pvnw@function>
- <547c0ea5-dad4-d246-1de8-844a2e9a9507@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kX0Vv-0000na-Bm
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:18:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kX0Vt-0007ko-5S
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 07:18:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603711086;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=uNti5dCymq5z91X0KBhUDom162ajlPK1EfS8ApxanW4=;
+ b=cWHA0rOGn2HOH+uBhS2TKfHvRxHL8KyPiU+AlefBLheJC3o6kdcWOOhBoGvjF+JnSIM48u
+ TT9jldv1iPmZp+++mOYMZ528XFNcujKEsHzl5P8TQstzTAkIbZKEkX0W7k/m/UqU5mssXh
+ g/XeFLF6Wh9rJCzzo/NkU5wRqAyrnAo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-136-aSy49o9APYegnSkhfRZMjw-1; Mon, 26 Oct 2020 07:18:01 -0400
+X-MC-Unique: aSy49o9APYegnSkhfRZMjw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1924E8B5DC0
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 11:18:00 +0000 (UTC)
+Received: from [10.36.113.62] (ovpn-113-62.ams2.redhat.com [10.36.113.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 490CB5B4B8;
+ Mon, 26 Oct 2020 11:17:55 +0000 (UTC)
+Subject: Re: [PATCH RFC] memory: pause all vCPUs for the duration of memory
+ transactions
+From: David Hildenbrand <david@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
+References: <20201026084916.3103221-1-vkuznets@redhat.com>
+ <294a987d-b0ef-1b58-98ac-0d4d43075d6e@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <d7a20a33-0317-467e-6fc6-6528b3b46062@redhat.com>
+Date: Mon, 26 Oct 2020 12:17:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <547c0ea5-dad4-d246-1de8-844a2e9a9507@ilande.co.uk>
-Organization: I am not organized
-User-Agent: NeoMutt/20170609 (1.8.3)
-Received-SPF: softfail client-ip=2a0c:e300::1;
- envelope-from=samuel.thibault@gnu.org; helo=hera.aquilenet.fr
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+In-Reply-To: <294a987d-b0ef-1b58-98ac-0d4d43075d6e@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,66 +85,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, qemu-devel@nongnu.org,
- Aurelien Jarno <aurelien@aurel32.net>, Jason Andryuk <jandryuk@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland, le lun. 26 oct. 2020 10:58:43 +0000, a ecrit:
-> On 26/10/2020 09:54, Samuel Thibault wrote:
-> > Mark Cave-Ayland, le lun. 26 oct. 2020 08:34:00 +0000, a ecrit:
-> > > The FTDI_GET_MDM_ST response should only return a single byte indicating the
-> > > modem status with bit 0 cleared (as documented in the Linux ftdi_sio.h header
-> > > file).
-> > > 
-> > > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> > > ---
-> > >   hw/usb/dev-serial.c | 5 ++---
-> > >   1 file changed, 2 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-> > > index 4c374d0790..fa734bcf54 100644
-> > > --- a/hw/usb/dev-serial.c
-> > > +++ b/hw/usb/dev-serial.c
-> > > @@ -360,9 +360,8 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-> > >           /* TODO: TX ON/OFF */
-> > >           break;
-> > >       case VendorDeviceRequest | FTDI_GET_MDM_ST:
-> > > -        data[0] = usb_get_modem_lines(s) | 1;
-> > > -        data[1] = FTDI_THRE | FTDI_TEMT;
-> > > -        p->actual_length = 2;
-> > > +        data[0] = usb_get_modem_lines(s);
-> > > +        p->actual_length = 1;
-> > 
-[...]
-> A quick test shows my Chipi-X returns 0x1 0x60 with nothing attached in
-> response to FTDI_SIO_GET_MODEM_STATUS_REQUEST: assuming the reply length
-> should be 2 bytes, the comment about B0-B3 being zero and the response from
-> my Chip-X above suggests that the "| 1" should still be dropped from the
-> response.
+On 26.10.20 11:43, David Hildenbrand wrote:
+> On 26.10.20 09:49, Vitaly Kuznetsov wrote:
+>> Currently, KVM doesn't provide an API to make atomic updates to memmap when
+>> the change touches more than one memory slot, e.g. in case we'd like to
+>> punch a hole in an existing slot.
+>>
+>> Reports are that multi-CPU Q35 VMs booted with OVMF sometimes print something
+>> like
+>>
+>> !!!! X64 Exception Type - 0E(#PF - Page-Fault)  CPU Apic ID - 00000003 !!!!
+>> ExceptionData - 0000000000000010  I:1 R:0 U:0 W:0 P:0 PK:0 SS:0 SGX:0
+>> RIP  - 000000007E35FAB6, CS  - 0000000000000038, RFLAGS - 0000000000010006
+>> RAX  - 0000000000000000, RCX - 000000007E3598F2, RDX - 00000000078BFBFF
+>> ...
+>>
+>> The problem seems to be that TSEG manipulations on one vCPU are not atomic
+>> from other vCPUs views. In particular, here's the strace:
+>>
+>> Initial creation of the 'problematic' slot:
+>>
+>> 10085 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
+>>    memory_size=2146435072, userspace_addr=0x7fb89bf00000}) = 0
+>>
+>> ... and then the update (caused by e.g. mch_update_smram()) later:
+>>
+>> 10090 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
+>>    memory_size=0, userspace_addr=0x7fb89bf00000}) = 0
+>> 10090 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
+>>    memory_size=2129657856, userspace_addr=0x7fb89bf00000}) = 0
+>>
+>> In case KVM has to handle any event on a different vCPU in between these
+>> two calls the #PF will get triggered.
+>>
+>> An ideal solution to the problem would probably require KVM to provide a
+>> new API to do the whole transaction in one shot but as a band-aid we can
+>> just pause all vCPUs to make memory transations atomic.
+>>
+>> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>> RFC: Generally, memap updates happen only a few times during guest boot but
+>> I'm not sure there are no scenarios when pausing all vCPUs is undesireable
+>> from performance point of view. Also, I'm not sure if kvm_enabled() check
+>> is needed.
+>> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
+>> ---
+>>  softmmu/memory.c | 11 +++++++++--
+>>  1 file changed, 9 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/softmmu/memory.c b/softmmu/memory.c
+>> index fa280a19f7f7..0bf6f3f6d5dc 100644
+>> --- a/softmmu/memory.c
+>> +++ b/softmmu/memory.c
+>> @@ -28,6 +28,7 @@
+>>  
+>>  #include "exec/memory-internal.h"
+>>  #include "exec/ram_addr.h"
+>> +#include "sysemu/cpus.h"
+>>  #include "sysemu/kvm.h"
+>>  #include "sysemu/runstate.h"
+>>  #include "sysemu/tcg.h"
+>> @@ -1057,7 +1058,9 @@ static void address_space_update_topology(AddressSpace *as)
+>>  void memory_region_transaction_begin(void)
+>>  {
+>>      qemu_flush_coalesced_mmio_buffer();
+>> -    ++memory_region_transaction_depth;
+>> +    if ((++memory_region_transaction_depth == 1) && kvm_enabled()) {
+>> +        pause_all_vcpus();
+>> +    }
+>>  }
+>>  
+>>  void memory_region_transaction_commit(void)
+>> @@ -1087,7 +1090,11 @@ void memory_region_transaction_commit(void)
+>>              }
+>>              ioeventfd_update_pending = false;
+>>          }
+>> -   }
+>> +
+>> +        if (kvm_enabled()) {
+>> +            resume_all_vcpus();
+>> +        }
+>> +    }
+>>  }
+>>  
+>>  static void memory_region_destructor_none(MemoryRegion *mr)
+>>
+> 
+> This is in general unsafe. pause_all_vcpus() will temporarily drop the
+> BQL, resulting in bad things happening to caller sites.
+> 
+> I studies the involved issues quite intensively when wanting to resize
+> memory regions from virtio-mem code. It's not that easy.
+> 
+> Have a look at my RFC for resizing. You can apply something similar to
+> other operations.
+> 
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg684979.html
 
-Aurelien, you introduced the "| 1" in 
+Oh, and I even mentioned the case you try to fix here back then
 
-commit abb8a13918ecc1e8160aa78582de9d5224ea70df
-Author: Aurelien Jarno <aurelien@aurel32.net>
-Date:   Wed Aug 13 04:23:17 2008 +0000
+"
+Instead of inhibiting during the region_resize(), we could inhibit for the
+hole memory transaction (from begin() to commit()). This could be nice,
+because also splitting of memory regions would be atomic (I remember there
+was a BUG report regarding that), however, I am not sure if that might
+impact any RT users.
+"
 
-    usb-serial: add support for modem lines
+The current patches live in
+https://github.com/davidhildenbrand/qemu/commits/virtio-mem-next
 
-[...]
-@@ -357,9 +393,9 @@ static int usb_serial_handle_control(USBDevice *dev, int request, int value,
-         /* TODO: TX ON/OFF */
-         break;
-     case DeviceInVendor | FTDI_GET_MDM_ST:
--        /* TODO: return modem status */
--        data[0] = 0;
--        ret = 1;
-+        data[0] = usb_get_modem_lines(s) | 1;
-+        data[1] = 0;
-+        ret = 2;
-         break;
+Especially
 
-do you know exactly what it is for?
+https://github.com/davidhildenbrand/qemu/commit/433fbb3abed20f15030e42f2b2bea7e6b9a15180
 
-Samuel
+
+I haven't proceeded in upstreaming because I'm still busy with
+virtio-mem thingies in the kernel.
+
+-- 
+Thanks,
+
+David / dhildenb
+
 
