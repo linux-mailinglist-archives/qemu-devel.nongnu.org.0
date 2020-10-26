@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DDDC298A41
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:19:29 +0100 (CET)
-Received: from localhost ([::1]:37972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2D3298A43
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:20:36 +0100 (CET)
+Received: from localhost ([::1]:41598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzb6-0001Sd-4D
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:19:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39010)
+	id 1kWzcA-0002xU-UP
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:20:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPK-0002un-Bl
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPK-0002va-Mv
  for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:18 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60128)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21417)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPH-0006ku-Sw
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:17 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzPI-0006l9-Jb
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:18 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706834;
+ s=mimecast20190719; t=1603706835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=aucPwhwUbR6TENYaHakJx2OXhB3AYMAGQa1dTFTAkjM=;
- b=iD5BuVUgnk4sKaATh17zDsszzFgeWhoNO1uJxOnNcfDLLdVJX9bbg+bGqI4+KgTD+3DLmW
- 1ePgAFHsEcVB+AvfRFpxIhTXMREzVq12GQ9MJvi7Nd1goVQMpvNyN53PlXZl0csSA8uga7
- kH4Vs857MYy10gU3q61kB5KYHwQ7qts=
+ references:references; bh=1A88vDyeWzKZh8wpgNrYx3cs/bqR5vdM561dmuGFsGg=;
+ b=OMrWllbBliUWT0J298sZlnGrbFQnUUMRMghx4aMNm0/THVJFDQZ9onxV1GrUHSPBPXVo2O
+ Wq08E/AmlSaS5vHxIL1xE4lV/sMjjcM+SlWpd8EdBOKrw0c1lBqfaaxhCRELOnWsd1UF9s
+ tSDwcP4UT/VtaIMcFzG05F2AN42IlUk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-448-ZU975xKaMJ6vbG4swPYuTw-1; Mon, 26 Oct 2020 06:07:10 -0400
-X-MC-Unique: ZU975xKaMJ6vbG4swPYuTw-1
+ us-mta-421-Ot9GQ0sePtWSnAf-OpuQYQ-1; Mon, 26 Oct 2020 06:07:13 -0400
+X-MC-Unique: Ot9GQ0sePtWSnAf-OpuQYQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BB868835BAE;
- Mon, 26 Oct 2020 10:07:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A63C51009E27;
+ Mon, 26 Oct 2020 10:07:12 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70BE48B848;
- Mon, 26 Oct 2020 10:07:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9B84255774;
+ Mon, 26 Oct 2020 10:07:11 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 22/31] fuzz: add generic-fuzz configs for oss-fuzz
-Date: Mon, 26 Oct 2020 11:06:23 +0100
-Message-Id: <20201026100632.212530-23-thuth@redhat.com>
+Subject: [PULL 24/31] scripts/oss-fuzz: use hardlinks instead of copying
+Date: Mon, 26 Oct 2020 11:06:25 +0100
+Message-Id: <20201026100632.212530-25-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -52,16 +52,16 @@ Authentication-Results: relay.mimecast.com;
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,146 +81,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-Predefine some generic-fuzz configs. For each of these, we will create a
-separate FuzzTarget that can be selected through argv0 and, therefore,
-fuzzed on oss-fuzz.
+Prior to this, fuzzers in the output oss-fuzz directory were exactly
+the same executable, with a different name to do argv[0]-based
+fuzz-target selection. This is a waste of space, especially since these
+binaries can weigh many MB.
 
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Instead of copying, use hard links, to cut down on wasted space. We need
+to place the primary copy of the executable into DEST_DIR, since this is
+a separate file-system on oss-fuzz. We should not place it directly into
+$DEST_DIR, since oss-fuzz will treat it as an independent fuzzer and try
+to run it for fuzzing. Instead, we create a DEST_DIR/bin directory to
+store the primary copy.
+
+Suggested-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201023150746.107063-15-alxndr@bu.edu>
+Message-Id: <20201023150746.107063-17-alxndr@bu.edu>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz_configs.h | 121 ++++++++++++++++++++++++
- 1 file changed, 121 insertions(+)
- create mode 100644 tests/qtest/fuzz/generic_fuzz_configs.h
+ scripts/oss-fuzz/build.sh | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-new file mode 100644
-index 0000000000..c4d925f9e6
---- /dev/null
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -0,0 +1,121 @@
-+/*
-+ * Generic Virtual-Device Fuzzing Target Configs
-+ *
-+ * Copyright Red Hat Inc., 2020
-+ *
-+ * Authors:
-+ *  Alexander Bulekov   <alxndr@bu.edu>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index 0c3ca9e06f..0ce2867732 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -62,6 +62,9 @@ fi
+ 
+ mkdir -p "$DEST_DIR/lib/"  # Copy the shared libraries here
+ 
++mkdir -p "$DEST_DIR/bin/"  # Copy executables that shouldn't
++                           # be treated as fuzzers by oss-fuzz here
 +
-+#ifndef GENERIC_FUZZ_CONFIGS_H
-+#define GENERIC_FUZZ_CONFIGS_H
+ # Build once to get the list of dynamic lib paths, and copy them over
+ ../configure --disable-werror --cc="$CC" --cxx="$CXX" --enable-fuzzing \
+     --prefix="$DEST_DIR" --bindir="$DEST_DIR" --datadir="$DEST_DIR/data/" \
+@@ -88,13 +91,16 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
+ # Copy over the datadir
+ cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
+ 
++cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
 +
-+#include "qemu/osdep.h"
-+
-+typedef struct generic_fuzz_config {
-+    const char *name, *args, *objects;
-+} generic_fuzz_config;
-+
-+const generic_fuzz_config predefined_configs[] = {
-+    {
-+        .name = "virtio-net-pci-slirp",
-+        .args = "-M q35 -nodefaults "
-+        "-device virtio-net,netdev=net0 -netdev user,id=net0",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-blk",
-+        .args = "-machine q35 -device virtio-blk,drive=disk0 "
-+        "-drive file=null-co://,id=disk0,if=none,format=raw",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-scsi",
-+        .args = "-machine q35 -device virtio-scsi,num_queues=8 "
-+        "-device scsi-hd,drive=disk0 "
-+        "-drive file=null-co://,id=disk0,if=none,format=raw",
-+        .objects = "scsi* virtio*",
-+    },{
-+        .name = "virtio-gpu",
-+        .args = "-machine q35 -nodefaults -device virtio-gpu",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-vga",
-+        .args = "-machine q35 -nodefaults -device virtio-vga",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-rng",
-+        .args = "-machine q35 -nodefaults -device virtio-rng",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-balloon",
-+        .args = "-machine q35 -nodefaults -device virtio-balloon",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-serial",
-+        .args = "-machine q35 -nodefaults -device virtio-serial",
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-mouse",
-+        .args = "-machine q35 -nodefaults -device virtio-mouse",
-+        .objects = "virtio*",
-+    },{
-+        .name = "e1000",
-+        .args = "-M q35 -nodefaults "
-+        "-device e1000,netdev=net0 -netdev user,id=net0",
-+        .objects = "e1000",
-+    },{
-+        .name = "e1000e",
-+        .args = "-M q35 -nodefaults "
-+        "-device e1000e,netdev=net0 -netdev user,id=net0",
-+        .objects = "e1000e",
-+    },{
-+        .name = "cirrus-vga",
-+        .args = "-machine q35 -nodefaults -device cirrus-vga",
-+        .objects = "cirrus*",
-+    },{
-+        .name = "bochs-display",
-+        .args = "-machine q35 -nodefaults -device bochs-display",
-+        .objects = "bochs*",
-+    },{
-+        .name = "intel-hda",
-+        .args = "-machine q35 -nodefaults -device intel-hda,id=hda0 "
-+        "-device hda-output,bus=hda0.0 -device hda-micro,bus=hda0.0 "
-+        "-device hda-duplex,bus=hda0.0",
-+        .objects = "intel-hda",
-+    },{
-+        .name = "ide-hd",
-+        .args = "-machine q35 -nodefaults "
-+        "-drive file=null-co://,if=none,format=raw,id=disk0 "
-+        "-device ide-hd,drive=disk0",
-+        .objects = "ahci*",
-+    },{
-+        .name = "floppy",
-+        .args = "-machine pc -nodefaults -device floppy,id=floppy0 "
-+        "-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none "
-+        "-device floppy,drive=disk0,drive-type=288",
-+        .objects = "fd* floppy*",
-+    },{
-+        .name = "xhci",
-+        .args = "-machine q35 -nodefaults "
-+        "-drive file=null-co://,if=none,format=raw,id=disk0 "
-+        "-device qemu-xhci,id=xhci -device usb-tablet,bus=xhci.0 "
-+        "-device usb-bot -device usb-storage,drive=disk0 "
-+        "-chardev null,id=cd0 -chardev null,id=cd1 "
-+        "-device usb-braille,chardev=cd0 -device usb-ccid -device usb-ccid "
-+        "-device usb-kbd -device usb-mouse -device usb-serial,chardev=cd1 "
-+        "-device usb-tablet -device usb-wacom-tablet -device usb-audio",
-+        .objects = "*usb* *uhci* *xhci*",
-+    },{
-+        .name = "pc-i440fx",
-+        .args = "-machine pc",
-+        .objects = "*",
-+    },{
-+        .name = "pc-q35",
-+        .args = "-machine q35",
-+        .objects = "*",
-+    }
-+};
-+
-+#endif
+ # Run the fuzzer with no arguments, to print the help-string and get the list
+ # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
+ # to each available fuzz target (See 05509c8e6d fuzz: select fuzz target using
+ # executable name)
+ for target in $(./qemu-fuzz-i386 | awk '$1 ~ /\*/  {print $2}');
+ do
+-    cp qemu-fuzz-i386 "$DEST_DIR/qemu-fuzz-i386-target-$target"
++    ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
++        "$DEST_DIR/qemu-fuzz-i386-target-$target"
+ done
+ 
+ echo "Done. The fuzzers are located in $DEST_DIR"
 -- 
 2.18.2
 
