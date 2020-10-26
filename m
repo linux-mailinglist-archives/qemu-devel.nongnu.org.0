@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F40299786
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 20:56:34 +0100 (CET)
-Received: from localhost ([::1]:54312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78956299796
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 21:04:11 +0100 (CET)
+Received: from localhost ([::1]:48942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kX8bZ-00022d-TM
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 15:56:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33926)
+	id 1kX8iw-0003Va-FF
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 16:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8P0-0006yq-WD
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24448)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kX8GB-0003H9-U7
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:34:27 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kX8Ow-0003BA-C9
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:43:34 -0400
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kX8G8-00024J-N7
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 15:34:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603741409;
+ s=mimecast20190719; t=1603740864;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xiijHPUyf5Dmpt+VQjRFVr6KHXRYpwUCxIbNMxNBniY=;
- b=OCYZXObaTJ4T4rjT6sboImXEXiMIS9XiOeG01KuCvQ/HoVtlbax6N4jJB3ybhih011XVe3
- k/oywbiT/aUoDNS3ju/LXMXAKxGiCNZJTP6LYCeAAO+saETuBQMUbCOwV3a9/kIWXyoVCu
- mVQbcjFqC/GPXsNjr33eHYBhQn46R0M=
+ bh=0k5y+07t0aipB0qsKOo62UJxte6XKWWlpsLCFVxDqec=;
+ b=WiZVqAIeg2K4+C+1mmNQxOC6p84JrO6X7pn0H6w0Ct2H3TH9anZdCo16rYwVAFLFFd0SAj
+ vj60Ab7OVWg1pUwVjftkdE7TJ8r9e9iV2JEudNpXOqqmz/U5/0rZUsu9eVAOd35J6d/633
+ YyQbWpY2+951s2oWRLmqNgp+3FT+NBk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-5TiW151vOBiYdpT5R3Y_dg-1; Mon, 26 Oct 2020 15:43:27 -0400
-X-MC-Unique: 5TiW151vOBiYdpT5R3Y_dg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-347-_StnuGpHMjOuUos6XhJNcA-1; Mon, 26 Oct 2020 15:34:21 -0400
+X-MC-Unique: _StnuGpHMjOuUos6XhJNcA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A65E3EC133
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 19:43:15 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D6F605B4AE;
- Mon, 26 Oct 2020 19:43:14 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v2 08/11] qapi/introspect.py: replace 'extra' dict with
- 'comment' argument
-Date: Mon, 26 Oct 2020 15:42:48 -0400
-Message-Id: <20201026194251.11075-9-jsnow@redhat.com>
-In-Reply-To: <20201026194251.11075-1-jsnow@redhat.com>
-References: <20201026194251.11075-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3AFF1009E27;
+ Mon, 26 Oct 2020 19:34:19 +0000 (UTC)
+Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 74D2A60250;
+ Mon, 26 Oct 2020 19:34:16 +0000 (UTC)
+Subject: [PULL 13/32] vfio: Add vfio_listener_log_sync to mark dirty pages
+From: Alex Williamson <alex.williamson@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 26 Oct 2020 13:34:16 -0600
+Message-ID: <160374085615.22414.9118278258571519417.stgit@gimli.home>
+In-Reply-To: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+User-Agent: StGit/0.21-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/25 21:03:19
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/26 02:39:09
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,64 +82,184 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Kirti Wankhede <kwankhede@nvidia.com>, Neo Jia <cjia@nvidia.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is only used to pass in a dictionary with a comment already set, so
-skip the runaround and just accept the comment.
+From: Kirti Wankhede <kwankhede@nvidia.com>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+vfio_listener_log_sync gets list of dirty pages from container using
+VFIO_IOMMU_GET_DIRTY_BITMAP ioctl and mark those pages dirty when all
+devices are stopped and saving state.
+Return early for the RAM block section of mapped MMIO region.
+
+Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: Neo Jia <cjia@nvidia.com>
+Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- scripts/qapi/introspect.py | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ hw/vfio/common.c     |  116 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events |    1 
+ 2 files changed, 117 insertions(+)
 
-diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index ef469b6c06e..a0978cb3adb 100644
---- a/scripts/qapi/introspect.py
-+++ b/scripts/qapi/introspect.py
-@@ -76,12 +76,11 @@
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index d4959c036dd1..2634387df948 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -29,6 +29,7 @@
+ #include "hw/vfio/vfio.h"
+ #include "exec/address-spaces.h"
+ #include "exec/memory.h"
++#include "exec/ram_addr.h"
+ #include "hw/hw.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+@@ -37,6 +38,7 @@
+ #include "sysemu/reset.h"
+ #include "trace.h"
+ #include "qapi/error.h"
++#include "migration/migration.h"
  
+ VFIOGroupList vfio_group_list =
+     QLIST_HEAD_INITIALIZER(vfio_group_list);
+@@ -286,6 +288,39 @@ const MemoryRegionOps vfio_region_ops = {
+     },
+ };
  
- def _make_tree(obj: Union[_DObject, str], ifcond: List[str],
--               extra: Optional[Annotations] = None
--               ) -> Annotated:
--    if extra is None:
--        extra = {}
--    if ifcond:
--        extra['if'] = ifcond
-+               comment: Optional[str] = None) -> Annotated:
-+    extra: Annotations = {
-+        'if': ifcond,
-+        'comment': comment,
++/*
++ * Device state interfaces
++ */
++
++static bool vfio_devices_all_stopped_and_saving(VFIOContainer *container)
++{
++    VFIOGroup *group;
++    VFIODevice *vbasedev;
++    MigrationState *ms = migrate_get_current();
++
++    if (!migration_is_setup_or_active(ms->state)) {
++        return false;
 +    }
-     return (obj, extra)
++
++    QLIST_FOREACH(group, &container->group_list, container_next) {
++        QLIST_FOREACH(vbasedev, &group->device_list, next) {
++            VFIOMigration *migration = vbasedev->migration;
++
++            if (!migration) {
++                return false;
++            }
++
++            if ((migration->device_state & VFIO_DEVICE_STATE_SAVING) &&
++                !(migration->device_state & VFIO_DEVICE_STATE_RUNNING)) {
++                continue;
++            } else {
++                return false;
++            }
++        }
++    }
++    return true;
++}
++
+ /*
+  * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
+  */
+@@ -812,9 +847,90 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     }
+ }
  
++static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
++                                 uint64_t size, ram_addr_t ram_addr)
++{
++    struct vfio_iommu_type1_dirty_bitmap *dbitmap;
++    struct vfio_iommu_type1_dirty_bitmap_get *range;
++    uint64_t pages;
++    int ret;
++
++    dbitmap = g_malloc0(sizeof(*dbitmap) + sizeof(*range));
++
++    dbitmap->argsz = sizeof(*dbitmap) + sizeof(*range);
++    dbitmap->flags = VFIO_IOMMU_DIRTY_PAGES_FLAG_GET_BITMAP;
++    range = (struct vfio_iommu_type1_dirty_bitmap_get *)&dbitmap->data;
++    range->iova = iova;
++    range->size = size;
++
++    /*
++     * cpu_physical_memory_set_dirty_lebitmap() expects pages in bitmap of
++     * TARGET_PAGE_SIZE to mark those dirty. Hence set bitmap's pgsize to
++     * TARGET_PAGE_SIZE.
++     */
++    range->bitmap.pgsize = TARGET_PAGE_SIZE;
++
++    pages = TARGET_PAGE_ALIGN(range->size) >> TARGET_PAGE_BITS;
++    range->bitmap.size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
++                                         BITS_PER_BYTE;
++    range->bitmap.data = g_try_malloc0(range->bitmap.size);
++    if (!range->bitmap.data) {
++        ret = -ENOMEM;
++        goto err_out;
++    }
++
++    ret = ioctl(container->fd, VFIO_IOMMU_DIRTY_PAGES, dbitmap);
++    if (ret) {
++        error_report("Failed to get dirty bitmap for iova: 0x%llx "
++                "size: 0x%llx err: %d",
++                range->iova, range->size, errno);
++        goto err_out;
++    }
++
++    cpu_physical_memory_set_dirty_lebitmap((uint64_t *)range->bitmap.data,
++                                            ram_addr, pages);
++
++    trace_vfio_get_dirty_bitmap(container->fd, range->iova, range->size,
++                                range->bitmap.size, ram_addr);
++err_out:
++    g_free(range->bitmap.data);
++    g_free(dbitmap);
++
++    return ret;
++}
++
++static int vfio_sync_dirty_bitmap(VFIOContainer *container,
++                                  MemoryRegionSection *section)
++{
++    ram_addr_t ram_addr;
++
++    ram_addr = memory_region_get_ram_addr(section->mr) +
++               section->offset_within_region;
++
++    return vfio_get_dirty_bitmap(container,
++                       TARGET_PAGE_ALIGN(section->offset_within_address_space),
++                       int128_get64(section->size), ram_addr);
++}
++
++static void vfio_listerner_log_sync(MemoryListener *listener,
++        MemoryRegionSection *section)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++
++    if (vfio_listener_skipped_section(section) ||
++        !container->dirty_pages_supported) {
++        return;
++    }
++
++    if (vfio_devices_all_stopped_and_saving(container)) {
++        vfio_sync_dirty_bitmap(container, section);
++    }
++}
++
+ static const MemoryListener vfio_memory_listener = {
+     .region_add = vfio_listener_region_add,
+     .region_del = vfio_listener_region_del,
++    .log_sync = vfio_listerner_log_sync,
+ };
  
-@@ -228,18 +227,18 @@ def _gen_features(cls,
-     def _gen_tree(self, name: str, mtype: str, obj: _DObject,
-                   ifcond: List[str],
-                   features: Optional[List[QAPISchemaFeature]]) -> None:
--        extra: Optional[Annotations] = None
-+        comment: Optional[str] = None
-         if mtype not in ('command', 'event', 'builtin', 'array'):
-             if not self._unmask:
-                 # Output a comment to make it easy to map masked names
-                 # back to the source when reading the generated output.
--                extra = {'comment': '"%s" = %s' % (self._name(name), name)}
-+                comment = f'"{self._name(name)}" = {name}'
-             name = self._name(name)
-         obj['name'] = name
-         obj['meta-type'] = mtype
-         if features:
-             obj['features'] = self._gen_features(features)
--        self._trees.append(_make_tree(obj, ifcond, extra))
-+        self._trees.append(_make_tree(obj, ifcond, comment))
- 
-     def _gen_member(self,
-                     member: QAPISchemaObjectTypeMember) -> Annotated:
--- 
-2.26.2
+ static void vfio_listener_release(VFIOContainer *container)
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index a75b5208818c..dd991bd8f265 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -163,3 +163,4 @@ vfio_load_device_config_state(const char *name) " (%s)"
+ vfio_load_state(const char *name, uint64_t data) " (%s) data 0x%"PRIx64
+ vfio_load_state_device_data(const char *name, uint64_t data_offset, uint64_t data_size) " (%s) Offset 0x%"PRIx64" size 0x%"PRIx64
+ vfio_load_cleanup(const char *name) " (%s)"
++vfio_get_dirty_bitmap(int fd, uint64_t iova, uint64_t size, uint64_t bitmap_size, uint64_t start) "container fd=%d, iova=0x%"PRIx64" size= 0x%"PRIx64" bitmap_size=0x%"PRIx64" start=0x%"PRIx64
 
 
