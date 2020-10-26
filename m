@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB194298A34
-	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:15:58 +0100 (CET)
-Received: from localhost ([::1]:57704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4C2298A13
+	for <lists+qemu-devel@lfdr.de>; Mon, 26 Oct 2020 11:11:23 +0100 (CET)
+Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kWzXh-0006AL-NJ
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:15:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38746)
+	id 1kWzTG-0007k3-Rj
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 06:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOv-0002Zl-Rk
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47708)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzP1-0002bE-Sl
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:07:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOu-0006ds-1d
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:53 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kWzOx-0006f2-2x
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 06:06:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603706811;
+ s=mimecast20190719; t=1603706813;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:content-type:content-type:in-reply-to:in-reply-to:
- references:references; bh=FxlSdQYmaeFEpuCEpAVY6Alu+5SgRounXmrcaa3zd1M=;
- b=HhpiVsqf2xSW5958xqGiX8QgesJlRVphE3zrYGDOQsOzwinLEnXnxiLpa/vWGEEf8W7hqu
- 5aJpxowelpNE6qMakjI7yvPQj+9ywIl6yN/7OVZzvkU/4rzMsk96EPtPy5k9jXdevvjg5+
- T8egbY/2ZGfmRvlbM960BAXToVUESIk=
+ references:references; bh=Q7utiPbMI+tm18kijyblHQxsmeyYZVDQzQn75XCpiJ8=;
+ b=hP+Rno7y3GLZWok9uWektJI5cSGzUxulM/vcVCfCm5f+zOb//vE3WuOGTtnF5fQi0SGVFF
+ GPAtuIAoQifGow9LlWggpcwECraZ+K0w2aOtRQpUbns6jzevUUr63aU7k7YJgg/xuuviNT
+ e7wBbtKqxvfXCSnOZkHGK+zJ/1LJ5ho=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-ChffQBYOPtihzrAhIV1AdQ-1; Mon, 26 Oct 2020 06:06:48 -0400
-X-MC-Unique: ChffQBYOPtihzrAhIV1AdQ-1
+ us-mta-282-U-ydJKnnO6Oz4SIS7qtBKw-1; Mon, 26 Oct 2020 06:06:50 -0400
+X-MC-Unique: U-ydJKnnO6Oz4SIS7qtBKw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C8C7A875110;
- Mon, 26 Oct 2020 10:06:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A1CD10E2188;
+ Mon, 26 Oct 2020 10:06:49 +0000 (UTC)
 Received: from thuth.com (ovpn-112-104.ams2.redhat.com [10.36.112.104])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AF06162A0B;
- Mon, 26 Oct 2020 10:06:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 609EB8B849;
+ Mon, 26 Oct 2020 10:06:48 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 08/31] libqtest: fix memory leak in the qtest_qmp_event_ref
-Date: Mon, 26 Oct 2020 11:06:09 +0100
-Message-Id: <20201026100632.212530-9-thuth@redhat.com>
+Subject: [PULL 09/31] memory: Add FlatView foreach function
+Date: Mon, 26 Oct 2020 11:06:10 +0100
+Message-Id: <20201026100632.212530-10-thuth@redhat.com>
 In-Reply-To: <20201026100632.212530-1-thuth@redhat.com>
 References: <20201026100632.212530-1-thuth@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
@@ -79,46 +79,58 @@ Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-The g_list_remove_link doesn't free the link element,
-opposed to what I thought.
-Switch to g_list_delete_link that does free it.
-
-Also refactor the code a bit.
-Thanks for Max Reitz for helping me with this.
-
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Message-Id: <20201019163702.471239-4-mlevitsk@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20201023150746.107063-2-alxndr@bu.edu>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/libqtest.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ include/exec/memory.h |  5 +++++
+ softmmu/memory.c      | 13 +++++++++++++
+ 2 files changed, 18 insertions(+)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 0e304bdbd1..99deff47ef 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -795,15 +795,12 @@ void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 622207bde1..042918dd16 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -719,6 +719,11 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
+     return qatomic_rcu_read(&as->current_map);
+ }
  
- QDict *qtest_qmp_event_ref(QTestState *s, const char *event)
++typedef int (*flatview_cb)(Int128 start,
++                           Int128 len,
++                           const MemoryRegion*, void*);
++
++void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque);
+ 
+ /**
+  * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 403ff3abc9..a5d1641820 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -656,6 +656,19 @@ static void render_memory_region(FlatView *view,
+     }
+ }
+ 
++void flatview_for_each_range(FlatView *fv, flatview_cb cb , void *opaque)
++{
++    FlatRange *fr;
++
++    assert(fv);
++    assert(cb);
++
++    FOR_EACH_FLAT_RANGE(fr, fv) {
++        if (cb(fr->addr.start, fr->addr.size, fr->mr, opaque))
++            break;
++    }
++}
++
+ static MemoryRegion *memory_region_get_flatview_root(MemoryRegion *mr)
  {
--    GList *next = NULL;
--    QDict *response;
--
--    for (GList *it = s->pending_events; it != NULL; it = next) {
-+    while (s->pending_events) {
- 
--        next = it->next;
--        response = (QDict *)it->data;
-+        GList *first = s->pending_events;
-+        QDict *response = (QDict *)first->data;
- 
--        s->pending_events = g_list_remove_link(s->pending_events, it);
-+        s->pending_events = g_list_delete_link(s->pending_events, first);
- 
-         if (!strcmp(qdict_get_str(response, "event"), event)) {
-             return response;
+     while (mr->enabled) {
 -- 
 2.18.2
 
