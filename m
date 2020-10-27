@@ -2,123 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB1B429AD56
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:30:59 +0100 (CET)
-Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA34129AD61
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:34:20 +0100 (CET)
+Received: from localhost ([::1]:38636 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXP3y-0004UA-R7
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:30:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42730)
+	id 1kXP7D-0008PU-SQ
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:34:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44482)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <felipe@nutanix.com>)
- id 1kXOTs-0001pN-Al
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 08:53:41 -0400
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:18202)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <felipe@nutanix.com>)
- id 1kXOTp-00014a-F0
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 08:53:39 -0400
-Received: from pps.filterd (m0127844.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 09RClAHD008213; Tue, 27 Oct 2020 05:53:32 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=NatonafPIRxQfz+hRZjEpjE57eMfWl58iMPhJYqQ6XY=;
- b=MEBO3vwOIy/3/DGeT8bap4jdtHDu28BfZEcxVuZqt19/qhdZGp5xAZtw0QsDxfJWucFN
- oGUGtgZOB+O4XuhwYCSFrZkkoaFcZ9edv/92RN7UIGarBs5CVm+t66oa360mdAC3EXMa
- Py8z/nBW5NDCMmUsD+5ythUF03h07Fb2JpQcy0PlFHw72P6QyTpBMTRLwb899rFrjNbV
- HKyQTfyJ8d7+PN9lBdWamnwe9lGgOfiS+gKVbZX4JzOB2jT3PgN2E+Di3tx9QG2Ntjp5
- orhg5NuaYMHCdCn0+8UAlDHDulnd6GfP1BgH6xlA3Yy/acyY3nWo0FV4DMpfo+FxUQTt 7g== 
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2109.outbound.protection.outlook.com [104.47.58.109])
- by mx0b-002c1b01.pphosted.com with ESMTP id 34ckt0wsjk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Oct 2020 05:53:32 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=S9HTPKwZ+bCc/WlEWzX+rbw9gJ5pbtRtFLfxe2HjVoDR2xOyPZNmnqo6Wm0eyzShgt5I8DfBmVZz4hP7SdI2+oli7FdVSlmC6kky+F/FWvTn8awHQK05H205WjOS3Z4swFYf3Ymz65FSUYiE1yE1CAffvuIt76itOAlG/c0yLwfRuOHz/GvkXT1Vguk1AariMJK//R7XLJnbHZbTAlFgB5hBiE/xiSH+Csq5VuPEzPhDo8tDqu0ao8gdBjxJgIc+5HM3WNdWoC98HEmW87Tz/71z3XB1hnGn4ljtRR/fvKIB0bj09cKhet8xVfSpFllAjxbPABmFXq0TR3K2z2VRug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NatonafPIRxQfz+hRZjEpjE57eMfWl58iMPhJYqQ6XY=;
- b=Cgu2i2E+YvpfqdoB4V5aDN6TArJUtUVVo5mRHas7FefN0V+jZ8pfXDrDhM7oRxHRsm4OIPLm55BiWt8Glkm6SitD1FINLu3H4ncZc8XQUgLYtS8dqglcSY87JfVQan0N9LJzfgNXBeId8LONiItQUM5wJRO3+qlceoQebLXaHWVEI7GZfR/5YlLLQmRtYVTxKy3TR+DUj/O3ISYwUA50GXTRxIHIXRlg7YbkejsTQSODYh9OTcpxAn8ZNR2AnZOV6bGOii3oNY6Vxm4DYTDmAZD7TdiKt6gd+aGKVyGx0Mjm6PzCRXKxifNEH8MFTKkDOT+jIvuFjwLnd5WiMbLMxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BYAPR02MB4358.namprd02.prod.outlook.com (2603:10b6:a03:11::17)
- by BY5PR02MB6721.namprd02.prod.outlook.com (2603:10b6:a03:208::15)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Tue, 27 Oct
- 2020 12:53:29 +0000
-Received: from BYAPR02MB4358.namprd02.prod.outlook.com
- ([fe80::a1a4:c04e:4405:dadb]) by BYAPR02MB4358.namprd02.prod.outlook.com
- ([fe80::a1a4:c04e:4405:dadb%6]) with mapi id 15.20.3477.029; Tue, 27 Oct 2020
- 12:53:29 +0000
-From: Felipe Franciosi <felipe@nutanix.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>
-Subject: Re: [PATCH] virtio: skip guest index check on device load
-Thread-Topic: [PATCH] virtio: skip guest index check on device load
-Thread-Index: AQHWq6qTShdeDwCex0GyOhjCQ5NUC6mrUeeAgAAPXICAAAe8AA==
-Date: Tue, 27 Oct 2020 12:53:29 +0000
-Message-ID: <12146644-5D22-4CAC-9B4F-F16E84ED56AE@nutanix.com>
-References: <20201026151328.77611-1-felipe@nutanix.com>
- <20201027113049.GH79063@stefanha-x1.localdomain>
- <20201027082337-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20201027082337-mutt-send-email-mst@kernel.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3608.120.23.2.4)
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [82.9.225.166]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 809eaa26-d67f-48fc-b84a-08d87a774dc3
-x-ms-traffictypediagnostic: BY5PR02MB6721:
-x-microsoft-antispam-prvs: <BY5PR02MB6721308574161E82A3B87FD5D7160@BY5PR02MB6721.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:972;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: RWrf+mzVyAxv3SNoHVt4TcLrrpmX9MvN3hvxXfHbTrt+i2u2SCIx9as9Mf3Pa3O7W2d1T0fr5szj1ybd+HW0XK19GHHn0FfznuND6U0MDqHNmXlj2i+gO0AwNU7fwdV1IY2VvcVnPyc3ZqA9NedD1u2yBUiGQNC7OlSGIqA4Tn4fqT8C1oJ1XZRTYwHcvWeLH1xrrocPJIcILjgw2tIaGLqRZ4eHOCrForrQnicJPt10ygk8zl3ko3GSzYhvWxIqUqADypE6ptwACEPfd0rvpVgjJWCeORZGsAZcFJ31Z3L1AydjFlaQ277I5H/YizD1dvGqQC9z6v0kzdbe0FhqMA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BYAPR02MB4358.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(346002)(366004)(136003)(376002)(396003)(6486002)(54906003)(33656002)(86362001)(83380400001)(110136005)(4326008)(316002)(8936002)(2906002)(71200400001)(8676002)(2616005)(6506007)(66446008)(64756008)(6512007)(66556008)(26005)(5660300002)(66476007)(91956017)(36756003)(478600001)(66946007)(76116006)(53546011)(186003);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: 2fBtjLTlP1E/BGs+aoY3C5q+QpOVFyDJ41M48wrC1tTY2ackkq59jKJ4vf++G4yJpl02JoFEhTcKZNEdxb8Vus7GqZeGGm7dB3BSPZ/qV8JndrQenIdoS8xpp9yT2WHvQkXBclSeySc8nS+UPOaoqt5KVaQF3S84+gl0wqfTadbYkVs8XNaEbplisnXRtnWDF1O+wGbEeltGtKmuMKKmd4jbvu9pjT+BtwtmhTwYMOMEptI4z7ClNZUTp+7AjY7/QixMtDo9FmzXUpIfVk0/+rw+j4ia+N00RcNsNQc7/3lyKhU6KwKEKLrAxy96xYyXqGsL0E6p09EDr+ccYzsZ0d1c4ABs4AIE7O989qRVcsloX8BiK/YVHOikGx/9DWEd1ZPtDa3yM5Ejf5uwVLjQWGxD4kLtzvBH3DruFebMqKQiSnJfto2249Kgi2AVjKTYkTADqJFwVfgeLQgsL8h4gg1Gzj+Q0z7VPQDtMo4Jn57wCTj9HxjzKa9wmsSn5+7w13ZgTHtqKApsbrEStBgli1zfqisDJsvdS43DqIv0abZXVZ/e1E8kWDg0/RWoBkB84DoruSkMF4jOA3nvTDgk+X6aggALwt+iEILqv3nMUPZPsgOq1SA2UjEbYn4Ab9VpHQqKrQNOZ228CKTQ3380rg==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <96BB14D2B0211F42A9079FAF14BCFEE3@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXOYi-0006rz-Gm
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 08:58:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54218)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXOYg-00026S-7D
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 08:58:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603803515;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bLjaIsRc1S6ewa6g07CRntNXt6IGH9iRzNZZKQiS3JI=;
+ b=CLOyIy87WTh80BaDe54WFaQYaG2vDZXxAtNhyeBFVVFIAaVA+XhP1qpXu0XL3pJNNKAYuq
+ RNht0kqct/GWIYaWGlJB1/Sf+kjhoVw4C1ZXrgwqYbTk+Ye45NwtIo7+ttAxyEm6bO7WH8
+ P/aq7ztyivqq4Y8JOgvhi6K/32sZJg8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-214-8f2hS73-M3GiMK2rSTQgiA-1; Tue, 27 Oct 2020 08:58:33 -0400
+X-MC-Unique: 8f2hS73-M3GiMK2rSTQgiA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6CA2803F62;
+ Tue, 27 Oct 2020 12:58:32 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 827EA10013D9;
+ Tue, 27 Oct 2020 12:58:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id F2701113865F; Tue, 27 Oct 2020 13:58:27 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v6 01/11] block: Simplify QAPI_LIST_ADD
+References: <20201027050556.269064-1-eblake@redhat.com>
+ <20201027050556.269064-2-eblake@redhat.com>
+Date: Tue, 27 Oct 2020 13:58:27 +0100
+In-Reply-To: <20201027050556.269064-2-eblake@redhat.com> (Eric Blake's message
+ of "Tue, 27 Oct 2020 00:05:46 -0500")
+Message-ID: <877drbu8p8.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB4358.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 809eaa26-d67f-48fc-b84a-08d87a774dc3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2020 12:53:29.6694 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: pf6f3FGwEg5KuurInnWnNPmPr+qMQZNvQQrsQVm3PpvW4wZpk0LZu3gP0ryeQasVNp8rWSwRPXV0a2tSfnNUk3mynVAstWGP24bV0tg6Jys=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6721
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-10-27_05:2020-10-26,
- 2020-10-27 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12; envelope-from=felipe@nutanix.com;
- helo=mx0b-002c1b01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 08:53:32
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -132,109 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, rjones@redhat.com, vsementsov@virtuozzo.com,
+ stefanha@redhat.com, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Eric Blake <eblake@redhat.com> writes:
 
+> There is no need to rely on the verbosity of the gcc/clang compiler
+> extension of g_new(typeof(X), 1) when we can instead use the standard
+> g_malloc(sizeof(X)).  In general, we like g_new over g_malloc for
+> returning type X rather than void* to let the compiler catch more
+> potential typing mistakes, but in this particular macro, our other use
+> of typeof on the same line already ensures we are getting correct
+> results.
+>
+> Suggested-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>  block.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/block.c b/block.c
+> index 430edf79bb10..857387f3912f 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -5231,7 +5231,7 @@ BlockDeviceInfoList *bdrv_named_nodes_list(bool flat,
+>  }
+>
+>  #define QAPI_LIST_ADD(list, element) do { \
+> -    typeof(list) _tmp = g_new(typeof(*(list)), 1); \
+> +    typeof(list) _tmp = g_malloc(sizeof(*(list))); \
+>      _tmp->value = (element); \
+>      _tmp->next = (list); \
+>      (list) = _tmp; \
 
-> On Oct 27, 2020, at 12:25 PM, Michael S. Tsirkin <mst@redhat.com> wrote:
->=20
-> On Tue, Oct 27, 2020 at 11:30:49AM +0000, Stefan Hajnoczi wrote:
->> On Mon, Oct 26, 2020 at 03:13:32PM +0000, Felipe Franciosi wrote:
->>> QEMU must be careful when loading device state off migration streams to
->>> prevent a malicious source from exploiting the emulator. Overdoing thes=
-e
->>> checks has the side effect of allowing a guest to "pin itself" in cloud
->>> environments by messing with state which is entirely in its control.
->>>=20
->>> Similarly to what f3081539 achieved in usb_device_post_load(), this
->>> commit removes such a check from virtio_load(). Worth noting, the resul=
-t
->>> of a load without this check is the same as if a guest enables a VQ wit=
-h
->>> invalid indexes to begin with. That is, the virtual device is set in a
->>> broken state (by the datapath handler) and must be reset.
->>>=20
->>> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
->>> ---
->>> hw/virtio/virtio.c | 12 ------------
->>> 1 file changed, 12 deletions(-)
->>>=20
->>> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
->>> index 6f8f865aff..0561bdb857 100644
->>> --- a/hw/virtio/virtio.c
->>> +++ b/hw/virtio/virtio.c
->>> @@ -3136,8 +3136,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, =
-int version_id)
->>>     RCU_READ_LOCK_GUARD();
->>>     for (i =3D 0; i < num; i++) {
->>>         if (vdev->vq[i].vring.desc) {
->>> -            uint16_t nheads;
->>> -
->>>             /*
->>>              * VIRTIO-1 devices migrate desc, used, and avail ring addr=
-esses so
->>>              * only the region cache needs to be set up.  Legacy device=
-s need
->>> @@ -3157,16 +3155,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f,=
- int version_id)
->>>                 continue;
->>>             }
->>>=20
->>> -            nheads =3D vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].las=
-t_avail_idx;
->>> -            /* Check it isn't doing strange things with descriptor num=
-bers. */
->>> -            if (nheads > vdev->vq[i].vring.num) {
->>> -                error_report("VQ %d size 0x%x Guest index 0x%x "
->>> -                             "inconsistent with Host index 0x%x: delta=
- 0x%x",
->>> -                             i, vdev->vq[i].vring.num,
->>> -                             vring_avail_idx(&vdev->vq[i]),
->>> -                             vdev->vq[i].last_avail_idx, nheads);
->>> -                return -1;
->>> -            }
->>=20
->> Michael, the commit that introduced this check seems to have been for
->> debugging rather than to prevent a QEMU crash, so this removing the
->> check may be safe:
->>=20
->>  commit 258dc7c96bb4b7ca71d5bee811e73933310e168c
->>  Author: Michael S. Tsirkin <mst@redhat.com>
->>  Date:   Sun Oct 17 20:23:48 2010 +0200
->>=20
->>      virtio: sanity-check available index
->>=20
->>      Checking available index upon load instead of
->>      only when vm is running makes is easier to
->>      debug failures.
->=20
-> Agreed. Given this, let's keep the message around, just with
-> LOG_GUEST_ERROR ?
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
-I thought about it. Happy to send a v2 which keeps the check and logs
-without throwing an error.
-
-Separately, I'm thinking of hooking up QEMU with VRING_ERR so datapath
-handlers can notify QEMU that something went broken and NEEDS_RESET
-can be flipped on the status register, possibly along a configuration
-interrupt. I can see libvhost-user supports that, but are there any
-reasons QEMU doesn't do this already?
-
->=20
->> Felipe: Did you audit the code to make sure the invalid avail_idx value
->> and the fields it is propagated to (e.g. shadow_avail_idx) are always
->> used in a safe way?
->=20
-
-I did it briefly. I also wrote a mock userspace driver that creates
-this condition in a very controlled way (so I can step half-way
-through setting up VQs and trigger a migration, for example). But you
-know how manual tests are... I may have missed something.
-Your expert eyes are most welcome. :)
-
-F.=
 
