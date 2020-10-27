@@ -2,50 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B6129A97E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:23:49 +0100 (CET)
-Received: from localhost ([::1]:50128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B7A29A982
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:24:53 +0100 (CET)
+Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXM8q-0002cn-4H
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:23:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1kXM9s-0004KL-Q4
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:24:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kXM6g-0001KB-L2
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:21:34 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:58335)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kXM6e-0008Fa-7f
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:21:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=498OWxfaVvTHVGJV4F+6kshPWX5O/n/uIHoznUxA7Hc=; b=iRm4418uRtFoRn/74mrqbTBUB9
- 2oYqAalBgBDJ3tsmDIdVIxPZAL3YDkKrNprjFEoN7+fUWfUWJLGjXC21/ikVFSHg71wZLfIB28DvO
- JKR5P30AUQNW7x8L4/xIzLiOxI4XjmcsywnE4NsBelfvPT0lMGy90J0aN5kbUYLTbxVEd3hy4EZmF
- HTNDA7GESf6D9jSKPsyOCGNGP/DIxrfnAG7dHWAivTCo5EPpSANxXF9vBnC5jvkI/XOt7uO3wG/nS
- wqGQAXYYA3Ul4Y7KeRnOfjqb41Od/YxuHIOGkm8y5xhBoIcVkRis8xM9CDlNMOXyY7CppqUx/j335
- YR0XGh8A==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/13] 9p queue 2020-10-23
-Date: Tue, 27 Oct 2020 11:21:28 +0100
-Message-ID: <2112125.AVHuFmpgxR@silver>
-In-Reply-To: <20201027090653.GA3369@work-vm>
-References: <cover.1603452058.git.qemu_oss@crudebyte.com>
- <20201026222537.61ac2ad8@bahia.lan> <20201027090653.GA3369@work-vm>
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kXM7t-0002cO-R8
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:22:49 -0400
+Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:3844
+ helo=mail.comstyle.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kXM7r-0000C5-Sn
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:22:49 -0400
+Received: from mail.comstyle.com (localhost [127.0.0.1])
+ by mail.comstyle.com (Postfix) with ESMTP id 4CL79C0xFcz8PbN;
+ Tue, 27 Oct 2020 06:24:15 -0400 (EDT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
+ :to:cc:subject:message-id:references:mime-version:content-type
+ :in-reply-to:content-transfer-encoding; s=default; bh=sxsgxfrY/2
+ 2BIUonF8tWGJP6oYo=; b=kqTTBhfG/zpUDFi5MZmfny8+9uln7ni7ObQe1NIqDu
+ 55fcmoEChDYRMCQkS5YodkHHriQfv4W9PEkzLM727bX+jR0S/fqnB9WEYv5xXLoh
+ LmYeqk3zhGqKTdS+ddFe03XWKEBYO3THPEMwKjdikvBQT3se/03FKfXUCu//FO7D
+ E=
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
+ :cc:subject:message-id:references:mime-version:content-type
+ :in-reply-to:content-transfer-encoding; q=dns; s=default; b=dJRN
+ bSu/Ap6vhhwVU8j3ihKkjSEAtb8k63hORF5euzG8QebDv57czkP9q4uqorI+8Lzi
+ bWGZaMlMQ2YlwyWEcQBZ0h+IS6gGKkUXXt1rTD4xw9R5fc1yUYttB68DJ7hueHTJ
+ /Jq6PeLtCGIaYl8jl9WvmUDIBceUUheFY0HkAGU=
+Received: from humpty.home.comstyle.com (unknown [142.114.120.158])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested) (Authenticated sender: brad)
+ by mail.comstyle.com (Postfix) with ESMTPSA id 4CL79B5NwGz8PbK;
+ Tue, 27 Oct 2020 06:24:14 -0400 (EDT)
+Date: Tue, 27 Oct 2020 06:22:45 -0400
+From: Brad Smith <brad@comstyle.com>
+To: Philippe Mathieu-Daud?? <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] tests/vm: update openbsd to release 6.8
+Message-ID: <20201027102245.GC64546@humpty.home.comstyle.com>
+References: <20201027053048.GB64546@humpty.home.comstyle.com>
+ <cbae54c3-fa97-19e6-512c-7ac570f56b12@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 06:21:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=unknown-8bit
+Content-Disposition: inline
+In-Reply-To: <cbae54c3-fa97-19e6-512c-7ac570f56b12@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f938:3000:8::2;
+ envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -67,146 +77,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 27. Oktober 2020 10:06:53 CET Dr. David Alan Gilbert wrote:
-> * Greg Kurz (groug@kaod.org) wrote:
-> > On Mon, 26 Oct 2020 13:48:37 +0100
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > On Montag, 26. Oktober 2020 11:33:42 CET Peter Maydell wrote:
-> > > > On Fri, 23 Oct 2020 at 12:46, Christian Schoenebeck
-> > > > 
-> > > > <qemu_oss@crudebyte.com> wrote:
-> > > > > The following changes since commit 
-4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
-> > > > >   Merge remote-tracking branch
-> > > > >   'remotes/kraxel/tags/modules-20201022-pull-request' into staging
-> > > > >   (2020-10-22 12:33:21 +0100)>
-> > > > > 
-> > > > > are available in the Git repository at:
-> > > > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201023
-> > > > > 
-> > > > > for you to fetch changes up to 
-ee01926a11b1f9bffcd6cdec0961dd9d1882da71:
-> > > > >   tests/9pfs: add local Tunlinkat hard link test (2020-10-22
-> > > > >   20:26:33
-> > > > >   +0200)
-> > > > > 
-> > > > > ----------------------------------------------------------------
-> > > > > 9pfs: more tests using local fs driver
-> > > > > 
-> > > > > Only 9pfs test case changes this time:
-> > > > > 
-> > > > > * Refactor: Rename functions to make top-level test functions fs_*()
-> > > > > 
-> > > > >   easily distinguishable from utility test functions do_*().
-> > > > > 
-> > > > > * Refactor: Drop unnecessary function arguments in utility test
-> > > > > 
-> > > > >   functions.
-> > > > > 
-> > > > > * More test cases using the 9pfs 'local' filesystem driver backend,
-> > > > > 
-> > > > >   namely for the following 9p requests: Tunlinkat, Tlcreate,
-> > > > >   Tsymlink
-> > > > >   and Tlink.
-> > > > > 
-> > > > > ----------------------------------------------------------------
-> > > > 
-> > > > I get a 'make check' failure on x86-64 Linux host:
-> > > > 
-> > > > PASS 54 qtest-x86_64: qos-test
-> > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/v
-> > > > irtio- 9p-tests/local/config PASS 55 qtest-x86_64: qos-test
-> > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/v
-> > > > irtio- 9p-tests/local/create_dir PASS 56 qtest-x86_64: qos-test
-> > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/v
-> > > > irtio- 9p-tests/local/unlinkat_dir PASS 57 qtest-x86_64: qos-test
-> > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/v
-> > > > irtio- 9p-tests/local/create_file PASS 58 qtest-x86_64: qos-test
-> > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/v
-> > > > irtio- 9p-tests/local/unlinkat_file PASS 59 qtest-x86_64: qos-test
-> > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/v
-> > > > irtio- 9p-tests/local/symlink_file Received response 7 (RLERROR)
-> > > > instead of 73 (RMKDIR)
-> > > > Rlerror has errno 2 (No such file or directory)
-> > > > **
-> > > > ERROR:../../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv: assertion
-> > > > failed (hdr.id == id): (7 == 73)
-> > 
-> > Not sure this is related to this PR actually. Dave Gilbert reported on irc
-> > that he encountered a similar issue with 'make -j check', likely without
-> > these patches.
-> I was running on current master as of yesterday; no 9p specific patches.
-> 
-> Dave
+On Tue, Oct 27, 2020 at 11:05:20AM +0100, Philippe Mathieu-Daud?? wrote:
+> On 10/27/20 6:30 AM, Brad Smith wrote:
+> > tests/vm: update openbsd to release 6.8
+> >=20
+> > A double dash at the end of a package name removes ambiguity
+> > when the intent is to install a non-FLAVORed package.
+> >=20
+> > Signed-off-by: Brad Smith <brad@comstyle.com>
+> > Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud?? <philmd@redhat.com>
+>=20
+> I confirm Brad sent us this patch off-list, and
+> - our review comments are addressed,
+> - the tags are correct.
+>=20
+> The patch format itself seems broken... Like a copy/paste
+> into an email client...
 
-They might be related as the "local/create_dir" test is already merged, but 
-hard to say reliably without any data.
-
-How is reproducibility, sometimes / always?
-
-> 
-> > > > ERROR qtest-x86_64: qos-test - Bail out!
-> > > > ERROR:../../tests/qtest/virtio-9ptest.c:300:v9fs_req_recv: assertion
-> > > > failed (hdr.id == id): (7 == 73)
-> > > > Makefile.mtest:3953: recipe for target 'run-test-492' failed
-> > > > 
-> > > > 
-> > > > thanks
-> > > > -- PMM
-> > > 
-> > > So the 9p server is already failing to create the test case directory
-> > > "./qtest-9p-local/05/" relative to your current working directory.
-> > > 
-> > > I would appreciate to get more info when you have some free cycles, as
-> > > I'm
-> > > unable to reproduce this on any system unfortunately. But no hurry as
-> > > these tests only become relevant actually for QEMU 6.
-> > > 
-> > > What puzzles me is that the previous test cases succeeded there, which
-> > > all
-> > > 
-> > > create their own test directory in the same way:
-> > > 	./qtest-9p-local/01/
-> > > 	./qtest-9p-local/02/  (<-- dir vanishes after that test completed)
-> > > 	./qtest-9p-local/03/
-> > > 	./qtest-9p-local/04/
-> > > 	...
-> > > 
-> > > How does the "./qtest-9p-local/" directory look like after that
-> > > "local/symlink_file" test failed there? You can use this shortcut:
-> > > 
-> > > export QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64
-> > > cd build
-> > > tests/qtest/qos-test --verbose
-> > > ls -l qtest-9p-local
-> > > 
-> > > That latter qos-test run will also output the assembled qemu command
-> > > line the 9p local tests would run with, which might also be helpful,
-> > > e.g. the relevant output would be something like this:
-> > > 
-> > > GTest: run:
-> > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> > > rtio-9p-tests/local/config (MSG: starting QEMU: exec
-> > > x86_64-softmmu/qemu-system-x86_64 -qtest unix:/tmp/qtest-7428.sock
-> > > -qtest-log /dev/null -chardev socket,path=/tmp/qtest-7428.qmp,id=char0
-> > > -mon chardev=char0,mode=control -display none -M pc  -fsdev
-> > > local,id=fsdev0,path='/home/me/git/qemu/build/qtest-9p-local',security_
-> > > model=mapped-xattr -device
-> > > virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest -accel qtest)
-> > > 
-> > > Would probably the test succeed if run alone?
-> > > 
-> > > tests/qtest/qos-test -p
-> > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p/vi
-> > > rtio-9p-tests/local/symlink_file
-> > > 
-> > > Best regards,
-> > > Christian Schoenebeck
+Well, git diff vs a format-patch.
 
 
-Best regards,
-Christian Schoenebeck
+Subject: [PATCH] tests/vm: update openbsd to release 6.8
 
+A double dash at the end of a package name removes ambiguity
+when the intent is to install a non-FLAVORed package.
+
+Signed-off-by: Brad Smith <brad@comstyle.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Tested-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ tests/vm/openbsd | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/tests/vm/openbsd b/tests/vm/openbsd
+index 8356646f21..5ffa4f1b37 100755
+--- a/tests/vm/openbsd
++++ b/tests/vm/openbsd
+@@ -22,8 +22,8 @@ class OpenBSDVM(basevm.BaseVM):
+     name =3D "openbsd"
+     arch =3D "x86_64"
+=20
+-    link =3D "https://cdn.openbsd.org/pub/OpenBSD/6.6/amd64/install66.is=
+o"
+-    csum =3D "b22e63df56e6266de6bbeed8e9be0fbe9ee2291551c5bc03f3cc2e4ab9=
+436ee3"
++    link =3D "https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/install68.is=
+o"
++    csum =3D "47e291fcc2d0c1a8ae0b66329f040b33af755b6adbd21739e20bb5ad56=
+f62b6c"
+     size =3D "20G"
+     pkgs =3D [
+         # tools
+@@ -36,10 +36,10 @@ class OpenBSDVM(basevm.BaseVM):
+         "bash",
+         "gmake",
+         "gsed",
+-        "gettext",
++        "gettext-tools",
+=20
+         # libs: usb
+-        "libusb1",
++        "libusb1--",
+=20
+         # libs: crypto
+         "gnutls",
+--=20
+2.28.0
 
 
