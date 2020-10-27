@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E287429BC2B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:37:49 +0100 (CET)
-Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07DC229BC29
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:36:39 +0100 (CET)
+Received: from localhost ([::1]:46934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXRym-00054P-Us
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:37:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50536)
+	id 1kXRxe-0003Ea-1l
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:36:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRri-0006sv-E0; Tue, 27 Oct 2020 12:30:30 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:49435)
+ id 1kXRrh-0006rx-IS; Tue, 27 Oct 2020 12:30:29 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:38125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRre-0001XT-SU; Tue, 27 Oct 2020 12:30:29 -0400
+ id 1kXRrf-0001XV-1h; Tue, 27 Oct 2020 12:30:29 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MUGNZ-1kydOp17Hn-00REtQ; Tue, 27 Oct 2020 17:30:20 +0100
+ id 1M6EOc-1kQrDR0hh2-006iwh; Tue, 27 Oct 2020 17:30:21 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 4/8] io: Fix Lesser GPL version number
-Date: Tue, 27 Oct 2020 17:30:10 +0100
-Message-Id: <20201027163014.247336-5-laurent@vivier.eu>
+Subject: [PULL 5/8] cryptodev: Fix Lesser GPL version number
+Date: Tue, 27 Oct 2020 17:30:11 +0100
+Message-Id: <20201027163014.247336-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027163014.247336-1-laurent@vivier.eu>
 References: <20201027163014.247336-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:KLcmXN1Xa5j9tgIfaI49+Boc1M5b3FtH+ySWdJeZ4MAY6cMV9Cp
- D+6dXCxDmQit6Zdc+EzwQV2C5CRpgX+90Mg11VGB4hDU+k0G9urZeta7+dBxMbwpa1prNns
- xXrvopP5zqIOeOYYvvwdt1o9jhRD+B8mRTeprKVWcN2DbUh234by5VkdrH7URoXrys5eTo6
- 01OQjBNrVOCFBEIAkNRHw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:8R30D5dc4EE=:7kLc5LI1K0Ot6cRsdL7x0V
- W2qKDFDuxjQxJTH60XHsg8gBsT7P5s7OhzBn+mFi0KXvN+8lnlWwf34p2SNZ/+fnewQaJH4OW
- IBlRqXEKT3ldACFyQeTXBGH5qMIf67Yywzg25fYBE+zsU3hFod4RdZhHq9pX8lMY8dhc/HGB7
- Zphm6Vs4RNtxcYTksIvYZT/wkR7KaCccwoohzG2LBtRREwhHabQAhwjNOYSsGeenFOY6ze4Ht
- j7wFhkzwZ2gQWG5m3FtXR8VQSLdhYjDmwHc2gSxVPsK644oTZiJ6xrvBh+fPQO0cnb4jOj6gA
- aKbuHzsijwsSG2BoWu7RrA+Q54sfdtDABjTDjha36QFz2nCNF83tzNgwiCjEkgITB+fk3PtnZ
- LCphIAtDBFswqAMLgdSyaS6cBQkKMyWpbSKqOlhrIkPoozbSoTU8jv0XWlUw61H1bRnUrTrJ1
- KH3Vxdbemg==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:KfAuoOPWt+4I8jCTUMLREd/BJqxj4W02chCzPPUbBPassCyxRCh
+ LouzyoGf2pYuU/3UmfhnRQ8AODiN3fd+fI1HDnYxljpsYhkvoZxP2h4+2+xZvZ3RLY28dg3
+ WniWDMproGWqZR+PrLKio4x5pyD7aaD/okGUoLAu5FjqnbU5oFeG12GcVgNPaOozx3PphtF
+ QKwDDozhAfeLN0wTrGNUw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Vzfw3nHmOyM=:sHg9dLDP/XEZwqj5syZQpn
+ rmvYVvghM02jZ77nBt03UeWH9m42ZDcyiLS6P0FItclK0efyM3d+f5LySjXT5EBs2uHbg5SLV
+ D5WTpJBoscFWR7GkeaiDkRabyP1Xc+FwLpHrSP1KywUo0KayfpdPlPhDBXB3DJPP3NOM5qB0C
+ pEBLlUw2uqSStiP5/3eZvJMoMGxz54a7i51e19qiLJM/MigwIFU5TkD5opKk+qcFubqh/CGyA
+ cV32vTxBgnJDQR0eHb556+D4EHj0vnk4Yv/7c9bs9Bk1khO6Cch5LjV9ddtqyRTClCTtJ6RWq
+ B2K5DcfOdTXiX1irVM6vhJ81W0HYlKy5ICqUNGgnep6wlOcVUq9Fumc5YsYBqx6XJzX/OdCTr
+ 5WeYVwqKHUypcUFqhJ4PG9qE+I8FLwNt84kdnoC2Txfhw8pKt+fct6vtmhMosiVacNodTbU14
+ T7DWCm8Nnw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,8 +64,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: qemu-trivial@nongnu.org, Thomas Huth <thuth@redhat.com>,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
  Chetan Pant <chetan4windows@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -80,44 +78,24 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 "Lesser GPL version 2.1" in comment section.
 
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-Acked-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20201014134033.14095-1-chetan4windows@gmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201014133722.14041-1-chetan4windows@gmail.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/io/channel-buffer.h     | 2 +-
- include/io/channel-command.h    | 2 +-
- include/io/channel-file.h       | 2 +-
- include/io/channel-socket.h     | 2 +-
- include/io/channel-tls.h        | 2 +-
- include/io/channel-util.h       | 2 +-
- include/io/channel-watch.h      | 2 +-
- include/io/channel-websock.h    | 2 +-
- include/io/channel.h            | 2 +-
- include/io/dns-resolver.h       | 2 +-
- include/io/task.h               | 2 +-
- io/channel-buffer.c             | 2 +-
- io/channel-command.c            | 2 +-
- io/channel-file.c               | 2 +-
- io/channel-socket.c             | 2 +-
- io/channel-tls.c                | 2 +-
- io/channel-util.c               | 2 +-
- io/channel-watch.c              | 2 +-
- io/channel-websock.c            | 2 +-
- io/channel.c                    | 2 +-
- io/dns-resolver.c               | 2 +-
- io/task.c                       | 2 +-
- tests/test-io-channel-buffer.c  | 2 +-
- tests/test-io-channel-command.c | 2 +-
- tests/test-io-channel-file.c    | 2 +-
- tests/test-io-channel-socket.c  | 2 +-
- tests/test-io-task.c            | 2 +-
- 27 files changed, 27 insertions(+), 27 deletions(-)
+ backends/cryptodev-builtin.c          | 2 +-
+ backends/cryptodev-vhost-user.c       | 2 +-
+ backends/cryptodev-vhost.c            | 2 +-
+ backends/cryptodev.c                  | 2 +-
+ include/sysemu/cryptodev-vhost-user.h | 2 +-
+ include/sysemu/cryptodev-vhost.h      | 2 +-
+ include/sysemu/cryptodev.h            | 2 +-
+ 7 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/include/io/channel-buffer.h b/include/io/channel-buffer.h
-index 518c28f13f5c..c9463ee6551b 100644
---- a/include/io/channel-buffer.h
-+++ b/include/io/channel-buffer.h
-@@ -6,7 +6,7 @@
+diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
+index c6edb1b28af6..0671bf9f3e5e 100644
+--- a/backends/cryptodev-builtin.c
++++ b/backends/cryptodev-builtin.c
+@@ -9,7 +9,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -126,11 +104,11 @@ index 518c28f13f5c..c9463ee6551b 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-command.h b/include/io/channel-command.h
-index 5556a38d7e67..27e42bdadc71 100644
---- a/include/io/channel-command.h
-+++ b/include/io/channel-command.h
-@@ -6,7 +6,7 @@
+diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
+index e1df073de2d8..bedb4524742e 100644
+--- a/backends/cryptodev-vhost-user.c
++++ b/backends/cryptodev-vhost-user.c
+@@ -9,7 +9,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -139,11 +117,11 @@ index 5556a38d7e67..27e42bdadc71 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-file.h b/include/io/channel-file.h
-index c61d6e0ef7cb..50e8eb113868 100644
---- a/include/io/channel-file.h
-+++ b/include/io/channel-file.h
-@@ -6,7 +6,7 @@
+diff --git a/backends/cryptodev-vhost.c b/backends/cryptodev-vhost.c
+index 8337c9a495f0..8231e7f1bca9 100644
+--- a/backends/cryptodev-vhost.c
++++ b/backends/cryptodev-vhost.c
+@@ -10,7 +10,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -152,11 +130,11 @@ index c61d6e0ef7cb..50e8eb113868 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-socket.h b/include/io/channel-socket.h
-index d07d67fab66e..e747e635147e 100644
---- a/include/io/channel-socket.h
-+++ b/include/io/channel-socket.h
-@@ -6,7 +6,7 @@
+diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+index 3f141f61ed65..bf524761663a 100644
+--- a/backends/cryptodev.c
++++ b/backends/cryptodev.c
+@@ -9,7 +9,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -165,11 +143,11 @@ index d07d67fab66e..e747e635147e 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-tls.h b/include/io/channel-tls.h
-index 6dd1a3cd3c66..5672479e9eb6 100644
---- a/include/io/channel-tls.h
-+++ b/include/io/channel-tls.h
-@@ -6,7 +6,7 @@
+diff --git a/include/sysemu/cryptodev-vhost-user.h b/include/sysemu/cryptodev-vhost-user.h
+index 0d3421e7e8ca..60710502c2d1 100644
+--- a/include/sysemu/cryptodev-vhost-user.h
++++ b/include/sysemu/cryptodev-vhost-user.h
+@@ -9,7 +9,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -178,11 +156,11 @@ index 6dd1a3cd3c66..5672479e9eb6 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-util.h b/include/io/channel-util.h
-index c0b79cf6036b..a5d720d9a04b 100644
---- a/include/io/channel-util.h
-+++ b/include/io/channel-util.h
-@@ -6,7 +6,7 @@
+diff --git a/include/sysemu/cryptodev-vhost.h b/include/sysemu/cryptodev-vhost.h
+index f42824fbde43..e8cab1356e49 100644
+--- a/include/sysemu/cryptodev-vhost.h
++++ b/include/sysemu/cryptodev-vhost.h
+@@ -10,7 +10,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
@@ -191,271 +169,11 @@ index c0b79cf6036b..a5d720d9a04b 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-watch.h b/include/io/channel-watch.h
-index 63bc4ae2d92a..a36aab8f8f2f 100644
---- a/include/io/channel-watch.h
-+++ b/include/io/channel-watch.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel-websock.h b/include/io/channel-websock.h
-index 9c40513e745d..e180827c57f1 100644
---- a/include/io/channel-websock.h
-+++ b/include/io/channel-websock.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/channel.h b/include/io/channel.h
-index 3c04f0edda7e..4d6fe45f63d8 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/dns-resolver.h b/include/io/dns-resolver.h
-index 01d0bd7a428c..558ea517ded4 100644
---- a/include/io/dns-resolver.h
-+++ b/include/io/dns-resolver.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/include/io/task.h b/include/io/task.h
-index 6818dfedd005..beec4f5cfd1d 100644
---- a/include/io/task.h
-+++ b/include/io/task.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-buffer.c b/io/channel-buffer.c
-index 5402e0cced39..baa4e2b089f6 100644
---- a/io/channel-buffer.c
-+++ b/io/channel-buffer.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-command.c b/io/channel-command.c
-index 368dd62b7eda..b2a9e271382a 100644
---- a/io/channel-command.c
-+++ b/io/channel-command.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-file.c b/io/channel-file.c
-index 2ed3b75e8bf1..c4bf799a8023 100644
---- a/io/channel-file.c
-+++ b/io/channel-file.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-socket.c b/io/channel-socket.c
-index e1b46670874f..de259f7eed27 100644
---- a/io/channel-socket.c
-+++ b/io/channel-socket.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-tls.c b/io/channel-tls.c
-index 7ec8ceff2f01..388f01997725 100644
---- a/io/channel-tls.c
-+++ b/io/channel-tls.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-util.c b/io/channel-util.c
-index 423d79845a20..848a7a43d671 100644
---- a/io/channel-util.c
-+++ b/io/channel-util.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-watch.c b/io/channel-watch.c
-index 8640d1c46408..0289b3647c27 100644
---- a/io/channel-watch.c
-+++ b/io/channel-watch.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel-websock.c b/io/channel-websock.c
-index 47a0e941d9f6..bb545fa3271f 100644
---- a/io/channel-websock.c
-+++ b/io/channel-websock.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/channel.c b/io/channel.c
-index e4376eb0bc40..93d449dee261 100644
---- a/io/channel.c
-+++ b/io/channel.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/dns-resolver.c b/io/dns-resolver.c
-index b55d8cc3feae..743a0efc8767 100644
---- a/io/dns-resolver.c
-+++ b/io/dns-resolver.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/io/task.c b/io/task.c
-index 53c0bed68673..451f26f8b495 100644
---- a/io/task.c
-+++ b/io/task.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-io-channel-buffer.c b/tests/test-io-channel-buffer.c
-index 59d6c64b0431..9c6724dea419 100644
---- a/tests/test-io-channel-buffer.c
-+++ b/tests/test-io-channel-buffer.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-io-channel-command.c b/tests/test-io-channel-command.c
-index 3bc526612104..99056e07c023 100644
---- a/tests/test-io-channel-command.c
-+++ b/tests/test-io-channel-command.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-io-channel-file.c b/tests/test-io-channel-file.c
-index 0aa04775417f..29038e67b64d 100644
---- a/tests/test-io-channel-file.c
-+++ b/tests/test-io-channel-file.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-io-channel-socket.c b/tests/test-io-channel-socket.c
-index 743577d7449b..c49eec1f038a 100644
---- a/tests/test-io-channel-socket.c
-+++ b/tests/test-io-channel-socket.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-io-task.c b/tests/test-io-task.c
-index 85e7a98da50d..953a50ae66e3 100644
---- a/tests/test-io-task.c
-+++ b/tests/test-io-task.c
-@@ -6,7 +6,7 @@
+diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
+index b458aa4dae8d..f4d4057d4da6 100644
+--- a/include/sysemu/cryptodev.h
++++ b/include/sysemu/cryptodev.h
+@@ -9,7 +9,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
   * License as published by the Free Software Foundation; either
