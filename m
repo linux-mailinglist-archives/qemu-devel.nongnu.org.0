@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D3D329AC30
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:35:17 +0100 (CET)
-Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6490629AC66
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:44:21 +0100 (CET)
+Received: from localhost ([::1]:36990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOC4-0006G6-2Q
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:35:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51596)
+	id 1kXOKq-0000VN-EI
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:44:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPP-0001FL-P0
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:44:59 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39388)
+ id 1kXNPa-0001Nr-Gw
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:10 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPM-0004SB-3K
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:44:59 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id y12so1522608wrp.6
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:44:55 -0700 (PDT)
+ id 1kXNPP-0004TO-4m
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:09 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n15so1552411wrq.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:44:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=NM27XSm9J67Z4qQZzb0OHzzztPe88IRprbDMsKz6TuQ=;
- b=r86wwIxNfO9Din2C+f2yXqYS/Lrq/xueTNvWZ5UxqGPFZdSXlGl3uK+3/Dv/teb7XS
- xHTEfz6s/JsvDlg3dxL586nUdGeIS0891eYXL0MvLUt04O44zUZce2CbxV4q2Cn3SZE3
- Eeunda12iGqvy8KSKggnDYQcn2M83X0/B0ctBpXX+o6Ox4gy00OVPQx/4hewoXMHxe1+
- rDBtLI4BZ5BKVm9he/BqAn6w39MOvG3YrJldn8gRbcBObNDEu+U91nI7W8J167papEBT
- ueDG+CXAKqmYVWEap5n48yBlZIOqR9QhlZ1laLyErVo6bNJtqBhi3fMNu6/1CfaLO7nj
- yshg==
+ bh=xM3ww4qVSo94ShgDZxYVcbp+CF/PVLFJZwycGsyX7YM=;
+ b=UsZtnDnTtqmL5DLrr3vFKdVCDwojE0908Fjjbfj9oVZGXaZ2Vj6mfRFrK3B61NHh5w
+ RERLeAt/XXAAjbgk36RzClHrtslZ1l78tShXbNTAXsh4RLFgIsztH96cG3orwEbvtHjF
+ eV88okRn5rkHSb/gIGHuEBny5x01hGvLH8qJ7urwye0YBDxR94+THzsN+v99HegtnFcJ
+ QL8NcGtFpsjgiVQWOwE9GGYcDD+Z4h/0/ItK0krdKe/J13cnxm05wNnAYEhBvFK5nyi3
+ 3TSoocFvikbL/Y2mYZQyoyjB0xNmIAhpioDPDhpLy6ryp8W90i3UZddvQ4U8msdI+BVZ
+ ozQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NM27XSm9J67Z4qQZzb0OHzzztPe88IRprbDMsKz6TuQ=;
- b=EjtBAM+7sKqa2JpyH/mSV46e+4Yy1xptW5ZKXRPwY8wtUKa3WWgINtK2QfV1Sdt0kG
- by4emlLRy5IbAaxWRBJ5xei+Dt9YvU1s7ew9y6oVcxVLqNQDyjXKrZbEuUvQDQ9vba/b
- uadvi4+laXlaY97lFggq8Al4sRwn32xjv+uRCyjsDoNO1MVl5KdJYWcSb1JfU+0ZxI09
- Tdutzrk9pVmDRKrPHCWTmBn3eXbH5LY/oHtZu8rC3cFR2tnycT2ZDbeXWuAUqZ42iEI+
- PR9Z0uo16Wx7krNV5zXdLLiRfW+IWNGairiQZCXIOjDYsZMWcl0QRqjcE+4HafsQuhkF
- zUyQ==
-X-Gm-Message-State: AOAM532tjxgWUvdBax7UhYR2uAx1ExUSfgO570TadBnIeTiod/5OMvjZ
- /AAg1UPrpwRqM7Zzvl6s2T73KG5TruzRcw==
-X-Google-Smtp-Source: ABdhPJzfE1XBsyPgFazm5krXaPPQNwb1m9+dxl5L2vRhMm1d6b3NuMIPhWGctkldrGauwvhRjp9AaA==
-X-Received: by 2002:a05:6000:ce:: with SMTP id
- q14mr1269835wrx.113.1603799094040; 
- Tue, 27 Oct 2020 04:44:54 -0700 (PDT)
+ bh=xM3ww4qVSo94ShgDZxYVcbp+CF/PVLFJZwycGsyX7YM=;
+ b=Pk71iXSLNzk/oXS7mgY4VbRfMwTbFQPF9HXd+SPesYME0GLIMBAPlkSscjRbf+GIMc
+ ZwozqJcs9K2UdL/UYSW+e1A4ZiCg+9rYbrmeL85IhyPu9IRFEuAJ3F1nnIUC+s99BopV
+ UEKbVJyvFQZQMbEu/fZsGaHDlS3Nx7TxoZZyZN3omEFjra7hqmADo0Q/9brX6EEipDvD
+ bXG4beStoA3s/EpYQyQUUJa93t7FQ6Ad4XqHLd36VzJ1lniGI5sjAdxpWS6cmh07pbp5
+ Q/hb8mLUxV0OPDB5L/wTH9nzaZiUw2JxpMe7142aKH3M3PF0CF/f5F+NCnVGGMw7wBxn
+ FqLA==
+X-Gm-Message-State: AOAM531r+Xitnn9tzmBawqxMZZTcTVUZbrd/8I0D0tc+pNvIx5f6UY/D
+ uFA4n0XWm/FyXB8X3zN77oxNmkyciq8QkA==
+X-Google-Smtp-Source: ABdhPJy5WCtII7lr83fIFIooZmFEoP+95v1JRacXEAo1HEktjKpO9yMv/mWg44ONcZ6FLR/kYKxhNg==
+X-Received: by 2002:a5d:4608:: with SMTP id t8mr2298482wrq.231.1603799096605; 
+ Tue, 27 Oct 2020 04:44:56 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.53
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.55
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:44:53 -0700 (PDT)
+ Tue, 27 Oct 2020 04:44:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/48] linux-user/elfload: Parse NT_GNU_PROPERTY_TYPE_0 notes
-Date: Tue, 27 Oct 2020 11:44:00 +0000
-Message-Id: <20201027114438.17662-11-peter.maydell@linaro.org>
+Subject: [PULL 12/48] tests/tcg/aarch64: Add bti smoke tests
+Date: Tue, 27 Oct 2020 11:44:02 +0000
+Message-Id: <20201027114438.17662-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,213 +91,307 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This is generic support, with the code disabled for all targets.
+The note test requires gcc 10 for -mbranch-protection=standard.
+The mmap test uses PROT_BTI and does not require special compiler support.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201021173749.111103-11-richard.henderson@linaro.org
+Acked-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20201021173749.111103-13-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/qemu.h    |   4 ++
- linux-user/elfload.c | 157 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 161 insertions(+)
+ tests/tcg/aarch64/bti-1.c         |  62 ++++++++++++++++
+ tests/tcg/aarch64/bti-2.c         | 116 ++++++++++++++++++++++++++++++
+ tests/tcg/aarch64/bti-crt.inc.c   |  51 +++++++++++++
+ tests/tcg/aarch64/Makefile.target |  10 +++
+ tests/tcg/configure.sh            |   4 ++
+ 5 files changed, 243 insertions(+)
+ create mode 100644 tests/tcg/aarch64/bti-1.c
+ create mode 100644 tests/tcg/aarch64/bti-2.c
+ create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 941ca997228..534753ca125 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -61,6 +61,10 @@ struct image_info {
-         abi_ulong       interpreter_loadmap_addr;
-         abi_ulong       interpreter_pt_dynamic_addr;
-         struct image_info *other_info;
-+
-+        /* For target-specific processing of NT_GNU_PROPERTY_TYPE_0. */
-+        uint32_t        note_flags;
-+
- #ifdef TARGET_MIPS
-         int             fp_abi;
-         int             interp_fp_abi;
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 04c04bc2602..428dcaa1528 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -1522,6 +1522,15 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
- 
- #include "elf.h"
- 
-+static bool arch_parse_elf_property(uint32_t pr_type, uint32_t pr_datasz,
-+                                    const uint32_t *data,
-+                                    struct image_info *info,
-+                                    Error **errp)
-+{
-+    g_assert_not_reached();
-+}
-+#define ARCH_USE_GNU_PROPERTY 0
-+
- struct exec
- {
-     unsigned int a_info;   /* Use macros N_MAGIC, etc for access */
-@@ -2373,6 +2382,150 @@ void probe_guest_base(const char *image_name, abi_ulong guest_loaddr,
-                   "@ 0x%" PRIx64 "\n", (uint64_t)guest_base);
- }
- 
-+enum {
-+    /* The string "GNU\0" as a magic number. */
-+    GNU0_MAGIC = const_le32('G' | 'N' << 8 | 'U' << 16),
-+    NOTE_DATA_SZ = 1 * KiB,
-+    NOTE_NAME_SZ = 4,
-+    ELF_GNU_PROPERTY_ALIGN = ELF_CLASS == ELFCLASS32 ? 4 : 8,
-+};
-+
+diff --git a/tests/tcg/aarch64/bti-1.c b/tests/tcg/aarch64/bti-1.c
+new file mode 100644
+index 00000000000..61924f0d7a4
+--- /dev/null
++++ b/tests/tcg/aarch64/bti-1.c
+@@ -0,0 +1,62 @@
 +/*
-+ * Process a single gnu_property entry.
-+ * Return false for error.
++ * Branch target identification, basic notskip cases.
 + */
-+static bool parse_elf_property(const uint32_t *data, int *off, int datasz,
-+                               struct image_info *info, bool have_prev_type,
-+                               uint32_t *prev_type, Error **errp)
++
++#include "bti-crt.inc.c"
++
++static void skip2_sigill(int sig, siginfo_t *info, ucontext_t *uc)
 +{
-+    uint32_t pr_type, pr_datasz, step;
-+
-+    if (*off > datasz || !QEMU_IS_ALIGNED(*off, ELF_GNU_PROPERTY_ALIGN)) {
-+        goto error_data;
-+    }
-+    datasz -= *off;
-+    data += *off / sizeof(uint32_t);
-+
-+    if (datasz < 2 * sizeof(uint32_t)) {
-+        goto error_data;
-+    }
-+    pr_type = data[0];
-+    pr_datasz = data[1];
-+    data += 2;
-+    datasz -= 2 * sizeof(uint32_t);
-+    step = ROUND_UP(pr_datasz, ELF_GNU_PROPERTY_ALIGN);
-+    if (step > datasz) {
-+        goto error_data;
-+    }
-+
-+    /* Properties are supposed to be unique and sorted on pr_type. */
-+    if (have_prev_type && pr_type <= *prev_type) {
-+        if (pr_type == *prev_type) {
-+            error_setg(errp, "Duplicate property in PT_GNU_PROPERTY");
-+        } else {
-+            error_setg(errp, "Unsorted property in PT_GNU_PROPERTY");
-+        }
-+        return false;
-+    }
-+    *prev_type = pr_type;
-+
-+    if (!arch_parse_elf_property(pr_type, pr_datasz, data, info, errp)) {
-+        return false;
-+    }
-+
-+    *off += 2 * sizeof(uint32_t) + step;
-+    return true;
-+
-+ error_data:
-+    error_setg(errp, "Ill-formed property in PT_GNU_PROPERTY");
-+    return false;
++    uc->uc_mcontext.pc += 8;
++    uc->uc_mcontext.pstate = 1;
 +}
 +
-+/* Process NT_GNU_PROPERTY_TYPE_0. */
-+static bool parse_elf_properties(int image_fd,
-+                                 struct image_info *info,
-+                                 const struct elf_phdr *phdr,
-+                                 char bprm_buf[BPRM_BUF_SIZE],
-+                                 Error **errp)
++#define NOP       "nop"
++#define BTI_N     "hint #32"
++#define BTI_C     "hint #34"
++#define BTI_J     "hint #36"
++#define BTI_JC    "hint #38"
++
++#define BTYPE_1(DEST) \
++    asm("mov %0,#1; adr x16, 1f; br x16; 1: " DEST "; mov %0,#0" \
++        : "=r"(skipped) : : "x16")
++
++#define BTYPE_2(DEST) \
++    asm("mov %0,#1; adr x16, 1f; blr x16; 1: " DEST "; mov %0,#0" \
++        : "=r"(skipped) : : "x16", "x30")
++
++#define BTYPE_3(DEST) \
++    asm("mov %0,#1; adr x15, 1f; br x15; 1: " DEST "; mov %0,#0" \
++        : "=r"(skipped) : : "x15")
++
++#define TEST(WHICH, DEST, EXPECT) \
++    do { WHICH(DEST); fail += skipped ^ EXPECT; } while (0)
++
++
++int main()
 +{
-+    union {
-+        struct elf_note nhdr;
-+        uint32_t data[NOTE_DATA_SZ / sizeof(uint32_t)];
-+    } note;
++    int fail = 0;
++    int skipped;
 +
-+    int n, off, datasz;
-+    bool have_prev_type;
-+    uint32_t prev_type;
++    /* Signal-like with SA_SIGINFO.  */
++    signal_info(SIGILL, skip2_sigill);
 +
-+    /* Unless the arch requires properties, ignore them. */
-+    if (!ARCH_USE_GNU_PROPERTY) {
-+        return true;
-+    }
++    TEST(BTYPE_1, NOP, 1);
++    TEST(BTYPE_1, BTI_N, 1);
++    TEST(BTYPE_1, BTI_C, 0);
++    TEST(BTYPE_1, BTI_J, 0);
++    TEST(BTYPE_1, BTI_JC, 0);
 +
-+    /* If the properties are crazy large, that's too bad. */
-+    n = phdr->p_filesz;
-+    if (n > sizeof(note)) {
-+        error_setg(errp, "PT_GNU_PROPERTY too large");
-+        return false;
-+    }
-+    if (n < sizeof(note.nhdr)) {
-+        error_setg(errp, "PT_GNU_PROPERTY too small");
-+        return false;
-+    }
++    TEST(BTYPE_2, NOP, 1);
++    TEST(BTYPE_2, BTI_N, 1);
++    TEST(BTYPE_2, BTI_C, 0);
++    TEST(BTYPE_2, BTI_J, 1);
++    TEST(BTYPE_2, BTI_JC, 0);
 +
-+    if (phdr->p_offset + n <= BPRM_BUF_SIZE) {
-+        memcpy(&note, bprm_buf + phdr->p_offset, n);
-+    } else {
-+        ssize_t len = pread(image_fd, &note, n, phdr->p_offset);
-+        if (len != n) {
-+            error_setg_errno(errp, errno, "Error reading file header");
-+            return false;
-+        }
-+    }
++    TEST(BTYPE_3, NOP, 1);
++    TEST(BTYPE_3, BTI_N, 1);
++    TEST(BTYPE_3, BTI_C, 1);
++    TEST(BTYPE_3, BTI_J, 0);
++    TEST(BTYPE_3, BTI_JC, 0);
 +
-+    /*
-+     * The contents of a valid PT_GNU_PROPERTY is a sequence
-+     * of uint32_t -- swap them all now.
-+     */
-+#ifdef BSWAP_NEEDED
-+    for (int i = 0; i < n / 4; i++) {
-+        bswap32s(note.data + i);
-+    }
++    return fail;
++}
+diff --git a/tests/tcg/aarch64/bti-2.c b/tests/tcg/aarch64/bti-2.c
+new file mode 100644
+index 00000000000..65e8e857dda
+--- /dev/null
++++ b/tests/tcg/aarch64/bti-2.c
+@@ -0,0 +1,116 @@
++/*
++ * Branch target identification, basic notskip cases.
++ */
++
++#include <stdio.h>
++#include <signal.h>
++#include <string.h>
++#include <unistd.h>
++#include <sys/mman.h>
++
++#ifndef PROT_BTI
++#define PROT_BTI  0x10
 +#endif
 +
-+    /*
-+     * Note that nhdr is 3 words, and that the "name" described by namesz
-+     * immediately follows nhdr and is thus at the 4th word.  Further, all
-+     * of the inputs to the kernel's round_up are multiples of 4.
-+     */
-+    if (note.nhdr.n_type != NT_GNU_PROPERTY_TYPE_0 ||
-+        note.nhdr.n_namesz != NOTE_NAME_SZ ||
-+        note.data[3] != GNU0_MAGIC) {
-+        error_setg(errp, "Invalid note in PT_GNU_PROPERTY");
-+        return false;
-+    }
-+    off = sizeof(note.nhdr) + NOTE_NAME_SZ;
-+
-+    datasz = note.nhdr.n_descsz + off;
-+    if (datasz > n) {
-+        error_setg(errp, "Invalid note size in PT_GNU_PROPERTY");
-+        return false;
-+    }
-+
-+    have_prev_type = false;
-+    prev_type = 0;
-+    while (1) {
-+        if (off == datasz) {
-+            return true;  /* end, exit ok */
-+        }
-+        if (!parse_elf_property(note.data, &off, datasz, info,
-+                                have_prev_type, &prev_type, errp)) {
-+            return false;
-+        }
-+        have_prev_type = true;
-+    }
++static void skip2_sigill(int sig, siginfo_t *info, void *vuc)
++{
++    ucontext_t *uc = vuc;
++    uc->uc_mcontext.pc += 8;
++    uc->uc_mcontext.pstate = 1;
 +}
 +
- /* Load an ELF image into the address space.
++#define NOP       "nop"
++#define BTI_N     "hint #32"
++#define BTI_C     "hint #34"
++#define BTI_J     "hint #36"
++#define BTI_JC    "hint #38"
++
++#define BTYPE_1(DEST)    \
++    "mov x1, #1\n\t"     \
++    "adr x16, 1f\n\t"    \
++    "br x16\n"           \
++"1: " DEST "\n\t"        \
++    "mov x1, #0"
++
++#define BTYPE_2(DEST)    \
++    "mov x1, #1\n\t"     \
++    "adr x16, 1f\n\t"    \
++    "blr x16\n"          \
++"1: " DEST "\n\t"        \
++    "mov x1, #0"
++
++#define BTYPE_3(DEST)    \
++    "mov x1, #1\n\t"     \
++    "adr x15, 1f\n\t"    \
++    "br x15\n"           \
++"1: " DEST "\n\t"        \
++    "mov x1, #0"
++
++#define TEST(WHICH, DEST, EXPECT) \
++    WHICH(DEST) "\n"              \
++    ".if " #EXPECT "\n\t"         \
++    "eor x1, x1," #EXPECT "\n"    \
++    ".endif\n\t"                  \
++    "add x0, x0, x1\n\t"
++
++asm("\n"
++"test_begin:\n\t"
++    BTI_C "\n\t"
++    "mov x2, x30\n\t"
++    "mov x0, #0\n\t"
++
++    TEST(BTYPE_1, NOP, 1)
++    TEST(BTYPE_1, BTI_N, 1)
++    TEST(BTYPE_1, BTI_C, 0)
++    TEST(BTYPE_1, BTI_J, 0)
++    TEST(BTYPE_1, BTI_JC, 0)
++
++    TEST(BTYPE_2, NOP, 1)
++    TEST(BTYPE_2, BTI_N, 1)
++    TEST(BTYPE_2, BTI_C, 0)
++    TEST(BTYPE_2, BTI_J, 1)
++    TEST(BTYPE_2, BTI_JC, 0)
++
++    TEST(BTYPE_3, NOP, 1)
++    TEST(BTYPE_3, BTI_N, 1)
++    TEST(BTYPE_3, BTI_C, 1)
++    TEST(BTYPE_3, BTI_J, 0)
++    TEST(BTYPE_3, BTI_JC, 0)
++
++    "ret x2\n"
++"test_end:"
++);
++
++int main()
++{
++    struct sigaction sa;
++    void *tb, *te;
++
++    void *p = mmap(0, getpagesize(),
++                   PROT_EXEC | PROT_READ | PROT_WRITE | PROT_BTI,
++                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
++    if (p == MAP_FAILED) {
++        perror("mmap");
++        return 1;
++    }
++
++    memset(&sa, 0, sizeof(sa));
++    sa.sa_sigaction = skip2_sigill;
++    sa.sa_flags = SA_SIGINFO;
++    if (sigaction(SIGILL, &sa, NULL) < 0) {
++        perror("sigaction");
++        return 1;
++    }
++
++    /*
++     * ??? With "extern char test_begin[]", some compiler versions
++     * will use :got references, and some linker versions will
++     * resolve this reference to a static symbol incorrectly.
++     * Bypass this error by using a pc-relative reference directly.
++     */
++    asm("adr %0, test_begin; adr %1, test_end" : "=r"(tb), "=r"(te));
++
++    memcpy(p, tb, te - tb);
++
++    return ((int (*)(void))p)();
++}
+diff --git a/tests/tcg/aarch64/bti-crt.inc.c b/tests/tcg/aarch64/bti-crt.inc.c
+new file mode 100644
+index 00000000000..47805f4e35b
+--- /dev/null
++++ b/tests/tcg/aarch64/bti-crt.inc.c
+@@ -0,0 +1,51 @@
++/*
++ * Minimal user-environment for testing BTI.
++ *
++ * Normal libc is not (yet) built with BTI support enabled,
++ * and so could generate a BTI TRAP before ever reaching main.
++ */
++
++#include <stdlib.h>
++#include <signal.h>
++#include <ucontext.h>
++#include <asm/unistd.h>
++
++int main(void);
++
++void _start(void)
++{
++    exit(main());
++}
++
++void exit(int ret)
++{
++    register int x0 __asm__("x0") = ret;
++    register int x8 __asm__("x8") = __NR_exit;
++
++    asm volatile("svc #0" : : "r"(x0), "r"(x8));
++    __builtin_unreachable();
++}
++
++/*
++ * Irritatingly, the user API struct sigaction does not match the
++ * kernel API struct sigaction.  So for simplicity, isolate the
++ * kernel ABI here, and make this act like signal.
++ */
++void signal_info(int sig, void (*fn)(int, siginfo_t *, ucontext_t *))
++{
++    struct kernel_sigaction {
++        void (*handler)(int, siginfo_t *, ucontext_t *);
++        unsigned long flags;
++        unsigned long restorer;
++        unsigned long mask;
++    } sa = { fn, SA_SIGINFO, 0, 0 };
++
++    register int x0 __asm__("x0") = sig;
++    register void *x1 __asm__("x1") = &sa;
++    register void *x2 __asm__("x2") = 0;
++    register int x3 __asm__("x3") = sizeof(unsigned long);
++    register int x8 __asm__("x8") = __NR_rt_sigaction;
++
++    asm volatile("svc #0"
++                 : : "r"(x0), "r"(x1), "r"(x2), "r"(x3), "r"(x8) : "memory");
++}
+diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
+index e7249915e7e..d7d33e293c0 100644
+--- a/tests/tcg/aarch64/Makefile.target
++++ b/tests/tcg/aarch64/Makefile.target
+@@ -25,6 +25,16 @@ run-pauth-%: QEMU_OPTS += -cpu max
+ run-plugin-pauth-%: QEMU_OPTS += -cpu max
+ endif
  
-    IMAGE_NAME is the filename of the image, to use in error messages.
-@@ -2467,6 +2620,10 @@ static void load_elf_image(const char *image_name, int image_fd,
-                 goto exit_errmsg;
-             }
-             *pinterp_name = g_steal_pointer(&interp_name);
-+        } else if (eppnt->p_type == PT_GNU_PROPERTY) {
-+            if (!parse_elf_properties(image_fd, info, eppnt, bprm_buf, &err)) {
-+                goto exit_errmsg;
-+            }
-         }
-     }
++# BTI Tests
++# bti-1 tests the elf notes, so we require special compiler support.
++ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_BTI),)
++AARCH64_TESTS += bti-1
++bti-1: CFLAGS += -mbranch-protection=standard
++bti-1: LDFLAGS += -nostdlib
++endif
++# bti-2 tests PROT_BTI, so no special compiler support required.
++AARCH64_TESTS += bti-2
++
+ # Semihosting smoke test for linux-user
+ AARCH64_TESTS += semihosting
+ run-semihosting: semihosting
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index be51bdb5a4a..e1b70e25f23 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -240,6 +240,10 @@ for target in $target_list; do
+                -march=armv8.3-a -o $TMPE $TMPC; then
+                 echo "CROSS_CC_HAS_ARMV8_3=y" >> $config_target_mak
+             fi
++            if do_compiler "$target_compiler" $target_compiler_cflags \
++               -mbranch-protection=standard -o $TMPE $TMPC; then
++                echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
++            fi
+         ;;
+     esac
  
 -- 
 2.20.1
