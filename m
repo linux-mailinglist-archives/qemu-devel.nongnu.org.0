@@ -2,72 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14CE029B78C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:45:12 +0100 (CET)
-Received: from localhost ([::1]:56530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CA8529B792
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:48:29 +0100 (CET)
+Received: from localhost ([::1]:35998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXR9r-0002R0-35
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:45:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
+	id 1kXRD1-0005mR-UB
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:48:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXR6n-0000d5-AZ
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:42:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXR6l-0003YT-N1
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:42:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603813318;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=31VUs3Chj7qnSQ1dV6+Ed4cwLyBd3ll3qFOGGKa4EdA=;
- b=IRkD4rFA20/jd3G85T59o3qkxSu2CDWYxHPFTwWZyxjsGCqVj/PVBdgDKWdBUgrpSBRWLf
- Ko3X/q+XCCU0r8DMgJe6Bu1oClqqkmmYPEzRiCu/HWhMOTTaoOroKUQXDreiK552OQ1vCh
- wmwcowtaWK6LF+upPtQRsKYwHGugS4s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-FvU9C3PnOlCl1bBOGlqamQ-1; Tue, 27 Oct 2020 11:41:56 -0400
-X-MC-Unique: FvU9C3PnOlCl1bBOGlqamQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4019D186DD4A;
- Tue, 27 Oct 2020 15:41:55 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-16.ams2.redhat.com [10.36.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 20F245B4A4;
- Tue, 27 Oct 2020 15:41:50 +0000 (UTC)
-Date: Tue, 27 Oct 2020 16:41:49 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2] block: End quiescent sections when a BDS is deleted
-Message-ID: <20201027154149.GE4628@merkur.fritz.box>
-References: <160346526998.272601.9045392804399803158.stgit@bahia.lan>
- <20201027135404.GB102411@stefanha-x1.localdomain>
- <20201027162441.787da040@bahia>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kXR9F-0002Q0-HR
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:44:33 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:39239)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kXR9C-0003q8-0F
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:44:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=uVDUp+Pyt8AlVw9dWvTG9S5382L0jzuI9F4oyNJJVaU=; b=O5EalneMwJlJp3kQArl9ePJFqE
+ VuJY3Fu4ljjt3ayCwcj5gjqdPgkUoY1iJUeQaCVd5bRBu/Q9/+/HaDf1QcT4nIvHjIm7R+zhIfKl/
+ 18txf5wM4sVWZLsZHbubqccslzoCSZMDRjVQfRD+NzJeoI4qgoAu7WFrGvvVDBOyn/G2BBR5V1mpl
+ 6YnXGa+jb7eK4H9ONBRpCuqySLfmkHG6pULA6wMtIodv5Uqr/O370UejZan5+e2r9GC7YYSZ6u31E
+ jbyjlyVhz1Q8zuqkEV2XMbPMBAzGTG8mKMqx+QHHeOpKbts/rcOrTQP8C2vy/QkkGYbp/LOe6FPzC
+ p9NJR9sg==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL 00/13] 9p queue 2020-10-23
+Date: Tue, 27 Oct 2020 16:44:24 +0100
+Message-ID: <1964921.l5TuKvtMJG@silver>
+In-Reply-To: <20201027102653.GE3369@work-vm>
+References: <cover.1603452058.git.qemu_oss@crudebyte.com>
+ <2112125.AVHuFmpgxR@silver> <20201027102653.GE3369@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20201027162441.787da040@bahia>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 11:44:26
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,77 +64,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0F1p//8PRICkK4MW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Dienstag, 27. Oktober 2020 11:26:53 CET Dr. David Alan Gilbert wrote:
+> * Christian Schoenebeck (qemu_oss@crudebyte.com) wrote:
+> > On Dienstag, 27. Oktober 2020 10:06:53 CET Dr. David Alan Gilbert wrote:
+> > > * Greg Kurz (groug@kaod.org) wrote:
+> > > > On Mon, 26 Oct 2020 13:48:37 +0100
+> > > > 
+> > > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > > > > On Montag, 26. Oktober 2020 11:33:42 CET Peter Maydell wrote:
+> > > > > > On Fri, 23 Oct 2020 at 12:46, Christian Schoenebeck
+> > > > > > 
+> > > > > > <qemu_oss@crudebyte.com> wrote:
+> > > > > > > The following changes since commit
+> > 
+> > 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+> > > > > > >   Merge remote-tracking branch
+> > > > > > >   'remotes/kraxel/tags/modules-20201022-pull-request' into
+> > > > > > >   staging
+> > > > > > >   (2020-10-22 12:33:21 +0100)>
+> > > > > > > 
+> > > > > > > are available in the Git repository at:
+> > > > > > >   https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201023
+> > > > > > > 
+> > > > > > > for you to fetch changes up to
+> > 
+> > ee01926a11b1f9bffcd6cdec0961dd9d1882da71:
+> > > > > > >   tests/9pfs: add local Tunlinkat hard link test (2020-10-22
+> > > > > > >   20:26:33
+> > > > > > >   +0200)
+> > > > > > > 
+> > > > > > > ----------------------------------------------------------------
+> > > > > > > 9pfs: more tests using local fs driver
+> > > > > > > 
+> > > > > > > Only 9pfs test case changes this time:
+> > > > > > > 
+> > > > > > > * Refactor: Rename functions to make top-level test functions
+> > > > > > > fs_*()
+> > > > > > > 
+> > > > > > >   easily distinguishable from utility test functions do_*().
+> > > > > > > 
+> > > > > > > * Refactor: Drop unnecessary function arguments in utility test
+> > > > > > > 
+> > > > > > >   functions.
+> > > > > > > 
+> > > > > > > * More test cases using the 9pfs 'local' filesystem driver
+> > > > > > > backend,
+> > > > > > > 
+> > > > > > >   namely for the following 9p requests: Tunlinkat, Tlcreate,
+> > > > > > >   Tsymlink
+> > > > > > >   and Tlink.
+> > > > > > > 
+> > > > > > > ----------------------------------------------------------------
+> > > > > > 
+> > > > > > I get a 'make check' failure on x86-64 Linux host:
+> > > > > > 
+> > > > > > PASS 54 qtest-x86_64: qos-test
+> > > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-
+> > > > > > 9p/v
+> > > > > > irtio- 9p-tests/local/config PASS 55 qtest-x86_64: qos-test
+> > > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-
+> > > > > > 9p/v
+> > > > > > irtio- 9p-tests/local/create_dir PASS 56 qtest-x86_64: qos-test
+> > > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-
+> > > > > > 9p/v
+> > > > > > irtio- 9p-tests/local/unlinkat_dir PASS 57 qtest-x86_64: qos-test
+> > > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-
+> > > > > > 9p/v
+> > > > > > irtio- 9p-tests/local/create_file PASS 58 qtest-x86_64: qos-test
+> > > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-
+> > > > > > 9p/v
+> > > > > > irtio- 9p-tests/local/unlinkat_file PASS 59 qtest-x86_64: qos-test
+> > > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-
+> > > > > > 9p/v
+> > > > > > irtio- 9p-tests/local/symlink_file Received response 7 (RLERROR)
+> > > > > > instead of 73 (RMKDIR)
+> > > > > > Rlerror has errno 2 (No such file or directory)
+> > > > > > **
+> > > > > > ERROR:../../tests/qtest/virtio-9p-test.c:300:v9fs_req_recv:
+> > > > > > assertion
+> > > > > > failed (hdr.id == id): (7 == 73)
+> > > > 
+> > > > Not sure this is related to this PR actually. Dave Gilbert reported on
+> > > > irc
+> > > > that he encountered a similar issue with 'make -j check', likely
+> > > > without
+> > > > these patches.
+> > > 
+> > > I was running on current master as of yesterday; no 9p specific patches.
+> > > 
+> > > Dave
+> > 
+> > They might be related as the "local/create_dir" test is already merged,
+> > but
+> > hard to say reliably without any data.
+> > 
+> > How is reproducibility, sometimes / always?
+> 
+> I think I was seeing a few different errors; but I was running make
+> check -j 32 ish
+> 
+> Dave
+> 
 
-Am 27.10.2020 um 16:24 hat Greg Kurz geschrieben:
-> On Tue, 27 Oct 2020 13:54:04 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> > On Fri, Oct 23, 2020 at 05:01:10PM +0200, Greg Kurz wrote:
-> > > +/**
-> > > + * End all quiescent sections started by bdrv_drain_all_begin(). Thi=
-s is
-> > > + * only needed when deleting a BDS before bdrv_drain_all_end() is ca=
-lled.
-> > > + */
-> > > +void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
-> >=20
-> > This function is only called from block.c. Can it be moved to the
-> > private block_int.h header?
-> >=20
->=20
-> Ha, I wasn't aware of block_int.h... It seems to be a very good idea.
->=20
-> > The code is not clear on whether bdrv_drain_all_end_quiesce() is an API
-> > that others can use or an internal helper function that must only be
-> > called by bdrv_close(). I came to the conclusion that the latter is tru=
-e
-> > after reviewing the patch.
-> >=20
->=20
-> Yes it is.
->=20
-> > Please update the bdrv_drain_all_end_quiesce() doc comment to clarify
-> > that this function is an internal helper for bdrv_close() - no one else
-> > needs to worry about it.
->=20
-> I'll do that.
->=20
-> Thanks for the suggestions Stefan.
+Ok, I understand, but how frequently are you able to trigger one of the test 
+failures there? Does it happen like every time, or rather just once every xth 
+run or so?
 
-I already sent a pull request, so if you're going to change something,
-please make it a follow-up patch rather than a new patch version.
+I'm running the qtests multi-threaded in a loop for several hours now, but so 
+far I was unable to hit any test failure:
 
-Kevin
+#/bin/sh
+i=0
+while true; do
+  i=$[$i+1]
+  echo '**************************************************'
+  echo "* RUN $i                                         *"
+  echo '**************************************************'
+  make check-qtest -j32 V=1
+  if [[ "$?" -ne 0 ]]; then
+    echo "Aborted after $i runs due to failure"
+    break
+  fi
+done
 
---0F1p//8PRICkK4MW
-Content-Type: application/pgp-signature; name="signature.asc"
+If you say it only happens once in a while, then I let it go for a day or 
+more. However if it happens there quite frequently, then I guess I have to 
+look into another aspect instead, like e.g. differences in the glib version.
 
------BEGIN PGP SIGNATURE-----
+> > > > > > ERROR qtest-x86_64: qos-test - Bail out!
+> > > > > > ERROR:../../tests/qtest/virtio-9ptest.c:300:v9fs_req_recv:
+> > > > > > assertion
+> > > > > > failed (hdr.id == id): (7 == 73)
+> > > > > > Makefile.mtest:3953: recipe for target 'run-test-492' failed
+> > > > > > 
+> > > > > > 
+> > > > > > thanks
+> > > > > > -- PMM
+> > > > > 
+> > > > > So the 9p server is already failing to create the test case
+> > > > > directory
+> > > > > "./qtest-9p-local/05/" relative to your current working directory.
+> > > > > 
+> > > > > I would appreciate to get more info when you have some free cycles,
+> > > > > as
+> > > > > I'm
+> > > > > unable to reproduce this on any system unfortunately. But no hurry
+> > > > > as
+> > > > > these tests only become relevant actually for QEMU 6.
+> > > > > 
+> > > > > What puzzles me is that the previous test cases succeeded there,
+> > > > > which
+> > > > > all
+> > > > > 
+> > > > > create their own test directory in the same way:
+> > > > > 	./qtest-9p-local/01/
+> > > > > 	./qtest-9p-local/02/  (<-- dir vanishes after that test completed)
+> > > > > 	./qtest-9p-local/03/
+> > > > > 	./qtest-9p-local/04/
+> > > > > 	...
+> > > > > 
+> > > > > How does the "./qtest-9p-local/" directory look like after that
+> > > > > "local/symlink_file" test failed there? You can use this shortcut:
+> > > > > 
+> > > > > export QTEST_QEMU_BINARY=x86_64-softmmu/qemu-system-x86_64
+> > > > > cd build
+> > > > > tests/qtest/qos-test --verbose
+> > > > > ls -l qtest-9p-local
+> > > > > 
+> > > > > That latter qos-test run will also output the assembled qemu command
+> > > > > line the 9p local tests would run with, which might also be helpful,
+> > > > > e.g. the relevant output would be something like this:
+> > > > > 
+> > > > > GTest: run:
+> > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p
+> > > > > /vi
+> > > > > rtio-9p-tests/local/config (MSG: starting QEMU: exec
+> > > > > x86_64-softmmu/qemu-system-x86_64 -qtest unix:/tmp/qtest-7428.sock
+> > > > > -qtest-log /dev/null -chardev
+> > > > > socket,path=/tmp/qtest-7428.qmp,id=char0
+> > > > > -mon chardev=char0,mode=control -display none -M pc  -fsdev
+> > > > > local,id=fsdev0,path='/home/me/git/qemu/build/qtest-9p-local',securi
+> > > > > ty_
+> > > > > model=mapped-xattr -device
+> > > > > virtio-9p-pci,fsdev=fsdev0,addr=04.0,mount_tag=qtest -accel qtest)
+> > > > > 
+> > > > > Would probably the test succeed if run alone?
+> > > > > 
+> > > > > tests/qtest/qos-test -p
+> > > > > /x86_64/pc/i440FX-pcihost/pci-bus-pc/pci-bus/virtio-9p-pci/virtio-9p
+> > > > > /vi
+> > > > > rtio-9p-tests/local/symlink_file
+> > > > > 
+> > > > > Best regards,
+> > > > > Christian Schoenebeck
+> > 
+> > Best regards,
+> > Christian Schoenebeck
 
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAl+YP70ACgkQfwmycsiP
-L9aSFA//ZOmoe8g3t4cTYaGGwdkoYV/MjX96vJJayM/79H9XYVqP1mhso4Vxk9kB
-fciWpnSi02Ou1GeSj1IUG9Us0MxNXrKCQl0zbxcstCAHMOv9DU9XLfI3K5+D3L4T
-IH3aFFn2DE1KIpFaRagUGJ68yIuHnzUnFk6CMsFZlA9HyFvLOBLBgbGTeBwpggc5
-kZ32+Bpo73L5vx5BGc0kbYVAv89GXaaELLLR10TBwoOuvffuGrbqPrKuUOXhm2VI
-UpYcH52Jj73ejRoqQPKwYHshF1gYHno119PzxuuHKj44zNIgmSmVW8I49HEI7JgQ
-/MZvhEoLDV7bbQFpuW18cMlvPBvB2WesjJ+Lwn/p8mNHZlxyzmp+EFjgn0baVn36
-I3jzkJYuxU5lVu3EruOkM11iou+4+POxbp55VFFrqSq1Pc89TafUtUI9GflO5Gyy
-EC4PZTHBQpCj4Gr0jFF2tDcBuylmO5VSdkZgeDEKVPjNhenG2q/CA8Dqqm3z7Ht1
-FOSNtc/3Cq5dfE3iYOJ7BoWZs9m/eH9C+cmPIpnX6NqYOEMkS81XasddGJC/1RNi
-+0ppMPCYeC9Eqa0oF+SCAjQ4ivSJ3SanRpVHFUvoEACH5hBxQITEzlTuTyB96cRC
-UGIWjUX079vUEg14UUNDZsE+dUmWA1FUsEZZ6oY+z+JeAGtzThk=
-=k+Yu
------END PGP SIGNATURE-----
-
---0F1p//8PRICkK4MW--
 
 
