@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AF629A945
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:13:16 +0100 (CET)
-Received: from localhost ([::1]:35642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A3729A95C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:19:41 +0100 (CET)
+Received: from localhost ([::1]:42654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLyd-0004CA-Cc
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:13:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57902)
+	id 1kXM4q-0007av-H9
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:19:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLwu-0003G1-Ax
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:11:28 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:50699)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLwr-0004WW-Tv
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:11:27 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 13so791889wmf.0
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 03:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=bChuqpm8371HXxABvjXwg677auScCJoJmhAUxg5huRA=;
- b=MwRfiitNjE6U9G3Lx8t19HjCyzrOmnAxH9/M7hwcPZx+iJzan4WpHL62UNFe2efpw0
- oBt/SbNybaBkUfgFJge+fOKkOtS9Am+LfR7d/w5PcT533hE2geFloKByYTabAM4cA9v1
- lx43Wd9L88i4c7dA2/Ao9yvUQeWoyskexxd4/cDr58WFEjaGGyVBH1SZVMnBi08oquH0
- B8esTsN+FCFvjmwIkNCITbOVWcQpEhGwNw5mNs3GvTd6xLBmuArfrxhPQtj7yeAwn1io
- ya9p3/vigNwXxSLgJqufIrrpdHHNoo9MXnVBSJLeWp1k1DhMyaPQ07/FNfuVAzxry/+N
- CsJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=bChuqpm8371HXxABvjXwg677auScCJoJmhAUxg5huRA=;
- b=mCktRGKajdVkkBzee/p0PxZUqBM+LbjfRO7/cjiwcKsYaOVc34NJtYjeZl+HupIfUK
- mTZ80qFdN+lsSCw89TPwRTiU4xYD7A6SdPu9odJfxcSEevAeTA5D4CJ1tHpq3GWrw6Mf
- Z1XLlY6Mq6wtGsF5dbnhfNkFloaSMqSco82jFajDt8U7X5PhAAN3+yjXV5cUWdHCje8i
- AUGqTWVNRGFcmn5RdfdprcDdNbCyrsnCk/iFALHEFJmYq0yZfeK5rnWf+nDc8e60Tn13
- Z1dRfdFsq8u1vX1FC5//M5jTj5wAYIj/aLNhwiQiy7KeQi0aL+tsw+mP4BeUtsVJ/5dx
- RzcA==
-X-Gm-Message-State: AOAM532uNowwcHRVuVPJEA6VGMkF2HmANZw+gaL/YqSyIiNSvQYSdsS2
- 5PPYrTKoKUx8qZE61H1vYLylkQ==
-X-Google-Smtp-Source: ABdhPJwZkZRNQKZesqXTVhp1+NIrQxXwg0q1A83J0AbB7s22UiZQMqD31teD4fU+ns7l6+nqpo+XkA==
-X-Received: by 2002:a1c:7f97:: with SMTP id a145mr1932892wmd.160.1603793481108; 
- Tue, 27 Oct 2020 03:11:21 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r3sm1364782wrm.51.2020.10.27.03.11.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 03:11:19 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DF13A1FF7E;
- Tue, 27 Oct 2020 10:11:18 +0000 (GMT)
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-5-dbuono@linux.vnet.ibm.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 4/6] cfi: Initial support for cfi-icall in QEMU
-In-reply-to: <20201023200645.1055-5-dbuono@linux.vnet.ibm.com>
-Date: Tue, 27 Oct 2020 10:11:18 +0000
-Message-ID: <874kmgf06x.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2d-0006dv-4b
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:23 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28852)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2Y-0006kj-8b
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603793832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iMWIBbcBQZu+bsW3tJ+hmmdRyvVbI+80tcqo2QZP1OI=;
+ b=duDSUSo9CnoAcp7OUytS2sqRMCyUhel3aZXG682r5VbSP1zNKfrKcOpAT2hjpQ7HYDngNQ
+ 6yuHH6QyAWdeUvNSIM4NY4AHU+Qdgy6lPqZAQ4b7gF9iCK4ufERZ4vjWw5K66Nl8eX+wjC
+ n8k/j7vzPZis4rzmm3rVY6PEdgzYPNA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-KrgJaDJfMIGvOSCG4KpDaA-1; Tue, 27 Oct 2020 06:17:10 -0400
+X-MC-Unique: KrgJaDJfMIGvOSCG4KpDaA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 214DB186842E;
+ Tue, 27 Oct 2020 10:17:09 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E8F5B60C07;
+ Tue, 27 Oct 2020 10:17:08 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8371B113865F; Tue, 27 Oct 2020 11:17:07 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/2] QMP patches patches for 2020-10-27
+Date: Tue, 27 Oct 2020 11:17:05 +0100
+Message-Id: <20201027101707.2988553-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,65 +78,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit 1dc887329a10903940501b43e8c0cc67af7c06d5:
 
-Daniele Buono <dbuono@linux.vnet.ibm.com> writes:
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20201026' into staging (2020-10-26 17:19:26 +0000)
 
-> LLVM/Clang, supports runtime checks for forward-edge Control-Flow
-> Integrity (CFI).
->
-> CFI on indirect function calls (cfi-icall) ensures that, in indirect
-> function calls, the function called is of the right signature for the
-> pointer type defined at compile time.
->
-> For this check to work, the code must always respect the function
-> signature when using function pointer, the function must be defined
-> at compile time, and be compiled with link-time optimization.
->
-> This rules out, for example, shared libraries that are dynamically loaded
-> (given that functions are not known at compile time), and code that is
-> dynamically generated at run-time.
->
-> This patch:
->
-> 1) Introduces the CONFIG_CFI flag to support cfi in QEMU
->
-> 2) Introduces a decorator to allow the definition of "sensitive"
-> functions, where a non-instrumented function may be called at runtime
-> through a pointer. The decorator will take care of disabling cfi-icall
-> checks on such functions, when cfi is enabled.
->
-> 3) Marks functions currently in QEMU that exhibit such behavior,
-> in particular:
-> - The function in TCG that calls pre-compiled TBs
-> - The function in TCI that interprets instructions
-> - Functions in the plugin infrastructures that jump to callbacks
-> - Functions in util that directly call a signal handler
->
-> 4) Add a new section in MAINTAINERS with me as a maintainer for
-> include/qemu/sanitizers.h, in case a maintainer is deemed
-> necessary for this feature
->
-> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
-> ---
->  MAINTAINERS               |  5 +++++
->  accel/tcg/cpu-exec.c      |  9 +++++++++
->  include/qemu/sanitizers.h | 22 ++++++++++++++++++++++
->  plugins/core.c            | 25 +++++++++++++++++++++++++
->  plugins/loader.c          |  5 +++++
+are available in the Git repository at:
 
-With the changes Paolo suggested (QEMU_DISABLE_CFI and use compilers.h)
-then for the plugin bits:
+  git://repo.or.cz/qemu/armbru.git tags/pull-qmp-2020-10-27
 
-Acked-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+for you to fetch changes up to 36006046675228cf2fec904e717d96ca816cc21a:
 
---=20
-Alex Benn=C3=A9e
+  scripts/qmp: delete 'qmp' script (2020-10-27 11:11:06 +0100)
+
+----------------------------------------------------------------
+QMP patches patches for 2020-10-27
+
+----------------------------------------------------------------
+David Edmondson (1):
+      qmp-shell: Sort by key when pretty-printing
+
+John Snow (1):
+      scripts/qmp: delete 'qmp' script
+
+ scripts/qmp/qmp       | 131 +++-----------------------------------------------
+ scripts/qmp/qmp-shell |   2 +-
+ 2 files changed, 8 insertions(+), 125 deletions(-)
+
+-- 
+2.26.2
+
 
