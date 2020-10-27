@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D5229B3FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:02:02 +0100 (CET)
-Received: from localhost ([::1]:58502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A497A29B4D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:07:35 +0100 (CET)
+Received: from localhost ([::1]:46290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQU5-00048d-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:02:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45482)
+	id 1kXQZS-00037G-KT
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:07:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXPyi-0000aa-Kf
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:29:36 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXPyg-0000j0-7B
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:29:35 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id v19so1638027edx.9
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 07:29:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=uhUv/Z96+q/nq6d7GN6i8Kdl/+mxeTyQ+WVQpwGK2VI=;
- b=BWUry88leXXszZq4+eVNCZWhJTKCmE8+WudTtaWtXCTiXzzrvWaisLFDMJNQp/Ra4H
- SmR8pDdqdV0RphRpOgIuingR8W7fxSGYaBZOXKa9F2KIFTV0ZajCfie0P38Lg81wkrKf
- /oO5fhjU8H9tOoJfPTmgh1ihBzdNCrXOuYeS5rTKhWgv7jNRWjXc2sgql7u9ZsyEuRNT
- 4C1ynT3dPf/qUjEFdrI1qOa03U2OoMKKOfU7CHvK9d9w4O8LOi0eBGBDofdpkre0RNAx
- j0iig4fGnqC4gBNWUuKN/cGYJ6UcY3HMKoijWVXN+7TVKKtioP0hKyVrvueFoNF/b/SI
- 2UwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=uhUv/Z96+q/nq6d7GN6i8Kdl/+mxeTyQ+WVQpwGK2VI=;
- b=DcfA8u7tWqAillz3r9iDdq8A0K3XVVCUURfafuZVo6mn0DDgWbXU+J00BYSj+6nRuG
- a8m3a3cmMcSDzMPbV9iXcvjSURR5fd3QSX28LlD5QaQEkvFSxt7ADF8fJP6/YcTiu5sk
- ZpZw3PMdRIPwyxFX0Rma5ubvyvAbM5InQPUlXyuh5pAXGeU7UXkCOvDgXoaAKzYxiQfh
- XA9l2Uf52h8rm1BAUA60FpTyyrqRTLhsX02LZi94zO6xWjSv25pi7FVaXne9hrAmZYJm
- G/41vFI/eJMjIqbmXRPEV7wWpUxwfPLfC2IQQGnxiEg/QBywJcFkaTCBI6RKJU4/Z/IA
- cngQ==
-X-Gm-Message-State: AOAM533fRGdBKHPV0w330OZ1EIXw7Czb2PvwDH92JxWd3F2oESF2nIpp
- l/bBfq58NVlHiw/PLdToab0n0YjJR7zPnVvOQXuKpQ==
-X-Google-Smtp-Source: ABdhPJxt9A6dqreXeh1bfItk7UZE+WLXspRqRl5HBxbKyKzHK2rp32dcDgVoly4ZQvj/KS7VWXB2CeHDScFUDNO1Ip8=
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr2503273edq.146.1603808971262; 
- Tue, 27 Oct 2020 07:29:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXQ5Q-0007S7-VC
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:36:32 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36242)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXQ5N-0001sr-Ak
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:36:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603809387;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CtN+IGDJS4flg55gW0A8MfWbaR3bWf0hVnh0joF1o4Y=;
+ b=ev5Ms2KWXETxRbBXsvslt6JAb3xnhD7JdlB1OAxmUKLTHZNShPzDe63PzJpq0+b51u5ACx
+ FSUynlKKoKqqU4jogEqkbKvs9GOqDlYAEyxPCbI2REDSyf8VU/xbVWrWInOuu4CnEy8ytC
+ 94PI8JJAbWWbEAvcawxATRvQdXiaklw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-D3V2cTgyPGeNGR3nUKkNzQ-1; Tue, 27 Oct 2020 10:36:25 -0400
+X-MC-Unique: D3V2cTgyPGeNGR3nUKkNzQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2D67D6409A;
+ Tue, 27 Oct 2020 14:36:24 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F5521992F;
+ Tue, 27 Oct 2020 14:36:14 +0000 (UTC)
+Date: Tue, 27 Oct 2020 15:36:12 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ben Widawsky <ben.widawsky@intel.com>
+Subject: Re: [PATCH 2/2] acpi/crs: Support ranges > 32b for hosts
+Message-ID: <20201027153612.35e9faac@redhat.com>
+In-Reply-To: <20201026193924.985014-2-ben.widawsky@intel.com>
+References: <20201026193924.985014-1-ben.widawsky@intel.com>
+ <20201026193924.985014-2-ben.widawsky@intel.com>
 MIME-Version: 1.0
-References: <20201026170502.65786-1-stefanha@redhat.com>
-In-Reply-To: <20201026170502.65786-1-stefanha@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Oct 2020 14:29:20 +0000
-Message-ID: <CAFEAcA9vPfYW9-UaW6i2NeANy6eohYnhmjKx-CBBBrhaGiyraA@mail.gmail.com>
-Subject: Re: [PULL v2 v2 0/2] Tracing patches
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,37 +81,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, mst@redhat.com, jusual@redhat.com,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 at 17:05, Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> The following changes since commit a46e72710566eea0f90f9c673a0f02da0064acce:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201026' into staging (2020-10-26 14:50:03 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/stefanha/qemu.git tags/tracing-pull-request
->
-> for you to fetch changes up to ee8041013a574b4f88e05472f321e50e1f4be733:
->
->   Add execute bit back to scripts/tracetool.py (2020-10-26 17:03:26 +0000)
->
-> ----------------------------------------------------------------
-> Pull request
->
-> v2:
->  * Fix Anthony Perard's email address [Philippe]
->
-> ----------------------------------------------------------------
+On Mon, 26 Oct 2020 12:39:24 -0700
+Ben Widawsky <ben.widawsky@intel.com> wrote:
+
+> According to PCIe spec 5.0 Type 1 header space Base Address Registers
+> are defined by 7.5.1.2.1 Base Address Registers (same as Type 0). The
+> _CRS region should allow for the same range (up to 64b). Prior to this
+> change, any host bridge utilizing more than 32b for the BAR would have
+> the address truncated and likely lead to conflicts when the operating
+> systems reads the _CRS object.
+> 
+> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+
+Looks good to me, so
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 
-Applied, thanks.
+CCing,
+Michael to have a send pair of eyes on it 
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+but I wonder how/why ivshm (which might have quite large BAR) works.
 
--- PMM
+PS:
+please use git's --cover-letter option to create multi-patch series,
+in the future
+
+> 
+> ---
+> I don't think this effects any code currently in QEMU. You'd need to
+> have a host bridge which has a BAR, and that BAR wants to be > 32b. I've
+> hit this because I have a modified PXB device that does advertise a 64b
+> BAR. Also, you'd need a platform that cares about ACPI, which, many do
+> not.
+> ---
+>  hw/i386/acpi-build.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index df13abecf4..75604bdc74 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -789,8 +789,14 @@ static Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+>                  crs_range_insert(temp_range_set.io_ranges,
+>                                   range_base, range_limit);
+>              } else { /* "memory" */
+> -                crs_range_insert(temp_range_set.mem_ranges,
+> -                                 range_base, range_limit);
+> +                uint64_t length = range_limit - range_base + 1;
+> +                if (range_limit <= UINT32_MAX && length <= UINT32_MAX) {
+> +                    crs_range_insert(temp_range_set.mem_ranges, range_base,
+> +                                     range_limit);
+> +                } else {
+> +                    crs_range_insert(temp_range_set.mem_64bit_ranges,
+> +                                     range_base, range_limit);
+> +                }
+>              }
+>          }
+>  
+
 
