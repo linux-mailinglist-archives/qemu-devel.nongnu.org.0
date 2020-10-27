@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D0F29AA97
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:28:40 +0100 (CET)
-Received: from localhost ([::1]:46928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A1E29AA79
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:23:11 +0100 (CET)
+Received: from localhost ([::1]:38362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXN9c-0006XJ-24
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:28:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38984)
+	id 1kXN4I-0002Yp-4O
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYr-0000mT-9A; Tue, 27 Oct 2020 06:50:41 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:53807)
+ id 1kXMYq-0000kd-7s; Tue, 27 Oct 2020 06:50:40 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:33657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYo-0002IQ-Bg; Tue, 27 Oct 2020 06:50:40 -0400
+ id 1kXMYo-0002IP-Bj; Tue, 27 Oct 2020 06:50:39 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id BAE285C019B;
- Tue, 27 Oct 2020 06:50:02 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 0CBC65C018B;
+ Tue, 27 Oct 2020 06:50:04 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:02 -0400
+ by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=SISRIiTiJ04qh
- VkZqclSVn6Zo+nvig2yOnxM/rx97o8=; b=i6bwjCnygRIPcpzBDMezCp6gkyI8d
- pbdrfldh+GonQ2DCn69g47ynP1dBJ5ssxo07mX3oHEsQ0sLLn+kAS0Tvdb7fE36B
- 9PFlQ2NcYHmsgppSKcVkmui8El5sOtP8I1zHoL6jSIO0FrwsdMSN3JBtbVoI+amt
- LhgMw31ENeCTx+RtyyiqvYsFTUbra19dMRAN1eft88hgzf8OpiXBMdJVFRTxF0+K
- KBqgNDga0OLaVQvuOpEK4cyLqcqvAMVDZhVkB9l+u4VC8qnldc6OsPFGUsM5GSZj
- NdPsNZqTnfbDhGwF/FNUGsgcvgph5VSAuacUXWSeqHg4NORXXYfxkIPTQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=1i3kcp61iWkwt
+ 8qf2ro7C4gt23DgmJ5vUwDK900n8fo=; b=Z1jVeQZy7Cqfo9N6+5FT7vKdCMgYy
+ LSVs2cPFceAgQ/bzd/naGlsNAGYyhEy5ke4XipD/y/rgzdpgQuL/Cag7rPtYF/2F
+ 6wqKlllY/V+A++fdz4lson3q34s0nmIq8v3HiXsa/Tax/Qb9i6HSiCbOdFQF94Pc
+ eBMmRVjhMt7Si4M0OErvNnmjrz2A93I5+2LSKRcUj1Dl/Rlu4J75jL8Rur0ML1GM
+ dYRS3Xm7HywHAxmJKT7me3tCqdRCC+L1ZfxpEIo/rrTNix+gJnWQyvEwLCzB5ket
+ pBOOh/YYvT4Vd67LSBbNhzywHiMnWr6N0fGrlmc5mDEV/Htuf5a3Q5u5w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=SISRIiTiJ04qhVkZqclSVn6Zo+nvig2yOnxM/rx97o8=; b=iU5tD9PE
- hBpS7QDPT0dl6XxMFAhZYdbqn7DHzcct1WYJK+s4KSBvchBPziQFK3gb+wJqJTXO
- APBJUqVwAF0KPd0FW/Q3K9UWuvKWmbMoH9bdzL1xz2GU2y6BHBBP0sr3OwobavL6
- DzHBAiTx10SRrkKENELB3XbjjN1rOpMKoDmog0uPb6qHhSbg+F5ph06h3Q1MiQW4
- Z/tm2lWGnPnT7VWmoJ01mfCQpJK+hs5nwAT/sNITG7zR545GsxTR9SIhkqW2+TFI
- 2VpLsef7dJ2M38cMq9gNFb6pNUA1Xo1e8saa6Sg3KQsKtQ8Oo+vmwGoCDCMw4tKd
- cDqy5Hl5Bth5fA==
-X-ME-Sender: <xms:WvuXXwLvSWnyY92ZVUjq05e6_ejNWAhrB3PO8VoGWkJoYc_oAavbHA>
- <xme:WvuXXwKsBJvzkMeh5seGlWe59m4CQa19u9cKNKpAu5nJc6m_6aahqEKsvv6W_gtyE
- -klBDFnWFQf_d3unhU>
+ fm1; bh=1i3kcp61iWkwt8qf2ro7C4gt23DgmJ5vUwDK900n8fo=; b=VxnWbkfM
+ zxxaEmDekUilhuWzu7ShNWAKmmrODingZdS8PPrBNFAsXkGPX9o6/cMPEE0JjDUK
+ BNmPSDyTNpmhY2f/K9C0+LkUBULc6sCBrvR4MC065YVUMNc0WLUq5FTN659gsPeg
+ F1H7mtpmDITcAaWsfZbtWJNxvsYBhg4FV7QRyNyPUD6/OfT54OcdjazCbxO2VvBx
+ wvaTwhgxm3lbHK0R5FqBnFOUD/uBYU92qCEyRem7R2FBO+piNpay607ZgnHg/py0
+ jjltxc94k8bgKj3RMhjFZpvBunsBuTarfrfXyZyQbh14PqnlU3xTGGQSDwPXHQkx
+ 2LRHdKWSDCzlGA==
+X-ME-Sender: <xms:W_uXX2Henx9ED-reRBbZ5y3OBYunsTz5tFnsoYuG1mLPqdpOTXkk7A>
+ <xme:W_uXX3XxPoDZbdONpKOLJXDme71xQd7Y9_tx7YDT5ouFlJeSsq-yV5F8woUD3vxPE
+ cM60SgVhiKKYM3s68M>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,21 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepuddtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:WvuXXwthv3h4ylMLdVvZDk0P8p1rbsYPNMpXwQSrIMXAuJ9cQNg5ZA>
- <xmx:WvuXX9afs58D3oPfXnRgkxDSPLgYOAIlgV6k8dXWAjmFyHz09BTWZQ>
- <xmx:WvuXX3YWoYqSsL-RznGpEvymuwqkR1pYY6cC7SGKaOvIc7jWGl7QhQ>
- <xmx:WvuXX2Xy5BUSPbDsXo5NNZnxUcX08VvHbimuPNqrb2yXTWWDf_jEWQ>
+X-ME-Proxy: <xmx:W_uXXwJF-CznztuczscFf629fQxhdR-3CmERQV0Q99Bma7EA9DnyTw>
+ <xmx:W_uXXwGacNKzdUGHtZipHCZCGKu2VIm8t0om3zMs3uHZEyzjj1U0rw>
+ <xmx:W_uXX8U8fteR3GKx8xoRZaz2veHXjf2GbXf41CEN2bXku5GsZWzmIQ>
+ <xmx:XPuXXzTTNxDYW2oihFwTDeCtCDy2NLQbhm57ASop7-nV_qReCCOifg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 32D123280065;
- Tue, 27 Oct 2020 06:50:01 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B5AE3328005E;
+ Tue, 27 Oct 2020 06:50:02 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 24/30] hw/block/nvme: reject io commands if only admin command
- set selected
-Date: Tue, 27 Oct 2020 11:49:26 +0100
-Message-Id: <20201027104932.558087-25-its@irrelevant.dk>
+Subject: [PULL 25/30] hw/block/nvme: add nsid to get/setfeat trace events
+Date: Tue, 27 Oct 2020 11:49:27 +0100
+Message-Id: <20201027104932.558087-26-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027104932.558087-1-its@irrelevant.dk>
 References: <20201027104932.558087-1-its@irrelevant.dk>
@@ -97,58 +96,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-If the host sets CC.CSS to 111b, all commands submitted to I/O queues
-should be completed with status Invalid Command Opcode.
+Include the namespace id in the pci_nvme_{get,set}feat trace events.
 
-Note that this is technically a v1.4 feature, but it does not hurt to
-implement before we finally bump the reported version implemented.
-
-Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/block/nvme.h | 5 +++++
- hw/block/nvme.c      | 4 ++++
- 2 files changed, 9 insertions(+)
+ hw/block/nvme.c       | 4 ++--
+ hw/block/trace-events | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 521533fd2a10..6de2d5aa75a9 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -115,6 +115,11 @@ enum NvmeCcMask {
- #define NVME_CC_IOSQES(cc) ((cc >> CC_IOSQES_SHIFT) & CC_IOSQES_MASK)
- #define NVME_CC_IOCQES(cc) ((cc >> CC_IOCQES_SHIFT) & CC_IOCQES_MASK)
- 
-+enum NvmeCcCss {
-+    NVME_CC_CSS_NVM        = 0x0,
-+    NVME_CC_CSS_ADMIN_ONLY = 0x7,
-+};
-+
- enum NvmeCstsShift {
-     CSTS_RDY_SHIFT      = 0,
-     CSTS_CFS_SHIFT      = 1,
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index c1323ca869f1..32c35fe58768 100644
+index 32c35fe58768..5fd5a45a281a 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1026,6 +1026,10 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     trace_pci_nvme_io_cmd(nvme_cid(req), nsid, nvme_sqid(req),
-                           req->cmd.opcode, nvme_io_opc_str(req->cmd.opcode));
+@@ -1639,7 +1639,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
+         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
+     };
  
-+    if (NVME_CC_CSS(n->bar.cc) == NVME_CC_CSS_ADMIN_ONLY) {
-+        return NVME_INVALID_OPCODE | NVME_DNR;
-+    }
-+
-     if (!nvme_nsid_valid(n, nsid)) {
-         return NVME_INVALID_NSID | NVME_DNR;
-     }
+-    trace_pci_nvme_getfeat(nvme_cid(req), fid, sel, dw11);
++    trace_pci_nvme_getfeat(nvme_cid(req), nsid, fid, sel, dw11);
+ 
+     if (!nvme_feature_support[fid]) {
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -1777,7 +1777,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
+     uint8_t fid = NVME_GETSETFEAT_FID(dw10);
+     uint8_t save = NVME_SETFEAT_SAVE(dw10);
+ 
+-    trace_pci_nvme_setfeat(nvme_cid(req), fid, save, dw11);
++    trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
+ 
+     if (save) {
+         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 7b28091bd60a..2dc85281dc33 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -52,8 +52,8 @@ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
+ pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
+-pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
+-pci_nvme_setfeat(uint16_t cid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
++pci_nvme_getfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
++pci_nvme_setfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
+ pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
+ pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
+ pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
 -- 
 2.29.1
 
