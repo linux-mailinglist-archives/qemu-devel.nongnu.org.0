@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DAF129A89F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:02:28 +0100 (CET)
-Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A5429A8AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:05:23 +0100 (CET)
+Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLoB-00006I-75
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:02:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54360)
+	id 1kXLr0-0003c5-5M
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:05:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLle-0006mG-MK
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:50 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39440)
+ id 1kXLlg-0006qB-Jf
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:52 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLld-0000Qd-07
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:50 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id y12so1151878wrp.6
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:48 -0700 (PDT)
+ id 1kXLle-0000RD-Me
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:52 -0400
+Received: by mail-wm1-x336.google.com with SMTP id k18so765925wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pFYczLPUBSOWDoLgSQqU1D7iJ2Ux4Pk/W6bbBdNtUg4=;
- b=Ct7+2tBsgww9pDeT6nxCVMSbr128ISULjfNKKzxUk610GQdV7X7/sBX7mNRrbcyBWP
- OFxgEmcmS5MiDc3GjYk7HoBc2556IS3UYeRu6iBpHvaV1VPSHigrHkYj5WEbQ/yljFia
- dKJzt3Ks/yZZkXN04in3VMzHpZXkbyQwtPRC4VuvgjU2wBcSWijjRHbVyy6p95TYWx7j
- lkWGtCN1ezqylEHwJCWtrcb0jPNvDm8EasgwGqqY55DESvc44U//kAioao/xdE4pxuB3
- wYfm12GA2ODURgBOVPurv0nnlidNBoDV2/d8+oV8GSZQC8HAU03dx3Pwbj7BBXteuJin
- Xq0Q==
+ bh=lQMst0vXtb4Gg0mYZJn8zq4jVmArpnP9j0CDdQR53Fo=;
+ b=DHk2RCujppzlQ7+fcFFxRrGca+ff9nXNQeeQl3B7PwBG+2NLPV1DNLu+XIPo/AAjiX
+ TvX2dsBxOcG4TbBwLFknXXYCbpTEVAUgp8uUdf1Yrz2LDbkIQFm2cxt5ZgAaphsJYmG7
+ OZyybFNsNLV2Yx5MPGjQVxbmWw5zbn7kN3KH4MjTMdR+tFKsR0asZpQWBmGAKBFbxfoA
+ 44o3KIKFyF2664ojEmzZ308b5BVwj0E1Bfu3DHBiPxBtrGrHzkyqS+fuQZD54zTek6O3
+ YvjLr9+kQqBWHsef0myuwBklGAu3/v2CN88CPf1/XCtnxNv0EU93GETET0rdTXPw/Vgd
+ XG8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=pFYczLPUBSOWDoLgSQqU1D7iJ2Ux4Pk/W6bbBdNtUg4=;
- b=DEzdqH8uufnKdwU2s1zCEL9jsX9+DYNG/KASjvm6ldu5Oq/vt6tdoH126GXGoxgQru
- K/4Vt53PltbFJi6f049V2XIhGpz7ITo17waOuWnXC/uGjDuF2HU+eVDxAjIZEcXPbb14
- 4Kxbr1hETstUHNI0A02AeMJCDb3BBK7kw6hVG+NWH0mkN4QpbrePzgjwXpSzoccBtwyo
- hMfFuLFv8PexEFDKNb1hz1DQiCK4V1Pc8BLFxYpiB2b62gRTIP9lyzpJab3ghN8KdLrS
- 3JKSTyL8NEv3i/j2ui7AqIRZNPyZ8kkEH3jn7u/OVPgT1fvzpkN7748xewB2NYlYkIlH
- uFWg==
-X-Gm-Message-State: AOAM531YpD8BMznE60BSL7VdFYuWDyF3+cqSOtJtZ2O9Yl27fUrTwgd5
- V7ZVpaW0BiJfhK72VfMrcAbVt04mUqxnlQ==
-X-Google-Smtp-Source: ABdhPJxsvH8adRARaW2rUJDpqL5rTOOQPdh2huG8s+Q2IBnCneiVl6jzr6Ca63sNH/OspTfPGu7bzw==
-X-Received: by 2002:adf:e444:: with SMTP id t4mr1981223wrm.58.1603792787571;
- Tue, 27 Oct 2020 02:59:47 -0700 (PDT)
+ bh=lQMst0vXtb4Gg0mYZJn8zq4jVmArpnP9j0CDdQR53Fo=;
+ b=Q2F9kHHjvZrj8ylmMIlzRHKk51DhoBeJkSKnEMJ6tFPZSIXcESPrlQkZE/DJw0qk0H
+ PYpV4GBIvur103hgiK12dCpFcqYoPwmk6nItD7NwywDFUzenQrsiSO3obVAkYhKq2BJo
+ aSekXt5Lw3E/8g5iGKqpNJ2TxfC1/DqYvjw8Y+GYF8KlGv6cH/YZf8czfCZnl+LeqZ1a
+ emRG3POD74yaQEdrU90IbbpetuCSukFFPVwhrnRiLpMbwyv9+tg3kKbPIgTjQw0sE6x6
+ l/7+5a4oyfB9NoGGjcOuCPr/UoxV11m/ldTOYrKU7l8WSOHpP9uYDwOc3udTee3jyW/3
+ N9Sg==
+X-Gm-Message-State: AOAM5336aBvQ+Jrna/9P/+kG5Buj9QMSLFIVqQGdslRUdaYDLAHnFM71
+ XHQftJcA5yPRw1FAddmqG6gjIy4odp7vkg==
+X-Google-Smtp-Source: ABdhPJx0frd3m/iZNyQrrBVl1v/ShXDknJ7npPZnZfW9LfiimbHmWyAuzw/goenPLcK7tMbd9+4iDQ==
+X-Received: by 2002:a7b:c04a:: with SMTP id u10mr1899209wmc.83.1603792789383; 
+ Tue, 27 Oct 2020 02:59:49 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i14sm1312564wml.24.2020.10.27.02.59.41
+ by smtp.gmail.com with ESMTPSA id n5sm1311022wrm.2.2020.10.27.02.59.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Oct 2020 02:59:43 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3A0A31FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 4EFBA1FF92;
  Tue, 27 Oct 2020 09:59:39 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 5/8] scripts: fix error from checkpatch.pl when no commits are
- found
-Date: Tue, 27 Oct 2020 09:59:35 +0000
-Message-Id: <20201027095938.28673-6-alex.bennee@linaro.org>
+Subject: [PULL 6/8] tests/acceptance: pick a random gdb port for reverse
+ debugging
+Date: Tue, 27 Oct 2020 09:59:36 +0000
+Message-Id: <20201027095938.28673-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027095938.28673-1-alex.bennee@linaro.org>
 References: <20201027095938.28673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,35 +89,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+Currently the test randomly fails if you are using a shared machine
+due to contention on the well known port 1234. We can ameliorate this
+a bit by picking a random non-ephemeral port although it doesn't
+totally avoid the problem. While we could use a totally unique socket
+address for debugging it is fiddly to probe for gdb support. While gdb
+socket debugging is not yet ubiquitous this a sub-optimal but workable
+option.
 
-The error message was supposed to mention the input revision list start
-point, not the branch flag.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201019143537.283094-3-berrange@redhat.com>
-Message-Id: <20201021163136.27324-6-alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201021163136.27324-7-alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 6ed34970f9..88c858f67c 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -392,7 +392,7 @@ if ($chk_branch) {
+diff --git a/tests/acceptance/reverse_debugging.py b/tests/acceptance/reverse_debugging.py
+index b72fdf6cdc..be01aca217 100644
+--- a/tests/acceptance/reverse_debugging.py
++++ b/tests/acceptance/reverse_debugging.py
+@@ -14,6 +14,7 @@ from avocado import skipIf
+ from avocado_qemu import BUILD_DIR
+ from avocado.utils import gdb
+ from avocado.utils import process
++from avocado.utils.network.ports import find_free_port
+ from avocado.utils.path import find_command
+ from boot_linux_console import LinuxKernelTest
  
- 	close $HASH;
+@@ -33,7 +34,7 @@ class ReverseDebugging(LinuxKernelTest):
+     STEPS = 10
+     endian_is_le = True
  
--	die "$P: no revisions returned for revlist '$chk_branch'\n"
-+	die "$P: no revisions returned for revlist '$ARGV[0]'\n"
- 	    unless @patches;
+-    def run_vm(self, record, shift, args, replay_path, image_path):
++    def run_vm(self, record, shift, args, replay_path, image_path, port):
+         logger = logging.getLogger('replay')
+         vm = self.get_vm()
+         vm.set_console()
+@@ -43,7 +44,7 @@ class ReverseDebugging(LinuxKernelTest):
+         else:
+             logger.info('replaying the execution...')
+             mode = 'replay'
+-            vm.add_args('-s', '-S')
++            vm.add_args('-gdb', 'tcp::%d' % port, '-S')
+         vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s,rrsnapshot=init' %
+                     (shift, mode, replay_path),
+                     '-net', 'none')
+@@ -109,9 +110,10 @@ class ReverseDebugging(LinuxKernelTest):
+         process.run(cmd)
  
- 	my $i = 1;
+         replay_path = os.path.join(self.workdir, 'replay.bin')
++        port = find_free_port()
+ 
+         # record the log
+-        vm = self.run_vm(True, shift, args, replay_path, image_path)
++        vm = self.run_vm(True, shift, args, replay_path, image_path, port)
+         while self.vm_get_icount(vm) <= self.STEPS:
+             pass
+         last_icount = self.vm_get_icount(vm)
+@@ -120,9 +122,9 @@ class ReverseDebugging(LinuxKernelTest):
+         logger.info("recorded log with %s+ steps" % last_icount)
+ 
+         # replay and run debug commands
+-        vm = self.run_vm(False, shift, args, replay_path, image_path)
++        vm = self.run_vm(False, shift, args, replay_path, image_path, port)
+         logger.info('connecting to gdbstub')
+-        g = gdb.GDBRemote('127.0.0.1', 1234, False, False)
++        g = gdb.GDBRemote('127.0.0.1', port, False, False)
+         g.connect()
+         r = g.cmd(b'qSupported')
+         if b'qXfer:features:read+' in r:
 -- 
 2.20.1
 
