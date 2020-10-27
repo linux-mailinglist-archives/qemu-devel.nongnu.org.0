@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A4CA29CBB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:02:56 +0100 (CET)
-Received: from localhost ([::1]:40844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123C529CBD6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:13:58 +0100 (CET)
+Received: from localhost ([::1]:41846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXX3P-00010C-D5
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54742)
+	id 1kXXE5-0005JA-4N
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:13:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX0M-0006ri-AU
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX0M-0006rg-8k
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37692)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX0D-0000jA-HX
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX0G-0000jf-D9
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603835974;
+ s=mimecast20190719; t=1603835978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+Hl/CAHgSf5ePVgkEhd4h1mn2zELsho0yBoEiegfkC4=;
- b=SOaXIaYsJETfsyFTAIjOaIbtOG6VH1MlaCyXaTTcoj/kgTHP4MiSHaSDecGhqaflXjD/qg
- 6qIxmHnIrQc3we2qXRPuz7UQXBk6LP7TQXBKCeo9tM71ZOzu8T1Ff06djOs60jnqpLKfcE
- /dwL8zaWeXLez1XWiS6WWj8GaZizCRk=
+ bh=qlvrHiXxE3A77LSY/7Yqg7QEzlnCrF68W4ANyDXkHpQ=;
+ b=OeFAJn/9gGN8koWQyiO+8ES3Jhiy6r/Sqv5E/eD0TBXZyIA8JOvvySiEzmGEG9V96PMJ1N
+ BfrsJC2SwZ9f+yjXXa12nJsrO9mmtMa+4+zU3CCTfiDwlbP8mqAqIF3ZCzz0FQXwwbecqN
+ 4kELhAxwBpUh8momzCVg11jLC3kqV0M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-CUSw0E3mNJa5JVbEs4sxaw-1; Tue, 27 Oct 2020 17:59:32 -0400
-X-MC-Unique: CUSw0E3mNJa5JVbEs4sxaw-1
+ us-mta-267-wc6gLvqtN4ODuaPkhfbHCg-1; Tue, 27 Oct 2020 17:59:36 -0400
+X-MC-Unique: wc6gLvqtN4ODuaPkhfbHCg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BF1361246;
- Tue, 27 Oct 2020 21:59:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E7C1084D6E;
+ Tue, 27 Oct 2020 21:59:35 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DEC4510013DB;
- Tue, 27 Oct 2020 21:59:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B1E3B1002388;
+ Tue, 27 Oct 2020 21:59:31 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/12] nbd: Allow export of multiple bitmaps for one device
-Date: Tue, 27 Oct 2020 16:59:11 -0500
-Message-Id: <20201027215914.619460-10-eblake@redhat.com>
+Subject: [PULL 10/12] block: Return depth level during bdrv_is_allocated_above
+Date: Tue, 27 Oct 2020 16:59:12 -0500
+Message-Id: <20201027215914.619460-11-eblake@redhat.com>
 In-Reply-To: <20201027215914.619460-1-eblake@redhat.com>
 References: <20201027215914.619460-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 17:59:21
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,306 +78,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+ "open list:Block Jobs" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With this, 'qemu-nbd -B b0 -B b1 -f qcow2 img.qcow2' can let you sniff
-out multiple bitmaps from one server.  qemu-img as client can still
-only read one bitmap per client connection, but other NBD clients
-(hello libnbd) can now read multiple bitmaps in a single pass.
+When checking for allocation across a chain, it's already easy to
+count the depth within the chain at which the allocation is found.
+Instead of throwing that information away, return it to the caller.
+Existing callers only cared about allocated/non-allocated, but having
+a depth available will be used by NBD in the next patch.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20201027050556.269064-9-eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20201027050556.269064-8-eblake@redhat.com>
 ---
- nbd/server.c           | 100 ++++++++++++++++++++++++++++-------------
- tests/qemu-iotests/291 |   6 +--
- 2 files changed, 72 insertions(+), 34 deletions(-)
+ block/coroutines.h |  6 ++++--
+ block/io.c         | 29 ++++++++++++++++++++++-------
+ block/commit.c     |  2 +-
+ block/mirror.c     |  2 +-
+ block/stream.c     |  2 +-
+ 5 files changed, 29 insertions(+), 12 deletions(-)
 
-diff --git a/nbd/server.c b/nbd/server.c
-index 42d494bc9616..b6841e455414 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -27,6 +27,7 @@
- #include "qemu/units.h"
+diff --git a/block/coroutines.h b/block/coroutines.h
+index 1cb3128b942c..4cfb4946e65e 100644
+--- a/block/coroutines.h
++++ b/block/coroutines.h
+@@ -47,7 +47,8 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+                                   int64_t bytes,
+                                   int64_t *pnum,
+                                   int64_t *map,
+-                                  BlockDriverState **file);
++                                  BlockDriverState **file,
++                                  int *depth);
+ int generated_co_wrapper
+ bdrv_common_block_status_above(BlockDriverState *bs,
+                                BlockDriverState *base,
+@@ -57,7 +58,8 @@ bdrv_common_block_status_above(BlockDriverState *bs,
+                                int64_t bytes,
+                                int64_t *pnum,
+                                int64_t *map,
+-                               BlockDriverState **file);
++                               BlockDriverState **file,
++                               int *depth);
 
- #define NBD_META_ID_BASE_ALLOCATION 0
-+/* Dirty bitmaps use 'NBD_META_ID_DIRTY_BITMAP + i', so keep this id last. */
- #define NBD_META_ID_DIRTY_BITMAP 1
-
- /*
-@@ -94,7 +95,8 @@ struct NBDExport {
-     BlockBackend *eject_notifier_blk;
-     Notifier eject_notifier;
-
--    BdrvDirtyBitmap *export_bitmap;
-+    BdrvDirtyBitmap **export_bitmaps;
-+    size_t nr_export_bitmaps;
- };
-
- static QTAILQ_HEAD(, NBDExport) exports = QTAILQ_HEAD_INITIALIZER(exports);
-@@ -106,7 +108,10 @@ typedef struct NBDExportMetaContexts {
-     NBDExport *exp;
-     size_t count; /* number of negotiated contexts */
-     bool base_allocation; /* export base:allocation context (block status) */
--    bool bitmap; /* export qemu:dirty-bitmap:<export bitmap name> */
-+    bool *bitmaps; /*
-+                    * export qemu:dirty-bitmap:<export bitmap name>,
-+                    * sized by exp->nr_export_bitmaps
-+                    */
- } NBDExportMetaContexts;
-
- struct NBDClient {
-@@ -857,6 +862,8 @@ static bool nbd_meta_base_query(NBDClient *client, NBDExportMetaContexts *meta,
- static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
-                                 const char *query)
- {
-+    size_t i;
-+
-     if (!nbd_strshift(&query, "qemu:")) {
-         return false;
-     }
-@@ -864,24 +871,33 @@ static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
-
-     if (!*query) {
-         if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
--            meta->bitmap = !!meta->exp->export_bitmap;
-+            memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
-         }
-         trace_nbd_negotiate_meta_query_parse("empty");
-         return true;
-     }
-
-     if (nbd_strshift(&query, "dirty-bitmap:")) {
--        const char *bm_name;
--
-         trace_nbd_negotiate_meta_query_parse("dirty-bitmap:");
--        if (!meta->exp->export_bitmap) {
--            trace_nbd_negotiate_meta_query_skip("no dirty-bitmap exported");
-+        if (!*query) {
-+            if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
-+                memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
-+            }
-+            trace_nbd_negotiate_meta_query_parse("empty");
-             return true;
-         }
--        bm_name = bdrv_dirty_bitmap_name(meta->exp->export_bitmap);
--        if (nbd_meta_empty_or_pattern(client, bm_name, query)) {
--            meta->bitmap = true;
-+
-+        for (i = 0; i < meta->exp->nr_export_bitmaps; i++) {
-+            const char *bm_name;
-+
-+            bm_name = bdrv_dirty_bitmap_name(meta->exp->export_bitmaps[i]);
-+            if (strcmp(bm_name, query) == 0) {
-+                meta->bitmaps[i] = true;
-+                trace_nbd_negotiate_meta_query_parse(query);
-+                return true;
-+            }
-         }
-+        trace_nbd_negotiate_meta_query_skip("no dirty-bitmap match");
-         return true;
-     }
-
-@@ -943,9 +959,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
+ int coroutine_fn bdrv_co_readv_vmstate(BlockDriverState *bs,
+                                        QEMUIOVector *qiov, int64_t pos);
+diff --git a/block/io.c b/block/io.c
+index 02528b3823fe..7751cdb81948 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2349,20 +2349,28 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+                                   int64_t bytes,
+                                   int64_t *pnum,
+                                   int64_t *map,
+-                                  BlockDriverState **file)
++                                  BlockDriverState **file,
++                                  int *depth)
  {
      int ret;
-     g_autofree char *export_name = NULL;
--    NBDExportMetaContexts local_meta;
-+    g_autofree bool *bitmaps = NULL;
-+    NBDExportMetaContexts local_meta = {0};
-     uint32_t nb_queries;
--    int i;
-+    size_t i;
-     size_t count = 0;
+     BlockDriverState *p;
+     int64_t eof = 0;
++    int dummy;
 
-     if (!client->structured_reply) {
-@@ -960,6 +977,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-         meta = &local_meta;
-     }
+     assert(!include_base || base); /* Can't include NULL base */
 
-+    g_free(meta->bitmaps);
-     memset(meta, 0, sizeof(*meta));
-
-     ret = nbd_opt_read_name(client, &export_name, NULL, errp);
-@@ -974,6 +992,10 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-         return nbd_opt_drop(client, NBD_REP_ERR_UNKNOWN, errp,
-                             "export '%s' not present", sane_name);
-     }
-+    meta->bitmaps = g_new0(bool, meta->exp->nr_export_bitmaps);
-+    if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
-+        bitmaps = meta->bitmaps;
++    if (!depth) {
++        depth = &dummy;
 +    }
-
-     ret = nbd_opt_read(client, &nb_queries, sizeof(nb_queries), false, errp);
-     if (ret <= 0) {
-@@ -986,7 +1008,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-     if (client->opt == NBD_OPT_LIST_META_CONTEXT && !nb_queries) {
-         /* enable all known contexts */
-         meta->base_allocation = true;
--        meta->bitmap = !!meta->exp->export_bitmap;
-+        memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
-     } else {
-         for (i = 0; i < nb_queries; ++i) {
-             ret = nbd_negotiate_meta_query(client, meta, errp);
-@@ -1006,13 +1028,19 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-         count++;
++    *depth = 0;
++
+     if (!include_base && bs == base) {
+         *pnum = bytes;
+         return 0;
      }
 
--    if (meta->bitmap) {
--        const char *bm_name = bdrv_dirty_bitmap_name(meta->exp->export_bitmap);
--        g_autofree char *context = g_strdup_printf("qemu:dirty-bitmap:%s",
--                                                   bm_name);
-+    for (i = 0; i < meta->exp->nr_export_bitmaps; i++) {
-+        const char *bm_name;
-+        g_autofree char *context = NULL;
-+
-+        if (!meta->bitmaps[i]) {
-+            continue;
-+        }
-+
-+        bm_name = bdrv_dirty_bitmap_name(meta->exp->export_bitmaps[i]);
-+        context = g_strdup_printf("qemu:dirty-bitmap:%s", bm_name);
-
-         ret = nbd_negotiate_send_meta_context(client, context,
--                                              NBD_META_ID_DIRTY_BITMAP,
-+                                              NBD_META_ID_DIRTY_BITMAP + i,
-                                               errp);
+     ret = bdrv_co_block_status(bs, want_zero, offset, bytes, pnum, map, file);
++    ++*depth;
+     if (ret < 0 || *pnum == 0 || ret & BDRV_BLOCK_ALLOCATED || bs == base) {
+         return ret;
+     }
+@@ -2379,6 +2387,7 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+     {
+         ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
+                                    file);
++        ++*depth;
          if (ret < 0) {
              return ret;
-@@ -1366,6 +1394,7 @@ void nbd_client_put(NBDClient *client)
-             QTAILQ_REMOVE(&client->exp->clients, client, next);
-             blk_exp_unref(&client->exp->common);
          }
-+        g_free(client->export_meta.bitmaps);
-         g_free(client);
-     }
- }
-@@ -1482,6 +1511,7 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     bool readonly = !exp_args->writable;
-     bool shared = !exp_args->writable;
-     strList *bitmaps;
-+    size_t i;
-     int ret;
-
-     assert(exp_args->type == BLOCK_EXPORT_TYPE_NBD);
-@@ -1541,12 +1571,12 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     }
-     exp->size = QEMU_ALIGN_DOWN(size, BDRV_SECTOR_SIZE);
-
--    /* XXX Allow more than one bitmap */
--    if (arg->bitmaps && arg->bitmaps->next) {
--        error_setg(errp, "multiple bitmaps per export not supported yet");
--        return -EOPNOTSUPP;
--    }
-     for (bitmaps = arg->bitmaps; bitmaps; bitmaps = bitmaps->next) {
-+        exp->nr_export_bitmaps++;
-+    }
-+    exp->export_bitmaps = g_new0(BdrvDirtyBitmap *, exp->nr_export_bitmaps);
-+    for (i = 0, bitmaps = arg->bitmaps; bitmaps;
-+         i++, bitmaps = bitmaps->next) {
-         const char *bitmap = bitmaps->value;
-         BlockDriverState *bs = blk_bs(blk);
-         BdrvDirtyBitmap *bm = NULL;
-@@ -1580,11 +1610,15 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-             goto fail;
-         }
-
--        bdrv_dirty_bitmap_set_busy(bm, true);
--        exp->export_bitmap = bm;
-+        exp->export_bitmaps[i] = bm;
-         assert(strlen(bitmap) <= BDRV_BITMAP_MAX_NAME_SIZE);
-     }
-
-+    /* Mark bitmaps busy in a separate loop, to simplify roll-back concerns. */
-+    for (i = 0; i < exp->nr_export_bitmaps; i++) {
-+        bdrv_dirty_bitmap_set_busy(exp->export_bitmaps[i], true);
-+    }
-+
-     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
-
-     QTAILQ_INSERT_TAIL(&exports, exp, next);
-@@ -1592,6 +1626,7 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-     return 0;
-
- fail:
-+    g_free(exp->export_bitmaps);
-     g_free(exp->name);
-     g_free(exp->description);
-     return ret;
-@@ -1641,6 +1676,7 @@ static void nbd_export_request_shutdown(BlockExport *blk_exp)
-
- static void nbd_export_delete(BlockExport *blk_exp)
+@@ -2437,7 +2446,7 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+                             int64_t *map, BlockDriverState **file)
  {
-+    size_t i;
-     NBDExport *exp = container_of(blk_exp, NBDExport, common);
-
-     assert(exp->name == NULL);
-@@ -1658,8 +1694,8 @@ static void nbd_export_delete(BlockExport *blk_exp)
-                                         blk_aio_detach, exp);
-     }
-
--    if (exp->export_bitmap) {
--        bdrv_dirty_bitmap_set_busy(exp->export_bitmap, false);
-+    for (i = 0; i < exp->nr_export_bitmaps; i++) {
-+        bdrv_dirty_bitmap_set_busy(exp->export_bitmaps[i], false);
-     }
+     return bdrv_common_block_status_above(bs, base, false, true, offset, bytes,
+-                                          pnum, map, file);
++                                          pnum, map, file, NULL);
  }
 
-@@ -2268,6 +2304,7 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-     int flags;
-     NBDExport *exp = client->exp;
-     char *msg;
-+    size_t i;
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
+@@ -2455,7 +2464,7 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
 
-     switch (request->type) {
-     case NBD_CMD_CACHE:
-@@ -2358,12 +2395,15 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-                 }
+     ret = bdrv_common_block_status_above(bs, bs, true, false, offset,
+                                          bytes, pnum ? pnum : &dummy, NULL,
+-                                         NULL);
++                                         NULL, NULL);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2465,8 +2474,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+ /*
+  * Given an image chain: ... -> [BASE] -> [INTER1] -> [INTER2] -> [TOP]
+  *
+- * Return 1 if (a prefix of) the given range is allocated in any image
+- * between BASE and TOP (BASE is only included if include_base is set).
++ * Return a positive depth if (a prefix of) the given range is allocated
++ * in any image between BASE and TOP (BASE is only included if include_base
++ * is set).  Depth 1 is TOP, 2 is the first backing layer, and so forth.
+  * BASE can be NULL to check if the given offset is allocated in any
+  * image of the chain.  Return 0 otherwise, or negative errno on
+  * failure.
+@@ -2483,13 +2493,18 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+                             bool include_base, int64_t offset,
+                             int64_t bytes, int64_t *pnum)
+ {
++    int depth;
+     int ret = bdrv_common_block_status_above(top, base, include_base, false,
+-                                             offset, bytes, pnum, NULL, NULL);
++                                             offset, bytes, pnum, NULL, NULL,
++                                             &depth);
+     if (ret < 0) {
+         return ret;
+     }
+
+-    return !!(ret & BDRV_BLOCK_ALLOCATED);
++    if (ret & BDRV_BLOCK_ALLOCATED) {
++        return depth;
++    }
++    return 0;
+ }
+
+ int coroutine_fn
+diff --git a/block/commit.c b/block/commit.c
+index 1e85c306cc41..71db7ba7472e 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -156,7 +156,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
+         /* Copy if allocated above the base */
+         ret = bdrv_is_allocated_above(blk_bs(s->top), s->base_overlay, true,
+                                       offset, COMMIT_BUFFER_SIZE, &n);
+-        copy = (ret == 1);
++        copy = (ret > 0);
+         trace_commit_one_iteration(s, offset, n, ret);
+         if (copy) {
+             assert(n < SIZE_MAX);
+diff --git a/block/mirror.c b/block/mirror.c
+index 26acf4af6fb7..8e1ad6eceb57 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -846,7 +846,7 @@ static int coroutine_fn mirror_dirty_init(MirrorBlockJob *s)
+         }
+
+         assert(count);
+-        if (ret == 1) {
++        if (ret > 0) {
+             bdrv_set_dirty_bitmap(s->dirty_bitmap, offset, count);
+         }
+         offset += count;
+diff --git a/block/stream.c b/block/stream.c
+index 8ce6729a33da..236384f2f739 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -167,7 +167,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+                 n = len - offset;
              }
 
--            if (client->export_meta.bitmap) {
-+            for (i = 0; i < client->exp->nr_export_bitmaps; i++) {
-+                if (!client->export_meta.bitmaps[i]) {
-+                    continue;
-+                }
-                 ret = nbd_co_send_bitmap(client, request->handle,
--                                         client->exp->export_bitmap,
-+                                         client->exp->export_bitmaps[i],
-                                          request->from, request->len,
-                                          dont_fragment, !--contexts_remaining,
--                                         NBD_META_ID_DIRTY_BITMAP, errp);
-+                                         NBD_META_ID_DIRTY_BITMAP + i, errp);
-                 if (ret < 0) {
-                     return ret;
-                 }
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index b7320bc7adf2..ecef9eec6240 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -115,16 +115,14 @@ echo
- # x-dirty-bitmap is a hack for reading bitmaps; it abuses block status to
- # report "data":false for portions of the bitmap which are set
- IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
--nbd_server_start_unix_socket -r -f qcow2 -B b0 "$TEST_IMG"
-+nbd_server_start_unix_socket -r -f qcow2 \
-+    -B b0 -B b1 -B b2 -B b3 "$TEST_IMG"
- $QEMU_IMG map --output=json --image-opts \
-     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b0" | _filter_qemu_img_map
--nbd_server_start_unix_socket -r -f qcow2 -B b1 "$TEST_IMG"
- $QEMU_IMG map --output=json --image-opts \
-     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b1" | _filter_qemu_img_map
--nbd_server_start_unix_socket -r -f qcow2 -B b2 "$TEST_IMG"
- $QEMU_IMG map --output=json --image-opts \
-     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b2" | _filter_qemu_img_map
--nbd_server_start_unix_socket -r -f qcow2 -B b3 "$TEST_IMG"
- $QEMU_IMG map --output=json --image-opts \
-     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b3" | _filter_qemu_img_map
-
+-            copy = (ret == 1);
++            copy = (ret > 0);
+         }
+         trace_stream_one_iteration(s, offset, n, ret);
+         if (copy) {
 -- 
 2.29.0
 
