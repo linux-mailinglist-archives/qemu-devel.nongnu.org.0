@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32A1E29AA79
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:23:11 +0100 (CET)
-Received: from localhost ([::1]:38362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A1529AAB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:30:41 +0100 (CET)
+Received: from localhost ([::1]:49786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXN4I-0002Yp-4O
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:23:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38954)
+	id 1kXNBU-0007qN-Fv
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:30:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYq-0000kd-7s; Tue, 27 Oct 2020 06:50:40 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:33657)
+ id 1kXMYr-0000nU-VJ; Tue, 27 Oct 2020 06:50:41 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:42901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYo-0002IP-Bj; Tue, 27 Oct 2020 06:50:39 -0400
+ id 1kXMYo-0002JC-Do; Tue, 27 Oct 2020 06:50:41 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 0CBC65C018B;
- Tue, 27 Oct 2020 06:50:04 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id BD8EC5C018F;
+ Tue, 27 Oct 2020 06:50:08 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:04 -0400
+ by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=1i3kcp61iWkwt
- 8qf2ro7C4gt23DgmJ5vUwDK900n8fo=; b=Z1jVeQZy7Cqfo9N6+5FT7vKdCMgYy
- LSVs2cPFceAgQ/bzd/naGlsNAGYyhEy5ke4XipD/y/rgzdpgQuL/Cag7rPtYF/2F
- 6wqKlllY/V+A++fdz4lson3q34s0nmIq8v3HiXsa/Tax/Qb9i6HSiCbOdFQF94Pc
- eBMmRVjhMt7Si4M0OErvNnmjrz2A93I5+2LSKRcUj1Dl/Rlu4J75jL8Rur0ML1GM
- dYRS3Xm7HywHAxmJKT7me3tCqdRCC+L1ZfxpEIo/rrTNix+gJnWQyvEwLCzB5ket
- pBOOh/YYvT4Vd67LSBbNhzywHiMnWr6N0fGrlmc5mDEV/Htuf5a3Q5u5w==
+ :mime-version:content-transfer-encoding; s=fm1; bh=3MlYZR1KynDql
+ LPoJYqiCp2jjx7BDi4GUHQLWpIxQ7s=; b=InlQLpLqukejEltiKOGE5uHjUMD5H
+ /VEKRyEfcRCi7VoBusuP2B/HvLz6fANErReCJWkYfgCxSu1CfRbFexwKclfPNcTw
+ 5ncCSr4ZmQl4aQpb2OtHMy5fVF55tpXwMgVDuxZP4RvJCwvRmimpohc6O3+76tkg
+ dLDLMKxKxfpLCV1cvGFBIdwd2mAtpAxs0XOL16lqrNr7mxqHY6iU+G3UwpRG1p9I
+ /kQTQ0gpo0JdSvqNf37CtDzYaJ2iOiQVozQMdMvCpjz1n6beehOEVU//YppnLabs
+ 8PLEAp544WA1CKfyPJAuJvCjx05NibkVlzDT3Oa9JHiFYelEATV8kcBPg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=1i3kcp61iWkwt8qf2ro7C4gt23DgmJ5vUwDK900n8fo=; b=VxnWbkfM
- zxxaEmDekUilhuWzu7ShNWAKmmrODingZdS8PPrBNFAsXkGPX9o6/cMPEE0JjDUK
- BNmPSDyTNpmhY2f/K9C0+LkUBULc6sCBrvR4MC065YVUMNc0WLUq5FTN659gsPeg
- F1H7mtpmDITcAaWsfZbtWJNxvsYBhg4FV7QRyNyPUD6/OfT54OcdjazCbxO2VvBx
- wvaTwhgxm3lbHK0R5FqBnFOUD/uBYU92qCEyRem7R2FBO+piNpay607ZgnHg/py0
- jjltxc94k8bgKj3RMhjFZpvBunsBuTarfrfXyZyQbh14PqnlU3xTGGQSDwPXHQkx
- 2LRHdKWSDCzlGA==
-X-ME-Sender: <xms:W_uXX2Henx9ED-reRBbZ5y3OBYunsTz5tFnsoYuG1mLPqdpOTXkk7A>
- <xme:W_uXX3XxPoDZbdONpKOLJXDme71xQd7Y9_tx7YDT5ouFlJeSsq-yV5F8woUD3vxPE
- cM60SgVhiKKYM3s68M>
+ fm1; bh=3MlYZR1KynDqlLPoJYqiCp2jjx7BDi4GUHQLWpIxQ7s=; b=qOjWEmD7
+ IQGhFm7epchyThjMs5alHDdC1nyK6Gn9y/DavnfZNKBi5feqo8SVG4BZ1oVmGi0z
+ jCGtNG2ekpkGC1MX14WHWfq7AE2hm/rIYQs/n+DlamYJS48dBVRNaAlHYYY+v9DE
+ 8dVRcWX0yNZgI4vzGOT7EA0HfAlAQUyCA/ZZBOY9p/NDeuu2GFS8sEJ504P8nPqe
+ EqvmGw5aVc+A5Mvpf8o2DXJXezy/zqK/Jr2ncrzAaoKinCxSJOW2ipZ0VmI9Xb3U
+ pu0A1W8H/e3z4NGeYucuqDPAkxpn6W1ZUeSuk9Wn11hgHdfg9dpSoMEZsjwAneVh
+ fP4D3eTMCa3rnw==
+X-ME-Sender: <xms:YPuXX2yf8MVEgcWuL0AwcdpXYuame7Tpt0tlh7KrLJjTMfbtImbzJQ>
+ <xme:YPuXXyQFNV6WH9Q4Rm6Mi9mB5Xl-YIpk_4xxdFUK3wj5oe0OK7Tboz3V9wmwn9hov
+ x2M6HVQmAd-YI5TYgk>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
  lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepuddtne
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepudegne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:W_uXXwJF-CznztuczscFf629fQxhdR-3CmERQV0Q99Bma7EA9DnyTw>
- <xmx:W_uXXwGacNKzdUGHtZipHCZCGKu2VIm8t0om3zMs3uHZEyzjj1U0rw>
- <xmx:W_uXX8U8fteR3GKx8xoRZaz2veHXjf2GbXf41CEN2bXku5GsZWzmIQ>
- <xmx:XPuXXzTTNxDYW2oihFwTDeCtCDy2NLQbhm57ASop7-nV_qReCCOifg>
+X-ME-Proxy: <xmx:YPuXX4XgwasKXCZyTwKfGXXQTUmRiGDiw02KKcehOZ81yPvQHNA_Jg>
+ <xmx:YPuXX8iCw-ZzgutiMPxTFPfrxqz4dqjU7E0KlViEZDEjd2CHYCfOjw>
+ <xmx:YPuXX4AjYiXo-y2zgAqGPaSKh_FRE2oTNXflBrMG12Pw9sbUfPb10Q>
+ <xmx:YPuXX794onPj7uwKcag0pXH7yb7w39-A1bSW1BfIvchcQg0EpBBfnA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B5AE3328005E;
- Tue, 27 Oct 2020 06:50:02 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id AA6813280060;
+ Tue, 27 Oct 2020 06:50:07 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 25/30] hw/block/nvme: add nsid to get/setfeat trace events
-Date: Tue, 27 Oct 2020 11:49:27 +0100
-Message-Id: <20201027104932.558087-26-its@irrelevant.dk>
+Subject: [PULL 29/30] hw/block/nvme: fix create IO SQ/CQ status codes
+Date: Tue, 27 Oct 2020 11:49:31 +0100
+Message-Id: <20201027104932.558087-30-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027104932.558087-1-its@irrelevant.dk>
 References: <20201027104932.558087-1-its@irrelevant.dk>
@@ -96,58 +96,68 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Include the namespace id in the pci_nvme_{get,set}feat trace events.
+Replace the Invalid Field in Command with the Invalid PRP Offset status
+code in the nvme_create_{cq,sq} functions. Also, allow PRP1 to be
+address 0x0.
 
+Also replace the Completion Queue Invalid status code returned in
+nvme_create_cq when the the queue identifier is invalid with the Invalid
+Queue Identifier. The Completion Queue Invalid status code is
+exclusively for indicating that the completion queue identifer given
+when creating a submission queue is invalid.
+
+See NVM Express v1.3d, Section 5.3 ("Create I/O Completion Queue
+command") and 5.4("Create I/O Submission Queue command").
+
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c       | 4 ++--
- hw/block/trace-events | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 32c35fe58768..5fd5a45a281a 100644
+index 2896bb49b9c0..5dfef0204c2c 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1639,7 +1639,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-         [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
-     };
+@@ -1151,9 +1151,9 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_sq_size(qsize);
+         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+     }
+-    if (unlikely(!prp1 || prp1 & (n->page_size - 1))) {
++    if (unlikely(prp1 & (n->page_size - 1))) {
+         trace_pci_nvme_err_invalid_create_sq_addr(prp1);
+-        return NVME_INVALID_FIELD | NVME_DNR;
++        return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+     }
+     if (unlikely(!(NVME_SQ_FLAGS_PC(qflags)))) {
+         trace_pci_nvme_err_invalid_create_sq_qflags(NVME_SQ_FLAGS_PC(qflags));
+@@ -1400,15 +1400,15 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
  
--    trace_pci_nvme_getfeat(nvme_cid(req), fid, sel, dw11);
-+    trace_pci_nvme_getfeat(nvme_cid(req), nsid, fid, sel, dw11);
- 
-     if (!nvme_feature_support[fid]) {
-         return NVME_INVALID_FIELD | NVME_DNR;
-@@ -1777,7 +1777,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-     uint8_t fid = NVME_GETSETFEAT_FID(dw10);
-     uint8_t save = NVME_SETFEAT_SAVE(dw10);
- 
--    trace_pci_nvme_setfeat(nvme_cid(req), fid, save, dw11);
-+    trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
- 
-     if (save) {
-         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 7b28091bd60a..2dc85281dc33 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -52,8 +52,8 @@ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_identify_nslist(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_identify_ns_descr_list(uint32_t ns) "nsid %"PRIu32""
- pci_nvme_get_log(uint16_t cid, uint8_t lid, uint8_t lsp, uint8_t rae, uint32_t len, uint64_t off) "cid %"PRIu16" lid 0x%"PRIx8" lsp 0x%"PRIx8" rae 0x%"PRIx8" len %"PRIu32" off %"PRIu64""
--pci_nvme_getfeat(uint16_t cid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
--pci_nvme_setfeat(uint16_t cid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
-+pci_nvme_getfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t sel, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" sel 0x%"PRIx8" cdw11 0x%"PRIx32""
-+pci_nvme_setfeat(uint16_t cid, uint32_t nsid, uint8_t fid, uint8_t save, uint32_t cdw11) "cid %"PRIu16" nsid 0x%"PRIx32" fid 0x%"PRIx8" save 0x%"PRIx8" cdw11 0x%"PRIx32""
- pci_nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
- pci_nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
- pci_nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
+     if (unlikely(!cqid || !nvme_check_cqid(n, cqid))) {
+         trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
+-        return NVME_INVALID_CQID | NVME_DNR;
++        return NVME_INVALID_QID | NVME_DNR;
+     }
+     if (unlikely(!qsize || qsize > NVME_CAP_MQES(n->bar.cap))) {
+         trace_pci_nvme_err_invalid_create_cq_size(qsize);
+         return NVME_MAX_QSIZE_EXCEEDED | NVME_DNR;
+     }
+-    if (unlikely(!prp1)) {
++    if (unlikely(prp1 & (n->page_size - 1))) {
+         trace_pci_nvme_err_invalid_create_cq_addr(prp1);
+-        return NVME_INVALID_FIELD | NVME_DNR;
++        return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+     }
+     if (unlikely(!msix_enabled(&n->parent_obj) && vector)) {
+         trace_pci_nvme_err_invalid_create_cq_vector(vector);
 -- 
 2.29.1
 
