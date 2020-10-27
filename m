@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 641B429AC05
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:26:57 +0100 (CET)
-Received: from localhost ([::1]:49082 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C794B29AB82
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:11:52 +0100 (CET)
+Received: from localhost ([::1]:45694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXO40-0006ZZ-E9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:26:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51424)
+	id 1kXNpP-0001NY-Q8
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:11:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPG-0001BD-Tw
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:44:55 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:39774)
+ id 1kXNPR-0001Gx-0Q
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:01 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:34812)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPA-0004OM-FX
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:44:48 -0400
-Received: by mail-wm1-x330.google.com with SMTP id d3so1100831wma.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:44:43 -0700 (PDT)
+ id 1kXNPM-0004R3-Ca
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:00 -0400
+Received: by mail-wm1-x330.google.com with SMTP id k21so902031wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:44:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iTvc3T70pvdWTHtlfKDHy8YrwyuK0oy3wEHmDLwdEtk=;
- b=VMxeyaQfzXVNlvzc+YS68zACmnDQ3ktx72vQTzuYrDaNzbRQUxydJoZpMXqiO95h3r
- tKPZdqJVi5cD2SFw2n6qpIJhXs2D1tiCOPDB5WSvGNTYyeROybEht1TO09rcVMdoFad+
- wmeFjd+kO69L2ZFF7hrSmY/nnfbBc7D+Ihctc59q/ZsOrI/eCRGLySCN9jKkbbTprtWK
- W46R3YYuSQrz70G+6vaLpgY/qSV6PWI5zF6FSWcDCJg910/f2rXf2knd5f1+MaM2VITh
- pqy8QxEm4ET/G/AuyMh+AyoveraukH/D9Lg4rB++8aaf8yyJIEuBNxiDH1gocEm5+1lh
- qVxg==
+ bh=NehaV0T5jpi1H97RxmXskYUCuVVnNIGAcpGsWGzfotc=;
+ b=dgHDZgWvMoIESm4JuNYAzCF4AF/OMQw5nOY5UHpRzCU2cDdj1FFSb95A9XFgDmZDaH
+ QHJxudev+EjJ1puCGnWwms2ErZwnzWp4zJd8booKRl531mOqKMopeHd+2EBZjTAhAjYB
+ GkefPny21+Cgxad/OyFtMs49lD3ERq5CVdnbH9OBr6Ux0lY5blUIwlY/79pTQ1d/1d/g
+ euEmphIbD4W3cGQAlX1A0GbY080to2WyioEppmN9QU1yYd3Ya3je9oB6Vh3cNYjNzRo0
+ 79r6nD5YDdFb7E+ED82lPFJhJKOkBzjWhJU6n6X2WWWwpvPKsgIBMF+TVG159qKjBqof
+ hCxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iTvc3T70pvdWTHtlfKDHy8YrwyuK0oy3wEHmDLwdEtk=;
- b=kwM2ire+hHwhZCcJFY/YJmocMu9r0iz2Dkjj2UKRQihgHt8hjs7PcTHaK+Rw1m86Cy
- lsZwl6+lT7IZrZ8AyuwCYT8ZNikkCigWEM2XCwQy3fxXec8rKitm0RhMphBdVXKemf/b
- 6WOGjElBvmiY1bw7ZjRNV3gnTntv9kB/JA2Gjr9uKMPlFjxw3tFqQ3/FsudTP39rRU/S
- hW60UJne+6OFlaVc/yuL4Z3IUzilnPnHNXlaqj8KsbQ8em6AkVhlkb7Wk78waiJ2SB9I
- Np+/g92oxmoVW0Uw3RgjBFWEV4U/XgdU8i2ci3xBzfSOcXc68MarRRghFt57nD1DpDpZ
- N1Gg==
-X-Gm-Message-State: AOAM530eCxdc2VZoS0XuKz8Oj2TovO35zIIpfbYOyvkasVUNI9YQrJ+X
- SrYuIzycIHz0CPiZkJLSWFgvPb5f1G+jJA==
-X-Google-Smtp-Source: ABdhPJyDBi6pK2J7hOZjIDLLLC56owkJnXWGdpLsxBlp0hzjqrz06rOBW2msrEHIKJnvixS+r0Rdmg==
-X-Received: by 2002:a7b:c387:: with SMTP id s7mr2266671wmj.52.1603799081931;
- Tue, 27 Oct 2020 04:44:41 -0700 (PDT)
+ bh=NehaV0T5jpi1H97RxmXskYUCuVVnNIGAcpGsWGzfotc=;
+ b=VNHtVOw8+5VCpz9p7a7ChSO1+o5qhpm1cCqRQYWZ++/pGWe9L2NDF9vyuHSsvpOQW3
+ 9D4OHIWKrs6ip17KRW0K5HQZTC5tBMyu87iOlMTQKVFLzXqHT4q2WcDdpbhbR6naRw8Y
+ DX48KkP8jh9wLfFSCiQ5flIvOTFBEQPbS6GfkTbqDlRw0xkRtUHKZHtbmq0PIVe549Dl
+ qyMmn3fU+zGLdWUgM1cWSGPP2yt8J1NuQ8YQEH/6Z/bEXAJbj7IjGCV+xBhXIypTC/T1
+ EDn7Ns7V6UXvJu6f6fS/R7HcTbSSxb27X42c/8rSWz8H6QZtMcrUbsgPcXFztD2WW4wA
+ Uymw==
+X-Gm-Message-State: AOAM530bwpKF+AP9nycTFVxSy/Bc7/bdJkqNbCIKF2/8FFcsU9vHtV4/
+ 17vry3bN8KMAD6N3JAVfDFGzNnnGEnj0qQ==
+X-Google-Smtp-Source: ABdhPJxT+Yhf/SyDdMFk1iMgoj23iopOKM3/Zkoam4tNBPyCy02UwHoS+vSOGQN19/fdwOXxZbWcrA==
+X-Received: by 2002:a1c:44e:: with SMTP id 75mr2306810wme.117.1603799087009;
+ Tue, 27 Oct 2020 04:44:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.41
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.45
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:44:41 -0700 (PDT)
+ Tue, 27 Oct 2020 04:44:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/48] linux-user/aarch64: Reset btype for signals
-Date: Tue, 27 Oct 2020 11:43:51 +0000
-Message-Id: <20201027114438.17662-2-peter.maydell@linaro.org>
+Subject: [PULL 04/48] linux-user/elfload: Avoid leaking interp_name using GLib
+ memory API
+Date: Tue, 27 Oct 2020 11:43:54 +0000
+Message-Id: <20201027114438.17662-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::330;
  envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
@@ -88,41 +90,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-The kernel sets btype for the signal handler as if for a call.
+Fix an unlikely memory leak in load_elf_image().
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Fixes: bf858897b7 ("linux-user: Re-use load_elf_image for the main binary.")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201021173749.111103-2-richard.henderson@linaro.org
+Message-id: 20201021173749.111103-5-richard.henderson@linaro.org
+Message-Id: <20201003174944.1972444-1-f4bug@amsat.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/aarch64/signal.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ linux-user/elfload.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index d50c1ae5838..b591790c22e 100644
---- a/linux-user/aarch64/signal.c
-+++ b/linux-user/aarch64/signal.c
-@@ -506,10 +506,16 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
-             + offsetof(struct target_rt_frame_record, tramp);
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index f6022fd7049..1a3150df7c0 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2584,13 +2584,13 @@ static void load_elf_image(const char *image_name, int image_fd,
+                 info->brk = vaddr_em;
+             }
+         } else if (eppnt->p_type == PT_INTERP && pinterp_name) {
+-            char *interp_name;
++            g_autofree char *interp_name = NULL;
+ 
+             if (*pinterp_name) {
+                 errmsg = "Multiple PT_INTERP entries";
+                 goto exit_errmsg;
+             }
+-            interp_name = malloc(eppnt->p_filesz);
++            interp_name = g_malloc(eppnt->p_filesz);
+             if (!interp_name) {
+                 goto exit_perror;
+             }
+@@ -2609,7 +2609,7 @@ static void load_elf_image(const char *image_name, int image_fd,
+                 errmsg = "Invalid PT_INTERP entry";
+                 goto exit_errmsg;
+             }
+-            *pinterp_name = interp_name;
++            *pinterp_name = g_steal_pointer(&interp_name);
+ #ifdef TARGET_MIPS
+         } else if (eppnt->p_type == PT_MIPS_ABIFLAGS) {
+             Mips_elf_abiflags_v0 abiflags;
+@@ -2961,7 +2961,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct image_info *info)
+     if (elf_interpreter) {
+         info->load_bias = interp_info.load_bias;
+         info->entry = interp_info.entry;
+-        free(elf_interpreter);
++        g_free(elf_interpreter);
      }
-     env->xregs[0] = usig;
--    env->xregs[31] = frame_addr;
-     env->xregs[29] = frame_addr + fr_ofs;
--    env->pc = ka->_sa_handler;
-     env->xregs[30] = return_addr;
-+    env->xregs[31] = frame_addr;
-+    env->pc = ka->_sa_handler;
-+
-+    /* Invoke the signal handler as if by indirect call.  */
-+    if (cpu_isar_feature(aa64_bti, env_archcpu(env))) {
-+        env->btype = 2;
-+    }
-+
-     if (info) {
-         tswap_siginfo(&frame->info, info);
-         env->xregs[1] = frame_addr + offsetof(struct target_rt_sigframe, info);
+ 
+ #ifdef USE_ELF_CORE_DUMP
 -- 
 2.20.1
 
