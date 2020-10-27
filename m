@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08BF29AA54
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:12:42 +0100 (CET)
-Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F61629AA7B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:23:32 +0100 (CET)
+Received: from localhost ([::1]:39168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXMu9-0004px-Ov
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38734)
+	id 1kXN4d-00030A-JH
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:23:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYW-0000Nn-M4; Tue, 27 Oct 2020 06:50:20 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54709)
+ id 1kXMYW-0000NR-CN; Tue, 27 Oct 2020 06:50:20 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:37449)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYU-0002CH-ML; Tue, 27 Oct 2020 06:50:20 -0400
+ id 1kXMYU-0002CP-Nj; Tue, 27 Oct 2020 06:50:20 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 8597A5C018D;
- Tue, 27 Oct 2020 06:49:54 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id B496F5C0192;
+ Tue, 27 Oct 2020 06:49:55 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:49:54 -0400
+ by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:49:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=3POpeQkKnQA6v
- ukpmSu2L8MecW7Wn17wirkEQzmLoOw=; b=gsVQgAi67YPl0ERrJBoBsbapZYIWx
- /03MiiQJr1ZAFbS5heRK83FaZASZAVdqe+kZ5K4v3V+tvuuW8CLxWTganjMeQ8mA
- OfWRy++zjhg2kG2yqndy11YwS4aZ6dMvLxNQ4EG5bLXLEkUEDf6rSI/7j7e2trEX
- rqzDmfTxvOrYP14GuHD+kILYjAleFSRgV23m/OcwrrWud8pgJ25VyP/k5adJDWpQ
- PkQ0tx7v7PJ1zswWuR4t3oBQ3pEztrRY1QrhRX5W+Gt4KnWWPwj9s6A5AJDs/E+B
- djHQd9X5OLyRwIM23VRoeSPY14ijrsuJcLUUPxZu+1gayyI3314aQe0iw==
+ :mime-version:content-transfer-encoding; s=fm1; bh=qbWEymWcc8PIf
+ snra1IFx/bEQSN/YNwnHOYcSF057aw=; b=Zl/3EQgynOrPZYjSEUwrDg8+2fnUW
+ tXst3BQ2d6v0SiBnDR8KqvAN4r6ispTiT/1nLmNIf9+lHK2ZDukNLN+DILGkDX4u
+ yW/LYxO5AuKHOStbWL72FeTSkPIDzYs5KfXtpR525wZhx30ipNcP+OgI9gUBjiQ9
+ 6d/qCglmQveErIpvYoDTCB3cVhNNTcMcPkOrQyX+EyqFolwe/09qypJxjbatGVDf
+ zhBRWXylv3B7F0qLBu4ZHIKSkwCQtXBXImpYiPLZnH/lnlXlBemuGLMCtBp6PDw2
+ PDXh0tJ86KpwV8zPHAHAvQBo5bTKOrvaGt2BhYyyhIcmycBngXpqMFoKA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=3POpeQkKnQA6vukpmSu2L8MecW7Wn17wirkEQzmLoOw=; b=PuaP9sKe
- 4UAkuNTrEse82OZcGx+8rUj5VAE4kN5pDPSaXkVAhknF/xZIIQlDZcqZWEVd/Rku
- ZsrG3BZJLCeah+SFp7cr3iBn1RU5e3w0rad6dYGepY/5Xvp7UIl8EKZULiFizqd3
- xDSKln2DfIwZlxc9lau8F1wEYhClUIgy4c4fJNEIq/8oSn1ahHykMy+C4X//dEiH
- it69G3/Ty2zcDHpKcMLm3Wyx3JP3/Z5oaq2gFIf4T1q1oJSqauD0IdE5LFStBmMk
- hXF4mw/64uu0dyPCbxj3ybQDiqh5GZ+WdndE5CoesJHMy1nqnlRbO5OT4AJrdhOY
- OxccFQxcskle7Q==
-X-ME-Sender: <xms:UvuXXy4FJpdGx3Ge9oYJ538xkC7tlwvUtpFuI86H5Wm-xsnuyHU1xw>
- <xme:UvuXX76kNXbTXMB8UIawwVBz2mVcz3v7QTSEKaqIKdqZ0yOFZcoro3H03bZJA3fBz
- KLNNUXiGXX5OFFapTA>
+ fm1; bh=qbWEymWcc8PIfsnra1IFx/bEQSN/YNwnHOYcSF057aw=; b=WGw7lcQj
+ LgtqHtkkI82z4ExGk75xdY8i18RN4rmpK85PbP2BbgCoI1KKKecQy/Ep5lkmuLFu
+ w3BXNXrqdWdxkWEsuSDLUpdYk3j7fDiniQnWMhuO2gTYCUeC3NEJXk/bVu5DfINj
+ DVRhYK9ZQNIcRAZB6oLMhcPcK/E11MDhPxMuL0Ge7dsKJnB/oiJPUAZ8EBeYA6h6
+ +2e2zyCYIK+UgzZJ9mWgdeVzi5/dEEmoq2KeEngSWKXhxR1zw46MubR/2Ct4wEDF
+ dV6tIK/RAawUcL1pAVIyTdSLl+mYc4zutXOrPolosNugkYlEp0oQR1r8BGzYr5uH
+ G+XJyKAkNXHd3w==
+X-ME-Sender: <xms:U_uXXxQG8MuoypdHeBGS6lJC3d2psZkFoNstskSr8zS3TKUFQPzpig>
+ <xme:U_uXX6yqDrUFHM0C4PjPswDc2pf0P_qGYB2-70M8GUwzceCwdJJB1PUocKwbXlLv3
+ fGR1l6uLG7y9ecGW54>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepieenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:UvuXXxcxYiHS1UxO3HAxn4_Nv3sw8a9m3hNahA5RD0ywG2tFsIWkHw>
- <xmx:UvuXX_L8AOc6n6lGToYOq_37_V2NJuXr9FKlZD2PFlmGbAJblLN7Qw>
- <xmx:UvuXX2LjCIbAABviZagNz327Rl1fClxZgKU3wzEkUMiRaiWj4As-8g>
- <xmx:UvuXX7GEuMhRUlilHbOlbW4lzWUjPywYBolI3RqWF3HfaooR0dL10w>
+X-ME-Proxy: <xmx:U_uXX22Lhboo20Z8B1OlL_6bl1gOdLOFW09NoDV3TP3h20ZtEAqfQg>
+ <xmx:U_uXX5C3f7la-PjTotfRnKiHfTX4eRBy-GLBGOllWbH-l76dlnhk7w>
+ <xmx:U_uXX6hMUA80dT9xd50PqoTUGuHrYu6we_ollI7AB5e68xVurAkypg>
+ <xmx:U_uXXyevsmT2nNFxaDRqP0F-EV4WbqVd5oWOfhBiovl4rDV6uSD7gg>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5FC7F328005E;
- Tue, 27 Oct 2020 06:49:53 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8BCB43280066;
+ Tue, 27 Oct 2020 06:49:54 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 17/30] hw/block/nvme: change controller pci id
-Date: Tue, 27 Oct 2020 11:49:19 +0100
-Message-Id: <20201027104932.558087-18-its@irrelevant.dk>
+Subject: [PULL 18/30] hw/block/nvme: update nsid when registered
+Date: Tue, 27 Oct 2020 11:49:20 +0100
+Message-Id: <20201027104932.558087-19-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027104932.558087-1-its@irrelevant.dk>
 References: <20201027104932.558087-1-its@irrelevant.dk>
@@ -96,111 +96,38 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- Maxim Levitsky <mlevitsk@redhat.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, qemu-block@nongnu.org,
  Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-There are two reasons for changing this:
+If the user does not specify an nsid parameter on the nvme-ns device,
+nvme_register_namespace will find the first free namespace id and assign
+that.
 
-  1. The nvme device currently uses an internal Intel device id.
-
-  2. Since commits "nvme: fix write zeroes offset and count" and "nvme:
-     support multiple namespaces" the controller device no longer has
-     the quirks that the Linux kernel think it has.
-
-     As the quirks are applied based on pci vendor and device id, change
-     them to get rid of the quirks.
-
-To keep backward compatibility, add a new 'use-intel-id' parameter to
-the nvme device to force use of the Intel vendor and device id. This is
-off by default but add a compat property to set this for 5.1 machines
-and older. If a 5.1 machine is booted (or the use-intel-id parameter is
-explicitly set to true), the Linux kernel will just apply these
-unnecessary quirks:
-
-  1. NVME_QUIRK_IDENTIFY_CNS which says that the device does not support
-     anything else than values 0x0 and 0x1 for CNS (Identify Namespace
-     and Identify Namespace). With multiple namespace support, this just
-     means that the kernel will "scan" namespaces instead of using
-     "Active Namespace ID list" (CNS 0x2).
-
-  2. NVME_QUIRK_DISABLE_WRITE_ZEROES. The nvme device started out with a
-     broken Write Zeroes implementation which has since been fixed in
-     commit 9d6459d21a6e ("nvme: fix write zeroes offset and count").
+This fix makes sure the assigned id is saved.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Keith Busch <kbusch@kernel.org>
-Reviewed-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- hw/block/nvme.h   |  1 +
- hw/block/nvme.c   | 12 ++++++++++--
- hw/core/machine.c |  1 +
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index d96ec15cdffb..e080a2318a50 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -15,6 +15,7 @@ typedef struct NvmeParams {
-     uint8_t  aerl;
-     uint32_t aer_max_queued;
-     uint8_t  mdts;
-+    bool     use_intel_id;
- } NvmeParams;
- 
- typedef struct NvmeAsyncEvent {
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1af12f861ac0..5768a6804f41 100644
+index 5768a6804f41..2225b944f935 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2678,6 +2678,15 @@ static void nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
- 
-     pci_conf[PCI_INTERRUPT_PIN] = 1;
-     pci_config_set_prog_interface(pci_conf, 0x2);
-+
-+    if (n->params.use_intel_id) {
-+        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_INTEL);
-+        pci_config_set_device_id(pci_conf, 0x5845);
-+    } else {
-+        pci_config_set_vendor_id(pci_conf, PCI_VENDOR_ID_REDHAT);
-+        pci_config_set_device_id(pci_conf, PCI_DEVICE_ID_REDHAT_NVME);
-+    }
-+
-     pci_config_set_class(pci_conf, PCI_CLASS_STORAGE_EXPRESS);
-     pcie_endpoint_cap_init(pci_dev, 0x80);
- 
-@@ -2831,6 +2840,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
-     DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
-     DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
-+    DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -2847,8 +2857,6 @@ static void nvme_class_init(ObjectClass *oc, void *data)
-     pc->realize = nvme_realize;
-     pc->exit = nvme_exit;
-     pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
--    pc->vendor_id = PCI_VENDOR_ID_INTEL;
--    pc->device_id = 0x5845;
-     pc->revision = 2;
- 
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index c5e0e79e6dbc..98b87f76cbbe 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -34,6 +34,7 @@ GlobalProperty hw_compat_5_1[] = {
-     { "vhost-user-scsi", "num_queues", "1"},
-     { "virtio-blk-device", "num-queues", "1"},
-     { "virtio-scsi-device", "num_queues", "1"},
-+    { "nvme", "use-intel-id", "on"},
- };
- const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
- 
+@@ -2578,7 +2578,7 @@ int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+         for (int i = 1; i <= n->num_namespaces; i++) {
+             NvmeNamespace *ns = nvme_ns(n, i);
+             if (!ns) {
+-                nsid = i;
++                nsid = ns->params.nsid = i;
+                 break;
+             }
+         }
 -- 
 2.29.1
 
