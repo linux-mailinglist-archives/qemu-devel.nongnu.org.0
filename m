@@ -2,89 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E21BD29B209
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:37:30 +0100 (CET)
-Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86C6529B1B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:33:31 +0100 (CET)
+Received: from localhost ([::1]:59668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQ6L-0007Xq-Sz
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:37:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36578)
+	id 1kXQ2U-0002TT-I0
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:33:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPUE-0004Eh-EO
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:58:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37994)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPUC-0004YD-Ks
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:58:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603807083;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xm7DOhBe3iyYOLIHKljm0VOmYGJ+D2G+GQFpjtxbZOQ=;
- b=OeKM1+nqEkXHzq9XnLfViWsIrbUzNNfSJGmPQfswKOFILRN3ZpXUFKVjSdkvmm+usxKh3i
- lpGVcn7vtQ9mwq3xRO/SmiH01GbSEKeeLUPymiXhv0ovtFen+3qGN5pWI8IwBXjHyTJY7X
- qursqU6kV3E+b4zEdIWHqR7HA49Uk/M=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-Yn09YSNgN3yxCmQUL7MaOA-1; Tue, 27 Oct 2020 09:58:01 -0400
-X-MC-Unique: Yn09YSNgN3yxCmQUL7MaOA-1
-Received: by mail-ej1-f72.google.com with SMTP id d12so880966ejr.19
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:58:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kXPeq-0007EI-LA; Tue, 27 Oct 2020 10:09:04 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:39501)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kXPeo-0006Kb-M6; Tue, 27 Oct 2020 10:09:04 -0400
+Received: by mail-pg1-x544.google.com with SMTP id o7so857167pgv.6;
+ Tue, 27 Oct 2020 07:09:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Eu+qi7ubrml3OA1tTgSmoKt2J/Vib4Ul9XwjcW39VJc=;
+ b=gLm1U+epECwOh2FnQke4KEX2q7Xw8UgTXt8e5xOXyP0SuFUWuFRoyuR33aOm1LUf+b
+ YG+M2dJzK8XGZ1b4SwqwlcIKLo4rWTvu3f6NIC3UEYkAaNLvhfqdlBxLPschsxFE/Tlk
+ FVTBksPPonU0b2BuAKTiJAEuBX0NGzMrF1wmi5jY7Z6unGhv4T/PPxZoKibQIiU6+dIA
+ hhkDk7bOh8MtYvZ9F5/Z2yZjm/s8OV8Dkm47sQO+0hsjoplFK/KQeLt1thT319WYknCp
+ PfCVHIZs83LSHVdp8khTc6h/o/V+VFImAW36wQXKdjFTPgEI/QpECAwXUsGvPUukLHte
+ 413Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xm7DOhBe3iyYOLIHKljm0VOmYGJ+D2G+GQFpjtxbZOQ=;
- b=RQirgzKnk1bKLsk8sU5ojnZTI45Cvm0GAOynY2uBMydhhs9giCF9/hc3PSO24M+cit
- r3jtlpiknQ2F+vLdxsumv4qP00eCkzMzDhdrHkYcm/Gls3zMblQrZR4za2dkCM0vT6Hi
- WkvcsG8QjhmNW0RKszt9zwUf2e8ZHjqgSYTi507CPZCvfMt9RVOIlrshCxuOLEROc0Vs
- nNxSAOXcIx4bvzhWX/S/iOQLMXvylW9TTUwz54PFhVImr+8sSTr+8NZvQUwkjoNZYXjS
- vjDm4g1O08TGX3hY5R823C59ZOL2yNwLDDwMHInYgQNORUBa+KzIbAuJKBPE4ghV2rOl
- USDQ==
-X-Gm-Message-State: AOAM532NOZXXtcA/AGW+ve0mB93qDMcHRLrJgwfPDIBBDVTOCc7kKgrT
- MfBinu/JzNUWosA2FIfsTvkQde9TRLw54jBLq7wvhBAf0tNDmTQ9fcu6L/sAN5cCCCbf1fXkSgp
- Vm7zboUjW8//h+uQ=
-X-Received: by 2002:a17:906:2dc7:: with SMTP id
- h7mr2638991eji.546.1603807079522; 
- Tue, 27 Oct 2020 06:57:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyWKxF53GuI7DB3LBnIlx/SCjKP14ed38wRlih8sAJZ/8YOthHVUwVuFSqQQTeiaC3xnaIDFw==
-X-Received: by 2002:a17:906:2dc7:: with SMTP id
- h7mr2638968eji.546.1603807079354; 
- Tue, 27 Oct 2020 06:57:59 -0700 (PDT)
-Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id e2sm1095439ejd.81.2020.10.27.06.57.57
+ bh=Eu+qi7ubrml3OA1tTgSmoKt2J/Vib4Ul9XwjcW39VJc=;
+ b=TlDBR98GapUfmv0iLhrYeD8SDdKAjkfqzTlRNxhzCgZ0c3F2jIV31aEdV3g7ff17qK
+ wcCzbV2vaA5wbGroE1soeQ98WawhUwcMdRGEf9Kx7gvGJnd6SDpmu/Kz44FTp/3a/0Ps
+ tSGd/Ef4r5hbF1NYttyR5eAbKqNAwl3rsOw+fHWSrzZEI6PEOe0uK0EkuyDwDx+2Mcwn
+ FEx8o+Y38t9ywH9tlzmJIump2E5KxM+k/7Ww/twyEPI/KktawoKjgz2hiERy4mI5GRj1
+ zLMmjck/VPlPD3KjwC8cgpzYAILjzmee+yQ8zbM4ZbreyKYKK8m8C04+UVeV73z81bI+
+ iFfQ==
+X-Gm-Message-State: AOAM533W3g52ntYtFLnkS1zRHlujZSDhu9PXj0Va20CndnwNaDz1frcf
+ 3rgaLrnxbzOnkpZPkmRQyjk=
+X-Google-Smtp-Source: ABdhPJzxe/Ic1oQOvILtw3X6Zcgkp1UatEqW3i7/IF8iexea2QW/HMk/Icoq06IzbLtnHwmI/0wX/w==
+X-Received: by 2002:a62:5251:0:b029:164:3604:578d with SMTP id
+ g78-20020a6252510000b02901643604578dmr2258475pfb.51.1603807740505; 
+ Tue, 27 Oct 2020 07:09:00 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id r22sm2540856pfg.51.2020.10.27.07.08.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:57:58 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 24/25] block/nvme: Align iov's va and size on host page size
-Date: Tue, 27 Oct 2020 14:55:46 +0100
-Message-Id: <20201027135547.374946-25-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
-References: <20201027135547.374946-1-philmd@redhat.com>
+ Tue, 27 Oct 2020 07:09:00 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 2/9] hw/riscv: microchip_pfsoc: Connect DDR memory controller
+ modules
+Date: Tue, 27 Oct 2020 22:08:33 +0800
+Message-Id: <20201027140840.18030-3-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201027140840.18030-1-bin.meng@windriver.com>
+References: <20201027140840.18030-1-bin.meng@windriver.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,76 +87,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
+ Anup Patel <anup.patel@wdc.com>, Ivan Griffin <ivan.griffin@emdalo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Auger <eric.auger@redhat.com>
+Connect DDR SGMII PHY module and CFG module to the PolarFire SoC.
 
-Make sure iov's va and size are properly aligned on the
-host page size.
-
-Signed-off-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
- block/nvme.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/block/nvme.c b/block/nvme.c
-index e3626045565..c1c52bae44f 100644
---- a/block/nvme.c
-+++ b/block/nvme.c
-@@ -1018,11 +1018,12 @@ static coroutine_fn int nvme_cmd_map_qiov(BlockDriverState *bs, NvmeCmd *cmd,
-     for (i = 0; i < qiov->niov; ++i) {
-         bool retry = true;
-         uint64_t iova;
-+        size_t len = QEMU_ALIGN_UP(qiov->iov[i].iov_len,
-+                                   qemu_real_host_page_size);
- try_map:
-         r = qemu_vfio_dma_map(s->vfio,
-                               qiov->iov[i].iov_base,
--                              qiov->iov[i].iov_len,
--                              true, &iova);
-+                              len, true, &iova);
-         if (r == -ENOMEM && retry) {
-             retry = false;
-             trace_nvme_dma_flush_queue_wait(s);
-@@ -1166,8 +1167,9 @@ static inline bool nvme_qiov_aligned(BlockDriverState *bs,
-     BDRVNVMeState *s = bs->opaque;
+ hw/riscv/Kconfig                   |  1 +
+ hw/riscv/microchip_pfsoc.c         | 18 ++++++++++++++++++
+ include/hw/riscv/microchip_pfsoc.h |  5 +++++
+ 3 files changed, 24 insertions(+)
+
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 2df978fe8d..c8e50bde99 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -4,6 +4,7 @@ config IBEX
+ config MICROCHIP_PFSOC
+     bool
+     select CADENCE_SDHCI
++    select MCHP_PFSOC_DMC
+     select MCHP_PFSOC_MMUART
+     select MSI_NONBROKEN
+     select SIFIVE_CLINT
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 4627179cd3..85be2bcde8 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -15,6 +15,7 @@
+  * 4) Cadence eMMC/SDHC controller and an SD card connected to it
+  * 5) SiFive Platform DMA (Direct Memory Access Controller)
+  * 6) GEM (Gigabit Ethernet MAC Controller)
++ * 7) DMC (DDR Memory Controller)
+  *
+  * This board currently generates devicetree dynamically that indicates at least
+  * two harts and up to five harts.
+@@ -85,7 +86,9 @@ static const struct MemmapEntry {
+     [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
+     [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
+     [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
++    [MICROCHIP_PFSOC_DDR_SGMII_PHY] =   { 0x20007000,     0x1000 },
+     [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
++    [MICROCHIP_PFSOC_DDR_CFG] =         { 0x20080000,    0x40000 },
+     [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
+     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
+     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
+@@ -131,6 +134,11 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
+     object_initialize_child(obj, "dma-controller", &s->dma,
+                             TYPE_SIFIVE_PDMA);
  
-     for (i = 0; i < qiov->niov; ++i) {
--        if (!QEMU_PTR_IS_ALIGNED(qiov->iov[i].iov_base, s->page_size) ||
--            !QEMU_IS_ALIGNED(qiov->iov[i].iov_len, s->page_size)) {
-+        if (!QEMU_PTR_IS_ALIGNED(qiov->iov[i].iov_base,
-+                                 qemu_real_host_page_size) ||
-+            !QEMU_IS_ALIGNED(qiov->iov[i].iov_len, qemu_real_host_page_size)) {
-             trace_nvme_qiov_unaligned(qiov, i, qiov->iov[i].iov_base,
-                                       qiov->iov[i].iov_len, s->page_size);
-             return false;
-@@ -1183,7 +1185,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-     int r;
-     uint8_t *buf = NULL;
-     QEMUIOVector local_qiov;
--
-+    size_t len = QEMU_ALIGN_UP(bytes, qemu_real_host_page_size);
-     assert(QEMU_IS_ALIGNED(offset, s->page_size));
-     assert(QEMU_IS_ALIGNED(bytes, s->page_size));
-     assert(bytes <= s->max_transfer);
-@@ -1193,7 +1195,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-     }
-     s->stats.unaligned_accesses++;
-     trace_nvme_prw_buffered(s, offset, bytes, qiov->niov, is_write);
--    buf = qemu_try_memalign(s->page_size, bytes);
-+    buf = qemu_try_memalign(qemu_real_host_page_size, len);
++    object_initialize_child(obj, "ddr-sgmii-phy", &s->ddr_sgmii_phy,
++                            TYPE_MCHP_PFSOC_DDR_SGMII_PHY);
++    object_initialize_child(obj, "ddr-cfg", &s->ddr_cfg,
++                            TYPE_MCHP_PFSOC_DDR_CFG);
++
+     object_initialize_child(obj, "gem0", &s->gem0, TYPE_CADENCE_GEM);
+     object_initialize_child(obj, "gem1", &s->gem1, TYPE_CADENCE_GEM);
  
-     if (!buf) {
-         return -ENOMEM;
+@@ -260,6 +268,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+         memmap[MICROCHIP_PFSOC_MPUCFG].base,
+         memmap[MICROCHIP_PFSOC_MPUCFG].size);
+ 
++    /* DDR SGMII PHY */
++    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), errp);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), 0,
++                    memmap[MICROCHIP_PFSOC_DDR_SGMII_PHY].base);
++
++    /* DDR CFG */
++    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_cfg), errp);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_cfg), 0,
++                    memmap[MICROCHIP_PFSOC_DDR_CFG].base);
++
+     /* SDHCI */
+     sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
+diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
+index 8bfc7e1a85..5b81e26241 100644
+--- a/include/hw/riscv/microchip_pfsoc.h
++++ b/include/hw/riscv/microchip_pfsoc.h
+@@ -24,6 +24,7 @@
+ 
+ #include "hw/char/mchp_pfsoc_mmuart.h"
+ #include "hw/dma/sifive_pdma.h"
++#include "hw/misc/mchp_pfsoc_dmc.h"
+ #include "hw/net/cadence_gem.h"
+ #include "hw/sd/cadence_sdhci.h"
+ 
+@@ -37,6 +38,8 @@ typedef struct MicrochipPFSoCState {
+     RISCVHartArrayState e_cpus;
+     RISCVHartArrayState u_cpus;
+     DeviceState *plic;
++    MchpPfSoCDdrSgmiiPhyState ddr_sgmii_phy;
++    MchpPfSoCDdrCfgState ddr_cfg;
+     MchpPfSoCMMUartState *serial0;
+     MchpPfSoCMMUartState *serial1;
+     MchpPfSoCMMUartState *serial2;
+@@ -82,7 +85,9 @@ enum {
+     MICROCHIP_PFSOC_MMUART0,
+     MICROCHIP_PFSOC_SYSREG,
+     MICROCHIP_PFSOC_MPUCFG,
++    MICROCHIP_PFSOC_DDR_SGMII_PHY,
+     MICROCHIP_PFSOC_EMMC_SD,
++    MICROCHIP_PFSOC_DDR_CFG,
+     MICROCHIP_PFSOC_MMUART1,
+     MICROCHIP_PFSOC_MMUART2,
+     MICROCHIP_PFSOC_MMUART3,
 -- 
-2.26.2
+2.25.1
 
 
