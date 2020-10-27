@@ -2,69 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E0B429AB5A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:01:38 +0100 (CET)
-Received: from localhost ([::1]:52984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D2829AB78
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:09:44 +0100 (CET)
+Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNfV-0000Jv-0n
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:01:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
+	id 1kXNnK-0005mu-0G
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:09:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXMpq-0003Pn-0u
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:08:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXMpn-0008Vl-Tq
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:08:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603796889;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j3YLXFDFu9D7zL7M3FHQpMcxcnIhm5ZfaeRdg5SJN0A=;
- b=KgVnE27hkN9EK7/RCBylgM9JP6/2z8asoyGkdr4qgDLPeucQmmqBT8CMjRwvPEm87yJOim
- u2Zi2sInYjHmf6mbiJh4vs07cS10pvERa/CSrxbvUtzDmB0TyRxbhka7Oy10LM+eOAdoiz
- nK0KyWoFbD4S8inUdPzVXPfZMK1kL/c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-8UsTbUJtOcO9cX34ffvpBA-1; Tue, 27 Oct 2020 07:08:06 -0400
-X-MC-Unique: 8UsTbUJtOcO9cX34ffvpBA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D29B8EC1A6;
- Tue, 27 Oct 2020 11:07:57 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-16.ams2.redhat.com [10.36.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 973526EF45;
- Tue, 27 Oct 2020 11:07:55 +0000 (UTC)
-Date: Tue, 27 Oct 2020 12:07:53 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [PATCH v5 0/2] Skip copy-on-write when allocating a zero cluster
-Message-ID: <20201027110753.GB4628@merkur.fritz.box>
-References: <cover.1603731354.git.berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kXMsQ-00057c-ES; Tue, 27 Oct 2020 07:10:54 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59969)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kXMsO-00018m-DQ; Tue, 27 Oct 2020 07:10:54 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 147C15C010F;
+ Tue, 27 Oct 2020 07:10:49 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 27 Oct 2020 07:10:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=O/60c2vjkei9vgixDLp04aezsvT
+ mCUYPTTTMBNKRzwI=; b=gTrRgCoNkurPHatGR7yQ7JQvWQyJv4j75R9hU12ZBay
+ UT8Qr4adEFa+/Cx/UFVM+qMc9aq5uQRVRu06djo/D8A5MugZWMdqF8o2ptxt6azI
+ Zqb1hLu+BbM4N4vr3mv4sxsouDFS61AtORckyiUK4Z+OT1tKOw9C2WcqQp/FMXjr
+ MZgq8x4PZ9WELsEGy8gGvMVSxovotC7OxMDFJMz08PmoffQCHhLWqyVrU+mEZzpN
+ xGX7NIWKXeTYZJagAn77D66FKPYvk+Omk06/vbzDLfmvqa+WBS32Gi2KpiWw9TCH
+ zxBHhQusxkPP5ZgWahcXNgy0gk0ECfkWiVD2b3TXieg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=O/60c2
+ vjkei9vgixDLp04aezsvTmCUYPTTTMBNKRzwI=; b=ScdajlYm5jHQ3Ns/6w+IZP
+ xaOyh/aciRSXQgYzGCsMwIN+B+6FSDAR2Wa8tk3djpZwX0i6krEkCV5st5UZ3YDb
+ wI8rOsskGb6dPw/AtLJuNvUNbvxC524wV5fIWNy2mT6VFgWeww5ttnJoWReIFkVa
+ 1Kx908jsCB7RC+7XGCmtdGn3D6BHNiy+ofRl9F+LCNHGwQnC70gtiyZFGTZPiPFJ
+ WyA8KAYtbqaPFhbD02yL/S9PqxAIJFAe2xIioIIY5rL4NFT/M8/AsMVOL3zif/g0
+ huXp0Ku/WK2e6j8D68eEHU0h2skD0CrDDTtf+/LKhB2Pl2YreOrS9zrEENd3v18A
+ ==
+X-ME-Sender: <xms:NwCYX_S7lZOaJhteG_iebqBf-2-xm1KP4TxaXRMlOA2_tUXNU-PPpQ>
+ <xme:NwCYXwxbhIKqMcFRGWSoZWHrwlaLFgiKnL4eO6-kgfp-DNLp-3byde1AvA-cqcbo6
+ s6OT2sncV_9WGMd3MY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:NwCYX03kl8phn1oDMpD2Fkh-HG-JGGbCmtFKShctGJ_yz1yUy8kPwA>
+ <xmx:NwCYX_DOqDvc6XfEgoMTdOsXN8FByyBe1aJy1Y5qx5IHuLsgFTTKAg>
+ <xmx:NwCYX4iATzKkMUZSUFUJcC0W5GX131ibQLEtMSh8NTKn48YXfJeaQA>
+ <xmx:OQCYXyYNilG_ADmDqBpJ1dl2D93alnTwnRIRbb1Q3VkACbkRquh2Qg>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9862E3280060;
+ Tue, 27 Oct 2020 07:10:46 -0400 (EDT)
+Date: Tue, 27 Oct 2020 12:10:44 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Subject: Re: [PULL 02/30] pci: pass along the return value of dma_memory_rw
+Message-ID: <20201027111044.GA548260@apples.localdomain>
+References: <20201027104932.558087-1-its@irrelevant.dk>
+ <20201027104932.558087-3-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <cover.1603731354.git.berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+In-Reply-To: <20201027104932.558087-3-its@irrelevant.dk>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 06:49:36
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,17 +96,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.10.2020 um 17:58 hat Alberto Garcia geschrieben:
-> I had to rebase the series due to conflicting changes on master. There
-> are no other differences.
 
-Thanks, applied to the block branch.
+--5vNYLRcllDrimb99
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Kevin
+On Oct 27 11:49, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Some devices might want to know the return value of dma_memory_rw, so
+> pass it along instead of ignoring it.
+>=20
+> There are no existing users of the return value, so this patch should be
+> safe.
+>=20
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+> Acked-by: Keith Busch <kbusch@kernel.org>
+> ---
+>  include/hw/pci/pci.h | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 0a59a06b149d..f19ffe6b4fe8 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -783,8 +783,7 @@ static inline AddressSpace *pci_get_address_space(PCI=
+Device *dev)
+>  static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
+>                               void *buf, dma_addr_t len, DMADirection dir)
+>  {
+> -    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
+> -    return 0;
+> +    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir=
+);
+>  }
+> =20
+>  static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
+> --=20
+> 2.29.1
+>=20
 
+Philippe posted a series where this patch is included as well (with a
+couple of additional reviews I think). Merging that is probably
+preferable, and I can respin this pull.
+
+--5vNYLRcllDrimb99
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+YADIACgkQTeGvMW1P
+DemwmQf/RVLB3AGqeJWmNYtoDIllyfKwMSHMQCCwZshjCsDQmom4asuCUOtV9IEd
+kH5OCcvlXdiPft0oGVTBvCOyS39BuYXGMxRGrRqVs0EtRonnjBetTFunjdX76KPO
+Ac0hFudh0EM5ezhkL8wYG4q2JHgnJfYIy3fuQpv+1DQVlqlCoqtprDPn+/olgRr6
+eIzQPniG35lY7Ss9M5Pse1dwruVOmCXMT8mfU0jyqgUrw2n4+DEJH5NdAn13PKqf
+TB4XZCMsXXiZi1Bhc77um/yCgzgESUJyZPNpYRCui5owZJq90gpLnOsZNzlUjhE+
+15n/bIAsRb0gO7jylJuEcdxepxLKLA==
+=OHJZ
+-----END PGP SIGNATURE-----
+
+--5vNYLRcllDrimb99--
 
