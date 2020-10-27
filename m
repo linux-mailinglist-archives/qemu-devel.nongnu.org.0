@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6D929AC8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:55:10 +0100 (CET)
-Received: from localhost ([::1]:59794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DF629AC94
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:57:23 +0100 (CET)
+Received: from localhost ([::1]:37992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOVJ-00022G-Bi
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:55:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52750)
+	id 1kXOXS-0004pq-A5
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:57:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNQD-0002E0-UH
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:50 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34813)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNQ6-0004ug-HT
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:49 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id k21so903753wmi.1
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=4ZJVmhzSHTO2kkTsFOTgxlLYB4AqZRDQadlY+p5spSw=;
- b=OD+qk3uqtGLNXFCvpQsZo8slztoTynv1RkQgtnGygrqvRhiX5/uKcDojTWjJVXRI1s
- UO23Uy2XvYyMAlI75cvvMNwfdEuGgU1IxMczYPZ67A1joNi5e5YGpPKJlaeD/YzSYTdY
- Z5+5kVaYnWYEt8D3jgUaCVQj6MNz3SgnOG5uPh5ZCQit5uNZsTNP4Kn+ueggG7aaB6yE
- 08dV/zQxIEZ1sPgdAtHdd2JxkpWqS3syN8Mr7jHuMYqYnxjgb1Ky2o671zFqDbzbWxTj
- VanSUs/tM6prm3vwpXqG1VB+Tcy7D0j5X5kE71SULqUwOjmawFVvVnZ8P0dkQXcGFxEW
- 06EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=4ZJVmhzSHTO2kkTsFOTgxlLYB4AqZRDQadlY+p5spSw=;
- b=hGK5btsOaNoqyGjASaNkl7ky1SwOXvsjiWtahPXFeqlKAz/duXtetkAheuogXEdCc4
- +d2Uo5PSObWmJH/lx6VIhuqIPWCETEdTnyAFuQq3ow4Ysp2VcGF+8mqRMH1xNY2snAU3
- pFuEvoIW+7ypQvUYKq+E3AEF/BZgFZoX4G7/zxS+wIe1hs+jcYBogdu7BdwYo9YqFYFj
- lxFrEAhwxZmfz9jWG2a1wn3Xo7powRtsX29a1kZyDNjo2yilqEDDXc1WU8qh5QcOJqKH
- NJnfvVC6VQMYTk2tNX35IPnslZi0j9Uk8kGjcL4x+3W4U/GxiL7+Pvs3mPBaGcKW3xhf
- /4UA==
-X-Gm-Message-State: AOAM5325zqV/78m3Hvi08Tsgy8ibShO5U/OvGhwXAh2BKMBYLcaFw4vd
- 1RL3R3Ygf1zKgwbgUXBZQ/89zM7GUDtUnA==
-X-Google-Smtp-Source: ABdhPJyFPZCnPvJUN3xYS5AyX15JXK/RIQEKu3JUQK+4YjFJXAWmHb5sZT3YDNN9Yy97DDUxnmVFow==
-X-Received: by 2002:a7b:c408:: with SMTP id k8mr2355360wmi.68.1603799140672;
- Tue, 27 Oct 2020 04:45:40 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.39
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:39 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 47/48] hw/core/ptimer: Support ptimer being disabled by timer
- callback
-Date: Tue, 27 Oct 2020 11:44:37 +0000
-Message-Id: <20201027114438.17662-48-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
-References: <20201027114438.17662-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXNYr-0002Fl-4N
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:54:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXNYm-0007r7-K0
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:54:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603799677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B9yMz74ji/lFw4OziTgLWBpG8zFTU3K+cLrcYJSHm2Q=;
+ b=FC7sAq+akAFcYbWKfpmRF3ppAKOpj40N48cAnPHqsk9a5nSQM7lUH4wAH8AL4ndAyr/Tjn
+ GBBiDIQ99Vdc9jtKdQu8kpC80RNUs+mMJLCEvDS1uaP86oyPFoLEbBvXmYYQIUM1Vq79OW
+ mkFczfY6V0/ZZdu8CSEXcLMWfhqxwJs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-_OySpn4qP7KItE0Ia-nFzw-1; Tue, 27 Oct 2020 07:54:36 -0400
+X-MC-Unique: _OySpn4qP7KItE0Ia-nFzw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E5171882FB4;
+ Tue, 27 Oct 2020 11:54:34 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D23B19D6C;
+ Tue, 27 Oct 2020 11:54:26 +0000 (UTC)
+Date: Tue, 27 Oct 2020 12:54:24 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
+ properties
+Message-ID: <20201027125424.13833af8@redhat.com>
+In-Reply-To: <20201025162444.0fdec88a@bahia.lan>
+References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
+ <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
+ <20201023211509.5c316c01@redhat.com>
+ <20201025162444.0fdec88a@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,43 +84,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In ptimer_reload(), we call the callback function provided by the
-timer device that is using the ptimer.  This callback might disable
-the ptimer.  The code mostly handles this correctly, except that
-we'll still print the warning about "Timer with delta zero,
-disabling" if the now-disabled timer happened to be set such that it
-would fire again immediately if it were enabled (eg because the
-limit/reload value is zero).
+On Sun, 25 Oct 2020 16:24:44 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-Suppress the spurious warning message and the unnecessary
-repeat-deletion of the underlying timer in this case.
+> On Fri, 23 Oct 2020 21:15:09 +0200
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > On Mon, 19 Oct 2020 10:48:41 +0200
+> > Greg Kurz <groug@kaod.org> wrote:
+> >   
+> > > Both PC_DIMM_SLOT_PROP and PC_DIMM_ADDR_PROP are defined in the
+> > > default property list of the PC DIMM device class:
+> > > 
+> > >     DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
+> > > 
+> > >     DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
+> > >                       PC_DIMM_UNASSIGNED_SLOT),
+> > > 
+> > > They should thus be always gettable for both PC DIMMs and NVDIMMs.
+> > > An error in getting them can only be the result of a programming
+> > > error. It doesn't make much sense to propagate the error in this
+> > > case. Abort instead.
+> > > 
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>  
+> > 
+> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > 
+> > TODO for future,
+> > get rid of local_err in spapr_memory_plug() altogether, it should not fail.
+> > it needs moving check from spapr_drc_attach() to spapr_memory_pre_plug() time.
+> > 
+> > that will clear up (a bit) road for dropping errp in spapr_memory_plug()  
+> 
+> Igor,
+> 
+> I could find time to look a bit into attaching DRCs at pre-plug and I
+> think this isn't possible. The problem is that there doesn't seem to be
+> a reverse operation for pre-plug. If realize fails for the DIMM device,
+> spapr_drc_detach() wouldn't be called, which would be wrong.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20201015151829.14656-2-peter.maydell@linaro.org
----
- hw/core/ptimer.c | 4 ++++
- 1 file changed, 4 insertions(+)
+probably I was clear enough, I didn't suggest to move spapr_drc_detach()
+to pre_plug time but rather do a bit of surgery along the lines:
 
-diff --git a/hw/core/ptimer.c b/hw/core/ptimer.c
-index c6d2beb1dac..2aa97cb665c 100644
---- a/hw/core/ptimer.c
-+++ b/hw/core/ptimer.c
-@@ -117,6 +117,10 @@ static void ptimer_reload(ptimer_state *s, int delta_adjust)
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 2db810f73a..59a229b4fa 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3474,6 +3474,11 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+         return;
      }
  
-     if (delta == 0) {
-+        if (s->enabled == 0) {
-+            /* trigger callback disabled the timer already */
-+            return;
-+        }
-         if (!qtest_enabled()) {
-             fprintf(stderr, "Timer with delta zero, disabling\n");
-         }
--- 
-2.20.1
++    get drc
++    if (!spapr_drc_attachable(drc)) {
++        error out
++    }
++
+     if (is_nvdimm) {
+         spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
+         if (local_err) {
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index fe998d8108..ae049bc202 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -371,14 +371,16 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+     } while (fdt_depth != 0);
+ }
+ 
+-void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp)
++
++bool spapr_drc_attachable(SpaprDrc *drc)
++{
++   return !drc->dev;
++}
++
++void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+ {
+     trace_spapr_drc_attach(spapr_drc_index(drc));
+ 
+-    if (drc->dev) {
+-        error_setg(errp, "an attached device is still awaiting release");
+-        return;
+-    }
+     g_assert((drc->state == SPAPR_DRC_STATE_LOGICAL_UNUSABLE)
+              || (drc->state == SPAPR_DRC_STATE_PHYSICAL_POWERON));
+
+> 
+> Am I missing something ?
+> 
+> > > ---
+> > >  hw/ppc/spapr.c |   17 +++--------------
+> > >  1 file changed, 3 insertions(+), 14 deletions(-)
+> > > 
+> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > index 1b173861152f..62f217a6b914 100644
+> > > --- a/hw/ppc/spapr.c
+> > > +++ b/hw/ppc/spapr.c
+> > > @@ -3443,19 +3443,13 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+> > >  
+> > >      if (!is_nvdimm) {
+> > >          addr = object_property_get_uint(OBJECT(dimm),
+> > > -                                        PC_DIMM_ADDR_PROP, &local_err);
+> > > -        if (local_err) {
+> > > -            goto out_unplug;
+> > > -        }
+> > > +                                        PC_DIMM_ADDR_PROP, &error_abort);
+> > >          spapr_add_lmbs(dev, addr, size,
+> > >                         spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
+> > >                         &local_err);
+> > >      } else {
+> > >          slot = object_property_get_int(OBJECT(dimm),
+> > > -                                       PC_DIMM_SLOT_PROP, &local_err);
+> > > -        if (local_err) {
+> > > -            goto out_unplug;
+> > > -        }
+> > > +                                       PC_DIMM_SLOT_PROP, &error_abort);
+> > >          /* We should have valid slot number at this point */
+> > >          g_assert(slot >= 0);
+> > >          spapr_add_nvdimm(dev, slot, &local_err);
+> > > @@ -3634,7 +3628,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+> > >                                          DeviceState *dev, Error **errp)
+> > >  {
+> > >      SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
+> > > -    Error *local_err = NULL;
+> > >      PCDIMMDevice *dimm = PC_DIMM(dev);
+> > >      uint32_t nr_lmbs;
+> > >      uint64_t size, addr_start, addr;
+> > > @@ -3650,11 +3643,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+> > >      nr_lmbs = size / SPAPR_MEMORY_BLOCK_SIZE;
+> > >  
+> > >      addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
+> > > -                                         &local_err);
+> > > -    if (local_err) {
+> > > -        error_propagate(errp, local_err);
+> > > -        return;
+> > > -    }
+> > > +                                          &error_abort);
+> > >  
+> > >      /*
+> > >       * An existing pending dimm state for this DIMM means that there is an
+> > > 
+> > > 
+> > >   
+> >   
+> 
 
 
