@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98AA29ACAB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:02:42 +0100 (CET)
-Received: from localhost ([::1]:49878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AC829ACBF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:05:34 +0100 (CET)
+Received: from localhost ([::1]:57196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOcb-0001eN-Q6
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:02:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52256)
+	id 1kXOfN-0004i4-W9
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:05:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPq-0001je-0Z
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:26 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39781)
+ id 1kXNPs-0001pm-Fj
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:28 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPj-0004fR-KY
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:25 -0400
-Received: by mail-wm1-x333.google.com with SMTP id d3so1102660wma.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:19 -0700 (PDT)
+ id 1kXNPp-0004gY-AX
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id t9so1499825wrq.11
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Hemtl9k7GDwhcvFCOWiXnEjXEFd69plgYo/xhg1fQAg=;
- b=JkdnxfGB5s0HKvn8TE1HO1mZ3x1oIcKp050BmK0pYsiu+lrNKTfQgF+RBRNWp1A6rC
- qO0hug71F0hNTtu/NRv0FwYcKt2IZW4RHX8D7EeHX7JBilAgKPYVUa7GoWvThbGHR8GE
- wYgzz3G/Oiwi72T2zapMGXploBNzTRqm9RCutYh87J83AmSEvY+NjMzrG5YuEXS3sYsQ
- KVu0COX9ofKNrETKbWr6lk7BCoZplnmh06cqDpqxdYSH2iTiZiLOb8KSHQ2vRdG1N3qI
- elke7dcreqTWx2NEAC8Mwh8GP3KRr/3qizJRuBMo57geiItPQ8favSGhxTQiXjp1SmGC
- SaTg==
+ bh=31oB8adlz3FHMBAML1Jxi6tZhh8Z+m5TwWywAmM/pII=;
+ b=O5qZs9Jon0x+5AL/5i2pTHgEiaQdyjo4cO2m/S5AzL3bMFR3wlxr4/62bDj1UgK1g8
+ NJNA0zweuazvEVucJxrFLm8nuo2+3y2IPb9pA+z0pfRSlH57McyPx5/RvYOOvYLqaHbF
+ j1Tz+d5CNYx96eah8RtuSK7sT2sGWlKtyT6tI7G246LhbvtVktKV9+0rV0UUl9MlZoei
+ +niuoem4LtPMC7z9gntuvOD3oLL4pqq+U5wYzaOmEOJgyoYxbpJQrwiismMRNyS4BK3v
+ C6uOO1Glbz1hjGmk4/+PTl91axveFYlsoz5d0duy4+Brcx891OqaTXjMOeEUj2NucGEO
+ KEFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Hemtl9k7GDwhcvFCOWiXnEjXEFd69plgYo/xhg1fQAg=;
- b=c7Glkuac6s1sBIzv6EgRrPVNlTrqryn+JPCcebXYIbXbAQ07fXdjw4723CXmGevP5P
- gLWYwu16goMjrB49Ppa8Oqkqnci3bG5l+BdFw7kwdY2KhKor+/iEwgZ9YOI7PL7ZwDJY
- C56m5HYWzrSZ3fdPP6xHmuJqTnwp6YPInukxmh2/KNPr/UKnFHqqclImEUH7H5/V+N9G
- u0sI6n8RaPL8DLT1QqhCGbnoARiZM4jV/PcetGb6qC91Uq/HfupOUjYSANCVoxVUf6Fb
- Ih6+/7HBVoHAf9g+8INXcn/Rjjc2nAletaSt2hJi+dKXypqOcWExtHP/xYLiRzytp/Op
- /WSw==
-X-Gm-Message-State: AOAM530wTpjadGIgzm1h/jTpV7rPTJj28b/V6pYdUbjeCTZNzatUoGn2
- QHmC6wULyqmFWaWLlWLgMps02r6sCyyw1Q==
-X-Google-Smtp-Source: ABdhPJxzBpd81VVorVr6tzs5Tr8yNvvjLzqVTS7k/kstmDe19RpPSBl0wdsrX13DcSJ+SNZjlc83xQ==
-X-Received: by 2002:a1c:20d0:: with SMTP id g199mr2413346wmg.38.1603799114916; 
- Tue, 27 Oct 2020 04:45:14 -0700 (PDT)
+ bh=31oB8adlz3FHMBAML1Jxi6tZhh8Z+m5TwWywAmM/pII=;
+ b=teCg8dMdAUEhHTXQzKf/r0Wune1m8xJgre+hSt9pSwzyjGgCHKdfq7DqpmQ0q3djZJ
+ JQ58G2KXTxIqNwyscd8WPq6Y5FfW367EbuoKBHi3b0VUoh8vVxd9QHrnjET/QmCxPGK5
+ Nc/m+zVTWItYyEhJ3+U5DO1LumiMzfNOjUo3/X7Kd0CPVY5EkjeL5jfal3QZEFEKDhBL
+ oeSj/tQtkNfqXapVxEBOmjHbmwH+2ZZd3KQMJ/54S6+2I9pFEu0qtNs6BcdOgd0Ldkmm
+ 8hLkbqh9cQd5Ccjrwr1PmKr51Dq3x4o107+ZtCV2Wv8who8aN41+et877BR89L6CxIUP
+ hNUQ==
+X-Gm-Message-State: AOAM530TJIepYDFPpPEkGGjUnGDs6hHqwIeaIguJgrlC1NEEtVyerrCJ
+ uP1fHGNN4lV4Ls4j/h50MnFmU4+5whO+eg==
+X-Google-Smtp-Source: ABdhPJwM8O3i6VDD+69crFqAziMFR++dwgevBZgvQqD0hjNtU6wv/918KT0QL03Rxd4o6p+gnKFdEw==
+X-Received: by 2002:a05:6000:1051:: with SMTP id
+ c17mr2278494wrx.290.1603799120368; 
+ Tue, 27 Oct 2020 04:45:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.13
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.19
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:13 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/48] hw/arm/raspi: Add the Raspberry Pi A+ machine
-Date: Tue, 27 Oct 2020 11:44:17 +0000
-Message-Id: <20201027114438.17662-28-peter.maydell@linaro.org>
+Subject: [PULL 32/48] hw/core/clock: trace clock values in Hz instead of ns
+Date: Tue, 27 Oct 2020 11:44:22 +0000
+Message-Id: <20201027114438.17662-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,66 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Luc Michel <luc@lmichel.fr>
 
-The Pi A is almost the first machine released.
-It uses a BCM2835 SoC which includes a ARMv6Z core.
+The nanosecond unit greatly limits the dynamic range we can display in
+clock value traces, for values in the order of 1GHz and more. The
+internal representation can go way beyond this value and it is quite
+common for today's clocks to be within those ranges.
 
-Example booting the machine using content from [*]
-(we use the device tree from the B model):
+For example, a frequency between 500MHz+ and 1GHz will be displayed as
+1ns. Beyond 1GHz, it will show up as 0ns.
 
-  $ qemu-system-arm -M raspi1ap -serial stdio \
-      -kernel raspberrypi/firmware/boot/kernel.img \
-      -dtb raspberrypi/firmware/boot/bcm2708-rpi-b-plus.dtb \
-      -append 'earlycon=pl011,0x20201000 console=ttyAMA0'
-  [    0.000000] Booting Linux on physical CPU 0x0
-  [    0.000000] Linux version 4.19.118+ (dom@buildbot) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1311 Mon Apr 27 14:16:15 BST 2020
-  [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-  [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-  [    0.000000] OF: fdt: Machine model: Raspberry Pi Model B+
-  ...
+Replace nanosecond periods traces with frequencies in the Hz unit
+to have more dynamic range in the trace output.
 
-[*] http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20200512-2_armhf.deb
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201024170127.3592182-8-f4bug@amsat.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Signed-off-by: Luc Michel <luc@lmichel.fr>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/raspi.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/core/clock.c      | 6 +++---
+ hw/core/trace-events | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 30fafa59ecb..79fdd354603 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -319,6 +319,15 @@ static void raspi_machine_class_common_init(MachineClass *mc,
-     mc->default_ram_id = "ram";
- };
+diff --git a/hw/core/clock.c b/hw/core/clock.c
+index f866717a835..8c6af223e7c 100644
+--- a/hw/core/clock.c
++++ b/hw/core/clock.c
+@@ -54,8 +54,8 @@ bool clock_set(Clock *clk, uint64_t period)
+     if (clk->period == period) {
+         return false;
+     }
+-    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_NS(clk->period),
+-                    CLOCK_PERIOD_TO_NS(period));
++    trace_clock_set(CLOCK_PATH(clk), CLOCK_PERIOD_TO_HZ(clk->period),
++                    CLOCK_PERIOD_TO_HZ(period));
+     clk->period = period;
  
-+static void raspi1ap_machine_class_init(ObjectClass *oc, void *data)
-+{
-+    MachineClass *mc = MACHINE_CLASS(oc);
-+    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
-+
-+    rmc->board_rev = 0x900021; /* Revision 1.1 */
-+    raspi_machine_class_common_init(mc, rmc->board_rev);
-+};
-+
- static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -343,6 +352,10 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
- 
- static const TypeInfo raspi_machine_types[] = {
-     {
-+        .name           = MACHINE_TYPE_NAME("raspi1ap"),
-+        .parent         = TYPE_RASPI_MACHINE,
-+        .class_init     = raspi1ap_machine_class_init,
-+    }, {
-         .name           = MACHINE_TYPE_NAME("raspi2b"),
-         .parent         = TYPE_RASPI_MACHINE,
-         .class_init     = raspi2b_machine_class_init,
+     return true;
+@@ -69,7 +69,7 @@ static void clock_propagate_period(Clock *clk, bool call_callbacks)
+         if (child->period != clk->period) {
+             child->period = clk->period;
+             trace_clock_update(CLOCK_PATH(child), CLOCK_PATH(clk),
+-                               CLOCK_PERIOD_TO_NS(clk->period),
++                               CLOCK_PERIOD_TO_HZ(clk->period),
+                                call_callbacks);
+             if (call_callbacks && child->callback) {
+                 child->callback(child->callback_opaque);
+diff --git a/hw/core/trace-events b/hw/core/trace-events
+index 1ac60ede6b7..360ddeb2c87 100644
+--- a/hw/core/trace-events
++++ b/hw/core/trace-events
+@@ -31,6 +31,6 @@ resettable_transitional_function(void *obj, const char *objtype) "obj=%p(%s)"
+ # clock.c
+ clock_set_source(const char *clk, const char *src) "'%s', src='%s'"
+ clock_disconnect(const char *clk) "'%s'"
+-clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', ns=%"PRIu64"->%"PRIu64
++clock_set(const char *clk, uint64_t old, uint64_t new) "'%s', %"PRIu64"Hz->%"PRIu64"Hz"
+ clock_propagate(const char *clk) "'%s'"
+-clock_update(const char *clk, const char *src, uint64_t val, int cb) "'%s', src='%s', ns=%"PRIu64", cb=%d"
++clock_update(const char *clk, const char *src, uint64_t hz, int cb) "'%s', src='%s', val=%"PRIu64"Hz cb=%d"
 -- 
 2.20.1
 
