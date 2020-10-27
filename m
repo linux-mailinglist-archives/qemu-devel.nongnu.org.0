@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C33229C8C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:26:18 +0100 (CET)
-Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54A7529C8A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:21:32 +0100 (CET)
+Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXUbp-0008VR-5f
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:26:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42608)
+	id 1kXUXD-000245-Cs
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:21:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJu-0002Kz-IU
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59799)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUK6-0002fh-JL
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47241)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJs-0001SP-9U
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:46 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUK2-0001TT-1q
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603825663;
+ s=mimecast20190719; t=1603825672;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/12IHfj7Wf3NqWIVFqddQp9yqkr2U0TmM/1Z4ynU3Zo=;
- b=Y1rFsNTk1L56LyWA8Jd0vA1TWQtPp5wYltp5MbGR6ySJwxHK3dmX9Qi9eGqf2CXIVpX9lN
- 3owWNeZ1y21dKxQgh7lAhs+yuWVwaQQUYGO0LYTnwqfsmLnbRmxoI/coDmSM2NXJEK25sb
- ldg/VEsBrCS1+woyZinvfOAK2YLlSPQ=
+ bh=O24fefVT7npEaOHFwSQCZozY5pburzxE1X4SuhyJFvI=;
+ b=a4rBSIcHHiPqkz2c+YscLC+GX5enHx9WfM22CykxbblNWiOZGfVsGSMyfBbqGGGfLygn1A
+ V9gx6dEMbpo2vyHUsaLRB9++nS41EmQ6rxRL5RXDshJN+Pc+N2c3XD2cITcoM5HfmcGv7J
+ 5+MTd2tmdC/H10w7WX+dVkPt6GKbqgw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-451-bHK8PXndNya79DQ61de7pQ-1; Tue, 27 Oct 2020 15:07:41 -0400
-X-MC-Unique: bHK8PXndNya79DQ61de7pQ-1
+ us-mta-427-NZ3h4DOXPTm4RMI6It3vEw-1; Tue, 27 Oct 2020 15:07:47 -0400
+X-MC-Unique: NZ3h4DOXPTm4RMI6It3vEw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40D16A0BDE;
- Tue, 27 Oct 2020 19:07:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2CB68064D4;
+ Tue, 27 Oct 2020 19:07:45 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9659F5D9E8;
- Tue, 27 Oct 2020 19:07:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82F385D9E8;
+ Tue, 27 Oct 2020 19:07:41 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-6.0 v3 18/20] iotests: Allow testing FUSE exports
-Date: Tue, 27 Oct 2020 20:05:58 +0100
-Message-Id: <20201027190600.192171-19-mreitz@redhat.com>
+Subject: [PATCH for-6.0 v3 19/20] iotests: Enable fuse for many tests
+Date: Tue, 27 Oct 2020 20:05:59 +0100
+Message-Id: <20201027190600.192171-20-mreitz@redhat.com>
 In-Reply-To: <20201027190600.192171-1-mreitz@redhat.com>
 References: <20201027190600.192171-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -83,261 +83,1070 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This pretends FUSE exports are a kind of protocol.  As such, they are
-always tested under the format node.  This is probably the best way to
-test them, actually, because this will generate more I/O load and more
-varied patterns.
+Many tests (that do not support generic protocols) can run just fine
+with FUSE-exported images, so allow them to.  Note that this is no
+attempt at being definitely complete.  There are some tests that might
+be modified to run on FUSE, but this patch still skips them.  This patch
+only tries to pick the rather low-hanging fruits.
+
+Note that 221 and 250 only pass when .lseek is correctly implemented,
+which is only possible with a libfuse that is 3.8 or newer.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/check         |   6 ++
- tests/qemu-iotests/common.filter |   5 +-
- tests/qemu-iotests/common.rc     | 124 +++++++++++++++++++++++++++++++
- 3 files changed, 134 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/025 | 2 +-
+ tests/qemu-iotests/026 | 2 +-
+ tests/qemu-iotests/028 | 2 +-
+ tests/qemu-iotests/031 | 2 +-
+ tests/qemu-iotests/034 | 2 +-
+ tests/qemu-iotests/036 | 2 +-
+ tests/qemu-iotests/037 | 2 +-
+ tests/qemu-iotests/038 | 2 +-
+ tests/qemu-iotests/039 | 2 +-
+ tests/qemu-iotests/046 | 2 +-
+ tests/qemu-iotests/050 | 2 +-
+ tests/qemu-iotests/054 | 2 +-
+ tests/qemu-iotests/060 | 2 +-
+ tests/qemu-iotests/071 | 2 +-
+ tests/qemu-iotests/079 | 2 +-
+ tests/qemu-iotests/080 | 2 +-
+ tests/qemu-iotests/089 | 2 +-
+ tests/qemu-iotests/090 | 2 +-
+ tests/qemu-iotests/091 | 2 +-
+ tests/qemu-iotests/095 | 2 +-
+ tests/qemu-iotests/097 | 2 +-
+ tests/qemu-iotests/098 | 2 +-
+ tests/qemu-iotests/102 | 2 +-
+ tests/qemu-iotests/103 | 2 +-
+ tests/qemu-iotests/106 | 2 +-
+ tests/qemu-iotests/107 | 2 +-
+ tests/qemu-iotests/108 | 2 +-
+ tests/qemu-iotests/111 | 2 +-
+ tests/qemu-iotests/112 | 2 +-
+ tests/qemu-iotests/115 | 2 +-
+ tests/qemu-iotests/117 | 2 +-
+ tests/qemu-iotests/120 | 2 +-
+ tests/qemu-iotests/121 | 2 +-
+ tests/qemu-iotests/127 | 2 +-
+ tests/qemu-iotests/133 | 2 +-
+ tests/qemu-iotests/137 | 2 +-
+ tests/qemu-iotests/138 | 2 +-
+ tests/qemu-iotests/140 | 2 +-
+ tests/qemu-iotests/154 | 2 +-
+ tests/qemu-iotests/161 | 2 +-
+ tests/qemu-iotests/171 | 2 +-
+ tests/qemu-iotests/175 | 2 +-
+ tests/qemu-iotests/176 | 2 +-
+ tests/qemu-iotests/177 | 2 +-
+ tests/qemu-iotests/179 | 2 +-
+ tests/qemu-iotests/183 | 2 +-
+ tests/qemu-iotests/186 | 2 +-
+ tests/qemu-iotests/187 | 2 +-
+ tests/qemu-iotests/191 | 2 +-
+ tests/qemu-iotests/195 | 2 +-
+ tests/qemu-iotests/200 | 2 +-
+ tests/qemu-iotests/204 | 2 +-
+ tests/qemu-iotests/214 | 2 +-
+ tests/qemu-iotests/217 | 2 +-
+ tests/qemu-iotests/220 | 2 +-
+ tests/qemu-iotests/221 | 2 +-
+ tests/qemu-iotests/229 | 2 +-
+ tests/qemu-iotests/247 | 2 +-
+ tests/qemu-iotests/249 | 2 +-
+ tests/qemu-iotests/250 | 2 +-
+ tests/qemu-iotests/252 | 2 +-
+ tests/qemu-iotests/265 | 2 +-
+ tests/qemu-iotests/268 | 2 +-
+ tests/qemu-iotests/272 | 2 +-
+ tests/qemu-iotests/273 | 2 +-
+ tests/qemu-iotests/279 | 2 +-
+ tests/qemu-iotests/286 | 2 +-
+ tests/qemu-iotests/287 | 2 +-
+ tests/qemu-iotests/289 | 2 +-
+ tests/qemu-iotests/290 | 2 +-
+ tests/qemu-iotests/291 | 2 +-
+ tests/qemu-iotests/292 | 2 +-
+ tests/qemu-iotests/293 | 2 +-
+ tests/qemu-iotests/294 | 2 +-
+ tests/qemu-iotests/305 | 2 +-
+ 75 files changed, 75 insertions(+), 75 deletions(-)
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 3c1fa4435a..952762d5ed 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -270,6 +270,7 @@ image protocol options
-     -rbd                test rbd
-     -sheepdog           test sheepdog
-     -nbd                test nbd
-+    -fuse               test fuse
-     -ssh                test ssh
-     -nfs                test nfs
+diff --git a/tests/qemu-iotests/025 b/tests/qemu-iotests/025
+index e05d833452..1569d912f4 100755
+--- a/tests/qemu-iotests/025
++++ b/tests/qemu-iotests/025
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.pattern
  
-@@ -382,6 +383,11 @@ testlist options
-             xpand=false
-             ;;
+ _supported_fmt raw qcow2 qed luks
+-_supported_proto file sheepdog rbd nfs
++_supported_proto file sheepdog rbd nfs fuse
  
-+        -fuse)
-+            IMGPROTO=fuse
-+            xpand=false
-+            ;;
-+
-         -ssh)
-             IMGPROTO=ssh
-             xpand=false
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index 838ed15793..172ea5752e 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -44,7 +44,8 @@ _filter_qom_path()
- _filter_testdir()
+ echo "=== Creating image"
+ echo
+diff --git a/tests/qemu-iotests/026 b/tests/qemu-iotests/026
+index b9713eb591..9ecc5880b1 100755
+--- a/tests/qemu-iotests/026
++++ b/tests/qemu-iotests/026
+@@ -41,7 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Currently only qcow2 supports rebasing
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _default_cache_mode writethrough
+ _supported_cache_modes writethrough none
+ # The refcount table tests expect a certain minimum width for refcount entries
+diff --git a/tests/qemu-iotests/028 b/tests/qemu-iotests/028
+index 864dc4a4e2..57d34aae99 100755
+--- a/tests/qemu-iotests/028
++++ b/tests/qemu-iotests/028
+@@ -46,7 +46,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # Any format supporting backing files except vmdk and qcow which do not support
+ # smaller backing files.
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ # Choose a size that is not necessarily a cluster size multiple for image
+diff --git a/tests/qemu-iotests/031 b/tests/qemu-iotests/031
+index 646ecd593f..2bcbc5886e 100755
+--- a/tests/qemu-iotests/031
++++ b/tests/qemu-iotests/031
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # We want to test compat=0.10, which does not support external data
+ # files or refcount widths other than 16
+ _unsupported_imgopts data_file 'refcount_bits=\([^1]\|.\([^6]\|$\)\)'
+diff --git a/tests/qemu-iotests/034 b/tests/qemu-iotests/034
+index ac2d687c71..08f7aea6d5 100755
+--- a/tests/qemu-iotests/034
++++ b/tests/qemu-iotests/034
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow qcow2 vmdk qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _unsupported_imgopts "subformat=monolithicFlat" \
+                      "subformat=twoGbMaxExtentFlat" \
+diff --git a/tests/qemu-iotests/036 b/tests/qemu-iotests/036
+index cf522de7a1..6b82638080 100755
+--- a/tests/qemu-iotests/036
++++ b/tests/qemu-iotests/036
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # Only qcow2v3 and later supports feature bits;
+ # qcow2.py does not support external data files;
+ # this test requires a cluster size large enough for the feature table
+diff --git a/tests/qemu-iotests/037 b/tests/qemu-iotests/037
+index e1187ac24a..bb893c43dc 100755
+--- a/tests/qemu-iotests/037
++++ b/tests/qemu-iotests/037
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow qcow2 vmdk qed
+-_supported_proto file
++_supported_proto file fuse
+ _unsupported_imgopts "subformat=monolithicFlat" \
+                      "subformat=twoGbMaxExtentFlat" \
+                      "subformat=twoGbMaxExtentSparse" \
+diff --git a/tests/qemu-iotests/038 b/tests/qemu-iotests/038
+index a253231f5b..30f1f73c25 100755
+--- a/tests/qemu-iotests/038
++++ b/tests/qemu-iotests/038
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ CLUSTER_SIZE=2M
+diff --git a/tests/qemu-iotests/039 b/tests/qemu-iotests/039
+index 42f6503138..ad3867c3fc 100755
+--- a/tests/qemu-iotests/039
++++ b/tests/qemu-iotests/039
+@@ -40,7 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _default_cache_mode writethrough
+ _supported_cache_modes writethrough
+diff --git a/tests/qemu-iotests/046 b/tests/qemu-iotests/046
+index 40a9f30087..ed6fae3529 100755
+--- a/tests/qemu-iotests/046
++++ b/tests/qemu-iotests/046
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # data_file does not support compressed clusters
+ _unsupported_imgopts data_file
+ 
+diff --git a/tests/qemu-iotests/050 b/tests/qemu-iotests/050
+index 4b0a390c43..741bdb610e 100755
+--- a/tests/qemu-iotests/050
++++ b/tests/qemu-iotests/050
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ 
+ echo
+ echo "== Creating images =="
+diff --git a/tests/qemu-iotests/054 b/tests/qemu-iotests/054
+index a8905b60d0..40922db2b1 100755
+--- a/tests/qemu-iotests/054
++++ b/tests/qemu-iotests/054
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ echo
+ echo "creating too large image (1 EB)"
+diff --git a/tests/qemu-iotests/060 b/tests/qemu-iotests/060
+index 94c0d5accc..4b81d1aa51 100755
+--- a/tests/qemu-iotests/060
++++ b/tests/qemu-iotests/060
+@@ -46,7 +46,7 @@ _filter_io_error()
+ 
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # These tests only work for compat=1.1 images without an external
+ # data file with refcount_bits=16
+diff --git a/tests/qemu-iotests/071 b/tests/qemu-iotests/071
+index 18fe9054b0..49faae6684 100755
+--- a/tests/qemu-iotests/071
++++ b/tests/qemu-iotests/071
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _require_drivers blkdebug blkverify
+ # blkdebug can only inject errors on bs->file, not on the data_file,
+ # so thie test does not work with external data files
+diff --git a/tests/qemu-iotests/079 b/tests/qemu-iotests/079
+index 3642b51feb..0f0d94a2ac 100755
+--- a/tests/qemu-iotests/079
++++ b/tests/qemu-iotests/079
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file nfs
++_supported_proto file nfs fuse
+ 
+ # Some containers (e.g. non-x86 on Travis) do not allow large files
+ _require_large_file 4G
+diff --git a/tests/qemu-iotests/080 b/tests/qemu-iotests/080
+index 7588c63b6c..bda8617c38 100755
+--- a/tests/qemu-iotests/080
++++ b/tests/qemu-iotests/080
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # - Internal snapshots are (currently) impossible with refcount_bits=1,
+ #   and generally impossible with external data files
+diff --git a/tests/qemu-iotests/089 b/tests/qemu-iotests/089
+index 03a2ccf1e8..f0929b64c0 100755
+--- a/tests/qemu-iotests/089
++++ b/tests/qemu-iotests/089
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # Because anything other than 16 would change the output of qemu_io -c info
+ _unsupported_imgopts 'refcount_bits=\([^1]\|.\([^6]\|$\)\)'
+ 
+diff --git a/tests/qemu-iotests/090 b/tests/qemu-iotests/090
+index 1246e4f910..87e872ebf4 100755
+--- a/tests/qemu-iotests/090
++++ b/tests/qemu-iotests/090
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file nfs
++_supported_proto file nfs fuse
+ # External data files do not support compressed clusters
+ _unsupported_imgopts data_file
+ 
+diff --git a/tests/qemu-iotests/091 b/tests/qemu-iotests/091
+index 8a4ce5b7e2..8dee168bf6 100755
+--- a/tests/qemu-iotests/091
++++ b/tests/qemu-iotests/091
+@@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _supported_cache_modes writethrough none writeback
+ _default_cache_mode none writeback
+diff --git a/tests/qemu-iotests/095 b/tests/qemu-iotests/095
+index 77a5f0f3f5..7604ae6966 100755
+--- a/tests/qemu-iotests/095
++++ b/tests/qemu-iotests/095
+@@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ size_smaller=5M
+ size_larger=100M
+diff --git a/tests/qemu-iotests/097 b/tests/qemu-iotests/097
+index d910a8b107..1837d4e8e0 100755
+--- a/tests/qemu-iotests/097
++++ b/tests/qemu-iotests/097
+@@ -41,7 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Any format supporting backing files and bdrv_make_empty
+ _supported_fmt qcow qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ 
+diff --git a/tests/qemu-iotests/098 b/tests/qemu-iotests/098
+index f2ccdd7909..a35ce7205e 100755
+--- a/tests/qemu-iotests/098
++++ b/tests/qemu-iotests/098
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.pattern
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # The code path we want to test here only works for compat=1.1 images;
+ # blkdebug can only inject errors on bs->file, so external data files
+ # do not work with this test
+diff --git a/tests/qemu-iotests/102 b/tests/qemu-iotests/102
+index b898df436f..2cc3efd1ed 100755
+--- a/tests/qemu-iotests/102
++++ b/tests/qemu-iotests/102
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ IMG_SIZE=64K
+ 
+diff --git a/tests/qemu-iotests/103 b/tests/qemu-iotests/103
+index 8c1ebe0443..220481db4c 100755
+--- a/tests/qemu-iotests/103
++++ b/tests/qemu-iotests/103
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file nfs
++_supported_proto file nfs fuse
+ # Internal snapshots are (currently) impossible with refcount_bits=1,
+ # and generally impossible with external data files
+ _unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
+diff --git a/tests/qemu-iotests/106 b/tests/qemu-iotests/106
+index a20659d443..20ad7bd5a2 100755
+--- a/tests/qemu-iotests/106
++++ b/tests/qemu-iotests/106
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt raw
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ # in kB
+diff --git a/tests/qemu-iotests/107 b/tests/qemu-iotests/107
+index 268ba27688..d24829ccf9 100755
+--- a/tests/qemu-iotests/107
++++ b/tests/qemu-iotests/107
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file nfs
++_supported_proto file nfs fuse
+ 
+ 
+ IMG_SIZE=64K
+diff --git a/tests/qemu-iotests/108 b/tests/qemu-iotests/108
+index 5f7076fba4..ba67748bdf 100755
+--- a/tests/qemu-iotests/108
++++ b/tests/qemu-iotests/108
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # This test directly modifies a refblock so it relies on refcount_bits being 16;
+ # and the low-level modification it performs are not tuned for external data
+diff --git a/tests/qemu-iotests/111 b/tests/qemu-iotests/111
+index 3b43d1bd83..bd839a39f4 100755
+--- a/tests/qemu-iotests/111
++++ b/tests/qemu-iotests/111
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qed qcow qcow2 vmdk
+-_supported_proto file
++_supported_proto file fuse
+ _unsupported_imgopts "subformat=monolithicFlat" "subformat=twoGbMaxExtentFlat"
+ 
+ _make_test_img -b "$TEST_IMG.inexistent"
+diff --git a/tests/qemu-iotests/112 b/tests/qemu-iotests/112
+index 20ff5c224a..6e413f5651 100755
+--- a/tests/qemu-iotests/112
++++ b/tests/qemu-iotests/112
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # This test will set refcount_bits on its own which would conflict with the
+ # manual setting; compat will be overridden as well;
+ # and external data files do not work well with our refcount testing
+diff --git a/tests/qemu-iotests/115 b/tests/qemu-iotests/115
+index d254b18342..7f53987d1b 100755
+--- a/tests/qemu-iotests/115
++++ b/tests/qemu-iotests/115
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # This test relies on refcounts being 64 bits wide (which does not work with
+ # compat=0.10)
+ _unsupported_imgopts 'refcount_bits=\([^6]\|.\([^4]\|$\)\)' 'compat=0.10'
+diff --git a/tests/qemu-iotests/117 b/tests/qemu-iotests/117
+index f37b34f8b1..9039555ac4 100755
+--- a/tests/qemu-iotests/117
++++ b/tests/qemu-iotests/117
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ _make_test_img 64k
+ 
+diff --git a/tests/qemu-iotests/120 b/tests/qemu-iotests/120
+index 2931a7550f..45c55c1c01 100755
+--- a/tests/qemu-iotests/120
++++ b/tests/qemu-iotests/120
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt generic
+-_supported_proto file
++_supported_proto file fuse
+ _unsupported_fmt luks
+ _require_drivers raw
+ 
+diff --git a/tests/qemu-iotests/121 b/tests/qemu-iotests/121
+index 90ea0db737..8357ce089a 100755
+--- a/tests/qemu-iotests/121
++++ b/tests/qemu-iotests/121
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # Refcount structures are used much differently with external data
+ # files
+diff --git a/tests/qemu-iotests/127 b/tests/qemu-iotests/127
+index e2ac2f5536..77fdfd0205 100755
+--- a/tests/qemu-iotests/127
++++ b/tests/qemu-iotests/127
+@@ -41,7 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ _require_devices virtio-scsi scsi-hd
+ 
+diff --git a/tests/qemu-iotests/133 b/tests/qemu-iotests/133
+index 4070fd9457..bc82d8ebd7 100755
+--- a/tests/qemu-iotests/133
++++ b/tests/qemu-iotests/133
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ TEST_IMG="$TEST_IMG.base" _make_test_img 64M
+ _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
+diff --git a/tests/qemu-iotests/137 b/tests/qemu-iotests/137
+index 7ae86892f7..de555a91c9 100755
+--- a/tests/qemu-iotests/137
++++ b/tests/qemu-iotests/137
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # We are going to use lazy-refcounts
+ _unsupported_imgopts 'compat=0.10'
+diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
+index 1d5b0bed6d..e87a64eb89 100755
+--- a/tests/qemu-iotests/138
++++ b/tests/qemu-iotests/138
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This tests qcow2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # With an external data file, data clusters are not refcounted
+ # (so qemu-img check would not do much);
+diff --git a/tests/qemu-iotests/140 b/tests/qemu-iotests/140
+index 309b177e77..ff6b904fa0 100755
+--- a/tests/qemu-iotests/140
++++ b/tests/qemu-iotests/140
+@@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt generic
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ _make_test_img 64k
+diff --git a/tests/qemu-iotests/154 b/tests/qemu-iotests/154
+index 7f1c0d9bd9..34a1c051b6 100755
+--- a/tests/qemu-iotests/154
++++ b/tests/qemu-iotests/154
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ CLUSTER_SIZE=4k
+diff --git a/tests/qemu-iotests/161 b/tests/qemu-iotests/161
+index bbf7dbbc5c..4fb7d0cbf0 100755
+--- a/tests/qemu-iotests/161
++++ b/tests/qemu-iotests/161
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Any format implementing BlockDriver.bdrv_change_backing_file
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ IMG_SIZE=1M
+diff --git a/tests/qemu-iotests/171 b/tests/qemu-iotests/171
+index 341064a1c6..f3582edb10 100755
+--- a/tests/qemu-iotests/171
++++ b/tests/qemu-iotests/171
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt raw
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ 
+diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+index c3c2aed653..21a77a2bf5 100755
+--- a/tests/qemu-iotests/175
++++ b/tests/qemu-iotests/175
+@@ -71,7 +71,7 @@ EOF
+ . ./common.filter
+ 
+ _supported_fmt raw
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ _default_cache_mode none
+diff --git a/tests/qemu-iotests/176 b/tests/qemu-iotests/176
+index 2565ff12ee..5ce3b27069 100755
+--- a/tests/qemu-iotests/176
++++ b/tests/qemu-iotests/176
+@@ -45,7 +45,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This test is specific to qcow2
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # Persistent dirty bitmaps require compat=1.1;
+ # Internal snapshots forbid using an external data file
+diff --git a/tests/qemu-iotests/177 b/tests/qemu-iotests/177
+index 5d4a77a6ab..595bfd4236 100755
+--- a/tests/qemu-iotests/177
++++ b/tests/qemu-iotests/177
+@@ -40,7 +40,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # tests specific to compat=1.1.
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ CLUSTER_SIZE=1M
+ size=128M
+diff --git a/tests/qemu-iotests/179 b/tests/qemu-iotests/179
+index 11a20cb1bf..7ada04c641 100755
+--- a/tests/qemu-iotests/179
++++ b/tests/qemu-iotests/179
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ # v2 images can't mark clusters as zero
+diff --git a/tests/qemu-iotests/183 b/tests/qemu-iotests/183
+index acdbefa310..d889a3b19c 100755
+--- a/tests/qemu-iotests/183
++++ b/tests/qemu-iotests/183
+@@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ _supported_os Linux FreeBSD NetBSD
+ _supported_fmt qcow2 raw qed quorum
+-_supported_proto file
++_supported_proto file fuse
+ 
+ size=64M
+ _make_test_img $size
+diff --git a/tests/qemu-iotests/186 b/tests/qemu-iotests/186
+index 3ea0442d44..0db25b0e68 100755
+--- a/tests/qemu-iotests/186
++++ b/tests/qemu-iotests/186
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _require_drivers null-co
+ 
+ if [ "$QEMU_DEFAULT_MACHINE" != "pc" ]; then
+diff --git a/tests/qemu-iotests/187 b/tests/qemu-iotests/187
+index c6e1dc57a0..f262d83e3a 100755
+--- a/tests/qemu-iotests/187
++++ b/tests/qemu-iotests/187
+@@ -39,7 +39,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ size=64M
+ _make_test_img $size
+diff --git a/tests/qemu-iotests/191 b/tests/qemu-iotests/191
+index d17462e1e4..95a891350d 100755
+--- a/tests/qemu-iotests/191
++++ b/tests/qemu-iotests/191
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # An external data file would change the query-named-block-nodes output
+ _unsupported_imgopts data_file
+ 
+diff --git a/tests/qemu-iotests/195 b/tests/qemu-iotests/195
+index 2351d55fe1..967af5b7b5 100755
+--- a/tests/qemu-iotests/195
++++ b/tests/qemu-iotests/195
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ do_run_qemu()
  {
-     $SED -e "s#$TEST_DIR/#TEST_DIR/#g" \
--         -e "s#$SOCK_DIR/#SOCK_DIR/#g"
-+         -e "s#$SOCK_DIR/#SOCK_DIR/#g" \
-+         -e "s#SOCK_DIR/fuse-#TEST_DIR/#g"
- }
+diff --git a/tests/qemu-iotests/200 b/tests/qemu-iotests/200
+index a7aabbd032..046539154f 100755
+--- a/tests/qemu-iotests/200
++++ b/tests/qemu-iotests/200
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
  
- # replace occurrences of the actual IMGFMT value with IMGFMT
-@@ -127,6 +128,7 @@ _filter_img_create_filenames()
-         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-         -e "s#$TEST_DIR#TEST_DIR#g" \
-         -e "s#$SOCK_DIR#SOCK_DIR#g" \
-+        -e 's#SOCK_DIR/fuse-#TEST_DIR/#g' \
-         -e "s#$IMGFMT#IMGFMT#g" \
-         -e 's#nbd:127.0.0.1:[0-9]\\+#TEST_DIR/t.IMGFMT#g' \
-         -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g'
-@@ -227,6 +229,7 @@ _filter_img_info()
-         -e "s#$IMGFMT#IMGFMT#g" \
-         -e 's#nbd://127.0.0.1:[0-9]\\+$#TEST_DIR/t.IMGFMT#g' \
-         -e 's#nbd+unix:///\??socket=SOCK_DIR/nbd#TEST_DIR/t.IMGFMT#g' \
-+        -e 's#SOCK_DIR/fuse-#TEST_DIR/#g' \
-         -e "/encrypted: yes/d" \
-         -e "/cluster_size: [0-9]\\+/d" \
-         -e "/table_size: [0-9]\\+/d" \
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index 20589e59a5..29354654cc 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -257,6 +257,9 @@ if [ "$IMGOPTSSYNTAX" = "true" ]; then
-         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
-         TEST_IMG="$DRIVER,file.driver=nbd,file.type=unix"
-         TEST_IMG="$TEST_IMG,file.path=$SOCK_DIR/nbd"
-+    elif [ "$IMGPROTO" = "fuse" ]; then
-+        TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
-+        TEST_IMG="$DRIVER,file.filename=$SOCK_DIR/fuse-t.$IMGFMT"
-     elif [ "$IMGPROTO" = "ssh" ]; then
-         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
-         TEST_IMG="$DRIVER,file.driver=ssh,file.host=127.0.0.1,file.path=$TEST_IMG_FILE"
-@@ -273,6 +276,9 @@ else
-     elif [ "$IMGPROTO" = "nbd" ]; then
-         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
-         TEST_IMG="nbd+unix:///?socket=$SOCK_DIR/nbd"
-+    elif [ "$IMGPROTO" = "fuse" ]; then
-+        TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
-+        TEST_IMG="$SOCK_DIR/fuse-t.$IMGFMT"
-     elif [ "$IMGPROTO" = "ssh" ]; then
-         TEST_IMG_FILE=$TEST_DIR/t.$IMGFMT
-         REMOTE_TEST_DIR="ssh://\\($USER@\\)\\?127.0.0.1\\(:[0-9]\\+\\)\\?$TEST_DIR"
-@@ -288,6 +294,9 @@ fi
- ORIG_TEST_IMG_FILE=$TEST_IMG_FILE
- ORIG_TEST_IMG="$TEST_IMG"
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
  
-+FUSE_PIDS=()
-+FUSE_EXPORTS=()
-+
- if [ -z "$TEST_DIR" ]; then
-         TEST_DIR=$PWD/scratch
- fi
-@@ -357,6 +366,10 @@ _test_img_to_test_img_file()
-             echo "$1"
-             ;;
+ BACKING_IMG="$TEST_IMG.base"
  
-+        fuse)
-+            echo "$1" | sed -e "s#$SOCK_DIR/fuse-#$TEST_DIR/#"
-+            ;;
-+
-         nfs)
-             echo "$1" | sed -e "s#nfs://127.0.0.1##"
-             ;;
-@@ -385,6 +398,11 @@ _make_test_img()
-     local opts_param=false
-     local misc_params=()
+diff --git a/tests/qemu-iotests/204 b/tests/qemu-iotests/204
+index 6770fa9b96..536bb8b534 100755
+--- a/tests/qemu-iotests/204
++++ b/tests/qemu-iotests/204
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
  
-+    if [[ $IMGPROTO == fuse && $TEST_IMG == $SOCK_DIR/fuse-* ]]; then
-+        # The caller may be trying to overwrite an existing image
-+        _rm_test_img "$TEST_IMG"
-+    fi
-+
-     if [ -z "$TEST_IMG_FILE" ]; then
-         img_name=$TEST_IMG
-     elif [ "$IMGOPTSSYNTAX" != "true" -a \
-@@ -469,11 +487,105 @@ _make_test_img()
-         eval "$QEMU_NBD -v -t -k '$SOCK_DIR/nbd' -f $IMGFMT -e 42 -x '' $TEST_IMG_FILE >/dev/null &"
-         sleep 1 # FIXME: qemu-nbd needs to be listening before we continue
-     fi
-+
-+    if [ $IMGPROTO = "fuse" -a -f "$img_name" ]; then
-+        local export_mp
-+        local pid
-+        local pidfile
-+        local timeout
-+
-+        export_mp=$(echo "$img_name" | sed -e "s#$TEST_DIR/#$SOCK_DIR/fuse-#")
-+        if ! echo "$export_mp" | grep -q "^$SOCK_DIR"; then
-+            echo 'Cannot use FUSE exports with images outside of TEST_DIR' >&2
-+            return 1
-+        fi
-+
-+        touch "$export_mp"
-+        rm -f "$SOCK_DIR/fuse-output"
-+
-+        # Usually, users would export formatted nodes.  But we present fuse as a
-+        # protocol-level driver here, so we have to leave the format to the
-+        # client.
-+        QSD_NEED_PID=y $QSD \
-+              --blockdev file,node-name=export-node,filename=$img_name,discard=unmap \
-+              --export fuse,id=fuse-export,node-name=export-node,mountpoint="$export_mp",writable=on,growable=on \
-+              &
-+
-+        pidfile="$QEMU_TEST_DIR/qemu-storage-daemon.pid"
-+
-+        # Wait for the PID file
-+        while [ ! -f "$pidfile" ]; do
-+            sleep 0.5
-+        done
-+
-+        pid=$(cat "$pidfile")
-+        rm -f "$pidfile"
-+
-+        FUSE_PIDS+=($pid)
-+        FUSE_EXPORTS+=("$export_mp")
-+    fi
- }
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # This test assumes that discard leaves zero clusters; see test 177 for
+ # other tests that also work in older images
+ _unsupported_imgopts 'compat=0.10'
+diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
+index af677d90b8..75ae7a14b5 100755
+--- a/tests/qemu-iotests/214
++++ b/tests/qemu-iotests/214
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
  
- _rm_test_img()
- {
-     local img=$1
-+
-+    if [[ $IMGPROTO == fuse && $img == $SOCK_DIR/fuse-* ]]; then
-+        # Drop a FUSE export
-+        local df_output
-+        local i
-+        local image_file
-+        local index=''
-+        local timeout
-+
-+        for i in "${!FUSE_EXPORTS[@]}"; do
-+            if [ "${FUSE_EXPORTS[i]}" = "$img" ]; then
-+                index=$i
-+                break
-+            fi
-+        done
-+
-+        if [ -z "$index" ]; then
-+            # Probably gone already
-+            return 0
-+        fi
-+
-+        kill "${FUSE_PIDS[index]}"
-+
-+        # Wait until the mount is gone
-+        timeout=10 # *0.5 s
-+        while true; do
-+            # Will show the mount point; if the mount is still there,
-+            # it will be $img.
-+            df_output=$(df "$img" 2>/dev/null)
-+
-+            # But df may also show an error ("Transpoint endpoint not
-+            # connected"), so retry in such cases
-+            if [ -n "$df_output" ]; then
-+                if ! echo "$df_output" | grep -q "$img"; then
-+                    break
-+                fi
-+            fi
-+
-+            sleep 0.5
-+
-+            timeout=$((timeout - 1))
-+            if [ "$timeout" = 0 ]; then
-+                echo 'Failed to take down FUSE export' >&2
-+                return 1
-+            fi
-+        done
-+
-+        rm -f "$img"
-+
-+        unset "FUSE_PIDS[$index]"
-+        unset "FUSE_EXPORTS[$index]"
-+
-+        image_file=$(echo "$img" | sed -e "s#$SOCK_DIR/fuse-#$TEST_DIR/#")
-+        _rm_test_img "$image_file"
-+        return
-+    fi
-+
-     if [ "$IMGFMT" = "vmdk" ]; then
-         # Remove all the extents for vmdk
-         "$QEMU_IMG" info "$img" 2>/dev/null | grep 'filename:' | cut -f 2 -d: \
-@@ -496,6 +608,17 @@ _cleanup_test_img()
-             rm -f "$TEST_IMG_FILE"
-             ;;
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
  
-+        fuse)
-+            local mp
-+
-+            for mp in "${FUSE_EXPORTS[@]}"; do
-+                _rm_test_img "$mp"
-+            done
-+
-+            FUSE_PIDS=()
-+            FUSE_EXPORTS=()
-+            ;;
-+
-         file)
-             _rm_test_img "$TEST_DIR/t.$IMGFMT"
-             _rm_test_img "$TEST_DIR/t.$IMGFMT.orig"
-@@ -562,6 +685,7 @@ _img_info()
-         sed -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-             -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-             -e "s#$TEST_DIR#TEST_DIR#g" \
-+            -e "s#$SOCK_DIR/fuse-#TEST_DIR/#g" \
-             -e "s#$IMGFMT#IMGFMT#g" \
-             -e "/^disk size:/ D" \
-             -e "/actual-size/ D" | \
+ # Repairing the corrupted image requires qemu-img check to store a
+ # refcount up to 3, which requires at least two refcount bits.
+diff --git a/tests/qemu-iotests/217 b/tests/qemu-iotests/217
+index d89116ccad..7385342498 100755
+--- a/tests/qemu-iotests/217
++++ b/tests/qemu-iotests/217
+@@ -36,7 +36,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This test is specific to qcow2
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ # This test needs clusters with at least a refcount of 2 so that
+ # OFLAG_COPIED is not set.  refcount_bits=1 is therefore unsupported.
+diff --git a/tests/qemu-iotests/220 b/tests/qemu-iotests/220
+index a9259b7127..9ba3b3fdcb 100755
+--- a/tests/qemu-iotests/220
++++ b/tests/qemu-iotests/220
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.pattern
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # To use a different refcount width but 16 bits we need compat=1.1,
+ # and external data files do not support compressed clusters.
+diff --git a/tests/qemu-iotests/221 b/tests/qemu-iotests/221
+index 0e9096fec7..ca62b3baa1 100755
+--- a/tests/qemu-iotests/221
++++ b/tests/qemu-iotests/221
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt raw
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ _default_cache_mode writeback
+diff --git a/tests/qemu-iotests/229 b/tests/qemu-iotests/229
+index 5f759fa587..273ac2472d 100755
+--- a/tests/qemu-iotests/229
++++ b/tests/qemu-iotests/229
+@@ -44,7 +44,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Needs backing file and backing format support
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # blkdebug can only inject errors on bs->file, so external data files
+ # do not work with this test
+diff --git a/tests/qemu-iotests/247 b/tests/qemu-iotests/247
+index 87e37b39e2..6cf2679750 100755
+--- a/tests/qemu-iotests/247
++++ b/tests/qemu-iotests/247
+@@ -41,7 +41,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Requires backing files and .bdrv_change_backing_file support
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ 
+ size=128M
+ 
+diff --git a/tests/qemu-iotests/249 b/tests/qemu-iotests/249
+index a9aa9303eb..29453b8c90 100755
+--- a/tests/qemu-iotests/249
++++ b/tests/qemu-iotests/249
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Any format implementing BlockDriver.bdrv_change_backing_file
+ _supported_fmt qcow2 qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ IMG_SIZE=1M
+diff --git a/tests/qemu-iotests/250 b/tests/qemu-iotests/250
+index 9bb6b94d74..3df275c76b 100755
+--- a/tests/qemu-iotests/250
++++ b/tests/qemu-iotests/250
+@@ -37,7 +37,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # This test does not make much sense with external data files
+ _unsupported_imgopts data_file
+diff --git a/tests/qemu-iotests/252 b/tests/qemu-iotests/252
+index 6662f4c9de..1d74afff99 100755
+--- a/tests/qemu-iotests/252
++++ b/tests/qemu-iotests/252
+@@ -42,7 +42,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ # zero cluster support
+ _supported_fmt qcow2
+ _unsupported_imgopts 'compat=0.10'
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ CLUSTER_SIZE=65536
+diff --git a/tests/qemu-iotests/265 b/tests/qemu-iotests/265
+index 00f2ec769e..0e800fb524 100755
+--- a/tests/qemu-iotests/265
++++ b/tests/qemu-iotests/265
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # qcow2-specific test
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ 
+ echo '--- Writing to the image ---'
+diff --git a/tests/qemu-iotests/268 b/tests/qemu-iotests/268
+index 78c3f4db3a..ddf4312284 100755
+--- a/tests/qemu-iotests/268
++++ b/tests/qemu-iotests/268
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ echo
+ echo "== Required alignment larger than cluster size =="
+diff --git a/tests/qemu-iotests/272 b/tests/qemu-iotests/272
+index c2f782d47b..de475bf6f0 100755
+--- a/tests/qemu-iotests/272
++++ b/tests/qemu-iotests/272
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This is a qcow2 regression test
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ 
+ # External data files do not support compression;
+ # We need an exact cluster size (2M) and refcount width (2) so we can
+diff --git a/tests/qemu-iotests/273 b/tests/qemu-iotests/273
+index 41ffbf39c4..79b4ab4b05 100755
+--- a/tests/qemu-iotests/273
++++ b/tests/qemu-iotests/273
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # This is a qcow2 regression test
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # External data files would add nodes to the block graph, so it would
+ # not match the reference output
+diff --git a/tests/qemu-iotests/279 b/tests/qemu-iotests/279
+index 5515d4ed01..2a6315cf17 100755
+--- a/tests/qemu-iotests/279
++++ b/tests/qemu-iotests/279
+@@ -36,7 +36,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ 
+ # Backing files are required...
+ _supported_fmt qcow qcow2 vmdk qed
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _unsupported_imgopts "subformat=monolithicFlat" \
+                      "subformat=twoGbMaxExtentFlat" \
+diff --git a/tests/qemu-iotests/286 b/tests/qemu-iotests/286
+index f14445ba4a..f64e0eccea 100755
+--- a/tests/qemu-iotests/286
++++ b/tests/qemu-iotests/286
+@@ -35,7 +35,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.qemu
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # Internal snapshots are (currently) impossible with refcount_bits=1,
+ # and generally impossible with external data files
+ _unsupported_imgopts 'refcount_bits=1[^0-9]' data_file
+diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
+index 036cc09e82..3bb383fd4b 100755
+--- a/tests/qemu-iotests/287
++++ b/tests/qemu-iotests/287
+@@ -32,7 +32,7 @@ status=1	# failure is the default!
+ 
+ # This tests qocw2-specific low-level functionality
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _unsupported_imgopts 'compat=0.10' data_file
+ 
+diff --git a/tests/qemu-iotests/289 b/tests/qemu-iotests/289
+index 1c11d4030e..fe69bde1eb 100755
+--- a/tests/qemu-iotests/289
++++ b/tests/qemu-iotests/289
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.pattern
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ # This is a v3-exclusive test;
+ # As for data_file, error paths often very much depend on whether
+ # there is an external data file or not; so we create one exactly when
+diff --git a/tests/qemu-iotests/290 b/tests/qemu-iotests/290
+index 01ee14dcfb..35c38d4f80 100755
+--- a/tests/qemu-iotests/290
++++ b/tests/qemu-iotests/290
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _unsupported_imgopts 'compat=0.10' refcount_bits data_file
+ 
+diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
+index b7320bc7ad..148e8b9ef5 100755
+--- a/tests/qemu-iotests/291
++++ b/tests/qemu-iotests/291
+@@ -36,7 +36,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.nbd
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _require_command QEMU_NBD
+ # compat=0.10 does not support bitmaps
+diff --git a/tests/qemu-iotests/292 b/tests/qemu-iotests/292
+index 83ab19231d..3ae2772e3b 100755
+--- a/tests/qemu-iotests/292
++++ b/tests/qemu-iotests/292
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ # We need qemu-img map to show the file where the data is allocated,
+ # but with an external data file, it will show that instead of the
+diff --git a/tests/qemu-iotests/293 b/tests/qemu-iotests/293
+index f86fe3b413..3363bf07f0 100755
+--- a/tests/qemu-iotests/293
++++ b/tests/qemu-iotests/293
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2 luks
+-_supported_proto file #TODO
++_supported_proto file fuse #TODO
+ _require_working_luks
+ 
+ QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
+diff --git a/tests/qemu-iotests/294 b/tests/qemu-iotests/294
+index 9c95ed8c9a..87da35db49 100755
+--- a/tests/qemu-iotests/294
++++ b/tests/qemu-iotests/294
+@@ -34,7 +34,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt luks
+-_supported_proto file #TODO
++_supported_proto file fuse #TODO
+ 
+ QEMU_IO_OPTIONS=$QEMU_IO_OPTIONS_NO_FMT
+ 
+diff --git a/tests/qemu-iotests/305 b/tests/qemu-iotests/305
+index 768818af4a..5a415eb2a4 100755
+--- a/tests/qemu-iotests/305
++++ b/tests/qemu-iotests/305
+@@ -38,7 +38,7 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
+ . ./common.filter
+ 
+ _supported_fmt qcow2
+-_supported_proto file
++_supported_proto file fuse
+ _supported_os Linux
+ _unsupported_imgopts cluster_size refcount_bits extended_l2 compat=0.10 data_file
+ 
 -- 
 2.26.2
 
