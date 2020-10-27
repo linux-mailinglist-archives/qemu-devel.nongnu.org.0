@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA1BE29B66B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:30:30 +0100 (CET)
-Received: from localhost ([::1]:55944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5248D29B660
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:24:13 +0100 (CET)
+Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQvd-0006GS-Ry
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:30:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58444)
+	id 1kXQpY-00083m-B6
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:24:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXQjg-0000Va-6X
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:18:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXQjd-0007su-VD
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:18:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603811885;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cB7E5b4IQB/QOh23CGARQGUODEGfGg1h2j73RSnsPO0=;
- b=ONnTntSTzM6cY7q/u8TYVXlc1uFbBbFWl41G6ZszMxdMiWItLxBpKOvdq9F7yp97MEoVFf
- 5eFlW8Eru81ep339SsBWbe165ZpAIpvJU4u2My5mz/UQ1VSg5WMKAf8IntQsk4JEJiZBeV
- qEpMvkbDzJXTsPNJwtfoBMvsNJLPmDY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-E_UlmW6nNN-M1Z8Uwwc1Tw-1; Tue, 27 Oct 2020 11:17:53 -0400
-X-MC-Unique: E_UlmW6nNN-M1Z8Uwwc1Tw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38021108E1B0;
- Tue, 27 Oct 2020 15:17:52 +0000 (UTC)
-Received: from redhat.com (ovpn-115-46.ams2.redhat.com [10.36.115.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BEBC45D9E8;
- Tue, 27 Oct 2020 15:17:47 +0000 (UTC)
-Date: Tue, 27 Oct 2020 15:17:44 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v2 3/6] configure: add option to enable LTO
-Message-ID: <20201027151744.GF529052@redhat.com>
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-4-dbuono@linux.vnet.ibm.com>
- <7aa00aba-ff8c-252a-899a-45ef4db7cc6e@redhat.com>
- <20201026155006.GE496050@redhat.com>
- <756e6060-394f-fe4a-47f2-2601b6e54a45@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kXQkk-00024U-No; Tue, 27 Oct 2020 11:19:14 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kXQki-0007y6-Dm; Tue, 27 Oct 2020 11:19:14 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.194])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 0C18F68D0EA4;
+ Tue, 27 Oct 2020 16:19:01 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 27 Oct
+ 2020 16:18:59 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G00334daecc6-0266-4a79-b0ad-919988a2ecde,
+ 8E5A4880AAF567D55136F4F8027E0847E2FD1EE8) smtp.auth=groug@kaod.org
+Date: Tue, 27 Oct 2020 16:18:58 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
+ properties
+Message-ID: <20201027161858.590329a7@bahia>
+In-Reply-To: <20201027125424.13833af8@redhat.com>
+References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
+ <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
+ <20201023211509.5c316c01@redhat.com>
+ <20201025162444.0fdec88a@bahia.lan>
+ <20201027125424.13833af8@redhat.com>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <756e6060-394f-fe4a-47f2-2601b6e54a45@linux.vnet.ibm.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: bd799c71-5f0c-492e-80f1-32c40d2b10c9
+X-Ovh-Tracer-Id: 4207487953355250168
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdejhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheprhhthhesthifihguughlvgdrnhgvth
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 11:19:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,76 +73,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 10:57:14AM -0400, Daniele Buono wrote:
-> In terms of ar and linker, if you don't have the right mix it will just
-> stop at link time with an error.
-> 
-> In terms of using gcc the errors may be a bit more subtle, similar to
-> what Daniel mentioned. Succesfully compiling but then showing issues at
-> runtime or in the test suite.
-> 
-> I'm using ubuntu 18.04 and the stock compiler (based on gcc 7.5) issues
-> a bunch of warnings but compile succesfully with LTO.
-> However, the tcg binary for sparc64 is broken. System-wide emulation
-> stops in OpenFirmware with an exception. User emulation triggers a
-> segmentation fault in some of the test cases. If I compile QEMU with
-> --enable-debug the tests magically work.
-> 
-> I briefly tested with gcc-9 and that seemed to work ok, buy your mileage
-> may vary
+On Tue, 27 Oct 2020 12:54:24 +0100
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-This why we shouldn't artificially block use of LTO with GCC in
-the configure script. It blocks completely legitimate usage of
-LTO with GCC versions where it works.
-
-The user can detect if their version of GCC is broken by running the
-test suite during their build process, which is best practice already,
-and actually testing the result.
-
+> On Sun, 25 Oct 2020 16:24:44 +0100
+> Greg Kurz <groug@kaod.org> wrote:
 > 
-> On 10/26/2020 11:50 AM, Daniel P. Berrangé wrote:
-> > On Mon, Oct 26, 2020 at 10:51:43AM +0100, Paolo Bonzini wrote:
-> > > On 23/10/20 22:06, Daniele Buono wrote:
-> > > > This patch allows to compile QEMU with link-time optimization (LTO).
-> > > > Compilation with LTO is handled directly by meson. This patch adds checks
-> > > > in configure to make sure the toolchain supports LTO.
+> > On Fri, 23 Oct 2020 21:15:09 +0200
+> > Igor Mammedov <imammedo@redhat.com> wrote:
+> > 
+> > > On Mon, 19 Oct 2020 10:48:41 +0200
+> > > Greg Kurz <groug@kaod.org> wrote:
+> > >   
+> > > > Both PC_DIMM_SLOT_PROP and PC_DIMM_ADDR_PROP are defined in the
+> > > > default property list of the PC DIMM device class:
 > > > > 
-> > > > Currently, allow LTO only with clang, since I have found a couple of issues
-> > > > with gcc-based LTO.
+> > > >     DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
 > > > > 
-> > > > In case fuzzing is enabled, automatically switch to llvm's linker (lld).
-> > > > The standard bfd linker has a bug where function wrapping (used by the fuzz*
-> > > > targets) is used in conjunction with LTO.
+> > > >     DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
+> > > >                       PC_DIMM_UNASSIGNED_SLOT),
 > > > > 
-> > > > Tested with all major versions of clang from 6 to 12
+> > > > They should thus be always gettable for both PC DIMMs and NVDIMMs.
+> > > > An error in getting them can only be the result of a programming
+> > > > error. It doesn't make much sense to propagate the error in this
+> > > > case. Abort instead.
 > > > > 
-> > > > Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+> > > > Signed-off-by: Greg Kurz <groug@kaod.org>  
 > > > 
-> > > What are the problems like if you have GCC or you ar/linker are not up
-> > > to the job?  I wouldn't mind omitting the tests since this has to be
-> > > enabled explicitly by the user.
+> > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > > 
+> > > TODO for future,
+> > > get rid of local_err in spapr_memory_plug() altogether, it should not fail.
+> > > it needs moving check from spapr_drc_attach() to spapr_memory_pre_plug() time.
+> > > 
+> > > that will clear up (a bit) road for dropping errp in spapr_memory_plug()  
 > > 
-> > We temporarily disabled LTO in Fedora rawhide due to GCC bugs causing
-> > wierd test suite asserts. Those were pre-release versions of GCC/binutils
-> > though. I've just tested again and LTO works correctly, so I've enabled
-> > LTO once again.
+> > Igor,
 > > 
-> > Regards,
-> > Daniel
-> > 
+> > I could find time to look a bit into attaching DRCs at pre-plug and I
+> > think this isn't possible. The problem is that there doesn't seem to be
+> > a reverse operation for pre-plug. If realize fails for the DIMM device,
+> > spapr_drc_detach() wouldn't be called, which would be wrong.
+> 
+> probably I was clear enough, I didn't suggest to move spapr_drc_detach()
+> to pre_plug time but rather do a bit of surgery along the lines:
 > 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Ok, I get it now. I realize now I actually misread your suggestion. Sorry...
+
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 2db810f73a..59a229b4fa 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3474,6 +3474,11 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+>          return;
+>      }
+>  
+> +    get drc
+> +    if (!spapr_drc_attachable(drc)) {
+> +        error out
+> +    }
+> +
+
+It might require some more code refactoring because the way regular
+PC-DIMMs are broken down into a set of logical memory blocks (LMBs),
+each one having its own DRC but it's certainly doable. Probably for
+QEMU 6.0 though since we're entering soft freeze and David already
+fired a PR today.
+
+>      if (is_nvdimm) {
+>          spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
+>          if (local_err) {
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index fe998d8108..ae049bc202 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -371,14 +371,16 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+>      } while (fdt_depth != 0);
+>  }
+>  
+> -void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp)
+> +
+> +bool spapr_drc_attachable(SpaprDrc *drc)
+> +{
+> +   return !drc->dev;
+> +}
+> +
+> +void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+>  {
+>      trace_spapr_drc_attach(spapr_drc_index(drc));
+>  
+> -    if (drc->dev) {
+> -        error_setg(errp, "an attached device is still awaiting release");
+> -        return;
+> -    }
+>      g_assert((drc->state == SPAPR_DRC_STATE_LOGICAL_UNUSABLE)
+>               || (drc->state == SPAPR_DRC_STATE_PHYSICAL_POWERON));
+> 
+> > 
+> > Am I missing something ?
+> > 
+> > > > ---
+> > > >  hw/ppc/spapr.c |   17 +++--------------
+> > > >  1 file changed, 3 insertions(+), 14 deletions(-)
+> > > > 
+> > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > > index 1b173861152f..62f217a6b914 100644
+> > > > --- a/hw/ppc/spapr.c
+> > > > +++ b/hw/ppc/spapr.c
+> > > > @@ -3443,19 +3443,13 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+> > > >  
+> > > >      if (!is_nvdimm) {
+> > > >          addr = object_property_get_uint(OBJECT(dimm),
+> > > > -                                        PC_DIMM_ADDR_PROP, &local_err);
+> > > > -        if (local_err) {
+> > > > -            goto out_unplug;
+> > > > -        }
+> > > > +                                        PC_DIMM_ADDR_PROP, &error_abort);
+> > > >          spapr_add_lmbs(dev, addr, size,
+> > > >                         spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
+> > > >                         &local_err);
+> > > >      } else {
+> > > >          slot = object_property_get_int(OBJECT(dimm),
+> > > > -                                       PC_DIMM_SLOT_PROP, &local_err);
+> > > > -        if (local_err) {
+> > > > -            goto out_unplug;
+> > > > -        }
+> > > > +                                       PC_DIMM_SLOT_PROP, &error_abort);
+> > > >          /* We should have valid slot number at this point */
+> > > >          g_assert(slot >= 0);
+> > > >          spapr_add_nvdimm(dev, slot, &local_err);
+> > > > @@ -3634,7 +3628,6 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+> > > >                                          DeviceState *dev, Error **errp)
+> > > >  {
+> > > >      SpaprMachineState *spapr = SPAPR_MACHINE(hotplug_dev);
+> > > > -    Error *local_err = NULL;
+> > > >      PCDIMMDevice *dimm = PC_DIMM(dev);
+> > > >      uint32_t nr_lmbs;
+> > > >      uint64_t size, addr_start, addr;
+> > > > @@ -3650,11 +3643,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+> > > >      nr_lmbs = size / SPAPR_MEMORY_BLOCK_SIZE;
+> > > >  
+> > > >      addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
+> > > > -                                         &local_err);
+> > > > -    if (local_err) {
+> > > > -        error_propagate(errp, local_err);
+> > > > -        return;
+> > > > -    }
+> > > > +                                          &error_abort);
+> > > >  
+> > > >      /*
+> > > >       * An existing pending dimm state for this DIMM means that there is an
+> > > > 
+> > > > 
+> > > >   
+> > >   
+> > 
+> 
 
 
