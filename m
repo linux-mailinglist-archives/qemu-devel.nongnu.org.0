@@ -2,76 +2,115 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA93529C756
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:38:04 +0100 (CET)
-Received: from localhost ([::1]:35266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6752129C797
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:40:17 +0100 (CET)
+Received: from localhost ([::1]:44092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTr9-0005Yt-UI
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:38:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58406)
+	id 1kXTtI-0000hj-Eu
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:40:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXTd0-0006IS-Gc
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:23:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXTcw-0003IU-W7
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:23:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603823002;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6u7wn5Id4RTYnXWc0rndcBGVceFSO9REzs3OxgkRWVc=;
- b=LE0YdNynaLELFj0BECGZlf8/HpcZJ2VHPQ/r1Nf8Q0poHNnkUWXqxptQoLLGnDrljzE7KV
- 3OJuUiSjC8zeLeXDZSPU+3oiUpOpTAUBVfWwmOIdt4VRs0BdILRyxEOSOBumUfbUOXxVPe
- wZk6Om7yx/dhZsjOi6x6rRImCc3OjgM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-395-Q6VoBedcOqCtBjUDuYOX0Q-1; Tue, 27 Oct 2020 14:23:18 -0400
-X-MC-Unique: Q6VoBedcOqCtBjUDuYOX0Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73D70EC502;
- Tue, 27 Oct 2020 18:23:17 +0000 (UTC)
-Received: from [10.3.112.145] (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D5D710013D0;
- Tue, 27 Oct 2020 18:23:14 +0000 (UTC)
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20201026101005.2940615-1-armbru@redhat.com>
- <20201026101005.2940615-4-armbru@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH 3/4] char: Flat alternative to overly nested chardev-add
- arguments
-Message-ID: <df6a32e6-3b4c-d9d7-b473-9bdd7c674843@redhat.com>
-Date: Tue, 27 Oct 2020 13:23:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
-MIME-Version: 1.0
-In-Reply-To: <20201026101005.2940615-4-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kXTeB-0007E1-Il; Tue, 27 Oct 2020 14:24:40 -0400
+Received: from mail-vi1eur05on2100.outbound.protection.outlook.com
+ ([40.107.21.100]:56004 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrey.shinkevich@virtuozzo.com>)
+ id 1kXTe6-0003WQ-8x; Tue, 27 Oct 2020 14:24:38 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=ZNVuEftUu1Q8gDGuJ44yzUGeGsnIarB4bPiV8a1/59XahfOXFIPQsluOuTVTwWfsYxRNLwYu8rhoYg6zReVZjzUiCV7qv77IBT2ouEWp2vyj/KgrepcXXIe0nUZdtExPx9UMk0KUxE+12vMH6I3TgWL9VBBXsYhmpvfppRdiyYAGR0o9AgKUaxGRkKa0SODSUZt699Y21jSrlZdtvFIatqyOLUL5x52mjBB7Y6p99AsgxLwWH1GS0VgB6TVZqbKCuVa9vgeuWcXOVxfv9qnXykieVP9e4+kXIacoWX82o7C1SiqEFXxI/H+w0z5wQ9pNk8vqytvovmQ3D7M1NmtSJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mY5Baws2GAhw0u4+pNA2x7ttvyvGEcl86clYaMSeqJ0=;
+ b=Q3Gpv3QsDtcIz5E8tDTX0WhtDUfaLkg2FanqQRbFQA/jK0QhyVYXz6EIp3QXGqA3Nro4mDCfga8Oy9X2KKn63hOmXje1tfZ/KK4mh+zyKwr44BQK7bH7i2cFaZ0iT3uPsgvQlHL9nmE2hB9bDOE7wzT0osq7xmTSsIEbUGYjZEtzWpOOvHKIdhQoYTCd6cP5LK5MzgbIavUkeR34qAVYOqK3aCCUB8zxI533+ITTjKlCkIUNnyY05fnailmVz/Ef08O2TDhzkE3IWRnwQi8WJsniy06CRcVu9FsuwEQMis0YCtZ9iyXuBXbBmpeZY0iA/QdiBoyCgnOeuKyFIt+6iA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mY5Baws2GAhw0u4+pNA2x7ttvyvGEcl86clYaMSeqJ0=;
+ b=PATKxQDTewtsQOiht0wG2GTGmcFMAKzKDEQuEilh0FQqt+I78ksP9d7C3yQbq5REXUsTU5jiof1TTyeFRZLNm3akpsOidwDD/HZOzo/LklDbxAa24FSEfN8J8WVKj3iwlV8XygbzzWnseE8sFXXyAjxKv0QZYZyYRXXi/TxK/aA=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com (2603:10a6:3:89::22)
+ by HE1PR08MB2652.eurprd08.prod.outlook.com (2603:10a6:7:30::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Tue, 27 Oct
+ 2020 18:24:27 +0000
+Received: from HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::fd10:fc33:1bb0:1036]) by HE1PR0801MB2124.eurprd08.prod.outlook.com
+ ([fe80::fd10:fc33:1bb0:1036%6]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
+ 18:24:27 +0000
+Subject: Re: [PATCH v12 14/14] block: apply COR-filter to block-stream jobs
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ eblake@redhat.com, den@openvz.org
+References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1603390423-980205-15-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <a8405ebc-8dc3-4520-1e35-2bae6a962f79@virtuozzo.com>
+ <467434b5-abaa-fdac-bfcb-844626e1d5f4@virtuozzo.com>
+ <f8a956c7-c2dc-29c7-14b4-8e0d1b2ca9f8@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-ID: <e2547844-2820-11d8-749a-7c746536c6d1@virtuozzo.com>
+Date: Tue, 27 Oct 2020 21:24:24 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
+In-Reply-To: <f8a956c7-c2dc-29c7-14b4-8e0d1b2ca9f8@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [109.252.114.22]
+X-ClientProxiedBy: AM4PR0202CA0014.eurprd02.prod.outlook.com
+ (2603:10a6:200:89::24) To HE1PR0801MB2124.eurprd08.prod.outlook.com
+ (2603:10a6:3:89::22)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from Admins-MacBook-Pro.local (109.252.114.22) by
+ AM4PR0202CA0014.eurprd02.prod.outlook.com (2603:10a6:200:89::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
+ Transport; Tue, 27 Oct 2020 18:24:25 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 82dc98b6-6319-411b-2b5c-08d87aa58982
+X-MS-TrafficTypeDiagnostic: HE1PR08MB2652:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <HE1PR08MB265256D09C5EF3E628B3B3CFF4160@HE1PR08MB2652.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:561;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: aP4i1QOMnOm0nkwayi07l711Se0TM7/g+DCl418JsvPEHRURUolv/lKboHG0bS4b9HRKUxb+CxRg85227XO0GvIA6e9yDdh5zDZcrNwd2yLqegoEwNJ2H8Hpe25FrdBNZnc0rigeq+3V2RcKfCSTVRkN7fEphq2A0cWCkB+Xb+1VVWoYjC+i72y4t5PGfFuLIb0j5gEqobgfK0hkWDBpz8eI+bdsPBbkqXgWGED9MrAmOVcnnjKO5oMzTHdMyYZnRs4+ZbQqaeaiM+f065st+x/5OXVCQAPpXx0roOZadNQwZLnAsVRhbmrq6F+KFttE+RIiWNXunfKg6UGXy6LzDCufk07sxAsTYZVWEYQFe/9mM1mX4hHNFVM5xSlEc1FL
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:HE1PR0801MB2124.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(346002)(39830400003)(136003)(396003)(8676002)(66946007)(8936002)(2906002)(478600001)(6512007)(4326008)(107886003)(5660300002)(31696002)(316002)(31686004)(66556008)(66476007)(83380400001)(86362001)(956004)(52116002)(26005)(44832011)(6506007)(2616005)(53546011)(36756003)(186003)(16526019)(6486002)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: +i6qEgvba/yXrZEutYoSV36NhK5P8ZkwmF0eBUbdrC/XMcKjnL4O07axP6swFvk7YcOt0obn4kbNLc3TvF/lRq8C5aCWSqsXIto6fuy7KC7Y+AjbMTR9vA9iDiha+6VD1YtYZzpVz/jJEUzPeCPBwp1zRQfTv/jjzWXz1a6zzd6AWAIy12ypPIsfMaaJNucFF+1SwgniCtYA5C4H4VPsC1UrK04md3mTvERMxKDNIMLfh5NBsnAH4ZUuY39YiCHTm9lHVMn6EX3wGU+y51jwccFV1PVI00Dn5kxMni5ZJyO5GGuhsrlhRUxBNrHgu+83Pun/Elty1a7XQYt+lvFXtKSN22ALmpT+28Si7hIRaHdIKiw+iOAX4bCVJSeopuQ+DMbN6mCrGZmMdRpw5lt9X5C7SdMJpiorZLB7rbxSzylXOZq1rsTYYboqEM1qyLsJcJnY2z7++Qljlghjr5mLf4neFv7tcNeWAd7uA25n+THLK+7LQtgG847HlHZSDh8ANmoH8lzgfNt+lynIRX3KCs/kzf9Ywr4gJTL/lCUkovCJRivDaRHnJm4pd+s2hawcujK1mPvFhKXSAOE2DWeO7Cj1TKmVBh5vA92xTfQGGI0H9g2VGWGtlamHfgIvMWyGojyQSW8jL1544f0fNRmCgA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82dc98b6-6319-411b-2b5c-08d87aa58982
+X-MS-Exchange-CrossTenant-AuthSource: HE1PR0801MB2124.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 18:24:26.9566 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: PM/R/acqbGVskKDwneLtS1euzp+DgHeebgHUHu/+F8QoM7oDPzsBprqUNYJscHsydSEWTiFGe+mG22T9PAAnLrWWShA3RHQGU4hhuAQS1aU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR08MB2652
+Received-SPF: pass client-ip=40.107.21.100;
+ envelope-from=andrey.shinkevich@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 14:24:29
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -49
+X-Spam_score: -5.0
+X-Spam_bar: -----
+X-Spam_report: (-5.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,326 +124,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, qemu-block@nongnu.org,
- pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 5:10 AM, Markus Armbruster wrote:
-> chardev-add's arguments use an annoying amount of nesting.  Example:
+
+On 27.10.2020 20:57, Vladimir Sementsov-Ogievskiy wrote:
+> 27.10.2020 20:48, Andrey Shinkevich wrote:
+>>
+>> On 27.10.2020 19:13, Vladimir Sementsov-Ogievskiy wrote:
+>>> 22.10.2020 21:13, Andrey Shinkevich wrote:
+>>>> This patch completes the series with the COR-filter insertion for
+>>>> block-stream operations. Adding the filter makes it possible for copied
+>>>> regions to be discarded in backing files during the block-stream job,
+>>>> what will reduce the disk overuse.
+>>>> The COR-filter insertion incurs changes in the iotests case
+>>>> 245:test_block_stream_4 that reopens the backing chain during a
+>>>> block-stream job. There are changes in the iotests #030 as well.
+>>>> The iotests case 030:test_stream_parallel was deleted due to multiple
+>>>> conflicts between the concurrent job operations over the same backing
+>>>> chain. The base backing node for one job is the top node for another
+>>>> job. It may change due to the filter node inserted into the backing
+>>>> chain while both jobs are running. Another issue is that the parts of
+>>>> the backing chain are being frozen by the running job and may not be
+>>>> changed by the concurrent job when needed. The concept of the parallel
+>>>> jobs with common nodes is considered vital no more.
+>>>>
+>>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>>> ---
+>>>>   block/stream.c             | 98 
+>>>> ++++++++++++++++++++++++++++++----------------
+>>>>   tests/qemu-iotests/030     | 51 +++---------------------
+>>>>   tests/qemu-iotests/030.out |  4 +-
+>>>>   tests/qemu-iotests/141.out |  2 +-
+>>>>   tests/qemu-iotests/245     | 22 +++++++----
+>>>>   5 files changed, 87 insertions(+), 90 deletions(-)
+>>>>
+>>>> diff --git a/block/stream.c b/block/stream.c
+>>
+>>
+>> [...]
+>>
+>>>> +    s = block_job_create(job_id, &stream_job_driver, NULL, 
+>>>> cor_filter_bs,
+>>>> +                         BLK_PERM_CONSISTENT_READ,
+>>>> +                         basic_flags | BLK_PERM_WRITE | 
+>>>> BLK_PERM_GRAPH_MOD,
+>>>
+>>> I think that BLK_PERM_GRAPH_MOD is something outdated. We have 
+>>> chain-feeze, what BLK_PERM_GRAPH_MOD adds to it? I don't know, and 
+>>> doubt that somebody knows.
+>>>
+>>
+>> That is true for the commit/mirror jobs also. If we agree to remove 
+>> the flag BLK_PERM_GRAPH_MOD from all these jobs, it will be made in a 
+>> separate series, won't it?
 > 
->     {"execute": "chardev-add",
->      "arguments": {
->          "id":"sock0",
-> 	 "backend": {
-> 	     "type": "socket",
-> 	     "data": {
-> 	         "addr": {
-> 		     "type": "inet",
-> 		     "data": {
-> 		         "host": "0.0.0.0",
-> 			 "port": "2445"}}}}}}
+> Hmm. At least, let's not implement new logic based on 
+> BLK_PERM_GRAPH_MOD. In original code it's only block_job_create's perm, 
+> not in shared_perm, not somewhere else.. So, if we keep it, let's keep 
+> it as is: only in perm in block_job_create, not implementing additional 
+> perm/shared_perm logic.
 > 
-> This is because chardev-add predates QAPI features that enable flatter
-> data structures, both on the wire and in C: base types, flat unions,
-> commands taking a union or alternate as 'data'.
+
+With @perm=0 in the block_job_add_bdrv(&s->common, "active node"...), it 
+won't.
+
+>>
+>>>>                            speed, creation_flags, NULL, NULL, errp);
+>>>>       if (!s) {
+>>>>           goto fail;
+>>>>       }
+>>>> +    /*
+>>>> +     * Prevent concurrent jobs trying to modify the graph structure 
+>>>> here, we
+>>>> +     * already have our own plans. Also don't allow resize as the 
+>>>> image size is
+>>>> +     * queried only at the job start and then cached.
+>>>> +     */
+>>>> +    if (block_job_add_bdrv(&s->common, "active node", bs,
+>>>> +                           basic_flags | BLK_PERM_GRAPH_MOD,
+>>>
+>>> why not 0, like for other nodes? We don't use this BdrvChild at all, 
+>>> why to requre permissions?
+>>>
+>>
+>> Yes, '0' s right.
+>>
+>>>> +                           basic_flags | BLK_PERM_WRITE, 
+>>>> &error_abort)) {
+>>>> +        goto fail;
+>>>> +    }
+>>>> +
+>>>>       /* Block all intermediate nodes between bs and base, because 
+>>
+>>
+>> [...]
+>>
+>>>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+>>>> index dcb4b5d..0064590 100755
+>>>> --- a/tests/qemu-iotests/030
+>>>> +++ b/tests/qemu-iotests/030
+>>>> @@ -227,61 +227,20 @@ class TestParallelOps(iotests.QMPTestCase):
+>>>>           for img in self.imgs:
+>>>>               os.remove(img)
+>>>> -    # Test that it's possible to run several block-stream operations
+>>>> -    # in parallel in the same snapshot chain
+>>>> -    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 
+>>>> 'disabled in CI')
+>>>> -    def test_stream_parallel(self):
+>>>
+>>> Didn't we agree to add "bottom" paramter to qmp? Than this test-case 
+>>> can be rewritten using
+>>> node-names and new "bottom" stream argument.
+>>>
+>>
+>> I guess it will not help for the whole test. Particularly, there is an 
+>> issue with freezing the child link to COR-filter of the cuncurrent 
+>> job, then it fails to finish first.
 > 
-> The nesting would be even more annoying in dotted key syntax:
+> We should not have such frozen link, as our bottom node should be above 
+> COR-filter of concurrent job.
 > 
->     id=sock0,\
->     backend.type=socket,\
->     backend.data.addr.type=inet,\
->     backend.data.addr.data.host=0.0.0.0,\
->     backend.data.addr.data.port=2445
 > 
-> Relevant, because the next commit will QAPIfy qemu-storage-daemon
-> --chardev.  We really want this instead:
-> 
->     --chardev socket,id=sock0,\
->     addr.type=inet,\
->     addr.host=0.0.0.0,\
->     addr.port=2445
-> 
-> To get it, define a new QAPI type ChardevOptions that is the flat
-> equivalent to chardev-add's arguments.
-> 
-> What we should do now is convert the internal interfaces to take this
-> new type, and limit the nested old type to the external interface,
-> similar to what commit bd269ebc82 "sockets: Limit SocketAddressLegacy
-> to external interfaces" did.  But we're too close to the freeze to
-> pull that off safely.
-> 
-> What I can do now is convert the new type to the old nested type, and
-> promise to replace this by what should be done in the next development
-> cycle.
 
-Nice evaluation of the trade-off.
+The bdrv_freeze_backing_chain(bs, above_base, errp) does that job. Max 
+insisted on keeping it.
 
-> 
-> In more detail:
-> 
-> * Flat union ChardevOptions corresponds to chardev-add's implicit
->   arguments type.  It flattens a struct containing a simple union into
->   a flat union.
-> 
-> * The flat union's discriminator is named @backend, not @type.  This
->   avoids clashing with member @type of ChardevSpiceChannel.  For what
->   it's worth, -chardev also uses this name.
-> 
-> * Its branches @socket, @udp use ChardevSocketFlat, ChardevUdpFlat
->   instead of ChardevSocket, ChardevUdp.  This flattens simple union
->   SocketAddressLegacy members to flat union SocketAddress members.
-> 
-> * New chardev_options_crumple() converts ChardevOptions to
->   chardev-add's implict arguments type.
-
-implicit
-
-> 
-> Only one existing QAPI definition is affected: some of ChardevSocket's
-> members get moved to a new base type ChardevSocketBase, to reduce
-> duplication.  No change to the generated C type and the wire format.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  qapi/char.json         | 106 ++++++++++++++++++++++++++++---
->  include/chardev/char.h |   5 ++
->  include/qemu/sockets.h |   3 +
->  chardev/char-legacy.c  | 140 +++++++++++++++++++++++++++++++++++++++++
->  chardev/char-socket.c  |   3 +-
->  util/qemu-sockets.c    |  38 +++++++++++
->  chardev/meson.build    |   1 +
->  7 files changed, 287 insertions(+), 9 deletions(-)
->  create mode 100644 chardev/char-legacy.c
-
-Big but worth it.  I'm liking the simplicity of this alternative over
-Kevin's proposal, especially if we're aiming to get this in 5.2 soft freeze.
-
-> 
-> diff --git a/qapi/char.json b/qapi/char.json
-> index 43486d1daa..31b693bbb2 100644
-> --- a/qapi/char.json
-> +++ b/qapi/char.json
-> @@ -244,12 +244,8 @@
->    'base': 'ChardevCommon' }
->  
->  ##
-> -# @ChardevSocket:
-> +# @ChardevSocketBase:
->  #
-> -# Configuration info for (stream) socket chardevs.
-> -#
-> -# @addr: socket address to listen on (server=true)
-> -#        or connect to (server=false)
->  # @tls-creds: the ID of the TLS credentials object (since 2.6)
->  # @tls-authz: the ID of the QAuthZ authorization object against which
->  #             the client's x509 distinguished name will be validated. This
-> @@ -274,9 +270,8 @@
->  #
->  # Since: 1.4
->  ##
-> -{ 'struct': 'ChardevSocket',
-> -  'data': { 'addr': 'SocketAddressLegacy',
-> -            '*tls-creds': 'str',
-> +{ 'struct': 'ChardevSocketBase',
-> +  'data': { '*tls-creds': 'str',
->              '*tls-authz'  : 'str',
->              '*server': 'bool',
->              '*wait': 'bool',
-> @@ -287,6 +282,35 @@
->              '*reconnect': 'int' },
->    'base': 'ChardevCommon' }
-
-Here we are subdividing ChardevSocket into everything that is already
-flat, and excluding the awkward 'addr'...
-
->  
-> +##
-> +# @ChardevSocket:
-> +#
-> +# Configuration info for (stream) socket chardevs.
-> +#
-> +# @addr: socket address to listen on (server=true)
-> +#        or connect to (server=false)
-> +#
-> +# Since: 1.4
-> +##
-> +{ 'struct': 'ChardevSocket',
-> +  # Do not add to 'data', it breaks chardev_options_crumple()!  Add to
-> +  # ChardevSocketBase's 'data' instead.
-> +  'data': { 'addr': 'SocketAddressLegacy' },
-> +  'base': 'ChardevSocketBase' }
-
-...legacy use pulls in the legacy 'addr'...
-
-> +
-> +##
-> +# @ChardevSocketFlat:
-> +#
-> +# Note: This type should eventually replace ChardevSocket.  The
-> +#       difference between the two: ChardevSocketFlat uses
-> +#       SocketAddressLegacy, ChardevSocket uses SocketAddress.
-> +##
-
-Missing a 'Since: 5.2' tag, if you want one.
-
-> +{ 'struct': 'ChardevSocketFlat',
-> +  # Do not add to 'data', it breaks chardev_options_crumple()!  Add to
-> +  # ChardevSocketBase's 'data' instead.
-> +  'data': { 'addr': 'SocketAddress' },
-> +  'base': 'ChardevSocketBase' }
-> +
-
-...and this is the new type with a saner 'addr'.  Works for me so far.
-
->  ##
->  # @ChardevUdp:
->  #
-> @@ -298,10 +322,26 @@
->  # Since: 1.5
->  ##
->  { 'struct': 'ChardevUdp',
-> +  # Do not add to 'data', it breaks chardev_options_crumple()!  Create
-> +  # ChardevUdpBase instead, similar to ChardevSocketBase.
->    'data': { 'remote': 'SocketAddressLegacy',
->              '*local': 'SocketAddressLegacy' },
->    'base': 'ChardevCommon' }
->  
-> +##
-> +# @ChardevUdpFlat:
-> +#
-> +# Note: This type should eventually replace ChardevUdp.  The
-> +#       difference between the two: ChardevUdpFlat uses
-> +#       SocketAddressLegacy, ChardevUdp uses SocketAddress.
-> +##
-
-Another missing 'Since: 5.2'
-
-> +{ 'struct': 'ChardevUdpFlat',
-> +  # Do not add to 'data', it breaks chardev_options_crumple()!  Create
-> +  # ChardevUdpBase instead, similar to ChardevSocketBase.
-> +  'data': { 'remote': 'SocketAddress',
-> +            '*local': 'SocketAddress' },
-> +  'base': 'ChardevCommon' }
-> +
->  ##
->  # @ChardevMux:
->  #
-> @@ -422,6 +462,56 @@
->              # next one is just for compatibility
->              'memory': 'ChardevRingbuf' } }
->  
-> +##
-> +# @ChardevBackendType:
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'enum': 'ChardevBackendType',
-> +
-> +  'data': [ 'file', 'serial', 'parallel', 'pipe', 'socket', 'udp',
-> +            'pty', 'null', 'mux', 'msmouse', 'wctablet', 'braille',
-> +            'testdev', 'stdio', 'console', 'spicevmc', 'spiceport',
-> +            'vc', 'ringbuf' ] }
-> +
-> +##
-> +# @ChardevOptions:
-> +#
-> +# Note: This type should eventually replace the implicit arguments
-> +#       type of chardev-add and chardev-chardev.  The differences
-> +#       between the two: 1. ChardevSocketOptions is a flat union
-> +#       rather than a struct with a simple union member, and 2. it
-> +#       uses SocketAddress instead of SocketAddressLegacy.  This
-> +#       avoids nesting on the wire, i.e. we need fewer {}.
-> +#
-> +# Since: 5.2
-> +##
-> +{ 'union': 'ChardevOptions',
-> +  'base': { 'backend': 'ChardevBackendType',
-> +            'id': 'str' },
-> +  'discriminator': 'backend',
-> +  'data': { 'file': 'ChardevFile',
-> +            'serial': 'ChardevHostdev',
-> +            'parallel': 'ChardevHostdev',
-> +            'pipe': 'ChardevHostdev',
-> +            'socket': 'ChardevSocketFlat',
-> +            'udp': 'ChardevUdpFlat',
-> +            'pty': 'ChardevCommon',
-> +            'null': 'ChardevCommon',
-> +            'mux': 'ChardevMux',
-> +            'msmouse': 'ChardevCommon',
-> +            'wctablet': 'ChardevCommon',
-> +            'braille': 'ChardevCommon',
-> +            'testdev': 'ChardevCommon',
-> +            'stdio': 'ChardevStdio',
-> +            'console': 'ChardevCommon',
-> +            'spicevmc': { 'type': 'ChardevSpiceChannel',
-> +                          'if': 'defined(CONFIG_SPICE)' },
-> +            'spiceport': { 'type': 'ChardevSpicePort',
-> +                           'if': 'defined(CONFIG_SPICE)' },
-> +            'vc': 'ChardevVC',
-> +            'ringbuf': 'ChardevRingbuf' } }
-
-Looks good from the QAPI point of view.
-
-
-> +/*
-> + * TODO Convert internal interfaces to ChardevOptions, replace this
-> + * function by one that flattens (const char *str, ChardevBackend
-> + * *backend) -> ChardevOptions.
-> + */
-> +q_obj_chardev_add_arg *chardev_options_crumple(ChardevOptions *chr)
-> +{
-> +    q_obj_chardev_add_arg *arg;
-> +    ChardevBackend *be;
-> +
-> +    if (!chr) {
-> +        return NULL;
-> +    }
-> +
-> +    arg = g_malloc(sizeof(*arg));
-> +    arg->id = g_strdup(chr->id);
-> +    arg->backend = be = g_malloc(sizeof(*be));
-> +
-> +    switch (chr->backend) {
-> +    case CHARDEV_BACKEND_TYPE_FILE:
-> +        be->type = CHARDEV_BACKEND_KIND_FILE;
-> +        be->u.file.data = QAPI_CLONE(ChardevFile, &chr->u.file);
-> +        break;
-
-Most branches are straightforward,...
-
-> +    case CHARDEV_BACKEND_TYPE_SOCKET:
-> +        be->type = CHARDEV_BACKEND_KIND_SOCKET;
-> +        /*
-> +         * Clone with SocketAddress crumpled to SocketAddressLegacy.
-> +         * All other members are in the base type.
-> +         */
-> +        be->u.socket.data = g_memdup(&chr->u.socket, sizeof(chr->u.socket));
-> +        QAPI_CLONE_MEMBERS(ChardevSocketBase,
-> +                           qapi_ChardevSocket_base(be->u.socket.data),
-> +                           qapi_ChardevSocketFlat_base(&chr->u.socket));
-> +        be->u.socket.data->addr = socket_address_crumple(chr->u.socket.addr);
-> +        break;
-
-...and this looks correct as well.
-
-> +++ b/chardev/char-socket.c
-> @@ -1404,7 +1404,8 @@ static void qemu_chr_parse_socket(QemuOpts *opts, ChardevBackend *backend,
->  
->      backend->type = CHARDEV_BACKEND_KIND_SOCKET;
->      sock = backend->u.socket.data = g_new0(ChardevSocket, 1);
-> -    qemu_chr_parse_common(opts, qapi_ChardevSocket_base(sock));
-> +    qemu_chr_parse_common(opts,
-> +            qapi_ChardevSocketBase_base(qapi_ChardevSocket_base(sock)));
-
-The double function call (for a double cast) looks unusual, but I don't
-see any shorter expression, so it is fine.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+Andrey
 
