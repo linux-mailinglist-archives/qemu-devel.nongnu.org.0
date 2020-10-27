@@ -2,86 +2,113 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D1229C583
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:11:15 +0100 (CET)
-Received: from localhost ([::1]:33770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47A5529C58A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:21:14 +0100 (CET)
+Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTR8-0005mC-KB
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50218)
+	id 1kXTak-0002z6-QA
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:21:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXTE3-0006Ci-WE; Tue, 27 Oct 2020 13:57:41 -0400
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:59495)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kXTED-0006G5-N8; Tue, 27 Oct 2020 13:57:49 -0400
+Received: from mail-eopbgr60132.outbound.protection.outlook.com
+ ([40.107.6.132]:61927 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXTE0-00075j-7G; Tue, 27 Oct 2020 13:57:39 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 59B325C0117;
- Tue, 27 Oct 2020 13:57:32 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Oct 2020 13:57:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=8epPye4uchEbh
- K3hY7n5aV6REppnb7T9Bsjkx4svSgs=; b=cS+37VWQRWUoaXJEbB4i1rkrqGEcL
- tGYqpvRQkndk+4L+19serorC3yix22lfiDW+2WESsn8vZaliMkexZ8h54ZdxqV+A
- w2YI1aBxG3NKBq5PSEi1tQHYPQ1SqUGMSpz1iaLav9TN9hjAZlWtZeB/SA7GN5E0
- IxcAZUZa5CdPRrey0XnjgPhuYacTvEjMT5gkGF7n5Sg/srHrhWrq3HUAhLDrTql5
- /2UPPfCulpG19ARUyf56Q/tuOlzqIuLAMP8VuwuBcnWKTCXMnXruJ1Qqr+dVZhiL
- e4a+bm+yk1G0vfZ4C8NRiMhkmGs3XNxd9Rf01L0JzNw/bSRJxNonwlhhw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=8epPye4uchEbhK3hY7n5aV6REppnb7T9Bsjkx4svSgs=; b=WoC/B25s
- lYKPWawLy8v//45i2fPPocEzHt6fjje3eaefH0lth5x06a97q33Pe2Ap311ZVT5L
- eFli8/ZHNxMq9dTI6bEgHwK6jNjdQGPp5q9XKNPTjv0/uOZHojtGC661eSelYGqF
- pUuIhQv5HjeE9AoWrjhFCa29Pum4FkcAjf3mp3ax17DuWIkPtiuIQgrDWClemgS+
- wN9d0h9MfFN7XMqMERwpB+P6XpmuT/elIcpcFMBwsidqKzlBoPq/2rFmg56BiY7j
- 65OU+pYvboAchLZXdejqOShKWaocKnIlpuKXDvrzbogbY5/mpKcVRTBcEr3epnqf
- d+qSsETzJf3xAQ==
-X-ME-Sender: <xms:jF-YX1T80Imm0zUfndM182CtizPpCYipY-WU46-Ay_rl9MtEoAYgHQ>
- <xme:jF-YX-wDFS4foqDxE8bf35Cr48ojYEQ_q79oOvO4V2GhU7ffSm_chNvEh-6rJRAs5
- -1mraifqEbTVwBZdwQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddutdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:jF-YX60Lab10s0gUCwIWA3r2OyPtbYx0rRZkHb-lUdcUOxe6fI1O1g>
- <xmx:jF-YX9DSlhQMyv7ev38j7GcId1RM8z3nLlrynbpvxXIyYt_8z-GQVw>
- <xmx:jF-YX-hmojmDJFBjcKhg2DogDXHQdj-_-EiTxURRjUBQy_BKfR2-7g>
- <xmx:jF-YX2c7cthnJWBYTUBZQoaLK2dUgh5RSRO-Acdd5Mehaum5HfDuXQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 39E813280060;
- Tue, 27 Oct 2020 13:57:31 -0400 (EDT)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v7 3/3] hw/block/nvme: add the dataset management command
-Date: Tue, 27 Oct 2020 18:57:25 +0100
-Message-Id: <20201027175725.586890-4-its@irrelevant.dk>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201027175725.586890-1-its@irrelevant.dk>
-References: <20201027175725.586890-1-its@irrelevant.dk>
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kXTEA-00076X-Du; Tue, 27 Oct 2020 13:57:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LI9QUxRNlEbpgGvwu5cDmw813HH3ZPmSLiQiXfrdkolyX2eVSsCiccPEJSBtJbAlHd5XNMyIq0duj3SeEySP2+ec3eI5qtpy7xcYOsFmnQaspXtzpcgVZjnmtUCnVkLj3yckGKQL5ZJ1CVRfbT33VYx0Bl9x8G7Q/RIrC8YrKiqijna6/gvxrqJKn7C7zoIkm66Cz9IT7NLaYsgSLxC+X6xqWEmBiqH5RXsvkRwBCFg6lEBbWqbyl+xNCNyKCMK//choZn2/f26PrUHgQyyg9bt5vYpkUWtFrLQWo7nLKqZiKsllatw77ojfBQ9y586x5La3iiDLcxoxK/XQXHag7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PCUh+1XLDOb15rtc4pGx5JUZbXJQ+CFSTUlqZTc+Bew=;
+ b=JOHxspEy/Ek5m8uaiUPPeog/wSHLAd2d26Z3yBI899Qno398KcUVSWu52KLkQLsWvPd8c5Cmv7IOMV7aKGm/J6nnRcwQr8KNB+CHmfUW6VqfyXqrLHty+2oLgVKD6+n/C74SBKWJXAOwGaCJy/79brNsDSwS7wNo6/he21rqxtH282eVFFKCSYk4qsEKoIryC3M28TaF7VDZ0+los5dR1LXSlJD4jlOeSvXB+aNK1wimRg2TnGAlTRGrliI+IrnSIeuirV7gyQsTitRqGiTb+P+Md4H0XIsHSbJBDjrqs5K7r6+5LHRxJyz2Gj7rXWWp5iby6t4uWDO6mVT0kYEp0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PCUh+1XLDOb15rtc4pGx5JUZbXJQ+CFSTUlqZTc+Bew=;
+ b=ta8LOFGviPcidFe/rIhDReWEi3JFPTGnH9FpGJX4jqIhQWfowvk1oSr61B8h/PTqgR5WmCgMGf3hqdXWqQgCmQGCnTwAtWlQcW67QH+hT77d8hf7DG6IUg+Nm19J06n5Zw0A7xVvWnL6FTaurat/EFAcn/VWfJnZyV14mFie3KA=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB3095.eurprd08.prod.outlook.com (2603:10a6:209:45::28)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
+ 2020 17:57:41 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Tue, 27 Oct 2020
+ 17:57:41 +0000
+Subject: Re: [PATCH v12 14/14] block: apply COR-filter to block-stream jobs
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ eblake@redhat.com, den@openvz.org
+References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1603390423-980205-15-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <a8405ebc-8dc3-4520-1e35-2bae6a962f79@virtuozzo.com>
+ <467434b5-abaa-fdac-bfcb-844626e1d5f4@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <f8a956c7-c2dc-29c7-14b4-8e0d1b2ca9f8@virtuozzo.com>
+Date: Tue, 27 Oct 2020 20:57:39 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+In-Reply-To: <467434b5-abaa-fdac-bfcb-844626e1d5f4@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 13:57:29
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Originating-IP: [185.215.60.93]
+X-ClientProxiedBy: AM3PR05CA0116.eurprd05.prod.outlook.com
+ (2603:10a6:207:2::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.93) by
+ AM3PR05CA0116.eurprd05.prod.outlook.com (2603:10a6:207:2::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 17:57:40 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 159eff1a-839e-4914-dfeb-08d87aa1ccb3
+X-MS-TrafficTypeDiagnostic: AM6PR08MB3095:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3095CFC911B3281FB0ED654DC1160@AM6PR08MB3095.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:561;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: U9oEYxCOxKJiczsuafV8RZktHIUsQLmHtwKSaW0vZE+BgVhSKj6xDc8raM0uvkZOfj3sf6p94BbRTOGJl9qkUvxHJONliLFKq80/6GHs6/f5JVi0gnPMfOl4/EnV2VmNP7sS18nsYE6bE+CVf1Av6iFTyxKZ04zXKmowXX0vL9IGOdQS+l8vfth2K8Z+eA2neolxtqapfNmijXXnx2wIVB8OhIJhwiEHiUSffEuC4flk9c3eNwTh/9v32dHFUpJmMlxKoK6Bl0q/yTUVQIBleokaqVxKUOlBDMbSZwfl9Bt0w8ds+fqswDCiMEUe3ViMEVutacrurVdhcvHG46c07W12fYzqCXoLzWrl9InfIB4jO93tVAAQuSm8IBdVRzKF
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(4326008)(16576012)(107886003)(52116002)(53546011)(6486002)(2616005)(956004)(36756003)(498600001)(26005)(186003)(16526019)(83380400001)(31696002)(86362001)(2906002)(66946007)(5660300002)(66556008)(66476007)(8676002)(8936002)(31686004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: CVrBe4jWTy/fdlRCX6tzv2pOVuoZQyoteyBL5iv3+Ev9aQtHFFDJ3+CnVFZCkaeNfX5kVwupM1QjL5RMTBvSXwy642VB+8HZZtSxXp27EPq6elq+Ybvc5UbXF27Fta8YSF8XDq7rCbraYJha7j+Rv2E3Pe8hC7QA4MT9+n6FBsLTAT6UDjaEqMzzfh7XU1mLBEsJevTWDjv5al/2NaEGijekoi/952JXbE2hkUZC9/lBBOh0gbQPvrijJzQiSFo8ee9a2LzylPa1+XYQvNGh+dVUJClqqCWMC9DcRTQJhHZc2stb7yVf7dbMuyYAXyIgvLyKuuvtMD/JDtcua3+7yIJWNwFMPsPpxP4PdDY8u45L9boa0KyCLiThQGz4WdQ9U+yoRCJaGQPupHf6ikjBwMI5DUzAvCPsl9ud63jthd0vWSsjFSD2N9PVGTgQyILpaJu04wcFhK9wBi2/6QHa4q7mRE3Y+7x/A0u56gM57XtKYRd6/QhKOq6of5IzAgEn7tBDwcAWyBHx8HS/vUOGj6imfZ21XFKlGlL7WSMhgTQ2ka1WkofrJ3VpbDRC6pgmQN3zvsoelYoNUwvTO4Xpmv7jC5YkJLxfZhmf6djOO+9dmtBpA5/cnEoDcE+s3g0cT3Yh6xTzjstL9ivrzr4iGA==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 159eff1a-839e-4914-dfeb-08d87aa1ccb3
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 17:57:41.6634 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8DTV8uybvV9L2ji/8ym6JxK5UmbZY/dufkpU6/dFOfjdqbpTBrB4kdi2hwcq/0cedAXEEsTikaQ1mFwwDMpvvGqdCqLQ6gO5xDaSBEtnYbY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3095
+Received-SPF: pass client-ip=40.107.6.132;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 13:57:42
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,257 +121,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+27.10.2020 20:48, Andrey Shinkevich wrote:
+> 
+> On 27.10.2020 19:13, Vladimir Sementsov-Ogievskiy wrote:
+>> 22.10.2020 21:13, Andrey Shinkevich wrote:
+>>> This patch completes the series with the COR-filter insertion for
+>>> block-stream operations. Adding the filter makes it possible for copied
+>>> regions to be discarded in backing files during the block-stream job,
+>>> what will reduce the disk overuse.
+>>> The COR-filter insertion incurs changes in the iotests case
+>>> 245:test_block_stream_4 that reopens the backing chain during a
+>>> block-stream job. There are changes in the iotests #030 as well.
+>>> The iotests case 030:test_stream_parallel was deleted due to multiple
+>>> conflicts between the concurrent job operations over the same backing
+>>> chain. The base backing node for one job is the top node for another
+>>> job. It may change due to the filter node inserted into the backing
+>>> chain while both jobs are running. Another issue is that the parts of
+>>> the backing chain are being frozen by the running job and may not be
+>>> changed by the concurrent job when needed. The concept of the parallel
+>>> jobs with common nodes is considered vital no more.
+>>>
+>>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+>>> ---
+>>>   block/stream.c             | 98 ++++++++++++++++++++++++++++++----------------
+>>>   tests/qemu-iotests/030     | 51 +++---------------------
+>>>   tests/qemu-iotests/030.out |  4 +-
+>>>   tests/qemu-iotests/141.out |  2 +-
+>>>   tests/qemu-iotests/245     | 22 +++++++----
+>>>   5 files changed, 87 insertions(+), 90 deletions(-)
+>>>
+>>> diff --git a/block/stream.c b/block/stream.c
+> 
+> 
+> [...]
+> 
+>>> +    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
+>>> +                         BLK_PERM_CONSISTENT_READ,
+>>> +                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
+>>
+>> I think that BLK_PERM_GRAPH_MOD is something outdated. We have chain-feeze, what BLK_PERM_GRAPH_MOD adds to it? I don't know, and doubt that somebody knows.
+>>
+> 
+> That is true for the commit/mirror jobs also. If we agree to remove the flag BLK_PERM_GRAPH_MOD from all these jobs, it will be made in a separate series, won't it?
 
-Add support for the Dataset Management command and the Deallocate
-attribute. Deallocation results in discards being sent to the underlying
-block device. Whether of not the blocks are actually deallocated is
-affected by the same factors as Write Zeroes (see previous commit).
+Hmm. At least, let's not implement new logic based on BLK_PERM_GRAPH_MOD. In original code it's only block_job_create's perm, not in shared_perm, not somewhere else.. So, if we keep it, let's keep it as is: only in perm in block_job_create, not implementing additional perm/shared_perm logic.
 
-     format | discard | dsm (512B)  dsm (4KiB)  dsm (64KiB)
-    --------------------------------------------------------
-      qcow2    ignore   n           n           n
-      qcow2    unmap    n           n           y
-      raw      ignore   n           n           n
-      raw      unmap    n           y           y
+> 
+>>>                            speed, creation_flags, NULL, NULL, errp);
+>>>       if (!s) {
+>>>           goto fail;
+>>>       }
+>>> +    /*
+>>> +     * Prevent concurrent jobs trying to modify the graph structure here, we
+>>> +     * already have our own plans. Also don't allow resize as the image size is
+>>> +     * queried only at the job start and then cached.
+>>> +     */
+>>> +    if (block_job_add_bdrv(&s->common, "active node", bs,
+>>> +                           basic_flags | BLK_PERM_GRAPH_MOD,
+>>
+>> why not 0, like for other nodes? We don't use this BdrvChild at all, why to requre permissions?
+>>
+> 
+> Yes, '0' s right.
+> 
+>>> +                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
+>>> +        goto fail;
+>>> +    }
+>>> +
+>>>       /* Block all intermediate nodes between bs and base, because 
+> 
+> 
+> [...]
+> 
+>>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
+>>> index dcb4b5d..0064590 100755
+>>> --- a/tests/qemu-iotests/030
+>>> +++ b/tests/qemu-iotests/030
+>>> @@ -227,61 +227,20 @@ class TestParallelOps(iotests.QMPTestCase):
+>>>           for img in self.imgs:
+>>>               os.remove(img)
+>>> -    # Test that it's possible to run several block-stream operations
+>>> -    # in parallel in the same snapshot chain
+>>> -    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 'disabled in CI')
+>>> -    def test_stream_parallel(self):
+>>
+>> Didn't we agree to add "bottom" paramter to qmp? Than this test-case can be rewritten using
+>> node-names and new "bottom" stream argument.
+>>
+> 
+> I guess it will not help for the whole test. Particularly, there is an issue with freezing the child link to COR-filter of the cuncurrent job, then it fails to finish first.
 
-Again, a raw format and 4KiB LBAs are preferable.
+We should not have such frozen link, as our bottom node should be above COR-filter of concurrent job.
 
-In order to set the Namespace Preferred Deallocate Granularity and
-Alignment fields (NPDG and NPDA), choose a sane minimum discard
-granularity of 4KiB. If we are using a passthru device supporting
-discard at a 512B granularity, user should set the discard_granularity
-property explicitly. NPDG and NPDA will also account for the
-cluster_size of the block driver if required (i.e. for QCOW2).
 
-See NVM Express 1.3d, Section 6.7 ("Dataset Management command").
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.h    |   2 +
- hw/block/nvme-ns.c |  30 +++++++++++--
- hw/block/nvme.c    | 102 ++++++++++++++++++++++++++++++++++++++++++++-
- 3 files changed, 129 insertions(+), 5 deletions(-)
-
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index e080a2318a50..574333caa3f9 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -28,6 +28,7 @@ typedef struct NvmeRequest {
-     struct NvmeNamespace    *ns;
-     BlockAIOCB              *aiocb;
-     uint16_t                status;
-+    void                    *opaque;
-     NvmeCqe                 cqe;
-     NvmeCmd                 cmd;
-     BlockAcctCookie         acct;
-@@ -60,6 +61,7 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
-     case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
-     case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
-     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
-+    case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
-     default:                        return "NVME_NVM_CMD_UNKNOWN";
-     }
- }
-diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-index f1cc734c60f5..2d69b5177b51 100644
---- a/hw/block/nvme-ns.c
-+++ b/hw/block/nvme-ns.c
-@@ -28,10 +28,14 @@
- #include "nvme.h"
- #include "nvme-ns.h"
- 
--static void nvme_ns_init(NvmeNamespace *ns)
-+#define MIN_DISCARD_GRANULARITY (4 * KiB)
-+
-+static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
- {
-+    BlockDriverInfo bdi;
-     NvmeIdNs *id_ns = &ns->id_ns;
-     int lba_index = NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas);
-+    int npdg;
- 
-     ns->id_ns.dlfeat = 0x9;
- 
-@@ -43,8 +47,19 @@ static void nvme_ns_init(NvmeNamespace *ns)
-     id_ns->ncap = id_ns->nsze;
-     id_ns->nuse = id_ns->ncap;
- 
--    /* support DULBE */
--    id_ns->nsfeat |= 0x4;
-+    /* support DULBE and I/O optimization fields */
-+    id_ns->nsfeat |= (0x4 | 0x10);
-+
-+    npdg = ns->blkconf.discard_granularity / ns->blkconf.logical_block_size;
-+
-+    if (bdrv_get_info(blk_bs(ns->blkconf.blk), &bdi) >= 0 &&
-+        bdi.cluster_size > ns->blkconf.discard_granularity) {
-+        npdg = bdi.cluster_size / ns->blkconf.logical_block_size;
-+    }
-+
-+    id_ns->npda = id_ns->npdg = npdg - 1;
-+
-+    return 0;
- }
- 
- static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-@@ -59,6 +74,11 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
-+    if (ns->blkconf.discard_granularity == -1) {
-+        ns->blkconf.discard_granularity =
-+            MAX(ns->blkconf.logical_block_size, MIN_DISCARD_GRANULARITY);
-+    }
-+
-     ns->size = blk_getlength(ns->blkconf.blk);
-     if (ns->size < 0) {
-         error_setg_errno(errp, -ns->size, "could not get blockdev size");
-@@ -92,7 +112,9 @@ int nvme_ns_setup(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-         return -1;
-     }
- 
--    nvme_ns_init(ns);
-+    if (nvme_ns_init(ns, errp)) {
-+        return -1;
-+    }
- 
-     if (nvme_register_namespace(n, ns, errp)) {
-         return -1;
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 44db841374eb..7c5e3cc3de0c 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -967,6 +967,104 @@ static void nvme_rw_cb(void *opaque, int ret)
-     nvme_enqueue_req_completion(nvme_cq(req), req);
- }
- 
-+static void nvme_aio_discard_cb(void *opaque, int ret)
-+{
-+    NvmeRequest *req = opaque;
-+    uintptr_t *discards = (uintptr_t *)&req->opaque;
-+
-+    trace_pci_nvme_aio_discard_cb(nvme_cid(req));
-+
-+    if (ret) {
-+        req->status = NVME_INTERNAL_DEV_ERROR;
-+        trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret),
-+                               req->status);
-+    }
-+
-+    (*discards)--;
-+
-+    if (*discards) {
-+        return;
-+    }
-+
-+    req->opaque = NULL;
-+
-+    nvme_enqueue_req_completion(nvme_cq(req), req);
-+}
-+
-+static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeNamespace *ns = req->ns;
-+    NvmeDsmCmd *dsm = (NvmeDsmCmd *) &req->cmd;
-+
-+    uint32_t attr = le32_to_cpu(dsm->attributes);
-+    uint32_t nr = (le32_to_cpu(dsm->nr) & 0xff) + 1;
-+
-+    uint16_t status = NVME_SUCCESS;
-+
-+    trace_pci_nvme_dsm(nvme_cid(req), nvme_nsid(ns), nr, attr);
-+
-+    if (attr & NVME_DSMGMT_AD) {
-+        int64_t offset;
-+        size_t len;
-+        NvmeDsmRange range[nr];
-+        uintptr_t *discards = (uintptr_t *)&req->opaque;
-+
-+        status = nvme_dma(n, (uint8_t *)range, sizeof(range),
-+                          DMA_DIRECTION_TO_DEVICE, req);
-+        if (status) {
-+            return status;
-+        }
-+
-+        /*
-+         * AIO callbacks may be called immediately, so initialize discards to 1
-+         * to make sure the the callback does not complete the request before
-+         * all discards have been issued.
-+         */
-+        *discards = 1;
-+
-+        for (int i = 0; i < nr; i++) {
-+            uint64_t slba = le64_to_cpu(range[i].slba);
-+            uint32_t nlb = le32_to_cpu(range[i].nlb);
-+
-+            if (nvme_check_bounds(n, ns, slba, nlb)) {
-+                trace_pci_nvme_err_invalid_lba_range(slba, nlb,
-+                                                     ns->id_ns.nsze);
-+                continue;
-+            }
-+
-+            trace_pci_nvme_dsm_deallocate(nvme_cid(req), nvme_nsid(ns), slba,
-+                                          nlb);
-+
-+            offset = nvme_l2b(ns, slba);
-+            len = nvme_l2b(ns, nlb);
-+
-+            while (len) {
-+                size_t bytes = MIN(BDRV_REQUEST_MAX_BYTES, len);
-+
-+                (*discards)++;
-+
-+                blk_aio_pdiscard(ns->blkconf.blk, offset, bytes,
-+                                 nvme_aio_discard_cb, req);
-+
-+                offset += bytes;
-+                len -= bytes;
-+            }
-+        }
-+
-+        /* account for the 1-initialization */
-+        (*discards)--;
-+
-+        if (*discards) {
-+            status = NVME_NO_COMPLETE;
-+        } else {
-+            req->opaque = NULL;
-+            status = req->status;
-+        }
-+    }
-+
-+    return status;
-+}
-+
- static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
- {
-     block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
-@@ -1096,6 +1194,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_CMD_WRITE:
-     case NVME_CMD_READ:
-         return nvme_rw(n, req);
-+    case NVME_CMD_DSM:
-+        return nvme_dsm(n, req);
-     default:
-         trace_pci_nvme_err_invalid_opc(req->cmd.opcode);
-         return NVME_INVALID_OPCODE | NVME_DNR;
-@@ -2821,7 +2921,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->cqes = (0x4 << 4) | 0x4;
-     id->nn = cpu_to_le32(n->num_namespaces);
-     id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
--                           NVME_ONCS_FEATURES);
-+                           NVME_ONCS_FEATURES | NVME_ONCS_DSM);
- 
-     id->vwc = 0x1;
-     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
 -- 
-2.29.1
-
+Best regards,
+Vladimir
 
