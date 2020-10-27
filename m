@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC3EC29ACE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:11:11 +0100 (CET)
-Received: from localhost ([::1]:41876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C7229ACE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:12:57 +0100 (CET)
+Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOko-0001wX-TO
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:11:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52380)
+	id 1kXOmW-00045B-E7
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:12:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPv-0001uv-1B
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:31 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39963)
+ id 1kXNQ0-00023Z-FM
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:36 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:56030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPr-0004jF-NW
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:30 -0400
-Received: by mail-wr1-x430.google.com with SMTP id h5so1522799wrv.7
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:27 -0700 (PDT)
+ id 1kXNPu-0004lr-M0
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:36 -0400
+Received: by mail-wm1-x329.google.com with SMTP id a72so1055401wme.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=j4VwEXftdzDLsFA/wC8/odHW3+fnrct2Yy6A8MCloEI=;
- b=nFGg98Y2XGz/lbLLaHKHpNjsf8PtcBfifVbGfiU0KxXdbpOD9QnRTmEYFLvvyA9+PT
- lMnszdggh8iGiE1EbjlwL8+h7rkAqV87CLjxYCFCst81aCVzwWEysMiwrhCKXAsm5/se
- 2qNFyQUUt0Tr7STo/a0fl0ZFr5zeMohFdLjDC3APDdLQKDiMdr0ykR5ZcyBYO2Q43TwJ
- ZmcWnghoHAdzOsogE8Wuy4xp7ysL29jrtXuiEKgndON3V6E49ZcWCMenlQnVWbTudkxr
- xmXHmQFgScCEPi1Ds8YTCde2SEEf1XxgW/8NL97Koo43LAnYMD8veNp7xFpWqIh4mzYg
- jNRg==
+ bh=04ZiDCtkLCgfzieeRxOwIUVKHsPUc/VFMmrqtzjq3w0=;
+ b=fSiQaMMAJ/LYHSOXNy9jiwP9y+erAJqgIEw38N9ObR38YqHMAsO3OC+PrBpOCRrF+O
+ sQtjg+9xIuaYR6GbF0b7g8T/wQtqMhtxwq9RrEINoED+u54sAdr1ae8NbnUQw8J80Tzj
+ g0I2bYHMudISuovWAotEm74iQQ/j8CoRxqAfUznlDqmLo/D8BbC+Yi7POg4dA80+HeBw
+ YpL5PZWP5je+MGiIyN1C17+AH7UD+ooJdXabW/JRbEhrJRLncLdtYmXQYitJlvm4/U+I
+ mynKS5YVdiYfdwHiaSu8hdaoLlAy0ldNNzOgE8ZVoBg5VISd0xZvDFH6GL74I0XGaMvl
+ 29vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=j4VwEXftdzDLsFA/wC8/odHW3+fnrct2Yy6A8MCloEI=;
- b=NtO7nv58OjiA7ajMDMtzUUvuRsYhyP8FotUyVqgfviXMsB81rvsEoTpCic9FXL4iIz
- vcTRQqgoEzIeYv0VWrKNwOvMG+GD66se6fbvkqtwTzRWpSGMf7IMWT85QAdIyddKarXt
- yUoUz7+Nj+UP7x5o+jrI1q4MaNV9WZC27FyiK6anaZLKjmw1knCa3zYUtsh0hkL8voId
- nm5+G65WpPWbb+i4mQqcM2EgyrKF0ID0fmxKzVo+uSVC3yU30mRZI6+Z9KWFRz8jXnmZ
- goHeC5x39RdJ6QABQe5aE0CNdAR3ctYJPQNRzzZq2QlsWaoTtD+7b1edko5IOsdV1HR0
- fFiQ==
-X-Gm-Message-State: AOAM532yl7rgRTYSFLT0k+Jv21MilqOtNZzMPc4ZianpA1SVj7ig2apn
- DUDO6Kjvz/WCx2U1NzQm2H2OcF54gYjFBA==
-X-Google-Smtp-Source: ABdhPJzYjo3JwuQZXr2o2vynUXtr5yZ1ilC6FYED55WTcInvRwFFcZew3cdHACUIWnvX/yYCZXJw3w==
-X-Received: by 2002:a5d:4608:: with SMTP id t8mr2300813wrq.231.1603799125848; 
- Tue, 27 Oct 2020 04:45:25 -0700 (PDT)
+ bh=04ZiDCtkLCgfzieeRxOwIUVKHsPUc/VFMmrqtzjq3w0=;
+ b=bOonEGSNxhsPdUvwiyymg2cspdq9/TcJDGn08htQM6RNPeSUjqKKutvkmETjEo/vQf
+ kSFnL5oiHRaANF6BNdi+9b0WNVBK16Z85kynLtPd1p4TWpbLLq9NiKMgJuGAzMjgtzQC
+ zVLe6onzThAdA24l87cYOYdNstlPoHQo2RSW7Onotrnpw6c6SdIXYGkT3imt2JEbrG8y
+ wbqE/pirSYXtwQETxwmBFx6vMfPzQKTXIXusWhn4sTcY5J2rF5/GAKCX1zA4YZ0J+rSn
+ asKgNTYJ5R8a9KnBtdYhZKQLGkiSCK59om1jD/wNEZKzvUj/Z9387u6xLNPRA1/kFeTm
+ HoFQ==
+X-Gm-Message-State: AOAM5316Hc+xAagDRUF0aECvT58l+urGWb24nyXM/R4zZkH7Wr5T5UrN
+ 3wH4/5enoZmYwDBSiniMnmpBfTBwYuxRNA==
+X-Google-Smtp-Source: ABdhPJyNjisFmzlDCZiQzQZ/XIYu/ciUDvV+f/D7nhMJAeRbt8fJezcY/Gjy0XBq2egvkVabzO5zcA==
+X-Received: by 2002:a1c:980a:: with SMTP id a10mr363152wme.103.1603799128944; 
+ Tue, 27 Oct 2020 04:45:28 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.24
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.27
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:24 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:27 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 36/48] hw/misc/bcm2835_cprman: implement PLLs behaviour
-Date: Tue, 27 Oct 2020 11:44:26 +0000
-Message-Id: <20201027114438.17662-37-peter.maydell@linaro.org>
+Subject: [PULL 38/48] hw/misc/bcm2835_cprman: implement PLL channels behaviour
+Date: Tue, 27 Oct 2020 11:44:28 +0000
+Message-Id: <20201027114438.17662-39-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,136 +91,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Luc Michel <luc@lmichel.fr>
 
-The CPRMAN PLLs generate a clock based on a prescaler, a multiplier and
-a divider. The prescaler doubles the parent (xosc) frequency, then the
-multiplier/divider are applied. The multiplier has an integer and a
-fractional part.
+A PLL channel is able to further divide the generated PLL frequency.
+The divider is given in the CTRL_A2W register. Some channels have an
+additional fixed divider which is always applied to the signal.
 
-This commit also implements the CPRMAN CM_LOCK register. This register
-reports which PLL is currently locked. We consider a PLL has being
-locked as soon as it is enabled (on real hardware, there is a delay
-after turning a PLL on, for it to stabilize).
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/bcm2835_cprman_internals.h |  8 +++
- hw/misc/bcm2835_cprman.c                   | 64 +++++++++++++++++++++-
- 2 files changed, 71 insertions(+), 1 deletion(-)
+ hw/misc/bcm2835_cprman.c | 33 ++++++++++++++++++++++++++++++++-
+ 1 file changed, 32 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
-index 340ad623bb1..7aa46c6e188 100644
---- a/include/hw/misc/bcm2835_cprman_internals.h
-+++ b/include/hw/misc/bcm2835_cprman_internals.h
-@@ -100,6 +100,14 @@ REG32(A2W_PLLD_FRAC, 0x1240)
- REG32(A2W_PLLH_FRAC, 0x1260)
- REG32(A2W_PLLB_FRAC, 0x12e0)
- 
-+/* misc registers */
-+REG32(CM_LOCK, 0x114)
-+    FIELD(CM_LOCK, FLOCKH, 12, 1)
-+    FIELD(CM_LOCK, FLOCKD, 11, 1)
-+    FIELD(CM_LOCK, FLOCKC, 10, 1)
-+    FIELD(CM_LOCK, FLOCKB, 9, 1)
-+    FIELD(CM_LOCK, FLOCKA, 8, 1)
-+
- /*
-  * This field is common to all registers. Each register write value must match
-  * the CPRMAN_PASSWORD magic value in its 8 MSB.
 diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-index b86f5901b88..144bcc289d6 100644
+index 12fa78181b5..71c1d7b9e7b 100644
 --- a/hw/misc/bcm2835_cprman.c
 +++ b/hw/misc/bcm2835_cprman.c
-@@ -50,9 +50,47 @@
+@@ -134,9 +134,40 @@ static const TypeInfo cprman_pll_info = {
  
- /* PLL */
+ /* PLL channel */
  
-+static bool pll_is_locked(const CprmanPllState *pll)
++static bool pll_channel_is_enabled(CprmanPllChannelState *channel)
 +{
-+    return !FIELD_EX32(*pll->reg_a2w_ctrl, A2W_PLLx_CTRL, PWRDN)
-+        && !FIELD_EX32(*pll->reg_cm, CM_PLLx, ANARST);
++    /*
++     * XXX I'm not sure of the purpose of the LOAD field. The Linux driver does
++     * not set it when enabling the channel, but does clear it when disabling
++     * it.
++     */
++    return !FIELD_EX32(*channel->reg_a2w_ctrl, A2W_PLLx_CHANNELy, DISABLE)
++        && !(*channel->reg_cm & channel->hold_mask);
 +}
 +
- static void pll_update(CprmanPllState *pll)
+ static void pll_channel_update(CprmanPllChannelState *channel)
  {
--    clock_update(pll->out, 0);
-+    uint64_t freq, ndiv, fdiv, pdiv;
+-    clock_update(channel->out, 0);
++    uint64_t freq, div;
 +
-+    if (!pll_is_locked(pll)) {
-+        clock_update(pll->out, 0);
++    if (!pll_channel_is_enabled(channel)) {
++        clock_update(channel->out, 0);
 +        return;
 +    }
 +
-+    pdiv = FIELD_EX32(*pll->reg_a2w_ctrl, A2W_PLLx_CTRL, PDIV);
++    div = FIELD_EX32(*channel->reg_a2w_ctrl, A2W_PLLx_CHANNELy, DIV);
 +
-+    if (!pdiv) {
-+        clock_update(pll->out, 0);
-+        return;
++    if (!div) {
++        /*
++         * It seems that when the divider value is 0, it is considered as
++         * being maximum by the hardware (see the Linux driver).
++         */
++        div = R_A2W_PLLx_CHANNELy_DIV_MASK;
 +    }
 +
-+    ndiv = FIELD_EX32(*pll->reg_a2w_ctrl, A2W_PLLx_CTRL, NDIV);
-+    fdiv = FIELD_EX32(*pll->reg_a2w_frac, A2W_PLLx_FRAC, FRAC);
++    /* Some channels have an additional fixed divider */
++    freq = clock_get_hz(channel->pll_in) / (div * channel->fixed_divider);
 +
-+    if (pll->reg_a2w_ana[1] & pll->prediv_mask) {
-+        /* The prescaler doubles the parent frequency */
-+        ndiv *= 2;
-+        fdiv *= 2;
-+    }
-+
-+    /*
-+     * We have a multiplier with an integer part (ndiv) and a fractional part
-+     * (fdiv), and a divider (pdiv).
-+     */
-+    freq = clock_get_hz(pll->xosc_in) *
-+        ((ndiv << R_A2W_PLLx_FRAC_FRAC_LENGTH) + fdiv);
-+    freq /= pdiv;
-+    freq >>= R_A2W_PLLx_FRAC_FRAC_LENGTH;
-+
-+    clock_update_hz(pll->out, freq);
++    clock_update_hz(channel->out, freq);
  }
  
- static void pll_xosc_update(void *opaque)
-@@ -96,6 +134,26 @@ static const TypeInfo cprman_pll_info = {
- 
- /* CPRMAN "top level" model */
- 
-+static uint32_t get_cm_lock(const BCM2835CprmanState *s)
-+{
-+    static const int CM_LOCK_MAPPING[CPRMAN_NUM_PLL] = {
-+        [CPRMAN_PLLA] = R_CM_LOCK_FLOCKA_SHIFT,
-+        [CPRMAN_PLLC] = R_CM_LOCK_FLOCKC_SHIFT,
-+        [CPRMAN_PLLD] = R_CM_LOCK_FLOCKD_SHIFT,
-+        [CPRMAN_PLLH] = R_CM_LOCK_FLOCKH_SHIFT,
-+        [CPRMAN_PLLB] = R_CM_LOCK_FLOCKB_SHIFT,
-+    };
-+
-+    uint32_t r = 0;
-+    size_t i;
-+
-+    for (i = 0; i < CPRMAN_NUM_PLL; i++) {
-+        r |= pll_is_locked(&s->plls[i]) << CM_LOCK_MAPPING[i];
-+    }
-+
-+    return r;
-+}
-+
- static uint64_t cprman_read(void *opaque, hwaddr offset,
-                             unsigned size)
- {
-@@ -104,6 +162,10 @@ static uint64_t cprman_read(void *opaque, hwaddr offset,
-     size_t idx = offset / sizeof(uint32_t);
- 
-     switch (idx) {
-+    case R_CM_LOCK:
-+        r = get_cm_lock(s);
-+        break;
-+
-     default:
-         r = s->regs[idx];
-     }
+ /* Update a PLL and all its channels */
 -- 
 2.20.1
 
