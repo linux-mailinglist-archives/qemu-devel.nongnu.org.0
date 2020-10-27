@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6638729A8B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:06:00 +0100 (CET)
-Received: from localhost ([::1]:45218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DAF129A89F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:02:28 +0100 (CET)
+Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLrb-0004cI-Eh
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:05:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54328)
+	id 1kXLoB-00006I-75
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:02:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLlc-0006iL-SC
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:48 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39437)
+ id 1kXLle-0006mG-MK
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:50 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:39440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLlb-0000Px-3z
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:48 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id y12so1151794wrp.6
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:46 -0700 (PDT)
+ id 1kXLld-0000Qd-07
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:50 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id y12so1151878wrp.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ri9ZPbou4O80XpPc4WvyYHSH7gy/FoC28327DlYeuec=;
- b=zYUd285elqVuf73XY/0ewPWK+rlda7UFTaZITM71ZPSRtQIws1m48QD4fsgSQgIDVa
- SDVsnGXK6gTx/SR6EorAAeAFrQ6zcZbwnxgL0/i/hSMgSQ6tQoBhp7hZFeESLgTMeDYf
- o1mxMK0KqiqkzvDF+I1q1MyGFz2Va2mhJ4TW6LyU8EnLArbb5NJwq2BY/YnWuX60Rzln
- 3//J7tEGaHvVe5YO026GuyNU9+QfIOw8Drk0+nVhaBr/V0RE7zcTgjXWCe9YLryvyMoT
- //+Uyf1RT6NGIt8ugmZVm1vnDfwe8apk60zqUtXK9xxHEcGBUFR8AxCEoRhg36UjFZWf
- Koxg==
+ bh=pFYczLPUBSOWDoLgSQqU1D7iJ2Ux4Pk/W6bbBdNtUg4=;
+ b=Ct7+2tBsgww9pDeT6nxCVMSbr128ISULjfNKKzxUk610GQdV7X7/sBX7mNRrbcyBWP
+ OFxgEmcmS5MiDc3GjYk7HoBc2556IS3UYeRu6iBpHvaV1VPSHigrHkYj5WEbQ/yljFia
+ dKJzt3Ks/yZZkXN04in3VMzHpZXkbyQwtPRC4VuvgjU2wBcSWijjRHbVyy6p95TYWx7j
+ lkWGtCN1ezqylEHwJCWtrcb0jPNvDm8EasgwGqqY55DESvc44U//kAioao/xdE4pxuB3
+ wYfm12GA2ODURgBOVPurv0nnlidNBoDV2/d8+oV8GSZQC8HAU03dx3Pwbj7BBXteuJin
+ Xq0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ri9ZPbou4O80XpPc4WvyYHSH7gy/FoC28327DlYeuec=;
- b=ev5mLkhB8L94QYGoeguER/MbogUa5BOluzb5qOurFU9YeZNXwhEL/Iym6fkoYR6exR
- paDX/OfjnUg+qwWt88t0wm6purZpWhSBmToK/xtu/DslmYQxP0WjDkmCVp/Q8/OhNgfv
- e7lOR8tRZpdOiedWLaHQH141qAI9w8BfsizLnyFiIO+U4yxjOyF4j2knu1X3nayLwMLN
- 01p2DsyIfWmyFoIKWwKqAdRynwJvSoCq8Dp136odnwb4l6N/ntW84MetDqqgmIM43f5n
- yXXq5WDSYhvJqfc4AELJqG7U9ZPxYoVSHlg84D0IhMgwNqkK4DHuVoPKn1pxj3dynRzX
- Ugbg==
-X-Gm-Message-State: AOAM531uPCuNcZaKOkOGyY9+oNXGyHZYydSR/GQlC4Ti3v094vz6MszL
- XPSXtKxY+LHOKebcsBohICdFLLzy1T3ARw==
-X-Google-Smtp-Source: ABdhPJzQSyGgq/6uEkOnFKix+fxaKCxELewlTQ4ZZBmUkuuNSrFknz0lDnZMGvzS7Q6Rr7csf6Z7Eg==
-X-Received: by 2002:adf:bc13:: with SMTP id s19mr1901073wrg.338.1603792785826; 
- Tue, 27 Oct 2020 02:59:45 -0700 (PDT)
+ bh=pFYczLPUBSOWDoLgSQqU1D7iJ2Ux4Pk/W6bbBdNtUg4=;
+ b=DEzdqH8uufnKdwU2s1zCEL9jsX9+DYNG/KASjvm6ldu5Oq/vt6tdoH126GXGoxgQru
+ K/4Vt53PltbFJi6f049V2XIhGpz7ITo17waOuWnXC/uGjDuF2HU+eVDxAjIZEcXPbb14
+ 4Kxbr1hETstUHNI0A02AeMJCDb3BBK7kw6hVG+NWH0mkN4QpbrePzgjwXpSzoccBtwyo
+ hMfFuLFv8PexEFDKNb1hz1DQiCK4V1Pc8BLFxYpiB2b62gRTIP9lyzpJab3ghN8KdLrS
+ 3JKSTyL8NEv3i/j2ui7AqIRZNPyZ8kkEH3jn7u/OVPgT1fvzpkN7748xewB2NYlYkIlH
+ uFWg==
+X-Gm-Message-State: AOAM531YpD8BMznE60BSL7VdFYuWDyF3+cqSOtJtZ2O9Yl27fUrTwgd5
+ V7ZVpaW0BiJfhK72VfMrcAbVt04mUqxnlQ==
+X-Google-Smtp-Source: ABdhPJxsvH8adRARaW2rUJDpqL5rTOOQPdh2huG8s+Q2IBnCneiVl6jzr6Ca63sNH/OspTfPGu7bzw==
+X-Received: by 2002:adf:e444:: with SMTP id t4mr1981223wrm.58.1603792787571;
+ Tue, 27 Oct 2020 02:59:47 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o3sm1368226wru.15.2020.10.27.02.59.39
+ by smtp.gmail.com with ESMTPSA id i14sm1312564wml.24.2020.10.27.02.59.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Oct 2020 02:59:43 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 241861FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 3A0A31FF91;
  Tue, 27 Oct 2020 09:59:39 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 4/8] gitlab: skip checkpatch.pl checks if no commit delta on
- branch
-Date: Tue, 27 Oct 2020 09:59:34 +0000
-Message-Id: <20201027095938.28673-5-alex.bennee@linaro.org>
+Subject: [PULL 5/8] scripts: fix error from checkpatch.pl when no commits are
+ found
+Date: Tue, 27 Oct 2020 09:59:35 +0000
+Message-Id: <20201027095938.28673-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027095938.28673-1-alex.bennee@linaro.org>
 References: <20201027095938.28673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,49 +89,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel P. Berrangé <berrange@redhat.com>
 
-If the current branch is synced to the current upstream git master,
-there are no commits that need checking. This causes checkpatch.pl
-to print an error that it found no commits. We need to avoid calling
-checkpatch.pl in this case.
+The error message was supposed to mention the input revision list start
+point, not the branch flag.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201019143537.283094-2-berrange@redhat.com>
-Message-Id: <20201021163136.27324-5-alex.bennee@linaro.org>
+Message-Id: <20201019143537.283094-3-berrange@redhat.com>
+Message-Id: <20201021163136.27324-6-alex.bennee@linaro.org>
 
-diff --git a/.gitlab-ci.d/check-patch.py b/.gitlab-ci.d/check-patch.py
-index 5a14a25b13..0ff30ee077 100755
---- a/.gitlab-ci.d/check-patch.py
-+++ b/.gitlab-ci.d/check-patch.py
-@@ -33,8 +33,16 @@ ancestor = subprocess.check_output(["git", "merge-base",
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index 6ed34970f9..88c858f67c 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -392,7 +392,7 @@ if ($chk_branch) {
  
- ancestor = ancestor.strip()
+ 	close $HASH;
  
-+log = subprocess.check_output(["git", "log", "--format=%H %s",
-+                               ancestor + "..."],
-+                              universal_newlines=True)
-+
- subprocess.check_call(["git", "remote", "rm", "check-patch"])
+-	die "$P: no revisions returned for revlist '$chk_branch'\n"
++	die "$P: no revisions returned for revlist '$ARGV[0]'\n"
+ 	    unless @patches;
  
-+if log == "":
-+    print("\nNo commits since %s, skipping checks\n" % ancestor)
-+    sys.exit(0)
-+
- errors = False
- 
- print("\nChecking all commits since %s...\n" % ancestor)
+ 	my $i = 1;
 -- 
 2.20.1
 
