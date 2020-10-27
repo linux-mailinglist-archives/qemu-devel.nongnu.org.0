@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D39EF29C7A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:44:40 +0100 (CET)
-Received: from localhost ([::1]:60094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0645729C796
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:39:53 +0100 (CET)
+Received: from localhost ([::1]:43566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTxX-0007IF-TP
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:44:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58080)
+	id 1kXTst-0000Uf-QR
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:39:51 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbz-0004K5-QB
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39624)
+ id 1kXTby-0004GN-7L
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:22 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbi-00031U-AP
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:23 -0400
+ id 1kXTbp-00032I-Uq
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603822925;
+ s=mimecast20190719; t=1603822926;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nk+F3ovluK3r02ObD8p6OXsJo5xPHhpV/0lfYt+FM60=;
- b=E1g1Lj1Em8UrT9ZoK0XmauX3skTkPoqD1I/lBHnnYn7s79yzEqwbGNyhNTyOxzDnHmclIp
- vhvCSFNMSUfBtszwi0OvKFC+mPVCvzSWDm7VORn71zc7zHtUu9vPVm8XiHO+v8LjZjSqRU
- CYTTfURwJ9GihWx/NDIJZ0182zuF/Y0=
+ bh=Up+gosc1jXTvnOZXsQKT0Wdpdzi58kR6SkUZKts8wVk=;
+ b=Fe2xs172lh9AL3ZjKgyFV8eOtZ7ZSEvSjNxuP0O8RAAc4KIgKISrwoufpw5PNqWEhB8l2O
+ jIGMKsZt21O9Ut5lNfuXfL53IHyllzuI2x1PcsLrLqg/FNlkRvIpGWJnrDfrhSii7jPgCb
+ pNpFbl49GYjF/1anzY3VEH0mNJbUC8w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-u1x6EuLqN2C5FRsQGsEUnA-1; Tue, 27 Oct 2020 14:22:03 -0400
-X-MC-Unique: u1x6EuLqN2C5FRsQGsEUnA-1
+ us-mta-343-Xf1ro3I_OQacqOZxWvNIQQ-1; Tue, 27 Oct 2020 14:22:03 -0400
+X-MC-Unique: Xf1ro3I_OQacqOZxWvNIQQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F5DA108597D
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CDCDC18FE864
  for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:53 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4BA6B50B44
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9AF2B50B44
  for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:53 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/29] vl: separate qemu_resolve_machine_memdev
-Date: Tue, 27 Oct 2020 14:21:36 -0400
-Message-Id: <20201027182144.3315885-22-pbonzini@redhat.com>
+Subject: [PATCH 22/29] vl: initialize displays before preconfig loop
+Date: Tue, 27 Oct 2020 14:21:37 -0400
+Message-Id: <20201027182144.3315885-23-pbonzini@redhat.com>
 In-Reply-To: <20201027182144.3315885-1-pbonzini@redhat.com>
 References: <20201027182144.3315885-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,105 +84,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a bit nasty: the machine is storing a string and later
-resolving it.  We probably want to remove the memdev property
-and instead make this a memory-set command.  "-M memdev" can be
-handled as a legacy option that is special cased by
-machine_set_property.
+Displays should be available before the monitor starts, so that
+it is possible to use the graphical console to interact with
+the monitor itself.
+
+This patch is quite ugly, but all this is temporary.  The double
+call to qemu_init_displays will go away as soon we can unify machine
+initialization between the preconfig and "normal" flows, and so will
+the preconfig_exit_requested variable (that is only preconfig_requested
+remains).
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 70 +++++++++++++++++++++++++++-------------------------
- 1 file changed, 37 insertions(+), 33 deletions(-)
+ softmmu/vl.c | 58 ++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 36 insertions(+), 22 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9a3c92387e..1485aba8be 100644
+index 1485aba8be..a46f1b9164 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -2834,6 +2834,42 @@ static bool have_custom_ram_size(void)
-     return !!qemu_opt_get(opts, "size");
+@@ -137,6 +137,7 @@ static ram_addr_t maxram_size;
+ static uint64_t ram_slots;
+ static int display_remote;
+ static int snapshot;
++static bool preconfig_requested;
+ static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+ static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+ static bool nographic = false;
+@@ -3210,12 +3211,12 @@ static void qemu_validate_options(void)
+           }
+     }
+ 
+-    if (loadvm && !preconfig_exit_requested) {
++    if (loadvm && preconfig_requested) {
+         error_report("'preconfig' and 'loadvm' options are "
+                      "mutually exclusive");
+         exit(EXIT_FAILURE);
+     }
+-    if (incoming && !preconfig_exit_requested) {
++    if (incoming && preconfig_requested) {
+         error_report("'preconfig' and 'incoming' options are "
+                      "mutually exclusive");
+         exit(EXIT_FAILURE);
+@@ -3381,6 +3382,28 @@ static void qemu_init_subsystems(void)
+     socket_init();
  }
  
-+static void qemu_resolve_machine_memdev(void)
++static void qemu_init_displays(void)
 +{
-+    if (current_machine->ram_memdev_id) {
-+        Object *backend;
-+        ram_addr_t backend_size;
++    DisplayState *ds;
 +
-+        backend = object_resolve_path_type(current_machine->ram_memdev_id,
-+                                           TYPE_MEMORY_BACKEND, NULL);
-+        if (!backend) {
-+            error_report("Memory backend '%s' not found",
-+                         current_machine->ram_memdev_id);
-+            exit(EXIT_FAILURE);
-+        }
-+        backend_size = object_property_get_uint(backend, "size",  &error_abort);
-+        if (have_custom_ram_size() && backend_size != ram_size) {
-+                error_report("Size specified by -m option must match size of "
-+                             "explicitly specified 'memory-backend' property");
-+                exit(EXIT_FAILURE);
-+        }
-+        if (mem_path) {
-+            error_report("'-mem-path' can't be used together with"
-+                         "'-machine memory-backend'");
-+            exit(EXIT_FAILURE);
-+        }
-+        ram_size = backend_size;
-+    }
++    /* init local displays */
++    ds = init_displaystate();
++    qemu_display_init(ds, &dpy);
 +
-+    if (!xen_enabled()) {
-+        /* On 32-bit hosts, QEMU is limited by virtual address space */
-+        if (ram_size > (2047 << 20) && HOST_LONG_BITS == 32) {
-+            error_report("at most 2047 MB RAM can be simulated");
-+            exit(1);
-+        }
++    /* must be after terminal init, SDL library changes signal handlers */
++    os_setup_signal_handling();
++
++    /* init remote displays */
++#ifdef CONFIG_VNC
++    qemu_opts_foreach(qemu_find_opts("vnc"),
++                      vnc_init_func, NULL, &error_fatal);
++#endif
++
++    if (using_spice) {
++        qemu_spice.display_init();
 +    }
 +}
 +
- static void set_memory_options(MachineClass *mc)
+ /*
+  * Called after leaving preconfig state.  From here on runstate is
+  * RUN_STATE_PRELAUNCH or RUN_STATE_INMIGRATE.
+@@ -3449,8 +3472,6 @@ static void qemu_create_cli_devices(void)
+ 
+ static void qemu_machine_creation_done(void)
  {
-     uint64_t sz;
-@@ -4476,39 +4512,7 @@ void qemu_init(int argc, char **argv, char **envp)
-         current_machine->cpu_type = parse_cpu_option(cpu_option);
+-    DisplayState *ds;
+-
+     cpu_synchronize_all_post_init();
+ 
+     /* Did we create any drives that we failed to create a device for? */
+@@ -3473,23 +3494,6 @@ static void qemu_machine_creation_done(void)
+         qemu_register_reset(restore_boot_order, g_strdup(boot_order));
      }
  
--    if (current_machine->ram_memdev_id) {
--        Object *backend;
--        ram_addr_t backend_size;
+-    /* init local displays */
+-    ds = init_displaystate();
+-    qemu_display_init(ds, &dpy);
 -
--        backend = object_resolve_path_type(current_machine->ram_memdev_id,
--                                           TYPE_MEMORY_BACKEND, NULL);
--        if (!backend) {
--            error_report("Memory backend '%s' not found",
--                         current_machine->ram_memdev_id);
--            exit(EXIT_FAILURE);
--        }
--        backend_size = object_property_get_uint(backend, "size",  &error_abort);
--        if (have_custom_ram_size() && backend_size != ram_size) {
--                error_report("Size specified by -m option must match size of "
--                             "explicitly specified 'memory-backend' property");
--                exit(EXIT_FAILURE);
--        }
--        if (mem_path) {
--            error_report("'-mem-path' can't be used together with"
--                         "'-machine memory-backend'");
--            exit(EXIT_FAILURE);
--        }
--        ram_size = backend_size;
+-    /* must be after terminal init, SDL library changes signal handlers */
+-    os_setup_signal_handling();
+-
+-    /* init remote displays */
+-#ifdef CONFIG_VNC
+-    qemu_opts_foreach(qemu_find_opts("vnc"),
+-                      vnc_init_func, NULL, &error_fatal);
+-#endif
+-
+-    if (using_spice) {
+-        qemu_spice.display_init();
 -    }
 -
--    if (!xen_enabled()) {
--        /* On 32-bit hosts, QEMU is limited by virtual address space */
--        if (ram_size > (2047 << 20) && HOST_LONG_BITS == 32) {
--            error_report("at most 2047 MB RAM can be simulated");
--            exit(1);
--        }
--    }
--
-+    qemu_resolve_machine_memdev();
+     if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+         exit(1);
+     }
+@@ -4094,6 +4098,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 break;
+             case QEMU_OPTION_preconfig:
+                 preconfig_exit_requested = false;
++                preconfig_requested = true;
+                 break;
+             case QEMU_OPTION_enable_kvm:
+                 olist = qemu_find_opts("machine");
+@@ -4515,11 +4520,20 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_resolve_machine_memdev();
      parse_numa_opts(current_machine);
  
++    if (preconfig_requested) {
++        qemu_init_displays();
++    }
++
      /* do monitor/qmp handling at preconfig state if requested */
+     qemu_main_loop();
+-
+     qemu_finish_machine_init();
++
+     qemu_create_cli_devices();
++
++    /* initialize displays after all errors have been reported */
++    if (!preconfig_requested) {
++        qemu_init_displays();
++    }
+     qemu_machine_creation_done();
+ 
+     if (loadvm) {
 -- 
 2.26.2
 
