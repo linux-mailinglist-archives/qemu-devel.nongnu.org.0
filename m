@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1C7029AD62
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:34:23 +0100 (CET)
-Received: from localhost ([::1]:38934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2321429ADBA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:46:35 +0100 (CET)
+Received: from localhost ([::1]:49118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXP7G-00005O-LR
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:34:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53484)
+	id 1kXPJ3-0007vF-Tg
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:46:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXOuV-0003NI-Bm
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54611)
+ id 1kXOuY-0003U1-EH
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXOuS-0006B3-Rv
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:10 -0400
+ id 1kXOuW-0006BU-Dg
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603804867;
+ s=mimecast20190719; t=1603804871;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1zAGCokWrzrKTUilQC+YE1X1d3U1voMrenw7SRbmX7U=;
- b=EFmyoeMTg1VWawZo51aaWJGP/XOLwKdOVc4FP+JA/XEVq+esu2iL4oP6JwrrsMH5BLiYLJ
- jKvtVKIhcVOM81LJ4no/Zw6VgfLZRxcAIAWqTdk++IcZbc+9ky2o99AxQ7vKy3CmSIv3JI
- CLyNWOlIwhAgzdxMLWTG32dFQ2xI+nI=
+ bh=PdW/AzfFSSKfvR/W0HSDFMYpjCcpdNKB9zfqWXqZL3c=;
+ b=E5kkk7MOm45vouog/pBQqhjWfQPSpcuoSZpOrqp6Bo1ulJe6Nl5ZOZ72T7WityjnQmkgO9
+ ajjocmJt6MiPE/LlwZDYJ7+FmTzDXwmahiimGMhwapBaT2xZMMYZSR5pPD9EFhtTIxu7L1
+ gzT4SWDvbK/icb1/bewdRHaEF28imwo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-RGRnJWyXMEqNdbEBKEz49w-1; Tue, 27 Oct 2020 09:21:05 -0400
-X-MC-Unique: RGRnJWyXMEqNdbEBKEz49w-1
+ us-mta-394-RLSNb24MPqa4MDm3ObhNqQ-1; Tue, 27 Oct 2020 09:21:08 -0400
+X-MC-Unique: RLSNb24MPqa4MDm3ObhNqQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8831084D8B
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:21:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15C10101962E
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:21:07 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-46.ams2.redhat.com
  [10.36.115.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E22C919647;
- Tue, 27 Oct 2020 13:20:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB9C01972B;
+ Tue, 27 Oct 2020 13:21:05 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH v2 09/16] Put a full SFC membership blurb in footer
- of every page
-Date: Tue, 27 Oct 2020 13:20:08 +0000
-Message-Id: <20201027132015.621733-10-berrange@redhat.com>
+Subject: [qemu-web PATCH v2 11/16] Bring contribution links out of the footer
+ into the home page
+Date: Tue, 27 Oct 2020 13:20:10 +0000
+Message-Id: <20201027132015.621733-12-berrange@redhat.com>
 In-Reply-To: <20201027132015.621733-1-berrange@redhat.com>
 References: <20201027132015.621733-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -87,73 +87,53 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The selection of contribution links are important information to present
+to visitors to the site. They are best placed in a prominent position on
+the home page rather than in the footer
+
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- _includes/footer.html | 4 +++-
- assets/css/style.css  | 6 +++++-
- index.html            | 3 ---
- 3 files changed, 8 insertions(+), 5 deletions(-)
+ _includes/footer.html | 7 -------
+ index.html            | 8 ++++++++
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
 diff --git a/_includes/footer.html b/_includes/footer.html
-index 6e1b247..411ff55 100644
+index 411ff55..07f7866 100644
 --- a/_includes/footer.html
 +++ b/_includes/footer.html
-@@ -3,7 +3,6 @@
- 		<ul class="style">
- 			<li><a href="{{ relative_root }}/">Home</a></li>
+@@ -5,13 +5,6 @@
  			<li><a href="{{ relative_root }}/download">Download</a></li>
--			<li><a href="{{ relative_root }}/conservancy/">Conservancy / Committee</a></li>
  			<li><a href="http://qemu-advent-calendar.org">QEMU advent calendar</a></li>
  		</ul>
+-		<ul class="style">
+-			<li><a href="{{ relative_root }}/contribute">Contribute</a></li>
+-			<li><a href="{{ relative_root }}/contribute/report-a-bug">Reporting a bug</a></li>
+-			<li><a href="https://wiki.qemu.org/Documentation/GettingStartedDevelopers">New contributors</a></li>
+-			<li><a href="https://wiki.qemu.org/Contribute/SubmitAPatch">Submitting a patch</a></li>
+-			<li><a href="https://wiki.qemu.org/Contribute/FAQ">Contributor FAQ</a></li>
+-		</ul>
  		<ul class="style">
-@@ -27,6 +26,9 @@
- 			<li><a href="https://xenproject.org">Xen</a></li>
- 		</ul>
- 	</div>
-+	<div id="conservancy">
-+		QEMU is a member of <a href="{{ relative_root }}/conservancy/">Software Freedom Conservancy</a>
-+	</div>
- 	<div id="licenses">
- 		<a href="{{ relative_root }}/license.html">Website licenses</a>
- 	</div>
-diff --git a/assets/css/style.css b/assets/css/style.css
-index c9452e3..a12a9e3 100644
---- a/assets/css/style.css
-+++ b/assets/css/style.css
-@@ -523,7 +523,7 @@
- 		margin: 0
- 	}
- 
--	#licenses {
-+	#licenses, #conservancy {
- 		padding: 0em;
- 		padding-left: 1em;
- 		padding-right: 1em;
-@@ -536,6 +536,10 @@
- 	#licenses {
- 		float: right;
- 	}
-+
-+	#conservancy {
-+		float: left;
-+	}
- 	
- /*********************************************************************************/
- /* Featured                                                                      */
+ 			<li><a href="{{ relative_root }}/documentation">Documentation</a></li>
+ 			<li><a href="https://www.qemu.org/docs/master/">Main docs</a></li>
 diff --git a/index.html b/index.html
-index 4f01fe9..4501811 100644
+index d057a87..be1d210 100644
 --- a/index.html
 +++ b/index.html
-@@ -53,9 +53,6 @@ $(document).ready(function(){
-     });
- });
- </script>
--
--		<hr>
--		<p>QEMU is a member of <a href="{{ relative_root }}/conservancy/">Software Freedom Conservancy</a>.</p>
+@@ -27,6 +27,14 @@ bxslider: True
+ 			  <span><a href="{{ relative_root }}/download">Other releases</a></span>
+ 			</li>
+ {% endfor %}
++
++			<li><strong>Contribute</strong>
++			  <span><a href="{{ relative_root }}/contribute">Overview</a></span>
++			  <span><a href="{{ relative_root }}/contribute/report-a-bug">Reporting a bug</a></span>
++			  <span><a href="https://wiki.qemu.org/Documentation/GettingStartedDevelopers">New contributors</a></span>
++			  <span><a href="https://wiki.qemu.org/Contribute/SubmitAPatch">Submitting a patch</a></span>
++			  <span><a href="https://wiki.qemu.org/Contribute/FAQ">Contributor FAQ</a></span>
++			</li>
+ 		</ul>
  	</div>
  </div>
- 
 -- 
 2.26.2
 
