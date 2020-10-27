@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4F5429BC2E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:39:54 +0100 (CET)
-Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D91F129BC21
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:33:03 +0100 (CET)
+Received: from localhost ([::1]:38950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXS0n-0007xa-QF
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:39:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50670)
+	id 1kXRuA-0008G2-Ac
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:33:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRs6-00075O-Ok; Tue, 27 Oct 2020 12:30:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:43005)
+ id 1kXRrc-0006jg-Ef; Tue, 27 Oct 2020 12:30:24 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:35987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRs0-0001eZ-UF; Tue, 27 Oct 2020 12:30:54 -0400
+ id 1kXRra-0001Ug-Gn; Tue, 27 Oct 2020 12:30:24 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MpDa5-1k2Ycv1Kxj-00qkOe; Tue, 27 Oct 2020 17:30:18 +0100
+ id 1MnIxu-1k8KKM3sG4-00jJLH; Tue, 27 Oct 2020 17:30:19 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/8] elf2dmp: Fix memory leak on main() error paths
-Date: Tue, 27 Oct 2020 17:30:07 +0100
-Message-Id: <20201027163014.247336-2-laurent@vivier.eu>
+Subject: [PULL 2/8] Makefile: Add *.[ch].inc files to cscope/ctags/TAGS
+Date: Tue, 27 Oct 2020 17:30:08 +0100
+Message-Id: <20201027163014.247336-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027163014.247336-1-laurent@vivier.eu>
 References: <20201027163014.247336-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:zfkWlbegQGmVbPTWCU+Etfk7R5b9h3WZDbxPY5jduOtHiItPdX5
- 4armuiMFALBPi9cM0Qp/jn9oQVY9mm7+g9rHcawF2iXhivPdrg46+siAkXskfjZiVoRfAm7
- pxuUCEOSJT3G0PEnniEkICuLd3WOM611pxVvFIsgPNtTWtWTpGPzaqK1hWLBT0Dk14ka6Lf
- N6EKQQWFtIKA7eTSSxwtg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:lwvXl/dr7dQ=:76Zb1rLbH3dXgwX4NmduGZ
- tXBg1Ic2ahFea/Um4BoOCtJa3eX9vcFPjjB5RO/O5/LDz3SEhjrYFsmKi/mcRQiPzKg+6jaUY
- qIhZdzqplUf+3qeDRMh6ci7szCl3HytFjQi+PBAQJdSulc4cPB0YTF+RC7DDbouKtiZiypDdl
- qCQXU39HnDYpn7F9CvPJVawFqigJlkVwqEECIRkR1RTtRBzAV4IpTrztZW9SDpSBS6AbpMVMw
- d5l1z1k/H4NanuYuMzeFRYSHufxeVUFZoonsQtTjQYbojVUkDyKKjF59ygHmfRvKd/c/EiSr0
- 56x94B5fxGkdAhJSDUTkDO7+rvQ7+XTyYsrfRwLqesSxCr92AtyZEvO26wXILd3Xsl/gu1h2H
- MglL0nL2UFjzlXzSXJiQQ2NpEh45vDw0hzs0Csid7e0lVLEtTYM4hnrlxf/MT
+X-Provags-ID: V03:K1:lwAoRVrohGeB7WJ6j7hdr33oLFKyBmq5ScQM1zrGNlldj2BtP2C
+ 96oaRrn06VdjkGLBE5so/rs60uBTrdit/SAliEgAqU8oxMLvdnw2QFwVvtgfg2weJbMJeVC
+ IH2njN2T765vL0U87yxzCgrUgu6UuAARXduYWzCuig7RUBZiXpPndDiCsn3NeF2HNX34Hyv
+ IV0CF6vCW0bMEiq/qka8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:gs27+63ytVk=:vn44x3byg9FBELRHrrPPkZ
+ f3NUn0kVBAHaW1GdkFx6xHJjMFaCcN4spjnP9lgXT0izDUdb58eo5TFHA9fktsNpRdlkfBGLw
+ zgxranBYfAaq8Dq29i/tEW+Qt+cLhmfMcBRWIpT5MQa9LdOfaEyily0in0aMAnOQnqIIXcI0u
+ c9lbcSdYdlivpvRwPiyWgRlDfZYQfoJmHQfn6q0qmDw5tVZi1H6n8X8aTt6ttOURBBjsI7zge
+ 0SUcia+gB71y9/j1++oKZvEnIcHB3Tv4Amd/J3Fsx73JYsn17/4pUs+EDHTViLErqYpzC7nqc
+ msbhjjM5iJzS1qFWbgL/Xb5Og2jInLX6DhS5S08Cn+OO+kpTRutwx+FU6KCu2X5mbP8W69PLr
+ gj8BAyB3vkcesO/r7/zvX93Pz3J+fv30zrsJM0gbwXOVN0SSaZawpEuB/JmWuzUh4egTY/gL+
+ esQOYCuhXA==
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:20
@@ -63,47 +64,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, AlexChen <alex.chen@huawei.com>
+Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: AlexChen <alex.chen@huawei.com>
+From: Greg Kurz <groug@kaod.org>
 
-The 'kdgb' is allocating memory in get_kdbg(), but it is not freed
-in both fill_header() and fill_context() failed branches, fix it.
+The code base has some C source and header files that don't get indexed
+because their name ends with .inc:
 
-Signed-off-by: AlexChen <alex.chen@huawei.com>
-Reviewed-by: Li Qiang <liq3ea@gmail.com>
-Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <5F463659.8080101@huawei.com>
+$ git ls-files "*.[ch].inc" | wc -l
+66
+
+Add them to the list.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160258069310.900922.1495166540282536628.stgit@bahia.lan>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- contrib/elf2dmp/main.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
-index 9a2dbc290214..ac746e49e097 100644
---- a/contrib/elf2dmp/main.c
-+++ b/contrib/elf2dmp/main.c
-@@ -568,12 +568,12 @@ int main(int argc, char *argv[])
-     if (fill_header(&header, &ps, &vs, KdDebuggerDataBlock, kdbg,
-             KdVersionBlock, qemu_elf.state_nr)) {
-         err = 1;
--        goto out_pdb;
-+        goto out_kdbg;
-     }
+diff --git a/Makefile b/Makefile
+index 18f026eac3d7..5a7ba39ea75f 100644
+--- a/Makefile
++++ b/Makefile
+@@ -219,7 +219,7 @@ distclean: clean
+ 	rm -f linux-headers/asm
+ 	rm -Rf .sdk
  
-     if (fill_context(kdbg, &vs, &qemu_elf)) {
-         err = 1;
--        goto out_pdb;
-+        goto out_kdbg;
-     }
+-find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o -name "*.[chsS]"
++find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o \( -name "*.[chsS]" -o -name "*.[ch].inc" \)
  
-     if (write_dump(&ps, &header, argv[2])) {
+ .PHONY: ctags
+ ctags:
 -- 
 2.26.2
 
