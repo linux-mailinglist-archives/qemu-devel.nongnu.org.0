@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A598529AB03
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:40:20 +0100 (CET)
-Received: from localhost ([::1]:36696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DA829AB02
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:40:07 +0100 (CET)
+Received: from localhost ([::1]:35766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNKt-0006Ck-LZ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:40:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40008)
+	id 1kXNKb-0005mf-LF
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:40:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kXMcq-0002nC-Dh
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:54:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56628)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXMyb-0000YY-E1
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:17:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34947)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kXMcm-0003iE-2T
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:54:46 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXMyU-0003BH-1u
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:17:16 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603796081;
+ s=mimecast20190719; t=1603797425;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=S2FJ5J0SzmJwONLprshb9gz8DsBUGGSA0Nqz0gbTR9c=;
- b=HAi53xsrC5bWW5UHbs8Av9I2EaMHRaONhi0q4Q2GFS3yj5z3+4jcOzAZwZivdRSuW5nj1f
- dYmc6h/RPMuOc+EYsRhCODPIDmEIdb7pU+5lZvNAI4jfY4f3CxnNS6x+NndvGe8gGnEGZg
- 4HEP+2cPxIfFo3goFmTblZqJAQIkLb8=
+ bh=5fxboEc+Fec5apjC6Kad/Sl6RFHELsHnsijVve8SF6M=;
+ b=LMjq//GOd/5yrkL9ugv7mQZljx1b61u8ghVhsa68aWF8wJ1ZhSqGfKcRCPMnfQT69k1ifA
+ mRuI0LEjdUPXYE8DrZPSoS1pk5J9Dbrd1eA++U2M9R0MnBrUrzao8FzX884raJ3kzznmWU
+ +sWV8+kJxgtVnNV0c5jLxjVCcuFJG20=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-fTEaMPTVOWeMz2aARR0R5Q-1; Tue, 27 Oct 2020 06:54:39 -0400
-X-MC-Unique: fTEaMPTVOWeMz2aARR0R5Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-573-hIBxJr5ONf2B1FhlrnS24g-1; Tue, 27 Oct 2020 07:17:00 -0400
+X-MC-Unique: hIBxJr5ONf2B1FhlrnS24g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B19B1084D6A;
- Tue, 27 Oct 2020 10:54:38 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B061110013C4;
- Tue, 27 Oct 2020 10:54:36 +0000 (UTC)
-Date: Tue, 27 Oct 2020 11:54:34 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 25/33] tests/acceptance: Add a test for the N800 and N810
- arm machines
-Message-ID: <20201027115434.69ce4571@redhat.com>
-In-Reply-To: <CAFEAcA_=_x=xH5jHiS6WyUSjyZwH2sy6xsMxgm6c-c+rcRAPzA@mail.gmail.com>
-References: <20200228163840.23585-1-peter.maydell@linaro.org>
- <20200228163840.23585-26-peter.maydell@linaro.org>
- <a049110f-b7cb-52bd-de77-6e1193b5b6de@amsat.org>
- <6ce6a790-c68e-e3ed-962e-ba6f49244315@redhat.com>
- <f02d74fb-af6e-6e04-7ce7-48ab09a20e4f@amsat.org>
- <f2f276a9-a6ad-a2f8-2fbc-f1aca5423f79@amsat.org>
- <20201023174351.31838a86@redhat.com>
- <c80350d2-3591-6541-abf3-960b69cedf7d@amsat.org>
- <20201023210445.2fa72562@redhat.com>
- <CAFEAcA_wP1t1+o_PnCOotHvs54qSxJQSyuhtbSCSg4oewD43ng@mail.gmail.com>
- <20201026143657.68147517@redhat.com>
- <CAFEAcA_=_x=xH5jHiS6WyUSjyZwH2sy6xsMxgm6c-c+rcRAPzA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A964D801FDD;
+ Tue, 27 Oct 2020 11:16:59 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-16.ams2.redhat.com [10.36.114.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61BF355790;
+ Tue, 27 Oct 2020 11:16:55 +0000 (UTC)
+Date: Tue, 27 Oct 2020 12:16:53 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2] block: End quiescent sections when a BDS is deleted
+Message-ID: <20201027111653.GC4628@merkur.fritz.box>
+References: <160346526998.272601.9045392804399803158.stgit@bahia.lan>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <160346526998.272601.9045392804399803158.stgit@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,43 +77,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 14:26:59 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Mon, 26 Oct 2020 at 13:37, Igor Mammedov <imammedo@redhat.com> wrote:
-> > Peter Maydell <peter.maydell@linaro.org> wrote:  
-> > > Hmm, maybe, maybe not. The original design idea here was that
-> > > the boot loader code took a structure defining only the things
-> > > that the bootloader needed to know. It doesn't really need to
-> > > know about all the stuff that's in MachineState, which is
-> > > the state structure for the machine.  
-> >
-> > Yep It doesn't need all data the MachineState contains, but then we end up
-> > with this kind of bugs which could be avoided if duplication were not there.
-> > And some of the fields in  MachineState are pure bootloader data.  
+Am 23.10.2020 um 17:01 hat Greg Kurz geschrieben:
+> If a BDS gets deleted during blk_drain_all(), it might miss a
+> call to bdrv_do_drained_end(). This means missing a call to
+> aio_enable_external() and the AIO context remains disabled for
+> ever. This can cause a device to become irresponsive and to
+> disrupt the guest execution, ie. hang, loop forever or worse.
 > 
-> I notice we already have arm_load_kernel() take a MachineState*
-> and fill in the info->kernel_filename etc from the MachineState
-> fields. I suppose we could do the same for a few more fields.
-> I'm not very fond of the way that function takes the MachineState*,
-> though. I think it would be nicer if the MachineState had a
-> separate sub-struct which was "this is the stuff that's just
-> data for the bootloader" and passed that, rather than throwing
-> the entire state struct pointer around.
-
-this should work for the most of copied fields but not for all,
-(ram_size in this case).
-
+> This scenario is quite easy to encounter with virtio-scsi
+> on POWER when punching multiple blockdev-create QMP commands
+> while the guest is booting and it is still running the SLOF
+> firmware. This happens because SLOF disables/re-enables PCI
+> devices multiple times via IO/MEM/MASTER bits of PCI_COMMAND
+> register after the initial probe/feature negotiation, as it
+> tends to work with a single device at a time at various stages
+> like probing and running block/network bootloaders without
+> doing a full reset in-between. This naturally generates many
+> dataplane stops and starts, and thus many drain sections that
+> can race with blockdev_create_run(). In the end, SLOF bails
+> out.
 > 
-> thanks
-> -- PMM
+> It is somehow reproducible on x86 but it requires to generate
+> articial dataplane start/stop activity with stop/cont QMP
+> commands. In this case, seabios ends up looping for ever,
+> waiting for the virtio-scsi device to send a response to
+> a command it never received.
 > 
+> Add a helper that pairs all previously called bdrv_do_drained_begin()
+> with a bdrv_do_drained_end() and call it from bdrv_close().
+> While at it, update the "/bdrv-drain/graph-change/drain_all"
+> test in test-bdrv-drain so that it can catch the issue.
+> 
+> BugId: https://bugzilla.redhat.com/show_bug.cgi?id=1874441
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+
+Thanks, applied to the block branch.
+
+Kevin
 
 
