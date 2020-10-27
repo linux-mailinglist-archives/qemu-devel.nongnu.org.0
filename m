@@ -2,77 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA9129B3F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:57:43 +0100 (CET)
-Received: from localhost ([::1]:48406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D14F529B308
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:52:38 +0100 (CET)
+Received: from localhost ([::1]:33766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQPu-0008JY-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:57:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42832)
+	id 1kXQKz-0001z8-PT
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:52:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kXPoC-0002za-PR; Tue, 27 Oct 2020 10:18:44 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41013)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kXPoA-0007j9-Q0; Tue, 27 Oct 2020 10:18:44 -0400
-Received: by mail-pl1-x643.google.com with SMTP id w11so822339pll.8;
- Tue, 27 Oct 2020 07:18:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=sY88nsbmTjx5ePHAkYyzlMFFutII/gV5c/TR9sne5r8=;
- b=Iik8VqTCtAInWlaBOFgDKgslRydkXEC78dFqq0zJLk/vpyfLvoNWRGBE3uopvxuzxa
- zTI1kwTVTQIBwAbZLDTvlXVvp3KinPmAh9QFVCblH1/LKkM0X7yny/bCP6EoKDUYFExt
- V4D9KWF3RlUznh1Mzs7GD8doB8XOCqBM1PYXAk2BGnMRvcyc9WkRNh0LHw7DXd3DzJze
- 8ofyWevlbhY1q5k49L3dNe07/AlTml1YYB7hYe+YdXRppgKNHj899PEtcLX2Vead0WNC
- z5zuW+HXViMjBz0sLLa2xM0ef+2JpetM1EGN69lY+zmARgmgAVpeKTlZX+PBnbhcy0BL
- uBtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=sY88nsbmTjx5ePHAkYyzlMFFutII/gV5c/TR9sne5r8=;
- b=lnarzErGVYdbEOlRpxGQ8sd8XIAiTis5Ou4bEG+/K0EbKM3coQe7jdyU5GI2YYBTub
- uvBo/uNANCZ2oIJTlulpvOaMF3ZsIEESc8EFPmWSoFy2eFToiIfcxJEvaZ3XxAqm7b91
- OAPdH+Ss5wYYNciLJAa+juXnddXvG8d5l1hTwCph8Dgf7a5mjpRfoP6whFCb3HUAJme8
- xbRm6oZTeuJh0uqrBKMlh0J6iO76+CiKjxXoSHBczjko07jXvFd+9JHywEaiB+MO+w8+
- OtV6XJ7cUi7OB7NN+epyHKAz0PoYs9FW+MdCc9REof3v4PlBBAGHC7n+YEROCrU8CDiO
- 6nrg==
-X-Gm-Message-State: AOAM530PTMcMpbil2BjJDdDF+KPptzMoZtJ5KQJGkiKLXf0haVPxsEvU
- /8fk0pj8lIRLlImWPLaX5iM=
-X-Google-Smtp-Source: ABdhPJxWq3trOUfP3vk9eT1wrAcKaaBAa0KGZixUAf2Ngru2noZgBlb3XhcICrSyTZH+48hptXwVNA==
-X-Received: by 2002:a17:902:7c86:b029:d5:f680:f756 with SMTP id
- y6-20020a1709027c86b02900d5f680f756mr2549572pll.39.1603808321065; 
- Tue, 27 Oct 2020 07:18:41 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id mn15sm1600297pjb.21.2020.10.27.07.18.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 07:18:40 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [RESEND PATCH 9/9] hw/riscv: microchip_pfsoc: Hook the I2C1 controller
-Date: Tue, 27 Oct 2020 22:17:40 +0800
-Message-Id: <20201027141740.18336-10-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027141740.18336-1-bmeng.cn@gmail.com>
-References: <20201027141740.18336-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXPpt-00059P-CI
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:20:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXPpp-0007uq-9R
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:20:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603808420;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+6wzuZdWiWK6SCPBN5ZqOG6K6u8rqMSUCpYSh6r4O40=;
+ b=XrIOo04NNxR0V0jmnRzCNHToXWbNhAQ1AZ56ONyAL9cPwgNZqHHsi5cWf2aLBDoJpGpy6E
+ dq5RelbWsIiAPjvILJp8q0jJkzywAqgxbCOS/XT0FTRkVUsH7UtjANpGM7/QjiQ+OcDAoc
+ lrjgQAQhAVSJjBAtSwdMO3OlISnl5R4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-r4g3n_rmMKyJf2IqgROXSQ-1; Tue, 27 Oct 2020 10:20:18 -0400
+X-MC-Unique: r4g3n_rmMKyJf2IqgROXSQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2E8C1019629
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 14:20:17 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D6C755578F;
+ Tue, 27 Oct 2020 14:20:06 +0000 (UTC)
+Date: Tue, 27 Oct 2020 15:20:04 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH RFC] memory: pause all vCPUs for the duration of memory
+ transactions
+Message-ID: <20201027152004.75aeee2d@redhat.com>
+In-Reply-To: <87wnzbzspp.fsf@vitty.brq.redhat.com>
+References: <20201026084916.3103221-1-vkuznets@redhat.com>
+ <294a987d-b0ef-1b58-98ac-0d4d43075d6e@redhat.com>
+ <d7a20a33-0317-467e-6fc6-6528b3b46062@redhat.com>
+ <87imav26d8.fsf@vitty.brq.redhat.com>
+ <cb74d717-cfc1-a78b-cf80-eb8ebf1075fd@redhat.com>
+ <87a6w72565.fsf@vitty.brq.redhat.com>
+ <e1d85d86-fb2f-d2a8-77ea-1e0d48c8fb67@redhat.com>
+ <875z6v24e2.fsf@vitty.brq.redhat.com>
+ <219ac264-dcd4-70f0-244f-1bee601aded7@redhat.com>
+ <87wnzbzspp.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,68 +90,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
- Anup Patel <anup.patel@wdc.com>, Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>, "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Tue, 27 Oct 2020 14:47:14 +0100
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
 
-The latest SD card image [1] released by Microchip ships a Linux
-kernel with built-in PolarFire SoC I2C driver support. The device
-tree file includes the description for the I2C1 node hence kernel
-tries to probe the I2C1 device during boot.
+> David Hildenbrand <david@redhat.com> writes:
+> 
+> >>> Same applies to all other kinds of operations (splitting, punching out,
+> >>> ...) as you also mentioned.  
+> >> 
+> >> One question from a QEMU newbie though: why do you put
+> >> kvm_ioctl_inhibit_begin()/kvm_ioctl_inhibit_end() to kvm_region_resize()
+> >> only and not taking it all the way up to
+> >> memory_region_transaction_begin()/memory_region_transaction_end() to
+> >> support atomicity for all kinds of updates right away?  
+> >
+> > The clean way to implement it for 
+> > memory_region_transaction_begin()/memory_region_transaction_end() is by 
+> > implementing  
+> > ->begin()
+> > ->commit()  
+> > callbacks for the KVM MemoryListener, and doing it in there, in KVM code.
+> >
+> >
+> > Now, I wasn't sure how this might affect real-time workloads, where you 
+> > really don't want to kick CPUs out of KVM. You can make a lot of 
+> > operations without requiring this handling like
+> >
+> > 1. Adding regions (memory hotplug)
+> > 2. Removing regions (memory hotunplug)
+> > 3. Enabling/disabling dirty logging
+> >
+> > Resize/split(/move/...) are the problematic operations where we would 
+> > need that handling. Modifying the size/location of existing slots.
+> >
+> > One way to tackle it would be to "sense" upfront if such "modifying" 
+> > operations will be required, communicating that via "->begin()", and 
+> > letting the KVM notifier decide based on that information whether to get 
+> > everything out of KVM. Sounds feasible.
+> >  
+> 
+> I don't actually know if we have such use-cases but thinking about
+> e.g. punching a hole in a middle of an existing slot requires:
+> 1) Resizing the existing slot to its first half
+> 2) Creating the hole
+> 3) Creating a new slot for the second half of the slot.
+> In case we'd like to make this atomic, we need to cover the whole
+> transaction. But again, I don't know if we have a use-case for it or
+> not.
 
-It is enough to create an unimplemented device for I2C1 to allow
-the kernel to continue booting to the shell.
+it usually happens during boot time on x86 where MMIO (re)maps
+cause punching holes in lower RAM.
+(you can observe it by tracing MemoryListener::region_add/del hooks)
 
-[1] ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
----
-
- hw/riscv/microchip_pfsoc.c         | 6 ++++++
- include/hw/riscv/microchip_pfsoc.h | 1 +
- 2 files changed, 7 insertions(+)
-
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index c595c9c967..4e878c2836 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -94,6 +94,7 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
-+    [MICROCHIP_PFSOC_I2C1] =            { 0x2010b000,     0x1000 },
-     [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
-     [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
-     [MICROCHIP_PFSOC_GPIO0] =           { 0x20120000,     0x1000 },
-@@ -324,6 +325,11 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
-         serial_hd(4));
- 
-+    /* I2C1 */
-+    create_unimplemented_device("microchip.pfsoc.i2c1",
-+        memmap[MICROCHIP_PFSOC_I2C1].base,
-+        memmap[MICROCHIP_PFSOC_I2C1].size);
-+
-     /* GEMs */
- 
-     nd = &nd_table[0];
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index dc05688d94..74ae789c03 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -96,6 +96,7 @@ enum {
-     MICROCHIP_PFSOC_MMUART2,
-     MICROCHIP_PFSOC_MMUART3,
-     MICROCHIP_PFSOC_MMUART4,
-+    MICROCHIP_PFSOC_I2C1,
-     MICROCHIP_PFSOC_GEM0,
-     MICROCHIP_PFSOC_GEM1,
-     MICROCHIP_PFSOC_GPIO0,
--- 
-2.25.1
+[...]
 
 
