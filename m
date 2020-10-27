@@ -2,81 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACBB29AC0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:28:56 +0100 (CET)
-Received: from localhost ([::1]:52976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E50C629AC19
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:30:29 +0100 (CET)
+Received: from localhost ([::1]:56976 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXO5v-0008GF-7u
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:28:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48018)
+	id 1kXO7P-0001TE-Sy
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:30:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kXNBz-00016N-7d
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:31:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kXNBw-0008Bz-TS
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:31:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603798264;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0m6htpiM3fGaToIha04niVXVj4CdgMuZ3+mBXchWNmo=;
- b=Hyn3wKIElCwhMmdwWlXc79BapGQzv5pkmFFiC4qoXvmrHl88SWPiPf0GVOQdfFiRKcJMO7
- RRa3ptLT3anuNk/GeDFYdUYXR8qb4AvBKAsj0NMQCIRAceYggKRND65f2emeg4LwHsf3q6
- 3I00++yL0thw1knaUeemmDQOk35e9hA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-423-_Xat3cc6POG_h1dfniy_zg-1; Tue, 27 Oct 2020 07:31:02 -0400
-X-MC-Unique: _Xat3cc6POG_h1dfniy_zg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 079E01018F60;
- Tue, 27 Oct 2020 11:31:01 +0000 (UTC)
-Received: from redhat.com (ovpn-115-179.ams2.redhat.com [10.36.115.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F91C1002382;
- Tue, 27 Oct 2020 11:30:54 +0000 (UTC)
-Date: Tue, 27 Oct 2020 07:30:51 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201027072814-mutt-send-email-mst@kernel.org>
-References: <20201022114026.31968-1-marcel.apfelbaum@gmail.com>
- <20201022080354-mutt-send-email-mst@kernel.org>
- <20201022235632.7f69ddc9@yekko.fritz.box>
- <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
- <20201022100028-mutt-send-email-mst@kernel.org>
- <CAC_L=vWctLK0Yjod_Vz=+xzFKFp4UoUdjSVa4jWeDm+g8en6wQ@mail.gmail.com>
- <20201022102857-mutt-send-email-mst@kernel.org>
- <CAC_L=vX0+H-SfQHneVPd-Mc3wFxHBSbkKHt3SpNOBOY_JsYDUA@mail.gmail.com>
- <20201022110016-mutt-send-email-mst@kernel.org>
- <CAC_L=vUgsh=08m8EEuEucRtdX73X5kw5ov4Ekg7jFjbHsU6f2w@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXNPM-0001Bl-AM
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:44:56 -0400
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:54752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXNPA-0004OC-F5
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:44:55 -0400
+Received: by mail-wm1-x329.google.com with SMTP id w23so1060755wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bzOemMMziQnSbiKMC0kHPZJ+XLEmi9SVdIHzXguz6BI=;
+ b=THgtsBrf88yZ5qP1PXOAvSmi957WnZHtlcIWrlmNyiyILgGTNwjqNyYbrn8uLYHqZR
+ XB+2FjXeIfvqWYmpi4oiwBc4mkNMXwUEzGQcCCpP2BcLX2m/ylgAHVfQ1PsMJJn+Y7HE
+ lZXSDQaWOjazLP4Z5zOnLC07Mpl9n4byq7gxhIgIFgGMmhTNh9j+klCrBQwVoUQiGqzc
+ an3q0itPjUdKModC2VCrzBClkHaTpy8TJ+m9qbC8eIARDSA6+oEp5M0DgKH54FWtzbE5
+ nK0a0ZaFAUGZoG5rU3M9LBYs0HP5E1/pRYrqSsV0yR4X+ntrnslWrTCFQd1sRpUEiJEi
+ RmcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=bzOemMMziQnSbiKMC0kHPZJ+XLEmi9SVdIHzXguz6BI=;
+ b=pGiXFtV/EnWWIW6EorINs/TEedN05VCsrVC4kEhkbM6xJr4OwyBqckZTiTCmmXIrSQ
+ EmewWlPb2F15UGxrSat7CmqhQd0d6nE2r6fGVOHrt8wrVBpxQ0hYBCBT5ny028X+Nka7
+ 7+xazrTGa3FR2r7PRGQtruBC+cmH9ZD1KsTd67pC/qCSLogY5IuGPBBxUt/rEk9GBAvv
+ NmF9hHCmu8TtCIJ4ARrlP4w5MTswwDklCegutT1A91fns0DSoYusRI2SUVc5mNiq1FiX
+ hl9n4tmWVFJbYMPr0lU9GwUKZQo0M3n6votU5O4fxP+VMZpx+HZVvA+YaEntvF8Gu6vq
+ CuXQ==
+X-Gm-Message-State: AOAM5329rJE2xjoYaXNMouhdhARbI1R0Duur96alPuLyxKNV6RZhXaXI
+ EodKFDkCin4/g3O8MBAmPgiyYcqc1pnllg==
+X-Google-Smtp-Source: ABdhPJwnT7ajOMPpQvs5tORJ/7gdrvB5XdC+AvIQ96XHfz6IWT27wYRTX2xS2xbnAOM28huHB7LLgA==
+X-Received: by 2002:a1c:2042:: with SMTP id g63mr2246994wmg.174.1603799081090; 
+ Tue, 27 Oct 2020 04:44:41 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.40
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 04:44:40 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/48] target-arm queue
+Date: Tue, 27 Oct 2020 11:43:50 +0000
+Message-Id: <20201027114438.17662-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAC_L=vUgsh=08m8EEuEucRtdX73X5kw5ov4Ekg7jFjbHsU6f2w@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,235 +84,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <dgibson@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 23, 2020 at 09:26:48AM +0300, Marcel Apfelbaum wrote:
-> Hi Michael,
-> 
-> On Thu, Oct 22, 2020 at 6:01 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> 
->     On Thu, Oct 22, 2020 at 05:50:51PM +0300, Marcel Apfelbaum wrote:
->     >
->     >
->     > On Thu, Oct 22, 2020 at 5:33 PM Michael S. Tsirkin <mst@redhat.com>
->     wrote:
->     >
->     >     On Thu, Oct 22, 2020 at 05:10:43PM +0300, Marcel Apfelbaum wrote:
->     >     >
->     >     >
->     >     > On Thu, Oct 22, 2020 at 5:01 PM Michael S. Tsirkin <mst@redhat.com>
->     >     wrote:
->     >     >
->     >     >     On Thu, Oct 22, 2020 at 04:55:10PM +0300, Marcel Apfelbaum
->     wrote:
->     >     >     > Hi David, Michael,
->     >     >     >
->     >     >     > On Thu, Oct 22, 2020 at 3:56 PM David Gibson <
->     dgibson@redhat.com>
->     >     wrote:
->     >     >     >
->     >     >     >     On Thu, 22 Oct 2020 08:06:55 -0400
->     >     >     >     "Michael S. Tsirkin" <mst@redhat.com> wrote:
->     >     >     >
->     >     >     >     > On Thu, Oct 22, 2020 at 02:40:26PM +0300, Marcel
->     Apfelbaum
->     >     wrote:
->     >     >     >     > > From: Marcel Apfelbaum <marcel@redhat.com>
->     >     >     >     > >
->     >     >     >     > > During PCIe Root Port's transition from Power-Off to
->     >     Power-ON (or
->     >     >     >     vice-versa)
->     >     >     >     > > the "Slot Control Register" has the "Power Indicator
->     >     Control"
->     >     >     >     > > set to "Blinking" expressing a "power transition"
->     mode.
->     >     >     >     > >
->     >     >     >     > > Any hotplug operation during the "power transition"
->     mode is
->     >     not
->     >     >     >     permitted
->     >     >     >     > > or at least not expected by the Guest OS leading to
->     strange
->     >     >     failures.
->     >     >     >     > >
->     >     >     >     > > Detect and refuse hotplug operations in such case.
->     >     >     >     > >
->     >     >     >     > > Signed-off-by: Marcel Apfelbaum <
->     marcel.apfelbaum@gmail.com
->     >     >
->     >     >     >     > > ---
->     >     >     >     > >  hw/pci/pcie.c | 7 +++++++
->     >     >     >     > >  1 file changed, 7 insertions(+)
->     >     >     >     > >
->     >     >     >     > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
->     >     >     >     > > index 5b48bae0f6..2fe5c1473f 100644
->     >     >     >     > > --- a/hw/pci/pcie.c
->     >     >     >     > > +++ b/hw/pci/pcie.c
->     >     >     >     > > @@ -410,6 +410,7 @@ void pcie_cap_slot_pre_plug_cb
->     >     (HotplugHandler
->     >     >     >     *hotplug_dev, DeviceState *dev,
->     >     >     >     > >      PCIDevice *hotplug_pdev = PCI_DEVICE
->     (hotplug_dev);
->     >     >     >     > >      uint8_t *exp_cap = hotplug_pdev->config +
->     >     hotplug_pdev->
->     >     >     >     exp.exp_cap;
->     >     >     >     > >      uint32_t sltcap = pci_get_word(exp_cap +
->     >     PCI_EXP_SLTCAP);
->     >     >     >     > > +    uint32_t sltctl = pci_get_word(exp_cap +
->     >     PCI_EXP_SLTCTL);
->     >     >     >     > > 
->     >     >     >     > >      /* Check if hot-plug is disabled on the slot */
->     >     >     >     > >      if (dev->hotplugged && (sltcap &
->     PCI_EXP_SLTCAP_HPC) =
->     >     = 0) {
->     >     >     >     > > @@ -418,6 +419,12 @@ void pcie_cap_slot_pre_plug_cb
->     >     >     (HotplugHandler
->     >     >     >     *hotplug_dev, DeviceState *dev,
->     >     >     >     > >          return;
->     >     >     >     > >      }
->     >     >     >     > > 
->     >     >     >     > > +    if ((sltctl & PCI_EXP_SLTCTL_PIC) ==
->     >     >     PCI_EXP_SLTCTL_PWR_IND_BLINK)
->     >     >     >     {
->     >     >     >     > > +        error_setg(errp, "Hot-plug failed: %s is in
->     Power
->     >     >     Transition",
->     >     >     >     > > +                   DEVICE(hotplug_pdev)->id);
->     >     >     >     > > +        return;
->     >     >     >     > > +    }
->     >     >     >     > > +
->     >     >     >     > >      pcie_cap_slot_plug_common(PCI_DEVICE
->     (hotplug_dev),
->     >     dev,
->     >     >     errp);
->     >     >     >     > >  } 
->     >     >     >     >
->     >     >     >     > Probably the only way to handle for existing machine
->     types.
->     >     >     >
->     >     >     >
->     >     >     > I agree
->     >     >     >  
->     >     >     >
->     >     >     >     > For new ones, can't we queue it in host memory
->     somewhere?
->     >     >     >
->     >     >     >
->     >     >     >
->     >     >     > I am not sure I understand what will be the flow.
->     >     >     >   - The user asks for a hotplug operation.
->     >     >     >   -  QEMU deferred operation.
->     >     >     > After that the operation may still fail, how would the user
->     know if
->     >     the
->     >     >     > operation
->     >     >     > succeeded or not?
->     >     >
->     >     >
->     >     >     How can it fail? It's just a button press ...
->     >     >
->     >     >
->     >     >
->     >     > Currently we have "Hotplug unsupported."
->     >     > With this change we have "Guest/System not ready"
->     >
->     >
->     >     Hotplug unsupported is not an error that can trigger with
->     >     a well behaved management such as libvirt.
->     >
->     >
->     >     >  
->     >     >
->     >     >     >  
->     >     >     >
->     >     >     >     I'm not actually convinced we can't do that even for
->     existing
->     >     machine
->     >     >     >     types. 
->     >     >     >
->     >     >     >
->     >     >     > Is a Guest visible change, I don't think we can do it.
->     >     >     >  
->     >     >     >
->     >     >     >     So I'm a bit hesitant to suggest going ahead with this
->     without
->     >     >     >     looking a bit closer at whether we can implement a
->     >     wait-for-ready in
->     >     >     >     qemu, rather than forcing every user of qemu (human or
->     machine)
->     >     to do
->     >     >     >     so.
->     >     >     >
->     >     >     >
->     >     >     > While I agree it is a pain from the usability point of view,
->     >     hotplug
->     >     >     operations
->     >     >     > are allowed to fail. This is not more than a corner case,
->     ensuring
->     >     the
->     >     >     right
->     >     >     > response (gracefully erroring out) may be enough.
->     >     >     >
->     >     >     > Thanks,
->     >     >     > Marcel
->     >     >     >
->     >     >
->     >     >
->     >     >     I don't think they ever failed in the past so management is
->     unlikely
->     >     >     to handle the failure by retrying ...
->     >     >
->     >     >
->     >     > That would require some management handling, yes.
->     >     > But even without a "retry", failing is better than strange OS
->     behavior.
->     >     >
->     >     > Trying a better alternative like deferring the operation for new
->     machines
->     >     > would make sense, however is out of the scope of this patch
->     >
->     >     Expand the scope please. The scope should be "solve a problem xx" not
->     >     "solve a problem xx by doing abc".
->     >
->     >
->     >
->     > The scope is detecting a hotplug error early instead
->     > passing to the Guest OS a hotplug operation that we know it will fail.
->     >
-> 
->     Right. After detecting just failing unconditionally it a bit too
->     simplistic IMHO.
-> 
-> 
-> 
-> Simplistic does not mean wrong or incorrect.
-> I fail to see why it is not enough.
+Last minute pullreq for arm related patches; quite large because
+there were several series that only just made it through code review
+in time.
 
-The failure patch requires management to retry later.
-A more elaborate scheme will fix the bug without need for management
-changes.
+thanks
+-- PMM
 
+The following changes since commit 091e3e3dbc499d84c004e1c50bc9870af37f6e99:
 
-> What QEMU can do better? Wait an unbounded time for the blinking to finish?
-> What if we have a buggy guest with a kernel stuck in blinking?
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-bitmaps-2020-10-26' into staging (2020-10-26 22:36:35 +0000)
 
-Then it won't see the new device ever but does it even matter? It's
-stuck ... I'd ack adding a query command to see what is going
-on with the device. Can be generic, implementable on top of ACPI too.
+are available in the Git repository at:
 
-> Is QEMU's responsibility to emulate the operator itself? Because the operator
-> is the one who is supposed to wait.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201027-1
 
-I think these details are immaterial for users. They don't read pci
-spec.
+for you to fetch changes up to 32bd322a0134ed89db00f2b9b3894982db3dedcb:
 
-> 
-> Thanks,
-> Marcel
-> 
-> [...] 
+  hw/timer/armv7m_systick: Rewrite to use ptimers (2020-10-27 11:15:31 +0000)
 
+----------------------------------------------------------------
+target-arm queue:
+ * raspi: add model of cprman clock manager
+ * sbsa-ref: add an SBSA generic watchdog device
+ * arm/trace: Fix hex printing
+ * raspi: Add models of Pi 3 model A+, Pi Zero and Pi A+
+ * hw/arm/smmuv3: Set the restoration priority of the vSMMUv3 explicitly
+ * Nuvoton NPCM7xx: Add USB, RNG, GPIO and watchdog support
+ * hw/arm: fix min_cpus for xlnx-versal-virt platform
+ * hw/arm/highbank: Silence warnings about missing fallthrough statements
+ * linux-user: Support Aarch64 BTI
+ * Armv7M systick: fix corner case bugs by rewriting to use ptimer
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (1):
+      arm/trace: Fix hex printing
+
+Hao Wu (1):
+      hw/timer: Adding watchdog for NPCM7XX Timer.
+
+Havard Skinnemoen (4):
+      Move npcm7xx_timer_reached_zero call out of npcm7xx_timer_pause
+      hw/misc: Add npcm7xx random number generator
+      hw/arm/npcm7xx: Add EHCI and OHCI controllers
+      hw/gpio: Add GPIO model for Nuvoton NPCM7xx
+
+Luc Michel (14):
+      hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
+      hw/core/clock: trace clock values in Hz instead of ns
+      hw/arm/raspi: fix CPRMAN base address
+      hw/arm/raspi: add a skeleton implementation of the CPRMAN
+      hw/misc/bcm2835_cprman: add a PLL skeleton implementation
+      hw/misc/bcm2835_cprman: implement PLLs behaviour
+      hw/misc/bcm2835_cprman: add a PLL channel skeleton implementation
+      hw/misc/bcm2835_cprman: implement PLL channels behaviour
+      hw/misc/bcm2835_cprman: add a clock mux skeleton implementation
+      hw/misc/bcm2835_cprman: implement clock mux behaviour
+      hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
+      hw/misc/bcm2835_cprman: add sane reset values to the registers
+      hw/char/pl011: add a clock input
+      hw/arm/bcm2835_peripherals: connect the UART clock
+
+Pavel Dovgalyuk (1):
+      hw/arm: fix min_cpus for xlnx-versal-virt platform
+
+Peter Maydell (2):
+      hw/core/ptimer: Support ptimer being disabled by timer callback
+      hw/timer/armv7m_systick: Rewrite to use ptimers
+
+Philippe Mathieu-Daudé (10):
+      linux-user/elfload: Avoid leaking interp_name using GLib memory API
+      hw/arm/bcm2836: Restrict BCM283XInfo declaration to C source
+      hw/arm/bcm2836: QOM'ify more by adding class_init() to each SoC type
+      hw/arm/bcm2836: Introduce BCM283XClass::core_count
+      hw/arm/bcm2836: Only provide "enabled-cpus" property to multicore SoCs
+      hw/arm/bcm2836: Split out common realize() code
+      hw/arm/bcm2836: Introduce the BCM2835 SoC
+      hw/arm/raspi: Add the Raspberry Pi A+ machine
+      hw/arm/raspi: Add the Raspberry Pi Zero machine
+      hw/arm/raspi: Add the Raspberry Pi 3 model A+
+
+Richard Henderson (11):
+      linux-user/aarch64: Reset btype for signals
+      linux-user: Set PAGE_TARGET_1 for TARGET_PROT_BTI
+      include/elf: Add defines related to GNU property notes for AArch64
+      linux-user/elfload: Fix coding style in load_elf_image
+      linux-user/elfload: Adjust iteration over phdr
+      linux-user/elfload: Move PT_INTERP detection to first loop
+      linux-user/elfload: Use Error for load_elf_image
+      linux-user/elfload: Use Error for load_elf_interp
+      linux-user/elfload: Parse NT_GNU_PROPERTY_TYPE_0 notes
+      linux-user/elfload: Parse GNU_PROPERTY_AARCH64_FEATURE_1_AND
+      tests/tcg/aarch64: Add bti smoke tests
+
+Shashi Mallela (2):
+      hw/watchdog: Implement SBSA watchdog device
+      hw/arm/sbsa-ref: add SBSA watchdog device
+
+Thomas Huth (1):
+      hw/arm/highbank: Silence warnings about missing fallthrough statements
+
+Zenghui Yu (1):
+      hw/arm/smmuv3: Set the restoration priority of the vSMMUv3 explicitly
+
+ docs/system/arm/nuvoton.rst                |    6 +-
+ hw/usb/hcd-ehci.h                          |    1 +
+ include/elf.h                              |   22 +
+ include/exec/cpu-all.h                     |    2 +
+ include/hw/arm/bcm2835_peripherals.h       |    5 +-
+ include/hw/arm/bcm2836.h                   |    9 +-
+ include/hw/arm/npcm7xx.h                   |    8 +
+ include/hw/arm/raspi_platform.h            |    5 +-
+ include/hw/char/pl011.h                    |    1 +
+ include/hw/clock.h                         |    5 +
+ include/hw/gpio/npcm7xx_gpio.h             |   55 ++
+ include/hw/misc/bcm2835_cprman.h           |  210 ++++++
+ include/hw/misc/bcm2835_cprman_internals.h | 1019 ++++++++++++++++++++++++++++
+ include/hw/misc/npcm7xx_clk.h              |    2 +
+ include/hw/misc/npcm7xx_rng.h              |   34 +
+ include/hw/timer/armv7m_systick.h          |    3 +-
+ include/hw/timer/npcm7xx_timer.h           |   48 +-
+ include/hw/watchdog/sbsa_gwdt.h            |   79 +++
+ linux-user/qemu.h                          |    4 +
+ linux-user/syscall_defs.h                  |    4 +
+ target/arm/cpu.h                           |    5 +
+ hw/arm/bcm2835_peripherals.c               |   15 +-
+ hw/arm/bcm2836.c                           |  182 +++--
+ hw/arm/highbank.c                          |    2 +
+ hw/arm/npcm7xx.c                           |  126 +++-
+ hw/arm/raspi.c                             |   41 ++
+ hw/arm/sbsa-ref.c                          |   23 +
+ hw/arm/smmuv3.c                            |    1 +
+ hw/arm/xlnx-versal-virt.c                  |    1 +
+ hw/char/pl011.c                            |   45 ++
+ hw/core/clock.c                            |    6 +-
+ hw/core/ptimer.c                           |    4 +
+ hw/gpio/npcm7xx_gpio.c                     |  424 ++++++++++++
+ hw/misc/bcm2835_cprman.c                   |  808 ++++++++++++++++++++++
+ hw/misc/npcm7xx_clk.c                      |   28 +
+ hw/misc/npcm7xx_rng.c                      |  180 +++++
+ hw/timer/armv7m_systick.c                  |  124 ++--
+ hw/timer/npcm7xx_timer.c                   |  270 ++++++--
+ hw/usb/hcd-ehci-sysbus.c                   |   19 +
+ hw/watchdog/sbsa_gwdt.c                    |  293 ++++++++
+ linux-user/aarch64/signal.c                |   10 +-
+ linux-user/elfload.c                       |  326 +++++++--
+ linux-user/mmap.c                          |   16 +
+ target/arm/translate-a64.c                 |    6 +-
+ tests/qtest/npcm7xx_gpio-test.c            |  385 +++++++++++
+ tests/qtest/npcm7xx_rng-test.c             |  278 ++++++++
+ tests/qtest/npcm7xx_watchdog_timer-test.c  |  319 +++++++++
+ tests/tcg/aarch64/bti-1.c                  |   62 ++
+ tests/tcg/aarch64/bti-2.c                  |  116 ++++
+ tests/tcg/aarch64/bti-crt.inc.c            |   51 ++
+ MAINTAINERS                                |    1 +
+ hw/arm/Kconfig                             |    1 +
+ hw/arm/trace-events                        |    2 +-
+ hw/char/trace-events                       |    1 +
+ hw/core/trace-events                       |    4 +-
+ hw/gpio/meson.build                        |    1 +
+ hw/gpio/trace-events                       |    7 +
+ hw/misc/meson.build                        |    2 +
+ hw/misc/trace-events                       |    9 +
+ hw/watchdog/Kconfig                        |    3 +
+ hw/watchdog/meson.build                    |    1 +
+ tests/qtest/meson.build                    |    6 +-
+ tests/tcg/aarch64/Makefile.target          |   10 +
+ tests/tcg/configure.sh                     |    4 +
+ 64 files changed, 5461 insertions(+), 279 deletions(-)
+ create mode 100644 include/hw/gpio/npcm7xx_gpio.h
+ create mode 100644 include/hw/misc/bcm2835_cprman.h
+ create mode 100644 include/hw/misc/bcm2835_cprman_internals.h
+ create mode 100644 include/hw/misc/npcm7xx_rng.h
+ create mode 100644 include/hw/watchdog/sbsa_gwdt.h
+ create mode 100644 hw/gpio/npcm7xx_gpio.c
+ create mode 100644 hw/misc/bcm2835_cprman.c
+ create mode 100644 hw/misc/npcm7xx_rng.c
+ create mode 100644 hw/watchdog/sbsa_gwdt.c
+ create mode 100644 tests/qtest/npcm7xx_gpio-test.c
+ create mode 100644 tests/qtest/npcm7xx_rng-test.c
+ create mode 100644 tests/qtest/npcm7xx_watchdog_timer-test.c
+ create mode 100644 tests/tcg/aarch64/bti-1.c
+ create mode 100644 tests/tcg/aarch64/bti-2.c
+ create mode 100644 tests/tcg/aarch64/bti-crt.inc.c
 
