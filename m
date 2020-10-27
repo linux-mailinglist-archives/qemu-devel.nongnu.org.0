@@ -2,79 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAC229ACF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:15:26 +0100 (CET)
-Received: from localhost ([::1]:51358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB2E329AD13
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:19:35 +0100 (CET)
+Received: from localhost ([::1]:58656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOov-00065L-5z
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:15:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52642)
+	id 1kXOsw-0000rX-Rx
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:19:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNQ7-00028X-Tm
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:43 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPy-0004nw-6g
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:43 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id d3so1103349wma.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=s26sY2t7Cm07LjYh/TvjY9F1W4BWnK79s2pdBeBpsHc=;
- b=JoOlG5vDpxsMQUSbApAbPUfszNtEQcW2TFWzEl81QQ4c2u4+R4WzzW+nFmFiZM3UC5
- MYzOhiQcrdH6KC1zgYGZ9rmYOPOcllLzkFmvYme6AYS2k5/QWnFn8S5+rcm/FuJODQvA
- uTxvYBWod76qEly+2bOzK+o6h0xFTNE0kVeBZdEvU+L7nYhAQg/6dXuEvrA0c3m4sm+9
- gUiyXRvIPyTFLV/u1bzQZbP0uHBVEJrRkgxFJlhKOgnq3l6ehX8/2uUoR+wzF4xQ2U5a
- ufsVCL2U4Z7XgLw8wLvZfnKoDWcNgAJJATYPy3rkYqSfn1+8o/5FQ4Wrj4Q0NvtHQiEx
- FdvQ==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kXNlB-0006fa-79
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 08:07:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40347)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1kXNl8-00042t-FK
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 08:07:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603800444;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q5tqAHN6DlXAqcnwZHVvC++uyxH17Tun+Mkh7T/Pivc=;
+ b=egVhejN3GdkhKkBhnd/crkL82RHwyIjhlFc1Z6CvhVtvDLjU26USp/otNPTULPUwPn3Kj+
+ fe4sUVtqPEqewvNCkT7613ClimyyWHuN1JT9H4k+vRN6ZTdqxD38MBcx3mJ7XZw2u1hK7H
+ L77knXFtIV7QaWujYaKAQLuDCHnUy4k=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-192-TtazT08KOAeu93grY6aHKw-1; Tue, 27 Oct 2020 08:07:22 -0400
+X-MC-Unique: TtazT08KOAeu93grY6aHKw-1
+Received: by mail-il1-f198.google.com with SMTP id c19so865512ilk.21
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 05:07:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=s26sY2t7Cm07LjYh/TvjY9F1W4BWnK79s2pdBeBpsHc=;
- b=a+VnmQWdz6SxPGxM3OXyavIfz2CDGN+UyALP9/gcC1+ota1XFqUREWDQfD/q+e/zZm
- sX52/XOiolXDHKYCG8OXYebSX3oRkaINE3oMwCwefWEJvl3T1dTMe/1M8m/v+2LyWJ9L
- fr6siL08+rIp2vmQlUZKeBrNy3ZxoKixF3fHX1jpcBgp6GXtjbsWFuqkbWKtIVKXqWzs
- eYbAzO6jdLp/siJecMkBhXs9d9RBeD726HTp3ES3WbfTYuXRkAYAbDluKrhjmmwB9Fmi
- X39ec78ij5j8yWF5O895gL2vkdNy5+bpMjlHGCsBALQ8rN58RKVk2x/GG5PLU77RIPGC
- p3rg==
-X-Gm-Message-State: AOAM532U8aiP6H0WdPgw5dA/59VviJDr0b45tCx1zHXKP1x2tY/ePAPA
- AJc9n4kEgV1170BBr1ybdPBUqSVkIKixiw==
-X-Google-Smtp-Source: ABdhPJwcAMsMIFmqLPz/gLZZ2W0EeDWE6ONx7aud89MbX7ZYuEBsXK4AVxFX7dndNMJ8umgTkdP2Ig==
-X-Received: by 2002:a05:600c:230a:: with SMTP id
- 10mr2342963wmo.151.1603799132439; 
- Tue, 27 Oct 2020 04:45:32 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.31
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:31 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 41/48] hw/misc/bcm2835_cprman: add the DSI0HSCK multiplexer
-Date: Tue, 27 Oct 2020 11:44:31 +0000
-Message-Id: <20201027114438.17662-42-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
-References: <20201027114438.17662-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Q5tqAHN6DlXAqcnwZHVvC++uyxH17Tun+Mkh7T/Pivc=;
+ b=E7lCMmDcqVKvVnhxF39t58Klywl9f8hmswwEbQNmo2dkjEzxefY6Vz7N39GKf8a5xH
+ f91me1aWuCSwVxbyRJ6y4CNmBuJxwPS7Jw1Fjbocs4WjC8VzJMGXqfJnqtyQvsdbot3h
+ 15tfjahXd3rOV0xh50ibes/56dHO4SFjpLRAIWiB40hgALMsjGjyTAiM6gsGyEbq3x9q
+ oFMPgT+Pa4AFdogMxQ/V71vrdpMtKu/Q9QxQ2LKup9CeHu6boMUs62rZpLSP+eVBMDiC
+ 1ceptoTp0Db7Ay3hwNtCtb/kLci96aWTPy8G303azm4JKthbDwgsGBesTsroBG5BGdpK
+ Wolg==
+X-Gm-Message-State: AOAM533p3tjtVN1QLZOeiw6YkTZiQQfHEAsTgHcbnNg/uCqboDRsXir2
+ XWnrGjVGUgfkeSMMqWjC+sLSE3YlbBGEmbg8efObTkQHCJXY7KS5iq8e2bi8wd9+oU5/Ly091/c
+ o4+6boGJsjOtA1+1zLo6prVlSAHjcO6g=
+X-Received: by 2002:a92:c5a1:: with SMTP id r1mr1387638ilt.11.1603800440978;
+ Tue, 27 Oct 2020 05:07:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyD8y5ShISp/WXSe54be6c5bBci8lRC950yPX1Y/TasIbKlwhpjoE+oYgMNeOFVT1R8DpzfsiymJk5n1PvPh9g=
+X-Received: by 2002:a92:c5a1:: with SMTP id r1mr1387605ilt.11.1603800440587;
+ Tue, 27 Oct 2020 05:07:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+References: <20201010204106.1368710-1-marcandre.lureau@redhat.com>
+ <20201010204106.1368710-4-marcandre.lureau@redhat.com>
+ <87o8koysb8.fsf@dusky.pond.sub.org>
+In-Reply-To: <87o8koysb8.fsf@dusky.pond.sub.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Tue, 27 Oct 2020 16:07:09 +0400
+Message-ID: <CAMxuvayGxrcCDV0wDVE1Pv=TeE26fief2eZfvva6AUsVT6wgGg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] console: make QMP/HMP screendump run in coroutine
+To: Markus Armbruster <armbru@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,219 +93,275 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luc Michel <luc@lmichel.fr>
+Hi
 
-This simple mux sits between the PLL channels and the DSI0E and DSI0P
-clock muxes. This mux selects between PLLA-DSI0 and PLLD-DSI0 channel
-and outputs the selected signal to source number 4 of DSI0E/P clock
-muxes. It is controlled by the cm_dsi0hsck register.
+On Tue, Oct 27, 2020 at 12:41 PM Markus Armbruster <armbru@redhat.com> wrot=
+e:
+>
+> marcandre.lureau@redhat.com writes:
+>
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Thanks to the monitors coroutine support, the screendump handler can
+>
+> monitors'
+>
+> Suggest to add (merge commit b7092cda1b3) right before the comma.
+>
+> > trigger a graphic_hw_update(), yield and let the main loop run until
+> > update is done. Then the handler is resumed, and ppm_save() will write
+> > the screen image to disk in the coroutine context (thus non-blocking).
+> >
+> > Potentially, during non-blocking write, some new graphic update could
+> > happen, and thus the image may have some glitches. Whether that
+> > behaviour is acceptable is discutable. Allocating new memory may not be
+>
+> s/discutable/debatable/
+>
+> > a good idea, as framebuffers can be quite large. Even then, QEMU may
+> > become less responsive as it requires paging in etc.
+>
+> Tradeoff.  I'm okay with "simple & efficient, but might glitch".  It
+> should be documented, though.  Followup patch is fine.
+>
+> > Related to:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1230527
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  hmp-commands.hx    |  1 +
+> >  monitor/hmp-cmds.c |  3 ++-
+> >  qapi/ui.json       |  3 ++-
+> >  ui/console.c       | 27 ++++++++++++++++++++++++---
+> >  4 files changed, 29 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/hmp-commands.hx b/hmp-commands.hx
+> > index cd068389de..ff2d7aa8f3 100644
+> > --- a/hmp-commands.hx
+> > +++ b/hmp-commands.hx
+> > @@ -254,6 +254,7 @@ ERST
+> >          .help       =3D "save screen from head 'head' of display devic=
+e 'device' "
+> >                        "into PPM image 'filename'",
+> >          .cmd        =3D hmp_screendump,
+> > +        .coroutine  =3D true,
+> >      },
+> >
+> >  SRST
+> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> > index 9789f4277f..91608bac6d 100644
+> > --- a/monitor/hmp-cmds.c
+> > +++ b/monitor/hmp-cmds.c
+> > @@ -1756,7 +1756,8 @@ err_out:
+> >      goto out;
+> >  }
+> >
+> > -void hmp_screendump(Monitor *mon, const QDict *qdict)
+> > +void coroutine_fn
+> > +hmp_screendump(Monitor *mon, const QDict *qdict)
+> >  {
+> >      const char *filename =3D qdict_get_str(qdict, "filename");
+> >      const char *id =3D qdict_get_try_str(qdict, "device");
+> > diff --git a/qapi/ui.json b/qapi/ui.json
+> > index 9d6721037f..6c7b33cb72 100644
+> > --- a/qapi/ui.json
+> > +++ b/qapi/ui.json
+> > @@ -98,7 +98,8 @@
+> >  #
+> >  ##
+> >  { 'command': 'screendump',
+> > -  'data': {'filename': 'str', '*device': 'str', '*head': 'int'} }
+> > +  'data': {'filename': 'str', '*device': 'str', '*head': 'int'},
+> > +  'coroutine': true }
+> >
+> >  ##
+> >  # =3D=3D Spice
+> > diff --git a/ui/console.c b/ui/console.c
+> > index a56fe0dd26..0118f70d9a 100644
+> > --- a/ui/console.c
+> > +++ b/ui/console.c
+> > @@ -168,6 +168,7 @@ struct QemuConsole {
+> >      QEMUFIFO out_fifo;
+> >      uint8_t out_fifo_buf[16];
+> >      QEMUTimer *kbd_timer;
+> > +    CoQueue dump_queue;
+> >
+> >      QTAILQ_ENTRY(QemuConsole) next;
+> >  };
+> > @@ -263,6 +264,7 @@ static void gui_setup_refresh(DisplayState *ds)
+> >
+> >  void graphic_hw_update_done(QemuConsole *con)
+> >  {
+> > +    qemu_co_queue_restart_all(&con->dump_queue);
+> >  }
+> >
+> >  void graphic_hw_update(QemuConsole *con)
+> > @@ -340,8 +342,15 @@ static bool ppm_save(int fd, pixman_image_t *image=
+, Error **errp)
+> >      return true;
+> >  }
+> >
+> > -void qmp_screendump(const char *filename, bool has_device, const char =
+*device,
+> > -                    bool has_head, int64_t head, Error **errp)
+> > +static void graphic_hw_update_bh(void *con)
+> > +{
+> > +    graphic_hw_update(con);
+> > +}
+> > +
+> > +/* Safety: coroutine-only, concurrent-coroutine safe, main thread only=
+ */
+> > +void coroutine_fn
+> > +qmp_screendump(const char *filename, bool has_device, const char *devi=
+ce,
+> > +               bool has_head, int64_t head, Error **errp)
+> >  {
+> >      g_autoptr(pixman_image_t) image =3D NULL;
+> >      QemuConsole *con;
+> > @@ -366,7 +375,15 @@ void qmp_screendump(const char *filename, bool has=
+_device, const char *device,
+> >          }
+> >      }
+> >
+> > -    graphic_hw_update(con);
+> > +    if (qemu_co_queue_empty(&con->dump_queue)) {
+> > +        /* Defer the update, it will restart the pending coroutines */
+> > +        aio_bh_schedule_oneshot(qemu_get_aio_context(),
+> > +                                graphic_hw_update_bh, con);
+> > +    }
+> > +    qemu_co_queue_wait(&con->dump_queue, NULL);
+> > +
+> > +    /* All pending coroutines are woken up, while BQL taken, no furthe=
+r graphic
+> > +     * update are possible until it is released, take an image ref bef=
+ore that. */
+>
+> "while BQL taken": I guess you mean "while the BQL is held".
+>
+> Style nit: CODING_STYLE.rst asks for wings.
+>
+> Recommend to limit comment line length for readability.
+>
+> Recommend to turn a few commas into periods.
+>
+> Together:
+>
+>     /*
+>      * All pending coroutines are woken up, while the BQL is held.  No
+>      * further graphic update are possible until it is released.  Take
+>      * an image ref before that.
+>      */
+>
+> >      surface =3D qemu_console_surface(con);
+> >      if (!surface) {
+> >          error_setg(errp, "no surface");
+> > @@ -381,6 +398,9 @@ void qmp_screendump(const char *filename, bool has_=
+device, const char *device,
+> >          return;
+> >      }
+> >
+> > +    /* The image content could potentially be updated as the coroutine=
+ yields
+> > +     * and releases the BQL. It could produce corrupted dump, but it s=
+hould be
+> > +     * otherwise safe. */
+>
+> Similar nit.
+>
+>     /*
+>      * The image content could potentially be updated as the coroutine
+>      * yields and releases the BQL. It could produce corrupted dump, but
+>      * it should be otherwise safe.
+>      */
+>
+> >      if (!ppm_save(fd, image, errp)) {
+> >          qemu_unlink(filename);
+> >      }
+> > @@ -1297,6 +1317,7 @@ static QemuConsole *new_console(DisplayState *ds,=
+ console_type_t console_type,
+> >
+> >      obj =3D object_new(TYPE_QEMU_CONSOLE);
+> >      s =3D QEMU_CONSOLE(obj);
+> > +    qemu_co_queue_init(&s->dump_queue);
+> >      s->head =3D head;
+> >      object_property_add_link(obj, "device", TYPE_DEVICE,
+> >                               (Object **)&s->device,
+>
+> Simpler than v1 thanks to coroutine support for HMP, and the use of
+> CoQueue.
+>
+>
+> Let's revisit the experiment I did for v1: "observe the main loop keeps
+> running while the screendump does its work".
+>
+> Message-ID: <87a74ueudt.fsf@dusky.pond.sub.org>
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-03/msg01235.html
+>
+> I repeated the first experiment "does the main loop continue to run when
+> writing out the screendump blocks / would block?"  Same result: main
+> loop remains blocked.
+>
+> Back then, you replied
+>
+>     Right, the goal was rather originally to fix rhbz#1230527. We got
+>     coroutine IO by accident, and I was too optimistic about default
+>     behaviour change ;) I will update the patch.
+>
+> I'm unsure what exactly the update is.  Is it the change from
+>
+>     Fixes:
+>     https://bugzilla.redhat.com/show_bug.cgi?id=3D1230527
+>
+> to
+>
+>     Related to:
+>     https://bugzilla.redhat.com/show_bug.cgi?id=3D1230527
+>
+> ?
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Luc Michel <luc@lmichel.fr>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/misc/bcm2835_cprman.h           | 15 +++++
- include/hw/misc/bcm2835_cprman_internals.h |  6 ++
- hw/misc/bcm2835_cprman.c                   | 74 +++++++++++++++++++++-
- 3 files changed, 94 insertions(+), 1 deletion(-)
+Right, qmp_screendump() calls qemu_open_old(filename, O_WRONLY |
+O_CREAT | O_TRUNC | O_BINARY, 0666), so opened in blocking mode.
 
-diff --git a/include/hw/misc/bcm2835_cprman.h b/include/hw/misc/bcm2835_cprman.h
-index 0fc8f688457..3df4ceedd2e 100644
---- a/include/hw/misc/bcm2835_cprman.h
-+++ b/include/hw/misc/bcm2835_cprman.h
-@@ -174,6 +174,20 @@ typedef struct CprmanClockMuxState {
-     struct CprmanClockMuxState *backref[CPRMAN_NUM_CLOCK_MUX_SRC];
- } CprmanClockMuxState;
- 
-+typedef struct CprmanDsi0HsckMuxState {
-+    /*< private >*/
-+    DeviceState parent_obj;
-+
-+    /*< public >*/
-+    CprmanClockMux id;
-+
-+    uint32_t *reg_cm;
-+
-+    Clock *plla_in;
-+    Clock *plld_in;
-+    Clock *out;
-+} CprmanDsi0HsckMuxState;
-+
- struct BCM2835CprmanState {
-     /*< private >*/
-     SysBusDevice parent_obj;
-@@ -184,6 +198,7 @@ struct BCM2835CprmanState {
-     CprmanPllState plls[CPRMAN_NUM_PLL];
-     CprmanPllChannelState channels[CPRMAN_NUM_PLL_CHANNEL];
-     CprmanClockMuxState clock_muxes[CPRMAN_NUM_CLOCK_MUX];
-+    CprmanDsi0HsckMuxState dsi0hsck_mux;
- 
-     uint32_t regs[CPRMAN_NUM_REGS];
-     uint32_t xosc_freq;
-diff --git a/include/hw/misc/bcm2835_cprman_internals.h b/include/hw/misc/bcm2835_cprman_internals.h
-index 0305448bbc7..a6e799075f7 100644
---- a/include/hw/misc/bcm2835_cprman_internals.h
-+++ b/include/hw/misc/bcm2835_cprman_internals.h
-@@ -15,6 +15,7 @@
- #define TYPE_CPRMAN_PLL "bcm2835-cprman-pll"
- #define TYPE_CPRMAN_PLL_CHANNEL "bcm2835-cprman-pll-channel"
- #define TYPE_CPRMAN_CLOCK_MUX "bcm2835-cprman-clock-mux"
-+#define TYPE_CPRMAN_DSI0HSCK_MUX "bcm2835-cprman-dsi0hsck-mux"
- 
- DECLARE_INSTANCE_CHECKER(CprmanPllState, CPRMAN_PLL,
-                          TYPE_CPRMAN_PLL)
-@@ -22,6 +23,8 @@ DECLARE_INSTANCE_CHECKER(CprmanPllChannelState, CPRMAN_PLL_CHANNEL,
-                          TYPE_CPRMAN_PLL_CHANNEL)
- DECLARE_INSTANCE_CHECKER(CprmanClockMuxState, CPRMAN_CLOCK_MUX,
-                          TYPE_CPRMAN_CLOCK_MUX)
-+DECLARE_INSTANCE_CHECKER(CprmanDsi0HsckMuxState, CPRMAN_DSI0HSCK_MUX,
-+                         TYPE_CPRMAN_DSI0HSCK_MUX)
- 
- /* Register map */
- 
-@@ -223,6 +226,9 @@ REG32(CM_LOCK, 0x114)
-     FIELD(CM_LOCK, FLOCKB, 9, 1)
-     FIELD(CM_LOCK, FLOCKA, 8, 1)
- 
-+REG32(CM_DSI0HSCK, 0x120)
-+    FIELD(CM_DSI0HSCK, SELPLLD, 0, 1)
-+
- /*
-  * This field is common to all registers. Each register write value must match
-  * the CPRMAN_PASSWORD magic value in its 8 MSB.
-diff --git a/hw/misc/bcm2835_cprman.c b/hw/misc/bcm2835_cprman.c
-index 919a55aa23f..7a7401963d5 100644
---- a/hw/misc/bcm2835_cprman.c
-+++ b/hw/misc/bcm2835_cprman.c
-@@ -339,6 +339,58 @@ static const TypeInfo cprman_clock_mux_info = {
- };
- 
- 
-+/* DSI0HSCK mux */
-+
-+static void dsi0hsck_mux_update(CprmanDsi0HsckMuxState *s)
-+{
-+    bool src_is_plld = FIELD_EX32(*s->reg_cm, CM_DSI0HSCK, SELPLLD);
-+    Clock *src = src_is_plld ? s->plld_in : s->plla_in;
-+
-+    clock_update(s->out, clock_get(src));
-+}
-+
-+static void dsi0hsck_mux_in_update(void *opaque)
-+{
-+    dsi0hsck_mux_update(CPRMAN_DSI0HSCK_MUX(opaque));
-+}
-+
-+static void dsi0hsck_mux_init(Object *obj)
-+{
-+    CprmanDsi0HsckMuxState *s = CPRMAN_DSI0HSCK_MUX(obj);
-+    DeviceState *dev = DEVICE(obj);
-+
-+    s->plla_in = qdev_init_clock_in(dev, "plla-in", dsi0hsck_mux_in_update, s);
-+    s->plld_in = qdev_init_clock_in(dev, "plld-in", dsi0hsck_mux_in_update, s);
-+    s->out = qdev_init_clock_out(DEVICE(s), "out");
-+}
-+
-+static const VMStateDescription dsi0hsck_mux_vmstate = {
-+    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(plla_in, CprmanDsi0HsckMuxState),
-+        VMSTATE_CLOCK(plld_in, CprmanDsi0HsckMuxState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void dsi0hsck_mux_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    dc->vmsd = &dsi0hsck_mux_vmstate;
-+}
-+
-+static const TypeInfo cprman_dsi0hsck_mux_info = {
-+    .name = TYPE_CPRMAN_DSI0HSCK_MUX,
-+    .parent = TYPE_DEVICE,
-+    .instance_size = sizeof(CprmanDsi0HsckMuxState),
-+    .class_init = dsi0hsck_mux_class_init,
-+    .instance_init = dsi0hsck_mux_init,
-+};
-+
-+
- /* CPRMAN "top level" model */
- 
- static uint32_t get_cm_lock(const BCM2835CprmanState *s)
-@@ -501,6 +553,10 @@ static void cprman_write(void *opaque, hwaddr offset,
-     case R_CM_EMMC2CTL ... R_CM_EMMC2DIV:
-         update_mux_from_cm(s, idx);
-         break;
-+
-+    case R_CM_DSI0HSCK:
-+        dsi0hsck_mux_update(&s->dsi0hsck_mux);
-+        break;
-     }
- }
- 
-@@ -540,6 +596,8 @@ static void cprman_reset(DeviceState *dev)
-         device_cold_reset(DEVICE(&s->channels[i]));
-     }
- 
-+    device_cold_reset(DEVICE(&s->dsi0hsck_mux));
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         device_cold_reset(DEVICE(&s->clock_muxes[i]));
-     }
-@@ -565,6 +623,10 @@ static void cprman_init(Object *obj)
-         set_pll_channel_init_info(s, &s->channels[i], i);
-     }
- 
-+    object_initialize_child(obj, "dsi0hsck-mux",
-+                            &s->dsi0hsck_mux, TYPE_CPRMAN_DSI0HSCK_MUX);
-+    s->dsi0hsck_mux.reg_cm = &s->regs[R_CM_DSI0HSCK];
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         char *alias;
- 
-@@ -612,7 +674,7 @@ static void connect_mux_sources(BCM2835CprmanState *s,
-         if (mapping == CPRMAN_CLOCK_SRC_FORCE_GROUND) {
-             src = s->gnd;
-         } else if (mapping == CPRMAN_CLOCK_SRC_DSI0HSCK) {
--            src = s->gnd; /* TODO */
-+            src = s->dsi0hsck_mux.out;
-         } else if (i < CPRMAN_CLOCK_SRC_PLLA) {
-             src = CLK_SRC_MAPPING[i];
-         } else {
-@@ -650,6 +712,15 @@ static void cprman_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
-+    clock_set_source(s->dsi0hsck_mux.plla_in,
-+                     s->channels[CPRMAN_PLLA_CHANNEL_DSI0].out);
-+    clock_set_source(s->dsi0hsck_mux.plld_in,
-+                     s->channels[CPRMAN_PLLD_CHANNEL_DSI0].out);
-+
-+    if (!qdev_realize(DEVICE(&s->dsi0hsck_mux), NULL, errp)) {
-+        return;
-+    }
-+
-     for (i = 0; i < CPRMAN_NUM_CLOCK_MUX; i++) {
-         CprmanClockMuxState *clock_mux = &s->clock_muxes[i];
- 
-@@ -700,6 +771,7 @@ static void cprman_register_types(void)
-     type_register_static(&cprman_pll_info);
-     type_register_static(&cprman_pll_channel_info);
-     type_register_static(&cprman_clock_mux_info);
-+    type_register_static(&cprman_dsi0hsck_mux_info);
- }
- 
- type_init(cprman_register_types);
--- 
-2.20.1
+So simply opening a FS file with O_NONBLOCK or calling
+qemu_try_set_nonblock(fd) with the resulting fd doesn't really help to
+check it's async (unless I am missing a trick to slow down disk IO
+somehow...?)
+
+It's annoying that it also does O_TRUNC: even if you pass a
+socket/pipe to add-fd, it will fail to ftruncate() (via the
+"/dev/fdset" path). Furthermore, access mode check seems kinda
+incomplete. Afaict, in monitor_fdset_dup_fd_add(), F_GETFL may return
+O_RDWR which is different than O_RDONLY or O_WRONLY, yet should be
+considered compatible for the caller I think..
+
+With some little hacks though, I could check passing a pipe does
+indeed make PPM save async, and the main loop is reentered. I don't
+know if it's enough to convince you it's not really the problem of
+this code change though. We get coroutine IO by accident here, I think
+we already said that.
+
+> The commit message says "ppm_save() will write the screen image to disk
+> in the coroutine context (thus non-blocking)."  Sure reads like a claim
+> the main loop is no longer blocked.  It is blocked, at least for me.
+> Please clarify.
+
+Let's clarify it by saying it's still blocking then, and tackle that
+in a future change.
+
+> Back then, I proposed a second experiment: "does the main loop continue
+> to run while we wait for graphic_hw_update_done()?"  I don't know the
+> result.  Do you?
+>
+> The commit message claims "the screendump handler can trigger a
+> graphic_hw_update(), yield and let the main loop run until update is
+> done."
+
+Isn't it clearly the case with the BH being triggered after main loop?
 
 
