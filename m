@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34BA29ABFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:22:31 +0100 (CET)
-Received: from localhost ([::1]:38184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E071029AC03
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:24:43 +0100 (CET)
+Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNzj-000202-0S
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:22:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
+	id 1kXO1q-00054K-Vv
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:24:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXN4I-00044l-HH
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:23:10 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22470)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXN7W-0006Xz-Ja
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:26:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23653)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXN4G-0005Cj-AQ
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:23:10 -0400
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXN7U-0006Xa-W1
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:26:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603797787;
+ s=mimecast20190719; t=1603797988;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KuHtg5DPV7fM/u8ITYa4IOEd+hP5MPv/+F+SuJZ8V5I=;
- b=WSgRmuqz+4vC3yVGY4oRogo+EsqZuWqKBGUDADpmiP1ZnMJhiU6yIjCuEla/MecRPFylW7
- 8iOF1FRN/CTiTyR2HVSMucU8jupBx/1M2rWZL6+H1avKANrZajfxGQ+gfX5McncT6oFt7D
- E0IIhZFx4Gg/OzFZIb2L3nJlQjyCo20=
+ bh=S4/NL/KGQKBSMdAEfz8eWXb9JiEt3fUU7n7P1UHlDIs=;
+ b=AzejQ37nZf4YszF79ZkCaCVsvO7eeWmYUCAMEEW9vbjCZRWPfruPMmItWfwu6XMQVS8SW/
+ 4HJsGiN7bZDSCkU2juotRO6bMFJSPHrvzbTbKotKJHFmoAyE+izOaIPmN56R0UXb19VO2R
+ HZDrAKjmu5Ciglb/EJzcoabCKJ+7NYk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-zhw_Slz_Muqy69NxyAb7IA-1; Tue, 27 Oct 2020 07:23:04 -0400
-X-MC-Unique: zhw_Slz_Muqy69NxyAb7IA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-435-73iB2FqzN3qZiYR340bA2Q-1; Tue, 27 Oct 2020 07:26:25 -0400
+X-MC-Unique: 73iB2FqzN3qZiYR340bA2Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFA121019626
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 11:23:03 +0000 (UTC)
-Received: from localhost (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6939B6115F;
- Tue, 27 Oct 2020 11:23:03 +0000 (UTC)
-Date: Tue, 27 Oct 2020 11:23:02 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] trace: remove argument from trace_init_file
-Message-ID: <20201027112302.GG79063@stefanha-x1.localdomain>
-References: <20201026144019.3044362-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 285D28DB60A;
+ Tue, 27 Oct 2020 11:26:24 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-35.ams2.redhat.com [10.36.115.35])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6975055772;
+ Tue, 27 Oct 2020 11:26:22 +0000 (UTC)
+Subject: Re: [PATCH v2 2/6] configure: avoid new clang 11+ warnings
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>, Cornelia Huck
+ <cohuck@redhat.com>, qemu-devel@nongnu.org
+References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
+ <20201023200645.1055-3-dbuono@linux.vnet.ibm.com>
+ <96d4c76c-dfbb-f985-2718-0892ea1b83d4@redhat.com>
+ <a5a32430-6eaa-1734-a402-4b0a3e079827@linux.vnet.ibm.com>
+ <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <4ca1ef0b-fe52-a5e5-485a-2827fda58f4d@redhat.com>
+Date: Tue, 27 Oct 2020 12:26:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201026144019.3044362-1-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <98a03470-4694-f63a-7104-ae576e4799ce@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="RDS4xtyBfx+7DiaI"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,54 +88,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---RDS4xtyBfx+7DiaI
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 26/10/2020 16.12, Paolo Bonzini wrote:
+> On 26/10/20 16:03, Daniele Buono wrote:
+>> Hi Paolo,
+>> I reorganized UASStatus to put uas_iu at the end and it works fine.
+>> Unfortunately, this uncovered another part of the code with a similar
+>> issue (variable sized type not at the end of the struct), here:
+>>
+>> In file included from ../qemu-cfi-v3/target/s390x/diag.c:21:
+>> ../qemu-cfi-v3/hw/s390x/ipl.h:161:23: error: field 'iplb' with variable
+>> sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at
+>> the end of a struct or class is a GNU extension
+>> [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>>     IplParameterBlock iplb;
+>>                       ^
+>> ../qemu-cfi-v3/hw/s390x/ipl.h:162:23: error: field 'iplb_pv' with
+>> variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock')
+>> not at the end of a struct or class is a GNU extension
+>> [-Werror,-Wgnu-variable-sized-type-not-at-end]
+>>     IplParameterBlock iplb_pv;
+>>
+>> My understanding is that each of these IplParameterBlock may contain
+>> either a IPLBlockPV or a IplBlockFcp, which both end with a variable
+>> sized field (an array).
+>>
+>> Adding maintainers of s390x to see if they have a suggested solution to
+>> avoid disabling the warning.
+> 
+> This one seems okay because the union constrains the size to 4K. If
+> "[0]" is enough to shut up the compiler, I'd say do that.
 
-On Mon, Oct 26, 2020 at 10:40:19AM -0400, Paolo Bonzini wrote:
-> It is not needed, all the callers are just saving what was
-> retrieved from -trace and trace_init_file can retrieve it
-> on its own.
->=20
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  bsd-user/main.c                      |  6 ++----
->  linux-user/main.c                    |  6 ++----
->  qemu-img.c                           |  6 ++----
->  qemu-io.c                            |  6 ++----
->  qemu-nbd.c                           |  6 ++----
->  scsi/qemu-pr-helper.c                |  6 ++----
->  softmmu/vl.c                         |  6 ++----
->  storage-daemon/qemu-storage-daemon.c |  9 +++------
->  trace/control.c                      | 10 ++++------
->  trace/control.h                      | 12 +++---------
->  10 files changed, 24 insertions(+), 49 deletions(-)
+The "IplBlockFcp fcp" part seems to be completely unused, so I think you
+could even remove that IplBlockFcp struct. For IPLBlockPV I agree with
+Paolo, it's likely easiest to use [0] for that struct.
 
-Thanks, applied to my tracing-next tree:
-https://gitlab.com/stefanha/qemu/commits/tracing-next
-
-Stefan
-
---RDS4xtyBfx+7DiaI
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+YAxYACgkQnKSrs4Gr
-c8jv7QgAg6MYI6nTG/obnoOi6y6aDmOUAeN3j7jB7mW1h3zvaSW2DHtWnhCUDpf0
-c1d4s9VfdBGQoQ49pNpetGwcl0YeCb4Xaz4MVoFFIqcSQuoKXwNDV5ZV+A/eBl8C
-z9UgDox34Kjv3duZb1GOUJl6Y0vjyD03/A26W8LzluSCOG2P+IDyw3XAAQLgiTqb
-fR98IUXt8dkkZ/CO3BdR1OMv/vSeFi/9tQXtzdsFddc0aACMlY4YZyGn2Wu991nr
-e25s9eE93R3WTKnnvWWK2XWCwi7lqf5NCQmNJ6C7tFJNXra/owIRVdBsmSRugkFO
-DAGpXBYcBl0vXRjGwdyVGVbWCE+39g==
-=+H+0
------END PGP SIGNATURE-----
-
---RDS4xtyBfx+7DiaI--
+ Thomas
 
 
