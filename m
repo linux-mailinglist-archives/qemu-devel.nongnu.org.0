@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A5429A8AF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:05:23 +0100 (CET)
-Received: from localhost ([::1]:42780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E1729A8AD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:05:03 +0100 (CET)
+Received: from localhost ([::1]:42246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLr0-0003c5-5M
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:05:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54378)
+	id 1kXLqg-0003Oo-Pr
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:05:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLlg-0006qB-Jf
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:52 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40453)
+ id 1kXLli-0006tS-00
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:54 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:33594)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLle-0000RD-Me
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:52 -0400
-Received: by mail-wm1-x336.google.com with SMTP id k18so765925wmj.5
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:50 -0700 (PDT)
+ id 1kXLlg-0000Ra-6t
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:53 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id b8so1194074wrn.0
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=lQMst0vXtb4Gg0mYZJn8zq4jVmArpnP9j0CDdQR53Fo=;
- b=DHk2RCujppzlQ7+fcFFxRrGca+ff9nXNQeeQl3B7PwBG+2NLPV1DNLu+XIPo/AAjiX
- TvX2dsBxOcG4TbBwLFknXXYCbpTEVAUgp8uUdf1Yrz2LDbkIQFm2cxt5ZgAaphsJYmG7
- OZyybFNsNLV2Yx5MPGjQVxbmWw5zbn7kN3KH4MjTMdR+tFKsR0asZpQWBmGAKBFbxfoA
- 44o3KIKFyF2664ojEmzZ308b5BVwj0E1Bfu3DHBiPxBtrGrHzkyqS+fuQZD54zTek6O3
- YvjLr9+kQqBWHsef0myuwBklGAu3/v2CN88CPf1/XCtnxNv0EU93GETET0rdTXPw/Vgd
- XG8Q==
+ bh=6RhO4cdwQCgpwQ0W5UH+iqbHXTkkBBBZq5r2GBAXBI4=;
+ b=eNu+1ZUDW7KK31w7OGjrpCAJulmG/4nOnjtfA2SJE/8ZY22qxBlV/l4icyfzkz1G0w
+ j+xFsROdEcuechc+gGzi9Pn7yljLn/s546mg34tfqwiia2pihGEIr8HEGsEt9UUIQ+Xx
+ MBCWYIxCXseM93NMI8QfXllMmDwzaAG0Q5zWLL9wpBCq8l5xqx9TcC5rnvZm7vdz3K4h
+ 2JpksBEIBcLfhcBcKNdDeusNCe+ThjunFo19m1aM5fRQEMjY52nAHPRX+8rgRiE0QpqB
+ MNOdKCw/kTB/Fv0ps+dKBo8X9vG30WCbp68G5BPdR478T0puxbTzLZHpG9Mk3RDEO6Rx
+ 6l3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lQMst0vXtb4Gg0mYZJn8zq4jVmArpnP9j0CDdQR53Fo=;
- b=Q2F9kHHjvZrj8ylmMIlzRHKk51DhoBeJkSKnEMJ6tFPZSIXcESPrlQkZE/DJw0qk0H
- PYpV4GBIvur103hgiK12dCpFcqYoPwmk6nItD7NwywDFUzenQrsiSO3obVAkYhKq2BJo
- aSekXt5Lw3E/8g5iGKqpNJ2TxfC1/DqYvjw8Y+GYF8KlGv6cH/YZf8czfCZnl+LeqZ1a
- emRG3POD74yaQEdrU90IbbpetuCSukFFPVwhrnRiLpMbwyv9+tg3kKbPIgTjQw0sE6x6
- l/7+5a4oyfB9NoGGjcOuCPr/UoxV11m/ldTOYrKU7l8WSOHpP9uYDwOc3udTee3jyW/3
- N9Sg==
-X-Gm-Message-State: AOAM5336aBvQ+Jrna/9P/+kG5Buj9QMSLFIVqQGdslRUdaYDLAHnFM71
- XHQftJcA5yPRw1FAddmqG6gjIy4odp7vkg==
-X-Google-Smtp-Source: ABdhPJx0frd3m/iZNyQrrBVl1v/ShXDknJ7npPZnZfW9LfiimbHmWyAuzw/goenPLcK7tMbd9+4iDQ==
-X-Received: by 2002:a7b:c04a:: with SMTP id u10mr1899209wmc.83.1603792789383; 
- Tue, 27 Oct 2020 02:59:49 -0700 (PDT)
+ bh=6RhO4cdwQCgpwQ0W5UH+iqbHXTkkBBBZq5r2GBAXBI4=;
+ b=KbgaDqDcq+ixsMcGE8LjyEoXoSDobsH08u1u9daht+UAo2mbuRlPmAo/wED3f1dOP0
+ 3CxXoQ/xcUFSZxn4udXknMl6VL4ufI0+bxHlFWAFlUw7/D5CGxrm5DKdJ40iljAUFUak
+ al3G1Kolrf2RL7kOQD2ydCh64IFluckso2oJUi5st7bpLwfjzg2Blgwj5eyPmmTN4jFw
+ XCVaGh/Qm6O2G+tQ9UIU4+WcGH1R8jHEWefXevcOcSGadIBzZ+Zl6U4BI+bOEThTjNQh
+ pmNkfwv6RNC/eDAF4hUdJqp4K4gxvfWaJcVNXUEZCDhMHS8WZ8vEvS8K+Nbv8xdjgmhu
+ 1NuA==
+X-Gm-Message-State: AOAM5327NpSrii9IXrqWjqCH9TxfKTgnTQAzy/rGFNHItcEsL8hbKnnh
+ 8ghhzU0yj9pwH5hD/WENt57Z/A==
+X-Google-Smtp-Source: ABdhPJxbPqI2rJquE4iqYyJkUhQTxEKSMF7Dx0AwF251D9zHSac0xbJN6M3eD4rdtkhNqcVGBc9vvg==
+X-Received: by 2002:adf:9150:: with SMTP id j74mr1973074wrj.57.1603792790552; 
+ Tue, 27 Oct 2020 02:59:50 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n5sm1311022wrm.2.2020.10.27.02.59.41
+ by smtp.gmail.com with ESMTPSA id 30sm1392304wrr.35.2020.10.27.02.59.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Oct 2020 02:59:43 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4EFBA1FF92;
+ by zen.linaroharston (Postfix) with ESMTP id 669C31FF93;
  Tue, 27 Oct 2020 09:59:39 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 6/8] tests/acceptance: pick a random gdb port for reverse
- debugging
-Date: Tue, 27 Oct 2020 09:59:36 +0000
-Message-Id: <20201027095938.28673-7-alex.bennee@linaro.org>
+Subject: [PULL 7/8] gitlab-ci: Clone from GitLab itself
+Date: Tue, 27 Oct 2020 09:59:37 +0000
+Message-Id: <20201027095938.28673-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027095938.28673-1-alex.bennee@linaro.org>
 References: <20201027095938.28673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,85 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>, Cleber Rosa <crosa@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the test randomly fails if you are using a shared machine
-due to contention on the well known port 1234. We can ameliorate this
-a bit by picking a random non-ephemeral port although it doesn't
-totally avoid the problem. While we could use a totally unique socket
-address for debugging it is fiddly to probe for gdb support. While gdb
-socket debugging is not yet ubiquitous this a sub-optimal but workable
-option.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Let GitLab runners use GitLab repository directly.
+
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201021163136.27324-7-alex.bennee@linaro.org>
+Message-Id: <20201022123302.2884788-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-diff --git a/tests/acceptance/reverse_debugging.py b/tests/acceptance/reverse_debugging.py
-index b72fdf6cdc..be01aca217 100644
---- a/tests/acceptance/reverse_debugging.py
-+++ b/tests/acceptance/reverse_debugging.py
-@@ -14,6 +14,7 @@ from avocado import skipIf
- from avocado_qemu import BUILD_DIR
- from avocado.utils import gdb
- from avocado.utils import process
-+from avocado.utils.network.ports import find_free_port
- from avocado.utils.path import find_command
- from boot_linux_console import LinuxKernelTest
- 
-@@ -33,7 +34,7 @@ class ReverseDebugging(LinuxKernelTest):
-     STEPS = 10
-     endian_is_le = True
- 
--    def run_vm(self, record, shift, args, replay_path, image_path):
-+    def run_vm(self, record, shift, args, replay_path, image_path, port):
-         logger = logging.getLogger('replay')
-         vm = self.get_vm()
-         vm.set_console()
-@@ -43,7 +44,7 @@ class ReverseDebugging(LinuxKernelTest):
-         else:
-             logger.info('replaying the execution...')
-             mode = 'replay'
--            vm.add_args('-s', '-S')
-+            vm.add_args('-gdb', 'tcp::%d' % port, '-S')
-         vm.add_args('-icount', 'shift=%s,rr=%s,rrfile=%s,rrsnapshot=init' %
-                     (shift, mode, replay_path),
-                     '-net', 'none')
-@@ -109,9 +110,10 @@ class ReverseDebugging(LinuxKernelTest):
-         process.run(cmd)
- 
-         replay_path = os.path.join(self.workdir, 'replay.bin')
-+        port = find_free_port()
- 
-         # record the log
--        vm = self.run_vm(True, shift, args, replay_path, image_path)
-+        vm = self.run_vm(True, shift, args, replay_path, image_path, port)
-         while self.vm_get_icount(vm) <= self.STEPS:
-             pass
-         last_icount = self.vm_get_icount(vm)
-@@ -120,9 +122,9 @@ class ReverseDebugging(LinuxKernelTest):
-         logger.info("recorded log with %s+ steps" % last_icount)
- 
-         # replay and run debug commands
--        vm = self.run_vm(False, shift, args, replay_path, image_path)
-+        vm = self.run_vm(False, shift, args, replay_path, image_path, port)
-         logger.info('connecting to gdbstub')
--        g = gdb.GDBRemote('127.0.0.1', 1234, False, False)
-+        g = gdb.GDBRemote('127.0.0.1', port, False, False)
-         g.connect()
-         r = g.cmd(b'qSupported')
-         if b'qXfer:features:read+' in r:
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 5d6773efd2..3b15ae5c30 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -24,6 +24,7 @@ include:
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   before_script:
+     - JOBS=$(expr $(nproc) + 1)
++    - sed -i s,git.qemu.org/git,gitlab.com/qemu-project, .gitmodules
+   script:
+     - mkdir build
+     - cd build
 -- 
 2.20.1
 
