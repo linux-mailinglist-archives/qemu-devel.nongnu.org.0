@@ -2,76 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E73F29BE0C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:55:05 +0100 (CET)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C3D129BE79
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:57:26 +0100 (CET)
+Received: from localhost ([::1]:43622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXSFU-0006ha-Kp
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:55:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56532)
+	id 1kXSHl-0000nr-H4
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:57:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kXSC0-0003NR-BU
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:51:28 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43264)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kXSBv-0004Ro-Je
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:51:27 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id o9so1054465plx.10
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 09:51:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=SJ7E8JqgOLx2ZEpYUNi3ic5vKG5NWEQV9qbwhc56KHQ=;
- b=fPualdzQSWBq+Cbb+/WPwqu/ApZ1ZDK3IVAnh8cfGam3aUKZ592jzZtZvdXO3eH39J
- eU61iCSp6ptAYZmuYHTs6TnU/rRNh/0a5nKtuSHWlNPqRJTyaceiB0GZCg2A74VnKhSY
- e9xyNDrfPSFKdhYJ0Rl+H7Vn9l1tCAp3AJfvhscLpC3NTHW1sRn4u8l1SMZPHuk3tF7q
- RwFwZiYTrZTJByUJl1URPrscDwdRbChqOaAfMaBH7aKjki1lox0/wke/1bAqvoVn75IZ
- 9iDe06s9ctSNvXJaAHQFEN3O5ghfLmBbB8oyMcyr5Z1wINnXLiTliopdWr2Wo0xwNTqD
- I2Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=SJ7E8JqgOLx2ZEpYUNi3ic5vKG5NWEQV9qbwhc56KHQ=;
- b=KVzFuCKAAdmd9qmHu2DdDwHugrSBpKZsfclWv4KInlAtCEsKWEScFKgTcU3BI8DDOP
- IuVHpmWk1Db/UKIi0XgDpffYGLzmb9fvpRvx/Bf6I1EnMzaTPvwXRcWM20dBFAqnIMlG
- h4aNUyr8cM6lPGJPNSAQ49M0I+VTNV/D9w8bHJ1YuaTqYUEaDVm7x/+wT+0of5JZpUE5
- SCswNzo9XTdiCA3Jb7xhh6ea4nATMZ+BemNiMO19c6h+XEmuI1IR2MvtcF7mcSAvMA4O
- jNGNlgJRacS/s71Z/mV/kbT5ty47j+jKifKgmruSJN9SHyruU2zpxti/LWDo7OIxjKbe
- dTcA==
-X-Gm-Message-State: AOAM5310KFO+In8uwdhXvoGGN6F9rGTHJ0oPKBB9KfwL8NcCvwStaBET
- fXzD+ABjqm+Oildovw6OkdpSOi7m9TQZQQ==
-X-Google-Smtp-Source: ABdhPJzjgihkqa6PvHlMUcYfxsWLQbAqqZmnnceeTOMpErPIBKZkavL6ob0UsKxOhvtT20OUhC3Rsw==
-X-Received: by 2002:a17:90a:a898:: with SMTP id
- h24mr2843421pjq.179.1603817481803; 
- Tue, 27 Oct 2020 09:51:21 -0700 (PDT)
-Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q16sm2955283pfj.117.2020.10.27.09.51.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 09:51:21 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] accel/tcg: Add CPU_LOG_EXEC tracing for cpu_io_recompile()
-Date: Tue, 27 Oct 2020 09:51:14 -0700
-Message-Id: <20201027165114.71508-4-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027165114.71508-1-richard.henderson@linaro.org>
-References: <20201027165114.71508-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kXSG7-00085o-Hm; Tue, 27 Oct 2020 12:55:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:37796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kXSG5-00056t-9N; Tue, 27 Oct 2020 12:55:43 -0400
+Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id C43C520727;
+ Tue, 27 Oct 2020 16:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603817737;
+ bh=BMs5obZUPpYBtUZ4TxUvPAeYZXq44y4wXr2o/DN5pSk=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=cdrc6pQijo3nY03E1BEfAy8ylNuR6XtMUWRh716dWCW/q5hFH5VbXXlDo85hATZhG
+ Lil4rhH6WyTRBymMdJ7kkuc0Zl4Wnma2HY7DNOfTasIWpTjGk2+lmAjtejKJ4NrudO
+ Ce5bvASudrr2MQmIOG+TKYVOQLqDIa6rKCrE3AkE=
+Date: Tue, 27 Oct 2020 09:55:34 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 08/25] block/nvme: Simplify device reset
+Message-ID: <20201027165534.GA1942297@dhcp-10-100-145-180.wdc.com>
+References: <20201027135547.374946-1-philmd@redhat.com>
+ <20201027135547.374946-9-philmd@redhat.com>
+ <20201027145831.GC1942271@dhcp-10-100-145-180.wdc.com>
+ <1bb84312-1c78-7e1a-058b-4ff6330076b1@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1bb84312-1c78-7e1a-058b-4ff6330076b1@redhat.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:45:26
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,49 +66,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+On Tue, Oct 27, 2020 at 04:53:31PM +0100, Philippe Mathieu-Daudé wrote:
+> On 10/27/20 3:58 PM, Keith Busch wrote:
+> > On Tue, Oct 27, 2020 at 02:55:30PM +0100, Philippe Mathieu-Daudé wrote:
+> >> Avoid multiple endianess conversion by using device endianess.
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> >> ---
+> >>  block/nvme.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/block/nvme.c b/block/nvme.c
+> >> index e95d59d3126..be14350f959 100644
+> >> --- a/block/nvme.c
+> >> +++ b/block/nvme.c
+> >> @@ -755,7 +755,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+> >>      timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
+> >>  
+> >>      /* Reset device to get a clean state. */
+> >> -    regs->cc = cpu_to_le32(le32_to_cpu(regs->cc) & 0xFE);
+> >> +    regs->cc &= const_le32(0xFE);
+> > 
+> > This doesn't look right. The 'regs' is an MMIO address, correct? Memory
+> > mappings use the CPU native access.
+> 
+> cc is little-endian uint32_t.
 
-When using -icount, it's useful for the CPU_LOG_EXEC logging
-to include information about when cpu_io_recompile() was
-called, because it alerts the reader of the log that the
-tracing of a previous TB execution may not actually
-correspond to an actually executed instruction. For instance
-if you're using -icount and also -singlestep then a guest
-instruction that makes an IO access appears in two
-"Trace" lines, once in a TB that triggers the cpu_io_recompile()
-and then again in the TB that actually executes.
+Well, yes and no. PCI is defined as a little endian transport, so all
+CPUs have to automatically convert from their native format when
+accessing memory mapped addresses over that transport, so you always use
+the arch native format from the host software.
 
-(This is a similar reason to why the "Stopped execution of
-TB chain before..." logging in cpu_tb_exec() is helpful
-when trying to track execution flow in the logs.)
+This isn't just for CC. This includes all memory mapped registers, so
+this driver's CSTS, AQA, doorbells, etc... shouldn't have any endian
+swapping.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20201013122658.4620-1-peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- accel/tcg/translate-all.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index d76097296d..4572b4901f 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2267,6 +2267,10 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-         tb_destroy(tb);
-     }
- 
-+    qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
-+                           "cpu_io_recompile: rewound execution of TB to "
-+                           TARGET_FMT_lx "\n", tb->pc);
-+
-     /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
-      * the first in the TB) then we end up generating a whole new TB and
-      *  repeating the fault, which is horribly inefficient.
--- 
-2.25.1
-
+See also: every other nvme driver. :)
 
