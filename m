@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4A3729A95C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:19:41 +0100 (CET)
-Received: from localhost ([::1]:42654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E122B29A974
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:21:25 +0100 (CET)
+Received: from localhost ([::1]:45978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXM4q-0007av-H9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:19:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59852)
+	id 1kXM6W-0000ld-Tq
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:21:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2d-0006dv-4b
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28852)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2i-0006ga-5o
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2Y-0006kj-8b
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:22 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2Y-0006kl-8l
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603793832;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=iMWIBbcBQZu+bsW3tJ+hmmdRyvVbI+80tcqo2QZP1OI=;
- b=duDSUSo9CnoAcp7OUytS2sqRMCyUhel3aZXG682r5VbSP1zNKfrKcOpAT2hjpQ7HYDngNQ
- 6yuHH6QyAWdeUvNSIM4NY4AHU+Qdgy6lPqZAQ4b7gF9iCK4ufERZ4vjWw5K66Nl8eX+wjC
- n8k/j7vzPZis4rzmm3rVY6PEdgzYPNA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=21CM+O9+9oFHxui0ed4MkRFMFinjKRqBz5uzt7zeOiY=;
+ b=CtSa7wqJHjsFMF4Y7kFmG+5QK5Lya9IEFfD9122lExLfJsSMp/QUMZjoJJ1YszFl/4J5pr
+ dbCFuL2DlEq0qFFoiaprxupDljO1hT1S0whY79hgHpTIobGvNI5bOdk743kcPUiTAmupg6
+ 9pJEGNTz7GEdnwWr1J96O9ElbMtfAMA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-KrgJaDJfMIGvOSCG4KpDaA-1; Tue, 27 Oct 2020 06:17:10 -0400
-X-MC-Unique: KrgJaDJfMIGvOSCG4KpDaA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-490-OLskgs-9P9GdajWnMJ1zYA-1; Tue, 27 Oct 2020 06:17:10 -0400
+X-MC-Unique: OLskgs-9P9GdajWnMJ1zYA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 214DB186842E;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 392C58030D4;
  Tue, 27 Oct 2020 10:17:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E8F5B60C07;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F371410013D9;
  Tue, 27 Oct 2020 10:17:08 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8371B113865F; Tue, 27 Oct 2020 11:17:07 +0100 (CET)
+ id 86570113861E; Tue, 27 Oct 2020 11:17:07 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/2] QMP patches patches for 2020-10-27
-Date: Tue, 27 Oct 2020 11:17:05 +0100
-Message-Id: <20201027101707.2988553-1-armbru@redhat.com>
+Subject: [PULL 1/2] qmp-shell: Sort by key when pretty-printing
+Date: Tue, 27 Oct 2020 11:17:06 +0100
+Message-Id: <20201027101707.2988553-2-armbru@redhat.com>
+In-Reply-To: <20201027101707.2988553-1-armbru@redhat.com>
+References: <20201027101707.2988553-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -78,36 +81,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: David Edmondson <david.edmondson@oracle.com>, peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1dc887329a10903940501b43e8c0cc67af7c06d5:
+From: David Edmondson <david.edmondson@oracle.com>
 
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20201026' into staging (2020-10-26 17:19:26 +0000)
+If the user selects pretty-printing (-p) the contents of any
+dictionaries in the output are sorted by key.
 
-are available in the Git repository at:
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <20201013141414.18398-1-david.edmondson@oracle.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qmp/qmp-shell | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://repo.or.cz/qemu/armbru.git tags/pull-qmp-2020-10-27
-
-for you to fetch changes up to 36006046675228cf2fec904e717d96ca816cc21a:
-
-  scripts/qmp: delete 'qmp' script (2020-10-27 11:11:06 +0100)
-
-----------------------------------------------------------------
-QMP patches patches for 2020-10-27
-
-----------------------------------------------------------------
-David Edmondson (1):
-      qmp-shell: Sort by key when pretty-printing
-
-John Snow (1):
-      scripts/qmp: delete 'qmp' script
-
- scripts/qmp/qmp       | 131 +++-----------------------------------------------
- scripts/qmp/qmp-shell |   2 +-
- 2 files changed, 8 insertions(+), 125 deletions(-)
-
+diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+index c5eef06f3f..b4d06096ab 100755
+--- a/scripts/qmp/qmp-shell
++++ b/scripts/qmp/qmp-shell
+@@ -260,7 +260,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         indent = None
+         if self._pretty:
+             indent = 4
+-        jsobj = json.dumps(qmp, indent=indent)
++        jsobj = json.dumps(qmp, indent=indent, sort_keys=self._pretty)
+         print(str(jsobj))
+ 
+     def _execute_cmd(self, cmdline):
 -- 
 2.26.2
 
