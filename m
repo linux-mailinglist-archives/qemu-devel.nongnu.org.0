@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F190429AFF1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:14:38 +0100 (CET)
-Received: from localhost ([::1]:34548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6B129B101
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:26:43 +0100 (CET)
+Received: from localhost ([::1]:42250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPkE-0005Dt-07
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:14:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39822)
+	id 1kXPvu-0003fo-7U
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:26:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXPeO-0006y8-04
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:08:36 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXPeJ-0006Gd-MX
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:08:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603807707;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ld1euDwe3yzvwpzFj4cLI5ajmudDnqKTkbju3hA4dXk=;
- b=AheVojLlROGWHPIERrgL6skVKknjhfeSVwKnRC67hRbPq5BNpJPQyEatiIgPYKePJO+P/r
- Zd2WETinC/OWy5yFk5HtMqTBIrZ67W+NWIXlKAz01Sv8wsacw0zcQtnue2+XafDIAU5zlK
- karWvOB7zZUNS6wWq+RKztxcYNW+Vso=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-e2tkHk1LMkS_o2qKJh33PA-1; Tue, 27 Oct 2020 10:08:23 -0400
-X-MC-Unique: e2tkHk1LMkS_o2qKJh33PA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1AF61054F9F;
- Tue, 27 Oct 2020 14:08:19 +0000 (UTC)
-Received: from localhost (ovpn-115-166.ams2.redhat.com [10.36.115.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 646C45D9DD;
- Tue, 27 Oct 2020 14:08:19 +0000 (UTC)
-Date: Tue, 27 Oct 2020 14:08:18 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [RFC] Using gitlab for upstream qemu repo?
-Message-ID: <20201027140818.GC102411@stefanha-x1.localdomain>
-References: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
- <CAFEAcA8OjeQ-utD56inorMk8dM6RNRzr-6Dv-YEW4n=qBi_MBQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kXPej-0007AX-1C; Tue, 27 Oct 2020 10:08:58 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38487)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kXPeh-0006IL-4J; Tue, 27 Oct 2020 10:08:56 -0400
+Received: by mail-pg1-x541.google.com with SMTP id i26so856426pgl.5;
+ Tue, 27 Oct 2020 07:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OVPJ9OkO7wG7zNrQOHCRpGMpBXnhHoydn8Z+MKwMPzM=;
+ b=NNnRSjDHvDNF6PvERkRmkUaEC3shqvWQ24rF4vOrV0AqVFdUbKypNJb9KQ/tjnTxd9
+ PNEIzveVgwksLyl3HGs97i1wQRw2fqPVbH4RGqKEEqP7qsgL2GwouXYxdfPEYf/XsVDp
+ 1KDTOFsFZLaR5N8Tz0VA9yQi76rBJTeln/CPMrrhdHsU+h6zBKDUFXh85fq0YCTnx4lo
+ iNlgTfYQdOfxm6HYTA6pf+XyDi1/6uCew4E2Jt1auBM80VvG5n3xvdNqPAVzadmRo6Og
+ MBUEel+zHGNVeEUaeUkIrTpOyJAaU8RlNn4PEPiv9Wb6qF0RN5R59MQUWyckuDAc0oHH
+ hMYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=OVPJ9OkO7wG7zNrQOHCRpGMpBXnhHoydn8Z+MKwMPzM=;
+ b=erfax+iyh62X9F4ulhRFTBB0EGp5zLuEjexgEWkE8I2En98nDNV19G0tye9O9m2yYN
+ t8rhx5mdWZ13737FlLwLNq1zh8s1xCPGH0y6r1KYG8Ebj8zsL4vEMlgySzUIHFce5DsH
+ zFGkqzdjlcHZaamG7lE2bAbM/+JRXj/XxdKmgHi9iEy7VOIDouxQVDFQVUykwU4M+Nu6
+ oodJzZlF6hkoYCtFl34kIu7ycGBJP/gxwHwZ8uRumbnRVC3R+KWUT9rJ5UpR1OHWcOLf
+ r5ZOOSqRQdqWrpM0IZMp7JwPC/GLK534ua25fx2NoZQf77kB+7AsF2CBM+aZiXvI40IP
+ f/OA==
+X-Gm-Message-State: AOAM532Z13w3p6BxF4IjFWkPIFr55d5SiIGy/GwTPvCMjxqXhH8HINlM
+ VghCdtYhtNi1atNatO0YPw0=
+X-Google-Smtp-Source: ABdhPJynPJ0ZChMLMOQvGZjsMC3pgreGolsKpI/18whJqd42fU6apmpCBwZEDR16ZM4OqgtsYAWI9w==
+X-Received: by 2002:a62:8c81:0:b029:164:3789:5478 with SMTP id
+ m123-20020a628c810000b029016437895478mr2160178pfd.44.1603807732586; 
+ Tue, 27 Oct 2020 07:08:52 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id r22sm2540856pfg.51.2020.10.27.07.08.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 07:08:52 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+X-Google-Original-From: Bin Meng <bin.meng@windriver.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 0/9] hw/riscv: microchip_pfsoc: Support factory HSS boot out
+ of the box
+Date: Tue, 27 Oct 2020 22:08:31 +0800
+Message-Id: <20201027140840.18030-1-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8OjeQ-utD56inorMk8dM6RNRzr-6Dv-YEW4n=qBi_MBQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NU0Ex4SbNnrxsi6C"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,118 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- kraxel@redhat.com, "Justin M. Forbes" <jforbes@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Andreas Faerber <afaerber@suse.de>
+Cc: Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
+ Anup Patel <anup.patel@wdc.com>, Ivan Griffin <ivan.griffin@emdalo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NU0Ex4SbNnrxsi6C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+At present the DDR memory controller is not modeled, hence the factory
+HSS firmware does not boot out of the box on QEMU. A modified HSS is
+required per the instructions on [1].
 
-On Mon, Oct 26, 2020 at 11:04:06AM +0000, Peter Maydell wrote:
-> On Thu, 22 Oct 2020 at 17:48, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > now that Gitlab is the primary CI infrastructure for QEMU, and that all
-> > QEMU git repositories (including mirrors) are available on Gitlab, I
-> > would like to propose that committers use Gitlab when merging commits t=
-o
-> > QEMU repositories.
->=20
-> > Nothing would change for developers, who would still have access to all
-> > three sets of repositories (git.qemu.org, gitlab.com and github.com).
-> > Committers however would need to have an account on the
-> > https://gitlab.com/qemu-project organization with access to the
-> > repositories they care about.  They would also lose write access to
-> > /srv/git on qemu.org.
->=20
-> Yes, this makes sense. Who in practice does it actually affect?
-> For the main qemu.git repo, my guess is just me, Michael Roth
-> for the stable branches, plus Richard H and Stefan H who both
-> volunteered to do a turn on the merge-handling rota once we
-> eventually get it set up to not depend on my ad-hoc CI setup.
->=20
-> I have a gitlab account so I'm set for this. Michael, do you
-> have an account there and are you OK with switching to doing
-> git pushes to the repo on gitlab rather than direct to qemu.org ?
+This series adds the missing DDR memory controller support to PolarFire
+SoC, as well as adding various misc models to support the DDR memory
+initialization done by HSS.
 
-Here are the users with commit access to qemu.org repos:
+With this series, the unmodified HSS image can boot on QEMU out of the
+box. The latest SD card image [2] released by Microchip was used for
+testing which includes the pre-built U-Boot, device tree blob and Linux
+kernel for the Icicle Kit. The instructions on [1] have been updated to
+include the information on HSS and SD card image.
 
-berkeley-softfloat-3 - pmaydell,mdroth,stefanha
-berkeley-testfloat-3 - pmaydell,mdroth,stefanha
-capstone - pmaydell,mdroth,stefanha
-dtc - pmaydell,mdroth,stefanha
-edk2 - pmaydell,mdroth,stefanha
-ipxe - kraxel,lprosek
-keycodemapdb - pmaydell,mdroth,stefanha
-libslirp - pmaydell,mdroth,stefanha
-meson - pmaydell,mdroth,stefanha
-openbios - pmaydell,mdroth,stefanha
-openhackware - pmaydell,mdroth,stefanha
-opensbi - <none>
-qboot - pmaydell,mdroth,stefanha
-qemu - pmaydell,mdroth,stefanha
-qemu-jeos - pmaydell,mdroth,stefanha
-QemuMacDrivers - pmaydell,mdroth,stefanha
-qemu-palcode - pmaydell,mdroth,stefanha
-qemu-stable-0.10 - jforbes,afaerber,mdroth
-qemu-stable-0.14 - jforbes,afaerber,mdroth
-qemu-stable-0.15 - jforbes,afaerber,mdroth
-qemu-stable-1.0 - jforbes,afaerber,mdroth
-qemu-stable-1.1 - jforbes,afaerber,mdroth
-qemu-stable-1.2 - jforbes,afaerber,mdroth
-qemu-stable-1.3 - jforbes,afaerber,mdroth
-qemu-stable-1.4 - jforbes,afaerber,mdroth
-qemu-web - paolo,jcody,pmaydell,mdroth,thuth
-s390-tools - pmaydell,mdroth,stefanha
-seabios - pmaydell,mdroth,stefanha
-seabios-hppa - pmaydell,mdroth,stefanha
-sgabios - paolo
-skiboot - pmaydell,mdroth,stefanha
-SLOF - pmaydell,mdroth,stefanha
-u-boot - pmaydell,mdroth,stefanha
-u-boot-sam460ex - pmaydell,mdroth,stefanha
-vbootrom - pmaydell,mdroth,stefanha
-vgabios - pmaydell,mdroth,stefanha
+[1] https://wiki.qemu.org/Documentation/Platforms/RISCV#Microchip_PolarFire_SoC_Icicle_Kit
+[2] ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
 
-Quite a few of those repos are mirrors and actually don't need human
-push access.
 
-The people who need push access are:
- * bonzini - qemu-web
- * mdroth - qemu-stable
- * pmaydell - qemu
- * rth - qemu
- * stefanha - qemu
- * thuth - qemu-web
+Bin Meng (9):
+  hw/misc: Add Microchip PolarFire SoC DDR Memory Controller support
+  hw/riscv: microchip_pfsoc: Connect DDR memory controller modules
+  hw/misc: Add Microchip PolarFire SoC IOSCB module support
+  hw/riscv: microchip_pfsoc: Connect the IOSCB module
+  hw/misc: Add Microchip PolarFire SoC SYSREG module support
+  hw/riscv: microchip_pfsoc: Connect the SYSREG module
+  hw/riscv: microchip_pfsoc: Map debug memory
+  hw/riscv: microchip_pfsoc: Correct DDR memory map
+  hw/riscv: microchip_pfsoc: Hook the I2C1 controller
 
-Does this sound good?
+ MAINTAINERS                         |   6 +
+ hw/misc/Kconfig                     |   9 ++
+ hw/misc/mchp_pfsoc_dmc.c            | 216 +++++++++++++++++++++++++
+ hw/misc/mchp_pfsoc_ioscb.c          | 242 ++++++++++++++++++++++++++++
+ hw/misc/mchp_pfsoc_sysreg.c         |  99 ++++++++++++
+ hw/misc/meson.build                 |   3 +
+ hw/riscv/Kconfig                    |   3 +
+ hw/riscv/microchip_pfsoc.c          | 103 ++++++++++--
+ include/hw/misc/mchp_pfsoc_dmc.h    |  56 +++++++
+ include/hw/misc/mchp_pfsoc_ioscb.h  |  50 ++++++
+ include/hw/misc/mchp_pfsoc_sysreg.h |  39 +++++
+ include/hw/riscv/microchip_pfsoc.h  |  17 +-
+ 12 files changed, 828 insertions(+), 15 deletions(-)
+ create mode 100644 hw/misc/mchp_pfsoc_dmc.c
+ create mode 100644 hw/misc/mchp_pfsoc_ioscb.c
+ create mode 100644 hw/misc/mchp_pfsoc_sysreg.c
+ create mode 100644 include/hw/misc/mchp_pfsoc_dmc.h
+ create mode 100644 include/hw/misc/mchp_pfsoc_ioscb.h
+ create mode 100644 include/hw/misc/mchp_pfsoc_sysreg.h
 
-Stefan
-
---NU0Ex4SbNnrxsi6C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+YKdIACgkQnKSrs4Gr
-c8jvzQf+J6oJV1P465disXcQGO8ZmcFdDG+7mZ6ARL8r7R1g7gsZ/43VmhSY82Bf
-DBtKOjHApieE2fp7QE4jty6yKOS0Sx4phsJi7/HMjDnJnqYDl1CFztCHD8W6OW/u
-hKENJBJMBf4pMrr3vmOW2p6RbEla+zWLFrgU6tROVENIgYpmtm0oB0e74bR3/t0B
-UQloVrtqr6E33ynnZ5EwWJ7QVQOxaUM8iAtFm6FlXJLX3uaUmmb/KSy27Rz5qLBK
-TUVv4/2/tlJiQR7mX8WW8TcgnKMh9RdgkZ9cBZbjUAt4alz0soSYp9y/TC0lxbij
-1QfsgRF534RjLuDp4NXHFYOUuGGH0g==
-=CGVF
------END PGP SIGNATURE-----
-
---NU0Ex4SbNnrxsi6C--
+-- 
+2.25.1
 
 
