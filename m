@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD53229CB14
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 22:18:34 +0100 (CET)
-Received: from localhost ([::1]:34486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCCF29CB20
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 22:22:35 +0100 (CET)
+Received: from localhost ([::1]:41848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXWMT-0008Jj-El
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 17:18:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45224)
+	id 1kXWQM-0003Av-QL
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 17:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXWKw-0007r1-ID
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:16:58 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46867)
+ id 1kXWOk-0002DF-Re
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:20:54 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:43502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXWKu-0003P3-EI
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:16:57 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id t11so336272edj.13
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 14:16:55 -0700 (PDT)
+ id 1kXWOi-0003wz-RW
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:20:54 -0400
+Received: by mail-ed1-x542.google.com with SMTP id dn5so2950534edb.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 14:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=9D/fc0zpPXzN1Od8PGJULxt44Z7QqmpM/OzHfJ5+w8o=;
- b=rDPWdgKwEpYTPMdiveKwHWM0qHOAVXRSR1rFEkKCSwI7UF6oaBEg/NCg6Z9Z7tSKa1
- TmeDe6G6XK4bIZ9mz3VzWSWxqKWbcBwGuKvISE3sZwpl9RF4J1iOyY3GWuN9ZAV7pwZg
- 5kvHt+VQBZEYMVCLMLVKPSpsTWJgJBwS5ECf6FdVaDqwMF559LVnt9GzgYfRmtnifNFM
- D18IJa/uvltUyJNyv8cgb6xthZFPS7ExHr5ZQYoFLSfuTKflCr9PZX90LwNNAho2Kt9B
- Bf88AYaAIVH6iskNDJ1bkFP6F8pX46zZdYcsP4ieBXufsrECOV/2SZUuRXV1lg2qVot9
- 6ibQ==
+ :cc; bh=d0UbQvo8Vb3wDc/aJyL7VyV7Y6DvIzJ3l15+MRR+t/M=;
+ b=ru1c9M3EPVQKRU7OXH0NpPO9pQ7KwB+L4L/EQSJA3KWr8bk55h7RZD92/QoRflod6q
+ gLLU00LoyqQIP9A4dRp3Zbg/Jnp5XLqRzkdP8jm/5UOAUWadPM1h8m0d35uQBs9twpnD
+ MJcf1kI2ZVb4U6gx4jhvcHKMEevJm65bIpQBz99JYY+VwNW/SUnZLURbf9gbmotoMXLn
+ DM3s9dy4F8O9RtSZpMJHJRNbdnCNAKOEDVQlxJl560Dp7QQTVW1w1XrelLgF+NZgp3+s
+ LqbdMzsIkk43DwEWEGXqjF/1LaNhT6Rmz6Qh/olIUP/8DRxTFM77w3MAl0o8/I5+P8Ik
+ vAFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=9D/fc0zpPXzN1Od8PGJULxt44Z7QqmpM/OzHfJ5+w8o=;
- b=TiBz+ci1ptUVPv860aiH/CSSyZmsM/C31c7Vo059mmDXlO/lnxaOGfFI5wDceqCuwP
- h1I9IhhCFM3dR2Kw9tao8p/P3FVtblQ2v1XizjN3mB2BII702F/ImRLEAx4QwGJU+NhQ
- D6q0duUSBzBEsrLc01NsLl5WSLI7Ck1VKnyE4nOUMvmpQLdiSNVYjkE1aXIjX/mNLzSc
- epMFhmtJ+2eQJSmi3z5E+uvLVkLdedl+ZH9aTkeMBkS/9SESg9cG3ywNen2AbykU9NW6
- OwghOHt0kneuQwYoIwIfdoQESeUWfjO95slzq9+RbOk1uEHmRTzIOKeWi+NGb0YSXLkU
- Q5HA==
-X-Gm-Message-State: AOAM531e0a5Mp8MJEgGBp5Q7H6xY+AG1QLVmbaCHT0YqIxird8Lb+6Nk
- 1TUjOJbyPc0G5hUsU8QtmQ9bAvTjqoh2Wu7qpgu14g==
-X-Google-Smtp-Source: ABdhPJwczRFAKMY3g0aobvVP8IQurlYA9St53R/ltqLPQn243yvE2X9GVp32FfKNLy1FS5hNUKzW6gbmtbc5ct6CABs=
-X-Received: by 2002:a50:f41a:: with SMTP id r26mr4244907edm.251.1603833414161; 
- Tue, 27 Oct 2020 14:16:54 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=d0UbQvo8Vb3wDc/aJyL7VyV7Y6DvIzJ3l15+MRR+t/M=;
+ b=ua2GgotlTot2VY/kG4k5Du296nUDCysKlRSGFI8OsDeGuIhU+ffp93dPxE4o54yIoQ
+ 9RBg7eb2wyvcZRS7/3ssTCbAeYBDeTTnJapC3ZJQ4m7Dw4Z9UPWVclVRDy+j5EZO/+hp
+ WX38kcCVXo0OZ7gtWUC5fL1fL1F+OM/w2fXs548tRb/uN+LxguUHTzv0SxWMO65W2grE
+ WnD1s+fitIkxy/TOjNgFRPf4ugJGkXeWSdv/M07K0g7NC1jRYaIiIjFFKOadQtkRh+Dh
+ v1azzZqK9OLP0X6VCGYwzNpZx5thNaeD47h+QDsAMQCW3//l5Pih1jXrW8qjPD5P16AU
+ mykg==
+X-Gm-Message-State: AOAM5336PPKgB3F4tygkKq17XK+SsD7c4bm9B2adG41fwW7jql5qWRFG
+ UZpZrQ/DRbKEXFAczr1ZzrVomUPYXHpqkenhgKUfWw==
+X-Google-Smtp-Source: ABdhPJxhKBsnrlh4qEzVXJOYba0Kccwr+goxR7w8UfSVC7voQImgwhCSMfw3fM3ek3Te8BbZ9eI+0eZquslGeeVBQEc=
+X-Received: by 2002:a50:f41a:: with SMTP id r26mr4258583edm.251.1603833651094; 
+ Tue, 27 Oct 2020 14:20:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <F25EAD5D-59A9-44D0-A3B3-455A725BCA14@gmx.de>
-In-Reply-To: <F25EAD5D-59A9-44D0-A3B3-455A725BCA14@gmx.de>
+References: <20201026212853.92880-1-keithp@keithp.com>
+ <20201026212853.92880-2-keithp@keithp.com>
+In-Reply-To: <20201026212853.92880-2-keithp@keithp.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Oct 2020 21:16:43 +0000
-Message-ID: <CAFEAcA_oriYP9E6Yvi47a62=6y_OM9OuBgvfG6u3QSLArfNJdQ@mail.gmail.com>
-Subject: Re: QEMU and kvm on big.LITTLE aarch64
-To: Michal Schulz <michal.schulz@gmx.de>
+Date: Tue, 27 Oct 2020 21:20:39 +0000
+Message-ID: <CAFEAcA-0_WLMP1Y1sgcu7Ng+0w8Ovt9DVWzYU8ZA_FA2+bwcUw@mail.gmail.com>
+Subject: Re: [PATCH 1/4] semihosting: Move ARM semihosting code to shared
+ directories
+To: Keith Packard <keithp@keithp.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,38 +80,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ QEMU Developers <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-arm <qemu-arm@nongnu.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 at 20:28, Michal Schulz <michal.schulz@gmx.de> wrote:
-> Recently I have attempted to to run qemu-system-aarch64, version 5.1.0, o=
-n an aarch64 machine. It is Pinebook Pro with RK3399 big.LITTLE SOC, runnin=
-g Manjaro linux, kernel version 5.9.1-3. When using tcg everything works ju=
-st fine, but as slow as I would expect it. In order to give it some speed I=
-=E2=80=99ve attempted to enable kvm there. Unfortunately, all I get is foll=
-owing:
+On Mon, 26 Oct 2020 at 21:29, Keith Packard <keithp@keithp.com> wrote:
 >
-> # qemu-system-aarch64 -M raspi3 -enable kvm
-> qmeu-system-aarch64: /build/qemu/src/qemu-5.1.0/exec.c:850: cpu_address_s=
-pace_init: Assertion `aside =3D=3D 0 || !kvm_enabled()` failed.
+> This commit renames two files which provide ARM semihosting support so
+> that they can be shared by other architectures:
+>
+>  1. target/arm/arm-semi.c     -> hw/semihosting/common-semi.c
+>  2. linux-user/arm/semihost.c -> linux-user/semihost.c
+>
+> The build system was modified to reflect this change, but the contents
+> of the two files are unchanged.
+>
+> Signed-off-by: Keith Packard <keithp@keithp.com>
+> ---
+> diff --git a/target/arm/arm-semi.c b/hw/semihosting/common-semi.c
+> similarity index 100%
+> rename from target/arm/arm-semi.c
+> rename to hw/semihosting/common-semi.c
+> diff --git a/hw/semihosting/meson.build b/hw/semihosting/meson.build
+> index f40ac574c4..fbd2841e59 100644
+> --- a/hw/semihosting/meson.build
+> +++ b/hw/semihosting/meson.build
+> @@ -2,3 +2,5 @@ specific_ss.add(when: 'CONFIG_SEMIHOSTING', if_true: files(
+>    'config.c',
+>    'console.c',
+>  ))
+> +
+> +specific_ss.add(when: 'CONFIG_TCG', if_true: files ('common-semi.c'))
 
-This is an unhelpful message, so apologies for that, but the underlying
-cause is that the raspi3 machine model doesn't support KVM. You need to
-use the 'virt' model instead if you want to use KVM.
-
-(This is because the raspi3 machine needs to use a guest CPU
-which emulates EL3/TrustZone and EL2/Virtualization; KVM can't
-emulate CPUs with those features.)
-
-> Of course, KVM is enabled in linux kernel. Please note that use of '-cpu =
-host' parameter does not change anything. Also, attempt to define the CPU a=
-ffinity for qemu using taskset tool has no influence on this behaviour.
-
-You will need to ensure (via taskset or otherwise) that all
-the threads for vCPUs end up on the same kind of CPU (if you
-don't do that then you'll run into that problem once you try
-with the 'virt' board, probably as a "kvm_init_vcpu failed" error).
+I think this adds this file to the compilation for all TCG targets;
+you only want it for targets which have Arm-semihosting-ABI compatible
+semihosting. (Various other targets either don't have semihosting
+or have their own ABI.)
 
 thanks
 -- PMM
