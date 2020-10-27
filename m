@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A093D29B1BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:33:57 +0100 (CET)
-Received: from localhost ([::1]:32768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D2BF29B28D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:42:48 +0100 (CET)
+Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQ2u-00035j-M2
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:33:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1kXQBT-0006Yi-88
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:42:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnd-0002C3-5z; Tue, 27 Oct 2020 10:18:09 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56839 helo=ozlabs.org)
+ id 1kXPnc-0002B7-Ok; Tue, 27 Oct 2020 10:18:08 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43919 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnX-0007an-1v; Tue, 27 Oct 2020 10:18:08 -0400
+ id 1kXPnW-0007b1-Lv; Tue, 27 Oct 2020 10:18:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLh41MVz9shn; Wed, 28 Oct 2020 01:17:48 +1100 (AEDT)
+ id 4CLDLp048dz9shp; Wed, 28 Oct 2020 01:17:52 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808268;
- bh=P4QF3AHoKu5yc1hRA000h5HhsxKSdyQqUikcF4VvZgQ=;
+ d=gibson.dropbear.id.au; s=201602; t=1603808274;
+ bh=JgI74JbmF3SG28/ezvWrAwsZY8OPwhZsfHfAwmDCvoY=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=T/y4oVxa17mR4m2Gef07MJBeCiRqHTIprEhMe/FHtO+qEdGcD9g5aA5D4AFUGCQ9I
- 1p9rHQNOGwr+wfXmcpOYRIpSduYtS+n5VpmuxEqZh4toldTpiJ6V3AvRYc1QF9jMzN
- MY1xj+ADoonUSdszHVio0eC2gG0QQtRbAnGs9Ids=
+ b=gvVV/Ti+nIiA7/AvN+omg1WfDyt8GglRF4QEmLMsu16v379ByqyARRMV39pX0hb0d
+ OnggVqYhE8OlVbzetHCbAiZLddnWJ8Azn6lNWkIDUysi74oAAaOgl2HTQTuMpUedGe
+ 0dpV3v9+7MGR9wUZy0J6lE3kKvVvmgR8T+fDMFgk=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/18] pc-dimm: Drop @errp argument of pc_dimm_plug()
-Date: Wed, 28 Oct 2020 01:17:27 +1100
-Message-Id: <20201027141735.728821-11-david@gibson.dropbear.id.au>
+Subject: [PULL 11/18] spapr: Use appropriate getter for PC_DIMM_ADDR_PROP
+Date: Wed, 28 Oct 2020 01:17:28 +1100
+Message-Id: <20201027141735.728821-12-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:17:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -58,140 +59,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-pc_dimm_plug() doesn't use it. It only aborts on error.
+The PC_DIMM_ADDR_PROP property is defined as:
 
-Drop @errp and adapt the callers accordingly.
+    DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
 
-[dwg: Removed unused label to fix compile]
+Use object_property_get_uint() instead of object_property_get_int().
+
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160309728447.2739814.12831204841251148202.stgit@bahia.lan>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <160309729609.2739814.4996614957953215591.stgit@bahia.lan>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/arm/virt.c            | 9 +--------
- hw/i386/pc.c             | 8 +-------
- hw/mem/pc-dimm.c         | 2 +-
- hw/ppc/spapr.c           | 6 +-----
- include/hw/mem/pc-dimm.h | 2 +-
- 5 files changed, 5 insertions(+), 22 deletions(-)
+ hw/ppc/spapr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index e465a988d6..27dbeb549e 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2261,12 +2261,8 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
-     VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-     MachineState *ms = MACHINE(hotplug_dev);
-     bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
--    Error *local_err = NULL;
- 
--    pc_dimm_plug(PC_DIMM(dev), MACHINE(vms), &local_err);
--    if (local_err) {
--        goto out;
--    }
-+    pc_dimm_plug(PC_DIMM(dev), MACHINE(vms));
- 
-     if (is_nvdimm) {
-         nvdimm_plug(ms->nvdimms_state);
-@@ -2274,9 +2270,6 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
- 
-     hotplug_handler_plug(HOTPLUG_HANDLER(vms->acpi_dev),
-                          dev, &error_abort);
--
--out:
--    error_propagate(errp, local_err);
- }
- 
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 4e323755d0..0d9bd7d635 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1265,24 +1265,18 @@ static void pc_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
- static void pc_memory_plug(HotplugHandler *hotplug_dev,
-                            DeviceState *dev, Error **errp)
- {
--    Error *local_err = NULL;
-     PCMachineState *pcms = PC_MACHINE(hotplug_dev);
-     X86MachineState *x86ms = X86_MACHINE(hotplug_dev);
-     MachineState *ms = MACHINE(hotplug_dev);
-     bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
- 
--    pc_dimm_plug(PC_DIMM(dev), MACHINE(pcms), &local_err);
--    if (local_err) {
--        goto out;
--    }
-+    pc_dimm_plug(PC_DIMM(dev), MACHINE(pcms));
- 
-     if (is_nvdimm) {
-         nvdimm_plug(ms->nvdimms_state);
-     }
- 
-     hotplug_handler_plug(x86ms->acpi_dev, dev, &error_abort);
--out:
--    error_propagate(errp, local_err);
- }
- 
- static void pc_memory_unplug_request(HotplugHandler *hotplug_dev,
-diff --git a/hw/mem/pc-dimm.c b/hw/mem/pc-dimm.c
-index c30351070b..2ffc986734 100644
---- a/hw/mem/pc-dimm.c
-+++ b/hw/mem/pc-dimm.c
-@@ -64,7 +64,7 @@ void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
-                            errp);
- }
- 
--void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine, Error **errp)
-+void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine)
- {
-     PCDIMMDeviceClass *ddc = PC_DIMM_GET_CLASS(dimm);
-     MemoryRegion *vmstate_mr = ddc->get_vmstate_memory_region(dimm,
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index ee716a12af..05abf6cc57 100644
+index 05abf6cc57..b2405599ad 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3438,10 +3438,7 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+@@ -3571,8 +3571,8 @@ static SpaprDimmState *spapr_recover_pending_dimm_state(SpaprMachineState *ms,
+     uint64_t addr_start, addr;
+     int i;
  
-     size = memory_device_get_region_size(MEMORY_DEVICE(dev), &error_abort);
+-    addr_start = object_property_get_int(OBJECT(dimm), PC_DIMM_ADDR_PROP,
+-                                         &error_abort);
++    addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
++                                          &error_abort);
  
--    pc_dimm_plug(dimm, MACHINE(ms), &local_err);
--    if (local_err) {
--        goto out;
--    }
-+    pc_dimm_plug(dimm, MACHINE(ms));
- 
-     if (!is_nvdimm) {
-         addr = object_property_get_uint(OBJECT(dimm),
-@@ -3469,7 +3466,6 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
- 
- out_unplug:
-     pc_dimm_unplug(dimm, MACHINE(ms));
--out:
-     error_propagate(errp, local_err);
- }
- 
-diff --git a/include/hw/mem/pc-dimm.h b/include/hw/mem/pc-dimm.h
-index aec9527fdd..3d3db82641 100644
---- a/include/hw/mem/pc-dimm.h
-+++ b/include/hw/mem/pc-dimm.h
-@@ -72,6 +72,6 @@ struct PCDIMMDeviceClass {
- 
- void pc_dimm_pre_plug(PCDIMMDevice *dimm, MachineState *machine,
-                       const uint64_t *legacy_align, Error **errp);
--void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine, Error **errp);
-+void pc_dimm_plug(PCDIMMDevice *dimm, MachineState *machine);
- void pc_dimm_unplug(PCDIMMDevice *dimm, MachineState *machine);
- #endif
+     addr = addr_start;
+     for (i = 0; i < nr_lmbs; i++) {
 -- 
 2.26.2
 
