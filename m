@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C658529CBC7
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:09:29 +0100 (CET)
-Received: from localhost ([::1]:57870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E6929CBBB
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:05:38 +0100 (CET)
+Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXX9k-0008Oi-Pp
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:09:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54554)
+	id 1kXX61-0003gV-KK
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:05:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX04-0006aS-0i
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24406)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX05-0006eI-JQ
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX02-0000gp-6p
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:27 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX03-0000h7-P0
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603835965;
+ s=mimecast20190719; t=1603835966;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uQzMEy1nXu4KH9+EWsT3ptgNmw8me38cLhPJymoeNuo=;
- b=K/Iz2FWdQp/Zzs+GTateP+nvutUIrzLrW88mjt2EqBXD9S0HbK9Qh4AOugG7DTQWZIJp1Y
- O00nVRnli04RrruYFZa69caTv7oSuzOEP669pCLvwRqy+5scY4gyRuLXzDO+51PWInmudk
- XALjZKEXGox9eIsM+Deb0fBbK3+4P6o=
+ bh=j4Wf+TSoUJ38Te4pzDCzvNjpiiOfgwoki4sys+5iq7E=;
+ b=OC9PSkZ8Z0dvSLbNH8jvGIlee3DO0DlhTtXUxzpQBnjy2MPgrtTN0Y8yp9Mj50z46sm8sa
+ soa50y/hNsHz1TM74b2wjMZ2eFnu7ELgy7BLSjO/nHTz7UiEnZRU9FotEzGTS4NEJFny3P
+ 0l8p1uMbAMB5K/VYtPLR12+QLkKwud4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-TozW25j-PVSWOhRAcyOjOA-1; Tue, 27 Oct 2020 17:59:23 -0400
-X-MC-Unique: TozW25j-PVSWOhRAcyOjOA-1
+ us-mta-528-GErkVhIoO2KLb11HL7NXZg-1; Tue, 27 Oct 2020 17:59:24 -0400
+X-MC-Unique: GErkVhIoO2KLb11HL7NXZg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CE191084D6A;
- Tue, 27 Oct 2020 21:59:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6668C809DDA;
+ Tue, 27 Oct 2020 21:59:23 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 71CC01002382;
- Tue, 27 Oct 2020 21:59:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A69F910013DB;
+ Tue, 27 Oct 2020 21:59:22 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/12] qapi: Add QAPI_LIST_PREPEND() macro
-Date: Tue, 27 Oct 2020 16:59:06 -0500
-Message-Id: <20201027215914.619460-5-eblake@redhat.com>
+Subject: [PULL 05/12] nbd: Utilize QAPI_CLONE for type conversion
+Date: Tue, 27 Oct 2020 16:59:07 -0500
+Message-Id: <20201027215914.619460-6-eblake@redhat.com>
 In-Reply-To: <20201027215914.619460-1-eblake@redhat.com>
 References: <20201027215914.619460-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -80,130 +80,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>,
  "open list:Block layer core" <qemu-block@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-block.c has a useful macro QAPI_LIST_ADD() for inserting at the front
-of any QAPI-generated list; move it from block.c to qapi/util.h so
-more places can use it, including one earlier place in block.c, and
-rename it to something more obvious (since we also have a lot of
-places that append, rather than prepend, to a list).
+Rather than open-coding the translation from the deprecated
+NbdServerAddOptions type to the preferred BlockExportOptionsNbd, it's
+better to utilize QAPI_CLONE_MEMBERS.  This solves a couple of issues:
+first, if we do any more refactoring of the base type (which an
+upcoming patch plans to do), we don't have to revisit the open-coding.
+Second, our assignment to arg->name is fishy: the generated QAPI code
+for qapi_free_NbdServerAddOptions does not visit arg->name if
+arg->has_name is false, but if it DID visit it, we would have
+introduced a double-free situation when arg is finally freed.
 
-There are many more places in the codebase that can benefit from using
-the macro, but converting them will be left to later patches.
-
-In theory, all QAPI list types are child classes of GenericList; but
-in practice, that relationship is not explicitly spelled out in the C
-type declarations (rather, it is something that happens implicitly due
-to C compatible layouts), and the macro does not actually depend on
-the GenericList type.  We considered moving GenericList from visitor.h
-into util.h to group related code; however, such a move would be
-awkward if we do not also move GenericAlternate.  Unfortunately,
-moving GenericAlternate would introduce its own problems of
-declaration circularity (qapi-builtin-types.h needs a complete
-definition of QEnumLookup from util.h, but GenericAlternate needs a
-complete definition of QType from qapi-builtin-types.h).
-
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201027050556.269064-3-eblake@redhat.com>
-[eblake: s/ADD/PREPEND/ per suggestion by Markus]
+Message-Id: <20201027050556.269064-4-eblake@redhat.com>
 ---
- include/qapi/util.h | 13 +++++++++++++
- block.c             | 22 ++++++----------------
- 2 files changed, 19 insertions(+), 16 deletions(-)
+ blockdev-nbd.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/include/qapi/util.h b/include/qapi/util.h
-index a7c3c6414874..bc312e90aa0c 100644
---- a/include/qapi/util.h
-+++ b/include/qapi/util.h
-@@ -22,4 +22,17 @@ int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
-
- int parse_qapi_name(const char *name, bool complete);
-
-+/*
-+ * For any GenericList @list, insert @element at the front.
-+ *
-+ * Note that this macro evaluates @element exactly once, so it is safe
-+ * to have side-effects with that argument.
-+ */
-+#define QAPI_LIST_PREPEND(list, element) do { \
-+    typeof(list) _tmp = g_malloc(sizeof(*(list))); \
-+    _tmp->value = (element); \
-+    _tmp->next = (list); \
-+    (list) = _tmp; \
-+} while (0)
-+
- #endif
-diff --git a/block.c b/block.c
-index 857387f3912f..28be6f336ff3 100644
---- a/block.c
-+++ b/block.c
-@@ -5211,7 +5211,7 @@ BlockDriverState *bdrv_find_node(const char *node_name)
- BlockDeviceInfoList *bdrv_named_nodes_list(bool flat,
-                                            Error **errp)
- {
--    BlockDeviceInfoList *list, *entry;
-+    BlockDeviceInfoList *list;
-     BlockDriverState *bs;
-
-     list = NULL;
-@@ -5221,22 +5221,12 @@ BlockDeviceInfoList *bdrv_named_nodes_list(bool flat,
-             qapi_free_BlockDeviceInfoList(list);
-             return NULL;
-         }
--        entry = g_malloc0(sizeof(*entry));
--        entry->value = info;
--        entry->next = list;
--        list = entry;
-+        QAPI_LIST_PREPEND(list, info);
+diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+index 8174023e5c47..cee9134b12eb 100644
+--- a/blockdev-nbd.c
++++ b/blockdev-nbd.c
+@@ -14,6 +14,8 @@
+ #include "sysemu/block-backend.h"
+ #include "hw/block/block.h"
+ #include "qapi/error.h"
++#include "qapi/clone-visitor.h"
++#include "qapi/qapi-visit-block-export.h"
+ #include "qapi/qapi-commands-block-export.h"
+ #include "block/nbd.h"
+ #include "io/channel-socket.h"
+@@ -195,7 +197,8 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+      * the device name as a default here for compatibility.
+      */
+     if (!arg->has_name) {
+-        arg->name = arg->device;
++        arg->has_name = true;
++        arg->name = g_strdup(arg->device);
      }
 
-     return list;
- }
+     export_opts = g_new(BlockExportOptions, 1);
+@@ -205,15 +208,9 @@ void qmp_nbd_server_add(NbdServerAddOptions *arg, Error **errp)
+         .node_name              = g_strdup(bdrv_get_node_name(bs)),
+         .has_writable           = arg->has_writable,
+         .writable               = arg->writable,
+-        .u.nbd = {
+-            .has_name           = true,
+-            .name               = g_strdup(arg->name),
+-            .has_description    = arg->has_description,
+-            .description        = g_strdup(arg->description),
+-            .has_bitmap         = arg->has_bitmap,
+-            .bitmap             = g_strdup(arg->bitmap),
+-        },
+     };
++    QAPI_CLONE_MEMBERS(BlockExportOptionsNbd, &export_opts->u.nbd,
++                       qapi_NbdServerAddOptions_base(arg));
 
--#define QAPI_LIST_ADD(list, element) do { \
--    typeof(list) _tmp = g_malloc(sizeof(*(list))); \
--    _tmp->value = (element); \
--    _tmp->next = (list); \
--    (list) = _tmp; \
--} while (0)
--
- typedef struct XDbgBlockGraphConstructor {
-     XDbgBlockGraph *graph;
-     GHashTable *graph_nodes;
-@@ -5291,7 +5281,7 @@ static void xdbg_graph_add_node(XDbgBlockGraphConstructor *gr, void *node,
-     n->type = type;
-     n->name = g_strdup(name);
-
--    QAPI_LIST_ADD(gr->graph->nodes, n);
-+    QAPI_LIST_PREPEND(gr->graph->nodes, n);
- }
-
- static void xdbg_graph_add_edge(XDbgBlockGraphConstructor *gr, void *parent,
-@@ -5310,14 +5300,14 @@ static void xdbg_graph_add_edge(XDbgBlockGraphConstructor *gr, void *parent,
-         uint64_t flag = bdrv_qapi_perm_to_blk_perm(qapi_perm);
-
-         if (flag & child->perm) {
--            QAPI_LIST_ADD(edge->perm, qapi_perm);
-+            QAPI_LIST_PREPEND(edge->perm, qapi_perm);
-         }
-         if (flag & child->shared_perm) {
--            QAPI_LIST_ADD(edge->shared_perm, qapi_perm);
-+            QAPI_LIST_PREPEND(edge->shared_perm, qapi_perm);
-         }
-     }
-
--    QAPI_LIST_ADD(gr->graph->edges, edge);
-+    QAPI_LIST_PREPEND(gr->graph->edges, edge);
- }
-
-
+     /*
+      * nbd-server-add doesn't complain when a read-only device should be
 -- 
 2.29.0
 
