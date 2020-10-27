@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9425F29AAE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:31:48 +0100 (CET)
-Received: from localhost ([::1]:51524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49CBD29AB32
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:51:32 +0100 (CET)
+Received: from localhost ([::1]:50736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNCd-0000AE-GR
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:31:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38862)
+	id 1kXNVj-0004GS-1L
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:51:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYn-0000i8-W4; Tue, 27 Oct 2020 06:50:38 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:46239)
+ id 1kXMYq-0000kz-DS; Tue, 27 Oct 2020 06:50:40 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMYk-0002Gn-Dk; Tue, 27 Oct 2020 06:50:37 -0400
+ id 1kXMYo-0002Id-Bp; Tue, 27 Oct 2020 06:50:40 -0400
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1A3D75C0190;
- Tue, 27 Oct 2020 06:50:00 -0400 (EDT)
+ by mailout.nyi.internal (Postfix) with ESMTP id 505C85C0193;
+ Tue, 27 Oct 2020 06:50:05 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:00 -0400
+ by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=u08EJyS6cwoQ3
- cc/ISxpr793ADeDZnwfNXgvEhjr9J0=; b=XJ4WfCm9aibKLrRlEMjgHH4t5AjLI
- 2Q4/llvKn3b/Yn2htSos4fCYtJHTqQE/ssC6Y4I0RvyxdtLHFqof/zcB/fRs9c4X
- Bu+dvC4nV3tOcQYyQ4utKNhLmpPkTCUvRID0LvNck+PGn7tgE+Gim7rTZJ9A5OVO
- WfvGtL3TG539ZFz+AK2SJyhrzrVgJCvIH1fG1XGhgypO9jraau6hKPYdaFhgo9xh
- 0ouplS0LQNNTrxa0CiAZ6/24H1UNI20/RwkzvFpAr2xrFxlLWgij1kGZd1XcCoA4
- NkJoTr+V5tfNlvo0HUCFR/RHjCs0a4O2USYpWI8GpcrQFE7v4H5F3KSbA==
+ :mime-version:content-type:content-transfer-encoding; s=fm1; bh=
+ WNLNg12g5/IfDUpfOYoxicB4wDKV6e3FwTaeuo1rUc0=; b=vZ1jmMQETUo8vOW6
+ Lag7XQnFTIPJFhM5lQhBtv/AuXe2cGkIJdSg0UDGKQZwrzj7yXTodTkhmk9sy8o2
+ AonQOEIIIrRi2h/qWCuEmWYL7RYjw6MRnkfRGIDXsFoCb6EgKx0R8n2ne19bq3aw
+ AGdEATTy6k1QVajtn9HdTjlZVw7gIQczSnLTUY3c4DxPw8GpoA5HvT+2ONNK22zw
+ N3BZmOPXcw2Sztg2WYDalU5JMlRRW1kdjL4iwi4Pwd4dHOTrO/WAgqedBm+2UM8Y
+ QiQyY/7ab2x1W6h54p+EMMuCLskhpUpwRVHBrlIesCc/hGcCLFB6sDGAH3HHwqlV
+ NS1jcQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=u08EJyS6cwoQ3cc/ISxpr793ADeDZnwfNXgvEhjr9J0=; b=cUpPkQ7g
- xPaYUfFjDunoB1sC+AM6HsjTqnZQ+2I94oZIYNetF5clbj6KJwCmmatwJdR1BjPL
- exd0pKN/hAiTZGpQo9WiQdSmx30wki0pEckqY7o6p9pdOW2WuRM/UQapIMc6WQMn
- ZaP2CxAw90TBVrrs39rlpJbWO3waRNnOWvaQ55yIOKgKKwTDk3/2J1TpuB4QrDJ5
- tNYqVFy/kY+Uk4eYmpraH5gv2X1LK3bhv+uZdGYDFGTHxwJpbDKlmBPsXd5TxKrJ
- KrO8wKYieeL+o08BsfzIIjn3N2JtQEbLLqBuq51R1ovXqQJAF3UDH+ourds5ZWMT
- 1O52uSa3OiAPjg==
-X-ME-Sender: <xms:V_uXX4d811-tcUzYG3qUjV5GjqQykhyih9mjvszjt43TrcO7O4ha2g>
- <xme:V_uXX6NrC4-qJbX-UmlPxJXQqNCI_gkwVbt1rFNNQWiy1xu7kNL9hjL0R-t9QYre9
- wbOqT54vpH--o8NyNs>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=WNLNg12g5/IfDUpfOYoxicB4wDKV6e3FwTaeuo1rU
+ c0=; b=QgD1KqfIWs1nWg/4GZwwC815Hzr9u0mRvEUJkuRdVaHNI35FtQe62UEQw
+ v6eC46MQ1inX1+2p7f1xm9zvnEilwEAn96HhaV+P32InN7XswgLrwslttPs0Mzz2
+ +XAqzFXcrvMKjy2w7rqL4dMzekEgtZBcTfQZUfO6tl+c151w7i9yqkxpwde1ff7j
+ ++OZXMt8y75OIf5PgYYgccmlRQweTtMpO4l8rZNfPOINkB87j6tdvPJLGywIi0z2
+ /WkUVJqLyX16MIpXDID49nZ8NycaprA3cyLF6X4ueAY6sSJVFmDPYzw6DBzwzlrl
+ QCiS+haovCgL4kCQA2hF2IIk5Q79Q==
+X-ME-Sender: <xms:XfuXXyoWEaAdW5WGWiefk1XzEHEqbzSxY7lmkJ9crGGmHQdcMnyFAw>
+ <xme:XfuXXwpI3qMolpcVzzp77M2IiFoTdei6TXF7VeV80sya73vDgF2HYjoZulJj8RASP
+ eo_w5fARUOlWxtQOnw>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepuddtne
+ fjughrpefhvffufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeetveeuudegveeiheegieelueeftedvtdekteefleegheduhfejueelvdfhffdt
+ geenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpeejne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:V_uXX5ieNbbDnFgKUn81SlEN-dxxxEddIleCATZ6I-x38FrqGCrubg>
- <xmx:V_uXX9-CVAomgftM_vjw5aHRVngPbifMyV2eSpqhaUwkoqKjUe1-5A>
- <xmx:V_uXX0vXZ5eEt0dISxNQbaj1zz7ge8yFF5Dlj7AT_KWENMia-BWFxQ>
- <xmx:WPuXXwKWsNKuZmD5xzVsVbSP60b3RztwTae7AvKqD9JjJD2yCe6hcA>
+X-ME-Proxy: <xmx:XfuXX3MA9oaMQlhMeRETz-TEbDPFbMJIz0lydatPP0Bbt6UhmtDiiQ>
+ <xmx:XfuXXx7vDOTPuMgiIFzEVFspEhGKw3I3yJEPoOzbeK10gqrgxD7b3A>
+ <xmx:XfuXXx6IQmii35Q3hfk9icwSRouJVbNPyDt4P5GMkJXQr7g2GeEPHQ>
+ <xmx:XfuXX_SV6QCf0KxTCIxtWj2WQ8vtEtCg1NNOkjx9oGW3LB9KJCJHhQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0CAAA328005E;
- Tue, 27 Oct 2020 06:49:58 -0400 (EDT)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0B3DC3280066;
+ Tue, 27 Oct 2020 06:50:03 -0400 (EDT)
 From: Klaus Jensen <its@irrelevant.dk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 22/30] hw/block/nvme: validate command set selected
-Date: Tue, 27 Oct 2020 11:49:24 +0100
-Message-Id: <20201027104932.558087-23-its@irrelevant.dk>
+Subject: [PULL 26/30] hw/block/nvme: add trace event for requests with
+ non-zero status code
+Date: Tue, 27 Oct 2020 11:49:28 +0100
+Message-Id: <20201027104932.558087-27-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027104932.558087-1-its@irrelevant.dk>
 References: <20201027104932.558087-1-its@irrelevant.dk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
  helo=out2-smtp.messagingengine.com
@@ -95,75 +98,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>
+Cc: qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Keith Busch <kbusch@kernel.org>,
+ Klaus Jensen <its@irrelevant.dk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Keith Busch <kbusch@kernel.org>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Fail to start the controller if the user requests a command set that the
-controller does not support.
+If a command results in a non-zero status code, trace it.
 
-Signed-off-by: Keith Busch <kbusch@kernel.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Keith Busch <kbusch@kernel.org>
 ---
- include/block/nvme.h  | 4 ++++
- hw/block/nvme.c       | 6 +++++-
+ hw/block/nvme.c       | 6 ++++++
  hw/block/trace-events | 1 +
- 3 files changed, 10 insertions(+), 1 deletion(-)
+ 2 files changed, 7 insertions(+)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 868cf53f0b25..bc20a2ba5e87 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -82,6 +82,10 @@ enum NvmeCapMask {
- #define NVME_CAP_SET_PMRS(cap, val) (cap |= (uint64_t)(val & CAP_PMR_MASK)\
-                                                             << CAP_PMR_SHIFT)
- 
-+enum NvmeCapCss {
-+    NVME_CAP_CSS_NVM = 1 << 0,
-+};
-+
- enum NvmeCcShift {
-     CC_EN_SHIFT     = 0,
-     CC_CSS_SHIFT    = 4,
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 5a9ae699afab..94db06cf72be 100644
+index 5fd5a45a281a..b8c6be63186f 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2045,6 +2045,10 @@ static int nvme_start_ctrl(NvmeCtrl *n)
-         trace_pci_nvme_err_startfail_acq_misaligned(n->bar.acq);
-         return -1;
-     }
-+    if (unlikely(!(NVME_CAP_CSS(n->bar.cap) & (1 << NVME_CC_CSS(n->bar.cc))))) {
-+        trace_pci_nvme_err_startfail_css(NVME_CC_CSS(n->bar.cc));
-+        return -1;
+@@ -777,6 +777,12 @@ static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
+     assert(cq->cqid == req->sq->cqid);
+     trace_pci_nvme_enqueue_req_completion(nvme_cid(req), cq->cqid,
+                                           req->status);
++
++    if (req->status) {
++        trace_pci_nvme_err_req_status(nvme_cid(req), nvme_nsid(req->ns),
++                                      req->status, req->cmd.opcode);
 +    }
-     if (unlikely(NVME_CC_MPS(n->bar.cc) <
-                  NVME_CAP_MPSMIN(n->bar.cap))) {
-         trace_pci_nvme_err_startfail_page_too_small(
-@@ -2746,7 +2750,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NVME_CAP_SET_MQES(n->bar.cap, 0x7ff);
-     NVME_CAP_SET_CQR(n->bar.cap, 1);
-     NVME_CAP_SET_TO(n->bar.cap, 0xf);
--    NVME_CAP_SET_CSS(n->bar.cap, 1);
-+    NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_NVM);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
- 
-     n->bar.vs = NVME_SPEC_VER;
++
+     QTAILQ_REMOVE(&req->sq->out_req_list, req, entry);
+     QTAILQ_INSERT_TAIL(&cq->req_list, req, entry);
+     timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
 diff --git a/hw/block/trace-events b/hw/block/trace-events
-index e56d688b88d3..7b28091bd60a 100644
+index 2dc85281dc33..cab9913b1f2d 100644
 --- a/hw/block/trace-events
 +++ b/hw/block/trace-events
-@@ -132,6 +132,7 @@ pci_nvme_err_startfail_cqent_too_small(uint8_t log2ps, uint8_t maxlog2ps) "nvme_
- pci_nvme_err_startfail_cqent_too_large(uint8_t log2ps, uint8_t maxlog2ps) "nvme_start_ctrl failed because the completion queue entry size is too large: log2size=%u, max=%u"
- pci_nvme_err_startfail_sqent_too_small(uint8_t log2ps, uint8_t maxlog2ps) "nvme_start_ctrl failed because the submission queue entry size is too small: log2size=%u, min=%u"
- pci_nvme_err_startfail_sqent_too_large(uint8_t log2ps, uint8_t maxlog2ps) "nvme_start_ctrl failed because the submission queue entry size is too large: log2size=%u, max=%u"
-+pci_nvme_err_startfail_css(uint8_t css) "nvme_start_ctrl failed because invalid command set selected:%u"
- pci_nvme_err_startfail_asqent_sz_zero(void) "nvme_start_ctrl failed because the admin submission queue size is zero"
- pci_nvme_err_startfail_acqent_sz_zero(void) "nvme_start_ctrl failed because the admin completion queue size is zero"
- pci_nvme_err_startfail(void) "setting controller enable bit failed"
+@@ -88,6 +88,7 @@ pci_nvme_mmio_shutdown_cleared(void) "shutdown bit cleared"
+ 
+ # nvme traces for error conditions
+ pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
++pci_nvme_err_req_status(uint16_t cid, uint32_t nsid, uint16_t status, uint8_t opc) "cid %"PRIu16" nsid %"PRIu32" status 0x%"PRIx16" opc 0x%"PRIx8""
+ pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
+ pci_nvme_err_cfs(void) "controller fatal status"
 -- 
 2.29.1
 
