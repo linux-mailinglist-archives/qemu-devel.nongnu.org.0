@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 818ED29AF98
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:13:09 +0100 (CET)
-Received: from localhost ([::1]:59864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943EC29B13B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:29:01 +0100 (CET)
+Received: from localhost ([::1]:50170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPim-00042G-Gx
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:13:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36276)
+	id 1kXPy8-0006vr-Io
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:29:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTh-0003fL-Jn
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21563)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTj-0003jD-93
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTc-0004Q8-6B
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTg-0004RY-KO
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603807045;
+ s=mimecast20190719; t=1603807050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JEjEb5blaJCbCH8yHzb9rLLKFCJ8kP8Dq4wMBDtqfPA=;
- b=P0AP6k8iEswjrjoT1amWfSTTI8OQp7uqS+df8WA7ugprslNgPKC139GWhO5+b5lzsYVVk5
- 5t/fnDipq/Yr72XcBaSGfcZrtM6z5r5ok2ZyJiRbYwR5VNWZo35Q4DOMHTf+m8ZAmRFlHe
- /0B5r1fvCCXFew+CG+Jua7QJcFMQbNA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-olnpzhPvOliE7thc2Pe0MA-1; Tue, 27 Oct 2020 09:57:23 -0400
-X-MC-Unique: olnpzhPvOliE7thc2Pe0MA-1
-Received: by mail-ej1-f71.google.com with SMTP id gh22so914102ejb.8
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:57:23 -0700 (PDT)
+ bh=oGK/umoqvEVmk3LcqzdY5SU63Dd+Fo+4ZtG1Gj+fyHI=;
+ b=MjWp7+x11wSvEcErzoIDnRcHEf2PhiExa1KxynIcwAIo1ohheR4fgnFwqAOgMREEjWZSza
+ TytHfJH1msXIB3tRz3rSZDT21K9zG+QcDnrQ5hO8F1QjviZM6NVaHVC6Wn/AdMxEf3eim3
+ MVPSa/Wm4D4pUYRSjLJdnIIPo94Gsaw=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-438-bdVmj3FXMnSBtHYSveEvVg-1; Tue, 27 Oct 2020 09:57:29 -0400
+X-MC-Unique: bdVmj3FXMnSBtHYSveEvVg-1
+Received: by mail-ej1-f72.google.com with SMTP id k13so887590ejv.16
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:57:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JEjEb5blaJCbCH8yHzb9rLLKFCJ8kP8Dq4wMBDtqfPA=;
- b=KMEaTSU+XHv3OORzikWaHdMK1egR9YTKqYTNtqqzK0wLXVzOwHjyagX3VTHbLK/Vbv
- VUmlB8zYFeqANrzrbaoL/l5Ve0eWbE8BUkI6sMOSDFTImedNTR+s+Yz9TnZCF4Mqo/gr
- x2dcHjXjw5Tdeecrc68BBQrd8RR1vvEMBftF8I3h26zYkz8PdD0Zh3kMIZBnIrwxUYuW
- k6XztQY3Q3mWDQrVjluQwQj/HWsrm4qMCTKkTQ08skRxq3NfozIEFIebGWiUTCMlxqWy
- xz6JbIOFei8NteYfCpq3hNCvtZPIHv+yCD0N142YkeTe9EI+Qkw9uFPCrGILQAcqisHi
- FLmQ==
-X-Gm-Message-State: AOAM533Zf6iiOa3tqoIoKKpQckUAvHu7fwzjE6IDXKiy9GT31yZJFtfk
- HRtNv/DoiQGRLDbTlsZ6HTGpTRelsow+2vkResBC68otqCZ0yBKGU2NdQDhyaSf0TAUFUNRq14e
- 5j8jQNc4WSsKNMqM=
-X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr2419633eds.379.1603807042129; 
- Tue, 27 Oct 2020 06:57:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzHzC8M0tCzJel8YX0kGF1EMexn+eDGjWUUDLUlYJfBpsXKZY4Rvx+F51v4fc4xwiZFIoshjg==
-X-Received: by 2002:aa7:c5c4:: with SMTP id h4mr2419610eds.379.1603807041895; 
- Tue, 27 Oct 2020 06:57:21 -0700 (PDT)
+ bh=oGK/umoqvEVmk3LcqzdY5SU63Dd+Fo+4ZtG1Gj+fyHI=;
+ b=hulVUJYCAwksTyWiBokXtnY7Ke4BURPTVDMid/8/G8Ho8cQq8lG3hsVoix9XoklhM6
+ oPM5qWBM332W+jAEao0+/AfzqUUs2oA1KPUuY5rjo0qiWrIln6kI+YHQHWCS3pTswy1S
+ jMw07Kq6SWClfx38e9L27r4ZLQHy5gfe8LctpGYqTZTV1J8gjNacgLZA49fFA2Iti/Nk
+ dvuidMnlEbNgCUpr0YUndOIpkeniL489gRjj6Bmkx+1yhu3c81+XGQa8dKht0lVe1J2u
+ CJZEksWzyKJhQBdrUX+MhszAGbHNK2/zLGLUJBQ4xJhUlmRFgyF3bSEw/zALL8Krhvxa
+ 3/+g==
+X-Gm-Message-State: AOAM530uXM9fbRw466VgMgk+pIIuGRvVo6qndXACO0kLrO4oEM4o7yt0
+ L1IL5scIkqdTSgvZDStgFvj+XVxyG+qFuJrj6Ne7bFgeTPGkfrM/XI/oGY22sQhWwzajk9QU39N
+ uclFiQ56sOn06JHU=
+X-Received: by 2002:a17:906:3ada:: with SMTP id
+ z26mr2461486ejd.151.1603807047369; 
+ Tue, 27 Oct 2020 06:57:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyV+jsEMmmEP/BWFkxrP+/T2dCU1LikRGHKy/1nEwyG2qg7rEFxcSyZDKqJQ4+aSv8SKq5i9w==
+X-Received: by 2002:a17:906:3ada:: with SMTP id
+ z26mr2461463ejd.151.1603807047135; 
+ Tue, 27 Oct 2020 06:57:27 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id ld2sm1090588ejb.94.2020.10.27.06.57.20
+ by smtp.gmail.com with ESMTPSA id n10sm1015864edo.55.2020.10.27.06.57.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:57:21 -0700 (PDT)
+ Tue, 27 Oct 2020 06:57:26 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/25] block/nvme: Simplify nvme_cmd_sync()
-Date: Tue, 27 Oct 2020 14:55:39 +0100
-Message-Id: <20201027135547.374946-18-philmd@redhat.com>
+Subject: [PATCH 18/25] block/nvme: Pass AioContext argument to
+ nvme_add_io_queue()
+Date: Tue, 27 Oct 2020 14:55:40 +0100
+Message-Id: <20201027135547.374946-19-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -103,76 +106,48 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As all commands use the ADMIN queue, it is pointless to pass
-it as argument each time. Remove the argument.
+We want to get ride of the BlockDriverState pointer at some point,
+so pass aio_context along.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ block/nvme.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 2d3648694b0..68f0c3f7959 100644
+index 68f0c3f7959..a0871fc2a81 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -487,9 +487,10 @@ static void nvme_cmd_sync_cb(void *opaque, int ret)
-     aio_wait_kick();
+@@ -644,7 +644,9 @@ static void nvme_handle_event(EventNotifier *n)
+     nvme_poll_queues(s);
  }
  
--static int nvme_cmd_sync(BlockDriverState *bs, NVMeQueuePair *q,
--                         NvmeCmd *cmd)
-+static int nvme_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
+-static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
++/* Returns true on success, false on failure. */
++static bool nvme_add_io_queue(BlockDriverState *bs,
++                              AioContext *aio_context, Error **errp)
  {
-+    BDRVNVMeState *s = bs->opaque;
-+    NVMeQueuePair *q = s->queues[INDEX_ADMIN];
-     AioContext *aio_context = bdrv_get_aio_context(bs);
-     NVMeRequest *req;
-     int ret = -EINPROGRESS;
-@@ -534,7 +535,7 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
+     BDRVNVMeState *s = bs->opaque;
+     unsigned n = s->queue_count;
+@@ -653,8 +655,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+     unsigned queue_size = NVME_QUEUE_SIZE;
  
-     memset(id, 0, sizeof(*id));
-     cmd.dptr.prp1 = cpu_to_le64(iova);
--    if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
-+    if (nvme_cmd_sync(bs, &cmd)) {
-         error_setg(errp, "Failed to identify controller");
-         goto out;
+     assert(n <= UINT16_MAX);
+-    q = nvme_create_queue_pair(s, bdrv_get_aio_context(bs),
+-                               n, queue_size, errp);
++    q = nvme_create_queue_pair(s, aio_context, n, queue_size, errp);
+     if (!q) {
+         return false;
      }
-@@ -557,7 +558,7 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-     memset(id, 0, sizeof(*id));
-     cmd.cdw10 = 0;
-     cmd.nsid = cpu_to_le32(namespace);
--    if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
-+    if (nvme_cmd_sync(bs, &cmd)) {
-         error_setg(errp, "Failed to identify namespace");
-         goto out;
+@@ -830,7 +831,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
      }
-@@ -663,7 +664,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
-         .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | n),
-         .cdw11 = cpu_to_le32(NVME_CQ_IEN | NVME_CQ_PC),
-     };
--    if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
-+    if (nvme_cmd_sync(bs, &cmd)) {
-         error_setg(errp, "Failed to create CQ io queue [%u]", n);
-         goto out_error;
-     }
-@@ -673,7 +674,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
-         .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | n),
-         .cdw11 = cpu_to_le32(NVME_SQ_PC | (n << 16)),
-     };
--    if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
-+    if (nvme_cmd_sync(bs, &cmd)) {
-         error_setg(errp, "Failed to create SQ io queue [%u]", n);
-         goto out_error;
-     }
-@@ -889,7 +890,7 @@ static int nvme_enable_disable_write_cache(BlockDriverState *bs, bool enable,
-         .cdw11 = cpu_to_le32(enable ? 0x01 : 0x00),
-     };
  
--    ret = nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd);
-+    ret = nvme_cmd_sync(bs, &cmd);
-     if (ret) {
-         error_setg(errp, "Failed to configure NVMe write cache");
+     /* Set up command queues. */
+-    if (!nvme_add_io_queue(bs, errp)) {
++    if (!nvme_add_io_queue(bs, aio_context, errp)) {
+         ret = -EIO;
      }
+ out:
 -- 
 2.26.2
 
