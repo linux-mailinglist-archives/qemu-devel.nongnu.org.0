@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7980529A89D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:02:09 +0100 (CET)
-Received: from localhost ([::1]:33754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DB4129A8A0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:03:09 +0100 (CET)
+Received: from localhost ([::1]:36842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLns-0008E7-1x
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:02:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54280)
+	id 1kXLoq-0001BJ-ET
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:03:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLlZ-0006eV-0p
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:45 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34956)
+ id 1kXLlb-0006eq-9D
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:47 -0400
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLlX-0000OJ-4J
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:44 -0400
-Received: by mail-wr1-x434.google.com with SMTP id n15so1174683wrq.2
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:42 -0700 (PDT)
+ id 1kXLlZ-0000Ov-Lt
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:46 -0400
+Received: by mail-wm1-x336.google.com with SMTP id k18so765632wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=34R6NI0WK0Vxw1MqeYCeWgrDTVopx//TkoJDjYqCmug=;
- b=RL0eVP4glzR6e3kTiU9PPSr3dDmKWpvYQbEJARcWksjxbtDHytl/mcvWOLeIvwUM4M
- yS8LWGjXvUjk2uMyTa13ECeUosiTDWYdN3Z7v8cce8KMFELdoThujyPqMZfJQkYtpLXj
- 1tscs3NJwB0Sn8OfvBYFkfzT+8eL7nwv0HbC3tAHW21SQMPpIpTdJ9UqpORWNkg5efHv
- AK89Ew2mdSSm3Gc5F+gZAIWcpy2waZ7UKJfzKMc7cDopG2DyBHuqBk7YIFrSl/cEoRXw
- l/QZ6QfYMXWEG9SomH90KgUzsNXfa2T2wGrNjLwX2VP9wU/iGCQOUJ0carJbuvdjJ1Ju
- 4pzA==
+ bh=uajyyIUVuN5H5ZPpAguAQpdeNr13la0Sl37siT1QEAg=;
+ b=QmF0CU0V/97XMLAKay7Yuw+7o82DhB3wbVbIySUUfat/ll/kXlbP85bf1BxqWJvw3J
+ DvTBoJ/qH7RtbzWeRK849S0JSmPKgBCCoPg7cft2JBZgZeTmIDEtdS/BPM6r7iQkVknI
+ j8PR82hGbx/cvoat7UK27IRiq/dsNBEXXjjIeRXdfXFMSvNIyT19IUxIobeT+q13pbPn
+ kuWsvVyoA3Y4D9bUyYlPQKSomdcxPzftMCvpCQpBIpUwx2Lu620hn6lE9p7YI7biEOGM
+ YRpviBd923UACim/wUm32d7NIlv1At0VNlL02Ez8BL4FPPDaRnYU15BQ5ZN1PTNBAYpI
+ GJow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=34R6NI0WK0Vxw1MqeYCeWgrDTVopx//TkoJDjYqCmug=;
- b=t1laXg587W1k9OoAki8jVyfG9aG3wVnDq9SKzWz2vkZ853UmIRJWl8jgqdNxhxB7dR
- Nu/BxPy2ySBE+EVfEJc0ax6xgkX+L2nxNaOCd01wT/+e0dGksRwTxWqpThYn2WYD2Nj5
- da27xxQQXnOlwwPUQXyu2SrtvFKI+QnTfZs8vTeM2+xMuOn3r4LtfrmIL1cIA3ylSIlv
- HR/TPTylAukcGTz+ICzdn8T1aMA6fkEAMIZDlLr81N2Bvj5C97rx2Nbj+RNq6eE/gW0f
- 6CYmtwCX8/jsbxFt3pMH2vPxFhOBRJU8X3rjfuP9wZZXpyhRUhojhgFhZ4fR2Zi2Ts1b
- ZpSQ==
-X-Gm-Message-State: AOAM530+Oq3puUVesQmEKFAF8INz8IT5wmWVU6n2wPeMIVC2LuLsyfCd
- lXf1ANxhw+CS+AO6ZD2MfHGTvQ==
-X-Google-Smtp-Source: ABdhPJxTLwBw4nZx5uziwyvxxZEmUgMPv2O6QIgSeg22Q/hADGEHxw6+5/UrC0WbRQBMdkUpxNET5g==
-X-Received: by 2002:a5d:6605:: with SMTP id n5mr1810249wru.355.1603792781622; 
- Tue, 27 Oct 2020 02:59:41 -0700 (PDT)
+ bh=uajyyIUVuN5H5ZPpAguAQpdeNr13la0Sl37siT1QEAg=;
+ b=WrY60khXA+rXSw5wgjGm9E+080CEycJXz8I7saGPU1IC2cCXWLehSl40YZqYFSN/Bb
+ h2ACKb0AXVDu/N+pXekUjJT/GG5SSx8nMUoyzEmEyJfNdZlNWK20psY57lII/kZLFtwd
+ wR+Iu/eEF/JEggZKRQQVCv76FV0FGSZblZ/OxPFgtPlOxukYOSafZpA4C3CaaU05xdtb
+ nGCVhTKKcSmXBheD5lAswDR2No6YNCWvbmp7yJ7Cg0VYCwLN34SGk3+lRSyjdSMTX7FF
+ 9CuABid28Uivt3ZWoEFkCa76Vi49K0ajudI0bOn077I0604Kyc12HfxD7aFWtww7mLk5
+ LwTQ==
+X-Gm-Message-State: AOAM531XBHlGkyQiSzvdis4Hdopvn5RYnsW2rbE8IKY3/EQeOm+NRiDV
+ IBp+CGY/R/ChSJI5sFFVvkiHWA==
+X-Google-Smtp-Source: ABdhPJzz0A2FQuZorRLMbvz8dWFTag0A6r56oP1p8e2zje8LwsSpahint7HnNImSikoSOXDQYrRC/Q==
+X-Received: by 2002:a1c:8145:: with SMTP id c66mr1761626wmd.75.1603792783715; 
+ Tue, 27 Oct 2020 02:59:43 -0700 (PDT)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f139sm1338136wme.47.2020.10.27.02.59.39
+ by smtp.gmail.com with ESMTPSA id s12sm195039wmc.6.2020.10.27.02.59.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Tue, 27 Oct 2020 02:59:39 -0700 (PDT)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D185E1FF87;
+ by zen.linaroharston (Postfix) with ESMTP id E85AA1FF8C;
  Tue, 27 Oct 2020 09:59:38 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/8] Adding ani's email as an individual contributor
-Date: Tue, 27 Oct 2020 09:59:31 +0000
-Message-Id: <20201027095938.28673-2-alex.bennee@linaro.org>
+Subject: [PULL 2/8] contrib/gitdm: Add more individual contributors
+Date: Tue, 27 Oct 2020 09:59:32 +0000
+Message-Id: <20201027095938.28673-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027095938.28673-1-alex.bennee@linaro.org>
 References: <20201027095938.28673-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,32 +88,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ani Sinha <ani@anisinha.ca>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+Cc: Thomas Huth <huth@tuxfamily.org>, James Hogan <jhogan@kernel.org>,
+ qemu-devel@nongnu.org, Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ani Sinha <ani@anisinha.ca>
-
-Ani is an individual contributor into qemu project. Adding my email into the
-correct file to reflect so.
-
-Signed-off-by: Ani Sinha <ani@anisinha.ca>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201007161940.1478-1-ani@anisinha.ca>
-Message-Id: <20201021163136.27324-2-alex.bennee@linaro.org>
+Acked-by: Subbaraya Sundeep <sundeep.lkml@gmail.com>
+Acked-by: Michael Rolnik <mrolnik@gmail.com>
+Acked-by: Thomas Huth <huth@tuxfamily.org>
+Acked-by: James Hogan <jhogan@kernel.org>
+Acked-by: Artyom Tarasenko <atar4qemu@gmail.com>
+Message-id: <20201004182506.2038515-1-f4bug@amsat.org>
+Message-Id: <20201021163136.27324-3-alex.bennee@linaro.org>
 
 diff --git a/contrib/gitdm/group-map-individuals b/contrib/gitdm/group-map-individuals
-index 641169fa63..d135f4b143 100644
+index d135f4b143..36bbb77c39 100644
 --- a/contrib/gitdm/group-map-individuals
 +++ b/contrib/gitdm/group-map-individuals
-@@ -23,3 +23,4 @@ vr_qemu@t-online.de
- nieklinnenbank@gmail.com
+@@ -24,3 +24,8 @@ nieklinnenbank@gmail.com
  devnexen@gmail.com
  pauldzim@gmail.com
-+ani@anisinha.ca
+ ani@anisinha.ca
++sundeep.lkml@gmail.com
++mrolnik@gmail.com
++huth@tuxfamily.org
++jhogan@kernel.org
++atar4qemu@gmail.com
 -- 
 2.20.1
 
