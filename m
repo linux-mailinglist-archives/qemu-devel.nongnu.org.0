@@ -2,56 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC17A29B5B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:19:40 +0100 (CET)
-Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D21BB29B512
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:12:29 +0100 (CET)
+Received: from localhost ([::1]:33154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQl9-0001gU-QE
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:19:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
+	id 1kXQeC-0001MS-Sg
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:12:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kXQQo-0002Dz-P0; Tue, 27 Oct 2020 10:58:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43290)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1kXQQm-00056b-Ue; Tue, 27 Oct 2020 10:58:38 -0400
-Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1kXQWC-0007pr-G6
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:04:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kchamart@redhat.com>)
+ id 1kXQW8-0005n5-8x
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:04:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603811043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kULO0K0PYfVWwTw4rsBlloW1pF6z7Uysc1OQ2YiAWvI=;
+ b=fXWmnIOCDiCwss8u3XkW1sKyy09Zk2B2LGoI5spu9Z6XkrKZymXz/5UdrOX61iOHXPp/fb
+ IDWe3uZLH6TChl2qLW+wO5LdaxGdQ1PlTQqyCaZt4q2fjdbjtUNmOV3W0OOf8zNxSUeNRr
+ xpTkbE7ueCbYw8R4+n8yTCLDB8sGF7w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-442-ptCuUlrqOYOz67EYefqh3w-1; Tue, 27 Oct 2020 11:02:52 -0400
+X-MC-Unique: ptCuUlrqOYOz67EYefqh3w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id 4BE2320780;
- Tue, 27 Oct 2020 14:58:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=default; t=1603810715;
- bh=0qnf5kpG79tAjXFqCxjFM4Fu/tdvuoyBNvNUG1IPqF4=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jKN0rW82wkfOaO2EUEkYbPXil2lyWpFJ+z39vLzaaX+n1EmntZx2mvwOc40L5AROj
- KlG0rCQldqe4QHpXfGUIpycTTwqfAxN0NoNstLjfdElLEH16QlRKEbxjVWoYm0S377
- xY59MjdYfJPlHZwfbJ7Ln/DbJRE0m9vL+plSgrxA=
-Date: Tue, 27 Oct 2020 07:58:31 -0700
-From: Keith Busch <kbusch@kernel.org>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 08/25] block/nvme: Simplify device reset
-Message-ID: <20201027145831.GC1942271@dhcp-10-100-145-180.wdc.com>
-References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-9-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7836800597
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 15:02:51 +0000 (UTC)
+Received: from paraplu.localdomain (ovpn-113-21.ams2.redhat.com [10.36.113.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A75076EF45;
+ Tue, 27 Oct 2020 15:02:51 +0000 (UTC)
+Received: by paraplu.localdomain (Postfix, from userid 1001)
+ id E958F3E047D; Tue, 27 Oct 2020 16:02:49 +0100 (CET)
+Date: Tue, 27 Oct 2020 16:02:49 +0100
+From: Kashyap Chamarthy <kchamart@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [qemu-web PATCH v2 11/16] Bring contribution links out of the
+ footer into the home page
+Message-ID: <20201027150249.GB64583@paraplu>
+References: <20201027132015.621733-1-berrange@redhat.com>
+ <20201027132015.621733-12-berrange@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201027132015.621733-12-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kchamart@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201027135547.374946-9-philmd@redhat.com>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:45:26
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kchamart@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,32 +85,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 02:55:30PM +0100, Philippe Mathieu-Daudé wrote:
-> Avoid multiple endianess conversion by using device endianess.
+On Tue, Oct 27, 2020 at 01:20:10PM +0000, Daniel P. BerrangÃ© wrote:
+> The selection of contribution links are important information to present
+> to visitors to the site. They are best placed in a prominent position on
+> the home page rather than in the footer
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  block/nvme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/block/nvme.c b/block/nvme.c
-> index e95d59d3126..be14350f959 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -755,7 +755,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
->      timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
->  
->      /* Reset device to get a clean state. */
-> -    regs->cc = cpu_to_le32(le32_to_cpu(regs->cc) & 0xFE);
-> +    regs->cc &= const_le32(0xFE);
+> Signed-off-by: Daniel P. BerrangÃ© <berrange@redhat.com>
 
-This doesn't look right. The 'regs' is an MMIO address, correct? Memory
-mappings use the CPU native access.
+Yeah, I personally didn't realize all the useful Contribute-related
+links that were only one scroll away in the old page vs. having it front
+and center in your new rendering:
+
+    https://berrange.gitlab.io/qemu-web/
+
+Definitely useful.
+
+FWIW:
+
+    Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>    
+
+> ---
+>  _includes/footer.html | 7 -------
+>  index.html            | 8 ++++++++
+>  2 files changed, 8 insertions(+), 7 deletions(-)
+> 
+> diff --git a/_includes/footer.html b/_includes/footer.html
+> index 411ff55..07f7866 100644
+> --- a/_includes/footer.html
+> +++ b/_includes/footer.html
+> @@ -5,13 +5,6 @@
+>  			<li><a href="{{ relative_root }}/download">Download</a></li>
+>  			<li><a href="http://qemu-advent-calendar.org">QEMU advent calendar</a></li>
+>  		</ul>
+> -		<ul class="style">
+> -			<li><a href="{{ relative_root }}/contribute">Contribute</a></li>
+> -			<li><a href="{{ relative_root }}/contribute/report-a-bug">Reporting a bug</a></li>
+> -			<li><a href="https://wiki.qemu.org/Documentation/GettingStartedDevelopers">New contributors</a></li>
+> -			<li><a href="https://wiki.qemu.org/Contribute/SubmitAPatch">Submitting a patch</a></li>
+> -			<li><a href="https://wiki.qemu.org/Contribute/FAQ">Contributor FAQ</a></li>
+> -		</ul>
+>  		<ul class="style">
+>  			<li><a href="{{ relative_root }}/documentation">Documentation</a></li>
+>  			<li><a href="https://www.qemu.org/docs/master/">Main docs</a></li>
+> diff --git a/index.html b/index.html
+> index d057a87..be1d210 100644
+> --- a/index.html
+> +++ b/index.html
+> @@ -27,6 +27,14 @@ bxslider: True
+>  			  <span><a href="{{ relative_root }}/download">Other releases</a></span>
+>  			</li>
+>  {% endfor %}
+> +
+> +			<li><strong>Contribute</strong>
+> +			  <span><a href="{{ relative_root }}/contribute">Overview</a></span>
+> +			  <span><a href="{{ relative_root }}/contribute/report-a-bug">Reporting a bug</a></span>
+> +			  <span><a href="https://wiki.qemu.org/Documentation/GettingStartedDevelopers">New contributors</a></span>
+> +			  <span><a href="https://wiki.qemu.org/Contribute/SubmitAPatch">Submitting a patch</a></span>
+> +			  <span><a href="https://wiki.qemu.org/Contribute/FAQ">Contributor FAQ</a></span>
+> +			</li>
+>  		</ul>
+>  	</div>
+>  </div>
+> -- 
+> 2.26.2
+> 
+> 
+
+-- 
+/kashyap
+
 
