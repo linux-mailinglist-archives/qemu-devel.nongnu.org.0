@@ -2,50 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09CC829B2BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:45:08 +0100 (CET)
-Received: from localhost ([::1]:40246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4439929B3F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:57:44 +0100 (CET)
+Received: from localhost ([::1]:48450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQDj-00017f-2f
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:45:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
+	id 1kXQPv-0008KX-6T
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:57:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnl-0002JC-FA; Tue, 27 Oct 2020 10:18:18 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60351 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnh-0007dV-5s; Tue, 27 Oct 2020 10:18:17 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLw0LVRz9sWC; Wed, 28 Oct 2020 01:17:59 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808280;
- bh=6ZPClbbv5qNJ5y6LgaFk79MRsNOsmRfIuOdODgmkiDI=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kWxMOqShleMD/8vpPtne2t4xzGaj/Xj/Re8EBIBNNm+zD2e2IdOzvIDb0xjgsqDOS
- u9Tnivt0f6gWBQXHh+0y8Y0jHVI/la+YrOrEPZ+movwDZiw/kzw8vCbX92v3FmzrWw
- ImS2QdYFkakag4wTcVZN0Ia1si6kXIJ2ETr1QItI=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org
-Subject: [PULL 18/18] ppc/: fix some comment spelling errors
-Date: Wed, 28 Oct 2020 01:17:35 +1100
-Message-Id: <20201027141735.728821-19-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
-References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kXPo1-0002Y4-45; Tue, 27 Oct 2020 10:18:33 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41126)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kXPny-0007hp-Gd; Tue, 27 Oct 2020 10:18:32 -0400
+Received: by mail-pf1-x444.google.com with SMTP id c20so989775pfr.8;
+ Tue, 27 Oct 2020 07:18:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=S8aFeiwXcL7jj5E1nZldB4D5f90iqiRclf6j3tcuFGI=;
+ b=VzPZUaeIsMICLPA0u4FaJaSAQ2dynQMkB3TvbbLwTzI8k4SbhHrjfTNE/vCG8k2x3A
+ NlJUmW+CLUnsS180ppDoXvsu/guziEahW4o63TUViH61G8N9rAoCiWC/Zc74/MW7lhaO
+ p8ogxgzhDoQTXj7syuYwnzPSWCeJSQRgjIykUN1ghaYhwEYil/HbjY8YQkTmaHSxzMsx
+ VpB3Y5I2OUoCsoGvLqlHBnOAYgWW3TT7S8SioNKNSMRjYWtxSibS7HqBHVHivXznHTm4
+ lhPnR8Vlqz3W+X2r6z1S1mAcMKlquPEFhMJzuFxYVWVkK0RiwIUSVGWQnoNRJTt6CSPD
+ 312w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=S8aFeiwXcL7jj5E1nZldB4D5f90iqiRclf6j3tcuFGI=;
+ b=jjVtijoE8NohU9jljyJBHhls2Jk2fEpCnkSgVvjt5v7D5XS6M4zrl+zk5Oew9ZK1Rf
+ 55P+VjeMQ3zsRDk1R0mGJCxWvl084E/yhh/58bhJoXGJ6Zi5dcgPfjwO6+XZo8Ejxug9
+ d8Wz2G0eEMNzZrbelSjd+uV2DORuCaDKheDoc28XH39xUFg8lDZHE8oV0DIoHEzLdc/1
+ 9v0BZwhlaHlYBePsLN3D1lhvGzg2iX8L3JQDCTdhlaCMLnMtMtDIucYipodA5s+rgJgJ
+ y00i9X+2yWdR0yUocADzmJ6fUqHXFHjDxOQvZef1qo6hvsxPGvPOr512UBCx6jVV0HO3
+ Vy0g==
+X-Gm-Message-State: AOAM530xPuKiAGQEII2ROvCV52eFkfG/3CTvf7NoiKqCImCjr08p0Ucp
+ A3mcQO+0NzSrk498vt91KFg=
+X-Google-Smtp-Source: ABdhPJz2UlpZ0nGHcjOBuD1PZVBkkpKkOzkRV1lw6s63+Qt+X42+Nabd6nkK2b70onY9eer8QEvWXw==
+X-Received: by 2002:a65:62d5:: with SMTP id m21mr2137566pgv.226.1603808308939; 
+ Tue, 27 Oct 2020 07:18:28 -0700 (PDT)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id mn15sm1600297pjb.21.2020.10.27.07.18.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 07:18:28 -0700 (PDT)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [RESEND PATCH 5/9] hw/misc: Add Microchip PolarFire SoC SYSREG module
+ support
+Date: Tue, 27 Oct 2020 22:17:36 +0800
+Message-Id: <20201027141740.18336-6-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201027141740.18336-1-bmeng.cn@gmail.com>
+References: <20201027141740.18336-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,195 +85,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, zhaolichang <zhaolichang@huawei.com>,
- qemu-devel@nongnu.org, groug@kaod.org,
- David Edmondson <david.edmondson@oracle.com>, qemu-ppc@nongnu.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
+ Anup Patel <anup.patel@wdc.com>, Ivan Griffin <ivan.griffin@emdalo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: zhaolichang <zhaolichang@huawei.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-I found that there are many spelling errors in the comments of qemu/target/ppc.
-I used spellcheck to check the spelling errors and found some errors in the folder.
+This creates a minimum model for Microchip PolarFire SoC SYSREG
+module. It only implements the ENVM_CR register to tell guest
+software that eNVM is running at the configured divider rate.
 
-Signed-off-by: zhaolichang <zhaolichang@huawei.com>
-Reviewed-by: David Edmondson <david.edmondson@oracle.com>
-Message-Id: <20201009064449.2336-3-zhaolichang@huawei.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
- target/ppc/cpu.h                | 6 +++---
- target/ppc/excp_helper.c        | 6 +++---
- target/ppc/fpu_helper.c         | 2 +-
- target/ppc/internal.h           | 2 +-
- target/ppc/kvm.c                | 2 +-
- target/ppc/machine.c            | 2 +-
- target/ppc/mmu-hash64.c         | 2 +-
- target/ppc/mmu_helper.c         | 4 ++--
- target/ppc/translate_init.c.inc | 2 +-
- 9 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index e8aa185d4f..2eb41a295a 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -615,7 +615,7 @@ enum {
- #define FPSCR_VXCVI  8  /* Floating-point invalid operation exception (int)  */
- #define FPSCR_VE     7  /* Floating-point invalid operation exception enable */
- #define FPSCR_OE     6  /* Floating-point overflow exception enable          */
--#define FPSCR_UE     5  /* Floating-point undeflow exception enable          */
-+#define FPSCR_UE     5  /* Floating-point underflow exception enable          */
- #define FPSCR_ZE     4  /* Floating-point zero divide exception enable       */
- #define FPSCR_XE     3  /* Floating-point inexact exception enable           */
- #define FPSCR_NI     2  /* Floating-point non-IEEE mode                      */
-@@ -2331,13 +2331,13 @@ enum {
-     /* Internal hardware exception sources */
-     PPC_INTERRUPT_DECR,           /* Decrementer exception                */
-     PPC_INTERRUPT_HDECR,          /* Hypervisor decrementer exception     */
--    PPC_INTERRUPT_PIT,            /* Programmable inteval timer interrupt */
-+    PPC_INTERRUPT_PIT,            /* Programmable interval timer interrupt */
-     PPC_INTERRUPT_FIT,            /* Fixed interval timer interrupt       */
-     PPC_INTERRUPT_WDT,            /* Watchdog timer interrupt             */
-     PPC_INTERRUPT_CDOORBELL,      /* Critical doorbell interrupt          */
-     PPC_INTERRUPT_DOORBELL,       /* Doorbell interrupt                   */
-     PPC_INTERRUPT_PERFM,          /* Performance monitor interrupt        */
--    PPC_INTERRUPT_HMI,            /* Hypervisor Maintainance interrupt    */
-+    PPC_INTERRUPT_HMI,            /* Hypervisor Maintenance interrupt    */
-     PPC_INTERRUPT_HDOORBELL,      /* Hypervisor Doorbell interrupt        */
-     PPC_INTERRUPT_HVIRT,          /* Hypervisor virtualization interrupt  */
- };
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index a988ba15f4..d7411bcc81 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -231,7 +231,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-     }
+ MAINTAINERS                         |  2 +
+ hw/misc/Kconfig                     |  3 +
+ hw/misc/mchp_pfsoc_sysreg.c         | 99 +++++++++++++++++++++++++++++
+ hw/misc/meson.build                 |  1 +
+ include/hw/misc/mchp_pfsoc_sysreg.h | 39 ++++++++++++
+ 5 files changed, 144 insertions(+)
+ create mode 100644 hw/misc/mchp_pfsoc_sysreg.c
+ create mode 100644 include/hw/misc/mchp_pfsoc_sysreg.h
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ebbc62a62f..e82f2b35e8 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1328,10 +1328,12 @@ F: hw/riscv/microchip_pfsoc.c
+ F: hw/char/mchp_pfsoc_mmuart.c
+ F: hw/misc/mchp_pfsoc_dmc.c
+ F: hw/misc/mchp_pfsoc_ioscb.c
++F: hw/misc/mchp_pfsoc_sysreg.c
+ F: include/hw/riscv/microchip_pfsoc.h
+ F: include/hw/char/mchp_pfsoc_mmuart.h
+ F: include/hw/misc/mchp_pfsoc_dmc.h
+ F: include/hw/misc/mchp_pfsoc_ioscb.h
++F: include/hw/misc/mchp_pfsoc_sysreg.h
  
-     /*
--     * Exception targetting modifiers
-+     * Exception targeting modifiers
-      *
-      * LPES0 is supported on POWER7/8/9
-      * LPES1 is not supported (old iSeries mode)
-@@ -1015,7 +1015,7 @@ static void ppc_hw_interrupt(CPUPPCState *env)
-          * This means we will incorrectly execute past the power management
-          * instruction instead of triggering a reset.
-          *
--         * It generally means a discrepancy between the wakup conditions in the
-+         * It generally means a discrepancy between the wakeup conditions in the
-          * processor has_work implementation and the logic in this function.
-          */
-         cpu_abort(env_cpu(env),
-@@ -1191,7 +1191,7 @@ void helper_rfi(CPUPPCState *env)
- void helper_rfid(CPUPPCState *env)
- {
-     /*
--     * The architeture defines a number of rules for which bits can
-+     * The architecture defines a number of rules for which bits can
-      * change but in practice, we handle this in hreg_store_msr()
-      * which will be called by do_rfi(), so there is no need to filter
-      * here
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index ae43b08eb5..9b8c8b70b6 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -1804,7 +1804,7 @@ uint32_t helper_efdcmpeq(CPUPPCState *env, uint64_t op1, uint64_t op2)
+ RX Machines
+ -----------
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 3db15e06b4..546e2fab9b 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -140,6 +140,9 @@ config MCHP_PFSOC_DMC
+ config MCHP_PFSOC_IOSCB
+     bool
  
++config MCHP_PFSOC_SYSREG
++    bool
++
+ config SIFIVE_TEST
+     bool
  
- /*
-- * VSX_ADD_SUB - VSX floating point add/subract
-+ * VSX_ADD_SUB - VSX floating point add/subtract
-  *   name  - instruction mnemonic
-  *   op    - operation (add or sub)
-  *   nels  - number of elements (1, 2 or 4)
-diff --git a/target/ppc/internal.h b/target/ppc/internal.h
-index 15d655b356..b4df127f4a 100644
---- a/target/ppc/internal.h
-+++ b/target/ppc/internal.h
-@@ -1,5 +1,5 @@
- /*
-- *  PowerPC interal definitions for qemu.
-+ *  PowerPC internal definitions for qemu.
-  *
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 0223b93ea5..daf690a678 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -487,7 +487,7 @@ int kvm_arch_init_vcpu(CPUState *cs)
-             /*
-              * KVM-HV has transactional memory on POWER8 also without
-              * the KVM_CAP_PPC_HTM extension, so enable it here
--             * instead as long as it's availble to userspace on the
-+             * instead as long as it's available to userspace on the
-              * host.
-              */
-             if (qemu_getauxval(AT_HWCAP2) & PPC_FEATURE2_HAS_HTM) {
-diff --git a/target/ppc/machine.c b/target/ppc/machine.c
-index 5e58377376..c38e7b1268 100644
---- a/target/ppc/machine.c
-+++ b/target/ppc/machine.c
-@@ -337,7 +337,7 @@ static int cpu_post_load(void *opaque, int version_id)
- 
-     /*
-      * If we're operating in compat mode, we should be ok as long as
--     * the destination supports the same compatiblity mode.
-+     * the destination supports the same compatibility mode.
-      *
-      * Otherwise, however, we require that the destination has exactly
-      * the same CPU model as the source.
-diff --git a/target/ppc/mmu-hash64.c b/target/ppc/mmu-hash64.c
-index c31d21e6a9..977b2d1561 100644
---- a/target/ppc/mmu-hash64.c
-+++ b/target/ppc/mmu-hash64.c
-@@ -883,7 +883,7 @@ int ppc_hash64_handle_mmu_fault(PowerPCCPU *cpu, vaddr eaddr,
-     /*
-      * Note on LPCR usage: 970 uses HID4, but our special variant of
-      * store_spr copies relevant fields into env->spr[SPR_LPCR].
--     * Similarily we filter unimplemented bits when storing into LPCR
-+     * Similarly we filter unimplemented bits when storing into LPCR
-      * depending on the MMU version. This code can thus just use the
-      * LPCR "as-is".
-      */
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 8972714775..50aa18a763 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -179,7 +179,7 @@ static inline int ppc6xx_tlb_pte_check(mmu_ctx_t *ctx, target_ulong pte0,
-             }
-             /* Compute access rights */
-             access = pp_check(ctx->key, pp, ctx->nx);
--            /* Keep the matching PTE informations */
-+            /* Keep the matching PTE information */
-             ctx->raddr = pte1;
-             ctx->prot = access;
-             ret = check_prot(ctx->prot, rw, type);
-@@ -2176,7 +2176,7 @@ void helper_store_sr(CPUPPCState *env, target_ulong srnum, target_ulong value)
-         env->sr[srnum] = value;
-         /*
-          * Invalidating 256MB of virtual memory in 4kB pages is way
--         * longer than flusing the whole TLB.
-+         * longer than flushing the whole TLB.
-          */
- #if !defined(FLUSH_ALL_TLBS) && 0
-         {
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index d2a8204d60..dc68da3cfd 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -792,7 +792,7 @@ static void gen_spr_generic(CPUPPCState *env)
-                  &spr_read_xer, &spr_write_xer,
-                  &spr_read_xer, &spr_write_xer,
-                  0x00000000);
--    /* Branch contol */
-+    /* Branch control */
-     spr_register(env, SPR_LR, "LR",
-                  &spr_read_lr, &spr_write_lr,
-                  &spr_read_lr, &spr_write_lr,
+diff --git a/hw/misc/mchp_pfsoc_sysreg.c b/hw/misc/mchp_pfsoc_sysreg.c
+new file mode 100644
+index 0000000000..248a313345
+--- /dev/null
++++ b/hw/misc/mchp_pfsoc_sysreg.c
+@@ -0,0 +1,99 @@
++/*
++ * Microchip PolarFire SoC SYSREG module emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/sysbus.h"
++#include "hw/misc/mchp_pfsoc_sysreg.h"
++
++#define ENVM_CR         0xb8
++
++static uint64_t mchp_pfsoc_sysreg_read(void *opaque, hwaddr offset,
++                                       unsigned size)
++{
++    uint32_t val = 0;
++
++    switch (offset) {
++    case ENVM_CR:
++        /* Indicate the eNVM is running at the configured divider rate */
++        val = BIT(6);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
++                      __func__, size, offset);
++        break;
++    }
++
++    return val;
++}
++
++static void mchp_pfsoc_sysreg_write(void *opaque, hwaddr offset,
++                                    uint64_t value, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
++                  "(size %d, value 0x%" PRIx64
++                  ", offset 0x%" HWADDR_PRIx ")\n",
++                  __func__, size, value, offset);
++}
++
++static const MemoryRegionOps mchp_pfsoc_sysreg_ops = {
++    .read = mchp_pfsoc_sysreg_read,
++    .write = mchp_pfsoc_sysreg_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void mchp_pfsoc_sysreg_realize(DeviceState *dev, Error **errp)
++{
++    MchpPfSoCSysregState *s = MCHP_PFSOC_SYSREG(dev);
++
++    memory_region_init_io(&s->sysreg, OBJECT(dev),
++                          &mchp_pfsoc_sysreg_ops, s,
++                          "mchp.pfsoc.sysreg",
++                          MCHP_PFSOC_SYSREG_REG_SIZE);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->sysreg);
++}
++
++static void mchp_pfsoc_sysreg_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "Microchip PolarFire SoC SYSREG module";
++    dc->realize = mchp_pfsoc_sysreg_realize;
++}
++
++static const TypeInfo mchp_pfsoc_sysreg_info = {
++    .name          = TYPE_MCHP_PFSOC_SYSREG,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MchpPfSoCSysregState),
++    .class_init    = mchp_pfsoc_sysreg_class_init,
++};
++
++static void mchp_pfsoc_sysreg_register_types(void)
++{
++    type_register_static(&mchp_pfsoc_sysreg_info);
++}
++
++type_init(mchp_pfsoc_sysreg_register_types)
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 6d3c1a3455..8ed75254c4 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -24,6 +24,7 @@ softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+ # RISC-V devices
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_DMC', if_true: files('mchp_pfsoc_dmc.c'))
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_IOSCB', if_true: files('mchp_pfsoc_ioscb.c'))
++softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_SYSREG', if_true: files('mchp_pfsoc_sysreg.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_TEST', if_true: files('sifive_test.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_E_PRCI', if_true: files('sifive_e_prci.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_U_OTP', if_true: files('sifive_u_otp.c'))
+diff --git a/include/hw/misc/mchp_pfsoc_sysreg.h b/include/hw/misc/mchp_pfsoc_sysreg.h
+new file mode 100644
+index 0000000000..546ba68f6a
+--- /dev/null
++++ b/include/hw/misc/mchp_pfsoc_sysreg.h
+@@ -0,0 +1,39 @@
++/*
++ * Microchip PolarFire SoC SYSREG module emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef MCHP_PFSOC_SYSREG_H
++#define MCHP_PFSOC_SYSREG_H
++
++#define MCHP_PFSOC_SYSREG_REG_SIZE  0x2000
++
++typedef struct MchpPfSoCSysregState {
++    SysBusDevice parent;
++    MemoryRegion sysreg;
++} MchpPfSoCSysregState;
++
++#define TYPE_MCHP_PFSOC_SYSREG "mchp.pfsoc.sysreg"
++
++#define MCHP_PFSOC_SYSREG(obj) \
++    OBJECT_CHECK(MchpPfSoCSysregState, (obj), \
++                 TYPE_MCHP_PFSOC_SYSREG)
++
++#endif /* MCHP_PFSOC_SYSREG_H */
 -- 
-2.26.2
+2.25.1
 
 
