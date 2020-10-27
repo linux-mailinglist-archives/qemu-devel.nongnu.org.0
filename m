@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44A1D29B48B
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:05:04 +0100 (CET)
-Received: from localhost ([::1]:38992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 792C529B4D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:07:45 +0100 (CET)
+Received: from localhost ([::1]:47244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQX0-00086Q-79
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:05:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48468)
+	id 1kXQZc-0003W8-Hw
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:07:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXQ9g-0005M9-5I
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:40:56 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kXQ9e-0002d8-8c
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:40:55 -0400
-Received: by mail-ej1-x642.google.com with SMTP id bn26so2580153ejb.6
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 07:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=atrdn6JxvV9PBu2/vgtm5bG4A5IALlYh+S+gHEWuMw8=;
- b=jMZDo+75DD/cDFAnGvuYuUiclPjtqMkxX62nqCQFGxIRQiBg7wc54OccK3ZWBNsaFl
- p2K8Mdb/UK8nNmdLPBrdcSYZpooN4BvrY4CXPIRZSLkW+FsZvIyvFvQFD7n0nbAi24np
- UtDNsPM58EwTfBEtjvr3MwAGM+6ucYdrWApNrs3WzdN9ONmh2xz091sCKfjpovQMGBxB
- bTaqIPwvctUa9v2Yn2jKz9VJHYmdjwzWXauIe6ecX5da5z3//4rYhqNd/FBYPm7DCZLV
- Su5tdp/XxHsx1joq8XvpZGh3dKe6GCJBDxCk9yqnSOG8GcFsvvuDNbJjnjPczhc6lniK
- xnpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=atrdn6JxvV9PBu2/vgtm5bG4A5IALlYh+S+gHEWuMw8=;
- b=kz72l+xz+2IMM3ThDuYo/AqNG7875GEK6Ej7TSm2PLqtx+bZUuFhOE1CSwIXfCsymp
- bZQ+UTPaWcBEH2C4BHqq7A0ej/AS2fB1mJxXcjsCpAoxQkLsinf9Gd6zJv/mt7uAkW68
- qi3HrN5SGLYRE8SDv9DWEvvpXKmqGjrXUiMZfpmchhV7frBgu3epz78wbyOPEj0v9agr
- lWeHos+cbft9pwfGdH07cuzmnMfEvIp5oEpJ3XSxjt86e8viRH8WZz5qlaiQSJMeWW+X
- Xg0cmNTBE+RSPreqj/cU3+g2PQT6WNTjSMPMSkAVUuDjzrjzkzTJ1H1qbspbcnbfs4HN
- uONg==
-X-Gm-Message-State: AOAM532+ks77WDqwKy/LjYILZZ3XaWELuttDDXHNbW6qaouRz7Jyjs0m
- /VPVTJhgamnREuRBtqmu8I+rwC2B7uI=
-X-Google-Smtp-Source: ABdhPJwx7aKjlVhlJDUQLrTmQtGhNyb/Hga4V0W+BS1opvOEMN2cN1iPUni3CS1TGvZKS9JX8wu+fw==
-X-Received: by 2002:a17:907:435b:: with SMTP id
- oc19mr2616706ejb.311.1603809652415; 
- Tue, 27 Oct 2020 07:40:52 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id d14sm1092294edx.53.2020.10.27.07.40.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 07:40:51 -0700 (PDT)
-Subject: Re: [PATCH 08/15] mips: remove bios_name
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20201026143028.3034018-1-pbonzini@redhat.com>
- <20201026143028.3034018-9-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <c02ce052-aade-c596-40e6-0d841beb8308@amsat.org>
-Date: Tue, 27 Oct 2020 15:40:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXQBk-00088v-CZ
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:43:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49575)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXQBh-0002pt-NT
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:43:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603809780;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=txU5f1PJ63FXuEnM048tHdxp+doGnDMkZ2quhBu4XUA=;
+ b=cfkrnUPTrtlbG7/PoFGzNSuXXuWgdYGR/WFKKRAADDdoj/13wSx1+BwxWGb3WyUkUmED0p
+ ZWJgh/hpc0JdTftmvnQzfi5PsYybb170Iz+t+rzLU4yQ3xGEDANBh4Xo7/bfXGEn88mixM
+ /Lv686vbccb+fykB8HJUkSyiNYUdH74=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-EGwMPzt-OQa28tqRIdvvvw-1; Tue, 27 Oct 2020 10:42:58 -0400
+X-MC-Unique: EGwMPzt-OQa28tqRIdvvvw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1820F8030D1;
+ Tue, 27 Oct 2020 14:42:57 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5611170596;
+ Tue, 27 Oct 2020 14:42:56 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 0/3] Ide patches
+Date: Tue, 27 Oct 2020 10:42:52 -0400
+Message-Id: <20201027144255.77478-1-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201026143028.3034018-9-pbonzini@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,48 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/26/20 3:30 PM, Paolo Bonzini wrote:
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/mips/fuloong2e.c | 6 +++---
->  hw/mips/jazz.c      | 6 +++---
->  hw/mips/malta.c     | 6 +++---
->  hw/mips/mipssim.c   | 6 +++---
->  hw/mips/r4k.c       | 4 +---
->  5 files changed, 13 insertions(+), 15 deletions(-)
-...
-> diff --git a/hw/mips/r4k.c b/hw/mips/r4k.c
-> index 3830854342..b27be138a4 100644
-> --- a/hw/mips/r4k.c
-> +++ b/hw/mips/r4k.c
-> @@ -168,6 +168,7 @@ static const int sector_len = 32 * KiB;
->  static
->  void mips_r4k_init(MachineState *machine)
->  {
-> +    const char *bios_name = machine->firmware ?: BIOS_FILENAME;
-
-Don't we have a "redefinition of global variable" warning here?
-
-Anyway,
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
->      const char *kernel_filename = machine->kernel_filename;
->      const char *kernel_cmdline = machine->kernel_cmdline;
->      const char *initrd_filename = machine->initrd_filename;
-> @@ -221,9 +222,6 @@ void mips_r4k_init(MachineState *machine)
->       * run.
->       */
->  
-> -    if (bios_name == NULL) {
-> -        bios_name = BIOS_FILENAME;
-> -    }
->      filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
->      if (filename) {
->          bios_size = get_image_size(filename);
-> 
+The following changes since commit a95e0396c805735c491a049b01de6f5a713fb91b=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' i=
+nto staging (2020-10-26 15:49:11 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/jsnow/qemu.git tags/ide-pull-request=0D
+=0D
+for you to fetch changes up to 1a9925e3390b6adf1125e3abaa17c80ca012bede:=0D
+=0D
+  ide: clear SRST after SRST finishes (2020-10-27 10:39:06 -0400)=0D
+=0D
+----------------------------------------------------------------=0D
+IDE Pull request=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+John Snow (3):=0D
+  ide: run diagnostic after SRST=0D
+  ide: perform SRST as early as possible=0D
+  ide: clear SRST after SRST finishes=0D
+=0D
+ hw/ide/core.c | 12 +++++-------=0D
+ 1 file changed, 5 insertions(+), 7 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
