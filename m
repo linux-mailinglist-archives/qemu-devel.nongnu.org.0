@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D2BF29B28D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:42:48 +0100 (CET)
-Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C011429B2FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:48:53 +0100 (CET)
+Received: from localhost ([::1]:51142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQBT-0006Yi-88
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:42:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
+	id 1kXQHM-0005mx-7A
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:48:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnc-0002B7-Ok; Tue, 27 Oct 2020 10:18:08 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:43919 helo=ozlabs.org)
+ id 1kXPnd-0002CR-B8; Tue, 27 Oct 2020 10:18:09 -0400
+Received: from ozlabs.org ([203.11.71.1]:50479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnW-0007b1-Lv; Tue, 27 Oct 2020 10:18:08 -0400
+ id 1kXPna-0007bM-D4; Tue, 27 Oct 2020 10:18:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLp048dz9shp; Wed, 28 Oct 2020 01:17:52 +1100 (AEDT)
+ id 4CLDLp72fdz9shs; Wed, 28 Oct 2020 01:17:54 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1603808274;
- bh=JgI74JbmF3SG28/ezvWrAwsZY8OPwhZsfHfAwmDCvoY=;
+ bh=sqpswRVphi8tlghBAsNJaqC6FpXSR7Yjv1p6rrNCzu8=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=gvVV/Ti+nIiA7/AvN+omg1WfDyt8GglRF4QEmLMsu16v379ByqyARRMV39pX0hb0d
- OnggVqYhE8OlVbzetHCbAiZLddnWJ8Azn6lNWkIDUysi74oAAaOgl2HTQTuMpUedGe
- 0dpV3v9+7MGR9wUZy0J6lE3kKvVvmgR8T+fDMFgk=
+ b=UQbSxGc0zv3/7+EPbYtbYzshsw1NqRb9RTFM3Ny3cmURWozNVF1Bhmp8Y5uh6BR/W
+ BpPmdfM+y4yUbOHZ9BFeL0mxEWv1xgMYgZnoLokiPnlL+0m8541KOIkk+wHC/8/GT5
+ c567FQoYost9/AqvEgNgS5TmzAmh07oekZLQXpnw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/18] spapr: Use appropriate getter for PC_DIMM_ADDR_PROP
-Date: Wed, 28 Oct 2020 01:17:28 +1100
-Message-Id: <20201027141735.728821-12-david@gibson.dropbear.id.au>
+Subject: [PULL 12/18] spapr: Use appropriate getter for PC_DIMM_SLOT_PROP
+Date: Wed, 28 Oct 2020 01:17:29 +1100
+Message-Id: <20201027141735.728821-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
@@ -40,7 +40,7 @@ Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:17:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -67,35 +67,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The PC_DIMM_ADDR_PROP property is defined as:
+The PC_DIMM_SLOT_PROP property is defined as:
 
-    DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
+    DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
+                      PC_DIMM_UNASSIGNED_SLOT),
 
-Use object_property_get_uint() instead of object_property_get_int().
+Use object_property_get_int() instead of object_property_get_uint().
+Since spapr_memory_plug() only gets called if pc_dimm_pre_plug()
+succeeded, we expect to have a valid >= 0 slot number, either because
+the user passed a valid slot number or because pc_dimm_get_free_slot()
+picked one up for us.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160309729609.2739814.4996614957953215591.stgit@bahia.lan>
+Message-Id: <160309730758.2739814.15821922745424652642.stgit@bahia.lan>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/ppc/spapr.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 05abf6cc57..b2405599ad 100644
+index b2405599ad..f8856ccf27 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -3571,8 +3571,8 @@ static SpaprDimmState *spapr_recover_pending_dimm_state(SpaprMachineState *ms,
-     uint64_t addr_start, addr;
-     int i;
+@@ -3433,7 +3433,8 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+     Error *local_err = NULL;
+     SpaprMachineState *ms = SPAPR_MACHINE(hotplug_dev);
+     PCDIMMDevice *dimm = PC_DIMM(dev);
+-    uint64_t size, addr, slot;
++    uint64_t size, addr;
++    int64_t slot;
+     bool is_nvdimm = object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM);
  
--    addr_start = object_property_get_int(OBJECT(dimm), PC_DIMM_ADDR_PROP,
--                                         &error_abort);
-+    addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
-+                                          &error_abort);
+     size = memory_device_get_region_size(MEMORY_DEVICE(dev), &error_abort);
+@@ -3450,11 +3451,13 @@ static void spapr_memory_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+                        spapr_ovec_test(ms->ov5_cas, OV5_HP_EVT),
+                        &local_err);
+     } else {
+-        slot = object_property_get_uint(OBJECT(dimm),
+-                                        PC_DIMM_SLOT_PROP, &local_err);
++        slot = object_property_get_int(OBJECT(dimm),
++                                       PC_DIMM_SLOT_PROP, &local_err);
+         if (local_err) {
+             goto out_unplug;
+         }
++        /* We should have valid slot number at this point */
++        g_assert(slot >= 0);
+         spapr_add_nvdimm(dev, slot, &local_err);
+     }
  
-     addr = addr_start;
-     for (i = 0; i < nr_lmbs; i++) {
 -- 
 2.26.2
 
