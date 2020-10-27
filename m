@@ -2,133 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3533229ADB3
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:44:34 +0100 (CET)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6473229ADCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:49:33 +0100 (CET)
+Received: from localhost ([::1]:56470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPH7-0005q4-9B
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:44:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60018)
+	id 1kXPLw-0002l3-EL
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:49:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kXPF0-00045C-Vk; Tue, 27 Oct 2020 09:42:23 -0400
-Received: from mail-eopbgr30098.outbound.protection.outlook.com
- ([40.107.3.98]:53251 helo=EUR03-AM5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kXPEx-0002EC-Jx; Tue, 27 Oct 2020 09:42:22 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0yEp5jrghcy5f3aSA+QJPYLLQywpegln0GQmTg4VdDy0xdIvXf2sSNOgrL1XwGGthXApMdZp29oNO2MMojHIm1TgzSSp3MREO7mGJ15P5UKPUQMb6iIm18Puo36aqBa5ts46klzCpxTcPN1A2wE0YHdAAyXMaOhS6wpUV4TpyRmbBAhWhJyEV2nKrGZcpznXsV6vkPQWTNBYFpT1il6l57plZ/ywEKxoqMq7BrdWyAWogP/HZmQ5U9ed3/pNGyL+V2c+LV7SSzv7senI5Gw8lsb2F7txLfbt02cQPUZjpZviCoU5TbeLdtP5hTgxo866FPg/KpEbj3Gd2irv8zo4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GCPFqlfT9Kwk8ANq/EHfpeX0xL2k5a/97uANnLnOBMo=;
- b=AjW+kb972DMfPxPKNoGx7HoGJE14qInOkzX0sYLa2R0rLKaJdnHY6gOILSVmJM/jabAxQk4w2XciBry2pW2g997mXd9Ouy1tDS31xSy4SEB3p++8UF2Rpa6NpeDBXRxkEZIuHZFtqC0C/4ELRTmAh97uQFmFxF/VloponQ2f39+hDKZImBe/n5SEUFJ5uy1n13ObWnm63KSoyiUIATdic3NN4T95BFL72j+AHbtDvY6FL7owaEdVA+PWCG9PdzH5ugMUxSr0d795qYn5Xw9zwmSMDWJrWXVHnEnEqHvcLyVrLUxf1hBbYdgJr27acJat6tov+SWyNTnQNMQ6teAKTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GCPFqlfT9Kwk8ANq/EHfpeX0xL2k5a/97uANnLnOBMo=;
- b=qVwk0hUUB43E6p7JLBk0yxkxFKKVzDjdcPjlwqNp+rsH7emmcQAHqU5jwI/tUO5SfBPrXW51ZC/abTX3NN2X2F6Tz0pUHavUhBeZagnXGFwQxRj2G4ZV+JMf2U/ZsoCUaGWt4tTMPr4pwv3tb9Ek7W40N1piP9O6scHUyCFQzSo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
- by VI1PR08MB2928.eurprd08.prod.outlook.com (2603:10a6:802:1e::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Tue, 27 Oct
- 2020 13:42:11 +0000
-Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::c1ba:32cf:cd37:712c]) by VI1PR08MB5503.eurprd08.prod.outlook.com
- ([fe80::c1ba:32cf:cd37:712c%9]) with mapi id 15.20.3455.037; Tue, 27 Oct 2020
- 13:42:11 +0000
-Subject: Re: [PATCH v6 11/11] qapi: Use QAPI_LIST_ADD() where possible
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, stefanha@redhat.com, armbru@redhat.com,
- rjones@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Jiri Pirko
- <jiri@resnulli.us>, Jason Wang <jasowang@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Richard Henderson
- <rth@twiddle.net>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- David Gibson <david@gibson.dropbear.id.au>, Halil Pasic
- <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "open list:GLUSTER" <integration@gluster.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- "open list:S390 KVM CPUs" <qemu-s390x@nongnu.org>
-References: <20201027050556.269064-1-eblake@redhat.com>
- <20201027050556.269064-12-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <dd84c46b-916d-66b0-4e3f-23e4fa9a3f4d@virtuozzo.com>
-Date: Tue, 27 Oct 2020 16:42:05 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-In-Reply-To: <20201027050556.269064-12-eblake@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.93]
-X-ClientProxiedBy: AM0PR01CA0136.eurprd01.prod.exchangelabs.com
- (2603:10a6:208:168::41) To VI1PR08MB5503.eurprd08.prod.outlook.com
- (2603:10a6:803:137::19)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kXPJt-00011u-M7
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:47:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kXPJr-0002yR-7U
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:47:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603806440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XfL4NYKjn0zvlyXug2SSgfn8pO1wrKL+CVH5RQcW9Tw=;
+ b=Dodq91ZKoUdEIRZUjir9OxPbifSxUYw4yhPpaI61T4Tzcvpjyyyx9G6zO04+t1Nd6QwMfI
+ 93fwKWgDdD+feTfvMnqVHtciitQxlj0N/a4Xqcic/WOnZiuPjYDb40JCftiNNeKNAVpjN7
+ RVO300B/mi5dnFzkReKcBVsrL8zauIc=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-33-lXetS2PNOCmk33Fi9tA6EA-1; Tue, 27 Oct 2020 09:47:17 -0400
+X-MC-Unique: lXetS2PNOCmk33Fi9tA6EA-1
+Received: by mail-ej1-f72.google.com with SMTP id d13so913466ejz.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:47:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=XfL4NYKjn0zvlyXug2SSgfn8pO1wrKL+CVH5RQcW9Tw=;
+ b=klc4ph6fb8k+f1jyHiqYhXd5zvD/DEkj5bjT38S1auGHrWVrNW+GhbtDj+048tIxIy
+ es2WiR7kBZdD+3gOs7/Xi2OHqs9G3nzs6Mr/42p/xgx1iJ4KrL+kwGkx2t6XtGPrlDai
+ C2D7ubB7CPAZtjlOnHk8igdfx0MyTQ4yJdBDWBDpHciqFmSJzMknnLQjx2ZronvYAD3w
+ EBvLwWlMjUgp8BcEf8XBRLDI9j3sdK9ddLc5DYdDJY068Vbn3lt1IjPt74qRbpi2SkX4
+ ejGRLrIh7v/yajXxmxS6XC8jfNHvCQHQMtSN7Mj7+Vc/LOFPItu0vM/0qs3aNPiSFFAJ
+ dGOg==
+X-Gm-Message-State: AOAM532qsdWgUAUr/qNQGgUgPmys+SeHzjhFkLomVbX+r0UON+bGX6Tq
+ AgNH21RxJzzWc97MhAzWvPMVk4/CBTDhNkYIDpy8VZtfK/ZtYQqUd1an5u8mUNkFl0qbYLqP7tU
+ uc8v237jZ81BYmQA=
+X-Received: by 2002:aa7:c608:: with SMTP id h8mr2282565edq.16.1603806436674;
+ Tue, 27 Oct 2020 06:47:16 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyPqRV36i/C9/ckpLJVzFMdJKt4cg5Xr50tcLBZrlxrX6hBeoaw1136OZBK8A4vlBQbJeaC9w==
+X-Received: by 2002:aa7:c608:: with SMTP id h8mr2282550edq.16.1603806436447;
+ Tue, 27 Oct 2020 06:47:16 -0700 (PDT)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id v18sm1139194ejj.10.2020.10.27.06.47.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 06:47:15 -0700 (PDT)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH RFC] memory: pause all vCPUs for the duration of memory
+ transactions
+In-Reply-To: <219ac264-dcd4-70f0-244f-1bee601aded7@redhat.com>
+References: <20201026084916.3103221-1-vkuznets@redhat.com>
+ <294a987d-b0ef-1b58-98ac-0d4d43075d6e@redhat.com>
+ <d7a20a33-0317-467e-6fc6-6528b3b46062@redhat.com>
+ <87imav26d8.fsf@vitty.brq.redhat.com>
+ <cb74d717-cfc1-a78b-cf80-eb8ebf1075fd@redhat.com>
+ <87a6w72565.fsf@vitty.brq.redhat.com>
+ <e1d85d86-fb2f-d2a8-77ea-1e0d48c8fb67@redhat.com>
+ <875z6v24e2.fsf@vitty.brq.redhat.com>
+ <219ac264-dcd4-70f0-244f-1bee601aded7@redhat.com>
+Date: Tue, 27 Oct 2020 14:47:14 +0100
+Message-ID: <87wnzbzspp.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.93) by
- AM0PR01CA0136.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::41) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.23 via Frontend
- Transport; Tue, 27 Oct 2020 13:42:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a2054311-d03b-4fb7-94ef-08d87a7e1b0f
-X-MS-TrafficTypeDiagnostic: VI1PR08MB2928:
-X-Microsoft-Antispam-PRVS: <VI1PR08MB2928A20038C751A365CEB54EC1160@VI1PR08MB2928.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: synR/7A6pIfujENnbXD9RGAwI1GFoWRmbbYJ3AamtODze2NUHEh9SpIiM317CZRuM24Q8OIGrNDivwlE0sa8yIeJ3dLpCvGHjc2RI7VWnExyMkz1u2cVZZPWDd2bhg41dxUzhYEZmxRTG7PhIQgotUxAbbA/BjDw8qwk0vYlUFxQE5TfuFkiBGhjYPLSv9cj1hfL8VPZ+8jjNGCgrNYVd7giyHnHh62q0NnhnDoN3v+IxbCypDpPUW9rs6OShVb6STi/B2RQVm7SVLXrh2tThgu9sG2hL8zsIa+bkszUFkEG3EF3JqV5VOXUJR9Ycmzk4XvhGJos3yKFFpCE1p1LNJPwINmGwjCHwnhYwuSuleH+aLyidcF9+8kw2Bg0tQUC
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39850400004)(366004)(396003)(346002)(376002)(316002)(478600001)(54906003)(16576012)(8676002)(66476007)(66556008)(186003)(4326008)(16526019)(36756003)(26005)(2616005)(8936002)(66946007)(6486002)(86362001)(7406005)(83380400001)(2906002)(52116002)(7416002)(31686004)(5660300002)(31696002)(956004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: Ra8o9iw3JpZqMtV6lJNJjah7YFipxpcfH1kXekin4V50qyOXnK/Ba5+YiJMGHJa5xQ5BcdbMc9uSiqQToL5+3+h2Et3dgzDbOPv6h1VutC5WY2D05jjzStxwTuDO0pUq13JFsJ0WStce8PAAcmgj/jxrAPMoBJ6BfJHQMZaF6ynxsR5Xf66VN7/ciKhotD0j2Fz4xPcqnEfWm3lDWKS/3rIrB2Sa4c5bBBSg2Umg1ATWOVNFRn4JdcgrU/MJ+tcBo/yRytS3xY3gUQqBX9VfeRSlQGZhQ7dRma4Jh9dZje9WHb3eWmc1RC1Cz/25CJyZ37i4SdlwWVOSkOsl/S1hhcHBM24ClPAmG72m/dlz1ODOTN5/a+CGbl4HAF0PYZb2X6LVBCj37R7RskbGFldsihyl0+h4EVawCadSRCwQfIO7ML0zIrCVttIPC7PiyZn8seqL4DjcgAY/MC9OCOg/a/+580lSeoSXKCmAKyIAYIAO1WIuqgv+2f2QKurTS/4+4xSO1UWXalqpH5rgn5z42d4hsiHUL1pv1nTgrk2xj0MRoGJp7FPralRuB1GjJZAa1Vy8vh1lGNnW1S7sd/mE1UNoiuc+OhN4aNbCLk8sLdX7YTue9TPode52kaYlj4FmhOvmwRQ9nSs2ESMO2bBVOw==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a2054311-d03b-4fb7-94ef-08d87a7e1b0f
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 13:42:11.2753 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nNYcsgpr8CABDxYXeZsGv8qH08P5/FqsWeV2VwfBxW6aL7WDZH7HNl2N5a4r1P5xUtxeRI47y/dF0OTeqBinTl/yRs42e/jgxhAgD97aSyQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB2928
-Received-SPF: pass client-ip=40.107.3.98;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-AM5-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 09:42:12
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,52 +102,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.10.2020 08:05, Eric Blake wrote:
-> Anywhere we create a list of just one item or by prepending items
-> (typically because order doesn't matter), we can use the now-public
-> macro.  But places where we must keep the list in order by appending
-> remain open-coded.
-> 
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
+David Hildenbrand <david@redhat.com> writes:
 
-[..]
+>>> Same applies to all other kinds of operations (splitting, punching out,
+>>> ...) as you also mentioned.
+>> 
+>> One question from a QEMU newbie though: why do you put
+>> kvm_ioctl_inhibit_begin()/kvm_ioctl_inhibit_end() to kvm_region_resize()
+>> only and not taking it all the way up to
+>> memory_region_transaction_begin()/memory_region_transaction_end() to
+>> support atomicity for all kinds of updates right away?
+>
+> The clean way to implement it for 
+> memory_region_transaction_begin()/memory_region_transaction_end() is by 
+> implementing
+> ->begin()
+> ->commit()
+> callbacks for the KVM MemoryListener, and doing it in there, in KVM code.
+>
+>
+> Now, I wasn't sure how this might affect real-time workloads, where you 
+> really don't want to kick CPUs out of KVM. You can make a lot of 
+> operations without requiring this handling like
+>
+> 1. Adding regions (memory hotplug)
+> 2. Removing regions (memory hotunplug)
+> 3. Enabling/disabling dirty logging
+>
+> Resize/split(/move/...) are the problematic operations where we would 
+> need that handling. Modifying the size/location of existing slots.
+>
+> One way to tackle it would be to "sense" upfront if such "modifying" 
+> operations will be required, communicating that via "->begin()", and 
+> letting the KVM notifier decide based on that information whether to get 
+> everything out of KVM. Sounds feasible.
+>
 
-> 
-> diff --git a/docs/devel/writing-qmp-commands.txt b/docs/devel/writing-qmp-commands.txt
-> index 46a6c48683f5..3e11eeaa1893 100644
-> --- a/docs/devel/writing-qmp-commands.txt
-> +++ b/docs/devel/writing-qmp-commands.txt
-> @@ -531,15 +531,10 @@ TimerAlarmMethodList *qmp_query_alarm_methods(Error **errp)
->       bool current = true;
-> 
->       for (p = alarm_timers; p->name; p++) {
-> -        TimerAlarmMethodList *info = g_malloc0(sizeof(*info));
-> -        info->value = g_malloc0(sizeof(*info->value));
-> -        info->value->method_name = g_strdup(p->name);
-> -        info->value->current = current;
-> -
-> -        current = false;
+I don't actually know if we have such use-cases but thinking about
+e.g. punching a hole in a middle of an existing slot requires:
+1) Resizing the existing slot to its first half
+2) Creating the hole
+3) Creating a new slot for the second half of the slot.
+In case we'd like to make this atomic, we need to cover the whole
+transaction. But again, I don't know if we have a use-case for it or
+not.
 
-You need to keep this line, otherwise logic is broken.
+>> 
+>> The second question is whether you plan to sumbit this any time soon)
+>
+> Once we have an agreement on how to proceed, either I can try to 
+> dedicate some time, or if you have some time, you can pickup my work and 
+> make it also handle the other problematic cases (as discussed e.g., ^).
 
-> -
-> -        info->next = method_list;
-> -        method_list = info;
-> +	TimerAlarmMethod *value = g_new0(TimerAlarmMethod, 1);
-> +        value->method_name = g_strdup(p->name);
-> +        value->current = current;
-> +        QAPI_LIST_ADD(method_list, value);
->       }
-> 
->       return method_list;
-
-
+Ok, I plan to test your patch in the nearby future and if it works we
+can start with just the 'resize' case as it seems to be causing real
+issues. The infrastructure you create with kvm_ioctl_inhibit_begin()/
+kvm_ioctl_inhibit_end() can be re-used later for other ops.
 
 -- 
-Best regards,
-Vladimir
+Vitaly
+
 
