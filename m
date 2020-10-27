@@ -2,94 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95EBA29C851
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:06:23 +0100 (CET)
-Received: from localhost ([::1]:44248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91C6629C800
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:02:10 +0100 (CET)
+Received: from localhost ([::1]:38492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXUIY-00007W-LQ
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:06:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
+	id 1kXUET-0005ur-CI
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:02:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXU1s-0003GL-6F
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:49:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57430)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXUC3-0004mH-2O
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:59:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24522)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXU1q-0006fC-7t
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:49:07 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXUC0-0000Do-EZ
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:59:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603824544;
+ s=mimecast20190719; t=1603825174;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=isf6733Qk0Rl/B/21TvcSsL9gaZ2dMHhY9xDzcDNmMk=;
- b=HPuBMkgxvGnUoTgqrFb8wQuhPPNRgy+R8i1YWeroh1zKv9hzWcwLaJvqM36+rVoOjukTZl
- KGEJamSTDPczTPx+VUxbyQcOmdUQFu/55C7ivmfV4ou6QVCGYLlDgl8kKz+KN33i9xNb8k
- x2Sp06Yul+YC97FBTcVMLPHkgt4vvmI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-2RnkVlbJNRS_8kgmXqfT7Q-1; Tue, 27 Oct 2020 14:49:01 -0400
-X-MC-Unique: 2RnkVlbJNRS_8kgmXqfT7Q-1
-Received: by mail-wr1-f70.google.com with SMTP id j13so756642wrn.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 11:49:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=isf6733Qk0Rl/B/21TvcSsL9gaZ2dMHhY9xDzcDNmMk=;
- b=UP9X9K1jW3UYLDjKZomINW1ECU9+dtu5MGOABjCLiCBdclI2UGcC8s6MV4Yxq2B7Mj
- 1xoiAw9wYC/FQV7T8JwLFJ3thWcltzvvYtxPsGUOJUs+22wvn+cKBflWGrMNv26owdQH
- Y+ZOZZnr7tuxlFgQNzOfnajbJH4Z1Ciui3tZrg6zAkdrl9ZxXxHz5AkT080izBmqUfsi
- VcnXOz/fIm0C5xKREczJ8CMMn9nO7WixxJiCP+1ZohyReheI7501QjMcM86osiocN6Mq
- 5lgMlbVy3+/b3Ec/3y0YzLetwfrjys8ZaFxTsxVtQjA5YjSPqpTx3NauC/m69vP3a4/F
- fnvw==
-X-Gm-Message-State: AOAM533M+QGMxG1VsY1sGMx29dDswRr8Ma9Jxo+n1WQTqWZbAEY9ahmw
- ub7LeYOizydOYLtos6o1LllQByKzLcgpHcbOVxD2SSShDHGfFQaw6lVK+F38OKgM0zUOzy83GSH
- MAUbk/QvkWW42X/w=
-X-Received: by 2002:a1c:3142:: with SMTP id x63mr4161327wmx.168.1603824539984; 
- Tue, 27 Oct 2020 11:48:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJybtnYMJFLOMOYX/38ofxKnjGPvJoNRjWh1MyojQm7QS9CELAZwhAXerQsiP2b4PPtckgixKg==
-X-Received: by 2002:a1c:3142:: with SMTP id x63mr4161306wmx.168.1603824539806; 
- Tue, 27 Oct 2020 11:48:59 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id j9sm3202915wrp.59.2020.10.27.11.48.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 11:48:59 -0700 (PDT)
-Subject: Re: [RFC] Using gitlab for upstream qemu repo?
-To: Michael Roth <michael.roth@amd.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
- <CAFEAcA8OjeQ-utD56inorMk8dM6RNRzr-6Dv-YEW4n=qBi_MBQ@mail.gmail.com>
- <20201027131452.6q4tqvp6a75zj7kk@vm0>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <626eb3e1-cb34-d667-b937-5cfdd8bd9e52@redhat.com>
-Date: Tue, 27 Oct 2020 19:48:57 +0100
+ bh=11ORZMpUEWSBHa1uYN4H+eZV+XHwqGhMkm9lop9elQs=;
+ b=TvWnWkUjqgF1U5xf5fKPiL5FnEa1dVFHfzdPY0xG5qSYAoObVxEqw6Qn4cWPHC3bBf4iIW
+ lo1yQNWUhkcr932+3m/htta1J5ZVtg1NvPoWMC8dSI2fCPgKR+NeKfQNxK1L8DOaCEZzIE
+ fbnMHt0ZV+jx47OgHPZ4IlhH0lKVDRE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-203-0nlVgyjJMGSmFh7YEOHh5w-1; Tue, 27 Oct 2020 14:59:31 -0400
+X-MC-Unique: 0nlVgyjJMGSmFh7YEOHh5w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DB32618C89C4;
+ Tue, 27 Oct 2020 18:59:30 +0000 (UTC)
+Received: from [10.3.112.145] (ovpn-112-145.phx2.redhat.com [10.3.112.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 26F5760C07;
+ Tue, 27 Oct 2020 18:59:27 +0000 (UTC)
+Subject: Re: [PATCH 4/4] qemu-storage-daemon: QAPIfy --chardev
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20201026101005.2940615-1-armbru@redhat.com>
+ <20201026101005.2940615-5-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <d937d998-74d6-7f19-e21f-662a084f67b2@redhat.com>
+Date: Tue, 27 Oct 2020 13:59:26 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201027131452.6q4tqvp6a75zj7kk@vm0>
+In-Reply-To: <20201026101005.2940615-5-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
 X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -104,29 +84,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, qemu-block@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/10/20 14:14, Michael Roth wrote:
-> My only concern would be what the lag time might be between updates to
-> qemu-web.git and the actual website update if the mirroring doesn't
-> right away. Probably not a huge deal but might be good to know what the
-> upper bound is if we want to verify the update process went okay.
+On 10/26/20 5:10 AM, Markus Armbruster wrote:
+> From: Kevin Wolf <kwolf@redhat.com>
+> 
+> This removes the dependency on QemuOpts from the --chardev option of
+> the storage daemon.
+> 
+> Help on option parameters is still wrong.  Marked FIXME.
+> 
+> There are quite a few differences between qemu-system-FOO -chardev,
+> QMP chardev-add, and qemu-storage-daemon --chardev:
+> 
+> * QMP chardev-add wraps arguments other than "id" in a "backend"
+>   object.  Parameters other than "type" are further wrapped in a
+>   "data" object.  Example:
+> 
+>         {"execute": "chardev-add",
+>          "arguments": {
+>              "id":"sock0",
+>              "backend": {
+>                  "type": "socket",
+>                  "data": {
+>                      "addr": {
+>                          "type": "inet",
+> 			 ...
+>         }}}}}
+> 
+>   qemu-system-FOO -chardev does not wrap.  Neither does
+>   qemu-storage-daemon --chardev.
+> 
+> * qemu-system-FOO -chardev parameter "backend" corresponds to QMP
+>   chardev-add "backend" member "type".  qemu-storage-daemon names it
+>   "backend".
+> 
+> * qemu-system-FOO -chardev parameter "backend" recognizes a few
+>   additional aliases for compatibility.  QMP chardev-add does not.
+>   Neither does qemu-storage-daemon --chardev.
+> 
+> * qemu-system-FOO -chardev' with types "serial", "parallel" and "pipe"
+>   parameter "path" corresponds to QMP chardev-add member "device".
+>   qemu-storage-daemon --chardev follows QMP.
+> 
+> * Backend type "socket":
+> 
+>   - Intentionally different defaults (documented as such):
+>     qemu-system-FOO -chardev defaults to server=false and
+>     wait=true (if server=true), but QMP chardev-add defaults to
+>     server=true and wait=false.  qemu-storage-daemon --chardev follows
+>     QMP.
+> 
+>   - Accidentally different defaults: qemu-system-FOO -chardev defaults
+>     to tight=true, QMP chardev-add defaults to tight=false in
+>     QMP (this is a bug in commit 776b97d3).  qemu-storage-daemon
+>     follows QMP.
 
-If gitlab became the primary repo for qemu-web.git, deployment would be
-done differently; either by rsyncing directly to qemu.org, or by making
-www.qemu.org a proxy for qemu-project.gitlab.io/qemu.
+Should we be fixing that bug for 5.2?
 
-Thanks,
+> 
+>   - QMP chardev-add wraps socket address arguments "path", "host",
+>     "port", etc in a "data" object.  qemu-system-FOO -chardev does not
+>     wrap.  Neither does qemu-storage-daemon --chardev.
+> 
+>   - qemu-system-FOO -chardev parameter "delay" corresponds to QMP
+>     chardev-add member "nodelay" with the sense reversed.
+>     qemu-storage-daemon --chardev follows QMP.
+> 
+> * Backend type "udp":
+> 
+>   - QMP chardev-add wraps remote and local address arguments in a
+>     "remote" and a "local" object, respectively.  qemu-system-FOO
+>     -chardev does not wrap, but prefixes the local address parameter
+>     names with "local" instead.
+> 
+>   - QMP chardev-add wraps socket address arguments in a "data" object.
+>     qemu-system-FOO -chardev does not wrap.  Neither does
+>     qemu-storage-daemon --chardev.  Same as for type "socket".
+> 
+> * I'm not sure qemu-system-FOO -chardev supports everything QMP
+>   chardev-add does.  I am sure qemu-storage-daemon --chardev does.
 
-Paolo
+Quite the list, but it is a good start for what remains to merge things
+in the correct direction for 6.0.
+
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  storage-daemon/qemu-storage-daemon.c | 37 +++++++++++++++++++++-------
+>  1 file changed, 28 insertions(+), 9 deletions(-)
+> 
+> diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+> index e419ba9f19..f1f3bdc320 100644
+> --- a/storage-daemon/qemu-storage-daemon.c
+> +++ b/storage-daemon/qemu-storage-daemon.c
+> @@ -37,10 +37,13 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-visit-block-core.h"
+>  #include "qapi/qapi-visit-block-export.h"
+> +#include "qapi/qapi-visit-char.h"
+> +#include "qapi/qapi-visit-char.h"
+
+Duplicate.
+
+>  #include "qapi/qapi-visit-control.h"
+>  #include "qapi/qmp/qdict.h"
+>  #include "qapi/qmp/qstring.h"
+>  #include "qapi/qobject-input-visitor.h"
+> +#include "qapi/qobject-output-visitor.h"
+>  
+>  #include "qemu-common.h"
+>  #include "qemu-version.h"
+> @@ -207,18 +210,34 @@ static void process_options(int argc, char *argv[])
+>              }
+>          case OPTION_CHARDEV:
+>              {
+> -                /* TODO This interface is not stable until we QAPIfy it */
+> -                QemuOpts *opts = qemu_opts_parse_noisily(&qemu_chardev_opts,
+> -                                                         optarg, true);
+> -                if (opts == NULL) {
+> -                    exit(EXIT_FAILURE);
+> -                }
+> +                QDict *args;
+> +                Visitor *v;
+> +                ChardevOptions *chr;
+> +                q_obj_chardev_add_arg *arg;
+> +                bool help;
+>  
+> -                if (!qemu_chr_new_from_opts(opts, NULL, &error_fatal)) {
+> -                    /* No error, but NULL returned means help was printed */
+> +                args = keyval_parse(optarg, "backend", &help, &error_fatal);
+> +                if (help) {
+> +                    if (qdict_haskey(args, "backend")) {
+> +                        /* FIXME wrong where QAPI differs from QemuOpts */
+> +                        qemu_opts_print_help(&qemu_chardev_opts, true);
+> +                    } else {
+> +                        qemu_chr_print_types();
+> +                    }
+>                      exit(EXIT_SUCCESS);
+>                  }
+> -                qemu_opts_del(opts);
+> +
+> +                v = qobject_input_visitor_new_keyval(QOBJECT(args));
+> +                visit_type_ChardevOptions(v, NULL, &chr, &error_fatal);
+> +                visit_free(v);
+> +
+> +                arg = chardev_options_crumple(chr);
+> +
+> +                qmp_chardev_add(arg->id, arg->backend, &error_fatal);
+> +                g_free(arg->id);
+> +                qapi_free_ChardevBackend(arg->backend);
+> +                qapi_free_ChardevOptions(chr);
+> +                qobject_unref(args);
+>                  break;
+>              }
+>          case OPTION_EXPORT:
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
