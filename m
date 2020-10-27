@@ -2,45 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBCF429B306
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:51:55 +0100 (CET)
-Received: from localhost ([::1]:59680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AE0429B277
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:41:55 +0100 (CET)
+Received: from localhost ([::1]:59486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQKI-0000vE-Pk
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42610)
+	id 1kXQAc-0005m2-AW
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:41:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnj-0002J8-SI; Tue, 27 Oct 2020 10:18:17 -0400
-Received: from ozlabs.org ([203.11.71.1]:40093)
+ id 1kXPnk-0002JA-2q; Tue, 27 Oct 2020 10:18:17 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35441 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnh-0007d7-0v; Tue, 27 Oct 2020 10:18:15 -0400
+ id 1kXPnh-0007dT-66; Tue, 27 Oct 2020 10:18:15 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLt1Qt0z9sj3; Wed, 28 Oct 2020 01:17:57 +1100 (AEDT)
+ id 4CLDLv1Sncz9sj4; Wed, 28 Oct 2020 01:17:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808278;
- bh=iYQRi/tNG112bmgF4xqQ7eKKIeFdgRePVgkns9RLLKU=;
+ d=gibson.dropbear.id.au; s=201602; t=1603808279;
+ bh=yd7ohoOB+WlDIzkrSuWTS8MDQlQz4yTL9YB3notFaJw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ErQp/ru1Of/fHE4PD6Xv4YL2DI33SJhLg7Jc2WQsqNnnaMDKp1QfdNRGxw9lNzU7O
- LaB+8gob81bBNVqjmQFIOVVwkCkfPilbnsvx8Nb+0L36LDtHrV7RiS8U5b46Ovfu3r
- kHAx3VBIL+RGbcYrof6b0VmdNIjuvoUKJM/RENEU=
+ b=m4Jqcpd2YN125aiGBZpdO7CDZyllSJJT+wXAunXIYBuakWbmQD3rZfbh2OSA2eZCg
+ KFPbwQ4R6mAa6bUr/RupvWoQWqNWUDKILlEmwLWKzsazwEXAJqI3F1azVFWGOyYh4P
+ 4iYqRzF6c4V478wmyYzv12/0roq9QHlvKnWpkAQE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 16/18] target/ppc: Fix kvmppc_load_htab_chunk() error reporting
-Date: Wed, 28 Oct 2020 01:17:33 +1100
-Message-Id: <20201027141735.728821-17-david@gibson.dropbear.id.au>
+Subject: [PULL 17/18] spapr: Improve spapr_reallocate_hpt() error reporting
+Date: Wed, 28 Oct 2020 01:17:34 +1100
+Message-Id: <20201027141735.728821-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:17:43
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -59,105 +58,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-If kvmppc_load_htab_chunk() fails, its return value is propagated up
-to vmstate_load(). It should thus be a negative errno, not -1 (which
-maps to EPERM and would lure the user into thinking that the problem
-is necessarily related to a lack of privilege).
+spapr_reallocate_hpt() has three users, two of which pass &error_fatal
+and the third one, htab_load(), passes &local_err, uses it to detect
+failures and simply propagates -EINVAL up to vmstate_load(), which will
+cause QEMU to exit. It is thus confusing that spapr_reallocate_hpt()
+doesn't return right away when an error is detected in some cases. Also,
+the comment suggesting that the caller is welcome to try to carry on
+seems like a remnant in this respect.
 
-Return the error reported by KVM or ENOSPC in case of short write.
-While here, propagate the error message through an @errp argument
-and have the caller to print it with error_report_err() instead
-of relying on fprintf().
+This can be improved:
+- change spapr_reallocate_hpt() to always report a negative errno on
+  failure, either as reported by KVM or -ENOSPC if the HPT is smaller
+  than what was asked,
+- use that to detect failures in htab_load() which is preferred over
+  checking &local_err,
+- propagate this negative errno to vmstate_load() because it is more
+  accurate than propagating -EINVAL for all possible errors.
 
+[dwg: Fix compile error due to omitted prelim patch]
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160371604713.305923.5264900354159029580.stgit@bahia.lan>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <160371605460.305923.5890143959901241157.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c       |  4 +++-
- target/ppc/kvm.c     | 11 +++++------
- target/ppc/kvm_ppc.h |  5 +++--
- 3 files changed, 11 insertions(+), 9 deletions(-)
+ hw/ppc/spapr.c         | 20 +++++++++++---------
+ include/hw/ppc/spapr.h |  3 +--
+ 2 files changed, 12 insertions(+), 11 deletions(-)
 
 diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index ba0894e73a..ec2536dba1 100644
+index ec2536dba1..227075103e 100644
 --- a/hw/ppc/spapr.c
 +++ b/hw/ppc/spapr.c
-@@ -2347,8 +2347,10 @@ static int htab_load(QEMUFile *f, void *opaque, int version_id)
- 
-             assert(fd >= 0);
- 
--            rc = kvmppc_load_htab_chunk(f, fd, index, n_valid, n_invalid);
-+            rc = kvmppc_load_htab_chunk(f, fd, index, n_valid, n_invalid,
-+                                        &local_err);
-             if (rc < 0) {
-+                error_report_err(local_err);
-                 return rc;
-             }
-         }
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index d85ba8ffe0..0223b93ea5 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -2683,7 +2683,7 @@ int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize, int64_t max_ns)
+@@ -1483,8 +1483,7 @@ void spapr_free_hpt(SpaprMachineState *spapr)
+     close_htab_fd(spapr);
  }
  
- int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
--                           uint16_t n_valid, uint16_t n_invalid)
-+                           uint16_t n_valid, uint16_t n_invalid, Error **errp)
+-void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+-                          Error **errp)
++int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp)
  {
-     struct kvm_get_htab_header *buf;
-     size_t chunksize = sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
-@@ -2698,14 +2698,13 @@ int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+     ERRP_GUARD();
+     long rc;
+@@ -1496,7 +1495,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
  
-     rc = write(fd, buf, chunksize);
+     if (rc == -EOPNOTSUPP) {
+         error_setg(errp, "HPT not supported in nested guests");
+-        return;
++        return -EOPNOTSUPP;
+     }
+ 
      if (rc < 0) {
--        fprintf(stderr, "Error writing KVM hash table: %s\n",
--                strerror(errno));
--        return rc;
-+        error_setg_errno(errp, errno, "Error writing the KVM hash table");
+@@ -1504,8 +1503,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+         error_setg_errno(errp, errno, "Failed to allocate KVM HPT of order %d",
+                          shift);
+         error_append_hint(errp, "Try smaller maxmem?\n");
+-        /* This is almost certainly fatal, but if the caller really
+-         * wants to carry on with shift == 0, it's welcome to try */
 +        return -errno;
-     }
-     if (rc != chunksize) {
-         /* We should never get a short write on a single chunk */
--        fprintf(stderr, "Short write, restoring KVM hash table\n");
--        return -1;
-+        error_setg(errp, "Short write while restoring the KVM hash table");
-+        return -ENOSPC;
-     }
-     return 0;
- }
-diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-index 72e05f1cd2..73ce2bc951 100644
---- a/target/ppc/kvm_ppc.h
-+++ b/target/ppc/kvm_ppc.h
-@@ -56,7 +56,7 @@ int kvmppc_define_rtas_kernel_token(uint32_t token, const char *function);
- int kvmppc_get_htab_fd(bool write, uint64_t index, Error **errp);
- int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize, int64_t max_ns);
- int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
--                           uint16_t n_valid, uint16_t n_invalid);
-+                           uint16_t n_valid, uint16_t n_invalid, Error **errp);
- void kvmppc_read_hptes(ppc_hash_pte64_t *hptes, hwaddr ptex, int n);
- void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1);
- bool kvmppc_has_cap_fixup_hcalls(void);
-@@ -316,7 +316,8 @@ static inline int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize,
+     } else if (rc > 0) {
+         /* kernel-side HPT allocated */
+         if (rc != shift) {
+@@ -1513,6 +1511,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+                        "Requested order %d HPT, but kernel allocated order %ld",
+                        shift, rc);
+             error_append_hint(errp, "Try smaller maxmem?\n");
++            return -ENOSPC;
+         }
+ 
+         spapr->htab_shift = shift;
+@@ -1526,7 +1525,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+         if (!spapr->htab) {
+             error_setg_errno(errp, errno,
+                              "Could not allocate HPT of order %d", shift);
+-            return;
++            return -ENOMEM;
+         }
+ 
+         memset(spapr->htab, 0, size);
+@@ -1539,6 +1538,7 @@ void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+     /* We're setting up a hash table, so that means we're not radix */
+     spapr->patb_entry = 0;
+     spapr_set_all_lpcrs(0, LPCR_HR | LPCR_UPRT);
++    return 0;
  }
  
- static inline int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
--                                         uint16_t n_valid, uint16_t n_invalid)
-+                                         uint16_t n_valid, uint16_t n_invalid,
-+                                         Error **errp)
- {
-     abort();
- }
+ void spapr_setup_hpt(SpaprMachineState *spapr)
+@@ -2292,11 +2292,13 @@ static int htab_load(QEMUFile *f, void *opaque, int version_id)
+     }
+ 
+     if (section_hdr) {
++        int ret;
++
+         /* First section gives the htab size */
+-        spapr_reallocate_hpt(spapr, section_hdr, &local_err);
+-        if (local_err) {
++        ret = spapr_reallocate_hpt(spapr, section_hdr, &local_err);
++        if (ret < 0) {
+             error_report_err(local_err);
+-            return -EINVAL;
++            return ret;
+         }
+         return 0;
+     }
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index bb47896f17..2e89e36cfb 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -846,8 +846,7 @@ void spapr_hotplug_req_add_by_count_indexed(SpaprDrcType drc_type,
+ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
+                                                uint32_t count, uint32_t index);
+ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
+-void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
+-                          Error **errp);
++int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp);
+ void spapr_clear_pending_events(SpaprMachineState *spapr);
+ void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
+ int spapr_max_server_number(SpaprMachineState *spapr);
 -- 
 2.26.2
 
