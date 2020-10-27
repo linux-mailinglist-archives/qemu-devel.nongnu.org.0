@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE67629B0BE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:24:09 +0100 (CET)
-Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B3929B141
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:29:15 +0100 (CET)
+Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPtQ-0000Wo-PW
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
+	id 1kXPyM-0007UB-OO
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:29:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnR-0001rh-Dp; Tue, 27 Oct 2020 10:18:00 -0400
-Received: from ozlabs.org ([203.11.71.1]:47281)
+ id 1kXPnX-0001zH-TS; Tue, 27 Oct 2020 10:18:03 -0400
+Received: from ozlabs.org ([203.11.71.1]:34313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnP-0007aC-Hx; Tue, 27 Oct 2020 10:17:57 -0400
+ id 1kXPnV-0007aY-T5; Tue, 27 Oct 2020 10:18:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLd1KN8z9shh; Wed, 28 Oct 2020 01:17:45 +1100 (AEDT)
+ id 4CLDLf5glcz9shm; Wed, 28 Oct 2020 01:17:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808265;
- bh=Q3owrk20jMIlyNpF7GnocBDJgbDjYtAgDaW/I9KCRQ0=;
+ d=gibson.dropbear.id.au; s=201602; t=1603808266;
+ bh=LxxlzQPzPW9/phU/w56M/4owvBfBJDEPVYgX6V5xpz4=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Pf8158CpbEU37dkZgFLFS0CUnMVhvNtPY3MgDqNJjcZHzh63ukCUIj9PVsgYkYd6c
- 3/qwhMn5OUx3fXU7qsDJ72qD9364yWlIE4uEVcNQuYhHQFs8fcFNlGyTOk9gg7vo7u
- E6nHePCrU2naTYHrmKTnuOXkDADg7DWLJQoVlQhs=
+ b=e1h5uF/O7DnzE6Y0JH0sUxIzJyL2fMy5+Pmhti3sJFzvRAVaHLIyPd6Vt8VuFg5ly
+ /7XXZlz199+pQ9ucbBy2YrcyPqetulOuPWOLq8nNiLzBCsmYOSjYqLAjCcKVwkjT2a
+ xkxHAJir5G5a6B74K/XiQxyoN8juhnecmhmzzWx4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 06/18] spapr: Unrealize vCPUs with qdev_unrealize()
-Date: Wed, 28 Oct 2020 01:17:23 +1100
-Message-Id: <20201027141735.728821-7-david@gibson.dropbear.id.au>
+Subject: [PULL 07/18] spapr: Drop spapr_delete_vcpu() unused argument
+Date: Wed, 28 Oct 2020 01:17:24 +1100
+Message-Id: <20201027141735.728821-8-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
@@ -65,89 +65,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Since we introduced CPU hot-unplug in sPAPR, we don't unrealize the
-vCPU objects explicitly. Instead, we let QOM handle that for us under
-object_property_del_all() when the CPU core object is finalized. The
-only thing we do is calling cpu_remove_sync() to tear the vCPU thread
-down.
-
-This happens to work but it is ugly because:
-- we call qdev_realize() but the corresponding qdev_unrealize() is
-  buried deep in the QOM code
-- we call cpu_remove_sync() to undo qemu_init_vcpu() called by
-  ppc_cpu_realize() in target/ppc/translate_init.c.inc
-- the CPU init and teardown paths aren't really symmetrical
-
-The latter didn't bite us so far but a future patch that greatly
-simplifies the CPU core realize path needs it to avoid a crash
-in QOM.
-
-For all these reasons, have ppc_cpu_unrealize() to undo the changes
-of ppc_cpu_realize() by calling cpu_remove_sync() at the right place,
-and have the sPAPR CPU core code to call qdev_unrealize().
-
-This requires to add a missing stub because translate_init.c.inc is
-also compiled for user mode.
+The 'sc' argument is unused. Drop it.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160279671236.1808373.14732005038172874990.stgit@bahia.lan>
+Message-Id: <160279671929.1808373.10333672533575251075.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- accel/tcg/user-exec-stub.c      | 4 ++++
- hw/ppc/spapr_cpu_core.c         | 4 ++--
- target/ppc/translate_init.c.inc | 2 ++
- 3 files changed, 8 insertions(+), 2 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/accel/tcg/user-exec-stub.c b/accel/tcg/user-exec-stub.c
-index f6d8c8fb6f..b876f5c1e4 100644
---- a/accel/tcg/user-exec-stub.c
-+++ b/accel/tcg/user-exec-stub.c
-@@ -9,6 +9,10 @@ void cpu_resume(CPUState *cpu)
- {
- }
- 
-+void cpu_remove_sync(CPUState *cpu)
-+{
-+}
-+
- void qemu_init_vcpu(CPUState *cpu)
- {
- }
 diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index c552112145..e4aeb93c02 100644
+index e4aeb93c02..45eb212187 100644
 --- a/hw/ppc/spapr_cpu_core.c
 +++ b/hw/ppc/spapr_cpu_core.c
-@@ -187,7 +187,7 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
-         vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_data);
-     }
-     spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
--    cpu_remove_sync(CPU(cpu));
-+    qdev_unrealize(DEVICE(cpu));
+@@ -212,7 +212,7 @@ static void spapr_cpu_core_reset_handler(void *opaque)
+     spapr_cpu_core_reset(opaque);
  }
  
- /*
-@@ -255,7 +255,7 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     kvmppc_set_papr(cpu);
+-static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
++static void spapr_delete_vcpu(PowerPCCPU *cpu)
+ {
+     SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
  
-     if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
--        cpu_remove_sync(CPU(cpu));
-+        qdev_unrealize(DEVICE(cpu));
-         return false;
+@@ -233,7 +233,7 @@ static void spapr_cpu_core_unrealize(DeviceState *dev)
+         spapr_unrealize_vcpu(sc->threads[i], sc);
      }
- 
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index bb66526280..d2a8204d60 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -10328,6 +10328,8 @@ static void ppc_cpu_unrealize(DeviceState *dev)
- 
-     pcc->parent_unrealize(dev);
- 
-+    cpu_remove_sync(CPU(cpu));
-+
-     for (i = 0; i < PPC_CPU_OPCODES_LEN; i++) {
-         if (cpu->opcodes[i] == &invalid_handler) {
-             continue;
+     for (i = 0; i < cc->nr_threads; i++) {
+-        spapr_delete_vcpu(sc->threads[i], sc);
++        spapr_delete_vcpu(sc->threads[i]);
+     }
+     g_free(sc->threads);
+ }
+@@ -345,7 +345,7 @@ err_unrealize:
+     }
+ err:
+     while (--i >= 0) {
+-        spapr_delete_vcpu(sc->threads[i], sc);
++        spapr_delete_vcpu(sc->threads[i]);
+     }
+     g_free(sc->threads);
+ }
 -- 
 2.26.2
 
