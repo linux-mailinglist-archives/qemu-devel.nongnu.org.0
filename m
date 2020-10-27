@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAA1E29A3E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 06:15:19 +0100 (CET)
-Received: from localhost ([::1]:56134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C660B29A3E9
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 06:15:48 +0100 (CET)
+Received: from localhost ([::1]:57314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXHKI-0004dx-SS
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 01:15:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1kXHKl-00059j-Mk
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 01:15:47 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXHBg-0003l9-0g
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 01:06:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43246)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXHBl-0003ok-1J
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 01:06:29 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52730)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXHBb-0003e7-NG
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 01:06:23 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXHBb-0003f6-Nx
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 01:06:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603775177;
+ s=mimecast20190719; t=1603775178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2YUr/GnO3pi3/hs0Zjz7TWTMTcZodaMQLTF2OHrVYnI=;
- b=dTJjtg5O9IWoYXf5BdUCOOn+lHn/bmNhiXJhPWaiErK3MU6yzra5waRjjWj1DzdKM78ncg
- ZiSex0tGczF2ukmvvKA2LFHLUE5h+EyVl7sw+PrTYGkSicznGrQTyuIWWmT4jLsBgrxLaD
- tysMhMNJMBnfUOcduV8H1QQVUAllKD4=
+ bh=NVKP8FKlHDzvpIJ9H6KWNWNNAKOSIHy/fRKXbEXTHIo=;
+ b=e/Fz3TS8uiGK2Plf6tHeDfkWmbIcKwa8+rql8VvfT5YHzbKtm+YcxxaaDvBN/cp2HYzOWb
+ zZpIwyWeLwn49NtREgc3TW8SuLc06lkvVFX0ML3yt/ENMGFFI6EWo5xv3siIk7JqFigU+M
+ 2el428vQGSYP+IPHBGYn62wDkkv8V7c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-cEOy1TxBPb2oPB6oNcwEmA-1; Tue, 27 Oct 2020 01:06:14 -0400
-X-MC-Unique: cEOy1TxBPb2oPB6oNcwEmA-1
+ us-mta-550-DIqymWOiOlKLqsLPNhkhGw-1; Tue, 27 Oct 2020 01:06:15 -0400
+X-MC-Unique: DIqymWOiOlKLqsLPNhkhGw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81F3C100746B;
- Tue, 27 Oct 2020 05:06:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D24F1074649;
+ Tue, 27 Oct 2020 05:06:14 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C552310013C4;
- Tue, 27 Oct 2020 05:06:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2A0A10013C4;
+ Tue, 27 Oct 2020 05:06:13 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 09/11] nbd: Add new qemu:allocation-depth metadata context
-Date: Tue, 27 Oct 2020 00:05:54 -0500
-Message-Id: <20201027050556.269064-10-eblake@redhat.com>
+Subject: [PATCH v6 10/11] nbd: Add 'qemu-nbd -A' to expose allocation depth
+Date: Tue, 27 Oct 2020 00:05:55 -0500
+Message-Id: <20201027050556.269064-11-eblake@redhat.com>
 In-Reply-To: <20201027050556.269064-1-eblake@redhat.com>
 References: <20201027050556.269064-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -84,278 +84,353 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'qemu-img map' provides a way to determine which extents of an image
-come from the top layer vs. inherited from a backing chain.  This is
-useful information worth exposing over NBD.  There is a proposal to
-add a QMP command block-dirty-bitmap-populate which can create a dirty
-bitmap that reflects allocation information, at which point the
-qemu:dirty-bitmap:NAME metadata context can expose that information
-via the creation of a temporary bitmap, but we can shorten the effort
-by adding a new qemu:allocation-depth metadata context that does the
-same thing without an intermediate bitmap (this patch does not
-eliminate the need for that proposal, as it will have other uses as
-well).
+Allow the server to expose an additional metacontext to be requested
+by savvy clients.  qemu-nbd adds a new option -A to expose the
+qemu:allocation-depth metacontext through NBD_CMD_BLOCK_STATUS; this
+can also be set via QMP when using block-export-add.
 
-While documenting things, remember that although the NBD protocol has
-NBD_OPT_SET_META_CONTEXT, the rest of its documentation refers to
-'metadata context', which is a more apt description of what is
-actually being used by NBD_CMD_BLOCK_STATUS: the user is requesting
-metadata by passing one or more context names.  So I also touched up
-some existing wording to prefer the term 'metadata context' where it
-makes sense.
+qemu as client is hacked into viewing the key aspects of this new
+context by abusing the already-experimental x-dirty-bitmap option to
+collapse all depths greater than 2, which results in a tri-state value
+visible in the output of 'qemu-img map --output=json' (yes, that means
+x-dirty-bitmap is now a bit of a misnomer, but I didn't feel like
+renaming it as it would introduce a needless break of back-compat,
+even though we make no compat guarantees with x- members):
 
-Note that this patch does not actually enable any way to request a
-server to enable this context; that will come in the next patch.
+unallocated (depth 0) => "zero":false, "data":true
+local (depth 1)       => "zero":false, "data":false
+backing (depth 2+)    => "zero":true,  "data":true
+
+libnbd as client is probably a nicer way to get at the information
+without having to decipher such hacks in qemu as client. ;)
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- docs/interop/nbd.txt | 23 +++++++++++----
- include/block/nbd.h  |  8 +++--
- nbd/server.c         | 70 +++++++++++++++++++++++++++++++++++++++++---
- 3 files changed, 89 insertions(+), 12 deletions(-)
+ docs/tools/qemu-nbd.rst    |  8 +++-
+ qapi/block-core.json       |  7 +++-
+ qapi/block-export.json     |  7 +++-
+ block/nbd.c                | 26 ++++++++++---
+ nbd/server.c               |  2 +
+ qemu-nbd.c                 | 12 +++++-
+ tests/qemu-iotests/309     | 77 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/309.out | 22 +++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 9 files changed, 151 insertions(+), 11 deletions(-)
+ create mode 100755 tests/qemu-iotests/309
+ create mode 100644 tests/qemu-iotests/309.out
 
-diff --git a/docs/interop/nbd.txt b/docs/interop/nbd.txt
-index f3b3cacc9621..10ce098a29bf 100644
---- a/docs/interop/nbd.txt
-+++ b/docs/interop/nbd.txt
-@@ -17,19 +17,31 @@ namespace "qemu".
+diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
+index 667861cb22e9..fe41336dc550 100644
+--- a/docs/tools/qemu-nbd.rst
++++ b/docs/tools/qemu-nbd.rst
+@@ -72,10 +72,16 @@ driver options if ``--image-opts`` is specified.
 
- == "qemu" namespace ==
+   Export the disk as read-only.
 
--The "qemu" namespace currently contains only one type of context,
--related to exposing the contents of a dirty bitmap alongside the
--associated disk contents.  That context has the following form:
-+The "qemu" namespace currently contains two available metadata context
-+types.  The first is related to exposing the contents of a dirty
-+bitmap alongside the associated disk contents.  That metadata context
-+is named with the following form:
-
-     qemu:dirty-bitmap:<dirty-bitmap-export-name>
-
- Each dirty-bitmap metadata context defines only one flag for extents
- in reply for NBD_CMD_BLOCK_STATUS:
-
--    bit 0: NBD_STATE_DIRTY, means that the extent is "dirty"
-+    bit 0: NBD_STATE_DIRTY, set when the extent is "dirty"
++.. option:: -A, --allocation-depth
 +
-+The second is related to exposing the source of various extents within
-+the image, with a single metadata context named:
++  Expose allocation depth information via the
++  ``qemu:allocation-depth`` metadata context accessible through
++  NBD_OPT_SET_META_CONTEXT.
 +
-+    qemu:allocation-depth
-+
-+In the allocation depth context, the entire 32-bit value represents a
-+depth of which layer in a thin-provisioned backing chain provided the
-+data (0 for unallocated, 1 for the active layer, 2 for the first
-+backing layer, and so forth).
+ .. option:: -B, --bitmap=NAME
 
- For NBD_OPT_LIST_META_CONTEXT the following queries are supported
--in addition to "qemu:dirty-bitmap:<dirty-bitmap-export-name>":
-+in addition to the specific "qemu:allocation-depth" and
-+"qemu:dirty-bitmap:<dirty-bitmap-export-name>":
+   If *filename* has a qcow2 persistent bitmap *NAME*, expose
+-  that bitmap via the ``qemu:dirty-bitmap:NAME`` context
++  that bitmap via the ``qemu:dirty-bitmap:NAME`` metadata context
+   accessible through NBD_OPT_SET_META_CONTEXT.
 
- * "qemu:" - returns list of all available metadata contexts in the
-             namespace.
-@@ -55,3 +67,4 @@ the operation of that feature.
- NBD_CMD_BLOCK_STATUS for "qemu:dirty-bitmap:", NBD_CMD_CACHE
- * 4.2: NBD_FLAG_CAN_MULTI_CONN for shareable read-only exports,
- NBD_CMD_FLAG_FAST_ZERO
-+* 5.2: NBD_CMD_BLOCK_STATUS for "qemu:allocation-depth"
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 3dd9a04546ec..4a52a43ef598 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -1,5 +1,5 @@
- /*
-- *  Copyright (C) 2016-2019 Red Hat, Inc.
-+ *  Copyright (C) 2016-2020 Red Hat, Inc.
-  *  Copyright (C) 2005  Anthony Liguori <anthony@codemonkey.ws>
-  *
-  *  Network Block Device
-@@ -47,7 +47,7 @@ typedef struct NBDOptionReply NBDOptionReply;
- typedef struct NBDOptionReplyMetaContext {
-     NBDOptionReply h; /* h.type = NBD_REP_META_CONTEXT, h.length > 4 */
-     uint32_t context_id;
--    /* meta context name follows */
-+    /* metadata context name follows */
- } QEMU_PACKED NBDOptionReplyMetaContext;
+ .. option:: -s, --snapshot
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index e00fc27b5ea4..1b8b4156b4b9 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -3905,9 +3905,12 @@
+ #
+ # @tls-creds: TLS credentials ID
+ #
+-# @x-dirty-bitmap: A "qemu:dirty-bitmap:NAME" string to query in place of
++# @x-dirty-bitmap: A metadata context name such as "qemu:dirty-bitmap:NAME"
++#                  or "qemu:allocation-depth" to query in place of the
+ #                  traditional "base:allocation" block status (see
+-#                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol) (since 3.0)
++#                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol; and
++#                  yes, naming this option x-context would have made
++#                  more sense) (since 3.0)
+ #
+ # @reconnect-delay: On an unexpected disconnect, the nbd client tries to
+ #                   connect again until succeeding or encountering a serious
+diff --git a/qapi/block-export.json b/qapi/block-export.json
+index c4125f4d2104..a9f488f99c1a 100644
+--- a/qapi/block-export.json
++++ b/qapi/block-export.json
+@@ -90,11 +90,16 @@
+ #           the metadata context name "qemu:dirty-bitmap:BITMAP" to inspect
+ #           each bitmap.
+ #
++# @allocation-depth: Also export the allocation depth map for @device, so
++#                    the NBD client can use NBD_OPT_SET_META_CONTEXT with
++#                    the metadata context name "qemu:allocation-depth" to
++#                    inspect allocation details. (since 5.2)
++#
+ # Since: 5.2
+ ##
+ { 'struct': 'BlockExportOptionsNbd',
+   'base': 'BlockExportOptionsNbdBase',
+-  'data': { '*bitmaps': ['str'] } }
++  'data': { '*bitmaps': ['str'], '*allocation-depth': 'bool' } }
 
- /* Transmission phase structs
-@@ -229,7 +229,7 @@ enum {
- #define NBD_MAX_BUFFER_SIZE (32 * 1024 * 1024)
+ ##
+ # @BlockExportOptionsVhostUserBlk:
+diff --git a/block/nbd.c b/block/nbd.c
+index 4548046cd7cd..42536702b6f9 100644
+--- a/block/nbd.c
++++ b/block/nbd.c
+@@ -135,6 +135,7 @@ typedef struct BDRVNBDState {
+     QCryptoTLSCreds *tlscreds;
+     const char *hostname;
+     char *x_dirty_bitmap;
++    bool alloc_depth;
 
- /*
-- * Maximum size of a protocol string (export name, meta context name,
-+ * Maximum size of a protocol string (export name, metadata context name,
-  * etc.).  Use malloc rather than stack allocation for storage of a
-  * string.
-  */
-@@ -259,6 +259,8 @@ enum {
- /* Extent flags for qemu:dirty-bitmap in NBD_REPLY_TYPE_BLOCK_STATUS */
- #define NBD_STATE_DIRTY (1 << 0)
-
-+/* No flags needed for qemu:allocation-depth in NBD_REPLY_TYPE_BLOCK_STATUS */
-+
- static inline bool nbd_reply_type_is_error(int type)
- {
-     return type & (1 << 15);
-diff --git a/nbd/server.c b/nbd/server.c
-index b6841e455414..ebbefcb6d3ec 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -27,8 +27,9 @@
- #include "qemu/units.h"
-
- #define NBD_META_ID_BASE_ALLOCATION 0
-+#define NBD_META_ID_ALLOCATION_DEPTH 1
- /* Dirty bitmaps use 'NBD_META_ID_DIRTY_BITMAP + i', so keep this id last. */
--#define NBD_META_ID_DIRTY_BITMAP 1
-+#define NBD_META_ID_DIRTY_BITMAP 2
-
- /*
-  * NBD_MAX_BLOCK_STATUS_EXTENTS: 1 MiB of extents data. An empirical
-@@ -95,6 +96,7 @@ struct NBDExport {
-     BlockBackend *eject_notifier_blk;
-     Notifier eject_notifier;
-
-+    bool allocation_depth;
-     BdrvDirtyBitmap **export_bitmaps;
-     size_t nr_export_bitmaps;
- };
-@@ -108,6 +110,7 @@ typedef struct NBDExportMetaContexts {
-     NBDExport *exp;
-     size_t count; /* number of negotiated contexts */
-     bool base_allocation; /* export base:allocation context (block status) */
-+    bool allocation_depth; /* export qemu:allocation-depth */
-     bool *bitmaps; /*
-                     * export qemu:dirty-bitmap:<export bitmap name>,
-                     * sized by exp->nr_export_bitmaps
-@@ -857,7 +860,8 @@ static bool nbd_meta_base_query(NBDClient *client, NBDExportMetaContexts *meta,
- /* nbd_meta_qemu_query
-  *
-  * Handle queries to 'qemu' namespace. For now, only the qemu:dirty-bitmap:
-- * context is available.  Return true if @query has been handled.
-+ * and qemu:allocation-depth contexts are available.  Return true if @query
-+ * has been handled.
-  */
- static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
-                                 const char *query)
-@@ -871,12 +875,19 @@ static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
-
-     if (!*query) {
-         if (client->opt == NBD_OPT_LIST_META_CONTEXT) {
-+            meta->allocation_depth = meta->exp->allocation_depth;
-             memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
-         }
-         trace_nbd_negotiate_meta_query_parse("empty");
-         return true;
+     bool wait_connect;
+     NBDConnectThread *connect_thread;
+@@ -961,6 +962,16 @@ static int nbd_parse_blockstatus_payload(BDRVNBDState *s,
+         trace_nbd_parse_blockstatus_compliance("extent length too large");
      }
 
-+    if (strcmp(query, "allocation-depth") == 0) {
-+        trace_nbd_negotiate_meta_query_parse("allocation-depth");
-+        meta->allocation_depth = meta->exp->allocation_depth;
-+        return true;
++    /*
++     * HACK: if we are using x-dirty-bitmaps to access
++     * qemu:allocation-depth, treat all depths > 2 the same as 2,
++     * since nbd_client_co_block_status is only expecting the low two
++     * bits to be set.
++     */
++    if (s->alloc_depth && extent->flags > 2) {
++        extent->flags = 2;
 +    }
 +
-     if (nbd_strshift(&query, "dirty-bitmap:")) {
-         trace_nbd_negotiate_meta_query_parse("dirty-bitmap:");
-         if (!*query) {
-@@ -901,7 +912,7 @@ static bool nbd_meta_qemu_query(NBDClient *client, NBDExportMetaContexts *meta,
-         return true;
-     }
-
--    trace_nbd_negotiate_meta_query_skip("not dirty-bitmap");
-+    trace_nbd_negotiate_meta_query_skip("unknown qemu context");
-     return true;
- }
-
-@@ -1008,6 +1019,7 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-     if (client->opt == NBD_OPT_LIST_META_CONTEXT && !nb_queries) {
-         /* enable all known contexts */
-         meta->base_allocation = true;
-+        meta->allocation_depth = meta->exp->allocation_depth;
-         memset(meta->bitmaps, 1, meta->exp->nr_export_bitmaps);
-     } else {
-         for (i = 0; i < nb_queries; ++i) {
-@@ -1028,6 +1040,16 @@ static int nbd_negotiate_meta_queries(NBDClient *client,
-         count++;
-     }
-
-+    if (meta->allocation_depth) {
-+        ret = nbd_negotiate_send_meta_context(client, "qemu:allocation-depth",
-+                                              NBD_META_ID_ALLOCATION_DEPTH,
-+                                              errp);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+        count++;
-+    }
-+
-     for (i = 0; i < meta->exp->nr_export_bitmaps; i++) {
-         const char *bm_name;
-         g_autofree char *context = NULL;
-@@ -2005,6 +2027,29 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
      return 0;
  }
 
-+static int blockalloc_to_extents(BlockDriverState *bs, uint64_t offset,
-+                                 uint64_t bytes, NBDExtentArray *ea)
+@@ -1795,11 +1806,16 @@ static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
+         s->sioc = NULL;
+         return ret;
+     }
+-    if (s->x_dirty_bitmap && !s->info.base_allocation) {
+-        error_setg(errp, "requested x-dirty-bitmap %s not found",
+-                   s->x_dirty_bitmap);
+-        ret = -EINVAL;
+-        goto fail;
++    if (s->x_dirty_bitmap) {
++        if (!s->info.base_allocation) {
++            error_setg(errp, "requested x-dirty-bitmap %s not found",
++                       s->x_dirty_bitmap);
++            ret = -EINVAL;
++            goto fail;
++        }
++        if (strcmp(s->x_dirty_bitmap, "qemu:allocation-depth") == 0) {
++            s->alloc_depth = true;
++        }
+     }
+     if (s->info.flags & NBD_FLAG_READ_ONLY) {
+         ret = bdrv_apply_auto_read_only(bs, "NBD export is read-only", errp);
+diff --git a/nbd/server.c b/nbd/server.c
+index ebbefcb6d3ec..d145e1a69083 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1641,6 +1641,8 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
+         bdrv_dirty_bitmap_set_busy(exp->export_bitmaps[i], true);
+     }
+
++    exp->allocation_depth = arg->allocation_depth;
++
+     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
+
+     QTAILQ_INSERT_TAIL(&exports, exp, next);
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index 4b7825c44093..808db07fca70 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -100,6 +100,7 @@ static void usage(const char *name)
+ "\n"
+ "Exposing part of the image:\n"
+ "  -o, --offset=OFFSET       offset into the image\n"
++"  -A, --allocation-depth    expose the allocation depth\n"
+ "  -B, --bitmap=NAME         expose a persistent dirty bitmap\n"
+ "\n"
+ "General purpose options:\n"
+@@ -524,7 +525,7 @@ int main(int argc, char **argv)
+     char *device = NULL;
+     QemuOpts *sn_opts = NULL;
+     const char *sn_id_or_name = NULL;
+-    const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:B:L";
++    const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:AB:L";
+     struct option lopt[] = {
+         { "help", no_argument, NULL, 'h' },
+         { "version", no_argument, NULL, 'V' },
+@@ -533,6 +534,7 @@ int main(int argc, char **argv)
+         { "socket", required_argument, NULL, 'k' },
+         { "offset", required_argument, NULL, 'o' },
+         { "read-only", no_argument, NULL, 'r' },
++        { "allocation-depth", no_argument, NULL, 'A' },
+         { "bitmap", required_argument, NULL, 'B' },
+         { "connect", required_argument, NULL, 'c' },
+         { "disconnect", no_argument, NULL, 'd' },
+@@ -575,6 +577,7 @@ int main(int argc, char **argv)
+     const char *export_name = NULL; /* defaults to "" later for server mode */
+     const char *export_description = NULL;
+     strList *bitmaps = NULL;
++    bool alloc_depth = false;
+     const char *tlscredsid = NULL;
+     bool imageOpts = false;
+     bool writethrough = true;
+@@ -689,6 +692,9 @@ int main(int argc, char **argv)
+             readonly = true;
+             flags &= ~BDRV_O_RDWR;
+             break;
++        case 'A':
++            alloc_depth = true;
++            break;
+         case 'B':
+             QAPI_LIST_ADD(bitmaps, g_strdup(optarg));
+             break;
+@@ -787,7 +793,7 @@ int main(int argc, char **argv)
+         }
+         if (export_name || export_description || dev_offset ||
+             device || disconnect || fmt || sn_id_or_name || bitmaps ||
+-            seen_aio || seen_discard || seen_cache) {
++            alloc_depth || seen_aio || seen_discard || seen_cache) {
+             error_report("List mode is incompatible with per-device settings");
+             exit(EXIT_FAILURE);
+         }
+@@ -1073,6 +1079,8 @@ int main(int argc, char **argv)
+             .description          = g_strdup(export_description),
+             .has_bitmaps          = !!bitmaps,
+             .bitmaps              = bitmaps,
++            .has_allocation_depth = alloc_depth,
++            .allocation_depth     = alloc_depth,
+         },
+     };
+     blk_exp_add(export_opts, &error_fatal);
+diff --git a/tests/qemu-iotests/309 b/tests/qemu-iotests/309
+new file mode 100755
+index 000000000000..fb61157c2e1d
+--- /dev/null
++++ b/tests/qemu-iotests/309
+@@ -0,0 +1,77 @@
++#!/usr/bin/env bash
++#
++# Test qemu-nbd -A
++#
++# Copyright (C) 2018-2020 Red Hat, Inc.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++seq="$(basename $0)"
++echo "QA output created by $seq"
++
++status=1 # failure is the default!
++
++_cleanup()
 +{
-+    while (bytes) {
-+        int64_t num;
-+        int ret = bdrv_is_allocated_above(bs, NULL, false, offset, bytes,
-+                                          &num);
-+
-+        if (ret < 0) {
-+            return ret;
-+        }
-+
-+        if (nbd_extent_array_add(ea, num, ret) < 0) {
-+            return 0;
-+        }
-+
-+        offset += num;
-+        bytes -= num;
-+    }
-+
-+    return 0;
++    _cleanup_test_img
++    nbd_server_stop
 +}
++trap "_cleanup; exit \$status" 0 1 2 3 15
 +
- /*
-  * nbd_co_send_extents
-  *
-@@ -2044,7 +2089,11 @@ static int nbd_co_send_block_status(NBDClient *client, uint64_t handle,
-     unsigned int nb_extents = dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS_EXTENTS;
-     g_autoptr(NBDExtentArray) ea = nbd_extent_array_new(nb_extents);
-
--    ret = blockstatus_to_extents(bs, offset, length, ea);
-+    if (context_id == NBD_META_ID_BASE_ALLOCATION) {
-+        ret = blockstatus_to_extents(bs, offset, length, ea);
-+    } else {
-+        ret = blockalloc_to_extents(bs, offset, length, ea);
-+    }
-     if (ret < 0) {
-         return nbd_co_send_structured_error(
-                 client, handle, -ret, "can't get block status", errp);
-@@ -2395,6 +2444,19 @@ static coroutine_fn int nbd_handle_request(NBDClient *client,
-                 }
-             }
-
-+            if (client->export_meta.allocation_depth) {
-+                ret = nbd_co_send_block_status(client, request->handle,
-+                                               blk_bs(exp->common.blk),
-+                                               request->from, request->len,
-+                                               dont_fragment,
-+                                               !--contexts_remaining,
-+                                               NBD_META_ID_ALLOCATION_DEPTH,
-+                                               errp);
-+                if (ret < 0) {
-+                    return ret;
-+                }
-+            }
++# get standard environment, filters and checks
++. ./common.rc
++. ./common.filter
++. ./common.nbd
 +
-             for (i = 0; i < client->exp->nr_export_bitmaps; i++) {
-                 if (!client->export_meta.bitmaps[i]) {
-                     continue;
++_supported_fmt qcow2
++_supported_proto file
++_supported_os Linux
++_require_command QEMU_NBD
++
++echo
++echo "=== Initial image setup ==="
++echo
++
++TEST_IMG="$TEST_IMG.base" _make_test_img 4M
++$QEMU_IO -c 'w 0 2M' -f $IMGFMT "$TEST_IMG.base" | _filter_qemu_io
++_make_test_img -b "$TEST_IMG.base" -F $IMGFMT 4M
++$QEMU_IO -c 'w 1M 2M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
++
++echo
++echo "=== Check allocation over NBD ==="
++echo
++
++$QEMU_IMG map --output=json -f qcow2 "$TEST_IMG"
++IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
++nbd_server_start_unix_socket -r -f qcow2 -A "$TEST_IMG"
++# Normal -f raw NBD block status loses access to allocation information
++$QEMU_IMG map --output=json --image-opts \
++    "$IMG" | _filter_qemu_img_map
++# But when we use -A, coupled with x-dirty-bitmap in the client for feeding
++# 2-bit block status from an alternative NBD metadata context (note that
++# the client code for x-dirty-bitmap intentionally collapses all depths
++# beyond 2 into a single value), we can determine:
++#    unallocated (depth 0) => "zero":false, "data":true
++#    local (depth 1)       => "zero":false, "data":false
++#    backing (depth 2+)    => "zero":true,  "data":true
++$QEMU_IMG map --output=json --image-opts \
++    "$IMG,x-dirty-bitmap=qemu:allocation-depth" | _filter_qemu_img_map
++# More accurate results can be obtained by other NBD clients such as
++# libnbd, but this test works without such external dependencies.
++
++# success, all done
++echo '*** done'
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/309.out
+new file mode 100644
+index 000000000000..db75bb6b0df9
+--- /dev/null
++++ b/tests/qemu-iotests/309.out
+@@ -0,0 +1,22 @@
++QA output created by 309
++
++=== Initial image setup ===
++
++Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=4194304
++wrote 2097152/2097152 bytes at offset 0
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4194304 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
++wrote 2097152/2097152 bytes at offset 1048576
++2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=== Check allocation over NBD ===
++
++[{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true, "offset": 327680},
++{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 327680},
++{ "start": 3145728, "length": 1048576, "depth": 1, "zero": true, "data": false}]
++[{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
++{ "start": 3145728, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
++[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": true, "offset": OFFSET},
++{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": false},
++{ "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++*** done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 343298928350..2960dff72864 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -315,3 +315,4 @@
+ 304 rw quick
+ 305 rw quick
+ 307 rw quick export
++309 rw auto quick
 -- 
 2.29.0
 
