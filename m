@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BC829BD38
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:47:52 +0100 (CET)
-Received: from localhost ([::1]:48110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD2229BDB8
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:50:19 +0100 (CET)
+Received: from localhost ([::1]:54958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXS8V-0007ae-On
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:47:51 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54608)
+	id 1kXSAs-00021M-DP
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:50:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXS5G-0004sW-CR
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:44:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50029)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXS98-0000pF-0T
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:48:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXS5E-0003Sc-Ca
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:44:30 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXS96-00041E-2T
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:48:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603817067;
+ s=mimecast20190719; t=1603817306;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/xchWNSLSOvO+uFguJOcWC+8gOndFHe2Hse3FacZ9bQ=;
- b=BrZrAv4VqpxkvKmJvY3+qJ/XgEsJbss6DV+uJTgb5ECwHMV5T7D24oyQIwj+32P4VS2FeP
- V8ZPY+FvNun0Ctm5zq5hFeSKC33o7jWqIK/lCnAylUsUS0xy4X/tv7b/yfjbEYlnUTrVR2
- b7hL8pkx9aRLkQjZOHVzhxjR9y4El10=
+ bh=Q7mlzUpWUurGfSEh1srKOodSwnqCtKLTNG/2KB0lbBs=;
+ b=Oe5QzDZspiwxz6HxWL7JS6noW0DnMjcd69kqNAPSS42Jc6UKn9uydBY5dklFqZ1+qV9Ct4
+ eX2vmK03xAAkUfmJda4g0zFBK0Zw9diLfWaqZ69J1QsBd14oOnZwuTrzqVPF9+fIIz9D0K
+ Wk94ddDlr8B7/3uhkvEbFpeZ6sUTkEI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-D6KlE1zJNsWeG9HOrYMIxQ-1; Tue, 27 Oct 2020 12:44:26 -0400
-X-MC-Unique: D6KlE1zJNsWeG9HOrYMIxQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-504-h7AYo5jFP0OnRn0oNoq2DA-1; Tue, 27 Oct 2020 12:48:24 -0400
+X-MC-Unique: h7AYo5jFP0OnRn0oNoq2DA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0978835B74;
- Tue, 27 Oct 2020 16:44:24 +0000 (UTC)
-Received: from localhost (unknown [10.40.193.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 73CC05C1BB;
- Tue, 27 Oct 2020 16:44:24 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] iotests/291: Stop NBD server
-Date: Tue, 27 Oct 2020 17:44:16 +0100
-Message-Id: <20201027164416.144115-3-mreitz@redhat.com>
-In-Reply-To: <20201027164416.144115-1-mreitz@redhat.com>
-References: <20201027164416.144115-1-mreitz@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AED3F1019624;
+ Tue, 27 Oct 2020 16:48:23 +0000 (UTC)
+Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 43F361992F;
+ Tue, 27 Oct 2020 16:48:23 +0000 (UTC)
+Subject: Re: [PATCH 2/3] iotests: Disable unsubscriptable-object in pylint
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20201027163806.290960-1-kwolf@redhat.com>
+ <20201027163806.290960-3-kwolf@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <90b7da54-5ada-c86d-29cb-fa97e2ff9360@redhat.com>
+Date: Tue, 27 Oct 2020 12:48:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201027163806.290960-3-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,40 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-nbd_server_start_unix_socket() includes an implicit nbd_server_stop(),
-but we still need an explicit one at the end of the test (where there
-follows no next nbd_server_start_unix_socket()), or qemu-nbd will linger
-until the test exits.
+On 10/27/20 12:38 PM, Kevin Wolf wrote:
+> When run with Python 3.9, pylint incorrectly warns about things like
+> Optional[foo] because it doesn't recognise Optional as unsubscriptable.
+> This is a known pylint bug:
+> 
+>      https://github.com/PyCQA/pylint/issues/3882
+> 
+> Just disable this check to get rid of the warnings.
+> 
+> Disabling this shouldn't make us miss any real bug because mypy also
+> has a similar check ("... is not indexable").
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>   tests/qemu-iotests/pylintrc | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
+> index 5481afe528..cd3702e23c 100644
+> --- a/tests/qemu-iotests/pylintrc
+> +++ b/tests/qemu-iotests/pylintrc
+> @@ -17,6 +17,8 @@ disable=invalid-name,
+>           too-many-lines,
+>           too-many-locals,
+>           too-many-public-methods,
+> +        # pylint warns about Optional[] etc. as unsubscriptable in 3.9
+> +        unsubscriptable-object,
+>           # These are temporary, and should be removed:
+>           missing-docstring,
+>   
+> 
 
-This will become important when enabling this test to run on FUSE
-exports, because then the export (which is the image used by qemu-nbd)
-will go away before qemu-nbd exits, which will lead to qemu-nbd
-complaining that it cannot flush the bitmaps in the image.
-
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/291 | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index 77fa38f93d..b7320bc7ad 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -128,6 +128,8 @@ nbd_server_start_unix_socket -r -f qcow2 -B b3 "$TEST_IMG"
- $QEMU_IMG map --output=json --image-opts \
-     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b3" | _filter_qemu_img_map
- 
-+nbd_server_stop
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
--- 
-2.26.2
+Reviewed-by: John Snow <jsnow@redhat.com>
 
 
