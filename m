@@ -2,88 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D2829AB78
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:09:44 +0100 (CET)
-Received: from localhost ([::1]:36532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A77129ABAD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:18:23 +0100 (CET)
+Received: from localhost ([::1]:55988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNnK-0005mu-0G
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43676)
+	id 1kXNvi-000633-C9
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:18:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMsQ-00057c-ES; Tue, 27 Oct 2020 07:10:54 -0400
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59969)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kXMsO-00018m-DQ; Tue, 27 Oct 2020 07:10:54 -0400
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 147C15C010F;
- Tue, 27 Oct 2020 07:10:49 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 27 Oct 2020 07:10:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm1; bh=O/60c2vjkei9vgixDLp04aezsvT
- mCUYPTTTMBNKRzwI=; b=gTrRgCoNkurPHatGR7yQ7JQvWQyJv4j75R9hU12ZBay
- UT8Qr4adEFa+/Cx/UFVM+qMc9aq5uQRVRu06djo/D8A5MugZWMdqF8o2ptxt6azI
- Zqb1hLu+BbM4N4vr3mv4sxsouDFS61AtORckyiUK4Z+OT1tKOw9C2WcqQp/FMXjr
- MZgq8x4PZ9WELsEGy8gGvMVSxovotC7OxMDFJMz08PmoffQCHhLWqyVrU+mEZzpN
- xGX7NIWKXeTYZJagAn77D66FKPYvk+Omk06/vbzDLfmvqa+WBS32Gi2KpiWw9TCH
- zxBHhQusxkPP5ZgWahcXNgy0gk0ECfkWiVD2b3TXieg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=O/60c2
- vjkei9vgixDLp04aezsvTmCUYPTTTMBNKRzwI=; b=ScdajlYm5jHQ3Ns/6w+IZP
- xaOyh/aciRSXQgYzGCsMwIN+B+6FSDAR2Wa8tk3djpZwX0i6krEkCV5st5UZ3YDb
- wI8rOsskGb6dPw/AtLJuNvUNbvxC524wV5fIWNy2mT6VFgWeww5ttnJoWReIFkVa
- 1Kx908jsCB7RC+7XGCmtdGn3D6BHNiy+ofRl9F+LCNHGwQnC70gtiyZFGTZPiPFJ
- WyA8KAYtbqaPFhbD02yL/S9PqxAIJFAe2xIioIIY5rL4NFT/M8/AsMVOL3zif/g0
- huXp0Ku/WK2e6j8D68eEHU0h2skD0CrDDTtf+/LKhB2Pl2YreOrS9zrEENd3v18A
- ==
-X-ME-Sender: <xms:NwCYX_S7lZOaJhteG_iebqBf-2-xm1KP4TxaXRMlOA2_tUXNU-PPpQ>
- <xme:NwCYXwxbhIKqMcFRGWSoZWHrwlaLFgiKnL4eO6-kgfp-DNLp-3byde1AvA-cqcbo6
- s6OT2sncV_9WGMd3MY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:NwCYX03kl8phn1oDMpD2Fkh-HG-JGGbCmtFKShctGJ_yz1yUy8kPwA>
- <xmx:NwCYX_DOqDvc6XfEgoMTdOsXN8FByyBe1aJy1Y5qx5IHuLsgFTTKAg>
- <xmx:NwCYX4iATzKkMUZSUFUJcC0W5GX131ibQLEtMSh8NTKn48YXfJeaQA>
- <xmx:OQCYXyYNilG_ADmDqBpJ1dl2D93alnTwnRIRbb1Q3VkACbkRquh2Qg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9862E3280060;
- Tue, 27 Oct 2020 07:10:46 -0400 (EDT)
-Date: Tue, 27 Oct 2020 12:10:44 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: peter.maydell@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PULL 02/30] pci: pass along the return value of dma_memory_rw
-Message-ID: <20201027111044.GA548260@apples.localdomain>
-References: <20201027104932.558087-1-its@irrelevant.dk>
- <20201027104932.558087-3-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXMsv-0005XX-AE
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:11:25 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXMsq-0001Gp-M8
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:11:25 -0400
+Received: by mail-ed1-x544.google.com with SMTP id o18so997509edq.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:11:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=z0Sn1/klbwmGrH4EiwRl2FFYWHdN0vE5o4xE27RcLts=;
+ b=GCKpQyTAmNshAwD6cw9uZDv88lOJMqdzzXTdX/hFzeLbvbqzbVAz3r742/4JYqbnYV
+ jBdDvK5mfVRDNWIUJ9pHgEzyy7NrYfMk/e8Zij75c+CkZthrNpHB6kkaUBcZ5mkloodu
+ myITSCrPQ+AzcRW9cZj8rzjN2m1CXRH4I7kYrp7wxrQuCjw3gks/lUHw41zK862UBwfs
+ 0G7l0r/t7mfx/bCLw/F3uY9g2YUZ6xrFo+Lbe4kY+QUF6tpIefTUTGGS0b8BJ/h+az1+
+ VxuHugxkghqjuO1UM6MHKBRp4Zjkw62hO46xnGXYh3I01k9/HHjIB83oS0OgZ0qC7ZnW
+ 7hww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=z0Sn1/klbwmGrH4EiwRl2FFYWHdN0vE5o4xE27RcLts=;
+ b=ZgcZ7Ln5xGeQ/mxG9SkuemODy8Vk5dDPS1cZPrW3uqk0ax+uU4GNO1P7hfY0Yb7tp5
+ hJW/9AXkAsGsbB03lFQCol3mPVpXOippzC1Or/E35p7f4i2dwfr+Wl08ZtpxA3Dft4by
+ SSXGgldyvdXY0g83NuIDgoq7YqD2Bswn9P0a2EhS3LL07gho7eEgkwInCnaXHCUDtVLA
+ aEvwEclxI3HneyLUVlRj1g9X9hLByEllt7B2B/NvlQZZ/Y0ULDFLhWJ1+xlfOBqXez0E
+ c1PTHWZenJFGE9R+mw32OkhB6YOlqEJGBEiP/LWa5qjF5UGrJP0YYNdv/l8mOVnonQUg
+ VUsw==
+X-Gm-Message-State: AOAM533gI3Pg48DYZF88J6EwAEaT7nHCCfIeuH/u5Q61BTkgKxaGR5Zz
+ BJG7WDRQktWUJcC8syo3zoDtKnjpGL/PM0PSPlCd6w==
+X-Google-Smtp-Source: ABdhPJyDCNml0cd3zWDKbxas4enfOvQcmNXJbhtrlNEdsxaAAjbPCmkPQoFct4lXuNXwvt2m7Wg0flBiFN5VSxWPa2M=
+X-Received: by 2002:aa7:c683:: with SMTP id n3mr1611636edq.146.1603797078712; 
+ Tue, 27 Oct 2020 04:11:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
-Content-Disposition: inline
-In-Reply-To: <20201027104932.558087-3-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 06:49:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201010135759.437903-1-luc@lmichel.fr>
+ <CAFEAcA-F5WCv6We3V=kCV8vH79ko=KGHYWKLaxNVEd9HjFES3Q@mail.gmail.com>
+ <CAFEAcA9fHTO2f_KdCnFvqhEOwTzOwtMf=EhKY=9S_5twpabaCg@mail.gmail.com>
+ <63d302c6-5cd8-e321-090f-7b1a5979788a@amsat.org>
+In-Reply-To: <63d302c6-5cd8-e321-090f-7b1a5979788a@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Oct 2020 11:11:07 +0000
+Message-ID: <CAFEAcA8whOBFTqEeOO_S9+G0O_dafQitvQxeghSfQT7ME8o-Ow@mail.gmail.com>
+Subject: Re: [PATCH v3 00/15] raspi: add the bcm2835 cprman clock manager
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,73 +83,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <k.jensen@samsung.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Luc Michel <luc@lmichel.fr>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 27 Oct 2020 at 08:55, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Hi Peter,
+>
+> On 10/19/20 9:31 PM, Peter Maydell wrote:
+> > On Mon, 19 Oct 2020 at 16:45, Peter Maydell <peter.maydell@linaro.org> =
+wrote:
+> >>
+> >> On Sat, 10 Oct 2020 at 14:57, Luc Michel <luc@lmichel.fr> wrote:
+> >>>
+> >>> v2 -> v3:
+> >>>   - patch 03: moved clock_new definition to hw/core/clock.c [Phil]
+> >>>   - patch 03: commit message typo [Clement]
+> >>>   - patch 10: clarifications around the CM_CTL/CM_DIBV mux registers.
+> >>>               reg_cm replaced with reg_ctl and reg_div. Add some
+> >>>               comments for clarity. [Phil]
+> >>>   - patch 10: fixed update_mux_from_cm not matching the CM_DIV offset
+> >>>               correctly. [Phil]
+> >>>   - patch 11: replaced manual bitfield extraction with extract32 [Phi=
+l]
+> >>>   - patch 11: added a visual representation of CM_DIV for clarity [Ph=
+il]
+> >>>   - patch 11: added a missing return in clock_mux_update.
+> >>
+> >>
+> >>
+> >> Applied to target-arm.next, thanks.
+> >
+> > Dropped again due to segv in 'make check' when running with
+> > clang sanitizer, which I gather from irc that you're looking
+> > into.
+>
+> The fix has been merged as commit a6e9b9123e7
+> ("hw/core/qdev-clock: add a reference on aliased clocks")
+> and the series also got:
+> Tested-by: Guenter Roeck <linux@roeck-us.net>
+>
+> Hopefully it will make it for 5.2 :)
 
---5vNYLRcllDrimb99
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Oct 27 11:49, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Some devices might want to know the return value of dma_memory_rw, so
-> pass it along instead of ignoring it.
->=20
-> There are no existing users of the return value, so this patch should be
-> safe.
->=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Acked-by: Keith Busch <kbusch@kernel.org>
-> ---
->  include/hw/pci/pci.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->=20
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 0a59a06b149d..f19ffe6b4fe8 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -783,8 +783,7 @@ static inline AddressSpace *pci_get_address_space(PCI=
-Device *dev)
->  static inline int pci_dma_rw(PCIDevice *dev, dma_addr_t addr,
->                               void *buf, dma_addr_t len, DMADirection dir)
->  {
-> -    dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir);
-> -    return 0;
-> +    return dma_memory_rw(pci_get_address_space(dev), addr, buf, len, dir=
-);
->  }
-> =20
->  static inline int pci_dma_read(PCIDevice *dev, dma_addr_t addr,
-> --=20
-> 2.29.1
->=20
 
-Philippe posted a series where this patch is included as well (with a
-couple of additional reviews I think). Merging that is probably
-preferable, and I can respin this pull.
+Applied to target-arm.next, thanks.
 
---5vNYLRcllDrimb99
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+YADIACgkQTeGvMW1P
-DemwmQf/RVLB3AGqeJWmNYtoDIllyfKwMSHMQCCwZshjCsDQmom4asuCUOtV9IEd
-kH5OCcvlXdiPft0oGVTBvCOyS39BuYXGMxRGrRqVs0EtRonnjBetTFunjdX76KPO
-Ac0hFudh0EM5ezhkL8wYG4q2JHgnJfYIy3fuQpv+1DQVlqlCoqtprDPn+/olgRr6
-eIzQPniG35lY7Ss9M5Pse1dwruVOmCXMT8mfU0jyqgUrw2n4+DEJH5NdAn13PKqf
-TB4XZCMsXXiZi1Bhc77um/yCgzgESUJyZPNpYRCui5owZJq90gpLnOsZNzlUjhE+
-15n/bIAsRb0gO7jylJuEcdxepxLKLA==
-=OHJZ
------END PGP SIGNATURE-----
-
---5vNYLRcllDrimb99--
+-- PMM
 
