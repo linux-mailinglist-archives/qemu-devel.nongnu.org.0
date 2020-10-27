@@ -2,77 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE9129B2FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:48:47 +0100 (CET)
-Received: from localhost ([::1]:50654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBCF429B306
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:51:55 +0100 (CET)
+Received: from localhost ([::1]:59680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQHG-0005ak-UA
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:48:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42698)
+	id 1kXQKI-0000vE-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:51:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kXPnr-0002Lx-9l; Tue, 27 Oct 2020 10:18:23 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:32777)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kXPnp-0007fP-1J; Tue, 27 Oct 2020 10:18:23 -0400
-Received: by mail-pg1-x542.google.com with SMTP id r186so883372pgr.0;
- Tue, 27 Oct 2020 07:18:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=/LoqQw/Sgvn7BcQumXxtIosuzjX278w8FbRfowkpddc=;
- b=knQEvJmxDJVFasRYmotZTdMeNfmFXWJQ4Nz5jnwwwL16f/BdqkeljGusMfRrE3xZ2W
- KMmTg0B5zNTGBr/s8c6zwGgRzRP/AFRp/1gE4LPlC160tCtOqRL6v3QMO6Yv9VC5XXQL
- hyoZmjLFl2iMbvWWVpw7aLxCF0NngPA2WgPGovk5Hk+LiVjaN3uxeEG/s47HC+457K6o
- pl8oDscYZhs7Hh3RT3skVE4B5apUt690jeeGNSeV+iSijCrld6I2FjaFwtADuKpE53ys
- ndAK7NgXEXmUdTofYZdnQ0Fq1B49V+o9uLTsON3vicbs/zqY4y/R55dtgabqUkRSmvoo
- c/vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=/LoqQw/Sgvn7BcQumXxtIosuzjX278w8FbRfowkpddc=;
- b=nNOMqdFOfQc0vevOdfWSeTvfvajKVvZhC+3ct9K3Z8LY2Pfeaz7fBakgC41j5f+QJ9
- UAPy97DVvS32sfqbwxkFh56R6iAedn0T0Z7EcdO0259wYv+BwI2cA01hoRpz953b8oTa
- l8mx+DTcuXYa1pW+Eo1eEd6CLdEUfJLSG/2i9U+y/9nLeDF8U8tIIuHonBxEEtGpnZru
- gT5OhilJkA18TfYxB/sQ1v1OPqy/I/zj2bbM1P15PjvVwloqqQSux2k1APKZ7MLe4NJW
- wK0hwJp8SXTkQLuNrTZNZjf1qsPVZLt7uA5TiaT8MmjcSZCp/c+c1Oorq5q+7Q8bkVli
- lmFw==
-X-Gm-Message-State: AOAM532o1ZDOyHFI4ed+gqQLf9ktd+EN4A5D6AVyijUUgHpluCrYObEz
- qi/Bro4t/OCyTRXsroeAK48=
-X-Google-Smtp-Source: ABdhPJxFVKJEzNsCEHyLgpjrArA3l9B5X3dCqM59YhMNXfq5fNBNzRwFJNgXDeFssUVVf/YqCLpjww==
-X-Received: by 2002:a63:1103:: with SMTP id g3mr2202349pgl.48.1603808299576;
- Tue, 27 Oct 2020 07:18:19 -0700 (PDT)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id mn15sm1600297pjb.21.2020.10.27.07.18.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 07:18:18 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [RESEND PATCH 2/9] hw/riscv: microchip_pfsoc: Connect DDR memory
- controller modules
-Date: Tue, 27 Oct 2020 22:17:33 +0800
-Message-Id: <20201027141740.18336-3-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027141740.18336-1-bmeng.cn@gmail.com>
-References: <20201027141740.18336-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kXPnj-0002J8-SI; Tue, 27 Oct 2020 10:18:17 -0400
+Received: from ozlabs.org ([203.11.71.1]:40093)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kXPnh-0007d7-0v; Tue, 27 Oct 2020 10:18:15 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CLDLt1Qt0z9sj3; Wed, 28 Oct 2020 01:17:57 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1603808278;
+ bh=iYQRi/tNG112bmgF4xqQ7eKKIeFdgRePVgkns9RLLKU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=ErQp/ru1Of/fHE4PD6Xv4YL2DI33SJhLg7Jc2WQsqNnnaMDKp1QfdNRGxw9lNzU7O
+ LaB+8gob81bBNVqjmQFIOVVwkCkfPilbnsvx8Nb+0L36LDtHrV7RiS8U5b46Ovfu3r
+ kHAx3VBIL+RGbcYrof6b0VmdNIjuvoUKJM/RENEU=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: peter.maydell@linaro.org
+Subject: [PULL 16/18] target/ppc: Fix kvmppc_load_htab_chunk() error reporting
+Date: Wed, 28 Oct 2020 01:17:33 +1100
+Message-Id: <20201027141735.728821-17-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
+References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:17:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,118 +59,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
- Anup Patel <anup.patel@wdc.com>, Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+From: Greg Kurz <groug@kaod.org>
 
-Connect DDR SGMII PHY module and CFG module to the PolarFire SoC.
+If kvmppc_load_htab_chunk() fails, its return value is propagated up
+to vmstate_load(). It should thus be a negative errno, not -1 (which
+maps to EPERM and would lure the user into thinking that the problem
+is necessarily related to a lack of privilege).
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Return the error reported by KVM or ENOSPC in case of short write.
+While here, propagate the error message through an @errp argument
+and have the caller to print it with error_report_err() instead
+of relying on fprintf().
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160371604713.305923.5264900354159029580.stgit@bahia.lan>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
+ hw/ppc/spapr.c       |  4 +++-
+ target/ppc/kvm.c     | 11 +++++------
+ target/ppc/kvm_ppc.h |  5 +++--
+ 3 files changed, 11 insertions(+), 9 deletions(-)
 
- hw/riscv/Kconfig                   |  1 +
- hw/riscv/microchip_pfsoc.c         | 18 ++++++++++++++++++
- include/hw/riscv/microchip_pfsoc.h |  5 +++++
- 3 files changed, 24 insertions(+)
-
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 2df978fe8d..c8e50bde99 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -4,6 +4,7 @@ config IBEX
- config MICROCHIP_PFSOC
-     bool
-     select CADENCE_SDHCI
-+    select MCHP_PFSOC_DMC
-     select MCHP_PFSOC_MMUART
-     select MSI_NONBROKEN
-     select SIFIVE_CLINT
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 4627179cd3..85be2bcde8 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -15,6 +15,7 @@
-  * 4) Cadence eMMC/SDHC controller and an SD card connected to it
-  * 5) SiFive Platform DMA (Direct Memory Access Controller)
-  * 6) GEM (Gigabit Ethernet MAC Controller)
-+ * 7) DMC (DDR Memory Controller)
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -85,7 +86,9 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
-     [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
-     [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
-+    [MICROCHIP_PFSOC_DDR_SGMII_PHY] =   { 0x20007000,     0x1000 },
-     [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
-+    [MICROCHIP_PFSOC_DDR_CFG] =         { 0x20080000,    0x40000 },
-     [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-@@ -131,6 +134,11 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "dma-controller", &s->dma,
-                             TYPE_SIFIVE_PDMA);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index ba0894e73a..ec2536dba1 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2347,8 +2347,10 @@ static int htab_load(QEMUFile *f, void *opaque, int version_id)
  
-+    object_initialize_child(obj, "ddr-sgmii-phy", &s->ddr_sgmii_phy,
-+                            TYPE_MCHP_PFSOC_DDR_SGMII_PHY);
-+    object_initialize_child(obj, "ddr-cfg", &s->ddr_cfg,
-+                            TYPE_MCHP_PFSOC_DDR_CFG);
-+
-     object_initialize_child(obj, "gem0", &s->gem0, TYPE_CADENCE_GEM);
-     object_initialize_child(obj, "gem1", &s->gem1, TYPE_CADENCE_GEM);
+             assert(fd >= 0);
  
-@@ -260,6 +268,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         memmap[MICROCHIP_PFSOC_MPUCFG].base,
-         memmap[MICROCHIP_PFSOC_MPUCFG].size);
+-            rc = kvmppc_load_htab_chunk(f, fd, index, n_valid, n_invalid);
++            rc = kvmppc_load_htab_chunk(f, fd, index, n_valid, n_invalid,
++                                        &local_err);
+             if (rc < 0) {
++                error_report_err(local_err);
+                 return rc;
+             }
+         }
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index d85ba8ffe0..0223b93ea5 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -2683,7 +2683,7 @@ int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize, int64_t max_ns)
+ }
  
-+    /* DDR SGMII PHY */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), 0,
-+                    memmap[MICROCHIP_PFSOC_DDR_SGMII_PHY].base);
-+
-+    /* DDR CFG */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_cfg), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_cfg), 0,
-+                    memmap[MICROCHIP_PFSOC_DDR_CFG].base);
-+
-     /* SDHCI */
-     sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index 8bfc7e1a85..5b81e26241 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -24,6 +24,7 @@
+ int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+-                           uint16_t n_valid, uint16_t n_invalid)
++                           uint16_t n_valid, uint16_t n_invalid, Error **errp)
+ {
+     struct kvm_get_htab_header *buf;
+     size_t chunksize = sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
+@@ -2698,14 +2698,13 @@ int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
  
- #include "hw/char/mchp_pfsoc_mmuart.h"
- #include "hw/dma/sifive_pdma.h"
-+#include "hw/misc/mchp_pfsoc_dmc.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/sd/cadence_sdhci.h"
+     rc = write(fd, buf, chunksize);
+     if (rc < 0) {
+-        fprintf(stderr, "Error writing KVM hash table: %s\n",
+-                strerror(errno));
+-        return rc;
++        error_setg_errno(errp, errno, "Error writing the KVM hash table");
++        return -errno;
+     }
+     if (rc != chunksize) {
+         /* We should never get a short write on a single chunk */
+-        fprintf(stderr, "Short write, restoring KVM hash table\n");
+-        return -1;
++        error_setg(errp, "Short write while restoring the KVM hash table");
++        return -ENOSPC;
+     }
+     return 0;
+ }
+diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+index 72e05f1cd2..73ce2bc951 100644
+--- a/target/ppc/kvm_ppc.h
++++ b/target/ppc/kvm_ppc.h
+@@ -56,7 +56,7 @@ int kvmppc_define_rtas_kernel_token(uint32_t token, const char *function);
+ int kvmppc_get_htab_fd(bool write, uint64_t index, Error **errp);
+ int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize, int64_t max_ns);
+ int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+-                           uint16_t n_valid, uint16_t n_invalid);
++                           uint16_t n_valid, uint16_t n_invalid, Error **errp);
+ void kvmppc_read_hptes(ppc_hash_pte64_t *hptes, hwaddr ptex, int n);
+ void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1);
+ bool kvmppc_has_cap_fixup_hcalls(void);
+@@ -316,7 +316,8 @@ static inline int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize,
+ }
  
-@@ -37,6 +38,8 @@ typedef struct MicrochipPFSoCState {
-     RISCVHartArrayState e_cpus;
-     RISCVHartArrayState u_cpus;
-     DeviceState *plic;
-+    MchpPfSoCDdrSgmiiPhyState ddr_sgmii_phy;
-+    MchpPfSoCDdrCfgState ddr_cfg;
-     MchpPfSoCMMUartState *serial0;
-     MchpPfSoCMMUartState *serial1;
-     MchpPfSoCMMUartState *serial2;
-@@ -82,7 +85,9 @@ enum {
-     MICROCHIP_PFSOC_MMUART0,
-     MICROCHIP_PFSOC_SYSREG,
-     MICROCHIP_PFSOC_MPUCFG,
-+    MICROCHIP_PFSOC_DDR_SGMII_PHY,
-     MICROCHIP_PFSOC_EMMC_SD,
-+    MICROCHIP_PFSOC_DDR_CFG,
-     MICROCHIP_PFSOC_MMUART1,
-     MICROCHIP_PFSOC_MMUART2,
-     MICROCHIP_PFSOC_MMUART3,
+ static inline int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+-                                         uint16_t n_valid, uint16_t n_invalid)
++                                         uint16_t n_valid, uint16_t n_invalid,
++                                         Error **errp)
+ {
+     abort();
+ }
 -- 
-2.25.1
+2.26.2
 
 
