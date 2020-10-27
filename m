@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C52329ADCE
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:49:30 +0100 (CET)
-Received: from localhost ([::1]:56316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BFE29AD78
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:36:16 +0100 (CET)
+Received: from localhost ([::1]:44024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPLt-0002h2-7w
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:49:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53624)
+	id 1kXP95-0002Bv-FA
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXOuh-0003oG-FT
+ id 1kXOuh-0003nM-4q
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20832)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXOuc-0006Cb-8d
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:23 -0400
+ id 1kXOud-0006Cp-MD
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:22 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603804877;
+ s=mimecast20190719; t=1603804879;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=F+/dVjGzf9OeYfzI+8CPoE4FYLY0YoMTdaAUoG1f2Fk=;
- b=IxL903oeKY7qucT40l1OUR7+dCnAtCnI/6cgZiegQiJjY5tWPAF95aNHndb7TsUFg+mXNi
- LoihRmKlcuA/nLdlg04ShBhu2jIxi6iCtYoETRhzW5IK6MBO1oFo52pnPyhxulFso2Uncj
- 0AOJGhfEVNo2jUl3xVVuNZ9EixRwr78=
+ bh=vlo1gDebt5sCqcu700TeAqkVIrdGkZHwxRZikms0jxo=;
+ b=CUGIWqItalQNhsoU0fJZUgz9CqikyeUdco+xQvq3EHYG/vtmJnhM6hOX5NQwq67QqHMvHi
+ 9Tigvk01qvWoDc0WdyevU/rnGgRDM46R614Eihfucq2+Nxj9CCy9zOOSytFGzCCt8iVlG6
+ gwlm+b/PX9ysAD0ahnNqgAtJL74oXrc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-6SYlUbkxO2CVshuQaOahZg-1; Tue, 27 Oct 2020 09:21:11 -0400
-X-MC-Unique: 6SYlUbkxO2CVshuQaOahZg-1
+ us-mta-367-lP0izg2aNEKNrfiwmJDJXA-1; Tue, 27 Oct 2020 09:21:15 -0400
+X-MC-Unique: lP0izg2aNEKNrfiwmJDJXA-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D657101F7CC
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:21:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D5A0D18B9EC4
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:21:14 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-46.ams2.redhat.com
  [10.36.115.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1B50F1972B;
- Tue, 27 Oct 2020 13:21:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6ACE19646;
+ Tue, 27 Oct 2020 13:21:10 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH v2 13/16] Move wiki link from footer into the header
- navbar
-Date: Tue, 27 Oct 2020 13:20:12 +0000
-Message-Id: <20201027132015.621733-14-berrange@redhat.com>
+Subject: [qemu-web PATCH v2 14/16] Simplify and restructure the page footer
+Date: Tue, 27 Oct 2020 13:20:13 +0000
+Message-Id: <20201027132015.621733-15-berrange@redhat.com>
 In-Reply-To: <20201027132015.621733-1-berrange@redhat.com>
 References: <20201027132015.621733-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,17 +58,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,39 +86,160 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The wiki is important enough that it should be presented more
-prominently in the page header navbar, rather than the footer.
+Remove links from the footer than duplicate what is already present in
+the header navbar or easily found from other places. The footer bar is
+now simply a selection of links to related external sites, along with
+the website license and SFC information.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- _includes/footer.html | 1 -
- _includes/nav.html    | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+ _includes/footer.html        | 15 +++------------
+ assets/css/style-desktop.css | 21 +--------------------
+ assets/css/style-mobile.css  | 22 +---------------------
+ assets/css/style.css         | 24 ++++++++++++++++--------
+ 4 files changed, 21 insertions(+), 61 deletions(-)
 
 diff --git a/_includes/footer.html b/_includes/footer.html
-index 07f7866..fba5f08 100644
+index fba5f08..5adc569 100644
 --- a/_includes/footer.html
 +++ b/_includes/footer.html
-@@ -9,7 +9,6 @@
- 			<li><a href="{{ relative_root }}/documentation">Documentation</a></li>
- 			<li><a href="https://www.qemu.org/docs/master/">Main docs</a></li>
- 			<li><a href="https://wiki.qemu.org/Category:Developer_documentation">Developer docs</a></li>
--			<li><a href="https://wiki.qemu.org/">Wiki</a></li>
- 		</ul>
+@@ -1,17 +1,8 @@
+ <div id="footer">
+-	<div id="footer-inner">
++	<div id="external-links">
  		<ul class="style">
- 			<li><a href="https://planet.virt-tools.org/">virt tools planet</a></li>
-diff --git a/_includes/nav.html b/_includes/nav.html
-index c66ee92..73b39b3 100644
---- a/_includes/nav.html
-+++ b/_includes/nav.html
-@@ -7,6 +7,7 @@
- 			</li><li {% if current[1] == 'support' %}class='current'{% endif %}><a href="{{ relative_root }}/support">Support</a>
- 			</li><li {% if current[1] == 'contribute' %}class='current'{% endif %}><a href="{{ relative_root }}/contribute">Contribute</a>
- 			</li><li {% if current[1] == 'documentation' %}class='current'{% endif %}><a href="{{ relative_root }}/documentation">Docs</a>
-+			</li><li><a href="https://wiki.qemu.org">Wiki</a>
- 			</li><li {% if current[1] == 'blog' %}class='current'{% endif %}><a href="{{ relative_root }}/blog">Blog</a></li>
- 		</ul>
- 	</nav>
+-			<li><a href="{{ relative_root }}/">Home</a></li>
+-			<li><a href="{{ relative_root }}/download">Download</a></li>
+-			<li><a href="http://qemu-advent-calendar.org">QEMU advent calendar</a></li>
+-		</ul>
+-		<ul class="style">
+-			<li><a href="{{ relative_root }}/documentation">Documentation</a></li>
+-			<li><a href="https://www.qemu.org/docs/master/">Main docs</a></li>
+-			<li><a href="https://wiki.qemu.org/Category:Developer_documentation">Developer docs</a></li>
+-		</ul>
+-		<ul class="style">
+-			<li><a href="https://planet.virt-tools.org/">virt tools planet</a></li>
++			<li><a href="http://qemu-advent-calendar.org">Advent calendar</a></li>
++			<li><a href="https://planet.virt-tools.org/">Blog planet</a></li>
+ 			<li><a href="https://www.linux-kvm.org/">KVM</a></li>
+ 			<li><a href="http://libguestfs.org/">Libguestfs</a></li>
+ 			<li><a href="https://libvirt.org/">Libvirt</a></li>
+diff --git a/assets/css/style-desktop.css b/assets/css/style-desktop.css
+index 2b25532..593f090 100644
+--- a/assets/css/style-desktop.css
++++ b/assets/css/style-desktop.css
+@@ -104,26 +104,7 @@
+ 	
+ 	#footer
+ 	{
+-		padding: 1em 0em;
+-	}
+-	
+-	#footer-inner
+-	{
+-		width: 95%;
+-		display: table;
+-		margin: auto;
+-	}
+-
+-	#footer ul
+-	{
+-		width: 25%;
+-		display: table-cell;
+-		padding-left: 2em;
+-	}
+-
+-	#footer ul:first-child
+-	{
+-		padding-left: 0px;
++		clear: both;
+ 	}
+ 
+ /*********************************************************************************/
+diff --git a/assets/css/style-mobile.css b/assets/css/style-mobile.css
+index 5dab41c..2a18870 100644
+--- a/assets/css/style-mobile.css
++++ b/assets/css/style-mobile.css
+@@ -232,7 +232,7 @@
+ /* Columns                                                                       */
+ /*********************************************************************************/
+ 
+-	#main, #footer-inner
++	#main
+ 	{
+ 		margin-left: 0%;
+ 		width: 100%;
+@@ -267,26 +267,6 @@
+ 		font-size: 1.6em;
+ 	}
+ 	
+-/*********************************************************************************/
+-/* Footer                                                                        */
+-/*********************************************************************************/
+-	
+-	#footer
+-	{
+-		padding: 1em;
+-	}
+-	
+-	#footer ul
+-	{
+-		padding: 0.6em 0px;
+-		border-top: 1px solid white;
+-	}
+-
+-	#footer ul:first-child
+-	{
+-		border-top: 0px;
+-	}
+-	
+ /*********************************************************************************/
+ /* Featured                                                                      */
+ /*********************************************************************************/
+diff --git a/assets/css/style.css b/assets/css/style.css
+index a9d5b90..369b57f 100644
+--- a/assets/css/style.css
++++ b/assets/css/style.css
+@@ -502,9 +502,6 @@
+ 	#footer
+ 	{
+ 		position: relative;
+-		clear: left;
+-		background: #401200;
+-		color: #FFF;
+ 	}
+ 	
+ 	#footer a
+@@ -514,13 +511,24 @@
+ 	
+ 	#footer ul
+ 	{
+-		vertical-align: top;
++		margin: 0em;
+ 	}
+ 
+-	#footer ul, #footer ul > li
+-	{
+-		padding: 0;
+-		margin: 0
++	#external-links {
++		padding: 0em;
++		padding-top: 0.3em;
++		padding-bottom: 0.3em;
++		background: #401200;
++		color: #FFF;
++		text-align: center;
++	}
++
++	#external-links li {
++		display: inline;
++	}
++
++	#external-links li a {
++		padding-left: 1em;
+ 	}
+ 
+ 	#licenses, #conservancy {
 -- 
 2.26.2
 
