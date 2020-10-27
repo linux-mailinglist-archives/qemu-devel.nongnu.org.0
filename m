@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BC8429C3FF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 18:52:08 +0100 (CET)
-Received: from localhost ([::1]:56708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53C1B29C3BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 18:50:07 +0100 (CET)
+Received: from localhost ([::1]:51560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXT8h-0007js-78
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 13:52:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47182)
+	id 1kXT6k-0005Tl-D0
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 13:50:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXT5v-0005t8-6P; Tue, 27 Oct 2020 13:49:15 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:38047)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1kXSw4-0001Dv-Oj
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 13:39:04 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:37849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXT5q-0005Q9-GN; Tue, 27 Oct 2020 13:49:14 -0400
-Received: by mail-io1-xd42.google.com with SMTP id y20so2486040iod.5;
- Tue, 27 Oct 2020 10:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=onx8aWS3JSsRvz7twCqULyHhgjMXYAppBpKGCxhrckE=;
- b=kSOn6IeX4AGvX0A/GeF2TNlXkt96NO8ci5+MWufwDdyl7n3RJhnjDgrh9ktbGq+hqK
- NnLpec0LIdxrjz0uckpLGBA43VuRqpAu65eSPj5ZvBMWN6LNg4vQzG2JJgJ9GT2yAztf
- Yq3zqx/TxuzjC8xUi8xyKhTW6n+Nz2UFpG6MrShONgGUPrbcVM+cFCCYLKylsIUJDyoW
- WiQbARt00RzHOZzdD6tmRoLXveKeaGXY//Rj3p0xlDnMBvETQKvQwdtC2bbMo3tnM1PV
- QeZ/1o15RG8lWTQ6as0W8pNnU6m3fYBaif7dR7ij2pJSkQ2KX9dCDK8mN6niIzq90bk2
- ghMQ==
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1kXSw2-0003b5-Is
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 13:39:04 -0400
+Received: by mail-ed1-x543.google.com with SMTP id o18so2329289edq.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 10:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=N32c2I2QD7KkAZG+NzeqUi5ns8CRp0X11+vh9YrLZm0=;
+ b=zcRzu+RPOQsyRNhAOCMWuyBeMUpCFV5FaYXavHBQbwMWfMvhe8Y+/8630yD+wMIkxd
+ wlJUgRoT0Xp/DO9msCQIgPm/xstIsga5LU7PseN+rPLHBAsRqCkT12BswappmdcxhabP
+ jjYlvLImhxSLA+WbWiXJUpmjvU5DlHkfJHgbGMAlA1DlprIBF12NKNPGwOqKsNsmQK38
+ y9fC0mB4SV7f/qyiZvISkY2CAA11mVK/96QdpVwkgjceh/2xmsyHHFVcUog+kmvZ0cVT
+ fj/7jij0OwO5jeZUmPJmOU8TDEqNuUNSFC02nt+XVwU/kS/gylybwnfNLBYh/4S27LK5
+ slNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=onx8aWS3JSsRvz7twCqULyHhgjMXYAppBpKGCxhrckE=;
- b=aFxkef2KqWZFP4M5qfcyQnjnn6rT3UPdTfD+sEd4zuCbsUgrQJeOU0e3ZW/zX/rasS
- cRetymWSYTEExqTdHEyzQ1zc8qw3yENb/rIGFGggcUAMm4Hp2lLYOwzN0q04OiJnZ0RL
- 09Cj8S62fRQ6tG9vTNx6uX8d0sUozUGk4PwKDE2k5mbp4Alhwe95nzBg3NlcED2rC7j1
- 6Umqbs9JcKzXRpK+10UBxw0v1C6B1Ze1hPs/mVqKs8NmWEcATdpRmpPjHpF/YIkCq46V
- RLO6/DtdUpMUM9z8asmg9nHQ2oTCnRfkvI8qV+nz92ZUfa0/A74z5+h4PT4CoWKGc+6X
- AuYg==
-X-Gm-Message-State: AOAM53004//+wIX1Tes8QTqqZi9yLvrsZRzNLzccgwp7V78W/iuqZcqF
- L18LfIyguHQOVeDNacZMwZPAe+Q10gq9QsO6DuY=
-X-Google-Smtp-Source: ABdhPJwpj2K6YlNvETSSPo6xOrJtbFhoVA0BDMgohqG+ziy4JyAkiXr2T4DQBqdtod6jGS3681CrThJ6kb9g0wARgIo=
-X-Received: by 2002:a05:6638:ec3:: with SMTP id
- q3mr2032119jas.106.1603820948092; 
- Tue, 27 Oct 2020 10:49:08 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=N32c2I2QD7KkAZG+NzeqUi5ns8CRp0X11+vh9YrLZm0=;
+ b=Xl1KI9SaCiq3bYExiLTjrYOUpZjilpmqXvG4YC2MjEV6LEVdD4FlwM2Dw24MSwVw5T
+ KyF1yhQPxHHRZYnIVONdEtJ6U/mB2yuJORmEI9CU+wp3A2+4VtWUS8fUvLmbPLwA44cm
+ Ex7XRHDE4UUlwizV4XLoY99PQQA6w2Q6/S+y6fVM02YCKUCzPt13QlKg7iAaa13wO3qz
+ 4lqyfx8aaCwdXReDwKuhQFU7IYEnDRW7KXHa4kDfMII5BuYbr3C0NDg5UAHn5XvOEnVd
+ HAKs5LpI4GsL/EXf6D8Tu/oUHbDUd02HpafTEy15A2CI4czSbgGDfgKMUGvF7zh6R+BF
+ tzZQ==
+X-Gm-Message-State: AOAM530oYZCgqvQ+edOY5USdTQmFdErLu+poS61HTRsb9B8oKAjnSQ/x
+ 0OVCqOTgwIOkw8XcLsS8L/PqYQ==
+X-Google-Smtp-Source: ABdhPJzOGACE98lA96reZb5s0l5Svp799cZ70twwJfw+bzm58B9td9Y3zK+wrmvKZ0F4/+eZGk0UHw==
+X-Received: by 2002:a05:6402:7c8:: with SMTP id
+ u8mr3485393edy.153.1603820340153; 
+ Tue, 27 Oct 2020 10:39:00 -0700 (PDT)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id k9sm1456404ejv.113.2020.10.27.10.38.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 10:38:59 -0700 (PDT)
+Date: Tue, 27 Oct 2020 18:38:40 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v10 09/10] virtio-iommu: Set supported page size mask
+Message-ID: <20201027173840.GA2320704@myrica>
+References: <20201008171558.410886-1-jean-philippe@linaro.org>
+ <20201008171558.410886-10-jean-philippe@linaro.org>
+ <20201019213539.GC3203@xz-x1> <20201022163937.GB1808268@myrica>
+ <20201022205616.GD3208@xz-x1> <20201023074858.GA2265982@myrica>
+ <20201023164702.GF3208@xz-x1>
 MIME-Version: 1.0
-References: <20201027141740.18336-1-bmeng.cn@gmail.com>
- <20201027141740.18336-3-bmeng.cn@gmail.com>
-In-Reply-To: <20201027141740.18336-3-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 27 Oct 2020 10:37:18 -0700
-Message-ID: <CAKmqyKMyHCZCLZOqVVZ4n4C0_rAY-WO5-J+Y=dqi0qtZsLXjpw@mail.gmail.com>
-Subject: Re: [RESEND PATCH 2/9] hw/riscv: microchip_pfsoc: Connect DDR memory
- controller modules
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201023164702.GF3208@xz-x1>
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=jean-philippe@linaro.org; helo=mail-ed1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,136 +89,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, eric.auger@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 7:46 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Connect DDR SGMII PHY module and CFG module to the PolarFire SoC.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
->
->  hw/riscv/Kconfig                   |  1 +
->  hw/riscv/microchip_pfsoc.c         | 18 ++++++++++++++++++
->  include/hw/riscv/microchip_pfsoc.h |  5 +++++
->  3 files changed, 24 insertions(+)
->
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index 2df978fe8d..c8e50bde99 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -4,6 +4,7 @@ config IBEX
->  config MICROCHIP_PFSOC
->      bool
->      select CADENCE_SDHCI
-> +    select MCHP_PFSOC_DMC
->      select MCHP_PFSOC_MMUART
->      select MSI_NONBROKEN
->      select SIFIVE_CLINT
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 4627179cd3..85be2bcde8 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -15,6 +15,7 @@
->   * 4) Cadence eMMC/SDHC controller and an SD card connected to it
->   * 5) SiFive Platform DMA (Direct Memory Access Controller)
->   * 6) GEM (Gigabit Ethernet MAC Controller)
-> + * 7) DMC (DDR Memory Controller)
->   *
->   * This board currently generates devicetree dynamically that indicates at least
->   * two harts and up to five harts.
-> @@ -85,7 +86,9 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
->      [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
->      [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
-> +    [MICROCHIP_PFSOC_DDR_SGMII_PHY] =   { 0x20007000,     0x1000 },
->      [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
-> +    [MICROCHIP_PFSOC_DDR_CFG] =         { 0x20080000,    0x40000 },
+On Fri, Oct 23, 2020 at 12:47:02PM -0400, Peter Xu wrote:
+> On Fri, Oct 23, 2020 at 09:48:58AM +0200, Jean-Philippe Brucker wrote:
+> > Arm CPUs and SMMU support 4k, 16k and 64k page sizes. I don't think 16k is
+> > used anywhere but some distributions chose 64k (RHEL, I think?), others
+> > 4k, so we need to support both.
+> > 
+> > Unfortunately as noted above host64k-guest4k is not possible without
+> > adding a negotiation mechanism to virtio-iommu, host VFIO and IOMMU
+> > driver.
+> 
+> I see.  Then it seems we would still need to support host4k-guest64k.
+> 
+> Maybe for assigned case, we can simply AND all the psize_masks of all the vfio
+> containers that supported to replace the default psize mask (TARGET_PAGE_SIZE)
+> without caring about whether it's shrinking or not?  Note that current patch
+> only update config.psize_mask to the new one, but I think we need to calculate
+> the subset of all containers rather than a simply update.
 
-Neither of these are documented....
+Yes I think an AND is the right operation. We'll return an error if the
+resulting mask is 0. Then for hotplug, I think I'll keep the current "best
+effort" code from this patch. If necessary we could later add a parameter
+to set a default mask and guarantee hotplug success.
 
-Maybe just add a single comment above the memory layout clarifying
-that this is not what is documented from the SoC but is instead based
-on what guests do?
+Thanks,
+Jean
 
-It seems to be a constant problem with this board, unless I am really
-misreading the memory map.
-
-Alistair
-
->      [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-> @@ -131,6 +134,11 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
->      object_initialize_child(obj, "dma-controller", &s->dma,
->                              TYPE_SIFIVE_PDMA);
->
-> +    object_initialize_child(obj, "ddr-sgmii-phy", &s->ddr_sgmii_phy,
-> +                            TYPE_MCHP_PFSOC_DDR_SGMII_PHY);
-> +    object_initialize_child(obj, "ddr-cfg", &s->ddr_cfg,
-> +                            TYPE_MCHP_PFSOC_DDR_CFG);
-> +
->      object_initialize_child(obj, "gem0", &s->gem0, TYPE_CADENCE_GEM);
->      object_initialize_child(obj, "gem1", &s->gem1, TYPE_CADENCE_GEM);
->
-> @@ -260,6 +268,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->          memmap[MICROCHIP_PFSOC_MPUCFG].base,
->          memmap[MICROCHIP_PFSOC_MPUCFG].size);
->
-> +    /* DDR SGMII PHY */
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), errp);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), 0,
-> +                    memmap[MICROCHIP_PFSOC_DDR_SGMII_PHY].base);
-> +
-> +    /* DDR CFG */
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_cfg), errp);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_cfg), 0,
-> +                    memmap[MICROCHIP_PFSOC_DDR_CFG].base);
-> +
->      /* SDHCI */
->      sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> index 8bfc7e1a85..5b81e26241 100644
-> --- a/include/hw/riscv/microchip_pfsoc.h
-> +++ b/include/hw/riscv/microchip_pfsoc.h
-> @@ -24,6 +24,7 @@
->
->  #include "hw/char/mchp_pfsoc_mmuart.h"
->  #include "hw/dma/sifive_pdma.h"
-> +#include "hw/misc/mchp_pfsoc_dmc.h"
->  #include "hw/net/cadence_gem.h"
->  #include "hw/sd/cadence_sdhci.h"
->
-> @@ -37,6 +38,8 @@ typedef struct MicrochipPFSoCState {
->      RISCVHartArrayState e_cpus;
->      RISCVHartArrayState u_cpus;
->      DeviceState *plic;
-> +    MchpPfSoCDdrSgmiiPhyState ddr_sgmii_phy;
-> +    MchpPfSoCDdrCfgState ddr_cfg;
->      MchpPfSoCMMUartState *serial0;
->      MchpPfSoCMMUartState *serial1;
->      MchpPfSoCMMUartState *serial2;
-> @@ -82,7 +85,9 @@ enum {
->      MICROCHIP_PFSOC_MMUART0,
->      MICROCHIP_PFSOC_SYSREG,
->      MICROCHIP_PFSOC_MPUCFG,
-> +    MICROCHIP_PFSOC_DDR_SGMII_PHY,
->      MICROCHIP_PFSOC_EMMC_SD,
-> +    MICROCHIP_PFSOC_DDR_CFG,
->      MICROCHIP_PFSOC_MMUART1,
->      MICROCHIP_PFSOC_MMUART2,
->      MICROCHIP_PFSOC_MMUART3,
-> --
-> 2.25.1
->
->
+> Then with the help
+> of 39b3b3c9cac1 imho we'll gracefully fail the probe if the psize is not
+> suitable anyway, e.g., host64k-guest4k.
+> 
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
 
