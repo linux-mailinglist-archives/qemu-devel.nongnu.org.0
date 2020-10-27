@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1A3129AC6D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:46:33 +0100 (CET)
-Received: from localhost ([::1]:41076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7609C29AC75
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:49:29 +0100 (CET)
+Received: from localhost ([::1]:47302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOMy-0002EF-U1
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:46:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52662)
+	id 1kXOPo-00053k-HI
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:49:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNQ8-00029r-QR
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:44 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46825)
+ id 1kXNQ9-0002BF-IK
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:46 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNQ1-0004pr-BL
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:44 -0400
-Received: by mail-wr1-x441.google.com with SMTP id n6so1491911wrm.13
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:36 -0700 (PDT)
+ id 1kXNQ6-0004qV-0t
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:45 -0400
+Received: by mail-wr1-x444.google.com with SMTP id n6so1491985wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=9r3Qqc8MEyeZ3w8VA5gDxlqhC0ADvU6O9MruFoZbYqQ=;
- b=hD3oZslgh2OiFcox3ct/tRQuamtlYI+jgiLsYfeWq57vyQVtuZvOZ1XL1oeL5chV6u
- Yc7p7qx3xFspcufbWG9RERL/o+/oD2SZHbPmG3ZQbKCJZb2zgFK52dpesMH///wDQnjs
- kqeb1juIRf91x7tymAbwPaV/aabBadg+4oHh8ywnVQH9Ri4NY63JhavGuVacH4FiP5PL
- V+yP8MAeLTwBqDA0UbyKX7BgMsARkdiym9E8ZPXk4AF8f09VWtk+TPK6DXeFY+SrlXSj
- 0NjPSKhNESjSkuNIzipJZIpZCTJhfl33Rp0Ve6ftq3Wikd2101/v1GM/S4W2ALIK1TVA
- 6KvQ==
+ bh=vqJag2qE3QdrFaGEy+qwjksLcU+OfxV+X+dGHhLho5w=;
+ b=qR97ONEwfMqjR09q+V+jN3LUS3jZVXOHBn7DXeQkxjRvdmnW7szJOtnBItBCjy/VVH
+ f/I6CiFCkbdBjG5CJNEXklp2uMKVpuwsgEOqs3hiZm4I2Nnosb2CSuGDK60bFyJ6ucPd
+ vgwXJ8YeftyEv/pzsKs4Ti2AEi0EwOiK05c9kTcssQaJ442PnVjjsdlBvnmxWVr2ohuT
+ B7LrjsKZlrbtlDaiaSYtev5nczBfNpzOTW+wcVVcUnuRD751sJdy+yN9MfUoXm8K1UYT
+ NxzRyHtdsGrW/qGsyI5PH11vOYmnEO40Qbn8PIGccAWWdjIQiQ+l+P/UV1rMWktF2GzJ
+ xFhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9r3Qqc8MEyeZ3w8VA5gDxlqhC0ADvU6O9MruFoZbYqQ=;
- b=F60ShVabmbWKA2cg3qHkH4nvaaFaH8/bb9tAHoKUkT9rGwRTyGjrOX3MBbt7SPY96U
- eiBKl6lnSnPIN9ovPoc45OeCmNG8sx/dKGS1K4DpqnZuJsPVkExSmKZZKFFh5dantMNv
- V5U/cPb01ZhadpTiQVs7AcwdjeIB60Y10mTdclT3QbgyGYrrLPJ1EYxABs+P+uL/RDd+
- mkXhAUQu6mtfnWB0WfqQRBHvjNUnXtaqhDJytMmp5nzcZT6EQQ8S8KqVbljEuJNnjI7d
- 6RW5MFFKzz6O4/6DYToqSr8YRtFL932R3Lx9jsW6LaX4ef0W/K7N9ahRE/MU0ccw8bWQ
- GVMg==
-X-Gm-Message-State: AOAM531hG+gR1EFV4vLY+TVrqPRpmYmAth71R8wteSE/b/ns5A6TXl3o
- aet+9IZvt2m6zVojsBn4quWHgOhK3NYSew==
-X-Google-Smtp-Source: ABdhPJzfvjB4MlVR9OcNAk+SPdBl5uwGddB8Ft+QWVtGqxEgi+hOzSnrYm0MmawDEY5wo+ECsBpyWQ==
-X-Received: by 2002:a5d:6407:: with SMTP id z7mr2561370wru.271.1603799135150; 
- Tue, 27 Oct 2020 04:45:35 -0700 (PDT)
+ bh=vqJag2qE3QdrFaGEy+qwjksLcU+OfxV+X+dGHhLho5w=;
+ b=cW8S44qtvVSSD/Q1ycqW3VuJKwXOYku6gKg4swnl/EtR8KcggfwcA2q78LoX34ZiXn
+ cenod5ikeFOSQLVY2tzvbxP3CkNMiFEX2WQPFDljZoMg+O1VVlrPKOCNZbyaNThDgkSF
+ 6mLqpcqB+JrCNS8P/cAVDEJtX/fDXexqjKkCdgT+gBjO1BgnsWnI1+QC07S5AzKidNmy
+ k1meu3WIIoC9WEYLciYlXebhMZndh9Md3OXXebcIgtukXH8ljinlcGc9Y3b8nGFgETjE
+ JLPoX/g26al+wnwmlEKVpeli2te59i7pb7b1ZgSG0LcsiffxqTs4rdnSOYpNOzt8e21K
+ mJOg==
+X-Gm-Message-State: AOAM531kaONEN/O9J0Rl29zpKHkjDFlS1vd/DYujwGcwZwyRZnMlzXZP
+ 60WMpwrzyZVeKciEURBgIejh8WtT1rN54w==
+X-Google-Smtp-Source: ABdhPJyhHvsiheG5WbHIDUU/HR7DwXrYYsv6vSGNfzDwOOvywxAWEZNP0jI839Fg5z9X+/hzWRrxTA==
+X-Received: by 2002:a5d:5106:: with SMTP id s6mr2317142wrt.51.1603799136395;
+ Tue, 27 Oct 2020 04:45:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.33
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.35
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:34 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 43/48] hw/char/pl011: add a clock input
-Date: Tue, 27 Oct 2020 11:44:33 +0000
-Message-Id: <20201027114438.17662-44-peter.maydell@linaro.org>
+Subject: [PULL 44/48] hw/arm/bcm2835_peripherals: connect the UART clock
+Date: Tue, 27 Oct 2020 11:44:34 +0000
+Message-Id: <20201027114438.17662-45-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,10 +91,7 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Luc Michel <luc@lmichel.fr>
 
-Add a clock input to the PL011 UART so we can compute the current baud
-rate and trace it. This is intended for developers who wish to use QEMU
-to e.g. debug their firmware or to figure out the baud rate configured
-by an unknown/closed source binary.
+Connect the 'uart-out' clock from the CPRMAN to the PL011 instance.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Luc Michel <luc@lmichel.fr>
@@ -102,135 +99,22 @@ Tested-by: Guenter Roeck <linux@roeck-us.net>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/char/pl011.h |  1 +
- hw/char/pl011.c         | 45 +++++++++++++++++++++++++++++++++++++++++
- hw/char/trace-events    |  1 +
- 3 files changed, 47 insertions(+)
+ hw/arm/bcm2835_peripherals.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
-index a91ea50e11b..33e5e5317b8 100644
---- a/include/hw/char/pl011.h
-+++ b/include/hw/char/pl011.h
-@@ -49,6 +49,7 @@ struct PL011State {
-     int read_trigger;
-     CharBackend chr;
-     qemu_irq irq[6];
-+    Clock *clk;
-     const unsigned char *id;
- };
- 
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index 13e784f9d90..ede16c781c9 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -22,6 +22,7 @@
- #include "hw/char/pl011.h"
- #include "hw/irq.h"
- #include "hw/sysbus.h"
-+#include "hw/qdev-clock.h"
- #include "migration/vmstate.h"
- #include "chardev/char-fe.h"
- #include "qemu/log.h"
-@@ -169,6 +170,25 @@ static void pl011_set_read_trigger(PL011State *s)
-         s->read_trigger = 1;
- }
- 
-+static unsigned int pl011_get_baudrate(const PL011State *s)
-+{
-+    uint64_t clk;
-+
-+    if (s->fbrd == 0) {
-+        return 0;
-+    }
-+
-+    clk = clock_get_hz(s->clk);
-+    return (clk / ((s->ibrd << 6) + s->fbrd)) << 2;
-+}
-+
-+static void pl011_trace_baudrate_change(const PL011State *s)
-+{
-+    trace_pl011_baudrate_change(pl011_get_baudrate(s),
-+                                clock_get_hz(s->clk),
-+                                s->ibrd, s->fbrd);
-+}
-+
- static void pl011_write(void *opaque, hwaddr offset,
-                         uint64_t value, unsigned size)
- {
-@@ -198,9 +218,11 @@ static void pl011_write(void *opaque, hwaddr offset,
-         break;
-     case 9: /* UARTIBRD */
-         s->ibrd = value;
-+        pl011_trace_baudrate_change(s);
-         break;
-     case 10: /* UARTFBRD */
-         s->fbrd = value;
-+        pl011_trace_baudrate_change(s);
-         break;
-     case 11: /* UARTLCR_H */
-         /* Reset the FIFO state on FIFO enable or disable */
-@@ -286,12 +308,29 @@ static void pl011_event(void *opaque, QEMUChrEvent event)
-         pl011_put_fifo(opaque, 0x400);
- }
- 
-+static void pl011_clock_update(void *opaque)
-+{
-+    PL011State *s = PL011(opaque);
-+
-+    pl011_trace_baudrate_change(s);
-+}
-+
- static const MemoryRegionOps pl011_ops = {
-     .read = pl011_read,
-     .write = pl011_write,
-     .endianness = DEVICE_NATIVE_ENDIAN,
- };
- 
-+static const VMStateDescription vmstate_pl011_clock = {
-+    .name = "pl011/clock",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(clk, PL011State),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
- static const VMStateDescription vmstate_pl011 = {
-     .name = "pl011",
-     .version_id = 2,
-@@ -314,6 +353,10 @@ static const VMStateDescription vmstate_pl011 = {
-         VMSTATE_INT32(read_count, PL011State),
-         VMSTATE_INT32(read_trigger, PL011State),
-         VMSTATE_END_OF_LIST()
-+    },
-+    .subsections = (const VMStateDescription * []) {
-+        &vmstate_pl011_clock,
-+        NULL
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index d33ec54c414..dcff13433e5 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -169,6 +169,8 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
      }
- };
+     memory_region_add_subregion(&s->peri_mr, CPRMAN_OFFSET,
+                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->cprman), 0));
++    qdev_connect_clock_in(DEVICE(&s->uart0), "clk",
++                          qdev_get_clock_out(DEVICE(&s->cprman), "uart-out"));
  
-@@ -334,6 +377,8 @@ static void pl011_init(Object *obj)
-         sysbus_init_irq(sbd, &s->irq[i]);
-     }
- 
-+    s->clk = qdev_init_clock_in(DEVICE(obj), "clk", pl011_clock_update, s);
-+
-     s->read_trigger = 1;
-     s->ifl = 0x12;
-     s->cr = 0x300;
-diff --git a/hw/char/trace-events b/hw/char/trace-events
-index 609df10fed4..81026f66127 100644
---- a/hw/char/trace-events
-+++ b/hw/char/trace-events
-@@ -65,6 +65,7 @@ pl011_write(uint32_t addr, uint32_t value) "addr 0x%08x value 0x%08x"
- pl011_can_receive(uint32_t lcr, int read_count, int r) "LCR 0x%08x read_count %d returning %d"
- pl011_put_fifo(uint32_t c, int read_count) "new char 0x%x read_count now %d"
- pl011_put_fifo_full(void) "FIFO now full, RXFF set"
-+pl011_baudrate_change(unsigned int baudrate, uint64_t clock, uint32_t ibrd, uint32_t fbrd) "new baudrate %u (clk: %" PRIu64 "hz, ibrd: %" PRIu32 ", fbrd: %" PRIu32 ")"
- 
- # cmsdk-apb-uart.c
- cmsdk_apb_uart_read(uint64_t offset, uint64_t data, unsigned size) "CMSDK APB UART read: offset 0x%" PRIx64 " data 0x%" PRIx64 " size %u"
+     memory_region_add_subregion(&s->peri_mr, ARMCTRL_IC_OFFSET,
+                 sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->ic), 0));
 -- 
 2.20.1
 
