@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 962E429B071
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:19:46 +0100 (CET)
-Received: from localhost ([::1]:49102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F46229B0A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:22:58 +0100 (CET)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPpB-0003HA-L3
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:19:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36420)
+	id 1kXPsH-0006n0-C4
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:22:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTw-0003r5-HH
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49104)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPU8-00040n-RI
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:58:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTu-0004UB-2D
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:48 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPU7-0004Wu-0G
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:58:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603807061;
+ s=mimecast20190719; t=1603807072;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rsADHQhtdYEPnOhTT91bO7gVSjhtNIdy1KjQXQ/oHWM=;
- b=K3xsFcYlUVm8MTqiLCCb4znQfkF+dmMWN4WY9dhG+Woc7PuqDjirQ/tm+GidOTHGR+Bkub
- CK85IfxFjd+TWTMc6N11HyE6gMZlphx+57WI6E6wlX17sdVMNnuZ0BH88L3pDJ9yIa93XG
- Uno2J4Cgt781hjGVrfBxp8eSaj/H6og=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-fKCki7y_Ng-ffzAdNbNKow-1; Tue, 27 Oct 2020 09:57:39 -0400
-X-MC-Unique: fKCki7y_Ng-ffzAdNbNKow-1
-Received: by mail-ej1-f72.google.com with SMTP id f11so859121eja.23
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:57:39 -0700 (PDT)
+ bh=aGgz+XLiFf+ohpuvMEd9wbrelu41fy1wd5IWGvE3gyY=;
+ b=QfFjLa+BDYFeYswrPwoP+C4BQNq7BzneUSqyUXjrun99cfNbNWJFABws4tGTfa3FuWxBa4
+ VvOxPK1iqSZ++QAkyPg4YNn2si89A+I7Us9HClF8Oswzjv+vuB9LFCynAkelxlOkDpBavX
+ RHRr2/Ml3Rrx83U9HOPjKdKdcIXemzY=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-548-C1KhB-5eMGilDXN6WXT5wQ-1; Tue, 27 Oct 2020 09:57:50 -0400
+X-MC-Unique: C1KhB-5eMGilDXN6WXT5wQ-1
+Received: by mail-ed1-f72.google.com with SMTP id y8so732412edj.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:57:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rsADHQhtdYEPnOhTT91bO7gVSjhtNIdy1KjQXQ/oHWM=;
- b=JihVVOYb0fFBbREO2pyp/SRQMCEJLsK4+JjSl4o5xPp0pRUL740lk9kDFAMdiomITj
- NXubVpUnV0BNl64pCQ/6pkN8F3fIoq0Koovv73zDJFKBAW4TRzXjFTMRo7HnqZPMHjzV
- fIdPyLB1oQRC3SRF5sEbV4z7b3qJyCit6PTO1nhDP+UFlrqjCKWShTFYG4/74Sqxw53b
- Lx1uIjlzQTuaGd/qXqzwamulJEb20zi0BU/15X9QL4SE1doDdku+ubhS+jnfcYk2yzp2
- 6Fq9xGHTEbwpxHjmhyuw9LQompT4k73lNFX0jMnW6/aeMh5hUnx/gSijthek5lga4J7C
- 2QjQ==
-X-Gm-Message-State: AOAM532LG2ADjN4ikEbxnMlvCeNKvl32f7qePdp97uDA+DouM5Mi/2bp
- w9IRslJUF6ZWrcowvjs8bO+63Nd2+65bQVgst5h93g7hfS71Yppa9IRyijQX+agGH+ymE+g+DfU
- oTJRt5HIBQaZTgLo=
-X-Received: by 2002:a17:906:1804:: with SMTP id
- v4mr2599343eje.201.1603807058348; 
- Tue, 27 Oct 2020 06:57:38 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxQg64kvfwxBTN6dBbJosJW+jhiXkzsWkbQRbAwazI6wMTkUszv724DkBTtGmnHEKM0pFdGdA==
-X-Received: by 2002:a17:906:1804:: with SMTP id
- v4mr2599331eje.201.1603807058175; 
- Tue, 27 Oct 2020 06:57:38 -0700 (PDT)
+ bh=aGgz+XLiFf+ohpuvMEd9wbrelu41fy1wd5IWGvE3gyY=;
+ b=WkwSGC6EWM2CQb7ln/rkzIb/bci+E8HebbEZB1L0/11XsBsDRv9w+2/d0i0M6AmhuK
+ PXxSTOtikQ0rz1aFnadGwaFcWX8u32P2B7pr8WqwwbFyyII+5YQziqAgtz5odPzj0Sd3
+ rJHiDu50anelLn6cl8gahdATHiNQkC00mPz8byZwTO3HrhPaA7jRREUQCK+5om8xfh2+
+ 6dpP6TeX5AxI0TLLd8BxP6oO8/sedTSkICp/1x3bpizYqM4WDAuSZEEpAs5jGlOegpS+
+ WEzUmfiiq0Pnz/5D5VmeG2yp2HfynBOIoC/pv8WGb9ycSNCi+Zqpr6I/cc+C8OSGyyEx
+ 7jtA==
+X-Gm-Message-State: AOAM531cWnxJn5N0+UHrW7z0r7u5mPql0pHVRU6Ly6U+9l0Y84D5yP9l
+ ggIAhed/qyvBXbmkeRPyE+Y9dN4Fsm+STk9TQrVjcVheKI2GHIq2PEVQMvyCuTMIJWl8SzHOF24
+ Kjxt24+ebblGeyTE=
+X-Received: by 2002:a17:906:6a94:: with SMTP id
+ p20mr2404745ejr.499.1603807068874; 
+ Tue, 27 Oct 2020 06:57:48 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzwOUz6H00BT4J8Of8oTGNZFsFpvU1WqANY1FB+xfxYbL26MBj/7nMSy4BYnPJXl69yqxaYDQ==
+X-Received: by 2002:a17:906:6a94:: with SMTP id
+ p20mr2404735ejr.499.1603807068718; 
+ Tue, 27 Oct 2020 06:57:48 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id o15sm1094135ejm.38.2020.10.27.06.57.36
+ by smtp.gmail.com with ESMTPSA id h22sm1129238ejc.80.2020.10.27.06.57.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:57:37 -0700 (PDT)
+ Tue, 27 Oct 2020 06:57:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 20/25] block/nvme: Correct minimum device page size
-Date: Tue, 27 Oct 2020 14:55:42 +0100
-Message-Id: <20201027135547.374946-21-philmd@redhat.com>
+Subject: [PATCH 22/25] block/nvme: Change size and alignment of queue
+Date: Tue, 27 Oct 2020 14:55:44 +0100
+Message-Id: <20201027135547.374946-23-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -74,16 +74,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,31 +105,34 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While trying to simplify the code using a macro, we forgot
-the 12-bit shift... Correct that.
+From: Eric Auger <eric.auger@redhat.com>
 
-Fixes: fad1eb68862 ("block/nvme: Use register definitions from 'block/nvme.h'")
-Reported-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+In preparation of 64kB host page support, let's change the size
+and alignment of the queue so that the VFIO DMA MAP succeeds.
+We align on the host page size.
+
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/nvme.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 682946ad840..d2d57a287cc 100644
+index ad70303c5c1..941f96b4c92 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -756,7 +756,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         goto out;
-     }
+@@ -167,9 +167,9 @@ static bool nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
+     size_t bytes;
+     int r;
  
--    s->page_size = MAX(4096, 1 << NVME_CAP_MPSMIN(cap));
-+    s->page_size = 1u << (12 + NVME_CAP_MPSMIN(cap));
-     s->doorbell_scale = (4 << NVME_CAP_DSTRD(cap)) / sizeof(uint32_t);
-     bs->bl.opt_mem_alignment = s->page_size;
-     bs->bl.request_alignment = s->page_size;
+-    bytes = ROUND_UP(nentries * entry_bytes, s->page_size);
++    bytes = ROUND_UP(nentries * entry_bytes, qemu_real_host_page_size);
+     q->head = q->tail = 0;
+-    q->queue = qemu_try_memalign(s->page_size, bytes);
++    q->queue = qemu_try_memalign(qemu_real_host_page_size, bytes);
+     if (!q->queue) {
+         error_setg(errp, "Cannot allocate queue");
+         return false;
 -- 
 2.26.2
 
