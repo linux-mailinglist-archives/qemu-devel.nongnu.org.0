@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70C729B075
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:21:48 +0100 (CET)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE67629B0BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:24:09 +0100 (CET)
+Received: from localhost ([::1]:34634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPr9-0005Vs-Nt
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:21:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42326)
+	id 1kXPtQ-0000Wo-PW
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnN-0001j3-5a; Tue, 27 Oct 2020 10:17:53 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53743 helo=ozlabs.org)
+ id 1kXPnR-0001rh-Dp; Tue, 27 Oct 2020 10:18:00 -0400
+Received: from ozlabs.org ([203.11.71.1]:47281)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnJ-0007Ym-BN; Tue, 27 Oct 2020 10:17:52 -0400
+ id 1kXPnP-0007aC-Hx; Tue, 27 Oct 2020 10:17:57 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLY1kHZz9sWC; Wed, 28 Oct 2020 01:17:40 +1100 (AEDT)
+ id 4CLDLd1KN8z9shh; Wed, 28 Oct 2020 01:17:45 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808261;
- bh=F0pX3LIMNwaIgDa9sZ6D1M2PF7Aeh/2SmS0nH+epsU4=;
- h=From:To:Cc:Subject:Date:From;
- b=TDfXwITNE29eowi76b/L+yPyCt/JqdMRrEX7P+gihMR+9aHXXTdAZvuuEkftalJNH
- m7xmkA5kdWC3+huEAHQx/J2/PNStYd+pZwWOnDHo60+tDr1Hn9cH32P2sZT/lOTq1f
- M8pL6LXM/6HeWco6qp9nn/PP4wWAuCRW3ii8pYwg=
+ d=gibson.dropbear.id.au; s=201602; t=1603808265;
+ bh=Q3owrk20jMIlyNpF7GnocBDJgbDjYtAgDaW/I9KCRQ0=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=Pf8158CpbEU37dkZgFLFS0CUnMVhvNtPY3MgDqNJjcZHzh63ukCUIj9PVsgYkYd6c
+ 3/qwhMn5OUx3fXU7qsDJ72qD9364yWlIE4uEVcNQuYhHQFs8fcFNlGyTOk9gg7vo7u
+ E6nHePCrU2naTYHrmKTnuOXkDADg7DWLJQoVlQhs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/18] ppc-for-5.2 queue 20201028
-Date: Wed, 28 Oct 2020 01:17:17 +1100
-Message-Id: <20201027141735.728821-1-david@gibson.dropbear.id.au>
+Subject: [PULL 06/18] spapr: Unrealize vCPUs with qdev_unrealize()
+Date: Wed, 28 Oct 2020 01:17:23 +1100
+Message-Id: <20201027141735.728821-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
+References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:17:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -62,81 +63,92 @@ Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d55450df995d6223486db11c66491cbf6c131523:
+From: Greg Kurz <groug@kaod.org>
 
-  Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20201026a' into staging (2020-10-27 10:25:42 +0000)
+Since we introduced CPU hot-unplug in sPAPR, we don't unrealize the
+vCPU objects explicitly. Instead, we let QOM handle that for us under
+object_property_del_all() when the CPU core object is finalized. The
+only thing we do is calling cpu_remove_sync() to tear the vCPU thread
+down.
 
-are available in the Git repository at:
+This happens to work but it is ugly because:
+- we call qdev_realize() but the corresponding qdev_unrealize() is
+  buried deep in the QOM code
+- we call cpu_remove_sync() to undo qemu_init_vcpu() called by
+  ppc_cpu_realize() in target/ppc/translate_init.c.inc
+- the CPU init and teardown paths aren't really symmetrical
 
-  git://github.com/dgibson/qemu.git tags/ppc-for-5.2-20201028
+The latter didn't bite us so far but a future patch that greatly
+simplifies the CPU core realize path needs it to avoid a crash
+in QOM.
 
-for you to fetch changes up to 136fbf654dd5fa88a5057dcc43947536f3b418df:
+For all these reasons, have ppc_cpu_unrealize() to undo the changes
+of ppc_cpu_realize() by calling cpu_remove_sync() at the right place,
+and have the sPAPR CPU core code to call qdev_unrealize().
 
-  ppc/: fix some comment spelling errors (2020-10-28 01:08:53 +1100)
+This requires to add a missing stub because translate_init.c.inc is
+also compiled for user mode.
 
-----------------------------------------------------------------
-ppc patch queue 2020-10-28
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160279671236.1808373.14732005038172874990.stgit@bahia.lan>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+---
+ accel/tcg/user-exec-stub.c      | 4 ++++
+ hw/ppc/spapr_cpu_core.c         | 4 ++--
+ target/ppc/translate_init.c.inc | 2 ++
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
-Here's the next pull request for ppc and spapr related patches, which
-should be the last things for soft freeze.  Includes:
+diff --git a/accel/tcg/user-exec-stub.c b/accel/tcg/user-exec-stub.c
+index f6d8c8fb6f..b876f5c1e4 100644
+--- a/accel/tcg/user-exec-stub.c
++++ b/accel/tcg/user-exec-stub.c
+@@ -9,6 +9,10 @@ void cpu_resume(CPUState *cpu)
+ {
+ }
+ 
++void cpu_remove_sync(CPUState *cpu)
++{
++}
++
+ void qemu_init_vcpu(CPUState *cpu)
+ {
+ }
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index c552112145..e4aeb93c02 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -187,7 +187,7 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
+         vmstate_unregister(NULL, &vmstate_spapr_cpu_state, cpu->machine_data);
+     }
+     spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
+-    cpu_remove_sync(CPU(cpu));
++    qdev_unrealize(DEVICE(cpu));
+ }
+ 
+ /*
+@@ -255,7 +255,7 @@ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+     kvmppc_set_papr(cpu);
+ 
+     if (spapr_irq_cpu_intc_create(spapr, cpu, errp) < 0) {
+-        cpu_remove_sync(CPU(cpu));
++        qdev_unrealize(DEVICE(cpu));
+         return false;
+     }
+ 
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index bb66526280..d2a8204d60 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -10328,6 +10328,8 @@ static void ppc_cpu_unrealize(DeviceState *dev)
+ 
+     pcc->parent_unrealize(dev);
+ 
++    cpu_remove_sync(CPU(cpu));
++
+     for (i = 0; i < PPC_CPU_OPCODES_LEN; i++) {
+         if (cpu->opcodes[i] == &invalid_handler) {
+             continue;
+-- 
+2.26.2
 
- * Numerous error handling cleanups from Greg Kurz
- * Cleanups to cpu realization and hotplug handling from Greg Kurz
- * A handful of other small fixes and cleanups
-
-This does include a change to pc_dimm_plug() that isn't in my normal
-areas of concern.  That's there as a a prerequisite for ppc specific
-changes, and has an ack from Igor.
-
-----------------------------------------------------------------
-Elena Afanasova (1):
-      hw/net: move allocation to the heap due to very large stack frame
-
-Greg Kurz (15):
-      spapr: Clarify why DR connectors aren't user creatable
-      spapr: Move spapr_create_nvdimm_dr_connectors() to core machine code
-      spapr: Fix leak of CPU machine specific data
-      spapr: Unrealize vCPUs with qdev_unrealize()
-      spapr: Drop spapr_delete_vcpu() unused argument
-      spapr: Make spapr_cpu_core_unrealize() idempotent
-      spapr: Simplify spapr_cpu_core_realize() and spapr_cpu_core_unrealize()
-      pc-dimm: Drop @errp argument of pc_dimm_plug()
-      spapr: Use appropriate getter for PC_DIMM_ADDR_PROP
-      spapr: Use appropriate getter for PC_DIMM_SLOT_PROP
-      spapr: Pass &error_abort when getting some PC DIMM properties
-      spapr: Simplify error handling in spapr_memory_plug()
-      spapr: Use error_append_hint() in spapr_reallocate_hpt()
-      target/ppc: Fix kvmppc_load_htab_chunk() error reporting
-      spapr: Improve spapr_reallocate_hpt() error reporting
-
-Laurent Vivier (1):
-      ppc/spapr: re-assert IRQs during event-scan if there are pending
-
-zhaolichang (1):
-      ppc/: fix some comment spelling errors
-
- accel/tcg/user-exec-stub.c      |  4 ++
- hw/arm/virt.c                   |  9 +----
- hw/i386/pc.c                    |  8 +---
- hw/mem/pc-dimm.c                |  2 +-
- hw/net/spapr_llan.c             |  5 ++-
- hw/ppc/spapr.c                  | 90 +++++++++++++++++++++--------------------
- hw/ppc/spapr_cpu_core.c         | 69 ++++++++++++++-----------------
- hw/ppc/spapr_drc.c              |  3 +-
- hw/ppc/spapr_events.c           | 12 ++++++
- hw/ppc/spapr_nvdimm.c           | 16 ++------
- include/hw/mem/pc-dimm.h        |  2 +-
- include/hw/ppc/spapr.h          |  3 +-
- include/hw/ppc/spapr_nvdimm.h   |  3 +-
- target/ppc/cpu.h                |  6 +--
- target/ppc/excp_helper.c        |  6 +--
- target/ppc/fpu_helper.c         |  2 +-
- target/ppc/internal.h           |  2 +-
- target/ppc/kvm.c                | 13 +++---
- target/ppc/kvm_ppc.h            |  5 ++-
- target/ppc/machine.c            |  2 +-
- target/ppc/mmu-hash64.c         |  2 +-
- target/ppc/mmu_helper.c         |  4 +-
- target/ppc/translate_init.c.inc |  4 +-
- 23 files changed, 131 insertions(+), 141 deletions(-)
 
