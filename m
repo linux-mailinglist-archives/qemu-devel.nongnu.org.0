@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC9E29B4E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:10:26 +0100 (CET)
-Received: from localhost ([::1]:56138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 007BB29B662
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:24:37 +0100 (CET)
+Received: from localhost ([::1]:42236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQcD-0007NN-EE
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:10:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54902)
+	id 1kXQpv-0000JO-On
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:24:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXe-0001qe-2U
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:42 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50308
+ id 1kXQXk-0001vU-DQ
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:48 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50312
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXa-00062p-P4
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:40 -0400
+ id 1kXQXe-00062z-NH
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:48 -0400
 Received: from host86-148-103-79.range86-148.btcentralplus.com
  ([86.148.103.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXd-0001Qg-Mz; Tue, 27 Oct 2020 15:05:46 +0000
+ id 1kXQXi-0001Qg-Hp; Tue, 27 Oct 2020 15:05:49 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com,
 	samuel.thibault@ens-lyon.org
-Date: Tue, 27 Oct 2020 15:04:54 +0000
-Message-Id: <20201027150456.24606-7-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 27 Oct 2020 15:04:55 +0000
+Message-Id: <20201027150456.24606-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027150456.24606-1-mark.cave-ayland@ilande.co.uk>
 References: <20201027150456.24606-1-mark.cave-ayland@ilande.co.uk>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 6/8] dev-serial: add always-plugged property to ensure USB
- device is always attached
+Subject: [PATCH v2 7/8] dev-serial: add support for setting data_bits in
+ QEMUSerialSetParams
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -68,66 +69,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some operating systems will generate a new device ID when a USB device is unplugged
-and then replugged into the USB. If this is done whilst switching between multiple
-applications over a virtual serial port, the change of device ID requires going
-back into the OS/application to locate the new device accordingly.
-
-Add a new always-plugged property that if specified will ensure that the device
-always remains attached to the USB regardless of the state of the backend
-chardev.
+Also implement the behaviour reported in Linux's ftdi_sio.c whereby if an invalid
+data_bits value is provided then the hardware defaults to using 8.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/dev-serial.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ hw/usb/dev-serial.c | 17 +++++++++++++++++
+ hw/usb/trace-events |  1 +
+ 2 files changed, 18 insertions(+)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 92c35615eb..b9e308dca1 100644
+index b9e308dca1..e42ce36295 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -97,6 +97,7 @@ struct USBSerialState {
-     uint8_t event_chr;
-     uint8_t error_chr;
-     uint8_t event_trigger;
-+    bool always_plugged;
-     QEMUSerialSetParams params;
-     int latency;        /* ms */
-     CharBackend cs;
-@@ -516,12 +517,12 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
-         s->event_trigger |= FTDI_BI;
+@@ -308,6 +308,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
          break;
-     case CHR_EVENT_OPENED:
--        if (!s->dev.attached) {
-+        if (!s->always_plugged && !s->dev.attached) {
-             usb_device_attach(&s->dev, &error_abort);
-         }
-         break;
-     case CHR_EVENT_CLOSED:
--        if (s->dev.attached) {
-+        if (!s->always_plugged && s->dev.attached) {
-             usb_device_detach(&s->dev);
-         }
-         break;
-@@ -556,7 +557,8 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
-                              usb_serial_event, NULL, s, NULL, true);
-     usb_serial_handle_reset(dev);
- 
--    if (qemu_chr_fe_backend_open(&s->cs) && !dev->attached) {
-+    if ((s->always_plugged || qemu_chr_fe_backend_open(&s->cs)) &&
-+        !dev->attached) {
-         usb_device_attach(dev, &error_abort);
      }
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
-@@ -584,6 +586,7 @@ static const VMStateDescription vmstate_usb_serial = {
- 
- static Property serial_properties[] = {
-     DEFINE_PROP_CHR("chardev", USBSerialState, cs),
-+    DEFINE_PROP_BOOL("always-plugged", USBSerialState, always_plugged, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     case VendorDeviceOutRequest | FTDI_SET_DATA:
++        switch (value & 0xff) {
++        case 7:
++            s->params.data_bits = 7;
++            break;
++        case 8:
++            s->params.data_bits = 8;
++            break;
++        default:
++            /*
++             * According to a comment in Linux's ftdi_sio.c original FTDI
++             * chips fall back to 8 data bits for unsupported data_bits
++             */
++            trace_usb_serial_unsupported_data_bits(bus->busnr, dev->addr,
++                                                   value & 0xff);
++            s->params.data_bits = 8;
++        }
++
+         switch (value & FTDI_PARITY) {
+         case 0:
+             s->params.parity = 'N';
+diff --git a/hw/usb/trace-events b/hw/usb/trace-events
+index 98ee1c5462..109da521cf 100644
+--- a/hw/usb/trace-events
++++ b/hw/usb/trace-events
+@@ -327,6 +327,7 @@ usb_serial_handle_control(int bus, int addr, int request, int value) "dev %d:%u
+ usb_serial_unsupported_parity(int bus, int addr, int value) "dev %d:%u unsupported parity %d"
+ usb_serial_unsupported_stopbits(int bus, int addr, int value) "dev %d:%u unsupported stop bits %d"
+ usb_serial_unsupported_control(int bus, int addr, int request, int value) "dev %d:%u got unsupported/bogus control 0x%x, value 0x%x"
++usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%u unsupported data bits %d, falling back to 8"
+ usb_serial_bad_token(int bus, int addr) "dev %d:%u bad token"
+ usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
+ usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
 -- 
 2.20.1
 
