@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A236529A884
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 10:57:38 +0100 (CET)
-Received: from localhost ([::1]:54440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21AD929A89E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:02:12 +0100 (CET)
+Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLjV-0004zo-NN
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 05:57:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53384)
+	id 1kXLnu-0008Fw-JV
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:02:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXLhV-0003lX-UB
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:55:33 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25259)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXLhR-0007CO-QS
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:55:33 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603792527;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vFx3R6TCLxgEnKr+RPmuYoecV/2YLya44KRwykONRjk=;
- b=dINjsyVNUyTcTy16+mhggB9lpBT9GIgZ8yjbUhLNUDJZnTMuYsmZLXHmbP3OACj0PUKW70
- 2lcJrzVbbqoRdAJNDoAc8ntEVaDJJMeE9w5uN4CvKnjCvzp623+JvMtsksxJsWEsTpT920
- pkVGgLJ7z2ITru07X/VFCQQV0ux9wiU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-3Z71_8BqMq--Vd3EBpQUBw-1; Tue, 27 Oct 2020 05:55:25 -0400
-X-MC-Unique: 3Z71_8BqMq--Vd3EBpQUBw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FB3D1882FAA;
- Tue, 27 Oct 2020 09:55:24 +0000 (UTC)
-Received: from localhost (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2456960C07;
- Tue, 27 Oct 2020 09:55:14 +0000 (UTC)
-Date: Tue, 27 Oct 2020 09:55:13 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 00/19] util/vfio-helpers: Allow using multiple MSIX IRQs
-Message-ID: <20201027095513.GF79063@stefanha-x1.localdomain>
-References: <20201026105504.4023620-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kXLla-0006ec-00
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:46 -0400
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kXLlW-0000Nf-Sd
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:45 -0400
+Received: by mail-wr1-x432.google.com with SMTP id y12so1151530wrp.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KJqFwRz9gm+3prhZqia7bIKgqj8u4FMA676MUorTz74=;
+ b=l5QDfoY6YTmtHRc9a7rSLnW41VYxmLWz8v9YqRmrA4nx22UbKSCnK95sfELWa5uwj1
+ fq5YuEwbsM0F3fmMgYVi91bP9QFtOeDXVQV0TeicUIi2hwuYHQh4jvXKHfkexMWP4UxL
+ t8L/ZC+Uum6y5pxwxH9eyhNxWpiAVQzbgDlP2Z5YUfw1Qg/zcM8ygij38i2HZcflARjo
+ 6SEI3poFkMsv01J0bFYKFHTpk45JJSEcLrVa0YbF+Eyu+4i2wsbFomC5rNvQRVM3/fNq
+ 96MBS3CQfurdN++tPdziHt2RFIEzYXYYrwqpPxvBRk0kyw4EyYgz4OyB7t1hO1Nk4IeN
+ +GeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=KJqFwRz9gm+3prhZqia7bIKgqj8u4FMA676MUorTz74=;
+ b=q5No94xilQjIyDaoGHl1jYF/5JfE6O+qUS3leH7RnSS6xR+fvPiVGbvJ9FWQMkzaYZ
+ yZGYWYy3DAwKeHQqfDy7KxYkQm70BRgY/E2AlRHtKORkHIGWrSDa5M7YppxVtHm22AW+
+ ZiAhm28IDTBPSHVm2CNTjE1FHz/fL2e8eVCJVEhmjsO8almDYt3HO3avX50NnVZtZ5/l
+ nWVYVuPD86UOmR34w1OkFyoTENEe7PuvHSgfjuQKCDLGDutRiCd0STspFr69dvjHTro0
+ IQaIpAHg98QWeJ8KbzB/SFDZ7eR5YWwUjeKR7PFYajGIVqqZmkNh3GuCzVTHK02/VO1W
+ Ubjg==
+X-Gm-Message-State: AOAM532ylCE61jLdANua5SmP/V/ITkgtznBmgDpu9wLzS+fQRbHI2I/D
+ /3i2czGGKcdk5/ld0jZ0NyFhdQ==
+X-Google-Smtp-Source: ABdhPJw23pkYhujeNv8vx5Z8rhQOrK0nZjUT/z48WvVTyqzRzWfgzdlo4QAXI1eYsVjGPrEsmc3TFw==
+X-Received: by 2002:a5d:4a82:: with SMTP id o2mr1918417wrq.10.1603792780678;
+ Tue, 27 Oct 2020 02:59:40 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k16sm1263585wmi.5.2020.10.27.02.59.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 02:59:39 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id B85A81FF7E;
+ Tue, 27 Oct 2020 09:59:38 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: peter.maydell@linaro.org
+Subject: [PULL 0/8] testing and misc (gitdm, gitlab, docker, make)
+Date: Tue, 27 Oct 2020 09:59:30 +0000
+Message-Id: <20201027095938.28673-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201026105504.4023620-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="R6sEYoIZpp9JErk7"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,59 +86,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---R6sEYoIZpp9JErk7
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 1dc887329a10903940501b43e8c0cc67af7c06d5:
 
-On Mon, Oct 26, 2020 at 11:54:45AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> This series allow using multiple MSIX IRQs
-> We currently share a single IRQ between 2 NVMe queues
-> (ADMIN and I/O). This series still uses 1 shared IRQ
-> but prepare for using multiple ones.
->=20
-> Since v1:
-> - Addressed Stefan comment in patch #14
->   "Pass minimum page size to qemu_vfio_open_pci"
->   (check the page size is in range with device)
-> - To reduce (and simplify) changes in patch #14, added
->   new patch #2 "Introduce device/iommu 'page_size_min' variables"
-> - Added "Trace controller capabilities" useful to test the
->   previous changes
-> - "Set request_alignment at initialization" reported by Stefan
->   (and tested by Eric off-list).
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20201026' into staging (2020-10-26 17:19:26 +0000)
 
-The MSI-X patches look good.
+are available in the Git repository at:
 
-I'm confused about the page size patches since they don't solve the 4KB
-device page size on 64KB IOMMU page size issue that you and Eric were
-working on. I would prefer to hold off on page size changes until that
-work is complete.
+  https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-271020-1
 
-Stefan
+for you to fetch changes up to c8e6cfba1291df2202bf406bb5137c9d365505d1:
 
---R6sEYoIZpp9JErk7
-Content-Type: application/pgp-signature; name="signature.asc"
+  makefile: handle -n / -k / -q correctly (2020-10-27 09:53:51 +0000)
 
------BEGIN PGP SIGNATURE-----
+----------------------------------------------------------------
+Testing and gitdm updates
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+X7oEACgkQnKSrs4Gr
-c8j+4gf/Y9LPqVLM29rn5dMoMVyN6TdApP+FnLDYdMaJrtpEiX1YzaCYA60nv1IV
-9JWC23B7rUrDNm17Oz0oL/TWOpg4myxmu66AmXbiTMwZzmrhERBQP8tJO6nZ5UP+
-6WJa3d7tXck9Sku5EW4LfYQKw37QMZy4+vDOQ168nfaPCkX13/M8kGmuzqy+QLAv
-ic0tL1EACeAXNf1FxT38kksVfrHo8KbHsjxmVU5/aAfERTu7gdphSs0VEC60mC3i
-M7FWOlSDlIngbWVHh25WUtYib8qt2zDFUXkCBsqbT/j4Ltw98Vz0nTBUr08WAw5l
-3Ng7xjvOe0e0aXFpTat8Nov0uybW2w==
-=bpuX
------END PGP SIGNATURE-----
+  - add some more individual contributors
+  - include SDL2 in centos images
+  - skip checkpatch check when no commits found
+  - use random port for gdb reverse debugging
+  - make gitlab use it's own mirrors to clone
+  - fix detection of make -nqp
 
---R6sEYoIZpp9JErk7--
+----------------------------------------------------------------
+Alex Bennée (2):
+      contrib/gitdm: Add more individual contributors
+      tests/acceptance: pick a random gdb port for reverse debugging
+
+Ani Sinha (1):
+      Adding ani's email as an individual contributor
+
+Daniel P. Berrangé (2):
+      gitlab: skip checkpatch.pl checks if no commit delta on branch
+      scripts: fix error from checkpatch.pl when no commits are found
+
+Paolo Bonzini (1):
+      makefile: handle -n / -k / -q correctly
+
+Philippe Mathieu-Daudé (1):
+      gitlab-ci: Clone from GitLab itself
+
+Thomas Huth (1):
+      tests/docker/dockerfiles/centos: Use SDL2 instead of SDL1
+
+ Makefile                                | 10 +++++++---
+ .gitlab-ci.d/check-patch.py             |  8 ++++++++
+ .gitlab-ci.yml                          |  1 +
+ contrib/gitdm/group-map-individuals     |  6 ++++++
+ scripts/checkpatch.pl                   |  2 +-
+ tests/acceptance/reverse_debugging.py   | 12 +++++++-----
+ tests/docker/dockerfiles/centos7.docker |  2 +-
+ tests/docker/dockerfiles/centos8.docker |  2 +-
+ 8 files changed, 32 insertions(+), 11 deletions(-)
+
+-- 
+2.20.1
 
 
