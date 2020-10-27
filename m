@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFA329CB00
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 22:10:47 +0100 (CET)
-Received: from localhost ([::1]:56070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BCA929CB18
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 22:20:15 +0100 (CET)
+Received: from localhost ([::1]:37556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXWEw-0004vM-4K
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 17:10:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43160)
+	id 1kXWO6-0001F9-B7
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 17:20:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXWCW-0003Yy-Du; Tue, 27 Oct 2020 17:08:16 -0400
-Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:44036)
+ id 1kXWLa-00086o-Vf
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:17:38 -0400
+Received: from mail-io1-xd41.google.com ([2607:f8b0:4864:20::d41]:41130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXWCU-0001vk-Nk; Tue, 27 Oct 2020 17:08:16 -0400
-Received: by mail-il1-x142.google.com with SMTP id z2so2790388ilh.11;
- Tue, 27 Oct 2020 14:08:13 -0700 (PDT)
+ id 1kXWLX-0003SP-Rc
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:17:38 -0400
+Received: by mail-io1-xd41.google.com with SMTP id u62so3135176iod.8
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 14:17:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OFt45wZBSTHDWzJGnz4sMYVyBAla/d9gKrF9yfbNNFE=;
- b=o1zCS5bb8cd7rD4inxz5qnT8JDzudke29C0nwTR7nbalQ0+kximfE77/vIyHdXJ0/i
- mWi3RKZEGr5q9a8QDjMgmvYEbyqL9yVQ0u7dMyBpCclaOf50tMz6hBQ9NcNMC/oz9Mnq
- B0xcRUcjb4OWTr8r9mOP1x88T96Ii4UvZ0cD5sB8dsY6i/euiOpFQ1TV1Hc2+SwJGD4L
- VS1rnY9pzewJ/x5zIbv2kdKEEBcppQzv7Eo9ew5oItTbRjsztqydGfE7IpQC90YeFwG6
- LsRdfElgJW5DZmttrpdKU49WwUOJCP4lg0rJrREhJ8H7bPW3/TVFN+WVHwyw2XzJJXVy
- WDcQ==
+ :cc; bh=ZSnAwrAd1wQA6wUgjxg+ZVGA606Y/TvmH9nSuMEtqZ0=;
+ b=hYBcoUpGBrkkR1xyI6PyaULjEHLIZdPDB/ZRF84egA0eu2J2Q7XV+Hp85BuMwR9rCR
+ D7kAAzuId8/I9+fzfjWFFe0OIdJR4YSjZ7rGUIKXXm5k7mZsbFdqP+36ppq9+jLRDrT9
+ aKn5BtGOX+MetH9SUlUONfpf2y78o0PnaaZ9fXBovbYJsFJDxGOomKkkNaRQ6k0rwFa5
+ hk6emA2/bh1AKmWqvG7zgG2ZVIABHNT6Mjacw6b0uXUHlgaMKPvRfLJzU0TAwKury3QI
+ jf0orKfJaL/aDaiWVhnCn96OSHeGKPklVMSiC0o3Tv03TD4nXQvL1TB9fxyuZYZ3DnOK
+ NwwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=OFt45wZBSTHDWzJGnz4sMYVyBAla/d9gKrF9yfbNNFE=;
- b=rwi8jR/eZQRNq9nQf57M+5Gkc5vBg01GW37XA50jzPUpAWeNB5xmpwN2cQPSXM83Ky
- ikcW4klzWhK6clA7QzMrObhfaEeTWlmNHFe0VjRURamnmNbUzAqRX2TtHd3wGxVp1WlF
- MH6JKu1USgUKTlAFeco7IpoSO21PYDQ3YblHeAy/M1krQt1IvQd4Cz8s4ayh2+HubvBX
- TUCb/9GYk3UUz1aWcJP5pNoZJ4BROw4zUwSl1IhcDD7EASbeOmzHy2edXWCFsPh+ACHx
- U5f0IsWjsJhR+IdSxX9b1SeCmg5n0om088FoN0hmdudMv5fNsZzv4NRgP5lbbk/Or0Pq
- U2EA==
-X-Gm-Message-State: AOAM531hfAHH9bQu4Sfav6k2tzgBxwSHIYdGKEYpOh2XyPGgllhQlgEt
- zvANz94aApfaPAUzOPqzdr0AUe+uQndi0tJ0Wm1NbAOKuNc=
-X-Google-Smtp-Source: ABdhPJxaXpJAM5KFQUXxUWrfD0VRlJ4oAy5elLMk5YSJhxXCPSqhaq7lN/QYLbJ5k+3rquZtEnWZZda1H7495Q6Wopc=
-X-Received: by 2002:a92:c5ce:: with SMTP id s14mr3622676ilt.40.1603832892910; 
- Tue, 27 Oct 2020 14:08:12 -0700 (PDT)
+ bh=ZSnAwrAd1wQA6wUgjxg+ZVGA606Y/TvmH9nSuMEtqZ0=;
+ b=SSewrLGfjvXf38oM5DtZeHS9ynGiEnSY76lviCDjzL1Mghg4VbxMIOPoNuCTLiYDVO
+ 1YW/li3gdESg9QTdSnyxVGIIn96evNT2xb3QCuJzYF/0ZCubeAntvWRCfRPU57xrEhMK
+ F+tXJczh/sWPIPhC3ZTP3396MSEzv97xDLrqMkvbuEN73YHhdpztNnDaHj6WfbI8HzyR
+ WBhxwAYSBXbSJy+fAKlHV8whvl0aI3OJLDLcF7RSZV1FRgWOidWBJ+5FEsllxCNSnxGW
+ 9IQDgWbJE7XENo9Z1Oo3HEV7+tclWQvIhNJZuQpxRalc0PqQv++mSf6fvpc6+w6U6paK
+ a8Kw==
+X-Gm-Message-State: AOAM532eob0o8ip6P1beAEn1TVVbJzg7ox9g9HnYQE3CCitb5PTuIRJl
+ C0Cwm6yKTpof3YONsicaGuPq499c78OvHfovhwI=
+X-Google-Smtp-Source: ABdhPJzlJf5hZuAxExFBRYvD3deOdu0wNMlBL/TsLjkcSv8ztMxj0e9UXBha16OlmTWwm6ssE9RmAEh+yeuVYSuS2ZA=
+X-Received: by 2002:a5d:9a8d:: with SMTP id c13mr3669679iom.176.1603833454016; 
+ Tue, 27 Oct 2020 14:17:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKmqyKODEgnkw4zBbsNK1zQ7qaiKWEAZBpwhnHzEetjgWpxtzQ@mail.gmail.com>
- <20201016171000.21240-1-ivan.griffin@emdalo.com>
- <CAEUhbmV5V9gXeyn1Bp-u3L4FGwU_+m0CT-vomL7W8WGY9yt_nQ@mail.gmail.com>
-In-Reply-To: <CAEUhbmV5V9gXeyn1Bp-u3L4FGwU_+m0CT-vomL7W8WGY9yt_nQ@mail.gmail.com>
+References: <20200827123859.81793-1-ysato@users.sourceforge.jp>
+ <20200827123859.81793-2-ysato@users.sourceforge.jp>
+In-Reply-To: <20200827123859.81793-2-ysato@users.sourceforge.jp>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 27 Oct 2020 13:56:22 -0700
-Message-ID: <CAKmqyKPQf74rJfYrbWXV1HO=mevyg8DvMYc85dNgPkiaOCyOKA@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/riscv: microchip_pfsoc: IOSCBCTRL memmap entry
-To: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 27 Oct 2020 14:05:44 -0700
+Message-ID: <CAKmqyKOi3a2+krV5v_gnedUcVB_37607UjkFa1r8ZTVUTZmVYA@mail.gmail.com>
+Subject: Re: [PATCH 01/20] loader.c: Add support Motrola S-record format.
+To: Yoshinori Sato <ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d41;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -79,84 +80,270 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Oct 18, 2020 at 6:58 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, Aug 27, 2020 at 5:39 AM Yoshinori Sato
+<ysato@users.sourceforge.jp> wrote:
 >
-> Hi Ivan,
+> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+> ---
+>  include/hw/loader.h |  14 +++
+>  hw/core/loader.c    | 208 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 222 insertions(+)
 >
-> On Sat, Oct 17, 2020 at 1:10 AM Ivan Griffin <ivan.griffin@emdalo.com> wrote:
-> >
-> > Adding the PolarFire SoC IOSCBCTRL memory region to prevent QEMU
-> > reporting a STORE/AMO Access Fault.
-> >
-> > This region is used by the PolarFire SoC port of U-Boot to
-> > interact with the FPGA system controller.
-> >
-> > Signed-off-by: Ivan Griffin <ivan.griffin@emdalo.com>
-> > ---
-> >  hw/riscv/microchip_pfsoc.c         | 10 ++++++++++
-> >  include/hw/riscv/microchip_pfsoc.h |  1 +
-> >  2 files changed, 11 insertions(+)
-> >
-> > diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> > index 4627179cd3..9aaa276ee2 100644
-> > --- a/hw/riscv/microchip_pfsoc.c
-> > +++ b/hw/riscv/microchip_pfsoc.c
-> > @@ -97,6 +97,7 @@ static const struct MemmapEntry {
-> >      [MICROCHIP_PFSOC_GPIO2] =           { 0x20122000,     0x1000 },
-> >      [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
-> >      [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
-> > +    [MICROCHIP_PFSOC_IOSCB_CTRL] =      { 0x37020000,     0x1000 },
-> >      [MICROCHIP_PFSOC_IOSCB_CFG] =       { 0x37080000,     0x1000 },
-> >      [MICROCHIP_PFSOC_DRAM] =            { 0x80000000,        0x0 },
-> >  };
-> > @@ -341,6 +342,15 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-> >      create_unimplemented_device("microchip.pfsoc.ioscb.cfg",
-> >          memmap[MICROCHIP_PFSOC_IOSCB_CFG].base,
-> >          memmap[MICROCHIP_PFSOC_IOSCB_CFG].size);
-> > +
-> > +    /* IOSCBCTRL
-> > +     *
-> > +     * These registers are not documented in the official documentation
-> > +     * but used by the polarfire-soc-bare-meta-library code
-> > +     */
-> > +    create_unimplemented_device("microchip.pfsoc.ioscb.ctrl",
-> > +        memmap[MICROCHIP_PFSOC_IOSCB_CTRL].base,
-> > +        memmap[MICROCHIP_PFSOC_IOSCB_CTRL].size);
-> >  }
-> >
-> >  static void microchip_pfsoc_soc_class_init(ObjectClass *oc, void *data)
-> > diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> > index 8bfc7e1a85..3f1874b162 100644
-> > --- a/include/hw/riscv/microchip_pfsoc.h
-> > +++ b/include/hw/riscv/microchip_pfsoc.h
-> > @@ -95,6 +95,7 @@ enum {
-> >      MICROCHIP_PFSOC_ENVM_CFG,
-> >      MICROCHIP_PFSOC_ENVM_DATA,
-> >      MICROCHIP_PFSOC_IOSCB_CFG,
-> > +    MICROCHIP_PFSOC_IOSCB_CTRL,
-> >      MICROCHIP_PFSOC_DRAM,
-> >  };
+> diff --git a/include/hw/loader.h b/include/hw/loader.h
+> index a9eeea3952..6f1fb62ded 100644
+> --- a/include/hw/loader.h
+> +++ b/include/hw/loader.h
+> @@ -55,6 +55,20 @@ int load_image_targphys_as(const char *filename,
+>   */
+>  int load_targphys_hex_as(const char *filename, hwaddr *entry, AddressSpace *as);
 >
-> Thank you for the patch!
->
-> I am currently adding the DDR controller modeling support to PolarFire
-> SoC which will cover this memory map. With my patch series, your patch
-> is no longer needed.
+> +/*
+> + * load_targphys_srec_as:
+> + * @filename: Path to the .hex file
+> + * @entry: Store the entry point given by the .hex file
+> + * @as: The AddressSpace to load the .hex file to. The value of
+> + *      address_space_memory is used if nothing is supplied here.
+> + *
+> + * Load a fixed .srec file into memory.
+> + *
+> + * Returns the size of the loaded .hex file on success, -1 otherwise.
+> + */
+> +int load_targphys_srec_as(const char *filename,
+> +                          hwaddr *entry, AddressSpace *as);
+> +
+>  /** load_image_targphys:
+>   * Same as load_image_targphys_as(), but doesn't allow the caller to specify
+>   * an AddressSpace.
+> diff --git a/hw/core/loader.c b/hw/core/loader.c
+> index 8bbb1797a4..6964b04ec7 100644
+> --- a/hw/core/loader.c
+> +++ b/hw/core/loader.c
+> @@ -1618,3 +1618,211 @@ int load_targphys_hex_as(const char *filename, hwaddr *entry, AddressSpace *as)
+>      g_free(hex_blob);
+>      return total_size;
+>  }
+> +
+> +typedef enum {
+> +    SREC_SOH,
+> +    SREC_TYPE,
+> +    SREC_LEN,
+> +    SREC_ADDR,
+> +    SREC_DATA,
+> +    SREC_SKIP,
+> +    SREC_SUM,
+> +} srec_state;
+> +
+> +typedef struct {
+> +    srec_state state;
+> +    int nibble;
+> +    int total_size;
+> +    uint32_t address;
+> +    uint32_t topaddr;
+> +    uint32_t bufremain;
+> +    int length;
+> +    int addr_len;
+> +    int record_type;
+> +    uint8_t byte;
+> +    uint8_t data[DATA_FIELD_MAX_LEN];
+> +    uint8_t *datap;
+> +    uint8_t *bufptr;
+> +    uint8_t sum;
+> +} SrecLine;
+> +
+> +static bool parse_srec_line(SrecLine *line, char c)
+> +{
+> +    if (!g_ascii_isxdigit(c)) {
+> +        return false;
+> +    }
+> +    line->byte <<= 4;
+> +    line->byte |= g_ascii_xdigit_value(c);
+> +    line->nibble++;
+> +    if (line->nibble == 2) {
+> +        line->nibble = 0;
+> +        line->length--;
+> +        line->sum += line->byte;
+> +        switch (line->state) {
+> +        case SREC_SOH:
+> +        case SREC_TYPE:
+> +            /* first 2chars ignore parse */
+> +            break;
+> +        case SREC_LEN:
+> +            line->sum = line->length = line->byte;
+> +            if (line->addr_len > 0) {
+> +                line->state = SREC_ADDR;
+> +                line->address = 0;
+> +            } else {
+> +                line->state = SREC_SKIP;
+> +            }
+> +            break;
+> +        case SREC_ADDR:
+> +            line->address <<= 8;
+> +            line->address |= line->byte;
+> +            if (--line->addr_len == 0) {
+> +                if (line->length > 1) {
+> +                    if (line->record_type != 0) {
+> +                        line->state = SREC_DATA;
+> +                    } else {
+> +                        line->state = SREC_SKIP;
+> +                    }
+> +                    line->datap = line->data;
+> +                } else {
+> +                    line->state = SREC_SUM;
+> +                }
+> +            }
+> +            break;
+> +        case SREC_DATA:
+> +            *line->datap++ = line->byte;
+> +            /* fail through */
 
-I forgot to apply this, and Bin just sent his series. So if it's ok
-with you Ivan I'm just going to apply Bin's series instead. Sorry
-about that.
+s/fail/fall/g
+
+> +        case SREC_SKIP:
+> +            if (line->length == 1) {
+> +                line->state = SREC_SUM;
+> +            }
+> +            break;
+> +        case SREC_SUM:
+> +            if ((line->sum & 0xff) != 0xff) {
+> +                return false;
+> +            }
+> +        }
+> +    }
+> +    return true;
+> +}
+> +
+> +#define SRECBUFSIZE 0x40000
+> +
+> +/* return size or -1 if error */
+> +static int parse_srec_blob(const char *filename, hwaddr *addr,
+> +                           uint8_t *hex_blob, size_t hex_blob_size,
+> +                           AddressSpace *as)
+> +{
+> +    SrecLine line;
+> +    size_t len;
+> +    int total_len = 0;
+> +    uint8_t *end = hex_blob + hex_blob_size;
+> +    rom_transaction_begin();
+> +    line.state = SREC_SOH;
+> +    line.bufptr = g_malloc(SRECBUFSIZE);
+> +    line.bufremain = SRECBUFSIZE;
+> +    line.topaddr = UINT32_MAX;
+> +    for (; hex_blob < end; ++hex_blob) {
+> +        switch (*hex_blob) {
+> +        case '\r':
+> +        case '\n':
+> +            if (line.state == SREC_SUM) {
+> +                switch (line.record_type) {
+
+What if a file starts with a new line, won't line.record_type be invalid?
 
 Alistair
 
+> +                case 1:
+> +                case 2:
+> +                case 3:
+> +                    len = line.datap - line.data;
+> +                    if (line.topaddr == UINT32_MAX) {
+> +                        line.topaddr = line.address;
+> +                    }
+> +                    if (line.bufremain < len || line.address < line.topaddr) {
+> +                        rom_add_blob_fixed_as(filename, line.bufptr,
+> +                                              SRECBUFSIZE - line.bufremain,
+> +                                              line.topaddr, as);
+> +                        line.topaddr = line.address;
+> +                        line.bufremain = SRECBUFSIZE;
+> +                    }
+> +                    memcpy(line.bufptr + (line.address  - line.topaddr),
+> +                           line.data, len);
+> +                    line.bufremain -= len;
+> +                    total_len += len;
+> +                    break;
+> +                case 7:
+> +                case 8:
+> +                case 9:
+> +                    *addr = line.address;
+> +                    break;
+> +                }
+> +                line.state = SREC_SOH;
+> +            }
+> +            break;
+> +        /* start of a new record. */
+> +        case 'S':
+> +            if (line.state != SREC_SOH) {
+> +                total_len = -1;
+> +                goto out;
+> +            }
+> +            line.state = SREC_TYPE;
+> +            break;
+> +        /* decoding lines */
+> +        default:
+> +            if (line.state == SREC_TYPE) {
+> +                if (g_ascii_isdigit(*hex_blob)) {
+> +                    line.record_type = g_ascii_digit_value(*hex_blob);
+> +                    switch (line.record_type) {
+> +                    case 1:
+> +                    case 2:
+> +                    case 3:
+> +                        line.addr_len = 1 + line.record_type;
+> +                        break;
+> +                    case 0:
+> +                    case 5:
+> +                        line.addr_len = 2;
+> +                        break;
+> +                    case 7:
+> +                    case 8:
+> +                    case 9:
+> +                        line.addr_len = 11 - line.record_type;
+> +                        break;
+> +                    default:
+> +                        line.addr_len = 0;
+> +                    }
+> +                }
+> +                line.state = SREC_LEN;
+> +                line.nibble = 0;
+> +            } else {
+> +                if (!parse_srec_line(&line, *hex_blob)) {
+> +                    total_len = -1;
+> +                    goto out;
+> +                }
+> +            }
+> +            break;
+> +        }
+> +    }
+> +    if (line.bufremain < SRECBUFSIZE) {
+> +        rom_add_blob_fixed_as(filename, line.bufptr,
+> +                              SRECBUFSIZE - line.bufremain,
+> +                              line.topaddr, as);
+> +    }
+> +out:
+> +    rom_transaction_end(total_len != -1);
+> +    g_free(line.bufptr);
+> +    return total_len;
+> +}
+> +
+> +/* return size or -1 if error */
+> +int load_targphys_srec_as(const char *filename, hwaddr *entry, AddressSpace *as)
+> +{
+> +    gsize hex_blob_size;
+> +    gchar *hex_blob;
+> +    int total_size = 0;
+> +
+> +    if (!g_file_get_contents(filename, &hex_blob, &hex_blob_size, NULL)) {
+> +        return -1;
+> +    }
+> +
+> +    total_size = parse_srec_blob(filename, entry, (uint8_t *)hex_blob,
+> +                                 hex_blob_size, as);
+> +
+> +    g_free(hex_blob);
+> +    return total_size;
+> +}
+> --
+> 2.20.1
 >
-> Regards,
-> Bin
+>
 
