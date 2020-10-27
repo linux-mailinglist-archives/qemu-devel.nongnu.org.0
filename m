@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B1B29BC22
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:33:03 +0100 (CET)
-Received: from localhost ([::1]:39024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4F5429BC2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:39:54 +0100 (CET)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXRuA-0008Hv-Pu
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
+	id 1kXS0n-0007xa-QF
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:39:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRrc-0006jp-MP; Tue, 27 Oct 2020 12:30:24 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:38277)
+ id 1kXRs6-00075O-Ok; Tue, 27 Oct 2020 12:30:54 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:43005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRra-0001TJ-HC; Tue, 27 Oct 2020 12:30:24 -0400
+ id 1kXRs0-0001eZ-UF; Tue, 27 Oct 2020 12:30:54 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MQdMG-1kmFSB1hFG-00Ni8H; Tue, 27 Oct 2020 17:30:17 +0100
+ id 1MpDa5-1k2Ycv1Kxj-00qkOe; Tue, 27 Oct 2020 17:30:18 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/8] Trivial branch for 5.2 patches
-Date: Tue, 27 Oct 2020 17:30:06 +0100
-Message-Id: <20201027163014.247336-1-laurent@vivier.eu>
+Subject: [PULL 1/8] elf2dmp: Fix memory leak on main() error paths
+Date: Tue, 27 Oct 2020 17:30:07 +0100
+Message-Id: <20201027163014.247336-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201027163014.247336-1-laurent@vivier.eu>
+References: <20201027163014.247336-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:1XQhp5ibv2NQ8j76mM9vIEb9P3mElSbznEj4aRuf2qPbEDTU+oM
- oOtEDe9EPv1KkCyy6+pEwZBJe1VBA1W5ZxTJylEehePFktfWhbdKPFIcf7al0wuBmzG7f2w
- Inx4arPwp3DDv9IuiL9ZjMzD1vL37gAK9pTw1Ul1QtRSvpHk9GR5dzFg23LF+d27YV6LtlS
- /sDf600osqxPEtIUdvUjg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:EfQNSVaynJQ=:ocXRD+v0xjHGz8df9dFWIU
- gdAc8dC0/dJkJ/PRsliGP/KMiRGo8QYwyS1iXZuDgA89r3xTPNy+jgezsRX2lI4FsTE4nTHLv
- OEkNr1KBHKlX4pfTYzNPBgrkvQwcAStK+rabNri+er7+hlrnWhy4K7H5bUYypf4SAirXlYBLt
- bpPuRvDgLEFDam2OCcYwkuSbXqCeGxoYVxsIuFajthFS3QcltOCEXeKTzrjiSr+APvgVmCqmz
- g8FQOu1tY6jfzrh2Ic0TnyjvcIAIIOH4rDWOwrqYER72AKD5NhUlRuTPwFyyt8abXhfT8ckyw
- 86kNloHwTip7WJi1X7H11ODrj+G9hYL6gVP803zW323E3JtplN9dSvcSL5Md0VxDAkr3+UDks
- x4PTTONRFh3RIEjR4/ng5tuDWPIkHNNjHt44IsniL9wqMAnneJRSfaFbTZQO7XxG4HO76ma6m
- BU7p5LXvuQ==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:zfkWlbegQGmVbPTWCU+Etfk7R5b9h3WZDbxPY5jduOtHiItPdX5
+ 4armuiMFALBPi9cM0Qp/jn9oQVY9mm7+g9rHcawF2iXhivPdrg46+siAkXskfjZiVoRfAm7
+ pxuUCEOSJT3G0PEnniEkICuLd3WOM611pxVvFIsgPNtTWtWTpGPzaqK1hWLBT0Dk14ka6Lf
+ N6EKQQWFtIKA7eTSSxwtg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:lwvXl/dr7dQ=:76Zb1rLbH3dXgwX4NmduGZ
+ tXBg1Ic2ahFea/Um4BoOCtJa3eX9vcFPjjB5RO/O5/LDz3SEhjrYFsmKi/mcRQiPzKg+6jaUY
+ qIhZdzqplUf+3qeDRMh6ci7szCl3HytFjQi+PBAQJdSulc4cPB0YTF+RC7DDbouKtiZiypDdl
+ qCQXU39HnDYpn7F9CvPJVawFqigJlkVwqEECIRkR1RTtRBzAV4IpTrztZW9SDpSBS6AbpMVMw
+ d5l1z1k/H4NanuYuMzeFRYSHufxeVUFZoonsQtTjQYbojVUkDyKKjF59ygHmfRvKd/c/EiSr0
+ 56x94B5fxGkdAhJSDUTkDO7+rvQ7+XTyYsrfRwLqesSxCr92AtyZEvO26wXILd3Xsl/gu1h2H
+ MglL0nL2UFjzlXzSXJiQQ2NpEh45vDw0hzs0Csid7e0lVLEtTYM4hnrlxf/MT
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:18
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:20
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -63,95 +63,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Li Qiang <liq3ea@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, AlexChen <alex.chen@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-r=
-eq=3D=0D
-uest' into staging (2020-10-22 12:33:21 +0100)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-5.2-pull-request=
-=0D
-=0D
-for you to fetch changes up to e83029fa605d6aa475be60b191f2af3954591093:=0D
-=0D
-  CHANGELOG: remove disused file (2020-10-27 16:48:50 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Pull request trivial branch 20201027=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-AlexChen (1):=0D
-  elf2dmp: Fix memory leak on main() error paths=0D
-=0D
-Chetan Pant (2):=0D
-  io: Fix Lesser GPL version number=0D
-  cryptodev: Fix Lesser GPL version number=0D
-=0D
-Greg Kurz (2):=0D
-  Makefile: Add *.[ch].inc files to cscope/ctags/TAGS=0D
-  cpus: Drop declaration of cpu_remove()=0D
-=0D
-John Snow (2):=0D
-  scripts/qmp: delete 'qmp' script=0D
-  CHANGELOG: remove disused file=0D
-=0D
-Maxim Levitsky (1):=0D
-  qdev: Fix two typos=0D
-=0D
- Changelog                             | 580 --------------------------=0D
- Makefile                              |   2 +-=0D
- README.rst                            |   8 +=0D
- backends/cryptodev-builtin.c          |   2 +-=0D
- backends/cryptodev-vhost-user.c       |   2 +-=0D
- backends/cryptodev-vhost.c            |   2 +-=0D
- backends/cryptodev.c                  |   2 +-=0D
- contrib/elf2dmp/main.c                |   4 +-=0D
- include/hw/core/cpu.h                 |   8 -=0D
- include/hw/qdev-core.h                |   4 +-=0D
- include/io/channel-buffer.h           |   2 +-=0D
- include/io/channel-command.h          |   2 +-=0D
- include/io/channel-file.h             |   2 +-=0D
- include/io/channel-socket.h           |   2 +-=0D
- include/io/channel-tls.h              |   2 +-=0D
- include/io/channel-util.h             |   2 +-=0D
- include/io/channel-watch.h            |   2 +-=0D
- include/io/channel-websock.h          |   2 +-=0D
- include/io/channel.h                  |   2 +-=0D
- include/io/dns-resolver.h             |   2 +-=0D
- include/io/task.h                     |   2 +-=0D
- include/sysemu/cryptodev-vhost-user.h |   2 +-=0D
- include/sysemu/cryptodev-vhost.h      |   2 +-=0D
- include/sysemu/cryptodev.h            |   2 +-=0D
- io/channel-buffer.c                   |   2 +-=0D
- io/channel-command.c                  |   2 +-=0D
- io/channel-file.c                     |   2 +-=0D
- io/channel-socket.c                   |   2 +-=0D
- io/channel-tls.c                      |   2 +-=0D
- io/channel-util.c                     |   2 +-=0D
- io/channel-watch.c                    |   2 +-=0D
- io/channel-websock.c                  |   2 +-=0D
- io/channel.c                          |   2 +-=0D
- io/dns-resolver.c                     |   2 +-=0D
- io/task.c                             |   2 +-=0D
- scripts/qmp/qmp                       | 131 +-----=0D
- tests/test-io-channel-buffer.c        |   2 +-=0D
- tests/test-io-channel-command.c       |   2 +-=0D
- tests/test-io-channel-file.c          |   2 +-=0D
- tests/test-io-channel-socket.c        |   2 +-=0D
- tests/test-io-task.c                  |   2 +-=0D
- 41 files changed, 54 insertions(+), 751 deletions(-)=0D
- delete mode 100644 Changelog=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+From: AlexChen <alex.chen@huawei.com>
+
+The 'kdgb' is allocating memory in get_kdbg(), but it is not freed
+in both fill_header() and fill_context() failed branches, fix it.
+
+Signed-off-by: AlexChen <alex.chen@huawei.com>
+Reviewed-by: Li Qiang <liq3ea@gmail.com>
+Reviewed-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <5F463659.8080101@huawei.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ contrib/elf2dmp/main.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+index 9a2dbc290214..ac746e49e097 100644
+--- a/contrib/elf2dmp/main.c
++++ b/contrib/elf2dmp/main.c
+@@ -568,12 +568,12 @@ int main(int argc, char *argv[])
+     if (fill_header(&header, &ps, &vs, KdDebuggerDataBlock, kdbg,
+             KdVersionBlock, qemu_elf.state_nr)) {
+         err = 1;
+-        goto out_pdb;
++        goto out_kdbg;
+     }
+ 
+     if (fill_context(kdbg, &vs, &qemu_elf)) {
+         err = 1;
+-        goto out_pdb;
++        goto out_kdbg;
+     }
+ 
+     if (write_dump(&ps, &header, argv[2])) {
+-- 
+2.26.2
+
 
