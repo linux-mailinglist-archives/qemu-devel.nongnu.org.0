@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BBB29C885
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:17:41 +0100 (CET)
-Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF2C29C86E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:12:09 +0100 (CET)
+Received: from localhost ([::1]:57918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXUTS-00060L-Td
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42098)
+	id 1kXUO7-0006W5-3J
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:12:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIy-0000yB-8x
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46296)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJ0-00011a-VM
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29287)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIr-0001KT-Kd
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:47 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIx-0001LD-Vf
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:50 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603825598;
+ s=mimecast20190719; t=1603825604;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OxA1kn7lg37UfO6T647djICOtes050SoBSTF2NibAkI=;
- b=PDvZboxJnmhtQgHP2XHBxJ6gAei5i9ug36VvbRZGzgCsgmiBos3CuxbiGrIi+mWPMkc3ni
- 5txa9rStMwvc/e94/LY6TiOnFTRSLKDdqLQFwRHFG2lJS+pel6f2A+TIN7PNm1gUacoSDo
- nEw+6O/HFWLuS3Fe9zLJNMRmO+74ZG0=
+ bh=jDZKuHJydRomkoAVOtpqPDOUGms0k0orhFkWgGOE37E=;
+ b=MQwaqiSPXb9eI5Jn4bOKmq/nzuR+xVAgS4ZLBH03oiPH4G+GTo7CeHG3UHkAc1sIKwxzdL
+ hfsjt50sp/EZt+OyBZIuEb6svf8TKa4cMmbmziVqpWflBTEkYtUseK+ON/hQvnIHrmsLxL
+ ysWuhwnEV14201iP0Yrp3hLlkrZByxw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-IR8A1KSXP1SVf-iLNZamXQ-1; Tue, 27 Oct 2020 15:06:36 -0400
-X-MC-Unique: IR8A1KSXP1SVf-iLNZamXQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-596-C53poKY7Oje6jpYKUxFgoA-1; Tue, 27 Oct 2020 15:06:42 -0400
+X-MC-Unique: C53poKY7Oje6jpYKUxFgoA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9A721882FBE;
- Tue, 27 Oct 2020 19:06:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A644A809DDA;
+ Tue, 27 Oct 2020 19:06:41 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 483216EF46;
- Tue, 27 Oct 2020 19:06:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1859710016DA;
+ Tue, 27 Oct 2020 19:06:37 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-6.0 v3 06/20] fuse: Implement hole detection through lseek
-Date: Tue, 27 Oct 2020 20:05:46 +0100
-Message-Id: <20201027190600.192171-7-mreitz@redhat.com>
+Subject: [PATCH for-6.0 v3 07/20] iotests: Do not needlessly filter
+ _make_test_img
+Date: Tue, 27 Oct 2020 20:05:47 +0100
+Message-Id: <20201027190600.192171-8-mreitz@redhat.com>
 In-Reply-To: <20201027190600.192171-1-mreitz@redhat.com>
 References: <20201027190600.192171-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,215 +84,96 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a relatively new feature in libfuse (available since 3.8.0,
-which was released in November 2019), so we have to add a dedicated
-check whether it is available before making use of it.
+In most cases, _make_test_img does not need a _filter_imgfmt on top.  It
+does that by itself.
+
+(The exception is when IMGFMT has been overwritten but TEST_IMG has not.
+In such cases, we do need a _filter_imgfmt on top to filter the test's
+original IMGFMT from TEST_IMG.)
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- configure           |  8 ++++-
- meson.build         | 20 ++++++++++++
- block/export/fuse.c | 77 +++++++++++++++++++++++++++++++++++++++++++++
- meson_options.txt   |  2 ++
- 4 files changed, 106 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/161 | 12 ++++++------
+ tests/qemu-iotests/175 |  6 +++---
+ tests/qemu-iotests/249 |  6 +++---
+ 3 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/configure b/configure
-index fc315deebe..f74b7ef3f4 100755
---- a/configure
-+++ b/configure
-@@ -449,6 +449,7 @@ ninja=""
- skip_meson=no
- gettext=""
- fuse="auto"
-+fuse_lseek="auto"
+diff --git a/tests/qemu-iotests/161 b/tests/qemu-iotests/161
+index e270976d87..bbf7dbbc5c 100755
+--- a/tests/qemu-iotests/161
++++ b/tests/qemu-iotests/161
+@@ -48,9 +48,9 @@ _supported_os Linux
+ IMG_SIZE=1M
  
- bogus_os="no"
- malloc_trim="auto"
-@@ -1524,6 +1525,10 @@ for opt do
-   ;;
-   --disable-fuse) fuse="disabled"
-   ;;
-+  --enable-fuse-lseek) fuse_lseek="enabled"
-+  ;;
-+  --disable-fuse-lseek) fuse_lseek="disabled"
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1847,6 +1852,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   rng-none        dummy RNG, avoid using /dev/(u)random and getrandom()
-   libdaxctl       libdaxctl support
-   fuse            FUSE block device export
-+  fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
+ # Create the images
+-TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
+-TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT | _filter_imgfmt
+-_make_test_img -b "$TEST_IMG.int" -F $IMGFMT -F $IMGFMT | _filter_imgfmt
++TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE
++TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++_make_test_img -b "$TEST_IMG.int" -F $IMGFMT -F $IMGFMT
  
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -6988,7 +6994,7 @@ NINJA=$ninja $meson setup \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
--        -Dfuse=$fuse \
-+        -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek \
-         $cross_arg \
-         "$PWD" "$source_path"
+ # First test: reopen $TEST.IMG changing the detect-zeroes option on
+ # its backing file ($TEST_IMG.int).
+@@ -105,9 +105,9 @@ echo
+ echo "*** Commit and then change an option on the backing file"
+ echo
+ # Create the images again
+-TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
+-TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT| _filter_imgfmt
+-_make_test_img -b "$TEST_IMG.int" -F $IMGFMT | _filter_imgfmt
++TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE
++TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++_make_test_img -b "$TEST_IMG.int" -F $IMGFMT
  
-diff --git a/meson.build b/meson.build
-index 4e8436b456..ea1a68b46d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -736,10 +736,28 @@ if not has_malloc_trim and get_option('malloc_trim').enabled()
-   endif
- endif
+ _launch_qemu -drive if=none,file="${TEST_IMG}"
+ _send_qemu_cmd $QEMU_HANDLE \
+diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+index 00a626aa63..c3c2aed653 100755
+--- a/tests/qemu-iotests/175
++++ b/tests/qemu-iotests/175
+@@ -89,20 +89,20 @@ min_blocks=$(stat -c '%b' "$TEST_DIR/empty")
  
-+if get_option('fuse').disabled() and get_option('fuse_lseek').enabled()
-+  error('Cannot enable fuse-lseek while fuse is disabled')
-+endif
-+
- fuse = dependency('fuse3', required: get_option('fuse'),
-                   version: '>=3.1', method: 'pkg-config',
-                   static: enable_static)
+ echo
+ echo "== creating image with default preallocation =="
+-_make_test_img -o extent_size_hint=0 $size | _filter_imgfmt
++_make_test_img -o extent_size_hint=0 $size
+ stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $size
  
-+fuse_lseek = not_found
-+if not get_option('fuse_lseek').disabled()
-+  if fuse.version().version_compare('>=3.8')
-+    # Dummy dependency
-+    fuse_lseek = declare_dependency()
-+  elif get_option('fuse_lseek').enabled()
-+    if fuse.found()
-+      error('fuse-lseek requires libfuse >=3.8, found ' + fuse.version())
-+    else
-+      error('fuse-lseek requires libfuse, which was not found')
-+    endif
-+  endif
-+endif
-+
- #################
- # config-host.h #
- #################
-@@ -773,6 +791,7 @@ config_host_data.set('CONFIG_KEYUTILS', keyutils.found())
- config_host_data.set('CONFIG_GETTID', has_gettid)
- config_host_data.set('CONFIG_MALLOC_TRIM', has_malloc_trim)
- config_host_data.set('CONFIG_FUSE', fuse.found())
-+config_host_data.set('CONFIG_FUSE_LSEEK', fuse_lseek.found())
- config_host_data.set('QEMU_VERSION', '"@0@"'.format(meson.project_version()))
- config_host_data.set('QEMU_VERSION_MAJOR', meson.project_version().split('.')[0])
- config_host_data.set('QEMU_VERSION_MINOR', meson.project_version().split('.')[1])
-@@ -2169,6 +2188,7 @@ summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
- summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
- summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
- summary_info += {'FUSE exports':      fuse.found()}
-+summary_info += {'FUSE lseek':        fuse_lseek.found()}
- summary(summary_info, bool_yn: true)
+ for mode in off full falloc; do
+     echo
+     echo "== creating image with preallocation $mode =="
+-    _make_test_img -o preallocation=$mode,extent_size_hint=0 $size | _filter_imgfmt
++    _make_test_img -o preallocation=$mode,extent_size_hint=0 $size
+     stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $size
+ done
  
- if not supported_cpus.contains(cpu)
-diff --git a/block/export/fuse.c b/block/export/fuse.c
-index 0b9d226b2f..38f74c94da 100644
---- a/block/export/fuse.c
-+++ b/block/export/fuse.c
-@@ -627,6 +627,80 @@ static void fuse_flush(fuse_req_t req, fuse_ino_t inode,
-     fuse_fsync(req, inode, 1, fi);
- }
+ for new_size in 4096 1048576; do
+     echo
+     echo "== resize empty image with block_resize =="
+-    _make_test_img -o extent_size_hint=0 0 | _filter_imgfmt
++    _make_test_img -o extent_size_hint=0 0
+     _block_resize $TEST_IMG $new_size >/dev/null
+     stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks $min_blocks $new_size
+ done
+diff --git a/tests/qemu-iotests/249 b/tests/qemu-iotests/249
+index 68f13ed328..a9aa9303eb 100755
+--- a/tests/qemu-iotests/249
++++ b/tests/qemu-iotests/249
+@@ -48,9 +48,9 @@ _supported_os Linux
+ IMG_SIZE=1M
  
-+#ifdef CONFIG_FUSE_LSEEK
-+/**
-+ * Let clients inquire allocation status.
-+ */
-+static void fuse_lseek(fuse_req_t req, fuse_ino_t inode, off_t offset,
-+                       int whence, struct fuse_file_info *fi)
-+{
-+    FuseExport *exp = fuse_req_userdata(req);
-+
-+    if (whence != SEEK_HOLE && whence != SEEK_DATA) {
-+        fuse_reply_err(req, EINVAL);
-+        return;
-+    }
-+
-+    while (true) {
-+        int64_t pnum;
-+        int ret;
-+
-+        ret = bdrv_block_status_above(blk_bs(exp->common.blk), NULL,
-+                                      offset, INT64_MAX, &pnum, NULL, NULL);
-+        if (ret < 0) {
-+            fuse_reply_err(req, -ret);
-+            return;
-+        }
-+
-+        if (!pnum && (ret & BDRV_BLOCK_EOF)) {
-+            int64_t blk_len;
-+
-+            /*
-+             * If blk_getlength() rounds (e.g. by sectors), then the
-+             * export length will be rounded, too.  However,
-+             * bdrv_block_status_above() may return EOF at unaligned
-+             * offsets.  We must not let this become visible and thus
-+             * always simulate a hole between @offset (the real EOF)
-+             * and @blk_len (the client-visible EOF).
-+             */
-+
-+            blk_len = blk_getlength(exp->common.blk);
-+            if (blk_len < 0) {
-+                fuse_reply_err(req, -blk_len);
-+                return;
-+            }
-+
-+            if (offset > blk_len || whence == SEEK_DATA) {
-+                fuse_reply_err(req, ENXIO);
-+            } else {
-+                fuse_reply_lseek(req, offset);
-+            }
-+            return;
-+        }
-+
-+        if (ret & BDRV_BLOCK_DATA) {
-+            if (whence == SEEK_DATA) {
-+                fuse_reply_lseek(req, offset);
-+                return;
-+            }
-+        } else {
-+            if (whence == SEEK_HOLE) {
-+                fuse_reply_lseek(req, offset);
-+                return;
-+            }
-+        }
-+
-+        /* Safety check against infinite loops */
-+        if (!pnum) {
-+            fuse_reply_err(req, ENXIO);
-+            return;
-+        }
-+
-+        offset += pnum;
-+    }
-+}
-+#endif
-+
- static const struct fuse_lowlevel_ops fuse_ops = {
-     .init       = fuse_init,
-     .lookup     = fuse_lookup,
-@@ -638,6 +712,9 @@ static const struct fuse_lowlevel_ops fuse_ops = {
-     .fallocate  = fuse_fallocate,
-     .flush      = fuse_flush,
-     .fsync      = fuse_fsync,
-+#ifdef CONFIG_FUSE_LSEEK
-+    .lseek      = fuse_lseek,
-+#endif
- };
+ # Create the images: base <- int <- active
+-TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE | _filter_imgfmt
+-TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT | _filter_imgfmt
+-_make_test_img -b "$TEST_IMG.int" -F $IMGFMT | _filter_imgfmt
++TEST_IMG="$TEST_IMG.base" _make_test_img $IMG_SIZE
++TEST_IMG="$TEST_IMG.int" _make_test_img -b "$TEST_IMG.base" -F $IMGFMT
++_make_test_img -b "$TEST_IMG.int" -F $IMGFMT
  
- const BlockExportDriver blk_exp_fuse = {
-diff --git a/meson_options.txt b/meson_options.txt
-index 2ef4ec628f..f9e7d89f9d 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -66,6 +66,8 @@ option('virtiofsd', type: 'feature', value: 'auto',
-        description: 'build virtiofs daemon (virtiofsd)')
- option('fuse', type: 'feature', value: 'auto',
-        description: 'FUSE block device export')
-+option('fuse_lseek', type : 'feature', value : 'auto',
-+       description: 'SEEK_HOLE/SEEK_DATA support for FUSE exports')
- 
- option('capstone', type: 'combo', value: 'auto',
-        choices: ['disabled', 'enabled', 'auto', 'system', 'internal'],
+ # Launch QEMU with these two drives:
+ # none0: base (read-only)
 -- 
 2.26.2
 
