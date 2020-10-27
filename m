@@ -2,55 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44F929B57F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:13:19 +0100 (CET)
-Received: from localhost ([::1]:35872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 838F829B665
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:27:04 +0100 (CET)
+Received: from localhost ([::1]:48482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQf0-0002UT-QC
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:13:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54964)
+	id 1kXQsJ-00032q-If
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:27:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXl-0001xI-4Q
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:49 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50322
- helo=mail.default.ilande.uk0.bigv.io)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kXQbz-0008GT-6e; Tue, 27 Oct 2020 11:10:11 -0400
+Received: from mail-vi1eur05on2118.outbound.protection.outlook.com
+ ([40.107.21.118]:20065 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXi-00064I-39
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:48 -0400
-Received: from host86-148-103-79.range86-148.btcentralplus.com
- ([86.148.103.79] helo=kentang.home)
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXl-0001Qg-Se; Tue, 27 Oct 2020 15:05:54 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org,
-	kraxel@redhat.com,
-	samuel.thibault@ens-lyon.org
-Date: Tue, 27 Oct 2020 15:04:56 +0000
-Message-Id: <20201027150456.24606-9-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201027150456.24606-1-mark.cave-ayland@ilande.co.uk>
-References: <20201027150456.24606-1-mark.cave-ayland@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1kXQbv-0006Xx-Hr; Tue, 27 Oct 2020 11:10:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MXsa4ZQsFEX3bBhFWVzyL3oYbmNYzFnxwuv0xBPzzD0UpTOLDFTnH81LNu24s0GhAnxe1dA5F+TQFKtEa9Xhi3glwheuw+JQLCK6jghzblbr8FfzPf0ktQoaESc9b/KJ6rRpDN2KJSPG/9qlIZlHf8MAKaqDXR0FyZ0XY+kxeOYxATQXql5kfsy9NF3pAsXsF+kT3cpio4yHC68tBmPSLbe7N5in/g4fP5m1DNsEC2eUbqGjzHVSFY4g2qKEQMlwK9XyzWaUPSr1fgsPPctsvQSTIyUj0qmCucSwy4LRiRgXsZJ/+SWT5PACiikolOO0y1aLozS7pSBbBcTzGS9tng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7MPvILf9H5XyIVJjQoQKZ0995FMH7oXqQE+bGZnTgBU=;
+ b=B/N+TeYadPfeevVjJCc0yLMsL7EDiyhMg7gqlSnzWZoUdci8Zf1pIVLBD02dVdgM6fUFGHY/FeTpQHIGLutTxKV/052zdu4Ee2x9KhUroKPlUpp0CAWJh2qA7PBj1uJlAVZ+GELsrCZ9yljsqr+BdkWSYcoZIGtYASh9TocSyI9Z1DX4ws+JU+vbeDuQJAp9omN4Rcu/lHitgwJRjBC/3fxnuSKguLEZtx9j938+nuDP66uB9UdXERhOzeQTZ8B7OmKjr7lK9+7qd4UWMba6+Bhl9u859do8483Ia3yYOC3XF15Kvc/7vovX/c9AysMMNjLde6Yo4JqZYInmvbW8Jw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7MPvILf9H5XyIVJjQoQKZ0995FMH7oXqQE+bGZnTgBU=;
+ b=IAiinn/n+cAC3jTYF+C5ELEG5HVpDBFR9Zq0mhV5gR7gu893eR661tI90SBBfYhgd0i7EmscL6Obh5pMDu77qOgvTUzTKwnEojFaSk467B5nEf6r8EopDQebb92erXK6rGhYVJ2nTHXBaZublQZ6KnlkEDDC7kPGqZjDXSSEilE=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com (2603:10a6:803:137::19)
+ by VI1PR0802MB2334.eurprd08.prod.outlook.com (2603:10a6:800:9d::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Tue, 27 Oct
+ 2020 15:10:02 +0000
+Received: from VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::c1ba:32cf:cd37:712c]) by VI1PR08MB5503.eurprd08.prod.outlook.com
+ ([fe80::c1ba:32cf:cd37:712c%9]) with mapi id 15.20.3455.037; Tue, 27 Oct 2020
+ 15:10:01 +0000
+Subject: Re: [PATCH v12 13/14] stream: skip filters when writing backing file
+ name to QCOW2 header
+To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
+ kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
+ eblake@redhat.com, den@openvz.org
+References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
+ <1603390423-980205-14-git-send-email-andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <4dadeb14-0744-1cbd-04c5-516ba509cc14@virtuozzo.com>
+Date: Tue, 27 Oct 2020 18:09:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+In-Reply-To: <1603390423-980205-14-git-send-email-andrey.shinkevich@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.93]
+X-ClientProxiedBy: AM0PR10CA0083.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:208:15::36) To VI1PR08MB5503.eurprd08.prod.outlook.com
+ (2603:10a6:803:137::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.148.103.79
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 8/8] dev-serial: store flow control and xon/xoff characters
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.5] (185.215.60.93) by
+ AM0PR10CA0083.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:15::36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 15:10:00 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3a29200a-01eb-4757-26b6-08d87a8a6086
+X-MS-TrafficTypeDiagnostic: VI1PR0802MB2334:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <VI1PR0802MB2334FFA26EDAEB835C3E99CEC1160@VI1PR0802MB2334.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Dyd0doFPjxL5scSbmzcjPpVnw+FKaZXXaDNRKbTCiC7UfduUuyAMUE2Xu1uld8MWy2OQnq6/VKTRdH0TCWutM8DbuqFmlWT8fKmANWhMCgw3/uehQiruDa6yaKH3n9EdCAvccV9tvR6Lq+8s+4DPykSSFPgTQQ2jT3F2RprW1kLHDvV1hGSJwkCpwxozDkbHalDL6E6uyhnPjwUQ06g2NUv3IEvREukFmmuc+LDCykjS2wtIy5vFAPSEvYjOf3w3gwILRFZXaTzqRONhIAwI6F95xYJ0RlXrh423NomrpQMARcFb9f5ymxw7MLjepyIbUs+mSx4wTtnT3+zvTWZEKG7sy5GC6nc59E/dkY2b3VSZ4YR/DekOCWFqPh3Lsff0
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:VI1PR08MB5503.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(376002)(346002)(39840400004)(2616005)(107886003)(31696002)(36756003)(8676002)(2906002)(86362001)(16526019)(8936002)(6486002)(186003)(31686004)(478600001)(5660300002)(26005)(316002)(83380400001)(4326008)(52116002)(66946007)(66476007)(16576012)(66556008)(956004)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: s9oW9Ft09Lmvb8qlF+c09miZiIVcbp6LcU2Uhg78KcrMTW+lWLybHweQtMPP6N+J7sPBT9O6841/Q6FS2FNfCzIk9gn0idbI0AC8xD1HfwXdsyVVm692qy4faWlV92C+ieoiAbVMWzNUdnKeE9G8b8vbx+oEeQ9osEa+HrtKVH9FsIZpaqrv3Pb9F6sAuq5czsIPS4UNgyQHx3vVfHHk/P5AJ7JQZzLdFAD7dnsWF0FNSYuKra2TVNrN8bZnsNFSCriFjMPFDxU+GSmIz4YCZPJIS1TLqJD5RkGKYfIIq4AX+wcy/O8NkhtYIQ89a1S/lN38qx2wGKdv3SIrOJsVDjHumS5RPcWPGnxVlimo8+aqJdk0g1au16pPaHsokUD7zijbNwSEUCaxzxjs+HxHsGgO5vBgwkFCWYk9Y61odf+OBHskDdtQKzPxuOST0Nwl6Vu1uWDAyoSPuo19p3iW0dhgxV2optU+xErxUTrJSyLQOCC44NOd//LylFt5kiRXV5GLBo+uvxTORvAVfgQJiPc0R+zWKSk3W6qodJgE5am3J79IZ48coPuwTHJzEe/NadeOptt8rwlknDeUFcNDuSEDio/3vQh3nDDKBykI6dEAoUiK9AK8J0bp4yfCHRbsIDs/iQV/RuS2z+IBdvkmrQ==
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3a29200a-01eb-4757-26b6-08d87a8a6086
+X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB5503.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 15:10:01.8018 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mVlj+3U++glnRvQ5M4pV3BREfNu4ehcie0ePxoqNJ8llUhx4pj5uvMp9UQffw97TSq9yL+60elAgDLXNrPvIuMObGzbEkQmxkz2Cizbw/pM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0802MB2334
+Received-SPF: pass client-ip=40.107.21.118;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-VI1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 11:10:04
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,108 +123,118 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that whilst the device does not do anything with these values, they are
-logged with trace events and stored to allow future implementation.
+22.10.2020 21:13, Andrey Shinkevich wrote:
+> Avoid writing a filter JSON file name and a filter format name to QCOW2
+> image when the backing file is changed after the block stream job.
+> A user is still able to assign the 'backing-file' parameter for a
+> block-stream job keeping in mind the possible issue mentioned above.
+> If the user does not specify the 'backing-file' parameter, QEMU will
+> assign it automatically.
+> 
+> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+> ---
+>   block/stream.c | 15 +++++++++++++--
+>   blockdev.c     |  9 ++-------
+>   2 files changed, 15 insertions(+), 9 deletions(-)
+> 
+> diff --git a/block/stream.c b/block/stream.c
+> index e0540ee..1ba74ab 100644
+> --- a/block/stream.c
+> +++ b/block/stream.c
+> @@ -65,6 +65,7 @@ static int stream_prepare(Job *job)
+>       BlockDriverState *bs = blk_bs(bjob->blk);
+>       BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+>       BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
+> +    BlockDriverState *base_unfiltered = NULL;
+>       Error *local_err = NULL;
+>       int ret = 0;
+>   
+> @@ -75,8 +76,18 @@ static int stream_prepare(Job *job)
+>           const char *base_id = NULL, *base_fmt = NULL;
+>           if (base) {
+>               base_id = s->backing_file_str;
+> -            if (base->drv) {
+> -                base_fmt = base->drv->format_name;
+> +            if (base_id) {
+> +                if (base->drv) {
+> +                    base_fmt = base->drv->format_name;
 
-The default flow control is set to none at reset as documented in the Linux
-ftdi_sio.h header file.
+hmm. this doesn't make real sense: so, we assume that user specified backing_file_str, which may not relate to base, but we use base->drv->format_name? But it may be name of the filter driver, which would be wrong..
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
----
- hw/usb/dev-serial.c | 38 +++++++++++++++++++++++++++++++++++---
- hw/usb/trace-events |  2 ++
- 2 files changed, 37 insertions(+), 3 deletions(-)
+Any ideas?
 
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index e42ce36295..19e1933f04 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -52,6 +52,7 @@
- 
- /* SET_FLOW_CTRL */
- 
-+#define FTDI_NO_HS         0
- #define FTDI_RTS_CTS_HS    1
- #define FTDI_DTR_DSR_HS    2
- #define FTDI_XON_XOFF_HS   4
-@@ -98,6 +99,9 @@ struct USBSerialState {
-     uint8_t error_chr;
-     uint8_t event_trigger;
-     bool always_plugged;
-+    uint8_t flow_control;
-+    uint8_t xon;
-+    uint8_t xoff;
-     QEMUSerialSetParams params;
-     int latency;        /* ms */
-     CharBackend cs;
-@@ -181,14 +185,36 @@ static const USBDesc desc_braille = {
-     .str  = desc_strings,
- };
- 
-+static void usb_serial_set_flow_control(USBSerialState *s,
-+                                        uint8_t flow_control)
-+{
-+    USBDevice *dev = USB_DEVICE(s);
-+    USBBus *bus = usb_bus_from_device(dev);
-+
-+    /* TODO: ioctl */
-+    s->flow_control = flow_control;
-+    trace_usb_serial_set_flow_control(bus->busnr, dev->addr, flow_control);
-+}
-+
-+static void usb_serial_set_xonxoff(USBSerialState *s, int xonxoff)
-+{
-+    USBDevice *dev = USB_DEVICE(s);
-+    USBBus *bus = usb_bus_from_device(dev);
-+
-+    s->xon = xonxoff & 0xff;
-+    s->xoff = (xonxoff >> 8) & 0xff;
-+
-+    trace_usb_serial_set_xonxoff(bus->busnr, dev->addr, s->xon, s->xoff);
-+}
-+
- static void usb_serial_reset(USBSerialState *s)
- {
--    /* TODO: Set flow control to none */
-     s->event_chr = 0x0d;
-     s->event_trigger = 0;
-     s->recv_ptr = 0;
-     s->recv_used = 0;
-     /* TODO: purge in char driver */
-+    usb_serial_set_flow_control(s, FTDI_NO_HS);
- }
- 
- static void usb_serial_handle_reset(USBDevice *dev)
-@@ -285,9 +311,15 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
-         break;
-     }
--    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
--        /* TODO: ioctl */
-+    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL: {
-+        uint8_t flow_control = index >> 8;
-+
-+        usb_serial_set_flow_control(s, flow_control);
-+        if (flow_control & FTDI_XON_XOFF_HS) {
-+            usb_serial_set_xonxoff(s, value);
-+        }
-         break;
-+    }
-     case VendorDeviceOutRequest | FTDI_SET_BAUD: {
-         static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
-         int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 109da521cf..a3292d4624 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -331,3 +331,5 @@ usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%u unsupp
- usb_serial_bad_token(int bus, int addr) "dev %d:%u bad token"
- usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
- usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
-+usb_serial_set_flow_control(int bus, int addr, int index) "dev %d:%u flow control %d"
-+usb_serial_set_xonxoff(int bus, int addr, uint8_t xon, uint8_t xoff) "dev %d:%u xon 0x%x xoff 0x%x"
+1. we can use base_fmt=NULL, to provoke probing on next open of the qcow2 file..
+2. we can do probing now
+3. we can at least check, if backing_file_str == base_unfiltered->filename, in this case we can use base_unfiltered->drv->format_name
+
+
+> +                }
+> +            } else {
+> +                base_unfiltered = bdrv_skip_filters(base);
+> +                if (base_unfiltered) {
+> +                    base_id = base_unfiltered->filename;
+> +                    if (base_unfiltered->drv) {
+> +                        base_fmt = base_unfiltered->drv->format_name;
+> +                    }
+> +                }
+>               }
+>           }
+>           bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
+> diff --git a/blockdev.c b/blockdev.c
+> index c917625..0e9c783 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -2508,7 +2508,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+>       BlockDriverState *base_bs = NULL;
+>       AioContext *aio_context;
+>       Error *local_err = NULL;
+> -    const char *base_name = NULL;
+>       int job_flags = JOB_DEFAULT;
+>   
+>       if (!has_on_error) {
+> @@ -2536,7 +2535,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+>               goto out;
+>           }
+>           assert(bdrv_get_aio_context(base_bs) == aio_context);
+> -        base_name = base;
+>       }
+>   
+>       if (has_base_node) {
+> @@ -2551,7 +2549,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+>           }
+>           assert(bdrv_get_aio_context(base_bs) == aio_context);
+>           bdrv_refresh_filename(base_bs);
+> -        base_name = base_bs->filename;
+>       }
+>   
+>       /* Check for op blockers in the whole chain between bs and base */
+> @@ -2571,9 +2568,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+>           goto out;
+>       }
+>   
+> -    /* backing_file string overrides base bs filename */
+> -    base_name = has_backing_file ? backing_file : base_name;
+> -
+>       if (has_auto_finalize && !auto_finalize) {
+>           job_flags |= JOB_MANUAL_FINALIZE;
+>       }
+> @@ -2581,7 +2575,8 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+>           job_flags |= JOB_MANUAL_DISMISS;
+>       }
+>   
+> -    stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
+> +    stream_start(has_job_id ? job_id : NULL, bs, base_bs,
+> +                 has_backing_file ? backing_file : NULL,
+
+backing_file should be NULL if has_backing_file is false, so you can use just backing_file instead of ternary operator.
+
+>                    job_flags, has_speed ? speed : 0, on_error,
+>                    filter_node_name, &local_err);
+>       if (local_err) {
+> 
+
+
 -- 
-2.20.1
-
+Best regards,
+Vladimir
 
