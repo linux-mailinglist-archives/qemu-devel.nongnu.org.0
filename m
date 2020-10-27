@@ -2,66 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A77129ABAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:18:23 +0100 (CET)
-Received: from localhost ([::1]:55988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6218D29AB85
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:14:10 +0100 (CET)
+Received: from localhost ([::1]:49696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNvi-000633-C9
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:18:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43806)
+	id 1kXNrb-0003C0-L3
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:14:07 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXMsv-0005XX-AE
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:11:25 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37376)
+ id 1kXMuR-0006N5-Vr
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:13:00 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:42290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXMsq-0001Gp-M8
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:11:25 -0400
-Received: by mail-ed1-x544.google.com with SMTP id o18so997509edq.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:11:19 -0700 (PDT)
+ id 1kXMuN-0001jR-SH
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:12:58 -0400
+Received: by mail-ed1-x541.google.com with SMTP id v19so981416edx.9
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:12:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=z0Sn1/klbwmGrH4EiwRl2FFYWHdN0vE5o4xE27RcLts=;
- b=GCKpQyTAmNshAwD6cw9uZDv88lOJMqdzzXTdX/hFzeLbvbqzbVAz3r742/4JYqbnYV
- jBdDvK5mfVRDNWIUJ9pHgEzyy7NrYfMk/e8Zij75c+CkZthrNpHB6kkaUBcZ5mkloodu
- myITSCrPQ+AzcRW9cZj8rzjN2m1CXRH4I7kYrp7wxrQuCjw3gks/lUHw41zK862UBwfs
- 0G7l0r/t7mfx/bCLw/F3uY9g2YUZ6xrFo+Lbe4kY+QUF6tpIefTUTGGS0b8BJ/h+az1+
- VxuHugxkghqjuO1UM6MHKBRp4Zjkw62hO46xnGXYh3I01k9/HHjIB83oS0OgZ0qC7ZnW
- 7hww==
+ :cc; bh=ZjHkoAu2GQuZRbdEyCVjIbSkW16Ixy/i8fRdvBrKSKg=;
+ b=tUQW3PTZ1LsZuYvAoM1NwNuu36jMBOwT0XCkxMU6KhhbCK6hpfRoZ3dQ/U9qh+BnNo
+ AJERZi+MJY0LAfOZw7TS8CZ9xs69u1yHczPVx2UbjhOAehjakAh7nJcCv5tqPlNjocgM
+ mSK6IZZiSCij8fei7YJIcQepKHQ5eFa166/TeA2bQJtXFhhsvk6FuBmZAHURMSFNCL5I
+ 9M1ABo5kLR9OpxYOziq8SHsiF532vj4xbkdKu+spPPPFulpMkxNtbHoFeyBupJr6NC+N
+ FDzHrPAcWWYomhaH87m0g6AtgEN4krM/JE6GFaHKMMHCZbCr4x3FTVuKkv6nyILI3/Ix
+ gKVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=z0Sn1/klbwmGrH4EiwRl2FFYWHdN0vE5o4xE27RcLts=;
- b=ZgcZ7Ln5xGeQ/mxG9SkuemODy8Vk5dDPS1cZPrW3uqk0ax+uU4GNO1P7hfY0Yb7tp5
- hJW/9AXkAsGsbB03lFQCol3mPVpXOippzC1Or/E35p7f4i2dwfr+Wl08ZtpxA3Dft4by
- SSXGgldyvdXY0g83NuIDgoq7YqD2Bswn9P0a2EhS3LL07gho7eEgkwInCnaXHCUDtVLA
- aEvwEclxI3HneyLUVlRj1g9X9hLByEllt7B2B/NvlQZZ/Y0ULDFLhWJ1+xlfOBqXez0E
- c1PTHWZenJFGE9R+mw32OkhB6YOlqEJGBEiP/LWa5qjF5UGrJP0YYNdv/l8mOVnonQUg
- VUsw==
-X-Gm-Message-State: AOAM533gI3Pg48DYZF88J6EwAEaT7nHCCfIeuH/u5Q61BTkgKxaGR5Zz
- BJG7WDRQktWUJcC8syo3zoDtKnjpGL/PM0PSPlCd6w==
-X-Google-Smtp-Source: ABdhPJyDCNml0cd3zWDKbxas4enfOvQcmNXJbhtrlNEdsxaAAjbPCmkPQoFct4lXuNXwvt2m7Wg0flBiFN5VSxWPa2M=
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr1611636edq.146.1603797078712; 
- Tue, 27 Oct 2020 04:11:18 -0700 (PDT)
+ :message-id:subject:to:cc;
+ bh=ZjHkoAu2GQuZRbdEyCVjIbSkW16Ixy/i8fRdvBrKSKg=;
+ b=lhs80jwqd9+OW5K3PovdItrERl3OIblmDS0J5eRN4LoRyAXVnrrKPPyGzwOh+7Q2rY
+ Qatco3j8Wj6HunokOJlYe/aP50QiC95DlOduDNrKIM06QGjMguEmCuTzApN4+pkavQ37
+ YSurkkd3cUJSyYj30mZesvG7uuGB9UTvgIPF2AKwsSO8/IktrDg3ATYPP8p+/WEkG51k
+ e0wDgEcOmSysnCVm6bhkoYhpCNRXQrn4A/p0+NxUxVBAvSDRS6uyjb5oLiqQlZ8e0ju2
+ ZsRHtWWV6M4MKyWL/JvhNUJcLyejgkG7sQMzT8gVsHSzXxK+6htEBusvQq9P3diRNMsp
+ 372w==
+X-Gm-Message-State: AOAM5336kKSrrKmFGNrMtI+o7ZPsmj3tbg+KUAeCljvRoM6ArXr21XQR
+ 95/jK/Czpsgj0GQoPR3CmheBVjj0mIt0p2i9X6XwfA==
+X-Google-Smtp-Source: ABdhPJxEB5CXDULy3Mticm0FOSkwq9pCkR4NDl2Xm5M6riTK2nxbkpeyzr9txOwjGrpNVG5Boj5c7YG6PW+Rsnhr6jM=
+X-Received: by 2002:a50:9ea6:: with SMTP id a35mr1703863edf.52.1603797173945; 
+ Tue, 27 Oct 2020 04:12:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201010135759.437903-1-luc@lmichel.fr>
- <CAFEAcA-F5WCv6We3V=kCV8vH79ko=KGHYWKLaxNVEd9HjFES3Q@mail.gmail.com>
- <CAFEAcA9fHTO2f_KdCnFvqhEOwTzOwtMf=EhKY=9S_5twpabaCg@mail.gmail.com>
- <63d302c6-5cd8-e321-090f-7b1a5979788a@amsat.org>
-In-Reply-To: <63d302c6-5cd8-e321-090f-7b1a5979788a@amsat.org>
+References: <20201027015927.29495-1-shashi.mallela@linaro.org>
+In-Reply-To: <20201027015927.29495-1-shashi.mallela@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Oct 2020 11:11:07 +0000
-Message-ID: <CAFEAcA8whOBFTqEeOO_S9+G0O_dafQitvQxeghSfQT7ME8o-Ow@mail.gmail.com>
-Subject: Re: [PATCH v3 00/15] raspi: add the bcm2835 cprman clock manager
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 27 Oct 2020 11:12:42 +0000
+Message-ID: <CAFEAcA9KQwGrS-9J2M41=KCzJm618vFH4cnjRT+H5AwREMxcsA@mail.gmail.com>
+Subject: Re: [PATCH v8 0/2] Add watchdog support for SbsaQemu
+To: Shashi Mallela <shashi.mallela@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,57 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc@lmichel.fr>, QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Paul Zimmerman <pauldzim@gmail.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 at 08:55, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Tue, 27 Oct 2020 at 01:59, Shashi Mallela <shashi.mallela@linaro.org> wrote:
 >
-> Hi Peter,
+> This patch series adds watchdog timer support for SbsaQemu platform.
 >
-> On 10/19/20 9:31 PM, Peter Maydell wrote:
-> > On Mon, 19 Oct 2020 at 16:45, Peter Maydell <peter.maydell@linaro.org> =
-wrote:
-> >>
-> >> On Sat, 10 Oct 2020 at 14:57, Luc Michel <luc@lmichel.fr> wrote:
-> >>>
-> >>> v2 -> v3:
-> >>>   - patch 03: moved clock_new definition to hw/core/clock.c [Phil]
-> >>>   - patch 03: commit message typo [Clement]
-> >>>   - patch 10: clarifications around the CM_CTL/CM_DIBV mux registers.
-> >>>               reg_cm replaced with reg_ctl and reg_div. Add some
-> >>>               comments for clarity. [Phil]
-> >>>   - patch 10: fixed update_mux_from_cm not matching the CM_DIV offset
-> >>>               correctly. [Phil]
-> >>>   - patch 11: replaced manual bitfield extraction with extract32 [Phi=
-l]
-> >>>   - patch 11: added a visual representation of CM_DIV for clarity [Ph=
-il]
-> >>>   - patch 11: added a missing return in clock_mux_update.
-> >>
-> >>
-> >>
-> >> Applied to target-arm.next, thanks.
-> >
-> > Dropped again due to segv in 'make check' when running with
-> > clang sanitizer, which I gather from irc that you're looking
-> > into.
+> The watchdog timer has been implemented first based on the generic
+> watchdog timer specifications from ARM SBSA v6.0 and then used
+> in the SbsaQemu reference platform
 >
-> The fix has been merged as commit a6e9b9123e7
-> ("hw/core/qdev-clock: add a reference on aliased clocks")
-> and the series also got:
-> Tested-by: Guenter Roeck <linux@roeck-us.net>
+> Changes in v8:
+> - cleared irq also along with ws0 clear on each explicit refresh
+> - addressed additional review comments
 >
-> Hopefully it will make it for 5.2 :)
+> Shashi Mallela (2):
+>   hw/watchdog: Implement SBSA watchdog device
+>   hw/arm/sbsa-ref: add SBSA watchdog device
 
-
-
-Applied to target-arm.next, thanks.
+Applied to target-arm.next. Thanks for the respins and for
+working through our code review process.
 
 -- PMM
 
