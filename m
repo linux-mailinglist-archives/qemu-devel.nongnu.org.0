@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1D4B29A27D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 03:05:41 +0100 (CET)
-Received: from localhost ([::1]:57006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD42929A279
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 03:02:22 +0100 (CET)
+Received: from localhost ([::1]:47918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXEMm-0007PI-N9
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 22:05:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59182)
+	id 1kXEJZ-0003bp-6U
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 22:02:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXEKu-0005sU-V4; Mon, 26 Oct 2020 22:03:46 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42897 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXEKq-0001Vu-UV; Mon, 26 Oct 2020 22:03:44 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CKw3V5MKJz9sSn; Tue, 27 Oct 2020 13:03:34 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603764214;
- bh=pTfsGKx+kYVm/2z38L4L+T5ruMToOgT5A/O1r75DjgA=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=g4HY+Ztjh0uDqzs6jDuXmSm7hUDQ45lnOB8dDeCHIl0DB7g04CaFt5T8rIfR/RomF
- cTrFwpyjSUTVRpP+Xv5af/q1tytilV08ytzpDNAbcjuG25naPZyiOw+4wVAo1/9tvc
- 5wmH9BXqTGFt2lFAlpzRSiKHO2nf+21KgrB5fdyQ=
-Date: Tue, 27 Oct 2020 12:57:34 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 2/4] spapr: Use error_append_hint() in
- spapr_reallocate_hpt()
-Message-ID: <20201027015734.GC4671@yekko.fritz.box>
-References: <160371602625.305923.7832478283946753271.stgit@bahia.lan>
- <160371604030.305923.17464161378167312662.stgit@bahia.lan>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="HG+GLK89HZ1zG0kk"
-Content-Disposition: inline
-In-Reply-To: <160371604030.305923.17464161378167312662.stgit@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kXEGr-0002PK-6f
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 21:59:34 -0400
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:45420)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
+ id 1kXEGo-0000zJ-Lv
+ for qemu-devel@nongnu.org; Mon, 26 Oct 2020 21:59:32 -0400
+Received: by mail-qv1-xf36.google.com with SMTP id w5so5334858qvn.12
+ for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 18:59:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=P73OfQ/GabEbetkpZWCyqL1d/D+m78Hvu8J2m1tjPOU=;
+ b=FJJHCxFZ5q7OJ5/uMgu/JxtkzMwjMRkwqCq020VzCzd0HoU9bXyxFbhpnKae8iUIrh
+ bgitjZHZX6nShY4K+BcD6cZKMGBc6Yo2CqdZcxQ4KF9GrWNTFzde4cUmP9usNnjJTrQk
+ giPZJtvcdL+wSvv/+nB2q2yU/aZmxueWYt+Ps7eWPmYuytbtEoI6s/0I6BUlMU3Vfjnw
+ 1MGM2u++O8uCkollIbyb7wufu/BzNOyms4F+rnGauqLYt0yT0kJo6drNyJzI2FE+Sr9c
+ 5Vz/OjyPZwcnu8r1kV0pYOvpc2BZxQuItyZgvOm5NdCLMBBhCwFw+kgOjweA/M/nvQeI
+ WVNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=P73OfQ/GabEbetkpZWCyqL1d/D+m78Hvu8J2m1tjPOU=;
+ b=oCztqruVXRrKWYmsQ/NMzi0wz1IviwHUMhbxnG4YAV1PdcIC85SzF3SPS8J468ijlZ
+ NtwlBBNEE7EENGmJ/4jQ45aEylzvbBDM+4DWecw/7WUa3paLLpdDB1SnqTkrVu+GRWbJ
+ N31/FbTDy6qZoDW2kM+U4vc1CxE8HQHhRlnWo66m9PpghrFeBp9iX4AEJafS2h5c+wjC
+ 6CtI4yL0P4sUl0yDf4UWg8bcqH4KC6CSQxmFFATzft9j7bFUZ1XAqhaXvqfMS44zgfnE
+ fwsiic0B3rVf9FI/qHcHqQUhcOBPw8XfxLrLleFITYbfoRTKD3qMAq/9HnmXztZfd5CC
+ a+og==
+X-Gm-Message-State: AOAM531HtqQ7Oo2d/+Coe1YFNknqQqHf4eJwk5A2vAoi31CPyST8qeCa
+ mnpHEsRo3u+nPuSW+UXUaouvwQ==
+X-Google-Smtp-Source: ABdhPJy699jopClTon+3yj7Lj3Aa2M9fGNVibGrpBOorGYgXXco73L9Iye/Cv4E9AWVYtwIpMbp6tA==
+X-Received: by 2002:a0c:dd14:: with SMTP id u20mr31526qvk.56.1603763969259;
+ Mon, 26 Oct 2020 18:59:29 -0700 (PDT)
+Received: from localhost.localdomain ([142.114.143.244])
+ by smtp.googlemail.com with ESMTPSA id 61sm19317qta.19.2020.10.26.18.59.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 26 Oct 2020 18:59:28 -0700 (PDT)
+From: Shashi Mallela <shashi.mallela@linaro.org>
+To: peter.maydell@linaro.org,
+	leif@nuviainc.com,
+	rad@semihalf.com
+Subject: [PATCH v8 0/2] Add watchdog support for SbsaQemu
+Date: Mon, 26 Oct 2020 21:59:25 -0400
+Message-Id: <20201027015927.29495-1-shashi.mallela@linaro.org>
+X-Mailer: git-send-email 2.18.4
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=shashi.mallela@linaro.org; helo=mail-qv1-xf36.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,96 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patch series adds watchdog timer support for SbsaQemu platform.
 
---HG+GLK89HZ1zG0kk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The watchdog timer has been implemented first based on the generic
+watchdog timer specifications from ARM SBSA v6.0 and then used 
+in the SbsaQemu reference platform
 
-On Mon, Oct 26, 2020 at 01:40:40PM +0100, Greg Kurz wrote:
-> Hints should be added with the dedicated error_append_hint() API
-> because we don't want to print them when using QMP. This requires
-> to insert ERRP_GUARD as explained in "qapi/error.h".
->=20
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+Changes in v8:
+- cleared irq also along with ws0 clear on each explicit refresh
+- addressed additional review comments
 
-Applied to ppc-for-5.2.
+Shashi Mallela (2):
+  hw/watchdog: Implement SBSA watchdog device
+  hw/arm/sbsa-ref: add SBSA watchdog device
 
-> ---
->  hw/ppc/spapr.c |    8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index f098d0ee6d98..f51b663f7dcb 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1486,6 +1486,7 @@ void spapr_free_hpt(SpaprMachineState *spapr)
->  void spapr_reallocate_hpt(SpaprMachineState *spapr, int shift,
->                            Error **errp)
->  {
-> +    ERRP_GUARD();
->      long rc;
-> =20
->      /* Clean up any HPT info from a previous boot */
-> @@ -1500,17 +1501,18 @@ void spapr_reallocate_hpt(SpaprMachineState *spap=
-r, int shift,
-> =20
->      if (rc < 0) {
->          /* kernel-side HPT needed, but couldn't allocate one */
-> -        error_setg_errno(errp, errno,
-> -                         "Failed to allocate KVM HPT of order %d (try sm=
-aller maxmem?)",
-> +        error_setg_errno(errp, errno, "Failed to allocate KVM HPT of ord=
-er %d",
->                           shift);
-> +        error_append_hint(errp, "Try smaller maxmem?\n");
->          /* This is almost certainly fatal, but if the caller really
->           * wants to carry on with shift =3D=3D 0, it's welcome to try */
->      } else if (rc > 0) {
->          /* kernel-side HPT allocated */
->          if (rc !=3D shift) {
->              error_setg(errp,
-> -                       "Requested order %d HPT, but kernel allocated ord=
-er %ld (try smaller maxmem?)",
-> +                       "Requested order %d HPT, but kernel allocated ord=
-er %ld",
->                         shift, rc);
-> +            error_append_hint(errp, "Try smaller maxmem?\n");
->          }
-> =20
->          spapr->htab_shift =3D shift;
->=20
->=20
+ hw/arm/Kconfig                  |   1 +
+ hw/arm/sbsa-ref.c               |  23 +++
+ hw/watchdog/Kconfig             |   3 +
+ hw/watchdog/meson.build         |   1 +
+ hw/watchdog/sbsa_gwdt.c         | 293 ++++++++++++++++++++++++++++++++
+ include/hw/watchdog/sbsa_gwdt.h |  79 +++++++++
+ 6 files changed, 400 insertions(+)
+ create mode 100644 hw/watchdog/sbsa_gwdt.c
+ create mode 100644 include/hw/watchdog/sbsa_gwdt.h
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- 
+2.18.4
 
---HG+GLK89HZ1zG0kk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+Xfo4ACgkQbDjKyiDZ
-s5JLeA/+K5ArytDawtb3/h820l9E6tytq+a71Ppyn0yGoDw6stD8mq8p7p/v0M42
-0O7Ag3MsztNFE6+xWlmZzxx9Omsg7fiqJseDnq/OkHOK6lzNSoW+ABraPe/OMBEf
-viW4oFuOf0rw/W0bRZFizjOIdwpwENmJ1nEX9MqktB4s8Q65HNa/+hSTevRcdUHo
-JrDCQatBf4HB3hqctWI6+ro7M87c3dyqsONghdNVXM2epD6BxNwndBxWeaR0QiYE
-5vOd42g8e8GUrXzwOoajHkh5Eg8nmkY+ofvnWu4ae9p5tNsrLep3fkmw0yFkSBrJ
-lfvg8/+FbgumFNlkvD/TXlV7QiBYalzUyb+jjrcLHITpB2ZkHW0+bjBe0cD24hmm
-cPQYE1OfrjqAvlcXdyg/hfFOk45NafhTbJpKXsTD7NAzAfzg7BH90zqQxq2cFi3T
-xIJmiDDHEWclyrWsYHYEWp6Yoz/eBYFpsIn/ItkHkNunn7w8Q1aQX40COUPl0BxV
-P+FBXHM1XKGAerG+AO0iVF7QZ3df0Im9B7oaJDuhDJQxPb/WnhKXHH95yyumcdcM
-Y+7FFa+XGLQ/EV2tZgRaD+qQEZ3CLqaX2+NELhQPyDdHDWPxdgOkr8MzTML/69an
-NmWkTqG6CZHqoYhySFEH27kj1xm1lfJUCkuMj/HB5eGE0AhYCj0=
-=9Nng
------END PGP SIGNATURE-----
-
---HG+GLK89HZ1zG0kk--
 
