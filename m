@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192E029C873
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:14:06 +0100 (CET)
-Received: from localhost ([::1]:35508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A655C29C87E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:16:22 +0100 (CET)
+Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXUQ1-0000of-3t
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:14:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41982)
+	id 1kXUSD-0004qE-Ns
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:16:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIg-0000qm-Ob
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58818)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIq-0000wb-KH
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIe-0001IR-Ii
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:30 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUIm-0001KB-Lv
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:06:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603825587;
+ s=mimecast20190719; t=1603825593;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=g0XR/4o4qTngLot4S7dyPq/9b1QLApg4R7DOcp/mYcA=;
- b=MPb+IBGocUsM6zDoy6Ro5f1fq6xgR8rKsr11A7Zk8hACJG6aCVV1RZ6b8WKXWAUBu1JMsf
- CySl/aCKGRolf336FGosNVw3TTIeqRphcKFyNIUFnoyzcRpdhA/HogcYm64zIdG5gV3rrz
- DedQ/oE9Av2F6NUBv74YDVD3abAfk0c=
+ bh=Ku0lgbB4RTZzSq32fKoEbGJ5/3lU/JOWUDW9gngGOwo=;
+ b=RMGb2Yc5ptfYP9+uzBnceqpDt6z+nhbbOtmzyevmGfr93MYEZP1mBM5vlLQ1ItZUbEfOBf
+ 6KVeICUm/+ZAP1QUL1PSIKGEqjihlXO7QMSyx+m3jMkWk49TKkJKG7kTbhLJzKGzTGTpVr
+ 5n2hB20iPWEVxUa2LvTm9af7y+U95c0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-81-xakDI3a9NpKiifpYCFcQlg-1; Tue, 27 Oct 2020 15:06:25 -0400
-X-MC-Unique: xakDI3a9NpKiifpYCFcQlg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-173-fNqEPtLeNg2AYOp8_ypsmg-1; Tue, 27 Oct 2020 15:06:31 -0400
+X-MC-Unique: fNqEPtLeNg2AYOp8_ypsmg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB4C1107ACF5;
- Tue, 27 Oct 2020 19:06:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3F7257008;
+ Tue, 27 Oct 2020 19:06:29 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CD4F55760;
- Tue, 27 Oct 2020 19:06:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2D7FA5C1BB;
+ Tue, 27 Oct 2020 19:06:25 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-6.0 v3 04/20] fuse: Allow growable exports
-Date: Tue, 27 Oct 2020 20:05:44 +0100
-Message-Id: <20201027190600.192171-5-mreitz@redhat.com>
+Subject: [PATCH for-6.0 v3 05/20] fuse: (Partially) implement fallocate()
+Date: Tue, 27 Oct 2020 20:05:45 +0100
+Message-Id: <20201027190600.192171-6-mreitz@redhat.com>
 In-Reply-To: <20201027190600.192171-1-mreitz@redhat.com>
 References: <20201027190600.192171-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,129 +83,116 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These will behave more like normal files in that writes beyond the EOF
-will automatically grow the export size.
-
-As an optimization, keep the RESIZE permission for growable exports so
-we do not have to take it for every post-EOF write.  (This permission is
-not released when the export is destroyed, because at that point the
-BlockBackend is destroyed altogether anyway.)
+This allows allocating areas after the (old) EOF as part of a growing
+resize, writing zeroes, and discarding.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-export.json |  6 +++++-
- block/export/fuse.c    | 44 ++++++++++++++++++++++++++++++++++--------
- 2 files changed, 41 insertions(+), 9 deletions(-)
+ block/export/fuse.c | 84 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
 
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index aecf052c07..140ba0d221 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -112,10 +112,14 @@
- # @mountpoint: Path on which to export the block device via FUSE.
- #              This must point to an existing regular file.
- #
-+# @growable: Whether writes beyond the EOF should grow the block node
-+#            accordingly. (default: false)
-+#
- # Since: 6.0
- ##
- { 'struct': 'BlockExportOptionsFuse',
--  'data': { 'mountpoint': 'str' },
-+  'data': { 'mountpoint': 'str',
-+            '*growable': 'bool' },
-   'if': 'defined(CONFIG_FUSE)' }
- 
- ##
 diff --git a/block/export/fuse.c b/block/export/fuse.c
-index d995829ab7..92d2f50bcc 100644
+index 92d2f50bcc..0b9d226b2f 100644
 --- a/block/export/fuse.c
 +++ b/block/export/fuse.c
-@@ -45,6 +45,7 @@ typedef struct FuseExport {
- 
-     char *mountpoint;
-     bool writable;
-+    bool growable;
- } FuseExport;
- 
- static GHashTable *exports;
-@@ -72,6 +73,19 @@ static int fuse_export_create(BlockExport *blk_exp,
- 
-     assert(blk_exp_args->type == BLOCK_EXPORT_TYPE_FUSE);
- 
-+    /* For growable exports, take the RESIZE permission */
-+    if (args->growable) {
-+        uint64_t blk_perm, blk_shared_perm;
-+
-+        blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
-+
-+        ret = blk_set_perm(exp->common.blk, blk_perm | BLK_PERM_RESIZE,
-+                           blk_shared_perm, errp);
-+        if (ret < 0) {
-+            return ret;
-+        }
-+    }
-+
-     init_exports_table();
- 
-     /*
-@@ -102,6 +116,7 @@ static int fuse_export_create(BlockExport *blk_exp,
- 
-     exp->mountpoint = g_strdup(args->mountpoint);
-     exp->writable = blk_exp_args->writable;
-+    exp->growable = args->growable;
- 
-     ret = setup_fuse_export(exp, args->mountpoint, errp);
-     if (ret < 0) {
-@@ -349,19 +364,24 @@ static int fuse_do_truncate(const FuseExport *exp, int64_t size,
-         truncate_flags |= BDRV_REQ_ZERO_WRITE;
+@@ -521,6 +521,89 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
      }
- 
--    blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
-+    /* Growable exports have a permanent RESIZE permission */
-+    if (!exp->growable) {
-+        blk_get_perm(exp->common.blk, &blk_perm, &blk_shared_perm);
- 
--    ret = blk_set_perm(exp->common.blk, blk_perm | BLK_PERM_RESIZE,
--                       blk_shared_perm, NULL);
--    if (ret < 0) {
--        return ret;
-+        ret = blk_set_perm(exp->common.blk, blk_perm | BLK_PERM_RESIZE,
-+                           blk_shared_perm, NULL);
-+        if (ret < 0) {
-+            return ret;
-+        }
-     }
- 
-     ret = blk_truncate(exp->common.blk, size, true, prealloc,
-                        truncate_flags, NULL);
- 
--    /* Must succeed, because we are only giving up the RESIZE permission */
--    blk_set_perm(exp->common.blk, blk_perm, blk_shared_perm, &error_abort);
-+    if (!exp->growable) {
-+        /* Must succeed, because we are only giving up the RESIZE permission */
-+        blk_set_perm(exp->common.blk, blk_perm, blk_shared_perm, &error_abort);
-+    }
- 
-     return ret;
  }
-@@ -482,7 +502,15 @@ static void fuse_write(fuse_req_t req, fuse_ino_t inode, const char *buf,
-     }
  
-     if (offset + size > length) {
--        size = length - offset;
-+        if (exp->growable) {
-+            ret = fuse_do_truncate(exp, offset + size, true, PREALLOC_MODE_OFF);
++/**
++ * Let clients perform various fallocate() operations.
++ */
++static void fuse_fallocate(fuse_req_t req, fuse_ino_t inode, int mode,
++                           off_t offset, off_t length,
++                           struct fuse_file_info *fi)
++{
++    FuseExport *exp = fuse_req_userdata(req);
++    int64_t blk_len;
++    int ret;
++
++    if (!exp->writable) {
++        fuse_reply_err(req, EACCES);
++        return;
++    }
++
++    blk_len = blk_getlength(exp->common.blk);
++    if (blk_len < 0) {
++        fuse_reply_err(req, -blk_len);
++        return;
++    }
++
++    if (mode & FALLOC_FL_KEEP_SIZE) {
++        length = MIN(length, blk_len - offset);
++    }
++
++    if (mode & FALLOC_FL_PUNCH_HOLE) {
++        if (!(mode & FALLOC_FL_KEEP_SIZE)) {
++            fuse_reply_err(req, EINVAL);
++            return;
++        }
++
++        do {
++            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
++
++            ret = blk_pdiscard(exp->common.blk, offset, size);
++            offset += size;
++            length -= size;
++        } while (ret == 0 && length > 0);
++    } else if (mode & FALLOC_FL_ZERO_RANGE) {
++        if (!(mode & FALLOC_FL_KEEP_SIZE) && offset + length > blk_len) {
++            /* No need for zeroes, we are going to write them ourselves */
++            ret = fuse_do_truncate(exp, offset + length, false,
++                                   PREALLOC_MODE_OFF);
 +            if (ret < 0) {
 +                fuse_reply_err(req, -ret);
 +                return;
 +            }
-+        } else {
-+            size = length - offset;
 +        }
-     }
- 
-     ret = blk_pwrite(exp->common.blk, offset, buf, size, 0);
++
++        do {
++            int size = MIN(length, BDRV_REQUEST_MAX_BYTES);
++
++            ret = blk_pwrite_zeroes(exp->common.blk,
++                                    offset, size, 0);
++            offset += size;
++            length -= size;
++        } while (ret == 0 && length > 0);
++    } else if (!mode) {
++        /* We can only fallocate at the EOF with a truncate */
++        if (offset < blk_len) {
++            fuse_reply_err(req, EOPNOTSUPP);
++            return;
++        }
++
++        if (offset > blk_len) {
++            /* No preallocation needed here */
++            ret = fuse_do_truncate(exp, offset, true, PREALLOC_MODE_OFF);
++            if (ret < 0) {
++                fuse_reply_err(req, -ret);
++                return;
++            }
++        }
++
++        ret = fuse_do_truncate(exp, offset + length, true,
++                               PREALLOC_MODE_FALLOC);
++    } else {
++        ret = -EOPNOTSUPP;
++    }
++
++    fuse_reply_err(req, ret < 0 ? -ret : 0);
++}
++
+ /**
+  * Let clients fsync the exported image.
+  */
+@@ -552,6 +635,7 @@ static const struct fuse_lowlevel_ops fuse_ops = {
+     .open       = fuse_open,
+     .read       = fuse_read,
+     .write      = fuse_write,
++    .fallocate  = fuse_fallocate,
+     .flush      = fuse_flush,
+     .fsync      = fuse_fsync,
+ };
 -- 
 2.26.2
 
