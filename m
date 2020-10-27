@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE10629B1D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:35:55 +0100 (CET)
-Received: from localhost ([::1]:38478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C3229B211
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:38:16 +0100 (CET)
+Received: from localhost ([::1]:47078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQ4o-0005PY-OL
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:35:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42346)
+	id 1kXQ75-0000bx-JD
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:38:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnO-0001lI-2a; Tue, 27 Oct 2020 10:17:54 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48703 helo=ozlabs.org)
+ id 1kXPnO-0001nP-Qi; Tue, 27 Oct 2020 10:17:54 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:56467 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnJ-0007Yr-TE; Tue, 27 Oct 2020 10:17:53 -0400
+ id 1kXPnM-0007Yw-RO; Tue, 27 Oct 2020 10:17:54 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLb4DxVz9sfF; Wed, 28 Oct 2020 01:17:41 +1100 (AEDT)
+ id 4CLDLc3wz1z9sXh; Wed, 28 Oct 2020 01:17:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808263;
- bh=TOdw5JH2Yz5af80pQkkTcNDiEbkuiIiC/9BWjLk3qOU=;
+ d=gibson.dropbear.id.au; s=201602; t=1603808264;
+ bh=1SqgTWzs/0SMAOqpRury5FOnxtJE8GPuIbhDyt77ebg=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=A7ipTlfTzudn13/6pLBs38SPVwVnjTy6puHhwHrGvulQyYvkibMyOUS+MrCWnlvZR
- 3RBG5/WgAz3zqLLPdiCORy6GpolItuOwi1rYaFK253FelyPatJgQGFCgCwiSdpa5+d
- wg2OgSfAz/LpNc2XeruIf0J+/TlhN3tZUAw051lQ=
+ b=X/pq4I+V0NM9/Ugcco0hzPqgotkSH/VCvUN21e8Bq8k2k9i9saUwuVeOxwoc+/Ae0
+ gu9qaprl0o2xrluJaxfQhbeAHLwpHPm1U3D4lySxcXbfKinKhUPaYHykIlTtG6Ync1
+ H034gMkVyq0Fx/TZQYtVZxwMlrGsXpw2lVo8rFSM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 02/18] ppc/spapr: re-assert IRQs during event-scan if there are
- pending
-Date: Wed, 28 Oct 2020 01:17:19 +1100
-Message-Id: <20201027141735.728821-3-david@gibson.dropbear.id.au>
+Subject: [PULL 03/18] hw/net: move allocation to the heap due to very large
+ stack frame
+Date: Wed, 28 Oct 2020 01:17:20 +1100
+Message-Id: <20201027141735.728821-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
@@ -59,58 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
+Cc: Elena Afanasova <eafanasova@gmail.com>,
  David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
  qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Laurent Vivier <lvivier@redhat.com>
+From: Elena Afanasova <eafanasova@gmail.com>
 
-If we hotplug a CPU during the first second of the kernel boot,
-the IRQ can be sent to the kernel while the RTAS event handler
-is not installed. The event is queued, but the kernel doesn't
-collect it and ignores the new CPU.
+[dwg] The stack frame itself probably isn't that big a deal, but
+avoiding alloca() is generally recommended these days.
 
-As the code relies on edge-triggered IRQ, we can re-assert it
-during the event-scan RTAS call if there are still pending
-events (as it is already done in check-exception).
-
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-Message-Id: <20201015210318.117386-1-lvivier@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Elena Afanasova <eafanasova@gmail.com>
+Message-Id: <8f07132478469b35fb50a4706691e2b56b10a67b.camel@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_events.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/net/spapr_llan.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-index 1069d0197b..1add53547e 100644
---- a/hw/ppc/spapr_events.c
-+++ b/hw/ppc/spapr_events.c
-@@ -1000,10 +1000,22 @@ static void event_scan(PowerPCCPU *cpu, SpaprMachineState *spapr,
-                        target_ulong args,
-                        uint32_t nret, target_ulong rets)
- {
-+    int i;
-     if (nargs != 4 || nret != 1) {
-         rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-         return;
-     }
-+
-+    for (i = 0; i < EVENT_CLASS_MAX; i++) {
-+        if (rtas_event_log_contains(EVENT_CLASS_MASK(i))) {
-+            const SpaprEventSource *source =
-+                spapr_event_sources_get_source(spapr->event_sources, i);
-+
-+            g_assert(source->enabled);
-+            qemu_irq_pulse(spapr_qirq(spapr, source->irq));
-+        }
-+    }
-+
-     rtas_st(rets, 0, RTAS_OUT_NO_ERRORS_FOUND);
- }
+diff --git a/hw/net/spapr_llan.c b/hw/net/spapr_llan.c
+index 2093f1bad0..581320a0e7 100644
+--- a/hw/net/spapr_llan.c
++++ b/hw/net/spapr_llan.c
+@@ -688,7 +688,8 @@ static target_ulong h_send_logical_lan(PowerPCCPU *cpu,
+     SpaprVioDevice *sdev = spapr_vio_find_by_reg(spapr->vio_bus, reg);
+     SpaprVioVlan *dev = VIO_SPAPR_VLAN_DEVICE(sdev);
+     unsigned total_len;
+-    uint8_t *lbuf, *p;
++    uint8_t *p;
++    g_autofree uint8_t *lbuf = NULL;
+     int i, nbufs;
+     int ret;
  
+@@ -729,7 +730,7 @@ static target_ulong h_send_logical_lan(PowerPCCPU *cpu,
+         return H_RESOURCE;
+     }
+ 
+-    lbuf = alloca(total_len);
++    lbuf = g_malloc(total_len);
+     p = lbuf;
+     for (i = 0; i < nbufs; i++) {
+         ret = spapr_vio_dma_read(sdev, VLAN_BD_ADDR(bufs[i]),
 -- 
 2.26.2
 
