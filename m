@@ -2,113 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47A5529C58A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:21:14 +0100 (CET)
-Received: from localhost ([::1]:45934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC10C29C73B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:29:45 +0100 (CET)
+Received: from localhost ([::1]:42722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTak-0002z6-QA
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:21:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50234)
+	id 1kXTj6-0005AS-SL
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:29:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kXTED-0006G5-N8; Tue, 27 Oct 2020 13:57:49 -0400
-Received: from mail-eopbgr60132.outbound.protection.outlook.com
- ([40.107.6.132]:61927 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kXTEA-00076X-Du; Tue, 27 Oct 2020 13:57:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=LI9QUxRNlEbpgGvwu5cDmw813HH3ZPmSLiQiXfrdkolyX2eVSsCiccPEJSBtJbAlHd5XNMyIq0duj3SeEySP2+ec3eI5qtpy7xcYOsFmnQaspXtzpcgVZjnmtUCnVkLj3yckGKQL5ZJ1CVRfbT33VYx0Bl9x8G7Q/RIrC8YrKiqijna6/gvxrqJKn7C7zoIkm66Cz9IT7NLaYsgSLxC+X6xqWEmBiqH5RXsvkRwBCFg6lEBbWqbyl+xNCNyKCMK//choZn2/f26PrUHgQyyg9bt5vYpkUWtFrLQWo7nLKqZiKsllatw77ojfBQ9y586x5La3iiDLcxoxK/XQXHag7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PCUh+1XLDOb15rtc4pGx5JUZbXJQ+CFSTUlqZTc+Bew=;
- b=JOHxspEy/Ek5m8uaiUPPeog/wSHLAd2d26Z3yBI899Qno398KcUVSWu52KLkQLsWvPd8c5Cmv7IOMV7aKGm/J6nnRcwQr8KNB+CHmfUW6VqfyXqrLHty+2oLgVKD6+n/C74SBKWJXAOwGaCJy/79brNsDSwS7wNo6/he21rqxtH282eVFFKCSYk4qsEKoIryC3M28TaF7VDZ0+los5dR1LXSlJD4jlOeSvXB+aNK1wimRg2TnGAlTRGrliI+IrnSIeuirV7gyQsTitRqGiTb+P+Md4H0XIsHSbJBDjrqs5K7r6+5LHRxJyz2Gj7rXWWp5iby6t4uWDO6mVT0kYEp0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PCUh+1XLDOb15rtc4pGx5JUZbXJQ+CFSTUlqZTc+Bew=;
- b=ta8LOFGviPcidFe/rIhDReWEi3JFPTGnH9FpGJX4jqIhQWfowvk1oSr61B8h/PTqgR5WmCgMGf3hqdXWqQgCmQGCnTwAtWlQcW67QH+hT77d8hf7DG6IUg+Nm19J06n5Zw0A7xVvWnL6FTaurat/EFAcn/VWfJnZyV14mFie3KA=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3095.eurprd08.prod.outlook.com (2603:10a6:209:45::28)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
- 2020 17:57:41 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.018; Tue, 27 Oct 2020
- 17:57:41 +0000
-Subject: Re: [PATCH v12 14/14] block: apply COR-filter to block-stream jobs
-To: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>, qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, fam@euphon.net, stefanha@redhat.com,
- kwolf@redhat.com, mreitz@redhat.com, armbru@redhat.com, jsnow@redhat.com,
- eblake@redhat.com, den@openvz.org
-References: <1603390423-980205-1-git-send-email-andrey.shinkevich@virtuozzo.com>
- <1603390423-980205-15-git-send-email-andrey.shinkevich@virtuozzo.com>
- <a8405ebc-8dc3-4520-1e35-2bae6a962f79@virtuozzo.com>
- <467434b5-abaa-fdac-bfcb-844626e1d5f4@virtuozzo.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <f8a956c7-c2dc-29c7-14b4-8e0d1b2ca9f8@virtuozzo.com>
-Date: Tue, 27 Oct 2020 20:57:39 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-In-Reply-To: <467434b5-abaa-fdac-bfcb-844626e1d5f4@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [185.215.60.93]
-X-ClientProxiedBy: AM3PR05CA0116.eurprd05.prod.outlook.com
- (2603:10a6:207:2::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kXTbq-0004Dl-Ic
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45978)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kXTbg-00030Y-Nn
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:13 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603822923;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q/ntxoogpIBJG2Ygammh62juf0lSV6vtWVYBDWDr8rg=;
+ b=JYJAscNF4sVbIJo336b7Tbg/AEpVF+5OC395paCdSKNO8LMIoWvJ9GFOIEn5BLOSXeDoDa
+ uN4R9jUQua/XO14rQ5gItufINo1atoZZlyZ9JsmCs/u9GninrMt9QXkyef029ujijGkjYG
+ ceVgW+TkeQLsjYPvMuzSlrPdHu0bUMQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-YJZDJnVaPguHi5mydWAPrA-1; Tue, 27 Oct 2020 14:22:01 -0400
+X-MC-Unique: YJZDJnVaPguHi5mydWAPrA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 023B7ACE91
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:46 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB9E660C07
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:45 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 03/29] vl: extract validation of -smp to machine.c
+Date: Tue, 27 Oct 2020 14:21:18 -0400
+Message-Id: <20201027182144.3315885-4-pbonzini@redhat.com>
+In-Reply-To: <20201027182144.3315885-1-pbonzini@redhat.com>
+References: <20201027182144.3315885-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.5] (185.215.60.93) by
- AM3PR05CA0116.eurprd05.prod.outlook.com (2603:10a6:207:2::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 17:57:40 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 159eff1a-839e-4914-dfeb-08d87aa1ccb3
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3095:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3095CFC911B3281FB0ED654DC1160@AM6PR08MB3095.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:561;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: U9oEYxCOxKJiczsuafV8RZktHIUsQLmHtwKSaW0vZE+BgVhSKj6xDc8raM0uvkZOfj3sf6p94BbRTOGJl9qkUvxHJONliLFKq80/6GHs6/f5JVi0gnPMfOl4/EnV2VmNP7sS18nsYE6bE+CVf1Av6iFTyxKZ04zXKmowXX0vL9IGOdQS+l8vfth2K8Z+eA2neolxtqapfNmijXXnx2wIVB8OhIJhwiEHiUSffEuC4flk9c3eNwTh/9v32dHFUpJmMlxKoK6Bl0q/yTUVQIBleokaqVxKUOlBDMbSZwfl9Bt0w8ds+fqswDCiMEUe3ViMEVutacrurVdhcvHG46c07W12fYzqCXoLzWrl9InfIB4jO93tVAAQuSm8IBdVRzKF
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(4326008)(16576012)(107886003)(52116002)(53546011)(6486002)(2616005)(956004)(36756003)(498600001)(26005)(186003)(16526019)(83380400001)(31696002)(86362001)(2906002)(66946007)(5660300002)(66556008)(66476007)(8676002)(8936002)(31686004)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: CVrBe4jWTy/fdlRCX6tzv2pOVuoZQyoteyBL5iv3+Ev9aQtHFFDJ3+CnVFZCkaeNfX5kVwupM1QjL5RMTBvSXwy642VB+8HZZtSxXp27EPq6elq+Ybvc5UbXF27Fta8YSF8XDq7rCbraYJha7j+Rv2E3Pe8hC7QA4MT9+n6FBsLTAT6UDjaEqMzzfh7XU1mLBEsJevTWDjv5al/2NaEGijekoi/952JXbE2hkUZC9/lBBOh0gbQPvrijJzQiSFo8ee9a2LzylPa1+XYQvNGh+dVUJClqqCWMC9DcRTQJhHZc2stb7yVf7dbMuyYAXyIgvLyKuuvtMD/JDtcua3+7yIJWNwFMPsPpxP4PdDY8u45L9boa0KyCLiThQGz4WdQ9U+yoRCJaGQPupHf6ikjBwMI5DUzAvCPsl9ud63jthd0vWSsjFSD2N9PVGTgQyILpaJu04wcFhK9wBi2/6QHa4q7mRE3Y+7x/A0u56gM57XtKYRd6/QhKOq6of5IzAgEn7tBDwcAWyBHx8HS/vUOGj6imfZ21XFKlGlL7WSMhgTQ2ka1WkofrJ3VpbDRC6pgmQN3zvsoelYoNUwvTO4Xpmv7jC5YkJLxfZhmf6djOO+9dmtBpA5/cnEoDcE+s3g0cT3Yh6xTzjstL9ivrzr4iGA==
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 159eff1a-839e-4914-dfeb-08d87aa1ccb3
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 17:57:41.6634 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8DTV8uybvV9L2ji/8ym6JxK5UmbZY/dufkpU6/dFOfjdqbpTBrB4kdi2hwcq/0cedAXEEsTikaQ1mFwwDMpvvGqdCqLQ6gO5xDaSBEtnYbY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3095
-Received-SPF: pass client-ip=40.107.6.132;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 13:57:42
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,100 +84,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-27.10.2020 20:48, Andrey Shinkevich wrote:
-> 
-> On 27.10.2020 19:13, Vladimir Sementsov-Ogievskiy wrote:
->> 22.10.2020 21:13, Andrey Shinkevich wrote:
->>> This patch completes the series with the COR-filter insertion for
->>> block-stream operations. Adding the filter makes it possible for copied
->>> regions to be discarded in backing files during the block-stream job,
->>> what will reduce the disk overuse.
->>> The COR-filter insertion incurs changes in the iotests case
->>> 245:test_block_stream_4 that reopens the backing chain during a
->>> block-stream job. There are changes in the iotests #030 as well.
->>> The iotests case 030:test_stream_parallel was deleted due to multiple
->>> conflicts between the concurrent job operations over the same backing
->>> chain. The base backing node for one job is the top node for another
->>> job. It may change due to the filter node inserted into the backing
->>> chain while both jobs are running. Another issue is that the parts of
->>> the backing chain are being frozen by the running job and may not be
->>> changed by the concurrent job when needed. The concept of the parallel
->>> jobs with common nodes is considered vital no more.
->>>
->>> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>> ---
->>>   block/stream.c             | 98 ++++++++++++++++++++++++++++++----------------
->>>   tests/qemu-iotests/030     | 51 +++---------------------
->>>   tests/qemu-iotests/030.out |  4 +-
->>>   tests/qemu-iotests/141.out |  2 +-
->>>   tests/qemu-iotests/245     | 22 +++++++----
->>>   5 files changed, 87 insertions(+), 90 deletions(-)
->>>
->>> diff --git a/block/stream.c b/block/stream.c
-> 
-> 
-> [...]
-> 
->>> +    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
->>> +                         BLK_PERM_CONSISTENT_READ,
->>> +                         basic_flags | BLK_PERM_WRITE | BLK_PERM_GRAPH_MOD,
->>
->> I think that BLK_PERM_GRAPH_MOD is something outdated. We have chain-feeze, what BLK_PERM_GRAPH_MOD adds to it? I don't know, and doubt that somebody knows.
->>
-> 
-> That is true for the commit/mirror jobs also. If we agree to remove the flag BLK_PERM_GRAPH_MOD from all these jobs, it will be made in a separate series, won't it?
+Once smp_parse is done, the validation operates on the MachineState.
+There is no reason for that code to be in vl.c.
 
-Hmm. At least, let's not implement new logic based on BLK_PERM_GRAPH_MOD. In original code it's only block_job_create's perm, not in shared_perm, not somewhere else.. So, if we keep it, let's keep it as is: only in perm in block_job_create, not implementing additional perm/shared_perm logic.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ hw/core/machine.c   | 23 +++++++++++++++++++++++
+ include/hw/boards.h |  1 +
+ softmmu/vl.c        | 20 ++------------------
+ 3 files changed, 26 insertions(+), 18 deletions(-)
 
-> 
->>>                            speed, creation_flags, NULL, NULL, errp);
->>>       if (!s) {
->>>           goto fail;
->>>       }
->>> +    /*
->>> +     * Prevent concurrent jobs trying to modify the graph structure here, we
->>> +     * already have our own plans. Also don't allow resize as the image size is
->>> +     * queried only at the job start and then cached.
->>> +     */
->>> +    if (block_job_add_bdrv(&s->common, "active node", bs,
->>> +                           basic_flags | BLK_PERM_GRAPH_MOD,
->>
->> why not 0, like for other nodes? We don't use this BdrvChild at all, why to requre permissions?
->>
-> 
-> Yes, '0' s right.
-> 
->>> +                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
->>> +        goto fail;
->>> +    }
->>> +
->>>       /* Block all intermediate nodes between bs and base, because 
-> 
-> 
-> [...]
-> 
->>> diff --git a/tests/qemu-iotests/030 b/tests/qemu-iotests/030
->>> index dcb4b5d..0064590 100755
->>> --- a/tests/qemu-iotests/030
->>> +++ b/tests/qemu-iotests/030
->>> @@ -227,61 +227,20 @@ class TestParallelOps(iotests.QMPTestCase):
->>>           for img in self.imgs:
->>>               os.remove(img)
->>> -    # Test that it's possible to run several block-stream operations
->>> -    # in parallel in the same snapshot chain
->>> -    @unittest.skipIf(os.environ.get('QEMU_CHECK_BLOCK_AUTO'), 'disabled in CI')
->>> -    def test_stream_parallel(self):
->>
->> Didn't we agree to add "bottom" paramter to qmp? Than this test-case can be rewritten using
->> node-names and new "bottom" stream argument.
->>
-> 
-> I guess it will not help for the whole test. Particularly, there is an issue with freezing the child link to COR-filter of the cuncurrent job, then it fails to finish first.
-
-We should not have such frozen link, as our bottom node should be above COR-filter of concurrent job.
-
-
+diff --git a/hw/core/machine.c b/hw/core/machine.c
+index c5e0e79e6d..baea4e8613 100644
+--- a/hw/core/machine.c
++++ b/hw/core/machine.c
+@@ -1072,6 +1072,29 @@ MemoryRegion *machine_consume_memdev(MachineState *machine,
+     return ret;
+ }
+ 
++bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp)
++{
++    MachineClass *mc = MACHINE_GET_CLASS(ms);
++
++    mc->smp_parse(ms, opts);
++
++    /* sanity-check smp_cpus and max_cpus against mc */
++    if (ms->smp.cpus < mc->min_cpus) {
++        error_setg(errp, "Invalid SMP CPUs %d. The min CPUs "
++                   "supported by machine '%s' is %d",
++                   ms->smp.cpus,
++                   mc->name, mc->min_cpus);
++        return false;
++    } else if (ms->smp.max_cpus > mc->max_cpus) {
++        error_setg(errp, "Invalid SMP CPUs %d. The max CPUs "
++                   "supported by machine '%s' is %d",
++                   current_machine->smp.max_cpus,
++                   mc->name, mc->max_cpus);
++        return false;
++    }
++    return true;
++}
++
+ void machine_run_board_init(MachineState *machine)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(machine);
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index a49e3a6b44..4537cfb5c6 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -26,6 +26,7 @@ OBJECT_DECLARE_TYPE(MachineState, MachineClass, MACHINE)
+ extern MachineState *current_machine;
+ 
+ void machine_run_board_init(MachineState *machine);
++bool machine_smp_parse(MachineState *ms, QemuOpts *opts, Error **errp);
+ bool machine_usb(MachineState *machine);
+ int machine_phandle_start(MachineState *machine);
+ bool machine_dump_guest_core(MachineState *machine);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b0ccfd750a..7f39ebdfee 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3971,24 +3971,8 @@ void qemu_init(int argc, char **argv, char **envp)
+         exit(0);
+     }
+ 
+-    machine_class->smp_parse(current_machine,
+-        qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
+-
+-    /* sanity-check smp_cpus and max_cpus against machine_class */
+-    if (current_machine->smp.cpus < machine_class->min_cpus) {
+-        error_report("Invalid SMP CPUs %d. The min CPUs "
+-                     "supported by machine '%s' is %d",
+-                     current_machine->smp.cpus,
+-                     machine_class->name, machine_class->min_cpus);
+-        exit(1);
+-    }
+-    if (current_machine->smp.max_cpus > machine_class->max_cpus) {
+-        error_report("Invalid SMP CPUs %d. The max CPUs "
+-                     "supported by machine '%s' is %d",
+-                     current_machine->smp.max_cpus,
+-                     machine_class->name, machine_class->max_cpus);
+-        exit(1);
+-    }
++    machine_smp_parse(current_machine,
++        qemu_opts_find(qemu_find_opts("smp-opts"), NULL), &error_fatal);
+ 
+     if (mem_prealloc) {
+         char *val;
 -- 
-Best regards,
-Vladimir
+2.26.2
+
+
 
