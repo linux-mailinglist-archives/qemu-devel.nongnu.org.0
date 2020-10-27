@@ -2,65 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B7A29A982
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:24:53 +0100 (CET)
-Received: from localhost ([::1]:54176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD68329A99D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:27:36 +0100 (CET)
+Received: from localhost ([::1]:58764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXM9s-0004KL-Q4
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:24:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60826)
+	id 1kXMCV-0006U7-O4
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:27:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kXM7t-0002cO-R8
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:22:49 -0400
-Received: from speedy.comstyle.com ([2607:f938:3000:8::2]:3844
- helo=mail.comstyle.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <brad@comstyle.com>) id 1kXM7r-0000C5-Sn
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:22:49 -0400
-Received: from mail.comstyle.com (localhost [127.0.0.1])
- by mail.comstyle.com (Postfix) with ESMTP id 4CL79C0xFcz8PbN;
- Tue, 27 Oct 2020 06:24:15 -0400 (EDT)
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed; d=comstyle.com; h=date:from
- :to:cc:subject:message-id:references:mime-version:content-type
- :in-reply-to:content-transfer-encoding; s=default; bh=sxsgxfrY/2
- 2BIUonF8tWGJP6oYo=; b=kqTTBhfG/zpUDFi5MZmfny8+9uln7ni7ObQe1NIqDu
- 55fcmoEChDYRMCQkS5YodkHHriQfv4W9PEkzLM727bX+jR0S/fqnB9WEYv5xXLoh
- LmYeqk3zhGqKTdS+ddFe03XWKEBYO3THPEMwKjdikvBQT3se/03FKfXUCu//FO7D
- E=
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=comstyle.com; h=date:from:to
- :cc:subject:message-id:references:mime-version:content-type
- :in-reply-to:content-transfer-encoding; q=dns; s=default; b=dJRN
- bSu/Ap6vhhwVU8j3ihKkjSEAtb8k63hORF5euzG8QebDv57czkP9q4uqorI+8Lzi
- bWGZaMlMQ2YlwyWEcQBZ0h+IS6gGKkUXXt1rTD4xw9R5fc1yUYttB68DJ7hueHTJ
- /Jq6PeLtCGIaYl8jl9WvmUDIBceUUheFY0HkAGU=
-Received: from humpty.home.comstyle.com (unknown [142.114.120.158])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested) (Authenticated sender: brad)
- by mail.comstyle.com (Postfix) with ESMTPSA id 4CL79B5NwGz8PbK;
- Tue, 27 Oct 2020 06:24:14 -0400 (EDT)
-Date: Tue, 27 Oct 2020 06:22:45 -0400
-From: Brad Smith <brad@comstyle.com>
-To: Philippe Mathieu-Daud?? <philmd@redhat.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH] tests/vm: update openbsd to release 6.8
-Message-ID: <20201027102245.GC64546@humpty.home.comstyle.com>
-References: <20201027053048.GB64546@humpty.home.comstyle.com>
- <cbae54c3-fa97-19e6-512c-7ac570f56b12@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXMAi-0005gq-0N
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:25:44 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXMAf-0001Lu-OI
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:25:43 -0400
+Received: by mail-ej1-x630.google.com with SMTP id k3so1407076ejj.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 03:25:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=opd9WAv1jdFW+m+IYfYgFZ8uDeuUnTw7+/ZfR4lv1jo=;
+ b=Q8xSO8/xdRooEN7ENsxua3UUi0Pvfj7o8xRu/c0xn+jyenyjFvhV8y/f5FGAHGNkI1
+ IzFhL9n+GhslrPUf7X/AQzIRRX79Ehi0sPTPWF38CX5BNdLXcwjAeDEcV6Gdq1zmK4ze
+ ijgkcFtbojbZBtFduaiHYDyaqr8FjhTrX2qTrEl0+di88W8iBOgGlWHd8ZymD63UssNM
+ TouFcHDCzAwFbMjU3lk4Sn0TrsiGLVHTpE6JNloHUViEEIRjvq9v5qxyj5PleLGyIVF6
+ UpXK3azjUzhUYE6pE4IpzrOmDQ7lRhizJjfsPR+Q1xC7HQlFWynfw1s+EhVOFAIxdJ3+
+ jGww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=opd9WAv1jdFW+m+IYfYgFZ8uDeuUnTw7+/ZfR4lv1jo=;
+ b=DQvodWbkSoSzBelDOOcA0zqj+IQ2JahjrfkJwgO3dUDHJpHhzNIS82fktckcUUvvzS
+ LZdHWnVKeRE8hrSQlzXjqJEfswTqtf+wuut2iFS17ACCgEh7pR1Uct5ZnPaT4LCBIoRd
+ XUsz08jV76QvNGGYlv1SgpMtbXfUefr8Hnk/TH+SrZw5oY2yi1nm6/ny0FlqF1whpBWb
+ biGcWggrq8fVMLQ+Q6N3hU/HctAmPjxaxiael7bnK+MwGubK16/NenMxh8Ae6m/C48L8
+ Omqz3bDhoOrVdPY4R1QOnlgSDA1mHGghfsw3GxF6mJqFz8qF3DFfX1v8A+06LqZtveIP
+ EGcQ==
+X-Gm-Message-State: AOAM531ti6aSkiVvAjtk0RPHZgHUQRX2cMj0qvfqjiL3+95Y4MnbJQKA
+ 5zM5IMMFxFatxIeczohlRhMfAsL0cqtfpmIKzRurbev5ZpE=
+X-Google-Smtp-Source: ABdhPJyKCfMUWUlbjOI/pTYM3Zpe88TkuO7IjnfoKP9szND2w96z0BObfvNpv4ViDyMfOZ4A8MUCFsO/nsESUsFi/dw=
+X-Received: by 2002:a17:906:1f42:: with SMTP id
+ d2mr1592948ejk.407.1603794339734; 
+ Tue, 27 Oct 2020 03:25:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=unknown-8bit
-Content-Disposition: inline
-In-Reply-To: <cbae54c3-fa97-19e6-512c-7ac570f56b12@redhat.com>
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f938:3000:8::2;
- envelope-from=brad@comstyle.com; helo=mail.comstyle.com
+References: <20201026120245.25024-1-eblake@redhat.com>
+In-Reply-To: <20201026120245.25024-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Oct 2020 10:25:28 +0000
+Message-ID: <CAFEAcA9tJ7RUtBNdFGy0O4AwBXLKU=Gkxr_cBeoSU4-44F_Gmg@mail.gmail.com>
+Subject: Re: [PULL 0/2] bitmaps patches for 2020-10-26
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,77 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 11:05:20AM +0100, Philippe Mathieu-Daud?? wrote:
-> On 10/27/20 6:30 AM, Brad Smith wrote:
-> > tests/vm: update openbsd to release 6.8
-> >=20
-> > A double dash at the end of a package name removes ambiguity
-> > when the intent is to install a non-FLAVORed package.
-> >=20
-> > Signed-off-by: Brad Smith <brad@comstyle.com>
-> > Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> > Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daud?? <philmd@redhat.com>
->=20
-> I confirm Brad sent us this patch off-list, and
-> - our review comments are addressed,
-> - the tags are correct.
->=20
-> The patch format itself seems broken... Like a copy/paste
-> into an email client...
+On Mon, 26 Oct 2020 at 12:05, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit 4c5b97bfd0dd54dc27717ae8d1cd10e14eef1430:
+>
+>   Merge remote-tracking branch 'remotes/kraxel/tags/modules-20201022-pull-request' into staging (2020-10-22 12:33:21 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-bitmaps-2020-10-26
+>
+> for you to fetch changes up to a024890a64085d3d37ad7eda164775251285c14c:
+>
+>   migration/block-dirty-bitmap: fix uninitialized variable warning (2020-10-26 06:56:24 -0500)
+>
+> ----------------------------------------------------------------
+> bitmaps patches for 2020-10-26
+>
+> - fix infloop on large bitmap granularity
+> - silence compiler warning
 
-Well, git diff vs a format-patch.
 
+Applied, thanks.
 
-Subject: [PATCH] tests/vm: update openbsd to release 6.8
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-A double dash at the end of a package name removes ambiguity
-when the intent is to install a non-FLAVORed package.
-
-Signed-off-by: Brad Smith <brad@comstyle.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- tests/vm/openbsd | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/tests/vm/openbsd b/tests/vm/openbsd
-index 8356646f21..5ffa4f1b37 100755
---- a/tests/vm/openbsd
-+++ b/tests/vm/openbsd
-@@ -22,8 +22,8 @@ class OpenBSDVM(basevm.BaseVM):
-     name =3D "openbsd"
-     arch =3D "x86_64"
-=20
--    link =3D "https://cdn.openbsd.org/pub/OpenBSD/6.6/amd64/install66.is=
-o"
--    csum =3D "b22e63df56e6266de6bbeed8e9be0fbe9ee2291551c5bc03f3cc2e4ab9=
-436ee3"
-+    link =3D "https://cdn.openbsd.org/pub/OpenBSD/6.8/amd64/install68.is=
-o"
-+    csum =3D "47e291fcc2d0c1a8ae0b66329f040b33af755b6adbd21739e20bb5ad56=
-f62b6c"
-     size =3D "20G"
-     pkgs =3D [
-         # tools
-@@ -36,10 +36,10 @@ class OpenBSDVM(basevm.BaseVM):
-         "bash",
-         "gmake",
-         "gsed",
--        "gettext",
-+        "gettext-tools",
-=20
-         # libs: usb
--        "libusb1",
-+        "libusb1--",
-=20
-         # libs: crypto
-         "gnutls",
---=20
-2.28.0
-
+-- PMM
 
