@@ -2,105 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD0329A5DB
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 08:54:57 +0100 (CET)
-Received: from localhost ([::1]:54988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9BEA29A58E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 08:33:21 +0100 (CET)
+Received: from localhost ([::1]:57602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXJom-0001Rm-83
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 03:54:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60630)
+	id 1kXJTs-0006BA-Nf
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 03:33:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kXI4e-0003vm-Ii
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 02:03:12 -0400
-Received: from mail-dm6nam10hn2223.outbound.protection.outlook.com
- ([52.100.156.223]:54432 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kXJSk-0005i5-JZ; Tue, 27 Oct 2020 03:32:10 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:40277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kXI4c-0007fP-Fh
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 02:03:12 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=i8D+qn97gsawmDf32OHzfj6ihMKnDrmGhrxPQaXHBAgbX+4ZO9hSWNcAgpiTPeBs5s4JNikknODWlNSYm5RpupRoDDGTLnud5NtlKujEBbeL9MhUqcesbR6FTcPrUtVYVC/Xmamv05TVD8++yvZ+Prw862bSqpYeEfHaeqrzRtLzhF9Yh8wMmVGZamgDj6fPkr6rL6VyzftmBvqb5uDLg+RnYZlJekx8QaiIVr3nFOJSfcSvR3yBSW7NkLpowgK/9/Oxfxi2VDD5Y9B819e1Ben7JyQBkeZ7zE5YOBks6s2znR9vVuiZ4mkHQyXaUmbfrxvrFejKuGL16VkDAbLBlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mr3A2oeV9jpnAU0VS4CeB5vagjxGSELLrwx5VmlheAA=;
- b=Sqi57u4ATXn98yml4DWilqvpsXqt3DK3JIEHWP3zUZnNS1+NxRu+PuJYvIyDarBNA1wl2EbHoM6AUXQFQ3xkZg9gpHYJTCXU1AIlXdh1RCcSzU8jkZTraltCIPgSSNJFU/oiOJrQSAU0Ddr7USbCBp0ku9ebPB0eEGfA24U5lJ/oAWGiKVHdeu11e7NPCV1f4P2T89jPy7qFz0rs61+ghgoAVFlBX7JoHrMEd6EMsy0WFo9FEdw5hHJatEM0gkS7owonlAXZuvbsWpC7WS+wfU7DDGVMtdSnkSqbf6xsxzMeO+qeouVn8d6/kWehRyg4werQNDd0VU1O7vydPT41bQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Mr3A2oeV9jpnAU0VS4CeB5vagjxGSELLrwx5VmlheAA=;
- b=xJRTy1FOEOYaTHy5Y3bZRbhBdCq0dCXR5deDKOAndQO3HqzXgm6QJRd4BCY1k6+G5qseW+n8WSUs5z4rJQiMiG/vjxMrMq2WzMorhV4NpxFx61tSV1Uspl7yz4TVzvv3xxsQ6/4bMIX1HJVCY1GBVRvTdmW5u0OpdjgkBcODyI0=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB4165.namprd12.prod.outlook.com (2603:10b6:610:a4::13)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kXJSi-0005zx-3S; Tue, 27 Oct 2020 03:32:10 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.186])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id B0F7468B367F;
+ Tue, 27 Oct 2020 08:32:04 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
- 2020 06:03:08 +0000
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.018; Tue, 27 Oct 2020
- 06:03:08 +0000
-From: Michael Roth <michael.roth@amd.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: update my email address
-Date: Tue, 27 Oct 2020 01:02:53 -0500
-Message-Id: <20201027060253.353054-1-michael.roth@amd.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [76.251.165.188]
-X-ClientProxiedBy: DM3PR08CA0004.namprd08.prod.outlook.com
- (2603:10b6:0:52::14) To CH2PR12MB4133.namprd12.prod.outlook.com
- (2603:10b6:610:7a::13)
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 27 Oct
+ 2020 08:32:03 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002497e4762-6cb7-406c-a72f-78dce7e094c3,
+ 8E5A4880AAF567D55136F4F8027E0847E2FD1EE8) smtp.auth=groug@kaod.org
+Date: Tue, 27 Oct 2020 08:32:02 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 1/4] spapr: qemu_memalign() doesn't return NULL
+Message-ID: <20201027083202.57a1e487@bahia.lan>
+In-Reply-To: <20201027015640.GB4671@yekko.fritz.box>
+References: <160371602625.305923.7832478283946753271.stgit@bahia.lan>
+ <160371603337.305923.17158585537944509438.stgit@bahia.lan>
+ <7b6abe52-c17e-09b8-9239-e0e38d4d0a1f@redhat.com>
+ <20201026154647.4a421bc5@bahia.lan>
+ <20201027015640.GB4671@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (76.251.165.188) by
- DM3PR08CA0004.namprd08.prod.outlook.com (2603:10b6:0:52::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 06:03:07 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 463d945a-507b-45a3-3311-08d87a3df9f4
-X-MS-TrafficTypeDiagnostic: CH2PR12MB4165:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4165A490C686E77A5D8D612095160@CH2PR12MB4165.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:669;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Ivb/tsfng2DST4FX10G5xwc213YbANBYTGpK9jmgmSoQEndP9ToVTyM8NDEpToXTiSZObAdOSohVB8Eitjo3Gyy6enEyfWoPnibh5qa4QVbsSO+UBhiAdf8V140BGgCEmhDuMdOs5G5pnfvEiuCPxCqc3r3R0+KoGLvUYndN4a95/q81ZEY8TFhJ3o6ZJvRRSkiiPcVc+KtePkHwtkTRW6Pj+MtWP6jEXQh4YRjrAGzXAQFewhDF0BN4BxoCSHtgukQqsH5reNjW+93TeZJvuFYXlstsudisy7LNcOTJJE001ZVnpNnQg14Lzxpo7Rsr8lUklBkCRknpFlxBbBFtfXD5X7numcWOAWfjYg9neI6oj3s+cue81Os4fGJo8V+irkgL0GxDyB1D/nnerjbzv9hsncd7i8CbNc49Rs1IHJY04rR2lq0MflK1AY7PNc9RW+0vrvBCwTp9eZMAgF7JqEfL+kcXF4m2o1BD+O4/iPxMZ0vpNLEUu3RAZMPAifDbOqUVPbs9qsN/7U3m5fD/lbSWeVPatYwKimEn2WLs/4I61lOOVcyrmqi+F4++5WlS1ESXHOvurm+yADSn0rvki5nK3UwTogPYn0eeKS5Z+Iq+t1lxfQ+UfxMeTgFg3f3+pL1Wg8ZeYzUF8AOv6Zy0nGGvd0Jx7uc34FmjDiTnT/wIbaxw0DBBTZjma2VeHIFUNA2v4OpAjayyGNmFrz7IWpMcGZPqYmU1rVATOa6zFUfD3B/UjsIRZP4dntwcRt03/wFw78MV2gGjlR9cm/S4qA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:5; SRV:;
- IPV:NLI; SFV:SPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:OSPM;
- SFS:(4636009)(39860400002)(366004)(136003)(376002)(346002)(396003)(66946007)(16526019)(52116002)(186003)(86362001)(4744005)(6486002)(966005)(8936002)(6496006)(8676002)(316002)(478600001)(83380400001)(6916009)(1076003)(66476007)(66556008)(36756003)(44832011)(5660300002)(956004)(2906002)(2616005)(6666004)(26005)(23200700001);
- DIR:OUT; SFP:1501; 
-X-MS-Exchange-AntiSpam-MessageData: 8T4Cdo42NnPIFnK8TE6mgvKaY6aekRq2yD2GIW5INtlp7JiAhssmIfe8jNI4MjNUYJs+pXPM4/mmVrFWHZ2IejYhSPChF2zUvYRvBeom7oF+3IoV6KbsltdXJ062aZuqegTEp5ixRifP3CCZZhqmhAQLT7KkQN6Bfxfzlzk+Zt3NGdpAuPhtKXBf8whYPSkafAs0L6NczlZXOVkl0UDlYjb17pk2kfueAyNpvsR0XQfzehUocl3/l/84FlcIHMtwDFXtJRr8L/RLqkSYpQsOxMNB1iAJ/nh4HSdx/0pDk7HL43/guGj6bw8dqCUVlZsV40PWv8Wb/zK1wbUa+BJpBtFfqwQNVcdb3ajjgS5SiQLo0XQN9pyjCR34GoP1giXSt4xBCGa3czD2gZ/kdrT7fRCAMpflBKVb+AGOv7GISlkcyILqSzGYjbBiLRHZkhq0Xbu5BAM4bcv9VwZYR28bULzdIndSRcb0kN4mkQqqYC2bllAOGwPrLnZSa1uAFyONFbbpjFv//2dUV2laGU7zal1YeE/YJHYoxdPHKGLwoxhzBJ/ueiMLKzogmxwQwA20sZcbVtPc8kwDdyFl4PVfa2PJuAq4Vptv8bkz7GkpQZvzRxAzUFe9+m02ED++MwjRjy6EjqryMsVJDXX6x5Xzjg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 463d945a-507b-45a3-3311-08d87a3df9f4
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 06:03:07.9941 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oG6+ySwU0t61lShZg5lL2tDkSrQYS+bbu7uNOqxXTL9x2ACs/66T9zLeexaFSw4EhAfBlzjBKplAvdLsqnmIzg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4165
-Received-SPF: none client-ip=52.100.156.223; envelope-from=Michael.Roth@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 02:03:08
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/CUkvGCImWmFviCfENWzt5Qt";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 390bccb6-3608-42cc-81dd-ad203f844e27
+X-Ovh-Tracer-Id: 14768429078897072608
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeekgddutdejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtihesghdtreerredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhephfffgfejleefgefggfetheeftdevhfehtdeggeehffduteduudeugfdvleelueetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 03:32:05
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 27 Oct 2020 03:46:56 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -112,40 +72,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-ppc@nongnu.org,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've recently switched employers and the current email address is out
-of date.
+--Sig_/CUkvGCImWmFviCfENWzt5Qt
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Michael Roth <michael.roth@amd.com>
----
- MAINTAINERS | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Tue, 27 Oct 2020 12:56:40 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef6f5c7399..c72af7c2f5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2395,7 +2395,7 @@ F: scripts/simplebench/
- 
- QAPI
- M: Markus Armbruster <armbru@redhat.com>
--M: Michael Roth <mdroth@linux.vnet.ibm.com>
-+M: Michael Roth <michael.roth@amd.com>
- S: Supported
- F: qapi/
- X: qapi/*.json
-@@ -2439,7 +2439,7 @@ F: tests/data/qobject/qdict.txt
- T: git https://repo.or.cz/qemu/armbru.git qapi-next
- 
- QEMU Guest Agent
--M: Michael Roth <mdroth@linux.vnet.ibm.com>
-+M: Michael Roth <michael.roth@amd.com>
- S: Maintained
- F: qga/
- F: docs/interop/qemu-ga.rst
--- 
-2.25.1
+> On Mon, Oct 26, 2020 at 03:46:47PM +0100, Greg Kurz wrote:
+> > On Mon, 26 Oct 2020 14:43:08 +0100
+> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+> >=20
+> > > On 10/26/20 1:40 PM, Greg Kurz wrote:
+> > > > qemu_memalign() aborts if OOM. Drop some dead code.
+> > > >=20
+> > > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > > > ---
+> > > >   hw/ppc/spapr.c       |    6 ------
+> > > >   hw/ppc/spapr_hcall.c |    8 ++------
+> > > >   2 files changed, 2 insertions(+), 12 deletions(-)
+> > > >=20
+> > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > > index 0cc19b5863a4..f098d0ee6d98 100644
+> > > > --- a/hw/ppc/spapr.c
+> > > > +++ b/hw/ppc/spapr.c
+> > > > @@ -1521,12 +1521,6 @@ void spapr_reallocate_hpt(SpaprMachineState =
+*spapr, int shift,
+> > > >           int i;
+> > > >  =20
+> > > >           spapr->htab =3D qemu_memalign(size, size);
+> > > > -        if (!spapr->htab) {
+> > > > -            error_setg_errno(errp, errno,
+> > > > -                             "Could not allocate HPT of order %d",=
+ shift);
+> > > > -            return;
+> > >=20
+> > > Wasn't the idea to use qemu_try_memalign() here?
+> > >=20
+> >=20
+> > Well... I have mixed feeling around this. The HTAB was first
+> > introduced by commit:
+> >=20
+> > commit f43e35255cffb6ac6230dd09d308f7909f823f96
+> > Author: David Gibson <david@gibson.dropbear.id.au>
+> > Date:   Fri Apr 1 15:15:22 2011 +1100
+> >=20
+> >     Virtual hash page table handling on pSeries machine
+> >=20
+> > using qemu_mallocz(), which was aborting on OOM. It then got
+> > replaced by g_malloc0() when qemu_mallocz() got deprecated
+> > and eventually by qemu_memalign() when KVM support was added.
+> >=20
+> > Surviving OOM when allocating the HTAB never seemed to be an
+> > option until this commit that introduced the check:
+> >=20
+> > commit c5f54f3e31bf693f70a98d4d73ea5dbe05689857
+> > Author: David Gibson <david@gibson.dropbear.id.au>
+> > Date:   Tue Feb 9 10:21:56 2016 +1000
+> >=20
+> >     pseries: Move hash page table allocation to reset time
+> >=20
+> > I don't really see in the patch and in the changelog an obvious
+> > desire to try to handle OOM.
+>=20
+>=20
+> This one is probably ok.  AFAICT all failures returned here would be
+> more or less fatal in the caller, one way or another (&error_fatal in
+> two cases, and failure to load an incoming migration stream in the
+> other).
+>=20
+> > > > -        }
+> > > > -
+> > > >           memset(spapr->htab, 0, size);
+> > > >           spapr->htab_shift =3D shift;
+> > > >  =20
+> > > > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> > > > index 607740150fa2..34e146f628fb 100644
+> > > > --- a/hw/ppc/spapr_hcall.c
+> > > > +++ b/hw/ppc/spapr_hcall.c
+> > > > @@ -361,12 +361,8 @@ static void *hpt_prepare_thread(void *opaque)
+> > > >       size_t size =3D 1ULL << pending->shift;
+> > > >  =20
+> > > >       pending->hpt =3D qemu_memalign(size, size);
+> > > > -    if (pending->hpt) {
+> > > > -        memset(pending->hpt, 0, size);
+> > > > -        pending->ret =3D H_SUCCESS;
+> > > > -    } else {
+> > > > -        pending->ret =3D H_NO_MEM;
+> > >=20
+> > > Ditto.
+> > >=20
+> >=20
+> > This one was introduced by commit:
+> >=20
+> > commit 0b0b831016ae93bc14698a5d7202eb77feafea75
+> > Author: David Gibson <david@gibson.dropbear.id.au>
+> > Date:   Fri May 12 15:46:49 2017 +1000
+> >=20
+> >     pseries: Implement HPT resizing
+> >=20
+> > I agree that maybe the intent here could have been to use qemu_try_mema=
+lign(),
+> > but again I don't quite see any strong justification to handle OOM in t=
+he
+> > changelog.
+> >=20
+> > David,
+> >=20
+> > Any insight to share ?
+>=20
+> Aborting on an HPT resize failure is definitely not ok, though.  This
+> one needs to be a qemu_try_memalign().
+>=20
 
+Ok, I'll fix that.
+
+--Sig_/CUkvGCImWmFviCfENWzt5Qt
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl+XzPIACgkQcdTV5YIv
+c9b4rw//ViaMmQChus9EfQf2BnXOCyXpv3+NecyL8m4nBbPicuGqpdh+OESLMRDl
+s5kbdSBB4Z1b3t9aFkuxjRuYYUzfjnhT1fpoatfbAvbYXX9MPU+iNx07xjLSPR3N
+MObljwAYVY1pCkKtvG7RcIHEGCLzytle262rwWLOBmZYj6Qj0cufGcKRLUmTiYPC
+pZp1gEAABfIra0Sa0t1m5blaYikFELyJPIUZKyKsFE13K8gpbQTUzH7EfE44Uef1
+trbZalDWVA6M3yZ4UV9o4p6vogMC1Zvn1b3wUHJ/VVJ8VBUtRyOj5XQuDr7AyIzj
+gCaREIcYjLnjh7hhMoHenBoNMSgEMYXniCEoJ20RvL1VcF1v6pm5rq8alXyTTPjh
+FYIFgF83TSo+mTJZhCmwksXjjjvMtOQ2cphS4+lC9AE2v5xbWBz7cj9ayJvJK9CG
+74T+f+mEHjuNlHbG9eB3nB674/uJhnNigGFR3sbzAOpV7EWbTm5d7DU7DirSqSgT
+fbEHcSu3/yVeU2qzd3Euz1ZOuQtcp3hWEx3Bd+M6DQLdYwkgCNFj1RDj14j06k3o
+JhUrqvZkLvsxUVMP6FFENmEGRwEcm/Z5vAEG55x8lz9B7UxeCU1lTTO4VTgkrHF2
+tFKmwXOoB3mwIxjv/YbJFZHZhkuutSdWfjDafeKTUaD4sxrGF7o=
+=lDG9
+-----END PGP SIGNATURE-----
+
+--Sig_/CUkvGCImWmFviCfENWzt5Qt--
 
