@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 315E829B595
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:17:57 +0100 (CET)
-Received: from localhost ([::1]:47302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D88629B607
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:20:20 +0100 (CET)
+Received: from localhost ([::1]:55424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQjU-0007Vv-7A
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:17:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
+	id 1kXQlm-0002Qa-VK
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:20:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQh5-00060q-SG
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22363)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQhA-00063V-94
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41051)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQh3-0007ch-89
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:27 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQh7-0007ed-KF
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603811724;
+ s=mimecast20190719; t=1603811727;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ntqGXYo9lr723+8Dd351mPk63pIW8utRAmMqxbub4sg=;
- b=gxvjiXzgR0msehfO+ES63X6EU1b3cjCEHuCCHv4PdXrrC226ldquPQDgETaRXU91bvRtvJ
- v43ljWAr4YmmZwvMgxBJt06+uaAwAdkZl1NcgCzrZXDkrnEIoli3RFN5GEsA11UjzhJkD0
- 5QHPSyLXrYFpFjT7+JQjziiK+iqEk6c=
+ bh=++VCOgEkuXO2QkggV+H9HrGXa8sS8uk5w3NJ6z3duio=;
+ b=b0yjxWKHLLMjTOu5DIC3pMdQIyVTU0gpon77D+LGR3JIx7zgR2XEq+ILbDcSPCmgF67Cj7
+ yO59JxKNEGEUAZpHbDLxO0TSi9iTBtIE/crNFIaNQ6lUNOMuSwBN1nFobgMlcUSFGY4gEp
+ 4A4nF0VME3zJV/eZz3lo9JIlfQArD+I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-6PMuBtGwMpOKe26lXuXiAQ-1; Tue, 27 Oct 2020 11:15:20 -0400
-X-MC-Unique: 6PMuBtGwMpOKe26lXuXiAQ-1
+ us-mta-94-34eyvagGNMix7QNIPHSOnA-1; Tue, 27 Oct 2020 11:15:23 -0400
+X-MC-Unique: 34eyvagGNMix7QNIPHSOnA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5713EC1C0;
- Tue, 27 Oct 2020 15:15:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AD93835B7B;
+ Tue, 27 Oct 2020 15:15:21 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-16.ams2.redhat.com [10.36.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B5AF855773;
- Tue, 27 Oct 2020 15:15:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1605B55762;
+ Tue, 27 Oct 2020 15:15:19 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 1/5] qemu-img: add support for rate limit in qemu-img commit
-Date: Tue, 27 Oct 2020 16:15:11 +0100
-Message-Id: <20201027151515.213565-2-kwolf@redhat.com>
+Subject: [PULL 2/5] qemu-img: add support for rate limit in qemu-img convert
+Date: Tue, 27 Oct 2020 16:15:12 +0100
+Message-Id: <20201027151515.213565-3-kwolf@redhat.com>
 In-Reply-To: <20201027151515.213565-1-kwolf@redhat.com>
 References: <20201027151515.213565-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -84,99 +84,138 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Zhengui <lizhengui@huawei.com>
 
-add support for rate limit in qemu-img commit.
+add support for rate limit in qemu-img convert.
 
 Signed-off-by: Zhengui <lizhengui@huawei.com>
-Message-Id: <1603205264-17424-2-git-send-email-lizhengui@huawei.com>
+Message-Id: <1603205264-17424-3-git-send-email-lizhengui@huawei.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- docs/tools/qemu-img.rst |  4 +++-
- qemu-img.c              | 11 +++++++++--
+ docs/tools/qemu-img.rst |  6 +++++-
+ qemu-img.c              | 27 ++++++++++++++++++++++++++-
  qemu-img-cmds.hx        |  4 ++--
- 3 files changed, 14 insertions(+), 5 deletions(-)
+ 3 files changed, 33 insertions(+), 4 deletions(-)
 
 diff --git a/docs/tools/qemu-img.rst b/docs/tools/qemu-img.rst
-index c35bd64822..bcb11b0899 100644
+index bcb11b0899..b615aa8419 100644
 --- a/docs/tools/qemu-img.rst
 +++ b/docs/tools/qemu-img.rst
-@@ -349,7 +349,7 @@ Command description:
-   state after (the attempt at) repairing it. That is, a successful ``-r all``
-   will yield the exit code 0, independently of the image state before.
+@@ -188,6 +188,10 @@ Parameters to convert subcommand:
+   allocated target image depending on the host support for getting allocation
+   information.
  
--.. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-d] [-p] FILENAME
-+.. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-r RATE_LIMIT] [-d] [-p] FILENAME
- 
-   Commit the changes recorded in *FILENAME* in its base image or backing file.
-   If the backing file is smaller than the snapshot, then the backing file will be
-@@ -371,6 +371,8 @@ Command description:
-   garbage data when read. For this reason, ``-b`` implies ``-d`` (so that
-   the top image stays valid).
- 
-+  The rate limit for the commit process is specified by ``-r``.
++.. option:: -r
 +
- .. option:: compare [--object OBJECTDEF] [--image-opts] [-f FMT] [-F FMT] [-T SRC_CACHE] [-p] [-q] [-s] [-U] FILENAME1 FILENAME2
++   Rate limit for the convert process
++
+ .. option:: --salvage
  
-   Check if two images have the same content. You can compare images with
+   Try to ignore I/O errors when reading.  Unless in quiet mode (``-q``), errors
+@@ -410,7 +414,7 @@ Command description:
+   4
+     Error on reading data
+ 
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
+ 
+   Convert the disk image *FILENAME* or a snapshot *SNAPSHOT_PARAM*
+   to disk image *OUTPUT_FILENAME* using format *OUTPUT_FMT*. It can
 diff --git a/qemu-img.c b/qemu-img.c
-index 2103507936..3023abea8b 100644
+index 3023abea8b..a968c74cba 100644
 --- a/qemu-img.c
 +++ b/qemu-img.c
-@@ -980,6 +980,7 @@ static int img_commit(int argc, char **argv)
-     CommonBlockJobCBInfo cbi;
-     bool image_opts = false;
-     AioContext *aio_context;
+@@ -50,6 +50,8 @@
+ #include "block/qapi.h"
+ #include "crypto/init.h"
+ #include "trace/control.h"
++#include "qemu/throttle.h"
++#include "block/throttle-groups.h"
+ 
+ #define QEMU_IMG_VERSION "qemu-img version " QEMU_FULL_VERSION \
+                           "\n" QEMU_COPYRIGHT "\n"
+@@ -1669,6 +1671,7 @@ enum ImgConvertBlockStatus {
+ };
+ 
+ #define MAX_COROUTINES 16
++#define CONVERT_THROTTLE_GROUP "img_convert"
+ 
+ typedef struct ImgConvertState {
+     BlockBackend **src;
+@@ -2184,6 +2187,17 @@ static int convert_copy_bitmaps(BlockDriverState *src, BlockDriverState *dst)
+ 
+ #define MAX_BUF_SECTORS 32768
+ 
++static void set_rate_limit(BlockBackend *blk, int64_t rate_limit)
++{
++    ThrottleConfig cfg;
++
++    throttle_config_init(&cfg);
++    cfg.buckets[THROTTLE_BPS_WRITE].avg = rate_limit;
++
++    blk_io_limits_enable(blk, CONVERT_THROTTLE_GROUP);
++    blk_set_io_limits(blk, &cfg);
++}
++
+ static int img_convert(int argc, char **argv)
+ {
+     int c, bs_i, flags, src_flags = 0;
+@@ -2204,6 +2218,7 @@ static int img_convert(int argc, char **argv)
+     bool force_share = false;
+     bool explict_min_sparse = false;
+     bool bitmaps = false;
 +    int64_t rate_limit = 0;
  
-     fmt = NULL;
-     cache = BDRV_DEFAULT_CACHE;
-@@ -991,7 +992,7 @@ static int img_commit(int argc, char **argv)
-             {"image-opts", no_argument, 0, OPTION_IMAGE_OPTS},
+     ImgConvertState s = (ImgConvertState) {
+         /* Need at least 4k of zeros for sparse detection */
+@@ -2226,7 +2241,7 @@ static int img_convert(int argc, char **argv)
+             {"bitmaps", no_argument, 0, OPTION_BITMAPS},
              {0, 0, 0, 0}
          };
--        c = getopt_long(argc, argv, ":f:ht:b:dpq",
-+        c = getopt_long(argc, argv, ":f:ht:b:dpqr:",
+-        c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WU",
++        c = getopt_long(argc, argv, ":hf:O:B:Cco:l:S:pt:T:qnm:WUr:",
                          long_options, NULL);
          if (c == -1) {
              break;
-@@ -1026,6 +1027,12 @@ static int img_commit(int argc, char **argv)
-         case 'q':
-             quiet = true;
+@@ -2323,6 +2338,12 @@ static int img_convert(int argc, char **argv)
+         case 'U':
+             force_share = true;
              break;
 +        case 'r':
 +            rate_limit = cvtnum("rate limit", optarg);
 +            if (rate_limit < 0) {
-+                return 1;
++                goto fail_getopt;
 +            }
 +            break;
          case OPTION_OBJECT: {
-             QemuOpts *opts;
-             opts = qemu_opts_parse_noisily(&qemu_object_opts,
-@@ -1099,7 +1106,7 @@ static int img_commit(int argc, char **argv)
+             QemuOpts *object_opts;
+             object_opts = qemu_opts_parse_noisily(&qemu_object_opts,
+@@ -2712,6 +2733,10 @@ static int img_convert(int argc, char **argv)
+         s.cluster_sectors = bdi.cluster_size / BDRV_SECTOR_SIZE;
+     }
  
-     aio_context = bdrv_get_aio_context(bs);
-     aio_context_acquire(aio_context);
--    commit_active_start("commit", bs, base_bs, JOB_DEFAULT, 0,
-+    commit_active_start("commit", bs, base_bs, JOB_DEFAULT, rate_limit,
-                         BLOCKDEV_ON_ERROR_REPORT, NULL, common_block_job_cb,
-                         &cbi, false, &local_err);
-     aio_context_release(aio_context);
++    if (rate_limit) {
++        set_rate_limit(s.target, rate_limit);
++    }
++
+     ret = convert_do_copy(&s);
+ 
+     /* Now copy the bitmaps */
 diff --git a/qemu-img-cmds.hx b/qemu-img-cmds.hx
-index cab8234235..965c1e3e59 100644
+index 965c1e3e59..b3620f29e5 100644
 --- a/qemu-img-cmds.hx
 +++ b/qemu-img-cmds.hx
-@@ -34,9 +34,9 @@ SRST
+@@ -46,9 +46,9 @@ SRST
  ERST
  
- DEF("commit", img_commit,
--    "commit [--object objectdef] [--image-opts] [-q] [-f fmt] [-t cache] [-b base] [-d] [-p] filename")
-+    "commit [--object objectdef] [--image-opts] [-q] [-f fmt] [-t cache] [-b base] [-r rate_limit] [-d] [-p] filename")
+ DEF("convert", img_convert,
+-    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
++    "convert [--object objectdef] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f fmt] [-t cache] [-T src_cache] [-O output_fmt] [-B backing_file] [-o options] [-l snapshot_param] [-S sparse_size] [-r rate_limit] [-m num_coroutines] [-W] [--salvage] filename [filename2 [...]] output_filename")
  SRST
--.. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-d] [-p] FILENAME
-+.. option:: commit [--object OBJECTDEF] [--image-opts] [-q] [-f FMT] [-t CACHE] [-b BASE] [-r RATE_LIMIT] [-d] [-p] FILENAME
+-.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
++.. option:: convert [--object OBJECTDEF] [--image-opts] [--target-image-opts] [--target-is-zero] [--bitmaps] [-U] [-C] [-c] [-p] [-q] [-n] [-f FMT] [-t CACHE] [-T SRC_CACHE] [-O OUTPUT_FMT] [-B BACKING_FILE] [-o OPTIONS] [-l SNAPSHOT_PARAM] [-S SPARSE_SIZE] [-r RATE_LIMIT] [-m NUM_COROUTINES] [-W] [--salvage] FILENAME [FILENAME2 [...]] OUTPUT_FILENAME
  ERST
  
- DEF("compare", img_compare,
+ DEF("create", img_create,
 -- 
 2.28.0
 
