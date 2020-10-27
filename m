@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1407229C886
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:18:13 +0100 (CET)
-Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78D1129C8C0
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 20:24:19 +0100 (CET)
+Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXUU0-00070P-4C
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:18:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42512)
+	id 1kXUZu-0005Mc-HQ
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 15:24:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJf-0001jO-5G
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37427)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJk-0001vo-6w
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:36 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJd-0001Qn-EN
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:30 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXUJi-0001Ra-Hy
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 15:07:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603825648;
+ s=mimecast20190719; t=1603825653;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ki1gnN1qi924EEQoCQYqxuMIv00U5f4P02chrPStZUw=;
- b=X4Xi2osIIM94iJZCrNOO+dKQqvgrWJp3Iuh/iQ0Po5P8qIsbLm/Vl+b+VG/8Ru8DQyectl
- T+HBJt5ZFahbtV1MOCZyfjffKvnmobx3Wq/aptYBz+5mJ0xxIHhPAIVkDBF/sjPO4A1GG5
- lUxBwwHY+bobLmGIiCqmwY84LVwEvQ8=
+ bh=P1f1BGUaYSYbOeOEwWPC+TWgStTtBgZZ5QkVAyQmA/c=;
+ b=bGhZmHMfqWzoRw14PvaXVYju2E1WXG5T7ofWfefR1Ym5WLaqfFsUL4uAW1u18ryKLPnReP
+ wuUecnLBW7rXEjmcE3THBYANYvSRSjcyS/N/4S+XBi45HzFK5IYqKa77Yi0xyKy/Xd1TrT
+ OXq0hSinCVnVw9rnDsQobjsAz8CJ6To=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-lSxA20oPPGCJ_izxj14HHQ-1; Tue, 27 Oct 2020 15:07:26 -0400
-X-MC-Unique: lSxA20oPPGCJ_izxj14HHQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-422-zt84PrdkMHKLEJ608jQErA-1; Tue, 27 Oct 2020 15:07:31 -0400
+X-MC-Unique: zt84PrdkMHKLEJ608jQErA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16D27760F3;
- Tue, 27 Oct 2020 19:07:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5F16809DEF;
+ Tue, 27 Oct 2020 19:07:30 +0000 (UTC)
 Received: from localhost (unknown [10.40.193.195])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 29AF95D9DD;
- Tue, 27 Oct 2020 19:07:20 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 490B755781;
+ Tue, 27 Oct 2020 19:07:27 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH for-6.0 v3 15/20] iotests/287: Clean up subshell test image
-Date: Tue, 27 Oct 2020 20:05:55 +0100
-Message-Id: <20201027190600.192171-16-mreitz@redhat.com>
+Subject: [PATCH for-6.0 v3 16/20] storage-daemon: Call bdrv_close_all() on exit
+Date: Tue, 27 Oct 2020 20:05:56 +0100
+Message-Id: <20201027190600.192171-17-mreitz@redhat.com>
 In-Reply-To: <20201027190600.192171-1-mreitz@redhat.com>
 References: <20201027190600.192171-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,35 +83,30 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-287 creates an image in a subshell (thanks to the pipe) to see whether
-that is possible with compression_type=zstd.  If _make_test_img were to
-modify any global state, this global state would then be lost before we
-could cleanup the image.
-
-When using FUSE as the test protocol, this global state is important, so
-clean up the image before the state is lost.
+Otherwise, exports and block devices are not properly shut down and
+closed, unless the users explicitly issues blockdev-del and
+block-export-del commands for each of them.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/287 | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ storage-daemon/qemu-storage-daemon.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/tests/qemu-iotests/287 b/tests/qemu-iotests/287
-index f98a4cadc1..036cc09e82 100755
---- a/tests/qemu-iotests/287
-+++ b/tests/qemu-iotests/287
-@@ -51,8 +51,8 @@ trap "_cleanup; exit \$status" 0 1 2 3 15
- CLUSTER_SIZE=65536
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index e419ba9f19..a213edea66 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -317,6 +317,9 @@ int main(int argc, char *argv[])
+         main_loop_wait(false);
+     }
  
- # Check if we can run this test.
--if IMGOPTS='compression_type=zstd' _make_test_img 64M |
--    grep "Invalid parameter 'zstd'"; then
-+output=$(_make_test_img -o 'compression_type=zstd' 64M; _cleanup_test_img)
-+if echo "$output" | grep -q "Invalid parameter 'zstd'"; then
-     _notrun "ZSTD is disabled"
- fi
- 
++    bdrv_drain_all_begin();
++    bdrv_close_all();
++
+     monitor_cleanup();
+     qemu_chr_cleanup();
+     user_creatable_cleanup();
 -- 
 2.26.2
 
