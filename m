@@ -2,109 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C83E29B593
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:17:14 +0100 (CET)
-Received: from localhost ([::1]:44718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC17A29B5B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:19:40 +0100 (CET)
+Received: from localhost ([::1]:53604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQin-0006R8-HS
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:17:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52436)
+	id 1kXQl9-0001gU-QE
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:19:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kXQPr-00013D-D9
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:57:39 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45320)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kXQQo-0002Dz-P0; Tue, 27 Oct 2020 10:58:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43290)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kXQPo-0004xt-NQ
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:57:38 -0400
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 09REqexe005205; Tue, 27 Oct 2020 10:57:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=7q2SPZwVezQ0A4XI226MSwgf+tR4IkC+Y6m9h/BEMM0=;
- b=WutT/XsaDT6kRwx2x8/AaKY7lNkGoJ5nyHgwiMKCdNrRf0qIPGLt/H+IDzbjkuRlGsfC
- boU+QGi3RRJqpdqmrcO7n8n64N07ELV9ujAb21n/JXunG40+b2EG/ZHsUyGDHNqS3L/L
- 4lNlzIV12Gfpe5xUfdAb1F7GjtQ2KKgoGIx67Ixn+j2nGVJ3B5F0ENUq7yA93Vmf6rat
- 4AS30fOtcOta+ppwqYZ3j1sTBBW3UDwZD7wycTC1wx/b0EZU3t+WW/zC9OOz9Y5k1Bce
- oKHnahyy/I6VCRpn98iF9kAImkWijR/B+7Oty5EQsctPmdLp6S5iQkAHbi61BA5+HU4X +A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34e4jwcvqc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Oct 2020 10:57:34 -0400
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09REqrT0006056;
- Tue, 27 Oct 2020 10:57:19 -0400
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34e4jwcvpg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Oct 2020 10:57:19 -0400
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09REv92W022454;
- Tue, 27 Oct 2020 14:57:18 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma02dal.us.ibm.com with ESMTP id 34e1gnhmvk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 27 Oct 2020 14:57:18 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 09REvHqL53805454
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 27 Oct 2020 14:57:17 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 356D36A057;
- Tue, 27 Oct 2020 14:57:17 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 68F546A047;
- Tue, 27 Oct 2020 14:57:16 +0000 (GMT)
-Received: from [9.160.17.83] (unknown [9.160.17.83])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 27 Oct 2020 14:57:16 +0000 (GMT)
-Subject: Re: [PATCH v2 3/6] configure: add option to enable LTO
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
- <20201023200645.1055-4-dbuono@linux.vnet.ibm.com>
- <7aa00aba-ff8c-252a-899a-45ef4db7cc6e@redhat.com>
- <20201026155006.GE496050@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <756e6060-394f-fe4a-47f2-2601b6e54a45@linux.vnet.ibm.com>
-Date: Tue, 27 Oct 2020 10:57:14 -0400
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kXQQm-00056b-Ue; Tue, 27 Oct 2020 10:58:38 -0400
+Received: from dhcp-10-100-145-180.wdc.com (unknown [199.255.45.60])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id 4BE2320780;
+ Tue, 27 Oct 2020 14:58:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1603810715;
+ bh=0qnf5kpG79tAjXFqCxjFM4Fu/tdvuoyBNvNUG1IPqF4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=jKN0rW82wkfOaO2EUEkYbPXil2lyWpFJ+z39vLzaaX+n1EmntZx2mvwOc40L5AROj
+ KlG0rCQldqe4QHpXfGUIpycTTwqfAxN0NoNstLjfdElLEH16QlRKEbxjVWoYm0S377
+ xY59MjdYfJPlHZwfbJ7Ln/DbJRE0m9vL+plSgrxA=
+Date: Tue, 27 Oct 2020 07:58:31 -0700
+From: Keith Busch <kbusch@kernel.org>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 08/25] block/nvme: Simplify device reset
+Message-ID: <20201027145831.GC1942271@dhcp-10-100-145-180.wdc.com>
+References: <20201027135547.374946-1-philmd@redhat.com>
+ <20201027135547.374946-9-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201026155006.GE496050@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-10-27_08:2020-10-26,
- 2020-10-27 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- priorityscore=1501 adultscore=0 bulkscore=0 phishscore=0 malwarescore=0
- mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010270092
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:57:35
-X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-2.167,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201027135547.374946-9-philmd@redhat.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:45:26
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -117,56 +64,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In terms of ar and linker, if you don't have the right mix it will just
-stop at link time with an error.
-
-In terms of using gcc the errors may be a bit more subtle, similar to
-what Daniel mentioned. Succesfully compiling but then showing issues at
-runtime or in the test suite.
-
-I'm using ubuntu 18.04 and the stock compiler (based on gcc 7.5) issues
-a bunch of warnings but compile succesfully with LTO.
-However, the tcg binary for sparc64 is broken. System-wide emulation
-stops in OpenFirmware with an exception. User emulation triggers a
-segmentation fault in some of the test cases. If I compile QEMU with
---enable-debug the tests magically work.
-
-I briefly tested with gcc-9 and that seemed to work ok, buy your mileage
-may vary
-
-On 10/26/2020 11:50 AM, Daniel P. BerrangÃ© wrote:
-> On Mon, Oct 26, 2020 at 10:51:43AM +0100, Paolo Bonzini wrote:
->> On 23/10/20 22:06, Daniele Buono wrote:
->>> This patch allows to compile QEMU with link-time optimization (LTO).
->>> Compilation with LTO is handled directly by meson. This patch adds checks
->>> in configure to make sure the toolchain supports LTO.
->>>
->>> Currently, allow LTO only with clang, since I have found a couple of issues
->>> with gcc-based LTO.
->>>
->>> In case fuzzing is enabled, automatically switch to llvm's linker (lld).
->>> The standard bfd linker has a bug where function wrapping (used by the fuzz*
->>> targets) is used in conjunction with LTO.
->>>
->>> Tested with all major versions of clang from 6 to 12
->>>
->>> Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
->>
->> What are the problems like if you have GCC or you ar/linker are not up
->> to the job?  I wouldn't mind omitting the tests since this has to be
->> enabled explicitly by the user.
+On Tue, Oct 27, 2020 at 02:55:30PM +0100, Philippe Mathieu-Daudé wrote:
+> Avoid multiple endianess conversion by using device endianess.
 > 
-> We temporarily disabled LTO in Fedora rawhide due to GCC bugs causing
-> wierd test suite asserts. Those were pre-release versions of GCC/binutils
-> though. I've just tested again and LTO works correctly, so I've enabled
-> LTO once again.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Regards,
-> Daniel
-> 
+> diff --git a/block/nvme.c b/block/nvme.c
+> index e95d59d3126..be14350f959 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -755,7 +755,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>      timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
+>  
+>      /* Reset device to get a clean state. */
+> -    regs->cc = cpu_to_le32(le32_to_cpu(regs->cc) & 0xFE);
+> +    regs->cc &= const_le32(0xFE);
+
+This doesn't look right. The 'regs' is an MMIO address, correct? Memory
+mappings use the CPU native access.
 
