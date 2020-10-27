@@ -2,83 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECE929ADB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:44:36 +0100 (CET)
-Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A431929AD91
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:40:45 +0100 (CET)
+Received: from localhost ([::1]:58830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPHA-0005yO-2A
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:44:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
+	id 1kXPDQ-0008Th-KH
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXP5D-0006tR-6L
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:32:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40267)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kXP88-0002ZQ-IR
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:35:17 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXP57-0000On-Dd
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:32:14 -0400
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kXP85-0000w6-KR
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:35:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603805526;
+ s=mimecast20190719; t=1603805712;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TK8hPM7Ysvvb8/8WqhaE5vPte48P0JgSHSUZle0XYDo=;
- b=EXBsY8yqgj1Qz7Rxuy6BUC5/P5RXU7IURPyYLbwsXEOqSvy7rl9abm+f2QXBFyO6h59ZRs
- Op75FSedQsRmaNpZp2jsUBO0qZG8TgSh1xvem8MyAP5cxpF0HCoSqGx81J4zWXYMuO65mT
- pxH7OabZ++6eVXmtZOtx4A5yShRJtL8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-UPG_lO7WNtmNdLiMkn7Bew-1; Tue, 27 Oct 2020 09:32:04 -0400
-X-MC-Unique: UPG_lO7WNtmNdLiMkn7Bew-1
-Received: by mail-wr1-f71.google.com with SMTP id t11so755272wrv.10
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:32:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TK8hPM7Ysvvb8/8WqhaE5vPte48P0JgSHSUZle0XYDo=;
- b=GfBi6OR7h+njwebxcf9RFLCtT/ptwsY0AC2rMDgqUY6DlFDe4NQCwaA1QyILjvs6qI
- oItgJPtRvB3nuJdwdFb/I46cVqUM9PSWzL0Zat7jV7EEGKc7O+z+fhikVywDYt54Dqbs
- h4fGv4ktDAno3BAgrM+wfYpTZHoA8DLBFF0qTXH2bL9CwYg/XnIjVsKDIMNS6g20uhjK
- J3rlYdUZD+h/EvmSPGhICcLGfhjGm8ttZsquQB2NktkykRI4kLlzAIoyBs8q2Dqpkutw
- OX9u+dBG76IsRu7aSHHZz8Jg0N07/czG/RI5fzZdtpygaMAse/gytmBZsk/R4VPG1u+9
- ZdLQ==
-X-Gm-Message-State: AOAM533RDspl6UJfKnwB72JUeFYAqVJdV51dX7YAfgSU7JPj1pVjt8NV
- Pt+8LJt7Wf8zxa4EptHy1Va/jsklyu4gIC0xwaD/InGj3LMrur2s7a6a2tHkzSDQoEj/U2O1eBn
- etIceSEUSR9dyjWk=
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr2844756wrq.270.1603805523522; 
- Tue, 27 Oct 2020 06:32:03 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz3OcMI/Dys9klddA8DDl9dIFLbyXDGTqCdrw0fKamw/UOdRW7ZvI62Y4lxSv9JuKWO5IBt7w==
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr2844742wrq.270.1603805523337; 
- Tue, 27 Oct 2020 06:32:03 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id a15sm2224058wrp.90.2020.10.27.06.32.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 27 Oct 2020 06:32:02 -0700 (PDT)
-Subject: Re: [PATCH 01/22] semihosting: fix order of initialization functions
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201021205716.2359430-1-pbonzini@redhat.com>
- <20201021205716.2359430-2-pbonzini@redhat.com> <87sg9zex2k.fsf@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <78f5ab2b-bd6d-631e-4d19-be499a3b08a6@redhat.com>
-Date: Tue, 27 Oct 2020 14:32:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=5kt11jFdffqZX72kckWEauMzWDnxMg8qtaeRoY4kAMk=;
+ b=fQOVEl7f3Y5cA8zqfDgB8uFIp5s9GD0wfj8mQRncUHW2IqeyQCRAqqyNpi8VIrfddfLlUl
+ RLfmXCGXd9Uki4Tpnck09cohE5c2uHbQkTbF9j1eP2kwzxr3dK4HNKOE/PzrNUrzpYHU9v
+ FXj4OMZrrw1IcdiUo8whRihmRBRLnqw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-DguBrrtnM6OeyyiBBs4LzA-1; Tue, 27 Oct 2020 09:35:10 -0400
+X-MC-Unique: DguBrrtnM6OeyyiBBs4LzA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A387809DD5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:35:09 +0000 (UTC)
+Received: from [10.36.113.185] (ovpn-113-185.ams2.redhat.com [10.36.113.185])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1BB5460C07;
+ Tue, 27 Oct 2020 13:35:04 +0000 (UTC)
+Subject: Re: [PATCH RFC] memory: pause all vCPUs for the duration of memory
+ transactions
+To: Vitaly Kuznetsov <vkuznets@redhat.com>, qemu-devel@nongnu.org
+References: <20201026084916.3103221-1-vkuznets@redhat.com>
+ <294a987d-b0ef-1b58-98ac-0d4d43075d6e@redhat.com>
+ <d7a20a33-0317-467e-6fc6-6528b3b46062@redhat.com>
+ <87imav26d8.fsf@vitty.brq.redhat.com>
+ <cb74d717-cfc1-a78b-cf80-eb8ebf1075fd@redhat.com>
+ <87a6w72565.fsf@vitty.brq.redhat.com>
+ <e1d85d86-fb2f-d2a8-77ea-1e0d48c8fb67@redhat.com>
+ <875z6v24e2.fsf@vitty.brq.redhat.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <219ac264-dcd4-70f0-244f-1bee601aded7@redhat.com>
+Date: Tue, 27 Oct 2020 14:35:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <87sg9zex2k.fsf@linaro.org>
+In-Reply-To: <875z6v24e2.fsf@vitty.brq.redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -102,29 +91,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, berrange@redhat.com, jsnow@redhat.com,
- ehabkost@redhat.com, imammedo@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/10/20 12:18, Alex Bennée wrote:
->>  
->> -    /* now chardevs have been created we may have semihosting to connect */
->> -    qemu_semihosting_connect_chardevs();
->> -
-> Move both here:
+>> Same applies to all other kinds of operations (splitting, punching out,
+>> ...) as you also mentioned.
 > 
->     if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
->         exit(1);
-> 
->     /* now chardevs have been created we may have semihosting to connect */
->     qemu_semihosting_connect_chardevs();
->     qemu_semihosting_console_init();
-> 
-> 
+> One question from a QEMU newbie though: why do you put
+> kvm_ioctl_inhibit_begin()/kvm_ioctl_inhibit_end() to kvm_region_resize()
+> only and not taking it all the way up to
+> memory_region_transaction_begin()/memory_region_transaction_end() to
+> support atomicity for all kinds of updates right away?
 
-Sounds good, thanks!
+The clean way to implement it for 
+memory_region_transaction_begin()/memory_region_transaction_end() is by 
+implementing
+->begin()
+->commit()
+callbacks for the KVM MemoryListener, and doing it in there, in KVM code.
 
-Paolo
+
+Now, I wasn't sure how this might affect real-time workloads, where you 
+really don't want to kick CPUs out of KVM. You can make a lot of 
+operations without requiring this handling like
+
+1. Adding regions (memory hotplug)
+2. Removing regions (memory hotunplug)
+3. Enabling/disabling dirty logging
+
+Resize/split(/move/...) are the problematic operations where we would 
+need that handling. Modifying the size/location of existing slots.
+
+One way to tackle it would be to "sense" upfront if such "modifying" 
+operations will be required, communicating that via "->begin()", and 
+letting the KVM notifier decide based on that information whether to get 
+everything out of KVM. Sounds feasible.
+
+> 
+> The second question is whether you plan to sumbit this any time soon)
+
+Once we have an agreement on how to proceed, either I can try to 
+dedicate some time, or if you have some time, you can pickup my work and 
+make it also handle the other problematic cases (as discussed e.g., ^).
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
