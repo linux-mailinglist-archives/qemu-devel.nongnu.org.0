@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DEDD29AB43
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:55:03 +0100 (CET)
-Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2125A29AB54
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:59:46 +0100 (CET)
+Received: from localhost ([::1]:49882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNZ8-0001Vm-6z
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:55:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52026)
+	id 1kXNdh-0007S6-3H
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:59:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPh-0001a4-N0
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:17 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52350)
+ id 1kXNPr-0001oZ-UJ
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34811)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPc-0004b5-Es
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:17 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id c194so1065393wme.2
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:11 -0700 (PDT)
+ id 1kXNPk-0004g2-Vz
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id k21so903031wmi.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=S726yokpihMdOCsUn8mswwXIVf7NmgTBXtwEGAf2yIU=;
- b=J4bRbJfCvWfJHBil5r+cMfn9wKxiXGydE5vJOeZrRc8gs/Cn7DdgsXQcE1rVVhTpuY
- n9/6zQDSkCvj8lglXhfYjvMZojSp6Qb2yfBS1jYO1IW4MxTvWj/j0Ks+bt5RrNXLSnEZ
- a/3d50PzmWhl5jLLgvUdIbB8g/wyT6IpUFxeJlQUFNUvr+LuHVpOQOG9BOglXWhIcdey
- lAUDgsGpAu1bvG8Q8AWE8qBnrMcWrShsdkz8uJTaQsqM8WT78uD3P71vgqRjpLI52Zy8
- 6Vvdmue8qoNW21yuVDXoBrBpJjj6dq8dOGxy/VPKIg7DY1exozL+d0o39k+OAzgSV4IU
- J7bg==
+ bh=x+z76sBDiTKxcFiBZPjvGWYLyhzSNJkqbg7nmpKkRJc=;
+ b=ueuFNkYWyYlop/7aHP9cYnbUe5U4x2zO704f7WpgL5Ic3xrZTuPeshxupCL8yAgTeA
+ wWUFezpDFajh9VBgdYXb/llzGFPoZC0coOhqjpTfiSdJf7+QpZphVVJ8sDV0NxL1rSJe
+ tdlSH0GXntqOmKHuGugZG7cF5omEYjoyxmLcDKLBM7QgnD4vCB7kpUYUO+n4ET5mdnDO
+ M8SKVkP8h4iB4jOK7wgG0ixDIonWxGnU2R0bg9mQcnFrheXAbpsX3K5uV2j13+e8cmy8
+ X0utjKiHTWGjzi26ttrb1ZV2I4c5zaOOFpBkXtKJP/9xCc6zuiMcm8g5ROxa1/fuUJay
+ 0pQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=S726yokpihMdOCsUn8mswwXIVf7NmgTBXtwEGAf2yIU=;
- b=HUt3jOX3DqhcvRFR+jNd7c5HCcGEWjug1eGaaA9eQxdsMif/lo1+fK/vCppeaNvakJ
- ZX9YKJcRVGwlrCNRFB1vh74hW3tJBNDU302Y38QBd7Jr6EpdZdI0zVZeJqadTlZO90Ob
- ej/8XFgHiaO2YPQyt+jaXtKLKAolQW1gI0D7oyfsJlwAUOWyv34QvYCiO6uC/O6H8EP+
- yFaTqwVQ6wxjQ++STbDXHZN+LAlVRLJ0bzD3CjfkDfM57e3DcLQDVwl456M1zu3uoJ+a
- jQtRbSD5mVPeuOwJuMZa4jynQNd5yd7M+VGYWBm45s+/KzvYc8xXGEfWbypN4f4My0qw
- rtDw==
-X-Gm-Message-State: AOAM532nrMv/bbq6GSgliNclRuilWi5eLYd0uHdvi7zpdu0JETAvb2tz
- xoqgx/SvlCkNoUwCcUavpInnwqr4w+agJg==
-X-Google-Smtp-Source: ABdhPJznxalYiEVE4TnC8v1aWpoDiqit6877QTCgMmawVSi6KAp4qCLu4mKilzukMRPEEmTxjWDX6w==
-X-Received: by 2002:a1c:6804:: with SMTP id d4mr2246918wmc.94.1603799110562;
- Tue, 27 Oct 2020 04:45:10 -0700 (PDT)
+ bh=x+z76sBDiTKxcFiBZPjvGWYLyhzSNJkqbg7nmpKkRJc=;
+ b=AY4FfWkPE9gHx1ZY/AdXKLFXFVjwt+qCegX9VTdG10nb2pGyrWk3u1iT7steshUK1/
+ ToiH+pQo/b8RDBIgbd4xGWynZzYyiJrTKSLdykvXpqLPZ7Dn4k8UKVgyvME8O6k8EIhb
+ FF4ysN9CES4VJJzDLbm7MBSuA7Fx+sgUwT82HzZ60/jxhe7oV5MeYKLcA8BDuNkhKSTf
+ lqcdis96iHFFVNGmNZ395vWdceQkvpzFMWAZGJ2ULiXsfcZTufuoQzPnalm99uD6q+ST
+ LO2Omdp7DsN30oyjDmI0NNdQbkg10ZPG3tZgg1M93fU8Ojzer18XCw+bUvHrjfxw3wEi
+ lgHQ==
+X-Gm-Message-State: AOAM531kgHlizhYjt62rH6IwYfCvE1Jd9n95Kfsp8SXSlheELw6wKaTn
+ qgGkxpbFWu2CA5sO4WtbC6CqgsBobPPzdw==
+X-Google-Smtp-Source: ABdhPJxQu32LKf0i8FHlLmwRfI867qimtF8rQw+WMLaRu/KCfTYrXe46C/Q3mBsP7VR/NzpyzW4gFw==
+X-Received: by 2002:a1c:383:: with SMTP id 125mr2380350wmd.175.1603799119319; 
+ Tue, 27 Oct 2020 04:45:19 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.09
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.18
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:09 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:18 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/48] hw/arm/bcm2836: Only provide "enabled-cpus" property to
- multicore SoCs
-Date: Tue, 27 Oct 2020 11:44:14 +0000
-Message-Id: <20201027114438.17662-25-peter.maydell@linaro.org>
+Subject: [PULL 31/48] hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
+Date: Tue, 27 Oct 2020 11:44:21 +0000
+Message-Id: <20201027114438.17662-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,72 +89,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Luc Michel <luc@lmichel.fr>
 
-It makes no sense to set enabled-cpus=0 on single core SoCs.
-
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201024170127.3592182-5-f4bug@amsat.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
+Signed-off-by: Luc Michel <luc@lmichel.fr>
+Tested-by: Guenter Roeck <linux@roeck-us.net>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/bcm2836.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ include/hw/clock.h | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index c5d46a8e805..fcb2c9c3e73 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -34,6 +34,9 @@ typedef struct BCM283XClass {
- #define BCM283X_GET_CLASS(obj) \
-     OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
+diff --git a/include/hw/clock.h b/include/hw/clock.h
+index cbc5e6ced1e..81bcf3e505a 100644
+--- a/include/hw/clock.h
++++ b/include/hw/clock.h
+@@ -81,6 +81,11 @@ extern const VMStateDescription vmstate_clock;
+     VMSTATE_CLOCK_V(field, state, 0)
+ #define VMSTATE_CLOCK_V(field, state, version) \
+     VMSTATE_STRUCT_POINTER_V(field, state, version, vmstate_clock, Clock)
++#define VMSTATE_ARRAY_CLOCK(field, state, num) \
++    VMSTATE_ARRAY_CLOCK_V(field, state, num, 0)
++#define VMSTATE_ARRAY_CLOCK_V(field, state, num, version)          \
++    VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(field, state, num, version, \
++                                       vmstate_clock, Clock)
  
-+static Property bcm2836_enabled_cores_property =
-+    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus, 0);
-+
- static void bcm2836_init(Object *obj)
- {
-     BCM283XState *s = BCM283X(obj);
-@@ -44,6 +47,10 @@ static void bcm2836_init(Object *obj)
-         object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
-                                 bc->cpu_type);
-     }
-+    if (bc->core_count > 1) {
-+        qdev_property_add_static(DEVICE(obj), &bcm2836_enabled_cores_property);
-+        qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
-+    }
- 
-     object_initialize_child(obj, "control", &s->control, TYPE_BCM2836_CONTROL);
- 
-@@ -130,12 +137,6 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
-     }
- }
- 
--static Property bcm2836_props[] = {
--    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus,
--                       BCM283X_NCPUS),
--    DEFINE_PROP_END_OF_LIST()
--};
--
- static void bcm283x_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -155,7 +156,6 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
-     bc->ctrl_base = 0x40000000;
-     bc->clusterid = 0xf;
-     dc->realize = bcm2836_realize;
--    device_class_set_props(dc, bcm2836_props);
- };
- 
- #ifdef TARGET_AARCH64
-@@ -170,7 +170,6 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
-     bc->ctrl_base = 0x40000000;
-     bc->clusterid = 0x0;
-     dc->realize = bcm2836_realize;
--    device_class_set_props(dc, bcm2836_props);
- };
- #endif
- 
+ /**
+  * clock_setup_canonical_path:
 -- 
 2.20.1
 
