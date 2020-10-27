@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E0D29B65E
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:23:35 +0100 (CET)
-Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F7629B61F
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:21:49 +0100 (CET)
+Received: from localhost ([::1]:60260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQow-0006OC-8O
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:23:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57894)
+	id 1kXQnE-0004Wh-8N
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:21:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQhJ-0006CI-H7
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQhJ-0006Be-2r
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50881)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQh7-0007eV-Kt
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:41 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXQh9-0007gW-Vu
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:15:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603811727;
+ s=mimecast20190719; t=1603811730;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hZ3ZiEFgS/T9hvV7MWZLgEpHP3RWmaRLc7bVRfi/7Uc=;
- b=N+sj8bpHIgkzUvzCbiq4OZmOcaop0nRPoin8McnMyVGCuvA2WP5+GQBnMmWdxn3CB9dYPG
- kzyWkLr0O0zDa9LVvuCduZ+yFTQq2SyzrPDQ7bwm5sdMVpdgJyhzI6KPsR8xXmRBO85/pk
- 6i+OISTQM2gNV9tatDlz4XO5GSOq6vg=
+ bh=8FoKmOI+ZM0AYLai4a9b64j3EZrSD9fz+C9ZGZMocBI=;
+ b=PcucY642jWmI1fB5e45E2maONC93ANBptbmg4FefDsJ5SebzJg3CHo7mchYahZxnO5pJgy
+ m54j7ZXmTOSthMMmUYwLb37epWjvXfqy1eKXDjPIxtdMDminQYng+I+kViwGJ3OtYvfKOI
+ bC8HoyN0mkJNH53Wp+FxocL0qjPP0lM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-276-I5eTeE-mOnWNadlttEDuGQ-1; Tue, 27 Oct 2020 11:15:23 -0400
-X-MC-Unique: I5eTeE-mOnWNadlttEDuGQ-1
+ us-mta-456-3UCF1AtiNwOpu5Oc-hWUrQ-1; Tue, 27 Oct 2020 11:15:24 -0400
+X-MC-Unique: 3UCF1AtiNwOpu5Oc-hWUrQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FBB81800D42;
- Tue, 27 Oct 2020 15:15:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CBB80EC506;
+ Tue, 27 Oct 2020 15:15:23 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-16.ams2.redhat.com [10.36.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 78C745578B;
- Tue, 27 Oct 2020 15:15:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CBC5C55762;
+ Tue, 27 Oct 2020 15:15:22 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 3/5] qcow2: Report BDRV_BLOCK_ZERO more accurately in
- bdrv_co_block_status()
-Date: Tue, 27 Oct 2020 16:15:13 +0100
-Message-Id: <20201027151515.213565-4-kwolf@redhat.com>
+Subject: [PULL 4/5] qcow2: Skip copy-on-write when allocating a zero cluster
+Date: Tue, 27 Oct 2020 16:15:14 +0100
+Message-Id: <20201027151515.213565-5-kwolf@redhat.com>
 In-Reply-To: <20201027151515.213565-1-kwolf@redhat.com>
 References: <20201027151515.213565-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -85,47 +84,146 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-If a BlockDriverState supports backing files but has none then any
-unallocated area reads back as zeroes.
+Since commit c8bb23cbdbe32f5c326365e0a82e1b0e68cdcd8a when a write
+request results in a new allocation QEMU first tries to see if the
+rest of the cluster outside the written area contains only zeroes.
 
-bdrv_co_block_status() is only reporting this is if want_zero is true,
-but this is an inexpensive test and there is no reason not to do it in
-all cases.
+In that case, instead of doing a normal copy-on-write operation and
+writing explicit zero buffers to disk, the code zeroes the whole
+cluster efficiently using pwrite_zeroes() with BDRV_REQ_NO_FALLBACK.
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This improves performance very significantly but it only happens when
+we are writing to an area that was completely unallocated before. Zero
+clusters (QCOW2_CLUSTER_ZERO_*) are treated like normal clusters and
+are therefore slower to allocate.
+
+This happens because the code uses bdrv_is_allocated_above() rather
+bdrv_block_status_above(). The former is not as accurate for this
+purpose but it is faster. However in the case of qcow2 the underlying
+call does already report zero clusters just fine so there is no reason
+why we cannot use that information.
+
+After testing 4KB writes on an image that only contains zero clusters
+this patch results in almost five times more IOPS.
+
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <66fa0914a0e2b727ab6d1b63ca773d7cd29a9a9e.1603731354.git.berto@igalia.com>
+Message-Id: <6d77cab968c501c44d6e1089b9bc91b04170b49e.1603731354.git.berto@igalia.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/io.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ include/block/block.h |  2 ++
+ block/io.c            | 27 +++++++++++++++++++++++++++
+ block/qcow2.c         | 35 +++++++++++++++++++----------------
+ 3 files changed, 48 insertions(+), 16 deletions(-)
 
+diff --git a/include/block/block.h b/include/block/block.h
+index d16c401cb4..c9d7c58765 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -508,6 +508,8 @@ int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
+ int bdrv_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
+                             bool include_base, int64_t offset, int64_t bytes,
+                             int64_t *pnum);
++int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes);
+ 
+ bool bdrv_is_read_only(BlockDriverState *bs);
+ int bdrv_can_set_read_only(BlockDriverState *bs, bool read_only,
 diff --git a/block/io.c b/block/io.c
-index 02528b3823..6fe1b275b6 100644
+index 6fe1b275b6..c33cecd58d 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2282,17 +2282,17 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+@@ -2447,6 +2447,33 @@ int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                                    offset, bytes, pnum, map, file);
+ }
  
-     if (ret & (BDRV_BLOCK_DATA | BDRV_BLOCK_ZERO)) {
-         ret |= BDRV_BLOCK_ALLOCATED;
--    } else if (want_zero && bs->drv->supports_backing) {
-+    } else if (bs->drv->supports_backing) {
-         BlockDriverState *cow_bs = bdrv_cow_bs(bs);
++/*
++ * Check @bs (and its backing chain) to see if the range defined
++ * by @offset and @bytes is known to read as zeroes.
++ * Return 1 if that is the case, 0 otherwise and -errno on error.
++ * This test is meant to be fast rather than accurate so returning 0
++ * does not guarantee non-zero data.
++ */
++int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
++                                      int64_t bytes)
++{
++    int ret;
++    int64_t pnum = bytes;
++
++    if (!bytes) {
++        return 1;
++    }
++
++    ret = bdrv_common_block_status_above(bs, NULL, false, false, offset,
++                                         bytes, &pnum, NULL, NULL);
++
++    if (ret < 0) {
++        return ret;
++    }
++
++    return (pnum == bytes) && (ret & BDRV_BLOCK_ZERO);
++}
++
+ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+                                    int64_t bytes, int64_t *pnum)
+ {
+diff --git a/block/qcow2.c b/block/qcow2.c
+index b6cb4db8bb..4274806a2a 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -2387,26 +2387,26 @@ static bool merge_cow(uint64_t offset, unsigned bytes,
+     return false;
+ }
  
--        if (cow_bs) {
-+        if (!cow_bs) {
-+            ret |= BDRV_BLOCK_ZERO;
-+        } else if (want_zero) {
-             int64_t size2 = bdrv_getlength(cow_bs);
+-static bool is_unallocated(BlockDriverState *bs, int64_t offset, int64_t bytes)
+-{
+-    int64_t nr;
+-    return !bytes ||
+-        (!bdrv_is_allocated_above(bs, NULL, false, offset, bytes, &nr) &&
+-         nr == bytes);
+-}
+-
+-static bool is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
++/*
++ * Return 1 if the COW regions read as zeroes, 0 if not, < 0 on error.
++ * Note that returning 0 does not guarantee non-zero data.
++ */
++static int is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
+ {
+     /*
+      * This check is designed for optimization shortcut so it must be
+      * efficient.
+-     * Instead of is_zero(), use is_unallocated() as it is faster (but not
+-     * as accurate and can result in false negatives).
++     * Instead of is_zero(), use bdrv_co_is_zero_fast() as it is
++     * faster (but not as accurate and can result in false negatives).
+      */
+-    return is_unallocated(bs, m->offset + m->cow_start.offset,
+-                          m->cow_start.nb_bytes) &&
+-           is_unallocated(bs, m->offset + m->cow_end.offset,
+-                          m->cow_end.nb_bytes);
++    int ret = bdrv_co_is_zero_fast(bs, m->offset + m->cow_start.offset,
++                                   m->cow_start.nb_bytes);
++    if (ret <= 0) {
++        return ret;
++    }
++
++    return bdrv_co_is_zero_fast(bs, m->offset + m->cow_end.offset,
++                                m->cow_end.nb_bytes);
+ }
  
-             if (size2 >= 0 && offset >= size2) {
-                 ret |= BDRV_BLOCK_ZERO;
-             }
--        } else {
--            ret |= BDRV_BLOCK_ZERO;
+ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+@@ -2432,7 +2432,10 @@ static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta)
+             continue;
          }
-     }
+ 
+-        if (!is_zero_cow(bs, m)) {
++        ret = is_zero_cow(bs, m);
++        if (ret < 0) {
++            return ret;
++        } else if (ret == 0) {
+             continue;
+         }
  
 -- 
 2.28.0
