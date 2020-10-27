@@ -2,77 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D931C29B77D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:34:00 +0100 (CET)
-Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1F229B784
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:39:03 +0100 (CET)
+Received: from localhost ([::1]:46152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQz1-000082-SK
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:33:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59708)
+	id 1kXR3u-00063k-KI
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:39:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kXQnb-0005tY-3X
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:22:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51067)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kXQnV-00006U-FO
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:22:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603812117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SAZza62aDz54XGQNhUyiYRiYYeS4S8kT5C9HJUxJu40=;
- b=OSGDDQHGTR4gsAX2h7TiaijD0wedBWx2skv/XtyDOZsN3RA0VsZBJc51RNSL2QhzVmVoB6
- RJb4WVvv+B3DuYO1GeEeKuPPi/xQKzudYL8P1J/tvzcHRR6Msn9F8i4WDfM8808gX68NHf
- 16yqD87B41fR1J8tYndZBrWm41vpycY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-jyM99pJROB-KmBYGAsJ5lQ-1; Tue, 27 Oct 2020 11:21:53 -0400
-X-MC-Unique: jyM99pJROB-KmBYGAsJ5lQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA81C1020904;
- Tue, 27 Oct 2020 15:21:51 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9203F5B4C6;
- Tue, 27 Oct 2020 15:21:51 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id ADEF816E16; Tue, 27 Oct 2020 16:21:50 +0100 (CET)
-Date: Tue, 27 Oct 2020 16:21:50 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PULL 01/17] build: fix macOS --enable-modules build
-Message-ID: <20201027152150.dajghvf72l7ciahd@sirius.home.kraxel.org>
-References: <20201026135131.3006712-1-pbonzini@redhat.com>
- <20201026135131.3006712-2-pbonzini@redhat.com>
- <d87ec2b2-225e-353f-e561-e46c2d15b7b1@amsat.org>
- <3f610856-6afe-d3ad-515e-dc736cea0995@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kXQq9-0001bN-MZ; Tue, 27 Oct 2020 11:24:49 -0400
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:36581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1kXQq7-0000XL-4b; Tue, 27 Oct 2020 11:24:49 -0400
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.7])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 35E4568D1754;
+ Tue, 27 Oct 2020 16:24:44 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 27 Oct
+ 2020 16:24:43 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004ff616048-2b97-4645-83f5-f6ea8a06e79a,
+ 8E5A4880AAF567D55136F4F8027E0847E2FD1EE8) smtp.auth=groug@kaod.org
+Date: Tue, 27 Oct 2020 16:24:41 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2] block: End quiescent sections when a BDS is deleted
+Message-ID: <20201027162441.787da040@bahia>
+In-Reply-To: <20201027135404.GB102411@stefanha-x1.localdomain>
+References: <160346526998.272601.9045392804399803158.stgit@bahia.lan>
+ <20201027135404.GB102411@stefanha-x1.localdomain>
+X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <3f610856-6afe-d3ad-515e-dc736cea0995@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_/nVl6kiE/PHnVZ9SLZu/.fB5";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 934e5e7e-eb22-4aae-8118-bd5d37b0acb8
+X-Ovh-Tracer-Id: 4304315346919332259
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdejiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelgffgfeeugedugeekveeiveevjeffhfduvdegffetkeeiveeufefgledtgfeiteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepmhhrvghithiisehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 11:19:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,35 +69,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Emmanuel Blot <eblot.ml@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 02:27:42PM +0100, Paolo Bonzini wrote:
-> On 27/10/20 10:27, Philippe Mathieu-Daudé wrote:
-> > I'm confused as this broke the catalina-xcode test:
-> > 
-> > PASS 5 qtest-aarch64/device-introspect-test
-> > /aarch64/device/introspect/abstract-interfaces
-> > missing object type 'virtio-gpu-device'
-> > Broken pipe
-> > ../tests/qtest/libqtest.c:176: kill_qemu() detected QEMU death from
-> > signal 6 (Abort trap: 6)
-> > ERROR qtest-aarch64/device-introspect-test - too few tests run (expected
-> > 6, got 5)
-> > gmake: *** [Makefile.mtest:905: run-test-111] Error 1
-> > 
-> 
-> It's showing that there is still a bug with macOS modules, Gerd was
-> looking at it (Emmanuel could so as well :)).
+--Sig_/nVl6kiE/PHnVZ9SLZu/.fB5
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Turned out to be simple.
+On Tue, 27 Oct 2020 13:54:04 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-https://patchwork.ozlabs.org/project/qemu-devel/patch/20201027120603.3625-1-kraxel@redhat.com/
+> On Fri, Oct 23, 2020 at 05:01:10PM +0200, Greg Kurz wrote:
+> > +/**
+> > + * End all quiescent sections started by bdrv_drain_all_begin(). This =
+is
+> > + * only needed when deleting a BDS before bdrv_drain_all_end() is call=
+ed.
+> > + */
+> > +void bdrv_drain_all_end_quiesce(BlockDriverState *bs);
+>=20
+> This function is only called from block.c. Can it be moved to the
+> private block_int.h header?
+>=20
 
-take care,
-  Gerd
+Ha, I wasn't aware of block_int.h... It seems to be a very good idea.
 
+> The code is not clear on whether bdrv_drain_all_end_quiesce() is an API
+> that others can use or an internal helper function that must only be
+> called by bdrv_close(). I came to the conclusion that the latter is true
+> after reviewing the patch.
+>=20
+
+Yes it is.
+
+> Please update the bdrv_drain_all_end_quiesce() doc comment to clarify
+> that this function is an internal helper for bdrv_close() - no one else
+> needs to worry about it.
+
+I'll do that.
+
+Thanks for the suggestions Stefan.
+
+Cheers,
+
+--
+Greg
+
+--Sig_/nVl6kiE/PHnVZ9SLZu/.fB5
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAl+YO7kACgkQcdTV5YIv
+c9aYdA/7BbmtE30t3uX47myOzulTepiecVJwBI4cFJS8d/hH8Bfm1HgYUYkgHXPx
+dWINs6RZpAtKxiz6Ks17BdgvTN0xrWEKIyBywBxC+lcRq8w6jZ5THz+Adj2eCzsd
+6hwcQ9XRpKCKYi6zGoKvFKv7Cmml6m+GsMIsBkkrwuJKa+JoyL8DLtFThdjWt0EQ
+5bbX8imL/d2GkNCvfMKZKLuaM9b/+qf3s4qke8uGTzUApg2wam2otwdO/zBezwse
+Bfzm5GujXj1SXDoJ2KrgqRd33rbb/IXDg9lZrt2rm5Z+5sgI1OQ4qz7+bW/OuV7W
+UKoh62bxH7FkbDnh7r0G6aBjx0gYbWSB18/h6X5C9hh6F1+8LsUr22QUY9mZC6Od
+ICcDoGiNyAt6dGvq9FkJrGcVHKq31Zp625htCr5O28kyfeZXx6pYH9DYjxnZSUrT
+iT6q4YLlTBLOBPWNL8ixKW2NwcuUW6VI5lTJJkoatzTkEE2q6g49lJb28c7QO39F
+Hy+DpZ7QDcVo65MdrtWRj911xQs5UZokT0vn+c3OV97lNSdfTQEPX0v469phK47c
+So34QLyz2cY6nlaIzU3wnNF5chNHarwjAUTnYM2AgefVX8UheDrF88DwAcSFFIK2
+XaDEcnvsy9EqzVuWRH4wVnI7kch2bi3pOEcliCAjAitkdwcsaQE=
+=7pLx
+-----END PGP SIGNATURE-----
+
+--Sig_/nVl6kiE/PHnVZ9SLZu/.fB5--
 
