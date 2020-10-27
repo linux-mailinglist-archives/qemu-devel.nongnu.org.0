@@ -2,78 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6235A29A910
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:08:12 +0100 (CET)
-Received: from localhost ([::1]:50190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD7229A911
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:08:39 +0100 (CET)
+Received: from localhost ([::1]:52396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXLtj-0006nW-Eo
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:08:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54412)
+	id 1kXLuA-0007ik-Lu
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:08:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLli-0006vr-Sh
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:54 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50641)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXLlk-0006zd-Hz
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:56 -0400
+Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:37619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kXLlh-0000SW-2t
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:54 -0400
-Received: by mail-wm1-x335.google.com with SMTP id 13so755279wmf.0
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JvXXjxCnzuVyw48/pxsXMREPw8qcCphYSqn16eRFOWw=;
- b=bru/TKrLoDy1C0WPdF8PgJFiuWrlD2cYPv33bMQPLFI6R7bRUXy/KfYDrZYFHvgcSC
- ZEivrJMW2fkXNIg+YNgrAIlY+LJhK6LSpMyCm4of6rCf4mr6bodrnpvHgILuF3CDCFQt
- 2cXt/cVzG8PE3voSOvjJanAzn+6A7c4ZDzpGc5lYUdJ+ux6RH6yzccZww9ngSE1lf5E1
- 1SLC+IBOWsGRbq3pPc+M2Ei/XrMEfPXn3w1KMNJJPaRI49BS2KgzyDer9JTVeph9RRBU
- vZGVS0vAYsLY/i69vpYnCbDfPPPFJXgzEGtTXKBB+MG7rI8uOzu07xSvGmX+FuE9w4Er
- w83A==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXLli-0000Sg-Ft
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 05:59:56 -0400
+Received: by mail-ed1-x542.google.com with SMTP id o18so781443edq.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 02:59:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=0p05rdut0MOqeeNLLeNgdslot/LAqbJsW464E94Ddf0=;
+ b=BzQcpmbFR+E5TNxYUDUW/IaySG+CjRLCCh3A8vSeeCiGJ38030sNhAGCFOGyvGrdYS
+ ruGqURdPD3ShcFFrjgYB6M143eKZaNyZYMKF+iQSeDjuZMxfdB5pHSBQDenv/Jlc1vd+
+ FaTTeo/bICN5kMNPmD3ZE9HmS26Z5KwXdJOmdqesmhK6cTep2nq6w4eXmgvM8hDPABaH
+ G2o9/gVVVwPAPbK9l5zBnPAG6PcqroVXifoT8ofRPQ26u9JK2lAT2pdqiBdHGR5hwpMZ
+ tK1FORKno25cUkjaMChRwuugQH14n6aiXMe3DVvAEmO5XBd+VSxqrGXSdXbdBhaAvyd9
+ 1krw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JvXXjxCnzuVyw48/pxsXMREPw8qcCphYSqn16eRFOWw=;
- b=J1V//tsmUFKq7u7vwbz4+a8gA5k+Atak4LR8e1eKzr3CHfYSPR3uY2fW7RCy+nzkC1
- w+dSQ0LMYB5WymU0MGlsp74ZCBRcGqO4gCx20pvLUyb0aZNbSBC5pO+T17a8myXa78lb
- tJkjVljICTUa/vERExzViYQGcndH+YO7fuE9cx9ZWn67b1xCwTHHDpbScUQyN7bzgKDv
- TtI+zyV96a9naJTibYzl2KkJapM58kDXvjHhw54caJ960WU2PvTm/dQtciMeUWKfbm8n
- B5iAfrJ++Pa3o71xqETwgf+0wNWCi2ApY66QZd0jupvNGikh8qx4gNlJB4Php/Bn0U/L
- Ejvw==
-X-Gm-Message-State: AOAM5334WG/zTP8yGHCjxuvQMN/OWxxuCOPaeOpN//DAz9XBZPrxVKzc
- FTrV6pqSvjETVkd1eK+5Bw+xkQ==
-X-Google-Smtp-Source: ABdhPJxEAGs36Q4O8ZxPmIeq8lHWQvpGi/dhRz5nrTSHUgB9FHCkPMu8QLjubpsdbOa0G2qYDmrJ8g==
-X-Received: by 2002:a1c:56c1:: with SMTP id k184mr1781446wmb.14.1603792791742; 
- Tue, 27 Oct 2020 02:59:51 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id x6sm1370497wmb.17.2020.10.27.02.59.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 02:59:43 -0700 (PDT)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7BBC11FF96;
- Tue, 27 Oct 2020 09:59:39 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 8/8] makefile: handle -n / -k / -q correctly
-Date: Tue, 27 Oct 2020 09:59:38 +0000
-Message-Id: <20201027095938.28673-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201027095938.28673-1-alex.bennee@linaro.org>
-References: <20201027095938.28673-1-alex.bennee@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0p05rdut0MOqeeNLLeNgdslot/LAqbJsW464E94Ddf0=;
+ b=gUKs+bGU6PqmWpcaGHHpmluWKOYNnuh9jJBdDwqX5IAiBAwu5omIv+wt2EhyMP2eRX
+ i4/QiHYacS+0u+0P7L/lndXq+a878lU8OF4cje1MME0SamjwFMyw6oBZpnast/URjNic
+ pO0FGVqxu8SvXjRjXbx1jTSRede2oD/GqxFrfWocIorCw8FRPKNa1cJlhu/M2sXBk+9E
+ 0QjiEXp+80maolkjpYq+3KPbYNBVFrLt6ouKtMa3N1z9KzvNYO0ZNk9mbOY+HW8iWBRj
+ 8QpXbHYzfb7CYNac3VR4G5+vMxSySfbhKgMudSqlNB/XRK0vkvd/JPViNSb/b9jBhwzv
+ VqSw==
+X-Gm-Message-State: AOAM532VxkV5D/mcvQ0XBpr7b8NsWEcOCbA0ZnuAUWvWX36XXh/QVI8U
+ oBOS7yoKymBGrQUr+R6r4iw=
+X-Google-Smtp-Source: ABdhPJx2PQVyMh91eBKF8womVmrzpd0FUM8Yyl0spAfNdAIbZoAV4gz0eVJ9isIacGEqX5fdimDTNA==
+X-Received: by 2002:aa7:cb8f:: with SMTP id r15mr1371551edt.356.1603792793017; 
+ Tue, 27 Oct 2020 02:59:53 -0700 (PDT)
+Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id i17sm628251edr.49.2020.10.27.02.59.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Oct 2020 02:59:52 -0700 (PDT)
+Subject: Re: [PATCH] virtio-gpu: only compile virtio-gpu-3d.c for
+ CONFIG_VIRGL=y
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Emmanuel Blot <eblot.ml@gmail.com>
+References: <20201026142851.28735-1-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <98cee389-17ee-b006-1a5c-62f2eef37b1d@amsat.org>
+Date: Tue, 27 Oct 2020 10:59:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+In-Reply-To: <20201026142851.28735-1-kraxel@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::542;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-2.167,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,52 +93,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Paolo Bonzini <pbonzini@redhat.com>
+On 10/26/20 3:28 PM, Gerd Hoffmann wrote:
+> There is no actual code in the CONFIG_VIRGL=n case.  So building is
+> (a) pointless and (b) makes macos ranlib complain.
+> 
+> Reported-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/display/virtio-gpu-3d.c | 4 ----
+>  hw/display/meson.build     | 4 +++-
+>  2 files changed, 3 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
+> index 1bd33d7aedc6..0b0c11474dd3 100644
+> --- a/hw/display/virtio-gpu-3d.c
+> +++ b/hw/display/virtio-gpu-3d.c
+> @@ -17,8 +17,6 @@
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-gpu.h"
+>  
+> -#ifdef CONFIG_VIRGL
+> -
+>  #include <virglrenderer.h>
+>  
+>  static struct virgl_renderer_callbacks virtio_gpu_3d_cbs;
+> @@ -633,5 +631,3 @@ int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g)
+>  
+>      return capset2_max_ver ? 2 : 1;
+>  }
+> -
+> -#endif /* CONFIG_VIRGL */
+> diff --git a/hw/display/meson.build b/hw/display/meson.build
+> index 0d5ddecd6503..5906b96b830e 100644
+> --- a/hw/display/meson.build
+> +++ b/hw/display/meson.build
+> @@ -57,7 +57,9 @@ softmmu_ss.add(when: [pixman, 'CONFIG_ATI_VGA'], if_true: files('ati.c', 'ati_2d
+>  if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
+>    virtio_gpu_ss = ss.source_set()
+>    virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
+> -                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c', 'virtio-gpu-3d.c'), pixman, virgl])
+> +                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c'), pixman, virgl])
+> +  virtio_gpu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL'],
+> +                    if_true: [files('virtio-gpu-3d.c'), pixman, virgl])
+>    virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
+>    hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
+>  endif
 
-Use $(findstring) instead of $(filter) to detect -n/-k
-as different versions of MAKE fill in $(MAKEFLAGS) differently.
-Do not bother running ninja at all if -nq is passed.
+Mark suggested to test this patch to see if this solve the issue
+introduced by commit da0dfe251d7 ("build: fix macOS --enable-modules
+build") but it does not:
 
-Tested-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20201026155854.3074290-1-pbonzini@redhat.com>
-
-diff --git a/Makefile b/Makefile
-index 4d1fa8bb3d..e7c1000f5c 100644
---- a/Makefile
-+++ b/Makefile
-@@ -146,9 +146,12 @@ endif
- # 4. Rules to bridge to other makefiles
- 
- ifneq ($(NINJA),)
--NINJAFLAGS = $(if $V,-v,) \
-+MAKE.n = $(findstring n,$(firstword $(MAKEFLAGS)))
-+MAKE.k = $(findstring k,$(firstword $(MAKEFLAGS)))
-+MAKE.q = $(findstring q,$(firstword $(MAKEFLAGS)))
-+MAKE.nq = $(if $(word 2, $(MAKE.n) $(MAKE.q)),nq)
-+NINJAFLAGS = $(if $V,-v) $(if $(MAKE.n), -n) $(if $(MAKE.k), -k0) \
-         $(filter-out -j, $(lastword -j1 $(filter -l% -j%, $(MAKEFLAGS)))) \
--        $(subst -k, -k0, $(filter -n -k,$(MAKEFLAGS)))
- 
- ninja-cmd-goals = $(or $(MAKECMDGOALS), all)
- ninja-cmd-goals += $(foreach t, $(.tests), $(.test.deps.$t))
-@@ -165,7 +168,8 @@ $(ninja-targets): run-ninja
- # --output-sync line.
- run-ninja: config-host.mak
- ifneq ($(filter $(ninja-targets), $(ninja-cmd-goals)),)
--	+@$(NINJA) $(NINJAFLAGS) $(sort $(filter $(ninja-targets), $(ninja-cmd-goals))) | cat
-+	+$(quiet-@)$(if $(MAKE.nq),@:, $(NINJA) \
-+	   $(NINJAFLAGS) $(sort $(filter $(ninja-targets), $(ninja-cmd-goals))) | cat)
- endif
- endif
- 
--- 
-2.20.1
-
+missing object type 'virtio-gpu-device'
+Broken pipe
+../tests/qtest/libqtest.c:176: kill_qemu() detected QEMU death from
+signal 6 (Abort trap: 6)
+ERROR qtest-aarch64/device-introspect-test - too few tests run (expected
+6, got 5)
+gmake: *** [Makefile.mtest:905: run-test-111] Error 1
 
