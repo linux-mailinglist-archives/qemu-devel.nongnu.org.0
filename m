@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC34A29B4D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:07:53 +0100 (CET)
-Received: from localhost ([::1]:48224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D14F29B661
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 16:24:16 +0100 (CET)
+Received: from localhost ([::1]:40832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQZk-0003uw-Pb
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:07:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54862)
+	id 1kXQpb-0008B8-0T
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 11:24:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXV-0001ow-PO
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:34 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50292
+ id 1kXQXZ-0001pP-Jr
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:38 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:50296
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXS-000617-B2
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:32 -0400
+ id 1kXQXV-00062X-H2
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 11:05:36 -0400
 Received: from host86-148-103-79.range86-148.btcentralplus.com
  ([86.148.103.79] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXQXU-0001Qg-Pg; Tue, 27 Oct 2020 15:05:37 +0000
+ id 1kXQXZ-0001Qg-Hf; Tue, 27 Oct 2020 15:05:41 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	kraxel@redhat.com,
 	samuel.thibault@ens-lyon.org
-Date: Tue, 27 Oct 2020 15:04:52 +0000
-Message-Id: <20201027150456.24606-5-mark.cave-ayland@ilande.co.uk>
+Date: Tue, 27 Oct 2020 15:04:53 +0000
+Message-Id: <20201027150456.24606-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027150456.24606-1-mark.cave-ayland@ilande.co.uk>
 References: <20201027150456.24606-1-mark.cave-ayland@ilande.co.uk>
@@ -40,8 +40,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 86.148.103.79
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PATCH v2 4/8] dev-serial: add trace-events for baud rate and data
- parameters
+Subject: [PATCH v2 5/8] dev-serial: replace DeviceOutVendor/DeviceInVendor
+ with equivalent macros from usb.h
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -69,45 +69,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The DeviceOutVendor and DeviceInVendor macros can be replaced with their
+equivalent VendorDeviceOutRequest and VendorDeviceRequest macros from usb.h.
+
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/usb/dev-serial.c | 3 +++
- hw/usb/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+ hw/usb/dev-serial.c | 25 ++++++++++---------------
+ 1 file changed, 10 insertions(+), 15 deletions(-)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index abc316c7bf..badf8785db 100644
+index badf8785db..92c35615eb 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -307,6 +307,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         }
+@@ -37,11 +37,6 @@
+ #define FTDI_SET_LATENCY       9
+ #define FTDI_GET_LATENCY       10
  
-         s->params.speed = (48000000 / 2) / (8 * divisor + subdivisor8);
-+        trace_usb_serial_set_baud(bus->busnr, dev->addr, s->params.speed);
+-#define DeviceOutVendor \
+-           ((USB_DIR_OUT | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
+-#define DeviceInVendor \
+-           ((USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE) << 8)
+-
+ /* RESET */
+ 
+ #define FTDI_RESET_SIO 0
+@@ -253,7 +248,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+         break;
+ 
+     /* Class specific requests.  */
+-    case DeviceOutVendor | FTDI_RESET:
++    case VendorDeviceOutRequest | FTDI_RESET:
+         switch (value) {
+         case FTDI_RESET_SIO:
+             usb_serial_reset(s);
+@@ -268,7 +263,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+             break;
+         }
+         break;
+-    case DeviceOutVendor | FTDI_SET_MDM_CTRL:
++    case VendorDeviceOutRequest | FTDI_SET_MDM_CTRL:
+     {
+         static int flags;
+         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_GET_TIOCM, &flags);
+@@ -289,10 +284,10 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
+         break;
+     }
+-    case DeviceOutVendor | FTDI_SET_FLOW_CTRL:
++    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
+         /* TODO: ioctl */
+         break;
+-    case DeviceOutVendor | FTDI_SET_BAUD: {
++    case VendorDeviceOutRequest | FTDI_SET_BAUD: {
+         static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
+         int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
+                                      | ((index & 1) << 2)];
+@@ -311,7 +306,7 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
          break;
      }
-@@ -340,6 +341,8 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-             goto fail;
-         }
- 
-+        trace_usb_serial_set_data(bus->busnr, dev->addr, s->params.parity,
-+                                  s->params.data_bits, s->params.stop_bits);
+-    case DeviceOutVendor | FTDI_SET_DATA:
++    case VendorDeviceOutRequest | FTDI_SET_DATA:
+         switch (value & FTDI_PARITY) {
+         case 0:
+             s->params.parity = 'N';
+@@ -346,23 +341,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
          qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_PARAMS, &s->params);
          /* TODO: TX ON/OFF */
          break;
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 89f1c351e3..98ee1c5462 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -328,3 +328,5 @@ usb_serial_unsupported_parity(int bus, int addr, int value) "dev %d:%u unsupport
- usb_serial_unsupported_stopbits(int bus, int addr, int value) "dev %d:%u unsupported stop bits %d"
- usb_serial_unsupported_control(int bus, int addr, int request, int value) "dev %d:%u got unsupported/bogus control 0x%x, value 0x%x"
- usb_serial_bad_token(int bus, int addr) "dev %d:%u bad token"
-+usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
-+usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
+-    case DeviceInVendor | FTDI_GET_MDM_ST:
++    case VendorDeviceRequest | FTDI_GET_MDM_ST:
+         data[0] = usb_get_modem_lines(s) | 1;
+         data[1] = FTDI_THRE | FTDI_TEMT;
+         p->actual_length = 2;
+         break;
+-    case DeviceOutVendor | FTDI_SET_EVENT_CHR:
++    case VendorDeviceOutRequest | FTDI_SET_EVENT_CHR:
+         /* TODO: handle it */
+         s->event_chr = value;
+         break;
+-    case DeviceOutVendor | FTDI_SET_ERROR_CHR:
++    case VendorDeviceOutRequest | FTDI_SET_ERROR_CHR:
+         /* TODO: handle it */
+         s->error_chr = value;
+         break;
+-    case DeviceOutVendor | FTDI_SET_LATENCY:
++    case VendorDeviceOutRequest | FTDI_SET_LATENCY:
+         s->latency = value;
+         break;
+-    case DeviceInVendor | FTDI_GET_LATENCY:
++    case VendorDeviceRequest | FTDI_GET_LATENCY:
+         data[0] = s->latency;
+         p->actual_length = 1;
+         break;
 -- 
 2.20.1
 
