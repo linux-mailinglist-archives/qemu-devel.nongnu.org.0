@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E5C29CBB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:04:10 +0100 (CET)
-Received: from localhost ([::1]:43426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17AF029CBC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:07:34 +0100 (CET)
+Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXX4b-00024v-TX
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:04:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54484)
+	id 1kXX7t-0005iW-3D
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:07:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX00-0006RB-A2
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38402)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX02-0006Vw-0z
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31190)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXWzy-0000fu-4U
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:24 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX00-0000gM-9X
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603835961;
+ s=mimecast20190719; t=1603835963;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h/DFyFstj30Gp7VlrTYZSiqoEy9kTCHG00LbERYPxNY=;
- b=gKeYvptZZh+fC0Rs/sm9BTUq7mto4kBZEZ1nmCkQLbr4ga6CTaDtUhVDH7BAoE9gH+sL4n
- JIttfDS3SsA5QsMjrW5BGbFH2KS4/eA43bsdPA74PdPwEO4whs+BtezcWY+/mkTAYJ1+7O
- mIYqWZVAG6TRMady6Nxw/w8puGoSPRY=
+ bh=D6stckMsSxJwoGs0qORIoM6nIL9/LNiCXptGi3RC248=;
+ b=bxjnTXkUD4pK0KJwXqMMzZhabdmy2m4vxxoWDKaUCkk6ujMef9k727D5N7FTQhRzgRxGqn
+ Z2VH0itE5Ev9Fc6vQp0R1LWeAmwktDxBdCvIqAesWjuLJlP4Xs6GYncYn7Ad3OlPSgMrCx
+ cK5cxARIYZW9NAdfz7Mkuq3sCwuC5OQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-sgb6c6pHNFe84xDPz6i0dA-1; Tue, 27 Oct 2020 17:59:18 -0400
-X-MC-Unique: sgb6c6pHNFe84xDPz6i0dA-1
+ us-mta-98-az3Xu2djPqKtpeiwv72E5g-1; Tue, 27 Oct 2020 17:59:19 -0400
+X-MC-Unique: az3Xu2djPqKtpeiwv72E5g-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B17BE59;
- Tue, 27 Oct 2020 21:59:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F65C61239;
+ Tue, 27 Oct 2020 21:59:18 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 50C2710013DB;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E165210013DB;
  Tue, 27 Oct 2020 21:59:17 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/12] iotests/291: Filter irrelevant parts of img-info
-Date: Tue, 27 Oct 2020 16:59:03 -0500
-Message-Id: <20201027215914.619460-2-eblake@redhat.com>
+Subject: [PULL 02/12] iotests/291: Stop NBD server
+Date: Tue, 27 Oct 2020 16:59:04 -0500
+Message-Id: <20201027215914.619460-3-eblake@redhat.com>
 In-Reply-To: <20201027215914.619460-1-eblake@redhat.com>
 References: <20201027215914.619460-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,17 +55,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 17:59:21
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,155 +86,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-We need to let _img_info emit the format-specific information so we get
-the list of bitmaps we want, but we do not need anything but the
-bitmaps.  So filter out everything that is irrelevant to us.  (Ideally,
-this would be a generalized function in common.filters that takes a list
-of things to keep, but that would require implementing an anti-bitmap
-filter, which would be hard, and which we do not need here.  So that is
-why this function is just a local hack.)
+nbd_server_start_unix_socket() includes an implicit nbd_server_stop(),
+but we still need an explicit one at the end of the test (where there
+follows no next nbd_server_start_unix_socket()), or qemu-nbd will linger
+until the test exits.
 
-This lets 291 pass with qcow2 options like refcount_bits or data_file
-again.
+This will become important when enabling this test to run on FUSE
+exports, because then the export (which is the image used by qemu-nbd)
+will go away before qemu-nbd exits, which will lead to qemu-nbd
+complaining that it cannot flush the bitmaps in the image.
 
-Fixes: 14f16bf9474c860ecc127a66a86961942319f7af
-       ("qemu-img: Support bitmap --merge into backing image")
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201027164416.144115-2-mreitz@redhat.com>
+Message-Id: <20201027164416.144115-3-mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/291     | 14 +++++++++++---
- tests/qemu-iotests/291.out | 20 --------------------
- 2 files changed, 11 insertions(+), 23 deletions(-)
+ tests/qemu-iotests/291 | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index 4f837b205655..77fa38f93d31 100755
+index 77fa38f93d31..b7320bc7adf2 100755
 --- a/tests/qemu-iotests/291
 +++ b/tests/qemu-iotests/291
-@@ -42,6 +42,14 @@ _require_command QEMU_NBD
- # compat=0.10 does not support bitmaps
- _unsupported_imgopts 'compat=0.10'
+@@ -128,6 +128,8 @@ nbd_server_start_unix_socket -r -f qcow2 -B b3 "$TEST_IMG"
+ $QEMU_IMG map --output=json --image-opts \
+     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b3" | _filter_qemu_img_map
 
-+# Filter irrelevant format-specific information from the qemu-img info
-+# output (we only want the bitmaps, basically)
-+_filter_irrelevant_img_info()
-+{
-+    grep -v -e 'compat' -e 'compression type' -e 'data file' -e 'extended l2' \
-+            -e 'lazy refcounts' -e 'refcount bits'
-+}
++nbd_server_stop
 +
- echo
- echo "=== Initial image setup ==="
- echo
-@@ -79,7 +87,7 @@ echo
-
- # Only bitmaps from the active layer are copied
- $QEMU_IMG convert --bitmaps -O qcow2 "$TEST_IMG.orig" "$TEST_IMG"
--_img_info --format-specific
-+_img_info --format-specific | _filter_irrelevant_img_info
- # But we can also merge in bitmaps from other layers.  This test is a bit
- # contrived to cover more code paths, in reality, you could merge directly
- # into b0 without going through tmp
-@@ -89,7 +97,7 @@ $QEMU_IMG bitmap --add --merge b0 -b "$TEST_IMG.base" -F $IMGFMT \
- $QEMU_IMG bitmap --merge tmp -f $IMGFMT "$TEST_IMG" b0
- $QEMU_IMG bitmap --remove --image-opts \
-     driver=$IMGFMT,file.driver=file,file.filename="$TEST_IMG" tmp
--_img_info --format-specific
-+_img_info --format-specific | _filter_irrelevant_img_info
-
- echo
- echo "=== Merge from top layer into backing image ==="
-@@ -98,7 +106,7 @@ echo
- $QEMU_IMG rebase -u -F qcow2 -b "$TEST_IMG.base" "$TEST_IMG"
- $QEMU_IMG bitmap --add --merge b2 -b "$TEST_IMG" -F $IMGFMT \
-      -f $IMGFMT "$TEST_IMG.base" b3
--_img_info --format-specific --backing-chain
-+_img_info --format-specific --backing-chain | _filter_irrelevant_img_info
-
- echo
- echo "=== Check bitmap contents ==="
-diff --git a/tests/qemu-iotests/291.out b/tests/qemu-iotests/291.out
-index 3990f7aacc7b..23411c0ff4d9 100644
---- a/tests/qemu-iotests/291.out
-+++ b/tests/qemu-iotests/291.out
-@@ -26,9 +26,6 @@ file format: IMGFMT
- virtual size: 10 MiB (10485760 bytes)
- cluster_size: 65536
- Format specific information:
--    compat: 1.1
--    compression type: zlib
--    lazy refcounts: false
-     bitmaps:
-         [0]:
-             flags:
-@@ -39,17 +36,12 @@ Format specific information:
-                 [0]: auto
-             name: b2
-             granularity: 65536
--    refcount bits: 16
-     corrupt: false
--    extended l2: false
- image: TEST_DIR/t.IMGFMT
- file format: IMGFMT
- virtual size: 10 MiB (10485760 bytes)
- cluster_size: 65536
- Format specific information:
--    compat: 1.1
--    compression type: zlib
--    lazy refcounts: false
-     bitmaps:
-         [0]:
-             flags:
-@@ -64,9 +56,7 @@ Format specific information:
-             flags:
-             name: b0
-             granularity: 65536
--    refcount bits: 16
-     corrupt: false
--    extended l2: false
-
- === Merge from top layer into backing image ===
-
-@@ -77,9 +67,6 @@ cluster_size: 65536
- backing file: TEST_DIR/t.IMGFMT.base
- backing file format: IMGFMT
- Format specific information:
--    compat: 1.1
--    compression type: zlib
--    lazy refcounts: false
-     bitmaps:
-         [0]:
-             flags:
-@@ -94,18 +81,13 @@ Format specific information:
-             flags:
-             name: b0
-             granularity: 65536
--    refcount bits: 16
-     corrupt: false
--    extended l2: false
-
- image: TEST_DIR/t.IMGFMT.base
- file format: IMGFMT
- virtual size: 10 MiB (10485760 bytes)
- cluster_size: 65536
- Format specific information:
--    compat: 1.1
--    compression type: zlib
--    lazy refcounts: false
-     bitmaps:
-         [0]:
-             flags:
-@@ -117,9 +99,7 @@ Format specific information:
-                 [0]: auto
-             name: b3
-             granularity: 65536
--    refcount bits: 16
-     corrupt: false
--    extended l2: false
-
- === Check bitmap contents ===
-
+ # success, all done
+ echo '*** done'
+ rm -f $seq.full
 -- 
 2.29.0
 
