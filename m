@@ -2,78 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E810929AB4D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:57:11 +0100 (CET)
-Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3136B29AB71
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:06:24 +0100 (CET)
+Received: from localhost ([::1]:58910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNbC-0004UM-Kf
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:57:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
+	id 1kXNk5-00032O-K3
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:06:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPr-0001nx-IJ
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34895)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPp-0004hT-9A
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
-Received: by mail-wr1-x434.google.com with SMTP id n15so1553861wrq.2
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Zhf3AwHffn8y3rxo+99ENZuySCfocQn9p27AO6bAdpo=;
- b=lwOM8ZXKBMxqwbFdDm33F4z8CmFcUiNk9hYRh+T9w1CrJBQCMLOY4LZhHCbphl+qDj
- h3aRgbCcPnTNVETde28PJLKiSvdSw6wT3TeiqjetiuJgvh/M/Jyrz0yHP5mBXnqbiSKI
- bJvyAV6uV1r/9aBVQ9v0hfM1mRHOTNP6zvX9Cf8CmpBT9CnNsj/4PqpTOa4GPYf9Hc8g
- x0VOXldbtzWhAAkVUIyp/jaPxKfdFh2iykQBoTmAi541x8Thejl2NCRDmCzbgg9f5lbs
- OhI4ESdZYa+xQq8KRkVHsvcW9ydIA5VvqJSDUqQTvk8Qlg6MbafLVGX6QOjYm0BrvW5h
- eLiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Zhf3AwHffn8y3rxo+99ENZuySCfocQn9p27AO6bAdpo=;
- b=ES0ipaswvCRjrFq0VwcOVV5JBtuIXG7gdd7c9svsSqlKHgn4NVMJXxfO4gjOwqB1mQ
- yr6saMwk7jqa27oS5rJLtg2g+E0MdBCGINC1ARK4QQY0rxmZ9VhyMfOpjwURgZ61LPSf
- j1zR1Or5kcUUkWvxfxBhl8G/XcaGREek6dKeMaeO09b/Dpx19xKH2t8u73GFghAjqKqQ
- rV+WnuLfBZjV7Gi/P8O/LQCHXN68lSmcX+ybNr+d515LMFKuovzRcDYKBy/b7FNqKLwI
- 5ILgAFU6ro1V7jHnOFrLnFWMK8JZ1JL8hiV63MvuNdZRhgaYA3shEH+b6fqIGPiFa37N
- 3zgA==
-X-Gm-Message-State: AOAM53357gdSUtPPclitVdJc4usmYv30RChcyaJRz8H2ln4Al4Mx+7gw
- rFx5H+sHElhqM5Wr2sbMARMXe4tJlk5qUw==
-X-Google-Smtp-Source: ABdhPJwWPQjr5P10gLVVOsya1Ozy2xj3cRcOuDc9wGhGa55bUY/HFHcNRW6aSk5GeYcFTsr0ThF5og==
-X-Received: by 2002:adf:bb43:: with SMTP id x3mr2394130wrg.250.1603799121533; 
- Tue, 27 Oct 2020 04:45:21 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.20
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:20 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 33/48] hw/arm/raspi: fix CPRMAN base address
-Date: Tue, 27 Oct 2020 11:44:23 +0000
-Message-Id: <20201027114438.17662-34-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
-References: <20201027114438.17662-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kXMYr-0000nC-Ng; Tue, 27 Oct 2020 06:50:41 -0400
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:59291)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kXMYo-0002JO-DI; Tue, 27 Oct 2020 06:50:41 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 080735C0175;
+ Tue, 27 Oct 2020 06:50:10 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 27 Oct 2020 06:50:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=lu7JmQcZOw4I1
+ V7ibvxCl25CM11aBSCNkyNgQVlyLp8=; b=TpJXW4tenTQ7NxKIvMJDKrCeinTG+
+ Waz2ZAqC0dN+fdlcSCG9F8iUDwyvxQbWJvPC/3lc+O2iwE7FzA0QakP4hJ8bsmaV
+ 5Z/5Cjq1AJmb+pSqLdQdEfcer0MXk+LV4PJmwloJDQhoL8aVp9n9WjdJjDjWvNG+
+ H/kF+dgfhc72g8BbioN4Ag5Psn6xryM2cbe1NizXFd0CxRtAovKEG4CXe8ACZ6h6
+ x6erMqHf3AZ/BbRYYBh4wbXRQUUytqVihRLNUmODyJSGXcPL7GNHkCdXWgh5mu8T
+ 1mt+frU9AW5IyOktcsKIiltrAYVylUINZYoXCYoaiLoau6Z0AEcVG79mA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=lu7JmQcZOw4I1V7ibvxCl25CM11aBSCNkyNgQVlyLp8=; b=F9lZgACL
+ WQKJNJnBIQH4a3t8u8FrtAtOiVvLCRYwljOH1pzghpCPcNm5zWGRTWIDswcrUzXd
+ Y5XJOCVPViRDFLZi9pR6e2pt3HHFC2gN0Io6tQ6WgSWYCP60mPUSvJmGQepLxNpN
+ pVoNx7Yf/q5+CnRn42dN/X6acSyQ9dWLPKCp8e9nB1XKzoU5ZsGdzy2TwGBOQR8X
+ K5S4yOyQ5NKxHt6X/eNMZdnIMSgWwbxoR5PZNuEpfFERd9G+ipmnJwJBqC5zXH7O
+ dmGM+BgLQMra6bDWHo6vl1a3Q9Pyl0ejE8o6Db50wiSQIHOefn4K6WvBNxc2L2Rf
+ tXvB7/H4K/MbLQ==
+X-ME-Sender: <xms:YfuXX2QjNfxqE-4pHdi8BQ31_nD87ryv7P1WV6XIlOT4RNbFJHGfJQ>
+ <xme:YfuXX7wFksDplyg0qO6AC7Z9JI2WjjfotkwEsUQ8Bgdi-4yMn-hk-zVYOIMdG5XxX
+ WBT3NhfchMSx_Jc5mw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgddvtdcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepudegne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:YfuXXz2xA3g5vIZIquQoWddxTL3COsyJ9Z1OdeDxiCcKHFyC2CrVrQ>
+ <xmx:YfuXXyCx7vngVCUi3uB80YclF4wjfvn23PJPTdXLc1Q4KHLkcWcqow>
+ <xmx:YfuXX_juhyMTaKbcPtycEvYCSHRF8FMeVkT4gJpQlIFapzia9uv0BA>
+ <xmx:YvuXX_frEO64i3BXu1GJmQzvJqNe05kEyD_r2RlaaBJvDjYJ7KBBhA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id D4FD93280060;
+ Tue, 27 Oct 2020 06:50:08 -0400 (EDT)
+From: Klaus Jensen <its@irrelevant.dk>
+To: peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Subject: [PULL 30/30] hw/block/nvme: fix queue identifer validation
+Date: Tue, 27 Oct 2020 11:49:32 +0100
+Message-Id: <20201027104932.558087-31-its@irrelevant.dk>
+X-Mailer: git-send-email 2.29.1
+In-Reply-To: <20201027104932.558087-1-its@irrelevant.dk>
+References: <20201027104932.558087-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 06:49:36
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,88 +95,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Luc Michel <luc@lmichel.fr>
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-The CPRMAN (clock controller) was mapped at the watchdog/power manager
-address. It was also split into two unimplemented peripherals (CM and
-A2W) but this is really the same one, as shown by this extract of the
-Raspberry Pi 3 Linux device tree:
+The nvme_check_{sq,cq} functions check if the given queue identifer is
+valid *and* that the queue exists. Thus, the function return value
+cannot simply be inverted to check if the identifer is valid and that
+the queue does *not* exist.
 
-    watchdog@7e100000 {
-            compatible = "brcm,bcm2835-pm\0brcm,bcm2835-pm-wdt";
-            [...]
-            reg = <0x7e100000 0x114 0x7e00a000 0x24>;
-            [...]
-    };
+Replace the call with an OR'ed version of the checks.
 
-    [...]
-    cprman@7e101000 {
-            compatible = "brcm,bcm2835-cprman";
-            [...]
-            reg = <0x7e101000 0x2000>;
-            [...]
-    };
-
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Luc Michel <luc@lmichel.fr>
-Tested-by: Guenter Roeck <linux@roeck-us.net>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- include/hw/arm/bcm2835_peripherals.h | 2 +-
- include/hw/arm/raspi_platform.h      | 5 ++---
- hw/arm/bcm2835_peripherals.c         | 4 ++--
- 3 files changed, 5 insertions(+), 6 deletions(-)
+ hw/block/nvme.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
-index c9ac941a82c..6aa94184eb9 100644
---- a/include/hw/arm/bcm2835_peripherals.h
-+++ b/include/hw/arm/bcm2835_peripherals.h
-@@ -47,8 +47,8 @@ struct BCM2835PeripheralState {
-     BCM2835MphiState mphi;
-     UnimplementedDeviceState txp;
-     UnimplementedDeviceState armtmr;
-+    UnimplementedDeviceState powermgt;
-     UnimplementedDeviceState cprman;
--    UnimplementedDeviceState a2w;
-     PL011State uart0;
-     BCM2835AuxState aux;
-     BCM2835FBState fb;
-diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-index c7f50b260f6..e0e6c8ce94a 100644
---- a/include/hw/arm/raspi_platform.h
-+++ b/include/hw/arm/raspi_platform.h
-@@ -45,9 +45,8 @@
- #define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 (SP804) */
- #define ARMCTRL_0_SBM_OFFSET    (ARM_OFFSET + 0x800) /* User 0 (ARM) Semaphores
-                                                       * Doorbells & Mailboxes */
--#define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
--#define CM_OFFSET               0x101000 /* Clock Management */
--#define A2W_OFFSET              0x102000 /* Reset controller */
-+#define PM_OFFSET               0x100000 /* Power Management */
-+#define CPRMAN_OFFSET           0x101000 /* Clock Management */
- #define AVS_OFFSET              0x103000 /* Audio Video Standard */
- #define RNG_OFFSET              0x104000
- #define GPIO_OFFSET             0x200000
-diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
-index 48909a43c32..10ed418e28e 100644
---- a/hw/arm/bcm2835_peripherals.c
-+++ b/hw/arm/bcm2835_peripherals.c
-@@ -354,8 +354,8 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 5dfef0204c2c..fa2cba744b57 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1143,7 +1143,8 @@ static uint16_t nvme_create_sq(NvmeCtrl *n, NvmeRequest *req)
+         trace_pci_nvme_err_invalid_create_sq_cqid(cqid);
+         return NVME_INVALID_CQID | NVME_DNR;
+     }
+-    if (unlikely(!sqid || !nvme_check_sqid(n, sqid))) {
++    if (unlikely(!sqid || sqid > n->params.max_ioqpairs ||
++        n->sq[sqid] != NULL)) {
+         trace_pci_nvme_err_invalid_create_sq_sqid(sqid);
+         return NVME_INVALID_QID | NVME_DNR;
+     }
+@@ -1398,7 +1399,8 @@ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+     trace_pci_nvme_create_cq(prp1, cqid, vector, qsize, qflags,
+                              NVME_CQ_FLAGS_IEN(qflags) != 0);
  
-     create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
-     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
--    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
--    create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
-+    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
-+    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x2000);
-     create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
-     create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
-     create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
+-    if (unlikely(!cqid || !nvme_check_cqid(n, cqid))) {
++    if (unlikely(!cqid || cqid > n->params.max_ioqpairs ||
++        n->cq[cqid] != NULL)) {
+         trace_pci_nvme_err_invalid_create_cq_cqid(cqid);
+         return NVME_INVALID_QID | NVME_DNR;
+     }
 -- 
-2.20.1
+2.29.1
 
 
