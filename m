@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB4129C70C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:28:53 +0100 (CET)
-Received: from localhost ([::1]:39622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293DD29C58E
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:24:11 +0100 (CET)
+Received: from localhost ([::1]:52112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTiG-0003sx-3Q
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57790)
+	id 1kXTdi-0005lh-7X
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbh-00048T-C1
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:05 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35767)
+ id 1kXTbp-0004DV-V4
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbe-0002zJ-MO
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:05 -0400
+ id 1kXTbf-000304-Ti
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603822921;
+ s=mimecast20190719; t=1603822922;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KLOyY5nlhA/QMXQpEmCW+Ixxk1BQnwpfB2ckOpD3XMM=;
- b=G5lwmErNMGXaoIc+wz/GUBqeTHyg45+B6bGLWzw1NGUTdCUGfRbCCz9HoJhIIcFJT9egmW
- LcTPIV+cl8TlS0GGQ/lUpZnhKKPwO0AjuGEX/NrdzoHghFgwOwSOoYerpctHkumXOE0HsA
- IRF7lh89zHDpDlj7xP99y9Jjtw9vou4=
+ bh=qDDkAiNZM2kLDoAezmLjPdfsYnkUHb2JHTyXTA89J6Y=;
+ b=K1UGDRGInrMXgXrqfW72tF5lYNPv51PWL+kjMoCfncutSzWJgHV/HHQ+D9tx9O7n4RyxYx
+ 2rfgOmAWINMtcmo3M2rpaVuoAtaoELX51aQIveFRuhZBKPCxL7RapRKKm5lpfTeIJFjgkp
+ ILdrAChOn8z+os/lck0UCI623TySP/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-Jj9XHnDONNKeS7GakmIpCg-1; Tue, 27 Oct 2020 14:21:59 -0400
-X-MC-Unique: Jj9XHnDONNKeS7GakmIpCg-1
+ us-mta-86-OadXNI90NgKhn02Go4UahQ-1; Tue, 27 Oct 2020 14:21:59 -0400
+X-MC-Unique: OadXNI90NgKhn02Go4UahQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20C60106BB36
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAC46106C05E
  for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:47 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA2AE60C07
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F34F60C07
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:47 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/29] vl: move various initialization routines out of
- qemu_init
-Date: Tue, 27 Oct 2020 14:21:21 -0400
-Message-Id: <20201027182144.3315885-7-pbonzini@redhat.com>
+Subject: [PATCH 08/29] vl: move prelaunch part of qemu_init to new functions
+Date: Tue, 27 Oct 2020 14:21:23 -0400
+Message-Id: <20201027182144.3315885-9-pbonzini@redhat.com>
 In-Reply-To: <20201027182144.3315885-1-pbonzini@redhat.com>
 References: <20201027182144.3315885-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,106 +84,312 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some very simple initialization routines can be nested in existing
-subsystem-level functions, do that to simplify qemu_init.
+The final part of qemu_init, starting with the completion of
+board init, is already relatively clean.  Split it out of
+qemu_init so that qemu_init keeps only the messy parts.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/core/machine.c      | 3 +++
- include/hw/qdev-core.h | 8 --------
- migration/migration.c  | 4 ++++
- softmmu/qdev-monitor.c | 6 ------
- softmmu/vl.c           | 5 -----
- 5 files changed, 7 insertions(+), 19 deletions(-)
+ softmmu/vl.c | 250 +++++++++++++++++++++++++++------------------------
+ 1 file changed, 135 insertions(+), 115 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index baea4e8613..d84b84463c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -872,6 +872,9 @@ static void machine_initfn(Object *obj)
-     MachineState *ms = MACHINE(obj);
-     MachineClass *mc = MACHINE_GET_CLASS(obj);
- 
-+    container_get(obj, "/peripheral");
-+    container_get(obj, "/peripheral-anon");
-+
-     ms->dump_guest_core = true;
-     ms->mem_merge = true;
-     ms->enable_graphics = true;
-diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-index 868973319e..56ce7f2d7f 100644
---- a/include/hw/qdev-core.h
-+++ b/include/hw/qdev-core.h
-@@ -769,14 +769,6 @@ BusState *sysbus_get_default(void);
- char *qdev_get_fw_dev_path(DeviceState *dev);
- char *qdev_get_own_fw_dev_path_from_handler(BusState *bus, DeviceState *dev);
- 
--/**
-- * @qdev_machine_init
-- *
-- * Initialize platform devices before machine init.  This is a hack until full
-- * support for composition is added.
-- */
--void qdev_machine_init(void);
--
- /**
-  * device_legacy_reset:
-  *
-diff --git a/migration/migration.c b/migration/migration.c
-index deb6005b8d..f48b03cac2 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -169,6 +169,10 @@ void migration_object_init(void)
-         error_report_err(err);
-         exit(1);
-     }
-+
-+    blk_mig_init();
-+    ram_mig_init();
-+    dirty_bitmap_mig_init();
- }
- 
- void migration_shutdown(void)
-diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
-index bcfb90a08f..bcfcbac181 100644
---- a/softmmu/qdev-monitor.c
-+++ b/softmmu/qdev-monitor.c
-@@ -943,12 +943,6 @@ BlockBackend *blk_by_qdev_id(const char *id, Error **errp)
-     return blk;
- }
- 
--void qdev_machine_init(void)
--{
--    qdev_get_peripheral_anon();
--    qdev_get_peripheral();
--}
--
- QemuOptsList qemu_device_opts = {
-     .name = "device",
-     .implied_opt_name = "driver",
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 32880616e2..b05340802a 100644
+index a086cd7066..f9bae50c27 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -4275,10 +4275,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         exit(1);
-     }
+@@ -120,6 +120,9 @@
+ static const char *cpu_option;
+ static const char *data_dir[16];
+ static int data_dir_idx;
++static const char *mem_path;
++static const char *boot_order;
++static const char *boot_once;
+ enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
+ int display_opengl;
+ const char* keyboard_layout = NULL;
+@@ -3000,6 +3003,135 @@ static void qemu_init_subsystems(void)
+     socket_init();
+ }
  
--    blk_mig_init();
--    ram_mig_init();
--    dirty_bitmap_mig_init();
++/*
++ * Called after leaving preconfig state.  From here on runstate is
++ * RUN_STATE_PRELAUNCH or RUN_STATE_INMIGRATE.
++ */
++static void qemu_finish_machine_init(void)
++{
++    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
++
++    if (machine_class->default_ram_id && current_machine->ram_size &&
++        numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
++        create_default_memdev(current_machine, mem_path);
++    }
++
++    /* from here on runstate is RUN_STATE_PRELAUNCH */
++    machine_run_board_init(current_machine);
++
++    /*
++     * TODO To drop support for deprecated bogus if=..., move
++     * drive_check_orphaned() here, replacing this call.  Also drop
++     * its deprecation warning, along with DriveInfo member
++     * @claimed_by_board.
++     */
++    drive_mark_claimed_by_board();
++
++    realtime_init();
++
++    if (hax_enabled()) {
++        /* FIXME: why isn't cpu_synchronize_all_post_init enough? */
++        hax_sync_vcpus();
++    }
++}
++
++static void qemu_create_cli_devices(void)
++{
++    soundhw_init();
++
++    qemu_opts_foreach(qemu_find_opts("fw_cfg"),
++                      parse_fw_cfg, fw_cfg_find(), &error_fatal);
++
++    /* init USB devices */
++    if (machine_usb(current_machine)) {
++        if (foreach_device_config(DEV_USB, usb_parse) < 0)
++            exit(1);
++    }
++
++    /* init generic devices */
++    rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
++    qemu_opts_foreach(qemu_find_opts("device"),
++                      device_init_func, NULL, &error_fatal);
++    rom_reset_order_override();
++}
++
++static void qemu_machine_creation_done(void)
++{
++    DisplayState *ds;
++
++    cpu_synchronize_all_post_init();
++
++    /* Did we create any drives that we failed to create a device for? */
++    drive_check_orphaned();
++
++    /* Don't warn about the default network setup that you get if
++     * no command line -net or -netdev options are specified. There
++     * are two cases that we would otherwise complain about:
++     * (1) board doesn't support a NIC but the implicit "-net nic"
++     * requested one
++     * (2) CONFIG_SLIRP not set, in which case the implicit "-net nic"
++     * sets up a nic that isn't connected to anything.
++     */
++    if (!default_net && (!qtest_enabled() || has_defaults)) {
++        net_check_clients();
++    }
++
++    if (boot_once) {
++        qemu_boot_set(boot_once, &error_fatal);
++        qemu_register_reset(restore_boot_order, g_strdup(boot_order));
++    }
++
++    /* init local displays */
++    ds = init_displaystate();
++    qemu_display_init(ds, &dpy);
++
++    /* must be after terminal init, SDL library changes signal handlers */
++    os_setup_signal_handling();
++
++    /* init remote displays */
++#ifdef CONFIG_VNC
++    qemu_opts_foreach(qemu_find_opts("vnc"),
++                      vnc_init_func, NULL, &error_fatal);
++#endif
++
++    if (using_spice) {
++        qemu_spice.display_init();
++    }
++
++    if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
++        exit(1);
++    }
++
++    qdev_machine_creation_done();
++
++    /* TODO: once all bus devices are qdevified, this should be done
++     * when bus is created by qdev.c */
++    /*
++     * TODO: If we had a main 'reset container' that the whole system
++     * lived in, we could reset that using the multi-phase reset
++     * APIs. For the moment, we just reset the sysbus, which will cause
++     * all devices hanging off it (and all their child buses, recursively)
++     * to be reset. Note that this will *not* reset any Device objects
++     * which are not attached to some part of the qbus tree!
++     */
++    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
++    qemu_run_machine_init_done_notifiers();
++
++    if (rom_check_and_register_reset() != 0) {
++        error_report("rom check and register reset failed");
++        exit(1);
++    }
++
++    replay_start();
++
++    /* This checkpoint is required by replay to separate prior clock
++       reading from the other reads, because timer polling functions query
++       clock values from the log. */
++    replay_checkpoint(CHECKPOINT_RESET);
++    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
++    register_global_state();
++}
++
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+@@ -3007,9 +3139,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     int linux_boot;
+     const char *initrd_filename;
+     const char *kernel_filename, *kernel_cmdline;
+-    const char *boot_order = NULL;
+-    const char *boot_once = NULL;
+-    DisplayState *ds;
+     QemuOpts *opts, *machine_opts;
+     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
+     QemuOptsList *olist;
+@@ -3026,7 +3155,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     uint64_t ram_slots = 0;
+     FILE *vmstate_dump_file = NULL;
+     Error *err = NULL;
+-    const char *mem_path = NULL;
+     bool have_custom_ram_size;
+     BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
+     QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
+@@ -4346,117 +4474,10 @@ void qemu_init(int argc, char **argv, char **envp)
+     /* do monitor/qmp handling at preconfig state if requested */
+     qemu_main_loop();
+ 
+-    if (machine_class->default_ram_id && current_machine->ram_size &&
+-        numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
+-        create_default_memdev(current_machine, mem_path);
+-    }
 -
-     qemu_opts_foreach(qemu_find_opts("mon"),
-                       mon_init_func, NULL, &error_fatal);
+-    /* from here on runstate is RUN_STATE_PRELAUNCH */
+-    machine_run_board_init(current_machine);
+-
+-    /*
+-     * TODO To drop support for deprecated bogus if=..., move
+-     * drive_check_orphaned() here, replacing this call.  Also drop
+-     * its deprecation warning, along with DriveInfo member
+-     * @claimed_by_board.
+-     */
+-    drive_mark_claimed_by_board();
+-
+-    realtime_init();
++    qemu_finish_machine_init();
++    qemu_create_cli_devices();
++    qemu_machine_creation_done();
  
-@@ -4311,7 +4307,6 @@ void qemu_init(int argc, char **argv, char **envp)
-        reading from the other reads, because timer polling functions query
-        clock values from the log. */
-     replay_checkpoint(CHECKPOINT_INIT);
--    qdev_machine_init();
- 
-     current_machine->boot_order = boot_order;
- 
+-    soundhw_init();
+-
+-    if (hax_enabled()) {
+-        hax_sync_vcpus();
+-    }
+-
+-    qemu_opts_foreach(qemu_find_opts("fw_cfg"),
+-                      parse_fw_cfg, fw_cfg_find(), &error_fatal);
+-
+-    /* init USB devices */
+-    if (machine_usb(current_machine)) {
+-        if (foreach_device_config(DEV_USB, usb_parse) < 0)
+-            exit(1);
+-    }
+-
+-    /* init generic devices */
+-    rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+-    qemu_opts_foreach(qemu_find_opts("device"),
+-                      device_init_func, NULL, &error_fatal);
+-
+-    cpu_synchronize_all_post_init();
+-
+-    rom_reset_order_override();
+-
+-    /* Did we create any drives that we failed to create a device for? */
+-    drive_check_orphaned();
+-
+-    /* Don't warn about the default network setup that you get if
+-     * no command line -net or -netdev options are specified. There
+-     * are two cases that we would otherwise complain about:
+-     * (1) board doesn't support a NIC but the implicit "-net nic"
+-     * requested one
+-     * (2) CONFIG_SLIRP not set, in which case the implicit "-net nic"
+-     * sets up a nic that isn't connected to anything.
+-     */
+-    if (!default_net && (!qtest_enabled() || has_defaults)) {
+-        net_check_clients();
+-    }
+-
+-    if (boot_once) {
+-        qemu_boot_set(boot_once, &error_fatal);
+-        qemu_register_reset(restore_boot_order, g_strdup(boot_order));
+-    }
+-
+-    /* init local displays */
+-    ds = init_displaystate();
+-    qemu_display_init(ds, &dpy);
+-
+-    /* must be after terminal init, SDL library changes signal handlers */
+-    os_setup_signal_handling();
+-
+-    /* init remote displays */
+-#ifdef CONFIG_VNC
+-    qemu_opts_foreach(qemu_find_opts("vnc"),
+-                      vnc_init_func, NULL, &error_fatal);
+-#endif
+-
+-    if (using_spice) {
+-        qemu_spice.display_init();
+-    }
+-
+-    if (foreach_device_config(DEV_GDB, gdbserver_start) < 0) {
+-        exit(1);
+-    }
+-
+-    qdev_machine_creation_done();
+-
+-    /* TODO: once all bus devices are qdevified, this should be done
+-     * when bus is created by qdev.c */
+-    /*
+-     * TODO: If we had a main 'reset container' that the whole system
+-     * lived in, we could reset that using the multi-phase reset
+-     * APIs. For the moment, we just reset the sysbus, which will cause
+-     * all devices hanging off it (and all their child buses, recursively)
+-     * to be reset. Note that this will *not* reset any Device objects
+-     * which are not attached to some part of the qbus tree!
+-     */
+-    qemu_register_reset(resettable_cold_reset_fn, sysbus_get_default());
+-    qemu_run_machine_init_done_notifiers();
+-
+-    if (rom_check_and_register_reset() != 0) {
+-        error_report("rom check and register reset failed");
+-        exit(1);
+-    }
+-
+-    replay_start();
+-
+-    /* This checkpoint is required by replay to separate prior clock
+-       reading from the other reads, because timer polling functions query
+-       clock values from the log. */
+-    replay_checkpoint(CHECKPOINT_RESET);
+-    qemu_system_reset(SHUTDOWN_CAUSE_NONE);
+-    register_global_state();
+     if (loadvm) {
+         Error *local_err = NULL;
+         if (load_snapshot(loadvm, &local_err) < 0) {
+@@ -4475,7 +4496,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         dump_vmstate_json_to_file(vmstate_dump_file);
+         exit(0);
+     }
+-
+     if (incoming) {
+         Error *local_err = NULL;
+         qemu_start_incoming_migration(incoming, &local_err);
 -- 
 2.26.2
 
