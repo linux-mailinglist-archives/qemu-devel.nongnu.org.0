@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B3929B141
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:29:15 +0100 (CET)
-Received: from localhost ([::1]:51502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F7529B102
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:26:55 +0100 (CET)
+Received: from localhost ([::1]:43056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPyM-0007UB-OO
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:29:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42436)
+	id 1kXPw6-00043N-GB
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:26:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnX-0001zH-TS; Tue, 27 Oct 2020 10:18:03 -0400
-Received: from ozlabs.org ([203.11.71.1]:34313)
+ id 1kXPnX-0001yS-Gz; Tue, 27 Oct 2020 10:18:03 -0400
+Received: from ozlabs.org ([203.11.71.1]:42485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnV-0007aY-T5; Tue, 27 Oct 2020 10:18:03 -0400
+ id 1kXPnV-0007aX-KK; Tue, 27 Oct 2020 10:18:03 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLf5glcz9shm; Wed, 28 Oct 2020 01:17:45 +1100 (AEDT)
+ id 4CLDLg5K0vz9shj; Wed, 28 Oct 2020 01:17:46 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808266;
- bh=LxxlzQPzPW9/phU/w56M/4owvBfBJDEPVYgX6V5xpz4=;
+ d=gibson.dropbear.id.au; s=201602; t=1603808267;
+ bh=Pf4juhFstmmAMYCHTE12mN63e/5PUNwa8GocFdwzAdM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=e1h5uF/O7DnzE6Y0JH0sUxIzJyL2fMy5+Pmhti3sJFzvRAVaHLIyPd6Vt8VuFg5ly
- /7XXZlz199+pQ9ucbBy2YrcyPqetulOuPWOLq8nNiLzBCsmYOSjYqLAjCcKVwkjT2a
- xkxHAJir5G5a6B74K/XiQxyoN8juhnecmhmzzWx4=
+ b=Vam4PjeBKkjJv5jzYBfc4sTXJiRdS7lmkJlKJrsrgy2ChO/p7RxA8QjcLVWvOLJmO
+ Nta6dRjJZMr3IeY5qdQurkeNJEqSw4V7sJVnJMGHlo+L6wRpF8dNUDStDRrZ+5ZDF9
+ f7VRiCrbA/fbG0kIlUcWI5TMjRLXl+WuqLNTFshA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/18] spapr: Drop spapr_delete_vcpu() unused argument
-Date: Wed, 28 Oct 2020 01:17:24 +1100
-Message-Id: <20201027141735.728821-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/18] spapr: Make spapr_cpu_core_unrealize() idempotent
+Date: Wed, 28 Oct 2020 01:17:25 +1100
+Message-Id: <20201027141735.728821-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
@@ -65,46 +65,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The 'sc' argument is unused. Drop it.
+spapr_cpu_core_realize() has a rollback path which partially duplicates
+the code of spapr_cpu_core_unrealize().
+
+Let's make spapr_cpu_core_unrealize() idempotent and call it instead. This
+requires to:
+- move the registration and unregistration of the reset handler around
+  but it is harmless,
+- allocate the array of vCPUs with g_new0() to be able to filter out
+  unused slots,
+- make sure to only unrealize vCPUs that have been already realized.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160279671929.1808373.10333672533575251075.stgit@bahia.lan>
+Message-Id: <160279672626.1808373.14142129300586424514.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 41 +++++++++++++++++++++--------------------
+ 1 file changed, 21 insertions(+), 20 deletions(-)
 
 diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index e4aeb93c02..45eb212187 100644
+index 45eb212187..317fb9934f 100644
 --- a/hw/ppc/spapr_cpu_core.c
 +++ b/hw/ppc/spapr_cpu_core.c
-@@ -212,7 +212,7 @@ static void spapr_cpu_core_reset_handler(void *opaque)
-     spapr_cpu_core_reset(opaque);
- }
+@@ -227,15 +227,26 @@ static void spapr_cpu_core_unrealize(DeviceState *dev)
+     CPUCore *cc = CPU_CORE(dev);
+     int i;
  
--static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
-+static void spapr_delete_vcpu(PowerPCCPU *cpu)
- {
-     SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
- 
-@@ -233,7 +233,7 @@ static void spapr_cpu_core_unrealize(DeviceState *dev)
-         spapr_unrealize_vcpu(sc->threads[i], sc);
+-    qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
+-
+     for (i = 0; i < cc->nr_threads; i++) {
+-        spapr_unrealize_vcpu(sc->threads[i], sc);
++        if (sc->threads[i]) {
++            /*
++             * Since this we can get here from the error path of
++             * spapr_cpu_core_realize(), make sure we only unrealize
++             * vCPUs that have already been realized.
++             */
++            if (object_property_get_bool(OBJECT(sc->threads[i]), "realized",
++                                         &error_abort)) {
++                spapr_unrealize_vcpu(sc->threads[i], sc);
++            }
++        }
      }
      for (i = 0; i < cc->nr_threads; i++) {
--        spapr_delete_vcpu(sc->threads[i], sc);
-+        spapr_delete_vcpu(sc->threads[i]);
+-        spapr_delete_vcpu(sc->threads[i]);
++        if (sc->threads[i]) {
++            spapr_delete_vcpu(sc->threads[i]);
++        }
      }
      g_free(sc->threads);
++    qemu_unregister_reset(spapr_cpu_core_reset_handler, sc);
  }
-@@ -345,7 +345,7 @@ err_unrealize:
+ 
+ static bool spapr_realize_vcpu(PowerPCCPU *cpu, SpaprMachineState *spapr,
+@@ -322,32 +333,22 @@ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
+         return;
      }
- err:
-     while (--i >= 0) {
--        spapr_delete_vcpu(sc->threads[i], sc);
-+        spapr_delete_vcpu(sc->threads[i]);
+ 
+-    sc->threads = g_new(PowerPCCPU *, cc->nr_threads);
++    qemu_register_reset(spapr_cpu_core_reset_handler, sc);
++    sc->threads = g_new0(PowerPCCPU *, cc->nr_threads);
+     for (i = 0; i < cc->nr_threads; i++) {
+         sc->threads[i] = spapr_create_vcpu(sc, i, errp);
+         if (!sc->threads[i]) {
+-            goto err;
++            spapr_cpu_core_unrealize(dev);
++            return;
+         }
      }
-     g_free(sc->threads);
+ 
+     for (j = 0; j < cc->nr_threads; j++) {
+         if (!spapr_realize_vcpu(sc->threads[j], spapr, sc, errp)) {
+-            goto err_unrealize;
++            spapr_cpu_core_unrealize(dev);
++            return;
+         }
+     }
+-
+-    qemu_register_reset(spapr_cpu_core_reset_handler, sc);
+-    return;
+-
+-err_unrealize:
+-    while (--j >= 0) {
+-        spapr_unrealize_vcpu(sc->threads[j], sc);
+-    }
+-err:
+-    while (--i >= 0) {
+-        spapr_delete_vcpu(sc->threads[i]);
+-    }
+-    g_free(sc->threads);
  }
+ 
+ static Property spapr_cpu_core_properties[] = {
 -- 
 2.26.2
 
