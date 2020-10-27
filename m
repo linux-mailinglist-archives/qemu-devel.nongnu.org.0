@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEFB029C479
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 18:58:50 +0100 (CET)
-Received: from localhost ([::1]:46096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9166E29C234
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 18:33:22 +0100 (CET)
+Received: from localhost ([::1]:33852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTFB-0006n2-R7
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 13:58:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43750)
+	id 1kXSqX-0002nb-LB
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 13:33:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXSzN-00051y-Hk; Tue, 27 Oct 2020 13:42:29 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42224)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXSzK-0004GJ-PH; Tue, 27 Oct 2020 13:42:29 -0400
-Received: by mail-io1-xd43.google.com with SMTP id k21so2445709ioa.9;
- Tue, 27 Oct 2020 10:42:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=P2YFMNrVt0KtTz+rNAgd0A8fNm+bJ5Y3j6JqD4NXvhs=;
- b=XRuuYyjc3nFPlrUicnp9GdAJD5QcAWbhbIhLx71jlFGLjEK8XEx0cfI3atBB2RvZ2D
- +tQhRACocaa9pK9JEdTTh1XtLWsNlMPPCmrxFlwSCZRlwm0WAKh0jwlUzyMgdbXJ8N2o
- uPbLPb6HuVnvDzwnRjZ5sh/zhTnkVY2rapzAvIBIJMU7pxhn/waYOg+vaz43DVbKcYwh
- RqQiDKN+TCGBC94uyBa3cLBC+xHPqZf+GsfLC/N40Qgizdgl63iHQi7kFwbR2Oh8E30B
- jV57Zsc+2y4sSGP1+/8DRyu63XQpHxUAQ+DNTbnEAey2v8Ct6Xml2e0lsqOhjCPHIo6V
- 5qRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=P2YFMNrVt0KtTz+rNAgd0A8fNm+bJ5Y3j6JqD4NXvhs=;
- b=dZQRbWeF2KDD0S3iQ2HkYLu+HAqMdEv5sgzsUWbkeUn4Ce5ovvc+YgpptwywQdLzlX
- OICOfFR30OwjTHINo9EGJIFQXVsOWfzrdT5IWk/0IhSAY3IUE7/Wp+vz7VDhLDMWx8SZ
- PTKOAXcr09071T1/NragrEWhALcrS9TPxxizIh1BXR7Nqi71EERzmmw7fSDIhwVXF07D
- m4t4Vkql/j+OtBHRP8bIWErsvzchx/jpct3p/ozxa2ZtyBFhovHgPDdhesnGC3+N/Lsj
- RGPQfQqA984R0wuoKdyBlQbWw0C1T3SMAY99+fh6E2pbgKwDnHL1Il4XIrJSXmpepvwI
- Ax+A==
-X-Gm-Message-State: AOAM5337M6pP/R29CxCkUiHipz4tp3bOcgV1Ol+92meCAeelwbTuvgYG
- u+/Otu/joGeejoriGf6zN+lEIBxvWIy/dD6O7TU=
-X-Google-Smtp-Source: ABdhPJzQmZRNc3aZ04yHqGAkuC4zNoQc7MP+NVdmrVa6s9NCiaBr5WgbxjAdpIzQNNuNlWCsWVq9A6TRMvj1GEJEf1M=
-X-Received: by 2002:a02:84c3:: with SMTP id f61mr3713303jai.8.1603820544780;
- Tue, 27 Oct 2020 10:42:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXSpD-0001ua-8q
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 13:32:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54289)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXSp8-0002ew-Il
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 13:31:58 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603819913;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wzpV15ZkjFIWNxmcG6FY5LOIPy/0YsiNiNoNJDNXNog=;
+ b=Vm4kNdSYswtVKz/VxWej6C7Fah3tmguOXsybbD8isV/4W6QbJlIb1i8etIKQsqHTl7MZXt
+ LudStQiONoRLXvSrjD8ncVZVnl9px4p011sT2fQ+RC4RVzNLTIDnqaRCcRTw5GyTYO29cP
+ ZH+8SFqfi8/W7xcaDk2GBbz3i83YjU8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-7-oRsgGdg7OGinrlFMefyf4Q-1; Tue, 27 Oct 2020 13:31:50 -0400
+X-MC-Unique: oRsgGdg7OGinrlFMefyf4Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76BA280EDA5;
+ Tue, 27 Oct 2020 17:31:49 +0000 (UTC)
+Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBBF12C31E;
+ Tue, 27 Oct 2020 17:31:48 +0000 (UTC)
+Subject: Re: [PATCH 1/3] iotests.py: Fix type check errors in wait_migration()
+To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+References: <20201027163806.290960-1-kwolf@redhat.com>
+ <20201027163806.290960-2-kwolf@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <866a8334-781a-ee91-d631-a52b0fc8da7a@redhat.com>
+Date: Tue, 27 Oct 2020 13:31:48 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201027141740.18336-1-bmeng.cn@gmail.com>
- <20201027141740.18336-8-bmeng.cn@gmail.com>
-In-Reply-To: <20201027141740.18336-8-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 27 Oct 2020 10:30:35 -0700
-Message-ID: <CAKmqyKNVUgV6Go6RdogLxhE5hOBr7aboe1indWTEaodep4MJLg@mail.gmail.com>
-Subject: Re: [RESEND PATCH 7/9] hw/riscv: microchip_pfsoc: Map debug memory
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201027163806.290960-2-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,77 +83,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 7:53 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Somehow HSS needs to access address 0 [1] for the DDR calibration data
-> which is in the chipset's debug memory. Let's map the debug memory.
->
-> [1] See the config_copy() calls in various places in ddr_setup() in
->     the HSS source codes.
+On 10/27/20 12:38 PM, Kevin Wolf wrote:
+> Commit 1847a4a8c20 clarified that event_wait() can return None (though
+> only with timeout=0) and commit f12a282ff47 annotated it as returning
+> Optional[QMPMessage].
+> 
+> Type checks in wait_migration() fail because of the unexpected optional
+> return type:
+> 
+> iotests.py:750: error: Value of type variable "Msg" of "log" cannot be "Optional[Dict[str, Any]]"
+> iotests.py:751: error: Value of type "Optional[Dict[str, Any]]" is not indexable
+> iotests.py:754: error: Value of type "Optional[Dict[str, Any]]" is not indexable
+> 
+> Fortunately, the non-zero default timeout is used in the event_wait()
+> call, so we can make mypy happy by just asserting this.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 
-Really? This is reserved memory that they just read and write to? That's crazy.
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-If we really need this can you add a comment saying that the
-documentation is wrong (again) and that this needs to be here.
-
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->
->  hw/riscv/microchip_pfsoc.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 69117c6000..b9c2f73e7c 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -158,6 +158,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->      MicrochipPFSoCState *s = MICROCHIP_PFSOC(dev);
->      const struct MemmapEntry *memmap = microchip_pfsoc_memmap;
->      MemoryRegion *system_memory = get_system_memory();
-> +    MemoryRegion *debug_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *envm_data = g_new(MemoryRegion, 1);
-> @@ -177,6 +178,13 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->      qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
->      qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
->
-> +    /* Debug */
-
-This doesn't seem right.
-
-Debug should start at 0x0000_0100 (it seems like what is currently in
-tree is wrong).
-
-Address 0x00 is marked as reserved in the documentation.
-
-Do you mind updating the memory map to fix the debug address? Then
-just add a reserved region as well.
-
-Alistair
-
-> +    memory_region_init_ram(debug_mem, NULL, "microchip.pfsoc.debug_mem",
-> +                           memmap[MICROCHIP_PFSOC_DEBUG].size, &error_fatal);
-> +    memory_region_add_subregion(system_memory,
-> +                                memmap[MICROCHIP_PFSOC_DEBUG].base,
-> +                                debug_mem);
+>   tests/qemu-iotests/iotests.py | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 63d2ace93c..28388a0fbc 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -747,6 +747,10 @@ class VM(qtest.QEMUQtestMachine):
+>       def wait_migration(self, expect_runstate: Optional[str]) -> bool:
+>           while True:
+>               event = self.event_wait('MIGRATION')
+> +            # We use the default timeout, and with a timeout, event_wait()
+> +            # never returns None
+> +            assert event
 > +
->      /* E51 DTIM */
->      memory_region_init_ram(e51_dtim_mem, NULL, "microchip.pfsoc.e51_dtim_mem",
->                             memmap[MICROCHIP_PFSOC_E51_DTIM].size, &error_fatal);
-> --
-> 2.25.1
->
->
+>               log(event, filters=[filter_qmp_event])
+>               if event['data']['status'] in ('completed', 'failed'):
+>                   break
+> 
+
+I tried, briefly, to see if I could overload the function to mypy to 
+make it Do The Right Thing, but I don't think mypy supports overloading 
+on float literals, or not well.
+
+I tried to do this:
+
+@overload
+def events_wait(self, events: Sequence[Tuple[str, Any]]) -> QMPMessage: ...
+
+@overload
+def events_wait(self, events: Sequence[Tuple[str, Any]],
+                 timeout: Literal[0]) -> Optional[QMPMessage]: ...
+
+@overload
+def events_wait(self, events: Sequence[Tuple[str, Any]],
+                 timeout: float = 60.0) -> QMPMessage: ...
+
+but ultimately mypy doesn't like this:
+
+qemu/machine/machine.py:655: error: Overloaded function implementation 
+does not accept all possible arguments of signature 2
+Found 1 error in 1 file (checked 7 source files)
+
+Trying literal 0.0 works even less well, because the Literal system does 
+not appear to like floats at all. Hmph.
+
+... So much for trying to be clever about this, I guess.
+
+(The event system is pretty wonky anyway; especially type-wise. I think 
+it's in need of an overhaul, so I'll put it on the list of things to 
+investigate at some point. There might be something nice that can be 
+done with asyncio and events that might make more sense type-wise. 
+Problems for later.)
+
 
