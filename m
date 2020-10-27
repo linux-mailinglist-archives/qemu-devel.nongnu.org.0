@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485D929AB53
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:59:34 +0100 (CET)
-Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0105129AB2D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:50:35 +0100 (CET)
+Received: from localhost ([::1]:52224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNdV-00070y-Ba
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:59:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47972)
+	id 1kXNUo-0004ui-0F
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:50:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXNBr-0000zS-K9
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:30:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24373)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXNBp-00089B-Ns
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:30:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603798257;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VBO7YAYXCufj+0nKT+Gd3hM8QC4SmrRqHj000TH7wz0=;
- b=G6bdZBPVEGPyyd1vWFeRmqdPT4zUq8Zfox88DzKTTvwqWoq/wW5M3WHH+njbMx12yNf/5v
- IK5+CsmELkz/03O+10SBd5UweKFEx+ajjZmrVKgyZKIO876uKMrrMiulkP6ilikju6iUTG
- bRq5VYUM3Oiyeey9P5o/63uATQyRdtU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461-c5uweAcJO6qQgL70k3bBTw-1; Tue, 27 Oct 2020 07:30:54 -0400
-X-MC-Unique: c5uweAcJO6qQgL70k3bBTw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EED910E2180;
- Tue, 27 Oct 2020 11:30:53 +0000 (UTC)
-Received: from localhost (ovpn-114-163.ams2.redhat.com [10.36.114.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 395D16EF45;
- Tue, 27 Oct 2020 11:30:50 +0000 (UTC)
-Date: Tue, 27 Oct 2020 11:30:49 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Felipe Franciosi <felipe@nutanix.com>
-Subject: Re: [PATCH] virtio: skip guest index check on device load
-Message-ID: <20201027113049.GH79063@stefanha-x1.localdomain>
-References: <20201026151328.77611-1-felipe@nutanix.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXNPZ-0001MG-KA
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:09 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXNPR-0004UV-Dc
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:08 -0400
+Received: by mail-wm1-x341.google.com with SMTP id k18so1100115wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=N2nDrwJVyehCGyLz8KWzuVOcysD0Qufd0lwzlgeBJ3E=;
+ b=HlCPsAQ4O0ByfQOuBEMv0sznze0wysx00252a0gWlHo22IwAcMvaRoJj2E2e13SSbJ
+ gwkOu6KLR/DEMKvvWIsrFiN4zDLByMNz2jQeAnSiAspwDxygEWa6RhlbqpzAovKHZQRB
+ NJR+9zSH4ptOMJGLBnYpWNbTW7o+naniQVyo+N+cSAOqcsQ0ngM4LPkcUCHiMQ//YofR
+ xreagZdj4O3SgpJbsfu50T0qqWC51RMndi43cVlsBO/ML0u9UCAUuJJuUDT1NR4Fq+2I
+ b1ZdJzo0HuIAzan7WzNgxHGXj+jyyXSR+bKPu3dEhdpN7AI3gfx6/zD23qWIiMTf6M4w
+ Y4Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=N2nDrwJVyehCGyLz8KWzuVOcysD0Qufd0lwzlgeBJ3E=;
+ b=oEUNNyvIoeG7uGuGv/gYCgcUyhcvlVs3Y4kWFbznK+LRhc2/bvW53WoUuSAKZX0CHX
+ JyLmAAFYnfLXLs15Uu6jM3HnJilpdQM1s+KHkYlmmWujrcJumQGhBdAdEjzByjvuDzSa
+ tL0f9YgOoixbcVbAoFAFpT2LzKKXA31Rqc94GjgEqFDN/80UKgaPKoMHqW7c3lmgpqZA
+ cCDtKPUGOh/yBvT+8cxwxkYhWUT+2+86IBwLQOol4ln9nzV0lJPZ9hU5DIydc3GFIroo
+ 2ccXVggwN8J6rTy94U+3vAzsvU4OghkdVGBPAOWO82TVbzcqZ1u5UqwGmp4drDWiB1Ef
+ Dxug==
+X-Gm-Message-State: AOAM533lci9DwTsv04PlvASGnSSrKIJwRZrvniGDzRzFPXokmf1iS5Xb
+ FMVZXa87ylozQy9Ex14BBfbn85uMmOVFhA==
+X-Google-Smtp-Source: ABdhPJxXS9RVLCdfDKn5291eaz9lWrRpuHQlVapv2k2YcnIWnumIl270EjU1sgPConlf/1DkGiMk5w==
+X-Received: by 2002:a7b:cc85:: with SMTP id p5mr2247575wma.24.1603799099600;
+ Tue, 27 Oct 2020 04:44:59 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.58
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 04:44:58 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 15/48] Move npcm7xx_timer_reached_zero call out of
+ npcm7xx_timer_pause
+Date: Tue, 27 Oct 2020 11:44:05 +0000
+Message-Id: <20201027114438.17662-16-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
+References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20201026151328.77611-1-felipe@nutanix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TBNym+cBXeFsS4Vs"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,102 +87,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---TBNym+cBXeFsS4Vs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-On Mon, Oct 26, 2020 at 03:13:32PM +0000, Felipe Franciosi wrote:
-> QEMU must be careful when loading device state off migration streams to
-> prevent a malicious source from exploiting the emulator. Overdoing these
-> checks has the side effect of allowing a guest to "pin itself" in cloud
-> environments by messing with state which is entirely in its control.
->=20
-> Similarly to what f3081539 achieved in usb_device_post_load(), this
-> commit removes such a check from virtio_load(). Worth noting, the result
-> of a load without this check is the same as if a guest enables a VQ with
-> invalid indexes to begin with. That is, the virtual device is set in a
-> broken state (by the datapath handler) and must be reset.
->=20
-> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
-> ---
->  hw/virtio/virtio.c | 12 ------------
->  1 file changed, 12 deletions(-)
->=20
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 6f8f865aff..0561bdb857 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3136,8 +3136,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, in=
-t version_id)
->      RCU_READ_LOCK_GUARD();
->      for (i =3D 0; i < num; i++) {
->          if (vdev->vq[i].vring.desc) {
-> -            uint16_t nheads;
-> -
->              /*
->               * VIRTIO-1 devices migrate desc, used, and avail ring addre=
-sses so
->               * only the region cache needs to be set up.  Legacy devices=
- need
-> @@ -3157,16 +3155,6 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, i=
-nt version_id)
->                  continue;
->              }
-> =20
-> -            nheads =3D vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_=
-avail_idx;
-> -            /* Check it isn't doing strange things with descriptor numbe=
-rs. */
-> -            if (nheads > vdev->vq[i].vring.num) {
-> -                error_report("VQ %d size 0x%x Guest index 0x%x "
-> -                             "inconsistent with Host index 0x%x: delta 0=
-x%x",
-> -                             i, vdev->vq[i].vring.num,
-> -                             vring_avail_idx(&vdev->vq[i]),
-> -                             vdev->vq[i].last_avail_idx, nheads);
-> -                return -1;
-> -            }
+This allows us to reuse npcm7xx_timer_pause for the watchdog timer.
 
-Michael, the commit that introduced this check seems to have been for
-debugging rather than to prevent a QEMU crash, so this removing the
-check may be safe:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ hw/timer/npcm7xx_timer.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-  commit 258dc7c96bb4b7ca71d5bee811e73933310e168c
-  Author: Michael S. Tsirkin <mst@redhat.com>
-  Date:   Sun Oct 17 20:23:48 2010 +0200
-
-      virtio: sanity-check available index
-
-      Checking available index upon load instead of
-      only when vm is running makes is easier to
-      debug failures.
-
-Felipe: Did you audit the code to make sure the invalid avail_idx value
-and the fields it is propagated to (e.g. shadow_avail_idx) are always
-used in a safe way?
-
---TBNym+cBXeFsS4Vs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+YBOkACgkQnKSrs4Gr
-c8ilewgAqAn8Oy8qLer1ls0Qml58sjfJ9XKG8uh/Qwulz3rsMaXlB583OjUc3ZTX
-izNw7f2dzq99HQFEDyiUNnhjg2RcKCmbJal00yiqhRr7ornpzfqeSBw1G9j9NETk
-Ym7t9k359L/nVb3EiFhJLcCBSwtZ6wK1N4e3FpXAnc8EJOyeno7a5kw3o6VrHbyE
-9xlnlsoyeRnlKBJal9eyELmp0xreIorpB6oQH+BV+9IgShSI2YsFftmpf8IAweqa
-vLLAMbsQNmUe8RtSsxt+POdr6D0mfeZ3ubPSbB1Kql2HlSYpfC41pDThQTyClc+3
-xmLkbfZSl4EvKmDyzEVq6KOqcibcoQ==
-=+ipF
------END PGP SIGNATURE-----
-
---TBNym+cBXeFsS4Vs--
+diff --git a/hw/timer/npcm7xx_timer.c b/hw/timer/npcm7xx_timer.c
+index 5703e43d404..2df9e3e4969 100644
+--- a/hw/timer/npcm7xx_timer.c
++++ b/hw/timer/npcm7xx_timer.c
+@@ -157,9 +157,6 @@ static void npcm7xx_timer_pause(NPCM7xxTimer *t)
+     timer_del(&t->qtimer);
+     now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+     t->remaining_ns = t->expires_ns - now;
+-    if (t->remaining_ns <= 0) {
+-        npcm7xx_timer_reached_zero(t);
+-    }
+ }
+ 
+ /*
+@@ -239,6 +236,9 @@ static void npcm7xx_timer_write_tcsr(NPCM7xxTimer *t, uint32_t new_tcsr)
+         } else {
+             t->tcsr &= ~NPCM7XX_TCSR_CACT;
+             npcm7xx_timer_pause(t);
++            if (t->remaining_ns <= 0) {
++                npcm7xx_timer_reached_zero(t);
++            }
+         }
+     }
+ }
+-- 
+2.20.1
 
 
