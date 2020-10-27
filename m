@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C4129AF2C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:08:01 +0100 (CET)
-Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FF729AF54
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:11:01 +0100 (CET)
+Received: from localhost ([::1]:52294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPdn-0004uM-TT
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:07:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35916)
+	id 1kXPgi-0000jq-Hg
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:11:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTA-0003Iv-18
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTA-0003LB-S4
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44780)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSy-0004Kq-5X
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPT3-0004LR-JR
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:00 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603807007;
+ s=mimecast20190719; t=1603807012;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YRHflBytAvKOEPighLIKwiOsYqMDgywNA3AUBcmPj5o=;
- b=fkoiN60/k62X8n4I4/I956X1wL37PsrOnQzzB2uMPc5cgMwQgUKb+rT4ispKSuFMIgwNlK
- ANiR4XUyx+DsOz/I96zZ0vIPP4ILmqKOKi4UY3MQmGiuMFVDBcv9nqRl5H1Lc1aumwXzhm
- 7zdvcPP35t4F4y2KndmRHoOuF4eAROg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-H0hSWUS5Ph6MmH3Z-xuZ2A-1; Tue, 27 Oct 2020 09:56:45 -0400
-X-MC-Unique: H0hSWUS5Ph6MmH3Z-xuZ2A-1
-Received: by mail-ed1-f70.google.com with SMTP id a15so706013eda.15
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:45 -0700 (PDT)
+ bh=SjDF8zsFaATkfEDLVjf49WgfMXHjaeRfhZvCWiwXv1Y=;
+ b=YxXHZAy1iDD+ksAKCf4OLceq28nXiYKIOr5KCekldnJ4JPrehos0aBpH5uDGQVkkzJqGFM
+ LCRHwwM2lwAIUR8tjV5YaN5/W6W0E8frABhFQjywZntovG1Dbx5IDoaR0KKDqBSUXhKmiY
+ 4BU5ZYdzy90xKNi8CqujvW3vd5dKQQc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-jPezFaNvNDWvMvBjPQGuqw-1; Tue, 27 Oct 2020 09:56:50 -0400
+X-MC-Unique: jPezFaNvNDWvMvBjPQGuqw-1
+Received: by mail-ej1-f69.google.com with SMTP id z25so945724ejd.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YRHflBytAvKOEPighLIKwiOsYqMDgywNA3AUBcmPj5o=;
- b=jeAXZnUl4mLXVN07EMeYyctXsE7hO6TIdy72SS4JwxQPHFF/LGG3QfCUMYJ0bE8SP6
- kNDB+NOpqGGMHYEkCAmpDGHSVZ0wTBhSBW4mEzGPbkWhnGy101Hp+NEKFe9rIcIXi3r8
- O546dOTTlQ3sj8orJQVLTlpmb5ltciU3nXrSPKbvCSZHwAWxokkwPumJtMo6tj2gJcWZ
- XMV1lJ/16RS533dBoZGh849NLp7ike2Lq7erfWesau9vggfKhk8+bw4b3Makm7xgFbQ2
- HHyOmYahZpN3jyMHN2Tg1oH61p2rhza1omQgKLHQ5/7emmhBlTAZ76SO5rcGTgbzTccQ
- 9JwQ==
-X-Gm-Message-State: AOAM5301lqzY+GTbpLwmX41k8ee37T/fhI2aOtQte+sEYzbZWj0Ov9HO
- dWXKE/n4ZB+J+Kz3/MePVrG1UDutnJjnYyeQ1Dyy5wPX922v3/+qPtNt1kRvHtJ7NX/gq4yT4/K
- XNwiop+TzFc9pqU0=
-X-Received: by 2002:a50:9f03:: with SMTP id b3mr2284398edf.268.1603807004100; 
- Tue, 27 Oct 2020 06:56:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxLKiojXcmb2GVg4IwMH6G/vgitauYTwsK2dW7aRAEXasjzgL7BxPDzcyHc7vnnOIFVcv3ylQ==
-X-Received: by 2002:a50:9f03:: with SMTP id b3mr2284374edf.268.1603807003858; 
- Tue, 27 Oct 2020 06:56:43 -0700 (PDT)
+ bh=SjDF8zsFaATkfEDLVjf49WgfMXHjaeRfhZvCWiwXv1Y=;
+ b=LgM8kW/vcwG7X3xdDuZL/3XBU9Xfvf1hE4nW1Oytk0fqYg4IRALTHk6DiH5kr5fCdL
+ zAvSRF02hYD1ykKf1wc3t9fe/2m7ws3o5vO4dlg3ADyFbxDFaN8Z9WP4sjU6HZk6Bito
+ ggpgpCKdqhT3yJXVyUWvd75/pV01TClOheABKIjJkMxjmJzhi0FdAcAIWg6gnE+hQvab
+ jnMrThjKM1TKLQhkzJqTj7nMZRR9QS/FWQoju39CHRpq+uXUZGBCHf4BzyWy2EmWLpar
+ /eiK0ih5yb+PmU535mj93JEal3gBp9Nqe+iKlvJOWMhIx2czfEfD3TVPL8m4rq65MXNw
+ NhCw==
+X-Gm-Message-State: AOAM533ehB3oG7OGTs1Cbygv3lI4djlR/il/UXg1JuggqUwqT1HYf5co
+ 2nJBr2d8i4OiuqxPWYM4FjPTIgNnq000mhNHoPHdO3iKa6cw60lj2CPELGCdEGdHWsGaO1759yc
+ JMnSNabmBtT26xaM=
+X-Received: by 2002:a50:e61a:: with SMTP id y26mr2436500edm.71.1603807009221; 
+ Tue, 27 Oct 2020 06:56:49 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy+DR27WfkIA/GMYrmcTzta+rl+JsgFtdbD+cG83mgOnEso1y5WyQnYYkv6j5zpOEQvUrRoBQ==
+X-Received: by 2002:a50:e61a:: with SMTP id y26mr2436470edm.71.1603807009043; 
+ Tue, 27 Oct 2020 06:56:49 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id 11sm1082584ejy.19.2020.10.27.06.56.42
+ by smtp.gmail.com with ESMTPSA id i14sm1028890edu.40.2020.10.27.06.56.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:56:43 -0700 (PDT)
+ Tue, 27 Oct 2020 06:56:48 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 10/25] block/nvme: Use unsigned integer for queue counter/size
-Date: Tue, 27 Oct 2020 14:55:32 +0100
-Message-Id: <20201027135547.374946-11-philmd@redhat.com>
+Subject: [PATCH 11/25] block/nvme: Make nvme_identify() return boolean
+ indicating error
+Date: Tue, 27 Oct 2020 14:55:33 +0100
+Message-Id: <20201027135547.374946-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -72,16 +73,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,203 +104,46 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can not have negative queue count/size/index, use unsigned type.
-Rename 'nr_queues' as 'queue_count' to match the spec naming.
+Just for consistency, following the example documented since
+commit e3fe3988d7 ("error: Document Error API usage rules"),
+return a boolean value indicating an error is set or not.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c       | 38 ++++++++++++++++++--------------------
- block/trace-events | 10 +++++-----
- 2 files changed, 23 insertions(+), 25 deletions(-)
+ block/nvme.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 30075e230ca..8b0fd59c6ea 100644
+index 8b0fd59c6ea..74994c442e5 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -104,7 +104,7 @@ struct BDRVNVMeState {
-      * [1..]: io queues.
-      */
-     NVMeQueuePair **queues;
--    int nr_queues;
-+    unsigned queue_count;
-     size_t page_size;
-     /* How many uint32_t elements does each doorbell entry take. */
-     size_t doorbell_scale;
-@@ -161,7 +161,7 @@ static QemuOptsList runtime_opts = {
- };
+@@ -506,9 +506,11 @@ static int nvme_cmd_sync(BlockDriverState *bs, NVMeQueuePair *q,
+     return ret;
+ }
  
- static void nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
--                            int nentries, int entry_bytes, Error **errp)
-+                            unsigned nentries, size_t entry_bytes, Error **errp)
- {
-     size_t bytes;
-     int r;
-@@ -206,7 +206,7 @@ static void nvme_free_req_queue_cb(void *opaque)
- 
- static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
-                                              AioContext *aio_context,
--                                             int idx, int size,
-+                                             unsigned idx, size_t size,
-                                              Error **errp)
- {
-     int i, r;
-@@ -623,7 +623,7 @@ static bool nvme_poll_queues(BDRVNVMeState *s)
-     bool progress = false;
-     int i;
- 
--    for (i = 0; i < s->nr_queues; i++) {
-+    for (i = 0; i < s->queue_count; i++) {
-         if (nvme_poll_queue(s->queues[i])) {
-             progress = true;
-         }
-@@ -644,10 +644,10 @@ static void nvme_handle_event(EventNotifier *n)
- static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+-static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
++/* Returns true on success, false on failure. */
++static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
  {
      BDRVNVMeState *s = bs->opaque;
--    int n = s->nr_queues;
-+    unsigned n = s->queue_count;
-     NVMeQueuePair *q;
-     NvmeCmd cmd;
--    int queue_size = NVME_QUEUE_SIZE;
-+    unsigned queue_size = NVME_QUEUE_SIZE;
- 
-     q = nvme_create_queue_pair(s, bdrv_get_aio_context(bs),
-                                n, queue_size, errp);
-@@ -661,7 +661,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
-         .cdw11 = cpu_to_le32(0x3),
-     };
-     if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
--        error_setg(errp, "Failed to create CQ io queue [%d]", n);
-+        error_setg(errp, "Failed to create CQ io queue [%u]", n);
-         goto out_error;
-     }
-     cmd = (NvmeCmd) {
-@@ -671,12 +671,12 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
-         .cdw11 = cpu_to_le32(0x1 | (n << 16)),
-     };
-     if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
--        error_setg(errp, "Failed to create SQ io queue [%d]", n);
-+        error_setg(errp, "Failed to create SQ io queue [%u]", n);
-         goto out_error;
-     }
-     s->queues = g_renew(NVMeQueuePair *, s->queues, n + 1);
-     s->queues[n] = q;
--    s->nr_queues++;
-+    s->queue_count++;
-     return true;
- out_error:
-     nvme_free_queue_pair(q);
-@@ -785,7 +785,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         ret = -EINVAL;
++    bool ret = false;
+     union {
+         NvmeIdCtrl ctrl;
+         NvmeIdNs ns;
+@@ -585,10 +587,13 @@ static void nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
          goto out;
      }
--    s->nr_queues = 1;
-+    s->queue_count = 1;
-     QEMU_BUILD_BUG_ON(NVME_QUEUE_SIZE & 0xF000);
-     regs->aqa = cpu_to_le32((NVME_QUEUE_SIZE << AQA_ACQS_SHIFT) |
-                             (NVME_QUEUE_SIZE << AQA_ASQS_SHIFT));
-@@ -895,10 +895,9 @@ static int nvme_enable_disable_write_cache(BlockDriverState *bs, bool enable,
  
- static void nvme_close(BlockDriverState *bs)
- {
--    int i;
-     BDRVNVMeState *s = bs->opaque;
++    ret = true;
+     s->blkshift = lbaf->ds;
+ out:
+     qemu_vfio_dma_unmap(s->vfio, id);
+     qemu_vfree(id);
++
++    return ret;
+ }
  
--    for (i = 0; i < s->nr_queues; ++i) {
-+    for (unsigned i = 0; i < s->queue_count; ++i) {
-         nvme_free_queue_pair(s->queues[i]);
-     }
-     g_free(s->queues);
-@@ -1123,7 +1122,7 @@ static coroutine_fn int nvme_co_prw_aligned(BlockDriverState *bs,
-     };
- 
-     trace_nvme_prw_aligned(s, is_write, offset, bytes, flags, qiov->niov);
--    assert(s->nr_queues > 1);
-+    assert(s->queue_count > 1);
-     req = nvme_get_free_req(ioq);
-     assert(req);
- 
-@@ -1233,7 +1232,7 @@ static coroutine_fn int nvme_co_flush(BlockDriverState *bs)
-         .ret = -EINPROGRESS,
-     };
- 
--    assert(s->nr_queues > 1);
-+    assert(s->queue_count > 1);
-     req = nvme_get_free_req(ioq);
-     assert(req);
-     nvme_submit_command(ioq, req, &cmd, nvme_rw_cb, &data);
-@@ -1285,7 +1284,7 @@ static coroutine_fn int nvme_co_pwrite_zeroes(BlockDriverState *bs,
-     cmd.cdw12 = cpu_to_le32(cdw12);
- 
-     trace_nvme_write_zeroes(s, offset, bytes, flags);
--    assert(s->nr_queues > 1);
-+    assert(s->queue_count > 1);
-     req = nvme_get_free_req(ioq);
-     assert(req);
- 
-@@ -1328,7 +1327,7 @@ static int coroutine_fn nvme_co_pdiscard(BlockDriverState *bs,
-         return -ENOTSUP;
-     }
- 
--    assert(s->nr_queues > 1);
-+    assert(s->queue_count > 1);
- 
-     buf = qemu_try_memalign(s->page_size, s->page_size);
-     if (!buf) {
-@@ -1408,7 +1407,7 @@ static void nvme_detach_aio_context(BlockDriverState *bs)
- {
-     BDRVNVMeState *s = bs->opaque;
- 
--    for (int i = 0; i < s->nr_queues; i++) {
-+    for (unsigned i = 0; i < s->queue_count; i++) {
-         NVMeQueuePair *q = s->queues[i];
- 
-         qemu_bh_delete(q->completion_bh);
-@@ -1429,7 +1428,7 @@ static void nvme_attach_aio_context(BlockDriverState *bs,
-     aio_set_event_notifier(new_context, &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, nvme_handle_event, nvme_poll_cb);
- 
--    for (int i = 0; i < s->nr_queues; i++) {
-+    for (unsigned i = 0; i < s->queue_count; i++) {
-         NVMeQueuePair *q = s->queues[i];
- 
-         q->completion_bh =
-@@ -1446,11 +1445,10 @@ static void nvme_aio_plug(BlockDriverState *bs)
- 
- static void nvme_aio_unplug(BlockDriverState *bs)
- {
--    int i;
-     BDRVNVMeState *s = bs->opaque;
-     assert(s->plugged);
-     s->plugged = false;
--    for (i = INDEX_IO(0); i < s->nr_queues; i++) {
-+    for (unsigned i = INDEX_IO(0); i < s->queue_count; i++) {
-         NVMeQueuePair *q = s->queues[i];
-         qemu_mutex_lock(&q->lock);
-         nvme_kick(q);
-diff --git a/block/trace-events b/block/trace-events
-index f6a0f99df1a..8368f4acb0b 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -136,13 +136,13 @@ qed_aio_write_main(void *s, void *acb, int ret, uint64_t offset, size_t len) "s
- # nvme.c
- nvme_controller_capability_raw(uint64_t value) "0x%08"PRIx64
- nvme_controller_capability(const char *desc, uint64_t value) "%s: %"PRIu64
--nvme_kick(void *s, int queue) "s %p queue %d"
-+nvme_kick(void *s, unsigned q_index) "s %p q #%u"
- nvme_dma_flush_queue_wait(void *s) "s %p"
- nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
--nvme_process_completion(void *s, int index, int inflight) "s %p queue %d inflight %d"
--nvme_process_completion_queue_plugged(void *s, int index) "s %p queue %d"
--nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
--nvme_submit_command(void *s, int index, int cid) "s %p queue %d cid %d"
-+nvme_process_completion(void *s, unsigned q_index, int inflight) "s %p q #%u inflight %d"
-+nvme_process_completion_queue_plugged(void *s, unsigned q_index) "s %p q #%u"
-+nvme_complete_command(void *s, unsigned q_index, int cid) "s %p q #%u cid %d"
-+nvme_submit_command(void *s, unsigned q_index, int cid) "s %p q #%u cid %d"
- nvme_submit_command_raw(int c0, int c1, int c2, int c3, int c4, int c5, int c6, int c7) "%02x %02x %02x %02x %02x %02x %02x %02x"
- nvme_handle_event(void *s) "s %p"
- nvme_poll_queue(void *s, unsigned q_index) "s %p q #%u"
+ static bool nvme_poll_queue(NVMeQueuePair *q)
 -- 
 2.26.2
 
