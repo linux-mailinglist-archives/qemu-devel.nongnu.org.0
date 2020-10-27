@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E4329AB35
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:52:16 +0100 (CET)
-Received: from localhost ([::1]:57826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DEDD29AB43
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:55:03 +0100 (CET)
+Received: from localhost ([::1]:35742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNWR-0007M5-B8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:52:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51892)
+	id 1kXNZ8-0001Vm-6z
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:55:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPc-0001Rr-U9
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:12 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:54766)
+ id 1kXNPh-0001a4-N0
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:17 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPY-0004YA-Ji
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:12 -0400
-Received: by mail-wm1-x335.google.com with SMTP id w23so1062001wmi.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:07 -0700 (PDT)
+ id 1kXNPc-0004b5-Es
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:17 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id c194so1065393wme.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=X7IyXvhKZGt2O32lbsG5+Ml4uk7Ee2kIFAZnUq6AVe0=;
- b=cpZnOg3eyOrPQB+WWUIV7oYiSjgoynU5Fb6VOr3fzYS3/k7EKKb/1R/cXnegfwz+pT
- sfwU8IctznPqO2tBlGRijiNBF50pZZlu091t3esIdAA0PXKMDNO7KhisyN4S9OuOugRH
- Qj4HRIwDI2jbBJOD034S2Lf34BDQU+zEy7uBXTG9IJrIaPOImPa9nu4QkHhVR0dRf6OE
- Psmyjxq+gdZ2wEk1RYvbJIO44aoW00wbV0mVdIewh/+T7b0DhM5b7X5sVkb9SDfoy5Hc
- 3cTgRow+HNDgwhoeXGsEzIrnFqQTLJPzIucD3nn01zVZVyp6LVK9qPtDsFpE4aHgGvn4
- UJYA==
+ bh=S726yokpihMdOCsUn8mswwXIVf7NmgTBXtwEGAf2yIU=;
+ b=J4bRbJfCvWfJHBil5r+cMfn9wKxiXGydE5vJOeZrRc8gs/Cn7DdgsXQcE1rVVhTpuY
+ n9/6zQDSkCvj8lglXhfYjvMZojSp6Qb2yfBS1jYO1IW4MxTvWj/j0Ks+bt5RrNXLSnEZ
+ a/3d50PzmWhl5jLLgvUdIbB8g/wyT6IpUFxeJlQUFNUvr+LuHVpOQOG9BOglXWhIcdey
+ lAUDgsGpAu1bvG8Q8AWE8qBnrMcWrShsdkz8uJTaQsqM8WT78uD3P71vgqRjpLI52Zy8
+ 6Vvdmue8qoNW21yuVDXoBrBpJjj6dq8dOGxy/VPKIg7DY1exozL+d0o39k+OAzgSV4IU
+ J7bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X7IyXvhKZGt2O32lbsG5+Ml4uk7Ee2kIFAZnUq6AVe0=;
- b=rvI8d8+gocAsxaVrkqut0ePlzcXJ19hrPtCGNc6OWa7cY/FIfTdJiBQN37319dNk7a
- /wnDkFDofhr4kDoEoUSpftAKJHz2iX+mNFTVzy5+KOOfKbDp+VsTeo5ffQ8mGRzzxR40
- b8CEGzkcn6QYe+a8WCz8Cn0CPksmCUNjvCUa+sZgBlR1WX/ks29svzzPy+npeDI6qhl6
- 8hYX+7L+Bz9lYwULBKnQQK7D3UV2kdCTuO+PsI+oSq7TqI73iikbRmymIXx+chzGwoOS
- WEad7ioTtCl/WCd+CKy7FzicrN3lGwP8aCM7I4b5mdcAp9BmqWM8Td8fSa5s1zK/m454
- pT9w==
-X-Gm-Message-State: AOAM531OLa2qFROgj24DUcWfvHj4hxljirGONKzk9asML0Pgvy6P4Mvr
- YJGoDpfO+0Re3ZOqdwJzSEqq9A6UkP0uSg==
-X-Google-Smtp-Source: ABdhPJycWvmssgjod7lxmgdq+MnM/G9G2u5UGJ48xOx3gsgTOW+N4uFlNHk2fYZonR3jCfsWgUtwqw==
-X-Received: by 2002:a7b:cc85:: with SMTP id p5mr2248023wma.24.1603799105868;
- Tue, 27 Oct 2020 04:45:05 -0700 (PDT)
+ bh=S726yokpihMdOCsUn8mswwXIVf7NmgTBXtwEGAf2yIU=;
+ b=HUt3jOX3DqhcvRFR+jNd7c5HCcGEWjug1eGaaA9eQxdsMif/lo1+fK/vCppeaNvakJ
+ ZX9YKJcRVGwlrCNRFB1vh74hW3tJBNDU302Y38QBd7Jr6EpdZdI0zVZeJqadTlZO90Ob
+ ej/8XFgHiaO2YPQyt+jaXtKLKAolQW1gI0D7oyfsJlwAUOWyv34QvYCiO6uC/O6H8EP+
+ yFaTqwVQ6wxjQ++STbDXHZN+LAlVRLJ0bzD3CjfkDfM57e3DcLQDVwl456M1zu3uoJ+a
+ jQtRbSD5mVPeuOwJuMZa4jynQNd5yd7M+VGYWBm45s+/KzvYc8xXGEfWbypN4f4My0qw
+ rtDw==
+X-Gm-Message-State: AOAM532nrMv/bbq6GSgliNclRuilWi5eLYd0uHdvi7zpdu0JETAvb2tz
+ xoqgx/SvlCkNoUwCcUavpInnwqr4w+agJg==
+X-Google-Smtp-Source: ABdhPJznxalYiEVE4TnC8v1aWpoDiqit6877QTCgMmawVSi6KAp4qCLu4mKilzukMRPEEmTxjWDX6w==
+X-Received: by 2002:a1c:6804:: with SMTP id d4mr2246918wmc.94.1603799110562;
+ Tue, 27 Oct 2020 04:45:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.05
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:05 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/48] hw/arm/smmuv3: Set the restoration priority of the
- vSMMUv3 explicitly
-Date: Tue, 27 Oct 2020 11:44:10 +0000
-Message-Id: <20201027114438.17662-21-peter.maydell@linaro.org>
+Subject: [PULL 24/48] hw/arm/bcm2836: Only provide "enabled-cpus" property to
+ multicore SoCs
+Date: Tue, 27 Oct 2020 11:44:14 +0000
+Message-Id: <20201027114438.17662-25-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,31 +90,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zenghui Yu <yuzenghui@huawei.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Ensure the vSMMUv3 will be restored before all PCIe devices so that DMA
-translation can work properly during migration.
+It makes no sense to set enabled-cpus=0 on single core SoCs.
 
-Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
-Message-id: 20201019091508.197-1-yuzenghui@huawei.com
-Acked-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Luc Michel <luc.michel@greensocs.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201024170127.3592182-5-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/bcm2836.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 0122700e725..2017ba7a5a7 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1440,6 +1440,7 @@ static const VMStateDescription vmstate_smmuv3 = {
-     .name = "smmuv3",
-     .version_id = 1,
-     .minimum_version_id = 1,
-+    .priority = MIG_PRI_IOMMU,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(features, SMMUv3State),
-         VMSTATE_UINT8(sid_size, SMMUv3State),
+diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+index c5d46a8e805..fcb2c9c3e73 100644
+--- a/hw/arm/bcm2836.c
++++ b/hw/arm/bcm2836.c
+@@ -34,6 +34,9 @@ typedef struct BCM283XClass {
+ #define BCM283X_GET_CLASS(obj) \
+     OBJECT_GET_CLASS(BCM283XClass, (obj), TYPE_BCM283X)
+ 
++static Property bcm2836_enabled_cores_property =
++    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus, 0);
++
+ static void bcm2836_init(Object *obj)
+ {
+     BCM283XState *s = BCM283X(obj);
+@@ -44,6 +47,10 @@ static void bcm2836_init(Object *obj)
+         object_initialize_child(obj, "cpu[*]", &s->cpu[n].core,
+                                 bc->cpu_type);
+     }
++    if (bc->core_count > 1) {
++        qdev_property_add_static(DEVICE(obj), &bcm2836_enabled_cores_property);
++        qdev_prop_set_uint32(DEVICE(obj), "enabled-cpus", bc->core_count);
++    }
+ 
+     object_initialize_child(obj, "control", &s->control, TYPE_BCM2836_CONTROL);
+ 
+@@ -130,12 +137,6 @@ static void bcm2836_realize(DeviceState *dev, Error **errp)
+     }
+ }
+ 
+-static Property bcm2836_props[] = {
+-    DEFINE_PROP_UINT32("enabled-cpus", BCM283XState, enabled_cpus,
+-                       BCM283X_NCPUS),
+-    DEFINE_PROP_END_OF_LIST()
+-};
+-
+ static void bcm283x_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -155,7 +156,6 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
+     bc->ctrl_base = 0x40000000;
+     bc->clusterid = 0xf;
+     dc->realize = bcm2836_realize;
+-    device_class_set_props(dc, bcm2836_props);
+ };
+ 
+ #ifdef TARGET_AARCH64
+@@ -170,7 +170,6 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
+     bc->ctrl_base = 0x40000000;
+     bc->clusterid = 0x0;
+     dc->realize = bcm2836_realize;
+-    device_class_set_props(dc, bcm2836_props);
+ };
+ #endif
+ 
 -- 
 2.20.1
 
