@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16DBD29CBBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:06:41 +0100 (CET)
-Received: from localhost ([::1]:49330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F70929CBCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:11:23 +0100 (CET)
+Received: from localhost ([::1]:34212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXX72-0004aM-5v
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:06:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54780)
+	id 1kXXBa-0001w3-Lv
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:11:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX0P-0006wT-2l
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40945)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXX9T-0000Wk-4m
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:09:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42657)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX0K-0000k4-5W
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXX9P-00022C-RK
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:09:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603835980;
+ s=mimecast20190719; t=1603836545;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Vp7oW7rirmn9sNzaLp5ApxJe3wJh4WH+OQwQYphM4xM=;
- b=BvJctYznoFT19+c/51ixyTR3UEXN2SCZPOlGC78fZaCcmzkg0irtvPNsGyAOcK/xLV4WLz
- M4AppSlKOkwXVEhKoSFOe7cHubOBNEIs4NlMIygJQHHsKOkCRiMzVIIRgcMXyR9ssm97w3
- CQE8uDc7FWaXYLfdBr37+2+Q9XRwa20=
+ bh=su/bN22lLpmzjCPGy7UhmjkkO3yJHQrgiJUX4Yy+h64=;
+ b=QPVleQdhVe1P2ND2Ya4ecTiUzlYG7tO3fkw1iAqMeoiyvVcs9I8d8Sxz2nOOlBgDRODtR2
+ acLPFeV7VpcwEYFsWMlZWDf07cQ88Bj51TUeH/w/N6zZXr4WTMPWEauayY74wMr3k0UXdp
+ P+s3dDkWgB/vEWSaYR5CV5bu4HH/mb4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-1jp9esfTPQmVH0dIXlWMQQ-1; Tue, 27 Oct 2020 17:59:38 -0400
-X-MC-Unique: 1jp9esfTPQmVH0dIXlWMQQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-509-0eJTfaT0P8yhEpnShOz2cA-1; Tue, 27 Oct 2020 18:09:02 -0400
+X-MC-Unique: 0eJTfaT0P8yhEpnShOz2cA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA3A51009E35;
- Tue, 27 Oct 2020 21:59:36 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B1EF10013DB;
- Tue, 27 Oct 2020 21:59:36 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B4971074649;
+ Tue, 27 Oct 2020 22:09:01 +0000 (UTC)
+Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4470855781;
+ Tue, 27 Oct 2020 22:08:56 +0000 (UTC)
+Subject: Re: [PATCH v3 00/15] python: create installable package
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] nbd: Add 'qemu-nbd -A' to expose allocation depth
-Date: Tue, 27 Oct 2020 16:59:14 -0500
-Message-Id: <20201027215914.619460-13-eblake@redhat.com>
-In-Reply-To: <20201027215914.619460-1-eblake@redhat.com>
-References: <20201027215914.619460-1-eblake@redhat.com>
+References: <20201020193555.1493936-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <e1289328-d372-0eaa-7128-8cb4867ef4c0@redhat.com>
+Date: Tue, 27 Oct 2020 18:08:55 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201020193555.1493936-1-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 17:59:21
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,364 +82,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Markus Armbruster <armbru@redhat.com>,
- "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Ben Widawsky <ben@bwidawsk.net>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Rohit Shinde <rohit.shinde12194@gmail.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the server to expose an additional metacontext to be requested
-by savvy clients.  qemu-nbd adds a new option -A to expose the
-qemu:allocation-depth metacontext through NBD_CMD_BLOCK_STATUS; this
-can also be set via QMP when using block-export-add.
+Ping O:-)
 
-qemu as client is hacked into viewing the key aspects of this new
-context by abusing the already-experimental x-dirty-bitmap option to
-collapse all depths greater than 2, which results in a tri-state value
-visible in the output of 'qemu-img map --output=json' (yes, that means
-x-dirty-bitmap is now a bit of a misnomer, but I didn't feel like
-renaming it as it would introduce a needless break of back-compat,
-even though we make no compat guarantees with x- members):
+Looking for feedback from at least Cleber and Eduardo before I barge 
+ahead and send a PR to include this on master. Additional packaging and 
+versioning feedback from Dan would be nice.
 
-unallocated (depth 0) => "zero":false, "data":true
-local (depth 1)       => "zero":false, "data":false
-backing (depth 2+)    => "zero":true,  "data":true
+(I know we have a very busy two weeks here; I will continue pinging, but 
+I have every intention of merging this prior to 5.2.)
 
-libnbd as client is probably a nicer way to get at the information
-without having to decipher such hacks in qemu as client. ;)
+--js
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20201027050556.269064-11-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- docs/tools/qemu-nbd.rst    |  8 +++-
- qapi/block-core.json       |  7 +++-
- qapi/block-export.json     |  7 +++-
- block/nbd.c                | 26 ++++++++++---
- nbd/server.c               |  2 +
- qemu-nbd.c                 | 12 +++++-
- tests/qemu-iotests/309     | 77 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/309.out | 22 +++++++++++
- tests/qemu-iotests/group   |  1 +
- 9 files changed, 151 insertions(+), 11 deletions(-)
- create mode 100755 tests/qemu-iotests/309
- create mode 100644 tests/qemu-iotests/309.out
-
-diff --git a/docs/tools/qemu-nbd.rst b/docs/tools/qemu-nbd.rst
-index 667861cb22e9..fe41336dc550 100644
---- a/docs/tools/qemu-nbd.rst
-+++ b/docs/tools/qemu-nbd.rst
-@@ -72,10 +72,16 @@ driver options if ``--image-opts`` is specified.
-
-   Export the disk as read-only.
-
-+.. option:: -A, --allocation-depth
-+
-+  Expose allocation depth information via the
-+  ``qemu:allocation-depth`` metadata context accessible through
-+  NBD_OPT_SET_META_CONTEXT.
-+
- .. option:: -B, --bitmap=NAME
-
-   If *filename* has a qcow2 persistent bitmap *NAME*, expose
--  that bitmap via the ``qemu:dirty-bitmap:NAME`` context
-+  that bitmap via the ``qemu:dirty-bitmap:NAME`` metadata context
-   accessible through NBD_OPT_SET_META_CONTEXT.
-
- .. option:: -s, --snapshot
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e00fc27b5ea4..1b8b4156b4b9 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3905,9 +3905,12 @@
- #
- # @tls-creds: TLS credentials ID
- #
--# @x-dirty-bitmap: A "qemu:dirty-bitmap:NAME" string to query in place of
-+# @x-dirty-bitmap: A metadata context name such as "qemu:dirty-bitmap:NAME"
-+#                  or "qemu:allocation-depth" to query in place of the
- #                  traditional "base:allocation" block status (see
--#                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol) (since 3.0)
-+#                  NBD_OPT_LIST_META_CONTEXT in the NBD protocol; and
-+#                  yes, naming this option x-context would have made
-+#                  more sense) (since 3.0)
- #
- # @reconnect-delay: On an unexpected disconnect, the nbd client tries to
- #                   connect again until succeeding or encountering a serious
-diff --git a/qapi/block-export.json b/qapi/block-export.json
-index c4125f4d2104..a9f488f99c1a 100644
---- a/qapi/block-export.json
-+++ b/qapi/block-export.json
-@@ -90,11 +90,16 @@
- #           the metadata context name "qemu:dirty-bitmap:BITMAP" to inspect
- #           each bitmap.
- #
-+# @allocation-depth: Also export the allocation depth map for @device, so
-+#                    the NBD client can use NBD_OPT_SET_META_CONTEXT with
-+#                    the metadata context name "qemu:allocation-depth" to
-+#                    inspect allocation details. (since 5.2)
-+#
- # Since: 5.2
- ##
- { 'struct': 'BlockExportOptionsNbd',
-   'base': 'BlockExportOptionsNbdBase',
--  'data': { '*bitmaps': ['str'] } }
-+  'data': { '*bitmaps': ['str'], '*allocation-depth': 'bool' } }
-
- ##
- # @BlockExportOptionsVhostUserBlk:
-diff --git a/block/nbd.c b/block/nbd.c
-index 4548046cd7cd..42536702b6f9 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -135,6 +135,7 @@ typedef struct BDRVNBDState {
-     QCryptoTLSCreds *tlscreds;
-     const char *hostname;
-     char *x_dirty_bitmap;
-+    bool alloc_depth;
-
-     bool wait_connect;
-     NBDConnectThread *connect_thread;
-@@ -961,6 +962,16 @@ static int nbd_parse_blockstatus_payload(BDRVNBDState *s,
-         trace_nbd_parse_blockstatus_compliance("extent length too large");
-     }
-
-+    /*
-+     * HACK: if we are using x-dirty-bitmaps to access
-+     * qemu:allocation-depth, treat all depths > 2 the same as 2,
-+     * since nbd_client_co_block_status is only expecting the low two
-+     * bits to be set.
-+     */
-+    if (s->alloc_depth && extent->flags > 2) {
-+        extent->flags = 2;
-+    }
-+
-     return 0;
- }
-
-@@ -1795,11 +1806,16 @@ static int nbd_client_handshake(BlockDriverState *bs, QIOChannelSocket *sioc,
-         s->sioc = NULL;
-         return ret;
-     }
--    if (s->x_dirty_bitmap && !s->info.base_allocation) {
--        error_setg(errp, "requested x-dirty-bitmap %s not found",
--                   s->x_dirty_bitmap);
--        ret = -EINVAL;
--        goto fail;
-+    if (s->x_dirty_bitmap) {
-+        if (!s->info.base_allocation) {
-+            error_setg(errp, "requested x-dirty-bitmap %s not found",
-+                       s->x_dirty_bitmap);
-+            ret = -EINVAL;
-+            goto fail;
-+        }
-+        if (strcmp(s->x_dirty_bitmap, "qemu:allocation-depth") == 0) {
-+            s->alloc_depth = true;
-+        }
-     }
-     if (s->info.flags & NBD_FLAG_READ_ONLY) {
-         ret = bdrv_apply_auto_read_only(bs, "NBD export is read-only", errp);
-diff --git a/nbd/server.c b/nbd/server.c
-index ebbefcb6d3ec..d145e1a69083 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -1641,6 +1641,8 @@ static int nbd_export_create(BlockExport *blk_exp, BlockExportOptions *exp_args,
-         bdrv_dirty_bitmap_set_busy(exp->export_bitmaps[i], true);
-     }
-
-+    exp->allocation_depth = arg->allocation_depth;
-+
-     blk_add_aio_context_notifier(blk, blk_aio_attached, blk_aio_detach, exp);
-
-     QTAILQ_INSERT_TAIL(&exports, exp, next);
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 74e73a74657b..75ced6503015 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -100,6 +100,7 @@ static void usage(const char *name)
- "\n"
- "Exposing part of the image:\n"
- "  -o, --offset=OFFSET       offset into the image\n"
-+"  -A, --allocation-depth    expose the allocation depth\n"
- "  -B, --bitmap=NAME         expose a persistent dirty bitmap\n"
- "\n"
- "General purpose options:\n"
-@@ -524,7 +525,7 @@ int main(int argc, char **argv)
-     char *device = NULL;
-     QemuOpts *sn_opts = NULL;
-     const char *sn_id_or_name = NULL;
--    const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:B:L";
-+    const char *sopt = "hVb:o:p:rsnc:dvk:e:f:tl:x:T:D:AB:L";
-     struct option lopt[] = {
-         { "help", no_argument, NULL, 'h' },
-         { "version", no_argument, NULL, 'V' },
-@@ -533,6 +534,7 @@ int main(int argc, char **argv)
-         { "socket", required_argument, NULL, 'k' },
-         { "offset", required_argument, NULL, 'o' },
-         { "read-only", no_argument, NULL, 'r' },
-+        { "allocation-depth", no_argument, NULL, 'A' },
-         { "bitmap", required_argument, NULL, 'B' },
-         { "connect", required_argument, NULL, 'c' },
-         { "disconnect", no_argument, NULL, 'd' },
-@@ -575,6 +577,7 @@ int main(int argc, char **argv)
-     const char *export_name = NULL; /* defaults to "" later for server mode */
-     const char *export_description = NULL;
-     strList *bitmaps = NULL;
-+    bool alloc_depth = false;
-     const char *tlscredsid = NULL;
-     bool imageOpts = false;
-     bool writethrough = true;
-@@ -689,6 +692,9 @@ int main(int argc, char **argv)
-             readonly = true;
-             flags &= ~BDRV_O_RDWR;
-             break;
-+        case 'A':
-+            alloc_depth = true;
-+            break;
-         case 'B':
-             QAPI_LIST_PREPEND(bitmaps, g_strdup(optarg));
-             break;
-@@ -787,7 +793,7 @@ int main(int argc, char **argv)
-         }
-         if (export_name || export_description || dev_offset ||
-             device || disconnect || fmt || sn_id_or_name || bitmaps ||
--            seen_aio || seen_discard || seen_cache) {
-+            alloc_depth || seen_aio || seen_discard || seen_cache) {
-             error_report("List mode is incompatible with per-device settings");
-             exit(EXIT_FAILURE);
-         }
-@@ -1073,6 +1079,8 @@ int main(int argc, char **argv)
-             .description          = g_strdup(export_description),
-             .has_bitmaps          = !!bitmaps,
-             .bitmaps              = bitmaps,
-+            .has_allocation_depth = alloc_depth,
-+            .allocation_depth     = alloc_depth,
-         },
-     };
-     blk_exp_add(export_opts, &error_fatal);
-diff --git a/tests/qemu-iotests/309 b/tests/qemu-iotests/309
-new file mode 100755
-index 000000000000..fb61157c2e1d
---- /dev/null
-+++ b/tests/qemu-iotests/309
-@@ -0,0 +1,77 @@
-+#!/usr/bin/env bash
-+#
-+# Test qemu-nbd -A
-+#
-+# Copyright (C) 2018-2020 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+seq="$(basename $0)"
-+echo "QA output created by $seq"
-+
-+status=1 # failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    nbd_server_stop
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.nbd
-+
-+_supported_fmt qcow2
-+_supported_proto file
-+_supported_os Linux
-+_require_command QEMU_NBD
-+
-+echo
-+echo "=== Initial image setup ==="
-+echo
-+
-+TEST_IMG="$TEST_IMG.base" _make_test_img 4M
-+$QEMU_IO -c 'w 0 2M' -f $IMGFMT "$TEST_IMG.base" | _filter_qemu_io
-+_make_test_img -b "$TEST_IMG.base" -F $IMGFMT 4M
-+$QEMU_IO -c 'w 1M 2M' -f $IMGFMT "$TEST_IMG" | _filter_qemu_io
-+
-+echo
-+echo "=== Check allocation over NBD ==="
-+echo
-+
-+$QEMU_IMG map --output=json -f qcow2 "$TEST_IMG"
-+IMG="driver=nbd,server.type=unix,server.path=$nbd_unix_socket"
-+nbd_server_start_unix_socket -r -f qcow2 -A "$TEST_IMG"
-+# Normal -f raw NBD block status loses access to allocation information
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG" | _filter_qemu_img_map
-+# But when we use -A, coupled with x-dirty-bitmap in the client for feeding
-+# 2-bit block status from an alternative NBD metadata context (note that
-+# the client code for x-dirty-bitmap intentionally collapses all depths
-+# beyond 2 into a single value), we can determine:
-+#    unallocated (depth 0) => "zero":false, "data":true
-+#    local (depth 1)       => "zero":false, "data":false
-+#    backing (depth 2+)    => "zero":true,  "data":true
-+$QEMU_IMG map --output=json --image-opts \
-+    "$IMG,x-dirty-bitmap=qemu:allocation-depth" | _filter_qemu_img_map
-+# More accurate results can be obtained by other NBD clients such as
-+# libnbd, but this test works without such external dependencies.
-+
-+# success, all done
-+echo '*** done'
-+rm -f $seq.full
-+status=0
-diff --git a/tests/qemu-iotests/309.out b/tests/qemu-iotests/309.out
-new file mode 100644
-index 000000000000..db75bb6b0df9
---- /dev/null
-+++ b/tests/qemu-iotests/309.out
-@@ -0,0 +1,22 @@
-+QA output created by 309
-+
-+=== Initial image setup ===
-+
-+Formatting 'TEST_DIR/t.IMGFMT.base', fmt=IMGFMT size=4194304
-+wrote 2097152/2097152 bytes at offset 0
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=4194304 backing_file=TEST_DIR/t.IMGFMT.base backing_fmt=IMGFMT
-+wrote 2097152/2097152 bytes at offset 1048576
-+2 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+=== Check allocation over NBD ===
-+
-+[{ "start": 0, "length": 1048576, "depth": 1, "zero": false, "data": true, "offset": 327680},
-+{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": 327680},
-+{ "start": 3145728, "length": 1048576, "depth": 1, "zero": true, "data": false}]
-+[{ "start": 0, "length": 3145728, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 3145728, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 1048576, "depth": 0, "zero": true, "data": true, "offset": OFFSET},
-+{ "start": 1048576, "length": 2097152, "depth": 0, "zero": false, "data": false},
-+{ "start": 3145728, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 343298928350..2960dff72864 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -315,3 +315,4 @@
- 304 rw quick
- 305 rw quick
- 307 rw quick export
-+309 rw auto quick
--- 
-2.29.0
+On 10/20/20 3:35 PM, John Snow wrote:
+> Based-on: https://gitlab.com/jsnow/qemu/-/tree/python
+> 
+> This series factors the python/qemu directory as an installable
+> package. It does not yet actually change the mechanics of how any other
+> python source in the tree actually consumes it (yet), beyond the import
+> path.
+>  > The point of this series is primarily to formalize our dependencies on
+> mypy, flake8, isort, and pylint alongside versions that are known to
+> work. It also adds explicitly pinned versions of these dependencies that
+> should behave in a repeatable and known way for developers and CI
+> environments both.
+> 
+> With the python tooling as a proper package, you can install this
+> package in editable or production mode to a virtual environment, your
+> local user environment, or your system packages. The primary benefit of
+> this is to gain access to QMP tooling regardless of CWD, without needing
+> to battle sys.path.
+> 
+> For example: when developing, you may go to qemu/python/ and invoke
+> `pipenv shell` to activate a virtual environment that contains the qemu
+> packages.  This package will always reflect the current version of the
+> source files in the tree. When you are finished, you can simply exit the
+> shell to remove these packages from your python environment.
+> 
+> When not developing, you could install a version of this package to your
+> environment outright to gain access to the QMP and QEMUMachine classes
+> for lightweight scripting and testing by using pip: "pip install [--user] ."
+> 
+> Finally, this package is formatted in such a way that it COULD be
+> uploaded to https://pypi.org/project/qemu and installed independently of
+> qemu.git with `pip install qemu`, but that button remains unpushed.
+> 
+> TESTING THIS SERIES:
+> 
+> CD to qemu/python first, and then:
+> 
+> 1. Try "pipenv shell" to get a venv with the package installed to it in
+> editable mode. Ctrl+d exits this venv shell. While in this shell, any
+> python script that uses "from qemu.[qmp|machine] import ..." should work
+> correctly regardless of your CWD.
+> 
+> 2. Try "pipenv sync --dev" to create/update the venv with the
+> development packages without actually entering the venv. This should
+> install isort, mypy, flake8 and pylint to the venv.
+> 
+> 3. After the above sync, try "pipenv shell" again, and from the python
+> project root, try any of the following:
+> 
+>    - pylint qemu
+>    - flake8 qemu
+>    - isort -c qemu
+>    - mypy qemu
+> 
+> 4. Leave any venv you are in, and from the project root, try the
+> following commands:
+> 
+>    - pipenv run pylint qemu
+>    - pipenv run flake8 qemu
+>    - pipenv run isort -c qemu
+>    - pipenv run mypy qemu
+> 
+> V3:
+>   - Changed "qemu.core" to "qemu.qmp" and "qemu.machine",
+>     Partly to accommodate forthcoming work which would benefit from a separate
+>     qemu.qmp namespace.
+>   - Changed the initial version from 5.2.0a1 to 0.5.2.0a1, to allow for
+>     more rapid development while we smooth out the initial kinks.
+>   - 001: Renamed patch title; differences implement the new names.
+>   - 002: Readme changes for above.
+>   - 003: Version change.
+>   - 004: New readme for the new qmp directory.
+>   - 006: A few more import exceptions for pylint, hopefully temporary.
+>   - 009: Updated flake8 config comment to match qapi's
+>   - 012: Added namespace_package configuration value
+> 
+> 001/15:[down] 'python: create qemu packages'
+> 002/15:[0009] [FC] 'python: add qemu package installer'
+> 003/15:[0002] [FC] 'python: add VERSION file'
+> 004/15:[0015] [FC] 'python: add directory structure README.rst files'
+> 005/15:[----] [--] 'python: Add pipenv support'
+> 006/15:[down] 'python: add pylint import exceptions'
+> 007/15:[----] [--] 'python: move pylintrc into setup.cfg'
+> 008/15:[----] [--] 'python: add pylint to pipenv'
+> 009/15:[0002] [FC] 'python: move flake8 config to setup.cfg'
+> 010/15:[----] [--] 'python: Add flake8 to pipenv'
+> 011/15:[----] [-C] 'python: move mypy.ini into setup.cfg'
+> 012/15:[0001] [FC] 'python: add mypy to pipenv'
+> 013/15:[----] [--] 'python: move .isort.cfg into setup.cfg'
+> 014/15:[----] [--] 'python/qemu: add isort to pipenv'
+> 015/15:[----] [--] 'python/qemu: add qemu package itself to pipenv'
+> 
+> John Snow (15):
+>    python: create qemu packages
+>    python: add qemu package installer
+>    python: add VERSION file
+>    python: add directory structure README.rst files
+>    python: Add pipenv support
+>    python: add pylint import exceptions
+>    python: move pylintrc into setup.cfg
+>    python: add pylint to pipenv
+>    python: move flake8 config to setup.cfg
+>    python: Add flake8 to pipenv
+>    python: move mypy.ini into setup.cfg
+>    python: add mypy to pipenv
+>    python: move .isort.cfg into setup.cfg
+>    python/qemu: add isort to pipenv
+>    python/qemu: add qemu package itself to pipenv
+> 
+>   python/PACKAGE.rst                          |  26 +++
+>   python/README.rst                           |  27 +++
+>   python/qemu/README.rst                      |   8 +
+>   python/qemu/machine/README.rst              |   9 +
+>   python/qemu/qmp/README.rst                  |   9 +
+>   python/Pipfile                              |  16 ++
+>   python/Pipfile.lock                         | 207 ++++++++++++++++++++
+>   python/VERSION                              |   1 +
+>   python/mypy.ini                             |   4 -
+>   python/qemu/.flake8                         |   2 -
+>   python/qemu/.isort.cfg                      |   7 -
+>   python/qemu/__init__.py                     |  11 --
+>   python/qemu/machine/__init__.py             |  44 +++++
+>   python/qemu/{ => machine}/accel.py          |   0
+>   python/qemu/{ => machine}/console_socket.py |   0
+>   python/qemu/{ => machine}/machine.py        |  16 +-
+>   python/qemu/{ => machine}/qtest.py          |   3 +-
+>   python/qemu/{qmp.py => qmp/__init__.py}     |  12 +-
+>   python/{qemu/pylintrc => setup.cfg}         |  67 ++++---
+>   python/setup.py                             |  23 +++
+>   tests/acceptance/boot_linux.py              |   3 +-
+>   tests/qemu-iotests/297                      |   2 +-
+>   tests/qemu-iotests/300                      |   4 +-
+>   tests/qemu-iotests/iotests.py               |   2 +-
+>   tests/vm/basevm.py                          |   3 +-
+>   25 files changed, 437 insertions(+), 69 deletions(-)
+>   create mode 100644 python/PACKAGE.rst
+>   create mode 100644 python/README.rst
+>   create mode 100644 python/qemu/README.rst
+>   create mode 100644 python/qemu/machine/README.rst
+>   create mode 100644 python/qemu/qmp/README.rst
+>   create mode 100644 python/Pipfile
+>   create mode 100644 python/Pipfile.lock
+>   create mode 100644 python/VERSION
+>   delete mode 100644 python/mypy.ini
+>   delete mode 100644 python/qemu/.flake8
+>   delete mode 100644 python/qemu/.isort.cfg
+>   delete mode 100644 python/qemu/__init__.py
+>   create mode 100644 python/qemu/machine/__init__.py
+>   rename python/qemu/{ => machine}/accel.py (100%)
+>   rename python/qemu/{ => machine}/console_socket.py (100%)
+>   rename python/qemu/{ => machine}/machine.py (98%)
+>   rename python/qemu/{ => machine}/qtest.py (98%)
+>   rename python/qemu/{qmp.py => qmp/__init__.py} (96%)
+>   rename python/{qemu/pylintrc => setup.cfg} (50%)
+>   mode change 100644 => 100755
+>   create mode 100755 python/setup.py
+> 
 
 
