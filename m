@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17AF029CBC1
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:07:34 +0100 (CET)
-Received: from localhost ([::1]:51666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83ACD29CBAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:02:21 +0100 (CET)
+Received: from localhost ([::1]:38578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXX7t-0005iW-3D
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:07:33 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
+	id 1kXX2q-0008Tg-Ft
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:02:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX02-0006Vw-0z
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31190)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX01-0006UG-Er
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXX00-0000gM-9X
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kXWzz-0000g8-M0
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 17:59:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603835963;
+ s=mimecast20190719; t=1603835962;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D6stckMsSxJwoGs0qORIoM6nIL9/LNiCXptGi3RC248=;
- b=bxjnTXkUD4pK0KJwXqMMzZhabdmy2m4vxxoWDKaUCkk6ujMef9k727D5N7FTQhRzgRxGqn
- Z2VH0itE5Ev9Fc6vQp0R1LWeAmwktDxBdCvIqAesWjuLJlP4Xs6GYncYn7Ad3OlPSgMrCx
- cK5cxARIYZW9NAdfz7Mkuq3sCwuC5OQ=
+ bh=TX591feob0d6794777CR7MTmrjGksv/To2bbYFll/IU=;
+ b=Uy367sOKqgapcUTfSTgHq257U14uUc9mc9a1fqi+aKYTHHwYMQranmKqwC3Tg5ni3Awvdz
+ zHPSZKv5IaQ5xMfLFnykDsMlrIJ7dFFR+OIBQvqPUbYj621vAsEVFDIFy0GX7evhYJtWbI
+ 3Vmeu+509rOGUgHFUEFKeyFTmnBJ88E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-az3Xu2djPqKtpeiwv72E5g-1; Tue, 27 Oct 2020 17:59:19 -0400
-X-MC-Unique: az3Xu2djPqKtpeiwv72E5g-1
+ us-mta-94-DUZmQNmMPA21QJ-UlcjyVw-1; Tue, 27 Oct 2020 17:59:20 -0400
+X-MC-Unique: DUZmQNmMPA21QJ-UlcjyVw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F65C61239;
- Tue, 27 Oct 2020 21:59:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 320A76123C;
+ Tue, 27 Oct 2020 21:59:19 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E165210013DB;
- Tue, 27 Oct 2020 21:59:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7EDC41002382;
+ Tue, 27 Oct 2020 21:59:18 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/12] iotests/291: Stop NBD server
-Date: Tue, 27 Oct 2020 16:59:04 -0500
-Message-Id: <20201027215914.619460-3-eblake@redhat.com>
+Subject: [PULL 03/12] block: Simplify QAPI_LIST_ADD
+Date: Tue, 27 Oct 2020 16:59:05 -0500
+Message-Id: <20201027215914.619460-4-eblake@redhat.com>
 In-Reply-To: <20201027215914.619460-1-eblake@redhat.com>
 References: <20201027215914.619460-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -65,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +79,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Markus Armbruster <armbru@redhat.com>,
  "open list:Block layer core" <qemu-block@nongnu.org>,
  Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+There is no need to rely on the verbosity of the gcc/clang compiler
+extension of g_new(typeof(X), 1) when we can instead use the standard
+g_malloc(sizeof(X)).  In general, we like g_new over g_malloc for
+returning type X rather than void* to let the compiler catch more
+potential typing mistakes, but in this particular macro, our other use
+of typeof on the same line already ensures we are getting correct
+results.
 
-nbd_server_start_unix_socket() includes an implicit nbd_server_stop(),
-but we still need an explicit one at the end of the test (where there
-follows no next nbd_server_start_unix_socket()), or qemu-nbd will linger
-until the test exits.
-
-This will become important when enabling this test to run on FUSE
-exports, because then the export (which is the image used by qemu-nbd)
-will go away before qemu-nbd exits, which will lead to qemu-nbd
-complaining that it cannot flush the bitmaps in the image.
-
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201027164416.144115-3-mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20201027050556.269064-2-eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 ---
- tests/qemu-iotests/291 | 2 ++
- 1 file changed, 2 insertions(+)
+ block.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/291 b/tests/qemu-iotests/291
-index 77fa38f93d31..b7320bc7adf2 100755
---- a/tests/qemu-iotests/291
-+++ b/tests/qemu-iotests/291
-@@ -128,6 +128,8 @@ nbd_server_start_unix_socket -r -f qcow2 -B b3 "$TEST_IMG"
- $QEMU_IMG map --output=json --image-opts \
-     "$IMG,x-dirty-bitmap=qemu:dirty-bitmap:b3" | _filter_qemu_img_map
+diff --git a/block.c b/block.c
+index 430edf79bb10..857387f3912f 100644
+--- a/block.c
++++ b/block.c
+@@ -5231,7 +5231,7 @@ BlockDeviceInfoList *bdrv_named_nodes_list(bool flat,
+ }
 
-+nbd_server_stop
-+
- # success, all done
- echo '*** done'
- rm -f $seq.full
+ #define QAPI_LIST_ADD(list, element) do { \
+-    typeof(list) _tmp = g_new(typeof(*(list)), 1); \
++    typeof(list) _tmp = g_malloc(sizeof(*(list))); \
+     _tmp->value = (element); \
+     _tmp->next = (list); \
+     (list) = _tmp; \
 -- 
 2.29.0
 
