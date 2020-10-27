@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4FC029C791
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:38:47 +0100 (CET)
-Received: from localhost ([::1]:38012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4446E29C7C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:50:20 +0100 (CET)
+Received: from localhost ([::1]:41914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTrq-0006fa-S8
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:38:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58008)
+	id 1kXU31-0003LC-7v
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:50:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbv-0004Ep-Sx
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48517)
+ id 1kXTc1-0004Om-M7
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbl-00032F-Eu
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:19 -0400
+ id 1kXTbr-00032n-KO
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603822926;
+ s=mimecast20190719; t=1603822928;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A53k95pNRjRUvM3cXRgJVxqxjt4zlPJeqOaxha4X658=;
- b=TvZ15jjl00TITt8CbXXmInvmsRUlZKMBT6pFM3b6lafbbEIXbbXqPc9GfeZ9mqEYKQUhGP
- 1ilIk5EJaEAtzfEx6DeSkk+0gjPiUlo58UJ9L4ATqGlvPw94dNkCZejYKxOAK3lKDYvnJl
- O6kT636VWv/GRECd16cF0O8TTgX7Pbc=
+ bh=0aebqn9mcpgjpysUq+vt/qsdYGZP78xp3OuddpIOlKE=;
+ b=XZduzi8BvRz/+HtT4gt97G7oT3awp7LhPVHGxfCHpbdaO0JiKb8xb0n4c4wsgQ46XcIK2l
+ gt3vngNwYEqBdNkqx/V6v/1vWywcOB2v4HEgfJKeW7AfHbWmRjQkoz6PHT7RgohEhxSViy
+ sf+raDLliVyIJKiGSX0jfEvQfQFaycE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-v-BoMrvGPMWE4VQz3Qp4Ow-1; Tue, 27 Oct 2020 14:22:02 -0400
-X-MC-Unique: v-BoMrvGPMWE4VQz3Qp4Ow-1
+ us-mta-505-y5FRCb4LOBa0SaoYIWLj7w-1; Tue, 27 Oct 2020 14:22:06 -0400
+X-MC-Unique: y5FRCb4LOBa0SaoYIWLj7w-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD99D8BAF47
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28987A0C1B
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:52 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 822C15D9EF
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE2175D9E8
  for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:51 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/29] vl: separate qemu_create_early_backends
-Date: Tue, 27 Oct 2020 14:21:32 -0400
-Message-Id: <20201027182144.3315885-18-pbonzini@redhat.com>
+Subject: [PATCH 18/29] vl: separate qemu_create_late_backends
+Date: Tue, 27 Oct 2020 14:21:33 -0400
+Message-Id: <20201027182144.3315885-19-pbonzini@redhat.com>
 In-Reply-To: <20201027182144.3315885-1-pbonzini@redhat.com>
 References: <20201027182144.3315885-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,205 +84,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"Early" backends are created before the machine and can be used as
-machine options.
+"Late" backends are created after the machine.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 123 +++++++++++++++++++++++++++------------------------
- 1 file changed, 65 insertions(+), 58 deletions(-)
+ softmmu/vl.c | 64 ++++++++++++++++++++++++++--------------------------
+ 1 file changed, 32 insertions(+), 32 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index ebe3d46889..109036c089 100644
+index 109036c089..0c390b979e 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -117,6 +117,14 @@
- 
- #define MAX_VIRTIO_CONSOLES 1
- 
-+typedef struct BlockdevOptionsQueueEntry {
-+    BlockdevOptions *bdo;
-+    Location loc;
-+    QSIMPLEQ_ENTRY(BlockdevOptionsQueueEntry) entry;
-+} BlockdevOptionsQueueEntry;
-+
-+typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
-+
- static const char *cpu_option;
- static const char *data_dir[16];
- static int data_dir_idx;
-@@ -126,7 +134,9 @@ static const char *boot_once;
- static const char *incoming;
- static const char *loadvm;
- static int display_remote;
-+static int snapshot;
- static QemuPluginList plugin_list = QTAILQ_HEAD_INITIALIZER(plugin_list);
-+static BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
- static bool nographic = false;
- enum vga_retrace_method vga_retrace_method = VGA_RETRACE_DUMB;
- int mem_prealloc; /* force preallocation of physical target memory */
-@@ -1043,14 +1053,6 @@ static void default_drive(int enable, int snapshot, BlockInterfaceType type,
- 
- }
- 
--typedef struct BlockdevOptionsQueueEntry {
--    BlockdevOptions *bdo;
--    Location loc;
--    QSIMPLEQ_ENTRY(BlockdevOptionsQueueEntry) entry;
--} BlockdevOptionsQueueEntry;
--
--typedef QSIMPLEQ_HEAD(, BlockdevOptionsQueueEntry) BlockdevOptionsQueue;
--
- static void configure_blockdev(BlockdevOptionsQueue *bdo_queue,
-                                MachineClass *machine_class, int snapshot)
- {
-@@ -2640,7 +2642,7 @@ static int machine_set_property(void *opaque,
-  * cannot be created here, as it depends on the chardev
-  * already existing.
+@@ -2755,11 +2755,41 @@ static void qemu_create_early_backends(void)
+  * The remainder of object creation happens after the
+  * creation of chardev, fsdev, net clients and device data types.
   */
--static bool object_create_initial(const char *type, QemuOpts *opts)
-+static bool object_create_early(const char *type, QemuOpts *opts)
+-static bool object_create_delayed(const char *type, QemuOpts *opts)
++static bool object_create_late(const char *type, QemuOpts *opts)
  {
-     if (user_creatable_print_help(type, opts)) {
-         exit(0);
-@@ -2696,6 +2698,58 @@ static bool object_create_initial(const char *type, QemuOpts *opts)
-     return true;
+     return !object_create_early(type, opts);
  }
  
-+static void qemu_create_early_backends(void)
++static void qemu_create_late_backends(void)
 +{
-+    MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
-+
-+    if ((alt_grab || ctrl_grab) && dpy.type != DISPLAY_TYPE_SDL) {
-+        error_report("-alt-grab and -ctrl-grab are only valid "
-+                     "for SDL, ignoring option");
-+    }
-+    if (dpy.has_window_close &&
-+        (dpy.type != DISPLAY_TYPE_GTK && dpy.type != DISPLAY_TYPE_SDL)) {
-+        error_report("-no-quit is only valid for GTK and SDL, "
-+                     "ignoring option");
++    if (qtest_chrdev) {
++        qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
 +    }
 +
-+    qemu_display_early_init(&dpy);
-+    qemu_console_early_init();
-+
-+    if (dpy.has_gl && dpy.gl != DISPLAYGL_MODE_OFF && display_opengl == 0) {
-+#if defined(CONFIG_OPENGL)
-+        error_report("OpenGL is not supported by the display");
-+#else
-+        error_report("OpenGL support is disabled");
-+#endif
-+        exit(1);
-+    }
++    net_init_clients(&error_fatal);
 +
 +    qemu_opts_foreach(qemu_find_opts("object"),
 +                      user_creatable_add_opts_foreach,
-+                      object_create_early, &error_fatal);
++                      object_create_late, &error_fatal);
 +
-+    /* spice needs the timers to be initialized by this point */
-+    /* spice must initialize before audio as it changes the default auiodev */
-+    /* spice must initialize before chardevs (for spicevmc and spiceport) */
-+    qemu_spice.init();
++    if (tpm_init() < 0) {
++        exit(1);
++    }
 +
-+    qemu_opts_foreach(qemu_find_opts("chardev"),
-+                      chardev_init_func, NULL, &error_fatal);
++    qemu_opts_foreach(qemu_find_opts("mon"),
++                      mon_init_func, NULL, &error_fatal);
 +
-+#ifdef CONFIG_VIRTFS
-+    qemu_opts_foreach(qemu_find_opts("fsdev"),
-+                      fsdev_init_func, NULL, &error_fatal);
-+#endif
++    if (foreach_device_config(DEV_SERIAL, serial_parse) < 0)
++        exit(1);
++    if (foreach_device_config(DEV_PARALLEL, parallel_parse) < 0)
++        exit(1);
++    if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
++        exit(1);
 +
-+    /*
-+     * Note: we need to create audio and block backends before
-+     * machine_set_property(), so machine properties can refer to
-+     * them.
-+     */
-+    configure_blockdev(&bdo_queue, machine_class, snapshot);
-+    audio_init_audiodevs();
++    /* now chardevs have been created we may have semihosting to connect */
++    qemu_semihosting_connect_chardevs();
++    qemu_semihosting_console_init();
 +}
-+
  
- /*
-  * The remainder of object creation happens after the
-@@ -2703,7 +2757,7 @@ static bool object_create_initial(const char *type, QemuOpts *opts)
-  */
- static bool object_create_delayed(const char *type, QemuOpts *opts)
- {
--    return !object_create_initial(type, opts);
-+    return !object_create_early(type, opts);
- }
- 
- 
-@@ -3321,7 +3375,6 @@ static void qemu_machine_creation_done(void)
- 
- void qemu_init(int argc, char **argv, char **envp)
- {
--    int snapshot = 0;
-     QemuOpts *opts, *machine_opts;
-     QemuOpts *icount_opts = NULL, *accel_opts = NULL;
-     QemuOptsList *olist;
-@@ -3334,7 +3387,6 @@ void qemu_init(int argc, char **argv, char **envp)
+ static bool set_memory_options(uint64_t *ram_slots, ram_addr_t *maxram_size,
+                                MachineClass *mc)
+@@ -3385,7 +3415,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     ram_addr_t maxram_size;
+     uint64_t ram_slots = 0;
      FILE *vmstate_dump_file = NULL;
-     Error *err = NULL;
+-    Error *err = NULL;
      bool have_custom_ram_size;
--    BlockdevOptionsQueue bdo_queue = QSIMPLEQ_HEAD_INITIALIZER(bdo_queue);
  
      qemu_add_opts(&qemu_drive_opts);
-     qemu_add_drive_opts(&qemu_legacy_drive_opts);
-@@ -4308,52 +4360,7 @@ void qemu_init(int argc, char **argv, char **envp)
+@@ -4402,10 +4431,6 @@ void qemu_init(int argc, char **argv, char **envp)
+      */
+     migration_object_init();
  
-     qemu_disable_default_devices();
-     qemu_create_default_devices();
--    if ((alt_grab || ctrl_grab) && dpy.type != DISPLAY_TYPE_SDL) {
--        error_report("-alt-grab and -ctrl-grab are only valid "
--                     "for SDL, ignoring option");
--    }
--    if (dpy.has_window_close &&
--        (dpy.type != DISPLAY_TYPE_GTK && dpy.type != DISPLAY_TYPE_SDL)) {
--        error_report("-no-quit is only valid for GTK and SDL, "
--                     "ignoring option");
+-    if (qtest_chrdev) {
+-        qtest_server_init(qtest_chrdev, qtest_log, &error_fatal);
 -    }
 -
--    qemu_display_early_init(&dpy);
--    qemu_console_early_init();
--
--    if (dpy.has_gl && dpy.gl != DISPLAYGL_MODE_OFF && display_opengl == 0) {
--#if defined(CONFIG_OPENGL)
--        error_report("OpenGL is not supported by the display");
--#else
--        error_report("OpenGL support is disabled");
--#endif
+     opts = qemu_opts_find(qemu_find_opts("boot-opts"), NULL);
+     if (opts) {
+         boot_order = qemu_opt_get(opts, "order");
+@@ -4426,32 +4451,7 @@ void qemu_init(int argc, char **argv, char **envp)
+         boot_order = machine_class->default_boot_order;
+     }
+ 
+-    if (net_init_clients(&err) < 0) {
+-        error_report_err(err);
 -        exit(1);
 -    }
 -
 -    qemu_opts_foreach(qemu_find_opts("object"),
 -                      user_creatable_add_opts_foreach,
--                      object_create_initial, &error_fatal);
+-                      object_create_delayed, &error_fatal);
 -
--    /* spice needs the timers to be initialized by this point */
--    /* spice must initialize before audio as it changes the default auiodev */
--    /* spice must initialize before chardevs (for spicevmc and spiceport) */
--    qemu_spice.init();
+-    if (tpm_init() < 0) {
+-        exit(1);
+-    }
 -
--    qemu_opts_foreach(qemu_find_opts("chardev"),
--                      chardev_init_func, NULL, &error_fatal);
+-    qemu_opts_foreach(qemu_find_opts("mon"),
+-                      mon_init_func, NULL, &error_fatal);
 -
--#ifdef CONFIG_VIRTFS
--    qemu_opts_foreach(qemu_find_opts("fsdev"),
--                      fsdev_init_func, NULL, &error_fatal);
--#endif
+-    if (foreach_device_config(DEV_SERIAL, serial_parse) < 0)
+-        exit(1);
+-    if (foreach_device_config(DEV_PARALLEL, parallel_parse) < 0)
+-        exit(1);
+-    if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+-        exit(1);
 -
--    /*
--     * Note: we need to create audio and block backends before
--     * machine_set_property(), so machine properties can refer to
--     * them.
--     */
--    configure_blockdev(&bdo_queue, machine_class, snapshot);
--    audio_init_audiodevs();
-+    qemu_create_early_backends();
+-    /* now chardevs have been created we may have semihosting to connect */
+-    qemu_semihosting_connect_chardevs();
+-    qemu_semihosting_console_init();
++    qemu_create_late_backends();
  
-     machine_opts = qemu_get_machine_opts();
-     qemu_opt_foreach(machine_opts, machine_set_property, current_machine,
+     current_machine->boot_order = boot_order;
+ 
 -- 
 2.26.2
 
