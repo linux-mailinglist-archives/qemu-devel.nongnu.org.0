@@ -2,70 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6218D29AB85
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:14:10 +0100 (CET)
-Received: from localhost ([::1]:49696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F34BA29ABFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:22:31 +0100 (CET)
+Received: from localhost ([::1]:38184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNrb-0003C0-L3
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:14:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43984)
+	id 1kXNzj-000202-0S
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:22:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXMuR-0006N5-Vr
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:13:00 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:42290)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXMuN-0001jR-SH
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:12:58 -0400
-Received: by mail-ed1-x541.google.com with SMTP id v19so981416edx.9
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:12:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ZjHkoAu2GQuZRbdEyCVjIbSkW16Ixy/i8fRdvBrKSKg=;
- b=tUQW3PTZ1LsZuYvAoM1NwNuu36jMBOwT0XCkxMU6KhhbCK6hpfRoZ3dQ/U9qh+BnNo
- AJERZi+MJY0LAfOZw7TS8CZ9xs69u1yHczPVx2UbjhOAehjakAh7nJcCv5tqPlNjocgM
- mSK6IZZiSCij8fei7YJIcQepKHQ5eFa166/TeA2bQJtXFhhsvk6FuBmZAHURMSFNCL5I
- 9M1ABo5kLR9OpxYOziq8SHsiF532vj4xbkdKu+spPPPFulpMkxNtbHoFeyBupJr6NC+N
- FDzHrPAcWWYomhaH87m0g6AtgEN4krM/JE6GFaHKMMHCZbCr4x3FTVuKkv6nyILI3/Ix
- gKVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ZjHkoAu2GQuZRbdEyCVjIbSkW16Ixy/i8fRdvBrKSKg=;
- b=lhs80jwqd9+OW5K3PovdItrERl3OIblmDS0J5eRN4LoRyAXVnrrKPPyGzwOh+7Q2rY
- Qatco3j8Wj6HunokOJlYe/aP50QiC95DlOduDNrKIM06QGjMguEmCuTzApN4+pkavQ37
- YSurkkd3cUJSyYj30mZesvG7uuGB9UTvgIPF2AKwsSO8/IktrDg3ATYPP8p+/WEkG51k
- e0wDgEcOmSysnCVm6bhkoYhpCNRXQrn4A/p0+NxUxVBAvSDRS6uyjb5oLiqQlZ8e0ju2
- ZsRHtWWV6M4MKyWL/JvhNUJcLyejgkG7sQMzT8gVsHSzXxK+6htEBusvQq9P3diRNMsp
- 372w==
-X-Gm-Message-State: AOAM5336kKSrrKmFGNrMtI+o7ZPsmj3tbg+KUAeCljvRoM6ArXr21XQR
- 95/jK/Czpsgj0GQoPR3CmheBVjj0mIt0p2i9X6XwfA==
-X-Google-Smtp-Source: ABdhPJxEB5CXDULy3Mticm0FOSkwq9pCkR4NDl2Xm5M6riTK2nxbkpeyzr9txOwjGrpNVG5Boj5c7YG6PW+Rsnhr6jM=
-X-Received: by 2002:a50:9ea6:: with SMTP id a35mr1703863edf.52.1603797173945; 
- Tue, 27 Oct 2020 04:12:53 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXN4I-00044l-HH
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:23:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22470)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXN4G-0005Cj-AQ
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:23:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603797787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=KuHtg5DPV7fM/u8ITYa4IOEd+hP5MPv/+F+SuJZ8V5I=;
+ b=WSgRmuqz+4vC3yVGY4oRogo+EsqZuWqKBGUDADpmiP1ZnMJhiU6yIjCuEla/MecRPFylW7
+ 8iOF1FRN/CTiTyR2HVSMucU8jupBx/1M2rWZL6+H1avKANrZajfxGQ+gfX5McncT6oFt7D
+ E0IIhZFx4Gg/OzFZIb2L3nJlQjyCo20=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-zhw_Slz_Muqy69NxyAb7IA-1; Tue, 27 Oct 2020 07:23:04 -0400
+X-MC-Unique: zhw_Slz_Muqy69NxyAb7IA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFA121019626
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 11:23:03 +0000 (UTC)
+Received: from localhost (ovpn-114-163.ams2.redhat.com [10.36.114.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6939B6115F;
+ Tue, 27 Oct 2020 11:23:03 +0000 (UTC)
+Date: Tue, 27 Oct 2020 11:23:02 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] trace: remove argument from trace_init_file
+Message-ID: <20201027112302.GG79063@stefanha-x1.localdomain>
+References: <20201026144019.3044362-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20201027015927.29495-1-shashi.mallela@linaro.org>
-In-Reply-To: <20201027015927.29495-1-shashi.mallela@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Oct 2020 11:12:42 +0000
-Message-ID: <CAFEAcA9KQwGrS-9J2M41=KCzJm618vFH4cnjRT+H5AwREMxcsA@mail.gmail.com>
-Subject: Re: [PATCH v8 0/2] Add watchdog support for SbsaQemu
-To: Shashi Mallela <shashi.mallela@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201026144019.3044362-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="RDS4xtyBfx+7DiaI"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,29 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leif Lindholm <leif@nuviainc.com>, QEMU Developers <qemu-devel@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, Radoslaw Biernacki <rad@semihalf.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 at 01:59, Shashi Mallela <shashi.mallela@linaro.org> wrote:
->
-> This patch series adds watchdog timer support for SbsaQemu platform.
->
-> The watchdog timer has been implemented first based on the generic
-> watchdog timer specifications from ARM SBSA v6.0 and then used
-> in the SbsaQemu reference platform
->
-> Changes in v8:
-> - cleared irq also along with ws0 clear on each explicit refresh
-> - addressed additional review comments
->
-> Shashi Mallela (2):
->   hw/watchdog: Implement SBSA watchdog device
->   hw/arm/sbsa-ref: add SBSA watchdog device
+--RDS4xtyBfx+7DiaI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Applied to target-arm.next. Thanks for the respins and for
-working through our code review process.
+On Mon, Oct 26, 2020 at 10:40:19AM -0400, Paolo Bonzini wrote:
+> It is not needed, all the callers are just saving what was
+> retrieved from -trace and trace_init_file can retrieve it
+> on its own.
+>=20
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  bsd-user/main.c                      |  6 ++----
+>  linux-user/main.c                    |  6 ++----
+>  qemu-img.c                           |  6 ++----
+>  qemu-io.c                            |  6 ++----
+>  qemu-nbd.c                           |  6 ++----
+>  scsi/qemu-pr-helper.c                |  6 ++----
+>  softmmu/vl.c                         |  6 ++----
+>  storage-daemon/qemu-storage-daemon.c |  9 +++------
+>  trace/control.c                      | 10 ++++------
+>  trace/control.h                      | 12 +++---------
+>  10 files changed, 24 insertions(+), 49 deletions(-)
 
--- PMM
+Thanks, applied to my tracing-next tree:
+https://gitlab.com/stefanha/qemu/commits/tracing-next
+
+Stefan
+
+--RDS4xtyBfx+7DiaI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+YAxYACgkQnKSrs4Gr
+c8jv7QgAg6MYI6nTG/obnoOi6y6aDmOUAeN3j7jB7mW1h3zvaSW2DHtWnhCUDpf0
+c1d4s9VfdBGQoQ49pNpetGwcl0YeCb4Xaz4MVoFFIqcSQuoKXwNDV5ZV+A/eBl8C
+z9UgDox34Kjv3duZb1GOUJl6Y0vjyD03/A26W8LzluSCOG2P+IDyw3XAAQLgiTqb
+fR98IUXt8dkkZ/CO3BdR1OMv/vSeFi/9tQXtzdsFddc0aACMlY4YZyGn2Wu991nr
+e25s9eE93R3WTKnnvWWK2XWCwi7lqf5NCQmNJ6C7tFJNXra/owIRVdBsmSRugkFO
+DAGpXBYcBl0vXRjGwdyVGVbWCE+39g==
+=+H+0
+-----END PGP SIGNATURE-----
+
+--RDS4xtyBfx+7DiaI--
+
 
