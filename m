@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4F129A95D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:19:48 +0100 (CET)
-Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35ECB29A980
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 11:24:32 +0100 (CET)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXM4x-0007fB-EF
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:19:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59874)
+	id 1kXM9X-0003qo-8T
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 06:24:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2g-0006fe-4D
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXM2Y-0006km-7s
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:17:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603793832;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/ZvcjIFipLmB2yeqWuLImtzpnfkfJSGR6QF/uPVnN6g=;
- b=ZLFesMBbUm04UHGcrKhQ58LEQMm8vCkZCOF0qmxuv9EPM91gtx9y5qFU+EBsSP5uwPq9ed
- F6jZE1GQlaVXixRbSVm378jbBfrgw2R5ltGCen0jFlKIR38pIHfhTBUsfTxKkdDFuRCQH3
- k9INrMLhasy9gtJAoFSJ8bIN1Rk0aJY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-345-6AJO8gMCPfmCC2HuuyRtyA-1; Tue, 27 Oct 2020 06:17:10 -0400
-X-MC-Unique: 6AJO8gMCPfmCC2HuuyRtyA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 748DF1074645;
- Tue, 27 Oct 2020 10:17:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C4CF5B4AF;
- Tue, 27 Oct 2020 10:17:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8C9961138461; Tue, 27 Oct 2020 11:17:07 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXM6Z-0001Cj-Kk
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:21:27 -0400
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXM6Y-0008CA-09
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 06:21:27 -0400
+Received: by mail-ej1-x62a.google.com with SMTP id ce10so1429984ejc.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 03:21:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=VB3pvcv08zLKqhwsEcLdqgh9YzTbyGlkseYk/hYu3K8=;
+ b=GmBBi9QLmTy5zfVUxgRvNaRgZ+uq+jdsFox2sYSi+N8xcKLfg0KHx7TZ+sosg9s/JT
+ njU6oRMCA4+WVcGLLRCBhU9RPMLcX3Jp/Gh77nuvoj4hsGZrKSDn65rW8UF7AhKD4Qxi
+ DAOT7gz8nZHANw3v448NoH7X4BNs8vhjixY1F6qEIjM2KIW0LJe44QqvNR5Ve91UKx6l
+ 8eJfevRFlcna2Cz/VCXJFNSEJiOQps6KRn8Xt2hjwjsWnlu7Robd3VNh9rTlAhSpDrN3
+ l1TQhAWvUKpRPhBv1/J9NIGEWzjVJD4gKiP4SFnWquVbi3gi1dmYz7DNv7R30AWu3vLd
+ Xoqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=VB3pvcv08zLKqhwsEcLdqgh9YzTbyGlkseYk/hYu3K8=;
+ b=dSV9oqs2ZtsvRT6mHkHOlvQ/kWHnrKPnHGNvraYWKoeasRzBA5EQRUHuD9SETENeVh
+ fW0xEub8h9eh5qt1I43iz4uoiKUh+aKwzh2jZLB/ck+50dq/z5t+7ccEmkowJs7hmlQ0
+ qVl0+WaTLC5beGKryEBsphMKpS+XrzzK4gSQO/jSk9pyeLs74ZPqOfHikbLIPJF/tgGM
+ d1ALFy6Ds0mXKqS4aS519luzUb6frtvpaqMcxeMSWxd4hS8FklzLspdZX0Bal+SD3H8j
+ P5P12nx7AUMf6UYY67DyWu1aeniXOoUk3n7W0dy78QYeBk8KzZutzTeEN5qs/MR9S87q
+ S5Lw==
+X-Gm-Message-State: AOAM531/hdmBbqVoIOdY84b+G8bR0a+fRyIlwsql75Wyo2UYCgj5Gd/t
+ NtV4wlu8ggtvnEb9fF9GqZSoAu2/aCw=
+X-Google-Smtp-Source: ABdhPJxpph3P7IGHArdaqyomTM5gTb+raHrgxPZvjLjJbok1Kxg7IWPFlALnB52POWC6VwynWkkL8g==
+X-Received: by 2002:a17:906:8610:: with SMTP id
+ o16mr1568689ejx.209.1603794083546; 
+ Tue, 27 Oct 2020 03:21:23 -0700 (PDT)
+Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id z20sm656327edq.90.2020.10.27.03.21.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 03:21:22 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/2] scripts/qmp: delete 'qmp' script
-Date: Tue, 27 Oct 2020 11:17:07 +0100
-Message-Id: <20201027101707.2988553-3-armbru@redhat.com>
-In-Reply-To: <20201027101707.2988553-1-armbru@redhat.com>
-References: <20201027101707.2988553-1-armbru@redhat.com>
+Subject: [RFC PATCH v4 0/1] tests/vm: Add Haiku VM
+Date: Tue, 27 Oct 2020 11:21:20 +0100
+Message-Id: <20201027102121.264963-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,182 +86,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
-
-This script has not seen a patch that was specifically for this script
-since it was moved to this location in 2013, and I doubt it is used. It
-uses "man qmp" for its help message, which does not exist. It also
-presumes there is a manual page for qmp-XXX, for each defined qmp
-command XXX. I don't think that's true.
-
-The format it expects arguments in is something like:
-
-block-dirty-bitmap-add --node=foo --name=bar
-
-and has no capacity to support nested JSON arguments, either.
-
-Most developers use either qmp-shell or socat (or pasting JSON directly
-into qmp stdio), so this duplication and additional alternate syntax is
-not helpful.
-
-Remove it. Leave a breadcrumb script just in case, to be removed next
-release cycle.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20201019210430.1063390-1-jsnow@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- scripts/qmp/qmp | 131 +++---------------------------------------------
- 1 file changed, 7 insertions(+), 124 deletions(-)
-
-diff --git a/scripts/qmp/qmp b/scripts/qmp/qmp
-index 8e52e4a54d..0f12307c87 100755
---- a/scripts/qmp/qmp
-+++ b/scripts/qmp/qmp
-@@ -1,128 +1,11 @@
- #!/usr/bin/env python3
--#
--# QMP command line tool
--#
--# Copyright IBM, Corp. 2011
--#
--# Authors:
--#  Anthony Liguori <aliguori@us.ibm.com>
--#
--# This work is licensed under the terms of the GNU GPLv2 or later.
--# See the COPYING file in the top-level directory.
- 
--import sys, os
-+import sys
- 
--sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.qmp import QEMUMonitorProtocol
-+print('''This unmaintained and undocumented script was removed in preference
-+for qmp-shell. The assumption is that most users are using either
-+qmp-shell, socat, or pasting/piping JSON into stdio. The duplication of
-+facilities here is unwanted, and the divergence of syntax harmful.''',
-+      file=sys.stderr)
- 
--def print_response(rsp, prefix=[]):
--    if type(rsp) == list:
--        i = 0
--        for item in rsp:
--            if prefix == []:
--                prefix = ['item']
--            print_response(item, prefix[:-1] + ['%s[%d]' % (prefix[-1], i)])
--            i += 1
--    elif type(rsp) == dict:
--        for key in rsp.keys():
--            print_response(rsp[key], prefix + [key])
--    else:
--        if len(prefix):
--            print('%s: %s' % ('.'.join(prefix), rsp))
--        else:
--            print('%s' % (rsp))
--
--def main(args):
--    path = None
--
--    # Use QMP_PATH if it's set
--    if 'QMP_PATH' in os.environ:
--        path = os.environ['QMP_PATH']
--
--    while len(args):
--        arg = args[0]
--
--        if arg.startswith('--'):
--            arg = arg[2:]
--            if arg.find('=') == -1:
--                value = True
--            else:
--                arg, value = arg.split('=', 1)
--
--            if arg in ['path']:
--                if type(value) == str:
--                    path = value
--            elif arg in ['help']:
--                os.execlp('man', 'man', 'qmp')
--            else:
--                print('Unknown argument "%s"' % arg)
--
--            args = args[1:]
--        else:
--            break
--
--    if not path:
--        print("QMP path isn't set, use --path=qmp-monitor-address or set QMP_PATH")
--        return 1
--
--    if len(args):
--        command, args = args[0], args[1:]
--    else:
--        print('No command found')
--        print('Usage: "qmp [--path=qmp-monitor-address] qmp-cmd arguments"')
--        return 1
--
--    if command in ['help']:
--        os.execlp('man', 'man', 'qmp')
--
--    srv = QEMUMonitorProtocol(path)
--    srv.connect()
--
--    def do_command(srv, cmd, **kwds):
--        rsp = srv.cmd(cmd, kwds)
--        if 'error' in rsp:
--            raise Exception(rsp['error']['desc'])
--        return rsp['return']
--
--    commands = map(lambda x: x['name'], do_command(srv, 'query-commands'))
--
--    srv.close()
--
--    if command not in commands:
--        fullcmd = 'qmp-%s' % command
--        try:
--            os.environ['QMP_PATH'] = path
--            os.execvp(fullcmd, [fullcmd] + args)
--        except OSError as exc:
--            if exc.errno == 2:
--                print('Command "%s" not found.' % (fullcmd))
--                return 1
--            raise
--        return 0
--
--    srv = QEMUMonitorProtocol(path)
--    srv.connect()
--
--    arguments = {}
--    for arg in args:
--        if not arg.startswith('--'):
--            print('Unknown argument "%s"' % arg)
--            return 1
--
--        arg = arg[2:]
--        if arg.find('=') == -1:
--            value = True
--        else:
--            arg, value = arg.split('=', 1)
--
--        if arg in ['help']:
--            os.execlp('man', 'man', 'qmp-%s' % command)
--            return 1
--
--        arguments[arg] = value
--
--    rsp = do_command(srv, command, **arguments)
--    print_response(rsp)
--
--if __name__ == '__main__':
--    sys.exit(main(sys.argv[1:]))
-+sys.exit(1)
--- 
-2.26.2
-
+Intent to not get Alexander's patch lost.=0D
+=0D
+Since v3:=0D
+- Grammar fix (eblake)=0D
+=0D
+Since v2:=0D
+- No change, posted as single patch=0D
+=0D
+Since v1:=0D
+- Addressed Thomas Huth review comments=0D
+=0D
+Alexander von Gluck IV (1):=0D
+  tests/vm: Add Haiku test based on their vagrant images=0D
+=0D
+ tests/keys/vagrant        |  27 +++++++++=0D
+ tests/keys/vagrant.pub    |   1 +=0D
+ tests/vm/Makefile.include |   3 +-=0D
+ tests/vm/basevm.py        |   5 +-=0D
+ tests/vm/haiku.x86_64     | 116 ++++++++++++++++++++++++++++++++++++++=0D
+ 5 files changed, 149 insertions(+), 3 deletions(-)=0D
+ create mode 100644 tests/keys/vagrant=0D
+ create mode 100644 tests/keys/vagrant.pub=0D
+ create mode 100755 tests/vm/haiku.x86_64=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
