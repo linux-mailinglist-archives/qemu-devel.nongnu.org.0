@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5EE029AD65
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:34:39 +0100 (CET)
-Received: from localhost ([::1]:40524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230AD29AD81
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:37:07 +0100 (CET)
+Received: from localhost ([::1]:47488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXP7W-0000lr-LB
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:34:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53646)
+	id 1kXP9s-0003jE-9e
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:37:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXOul-0003zB-I1
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49043)
+ id 1kXOuo-00044u-55
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kXOuj-0006Dx-Fm
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:27 -0400
+ id 1kXOum-0006FM-5f
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:21:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603804884;
+ s=mimecast20190719; t=1603804887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QnUu96xbst5vMJnsW4BS27GXJbmv1KIuRTM6r3eYss4=;
- b=ObUR0Cxb5Bg1mG5l28ueu08HDB7GI0BO4VoYC1OgbpcAL/4vbFKAykVxO80DtibNgS7M5q
- 0SRCww/LpF9vouDc32Aq1yQyePP/HvO4rGrozxoaZEWhO9ES4OAbYmhscbMdx1kD8yKTns
- EGa8G7BJl103SOd8RCIPwKzVZuPM7Dc=
+ bh=Z/Ms1577D2v1IRw6R+TW657pY0Sv2JnNydR0vOI1dUU=;
+ b=NCzSxEknNUp6JegEHxiGm8RYmjh120TJXrM6zcFcIFNBxzn/3r1eunZ7lLRqqfEZ1DL8lR
+ c+k3imu7rKhOwVrXhzoOxaOfTAPQlQTxTJJFI73i9SYPR8j21EFhGOfuIeW4vV94pc9HS7
+ QVcxAuI6U8ZoL+qMBxfR+EC65hnMvT4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-3o2cNy-nMP6cTlNj0zi-kw-1; Tue, 27 Oct 2020 09:21:22 -0400
-X-MC-Unique: 3o2cNy-nMP6cTlNj0zi-kw-1
+ us-mta-461-FvbAcROiOU24_QaI5tfh3A-1; Tue, 27 Oct 2020 09:21:24 -0400
+X-MC-Unique: FvbAcROiOU24_QaI5tfh3A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01D4BAF9B8
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:21:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C581101F7A0
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:21:23 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-46.ams2.redhat.com
  [10.36.115.46])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 583F71992F;
- Tue, 27 Oct 2020 13:21:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5B2FE1972B;
+ Tue, 27 Oct 2020 13:21:22 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH v2 15/16] Add link to "page source" for all pages
-Date: Tue, 27 Oct 2020 13:20:14 +0000
-Message-Id: <20201027132015.621733-16-berrange@redhat.com>
+Subject: [qemu-web PATCH v2 16/16] Add a CONTRIBUTING.md file as guidance for
+ contributors
+Date: Tue, 27 Oct 2020 13:20:15 +0000
+Message-Id: <20201027132015.621733-17-berrange@redhat.com>
 In-Reply-To: <20201027132015.621733-1-berrange@redhat.com>
 References: <20201027132015.621733-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -68,7 +69,8 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,45 +88,60 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The link takes the user directly to the source markdown file in gitlab.
-This gives them guidance as to what file should be editted to make
-changes to the content.
-
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- _includes/footer.html | 3 +++
- assets/css/style.css  | 6 +++++-
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ CONTRIBUTING.md | 32 ++++++++++++++++++++++++++++++++
+ _config.yml     |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 CONTRIBUTING.md
 
-diff --git a/_includes/footer.html b/_includes/footer.html
-index 5adc569..eeff9a4 100644
---- a/_includes/footer.html
-+++ b/_includes/footer.html
-@@ -1,4 +1,7 @@
- <div id="footer">
-+	<div id="edit-page">
-+		<a href="https://gitlab.com/qemu-project/qemu-web/-/blob/master/{{page.path}}">page source</a>
-+	</div>
- 	<div id="external-links">
- 		<ul class="style">
- 			<li><a href="http://qemu-advent-calendar.org">Advent calendar</a></li>
-diff --git a/assets/css/style.css b/assets/css/style.css
-index 369b57f..96b7737 100644
---- a/assets/css/style.css
-+++ b/assets/css/style.css
-@@ -531,7 +531,11 @@
- 		padding-left: 1em;
- 	}
- 
--	#licenses, #conservancy {
-+	#edit-page {
-+		text-align: right;
-+	}
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+new file mode 100644
+index 0000000..b5209ac
+--- /dev/null
++++ b/CONTRIBUTING.md
+@@ -0,0 +1,32 @@
++# Contributing to qemu-web
 +
-+	#licenses, #conservancy, #edit-page {
- 		padding: 0em;
- 		padding-left: 1em;
- 		padding-right: 1em;
++The QEMU project accepts code contributions to the website as patches sent to
++the the developer mailing list:
++
++https://lists.nongnu.org/mailman/listinfo/qemu-devel
++
++For further guidance on sending patches consult:
++
++https://wiki.qemu.org/Contribute/SubmitAPatch
++
++It is expected that contributors check the rendered website before submitting
++patches. This is possible by either running jekyll locally, or by using the
++GitLab CI and Pages infrastructure.
++
++Any branch that is pushed to a GitLab fork will result in a CI job being run
++visible at
++
++https://gitlab.com/yourusername/qemu-web/-/pipelines
++
++The rendered result can be then viewed at
++
++https://yourusername.gitlab.io/qemu-web
++
++Contributions submitted to the project must be in compliance with the
++Developer Certificate of Origin Version 1.1. This is documented at:
++
++https://developercertificate.org/
++
++To indicate compliance, each commit in a series must have a "Signed-off-by"
++tag with the submitter's name and email address. This can be added by passing
++the ``-s`` flag to ``git commit`` when creating the patches.
+diff --git a/_config.yml b/_config.yml
+index d0473c1..7d34779 100644
+--- a/_config.yml
++++ b/_config.yml
+@@ -40,3 +40,4 @@ exclude:
+   - Gemfile.lock
+   - vendor/
+   - README
++  - CONTRIBUTING.md
 -- 
 2.26.2
 
