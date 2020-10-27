@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA1C29B3A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:56:32 +0100 (CET)
-Received: from localhost ([::1]:45266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048E029B3F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:58:16 +0100 (CET)
+Received: from localhost ([::1]:49948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQOl-0006rx-QR
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:56:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46296)
+	id 1kXQQR-0000Xv-13
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:58:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXQ1v-00031p-N1
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:32:57 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXQ1q-0001Jr-VD
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:32:55 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id p5so2561636ejj.2
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 07:32:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w132epp37UIPQOBdAVfm7gs0UUgaHhJwk1cX9NNdpsI=;
- b=LCrCh74rzdIP4Fy3Wh4DI13EXPBvaPwtPJD3zwuA7OBfyZaBa1VZvUjEZDrPv4ylb5
- CLzjsyDXp2p3QiU8Joy2mPPKKSvMn/R2hJSj9P1uDHmxKbCMvzqqkpL/1FKdWQwbfRsD
- ziLLH2LMPt9J/CoyM8gMd9ocG7+AbUjDsdVagVaD1ytEcLUYGyk5MNQaBI/Ml56jyWDH
- s1WG1ESKjxbuRpF+gFGmswfup2dG+hvPlG1lPLpWp6QDjIwPbDztOTteGjJUI1QqTSGf
- 77Q8sXyKuW04Bbys5Mo4Zrkb048/sBMjivQWVMzU1hQkdYY98SbINHuxp2Ahsbv0boMl
- A2xQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w132epp37UIPQOBdAVfm7gs0UUgaHhJwk1cX9NNdpsI=;
- b=c1FcyW6ityU/J7SQVnLxbL6Am9rF2IpvmCnRzEhTj/m9NtJGhy7cdk0FwU4BuF0FDW
- XyK9JLc8Tep/X/WbVA1Dktf30I5IS7hOnL3D/WxV8JcLkeT30T3Pfp+YhYxqN3E/P3aP
- 6HxgPUDVODT9bVZGVUfD0dl2vuZ+nOcEQsjJRgL1cT4Qv6K/u/P0hd3z9pXrz5GGgNXh
- Tg0tzpcGp7ai/CrkGDiTbJ3KFquv1yqNX4MwwnDWfMpadf8CXZgEN7jrbdGIuxQZIVh6
- P0gzlnDAtmeSvDhnkBysqpIse4ADulQlwaKjFfRMFBmextErdGHxCgKWYHr5VZMcnmsJ
- +lZg==
-X-Gm-Message-State: AOAM530hks6jvEHMwnXUFQbGOBZogHGhJNcBBSVsiO2RUuoY5w6gGyoz
- TPmEL5HHhX1bJ0JZaj/A1eqA6Q41u2le/RX1bwVsFQ==
-X-Google-Smtp-Source: ABdhPJwm2iXdPsyjIbgKkn9oqGMUptBponBEk2Znkj/jdUFSGBz2zT1tNKvsYWox7ZBPHTRiFZqJ2jW8AthRFzkRJWI=
-X-Received: by 2002:a17:906:ce21:: with SMTP id
- sd1mr2741448ejb.4.1603809169200; 
- Tue, 27 Oct 2020 07:32:49 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXQBq-0008Es-U9
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:43:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXQBo-0002qN-7Q
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 10:43:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603809787;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5FSc1MpqNQ7nejVknozCZQV90G41DiBQOssJdbLFVt0=;
+ b=QS8ph7xsN9Q6rD+Y2KSdrm1CoDHpIH2b+nuEvveDMqN46Yzm9c6laKnc695oZHLMs5idbI
+ +sEJkLdlXQvBaEEyl8qofVRCl5KTaX+CYCLJQdDV6VNsXDIw5x7qclIY5aSeHd12sWYymR
+ 9wgtb90NPLVT6glfAosYWVj0Mrjx9nw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-383-EVqd5puMNzmvix68J4WdMA-1; Tue, 27 Oct 2020 10:43:05 -0400
+X-MC-Unique: EVqd5puMNzmvix68J4WdMA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1EA6C18CB750;
+ Tue, 27 Oct 2020 14:43:04 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8303B60FC2;
+ Tue, 27 Oct 2020 14:43:00 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 2/3] ide: perform SRST as early as possible
+Date: Tue, 27 Oct 2020 10:42:54 -0400
+Message-Id: <20201027144255.77478-3-jsnow@redhat.com>
+In-Reply-To: <20201027144255.77478-1-jsnow@redhat.com>
+References: <20201027144255.77478-1-jsnow@redhat.com>
 MIME-Version: 1.0
-References: <672b8aa0-2128-23e1-b778-01a4d96b209d@redhat.com>
- <CAFEAcA8OjeQ-utD56inorMk8dM6RNRzr-6Dv-YEW4n=qBi_MBQ@mail.gmail.com>
- <20201027140818.GC102411@stefanha-x1.localdomain>
-In-Reply-To: <20201027140818.GC102411@stefanha-x1.localdomain>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 27 Oct 2020 14:32:37 +0000
-Message-ID: <CAFEAcA_DrPBxFGQaitXxHT-bsviPYB1hyBrNzYM5ygbQNhuJ=g@mail.gmail.com>
-Subject: Re: [RFC] Using gitlab for upstream qemu repo?
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel <qemu-devel@nongnu.org>, Michael Roth <mdroth@linux.vnet.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, "Justin M. Forbes" <jforbes@redhat.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Andreas Faerber <afaerber@suse.de>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 at 14:08, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> Here are the users with commit access to qemu.org repos:
+We don't need to wait for the falling edge. We can set BSY as
+soon as possible and begin immediately resetting the drive. Devices
+don't appear to need to take any specific action on the falling edge.
 
-> The people who need push access are:
->  * bonzini - qemu-web
->  * mdroth - qemu-stable
->  * pmaydell - qemu
->  * rth - qemu
->  * stefanha - qemu
->  * thuth - qemu-web
->
-> Does this sound good?
+Signed-off-by: John Snow <jsnow@redhat.com>
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-id: 20201020200242.1497705-3-jsnow@redhat.com
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ hw/ide/core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-All the qemu-stable-* are old and presumably no longer updated.
-mdroth needs access also to 'qemu' I think so as to be able
-to push to the stable branches/tags in that repo.
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 84e887d4269d..98cea7ad4507 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -2280,9 +2280,7 @@ void ide_ctrl_write(void *opaque, uint32_t addr, uint32_t val)
+ 
+     /* Device0 and Device1 each have their own control register,
+      * but QEMU models it as just one register in the controller. */
+-    if ((bus->cmd & IDE_CTRL_RESET) &&
+-        !(val & IDE_CTRL_RESET)) {
+-        /* SRST triggers on falling edge */
++    if (!(bus->cmd & IDE_CTRL_RESET) && (val & IDE_CTRL_RESET)) {
+         for (i = 0; i < 2; i++) {
+             s = &bus->ifs[i];
+             s->status |= BUSY_STAT;
+-- 
+2.26.2
 
-thanks
--- PMM
 
