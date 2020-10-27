@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2866029C7A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:43:08 +0100 (CET)
-Received: from localhost ([::1]:51900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E14F29C740
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 19:31:56 +0100 (CET)
+Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXTw3-0003yV-4F
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:43:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58074)
+	id 1kXTlD-0007HF-C9
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 14:31:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbz-0004JB-CE
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:23 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30054)
+ id 1kXTbq-0004Dm-Ty
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXTbq-00032N-1V
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:22 -0400
+ id 1kXTbh-00030z-8F
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 14:22:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603822927;
+ s=mimecast20190719; t=1603822924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Nb4Lchzy1mUgpxcsyW/o+A9ekDcbx3nY58WD9QHeqtU=;
- b=a51q14/Nmedu+pWNh52wg9IDTN0qJ236s34rwLr94EGnPzzaLN+fethPb9lUygyE4439Ax
- 0quZ3n2GQZ+ss567i8mvOi3YUvRbMRPuotbXP+szQzBUqv2zWtWcpVFskyok1K2I6gwa/w
- liB3T4z8s4y0Bn7Ekzxwa5CFf59T6sQ=
+ bh=rXC1IPs99vGL1famTeAG4H9kQs2d4Dh6bMygSLxFw0Q=;
+ b=CQIZ0PlkBpZdhFeU9qpBwGz303ktW5lGHm+9/gFFjemN+Q2suqycC6/7JC+V4ecqYzu1AP
+ 51D/ex1zUX1NBcM9XeggROFe7ntlZGPMRsQcYon+zsZKfyKZF1usvJlfOG2/Q1fOEytVSh
+ NPPQLo+DT1h0qdvla+udGKaKOy2IuOQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-66-uL1rxgLuMeSPMvkMg20MXQ-1; Tue, 27 Oct 2020 14:22:03 -0400
-X-MC-Unique: uL1rxgLuMeSPMvkMg20MXQ-1
+ us-mta-488-9ktxRULiP5SUnuECBl6M6g-1; Tue, 27 Oct 2020 14:22:02 -0400
+X-MC-Unique: 9ktxRULiP5SUnuECBl6M6g-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B430681CAFD
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:49 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A83018CB73E
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:50 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 796325D9E8
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F3385D9E8
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 18:21:50 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/29] vl: create "-net nic -net user" default earlier
-Date: Tue, 27 Oct 2020 14:21:27 -0400
-Message-Id: <20201027182144.3315885-13-pbonzini@redhat.com>
+Subject: [PATCH 14/29] vl: move semihosting command line fallback to
+ qemu_finish_machine_init
+Date: Tue, 27 Oct 2020 14:21:29 -0400
+Message-Id: <20201027182144.3315885-15-pbonzini@redhat.com>
 In-Reply-To: <20201027182144.3315885-1-pbonzini@redhat.com>
 References: <20201027182144.3315885-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -84,43 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create it together with other default backends, even though the processing is
-done later.
+Move more sane parts of the huge qemu_init function out of it.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/vl.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ softmmu/vl.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
 diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 6749109b29..f643333f7e 100644
+index 53d53ef206..bc85318b23 100644
 --- a/softmmu/vl.c
 +++ b/softmmu/vl.c
-@@ -4254,6 +4254,14 @@ void qemu_init(int argc, char **argv, char **envp)
-             monitor_parse("vc:80Cx24C", "readline", false);
-     }
+@@ -3072,6 +3072,11 @@ static void qemu_finish_machine_init(void)
+ {
+     MachineClass *machine_class = MACHINE_GET_CLASS(current_machine);
  
-+    if (default_net) {
-+        QemuOptsList *net = qemu_find_opts("net");
-+        qemu_opts_set(net, NULL, "type", "nic", &error_abort);
-+#ifdef CONFIG_SLIRP
-+        qemu_opts_set(net, NULL, "type", "user", &error_abort);
-+#endif
++    if (semihosting_enabled() && !semihosting_get_argc() && current_machine->kernel_filename) {
++        /* fall back to the -kernel/-append */
++        semihosting_arg_fallback(current_machine->kernel_filename, current_machine->kernel_cmdline);
 +    }
 +
- #if defined(CONFIG_VNC)
-     if (!QTAILQ_EMPTY(&(qemu_find_opts("vnc")->head))) {
-         display_remote++;
-@@ -4389,14 +4397,6 @@ void qemu_init(int argc, char **argv, char **envp)
-         semihosting_arg_fallback(kernel_filename, kernel_cmdline);
+     if (machine_class->default_ram_id && current_machine->ram_size &&
+         numa_uses_legacy_mem() && !current_machine->ram_memdev_id) {
+         create_default_memdev(current_machine, mem_path);
+@@ -4389,13 +4394,6 @@ void qemu_init(int argc, char **argv, char **envp)
+         boot_order = machine_class->default_boot_order;
      }
  
--    if (default_net) {
--        QemuOptsList *net = qemu_find_opts("net");
--        qemu_opts_set(net, NULL, "type", "nic", &error_abort);
--#ifdef CONFIG_SLIRP
--        qemu_opts_set(net, NULL, "type", "user", &error_abort);
--#endif
+-    if (semihosting_enabled() && !semihosting_get_argc()) {
+-        const char *kernel_filename = qemu_opt_get(machine_opts, "kernel");
+-        const char *kernel_cmdline = qemu_opt_get(machine_opts, "append");
+-        /* fall back to the -kernel/-append */
+-        semihosting_arg_fallback(kernel_filename, kernel_cmdline);
 -    }
 -
      if (net_init_clients(&err) < 0) {
