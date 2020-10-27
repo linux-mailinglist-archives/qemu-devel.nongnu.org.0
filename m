@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91F129BC21
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:33:03 +0100 (CET)
-Received: from localhost ([::1]:38950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 555DB29BC23
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:33:42 +0100 (CET)
+Received: from localhost ([::1]:39908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXRuA-0008G2-Ac
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50448)
+	id 1kXRun-0000F1-BW
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:33:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRrc-0006jg-Ef; Tue, 27 Oct 2020 12:30:24 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:35987)
+ id 1kXRrf-0006nN-Vs; Tue, 27 Oct 2020 12:30:28 -0400
+Received: from mout.kundenserver.de ([217.72.192.75]:39377)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRra-0001Ug-Gn; Tue, 27 Oct 2020 12:30:24 -0400
+ id 1kXRrd-0001Wo-Rt; Tue, 27 Oct 2020 12:30:27 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MnIxu-1k8KKM3sG4-00jJLH; Tue, 27 Oct 2020 17:30:19 +0100
+ id 1MRBac-1klhUN2X7k-00N9tz; Tue, 27 Oct 2020 17:30:19 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/8] Makefile: Add *.[ch].inc files to cscope/ctags/TAGS
-Date: Tue, 27 Oct 2020 17:30:08 +0100
-Message-Id: <20201027163014.247336-3-laurent@vivier.eu>
+Subject: [PULL 3/8] cpus: Drop declaration of cpu_remove()
+Date: Tue, 27 Oct 2020 17:30:09 +0100
+Message-Id: <20201027163014.247336-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027163014.247336-1-laurent@vivier.eu>
 References: <20201027163014.247336-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:lwAoRVrohGeB7WJ6j7hdr33oLFKyBmq5ScQM1zrGNlldj2BtP2C
- 96oaRrn06VdjkGLBE5so/rs60uBTrdit/SAliEgAqU8oxMLvdnw2QFwVvtgfg2weJbMJeVC
- IH2njN2T765vL0U87yxzCgrUgu6UuAARXduYWzCuig7RUBZiXpPndDiCsn3NeF2HNX34Hyv
- IV0CF6vCW0bMEiq/qka8w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gs27+63ytVk=:vn44x3byg9FBELRHrrPPkZ
- f3NUn0kVBAHaW1GdkFx6xHJjMFaCcN4spjnP9lgXT0izDUdb58eo5TFHA9fktsNpRdlkfBGLw
- zgxranBYfAaq8Dq29i/tEW+Qt+cLhmfMcBRWIpT5MQa9LdOfaEyily0in0aMAnOQnqIIXcI0u
- c9lbcSdYdlivpvRwPiyWgRlDfZYQfoJmHQfn6q0qmDw5tVZi1H6n8X8aTt6ttOURBBjsI7zge
- 0SUcia+gB71y9/j1++oKZvEnIcHB3Tv4Amd/J3Fsx73JYsn17/4pUs+EDHTViLErqYpzC7nqc
- msbhjjM5iJzS1qFWbgL/Xb5Og2jInLX6DhS5S08Cn+OO+kpTRutwx+FU6KCu2X5mbP8W69PLr
- gj8BAyB3vkcesO/r7/zvX93Pz3J+fv30zrsJM0gbwXOVN0SSaZawpEuB/JmWuzUh4egTY/gL+
- esQOYCuhXA==
+X-Provags-ID: V03:K1:pIuOhgWNYdI60OYV8kvtG8MvSqOqNu2IF+/4sR7V132059mt5hE
+ OsPKzIdtc8ja3moKUeg5eMbUHhGHV7I0NlZAjLHuQPst+q/7yuJi+v0yOi/N0Ou1rwcWtJR
+ BxiI6tNRBkghvJhorzYht3Bl+Kn4TK8pY7IY+s/tqhNfOQWQ4lbWL5QZk36b+sssijv6xIQ
+ 8x2+0/vRW5T463xl9941w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:4TKJa6uW9tQ=:gu0/TynExGxtMIgrrsUXcc
+ 4Kia+X/L4gAEKNANzxzv7Dw2GP/QxYx2HEWIcIadChhQkoCW5KZN2vLoIsmkTeU3T/bdzmwDj
+ nHy+CIBPLjOd4t2Zzr1V6V0vRLWhYSPLOAFtiDcf01cdgnctN49me0BZ4ZRcdtZmGAA8aHwsc
+ 36MBq5vc8Z/UG9Pnjhb6aSBCtoY51tEnXw8nG3lP74687cdn5tj2AxrtZ1XiBGwOBL1lu6Xe7
+ MgwnCUfYKOvyJP2A2N+DwZS6894k2DhqlpkkuVSgyq8jYWQHnlVm3mZXdHwWHIWlkUwm6NhpX
+ uIPY7CB9oIeE4dTQmgUyqXUjiP/DJi3fT88j6ok2Y2v8jY4L8GxD1A1AjZs49AVFOHAwhn7JS
+ zhJPfYy1uoletifikkvwOCNDIccZudrxNQP9RM1cgu0jYuhWGvTjJyMi8q8Eim6nZ65hXygEF
+ kjR6FZZQ0A==
 Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:20
@@ -65,40 +66,48 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>
+ Laurent Vivier <laurent@vivier.eu>, Greg Kurz <groug@kaod.org>,
+ pbonzini@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-The code base has some C source and header files that don't get indexed
-because their name ends with .inc:
+cpu_remove() got superseded by cpu_remove_sync() in commit dbadee4ff4a0,
+but its prototype wasn't removed. We could possibly keep the shorter
+cpu_remove() naming but it seems better to highligth that this blocks
+until the CPU thread is joined.
 
-$ git ls-files "*.[ch].inc" | wc -l
-66
-
-Add them to the list.
-
+Fixes: dbadee4ff4a0 ("cpus: join thread when removing a vCPU")
+Cc: pbonzini@redhat.com
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160258069310.900922.1495166540282536628.stgit@bahia.lan>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <160268285707.1107461.15035929822602623985.stgit@bahia.lan>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/core/cpu.h | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 18f026eac3d7..5a7ba39ea75f 100644
---- a/Makefile
-+++ b/Makefile
-@@ -219,7 +219,7 @@ distclean: clean
- 	rm -f linux-headers/asm
- 	rm -Rf .sdk
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 9c3a45ad7b11..3d92c967fffa 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -927,14 +927,6 @@ void cpu_exit(CPUState *cpu);
+ void cpu_resume(CPUState *cpu);
  
--find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o -name "*.[chsS]"
-+find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o \( -name "*.[chsS]" -o -name "*.[ch].inc" \)
- 
- .PHONY: ctags
- ctags:
+ /**
+- * cpu_remove:
+- * @cpu: The CPU to remove.
+- *
+- * Requests the CPU to be removed.
+- */
+-void cpu_remove(CPUState *cpu);
+-
+- /**
+  * cpu_remove_sync:
+  * @cpu: The CPU to remove.
+  *
 -- 
 2.26.2
 
