@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C2529AC97
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:59:37 +0100 (CET)
-Received: from localhost ([::1]:42970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9801B29AC53
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:41:37 +0100 (CET)
+Received: from localhost ([::1]:56912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOZc-0006yh-Ra
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:59:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52248)
+	id 1kXOIC-0005Ev-LO
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:41:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPp-0001iy-Lq
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:25 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38478)
+ id 1kXNPq-0001ku-Kh
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:26 -0400
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPi-0004e0-0o
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id l15so1100662wmi.3
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:17 -0700 (PDT)
+ id 1kXNPi-0004f8-SS
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:26 -0400
+Received: by mail-wr1-x429.google.com with SMTP id i1so1563131wro.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=OAIbVQqU/rgLJ5CpM5U+V3TPMTDATGut/KaTHqdShlA=;
- b=TJSOgrtq7QlxUyEIlNPbrh4fk6df4dDyvc9dlspiNzeGTtZRW01milgML737vp/GSX
- +TvP8z+b/LmpS6g+q2G+zzNbhFda3+m6wn4qPzlhteuDbkW0Yupau1qnVq9cRBzMlO31
- HSw7MDX+1vFVioc3+qDfgegoh1PNeQMNb600BH+xnT7Y7ut3Gwuenz7ZY7i9qeoYWgW4
- aaq3hDo0rlOF3WoUVJ4BWIYAQdKslT9FpaqZ8toVXM4uvBAQOKusHrWPdTySNK5+kcbY
- ZD4p/VEkR3iNcwP9m5Kmm/OYH+SHf1CFH7E728MD0biqO9Lat7xorvZmLlJSL8l6czjN
- s2ZA==
+ bh=dDusG3z6mR5gstnpBesURGofR8KKSuArrx+sPNkErXw=;
+ b=FC1NsVulKhsmrOCo6St5EEjEEfBl6iiWtdwgY2TgxKlCK/rKOjuZCjWn3fOJW+AcjD
+ X3j06pxkb/kM+/3++a9T1AuJeCdbSP5sr+VQ4duZcxiPuYHhBHnh3GOGqM/8mruSdJBi
+ Yc/ezLfv5xDF2oECnoqAgEgMqpZnOIeAKHnUJYj5CrMVk6UksY8k3l98Hbzqlwf8IXMv
+ D2sc3NsxRmSVyIRDoGy+sBY35B0V7Mr1UwyQEjcqWMY6zuFaMS6ovnTYWQyxq6hSZPGi
+ vvwyiChNEBTWi+6j5NxEJsltYj5V99qX22m3ftCSQv5TzRacMLW6iseqX9XijdQZqxwE
+ hHqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=OAIbVQqU/rgLJ5CpM5U+V3TPMTDATGut/KaTHqdShlA=;
- b=EzXoWiWtz2RMO90HwPIBb79yCw0xoI+UqqHdlmb5AI9L7YX+LbM9DpHYBggqjMf7xf
- lRb2I64L45Iz6C0BEspoOtCNYxnBWNdmMeXe7HJVid6EQhrSdlptpVwh6ZPrOBetIbi8
- hXUq4FGFpIlCbXXjpcc/qNezPf4m4dxLqSwiCZG664ZjkXWPEMgNmWmMI7IjnUIOXAhm
- MgPCGtftfO7acYVGfx+S1PbQMSv+eQ/MdQ02pudryfkThCjYQa9e7sS8bu+cf2vuIuuI
- N3cGd9CrCP4mybRVEmKxqOtmP/Du+UedyOB5MpmNEYMfOChYGj61fuUHPKfxNyRQet+m
- qtKg==
-X-Gm-Message-State: AOAM533ehECnZwftMSNvD7pcyeKsYu5Y1Rgg/temt8gJ3OkSbeERLhxu
- drXqrlPUoklD7ewyOoMyvD9XKqfcDq2oMw==
-X-Google-Smtp-Source: ABdhPJySIloOD2DPJsKJYgQcy2VhKCET+bg5X2x9d8OuPJg4XbmyNERIfWvi2qHIYYgaj3i/xSyBIQ==
-X-Received: by 2002:a1c:980a:: with SMTP id a10mr362220wme.103.1603799116011; 
- Tue, 27 Oct 2020 04:45:16 -0700 (PDT)
+ bh=dDusG3z6mR5gstnpBesURGofR8KKSuArrx+sPNkErXw=;
+ b=f20x4Hy0G+vb+yIja/UKvCjPfm085l9WGCYXLLli7xG4FJtdqIwDCp8B20DAtID4Y8
+ sZge0qQclm3byjG8g1clI1UMSY/6dUyQhfiEP974EJ1erb+t1i9FUmf4FslzHIE4nRF3
+ iXxKIDGZO8TbMKkM9EYDZ5smbKZEHTerOeWtUr1S8JPHgcr73MvmoLJhNvYwGeT0m7tW
+ CV30Bcu/6SiJInV1YrODIo7PN68hNoOH797t2CpZM76aXXEFoLm29Yi6BMV6geRnDQz4
+ cyrM8nizGxBVQ+o7GLiOBG4/cUoWZV4YGTVRn3btn9cTXqmhb5p090pzflCfkk4QKTeW
+ Nrxg==
+X-Gm-Message-State: AOAM532pNUZ+c3FKeWGWlKKBahsW4Jw/7Gq4Gw97CSB2nFwk1SUb+UxT
+ cpx++rkn1O9yGpIIK7nXCJBOGN0RzepGaA==
+X-Google-Smtp-Source: ABdhPJyhXeTx0xIszoNFGPXV3QskuHHU68vYlwiteCGpRdX29SXEfj+rD6OPlFO5pzuKmyFpg6YV1g==
+X-Received: by 2002:adf:ab4e:: with SMTP id r14mr2347536wrc.397.1603799117124; 
+ Tue, 27 Oct 2020 04:45:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.15
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:15 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/48] hw/arm/raspi: Add the Raspberry Pi Zero machine
-Date: Tue, 27 Oct 2020 11:44:18 +0000
-Message-Id: <20201027114438.17662-29-peter.maydell@linaro.org>
+Subject: [PULL 29/48] hw/arm/raspi: Add the Raspberry Pi 3 model A+
+Date: Tue, 27 Oct 2020 11:44:19 +0000
+Message-Id: <20201027114438.17662-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,68 +91,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Similarly to the Pi A, the Pi Zero uses a BCM2835 SoC (ARMv6Z core).
+The Pi 3A+ is a stripped down version of the 3B:
+- 512 MiB of RAM instead of 1 GiB
+- no on-board ethernet chipset
 
-The only difference between the revision 1.2 and 1.3 is the latter
-exposes a CSI camera connector. As we do not implement the Unicam
-peripheral, there is no point in exposing a camera connector :)
-Therefore we choose to model the 1.2 revision.
+Add it as it is a closer match to what we model.
 
-Example booting the machine using content from [*]:
-
-  $ qemu-system-arm -M raspi0 -serial stdio \
-      -kernel raspberrypi/firmware/boot/kernel.img \
-      -dtb raspberrypi/firmware/boot/bcm2708-rpi-zero.dtb \
-      -append 'printk.time=0 earlycon=pl011,0x20201000 console=ttyAMA0'
-  [    0.000000] Booting Linux on physical CPU 0x0
-  [    0.000000] Linux version 4.19.118+ (dom@buildbot) (gcc version 4.9.3 (crosstool-NG crosstool-ng-1.22.0-88-g8460611)) #1311 Mon Apr 27 14:16:15 BST 2020
-  [    0.000000] CPU: ARMv6-compatible processor [410fb767] revision 7 (ARMv7), cr=00c5387d
-  [    0.000000] CPU: VIPT aliasing data cache, unknown instruction cache
-  [    0.000000] OF: fdt: Machine model: Raspberry Pi Zero
-  ...
-
-[*] http://archive.raspberrypi.org/debian/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20200512-2_armhf.deb
-
-Reviewed-by: Luc Michel <luc.michel@greensocs.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201024170127.3592182-9-f4bug@amsat.org
+Message-id: 20201024170127.3592182-10-f4bug@amsat.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
  hw/arm/raspi.c | 13 +++++++++++++
  1 file changed, 13 insertions(+)
 
 diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 79fdd354603..0f5ea7e99b5 100644
+index 0f5ea7e99b5..990509d3852 100644
 --- a/hw/arm/raspi.c
 +++ b/hw/arm/raspi.c
-@@ -319,6 +319,15 @@ static void raspi_machine_class_common_init(MachineClass *mc,
-     mc->default_ram_id = "ram";
+@@ -348,6 +348,15 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
  };
  
-+static void raspi0_machine_class_init(ObjectClass *oc, void *data)
+ #ifdef TARGET_AARCH64
++static void raspi3ap_machine_class_init(ObjectClass *oc, void *data)
 +{
 +    MachineClass *mc = MACHINE_CLASS(oc);
 +    RaspiMachineClass *rmc = RASPI_MACHINE_CLASS(oc);
 +
-+    rmc->board_rev = 0x920092; /* Revision 1.2 */
++    rmc->board_rev = 0x9020e0; /* Revision 1.0 */
 +    raspi_machine_class_common_init(mc, rmc->board_rev);
 +};
 +
- static void raspi1ap_machine_class_init(ObjectClass *oc, void *data)
+ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
  {
      MachineClass *mc = MACHINE_CLASS(oc);
-@@ -352,6 +361,10 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
- 
- static const TypeInfo raspi_machine_types[] = {
-     {
-+        .name           = MACHINE_TYPE_NAME("raspi0"),
-+        .parent         = TYPE_RASPI_MACHINE,
-+        .class_init     = raspi0_machine_class_init,
-+    }, {
-         .name           = MACHINE_TYPE_NAME("raspi1ap"),
+@@ -373,6 +382,10 @@ static const TypeInfo raspi_machine_types[] = {
          .parent         = TYPE_RASPI_MACHINE,
-         .class_init     = raspi1ap_machine_class_init,
+         .class_init     = raspi2b_machine_class_init,
+ #ifdef TARGET_AARCH64
++    }, {
++        .name           = MACHINE_TYPE_NAME("raspi3ap"),
++        .parent         = TYPE_RASPI_MACHINE,
++        .class_init     = raspi3ap_machine_class_init,
+     }, {
+         .name           = MACHINE_TYPE_NAME("raspi3b"),
+         .parent         = TYPE_RASPI_MACHINE,
 -- 
 2.20.1
 
