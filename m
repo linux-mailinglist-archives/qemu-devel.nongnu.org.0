@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D790F29BD32
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:46:20 +0100 (CET)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A8329BD2B
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:42:31 +0100 (CET)
+Received: from localhost ([::1]:36342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXS71-0005ck-Tu
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:46:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52396)
+	id 1kXS3K-0002RZ-4x
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:42:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXRzG-0006uC-K3
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:38:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34864)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXRzK-0006us-4t
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:38:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47888)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXRzD-0002YE-Kk
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:38:18 -0400
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXRzH-0002Ym-5R
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:38:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603816693;
+ s=mimecast20190719; t=1603816698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2Gy/x1T9WM3IAvu32asY2ozSKIxNuG7eGqcWqehKnHI=;
- b=Zm1wHhnnqj3bgvuRS5m5GPnZzCofO7hKqL93k2WuiqPrhqNcSZ4pFvMbmCxmp8MBcjyHGV
- zLwsitZrcb/vh9xgxc/Q6yDBQo5H5QkGcKz8bESAwk+HuR9cogGgkjG+A5WS4GTHvguyeo
- iAzKe1jHKSz3yBYtqL1X+yzmH7nXwtw=
+ bh=VnG/4QQfytZ7hL6P3lJ2TvFZAR/U24GCrYSnTXJwSr8=;
+ b=gBNGAwzFrni8RSsCM4PlNa4EmyVmYK4hRLdPXc02NgncOjYh1tYhNqnBb9S/KUpT6PwOGu
+ rhuVKkeBBCtaiIv672DEr0QeMdWOFAkXWkn/DiAp2g3UGqLPK2YD4M23GfHrcWD9dtvm4o
+ qbAVuKEWTWBC3DTTOo80BCAojL/znxo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-592-tn-r_n6nNqiQRGjwJprKJg-1; Tue, 27 Oct 2020 12:38:11 -0400
-X-MC-Unique: tn-r_n6nNqiQRGjwJprKJg-1
+ us-mta-232-_w7K46SBN4OggEJNzfmBuA-1; Tue, 27 Oct 2020 12:38:15 -0400
+X-MC-Unique: _w7K46SBN4OggEJNzfmBuA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9BEF809DDF;
- Tue, 27 Oct 2020 16:38:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51E5F101F753;
+ Tue, 27 Oct 2020 16:38:14 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-16.ams2.redhat.com [10.36.114.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFCCD1001901;
- Tue, 27 Oct 2020 16:38:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0E17210013C0;
+ Tue, 27 Oct 2020 16:38:10 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 1/3] iotests.py: Fix type check errors in wait_migration()
-Date: Tue, 27 Oct 2020 17:38:04 +0100
-Message-Id: <20201027163806.290960-2-kwolf@redhat.com>
+Subject: [PATCH 2/3] iotests: Disable unsubscriptable-object in pylint
+Date: Tue, 27 Oct 2020 17:38:05 +0100
+Message-Id: <20201027163806.290960-3-kwolf@redhat.com>
 In-Reply-To: <20201027163806.290960-1-kwolf@redhat.com>
 References: <20201027163806.290960-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -82,40 +82,35 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 1847a4a8c20 clarified that event_wait() can return None (though
-only with timeout=0) and commit f12a282ff47 annotated it as returning
-Optional[QMPMessage].
+When run with Python 3.9, pylint incorrectly warns about things like
+Optional[foo] because it doesn't recognise Optional as unsubscriptable.
+This is a known pylint bug:
 
-Type checks in wait_migration() fail because of the unexpected optional
-return type:
+    https://github.com/PyCQA/pylint/issues/3882
 
-iotests.py:750: error: Value of type variable "Msg" of "log" cannot be "Optional[Dict[str, Any]]"
-iotests.py:751: error: Value of type "Optional[Dict[str, Any]]" is not indexable
-iotests.py:754: error: Value of type "Optional[Dict[str, Any]]" is not indexable
+Just disable this check to get rid of the warnings.
 
-Fortunately, the non-zero default timeout is used in the event_wait()
-call, so we can make mypy happy by just asserting this.
+Disabling this shouldn't make us miss any real bug because mypy also
+has a similar check ("... is not indexable").
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qemu-iotests/pylintrc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 63d2ace93c..28388a0fbc 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -747,6 +747,10 @@ class VM(qtest.QEMUQtestMachine):
-     def wait_migration(self, expect_runstate: Optional[str]) -> bool:
-         while True:
-             event = self.event_wait('MIGRATION')
-+            # We use the default timeout, and with a timeout, event_wait()
-+            # never returns None
-+            assert event
-+
-             log(event, filters=[filter_qmp_event])
-             if event['data']['status'] in ('completed', 'failed'):
-                 break
+diff --git a/tests/qemu-iotests/pylintrc b/tests/qemu-iotests/pylintrc
+index 5481afe528..cd3702e23c 100644
+--- a/tests/qemu-iotests/pylintrc
++++ b/tests/qemu-iotests/pylintrc
+@@ -17,6 +17,8 @@ disable=invalid-name,
+         too-many-lines,
+         too-many-locals,
+         too-many-public-methods,
++        # pylint warns about Optional[] etc. as unsubscriptable in 3.9
++        unsubscriptable-object,
+         # These are temporary, and should be removed:
+         missing-docstring,
+ 
 -- 
 2.28.0
 
