@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D14629B1C2
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:34:10 +0100 (CET)
-Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21BD29B209
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:37:30 +0100 (CET)
+Received: from localhost ([::1]:43452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQ37-0003KQ-7C
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:34:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36444)
+	id 1kXQ6L-0007Xq-Sz
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:37:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTy-0003ue-7j
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31663)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPUE-0004Eh-EO
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:58:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPTw-0004Uu-8F
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:57:49 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPUC-0004YD-Ks
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:58:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603807066;
+ s=mimecast20190719; t=1603807083;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0Utic1r2QfB0RLxuIXWbW8/BZ/+Cux5YDi1b1KSr+AQ=;
- b=GYidfso0Fs6V8pu9jz7RkdSWfsLRBpXnqezJqJw86p2TUuOBDDXfefSeLMwEb/a+Fx+sZ3
- mqHhfWlg2l636Wbe3feta8828EQVQWbfJO/7MPj8dv4GKQsT1Z2Vn6GlU6A2kviMpmI5jw
- N9pvxSbLzeNgWNQwgR1hvB7lRlYzGXM=
+ bh=xm7DOhBe3iyYOLIHKljm0VOmYGJ+D2G+GQFpjtxbZOQ=;
+ b=OeKM1+nqEkXHzq9XnLfViWsIrbUzNNfSJGmPQfswKOFILRN3ZpXUFKVjSdkvmm+usxKh3i
+ lpGVcn7vtQ9mwq3xRO/SmiH01GbSEKeeLUPymiXhv0ovtFen+3qGN5pWI8IwBXjHyTJY7X
+ qursqU6kV3E+b4zEdIWHqR7HA49Uk/M=
 Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
  [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-vlUElww6NwivCcISXKAjYg-1; Tue, 27 Oct 2020 09:57:45 -0400
-X-MC-Unique: vlUElww6NwivCcISXKAjYg-1
-Received: by mail-ej1-f72.google.com with SMTP id k13so887897ejv.16
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:57:44 -0700 (PDT)
+ us-mta-225-Yn09YSNgN3yxCmQUL7MaOA-1; Tue, 27 Oct 2020 09:58:01 -0400
+X-MC-Unique: Yn09YSNgN3yxCmQUL7MaOA-1
+Received: by mail-ej1-f72.google.com with SMTP id d12so880966ejr.19
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:58:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0Utic1r2QfB0RLxuIXWbW8/BZ/+Cux5YDi1b1KSr+AQ=;
- b=A2WAmwY9vasCidxEUFPjTWjxlHZOIPukoe+Cn5CMbvGi9YFyX6tpEoLHjDVSWD0A4M
- jRRzYvjmjjYacMV9oH2vIv9vOx1PKX8sll5LoBPbcYYLnl86ekZkrT60V3tAINridnOk
- YvSo939kCpFbAtewnVRpbIYD86Ee0Fck8gkPj4fWjy3X1vIOb/wO3uNz81xvSOAKenU1
- Aj5FtQa2+BzmKrri0k2vBwh/gopdZ9y8V8UaBQ455zUtfn7Y4ka9TAsQz25AEk3p+cDV
- ribT6XbFtlGnXrvMPh3QwqQuvRsKw/uxsW059OAqV6aTBJ55efc/w9uUlukKbucYMR5e
- Rrrw==
-X-Gm-Message-State: AOAM531LY/ymEmljwmNFI1GIcuLScUZ4CDLwgFng6Q2Uc8RJuR4o9wU8
- +vwbBkuacx+8igBCgXvvX3grkBHLz0IhsVX9dPdibYjX0OQ272EC4wCiKFxONEBtr5yCSWvZVuj
- wfOM1pWfkj5hINWM=
-X-Received: by 2002:a50:ab07:: with SMTP id s7mr2344433edc.287.1603807063641; 
- Tue, 27 Oct 2020 06:57:43 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx52vu3HB69weFD17jCoA/z36Gtt2WNjlxz29VyUmlUG8o8YtK1ekcFZufUNtFYGFjTe0IueQ==
-X-Received: by 2002:a50:ab07:: with SMTP id s7mr2344420edc.287.1603807063451; 
- Tue, 27 Oct 2020 06:57:43 -0700 (PDT)
+ bh=xm7DOhBe3iyYOLIHKljm0VOmYGJ+D2G+GQFpjtxbZOQ=;
+ b=RQirgzKnk1bKLsk8sU5ojnZTI45Cvm0GAOynY2uBMydhhs9giCF9/hc3PSO24M+cit
+ r3jtlpiknQ2F+vLdxsumv4qP00eCkzMzDhdrHkYcm/Gls3zMblQrZR4za2dkCM0vT6Hi
+ WkvcsG8QjhmNW0RKszt9zwUf2e8ZHjqgSYTi507CPZCvfMt9RVOIlrshCxuOLEROc0Vs
+ nNxSAOXcIx4bvzhWX/S/iOQLMXvylW9TTUwz54PFhVImr+8sSTr+8NZvQUwkjoNZYXjS
+ vjDm4g1O08TGX3hY5R823C59ZOL2yNwLDDwMHInYgQNORUBa+KzIbAuJKBPE4ghV2rOl
+ USDQ==
+X-Gm-Message-State: AOAM532NOZXXtcA/AGW+ve0mB93qDMcHRLrJgwfPDIBBDVTOCc7kKgrT
+ MfBinu/JzNUWosA2FIfsTvkQde9TRLw54jBLq7wvhBAf0tNDmTQ9fcu6L/sAN5cCCCbf1fXkSgp
+ Vm7zboUjW8//h+uQ=
+X-Received: by 2002:a17:906:2dc7:: with SMTP id
+ h7mr2638991eji.546.1603807079522; 
+ Tue, 27 Oct 2020 06:57:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWKxF53GuI7DB3LBnIlx/SCjKP14ed38wRlih8sAJZ/8YOthHVUwVuFSqQQTeiaC3xnaIDFw==
+X-Received: by 2002:a17:906:2dc7:: with SMTP id
+ h7mr2638968eji.546.1603807079354; 
+ Tue, 27 Oct 2020 06:57:59 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id m25sm1014991edp.36.2020.10.27.06.57.42
+ by smtp.gmail.com with ESMTPSA id e2sm1095439ejd.81.2020.10.27.06.57.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:57:42 -0700 (PDT)
+ Tue, 27 Oct 2020 06:57:58 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 21/25] block/nvme: Change size and alignment of IDENTIFY
- response buffer
-Date: Tue, 27 Oct 2020 14:55:43 +0100
-Message-Id: <20201027135547.374946-22-philmd@redhat.com>
+Subject: [PATCH 24/25] block/nvme: Align iov's va and size on host page size
+Date: Tue, 27 Oct 2020 14:55:46 +0100
+Message-Id: <20201027135547.374946-25-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -73,17 +74,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,54 +107,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Eric Auger <eric.auger@redhat.com>
 
-In preparation of 64kB host page support, let's change the size
-and alignment of the IDENTIFY command response buffer so that
-the VFIO DMA MAP succeeds. We align on the host page size.
+Make sure iov's va and size are properly aligned on the
+host page size.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ block/nvme.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index d2d57a287cc..ad70303c5c1 100644
+index e3626045565..c1c52bae44f 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -521,19 +521,20 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-         .opcode = NVME_ADM_CMD_IDENTIFY,
-         .cdw10 = cpu_to_le32(0x1),
-     };
-+    size_t id_size = QEMU_ALIGN_UP(sizeof(*id), qemu_real_host_page_size);
+@@ -1018,11 +1018,12 @@ static coroutine_fn int nvme_cmd_map_qiov(BlockDriverState *bs, NvmeCmd *cmd,
+     for (i = 0; i < qiov->niov; ++i) {
+         bool retry = true;
+         uint64_t iova;
++        size_t len = QEMU_ALIGN_UP(qiov->iov[i].iov_len,
++                                   qemu_real_host_page_size);
+ try_map:
+         r = qemu_vfio_dma_map(s->vfio,
+                               qiov->iov[i].iov_base,
+-                              qiov->iov[i].iov_len,
+-                              true, &iova);
++                              len, true, &iova);
+         if (r == -ENOMEM && retry) {
+             retry = false;
+             trace_nvme_dma_flush_queue_wait(s);
+@@ -1166,8 +1167,9 @@ static inline bool nvme_qiov_aligned(BlockDriverState *bs,
+     BDRVNVMeState *s = bs->opaque;
  
--    id = qemu_try_memalign(s->page_size, sizeof(*id));
-+    id = qemu_try_memalign(qemu_real_host_page_size, id_size);
-     if (!id) {
-         error_setg(errp, "Cannot allocate buffer for identify response");
-         goto out;
+     for (i = 0; i < qiov->niov; ++i) {
+-        if (!QEMU_PTR_IS_ALIGNED(qiov->iov[i].iov_base, s->page_size) ||
+-            !QEMU_IS_ALIGNED(qiov->iov[i].iov_len, s->page_size)) {
++        if (!QEMU_PTR_IS_ALIGNED(qiov->iov[i].iov_base,
++                                 qemu_real_host_page_size) ||
++            !QEMU_IS_ALIGNED(qiov->iov[i].iov_len, qemu_real_host_page_size)) {
+             trace_nvme_qiov_unaligned(qiov, i, qiov->iov[i].iov_base,
+                                       qiov->iov[i].iov_len, s->page_size);
+             return false;
+@@ -1183,7 +1185,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
+     int r;
+     uint8_t *buf = NULL;
+     QEMUIOVector local_qiov;
+-
++    size_t len = QEMU_ALIGN_UP(bytes, qemu_real_host_page_size);
+     assert(QEMU_IS_ALIGNED(offset, s->page_size));
+     assert(QEMU_IS_ALIGNED(bytes, s->page_size));
+     assert(bytes <= s->max_transfer);
+@@ -1193,7 +1195,7 @@ static int nvme_co_prw(BlockDriverState *bs, uint64_t offset, uint64_t bytes,
      }
--    r = qemu_vfio_dma_map(s->vfio, id, sizeof(*id), true, &iova);
-+    r = qemu_vfio_dma_map(s->vfio, id, id_size, true, &iova);
-     if (r) {
-         error_setg(errp, "Cannot map buffer for DMA");
-         goto out;
-     }
+     s->stats.unaligned_accesses++;
+     trace_nvme_prw_buffered(s, offset, bytes, qiov->niov, is_write);
+-    buf = qemu_try_memalign(s->page_size, bytes);
++    buf = qemu_try_memalign(qemu_real_host_page_size, len);
  
--    memset(id, 0, sizeof(*id));
-+    memset(id, 0, id_size);
-     cmd.dptr.prp1 = cpu_to_le64(iova);
-     if (nvme_cmd_sync(bs, &cmd)) {
-         error_setg(errp, "Failed to identify controller");
-@@ -555,7 +556,7 @@ static bool nvme_identify(BlockDriverState *bs, int namespace, Error **errp)
-     s->supports_write_zeroes = !!(oncs & NVME_ONCS_WRITE_ZEROES);
-     s->supports_discard = !!(oncs & NVME_ONCS_DSM);
- 
--    memset(id, 0, sizeof(*id));
-+    memset(id, 0, id_size);
-     cmd.cdw10 = 0;
-     cmd.nsid = cpu_to_le32(namespace);
-     if (nvme_cmd_sync(bs, &cmd)) {
+     if (!buf) {
+         return -ENOMEM;
 -- 
 2.26.2
 
