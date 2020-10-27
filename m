@@ -2,78 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8F0D29AD9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:42:22 +0100 (CET)
-Received: from localhost ([::1]:37608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECE929ADB4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:44:36 +0100 (CET)
+Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPEz-00038h-Qb
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:42:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56404)
+	id 1kXPHA-0005yO-2A
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:44:36 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kXP3v-0005kh-Rn
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:30:55 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:37053)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jandryuk@gmail.com>)
- id 1kXP3s-0008Rk-Ex
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:30:55 -0400
-Received: by mail-lf1-x141.google.com with SMTP id j30so2345098lfp.4
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PYqRpy3+23XxNj36s2ZNs+yQYIS+87qHEdvuW6ev+Lw=;
- b=AAJrkUxov81rogrCte0ZEjuGtf9F9jXEWsSMPxsGThCSDcLRO3sEWDa8boRArUE2+i
- oAU0y6UbeFyoOPw0Lcw87QJWUKOMCMDINd5Nb+lrGhmrLrQGDOn/hCesfCmYoMwGAfT1
- DmNqypfmRhdL1CV7C1nx57MOhqmOePTbeuL1JTEAvto8Td/yjS/0G/7y0qxNtmrepJXn
- yJVEufeO648m+wSsouHyifvgFhyHoZ8g4fLDry1JPyKN04nLIb9copiFFteFSSaPPqAc
- u7+b/8SXu/FGvfDteZBLl2gKuZ3LIkbEWT2M8kuyIBBQJkBPXYj+Wk7F5TY/y/7ZZi3M
- fYjw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kXP5D-0006tR-6L
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:32:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kXP57-0000On-Dd
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:32:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603805526;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TK8hPM7Ysvvb8/8WqhaE5vPte48P0JgSHSUZle0XYDo=;
+ b=EXBsY8yqgj1Qz7Rxuy6BUC5/P5RXU7IURPyYLbwsXEOqSvy7rl9abm+f2QXBFyO6h59ZRs
+ Op75FSedQsRmaNpZp2jsUBO0qZG8TgSh1xvem8MyAP5cxpF0HCoSqGx81J4zWXYMuO65mT
+ pxH7OabZ++6eVXmtZOtx4A5yShRJtL8=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-UPG_lO7WNtmNdLiMkn7Bew-1; Tue, 27 Oct 2020 09:32:04 -0400
+X-MC-Unique: UPG_lO7WNtmNdLiMkn7Bew-1
+Received: by mail-wr1-f71.google.com with SMTP id t11so755272wrv.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:32:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PYqRpy3+23XxNj36s2ZNs+yQYIS+87qHEdvuW6ev+Lw=;
- b=LKD+A2fC8ZPXeFP/S7+VtPE778zI2y+EyVkRyD2hNQkai20LewufXeCYUAhBzySBKv
- xLZY6qQhCyQT7f4nPQnmTijX0oBRQKrzLCCm2IXsL+CG3pF3YEow2LMmHSiiyFyoFWu5
- tbJiRvVIQvS9/CAXJVIfFc7IWbfgHN44M/8z9JSyDt9/HhZkoJyOGGtLNOYT6YRGKrqw
- wszaFBG35kGWguR6gfFQm6u0iZRJ384nMRrdSCTTRLp+A2W6XZi5x21rq2v9t7EbJ66N
- kCZJSHnh35Hkc7FjM6nEYGYVW335mgb60UFSN97hlz4cy9iHqsg5JXMDDYL0FMdDJ2s4
- VmLw==
-X-Gm-Message-State: AOAM530QmNczLN2kFgbQAR5JZgs3q8PrbVZNqUljVf1+FJPz7ATjsmRj
- p24KGSX0ja9Q1FiI90JK4V6hr6H3CTDCSnTFsrA=
-X-Google-Smtp-Source: ABdhPJzfzEyVnOY4d98ajUsb3HjPt3FUABmbAANKPMpj8hRCgwPMjfOD6Qw8viCh/8JkriD5TuOwxEZPG+v9pwDfC1o=
-X-Received: by 2002:a19:8b8b:: with SMTP id n133mr909957lfd.202.1603805447914; 
- Tue, 27 Oct 2020 06:30:47 -0700 (PDT)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TK8hPM7Ysvvb8/8WqhaE5vPte48P0JgSHSUZle0XYDo=;
+ b=GfBi6OR7h+njwebxcf9RFLCtT/ptwsY0AC2rMDgqUY6DlFDe4NQCwaA1QyILjvs6qI
+ oItgJPtRvB3nuJdwdFb/I46cVqUM9PSWzL0Zat7jV7EEGKc7O+z+fhikVywDYt54Dqbs
+ h4fGv4ktDAno3BAgrM+wfYpTZHoA8DLBFF0qTXH2bL9CwYg/XnIjVsKDIMNS6g20uhjK
+ J3rlYdUZD+h/EvmSPGhICcLGfhjGm8ttZsquQB2NktkykRI4kLlzAIoyBs8q2Dqpkutw
+ OX9u+dBG76IsRu7aSHHZz8Jg0N07/czG/RI5fzZdtpygaMAse/gytmBZsk/R4VPG1u+9
+ ZdLQ==
+X-Gm-Message-State: AOAM533RDspl6UJfKnwB72JUeFYAqVJdV51dX7YAfgSU7JPj1pVjt8NV
+ Pt+8LJt7Wf8zxa4EptHy1Va/jsklyu4gIC0xwaD/InGj3LMrur2s7a6a2tHkzSDQoEj/U2O1eBn
+ etIceSEUSR9dyjWk=
+X-Received: by 2002:a5d:4282:: with SMTP id k2mr2844756wrq.270.1603805523522; 
+ Tue, 27 Oct 2020 06:32:03 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz3OcMI/Dys9klddA8DDl9dIFLbyXDGTqCdrw0fKamw/UOdRW7ZvI62Y4lxSv9JuKWO5IBt7w==
+X-Received: by 2002:a5d:4282:: with SMTP id k2mr2844742wrq.270.1603805523337; 
+ Tue, 27 Oct 2020 06:32:03 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id a15sm2224058wrp.90.2020.10.27.06.32.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 27 Oct 2020 06:32:02 -0700 (PDT)
+Subject: Re: [PATCH 01/22] semihosting: fix order of initialization functions
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201021205716.2359430-1-pbonzini@redhat.com>
+ <20201021205716.2359430-2-pbonzini@redhat.com> <87sg9zex2k.fsf@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <78f5ab2b-bd6d-631e-4d19-be499a3b08a6@redhat.com>
+Date: Tue, 27 Oct 2020 14:32:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201026083401.13231-1-mark.cave-ayland@ilande.co.uk>
- <20201026083401.13231-9-mark.cave-ayland@ilande.co.uk>
- <20201026095450.ko6snc4dusk3pvnw@function>
- <547c0ea5-dad4-d246-1de8-844a2e9a9507@ilande.co.uk>
- <20201026111406.jvpexlkh53g4fxff@function>
- <CAKf6xpvcnmEs+v3+Tm1srQfo=m37EAGRPynJDJy4HkMuCmD6NQ@mail.gmail.com>
- <38110b4a-34b1-3e97-5a7f-4fad1bfff080@ilande.co.uk>
- <20201026150432.yqkyceke5uppqom5@function>
- <a141714c-158f-0099-34ab-92fc27be6975@ilande.co.uk>
-In-Reply-To: <a141714c-158f-0099-34ab-92fc27be6975@ilande.co.uk>
-From: Jason Andryuk <jandryuk@gmail.com>
-Date: Tue, 27 Oct 2020 09:30:36 -0400
-Message-ID: <CAKf6xptUpBmKMQ1HeNkRKqv8YipbeAGsjZViZ_2pLOZGF=G_rg@mail.gmail.com>
-Subject: Re: [PATCH 8/9] dev-serial: fix FTDI_GET_MDM_ST response
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::141;
- envelope-from=jandryuk@gmail.com; helo=mail-lf1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <87sg9zex2k.fsf@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-2.167, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,38 +102,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>, Samuel Thibault <samuel.thibault@gnu.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, berrange@redhat.com, jsnow@redhat.com,
+ ehabkost@redhat.com, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 9:18 AM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> I spent a bit of time this morning doing some further tests on Linux using 2 machines
-> and a test program to check CTS and usbmon:
->
-> usbmon when adapter unplugged:
-> ffff95a4bf2dd300 2366831506 S Ci:4:004:0 s c0 05 0000 0000 0002 2 <
-> ffff95a4bf2dd300 2366831607 C Ci:4:004:0 0 2 = 0160
->
-> usbmon when adapter plugged in and remote connected to minicom:
-> ffff95a4452a79c0 2457273895 S Ci:4:004:0 s c0 05 0000 0000 0002 2 <
-> ffff95a4452a79c0 2457274057 C Ci:4:004:0 0 2 = 3160
->
-> It seems I made a mistake here since the response is interpreted as 2 bytes rather
-> than a single little-endian word: with CTS asserted on the remote the first byte is
-> 0x31 == FTDI_CTS | FTDI_DSR | 1, whilst the 2nd byte is 0x60 == FTDI_THRE | FTDI_TEMT
-> which matches the existing QEMU code rather than the comments in ftdi_sio.h.
->
-> So sorry for the noise: I'll drop this patch from the series and post a v2 shortly.
+On 27/10/20 12:18, Alex Bennée wrote:
+>>  
+>> -    /* now chardevs have been created we may have semihosting to connect */
+>> -    qemu_semihosting_connect_chardevs();
+>> -
+> Move both here:
+> 
+>     if (foreach_device_config(DEV_DEBUGCON, debugcon_parse) < 0)
+>         exit(1);
+> 
+>     /* now chardevs have been created we may have semihosting to connect */
+>     qemu_semihosting_connect_chardevs();
+>     qemu_semihosting_console_init();
+> 
+> 
 
-No worries.  Thanks for investigating.
+Sounds good, thanks!
 
-(I had the thought that maybe reserve bit 0 differentiates one and two
-byte responses? Bit 0 clear indicates a 1-byte response and set
-indicates a 2 bit response.  But I'm just guessing.)
+Paolo
 
-Regards,
-Jason
 
