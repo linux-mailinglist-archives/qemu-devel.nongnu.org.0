@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 554DF29CC1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:43:05 +0100 (CET)
-Received: from localhost ([::1]:34648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C91B29CC20
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:44:05 +0100 (CET)
+Received: from localhost ([::1]:37894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXXgG-00083y-DL
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:43:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1kXXhE-00011N-FA
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:44:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXby-0004Gz-Iz
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46119)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXbz-0004IY-HR
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40385)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXbv-0006Oc-LW
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:38 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXbx-0006P3-1R
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603838312;
+ s=mimecast20190719; t=1603838316;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z0fgWV4F9Y3aEaZtRHV8mK+p/mOtNCHhk7lcQ88UlPY=;
- b=dzBfe2WQeOkJ/2oee/Sia/KnGmNJMlv0YeBS/Bvzt1pCt/dPMfkA9u/Lg36ohYjC5bRmYY
- yz7mJb4sewfhoMetSxLu8rUI8+O39422nkW0sUQj6kdvN58cus4M0Uz0lex6lMgSDycyLD
- 6jg1ffIitH0LMIR1nMv/xOJUS6XHZ1g=
+ bh=zX2ilnG/92LDZuJtqv+Bb2nIbU0HyG4U0yv62/mEvSM=;
+ b=IMRxK+9tnGIpzc2/pVM54Ac3T7sRES0AlTau8cWJYxi+OS0aCRe76xGOGNPfvZW1m0GYMw
+ BdyxVNQ4ZI9vSDPmNdWwR9wRYH7sVQh+/yVOlsj+t4ks+qMXaAv8ralOVWF1y8CogU8HmE
+ H/auOubqO6qpK9LcldIchXzwGW1fNek=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-cv9fteXuNTGP-1kYmdBQ0g-1; Tue, 27 Oct 2020 18:38:30 -0400
-X-MC-Unique: cv9fteXuNTGP-1kYmdBQ0g-1
+ us-mta-561-kMOIuP6yP3Stano6JFIpuQ-1; Tue, 27 Oct 2020 18:38:32 -0400
+X-MC-Unique: kMOIuP6yP3Stano6JFIpuQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38A1257203;
- Tue, 27 Oct 2020 22:38:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE984803F4F;
+ Tue, 27 Oct 2020 22:38:31 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ACEC85B4AC;
- Tue, 27 Oct 2020 22:38:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 829EF5B4AC;
+ Tue, 27 Oct 2020 22:38:29 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/5] python: add .gitignore
-Date: Tue, 27 Oct 2020 18:38:14 -0400
-Message-Id: <20201027223815.159802-5-jsnow@redhat.com>
+Subject: [PATCH 5/5] gitlab: add python linters to CI
+Date: Tue, 27 Oct 2020 18:38:15 -0400
+Message-Id: <20201027223815.159802-6-jsnow@redhat.com>
 In-Reply-To: <20201027223815.159802-1-jsnow@redhat.com>
 References: <20201027223815.159802-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -90,35 +90,57 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ignore build and package output (build, dist, qemu.egg-info);
-effectively these are "in-tree" builds of a kind.
-
-Ignore miscellaneous cached python confetti (__pycache__, *.pyc,
-.mypy_cache).
-
-Ignore .idea (pycharm) and .venv (pipenv et al).
+Add python3.6 to the fedora container image: we need it to run the
+linters against that explicit version to make sure we don't break our
+minimum version promise. Add pipenv, too.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/.gitignore | 9 +++++++++
- 1 file changed, 9 insertions(+)
- create mode 100644 python/.gitignore
+ .gitlab-ci.yml                         | 10 ++++++++++
+ tests/docker/dockerfiles/fedora.docker |  2 ++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/python/.gitignore b/python/.gitignore
-new file mode 100644
-index 000000000000..78c522768bc1
---- /dev/null
-+++ b/python/.gitignore
-@@ -0,0 +1,9 @@
-+*.pyc
-+.idea/
-+.mypy_cache/
-+.pytest_cache/
-+.venv/
-+__pycache__/
-+build/
-+dist/
-+qemu.egg-info/
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 5d6773efd291..1a32e8b9ba83 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -413,6 +413,16 @@ check-patch:
+     GIT_DEPTH: 1000
+   allow_failure: true
+ 
++
++check-python:
++  stage: build
++  image: $CI_REGISTRY_IMAGE/qemu/fedora:latest
++  script:
++    - cd python
++    - make venv-check
++  variables:
++    GIT_DEPTH: 1000
++
+ check-dco:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/centos8:latest
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 0b5053f2d090..e065fcda8ff2 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -81,6 +81,7 @@ ENV PACKAGES \
+     numactl-devel \
+     perl \
+     perl-Test-Harness \
++    pipenv \
+     pixman-devel \
+     python3 \
+     python3-PyYAML \
+@@ -90,6 +91,7 @@ ENV PACKAGES \
+     python3-pip \
+     python3-sphinx \
+     python3-virtualenv \
++    python3.6 \
+     rdma-core-devel \
+     SDL2-devel \
+     snappy-devel \
 -- 
 2.26.2
 
