@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4AB429B0BF
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:25:17 +0100 (CET)
-Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A329229AF31
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:08:12 +0100 (CET)
+Received: from localhost ([::1]:43482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPuW-0002Jd-Lh
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:25:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35728)
+	id 1kXPdz-0005Oa-Ix
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:08:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSk-0003BU-0b
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59658)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPT3-0003Gq-S4
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:59 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSe-0004IV-Bw
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:33 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSv-0004Jt-CF
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603806987;
+ s=mimecast20190719; t=1603806997;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WBWP7KBMIQI6YRPnFGQwZbxBBXEh8CIfDLyp5hJxrI0=;
- b=VRVbNQKuJJWBjmJ96IPkNvmBeYQW1qHE2ndaa47a2YlZ9+uZSG8EKe72X3ltONpU7jULOt
- 3zMW3kUEu4Glvfbi8fSOtIi4bLC3Q3U3f5ijjIPxHvsOZ1SjiYIOIDUTOzq9KH18lG0X+0
- iRcwxvfKRSA3oSIzZ2RZ+aJ2CfB/PVo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-p_Pz2hkeMmW3O3ByINQU0w-1; Tue, 27 Oct 2020 09:56:24 -0400
-X-MC-Unique: p_Pz2hkeMmW3O3ByINQU0w-1
-Received: by mail-ed1-f71.google.com with SMTP id y8so730445edj.5
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:23 -0700 (PDT)
+ bh=H+ZJ92q9c8sHM7tIK104/2szOIvYpUY13gacvPM2KaM=;
+ b=fqJEUmTF5RetYB704NJwudyDuCaZ8KYaHVwABTtMog4kowKqfqDcWHcLFCP7FbwQ+mKn6r
+ 6wrfRQQ/M03z1Jbilq2yq4QbPGgzPEkfGBJqGFrmjx5dX4f7Ql/cY6rykcwUZiVWjKP5CY
+ faDKqmxOdv1CyTx1UHPu5xhv6AsNRQY=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-e_RJLRwyMiO1DeYQQUqdAA-1; Tue, 27 Oct 2020 09:56:36 -0400
+X-MC-Unique: e_RJLRwyMiO1DeYQQUqdAA-1
+Received: by mail-ed1-f70.google.com with SMTP id cb27so708703edb.11
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WBWP7KBMIQI6YRPnFGQwZbxBBXEh8CIfDLyp5hJxrI0=;
- b=V/Y+BIP8C7iIX9DZJ4ovJjk/5SvGnPq6Y4aIlTr6H3P+EkDm1oQC6qotB9J64ZfSkE
- NhSjSG4f6t5Vbp5j8P4lRpAXbUEYBpW5+FbUBT4OaTBLNDMVPwx80atRoOC+I3nALp0U
- yNkX5wewNFl9pknWE3MvSlP46Mrtjk6l5K9mpE7xDiZJhZ2e9Ygu8JpfecYAOcEXLZoD
- 7ppDgAwMPhAM+knd+GUldThdfxsLC6Fmy2ywoSP7OmdGZ3n2fFEnmKYr6pJ8l14mKSvE
- a/u2w3HV8QH6FMwOS2wCh8IQEAyhvoGDQgTksS9/7R9nTfB4Iqt+AnloxJz+8+Bx+JPI
- g/wQ==
-X-Gm-Message-State: AOAM530nxIkmzeNRh0vCSJrZzFaDPQ1tNsIVF1C9EbbghXhI2mjmx3mG
- IdqjyxDTSYbUo8U8oIJR65QqnSPM0zoovQv1HwPCdHEe4bd6zL006XH0cFKjfj0GUZqS+cnfgvk
- AsHPMKF9w8N+v528=
-X-Received: by 2002:a17:906:5594:: with SMTP id
- y20mr2650653ejp.196.1603806982302; 
- Tue, 27 Oct 2020 06:56:22 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwQSZcVQU+o3Hk7rvmzMGq3IlquhDlUEgCoHtlKGQdLsCnzA4YKsJOo+FZo8KxtT0R5NaJ0lA==
-X-Received: by 2002:a17:906:5594:: with SMTP id
- y20mr2650638ejp.196.1603806982089; 
- Tue, 27 Oct 2020 06:56:22 -0700 (PDT)
+ bh=H+ZJ92q9c8sHM7tIK104/2szOIvYpUY13gacvPM2KaM=;
+ b=NlogwzKUb+82llUUug5liD8i724jN10kD5XC1zeDB8YQ++pJ8ndBu7JMn54KPwChco
+ /Gnp5KIX26PGweAJdC3wstDSB+Kz1xShDZ4EuhFYKz7nsXaEH929FWl9Y9HMjIwO5Qp0
+ NPz90+eyQluAFmjx16mWFBkC5L9zOFCYYTA6lH3IF90Zk3tMz4ccv8otnqfAQAIgd+sU
+ tZDXuovDwsf6csOqosROpY/Prb+diugN49KQUU/UsYy2+87Qe8oWewA/pmzTdNs7ks4F
+ nCu/idiHt4ptMLTUF3OC0KfqJ1Qa3EmB2jpTg1awyz1Iq/WjfzxJBzaPl7sV2vrw6QQG
+ xZ5g==
+X-Gm-Message-State: AOAM530PY+l8S5zWqSdAhglvn+z18qLWrKoTquce52E4S+J8Bx33yDFw
+ 9jRaWefc2y+bUwvYF6elWb3fD5BKPvjlpYsjlYpZclAuiioo4DZVseoeBaAZHDxb+NXsin3wFey
+ 2Nh4CHmSYWWbJnfk=
+X-Received: by 2002:a50:b023:: with SMTP id i32mr2279432edd.377.1603806993704; 
+ Tue, 27 Oct 2020 06:56:33 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyBHskYR7MdFyujMfh7jJZtXEwL7Sga5wgF1zNKHEZcbBSH0cK23mgenucEppfPBb6oRjPsaw==
+X-Received: by 2002:a50:b023:: with SMTP id i32mr2279410edd.377.1603806993546; 
+ Tue, 27 Oct 2020 06:56:33 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id h15sm1088318ejf.50.2020.10.27.06.56.20
+ by smtp.gmail.com with ESMTPSA id r1sm1094650eju.40.2020.10.27.06.56.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:56:21 -0700 (PDT)
+ Tue, 27 Oct 2020 06:56:32 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 06/25] block/nvme: Improve nvme_free_req_queue_wait() trace
- information
-Date: Tue, 27 Oct 2020 14:55:28 +0100
-Message-Id: <20201027135547.374946-7-philmd@redhat.com>
+Subject: [PATCH 08/25] block/nvme: Simplify device reset
+Date: Tue, 27 Oct 2020 14:55:30 +0100
+Message-Id: <20201027135547.374946-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -106,41 +103,26 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What we want to trace is the block driver state and the queue index.
+Avoid multiple endianess conversion by using device endianess.
 
-Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c       | 2 +-
- block/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 8d74401ae7a..29d2541b911 100644
+index e95d59d3126..be14350f959 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -292,7 +292,7 @@ static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
+@@ -755,7 +755,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+     timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
  
-     while (q->free_req_head == -1) {
-         if (qemu_in_coroutine()) {
--            trace_nvme_free_req_queue_wait(q);
-+            trace_nvme_free_req_queue_wait(q->s, q->index);
-             qemu_co_queue_wait(&q->free_req_queue, &q->lock);
-         } else {
-             qemu_mutex_unlock(&q->lock);
-diff --git a/block/trace-events b/block/trace-events
-index 86292f3312b..cc5e2b55cb5 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -154,7 +154,7 @@ nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s
- nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset 0x%"PRIx64" bytes %"PRId64""
- nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset 0x%"PRIx64" bytes %"PRId64" ret %d"
- nvme_dma_map_flush(void *s) "s %p"
--nvme_free_req_queue_wait(void *q) "q %p"
-+nvme_free_req_queue_wait(void *s, unsigned q_index) "s %p q #%u"
- nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
- nvme_cmd_map_qiov_pages(void *s, int i, uint64_t page) "s %p page[%d] 0x%"PRIx64
- nvme_cmd_map_qiov_iov(void *s, int i, void *page, int pages) "s %p iov[%d] %p pages %d"
+     /* Reset device to get a clean state. */
+-    regs->cc = cpu_to_le32(le32_to_cpu(regs->cc) & 0xFE);
++    regs->cc &= const_le32(0xFE);
+     /* Wait for CSTS.RDY = 0. */
+     deadline = qemu_clock_get_ns(QEMU_CLOCK_REALTIME) + timeout_ms * SCALE_MS;
+     while (NVME_CSTS_RDY(le32_to_cpu(regs->csts))) {
 -- 
 2.26.2
 
