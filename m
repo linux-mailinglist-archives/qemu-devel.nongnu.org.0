@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A99D029AC2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:33:46 +0100 (CET)
-Received: from localhost ([::1]:35322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C77229AC5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 13:42:14 +0100 (CET)
+Received: from localhost ([::1]:59014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXOAb-0004M6-Me
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:33:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51834)
+	id 1kXOIn-0006DP-3H
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 08:42:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPa-0001OY-Tl
+ id 1kXNPa-0001NC-31
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:10 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50427)
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54760)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPU-0004Vk-AZ
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:10 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id 13so1070259wmf.0
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:03 -0700 (PDT)
+ id 1kXNPU-0004Wa-MB
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:09 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id w23so1061827wmi.4
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=lTwvq3tRYxRzSLnqAUd2JbWIHxJ2BL0rJeSEuQRJEno=;
- b=nYrEQIXJ3HbpQUSbeA35ZyhIn6QIEjojCws8pRG1tOfZd9UYhWiqttP6HC0xbHRP5N
- /bkafQpGyfet3hYIVmnMT2KIlaNPT2qJSPBsdB1v9l6KBWx3L1fQZ86C/1n0ingJzowu
- dZYEaWUym1oUva5Y68LUSduDnJs1uAG6ZaV+0z8LX2Rqf2Ve+Fs9hCA2J91T1ABbZxaw
- 9TXENWCabagwzyzT72QjkW+LFgD/IDwnnZe8kVquFZ2lmT3YyZdvgZcjPsbZx5ipP53k
- s77D7YsMMFNSqsP6W0UeN+6BBTzvXmgnpli1ZAHPQ3K5oFVq9eXKosMOL30dSCDEt1FX
- 8Dzw==
+ bh=lBsNk8YvewCGmxMTIWE8jp4NijJomYEULld4UfO+fq8=;
+ b=PTPgxXfDknCMvLOteaBn6xkInY8ofLbCfjk1TXy5TyBFvyDyDOEnTanKBNBO5/vvNc
+ LmX5tge2GLg2u9xi52xpLgepUSzBPGvsnPTLrItczuIc/YsKO95e4kqhfr44iaVMXn8x
+ gRrkfkjDM5CvZkS1IfFv1bS0pbVYBDGOd4vr1C7mOdpknxXx/CS6dC4tirO8m1eXH+7c
+ +LyI+lK/t7cbC9fBWA4sdWy59POo+CrbBF8PfWa5UwfHmSiRezGOVuUehrVJLl3+SoDK
+ +K+Y0oYQGFLsGRQ1UpWtyOdrBrvfWjBUXQeelVYvYGClHJkcPuYiqrAutGrqVku4qClF
+ 1e3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=lTwvq3tRYxRzSLnqAUd2JbWIHxJ2BL0rJeSEuQRJEno=;
- b=IiVD2CC5rZkZe8/vKLV6EBZrDx6G2LJq4HQKm5NHo/m6W+ak2raWW8O5rpANYDeLuE
- YYdPuDf4qdZlJmjbfaIDtUUIJewGfdXj/m7RAHFn10xzbYFsgErJNLCLU2nwHRl7IxAT
- /T3GUH7JyeyBznx5aM/5J05PJg7CwwjKyJwV8uT7fv+Np0+6x8r/lZ4Yer3RfNpHsP/X
- zvIpbbMNcum+TzBek+W+8Tdy6mLr9R+Mr/vt3apQ/p5cz6ClYlQtrhZ/Xjv43ZsPFrm1
- Wf+J9tyDQDUDY/ADYQiqZk+UaV8DIC2E6jB03tjdbezfhruczK9urbGOa4I72Gp3XfYB
- CoXA==
-X-Gm-Message-State: AOAM533bE9mqJL9j7VcTRheRznz0J+Bbd4vEqsZX+ZFd5RYeAqacmnXm
- mVD/T5x1Pxi2SFrpeMUo5mYLNEHBGocSFA==
-X-Google-Smtp-Source: ABdhPJwvweT1PuE+QaoZveEnyfUfgLQlUkOa8yqhK9OfMWwyt9m0XB/WQwTu8yQp/BLUzvB5zwZTmg==
-X-Received: by 2002:a1c:20d0:: with SMTP id g199mr2412176wmg.38.1603799101153; 
- Tue, 27 Oct 2020 04:45:01 -0700 (PDT)
+ bh=lBsNk8YvewCGmxMTIWE8jp4NijJomYEULld4UfO+fq8=;
+ b=b43F7zW6BNgtTwWIrXcafC8L/m6B9PAvfp6L2zZVLHmvw3RwqTvJkG5bAwUTiit/nu
+ EtSTcaa/neaer7FV8e2g4LBrLLI6vYbC71S+mcV4IHCVWG+Hf4Kj/F3f53q2Fda9+QQN
+ gIVLiFoxid39e1AMd2hczebm51Nak4n+fMnVpOIxnbU81SAYa3TwNcEWshnKCrwv6jRr
+ 6Vmr3s3DKZUH4ixQhFoo9GHAv5VYQPeY5faQixa/NMh2bVBe4VRdoAtAczfwbpYA7QSV
+ mAdsoRUs28Qhyoi7iwCwh1dD0lsT4LBPpdUGny2NMoc5URtYofx5eteK9YwnSyEDZSls
+ Bh0Q==
+X-Gm-Message-State: AOAM531sZqd+doPk9T00hDZMpcxgL5KsvoP7kywqScde7RllAiCOkDEE
+ 2Re9ik6DgKcU8cevOFZrZqybz5y+REXW3A==
+X-Google-Smtp-Source: ABdhPJzyYVXFRtqDDiy40EUKDFblJRvS0lbQovSXf8agZwTYXKZq5EvPPOjSdEtSMuZ5RPrlf0ZjCA==
+X-Received: by 2002:a1c:44e:: with SMTP id 75mr2307859wme.117.1603799102407;
+ Tue, 27 Oct 2020 04:45:02 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.44.59
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.01
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:00 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:01 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/48] hw/timer: Adding watchdog for NPCM7XX Timer.
-Date: Tue, 27 Oct 2020 11:44:06 +0000
-Message-Id: <20201027114438.17662-17-peter.maydell@linaro.org>
+Subject: [PULL 17/48] hw/misc: Add npcm7xx random number generator
+Date: Tue, 27 Oct 2020 11:44:07 +0000
+Message-Id: <20201027114438.17662-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
@@ -88,668 +88,163 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hao Wu <wuhaotsh@google.com>
+From: Havard Skinnemoen <hskinnemoen@google.com>
 
-The watchdog is part of NPCM7XX's timer module. Its behavior is
-controlled by the WTCR register in the timer.
+The RNG module returns a byte of randomness when the Data Valid bit is
+set.
 
-When enabled, the watchdog issues an interrupt signal after a pre-set
-amount of cycles, and issues a reset signal shortly after that.
+This implementation ignores the prescaler setting, and loads a new value
+into RNGD every time RNGCS is read while the RNG is enabled and random
+data is available.
+
+A qtest featuring some simple randomness tests is included.
 
 Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-Signed-off-by: Hao Wu <wuhaotsh@google.com>
-Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: deleted blank line at end of npcm_watchdog_timer-test.c]
+Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/npcm7xx_clk.h             |   2 +
- include/hw/timer/npcm7xx_timer.h          |  48 +++-
- hw/arm/npcm7xx.c                          |  12 +
- hw/misc/npcm7xx_clk.c                     |  28 ++
- hw/timer/npcm7xx_timer.c                  | 266 ++++++++++++++----
- tests/qtest/npcm7xx_watchdog_timer-test.c | 319 ++++++++++++++++++++++
- MAINTAINERS                               |   1 +
- tests/qtest/meson.build                   |   2 +-
- 8 files changed, 624 insertions(+), 54 deletions(-)
- create mode 100644 tests/qtest/npcm7xx_watchdog_timer-test.c
+ docs/system/arm/nuvoton.rst    |   2 +-
+ include/hw/arm/npcm7xx.h       |   2 +
+ include/hw/misc/npcm7xx_rng.h  |  34 ++++
+ hw/arm/npcm7xx.c               |   7 +-
+ hw/misc/npcm7xx_rng.c          | 180 +++++++++++++++++++++
+ tests/qtest/npcm7xx_rng-test.c | 278 +++++++++++++++++++++++++++++++++
+ hw/misc/meson.build            |   1 +
+ hw/misc/trace-events           |   4 +
+ tests/qtest/meson.build        |   5 +-
+ 9 files changed, 510 insertions(+), 3 deletions(-)
+ create mode 100644 include/hw/misc/npcm7xx_rng.h
+ create mode 100644 hw/misc/npcm7xx_rng.c
+ create mode 100644 tests/qtest/npcm7xx_rng-test.c
 
-diff --git a/include/hw/misc/npcm7xx_clk.h b/include/hw/misc/npcm7xx_clk.h
-index cdcc9e85342..2338fbbdb5d 100644
---- a/include/hw/misc/npcm7xx_clk.h
-+++ b/include/hw/misc/npcm7xx_clk.h
-@@ -31,6 +31,8 @@
-  */
- #define NPCM7XX_CLK_NR_REGS             (0x70 / sizeof(uint32_t))
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index e3e1a3a3a73..4342434df4a 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -38,6 +38,7 @@ Supported devices
+  * DDR4 memory controller (dummy interface indicating memory training is done)
+  * OTP controllers (no protection features)
+  * Flash Interface Unit (FIU; no protection features)
++ * Random Number Generator (RNG)
  
-+#define NPCM7XX_WATCHDOG_RESET_GPIO_IN "npcm7xx-clk-watchdog-reset-gpio-in"
-+
- typedef struct NPCM7xxCLKState {
-     SysBusDevice parent;
+ Missing devices
+ ---------------
+@@ -59,7 +60,6 @@ Missing devices
+  * Peripheral SPI controller (PSPI)
+  * Analog to Digital Converter (ADC)
+  * SD/MMC host
+- * Random Number Generator (RNG)
+  * PECI interface
+  * Pulse Width Modulation (PWM)
+  * Tachometer
+diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
+index 13106af2151..761f9b987ed 100644
+--- a/include/hw/arm/npcm7xx.h
++++ b/include/hw/arm/npcm7xx.h
+@@ -21,6 +21,7 @@
+ #include "hw/mem/npcm7xx_mc.h"
+ #include "hw/misc/npcm7xx_clk.h"
+ #include "hw/misc/npcm7xx_gcr.h"
++#include "hw/misc/npcm7xx_rng.h"
+ #include "hw/nvram/npcm7xx_otp.h"
+ #include "hw/timer/npcm7xx_timer.h"
+ #include "hw/ssi/npcm7xx_fiu.h"
+@@ -75,6 +76,7 @@ typedef struct NPCM7xxState {
+     NPCM7xxOTPState     key_storage;
+     NPCM7xxOTPState     fuse_array;
+     NPCM7xxMCState      mc;
++    NPCM7xxRNGState     rng;
+     NPCM7xxFIUState     fiu[2];
+ } NPCM7xxState;
  
-diff --git a/include/hw/timer/npcm7xx_timer.h b/include/hw/timer/npcm7xx_timer.h
-index 878a365a790..6993fd723a1 100644
---- a/include/hw/timer/npcm7xx_timer.h
-+++ b/include/hw/timer/npcm7xx_timer.h
-@@ -29,14 +29,31 @@
-  */
- #define NPCM7XX_TIMER_NR_REGS (0x54 / sizeof(uint32_t))
- 
-+/* The basic watchdog timer period is 2^14 clock cycles. */
-+#define NPCM7XX_WATCHDOG_BASETIME_SHIFT 14
-+
-+#define NPCM7XX_WATCHDOG_RESET_GPIO_OUT "npcm7xx-clk-watchdog-reset-gpio-out"
-+
- typedef struct NPCM7xxTimerCtrlState NPCM7xxTimerCtrlState;
- 
- /**
-- * struct NPCM7xxTimer - Individual timer state.
-- * @irq: GIC interrupt line to fire on expiration (if enabled).
-+ * struct NPCM7xxBaseTimer - Basic functionality that both regular timer and
-+ * watchdog timer use.
-  * @qtimer: QEMU timer that notifies us on expiration.
-  * @expires_ns: Absolute virtual expiration time.
-  * @remaining_ns: Remaining time until expiration if timer is paused.
+diff --git a/include/hw/misc/npcm7xx_rng.h b/include/hw/misc/npcm7xx_rng.h
+new file mode 100644
+index 00000000000..5e85fd439d8
+--- /dev/null
++++ b/include/hw/misc/npcm7xx_rng.h
+@@ -0,0 +1,34 @@
++/*
++ * Nuvoton NPCM7xx Random Number Generator.
++ *
++ * Copyright 2020 Google LLC
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
 + */
-+typedef struct NPCM7xxBaseTimer {
-+    QEMUTimer   qtimer;
-+    int64_t     expires_ns;
-+    int64_t     remaining_ns;
-+} NPCM7xxBaseTimer;
++#ifndef NPCM7XX_RNG_H
++#define NPCM7XX_RNG_H
 +
-+/**
-+ * struct NPCM7xxTimer - Individual timer state.
-+ * @ctrl: The timer module that owns this timer.
-+ * @irq: GIC interrupt line to fire on expiration (if enabled).
-+ * @base_timer: The basic timer functionality for this timer.
-  * @tcsr: The Timer Control and Status Register.
-  * @ticr: The Timer Initial Count Register.
-  */
-@@ -44,21 +61,38 @@ typedef struct NPCM7xxTimer {
-     NPCM7xxTimerCtrlState *ctrl;
- 
-     qemu_irq    irq;
--    QEMUTimer   qtimer;
--    int64_t     expires_ns;
--    int64_t     remaining_ns;
-+    NPCM7xxBaseTimer base_timer;
- 
-     uint32_t    tcsr;
-     uint32_t    ticr;
- } NPCM7xxTimer;
- 
-+/**
-+ * struct NPCM7xxWatchdogTimer - The watchdog timer state.
-+ * @ctrl: The timer module that owns this timer.
-+ * @irq: GIC interrupt line to fire on expiration (if enabled).
-+ * @reset_signal: The GPIO used to send a reset signal.
-+ * @base_timer: The basic timer functionality for this timer.
-+ * @wtcr: The Watchdog Timer Control Register.
-+ */
-+typedef struct NPCM7xxWatchdogTimer {
-+    NPCM7xxTimerCtrlState *ctrl;
++#include "hw/sysbus.h"
 +
-+    qemu_irq            irq;
-+    qemu_irq            reset_signal;
-+    NPCM7xxBaseTimer base_timer;
++typedef struct NPCM7xxRNGState {
++    SysBusDevice parent;
 +
-+    uint32_t            wtcr;
-+} NPCM7xxWatchdogTimer;
++    MemoryRegion iomem;
 +
- /**
-  * struct NPCM7xxTimerCtrlState - Timer Module device state.
-  * @parent: System bus device.
-  * @iomem: Memory region through which registers are accessed.
-+ * @index: The index of this timer module.
-  * @tisr: The Timer Interrupt Status Register.
-- * @wtcr: The Watchdog Timer Control Register.
-  * @timer: The five individual timers managed by this module.
-+ * @watchdog_timer: The watchdog timer managed by this module.
-  */
- struct NPCM7xxTimerCtrlState {
-     SysBusDevice parent;
-@@ -66,9 +100,9 @@ struct NPCM7xxTimerCtrlState {
-     MemoryRegion iomem;
- 
-     uint32_t    tisr;
--    uint32_t    wtcr;
- 
-     NPCM7xxTimer timer[NPCM7XX_TIMERS_PER_CTRL];
-+    NPCM7xxWatchdogTimer watchdog_timer;
- };
- 
- #define TYPE_NPCM7XX_TIMER "npcm7xx-timer"
++    uint8_t rngcs;
++    uint8_t rngd;
++    uint8_t rngmode;
++} NPCM7xxRNGState;
++
++#define TYPE_NPCM7XX_RNG "npcm7xx-rng"
++#define NPCM7XX_RNG(obj) OBJECT_CHECK(NPCM7xxRNGState, (obj), TYPE_NPCM7XX_RNG)
++
++#endif /* NPCM7XX_RNG_H */
 diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index 037f3a26f2e..c341dcab8b3 100644
+index c341dcab8b3..cb4db41c542 100644
 --- a/hw/arm/npcm7xx.c
 +++ b/hw/arm/npcm7xx.c
-@@ -86,6 +86,9 @@ enum NPCM7xxInterrupt {
-     NPCM7XX_TIMER12_IRQ,
-     NPCM7XX_TIMER13_IRQ,
-     NPCM7XX_TIMER14_IRQ,
-+    NPCM7XX_WDG0_IRQ            = 47,   /* Timer Module 0 Watchdog */
-+    NPCM7XX_WDG1_IRQ,                   /* Timer Module 1 Watchdog */
-+    NPCM7XX_WDG2_IRQ,                   /* Timer Module 2 Watchdog */
- };
+@@ -44,6 +44,7 @@
+ #define NPCM7XX_GCR_BA          (0xf0800000)
+ #define NPCM7XX_CLK_BA          (0xf0801000)
+ #define NPCM7XX_MC_BA           (0xf0824000)
++#define NPCM7XX_RNG_BA          (0xf000b000)
  
- /* Total number of GIC interrupts, including internal Cortex-A9 interrupts. */
-@@ -353,6 +356,15 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-             qemu_irq irq = npcm7xx_irq(s, first_irq + j);
-             sysbus_connect_irq(sbd, j, irq);
-         }
-+
-+        /* IRQ for watchdogs */
-+        sysbus_connect_irq(sbd, NPCM7XX_TIMERS_PER_CTRL,
-+                npcm7xx_irq(s, NPCM7XX_WDG0_IRQ + i));
-+        /* GPIO that connects clk module with watchdog */
-+        qdev_connect_gpio_out_named(DEVICE(&s->tim[i]),
-+                NPCM7XX_WATCHDOG_RESET_GPIO_OUT, 0,
-+                qdev_get_gpio_in_named(DEVICE(&s->clk),
-+                        NPCM7XX_WATCHDOG_RESET_GPIO_IN, i));
+ /* Internal AHB SRAM */
+ #define NPCM7XX_RAM3_BA         (0xc0008000)
+@@ -256,6 +257,7 @@ static void npcm7xx_init(Object *obj)
+     object_initialize_child(obj, "otp2", &s->fuse_array,
+                             TYPE_NPCM7XX_FUSE_ARRAY);
+     object_initialize_child(obj, "mc", &s->mc, TYPE_NPCM7XX_MC);
++    object_initialize_child(obj, "rng", &s->rng, TYPE_NPCM7XX_RNG);
+ 
+     for (i = 0; i < ARRAY_SIZE(s->tim); i++) {
+         object_initialize_child(obj, "tim[*]", &s->tim[i], TYPE_NPCM7XX_TIMER);
+@@ -374,6 +376,10 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+                        serial_hd(i), DEVICE_LITTLE_ENDIAN);
      }
  
-     /* UART0..3 (16550 compatible) */
-diff --git a/hw/misc/npcm7xx_clk.c b/hw/misc/npcm7xx_clk.c
-index 21ab4200d1c..6732437fe22 100644
---- a/hw/misc/npcm7xx_clk.c
-+++ b/hw/misc/npcm7xx_clk.c
-@@ -17,6 +17,7 @@
- #include "qemu/osdep.h"
- 
- #include "hw/misc/npcm7xx_clk.h"
-+#include "hw/timer/npcm7xx_timer.h"
- #include "migration/vmstate.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
-@@ -24,6 +25,7 @@
- #include "qemu/timer.h"
- #include "qemu/units.h"
- #include "trace.h"
-+#include "sysemu/watchdog.h"
- 
- #define PLLCON_LOKI     BIT(31)
- #define PLLCON_LOKS     BIT(30)
-@@ -87,6 +89,12 @@ static const uint32_t cold_reset_values[NPCM7XX_CLK_NR_REGS] = {
-     [NPCM7XX_CLK_AHBCKFI]       = 0x000000c8,
- };
- 
-+/* Register Field Definitions */
-+#define NPCM7XX_CLK_WDRCR_CA9C  BIT(0) /* Cortex A9 Cores */
++    /* Random Number Generator. Cannot fail. */
++    sysbus_realize(SYS_BUS_DEVICE(&s->rng), &error_abort);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->rng), 0, NPCM7XX_RNG_BA);
 +
-+/* The number of watchdogs that can trigger a reset. */
-+#define NPCM7XX_NR_WATCHDOGS    (3)
-+
- static uint64_t npcm7xx_clk_read(void *opaque, hwaddr offset, unsigned size)
- {
-     uint32_t reg = offset / sizeof(uint32_t);
-@@ -187,6 +195,24 @@ static void npcm7xx_clk_write(void *opaque, hwaddr offset,
-     s->regs[reg] = value;
- }
- 
-+/* Perform reset action triggered by a watchdog */
-+static void npcm7xx_clk_perform_watchdog_reset(void *opaque, int n,
-+        int level)
-+{
-+    NPCM7xxCLKState *clk = NPCM7XX_CLK(opaque);
-+    uint32_t rcr;
-+
-+    g_assert(n >= 0 && n <= NPCM7XX_NR_WATCHDOGS);
-+    rcr = clk->regs[NPCM7XX_CLK_WD0RCR + n];
-+    if (rcr & NPCM7XX_CLK_WDRCR_CA9C) {
-+        watchdog_perform_action();
-+    } else {
-+        qemu_log_mask(LOG_UNIMP,
-+                "%s: only CPU reset is implemented. (requested 0x%" PRIx32")\n",
-+                __func__, rcr);
-+    }
-+}
-+
- static const struct MemoryRegionOps npcm7xx_clk_ops = {
-     .read       = npcm7xx_clk_read,
-     .write      = npcm7xx_clk_write,
-@@ -226,6 +252,8 @@ static void npcm7xx_clk_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &npcm7xx_clk_ops, s,
-                           TYPE_NPCM7XX_CLK, 4 * KiB);
-     sysbus_init_mmio(&s->parent, &s->iomem);
-+    qdev_init_gpio_in_named(DEVICE(s), npcm7xx_clk_perform_watchdog_reset,
-+            NPCM7XX_WATCHDOG_RESET_GPIO_IN, NPCM7XX_NR_WATCHDOGS);
- }
- 
- static const VMStateDescription vmstate_npcm7xx_clk = {
-diff --git a/hw/timer/npcm7xx_timer.c b/hw/timer/npcm7xx_timer.c
-index 2df9e3e4969..d24445bd6e4 100644
---- a/hw/timer/npcm7xx_timer.c
-+++ b/hw/timer/npcm7xx_timer.c
-@@ -17,6 +17,7 @@
- #include "qemu/osdep.h"
- 
- #include "hw/irq.h"
-+#include "hw/qdev-properties.h"
- #include "hw/misc/npcm7xx_clk.h"
- #include "hw/timer/npcm7xx_timer.h"
- #include "migration/vmstate.h"
-@@ -60,6 +61,50 @@ enum NPCM7xxTimerRegisters {
- #define NPCM7XX_TCSR_PRESCALE_START     0
- #define NPCM7XX_TCSR_PRESCALE_LEN       8
- 
-+#define NPCM7XX_WTCR_WTCLK(rv)          extract32(rv, 10, 2)
-+#define NPCM7XX_WTCR_FREEZE_EN          BIT(9)
-+#define NPCM7XX_WTCR_WTE                BIT(7)
-+#define NPCM7XX_WTCR_WTIE               BIT(6)
-+#define NPCM7XX_WTCR_WTIS(rv)           extract32(rv, 4, 2)
-+#define NPCM7XX_WTCR_WTIF               BIT(3)
-+#define NPCM7XX_WTCR_WTRF               BIT(2)
-+#define NPCM7XX_WTCR_WTRE               BIT(1)
-+#define NPCM7XX_WTCR_WTR                BIT(0)
-+
-+/*
-+ * The number of clock cycles between interrupt and reset in watchdog, used
-+ * by the software to handle the interrupt before system is reset.
-+ */
-+#define NPCM7XX_WATCHDOG_INTERRUPT_TO_RESET_CYCLES 1024
-+
-+/* Start or resume the timer. */
-+static void npcm7xx_timer_start(NPCM7xxBaseTimer *t)
-+{
-+    int64_t now;
-+
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    t->expires_ns = now + t->remaining_ns;
-+    timer_mod(&t->qtimer, t->expires_ns);
-+}
-+
-+/* Stop counting. Record the time remaining so we can continue later. */
-+static void npcm7xx_timer_pause(NPCM7xxBaseTimer *t)
-+{
-+    int64_t now;
-+
-+    timer_del(&t->qtimer);
-+    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
-+    t->remaining_ns = t->expires_ns - now;
-+}
-+
-+/* Delete the timer and reset it to default state. */
-+static void npcm7xx_timer_clear(NPCM7xxBaseTimer *t)
-+{
-+    timer_del(&t->qtimer);
-+    t->expires_ns = 0;
-+    t->remaining_ns = 0;
-+}
-+
- /*
-  * Returns the index of timer in the tc->timer array. This can be used to
-  * locate the registers that belong to this timer.
-@@ -102,6 +147,52 @@ static uint32_t npcm7xx_timer_ns_to_count(NPCM7xxTimer *t, int64_t ns)
-     return count;
- }
- 
-+static uint32_t npcm7xx_watchdog_timer_prescaler(const NPCM7xxWatchdogTimer *t)
-+{
-+    switch (NPCM7XX_WTCR_WTCLK(t->wtcr)) {
-+    case 0:
-+        return 1;
-+    case 1:
-+        return 256;
-+    case 2:
-+        return 2048;
-+    case 3:
-+        return 65536;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static void npcm7xx_watchdog_timer_reset_cycles(NPCM7xxWatchdogTimer *t,
-+        int64_t cycles)
-+{
-+    uint32_t prescaler = npcm7xx_watchdog_timer_prescaler(t);
-+    int64_t ns = (NANOSECONDS_PER_SECOND / NPCM7XX_TIMER_REF_HZ) * cycles;
-+
-+    /*
-+     * The reset function always clears the current timer. The caller of the
-+     * this needs to decide whether to start the watchdog timer based on
-+     * specific flag in WTCR.
-+     */
-+    npcm7xx_timer_clear(&t->base_timer);
-+
-+    ns *= prescaler;
-+    t->base_timer.remaining_ns = ns;
-+}
-+
-+static void npcm7xx_watchdog_timer_reset(NPCM7xxWatchdogTimer *t)
-+{
-+    int64_t cycles = 1;
-+    uint32_t s = NPCM7XX_WTCR_WTIS(t->wtcr);
-+
-+    g_assert(s <= 3);
-+
-+    cycles <<= NPCM7XX_WATCHDOG_BASETIME_SHIFT;
-+    cycles <<= 2 * s;
-+
-+    npcm7xx_watchdog_timer_reset_cycles(t, cycles);
-+}
-+
- /*
-  * Raise the interrupt line if there's a pending interrupt and interrupts are
-  * enabled for this timer. If not, lower it.
-@@ -116,16 +207,6 @@ static void npcm7xx_timer_check_interrupt(NPCM7xxTimer *t)
-     trace_npcm7xx_timer_irq(DEVICE(tc)->canonical_path, index, pending);
- }
- 
--/* Start or resume the timer. */
--static void npcm7xx_timer_start(NPCM7xxTimer *t)
--{
--    int64_t now;
--
--    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--    t->expires_ns = now + t->remaining_ns;
--    timer_mod(&t->qtimer, t->expires_ns);
--}
--
- /*
-  * Called when the counter reaches zero. Sets the interrupt flag, and either
-  * restarts or disables the timer.
-@@ -138,9 +219,9 @@ static void npcm7xx_timer_reached_zero(NPCM7xxTimer *t)
-     tc->tisr |= BIT(index);
- 
-     if (t->tcsr & NPCM7XX_TCSR_PERIODIC) {
--        t->remaining_ns = npcm7xx_timer_count_to_ns(t, t->ticr);
-+        t->base_timer.remaining_ns = npcm7xx_timer_count_to_ns(t, t->ticr);
-         if (t->tcsr & NPCM7XX_TCSR_CEN) {
--            npcm7xx_timer_start(t);
-+            npcm7xx_timer_start(&t->base_timer);
-         }
-     } else {
-         t->tcsr &= ~(NPCM7XX_TCSR_CEN | NPCM7XX_TCSR_CACT);
-@@ -149,15 +230,6 @@ static void npcm7xx_timer_reached_zero(NPCM7xxTimer *t)
-     npcm7xx_timer_check_interrupt(t);
- }
- 
--/* Stop counting. Record the time remaining so we can continue later. */
--static void npcm7xx_timer_pause(NPCM7xxTimer *t)
--{
--    int64_t now;
--
--    timer_del(&t->qtimer);
--    now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
--    t->remaining_ns = t->expires_ns - now;
--}
- 
- /*
-  * Restart the timer from its initial value. If the timer was enabled and stays
-@@ -167,10 +239,10 @@ static void npcm7xx_timer_pause(NPCM7xxTimer *t)
-  */
- static void npcm7xx_timer_restart(NPCM7xxTimer *t, uint32_t old_tcsr)
- {
--    t->remaining_ns = npcm7xx_timer_count_to_ns(t, t->ticr);
-+    t->base_timer.remaining_ns = npcm7xx_timer_count_to_ns(t, t->ticr);
- 
-     if (old_tcsr & t->tcsr & NPCM7XX_TCSR_CEN) {
--        npcm7xx_timer_start(t);
-+        npcm7xx_timer_start(&t->base_timer);
-     }
- }
- 
-@@ -181,10 +253,10 @@ static uint32_t npcm7xx_timer_read_tdr(NPCM7xxTimer *t)
-     if (t->tcsr & NPCM7XX_TCSR_CEN) {
-         int64_t now = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
- 
--        return npcm7xx_timer_ns_to_count(t, t->expires_ns - now);
-+        return npcm7xx_timer_ns_to_count(t, t->base_timer.expires_ns - now);
-     }
- 
--    return npcm7xx_timer_ns_to_count(t, t->remaining_ns);
-+    return npcm7xx_timer_ns_to_count(t, t->base_timer.remaining_ns);
- }
- 
- static void npcm7xx_timer_write_tcsr(NPCM7xxTimer *t, uint32_t new_tcsr)
-@@ -216,9 +288,9 @@ static void npcm7xx_timer_write_tcsr(NPCM7xxTimer *t, uint32_t new_tcsr)
- 
-     if (npcm7xx_tcsr_prescaler(old_tcsr) != npcm7xx_tcsr_prescaler(new_tcsr)) {
-         /* Recalculate time remaining based on the current TDR value. */
--        t->remaining_ns = npcm7xx_timer_count_to_ns(t, tdr);
-+        t->base_timer.remaining_ns = npcm7xx_timer_count_to_ns(t, tdr);
-         if (old_tcsr & t->tcsr & NPCM7XX_TCSR_CEN) {
--            npcm7xx_timer_start(t);
-+            npcm7xx_timer_start(&t->base_timer);
-         }
-     }
- 
-@@ -232,11 +304,11 @@ static void npcm7xx_timer_write_tcsr(NPCM7xxTimer *t, uint32_t new_tcsr)
-     if ((old_tcsr ^ new_tcsr) & NPCM7XX_TCSR_CEN) {
-         if (new_tcsr & NPCM7XX_TCSR_CEN) {
-             t->tcsr |= NPCM7XX_TCSR_CACT;
--            npcm7xx_timer_start(t);
-+            npcm7xx_timer_start(&t->base_timer);
-         } else {
-             t->tcsr &= ~NPCM7XX_TCSR_CACT;
--            npcm7xx_timer_pause(t);
--            if (t->remaining_ns <= 0) {
-+            npcm7xx_timer_pause(&t->base_timer);
-+            if (t->base_timer.remaining_ns <= 0) {
-                 npcm7xx_timer_reached_zero(t);
-             }
-         }
-@@ -259,9 +331,47 @@ static void npcm7xx_timer_write_tisr(NPCM7xxTimerCtrlState *s, uint32_t value)
-         if (value & (1U << i)) {
-             npcm7xx_timer_check_interrupt(&s->timer[i]);
-         }
-+
-     }
- }
- 
-+static void npcm7xx_timer_write_wtcr(NPCM7xxWatchdogTimer *t, uint32_t new_wtcr)
-+{
-+    uint32_t old_wtcr = t->wtcr;
-+
-+    /*
-+     * WTIF and WTRF are cleared by writing 1. Writing 0 makes these bits
-+     * unchanged.
-+     */
-+    if (new_wtcr & NPCM7XX_WTCR_WTIF) {
-+        new_wtcr &= ~NPCM7XX_WTCR_WTIF;
-+    } else if (old_wtcr & NPCM7XX_WTCR_WTIF) {
-+        new_wtcr |= NPCM7XX_WTCR_WTIF;
-+    }
-+    if (new_wtcr & NPCM7XX_WTCR_WTRF) {
-+        new_wtcr &= ~NPCM7XX_WTCR_WTRF;
-+    } else if (old_wtcr & NPCM7XX_WTCR_WTRF) {
-+        new_wtcr |= NPCM7XX_WTCR_WTRF;
-+    }
-+
-+    t->wtcr = new_wtcr;
-+
-+    if (new_wtcr & NPCM7XX_WTCR_WTR) {
-+        t->wtcr &= ~NPCM7XX_WTCR_WTR;
-+        npcm7xx_watchdog_timer_reset(t);
-+        if (new_wtcr & NPCM7XX_WTCR_WTE) {
-+            npcm7xx_timer_start(&t->base_timer);
-+        }
-+    } else if ((old_wtcr ^ new_wtcr) & NPCM7XX_WTCR_WTE) {
-+        if (new_wtcr & NPCM7XX_WTCR_WTE) {
-+            npcm7xx_timer_start(&t->base_timer);
-+        } else {
-+            npcm7xx_timer_pause(&t->base_timer);
-+        }
-+    }
-+
-+}
-+
- static hwaddr npcm7xx_tcsr_index(hwaddr reg)
- {
-     switch (reg) {
-@@ -353,7 +463,7 @@ static uint64_t npcm7xx_timer_read(void *opaque, hwaddr offset, unsigned size)
-         break;
- 
-     case NPCM7XX_TIMER_WTCR:
--        value = s->wtcr;
-+        value = s->watchdog_timer.wtcr;
-         break;
- 
-     default:
-@@ -409,8 +519,7 @@ static void npcm7xx_timer_write(void *opaque, hwaddr offset,
-         return;
- 
-     case NPCM7XX_TIMER_WTCR:
--        qemu_log_mask(LOG_UNIMP, "%s: WTCR write not implemented: 0x%08x\n",
--                      __func__, value);
-+        npcm7xx_timer_write_wtcr(&s->watchdog_timer, value);
-         return;
-     }
- 
-@@ -448,15 +557,42 @@ static void npcm7xx_timer_enter_reset(Object *obj, ResetType type)
-     for (i = 0; i < NPCM7XX_TIMERS_PER_CTRL; i++) {
-         NPCM7xxTimer *t = &s->timer[i];
- 
--        timer_del(&t->qtimer);
--        t->expires_ns = 0;
--        t->remaining_ns = 0;
-+        npcm7xx_timer_clear(&t->base_timer);
-         t->tcsr = 0x00000005;
-         t->ticr = 0x00000000;
-     }
- 
-     s->tisr = 0x00000000;
--    s->wtcr = 0x00000400;
-+    /*
-+     * Set WTCLK to 1(default) and reset all flags except WTRF.
-+     * WTRF is not reset during a core domain reset.
-+     */
-+    s->watchdog_timer.wtcr = 0x00000400 | (s->watchdog_timer.wtcr &
-+            NPCM7XX_WTCR_WTRF);
-+}
-+
-+static void npcm7xx_watchdog_timer_expired(void *opaque)
-+{
-+    NPCM7xxWatchdogTimer *t = opaque;
-+
-+    if (t->wtcr & NPCM7XX_WTCR_WTE) {
-+        if (t->wtcr & NPCM7XX_WTCR_WTIF) {
-+            if (t->wtcr & NPCM7XX_WTCR_WTRE) {
-+                t->wtcr |= NPCM7XX_WTCR_WTRF;
-+                /* send reset signal to CLK module*/
-+                qemu_irq_raise(t->reset_signal);
-+            }
-+        } else {
-+            t->wtcr |= NPCM7XX_WTCR_WTIF;
-+            if (t->wtcr & NPCM7XX_WTCR_WTIE) {
-+                /* send interrupt */
-+                qemu_irq_raise(t->irq);
-+            }
-+            npcm7xx_watchdog_timer_reset_cycles(t,
-+                    NPCM7XX_WATCHDOG_INTERRUPT_TO_RESET_CYCLES);
-+            npcm7xx_timer_start(&t->base_timer);
-+        }
-+    }
- }
- 
- static void npcm7xx_timer_hold_reset(Object *obj)
-@@ -467,6 +603,7 @@ static void npcm7xx_timer_hold_reset(Object *obj)
-     for (i = 0; i < NPCM7XX_TIMERS_PER_CTRL; i++) {
-         qemu_irq_lower(s->timer[i].irq);
-     }
-+    qemu_irq_lower(s->watchdog_timer.irq);
- }
- 
- static void npcm7xx_timer_realize(DeviceState *dev, Error **errp)
-@@ -474,43 +611,80 @@ static void npcm7xx_timer_realize(DeviceState *dev, Error **errp)
-     NPCM7xxTimerCtrlState *s = NPCM7XX_TIMER(dev);
-     SysBusDevice *sbd = &s->parent;
-     int i;
-+    NPCM7xxWatchdogTimer *w;
- 
-     for (i = 0; i < NPCM7XX_TIMERS_PER_CTRL; i++) {
-         NPCM7xxTimer *t = &s->timer[i];
-         t->ctrl = s;
--        timer_init_ns(&t->qtimer, QEMU_CLOCK_VIRTUAL, npcm7xx_timer_expired, t);
-+        timer_init_ns(&t->base_timer.qtimer, QEMU_CLOCK_VIRTUAL,
-+                npcm7xx_timer_expired, t);
-         sysbus_init_irq(sbd, &t->irq);
-     }
- 
-+    w = &s->watchdog_timer;
-+    w->ctrl = s;
-+    timer_init_ns(&w->base_timer.qtimer, QEMU_CLOCK_VIRTUAL,
-+            npcm7xx_watchdog_timer_expired, w);
-+    sysbus_init_irq(sbd, &w->irq);
-+
-     memory_region_init_io(&s->iomem, OBJECT(s), &npcm7xx_timer_ops, s,
-                           TYPE_NPCM7XX_TIMER, 4 * KiB);
-     sysbus_init_mmio(sbd, &s->iomem);
-+    qdev_init_gpio_out_named(dev, &w->reset_signal,
-+            NPCM7XX_WATCHDOG_RESET_GPIO_OUT, 1);
- }
- 
--static const VMStateDescription vmstate_npcm7xx_timer = {
--    .name = "npcm7xx-timer",
-+static const VMStateDescription vmstate_npcm7xx_base_timer = {
-+    .name = "npcm7xx-base-timer",
-     .version_id = 0,
-     .minimum_version_id = 0,
-     .fields = (VMStateField[]) {
--        VMSTATE_TIMER(qtimer, NPCM7xxTimer),
--        VMSTATE_INT64(expires_ns, NPCM7xxTimer),
--        VMSTATE_INT64(remaining_ns, NPCM7xxTimer),
-+        VMSTATE_TIMER(qtimer, NPCM7xxBaseTimer),
-+        VMSTATE_INT64(expires_ns, NPCM7xxBaseTimer),
-+        VMSTATE_INT64(remaining_ns, NPCM7xxBaseTimer),
-+        VMSTATE_END_OF_LIST(),
-+    },
-+};
-+
-+static const VMStateDescription vmstate_npcm7xx_timer = {
-+    .name = "npcm7xx-timer",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(base_timer, NPCM7xxTimer,
-+                             0, vmstate_npcm7xx_base_timer,
-+                             NPCM7xxBaseTimer),
-         VMSTATE_UINT32(tcsr, NPCM7xxTimer),
-         VMSTATE_UINT32(ticr, NPCM7xxTimer),
-         VMSTATE_END_OF_LIST(),
-     },
- };
- 
--static const VMStateDescription vmstate_npcm7xx_timer_ctrl = {
--    .name = "npcm7xx-timer-ctrl",
-+static const VMStateDescription vmstate_npcm7xx_watchdog_timer = {
-+    .name = "npcm7xx-watchdog-timer",
-     .version_id = 0,
-     .minimum_version_id = 0,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_STRUCT(base_timer, NPCM7xxWatchdogTimer,
-+                             0, vmstate_npcm7xx_base_timer,
-+                             NPCM7xxBaseTimer),
-+        VMSTATE_UINT32(wtcr, NPCM7xxWatchdogTimer),
-+        VMSTATE_END_OF_LIST(),
-+    },
-+};
-+
-+static const VMStateDescription vmstate_npcm7xx_timer_ctrl = {
-+    .name = "npcm7xx-timer-ctrl",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(tisr, NPCM7xxTimerCtrlState),
--        VMSTATE_UINT32(wtcr, NPCM7xxTimerCtrlState),
-         VMSTATE_STRUCT_ARRAY(timer, NPCM7xxTimerCtrlState,
-                              NPCM7XX_TIMERS_PER_CTRL, 0, vmstate_npcm7xx_timer,
-                              NPCM7xxTimer),
-+        VMSTATE_STRUCT(watchdog_timer, NPCM7xxTimerCtrlState,
-+                             0, vmstate_npcm7xx_watchdog_timer,
-+                             NPCM7xxWatchdogTimer),
-         VMSTATE_END_OF_LIST(),
-     },
- };
-diff --git a/tests/qtest/npcm7xx_watchdog_timer-test.c b/tests/qtest/npcm7xx_watchdog_timer-test.c
+     /*
+      * Flash Interface Unit (FIU). Can fail if incorrect number of chip selects
+      * specified, but this is a programming error.
+@@ -412,7 +418,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+     create_unimplemented_device("npcm7xx.vdmx",         0xe0800000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
+     create_unimplemented_device("npcm7xx.kcs",          0xf0007000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.rng",          0xf000b000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.adc",          0xf000c000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.gfxi",         0xf000e000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.gpio[0]",      0xf0010000,   4 * KiB);
+diff --git a/hw/misc/npcm7xx_rng.c b/hw/misc/npcm7xx_rng.c
 new file mode 100644
-index 00000000000..54d5d6d8f2f
+index 00000000000..f650f3401f8
 --- /dev/null
-+++ b/tests/qtest/npcm7xx_watchdog_timer-test.c
-@@ -0,0 +1,319 @@
++++ b/hw/misc/npcm7xx_rng.c
+@@ -0,0 +1,180 @@
 +/*
-+ * QTests for Nuvoton NPCM7xx Timer Watchdog Modules.
++ * Nuvoton NPCM7xx Random Number Generator.
 + *
 + * Copyright 2020 Google LLC
 + *
@@ -765,330 +260,493 @@ index 00000000000..54d5d6d8f2f
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/timer.h"
 +
-+#include "libqos/libqtest.h"
-+#include "qapi/qmp/qdict.h"
++#include "hw/misc/npcm7xx_rng.h"
++#include "migration/vmstate.h"
++#include "qemu/bitops.h"
++#include "qemu/guest-random.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "qemu/units.h"
 +
-+#define WTCR_OFFSET     0x1c
-+#define REF_HZ          (25000000)
++#include "trace.h"
 +
-+/* WTCR bit fields */
-+#define WTCLK(rv)       ((rv) << 10)
-+#define WTE             BIT(7)
-+#define WTIE            BIT(6)
-+#define WTIS(rv)        ((rv) << 4)
-+#define WTIF            BIT(3)
-+#define WTRF            BIT(2)
-+#define WTRE            BIT(1)
-+#define WTR             BIT(0)
++#define NPCM7XX_RNG_REGS_SIZE   (4 * KiB)
 +
-+typedef struct Watchdog {
-+    int irq;
-+    uint64_t base_addr;
-+} Watchdog;
++#define NPCM7XX_RNGCS           (0x00)
++#define NPCM7XX_RNGCS_CLKP(rv)      extract32(rv, 2, 4)
++#define NPCM7XX_RNGCS_DVALID        BIT(1)
++#define NPCM7XX_RNGCS_RNGE          BIT(0)
 +
-+static const Watchdog watchdog_list[] = {
-+    {
-+        .irq        = 47,
-+        .base_addr  = 0xf0008000
-+    },
-+    {
-+        .irq        = 48,
-+        .base_addr  = 0xf0009000
-+    },
-+    {
-+        .irq        = 49,
-+        .base_addr  = 0xf000a000
++#define NPCM7XX_RNGD            (0x04)
++#define NPCM7XX_RNGMODE         (0x08)
++#define NPCM7XX_RNGMODE_NORMAL      (0x02)
++
++static bool npcm7xx_rng_is_enabled(NPCM7xxRNGState *s)
++{
++    return (s->rngcs & NPCM7XX_RNGCS_RNGE) &&
++        (s->rngmode == NPCM7XX_RNGMODE_NORMAL);
++}
++
++static uint64_t npcm7xx_rng_read(void *opaque, hwaddr offset, unsigned size)
++{
++    NPCM7xxRNGState *s = opaque;
++    uint64_t value = 0;
++
++    switch (offset) {
++    case NPCM7XX_RNGCS:
++        /*
++         * If the RNG is enabled, but we don't have any valid random data, try
++         * obtaining some and update the DVALID bit accordingly.
++         */
++        if (!npcm7xx_rng_is_enabled(s)) {
++            s->rngcs &= ~NPCM7XX_RNGCS_DVALID;
++        } else if (!(s->rngcs & NPCM7XX_RNGCS_DVALID)) {
++            uint8_t byte = 0;
++
++            if (qemu_guest_getrandom(&byte, sizeof(byte), NULL) == 0) {
++                s->rngd = byte;
++                s->rngcs |= NPCM7XX_RNGCS_DVALID;
++            }
++        }
++        value = s->rngcs;
++        break;
++    case NPCM7XX_RNGD:
++        if (npcm7xx_rng_is_enabled(s) && s->rngcs & NPCM7XX_RNGCS_DVALID) {
++            s->rngcs &= ~NPCM7XX_RNGCS_DVALID;
++            value = s->rngd;
++            s->rngd = 0;
++        }
++        break;
++    case NPCM7XX_RNGMODE:
++        value = s->rngmode;
++        break;
++
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: read from invalid offset 0x%" HWADDR_PRIx "\n",
++                      DEVICE(s)->canonical_path, offset);
++        break;
 +    }
++
++    trace_npcm7xx_rng_read(offset, value, size);
++
++    return value;
++}
++
++static void npcm7xx_rng_write(void *opaque, hwaddr offset, uint64_t value,
++                              unsigned size)
++{
++    NPCM7xxRNGState *s = opaque;
++
++    trace_npcm7xx_rng_write(offset, value, size);
++
++    switch (offset) {
++    case NPCM7XX_RNGCS:
++        s->rngcs &= NPCM7XX_RNGCS_DVALID;
++        s->rngcs |= value & ~NPCM7XX_RNGCS_DVALID;
++        break;
++    case NPCM7XX_RNGD:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: write to read-only register @ 0x%" HWADDR_PRIx "\n",
++                      DEVICE(s)->canonical_path, offset);
++        break;
++    case NPCM7XX_RNGMODE:
++        s->rngmode = value;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: write to invalid offset 0x%" HWADDR_PRIx "\n",
++                      DEVICE(s)->canonical_path, offset);
++        break;
++    }
++}
++
++static const MemoryRegionOps npcm7xx_rng_ops = {
++    .read = npcm7xx_rng_read,
++    .write = npcm7xx_rng_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++        .unaligned = false,
++    },
 +};
 +
-+static int watchdog_index(const Watchdog *wd)
++static void npcm7xx_rng_enter_reset(Object *obj, ResetType type)
 +{
-+    ptrdiff_t diff = wd - watchdog_list;
++    NPCM7xxRNGState *s = NPCM7XX_RNG(obj);
 +
-+    g_assert(diff >= 0 && diff < ARRAY_SIZE(watchdog_list));
-+
-+    return diff;
++    s->rngcs = 0;
++    s->rngd = 0;
++    s->rngmode = 0;
 +}
 +
-+static uint32_t watchdog_read_wtcr(QTestState *qts, const Watchdog *wd)
++static void npcm7xx_rng_init(Object *obj)
 +{
-+    return qtest_readl(qts, wd->base_addr + WTCR_OFFSET);
++    NPCM7xxRNGState *s = NPCM7XX_RNG(obj);
++
++    memory_region_init_io(&s->iomem, obj, &npcm7xx_rng_ops, s, "regs",
++                          NPCM7XX_RNG_REGS_SIZE);
++    sysbus_init_mmio(&s->parent, &s->iomem);
 +}
 +
-+static void watchdog_write_wtcr(QTestState *qts, const Watchdog *wd,
-+        uint32_t value)
++static const VMStateDescription vmstate_npcm7xx_rng = {
++    .name = "npcm7xx-rng",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8(rngcs, NPCM7xxRNGState),
++        VMSTATE_UINT8(rngd, NPCM7xxRNGState),
++        VMSTATE_UINT8(rngmode, NPCM7xxRNGState),
++        VMSTATE_END_OF_LIST(),
++    },
++};
++
++static void npcm7xx_rng_class_init(ObjectClass *klass, void *data)
 +{
-+    qtest_writel(qts, wd->base_addr + WTCR_OFFSET, value);
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "NPCM7xx Random Number Generator";
++    dc->vmsd = &vmstate_npcm7xx_rng;
++    rc->phases.enter = npcm7xx_rng_enter_reset;
 +}
 +
-+static uint32_t watchdog_prescaler(QTestState *qts, const Watchdog *wd)
++static const TypeInfo npcm7xx_rng_types[] = {
++    {
++        .name = TYPE_NPCM7XX_RNG,
++        .parent = TYPE_SYS_BUS_DEVICE,
++        .instance_size = sizeof(NPCM7xxRNGState),
++        .class_init = npcm7xx_rng_class_init,
++        .instance_init = npcm7xx_rng_init,
++    },
++};
++DEFINE_TYPES(npcm7xx_rng_types);
+diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
+new file mode 100644
+index 00000000000..da6e639bf6f
+--- /dev/null
++++ b/tests/qtest/npcm7xx_rng-test.c
+@@ -0,0 +1,278 @@
++/*
++ * QTest testcase for the Nuvoton NPCM7xx Random Number Generator
++ *
++ * Copyright 2020 Google LLC
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
++ */
++
++#include "qemu/osdep.h"
++
++#include <math.h>
++
++#include "libqtest-single.h"
++#include "qemu/bitops.h"
++
++#define RNG_BASE_ADDR   0xf000b000
++
++/* Control and Status Register */
++#define RNGCS   0x00
++# define DVALID     BIT(1)  /* Data Valid */
++# define RNGE       BIT(0)  /* RNG Enable */
++/* Data Register */
++#define RNGD    0x04
++/* Mode Register */
++#define RNGMODE 0x08
++# define ROSEL_NORMAL   (2) /* RNG only works in this mode */
++
++/* Number of bits to collect for randomness tests. */
++#define TEST_INPUT_BITS  (128)
++
++static void rng_writeb(unsigned int offset, uint8_t value)
 +{
-+    switch (extract32(watchdog_read_wtcr(qts, wd), 10, 2)) {
-+    case 0:
-+        return 1;
-+    case 1:
-+        return 256;
-+    case 2:
-+        return 2048;
-+    case 3:
-+        return 65536;
-+    default:
-+        g_assert_not_reached();
-+    }
++    writeb(RNG_BASE_ADDR + offset, value);
 +}
 +
-+static QDict *get_watchdog_action(QTestState *qts)
++static uint8_t rng_readb(unsigned int offset)
 +{
-+    QDict *ev = qtest_qmp_eventwait_ref(qts, "WATCHDOG");
-+    QDict *data;
-+
-+    data = qdict_get_qdict(ev, "data");
-+    qobject_ref(data);
-+    qobject_unref(ev);
-+    return data;
++    return readb(RNG_BASE_ADDR + offset);
 +}
 +
-+#define RESET_CYCLES 1024
-+static uint32_t watchdog_interrupt_cycles(QTestState *qts, const Watchdog *wd)
++/* Disable RNG and set normal ring oscillator mode. */
++static void rng_reset(void)
 +{
-+    uint32_t wtis = extract32(watchdog_read_wtcr(qts, wd), 4, 2);
-+    return 1 << (14 + 2 * wtis);
++    rng_writeb(RNGCS, 0);
++    rng_writeb(RNGMODE, ROSEL_NORMAL);
 +}
 +
-+static int64_t watchdog_calculate_steps(uint32_t count, uint32_t prescale)
++/* Reset RNG and then enable it. */
++static void rng_reset_enable(void)
 +{
-+    return (NANOSECONDS_PER_SECOND / REF_HZ) * count * prescale;
++    rng_reset();
++    rng_writeb(RNGCS, RNGE);
 +}
 +
-+static int64_t watchdog_interrupt_steps(QTestState *qts, const Watchdog *wd)
++/* Wait until Data Valid bit is set. */
++static bool rng_wait_ready(void)
 +{
-+    return watchdog_calculate_steps(watchdog_interrupt_cycles(qts, wd),
-+            watchdog_prescaler(qts, wd));
-+}
++    /* qemu_guest_getrandom may fail. Assume it won't fail 10 times in a row. */
++    int retries = 10;
 +
-+/* Check wtcr can be reset to default value */
-+static void test_init(gconstpointer watchdog)
-+{
-+    const Watchdog *wd = watchdog;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+
-+    watchdog_write_wtcr(qts, wd, WTCLK(1) | WTRF | WTIF | WTR);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==, WTCLK(1));
-+
-+    qtest_quit(qts);
-+}
-+
-+/* Check a watchdog can generate interrupt and reset actions */
-+static void test_reset_action(gconstpointer watchdog)
-+{
-+    const Watchdog *wd = watchdog;
-+    QTestState *qts = qtest_init("-machine quanta-gsj");
-+    QDict *ad;
-+
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+
-+    watchdog_write_wtcr(qts, wd,
-+            WTCLK(0) | WTE | WTRF | WTRE | WTIF | WTIE | WTR);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==,
-+            WTCLK(0) | WTE | WTRE | WTIE);
-+
-+    /* Check a watchdog can generate an interrupt */
-+    qtest_clock_step(qts, watchdog_interrupt_steps(qts, wd));
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==,
-+            WTCLK(0) | WTE | WTIF | WTIE | WTRE);
-+    g_assert_true(qtest_get_irq(qts, wd->irq));
-+
-+    /* Check a watchdog can generate a reset signal */
-+    qtest_clock_step(qts, watchdog_calculate_steps(RESET_CYCLES,
-+                watchdog_prescaler(qts, wd)));
-+    ad = get_watchdog_action(qts);
-+    /* The signal is a reset signal */
-+    g_assert_false(strcmp(qdict_get_str(ad, "action"), "reset"));
-+    qobject_unref(ad);
-+    qtest_qmp_eventwait(qts, "RESET");
-+    /*
-+     * Make sure WTCR is reset to default except for WTRF bit which shouldn't
-+     * be reset.
-+     */
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==, WTCLK(1) | WTRF);
-+    qtest_quit(qts);
-+}
-+
-+/* Check a watchdog works with all possible WTCLK prescalers and WTIS cycles */
-+static void test_prescaler(gconstpointer watchdog)
-+{
-+    const Watchdog *wd = watchdog;
-+
-+    for (int wtclk = 0; wtclk < 4; ++wtclk) {
-+        for (int wtis = 0; wtis < 4; ++wtis) {
-+            QTestState *qts = qtest_init("-machine quanta-gsj");
-+
-+            qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+            watchdog_write_wtcr(qts, wd,
-+                    WTCLK(wtclk) | WTE | WTIF | WTIS(wtis) | WTIE | WTR);
-+            /*
-+             * The interrupt doesn't fire until watchdog_interrupt_steps()
-+             * cycles passed
-+             */
-+            qtest_clock_step(qts, watchdog_interrupt_steps(qts, wd) - 1);
-+            g_assert_false(watchdog_read_wtcr(qts, wd) & WTIF);
-+            g_assert_false(qtest_get_irq(qts, wd->irq));
-+            qtest_clock_step(qts, 1);
-+            g_assert_true(watchdog_read_wtcr(qts, wd) & WTIF);
-+            g_assert_true(qtest_get_irq(qts, wd->irq));
-+
-+            qtest_quit(qts);
++    while (retries-- > 0) {
++        if (rng_readb(RNGCS) & DVALID) {
++            return true;
 +        }
 +    }
++
++    return false;
 +}
 +
 +/*
-+ * Check a watchdog doesn't fire if corresponding flags (WTIE and WTRE) are not
-+ * set.
++ * Perform a frequency (monobit) test, as defined by NIST SP 800-22, on the
++ * sequence in buf and return the P-value. This represents the probability of a
++ * truly random sequence having the same proportion of zeros and ones as the
++ * sequence in buf.
++ *
++ * An RNG which always returns 0x00 or 0xff, or has some bits stuck at 0 or 1,
++ * will fail this test. However, an RNG which always returns 0x55, 0xf0 or some
++ * other value with an equal number of zeroes and ones will pass.
 + */
-+static void test_enabling_flags(gconstpointer watchdog)
++static double calc_monobit_p(const uint8_t *buf, unsigned int len)
 +{
-+    const Watchdog *wd = watchdog;
-+    QTestState *qts;
++    unsigned int i;
++    double s_obs;
++    int sn = 0;
 +
-+    /* Neither WTIE or WTRE is set, no interrupt or reset should happen */
-+    qts = qtest_init("-machine quanta-gsj");
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+    watchdog_write_wtcr(qts, wd, WTCLK(0) | WTE | WTIF | WTRF | WTR);
-+    qtest_clock_step(qts, watchdog_interrupt_steps(qts, wd));
-+    g_assert_true(watchdog_read_wtcr(qts, wd) & WTIF);
-+    g_assert_false(qtest_get_irq(qts, wd->irq));
-+    qtest_clock_step(qts, watchdog_calculate_steps(RESET_CYCLES,
-+                watchdog_prescaler(qts, wd)));
-+    g_assert_true(watchdog_read_wtcr(qts, wd) & WTIF);
-+    g_assert_false(watchdog_read_wtcr(qts, wd) & WTRF);
-+    qtest_quit(qts);
++    for (i = 0; i < len; i++) {
++        /*
++         * Each 1 counts as 1, each 0 counts as -1.
++         * s = cp - (8 - cp) = 2 * cp - 8
++         */
++        sn += 2 * ctpop8(buf[i]) - 8;
++    }
 +
-+    /* Only WTIE is set, interrupt is triggered but reset should not happen */
-+    qts = qtest_init("-machine quanta-gsj");
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+    watchdog_write_wtcr(qts, wd, WTCLK(0) | WTE | WTIF | WTIE | WTRF | WTR);
-+    qtest_clock_step(qts, watchdog_interrupt_steps(qts, wd));
-+    g_assert_true(watchdog_read_wtcr(qts, wd) & WTIF);
-+    g_assert_true(qtest_get_irq(qts, wd->irq));
-+    qtest_clock_step(qts, watchdog_calculate_steps(RESET_CYCLES,
-+                watchdog_prescaler(qts, wd)));
-+    g_assert_true(watchdog_read_wtcr(qts, wd) & WTIF);
-+    g_assert_false(watchdog_read_wtcr(qts, wd) & WTRF);
-+    qtest_quit(qts);
++    s_obs = abs(sn) / sqrt(len * BITS_PER_BYTE);
 +
-+    /* Only WTRE is set, interrupt is triggered but reset should not happen */
-+    qts = qtest_init("-machine quanta-gsj");
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+    watchdog_write_wtcr(qts, wd, WTCLK(0) | WTE | WTIF | WTRE | WTRF | WTR);
-+    qtest_clock_step(qts, watchdog_interrupt_steps(qts, wd));
-+    g_assert_true(watchdog_read_wtcr(qts, wd) & WTIF);
-+    g_assert_false(qtest_get_irq(qts, wd->irq));
-+    qtest_clock_step(qts, watchdog_calculate_steps(RESET_CYCLES,
-+                watchdog_prescaler(qts, wd)));
-+    g_assert_false(strcmp(qdict_get_str(get_watchdog_action(qts), "action"),
-+                "reset"));
-+    qtest_qmp_eventwait(qts, "RESET");
-+    qtest_quit(qts);
-+
-+    /*
-+     * The case when both flags are set is already tested in
-+     * test_reset_action().
-+     */
++    return erfc(s_obs / sqrt(2));
 +}
 +
-+/* Check a watchdog can pause and resume by setting WTE bits */
-+static void test_pause(gconstpointer watchdog)
++/*
++ * Perform a runs test, as defined by NIST SP 800-22, and return the P-value.
++ * This represents the probability of a truly random sequence having the same
++ * number of runs (i.e. uninterrupted sequences of identical bits) as the
++ * sequence in buf.
++ */
++static double calc_runs_p(const unsigned long *buf, unsigned int nr_bits)
 +{
-+    const Watchdog *wd = watchdog;
-+    QTestState *qts;
-+    int64_t remaining_steps, steps;
++    unsigned int j;
++    unsigned int k;
++    int nr_ones = 0;
++    int vn_obs = 0;
++    double pi;
 +
-+    qts = qtest_init("-machine quanta-gsj");
-+    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
-+    watchdog_write_wtcr(qts, wd, WTCLK(0) | WTE | WTIF | WTIE | WTRF | WTR);
-+    remaining_steps = watchdog_interrupt_steps(qts, wd);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==, WTCLK(0) | WTE | WTIE);
++    g_assert(nr_bits % BITS_PER_LONG == 0);
 +
-+    /* Run for half of the execution period. */
-+    steps = remaining_steps / 2;
-+    remaining_steps -= steps;
-+    qtest_clock_step(qts, steps);
++    for (j = 0; j < nr_bits / BITS_PER_LONG; j++) {
++        nr_ones += __builtin_popcountl(buf[j]);
++    }
++    pi = (double)nr_ones / nr_bits;
 +
-+    /* Pause the watchdog */
-+    watchdog_write_wtcr(qts, wd, WTCLK(0) | WTIE);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==, WTCLK(0) | WTIE);
++    for (k = 0; k < nr_bits - 1; k++) {
++        vn_obs += !(test_bit(k, buf) ^ test_bit(k + 1, buf));
++    }
++    vn_obs += 1;
 +
-+    /* Run for a long period of time, the watchdog shouldn't fire */
-+    qtest_clock_step(qts, steps << 4);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==, WTCLK(0) | WTIE);
-+    g_assert_false(qtest_get_irq(qts, wd->irq));
-+
-+    /* Resume the watchdog */
-+    watchdog_write_wtcr(qts, wd, WTCLK(0) | WTE | WTIE);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==, WTCLK(0) | WTE | WTIE);
-+
-+    /* Run for the reset of the execution period, the watchdog should fire */
-+    qtest_clock_step(qts, remaining_steps);
-+    g_assert_cmphex(watchdog_read_wtcr(qts, wd), ==,
-+            WTCLK(0) | WTE | WTIF | WTIE);
-+    g_assert_true(qtest_get_irq(qts, wd->irq));
-+
-+    qtest_quit(qts);
++    return erfc(fabs(vn_obs - 2 * nr_bits * pi * (1.0 - pi))
++                / (2 * sqrt(2 * nr_bits) * pi * (1.0 - pi)));
 +}
 +
-+static void watchdog_add_test(const char *name, const Watchdog* wd,
-+        GTestDataFunc fn)
++/*
++ * Verifies that DVALID is clear, and RNGD reads zero, when RNGE is cleared,
++ * and DVALID eventually becomes set when RNGE is set.
++ */
++static void test_enable_disable(void)
 +{
-+    g_autofree char *full_name = g_strdup_printf(
-+            "npcm7xx_watchdog_timer[%d]/%s", watchdog_index(wd), name);
-+    qtest_add_data_func(full_name, wd, fn);
++    /* Disable: DVALID should not be set, and RNGD should read zero */
++    rng_reset();
++    g_assert_cmphex(rng_readb(RNGCS), ==, 0);
++    g_assert_cmphex(rng_readb(RNGD), ==, 0);
++
++    /* Enable: DVALID should be set, but we can't make assumptions about RNGD */
++    rng_writeb(RNGCS, RNGE);
++    g_assert_true(rng_wait_ready());
++    g_assert_cmphex(rng_readb(RNGCS), ==, DVALID | RNGE);
++
++    /* Disable: DVALID should not be set, and RNGD should read zero */
++    rng_writeb(RNGCS, 0);
++    g_assert_cmphex(rng_readb(RNGCS), ==, 0);
++    g_assert_cmphex(rng_readb(RNGD), ==, 0);
 +}
-+#define add_test(name, td) watchdog_add_test(#name, td, test_##name)
++
++/*
++ * Verifies that the RNG only produces data when RNGMODE is set to 'normal'
++ * ring oscillator mode.
++ */
++static void test_rosel(void)
++{
++    rng_reset_enable();
++    g_assert_true(rng_wait_ready());
++    rng_writeb(RNGMODE, 0);
++    g_assert_false(rng_wait_ready());
++    rng_writeb(RNGMODE, ROSEL_NORMAL);
++    g_assert_true(rng_wait_ready());
++    rng_writeb(RNGMODE, 0);
++    g_assert_false(rng_wait_ready());
++}
++
++/*
++ * Verifies that a continuous sequence of bits collected after enabling the RNG
++ * satisfies a monobit test.
++ */
++static void test_continuous_monobit(void)
++{
++    uint8_t buf[TEST_INPUT_BITS / BITS_PER_BYTE];
++    unsigned int i;
++
++    rng_reset_enable();
++    for (i = 0; i < sizeof(buf); i++) {
++        g_assert_true(rng_wait_ready());
++        buf[i] = rng_readb(RNGD);
++    }
++
++    g_assert_cmpfloat(calc_monobit_p(buf, sizeof(buf)), >, 0.01);
++}
++
++/*
++ * Verifies that a continuous sequence of bits collected after enabling the RNG
++ * satisfies a runs test.
++ */
++static void test_continuous_runs(void)
++{
++    union {
++        unsigned long l[TEST_INPUT_BITS / BITS_PER_LONG];
++        uint8_t c[TEST_INPUT_BITS / BITS_PER_BYTE];
++    } buf;
++    unsigned int i;
++
++    rng_reset_enable();
++    for (i = 0; i < sizeof(buf); i++) {
++        g_assert_true(rng_wait_ready());
++        buf.c[i] = rng_readb(RNGD);
++    }
++
++    g_assert_cmpfloat(calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE), >, 0.01);
++}
++
++/*
++ * Verifies that the first data byte collected after enabling the RNG satisfies
++ * a monobit test.
++ */
++static void test_first_byte_monobit(void)
++{
++    /* Enable, collect one byte, disable. Repeat until we have 100 bits. */
++    uint8_t buf[TEST_INPUT_BITS / BITS_PER_BYTE];
++    unsigned int i;
++
++    rng_reset();
++    for (i = 0; i < sizeof(buf); i++) {
++        rng_writeb(RNGCS, RNGE);
++        g_assert_true(rng_wait_ready());
++        buf[i] = rng_readb(RNGD);
++        rng_writeb(RNGCS, 0);
++    }
++
++    g_assert_cmpfloat(calc_monobit_p(buf, sizeof(buf)), >, 0.01);
++}
++
++/*
++ * Verifies that the first data byte collected after enabling the RNG satisfies
++ * a runs test.
++ */
++static void test_first_byte_runs(void)
++{
++    /* Enable, collect one byte, disable. Repeat until we have 100 bits. */
++    union {
++        unsigned long l[TEST_INPUT_BITS / BITS_PER_LONG];
++        uint8_t c[TEST_INPUT_BITS / BITS_PER_BYTE];
++    } buf;
++    unsigned int i;
++
++    rng_reset();
++    for (i = 0; i < sizeof(buf); i++) {
++        rng_writeb(RNGCS, RNGE);
++        g_assert_true(rng_wait_ready());
++        buf.c[i] = rng_readb(RNGD);
++        rng_writeb(RNGCS, 0);
++    }
++
++    g_assert_cmpfloat(calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE), >, 0.01);
++}
 +
 +int main(int argc, char **argv)
 +{
++    int ret;
++
 +    g_test_init(&argc, &argv, NULL);
 +    g_test_set_nonfatal_assertions();
 +
-+    for (int i = 0; i < ARRAY_SIZE(watchdog_list); ++i) {
-+        const Watchdog *wd = &watchdog_list[i];
++    qtest_add_func("npcm7xx_rng/enable_disable", test_enable_disable);
++    qtest_add_func("npcm7xx_rng/rosel", test_rosel);
++    qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
++    qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
++    qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
++    qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
 +
-+        add_test(init, wd);
-+        add_test(reset_action, wd);
-+        add_test(prescaler, wd);
-+        add_test(enabling_flags, wd);
-+        add_test(pause, wd);
-+    }
++    qtest_start("-machine npcm750-evb");
++    ret = g_test_run();
++    qtest_end();
 +
-+    return g_test_run();
++    return ret;
 +}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ef6f5c73998..1edc8bd4c9a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -755,6 +755,7 @@ L: qemu-arm@nongnu.org
- S: Supported
- F: hw/*/npcm7xx*
- F: include/hw/*/npcm7xx*
-+F: tests/qtest/npcm7xx*
- F: pc-bios/npcm7xx_bootrom.bin
- F: roms/vbootrom
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 793d45b1dc4..7ffb44b587f 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -59,6 +59,7 @@ softmmu_ss.add(when: 'CONFIG_MAINSTONE', if_true: files('mst_fpga.c'))
+ softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files(
+   'npcm7xx_clk.c',
+   'npcm7xx_gcr.c',
++  'npcm7xx_rng.c',
+ ))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files(
+   'omap_clk.c',
+diff --git a/hw/misc/trace-events b/hw/misc/trace-events
+index 6054f9adf35..b2f060ad774 100644
+--- a/hw/misc/trace-events
++++ b/hw/misc/trace-events
+@@ -118,6 +118,10 @@ npcm7xx_clk_write(uint64_t offset, uint32_t value) "offset: 0x%04" PRIx64 " valu
+ npcm7xx_gcr_read(uint64_t offset, uint32_t value) " offset: 0x%04" PRIx64 " value: 0x%08" PRIx32
+ npcm7xx_gcr_write(uint64_t offset, uint32_t value) "offset: 0x%04" PRIx64 " value: 0x%08" PRIx32
  
++# npcm7xx_rng.c
++npcm7xx_rng_read(uint64_t offset, uint64_t value, unsigned size) "offset: 0x%04" PRIx64 " value: 0x%02" PRIx64 " size: %u"
++npcm7xx_rng_write(uint64_t offset, uint64_t value, unsigned size) "offset: 0x%04" PRIx64 " value: 0x%02" PRIx64 " size: %u"
++
+ # stm32f4xx_syscfg.c
+ stm32f4xx_syscfg_set_irq(int gpio, int line, int level) "Interupt: GPIO: %d, Line: %d; Level: %d"
+ stm32f4xx_pulse_exti(int irq) "Pulse EXTI: %d"
 diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index ba8ebeead6a..6c9d3426d1a 100644
+index 6c9d3426d1a..43e71a3d5ba 100644
 --- a/tests/qtest/meson.build
 +++ b/tests/qtest/meson.build
-@@ -133,7 +133,7 @@ qtests_sparc64 = \
+@@ -133,7 +133,10 @@ qtests_sparc64 = \
    (config_all_devices.has_key('CONFIG_ISA_TESTDEV') ? ['endianness-test'] : []) +            \
    ['prom-env-test', 'boot-serial-test']
  
--qtests_npcm7xx = ['npcm7xx_timer-test']
-+qtests_npcm7xx = ['npcm7xx_timer-test', 'npcm7xx_watchdog_timer-test']
+-qtests_npcm7xx = ['npcm7xx_timer-test', 'npcm7xx_watchdog_timer-test']
++qtests_npcm7xx = \
++  ['npcm7xx_rng-test',
++   'npcm7xx_timer-test',
++   'npcm7xx_watchdog_timer-test']
  qtests_arm = \
    (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
    (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
