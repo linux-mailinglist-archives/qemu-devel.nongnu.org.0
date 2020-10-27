@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 471F029B2C0
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:45:23 +0100 (CET)
-Received: from localhost ([::1]:41690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B871F29B276
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:41:50 +0100 (CET)
+Received: from localhost ([::1]:59038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXQDy-0001jm-99
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:45:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42504)
+	id 1kXQAX-0005aq-LH
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:41:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnc-0002BX-TF; Tue, 27 Oct 2020 10:18:08 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:37139 helo=ozlabs.org)
+ id 1kXPnc-0002B6-P6; Tue, 27 Oct 2020 10:18:08 -0400
+Received: from ozlabs.org ([203.11.71.1]:38393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXPnW-0007aO-Tq; Tue, 27 Oct 2020 10:18:08 -0400
+ id 1kXPnW-0007ax-3L; Tue, 27 Oct 2020 10:18:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLDLd6BVMz9sW4; Wed, 28 Oct 2020 01:17:44 +1100 (AEDT)
+ id 4CLDLm6qFMz9shq; Wed, 28 Oct 2020 01:17:47 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1603808265;
- bh=qk9USLB1WY7s4/hoobaUMDtYnDz9yCpUwkkpc3E9324=;
+ d=gibson.dropbear.id.au; s=201602; t=1603808272;
+ bh=tx9W2JqJhMoAwAA7x8UGF9wHsCmD4YZ6QCcENhw1uGs=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=Oo5IaknuJefbaEeKJLopL7xkjFopS0IirFfu75ktinvHqittC7/VVkFwqciqUUoAQ
- uPxl9guVioi6mKnMpoW7BMKCLGROP68/NXGPGtp+lSIG6TJRQn6iqhHJBwmQT2SXWS
- 9If+R31k59Lg/vBTATl6fSCC9+aH0dnCfpawYM2c=
+ b=Z2ef93m8F5yDKwABEg4PoYglW0XbX9UKt+qJxpvgWOuAXQa1D3jzG3LUt2VKQJKIO
+ 8zzXPpvbcp3ZXwcptz25BHynhgws853QW4c6+hScd97ciOxL0nplysF398oLU+9Fbh
+ FES6+jigKB52DvN+HLi/m/CHiZr3vhazzqhviwmc=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 05/18] spapr: Fix leak of CPU machine specific data
-Date: Wed, 28 Oct 2020 01:17:22 +1100
-Message-Id: <20201027141735.728821-6-david@gibson.dropbear.id.au>
+Subject: [PULL 09/18] spapr: Simplify spapr_cpu_core_realize() and
+ spapr_cpu_core_unrealize()
+Date: Wed, 28 Oct 2020 01:17:26 +1100
+Message-Id: <20201027141735.728821-10-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 References: <20201027141735.728821-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 10:17:43
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -65,74 +66,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-When a CPU core is being removed, the machine specific data of each
-CPU thread object is leaked.
+Now that the error path of spapr_cpu_core_realize() is just to call
+idempotent spapr_cpu_core_unrealize() for rollback, no need to create
+and realize the vCPUs in two separate loops.
 
-Fix this by calling the dedicated helper we have for that instead of
-simply unparenting the CPU object. Call it from a separate loop in
-spapr_cpu_core_unrealize() for symmetry with spapr_cpu_core_realize().
+Merge them and do them same in spapr_cpu_core_unrealize() for symmetry.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160279670540.1808373.17319746576919615623.stgit@bahia.lan>
+Message-Id: <160279673321.1808373.2248221100790367912.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_cpu_core.c | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
 diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index b03620823a..c552112145 100644
+index 317fb9934f..2f7dc3c23d 100644
 --- a/hw/ppc/spapr_cpu_core.c
 +++ b/hw/ppc/spapr_cpu_core.c
-@@ -188,7 +188,6 @@ static void spapr_unrealize_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
+@@ -238,10 +238,6 @@ static void spapr_cpu_core_unrealize(DeviceState *dev)
+                                          &error_abort)) {
+                 spapr_unrealize_vcpu(sc->threads[i], sc);
+             }
+-        }
+-    }
+-    for (i = 0; i < cc->nr_threads; i++) {
+-        if (sc->threads[i]) {
+             spapr_delete_vcpu(sc->threads[i]);
+         }
      }
-     spapr_irq_cpu_intc_destroy(SPAPR_MACHINE(qdev_get_machine()), cpu);
-     cpu_remove_sync(CPU(cpu));
--    object_unparent(OBJECT(cpu));
- }
- 
- /*
-@@ -213,6 +212,15 @@ static void spapr_cpu_core_reset_handler(void *opaque)
-     spapr_cpu_core_reset(opaque);
- }
- 
-+static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
-+{
-+    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
-+
-+    cpu->machine_data = NULL;
-+    g_free(spapr_cpu);
-+    object_unparent(OBJECT(cpu));
-+}
-+
- static void spapr_cpu_core_unrealize(DeviceState *dev)
- {
+@@ -326,7 +322,7 @@ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
+                                                   TYPE_SPAPR_MACHINE);
      SpaprCpuCore *sc = SPAPR_CPU_CORE(OBJECT(dev));
-@@ -224,6 +232,9 @@ static void spapr_cpu_core_unrealize(DeviceState *dev)
+     CPUCore *cc = CPU_CORE(OBJECT(dev));
+-    int i, j;
++    int i;
+ 
+     if (!spapr) {
+         error_setg(errp, TYPE_SPAPR_CPU_CORE " needs a pseries machine");
+@@ -337,14 +333,8 @@ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
+     sc->threads = g_new0(PowerPCCPU *, cc->nr_threads);
      for (i = 0; i < cc->nr_threads; i++) {
-         spapr_unrealize_vcpu(sc->threads[i], sc);
-     }
-+    for (i = 0; i < cc->nr_threads; i++) {
-+        spapr_delete_vcpu(sc->threads[i], sc);
-+    }
-     g_free(sc->threads);
- }
- 
-@@ -294,15 +305,6 @@ err:
-     return NULL;
- }
- 
--static void spapr_delete_vcpu(PowerPCCPU *cpu, SpaprCpuCore *sc)
--{
--    SpaprCpuState *spapr_cpu = spapr_cpu_state(cpu);
+         sc->threads[i] = spapr_create_vcpu(sc, i, errp);
+-        if (!sc->threads[i]) {
+-            spapr_cpu_core_unrealize(dev);
+-            return;
+-        }
+-    }
 -
--    cpu->machine_data = NULL;
--    g_free(spapr_cpu);
--    object_unparent(OBJECT(cpu));
--}
--
- static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
- {
-     /* We don't use SPAPR_MACHINE() in order to exit gracefully if the user
+-    for (j = 0; j < cc->nr_threads; j++) {
+-        if (!spapr_realize_vcpu(sc->threads[j], spapr, sc, errp)) {
++        if (!sc->threads[i] ||
++            !spapr_realize_vcpu(sc->threads[i], spapr, sc, errp)) {
+             spapr_cpu_core_unrealize(dev);
+             return;
+         }
 -- 
 2.26.2
 
