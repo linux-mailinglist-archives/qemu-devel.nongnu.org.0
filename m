@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AAEA29BC2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:38:57 +0100 (CET)
-Received: from localhost ([::1]:54318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60F4029BC5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:40:45 +0100 (CET)
+Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXRzs-0006S1-IW
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:38:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50552)
+	id 1kXS1c-0000YU-Ex
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:40:44 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50584)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRrr-0006wc-Rr; Tue, 27 Oct 2020 12:30:41 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:50107)
+ id 1kXRru-0006x7-Dx; Tue, 27 Oct 2020 12:30:43 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:42099)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1kXRrg-0001ZX-HR; Tue, 27 Oct 2020 12:30:32 -0400
+ id 1kXRrh-0001aD-JC; Tue, 27 Oct 2020 12:30:39 -0400
 Received: from localhost.localdomain ([82.252.139.38]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M1qfu-1kVEw93cdM-002J5r; Tue, 27 Oct 2020 17:30:22 +0100
+ id 1MzQTm-1kBXKA2P68-00vOj1; Tue, 27 Oct 2020 17:30:22 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/8] scripts/qmp: delete 'qmp' script
-Date: Tue, 27 Oct 2020 17:30:12 +0100
-Message-Id: <20201027163014.247336-7-laurent@vivier.eu>
+Subject: [PULL 7/8] qdev: Fix two typos
+Date: Tue, 27 Oct 2020 17:30:13 +0100
+Message-Id: <20201027163014.247336-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027163014.247336-1-laurent@vivier.eu>
 References: <20201027163014.247336-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:8iVYIAo6CNjm8HetN2bxTGU1xtvkDVd73KOxTv+ipEqWtnovhTS
- BcMexsCCgTB2ifYi7FwbLDLEz49uGrOmg65aqheQQuRrVpHSgZnrJkSvFsKJKYx81b3cHOs
- lLBHZNo44BX+yJI6qoLa1GqtIyX9IfCoqNCZS+yzk4KU/Qpkyt/wCqTH+4eEBlnpLrBItQz
- KL1TLpEnGUOmTjYlBBqVg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:J/dDARgCVsk=:21gqiUrwYfttXwXUaAgebF
- nDzsjsKmYT085tsrJjpyTh3rXFsTShTnbZsyE1tQpmzeD2hVnOkXnWDfjaKFp/QlhXMsa/vr9
- MlcbPf8JDVHq1dTcfQVasPlVvt3K7JtfX2x06mPJxB6/MHKZY4wgVMJOlNdxnTTFw7hT7K6Pd
- ApTjhH3t97mH/fO2wwyiNW3/GGK2lszDpe54BK3WQwfEFcy3mXNYmL0QwG6Uo31UXzBCoSBIa
- C1NUFbN+93hTmaRhJVU2hoPp7/28tVbD57xUgqhgmAAilq8AcaVEzUMlW8/QMJz6xXjgItjmb
- 0RoNdOYP5E0ZlqsyH6MyHoQK2qnr76oGqbPw4OWfIvIwPOD7GcaWj4y9+VwkjwwP7I2cI4pyu
- AqbNy3hLCsChF4lwd95vhHsun3Z0FAYpeuJmBulyhlKQ2N6G/bU4k3RS4LHF7V9lzuNp9yEWJ
- lpdwZ8v3rg==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:vutHXu59JqKlWK1+atu2+NTtJrPr7Bxt8jFHvwZupN3YX+wT/yn
+ qqOvIxo5DAcxm4mCiOLArZp9zEhF2Unqww6aky+7QNChpeMR4fAkfAIkgSLP7w/6Xx1JVFp
+ N6H4uB1+1qDf2BseKbQwewAfAe1B640YDYgSrsh9qWHpI7T94v8AtUw4RdvjNDg9P011LZV
+ R68fvbXWDo7VbhMdIqYxQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:prEYApemcak=:SFFemDd9lW7h0u5MZiQrcF
+ Jh16Ja6kxp20SpPHL7q78ylUy48krJD9Lwe621mQog/eyNlsYZCRwNieQ36PIwJNvc5XpBNFA
+ ywcWfgPqewi52H/Wzf1GnIskFLr77wEp7aYoMQqGgwmNl1xwJ38hRVrph7F6Pm1VM2XZEOAXo
+ cMAyjvPv0R5ZxInGMpoMdxewBazXt2dDax1QrIpNmXCdRBYTX9ETcpNNlY891WDBEGXbdX8ux
+ li4aJRFMK69bBGN8PS7p2eVxtpzed8fULSZYhTtsdg/Sgu5k97Q6WRx75aAnrqtzrsGAfXq4a
+ LeQyL4lc3V2aIJ7HCo3nrXarWs8JGT32f9nSYULZjcOyvUKEuM6m8pKRiZ6QUniToAlkWZJPM
+ fwG5btOoUZN1vcFlX6gQLQXCysFfvcFye92vcB1mJzpLHwal5z+VY/zdGL2WuvibjBB+gtqsx
+ f6tFT7VwKw==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:26
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 12:30:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,180 +67,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- John Snow <jsnow@redhat.com>
+ Maxim Levitsky <mlevitsk@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: John Snow <jsnow@redhat.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-This script has not seen a patch that was specifically for this script
-since it was moved to this location in 2013, and I doubt it is used. It
-uses "man qmp" for its help message, which does not exist. It also
-presumes there is a manual page for qmp-XXX, for each defined qmp
-command XXX. I don't think that's true.
-
-The format it expects arguments in is something like:
-
-block-dirty-bitmap-add --node=foo --name=bar
-
-and has no capacity to support nested JSON arguments, either.
-
-Most developers use either qmp-shell or socat (or pasting JSON directly
-into qmp stdio), so this duplication and additional alternate syntax is
-not helpful.
-
-Remove it. Leave a breadcrumb script just in case, to be removed next
-release cycle.
-
-Signed-off-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201019210430.1063390-1-jsnow@redhat.com>
+Message-Id: <20201019163702.471239-2-mlevitsk@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/qmp/qmp | 131 +++---------------------------------------------
- 1 file changed, 7 insertions(+), 124 deletions(-)
+ include/hw/qdev-core.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/qmp/qmp b/scripts/qmp/qmp
-index 8e52e4a54dee..0f12307c8767 100755
---- a/scripts/qmp/qmp
-+++ b/scripts/qmp/qmp
-@@ -1,128 +1,11 @@
- #!/usr/bin/env python3
--#
--# QMP command line tool
--#
--# Copyright IBM, Corp. 2011
--#
--# Authors:
--#  Anthony Liguori <aliguori@us.ibm.com>
--#
--# This work is licensed under the terms of the GNU GPLv2 or later.
--# See the COPYING file in the top-level directory.
- 
--import sys, os
-+import sys
- 
--sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.qmp import QEMUMonitorProtocol
-+print('''This unmaintained and undocumented script was removed in preference
-+for qmp-shell. The assumption is that most users are using either
-+qmp-shell, socat, or pasting/piping JSON into stdio. The duplication of
-+facilities here is unwanted, and the divergence of syntax harmful.''',
-+      file=sys.stderr)
- 
--def print_response(rsp, prefix=[]):
--    if type(rsp) == list:
--        i = 0
--        for item in rsp:
--            if prefix == []:
--                prefix = ['item']
--            print_response(item, prefix[:-1] + ['%s[%d]' % (prefix[-1], i)])
--            i += 1
--    elif type(rsp) == dict:
--        for key in rsp.keys():
--            print_response(rsp[key], prefix + [key])
--    else:
--        if len(prefix):
--            print('%s: %s' % ('.'.join(prefix), rsp))
--        else:
--            print('%s' % (rsp))
--
--def main(args):
--    path = None
--
--    # Use QMP_PATH if it's set
--    if 'QMP_PATH' in os.environ:
--        path = os.environ['QMP_PATH']
--
--    while len(args):
--        arg = args[0]
--
--        if arg.startswith('--'):
--            arg = arg[2:]
--            if arg.find('=') == -1:
--                value = True
--            else:
--                arg, value = arg.split('=', 1)
--
--            if arg in ['path']:
--                if type(value) == str:
--                    path = value
--            elif arg in ['help']:
--                os.execlp('man', 'man', 'qmp')
--            else:
--                print('Unknown argument "%s"' % arg)
--
--            args = args[1:]
--        else:
--            break
--
--    if not path:
--        print("QMP path isn't set, use --path=qmp-monitor-address or set QMP_PATH")
--        return 1
--
--    if len(args):
--        command, args = args[0], args[1:]
--    else:
--        print('No command found')
--        print('Usage: "qmp [--path=qmp-monitor-address] qmp-cmd arguments"')
--        return 1
--
--    if command in ['help']:
--        os.execlp('man', 'man', 'qmp')
--
--    srv = QEMUMonitorProtocol(path)
--    srv.connect()
--
--    def do_command(srv, cmd, **kwds):
--        rsp = srv.cmd(cmd, kwds)
--        if 'error' in rsp:
--            raise Exception(rsp['error']['desc'])
--        return rsp['return']
--
--    commands = map(lambda x: x['name'], do_command(srv, 'query-commands'))
--
--    srv.close()
--
--    if command not in commands:
--        fullcmd = 'qmp-%s' % command
--        try:
--            os.environ['QMP_PATH'] = path
--            os.execvp(fullcmd, [fullcmd] + args)
--        except OSError as exc:
--            if exc.errno == 2:
--                print('Command "%s" not found.' % (fullcmd))
--                return 1
--            raise
--        return 0
--
--    srv = QEMUMonitorProtocol(path)
--    srv.connect()
--
--    arguments = {}
--    for arg in args:
--        if not arg.startswith('--'):
--            print('Unknown argument "%s"' % arg)
--            return 1
--
--        arg = arg[2:]
--        if arg.find('=') == -1:
--            value = True
--        else:
--            arg, value = arg.split('=', 1)
--
--        if arg in ['help']:
--            os.execlp('man', 'man', 'qmp-%s' % command)
--            return 1
--
--        arguments[arg] = value
--
--    rsp = do_command(srv, command, **arguments)
--    print_response(rsp)
--
--if __name__ == '__main__':
--    sys.exit(main(sys.argv[1:]))
-+sys.exit(1)
+diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
+index 868973319eea..37611868045b 100644
+--- a/include/hw/qdev-core.h
++++ b/include/hw/qdev-core.h
+@@ -163,8 +163,8 @@ struct NamedClockList {
+ /**
+  * DeviceState:
+  * @realized: Indicates whether the device has been fully constructed.
+- *            When accessed outsize big qemu lock, must be accessed with
+- *            atomic_load_acquire()
++ *            When accessed outside big qemu lock, must be accessed with
++ *            qatomic_load_acquire()
+  * @reset: ResettableState for the device; handled by Resettable interface.
+  *
+  * This structure should not be accessed directly.  We declare it here
 -- 
 2.26.2
 
