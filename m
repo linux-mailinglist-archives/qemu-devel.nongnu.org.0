@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F1A29B0BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:23:11 +0100 (CET)
-Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4AB429B0BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:25:17 +0100 (CET)
+Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPsU-0007JL-Di
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:23:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
+	id 1kXPuW-0002Jd-Lh
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:25:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSa-00034r-6W
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53183)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSk-0003BU-0b
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:35 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59658)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSX-0004GA-5Y
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:23 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSe-0004IV-Bw
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:33 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603806980;
+ s=mimecast20190719; t=1603806987;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W4p23PAiAshE1wqHPJXxubFhGilm8TUfsmi+fLR5mFU=;
- b=Nwi5zr1A5iyt7/8lizFgAOeJxTElYeZAVmwRTzbDMQyQ/zrOzqEYoQYV/WRfgc0fcucp2X
- b0UsPrScF2zKtMxeEIbhKz1O0+wMW3h4clsN1ojY4gBetm44F1SAhRczwkRQgbo+4tR0IY
- hUWNMIizRwogiwlsXpwMfvZRvjc6UBg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-FtNe1-IAMFyHwIZf3LdxtQ-1; Tue, 27 Oct 2020 09:56:18 -0400
-X-MC-Unique: FtNe1-IAMFyHwIZf3LdxtQ-1
-Received: by mail-ej1-f70.google.com with SMTP id c10so892977ejm.15
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:18 -0700 (PDT)
+ bh=WBWP7KBMIQI6YRPnFGQwZbxBBXEh8CIfDLyp5hJxrI0=;
+ b=VRVbNQKuJJWBjmJ96IPkNvmBeYQW1qHE2ndaa47a2YlZ9+uZSG8EKe72X3ltONpU7jULOt
+ 3zMW3kUEu4Glvfbi8fSOtIi4bLC3Q3U3f5ijjIPxHvsOZ1SjiYIOIDUTOzq9KH18lG0X+0
+ iRcwxvfKRSA3oSIzZ2RZ+aJ2CfB/PVo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-559-p_Pz2hkeMmW3O3ByINQU0w-1; Tue, 27 Oct 2020 09:56:24 -0400
+X-MC-Unique: p_Pz2hkeMmW3O3ByINQU0w-1
+Received: by mail-ed1-f71.google.com with SMTP id y8so730445edj.5
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=W4p23PAiAshE1wqHPJXxubFhGilm8TUfsmi+fLR5mFU=;
- b=pN4uRoI3YgEMH1Gu0RAoEM7Hm6eooUFN5EE+dSAJcb/zMdRzf5kh37af7anbXNTQWf
- 29MqlJgkkmMUXldhIpmvnJsQ9EBaL1HS/GhNEvinfq0AXkpCGV/ehBpiarxe4Qv95c66
- IcTls5s4NMRBnGnmPx5YZ3QkrSR1Tfd9UkHfinV3Ty/KVFk+Wip09DJXPt8Mv8IXIu2c
- Ho7FHa2kx7dbmdkeiQO2RUZZ5g8aGGXvyDiUDav1XVffkDkQmSjyeArfVOxofB6AE0tc
- bWexu5H7VFmQUWfKB5n28zBPJhJLXt5hY+rXWx44dgi4rfGv4fi3kKSTm5StA8gO8K6j
- 3/iw==
-X-Gm-Message-State: AOAM533hEqJ7r8CCYFzMGXg/8rQ+42ikNhCRu6qzLgy4JtYxgWHrOhPE
- lyyYOjkGSzc9Q9b1Lvv+nWZ3mkJM5l5HPOIAtu6nWkelSlGo0ZzuJYZOyZMXoirOD6UlvWVq5O2
- yx1FYtBI59r4P1Lw=
-X-Received: by 2002:a05:6402:1597:: with SMTP id
- c23mr2333562edv.155.1603806977127; 
- Tue, 27 Oct 2020 06:56:17 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzCRg3m9AjyyZc8sVf3hr531fxX8NHAcXcVOzmNdPiFosGkCCMbuKs3qZZhGAqy2IGvrMhbIw==
-X-Received: by 2002:a05:6402:1597:: with SMTP id
- c23mr2333537edv.155.1603806976927; 
- Tue, 27 Oct 2020 06:56:16 -0700 (PDT)
+ bh=WBWP7KBMIQI6YRPnFGQwZbxBBXEh8CIfDLyp5hJxrI0=;
+ b=V/Y+BIP8C7iIX9DZJ4ovJjk/5SvGnPq6Y4aIlTr6H3P+EkDm1oQC6qotB9J64ZfSkE
+ NhSjSG4f6t5Vbp5j8P4lRpAXbUEYBpW5+FbUBT4OaTBLNDMVPwx80atRoOC+I3nALp0U
+ yNkX5wewNFl9pknWE3MvSlP46Mrtjk6l5K9mpE7xDiZJhZ2e9Ygu8JpfecYAOcEXLZoD
+ 7ppDgAwMPhAM+knd+GUldThdfxsLC6Fmy2ywoSP7OmdGZ3n2fFEnmKYr6pJ8l14mKSvE
+ a/u2w3HV8QH6FMwOS2wCh8IQEAyhvoGDQgTksS9/7R9nTfB4Iqt+AnloxJz+8+Bx+JPI
+ g/wQ==
+X-Gm-Message-State: AOAM530nxIkmzeNRh0vCSJrZzFaDPQ1tNsIVF1C9EbbghXhI2mjmx3mG
+ IdqjyxDTSYbUo8U8oIJR65QqnSPM0zoovQv1HwPCdHEe4bd6zL006XH0cFKjfj0GUZqS+cnfgvk
+ AsHPMKF9w8N+v528=
+X-Received: by 2002:a17:906:5594:: with SMTP id
+ y20mr2650653ejp.196.1603806982302; 
+ Tue, 27 Oct 2020 06:56:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwQSZcVQU+o3Hk7rvmzMGq3IlquhDlUEgCoHtlKGQdLsCnzA4YKsJOo+FZo8KxtT0R5NaJ0lA==
+X-Received: by 2002:a17:906:5594:: with SMTP id
+ y20mr2650638ejp.196.1603806982089; 
+ Tue, 27 Oct 2020 06:56:22 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id ce15sm1179509ejc.39.2020.10.27.06.56.15
+ by smtp.gmail.com with ESMTPSA id h15sm1088318ejf.50.2020.10.27.06.56.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:56:16 -0700 (PDT)
+ Tue, 27 Oct 2020 06:56:21 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/25] block/nvme: Trace nvme_poll_queue() per queue
-Date: Tue, 27 Oct 2020 14:55:27 +0100
-Message-Id: <20201027135547.374946-6-philmd@redhat.com>
+Subject: [PATCH 06/25] block/nvme: Improve nvme_free_req_queue_wait() trace
+ information
+Date: Tue, 27 Oct 2020 14:55:28 +0100
+Message-Id: <20201027135547.374946-7-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -105,10 +106,9 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As we want to enable multiple queues, report the event
-in each nvme_poll_queue() call, rather than once in
-the callback calling nvme_poll_queues().
+What we want to trace is the block driver state and the queue index.
 
+Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
  block/nvme.c       | 2 +-
@@ -116,38 +116,31 @@ Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 361b5772b7a..8d74401ae7a 100644
+index 8d74401ae7a..29d2541b911 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -594,6 +594,7 @@ static bool nvme_poll_queue(NVMeQueuePair *q)
-     const size_t cqe_offset = q->cq.head * NVME_CQ_ENTRY_BYTES;
-     NvmeCqe *cqe = (NvmeCqe *)&q->cq.queue[cqe_offset];
+@@ -292,7 +292,7 @@ static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
  
-+    trace_nvme_poll_queue(q->s, q->index);
-     /*
-      * Do an early check for completions. q->lock isn't needed because
-      * nvme_process_completion() only runs in the event loop thread and
-@@ -684,7 +685,6 @@ static bool nvme_poll_cb(void *opaque)
-     BDRVNVMeState *s = container_of(e, BDRVNVMeState,
-                                     irq_notifier[MSIX_SHARED_IRQ_IDX]);
- 
--    trace_nvme_poll_cb(s);
-     return nvme_poll_queues(s);
- }
- 
+     while (q->free_req_head == -1) {
+         if (qemu_in_coroutine()) {
+-            trace_nvme_free_req_queue_wait(q);
++            trace_nvme_free_req_queue_wait(q->s, q->index);
+             qemu_co_queue_wait(&q->free_req_queue, &q->lock);
+         } else {
+             qemu_mutex_unlock(&q->lock);
 diff --git a/block/trace-events b/block/trace-events
-index b90b07b15fa..86292f3312b 100644
+index 86292f3312b..cc5e2b55cb5 100644
 --- a/block/trace-events
 +++ b/block/trace-events
-@@ -145,7 +145,7 @@ nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
- nvme_submit_command(void *s, int index, int cid) "s %p queue %d cid %d"
- nvme_submit_command_raw(int c0, int c1, int c2, int c3, int c4, int c5, int c6, int c7) "%02x %02x %02x %02x %02x %02x %02x %02x"
- nvme_handle_event(void *s) "s %p"
--nvme_poll_cb(void *s) "s %p"
-+nvme_poll_queue(void *s, unsigned q_index) "s %p q #%u"
- nvme_prw_aligned(void *s, int is_write, uint64_t offset, uint64_t bytes, int flags, int niov) "s %p is_write %d offset 0x%"PRIx64" bytes %"PRId64" flags %d niov %d"
- nvme_write_zeroes(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p offset 0x%"PRIx64" bytes %"PRId64" flags %d"
- nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+@@ -154,7 +154,7 @@ nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s
+ nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset 0x%"PRIx64" bytes %"PRId64""
+ nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset 0x%"PRIx64" bytes %"PRId64" ret %d"
+ nvme_dma_map_flush(void *s) "s %p"
+-nvme_free_req_queue_wait(void *q) "q %p"
++nvme_free_req_queue_wait(void *s, unsigned q_index) "s %p q #%u"
+ nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
+ nvme_cmd_map_qiov_pages(void *s, int i, uint64_t page) "s %p page[%d] 0x%"PRIx64
+ nvme_cmd_map_qiov_iov(void *s, int i, void *page, int pages) "s %p iov[%d] %p pages %d"
 -- 
 2.26.2
 
