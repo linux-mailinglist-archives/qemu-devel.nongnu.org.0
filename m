@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CA9F29AD93
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:41:33 +0100 (CET)
-Received: from localhost ([::1]:32800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3F029ADD4
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 14:49:55 +0100 (CET)
+Received: from localhost ([::1]:57370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPEC-0000zJ-J5
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:41:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58150)
+	id 1kXPMH-00038V-3t
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 09:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kXP9O-0004FF-PJ
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:36:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45780)
+ id 1kXP9l-0004jD-SK
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:36:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kXP9M-0001HF-K1
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:36:34 -0400
+ id 1kXP9k-0001KA-0g
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:36:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603805791;
+ s=mimecast20190719; t=1603805815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FRSaQBMLBhUwDJ3iMbMAWrjt28HjzxsIxrLzvEBEz4s=;
- b=Xut/IGyYJ15IyYCI94mPDOPzbzaJtvAPqffeHDjCxKJr/6T4+mpHzI2Xv7fx/YP+mXXTa5
- GPj/WPhZVbflR3ECTLSe+0eVvKfiE14ZiLF+61XcaQEBfxwiquWGwNCVq6JJON/IVm0BQY
- aoe2qPPWtCJZQyyeVQw5C6gFpcQkG+8=
+ bh=wxJHwQmUt1ptprRKBcFuqVmqeEIFTyIvWVyIfcstsk0=;
+ b=SJ1cCNTkF4rg1vPnV7LVldUq14V0ppmNJmHguzx7PApIWxBm8GX2kn0FmG9XsMHj01aMuR
+ u1VzFDC7+caNjkmZn5tsEWjvsjPFWqXB/s/96q2qs5c/Tb7gSi6EhCeYEDhR2Sc3CrB4BH
+ VG6EOSjn9X2ZZE8wYc5br9T9NiWggjA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-1KyocUv4PRS9vb0gjI_8Xw-1; Tue, 27 Oct 2020 09:36:29 -0400
-X-MC-Unique: 1KyocUv4PRS9vb0gjI_8Xw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-346-SxeaxA23N-yLHyMsag3APw-1; Tue, 27 Oct 2020 09:36:53 -0400
+X-MC-Unique: SxeaxA23N-yLHyMsag3APw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E907664089
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:36:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 78B96186DD51
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 13:36:52 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9470A55781;
- Tue, 27 Oct 2020 13:36:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A287E76662;
+ Tue, 27 Oct 2020 13:36:32 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] coroutine: let CoQueue wake up outside a coroutine
-Date: Tue, 27 Oct 2020 17:36:00 +0400
-Message-Id: <20201027133602.3038018-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 2/3] console: modify ppm_save to take a pixman image ref
+Date: Tue, 27 Oct 2020 17:36:01 +0400
+Message-Id: <20201027133602.3038018-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20201027133602.3038018-1-marcandre.lureau@redhat.com>
 References: <20201027133602.3038018-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
+Received-SPF: pass client-ip=63.128.21.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:06
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,41 +90,98 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The assert() was added in commit b681a1c73e15 ("block: Repair the
-throttling code."), when the qemu_co_queue_do_restart() function
-required to be running in a coroutine. It was later made unnecessary in
-commit a9d9235567e7 ("coroutine-lock: reschedule coroutine on the
-AioContext it was running on").
+The function is going to be called from a coroutine, and may yield.
+Let's ensure our image reference doesn't change over time (due to resize
+etc) by keeping a ref.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- util/qemu-coroutine-lock.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ ui/console.c    | 15 ++++++++-------
+ ui/trace-events |  2 +-
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index 36927b5f88..5816bf8900 100644
---- a/util/qemu-coroutine-lock.c
-+++ b/util/qemu-coroutine-lock.c
-@@ -85,15 +85,13 @@ static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
-     return true;
- }
+diff --git a/ui/console.c b/ui/console.c
+index 820e408170..96dd212a5d 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -195,7 +195,6 @@ static void dpy_refresh(DisplayState *s);
+ static DisplayState *get_alloc_displaystate(void);
+ static void text_console_update_cursor_timer(void);
+ static void text_console_update_cursor(void *opaque);
+-static bool ppm_save(int fd, DisplaySurface *ds, Error **errp);
  
--bool coroutine_fn qemu_co_queue_next(CoQueue *queue)
-+bool qemu_co_queue_next(CoQueue *queue)
+ static void gui_update(void *opaque)
  {
--    assert(qemu_in_coroutine());
-     return qemu_co_queue_do_restart(queue, true);
+@@ -311,16 +310,16 @@ void graphic_hw_invalidate(QemuConsole *con)
+     }
  }
  
--void coroutine_fn qemu_co_queue_restart_all(CoQueue *queue)
-+void qemu_co_queue_restart_all(CoQueue *queue)
+-static bool ppm_save(int fd, DisplaySurface *ds, Error **errp)
++static bool ppm_save(int fd, pixman_image_t *image, Error **errp)
  {
--    assert(qemu_in_coroutine());
-     qemu_co_queue_do_restart(queue, false);
- }
+-    int width = pixman_image_get_width(ds->image);
+-    int height = pixman_image_get_height(ds->image);
++    int width = pixman_image_get_width(image);
++    int height = pixman_image_get_height(image);
+     g_autoptr(Object) ioc = OBJECT(qio_channel_file_new_fd(fd));
+     g_autofree char *header = NULL;
+     g_autoptr(pixman_image_t) linebuf = NULL;
+     int y;
  
+-    trace_ppm_save(fd, ds);
++    trace_ppm_save(fd, image);
+ 
+     header = g_strdup_printf("P6\n%d %d\n%d\n", width, height, 255);
+     if (qio_channel_write_all(QIO_CHANNEL(ioc),
+@@ -330,7 +329,7 @@ static bool ppm_save(int fd, DisplaySurface *ds, Error **errp)
+ 
+     linebuf = qemu_pixman_linebuf_create(PIXMAN_BE_r8g8b8, width);
+     for (y = 0; y < height; y++) {
+-        qemu_pixman_linebuf_fill(linebuf, ds->image, width, 0, y);
++        qemu_pixman_linebuf_fill(linebuf, image, width, 0, y);
+         if (qio_channel_write_all(QIO_CHANNEL(ioc),
+                                   (char *)pixman_image_get_data(linebuf),
+                                   pixman_image_get_stride(linebuf), errp) < 0) {
+@@ -344,6 +343,7 @@ static bool ppm_save(int fd, DisplaySurface *ds, Error **errp)
+ void qmp_screendump(const char *filename, bool has_device, const char *device,
+                     bool has_head, int64_t head, Error **errp)
+ {
++    g_autoptr(pixman_image_t) image = NULL;
+     QemuConsole *con;
+     DisplaySurface *surface;
+     int fd;
+@@ -372,6 +372,7 @@ void qmp_screendump(const char *filename, bool has_device, const char *device,
+         error_setg(errp, "no surface");
+         return;
+     }
++    image = pixman_image_ref(surface->image);
+ 
+     fd = qemu_open_old(filename, O_WRONLY | O_CREAT | O_TRUNC | O_BINARY, 0666);
+     if (fd == -1) {
+@@ -380,7 +381,7 @@ void qmp_screendump(const char *filename, bool has_device, const char *device,
+         return;
+     }
+ 
+-    if (!ppm_save(fd, surface, errp)) {
++    if (!ppm_save(fd, image, errp)) {
+         qemu_unlink(filename);
+     }
+ }
+diff --git a/ui/trace-events b/ui/trace-events
+index b7d7270c02..0ffcdb4408 100644
+--- a/ui/trace-events
++++ b/ui/trace-events
+@@ -15,7 +15,7 @@ displaysurface_create_pixman(void *display_surface) "surface=%p"
+ displaysurface_free(void *display_surface) "surface=%p"
+ displaychangelistener_register(void *dcl, const char *name) "%p [ %s ]"
+ displaychangelistener_unregister(void *dcl, const char *name) "%p [ %s ]"
+-ppm_save(int fd, void *display_surface) "fd=%d surface=%p"
++ppm_save(int fd, void *image) "fd=%d image=%p"
+ 
+ # gtk-egl.c
+ # gtk-gl-area.c
 -- 
 2.29.0
 
