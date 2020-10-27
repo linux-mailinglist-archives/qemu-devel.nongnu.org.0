@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D2AD29BE51
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:57:07 +0100 (CET)
-Received: from localhost ([::1]:42824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E73F29BE0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 17:55:05 +0100 (CET)
+Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXSHS-0000TZ-HA
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:57:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56498)
+	id 1kXSFU-0006ha-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 12:55:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kXSBx-0003KK-A3
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:51:25 -0400
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:40028)
+ id 1kXSC0-0003NR-BU
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:51:28 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43264)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kXSBu-0004Rf-9p
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:51:24 -0400
-Received: by mail-pf1-x42e.google.com with SMTP id w21so1247529pfc.7
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 09:51:21 -0700 (PDT)
+ id 1kXSBv-0004Ro-Je
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 12:51:27 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id o9so1054465plx.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 09:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=l4c7t48Ie241pwgULUUoEJnXqKB0sfr3ZrdrLJQD0q8=;
- b=CiHWkFYGtjvojIFuuJhgfB8hhCPzI8v3+crXsbMSfQN4lnr1NFHv4PHPC63sv3rN0k
- BchGrxwK7DljmRBtrun4Ykd7TAl1QzC5Cv3If2Tqyu3kixmNK9o0dAefln8w50TccJT4
- ays/ZNdcr2FFrLTMmjobcYHksFxBnJ+AyPP65//UELNSE3DXM8lZ1l8dygOYrB2cC/Cg
- DHYOUiuZJ5zssTy7sSDMS3YotKHZIL+FsFq62hev9X+C5nJOOoSVe25GIrOneLxdojXX
- QHEZWirEcw3ese+WRUZXrg8rLtFli5LDl24mZO8Nrb0klbyCTS3lEVaDRvXTtPgYs+I7
- gByA==
+ bh=SJ7E8JqgOLx2ZEpYUNi3ic5vKG5NWEQV9qbwhc56KHQ=;
+ b=fPualdzQSWBq+Cbb+/WPwqu/ApZ1ZDK3IVAnh8cfGam3aUKZ592jzZtZvdXO3eH39J
+ eU61iCSp6ptAYZmuYHTs6TnU/rRNh/0a5nKtuSHWlNPqRJTyaceiB0GZCg2A74VnKhSY
+ e9xyNDrfPSFKdhYJ0Rl+H7Vn9l1tCAp3AJfvhscLpC3NTHW1sRn4u8l1SMZPHuk3tF7q
+ RwFwZiYTrZTJByUJl1URPrscDwdRbChqOaAfMaBH7aKjki1lox0/wke/1bAqvoVn75IZ
+ 9iDe06s9ctSNvXJaAHQFEN3O5ghfLmBbB8oyMcyr5Z1wINnXLiTliopdWr2Wo0xwNTqD
+ I2Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=l4c7t48Ie241pwgULUUoEJnXqKB0sfr3ZrdrLJQD0q8=;
- b=einuG9DixxaXmaTDmKpgXUUpLs4L8h+AgzZfl4P3nsM8bOMZcUrIL9mqGwgCyZfhUk
- sBCZ5vQLpuWTMGn4z2Fwk8aM+vA21e7apiRP/mKO/iJPL50J1sQ6QLTay74Av2W2mHJ9
- rn6xf8iFduyzAzXQu7E4iU/RCmXyNp9ABAftQokCv68DhSUlyTHxCVX3QB9/SFhvhZYI
- XJnTv0TYL1bnj6dk229riM5uxg78wdplArS9AIe/0THbK8gsu23S7RL9JGzCEp0ewSzj
- uvRLr3nnzVIMqjoU/5U6RoVV2p9ZZuP76sI2O6IGjalyiVWpFFkVEfJ2RdNw9eDQvz7y
- g5Zg==
-X-Gm-Message-State: AOAM530U9DH9Au7S7D+BUXAD71klLVHwrOlHr3TVIax+9Y1S3xAp5nfR
- OUsAEjCqvirbpPdYuT2VNY2ypjRsdEprEw==
-X-Google-Smtp-Source: ABdhPJzkZQGNXws9uH0UfuAa0mn7L/q7AbXG/1gskpG3XLdNJovUOFnLxGaOH66IPTs2Cb4tdCrOyg==
-X-Received: by 2002:a65:50c9:: with SMTP id s9mr2713518pgp.20.1603817480617;
- Tue, 27 Oct 2020 09:51:20 -0700 (PDT)
+ bh=SJ7E8JqgOLx2ZEpYUNi3ic5vKG5NWEQV9qbwhc56KHQ=;
+ b=KVzFuCKAAdmd9qmHu2DdDwHugrSBpKZsfclWv4KInlAtCEsKWEScFKgTcU3BI8DDOP
+ IuVHpmWk1Db/UKIi0XgDpffYGLzmb9fvpRvx/Bf6I1EnMzaTPvwXRcWM20dBFAqnIMlG
+ h4aNUyr8cM6lPGJPNSAQ49M0I+VTNV/D9w8bHJ1YuaTqYUEaDVm7x/+wT+0of5JZpUE5
+ SCswNzo9XTdiCA3Jb7xhh6ea4nATMZ+BemNiMO19c6h+XEmuI1IR2MvtcF7mcSAvMA4O
+ jNGNlgJRacS/s71Z/mV/kbT5ty47j+jKifKgmruSJN9SHyruU2zpxti/LWDo7OIxjKbe
+ dTcA==
+X-Gm-Message-State: AOAM5310KFO+In8uwdhXvoGGN6F9rGTHJ0oPKBB9KfwL8NcCvwStaBET
+ fXzD+ABjqm+Oildovw6OkdpSOi7m9TQZQQ==
+X-Google-Smtp-Source: ABdhPJzjgihkqa6PvHlMUcYfxsWLQbAqqZmnnceeTOMpErPIBKZkavL6ob0UsKxOhvtT20OUhC3Rsw==
+X-Received: by 2002:a17:90a:a898:: with SMTP id
+ h24mr2843421pjq.179.1603817481803; 
+ Tue, 27 Oct 2020 09:51:21 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id q16sm2955283pfj.117.2020.10.27.09.51.19
+ by smtp.gmail.com with ESMTPSA id q16sm2955283pfj.117.2020.10.27.09.51.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 09:51:19 -0700 (PDT)
+ Tue, 27 Oct 2020 09:51:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] tcg/optimize: Flush data at labels not TCG_OPF_BB_END
-Date: Tue, 27 Oct 2020 09:51:13 -0700
-Message-Id: <20201027165114.71508-3-richard.henderson@linaro.org>
+Subject: [PULL 3/3] accel/tcg: Add CPU_LOG_EXEC tracing for cpu_io_recompile()
+Date: Tue, 27 Oct 2020 09:51:14 -0700
+Message-Id: <20201027165114.71508-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201027165114.71508-1-richard.henderson@linaro.org>
 References: <20201027165114.71508-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,73 +85,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can easily propagate temp values through the entire extended
-basic block (in this case, the set of blocks connected by fallthru),
-simply by not discarding the register state at the branch.
+From: Peter Maydell <peter.maydell@linaro.org>
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+When using -icount, it's useful for the CPU_LOG_EXEC logging
+to include information about when cpu_io_recompile() was
+called, because it alerts the reader of the log that the
+tracing of a previous TB execution may not actually
+correspond to an actually executed instruction. For instance
+if you're using -icount and also -singlestep then a guest
+instruction that makes an IO access appears in two
+"Trace" lines, once in a TB that triggers the cpu_io_recompile()
+and then again in the TB that actually executes.
+
+(This is a similar reason to why the "Stopped execution of
+TB chain before..." logging in cpu_tb_exec() is helpful
+when trying to track execution flow in the logs.)
+
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20201013122658.4620-1-peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 35 ++++++++++++++++++-----------------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ accel/tcg/translate-all.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 220f4601d5..9952c28bdc 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -1484,29 +1484,30 @@ void tcg_optimize(TCGContext *s)
-                     }
-                 }
-             }
--            goto do_reset_output;
-+            /* fall through */
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index d76097296d..4572b4901f 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2267,6 +2267,10 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+         tb_destroy(tb);
+     }
  
-         default:
-         do_default:
--            /* Default case: we know nothing about operation (or were unable
--               to compute the operation result) so no propagation is done.
--               We trash everything if the operation is the end of a basic
--               block, otherwise we only trash the output args.  "mask" is
--               the non-zero bits mask for the first output arg.  */
--            if (def->flags & TCG_OPF_BB_END) {
--                bitmap_zero(temps_used.l, nb_temps);
--            } else {
--        do_reset_output:
--                for (i = 0; i < nb_oargs; i++) {
--                    reset_temp(op->args[i]);
--                    /* Save the corresponding known-zero bits mask for the
--                       first output argument (only one supported so far). */
--                    if (i == 0) {
--                        arg_info(op->args[i])->mask = mask;
--                    }
-+            /*
-+             * Default case: we know nothing about operation (or were unable
-+             * to compute the operation result) so no propagation is done.
-+             */
-+            for (i = 0; i < nb_oargs; i++) {
-+                reset_temp(op->args[i]);
-+                /*
-+                 * Save the corresponding known-zero bits mask for the
-+                 * first output argument (only one supported so far).
-+                 */
-+                if (i == 0) {
-+                    arg_info(op->args[i])->mask = mask;
-                 }
-             }
-             break;
++    qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
++                           "cpu_io_recompile: rewound execution of TB to "
++                           TARGET_FMT_lx "\n", tb->pc);
 +
-+        case INDEX_op_set_label:
-+            /* Trash everything at the start of a new extended bb. */
-+            bitmap_zero(temps_used.l, nb_temps);
-+            break;
-         }
- 
-         /* Eliminate duplicate and redundant fence instructions.  */
+     /* TODO: If env->pc != tb->pc (i.e. the faulting instruction was not
+      * the first in the TB) then we end up generating a whole new TB and
+      *  repeating the fault, which is horribly inefficient.
 -- 
 2.25.1
 
