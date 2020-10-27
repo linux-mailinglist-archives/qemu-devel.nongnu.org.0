@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2125A29AB54
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:59:46 +0100 (CET)
-Received: from localhost ([::1]:49882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E810929AB4D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:57:11 +0100 (CET)
+Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNdh-0007S6-3H
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:59:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
+	id 1kXNbC-0004UM-Kf
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:57:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPr-0001oZ-UJ
+ id 1kXNPr-0001nx-IJ
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34811)
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXNPk-0004g2-Vz
+ id 1kXNPp-0004hT-9A
  for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:45:27 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id k21so903031wmi.1
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:20 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id n15so1553861wrq.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:45:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=x+z76sBDiTKxcFiBZPjvGWYLyhzSNJkqbg7nmpKkRJc=;
- b=ueuFNkYWyYlop/7aHP9cYnbUe5U4x2zO704f7WpgL5Ic3xrZTuPeshxupCL8yAgTeA
- wWUFezpDFajh9VBgdYXb/llzGFPoZC0coOhqjpTfiSdJf7+QpZphVVJ8sDV0NxL1rSJe
- tdlSH0GXntqOmKHuGugZG7cF5omEYjoyxmLcDKLBM7QgnD4vCB7kpUYUO+n4ET5mdnDO
- M8SKVkP8h4iB4jOK7wgG0ixDIonWxGnU2R0bg9mQcnFrheXAbpsX3K5uV2j13+e8cmy8
- X0utjKiHTWGjzi26ttrb1ZV2I4c5zaOOFpBkXtKJP/9xCc6zuiMcm8g5ROxa1/fuUJay
- 0pQw==
+ bh=Zhf3AwHffn8y3rxo+99ENZuySCfocQn9p27AO6bAdpo=;
+ b=lwOM8ZXKBMxqwbFdDm33F4z8CmFcUiNk9hYRh+T9w1CrJBQCMLOY4LZhHCbphl+qDj
+ h3aRgbCcPnTNVETde28PJLKiSvdSw6wT3TeiqjetiuJgvh/M/Jyrz0yHP5mBXnqbiSKI
+ bJvyAV6uV1r/9aBVQ9v0hfM1mRHOTNP6zvX9Cf8CmpBT9CnNsj/4PqpTOa4GPYf9Hc8g
+ x0VOXldbtzWhAAkVUIyp/jaPxKfdFh2iykQBoTmAi541x8Thejl2NCRDmCzbgg9f5lbs
+ OhI4ESdZYa+xQq8KRkVHsvcW9ydIA5VvqJSDUqQTvk8Qlg6MbafLVGX6QOjYm0BrvW5h
+ eLiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=x+z76sBDiTKxcFiBZPjvGWYLyhzSNJkqbg7nmpKkRJc=;
- b=AY4FfWkPE9gHx1ZY/AdXKLFXFVjwt+qCegX9VTdG10nb2pGyrWk3u1iT7steshUK1/
- ToiH+pQo/b8RDBIgbd4xGWynZzYyiJrTKSLdykvXpqLPZ7Dn4k8UKVgyvME8O6k8EIhb
- FF4ysN9CES4VJJzDLbm7MBSuA7Fx+sgUwT82HzZ60/jxhe7oV5MeYKLcA8BDuNkhKSTf
- lqcdis96iHFFVNGmNZ395vWdceQkvpzFMWAZGJ2ULiXsfcZTufuoQzPnalm99uD6q+ST
- LO2Omdp7DsN30oyjDmI0NNdQbkg10ZPG3tZgg1M93fU8Ojzer18XCw+bUvHrjfxw3wEi
- lgHQ==
-X-Gm-Message-State: AOAM531kgHlizhYjt62rH6IwYfCvE1Jd9n95Kfsp8SXSlheELw6wKaTn
- qgGkxpbFWu2CA5sO4WtbC6CqgsBobPPzdw==
-X-Google-Smtp-Source: ABdhPJxQu32LKf0i8FHlLmwRfI867qimtF8rQw+WMLaRu/KCfTYrXe46C/Q3mBsP7VR/NzpyzW4gFw==
-X-Received: by 2002:a1c:383:: with SMTP id 125mr2380350wmd.175.1603799119319; 
- Tue, 27 Oct 2020 04:45:19 -0700 (PDT)
+ bh=Zhf3AwHffn8y3rxo+99ENZuySCfocQn9p27AO6bAdpo=;
+ b=ES0ipaswvCRjrFq0VwcOVV5JBtuIXG7gdd7c9svsSqlKHgn4NVMJXxfO4gjOwqB1mQ
+ yr6saMwk7jqa27oS5rJLtg2g+E0MdBCGINC1ARK4QQY0rxmZ9VhyMfOpjwURgZ61LPSf
+ j1zR1Or5kcUUkWvxfxBhl8G/XcaGREek6dKeMaeO09b/Dpx19xKH2t8u73GFghAjqKqQ
+ rV+WnuLfBZjV7Gi/P8O/LQCHXN68lSmcX+ybNr+d515LMFKuovzRcDYKBy/b7FNqKLwI
+ 5ILgAFU6ro1V7jHnOFrLnFWMK8JZ1JL8hiV63MvuNdZRhgaYA3shEH+b6fqIGPiFa37N
+ 3zgA==
+X-Gm-Message-State: AOAM53357gdSUtPPclitVdJc4usmYv30RChcyaJRz8H2ln4Al4Mx+7gw
+ rFx5H+sHElhqM5Wr2sbMARMXe4tJlk5qUw==
+X-Google-Smtp-Source: ABdhPJwWPQjr5P10gLVVOsya1Ozy2xj3cRcOuDc9wGhGa55bUY/HFHcNRW6aSk5GeYcFTsr0ThF5og==
+X-Received: by 2002:adf:bb43:: with SMTP id x3mr2394130wrg.250.1603799121533; 
+ Tue, 27 Oct 2020 04:45:21 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.18
+ by smtp.gmail.com with ESMTPSA id 32sm1712203wro.31.2020.10.27.04.45.20
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 04:45:18 -0700 (PDT)
+ Tue, 27 Oct 2020 04:45:20 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/48] hw/core/clock: provide the VMSTATE_ARRAY_CLOCK macro
-Date: Tue, 27 Oct 2020 11:44:21 +0000
-Message-Id: <20201027114438.17662-32-peter.maydell@linaro.org>
+Subject: [PULL 33/48] hw/arm/raspi: fix CPRMAN base address
+Date: Tue, 27 Oct 2020 11:44:23 +0000
+Message-Id: <20201027114438.17662-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201027114438.17662-1-peter.maydell@linaro.org>
 References: <20201027114438.17662-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,32 +91,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Luc Michel <luc@lmichel.fr>
 
+The CPRMAN (clock controller) was mapped at the watchdog/power manager
+address. It was also split into two unimplemented peripherals (CM and
+A2W) but this is really the same one, as shown by this extract of the
+Raspberry Pi 3 Linux device tree:
+
+    watchdog@7e100000 {
+            compatible = "brcm,bcm2835-pm\0brcm,bcm2835-pm-wdt";
+            [...]
+            reg = <0x7e100000 0x114 0x7e00a000 0x24>;
+            [...]
+    };
+
+    [...]
+    cprman@7e101000 {
+            compatible = "brcm,bcm2835-cprman";
+            [...]
+            reg = <0x7e101000 0x2000>;
+            [...]
+    };
+
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Damien Hedde <damien.hedde@greensocs.com>
 Signed-off-by: Luc Michel <luc@lmichel.fr>
 Tested-by: Guenter Roeck <linux@roeck-us.net>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/clock.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/hw/arm/bcm2835_peripherals.h | 2 +-
+ include/hw/arm/raspi_platform.h      | 5 ++---
+ hw/arm/bcm2835_peripherals.c         | 4 ++--
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index cbc5e6ced1e..81bcf3e505a 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -81,6 +81,11 @@ extern const VMStateDescription vmstate_clock;
-     VMSTATE_CLOCK_V(field, state, 0)
- #define VMSTATE_CLOCK_V(field, state, version) \
-     VMSTATE_STRUCT_POINTER_V(field, state, version, vmstate_clock, Clock)
-+#define VMSTATE_ARRAY_CLOCK(field, state, num) \
-+    VMSTATE_ARRAY_CLOCK_V(field, state, num, 0)
-+#define VMSTATE_ARRAY_CLOCK_V(field, state, num, version)          \
-+    VMSTATE_ARRAY_OF_POINTER_TO_STRUCT(field, state, num, version, \
-+                                       vmstate_clock, Clock)
+diff --git a/include/hw/arm/bcm2835_peripherals.h b/include/hw/arm/bcm2835_peripherals.h
+index c9ac941a82c..6aa94184eb9 100644
+--- a/include/hw/arm/bcm2835_peripherals.h
++++ b/include/hw/arm/bcm2835_peripherals.h
+@@ -47,8 +47,8 @@ struct BCM2835PeripheralState {
+     BCM2835MphiState mphi;
+     UnimplementedDeviceState txp;
+     UnimplementedDeviceState armtmr;
++    UnimplementedDeviceState powermgt;
+     UnimplementedDeviceState cprman;
+-    UnimplementedDeviceState a2w;
+     PL011State uart0;
+     BCM2835AuxState aux;
+     BCM2835FBState fb;
+diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
+index c7f50b260f6..e0e6c8ce94a 100644
+--- a/include/hw/arm/raspi_platform.h
++++ b/include/hw/arm/raspi_platform.h
+@@ -45,9 +45,8 @@
+ #define ARMCTRL_TIMER0_1_OFFSET (ARM_OFFSET + 0x400) /* Timer 0 and 1 (SP804) */
+ #define ARMCTRL_0_SBM_OFFSET    (ARM_OFFSET + 0x800) /* User 0 (ARM) Semaphores
+                                                       * Doorbells & Mailboxes */
+-#define CPRMAN_OFFSET           0x100000 /* Power Management, Watchdog */
+-#define CM_OFFSET               0x101000 /* Clock Management */
+-#define A2W_OFFSET              0x102000 /* Reset controller */
++#define PM_OFFSET               0x100000 /* Power Management */
++#define CPRMAN_OFFSET           0x101000 /* Clock Management */
+ #define AVS_OFFSET              0x103000 /* Audio Video Standard */
+ #define RNG_OFFSET              0x104000
+ #define GPIO_OFFSET             0x200000
+diff --git a/hw/arm/bcm2835_peripherals.c b/hw/arm/bcm2835_peripherals.c
+index 48909a43c32..10ed418e28e 100644
+--- a/hw/arm/bcm2835_peripherals.c
++++ b/hw/arm/bcm2835_peripherals.c
+@@ -354,8 +354,8 @@ static void bcm2835_peripherals_realize(DeviceState *dev, Error **errp)
  
- /**
-  * clock_setup_canonical_path:
+     create_unimp(s, &s->txp, "bcm2835-txp", TXP_OFFSET, 0x1000);
+     create_unimp(s, &s->armtmr, "bcm2835-sp804", ARMCTRL_TIMER0_1_OFFSET, 0x40);
+-    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x1000);
+-    create_unimp(s, &s->a2w, "bcm2835-a2w", A2W_OFFSET, 0x1000);
++    create_unimp(s, &s->powermgt, "bcm2835-powermgt", PM_OFFSET, 0x114);
++    create_unimp(s, &s->cprman, "bcm2835-cprman", CPRMAN_OFFSET, 0x2000);
+     create_unimp(s, &s->i2s, "bcm2835-i2s", I2S_OFFSET, 0x100);
+     create_unimp(s, &s->smi, "bcm2835-smi", SMI_OFFSET, 0x100);
+     create_unimp(s, &s->spi[0], "bcm2835-spi0", SPI0_OFFSET, 0x20);
 -- 
 2.20.1
 
