@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4837C29CC18
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:40:48 +0100 (CET)
-Received: from localhost ([::1]:57230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 554DF29CC1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 23:43:05 +0100 (CET)
+Received: from localhost ([::1]:34648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXXe3-0005Xk-Bf
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:40:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36300)
+	id 1kXXgG-00083y-DL
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 18:43:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXbx-0004FM-G9
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47493)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXby-0004Gz-Iz
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXbv-0006Of-Lu
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:37 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXXbv-0006Oc-LW
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 18:38:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603838312;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BpX0Ra1qe078ntJgXJz4Qr2TQDFhqS6zWubrJ20nQFc=;
- b=N+xF8lTCdx3+oiaa/TUdf6wA/rtO0nQ7O5xRglNYB262UHzA42h3YSyQtAGnl+boYJAK5y
- LNJ0j1dzvupJxQRPpMHmsbl7l3L/2HWy1CZuXwijmk0otnvKkD9pKJ5WTeefcYryJZa1id
- 947BavvJpLJb0vNjIBIfx29dP//Ljso=
+ bh=z0fgWV4F9Y3aEaZtRHV8mK+p/mOtNCHhk7lcQ88UlPY=;
+ b=dzBfe2WQeOkJ/2oee/Sia/KnGmNJMlv0YeBS/Bvzt1pCt/dPMfkA9u/Lg36ohYjC5bRmYY
+ yz7mJb4sewfhoMetSxLu8rUI8+O39422nkW0sUQj6kdvN58cus4M0Uz0lex6lMgSDycyLD
+ 6jg1ffIitH0LMIR1nMv/xOJUS6XHZ1g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-179-s6ckx_AFND2QEw7vepw-Kw-1; Tue, 27 Oct 2020 18:38:28 -0400
-X-MC-Unique: s6ckx_AFND2QEw7vepw-Kw-1
+ us-mta-319-cv9fteXuNTGP-1kYmdBQ0g-1; Tue, 27 Oct 2020 18:38:30 -0400
+X-MC-Unique: cv9fteXuNTGP-1kYmdBQ0g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E0D809DE1;
- Tue, 27 Oct 2020 22:38:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38A1257203;
+ Tue, 27 Oct 2020 22:38:29 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48D2D5B4AD;
- Tue, 27 Oct 2020 22:38:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ACEC85B4AC;
+ Tue, 27 Oct 2020 22:38:27 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/5] python: add Makefile for some common tasks
-Date: Tue, 27 Oct 2020 18:38:13 -0400
-Message-Id: <20201027223815.159802-4-jsnow@redhat.com>
+Subject: [PATCH 4/5] python: add .gitignore
+Date: Tue, 27 Oct 2020 18:38:14 -0400
+Message-Id: <20201027223815.159802-5-jsnow@redhat.com>
 In-Reply-To: <20201027223815.159802-1-jsnow@redhat.com>
 References: <20201027223815.159802-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -90,67 +90,35 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add "make venv" to create the pipenv-managed virtual environment that
-contains our explicitly pinned dependencies.
+Ignore build and package output (build, dist, qemu.egg-info);
+effectively these are "in-tree" builds of a kind.
 
-Add "make check" to run the python linters [in the host execution
-environment].
+Ignore miscellaneous cached python confetti (__pycache__, *.pyc,
+.mypy_cache).
 
-Add "make venv-check" which combines the above two: create/update the
-venv, then run the linters in that explicitly managed environment.
-
-make clean: delete miscellaneous build output possibly created by
-pipenv, pip, or other python packaging utilities
-
-make distclean: delete the above, and the .venv, too.
+Ignore .idea (pycharm) and .venv (pipenv et al).
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/Makefile | 35 +++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
- create mode 100644 python/Makefile
+ python/.gitignore | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+ create mode 100644 python/.gitignore
 
-diff --git a/python/Makefile b/python/Makefile
+diff --git a/python/.gitignore b/python/.gitignore
 new file mode 100644
-index 000000000000..51915eaec3bc
+index 000000000000..78c522768bc1
 --- /dev/null
-+++ b/python/Makefile
-@@ -0,0 +1,35 @@
-+.PHONY: help venv venv-check check clean distclean
-+
-+help:
-+	@echo "python packaging help:"
-+	@echo ""
-+	@echo "make venv:       Create pipenv's virtual environment."
-+	@echo "    NOTE: Requires Python 3.6 and pipenv."
-+	@echo "          Will download packages from PyPI."
-+	@echo "    HINT: On Fedora: 'sudo dnf install python36 pipenv'"
-+	@echo ""
-+	@echo "make venv-check: run linters using pipenv's virtual environment."
-+	@echo ""
-+	@echo "make check:      run linters using the current environment."
-+	@echo "    Hint: Install deps with: 'pip install \".[devel]\"'"
-+	@echo ""
-+	@echo "make clean:      remove build output."
-+	@echo ""
-+	@echo "make distclean:  remove venv files and everything from 'clean'."
-+
-+
-+venv: .venv
-+.venv: Pipfile.lock
-+	@PIPENV_VENV_IN_PROJECT=1 pipenv sync --dev --keep-outdated
-+
-+venv-check: venv
-+	@pipenv run make check
-+
-+check:
-+	@pytest
-+
-+clean:
-+	rm -rf build/ dist/
-+
-+distclean: clean
-+	rm -rf qemu.egg.info/ .venv
++++ b/python/.gitignore
+@@ -0,0 +1,9 @@
++*.pyc
++.idea/
++.mypy_cache/
++.pytest_cache/
++.venv/
++__pycache__/
++build/
++dist/
++qemu.egg-info/
 -- 
 2.26.2
 
