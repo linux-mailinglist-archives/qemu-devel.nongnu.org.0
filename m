@@ -2,79 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C134429AB41
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:54:23 +0100 (CET)
-Received: from localhost ([::1]:33514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B32D729AB4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 12:56:49 +0100 (CET)
+Received: from localhost ([::1]:41722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXNYU-0000bM-Qa
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:54:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46944)
+	id 1kXNaq-00042i-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 07:56:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kXN81-00071c-Dq
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:27:01 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kXN7z-0006gk-OS
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:27:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603798018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TkCAJl7bBMwMCvdHq7hbk1BLS6ZbMlCcd+iimsKeKzM=;
- b=Z3ueellyG9Y6Niq7wXDpNyc9nDLCmJj3KwYdrWcmp90IOulrHZpYIvlKwQZLFFirhMynk5
- 7AeRXXZEY1aTU0wlIGPLVZJXXDUfPJ8AAbM+gOVQwuy0EXhEKRcmY4hGZHqsf0p7QsdwDN
- xICh3k6SUY+zAWnA0PB0pneajLpwxko=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-poalefKbOh-J4bhL0SPNtw-1; Tue, 27 Oct 2020 07:26:56 -0400
-X-MC-Unique: poalefKbOh-J4bhL0SPNtw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D29B2809DC9;
- Tue, 27 Oct 2020 11:26:55 +0000 (UTC)
-Received: from redhat.com (ovpn-115-179.ams2.redhat.com [10.36.115.179])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 838865D9DD;
- Tue, 27 Oct 2020 11:26:47 +0000 (UTC)
-Date: Tue, 27 Oct 2020 07:26:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: David Gibson <dgibson@redhat.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201027072430-mutt-send-email-mst@kernel.org>
-References: <20201022080354-mutt-send-email-mst@kernel.org>
- <20201022235632.7f69ddc9@yekko.fritz.box>
- <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
- <20201022100028-mutt-send-email-mst@kernel.org>
- <CAC_L=vWctLK0Yjod_Vz=+xzFKFp4UoUdjSVa4jWeDm+g8en6wQ@mail.gmail.com>
- <20201022102857-mutt-send-email-mst@kernel.org>
- <CAC_L=vX0+H-SfQHneVPd-Mc3wFxHBSbkKHt3SpNOBOY_JsYDUA@mail.gmail.com>
- <20201022110016-mutt-send-email-mst@kernel.org>
- <CAC_L=vUgsh=08m8EEuEucRtdX73X5kw5ov4Ekg7jFjbHsU6f2w@mail.gmail.com>
- <20201026174537.128a4173@yekko.fritz.box>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXN9W-0007t2-Ns
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:28:34 -0400
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:44362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXN9U-0007CD-7N
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 07:28:34 -0400
+Received: by mail-ej1-x632.google.com with SMTP id d6so1659938ejb.11
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 04:28:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=oRf+zZMc0JSMFRPCPcYUCOrz4C2rHQQkxqO4nCV/6vE=;
+ b=X/ky0bWIVnWRCKU5a6+9kRMQDBO990H+ZNJamkpLO3NjO1CRUSOSGWvO+cUitD0E5T
+ 8O+ySuYGX/3NzH96URvU1oNJStEGzXWmyW1Ep1USKmBJYEGZ8UVdphAOAK6i6UOwL2Gt
+ ZviLbOK0O0DexDkgUKPN/SsDB1IuIoHR8NjhUQplri/ATF10NL1KHULACwaJINAop8fN
+ +K7L18FDYDqbtTAkc/+yLgDOb0UF5cIATJg+uBckMcR8WosfX1JftG+SaNa1LSbUSAvK
+ sumVQIQ4iV4W9s989e9/1qDeNGyxRMBsXp9p0pQwqG8i2m6G0wOp1GOm3DC75btayNgn
+ EbQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=oRf+zZMc0JSMFRPCPcYUCOrz4C2rHQQkxqO4nCV/6vE=;
+ b=E9XLIMZ+jbrw+5ui7U7ahCEwMMxTka2FzgNzxS+vRJAbM1dR0KlJC+CY7EFV0bvPk+
+ dBe2DT9AGg2KTv8OBNP1xIE9ReWcCcBge5xEE/0R4lG6+Zuuo86f2vWrqLGM2gnO8y9g
+ zuVP8eYchdJrLK4ajXEaf32yaoQZkAUk8BU7gpZYmK5FbPvJf53a7rxor6RRH+O9fu0C
+ dxGMcxx+owZim51MN9aVEjbXJWb7dHYQQX9QURg/JAU9cbBVnqSYTWycmDe0eblexPbB
+ xlUY2ZgrMZoUy/rknvBH/upzvUGPvSE15ryL5P0QKIWNf3mwYQph4WF8MTBYH+9e2QEm
+ //5w==
+X-Gm-Message-State: AOAM533OCJrM1CjUsrXyxRZRNWqUi+80na0PCTD8nrZdzRp7pwSlr4bg
+ oaZtNE6N2VkPZGl/Wny6OnjR+Av0oKLMTrAtcPkl0A==
+X-Google-Smtp-Source: ABdhPJzTkAO0LqGTReRKGpCxb/XfLHIOzLSTjgQzd54lfC9Zm6FllLQaTlAm8oCpIkLGk1+tt/kMJH/tEGCDS1XCohs=
+X-Received: by 2002:a17:906:ce21:: with SMTP id
+ sd1mr1940200ejb.4.1603798109461; 
+ Tue, 27 Oct 2020 04:28:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201026174537.128a4173@yekko.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 01:06:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201026161952.149188-1-dgilbert@redhat.com>
+In-Reply-To: <20201026161952.149188-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 27 Oct 2020 11:28:18 +0000
+Message-ID: <CAFEAcA_Nndqzs_j7b=td94SUR=dt=1cP6PSqrctrfqWFajBptQ@mail.gmail.com>
+Subject: Re: [PULL 00/16] migration queue
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,146 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Julia Suvorova <jusual@redhat.com>, qemu devel list <qemu-devel@nongnu.org>
+Cc: Bihong Yu <yubihong@huawei.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Oct 26, 2020 at 05:45:37PM +1100, David Gibson wrote:
-> On Fri, 23 Oct 2020 09:26:48 +0300
-> Marcel Apfelbaum <marcel.apfelbaum@gmail.com> wrote:
-> 
-> > Hi Michael,
-> > 
-> > On Thu, Oct 22, 2020 at 6:01 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > 
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> >  [...]  
-> > Simplistic does not mean wrong or incorrect.
-> > I fail to see why it is not enough.
-> > 
-> > What QEMU can do better? Wait an unbounded time for the blinking to finish?
-> 
-> It certainly shouldn't wait an unbounded time.  But a wait with timeout
-> seems worth investigating to me.
-
-If it's helpful, I'd add a query to check state
-so management can figure out why doesn't guest see device yet.
-But otherwise just buffer the request until such time as
-we can deliver it to guest ...
+On Mon, 26 Oct 2020 at 16:20, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit a46e72710566eea0f90f9c673a0f02da0064acce:
+>
+>   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201026' into staging (2020-10-26 14:50:03 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-migration-20201026a
+>
+> for you to fetch changes up to a47295014de56e108f359ec859d5499b851f62b8:
+>
+>   migration-test: Only hide error if !QTEST_LOG (2020-10-26 16:15:04 +0000)
+>
+> ----------------------------------------------------------------
+> migration pull: 2020-10-26
+>
+> Another go at Peter's postcopy fixes
+>
+> Cleanups from Bihong Yu and Peter Maydell.
+>
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>
 
 
-> > What if we have a buggy guest with a kernel stuck in blinking?
-> > Is QEMU's responsibility to emulate the operator itself? Because the
-> > operator
-> > is the one who is supposed to wait.
-> > 
-> > 
-> > Thanks,
-> > Marcel
-> > 
-> > [...]
-> 
-> 
-> -- 
-> David Gibson <dgibson@redhat.com>
-> Principal Software Engineer, Virtualization, Red Hat
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
+-- PMM
 
