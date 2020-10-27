@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1701D29A27C
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 03:04:51 +0100 (CET)
-Received: from localhost ([::1]:53392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E30329A283
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 03:07:25 +0100 (CET)
+Received: from localhost ([::1]:32946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXELy-0005uZ-2G
-	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 22:04:50 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58030)
+	id 1kXEOS-0000oe-4e
+	for lists+qemu-devel@lfdr.de; Mon, 26 Oct 2020 22:07:24 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1kXEGt-0002Ql-NX
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 21:59:35 -0400
-Received: from mail-qk1-x742.google.com ([2607:f8b0:4864:20::742]:41029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shashi.mallela@linaro.org>)
- id 1kXEGq-0000zb-Kq
- for qemu-devel@nongnu.org; Mon, 26 Oct 2020 21:59:35 -0400
-Received: by mail-qk1-x742.google.com with SMTP id b69so10376692qkg.8
- for <qemu-devel@nongnu.org>; Mon, 26 Oct 2020 18:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4X/BP8ZUdTbCxIFY7FzIpRhi0kUvXh7zLhkAzEKUY6w=;
- b=KYtq5Kb3gD00njU+dchDyYa3YiSIeSMUFSnoZtSxNMA9mU6vw77gFFhupImfYzlVZ/
- 3BbEOhrNhJz0Lb1L/wV1u+0g8yzkIKCoQqNGaaKBJ3MayqL6Nd7jP0hs2ecDEhRnmMVJ
- Ugg/Uu/Z4jsbPjVH7FRD7QIlrQnoaU90CcOcc6sRz+v+zYrhnPtBkxxb9tl2sb0+nQeJ
- Ri+d6jwkNMpejkkHceLg2qqw99bH2nsY4ms82l3k6LtLW8RVLTtdrRqtI5avVwTv8Dz6
- cr08H/f+HTXF4FKhzoPudpGZuaF/uXbq9I2GPqkSA6K6lL/yTGKEqHEIZG9CfI0/TN3H
- cZDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=4X/BP8ZUdTbCxIFY7FzIpRhi0kUvXh7zLhkAzEKUY6w=;
- b=EV3116SO7h73i8p0zFoqIROYPakd1/xuWV6FWg1CTPw6eP2IG1UwrfReSiy44K4JK3
- nCse6+3O4BNTDTL2ypjqDZzHJ8C/Ft7ruE7I96bdNKKlPah9tW4xm1KdAppnUQJ5nH/L
- PYr82xIeRuTNqE2QK3V4+02FmQZHS1BFV4UX0Hjh/ikoMGXBJ0Wli3A0dgsyOuxJPPYM
- dwMn66uus5NLdz2ShwJOjtDyowhsYB5i6ehDelLDBAn/+kNhJr5oknPbN2sIW8xea7BV
- EyHa/vNx4I5mkT1nstuWRz0MHRN1yyLyK6aYUg3TUKEzNGMi/IYLiSauUz7kbL2ZMdZ/
- RJcg==
-X-Gm-Message-State: AOAM532uviyvSwoklkiPf7quW13w6iEcV1oacHPtUiO2FgusZ9rLZhB+
- 340N0+H2klDh6uENxqt17FSSbCcjePek0w==
-X-Google-Smtp-Source: ABdhPJzKWKFdTOO28A/MAZVdo4hd4HNUwPDJCIcABuQs6167Oko0ymkTzpurGRj+tV92M7b3+8oxEw==
-X-Received: by 2002:a37:b5c4:: with SMTP id e187mr4045368qkf.253.1603763971038; 
- Mon, 26 Oct 2020 18:59:31 -0700 (PDT)
-Received: from localhost.localdomain ([142.114.143.244])
- by smtp.googlemail.com with ESMTPSA id 61sm19317qta.19.2020.10.26.18.59.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 26 Oct 2020 18:59:30 -0700 (PDT)
-From: Shashi Mallela <shashi.mallela@linaro.org>
-To: peter.maydell@linaro.org,
-	leif@nuviainc.com,
-	rad@semihalf.com
-Subject: [PATCH v8 2/2] hw/arm/sbsa-ref: add SBSA watchdog device
-Date: Mon, 26 Oct 2020 21:59:27 -0400
-Message-Id: <20201027015927.29495-3-shashi.mallela@linaro.org>
-X-Mailer: git-send-email 2.18.4
-In-Reply-To: <20201027015927.29495-1-shashi.mallela@linaro.org>
-References: <20201027015927.29495-1-shashi.mallela@linaro.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::742;
- envelope-from=shashi.mallela@linaro.org; helo=mail-qk1-x742.google.com
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kXEKw-0005sv-Ij; Mon, 26 Oct 2020 22:03:46 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40163)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kXEKr-0001Vw-66; Mon, 26 Oct 2020 22:03:46 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CKw3V5vKsz9sT6; Tue, 27 Oct 2020 13:03:34 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1603764214;
+ bh=oPIe4JLJ5Duv9K5uU5kWvlMQ3/YZmV1t4Hq/X4MA7kU=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=EkkPU07wGS1PCiZALraVETOpEZ66tTnVpdVbeqerVWPX6GSt41+KRgz+0BvBZFTQ6
+ m0RRlrCkOGA3owXsNtMroJNvNGcOYrwurFw6YVpQV8BTTW1m/JlRIv5GAZOMSKNlXi
+ mxdOaJc5BSanPbagtDwRLoa8Kqi+ivUWFYtMdUc0=
+Date: Tue, 27 Oct 2020 13:00:16 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 3/4] target/ppc: Fix kvmppc_load_htab_chunk() error
+ reporting
+Message-ID: <20201027020016.GD4671@yekko.fritz.box>
+References: <160371602625.305923.7832478283946753271.stgit@bahia.lan>
+ <160371604713.305923.5264900354159029580.stgit@bahia.lan>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="GpGaEY17fSl8rd50"
+Content-Disposition: inline
+In-Reply-To: <160371604713.305923.5264900354159029580.stgit@bahia.lan>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,89 +61,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Included the newly implemented SBSA generic watchdog device model into
-SBSA platform
 
-Signed-off-by: Shashi Mallela <shashi.mallela@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/sbsa-ref.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+--GpGaEY17fSl8rd50
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 01863510d0f5..7d9e180c0db0 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -40,6 +40,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/usb.h"
- #include "hw/char/pl011.h"
-+#include "hw/watchdog/sbsa_gwdt.h"
- #include "net/net.h"
- #include "qom/object.h"
- 
-@@ -64,6 +65,9 @@ enum {
-     SBSA_GIC_DIST,
-     SBSA_GIC_REDIST,
-     SBSA_SECURE_EC,
-+    SBSA_GWDT,
-+    SBSA_GWDT_REFRESH,
-+    SBSA_GWDT_CONTROL,
-     SBSA_SMMU,
-     SBSA_UART,
-     SBSA_RTC,
-@@ -104,6 +108,8 @@ static const MemMapEntry sbsa_ref_memmap[] = {
-     [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
-     [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
-     [SBSA_SECURE_EC] =          { 0x50000000, 0x00001000 },
-+    [SBSA_GWDT_REFRESH] =       { 0x50010000, 0x00001000 },
-+    [SBSA_GWDT_CONTROL] =       { 0x50011000, 0x00001000 },
-     [SBSA_UART] =               { 0x60000000, 0x00001000 },
-     [SBSA_RTC] =                { 0x60010000, 0x00001000 },
-     [SBSA_GPIO] =               { 0x60020000, 0x00001000 },
-@@ -134,6 +140,7 @@ static const int sbsa_ref_irqmap[] = {
-     [SBSA_AHCI] = 10,
-     [SBSA_EHCI] = 11,
-     [SBSA_SMMU] = 12, /* ... to 15 */
-+    [SBSA_GWDT] = 16,
- };
- 
- static uint64_t sbsa_ref_cpu_mp_affinity(SBSAMachineState *sms, int idx)
-@@ -448,6 +455,20 @@ static void create_rtc(const SBSAMachineState *sms)
-     sysbus_create_simple("pl031", base, qdev_get_gpio_in(sms->gic, irq));
- }
- 
-+static void create_wdt(const SBSAMachineState *sms)
-+{
-+    hwaddr rbase = sbsa_ref_memmap[SBSA_GWDT_REFRESH].base;
-+    hwaddr cbase = sbsa_ref_memmap[SBSA_GWDT_CONTROL].base;
-+    DeviceState *dev = qdev_new(TYPE_WDT_SBSA);
-+    SysBusDevice *s = SYS_BUS_DEVICE(dev);
-+    int irq = sbsa_ref_irqmap[SBSA_GWDT];
-+
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    sysbus_mmio_map(s, 0, rbase);
-+    sysbus_mmio_map(s, 1, cbase);
-+    sysbus_connect_irq(s, 0, qdev_get_gpio_in(sms->gic, irq));
-+}
-+
- static DeviceState *gpio_key_dev;
- static void sbsa_ref_powerdown_req(Notifier *n, void *opaque)
- {
-@@ -731,6 +752,8 @@ static void sbsa_ref_init(MachineState *machine)
- 
-     create_rtc(sms);
- 
-+    create_wdt(sms);
-+
-     create_gpio(sms);
- 
-     create_ahci(sms);
--- 
-2.18.4
+On Mon, Oct 26, 2020 at 01:40:47PM +0100, Greg Kurz wrote:
+> If kvmppc_load_htab_chunk() fails, its return value is propagated up
+> to vmstate_load(). It should thus be a negative errno, not -1 (which
+> maps to EPERM and would lure the user into thinking that the problem
+> is necessarily related to a lack of privilege).
+>=20
+> Return the error reported by KVM or ENOSPC in case of short write.
+> While here, propagate the error message through an @errp argument
+> and have the caller to print it with error_report_err() instead
+> of relying on fprintf().
+>=20
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  hw/ppc/spapr.c       |    4 +++-
+>  target/ppc/kvm.c     |   11 +++++------
+>  target/ppc/kvm_ppc.h |    5 +++--
+>  3 files changed, 11 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index f51b663f7dcb..ff7de7da2875 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2341,8 +2341,10 @@ static int htab_load(QEMUFile *f, void *opaque, in=
+t version_id)
+> =20
+>              assert(fd >=3D 0);
+> =20
+> -            rc =3D kvmppc_load_htab_chunk(f, fd, index, n_valid, n_inval=
+id);
+> +            rc =3D kvmppc_load_htab_chunk(f, fd, index, n_valid, n_inval=
+id,
+> +                                        &local_err);
+>              if (rc < 0) {
+> +                error_report_err(local_err);
+>                  return rc;
+>              }
+>          }
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index d85ba8ffe00b..0223b93ea561 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -2683,7 +2683,7 @@ int kvmppc_save_htab(QEMUFile *f, int fd, size_t bu=
+fsize, int64_t max_ns)
+>  }
+> =20
+>  int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+> -                           uint16_t n_valid, uint16_t n_invalid)
+> +                           uint16_t n_valid, uint16_t n_invalid, Error *=
+*errp)
+>  {
+>      struct kvm_get_htab_header *buf;
+>      size_t chunksize =3D sizeof(*buf) + n_valid * HASH_PTE_SIZE_64;
+> @@ -2698,14 +2698,13 @@ int kvmppc_load_htab_chunk(QEMUFile *f, int fd, u=
+int32_t index,
+> =20
+>      rc =3D write(fd, buf, chunksize);
+>      if (rc < 0) {
+> -        fprintf(stderr, "Error writing KVM hash table: %s\n",
+> -                strerror(errno));
+> -        return rc;
+> +        error_setg_errno(errp, errno, "Error writing the KVM hash table"=
+);
+> +        return -errno;
+>      }
+>      if (rc !=3D chunksize) {
+>          /* We should never get a short write on a single chunk */
+> -        fprintf(stderr, "Short write, restoring KVM hash table\n");
+> -        return -1;
+> +        error_setg(errp, "Short write while restoring the KVM hash table=
+");
+> +        return -ENOSPC;
 
+I'm not entirely sure -ENOSPC is the right choice here - this
+indicates that the kernel interface is not behaving as we expect.  But
+I can't immediately think of what's a better choice, so, applied to
+ppc-for-5.2.
+
+
+>      }
+>      return 0;
+>  }
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 72e05f1cd2fc..73ce2bc95114 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -56,7 +56,7 @@ int kvmppc_define_rtas_kernel_token(uint32_t token, con=
+st char *function);
+>  int kvmppc_get_htab_fd(bool write, uint64_t index, Error **errp);
+>  int kvmppc_save_htab(QEMUFile *f, int fd, size_t bufsize, int64_t max_ns=
+);
+>  int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t index,
+> -                           uint16_t n_valid, uint16_t n_invalid);
+> +                           uint16_t n_valid, uint16_t n_invalid, Error *=
+*errp);
+>  void kvmppc_read_hptes(ppc_hash_pte64_t *hptes, hwaddr ptex, int n);
+>  void kvmppc_write_hpte(hwaddr ptex, uint64_t pte0, uint64_t pte1);
+>  bool kvmppc_has_cap_fixup_hcalls(void);
+> @@ -316,7 +316,8 @@ static inline int kvmppc_save_htab(QEMUFile *f, int f=
+d, size_t bufsize,
+>  }
+> =20
+>  static inline int kvmppc_load_htab_chunk(QEMUFile *f, int fd, uint32_t i=
+ndex,
+> -                                         uint16_t n_valid, uint16_t n_in=
+valid)
+> +                                         uint16_t n_valid, uint16_t n_in=
+valid,
+> +                                         Error **errp)
+>  {
+>      abort();
+>  }
+>=20
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--GpGaEY17fSl8rd50
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+XfzAACgkQbDjKyiDZ
+s5L6DBAAwk5WQ/L4o3Zd8sTWrzpZbnSds+ntt51RMkxASZUQJEOI6mhdVEeJlyru
+yFpRK6DVFejtuWsC8d/AXvnx+UEpwMneM8D2l/b6hVPwPcLjLln7evK/D0R6P0cc
+Pjw6agGQkMGkoQEUHxjou/Ze38Cxm9aumThxXKnKp7OGkaQdYasJZu2dGX0lL/OI
+OdZQJtsSbaqYeVvAQtwUGfsTYMERgHdHZJVBdWaDGL2K9k+FJrZTTvHYcnQaIV+7
+LWsUm8iOyokEjHB/KcW2LYt+2IEVIYBjwPrVsuN26/f18LOijZojo8jUp/glu5um
+wCugUiYmXq9DWhH2H2kpamOpb8RvJl1MiLpEB27gXnbH8PSiPdr9+9GH1uCcHIPJ
+vbKGx7Z8sRKQvi9UHuRW2x7gqRFjLpWFbdwM5sjYNThSXH3xwKSxErXEIlEF/yvh
+Y1HQfP9QhZFZrLQE66DF1gV9/bgNoL+YdYUdmcd1U9NaxhnrvD/15WIC/hQWhasJ
+XSnAxUa7V8oS1+3sIulSQ1/m+oAOmIpyeQuzTVbHarhCaxNJtpnGnKPwAtaH8b+k
+ofW/iK/+9zAxGMVt18rfrC0LBtLqu2hcaBbqDNZz8vvY9B5ioax0jzERWHvkhJBE
+XzjvVwg2bpSFTP29umVr3ZlPWNS5Qf6FbFbcX/kqTu2mJ69gHug=
+=l50o
+-----END PGP SIGNATURE-----
+
+--GpGaEY17fSl8rd50--
 
