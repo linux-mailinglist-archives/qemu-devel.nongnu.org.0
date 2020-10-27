@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E84029B072
-	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:19:57 +0100 (CET)
-Received: from localhost ([::1]:49752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F1A29B0BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 27 Oct 2020 15:23:11 +0100 (CET)
+Received: from localhost ([::1]:58836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXPpM-0003X1-DX
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:19:56 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35596)
+	id 1kXPsU-0007JL-Di
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 10:23:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSX-00031k-KV
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23101)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSa-00034r-6W
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53183)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSV-0004FY-VD
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:21 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXPSX-0004GA-5Y
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 09:56:23 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603806975;
+ s=mimecast20190719; t=1603806980;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a7fBCIQ/1BkfqoPLON3TqQaNLgboMKILqf/ROXQloYA=;
- b=D9USzSOzyANn/jANOYByR8mkYpdg7EYcD8+Vq09yBA4cEkOFsDkZRjdh6hqLzJldH3J/yv
- C638030DA4JCfRxTjgzJ2YN4seG13Rqk6sQhROMXi+7ROV1CzEiw6nwrGutjSGMZ4B9MKA
- 9YnsuGwwtxo4mk3ZIi6oeilncd+KS8U=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-4ln7PhDBOZa0A2fZ_bjsxA-1; Tue, 27 Oct 2020 09:56:13 -0400
-X-MC-Unique: 4ln7PhDBOZa0A2fZ_bjsxA-1
-Received: by mail-ed1-f70.google.com with SMTP id n16so695236edw.19
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:13 -0700 (PDT)
+ bh=W4p23PAiAshE1wqHPJXxubFhGilm8TUfsmi+fLR5mFU=;
+ b=Nwi5zr1A5iyt7/8lizFgAOeJxTElYeZAVmwRTzbDMQyQ/zrOzqEYoQYV/WRfgc0fcucp2X
+ b0UsPrScF2zKtMxeEIbhKz1O0+wMW3h4clsN1ojY4gBetm44F1SAhRczwkRQgbo+4tR0IY
+ hUWNMIizRwogiwlsXpwMfvZRvjc6UBg=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-519-FtNe1-IAMFyHwIZf3LdxtQ-1; Tue, 27 Oct 2020 09:56:18 -0400
+X-MC-Unique: FtNe1-IAMFyHwIZf3LdxtQ-1
+Received: by mail-ej1-f70.google.com with SMTP id c10so892977ejm.15
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 06:56:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=a7fBCIQ/1BkfqoPLON3TqQaNLgboMKILqf/ROXQloYA=;
- b=a/+zQpOAI7jrdHcFcOXNCb7ZZvcv3Ci+vMxti0elu3NQ0UeqJjcDBnF6u3uMGjYcSX
- eyra+opjYGDppqL+X7+8BNKrp7AyIY4ymDm5lG/t1j0oepLVLlVAigPcWvs3vBeDOz/S
- Fxy23zWkonMSBllT8MRnxu6zNLKw3QNeusk9P8arw5LAJTn/MuIG4NDpBGBzRoSWa+3/
- 4h/rlAO/Rqsye1w6/h1OkFJS6DXTr55bt6EImG6g7OncGLdskQKkgmiW2b/SlSzoTOg5
- frMby0tKDPRGk/CoKPJS++3ggv37gWUKSQSJt7cFQwT9b+4426/3deoShHpOlqQHRp/H
- L3pg==
-X-Gm-Message-State: AOAM532UyN1Ipk+EuLu6rOW1VGqoANa9tiw05kyN+pcjHX6BjFKqRBHg
- Wq/5L3TxYhUn5IZ+z1xw2zeeExM6HuGJGYZcJjxj2X332ui8/ljFqiXHI2J02nq1XOYP8P65PC1
- FDmcIAdWIYJ0Ha+Q=
-X-Received: by 2002:a17:906:1804:: with SMTP id
- v4mr2593852eje.201.1603806972001; 
- Tue, 27 Oct 2020 06:56:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZgJ0Yhl0g+IaSqdnBKcqOlMQmDkgQVickfFpeBkLGikNBaXcoPQA5gqttgXSEN0pAPYoMDg==
-X-Received: by 2002:a17:906:1804:: with SMTP id
- v4mr2593829eje.201.1603806971794; 
- Tue, 27 Oct 2020 06:56:11 -0700 (PDT)
+ bh=W4p23PAiAshE1wqHPJXxubFhGilm8TUfsmi+fLR5mFU=;
+ b=pN4uRoI3YgEMH1Gu0RAoEM7Hm6eooUFN5EE+dSAJcb/zMdRzf5kh37af7anbXNTQWf
+ 29MqlJgkkmMUXldhIpmvnJsQ9EBaL1HS/GhNEvinfq0AXkpCGV/ehBpiarxe4Qv95c66
+ IcTls5s4NMRBnGnmPx5YZ3QkrSR1Tfd9UkHfinV3Ty/KVFk+Wip09DJXPt8Mv8IXIu2c
+ Ho7FHa2kx7dbmdkeiQO2RUZZ5g8aGGXvyDiUDav1XVffkDkQmSjyeArfVOxofB6AE0tc
+ bWexu5H7VFmQUWfKB5n28zBPJhJLXt5hY+rXWx44dgi4rfGv4fi3kKSTm5StA8gO8K6j
+ 3/iw==
+X-Gm-Message-State: AOAM533hEqJ7r8CCYFzMGXg/8rQ+42ikNhCRu6qzLgy4JtYxgWHrOhPE
+ lyyYOjkGSzc9Q9b1Lvv+nWZ3mkJM5l5HPOIAtu6nWkelSlGo0ZzuJYZOyZMXoirOD6UlvWVq5O2
+ yx1FYtBI59r4P1Lw=
+X-Received: by 2002:a05:6402:1597:: with SMTP id
+ c23mr2333562edv.155.1603806977127; 
+ Tue, 27 Oct 2020 06:56:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzCRg3m9AjyyZc8sVf3hr531fxX8NHAcXcVOzmNdPiFosGkCCMbuKs3qZZhGAqy2IGvrMhbIw==
+X-Received: by 2002:a05:6402:1597:: with SMTP id
+ c23mr2333537edv.155.1603806976927; 
+ Tue, 27 Oct 2020 06:56:16 -0700 (PDT)
 Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
  [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id qq10sm1126501ejb.31.2020.10.27.06.56.10
+ by smtp.gmail.com with ESMTPSA id ce15sm1179509ejc.39.2020.10.27.06.56.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 06:56:11 -0700 (PDT)
+ Tue, 27 Oct 2020 06:56:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/25] block/nvme: Trace controller capabilities
-Date: Tue, 27 Oct 2020 14:55:26 +0100
-Message-Id: <20201027135547.374946-5-philmd@redhat.com>
+Subject: [PATCH 05/25] block/nvme: Trace nvme_poll_queue() per queue
+Date: Tue, 27 Oct 2020 14:55:27 +0100
+Message-Id: <20201027135547.374946-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201027135547.374946-1-philmd@redhat.com>
 References: <20201027135547.374946-1-philmd@redhat.com>
@@ -105,54 +105,49 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Controllers have different capabilities and report them in the
-CAP register. We are particularly interested by the page size
-limits.
+As we want to enable multiple queues, report the event
+in each nvme_poll_queue() call, rather than once in
+the callback calling nvme_poll_queues().
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c       | 13 +++++++++++++
- block/trace-events |  2 ++
- 2 files changed, 15 insertions(+)
+ block/nvme.c       | 2 +-
+ block/trace-events | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 6f1d7f9b2a1..361b5772b7a 100644
+index 361b5772b7a..8d74401ae7a 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -727,6 +727,19 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-      * Initialization". */
+@@ -594,6 +594,7 @@ static bool nvme_poll_queue(NVMeQueuePair *q)
+     const size_t cqe_offset = q->cq.head * NVME_CQ_ENTRY_BYTES;
+     NvmeCqe *cqe = (NvmeCqe *)&q->cq.queue[cqe_offset];
  
-     cap = le64_to_cpu(regs->cap);
-+    trace_nvme_controller_capability_raw(cap);
-+    trace_nvme_controller_capability("Maximum Queue Entries Supported",
-+                                     1 + NVME_CAP_MQES(cap));
-+    trace_nvme_controller_capability("Contiguous Queues Required",
-+                                     NVME_CAP_CQR(cap));
-+    trace_nvme_controller_capability("Doorbell Stride",
-+                                     2 << (2 + NVME_CAP_DSTRD(cap)));
-+    trace_nvme_controller_capability("Subsystem Reset Supported",
-+                                     NVME_CAP_NSSRS(cap));
-+    trace_nvme_controller_capability("Memory Page Size Minimum",
-+                                     1 << (12 + NVME_CAP_MPSMIN(cap)));
-+    trace_nvme_controller_capability("Memory Page Size Maximum",
-+                                     1 << (12 + NVME_CAP_MPSMAX(cap)));
-     if (!NVME_CAP_CSS(cap)) {
-         error_setg(errp, "Device doesn't support NVMe command set");
-         ret = -EINVAL;
++    trace_nvme_poll_queue(q->s, q->index);
+     /*
+      * Do an early check for completions. q->lock isn't needed because
+      * nvme_process_completion() only runs in the event loop thread and
+@@ -684,7 +685,6 @@ static bool nvme_poll_cb(void *opaque)
+     BDRVNVMeState *s = container_of(e, BDRVNVMeState,
+                                     irq_notifier[MSIX_SHARED_IRQ_IDX]);
+ 
+-    trace_nvme_poll_cb(s);
+     return nvme_poll_queues(s);
+ }
+ 
 diff --git a/block/trace-events b/block/trace-events
-index 0955c85c783..b90b07b15fa 100644
+index b90b07b15fa..86292f3312b 100644
 --- a/block/trace-events
 +++ b/block/trace-events
-@@ -134,6 +134,8 @@ qed_aio_write_postfill(void *s, void *acb, uint64_t start, size_t len, uint64_t
- qed_aio_write_main(void *s, void *acb, int ret, uint64_t offset, size_t len) "s %p acb %p ret %d offset %"PRIu64" len %zu"
- 
- # nvme.c
-+nvme_controller_capability_raw(uint64_t value) "0x%08"PRIx64
-+nvme_controller_capability(const char *desc, uint64_t value) "%s: %"PRIu64
- nvme_kick(void *s, int queue) "s %p queue %d"
- nvme_dma_flush_queue_wait(void *s) "s %p"
- nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
+@@ -145,7 +145,7 @@ nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
+ nvme_submit_command(void *s, int index, int cid) "s %p queue %d cid %d"
+ nvme_submit_command_raw(int c0, int c1, int c2, int c3, int c4, int c5, int c6, int c7) "%02x %02x %02x %02x %02x %02x %02x %02x"
+ nvme_handle_event(void *s) "s %p"
+-nvme_poll_cb(void *s) "s %p"
++nvme_poll_queue(void *s, unsigned q_index) "s %p q #%u"
+ nvme_prw_aligned(void *s, int is_write, uint64_t offset, uint64_t bytes, int flags, int niov) "s %p is_write %d offset 0x%"PRIx64" bytes %"PRId64" flags %d niov %d"
+ nvme_write_zeroes(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p offset 0x%"PRIx64" bytes %"PRId64" flags %d"
+ nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
 -- 
 2.26.2
 
