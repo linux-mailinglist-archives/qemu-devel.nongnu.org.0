@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 299FD29D14A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 18:21:25 +0100 (CET)
-Received: from localhost ([::1]:35248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE38C29D160
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 18:46:01 +0100 (CET)
+Received: from localhost ([::1]:58738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXp8W-0002Ww-7b
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 13:21:24 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47812)
+	id 1kXpWK-0005gI-8o
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 13:46:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kXp6r-0000qd-Tx; Wed, 28 Oct 2020 13:19:41 -0400
-Received: from esa2.hc3370-68.iphmx.com ([216.71.145.153]:59598)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kXp6p-0006Lo-AW; Wed, 28 Oct 2020 13:19:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1603905579;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=Npeg9RZb1Tly7Z0t91E59nEXfv/QG3/W/1wUJKzHhIE=;
- b=JTKO4jEcrO5AKwh+wTfjnB3g3HrjTzz9/4f+SmcIHcD2yI1t7NkLFK6T
- Dxm/UpvwBnKdhaNPx+MHz4IwtoR35D47kcTn9ZWGozNnRnOT+Azh3uZqm
- JfzZMoF+6SNTqlm5T+4+hbCJYWu4G/RdHuj9kFb6xGqpp4BGi9nKmaNSJ E=;
-Authentication-Results: esa2.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: iikfO2KoDd/NeTU9BHnPy8TnuxMH8CB0Pvk8lnQMskI0bps4u3MRBem7FcFDB4fa1t+IP5iYMR
- mwt12iQolkNS/K/QMyznQrunRasdA+g9bMIBY2Hs3w1UbQAKHAMfHE3ApVQd8oZ33Y5dU0RTSQ
- mcibb7/JQZ+BJTSs1Kxp5LFGwIsQOMVoVcYjiHje2BS3bWsnnDc4cIXagPTYdgQXqJKoKhHjte
- Kw7xYzmbBOTkWzsiskSwLT+o7sqpPd5WFhgXltylaVxwiE/J8cSoZ0g90UTlh4aIy6MNCUPrhY
- ZDY=
-X-SBRS: None
-X-MesageID: 29999047
-X-Ironport-Server: esa2.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.77,427,1596513600"; d="scan'208";a="29999047"
-Date: Wed, 28 Oct 2020 17:19:26 +0000
-To: John Snow <jsnow@redhat.com>
-CC: <qemu-devel@nongnu.org>, Paul Durrant <paul@xen.org>, Stefano Stabellini
- <sstabellini@kernel.org>, <qemu-block@nongnu.org>
-Subject: Re: [PATCH v2] xen: rework pci_piix3_xen_ide_unplug
-Message-ID: <20201028171926.GF2214@perard.uk.xensource.com>
-References: <20201027154058.495112-1-anthony.perard@citrix.com>
- <e7d2fef8-a697-398e-4b3b-bf247aac01a5@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kXpUf-0005Cs-7X
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 13:44:17 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43101)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kXpUc-0001UE-OZ
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 13:44:16 -0400
+Received: by mail-wr1-x442.google.com with SMTP id g12so6608259wrp.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 10:44:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YAl0tecVsURCuewdLjQ48RaCrF96ohlsENSIUfpsU+w=;
+ b=zeafB7Z4qJnIB81bJuKqrWyMO9ds5lDP45CKMEw/pVonwKm9jJoDyipd2H3Vc+mIDd
+ 2TKaS8P/pMN1ta1Letyd3LaSmJzn9UmePXvDdcM9gP7wyfaCO0OoNAqNi7MhEYY2hvlE
+ wn2dugs4oD/TNrUzhgBHo79XxSxR+3Fme57x5yWtFr3WksdfLEeu3SK5r6xrVaUnA+Ij
+ rXw2stqIYJj813rwwTXgDnkGdUyC2/vQFSSecLN2D6JQwTuhLJDvU7/T0PwbBnDpaz5x
+ FdHjmjsQkKB3lBqpPZJz4p3gQXTawl7x3qiYhlwGLR031uQS5i3qtFFCh8LpzPDPpwoy
+ JPMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=YAl0tecVsURCuewdLjQ48RaCrF96ohlsENSIUfpsU+w=;
+ b=MwwUwjR0SC9J7+RgAn3sy2WyMK2S1XE/KzASAiPom09i63anoSumoueWJmlfgLrQKE
+ alUBIc7/l1TIxXR2/sSpB36DI8z5d0eNRVjfQ3eqfIbcyAmXS4HHoBpwgllaQYYq+I7K
+ UxMSYXqw1BNtybZTKgb9thZQlQHawfKPjD0FKLeJpfxnMcts/md2+GdF1yNgjX4E0hq2
+ Dx0T+wGDVhlimkLOWXo/Ts1ZesadpmiBvA9XlF8AnBZ6FtMexm2UUlXTsrTBmQfagiuR
+ JKw3rZJ0pmC4Uv5bZJyFUum9HznJ3JK6TPjX8e9HBnu0WeLSU1gK2rAgRRQB3HhuUCv/
+ AGvA==
+X-Gm-Message-State: AOAM532v4n3QRTDlKoq8kOHV3zGlwfK2z4wCQPrhk/dk4hnAC8pp7N6U
+ hYQcMOeLGnv0XzWpyFQv90F4uQ==
+X-Google-Smtp-Source: ABdhPJxtamYIDVXm4aGyKgQ9cjhesv/FKnN4U2mpSB4roy/h9H0baZIpnVLxCyBEEchu2j6Kvww+UA==
+X-Received: by 2002:a5d:4051:: with SMTP id w17mr531965wrp.24.1603907050586;
+ Wed, 28 Oct 2020 10:44:10 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f13sm438798wrp.12.2020.10.28.10.44.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 28 Oct 2020 10:44:09 -0700 (PDT)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5827D1FF7E;
+ Wed, 28 Oct 2020 17:44:08 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] meson.build: fix building of Xen support for aarch64
+Date: Wed, 28 Oct 2020 17:44:06 +0000
+Message-Id: <20201028174406.23424-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <e7d2fef8-a697-398e-4b3b-bf247aac01a5@redhat.com>
-Received-SPF: pass client-ip=216.71.145.153;
- envelope-from=anthony.perard@citrix.com; helo=esa2.hc3370-68.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 13:19:35
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x442.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,37 +86,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Masami Hiramatsu <masami.hiramatsu@linaro.org>, Paul Durrant <paul@xen.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Anthony PERARD <anthony.perard@citrix.com>
-From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-On Tue, Oct 27, 2020 at 01:33:32PM -0400, John Snow wrote:
-> On 10/27/20 11:40 AM, Anthony PERARD wrote:
-> > From: Anthony PERARD <anthony.perard@citrix.com>
-> > 
-> > This is to allow IDE disks to be unplugged when adding to QEMU via:
-> >      -drive file=/root/disk_file,if=none,id=ide-disk0,format=raw
-> >      -device ide-hd,drive=ide-disk0,bus=ide.0,unit=0
-> > 
-> > as the current code only works for disk added with:
-> >      -drive file=/root/disk_file,if=ide,index=0,media=disk,format=raw
-> > 
-> > Since the code already have the IDE controller as `dev`, we don't need
-> > to use the legacy DriveInfo to find all the drive we want to unplug.
-> > We can simply use `blk` from the controller, as it kind of was already
-> > assume to be the same, by setting it to NULL.
-> > 
-> > Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-> 
-> Acked-by: John Snow <jsnow@redhat.com>
-> 
-> Do you need me to send a PR for this?
+Xen is supported on aarch64 although weirdly using the i386-softmmu
+model. Checking based on the host CPU meant we never enabled Xen
+support. It would be nice to enable CONFIG_XEN for aarch64-softmmu to
+make it not seem weird but that will require further build surgery.
 
-No, that's fine, I can do the PR since it's all xen code.
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Masami Hiramatsu <masami.hiramatsu@linaro.org>
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul@xen.org>
+Fixes: 8a19980e3f ("configure: move accelerator logic to meson")
+---
+ meson.build | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Thanks,
-
+diff --git a/meson.build b/meson.build
+index 835424999d..f1fcbfed4c 100644
+--- a/meson.build
++++ b/meson.build
+@@ -81,6 +81,8 @@ if cpu in ['x86', 'x86_64']
+     'CONFIG_HVF': ['x86_64-softmmu'],
+     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
+   }
++elif cpu in [ 'arm', 'aarch64' ]
++  accelerator_targets += { 'CONFIG_XEN': ['i386-softmmu'] }
+ endif
+ 
+ ##################
 -- 
-Anthony PERARD
+2.20.1
+
 
