@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C08FE29CE62
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 07:42:29 +0100 (CET)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EA9929CE63
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 07:42:30 +0100 (CET)
+Received: from localhost ([::1]:33196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXfAC-0004gR-BU
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 02:42:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
+	id 1kXfAD-0004hm-Hr
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 02:42:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
- id 1kXf8N-0003hn-UT; Wed, 28 Oct 2020 02:40:36 -0400
-Received: from mail-ua1-x943.google.com ([2607:f8b0:4864:20::943]:36259)
+ id 1kXf8P-0003hq-3b; Wed, 28 Oct 2020 02:40:37 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36551)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <a.tarasenko@gmail.com>)
- id 1kXf8M-00087k-68; Wed, 28 Oct 2020 02:40:35 -0400
-Received: by mail-ua1-x943.google.com with SMTP id v27so1235074uau.3;
- Tue, 27 Oct 2020 23:40:30 -0700 (PDT)
+ id 1kXf8M-00087v-6A; Wed, 28 Oct 2020 02:40:36 -0400
+Received: by mail-pf1-x442.google.com with SMTP id w65so2355748pfd.3;
+ Tue, 27 Oct 2020 23:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/6lGCKv1qN49FzDbD7GV2yvh+sh0KjfqaNQnobByxP0=;
- b=OE7WuGnZReY8QlbSToovROFac2mGCXxPJNPT0VUDTC8ZSuI1L+C/OLM5g+ZG3H4lCA
- BL1w956honUD1xsSW8IejHv+OiGBAFCW3A8qVkD+RBjeLClA6zxSuYBiGuezwQiZwXGY
- TTHtfRlUSav/fgxULTcbfMIIbLr4deLhSfS1i9zIZNb2rQ/gNoV4nM05jvReF1zkIm1e
- W3/8H6eY5xApyy2nMJBEZk9bBpVKZPsGpex2tAyM8JstX+nGZ3MvwuXDkbS0nusG8MIW
- McLUWrTWUUQRx6MsdyKr7dZSY3Lp5CcuwgTN34i+6GSWvoIdYg2MFR0bnII8jyD1QUzd
- GT7w==
+ :cc; bh=eOVki/qhtQzGI+9H+/voocknPcGuCFzb0Z5gaU2P4wI=;
+ b=CTpvjjH6yfCkO65rDYMPC99pIaUqhCGbOAHnlCkNk3MlcSj9bCyxTfuYFwPZ4UfqIM
+ CtNYh3Kff5YAIvXN9V4ADIXsCSYnJyEVJXvU1o2dL2zfeUIbL9CiP+k/LEglGcZFkwPm
+ sJHW2ShzAIhCELovoLhw7guzSvQBlPsVY/cSvLbWedOuBt36Xs8j+i5tHq75BVxVmSOP
+ eeDxNgYFyw8dc2A/5l9NncRkksdZsRse8GAuHIhr77rrhtq4m4PzSNDKHPDM+DEI28EP
+ ZOmmldS81PUqYbv2b9dkcujwRpKCCc3Fq3OMkjVwxFMVYZG0VpoIzG9Fff/WPAL7x22l
+ ltFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=/6lGCKv1qN49FzDbD7GV2yvh+sh0KjfqaNQnobByxP0=;
- b=cqAP4CLrApLPULbsSF9+uvrYWP2sxrtdw/CIscWfUkzFQRyd5x2aqh+HNAUhH7L02x
- k8k9pPxXenh3HcR3QzNgBmJ3IM7ukKcCv9btR9+Le7PGs+fRbYXMcWHWMMXZx4mO8LQC
- DxezTTAq6IbvblnxSRyRUl10XtknlgnekASGt9jOALtUse7i4IYpXzf1hh0HCKRwrU/w
- /rOqJNI/wy25G2X/aDkj/HiFez6APhJFFxkJnOj3ZFOCj4JCS8XAAeoU4LHYGGVWT0mB
- S5WniQHpwQPGxadY69dS+zQhk4bTsTJtO2WbZiaQej8wE2DNcZUyhStAzpc39kzx2jpP
- tqHw==
-X-Gm-Message-State: AOAM532gJTW8akKX8t2Cf7lYIu0r+9fNi51p8RBLgKS1dQ91jQIJPDJW
- EgIgWxSkH8xwP5i9b9w4cJpWXWcNpjVnryX1tjg=
-X-Google-Smtp-Source: ABdhPJwHE3K0T9VE6tD5Cj3/0PhrfzmlE5XkqrD1csE4uFG+JKEqGZa4HrxJu+7WP2AJ7cjGd+ArKiwrkAPmGbb4mqI=
-X-Received: by 2002:a9f:3f4f:: with SMTP id i15mr3793947uaj.7.1603867229543;
- Tue, 27 Oct 2020 23:40:29 -0700 (PDT)
+ bh=eOVki/qhtQzGI+9H+/voocknPcGuCFzb0Z5gaU2P4wI=;
+ b=bkGGCRM6Cw2eEg54rG7M1K/H8WtDbfQRxzetdi4ZAHlJxQ1mRDd7qYOL7mXIvqKMsH
+ P4WzjO0sJecme66CxJFEnaFUK/ViTdoy837g76acZ+1L8GM/JVz8kFA6ciGda2i4qOgz
+ Spf26nYc18JjUhACKhMF+v2TH4ZdhCQGDGWBFL7v7lBJu9uifJyHFOvy7cIX5CBhAndW
+ bMGbcr7Kyl+v+PQbWq7mk6S2eV/hkUUBUsqxNdnho8RrlV8E8mzyH+Y3a1L9r1Bi0r5/
+ 3nYOUz8ZorGCv0Gn2m5bgMuN3RnYILux83I42KDktXooTIJl9tpo0r9Lzh1eBVGKG5cp
+ 385w==
+X-Gm-Message-State: AOAM530cQQVn596jJhCe3XPBzm80twQm9/B9i2uYAKoUJ5S4ihw2mP8Q
+ W8HE7Ma2w/Rerty3SBUC0g9KnRvE6/zCdpu1K0CFbAaj
+X-Google-Smtp-Source: ABdhPJzPPb6JoH262b8oRnRU51VOKrg/Eob/cMKBybKztH8n7Afa+zCd/sHtymVdKqFAX1/HiUEKM3N0yRDDxxomiY8=
+X-Received: by 2002:a05:6214:18cf:: with SMTP id
+ cy15mr6517000qvb.53.1603867206374; 
+ Tue, 27 Oct 2020 23:40:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
  <20201028041819.2169003-6-kuhn.chenqun@huawei.com>
@@ -53,9 +54,9 @@ Date: Wed, 28 Oct 2020 07:39:54 +0100
 Message-ID: <CAAM0arN_5_c-2A2mtO8cSPQbX161a0N0A0obPHPmZa9xburo2A@mail.gmail.com>
 Subject: Re: [PATCH 5/9] target/sparc/translate: silence the compiler warnings
 To: Chen Qun <kuhn.chenqun@huawei.com>
-Content-Type: multipart/alternative; boundary="0000000000007be18105b2b5706a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::943;
- envelope-from=a.tarasenko@gmail.com; helo=mail-ua1-x943.google.com
+Content-Type: multipart/alternative; boundary="0000000000001bcfb505b2b56fd2"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=a.tarasenko@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,7 +84,7 @@ Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007be18105b2b5706a
+--0000000000001bcfb505b2b56fd2
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -138,7 +139,7 @@ Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
 >
 >
 
---0000000000007be18105b2b5706a
+--0000000000001bcfb505b2b56fd2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -204,5 +205,5 @@ ore instructions<br>
 <br>
 </blockquote></div></div></div>
 
---0000000000007be18105b2b5706a--
+--0000000000001bcfb505b2b56fd2--
 
