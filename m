@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C833629D059
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:33:49 +0100 (CET)
-Received: from localhost ([::1]:35390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5580829D05B
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:34:02 +0100 (CET)
+Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmWK-0007Mr-Jn
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:33:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60928)
+	id 1kXmWX-0007nR-C0
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:34:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXmSz-00061U-B8
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:30:21 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:39931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXmSx-0008Hh-5F
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:30:20 -0400
-Received: by mail-ej1-x643.google.com with SMTP id bn26so7494710ejb.6
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 07:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2KjXWGQ8Qccuzl4ZQQ2J2m7nUEdoDGyeSLeZ1+V8b6U=;
- b=oUpnq3WM+KmZ8CbPeLptYatyXOd5+JOs9nUgYr1aEbD8yszUGy0ou2BTIrokyT6v5E
- aS4ZeIsZSEh0VIAkjbOD27j8SVtW66q4LfDFIa96v1sISlIwqgkWNb/5KR7G/7tE1sS4
- A7DKliEq+ookSZHIiX2xp5jz3hK74Hx3zK7dYrUXqW90qFPfHErlba22RSpDow4gaCkz
- +7nkOXZALgUaYSWsrtpAF8KWiLrCARuh2C3uIeUA3BeoofSwi2ouIKTy97xvhhOxWVjI
- O+6rCCbWOk6huNHOT2bdDUILrWSKBhbndWD2FCgh59bFbQpaJfP33xs0tM9oPBHpkup7
- Oubw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2KjXWGQ8Qccuzl4ZQQ2J2m7nUEdoDGyeSLeZ1+V8b6U=;
- b=ighQgZjmXq9/A3ZAUsMskTg7/IhK7lcr7dFDkTu8tqZsc7Y0bV+TILCEKLBn2aJjx0
- vydRihFxNoIbSmmbDz0Zdv1wpXD1zmByi7uqAe8/4yir8P3aWXtb5sdBDdP57seqUD2Z
- 3AVpQ2sRSf3SroRD15h3GGf/kMVef1gYXLeRtr47u9JwRZQza9XzAMryoT80GBEuY/LR
- qNBKpx4LftaqB1svwB8sEZKNzAjWPpQAPmLm+Qd7sZ8vJMEsNlyDdzPtawVUGqZ4cGdK
- j6VaXXVPJaCPKOlsSeiDDL53Xs5lfuJTIWdoN3gmvDe+A0ryVA15wvIaTZpZkEsQYqU5
- 3TRQ==
-X-Gm-Message-State: AOAM533IDREXlQt8xMBBME0bbS6KmynpuVM6Op0TTVaj5hzN2HNEZgUt
- 2CEzKXy4LKmodsM8c/OlI8oc9Z6k07QzRIcCDssbzQ==
-X-Google-Smtp-Source: ABdhPJzuKoqqm4aCkMOLxtx1SN27r9l/HohBAPZ7hiPorjyutym0ayOzvyVrhM+nfrs6yf4VQDBceEAr9KfEA2K6GlY=
-X-Received: by 2002:a17:906:7254:: with SMTP id
- n20mr7460881ejk.382.1603895415567; 
- Wed, 28 Oct 2020 07:30:15 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kXmTX-0006Qy-Os
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:30:56 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1kXmTW-00004w-8K
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:30:55 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603895451;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jFLImShH5iPiQEn2VgdaRkaiuAOx5qTZef3TG6et7So=;
+ b=Wp6xBnwoLI8FHNSUBww+EUcbfe6PiTFhVuOEuQyPXDSxH3SpB6LXnVg5iGTsihac2BffAM
+ aVmmnARilRPtj+Vgduagegx94jREE7Vc4pLU/cqX8PIo4IqpDAm7fLZeuN/K/4lJdCtb3i
+ DRK5eXENsIkS02AlSw0f2ZLHpfPtf0I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-fpO8at3IPAefVWqOzQEKYw-1; Wed, 28 Oct 2020 10:30:44 -0400
+X-MC-Unique: fpO8at3IPAefVWqOzQEKYw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 663DB195CC40;
+ Wed, 28 Oct 2020 14:30:43 +0000 (UTC)
+Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 919105DA33;
+ Wed, 28 Oct 2020 14:30:33 +0000 (UTC)
+Subject: Re: [PATCH 18/25] block/nvme: Pass AioContext argument to
+ nvme_add_io_queue()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201027135547.374946-1-philmd@redhat.com>
+ <20201027135547.374946-19-philmd@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <4afb898f-c179-58f0-04f7-72ca5c4ae78c@redhat.com>
+Date: Wed, 28 Oct 2020 15:30:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <160385090886.20017.13382256442750027666.stgit@gimli.home>
- <20201028094021.GB3701@work-vm>
-In-Reply-To: <20201028094021.GB3701@work-vm>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 28 Oct 2020 14:30:04 +0000
-Message-ID: <CAFEAcA8CDjcg0J+cfksp7obY6okn1m7ocOWu=DL-v2vZ4A3zjw@mail.gmail.com>
-Subject: Re: [PATCH] Revert series: virtiofsd: Announce submounts to the guest
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201027135547.374946-19-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,39 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Neo Jia <cjia@nvidia.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Kirti Wankhede <kwankhede@nvidia.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Oct 2020 at 09:40, Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> * Alex Williamson (alex.williamson@redhat.com) wrote:
-> > This reverts the following commits due to their basis on a bogus
-> > linux kernel header update:
-> >
-> > c93a656f7b65 ("tests/acceptance: Add virtiofs_submounts.py")
-> > 45ced7ca2f27 ("tests/acceptance/boot_linux: Accept SSH pubkey")
-> > 08dce386e77e ("virtiofsd: Announce sub-mount points")
-> > eba8b096c17c ("virtiofsd: Store every lo_inode's parent_dev")
-> > ede24b6be798 ("virtiofsd: Add fuse_reply_attr_with_flags()")
-> > e2577435d343 ("virtiofsd: Add attr_flags to fuse_entry_param")
-> > 2f10415abfc5 ("virtiofsd: Announce FUSE_ATTR_FLAGS")
-> > 97d741cc96dd ("linux/fuse.h: Pull in from Linux")
-> >
-> > Cc: Max Reitz <mreitz@redhat.com>
-> > Cc: Stefan Hajnoczi <stefanha@redhat.com>
-> > Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
->
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
->
-> Peter: Can you take this directly please
+Hi Philippe,
 
-Applied to master, thanks.
+On 10/27/20 2:55 PM, Philippe Mathieu-Daudé wrote:
+> We want to get ride of the BlockDriverState pointer at some point,
+s/ride/rid
+> so pass aio_context along.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  block/nvme.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 68f0c3f7959..a0871fc2a81 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -644,7 +644,9 @@ static void nvme_handle_event(EventNotifier *n)
+>      nvme_poll_queues(s);
+>  }
+>  
+> -static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+> +/* Returns true on success, false on failure. */
+belongs to another patch, still not a big fan of bool ;-)
+> +static bool nvme_add_io_queue(BlockDriverState *bs,
+> +                              AioContext *aio_context, Error **errp)
+>  {
+>      BDRVNVMeState *s = bs->opaque;
+>      unsigned n = s->queue_count;
+> @@ -653,8 +655,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+>      unsigned queue_size = NVME_QUEUE_SIZE;
+>  
+>      assert(n <= UINT16_MAX);
+> -    q = nvme_create_queue_pair(s, bdrv_get_aio_context(bs),
+> -                               n, queue_size, errp);
+> +    q = nvme_create_queue_pair(s, aio_context, n, queue_size, errp);
+>      if (!q) {
+>          return false;
+>      }
+> @@ -830,7 +831,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+>      }
+>  
+>      /* Set up command queues. */
+> -    if (!nvme_add_io_queue(bs, errp)) {
+> +    if (!nvme_add_io_queue(bs, aio_context, errp)) {
+>          ret = -EIO;
+>      }
+>  out:
+> 
+Besides
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
--- PMM
+Eric
+
 
