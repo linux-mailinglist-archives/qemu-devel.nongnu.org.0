@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCB829CDCE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:27:22 +0100 (CET)
-Received: from localhost ([::1]:58080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E5D29CDD1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:29:04 +0100 (CET)
+Received: from localhost ([::1]:34294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXd3R-0001yt-92
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:27:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43618)
+	id 1kXd55-0003p9-Rj
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:29:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kXcvj-0001qA-GT; Wed, 28 Oct 2020 00:19:23 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2053)
+ id 1kXcvg-0001nD-2o; Wed, 28 Oct 2020 00:19:20 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kXcvZ-0007bX-9h; Wed, 28 Oct 2020 00:19:23 -0400
+ id 1kXcvZ-0007bW-A0; Wed, 28 Oct 2020 00:19:19 -0400
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CLb1Y3FnlzhbXc;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CLb1Y3Xw2zhc6K;
  Wed, 28 Oct 2020 12:19:13 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS401-HUB.china.huawei.com
  (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Wed, 28 Oct 2020
- 12:18:58 +0800
+ 12:18:59 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 3/9] accel/tcg/user-exec: silence the compiler warnings
-Date: Wed, 28 Oct 2020 12:18:13 +0800
-Message-ID: <20201028041819.2169003-4-kuhn.chenqun@huawei.com>
+Subject: [PATCH 4/9] linux-user/mips/cpu_loop: silence the compiler warnings
+Date: Wed, 28 Oct 2020 12:18:14 +0800
+Message-ID: <20201028041819.2169003-5-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
 References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
@@ -58,47 +58,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, Riku Voipio <riku.voipio@iki.fi>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, ganqixin@huawei.com,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, Laurent
+ Vivier <laurent@vivier.eu>, zhang.zhanghailiang@huawei.com, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-../accel/tcg/user-exec.c: In function ‘handle_cpu_signal’:
-../accel/tcg/user-exec.c:169:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  169 |             cpu_exit_tb_from_sighandler(cpu, old_set);
-      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-../accel/tcg/user-exec.c:172:9: note: here
-  172 |         default:
+linux-user/mips/cpu_loop.c: In function ‘cpu_loop’:
+linux-user/mips/cpu_loop.c:104:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  104 |                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
+      |                        ^
+linux-user/mips/cpu_loop.c:107:17: note: here
+  107 |                 case 7:
+      |                 ^~~~
+linux-user/mips/cpu_loop.c:108:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  108 |                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
+      |                        ^
+linux-user/mips/cpu_loop.c:111:17: note: here
+  111 |                 case 6:
+      |                 ^~~~
+linux-user/mips/cpu_loop.c:112:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  112 |                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
+      |                        ^
+linux-user/mips/cpu_loop.c:115:17: note: here
+  115 |                 case 5:
+      |                 ^~~~
 
-This exception branch fall through the 'default' branch and run the 'g_assert_not_reached' statement.
-So we could use "fall through" instead of "NORETURN" here.
+Add the corresponding "fall through" comment to fix it.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
-Cc: Riku Voipio <riku.voipio@iki.fi>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 ---
- accel/tcg/user-exec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/mips/cpu_loop.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 4ebe25461a..330468e990 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -167,7 +167,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-              */
-             clear_helper_retaddr();
-             cpu_exit_tb_from_sighandler(cpu, old_set);
--            /* NORETURN */
-+            /* fall through */
- 
-         default:
-             g_assert_not_reached();
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 553e8ca7f5..cfe7ba5c47 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -104,18 +104,22 @@ void cpu_loop(CPUMIPSState *env)
+                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 case 7:
+                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 case 6:
+                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 case 5:
+                     if ((ret = get_user_ual(arg5, sp_reg + 16)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 default:
+                     break;
+                 }
 -- 
 2.27.0
 
