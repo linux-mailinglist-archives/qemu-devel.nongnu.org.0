@@ -2,94 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951FC29D063
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:41:30 +0100 (CET)
-Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF43429D075
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:55:50 +0100 (CET)
+Received: from localhost ([::1]:35786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmdj-0003Zr-J9
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:41:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35056)
+	id 1kXmrd-0003Y4-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:55:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXmbs-0002vi-8E
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:39:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXmbq-00016X-23
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:39:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603895969;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nzXQAwGrWmmBxNWVZggoJTaP84ND82hZ4GviCk8a8PA=;
- b=WfC+y7crbQDupZF/HW/zgK1II7JegQfNuTZK5l8OAG2BnOe7zPN1FmLwohKQ3yI94aw7ZF
- JdF3xGZmg0eWOKQmStfaTZPqUbTnRKTUlxc6wckf5tfLVskibYnIR3hWzKPx/CD932KMaq
- E4cChFNlVrGDS+YEOP/2e2NNF/F2XUc=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-347-KlhpIlZgMuqvQesjnTbjOA-1; Wed, 28 Oct 2020 10:39:25 -0400
-X-MC-Unique: KlhpIlZgMuqvQesjnTbjOA-1
-Received: by mail-wr1-f69.google.com with SMTP id i1so2166930wrb.18
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 07:39:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nzXQAwGrWmmBxNWVZggoJTaP84ND82hZ4GviCk8a8PA=;
- b=fqukA77jv5RlUQZ5OHpY4/qKn/cLmhFticizzAp2Ickk/Dn34aVf7gsFx3LXCY+H5t
- dcLRweqRk8WMK6ZVx5qPcRU2lcdV32oe21wozQ7fiOMtACSpi6KNnm7cvS77NkgMgRHx
- zHuLok8ysc2yBn/c5YntYuaD3AhrAfP8YVPFBCCHOgOStAObmVDsQOBXSisUN9unZUB3
- NzNC3EifAOIiE69iR6m3nev58KM5MAhOSA/Bhx79wumbUeSkHGoESHqs8K8WU/+ueXlF
- 2e28bmBkpu4CzP76RskOKp8PLN14ug8s7p4EMEj6GMSGaRSY6SZkoMfT9bY6H8vI7v8a
- uVIQ==
-X-Gm-Message-State: AOAM530ndiYHs1Zj0PODUkKz29NwZeE9f2ZudAJK/N5HZgEnceYCpYIS
- /dPgLl9Ytr2+D2I6SRYHGXLo2P0WCQK7FgBJeHXn3zSyqawiFIas3ed4lsXawa8Dqd2IG1JTugD
- Wobaw+VJsI4vbHHI=
-X-Received: by 2002:a5d:67c4:: with SMTP id n4mr9202968wrw.125.1603895963774; 
- Wed, 28 Oct 2020 07:39:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwsGNUHmBbKc8mr2qWjgitiDs+piLASWYjcnjy+jDfJ20DOJoiPeLzk3fEO3DzOhBKXq3/ADA==
-X-Received: by 2002:a5d:67c4:: with SMTP id n4mr9202944wrw.125.1603895963535; 
- Wed, 28 Oct 2020 07:39:23 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i14sm6482812wml.24.2020.10.28.07.39.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 07:39:22 -0700 (PDT)
-Subject: Re: [PATCH 0/4] qemu-storage-daemon: QAPIfy --chardev the stupid way
-To: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20201026101005.2940615-1-armbru@redhat.com>
- <d00ef574-b2c4-887c-6a37-79f6cf6eeae0@redhat.com>
- <87a6w63kbw.fsf@dusky.pond.sub.org> <20201028114625.GA7355@merkur.fritz.box>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <53ba80fe-8e4c-88c6-181d-f3b33bf3e9bc@redhat.com>
-Date: Wed, 28 Oct 2020 15:39:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1)
+ (envelope-from <prvs=563b96974=alistair.francis@wdc.com>)
+ id 1kXmpi-0001mM-CX; Wed, 28 Oct 2020 10:53:50 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:10510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=563b96974=alistair.francis@wdc.com>)
+ id 1kXmpe-00035L-T3; Wed, 28 Oct 2020 10:53:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1603896826; x=1635432826;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=gqN1q0ztY/K8RVas54tv6M76H9c7ztlUkarYiaGvMjo=;
+ b=Svg8a8d2L6Sa/2qjFgTa+1COmhYpbcan/W2Ptc/w0Em/fdnNtC3ucAwy
+ 76seA/t7ABL9yIYb5NEqt29+YnpWZ27Ll/LGar+tS3qKVzNk/a0KDRWPe
+ nBX3vim7IR0+bhI+bnG1TqoZk0oL1M7S96SLYDRDtVRkvVeSDrgWtaBSD
+ PeVJBKQKEGQC44Sal9fv/Ae9xur8Gpq+fAz/a/WL4Seerf33Icna3NhHP
+ I0IzY0i/aOQa7W9A96sRBt2FWp4jvNgh+MDNWVqxqyTqlEK+RqM+0i5Xt
+ Xfl8zoKj/8U7yEJiu1XYHR3kNzvS4eGB90lt/dqTIbuixKDod8luUIPRT g==;
+IronPort-SDR: dpCxKSoAqB4F7oDtlCRpBPiMB5TWrwn7Us0W9O2QRsVacfj6kD0Ldmn00gLUqltbLAPO6AGZXo
+ JfFsjVsSmCoJqP55MoLAWE9Y+nvBKjPpM0lH6eghhCOdxYrbaRkfakSC1JBnG0MQgsShTQ9VfK
+ TRPwPCsao9GBaxgr5Fq4duQWt3vpKtZpsq/bYdIyqJvP8lqCxTUSdny02gY/fKzprikepSpWyR
+ iyp5gk0DJXixUMRlZblyykuuDXiVJIbZT4Q7poxoz1yG2qGfGJxIms0+xOhVofQSfbNu/q+dat
+ 1Rg=
+X-IronPort-AV: E=Sophos;i="5.77,426,1596470400"; d="scan'208";a="151200349"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2020 22:53:42 +0800
+IronPort-SDR: 0GDFh3BZkpsvrNTc3Pbvz4uvaQ4yP0PFCJIccg8/BqpBmsSwAllAKWc7iGA/9VNjqaXVwIBGqe
+ A/Zt5E9TvwKefy0MToKYhX3zGQ3AGaaV7RfVUdVM7dH2akl3xzBXbBedRQpWGNRn7xMUdgXg6T
+ iCG7AeRCkjLKqwDRv7l/7+mweWm0+9ut4piU3IAtO3o3mkdXWoX2mwjV1IatoLzHNpGf4blhoa
+ dB0TTuIZSy2C3mU5rWcgc+lxCZZDAhGIs0zZfX1qyqJv0xNoiilz0zo3lvmUb+Y+pkjYBgNVl6
+ roeQjp80sHjjWsHk8j47ELeK
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2020 07:38:52 -0700
+IronPort-SDR: HVQq0fEz9xzhRh072atpqA3GVNB+QagwK7sUVP2+iD16oHMd4lrk5Z0NYT3VB0lSBehuTViCd6
+ jDC8hDi/wQ9eEqeanrR8kbwl2pbHJxy+3uHm+RwrLB7IUh2ewK5o80tDB4b2DhwzB9OfmURQfD
+ euJsiV8F2GlPXIodJEtLsARhvqea9P2Vxim/mmOkBFMRIz6s8A8bEFtMI3ANFEZzx0b3dvgUP2
+ 0V/YAocMHctfD1J0YjM0Ta+EQckLnzy96DzeZ3NMC1NV37/GCh7TRz8Xzvv/A6qRuXz7R+HtHe
+ oZ4=
+WDCIronportException: Internal
+Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.60.131])
+ by uls-op-cesaip02.wdc.com with ESMTP; 28 Oct 2020 07:53:43 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 0/5]  Fix the Hypervisor access functions
+Date: Wed, 28 Oct 2020 07:42:17 -0700
+Message-Id: <cover.1603896075.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201028114625.GA7355@merkur.fritz.box>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=563b96974=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 10:53:43
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,31 +90,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: marcandre.lureau@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: alistair.francis@wdc.com, richard.henderson@linaro.org, bmeng.cn@gmail.com,
+ palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/10/20 12:46, Kevin Wolf wrote:
-> I don't think this is the right thing to do at this point. Making more
-> use of QOM is an orthogonal problem and would only make solving this one
-> harder.
+Richard pointed out that the Hypervisor access functions don't work
+correctly, see:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg751540.html.
 
-Making more use of QOM will make this a non-problem.  You'll just use
-object-add and -object and, when you figure out the QOM schema, it will
-just work.
+This seris fixes them up by adding a new MMU index for the virtualised
+state.
 
-Paolo
+v2:
+ - Use only 6 MMU modes instead of 8
 
-> The problem we have and we're trying to solve is that we have
-> chardev-add (which has a QAPI schema) and -chardev (which doesn't). We
-> want to get an option that is described by the schema, doesn't duplicate
-> things and is still convenient to use.
-> 
-> Whether this option starts with -chardev or with -object doesn't really
-> make much of a difference. The QAPI schema you need behind it will be
-> almost or even exactly the same.
+Alistair Francis (5):
+  target/riscv: Add a virtualised MMU Mode
+  target/riscv: Set the virtualised MMU mode when doing hyp accesses
+  target/riscv: Remove the HS_TWO_STAGE flag
+  target/riscv: Remove the hyp load and store functions
+  target/riscv: Split the Hypervisor execute load helpers
 
+ target/riscv/cpu-param.h                |  10 +-
+ target/riscv/cpu.h                      |   7 +-
+ target/riscv/cpu_bits.h                 |   1 -
+ target/riscv/helper.h                   |   6 +-
+ target/riscv/cpu_helper.c               |  67 ++++++-------
+ target/riscv/op_helper.c                |  90 ++---------------
+ target/riscv/insn_trans/trans_rvh.c.inc | 127 +++++++-----------------
+ 7 files changed, 90 insertions(+), 218 deletions(-)
 
+-- 
+2.28.0
 
 
