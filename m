@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD13A29D0D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:46:50 +0100 (CET)
-Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4844629D0D6
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:49:59 +0100 (CET)
+Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnez-0007Cu-OX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:46:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50946)
+	id 1kXni2-0001mZ-Ae
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:49:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kXnaV-00024f-KE
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:42:13 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23932)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXnfN-0000Md-Oo
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:47:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kXnaS-0001O5-UM
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:42:11 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXnfL-000247-CF
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:47:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603899728;
+ s=mimecast20190719; t=1603900030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=uM9w+y2LttTOkTPRYemZHQ4TQKXbUq9poFDMMgUWzDY=;
- b=hh+Nwqeq3EQSM07tUeVnpkSOdDZfMzOMlOhItwPybzrDHY9oNtaAIaJc40hbuas1qheCu2
- hlwc9fifdQWTWspQjQhuIeGOlYzV9lVeCe85kRuHEhWyEUixoUFvWDwy8EC6Lr6XoC1dDr
- QxOmwNkOuUebvlLqrI9U/zOpJX0gM28=
+ bh=rz8j8C6W2bzUOXQgKe2ekdNR9YO2IP/ynZbns6b/Ta4=;
+ b=bDptbOFDV8c0G6ZmQC/SmKHM9AavzY9wCEuJqLnykSzCnivA84W2RENcRWdVjLFTn5dmqI
+ jPLcXCU4Vk9j66bii0EcM2vCPztc9uFJgmp8nmaK5TilYRMteAJWx+owK7Gm2PywsRUHUq
+ 2rpS3x4B0PQjp6U5iBbZ6qJmehNfQaA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-Wq_1L2JFOuO71JNISM2kpQ-1; Wed, 28 Oct 2020 11:42:06 -0400
-X-MC-Unique: Wq_1L2JFOuO71JNISM2kpQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-525-hBUjHnplMlqYOiEbofGvMg-1; Wed, 28 Oct 2020 11:47:07 -0400
+X-MC-Unique: hBUjHnplMlqYOiEbofGvMg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36A8C1099F67;
- Wed, 28 Oct 2020 15:42:04 +0000 (UTC)
-Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B26A85C1D7;
- Wed, 28 Oct 2020 15:41:59 +0000 (UTC)
-Date: Wed, 28 Oct 2020 09:41:59 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Matthew Rosato <mjrosato@linux.ibm.com>
-Subject: Re: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
-Message-ID: <20201028094159.619a4afd@w520.home>
-In-Reply-To: <ad19996f-b2fc-c8aa-2bc4-40b5b0cfb91c@linux.ibm.com>
-References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
- <CAFEAcA9pgxKY7Q8bHRR0MXvYkWAWjakJS=uo4V_Bs14zLLc-Jw@mail.gmail.com>
- <ad19996f-b2fc-c8aa-2bc4-40b5b0cfb91c@linux.ibm.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA6EC1009E34;
+ Wed, 28 Oct 2020 15:47:05 +0000 (UTC)
+Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F37CF55785;
+ Wed, 28 Oct 2020 15:47:01 +0000 (UTC)
+Date: Wed, 28 Oct 2020 15:47:00 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 25/25] block/nvme: Fix use of write-only doorbells
+ page on Aarch64 arch
+Message-ID: <20201028154700.GR231368@stefanha-x1.localdomain>
+References: <20201027135547.374946-1-philmd@redhat.com>
+ <20201027135547.374946-26-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201027135547.374946-26-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="qOEfHYdX8LquYLAx"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -83,140 +82,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Artem Polyakov <artemp@nvidia.com>,
- Peter Maydell <peter.maydell@linaro.org>, Zhengui li <lizhengui@huawei.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Neo Jia <cjia@nvidia.com>,
- Cornelia Huck <cohuck@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Amey Narkhede <ameynarkhede03@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Oct 2020 11:20:36 -0400
-Matthew Rosato <mjrosato@linux.ibm.com> wrote:
+--qOEfHYdX8LquYLAx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On 10/28/20 11:07 AM, Peter Maydell wrote:
-> > On Mon, 26 Oct 2020 at 19:39, Alex Williamson
-> > <alex.williamson@redhat.com> wrote: =20
-> >>
-> >> The following changes since commit a5fac424c76d6401ecde4ecb7d846e656d0=
-d6e89:
-> >>
-> >>    Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pu=
-ll-request' into staging (2020-10-26 10:33:59 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20201026.0
-> >>
-> >> for you to fetch changes up to 5219bf8e0fa86573427aa8812bbfe93d83c3d66=
-4:
-> >>
-> >>    vfio: fix incorrect print type (2020-10-26 12:07:46 -0600)
-> >>
-> >> ----------------------------------------------------------------
-> >> VFIO update 2020-10-26
-> >>
-> >>   * Migration support (Kirti Wankhede)
-> >>   * s390 DMA limiting (Matthew Rosato)
-> >>   * zPCI hardware info (Matthew Rosato)
-> >>   * Lock guard (Amey Narkhede)
-> >>   * Print fixes (Zhengui li)
-> >> =20
-> >=20
-> > I retried the merge of this after the revert from Max, and it
-> > no longer gives merge conflicts, but it has compile errors:
-> >=20
-> > On FreeBSD, OpenBSD, NetBSD, OSX and Windows:
-> >=20
-> > In file included from ../src/hw/arm/sysbus-fdt.c:35:
-> > In file included from
-> > /usr/home/qemu/qemu-test.ffr5Sp/src/include/hw/vfio/vfio-platform.h:20:
-> > /usr/home/qemu/qemu-test.ffr5Sp/src/include/hw/vfio/vfio-common.h:201:3=
-7:
-> > warning: declaration of 'struct vfio_iommu_type1_info' will not be
-> > visible outside of this function [-Wvisibility]
-> > bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
-> >                                      ^ =20
+On Tue, Oct 27, 2020 at 02:55:47PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> qemu_vfio_pci_map_bar() calls mmap(), and mmap(2) states:
 >=20
-> Alex, for this one I think the definition of
-> bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
->                               unsigned int *avail);
+>   'offset' must be a multiple of the page size as returned
+>    by sysconf(_SC_PAGE_SIZE).
 >=20
-> in vfio-common.h needs to be behind the #ifdef CONFIG_LINUX as that's=20
-> the only case where we include vfio.h where vfio_iommu_type1_info is=20
-> defined.
-
-Thank you.  I'll update and repost, I think the others below are
-resolved using HWADDR_PRIx and PRIx64, plus removing the redundant
-parens.  Thanks,
-
-Alex
-
-
-> > On clang x86-64 Linux:
-> >=20
-> > ../../hw/vfio/migration.c:737:42: error: equality comparison with
-> > extraneous parentheses [-Werror,-Wparentheses-equality]
-> >      if ((vbasedev->migration->vm_running =3D=3D running)) {
-> >           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
-> > ../../hw/vfio/migration.c:737:42: note: remove extraneous parentheses
-> > around the comparison to silence this warning
-> >      if ((vbasedev->migration->vm_running =3D=3D running)) {
-> >          ~                                ^         ~
-> > ../../hw/vfio/migration.c:737:42: note: use '=3D' to turn this equality
-> > comparison into an assignment
-> >      if ((vbasedev->migration->vm_running =3D=3D running)) {
-> >                                           ^~
-> >                                           =3D
-> >=20
-> > On AArch32:
-> >=20
-> > ../../hw/vfio/migration.c: In function 'vfio_mig_access':
-> > ../../hw/vfio/migration.c:58:68: error: format '%lx' expects argument
-> > of type 'long unsigned int', but argument 5 has type 'off_t {aka long
-> > long int}' [-Werror=3Dformat=3D]
-> >           error_report("vfio_mig_%s %d byte %s: failed at offset 0x%lx,=
- err: %s",
-> >                                                                    ~~^
-> >                                                                    %llx
-> > cc1: all warnings being treated as errors
-> >=20
-> >=20
-> > On PPC64:
-> >=20
-> > ../../hw/vfio/common.c: In function =E2=80=98vfio_dma_unmap_bitmap=E2=
-=80=99:
-> > ../../hw/vfio/common.c:400:9: error: format =E2=80=98%llx=E2=80=99 expe=
-cts argument of
-> > type =E2=80=98long long unsigned int=E2=80=99, but argument 2 has type =
-=E2=80=98__u64=E2=80=99
-> > [-Werror=3Dformat=3D]
-> >           error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->=
-size);
-> >           ^
-> > ../../hw/vfio/common.c: In function =E2=80=98vfio_get_dirty_bitmap=E2=
-=80=99:
-> > ../../hw/vfio/common.c:1003:17: error: format =E2=80=98%llx=E2=80=99 ex=
-pects argument
-> > of type =E2=80=98long long unsigned int=E2=80=99, but argument 2 has ty=
-pe =E2=80=98__u64=E2=80=99
-> > [-Werror=3Dformat=3D]
-> >                   range->iova, range->size, errno);
-> >                   ^
-> > ../../hw/vfio/common.c:1003:17: error: format =E2=80=98%llx=E2=80=99 ex=
-pects argument
-> > of type =E2=80=98long long unsigned int=E2=80=99, but argument 3 has ty=
-pe =E2=80=98__u64=E2=80=99
-> > [-Werror=3Dformat=3D]
-> >=20
-> > thanks
-> > -- PMM
-> >  =20
+> In commit f68453237b9 we started to use an offset of 4K which
+> broke this contract on Aarch64 arch.
 >=20
+> Fix by mapping at offset 0, and and accessing doorbells at offset=3D4K.
+>=20
+> Fixes: f68453237b9 ("block/nvme: Map doorbells pages write-only")
+> Reported-by: Eric Auger <eric.auger@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> ---
+>  block/nvme.c | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--qOEfHYdX8LquYLAx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZknQACgkQnKSrs4Gr
+c8h2DwgAjNjz0K2OgrcklNmJdzhV4iGOeXuHA1531gHQq7o2LZ/jJpgbXdLL8FfS
++QgD57UcGpbqoik1md2ZwXY3r96DJGFiSUrmOd+ceAg9Z2IHeXJkqPfAv2W+mE7g
+Pk6iKL9AAwhNeHErKYn4h/VamyWTK1bqPqOA/lY9/5AoS1g/aFLwXwKfHo3fRwIf
+qxk0iOzUVncyiMKX2fz+OkoCRBHH0jchHWqEONkhuAQE59Hx1xEaVQEIBIZjCj6e
+e644MUCQB3i/1pLNyxwKa+AbSdreOnpTLUlTvfNeN3JqTSwgGur3TOk/7DSjH9Dr
+NZM+AWSXVe2BG7816OIGhBYL3qcieQ==
+=hNtp
+-----END PGP SIGNATURE-----
+
+--qOEfHYdX8LquYLAx--
 
 
