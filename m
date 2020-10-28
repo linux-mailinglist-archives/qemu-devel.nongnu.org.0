@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7B3B29CDD6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:31:21 +0100 (CET)
-Received: from localhost ([::1]:38306 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C3729CDDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:36:04 +0100 (CET)
+Received: from localhost ([::1]:54050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXd7I-0005WW-QC
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:31:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43616)
+	id 1kXdBr-0003mr-JU
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kXcvi-0001pF-Fs; Wed, 28 Oct 2020 00:19:22 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2113)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kXd6N-00066S-IG; Wed, 28 Oct 2020 00:30:23 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:53649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kXcve-0007cx-If; Wed, 28 Oct 2020 00:19:22 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CLb1f0d8mz6y74;
- Wed, 28 Oct 2020 12:19:18 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Wed, 28 Oct 2020
- 12:19:04 +0800
-From: Chen Qun <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 7/9] ppc: silence the compiler warnings
-Date: Wed, 28 Oct 2020 12:18:17 +0800
-Message-ID: <20201028041819.2169003-8-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
-References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kXd6K-0002a2-Ov; Wed, 28 Oct 2020 00:30:23 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CLbGG6TNhz9sWH; Wed, 28 Oct 2020 15:30:14 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1603859414;
+ bh=4adRTVELwxF6Sc7ccXKYfneCpG4KJ5uE0zT9+mltIzg=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=eg2DvP/cbGfPcgQENEFXjQuefYsOc9HKpJI7YYqfiFPv0ZAn3zl0WoCfxeaa2XgGM
+ dJjmN9WBdnw1VFbdicBIZWfli3dKL2bf+Vg5L2WEKYHMWSe4j7xCxtSwe1z1neFes8
+ X51tQN12MRO/Cf09qXhkKqteySWosji7d8VDqJK0=
+Date: Wed, 28 Oct 2020 15:27:58 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH] target/ppc/excp_helper: Add a missing break for
+ POWERPC_EXCP_HISI
+Message-ID: <20201028042758.GB5604@yekko.fritz.box>
+References: <20201028041620.2168707-1-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 00:19:14
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MfFXiAuoTsnnDAfZ"
+Content-Disposition: inline
+In-Reply-To: <20201028041620.2168707-1-kuhn.chenqun@huawei.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,44 +60,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chen Qun <kuhn.chenqun@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>, zhang.zhanghailiang@huawei.com,
- ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, clg@kaod.org, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-hw/ppc/ppc.c: In function ‘ppc6xx_set_irq’:
-hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  118 |             if (level) {
-      |                ^
-hw/ppc/ppc.c:123:9: note: here
-  123 |         case PPC6xx_INPUT_INT:
-      |         ^~~~
 
-Add the corresponding "fall through" comment to fix it.
+--MfFXiAuoTsnnDAfZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
-Cc: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/ppc.c | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, Oct 28, 2020 at 12:16:20PM +0800, Chen Qun wrote:
+> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warn=
+ing:
+> ../target/ppc/excp_helper.c: In function =E2=80=98powerpc_excp=E2=80=99:
+> ../target/ppc/excp_helper.c:529:13: warning: this statement may fall thro=
+ugh [-Wimplicit-fallthrough=3D]
+>   529 |         msr |=3D env->error_code;
+>       |         ~~~~^~~~~~~~~~~~~~~~~~
+> ../target/ppc/excp_helper.c:530:5: note: here
+>   530 |     case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer except=
+ion         */
+>       |     ^~~~
+>=20
+> A break statement may be required to enter this exception.
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 
-diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-index 4a11fb1640..f9eb8f21b4 100644
---- a/hw/ppc/ppc.c
-+++ b/hw/ppc/ppc.c
-@@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
-             } else {
-                 cpu_ppc_tb_stop(env);
-             }
-+            /* fall through */
-         case PPC6xx_INPUT_INT:
-             /* Level sensitive - active high */
-             LOG_IRQ("%s: set the external IRQ state to %d\n",
--- 
-2.27.0
+This change is incorrect.  We definitely need the fallthrough to set
+srr[01] properly.  So the correct fix is to annotate the fallthrough,
+not remove it.
 
+>=20
+> ---
+> I guess there's a break missing in 'POWERPC_EXCP_HISI' branch,
+> just like the 'POWERPC_EXCP_ISI' branch.
+> ---
+>  target/ppc/excp_helper.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+> index a988ba15f4..5e69ac1b33 100644
+> --- a/target/ppc/excp_helper.c
+> +++ b/target/ppc/excp_helper.c
+> @@ -527,6 +527,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int =
+excp_model, int excp)
+>          break;
+>      case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage excep=
+tion */
+>          msr |=3D env->error_code;
+> +        break;
+>      case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception    =
+     */
+>      case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception   =
+     */
+>      case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception   =
+     */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--MfFXiAuoTsnnDAfZ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+Y804ACgkQbDjKyiDZ
+s5KYbRAAj9x5sKKZDO1UtCkxSmrMkCgdFPK/7lVbDwWM7RlJqU4XQ0sJmGh8/BXL
+v806PJShiabkjXNUcKJeqKT935BTgQodrVZEU10a0Q5Ef2fQzgO+IRuw3n3q8oyi
+A0IYeDr/rbwSLYoMua2H5f1mxI5YeiAIdnb4hkxYyNY0Y0Yj0nv1NMIKm0cWzW01
+W/oiVYaBMxHLE4FP5uPQG5bYmjD0knjspGHJYHRtjAJQ7UtKKGxWCI4XXec5PmOF
+gtcFGiliBDOtfARroyS8ibZUkFl5Do6WGMhifV1isnuNkQXwb5PGEzy/+XACLhyI
+WjaK/4DLex2dMUU6hZBwq4vwWLKr6j7kOQqdvSfBCVQ2mVvutDXePnn0thpPTwb3
+mgiuYcJeTOlr4a7GM/wyWPOFtTZ6DvmJQQ0jFOOsvGbphShBkt5mnx58KCu/UtVs
+zs4YP3u59RCzMzb5JudXSnb60M9r0eMgIAs2PeYka43NMlxoGmT5KoPMDfJE3foz
+JW6dntU8MCYn7b3I8rYziYXwBIwPcWH0AG4kQMBbpnb1jXcr6kz7o+Bt1lCxxaop
+bhI1Sa7qWxC7D+D29S+XwAOBTjQai1krqpCBIWf7EL35ddtw1aTvck+gMpp2k0kA
+6WAumk+DtLRMi43evTsOt+leruUIDNCgfKUwSpufkH264KA2llI=
+=inbc
+-----END PGP SIGNATURE-----
+
+--MfFXiAuoTsnnDAfZ--
 
