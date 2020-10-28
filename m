@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E594829CF43
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 10:43:33 +0100 (CET)
-Received: from localhost ([::1]:49820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C818529CF4A
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 10:46:33 +0100 (CET)
+Received: from localhost ([::1]:54060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXhzQ-0003wq-Vf
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 05:43:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
+	id 1kXi2K-0005oc-Sw
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 05:46:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXhxP-00037q-DR
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 05:41:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37172)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXi0l-0005MH-PN
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 05:44:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34430)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXhxN-0007DB-M9
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 05:41:27 -0400
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kXi0j-0008HN-D0
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 05:44:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603878085;
+ s=mimecast20190719; t=1603878292;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
- bh=mnfDY5A1c6DnquJrItcl5D0cQR1XSSAyeH2cchltdNM=;
- b=B0HTE2OHiPxtHZhaK/YH1Qjwy9gFn9crgHhSVxAQiNHmU2C8Pq0TtoRGvinC8Ca8LPX/Ba
- G837yUHO+xYdeoEAWI/KLmZLcHbgMbPatq/JCUisdZRaFoqyXAmg9EdBqk6hLUTRVNLH7Z
- AnhxZZQ/AFgd7obDswopGGQy2oRGa3s=
+ bh=6s+RgJ9xWggFwFv14laiPUBCAn7u/JQlYoH38Bw5PpI=;
+ b=dzt8fFaHKBi/6KN+BLRm3xJES/u/J2EriPiHsXI41Huzx6PWU92PImw1lhASM6gWQjZpCC
+ hW+65Im9f+KyiW5N+N8OGjmEOZ36QWPXphu12gTAwgUXEmdSudlGrvuw6HVuaHiYSZLEwB
+ 7RzvZPIELT3Y10nGmuZCpp+mmYjQKy4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-575-CTXCQq2nOSuDEy5cMvO97g-1; Wed, 28 Oct 2020 05:41:21 -0400
-X-MC-Unique: CTXCQq2nOSuDEy5cMvO97g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-351-aZtkWuYfMnKQ3XEBZWjvQw-1; Wed, 28 Oct 2020 05:44:47 -0400
+X-MC-Unique: aZtkWuYfMnKQ3XEBZWjvQw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 334A11882FAA;
- Wed, 28 Oct 2020 09:41:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94A1C1005513;
+ Wed, 28 Oct 2020 09:44:46 +0000 (UTC)
 Received: from dresden.str.redhat.com (unknown [10.40.192.249])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 19A2C5B4BA;
- Wed, 28 Oct 2020 09:41:07 +0000 (UTC)
-Subject: Re: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DD3B75D9EF;
+ Wed, 28 Oct 2020 09:44:38 +0000 (UTC)
+Subject: Re: [PATCH] Revert series: virtiofsd: Announce submounts to the guest
+To: Alex Williamson <alex.williamson@redhat.com>, peter.maydell@linaro.org
+References: <160385090886.20017.13382256442750027666.stgit@gimli.home>
 From: Max Reitz <mreitz@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
- <CAFEAcA8yBrUH-Bqe7oNhBKqtyeUNw0xVA9aKm8DJFE-WLzLTwQ@mail.gmail.com>
- <20201028091158.09df8b3c.cohuck@redhat.com>
- <63e1d8d3-65a1-cffd-2fdd-724ba2cc9248@redhat.com>
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
  /PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
@@ -71,20 +67,20 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
  /ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
  bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
  R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <547d2f25-948d-8f33-e8a0-05802c08773d@redhat.com>
-Date: Wed, 28 Oct 2020 10:41:06 +0100
+Message-ID: <c9c9111a-e268-c83d-6462-7f7a765f8446@redhat.com>
+Date: Wed, 28 Oct 2020 10:44:37 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.11.0
 MIME-Version: 1.0
-In-Reply-To: <63e1d8d3-65a1-cffd-2fdd-724ba2cc9248@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <160385090886.20017.13382256442750027666.stgit@gimli.home>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="8DudLuGe6rU37wN91MmPkDnd70cwfxgrR"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
@@ -109,22 +105,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Artem Polyakov <artemp@nvidia.com>, Zhengui li <lizhengui@huawei.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Neo Jia <cjia@nvidia.com>, Amey Narkhede <ameynarkhede03@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: cjia@nvidia.com, mjrosato@linux.ibm.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ kwankhede@nvidia.com, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> changing the flag in question.  As Adam wrote, I noted that I would thus
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--8DudLuGe6rU37wN91MmPkDnd70cwfxgrR
+Content-Type: multipart/mixed; boundary="jQWwnNMbOoZIok6YHmNrhvZCIgaUmquAF"
 
-*Alex, sorry :/
+--jQWwnNMbOoZIok6YHmNrhvZCIgaUmquAF
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+On 28.10.20 03:13, Alex Williamson wrote:
+> This reverts the following commits due to their basis on a bogus
+> linux kernel header update:
+>=20
+> c93a656f7b65 ("tests/acceptance: Add virtiofs_submounts.py")
+> 45ced7ca2f27 ("tests/acceptance/boot_linux: Accept SSH pubkey")
+> 08dce386e77e ("virtiofsd: Announce sub-mount points")
+> eba8b096c17c ("virtiofsd: Store every lo_inode's parent_dev")
+> ede24b6be798 ("virtiofsd: Add fuse_reply_attr_with_flags()")
+> e2577435d343 ("virtiofsd: Add attr_flags to fuse_entry_param")
+> 2f10415abfc5 ("virtiofsd: Announce FUSE_ATTR_FLAGS")
+> 97d741cc96dd ("linux/fuse.h: Pull in from Linux")
+>=20
+> Cc: Max Reitz <mreitz@redhat.com>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
+
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+
+Thanks again, and sorry.
+
+Max
+
+
+--jQWwnNMbOoZIok6YHmNrhvZCIgaUmquAF--
+
+--8DudLuGe6rU37wN91MmPkDnd70cwfxgrR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAl+ZPYUACgkQ9AfbAGHV
+z0D44wf8C9wPF7Mdx+NcEdjI3tBXbTxcuKj5N4qL4+Wgx8ojNyyDqCt4LEA2JhCc
+Tnvveh6dJ+r1jBDvdjouCMXhH9c/A1f1ItQV2pdYihZguLM+Kd6CIpavNfYDgwuK
+QlnZsTYiFfbABKcssyiveNYlHaZYiIJlZL7OeUMzkyGSz/TqdhQJVQlyUzEYg51T
+6TsIT5K0pfnpHLDLPKDw9t2aU7eU46pxoU8p5Oci7AOJlMyNbelDnfirRmAVdNl6
+/jMKC/lYrpLvVlFZbLDPOD8SDBPhnoERji/jxwh4LC4+sHVFXB0PdyF/w+bnq0PW
+ixq85u5uNhk63NDKjzUUw3JQ/lEiyA==
+=djcA
+-----END PGP SIGNATURE-----
+
+--8DudLuGe6rU37wN91MmPkDnd70cwfxgrR--
 
 
