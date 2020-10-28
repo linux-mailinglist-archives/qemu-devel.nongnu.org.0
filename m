@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B124F29CFC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 12:48:15 +0100 (CET)
-Received: from localhost ([::1]:44106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF32329CFCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 12:52:26 +0100 (CET)
+Received: from localhost ([::1]:52256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXjw6-0005b5-8s
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 07:48:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52984)
+	id 1kXk0A-0000nP-0C
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 07:52:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXjuc-0004oE-As
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 07:46:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51417)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXjw2-0005y6-SD
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 07:48:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXjua-0001vp-27
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 07:46:41 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXjw1-0002NX-0Q
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 07:48:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603885598;
+ s=mimecast20190719; t=1603885688;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=voRYXyZHXY+3LKEYJcMXDmvPN0doGt5O5LtLvOzrVuM=;
- b=LxLqKtnXSon2dvRBd5tK49Z6MreY3G2bZZhDAGuk0kIIG6aHSJjL6/pDHvn/Gjhm04F47G
- Wpv73g7bfA4zaWd7VvEtVWX5sUPPgD7BEQIjOrzLbfZy+YCtJpMFAgAfNu+T4eMQuXy14W
- Xm94i3QOEaTt2RXvFU9oWskj1hIVWt4=
+ bh=r/vkHU49zHJsz/CpjgiXCbHlRezQ4h9cKySvl7c56/w=;
+ b=IksqytLXeClpIdzJhiAzZ6GlfbwpR9kUQCARRY7kAAmxXsEXxarYY38pJDkut6EBaXAuJX
+ jZiICMNysbDMnYdj536+Uxfpgn/c6QyeNhL0E53VkY+p8yGMcSEVqK21fApAE4wAMLFYOr
+ 4VFv4YxwpO96IkSA5nFUpIN9UqQB0QE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-RQwqVP3wNP-yX4AKAPYz4A-1; Wed, 28 Oct 2020 07:46:36 -0400
-X-MC-Unique: RQwqVP3wNP-yX4AKAPYz4A-1
+ us-mta-9-8ADp144xOB2ufJRulSFyhw-1; Wed, 28 Oct 2020 07:48:03 -0400
+X-MC-Unique: 8ADp144xOB2ufJRulSFyhw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72B6B1DDFB;
- Wed, 28 Oct 2020 11:46:35 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-164.ams2.redhat.com [10.36.114.164])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 74B9C60FC2;
- Wed, 28 Oct 2020 11:46:27 +0000 (UTC)
-Date: Wed, 28 Oct 2020 12:46:25 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 0/4] qemu-storage-daemon: QAPIfy --chardev the stupid way
-Message-ID: <20201028114625.GA7355@merkur.fritz.box>
-References: <20201026101005.2940615-1-armbru@redhat.com>
- <d00ef574-b2c4-887c-6a37-79f6cf6eeae0@redhat.com>
- <87a6w63kbw.fsf@dusky.pond.sub.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AC761009E2A;
+ Wed, 28 Oct 2020 11:48:02 +0000 (UTC)
+Received: from localhost (ovpn-113-87.ams2.redhat.com [10.36.113.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CDD8960FC2;
+ Wed, 28 Oct 2020 11:48:01 +0000 (UTC)
+Date: Wed, 28 Oct 2020 11:47:59 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Joelle van Dyne <j@getutm.app>
+Subject: Re: [PATCH v3 4/7] coroutine: add libucontext as external library
+Message-ID: <20201028114759.GH221115@stefanha-x1.localdomain>
+References: <20201028030701.14086-1-j@getutm.app>
+ <20201028030701.14086-5-j@getutm.app>
 MIME-Version: 1.0
-In-Reply-To: <87a6w63kbw.fsf@dusky.pond.sub.org>
+In-Reply-To: <20201028030701.14086-5-j@getutm.app>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="54u2kuW9sGWg/X+X"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -79,78 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, marcandre.lureau@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.10.2020 um 08:01 hat Markus Armbruster geschrieben:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
-> > On 26/10/20 11:10, Markus Armbruster wrote:
-> >> Kevin's "[PATCH v2 0/6] qemu-storage-daemon: QAPIfy --chardev"
-> >> involves surgery to the QAPI generator.  Some (most?) of it should go
-> >> away if we deprecate the "data" wrappers due to simple unions in QMP.
-> >> 
-> >> Do we really need to mess with the code generator to solve the problem
-> >> at hand?
-> >> 
-> >> 
-> >> Let's recapitulate the problem:
-> >> 
-> >> * We want to QAPIfy --chardev, i.e. define its argument as a QAPI
-> >>   type.
-> >
-> > Considering that this is not 5.2 stuff at this point, I would like to
-> > suggest again moving chardevs to -object, and ask you to evaluate that
-> > option with the agreement that I do the work instead of you. :)
+--54u2kuW9sGWg/X+X
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I don't think this is the right thing to do at this point. Making more
-use of QOM is an orthogonal problem and would only make solving this one
-harder.
+On Tue, Oct 27, 2020 at 08:06:58PM -0700, Joelle van Dyne wrote:
 
-The problem we have and we're trying to solve is that we have
-chardev-add (which has a QAPI schema) and -chardev (which doesn't). We
-want to get an option that is described by the schema, doesn't duplicate
-things and is still convenient to use.
+I am not a lawyer and haven't consulted any lawyers, but libucontext
+seems compatible with QEMU's license to me. I think QEMU can mirror the
+libucontext repo and ship it like the other submodules. No changes to
+QEMU's ./LICENSE are necessary since it is similar to the other
+permissive licenses already in use.
 
-Whether this option starts with -chardev or with -object doesn't really
-make much of a difference. The QAPI schema you need behind it will be
-almost or even exactly the same.
+FWIW I only took a look at
+https://github.com/utmapp/libucontext/blob/master/LICENSE. I did not
+review the actual libucontext source code.
 
-> Replacing -chardev with -object without regressing features would be
-> lovely.  One feature in particular: introspection.
-> 
-> If we manage to fully QAPIfy -object, we should be good.  I understand
-> Eduardo is cutting a path through the jungle.
+> diff --git a/meson.build b/meson.build
+> index 48c95150fe..0beb199303 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1243,9 +1243,35 @@ if not fdt.found() and fdt_required.length() > 0
+>    error('fdt not available but required by targets ' + ', '.join(fdt_req=
+uired))
+>  endif
+> =20
+> +ucontext =3D not_found
+> +slirp_opt =3D 'disabled'
 
-I don't expect many difficulties with the existing -object (famous last
-words).
+Minor issue: the slirp_opt change should probably be part of another patch.
 
-But if you make chardevs user creatable objects first, it becomes much
-harder because you just combined two problems (one of which is already
-known to be hard) into one large problem.
+--54u2kuW9sGWg/X+X
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> I can offer assistance with bridging QAPI schema to QOM.
+-----BEGIN PGP SIGNATURE-----
 
-So, the steps that I would suggest are:
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZWm8ACgkQnKSrs4Gr
+c8iA1QgAnGCCZ5qLc+dTKD4uY6CE8Wkxl/dxuNAo72Q22bMkuGyABnpmHh3CpNt5
+v08pMxAux0mxcRQ8vKu1TfKDMKo0cVEpH53FV1qUCcu+lpEoEQ7OLuhuaNkjEzdf
+/gdpvHMLqMPf8E0gZFJU8buNu7uf8KEsmCiFl6KYZ27CNH5subCqrQE8o37E6cde
+RLSTOT5OnJR1oksfiZE0ksJsz+ESqR63WUalPjwBMt3NYBHRCrFR6Qkozg0LIMWf
+NTKTf4vK78w5sVVBCjUnrOtfkiL1pM77ZBErwHyz0HJqhcsrVOkUp1WAJgSctPTJ
+yMBHT7e+YzFpIReYDd5Q//vnFKYWsA==
+=R97D
+-----END PGP SIGNATURE-----
 
-1a. Finish the QAPI schema for object-add
-
-1b. Find some way to unify chardev-add's ChardevBackend and a
-    CLI-friendly version of it in the schema
-
-2. Generate QOM boilerplate code from ObjectOptions instead of
-   duplicating it in the implementation
-
-3. Convert chardevs to using QOM properites only now
-
-If we do 3. earlier, we'll write code that we want to replace later
-anyway. If we even do it in parallel with 1b. we'll additionally get
-merge conflicts. And if we do it before 1b. we'll do it without
-considering QAPI in detail and will lose any flexibility to change
-things in the new interface, which will make 1b. much harder.
-
-Kevin
+--54u2kuW9sGWg/X+X--
 
 
