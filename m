@@ -2,35 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6452D29CEF9
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 09:28:43 +0100 (CET)
-Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7D2229CEFD
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 09:30:18 +0100 (CET)
+Received: from localhost ([::1]:57252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXgp0-0007XX-Fo
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 04:28:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
+	id 1kXgqX-0001l4-QL
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 04:30:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXglI-0003QY-PH
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 04:24:52 -0400
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51686
+ id 1kXglS-0003nf-Pd; Wed, 28 Oct 2020 04:25:02 -0400
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:51710
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXglH-0004D9-4v
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 04:24:52 -0400
+ id 1kXglQ-0004GF-UR; Wed, 28 Oct 2020 04:25:02 -0400
 Received: from host81-158-111-11.range81-158.btcentralplus.com
  ([81.158.111.11] helo=kentang.home)
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1kXglJ-0006Q8-Ud; Wed, 28 Oct 2020 08:24:59 +0000
+ id 1kXglU-0006Q8-ES; Wed, 28 Oct 2020 08:25:09 +0000
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Date: Wed, 28 Oct 2020 08:23:53 +0000
-Message-Id: <20201028082358.23761-6-mark.cave-ayland@ilande.co.uk>
+Date: Wed, 28 Oct 2020 08:23:55 +0000
+Message-Id: <20201028082358.23761-8-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201028082358.23761-1-mark.cave-ayland@ilande.co.uk>
 References: <20201028082358.23761-1-mark.cave-ayland@ilande.co.uk>
@@ -39,7 +37,7 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 81.158.111.11
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: [PULL 05/10] sabre: don't call sysbus_mmio_map() in sabre_realize()
+Subject: [PULL 07/10] sabre: increase number of PCI bus IRQs from 32 to 64
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -64,62 +62,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-stable@nongnu.org,
+ Harold Gutch <logix@foobar.franken.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device should not map itself but instead should be mapped to sysbus by the
-sun4u machine.
+The rework of the sabre IRQs in commit 6864fa3897 "sun4u: update PCI topology to
+include simba PCI bridges" changed the IRQ routing so that both PCI and legacy
+OBIO IRQs are routed through the sabre PCI host bridge to the CPU.
 
+Unfortunately this commit failed to increase the number of PCI bus IRQs
+accordingly meaning that access to the legacy IRQs OBIO (irqnum >= 0x20) would
+overflow the PCI bus IRQ array causing strange failures running qemu-system-sparc64
+in NetBSD.
+
+Cc: qemu-stable@nongnu.org
+Reported-by: Harold Gutch <logix@foobar.franken.de>
+Fixes: https://bugs.launchpad.net/qemu/+bug/1838658
+Fixes: 6864fa3897 ("sun4u: update PCI topology to include simba PCI bridges")
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20200926140216.7368-7-mark.cave-ayland@ilande.co.uk>
+Message-Id: <20201011081347.2146-1-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/pci-host/sabre.c | 8 --------
- hw/sparc64/sun4u.c  | 7 +++++++
- 2 files changed, 7 insertions(+), 8 deletions(-)
+ hw/pci-host/sabre.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/pci-host/sabre.c b/hw/pci-host/sabre.c
-index 5ac6283623..5394ad5cd0 100644
+index 5394ad5cd0..edf48ea923 100644
 --- a/hw/pci-host/sabre.c
 +++ b/hw/pci-host/sabre.c
-@@ -378,16 +378,8 @@ static void sabre_realize(DeviceState *dev, Error **errp)
- {
-     SabreState *s = SABRE(dev);
-     PCIHostState *phb = PCI_HOST_BRIDGE(dev);
--    SysBusDevice *sbd = SYS_BUS_DEVICE(s);
-     PCIDevice *pci_dev;
+@@ -388,7 +388,7 @@ static void sabre_realize(DeviceState *dev, Error **errp)
+                                      pci_sabre_set_irq, pci_sabre_map_irq, s,
+                                      &s->pci_mmio,
+                                      &s->pci_ioport,
+-                                     0, 32, TYPE_PCI_BUS);
++                                     0, 0x40, TYPE_PCI_BUS);
  
--    /* sabre_config */
--    sysbus_mmio_map(sbd, 0, s->special_base);
--    /* PCI configuration space */
--    sysbus_mmio_map(sbd, 1, s->special_base + 0x1000000ULL);
--    /* pci_ioport */
--    sysbus_mmio_map(sbd, 2, s->special_base + 0x2000000ULL);
--
-     memory_region_init(&s->pci_mmio, OBJECT(s), "pci-mmio", 0x100000000ULL);
-     memory_region_add_subregion(get_system_memory(), s->mem_base,
-                                 &s->pci_mmio);
-diff --git a/hw/sparc64/sun4u.c b/hw/sparc64/sun4u.c
-index 05e659c8a4..2f8fc670cf 100644
---- a/hw/sparc64/sun4u.c
-+++ b/hw/sparc64/sun4u.c
-@@ -588,6 +588,13 @@ static void sun4uv_init(MemoryRegion *address_space_mem,
-                              &error_abort);
-     sysbus_realize_and_unref(SYS_BUS_DEVICE(sabre), &error_fatal);
+     pci_create_simple(phb->bus, 0, TYPE_SABRE_PCI_DEVICE);
  
-+    /* sabre_config */
-+    sysbus_mmio_map(SYS_BUS_DEVICE(sabre), 0, PBM_SPECIAL_BASE);
-+    /* PCI configuration space */
-+    sysbus_mmio_map(SYS_BUS_DEVICE(sabre), 1, PBM_SPECIAL_BASE + 0x1000000ULL);
-+    /* pci_ioport */
-+    sysbus_mmio_map(SYS_BUS_DEVICE(sabre), 2, PBM_SPECIAL_BASE + 0x2000000ULL);
-+
-     /* Wire up PCI interrupts to CPU */
-     for (i = 0; i < IVEC_MAX; i++) {
-         qdev_connect_gpio_out_named(DEVICE(sabre), "ivec-irq", i,
 -- 
 2.20.1
 
