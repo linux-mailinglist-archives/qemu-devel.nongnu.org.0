@@ -2,73 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C489E29D18A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 19:49:46 +0100 (CET)
-Received: from localhost ([::1]:46148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A6929D196
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 19:56:41 +0100 (CET)
+Received: from localhost ([::1]:35140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXqW1-0002ru-Gv
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 14:49:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54046)
+	id 1kXqcj-0001rA-11
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 14:56:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kXqSL-0000VF-VS; Wed, 28 Oct 2020 14:45:59 -0400
-Received: from mout.web.de ([217.72.192.78]:37931)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kXqTa-0001J1-EZ
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 14:47:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:14588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kXqSJ-0003NN-G6; Wed, 28 Oct 2020 14:45:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1603910748;
- bh=NEk33/VRdzWR3gA85uwpaaoNM5m0YixLtMaSx3M2VbQ=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=ajUjszchan9GfJsXF0r2nQjECDc3m7D2od3h4jmZeLKuItB3O3mHIKBVbLteXCwxR
- LDJzGInFRIEyECeD3EZoSuqDH7fP0GOvtZSD9qwwy8J/rZAc4cO4OpwXHsQGsWLF0Z
- 9KjJqj0FNYBL7btIQTt67wJPi+ZtW76E7wHXFpM0=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([94.134.180.124]) by smtp.web.de (mrweb102
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0MHp8z-1kWSTR0FJt-003cSJ; Wed, 28
- Oct 2020 19:45:48 +0100
-Date: Wed, 28 Oct 2020 19:45:46 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v9 8/8] tests/test-char.c: Wait for the chardev to connect
- in char_socket_client_dupid_test
-Message-ID: <3428deda3f07bbaa1a0d98424416e144a9d57a6d.1603909658.git.lukasstraub2@web.de>
-In-Reply-To: <cover.1603909658.git.lukasstraub2@web.de>
-References: <cover.1603909658.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1kXqTX-0003Wr-IL
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 14:47:13 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09SIWq2w067567; Wed, 28 Oct 2020 14:47:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=dKUVuHdvMmvdD1GBdH+WPeQR54Y+xj0n2/A6s9MbBlA=;
+ b=rjENL4+qaTlbhBuzwLNDydbmUdkqe88X584D7ERIPXh2LTNWSoudCo1fHh3b3nWt9vk+
+ 9URM8Jp3I0ohgvLbx/hOsZfzZJH5kxFWVrjy086WaxKw+vE1JyiXFGFci713cx8DYU88
+ 44X/8R6mDJg9kT3kXc1Gqy5/O/PpuGV29T1IWk8xhzJMp9KH+bPv7iPgFCgzQJNFbK1/
+ BJ9ACtEeWkHhzXfWHCc+TIx/y0irBSTZU86sVmWkXjKODJqwtGyqOWiaJOmNrPo8nsj5
+ CszTpuAQWaVEnP6KQHd4iuf6CeRHzm0LLobv0bMMna7+b8iR4qIHa1R5R+2FOM8a17b+ hA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34dcqftd4y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Oct 2020 14:47:08 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09SIWvgc067770;
+ Wed, 28 Oct 2020 14:47:08 -0400
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34dcqftd40-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Oct 2020 14:47:07 -0400
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09SIhCb1004861;
+ Wed, 28 Oct 2020 18:47:06 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma02dal.us.ibm.com with ESMTP id 34e1gnwnm8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Oct 2020 18:47:06 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09SIkxvh27656586
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Oct 2020 18:46:59 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 011856A047;
+ Wed, 28 Oct 2020 18:47:05 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3DA4E6A04D;
+ Wed, 28 Oct 2020 18:47:04 +0000 (GMT)
+Received: from [9.160.17.83] (unknown [9.160.17.83])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Oct 2020 18:47:04 +0000 (GMT)
+Subject: Re: [PATCH v2 3/6] configure: add option to enable LTO
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20201023200645.1055-1-dbuono@linux.vnet.ibm.com>
+ <20201023200645.1055-4-dbuono@linux.vnet.ibm.com>
+ <7aa00aba-ff8c-252a-899a-45ef4db7cc6e@redhat.com>
+ <20201026155006.GE496050@redhat.com>
+ <756e6060-394f-fe4a-47f2-2601b6e54a45@linux.vnet.ibm.com>
+ <87h7qeelqv.fsf@linaro.org>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <aeed2883-5152-c3a4-1764-bc2ef0e8a3e1@linux.vnet.ibm.com>
+Date: Wed, 28 Oct 2020 14:47:02 -0400
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jyshal6RFUSLHw.fxdLtHKd";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:8baryHbG1vcAsU50iZfUVX2jYzoFCJo7pOjqgEHSldYVARocB74
- YO61PESS/i7u/0H83F+Hybd8vFjJxSJStdIDXT6Y9C/VuPSW6AcNTcWD2H3xgFa2m5wS1wo
- +0PRutHqgkVDmoU2lPG8DBDqu/KXIX3bkYzqUy03dMMLuzMTD/ThnHrgjZVnEw7BF2Q5IOc
- c99ALh11I3tis2x0RrCYg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:UKK+M9vx+eI=:nGOfhypLhVdgRu51fKwQnf
- Zv5cgXj5bKLkoQ8cD5NDhzQwF/+MEw5F83xGvrjterdcT9Vgo306ABkxpzMJL5le5L9S+pHOX
- D72nYPjNa67isP0b9JhBx7knUy/S/Mw5KxQZpN++PfeVdd4WeaK5FGexPVA9B2nXeu05kqwKe
- wMqiORumHWrOadlbb6uhYTPCCyl9dW1TYfa5JXWrIrBwiLdMkJBhdzbB00TFWc5IaMeh77LLH
- Oj7t/kogiXmBjlMMMSzNAddpWCSc4trhLGgZuf7UleuKWhYDkjZYc6jsRBJWnu/GSCJfoHjRb
- GkAb44Xy0lTpPlX9GiYG8yIDLoRvGFZpdifCK6yIk93zfdOhKUYVA9i6CMntY666askcg+FgL
- Sz/zIbYCHq3K9yda8GqaB4Dq75fnafP1RUU8pbEEJ34kwx8y1tEuc4IUu5Zrg9zYMFoPjVZu5
- LuuuHllOGztaxnTSSNC3xpxOsHEf/pbzGAhYnvUY9qStZYjmEtC95wDr/9pTPo+P1bx0sj+r8
- xiGMgjHRom0vG72BYYCxOrukEJigtqTccfjaZ22lC8XdFSLUZPL2UlfDYiSNJAumfjpHz6477
- z69IwVUpL+hPrDzBYF5mm5bu55rZpSCoQDQ4ybqXuEWFJKdXTtwkcaot5AQLR4mhlvGIp2oGZ
- xgApCxlGv1TI78RfCWHiubNEUuQLaXdV0qLE/2Ed1SpS73fioSyA/kCB//KuTZ5KK8ame5g1c
- 2vl02NXIYafyLOtEVLk3LBLfd0Nze8OWkUXflNCoUgZeSMY9i54A/V9c3HvLXnroVWGD5gbPm
- 5s53tMb95eNQ7ma2FEYxqHF6qvNoGt6kckraajMofYvTjwKbhaI4Ym1AKTv88/p1y+mc+dkmT
- i7MHqAIELygTABdNChiA==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 13:12:59
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+In-Reply-To: <87h7qeelqv.fsf@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-10-28_09:2020-10-28,
+ 2020-10-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2010280119
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 14:22:56
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.921,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,69 +118,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/jyshal6RFUSLHw.fxdLtHKd
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 10/28/2020 5:35 AM, Alex Bennée wrote:
+> Breakage in both system and linux-user emulation probably points at
+> something in the instruction decode being broken. Shame we don't have a
+> working risu setup for sparc64 to give the instruction handling a proper
+> work out.
 
-A connecting chardev object has an additional reference by the connecting
-thread, so if the chardev is still connecting by the end of the test,
-then the chardev object won't be freed. This in turn means that the yank
-instance won't be unregistered and when running the next test-case
-yank_register_instance will abort, because the yank instance is
-already/still registered.
+This is what I'm thinking too. Interesting bit is that sparc32
+seem to work fine, and it should be the same codebase.
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- tests/test-char.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 9196e566e9..aedb5c9eda 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
- opaque)
-     g_assert_nonnull(opts);
-     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
-     g_assert_nonnull(chr1);
-+    qemu_chr_wait_connected(chr1, &error_abort);
-
-     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
-     g_assert_null(chr2);
---
-2.20.1
-
---Sig_/jyshal6RFUSLHw.fxdLtHKd
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+ZvFoACgkQNasLKJxd
-sljVkBAAn7sIcmiS3YWlS0XN8NVXmSRSFhvnanNYzGVTx9UqDEqrw+zu/WZTzOjc
-ZOdXXzOoh7guUocwR4AB5Xoq7AAjLvnHWMS//tgcQwnHxC9h30k6qXj/wPD+C2zv
-4sX+oGnfd1mvnq+SrtQmmr1PdsGxq/H4hj0SCeocRRehZmeqNP55sCXDDDCTsMI6
-8lcsqxUdeURc5yTDUU2p6f4KGp46LJWawD0M19jP1luADq8WtDD2A9VBPMIENr+K
-bZtx4ve8crqh07+PM932JCULkOMi9K0uwSP4pjB9auyO74EbKrLSnPCIbeF2c89A
-l5PFw1HM6hw7KkEu9IuceA/i6llv+MO1NI3jPekJIt7UFjAImRavJdOx/nlqMkN4
-eSDM4WpzkRU/DcOZOUTvbtFzcksOvkHecAciw8IkMn1FJAJ+HYkm+GTKa+TxDgT5
-mB00HcdJ/hqH/fPdbBJAnO8uLloLOJt6ORk28DVMDRvOuRSz5zTVOmGcQe2NoD+6
-kYWyyud8fQ5OyRhzEHZCKaeE11eJ60pf0ErmXLjSiYdZZHkGjqts228eGvLBTlIv
-NsIGZLGmj0ltdzouFgwC9mEir14/tVx1VgpCj3EmKX/8V8Bn5XQGByf4viheOsI3
-y9NtenIeimi4CDM1If0+sqGlh84Q9CftVHVplvCdIuBqYH13wBU=
-=o3I2
------END PGP SIGNATURE-----
-
---Sig_/jyshal6RFUSLHw.fxdLtHKd--
+I played a bit with a couple of days but couldn't isolate the faulty
+instruction.  But I'd be happy to work on this issue with someone,
+perhaps from the sparc maintainers, to see if we can find out what's
+happening
 
