@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D86AC29D1AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 20:19:17 +0100 (CET)
-Received: from localhost ([::1]:35494 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD23629D1AF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 20:23:57 +0100 (CET)
+Received: from localhost ([::1]:45018 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXqya-0006Ib-UP
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 15:19:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36060)
+	id 1kXr36-0001xZ-P0
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 15:23:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXqwo-0004id-FY
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:17:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44591)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXr1e-0001M6-9s
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:22:26 -0400
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:37736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXqwi-0007aH-1S
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:17:26 -0400
-Received: by mail-wr1-x444.google.com with SMTP id t9so245914wrq.11
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 12:17:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=U8T+0Mhujpk/WaABXyjdAKtr18CEtiJsfJ83860ndlw=;
- b=e5Wv2uGmUQoaPNakhRk+lH2Cndq0TGY1ZNc2JfsHuR9bCyrh/u5UhZms9GZpnhBrrC
- f0B9EK3ToMmKqQjGYX84NcOUJG+FN2NtUA4iH9+CE/chQEOpwPSRcTrbmpNYXgiSRS2Z
- A+AnhqzxGFFlfh2yurriIzhFKF+9O+M2KbnKldNOgPWN/OW0y1EiMCcs+06+wE7PwFaB
- Mqmm1f/mbuG8r6OgNd/LFPx7xf66YC72crcKMs8XHqFMZVSrgX4RAY6ntu1ydZGjUSYs
- rJyMzSeR8vmJSJi7pXv4QppPKl1SV5rGd2vgvXgPPEHK8Ccl2W+Ht5h/HdDNuxPHqJpM
- 3YsQ==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kXr1c-0008N6-IY
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:22:26 -0400
+Received: by mail-ej1-x642.google.com with SMTP id p9so500181eji.4
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 12:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9SFWGQzy7DoB1AdG6aiIW/5zMdxght220eg1eHdpHZg=;
+ b=hEw0364YT8MS769kJhqX7csgHNHKztfhxQKgq9tyxcWwwCICKY/eoA7BSHw9nk6OsK
+ IihoUkMlqmhh5mWLgdeDMdn+S2yCjn7N8SHrtrEwBgyGcR/AcK+k1v636RQZj3U1cUIb
+ ianRqi8IesJCC6Y3DzScHekasBhau+KnO3dOM9AKdn8bjUUzKuSmA2OQdAZTTzhC9q1i
+ L6PSP39QJSX4U2Ap8jll4S6x01ztuZrUyLJgIq/y2V9xRiZCtwwg7SglNCIHUKVr2r+1
+ khXGCE5pyJ11JJ5itPWoFbRBJE9d+hJ+G7rd4/wy+z7zvDHtRvtYWU0Rm8RW21cIpDM2
+ w/Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=U8T+0Mhujpk/WaABXyjdAKtr18CEtiJsfJ83860ndlw=;
- b=oCANLtrN+UxWnuD5cyN114SXlqi1qMIv+Gl19R9B+75L1JiplA4CmzALpCZ3MHbdqB
- /8DzUnAVU9BsOCI6ng9BdfQZXGB2LQGiLW4sgnSXqyhJNvNwnEKOeCWkpTH85QiTyJaP
- k7c8rf4SB73uxdxcl/QQjP5wXu6h8AlS3vGE8S6hdsVamv3de4/oe3nbi5BxMeCFBrBg
- OMWHzw57V6xQ8wh8k6IytJBGsojtgtIMfNwwFf7hdM1zuwWAdyApOwHvPGLuqKTfoQX1
- s/XQWNcyiIKUj+x1LVMMBCwB3Vg3BzOT4ctRVwWjQ7JlLllV0u2o2PVtjHZATIrUqNZV
- 0nJw==
-X-Gm-Message-State: AOAM533obG/lOdjfFwdg3veTMLh5whA3vodGFELaMUJaauJkbfjn6mLM
- R7EYtwWik8NEXHuLbrbd6FZDdUnE9zIgCQ==
-X-Google-Smtp-Source: ABdhPJz/5GHCh+7rQCfI91dSLSrxJfjyLApSHMcoPEIC1Fq7svZiPB3xgJSRQXmO1ji+S1fck1Zw6Q==
-X-Received: by 2002:a05:6000:1051:: with SMTP id
- c17mr931493wrx.290.1603912637519; 
- Wed, 28 Oct 2020 12:17:17 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l16sm743953wrx.5.2020.10.28.12.17.16
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=9SFWGQzy7DoB1AdG6aiIW/5zMdxght220eg1eHdpHZg=;
+ b=mnPDQuhTY/DuGuMW4yYe1JpAEp4rUp0J4frHXGotMTBM40l0jhBxIlJ8Sapenwt5zD
+ wcgUfACoWWsDeZcy04yK1h1exwn8x7jA2ylQGkj8bl3z/1WflniPDyCqUyRnWUA+8Ren
+ 94cgRKGl4fQ2/XkiLYcqV0AKZx7KKtRcEqdD933+E2AI3NIpSj4N+aySSCoZHpxXbL09
+ F17seODemwATpkKqu0+xDR2f3rl+dzXTMKGyhBHmeGIJyJ6Keq5Z6qv1L2kFdflgfCcq
+ Ebse5fDW9/fLR+uoIZ0U47jnWU+pweS1CVbkf8aKou4ujAJ8ByBn3ZxmDxxKkt8fcjcC
+ FMkw==
+X-Gm-Message-State: AOAM531B668b9h2C0tEcpMAxQb7x4hI88I1+tdDjp50Bcp0UkIfPaKVw
+ L/tgyDeSmRKpjS0hwYV54jfTYK9Wias=
+X-Google-Smtp-Source: ABdhPJzANS6EnXd/CrETXjKkkFmD9ebZiU5CoU49iSmrmJJqdAZ62X8y94HNczhZu9jExuwxi2lYIA==
+X-Received: by 2002:a17:906:22c6:: with SMTP id
+ q6mr574072eja.433.1603912941651; 
+ Wed, 28 Oct 2020 12:22:21 -0700 (PDT)
+Received: from x1w.redhat.com (237.red-88-18-140.staticip.rima-tde.net.
+ [88.18.140.237])
+ by smtp.gmail.com with ESMTPSA id u18sm227058ejn.122.2020.10.28.12.22.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 12:17:16 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 2/2] target/arm: Fix VUDOT/VSDOT (scalar) on big-endian hosts
-Date: Wed, 28 Oct 2020 19:17:12 +0000
-Message-Id: <20201028191712.4910-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201028191712.4910-1-peter.maydell@linaro.org>
-References: <20201028191712.4910-1-peter.maydell@linaro.org>
+ Wed, 28 Oct 2020 12:22:20 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH-for-5.2] hw/rx/rx-gdbsim: Fix memory leak
+Date: Wed, 28 Oct 2020 20:22:19 +0100
+Message-Id: <20201028192219.833329-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,52 +86,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper functions for performing the udot/sdot operations against
-a scalar were not using an address-swizzling macro when converting
-the index of the scalar element into a pointer into the vm array.
-This had no effect on little-endian hosts but meant we generated
-incorrect results on big-endian hosts.
+As load_device_tree() returns allocated memory,
+we need to free it.
 
-For these insns, the index is indexing over group of 4 8-bit values,
-so 32 bits per indexed entity, and H4() is therefore what we want.
-(For Neon the only possible input indexes are 0 and 1.)
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Fixes: bda19d7bb56 ("hw/rx: Add RX GDB simulator")
+Reported-by: Coverity (CID 1432307: RESOURCE_LEAK)
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-I believe that gvec_udot_idx_h and gvec_sdot_idx_h are OK
-because the index there is over groups of 4*16-bit values,
-which are 64 bits each.
----
- target/arm/vec_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Peter mentioned this issue almost 2 months ago:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg737946.html
 
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 30d76d05beb..0f33127c4c4 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -293,7 +293,7 @@ void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
-     intptr_t index = simd_data(desc);
-     uint32_t *d = vd;
-     int8_t *n = vn;
--    int8_t *m_indexed = (int8_t *)vm + index * 4;
-+    int8_t *m_indexed = (int8_t *)vm + H4(index) * 4;
+Having helped Yoshinori to get his code merged, I feel the
+reponsibility of fixing this before the release. I know I am
+wrong, but since he is not responding to the review comments
+and we are in soft-freeze, I prefer to do the dirty laundry
+before we release.
+---
+ hw/rx/rx-gdbsim.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/rx/rx-gdbsim.c b/hw/rx/rx-gdbsim.c
+index 417ec0564b3..67c413f9de2 100644
+--- a/hw/rx/rx-gdbsim.c
++++ b/hw/rx/rx-gdbsim.c
+@@ -122,7 +122,7 @@ static void rx_gdbsim_init(MachineState *machine)
+         if (dtb_filename) {
+             ram_addr_t dtb_offset;
+             int dtb_size;
+-            void *dtb;
++            g_autofree void *dtb;
  
-     /* Notice the special case of opr_sz == 8, from aa64/aa32 advsimd.
-      * Otherwise opr_sz is a multiple of 16.
-@@ -324,7 +324,7 @@ void HELPER(gvec_udot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
-     intptr_t index = simd_data(desc);
-     uint32_t *d = vd;
-     uint8_t *n = vn;
--    uint8_t *m_indexed = (uint8_t *)vm + index * 4;
-+    uint8_t *m_indexed = (uint8_t *)vm + H4(index) * 4;
- 
-     /* Notice the special case of opr_sz == 8, from aa64/aa32 advsimd.
-      * Otherwise opr_sz is a multiple of 16.
+             dtb = load_device_tree(dtb_filename, &dtb_size);
+             if (dtb == NULL) {
 -- 
-2.20.1
+2.26.2
 
 
