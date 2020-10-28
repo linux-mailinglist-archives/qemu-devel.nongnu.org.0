@@ -2,97 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EC729D0B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:28:48 +0100 (CET)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F0FF29D0BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:32:38 +0100 (CET)
+Received: from localhost ([::1]:39824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnNX-00051l-7w
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:28:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45994)
+	id 1kXnRF-0007Sp-CO
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:32:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXnHk-0005Zm-OE
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:22:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35361)
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1kXnIZ-0006zM-O0
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:23:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32270)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kXnHi-0006r0-Tn
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:22:48 -0400
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1kXnIX-00071X-TV
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:23:39 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603898566;
+ s=mimecast20190719; t=1603898616;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qiFBBrsNzMxI5HGgs4EzUyQEFC+cIzLIJLUFTr9IIMw=;
- b=bin0fxpSw2WaFvkjUxMQ6GBgFAFRa6mi4C4qzgorRddnhinvHslXISlbmFqctfD82q2tGg
- RiBZDJpUva72t/V4AHCCOT0WPB3MP1N1ahnzBdGS/KkYDrvbbYm85D4PFKJPVu8O5k5QQ/
- 2JuoC5N7h2Kjodtc0n8f3sZfMq8PMeo=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-417-D9dRRloPPkOp3YS08yOymQ-1; Wed, 28 Oct 2020 11:22:43 -0400
-X-MC-Unique: D9dRRloPPkOp3YS08yOymQ-1
-Received: by mail-wm1-f70.google.com with SMTP id c204so1886389wmd.5
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:22:43 -0700 (PDT)
+ bh=lfY6OhC30XlnKIFtlJz6TSAvke+GkxhljhSyQ5d9N/8=;
+ b=gdPLBUry6TfQHsIsL1bmyuRG+lDN70FRNjvWlmUZgoZDpAjaolAM2wZhKw3Otc5LY8U/ra
+ 1wmllYiKHKRLK2NidAWeEBx3/jEwjuIEBiCnSbqBhHnxtVE1IV06OUJ6vqhBuFCHM2g3UZ
+ Nhsl1AjJgUEXsv6BXWbEIscxKBWbItQ=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-man61lE_O_y16xcF1hpaVA-1; Wed, 28 Oct 2020 11:23:32 -0400
+X-MC-Unique: man61lE_O_y16xcF1hpaVA-1
+Received: by mail-qt1-f200.google.com with SMTP id r4so3074823qta.9
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:23:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qiFBBrsNzMxI5HGgs4EzUyQEFC+cIzLIJLUFTr9IIMw=;
- b=Lpdv3nZjFAb6EMBPTYBm9+s6HEmR6zFQ3nR/ayH9jFHuIwLdtvRtiBAGI8jcob4xZZ
- nWcrCJ5PW04rFhNGXruWqXzYhqk2JM3LLaDf6mf0nluA/LVnzFDl5bwPUHpidIMS653W
- kmCQHeWJ3+AuUlocO3c4iI6icdQuU+k1m6YbEWlZKpn704smWvlC23U+YMF/h+/rrJ1U
- pkEf2HtIf0i9VTDucTlXFKsFOkgShXGN8kCxsZR681xVat+n/xQWaY5cqV0TtqViPcZX
- HwgPkZ0GxwVCSSRe/8toE2zuvH/CEwdrL+afmogbaG6POGiddyfnZ+Ue+K5ogMGHF32n
- OCTw==
-X-Gm-Message-State: AOAM533EtMMvKUAEj3v8ECLi6xcgGtLoRKtE/DnZgloGl+xU3QEl4uNi
- 7W4QJq0Sz1ttLbeKWNmHjYaKQaE5ft9CM4H5ZmXYrRrSw/i/cbzSaPUNk1Xk4OiM5MxEmZ/MXNr
- k3Gne8thYs4Qyhlc=
-X-Received: by 2002:adf:f381:: with SMTP id m1mr10588341wro.347.1603898562191; 
- Wed, 28 Oct 2020 08:22:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyc0jMPqOITIpgStHALePN3HIyATfb98GiM2IKoQoy8tuWCLELaFcVFts1Gu4li1nkRkj2C0g==
-X-Received: by 2002:adf:f381:: with SMTP id m1mr10588315wro.347.1603898561912; 
- Wed, 28 Oct 2020 08:22:41 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id y2sm7552376wrh.0.2020.10.28.08.22.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 08:22:41 -0700 (PDT)
-Subject: Re: [PATCH 03/12] qom: Make object_class_property_add_uint*_ptr() get
- offset
-To: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201009160122.1662082-1-ehabkost@redhat.com>
- <20201009160122.1662082-4-ehabkost@redhat.com>
- <20201021142408.72d2b92f@redhat.com> <20201021133041.GT5733@habkost.net>
- <20201023173314.6d46ada9@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6f5c3a13-6798-9d7d-e686-69d549366095@redhat.com>
-Date: Wed, 28 Oct 2020 16:22:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lfY6OhC30XlnKIFtlJz6TSAvke+GkxhljhSyQ5d9N/8=;
+ b=DRa9jt2vLCn+bibL3P/aFAAihNZVC32NzuX7csU8EuRTq/6LEJ4iQ2DwQ71CPvet9v
+ mnxW/NTMIS3brtrIGy1aYGZzMBlPzSO9m4ekAb5p5tPzutZ8YFKwZFyE0vEB8F1ABidH
+ UlhwClpBKH1iV06MVI/RFdPhcu6mq8cOluw5GLO/dKVyiGZPjp66yBBRBxd9hLel1H62
+ tM0wJSCmtLRnWQQ3ofX8WFI4uXMYRCYJYf4ywFveqLEC1yUQppqZ4Rn1Y5C9exuWHECF
+ w7jGLhZZCmqQgluoU1NhPtK6y29eYnbnSQFBqrKf+b8sGnDSFSuzYdLPb02ig91hnsE1
+ jDmw==
+X-Gm-Message-State: AOAM5322F9j33BQTGIqurzfKMlR9rApyL1OnNZ5QtEUTZ7QI1IdlKGWK
+ 7XyoyWYA+yj7v7RheSvqzNVv19BUnUzHZpW9NBYupZuxwIq4p8msG8+XMlN7Is3MtJh8GZPrMTM
+ pi3FGMioVzCZ5NjoBRD49QUk7risiyf4=
+X-Received: by 2002:a05:620a:1024:: with SMTP id
+ a4mr7985795qkk.390.1603898612134; 
+ Wed, 28 Oct 2020 08:23:32 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyi6GhgbLMfn5mdFiOYA4PL9ThhtB1HTYENZ093XnqcSAEqy7ph4sJYW7Yyvq+C3zDO2L+/61pqNMRwBjITrMs=
+X-Received: by 2002:a05:620a:1024:: with SMTP id
+ a4mr7985769qkk.390.1603898611880; 
+ Wed, 28 Oct 2020 08:23:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201023173314.6d46ada9@redhat.com>
+References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+ <CAFEAcA8yBrUH-Bqe7oNhBKqtyeUNw0xVA9aKm8DJFE-WLzLTwQ@mail.gmail.com>
+ <20201027200021.00fac851@x1.home> <20201028091859.GA3701@work-vm>
+In-Reply-To: <20201028091859.GA3701@work-vm>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Wed, 28 Oct 2020 16:23:21 +0100
+Message-ID: <CAOssrKcDQ1_Y1uYTz1ROOQ=Ljh0oM9ymQ_0TEbO_RvWsdRpC8w@mail.gmail.com>
+Subject: Re: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mszeredi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,59 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Artem Polyakov <artemp@nvidia.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Zhengui li <lizhengui@huawei.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Neo Jia <cjia@nvidia.com>, Amey Narkhede <ameynarkhede03@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/10/20 17:33, Igor Mammedov wrote:
-> On Wed, 21 Oct 2020 09:30:41 -0400
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
-> 
->> On Wed, Oct 21, 2020 at 02:24:08PM +0200, Igor Mammedov wrote:
->>> On Fri,  9 Oct 2020 12:01:13 -0400
->>> Eduardo Habkost <ehabkost@redhat.com> wrote:
->>>   
->>>> The existing object_class_property_add_uint*_ptr() functions are
->>>> not very useful, because they need a pointer to the property
->>>> value, which can't really be provided before the object is
->>>> created.
->>>>
->>>> Replace the pointer parameter in those functions with a
->>>> `ptrdiff_t offset` parameter.
->>>>
->>>> Include a uint8 class property in check-qom-proplist unit tests,
->>>> to ensure the feature is working.  
->>>
->>>
->>> Not sure I like approach, it's reinventing qdev pointer properties in QOM form.  
->>
->> Yes, and that's on purpose.  If we want to eventually merge the
->> two competing APIs into a single one, we need to make them
->> converge.
->>
->>> I had an impression that Paolo wanted qdev pointer properties be gone
->>> and replaced by something like link properties.  
->>
->> This is completely unrelated to qdev pointer properties and link
->> properties.  The properties that use object_property_add_uint*_ptr()
->> today are not qdev pointer properties and will never be link
->> properties.  They are just integer properties.
+On Wed, Oct 28, 2020 at 10:19 AM Dr. David Alan Gilbert
+<dgilbert@redhat.com> wrote:
+>
+> > I'm not comfortable trying to update Max's series to try to determine
+> > if FUSE_SUBMOUNTS can be interchanged with FUSE_ATTR_FLAGS, where the
 
-I think this series a step in the right direction, but please take more
-"inspiration" from link properties, which are done right.  In
-particular, properties should have an optional check function and be
-read-only unless the check function is there.
+FUSE_SUBMOUNTS is the correct one, FUSE_ATTR_FLAGS was never merged
+into mainline linux.
 
-You can make the check function take an uint64_t for simplicity, so that
-all the check functions for uint properties have the same prototype.
-For example a single "property_check_uint_allow" function can allow
-setting the property (which is almost always wrong, but an easy cop out
-for this series).
+The only difference is that FUSE_ATTR_FLAGS was meant to be negotiated
+(AFAIR), while FUSE_SUBMOUNTS is just announcing that the client
+supports submounts and will honour the FUSE_ATTR_SUBMOUNT flag from
+the server.
 
-Paolo
+Thanks,
+Miklos
 
 
