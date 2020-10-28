@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739A329CD9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 04:09:43 +0100 (CET)
-Received: from localhost ([::1]:34578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C53429CD9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 04:13:09 +0100 (CET)
+Received: from localhost ([::1]:42488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXbqI-0005T9-0H
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 23:09:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
+	id 1kXbtc-0000QL-Fb
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 23:13:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kXbno-0003dD-1c; Tue, 27 Oct 2020 23:07:08 -0400
-Received: from mail-pl1-f195.google.com ([209.85.214.195]:45972)
+ id 1kXbnp-0003dP-0A
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 23:07:09 -0400
+Received: from mail-pj1-f65.google.com ([209.85.216.65]:34517)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kXbnm-0006fB-GR; Tue, 27 Oct 2020 23:07:07 -0400
-Received: by mail-pl1-f195.google.com with SMTP id z1so347797plo.12;
- Tue, 27 Oct 2020 20:07:05 -0700 (PDT)
+ id 1kXbnn-0006fS-Ei
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 23:07:08 -0400
+Received: by mail-pj1-f65.google.com with SMTP id i3so781422pju.1
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 20:07:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3UxC01BVYtTf5kj2ZGVfq7xWoqSsC0Kkv2dma1boHu4=;
- b=HKKrMp0Pqe7viuTq3N/9OyKwhcWT9Z4TWyB5uksnAf/Y5VZ6NumWoKSwqte4BbJabj
- QPMPevbJKbxhlGFxtFuj0TFoZpOpB3DSDzIgoLpY02EaJifW55eM51bCoFIQzH0Nzr4N
- qjH9mwiksC+fF4ZWJkytAY2u+Skqg1jiS7chDVsCAN++N5YsmLd1RfiAx/S5ORXQMon4
- B8hTzwTgHlFlqA5m7YqI5CFDCl59W4jqiEUaXI/hf4VnqdBqv8Cqe9lp2RDMs7iyTR2Q
- /QteFx2pmA/7IDP2CiR2KQM79f6f6ifPcrw0rPXhzf8cxHg9/auyRZy+joUtk5njVcWs
- DNng==
-X-Gm-Message-State: AOAM533tmyUo88eUPd3w6sD9fK5bWTXwJVD6c4SzU+u9D7by6iUWyJWD
- XLXHcM6lkBheaD/BcLFw01DPZJk2sN8=
-X-Google-Smtp-Source: ABdhPJxgxkR8sp1EzVmZGBoSMBKNoMVmuSDuqAqhhn6yTjjD1NY6d9UqtCjtwnaDq8awvQGSul1wsg==
-X-Received: by 2002:a17:90b:50a:: with SMTP id
- r10mr4785724pjz.231.1603854424566; 
- Tue, 27 Oct 2020 20:07:04 -0700 (PDT)
+ bh=4Nf/hbrNIff9lkr/M925FsdkkURqsu/knS31MCwkOSQ=;
+ b=NrUXIasQlbFFRWZgzDcx2OyRYDmlp32jcaTHpNkHdMgyfnxN2jjj8WzVNbacopaVKc
+ 7hPeqlOrFjfo1HUEcsELpbMXd2//s593bnUsPHkGa36Nf74O2nlcEfV1FMMgyqFwTkz7
+ DtdxhokSrhgF3LDkN4S+QIXmbl2+kFVwxXNBdkrWm516cKTcbytuUbpvjwGyYH6I5ZZP
+ 3w3L2Zv9bVYuzY+DwIN/HAsx1O1NBykLemeD4y7/VZDdoxHS5oZZXn84+CrBnNKz0hQG
+ vnwZBFIssbczW3j4e9EQwj0tdOFH8jNM88xPCh7NB3CXtE5Kr1Qh8wPLKIg14EMwytnm
+ kMPA==
+X-Gm-Message-State: AOAM533KjrbdGMY85zC3Z5502TA3QeCO2CJVZC3AAVX4KoEhb3vCD+6v
+ 4CEkwhY5LGLm6v4RnxPIDMs53ZaUtTs=
+X-Google-Smtp-Source: ABdhPJxOJllCEmdD+Allwms+/2XriLb/2QxdQbJ2kYY6m3hRPxszt+tyYiqLXsU3QyuyzqXFqlpjUw==
+X-Received: by 2002:a17:90a:c907:: with SMTP id
+ v7mr2108949pjt.214.1603854425832; 
+ Tue, 27 Oct 2020 20:07:05 -0700 (PDT)
 Received: from localhost.localdomain ([73.93.155.93])
- by smtp.gmail.com with ESMTPSA id n6sm3407219pjj.34.2020.10.27.20.07.03
+ by smtp.gmail.com with ESMTPSA id n6sm3407219pjj.34.2020.10.27.20.07.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 20:07:04 -0700 (PDT)
+ Tue, 27 Oct 2020 20:07:05 -0700 (PDT)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 1/7] configure: option to disable host block devices
-Date: Tue, 27 Oct 2020 20:06:55 -0700
-Message-Id: <20201028030701.14086-2-j@getutm.app>
+Subject: [PATCH v3 2/7] configure: cross-compiling with empty cross_prefix
+Date: Tue, 27 Oct 2020 20:06:56 -0700
+Message-Id: <20201028030701.14086-3-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201028030701.14086-1-j@getutm.app>
 References: <20201028030701.14086-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.214.195;
- envelope-from=osy86github@gmail.com; helo=mail-pl1-f195.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 23:07:05
+Received-SPF: pass client-ip=209.85.216.65; envelope-from=osy86github@gmail.com;
+ helo=mail-pj1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 23:07:06
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -13
 X-Spam_score: -1.4
@@ -73,102 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some hosts (iOS) have a sandboxed filesystem and do not provide low-level
-APIs for interfacing with host block devices.
+The iOS toolchain does not use the host prefix naming convention. So we need
+to enable cross-compile options while allowing the PREFIX to be blank.
 
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- configure          | 4 ++++
- meson.build        | 1 +
- block/file-posix.c | 8 +++++++-
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ configure | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 71bbe82ac5..4e68a5fefe 100755
+index 4e68a5fefe..e211d11971 100755
 --- a/configure
 +++ b/configure
-@@ -448,6 +448,7 @@ ninja=""
- skip_meson=no
- gettext=""
- mirror_jit="no"
-+host_block_device_support="yes"
+@@ -234,6 +234,7 @@ cpu=""
+ iasl="iasl"
+ interp_prefix="/usr/gnemul/qemu-%M"
+ static="no"
++cross_compile="no"
+ cross_prefix=""
+ audio_drv_list=""
+ block_drv_rw_whitelist=""
+@@ -458,6 +459,7 @@ for opt do
+   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
+   case "$opt" in
+   --cross-prefix=*) cross_prefix="$optarg"
++                    cross_compile="yes"
+   ;;
+   --cc=*) CC="$optarg"
+   ;;
+@@ -1652,7 +1654,7 @@ $(echo Available targets: $default_target_list | \
+   --target-list-exclude=LIST exclude a set of targets from the default target-list
  
- bogus_os="no"
- malloc_trim="auto"
-@@ -5901,6 +5902,9 @@ if test "$default_devices" = "yes" ; then
- else
-   echo "CONFIG_MINIKCONF_MODE=--allnoconfig" >> $config_host_mak
+ Advanced options (experts only):
+-  --cross-prefix=PREFIX    use PREFIX for compile tools [$cross_prefix]
++  --cross-prefix=PREFIX    use PREFIX for compile tools, PREFIX can be blank [$cross_prefix]
+   --cc=CC                  use C compiler CC [$cc]
+   --iasl=IASL              use ACPI compiler IASL [$iasl]
+   --host-cc=CC             use C compiler CC [$host_cc] for code run at
+@@ -6931,7 +6933,7 @@ if has $sdl2_config; then
  fi
-+if test "$host_block_device_support" = "yes" ; then
-+  echo "CONFIG_HOST_BLOCK_DEVICE=y" >> $config_host_mak
-+fi
- if test "$debug_tcg" = "yes" ; then
-   echo "CONFIG_DEBUG_TCG=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index 0a56fef146..e880274b7c 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2149,6 +2149,7 @@ summary_info += {'vvfat support':     config_host.has_key('CONFIG_VVFAT')}
- summary_info += {'qed support':       config_host.has_key('CONFIG_QED')}
- summary_info += {'parallels support': config_host.has_key('CONFIG_PARALLELS')}
- summary_info += {'sheepdog support':  config_host.has_key('CONFIG_SHEEPDOG')}
-+summary_info += {'host block dev support': config_host.has_key('CONFIG_HOST_BLOCK_DEVICE')}
- summary_info += {'capstone':          capstone_opt == 'disabled' ? false : capstone_opt}
- summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
- summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
-diff --git a/block/file-posix.c b/block/file-posix.c
-index c63926d592..52f7c20525 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -41,7 +41,7 @@
- #include "scsi/pr-manager.h"
- #include "scsi/constants.h"
- 
--#if defined(__APPLE__) && (__MACH__)
-+#if defined(CONFIG_HOST_BLOCK_DEVICE) && defined(__APPLE__) && (__MACH__)
- #include <paths.h>
- #include <sys/param.h>
- #include <IOKit/IOKitLib.h>
-@@ -3247,6 +3247,8 @@ BlockDriver bdrv_file = {
- /***********************************************/
- /* host device */
- 
-+#if defined(CONFIG_HOST_BLOCK_DEVICE)
-+
- #if defined(__APPLE__) && defined(__MACH__)
- static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
-                                 CFIndex maxPathSize, int flags);
-@@ -3872,6 +3874,8 @@ static BlockDriver bdrv_host_cdrom = {
- };
- #endif /* __FreeBSD__ */
- 
-+#endif /* CONFIG_HOST_BLOCK_DEVICE */
-+
- static void bdrv_file_init(void)
- {
-     /*
-@@ -3879,6 +3883,7 @@ static void bdrv_file_init(void)
-      * registered last will get probed first.
-      */
-     bdrv_register(&bdrv_file);
-+#if defined(CONFIG_HOST_BLOCK_DEVICE)
-     bdrv_register(&bdrv_host_device);
- #ifdef __linux__
-     bdrv_register(&bdrv_host_cdrom);
-@@ -3886,6 +3891,7 @@ static void bdrv_file_init(void)
- #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-     bdrv_register(&bdrv_host_cdrom);
- #endif
-+#endif /* CONFIG_HOST_BLOCK_DEVICE */
- }
- 
- block_init(bdrv_file_init);
+ echo "strip = [$(meson_quote $strip)]" >> $cross
+ echo "windres = [$(meson_quote $windres)]" >> $cross
+-if test -n "$cross_prefix"; then
++if test "$cross_compile" = "yes"; then
+     cross_arg="--cross-file config-meson.cross"
+     echo "[host_machine]" >> $cross
+     if test "$mingw32" = "yes" ; then
 -- 
 2.28.0
 
