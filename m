@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D99C129CF83
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 11:34:46 +0100 (CET)
-Received: from localhost ([::1]:42742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81CBD29CF80
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 11:33:20 +0100 (CET)
+Received: from localhost ([::1]:38364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXimz-0001pS-VB
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 06:34:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34268)
+	id 1kXilZ-0008Pa-Vs
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 06:33:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kXiZo-0001Qx-Eg
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:21:08 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34835)
+ id 1kXihU-0006a4-U2
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:29:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42171)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kXiZk-0004bn-FA
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:21:08 -0400
+ id 1kXihS-0007NQ-J5
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:29:04 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603880462;
+ s=mimecast20190719; t=1603880941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d/xxZ8t4Nzi54ZOKrRplvZoPANDxSeFmkpP9qIB5V3c=;
- b=b4rE5E7kG7kfBWoCfya+S0AQyKypphDPOu8ZuZ1Rav3FLKZRjDSo+v0vyanKeoIkuTbB9c
- sUBmb7HpK0nht6gO31dj7VzINfCJCCXrgkIh5TG3BdK7ni0zVfHOLRChCNlEDVF5LtYdev
- wwAgmGKAHLNw9zl4y/GCq7MgcsW58Nc=
+ bh=mmsAsbZKIgsEfTt+h1Mh0zCY7z+ijdeDxxHoHW4cio4=;
+ b=aOTWdAszKDBjfyrPHP/MRLzZSEcZ1ybItIJmvHVIvsPAvY5V5TLjZeETwuu+pu+e2d4wT/
+ 7f06tM2njYJhrC1zlJ05NfKZbKnL4GPyxXZfaW2NJS5Zw1wVGBqjJooHtm8vlvyh6I/7kk
+ XLIrOuDZCQXsJLzbPD26poaGkz+fEgk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-cro3lIjXMYKoZE0Xpu0MBg-1; Wed, 28 Oct 2020 06:20:59 -0400
-X-MC-Unique: cro3lIjXMYKoZE0Xpu0MBg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-164-HykTJhUIOl-Iu4RS5_okVQ-1; Wed, 28 Oct 2020 06:29:00 -0400
+X-MC-Unique: HykTJhUIOl-Iu4RS5_okVQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE1951882FAA;
- Wed, 28 Oct 2020 10:20:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9897B1084C86;
+ Wed, 28 Oct 2020 10:28:58 +0000 (UTC)
 Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D3D26EF68;
- Wed, 28 Oct 2020 10:20:52 +0000 (UTC)
-Subject: Re: [PATCH 04/25] block/nvme: Trace controller capabilities
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 35337196FE;
+ Wed, 28 Oct 2020 10:28:53 +0000 (UTC)
+Subject: Re: [PATCH 07/25] block/nvme: Trace queue pair creation/deletion
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-5-philmd@redhat.com>
+ <20201027135547.374946-8-philmd@redhat.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <1d71f170-3681-e923-da32-581f90262be1@redhat.com>
-Date: Wed, 28 Oct 2020 11:20:50 +0100
+Message-ID: <0d728bf0-7d49-13bd-2279-1d551bfb19ac@redhat.com>
+Date: Wed, 28 Oct 2020 11:28:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-5-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201027135547.374946-8-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -96,61 +96,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi Philippe,
 
 On 10/27/20 2:55 PM, Philippe Mathieu-Daudé wrote:
-> Controllers have different capabilities and report them in the
-> CAP register. We are particularly interested by the page size
-> limits.
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  block/nvme.c       | 13 +++++++++++++
->  block/trace-events |  2 ++
->  2 files changed, 15 insertions(+)
-> 
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 6f1d7f9b2a1..361b5772b7a 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -727,6 +727,19 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
->       * Initialization". */
->  
->      cap = le64_to_cpu(regs->cap);
-> +    trace_nvme_controller_capability_raw(cap);
-> +    trace_nvme_controller_capability("Maximum Queue Entries Supported",
-> +                                     1 + NVME_CAP_MQES(cap));
-> +    trace_nvme_controller_capability("Contiguous Queues Required",
-> +                                     NVME_CAP_CQR(cap));
-I think this should be +1 too (0's based value)
-> +    trace_nvme_controller_capability("Doorbell Stride",
-> +                                     2 << (2 + NVME_CAP_DSTRD(cap)));
-> +    trace_nvme_controller_capability("Subsystem Reset Supported",
-> +                                     NVME_CAP_NSSRS(cap));
-> +    trace_nvme_controller_capability("Memory Page Size Minimum",
-> +                                     1 << (12 + NVME_CAP_MPSMIN(cap)));
-> +    trace_nvme_controller_capability("Memory Page Size Maximum",
-> +                                     1 << (12 + NVME_CAP_MPSMAX(cap)));
->      if (!NVME_CAP_CSS(cap)) {
->          error_setg(errp, "Device doesn't support NVMe command set");
->          ret = -EINVAL;
-> diff --git a/block/trace-events b/block/trace-events
-> index 0955c85c783..b90b07b15fa 100644
-> --- a/block/trace-events
-> +++ b/block/trace-events
-> @@ -134,6 +134,8 @@ qed_aio_write_postfill(void *s, void *acb, uint64_t start, size_t len, uint64_t
->  qed_aio_write_main(void *s, void *acb, int ret, uint64_t offset, size_t len) "s %p acb %p ret %d offset %"PRIu64" len %zu"
->  
->  # nvme.c
-> +nvme_controller_capability_raw(uint64_t value) "0x%08"PRIx64
-> +nvme_controller_capability(const char *desc, uint64_t value) "%s: %"PRIu64
->  nvme_kick(void *s, int queue) "s %p queue %d"
->  nvme_dma_flush_queue_wait(void *s) "s %p"
->  nvme_error(int cmd_specific, int sq_head, int sqid, int cid, int status) "cmd_specific %d sq_head %d sqid %d cid %d status 0x%x"
-> 
-Besides
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
 Thanks
 
 Eric
+
+> ---
+>  block/nvme.c       | 3 +++
+>  block/trace-events | 2 ++
+>  2 files changed, 5 insertions(+)
+> 
+> diff --git a/block/nvme.c b/block/nvme.c
+> index 29d2541b911..e95d59d3126 100644
+> --- a/block/nvme.c
+> +++ b/block/nvme.c
+> @@ -181,6 +181,7 @@ static void nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
+>  
+>  static void nvme_free_queue_pair(NVMeQueuePair *q)
+>  {
+> +    trace_nvme_free_queue_pair(q->index, q);
+>      if (q->completion_bh) {
+>          qemu_bh_delete(q->completion_bh);
+>      }
+> @@ -216,6 +217,8 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
+>      if (!q) {
+>          return NULL;
+>      }
+> +    trace_nvme_create_queue_pair(idx, q, size, aio_context,
+> +                                 event_notifier_get_fd(s->irq_notifier));
+>      q->prp_list_pages = qemu_try_memalign(s->page_size,
+>                                            s->page_size * NVME_NUM_REQS);
+>      if (!q->prp_list_pages) {
+> diff --git a/block/trace-events b/block/trace-events
+> index cc5e2b55cb5..f6a0f99df1a 100644
+> --- a/block/trace-events
+> +++ b/block/trace-events
+> @@ -155,6 +155,8 @@ nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset 0x%"PRIx64" byte
+>  nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset 0x%"PRIx64" bytes %"PRId64" ret %d"
+>  nvme_dma_map_flush(void *s) "s %p"
+>  nvme_free_req_queue_wait(void *s, unsigned q_index) "s %p q #%u"
+> +nvme_create_queue_pair(unsigned q_index, void *q, unsigned size, void *aio_context, int fd) "index %u q %p size %u aioctx %p fd %d"
+> +nvme_free_queue_pair(unsigned q_index, void *q) "index %u q %p"
+>  nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
+>  nvme_cmd_map_qiov_pages(void *s, int i, uint64_t page) "s %p page[%d] 0x%"PRIx64
+>  nvme_cmd_map_qiov_iov(void *s, int i, void *page, int pages) "s %p iov[%d] %p pages %d"
+> 
 
 
