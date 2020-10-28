@@ -2,76 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5637E29D066
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:44:12 +0100 (CET)
-Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 075A729D07D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:58:58 +0100 (CET)
+Received: from localhost ([::1]:45150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmgN-00052u-El
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:44:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35924)
+	id 1kXmuf-0007Sd-2t
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:58:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXmev-0004Te-Rz
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:42:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43855)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXmeu-0001de-3m
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:42:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603896158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aFCLjXrCbVDnSB06L+2FCYKJI5t/01be0QHHgg3oi1g=;
- b=XHH4dA93O02CBJZ/RQgHS8yeLTj3EI81bgrRnSKhxSqp0Oo05KQxvepczSe5pg7M/wYZ6L
- iokfm0VQgKLnvLWQ15BGBrH57sOduX9NKRkbFWqVHHR1PW6mELjy0UU0vaLo+1Dn8i5D9X
- R54oCx+yxu2W/NcsT9PLHccgiXCehP8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-FlTAmPSBOkKEqrV-egdI9g-1; Wed, 28 Oct 2020 10:42:36 -0400
-X-MC-Unique: FlTAmPSBOkKEqrV-egdI9g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1615B1DDFB;
- Wed, 28 Oct 2020 14:42:35 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-124.ams2.redhat.com [10.36.112.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E840B1974D;
- Wed, 28 Oct 2020 14:42:32 +0000 (UTC)
-Subject: Re: [PATCH 7/9] ppc: silence the compiler warnings
-To: David Gibson <david@gibson.dropbear.id.au>,
- Chen Qun <kuhn.chenqun@huawei.com>
-References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
- <20201028041819.2169003-8-kuhn.chenqun@huawei.com>
- <20201028042900.GC5604@yekko.fritz.box>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <ddcb887d-42ec-2021-1785-a6fb0d13d6b9@redhat.com>
-Date: Wed, 28 Oct 2020 15:42:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=563b96974=alistair.francis@wdc.com>)
+ id 1kXmps-00027m-9a; Wed, 28 Oct 2020 10:54:00 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:10516)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=563b96974=alistair.francis@wdc.com>)
+ id 1kXmpq-00036U-4d; Wed, 28 Oct 2020 10:53:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1603896838; x=1635432838;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=KntYN7zGHoqvB6l1jjDFFz/dW+GlIx3yJAuj7ZeGIxQ=;
+ b=dalxqAwhFAG1Kib+VgIcE29h99CfuM3J7kBei1gC4RIB3IkFm7cAaoOQ
+ LTKu8gOs/SezrYajCEkX30JD24n83jRNDDKbodezJYs0t5UPaf/yPNIg/
+ e5ZmtpP7KANMiEWxUTpXwRTYzNOjsmyzu0lF60aeX7Z3f9qOEWjyLPAlp
+ wjyCofnwjm2BCHYtmfydKn1UlfgeuB95z5sL9FrvWXbUO6rnnBAXNvyC8
+ +GyszDj+xo/EdIAQzZzCd5FKQnm3Ufy99IZSitSUT7parsimEZ6vFR5py
+ 713XCZRU53xs5/W7CRq0B55416pmk7y3HA3qtxE4rBnFwOlerY1xDwwP+ A==;
+IronPort-SDR: Vs5vlnNIsUCbGdPBeRL6Mh5ZSEDtzbz3sCmy24ZbAlwEapxlbE9BomClHbQFB/AZuku3+oXlgB
+ bbPAytBYvWbWNUFeMGQh/509zAV/cj5MLTCJLAmB1Jq50HQ8BuVJRyNdvZWr6F7hhhZpNYKFif
+ hPXkKxoW5LO6Pu/PreFtWPWZpPzt/c6YVi6RRsAIU4kDgvJcqY8KFQ0pzoO+1ztM5H9kI68fxX
+ i/Z71uJ7pb8og+mx8hM20ffgNgid8YUBeejA9twOpg+gnR/PLyVDpjItv/g0KbdQr+ZKFEM2GQ
+ OE8=
+X-IronPort-AV: E=Sophos;i="5.77,426,1596470400"; d="scan'208";a="151200426"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2020 22:53:56 +0800
+IronPort-SDR: GjHRHJtWv/aNblOWAAIZwAIHILKVr6qLaTnFP7KXh4JXW/jPvqjwABnT/GHvuX4Lz2/ctQGrpe
+ +3PEJ1XEmnMebapUcGzgfxnmPowMV1gbCgmibZZSMpb4TbsNFgsVF+nnt9eWYG6lfZ5IHZANtW
+ C00PW3drAAGGjsel7FIOR8aU+ZCQDvP27P6QibWGzAAyskjqq5/OnCsIsA1lwylS9DlpAWfGgT
+ gEDZ3iCWB9HH0JumFHrzOjscWdWP736sIQ4cfmHc+2uq8jcH1wCwM5gNqKOXwI86hM+AuBkyRd
+ ID12WWjdRjDc161kwRtMd9Tf
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Oct 2020 07:39:06 -0700
+IronPort-SDR: gussgivtZe/vtadAsAVF0pj2KSg1IdV79cpfJ/vwDgMB51aQ1/guWDJDLj5DJ/lqJctgkI9yg/
+ btmfxKAqsnPwy6LASwc4Gf7+f52bX52EpTzlcnh6ruAUhCnBjOOm2Wf7VFQuWE8HPrMuBjLjXT
+ grb9AdrOBsVpzjY6YF95yyREKc1IdLhZrT/g8FkAUrhfTRdEeUu4N/hP73WN4vfLZTrGiWcqQZ
+ Enz5SpTjRq0xn7TKDOSKz6uEJcXem2SktaTi0jnQQoYh453xcN+QKEGtyT6zlSe5pWjo6RGXq0
+ Xt4=
+WDCIronportException: Internal
+Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.60.131])
+ by uls-op-cesaip02.wdc.com with ESMTP; 28 Oct 2020 07:53:57 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v2 5/5] target/riscv: Split the Hypervisor execute load helpers
+Date: Wed, 28 Oct 2020 07:42:31 -0700
+Message-Id: <a88d9bdcebe49ada0d0a69b37ac532124971c91c.1603896076.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <cover.1603896075.git.alistair.francis@wdc.com>
+References: <cover.1603896075.git.alistair.francis@wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <20201028042900.GC5604@yekko.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=563b96974=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 10:53:43
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,55 +92,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: alistair.francis@wdc.com, richard.henderson@linaro.org, bmeng.cn@gmail.com,
+ palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/10/2020 05.29, David Gibson wrote:
-> On Wed, Oct 28, 2020 at 12:18:17PM +0800, Chen Qun wrote:
->> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
->> hw/ppc/ppc.c: In function ‘ppc6xx_set_irq’:
->> hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit-fallthrough=]
->>   118 |             if (level) {
->>       |                ^
->> hw/ppc/ppc.c:123:9: note: here
->>   123 |         case PPC6xx_INPUT_INT:
->>       |         ^~~~
->>
->> Add the corresponding "fall through" comment to fix it.
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> 
-> Acked-by: David Gibson <david@gibson.dropbear.id.au>
-> 
->> ---
->> Cc: David Gibson <david@gibson.dropbear.id.au>
->> ---
->>  hw/ppc/ppc.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
->> index 4a11fb1640..f9eb8f21b4 100644
->> --- a/hw/ppc/ppc.c
->> +++ b/hw/ppc/ppc.c
->> @@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
->>              } else {
->>                  cpu_ppc_tb_stop(env);
->>              }
->> +            /* fall through */
->>          case PPC6xx_INPUT_INT:
->>              /* Level sensitive - active high */
->>              LOG_IRQ("%s: set the external IRQ state to %d\n",
-> 
+Split the hypervisor execute load functions into two seperate functions.
+This avoids us having to pass the memop to the C helper functions.
 
-Is that fall through actually really the right thing to do here? I'd rather
-expect to see a PPC_INTERRUPT_DECR instead of a PPC_INTERRUPT_EXT in case
-someone messes with the TBEN pin? So I assume this is likely rather bug and
-we should a "break" statement here instead?
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/helper.h                   |  3 +-
+ target/riscv/op_helper.c                | 38 ++++++++++++++-----------
+ target/riscv/insn_trans/trans_rvh.c.inc | 16 ++---------
+ 3 files changed, 26 insertions(+), 31 deletions(-)
 
- Thomas
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 7dbdd117d2..ae50730273 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -82,7 +82,8 @@ DEF_HELPER_1(tlb_flush, void, env)
+ DEF_HELPER_1(hyp_tlb_flush, void, env)
+ DEF_HELPER_1(hyp_gvma_tlb_flush, void, env)
+ DEF_HELPER_1(hyp_access_check, void, env)
+-DEF_HELPER_4(hyp_x_load, tl, env, tl, tl, tl)
++DEF_HELPER_2(hyp_hlvx_hu, tl, env, tl)
++DEF_HELPER_2(hyp_hlvx_wu, tl, env, tl)
+ #endif
+ 
+ /* Vector functions */
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index d81d8282cc..ff4426cf4d 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -243,28 +243,34 @@ void helper_hyp_access_check(CPURISCVState *env)
+     }
+ }
+ 
+-target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
+-                               target_ulong attrs, target_ulong memop)
++target_ulong helper_hyp_hlvx_hu(CPURISCVState *env, target_ulong address)
+ {
+     if (env->priv == PRV_M ||
+         (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+         (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+             get_field(env->hstatus, HSTATUS_HU))) {
+-        target_ulong pte;
+-        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+-
+-        switch (memop) {
+-        case MO_TEUW:
+-            pte = cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
+-            break;
+-        case MO_TEUL:
+-            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
+-            break;
+-        default:
+-            g_assert_not_reached();
+-        }
++        int mmu_idx = cpu_mmu_index(env, true) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
++
++        return cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
++    }
++
++    if (riscv_cpu_virt_enabled(env)) {
++        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
++    } else {
++        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
++    }
++    return 0;
++}
++
++target_ulong helper_hyp_hlvx_wu(CPURISCVState *env, target_ulong address)
++{
++    if (env->priv == PRV_M ||
++        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
++        (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
++            get_field(env->hstatus, HSTATUS_HU))) {
++        int mmu_idx = cpu_mmu_index(env, true) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
+ 
+-        return pte;
++        return cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
+     }
+ 
+     if (riscv_cpu_virt_enabled(env)) {
+diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+index 79968701e9..f3ffd742d3 100644
+--- a/target/riscv/insn_trans/trans_rvh.c.inc
++++ b/target/riscv/insn_trans/trans_rvh.c.inc
+@@ -265,20 +265,14 @@ static bool trans_hlvx_hu(DisasContext *ctx, arg_hlvx_hu *a)
+ #ifndef CONFIG_USER_ONLY
+     TCGv t0 = tcg_temp_new();
+     TCGv t1 = tcg_temp_new();
+-    TCGv mem_idx = tcg_temp_new();
+-    TCGv memop = tcg_temp_new();
+ 
+     gen_get_gpr(t0, a->rs1);
+-    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
+-    tcg_gen_movi_tl(memop, MO_TEUW);
+ 
+-    gen_helper_hyp_x_load(t1, cpu_env, t0, mem_idx, memop);
++    gen_helper_hyp_hlvx_hu(t1, cpu_env, t0);
+     gen_set_gpr(a->rd, t1);
+ 
+     tcg_temp_free(t0);
+     tcg_temp_free(t1);
+-    tcg_temp_free(mem_idx);
+-    tcg_temp_free(memop);
+     return true;
+ #else
+     return false;
+@@ -291,20 +285,14 @@ static bool trans_hlvx_wu(DisasContext *ctx, arg_hlvx_wu *a)
+ #ifndef CONFIG_USER_ONLY
+     TCGv t0 = tcg_temp_new();
+     TCGv t1 = tcg_temp_new();
+-    TCGv mem_idx = tcg_temp_new();
+-    TCGv memop = tcg_temp_new();
+ 
+     gen_get_gpr(t0, a->rs1);
+-    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
+-    tcg_gen_movi_tl(memop, MO_TEUL);
+ 
+-    gen_helper_hyp_x_load(t1, cpu_env, t0, mem_idx, memop);
++    gen_helper_hyp_hlvx_wu(t1, cpu_env, t0);
+     gen_set_gpr(a->rd, t1);
+ 
+     tcg_temp_free(t0);
+     tcg_temp_free(t1);
+-    tcg_temp_free(mem_idx);
+-    tcg_temp_free(memop);
+     return true;
+ #else
+     return false;
+-- 
+2.28.0
 
 
