@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF94729CF82
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 11:34:00 +0100 (CET)
-Received: from localhost ([::1]:40128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D468529CF87
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 11:36:16 +0100 (CET)
+Received: from localhost ([::1]:46424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXimF-0000jS-W3
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 06:34:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36484)
+	id 1kXioR-0003Sj-UV
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 06:36:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kXik0-0007s7-So
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:31:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38030)
+ id 1kXilU-0000tc-0Z
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:33:12 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1kXijz-0008P6-8m
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:31:40 -0400
+ id 1kXilS-0000Rg-9i
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 06:33:11 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603881097;
+ s=mimecast20190719; t=1603881189;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gtbgUWYGWVJvbVGx7kmU7XbjGEjsFXSjSuwgrESqdSA=;
- b=Z3QM7BrXdd9OxBzLQ/ptzfaWvciDpwIu8bcDLcO9+SrYPiq0gF+XLdM2Ke8eRo3F6rnxry
- 0yTxV1ly/O8gDx8a+24+qnqFlfZBja4zv+riWjNAB5O4o8MG5CCVldWDmjjq/NEgAP0Xme
- h9p2+5wb5pIpZDT0+qUjK8CAxaHeNQY=
+ bh=tMrnmtMrJXpyhaXGeqj4FPD2EnPE+J5I0t9Em5FNj0Y=;
+ b=iYeoowXhUtzNF2S9MDNolDnYWWmqcoa95FAaiS+YEAovuW6U0QlDC+zDQOtz5Ub+z0jH/k
+ A79CcQZ3eA7wC7x2yQGPTxr3/AzMyoBIxP45eqwgSkuC4OOGxQrNOXBidOIEZbpRHzxXLq
+ L7qnwijJ4lPdGDSvsJt1UvsJLrbrfZg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-7NiDB3iYPS-5aL-YYKgmEQ-1; Wed, 28 Oct 2020 06:31:33 -0400
-X-MC-Unique: 7NiDB3iYPS-5aL-YYKgmEQ-1
+ us-mta-389-_Lez7HPpNhy_ZES-Ap0AEQ-1; Wed, 28 Oct 2020 06:33:05 -0400
+X-MC-Unique: _Lez7HPpNhy_ZES-Ap0AEQ-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39A5B1842141;
- Wed, 28 Oct 2020 10:31:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 818DA879525;
+ Wed, 28 Oct 2020 10:33:04 +0000 (UTC)
 Received: from [10.36.112.194] (ovpn-112-194.ams2.redhat.com [10.36.112.194])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AC0CE5C1D7;
- Wed, 28 Oct 2020 10:31:26 +0000 (UTC)
-Subject: Re: [PATCH 05/25] block/nvme: Trace nvme_poll_queue() per queue
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ACD65C6C0;
+ Wed, 28 Oct 2020 10:32:58 +0000 (UTC)
+Subject: Re: [PATCH 06/25] block/nvme: Improve nvme_free_req_queue_wait()
+ trace information
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-6-philmd@redhat.com>
+ <20201027135547.374946-7-philmd@redhat.com>
 From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <a87ae9bd-8987-e8ab-1f1d-1e8ffd0af72f@redhat.com>
-Date: Wed, 28 Oct 2020 11:31:25 +0100
+Message-ID: <3654d454-d9d5-36e3-692e-f5c44dc36a70@redhat.com>
+Date: Wed, 28 Oct 2020 11:32:57 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-6-philmd@redhat.com>
+In-Reply-To: <20201027135547.374946-7-philmd@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
@@ -96,10 +97,9 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi,
 
 On 10/27/20 2:55 PM, Philippe Mathieu-Daudé wrote:
-> As we want to enable multiple queues, report the event
-> in each nvme_poll_queue() call, rather than once in
-> the callback calling nvme_poll_queues().
+> What we want to trace is the block driver state and the queue index.
 > 
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 
@@ -113,38 +113,31 @@ Eric
 >  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/block/nvme.c b/block/nvme.c
-> index 361b5772b7a..8d74401ae7a 100644
+> index 8d74401ae7a..29d2541b911 100644
 > --- a/block/nvme.c
 > +++ b/block/nvme.c
-> @@ -594,6 +594,7 @@ static bool nvme_poll_queue(NVMeQueuePair *q)
->      const size_t cqe_offset = q->cq.head * NVME_CQ_ENTRY_BYTES;
->      NvmeCqe *cqe = (NvmeCqe *)&q->cq.queue[cqe_offset];
+> @@ -292,7 +292,7 @@ static NVMeRequest *nvme_get_free_req(NVMeQueuePair *q)
 >  
-> +    trace_nvme_poll_queue(q->s, q->index);
->      /*
->       * Do an early check for completions. q->lock isn't needed because
->       * nvme_process_completion() only runs in the event loop thread and
-> @@ -684,7 +685,6 @@ static bool nvme_poll_cb(void *opaque)
->      BDRVNVMeState *s = container_of(e, BDRVNVMeState,
->                                      irq_notifier[MSIX_SHARED_IRQ_IDX]);
->  
-> -    trace_nvme_poll_cb(s);
->      return nvme_poll_queues(s);
->  }
->  
+>      while (q->free_req_head == -1) {
+>          if (qemu_in_coroutine()) {
+> -            trace_nvme_free_req_queue_wait(q);
+> +            trace_nvme_free_req_queue_wait(q->s, q->index);
+>              qemu_co_queue_wait(&q->free_req_queue, &q->lock);
+>          } else {
+>              qemu_mutex_unlock(&q->lock);
 > diff --git a/block/trace-events b/block/trace-events
-> index b90b07b15fa..86292f3312b 100644
+> index 86292f3312b..cc5e2b55cb5 100644
 > --- a/block/trace-events
 > +++ b/block/trace-events
-> @@ -145,7 +145,7 @@ nvme_complete_command(void *s, int index, int cid) "s %p queue %d cid %d"
->  nvme_submit_command(void *s, int index, int cid) "s %p queue %d cid %d"
->  nvme_submit_command_raw(int c0, int c1, int c2, int c3, int c4, int c5, int c6, int c7) "%02x %02x %02x %02x %02x %02x %02x %02x"
->  nvme_handle_event(void *s) "s %p"
-> -nvme_poll_cb(void *s) "s %p"
-> +nvme_poll_queue(void *s, unsigned q_index) "s %p q #%u"
->  nvme_prw_aligned(void *s, int is_write, uint64_t offset, uint64_t bytes, int flags, int niov) "s %p is_write %d offset 0x%"PRIx64" bytes %"PRId64" flags %d niov %d"
->  nvme_write_zeroes(void *s, uint64_t offset, uint64_t bytes, int flags) "s %p offset 0x%"PRIx64" bytes %"PRId64" flags %d"
->  nvme_qiov_unaligned(const void *qiov, int n, void *base, size_t size, int align) "qiov %p n %d base %p size 0x%zx align 0x%x"
+> @@ -154,7 +154,7 @@ nvme_rw_done(void *s, int is_write, uint64_t offset, uint64_t bytes, int ret) "s
+>  nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset 0x%"PRIx64" bytes %"PRId64""
+>  nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset 0x%"PRIx64" bytes %"PRId64" ret %d"
+>  nvme_dma_map_flush(void *s) "s %p"
+> -nvme_free_req_queue_wait(void *q) "q %p"
+> +nvme_free_req_queue_wait(void *s, unsigned q_index) "s %p q #%u"
+>  nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
+>  nvme_cmd_map_qiov_pages(void *s, int i, uint64_t page) "s %p page[%d] 0x%"PRIx64
+>  nvme_cmd_map_qiov_iov(void *s, int i, void *page, int pages) "s %p iov[%d] %p pages %d"
 > 
 
 
