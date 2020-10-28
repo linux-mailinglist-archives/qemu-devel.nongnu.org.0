@@ -2,64 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C7929CFFC
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 14:09:34 +0100 (CET)
-Received: from localhost ([::1]:44970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0386D29CFFF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 14:19:32 +0100 (CET)
+Received: from localhost ([::1]:52710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXlCm-0001PO-AR
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 09:09:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41436)
+	id 1kXlMR-0005Hk-I1
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 09:19:31 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXlBP-0000pj-Mr
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:08:07 -0400
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:45961)
+ id 1kXlHe-0003Ra-BN
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:14:34 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:46751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXlBN-0004vP-Nc
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:08:07 -0400
-Received: by mail-ej1-x641.google.com with SMTP id dt13so7067100ejb.12
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 06:08:05 -0700 (PDT)
+ id 1kXlHc-0006Ua-3u
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:14:33 -0400
+Received: by mail-ej1-x643.google.com with SMTP id t25so7090317ejd.13
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 06:14:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=jLIm5qwowyaNOtDHvKZ3loVnWhxmKmWaHmOXmo650Ek=;
- b=lR1UI+Yt1hxzxMnAPC+AH0+zEl4DRLWdYe7SETqoVPQXBQM3WT9L6O7l0uwfphyDBE
- x7By1UJ0ZYgp0mJF+kCfi53JbXlCfe1XdPLJoW4txBO2iV1TfU43t9b84cTTH35PG1J8
- 82QfzjYP4Dv/J/XQSzdYO6K4atIIwS+6zvGvzP8gq+Z/JWoHz7Iq1Y3Ww9fudTZvTZlu
- H4hMoZPOLxCcvovDIMroZ+d0wAwdS26qAzysurDt+z6nzRVV5l2+R+IB5drArtE98G9O
- hzaw3VBw33G7Q0pb83J4kZmTAe131tq5iJvvxewm7frEU1ElsNe5ZTTQzSgXxAhBSn14
- IsCQ==
+ bh=rBLszawus5f/ziAV13XoV3WL/ejC+3NYjCmP97iLa60=;
+ b=PHVhe9cdXpgy5XSfMo/zNfj6CgT2w/hiHvQQ5EvzU0V5ZUl5H+m+IVyh3Dzx0FPcpD
+ YWjSbM85SFePOAW/RFkhf28tZ8CVwQljWwWeB8wf/TOPmPbYzCrNxbhCcEGMaSa13AS4
+ cNL/MiEKtvWmEwwm0uFDmpQrse1512A0vD/jTrZ3WEcAqjckejBLj/avmwOIFhmfxVub
+ m049MWVe5YxGmTSpXSPmZ+R3fS74lPs3DA/90cWDl45pr8JyIIZLaT4AuZBYGwAOl6g/
+ T1yB5pRxroQnXNadcmp5gNAvvb3KNLTegj3XmKhSoJkkpA1t8b3e90uejn/u/6O8r1Fm
+ kefQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=jLIm5qwowyaNOtDHvKZ3loVnWhxmKmWaHmOXmo650Ek=;
- b=aBsR+Grk8sT+3u1vRn6yGSP+tAvQnBqyubut8TH5kLhb9W+qDepoY7Ahfr0XE4lVwh
- SUNXhkoQWsMJlosHh5TkLLA2NKr75M3Yu+YkSH+f5PYoJMrVAxrNTwDgADymofdDlKTH
- ftBR7N5e25uHJETFb5Eo3kZB56wosf4l6vRJ756SFjaTwU5eDqEBL/qk1eGOUv80riL1
- 6DWZ4JZvrSPzSUTrQjf1ESgcicAi6M9My+h5jHrDv29E1xlH11W9CHU09gJ4BeyoIBQk
- jrWPDPrvUZFmpt1blmUTLmqz4BDvUbVklm3j9GKnIPDN5l85h4GgGKFFZXhbEucOLjPM
- tVBw==
-X-Gm-Message-State: AOAM531wDl52DR6jGj8HGFtQDgc/HM+908P+B1D1eE29RpDCK1ceKIcL
- aT8wUdufAGCTVZoKs+6ZdHY+xh46u7NPpNYRqZ5h+g==
-X-Google-Smtp-Source: ABdhPJxGMdC+ffTLUPZIgoL47ND2no6Tlr1NqHtwLI+d5q18dV9OkHR7+3aLd0lLGE6cj6TpYx2wUYqlpBSNsXTVnCM=
-X-Received: by 2002:a17:906:3a97:: with SMTP id
- y23mr7417488ejd.250.1603890483827; 
- Wed, 28 Oct 2020 06:08:03 -0700 (PDT)
+ bh=rBLszawus5f/ziAV13XoV3WL/ejC+3NYjCmP97iLa60=;
+ b=hLQA1zeojTtLb1yj+UUBpO7XcOgWQzd03ikVutP1J8XVKQ4UlaavrjwwQ8Hqw04gG2
+ 05fYldsD7+iaXqpA2LJGFYMgHQYAijYFG1NBTvwmqr5BuDSxS4335X5WV+ALS64DXzuE
+ FAWdnDqZBGcWkUmVF0ORR3aFkoa0ycWbZjgH4xMyC9e+9EAJeMHqEJydR4Agh1nBG5xB
+ ZNGm5ErAXvRIccZE1Ke9n4/raDoFHHINF7mjln+KI3aNgeuqxU0os6BZqiVRRxye7sec
+ b7SLX4Z5+OEzposJLHjDfD8Trb94b7VScUTD6UHbHNz3BoOOji639MnJmFXx/sJqSHh7
+ MsAw==
+X-Gm-Message-State: AOAM532Ekn/dn6WApnZEqe3EIjU2yFxPILA8wHwAEmaaptsxJyyNeOlb
+ Dtymwv72dOhrygxmm/XC4pZPCxpxe7SztclnZ8BRuQ==
+X-Google-Smtp-Source: ABdhPJzUlSXhuGCKy+DifSB1xcFv0jPVAwR5vOreFYpBsfGC6Ayt6dIAaOd7hFNvea6Z7tbBzFENpJEAtyUL7jYJnTU=
+X-Received: by 2002:a17:906:3b59:: with SMTP id
+ h25mr7910298ejf.56.1603890869901; 
+ Wed, 28 Oct 2020 06:14:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201026220624.60878-1-f4bug@amsat.org>
-In-Reply-To: <20201026220624.60878-1-f4bug@amsat.org>
+References: <1603369056-4168-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1603369056-4168-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ <CAFEAcA_UuL=ymba+v1O75EOZqXBopLq_HOEtgZ8vZSyJ3AcF3Q@mail.gmail.com>
+ <BY5PR02MB67726DABBD88E12722E48F95CA190@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <BY5PR02MB677213F5F6D3EE8D980B4B0ECA170@BY5PR02MB6772.namprd02.prod.outlook.com>
+In-Reply-To: <BY5PR02MB677213F5F6D3EE8D980B4B0ECA170@BY5PR02MB6772.namprd02.prod.outlook.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 28 Oct 2020 13:07:51 +0000
-Message-ID: <CAFEAcA-2+FerNXySJsUMesSeg36b7iuHYJN4L5CGE-VU+VHx5w@mail.gmail.com>
-Subject: Re: [PULL 0/7] LED API patches for 2020-10-26
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Wed, 28 Oct 2020 13:14:18 +0000
+Message-ID: <CAFEAcA_HX6gYE8yt6Qi2x1NKCWZ+GySgUW65r-cLobzN=z4rCQ@mail.gmail.com>
+Subject: Re: [PATCH v12 1/3] misc: Add versal-usb2-ctrl-regs module
+To: Sai Pavan Boddu <saipava@xilinx.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -68,7 +72,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,49 +85,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Vikram Garhwal <fnuv@xilinx.com>,
+ Markus Armbruster <armbru@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Ying Fang <fangying1@huawei.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paul Zimmerman <pauldzim@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 26 Oct 2020 at 22:06, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Wed, 28 Oct 2020 at 12:58, Sai Pavan Boddu <saipava@xilinx.com> wrote:
 >
-> The following changes since commit a5fac424c76d6401ecde4ecb7d846e656d0d6e=
-89:
+> Hi Peter,
 >
->   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-r=
-eque=3D
-> st' into staging (2020-10-26 10:33:59 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/philmd/qemu.git tags/led-api-20201026
->
-> for you to fetch changes up to 06972067c48fc21a47445b5d706368f1129f216f:
->
->   hw/arm/tosa: Replace fprintf() calls by LED devices (2020-10-26 13:44:5=
-8 +0=3D
-> 100)
->
-> ----------------------------------------------------------------
-> API to model LED.
->
-> CI jobs results:
-> . https://cirrus-ci.com/build/4879251751043072
-> . https://gitlab.com/philmd/qemu/-/pipelines/207661784
-> . https://travis-ci.org/github/philmd/qemu/builds/738958191
-> . https://app.shippable.com/github/philmd/qemu/runs/891/summary/console
-> ----------------------------------------------------------------
+> > -----Original Message-----
+> > From: Sai Pavan Boddu
+> > Sent: Monday, October 26, 2020 10:59 PM
+> > To: Peter Maydell <peter.maydell@linaro.org>
+> > Cc: Markus Armbruster <armbru@redhat.com>; Marc-Andr=C3=A9 Lureau
+> > <marcandre.lureau@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>;
+> > Gerd Hoffmann <kraxel@redhat.com>; Edgar Iglesias <edgari@xilinx.com>;
+> > Francisco Eduardo Iglesias <figlesia@xilinx.com>; QEMU Developers <qemu=
+-
+> > devel@nongnu.org>; Alistair Francis <alistair.francis@wdc.com>; Eduardo
+> > Habkost <ehabkost@redhat.com>; Ying Fang <fangying1@huawei.com>;
+> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>; Vikram Garhwal
+> > <fnuv@xilinx.com>; Paul Zimmerman <pauldzim@gmail.com>
+> > Subject: RE: [PATCH v12 1/3] misc: Add versal-usb2-ctrl-regs module
+> >
+> > Hi Peter,
+> >
+> > > -----Original Message-----
+> > > From: Peter Maydell <peter.maydell@linaro.org>
+> > > Sent: Monday, October 26, 2020 9:33 PM
+> > > To: Sai Pavan Boddu <saipava@xilinx.com>
+> > > Cc: Markus Armbruster <armbru@redhat.com>; Marc-Andr=C3=A9 Lureau
+> > > <marcandre.lureau@redhat.com>; Paolo Bonzini <pbonzini@redhat.com>;
+> > > Gerd Hoffmann <kraxel@redhat.com>; Edgar Iglesias <edgari@xilinx.com>=
+;
+> > > Francisco Eduardo Iglesias <figlesia@xilinx.com>; QEMU Developers
+> > > <qemu- devel@nongnu.org>; Alistair Francis <alistair.francis@wdc.com>=
+;
+> > > Eduardo Habkost <ehabkost@redhat.com>; Ying Fang
+> > > <fangying1@huawei.com>; Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m>;
+> > > Vikram Garhwal <fnuv@xilinx.com>; Paul Zimmerman
+> > <pauldzim@gmail.com>;
+> > > Sai Pavan Boddu <saipava@xilinx.com>
+> > > Subject: Re: [PATCH v12 1/3] misc: Add versal-usb2-ctrl-regs module
+> > >
+> > > On Thu, 22 Oct 2020 at 13:11, Sai Pavan Boddu
+> > > <sai.pavan.boddu@xilinx.com>
+> > > wrote:
+> > > >
+> > > > This module emulates control registers of versal usb2 controller,
+> > > > this is added just to make guest happy. In general this module woul=
+d
+> > > > control the phy-reset signal from usb controller, data coherency of
+> > > > the transactions, signals the host system errors received from cont=
+roller.
+> > > >
+> > > > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> > > > Signed-off-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+> > > > ---
+> > > >  hw/misc/meson.build                          |   1 +
+> > > >  hw/misc/xlnx-versal-usb2-ctrl-regs.c         | 229
+> > > +++++++++++++++++++++++++++
+> > > >  include/hw/misc/xlnx-versal-usb2-ctrl-regs.h |  45 ++++++
+> > >
+> > > This seems a bit odd. If it's a USB device (or part of a USB
+> > > device) then it should be under hw/usb, shouldn't it?
+> > [Sai Pavan Boddu] This is a top level wrapper over hcd-dwc3 device, whi=
+ch is
+> > specific to versal soc. It's mostly dummy which controls the phy-reset =
+and does
+> > frame length adjustments. It was added just to make guest happy, that i=
+s the
+> > reason it has been added to misc devices.
+> > >
+> > > > +static void ir_status_postw(RegisterInfo *reg, uint64_t val64) {
+> > > > +    VersalUsb2CtrlRegs *s =3D XILINX_VERSAL_USB2_CTRL_REGS(reg-
+> > >opaque);
+> > > > +    /*
+> > > > +     * TODO: This should also clear USBSTS.HSE field in USB XHCI r=
+egister.
+> > > > +     * May be combine both the modules.
+> > > > +     */
+> > >
+> > > What does the hardware for this look like? You've modelled it as two
+> > > completely separate devices (this one and the
+> > > TYPE_USB_DWC3) but would it be closer to the hardware structure to
+> > > have a top-level device which has-a DWC3 ?
+> > [Sai Pavan Boddu] Yes, we can look at it such way. But as its specific =
+to versal
+> > SOC, we have crafted it out and stitched them in SOC file.
+> >
+> > Regards,
+> > Sai Pavan
+> [Sai Pavan Boddu] I would be sending V13 without doing any changes with t=
+his patch and addressing other comments, Please review over V13.
 
+You have my review comments above. I think the way you've structured
+this isn't really the best way to do it.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
+thanks
 -- PMM
 
