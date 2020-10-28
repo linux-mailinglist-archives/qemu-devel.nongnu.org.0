@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6FB29D1AE
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 20:21:39 +0100 (CET)
-Received: from localhost ([::1]:41158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F192C29D1A9
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 20:19:16 +0100 (CET)
+Received: from localhost ([::1]:35374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXr0s-00009p-9S
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 15:21:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36066)
+	id 1kXqya-0006FI-29
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 15:19:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXqwo-0004ie-HT
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:17:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43524)
+ id 1kXqwm-0004iJ-UG
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:17:25 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXqwi-0007Zp-0u
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:17:26 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g12so248246wrp.10
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 12:17:16 -0700 (PDT)
+ id 1kXqwi-0007a0-1l
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 15:17:24 -0400
+Received: by mail-wm1-x342.google.com with SMTP id t3so343084wmi.3
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 12:17:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CZIUq9jQBpb3euLRL7uB1HYxmM0OdzjlpOHQCueZOfM=;
- b=tyK2m8sXn9JRs7zLK/8YRPBnjxLON30jDxiol1pF76p0nA23kQNgEYIPk+gTZv8vZH
- kMZTXHBmzIMgzckzHcSjeD+m9f3XPww6LsimpTYV30ZTGrDekEJjneHJvd1m1GimNXL9
- XQ+UrmfctqOj6C7eENsPw/4tnVHIuCnStsxVAHBgrNjzMbITUdh6Y8BuYsQeq+N2tZCM
- vJDC1fsagK/UhM4Xrc4x5D4384nzQw1eBJV1iaBj955yuTbDeuxUIcNNygx9Ip6mWiKi
- 9XPE7nfj3Ks4E6n7hFwvOeMRxNf+TfGWAHAvXKTUeFas4ph6kqMg9YIiBLCA/OH9RkW6
- IraA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=t9TzEw+5lSfoYMnb9djte7cKvh5seLsAJB+iLYPKOyU=;
+ b=D8i9GMqnKB3nl+KwjctvK3niE9NTEDkSCqoj8cZygsHAXXnGv07iTv+v6ce4gT/4WS
+ U0l0ge3oLggS3ck1sOdFclGf5TxKevH7a62Fprwr/YQ4NkFQeHGWtZiWs+hwCJiS8vgd
+ jfFPwGxZzM3ftPbf4DduuO+4hDtj285yTLBshk2UDPFzuqKue96rH577qh+XBLdRJQ2u
+ 3ahnuz//tgWpV/NtcReiVnzinq4ycqjjBot79jMdBpV3U7PoLeKY673cp8jEV+F4TeEp
+ J7Z6FAChvfLfqufTCCrYOoCEGYgGnSR0eSLxOCbbqDM0B3guGRGm8OVkoKwvQuTTK5O1
+ 7AHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CZIUq9jQBpb3euLRL7uB1HYxmM0OdzjlpOHQCueZOfM=;
- b=M+pkYYOi2CF30miUDqYEKxpnAp3ygul2djq6IYDz3T/UkkTk9XfZYmXfA8eunBnZxd
- NqElLsxShuWt8DYKkCj3ClcxPM9hjk4UqGupXcrU9RUr6dnDOUr/VnDfkfGgQ4PtNNTn
- K5gZqxJoh9G3QFREEec9G3vW/A1kwgSF3eWVvI73BZV5Mm7DSalIiTxe240G9UwQE/pv
- gqJghgVZVwOE108UOQM2A7myr+X4BwSilAkqrqiz+cIDDcOaLRUNzWthJcAr/3uJC6ho
- b31fgJQgwnWOL7OBfFAYZ0sAVClC3g20CMwLas+CzFa0BHDdVNEpkg4zHb0zEcZWEma5
- eCvg==
-X-Gm-Message-State: AOAM531WpsPF/2f+T+8y0Jih3gJnAVm9ccHq8lMd1F5rk7jmp3FQ/p1p
- EX+OrZvDRWOTZEM2GJFivN7zuQ==
-X-Google-Smtp-Source: ABdhPJxCmwv76YpXlMNnZgFVVArlyZYMuwF8ZdL6j25SVK7+gWMkjitnkFFaoCwiPKVStSr2UzMg/g==
-X-Received: by 2002:a5d:458c:: with SMTP id p12mr900665wrq.329.1603912635174; 
- Wed, 28 Oct 2020 12:17:15 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t9TzEw+5lSfoYMnb9djte7cKvh5seLsAJB+iLYPKOyU=;
+ b=P9X/X6QDZcZrygIURqH6OKAHj5V00ou7Y4ofqijVfvfM7fNXETEMcSlLg6uoo0A1P9
+ LVmwfVVekcXBn4DkUFsKtZN0DgK1toRhjhP/YE6v4sCGtPv76bMDyyvH0CEiIa2kcoL8
+ B54f8dB0aRTUTjjeygM5HR8EYPYXCqlbkaFSot+DpUoMxzaT+FePET/A4tVpktPY8bxL
+ UXPBpVm1nQ3iDkqBmRjNp/G8dR/TsSqBxOGfVKULFQrGQv9XwOzXb8kJVqyKzcTNVA7T
+ EXAzX61j9by5q1jEzVdn1ukLAxWA2CWOzj0M2A0/KLsgppOBJ6yR8kJhK4uM0Abipwuy
+ uiAQ==
+X-Gm-Message-State: AOAM531bq3kP9B4o5g9xNMP7ddGOVn0fnKWhucSBiGwtV89zcsXrWdbZ
+ 4Q3Cb6Xgsld6DxLmMSi4t3WH2w==
+X-Google-Smtp-Source: ABdhPJwC53uZKvaNgozpthKdgc/Yk8dYmpNIK8XcZiAr73P2qa2kBzxTeBKwyxma4XvEpCTM8lhUFQ==
+X-Received: by 2002:a1c:7d49:: with SMTP id y70mr302920wmc.103.1603912636259; 
+ Wed, 28 Oct 2020 12:17:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l16sm743953wrx.5.2020.10.28.12.17.13
+ by smtp.gmail.com with ESMTPSA id l16sm743953wrx.5.2020.10.28.12.17.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 28 Oct 2020 12:17:14 -0700 (PDT)
+ Wed, 28 Oct 2020 12:17:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Fix some Neon insns on big-endian hosts
-Date: Wed, 28 Oct 2020 19:17:10 +0000
-Message-Id: <20201028191712.4910-1-peter.maydell@linaro.org>
+Subject: [PATCH 1/2] target/arm: Fix float16 pairwise Neon ops on big-endian
+ hosts
+Date: Wed, 28 Oct 2020 19:17:11 +0000
+Message-Id: <20201028191712.4910-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201028191712.4910-1-peter.maydell@linaro.org>
+References: <20201028191712.4910-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::444;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x444.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -70,7 +73,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,27 +90,36 @@ Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchseries fixes a couple of places where the vector
-helpers we use for Neon insns were missing uses of the
-address-swizzling macros H1(), H2() or H4(). This is harmless
-on little-endian hosts but causes the wrong results to be
-generated on big-endian hosts. The affected insns are
-VUDOT(scalar), VSDOT(scalar), VPADD, VPMAX and VPMIN.
+In the neon_padd/pmax/pmin helpers for float16, a cut-and-paste error
+meant we were using the H4() address swizzler macro rather than the
+H2() which is required for 2-byte data.  This had no effect on
+little-endian hosts but meant we put the result data into the
+destination Dreg in the wrong order on big-endian hosts.
 
-This series is independent of Richard's recent "target/arm:
-Fix neon reg offsets"; it fixes the handful of remaining
-risu test failures I see.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ target/arm/vec_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-thanks
--- PMM
-
-Peter Maydell (2):
-  target/arm: Fix float16 pairwise Neon ops on big-endian hosts
-  target/arm: Fix VUDOT/VSDOT (scalar) on big-endian hosts
-
- target/arm/vec_helper.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
-
+diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
+index a973454e4f4..30d76d05beb 100644
+--- a/target/arm/vec_helper.c
++++ b/target/arm/vec_helper.c
+@@ -1858,10 +1858,10 @@ DO_ABA(gvec_uaba_d, uint64_t)
+         r2 = float16_##OP(m[H2(0)], m[H2(1)], fpst);                    \
+         r3 = float16_##OP(m[H2(2)], m[H2(3)], fpst);                    \
+                                                                         \
+-        d[H4(0)] = r0;                                                  \
+-        d[H4(1)] = r1;                                                  \
+-        d[H4(2)] = r2;                                                  \
+-        d[H4(3)] = r3;                                                  \
++        d[H2(0)] = r0;                                                  \
++        d[H2(1)] = r1;                                                  \
++        d[H2(2)] = r2;                                                  \
++        d[H2(3)] = r3;                                                  \
+     }
+ 
+ DO_NEON_PAIRWISE(neon_padd, add)
 -- 
 2.20.1
 
