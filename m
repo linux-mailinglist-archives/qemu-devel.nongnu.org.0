@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F08E929D003
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 14:25:16 +0100 (CET)
-Received: from localhost ([::1]:59720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5923A29D002
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 14:25:15 +0100 (CET)
+Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXlRz-0008Us-W8
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 09:25:16 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
+	id 1kXlRy-0008SB-Dh
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 09:25:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXlQl-0007Yd-8V
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:23:59 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43847)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXlQa-0007Vd-Fe
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:23:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXlQh-0007go-Az
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:23:58 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXlQX-0007gF-Jc
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:23:48 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603891433;
+ s=mimecast20190719; t=1603891424;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zILwx03j7JdCr1FQsSkt18aoixIpWiuvFRw+lNTEp/0=;
- b=ZFNJi/gkRm6UR1r9PF+Vk5FVDaHVhXaDLCaQHQeMMP/bLoBYEjTjh1z6pWjzbEVgnl8hQ1
- BJqEYJonhfmx+Iz8uBNIDkx6MrW18jNdkBBqeUhyHnoVwOzLj553lNivSbNVFfhO04K1qC
- GKDRdEcfmn+P8lMUYLSubQmIH9yeav8=
+ bh=AjU+Z1t1z9OvCaEm7HkPNbfZvyd9kI9jwGKE3wiWDKM=;
+ b=hHKY9hGDSyU5juh+D1mneCNCbJP4yO4JrX1hecd30BlJg6zmNyIJeHleHNlU44M9KK0xJA
+ xoBm1JuLHZAhf+AZXGs9Zl6gTSiolHPvbQZNIC95RRBgBWJxUB+5z5Z0l0WTOYmslyiDcE
+ oi1Hpr4OXPHas9OV/vVMt29mO5PKYDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-468-wrZWt9-KP2agnZHEZ_PJpA-1; Wed, 28 Oct 2020 09:23:31 -0400
-X-MC-Unique: wrZWt9-KP2agnZHEZ_PJpA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-499-k22oHER8NpKu_NMfvnpJdA-1; Wed, 28 Oct 2020 09:23:39 -0400
+X-MC-Unique: k22oHER8NpKu_NMfvnpJdA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 75952808245;
- Wed, 28 Oct 2020 13:22:29 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-124.ams2.redhat.com [10.36.112.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 727D35B4A4;
- Wed, 28 Oct 2020 13:22:27 +0000 (UTC)
-Subject: Re: [PATCH 4/9] linux-user/mips/cpu_loop: silence the compiler
- warnings
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
- <20201028041819.2169003-5-kuhn.chenqun@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <15244401-6423-aad2-c44d-30a1de4eeddd@redhat.com>
-Date: Wed, 28 Oct 2020 14:22:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6926B1030986;
+ Wed, 28 Oct 2020 13:23:38 +0000 (UTC)
+Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 40B3719C4F;
+ Wed, 28 Oct 2020 13:23:33 +0000 (UTC)
+Subject: Re: [PATCH 1/5] python: add pytest and tests
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20201027223815.159802-1-jsnow@redhat.com>
+ <20201027223815.159802-2-jsnow@redhat.com>
+ <7440abdc-b01e-ba5e-5238-a6e4573f88b5@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <c85597c2-a9b3-e8ff-7208-c3f16002f40b@redhat.com>
+Date: Wed, 28 Oct 2020 09:23:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201028041819.2169003-5-kuhn.chenqun@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <7440abdc-b01e-ba5e-5238-a6e4573f88b5@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,72 +84,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Euler Robot <euler.robot@huawei.com>, Laurent Vivier <laurent@vivier.eu>,
- ganqixin@huawei.com, zhang.zhanghailiang@huawei.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/10/2020 05.18, Chen Qun wrote:
-> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-> linux-user/mips/cpu_loop.c: In function ‘cpu_loop’:
-> linux-user/mips/cpu_loop.c:104:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
->   104 |                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
->       |                        ^
-> linux-user/mips/cpu_loop.c:107:17: note: here
->   107 |                 case 7:
->       |                 ^~~~
-> linux-user/mips/cpu_loop.c:108:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
->   108 |                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
->       |                        ^
-> linux-user/mips/cpu_loop.c:111:17: note: here
->   111 |                 case 6:
->       |                 ^~~~
-> linux-user/mips/cpu_loop.c:112:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
->   112 |                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
->       |                        ^
-> linux-user/mips/cpu_loop.c:115:17: note: here
->   115 |                 case 5:
->       |                 ^~~~
+On 10/28/20 2:19 AM, Thomas Huth wrote:
+> On 27/10/2020 23.38, John Snow wrote:
+>> Try using pytest to manage our various tests; even though right now
+>> they're only invoking binaries and not really running any python-native
+>> code.
+>>
+>> Create tests/, and add test_lint.py which calls out to mypy, flake8,
+>> pylint and isort to enforce the standards in this directory.
+>>
+>> Add pytest to the setup.cfg development dependencies; add a pytest
+>> configuration section as well; run it in verbose mode.
+>>
+>> Finally, add pytest to the Pipfile environment and lock the new
+>> dependencies. (Note, this also updates an unrelated dependency; but the
+>> only way to avoid this is to pin that dependency at a lower version --
+>> which there is no reason to do at present.)
+>>
+>> Provided you have the right development dependencies (mypy, flake8,
+>> isort, pylint, and now pytest) You should be able to run "pytest" from
+>> the python folder to run all of these linters with the correct
+>> arguments.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   python/Pipfile.lock       | 71 ++++++++++++++++++++++++++++++++++++---
+>>   python/setup.cfg          |  5 +++
+>>   python/tests/test_lint.py | 28 +++++++++++++++
+>>   3 files changed, 99 insertions(+), 5 deletions(-)
+>>   create mode 100644 python/tests/test_lint.py
+>>
+>> diff --git a/python/Pipfile.lock b/python/Pipfile.lock
+>> index 05077475d750..105ffbc09a8e 100644
+>> --- a/python/Pipfile.lock
+>> +++ b/python/Pipfile.lock
+>> @@ -30,6 +30,14 @@
+>>               "markers": "python_version >= '3.5'",
+>>               "version": "==2.4.2"
+>>           },
+>> +        "attrs": {
+>> +            "hashes": [
+>> +                "sha256:26b54ddbbb9ee1d34d5d3668dd37d6cf74990ab23c828c2888dccdceee395594",
+>> +                "sha256:fce7fc47dfc976152e82d53ff92fa0407700c21acd20886a13777a0d20e655dc"
+>> +            ],
+>> +            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
 > 
-> Add the corresponding "fall through" comment to fix it.
+> Can't you simply use "python_version >= '3.6'" instead?
 > 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: Laurent Vivier <laurent@vivier.eu>
-> ---
->  linux-user/mips/cpu_loop.c | 4 ++++
->  1 file changed, 4 insertions(+)
+>   Thomas
 > 
-> diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-> index 553e8ca7f5..cfe7ba5c47 100644
-> --- a/linux-user/mips/cpu_loop.c
-> +++ b/linux-user/mips/cpu_loop.c
-> @@ -104,18 +104,22 @@ void cpu_loop(CPUMIPSState *env)
->                      if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
->                          goto done_syscall;
->                      }
-> +                    /* fall through */
->                  case 7:
->                      if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
->                          goto done_syscall;
->                      }
-> +                    /* fall through */
->                  case 6:
->                      if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
->                          goto done_syscall;
->                      }
-> +                    /* fall through */
->                  case 5:
->                      if ((ret = get_user_ual(arg5, sp_reg + 16)) != 0) {
->                          goto done_syscall;
->                      }
-> +                    /* fall through */
->                  default:
->                      break;
->                  }
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+This file is generated; I don't really actually know what these markers 
+mean or to whom. I can't edit it because it's checksummed.
 
+--js
 
 
