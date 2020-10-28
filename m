@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7461829CE74
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 08:02:56 +0100 (CET)
-Received: from localhost ([::1]:46232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91E2B29CE78
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 08:13:02 +0100 (CET)
+Received: from localhost ([::1]:50854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXfTz-00036a-2s
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 03:02:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50332)
+	id 1kXfdl-0005ht-KG
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 03:13:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXfSx-0002Y2-Og
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 03:01:51 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kXfSv-0007wm-D5
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 03:01:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603868507;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tSjo56HQI/YDsuYxXlxaMHjPKsq6AwfWrwmZayP/LTI=;
- b=Nt3jyuzvvn6Wu2ooy1f3iOc54yUhIHIXAlc+/vRUDg8l9Nn5e4HyGz2cW+gzOVhXAteZjl
- GR2kH7J5o9REQPO+ADfNlvyYpMwKKOm8nJKeKYzR0Ja5YQb0B3OhJgKvbnXqIi+Om0HxAY
- 93ECjqzSb2vmI4qwoRo8kipTDqYELv8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-144-i7QGiqfnP--VmLO8_WF_9A-1; Wed, 28 Oct 2020 03:01:45 -0400
-X-MC-Unique: i7QGiqfnP--VmLO8_WF_9A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B02D480B73B;
- Wed, 28 Oct 2020 07:01:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 244D46266E;
- Wed, 28 Oct 2020 07:01:41 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 7ACD0113865F; Wed, 28 Oct 2020 08:01:39 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/4] qemu-storage-daemon: QAPIfy --chardev the stupid way
-References: <20201026101005.2940615-1-armbru@redhat.com>
- <d00ef574-b2c4-887c-6a37-79f6cf6eeae0@redhat.com>
-Date: Wed, 28 Oct 2020 08:01:39 +0100
-In-Reply-To: <d00ef574-b2c4-887c-6a37-79f6cf6eeae0@redhat.com> (Paolo
- Bonzini's message of "Tue, 27 Oct 2020 19:36:22 +0100")
-Message-ID: <87a6w63kbw.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kXfcY-0004SR-N2; Wed, 28 Oct 2020 03:11:46 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2115)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kXfcV-0003Aq-Mp; Wed, 28 Oct 2020 03:11:46 -0400
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CLfrL4rvqz6wXN;
+ Wed, 28 Oct 2020 15:11:30 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 28 Oct 2020 15:11:20 +0800
+Message-ID: <5F991998.2020108@huawei.com>
+Date: Wed, 28 Oct 2020 15:11:20 +0800
+From: AlexChen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: <pbonzini@redhat.com>, <chenhc@lemote.com>, <pasic@linux.ibm.com>,
+ <borntraeger@de.ibm.com>, <mtosatti@redhat.com>, <cohuck@redhat.com>
+Subject: [PATCH 0/4] kvm: Add a --enable-debug-kvm option to configure
+References: <5F97FD61.4060804@huawei.com>
+In-Reply-To: <5F97FD61.4060804@huawei.com>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=alex.chen@huawei.com;
+ helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 03:11:28
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,37 +60,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: zhengchuan@huawei.com, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+The current 'DEBUG_KVM' macro is defined in many files, and turning on
+the debug switch requires code modification, which is very inconvenient,
+so this series add an option to configure to support the definition of
+the 'DEBUG_KVM' macro.
+In addition, patches 3 and 4 also make printf always compile in debug output
+which will prevent bitrot of the format strings by referring to the
+commit(08564ecd: s390x/kvm: make printf always compile in debug output).
 
-> On 26/10/20 11:10, Markus Armbruster wrote:
->> Kevin's "[PATCH v2 0/6] qemu-storage-daemon: QAPIfy --chardev"
->> involves surgery to the QAPI generator.  Some (most?) of it should go
->> away if we deprecate the "data" wrappers due to simple unions in QMP.
->> 
->> Do we really need to mess with the code generator to solve the problem
->> at hand?
->> 
->> 
->> Let's recapitulate the problem:
->> 
->> * We want to QAPIfy --chardev, i.e. define its argument as a QAPI
->>   type.
->
-> Considering that this is not 5.2 stuff at this point, I would like to
-> suggest again moving chardevs to -object, and ask you to evaluate that
-> option with the agreement that I do the work instead of you. :)
+alexchen (4):
+  configure: Add a --enable-debug-kvm option to configure
+  kvm: replace DEBUG_KVM to CONFIG_DEBUG_KVM
+  kvm: make printf always compile in debug output
+  i386/kvm: make printf always compile in debug output
 
-Replacing -chardev with -object without regressing features would be
-lovely.  One feature in particular: introspection.
+ accel/kvm/kvm-all.c | 11 ++++-------
+ configure           | 10 ++++++++++
+ target/i386/kvm.c   | 11 ++++-------
+ target/mips/kvm.c   |  6 ++++--
+ target/s390x/kvm.c  |  6 +++---
+ 5 files changed, 25 insertions(+), 19 deletions(-)
 
-If we manage to fully QAPIfy -object, we should be good.  I understand
-Eduardo is cutting a path through the jungle.
-
-I can offer assistance with bridging QAPI schema to QOM.
-
+-- 
+2.19.1
 
