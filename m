@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3015929D220
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 21:43:20 +0100 (CET)
-Received: from localhost ([::1]:36522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74A9C29D21D
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 21:33:57 +0100 (CET)
+Received: from localhost ([::1]:59374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXsHv-0003fe-8W
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 16:43:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57350)
+	id 1kXs8q-0000tk-4f
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 16:33:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXsGc-0003CE-Ge; Wed, 28 Oct 2020 16:41:58 -0400
-Received: from mail-il1-x144.google.com ([2607:f8b0:4864:20::144]:33480)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXs72-000083-Nn
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 16:32:04 -0400
+Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:43142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXsGa-0002U0-I8; Wed, 28 Oct 2020 16:41:58 -0400
-Received: by mail-il1-x144.google.com with SMTP id f16so848206ilr.0;
- Wed, 28 Oct 2020 13:41:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXs6s-00019A-JB
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 16:31:59 -0400
+Received: by mail-ed1-x541.google.com with SMTP id dn5so824808edb.10
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 13:31:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=u6c1IvoLU1jJNSxai7R5+aEhshY9g0/9xRcDZ6WYzTg=;
- b=ZTE0SvbEQ3HInXFAxUjyXve4siCm2UeS+FgeeF1uKC7EJpXKb4REqpQBepVtFK2SJs
- nuSP88klMVQIiplO74pFKVRUK1E2wcMhW+VaQxmOmDhHwE35gDndpVCyOVLS1mX5N+8m
- Ltw3xChHcUyKrvfVMlRApwgKnxpDn+9Nq9TBhqnTSlZfdl2IT7K0flUwIUIN+GDpYUOF
- QKo2jHzrqc9o5DMJF/d0RMYcPw4cqut21XdRmjv27KRx9H1Snl4vAzrcf86gFfW8sqcX
- F1uAo0z7gj82Leo35VsEHoFZmTZFw9lKO34H1rMpjNKnTG5X2TJ9HI9VS6wQy2U1POUD
- cXQQ==
+ :cc; bh=A60WitzBwUcQrRVGfN8Ljoa+Za+envdNm8g+RcTq0wc=;
+ b=rk18SVW1Dyv/PrlgmyN0i32GHExFumZ8sA099ubn7lYjDWtdamg0pJZ374nCSSP5ed
+ JZU4bRQdHG+vim7lH7r1uYcxdsyTCBmwCgnszdZq1R3+76JHt8x0wYmoGenkyK1/ttdv
+ V2lgjq/Eb0ddw384MrRumbzH97Ue1APrsLpNjboJXgefRrX5OnSjWCXlYU314F5c5s3T
+ oWkzQKVE8A26Hr2wnemM6NiTyuYQVVqbxBWslZCU8gpxfWOB4NtBPxe3neU4ujDs7z7h
+ tYuuB/mc1RYM5PoF/5hZSH/q2TUCJ5fGWJDPysFsIDjMUo7x5LPMAsyvJELYnmuZ7Xr/
+ oIYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=u6c1IvoLU1jJNSxai7R5+aEhshY9g0/9xRcDZ6WYzTg=;
- b=O8WH3RRlzQRhPMeJkydjvbJ3dV95TrYY3TsIiCWj12zvDysKBoXMx3MOSMPtlUrzl5
- 6tE2QK+g3rCMIjVMqSKeR/VYdeLtSTc9hq6E+M9cll80OU2T0/Q7rekpGYKitoN9y4+o
- skbbe/b4nATSXpb7XDEue+KfL9Awp+B+dgwdfH00pZ4P4+6OyMtHhNFTHLyAfyHB15r2
- AegfGS8V7j+Cm2EHbxgaOW92EIkI/nxYXgh3FkB9Cs62sxKh8EOCayu0QoV/pfi1+i6W
- LpVCfsFlQqT5hg2zRnLrb1TM/ge9qOmy8mGfRp+sqF+HolmOOSX6LcJv6HbG/ty83get
- gcCw==
-X-Gm-Message-State: AOAM531744xmLPapITUo+5gKItD1/fnWT1969rYh/0gF3NJw5AJ61dwF
- tvWrIQUS2kqB2rMl9PoPbR5UooTVdPqLuB+k6Tw=
-X-Google-Smtp-Source: ABdhPJxMQR+2dGyIHO82nsbZwJHWIIIhwchhZyVa7fZlWRX2JjUfUgNxForkM0quaCKaIu2zgXTZQmYT1LVA025gtO8=
-X-Received: by 2002:a05:6e02:c:: with SMTP id h12mr737929ilr.177.1603917713603; 
- Wed, 28 Oct 2020 13:41:53 -0700 (PDT)
+ bh=A60WitzBwUcQrRVGfN8Ljoa+Za+envdNm8g+RcTq0wc=;
+ b=kbqvxv1rqKv1oSAwQL5SBbxflP9JF6rfi0fdD5AeJ3+cQQcWs0nfGfwsnDgaUAmrg1
+ nDAk/u24oZVzrh7bVrPmKB9Y7ICBR5lsHTa5xrF9fn6R2x38Jc9l15t4b+wmy1iWj4A5
+ QgCrs+yaBgfX5kL0GsrMiZ9ejniWubE4T/06s4jHncCqROQhxJ8vkI0I1rdGziZ+7cgw
+ 1RjO12dVXHlqQjCLUfFR3/Cq9x9+cR9EFWp8oOCjo9ldm9VhKUGwMidm4QnUPnssbOBH
+ TTIpqf+EtKJnQtDKB8lbzvrW6xIHOYaayIVGgUayU4qAtSKwYp5HetTuIqbBTR9lNu6J
+ rhhw==
+X-Gm-Message-State: AOAM531oz1R6xGfPgMeYpNj4y/Sx+zF5NhiXS3UGKu/XAj3K3VITNmM7
+ nTj0fWeXT9fJwlBKGg0u4KUfwZOOpyYLnnk8rs+62g==
+X-Google-Smtp-Source: ABdhPJwwIKJMx2tZ4n5Rkg/lublCZPSSofsVCjPpMXpK7qqonz7mCPT8/2jpCBOSuH3f1XenfIILCGTQZAoK6gp0L0g=
+X-Received: by 2002:a50:f41a:: with SMTP id r26mr666265edm.251.1603917112827; 
+ Wed, 28 Oct 2020 13:31:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1603863010-15807-1-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1603863010-15807-1-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 28 Oct 2020 13:30:02 -0700
-Message-ID: <CAKmqyKP42vEZvLHM4r=XQSa-DttHcJNBw0uCgUZwBvBsc8kijw@mail.gmail.com>
-Subject: Re: [PATCH v2 00/10] hw/riscv: microchip_pfsoc: Support factory HSS
- boot out of the box
-To: Bin Meng <bmeng.cn@gmail.com>
+References: <20201028085918.14580-1-maxim.uvarov@linaro.org>
+In-Reply-To: <20201028085918.14580-1-maxim.uvarov@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 28 Oct 2020 20:31:41 +0000
+Message-ID: <CAFEAcA8_1w=4qdE_AJxUP-uPoFL=Fsg9hy62Lw7bLDjKzL9Vvg@mail.gmail.com>
+Subject: Re: [RFC PATCH] hw/arm/virt: use sbsa-ec for reboot and poweroff in
+ secure mode
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::144;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x144.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x541.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,82 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: Graeme Gregory <graeme@nuviainc.com>,
+ =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>,
+ Leif Lindholm <leif@nuviainc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 10:31 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Wed, 28 Oct 2020 at 08:59, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> If we're emulating EL3 then the EL3 guest firmware is responsible for
+> providing the PSCI ABI, including reboot, core power down, etc.
+> sbsa-ref machine has an embedded controller to do reboot, poweroff. Machine
+> virt,secure=on can reuse this code to do reboot inside ATF.
 >
-> At present the DDR memory controller is not modeled, hence the factory
-> HSS firmware does not boot out of the box on QEMU. A modified HSS is
-> required per the instructions on [1].
->
-> This series adds the missing DDR memory controller support to PolarFire
-> SoC, as well as adding various misc models to support the DDR memory
-> initialization done by HSS.
->
-> With this series, the unmodified HSS image can boot on QEMU out of the
-> box. The latest SD card image [2] released by Microchip was used for
-> testing which includes the pre-built U-Boot, device tree blob and Linux
-> kernel. The instructions on [1] have been updated to latest information.
->
-> [1] https://wiki.qemu.org/Documentation/Platforms/RISCV#Microchip_PolarFire_SoC_Icicle_Kit
-> [2] ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
->
-> Changes in v2:
-> - new patch: Document where to look at the PolarFire SoC memory maps
-> - change to map the reserved memory at address 0 instead of debug memory
-> - Increase the default memory size to 2 GiB
->
-> Bin Meng (10):
->   hw/riscv: microchip_pfsoc: Document where to look at the SoC memory
->     maps
->   hw/misc: Add Microchip PolarFire SoC DDR Memory Controller support
->   hw/riscv: microchip_pfsoc: Connect DDR memory controller modules
->   hw/misc: Add Microchip PolarFire SoC IOSCB module support
->   hw/riscv: microchip_pfsoc: Connect the IOSCB module
->   hw/misc: Add Microchip PolarFire SoC SYSREG module support
->   hw/riscv: microchip_pfsoc: Connect the SYSREG module
->   hw/riscv: microchip_pfsoc: Map the reserved memory at address 0
->   hw/riscv: microchip_pfsoc: Correct DDR memory map
->   hw/riscv: microchip_pfsoc: Hook the I2C1 controller
+> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
 
-Thanks!
+(I've cc'd the sbsa-ref machine maintainers.)
 
-Applied to riscv-to-apply.next
-
-Alistair
+> ---
+>  Hello,
+>
+>  This patch implements reboot for the secure machine inside ATF firmware. I.e. current qemu
+>  patch should be used with [1] ATF patch. It looks like that Embedded Controller qemu
+>  driver (sbsa-ec) can be common and widely used for other emulated machines. While if
+>  there are plans to extend sbsa-ec then we might find some other solution.
+>
+>  So for the long term it looks like machine virt was used as an initial playground for secure
+>  firmware.  While the original intent was a runner for kvm guests. Relation between kvm guest
+>  and firmware  is not very clear now. If everyone agree it might be good solution to move secure
+>  firmware things from virt machine to bsa-ref and make this machine reference for secure boot,
+>  firmware updates  etc.
+>
+>  [1] https://github.com/muvarov/arm-trusted-firmware/commit/6d3339a0081f6f2b45d99bd7e1b67bcbce8f4e0e
 
 
->
->  MAINTAINERS                         |   6 +
->  hw/misc/Kconfig                     |   9 ++
->  hw/misc/mchp_pfsoc_dmc.c            | 216 ++++++++++++++++++++++++++++++++
->  hw/misc/mchp_pfsoc_ioscb.c          | 242 ++++++++++++++++++++++++++++++++++++
->  hw/misc/mchp_pfsoc_sysreg.c         |  99 +++++++++++++++
->  hw/misc/meson.build                 |   3 +
->  hw/riscv/Kconfig                    |   3 +
->  hw/riscv/microchip_pfsoc.c          | 123 +++++++++++++++---
->  include/hw/misc/mchp_pfsoc_dmc.h    |  56 +++++++++
->  include/hw/misc/mchp_pfsoc_ioscb.h  |  50 ++++++++
->  include/hw/misc/mchp_pfsoc_sysreg.h |  39 ++++++
->  include/hw/riscv/microchip_pfsoc.h  |  18 ++-
->  12 files changed, 847 insertions(+), 17 deletions(-)
->  create mode 100644 hw/misc/mchp_pfsoc_dmc.c
->  create mode 100644 hw/misc/mchp_pfsoc_ioscb.c
->  create mode 100644 hw/misc/mchp_pfsoc_sysreg.c
->  create mode 100644 include/hw/misc/mchp_pfsoc_dmc.h
->  create mode 100644 include/hw/misc/mchp_pfsoc_ioscb.h
->  create mode 100644 include/hw/misc/mchp_pfsoc_sysreg.h
->
-> --
-> 2.7.4
->
->
+Thanks for this patch. It is definitely a missing
+bit of functionality that we intend to allow virt to run
+EL3 guest code but don't provide a trigger-shutdown/reboot
+device that works in that setup.
+
+I think the key question here is whether we want to implement
+this by:
+(1) providing the sbsa-ec device in the virt board
+(2) some other mechanism, eg a secure-only pl061 GPIO
+some of whose output pins can trigger shutdown or reboot
+
+The sbsa-ec device has the advantage of doing the
+shutdown/reboot functionality at the moment. The question
+I have for the sbsa-ref board folks is: what are your future
+plans for that device? If the idea is that it's going to end
+up stuffed full of sbsa-ref specific functionality that we
+wouldn't want to try to expose in the virt board, then we
+should probably go with the pl061 approach instead. But if
+it's not likely to grow new functionality then it might be
+simpler...
+
+A couple of notes on this patch if we do go down that route:
+ * we would need to arrange to only add the new device for
+   new versions of the virt board (that is, the "virt-5.0"
+   machine must not have this device because it must look
+   like the version of "virt" that shipped with QEMU 5.0)
+ * the device needs to be mapped into the Secure address
+   space only, because Secure firmware wants control over
+   it and doesn't want to allow NS code to reboot the system
+   without asking the firmware
+ * it would need to be described in the DTB (and maybe also
+   ACPI tables? I forget whether we need to describe Secure-only
+  devices there)
+
+But let's find out if that's the route we want to take first.
+
+thanks
+-- PMM
 
