@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B0529D045
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:23:16 +0100 (CET)
-Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358A929D04E
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:26:02 +0100 (CET)
+Received: from localhost ([::1]:46212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmM7-0005c2-NO
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:23:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58088)
+	id 1kXmOn-0008BO-7F
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:26:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kXmGe-0008OH-Ib
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:37 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:54844)
+ id 1kXmGj-0008RL-3y
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:41 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:36382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kXmGa-0006aL-6n
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:36 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEFK34184151;
+ id 1kXmGb-0006aJ-M6
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:40 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEEXpT001634;
  Wed, 28 Oct 2020 14:17:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=Off4rILxy/2Uwam4AfayYvwQKmpoChU9v3Si4TLtbQ0=;
- b=VzxPWBL+iDtfYTOJPtdATxw5iAbfDtXXsXG+MMpjCUzMUiVkR/UzVm9p5U3++CiorpkZ
- WqiVYwNXhHCNxACx4cMDE0UPOZHLb9zIrQRq7sdd0k+KwuIyuNPlbW1o4xecCR8zYx9T
- 0yQft0JWL9OJA+DfHmNKgRd1KOaje/bGUfjZJj4zaUQB4dZsZeI2CJNMjuiAbtziDcGr
- PnyMcNwZOrFQ8btaN+shhN7S04AOuOa1NiZndWhg5QG7v7LcjOxQ3Shim/A9dNFwot0/
- rN14HHqlF9jQviNIayg4nXlWbG/411rNOaShPdbQku0gJ+/Iu42yYwMUjpt5hPp0QQUN YA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 34c9sayt55-1
+ bh=3uD8IMggnjwIH0LXsTMabe1CBa8Yw4FbKDN++7eZpT4=;
+ b=AlBlEHph+j6LcvJ89UYvOXtcaBiOxNZJE20gfj0zZ5W8Xeo4HZ9j6L5zIeC0iRMJQW5v
+ qzyzIKmGZBy0johc3moaTH87Ara4WUNwuEKkuvTNRKiwW1nF0JLiQb8dFGsDpPGAoVvS
+ L5WKYfnBzCgUO1qTOUnWh6iopIITE73+tV5qaeK6QXwDArKaS63GW/2dokazIfHxmHGh
+ rbW7bSeropICCiE+GxqE0J4DKYd3uFO3G616PvfHBo0Pdd+XJQHuTXj9Ytt7ssMweKGU
+ 0lSNYe1Hs07unUE5ZpFw39t+Kr3xnSZ2fPRibBVyx3oLLWfldx5eGygKmrsfa4sE01g1 Ow== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2120.oracle.com with ESMTP id 34dgm4593a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Wed, 28 Oct 2020 14:17:29 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEA6XP027661;
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEBMwt196158;
  Wed, 28 Oct 2020 14:15:29 GMT
 Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
- by aserp3020.oracle.com with ESMTP id 34cx5yces7-1
+ by userp3030.oracle.com with ESMTP id 34cx6x9epd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Oct 2020 14:15:29 +0000
+ Wed, 28 Oct 2020 14:15:28 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SEFR9f007780;
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SEFSmV007785;
  Wed, 28 Oct 2020 14:15:28 GMT
 Received: from mihai.localdomain (/10.153.73.25)
  by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Wed, 28 Oct 2020 07:15:27 -0700
+ with ESMTP ; Wed, 28 Oct 2020 07:15:28 -0700
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 4/6] hw/arm/virt: Use the pvpanic pci device
-Date: Wed, 28 Oct 2020 15:32:57 +0200
-Message-Id: <1603891979-11961-5-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH 5/6] pvpanic : update pvpanic document
+Date: Wed, 28 Oct 2020 15:32:58 +0200
+Message-Id: <1603891979-11961-6-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
 References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 mlxlogscore=913
- suspectscore=2 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
+ phishscore=0 spamscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 suspectscore=2
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2010280097
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- impostorscore=0
- mlxlogscore=944 malwarescore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 phishscore=0 clxscore=1015 suspectscore=2
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010280097
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=mihai.carabas@oracle.com; helo=aserp2130.oracle.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 10:17:29
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 impostorscore=0
+ adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ suspectscore=2 clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010280097
+Received-SPF: pass client-ip=156.151.31.85;
+ envelope-from=mihai.carabas@oracle.com; helo=userp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 10:15:30
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -43
 X-Spam_score: -4.4
@@ -100,23 +100,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peng Hao <peng.hao2@zte.com.cn>
 
-Add pvpanic device in arm virt machine config file.
+Add mmio mode as a pci device support info in docs/specs/pvpanic.txt.
 
 Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 ---
- default-configs/devices/arm-softmmu.mak | 1 +
- 1 file changed, 1 insertion(+)
+ docs/specs/pvpanic.txt | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-index 9a94ebd..4efcca2 100644
---- a/default-configs/devices/arm-softmmu.mak
-+++ b/default-configs/devices/arm-softmmu.mak
-@@ -44,3 +44,4 @@ CONFIG_FSL_IMX6UL=y
- CONFIG_SEMIHOSTING=y
- CONFIG_ALLWINNER_H3=y
- CONFIG_ACPI_APEI=y
-+CONFIG_PVPANIC=y
+diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
+index a90fbca..4258922 100644
+--- a/docs/specs/pvpanic.txt
++++ b/docs/specs/pvpanic.txt
+@@ -1,7 +1,7 @@
+ PVPANIC DEVICE
+ ==============
+ 
+-pvpanic device is a simulated ISA device, through which a guest panic
++pvpanic device is a simulated device, through which a guest panic
+ event is sent to qemu, and a QMP event is generated. This allows
+ management apps (e.g. libvirt) to be notified and respond to the event.
+ 
+@@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
+ and/or polling for guest-panicked RunState, to learn when the pvpanic
+ device has fired a panic event.
+ 
++The pvpanic device can be implemented as an ISA device (using IOPORT),
++or, since qemu 4.0, as a PCI device.
++
+ ISA Interface
+ -------------
+ 
+@@ -24,6 +27,13 @@ bit 1: a guest panic has happened and will be handled by the guest;
+        the host should record it or report it, but should not affect
+        the execution of the guest.
+ 
++PCI Interface
++-------------
++
++The PCI interface is similar to the ISA interface except that it uses an MMIO
++address space provided by its BAR0. For example, the arm virt machine may
++enable a pvpanic device by adding '-device pvpanic-pci' to the command line.
++
+ ACPI Interface
+ --------------
+ 
 -- 
 1.8.3.1
 
