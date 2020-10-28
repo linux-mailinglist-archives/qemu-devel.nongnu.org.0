@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BBD129CDD3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:29:49 +0100 (CET)
-Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A26129CDD0
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:28:24 +0100 (CET)
+Received: from localhost ([::1]:60224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXd5o-0004jF-Ip
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:29:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43620)
+	id 1kXd4R-0002py-HS
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:28:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kXcvk-0001rm-FE; Wed, 28 Oct 2020 00:19:24 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2112)
+ id 1kXcvh-0001oY-Jm; Wed, 28 Oct 2020 00:19:22 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2114)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kXcve-0007cw-Ke; Wed, 28 Oct 2020 00:19:24 -0400
+ id 1kXcve-0007cy-J6; Wed, 28 Oct 2020 00:19:21 -0400
 Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CLb1f0MMlz6y4W;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CLb1f0VN1z6y5r;
  Wed, 28 Oct 2020 12:19:18 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS401-HUB.china.huawei.com
  (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Wed, 28 Oct 2020
- 12:19:06 +0800
+ 12:19:07 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 8/9] target/ppc: silence the compiler warnings
-Date: Wed, 28 Oct 2020 12:18:18 +0800
-Message-ID: <20201028041819.2169003-9-kuhn.chenqun@huawei.com>
+Subject: [PATCH 9/9] hw/timer/renesas_tmr: silence the compiler warnings
+Date: Wed, 28 Oct 2020 12:18:19 +0800
+Message-ID: <20201028041819.2169003-10-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
 References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
@@ -58,43 +58,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Chen Qun <kuhn.chenqun@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>, zhang.zhanghailiang@huawei.com,
- ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: zhang.zhanghailiang@huawei.com, Yoshinori
+ Sato <ysato@users.sourceforge.jp>, Magnus Damm <magnus.damm@gmail.com>,
+ ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-target/ppc/mmu_helper.c: In function ‘dump_mmu’:
-target/ppc/mmu_helper.c:1351:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
- 1351 |         if (ppc64_v3_radix(env_archcpu(env))) {
-      |            ^
-target/ppc/mmu_helper.c:1358:5: note: here
- 1358 |     default:
-      |     ^~~~~~~
+../hw/timer/renesas_tmr.c: In function ‘tmr_read’:
+../hw/timer/renesas_tmr.c:221:19: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  221 |         } else if (ch == 0) {i
+      |                   ^
+../hw/timer/renesas_tmr.c:224:5: note: here
+  224 |     case A_TCORB:
+      |     ^~~~
 
 Add the corresponding "fall through" comment to fix it.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
-Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Magnus Damm <magnus.damm@gmail.com>
 ---
- target/ppc/mmu_helper.c | 1 +
+ hw/timer/renesas_tmr.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-index 8972714775..51749b62df 100644
---- a/target/ppc/mmu_helper.c
-+++ b/target/ppc/mmu_helper.c
-@@ -1355,6 +1355,7 @@ void dump_mmu(CPUPPCState *env)
-             break;
+diff --git a/hw/timer/renesas_tmr.c b/hw/timer/renesas_tmr.c
+index 446f2eacdd..e03a8155b2 100644
+--- a/hw/timer/renesas_tmr.c
++++ b/hw/timer/renesas_tmr.c
+@@ -221,6 +221,7 @@ static uint64_t tmr_read(void *opaque, hwaddr addr, unsigned size)
+         } else if (ch == 0) {
+             return concat_reg(tmr->tcora);
          }
- #endif
 +        /* fall through */
-     default:
-         qemu_log_mask(LOG_UNIMP, "%s: unimplemented\n", __func__);
-     }
+     case A_TCORB:
+         if (size == 1) {
+             return tmr->tcorb[ch];
 -- 
 2.27.0
 
