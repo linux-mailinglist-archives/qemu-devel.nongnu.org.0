@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1141829D21F
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 21:41:06 +0100 (CET)
-Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1A8D29D22C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 21:58:14 +0100 (CET)
+Received: from localhost ([::1]:43364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXsFk-0002WP-JK
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 16:41:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56876)
+	id 1kXsWL-0007XM-FT
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 16:58:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXsEY-00024X-Hg
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 16:39:50 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:35344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kXsEW-00027c-PS
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 16:39:50 -0400
-Received: by mail-ej1-x642.google.com with SMTP id p5so827913ejj.2
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 13:39:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EaWYZoYaCUqyKbxwAj7vRmqBYMGqrrIrMR99p/ejPNc=;
- b=FNpshgrJnQjuEyEDegLGtQAq0ePV4AYeB6SSZSdlp7cyFYHzVbYI4czUxFVkgPqzvb
- 7HuU30+cpHqtTW58nWG6afxYdGiUr1pELER/x30G9C2SF6k+eadKhru9Q0jW8GF6MmFk
- O3hDxcWzisbh2iBZzNnJQmBH4Bv2wrrHNk75DvHvF2DppdG9tKPrMo9tNrLU83oRGA/b
- eyYYUTP4L/OYmuSsQVScSrwqraKj2Rf9SUBUeK+7JP3q4zvPi2r4CSeBfAFc2ZJLUpcH
- Aob+LxBw/JIgiKq5UY6RRqy2PuLyUM09lUn+fzpcB648n3on5bnIw/HAsuP09thSY9nQ
- uYnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EaWYZoYaCUqyKbxwAj7vRmqBYMGqrrIrMR99p/ejPNc=;
- b=IkoWutURoAoM+mwvFH3zyMsVoyDR2mdoUAFcP1pREJCWs/aTaeHJHzeMsYllQv58q5
- TycMzUinqD/bX0f/uuPkDzdoykPdi5mLTdkeXAnNQoVLS6sEA9ecWnbATX4TjgRe8Oo0
- Dp0PfZNR7kTF4winzODvoQbmq1ZpicyYcTgEDufxXI71XPTXMRqMjhXy310owkTkfe35
- c/o1l8wkbbfNB2uJ3Ti14bikl3XXMRE98RxUKS9p+Mhq+sNiGfzDyfOdWu5rR+3cFUf8
- qnnnY5L2qC8nMF5L7l82GY9VjCay52C0f5harWlhZh5Dt83WGl1bL8Eurke/1v3mEhCZ
- uNbg==
-X-Gm-Message-State: AOAM530SRm7kkFVvWlDFO+7foWbP2w+X0UGcz8DAUiIxuMlE8djzm8CI
- amliwP/7Yd/NYcWhqlEm3Al6MR83zeANW0WPEKpAdQ==
-X-Google-Smtp-Source: ABdhPJwVUto374kwuVDAamzK685FuV9vbJroB0c6dQIP1Q7TNsmnxG92m95LjASmLkGM+LSYq9THLIhlIGe25YeREkY=
-X-Received: by 2002:a17:906:7254:: with SMTP id
- n20mr856227ejk.382.1603917586656; 
- Wed, 28 Oct 2020 13:39:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXsUx-0006xB-PF
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 16:56:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25619)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXsUs-0004bt-Ny
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 16:56:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603918600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Nbju9wvpFHvGtSNtcdQyfREsNeYR0h+o55WEJg+slig=;
+ b=iHXNkR9mtHWyY/ktqCrQYFZNywG6Tsk7X4GJugouAGKbtI9eYXxRnkmyH9zrEVOWhqBMev
+ w1Lif5wijAGa+q17zq8GebonNBLKes7eo8RWPZq0U2Y4Z1b+LS5ARFSgIwU9DYwHTrGDMe
+ nUKR0ejT6Df51rxqZVZfDs3Tzw1ToAA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-318-6Q1x66ohNWa6T1suw-VYKw-1; Wed, 28 Oct 2020 16:56:33 -0400
+X-MC-Unique: 6Q1x66ohNWa6T1suw-VYKw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F0FB1007464;
+ Wed, 28 Oct 2020 20:56:32 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-124.ams2.redhat.com [10.36.112.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B6CAA5C1D0;
+ Wed, 28 Oct 2020 20:56:31 +0000 (UTC)
+Subject: Re: [PATCH] MAINTAINERS: update my email address
+To: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20201027060253.353054-1-michael.roth@amd.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <eea1f171-5e62-f241-be13-53c44fc4987f@redhat.com>
+Date: Wed, 28 Oct 2020 21:56:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20201027055317.351868-1-michael.roth@amd.com>
-In-Reply-To: <20201027055317.351868-1-michael.roth@amd.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 28 Oct 2020 20:39:35 +0000
-Message-ID: <CAFEAcA8-F-dbXO8gL_1wRDv0oz2FpTk91B+ZMTcUAK3P2S8S-w@mail.gmail.com>
-Subject: Re: [PULL 00/12] qemu-ga patch queue for soft-freeze
-To: Michael Roth <michael.roth@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201027060253.353054-1-michael.roth@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,48 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 at 05:53, Michael Roth <michael.roth@amd.com> wrote:
->
-> The following changes since commit a46e72710566eea0f90f9c673a0f02da0064acce:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20201026' into staging (2020-10-26 14:50:03 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/mdroth/qemu.git tags/qga-pull-2020-10-27-tag
->
-> for you to fetch changes up to 568979ea819d945e8af6c14658793b58bcd4485c:
->
->   qga: add ssh-get-authorized-keys (2020-10-27 00:22:30 -0500)
->
-> ----------------------------------------------------------------
-> qemu-ga patch queue for soft-freeze
->
-> * add guest-get-disks for w32/linux
-> * add guest-{add,remove,get}-authorized-keys
-> * fix API violations and schema documentation inconsistencies with
->   recently-added guest-get-devices
->
-> ----------------------------------------------------------------
+On 27/10/2020 07.02, Michael Roth wrote:
+> I've recently switched employers and the current email address is out
+> of date.
+> 
+> Signed-off-by: Michael Roth <michael.roth@amd.com>
+> ---
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index ef6f5c7399..c72af7c2f5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -2395,7 +2395,7 @@ F: scripts/simplebench/
+>  
+>  QAPI
+>  M: Markus Armbruster <armbru@redhat.com>
+> -M: Michael Roth <mdroth@linux.vnet.ibm.com>
+> +M: Michael Roth <michael.roth@amd.com>
+>  S: Supported
+>  F: qapi/
+>  X: qapi/*.json
+> @@ -2439,7 +2439,7 @@ F: tests/data/qobject/qdict.txt
+>  T: git https://repo.or.cz/qemu/armbru.git qapi-next
+>  
+>  QEMU Guest Agent
+> -M: Michael Roth <mdroth@linux.vnet.ibm.com>
+> +M: Michael Roth <michael.roth@amd.com>
+>  S: Maintained
+>  F: qga/
+>  F: docs/interop/qemu-ga.rst
+> 
 
-Link failure trying to link qemu-ga on OSX and the BSDs:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-ld: error: undefined symbol: qmp_guest_get_disks
->>> referenced by qga-qapi-commands.c:987 (qga/qga-qapi-commands.c:987)
->>>               qga/qemu-ga.p/meson-generated_.._qga-qapi-commands.c.o:(qmp_marshal_guest_get_disks)
-
-and a compile failure with Clang on x86-64 Linux:
-
-../../qga/commands-posix.c:1383:33: error: unused variable 'deps_dir'
-[-Werror,-Wunused-variable]
-            *size_path = NULL, *deps_dir = NULL;
-                                ^
-1 error generated.
-
-thanks
--- PMM
 
