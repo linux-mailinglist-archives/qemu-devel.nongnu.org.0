@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2DF29D036
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:13:32 +0100 (CET)
-Received: from localhost ([::1]:49390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C84229D051
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:29:24 +0100 (CET)
+Received: from localhost ([::1]:57544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmCh-0005jE-6Q
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:13:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56248)
+	id 1kXmS3-0004en-LF
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:29:23 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXm9F-0004HT-FD
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:09:57 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37872)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kXm9C-0005SE-Lv
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:09:56 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603894192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=JBVN+g3e3DOeAmo22ebXYiZVNpCcbUgkpgk34Oc4cOk=;
- b=dFNvaPDrigT4rre9D7ioQB1dgDzD/8c2MT/S2xlK9esDo3Qb0zngOBni7GkNd+imOM5RZq
- k1KELFfU8lQixsxiYcCzdawX6m7heDFO68dttOTlC/lOtnoV43o+2jpSq9KY5HRQu5lj0s
- AyFYyUW0zRqL8ozaOpaAIvbOsRPgKFI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-415-inu7pz9iMvCSMFVYx2qjRg-1; Wed, 28 Oct 2020 10:09:51 -0400
-X-MC-Unique: inu7pz9iMvCSMFVYx2qjRg-1
-Received: by mail-ej1-f72.google.com with SMTP id x12so2152954eju.22
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 07:09:50 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kXmOP-0008TN-Gn; Wed, 28 Oct 2020 10:25:37 -0400
+Received: from mail-il1-x142.google.com ([2607:f8b0:4864:20::142]:35705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1kXmON-0007az-L3; Wed, 28 Oct 2020 10:25:37 -0400
+Received: by mail-il1-x142.google.com with SMTP id k6so4836840ilq.2;
+ Wed, 28 Oct 2020 07:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7tIFXOKTy4ESMiYe7mqtZ282NIlBLpj2pKJmHgxHfCw=;
+ b=UFqdcmmUDj9ovwvIIqwGImsJcR0xnqllkJz84cw33dYEUOPyoiHc0Nx+SYfaTQhXIJ
+ GzoO4+SxI+26b8L7rZUWqof9ih6yIy0qOKQKS89eK2O9UKCt98/0/RAef2vDWsfhi/Sn
+ AKoxJxyQbMdeH3RY7Bt8kSB2McdOLTwWhF9HgIo9Y8BnnzPyjsp4jnO2Lt28ozz/eNYV
+ BPLxJDAtocnJlJgdlM2a1u1xe1XuC+ar0wya93Aa1IIUbrrSvdQ7IPIx3GpBopvbYMNH
+ y1ilCFisnPv3gzkowTV+No93CH8k0KgOkTtDIgplOmu8TwEuNUIgnBbd0I4sTi4qaO9L
+ mWIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JBVN+g3e3DOeAmo22ebXYiZVNpCcbUgkpgk34Oc4cOk=;
- b=MgOcYR5Y3ZUL+YpBH+s1FCmfVAYbisUamFTWI7ep2Nh7mXEyPV/gKi3Sm1bzNh6M16
- dQ5v1JGahGA1OmGA3PCruYZGmV788d9eTCoAU47JaKe7c0JdxSW2bN2Q4PHrp0qhRd99
- wf6eNTwFao57oOu5yfXDR4RXQsBqAFBYFBaoRwxI/kkZSzsYcVpvgYZG1+Ci5iVIQk+/
- mEop3B70HxEFVERP75PYD8M7qzuhVcmXIuq32vxnevgvPBUuFp6KviVYGtif0QzYbVI0
- vn+ZBSWUF05ufDZhJqpKNFzfU0YMxkTO/QhrSDm6t0BhrlHuhoXs9te/SvoLv2anla0o
- Zqbw==
-X-Gm-Message-State: AOAM531Wsnv/DDIA6t3KTujL0Q2kBS9idFohm4bbWV+P9KaZqjSsmY7S
- 6d6pDkbE3mX6ccDxM7oJxRMThkzP9IXJFUwDxqidgd+muH/RXTMwAi/9h15xf71Pth4O9nnldDE
- 0Fl91V/MSC1plKPE=
-X-Received: by 2002:a50:fb06:: with SMTP id d6mr8038049edq.312.1603894189788; 
- Wed, 28 Oct 2020 07:09:49 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxypZeMOe/l8eM+tO7K7w7INe1kkZ3DFyCEPK4vX3fLF/zHU0H9/tgvL2xcogZAXYZjqPBpKg==
-X-Received: by 2002:a50:fb06:: with SMTP id d6mr8038021edq.312.1603894189522; 
- Wed, 28 Oct 2020 07:09:49 -0700 (PDT)
-Received: from [192.168.1.36] (237.red-88-18-140.staticip.rima-tde.net.
- [88.18.140.237])
- by smtp.gmail.com with ESMTPSA id ds7sm3027884ejc.83.2020.10.28.07.09.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 07:09:48 -0700 (PDT)
-Subject: Re: [PATCH 1/5] python: add pytest and tests
-To: John Snow <jsnow@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201027223815.159802-1-jsnow@redhat.com>
- <20201027223815.159802-2-jsnow@redhat.com>
- <7440abdc-b01e-ba5e-5238-a6e4573f88b5@redhat.com>
- <c85597c2-a9b3-e8ff-7208-c3f16002f40b@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0624d33b-16f7-9980-3207-833e56e4fe62@redhat.com>
-Date: Wed, 28 Oct 2020 15:09:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7tIFXOKTy4ESMiYe7mqtZ282NIlBLpj2pKJmHgxHfCw=;
+ b=NELuJsu+sGq5klewKDWxx4PTVxbFy+ujZI9hHPBCIU3LT/ja2BblwYzltChchiPlxe
+ Wi7c1Kg68xOhePvbdk79FSucnDRQdkCXQTX7J7OiHAZTxL/harZ0mR+lMmns+GCObt/I
+ d/erx/AdQecCDUvVp0JUNodoY2GU5aQzSMQSF/r8sjwCL2f2c4E9svK9jNYg/QArF02H
+ RYlYyvgzNtg3pZF5QCzXZFvHO7j9jKtme12DWc5ZsTT7AQnj/4oTuqtI2I8x/0n8/rpD
+ Up54aFe0YdF8V95s5W5J+NVJ3MNJRKwXKceikrH3TerXTIFmcNDSvcTT/3ahOkt/YBzB
+ w4wA==
+X-Gm-Message-State: AOAM530l5GlXC3BvTM13gcOuPnRY75ujKHQVJ7t2wPwEM7InF5uq4YdL
+ 9wGEbDcZG9jXNO5OlIGgHAtbSO69qaD8DH/YAQ4=
+X-Google-Smtp-Source: ABdhPJxWsPLVfcwGsgklxXWJFiCeFyPMGYEHgKSSTbsyTRam8cZBzoxef3uC+U8CQfVmjWcp7bDQIAhJgeiBMsAjYTk=
+X-Received: by 2002:a05:6e02:c:: with SMTP id
+ h12mr6216554ilr.177.1603895133621; 
+ Wed, 28 Oct 2020 07:25:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <c85597c2-a9b3-e8ff-7208-c3f16002f40b@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20201027141740.18336-1-bmeng.cn@gmail.com>
+ <20201027141740.18336-3-bmeng.cn@gmail.com>
+ <CAKmqyKMyHCZCLZOqVVZ4n4C0_rAY-WO5-J+Y=dqi0qtZsLXjpw@mail.gmail.com>
+ <CAEUhbmWqoP71uKYRhYdmb=Hxx=FNOYcfL6EkEChn9x1Qq9CddQ@mail.gmail.com>
+In-Reply-To: <CAEUhbmWqoP71uKYRhYdmb=Hxx=FNOYcfL6EkEChn9x1Qq9CddQ@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 28 Oct 2020 07:13:42 -0700
+Message-ID: <CAKmqyKPVOt+uRHW77YuBeaR5bDfwFPNWtR7JYDWPdfa5TayFZQ@mail.gmail.com>
+Subject: Re: [RESEND PATCH 2/9] hw/riscv: microchip_pfsoc: Connect DDR memory
+ controller modules
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::142;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x142.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,78 +82,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Ivan Griffin <ivan.griffin@emdalo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/28/20 2:23 PM, John Snow wrote:
-> On 10/28/20 2:19 AM, Thomas Huth wrote:
->> On 27/10/2020 23.38, John Snow wrote:
->>> Try using pytest to manage our various tests; even though right now
->>> they're only invoking binaries and not really running any python-native
->>> code.
->>>
->>> Create tests/, and add test_lint.py which calls out to mypy, flake8,
->>> pylint and isort to enforce the standards in this directory.
->>>
->>> Add pytest to the setup.cfg development dependencies; add a pytest
->>> configuration section as well; run it in verbose mode.
->>>
->>> Finally, add pytest to the Pipfile environment and lock the new
->>> dependencies. (Note, this also updates an unrelated dependency; but the
->>> only way to avoid this is to pin that dependency at a lower version --
->>> which there is no reason to do at present.)
->>>
->>> Provided you have the right development dependencies (mypy, flake8,
->>> isort, pylint, and now pytest) You should be able to run "pytest" from
->>> the python folder to run all of these linters with the correct
->>> arguments.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   python/Pipfile.lock       | 71 ++++++++++++++++++++++++++++++++++++---
->>>   python/setup.cfg          |  5 +++
->>>   python/tests/test_lint.py | 28 +++++++++++++++
->>>   3 files changed, 99 insertions(+), 5 deletions(-)
->>>   create mode 100644 python/tests/test_lint.py
->>>
->>> diff --git a/python/Pipfile.lock b/python/Pipfile.lock
->>> index 05077475d750..105ffbc09a8e 100644
->>> --- a/python/Pipfile.lock
->>> +++ b/python/Pipfile.lock
->>> @@ -30,6 +30,14 @@
->>>               "markers": "python_version >= '3.5'",
->>>               "version": "==2.4.2"
->>>           },
->>> +        "attrs": {
->>> +            "hashes": [
->>> +               
->>> "sha256:26b54ddbbb9ee1d34d5d3668dd37d6cf74990ab23c828c2888dccdceee395594",
->>>
->>> +               
->>> "sha256:fce7fc47dfc976152e82d53ff92fa0407700c21acd20886a13777a0d20e655dc"
->>>
->>> +            ],
->>> +            "markers": "python_version >= '2.7' and python_version
->>> not in '3.0, 3.1, 3.2, 3.3'",
->>
->> Can't you simply use "python_version >= '3.6'" instead?
->>
->>   Thomas
->>
-> 
-> This file is generated; I don't really actually know what these markers
-> mean or to whom. I can't edit it because it's checksummed.
+On Tue, Oct 27, 2020 at 6:43 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Alistair,
+>
+> On Wed, Oct 28, 2020 at 1:49 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Tue, Oct 27, 2020 at 7:46 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > Connect DDR SGMII PHY module and CFG module to the PolarFire SoC.
+> > >
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > > ---
+> > >
+> > >  hw/riscv/Kconfig                   |  1 +
+> > >  hw/riscv/microchip_pfsoc.c         | 18 ++++++++++++++++++
+> > >  include/hw/riscv/microchip_pfsoc.h |  5 +++++
+> > >  3 files changed, 24 insertions(+)
+> > >
+> > > diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+> > > index 2df978fe8d..c8e50bde99 100644
+> > > --- a/hw/riscv/Kconfig
+> > > +++ b/hw/riscv/Kconfig
+> > > @@ -4,6 +4,7 @@ config IBEX
+> > >  config MICROCHIP_PFSOC
+> > >      bool
+> > >      select CADENCE_SDHCI
+> > > +    select MCHP_PFSOC_DMC
+> > >      select MCHP_PFSOC_MMUART
+> > >      select MSI_NONBROKEN
+> > >      select SIFIVE_CLINT
+> > > diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> > > index 4627179cd3..85be2bcde8 100644
+> > > --- a/hw/riscv/microchip_pfsoc.c
+> > > +++ b/hw/riscv/microchip_pfsoc.c
+> > > @@ -15,6 +15,7 @@
+> > >   * 4) Cadence eMMC/SDHC controller and an SD card connected to it
+> > >   * 5) SiFive Platform DMA (Direct Memory Access Controller)
+> > >   * 6) GEM (Gigabit Ethernet MAC Controller)
+> > > + * 7) DMC (DDR Memory Controller)
+> > >   *
+> > >   * This board currently generates devicetree dynamically that indicates at least
+> > >   * two harts and up to five harts.
+> > > @@ -85,7 +86,9 @@ static const struct MemmapEntry {
+> > >      [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
+> > >      [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
+> > >      [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
+> > > +    [MICROCHIP_PFSOC_DDR_SGMII_PHY] =   { 0x20007000,     0x1000 },
+> > >      [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
+> > > +    [MICROCHIP_PFSOC_DDR_CFG] =         { 0x20080000,    0x40000 },
+> >
+> > Neither of these are documented....
+>
+> It's documented in the "Register
+> Map/PF_SoC_RegMap_V1_1/pfsoc_regmap.htm" in
+> https://www.microsemi.com/document-portal/doc_download/1244581-polarfire-soc-register-map
 
-We should remember to add a line such "The Pipfile.lock content
-is generated" in the commit message each time it is modified after
-a change in setup.cfg :)
+That doesn't seem to be an official version controled doc though and
+it seems to conflict with the other UG document.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>
+> >
+> > Maybe just add a single comment above the memory layout clarifying
+> > that this is not what is documented from the SoC but is instead based
+> > on what guests do?
+> >
+>
+> I can add a link to the Microchip website that documents the memory
+> map above the memory layout.
 
+Thanks, that's at least something.
+
+Alistair
+
+>
+> > It seems to be a constant problem with this board, unless I am really
+> > misreading the memory map.
+> >
+>
+> Regards,
+> Bin
 
