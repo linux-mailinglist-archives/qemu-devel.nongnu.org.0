@@ -2,82 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DE029D09D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:17:40 +0100 (CET)
-Received: from localhost ([::1]:59464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 144F229D09F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:21:20 +0100 (CET)
+Received: from localhost ([::1]:38458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnCl-0000EY-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:17:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43670)
+	id 1kXnGJ-0003L3-4t
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:21:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kXn8d-0005BL-Tf
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:13:23 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kXn8b-0005cK-SG
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:13:23 -0400
-Received: by mail-pg1-x541.google.com with SMTP id o3so2942157pgr.11
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a8e7bwmN1ozxs6n3UcR6YxE55vDhpo8v5fZ533jeo8E=;
- b=R4nX8R6e6y/Rs9q2o+A2a8HUWeJQkapzEar8ULWIIjw07DCvvy9ToCncKh9X9yVMFy
- 6THvto1L+pnpeWh8sZTwKg8MVjc1C1DxzAnzknM52CMgP4gALm9YRUSP5BFo60H+3I0t
- NFHXsxeWJIphfNSeVqJVt2+t/UEz42lpWb50L0i4A+2r8rlbDSaVXPPTZVDcgDdqWEdI
- /LWcHjbDe8RirqPVZghkdeKFls71FqU3jM+JkzRKxk8TAWyliuX84c3hYpyyrtbziEOg
- d7kdL77mPHIQWOyIb5YBQdohxXjZETcuwmuwddcH8ckJwzRvTNRkmJInxJEf2qBR1pRy
- 66ZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a8e7bwmN1ozxs6n3UcR6YxE55vDhpo8v5fZ533jeo8E=;
- b=kIGj9qNLNo3uEKD59wTSGU+hxSvQuDZe3k+wi0Y7eW7j+uIa3uHf/s3aRC9T1yqMwZ
- k8HWufYS4FkA++YscXGIBXBLm5xPLU5qZoYrp1NvRzGEY8f6OjefPnQf3T1j//d2NhPw
- mlkQgLs2P0HtcmNzNhsxUB4576/36mQKgk/hSUy8Gl6mFmdIBvSJPGYg5C8e1sNxJ+ww
- 5Q77fvTzH5mRZspmlZwJHPmdmtjrnf1U/f87+ijf7ZpLkp3bIQs6oEMcJePEzFUFTeJx
- JgIeSV9YfDuisRrhcLcoDn3LOSVo3KClisDc+KpoxMUcTvBxnrLpWqzzXeD3YUjVPT0C
- ff5A==
-X-Gm-Message-State: AOAM530/S5eJUCrwaQlovVLmIkvOsmPuNoud1pwTcCVkdfefBWxE9CBF
- /5fzFUpna9V9kqFp7x9mAHqs1A==
-X-Google-Smtp-Source: ABdhPJwJs2Ovs67DN2QujSy/IbOIahlqgNMXU+TO+7Hiec3j/9sbrGiRwxr4tqToFhj7AwRyPjOLdQ==
-X-Received: by 2002:a63:ce02:: with SMTP id y2mr6346957pgf.348.1603898000354; 
- Wed, 28 Oct 2020 08:13:20 -0700 (PDT)
-Received: from [192.168.1.11] ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id k6sm1878365pfu.89.2020.10.28.08.13.18
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 08:13:19 -0700 (PDT)
-Subject: Re: [PATCH v2 1/5] target/riscv: Add a virtualised MMU Mode
-To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-References: <cover.1603896075.git.alistair.francis@wdc.com>
- <d0eeb9ea64462044a67f5b803d6cb62dd10e017a.1603896075.git.alistair.francis@wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f8c23bed-3b6c-e01d-cb04-ce945d509970@linaro.org>
-Date: Wed, 28 Oct 2020 08:13:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXnBw-0000N4-AG
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:16:48 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXnBu-0006Ah-IC
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:16:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603898205;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=upKLzD+0+gUwH7FeM0cC5thMgXHjfHCysCUPXcW6gP8=;
+ b=cb9OmHDYMkACQKHlRmLo2zDq+9iI0i2Z9/Vo/JfphYoMYzAD3pCiC0I+XGvHlbtfub93FU
+ kqxuSdylo7R7WAoeH1c8JRcHRLLEGA38x2RyZbARmYlna5RTx9guAJVh+nxPtBSSpk0DkX
+ Dkmg2dppmUVAqoX2r3GOArHVK+HcVUo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-HjBDVkQBMnujBV-m2Za4jg-1; Wed, 28 Oct 2020 11:16:40 -0400
+X-MC-Unique: HjBDVkQBMnujBV-m2Za4jg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87FBC80365F;
+ Wed, 28 Oct 2020 15:16:38 +0000 (UTC)
+Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9EBC25C1D7;
+ Wed, 28 Oct 2020 15:16:34 +0000 (UTC)
+Date: Wed, 28 Oct 2020 15:16:33 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 13/25] block/nvme: Introduce Completion Queue definitions
+Message-ID: <20201028151633.GH231368@stefanha-x1.localdomain>
+References: <20201027135547.374946-1-philmd@redhat.com>
+ <20201027135547.374946-14-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <d0eeb9ea64462044a67f5b803d6cb62dd10e017a.1603896075.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.921,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20201027135547.374946-14-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ik0NlRzMGhMnxrMX"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,70 +81,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/28/20 7:42 AM, Alistair Francis wrote:
-> Add a new MMU mode that includes the current virt mode.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+--ik0NlRzMGhMnxrMX
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Oct 27, 2020 at 02:55:35PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Rename Submission Queue flags with 'Sq' and introduce
+> Completion Queue flag definitions.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  target/riscv/cpu-param.h  | 10 +++++++++-
->  target/riscv/cpu.h        |  4 +++-
->  target/riscv/cpu_helper.c |  6 +++++-
->  3 files changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
-> index 664fc1d371..0db6e23140 100644
-> --- a/target/riscv/cpu-param.h
-> +++ b/target/riscv/cpu-param.h
-> @@ -18,6 +18,14 @@
->  # define TARGET_VIRT_ADDR_SPACE_BITS 32 /* sv32 */
->  #endif
->  #define TARGET_PAGE_BITS 12 /* 4 KiB Pages */
-> -#define NB_MMU_MODES 4
-> +/*
-> + * The current MMU Modes are:
-> + *  - U  mode 0b000
-> + *  - S  mode 0b001
-> + *  - M  mode 0b011
-> + *  - HU mode 0b100
-> + *  - HS mode 0b101
-> + */
-> +#define NB_MMU_MODES 6
->  
->  #endif
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index 87b68affa8..5d8e54c426 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -363,7 +363,9 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
->  target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
->  void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
->  
-> -#define TB_FLAGS_MMU_MASK   3
-> +#define TB_FLAGS_MMU_MASK   7
-> +#define TB_FLAGS_PRIV_MMU_MASK                3
-> +#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
->  #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
->  
->  typedef CPURISCVState CPUArchState;
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index 3eb3a034db..453e4c6d8a 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -30,6 +30,10 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
->  #ifdef CONFIG_USER_ONLY
->      return 0;
->  #else
-> +    if (riscv_cpu_virt_enabled(env)) {
-> +        return env->priv | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
-> +    }
+>  include/block/nvme.h | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index 65e68a82c89..079f884a2d3 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -491,6 +491,11 @@ typedef struct QEMU_PACKED NvmeCreateCq {
+>  #define NVME_CQ_FLAGS_PC(cq_flags)  (cq_flags & 0x1)
+>  #define NVME_CQ_FLAGS_IEN(cq_flags) ((cq_flags >> 1) & 0x1)
+> =20
+> +enum NvmeFlagsCq {
+> +    NVME_CQ_PC          =3D 1,
+> +    NVME_CQ_IEN         =3D 2,
+> +};
+> +
+>  typedef struct QEMU_PACKED NvmeCreateSq {
+>      uint8_t     opcode;
+>      uint8_t     flags;
+> @@ -508,12 +513,12 @@ typedef struct QEMU_PACKED NvmeCreateSq {
+>  #define NVME_SQ_FLAGS_PC(sq_flags)      (sq_flags & 0x1)
+>  #define NVME_SQ_FLAGS_QPRIO(sq_flags)   ((sq_flags >> 1) & 0x3)
+> =20
+> -enum NvmeQueueFlags {
+> -    NVME_Q_PC           =3D 1,
+> -    NVME_Q_PRIO_URGENT  =3D 0,
+> -    NVME_Q_PRIO_HIGH    =3D 1,
+> -    NVME_Q_PRIO_NORMAL  =3D 2,
+> -    NVME_Q_PRIO_LOW     =3D 3,
+> +enum NvmeFlagsSq {
+> +    NVME_SQ_PC          =3D 1,
+> +    NVME_SQ_PRIO_URGENT =3D 0,
+> +    NVME_SQ_PRIO_HIGH   =3D 1,
+> +    NVME_SQ_PRIO_NORMAL =3D 2,
+> +    NVME_SQ_PRIO_LOW    =3D 3,
+>  };
 
-This is wrong.  You only want to set this flag in response to one of the
-hypervisor special instructions.  This is setting it any time virt is enabled.
+There is also:
 
+  #define NVME_SQ_FLAGS_PC(sq_flags)      (sq_flags & 0x1)
+  #define NVME_SQ_FLAGS_QPRIO(sq_flags)   ((sq_flags >> 1) & 0x3)
 
-r~
+These macros should use the new constants.
+
+I didn't check if there are additional magic numbers in hw/block/nvme.c
+that should be converted.
+
+Stefan
+
+--ik0NlRzMGhMnxrMX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+Zi1EACgkQnKSrs4Gr
+c8iqIQf9E1/BKTRpVc1VP2CGiQzLlJauc56imKv4hG2L5JYWZ+3dM6oyHhZ/AbCI
+qh0158wyelBHPLEjY37kLwSvkFX8SRlFPcci/1GEx2GUmiADac4yLgFzUDfvnTZy
+GWSFhc3ZTQc7y1uU2EfxbC7EnTSI5KPF5Jy2EdGn1jP1feuSJZreHmvyY108md1T
+AcOhSUyGQaVQ1rqUOHbe0R8iqNN+qCKf6xgeekG09wUg9oyI1tPLI0qSVAp9syZP
+DUfNZs38PUAkEdHwV13w/+bLpuae93El0vEDEtOaDiqhQ0mLFFf/cetafvjCsRZN
+zvCwPjh2lOBGJYo8CkyQYAqrdUlGkA==
+=1ZqZ
+-----END PGP SIGNATURE-----
+
+--ik0NlRzMGhMnxrMX--
+
 
