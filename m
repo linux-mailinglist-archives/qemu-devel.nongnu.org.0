@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5770C29D04D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:25:54 +0100 (CET)
-Received: from localhost ([::1]:45782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F81329D034
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:11:28 +0100 (CET)
+Received: from localhost ([::1]:46992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmOf-0007z1-Cv
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:25:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58670)
+	id 1kXmAg-0004df-RK
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:11:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXmJf-0003nS-Ax; Wed, 28 Oct 2020 10:20:44 -0400
-Received: from mail-io1-xd42.google.com ([2607:f8b0:4864:20::d42]:44988)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXmJb-0006wA-MQ; Wed, 28 Oct 2020 10:20:42 -0400
-Received: by mail-io1-xd42.google.com with SMTP id z17so5473707iog.11;
- Wed, 28 Oct 2020 07:20:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=w2yWf7divgcX0hOBgLXcDpemaHcbR2900vMAlldyl10=;
- b=EzsZ8sRhplGYqHlovIwbYH6zb2BEpvzfOmgqqVrbvdfI2Bs79lytqLog2D79/PaT/D
- 16TDi9gxLfaVa0bR93AHDnXd/kbH70HoSFQoVjwq4evqltX07DnzZeOgFD+8Z26ap7Pk
- 3pvo9TzpoVnNQ1RwIdU0AOtIVWvvsRfgDD+LzBy9K3Le9uSunq/UFBmBT3g7AZ7BHyRV
- lcK+lQmUXcQ9tHQW+3vzOk6UYzAM97VKIwbtT0EEc59dy1UA2QAZGviKzzWrqYWTuSw9
- 7FIlxxu0JSz8GdkRz5DKYygUnDjzopxY0ivl+SmDez0z4VDuk7mww0mCrg6mdY63xJF4
- 7bxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=w2yWf7divgcX0hOBgLXcDpemaHcbR2900vMAlldyl10=;
- b=fp7cli3gh8sDelQYgrL+ux4Ju/w/oHsy5wjBlDY4ZSbN7tmooChVebTezkxsc7pIJg
- EB5ECedhRa7ChH0W4lpgrKwIRrOv4rJh8JEY9WbmkCNCXAVuU0w0O1/gwOHnxnitGVgR
- eTz5eNVZHtG2dBmYcRVXrCeFaXYK00iIOFbu9mA2lS6FeN4f2RQ1/4DBYuiyb9baXTZp
- NbljpLrdunkcvb/9Qq333gCd3JVLfafKCddFdOOkd0uyufEATB499Yl1UbRjjPtz5uZH
- IPliD0xTYNBHlNMTRVb3xtDPWBtGQg1vtt9r6zS8GSHCwNs0xKRjO54M1G0nWAv3HpFU
- 5X2g==
-X-Gm-Message-State: AOAM5316kbPbyMboiGZRApQX7FVffKRH5qUYX494TUzah3a1S3nyVRG5
- nBN3Mx4G2TuY+ngiHrhi3NeRQIfEVLBgyf3Ty+I=
-X-Google-Smtp-Source: ABdhPJxud1IFcJ6DDQmk1bY5SF5iw3WS5SD4sWm1yVUtVsMU5h0Lfhk5bi2/kwlOC1rO5rdwHucMpNCqflSyTW7dYhk=
-X-Received: by 2002:a05:6638:ec3:: with SMTP id
- q3mr5438972jas.106.1603894835881; 
- Wed, 28 Oct 2020 07:20:35 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kXm8p-0003um-UV; Wed, 28 Oct 2020 10:09:33 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2422)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kXm8l-0005N5-At; Wed, 28 Oct 2020 10:09:31 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CLr6M6qhhzLphZ;
+ Wed, 28 Oct 2020 22:09:15 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 28 Oct 2020 22:09:08 +0800
+Message-ID: <5F997B84.9040900@huawei.com>
+Date: Wed, 28 Oct 2020 22:09:08 +0800
+From: AlexChen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-References: <1603863010-15807-1-git-send-email-bmeng.cn@gmail.com>
- <1603863010-15807-4-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1603863010-15807-4-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 28 Oct 2020 07:08:44 -0700
-Message-ID: <CAKmqyKMeeFrZOznHbzZZabEY1gs6ZwKMwCGs-6+Dxp5=83nB+w@mail.gmail.com>
-Subject: Re: [PATCH v2 03/10] hw/riscv: microchip_pfsoc: Connect DDR memory
- controller modules
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d42;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd42.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+To: <raphael.norwitz@nutanix.com>
+Subject: [PATCH] vhost-user-blk: Fix two resource leaks
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
+ helo=szxga05-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 10:09:14
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,131 +56,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 10:34 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> Connect DDR SGMII PHY module and CFG module to the PolarFire SoC.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+When socket() fails, it returns -1, 0 is the normal return value and should not return
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: AlexChen <alex.chen@huawei.com>
+---
+ contrib/vhost-user-blk/vhost-user-blk.c   | 2 +-
+ contrib/vhost-user-scsi/vhost-user-scsi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Alistair
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index 25eccd02b5..40a2dfc544 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -474,7 +474,7 @@ static int unix_sock_new(char *unix_fn)
+     assert(unix_fn);
 
-> ---
->
-> (no changes since v1)
->
->  hw/riscv/Kconfig                   |  1 +
->  hw/riscv/microchip_pfsoc.c         | 18 ++++++++++++++++++
->  include/hw/riscv/microchip_pfsoc.h |  5 +++++
->  3 files changed, 24 insertions(+)
->
-> diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-> index 2df978f..c8e50bd 100644
-> --- a/hw/riscv/Kconfig
-> +++ b/hw/riscv/Kconfig
-> @@ -4,6 +4,7 @@ config IBEX
->  config MICROCHIP_PFSOC
->      bool
->      select CADENCE_SDHCI
-> +    select MCHP_PFSOC_DMC
->      select MCHP_PFSOC_MMUART
->      select MSI_NONBROKEN
->      select SIFIVE_CLINT
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 6aac849..3c504f7 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -15,6 +15,7 @@
->   * 4) Cadence eMMC/SDHC controller and an SD card connected to it
->   * 5) SiFive Platform DMA (Direct Memory Access Controller)
->   * 6) GEM (Gigabit Ethernet MAC Controller)
-> + * 7) DMC (DDR Memory Controller)
->   *
->   * This board currently generates devicetree dynamically that indicates at least
->   * two harts and up to five harts.
-> @@ -103,7 +104,9 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
->      [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
->      [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
-> +    [MICROCHIP_PFSOC_DDR_SGMII_PHY] =   { 0x20007000,     0x1000 },
->      [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
-> +    [MICROCHIP_PFSOC_DDR_CFG] =         { 0x20080000,    0x40000 },
->      [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
->      [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-> @@ -149,6 +152,11 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
->      object_initialize_child(obj, "dma-controller", &s->dma,
->                              TYPE_SIFIVE_PDMA);
->
-> +    object_initialize_child(obj, "ddr-sgmii-phy", &s->ddr_sgmii_phy,
-> +                            TYPE_MCHP_PFSOC_DDR_SGMII_PHY);
-> +    object_initialize_child(obj, "ddr-cfg", &s->ddr_cfg,
-> +                            TYPE_MCHP_PFSOC_DDR_CFG);
-> +
->      object_initialize_child(obj, "gem0", &s->gem0, TYPE_CADENCE_GEM);
->      object_initialize_child(obj, "gem1", &s->gem1, TYPE_CADENCE_GEM);
->
-> @@ -278,6 +286,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
->          memmap[MICROCHIP_PFSOC_MPUCFG].base,
->          memmap[MICROCHIP_PFSOC_MPUCFG].size);
->
-> +    /* DDR SGMII PHY */
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), errp);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), 0,
-> +                    memmap[MICROCHIP_PFSOC_DDR_SGMII_PHY].base);
-> +
-> +    /* DDR CFG */
-> +    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_cfg), errp);
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_cfg), 0,
-> +                    memmap[MICROCHIP_PFSOC_DDR_CFG].base);
-> +
->      /* SDHCI */
->      sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> index 8bfc7e1..5b81e26 100644
-> --- a/include/hw/riscv/microchip_pfsoc.h
-> +++ b/include/hw/riscv/microchip_pfsoc.h
-> @@ -24,6 +24,7 @@
->
->  #include "hw/char/mchp_pfsoc_mmuart.h"
->  #include "hw/dma/sifive_pdma.h"
-> +#include "hw/misc/mchp_pfsoc_dmc.h"
->  #include "hw/net/cadence_gem.h"
->  #include "hw/sd/cadence_sdhci.h"
->
-> @@ -37,6 +38,8 @@ typedef struct MicrochipPFSoCState {
->      RISCVHartArrayState e_cpus;
->      RISCVHartArrayState u_cpus;
->      DeviceState *plic;
-> +    MchpPfSoCDdrSgmiiPhyState ddr_sgmii_phy;
-> +    MchpPfSoCDdrCfgState ddr_cfg;
->      MchpPfSoCMMUartState *serial0;
->      MchpPfSoCMMUartState *serial1;
->      MchpPfSoCMMUartState *serial2;
-> @@ -82,7 +85,9 @@ enum {
->      MICROCHIP_PFSOC_MMUART0,
->      MICROCHIP_PFSOC_SYSREG,
->      MICROCHIP_PFSOC_MPUCFG,
-> +    MICROCHIP_PFSOC_DDR_SGMII_PHY,
->      MICROCHIP_PFSOC_EMMC_SD,
-> +    MICROCHIP_PFSOC_DDR_CFG,
->      MICROCHIP_PFSOC_MMUART1,
->      MICROCHIP_PFSOC_MMUART2,
->      MICROCHIP_PFSOC_MMUART3,
-> --
-> 2.7.4
->
->
+     sock = socket(AF_UNIX, SOCK_STREAM, 0);
+-    if (sock <= 0) {
++    if (sock < 0) {
+         perror("socket");
+         return -1;
+     }
+diff --git a/contrib/vhost-user-scsi/vhost-user-scsi.c b/contrib/vhost-user-scsi/vhost-user-scsi.c
+index 3c912384e9..0f9ba4b2a2 100644
+--- a/contrib/vhost-user-scsi/vhost-user-scsi.c
++++ b/contrib/vhost-user-scsi/vhost-user-scsi.c
+@@ -320,7 +320,7 @@ static int unix_sock_new(char *unix_fn)
+     assert(unix_fn);
+
+     sock = socket(AF_UNIX, SOCK_STREAM, 0);
+-    if (sock <= 0) {
++    if (sock < 0) {
+         perror("socket");
+         return -1;
+     }
+-- 
+2.19.1
 
