@@ -2,72 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587A329CE33
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 06:36:10 +0100 (CET)
-Received: from localhost ([::1]:53808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2778D29CE3F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 06:45:50 +0100 (CET)
+Received: from localhost ([::1]:40120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXe81-0002OP-Bf
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 01:36:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32856)
+	id 1kXeHN-0000Zc-1g
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 01:45:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kXe2z-0005V0-Mf; Wed, 28 Oct 2020 01:30:57 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39216)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kXe2y-0000jr-2h; Wed, 28 Oct 2020 01:30:57 -0400
-Received: by mail-pf1-x442.google.com with SMTP id e15so2258406pfh.6;
- Tue, 27 Oct 2020 22:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=XybP5xo4qhD8pmZoNkGDTq4nka9pB/45dbl0jm7hTcE=;
- b=rwvHIMb+jQmHAbC/mmzpp1QjH/Wgp0exoRb9q0YL8ObrkizvxGIz1Nkz89RyosUdPT
- AemxRnj7wyJEgixbRsS4FUkGWLjEaLk/GfLF8SJznOM3WjfCxMIpxccZj31WuZt3KdTL
- peoyM/nsadH6Gxl22oZ8Oh+KVjnuNEcCrPMZVNhifcGYuuH7VOFxLuqxslD7ohbuekSE
- kMS3JAUprFQp//5FYNfFe3HCfBuytpA5xyWPi7ZWPQ2cMGre/KyVanyN+wiNHzgtpxco
- KZi6G5fpiAk/SXgfK9pC2RcCyFwxYvmgOfKFWLDKbO6TI6oeF1R4SjnTLeYAy6l2CZz9
- BiFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=XybP5xo4qhD8pmZoNkGDTq4nka9pB/45dbl0jm7hTcE=;
- b=qAI/cS7IPrgcuKRSYMsexRH3jsVFHWEbcGRWDa7elYx+PP1tdSeY/pBwd9vwrTTCFA
- DiYwiOhtTsSqVUWV1Yev2FAXNy92Qp2vfQnJzx6QjPDsmMBbet/fhN1WDY3VjmxBFGiV
- Cj97qU2Id9HoEUdKtqcHIWKVhFAOowY/MQ3almE1M4oFkdmU/x8W+dNZEHY4ecSaYLLN
- oiAIQuz5MQLLTkRC17TPqjMr//mNVxP2hQivWHRvzK9tEJSEz+w/zfJKTKz1ktGsXLMJ
- WBqP0+yjzqdAvNtXpE1AHTIpUeL62Wqp/xbfX/pSXOTb61ILQTa/PRC0qFLwLafzVgBR
- F1Xg==
-X-Gm-Message-State: AOAM533FmbUZTFr6luet9kWwVM5OcKxnCJlsDg44Bof06Bgz19a+7Lba
- eJUKcISVzAYhu80NIjtOVXk=
-X-Google-Smtp-Source: ABdhPJyDWu07WXxcw0JVjxl2C5q4uUCQ2V28paxYmv57bbbz+ijWrqvdioaq4vKEwasPHPWDJnHBpw==
-X-Received: by 2002:a63:530c:: with SMTP id h12mr5036918pgb.424.1603863054654; 
- Tue, 27 Oct 2020 22:30:54 -0700 (PDT)
-Received: from pek-vx-bsp2.wrs.com (unknown-224-80.windriver.com.
- [147.11.224.80])
- by smtp.gmail.com with ESMTPSA id 9sm5031887pjs.1.2020.10.27.22.30.51
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 22:30:54 -0700 (PDT)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v2 10/10] hw/riscv: microchip_pfsoc: Hook the I2C1 controller
-Date: Wed, 28 Oct 2020 13:30:10 +0800
-Message-Id: <1603863010-15807-11-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1603863010-15807-1-git-send-email-bmeng.cn@gmail.com>
-References: <1603863010-15807-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kXeFl-0008PT-1n; Wed, 28 Oct 2020 01:44:09 -0400
+Received: from szxga02-in.huawei.com ([45.249.212.188]:2110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kXeFh-0004uE-Si; Wed, 28 Oct 2020 01:44:08 -0400
+Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CLcvN2HVHz4xQk;
+ Wed, 28 Oct 2020 13:44:00 +0800 (CST)
+Received: from DGGEMM423-HUB.china.huawei.com (10.1.198.40) by
+ DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
+ id 14.3.487.0; Wed, 28 Oct 2020 13:43:56 +0800
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.225]) by
+ dggemm423-hub.china.huawei.com ([10.1.198.40]) with mapi id 14.03.0487.000;
+ Wed, 28 Oct 2020 13:43:47 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: RE: [PATCH] target/ppc/excp_helper: Add a missing break for
+ POWERPC_EXCP_HISI
+Thread-Topic: [PATCH] target/ppc/excp_helper: Add a missing break for
+ POWERPC_EXCP_HISI
+Thread-Index: AQHWrOEhDVQBenQ31E2N25gfU+hXv6mr5Y4AgACauqA=
+Date: Wed, 28 Oct 2020 05:43:46 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BA0AE06@dggemm531-mbx.china.huawei.com>
+References: <20201028041620.2168707-1-kuhn.chenqun@huawei.com>
+ <20201028042758.GB5604@yekko.fritz.box>
+In-Reply-To: <20201028042758.GB5604@yekko.fritz.box>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga02-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:43:58
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,71 +69,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, Atish Patra <atish.patra@wdc.com>,
- Anup Patel <anup.patel@wdc.com>, Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "clg@kaod.org" <clg@kaod.org>,
+ ganqixin <ganqixin@huawei.com>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
-
-The latest SD card image [1] released by Microchip ships a Linux
-kernel with built-in PolarFire SoC I2C driver support. The device
-tree file includes the description for the I2C1 node hence kernel
-tries to probe the I2C1 device during boot.
-
-It is enough to create an unimplemented device for I2C1 to allow
-the kernel to continue booting to the shell.
-
-[1] ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
----
-
-(no changes since v1)
-
- hw/riscv/microchip_pfsoc.c         | 6 ++++++
- include/hw/riscv/microchip_pfsoc.h | 1 +
- 2 files changed, 7 insertions(+)
-
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 5e31b84..d13d6ba 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -113,6 +113,7 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
-+    [MICROCHIP_PFSOC_I2C1] =            { 0x2010b000,     0x1000 },
-     [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
-     [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
-     [MICROCHIP_PFSOC_GPIO0] =           { 0x20120000,     0x1000 },
-@@ -343,6 +344,11 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
-         serial_hd(4));
- 
-+    /* I2C1 */
-+    create_unimplemented_device("microchip.pfsoc.i2c1",
-+        memmap[MICROCHIP_PFSOC_I2C1].base,
-+        memmap[MICROCHIP_PFSOC_I2C1].size);
-+
-     /* GEMs */
- 
-     nd = &nd_table[0];
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index db77e9c..51d4463 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -97,6 +97,7 @@ enum {
-     MICROCHIP_PFSOC_MMUART2,
-     MICROCHIP_PFSOC_MMUART3,
-     MICROCHIP_PFSOC_MMUART4,
-+    MICROCHIP_PFSOC_I2C1,
-     MICROCHIP_PFSOC_GEM0,
-     MICROCHIP_PFSOC_GEM1,
-     MICROCHIP_PFSOC_GPIO0,
--- 
-2.7.4
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBEYXZpZCBHaWJzb24gW21haWx0
+bzpkYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXVdDQo+IFNlbnQ6IFdlZG5lc2RheSwgT2N0b2Jl
+ciAyOCwgMjAyMCAxMjoyOCBQTQ0KPiBUbzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBo
+dWF3ZWkuY29tPg0KPiBDYzogcWVtdS1kZXZlbEBub25nbnUub3JnOyBxZW11LXRyaXZpYWxAbm9u
+Z251Lm9yZzsgY2xnQGthb2Qub3JnOw0KPiBaaGFuZ2hhaWxpYW5nIDx6aGFuZy56aGFuZ2hhaWxp
+YW5nQGh1YXdlaS5jb20+OyBnYW5xaXhpbg0KPiA8Z2FucWl4aW5AaHVhd2VpLmNvbT47IEV1bGVy
+IFJvYm90IDxldWxlci5yb2JvdEBodWF3ZWkuY29tPg0KPiBTdWJqZWN0OiBSZTogW1BBVENIXSB0
+YXJnZXQvcHBjL2V4Y3BfaGVscGVyOiBBZGQgYSBtaXNzaW5nIGJyZWFrIGZvcg0KPiBQT1dFUlBD
+X0VYQ1BfSElTSQ0KPiANCj4gT24gV2VkLCBPY3QgMjgsIDIwMjAgYXQgMTI6MTY6MjBQTSArMDgw
+MCwgQ2hlbiBRdW4gd3JvdGU6DQo+ID4gV2hlbiB1c2luZyAtV2ltcGxpY2l0LWZhbGx0aHJvdWdo
+IGluIG91ciBDRkxBR1MsIHRoZSBjb21waWxlciBzaG93ZWQNCj4gd2FybmluZzoNCj4gPiAuLi90
+YXJnZXQvcHBjL2V4Y3BfaGVscGVyLmM6IEluIGZ1bmN0aW9uIOKAmHBvd2VycGNfZXhjcOKAmToN
+Cj4gPiAuLi90YXJnZXQvcHBjL2V4Y3BfaGVscGVyLmM6NTI5OjEzOiB3YXJuaW5nOiB0aGlzIHN0
+YXRlbWVudCBtYXkgZmFsbCB0aHJvdWdoDQo+IFstV2ltcGxpY2l0LWZhbGx0aHJvdWdoPV0NCj4g
+PiAgIDUyOSB8ICAgICAgICAgbXNyIHw9IGVudi0+ZXJyb3JfY29kZTsNCj4gPiAgICAgICB8ICAg
+ICAgICAgfn5+fl5+fn5+fn5+fn5+fn5+fn5+fg0KPiA+IC4uL3RhcmdldC9wcGMvZXhjcF9oZWxw
+ZXIuYzo1MzA6NTogbm90ZTogaGVyZQ0KPiA+ICAgNTMwIHwgICAgIGNhc2UgUE9XRVJQQ19FWENQ
+X0hERUNSOiAgICAgLyogSHlwZXJ2aXNvcg0KPiBkZWNyZW1lbnRlciBleGNlcHRpb24gICAgICAg
+ICAqLw0KPiA+ICAgICAgIHwgICAgIF5+fn4NCj4gPg0KPiA+IEEgYnJlYWsgc3RhdGVtZW50IG1h
+eSBiZSByZXF1aXJlZCB0byBlbnRlciB0aGlzIGV4Y2VwdGlvbi4NCj4gPg0KPiA+IFJlcG9ydGVk
+LWJ5OiBFdWxlciBSb2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPiBTaWduZWQtb2Zm
+LWJ5OiBDaGVuIFF1biA8a3Vobi5jaGVucXVuQGh1YXdlaS5jb20+DQo+IA0KPiBUaGlzIGNoYW5n
+ZSBpcyBpbmNvcnJlY3QuICBXZSBkZWZpbml0ZWx5IG5lZWQgdGhlIGZhbGx0aHJvdWdoIHRvIHNl
+dCBzcnJbMDFdDQo+IHByb3Blcmx5LiAgU28gdGhlIGNvcnJlY3QgZml4IGlzIHRvIGFubm90YXRl
+IHRoZSBmYWxsdGhyb3VnaCwgbm90IHJlbW92ZSBpdC4NCj4gDQpPSywgSSdsbCBtb2RpZnkgaXQg
+bGF0ZXIuDQonDQpUaGFua3MsDQpDaGVuIFF1bg0KPiA+DQo+ID4gLS0tDQo+ID4gSSBndWVzcyB0
+aGVyZSdzIGEgYnJlYWsgbWlzc2luZyBpbiAnUE9XRVJQQ19FWENQX0hJU0knIGJyYW5jaCwganVz
+dA0KPiA+IGxpa2UgdGhlICdQT1dFUlBDX0VYQ1BfSVNJJyBicmFuY2guDQo+ID4gLS0tDQo+ID4g
+IHRhcmdldC9wcGMvZXhjcF9oZWxwZXIuYyB8IDEgKw0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBp
+bnNlcnRpb24oKykNCj4gPg0KPiA+IGRpZmYgLS1naXQgYS90YXJnZXQvcHBjL2V4Y3BfaGVscGVy
+LmMgYi90YXJnZXQvcHBjL2V4Y3BfaGVscGVyLmMgaW5kZXgNCj4gPiBhOTg4YmExNWY0Li41ZTY5
+YWMxYjMzIDEwMDY0NA0KPiA+IC0tLSBhL3RhcmdldC9wcGMvZXhjcF9oZWxwZXIuYw0KPiA+ICsr
+KyBiL3RhcmdldC9wcGMvZXhjcF9oZWxwZXIuYw0KPiA+IEBAIC01MjcsNiArNTI3LDcgQEAgc3Rh
+dGljIGlubGluZSB2b2lkIHBvd2VycGNfZXhjcChQb3dlclBDQ1BVICpjcHUsDQo+IGludCBleGNw
+X21vZGVsLCBpbnQgZXhjcCkNCj4gPiAgICAgICAgICBicmVhazsNCj4gPiAgICAgIGNhc2UgUE9X
+RVJQQ19FWENQX0hJU0k6ICAgICAgLyogSHlwZXJ2aXNvciBpbnN0cnVjdGlvbiBzdG9yYWdlDQo+
+IGV4Y2VwdGlvbiAqLw0KPiA+ICAgICAgICAgIG1zciB8PSBlbnYtPmVycm9yX2NvZGU7DQo+ID4g
+KyAgICAgICAgYnJlYWs7DQo+ID4gICAgICBjYXNlIFBPV0VSUENfRVhDUF9IREVDUjogICAgIC8q
+IEh5cGVydmlzb3IgZGVjcmVtZW50ZXINCj4gZXhjZXB0aW9uICAgICAgICAgKi8NCj4gPiAgICAg
+IGNhc2UgUE9XRVJQQ19FWENQX0hEU0k6ICAgICAgLyogSHlwZXJ2aXNvciBkYXRhIHN0b3JhZ2UN
+Cj4gZXhjZXB0aW9uICAgICAgICAqLw0KPiA+ICAgICAgY2FzZSBQT1dFUlBDX0VYQ1BfSERTRUc6
+ICAgICAvKiBIeXBlcnZpc29yIGRhdGEgc2VnbWVudA0KPiBleGNlcHRpb24gICAgICAgICovDQo+
+IA0KPiAtLQ0KPiBEYXZpZCBHaWJzb24JCQl8IEknbGwgaGF2ZSBteSBtdXNpYyBiYXJvcXVlLCBh
+bmQgbXkgY29kZQ0KPiBkYXZpZCBBVCBnaWJzb24uZHJvcGJlYXIuaWQuYXUJfCBtaW5pbWFsaXN0
+LCB0aGFuayB5b3UuICBOT1QgX3RoZV8NCj4gX290aGVyXw0KPiAJCQkJfCBfd2F5XyBfYXJvdW5k
+XyENCj4gaHR0cDovL3d3dy5vemxhYnMub3JnL35kZ2lic29uDQo=
 
