@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AECCD29D0C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:40:18 +0100 (CET)
-Received: from localhost ([::1]:55460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3309D29D0C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:44:00 +0100 (CET)
+Received: from localhost ([::1]:39696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnYf-00066Z-NI
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:40:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49992)
+	id 1kXncF-0002rS-7q
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:43:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kXnWX-0004TO-9E; Wed, 28 Oct 2020 11:38:05 -0400
-Received: from home.keithp.com ([63.227.221.253]:46900 helo=elaine.keithp.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <keithp@keithp.com>)
- id 1kXnWT-0000fm-GL; Wed, 28 Oct 2020 11:38:04 -0400
-Received: from localhost (localhost [127.0.0.1])
- by elaine.keithp.com (Postfix) with ESMTP id BF3BF3F2DD89;
- Wed, 28 Oct 2020 08:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603899476; bh=YzHdL/SVNn3Bt1bCDaUC9XvyJG5vFq4cXxNR1e8UkSI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=OJgkrlgNH2HsYbNmegTXWjFvLgxiz7V1vKmFk+h6BSnXLXmrblBId8avUvsLghsKj
- LdiQcwm0ZdG6Kdtm+Q4xieTvGk/VLeEATpv/mopJpUCPCHVENODa8WRKkDGg8RIuhG
- g3MZ8Y70Ag3ZzK4PPgHrnTEoFwmmfrADeBt/7ho9xC8YiYPs+KDcyPs+HUKsS8Hky3
- ZfXdoSMKGoK1bxaplNBDFA5bKluhgFooD/cAgiD94It2cLjvjVPpYT+fwgDLShXiXl
- XD0ed4UNcBTlD0qhIiydnm8/j87gXrQ73lMfq/DXtMFuYfyOtg4O7UpdwcsTZx/u3a
- eogV4TlG3nRJQ==
-X-Virus-Scanned: Debian amavisd-new at keithp.com
-Received: from elaine.keithp.com ([127.0.0.1])
- by localhost (elaine.keithp.com [127.0.0.1]) (amavisd-new, port 10024)
- with LMTP id sDeMeo7hjEsz; Wed, 28 Oct 2020 08:37:56 -0700 (PDT)
-Received: from keithp.com (koto.keithp.com [10.0.0.2])
- by elaine.keithp.com (Postfix) with ESMTPSA id 544E23F2DD85;
- Wed, 28 Oct 2020 08:37:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=keithp.com; s=mail;
- t=1603899476; bh=YzHdL/SVNn3Bt1bCDaUC9XvyJG5vFq4cXxNR1e8UkSI=;
- h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
- b=OJgkrlgNH2HsYbNmegTXWjFvLgxiz7V1vKmFk+h6BSnXLXmrblBId8avUvsLghsKj
- LdiQcwm0ZdG6Kdtm+Q4xieTvGk/VLeEATpv/mopJpUCPCHVENODa8WRKkDGg8RIuhG
- g3MZ8Y70Ag3ZzK4PPgHrnTEoFwmmfrADeBt/7ho9xC8YiYPs+KDcyPs+HUKsS8Hky3
- ZfXdoSMKGoK1bxaplNBDFA5bKluhgFooD/cAgiD94It2cLjvjVPpYT+fwgDLShXiXl
- XD0ed4UNcBTlD0qhIiydnm8/j87gXrQ73lMfq/DXtMFuYfyOtg4O7UpdwcsTZx/u3a
- eogV4TlG3nRJQ==
-Received: by keithp.com (Postfix, from userid 1000)
- id D505B1582210; Wed, 28 Oct 2020 08:37:55 -0700 (PDT)
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU Developers
- <qemu-devel@nongnu.org>, Laurent Vivier <laurent@vivier.eu>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Alistair
- Francis <Alistair.Francis@wdc.com>, Sagar Karandikar
- <sagark@eecs.berkeley.edu>, Bastian Koppelmann
- <kbastian@mail.uni-paderborn.de>, "open list:RISC-V"
- <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH 1/4] semihosting: Move ARM semihosting code to shared
- directories
-In-Reply-To: <87lffqmwi6.fsf@linaro.org>
-References: <20201026212853.92880-1-keithp@keithp.com>
- <20201026212853.92880-2-keithp@keithp.com>
- <CAFEAcA-0_WLMP1Y1sgcu7Ng+0w8Ovt9DVWzYU8ZA_FA2+bwcUw@mail.gmail.com>
- <87pn53e3ke.fsf@keithp.com>
- <CAFEAcA8Sha5QYbO25dtzBZHoXUeiGVv8aojPFTMrst8nbVDAdg@mail.gmail.com>
- <87k0vbdthq.fsf@keithp.com> <87lffqmwi6.fsf@linaro.org>
-Date: Wed, 28 Oct 2020 08:37:55 -0700
-Message-ID: <87blgme4z0.fsf@keithp.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kXnWX-0004TX-4D
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:38:05 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:40586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kXnWU-0000hV-61
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:38:04 -0400
+Received: by mail-pl1-x642.google.com with SMTP id j5so2651472plk.7
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:38:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=om/PY/dr8sqpQP1wVkGQjD0OXvAzyU46yhLk+LQHcds=;
+ b=yKxwMO7gByBnXbEToW4/MlHTfMkii1fyaaZWFOBlniB9fvJsClv7mEDdMwFSod3um8
+ Ts/qYxufra9ti+pg+Lvu51FrazcSb+xaY8BLk8JmBGAJz6VZuBKlVZpZJAOXSEPeNxTk
+ 05wkWd8lM/nQiBGk9XZVuPEXe45vOsVq9yUXacq4ZYsGlIdDEE6azbTRrboQa1HUSA6i
+ L78go8Omi5+OAwXpwXtuigPQ1SzlWwVyztXPdomdjsqgPuA+R/kkoDookfscvzRNUT5D
+ hIqYLzqSfWbjbBeVHXhi6lzEiOHZaeW2GnR3gDzarMUI0BoU7G8ROu/GKloXHPFKhmAG
+ O8Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=om/PY/dr8sqpQP1wVkGQjD0OXvAzyU46yhLk+LQHcds=;
+ b=cVc1geuInzSd7JvXA1lg0XCXLUzNBNsSznImVYmeJ9ZMl57YefOVgSL4QC2ylpMtST
+ 66urq1QL6aSSZBsUxec0AT4LZW5YaJWww+GAdWpRsI2LhYmODZXGVl35gApuHNi2mm7B
+ DhDDN0zyL0jNKa0uy5giwonc1LCQiOAjSbRokgdv6KLgBnVca66hEUL+tBevbxPsnT8i
+ 2cXTE4LQDbAxeAG3DgWm+wcCeQQBvI9tu6PBLLO8CNdpx3jo63nGueoJVjYQHbu4sQqJ
+ umTl7mJkdzCedVlIr2/g0qkzG6aENPVFkJpxYD9wSm9ziJBh4RqONtZHFJgTdevVH0Hu
+ bsYA==
+X-Gm-Message-State: AOAM533rjnRwHaF63N5yCpHPYl0Olwtd5BZcfYPpFMoxRD49u4CZCe2I
+ UWP8/pI7cUl8LLphNmE94X9SIw==
+X-Google-Smtp-Source: ABdhPJym8U4WKANMpr9YwyBFM8nDo2c1TKD8sM14RHDcyqhCEgWQswWjTpnPPvHCqZjRQtQm2SVrkA==
+X-Received: by 2002:a17:902:a60c:b029:d5:dc92:a1ca with SMTP id
+ u12-20020a170902a60cb02900d5dc92a1camr8060864plq.16.1603899480554; 
+ Wed, 28 Oct 2020 08:38:00 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id 20sm6303570pfh.219.2020.10.28.08.37.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Oct 2020 08:37:59 -0700 (PDT)
+Subject: Re: [PATCH 3/9] accel/tcg/user-exec: silence the compiler warnings
+To: Thomas Huth <thuth@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ qemu-devel@nongnu.org, qemu-trivial@nongnu.org
+References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
+ <20201028041819.2169003-4-kuhn.chenqun@huawei.com>
+ <e2a3548e-d36c-3338-f298-150cce3c3d47@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d84d1e42-5814-05fb-4bfa-878cdca0754b@linaro.org>
+Date: Wed, 28 Oct 2020 08:37:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-=";
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Received-SPF: pass client-ip=63.227.221.253; envelope-from=keithp@keithp.com;
- helo=elaine.keithp.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 11:37:57
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e2a3548e-d36c-3338-f298-150cce3c3d47@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::642;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x642.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.921,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,51 +92,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Riku Voipio <riku.voipio@iki.fi>,
+ zhang.zhanghailiang@huawei.com, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: "Keith Packard" <keithp@keithp.com>
-From: "Keith Packard" via <qemu-devel@nongnu.org>
 
---=-=-=
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On 10/28/20 6:52 AM, Thomas Huth wrote:
+> On 28/10/2020 05.18, Chen Qun wrote:
+>> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
+>> ../accel/tcg/user-exec.c: In function ‘handle_cpu_signal’:
+>> ../accel/tcg/user-exec.c:169:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>>   169 |             cpu_exit_tb_from_sighandler(cpu, old_set);
+>>       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> ../accel/tcg/user-exec.c:172:9: note: here
+>>   172 |         default:
+>>
+>> This exception branch fall through the 'default' branch and run the 'g_assert_not_reached' statement.
+>> So we could use "fall through" instead of "NORETURN" here.
+>>
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+>> ---
+>> Cc: Riku Voipio <riku.voipio@iki.fi>
+>> Cc: Richard Henderson <richard.henderson@linaro.org>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  accel/tcg/user-exec.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+>> index 4ebe25461a..330468e990 100644
+>> --- a/accel/tcg/user-exec.c
+>> +++ b/accel/tcg/user-exec.c
+>> @@ -167,7 +167,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+>>               */
+>>              clear_helper_retaddr();
+>>              cpu_exit_tb_from_sighandler(cpu, old_set);
+>> -            /* NORETURN */
+>> +            /* fall through */
+> 
+> There should not be a fall through here since the previous function should
+> never return. Does the warning go away if you mark the
+> cpu_exit_tb_from_sighandler() function with QEMU_NORETURN ? If so, I think
+> that would be the better fix.
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+The compiler should have figured that out itself, due to cpu_loop_exit_noexc
+being marked QEMU_NORETURN.  However,
+if adding a second QEMU_NORETURN works, I'm fine with that.
 
-> I don't think we want arm specific adds in the common code. I think what
-> Peter was suggesting is a new config symbol that only ARM and RISC
-> define, e.g something like:
->
->   specific_ss.add(when: 'CONFIG_ARM_STYLE_SEMIHOSTING',
->                   if_true: files ('common-semi.c'))
->
-> or some other suitably descriptive symbol. Otherwise you have to keep
-> adding an foo_ss.add line for each architecture that wants it.
+As a very last resort, we can change the comment to
 
-Sure, that will also work, just a few lines of additional config file
-stuff.
+    /* no return, but fall through to assert not reached */
 
-=2D-=20
-=2Dkeith
+which correctly documents both the function preceding and also contains the
+regexp that the compiler is using for the warning.
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+r~
 
-iQIzBAEBCAAdFiEEw4O3eCVWE9/bQJ2R2yIaaQAAABEFAl+ZkFMACgkQ2yIaaQAA
-ABGQyA/9Eknw0a9LPyqureDreTvCxw67YCgUYQMn2cxp2iMt/I03xf3SB0JOxg0h
-Zj5WaJ5mtQOBKpZfRP4qLZqK1a3mLPxsCFQUzhtXxMwrMvnsPqJbSvykxh23gu88
-ZbEpTAqgTF+8gZp+LgL7M2BSoAddCEO8C0jWmSBjobkatNthZEufTJrvsf3b8qP9
-CVHbxSkhPEze4a1Y4d9HgvgefdBCHXgBnPZoTSTn4HvsdJzkyC5JK221kDhCWf7A
-yvL8oeU2sTXls4hO5Y+ntt0CzjslKi2D8PmehJP0oEw/jgohQ9hXOxFTdkoiJsix
-c5lueStzU3bzcPGK88DZUY8mejCaZyL5VQAC2z5yoafoEsh4AnhEydFxCyv+oZUi
-nEWCcsk6DawT/bCfjcV/V6sHOHpjaLUT9soylE+UHtbuLtJiMmc3gqczSBcJc6JY
-BpAoyCd5buq4gAb+VwxlPqai4XUGiuXpDK6hrWxJSwUYM0hNmRSPamxLVTCb2ksg
-31eW3AWVkJsZh0XkfQPzWNGPud7oRR0sGwiWAg1k4Q9y19R06Zj/yK1dxtP1rfww
-PU7RPDuYiz72UR/UY0vOJbfRQQ2PdOdQpmuiRBextHSykmEXLErur0cPSAR39JUP
-So3572RP7lrHVy9CjcNl3cQxJqkrS4RFzSNQWvZLxwS/7MG8OWE=
-=LZa5
------END PGP SIGNATURE-----
---=-=-=--
 
