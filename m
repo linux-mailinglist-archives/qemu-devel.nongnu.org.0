@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F81529D0DA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:51:55 +0100 (CET)
-Received: from localhost ([::1]:34440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E641E29D0E1
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:54:49 +0100 (CET)
+Received: from localhost ([::1]:41856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnju-0003w9-KK
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:51:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52486)
+	id 1kXnmi-00077R-TO
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:54:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnhH-0002FN-LO
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:49:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33354)
+ id 1kXnhV-0002Wd-FA
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:49:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21348)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnhG-0002Ev-2H
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:49:11 -0400
+ id 1kXnhT-0002Fc-Sc
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:49:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603900149;
+ s=mimecast20190719; t=1603900160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UP1lnagZ1gjHGZgPWXkyUIYrN78HD9TTkp/5tbjnEAw=;
- b=HewAuNMe+fDawcOxKeEyRJDLdpcAAejUd4tvs2OrDk+dY5xWnJPqhVMP6DlEkeZw9IUAn8
- uMw2BtKsSvXui7AwKgXbOR7tVPSnGM4Atudk9c66k3jpJV2mRlPok+KUylm9DvyZuvZehm
- 7uirSEi0Q9dwqoCxoLOSZsdMtoq6Umg=
+ bh=eTyj+fAm7ULa3rdY0BuDy9kyxb92LnLqsP6JUD4tUzU=;
+ b=SI44E+N6PW3wC3muGBWo/Dwu5dAXOZ2Pkxr2BMLgx9w+1fnw+Gh1KjEKBDZRDGD/kla7ee
+ 4egcpls9joBxke48EAzLYAfDjB1PzTbQNaoMHDDsdV3xc3SyrQ8WU1Gs553pMZSw0eQcEB
+ uo5ekCHDFhzn9s+CV5Lhqf376IvEB58=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-lLaPvgyuPvmFrOnvAjYFxA-1; Wed, 28 Oct 2020 11:49:06 -0400
-X-MC-Unique: lLaPvgyuPvmFrOnvAjYFxA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-179-mAC6tSnMOQWQjClVG7evzg-1; Wed, 28 Oct 2020 11:49:17 -0400
+X-MC-Unique: mAC6tSnMOQWQjClVG7evzg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B960936C80;
- Wed, 28 Oct 2020 15:49:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0B5F760C4;
+ Wed, 28 Oct 2020 15:49:16 +0000 (UTC)
 Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BC3775B4AA;
- Wed, 28 Oct 2020 15:49:01 +0000 (UTC)
-Date: Wed, 28 Oct 2020 15:49:00 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57BCC10013D9;
+ Wed, 28 Oct 2020 15:49:13 +0000 (UTC)
+Date: Wed, 28 Oct 2020 15:49:12 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 09/25] block/nvme: Move definitions before structure
- declarations
-Message-ID: <20201028154900.GY231368@stefanha-x1.localdomain>
+Subject: Re: [PATCH 10/25] block/nvme: Use unsigned integer for queue
+ counter/size
+Message-ID: <20201028154912.GZ231368@stefanha-x1.localdomain>
 References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-10-philmd@redhat.com>
+ <20201027135547.374946-11-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-10-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201027135547.374946-11-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="dnBRaVjvtun1Q0Od"
+ protocol="application/pgp-signature"; boundary="gpOboRovIPmaBszt"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,37 +89,38 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---dnBRaVjvtun1Q0Od
+--gpOboRovIPmaBszt
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2020 at 02:55:31PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> To be able to use some definitions in structure declarations,
-> move them earlier. No logical change.
+On Tue, Oct 27, 2020 at 02:55:32PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> We can not have negative queue count/size/index, use unsigned type.
+> Rename 'nr_queues' as 'queue_count' to match the spec naming.
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  block/nvme.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
+>  block/nvme.c       | 38 ++++++++++++++++++--------------------
+>  block/trace-events | 10 +++++-----
+>  2 files changed, 23 insertions(+), 25 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---dnBRaVjvtun1Q0Od
+--gpOboRovIPmaBszt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZkuwACgkQnKSrs4Gr
-c8iG5wf/TNy6UCB/K4iWUlUYmmjzMF17Tq2TaVzcfoxVkiYK0Dv4fmIpqgvD9sVz
-Erqg2Ip40trkdLI3JPCaL1MwmVwCRpi7woZW0KjqmMvpZyFlQobSMSML0UO3LL/3
-gLh25qyaeEFUEusDkqueYoVvTLFjGzjGupK8Il7YZRXqFLwSdfGGc73SEaFfqK/0
-s8pXdED0UDdbLu47WKHsXIURVDIIHv6fmM8SC1c/uHoz2C2PHUPImUzH/+pLvuWo
-5tFKLS7b62Kj3JEy8bDzRt1mLn0gfljaHWO+o9rS6Ah8FnTJknZX+enE3s2CUGkf
-8oaVC1RQKYYAseCcVNvldFVE7fIGFg==
-=tMHh
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZkvgACgkQnKSrs4Gr
+c8g9Xgf+K5H8xmaR/EWrC8ifTSw3zGHxncykTEesQP4yi+M6eonEPcKqkNTp0fcF
+heEElzN1mj7Iqou/JtFqOuC9KCxTvD1vJO1uIAbCZo8Ze4gyx16STEel13ZoPzx5
+Q8MXjGl8F4UZgmncIZ0yBAq1YfOZ3Ckho0aXqVeSJyODdQ42K37qmWpbK5ogwxcX
+ShsdFY1+BEenUmkh0/EFCF4bSKcgyM4+F06aBhcjcAv3du5/hM47lolkd9ZJkp4o
+GYhsVER9un45usnI3sf/7z/EJeIfNDWTlORtCUY6ldCf7Mq4LH00mub6D4FPXmEd
+eBVPZixuKMtzcrRc3ot0WPdyNPmYQw==
+=aLDP
 -----END PGP SIGNATURE-----
 
---dnBRaVjvtun1Q0Od--
+--gpOboRovIPmaBszt--
 
 
