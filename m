@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7FD929D930
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 23:49:04 +0100 (CET)
-Received: from localhost ([::1]:50072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24DE129D94C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 23:50:50 +0100 (CET)
+Received: from localhost ([::1]:54674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXuFb-00082v-RN
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 18:49:03 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34568)
+	id 1kXuHJ-0001W1-8Z
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 18:50:49 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kXuAW-0004zc-Ps
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 18:43:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36968)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kXuBA-0005R5-B9
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 18:44:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kXuAU-0002zH-54
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 18:43:48 -0400
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kXuB8-00031t-Sn
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 18:44:28 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603925022;
+ s=mimecast20190719; t=1603925059;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NeHFsJpg4GqKD/sIf/C4nx4owDvCn+JmqQiRZPxTWeA=;
- b=HbptPhGeYVe6ZIZVZikf79HTgC0ux84OCqEBRACZEAyTJhuaAlgwA/sc/qHCMJH4nPnxuD
- RMbtikozvjozpzytKpR1fQeVfVBNuxueWk6Xu/urTXT5abTZ/buy6yoFLZW3I/I3KJok01
- TToz5xrPQYbyuC5pAE7WcuUTt/BGZy8=
+ bh=1aVs3y7Fnp60Y6DhYxiytyl6hzCePqW8hMHHaP19Msc=;
+ b=Z3Ww1MtZAG9fAZDSgsoZlQWf5x7vgHn/LchiMvODRSmDT24TVh1A4mKbhk3OX08s49HJUi
+ A0eLKfYxcF9aEjYwUBY43eDq/23FSnAVtR5P5/VoBDQG2ZdHs9CakAvYWVG9/y3pmjan0e
+ lkghoGHFDQ1bH81BbjbAVT+1ci7I7W4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-a9hZTgqmMmWZpM8K-ZhJXQ-1; Wed, 28 Oct 2020 18:43:40 -0400
-X-MC-Unique: a9hZTgqmMmWZpM8K-ZhJXQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-424-wxgFVjjDNiuD_I2_Ft9MMg-1; Wed, 28 Oct 2020 18:44:14 -0400
+X-MC-Unique: wxgFVjjDNiuD_I2_Ft9MMg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF485186DD37;
- Wed, 28 Oct 2020 22:43:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AF3D804B77;
+ Wed, 28 Oct 2020 22:44:13 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
  [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B459D76642;
- Wed, 28 Oct 2020 22:43:31 +0000 (UTC)
-Date: Wed, 28 Oct 2020 18:43:29 -0400
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76A6F60C04;
+ Wed, 28 Oct 2020 22:44:08 +0000 (UTC)
+Date: Wed, 28 Oct 2020 18:44:06 -0400
 From: Cleber Rosa <crosa@redhat.com>
 To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 12/15] python: add mypy to pipenv
-Message-ID: <20201028224329.GE2549351@localhost.localdomain>
+Subject: Re: [PATCH v3 13/15] python: move .isort.cfg into setup.cfg
+Message-ID: <20201028224406.GF2549351@localhost.localdomain>
 References: <20201020193555.1493936-1-jsnow@redhat.com>
- <20201020193555.1493936-13-jsnow@redhat.com>
+ <20201020193555.1493936-14-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201020193555.1493936-13-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201020193555.1493936-14-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OZkY3AIuv2LYvjdk"
+ protocol="application/pgp-signature"; boundary="yRA+Bmk8aPhU85Qt"
 Content-Disposition: inline
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -93,50 +93,36 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---OZkY3AIuv2LYvjdk
+--yRA+Bmk8aPhU85Qt
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 20, 2020 at 03:35:52PM -0400, John Snow wrote:
-> 0.730 appears to be about the oldest version that works with the
-> features we want, including nice human readable output (to make sure
-> iotest 297 passes), and type-parameterized Popen generics.
->=20
-> 0.770, however, supports adding 'strict' to the config file, so require
-> at least 0.770.
->=20
-> Now that we are checking a namespace package, we need to tell mypy to
-> allow PEP420 namespaces, so modify the mypy config as part of the move.
->=20
-> mypy can now be run from the python root by typing 'mypy qemu'.
->=20
+On Tue, Oct 20, 2020 at 03:35:53PM -0400, John Snow wrote:
 > Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
 
 Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
 
---OZkY3AIuv2LYvjdk
+--yRA+Bmk8aPhU85Qt
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+Z9BEACgkQZX6NM6Xy
-CfOvKA/9Eng89eGC4+rJlFfwz1InXlj6h6EdaCubvo4NaL6xWWrmvelGgHBwFZGf
-RgYKWQdYdWLIT7B8J/pTKPFBwg/qM6Sm+bNrc2jHbC6ftIzEeMh3ifI+dDtPN3PJ
-jiqkuXWbK3PybPlus6jWbQQWgRUwj70G6LFJUI7MbwbMZMAxWhWFwL1PR8Jzc018
-97AVMACNajl+l1TcxSYnJ8O5PfxTZ0mHwAVO7MNJLR1iOcciz9OvIZnAzybkaxYM
-JAo2ZVUuJVNXOxH+s10m/vCu5wUcRJODn70f3OIFiUaeKHrmnlB2FlRBhhTu5vlI
-nI1CSWWtJjw4t18gz4JBz7t/NH9tQfwAB/1EilXK2HcqYsq1untzMMvfVOquJ4U2
-lOcYdc+VLwldTdxSSTMIStZPYrd6Xk5dxwxS/7K6O4lCgy522/Dic8LxscttFh+b
-3HwFfcJKubZx9/yJYnbHHnlhRvJBoywq8uMyIHMznLULfIB0KaJpk0FriHMjVpMF
-QupUZLR+/xnGL8spzdZoQux03k5xe4gkiX+xQAyLdEci5B6Daz0LFanPqYIhHhyj
-qcNYyARy0On/DilRqE+YiFRErR9TfOV5Vw2LzbKTthLJYhO5LmTWRl4eYJYWyqJG
-CVgO37R2x9xwafl63TSEnueML5RfxIASJE5t7oCTuPRoKREbaz4=
-=bBib
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+Z9DYACgkQZX6NM6Xy
+CfMgXg/5AdMYaHUZIzxSZbPlvTSQGIVaAe912S8va9UxbSGLa6j60qvrfswxUiDq
+oMW4EywIPrRzhgL4/7IyXm9AmsltKoJgb4V90CU6g41z1xAGL8ayPApvqR31hgOU
+MQBQ+KEDIYfiYoX3PYdltDkSu/tkc2DTioE21GVAmrNwKWICXg+JNjSU0bwLlTvj
+DGCva31HLVqYsZZJlFDKFhdXAK7G8vpI7731zQDbj13lgFdXirp/IBMRd95/W8qu
+zw8Es15lK83B2CAuDZPChY27+9tLLUBIQersMiHFiU5v2XWtInfu/9vGzTt1xBO9
+KFgzlMWvEh0VX7nKBNcld9XE7PG++43zZmxjMSCMZxCC6puMTuumLXFnPQgORzGf
+DGEzWSX2SxbqHWDpwGZwXP1603AztIAVzwbxRIafA/3lDT56Fax9gAoKwGm69p87
+fUa7/f9Lf011uaQS95JSgqNAZbSesm3KnZNjqBfptRwlO5hq55pGVgKBxZbNmP9d
+iBYAF4DAvR9ngKQfpnYxydLiudAYvlRw3u+mPGGUYaQHjV5bqETzJ6/HhB+//OZu
+Anq9Y0o5vKLiwhBgi+GvCNTCDHjNL/7rlMQW5tXk4/yRVmvNNws82uhqXhv+Zj/R
+tkp+nbCj2cbXMfYm3u81zd1bQT8KGsycPOV2DcsV4tn9l449vPQ=
+=n0s/
 -----END PGP SIGNATURE-----
 
---OZkY3AIuv2LYvjdk--
+--yRA+Bmk8aPhU85Qt--
 
 
