@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB0AB29D03D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:20:06 +0100 (CET)
-Received: from localhost ([::1]:59330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B0529D045
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:23:16 +0100 (CET)
+Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmJ3-0001g9-MF
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:20:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58128)
+	id 1kXmM7-0005c2-NO
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:23:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kXmGg-0008P5-GL
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:38 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:54838)
+ id 1kXmGe-0008OH-Ib
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:37 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:54844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kXmGY-0006aF-Er
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:38 -0400
+ id 1kXmGa-0006aL-6n
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:17:36 -0400
 Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEFGNP184130;
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEFK34184151;
  Wed, 28 Oct 2020 14:17:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references; s=corp-2020-01-29;
- bh=2jWhxRAAeo7FA5r8MyZFsleSWTDh0MrueMSJbLE2EG8=;
- b=0AjkyLlqtmFReqLPSjVm55ja8vOTn8/HfEqX5YTSeniVOHiyEl3/cuWbgkvR4+CkO2W8
- MSD6tc1vvWc35NDecJVLzz4wgzWRF8eirUAQ55CTR+2Qg0DjowUx35TDDXCuciKex951
- elwtZxI/Uqx99yW7EUdai4UOT6yaxrtqdqn68dydBeXySglxDCZkFmUUvFsPiTlVlmn+
- FJ1ClKioRC1+sEjC8gTa5ezEhDVwIiIouwqSCIS5yUVvJBpESPp03oSBHJvTxtds+VCV
- XyxU/SS1ylDJEkbeb8ziLeP1HcdgU3ATO1FizqW35aEcpf6frIAwFmKOtXbNXHm3ztgJ Vg== 
+ bh=Off4rILxy/2Uwam4AfayYvwQKmpoChU9v3Si4TLtbQ0=;
+ b=VzxPWBL+iDtfYTOJPtdATxw5iAbfDtXXsXG+MMpjCUzMUiVkR/UzVm9p5U3++CiorpkZ
+ WqiVYwNXhHCNxACx4cMDE0UPOZHLb9zIrQRq7sdd0k+KwuIyuNPlbW1o4xecCR8zYx9T
+ 0yQft0JWL9OJA+DfHmNKgRd1KOaje/bGUfjZJj4zaUQB4dZsZeI2CJNMjuiAbtziDcGr
+ PnyMcNwZOrFQ8btaN+shhN7S04AOuOa1NiZndWhg5QG7v7LcjOxQ3Shim/A9dNFwot0/
+ rN14HHqlF9jQviNIayg4nXlWbG/411rNOaShPdbQku0gJ+/Iu42yYwMUjpt5hPp0QQUN YA== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by aserp2130.oracle.com with ESMTP id 34c9sayt51-1
+ by aserp2130.oracle.com with ESMTP id 34c9sayt55-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
  Wed, 28 Oct 2020 14:17:29 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEA6pN027626;
- Wed, 28 Oct 2020 14:15:28 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
- by aserp3020.oracle.com with ESMTP id 34cx5yces1-1
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEA6XP027661;
+ Wed, 28 Oct 2020 14:15:29 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+ by aserp3020.oracle.com with ESMTP id 34cx5yces7-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 28 Oct 2020 14:15:28 +0000
+ Wed, 28 Oct 2020 14:15:29 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09SEFRhh011481;
- Wed, 28 Oct 2020 14:15:27 GMT
+ by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09SEFR9f007780;
+ Wed, 28 Oct 2020 14:15:28 GMT
 Received: from mihai.localdomain (/10.153.73.25)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Wed, 28 Oct 2020 07:15:27 -0700
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] hw/misc/pvpanic: Add the PCI interface
-Date: Wed, 28 Oct 2020 15:32:56 +0200
-Message-Id: <1603891979-11961-4-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH 4/6] hw/arm/virt: Use the pvpanic pci device
+Date: Wed, 28 Oct 2020 15:32:57 +0200
+Message-Id: <1603891979-11961-5-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
 References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- mlxscore=0 mlxlogscore=999
+ mlxscore=0 mlxlogscore=913
  suspectscore=2 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2010280097
@@ -67,7 +67,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
  signatures=668682
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
  impostorscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ mlxlogscore=944 malwarescore=0 lowpriorityscore=0 bulkscore=0
  priorityscore=1501 spamscore=0 phishscore=0 clxscore=1015 suspectscore=2
  adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2010280097
@@ -100,161 +100,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peng Hao <peng.hao2@zte.com.cn>
 
-Add pvpanic new type "TYPE_PVPANIC_PCI".
+Add pvpanic device in arm virt machine config file.
 
 Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 ---
- hw/misc/pvpanic.c         | 64 ++++++++++++++++++++++++++++++++++++++++++++---
- include/hw/misc/pvpanic.h |  1 +
- include/hw/pci/pci.h      |  1 +
- 3 files changed, 62 insertions(+), 4 deletions(-)
+ default-configs/devices/arm-softmmu.mak | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index 2e085f4..b0bf7d4 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -2,10 +2,12 @@
-  * QEMU simulated pvpanic device.
-  *
-  * Copyright Fujitsu, Corp. 2013
-+ * Copyright (c) 2018 ZTE Ltd.
-  *
-  * Authors:
-  *     Wen Congyang <wency@cn.fujitsu.com>
-  *     Hu Tao <hutao@cn.fujitsu.com>
-+ *     Peng Hao <peng.hao2@zte.com.cn>
-  *
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-@@ -21,6 +23,7 @@
- #include "hw/qdev-properties.h"
- #include "hw/misc/pvpanic.h"
- #include "qom/object.h"
-+#include "hw/pci/pci.h"
- 
- /* The bit of supported pv event, TODO: include uapi header and remove this */
- #define PVPANIC_F_PANICKED      0
-@@ -34,6 +37,10 @@ typedef struct PVPanicISAState PVPanicISAState;
- DECLARE_INSTANCE_CHECKER(PVPanicISAState, PVPANIC_ISA_DEVICE,
-                          TYPE_PVPANIC_ISA)
- 
-+typedef struct PVPanicPCIState PVPanicPCIState;
-+DECLARE_INSTANCE_CHECKER(PVPanicPCIState, PVPANIC_PCI_DEVICE,
-+                         TYPE_PVPANIC_PCI)
-+
- static void handle_event(int event)
- {
-     static bool logged;
-@@ -67,21 +74,32 @@ struct PVPanicISAState {
-     uint16_t ioport;
- };
- 
-+/* PVPanicPCIState for PCI device and
-+ * use mmio.
-+ */
-+typedef struct PVPanicPCIState {
-+    /*< private>*/
-+    PCIDevice dev;
-+
-+    /*<public>*/
-+    MemoryRegion mr;
-+} PVPanicPCIState;
-+
- /* return supported events on read */
--static uint64_t pvpanic_ioport_read(void *opaque, hwaddr addr, unsigned size)
-+static uint64_t pvpanic_read(void *opaque, hwaddr addr, unsigned size)
- {
-     return PVPANIC_PANICKED;
- }
- 
--static void pvpanic_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-+static void pvpanic_write(void *opaque, hwaddr addr, uint64_t val,
-                                  unsigned size)
- {
-     handle_event(val);
- }
- 
- static const MemoryRegionOps pvpanic_ops = {
--    .read = pvpanic_ioport_read,
--    .write = pvpanic_ioport_write,
-+    .read = pvpanic_read,
-+    .write = pvpanic_write,
-     .impl = {
-         .min_access_size = 1,
-         .max_access_size = 1,
-@@ -136,9 +154,47 @@ static TypeInfo pvpanic_isa_info = {
-     .class_init    = pvpanic_isa_class_init,
- };
- 
-+/* pvpanic pci device*/
-+
-+static void pvpanic_pci_realizefn(PCIDevice *dev, Error **errp)
-+{
-+    PVPanicPCIState *s = DO_UPCAST(PVPanicPCIState, dev, dev);
-+
-+    memory_region_init_io(&s->mr, OBJECT(s), &pvpanic_ops, s,
-+                          TYPE_PVPANIC_PCI, 2);
-+    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->mr);
-+}
-+
-+static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
-+
-+    pc->realize = pvpanic_pci_realizefn;
-+    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
-+    pc->device_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
-+    pc->revision = 1;
-+    pc->class_id = PCI_CLASS_SYSTEM_OTHER;
-+
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static TypeInfo pvpanic_pci_info = {
-+    .name          = TYPE_PVPANIC_PCI,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PVPanicPCIState),
-+    .class_init    = pvpanic_pci_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_PCIE_DEVICE },
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { }
-+    }
-+};
-+
- static void pvpanic_register_types(void)
- {
-     type_register_static(&pvpanic_isa_info);
-+    type_register_static(&pvpanic_pci_info);
- }
- 
- type_init(pvpanic_register_types)
-diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-index 30e9f8f..6fa6a62 100644
---- a/include/hw/misc/pvpanic.h
-+++ b/include/hw/misc/pvpanic.h
-@@ -18,6 +18,7 @@
- #include "qom/object.h"
- 
- #define TYPE_PVPANIC_ISA "pvpanic"
-+#define TYPE_PVPANIC_PCI "pvpanic-pci"
- 
- #define PVPANIC_IOPORT_PROP "ioport"
- 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 0a59a06..ce68c90 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -107,6 +107,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
- #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
- #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
-+#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0101
- 
- #define FMT_PCIBUS                      PRIx64
- 
+diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
+index 9a94ebd..4efcca2 100644
+--- a/default-configs/devices/arm-softmmu.mak
++++ b/default-configs/devices/arm-softmmu.mak
+@@ -44,3 +44,4 @@ CONFIG_FSL_IMX6UL=y
+ CONFIG_SEMIHOSTING=y
+ CONFIG_ALLWINNER_H3=y
+ CONFIG_ACPI_APEI=y
++CONFIG_PVPANIC=y
 -- 
 1.8.3.1
 
