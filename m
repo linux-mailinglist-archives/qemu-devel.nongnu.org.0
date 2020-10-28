@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA5F729D0A9
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:24:02 +0100 (CET)
-Received: from localhost ([::1]:46284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D7C29D0B7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:30:10 +0100 (CET)
+Received: from localhost ([::1]:36336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnIv-0006dg-L1
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:24:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45622)
+	id 1kXnOr-0005rO-Ur
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:30:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnGr-0004uo-QO
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:21:54 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37251)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXnHX-0005Qi-RF
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:22:37 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27439)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnGo-0006kx-QC
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:21:53 -0400
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kXnHV-0006oH-Er
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:22:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603898509;
+ s=mimecast20190719; t=1603898550;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gymiFpXx/QXaoTKnIL+2CdOZJ95n1J4Bne6ZcGm0J3Q=;
- b=JBbtZPDA33TPrLUbIH0ON675AAyOd826qcl54RRwOwuAqyRiMDuOypF7pEBqyHGUNbHXFG
- rw5RQGkflkETAuFe+9llwOkAS2B6CVFi4aQwxXx6pa7zvfnvEOcjy5oeix39ILwEahSOTS
- uWboqJsTQB4IYjHQ8sjRs2ftfaRPnNQ=
+ bh=k+QTxfh5NtWdv5KSF/Fp4k6VPCAq/RTvsgimFdnyt4g=;
+ b=NRqS9dxZgdwMwXXj2k/7+KGNH/4XqvfRd6fcUeja3UYqH9m+24HkB8xLTZjuhigQBxvTrS
+ 51cGlrl9bcbDwQpkOg+E08TrpFaraeKuDd5q4QaCMzJ6LH/ZevHcNDe9vybCcAvqYm0pkt
+ 1L6KnaVcHSyRuTSpheiw2icquuput18=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-388-17rHszFMPL6En5bIHgwzDg-1; Wed, 28 Oct 2020 11:21:47 -0400
-X-MC-Unique: 17rHszFMPL6En5bIHgwzDg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-273-hM0dIzUgNHuJbN0Dlju1Tg-1; Wed, 28 Oct 2020 11:22:27 -0400
+X-MC-Unique: hM0dIzUgNHuJbN0Dlju1Tg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CB27809DEB;
- Wed, 28 Oct 2020 15:21:45 +0000 (UTC)
-Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2414F60C04;
- Wed, 28 Oct 2020 15:21:41 +0000 (UTC)
-Date: Wed, 28 Oct 2020 15:21:41 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 17/25] block/nvme: Simplify nvme_cmd_sync()
-Message-ID: <20201028152141.GL231368@stefanha-x1.localdomain>
-References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-18-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 863B710082E6;
+ Wed, 28 Oct 2020 15:22:25 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.5])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E49515C1D7;
+ Wed, 28 Oct 2020 15:22:18 +0000 (UTC)
+Date: Wed, 28 Oct 2020 16:22:16 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
+ properties
+Message-ID: <20201028162216.0f33e0ef@redhat.com>
+In-Reply-To: <20201027161858.590329a7@bahia>
+References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
+ <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
+ <20201023211509.5c316c01@redhat.com>
+ <20201025162444.0fdec88a@bahia.lan>
+ <20201027125424.13833af8@redhat.com>
+ <20201027161858.590329a7@bahia>
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-18-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="jtcAeju3WzRmRF+o"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,57 +86,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---jtcAeju3WzRmRF+o
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 27 Oct 2020 16:18:58 +0100
+Greg Kurz <groug@kaod.org> wrote:
 
-On Tue, Oct 27, 2020 at 02:55:39PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> As all commands use the ADMIN queue, it is pointless to pass
-> it as argument each time. Remove the argument.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  block/nvme.c | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
->=20
-> diff --git a/block/nvme.c b/block/nvme.c
-> index 2d3648694b0..68f0c3f7959 100644
-> --- a/block/nvme.c
-> +++ b/block/nvme.c
-> @@ -487,9 +487,10 @@ static void nvme_cmd_sync_cb(void *opaque, int ret)
->      aio_wait_kick();
->  }
-> =20
-> -static int nvme_cmd_sync(BlockDriverState *bs, NVMeQueuePair *q,
-> -                         NvmeCmd *cmd)
-> +static int nvme_cmd_sync(BlockDriverState *bs, NvmeCmd *cmd)
+> On Tue, 27 Oct 2020 12:54:24 +0100
+> Igor Mammedov <imammedo@redhat.com> wrote:
+> 
+> > On Sun, 25 Oct 2020 16:24:44 +0100
+> > Greg Kurz <groug@kaod.org> wrote:
+> >   
+> > > On Fri, 23 Oct 2020 21:15:09 +0200
+> > > Igor Mammedov <imammedo@redhat.com> wrote:
+> > >   
+> > > > On Mon, 19 Oct 2020 10:48:41 +0200
+> > > > Greg Kurz <groug@kaod.org> wrote:
+> > > >     
+> > > > > Both PC_DIMM_SLOT_PROP and PC_DIMM_ADDR_PROP are defined in the
+> > > > > default property list of the PC DIMM device class:
+> > > > > 
+> > > > >     DEFINE_PROP_UINT64(PC_DIMM_ADDR_PROP, PCDIMMDevice, addr, 0),
+> > > > > 
+> > > > >     DEFINE_PROP_INT32(PC_DIMM_SLOT_PROP, PCDIMMDevice, slot,
+> > > > >                       PC_DIMM_UNASSIGNED_SLOT),
+> > > > > 
+> > > > > They should thus be always gettable for both PC DIMMs and NVDIMMs.
+> > > > > An error in getting them can only be the result of a programming
+> > > > > error. It doesn't make much sense to propagate the error in this
+> > > > > case. Abort instead.
+> > > > > 
+> > > > > Signed-off-by: Greg Kurz <groug@kaod.org>    
+> > > > 
+> > > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > > > 
+> > > > TODO for future,
+> > > > get rid of local_err in spapr_memory_plug() altogether, it should not fail.
+> > > > it needs moving check from spapr_drc_attach() to spapr_memory_pre_plug() time.
+> > > > 
+> > > > that will clear up (a bit) road for dropping errp in spapr_memory_plug()    
+> > > 
+> > > Igor,
+> > > 
+> > > I could find time to look a bit into attaching DRCs at pre-plug and I
+> > > think this isn't possible. The problem is that there doesn't seem to be
+> > > a reverse operation for pre-plug. If realize fails for the DIMM device,
+> > > spapr_drc_detach() wouldn't be called, which would be wrong.  
+> > 
+> > probably I was clear enough, I didn't suggest to move spapr_drc_detach()
+> > to pre_plug time but rather do a bit of surgery along the lines:
+> >   
+> 
+> Ok, I get it now. I realize now I actually misread your suggestion. Sorry...
+> 
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 2db810f73a..59a229b4fa 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -3474,6 +3474,11 @@ static void spapr_memory_pre_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
+> >          return;
+> >      }
+> >  
+> > +    get drc
+> > +    if (!spapr_drc_attachable(drc)) {
+> > +        error out
+> > +    }
+> > +  
+> 
+> It might require some more code refactoring because the way regular
+> PC-DIMMs are broken down into a set of logical memory blocks (LMBs),
+> each one having its own DRC but it's certainly doable. Probably for
+> QEMU 6.0 though since we're entering soft freeze and David already
+> fired a PR today.
 
-Please rename the function to nvme_admin_cmd_sync() so it's behavior is
-clear.
+as far as it's not forgotten, it can be done later.
 
---jtcAeju3WzRmRF+o
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZjIQACgkQnKSrs4Gr
-c8jHXgf/Tu1ULagxVRDjcXfpPtguebcWhp+qgDtBn/b1UKIHyTarok9WeyuJi3Zp
-VRiPuWpaf4HoYsmMOpdcTRi1wsvmKcE3wBTsNf/p1WMdIRWf+m63uHmB+5nxk/QH
-ozpagHiHJOg063QExGRrt5AIfVSGE7H6NXSIRC+nsKI6S1hPOm/IB4c5VJCZE/SF
-tdZ2XihestgpL47m3Yqaqbq87tS6cudEJa8w108uLZKehJqnz8MJqd6Pkjqlrcxi
-nVAYQy8iFJYGoxTA3YEQC6FAqc35HEpMwhOCMewpHUBZVM7NLbSccuxi4VoaO21s
-t8rSMj3q5tM6KoOHYt4TbNMUquWgcQ==
-=uwgK
------END PGP SIGNATURE-----
-
---jtcAeju3WzRmRF+o--
+> 
+> >      if (is_nvdimm) {
+> >          spapr_nvdimm_validate(hotplug_dev, NVDIMM(dev), size, &local_err);
+> >          if (local_err) {
+> > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> > index fe998d8108..ae049bc202 100644
+> > --- a/hw/ppc/spapr_drc.c
+> > +++ b/hw/ppc/spapr_drc.c
+> > @@ -371,14 +371,16 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
+> >      } while (fdt_depth != 0);
+> >  }
+> >  
+> > -void spapr_drc_attach(SpaprDrc *drc, DeviceState *d, Error **errp)
+> > +
+> > +bool spapr_drc_attachable(SpaprDrc *drc)
+> > +{
+> > +   return !drc->dev;
+> > +}
+> > +
+> > +void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+> >  {
+> >      trace_spapr_drc_attach(spapr_drc_index(drc));
+> >  
+> > -    if (drc->dev) {
+> > -        error_setg(errp, "an attached device is still awaiting release");
+> > -        return;
+> > -    }
+> >      g_assert((drc->state == SPAPR_DRC_STATE_LOGICAL_UNUSABLE)
+> >               || (drc->state == SPAPR_DRC_STATE_PHYSICAL_POWERON));
+> >   
+> > > 
+> > > Am I missing something ?
+[...]
 
 
