@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE3D29D0A8
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:23:36 +0100 (CET)
-Received: from localhost ([::1]:43796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A864129D0AC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:26:02 +0100 (CET)
+Received: from localhost ([::1]:52204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnIW-0005cT-0I
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:23:36 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44700)
+	id 1kXnKr-0000db-JU
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:26:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnCn-0001Fd-Q7
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:17:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47329)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnCj-0006Ee-OY
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:17:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603898256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Wq4r4RjCYX6NbBeXKfhIV/9dVvNOAC3BHWPEj4QpSN0=;
- b=h5Re+cjqWPArDFj+Ap2tfVpeRVv24UaDI2hIRsREwf1/8HFAG69IrSI3jheYOqkWSEdhc0
- 3Cctb88oXeV4g2mj4HSekHfvT4r/VIbHq3nExHtUENFgX9z/0L2LB/jcux5jW2B6BqZBs1
- DEYKks3cwcM5oP0Gtwrne+3xIK7sBEw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-ds7IgBatOCmbJmaWlXwBJQ-1; Wed, 28 Oct 2020 11:17:31 -0400
-X-MC-Unique: ds7IgBatOCmbJmaWlXwBJQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 488F11084C94;
- Wed, 28 Oct 2020 15:17:29 +0000 (UTC)
-Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B1C735B4BA;
- Wed, 28 Oct 2020 15:17:25 +0000 (UTC)
-Date: Wed, 28 Oct 2020 15:17:24 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 15/25] block/nvme: Correctly initialize Admin Queue
- Attributes
-Message-ID: <20201028151724.GJ231368@stefanha-x1.localdomain>
-References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-16-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kXnDh-0001l1-4X
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:18:41 -0400
+Received: from mail-pj1-x1043.google.com ([2607:f8b0:4864:20::1043]:50932)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kXnDf-0006IW-4M
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:18:36 -0400
+Received: by mail-pj1-x1043.google.com with SMTP id p21so2712699pju.0
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:18:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Hmt0eMVnOApsZe864FbdLsRBKwDMNvLVNFCzZm8tFlk=;
+ b=ZkB+ARPxAgfYzNE07EeqhjYYaxwfWsql0e/r/VGnNtZfLnQXhO+G3o2dtPZiYLx8WH
+ p2kBInRvcOh97fbrU6qhc40+7596JHx9P3yABICwMK/tRvj5m78vgiAGjmzD49SIx+jE
+ Pp8LMon5QF7U9ZLotazGPTArhUTbN/gV6JPhC+jmZZGN7zGFy7UoEAewIWDNhUOJwzxK
+ xFy1U4MJ+9jeawI97/fivLgGhcj/GcIQBpIpwYOYctedBWkQMYwGHsJRYc1gZ7cvWShy
+ lXWGEgrfop9hXWrfCyxLxX6ryDvBI6PjVmaPYLQCYl5UJtSAHEG1eNFwFJciZkPNp4xu
+ bzhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Hmt0eMVnOApsZe864FbdLsRBKwDMNvLVNFCzZm8tFlk=;
+ b=jdaxa4awx2vsxNlag+jzXL4an9HsXKrntFjEaYjp+jl8K5cDnCyaY+QvtBgnBL+dom
+ z6r2oDDhgbGrCWgvxtDydqaB75iZcidTn5zb0pddy8XmngCdPpRKybJ2loSTHuNgkkme
+ HOlzAz1gLzHzEIFgKQXJDD9WgAs/Y2VqiWXF9JUG/UYkhYrWNydWS9TfI4CdZmoa+nV+
+ LGiDuc6gasbpyGAcCpXrD6PBc8M8yfFn978mO4CibfohoWoe3lu5Sb99AHu5ZckkS8ik
+ cyKzdmApiyWqDPwl/4WPABgRYYgbtaFW+J6+GVe4mTNNBOSYfrlPBhdiFjzYGzi2gXS7
+ N8tA==
+X-Gm-Message-State: AOAM530FETytgZn3UTq8rnH05/B6DfUtyvjWMN1jo/LDdvDpiPelGMc0
+ kEIV/E/IMsK8UM9C764F6XNefQ==
+X-Google-Smtp-Source: ABdhPJzImGz/Gl+Thm5KsKY/TQA34pjDzoxjBhETLRyrwDYLbQFl+1bQ1SuwzYEhBrnccDh/yObrfw==
+X-Received: by 2002:a17:902:7c14:b029:d4:d894:7eed with SMTP id
+ x20-20020a1709027c14b02900d4d8947eedmr8150255pll.81.1603898311102; 
+ Wed, 28 Oct 2020 08:18:31 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id h4sm5745057pgc.13.2020.10.28.08.18.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Oct 2020 08:18:29 -0700 (PDT)
+Subject: Re: [PATCH v2 4/5] target/riscv: Remove the hyp load and store
+ functions
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1603896075.git.alistair.francis@wdc.com>
+ <5ead43dea141994823a113a2e7f1494df12d32dd.1603896076.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <8706b460-7a44-2b89-d736-c0e0274f77c1@linaro.org>
+Date: Wed, 28 Oct 2020 08:18:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-16-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="nywXBoy70X0GaB8B"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <5ead43dea141994823a113a2e7f1494df12d32dd.1603896076.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1043;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1043.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.921,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +92,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---nywXBoy70X0GaB8B
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/28/20 7:42 AM, Alistair Francis wrote:
+> +void helper_hyp_access_check(CPURISCVState *env)
+>  {
+>      if (env->priv == PRV_M ||
+>          (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+>          (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+>              get_field(env->hstatus, HSTATUS_HU))) {
+>          return;
+>      }
 
-On Tue, Oct 27, 2020 at 02:55:37PM +0100, Philippe Mathieu-Daud=C3=A9 wrote=
-:
-> From the specification chapter 3.1.8 "AQA - Admin Queue Attributes"
-> the Admin Submission Queue Size field is a 0=E2=80=99s based value:
->=20
->   Admin Submission Queue Size (ASQS):
->=20
->     Defines the size of the Admin Submission Queue in entries.
->     Enabling a controller while this field is cleared to 00h
->     produces undefined results. The minimum size of the Admin
->     Submission Queue is two entries. The maximum size of the
->     Admin Submission Queue is 4096 entries.
->     This is a 0=E2=80=99s based value.
->=20
-> This bug has never been hit because the device initialization
-> uses a single command synchronously :)
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  block/nvme.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+While this works, I think it would be better to compute this into one bit of
+TBFLAGS.  Then you can test it during translate and do not need an external
+helper at all for the data accesses.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+It also means that patch 5 can be simplified...
 
---nywXBoy70X0GaB8B
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+Zi4QACgkQnKSrs4Gr
-c8hy2QgAxVGRqiR0f4Fu9y/u5N70hXSaaZTqCC8JdQSpsvnbjmGc4hEmq3GzM+K3
-82qXSgQCDPE+Ws/BnAUZr396TZ2HeRvU0+BONGt48DjNd6ydTwMquKRQtugQ6Prx
-LeudERPs3ne6ynpYysL0y1mqYf7rXttK+O452eEankXSIP1cG+o2xerOXpHLIoJ5
-7IeXE2QKiegP4vPcLncUHB1JdKwmYUd8eyNTckvEM6eZSH0gtw5iH6eX0L6Ty4Vf
-QaAUpRu9flIuFHffrxdVjE5gbMNRd0kdrVkc/e2t6ae/RbDxWDsj+gMcVjCNXBOi
-PATlIW9MUMqZ8ejcnIjBzSMLAFSnlw==
-=hqlX
------END PGP SIGNATURE-----
-
---nywXBoy70X0GaB8B--
-
+r~
 
