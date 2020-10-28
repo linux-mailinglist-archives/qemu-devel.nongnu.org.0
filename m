@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3497F29D039
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:17:34 +0100 (CET)
-Received: from localhost ([::1]:53566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669B629D03F
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:20:23 +0100 (CET)
+Received: from localhost ([::1]:60520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmGa-0007io-RM
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:17:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57742)
+	id 1kXmJK-0002D4-Dp
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:20:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kXmEh-0006ku-AT
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:15:35 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:34812)
+ id 1kXmEj-0006mB-GL
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:15:38 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:34814)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1kXmEf-0006Hc-5B
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:15:34 -0400
+ id 1kXmEg-0006Hb-0j
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:15:37 -0400
 Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
- by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEEmhL001761
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 14:15:28 GMT
+ by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEEjtF001750;
+ Wed, 28 Oct 2020 14:15:29 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
- subject : date : message-id : mime-version : content-type :
- content-transfer-encoding; s=corp-2020-01-29;
- bh=G8z/Iz/lhYF2LNYIGT6KwQiRJ6oZD6FEy8iWCcApOJQ=;
- b=UL9kOO8sAaes6Nky2ElmkumQuR0/dqvpOIZebftkNmZxHdHaOwzct2AzBVfP8AK5kfPW
- ZWSZAQYlHxXiVVzEwZ1nTPo1ujCzO8vA95FuzBXizNwp0X2cFf9euagOjQQj0N2ikLK4
- pDEE7z91MXjwR3i8M6lpFkiamAzZfvhwZzrOPeSFU0d2pcTKEjGDs4GBBCeuhv78hCE6
- zV7J2dxKj2aXzdT1R858xMwmU4MRZgCwjX/dBCiTqEW6z152ZTQ7wwpIrJpEz2BC8lkn
- XQWtyK2RNEkAG1B0nNmKaLeH8lR9TKTzsiaSvek8TT2CIsG16DxFudHhlvDu5bGauar0 ww== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2120.oracle.com with ESMTP id 34dgm458sb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 14:15:28 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEATdw007291
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 14:15:27 GMT
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=XD4dw2R3d9CjulMuyr2n4XX5/s6JuRNb97NWKT6eQTE=;
+ b=TnSx2YShwUiBge1GW0rtzC+a3gojX+GlUIBC46x7btLdAukbRL7UMLjZvnvi2GwR1R11
+ kXQ0irUpIPUhkd78Uvz3bdRaf5uN6P8JOxWXM5ioYecJ2692OhHy0T/Urh9ssKsarT+3
+ hs2EbLetlEuq/AczYETdErF6x8f31ko5zCX8zPMBAdDDpV+Qn8Fc1gwimZSiVAVZnDV2
+ XAkKeGOFWs6UiIC3fypa9/+XTKEq4G9YVb550+ecd/o3QrGxX4pG68c96NEsqvcbLAjF
+ mhDkw0dH6E6kDhzrlPirIccVdQjJf4Gjw3/JRujbSxBiESHvIROwIrOQ6Rs8+3Hq5eIz yA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2120.oracle.com with ESMTP id 34dgm458sc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 28 Oct 2020 14:15:29 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09SEANNZ004603;
+ Wed, 28 Oct 2020 14:15:28 GMT
 Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
- by aserp3030.oracle.com with ESMTP id 34cwunn27p-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 14:15:27 +0000
+ by userp3020.oracle.com with ESMTP id 34cx1s1dq8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Oct 2020 14:15:28 +0000
 Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
- by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09SEFQIm012058
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 14:15:27 GMT
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09SEFQNM012061;
+ Wed, 28 Oct 2020 14:15:27 GMT
 Received: from mihai.localdomain (/10.153.73.25)
  by default (Oracle Beehive Gateway v4.0)
  with ESMTP ; Wed, 28 Oct 2020 07:15:26 -0700
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] Add support for pvpanic pci device
-Date: Wed, 28 Oct 2020 15:32:53 +0200
-Message-Id: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH 1/6] hw/misc/pvpanic: Build the pvpanic device for any machine
+Date: Wed, 28 Oct 2020 15:32:54 +0200
+Message-Id: <1603891979-11961-2-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
+References: <1603891979-11961-1-git-send-email-mihai.carabas@oracle.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
  signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 bulkscore=0
- spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=1
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 bulkscore=0
+ suspectscore=2 malwarescore=0 mlxlogscore=999 mlxscore=0 adultscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2010280097
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
@@ -70,7 +72,7 @@ X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9787
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
  lowpriorityscore=0 impostorscore=0
  adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
- suspectscore=1 clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=2 clxscore=1015 mlxscore=0 malwarescore=0 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2010280097
 Received-SPF: pass client-ip=156.151.31.85;
@@ -96,44 +98,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mihai Carabas <mihai.carabas@oracle.com>
+Cc: Mihai Carabas <mihai.carabas@oracle.com>, Peng Hao <peng.hao2@zte.com.cn>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patchset adds support for pvpanic pci device. The patchset was assembled
-from chuncks from some old patches [1] from 2018 which were left unmerged and
-some additions from me.
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-How to test this:
-/usr/bin/qemu-system-aarch64 \
-        -machine virt,gic-version=3 -device pvpanic-pci
+The 'pvpanic' ISA device can be use by any machine with an ISA bus.
 
-After that you need to run a Linux kernel as guest, but you have to also apply
-the patches I will send for adding pci support for the pvpanic driver.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Peng Hao <peng.hao2@zte.com.cn>
+Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+---
+ hw/misc/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-[1] http://patchwork.ozlabs.org/project/qemu-devel/cover/1544095560-70807-1-git-send-email-peng.hao2@zte.com.cn/
-
-Mihai Carabas (1):
-  pvpanic: break dependency on ISA_BUS adding PCI
-
-Peng Hao (3):
-  hw/misc/pvpanic: Add the PCI interface
-  hw/arm/virt: Use the pvpanic pci device
-  pvpanic : update pvpanic document
-
-Philippe Mathieu-Daudé (2):
-  hw/misc/pvpanic: Build the pvpanic device for any machine
-  hw/misc/pvpanic: Cosmetic renaming
-
- default-configs/devices/arm-softmmu.mak |  1 +
- docs/specs/pvpanic.txt                  | 12 ++++-
- hw/misc/Kconfig                         |  2 +-
- hw/misc/meson.build                     |  2 +-
- hw/misc/pvpanic.c                       | 96 +++++++++++++++++++++++++++------
- include/hw/misc/pvpanic.h               |  3 +-
- include/hw/pci/pci.h                    |  1 +
- 7 files changed, 97 insertions(+), 20 deletions(-)
-
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 793d45b..cb250dd 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -11,6 +11,7 @@ softmmu_ss.add(when: 'CONFIG_TMP105', if_true: files('tmp105.c'))
+ softmmu_ss.add(when: 'CONFIG_TMP421', if_true: files('tmp421.c'))
+ softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
+ softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
++softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
+ 
+ # ARM devices
+ softmmu_ss.add(when: 'CONFIG_PL310', if_true: files('arm_l2x0.c'))
+@@ -90,7 +91,6 @@ softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c')
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
+ softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
+ 
+-softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
+ softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
+ softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
 -- 
 1.8.3.1
 
