@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B677429D08B
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:09:44 +0100 (CET)
-Received: from localhost ([::1]:36224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335D229D082
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:02:43 +0100 (CET)
+Received: from localhost ([::1]:50616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXn55-0007Sd-ML
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:09:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41088)
+	id 1kXmyI-0001Ss-6a
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:02:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXn00-0003x8-Fk; Wed, 28 Oct 2020 11:04:28 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:42102)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kXmzy-0004Qn-8u; Wed, 28 Oct 2020 11:04:28 -0400
-Received: by mail-io1-xd43.google.com with SMTP id k21so5642325ioa.9;
- Wed, 28 Oct 2020 08:04:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=PdY6Lfe4ddvy5l91d2DAnCZEe+9Bqj/3hIc6pUQMYxE=;
- b=EJovQ2ZK3+qBBDSFNuTHTBQDNNiDSd4C5oMtkEVt+R6QLVt5LhSX9Zh+LnScoVy01S
- lnfNfJHs/g7aFIpkoSFHlbD+4OeDD3VmEHt0Cgi2MVqFdeiAW4t3SzVU2qXMr8apheCS
- /bZo7LvGdcNb9onm8YB66fsOnCLx6WFOYTLSzy/sF3q/8QIWCVNJE5rPrmO0UNFalCMz
- mUqxd6iDs2+o5kNU7E1xwoQphX9JRb2vMB5oCljrbK+l1bHDzWuSPyBpQrFw9uuZYEiG
- P36QWi0M86gXYUccz5Qkiq/0hOaj3Oxsh5U4Vk4hIbHmGb8V7rAeNqT6YvkK/JsQ4cOq
- 1Nbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=PdY6Lfe4ddvy5l91d2DAnCZEe+9Bqj/3hIc6pUQMYxE=;
- b=M9c4HtsJBZ+FU4BxHNGFPLfh5PggA2R49+dggXnCP6+cX2OHHhmcHiKHhM65TJrV9s
- xGNbg8kajr0AyPQ8HT/0O/FqEplX0pNFnTaXzT+ruwcBeBim9bxs8mWvkgcNviJO1qSj
- WXsHOK5jNAMsCAANf8rL5tvUGOtZNxouMiBtSPXEdnFrSl6Qwq6UfL/WMix2jCB9yB9M
- JxT+XqxffwbEQbO9z+NQFYEGWuas5tc5GmUQcyzfZtBL7Oj+v5qrs/I2rafq0k5wUG9L
- tEDPQ83bhv9UbPkOMtUmGFEl14N4tPMRpwr0E4Bgsh7JSSwCRh6PNmuFtk1RWAq7doxN
- oOjg==
-X-Gm-Message-State: AOAM5320O4V12CV+I5ZqIuJLbHqGvqVIyDY14gQmNoVKYsBmcSxi2J+S
- Be5zug2TtL4lVajMk5kfpytaDd/8gLy95FBpcUg=
-X-Google-Smtp-Source: ABdhPJyEg1CdVUEwrdDbeuySxI/zr7cYSfEHkSY2iYzGZTPEnoFSp9RzzWHkBsb322B6t4292PUEO/5IfSsBTEDRU8Q=
-X-Received: by 2002:a5d:9a8d:: with SMTP id c13mr6237735iom.176.1603897464786; 
- Wed, 28 Oct 2020 08:04:24 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXmvV-0000QS-Ut
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:59:51 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kXmvT-0003nu-I6
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:59:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603897186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UZM4a7OBI8jwLSn81QRzSKNhv+bAaXnXqu+OxMPzNsE=;
+ b=f4bLdrRTFYl4+Xn324dHdLIUmSgIcMArgYKVg2EofQQGFbplJgdh7s0WZAE/26KC9fqZhB
+ hAjjcLX/5fHem5Hz7hwYpdqjrLlDYYRENFoxFmaBd+Ex+iSJAXho11WMdjl7MOQhCnzdvg
+ z1oEC3WfWhe/AHA9stu6Y3dj8BpTnpI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-TXXn091IPHWM9Nx1-ifsnw-1; Wed, 28 Oct 2020 10:59:44 -0400
+X-MC-Unique: TXXn091IPHWM9Nx1-ifsnw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 039C2760C8;
+ Wed, 28 Oct 2020 14:59:43 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-164.ams2.redhat.com [10.36.114.164])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D97605C1D7;
+ Wed, 28 Oct 2020 14:59:38 +0000 (UTC)
+Date: Wed, 28 Oct 2020 15:59:37 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/4] qemu-storage-daemon: QAPIfy --chardev the stupid way
+Message-ID: <20201028145937.GB7355@merkur.fritz.box>
+References: <20201026101005.2940615-1-armbru@redhat.com>
+ <d00ef574-b2c4-887c-6a37-79f6cf6eeae0@redhat.com>
+ <87a6w63kbw.fsf@dusky.pond.sub.org>
+ <20201028114625.GA7355@merkur.fritz.box>
+ <53ba80fe-8e4c-88c6-181d-f3b33bf3e9bc@redhat.com>
 MIME-Version: 1.0
-References: <1603863010-15807-1-git-send-email-bmeng.cn@gmail.com>
- <1603863010-15807-10-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1603863010-15807-10-git-send-email-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 28 Oct 2020 07:52:34 -0700
-Message-ID: <CAKmqyKOtJ+MCREujF-iUR1Q=xKL_ke_faN9RR_2aiNR_0hqj+Q@mail.gmail.com>
-Subject: Re: [PATCH v2 09/10] hw/riscv: microchip_pfsoc: Correct DDR memory map
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <53ba80fe-8e4c-88c6-181d-f3b33bf3e9bc@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:50:00
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,146 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>, Anup Patel <anup.patel@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Atish Patra <atish.patra@wdc.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- Ivan Griffin <ivan.griffin@emdalo.com>
+Cc: marcandre.lureau@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 10:37 PM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> When system memory is larger than 1 GiB (high memory), PolarFire SoC
-> maps it at address 0x10_0000_0000. Address 0xC000_0000 and above is
-> aliased to the same 1 GiB low memory with different cache attributes.
->
-> At present QEMU maps the system memory contiguously from 0x8000_0000.
-> This corrects the wrong QEMU logic. Note address 0x14_0000_0000 is
-> the alias to the high memory, and even physical memory is only 1 GiB,
-> the HSS codes still tries to probe the high memory alias address.
-> It seems there is no issue on the real hardware, so we will have to
-> take that into the consideration in our emulation. Due to this, we
-> we increase the default system memory size to 2 GiB so that user gets
-> notified an error when less than 2 GiB is specified.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Am 28.10.2020 um 15:39 hat Paolo Bonzini geschrieben:
+> On 28/10/20 12:46, Kevin Wolf wrote:
+> > I don't think this is the right thing to do at this point. Making more
+> > use of QOM is an orthogonal problem and would only make solving this one
+> > harder.
+> 
+> Making more use of QOM will make this a non-problem.  You'll just use
+> object-add and -object and, when you figure out the QOM schema, it will
+> just work.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Yes, but figuring out the QOM schema (or rather, what the interface
+represented by the schema should look like) is the hard part. It is
+exactly the same hard part that we're currently trying to figure out
+without also worrying about QOM at the same time.
 
-Alistair
+-object and object-add instead of -chardev and chardev-add change the
+spelling, but solve none of these problems.
 
->
-> ---
->
-> Changes in v2:
-> - Increase the default memory size to 2 GiB
->
->  hw/riscv/microchip_pfsoc.c         | 48 +++++++++++++++++++++++++++++++++-----
->  include/hw/riscv/microchip_pfsoc.h |  5 +++-
->  2 files changed, 46 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 44a8473..5e31b84 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -121,7 +121,10 @@ static const struct MemmapEntry {
->      [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
->      [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
->      [MICROCHIP_PFSOC_IOSCB] =           { 0x30000000, 0x10000000 },
-> -    [MICROCHIP_PFSOC_DRAM] =            { 0x80000000,        0x0 },
-> +    [MICROCHIP_PFSOC_DRAM_LO] =         { 0x80000000, 0x40000000 },
-> +    [MICROCHIP_PFSOC_DRAM_LO_ALIAS] =   { 0xc0000000, 0x40000000 },
-> +    [MICROCHIP_PFSOC_DRAM_HI] =       { 0x1000000000,        0x0 },
-> +    [MICROCHIP_PFSOC_DRAM_HI_ALIAS] = { 0x1400000000,        0x0 },
->  };
->
->  static void microchip_pfsoc_soc_instance_init(Object *obj)
-> @@ -424,7 +427,11 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->      const struct MemmapEntry *memmap = microchip_pfsoc_memmap;
->      MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
->      MemoryRegion *system_memory = get_system_memory();
-> -    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
-> +    MemoryRegion *mem_low = g_new(MemoryRegion, 1);
-> +    MemoryRegion *mem_low_alias = g_new(MemoryRegion, 1);
-> +    MemoryRegion *mem_high = g_new(MemoryRegion, 1);
-> +    MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
-> +    uint64_t mem_high_size;
->      DriveInfo *dinfo = drive_get_next(IF_SD);
->
->      /* Sanity check on RAM size */
-> @@ -441,10 +448,39 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->      qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
->
->      /* Register RAM */
-> -    memory_region_init_ram(main_mem, NULL, "microchip.icicle.kit.ram",
-> -                           machine->ram_size, &error_fatal);
-> +    memory_region_init_ram(mem_low, NULL, "microchip.icicle.kit.ram_low",
-> +                           memmap[MICROCHIP_PFSOC_DRAM_LO].size,
-> +                           &error_fatal);
-> +    memory_region_init_alias(mem_low_alias, NULL,
-> +                             "microchip.icicle.kit.ram_low.alias",
-> +                             mem_low, 0,
-> +                             memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].size);
-> +    memory_region_add_subregion(system_memory,
-> +                                memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> +                                mem_low);
-> +    memory_region_add_subregion(system_memory,
-> +                                memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].base,
-> +                                mem_low_alias);
-> +
-> +    /*
-> +     * Map 1 GiB high memory because HSS will do memory test against the high
-> +     * memory address range regardless of physical memory installed.
-> +     *
-> +     * See memory_tests() in mss_ddr.c in the HSS source code.
-> +     */
-> +    mem_high_size = machine->ram_size - 1 * GiB;
-> +
-> +    memory_region_init_ram(mem_high, NULL, "microchip.icicle.kit.ram_high",
-> +                           mem_high_size, &error_fatal);
-> +    memory_region_init_alias(mem_high_alias, NULL,
-> +                             "microchip.icicle.kit.ram_high.alias",
-> +                             mem_high, 0, mem_high_size);
-> +    memory_region_add_subregion(system_memory,
-> +                                memmap[MICROCHIP_PFSOC_DRAM_HI].base,
-> +                                mem_high);
->      memory_region_add_subregion(system_memory,
-> -                                memmap[MICROCHIP_PFSOC_DRAM].base, main_mem);
-> +                                memmap[MICROCHIP_PFSOC_DRAM_HI_ALIAS].base,
-> +                                mem_high_alias);
->
->      /* Load the firmware */
->      riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
-> @@ -470,7 +506,7 @@ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
->                     MICROCHIP_PFSOC_COMPUTE_CPU_COUNT;
->      mc->min_cpus = MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT + 1;
->      mc->default_cpus = mc->min_cpus;
-> -    mc->default_ram_size = 1 * GiB;
-> +    mc->default_ram_size = 2 * GiB;
->  }
->
->  static const TypeInfo microchip_icicle_kit_machine_typeinfo = {
-> diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-> index f34a6b3..db77e9c 100644
-> --- a/include/hw/riscv/microchip_pfsoc.h
-> +++ b/include/hw/riscv/microchip_pfsoc.h
-> @@ -105,7 +105,10 @@ enum {
->      MICROCHIP_PFSOC_ENVM_CFG,
->      MICROCHIP_PFSOC_ENVM_DATA,
->      MICROCHIP_PFSOC_IOSCB,
-> -    MICROCHIP_PFSOC_DRAM,
-> +    MICROCHIP_PFSOC_DRAM_LO,
-> +    MICROCHIP_PFSOC_DRAM_LO_ALIAS,
-> +    MICROCHIP_PFSOC_DRAM_HI,
-> +    MICROCHIP_PFSOC_DRAM_HI_ALIAS
->  };
->
->  enum {
-> --
-> 2.7.4
->
->
+Kevin
+
 
