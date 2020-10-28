@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6343829D08A
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:08:41 +0100 (CET)
-Received: from localhost ([::1]:34136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C22E29D090
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:12:01 +0100 (CET)
+Received: from localhost ([::1]:44336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXn44-0006ai-EB
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:08:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41664)
+	id 1kXn7I-0002Py-31
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:12:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXn1n-0005Eh-52
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:06:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25692)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXn1g-0004lB-JY
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:06:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603897569;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cu+A6FbL4icM+oyrSkDsqBrl3qU0PQJiQ3nWqMDOkIA=;
- b=hudAUX2BYqk14fZC9HfQ7n1+B3M5DNlhxJa8thbCd38bW6TswL4014PAXHl42zEDQNNW9w
- 3khB1wiHadfB5dmpFBSHzv1pHcpVy5xVLwlUYBaDHxVtpZEgex4RBQszbTorcO0lt3SDcA
- oGMQGBvDsK66jaJ2CsREIPE+hOEQHeM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-hMbfclVvMT6-9UdWONPbuA-1; Wed, 28 Oct 2020 11:06:07 -0400
-X-MC-Unique: hMbfclVvMT6-9UdWONPbuA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 650EB8015C3;
- Wed, 28 Oct 2020 15:06:06 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-124.ams2.redhat.com [10.36.112.124])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 911A076642;
- Wed, 28 Oct 2020 15:06:04 +0000 (UTC)
-Subject: Re: [PATCH 8/9] target/ppc: silence the compiler warnings
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
- <20201028041819.2169003-9-kuhn.chenqun@huawei.com>
- <77fb89c5-daa2-0039-bdba-cce0f9895195@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c8255814-80ff-8937-938f-158ff924bb91@redhat.com>
-Date: Wed, 28 Oct 2020 16:06:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXn3W-0006e8-H3
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:08:06 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:44529)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kXn3T-0004um-Jq
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:08:06 -0400
+Received: by mail-ej1-x643.google.com with SMTP id j24so4075971ejc.11
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:08:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=27xDIr/hXEBB8ouIYgABS1t5+oXCUVMHq9A+Hufvq6M=;
+ b=j8JIcToXKvZsVDulj7yeIAXTYlAby0dVhpwdkeHdZVC87ju3Qsu3JzxQGBRTkipY96
+ zsBLE29htRkleUwUcxXDckX7hE7Ld8k6lZJn2EVc80zRd7zpVqfHjSF8D1qtR+bqLzj4
+ xwd/FBGy4WtPjxd3vhdrb9LASxEcqdEMTlTSlgtXn+Sp/BzRFhOVg9hBN1RCUOLgXE7y
+ h7p6tAK3QTuZQcsw4G5XY5T/6Fqh3P+oEDinXQ6SiAQNixr3Z5Ukh8XUw3+R1W8SvAUV
+ /JgOzP9WMGFFc4U462B+bH9mQqn2U3SMlnBd7zH7IVVSArSg05d72zG0C+Y5U/CbCryP
+ s2Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=27xDIr/hXEBB8ouIYgABS1t5+oXCUVMHq9A+Hufvq6M=;
+ b=TsHzm1iplBPwYvPQ9TT8vpSF0qrd6ECpps6FF38aG4BTIBARbYQOYgCRVVmQ/5aFiS
+ hTMsJ4jA9rod5dQJCV2OtWtBOSvQhS5Ko4QPomIkGgPFLdK0fxgtiWq3vYXFLPIOMYbq
+ wLKAYIZLVWrrhK+wSwdntj3dLz1ge+Gc9RiNoT5eWQ5b9YPzWkermS7l2vjpts6i3nVK
+ r9Wa7P0TyeVOdYWyo+09PyT4r7kA2HAED1wvIYwjFOT8cv6W3xthq1GdvCl4k2KCcSLE
+ qsa/siMOYKoNNYg8OjQTch+5aOQLydoSjAHf6d40l57gGnixOVok8DqQcUQmx33Jqlt9
+ 0AaA==
+X-Gm-Message-State: AOAM533xwBaIUO75+cMVTxuX2R8++1sq4cR0LbuCp4uUQpgr4ubAVJeM
+ DEjoEYWupYB3pgabZ0JHoQrvl1AU4arIsl6FDt5rtA==
+X-Google-Smtp-Source: ABdhPJwDg/mYze0AVcIAZq2w1TqADjP0irQqDQfsM0JHp1ls+jc1IR/VQHLysFIdIGoXEz8IngViFx3jyecWQ4sxEqU=
+X-Received: by 2002:a17:906:af8c:: with SMTP id
+ mj12mr3772970ejb.85.1603897681940; 
+ Wed, 28 Oct 2020 08:08:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <77fb89c5-daa2-0039-bdba-cce0f9895195@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+In-Reply-To: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 28 Oct 2020 15:07:50 +0000
+Message-ID: <CAFEAcA9pgxKY7Q8bHRR0MXvYkWAWjakJS=uo4V_Bs14zLLc-Jw@mail.gmail.com>
+Subject: Re: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
+To: Alex Williamson <alex.williamson@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,54 +81,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>, zhang.zhanghailiang@huawei.com,
- ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>
+Cc: Artem Polyakov <artemp@nvidia.com>, Zhengui li <lizhengui@huawei.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Neo Jia <cjia@nvidia.com>,
+ Amey Narkhede <ameynarkhede03@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/10/2020 10.56, Philippe Mathieu-Daudé wrote:
-> On 10/28/20 5:18 AM, Chen Qun wrote:
->> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
->> target/ppc/mmu_helper.c: In function ‘dump_mmu’:
->> target/ppc/mmu_helper.c:1351:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
->>  1351 |         if (ppc64_v3_radix(env_archcpu(env))) {
->>       |            ^
->> target/ppc/mmu_helper.c:1358:5: note: here
->>  1358 |     default:
->>       |     ^~~~~~~
->>
->> Add the corresponding "fall through" comment to fix it.
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
->> ---
->> Cc: David Gibson <david@gibson.dropbear.id.au>
->> ---
->>  target/ppc/mmu_helper.c | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
->> index 8972714775..51749b62df 100644
->> --- a/target/ppc/mmu_helper.c
->> +++ b/target/ppc/mmu_helper.c
->> @@ -1355,6 +1355,7 @@ void dump_mmu(CPUPPCState *env)
->>              break;
->>          }
->>  #endif
->> +        /* fall through */
-> 
-> I'm surprise the compiler emit a warning for missing comment,
-> but don't emit one for superfluous and confusing ones (when
-> building a ppc32-only target). You'd need to put this before
-> the #endif.
-> 
-> But instead of this band-aid to silent warning, replace the
-> TODO by a LOG_UNIMP call, and add a break before the #endif.
+On Mon, 26 Oct 2020 at 19:39, Alex Williamson
+<alex.williamson@redhat.com> wrote:
+>
+> The following changes since commit a5fac424c76d6401ecde4ecb7d846e656d0d6e=
+89:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-r=
+equest' into staging (2020-10-26 10:33:59 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20201026.0
+>
+> for you to fetch changes up to 5219bf8e0fa86573427aa8812bbfe93d83c3d664:
+>
+>   vfio: fix incorrect print type (2020-10-26 12:07:46 -0600)
+>
+> ----------------------------------------------------------------
+> VFIO update 2020-10-26
+>
+>  * Migration support (Kirti Wankhede)
+>  * s390 DMA limiting (Matthew Rosato)
+>  * zPCI hardware info (Matthew Rosato)
+>  * Lock guard (Amey Narkhede)
+>  * Print fixes (Zhengui li)
+>
 
-+1 for replacing the TODO with a LOG_UNIMP call and adding a break instead,
-that would look way less messy than the current code.
+I retried the merge of this after the revert from Max, and it
+no longer gives merge conflicts, but it has compile errors:
 
- Thanks,
-  Thomas
+On FreeBSD, OpenBSD, NetBSD, OSX and Windows:
 
+In file included from ../src/hw/arm/sysbus-fdt.c:35:
+In file included from
+/usr/home/qemu/qemu-test.ffr5Sp/src/include/hw/vfio/vfio-platform.h:20:
+/usr/home/qemu/qemu-test.ffr5Sp/src/include/hw/vfio/vfio-common.h:201:37:
+warning: declaration of 'struct vfio_iommu_type1_info' will not be
+visible outside of this function [-Wvisibility]
+bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
+                                    ^
+
+On clang x86-64 Linux:
+
+../../hw/vfio/migration.c:737:42: error: equality comparison with
+extraneous parentheses [-Werror,-Wparentheses-equality]
+    if ((vbasedev->migration->vm_running =3D=3D running)) {
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+../../hw/vfio/migration.c:737:42: note: remove extraneous parentheses
+around the comparison to silence this warning
+    if ((vbasedev->migration->vm_running =3D=3D running)) {
+        ~                                ^         ~
+../../hw/vfio/migration.c:737:42: note: use '=3D' to turn this equality
+comparison into an assignment
+    if ((vbasedev->migration->vm_running =3D=3D running)) {
+                                         ^~
+                                         =3D
+
+On AArch32:
+
+../../hw/vfio/migration.c: In function 'vfio_mig_access':
+../../hw/vfio/migration.c:58:68: error: format '%lx' expects argument
+of type 'long unsigned int', but argument 5 has type 'off_t {aka long
+long int}' [-Werror=3Dformat=3D]
+         error_report("vfio_mig_%s %d byte %s: failed at offset 0x%lx, err:=
+ %s",
+                                                                  ~~^
+                                                                  %llx
+cc1: all warnings being treated as errors
+
+
+On PPC64:
+
+../../hw/vfio/common.c: In function =E2=80=98vfio_dma_unmap_bitmap=E2=80=99=
+:
+../../hw/vfio/common.c:400:9: error: format =E2=80=98%llx=E2=80=99 expects =
+argument of
+type =E2=80=98long long unsigned int=E2=80=99, but argument 2 has type =E2=
+=80=98__u64=E2=80=99
+[-Werror=3Dformat=3D]
+         error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->size)=
+;
+         ^
+../../hw/vfio/common.c: In function =E2=80=98vfio_get_dirty_bitmap=E2=80=99=
+:
+../../hw/vfio/common.c:1003:17: error: format =E2=80=98%llx=E2=80=99 expect=
+s argument
+of type =E2=80=98long long unsigned int=E2=80=99, but argument 2 has type =
+=E2=80=98__u64=E2=80=99
+[-Werror=3Dformat=3D]
+                 range->iova, range->size, errno);
+                 ^
+../../hw/vfio/common.c:1003:17: error: format =E2=80=98%llx=E2=80=99 expect=
+s argument
+of type =E2=80=98long long unsigned int=E2=80=99, but argument 3 has type =
+=E2=80=98__u64=E2=80=99
+[-Werror=3Dformat=3D]
+
+thanks
+-- PMM
 
