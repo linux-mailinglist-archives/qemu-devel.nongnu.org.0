@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8226429CDC6
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:20:20 +0100 (CET)
-Received: from localhost ([::1]:37606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5CE29CDCA
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:24:11 +0100 (CET)
+Received: from localhost ([::1]:46282 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXcwd-0001Xv-Ii
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:20:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43230)
+	id 1kXd0M-0005N9-5D
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:24:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kXcuJ-0000Av-Co
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:17:55 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:42979)
+ id 1kXcum-0000gZ-W7
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:18:25 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kXcuH-0007Cc-FG
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:17:55 -0400
-Received: by mail-pf1-x442.google.com with SMTP id x13so2166092pfa.9
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 21:17:53 -0700 (PDT)
+ id 1kXcuk-0007L2-Q4
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:18:24 -0400
+Received: by mail-pl1-x644.google.com with SMTP id o9so1850191plx.10
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 21:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=4mqcm/qscydasRVS0/uiBGxQMYSJ1QP1CS0Djhkp5ck=;
- b=SMKYuOzAKkNQU1bCDbIlalcZrHENaIjFDyWeUdLgLw5jnkPHtyz0Y4yNkxwXdQJCug
- 1M2u8RBCL2qjokaX3l1SC38bGjoA6bNHZpuENLcBf2Uj2PNLZLiGn+mj1O6ymIXQ8fKg
- SjVPiMujJ5oclw/SQ8f2i2MyKEPbCm6/0IsZL+XnCEzywlLtjURHDQAmXq6BYTHt9MvW
- ePCaGVqK/CilaV/cMsuBx4QFuKip/JgHUqSxpFd6utC+mlApEyuxEvI0EWzUxpsRKqK2
- SVWEV6pCPABQAh13vOR7fHmDTH+6Ty9DwQWNHsZPtJsdNtCySEkSqsG3K6S07JyitPnc
- hPzw==
+ bh=okNvxuAD4d5IMa05SWDW8OhBnvNEk3BfByl9gvP1iWs=;
+ b=RnHgwXgPUGIqkxyALcSNGrMKGzBi1SMDZVb1sjPucfrCU/W/5aKm/4xVyf0kzxIqJq
+ digUPmksDi9BZuGgYzQL+zm8R30X7B2QnKl43Bmy7jLlzV08lG78BXWCBpfU6a9wiqtC
+ jM9fJFYsEMmSMVV1V8b3xK0NQjegTKo+n0xTsDlEFmQ0s5JtGwU67AAGasP7c37iNxbt
+ G/I3LLrMZTrxz1SqhQCpM3c2P2ewiEcMb4L32tkpg01m4QToE8wTUxX4ci9CQM2x9ka8
+ PnIYFWCq/3W6HN6ZhuEzmQGWRwWOD/mwMOG5duVMsD8Nx3R/X2Yz9UBhcbD2jiA36dp+
+ GErQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=4mqcm/qscydasRVS0/uiBGxQMYSJ1QP1CS0Djhkp5ck=;
- b=JlIMnT2iVW2tqMlFAagBJ8SXFHC0R8SRQtDClLyIkK8QnnvRx5T/QtoHY1w56r++1Q
- 1naH7BmO/a4oWq3A6RuxF53oVuvfpwIFZMWk4ht3OrENwELvHlH63bzi5ZuWTclVkpfH
- S/BwGsvrQyBs92GDD8QizyCYMLPiCKRqB25Qa5Hh6UxqRs0b1+sJEwtV5qW4Wc1SsfYB
- c7cjawBsF9ZQAI/q3aaYEjTfvCknWJDdizQNDhuXxbJeeIst6JOc2m1JYPUauDVnYASB
- DdJLeEZz3ZLYrI9Am0D3g9ZfJXRoHQ0NbKWnCv/xzSzE/WTxl0K4kEaM0W1RszzDGVUw
- 3SxA==
-X-Gm-Message-State: AOAM531O+NwYG6NkLokZnklbYICYah0MrhLN+eFf/PlBcL9kkyecJM2R
- SdSO6ihykOHKmInC4hXRUmc=
-X-Google-Smtp-Source: ABdhPJw6Li5XbgWy+2IhA5u60C67ktUqfMg3sBOs9oIMkp0iM9X/9qACJWry2aHAjcN0HI26pIWEOg==
-X-Received: by 2002:a63:b516:: with SMTP id y22mr4679818pge.154.1603858671998; 
- Tue, 27 Oct 2020 21:17:51 -0700 (PDT)
+ bh=okNvxuAD4d5IMa05SWDW8OhBnvNEk3BfByl9gvP1iWs=;
+ b=jTtbusxmNpq/sGRpstgJdX1Akg351WMgUY78w85ggVQIXClL1CkSbOBUcSbhh0XF9z
+ u8C93iMO3XujOY4pAQRDp8In2DqOySpumWBiEh5G2p3N6VLw8macjkKuxGcXaeE6nP0J
+ G+PqkRN9yquaTR4H2KNuBNaK5kYoloARStHLclft9FC47vnx0VVWmtXIugh16MQCLO+h
+ J2E5zj97PTiDW7szCz7vGBzp868Dh2MvZbjOAaVErSxeKXUoOHuo3qkU2XSIzPR8Z4VH
+ lBwOWr/LHRUntjsf4LAMPVhVGFYQO4hGxUvXwHZY6f2JExr2jg/Pe0dE7lnF4/4OV1xs
+ 6NOA==
+X-Gm-Message-State: AOAM533Qs9nBonFMlO25dB28r3a459CrA6rvvKTXyQeR1oCg5EUX7knR
+ q8xV1G7uKQRYn0fK3I+3ZIY=
+X-Google-Smtp-Source: ABdhPJwvafHUpfZQ8MVG6Y8EJ8fb34juWsfAoXwbDjLEQNwKJwr1vl0jt6IYv4F25/sZrC9kgPyUEA==
+X-Received: by 2002:a17:90a:bf05:: with SMTP id
+ c5mr5126492pjs.11.1603858701214; 
+ Tue, 27 Oct 2020 21:18:21 -0700 (PDT)
 Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id x10sm3882040pfc.88.2020.10.27.21.17.47
+ by smtp.gmail.com with ESMTPSA id x10sm3882040pfc.88.2020.10.27.21.18.17
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 21:17:51 -0700 (PDT)
+ Tue, 27 Oct 2020 21:18:20 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V15 1/6] target/mips: Fix PageMask with variable page size
-Date: Wed, 28 Oct 2020 12:17:59 +0800
-Message-Id: <1603858685-30701-2-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V15 2/6] target/mips: Add unaligned access support for
+ MIPS64R6 and Loongson-3
+Date: Wed, 28 Oct 2020 12:18:00 +0800
+Message-Id: <1603858685-30701-3-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603858685-30701-1-git-send-email-chenhc@lemote.com>
 References: <1603858685-30701-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x442.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,78 +92,32 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+MIPSR6 (not only MIPS32R6) processors support unaligned access in
+hardware, so set MO_UNALN in their default_tcg_memop_mask. Btw, new
+Loongson-3 (such as Loongson-3A4000) also support unaligned access,
+since both old and new Loongson-3 use the same binaries, we can simply
+set MO_UNALN for all Loongson-3 processors.
 
-Our current code assumed the target page size is always 4k
-when handling PageMask and VPN2, however, variable page size
-was just added to mips target and that's no longer true.
-
-Fixes: ee3863b9d414 ("target/mips: Support variable page size")
-Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 ---
- target/mips/cp0_helper.c | 36 +++++++++++++++++++++++++++++-------
- target/mips/cpu.h        |  1 +
- 2 files changed, 30 insertions(+), 7 deletions(-)
+ target/mips/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-index 12143ac..d90ddd9 100644
---- a/target/mips/cp0_helper.c
-+++ b/target/mips/cp0_helper.c
-@@ -892,13 +892,35 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index f449758..470f59c 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -31442,8 +31442,8 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ #else
+         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
+ #endif
+-    ctx->default_tcg_memop_mask = (ctx->insn_flags & ISA_MIPS32R6) ?
+-                                  MO_UNALN : MO_ALIGN;
++    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
++                                  INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
  
- void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
- {
--    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
--    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
--        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
--         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
--         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
--        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
-+    unsigned long mask;
-+    int maskbits;
-+
-+    if (env->insn_flags & ISA_MIPS32R6) {
-+        return;
-+    }
-+    /* Don't care MASKX as we don't support 1KB page */
-+    mask = extract32((uint32_t)arg1, CP0PM_MASK, 16);
-+    maskbits = find_first_zero_bit(&mask, 32);
-+
-+    /* Ensure no more set bit after first zero */
-+    if (mask >> maskbits) {
-+        goto invalid;
-+    }
-+    /* We don't support VTLB entry smaller than target page */
-+    if ((maskbits + 12) < TARGET_PAGE_BITS) {
-+        goto invalid;
-     }
-+    env->CP0_PageMask = mask << CP0PM_MASK;
-+
-+    return;
-+
-+invalid:
-+    /*
-+     * When invalid, ensure the value is bigger than or equal to
-+     * the minimal but smaller than or equal to the maxium.
-+     */
-+    maskbits = MIN(16, MAX(maskbits, TARGET_PAGE_BITS - 12));
-+    env->CP0_PageMask = ((1 << (16 + 1)) - 1) << CP0PM_MASK;
- }
- 
- void helper_mtc0_pagemask(CPUMIPSState *env, target_ulong arg1)
-diff --git a/target/mips/cpu.h b/target/mips/cpu.h
-index d41579d..23f8c6f 100644
---- a/target/mips/cpu.h
-+++ b/target/mips/cpu.h
-@@ -619,6 +619,7 @@ struct CPUMIPSState {
-  * CP0 Register 5
-  */
-     int32_t CP0_PageMask;
-+#define CP0PM_MASK 13
-     int32_t CP0_PageGrain_rw_bitmask;
-     int32_t CP0_PageGrain;
- #define CP0PG_RIE 31
+     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
+               ctx->hflags);
 -- 
 2.7.0
 
