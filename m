@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B5CE29CDCA
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:24:11 +0100 (CET)
-Received: from localhost ([::1]:46282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B0029CDC7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:21:26 +0100 (CET)
+Received: from localhost ([::1]:41210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXd0M-0005N9-5D
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:24:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43360)
+	id 1kXcxg-0003Cp-VG
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:21:25 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kXcum-0000gZ-W7
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:18:25 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43375)
+ id 1kXcvF-0001JI-4P
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:18:53 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:35520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kXcuk-0007L2-Q4
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:18:24 -0400
-Received: by mail-pl1-x644.google.com with SMTP id o9so1850191plx.10
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 21:18:22 -0700 (PDT)
+ id 1kXcvD-0007VQ-AB
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:18:52 -0400
+Received: by mail-pg1-x544.google.com with SMTP id f38so2032510pgm.2
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 21:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=okNvxuAD4d5IMa05SWDW8OhBnvNEk3BfByl9gvP1iWs=;
- b=RnHgwXgPUGIqkxyALcSNGrMKGzBi1SMDZVb1sjPucfrCU/W/5aKm/4xVyf0kzxIqJq
- digUPmksDi9BZuGgYzQL+zm8R30X7B2QnKl43Bmy7jLlzV08lG78BXWCBpfU6a9wiqtC
- jM9fJFYsEMmSMVV1V8b3xK0NQjegTKo+n0xTsDlEFmQ0s5JtGwU67AAGasP7c37iNxbt
- G/I3LLrMZTrxz1SqhQCpM3c2P2ewiEcMb4L32tkpg01m4QToE8wTUxX4ci9CQM2x9ka8
- PnIYFWCq/3W6HN6ZhuEzmQGWRwWOD/mwMOG5duVMsD8Nx3R/X2Yz9UBhcbD2jiA36dp+
- GErQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=7be69Z9NET5kIBJ2AmfgWFxcd4F4ui4S0AZTNTd2Vu4=;
+ b=GFLEkcWqvIhCfftJhAYIocmUKkn5HXtoFRC5Jk+PVOes60Qa4Sw/ez3ieTqwL1P8xx
+ icHQ0bZJwFtMNsIQERJZSOJnJUZwyG7xfBlKAIRuuWv64OujX2PzbzJo5ClI/efq17bH
+ 6E3OvIUXHObx85ZDKTNLXLFgADO3IVIyJ5WO1kgnDJ2bnpmzsy2Rn9b+NmvslUlyswg6
+ kqUqX79eqFtx6iPIqm1F1gj23oIQcV9dgGhaK8t3Hsuo3oC++aDYpqztDRUhxCQay382
+ qg9RhkarjOWrOghx8tbUkzN1NXSxWhYGCRH3Yry+/xXpstA3Kt3OQXeePEHHPfVMAlh+
+ fTqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=okNvxuAD4d5IMa05SWDW8OhBnvNEk3BfByl9gvP1iWs=;
- b=jTtbusxmNpq/sGRpstgJdX1Akg351WMgUY78w85ggVQIXClL1CkSbOBUcSbhh0XF9z
- u8C93iMO3XujOY4pAQRDp8In2DqOySpumWBiEh5G2p3N6VLw8macjkKuxGcXaeE6nP0J
- G+PqkRN9yquaTR4H2KNuBNaK5kYoloARStHLclft9FC47vnx0VVWmtXIugh16MQCLO+h
- J2E5zj97PTiDW7szCz7vGBzp868Dh2MvZbjOAaVErSxeKXUoOHuo3qkU2XSIzPR8Z4VH
- lBwOWr/LHRUntjsf4LAMPVhVGFYQO4hGxUvXwHZY6f2JExr2jg/Pe0dE7lnF4/4OV1xs
- 6NOA==
-X-Gm-Message-State: AOAM533Qs9nBonFMlO25dB28r3a459CrA6rvvKTXyQeR1oCg5EUX7knR
- q8xV1G7uKQRYn0fK3I+3ZIY=
-X-Google-Smtp-Source: ABdhPJwvafHUpfZQ8MVG6Y8EJ8fb34juWsfAoXwbDjLEQNwKJwr1vl0jt6IYv4F25/sZrC9kgPyUEA==
-X-Received: by 2002:a17:90a:bf05:: with SMTP id
- c5mr5126492pjs.11.1603858701214; 
- Tue, 27 Oct 2020 21:18:21 -0700 (PDT)
+ :references:mime-version:content-transfer-encoding;
+ bh=7be69Z9NET5kIBJ2AmfgWFxcd4F4ui4S0AZTNTd2Vu4=;
+ b=KGwGIyV2UE61zJIo0fBQuZq+/RYabHUq702aRtVLi1Ff/odEcLJi/p+9PwES9WuljT
+ 2pnktbcUF3QMYFIeJ4LzLC8z+XJ0vgnxRburI01zmdsTxK6o/vbZwRtgSyko9Ngmoezv
+ jFMEjO3ZEt0EHyY5VdsRSFRvOR7OqUxcmHS3AL2HUHObNQf+DSNWCR1dQvDzgQFsffPJ
+ dtOYEC98wiMBH5xNVqWRcP/sCBWeHhftebeq6Olfbx9l5mh85B1RvhwRzTRIjZagio4x
+ mmGtpo83KI4/qlQJCNJRl9QQvlL0EC16fVUzf/rkyY4duw0urkC/nXNHGLbYRnQz62Gh
+ pPAA==
+X-Gm-Message-State: AOAM530USv6OOdmhOFok7V/aspnxO9r1Q+pctHy5oPJJQFsm52Er24Gx
+ wv48hkMIZBRN3P/Z2RqBBMk=
+X-Google-Smtp-Source: ABdhPJyhch0wDGFlmeg8QTVNZ6Wi6BdteWX4snUQowdEJwsOWOJB0QItPLi71DNiSp75rEJLrO2PpA==
+X-Received: by 2002:aa7:9a44:0:b029:155:8201:c61c with SMTP id
+ x4-20020aa79a440000b02901558201c61cmr5612727pfj.31.1603858729946; 
+ Tue, 27 Oct 2020 21:18:49 -0700 (PDT)
 Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id x10sm3882040pfc.88.2020.10.27.21.18.17
+ by smtp.gmail.com with ESMTPSA id x10sm3882040pfc.88.2020.10.27.21.18.46
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 21:18:20 -0700 (PDT)
+ Tue, 27 Oct 2020 21:18:49 -0700 (PDT)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V15 2/6] target/mips: Add unaligned access support for
- MIPS64R6 and Loongson-3
-Date: Wed, 28 Oct 2020 12:18:00 +0800
-Message-Id: <1603858685-30701-3-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V15 3/6] hw/mips: Implement fw_cfg_arch_key_name()
+Date: Wed, 28 Oct 2020 12:18:01 +0800
+Message-Id: <1603858685-30701-4-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1603858685-30701-1-git-send-email-chenhc@lemote.com>
 References: <1603858685-30701-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x644.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::544;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pg1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,32 +95,98 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIPSR6 (not only MIPS32R6) processors support unaligned access in
-hardware, so set MO_UNALN in their default_tcg_memop_mask. Btw, new
-Loongson-3 (such as Loongson-3A4000) also support unaligned access,
-since both old and new Loongson-3 use the same binaries, we can simply
-set MO_UNALN for all Loongson-3 processors.
+Implement fw_cfg_arch_key_name(), which returns the name of a
+mips-specific key.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- target/mips/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/mips/fw_cfg.c    | 35 +++++++++++++++++++++++++++++++++++
+ hw/mips/fw_cfg.h    | 19 +++++++++++++++++++
+ hw/mips/meson.build |  2 +-
+ 3 files changed, 55 insertions(+), 1 deletion(-)
+ create mode 100644 hw/mips/fw_cfg.c
+ create mode 100644 hw/mips/fw_cfg.h
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index f449758..470f59c 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -31442,8 +31442,8 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- #else
-         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
- #endif
--    ctx->default_tcg_memop_mask = (ctx->insn_flags & ISA_MIPS32R6) ?
--                                  MO_UNALN : MO_ALIGN;
-+    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
-+                                  INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
- 
-     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
-               ctx->hflags);
+diff --git a/hw/mips/fw_cfg.c b/hw/mips/fw_cfg.c
+new file mode 100644
+index 0000000..67c4a74
+--- /dev/null
++++ b/hw/mips/fw_cfg.c
+@@ -0,0 +1,35 @@
++/*
++ * QEMU fw_cfg helpers (MIPS specific)
++ *
++ * Copyright (c) 2020 Lemote, Inc.
++ *
++ * Author:
++ *   Huacai Chen (chenhc@lemote.com)
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/mips/fw_cfg.h"
++#include "hw/nvram/fw_cfg.h"
++
++const char *fw_cfg_arch_key_name(uint16_t key)
++{
++    static const struct {
++        uint16_t key;
++        const char *name;
++    } fw_cfg_arch_wellknown_keys[] = {
++        {FW_CFG_MACHINE_VERSION, "machine_version"},
++        {FW_CFG_CPU_FREQ, "cpu_frequency"},
++    };
++
++    for (size_t i = 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++) {
++        if (fw_cfg_arch_wellknown_keys[i].key == key) {
++            return fw_cfg_arch_wellknown_keys[i].name;
++        }
++    }
++    return NULL;
++}
+diff --git a/hw/mips/fw_cfg.h b/hw/mips/fw_cfg.h
+new file mode 100644
+index 0000000..e317d5b
+--- /dev/null
++++ b/hw/mips/fw_cfg.h
+@@ -0,0 +1,19 @@
++/*
++ * QEMU fw_cfg helpers (MIPS specific)
++ *
++ * Copyright (c) 2020 Huacai Chen
++ *
++ * SPDX-License-Identifier: MIT
++ */
++
++#ifndef HW_MIPS_FW_CFG_H
++#define HW_MIPS_FW_CFG_H
++
++#include "hw/boards.h"
++#include "hw/nvram/fw_cfg.h"
++
++/* Data for BIOS to identify machine */
++#define FW_CFG_MACHINE_VERSION  (FW_CFG_ARCH_LOCAL + 0)
++#define FW_CFG_CPU_FREQ         (FW_CFG_ARCH_LOCAL + 1)
++
++#endif
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index 46294b7..c98391c 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,5 +1,5 @@
+ mips_ss = ss.source_set()
+-mips_ss.add(files('addr.c', 'mips_int.c'))
++mips_ss.add(files('addr.c', 'mips_int.c', 'fw_cfg.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
+ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
 -- 
 2.7.0
 
