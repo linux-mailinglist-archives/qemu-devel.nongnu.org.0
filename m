@@ -2,73 +2,107 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB6929D0AB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:24:14 +0100 (CET)
-Received: from localhost ([::1]:46974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B7DF29D0B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:27:33 +0100 (CET)
+Received: from localhost ([::1]:59092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnJ7-0006vS-Dl
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:24:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45262)
+	id 1kXnMK-0003ZB-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:27:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnF3-0002f1-Vn
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:20:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnF0-0006RF-L8
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:20:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603898397;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/0/XbJVuKyXIn7JH6TuF8ngdNQcmnh5rMnutxdmfPJ4=;
- b=AUHuY0WQKqk53C1pjWUSVdn0UKqlofkWl7VommqBiICh5SMlfUSEoR/bBZTxNOOolFLs4x
- OhDRC5B3A2FzKz+D+2YeC1GGcBLIQsmTbKxXCV7IXHuRQeCr6+SxDbcUYu/jHPM+l+NXKU
- kdTx2n5zXJkv6ql3qEn6Avvu9aSNedA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-PE24JjSiPCGn9ajy9ZcDsQ-1; Wed, 28 Oct 2020 11:19:53 -0400
-X-MC-Unique: PE24JjSiPCGn9ajy9ZcDsQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1978EC102;
- Wed, 28 Oct 2020 15:19:51 +0000 (UTC)
-Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C5FF60FC2;
- Wed, 28 Oct 2020 15:19:48 +0000 (UTC)
-Date: Wed, 28 Oct 2020 15:19:47 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 16/25] block/nvme: Simplify ADMIN queue access
-Message-ID: <20201028151947.GK231368@stefanha-x1.localdomain>
-References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-17-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kXnGQ-0004VD-Ra
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:21:30 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:33472)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1kXnGN-0006iL-A0
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:21:26 -0400
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09SF2d8c165046; Wed, 28 Oct 2020 11:21:05 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=IXjdoRI80trmiDqhtIzu5GcLNGrkytTBYC6o9lPqCqw=;
+ b=TWglWBv996cZPqlNb3rpjCoXa+p114QmnifLp67EthCSedacDvGT3hRpNX6P+MLZ75eQ
+ bMqaxy92s2+TuJGfeB4sy0S1sJKcJMukMp9ecGAUUCbQyIiJm4pQSg2dSHkh6FsInT/A
+ XURGHnYfJWmMfcO5UQw4ew2nVln3ckp7wex3xDgXh4HYZnsFN3IRkbJmnJRDIThkj7SL
+ W3qOViIMi6GGaj1/TcrYeCUoVhyTGC3m+1hLmx15fWJaj48hnwto4cygAJZ3xdb3/gfN
+ bESZ5vAoRwrV4A5kj/cnr7mFev6C1em8byUoidXNROzQpuLEDwot0n8X9oMtULWBGGsD Vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34dcqfmuk1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Oct 2020 11:21:01 -0400
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09SF2rZh165436;
+ Wed, 28 Oct 2020 11:20:53 -0400
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34dcqfmuea-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Oct 2020 11:20:53 -0400
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09SF9jUZ013898;
+ Wed, 28 Oct 2020 15:20:41 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01wdc.us.ibm.com with ESMTP id 34cbw90rh9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 28 Oct 2020 15:20:40 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09SFKXnT23724296
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 28 Oct 2020 15:20:34 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0486D7805E;
+ Wed, 28 Oct 2020 15:20:39 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8950C78069;
+ Wed, 28 Oct 2020 15:20:37 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.163.49.29])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 28 Oct 2020 15:20:37 +0000 (GMT)
+Subject: Re: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Alex Williamson <alex.williamson@redhat.com>
+References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
+ <CAFEAcA9pgxKY7Q8bHRR0MXvYkWAWjakJS=uo4V_Bs14zLLc-Jw@mail.gmail.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <ad19996f-b2fc-c8aa-2bc4-40b5b0cfb91c@linux.ibm.com>
+Date: Wed, 28 Oct 2020 11:20:36 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-17-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Xsn3knLL3qrmRbVI"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CAFEAcA9pgxKY7Q8bHRR0MXvYkWAWjakJS=uo4V_Bs14zLLc-Jw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-10-28_07:2020-10-28,
+ 2020-10-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 impostorscore=0
+ phishscore=0 suspectscore=0 mlxlogscore=999 malwarescore=0
+ lowpriorityscore=0 bulkscore=0 clxscore=1011 adultscore=0
+ priorityscore=1501 spamscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2010280102
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 11:21:19
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.921,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,46 +115,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Artem Polyakov <artemp@nvidia.com>, Zhengui li <lizhengui@huawei.com>,
+ Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Neo Jia <cjia@nvidia.com>,
+ Cornelia Huck <cohuck@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Amey Narkhede <ameynarkhede03@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Xsn3knLL3qrmRbVI
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 10/28/20 11:07 AM, Peter Maydell wrote:
+> On Mon, 26 Oct 2020 at 19:39, Alex Williamson
+> <alex.williamson@redhat.com> wrote:
+>>
+>> The following changes since commit a5fac424c76d6401ecde4ecb7d846e656d0d6e89:
+>>
+>>    Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/block-pull-request' into staging (2020-10-26 10:33:59 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20201026.0
+>>
+>> for you to fetch changes up to 5219bf8e0fa86573427aa8812bbfe93d83c3d664:
+>>
+>>    vfio: fix incorrect print type (2020-10-26 12:07:46 -0600)
+>>
+>> ----------------------------------------------------------------
+>> VFIO update 2020-10-26
+>>
+>>   * Migration support (Kirti Wankhede)
+>>   * s390 DMA limiting (Matthew Rosato)
+>>   * zPCI hardware info (Matthew Rosato)
+>>   * Lock guard (Amey Narkhede)
+>>   * Print fixes (Zhengui li)
+>>
+> 
+> I retried the merge of this after the revert from Max, and it
+> no longer gives merge conflicts, but it has compile errors:
+> 
+> On FreeBSD, OpenBSD, NetBSD, OSX and Windows:
+> 
+> In file included from ../src/hw/arm/sysbus-fdt.c:35:
+> In file included from
+> /usr/home/qemu/qemu-test.ffr5Sp/src/include/hw/vfio/vfio-platform.h:20:
+> /usr/home/qemu/qemu-test.ffr5Sp/src/include/hw/vfio/vfio-common.h:201:37:
+> warning: declaration of 'struct vfio_iommu_type1_info' will not be
+> visible outside of this function [-Wvisibility]
+> bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
+>                                      ^
 
-On Tue, Oct 27, 2020 at 02:55:38PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> We don't need to dereference from BDRVNVMeState each time.
-> Use a NVMeQueuePair pointer to the admin queue and use it.
-> The nvme_init() becomes easier to review, matching the style
-> of nvme_add_io_queue().
->=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  block/nvme.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+Alex, for this one I think the definition of
+bool vfio_get_info_dma_avail(struct vfio_iommu_type1_info *info,
+                              unsigned int *avail);
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+in vfio-common.h needs to be behind the #ifdef CONFIG_LINUX as that's 
+the only case where we include vfio.h where vfio_iommu_type1_info is 
+defined.
 
---Xsn3knLL3qrmRbVI
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZjBMACgkQnKSrs4Gr
-c8geQwgAt6e6RnMs4efdQ4gAEuFcX9MiYS/LPoQUYn+hcl9GG7Ez2oLBaBwXjLfg
-l1zNrrnL73EQMZHbZmW6TPi598zC8FqTg7FF9taoFKsZGhCD/m9SfFntiA5Rd37W
-uxzFQw2wdmCaDhbmDX1fbxDF1zGLhy9h+z3dN8sLIUbTY/dqkQfyEGg1wdTq49N8
-oeol4XQFFGrt3zAPC6CsJWNGEEJEVoYJGtitgZL79RuRDkPcpGvNznbMGqVvjm7v
-OhGsSF6j8uiJL/agD5nE99LujK1jZ1hC6AURHUZ8NlxAdoqAABREVufHHPYu1JOD
-cASGJ0hnVKvb6IiCC6Qe/+Evbu/9fg==
-=703N
------END PGP SIGNATURE-----
-
---Xsn3knLL3qrmRbVI--
+> 
+> On clang x86-64 Linux:
+> 
+> ../../hw/vfio/migration.c:737:42: error: equality comparison with
+> extraneous parentheses [-Werror,-Wparentheses-equality]
+>      if ((vbasedev->migration->vm_running == running)) {
+>           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+> ../../hw/vfio/migration.c:737:42: note: remove extraneous parentheses
+> around the comparison to silence this warning
+>      if ((vbasedev->migration->vm_running == running)) {
+>          ~                                ^         ~
+> ../../hw/vfio/migration.c:737:42: note: use '=' to turn this equality
+> comparison into an assignment
+>      if ((vbasedev->migration->vm_running == running)) {
+>                                           ^~
+>                                           =
+> 
+> On AArch32:
+> 
+> ../../hw/vfio/migration.c: In function 'vfio_mig_access':
+> ../../hw/vfio/migration.c:58:68: error: format '%lx' expects argument
+> of type 'long unsigned int', but argument 5 has type 'off_t {aka long
+> long int}' [-Werror=format=]
+>           error_report("vfio_mig_%s %d byte %s: failed at offset 0x%lx, err: %s",
+>                                                                    ~~^
+>                                                                    %llx
+> cc1: all warnings being treated as errors
+> 
+> 
+> On PPC64:
+> 
+> ../../hw/vfio/common.c: In function ‘vfio_dma_unmap_bitmap’:
+> ../../hw/vfio/common.c:400:9: error: format ‘%llx’ expects argument of
+> type ‘long long unsigned int’, but argument 2 has type ‘__u64’
+> [-Werror=format=]
+>           error_report("UNMAP: Size of bitmap too big 0x%llx", bitmap->size);
+>           ^
+> ../../hw/vfio/common.c: In function ‘vfio_get_dirty_bitmap’:
+> ../../hw/vfio/common.c:1003:17: error: format ‘%llx’ expects argument
+> of type ‘long long unsigned int’, but argument 2 has type ‘__u64’
+> [-Werror=format=]
+>                   range->iova, range->size, errno);
+>                   ^
+> ../../hw/vfio/common.c:1003:17: error: format ‘%llx’ expects argument
+> of type ‘long long unsigned int’, but argument 3 has type ‘__u64’
+> [-Werror=format=]
+> 
+> thanks
+> -- PMM
+> 
 
 
