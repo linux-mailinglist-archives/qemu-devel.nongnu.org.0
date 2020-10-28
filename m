@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5923A29D002
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 14:25:15 +0100 (CET)
-Received: from localhost ([::1]:59608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 974BE29D006
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 14:28:22 +0100 (CET)
+Received: from localhost ([::1]:36170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXlRy-0008SB-Dh
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 09:25:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
+	id 1kXlUz-0002AF-Ky
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 09:28:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXlQa-0007Vd-Fe
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:23:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39561)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXlSw-0001Fq-Hn
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:26:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50918)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXlQX-0007gF-Jc
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:23:48 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kXlSt-00082I-Nx
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 09:26:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603891424;
+ s=mimecast20190719; t=1603891570;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AjU+Z1t1z9OvCaEm7HkPNbfZvyd9kI9jwGKE3wiWDKM=;
- b=hHKY9hGDSyU5juh+D1mneCNCbJP4yO4JrX1hecd30BlJg6zmNyIJeHleHNlU44M9KK0xJA
- xoBm1JuLHZAhf+AZXGs9Zl6gTSiolHPvbQZNIC95RRBgBWJxUB+5z5Z0l0WTOYmslyiDcE
- oi1Hpr4OXPHas9OV/vVMt29mO5PKYDA=
+ bh=kg4QH9bQV7p72oYn+Tv8DdXJav1WrxlneiKREZTw3cQ=;
+ b=KwRP5Yh8VqNG/8qwuGoW0jdoYVWjyUfovvg87kE2kB3n1gR2xB68cIqFoXrVe5QTvCRXMR
+ qjbHOz8TxaP8Y2qD0egLUidHmfA9JEjUvgKSnPR69OpF6o1IHptYLAJNGyrjEBPpO7GcC0
+ 2zpw68wyhQYXBC3gpHeavhxyeNGQRU0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-k22oHER8NpKu_NMfvnpJdA-1; Wed, 28 Oct 2020 09:23:39 -0400
-X-MC-Unique: k22oHER8NpKu_NMfvnpJdA-1
+ us-mta-97-E7g3DrHXMyKQNpxx6IWAQw-1; Wed, 28 Oct 2020 09:26:08 -0400
+X-MC-Unique: E7g3DrHXMyKQNpxx6IWAQw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6926B1030986;
- Wed, 28 Oct 2020 13:23:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 553B9966B29;
+ Wed, 28 Oct 2020 13:26:07 +0000 (UTC)
 Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 40B3719C4F;
- Wed, 28 Oct 2020 13:23:33 +0000 (UTC)
-Subject: Re: [PATCH 1/5] python: add pytest and tests
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 122CB19C4F;
+ Wed, 28 Oct 2020 13:26:02 +0000 (UTC)
+Subject: Re: [PATCH 4/5] python: add .gitignore
 To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20201027223815.159802-1-jsnow@redhat.com>
- <20201027223815.159802-2-jsnow@redhat.com>
- <7440abdc-b01e-ba5e-5238-a6e4573f88b5@redhat.com>
+ <20201027223815.159802-5-jsnow@redhat.com>
+ <f9ea6ce1-f464-0376-29ac-6071f680e63b@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <c85597c2-a9b3-e8ff-7208-c3f16002f40b@redhat.com>
-Date: Wed, 28 Oct 2020 09:23:32 -0400
+Message-ID: <3962408d-6c07-55d8-21c5-3f093e1ff90a@redhat.com>
+Date: Wed, 28 Oct 2020 09:26:02 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <7440abdc-b01e-ba5e-5238-a6e4573f88b5@redhat.com>
+In-Reply-To: <f9ea6ce1-f464-0376-29ac-6071f680e63b@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
@@ -95,58 +95,25 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/28/20 2:19 AM, Thomas Huth wrote:
+On 10/28/20 4:13 AM, Thomas Huth wrote:
 > On 27/10/2020 23.38, John Snow wrote:
->> Try using pytest to manage our various tests; even though right now
->> they're only invoking binaries and not really running any python-native
->> code.
->>
->> Create tests/, and add test_lint.py which calls out to mypy, flake8,
->> pylint and isort to enforce the standards in this directory.
->>
->> Add pytest to the setup.cfg development dependencies; add a pytest
->> configuration section as well; run it in verbose mode.
->>
->> Finally, add pytest to the Pipfile environment and lock the new
->> dependencies. (Note, this also updates an unrelated dependency; but the
->> only way to avoid this is to pin that dependency at a lower version --
->> which there is no reason to do at present.)
->>
->> Provided you have the right development dependencies (mypy, flake8,
->> isort, pylint, and now pytest) You should be able to run "pytest" from
->> the python folder to run all of these linters with the correct
->> arguments.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   python/Pipfile.lock       | 71 ++++++++++++++++++++++++++++++++++++---
->>   python/setup.cfg          |  5 +++
->>   python/tests/test_lint.py | 28 +++++++++++++++
->>   3 files changed, 99 insertions(+), 5 deletions(-)
->>   create mode 100644 python/tests/test_lint.py
->>
->> diff --git a/python/Pipfile.lock b/python/Pipfile.lock
->> index 05077475d750..105ffbc09a8e 100644
->> --- a/python/Pipfile.lock
->> +++ b/python/Pipfile.lock
->> @@ -30,6 +30,14 @@
->>               "markers": "python_version >= '3.5'",
->>               "version": "==2.4.2"
->>           },
->> +        "attrs": {
->> +            "hashes": [
->> +                "sha256:26b54ddbbb9ee1d34d5d3668dd37d6cf74990ab23c828c2888dccdceee395594",
->> +                "sha256:fce7fc47dfc976152e82d53ff92fa0407700c21acd20886a13777a0d20e655dc"
->> +            ],
->> +            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
+>> Ignore build and package output (build, dist, qemu.egg-info);
+>> effectively these are "in-tree" builds of a kind.
 > 
-> Can't you simply use "python_version >= '3.6'" instead?
+> Since we recently moved away from in-tree builds, could these also be made
+> out-of-tree only?
 > 
 >   Thomas
 > 
 
-This file is generated; I don't really actually know what these markers 
-mean or to whom. I can't edit it because it's checksummed.
+I'm not sure to be really honest with you.
+
+For "developer installs", I think the answer is *no*, it has to be 
+in-tree. Basically you are installing this directory as a living 
+package, as the live copy. It adds some metadata to the folder to do 
+that. No way around it.
+
+I'll investigate, but I have doubts.
 
 --js
 
