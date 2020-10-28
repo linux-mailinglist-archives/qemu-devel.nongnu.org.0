@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 972E529CDA1
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 04:15:27 +0100 (CET)
-Received: from localhost ([::1]:46672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57C9E29CDA7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 04:29:04 +0100 (CET)
+Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXbvq-0002Hd-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 23:15:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58350)
+	id 1kXc90-0006tJ-VF
+	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 23:29:02 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kXbnw-0003qi-H8; Tue, 27 Oct 2020 23:07:16 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:45914)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kXc7E-0005j2-0K
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 23:27:12 -0400
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:39608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1kXbnv-0006in-1h; Tue, 27 Oct 2020 23:07:16 -0400
-Received: by mail-pg1-f193.google.com with SMTP id 15so1915864pgd.12;
- Tue, 27 Oct 2020 20:07:14 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kXc7B-0005lk-8X
+ for qemu-devel@nongnu.org; Tue, 27 Oct 2020 23:27:11 -0400
+Received: by mail-pf1-x431.google.com with SMTP id e15so2112860pfh.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 20:27:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/Apclru9edkda74kh1AR4rRs5y1vYr8Lk7zFfDsb8O0=;
+ b=zFgiaCSlTg0FYmSpuzt2dwO1fYuZ5ZSuiVIubDwA06mxkLLTFaxn6w/LiDVmWY7Lp3
+ z7pVtW8h4s0BEpMs9PVmfmam3S7HWX/C9MBMSditc7E3D/yRdfj/VX1F+59KR9cySXDy
+ fCWg9TgFGog67cxyI9TQcw6gSuUajY0ps8QBlcXpW+g+4Jiz5ZmWGpy6A++Pql0X6pqS
+ YCoxhP3Mzj0dM+tD1qkHSE1HMQvImOyVcRbD6eoL6knQFuarDK5anTauJUiBw4wlQcPJ
+ I3liXO3gAmCumExD2gSSlwHzBoEzIGa49cL8kOf8mY/2yBfXGtyUTrhji5nfHdPYy2RA
+ 1thA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=DqK0hZ8mt8LWfTZqV1hfM2y+gt2SV2gfJzd9rHBJS8g=;
- b=dQLneSouHcvNMRHgioM1SFJqmIyjilmd7mehshMZBkfLvqWMSNg4n/7JGrn9ECa+JK
- oUKvasr8Ht/2Efu2i6UUPlchrtN96893biAJufWbLRtmS1FKJ5DisuzINvfIpWTaGcyA
- DZOR0qruDw2z3OCmRe9Op7LdZxtRhGIPFvG/1heTOJFhTgQunpQYmJmd0o4RbnYk/AFm
- JrmwVzNxQvb1nT0Ue5kdoOV5vZGO9a3lhJkg7CoMH5PDT3dWSJL46xrnAnVAkEV6I++8
- zAtYiN9EdTfZhJSGC2+HJVmeUB6NxxO4fdpZPiWsch6JMrr09yloSgXFNxZLwF0uwk5k
- 6EcQ==
-X-Gm-Message-State: AOAM532DR+3K4nr5I9Evq2dFvPc7IvrWmZMUsMCU4HNo+cMrVkdwkt2a
- HzOzD5CQWwUswAln69k3awWCJD/4agw=
-X-Google-Smtp-Source: ABdhPJxOdEllNjyw1vx5xWHafjR6terG8COwykwvCHLDJ+jU75WFBWbJ45JEWLpPXgEpet6FExzgWw==
-X-Received: by 2002:aa7:92c3:0:b029:163:d2d6:8db1 with SMTP id
- k3-20020aa792c30000b0290163d2d68db1mr5130208pfa.17.1603854433003; 
- Tue, 27 Oct 2020 20:07:13 -0700 (PDT)
-Received: from localhost.localdomain ([73.93.155.93])
- by smtp.gmail.com with ESMTPSA id n6sm3407219pjj.34.2020.10.27.20.07.11
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 27 Oct 2020 20:07:12 -0700 (PDT)
-From: Joelle van Dyne <j@getutm.app>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/Apclru9edkda74kh1AR4rRs5y1vYr8Lk7zFfDsb8O0=;
+ b=WQNg6w3ujMOzdQNmMIVmcTbv9uFfRLxcEAjyN1IPNt7U60+FaOUU/rIFSWLQvra8ZV
+ Bt6oasfEsoN0nQ214WiatufQPriTWhs4L5UPxk1F0G2RS5r7Gu92CY18avICWn9uieT+
+ FRFbXoic/5U6Qn7NAZRRcp6AKiiGB+HjZdZnIkhsZZPxy+6jKk7DwTdclZg/HxDEReEZ
+ kipOcHSTdtWCtE54xf0DsQ55e1GDIJsD1skwp3U40spODz9RDo/VTgixvHo8wqCBtgMP
+ W8+i8ByMwHPniHx0Np3Kv6o1t2INUYuW39MqhbC31XROotiVVBOj5vqKB2z0flT8hAY4
+ q7BA==
+X-Gm-Message-State: AOAM531CAnAeQHOF3PBU2C7vaQGxPGIcVnGFTHYq9SiuntYVY50wbh9d
+ q01m/t9pltJxVKRdkPqtxfcw0Eem+CtYlg==
+X-Google-Smtp-Source: ABdhPJzSTBeovWngHW6CmK2Sb+DbeZjIODqQz6Q7C4e/67vDgWoggewKpOwywG4tn281rvwyt22F0Q==
+X-Received: by 2002:a63:2d41:: with SMTP id t62mr2234217pgt.292.1603855626337; 
+ Tue, 27 Oct 2020 20:27:06 -0700 (PDT)
+Received: from localhost.localdomain ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id d26sm3764413pfo.82.2020.10.27.20.27.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 27 Oct 2020 20:27:05 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/7] block: check availablity for preadv/pwritev on mac
-Date: Tue, 27 Oct 2020 20:07:01 -0700
-Message-Id: <20201028030701.14086-8-j@getutm.app>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201028030701.14086-1-j@getutm.app>
-References: <20201028030701.14086-1-j@getutm.app>
+Subject: [PATCH 00/11] target/arm: Fix neon reg offsets
+Date: Tue, 27 Oct 2020 20:26:52 -0700
+Message-Id: <20201028032703.201526-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.215.193;
- envelope-from=osy86github@gmail.com; helo=mail-pg1-f193.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 23:07:13
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,50 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-will succeed with CONFIG_PREADV even when targeting a lower OS version. We
-therefore need to check at run time if we can actually use these APIs.
+Much of the existing usage of neon_reg_offset is broken for
+big-endian hosts, as it computes the offset of the first
+32-bit unit, not the offset of the entire vector register.
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
----
- block/file-posix.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Fix this by separating out the different usages.  Make the
+whole thing look a bit more like the aarch64 code.
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 5560fd20ac..b5a7ce483d 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1394,12 +1394,24 @@ static bool preadv_present = true;
- static ssize_t
- qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+        preadv_present = false;
-+        return -ENOSYS;
-+    } else
-+#endif
-     return preadv(fd, iov, nr_iov, offset);
- }
- 
- static ssize_t
- qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* pwritev introduced in macOS 11 */
-+    if (!__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+        preadv_present = false;
-+        return -ENOSYS;
-+    } else
-+#endif
-     return pwritev(fd, iov, nr_iov, offset);
- }
- 
+
+r~
+
+
+Richard Henderson (11):
+  target/arm: Introduce neon_full_reg_offset
+  target/arm: Move neon_element_offset to translate.c
+  target/arm: Use neon_element_offset in neon_load/store_reg
+  target/arm: Use neon_element_offset in vfp_reg_offset
+  target/arm: Add read/write_neon_element32
+  target/arm: Expand read/write_neon_element32 to all MemOp
+  target/arm: Rename neon_load_reg32 to vfp_load_reg32
+  target/arm: Add read/write_neon_element64
+  target/arm: Rename neon_load_reg64 to vfp_load_reg64
+  target/arm: Simplify do_long_3d and do_2scalar_long
+  target/arm: Improve do_prewiden_3d
+
+ target/arm/translate.c          | 153 ++++++++---
+ target/arm/translate-neon.c.inc | 464 +++++++++++++++++---------------
+ target/arm/translate-vfp.c.inc  | 341 ++++++++++-------------
+ 3 files changed, 510 insertions(+), 448 deletions(-)
+
 -- 
-2.28.0
+2.25.1
 
 
