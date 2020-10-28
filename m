@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF9429D077
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:56:12 +0100 (CET)
-Received: from localhost ([::1]:36378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5637E29D066
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 15:44:12 +0100 (CET)
+Received: from localhost ([::1]:48440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXmrz-0003m6-Vq
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:56:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38570)
+	id 1kXmgN-00052u-El
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 10:44:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=563b96974=alistair.francis@wdc.com>)
- id 1kXmpq-00023P-EZ; Wed, 28 Oct 2020 10:53:58 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:10520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=563b96974=alistair.francis@wdc.com>)
- id 1kXmpn-00038G-GB; Wed, 28 Oct 2020 10:53:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603896835; x=1635432835;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=MA3yZb5xZY5wksazZHFHCFmSDbZgG6ZtV5oqcwwv4MM=;
- b=R2YQx993dMumHJDWL7LSuOUogrpi1sZjwbOPMxLjgZ7IKAla8Pb6+THb
- dzZR2CQ5lBlCLPkzy8mkikrGU1LQ0+uxuGojAWDX2ZGCpuBqoUVSeukIT
- JWHKKEGdppgXBsch14M5Ard0h/lA3HSKm5KBaUxMEP0MbrG0iWyEMY/OD
- S/X3m1WgDQI2OlW59y6wWMgjtShqRA9HcsYqZOkKe5MI/PRMUEfHaa9Ti
- ikFs+Ssb3ydnmsIBytyoKt4zM+gj3BPNhyxueHPzXXyapWAVhJ0B2q/iw
- kgrhr8ZNUygLMVW3VdQ94T4+135g6a0GIvrZt+rkVwlfDs2X6AEChGMid w==;
-IronPort-SDR: 6pL8AiqHf3iv+QweqDinF+CTAb+vZNuSjqYyPz3Vx/YKK4XQzOFWQfpqeVfWeroTeqO8GgDBXZ
- X10cpOsPgBPb3NiN8M+N1HoMQDxn9tzluMflFUjO5BmRm35wGLdKf886T5ObBBTasNfXYXA78M
- I1WPzqhKJW+JWkPXEqmB3PgSgV2HIVT8Hy4z7IO0YfQ9T8SYRyBNXcEgb7o+V3F2leVrMYLdOk
- jy9RhQJ/q5VfxJCCmSb9s/LSmaUKELVcp6ixP8uyQenMMb3q2tJuJ9vIBz/+ErKQKngtWMhKf2
- pJw=
-X-IronPort-AV: E=Sophos;i="5.77,426,1596470400"; d="scan'208";a="151200411"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
- ([199.255.45.15])
- by ob1.hgst.iphmx.com with ESMTP; 28 Oct 2020 22:53:54 +0800
-IronPort-SDR: 0yTH+YFvA/jMpIwK00VLq6/g74+jr68HeU+osGZanO7i6bMwDgj6bH/fhieNqouHRrK5FpaYSR
- iGYtx42YjR/KOGkKV6JEzwOonLjBq+SAHs0FVS1P+jHvm84RPA8a6oesd//Lp6cu07l44k/G30
- nD+f/CSnkApSGIL3ZWoonXRHmxGIy/a0h+irLGcdSbaar+f0C3Ya+nGTEa50kQOqRUnuHlL+ku
- +AEPz5U2kVScusEH86U3eqZN1wMKtcmmEXWmm9i5xEf9GwWevMx39KH/vHVLsV2XTImo+wzq/K
- W6INN3aSEk//nqSgn5Euhxlo
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Oct 2020 07:39:03 -0700
-IronPort-SDR: 6S/4F7ZL2SwCZkpdD33pq5ZdjKg5zoPsXW6Fenq3cTXTa9ayJzR98Qhb4lwyOPrm5D57jAttrn
- O6MF9bisAelVRWUXZyVf6D2PBhv0nwSljzvyomSIzfC0XrWKVVoqedKzbn4rWSjXvti/54yGar
- YJVPAW0KSu+v/iD9kzqNyC/Rda+P1TX/z6ZcYUp0oAO9JxdREXOnQB6tHktsztlU9k9J5SMxaM
- X9HBsnp8+PlQEHiOONnuyf1TlsQzrUpaByEXO0gT6lWfp3xH2XhW/QIIPq8wnPMGDKdLjfSOda
- pu0=
-WDCIronportException: Internal
-Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.60.131])
- by uls-op-cesaip01.wdc.com with ESMTP; 28 Oct 2020 07:53:54 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2 4/5] target/riscv: Remove the hyp load and store functions
-Date: Wed, 28 Oct 2020 07:42:29 -0700
-Message-Id: <5ead43dea141994823a113a2e7f1494df12d32dd.1603896076.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <cover.1603896075.git.alistair.francis@wdc.com>
-References: <cover.1603896075.git.alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXmev-0004Te-Rz
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:42:41 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kXmeu-0001de-3m
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 10:42:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603896158;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aFCLjXrCbVDnSB06L+2FCYKJI5t/01be0QHHgg3oi1g=;
+ b=XHH4dA93O02CBJZ/RQgHS8yeLTj3EI81bgrRnSKhxSqp0Oo05KQxvepczSe5pg7M/wYZ6L
+ iokfm0VQgKLnvLWQ15BGBrH57sOduX9NKRkbFWqVHHR1PW6mELjy0UU0vaLo+1Dn8i5D9X
+ R54oCx+yxu2W/NcsT9PLHccgiXCehP8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-406-FlTAmPSBOkKEqrV-egdI9g-1; Wed, 28 Oct 2020 10:42:36 -0400
+X-MC-Unique: FlTAmPSBOkKEqrV-egdI9g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1615B1DDFB;
+ Wed, 28 Oct 2020 14:42:35 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-124.ams2.redhat.com [10.36.112.124])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E840B1974D;
+ Wed, 28 Oct 2020 14:42:32 +0000 (UTC)
+Subject: Re: [PATCH 7/9] ppc: silence the compiler warnings
+To: David Gibson <david@gibson.dropbear.id.au>,
+ Chen Qun <kuhn.chenqun@huawei.com>
+References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
+ <20201028041819.2169003-8-kuhn.chenqun@huawei.com>
+ <20201028042900.GC5604@yekko.fritz.box>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <ddcb887d-42ec-2021-1785-a6fb0d13d6b9@redhat.com>
+Date: Wed, 28 Oct 2020 15:42:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201028042900.GC5604@yekko.fritz.box>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=563b96974=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 10:53:43
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,396 +85,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, richard.henderson@linaro.org, bmeng.cn@gmail.com,
- palmer@dabbelt.com, alistair23@gmail.com
+Cc: zhang.zhanghailiang@huawei.com, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the special Virtulisation load and store functions and just use
-the standard tcg tcg_gen_qemu_ld_tl() and tcg_gen_qemu_st_tl() functions
-instead.
+On 28/10/2020 05.29, David Gibson wrote:
+> On Wed, Oct 28, 2020 at 12:18:17PM +0800, Chen Qun wrote:
+>> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
+>> hw/ppc/ppc.c: In function ‘ppc6xx_set_irq’:
+>> hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>>   118 |             if (level) {
+>>       |                ^
+>> hw/ppc/ppc.c:123:9: note: here
+>>   123 |         case PPC6xx_INPUT_INT:
+>>       |         ^~~~
+>>
+>> Add the corresponding "fall through" comment to fix it.
+>>
+>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> 
+> Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> 
+>> ---
+>> Cc: David Gibson <david@gibson.dropbear.id.au>
+>> ---
+>>  hw/ppc/ppc.c | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+>> index 4a11fb1640..f9eb8f21b4 100644
+>> --- a/hw/ppc/ppc.c
+>> +++ b/hw/ppc/ppc.c
+>> @@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int level)
+>>              } else {
+>>                  cpu_ppc_tb_stop(env);
+>>              }
+>> +            /* fall through */
+>>          case PPC6xx_INPUT_INT:
+>>              /* Level sensitive - active high */
+>>              LOG_IRQ("%s: set the external IRQ state to %d\n",
+> 
 
-As part of this change we ensure we still run an access check to make
-sure we can perform the operations.
+Is that fall through actually really the right thing to do here? I'd rather
+expect to see a PPC_INTERRUPT_DECR instead of a PPC_INTERRUPT_EXT in case
+someone messes with the TBEN pin? So I assume this is likely rather bug and
+we should a "break" statement here instead?
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/helper.h                   |   3 +-
- target/riscv/op_helper.c                |  72 +--------------
- target/riscv/insn_trans/trans_rvh.c.inc | 111 +++++++-----------------
- 3 files changed, 35 insertions(+), 151 deletions(-)
-
-diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index 4b690147fb..7dbdd117d2 100644
---- a/target/riscv/helper.h
-+++ b/target/riscv/helper.h
-@@ -81,8 +81,7 @@ DEF_HELPER_1(tlb_flush, void, env)
- #ifndef CONFIG_USER_ONLY
- DEF_HELPER_1(hyp_tlb_flush, void, env)
- DEF_HELPER_1(hyp_gvma_tlb_flush, void, env)
--DEF_HELPER_4(hyp_load, tl, env, tl, tl, tl)
--DEF_HELPER_5(hyp_store, void, env, tl, tl, tl, tl)
-+DEF_HELPER_1(hyp_access_check, void, env)
- DEF_HELPER_4(hyp_x_load, tl, env, tl, tl, tl)
- #endif
- 
-diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
-index 5759850e69..d81d8282cc 100644
---- a/target/riscv/op_helper.c
-+++ b/target/riscv/op_helper.c
-@@ -227,82 +227,12 @@ void helper_hyp_gvma_tlb_flush(CPURISCVState *env)
-     helper_hyp_tlb_flush(env);
- }
- 
--target_ulong helper_hyp_load(CPURISCVState *env, target_ulong address,
--                             target_ulong attrs, target_ulong memop)
-+void helper_hyp_access_check(CPURISCVState *env)
- {
-     if (env->priv == PRV_M ||
-         (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
-         (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
-             get_field(env->hstatus, HSTATUS_HU))) {
--        target_ulong pte;
--        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
--
--        switch (memop) {
--        case MO_SB:
--            pte = cpu_ldsb_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_UB:
--            pte = cpu_ldub_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_TESW:
--            pte = cpu_ldsw_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_TEUW:
--            pte = cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_TESL:
--            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_TEUL:
--            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        case MO_TEQ:
--            pte = cpu_ldq_mmuidx_ra(env, address, mmu_idx, GETPC());
--            break;
--        default:
--            g_assert_not_reached();
--        }
--
--        return pte;
--    }
--
--    if (riscv_cpu_virt_enabled(env)) {
--        riscv_raise_exception(env, RISCV_EXCP_VIRT_INSTRUCTION_FAULT, GETPC());
--    } else {
--        riscv_raise_exception(env, RISCV_EXCP_ILLEGAL_INST, GETPC());
--    }
--    return 0;
--}
--
--void helper_hyp_store(CPURISCVState *env, target_ulong address,
--                      target_ulong val, target_ulong attrs, target_ulong memop)
--{
--    if (env->priv == PRV_M ||
--        (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
--        (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
--            get_field(env->hstatus, HSTATUS_HU))) {
--        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
--
--        switch (memop) {
--        case MO_SB:
--        case MO_UB:
--            cpu_stb_mmuidx_ra(env, address, val, mmu_idx, GETPC());
--            break;
--        case MO_TESW:
--        case MO_TEUW:
--            cpu_stw_mmuidx_ra(env, address, val, mmu_idx, GETPC());
--            break;
--        case MO_TESL:
--        case MO_TEUL:
--            cpu_stl_mmuidx_ra(env, address, val, mmu_idx, GETPC());
--            break;
--        case MO_TEQ:
--            cpu_stq_mmuidx_ra(env, address, val, mmu_idx, GETPC());
--            break;
--        default:
--            g_assert_not_reached();
--        }
--
-         return;
-     }
- 
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-index 881c9ef4d2..79968701e9 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -22,20 +22,16 @@ static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_SB);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_SB);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -48,20 +44,16 @@ static bool trans_hlv_h(DisasContext *ctx, arg_hlv_h *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TESW);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESW);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -74,20 +66,16 @@ static bool trans_hlv_w(DisasContext *ctx, arg_hlv_w *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TESL);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESL);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -100,20 +88,16 @@ static bool trans_hlv_bu(DisasContext *ctx, arg_hlv_bu *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_UB);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_UB);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -126,20 +110,15 @@ static bool trans_hlv_hu(DisasContext *ctx, arg_hlv_hu *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
- 
--    gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TEUW);
-+    gen_helper_hyp_access_check(cpu_env);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    gen_get_gpr(t0, a->rs1);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEUW);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -152,20 +131,16 @@ static bool trans_hsv_b(DisasContext *ctx, arg_hsv_b *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv dat = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
-     gen_get_gpr(dat, a->rs2);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_SB);
- 
--    gen_helper_hyp_store(cpu_env, t0, dat, mem_idx, memop);
-+    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_SB);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(dat);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -178,20 +153,16 @@ static bool trans_hsv_h(DisasContext *ctx, arg_hsv_h *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv dat = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
-     gen_get_gpr(dat, a->rs2);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TESW);
- 
--    gen_helper_hyp_store(cpu_env, t0, dat, mem_idx, memop);
-+    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESW);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(dat);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -204,20 +175,16 @@ static bool trans_hsv_w(DisasContext *ctx, arg_hsv_w *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv dat = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
-     gen_get_gpr(dat, a->rs2);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TESL);
- 
--    gen_helper_hyp_store(cpu_env, t0, dat, mem_idx, memop);
-+    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESL);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(dat);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -231,20 +198,16 @@ static bool trans_hlv_wu(DisasContext *ctx, arg_hlv_wu *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TEUL);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEUL);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -257,20 +220,16 @@ static bool trans_hlv_d(DisasContext *ctx, arg_hlv_d *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TEQ);
- 
--    gen_helper_hyp_load(t1, cpu_env, t0, mem_idx, memop);
-+    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEQ);
-     gen_set_gpr(a->rd, t1);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(t1);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
-@@ -283,20 +242,16 @@ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
- #ifndef CONFIG_USER_ONLY
-     TCGv t0 = tcg_temp_new();
-     TCGv dat = tcg_temp_new();
--    TCGv mem_idx = tcg_temp_new();
--    TCGv memop = tcg_temp_new();
-+
-+    gen_helper_hyp_access_check(cpu_env);
- 
-     gen_get_gpr(t0, a->rs1);
-     gen_get_gpr(dat, a->rs2);
--    tcg_gen_movi_tl(mem_idx, ctx->mem_idx);
--    tcg_gen_movi_tl(memop, MO_TEQ);
- 
--    gen_helper_hyp_store(cpu_env, t0, dat, mem_idx, memop);
-+    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEQ);
- 
-     tcg_temp_free(t0);
-     tcg_temp_free(dat);
--    tcg_temp_free(mem_idx);
--    tcg_temp_free(memop);
-     return true;
- #else
-     return false;
--- 
-2.28.0
+ Thomas
 
 
