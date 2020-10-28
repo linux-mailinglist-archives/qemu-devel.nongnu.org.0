@@ -2,101 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F206A29CDDB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:35:11 +0100 (CET)
-Received: from localhost ([::1]:49876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7690F29CDD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:32:36 +0100 (CET)
+Received: from localhost ([::1]:41220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXdB1-00021h-0c
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:35:11 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45352)
+	id 1kXd8V-0006rQ-G7
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:32:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kXd70-0006TN-WB
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:31:04 -0400
-Received: from mail-bn7nam10on2057.outbound.protection.outlook.com
- ([40.107.92.57]:29409 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1kXd6y-0002sw-0O
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:31:02 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l3Rh1Q6dqLEM5Jc0tDyX2KKbbQLdyu6CANKKoixL2gf9YO4z82torcq0MGNSsJait6PmxGWeOxwGmDLs77Dlc5YxwZuzMxjQHWKS3YLifmhO6+kan3cq9vCK15mcD8wk47nXUTV1KJw3cyiEK2EKI7qEWst5OpBKjbN3izLBscyNxoxFqtAGzyTWvJhi1n58n13moeduYpEWJvsCOWpBV6EG12kozw5Ber2F8LWZ6q2LP67/2krSwctHDVX2aIOUp3paX8THnUunTBPZ5SEl398nUXOVIpKZOD/3lF78sc5vzICY6ZjcHhlFIzfRd1vQP8qcsG8FSX4PTs2/B0TW+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yVgGaifIsB2LmBbhLIsa0gpo+ygIW7Ra9Zka7IFtfO0=;
- b=g2WrHAglqAw3OhbnzbU1mN6DsCPC7HN2lqBuYcMuCt5JqFTmBdFOjhKke5hHrHHIIxWkPdqZnxVFtOeVHPu3v15vjtWpXjAZN8QFTnkdQqERbuLuMAdvykfDPhBndGFDpWm2Y3zMedBwaTmCY+Azt3hcUwWIPUdIJ7S3xsOzWs2msxl+Y3LCWCsQA3JxJtJHJYYyg9JffhpTT7T7yuJ2JiVNPhrXasmD7vBKJUceoVZxgtwXLB59FSsf2CkwsbV7lXUeJuPpRRe3Ao18HtmBRgY2ZT5sCbrL1PRjZ/RYfg4ZZCG7bKJBS8Mjj/ftmxV0bepS4fErU7bxrzFfMsY5cA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yVgGaifIsB2LmBbhLIsa0gpo+ygIW7Ra9Zka7IFtfO0=;
- b=l8hf11tWrAAGHWfS0wHpEOWpTx31YQy06h9uyxlZxIiBIHOsNB6kaZvn9qAqWFRIvmnSd8jFOSM+kmgLFg0GKQ1IRjfMdXYTHxlsk2KPUYCe/cQ+0cIUd5O5c8m2tr6ynMybfmWRaWYbYcVmwesjaN2NmYabMgGM8U7JX503yh4=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB6440.namprd02.prod.outlook.com (2603:10b6:a03:11f::33)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.28; Wed, 28 Oct
- 2020 04:15:54 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::75ed:4271:263b:fd15%3]) with mapi id 15.20.3499.018; Wed, 28 Oct 2020
- 04:15:54 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Subject: Help on TCG asserts
-Thread-Topic: Help on TCG asserts
-Thread-Index: Adas4QWfA8SUlpWfQnWvDi+N7i94TA==
-Date: Wed, 28 Oct 2020 04:15:53 +0000
-Message-ID: <BY5PR02MB677272B3B2FB297EFBDF20E2CA170@BY5PR02MB6772.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.128]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: ced82187-7ba2-4017-440d-08d87af82996
-x-ms-traffictypediagnostic: BYAPR02MB6440:
-x-microsoft-antispam-prvs: <BYAPR02MB6440EE42082AA441F729A5F8CA170@BYAPR02MB6440.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:983;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: mIP4p7Sd9gtcoHM2FO+kFOp7oxo+AW5Dgw2WooqvtM6CxGjB+h4ZjOmd58HXsmDXDVOOZtvADIYMfWuOlNOwulAyY461XvptepkBJx6YLYlD9dQ6hfpn3KcgATaGlmBSd4OwsNUQkyHmrpAIbvKSJtrNapQ/4tehEvQQp6uJXPiYSAiaGgbh6OcD+uoV//mn1RnKPbdNm0KFS19l3ZZ3v4uR7jrTq6u3CGPrBZphsTicXAJwBCKY769lXFyb7D4Bl6tFhqj/3sIHKesBo2i4mKdZlQTFn6x50aD6pgEKUyGjw8pZrdRkt8sZ5U6UZZaY
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(136003)(39850400004)(366004)(376002)(396003)(9326002)(6916009)(316002)(55016002)(5660300002)(9686003)(3480700007)(54906003)(52536014)(66946007)(4744005)(76116006)(33656002)(2906002)(71200400001)(8936002)(8676002)(86362001)(66556008)(66476007)(26005)(186003)(478600001)(7696005)(66446008)(64756008)(6506007)(4326008);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: 4l0N6ADpYszqUcKWfVfEpZT27k+R3E8Fyy+Cm/ddKrj5oju8dcGcqChVQ3sCltiJbKt2ICdA3/VzCYFIODGCeS5D6V8g7eQj9j75mkNqp3bDiBWCqCI2c+MzGKJxY/nKBTBrniuubHhObPW5SnrqQHb+HRE1EfHUfJ313BcTzZesAwtNpQEp0dvpvH0eqBsRHXN666xeIQG5nvPPuFAihOYsg1xkqdD/wxWZDFl8fl+K5jRF+QJSbh9B+wLX2wLUCJeNvS6FYZcoDusaw1FuqV2RWwn/Z6zE3g3Aq29zTYDL4AqqZMSkS7Sx/Fw9hyFSXwYzsZzAQUtHapmlJT+GLYXAvMjqpb0+52ZFB2SyjCIyCCmU+5pPy1OfYNkK4bTadAujvHK3C8D3HfIfhzvVlAEiRT1adIgwfGTKjtI5ChUnwZBs7WMpQOZnD+t3tGs+CpmN/20dkUbbHj96urnH3cn6s0Dskrg2rbmHxPeuDbIHcaEVZQM4sUa4xX0XMqhQR3hDPgWXgxGUo02+r5HiLEZHVPGAlQRsq2L1VnstNzhWdSShtNjYtLxE11q3gKNUcqoCDlYGMSwsfnqWHRGvUFBKv670PTEl05+mQ2IUjVlQ8+4BEJIgReua7/QWYkZByjxDwicIRJ0/TEOq8G3oGw==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_BY5PR02MB677272B3B2FB297EFBDF20E2CA170BY5PR02MB6772namp_"
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1kXcvy-0002MS-DW
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:19:38 -0400
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:39376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
+ id 1kXcvv-0007iw-CR
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 00:19:38 -0400
+Received: by mail-pl1-x62f.google.com with SMTP id x23so1859172plr.6
+ for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 21:19:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=NqSlhqO1SH+gCoNRqxBggtPlmPt4MY4GpVeFW7/086E=;
+ b=dCusFflHQzR2SJxViMYl2PphM2qyJQlLv9HRbVP0+KZrbCDHSUKo5sYmpbnW67xhg8
+ WEOJ876GMmTm6YXy8OSie5yYklExMguQuu3KSobiw/4aKcBe7+o88XIhLrogx4Z5uOPn
+ 2VUQXbiF/Hz0OWX+9nTQANBjNG5dWzOstii25yG4i6Ejc3ZcTqkcuAf89VCWs0g7wyU8
+ 9MTdz3+ABCWj4g2NjBffQBmuQs2scUhAt4iWgYpo600oDxIEZh61ZspjMKn01KCkjykS
+ quA6D2AHOEwBi72TNlJu96L00jkrWpzlLbNX6ApaFDXUl2ZkPHlil0+lade/IwhEVkxG
+ vnYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=NqSlhqO1SH+gCoNRqxBggtPlmPt4MY4GpVeFW7/086E=;
+ b=iAoxr0iw1zUcqus1utYtOB1iOdRFH0ur6o7gkfc3AiuJWB9CGqhHdjepHDKedeZG54
+ 9Fzpk/ELqztjTT8IEClYO/BJtm1qRhPS1z7tTEPLq7Lub/3D87sZChZnoWQsM7MSB6Qe
+ E06NCra4kZV0UkQJYbVkGivOyKXnn07q554+zYXF/heH94ykveie1dHAiaQHZ9j5se0F
+ hmFMp45kK9gXYY9Jj1QhzIeCq9lY9lO1PgD0lHf0c+HQvfx75PVGlVXOsawjmbUfbXvM
+ 8Adsq2uAW7JEC9WLsFSch7eAoG4HF8biV1SSSmrkQ/+shz5j6fqgSOElQrfjP/DMb9kb
+ JPNw==
+X-Gm-Message-State: AOAM5335F+saNsUEzdxifAUrY/5yjc5jcd5UpVqUTLqhhIGL0SJeFCat
+ 4nXBHU+SOUFSSPKQyUOn3VQ=
+X-Google-Smtp-Source: ABdhPJzk+zlfl2HUdVu7GeEFFkOIRTkBJsgBPV1PSrGHzW6O9zNs6k6ADtn4qWAIIhEvYzNPg5RAGw==
+X-Received: by 2002:a17:902:8c8b:b029:d2:42fe:370a with SMTP id
+ t11-20020a1709028c8bb02900d242fe370amr5467530plo.83.1603858773862; 
+ Tue, 27 Oct 2020 21:19:33 -0700 (PDT)
+Received: from software.domain.org ([45.77.13.216])
+ by smtp.gmail.com with ESMTPSA id x10sm3882040pfc.88.2020.10.27.21.19.29
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 27 Oct 2020 21:19:33 -0700 (PDT)
+From: Huacai Chen <zltjiangshi@gmail.com>
+X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
+Subject: [PATCH V15 4/6] hw/mips: Add Loongson-3 boot parameter helpers
+Date: Wed, 28 Oct 2020 12:18:02 +0800
+Message-Id: <1603858685-30701-5-git-send-email-chenhc@lemote.com>
+X-Mailer: git-send-email 2.7.0
+In-Reply-To: <1603858685-30701-1-git-send-email-chenhc@lemote.com>
+References: <1603858685-30701-1-git-send-email-chenhc@lemote.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ced82187-7ba2-4017-440d-08d87af82996
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2020 04:15:54.0420 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: N+t2XMJ9Y1hXVHx8VHCsviCo47gcsOdkI7eYTwlfeJ4/goIYyIhDhtDn9Njn4tQU+2JeTcYJcz3tR3te39E1mg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB6440
-Received-SPF: pass client-ip=40.107.92.57; envelope-from=saipava@xilinx.com;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 00:30:57
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x62f.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,121 +88,459 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_BY5PR02MB677272B3B2FB297EFBDF20E2CA170BY5PR02MB6772namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
+UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
 
-Hi,
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Huacai Chen <chenhc@lemote.com>
+Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ hw/mips/loongson3_bootp.c | 165 +++++++++++++++++++++++++++++++
+ hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++++++++++
+ hw/mips/meson.build       |   1 +
+ 3 files changed, 407 insertions(+)
+ create mode 100644 hw/mips/loongson3_bootp.c
+ create mode 100644 hw/mips/loongson3_bootp.h
 
-Need some help on a qemu crash we are facing.
+diff --git a/hw/mips/loongson3_bootp.c b/hw/mips/loongson3_bootp.c
+new file mode 100644
+index 0000000..fc62d04
+--- /dev/null
++++ b/hw/mips/loongson3_bootp.c
+@@ -0,0 +1,165 @@
++/*
++ * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters) helpers
++ *
++ * Copyright (c) 2018-2020 Huacai Chen (chenhc@lemote.com)
++ * Copyright (c) 2018-2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/units.h"
++#include "qemu/cutils.h"
++#include "cpu.h"
++#include "hw/boards.h"
++#include "hw/mips/loongson3_bootp.h"
++
++#define LOONGSON3_CORE_PER_NODE 4
++
++static struct efi_cpuinfo_loongson *init_cpu_info(void *g_cpuinfo, uint64_t cpu_freq)
++{
++    struct efi_cpuinfo_loongson *c = g_cpuinfo;
++
++    stl_le_p(&c->cputype, Loongson_3A);
++    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
++    if (cpu_freq > UINT_MAX) {
++        stl_le_p(&c->cpu_clock_freq, UINT_MAX);
++    } else {
++        stl_le_p(&c->cpu_clock_freq, cpu_freq);
++    }
++
++    stw_le_p(&c->cpu_startup_core_id, 0);
++    stl_le_p(&c->nr_cpus, current_machine->smp.cpus);
++    stl_le_p(&c->total_node, DIV_ROUND_UP(current_machine->smp.cpus,
++                                          LOONGSON3_CORE_PER_NODE));
++
++    return c;
++}
++
++static struct efi_memory_map_loongson *init_memory_map(void *g_map, uint64_t ram_size)
++{
++    struct efi_memory_map_loongson *emap = g_map;
++
++    stl_le_p(&emap->nr_map, 2);
++    stl_le_p(&emap->mem_freq, 300000000);
++
++    stl_le_p(&emap->map[0].node_id, 0);
++    stl_le_p(&emap->map[0].mem_type, 1);
++    stq_le_p(&emap->map[0].mem_start, 0x0);
++    stl_le_p(&emap->map[0].mem_size, 240);
++
++    stl_le_p(&emap->map[1].node_id, 0);
++    stl_le_p(&emap->map[1].mem_type, 2);
++    stq_le_p(&emap->map[1].mem_start, 0x90000000);
++    stl_le_p(&emap->map[1].mem_size, (ram_size / MiB) - 256);
++
++    return emap;
++}
++
++static struct system_loongson *init_system_loongson(void *g_system)
++{
++    struct system_loongson *s = g_system;
++
++    stl_le_p(&s->ccnuma_smp, 0);
++    stl_le_p(&s->sing_double_channel, 1);
++    stl_le_p(&s->nr_uarts, 1);
++    stl_le_p(&s->uarts[0].iotype, 2);
++    stl_le_p(&s->uarts[0].int_offset, 2);
++    stl_le_p(&s->uarts[0].uartclk, 25000000); /* Random value */
++    stq_le_p(&s->uarts[0].uart_base, virt_memmap[VIRT_UART].base);
++
++    return s;
++}
++
++static struct irq_source_routing_table *init_irq_source(void *g_irq_source)
++{
++    struct irq_source_routing_table *irq_info = g_irq_source;
++
++    stl_le_p(&irq_info->node_id, 0);
++    stl_le_p(&irq_info->PIC_type, 0);
++    stw_le_p(&irq_info->dma_mask_bits, 64);
++    stq_le_p(&irq_info->pci_mem_start_addr, virt_memmap[VIRT_PCIE_MMIO].base);
++    stq_le_p(&irq_info->pci_mem_end_addr, virt_memmap[VIRT_PCIE_MMIO].base +
++                                          virt_memmap[VIRT_PCIE_MMIO].size - 1);
++    stq_le_p(&irq_info->pci_io_start_addr, virt_memmap[VIRT_PCIE_PIO].base);
++
++    return irq_info;
++}
++
++static struct interface_info *init_interface_info(void *g_interface)
++{
++    struct interface_info *interface = g_interface;
++
++    stw_le_p(&interface->vers, 0x01);
++    strpadcpy(interface->description, 64, "UEFI_Version_v1.0", '\0');
++
++    return interface;
++}
++
++static struct board_devices *board_devices_info(void *g_board)
++{
++    struct board_devices *bd = g_board;
++
++    strpadcpy(bd->name, 64, "Loongson-3A-VIRT-1w-V1.00-demo", '\0');
++
++    return bd;
++}
++
++static struct loongson_special_attribute *init_special_info(void *g_special)
++{
++    struct loongson_special_attribute *special = g_special;
++
++    strpadcpy(special->special_name, 64, "2018-01-01", '\0');
++
++    return special;
++}
++
++void init_loongson_params(struct loongson_params *lp, void *p,
++                          uint64_t cpu_freq, uint64_t ram_size)
++{
++    stq_le_p(&lp->cpu_offset,
++              (uintptr_t)init_cpu_info(p, cpu_freq) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct efi_cpuinfo_loongson), 64);
++
++    stq_le_p(&lp->memory_offset,
++              (uintptr_t)init_memory_map(p, ram_size) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct efi_memory_map_loongson), 64);
++
++    stq_le_p(&lp->system_offset,
++              (uintptr_t)init_system_loongson(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct system_loongson), 64);
++
++    stq_le_p(&lp->irq_offset,
++              (uintptr_t)init_irq_source(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct irq_source_routing_table), 64);
++
++    stq_le_p(&lp->interface_offset,
++              (uintptr_t)init_interface_info(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct interface_info), 64);
++
++    stq_le_p(&lp->boarddev_table_offset,
++              (uintptr_t)board_devices_info(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct board_devices), 64);
++
++    stq_le_p(&lp->special_offset,
++              (uintptr_t)init_special_info(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct loongson_special_attribute), 64);
++}
++
++void init_reset_system(struct efi_reset_system_t *reset)
++{
++    stq_le_p(&reset->Shutdown, 0xffffffffbfc000a8);
++    stq_le_p(&reset->ResetCold, 0xffffffffbfc00080);
++    stq_le_p(&reset->ResetWarm, 0xffffffffbfc00080);
++}
+diff --git a/hw/mips/loongson3_bootp.h b/hw/mips/loongson3_bootp.h
+new file mode 100644
+index 0000000..bf4fd8c
+--- /dev/null
++++ b/hw/mips/loongson3_bootp.h
+@@ -0,0 +1,241 @@
++/*
++ * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters) data structrues
++ * defined at arch/mips/include/asm/mach-loongson64/boot_param.h in Linux kernel
++ *
++ * Copyright (c) 2017-2020 Huacai Chen (chenhc@lemote.com)
++ * Copyright (c) 2017-2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ *
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
++ */
++
++#ifndef HW_MIPS_LOONGSON3_BOOTP_H
++#define HW_MIPS_LOONGSON3_BOOTP_H
++
++struct efi_memory_map_loongson {
++    uint16_t vers;               /* version of efi_memory_map */
++    uint32_t nr_map;             /* number of memory_maps */
++    uint32_t mem_freq;           /* memory frequence */
++    struct mem_map {
++        uint32_t node_id;        /* node_id which memory attached to */
++        uint32_t mem_type;       /* system memory, pci memory, pci io, etc. */
++        uint64_t mem_start;      /* memory map start address */
++        uint32_t mem_size;       /* each memory_map size, not the total size */
++    } map[128];
++} QEMU_PACKED;
++
++enum loongson_cpu_type {
++    Legacy_2E = 0x0,
++    Legacy_2F = 0x1,
++    Legacy_3A = 0x2,
++    Legacy_3B = 0x3,
++    Legacy_1A = 0x4,
++    Legacy_1B = 0x5,
++    Legacy_2G = 0x6,
++    Legacy_2H = 0x7,
++    Loongson_1A = 0x100,
++    Loongson_1B = 0x101,
++    Loongson_2E = 0x200,
++    Loongson_2F = 0x201,
++    Loongson_2G = 0x202,
++    Loongson_2H = 0x203,
++    Loongson_3A = 0x300,
++    Loongson_3B = 0x301
++};
++
++/*
++ * Capability and feature descriptor structure for MIPS CPU
++ */
++struct efi_cpuinfo_loongson {
++    uint16_t vers;               /* version of efi_cpuinfo_loongson */
++    uint32_t processor_id;       /* PRID, e.g. 6305, 6306 */
++    uint32_t cputype;            /* Loongson_3A/3B, etc. */
++    uint32_t total_node;         /* num of total numa nodes */
++    uint16_t cpu_startup_core_id;   /* Boot core id */
++    uint16_t reserved_cores_mask;
++    uint32_t cpu_clock_freq;     /* cpu_clock */
++    uint32_t nr_cpus;
++    char cpuname[64];
++} QEMU_PACKED;
++
++#define MAX_UARTS 64
++struct uart_device {
++    uint32_t iotype;
++    uint32_t uartclk;
++    uint32_t int_offset;
++    uint64_t uart_base;
++} QEMU_PACKED;
++
++#define MAX_SENSORS 64
++#define SENSOR_TEMPER  0x00000001
++#define SENSOR_VOLTAGE 0x00000002
++#define SENSOR_FAN     0x00000004
++struct sensor_device {
++    char name[32];  /* a formal name */
++    char label[64]; /* a flexible description */
++    uint32_t type;       /* SENSOR_* */
++    uint32_t id;         /* instance id of a sensor-class */
++    uint32_t fan_policy; /* step speed or constant speed */
++    uint32_t fan_percent;/* only for constant speed policy */
++    uint64_t base_addr;  /* base address of device registers */
++} QEMU_PACKED;
++
++struct system_loongson {
++    uint16_t vers;               /* version of system_loongson */
++    uint32_t ccnuma_smp;         /* 0: no numa; 1: has numa */
++    uint32_t sing_double_channel;/* 1: single; 2: double */
++    uint32_t nr_uarts;
++    struct uart_device uarts[MAX_UARTS];
++    uint32_t nr_sensors;
++    struct sensor_device sensors[MAX_SENSORS];
++    char has_ec;
++    char ec_name[32];
++    uint64_t ec_base_addr;
++    char has_tcm;
++    char tcm_name[32];
++    uint64_t tcm_base_addr;
++    uint64_t workarounds;
++    uint64_t of_dtb_addr; /* NULL if not support */
++} QEMU_PACKED;
++
++struct irq_source_routing_table {
++    uint16_t vers;
++    uint16_t size;
++    uint16_t rtr_bus;
++    uint16_t rtr_devfn;
++    uint32_t vendor;
++    uint32_t device;
++    uint32_t PIC_type;           /* conform use HT or PCI to route to CPU-PIC */
++    uint64_t ht_int_bit;         /* 3A: 1<<24; 3B: 1<<16 */
++    uint64_t ht_enable;          /* irqs used in this PIC */
++    uint32_t node_id;            /* node id: 0x0-0; 0x1-1; 0x10-2; 0x11-3 */
++    uint64_t pci_mem_start_addr;
++    uint64_t pci_mem_end_addr;
++    uint64_t pci_io_start_addr;
++    uint64_t pci_io_end_addr;
++    uint64_t pci_config_addr;
++    uint16_t dma_mask_bits;
++    uint16_t dma_noncoherent;
++} QEMU_PACKED;
++
++struct interface_info {
++    uint16_t vers;               /* version of the specificition */
++    uint16_t size;
++    uint8_t  flag;
++    char description[64];
++} QEMU_PACKED;
++
++#define MAX_RESOURCE_NUMBER 128
++struct resource_loongson {
++    uint64_t start;              /* resource start address */
++    uint64_t end;                /* resource end address */
++    char name[64];
++    uint32_t flags;
++};
++
++struct archdev_data {};          /* arch specific additions */
++
++struct board_devices {
++    char name[64];               /* hold the device name */
++    uint32_t num_resources;      /* number of device_resource */
++    /* for each device's resource */
++    struct resource_loongson resource[MAX_RESOURCE_NUMBER];
++    /* arch specific additions */
++    struct archdev_data archdata;
++};
++
++struct loongson_special_attribute {
++    uint16_t vers;               /* version of this special */
++    char special_name[64];       /* special_atribute_name */
++    uint32_t loongson_special_type; /* type of special device */
++    /* for each device's resource */
++    struct resource_loongson resource[MAX_RESOURCE_NUMBER];
++};
++
++struct loongson_params {
++    uint64_t memory_offset;      /* efi_memory_map_loongson struct offset */
++    uint64_t cpu_offset;         /* efi_cpuinfo_loongson struct offset */
++    uint64_t system_offset;      /* system_loongson struct offset */
++    uint64_t irq_offset;         /* irq_source_routing_table struct offset */
++    uint64_t interface_offset;   /* interface_info struct offset */
++    uint64_t special_offset;     /* loongson_special_attribute struct offset */
++    uint64_t boarddev_table_offset;  /* board_devices offset */
++};
++
++struct smbios_tables {
++    uint16_t vers;               /* version of smbios */
++    uint64_t vga_bios;           /* vga_bios address */
++    struct loongson_params lp;
++};
++
++struct efi_reset_system_t {
++    uint64_t ResetCold;
++    uint64_t ResetWarm;
++    uint64_t ResetType;
++    uint64_t Shutdown;
++    uint64_t DoSuspend; /* NULL if not support */
++};
++
++struct efi_loongson {
++    uint64_t mps;                /* MPS table */
++    uint64_t acpi;               /* ACPI table (IA64 ext 0.71) */
++    uint64_t acpi20;             /* ACPI table (ACPI 2.0) */
++    struct smbios_tables smbios; /* SM BIOS table */
++    uint64_t sal_systab;         /* SAL system table */
++    uint64_t boot_info;          /* boot info table */
++};
++
++struct boot_params {
++    struct efi_loongson efi;
++    struct efi_reset_system_t reset_system;
++};
++
++/* Overall MMIO & Memory layout */
++enum {
++    VIRT_LOWMEM,
++    VIRT_PM,
++    VIRT_FW_CFG,
++    VIRT_RTC,
++    VIRT_PCIE_PIO,
++    VIRT_PCIE_ECAM,
++    VIRT_BIOS_ROM,
++    VIRT_UART,
++    VIRT_LIOINTC,
++    VIRT_PCIE_MMIO,
++    VIRT_HIGHMEM
++};
++
++/* Low MEM layout for QEMU kernel loader */
++enum {
++    LOADER_KERNEL,
++    LOADER_INITRD,
++    LOADER_CMDLINE
++};
++
++/* BIOS ROM layout for QEMU kernel loader */
++enum {
++    LOADER_BOOTROM,
++    LOADER_PARAM,
++};
++
++struct MemmapEntry {
++    hwaddr base;
++    hwaddr size;
++};
++
++extern const struct MemmapEntry virt_memmap[];
++void init_loongson_params(struct loongson_params *lp, void *p,
++                          uint64_t cpu_freq, uint64_t ram_size);
++void init_reset_system(struct efi_reset_system_t *reset);
++
++#endif
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index c98391c..802e5e4 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,6 +1,7 @@
+ mips_ss = ss.source_set()
+ mips_ss.add(files('addr.c', 'mips_int.c', 'fw_cfg.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
++mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c'))
+ mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
+ mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
+ mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
+-- 
+2.7.0
 
-We hit asserts on below line
-
-"tcg/tcg.c"
-336 static void set_jmp_reset_offset(TCGContext *s, int which)
-             337 {
-             338     size_t off =3D tcg_current_code_size(s);
-             339     s->tb_jmp_reset_offset[which] =3D off;
-             340     /* Make sure that we didn't overflow the stored offset=
-.  */
-      >>> 341     assert(s->tb_jmp_reset_offset[which] =3D=3D off);
-             342 }
-
-Can anyone give some color on what to look out for. As I see, tcg seems to =
-have some restriction of code size it could handle, but I'm confused how to=
- control that in qemu.
-
-Regards,
-Sai Pavan
-
-
---_000_BY5PR02MB677272B3B2FB297EFBDF20E2CA170BY5PR02MB6772namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Need some help on a qemu crash we are facing.<o:p></=
-o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We hit asserts on below line<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">&quot;tcg/tcg.c&quot;<o:p></o:p></p>
-<p class=3D"MsoNormal">336 static void set_jmp_reset_offset(TCGContext *s, =
-int which)<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; 337 {<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; 338&nbsp;&nbsp;&nbsp;&nbsp; size_t off =3D tcg_current=
-_code_size(s);<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; 339&nbsp;&nbsp;&nbsp;&nbsp; s-&gt;tb_jmp_reset_offset[=
-which] =3D off;<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; 340&nbsp;&nbsp;&nbsp;&nbsp; /* Make sure that we didn'=
-t overflow the stored offset.&nbsp; */<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt; 341=
-&nbsp;&nbsp;&nbsp;&nbsp; assert(s-&gt;tb_jmp_reset_offset[which] =3D=3D off=
-);<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; 342 }<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Can anyone give some color on what to look out for. =
-As I see, tcg seems to have some restriction of code size it could handle, =
-but I&#8217;m confused how to control that in qemu.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Regards,<br>
-Sai Pavan<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_BY5PR02MB677272B3B2FB297EFBDF20E2CA170BY5PR02MB6772namp_--
 
