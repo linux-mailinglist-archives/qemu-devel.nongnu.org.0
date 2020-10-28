@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5C229CF1D
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 10:08:28 +0100 (CET)
-Received: from localhost ([::1]:36376 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62AA29CF1C
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 10:08:27 +0100 (CET)
+Received: from localhost ([::1]:36366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXhRT-00027k-ET
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 05:08:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47474)
+	id 1kXhRS-00027Z-PQ
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 05:08:26 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kXhQC-0000mB-CX; Wed, 28 Oct 2020 05:07:08 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2056)
+ id 1kXhQC-0000mC-Ev; Wed, 28 Oct 2020 05:07:08 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kXhQ9-0002mj-PL; Wed, 28 Oct 2020 05:07:07 -0400
+ id 1kXhQ9-0002mi-Nf; Wed, 28 Oct 2020 05:07:08 -0400
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CLjPX5F9jzhbXN;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CLjPX4sjCzhbQF;
  Wed, 28 Oct 2020 17:06:56 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Wed, 28 Oct 2020
  17:06:43 +0800
 From: jokenzhang <zhangxinhao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 2/3] hw/9pfs : open brace '{' following struct go on the same
- line
-Date: Wed, 28 Oct 2020 17:05:39 +0800
-Message-ID: <20201028090540.1070935-2-zhangxinhao1@huawei.com>
+Subject: [PATCH 3/3] hw/9pfs : add space before the open parenthesis '('
+Date: Wed, 28 Oct 2020 17:05:40 +0800
+Message-ID: <20201028090540.1070935-3-zhangxinhao1@huawei.com>
 X-Mailer: git-send-email 2.29.0-rc1
 In-Reply-To: <20201028090540.1070935-1-zhangxinhao1@huawei.com>
 References: <20201028090540.1070935-1-zhangxinhao1@huawei.com>
@@ -67,43 +66,22 @@ Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
 Reported-by: Euler Robot <euler.robot@huawei.com>
 ---
- hw/9pfs/9p.h | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ hw/9pfs/cofs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 3dd1b50b1a..32df81f360 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -143,8 +143,7 @@ typedef struct {
-  */
- QEMU_BUILD_BUG_ON(sizeof(P9MsgHeader) != 7);
+diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
+index 55991916ec..0b321b456e 100644
+--- a/hw/9pfs/cofs.c
++++ b/hw/9pfs/cofs.c
+@@ -23,7 +23,7 @@ static ssize_t __readlink(V9fsState *s, V9fsPath *path, V9fsString *buf)
+     ssize_t len, maxlen = PATH_MAX;
  
--struct V9fsPDU
--{
-+struct V9fsPDU {
-     uint32_t size;
-     uint16_t tag;
-     uint8_t id;
-@@ -270,8 +269,7 @@ union V9fsFidOpenState {
-     void *private;
- };
- 
--struct V9fsFidState
--{
-+struct V9fsFidState {
-     int fid_type;
-     int32_t fid;
-     V9fsPath path;
-@@ -338,8 +336,7 @@ typedef struct {
-     uint64_t path;
- } QpfEntry;
- 
--struct V9fsState
--{
-+struct V9fsState {
-     QLIST_HEAD(, V9fsPDU) free_list;
-     QLIST_HEAD(, V9fsPDU) active_list;
-     V9fsFidState *fid_list;
+     buf->data = g_malloc(PATH_MAX);
+-    for(;;) {
++    for (;;) {
+         len = s->ops->readlink(&s->ctx, path, buf->data, maxlen);
+         if (len < 0) {
+             g_free(buf->data);
 -- 
 2.29.0-rc1
 
