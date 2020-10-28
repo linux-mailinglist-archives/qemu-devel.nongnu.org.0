@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4145529D0D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:50:28 +0100 (CET)
-Received: from localhost ([::1]:59064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 215BA29D0DC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:53:19 +0100 (CET)
+Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXniV-0002Qy-Aj
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:50:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52140)
+	id 1kXnlG-0005Gi-6B
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:53:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnfX-0000Z9-Nj
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:47:24 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21043)
+ id 1kXnfr-0000qM-Q2
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:47:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kXnfW-00025x-7T
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:47:23 -0400
+ id 1kXnfn-00028B-9r
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:47:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603900041;
+ s=mimecast20190719; t=1603900058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+7+r/MVbUUkcSDO9Pfc2yJsqzO2Ke2q9CNd0Q0TETjM=;
- b=FJSRNRNvmpubssyFy4UnOlYRB3Xz1rUzL5CcR/AXVaqVvCnAA+Hol6q6f8VOU4q0fwDQpG
- BJReH9C5kuJi1ojKEAZVdo5+MOCh/sEJWJ0O80lGfz/e9yMfvou94G2aU6ybJnQnR4fxwH
- xqzfp7BBBjHKW+7t/T527ZbzGTj33wI=
+ bh=8HnnDdqE3plvZD8pA3j33jsUmch4zl9C1a9Dtf+4osY=;
+ b=Qv0I/ctnoQsrQupZWQQ2fVtKNEKVCS9cP/EI5ffgRmJtvusUfbEMKtX18VoPdcFLplfX/g
+ b3pGp3eZ6wLAdZUZXPsoeIF+b/CJ2v8Nogoloeg1KdysHIRtJydp79jHxNpkZ+NE+vMj8l
+ a7JGBomfowGY8IaBzaDjfs01o3XC51w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-H5AZqnGeNdeznb_GDaSGXA-1; Wed, 28 Oct 2020 11:47:17 -0400
-X-MC-Unique: H5AZqnGeNdeznb_GDaSGXA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-543-rdhMTWIlO8iIaF2TrfCEfg-1; Wed, 28 Oct 2020 11:47:36 -0400
+X-MC-Unique: rdhMTWIlO8iIaF2TrfCEfg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA0EB186DD40;
- Wed, 28 Oct 2020 15:47:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1640380B723;
+ Wed, 28 Oct 2020 15:47:35 +0000 (UTC)
 Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3435755779;
- Wed, 28 Oct 2020 15:47:15 +0000 (UTC)
-Date: Wed, 28 Oct 2020 15:47:14 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C2E2A6198B;
+ Wed, 28 Oct 2020 15:47:26 +0000 (UTC)
+Date: Wed, 28 Oct 2020 15:47:25 +0000
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 01/25] MAINTAINERS: Cover 'block/nvme.h' file
-Message-ID: <20201028154714.GS231368@stefanha-x1.localdomain>
+Subject: Re: [PATCH 02/25] block/nvme: Use hex format to display offset in
+ trace events
+Message-ID: <20201028154725.GT231368@stefanha-x1.localdomain>
 References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-2-philmd@redhat.com>
+ <20201027135547.374946-3-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201027135547.374946-2-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201027135547.374946-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yBTw3iMQSKDA2CaE"
+ protocol="application/pgp-signature"; boundary="Lh1tzOZp3jg2TtWy"
 Content-Disposition: inline
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,46 +84,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Klaus Jensen <its@irrelevant.dk>
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---yBTw3iMQSKDA2CaE
+--Lh1tzOZp3jg2TtWy
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Oct 27, 2020 at 02:55:23PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The "block/nvme.h" header is shared by both the NVMe block
-> driver and the NVMe emulated device. Add the 'F:' entry on
-> both sections, so all maintainers/reviewers are notified
-> when it is changed.
+On Tue, Oct 27, 2020 at 02:55:24PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Use the same format used for the hw/vfio/ trace events.
 >=20
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> Suggested-by: Eric Auger <eric.auger@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 > ---
->  MAINTAINERS | 2 ++
->  1 file changed, 2 insertions(+)
+>  block/trace-events | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
 
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
---yBTw3iMQSKDA2CaE
+--Lh1tzOZp3jg2TtWy
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ZkoIACgkQnKSrs4Gr
-c8hiqQgAi18CoBvLRGWbnJyR4RWLk+3N+Ikq/w1+tGLtyxlELfrHHI2pkRkqwUeB
-t0eil8gbHffRg8iou+pkP/kROdutkZyP1R7re6IpxuVZIKdiATWUHj+mIwV+BXAj
-P/LoT7tDtkDP7b/++9vgz4rX4jWHfYxMpHFHBHToAn0kpeH0FUy7m62MXZEqlcpT
-7ZGkUwsy4GwmPgqHGUXxbk1SLne4wULL7/EcwMq3j7nLHAo/1/Mp20AWZXw1VD0D
-aexnDCbEwpyW2Bah5A6wg4RgHiBJcHBrL7WBXRD+Shgj1IgcroMsR795e84KUiZy
-sMMr36gIx6D26U+c60BHuWF9nRhe0Q==
-=10cY
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+Zko0ACgkQnKSrs4Gr
+c8jdUwf/VqqdzeV41ZqSTaPmJco/IjCCJCLqZdNvMIutLsoTirKiFtpjDXuq5Yw9
+XvZ9d/LRaaJTc2iRrjNGCVrlfUzccs9XHh+ZY7Hgh0+G1GTRMhXt1bMRRyT1ITUs
+mrdbMIoy1t/jjL0258bOx2qn8i5HpgcP6By1r0QAm2AKbu1dzG99YOmhVeSC4eLG
+G4ZbjjDeqRrbyha6vDLmkkcYApOXb2Ar+FYym0LaSGVCmwo6t+ykkWkBNSIgBsw6
+gCh1aijR686Zpz2jD95VoNABwLQF20SycJ8iAnSnVVOoIxUaIsHWsVQLeY5veA4E
+ysj/f84SkhExlqMvKzgkfVRLiO4UoQ==
+=lv1g
 -----END PGP SIGNATURE-----
 
---yBTw3iMQSKDA2CaE--
+--Lh1tzOZp3jg2TtWy--
 
 
