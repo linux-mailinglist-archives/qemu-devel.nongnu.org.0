@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0FF29D0BB
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:32:38 +0100 (CET)
-Received: from localhost ([::1]:39824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA2429D0BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 16:37:19 +0100 (CET)
+Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXnRF-0007Sp-CO
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:32:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46170)
+	id 1kXnVm-00028x-7L
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 11:37:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
- id 1kXnIZ-0006zM-O0
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:23:39 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32270)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXnPQ-0007NL-8k
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:30:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
- id 1kXnIX-00071X-TV
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:23:39 -0400
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kXnPJ-000895-3I
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 11:30:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603898616;
+ s=mimecast20190719; t=1603899035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=lfY6OhC30XlnKIFtlJz6TSAvke+GkxhljhSyQ5d9N/8=;
- b=gdPLBUry6TfQHsIsL1bmyuRG+lDN70FRNjvWlmUZgoZDpAjaolAM2wZhKw3Otc5LY8U/ra
- 1wmllYiKHKRLK2NidAWeEBx3/jEwjuIEBiCnSbqBhHnxtVE1IV06OUJ6vqhBuFCHM2g3UZ
- Nhsl1AjJgUEXsv6BXWbEIscxKBWbItQ=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-man61lE_O_y16xcF1hpaVA-1; Wed, 28 Oct 2020 11:23:32 -0400
-X-MC-Unique: man61lE_O_y16xcF1hpaVA-1
-Received: by mail-qt1-f200.google.com with SMTP id r4so3074823qta.9
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 08:23:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lfY6OhC30XlnKIFtlJz6TSAvke+GkxhljhSyQ5d9N/8=;
- b=DRa9jt2vLCn+bibL3P/aFAAihNZVC32NzuX7csU8EuRTq/6LEJ4iQ2DwQ71CPvet9v
- mnxW/NTMIS3brtrIGy1aYGZzMBlPzSO9m4ekAb5p5tPzutZ8YFKwZFyE0vEB8F1ABidH
- UlhwClpBKH1iV06MVI/RFdPhcu6mq8cOluw5GLO/dKVyiGZPjp66yBBRBxd9hLel1H62
- tM0wJSCmtLRnWQQ3ofX8WFI4uXMYRCYJYf4ywFveqLEC1yUQppqZ4Rn1Y5C9exuWHECF
- w7jGLhZZCmqQgluoU1NhPtK6y29eYnbnSQFBqrKf+b8sGnDSFSuzYdLPb02ig91hnsE1
- jDmw==
-X-Gm-Message-State: AOAM5322F9j33BQTGIqurzfKMlR9rApyL1OnNZ5QtEUTZ7QI1IdlKGWK
- 7XyoyWYA+yj7v7RheSvqzNVv19BUnUzHZpW9NBYupZuxwIq4p8msG8+XMlN7Is3MtJh8GZPrMTM
- pi3FGMioVzCZ5NjoBRD49QUk7risiyf4=
-X-Received: by 2002:a05:620a:1024:: with SMTP id
- a4mr7985795qkk.390.1603898612134; 
- Wed, 28 Oct 2020 08:23:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyi6GhgbLMfn5mdFiOYA4PL9ThhtB1HTYENZ093XnqcSAEqy7ph4sJYW7Yyvq+C3zDO2L+/61pqNMRwBjITrMs=
-X-Received: by 2002:a05:620a:1024:: with SMTP id
- a4mr7985769qkk.390.1603898611880; 
- Wed, 28 Oct 2020 08:23:31 -0700 (PDT)
+ bh=gHnokdNVoAuzyfUswOWzvEZl0f1OjIiNr+YLOO+qlKc=;
+ b=f3+eUa+zOGbUaMulxzKuyF9jiD6UZ0tkI0X6EygAY3R4CDn7XC7iNOYmFfZikAMwbc/Wv9
+ /JdEWkLFN1qDep0hknefs+7XZHM8JeW54vAsO8CpjYrXn8SY1bCinIbcUF6zPJy9GzZyeG
+ iVoLLxKp3fm/5W2+QnLypJ7bm8tnERs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-186-EDeqgaAuMAe3x5PXS7FAEg-1; Wed, 28 Oct 2020 11:30:30 -0400
+X-MC-Unique: EDeqgaAuMAe3x5PXS7FAEg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73DE88070F7;
+ Wed, 28 Oct 2020 15:30:28 +0000 (UTC)
+Received: from localhost (ovpn-114-6.ams2.redhat.com [10.36.114.6])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D8E8010013D9;
+ Wed, 28 Oct 2020 15:30:24 +0000 (UTC)
+Date: Wed, 28 Oct 2020 15:30:23 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 18/25] block/nvme: Pass AioContext argument to
+ nvme_add_io_queue()
+Message-ID: <20201028153023.GM231368@stefanha-x1.localdomain>
+References: <20201027135547.374946-1-philmd@redhat.com>
+ <20201027135547.374946-19-philmd@redhat.com>
 MIME-Version: 1.0
-References: <160374054442.22414.10832953989449611268.stgit@gimli.home>
- <CAFEAcA8yBrUH-Bqe7oNhBKqtyeUNw0xVA9aKm8DJFE-WLzLTwQ@mail.gmail.com>
- <20201027200021.00fac851@x1.home> <20201028091859.GA3701@work-vm>
-In-Reply-To: <20201028091859.GA3701@work-vm>
-From: Miklos Szeredi <mszeredi@redhat.com>
-Date: Wed, 28 Oct 2020 16:23:21 +0100
-Message-ID: <CAOssrKcDQ1_Y1uYTz1ROOQ=Ljh0oM9ymQ_0TEbO_RvWsdRpC8w@mail.gmail.com>
-Subject: Re: [PULL 00/32] VFIO updates 2020-10-26 (for QEMU 5.2 soft-freeze)
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+In-Reply-To: <20201027135547.374946-19-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mszeredi@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="yaap9KN+GmBP785v"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 01:51:10
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,36 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Artem Polyakov <artemp@nvidia.com>,
- Peter Maydell <peter.maydell@linaro.org>, Zhengui li <lizhengui@huawei.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Max Reitz <mreitz@redhat.com>, Eric Auger <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Neo Jia <cjia@nvidia.com>, Amey Narkhede <ameynarkhede03@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Oct 28, 2020 at 10:19 AM Dr. David Alan Gilbert
-<dgilbert@redhat.com> wrote:
->
-> > I'm not comfortable trying to update Max's series to try to determine
-> > if FUSE_SUBMOUNTS can be interchanged with FUSE_ATTR_FLAGS, where the
+--yaap9KN+GmBP785v
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-FUSE_SUBMOUNTS is the correct one, FUSE_ATTR_FLAGS was never merged
-into mainline linux.
+On Tue, Oct 27, 2020 at 02:55:40PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> We want to get ride of the BlockDriverState pointer at some point,
+> so pass aio_context along.
 
-The only difference is that FUSE_ATTR_FLAGS was meant to be negotiated
-(AFAIR), while FUSE_SUBMOUNTS is just announcing that the client
-supports submounts and will honour the FUSE_ATTR_SUBMOUNT flag from
-the server.
+Potential future changes are a weak justification. Someone else might
+decide that the aio_context argument is redundant and reverse this
+change. Either way works, so this change is somewhat arbitrary at the
+moment.
 
-Thanks,
-Miklos
+A strong justification would be if the next patch removes the BDS
+pointer argument.
+
+Until this change is necessary I would prefer not to include it. That
+saves reviewer time, reduces the risk of introducing bugs, etc.
+
+--yaap9KN+GmBP785v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+Zjo8ACgkQnKSrs4Gr
+c8hxNgf/a8byVtNqFmcAzSqb/fqNBxebzRDERD430n0WWTQJLFWmgfOGbV7DsPIY
+Gm8zur41cQdfV0qsspZplP2yGkMDgbiriEtfF7HXezEAOaeqGFXUF0hPk/4uSLcA
+pUdnAhGvVaTF0psvMs/0RT0hmPxsCIQlGmLMgq9AcvNIf/P4GDT/Bs6+qYAT/FoU
+9jA5vKn4ltji0SQ3cP05tvtyfg4lk/xIWhm3UQmFSetbnxAh0I/lrizsXxY5Hk9y
+2xCaC988RaIxL+JRdZ+7M3P6yMtt58I4sggkPvuB+qOZwlA++TisJYY5RrnMuQZx
+6tgQlIMKfopI9GMVP54PI7ON2I/KYA==
+=NeW9
+-----END PGP SIGNATURE-----
+
+--yaap9KN+GmBP785v--
 
 
