@@ -2,99 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F89429CDB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 04:36:39 +0100 (CET)
-Received: from localhost ([::1]:47136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF0F729CDC4
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:18:46 +0100 (CET)
+Received: from localhost ([::1]:34294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXcGM-00074n-6d
-	for lists+qemu-devel@lfdr.de; Tue, 27 Oct 2020 23:36:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34960)
+	id 1kXcv7-000089-CU
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:18:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@redhat.com>)
- id 1kXcEa-0005bH-9h
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 23:34:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgibson@redhat.com>)
- id 1kXcEY-000855-GW
- for qemu-devel@nongnu.org; Tue, 27 Oct 2020 23:34:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603856085;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QM/wMQ33c+yYSC5HBgdFwB4aOKTAgeF+PCuLnK4+OK0=;
- b=Gkwj0PrdBVlkjVTZ9BNSnUA47Qsxi4IjSemncGhqDLj118h1DNAe3vpncsSQACZ/Ip7z1A
- hrx5Tpn3r6WiYnKESs7UkxaxGaxXVHeWSqf64Tm19LqeDrC9QxxgHoX5jeRTYPYPCGGFSo
- n97N+j6XQ3w3FKcCE8f5hhNbZV3d62o=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-I29ArHveONO05w38Cv-yPw-1; Tue, 27 Oct 2020 23:34:43 -0400
-X-MC-Unique: I29ArHveONO05w38Cv-yPw-1
-Received: by mail-pf1-f199.google.com with SMTP id l188so1642843pfl.23
- for <qemu-devel@nongnu.org>; Tue, 27 Oct 2020 20:34:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
- :references:mime-version;
- bh=wSnvwBf9fYYNGFcgRtQv7zDavLFfzAbVCpZOBvhBLc8=;
- b=M/TxLjqSMyysdZJW0ANdQW3ZiIe4AtBMyG6+7S1HIECbsCxC/U7Z9qtx+ut8xI84A8
- 0hri6hChVUA2/NCPnKMmEPDr5oEzks4yVnkkU2KghB2axUYvS9aUNqywJkKn3pwMw9bv
- J507XSsSjgQe6xEis+Tjeu5f6zi1Ldw+qY9I7L9XKS1GncprzNemJOtm7UBTvs1F8PSq
- 0P7iIDqmhFWSxtKS+dvJqJ0KsuCw9vCLBzT8ARSyi63jCKOqOojy8DzYjuWFCplbVF08
- BM/5u83v+2ohn2DYx/cOJzB0j2QelGqtHzcbFnzGswCtNl/xicO9BgZIxmJeS8i8lbgn
- kYmA==
-X-Gm-Message-State: AOAM531c6ckMw/JKKrunyJAJXoD0N9CZ2RoMzini7J7etkXxpo8bNIOu
- D26ug6xZ0w5DOKzbR0zdMws95V1JUpUARWkDguZf/6N01MEZ9Zd0/vPyGd8JSIQA6oILVjf+aqh
- 92gjIqY/l0mUPIAI=
-X-Received: by 2002:a62:e112:0:b029:152:b36e:b05d with SMTP id
- q18-20020a62e1120000b0290152b36eb05dmr5441293pfh.3.1603856082190; 
- Tue, 27 Oct 2020 20:34:42 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyEw47icfSulfuI8/VAPY5vrfvZKHtAfGLNpRyr81q+TycHrMqDG1tsQB8N4cpyZsG221dFkA==
-X-Received: by 2002:a62:e112:0:b029:152:b36e:b05d with SMTP id
- q18-20020a62e1120000b0290152b36eb05dmr5441274pfh.3.1603856081875; 
- Tue, 27 Oct 2020 20:34:41 -0700 (PDT)
-Received: from yekko.fritz.box ([2001:4479:e000:a00:52ee:f101:6b37:1519])
- by smtp.gmail.com with ESMTPSA id ms10sm3373016pjb.46.2020.10.27.20.34.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 27 Oct 2020 20:34:41 -0700 (PDT)
-Date: Wed, 28 Oct 2020 14:34:34 +1100
-From: David Gibson <dgibson@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] pci: Refuse to hotplug PCI Devices when the Guest OS is
- not ready
-Message-ID: <20201028143434.4ed25044@yekko.fritz.box>
-In-Reply-To: <20201027085650-mutt-send-email-mst@kernel.org>
-References: <CAC_L=vVi6ngD6j0sZ2uLZ-NHF2WGzKfiOvmsHxOZaBRv6FuBug@mail.gmail.com>
- <20201022100028-mutt-send-email-mst@kernel.org>
- <CAC_L=vWctLK0Yjod_Vz=+xzFKFp4UoUdjSVa4jWeDm+g8en6wQ@mail.gmail.com>
- <20201022102857-mutt-send-email-mst@kernel.org>
- <CAC_L=vX0+H-SfQHneVPd-Mc3wFxHBSbkKHt3SpNOBOY_JsYDUA@mail.gmail.com>
- <20201022110016-mutt-send-email-mst@kernel.org>
- <CAC_L=vUgsh=08m8EEuEucRtdX73X5kw5ov4Ekg7jFjbHsU6f2w@mail.gmail.com>
- <20201026174537.128a4173@yekko.fritz.box>
- <20201027072430-mutt-send-email-mst@kernel.org>
- <20201027135426.765dd19b@redhat.com>
- <20201027085650-mutt-send-email-mst@kernel.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kXctM-0007d4-R6; Wed, 28 Oct 2020 00:16:56 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2484)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kXctK-0006me-9T; Wed, 28 Oct 2020 00:16:56 -0400
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CLZyd6qqLzhcYD;
+ Wed, 28 Oct 2020 12:16:41 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS403-HUB.china.huawei.com
+ (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 28 Oct 2020
+ 12:16:31 +0800
+From: Chen Qun <kuhn.chenqun@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH] target/ppc/excp_helper: Add a missing break for
+ POWERPC_EXCP_HISI
+Date: Wed, 28 Oct 2020 12:16:20 +0800
+Message-ID: <20201028041620.2168707-1-kuhn.chenqun@huawei.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgibson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; boundary="Sig_/Bm6w=GLeaMGssCUl39Cu.Os";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgibson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/27 22:00:32
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga05-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 00:16:39
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,101 +56,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Julia Suvorova <jusual@redhat.com>,
- qemu devel list <qemu-devel@nongnu.org>
+Cc: zhang.zhanghailiang@huawei.com, clg@kaod.org, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Bm6w=GLeaMGssCUl39Cu.Os
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
+../target/ppc/excp_helper.c: In function ‘powerpc_excp’:
+../target/ppc/excp_helper.c:529:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  529 |         msr |= env->error_code;
+      |         ~~~~^~~~~~~~~~~~~~~~~~
+../target/ppc/excp_helper.c:530:5: note: here
+  530 |     case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
+      |     ^~~~
 
-On Tue, 27 Oct 2020 09:02:06 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+A break statement may be required to enter this exception.
 
-> On Tue, Oct 27, 2020 at 01:54:26PM +0100, Igor Mammedov wrote:
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
-> > I have more questions wrt the suggestion/workflow:
-> > * at what place would you suggest buffering it? =20
->=20
-> PCIESlot maybe?
->=20
-> > * what would be the request in this case, i.e. create PCI device anyway=
-s
-> > and try to signal hotplug event later? =20
->=20
->=20
-> that was my idea, yes.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 
-Actually, I don't think that will quite work.  A whole chunk of the
-problem here is that because the device is realized, the guest sees it
-as part of its general scan *before* the hotplug event (ABP and PDC
-interrupts) appears.  That makes the guest misinterpret the ABP as an
-*unplug* request.
+---
+I guess there's a break missing in 'POWERPC_EXCP_HISI' branch,
+just like the 'POWERPC_EXCP_ISI' branch.
+---
+ target/ppc/excp_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-So delaying the interrupt without delaying the realize (or at least
-filtering config space access to it based on.. something) will just
-trigger the same problem AFAICT.
-
-> > * what would baremethal do in such case? =20
->=20
-> exactly the same, human would wait until blinking stops.
->=20
-> > * what to do in case guest is never ready, what user should do in such =
-case? =20
->=20
-> As in guest is stuck? Do we care? It can't use the device.
->=20
-> > * can be such device be removed? =20
->=20
-> why not? device_del could complete immediately ...
->=20
->  [...] =20
->=20
-> I'd say let's get expected behaviour for existing commands first.
-> We can add events and stuff on top.
->=20
->  [...] =20
->  [...] =20
->  [...] =20
->=20
-
-
---=20
-David Gibson <dgibson@redhat.com>
-Principal Software Engineer, Virtualization, Red Hat
-
---Sig_/Bm6w=GLeaMGssCUl39Cu.Os
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+Y5soACgkQbDjKyiDZ
-s5IrQhAAtIpv2St5oEeNy7r1+Kjl7rWk07tWQkrNgGJ6+S2fmElaH9Q8AifIv1uX
-6xcmcgyjcR87RChwp2E0oGtop4NzFzf/ac0qir1tquDX0VjR7kEXvr+FxmWg+bt5
-hLWGO/cQgH+gfM9xL0pIQ8+qPksAUbI7FqyYWTXFwQ/Z84BR5qZB3ZDh77VfruqI
-7VzpiyWqr3XXE7uKZ7xLJk3DeDBa1KIZLNhKNpsaH687dFQQUbyJxdLm4WGlJI0p
-hipPkB+ol0xEbMkL/KVly3CFnMBI0WN7GwRwe8PpU+YyxkDU81DWwwFj0oEYbQbw
-6UtJdCvyIYLpDBXHaE9oLxYxtvUbC7++IaBtZFlt69/Tfqck0wrjOFSip26evGfo
-3pkXEEyuIn9SpL8iEIpIV6lcUJN25yyOOL8fKHzeHkW912ajxR+iHSFgvImESlU5
-JN44xH+zAjqO/iVxhdgqky0xkpUjMyVdt34lrZveYQckkAGP5VcBdb/npI6YT9+p
-L2R0/j+b3KpBgytq0wRT62L+qXpIrVZj4vN50v/p2qMXAnbqGRg6xvo4GDTxjpFy
-eYUhaxaOkEnmr+8HSyR/bGUa18MAklfmB9ZPrA9+k5/qZQAOFVY8IR1sW31b9fF+
-lMdKpwHsV0s+iq/BD+4npGQ3NcgfpdLfQ1TZDu57ncpNBrppJI8=
-=HvfN
------END PGP SIGNATURE-----
-
---Sig_/Bm6w=GLeaMGssCUl39Cu.Os--
+diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
+index a988ba15f4..5e69ac1b33 100644
+--- a/target/ppc/excp_helper.c
++++ b/target/ppc/excp_helper.c
+@@ -527,6 +527,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
+         break;
+     case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage exception */
+         msr |= env->error_code;
++        break;
+     case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
+     case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
+     case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception        */
+-- 
+2.27.0
 
 
