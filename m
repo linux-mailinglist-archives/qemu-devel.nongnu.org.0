@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC17029CDD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:33:03 +0100 (CET)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52B9B29CDDC
+	for <lists+qemu-devel@lfdr.de>; Wed, 28 Oct 2020 05:36:04 +0100 (CET)
+Received: from localhost ([::1]:54022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXd8w-0007r9-SX
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:33:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1kXdBr-0003mC-Cx
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 00:36:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXd6O-00067q-Tn; Wed, 28 Oct 2020 00:30:25 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:46829)
+ id 1kXd6N-00066b-NY; Wed, 28 Oct 2020 00:30:23 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47465 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kXd6K-0002aT-Tl; Wed, 28 Oct 2020 00:30:24 -0400
+ id 1kXd6K-0002al-N8; Wed, 28 Oct 2020 00:30:23 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CLbGH2BJjz9sWF; Wed, 28 Oct 2020 15:30:14 +1100 (AEDT)
+ id 4CLbGH4BpJz9sWL; Wed, 28 Oct 2020 15:30:15 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1603859415;
- bh=YEK+OIuUCuCqCeM5hVVFu0/MG7lO3tkM0JLhdsC4ENQ=;
+ bh=2kaPp802qzi8JciMFRifQFEAGJ96LTqZpquodN8UlFw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=b6ecA95qxjpKKGdAs5mpgR8ZY03dDyndUy/5UNbNMUa5bg7yQExBu6dEqvKgmbEFG
- BDEY4PhMLkRQ9Cua+0dsGMmjGugQcKneFUWS9LQdS7Ob4z0x/n/jANza3VwyB9Cw7P
- uGKKjtF/HyZOuontlixyhY5UjUETU/NscBbWx0+4=
-Date: Wed, 28 Oct 2020 15:29:00 +1100
+ b=PLyAbFB9997sf70m0p2ELxNJaYBi1tLSZzdxRbMj6SMalVpzPkcHydKFtcUP1rNuZ
+ BLifFGXKoo37QB118368uA/UVogPsiNcfLt2P8oFyYeACq98iKfztL+0c9m+rLKYUV
+ nBtKZtChNMi6KAdbvtbEencVoq9wWy+62xXQfgSE=
+Date: Wed, 28 Oct 2020 15:30:09 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Chen Qun <kuhn.chenqun@huawei.com>
-Subject: Re: [PATCH 7/9] ppc: silence the compiler warnings
-Message-ID: <20201028042900.GC5604@yekko.fritz.box>
+Subject: Re: [PATCH 8/9] target/ppc: silence the compiler warnings
+Message-ID: <20201028043009.GD5604@yekko.fritz.box>
 References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
- <20201028041819.2169003-8-kuhn.chenqun@huawei.com>
+ <20201028041819.2169003-9-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kfjH4zxOES6UT95V"
+ protocol="application/pgp-signature"; boundary="jCrbxBqMcLqd4mOl"
 Content-Disposition: inline
-In-Reply-To: <20201028041819.2169003-8-kuhn.chenqun@huawei.com>
+In-Reply-To: <20201028041819.2169003-9-kuhn.chenqun@huawei.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
@@ -66,22 +66,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kfjH4zxOES6UT95V
+--jCrbxBqMcLqd4mOl
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Oct 28, 2020 at 12:18:17PM +0800, Chen Qun wrote:
+On Wed, Oct 28, 2020 at 12:18:18PM +0800, Chen Qun wrote:
 > When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warn=
 ing:
-> hw/ppc/ppc.c: In function =E2=80=98ppc6xx_set_irq=E2=80=99:
-> hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit=
--fallthrough=3D]
->   118 |             if (level) {
->       |                ^
-> hw/ppc/ppc.c:123:9: note: here
->   123 |         case PPC6xx_INPUT_INT:
->       |         ^~~~
+> target/ppc/mmu_helper.c: In function =E2=80=98dump_mmu=E2=80=99:
+> target/ppc/mmu_helper.c:1351:12: warning: this statement may fall through=
+ [-Wimplicit-fallthrough=3D]
+>  1351 |         if (ppc64_v3_radix(env_archcpu(env))) {
+>       |            ^
+> target/ppc/mmu_helper.c:1358:5: note: here
+>  1358 |     default:
+>       |     ^~~~~~~
 >=20
 > Add the corresponding "fall through" comment to fix it.
 >=20
@@ -93,22 +93,21 @@ Acked-by: David Gibson <david@gibson.dropbear.id.au>
 > ---
 > Cc: David Gibson <david@gibson.dropbear.id.au>
 > ---
->  hw/ppc/ppc.c | 1 +
+>  target/ppc/mmu_helper.c | 1 +
 >  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index 4a11fb1640..f9eb8f21b4 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int=
- level)
->              } else {
->                  cpu_ppc_tb_stop(env);
->              }
-> +            /* fall through */
->          case PPC6xx_INPUT_INT:
->              /* Level sensitive - active high */
->              LOG_IRQ("%s: set the external IRQ state to %d\n",
+> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> index 8972714775..51749b62df 100644
+> --- a/target/ppc/mmu_helper.c
+> +++ b/target/ppc/mmu_helper.c
+> @@ -1355,6 +1355,7 @@ void dump_mmu(CPUPPCState *env)
+>              break;
+>          }
+>  #endif
+> +        /* fall through */
+>      default:
+>          qemu_log_mask(LOG_UNIMP, "%s: unimplemented\n", __func__);
+>      }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -116,25 +115,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---kfjH4zxOES6UT95V
+--jCrbxBqMcLqd4mOl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+Y84wACgkQbDjKyiDZ
-s5KCmg//Xw+dYi7q/5oUJq/i75cK1O3nI3waMTrHt5zU4OelZwAQUb/7fB1pdBQP
-mC7VEoQLNMt73BpalW0BZFk5nZTmE8N2Vi7rwTdNZ2RP0Y+drQs6Now9xF3pTXpR
-rToN/5vvmfQDABR3QFZVckuXvOatJUHu80bgfMvZCZOB2in3hF4g3v7VHppgSuy+
-LqkLhkVk8n4Biy0zUVKNGbYpDiSSRT8qiED4QZoVmKpWbAERN/ZnddxUXHa5SqBD
-ZNM20Z4N/88mcKLDld4iKbnbaXSQ5GsMglW7f08fGnWKmz60qQqDgzfhZul6E5vP
-qfx8AA7oSdZY8m/Zpm0sUMfMP8PzwesgGR175/+l0nAVTzfn+wX3wnkgkHkAwHCM
-JKAPrnsXQqPKPychCpI54L9lDmLfS9vs7ItoSkzPHXfTc/E5AROouIQXwdW4cipw
-vqNBxI2UvMFVAP8XZ6UrQu/R96N+DUqZe/x1ViZEtCZh+ZGL8cDZK54Dh/dZdz2B
-gfBZReJBMQMIouk2KqsXqA+DYqJWRvfIgL5Pbk2RaXNptNvCSzyijaMAJs1F3Elp
-uHNwQd62ieoblzH/DSLyU+iBSnYj8wl7Dy85SePOkBEjtklmrGVAsa8AUndHHsZ1
-6lX/N3V3NNlrxMTDbeqALzm6+Ec3u/d1FDpzOCfidPQpdxO3UnE=
-=8AAK
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+Y89EACgkQbDjKyiDZ
+s5IVlw/+Jleirpt6htO9WLdpxyRccf0p8VXO52dK9GDgB5ES6sIPpAn5r8MIClA/
+A3b/fL/RPz/59dFwyk7qda2aaeMKp4FfTn4qfTfCcMlPm24ZITyIqgja+tAICU86
+PRkOZM4eZAiYmzIK4dzaXx8yjP8woqqvynwfTNx/k8s9Z1px12E8FhCtPyKDzpa+
+kXowefILfUCPZJawyWfD8QPb7IdfFrPUdvzzsqInQmqcMp1zXUyf7YcKVqu10Mn2
+Krw0ejVdAdZb5FVyIP9SOA7bbnfz46zmRfqXi8c0qQHNgZX+W/x+vjYeXCfTRgul
+LskBo+ReGpRO3SXMqRkHguBScgmYQK5PdCAccLUXlcaNyk0lOhn15pRBXoAaZ469
+LAi78BuK6RAU16JSJNg5KmrUDR/szUyO0dXDRg/768gJ2zxTM0qGWRf/uQmZjcXm
+xkfZTB4d9pj2Q8KRkxQyJ8zXk/VowWDdbjKk4Alwaw0Jv7egdlHE3RUAsNhWMNcy
+gjjy8wvh4RnlKAgytGqjcB0XuMtMxFQ2nO6rsuqK+u5kN02jOKKQD2yWV3GWgzJM
+l6D3zZldhyX1mgp4+HI18j6gLMOpgig15b6sMlMFXWHTSYibXiBO6joJjynIMC4K
+PsO1S/jGAOoiV3wZ1v3QuI3D5jG9A3geeFOJNPAyrCRa6DHtgn0=
+=KNQV
 -----END PGP SIGNATURE-----
 
---kfjH4zxOES6UT95V--
+--jCrbxBqMcLqd4mOl--
 
