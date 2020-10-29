@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815BE29E38B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 07:15:00 +0100 (CET)
-Received: from localhost ([::1]:43160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 773B329E39A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 07:56:19 +0100 (CET)
+Received: from localhost ([::1]:50316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY1D9-0006XZ-Jf
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 02:14:59 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49728)
+	id 1kY1r8-00043T-3L
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 02:56:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kY1Br-0005bG-I8; Thu, 29 Oct 2020 02:13:40 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kY1Bp-0001Mi-9l; Thu, 29 Oct 2020 02:13:38 -0400
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CMFW34pjhzLr1d;
- Thu, 29 Oct 2020 14:13:35 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 29 Oct 2020 14:13:24 +0800
-Message-ID: <5F9A5D84.6000707@huawei.com>
-Date: Thu, 29 Oct 2020 14:13:24 +0800
-From: AlexChen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kY1ov-0003XG-27; Thu, 29 Oct 2020 02:54:01 -0400
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:36312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kY1ot-0006nW-1Y; Thu, 29 Oct 2020 02:54:00 -0400
+Received: by mail-ed1-x533.google.com with SMTP id l16so1985875eds.3;
+ Wed, 28 Oct 2020 23:53:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6StLWyAqEzAMjKtpEOcnKw5mFVIeCeKVeKR/dL5dzQc=;
+ b=oS7CUfy41lbUDyCHCNmdd/WZp6T07GlUzoH0BDubko+YBAlEIIBbO2UJgROR2iw7wi
+ duvuGpXT5OYUtn77QcPt8EHM8+Xi1wLjSR9FduAeO4btAGkNPv3AEKpZgzpHVyIig6f8
+ yKIrgYnT/WAIX2AQu7hL0MsXrVvNZz1gtcjRQ2km0MJ1s4ruyoiC1UQYTI3LQt7sTxJa
+ GscEV9Q3sOBDQuo8hA3mjCQ4X5L3S2TaOYTfGcxzslLd6bT6sctPMU4CNGaDUI6cshkv
+ n9QsM+L2gipmka5R3vdDFqINHBEyEB0+eaBiE8vEa1FhYhkLaX/lxCBYDzH2SANbeSpU
+ SYLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6StLWyAqEzAMjKtpEOcnKw5mFVIeCeKVeKR/dL5dzQc=;
+ b=SAahVad92pFIzEPfUJ8Ebk3cQLdoFcD1Fe12N6G9bXDTSM+bPIH5C6vynJpovGlT5l
+ EkfQ9zVZ+GD74EQpsTgBayTCVhlLPiNu7H93luQe4/OAA8/B0PcM6t1q/yS0gzCSI5hc
+ BVIiZXgwBskgK0+12cl0CFY3kQdcpm6QrWX2LUkUDHDUAsWYB/1FdxbTk11t1qBugoUY
+ utc6ZDQQ7doUU4HkyxWLcNyWDZy2a+QlQfAFOgkyWCnUdJAebZtofDK0ACJQHbfwySPC
+ GjBiIXEHDbv8snDfTiwrr6/6K9Ds1eV9fT8vnDhYxZxlTM2bYe2ifBz1jvGWX7JKhyXM
+ 1V3w==
+X-Gm-Message-State: AOAM530MteiJcdjUqm/R8k5gG3GCpljK8yc48IwXg8QOXIal6aX3sb3Z
+ U8pHoFCPMLpKFnFQW4q7srM=
+X-Google-Smtp-Source: ABdhPJzi5kxLMles3UYCAQbdLueYCVGQV1eWkNrqlO0hY9WRx5nZQ+ZI5AeB2XcGBjJp2B1ZseGOCA==
+X-Received: by 2002:a50:8f61:: with SMTP id 88mr2546599edy.175.1603954437180; 
+ Wed, 28 Oct 2020 23:53:57 -0700 (PDT)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id t8sm909032ejc.45.2020.10.28.23.53.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 28 Oct 2020 23:53:56 -0700 (PDT)
+Subject: Re: [PATCH v2 1/1] hw/block/m25p80: Fix Numonyx fast read dummy cycle
+ count
+To: Joe Komlodi <komlodi@xilinx.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1603842220-215321-1-git-send-email-komlodi@xilinx.com>
+ <1603842220-215321-2-git-send-email-komlodi@xilinx.com>
+ <453e55d5-3433-0865-a902-8851ca563e48@amsat.org>
+ <BY5PR02MB603372466CB0B05638D270FFD0170@BY5PR02MB6033.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0212c532-880e-c0d9-cbfe-3f8e0b8a2c8e@amsat.org>
+Date: Thu, 29 Oct 2020 07:53:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 0/4] kvm: Add a --enable-debug-kvm option to configure
-References: <5F97FD61.4060804@huawei.com> <5F991998.2020108@huawei.com>
- <404f58a5-180d-f3d7-dbcc-b533a29e6a94@redhat.com>
-In-Reply-To: <404f58a5-180d-f3d7-dbcc-b533a29e6a94@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 02:03:54
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.921,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+In-Reply-To: <BY5PR02MB603372466CB0B05638D270FFD0170@BY5PR02MB6033.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.921,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,32 +93,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhengchuan@huawei.com, mtosatti@redhat.com, zhang.zhanghailiang@huawei.com,
- kvm@vger.kernel.org, cohuck@redhat.com, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- chenhc@lemote.com
+Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>,
+ "kwolf@redhat.com" <kwolf@redhat.com>,
+ "alistair@alistair23.me" <alistair@alistair23.me>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/10/28 15:44, Paolo Bonzini wrote:
-> On 28/10/20 08:11, AlexChen wrote:
->> The current 'DEBUG_KVM' macro is defined in many files, and turning on
->> the debug switch requires code modification, which is very inconvenient,
->> so this series add an option to configure to support the definition of
->> the 'DEBUG_KVM' macro.
->> In addition, patches 3 and 4 also make printf always compile in debug output
->> which will prevent bitrot of the format strings by referring to the
->> commit(08564ecd: s390x/kvm: make printf always compile in debug output).
+On 10/29/20 12:15 AM, Joe Komlodi wrote:
+> Hi Philippe,
 > 
-> Mostly we should use tracepoints, but the usefulness of these printf
-> statements is often limited (except for s390 that maybe could make them
-> unconditional error_reports).  I would leave this as is, maintainers can
-> decide which tracepoints they like to have.
+> Comments marked inline with [Joe]
 > 
-Thanks for your review, I agree with you to leave 'DEBUG_KVM' as is.
-In addition, patches 3 and 4 resolved the potential risk of bitrot of the format strings,
-could you help review these two patches?
+> -----Original Message-----
+> From: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> On Behalf Of Philippe Mathieu-Daudé
+> Sent: Wednesday, October 28, 2020 2:27 AM
+> To: Joe Komlodi <komlodi@xilinx.com>; qemu-devel@nongnu.org
+> Cc: Francisco Eduardo Iglesias <figlesia@xilinx.com>; kwolf@redhat.com; alistair@alistair23.me; qemu-block@nongnu.org; mreitz@redhat.com
+> Subject: Re: [PATCH v2 1/1] hw/block/m25p80: Fix Numonyx fast read dummy cycle count
+> 
+> Hi Joe,
+> 
+> On 10/28/20 12:43 AM, Joe Komlodi wrote:
+>> Numonyx chips determine the number of cycles to wait based on bits 7:4 
+>> in the volatile configuration register.
+>>
+>> However, if these bits are 0x0 or 0xF, the number of dummy cycles to 
+>> wait is
+>> 10 on a QIOR or QIOR4 command, or 8 on any other currently supported 
+>> fast read command. [1]
+>>
+>> [1] 
+>> https://www.micron.com/-/media/client/global/documents/products/data-s
+>> heet/ nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf
+>> ?rev=9b167fbf2b3645efba6385949a72e453
+> 
+> Please use single line for URL (even longer than 80 characters):
+> https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf
+> 
+> Or use
+> 
+> Datasheet: "MT25QU02GCBB Rev. H 05/19 EN"
+> 
+> [Joe] Ah, sorry about that, I'll put it all on one line in v3.
+> 
+>> Page 34, page 39 note 5
+> 
+> The note 5 is not restricted to QIOR/QIOR4 commands, so your patch seems incomplete.
+> 
+> [Joe] Right. Right now it's only checking QIOR/QIOR4 because we don't have a way to put Numonyx chips in QIO mode (s->quad_enable == true), and we don't model DDR commands.
+> Because of those restrictions, all the read commands need 8 cycles, except for QIOR/QIOR4.
+> 
+>>
+>> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
+>> ---
+>>  hw/block/m25p80.c | 26 +++++++++++++++++++++++---
+>>  1 file changed, 23 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c index 
+>> 483925f..302ed9d 100644
+>> --- a/hw/block/m25p80.c
+>> +++ b/hw/block/m25p80.c
+>> @@ -820,6 +820,26 @@ static void reset_memory(Flash *s)
+>>      trace_m25p80_reset_done(s);
+>>  }
+>>  
+>> +static uint8_t numonyx_extract_cfg_num_dummies(Flash *s) {
+>> +    uint8_t cycle_count;
+>> +    uint8_t num_dummies;
+>> +    assert(get_man(s) == MAN_NUMONYX);
+>> +
+>> +    cycle_count = extract32(s->volatile_cfg, 4, 4);
+> 
+> Could be easier to review as:
+> 
+>        num_dummies = extract32(s->volatile_cfg, 4, 4);
+> 
+>        switch (s->cmd_in_progress) {
+>        /* note 5 comment ... */
+>        case FAST_READ:
+>        case ...
+>            /* field erased or reset in NVRAM */
+>            if (cycle_count == 0x0 || cycle_count == 0xf) {
+>                switch (s->cmd_in_progress) {
+>                case FAST_READ:
+>                case ...:
+>                    num_dummies = 10;
+>                    break;
+>                case ...:
+>                case ...:
+>                    /* assert(s->quad_enable); */
+>                    num_dummies = 8;
+>                    break;
+>                default:
+>                    qemu_log_mask(GUEST_ERROR, ...);
+>                    break;
+>                }
+>            }
+>            break;
+>        default:
+>            break;
+>        }
+> 
+>        return num_dummies;
+> 
+>> +    if (cycle_count == 0x0 || cycle_count == 0x0F) {
+>> +        if (s->cmd_in_progress == QIOR || s->cmd_in_progress == QIOR4) {
+>> +            num_dummies = 10;
+>> +        } else {
+>> +            num_dummies = 8;
+> 
+> Note, this is only true if s->quad_enable.
+> 
+> Maybe clever to use the dumbest approach and copy the table...
+> 
+> static uint8_t numonyx_extract_cfg_num_dummies(Flash *s) {
+>     static const unsigned dummy_clock_cycles[0x100][3] = {
+>       [FAST_READ] = {8, 8, 10},
+>       ...
+>     };
+>     uint8_t num_dummies = extract32(s->volatile_cfg, 4, 4);
+> 
+>     if (cycle_count == 0x0 || cycle_count == 0xf) {
+>         num_dummies = dummy_clock_cycles[s->cmd_in_progress][mode];
+>     }
+> 
+>     return num_dummies;
+> }
+> 
+> [Joe] I think either this or the switch statement would work fine, it just depends if we want to add a way to set s->quad_enable and s->dual_enable (doesn't exist in the model) for Numonyx chips.
+> To be the most accurate, it probably would be best to add a way to enable/disable QIO and DIO mode for Numonyx chips, then change the cycles needed accordingly.
+> 
+> Let me know what you think.
 
-Thanks,
-Alex
+It is OK to not implement unused registers/fields, but please
+use qemu_log_mask(LOG_UNIMP,...) there, so we can:
+- notice the guest is accessing unimplemented registers at runtime
+- easily find the missing place in the code.
 
