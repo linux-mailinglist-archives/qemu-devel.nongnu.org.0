@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91D4729EDFB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:16:44 +0100 (CET)
-Received: from localhost ([::1]:40680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1407229EF00
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:59:42 +0100 (CET)
+Received: from localhost ([::1]:42216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY8jL-00072X-LD
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:16:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48976)
+	id 1kY9Ov-0001yt-3t
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:59:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kY8iF-0006Xv-64
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:15:35 -0400
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43251)
+ (Exim 4.90_1) (envelope-from <masami.hiramatsu@linaro.org>)
+ id 1kXxPj-0002Gn-Vr
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 22:11:43 -0400
+Received: from mail-yb1-xb41.google.com ([2607:f8b0:4864:20::b41]:46419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kY8iD-0004cj-B5
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:15:34 -0400
-Received: by mail-ed1-x532.google.com with SMTP id dn5so3158002edb.10
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 07:15:32 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <masami.hiramatsu@linaro.org>)
+ id 1kXxPi-000551-1C
+ for qemu-devel@nongnu.org; Wed, 28 Oct 2020 22:11:43 -0400
+Received: by mail-yb1-xb41.google.com with SMTP id a4so855557ybq.13
+ for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 19:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=De2cWuk8PqE/bkDjGw3MHxT1XsENrHHqN7QpOclEUPM=;
- b=yB2J31kRdmRtuvgkubZooU+4YU3dWbi+n3vqC89PSzd6NISnFkrLmefn5up6BZxXfi
- cHoKfthpegOjmVwhv7ALktZHtBbMp8tQ6I6RPVwkwASOgL+qJS/Xsawg3kv6OmJh3024
- dBLrlfoiUGCtKylXx4JxTRMPXUJuNvVj3C5fTUUvH29Cy7dz+BaEDkRzR5teOoWp4JuZ
- Qur6faVhqGUg4NW53foBjwdj5s/gdpTB7gjAEB+/WYzvno7pbOYiUcOVZouMGdp0L73e
- AblxXouCjQjZkO1AoPXiGFiG4A+rJZqWWrBkkPi3OtiMTiDoWXSDaiTWilhh/rC0CyNx
- NXCw==
+ :cc:content-transfer-encoding;
+ bh=lc088nZoBzO5fGaktrxcU2f5uhW2KCUmmkhovFmnDRE=;
+ b=p/PHugc93k5KhasO70GRjI+ime6/EhUDb4p+zZUF4bm+4tFbJ4QnzopkeTWJlmYDLS
+ QS+DlhJP+2ssbjo4MKmTnhhyXTsr6mcpN+UyHbMZ+8GG39WoRdtQzyCJrV8ti13X4m+H
+ iLtjHbkfv3LO6yZVix/+eKeLk7QvuWMjB7mRLnWbDajnmbnkinFWR9SyU79dz3TSxtmI
+ 3cF4ig9aBrunJF3J0e6zGIKMQ77/4heuw5DD1wN+YZHowY5XUf5bre76wS1nhuyOqLre
+ JtRYReN+ctoxgm4WkwUa24llNcHO0AN6OkUFh/9i+qaWpsJW/8t67SVaoKiV+1051qi2
+ s8nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=De2cWuk8PqE/bkDjGw3MHxT1XsENrHHqN7QpOclEUPM=;
- b=iNxXuLqSAVRQ67Dk2GMzZFvv+dK+kxaX6dATswKaaYJtF7DklxmzXjqMidxeUeA0CX
- 3NnUjp7tkTaktL3hdLtCQ3Y4a50t33mwj6fvN4Fqy0Bk9blpx1R8LY2eyLTkM6quKtIC
- oIs7Syr4EwLsmVO2bPMoRNT3cFwwFmC62zK2OeE0HSihxhN6Gr+tgvUJd/lpnIhy7184
- iWdrKpYsZqlcHjDcYPvkqPud7NgZYngT4IpHj7ITcTlJPHP7DXfSNSCU+UZkyeCGq2bJ
- zb+AyPY3jZCfFbBR/I4SDJv1LYJzZtiLRYEfdBxkSnv9Ps8FcpUWDVusqss0+V8dzZoR
- /bIA==
-X-Gm-Message-State: AOAM530tFVltTKVtoy3TdZF/y6X2AJiAKZ/x54k1r2Hg/i+mcaNQg3vO
- cgMjBtADd4ZKMAYau1PpdJEq1HdkhURfxhQa1lpSoQ==
-X-Google-Smtp-Source: ABdhPJzQxYthCh5GuwVqQn0ART+C9BNNkpBMRY9r7jH+FbvSrJVCuXRBmR6eWrfSzKal8wiPaG502rSk8CiApgQqLLA=
-X-Received: by 2002:a05:6402:b35:: with SMTP id
- bo21mr4389713edb.52.1603980931001; 
- Thu, 29 Oct 2020 07:15:31 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=lc088nZoBzO5fGaktrxcU2f5uhW2KCUmmkhovFmnDRE=;
+ b=BLv86mQJYXtrNaGi5Linhim11MzOZvaGjWN7MknffpweaCiSGoASpTbCqmR90T3o1U
+ TeCJ7O7VVf1aluvmQ1//mnm4sEUBmC/HJjI7ypbA6HPXysHyi65cmDJ6G0ZTHmizhs9g
+ N7n6iTxdLZPJNEoKbNOpj3ih2lB39WrIGARetBlxl7lq0Gw3tiMq+8TeAkcrgSzrzC+g
+ L5fcvVsFJTolE1qZzfiMPT0O6xFXnuLhTriMaih6W3B0pxftuR+FbMr1eK2uUvUC9OVl
+ hnpJ3MnWnjGTn+znHN/lwVJfQ1rC8G99y/GN5wKZvqbYwamm2UL9dnpbfAFfMrpCFHep
+ lPZQ==
+X-Gm-Message-State: AOAM530YSuorGX4/veYmLqPo4G2S6DBnXSf351Z0sSCGPqZhzEXoePVd
+ O4YoDJqaAro7PWsTJj9dJY4BAy9UKCgH7jHKPNlyMA==
+X-Google-Smtp-Source: ABdhPJyA1ae5C1hgDl3PfWOToRM8A2j6q1B+Kp7Vbvjm/+coKjcmIlEUox3dKA5ObPMxt4zaoGwpxJ4CyeD7uhW7vuo=
+X-Received: by 2002:a25:2d6:: with SMTP id 205mr2857987ybc.233.1603937500385; 
+ Wed, 28 Oct 2020 19:11:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1603452058.git.qemu_oss@crudebyte.com>
- <3097828.JvSkC2jeLF@silver>
- <CAFEAcA-q0AVF-GMu1VLKPKmPAURV9j+YoC3g-C15F2Jy5nTUVQ@mail.gmail.com>
- <5649161.sut93UlCx4@silver>
-In-Reply-To: <5649161.sut93UlCx4@silver>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Oct 2020 14:15:19 +0000
-Message-ID: <CAFEAcA-+4Ac7tGyXxDjkPrsJw7NmH3bijkuXLY9gF=Vr7p1LWQ@mail.gmail.com>
-Subject: Re: [PULL 00/13] 9p queue 2020-10-23
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20201028174406.23424-1-alex.bennee@linaro.org>
+In-Reply-To: <20201028174406.23424-1-alex.bennee@linaro.org>
+From: Masami Hiramatsu <masami.hiramatsu@linaro.org>
+Date: Thu, 29 Oct 2020 11:11:29 +0900
+Message-ID: <CAA93ih1z4dr0EMUg0G2WHXuzcK1ghET-8RJ_UuuFeWbToSnz3A@mail.gmail.com>
+Subject: Re: [PATCH] meson.build: fix building of Xen support for aarch64
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b41;
+ envelope-from=masami.hiramatsu@linaro.org; helo=mail-yb1-xb41.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -71,6 +69,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 29 Oct 2020 10:57:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -82,21 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Stefano Stabellini <sstabellini@kernel.org>, qemu-devel@nongnu.org,
+ Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Oct 2020 at 14:06, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
-> Ok, I'll use mkdtemp() instead, that avoids other potential parallel config
-> colissions that I may not have considered yet.
+Hi Alex,
+
+2020=E5=B9=B410=E6=9C=8829=E6=97=A5(=E6=9C=A8) 2:44 Alex Benn=C3=A9e <alex.=
+bennee@linaro.org>:
 >
-> The original motivation against mkdtemp() was that /tmp is isually a ramfs,
-> hence very limited regarding large file tests. But that's not an issue right
-> now.
+> Xen is supported on aarch64 although weirdly using the i386-softmmu
+> model. Checking based on the host CPU meant we never enabled Xen
+> support. It would be nice to enable CONFIG_XEN for aarch64-softmmu to
+> make it not seem weird but that will require further build surgery.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Masami Hiramatsu <masami.hiramatsu@linaro.org>
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Fixes: 8a19980e3f ("configure: move accelerator logic to meson")
 
-How large is "large" here ?
+Thanks for the fix, I confirmed that the CONFIG_XEN=3D1 on arm64 build.
 
-thanks
--- PMM
+Reviewed-by: Masami Hiramatsu <masami.hiramatsu@linaro.org>
+
+Thank you,
+
+
+> ---
+>  meson.build | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meson.build b/meson.build
+> index 835424999d..f1fcbfed4c 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -81,6 +81,8 @@ if cpu in ['x86', 'x86_64']
+>      'CONFIG_HVF': ['x86_64-softmmu'],
+>      'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
+>    }
+> +elif cpu in [ 'arm', 'aarch64' ]
+> +  accelerator_targets +=3D { 'CONFIG_XEN': ['i386-softmmu'] }
+>  endif
+>
+>  ##################
+> --
+> 2.20.1
+>
+
+
+--
+Masami Hiramatsu
 
