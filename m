@@ -2,59 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0A129EF2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 16:06:16 +0100 (CET)
-Received: from localhost ([::1]:33890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C06829EF51
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 16:11:34 +0100 (CET)
+Received: from localhost ([::1]:43048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY9VH-0001qA-H1
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 11:06:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33350)
+	id 1kY9aP-0005pW-Fj
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 11:11:33 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kY9Tw-0000Ut-Jj; Thu, 29 Oct 2020 11:04:52 -0400
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:35245)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1kY9Tu-0002gU-Aw; Thu, 29 Oct 2020 11:04:52 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.118])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id BE12E6FAE2F0;
- Thu, 29 Oct 2020 16:04:46 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 29 Oct
- 2020 16:04:46 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005d8c8a92c-bed4-48f7-bc82-cd24f4e669c8,
- E5CD8EB7A660BD10DDB00AFD0F9198C3FA657B0B) smtp.auth=groug@kaod.org
-Date: Thu, 29 Oct 2020 16:04:44 +0100
-From: Greg Kurz <groug@kaod.org>
-To: jokenzhang <zhangxinhao1@huawei.com>
-Subject: Re: [PATCH v2 1/3] hw/9pfs : add spaces around operator
-Message-ID: <20201029160444.0d2068f4@bahia.lan>
-In-Reply-To: <20201029142619.1309649-1-zhangxinhao1@huawei.com>
-References: <20201029142619.1309649-1-zhangxinhao1@huawei.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kY9ZC-0005Jy-NY
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 11:10:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53020)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1kY9ZA-0003Le-Lv
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 11:10:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603984215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=leMfdUHyqD90ogGbIaQWjgaZC2he87It8gFacaCHLqQ=;
+ b=X99z5h8lJ+QLR+8rGfv4G/7LXDy3wDANuPJE/27WF83e5mWTRdIOLz9IO1kjYrTNDb/PUK
+ ugQK0fKtwPqt1ijLTupQlEKUB5L0U3SHCpxFyWSE283J2QCEDLRYFN9Xyl+KgxPcLycbUk
+ Z5KtpWqEtfkZZerOYITH+j1Q6VSIYLU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-302-uhatkSmtMa2gy85njPy8PA-1; Thu, 29 Oct 2020 11:10:12 -0400
+X-MC-Unique: uhatkSmtMa2gy85njPy8PA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 002A98030CC;
+ Thu, 29 Oct 2020 15:10:08 +0000 (UTC)
+Received: from [10.72.12.72] (ovpn-12-72.pek2.redhat.com [10.72.12.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C85941001281;
+ Thu, 29 Oct 2020 15:09:34 +0000 (UTC)
+Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20201027151400.GA138065@stefanha-x1.localdomain>
+ <CAJSP0QWrmNN1Ci-M-4WDFZBOGHyeZvF71utg0w2ajCbOLtynJw@mail.gmail.com>
+ <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
+ <20201029083130.0617a28f@w520.home>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <b85405de-d525-bf59-826c-737fa7bbdfef@redhat.com>
+Date: Thu, 29 Oct 2020 23:09:33 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 56680943-3b48-4745-ab7a-5d1628b86e89
-X-Ovh-Tracer-Id: 15712496152762489126
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrleefgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdhtrhhivhhirghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 11:04:47
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201029083130.0617a28f@w520.home>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.261, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,123 +87,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu_oss@crudebyte.com,
- qemu-devel@nongnu.org, dengkai1@huawei.com
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Janosch Frank <frankja@linux.vnet.ibm.com>,
+ "mst@redhat.com" <mtsirkin@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>, Jag Raman <jag.raman@oracle.com>,
+ Anup Patel <anup@brainfault.org>,
+ Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Liran Alon <liran.alon@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Halil Pasic <pasic@linux.vnet.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, fam <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Oct 2020 22:26:17 +0800
-jokenzhang <zhangxinhao1@huawei.com> wrote:
 
-> Fix code style. Operator needs spaces both sides.
-> 
-> Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
+On 2020/10/29 下午10:31, Alex Williamson wrote:
+> On Thu, 29 Oct 2020 21:02:05 +0800
+> Jason Wang <jasowang@redhat.com> wrote:
+>
+>> On 2020/10/29 下午8:08, Stefan Hajnoczi wrote:
+>>> Here are notes from the session:
+>>>
+>>> protocol stability:
+>>>       * vhost-user already exists for existing third-party applications
+>>>       * vfio-user is more general but will take more time to develop
+>>>       * libvfio-user can be provided to allow device implementations
+>>>
+>>> management:
+>>>       * Should QEMU launch device emulation processes?
+>>>           * Nicer user experience
+>>>           * Technical blockers: forking, hotplug, security is hard once
+>>> QEMU has started running
+>>>           * Probably requires a new process model with a long-running
+>>> QEMU management process proxying QMP requests to the emulator process
+>>>
+>>> migration:
+>>>       * dbus-vmstate
+>>>       * VFIO live migration ioctls
+>>>           * Source device can continue if migration fails
+>>>           * Opaque blobs are transferred to destination, destination can
+>>> fail migration if it decides the blobs are incompatible
+>>
+>> I'm not sure this can work:
+>>
+>> 1) Reading something that is opaque to userspace is probably a hint of
+>> bad uAPI design
+>> 2) Did qemu even try to migrate opaque blobs before? It's probably a bad
+>> design of migration protocol as well.
+>>
+>> It looks to me have a migration driver in qemu that can clearly define
+>> each byte in the migration stream is a better approach.
+> Any time during the previous two years of development might have been a
+> more appropriate time to express your doubts.
 
-jokenzhang really looks like a computer username or nick, which isn't an
-appropriate way to sign one's work.
 
-Quoting a comment from Eric Blake on a recent patch that had a similar flaw:
+Somehow I did that in this series[1]. But the main issue is still there. 
+Is this legal to have a uAPI that turns out to be opaque to userspace? 
+(VFIO seems to be the first). If it's not,  the only choice is to do 
+that in Qemu.
 
-It's preferred to have Signed-off-by tags use a rendering of a legal
-name rather than a mere computer username.  Whether that is just a
-westernized form of your name, or you use native characters, or even
-both spellings side-by-side, is up to you (see commit d7d26226b for an
-example of the latter).
 
-With that fixed, you can add my r-b for all three patches.
+>
+> Note that we're not talking about vDPA devices here, we're talking
+> about arbitrary devices with arbitrary state.  Some degree of migration
+> support for assigned devices can be implemented in QEMU, Alex Graf
+> proved this several years ago with i40evf.  Years later, we don't have
+> any vendors proposing device specific migration code for QEMU.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 
-> Signed-off-by: Kai Deng <dengkai1@huawei.com>
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> ---
->  hw/9pfs/9p-local.c | 10 +++++-----
->  hw/9pfs/9p.c       | 16 ++++++++--------
->  2 files changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-> index 3107637209..af52c1daac 100644
-> --- a/hw/9pfs/9p-local.c
-> +++ b/hw/9pfs/9p-local.c
-> @@ -162,13 +162,13 @@ static void local_mapped_file_attr(int dirfd, const char *name,
->      memset(buf, 0, ATTR_MAX);
->      while (fgets(buf, ATTR_MAX, fp)) {
->          if (!strncmp(buf, "virtfs.uid", 10)) {
-> -            stbuf->st_uid = atoi(buf+11);
-> +            stbuf->st_uid = atoi(buf + 11);
->          } else if (!strncmp(buf, "virtfs.gid", 10)) {
-> -            stbuf->st_gid = atoi(buf+11);
-> +            stbuf->st_gid = atoi(buf + 11);
->          } else if (!strncmp(buf, "virtfs.mode", 11)) {
-> -            stbuf->st_mode = atoi(buf+12);
-> +            stbuf->st_mode = atoi(buf + 12);
->          } else if (!strncmp(buf, "virtfs.rdev", 11)) {
-> -            stbuf->st_rdev = atoi(buf+12);
-> +            stbuf->st_rdev = atoi(buf + 12);
->          }
->          memset(buf, 0, ATTR_MAX);
->      }
-> @@ -823,7 +823,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
->          if (fd == -1) {
->              goto out;
->          }
-> -        credp->fc_mode = credp->fc_mode|S_IFREG;
-> +        credp->fc_mode = credp->fc_mode | S_IFREG;
->          if (fs_ctx->export_flags & V9FS_SM_MAPPED) {
->              /* Set cleint credentials in xattr */
->              err = local_set_xattrat(dirfd, name, credp);
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index 741d222c3f..94df440fc7 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -1091,7 +1091,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
->          }
->      }
->  
-> -    if (!(ret&~0777)) {
-> +    if (!(ret & ~0777)) {
->          ret |= S_IFREG;
->      }
->  
-> @@ -2776,7 +2776,7 @@ static void coroutine_fn v9fs_create(void *opaque)
->          v9fs_path_unlock(s);
->      } else {
->          err = v9fs_co_open2(pdu, fidp, &name, -1,
-> -                            omode_to_uflags(mode)|O_CREAT, perm, &stbuf);
-> +                            omode_to_uflags(mode) | O_CREAT, perm, &stbuf);
->          if (err < 0) {
->              goto out;
->          }
-> @@ -3428,7 +3428,7 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
->       * compute bsize factor based on host file system block size
->       * and client msize
->       */
-> -    bsize_factor = (s->msize - P9_IOHDRSZ)/stbuf->f_bsize;
-> +    bsize_factor = (s->msize - P9_IOHDRSZ) / stbuf->f_bsize;
->      if (!bsize_factor) {
->          bsize_factor = 1;
->      }
-> @@ -3440,9 +3440,9 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
->       * adjust(divide) the number of blocks, free blocks and available
->       * blocks by bsize factor
->       */
-> -    f_blocks = stbuf->f_blocks/bsize_factor;
-> -    f_bfree  = stbuf->f_bfree/bsize_factor;
-> -    f_bavail = stbuf->f_bavail/bsize_factor;
-> +    f_blocks = stbuf->f_blocks / bsize_factor;
-> +    f_bfree  = stbuf->f_bfree / bsize_factor;
-> +    f_bavail = stbuf->f_bavail / bsize_factor;
->      f_files  = stbuf->f_files;
->      f_ffree  = stbuf->f_ffree;
->      fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-> @@ -4185,6 +4185,6 @@ static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
->          error_report("Failed to get the resource limit");
->          exit(1);
->      }
-> -    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur/3);
-> -    open_fd_rc = rlim.rlim_cur/2;
-> +    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
-> +    open_fd_rc = rlim.rlim_cur / 2;
->  }
+Yes but it's not necessarily VFIO as well.
+
+
+>
+> Clearly we're also trying to account for proprietary devices where even
+> for suspend/resume support, proprietary drivers may be required for
+> manipulating that internal state.  When we move device emulation
+> outside of QEMU, whether in kernel or to other userspace processes,
+> does it still make sense to require code in QEMU to support
+> interpretation of that device for migration purposes?
+
+
+Well, we could extend Qemu to support property module (or have we 
+supported that now?). And then it can talk to property drivers via 
+either VFIO or vendor specific uAPI.
+
+
+>   That seems
+> counter to the actual goal of out-of-process devices and clearly hasn't
+> work for us so far.  Thanks,
+>
+> Alex
+
+
+Thanks
+
+[1] 
+https://lore.kernel.org/kvm/20200914084449.0182e8a9@x1.home/T/#m23b08f92a7269fa9676b91dacb6699a78d4b3949
+
 
 
