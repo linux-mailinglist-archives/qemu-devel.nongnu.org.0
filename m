@@ -2,52 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316FE29E7CB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:51:20 +0100 (CET)
-Received: from localhost ([::1]:52694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76F6129E838
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:04:10 +0100 (CET)
+Received: from localhost ([::1]:34336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4aV-0004aL-7T
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:51:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33950)
+	id 1kY4mv-0000te-2I
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:04:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kY4Sp-000314-3k; Thu, 29 Oct 2020 05:43:27 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kY4Sb-00018g-9L; Thu, 29 Oct 2020 05:43:21 -0400
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CML8c35Qwz703D;
- Thu, 29 Oct 2020 17:42:56 +0800 (CST)
-Received: from [10.174.184.155] (10.174.184.155) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 29 Oct 2020 17:42:42 +0800
-Subject: Re: [PATCH v3 0/9] block-backend: Introduce I/O hang
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20201022130303.1092-1-cenjiahui@huawei.com>
- <20201026165341.GM52035@stefanha-x1.localdomain>
-From: cenjiahui <cenjiahui@huawei.com>
-Message-ID: <b5aef6d9-bc2c-1cf4-b392-5db37049df33@huawei.com>
-Date: Thu, 29 Oct 2020 17:42:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.2.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kY4kV-0007qt-FH
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:40 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kY4kM-0007xH-Lg
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:38 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603965688;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=BPlVQfEtYu9dToRr5tNKJooWKenat+csUd42dK1f7k4=;
+ b=X2nTvwaeuokaocJr7ovk4jVNLj6Z07HrgmML411Y7bjuKWIBNNSshh92qepu4m7Q8iIfoX
+ uJMC8S8LWAsIazf71ptwQAWb59VFfr3hNQsXnnKg0Qgwtp8s1eajLaS5o1lqLYTuIbwU8P
+ m1hXbD/YXX2iNlXUhRKyzki1PDJuP7o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-216-nBqQ0uvlNgqW7stCyWx6hA-1; Thu, 29 Oct 2020 06:01:26 -0400
+X-MC-Unique: nBqQ0uvlNgqW7stCyWx6hA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 320D218CBC43;
+ Thu, 29 Oct 2020 10:01:25 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-115-62.ams2.redhat.com
+ [10.36.115.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4F15B100238E;
+ Thu, 29 Oct 2020 10:01:20 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Misc next patches
+Date: Thu, 29 Oct 2020 10:01:14 +0000
+Message-Id: <20201029100119.30696-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201026165341.GM52035@stefanha-x1.localdomain>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
- helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 05:42:54
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -50
-X-Spam_score: -5.1
-X-Spam_bar: -----
-X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.921,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,66 +78,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, zhang.zhanghailiang@huawei.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, mreitz@redhat.com, fangying1@huawei.com,
- jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The following changes since commit bbc48d2bcb9711614fbe751c2c5ae13e172fbca8=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-20201027=
+' =3D=0D
+into staging (2020-10-28 16:25:31 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/berrange/qemu tags/misc-next-pull-request=0D
+=0D
+for you to fetch changes up to dfc00eb7dea43bfb6d4a2ba38c4f6bc9745f3729:=0D
+=0D
+  util: include the target address in socket connect failures (2020-10-29 0=
+9:=3D=0D
+57:37 +0000)=0D
+=0D
+----------------------------------------------------------------=0D
+Misc fixes=0D
+=0D
+ * Improve socket cnnection failure error reporting=0D
+ * Fix LGPL version number=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+AlexChen (1):=0D
+  io: Don't use '#' flag of printf format=0D
+=0D
+Chetan Pant (3):=0D
+  io: Fix Lesser GPL version number=0D
+  crypt: Fix Lesser GPL version number=0D
+  authz: Fix Lesser GPL version number=0D
+=0D
+Daniel P. Berrang=3DC3=3DA9 (1):=0D
+  util: include the target address in socket connect failures=0D
+=0D
+ authz/base.c                    |  2 +-=0D
+ authz/list.c                    |  2 +-=0D
+ authz/listfile.c                |  2 +-=0D
+ authz/pamacct.c                 |  2 +-=0D
+ authz/simple.c                  |  2 +-=0D
+ include/authz/base.h            |  2 +-=0D
+ include/authz/list.h            |  2 +-=0D
+ include/authz/listfile.h        |  2 +-=0D
+ include/authz/pamacct.h         |  2 +-=0D
+ include/authz/simple.h          |  2 +-=0D
+ include/io/channel-buffer.h     |  2 +-=0D
+ include/io/channel-command.h    |  2 +-=0D
+ include/io/channel-file.h       |  2 +-=0D
+ include/io/channel-socket.h     |  2 +-=0D
+ include/io/channel-tls.h        |  2 +-=0D
+ include/io/channel-util.h       |  2 +-=0D
+ include/io/channel-watch.h      |  2 +-=0D
+ include/io/channel-websock.h    |  2 +-=0D
+ include/io/channel.h            |  2 +-=0D
+ include/io/dns-resolver.h       |  2 +-=0D
+ include/io/task.h               |  2 +-=0D
+ io/channel-buffer.c             |  2 +-=0D
+ io/channel-command.c            |  2 +-=0D
+ io/channel-file.c               |  2 +-=0D
+ io/channel-socket.c             |  2 +-=0D
+ io/channel-tls.c                |  2 +-=0D
+ io/channel-util.c               |  2 +-=0D
+ io/channel-watch.c              |  2 +-=0D
+ io/channel-websock.c            |  4 ++--=0D
+ io/channel.c                    |  2 +-=0D
+ io/dns-resolver.c               |  2 +-=0D
+ io/task.c                       |  2 +-=0D
+ tests/qemu-iotests/162.out      |  4 ++--=0D
+ tests/test-authz-list.c         |  2 +-=0D
+ tests/test-authz-listfile.c     |  2 +-=0D
+ tests/test-authz-pam.c          |  2 +-=0D
+ tests/test-authz-simple.c       |  2 +-=0D
+ tests/test-crypto-afsplit.c     |  2 +-=0D
+ tests/test-crypto-block.c       |  2 +-=0D
+ tests/test-crypto-cipher.c      |  2 +-=0D
+ tests/test-crypto-hash.c        |  2 +-=0D
+ tests/test-crypto-ivgen.c       |  2 +-=0D
+ tests/test-crypto-secret.c      |  2 +-=0D
+ tests/test-crypto-xts.c         |  2 +-=0D
+ tests/test-io-channel-buffer.c  |  2 +-=0D
+ tests/test-io-channel-command.c |  2 +-=0D
+ tests/test-io-channel-file.c    |  2 +-=0D
+ tests/test-io-channel-socket.c  |  2 +-=0D
+ tests/test-io-task.c            |  2 +-=0D
+ util/qemu-sockets.c             | 32 +++++++++++++++++++-------------=0D
+ 50 files changed, 70 insertions(+), 64 deletions(-)=0D
+=0D
+--=3D20=0D
+2.28.0=0D
+=0D
 
-On 2020/10/27 0:53, Stefan Hajnoczi wrote:
-> On Thu, Oct 22, 2020 at 09:02:54PM +0800, Jiahui Cen wrote:
->> A VM in the cloud environment may use a virutal disk as the backend storage,
->> and there are usually filesystems on the virtual block device. When backend
->> storage is temporarily down, any I/O issued to the virtual block device will
->> cause an error. For example, an error occurred in ext4 filesystem would make
->> the filesystem readonly. However a cloud backend storage can be soon recovered.
->> For example, an IP-SAN may be down due to network failure and will be online
->> soon after network is recovered. The error in the filesystem may not be
->> recovered unless a device reattach or system restart. So an I/O rehandle is
->> in need to implement a self-healing mechanism.
->>
->> This patch series propose a feature called I/O hang. It can rehandle AIOs
->> with EIO error without sending error back to guest. From guest's perspective
->> of view it is just like an IO is hanging and not returned. Guest can get
->> back running smoothly when I/O is recovred with this feature enabled.
-> 
-> Hi,
-> This feature seems like an extension of the existing -drive
-> rerror=/werror= parameters:
-> 
->   werror=action,rerror=action
->       Specify which action to take on write and read errors. Valid
->       actions are: "ignore" (ignore the error and try to continue),
->       "stop" (pause QEMU), "report" (report the error to the guest),
->       "enospc" (pause QEMU only if the host disk is full; report the
->       error to the guest otherwise).  The default setting is
->       werror=enospc and rerror=report.
-> 
-> That mechanism already has a list of requests to retry and live
-> migration integration. Using the werror=/rerror= mechanism would avoid
-> code duplication between these features. You could add a
-> werror/rerror=retry error action for this feature.
-> 
-> Does that sound good?
-> 
-> Stefan
-> 
-
-Hi Stefan,
-
-Thanks for your reply. Extending the rerror=/werror= mechanism is a feasible
-way for the retry feature.
-
-However, AFAIK, the rerror=/werror= mechanism in block-backend layer only
-provides ACTION, and the real handler of errors need be implemented several
-times in device layer for different devices. While our I/O Hang mechanism
-directly handles AIO errors no matter which type of devices it is. Is it a
-more common way to implement the feature in block-backend layer? Especially we
-can set retry timeout in a common structure BlockBackend.
-
-Besides, is there any reason that QEMU implements the rerror=/werror mechansim
-in device layer rather than in block-backend layer?
-
-Jiahui
 
