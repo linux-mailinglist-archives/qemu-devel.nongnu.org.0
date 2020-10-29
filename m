@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA7E29E79C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:45:31 +0100 (CET)
-Received: from localhost ([::1]:33830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1240C29E7C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:48:19 +0100 (CET)
+Received: from localhost ([::1]:43990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4Us-0005Dl-4a
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:45:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60422)
+	id 1kY4Xa-0000zh-2a
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:48:18 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4KU-0007Dx-4W
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50320)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4Kb-0007I6-QF
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:53 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4KS-0006ln-8B
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:45 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4KZ-0006oA-PH
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:53 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603964083;
+ s=mimecast20190719; t=1603964089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JSY478yiFOxfyipIIVIRTU0bevcPEjwiKUZ7hzso9Eo=;
- b=NNBYfHeUJYyE5Yh5bUFB4D44RqCEXlNAkRKNTxRy4UJuRAHspxQ6PJhDBIZ3tC5pvKM0kS
- twmm2LBkYoUaFdV4TOs8pjUVZ2Bw2dQ0Pxh3mNt/Qx0oEV27tgUoF6IPrATezwDGMGaooi
- 9IUo10TzTeNryOLSj8MpUqa7mzAjzsg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-dM_A1GD2O_6eGSKsysjmYw-1; Thu, 29 Oct 2020 05:34:42 -0400
-X-MC-Unique: dM_A1GD2O_6eGSKsysjmYw-1
-Received: by mail-ed1-f71.google.com with SMTP id y99so633563ede.3
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:34:41 -0700 (PDT)
+ bh=cY+deayBxNQZ5fZVujrukclTBWuP/LZ1eYsnj5g50jE=;
+ b=XYHuVfNT/CgbwUL85wStzzbjChTIPeKTWdORHCdpzzDnbvAzxI8SGc5An52Tr6Liov/iyt
+ Egr6T1uIOwYpKPjF+RN4uTCyToUOtqpt+YcwU+9HpydmAsoOubAqoL8lQtTq/6aiQaKg1E
+ WrpTB4mMB9EKQEN/ClndU/1s2PRWShQ=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-273-AX4KvXYpPhWLICyoLadJgQ-1; Thu, 29 Oct 2020 05:34:47 -0400
+X-MC-Unique: AX4KvXYpPhWLICyoLadJgQ-1
+Received: by mail-ej1-f72.google.com with SMTP id p18so939449ejl.14
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:34:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JSY478yiFOxfyipIIVIRTU0bevcPEjwiKUZ7hzso9Eo=;
- b=rbTTJAmRIWKVrCaPSr3jWVfB9NEs8oTtIUMO82ShLWrmg/5UlX4ezksNPUcuKnwxsf
- n/S1ZomgSdFy9qGvHK8ELGNEpRqnqR0jc9dXsYSTZvmzXP9aN8L/J0vNWCNK9d0fWmC9
- hlZCuwMK80z4jppi275QgA+gVIdASwHnrnC5DpZaHvUAeOMCFVOSXfqH2+5ZTqCQh+g0
- ciLsaODTzjHwuX0VvMcjRHgzfk92g/P+rCkpApn0Yzyt6ymoz6hESmwjucu+PObzE2K+
- 16RuwiJZ7BvyO5KyDqQZ+YqQxNSmjOPbKD6qSORXMkM/kEJy3lBTNtZXXXiFUqAmCl/4
- 2p0A==
-X-Gm-Message-State: AOAM531MmUGz2FYIuDKiI7su8maPy0m8GoMka4nBMnSLFxryvGu35TnN
- RvJ379MqjckjPim40pD55EIgbpWNpYljPOFghC9g+SdPWZxHaET4UO7Jlq6tHmTUvjfOQfbJMFw
- zFcXz0jBU2dcJBYg=
-X-Received: by 2002:a05:6402:392:: with SMTP id
- o18mr3052701edv.283.1603964080701; 
- Thu, 29 Oct 2020 02:34:40 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyeYmxKt1Lq9v3GLSodnup8MdE9OlKJ3EwKtZI4k15vDKyB6ksdiQ9fU22CdMTavYoOecYPXg==
-X-Received: by 2002:a05:6402:392:: with SMTP id
- o18mr3052691edv.283.1603964080561; 
- Thu, 29 Oct 2020 02:34:40 -0700 (PDT)
+ bh=cY+deayBxNQZ5fZVujrukclTBWuP/LZ1eYsnj5g50jE=;
+ b=mQchrGwNQohoUGFykHTjADfvmwiNP3yc9edUJxrbDcPaVG5gw13dCTWeAMb9xUODTL
+ Q8jnyTMgPq4Ay5RxPPxpa0JKtygQN/NrT+o5NFcbTAFW9b235NH8jTnHzOnnvesxx+H7
+ LkqZ9JkKYgktDv/0SbKrVwYaB9ziM5lNM/kT/zFjJXqzjQuYD/KOclr/RtoxyIIqbhb0
+ w8/ENaZ604HTlovOTNbh8ZYOYAWtl5zzH25ae5rMIB3XYLBM7pDF/AQ5+N/oYomQg/X0
+ V96kQ6co0A/JnCYiQOB1C0wkWEPiEDNll3whq8aCkWN4i7IM53thlTzucubO87P0Sxcq
+ qO/Q==
+X-Gm-Message-State: AOAM531qgHinbu2idOZM43g4n/+UghBBHmCZVwFgIl0zSB4Rvx/yHSxu
+ NoOLkcBvMZMKozH30T8JQ8CdWemIXVJoAnyZLuowsPK+G+l99FkV4fdS+uK20QfUHITTf0ePn5i
+ u+IFRopcQY/ZtegA=
+X-Received: by 2002:a17:906:b216:: with SMTP id
+ p22mr3200837ejz.228.1603964086029; 
+ Thu, 29 Oct 2020 02:34:46 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwPLTTLbOHI19ZgEFF+IVkmv117xie8yC+hrbe79Wkp3q3/8uNxXAwNzCsAZpTAzqdAUa2Bow==
+X-Received: by 2002:a17:906:b216:: with SMTP id
+ p22mr3200816ejz.228.1603964085862; 
+ Thu, 29 Oct 2020 02:34:45 -0700 (PDT)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id m19sm1145059eda.72.2020.10.29.02.34.39
+ by smtp.gmail.com with ESMTPSA id h4sm1160619edj.1.2020.10.29.02.34.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 02:34:39 -0700 (PDT)
+ Thu, 29 Oct 2020 02:34:45 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v2 17/25] block/nvme: Set request_alignment at
- initialization
-Date: Thu, 29 Oct 2020 10:32:58 +0100
-Message-Id: <20201029093306.1063879-18-philmd@redhat.com>
+Subject: [PATCH-for-5.2 v2 18/25] block/nvme: Correct minimum device page size
+Date: Thu, 29 Oct 2020 10:32:59 +0100
+Message-Id: <20201029093306.1063879-19-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201029093306.1063879-1-philmd@redhat.com>
 References: <20201029093306.1063879-1-philmd@redhat.com>
@@ -106,31 +105,32 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit bdd6a90a9e5 ("block: Add VFIO based NVMe driver")
-sets the request_alignment in nvme_refresh_limits().
-For consistency, also set it during initialization.
+While trying to simplify the code using a macro, we forgot
+the 12-bit shift... Correct that.
 
-Reported-by: Stefan Hajnoczi <stefanha@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Fixes: fad1eb68862 ("block/nvme: Use register definitions from 'block/nvme.h'")
+Reported-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Tested-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 1 +
- 1 file changed, 1 insertion(+)
+ block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index cd875555caf..bb75448a09f 100644
+index bb75448a09f..bd3860ac4ef 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -758,6 +758,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-     s->page_size = MAX(4096, 1 << NVME_CAP_MPSMIN(cap));
+@@ -755,7 +755,7 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
+         goto out;
+     }
+ 
+-    s->page_size = MAX(4096, 1 << NVME_CAP_MPSMIN(cap));
++    s->page_size = 1u << (12 + NVME_CAP_MPSMIN(cap));
      s->doorbell_scale = (4 << NVME_CAP_DSTRD(cap)) / sizeof(uint32_t);
      bs->bl.opt_mem_alignment = s->page_size;
-+    bs->bl.request_alignment = s->page_size;
-     timeout_ms = MIN(500 * NVME_CAP_TO(cap), 30000);
- 
-     /* Reset device to get a clean state. */
+     bs->bl.request_alignment = s->page_size;
 -- 
 2.26.2
 
