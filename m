@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C60B29E9FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 12:05:42 +0100 (CET)
-Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FBB429EA51
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 12:16:47 +0100 (CET)
+Received: from localhost ([::1]:59212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY5kT-0002ye-8k
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 07:05:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52512)
+	id 1kY5vC-0001SR-MH
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 07:16:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kY5jO-0002Yz-Go
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:04:35 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kY5jK-0005nz-4O
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:04:33 -0400
-Received: by mail-ej1-x643.google.com with SMTP id w27so3252487ejb.3
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 04:04:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=MPNcObTazh98BLCtafuzpMxINuEC+EGYZwZc/hmJOQs=;
- b=NreGa9cjDpsHZOL2opI9I+uldWzNMolQw4GXeiCy6Ybx5WFcYFF+gbAmcGrn6Ne922
- 0b03XmHluyu8EgZDtAW1sW15V5OwW9MjHNscILgVTvuJYK8ixDi8VOkgaTOKqCX4Vrgh
- Qy1vbH/gBY2irF76qIPTAK2j4h8VGExut6lt5+LitU8Mg4i3sVun8GPI+/BjIThETyOV
- D10bImMXX66GX306ujqk+iRDxKD/y+b84YDS5cO26gAfZ8ReDk2PqHWsb+wo4pMN0iR7
- Gy3wlON6vA25R92/VTEDMM7hyvq1DNOosrw9z9hwWi0omOd0AgXXjhChmchSJELiI0Df
- dwjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=MPNcObTazh98BLCtafuzpMxINuEC+EGYZwZc/hmJOQs=;
- b=Uhsi6rjODAghSy7SK3V1befIFA6QWKh0DO84K+xPQ7ep9vOox4NCHQj6hT5+oLrItd
- IjsnmkYUOcOxe/XLSFcycGkdo5QIInWRyvPZcaIORquupWmQHjVH/rWMjnehBuNd4T5U
- 5b6srrlGOFKv2AZ3EoTGKmtjgW5A862KefvfEHXQWh7eWHetNp4634e/vslOt4ccn1dh
- IxMdF2wmBuW3Lje8LhhZ79V74CFaPOWu7OHxdOUZ3mUdhl5oKskw8src9ObdxrVwQFps
- uMj9vT23PIekKLn7oU9Hr/dQicqCVtE0shwhaI3UYy8F/RLqA2wL0c8kgzWfORqsXAlk
- MspQ==
-X-Gm-Message-State: AOAM533LwzXdd/5K36BoXzwKnYXf5mcJCUcUBQl2xKZ3EUDZFZZm6qs4
- V60TT+wmXNtsAOTBDKCRw2f5psQ+Vi1hx30Q02bYeQ==
-X-Google-Smtp-Source: ABdhPJz6QePRbfjJRGzgN8xuJkR6iD2UKKnwygj8CXSWHOMeHFjQfiZdCzcfyz6mVkUIDRPmKaf46kQJ1QX0DkfvRMc=
-X-Received: by 2002:a17:907:9e3:: with SMTP id ce3mr3520800ejc.4.1603969468447; 
- Thu, 29 Oct 2020 04:04:28 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kY5ot-0004OA-0J
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:10:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kY5on-0007hd-Rn
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:10:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603969807;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=+J59516Ksjr94Qa2/eWcmes7+FrdmuVbtAOjP/uyXUo=;
+ b=FG3wQieIz2IU+esKn1nU5PqmCOaN+0pbFhQ7xzBKimZX2iBUOdyMe9nbhMYvv32gKZjmqe
+ TOJgt3GqKa2uc3sdb1eSRKfOhqJyQdgqKue1xT5nKaGRPTGDpGG9qV2a4EJTdF9PYXhEWH
+ iFKlXPQ+sCGhJc0PzHQqt3Ju77+0Kc4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-386-9AAefB81Mc2c7UOPTYX0mg-1; Thu, 29 Oct 2020 07:10:05 -0400
+X-MC-Unique: 9AAefB81Mc2c7UOPTYX0mg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFC191018F7B
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 11:10:04 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 19DA35C1C4;
+ Thu, 29 Oct 2020 11:09:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 3A18316E16; Thu, 29 Oct 2020 12:09:57 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/5] Modules 20201029 patches
+Date: Thu, 29 Oct 2020 12:09:52 +0100
+Message-Id: <20201029110957.11062-1-kraxel@redhat.com>
 MIME-Version: 1.0
-References: <20201028032703.201526-1-richard.henderson@linaro.org>
- <CAFEAcA9ZUeTXEgaNHDnN2SNEoV4RjA9RE-tSuKo1UUJ3ptSw_w@mail.gmail.com>
-In-Reply-To: <CAFEAcA9ZUeTXEgaNHDnN2SNEoV4RjA9RE-tSuKo1UUJ3ptSw_w@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Oct 2020 11:04:17 +0000
-Message-ID: <CAFEAcA9Jw23_3styd9RivZy04GCdmrPNw1y8zHM5Z+G5wOYCTg@mail.gmail.com>
-Subject: Re: [PATCH 00/11] target/arm: Fix neon reg offsets
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,30 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Oct 2020 at 20:03, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Wed, 28 Oct 2020 at 03:27, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
-> >
-> > Much of the existing usage of neon_reg_offset is broken for
-> > big-endian hosts, as it computes the offset of the first
-> > 32-bit unit, not the offset of the entire vector register.
-> >
-> > Fix this by separating out the different usages.  Make the
-> > whole thing look a bit more like the aarch64 code.
->
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->
-> I'll put this into target-arm.next since it's fixing a
-> bug on BE hosts.
+The following changes since commit bbc48d2bcb9711614fbe751c2c5ae13e172fbca8=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/renesas-20201027=
+' into staging (2020-10-28 16:25:31 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/modules-20201029-pull-request=0D
+=0D
+for you to fetch changes up to 546323bdac18984c771ebefae1046ee61742f9ca:=0D
+=0D
+  modules: turn off lazy binding (2020-10-29 06:37:24 +0100)=0D
+=0D
+----------------------------------------------------------------=0D
+modules: build virtio-gpu-pci & virtio-vga modular.=0D
+modules: various bugfixes, mostly for macos.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Gerd Hoffmann (5):=0D
+  virtio-gpu: add virtio-gpu-pci module=0D
+  virtio-gpu: add virtio-vga module=0D
+  virtio-gpu: only compile virtio-gpu-3d.c for CONFIG_VIRGL=3Dy=0D
+  modules: unbreak them on macos=0D
+  modules: turn off lazy binding=0D
+=0D
+ configure                  |  1 +=0D
+ hw/display/virtio-gpu-3d.c |  4 ----=0D
+ util/module.c              |  8 +++++++-=0D
+ hw/display/meson.build     | 25 ++++++++++++++++++++-----=0D
+ 4 files changed, 28 insertions(+), 10 deletions(-)=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
-I'm now assuming you'll send out a v2 with the VTRN/VREV
-missing-tcg-free bugs fixed.
-
-thanks
--- PMM
 
