@@ -2,73 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7EA029F333
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:28:48 +0100 (CET)
-Received: from localhost ([::1]:50324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21DC129F33B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:30:17 +0100 (CET)
+Received: from localhost ([::1]:53792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYBjE-0004mn-1q
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:28:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38730)
+	id 1kYBkd-0006GE-WA
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:30:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kYBfr-0002Ds-Uk
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:25:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kYBfj-0004HC-Cw
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:25:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603992310;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=fnYVt2setGyWxiaPMsYzFsGQyPu5EKDhKniCXrM+s+s=;
- b=dHRnwCajkMvXO+gwRK03ZbPB3i/Va86kh11lzlDzLt/13iiKQrNtIGb8kxT3km8bsoWp7H
- ZAh5QIJyWUVwutFtJy5owC9ikccBekUWdqt+sCX1eX0CdcqxlRnw03B8ugGZTI4XzwIRvq
- 3dfR1jq4vXHXIIKFXLsflwxA8jJE6k0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-jk-mnvn8Pbq7MjhfYFuvYA-1; Thu, 29 Oct 2020 13:25:06 -0400
-X-MC-Unique: jk-mnvn8Pbq7MjhfYFuvYA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B27511921FA4;
- Thu, 29 Oct 2020 17:25:04 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.219])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A84D5DA2A;
- Thu, 29 Oct 2020 17:25:01 +0000 (UTC)
-Date: Thu, 29 Oct 2020 18:24:58 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH v2 08/13] hw/acpi/aml-build: add processor hierarchy
- node structure
-Message-ID: <20201029172458.kgeab6rkjrb6wtyw@kamzik.brq.redhat.com>
-References: <20201020131440.1090-1-fangying1@huawei.com>
- <20201020131440.1090-9-fangying1@huawei.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kYBhy-00041I-Hv
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:27:30 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:48413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kYBhw-0004og-0f
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:27:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=vfExwQWkVvf7b00Esg1fBPUp/dzd5F5iL3/qoDpjhwE=; b=XM/5E0ZE9kzSb/m8Y/GaD+Nt6A
+ MysrwFVmpVMm+XrMbWEkA6jCvOWJJZXuwtmxbcx3UocE3ag6W9+hvM5lwpsoiv9p7C9wmf4QrdHiw
+ TGUntyuTQWkOlHBoUBswtk/RZ60tbUko0xKaQ0GDlQ/gOVshclXe0q3EFsLkzvfJvsxir3wwM78D8
+ 78KDyKqefE51OmKhD7CX9CXfk+Ys2b8+Y0DnpJDcY+87/GG4RXbL/Jfg4ecDDHVQJmZtWIhQAUHN0
+ +b41h9rNhw4s6M7Kmp5sBpKuR5AKYoZU9DkREA9T6KiF3BA4bRIq6QYQ47FSU4E1Bj86ru+TSoSg5
+ V/9UYQcg==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org,
+ Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
+Subject: Re: [PULL 00/13] 9p queue 2020-10-23
+Date: Thu, 29 Oct 2020 18:27:21 +0100
+Message-ID: <2309245.eTJEYpyWRi@silver>
+In-Reply-To: <20201029150403.GF27369@redhat.com>
+References: <cover.1603452058.git.qemu_oss@crudebyte.com>
+ <CAFEAcA9KYtb7tFp5tnPGMiYg0gpurao7GbcU_ND934tvFiU-aw@mail.gmail.com>
+ <20201029150403.GF27369@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201020131440.1090-9-fangying1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 13:27:23
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,105 +65,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, zhang.zhanghailiang@huawei.com,
- qemu-devel@nongnu.org, alex.chen@huawei.com, shannon.zhaosl@gmail.com,
- Henglong Fan <fanhenglong@huawei.com>, alistair.francis@wdc.com,
- qemu-arm@nongnu.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 20, 2020 at 09:14:35PM +0800, Ying Fang wrote:
-> Add the processor hierarchy node structures to build ACPI information
-> for CPU topology. Three helpers are introduced:
-> 
-> (1) build_socket_hierarchy for socket description structure
-> (2) build_processor_hierarchy for processor description structure
-> (3) build_smt_hierarchy for thread (logic processor) description structure
+On Donnerstag, 29. Oktober 2020 16:04:03 CET Daniel P. Berrang=E9 wrote:
+> On Thu, Oct 29, 2020 at 02:52:16PM +0000, Peter Maydell wrote:
+> > On Thu, 29 Oct 2020 at 14:31, Christian Schoenebeck
+> >=20
+> > <qemu_oss@crudebyte.com> wrote:
+> > > On Donnerstag, 29. Oktober 2020 15:15:19 CET Peter Maydell wrote:
+> > > > On Thu, 29 Oct 2020 at 14:06, Christian Schoenebeck
+> > > >=20
+> > > > <qemu_oss@crudebyte.com> wrote:
+> > > > > Ok, I'll use mkdtemp() instead, that avoids other potential paral=
+lel
+> > > > > config
+> > > > > colissions that I may not have considered yet.
+> > > > >=20
+> > > > > The original motivation against mkdtemp() was that /tmp is isuall=
+y a
+> > > > > ramfs,
+> > > > > hence very limited regarding large file tests. But that's not an
+> > > > > issue
+> > > > > right now.
+> > > >=20
+> > > > How large is "large" here ?
+> > >=20
+> > > E.g. ~10 GiB which might be a problem for cloud based CI platforms.
+> >=20
+> > Yeah, 10GB is too big by an order of magnitude for anything in the
+> > standard "make check" set. It could go in an optional "I'm the 9p
+> > maintainer and I want to run a wider set of tests" target though.
+>=20
+> I think as a rough rule of thumb, tests should not create files
+> that are larger than the size of the QEMU build dir, and if it is
+> creating non-trivially sized files, then they should be created in
+> the build dir, not /tmp.  This probably puts 1 GB as a upper bound
+> on size but bear in mind tests can run in parallel, so ideally biggest
+> file sizes should be more in the 100s of MB range
+>=20
+> Regards,
+> Daniel
 
-I see now the reason to introduce three functions is because the last
-patch adds different private resources. You should point that plan out
-in this commit message.
+I definitely won't run such large-file tests uncaged, so it would not run by
+default for sure. But sooner or later it would make sense to streamline test
+case options in QEMU in general, so that certain tests would automatically =
+run
+or not depending on runner's capabilities, limits and preferences.
 
-Thanks,
-drew
+The TCG tests for instance periodically trigger test failures as they exceed
+Travis-CI's runtime limit of 40mins once in a while.
 
-> 
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
-> Signed-off-by: Henglong Fan <fanhenglong@huawei.com>
-> ---
->  hw/acpi/aml-build.c         | 37 +++++++++++++++++++++++++++++++++++++
->  include/hw/acpi/aml-build.h |  7 +++++++
->  2 files changed, 44 insertions(+)
-> 
-> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-> index 3792ba96ce..da3b41b514 100644
-> --- a/hw/acpi/aml-build.c
-> +++ b/hw/acpi/aml-build.c
-> @@ -1770,6 +1770,43 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms)
->                   table_data->len - slit_start, 1, NULL, NULL);
->  }
->  
-> +/*
-> + * ACPI 6.3: 5.2.29.1 Processor hierarchy node structure (Type 0)
-> + */
-> +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
-> +{
-> +    build_append_byte(tbl, 0);          /* Type 0 - processor */
-> +    build_append_byte(tbl, 20);         /* Length, no private resources */
-> +    build_append_int_noprefix(tbl, 0, 2);  /* Reserved */
-> +    build_append_int_noprefix(tbl, 1, 4);  /* Flags: Physical package */
-> +    build_append_int_noprefix(tbl, parent, 4);  /* Parent */
-> +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
-> +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
-> +}
-> +
-> +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
-> +                               uint32_t parent, uint32_t id)
-> +{
-> +    build_append_byte(tbl, 0);          /* Type 0 - processor */
-> +    build_append_byte(tbl, 20);         /* Length, no private resources */
-> +    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
-> +    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
-> +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
-> +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
-> +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
-> +}
-> +
-> +void build_smt_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
-> +{
-> +    build_append_byte(tbl, 0);            /* Type 0 - processor */
-> +    build_append_byte(tbl, 20);           /* Length, add private resources */
-> +    build_append_int_noprefix(tbl, 0, 2); /* Reserved */
-> +    build_append_int_noprefix(tbl, 0x0e, 4);    /* Processor is a thread */
-> +    build_append_int_noprefix(tbl, parent , 4); /* parent */
-> +    build_append_int_noprefix(tbl, id, 4);      /* ACPI processor ID */
-> +    build_append_int_noprefix(tbl, 0, 4);       /* Num of private resources */
-> +}
-> +
->  /* build rev1/rev3/rev5.1 FADT */
->  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->                  const char *oem_id, const char *oem_table_id)
-> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
-> index fe0055fffb..56474835a7 100644
-> --- a/include/hw/acpi/aml-build.h
-> +++ b/include/hw/acpi/aml-build.h
-> @@ -437,6 +437,13 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
->  
->  void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms);
->  
-> +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
-> +
-> +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
-> +                               uint32_t parent, uint32_t id);
-> +
-> +void build_smt_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
-> +
->  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
->                  const char *oem_id, const char *oem_table_id);
->  
-> -- 
-> 2.23.0
-> 
-> 
+Back to the actual 9p test failure issue, I think I will go for something l=
+ike
+this:
+
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index d43647b3b7..ebbacd5896 100644
+=2D-- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -35,7 +35,12 @@ static char *concat_path(const char* a, const char* b)
+ static void init_local_test_path(void)
+ {
+     char *pwd =3D g_get_current_dir();
+=2D    local_test_path =3D concat_path(pwd, "qtest-9p-local");
++    char *template =3D concat_path(pwd, "qtest-9p-local-XXXXXX");
++    local_test_path =3D mkdtemp(template);
++    if (!local_test_path) {
++        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errn=
+o));
++    }
++    g_assert(local_test_path);
+     g_free(pwd);
+ }
+=20
+@@ -246,11 +251,6 @@ static void virtio_9p_register_nodes(void)
+     const char *str_simple =3D "fsdev=3Dfsdev0,mount_tag=3D" MOUNT_TAG;
+     const char *str_addr =3D "fsdev=3Dfsdev0,addr=3D04.0,mount_tag=3D" MOU=
+NT_TAG;
+=20
+=2D    /* make sure test dir for the 'local' tests exists and is clean */
+=2D    init_local_test_path();
+=2D    remove_local_test_dir();
+=2D    create_local_test_dir();
+=2D
+     QPCIAddress addr =3D {
+         .devfn =3D QPCI_DEVFN(4, 0),
+     };
+@@ -278,3 +278,14 @@ static void virtio_9p_register_nodes(void)
+ }
+=20
+ libqos_init(virtio_9p_register_nodes);
++
++static void __attribute__((constructor)) construct_virtio_9p(void) {
++    /* make sure test dir for the 'local' tests exists */
++    init_local_test_path();
++    create_local_test_dir();
++}
++
++static void __attribute__((destructor)) destruct_virtio_9p(void) {
++    /* remove previously created test dir when test suite completed */
++    remove_local_test_dir();
++}
+
+So it would still use the current directory instead of /tmp/ and would
+create and remove the test dir on process start/end. I wanted to avoid
+using constructor/destructor atttributes, as some compilers don't
+support them, but it seems it's already used in the code base and there
+are currently no setup/teardown callbacks in libqos.
+
+Another downside: with 'make check -jN' this will temporarily create a
+bunch of unused, empty dirs. But I hope that's Ok to fix in QEMU 6
+(by adding setup/teardown callbacks to libqos later).
+
+Just hoping there are no glib versions that use threads instead of
+processes.
+
+Best regards,
+Christian Schoenebeck
+
 
 
