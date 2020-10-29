@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC8C29EE71
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:38:14 +0100 (CET)
-Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD7C29EE9F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:43:52 +0100 (CET)
+Received: from localhost ([::1]:46744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY949-0001QG-Ld
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:38:13 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
+	id 1kY99c-0008I8-0T
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:43:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
- id 1kY8se-0002HR-Ez
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:26:20 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42880)
+ id 1kY8sk-0002KG-95
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:26:27 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
- id 1kY8sc-0005fB-Ci
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:26:20 -0400
+ id 1kY8sf-0005fG-8q
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:26:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603981578; x=1635517578;
+ t=1603981581; x=1635517581;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=az4hi+7Qmy3zzRkU/t2y0reaYkYBTtPhn+llQuZih24=;
- b=o6wAd/c5AzAIwTEWdakYZSvLyl5maNRFOJ7ZrvMp1hDE+SHiigGHx0f2
- zzXCY6Q94Ut8VLJ6OgE4cgUFXr/yr6IxEU9kPXbhboLr51Ku/LFDGVQ07
- tpb5eMOqPRBbE+ZceLyzJkmK+8WtSFbVbROAQm6TIoQUoXta/AdBSuWu0
- UjIM3ixFS1jkHntTquBzjfy8k6FUF0uWQJUbPve4DQHgW1N3k7BKLowse
- EphyTqX5utle6AgbbR5ey10urzRO0hCInEQ20UIO5MKtSF7uZplmnxSwv
- 3eTs/kIfyie12zj1EAWZr4TChU4bIMnW8HI+FkeU2vMt853EtM7tTX1ph Q==;
-IronPort-SDR: VZLxYLfq3n1XlzYzt5x//GdhP7yO7dSLqjlt7/pmtk3obPA4EzmuGhtKPvaxXpmj/mC5O8BdFo
- QCmwcvEnz+/dN1j9t0oRaVGxKRApyshve9RRWdJPVSeAKaVTmzN361dY6OqqDKGXGJozEIvcWb
- QkoJueXXjgbmUJArIJi4puULdZypwiInIT3S8d71Zu/asoCUWPrbOTtcitQbnCTtsYNXwwCTlo
- 3AP+1UfiFloneSwZ8nWLHzIIRLd+i7S9n4yzLC7f65TJQvmiJ+MVRAJLIelt0GA+CM5I06ae+F
- ThI=
-X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317901"
+ bh=VBTYAcLWoXWk8osLN7pUdBmVJXnyQNmIf/lGTVJHrkg=;
+ b=rlQzO6v/xDVanvDx2a1cWlGUVwItRgF05HDWC8RqxPG2NhKPndjWJEVK
+ opnHPSbfNPa4DKy+6sJ7Bw2cKQ0xlMPo4PxTfbsWJpBMqlOYk7pMZgufP
+ U4jil4b1wEjTFdQ8NNaCv67nhM2XOhhshNLOp/SwyF6RgCT/HF7eg+7Z2
+ lNHlps9PcQgt0N1iL4PxFX4pEVCLJngzh2UvZ2p5YYMVlQXPPFfBxZUTJ
+ TyjDIziLenBRxMfxvZy91Vbdnn5O6+0GuKMqAwKel0tt+tU5Lzn+/DPZ8
+ QlR1hHEDUww12VLHbv2mN8Qwb8wRTKYU1vQhbsTYkzhnhx6bzfZ+J4Hf2 A==;
+IronPort-SDR: 4Azk7jPEAoUmBdKb1QyGcodkEzaN7cXumVzVL/pAnMbxkiVFLkmegH6spy95k39ITxzbiA1B46
+ k0xSh1fViNrRd9FP0/gKxtl7AqVAaYQ+qH1ymhFJ8qEZvoi9feZfVLSbV+rvER0hR16ZuKCnjE
+ sAW/VxB5ZKx87sRvGbv1YSJJyCdmhX+NGML3cYFyUnZic6q3Z/iIlFh7yEywQ/uxAPqef3ZRAR
+ 2EGc53NxMD+nwlueFM8mCKXQiHvNQ+gPTkD/ConvTAjwp1e6z4KCQiucre7UglfYkPDakf7jgy
+ Sqk=
+X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317903"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2020 22:25:30 +0800
-IronPort-SDR: uheujDzYhSNLTg1WDhWsM21zKRrGxoEfZYB5bPB639FtlRQSQ5RJWehi2n6lW+4OrICsV1zplk
- kFHPiOUNwJGKRrWGulXrANY2/89NtGJfcbBdHBL+eE4/Br3jSaK8k4sncmPgvda0lShQN8WSdC
- xvwrlxMaKXQ+qAOaQXJ+cPEJjHaoS6D0caAPO2XAVlCZuIWc3RgaHqtqWUGWaT04Mc2lvGDd7i
- UpkRc4NZ5vUxwsOe984ILz3GZmv5XaGDA8paP4p8At8Qhdfnu9hKGqQnox0LtLnqX17OFbFUeA
- 3WXkuLb4JlC2GUEzoWhSV9QU
+IronPort-SDR: YxIaOk+Mnwa72UNK5VCrX+2OPLtsQ8X1ksqIpCONoEnW/AtiF/qv1ZwlNs+upsNsPw34XADaEX
+ MJnAxJP4X3oDkojSR12gJ0UFsChA/PooifVT5ylxx7c7HfAvoJV1+Di/srW8k1T2Nd0ZP+p2fn
+ H38IBWFczny9liR8tq+/TaZyXU6uZCVwplpLtW8wv5brDqO0O3FM8xhVjVIR8pO0PMYIssVzRs
+ pKbupXPRdcHQrJ12tkJ9yXKDNGuXZ/UhjK+SiGMuPUJwalfKK4IQLkxBY74J3HT4XVJYy+PZhq
+ 8IFBzUtrv5t8hCZWEOoBxDtD
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Oct 2020 07:11:45 -0700
-IronPort-SDR: v/xFBFPApyHGcUEfDu8K3XMM8/NTUxLMmVcwjRIzcadrQyJ4a4Q+HxdpVXkXGLYif7gLDsGSuC
- VVD4bLf1f7lgZ/K9m6p9ahvKGKph0ms5mc1R9FwCzo43CQDED0TYSBHoqbrBeeNQzdJySz9yJ6
- vyYGvuQKazZSRPu2v0yJlgeR31P+p9nVUnSoW6+56d131o73BRyYp8VzS3q65sw0SpoXN9vd0E
- /r+jiHM08wSFFbZRqBC4Ww8hswXJN10L9WCmgm+qtmh6n6P388NQVjzOR96QDDTnFejGPGNNj5
- 3yk=
+IronPort-SDR: R7/LVh88oCBgW8prHK8Lb4B3N0aNFHOOx5RHV5O6zzw73TKldxFUhs/1cNb3JgkzwABL8NwFki
+ gxQG9/WHazzW0X1iQ4DDM27wcwJtTEkosf1zh0rNNULtARcmrZvp9qOH+3i91WAWw5IUG+NXHx
+ PUC4BRI+03gFKjxcCxQxcWmiMEqrAkc1HOgrfRQfTFsa2UHtZxqcHymjdjiMWm21bXbrLq/t+T
+ 8PST+eZoroWNRzIMjMdGBxFmfi6sKmPEHRTGeaATPfEItOlehGLlV+tFLpX6w38m02tUQI65gO
+ OB4=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.131])
@@ -62,10 +62,9 @@ Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 16/18] hw/riscv: microchip_pfsoc: Map the reserved memory at
- address 0
-Date: Thu, 29 Oct 2020 07:13:56 -0700
-Message-Id: <20201029141358.3102636-17-alistair.francis@wdc.com>
+Subject: [PULL 17/18] hw/riscv: microchip_pfsoc: Correct DDR memory map
+Date: Thu, 29 Oct 2020 07:13:57 -0700
+Message-Id: <20201029141358.3102636-18-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201029141358.3102636-1-alistair.francis@wdc.com>
 References: <20201029141358.3102636-1-alistair.francis@wdc.com>
@@ -102,69 +101,125 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Somehow HSS needs to access address 0 [1] for the DDR calibration data
-which is in the chipset's reserved memory. Let's map it.
+When system memory is larger than 1 GiB (high memory), PolarFire SoC
+maps it at address 0x10_0000_0000. Address 0xC000_0000 and above is
+aliased to the same 1 GiB low memory with different cache attributes.
 
-[1] See the config_copy() calls in various places in ddr_setup() in
-    the HSS source codes.
+At present QEMU maps the system memory contiguously from 0x8000_0000.
+This corrects the wrong QEMU logic. Note address 0x14_0000_0000 is
+the alias to the high memory, and even physical memory is only 1 GiB,
+the HSS codes still tries to probe the high memory alias address.
+It seems there is no issue on the real hardware, so we will have to
+take that into the consideration in our emulation. Due to this, we
+we increase the default system memory size to 2 GiB so that user gets
+notified an error when less than 2 GiB is specified.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1603863010-15807-9-git-send-email-bmeng.cn@gmail.com
+Message-id: 1603863010-15807-10-git-send-email-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/microchip_pfsoc.h |  1 +
- hw/riscv/microchip_pfsoc.c         | 11 ++++++++++-
- 2 files changed, 11 insertions(+), 1 deletion(-)
+ include/hw/riscv/microchip_pfsoc.h |  5 +++-
+ hw/riscv/microchip_pfsoc.c         | 48 ++++++++++++++++++++++++++----
+ 2 files changed, 46 insertions(+), 7 deletions(-)
 
 diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index 245c82db61..f34a6b3fd7 100644
+index f34a6b3fd7..db77e9c84a 100644
 --- a/include/hw/riscv/microchip_pfsoc.h
 +++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -74,6 +74,7 @@ typedef struct MicrochipIcicleKitState {
-                  TYPE_MICROCHIP_ICICLE_KIT_MACHINE)
+@@ -105,7 +105,10 @@ enum {
+     MICROCHIP_PFSOC_ENVM_CFG,
+     MICROCHIP_PFSOC_ENVM_DATA,
+     MICROCHIP_PFSOC_IOSCB,
+-    MICROCHIP_PFSOC_DRAM,
++    MICROCHIP_PFSOC_DRAM_LO,
++    MICROCHIP_PFSOC_DRAM_LO_ALIAS,
++    MICROCHIP_PFSOC_DRAM_HI,
++    MICROCHIP_PFSOC_DRAM_HI_ALIAS
+ };
  
  enum {
-+    MICROCHIP_PFSOC_RSVD0,
-     MICROCHIP_PFSOC_DEBUG,
-     MICROCHIP_PFSOC_E51_DTIM,
-     MICROCHIP_PFSOC_BUSERR_UNIT0,
 diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index bc908e07d9..44a84732ac 100644
+index 44a84732ac..5e31b84817 100644
 --- a/hw/riscv/microchip_pfsoc.c
 +++ b/hw/riscv/microchip_pfsoc.c
-@@ -90,7 +90,8 @@ static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
- } microchip_pfsoc_memmap[] = {
--    [MICROCHIP_PFSOC_DEBUG] =           {        0x0,     0x1000 },
-+    [MICROCHIP_PFSOC_RSVD0] =           {        0x0,      0x100 },
-+    [MICROCHIP_PFSOC_DEBUG] =           {      0x100,      0xf00 },
-     [MICROCHIP_PFSOC_E51_DTIM] =        {  0x1000000,     0x2000 },
-     [MICROCHIP_PFSOC_BUSERR_UNIT0] =    {  0x1700000,     0x1000 },
-     [MICROCHIP_PFSOC_BUSERR_UNIT1] =    {  0x1701000,     0x1000 },
-@@ -176,6 +177,7 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     MicrochipPFSoCState *s = MICROCHIP_PFSOC(dev);
-     const struct MemmapEntry *memmap = microchip_pfsoc_memmap;
-     MemoryRegion *system_memory = get_system_memory();
-+    MemoryRegion *rsvd0_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *e51_dtim_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *l2lim_mem = g_new(MemoryRegion, 1);
-     MemoryRegion *envm_data = g_new(MemoryRegion, 1);
-@@ -195,6 +197,13 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     qdev_realize(DEVICE(&s->e_cluster), NULL, &error_abort);
-     qdev_realize(DEVICE(&s->u_cluster), NULL, &error_abort);
+@@ -121,7 +121,10 @@ static const struct MemmapEntry {
+     [MICROCHIP_PFSOC_ENVM_CFG] =        { 0x20200000,     0x1000 },
+     [MICROCHIP_PFSOC_ENVM_DATA] =       { 0x20220000,    0x20000 },
+     [MICROCHIP_PFSOC_IOSCB] =           { 0x30000000, 0x10000000 },
+-    [MICROCHIP_PFSOC_DRAM] =            { 0x80000000,        0x0 },
++    [MICROCHIP_PFSOC_DRAM_LO] =         { 0x80000000, 0x40000000 },
++    [MICROCHIP_PFSOC_DRAM_LO_ALIAS] =   { 0xc0000000, 0x40000000 },
++    [MICROCHIP_PFSOC_DRAM_HI] =       { 0x1000000000,        0x0 },
++    [MICROCHIP_PFSOC_DRAM_HI_ALIAS] = { 0x1400000000,        0x0 },
+ };
  
-+    /* Reserved Memory at address 0 */
-+    memory_region_init_ram(rsvd0_mem, NULL, "microchip.pfsoc.rsvd0_mem",
-+                           memmap[MICROCHIP_PFSOC_RSVD0].size, &error_fatal);
+ static void microchip_pfsoc_soc_instance_init(Object *obj)
+@@ -424,7 +427,11 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+     const struct MemmapEntry *memmap = microchip_pfsoc_memmap;
+     MicrochipIcicleKitState *s = MICROCHIP_ICICLE_KIT_MACHINE(machine);
+     MemoryRegion *system_memory = get_system_memory();
+-    MemoryRegion *main_mem = g_new(MemoryRegion, 1);
++    MemoryRegion *mem_low = g_new(MemoryRegion, 1);
++    MemoryRegion *mem_low_alias = g_new(MemoryRegion, 1);
++    MemoryRegion *mem_high = g_new(MemoryRegion, 1);
++    MemoryRegion *mem_high_alias = g_new(MemoryRegion, 1);
++    uint64_t mem_high_size;
+     DriveInfo *dinfo = drive_get_next(IF_SD);
+ 
+     /* Sanity check on RAM size */
+@@ -441,10 +448,39 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+     qdev_realize(DEVICE(&s->soc), NULL, &error_abort);
+ 
+     /* Register RAM */
+-    memory_region_init_ram(main_mem, NULL, "microchip.icicle.kit.ram",
+-                           machine->ram_size, &error_fatal);
++    memory_region_init_ram(mem_low, NULL, "microchip.icicle.kit.ram_low",
++                           memmap[MICROCHIP_PFSOC_DRAM_LO].size,
++                           &error_fatal);
++    memory_region_init_alias(mem_low_alias, NULL,
++                             "microchip.icicle.kit.ram_low.alias",
++                             mem_low, 0,
++                             memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].size);
 +    memory_region_add_subregion(system_memory,
-+                                memmap[MICROCHIP_PFSOC_RSVD0].base,
-+                                rsvd0_mem);
++                                memmap[MICROCHIP_PFSOC_DRAM_LO].base,
++                                mem_low);
++    memory_region_add_subregion(system_memory,
++                                memmap[MICROCHIP_PFSOC_DRAM_LO_ALIAS].base,
++                                mem_low_alias);
 +
-     /* E51 DTIM */
-     memory_region_init_ram(e51_dtim_mem, NULL, "microchip.pfsoc.e51_dtim_mem",
-                            memmap[MICROCHIP_PFSOC_E51_DTIM].size, &error_fatal);
++    /*
++     * Map 1 GiB high memory because HSS will do memory test against the high
++     * memory address range regardless of physical memory installed.
++     *
++     * See memory_tests() in mss_ddr.c in the HSS source code.
++     */
++    mem_high_size = machine->ram_size - 1 * GiB;
++
++    memory_region_init_ram(mem_high, NULL, "microchip.icicle.kit.ram_high",
++                           mem_high_size, &error_fatal);
++    memory_region_init_alias(mem_high_alias, NULL,
++                             "microchip.icicle.kit.ram_high.alias",
++                             mem_high, 0, mem_high_size);
++    memory_region_add_subregion(system_memory,
++                                memmap[MICROCHIP_PFSOC_DRAM_HI].base,
++                                mem_high);
+     memory_region_add_subregion(system_memory,
+-                                memmap[MICROCHIP_PFSOC_DRAM].base, main_mem);
++                                memmap[MICROCHIP_PFSOC_DRAM_HI_ALIAS].base,
++                                mem_high_alias);
+ 
+     /* Load the firmware */
+     riscv_find_and_load_firmware(machine, BIOS_FILENAME, RESET_VECTOR, NULL);
+@@ -470,7 +506,7 @@ static void microchip_icicle_kit_machine_class_init(ObjectClass *oc, void *data)
+                    MICROCHIP_PFSOC_COMPUTE_CPU_COUNT;
+     mc->min_cpus = MICROCHIP_PFSOC_MANAGEMENT_CPU_COUNT + 1;
+     mc->default_cpus = mc->min_cpus;
+-    mc->default_ram_size = 1 * GiB;
++    mc->default_ram_size = 2 * GiB;
+ }
+ 
+ static const TypeInfo microchip_icicle_kit_machine_typeinfo = {
 -- 
 2.28.0
 
