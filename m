@@ -2,63 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D323329EDF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:13:08 +0100 (CET)
-Received: from localhost ([::1]:37414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB6C129EE2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:27:38 +0100 (CET)
+Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY8fr-0005WZ-Ty
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:13:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48050)
+	id 1kY8tt-00033f-5m
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:27:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kY8eZ-00055p-Ek
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:11:47 -0400
-Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:57650)
+ (Exim 4.90_1)
+ (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
+ id 1kY8rs-0001QT-OP
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:32 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42880)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kY8eX-00045a-98
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:11:47 -0400
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id F35CB230AE1;
- Thu, 29 Oct 2020 15:11:39 +0100 (CET)
-Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 29 Oct
- 2020 15:11:39 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003cf0616ef-3c6f-4e78-9050-6250057367c9,
- E5CD8EB7A660BD10DDB00AFD0F9198C3FA657B0B) smtp.auth=groug@kaod.org
-Date: Thu, 29 Oct 2020 15:11:38 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 00/13] 9p queue 2020-10-23
-Message-ID: <20201029151138.72926957@bahia.lan>
-In-Reply-To: <CAFEAcA-q0AVF-GMu1VLKPKmPAURV9j+YoC3g-C15F2Jy5nTUVQ@mail.gmail.com>
-References: <cover.1603452058.git.qemu_oss@crudebyte.com>
- <2016477.jJ6Bm08OSA@silver>
- <CAFEAcA_qsZ1ZT-hk5wJc1Mz97vzo3N+UisK7XBagG5S1GtjqoA@mail.gmail.com>
- <3097828.JvSkC2jeLF@silver>
- <CAFEAcA-q0AVF-GMu1VLKPKmPAURV9j+YoC3g-C15F2Jy5nTUVQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1)
+ (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
+ id 1kY8rp-0005fB-KG
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:32 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1603981529; x=1635517529;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=vt1tKwO9yd0polgpQiUVN2DSNirL0ZolHuRVQHJI77M=;
+ b=QwQlTUr0rbzCBTdHy9y0Ltxpghoc3YQOrSkBKeLrajZqlQCH9gGJjhFE
+ JXe22R/9HnRug7mwI06UOAhDSC8U7tUTGZuaeeyTonZviUivu5bV+j6zP
+ BKpNtiETcRsBtxFyI911IKO7KrLTwhooQBUBPYJAp+nlWJ1795fADA56J
+ /vKaT5UsdNcxn2J2zTRcGKRWbyPzukLzX22LSWDh0PNeSqVyfBRJG9ORM
+ ntGvuGX6O6k7jfLe7v/iKIdT4/on+DzSLeWz9imJcFaaEj81Oq+GBcQVL
+ B5A5lesD23K2PmIZvtAGd28YWeNOryVY6sMGtaQ1ZoWVC8vaoZKiqKn7R Q==;
+IronPort-SDR: 9TJOb6xHBxawwR1wU00OMjfxArgikq4+AKrCHxBmWpZTFrOzPgFeH1rBYYWJ8QwJBeXdwtTRB2
+ +N/UIxkvPthDo7AtADRJZY4Kj5rMCjzuSBoAGjTW2yXQrQkNn1+6RzQSd9zmUbcELXtASjrgt8
+ 7x69x/e6uOI2TQKNiKEqo52YWwvITqqMaLw+LnQQT5X94VVxZdRVWAzkvw4W9P1D1jpaFah8hv
+ wfOFfEDc4U6WGBpeB6jc20PRmDbpHm9ydx0XY1DvtQ5UnfCvr4mn2pAceXYvB96trn+Oy/8/sU
+ z4A=
+X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317867"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2020 22:25:26 +0800
+IronPort-SDR: TdbeMJ061RNodNFqs4GGgFKKZCqCMtUR+vPgX1+5Rv4Li+k7CP0vgJ77X4J6ChSbjctrOJxTuk
+ qebLmURWvp6GR9OAm4MuHllbrRr1KVQ0N201p66qDa/thy2WGaMTZCxy3UW++j0JmLmqa3vedK
+ v5MwRqZ+mSCuSozm1C/E0kpaGibVvSMuFnP4Rz9v6LKKwGjNS94xkeBV+Ta4IIb/wC2KWIwuir
+ bf0EHlmOHIdsI/GVbhvzO8PVuOM/AdVVyLK1uW7XxVEJZRIX6cI9NVjxKSZsHQVA7PPGztXs/E
+ hLkD1jUcrRc0GIduNw4jjDpR
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Oct 2020 07:11:41 -0700
+IronPort-SDR: sfigUJBVJFWDcFIXW0LFPASESai9gD2SKjz1erkJNpPDIPgmqpjMpJCYauZ7m/9vJUMS3eiNh1
+ HFSfjg7/y3sJ8tk2FWbLbypkIdTZCtTI/tQsegOzGDxCHe2kYGimbim4euOCFLvjwqxtXbCHY1
+ CHcL4L57hCdFOivDzXpHH3yO+2N7KSI4+wLNR1teose/uAWrpiHBmvtF8Ro4JVzlOUmaYF5sTq
+ YY2MZ2L5VnCE9ZCgId2y1EQAKBVMV1dgwn/6CiEzYcWj5ej4xb6PWOp3iwdAzNZRGEPpUYMNiV
+ dLc=
+WDCIronportException: Internal
+Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.60.131])
+ by uls-op-cesaip01.wdc.com with ESMTP; 29 Oct 2020 07:25:27 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Subject: [PULL 00/18] riscv-to-apply queue
+Date: Thu, 29 Oct 2020 07:13:40 -0700
+Message-Id: <20201029141358.3102636-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: a2578cd8-6ac7-48fc-b1a0-28e5257e7892
-X-Ovh-Tracer-Id: 14815435399856888285
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrleefgdeiudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejfedtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptefgffffgffgkeegffetkefhhfeuleffvdehvdfgtdfhiedutedvudelgfevveetnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=groug@kaod.org;
- helo=8.mo51.mail-out.ovh.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 10:11:40
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=56447669b=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 10:25:26
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -72,27 +92,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Oct 2020 13:57:45 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
+The following changes since commit c0444009147aa935d52d5acfc6b70094bb42b0dd:
 
-> On Thu, 29 Oct 2020 at 13:48, Christian Schoenebeck
-> <qemu_oss@crudebyte.com> wrote:
-> > So I'll append the architecture to the test dir location. To nail it this
-> > time, anyting else that would come to your mind regarding test dirs?
-> 
-> I think most tests that need a temp directory set one
-> up using mkdtemp().
-> 
+  Merge remote-tracking branch 'remotes/armbru/tags/pull-qmp-2020-10-27' into staging (2020-10-29 10:03:32 +0000)
 
-Yeah, early versions of the 9p tests that were using the local fsdev
-backend relied on mkdtemp().
+are available in the Git repository at:
 
-> thanks
-> -- PMM
+  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201029
 
+for you to fetch changes up to e041badcd4ac644a67f02f8765095a5ff7a24d47:
+
+  hw/riscv: microchip_pfsoc: Hook the I2C1 controller (2020-10-29 07:11:14 -0700)
+
+----------------------------------------------------------------
+This series adds support for migration to RISC-V QEMU and expands the
+Microchip PFSoC to allow unmodified HSS and Linux boots.
+
+----------------------------------------------------------------
+Anup Patel (2):
+      hw/riscv: sifive_u: Allow passing custom DTB
+      hw/riscv: virt: Allow passing custom DTB
+
+Bin Meng (10):
+      hw/riscv: microchip_pfsoc: Document where to look at the SoC memory maps
+      hw/misc: Add Microchip PolarFire SoC DDR Memory Controller support
+      hw/riscv: microchip_pfsoc: Connect DDR memory controller modules
+      hw/misc: Add Microchip PolarFire SoC IOSCB module support
+      hw/riscv: microchip_pfsoc: Connect the IOSCB module
+      hw/misc: Add Microchip PolarFire SoC SYSREG module support
+      hw/riscv: microchip_pfsoc: Connect the SYSREG module
+      hw/riscv: microchip_pfsoc: Map the reserved memory at address 0
+      hw/riscv: microchip_pfsoc: Correct DDR memory map
+      hw/riscv: microchip_pfsoc: Hook the I2C1 controller
+
+Yifei Jiang (6):
+      target/riscv: Merge m/vsstatus and m/vsstatush into one uint64_t unit
+      target/riscv: Add basic vmstate description of CPU
+      target/riscv: Add PMP state description
+      target/riscv: Add H extension state description
+      target/riscv: Add V extension state description
+      target/riscv: Add sifive_plic vmstate
+
+ include/hw/intc/sifive_plic.h       |   1 +
+ include/hw/misc/mchp_pfsoc_dmc.h    |  56 +++++++++
+ include/hw/misc/mchp_pfsoc_ioscb.h  |  50 ++++++++
+ include/hw/misc/mchp_pfsoc_sysreg.h |  39 ++++++
+ include/hw/riscv/microchip_pfsoc.h  |  18 ++-
+ target/riscv/cpu.h                  |  24 ++--
+ target/riscv/cpu_bits.h             |  19 +--
+ target/riscv/internals.h            |   4 +
+ target/riscv/pmp.h                  |   2 +
+ hw/intc/sifive_plic.c               |  26 +++-
+ hw/misc/mchp_pfsoc_dmc.c            | 216 ++++++++++++++++++++++++++++++++
+ hw/misc/mchp_pfsoc_ioscb.c          | 242 ++++++++++++++++++++++++++++++++++++
+ hw/misc/mchp_pfsoc_sysreg.c         |  99 +++++++++++++++
+ hw/riscv/microchip_pfsoc.c          | 123 +++++++++++++++---
+ hw/riscv/sifive_u.c                 |  28 +++--
+ hw/riscv/virt.c                     |  27 ++--
+ target/riscv/cpu.c                  |  16 +--
+ target/riscv/cpu_helper.c           |  35 ++----
+ target/riscv/csr.c                  |  18 +--
+ target/riscv/machine.c              | 196 +++++++++++++++++++++++++++++
+ target/riscv/op_helper.c            |  11 +-
+ target/riscv/pmp.c                  |  29 +++--
+ MAINTAINERS                         |   6 +
+ hw/misc/Kconfig                     |   9 ++
+ hw/misc/meson.build                 |   3 +
+ hw/riscv/Kconfig                    |   3 +
+ target/riscv/meson.build            |   3 +-
+ 27 files changed, 1177 insertions(+), 126 deletions(-)
+ create mode 100644 include/hw/misc/mchp_pfsoc_dmc.h
+ create mode 100644 include/hw/misc/mchp_pfsoc_ioscb.h
+ create mode 100644 include/hw/misc/mchp_pfsoc_sysreg.h
+ create mode 100644 hw/misc/mchp_pfsoc_dmc.c
+ create mode 100644 hw/misc/mchp_pfsoc_ioscb.c
+ create mode 100644 hw/misc/mchp_pfsoc_sysreg.c
+ create mode 100644 target/riscv/machine.c
 
