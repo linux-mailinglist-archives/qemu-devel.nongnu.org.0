@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7561729E7B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:46:55 +0100 (CET)
-Received: from localhost ([::1]:37476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB4229E7C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:48:36 +0100 (CET)
+Received: from localhost ([::1]:45308 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4WE-0006n9-HY
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:46:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60692)
+	id 1kY4Xr-0001WD-4w
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:48:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4L2-0007dU-RZ
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:35:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58161)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4L7-0007rb-M5
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:35:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4Kz-0006wT-E5
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:35:20 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4L5-0006yI-UI
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:35:25 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603964115;
+ s=mimecast20190719; t=1603964123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=98878GiMo+xjdVFdoB+TjeRF3YgJ60igYiOFDXm/QLU=;
- b=QipEwxeYlro8IYd1NNxm09+qmyA8CjRWsriPXTV1Y9hYMPMBF7hDT+TFAWJAG8hQMICzc0
- m19EvaWCCLYmp47wQ9dDPcaa55jgNBm3wMJZmcJpmFIK/ZyczI415jBVkTHM30BD9LCTIl
- CLJuJwGl/ld3qGifa2gw/jfDz5hyvZI=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-522-TzowVO2YPrGepcrv8EN9bQ-1; Thu, 29 Oct 2020 05:35:14 -0400
-X-MC-Unique: TzowVO2YPrGepcrv8EN9bQ-1
-Received: by mail-ej1-f69.google.com with SMTP id x22so926736ejs.17
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:35:14 -0700 (PDT)
+ bh=E7ARdMdjChejWzNOv4rbThOcf14/Pp3Q0pevnTZmOLU=;
+ b=Mru2aeYGSi9Qd/mKVg8D5e5kubhsN/fE8+QSwqzPhlmj7wHsUDqr6kqcwIS7ycBmP/3/GX
+ wrznmKgrtNQJZCE4hxi2yHHbIFtVr+VdYdvOy8sSDCIkm5NijjsxCfV3AhqMjI5OEpyYPK
+ PNmnfxHRcCYK0QMBnrICB/plLOx6EWs=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-206-LY4l8oY5Onmxac_bSHVb_A-1; Thu, 29 Oct 2020 05:35:19 -0400
+X-MC-Unique: LY4l8oY5Onmxac_bSHVb_A-1
+Received: by mail-ed1-f71.google.com with SMTP id 28so940956edv.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:35:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=98878GiMo+xjdVFdoB+TjeRF3YgJ60igYiOFDXm/QLU=;
- b=P0B6Yi9w7B8YdJghx9lDAFBk5aDHYQp1wKpKI8MZvGpySrZ3cZ+NdBoW3fslyL/7mR
- hk5hV7ch/xEnSJo9wmfIO4OcDBCQJ5aJQHfapX8aD66/TVUN8N9CL6fbb3+jv82eYc03
- mlfqJXyGkf8AM12V6KAKzUOMD3Cx6M22189gBqMG0ohlI0koEwGq/iRF18FhA8VjnVmW
- aHRQFKSEVwdOC6Hn2d+btpKHMAMMi1pfAzvfZu/NVrkS4rLOZkV9BjQW/mBn7dEuoJBQ
- 4VPFFmive1zt4TKA6fy/rDjBo4UEcoayc0KmKtPdawxdKFXAYyCKsoLahtoARqiGOwXG
- 2ZpA==
-X-Gm-Message-State: AOAM530Dwqme+w3wXw5irmQZEwu9HCfV+nGCt/fInsURFzg5enN/hejA
- IxLY1x6Lsqv+L7czYthiJtaD1vDoKxHv+w4mY5SW9hgLa9zrRjmMIJCv6NqUwc/M0daRAoasSTY
- WZBgNe2a/8ugujUo=
-X-Received: by 2002:a17:906:400f:: with SMTP id
- v15mr3072904ejj.378.1603964112373; 
- Thu, 29 Oct 2020 02:35:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzFJ+q1BWMaXOzvorAV1c/Ju86MCTBCYBhdj5L58nZSQnc5XWJk9FPRccn1+tIjdzqhZmBbug==
-X-Received: by 2002:a17:906:400f:: with SMTP id
- v15mr3072892ejj.378.1603964112216; 
- Thu, 29 Oct 2020 02:35:12 -0700 (PDT)
+ bh=E7ARdMdjChejWzNOv4rbThOcf14/Pp3Q0pevnTZmOLU=;
+ b=b20dnmyD1+4qM7ZlIoGfUrTd/a7lI6xwx+AfLyNKL7jDzxB7yTd4u9wTd2E62fwvsP
+ dt0uTHRw7p3uxl9crf+esEpJf8o20sMC+eV32wWfarhsWxC4BmzSL1SmY0eVfVSELoXD
+ ADt3YeMkM3tYxjqhTG+0l8QH7NdAv/Ny42kNV7WqRBgfJU6wJGEaV+518LH/U5tCFtbx
+ NuyLfHlMJpOOukxIEYJ4x0Hl2rUqxAoZu8b5he9FzXrYyN3sWAt+WwL2df0yqXsAQBYd
+ G5Iin/TYvqf6zwvPpmxYu9uYYL79miA2YRHNPZlBQLcDnoQKlaxzJPsGTqJHDzyFmzKk
+ IqjA==
+X-Gm-Message-State: AOAM530+nJdZvL8IDRWVEu2viJADgJ/OS7XpeeonQCeSlAXSl/6xzvRh
+ 2xBrXYXXuPTIq9MV668NwDiXWcwex8ZnpXV5fX2p9N4WY/rY4bXk6nyl8E3hybi3uOVXovIBOA6
+ oSututea+It7gHJk=
+X-Received: by 2002:aa7:d843:: with SMTP id f3mr3132448eds.354.1603964117845; 
+ Thu, 29 Oct 2020 02:35:17 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAay3pmJYlLgbH6MPTB2Q0PEhx1HhlZ8YZ0CFL2D+WbqyLxHWDudhWsgUz+4hKpE6k5jM12w==
+X-Received: by 2002:aa7:d843:: with SMTP id f3mr3132424eds.354.1603964117514; 
+ Thu, 29 Oct 2020 02:35:17 -0700 (PDT)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id m25sm1158234edp.36.2020.10.29.02.35.10
+ by smtp.gmail.com with ESMTPSA id ao17sm1179118ejc.18.2020.10.29.02.35.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 02:35:11 -0700 (PDT)
+ Thu, 29 Oct 2020 02:35:16 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v2 23/25] block/nvme: Fix use of write-only doorbells
- page on Aarch64 arch
-Date: Thu, 29 Oct 2020 10:33:04 +0100
-Message-Id: <20201029093306.1063879-24-philmd@redhat.com>
+Subject: [PATCH-for-5.2 v2 24/25] block/nvme: Fix nvme_submit_command() on
+ big-endian host
+Date: Thu, 29 Oct 2020 10:33:05 +0100
+Message-Id: <20201029093306.1063879-25-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201029093306.1063879-1-philmd@redhat.com>
 References: <20201029093306.1063879-1-philmd@redhat.com>
@@ -85,7 +83,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,62 +104,31 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qemu_vfio_pci_map_bar() calls mmap(), and mmap(2) states:
+The Completion Queue Command Identifier is a 16-bit value,
+so nvme_submit_command() is unlikely to work on big-endian
+hosts, as the relevant bits are truncated.
+Fix by using the correct byte-swap function.
 
-  'offset' must be a multiple of the page size as returned
-   by sysconf(_SC_PAGE_SIZE).
-
-In commit f68453237b9 we started to use an offset of 4K which
-broke this contract on Aarch64 arch.
-
-Fix by mapping at offset 0, and and accessing doorbells at offset=4K.
-
-Fixes: f68453237b9 ("block/nvme: Map doorbells pages write-only")
-Reported-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Tested-by: Eric Auger <eric.auger@redhat.com>
+Fixes: bdd6a90a9e5 ("block: Add VFIO based NVMe driver")
+Reported-by: Keith Busch <kbusch@kernel.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index f1e2fd34cdf..c8ef69cbb28 100644
+index c8ef69cbb28..a06a188d530 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -94,6 +94,7 @@ typedef struct {
- struct BDRVNVMeState {
-     AioContext *aio_context;
-     QEMUVFIOState *vfio;
-+    void *bar0_wo_map;
-     /* Memory mapped registers */
-     volatile struct {
-         uint32_t sq_tail;
-@@ -777,8 +778,10 @@ static int nvme_init(BlockDriverState *bs, const char *device, int namespace,
-         }
-     }
+@@ -469,7 +469,7 @@ static void nvme_submit_command(NVMeQueuePair *q, NVMeRequest *req,
+     assert(!req->cb);
+     req->cb = cb;
+     req->opaque = opaque;
+-    cmd->cid = cpu_to_le32(req->cid);
++    cmd->cid = cpu_to_le16(req->cid);
  
--    s->doorbells = qemu_vfio_pci_map_bar(s->vfio, 0, sizeof(NvmeBar),
--                                         NVME_DOORBELL_SIZE, PROT_WRITE, errp);
-+    s->bar0_wo_map = qemu_vfio_pci_map_bar(s->vfio, 0, 0,
-+                                           sizeof(NvmeBar) + NVME_DOORBELL_SIZE,
-+                                           PROT_WRITE, errp);
-+    s->doorbells = (void *)((uintptr_t)s->bar0_wo_map + sizeof(NvmeBar));
-     if (!s->doorbells) {
-         ret = -EINVAL;
-         goto out;
-@@ -910,8 +913,8 @@ static void nvme_close(BlockDriverState *bs)
-                            &s->irq_notifier[MSIX_SHARED_IRQ_IDX],
-                            false, NULL, NULL);
-     event_notifier_cleanup(&s->irq_notifier[MSIX_SHARED_IRQ_IDX]);
--    qemu_vfio_pci_unmap_bar(s->vfio, 0, (void *)s->doorbells,
--                            sizeof(NvmeBar), NVME_DOORBELL_SIZE);
-+    qemu_vfio_pci_unmap_bar(s->vfio, 0, s->bar0_wo_map,
-+                            0, sizeof(NvmeBar) + NVME_DOORBELL_SIZE);
-     qemu_vfio_close(s->vfio);
- 
-     g_free(s->device);
+     trace_nvme_submit_command(q->s, q->index, req->cid);
+     nvme_trace_command(cmd);
 -- 
 2.26.2
 
