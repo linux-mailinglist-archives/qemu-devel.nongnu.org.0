@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7776729F334
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:28:53 +0100 (CET)
-Received: from localhost ([::1]:50646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933D429F313
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:26:06 +0100 (CET)
+Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYBjI-0004v8-Hz
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:28:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38264)
+	id 1kYBgb-00025w-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:26:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38274)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kYBdI-0007Tr-Iq
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:22:42 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59082)
+ id 1kYBdK-0007Tv-Dg
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:22:43 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kYBdF-00041O-L5
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:22:40 -0400
+ id 1kYBdF-00041J-FB
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:22:42 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603992156;
+ s=mimecast20190719; t=1603992155;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=EHPE8FoZ6hCRV7nSC0vpAbi6PuhSRg30Kat8BR7jWP0=;
- b=gXOxLO77SrfHCT31d2r2h+Wg9P2rp1DFowuFGSe4pKt3pvxot9wXxV/Jf/b3cgWp1X4TZ7
- DjTar9AWDzj4yerHQpCr6QLrs7N1ZbKUsIwxEg4t7b72axbp5DceADfZ432WfA/Reqw91C
- 3nmNvpXzKbLmFNxQpirUCmn9wlt4ZmQ=
+ bh=yEQmrcoPaA4DuV7GoNCOQ39IGV8Y9vh7fXcDavXe2UE=;
+ b=fk91z50ZI3BmOsAonKSqEZECXfPytI7MIWsNRb0KQUIMOyAqDCCIMdrEodpgKA7bgDQDlB
+ 7r0kl4c+Dfycq305inElT8DjiPQP5lzfR6gRJ1K0g8QRgdv+HYoLZupWAzzMdEcstHx9+1
+ jT0RmCEG+FcogYGbBXVpR0aF/N/cAKQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-XeTChwLUOcacJI9PRVQuoQ-1; Thu, 29 Oct 2020 13:22:33 -0400
-X-MC-Unique: XeTChwLUOcacJI9PRVQuoQ-1
+ us-mta-25-gNkUz3_VPNa-oxLEykC5Pw-1; Thu, 29 Oct 2020 13:22:32 -0400
+X-MC-Unique: gNkUz3_VPNa-oxLEykC5Pw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 040D510309B0;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6DAF310309B5;
  Thu, 29 Oct 2020 17:22:23 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A884B5DA2A;
- Thu, 29 Oct 2020 17:22:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8825D98C;
+ Thu, 29 Oct 2020 17:22:23 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] coverity_scan: switch to vpath build
-Date: Thu, 29 Oct 2020 13:22:21 -0400
-Message-Id: <20201029172222.3940324-1-pbonzini@redhat.com>
+Subject: [PATCH] docker, coverity_scan: unify Fedora dockerfiles
+Date: Thu, 29 Oct 2020 13:22:22 -0400
+Message-Id: <20201029172222.3940324-2-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,39 +82,225 @@ Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the patch that has been running on the coverity cronjob
-for a few weeks now.
+The Fedora CI and coverity runs are using a slightly different set of
+packages Unfortunately we need to keep coverity on Fedora 30 because
+it doesn't know about GCC 10 and fails, but we can at least base the
+coverity dockerfile on one from tests/docker; this way the coverity run
+is less likely to be forgotten when doing changes to the set of packages
+in the containers.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/coverity-scan/run-coverity-scan | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ scripts/coverity-scan/coverity-scan.docker    | 109 +-----------------
+ tests/docker/dockerfiles/fedora.docker        |   5 +
+ .../{fedora.docker => fedora30.docker}        |   7 +-
+ 3 files changed, 13 insertions(+), 108 deletions(-)
+ copy tests/docker/dockerfiles/{fedora.docker => fedora30.docker} (94%)
 
-diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
-index 6eefb4b558..7395bbfad4 100755
---- a/scripts/coverity-scan/run-coverity-scan
-+++ b/scripts/coverity-scan/run-coverity-scan
-@@ -380,15 +380,17 @@ export PATH="$TOOLBIN:$PATH"
+diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
+index 501ac67233..1bfb856765 100644
+--- a/scripts/coverity-scan/coverity-scan.docker
++++ b/scripts/coverity-scan/coverity-scan.docker
+@@ -15,114 +15,9 @@
+ # The work of actually doing the build is handled by the
+ # run-coverity-scan script.
  
- cd "$SRCDIR"
+-FROM fedora:30
+-ENV PACKAGES \
+-    alsa-lib-devel \
+-    bc \
+-    brlapi-devel \
+-    bzip2 \
+-    bzip2-devel \
+-    ccache \
+-    clang \
+-    curl \
+-    cyrus-sasl-devel \
+-    dbus-daemon \
+-    device-mapper-multipath-devel \
+-    findutils \
+-    gcc \
+-    gcc-c++ \
+-    gettext \
+-    git \
+-    glib2-devel \
+-    glusterfs-api-devel \
+-    gnutls-devel \
+-    gtk3-devel \
+-    hostname \
+-    libaio-devel \
+-    libasan \
+-    libattr-devel \
+-    libblockdev-mpath-devel \
+-    libcap-devel \
+-    libcap-ng-devel \
+-    libcurl-devel \
+-    libepoxy-devel \
+-    libfdt-devel \
+-    libgbm-devel \
+-    libiscsi-devel \
+-    libjpeg-devel \
+-    libpmem-devel \
+-    libnfs-devel \
+-    libpng-devel \
+-    librbd-devel \
+-    libseccomp-devel \
+-    libssh-devel \
+-    libubsan \
+-    libudev-devel \
+-    libusbx-devel \
+-    libxml2-devel \
+-    libzstd-devel \
+-    llvm \
+-    lzo-devel \
+-    make \
+-    mingw32-bzip2 \
+-    mingw32-curl \
+-    mingw32-glib2 \
+-    mingw32-gmp \
+-    mingw32-gnutls \
+-    mingw32-gtk3 \
+-    mingw32-libjpeg-turbo \
+-    mingw32-libpng \
+-    mingw32-libtasn1 \
+-    mingw32-nettle \
+-    mingw32-nsis \
+-    mingw32-pixman \
+-    mingw32-pkg-config \
+-    mingw32-SDL2 \
+-    mingw64-bzip2 \
+-    mingw64-curl \
+-    mingw64-glib2 \
+-    mingw64-gmp \
+-    mingw64-gnutls \
+-    mingw64-gtk3 \
+-    mingw64-libjpeg-turbo \
+-    mingw64-libpng \
+-    mingw64-libtasn1 \
+-    mingw64-nettle \
+-    mingw64-pixman \
+-    mingw64-pkg-config \
+-    mingw64-SDL2 \
+-    ncurses-devel \
+-    nettle-devel \
+-    nss-devel \
+-    numactl-devel \
+-    perl \
+-    perl-Test-Harness \
+-    pixman-devel \
+-    pulseaudio-libs-devel \
+-    python3 \
+-    python3-sphinx \
+-    PyYAML \
+-    rdma-core-devel \
+-    SDL2-devel \
+-    snappy-devel \
+-    sparse \
+-    spice-server-devel \
+-    systemd-devel \
+-    systemtap-sdt-devel \
+-    tar \
+-    usbredir-devel \
+-    virglrenderer-devel \
+-    vte291-devel \
+-    wget \
+-    which \
+-    xen-devel \
+-    xfsprogs-devel \
+-    zlib-devel
+-ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
++FROM qemu:fedora
  
--echo "Doing make distclean..."
--make distclean
-+echo "Nuking build directory..."
-+rm -rf +build
-+mkdir +build
-+cd +build
+-RUN dnf install -y $PACKAGES
+-RUN rpm -q $PACKAGES | sort > /packages.txt
+-ENV PATH $PATH:/usr/libexec/python3-sphinx/
++RUN dnf install -y curl wget
+ ENV COVERITY_TOOL_BASE=/coverity-tools
+ COPY coverity_tool.tgz coverity_tool.tgz
+ RUN mkdir -p /coverity-tools/coverity_tool && cd /coverity-tools/coverity_tool && tar xf /coverity_tool.tgz
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 0b5053f2d0..54f3e10991 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -2,6 +2,7 @@ FROM fedora:32
  
- echo "Configuring..."
- # We configure with a fixed set of enables here to ensure that we don't
- # accidentally reduce the scope of the analysis by doing the build on
- # the system that's missing a dependency that we need to build part of
- # the codebase.
--./configure --disable-modules --enable-sdl --enable-gtk \
-+../configure --disable-modules --enable-sdl --enable-gtk \
-     --enable-opengl --enable-vte --enable-gnutls \
-     --enable-nettle --enable-curses --enable-curl \
-     --audio-drv-list=oss,alsa,sdl,pa --enable-virtfs \
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
++    alsa-lib-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
+@@ -31,8 +32,10 @@ ENV PACKAGES \
+     libcurl-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libgbm-devel \
+     libiscsi-devel \
+     libjpeg-devel \
++    libnfs-devel \
+     libpmem-devel \
+     libpng-devel \
+     librbd-devel \
+@@ -82,6 +85,7 @@ ENV PACKAGES \
+     perl \
+     perl-Test-Harness \
+     pixman-devel \
++    pulseaudio-libs-devel \
+     python3 \
+     python3-PyYAML \
+     python3-numpy \
+@@ -105,6 +109,7 @@ ENV PACKAGES \
+     vte291-devel \
+     which \
+     xen-devel \
++    xfsprogs-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
+ 
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora30.docker
+similarity index 94%
+copy from tests/docker/dockerfiles/fedora.docker
+copy to tests/docker/dockerfiles/fedora30.docker
+index 0b5053f2d0..7295b74d2a 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora30.docker
+@@ -1,7 +1,8 @@
+-FROM fedora:32
++FROM fedora:30
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
++    alsa-lib-devel \
+     bc \
+     brlapi-devel \
+     bzip2 \
+@@ -31,8 +32,10 @@ ENV PACKAGES \
+     libcurl-devel \
+     libepoxy-devel \
+     libfdt-devel \
++    libgbm-devel \
+     libiscsi-devel \
+     libjpeg-devel \
++    libnfs-devel \
+     libpmem-devel \
+     libpng-devel \
+     librbd-devel \
+@@ -82,6 +85,7 @@ ENV PACKAGES \
+     perl \
+     perl-Test-Harness \
+     pixman-devel \
++    pulseaudio-libs-devel \
+     python3 \
+     python3-PyYAML \
+     python3-numpy \
+@@ -105,6 +109,7 @@ ENV PACKAGES \
+     vte291-devel \
+     which \
+     xen-devel \
++    xfsprogs-devel \
+     zlib-devel
+ ENV QEMU_CONFIGURE_OPTS --python=/usr/bin/python3
+ 
 -- 
 2.26.2
 
