@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC2F29E02F
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 02:11:13 +0100 (CET)
-Received: from localhost ([::1]:59910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 746D829E28F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 03:23:59 +0100 (CET)
+Received: from localhost ([::1]:50912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kXwTA-0000h4-IY
-	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 21:11:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39928)
+	id 1kXxba-0004US-2o
+	for lists+qemu-devel@lfdr.de; Wed, 28 Oct 2020 22:23:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kXwPa-0008HX-1d
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 21:07:30 -0400
-Received: from mail-il1-f194.google.com ([209.85.166.194]:33058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1kXwPY-0004oo-J9
- for qemu-devel@nongnu.org; Wed, 28 Oct 2020 21:07:29 -0400
-Received: by mail-il1-f194.google.com with SMTP id f16so1487020ilr.0
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 18:07:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wQPZo6w5yZQMn+J3rkq2nnwM8s4Pf6vorq7cw+A4lgs=;
- b=cW5hZnMN0sgFVJtZNiAo1sj7SE/9sy2lQF1JEdhsTwtfi1lIsdzo57B+AH2hSHtXql
- Qemn/aqSuURmZSFZGpa5n/Z/Dgzt5ZlVdMaBtsxKjYzBB13c6fZZu/oC+QDSKZ2l80jF
- X3p+u/I6ePG3b+/s+yaLEVwDSvF+aNWPL/rfIyOW3OSz1jxemzk6+YubKBXztNSXtsIk
- FCIOBIQH6hHs1stZoNzUtNTC/ka8DiLkSk2HEU8tU+N5Jt2yxHGzRyfh9JfB2KFWqZaS
- E4MIYZ3+w/zBwZlGyZvfBUJ/LcLo+raKww7SnKYicXZqJBl/MZ0wJXDsr8GyQ8/txh8z
- Nw6A==
-X-Gm-Message-State: AOAM531yfT+MIXz+CcN2tHarkmjKqCCO7ddRuZbHvigt9gelrbBUL5Dj
- gTkUIvSoXWUVCD+kBffbWyXYQELIbcs=
-X-Google-Smtp-Source: ABdhPJwDItuvyvTjq0Z2RhV7cQnCFU45k+pU/D0EQy06NRJzQMTmgCZYYoXqVrNNJ5qTw0hviezgAw==
-X-Received: by 2002:a92:25d3:: with SMTP id l202mr1395355ill.249.1603933647533; 
- Wed, 28 Oct 2020 18:07:27 -0700 (PDT)
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com.
- [209.85.166.54])
- by smtp.gmail.com with ESMTPSA id r14sm972845ilh.10.2020.10.28.18.07.27
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 28 Oct 2020 18:07:27 -0700 (PDT)
-Received: by mail-io1-f54.google.com with SMTP id u62so1599633iod.8
- for <qemu-devel@nongnu.org>; Wed, 28 Oct 2020 18:07:27 -0700 (PDT)
-X-Received: by 2002:a5d:93d0:: with SMTP id j16mr1687387ioo.63.1603933647271; 
- Wed, 28 Oct 2020 18:07:27 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1kXxag-0003yG-8K; Wed, 28 Oct 2020 22:23:02 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhaolichang@huawei.com>)
+ id 1kXxad-0006LJ-EY; Wed, 28 Oct 2020 22:23:01 -0400
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CM8Nk0CZmzkb7k;
+ Thu, 29 Oct 2020 10:22:46 +0800 (CST)
+Received: from [10.174.186.238] (10.174.186.238) by
+ DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 29 Oct 2020 10:22:42 +0800
+Subject: Re: [PATCH V2 00/14] fix some comment spelling errors
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+References: <20201009064449.2336-1-zhaolichang@huawei.com>
+ <a5a68476-0ed8-08f9-f993-464317d798bf@huawei.com>
+ <CAAdtpL5HZzb+_gAyNGQfM1N7vBxmLck2TXiGohv9D9dgO16cRw@mail.gmail.com>
+From: Lichang Zhao <zhaolichang@huawei.com>
+Message-ID: <67ce4e9b-703d-8639-e223-a0e77e54e5cc@huawei.com>
+Date: Thu, 29 Oct 2020 10:22:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-References: <20201028030701.14086-1-j@getutm.app>
- <20201028030701.14086-8-j@getutm.app>
- <20201028115946.GK221115@stefanha-x1.localdomain>
-In-Reply-To: <20201028115946.GK221115@stefanha-x1.localdomain>
-From: Joelle van Dyne <j@getutm.app>
-Date: Wed, 28 Oct 2020 18:07:16 -0700
-X-Gmail-Original-Message-ID: <CA+E+eSAfHXsYDbn5HnpGmQrpwpkAUBrMn7w4PwLDfMPctRwdFw@mail.gmail.com>
-Message-ID: <CA+E+eSAfHXsYDbn5HnpGmQrpwpkAUBrMn7w4PwLDfMPctRwdFw@mail.gmail.com>
-Subject: Re: [PATCH v3 7/7] block: check availablity for preadv/pwritev on mac
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.194; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f194.google.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 21:05:07
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CAAdtpL5HZzb+_gAyNGQfM1N7vBxmLck2TXiGohv9D9dgO16cRw@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.186.238]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhaolichang@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/28 22:22:46
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -50
+X-Spam_score: -5.1
+X-Spam_bar: -----
+X-Spam_report: (-5.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.921,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,32 +63,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If built with Xcode 11 (or below), a compile time error will occur due
-to symbol not found. (QEMU's ./configure detects this and doesn't
-enable it)
-If built with Xcode 12 without the checks, a runtime error will occur.
+Thank you very much. But I don't know how to do that. Can you help me?
+By the way, this series of patches have been reviewed and four of them have been applied. Can you help me to apply the rest?
 
--j
 
-On Wed, Oct 28, 2020 at 5:23 AM Stefan Hajnoczi <stefanha@redhat.com> wrote:
->
-> On Tue, Oct 27, 2020 at 08:07:01PM -0700, Joelle van Dyne wrote:
-> > macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-> > will succeed with CONFIG_PREADV even when targeting a lower OS version. We
-> > therefore need to check at run time if we can actually use these APIs.
-> >
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > ---
-> >  block/file-posix.c | 12 ++++++++++++
-> >  1 file changed, 12 insertions(+)
->
-> What happens when preadv() is called prior to macOS 11/iOS 14?
->
-> If I understand correctly the runtime check is preferrable because
-> otherwise a binary compiled on recent macOS/iOS would ship with preadv()
-> support but fail when executed on an older macOS/iOS?
+On 2020/10/20 14:42, Philippe Mathieu-Daudé wrote:
+> You forgot to Cc qemu-devel@.
+> 
+> (See https://wiki.qemu.org/Contribute/SubmitAPatch#CC_the_relevant_maintainer)
+> 
+> On Tue, Oct 20, 2020 at 4:46 AM Lichang Zhao <zhaolichang@huawei.com> wrote:
+> 
+> Now your name is properly displayed, so I assume you finally ran:
+> 
+> $ git config user.name "Lichang Zhao".
+> 
+> To fix how your name is displayed in your previous contributions,
+> consider sending this patch:
+> 
+> -- >8 --
+> diff --git a/.mailmap b/.mailmap
+> index 663819fb017..a56c5ba5ee1 100644
+> --- a/.mailmap
+> +++ b/.mailmap
+> @@ -113,6 +113,7 @@ Liu Yu <yu.liu@freescale.com>
+> Liu Yu <Yu.Liu@freescale.com>
+> Li Zhang <zhlcindy@gmail.com>
+> Li Zhang <zhlcindy@linux.vnet.ibm.com>
+> +Lichang Zhao <zhaolichang@huawei.com>
+> Lluís Vilanova <vilanova@ac.upc.edu>
+> Lluís Vilanova <xscript@gmx.net>
+> Longpeng (Mike) <longpeng2@huawei.com>
+> 
+> ---
+> 
+> (or Ack-by it here and I'll send it).
+> 
+>>
+>> On 2020/10/9 14:44, zhaolichang wrote:
+>>> I found that there are many spelling errors in the comments of qemu/target/.
+>>>
+>>> I used spellcheck to check the spelling errors and found some errors in the folder.
+>>>
+>>>
+>>>
+>>> The checkpatch.pl file in the Linux kernel can check spelling errors in patches.
+>>>
+>>> I'm trying to add this function to the checkpatch.pl in qemu,
+>>>
+>>> so that no similar spelling errors will occur in the feture.
+>>>
+>>> It's not done yet and I will commit the patch when it's done.
+>>>
+>>>
+>>>
+>>> v1 -> v2:
+>>>
+>>>   add reviewed-by for patch
+>>>
+>>>
+>>>
+>>> Signed-off-by: zhaolichang <zhaolichang@huawei.com>
+>>>
+>>
+>> ping
+>> This series of patches have been reviewed. Can you help me to pull them?
+>>
+> .
+> 
 
