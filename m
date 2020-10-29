@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B790629E851
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:06:29 +0100 (CET)
-Received: from localhost ([::1]:40810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FF7129E83B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:04:12 +0100 (CET)
+Received: from localhost ([::1]:34456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4pA-0003ff-Oa
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:06:28 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39036)
+	id 1kY4mx-0000wS-J4
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:04:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kY4ke-0007rd-Pq
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:50 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52468)
+ id 1kY4ko-0007tj-Et
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32154)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kY4kQ-0007zV-Ee
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:47 -0400
+ id 1kY4kU-00081G-Ol
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603965693;
+ s=mimecast20190719; t=1603965697;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pf4IiwR6OcMroM2bIkvs1FpxdK/6WRWZyyVg6hR+sas=;
- b=Q3Cp+5Xxj7wcDNT6H/LhMphnvOratufauIi8SCxocTmsjj4C0pHXbcW15LP5LUg0Sb+C9J
- TO4j5lVsbOQP9JXHg8z/3WXoONBCub16g4q5Lv4UZbU7n09lJqPIKPHMNJ7w19Vy5zk8Sc
- qJ5agWcpoCGTRmzilUBM3sJaFKLCOoc=
+ bh=+w9Fdwh0hGTYT2FapLrW9cX9J5Jj4LMtJtAlSq1c6HE=;
+ b=Z+FoOrBwiVKFpDOrKwQcmEOK0g8nLnxPODDEnxM1GZ/0H/oVMcVqaKLtl8uevGmIcvxrJe
+ Zbz6w61o9/J38pSJjcWqT8Avx66MEX73SHn58n7pSvehfLebb52CLoM/jE6e+9MTAsAr2z
+ oqqGTPNIzmEpKBWHK3E/VhruHhMY+Cc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-538-0tLPJ2-jNgKMAq-URih2XA-1; Thu, 29 Oct 2020 06:01:30 -0400
-X-MC-Unique: 0tLPJ2-jNgKMAq-URih2XA-1
+ us-mta-592-RlQYXV6NMxuIb9nPznTJNg-1; Thu, 29 Oct 2020 06:01:33 -0400
+X-MC-Unique: RlQYXV6NMxuIb9nPznTJNg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE38487952B;
- Thu, 29 Oct 2020 10:01:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BB22879528;
+ Thu, 29 Oct 2020 10:01:32 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-62.ams2.redhat.com
  [10.36.115.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1297B100238E;
- Thu, 29 Oct 2020 10:01:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 650CF10013C1;
+ Thu, 29 Oct 2020 10:01:30 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] crypt: Fix Lesser GPL version number
-Date: Thu, 29 Oct 2020 10:01:16 +0000
-Message-Id: <20201029100119.30696-3-berrange@redhat.com>
+Subject: [PULL 3/5] authz: Fix Lesser GPL version number
+Date: Thu, 29 Oct 2020 10:01:17 +0000
+Message-Id: <20201029100119.30696-4-berrange@redhat.com>
 In-Reply-To: <20201029100119.30696-1-berrange@redhat.com>
 References: <20201029100119.30696-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -98,19 +98,26 @@ This patch replaces all occurrences of "Lesser GPL version 2" with
 Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-crypto-afsplit.c | 2 +-
- tests/test-crypto-block.c   | 2 +-
- tests/test-crypto-cipher.c  | 2 +-
- tests/test-crypto-hash.c    | 2 +-
- tests/test-crypto-ivgen.c   | 2 +-
- tests/test-crypto-secret.c  | 2 +-
- tests/test-crypto-xts.c     | 2 +-
- 7 files changed, 7 insertions(+), 7 deletions(-)
+ authz/base.c                | 2 +-
+ authz/list.c                | 2 +-
+ authz/listfile.c            | 2 +-
+ authz/pamacct.c             | 2 +-
+ authz/simple.c              | 2 +-
+ include/authz/base.h        | 2 +-
+ include/authz/list.h        | 2 +-
+ include/authz/listfile.h    | 2 +-
+ include/authz/pamacct.h     | 2 +-
+ include/authz/simple.h      | 2 +-
+ tests/test-authz-list.c     | 2 +-
+ tests/test-authz-listfile.c | 2 +-
+ tests/test-authz-pam.c      | 2 +-
+ tests/test-authz-simple.c   | 2 +-
+ 14 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/tests/test-crypto-afsplit.c b/tests/test-crypto-afsplit.c
-index f9f2fcd417..00a7c180fd 100644
---- a/tests/test-crypto-afsplit.c
-+++ b/tests/test-crypto-afsplit.c
+diff --git a/authz/base.c b/authz/base.c
+index c75bce3fd1..f2b7fbe9c1 100644
+--- a/authz/base.c
++++ b/authz/base.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -120,10 +127,10 @@ index f9f2fcd417..00a7c180fd 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-crypto-block.c b/tests/test-crypto-block.c
-index 7c1ab07855..3b1f0d509f 100644
---- a/tests/test-crypto-block.c
-+++ b/tests/test-crypto-block.c
+diff --git a/authz/list.c b/authz/list.c
+index 28b990931a..0e17eed897 100644
+--- a/authz/list.c
++++ b/authz/list.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -133,10 +140,10 @@ index 7c1ab07855..3b1f0d509f 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-crypto-cipher.c b/tests/test-crypto-cipher.c
-index bebba1a4f4..280319a223 100644
---- a/tests/test-crypto-cipher.c
-+++ b/tests/test-crypto-cipher.c
+diff --git a/authz/listfile.c b/authz/listfile.c
+index aaf930453d..24feac35ab 100644
+--- a/authz/listfile.c
++++ b/authz/listfile.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -146,10 +153,10 @@ index bebba1a4f4..280319a223 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-crypto-hash.c b/tests/test-crypto-hash.c
-index 214a9f72c3..ce7d0ab9b5 100644
---- a/tests/test-crypto-hash.c
-+++ b/tests/test-crypto-hash.c
+diff --git a/authz/pamacct.c b/authz/pamacct.c
+index c91593bbd8..e67195f7be 100644
+--- a/authz/pamacct.c
++++ b/authz/pamacct.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -159,10 +166,10 @@ index 214a9f72c3..ce7d0ab9b5 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-crypto-ivgen.c b/tests/test-crypto-ivgen.c
-index a5ff5d3da6..f581e6aba7 100644
---- a/tests/test-crypto-ivgen.c
-+++ b/tests/test-crypto-ivgen.c
+diff --git a/authz/simple.c b/authz/simple.c
+index ee061e980d..18db0355f4 100644
+--- a/authz/simple.c
++++ b/authz/simple.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -172,10 +179,10 @@ index a5ff5d3da6..f581e6aba7 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-crypto-secret.c b/tests/test-crypto-secret.c
-index 9d06176663..34a4aecc12 100644
---- a/tests/test-crypto-secret.c
-+++ b/tests/test-crypto-secret.c
+diff --git a/include/authz/base.h b/include/authz/base.h
+index eca170ee1a..b53e4e4507 100644
+--- a/include/authz/base.h
++++ b/include/authz/base.h
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
@@ -185,10 +192,101 @@ index 9d06176663..34a4aecc12 100644
   *
   * This library is distributed in the hope that it will be useful,
   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/tests/test-crypto-xts.c b/tests/test-crypto-xts.c
-index 6fb61cf635..7acbc956fd 100644
---- a/tests/test-crypto-xts.c
-+++ b/tests/test-crypto-xts.c
+diff --git a/include/authz/list.h b/include/authz/list.h
+index f73bc5c50a..7ef4ad4b4e 100644
+--- a/include/authz/list.h
++++ b/include/authz/list.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/include/authz/listfile.h b/include/authz/listfile.h
+index 51824f3fb2..0a1e5bddd3 100644
+--- a/include/authz/listfile.h
++++ b/include/authz/listfile.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
+index d05c18a3a4..592edb2bf0 100644
+--- a/include/authz/pamacct.h
++++ b/include/authz/pamacct.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/include/authz/simple.h b/include/authz/simple.h
+index 9f5b979e13..c46a5ac5a1 100644
+--- a/include/authz/simple.h
++++ b/include/authz/simple.h
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/tests/test-authz-list.c b/tests/test-authz-list.c
+index d80e6a6d4d..5351992a01 100644
+--- a/tests/test-authz-list.c
++++ b/tests/test-authz-list.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/tests/test-authz-listfile.c b/tests/test-authz-listfile.c
+index 26166b691b..64d0e1500f 100644
+--- a/tests/test-authz-listfile.c
++++ b/tests/test-authz-listfile.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/tests/test-authz-pam.c b/tests/test-authz-pam.c
+index 02bb1493e7..1baeadee03 100644
+--- a/tests/test-authz-pam.c
++++ b/tests/test-authz-pam.c
+@@ -6,7 +6,7 @@
+  * This library is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU Lesser General Public
+  * License as published by the Free Software Foundation; either
+- * version 2 of the License, or (at your option) any later version.
++ * version 2.1 of the License, or (at your option) any later version.
+  *
+  * This library is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/tests/test-authz-simple.c b/tests/test-authz-simple.c
+index d21d43e2e9..6f9034d8ff 100644
+--- a/tests/test-authz-simple.c
++++ b/tests/test-authz-simple.c
 @@ -6,7 +6,7 @@
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Lesser General Public
