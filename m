@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BB0129ECBC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 14:20:44 +0100 (CET)
-Received: from localhost ([::1]:55288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A71629EC91
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 14:16:04 +0100 (CET)
+Received: from localhost ([::1]:51188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY7r9-0000dU-Jy
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 09:20:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36558)
+	id 1kY7md-00073R-1x
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 09:16:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kY7l9-0006Oa-2F
+ id 1kY7l9-0006Ok-73
  for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:14:31 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40563)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1kY7l6-0003Oe-Pk
+ id 1kY7l7-0003Ol-8J
  for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:14:30 -0400
-Received: by mail-wr1-x442.google.com with SMTP id m13so2716870wrj.7
+Received: by mail-wr1-x443.google.com with SMTP id a9so2685488wrg.12
  for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 06:14:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=yxYKvU+v2OKtc5ptb0X6r9kQFAEOnG2Ote7Pwt9cZP4=;
- b=QcJkfor0OxCnYDI9iR9clIOfLAP02cxk/58HGRKLOGcF4Mz9x8EARVzV2T3RYNbree
- 3VVgCO6srPMoS1Fk2ZgXExSdKsuBTDbBThzZNArQr2vY0kJEOIr8ymzpPkvtckE212hj
- kaNJxtNc7rnvP2OFtB5w104OE2Acj1zNIhBeqzlu1wRwUCor2Li7rOyVUsQpZyG48iLd
- bhjm20RLRE7GKxTJu8Q3KwPBd/J9tXhcnZxX83uvjkHDEWtV3Sa/PE0f2DqjlTZxVosf
- o5ohb9UX7nbXhUzUbiGbwSYSyXHB56p03wwpv4zlWtIuc5WjjYIhvhrvJs70SUbiC1Pz
- bgPw==
+ h=sender:from:to:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=ivJyo8qfMPmys8buszjG5qNHNgJpfyftMhgAFYcDp9k=;
+ b=IAq+7oAvbTmvMRRLROTrZbtHxPmkIxtscKBNnbD+CLa5PgIGiS7qL+DEiUN8i6bZY8
+ XzhskT18v/QtG6LajMZAmt3EsoP+lrFhmGJaMTfILTdQHiGt2JlE242VjCdS+XqNRjYn
+ vDfAFUdCBQxMMnjVEuiNg1W8pI6KLe7h9MfLG6eG0KQ/aPN2IdLxNxdMpZt7Ydh6+6II
+ VogjY2Q52fvODS+ZSm7pXe1Bue3e2glFl+sF8LpRwUD22bJUfiZRHSdMuV0ooo+phlWY
+ 8Qc2CEZAL12bwpasGVf0A68gPh9W23w4QNUcRfOBh1Qk1v0bp1t/ky2jtZWq0fz/uoqo
+ CMBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=yxYKvU+v2OKtc5ptb0X6r9kQFAEOnG2Ote7Pwt9cZP4=;
- b=qTHAegPTHZ1ORtpTNkiDmUlqx/hRCK/UaVWpuf+FUstE45ssWoE2hyIpHwYX0vh0nP
- WU7lKlPV3LbRpwZdfwONa/+BNZk+sdhZH97k4ciOB7HSl7/f1f0p444K6wUkTGiwoEGy
- BpkkAeViKlbyby8m3pKcuChAxvrrnnkTRlMEQ7lxFdS/lsF7alrl2pTbjlnjen4LuL3B
- N8fd+ylz5vvUr6ixywn2bp2sPc9Ivbouff8t6vBftNDrUGec3V/3yMhsXCw0EQFA+tau
- iuQfDl5aR3x2DKChj4TD7Z5MqcXYacZmYSs7cBMMUmIg+2o/lz6m4U+FASVKM0v9QCgM
- eWeQ==
-X-Gm-Message-State: AOAM5302TiQBhkgS3leYiaDumqen9CQvt76pzlewvoDirLWw9NggzfY9
- 7JxycojpOJRleItHciW7FiCXDwPFCwk=
-X-Google-Smtp-Source: ABdhPJwFP1fRyOAqTRzh4e7+2PhAHjR+8PegQgTIDyWI6XC1v0LtvfaKko7v1ykPwUfSYSKUaDSkgg==
-X-Received: by 2002:adf:a1cb:: with SMTP id v11mr5360301wrv.86.1603977266454; 
- Thu, 29 Oct 2020 06:14:26 -0700 (PDT)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=ivJyo8qfMPmys8buszjG5qNHNgJpfyftMhgAFYcDp9k=;
+ b=Y8ElK1KVL1EI5TybcHwA6V42rD80qCG6spSh4ieYq9tiTVXuJUrbj6kw5Qsqww2DUu
+ QjSdVNcEj4jWbjOcjTwSS34ZIxzonu+LGtzYu6nm41CkgXkmTdyuIdBRBPHPs/cNFVUa
+ qI/zqDwqHl7JostZCZp5YaAtoHHogdDBeIFCKiIMjdv7y4AoDGEJm0XgcOd4hYg5Iq+v
+ au+XPI4dBr3j24nnsUegLOc1wjVK+thYEfUn8M30o9+FpkXXUoc6jToQ3U2+WfTyYdNQ
+ Zb9ZzCp5ALCAwgNDid54cfv37dhvbwcE40D01tKv7UX7gDrHKejtKubvq7gguoWpGZgd
+ C9Kg==
+X-Gm-Message-State: AOAM530lt/64ZicfrYMcgJK+icqdMknE4022vqtm+9kZAPPstmK1pb1x
+ 9KnXzmcZZwZXs1PmoBiUl67cIiN26Qg=
+X-Google-Smtp-Source: ABdhPJyxouPT9Kuf3jI2XughFKsgR/RGALA7RG6mwntabrR2/mRptW6muJFSnPB4uICG10UFcnE9/A==
+X-Received: by 2002:adf:ff82:: with SMTP id j2mr3057515wrr.401.1603977267445; 
+ Thu, 29 Oct 2020 06:14:27 -0700 (PDT)
 Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id
- o4sm5195844wrv.8.2020.10.29.06.14.25 for <qemu-devel@nongnu.org>
+ o4sm5195844wrv.8.2020.10.29.06.14.26 for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 06:14:25 -0700 (PDT)
+ Thu, 29 Oct 2020 06:14:26 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2] docs: expand sourceset documentation
-Date: Thu, 29 Oct 2020 14:14:23 +0100
-Message-Id: <20201029131424.504526-1-pbonzini@redhat.com>
+Subject: [PATCH] docs: expand sourceset documentation
+Date: Thu, 29 Oct 2020 14:14:24 +0100
+Message-Id: <20201029131424.504526-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201029131424.504526-1-pbonzini@redhat.com>
+References: <20201029131424.504526-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::443;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x443.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -92,14 +94,12 @@ symbol.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
-        v1->v2: remove stray replay/meson.build change.
-
  docs/devel/build-system.rst | 158 ++++++++++++++++++++++++------------
  docs/devel/kconfig.rst      |   2 +
  2 files changed, 107 insertions(+), 53 deletions(-)
 
 diff --git a/docs/devel/build-system.rst b/docs/devel/build-system.rst
-index 6fcf8854b7..1c8ea8ce0a 100644
+index 6fcf8854b7..8c7c845f53 100644
 --- a/docs/devel/build-system.rst
 +++ b/docs/devel/build-system.rst
 @@ -187,21 +187,23 @@ process for:
