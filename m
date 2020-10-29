@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C612129EEFC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:59:19 +0100 (CET)
-Received: from localhost ([::1]:41484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E88429EE53
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:33:10 +0100 (CET)
+Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY9OY-0001ea-Id
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:59:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
+	id 1kY8zF-0002b7-4o
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:33:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1kY8sN-0001la-Hc
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:26:05 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2425)
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kY8tw-0004Pt-7B; Thu, 29 Oct 2020 10:27:40 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1kY8sK-0005tw-JH
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:26:03 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CMSR55RKMzLrCm;
- Thu, 29 Oct 2020 22:25:53 +0800 (CST)
-Received: from [10.108.235.54] (10.108.235.54) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 29 Oct 2020 22:25:42 +0800
-From: chaihaoyu <chaihaoyu1@huawei.com>
-Subject: [PATCH] spaces are required in some places
-To: <pbonzini@redhat.com>
-Message-ID: <34e5417e-f81d-e399-ae2c-0f27467a5f43@huawei.com>
-Date: Thu, 29 Oct 2020 22:25:42 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kY8ts-00064A-OS; Thu, 29 Oct 2020 10:27:39 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMST02d9Fzkb0w;
+ Thu, 29 Oct 2020 22:27:32 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Thu, 29 Oct 2020
+ 22:27:22 +0800
+From: jokenzhang <zhangxinhao1@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v2 1/3] hw/9pfs : add spaces around operator
+Date: Thu, 29 Oct 2020 22:26:17 +0800
+Message-ID: <20201029142619.1309649-1-zhangxinhao1@huawei.com>
+X-Mailer: git-send-email 2.29.0-rc1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.54]
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=chaihaoyu1@huawei.com; helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 08:11:09
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=zhangxinhao1@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 09:43:35
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 29 Oct 2020 10:57:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -59,77 +56,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-devel@nongnu.org
+Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu_oss@crudebyte.com,
+ groug@kaod.org, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Date: Thu, 29 Oct 2020 22:01:33 +0800
-signed-off-by: Haoyu Chai<chaihaoyu1@huawei.com>
+Fix code style. Operator needs spaces both sides.
+
+Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
+Signed-off-by: Kai Deng <dengkai1@huawei.com>
 Reported-by: Euler Robot <euler.robot@huawei.com>
-
-While reading softmmu related code, I found some style problems. Some spaces are required in softmmu/memory.c
 ---
- softmmu/memory.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+ hw/9pfs/9p-local.c | 10 +++++-----
+ hw/9pfs/9p.c       | 16 ++++++++--------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index ee4a6bc168..550cffe8f6 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -158,7 +158,7 @@ enum ListenerDirection { Forward, Reverse };
-         MemoryRegionSection mrs = section_from_flat_range(fr,           \
-                 address_space_to_flatview(as));                         \
-         MEMORY_LISTENER_CALL(as, callback, dir, &mrs, ##_args);         \
--    } while(0)
-+    } while (0)
-
- struct CoalescedMemoryRange {
-     AddrRange addr;
-@@ -329,7 +329,7 @@ static void flatview_simplify(FlatView *view)
-     while (i < view->nr) {
-         j = i + 1;
-         while (j < view->nr
--               && can_merge(&view->ranges[j-1], &view->ranges[j])) {
-+               && can_merge(&view->ranges[j - 1], &view->ranges[j])) {
-             int128_addto(&view->ranges[i].addr.size, view->ranges[j].addr.size);
-             ++j;
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 3107637209..af52c1daac 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -162,13 +162,13 @@ static void local_mapped_file_attr(int dirfd, const char *name,
+     memset(buf, 0, ATTR_MAX);
+     while (fgets(buf, ATTR_MAX, fp)) {
+         if (!strncmp(buf, "virtfs.uid", 10)) {
+-            stbuf->st_uid = atoi(buf+11);
++            stbuf->st_uid = atoi(buf + 11);
+         } else if (!strncmp(buf, "virtfs.gid", 10)) {
+-            stbuf->st_gid = atoi(buf+11);
++            stbuf->st_gid = atoi(buf + 11);
+         } else if (!strncmp(buf, "virtfs.mode", 11)) {
+-            stbuf->st_mode = atoi(buf+12);
++            stbuf->st_mode = atoi(buf + 12);
+         } else if (!strncmp(buf, "virtfs.rdev", 11)) {
+-            stbuf->st_rdev = atoi(buf+12);
++            stbuf->st_rdev = atoi(buf + 12);
          }
-@@ -834,8 +834,8 @@ static void address_space_update_ioeventfds(AddressSpace *as)
-                     ioeventfds = g_realloc(ioeventfds,
-                             ioeventfd_max * sizeof(*ioeventfds));
-                 }
--                ioeventfds[ioeventfd_nb-1] = fr->mr->ioeventfds[i];
--                ioeventfds[ioeventfd_nb-1].addr = tmp;
-+                ioeventfds[ioeventfd_nb - 1] = fr->mr->ioeventfds[i];
-+                ioeventfds[ioeventfd_nb - 1].addr = tmp;
-             }
+         memset(buf, 0, ATTR_MAX);
+     }
+@@ -823,7 +823,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+         if (fd == -1) {
+             goto out;
+         }
+-        credp->fc_mode = credp->fc_mode|S_IFREG;
++        credp->fc_mode = credp->fc_mode | S_IFREG;
+         if (fs_ctx->export_flags & V9FS_SM_MAPPED) {
+             /* Set cleint credentials in xattr */
+             err = local_set_xattrat(dirfd, name, credp);
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 741d222c3f..94df440fc7 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1091,7 +1091,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
          }
      }
-@@ -2343,8 +2343,8 @@ void memory_region_add_eventfd(MemoryRegion *mr,
-     ++mr->ioeventfd_nb;
-     mr->ioeventfds = g_realloc(mr->ioeventfds,
-                                   sizeof(*mr->ioeventfds) * mr->ioeventfd_nb);
--    memmove(&mr->ioeventfds[i+1], &mr->ioeventfds[i],
--            sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb-1 - i));
-+    memmove(&mr->ioeventfds[i + 1], &mr->ioeventfds[i],
-+            sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb - 1 - i));
-     mr->ioeventfds[i] = mrfd;
-     ioeventfd_update_pending |= mr->enabled;
-     memory_region_transaction_commit();
-@@ -2376,11 +2376,11 @@ void memory_region_del_eventfd(MemoryRegion *mr,
-         }
+ 
+-    if (!(ret&~0777)) {
++    if (!(ret & ~0777)) {
+         ret |= S_IFREG;
      }
-     assert(i != mr->ioeventfd_nb);
--    memmove(&mr->ioeventfds[i], &mr->ioeventfds[i+1],
--            sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb - (i+1)));
-+    memmove(&mr->ioeventfds[i], &mr->ioeventfds[i + 1],
-+            sizeof(*mr->ioeventfds) * (mr->ioeventfd_nb - (i + 1)));
-     --mr->ioeventfd_nb;
-     mr->ioeventfds = g_realloc(mr->ioeventfds,
--                                  sizeof(*mr->ioeventfds)*mr->ioeventfd_nb + 1);
-+                                  sizeof(*mr->ioeventfds) * mr->ioeventfd_nb + 1);
-     ioeventfd_update_pending |= mr->enabled;
-     memory_region_transaction_commit();
+ 
+@@ -2776,7 +2776,7 @@ static void coroutine_fn v9fs_create(void *opaque)
+         v9fs_path_unlock(s);
+     } else {
+         err = v9fs_co_open2(pdu, fidp, &name, -1,
+-                            omode_to_uflags(mode)|O_CREAT, perm, &stbuf);
++                            omode_to_uflags(mode) | O_CREAT, perm, &stbuf);
+         if (err < 0) {
+             goto out;
+         }
+@@ -3428,7 +3428,7 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
+      * compute bsize factor based on host file system block size
+      * and client msize
+      */
+-    bsize_factor = (s->msize - P9_IOHDRSZ)/stbuf->f_bsize;
++    bsize_factor = (s->msize - P9_IOHDRSZ) / stbuf->f_bsize;
+     if (!bsize_factor) {
+         bsize_factor = 1;
+     }
+@@ -3440,9 +3440,9 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
+      * adjust(divide) the number of blocks, free blocks and available
+      * blocks by bsize factor
+      */
+-    f_blocks = stbuf->f_blocks/bsize_factor;
+-    f_bfree  = stbuf->f_bfree/bsize_factor;
+-    f_bavail = stbuf->f_bavail/bsize_factor;
++    f_blocks = stbuf->f_blocks / bsize_factor;
++    f_bfree  = stbuf->f_bfree / bsize_factor;
++    f_bavail = stbuf->f_bavail / bsize_factor;
+     f_files  = stbuf->f_files;
+     f_ffree  = stbuf->f_ffree;
+     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
+@@ -4185,6 +4185,6 @@ static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
+         error_report("Failed to get the resource limit");
+         exit(1);
+     }
+-    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur/3);
+-    open_fd_rc = rlim.rlim_cur/2;
++    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
++    open_fd_rc = rlim.rlim_cur / 2;
  }
 -- 
+2.29.0-rc1
+
 
