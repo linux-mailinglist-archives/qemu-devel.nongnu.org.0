@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7062A29E77C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:38:02 +0100 (CET)
-Received: from localhost ([::1]:36716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3197B29E78B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:40:12 +0100 (CET)
+Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4Nd-0003K0-Ey
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:38:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60140)
+	id 1kY4Pi-0006h5-Ra
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:40:11 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4Jl-00066R-FA
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39665)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4Jr-00067a-9N
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:07 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4Jh-0006Ws-79
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:01 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4Jk-0006YC-4d
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:06 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603964030;
+ s=mimecast20190719; t=1603964037;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EBb5GrRIOVLLA2GDg9frMwfzobl3y/7Xq37zU2+GEk8=;
- b=fK6t4ldTLnsIUojM9BdKo85YWSRKbkkEqtS1Ub/OXA9wXkaF+RpRphGgXAwqbB+1Zpxwb/
- m2mhiIOV+3dAHrRkFy4x2Gj5cgg9IqcLOO/ygbjMaeynF9e3cLnlzMIxktut8pKRtHwoVE
- 09pxQBzTDb6tqXC6IkvGMD/wrnEPyAc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-hzDqeQQHNP-jJ6YQpfE_yA-1; Thu, 29 Oct 2020 05:33:48 -0400
-X-MC-Unique: hzDqeQQHNP-jJ6YQpfE_yA-1
-Received: by mail-ej1-f70.google.com with SMTP id b17so929466ejb.20
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:33:48 -0700 (PDT)
+ bh=LNTJ5igNyyXKkWieXTvLU2UcanJIdRIlRwN2Ir3xgfg=;
+ b=YyMjI9HXPXjEuiTT7LEsQczaQ/swk272L0mmyZbRxpWjp/sjkOMv+YkfQxQj9IO7mj0d/P
+ 1vNVgnoNJR4KTv5qwMORwjhyONTot7lxOIXpj8XqibxNpdiA5OM2s8Jm569/zr2RHkB5G1
+ Vi6Lgcbv9XK7HMaDpci4z17KzG1rQUo=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-364-mIqPevmvMjq0Mx106GNdng-1; Thu, 29 Oct 2020 05:33:53 -0400
+X-MC-Unique: mIqPevmvMjq0Mx106GNdng-1
+Received: by mail-ed1-f71.google.com with SMTP id a15so937370eda.15
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:33:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EBb5GrRIOVLLA2GDg9frMwfzobl3y/7Xq37zU2+GEk8=;
- b=kc1Kxhg73K9avrf1wLP0/4ZqDUk4d5/Je/kqPk9OGwZrIYeTm4MRz5q9G/EYs2yJ3f
- ioOfglg3NCxl9JeNcAbAMtm2xJR/WjdOR0y6L19jxmGAjLfAHzPyGAiBWvaJqqLfDFgD
- QigX+FKzcG6PYb3KNzQWj8FoBexIshzWcZF5GNycihYuwcYGWD9Pbl31oEOH74uP+x4D
- AdzfB+BJgq/fkhssH6NOQkueqnBYQsUvr3vKlhkTC29HOJzCdnOZms7potrXiGJX6AAq
- 0c0dQXoyKDaMwgV56g8tSimRFTWjCDouN/+VqJFySfUAj28OeJdHKdjHsd9NGzKewncK
- gXeg==
-X-Gm-Message-State: AOAM530nYZsaarjAilI9JC4dZuzqLMrVaHbbS0iqI5RQTwDSvE6KGcmb
- jDrbjIDxzK2QFBFUQm1uMldalkBvALp85qFhcC580S3XkKd/FIBamxzFHPFfgswlBrmxiLtPmpP
- HOIbJX2u13s6asl4=
-X-Received: by 2002:a17:906:7210:: with SMTP id
- m16mr3319986ejk.490.1603964026928; 
- Thu, 29 Oct 2020 02:33:46 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwimITMNtQ8O1OpBtiouA1FKrkJa7uHuXVtHe9G82z1AC8mSDLoBSF94Qk2MLwKAL7koIYlpw==
-X-Received: by 2002:a17:906:7210:: with SMTP id
- m16mr3319980ejk.490.1603964026799; 
- Thu, 29 Oct 2020 02:33:46 -0700 (PDT)
+ bh=LNTJ5igNyyXKkWieXTvLU2UcanJIdRIlRwN2Ir3xgfg=;
+ b=kuwRbrtlH5tIpHfuGpRXfC+5KWHD01xgIjNQ4pc8ToZf3oeu5CPpK/owjD2XjmSxcS
+ NrwA+cpScbwStpAK2nvvYV9IYbDNhoKiQHhmoKw8oTqhb3m4mOkPs2mqcT0FjrzxUrDu
+ F0u/J4/uuTX2eMkQg72fy8V4U1hKIjScF3phxqN0Dj3NmGkBBRFFLHs6WJlMFfJoQmi7
+ fdKwUCgGvuB9OzNsfCoYqo3kJ2YbYzZGsP4BXEsb06H8H0sFW7ZI888yIwBWdce6EjJ6
+ PxJgtclyYgsNcva7e091lYZhVzMLKTOegM/0pZNjoth5T5Bk8vSu1lVYudIdkQxHckg5
+ laqA==
+X-Gm-Message-State: AOAM533FiMY+R+MmIDBsCMAmNTrMvNmDeLS2NTvjc+dn20ECdPTYpNvL
+ HYhgmSou9N5jXUcplbep4iDQIxbEgzKdz2VKD6xnTF/eS1yW3WuCZGca5BYPjjdwB02bWCrTWlP
+ luuYicbLF8WnGYuw=
+X-Received: by 2002:a17:906:f148:: with SMTP id
+ gw8mr518344ejb.192.1603964032301; 
+ Thu, 29 Oct 2020 02:33:52 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJztTl+bsWy4FrmaMCFpQbfLGLKKcnQIg2bTntM3tBGkLjyLF1s0qLKsE7iZ9jsaLp8s9OC3/A==
+X-Received: by 2002:a17:906:f148:: with SMTP id
+ gw8mr518331ejb.192.1603964032094; 
+ Thu, 29 Oct 2020 02:33:52 -0700 (PDT)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id j20sm1184367edt.4.2020.10.29.02.33.45
+ by smtp.gmail.com with ESMTPSA id b24sm398626edt.68.2020.10.29.02.33.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 02:33:46 -0700 (PDT)
+ Thu, 29 Oct 2020 02:33:51 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v2 07/25] block/nvme: Trace queue pair
- creation/deletion
-Date: Thu, 29 Oct 2020 10:32:48 +0100
-Message-Id: <20201029093306.1063879-8-philmd@redhat.com>
+Subject: [PATCH-for-5.2 v2 08/25] block/nvme: Move definitions before
+ structure declarations
+Date: Thu, 29 Oct 2020 10:32:49 +0100
+Message-Id: <20201029093306.1063879-9-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201029093306.1063879-1-philmd@redhat.com>
 References: <20201029093306.1063879-1-philmd@redhat.com>
@@ -85,7 +85,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,49 +106,54 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+To be able to use some definitions in structure declarations,
+move them earlier. No logical change.
+
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Tested-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- block/nvme.c       | 3 +++
- block/trace-events | 2 ++
- 2 files changed, 5 insertions(+)
+ block/nvme.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/block/nvme.c b/block/nvme.c
-index 29d2541b911..e95d59d3126 100644
+index e95d59d3126..b0629f5de80 100644
 --- a/block/nvme.c
 +++ b/block/nvme.c
-@@ -181,6 +181,7 @@ static void nvme_init_queue(BDRVNVMeState *s, NVMeQueue *q,
+@@ -41,6 +41,16 @@
  
- static void nvme_free_queue_pair(NVMeQueuePair *q)
- {
-+    trace_nvme_free_queue_pair(q->index, q);
-     if (q->completion_bh) {
-         qemu_bh_delete(q->completion_bh);
-     }
-@@ -216,6 +217,8 @@ static NVMeQueuePair *nvme_create_queue_pair(BDRVNVMeState *s,
-     if (!q) {
-         return NULL;
-     }
-+    trace_nvme_create_queue_pair(idx, q, size, aio_context,
-+                                 event_notifier_get_fd(s->irq_notifier));
-     q->prp_list_pages = qemu_try_memalign(s->page_size,
-                                           s->page_size * NVME_NUM_REQS);
-     if (!q->prp_list_pages) {
-diff --git a/block/trace-events b/block/trace-events
-index cc5e2b55cb5..f6a0f99df1a 100644
---- a/block/trace-events
-+++ b/block/trace-events
-@@ -155,6 +155,8 @@ nvme_dsm(void *s, uint64_t offset, uint64_t bytes) "s %p offset 0x%"PRIx64" byte
- nvme_dsm_done(void *s, uint64_t offset, uint64_t bytes, int ret) "s %p offset 0x%"PRIx64" bytes %"PRId64" ret %d"
- nvme_dma_map_flush(void *s) "s %p"
- nvme_free_req_queue_wait(void *s, unsigned q_index) "s %p q #%u"
-+nvme_create_queue_pair(unsigned q_index, void *q, unsigned size, void *aio_context, int fd) "index %u q %p size %u aioctx %p fd %d"
-+nvme_free_queue_pair(unsigned q_index, void *q) "index %u q %p"
- nvme_cmd_map_qiov(void *s, void *cmd, void *req, void *qiov, int entries) "s %p cmd %p req %p qiov %p entries %d"
- nvme_cmd_map_qiov_pages(void *s, int i, uint64_t page) "s %p page[%d] 0x%"PRIx64
- nvme_cmd_map_qiov_iov(void *s, int i, void *page, int pages) "s %p iov[%d] %p pages %d"
+ typedef struct BDRVNVMeState BDRVNVMeState;
+ 
++/* Same index is used for queues and IRQs */
++#define INDEX_ADMIN     0
++#define INDEX_IO(n)     (1 + n)
++
++/* This driver shares a single MSIX IRQ for the admin and I/O queues */
++enum {
++    MSIX_SHARED_IRQ_IDX = 0,
++    MSIX_IRQ_COUNT = 1
++};
++
+ typedef struct {
+     int32_t  head, tail;
+     uint8_t  *queue;
+@@ -81,15 +91,6 @@ typedef struct {
+     QEMUBH      *completion_bh;
+ } NVMeQueuePair;
+ 
+-#define INDEX_ADMIN     0
+-#define INDEX_IO(n)     (1 + n)
+-
+-/* This driver shares a single MSIX IRQ for the admin and I/O queues */
+-enum {
+-    MSIX_SHARED_IRQ_IDX = 0,
+-    MSIX_IRQ_COUNT = 1
+-};
+-
+ struct BDRVNVMeState {
+     AioContext *aio_context;
+     QEMUVFIOState *vfio;
 -- 
 2.26.2
 
