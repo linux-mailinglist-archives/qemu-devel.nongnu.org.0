@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B568D29EA4B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 12:14:41 +0100 (CET)
-Received: from localhost ([::1]:54590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F190129EA2F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 12:12:04 +0100 (CET)
+Received: from localhost ([::1]:48496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY5tA-0007sR-Os
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 07:14:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53882)
+	id 1kY5qd-0005Iz-Dk
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 07:12:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kY5os-0004Ms-8w
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:10:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kY5oo-0007he-3g
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kY5or-0004LY-1C
  for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:10:13 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40138)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kY5on-0007hF-OF
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:10:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1603969807;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=f1vOJ63AudGIsg4/hFAcXsaUPmWd1EhvZj8XVJc1Zqs=;
- b=PC1e9MqUs7LKC/B2U7EvVxThpSkcTVEiOm6wwoy0ukm+leIjg0l2HcWLUPBUu+n/T4TuHM
- QoYuS6gWL/o7xnovaKsYbBgm2cKPyMpAukP8aH9rCae97DOAP1uVSgDe4/yOTTLqXL/wfV
- b2LIBUbqVClQtqEFsrhlCeeARR4wpUQ=
+ bh=A47iyUrQOmrPhm7wOWiOvkmMu6xk8xxKAcxFi5chMu8=;
+ b=VRcIrTp3saa79Enqe7D6xPJR5ReFXq9+K8f2MlFHfBUz+Jy5nBv9818lAC+rOhuHdsRDO+
+ 3Bnra6MWrx/9fI3P0U2rOMTb3GNI+Q8pktV/shYJocRNp6TrgOWvfhSnxJ21L76jtWkGXd
+ 16wcCBlrPopmjYr6VtT6zfQM7xKXU5Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-204-4z6oxn5zOxiCiqwZ16oDlg-1; Thu, 29 Oct 2020 07:10:06 -0400
-X-MC-Unique: 4z6oxn5zOxiCiqwZ16oDlg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-505-KDVYDN1ZPzKhuthUY5-LXg-1; Thu, 29 Oct 2020 07:10:05 -0400
+X-MC-Unique: KDVYDN1ZPzKhuthUY5-LXg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 182395703D
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 11:10:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC76A10E218D
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 11:10:04 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E6095C1D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 28EB82C31E;
  Thu, 29 Oct 2020 11:09:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 58AF79D0E; Thu, 29 Oct 2020 12:09:57 +0100 (CET)
+ id 6171F9D0F; Thu, 29 Oct 2020 12:09:57 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] virtio-gpu: only compile virtio-gpu-3d.c for CONFIG_VIRGL=y
-Date: Thu, 29 Oct 2020 12:09:55 +0100
-Message-Id: <20201029110957.11062-4-kraxel@redhat.com>
+Subject: [PULL 4/5] modules: unbreak them on macos
+Date: Thu, 29 Oct 2020 12:09:56 +0100
+Message-Id: <20201029110957.11062-5-kraxel@redhat.com>
 In-Reply-To: <20201029110957.11062-1-kraxel@redhat.com>
 References: <20201029110957.11062-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,58 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no actual code in the CONFIG_VIRGL=n case.  So building is
-(a) pointless and (b) makes macos ranlib complain.
+Using the correct shared library suffix helps ;)
 
-Reported-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-id: 20201026142851.28735-1-kraxel@redhat.com
+Message-id: 20201027120603.3625-1-kraxel@redhat.com
 ---
- hw/display/virtio-gpu-3d.c | 4 ----
- hw/display/meson.build     | 4 +++-
- 2 files changed, 3 insertions(+), 5 deletions(-)
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-index 1bd33d7aedc6..0b0c11474dd3 100644
---- a/hw/display/virtio-gpu-3d.c
-+++ b/hw/display/virtio-gpu-3d.c
-@@ -17,8 +17,6 @@
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-gpu.h"
- 
--#ifdef CONFIG_VIRGL
--
- #include <virglrenderer.h>
- 
- static struct virgl_renderer_callbacks virtio_gpu_3d_cbs;
-@@ -633,5 +631,3 @@ int virtio_gpu_virgl_get_num_capsets(VirtIOGPU *g)
- 
-     return capset2_max_ver ? 2 : 1;
- }
--
--#endif /* CONFIG_VIRGL */
-diff --git a/hw/display/meson.build b/hw/display/meson.build
-index 11ea2895c5fe..dad3bd2b414b 100644
---- a/hw/display/meson.build
-+++ b/hw/display/meson.build
-@@ -57,7 +57,9 @@ softmmu_ss.add(when: [pixman, 'CONFIG_ATI_VGA'], if_true: files('ati.c', 'ati_2d
- if config_all_devices.has_key('CONFIG_VIRTIO_GPU')
-   virtio_gpu_ss = ss.source_set()
-   virtio_gpu_ss.add(when: 'CONFIG_VIRTIO_GPU',
--                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c', 'virtio-gpu-3d.c'), pixman, virgl])
-+                    if_true: [files('virtio-gpu-base.c', 'virtio-gpu.c'), pixman, virgl])
-+  virtio_gpu_ss.add(when: ['CONFIG_VIRTIO_GPU', 'CONFIG_VIRGL'],
-+                    if_true: [files('virtio-gpu-3d.c'), pixman, virgl])
-   virtio_gpu_ss.add(when: 'CONFIG_VHOST_USER_GPU', if_true: files('vhost-user-gpu.c'))
-   hw_display_modules += {'virtio-gpu': virtio_gpu_ss}
- endif
+diff --git a/configure b/configure
+index 83610b0db8ea..6df4306c884f 100755
+--- a/configure
++++ b/configure
+@@ -618,6 +618,7 @@ Darwin)
+   if test -z "$cpu" && test "$(sysctl -n hw.optional.x86_64)" = "1"; then
+     cpu="x86_64"
+   fi
++  HOST_DSOSUF=".dylib"
+   ;;
+ SunOS)
+   # $(uname -m) returns i86pc even on an x86_64 box, so default based on isainfo
 -- 
 2.27.0
 
