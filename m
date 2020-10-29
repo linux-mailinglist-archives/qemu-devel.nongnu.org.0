@@ -2,92 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07CF329EEDB
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:55:09 +0100 (CET)
-Received: from localhost ([::1]:33602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0884329EF06
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 16:01:20 +0100 (CET)
+Received: from localhost ([::1]:48516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY9KW-0006fq-3c
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:55:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58658)
+	id 1kY9QV-0004Zp-2g
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 11:01:19 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY9Ie-0005QV-0b
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:53:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY9Ic-00016I-DS
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:53:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603983189;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1KvfJlWgdHs+P7pJhQvNrLbxapi1XCfq6Rb/iIPVqtA=;
- b=b1BvkI3q7E+fMfERE4YWVks8bU0CbSTYIQkG9MhzZSqU7ehgD9Hjyx03VrvCEO14H/uVlU
- JH9ke+wUmoeU5QJ8IA6AXAal4ph53S4QN/hEbz50fMpmZYqKUbUMmhXFWlyGxQo9mbzIfo
- SSGio4nZdaoCvNRYyMXh+GyN/J98GuM=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-52-vslN1YPJMMGo5j_SThaIwA-1; Thu, 29 Oct 2020 10:53:07 -0400
-X-MC-Unique: vslN1YPJMMGo5j_SThaIwA-1
-Received: by mail-ed1-f72.google.com with SMTP id b16so1275020edn.6
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 07:53:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1KvfJlWgdHs+P7pJhQvNrLbxapi1XCfq6Rb/iIPVqtA=;
- b=LK9x7ztmbqNfxiYZK2K3+v7R9jOsBOlQHLBvZMVyVQqqdZe1nxosHiHnEk9XLy5FTM
- kea1kzHwKaWx7HCoxVcSFC+a52sG2YRo2spw8ioTlEiOU+ZTzreenMJLFyARDifa3/U6
- D5nKKf5/qgLo1seuQSjZdw4veLhR7vA1H21lu5Ms+rTZ6hjNX97ZB0gZcNVf1z/042KJ
- 1CLF7+qL8+T7m0X4ZgHGDMiB+IdF8kCqzQxGg3+yW/E69J7R9JHxNjsOTqdGnutu+o+n
- pwCgD0AeglN4dVuCGs9q3XDS99xZPUi2MA2Kz2Nd6huAkC2e0UT5mMH0XWfEih7RlzSi
- XecQ==
-X-Gm-Message-State: AOAM53154fVrog/J6PJaTW+GwZVRBRrC7+4gyu9GqTObL2koD6ORRQ12
- hDXOV1pebfWumE0slsP+MiMyT4OCoquxMfkgP0yfBNCnoMawNk8OcjBzAYQgvDqeezSJRhJmIFg
- sLw/rVk8YCnsycVc=
-X-Received: by 2002:aa7:d4c6:: with SMTP id t6mr4222899edr.372.1603983185320; 
- Thu, 29 Oct 2020 07:53:05 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwOddx+KL4rDm+6aGlu8wQtQ+DZQLCpQdGMKVTRRUmpPfnojWgT1Vh8RM4udhJUl5k1FvV/Kw==
-X-Received: by 2002:aa7:d4c6:: with SMTP id t6mr4222877edr.372.1603983185158; 
- Thu, 29 Oct 2020 07:53:05 -0700 (PDT)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id s25sm1565179ejc.29.2020.10.29.07.53.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 07:53:04 -0700 (PDT)
-Subject: Re: [PATCH] hw/hyperv/vmbus.c : Don't use '#' flag of printf format
-To: jokenzhang <zhangxinhao1@huawei.com>, qemu-devel@nongnu.org
-References: <20201029134933.1138718-1-zhangxinhao1@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e117e456-dcd2-2716-1562-530965f78d71@redhat.com>
-Date: Thu, 29 Oct 2020 15:53:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <wubinfeng@huawei.com>)
+ id 1kY6J1-0002jr-OT
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:41:26 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <wubinfeng@huawei.com>)
+ id 1kY6It-0002J3-93
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 07:41:23 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CMNmt4xLMzhZFX;
+ Thu, 29 Oct 2020 19:41:02 +0800 (CST)
+Received: from huawei.com (10.174.187.148) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Thu, 29 Oct 2020
+ 19:40:49 +0800
+From: Binfeng Wu <wubinfeng@huawei.com>
+To: <alex.williamson@redhat.com>
+Subject: [PATCH] vfio-pci: add Ascend devices passthrough quirks
+Date: Thu, 29 Oct 2020 19:40:48 +0800
+Message-ID: <20201029114048.700-1-wubinfeng@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-In-Reply-To: <20201029134933.1138718-1-zhangxinhao1@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.261, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.174.187.148]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=wubinfeng@huawei.com;
+ helo=szxga06-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 07:41:00
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 29 Oct 2020 10:57:05 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -99,22 +59,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, pbonzini@redhat.com, arilou@gmail.com,
- dengkai1@huawei.com
+Cc: xieyingtai@huawei.com, qemu-devel@nongnu.org,
+ Binfeng Wu <wubinfeng@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/29/20 2:49 PM, jokenzhang wrote:
-> Fix code style. Don't use '#' flag of printf format ('%#') in
-> format strings, use '0x' prefix instead
-> 
-> Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
-> Signed-off-by: Kai Deng <dengkai1@huawei.com>
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> ---
->  hw/hyperv/vmbus.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Ascend is a series of SoC processors developed by Huawei. Ascend310/910
+are highly efficient, flexible, and programmable AI processors in this
+series and support device passthrough via vfio-pci. Ascends device
+xloader update is only allowed in host, because update triggered by vm
+users may affect other users when Ascend devices passthrough to vm.
+Set a bar quirk is an effective method to keep vm users from updating
+xloader. In this patch, two bar quirks were proposed to cover
+Ascend310/910 respectively.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Binfeng Wu <wubinfeng@huawei.com>
+---
+ hw/vfio/pci-quirks.c | 104 +++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 104 insertions(+)
+
+diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
+index 57150913b7..291a45d3ab 100644
+--- a/hw/vfio/pci-quirks.c
++++ b/hw/vfio/pci-quirks.c
+@@ -1202,6 +1202,108 @@ int vfio_pci_igd_opregion_init(VFIOPCIDevice *vdev,
+     return 0;
+ }
+ 
++#define PCI_VENDOR_ID_HUAWEI      0x19e5
++#define PCI_DEVICE_ID_ASCEND910   0xd801
++#define PCI_DEVICE_ID_ASCEND310   0xd100
++#define ASCEND910_XLOADER_SIZE    4
++#define ASCEND910_XLOADER_OFFSET  0x80400
++#define ASCEND310_XLOADER_SIZE    4
++#define ASCEND310_XLOADER_OFFSET  0x400
++
++typedef struct VFIOAscendBarQuirk {
++    struct VFIOPCIDevice *vdev;
++    pcibus_t offset;
++    uint8_t bar;
++    MemoryRegion *mem;
++} VFIOAscendBarQuirk;
++
++static uint64_t vfio_ascend_quirk_read(void *opaque,
++                                       hwaddr addr, unsigned size)
++{
++    VFIOAscendBarQuirk *quirk = opaque;
++    VFIOPCIDevice *vdev = quirk->vdev;
++
++    return vfio_region_read(&vdev->bars[quirk->bar].region,
++                            addr + quirk->offset, size);
++}
++
++static void vfio_ascend_quirk_write(void *opaque, hwaddr addr,
++                                    uint64_t data, unsigned size)
++{
++}
++
++static const MemoryRegionOps vfio_ascend_intercept_regs_quirk = {
++    .read = vfio_ascend_quirk_read,
++    .write = vfio_ascend_quirk_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void vfio_probe_ascend_bar0_quirk(VFIOPCIDevice *vdev, int nr)
++{
++    VFIOQuirk *quirk;
++    VFIOAscendBarQuirk *bar0_quirk;
++
++    if (!vfio_pci_is(vdev, PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_ASCEND910) ||
++        nr != 0) {
++        return;
++    }
++
++    quirk = g_malloc0(sizeof(*quirk));
++    quirk->nr_mem = 1;
++    quirk->mem = g_new0(MemoryRegion, quirk->nr_mem);
++    bar0_quirk = quirk->data = g_new0(typeof(*bar0_quirk), quirk->nr_mem);
++    bar0_quirk[0].vdev = vdev;
++    bar0_quirk[0].offset = ASCEND910_XLOADER_OFFSET;
++    bar0_quirk[0].bar = nr;
++
++    /*
++     * intercept w/r to the xloader-updating register,
++     * so the vm can't enable xloader-updating
++     */
++    memory_region_init_io(&quirk->mem[0], OBJECT(vdev),
++                          &vfio_ascend_intercept_regs_quirk,
++                          &bar0_quirk[0],
++                          "vfio-ascend-bar0-intercept-regs-quirk",
++                          ASCEND910_XLOADER_SIZE);
++    memory_region_add_subregion_overlap(vdev->bars[nr].region.mem,
++                                        bar0_quirk[0].offset,
++                                        &quirk->mem[0], 1);
++    QLIST_INSERT_HEAD(&vdev->bars[nr].quirks, quirk, next);
++}
++
++static void vfio_probe_ascend_bar4_quirk(VFIOPCIDevice *vdev, int nr)
++{
++    VFIOQuirk *quirk;
++    VFIOAscendBarQuirk *bar4_quirk;
++
++    if (!vfio_pci_is(vdev, PCI_VENDOR_ID_HUAWEI, PCI_DEVICE_ID_ASCEND310) ||
++        nr != 4) {
++        return;
++    }
++
++    quirk = g_malloc0(sizeof(*quirk));
++    quirk->nr_mem = 1;
++    quirk->mem = g_new0(MemoryRegion, quirk->nr_mem);
++    bar4_quirk = quirk->data = g_new0(typeof(*bar4_quirk), quirk->nr_mem);
++    bar4_quirk[0].vdev = vdev;
++    bar4_quirk[0].offset = ASCEND310_XLOADER_OFFSET;
++    bar4_quirk[0].bar = nr;
++
++    /*
++     * intercept w/r to the xloader-updating register,
++     * so the vm can't enable xloader-updating
++     */
++    memory_region_init_io(&quirk->mem[0], OBJECT(vdev),
++                          &vfio_ascend_intercept_regs_quirk,
++                          &bar4_quirk[0],
++                          "vfio-ascend-bar4-intercept-regs-quirk",
++                          ASCEND310_XLOADER_SIZE);
++    memory_region_add_subregion_overlap(vdev->bars[nr].region.mem,
++                                        bar4_quirk[0].offset,
++                                        &quirk->mem[0], 1);
++    QLIST_INSERT_HEAD(&vdev->bars[nr].quirks, quirk, next);
++}
++
+ /*
+  * Common quirk probe entry points.
+  */
+@@ -1251,6 +1353,8 @@ void vfio_bar_quirk_setup(VFIOPCIDevice *vdev, int nr)
+     vfio_probe_nvidia_bar5_quirk(vdev, nr);
+     vfio_probe_nvidia_bar0_quirk(vdev, nr);
+     vfio_probe_rtl8168_bar2_quirk(vdev, nr);
++    vfio_probe_ascend_bar0_quirk(vdev, nr);
++    vfio_probe_ascend_bar4_quirk(vdev, nr);
+ #ifdef CONFIG_VFIO_IGD
+     vfio_probe_igd_bar4_quirk(vdev, nr);
+ #endif
+-- 
+2.26.2.windows.1
 
 
