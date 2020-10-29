@@ -2,56 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B72929EEAD
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:46:41 +0100 (CET)
-Received: from localhost ([::1]:51910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 923D829EE85
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:41:09 +0100 (CET)
+Received: from localhost ([::1]:39044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY9CK-0002AZ-5I
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:46:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53294)
+	id 1kY96y-0004vd-Jf
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:41:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kY8xj-0001KX-Vp
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:31:36 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:40041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kY8xg-0006lb-2r
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:31:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=t0HrzI832l4JbOJJSgR5g51dru18OKqRUzK2xU6t0FA=; b=Ea5VWwnVS4MbshwI575G/0fWox
- a7hcp0MGmV9jTjmcY/GijsRCSN1m268z+6zRBaoIMi73pmyL+rBGvb1Ij0sQlQxvZwN55MeprSfG9
- WDF9VAqJFNeFAjnTmLYMPH8Wz6zzk3RcxJGosqzBP7RrpmiQN3nw6tnlZwtK+dUbHQTkb33qK20gJ
- GppAoT2fgbszjRUCK66CC9yQGHwGBph3RBR5rjZBjkKIrERxM9CsUzIAI+nJcC5ZwrlaH/QlLPHuz
- Y0rwU75GkQH/O5iMwGCnuIlQ4zxWAbvE37nMe7EOntt/mrK7q9s5Q+UuGDwmlXdxi0scqDhyWTHEF
- LWN5o98w==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PULL 00/13] 9p queue 2020-10-23
-Date: Thu, 29 Oct 2020 15:31:27 +0100
-Message-ID: <3209306.Oi7kq7t7ax@silver>
-In-Reply-To: <CAFEAcA-+4Ac7tGyXxDjkPrsJw7NmH3bijkuXLY9gF=Vr7p1LWQ@mail.gmail.com>
-References: <cover.1603452058.git.qemu_oss@crudebyte.com>
- <5649161.sut93UlCx4@silver>
- <CAFEAcA-+4Ac7tGyXxDjkPrsJw7NmH3bijkuXLY9gF=Vr7p1LWQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kY8yC-0001yf-DJ
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:32:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kY8y9-0006pz-V4
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:32:04 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603981917;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hjs/4gU0vgPWp16yGCLxWyrnNq57vsBbrFdCTR2YCpE=;
+ b=jSeZeNzUrnLrSz0C3z5Kc1zisllDD869OTq618+/z6IQYxCRvfSv9tUvu9OlrwrhlHm3PG
+ 8MXqG7geE8Y+2h/sgrzEFOTFXKAY12YiCSu6WHbhWV2JMx/JQAV/7ZpT3El+Qh3VOvrb04
+ YnEIuoohUfccGJaEjyuRrDmER0P/k6Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-177-CDBpr4e1PYaWyCbyIfR-Rw-1; Thu, 29 Oct 2020 10:31:56 -0400
+X-MC-Unique: CDBpr4e1PYaWyCbyIfR-Rw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F574393B7;
+ Thu, 29 Oct 2020 14:31:53 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5DFD576642;
+ Thu, 29 Oct 2020 14:31:33 +0000 (UTC)
+Date: Thu, 29 Oct 2020 08:31:30 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
+Message-ID: <20201029083130.0617a28f@w520.home>
+In-Reply-To: <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
+References: <20201027151400.GA138065@stefanha-x1.localdomain>
+ <CAJSP0QWrmNN1Ci-M-4WDFZBOGHyeZvF71utg0w2ajCbOLtynJw@mail.gmail.com>
+ <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 08:52:23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ TVD_PH_BODY_ACCOUNTS_PRE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,34 +84,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ Janosch Frank <frankja@linux.vnet.ibm.com>,
+ "mst@redhat.com" <mtsirkin@redhat.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>, Jag Raman <jag.raman@oracle.com>,
+ Anup Patel <anup@brainfault.org>,
+ Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Liran Alon <liran.alon@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Halil Pasic <pasic@linux.vnet.ibm.com>, "Daniel P.
+ Berrange" <berrange@redhat.com>, Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, fam <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 29. Oktober 2020 15:15:19 CET Peter Maydell wrote:
-> On Thu, 29 Oct 2020 at 14:06, Christian Schoenebeck
-> 
-> <qemu_oss@crudebyte.com> wrote:
-> > Ok, I'll use mkdtemp() instead, that avoids other potential parallel
-> > config
-> > colissions that I may not have considered yet.
-> > 
-> > The original motivation against mkdtemp() was that /tmp is isually a
-> > ramfs,
-> > hence very limited regarding large file tests. But that's not an issue
-> > right now.
-> 
-> How large is "large" here ?
-> 
-> thanks
-> -- PMM
+On Thu, 29 Oct 2020 21:02:05 +0800
+Jason Wang <jasowang@redhat.com> wrote:
 
-E.g. ~10 GiB which might be a problem for cloud based CI platforms.
+> On 2020/10/29 =E4=B8=8B=E5=8D=888:08, Stefan Hajnoczi wrote:
+> > Here are notes from the session:
+> >
+> > protocol stability:
+> >      * vhost-user already exists for existing third-party applications
+> >      * vfio-user is more general but will take more time to develop
+> >      * libvfio-user can be provided to allow device implementations
+> >
+> > management:
+> >      * Should QEMU launch device emulation processes?
+> >          * Nicer user experience
+> >          * Technical blockers: forking, hotplug, security is hard once
+> > QEMU has started running
+> >          * Probably requires a new process model with a long-running
+> > QEMU management process proxying QMP requests to the emulator process
+> >
+> > migration:
+> >      * dbus-vmstate
+> >      * VFIO live migration ioctls
+> >          * Source device can continue if migration fails
+> >          * Opaque blobs are transferred to destination, destination can
+> > fail migration if it decides the blobs are incompatible =20
+>=20
+>=20
+> I'm not sure this can work:
+>=20
+> 1) Reading something that is opaque to userspace is probably a hint of=20
+> bad uAPI design
+> 2) Did qemu even try to migrate opaque blobs before? It's probably a bad=
+=20
+> design of migration protocol as well.
+>=20
+> It looks to me have a migration driver in qemu that can clearly define=20
+> each byte in the migration stream is a better approach.
 
-But again, we don't have any 9p test doing that yet. So mkdtemp() is just fine 
-for now.
+Any time during the previous two years of development might have been a
+more appropriate time to express your doubts.
 
-Best regards,
-Christian Schoenebeck
+Note that we're not talking about vDPA devices here, we're talking
+about arbitrary devices with arbitrary state.  Some degree of migration
+support for assigned devices can be implemented in QEMU, Alex Graf
+proved this several years ago with i40evf.  Years later, we don't have
+any vendors proposing device specific migration code for QEMU.
 
+Clearly we're also trying to account for proprietary devices where even
+for suspend/resume support, proprietary drivers may be required for
+manipulating that internal state.  When we move device emulation
+outside of QEMU, whether in kernel or to other userspace processes,
+does it still make sense to require code in QEMU to support
+interpretation of that device for migration purposes?  That seems
+counter to the actual goal of out-of-process devices and clearly hasn't
+work for us so far.  Thanks,
+
+Alex
 
 
