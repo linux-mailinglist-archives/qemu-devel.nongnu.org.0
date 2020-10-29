@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C11029E796
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:43:20 +0100 (CET)
-Received: from localhost ([::1]:53592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F30DF29E782
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 10:38:38 +0100 (CET)
+Received: from localhost ([::1]:38306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4Sl-0001le-JH
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:43:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60302)
+	id 1kY4OD-0003ws-Vn
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 05:38:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4K6-0006ZF-MW
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30323)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4KA-0006kS-UW
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52869)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4K2-0006eG-2N
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:22 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kY4K9-0006fV-9N
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 05:34:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603964057;
+ s=mimecast20190719; t=1603964064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rby//ZoQW9S03FtYoV9vfiisbCFRimYXfnLqhWXSPDA=;
- b=QvZbEF6AivVKlTdq0lWq2MyLyR9lZmYTivWIABVIw+O0sllezRjj0uVg9BedgNAfsxAMVq
- 8yE1WH+0N2iKO4u3j5v5deH1luIwdFxl92EHauYZMxxhC68PZb+vx3Uw3UFpDehgC7joQC
- X1YSBktOF3StWAMjKLBEWwUZUj/IYjY=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-390-2v8EEPDBO5OsEcIVlkowgw-1; Thu, 29 Oct 2020 05:34:15 -0400
-X-MC-Unique: 2v8EEPDBO5OsEcIVlkowgw-1
-Received: by mail-ej1-f71.google.com with SMTP id x12so919111eju.22
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:34:15 -0700 (PDT)
+ bh=PNbQLcT2YAtJ+9yj7XsSRTYSXNgUiMYhENGCKNffe1M=;
+ b=TBaEF3W24N8HnYzXwazKR6IK5HLc1jXe92UhCZwF3S4Ef+8jlx2hBqON5J8n6KTpH0FAU5
+ Y4NwNWXs22DIQdRz9lDYR6Ufpsy5FurQOqgZ/P+OoVAy85lB13p06QMr4WRcoWZvlDV48B
+ Fl0twnMEFWp2Lq3RzTMPLdG0redTrKM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-NR3hA535Mey0QFCaRTQa3w-1; Thu, 29 Oct 2020 05:34:20 -0400
+X-MC-Unique: NR3hA535Mey0QFCaRTQa3w-1
+Received: by mail-ej1-f72.google.com with SMTP id d12so927924ejr.19
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 02:34:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rby//ZoQW9S03FtYoV9vfiisbCFRimYXfnLqhWXSPDA=;
- b=Jq7f9rYwhBObgPNJ2MVfXh/X88nXvdCGdg3tLs7XQUIChW3rAaFKn0iE0uzUnatdAJ
- MT2y2HZ3+4EQ63BUljb3Ko34sw1LBuIdNPXkim7fRePr8Z88AnSD0zXjc1khtd8xoEJm
- d+a2yIYpcvs0pxkMx/0fDcmAsGNRIEiYXAeRmOpO2ZMJ4i+yqE9QSz2IKq2jsIWO2uyJ
- XrAZX5meKfYkjpXSwcVLTNEoBvvEd+OceawdV0HyKYTm4HJSP4G6oaELaBs+DOKODca0
- 258rBgflUNxMmmARuIMVTueBPDAWx4fbCRJmozASky6z38HhgVmcu2iEbdZjk7fyt5Kj
- POfA==
-X-Gm-Message-State: AOAM5300EQNA+6lY3JlPI+5BJMW+RJoaVBN8Xk8aqwEszKhft1Ot1uL/
- Ky3iIJVU+HpjIPVrlTI5stR6TBogcMtcwRGkC0W1ietfXSgDaZMOZI+0nNRjfx/mcpziklpL/la
- mh0xlu1Filyg5ApI=
-X-Received: by 2002:aa7:db07:: with SMTP id t7mr3066317eds.161.1603964053891; 
- Thu, 29 Oct 2020 02:34:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyJ0kdNF1Qc1dmy/i0wEBvojqnfi6haarp1JXLZ5a3wlyMNBoVkGSKDdNY5Kfbi2K2Yo5WUEw==
-X-Received: by 2002:aa7:db07:: with SMTP id t7mr3066301eds.161.1603964053749; 
- Thu, 29 Oct 2020 02:34:13 -0700 (PDT)
+ bh=PNbQLcT2YAtJ+9yj7XsSRTYSXNgUiMYhENGCKNffe1M=;
+ b=pkSOWZ5aQNrTCVO7dp+u7MkQvPIXUy+JX8QXjJcLNK+ywhV9xK23TsDxDRoiyMkYlJ
+ 17+xe2FUYt/TNa3Lcvr418FNgermdbRRoaZxxoEWUZ15CgCGs6PNMhFF1e+UknaXANQS
+ 4DdN8vgeivAcp6P4j86UMMFHzWrH496vlIWn73VQKM+rkbui+c4+Qaud0fjg8MKZOySJ
+ XcqO9p1BAFZj6jQiTUHvb3Er4fFtY2OGIx457Sx+yC40b7HYW8nr9w1KIMwuLDQLUUzk
+ MnKwc+2304Z0VDAW8XLTsPnPq7hdHxQ+j/9eqOOESRb8GXpCkDpfWq9unzwAFsxbD6jb
+ ShYQ==
+X-Gm-Message-State: AOAM533mC9OCxCces1ZZoBCFGl0Fs4pyY4knSTndRyHGuzU+g0Xp/TaK
+ hr3RL6aLEXCo/2HGk/Kt8tLquu+lueVL06w4+LdvaR4Xx75GIdLXZElaZByPR4E0q5oZ0763ZAz
+ YCW1ENhYIVYK48l8=
+X-Received: by 2002:a17:906:8812:: with SMTP id
+ zh18mr2051843ejb.361.1603964059318; 
+ Thu, 29 Oct 2020 02:34:19 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJylYXJSyM7Qt+84sBHsnm4K50hjTWnBMggbpI3PBnzvC4zqNWBBz+oNBhmZhvPC27GOKQDA1A==
+X-Received: by 2002:a17:906:8812:: with SMTP id
+ zh18mr2051828ejb.361.1603964059155; 
+ Thu, 29 Oct 2020 02:34:19 -0700 (PDT)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id j3sm1186945edh.25.2020.10.29.02.34.12
+ by smtp.gmail.com with ESMTPSA id w22sm1143778edu.15.2020.10.29.02.34.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 02:34:13 -0700 (PDT)
+ Thu, 29 Oct 2020 02:34:18 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v2 12/25] block/nvme: Introduce Completion Queue
- definitions
-Date: Thu, 29 Oct 2020 10:32:53 +0100
-Message-Id: <20201029093306.1063879-13-philmd@redhat.com>
+Subject: [PATCH-for-5.2 v2 13/25] block/nvme: Use definitions instead of magic
+ values in add_io_queue()
+Date: Thu, 29 Oct 2020 10:32:54 +0100
+Message-Id: <20201029093306.1063879-14-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201029093306.1063879-1-philmd@redhat.com>
 References: <20201029093306.1063879-1-philmd@redhat.com>
@@ -104,53 +106,51 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename Submission Queue flags with 'Sq' to differentiate
-submission queue flags from command queue flags, and introduce
-Completion Queue flag definitions.
+Replace magic values by definitions, and simplifiy since the
+number of queues will never reach 64K.
 
 Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Tested-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/block/nvme.h | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+ block/nvme.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 65e68a82c89..c7ab9449125 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -491,6 +491,11 @@ typedef struct QEMU_PACKED NvmeCreateCq {
- #define NVME_CQ_FLAGS_PC(cq_flags)  (cq_flags & 0x1)
- #define NVME_CQ_FLAGS_IEN(cq_flags) ((cq_flags >> 1) & 0x1)
+diff --git a/block/nvme.c b/block/nvme.c
+index 6eaba4e7039..7285bd2e271 100644
+--- a/block/nvme.c
++++ b/block/nvme.c
+@@ -652,6 +652,7 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+     NvmeCmd cmd;
+     unsigned queue_size = NVME_QUEUE_SIZE;
  
-+enum NvmeFlagsCq {
-+    NVME_CQ_PC          = 1,
-+    NVME_CQ_IEN         = 2,
-+};
-+
- typedef struct QEMU_PACKED NvmeCreateSq {
-     uint8_t     opcode;
-     uint8_t     flags;
-@@ -508,12 +513,13 @@ typedef struct QEMU_PACKED NvmeCreateSq {
- #define NVME_SQ_FLAGS_PC(sq_flags)      (sq_flags & 0x1)
- #define NVME_SQ_FLAGS_QPRIO(sq_flags)   ((sq_flags >> 1) & 0x3)
- 
--enum NvmeQueueFlags {
--    NVME_Q_PC           = 1,
--    NVME_Q_PRIO_URGENT  = 0,
--    NVME_Q_PRIO_HIGH    = 1,
--    NVME_Q_PRIO_NORMAL  = 2,
--    NVME_Q_PRIO_LOW     = 3,
-+enum NvmeFlagsSq {
-+    NVME_SQ_PC          = 1,
-+
-+    NVME_SQ_PRIO_URGENT = 0,
-+    NVME_SQ_PRIO_HIGH   = 1,
-+    NVME_SQ_PRIO_NORMAL = 2,
-+    NVME_SQ_PRIO_LOW    = 3,
- };
- 
- typedef struct QEMU_PACKED NvmeIdentify {
++    assert(n <= UINT16_MAX);
+     q = nvme_create_queue_pair(s, bdrv_get_aio_context(bs),
+                                n, queue_size, errp);
+     if (!q) {
+@@ -660,8 +661,8 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+     cmd = (NvmeCmd) {
+         .opcode = NVME_ADM_CMD_CREATE_CQ,
+         .dptr.prp1 = cpu_to_le64(q->cq.iova),
+-        .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | (n & 0xFFFF)),
+-        .cdw11 = cpu_to_le32(0x3),
++        .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | n),
++        .cdw11 = cpu_to_le32(NVME_CQ_IEN | NVME_CQ_PC),
+     };
+     if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
+         error_setg(errp, "Failed to create CQ io queue [%u]", n);
+@@ -670,8 +671,8 @@ static bool nvme_add_io_queue(BlockDriverState *bs, Error **errp)
+     cmd = (NvmeCmd) {
+         .opcode = NVME_ADM_CMD_CREATE_SQ,
+         .dptr.prp1 = cpu_to_le64(q->sq.iova),
+-        .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | (n & 0xFFFF)),
+-        .cdw11 = cpu_to_le32(0x1 | (n << 16)),
++        .cdw10 = cpu_to_le32(((queue_size - 1) << 16) | n),
++        .cdw11 = cpu_to_le32(NVME_SQ_PC | (n << 16)),
+     };
+     if (nvme_cmd_sync(bs, s->queues[INDEX_ADMIN], &cmd)) {
+         error_setg(errp, "Failed to create SQ io queue [%u]", n);
 -- 
 2.26.2
 
