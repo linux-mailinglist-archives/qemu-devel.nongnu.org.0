@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD9A9435C63
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:49:10 +0200 (CEST)
-Received: from localhost ([::1]:32864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A38FC435C67
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Oct 2021 09:51:13 +0200 (CEST)
+Received: from localhost ([::1]:38542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1mdSp3-0006Gy-P7
-	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:49:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58198)
+	id 1mdSr2-0001c8-N2
+	for lists+qemu-devel@lfdr.de; Thu, 21 Oct 2021 03:51:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mdSm6-0002WC-Vt
+ id 1mdSm7-0002Wi-SF
  for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:08 -0400
-Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:47902)
+Received: from smtp-relay-services-1.canonical.com ([185.125.188.251]:48020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1mdSlz-00025W-Dg
- for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:06 -0400
+ id 1mdSlz-000271-Cr
+ for qemu-devel@nongnu.org; Thu, 21 Oct 2021 03:46:07 -0400
 Received: from loganberry.canonical.com (loganberry.canonical.com
  [91.189.90.37])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id BEFB13F656
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:47 +0000 (UTC)
+ by smtp-relay-services-1.canonical.com (Postfix) with ESMTPSA id 10E6540465
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1634802347;
- bh=O55kF+q08O30jPvZ384XxrTFETFn5vFtVgBVbEy2Vrc=;
+ s=20210803; t=1634802350;
+ bh=Z/xlIY2g9cMRQhS/peQNY/sKphS9Y/X389QC7eThnfM=;
  h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
  Message-Id:Subject;
- b=hwn7+AbBd5wFVhq1qxRseiMDv1hIX2BaPGlZWm+LE5z3BxUplVxGdLwbXukHGFb63
- rUBRA/CA9h5VbN6Qkq5PV0ATdcRYtAk9lyAWdJtan7keVlvoKbeBT0tJZno6ICW+28
- hp+MShUjzuyFDuWBVYRr8DYVsQgXJlQHG/yMf8vwl0mrk6u8QqTkFdbdrhfNymJUM3
- +4U4B1qu4khu1maaTOPBh6WgkkNnP/RbEOxoQwY5rEpO2dYFPXIe8vvNT42dZQYbTz
- YlE/Z+lYCQ5OSs64kiPkXe/BEQx4yNeBfYQvqsVTTAS3JRRu6TjjsP8hyzww7+Jjzn
- COGDj36ayYJSQ==
+ b=Gd8o82b3NGPkUUx+TzPTHNCWvxcXRSHCwrnL2ftlWrdDP1l7SPPzGB4VwaHPtMOHv
+ oIfaZ4GMhiiKYzRdzuz+vGVJKborXfbfQ67RRzUNM0gAhJyHPK6+JqTm6YNxoVrxvG
+ oWp4rJMMAXzho6ENeeI901vUPz+RoumrpNS9j8IeZBcPx4F52Q1843+9rASPp08PdW
+ jF8ETYfLM0QLr1tBY5ivt9pRyoGI39Ck8/cyMy2ouwR+VOll+e97HaHd179pMhBAnM
+ FnsLf2g9nyjAfS+pljctQMMuoO7F5qz+SAvDsYHsDFvhm1DD58SEYO0zZGda1zT48f
+ b1GP+UrbrrhWg==
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id E22582E8196
- for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:46 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 850A82E819D
+ for <qemu-devel@nongnu.org>; Thu, 21 Oct 2021 07:45:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Aug 2019 14:16:31 -0000
-From: ehabkost <1769053@bugs.launchpad.net>
+Date: Thu, 29 Oct 2020 15:30:25 -0000
+From: raistlin <1769053@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=libvirt; status=Confirmed; importance=Undecided;
@@ -62,16 +62,16 @@ X-Launchpad-Bug-Commenters: berrange daxtens ddstreet dgilbert-h
  ehabkost-redhat-bugs kraxel-redhat paelzer paelzer-redhat-bugs
  raistlin-redhat-bugs sirswa-redhat-bugs
 X-Launchpad-Bug-Reporter: Daniel Axtens (daxtens)
-X-Launchpad-Bug-Modifier: ehabkost (ehabkost-redhat-bugs)
+X-Launchpad-Bug-Modifier: raistlin (raistlin-redhat-bugs)
 References: <152541524728.557.4600864098110042577.malonedeb@gac.canonical.com>
-Message-Id: <163480218302.25993.8312046571390461613.launchpad@loganberry.canonical.com>
+Message-Id: <163480218309.25993.17258849993308709105.launchpad@loganberry.canonical.com>
 Subject: [Bug 1769053] 
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="077cd577c00fa794e72ab856f950ae412860db5f"; Instance="production"
-X-Launchpad-Hash: 0201198ba981f656d7fd64a9cbacc9a3edb2beed
+X-Launchpad-Hash: 825c338835df5a13ea2e52dfcb0bd615d11e4075
 Received-SPF: pass client-ip=185.125.188.251;
  envelope-from=noreply@launchpad.net; helo=smtp-relay-services-1.canonical.com
 X-Spam_score_int: -8
@@ -96,19 +96,48 @@ Reply-To: Bug 1769053 <1769053@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-(In reply to sirswa@gmail.com from comment #1)
-> Hi
->=20
-> We are hitting this bug. We have specialist hardwares including hi-memory
-> hypervisors to run HPC workload on virtualised environment. This bug is
-> affecting us at the machines which has more than 1TB of memory.
+Hello.
 
-This bz# is not a bug, but a feature planned to make live migration
-ability more flexible.  The option might be useful to work around bugs
-or other limitations, though.
+Recently I had to deal with a VM with ~2.7 TB of RAM. The [open]SUSE
+QEMU package carries a patch for bumping the default maximum virtual
+address bits to 42 (from 40). Now, the last entry of the VM's e820 was
+this one:
 
-If you are seeing a bug related to large guests or large hosts, please
-send more details so we can investigate it.
+    BIOS-e820: [mem 0x0000000100000000-0x000002b57fffffff] usable
+
+Which, if I have computed correctly, is representable on 42 bits, so
+things should be fine. However, during boot, the VM shows this:
+
+    L1TF: System has more than MAX_PA/2 memory. L1TF mitigation not
+effective
+
+And if I look in /sys/devices/system/cpu/vulnerabilities/l1tf, I see
+this:
+
+    l1tf: Vulnerable
+
+This is because, while the RAM fits in MAX_PA=3D42, as soon as we take 1
+bit off for PTE inversion, it does not fit any longer (in MAX_PA/2).
+
+I understand that this is not critical per-se, but I think it's rather
+annoying for a user to see messages like the ones above, especially
+considering they're about vulnerabilities and security. And it's not
+necessarily easy for everyone to realize that L1TF is reported as
+vulnerable because QEMU is making the VM think that physical addresses
+are on 42 (or 40) bits.
+
+So, I also think we need to be able to tweak this part of the VM
+configuration more easily, from libvirt. It's doable either by using
+specially modified CPU-models, or doing things like this, which are
+rather inconvenient:
+
+    <qemu:commandline>
+      <qemu:arg value=3D'-cpu'/>
+      <qemu:arg value=3D'host,host-phys-bits=3Don'/>
+    </qemu:commandline>
+
+I also believe that host-phys-bits=3Don should be QEMU's default when the
+user chooses host as CPU model, but that's for another bugzilla. :-)
 
 --=20
 You received this bug notification because you are a member of qemu-
