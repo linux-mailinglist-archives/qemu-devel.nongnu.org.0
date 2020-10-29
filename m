@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7296629F75A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:05:58 +0100 (CET)
-Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6BD529F763
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:08:06 +0100 (CET)
+Received: from localhost ([::1]:35810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYG3R-0004je-F4
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:05:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42312)
+	id 1kYG5V-000898-SG
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:08:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG0d-0002tr-PH
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:03:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24549)
+ id 1kYG0f-0002uk-LL
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:03:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG0a-0006XD-6p
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:03:03 -0400
+ id 1kYG0d-0006XY-NF
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:03:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604008978;
+ s=mimecast20190719; t=1604008981;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qHd8aGKR47PGpz95RiiyIOWIamkysgvhCIz21n6qgQM=;
- b=XEk9QWBWKHeApwhIgFxIMIRa018LNsZ4PGeThLZv9TBM9/j8+cqBF70cCInX8vneQRPCIe
- gy/2pr3jTY5TOTyb4qworT5GTXywJ8qet/5ZSUZngDrL2ai9xpftQ/JUKa4YyCJm+PR4Ge
- XVN0It6dhOkOcTi1HX3cHqm3IM5Btsw=
+ bh=yK8fXoNijGvJkZCHAg77qM5UoYs33ZIDnUj+ZyGBd5s=;
+ b=dLYaQ7lXmFMpuKqy8eCGhfPVNx+r10hUeyFqRFQQnUUgED/flDZ9mTUfa3a9/Xg0hvc4vc
+ o4Kg51iCY5/dZrh2jz4PBOyoBg+bIeQ4aFZBcX+Pu9zBdD7FwChMSDDVrSsnocgUdn3lE8
+ 7RgFh5YcESIm8vkW/kmSNgesCsDyMGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-YlCyJMOBMKG-rUQDsHo9Qg-1; Thu, 29 Oct 2020 18:02:56 -0400
-X-MC-Unique: YlCyJMOBMKG-rUQDsHo9Qg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-113-5y66PHdcOUGyzEwcOpxhfw-1; Thu, 29 Oct 2020 18:02:58 -0400
+X-MC-Unique: 5y66PHdcOUGyzEwcOpxhfw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 449A580475B
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:02:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BEF49CC0B;
+ Thu, 29 Oct 2020 22:02:57 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21BC355780;
- Thu, 29 Oct 2020 22:02:49 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB33C5D9D3;
+ Thu, 29 Oct 2020 22:02:56 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 01/36] cs4231: Get rid of empty property array
-Date: Thu, 29 Oct 2020 18:02:11 -0400
-Message-Id: <20201029220246.472693-2-ehabkost@redhat.com>
+Subject: [PATCH 02/36] cpu: Move cpu_common_props to hw/core/cpu.c
+Date: Thu, 29 Oct 2020 18:02:12 -0400
+Message-Id: <20201029220246.472693-3-ehabkost@redhat.com>
 In-Reply-To: <20201029220246.472693-1-ehabkost@redhat.com>
 References: <20201029220246.472693-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,45 +81,91 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-An empty props array is unnecessary, we can just not call
-device_class_set_props().
+There's no reason to keep the property list separate from the CPU
+class code.  Move the variable to hw/core/cpu.c and make it
+static.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/audio/cs4231.c | 5 -----
- 1 file changed, 5 deletions(-)
+ include/hw/core/cpu.h |  1 -
+ cpu.c                 | 15 ---------------
+ hw/core/cpu.c         | 15 +++++++++++++++
+ 3 files changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/hw/audio/cs4231.c b/hw/audio/cs4231.c
-index 8e9554ce9b..209c05a0a0 100644
---- a/hw/audio/cs4231.c
-+++ b/hw/audio/cs4231.c
-@@ -160,17 +160,12 @@ static void cs4231_init(Object *obj)
-     sysbus_init_irq(dev, &s->irq);
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 9c3a45ad7b..2bc8429559 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -1119,7 +1119,6 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx);
+ 
+ void QEMU_NORETURN cpu_abort(CPUState *cpu, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
+-extern Property cpu_common_props[];
+ void cpu_exec_initfn(CPUState *cpu);
+ void cpu_exec_realizefn(CPUState *cpu, Error **errp);
+ void cpu_exec_unrealizefn(CPUState *cpu);
+diff --git a/cpu.c b/cpu.c
+index 0be5dcb6f3..0c485cdf2d 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -144,21 +144,6 @@ void cpu_exec_unrealizefn(CPUState *cpu)
+ #endif
  }
  
--static Property cs4231_properties[] = {
--    {.name = NULL},
+-Property cpu_common_props[] = {
+-#ifndef CONFIG_USER_ONLY
+-    /* Create a memory property for softmmu CPU object,
+-     * so users can wire up its memory. (This can't go in hw/core/cpu.c
+-     * because that file is compiled only once for both user-mode
+-     * and system builds.) The default if no link is set up is to use
+-     * the system address space.
+-     */
+-    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
+-                     MemoryRegion *),
+-#endif
+-    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
+-    DEFINE_PROP_END_OF_LIST(),
 -};
 -
- static void cs4231_class_init(ObjectClass *klass, void *data)
+ void cpu_exec_initfn(CPUState *cpu)
  {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     dc->reset = cs_reset;
-     dc->vmsd = &vmstate_cs4231;
--    device_class_set_props(dc, cs4231_properties);
+     cpu->as = NULL;
+diff --git a/hw/core/cpu.c b/hw/core/cpu.c
+index 576fa1d7ba..5c89c858aa 100644
+--- a/hw/core/cpu.c
++++ b/hw/core/cpu.c
+@@ -393,6 +393,21 @@ static vaddr cpu_adjust_watchpoint_address(CPUState *cpu, vaddr addr, int len)
+     return addr;
  }
  
- static const TypeInfo cs4231_info = {
++static Property cpu_common_props[] = {
++#ifndef CONFIG_USER_ONLY
++    /* Create a memory property for softmmu CPU object,
++     * so users can wire up its memory. (This can't go in hw/core/cpu.c
++     * because that file is compiled only once for both user-mode
++     * and system builds.) The default if no link is set up is to use
++     * the system address space.
++     */
++    DEFINE_PROP_LINK("memory", CPUState, memory, TYPE_MEMORY_REGION,
++                     MemoryRegion *),
++#endif
++    DEFINE_PROP_BOOL("start-powered-off", CPUState, start_powered_off, false),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void cpu_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
 -- 
 2.28.0
 
