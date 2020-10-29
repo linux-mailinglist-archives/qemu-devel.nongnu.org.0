@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C60BE29E86C
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:09:39 +0100 (CET)
-Received: from localhost ([::1]:47288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5224629E83A
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:04:11 +0100 (CET)
+Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4sE-0006Mp-Tu
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:09:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39364)
+	id 1kY4mw-0000vf-CL
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:04:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kY4l7-00081j-5W
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:02:17 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kY4kq-00081s-N2
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:02:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603965700;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xDOqEQafsFU5uLtkrs2Rr25U9vwUkZCVJsNK+e+BDn8=;
- b=iwo70XCFlPZC/TzW993gNRY9YECNmvkVMGlsnB0nmFQNTkJ3DAud6LghmNxdmdfwO4UorX
- bE/9eA/4VIj9aZzCAa65XSU5E5xtyNqxbfVLfYWutewBr1yu0/MnbatvG8NpaPfWWb99vJ
- tXTLZ/ODBHicmxi8a+F1lYrtszL37bs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-8M-gOgGfPY6E0MoR8fnC3A-1; Thu, 29 Oct 2020 06:01:38 -0400
-X-MC-Unique: 8M-gOgGfPY6E0MoR8fnC3A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39E571018F7B;
- Thu, 29 Oct 2020 10:01:37 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-115-62.ams2.redhat.com
- [10.36.115.62])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6606610013C1;
- Thu, 29 Oct 2020 10:01:35 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] util: include the target address in socket connect failures
-Date: Thu, 29 Oct 2020 10:01:19 +0000
-Message-Id: <20201029100119.30696-6-berrange@redhat.com>
-In-Reply-To: <20201029100119.30696-1-berrange@redhat.com>
-References: <20201029100119.30696-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kY4kb-0007rB-NO
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:48 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kY4kO-0007yB-Kr
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:40 -0400
+Received: by mail-wr1-x441.google.com with SMTP id m13so2054838wrj.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 03:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=NgsgEF3cxh4a2QJyJ3yz8CSoN5GhmG6ImfMK4QDU38Q=;
+ b=eGHuWm7a8YHGoQQJkRVDw9QsDr2F43cQVL2euxj7XBnjYPtt7Ib7g0Fn20LpIHzM47
+ AeRkPIcP3DbwaJ6NXZg2r6ecLsBsD6o91apVoD6gYryRRyOKYestNhleAmHqSuM1+qyz
+ CYCR7QIFKJXHbeCTDBP3r+bQ1E3vz1F42SOctC7E1xzUbbuFAjnYA/ZXCEOi8hdrXMFo
+ j9SIq0z07Vcs/z9RucelrLvYmvli/8Kkkqepvn/93566Ch38fBldRiJk3vo+rjc1jZiU
+ WsVXVdM7YuZmZ4BHH+ILPVAmBYZw8oz2yEtuSmn16ftgAavQQNSm3t/moMEUu/ymqq+f
+ E1tQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=NgsgEF3cxh4a2QJyJ3yz8CSoN5GhmG6ImfMK4QDU38Q=;
+ b=gtOFYDGi7DZ/dVyCUvnUjkWOcREfBDSPUvuwBJNvAbHDbuQZ8iZ8rFTwITwz8Ve8nU
+ vK1tHVcslULmGU22k8kM+PfV917Ww3TTNNAypG3FWQ+u3uyq75lS3I3fN0iuVFcvqyTr
+ R9NahB5XJQ3bG2dOI+IY4F7nvq6bI3T6J1T9XEwpLNG9Zdc8p93Jv+cvC9OuQoDi0fco
+ ZnMO9+5QzOgCde63c2CbEVbSsmYcH8tqOGaeevba+O7PDD6xSRrNqOPttYtkp2nrA+l6
+ j3oLY+W5Y13VPaPhzGeegS1kpZch7iKaAxbqXtxBYeWVp9PuWErJ+y9T8LlEq1ChozcK
+ pwEQ==
+X-Gm-Message-State: AOAM530awPoY7T0rehxSSX7klfI1E2ScWWs4d/7+9eN7UCH5XiOjjxzd
+ FJ8gsohiUaX/CRfl6dpP0FwfHA==
+X-Google-Smtp-Source: ABdhPJzWpStp+pVp+vl7p4xVCS8J5Ty0ezaMWiGhF7GJHh+IQlKU+PIE3IZJSNl53jpoBI09DxLgvA==
+X-Received: by 2002:a5d:448b:: with SMTP id j11mr4433017wrq.129.1603965689861; 
+ Thu, 29 Oct 2020 03:01:29 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m8sm4010179wrw.17.2020.10.29.03.01.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 29 Oct 2020 03:01:28 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CD4601FF7E;
+ Thu, 29 Oct 2020 10:01:27 +0000 (GMT)
+References: <20201028174406.23424-1-alex.bennee@linaro.org>
+ <alpine.DEB.2.21.2010281406080.12247@sstabellini-ThinkPad-T480s>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Stefano Stabellini <sstabellini@kernel.org>
+Subject: Re: [PATCH] meson.build: fix building of Xen support for aarch64
+In-reply-to: <alpine.DEB.2.21.2010281406080.12247@sstabellini-ThinkPad-T480s>
+Date: Thu, 29 Oct 2020 10:01:27 +0000
+Message-ID: <87d011mjuw.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,152 +89,155 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ qemu-devel@nongnu.org, Masami Hiramatsu <masami.hiramatsu@linaro.org>,
+ Paul Durrant <paul@xen.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reporting "Failed to connect socket" is essentially useless for a user
-attempting to diagnose failure. It needs to include the target address
-details. Similarly when failing to create a socket we should include the
-socket family info, so the user understands what particular feature was
-missing in their kernel build (IPv6, VSock in particular).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- tests/qemu-iotests/162.out |  4 ++--
- util/qemu-sockets.c        | 32 +++++++++++++++++++-------------
- 2 files changed, 21 insertions(+), 15 deletions(-)
+Stefano Stabellini <sstabellini@kernel.org> writes:
 
-diff --git a/tests/qemu-iotests/162.out b/tests/qemu-iotests/162.out
-index 5a00d36d17..f8714cb0d2 100644
---- a/tests/qemu-iotests/162.out
-+++ b/tests/qemu-iotests/162.out
-@@ -6,8 +6,8 @@ image: nbd://localhost:PORT
- image: nbd+unix://?socket=42
- 
- === SSH ===
--qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": "0", "path": "/foo"}': Failed to connect socket: Connection refused
--qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo': Failed to connect socket: Connection refused
-+qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": "0", "path": "/foo"}': Failed to connect to 'localhost:0': Connection refused
-+qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo': Failed to connect to 'localhost:0': Connection refused
- qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": 0.42, "path": "/foo"}': Parameter 'port' expects a number
- qemu-img: Could not open 'driver=ssh,host=localhost,port=0.42,path=/foo': Parameter 'port' expects a number
- 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 05e5c73f9d..38f82179b0 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -354,15 +354,15 @@ listen_ok:
-     ((rc) == -EINPROGRESS)
- #endif
- 
--static int inet_connect_addr(struct addrinfo *addr, Error **errp);
--
--static int inet_connect_addr(struct addrinfo *addr, Error **errp)
-+static int inet_connect_addr(const InetSocketAddress *saddr,
-+                             struct addrinfo *addr, Error **errp)
- {
-     int sock, rc;
- 
-     sock = qemu_socket(addr->ai_family, addr->ai_socktype, addr->ai_protocol);
-     if (sock < 0) {
--        error_setg_errno(errp, errno, "Failed to create socket");
-+        error_setg_errno(errp, errno, "Failed to create socket family %d",
-+                         addr->ai_family);
-         return -1;
-     }
-     socket_set_fast_reuse(sock);
-@@ -376,7 +376,8 @@ static int inet_connect_addr(struct addrinfo *addr, Error **errp)
-     } while (rc == -EINTR);
- 
-     if (rc < 0) {
--        error_setg_errno(errp, errno, "Failed to connect socket");
-+        error_setg_errno(errp, errno, "Failed to connect to '%s:%s'",
-+                         saddr->host, saddr->port);
-         closesocket(sock);
-         return -1;
-     }
-@@ -455,7 +456,7 @@ int inet_connect_saddr(InetSocketAddress *saddr, Error **errp)
-     for (e = res; e != NULL; e = e->ai_next) {
-         error_free(local_err);
-         local_err = NULL;
--        sock = inet_connect_addr(e, &local_err);
-+        sock = inet_connect_addr(saddr, e, &local_err);
-         if (sock >= 0) {
-             break;
-         }
-@@ -549,7 +550,8 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr,
-     /* create socket */
-     sock = qemu_socket(peer->ai_family, peer->ai_socktype, peer->ai_protocol);
-     if (sock < 0) {
--        error_setg_errno(errp, errno, "Failed to create socket");
-+        error_setg_errno(errp, errno, "Failed to create socket family %d",
-+                         peer->ai_family);
-         goto err;
-     }
-     socket_set_fast_reuse(sock);
-@@ -562,7 +564,8 @@ static int inet_dgram_saddr(InetSocketAddress *sraddr,
- 
-     /* connect to peer */
-     if (connect(sock,peer->ai_addr,peer->ai_addrlen) < 0) {
--        error_setg_errno(errp, errno, "Failed to connect socket");
-+        error_setg_errno(errp, errno, "Failed to connect to '%s:%s'",
-+                         addr, port);
-         goto err;
-     }
- 
-@@ -735,13 +738,15 @@ static bool vsock_parse_vaddr_to_sockaddr(const VsockSocketAddress *vaddr,
-     return true;
- }
- 
--static int vsock_connect_addr(const struct sockaddr_vm *svm, Error **errp)
-+static int vsock_connect_addr(const VsockSocketAddress *vaddr,
-+                              const struct sockaddr_vm *svm, Error **errp)
- {
-     int sock, rc;
- 
-     sock = qemu_socket(AF_VSOCK, SOCK_STREAM, 0);
-     if (sock < 0) {
--        error_setg_errno(errp, errno, "Failed to create socket");
-+        error_setg_errno(errp, errno, "Failed to create socket family %d",
-+                         AF_VSOCK);
-         return -1;
-     }
- 
-@@ -754,7 +759,8 @@ static int vsock_connect_addr(const struct sockaddr_vm *svm, Error **errp)
-     } while (rc == -EINTR);
- 
-     if (rc < 0) {
--        error_setg_errno(errp, errno, "Failed to connect socket");
-+        error_setg_errno(errp, errno, "Failed to connect to '%s:%s'",
-+                         vaddr->cid, vaddr->port);
-         closesocket(sock);
-         return -1;
-     }
-@@ -770,7 +776,7 @@ static int vsock_connect_saddr(VsockSocketAddress *vaddr, Error **errp)
-         return -1;
-     }
- 
--    return vsock_connect_addr(&svm, errp);
-+    return vsock_connect_addr(vaddr, &svm, errp);
- }
- 
- static int vsock_listen_saddr(VsockSocketAddress *vaddr,
-@@ -994,7 +1000,7 @@ static int unix_connect_saddr(UnixSocketAddress *saddr, Error **errp)
-     } while (rc == -EINTR);
- 
-     if (rc < 0) {
--        error_setg_errno(errp, -rc, "Failed to connect socket %s",
-+        error_setg_errno(errp, -rc, "Failed to connect to '%s'",
-                          saddr->path);
-         goto err;
-     }
--- 
-2.28.0
+> On Wed, 28 Oct 2020, Alex Benn=C3=A9e wrote:
+>> Xen is supported on aarch64 although weirdly using the i386-softmmu
+>> model. Checking based on the host CPU meant we never enabled Xen
+>> support. It would be nice to enable CONFIG_XEN for aarch64-softmmu to
+>> make it not seem weird but that will require further build surgery.
+>>=20
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Cc: Masami Hiramatsu <masami.hiramatsu@linaro.org>
+>> Cc: Stefano Stabellini <sstabellini@kernel.org>
+>> Cc: Anthony Perard <anthony.perard@citrix.com>
+>> Cc: Paul Durrant <paul@xen.org>
+>> Fixes: 8a19980e3f ("configure: move accelerator logic to meson")
+>> ---
+>>  meson.build | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>=20
+>> diff --git a/meson.build b/meson.build
+>> index 835424999d..f1fcbfed4c 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -81,6 +81,8 @@ if cpu in ['x86', 'x86_64']
+>>      'CONFIG_HVF': ['x86_64-softmmu'],
+>>      'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
+>>    }
+>> +elif cpu in [ 'arm', 'aarch64' ]
+>> +  accelerator_targets +=3D { 'CONFIG_XEN': ['i386-softmmu'] }
+>>  endif
+>
+> This looks very reasonable -- the patch makes sense.
+>
+>
+> However I have two questions, mostly for my own understanding. I tried
+> to repro the aarch64 build problem but it works at my end, even without
+> this patch.
 
+Building on a x86 host or with cross compiler?
+
+> I wonder why. I suspect it works thanks to these lines in
+> meson.build:
+>
+>   if not get_option('xen').disabled() and 'CONFIG_XEN_BACKEND' in config_=
+host
+>     accelerators +=3D 'CONFIG_XEN'
+>     have_xen_pci_passthrough =3D not get_option('xen_pci_passthrough').di=
+sabled() and targetos =3D=3D 'linux'
+>   else
+>     have_xen_pci_passthrough =3D false
+>   endif
+>
+> But I am not entirely sure who is adding CONFIG_XEN_BACKEND to
+> config_host.
+
+The is part of the top level configure check - which basically checks
+for --enable-xen or autodetects the presence of the userspace libraries.
+I'm not sure if we have a slight over proliferation of symbols for Xen
+support (although I'm about to add more).
+
+> The other question is: does it make sense to print the value of
+> CONFIG_XEN as part of the summary? Something like:
+>
+> diff --git a/meson.build b/meson.build
+> index 47e32e1fcb..c6e7832dc9 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2070,6 +2070,7 @@ summary_info +=3D {'KVM support':       config_all.=
+has_key('CONFIG_KVM')}
+>  summary_info +=3D {'HAX support':       config_all.has_key('CONFIG_HAX')}
+>  summary_info +=3D {'HVF support':       config_all.has_key('CONFIG_HVF')}
+>  summary_info +=3D {'WHPX support':      config_all.has_key('CONFIG_WHPX'=
+)}
+> +summary_info +=3D {'XEN support':      config_all.has_key('CONFIG_XEN')}
+>  summary_info +=3D {'TCG support':       config_all.has_key('CONFIG_TCG')}
+>  if config_all.has_key('CONFIG_TCG')
+>    summary_info +=3D {'TCG debug enabled': config_host.has_key('CONFIG_DE=
+BUG_TCG')}
+>
+>
+> But I realize there is already:
+>
+> summary_info +=3D {'xen support':       config_host.has_key('CONFIG_XEN_B=
+ACKEND')}
+>
+> so it would be a bit of a duplicate
+
+Hmm so what we have is:
+
+  CONFIG_XEN_BACKEND
+    - ensures that appropriate compiler flags are added
+    - pegs RAM_ADDR_MAX at UINT64_MAX (instead of UINTPTR_MAX)
+  CONFIG_XEN
+    - which controls a bunch of build objects, some of which may be i386 on=
+ly?
+    ./accel/meson.build:15:specific_ss.add_all(when: ['CONFIG_XEN'], if_tru=
+e: dummy_ss)
+    ./accel/stubs/meson.build:2:specific_ss.add(when: 'CONFIG_XEN', if_fals=
+e: files('xen-stub.c'))
+    ./accel/xen/meson.build:1:specific_ss.add(when: 'CONFIG_XEN', if_true: =
+files('xen-all.c'))
+    ./hw/9pfs/meson.build:17:fs_ss.add(when: 'CONFIG_XEN', if_true: files('=
+xen-9p-backend.c'))
+    ./hw/block/dataplane/meson.build:2:specific_ss.add(when: 'CONFIG_XEN', =
+if_true: files('xen-block.c'))
+    ./hw/block/meson.build:14:softmmu_ss.add(when: 'CONFIG_XEN', if_true: f=
+iles('xen-block.c'))
+    ./hw/char/meson.build:23:softmmu_ss.add(when: 'CONFIG_XEN', if_true: fi=
+les('xen_console.c'))
+    ./hw/display/meson.build:18:softmmu_ss.add(when: 'CONFIG_XEN', if_true:=
+ files('xenfb.c'))
+    ./hw/i386/xen/meson.build:1:i386_ss.add(when: 'CONFIG_XEN', if_true: fi=
+les('xen-hvm.c',
+                                                                           =
+    'xen-mapcache.c',
+                                                                           =
+    'xen_apic.c',
+                                                                           =
+    'xen_platform.c',
+                                                                           =
+    'xen_pvdevice.c')
+    ./hw/net/meson.build:2:softmmu_ss.add(when: 'CONFIG_XEN', if_true: file=
+s('xen_nic.c'))
+    ./hw/usb/meson.build:76:softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_XEN=
+', libusb], if_true: files('xen-usb.c'))
+    ./hw/xen/meson.build:1:softmmu_ss.add(when: ['CONFIG_XEN', xen], if_tru=
+e: files(
+    ./hw/xen/meson.build:20:specific_ss.add_all(when: ['CONFIG_XEN', xen], =
+if_true: xen_specific_ss)
+    ./hw/xenpv/meson.build:3:xenpv_ss.add(when: 'CONFIG_XEN', if_true: file=
+s('xen_machine_pv.c'))
+    - there are also some stubbed inline functions controlled by it
+  CONFIG_XEN_IGD_PASSTHROUGH
+    - specific x86 PC only feature via Kconfig rule
+  CONFIG_XEN_PCI_PASSTHROUGH
+    - control Linux specific specific feature (via meson rule)
+
+
+First obvious question - is everything in hw/i386/xen actually i386
+only? APIC seems pretty PC orientated but what about xen_platform and
+pvdevice? There seem to be some dependancies on xen-mapcache across the
+code.
+
+--=20
+Alex Benn=C3=A9e
 
