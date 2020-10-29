@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F9B329F7CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:24:09 +0100 (CET)
-Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6264C29F801
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:31:04 +0100 (CET)
+Received: from localhost ([::1]:51126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYGL2-0005lQ-5Z
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:24:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
+	id 1kYGRj-00048L-Mw
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:31:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG1n-0003xR-FL
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20733)
+ id 1kYG1x-0003yQ-61
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24640)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG1d-0006g0-VP
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:13 -0400
+ id 1kYG1f-0006gE-6Z
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604009045;
+ s=mimecast20190719; t=1604009046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WaGICVKFJXVkLncju1zY88FyPaqJBQvQuxC4WR7cjZU=;
- b=AWrE54+s1PNjAn3i6g1fSQDRBu5JEv/RBsoYliPZLX5wRiCTic8z85qoqP52rXMuDG7M07
- OhnDJ789EaaqjE362b6eReUNdE08ojzivgixHIiI4DotgDUTGTsJpcHbs1KfkWVFIBlXFp
- b1aHVduvY1ViaLu24YEp2uLLnx0CM0o=
+ bh=oEYbP5Fufv/2Pc0hBcb52f+uJ8RaCQiISEAH9HcQPW4=;
+ b=JEVWJE9+fgRjAdlNZrBruOGap6+vwlOnxLolgvebnAKYj0aHxZiRsXlrrWBN1hQL7UJVoK
+ WF+H9BOGpGwAH1D39434BUxJlH6ZpBFbqASk975uoIbjTcidvIN8m7cVFQJHchp0LX7ah7
+ 4ZymazMvJCYS0s7VED/dNJkxbzovK38=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-511-iSgGScHrNdaOptsD6ZFhyA-1; Thu, 29 Oct 2020 18:04:03 -0400
-X-MC-Unique: iSgGScHrNdaOptsD6ZFhyA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-171-7n55JuXOMGacp3gh8NUOdQ-1; Thu, 29 Oct 2020 18:04:04 -0400
+X-MC-Unique: 7n55JuXOMGacp3gh8NUOdQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8D49CC01
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:04:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 51BF085C706
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:04:03 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF53260C17;
- Thu, 29 Oct 2020 22:04:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 123E26EF68;
+ Thu, 29 Oct 2020 22:04:02 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 35/36] machine: Use DEFINE_PROP_BOOL for boolean properties
-Date: Thu, 29 Oct 2020 18:02:45 -0400
-Message-Id: <20201029220246.472693-36-ehabkost@redhat.com>
+Subject: [PATCH 36/36] qom: Include static property API reference in
+ documentation
+Date: Thu, 29 Oct 2020 18:02:46 -0400
+Message-Id: <20201029220246.472693-37-ehabkost@redhat.com>
 In-Reply-To: <20201029220246.472693-1-ehabkost@redhat.com>
 References: <20201029220246.472693-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,150 +88,266 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Unfortunately, the "usb" property is not trivial because it
-actually represents a pair of booleans.  It probably should be
-replaced by a OnOffAuto property instead.
+Add new doc comments and reformat the existing ones,
+and include the static-properties.h API reference in
+docs/devel/qom.rst.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/core/machine.c | 77 +++--------------------------------------------
- 1 file changed, 5 insertions(+), 72 deletions(-)
+ docs/devel/qom.rst            |   6 ++
+ include/qom/static-property.h | 154 ++++++++++++++++++++++++++++++++--
+ 2 files changed, 151 insertions(+), 9 deletions(-)
 
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 97e102911a..e62097526a 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -236,34 +236,6 @@ static void machine_set_phandle_start(Object *obj, Visitor *v,
-     ms->phandle_start = value;
- }
+diff --git a/docs/devel/qom.rst b/docs/devel/qom.rst
+index 42d0dc4f4d..0989b4e690 100644
+--- a/docs/devel/qom.rst
++++ b/docs/devel/qom.rst
+@@ -379,3 +379,9 @@ API Reference
+ -------------
  
--static bool machine_get_dump_guest_core(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return ms->dump_guest_core;
--}
--
--static void machine_set_dump_guest_core(Object *obj, bool value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    ms->dump_guest_core = value;
--}
--
--static bool machine_get_mem_merge(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return ms->mem_merge;
--}
--
--static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    ms->mem_merge = value;
--}
--
- static Property machine_props[] = {
-     DEFINE_PROP_STRING("kernel", MachineState, kernel_filename),
-     DEFINE_PROP_STRING("initrd", MachineState, initrd_filename),
-@@ -273,6 +245,10 @@ static Property machine_props[] = {
-     DEFINE_PROP_STRING("dt-compatible", MachineState, dt_compatible),
-     DEFINE_PROP_STRING("firmware", MachineState, firmware),
-     DEFINE_PROP_STRING("memory-backend", MachineState, ram_memdev_id),
-+    DEFINE_PROP_BOOL("dump-guest-core", MachineState, dump_guest_core, true),
-+    DEFINE_PROP_BOOL("mem-merge", MachineState, mem_merge, true),
-+    DEFINE_PROP_BOOL("graphics", MachineState, enable_graphics, true),
-+    DEFINE_PROP_BOOL("suppress-vmdesc", MachineState, suppress_vmdesc, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+ .. kernel-doc:: include/qom/object.h
++
++
++Static Property API Reference
++-----------------------------
++
++.. kernel-doc:: include/qom/static-property.h
+diff --git a/include/qom/static-property.h b/include/qom/static-property.h
+index 779918c947..8339700818 100644
+--- a/include/qom/static-property.h
++++ b/include/qom/static-property.h
+@@ -8,20 +8,31 @@
+ #include "qapi/util.h"
  
-@@ -291,34 +267,6 @@ static void machine_set_usb(Object *obj, bool value, Error **errp)
-     ms->usb_disabled = !value;
- }
+ /**
+- * Property:
+- * @set_default: true if the default value should be set from @defval,
+- *    in which case @info->set_default_value must not be NULL
+- *    (if false then no default value is set by the property system
+- *     and the field retains whatever value it was given by instance_init).
+- * @defval: default value for the property. This is used only if @set_default
+- *     is true.
++ * struct Property: Definition of a static Property
++ *
++ * #Property structs should be always initialized using the
++ * ``DEFINE_PROP`` family of macros.
+  */
+ struct Property {
++    /* private: */
+     const char   *name;
+     const PropertyInfo *info;
+     ptrdiff_t    offset;
+     uint8_t      bitnr;
++    /**
++     *  @set_default: true if the default value should be set
++     *                from @defval, in which case
++     *                @info->set_default_value must not be NULL
++     *                (if false then no default value is set by
++     *                the property system and the field retains
++     *                whatever value it was given by
++     *                instance_init).
++     */
+     bool         set_default;
++    /**
++     * @defval: default value for the property. This is used only
++     *          if @set_default is true.
++     */
+     union {
+         int64_t i;
+         uint64_t u;
+@@ -110,6 +121,14 @@ extern const PropertyInfo prop_info_link;
+ #define DEFINE_PROP_SIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
+     DEFINE_PROP(_name, _state, _field, _prop, _type)
  
--static bool machine_get_graphics(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return ms->enable_graphics;
--}
--
--static void machine_set_graphics(Object *obj, bool value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    ms->enable_graphics = value;
--}
--
--static void machine_set_suppress_vmdesc(Object *obj, bool value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    ms->suppress_vmdesc = value;
--}
--
--static bool machine_get_suppress_vmdesc(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return ms->suppress_vmdesc;
--}
--
- static char *machine_get_memory_encryption(Object *obj, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
-@@ -339,7 +287,7 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
-      * so there's no point in it trying to merge areas.
-      */
-     if (value) {
--        machine_set_mem_merge(obj, false, errp);
-+        ms->mem_merge = false;
-     }
- }
++/**
++ * DEFINE_PROP_BIT: Define bit property in uint32_t field
++ * @_name: name of the property
++ * @_state: name of the object state structure type
++ * @_field: name of ``uint32_t`` field in @_state
++ * @_bit: bit offset in @_field
++ * @_defval: default value for bit
++ */
+ #define DEFINE_PROP_BIT(_name, _state, _field, _bit, _defval)   \
+     DEFINE_PROP(_name, _state, _field, prop_info_bit, uint32_t, \
+                 .bitnr       = (_bit),                          \
+@@ -124,12 +143,27 @@ extern const PropertyInfo prop_info_link;
+ #define DEFINE_PROP_UNSIGNED_NODEFAULT(_name, _state, _field, _prop, _type) \
+     DEFINE_PROP(_name, _state, _field, _prop, _type)
  
-@@ -692,13 +640,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "dt-compatible",
-         "Overrides the \"compatible\" property of the dt root node");
++/**
++ * DEFINE_PROP_BIT64: Define bit property in uint64_t field
++ * @_name: name of the property
++ * @_state: name of the object state structure type
++ * @_field: name of ``uint64_t`` field in @_state
++ * @_bit: bit offset in @_field
++ * @_defval: default value for bit
++ */
+ #define DEFINE_PROP_BIT64(_name, _state, _field, _bit, _defval)   \
+     DEFINE_PROP(_name, _state, _field, prop_info_bit64, uint64_t, \
+                 .bitnr    = (_bit),                               \
+                 .set_default = true,                              \
+                 .defval.u  = (bool)_defval)
  
--    object_class_property_add_bool(oc, "dump-guest-core",
--        machine_get_dump_guest_core, machine_set_dump_guest_core);
-     object_class_property_set_description(oc, "dump-guest-core",
-         "Include guest memory in a core dump");
--
--    object_class_property_add_bool(oc, "mem-merge",
--        machine_get_mem_merge, machine_set_mem_merge);
-     object_class_property_set_description(oc, "mem-merge",
-         "Enable/disable memory merge support");
++/**
++ * DEFINE_PROP_BOOL:
++ * @_name: name of the property
++ * @_state: name of the object state structure type
++ * @_field: name of ``bool`` field in @_state
++ * @_defval: default value of property
++ */
+ #define DEFINE_PROP_BOOL(_name, _state, _field, _defval)     \
+     DEFINE_PROP(_name, _state, _field, prop_info_bool, bool, \
+                 .set_default = true,                         \
+@@ -142,9 +176,10 @@ extern const PropertyInfo prop_info_link;
+  * @_name: name of the array
+  * @_state: name of the device state structure type
+  * @_field: uint32_t field in @_state to hold the array length
+- * @_arrayfield: field in @_state (of type '@_arraytype *') which
++ * @_arrayfield: field in @_state (of type ``_arraytype *``) which
+  *               will point to the array
+- * @_arrayprop: PropertyInfo defining what property the array elements have
++ * @_arrayprop: #PropertyInfo variable defining property type of
++ *              array elements
+  * @_arraytype: C type of the array elements
+  *
+  * Define device properties for a variable-length array _name.  A
+@@ -171,36 +206,137 @@ extern const PropertyInfo prop_info_link;
+                 .arrayfieldsize = sizeof(_arraytype),          \
+                 .arrayoffset = offsetof(_state, _arrayfield))
  
-@@ -707,16 +650,10 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "usb",
-         "Set on/off to enable/disable usb");
++/**
++ * DEFINE_PROP_LINK: Define object link property
++ * @_name: name of the property
++ * @_state: name of the object state structure type
++ * @_field: name of field in @_state holding the property value
++ * @_type: QOM type name of link target
++ * @_ptr_type: Type of field @_field in struct @_state
++ */
+ #define DEFINE_PROP_LINK(_name, _state, _field, _type, _ptr_type)     \
+     DEFINE_PROP(_name, _state, _field, prop_info_link, _ptr_type,     \
+                 .link_type  = _type)
  
--    object_class_property_add_bool(oc, "graphics",
--        machine_get_graphics, machine_set_graphics);
-     object_class_property_set_description(oc, "graphics",
-         "Set on/off to enable/disable graphics emulation");
--
-     object_class_property_set_description(oc, "firmware",
-         "Firmware image");
--
--    object_class_property_add_bool(oc, "suppress-vmdesc",
--        machine_get_suppress_vmdesc, machine_set_suppress_vmdesc);
-     object_class_property_set_description(oc, "suppress-vmdesc",
-         "Set on to disable self-describing migration");
++/**
++ * DEFINE_PROP_UINT8: Define uint8 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``uint8_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_UINT8(_n, _s, _f, _d)                       \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint8, uint8_t)
++/**
++ * DEFINE_PROP_UINT16: Define uint16 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``uint16_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_UINT16(_n, _s, _f, _d)                      \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint16, uint16_t)
++/**
++ * DEFINE_PROP_UINT32: Define uint32 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``uint32_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_UINT32(_n, _s, _f, _d)                      \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint32, uint32_t)
++/**
++ * DEFINE_PROP_INT32: Define int32 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``int32_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_INT32(_n, _s, _f, _d)                      \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int32, int32_t)
++/**
++ * DEFINE_PROP_UINT64: Define uint64 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``uint64_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_UINT64(_n, _s, _f, _d)                      \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_uint64, uint64_t)
++/**
++ * DEFINE_PROP_INT64: Define int64 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``int64_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_INT64(_n, _s, _f, _d)                      \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_int64, int64_t)
++/**
++ * DEFINE_PROP_SIZE: Define uint64 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``uint64_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_SIZE(_n, _s, _f, _d)                       \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size, uint64_t)
++/**
++ * DEFINE_PROP_STRING:
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``char *`` field in @_state
++ */
+ #define DEFINE_PROP_STRING(_n, _s, _f)             \
+     DEFINE_PROP(_n, _s, _f, prop_info_string, char*)
++/**
++ * DEFINE_PROP_ON_OFF_AUTO: Define OnOffAuto property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``OnOffAuto`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, prop_info_on_off_auto, OnOffAuto)
++/**
++ * DEFINE_PROP_SIZE32: Define uint32 property
++ * @_n: name of the property
++ * @_s: name of the object state structure type
++ * @_f: name of ``uint32_t`` field in @_s
++ * @_d: default value of property
++ */
+ #define DEFINE_PROP_SIZE32(_n, _s, _f, _d)                       \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, prop_info_size32, uint32_t)
++/**
++ * DEFINE_PROP_UUID: Define UUID property
++ * @_name: name of the property
++ * @_state: name of the object state structure type
++ * @_field: name of field in @_state holding the property value
++ *
++ * The @_f field in struct @_s must be of type ``QemuUUID``.
++ * The default value of the property will be "auto".
++ */
+ #define DEFINE_PROP_UUID(_name, _state, _field)                      \
+     DEFINE_PROP(_name, _state, _field, prop_info_uuid, QemuUUID,     \
+                 .set_default = true)
++/**
++ * DEFINE_PROP_UUID_NODEFAULT: Define UUID property with no default
++ * @_name: name of the property
++ * @_state: name of the object state structure type
++ * @_field: name of field in @_state holding the property value
++ *
++ * The @_f field in struct @_s must be of type ``QemuUUID``.
++ * No default value will be set for the property.
++ */
+ #define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) \
+     DEFINE_PROP(_name, _state, _field, prop_info_uuid, QemuUUID)
  
-@@ -751,10 +688,6 @@ static void machine_initfn(Object *obj)
-     MachineState *ms = MACHINE(obj);
-     MachineClass *mc = MACHINE_GET_CLASS(obj);
- 
--    ms->dump_guest_core = true;
--    ms->mem_merge = true;
--    ms->enable_graphics = true;
--
-     if (mc->nvdimm_supported) {
-         Object *obj = OBJECT(ms);
++/**
++ * DEFINE_PROP_END_OF_LIST: Mark end of property array
++ *
++ * This must be the last entry in #Property arrays when calling
++ * object_class_add_static_props().
++ */
+ #define DEFINE_PROP_END_OF_LIST()               \
+     {}
  
 -- 
 2.28.0
