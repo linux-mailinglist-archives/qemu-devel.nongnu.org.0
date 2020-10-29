@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 298B329EE47
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:31:07 +0100 (CET)
-Received: from localhost ([::1]:33518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CF2129EE69
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:37:33 +0100 (CET)
+Received: from localhost ([::1]:55990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY8xG-0007rE-3v
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:31:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51600)
+	id 1kY93U-0000JM-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:37:32 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
- id 1kY8sH-0001hl-N5
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:57 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42885)
+ id 1kY8sH-0001hr-RE
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:59 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
- id 1kY8sA-0005fQ-Ce
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:55 -0400
+ id 1kY8sA-0005fG-DA
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:57 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1603981550; x=1635517550;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2GIx+t0Rp+fA0ib/C5fOILwZ9azhuSUJ4wg+kNar0QY=;
- b=Ynlro3m+ShmGRP/QgqkVXQtzNYb7QS6bMxMtuD8dv+V9KzfUAo4XlgPA
- aahD/dnLZtI3omJHNSyVABOJQKQCmmU0GEW6qW9FWZYgw9pFwDbtL60yx
- PbIy+LSnplyi4HZssfMatTWIIO4add7dQnqCcArj7Z+dEE+rLNOXk4m96
- DGsQG6nmGbP2Ym/bCUtPFEmGh+bHNnP4Rd9o2PNp3SP1cI/HHMWnlVU4E
- YVhH6lk7w8QNZUKs1kU9p1KYstbO6arCLwyvur2fXtyDUHo13UNX8tAod
- Yy74/zX16e0iBJSgXt/AFVD6SiHZ9GpKSZlp4P+EvrDOE08UuuNnkIMaR g==;
-IronPort-SDR: 5H4JYIbucQNKRRqr8uzuWMvQLr6xXbUmZLAXK/1JEtvT9t9ZK+TOqA9sY3hPiPHESO7Fqs+HA9
- ABD7HIX1A8/Sco1zHIhXwZ2LuCgTElEGLR/sPzKmKaaRai96ilEU0torUpr6WmrxbpVH9zBzYP
- uXufh+rqQe1FfeM4NkH/h8xhiaNDNArJtbb2jzuCO5x3Ai7hK8F+xzfpKBsPcWWXO+bzbFI7XY
- mtJz8Z8LacClHezqCd9+xGLupu95TcIY9rkkKH7UCwck6ofDH3jnBdbL4+bp+LwJEmpPl1rsDK
- HQ0=
-X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317889"
+ bh=Nl3hCyJqp+3rFqKwJ+f2ZUp0H5pKNEh463rcfnsiWqo=;
+ b=qUS8CsTgrOTWlCgN4xrCfzjso6GcAUhAmsy9fDB8A/uo6bfXAVaW/muV
+ q09xdqNjHzpOGOE43XMyP9pwICr1aKFCl4Ast0uMFwB3YOvoWcfa/fBN9
+ 7RkUiPlquaCnD9pB+zNKcLPhxPuaIFwxnZQyVlawgLmk/xHRZRgDW6Vuw
+ owlrJFR0f4cYiCDtwoub4BfzKOlAC83IhBqi5axymHDRI//O1ECfwDTRl
+ 3+x07Tzxun+T+dE9M6XKYUCus88hce9Fvr8+V0mFpOiTu9/FDwdJ+1rWz
+ H/84oV7IGPecMRe3OFJS2P7hQlPKzPkUIhX8oNIYR0esd8fkGaG+7Fq31 g==;
+IronPort-SDR: VvA+i2sIfoU8zid3ldwA89yhUiC9AIxZxpjoCfd2BZ2JecY4Pmzw2P2JGSPQukn0eA9JcEanno
+ 4CHHEKJc85jPnimsZQFTUnHdDk2I94IRT2P/zB7Q62reSFArxKvlbpmj/Tyg9st8m22pfsT1Us
+ XDKaHcz1yzL9uzHwW3hES1FdvtgXes/77+AxnOZf4gIHLGPIrar88jj6GYHXtERSZPZ2m92mqF
+ L/Mv3YOOevpjqorph0UzJxb4onA0GukCtj5LAYdonzMvALjLnzVGlvA+7crHcSrtOb1ztr2i/O
+ nUo=
+X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317891"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2020 22:25:28 +0800
-IronPort-SDR: rA6Ojv6AP0n/8hbH72DhiTNJBt3AACAJxN5P25/4HftVbjWkvQzIpWJil8vYO+HzASrI6uWqGa
- Zp7zEIbWIYEZFQXuUyGZMoZibc+ym2BOf3NY0203bxIf3OY39kVa0QEL1JBaa76dn7CedZ4Q+2
- We0/PbykOnQ/urgSlaIKCyLZbbPtZWWHHbgO/GZ/ovrf0pXfz4cffZhHMW/kd7r9YR9RgtMSNd
- U4RRWzoTSQ4iiZx+TiZfaXQqtL0lCSKmgLvJznyVnpfsqmfxwbisCyAkoZDM3966QpUZPLAfCr
- i9Q+RmOvFf3ykm+RdSxbJGf6
+ by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2020 22:25:29 +0800
+IronPort-SDR: tWuL/4TL+m7fTQrLArmIsMaHZtXtUetYCeFh08JWnUWNXSF5BcxBx1SmQ9dQg3kG/vJcLjYQbW
+ elmC3nZQB9qxuI7CzQ8LYS4jUskbJgIJxfvBJzZWBEdvooCnGH8wgX5T0Vvf556Foli4z2/pf+
+ tfDxKT5dLYYlltddlMBJSFpOTUReMjBOwifgO+0gOorpUb5Spr3EqSM8R+YdKoKjTxIyzb9r+t
+ OdDAl6FmPEyRRKjWvJMnYdl4gOz6tPVK+1QUjb+dzs5EoxMC3sRG649TLdHLkPQe8KcoxWBZT4
+ AcgFknYfEhWoXA3ksNFJvhVJ
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  29 Oct 2020 07:11:44 -0700
-IronPort-SDR: TKEONT9XzMA30PvXBAHMWMg2RyrMsunRJJUfXJ4up6Zz7NoRY3YEaqhrz9/60delWviMGhgoUM
- VMgD1pqMQvsh7mZiRQb8FfDN3AecuHtjUaXF2tHFvHiIsq6na2IHSgDT6ClbGJUkezPCfsn7B8
- 6pJAztyLOZ5DNDxpOkVFw8AvrNjffUGQR93vzssweJVgE6PxAw5+l6b//vIuMdivq8/YaZHxUE
- 7BdusxXKzFNwlif6i/4RaryncRcHg+s2Bs/BkWDI4QQz6wd6nEFP+GXUKPT3NmQnvrTO01+nDm
- kmI=
+IronPort-SDR: 26xsG0LDTR2C5z3WzCy1tbCp4/xRw/oHPhA9cEyv2hVeWqJQzF8+K4RM5ZXMzTu/TVkP/bCa46
+ nHTABroUn/UqBMSBtlwOc0PcED/vFV79PNNSR1C/NkXbzy36rFguC69rvvSb44ElEW6JLFqY3R
+ cMAs1o+vKmXyBL3UVwGqLW/Nfv07E4PXXmqK/QFc8HzpirO+ou/mUC5GNwhlupH378dUPnvZml
+ LStF6JrF0ZHADN/gtNNtvaip7q4hoYaxTeJuPIZhiOqbic63EKX4e5ZbqpJymwKn5J/epLQR0x
+ zcY=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.131])
@@ -62,10 +62,9 @@ Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 11/18] hw/riscv: microchip_pfsoc: Connect DDR memory controller
- modules
-Date: Thu, 29 Oct 2020 07:13:51 -0700
-Message-Id: <20201029141358.3102636-12-alistair.francis@wdc.com>
+Subject: [PULL 12/18] hw/misc: Add Microchip PolarFire SoC IOSCB module support
+Date: Thu, 29 Oct 2020 07:13:52 -0700
+Message-Id: <20201029141358.3102636-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201029141358.3102636-1-alistair.francis@wdc.com>
 References: <20201029141358.3102636-1-alistair.francis@wdc.com>
@@ -102,112 +101,375 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Connect DDR SGMII PHY module and CFG module to the PolarFire SoC.
+This creates a model for PolarFire SoC IOSCB [1] module. It actually
+contains lots of sub-modules like various PLLs to control different
+peripherals. Only the mininum capabilities are emulated to make the
+HSS DDR memory initialization codes happy. Lots of sub-modules are
+created as an unimplemented devices.
+
+[1] PF_SoC_RegMap_V1_1/MPFS250T/mpfs250t_ioscb_memmap_dri.htm in
+    https://www.microsemi.com/document-portal/doc_download/1244581-polarfire-soc-register-map
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1603863010-15807-4-git-send-email-bmeng.cn@gmail.com
+Message-id: 1603863010-15807-5-git-send-email-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/microchip_pfsoc.h |  5 +++++
- hw/riscv/microchip_pfsoc.c         | 18 ++++++++++++++++++
- hw/riscv/Kconfig                   |  1 +
- 3 files changed, 24 insertions(+)
+ include/hw/misc/mchp_pfsoc_ioscb.h |  50 ++++++
+ hw/misc/mchp_pfsoc_ioscb.c         | 242 +++++++++++++++++++++++++++++
+ MAINTAINERS                        |   2 +
+ hw/misc/Kconfig                    |   3 +
+ hw/misc/meson.build                |   1 +
+ 5 files changed, 298 insertions(+)
+ create mode 100644 include/hw/misc/mchp_pfsoc_ioscb.h
+ create mode 100644 hw/misc/mchp_pfsoc_ioscb.c
 
-diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index 8bfc7e1a85..5b81e26241 100644
---- a/include/hw/riscv/microchip_pfsoc.h
-+++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -24,6 +24,7 @@
- 
- #include "hw/char/mchp_pfsoc_mmuart.h"
- #include "hw/dma/sifive_pdma.h"
-+#include "hw/misc/mchp_pfsoc_dmc.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/sd/cadence_sdhci.h"
- 
-@@ -37,6 +38,8 @@ typedef struct MicrochipPFSoCState {
-     RISCVHartArrayState e_cpus;
-     RISCVHartArrayState u_cpus;
-     DeviceState *plic;
-+    MchpPfSoCDdrSgmiiPhyState ddr_sgmii_phy;
-+    MchpPfSoCDdrCfgState ddr_cfg;
-     MchpPfSoCMMUartState *serial0;
-     MchpPfSoCMMUartState *serial1;
-     MchpPfSoCMMUartState *serial2;
-@@ -82,7 +85,9 @@ enum {
-     MICROCHIP_PFSOC_MMUART0,
-     MICROCHIP_PFSOC_SYSREG,
-     MICROCHIP_PFSOC_MPUCFG,
-+    MICROCHIP_PFSOC_DDR_SGMII_PHY,
-     MICROCHIP_PFSOC_EMMC_SD,
-+    MICROCHIP_PFSOC_DDR_CFG,
-     MICROCHIP_PFSOC_MMUART1,
-     MICROCHIP_PFSOC_MMUART2,
-     MICROCHIP_PFSOC_MMUART3,
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 6aac8497fc..3c504f7c03 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -15,6 +15,7 @@
-  * 4) Cadence eMMC/SDHC controller and an SD card connected to it
-  * 5) SiFive Platform DMA (Direct Memory Access Controller)
-  * 6) GEM (Gigabit Ethernet MAC Controller)
-+ * 7) DMC (DDR Memory Controller)
-  *
-  * This board currently generates devicetree dynamically that indicates at least
-  * two harts and up to five harts.
-@@ -103,7 +104,9 @@ static const struct MemmapEntry {
-     [MICROCHIP_PFSOC_MMUART0] =         { 0x20000000,     0x1000 },
-     [MICROCHIP_PFSOC_SYSREG] =          { 0x20002000,     0x2000 },
-     [MICROCHIP_PFSOC_MPUCFG] =          { 0x20005000,     0x1000 },
-+    [MICROCHIP_PFSOC_DDR_SGMII_PHY] =   { 0x20007000,     0x1000 },
-     [MICROCHIP_PFSOC_EMMC_SD] =         { 0x20008000,     0x1000 },
-+    [MICROCHIP_PFSOC_DDR_CFG] =         { 0x20080000,    0x40000 },
-     [MICROCHIP_PFSOC_MMUART1] =         { 0x20100000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
-     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
-@@ -149,6 +152,11 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "dma-controller", &s->dma,
-                             TYPE_SIFIVE_PDMA);
- 
-+    object_initialize_child(obj, "ddr-sgmii-phy", &s->ddr_sgmii_phy,
-+                            TYPE_MCHP_PFSOC_DDR_SGMII_PHY);
-+    object_initialize_child(obj, "ddr-cfg", &s->ddr_cfg,
-+                            TYPE_MCHP_PFSOC_DDR_CFG);
+diff --git a/include/hw/misc/mchp_pfsoc_ioscb.h b/include/hw/misc/mchp_pfsoc_ioscb.h
+new file mode 100644
+index 0000000000..9235523e33
+--- /dev/null
++++ b/include/hw/misc/mchp_pfsoc_ioscb.h
+@@ -0,0 +1,50 @@
++/*
++ * Microchip PolarFire SoC IOSCB module emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-     object_initialize_child(obj, "gem0", &s->gem0, TYPE_CADENCE_GEM);
-     object_initialize_child(obj, "gem1", &s->gem1, TYPE_CADENCE_GEM);
- 
-@@ -278,6 +286,16 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-         memmap[MICROCHIP_PFSOC_MPUCFG].base,
-         memmap[MICROCHIP_PFSOC_MPUCFG].size);
- 
-+    /* DDR SGMII PHY */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_sgmii_phy), 0,
-+                    memmap[MICROCHIP_PFSOC_DDR_SGMII_PHY].base);
++#ifndef MCHP_PFSOC_IOSCB_H
++#define MCHP_PFSOC_IOSCB_H
 +
-+    /* DDR CFG */
-+    sysbus_realize(SYS_BUS_DEVICE(&s->ddr_cfg), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->ddr_cfg), 0,
-+                    memmap[MICROCHIP_PFSOC_DDR_CFG].base);
++typedef struct MchpPfSoCIoscbState {
++    SysBusDevice parent;
++    MemoryRegion container;
++    MemoryRegion lane01;
++    MemoryRegion lane23;
++    MemoryRegion ctrl;
++    MemoryRegion cfg;
++    MemoryRegion pll_mss;
++    MemoryRegion cfm_mss;
++    MemoryRegion pll_ddr;
++    MemoryRegion bc_ddr;
++    MemoryRegion io_calib_ddr;
++    MemoryRegion pll_sgmii;
++    MemoryRegion dll_sgmii;
++    MemoryRegion cfm_sgmii;
++    MemoryRegion bc_sgmii;
++    MemoryRegion io_calib_sgmii;
++} MchpPfSoCIoscbState;
 +
-     /* SDHCI */
-     sysbus_realize(SYS_BUS_DEVICE(&s->sdhci), errp);
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->sdhci), 0,
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 2df978fe8d..c8e50bde99 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -4,6 +4,7 @@ config IBEX
- config MICROCHIP_PFSOC
++#define TYPE_MCHP_PFSOC_IOSCB "mchp.pfsoc.ioscb"
++
++#define MCHP_PFSOC_IOSCB(obj) \
++    OBJECT_CHECK(MchpPfSoCIoscbState, (obj), TYPE_MCHP_PFSOC_IOSCB)
++
++#endif /* MCHP_PFSOC_IOSCB_H */
+diff --git a/hw/misc/mchp_pfsoc_ioscb.c b/hw/misc/mchp_pfsoc_ioscb.c
+new file mode 100644
+index 0000000000..8b0d1cacd7
+--- /dev/null
++++ b/hw/misc/mchp_pfsoc_ioscb.c
+@@ -0,0 +1,242 @@
++/*
++ * Microchip PolarFire SoC IOSCB module emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/sysbus.h"
++#include "hw/misc/mchp_pfsoc_ioscb.h"
++
++/*
++ * The whole IOSCB module registers map into the system address at 0x3000_0000,
++ * named as "System Port 0 (AXI-D0)".
++ */
++#define IOSCB_WHOLE_REG_SIZE        0x10000000
++#define IOSCB_SUBMOD_REG_SIZE       0x1000
++
++/*
++ * There are many sub-modules in the IOSCB module.
++ * See Microchip PolarFire SoC documentation (Register_Map.zip),
++ * Register Map/PF_SoC_RegMap_V1_1/MPFS250T/mpfs250t_ioscb_memmap_dri.htm
++ *
++ * The following are sub-modules offsets that are of concern.
++ */
++#define IOSCB_LANE01_BASE           0x06500000
++#define IOSCB_LANE23_BASE           0x06510000
++#define IOSCB_CTRL_BASE             0x07020000
++#define IOSCB_CFG_BASE              0x07080000
++#define IOSCB_PLL_MSS_BASE          0x0E001000
++#define IOSCB_CFM_MSS_BASE          0x0E002000
++#define IOSCB_PLL_DDR_BASE          0x0E010000
++#define IOSCB_BC_DDR_BASE           0x0E020000
++#define IOSCB_IO_CALIB_DDR_BASE     0x0E040000
++#define IOSCB_PLL_SGMII_BASE        0x0E080000
++#define IOSCB_DLL_SGMII_BASE        0x0E100000
++#define IOSCB_CFM_SGMII_BASE        0x0E200000
++#define IOSCB_BC_SGMII_BASE         0x0E400000
++#define IOSCB_IO_CALIB_SGMII_BASE   0x0E800000
++
++static uint64_t mchp_pfsoc_dummy_read(void *opaque, hwaddr offset,
++                                      unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++                  "(size %d, offset 0x%" HWADDR_PRIx ")\n",
++                  __func__, size, offset);
++
++    return 0;
++}
++
++static void mchp_pfsoc_dummy_write(void *opaque, hwaddr offset,
++                                   uint64_t value, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
++                  "(size %d, value 0x%" PRIx64
++                  ", offset 0x%" HWADDR_PRIx ")\n",
++                  __func__, size, value, offset);
++}
++
++static const MemoryRegionOps mchp_pfsoc_dummy_ops = {
++    .read = mchp_pfsoc_dummy_read,
++    .write = mchp_pfsoc_dummy_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++/* All PLL modules in IOSCB have the same register layout */
++
++#define PLL_CTRL    0x04
++
++static uint64_t mchp_pfsoc_pll_read(void *opaque, hwaddr offset,
++                                    unsigned size)
++{
++    uint32_t val = 0;
++
++    switch (offset) {
++    case PLL_CTRL:
++        /* PLL is locked */
++        val = BIT(25);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
++                      __func__, size, offset);
++        break;
++    }
++
++    return val;
++}
++
++static const MemoryRegionOps mchp_pfsoc_pll_ops = {
++    .read = mchp_pfsoc_pll_read,
++    .write = mchp_pfsoc_dummy_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++/* IO_CALIB_DDR submodule */
++
++#define IO_CALIB_DDR_IOC_REG1   0x08
++
++static uint64_t mchp_pfsoc_io_calib_ddr_read(void *opaque, hwaddr offset,
++                                             unsigned size)
++{
++    uint32_t val = 0;
++
++    switch (offset) {
++    case IO_CALIB_DDR_IOC_REG1:
++        /* calibration completed */
++        val = BIT(2);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
++                      __func__, size, offset);
++        break;
++    }
++
++    return val;
++}
++
++static const MemoryRegionOps mchp_pfsoc_io_calib_ddr_ops = {
++    .read = mchp_pfsoc_io_calib_ddr_read,
++    .write = mchp_pfsoc_dummy_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void mchp_pfsoc_ioscb_realize(DeviceState *dev, Error **errp)
++{
++    MchpPfSoCIoscbState *s = MCHP_PFSOC_IOSCB(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++    memory_region_init(&s->container, OBJECT(s),
++                       "mchp.pfsoc.ioscb", IOSCB_WHOLE_REG_SIZE);
++    sysbus_init_mmio(sbd, &s->container);
++
++    /* add subregions for all sub-modules in IOSCB */
++
++    memory_region_init_io(&s->lane01, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.lane01", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_LANE01_BASE, &s->lane01);
++
++    memory_region_init_io(&s->lane23, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.lane23", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_LANE23_BASE, &s->lane23);
++
++    memory_region_init_io(&s->ctrl, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.ctrl", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_CTRL_BASE, &s->ctrl);
++
++    memory_region_init_io(&s->cfg, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.cfg", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_CFG_BASE, &s->cfg);
++
++    memory_region_init_io(&s->pll_mss, OBJECT(s), &mchp_pfsoc_pll_ops, s,
++                          "mchp.pfsoc.ioscb.pll_mss", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_PLL_MSS_BASE, &s->pll_mss);
++
++    memory_region_init_io(&s->cfm_mss, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.cfm_mss", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_CFM_MSS_BASE, &s->cfm_mss);
++
++    memory_region_init_io(&s->pll_ddr, OBJECT(s), &mchp_pfsoc_pll_ops, s,
++                          "mchp.pfsoc.ioscb.pll_ddr", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_PLL_DDR_BASE, &s->pll_ddr);
++
++    memory_region_init_io(&s->bc_ddr, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.bc_ddr", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_BC_DDR_BASE, &s->bc_ddr);
++
++    memory_region_init_io(&s->io_calib_ddr, OBJECT(s),
++                          &mchp_pfsoc_io_calib_ddr_ops, s,
++                          "mchp.pfsoc.ioscb.io_calib_ddr",
++                          IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_IO_CALIB_DDR_BASE,
++                                &s->io_calib_ddr);
++
++    memory_region_init_io(&s->pll_sgmii, OBJECT(s), &mchp_pfsoc_pll_ops, s,
++                          "mchp.pfsoc.ioscb.pll_sgmii", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_PLL_SGMII_BASE,
++                                &s->pll_sgmii);
++
++    memory_region_init_io(&s->dll_sgmii, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.dll_sgmii", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_DLL_SGMII_BASE,
++                                &s->dll_sgmii);
++
++    memory_region_init_io(&s->cfm_sgmii, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.cfm_sgmii", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_CFM_SGMII_BASE,
++                                &s->cfm_sgmii);
++
++    memory_region_init_io(&s->bc_sgmii, OBJECT(s), &mchp_pfsoc_dummy_ops, s,
++                          "mchp.pfsoc.ioscb.bc_sgmii", IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_BC_SGMII_BASE,
++                                &s->bc_sgmii);
++
++    memory_region_init_io(&s->io_calib_sgmii, OBJECT(s), &mchp_pfsoc_dummy_ops,
++                          s, "mchp.pfsoc.ioscb.io_calib_sgmii",
++                          IOSCB_SUBMOD_REG_SIZE);
++    memory_region_add_subregion(&s->container, IOSCB_IO_CALIB_SGMII_BASE,
++                                &s->io_calib_sgmii);
++}
++
++static void mchp_pfsoc_ioscb_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "Microchip PolarFire SoC IOSCB modules";
++    dc->realize = mchp_pfsoc_ioscb_realize;
++}
++
++static const TypeInfo mchp_pfsoc_ioscb_info = {
++    .name          = TYPE_MCHP_PFSOC_IOSCB,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MchpPfSoCIoscbState),
++    .class_init    = mchp_pfsoc_ioscb_class_init,
++};
++
++static void mchp_pfsoc_ioscb_register_types(void)
++{
++    type_register_static(&mchp_pfsoc_ioscb_info);
++}
++
++type_init(mchp_pfsoc_ioscb_register_types)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 252284f005..2d29fb02f2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1327,9 +1327,11 @@ S: Supported
+ F: hw/riscv/microchip_pfsoc.c
+ F: hw/char/mchp_pfsoc_mmuart.c
+ F: hw/misc/mchp_pfsoc_dmc.c
++F: hw/misc/mchp_pfsoc_ioscb.c
+ F: include/hw/riscv/microchip_pfsoc.h
+ F: include/hw/char/mchp_pfsoc_mmuart.h
+ F: include/hw/misc/mchp_pfsoc_dmc.h
++F: include/hw/misc/mchp_pfsoc_ioscb.h
+ 
+ RX Machines
+ -----------
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 32ab718cd3..4ff01ec4be 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -142,6 +142,9 @@ config AVR_POWER
+ config MCHP_PFSOC_DMC
      bool
-     select CADENCE_SDHCI
-+    select MCHP_PFSOC_DMC
-     select MCHP_PFSOC_MMUART
-     select MSI_NONBROKEN
-     select SIFIVE_CLINT
+ 
++config MCHP_PFSOC_IOSCB
++    bool
++
+ config SIFIVE_TEST
+     bool
+ 
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index c63066be4f..8e3facf348 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -24,6 +24,7 @@ softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+ 
+ # RISC-V devices
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_DMC', if_true: files('mchp_pfsoc_dmc.c'))
++softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_IOSCB', if_true: files('mchp_pfsoc_ioscb.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_TEST', if_true: files('sifive_test.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_E_PRCI', if_true: files('sifive_e_prci.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_U_OTP', if_true: files('sifive_u_otp.c'))
 -- 
 2.28.0
 
