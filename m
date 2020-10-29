@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCE5229EBEF
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 13:37:22 +0100 (CET)
-Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 935CD29EBDF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 13:31:09 +0100 (CET)
+Received: from localhost ([::1]:43718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY7BB-00025b-Qx
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 08:37:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56316)
+	id 1kY75A-0006kQ-Lx
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 08:31:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kY79g-0001O3-0x
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:35:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58744)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kY79d-0006lE-LX
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:35:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kY79b-00012x-E4
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 12:35:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6956B2E804E
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 12:35:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2020 12:23:28 -0000
-From: Gustavo Romero <1900241@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
- assignee=gromero@br.ibm.com; 
-X-Launchpad-Bug-Tags: kvm powerpc xive
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: sathnaga
-X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
-X-Launchpad-Bug-Modifier: Gustavo Romero (gromero)
-References: <160293454254.8431.993577940537988142.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160397420933.8731.9491736527520602012.launchpad@soybean.canonical.com>
-Subject: [Bug 1900241] Re: [regression][powerpc] some vcpus are found offline
- inside guest with different vsmt setting from qemu-cmdline and breaks
- subsequent vcpu hotplug operation (xive)
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="96ff31b88b65a0d0ea73b89333fe7c4a2669d8fb"; Instance="production"
-X-Launchpad-Hash: c7dcd3e4acd2e72641997c6aa2213dc4d9a722ab
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 08:35:43
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kY72q-0006J9-Ri
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:28:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kY72p-0004OO-8k
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:28:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603974522;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:content-type:content-type;
+ bh=UsIsY9bFqR9LQIaBu5c+5NbzHTcequ/Ko5EicdfTAZw=;
+ b=VJjaNwdLGX//2JQD6fGuZfjvQWvuhw1vegpf4zWPx6bftgqiiccOZyIxnOlHhmETFziSHB
+ CgfIXT4uc/Aocaym45ETp7Lhuue2OM68DFpD5hTDlfsFE9tijk3xOKDET0GZ6YjCjP5DFc
+ Oh2EuKHm4Lwk2IEPujPTq/0CQ3Uf3+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-iq7vxyPMMBqOn0q-OtLlXQ-1; Thu, 29 Oct 2020 08:28:38 -0400
+X-MC-Unique: iq7vxyPMMBqOn0q-OtLlXQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 685E31899981;
+ Thu, 29 Oct 2020 12:28:37 +0000 (UTC)
+Received: from thuth.com (ovpn-113-114.ams2.redhat.com [10.36.113.114])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26A93610AF;
+ Thu, 29 Oct 2020 12:28:35 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Richard Henderson <rth@twiddle.net>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] tcg/optimize: Add fallthrough annotations
+Date: Thu, 29 Oct 2020 13:28:33 +0100
+Message-Id: <20201029122833.195420-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,165 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1900241 <1900241@bugs.launchpad.net>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Gustavo Romero (gromero)
+To be able to compile this file with -Werror=implicit-fallthrough,
+we need to add some fallthrough annotations to the case statements
+that might fall through. Unfortunately, the typical "/* fallthrough */"
+comments do not work here as expected since some case labels are
+wrapped in macros and the compiler fails to match the comments in
+this case. But using __attribute__((fallthrough)) seems to work fine,
+so let's use that instead.
 
--- =
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ tcg/optimize.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1900241
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 220f4601d5..c2768c9770 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -26,6 +26,12 @@
+ #include "qemu/osdep.h"
+ #include "tcg/tcg-op.h"
+ 
++#if __has_attribute(fallthrough)
++# define fallthrough() __attribute__((fallthrough))
++#else
++# define fallthrough() do {} while (0)
++#endif
++
+ #define CASE_OP_32_64(x)                        \
+         glue(glue(case INDEX_op_, x), _i32):    \
+         glue(glue(case INDEX_op_, x), _i64)
+@@ -855,6 +861,7 @@ void tcg_optimize(TCGContext *s)
+             if ((arg_info(op->args[1])->mask & 0x80) != 0) {
+                 break;
+             }
++            fallthrough();
+         CASE_OP_32_64(ext8u):
+             mask = 0xff;
+             goto and_const;
+@@ -862,6 +869,7 @@ void tcg_optimize(TCGContext *s)
+             if ((arg_info(op->args[1])->mask & 0x8000) != 0) {
+                 break;
+             }
++            fallthrough();
+         CASE_OP_32_64(ext16u):
+             mask = 0xffff;
+             goto and_const;
+@@ -869,6 +877,7 @@ void tcg_optimize(TCGContext *s)
+             if ((arg_info(op->args[1])->mask & 0x80000000) != 0) {
+                 break;
+             }
++            fallthrough();
+         case INDEX_op_ext32u_i64:
+             mask = 0xffffffffU;
+             goto and_const;
+@@ -886,6 +895,7 @@ void tcg_optimize(TCGContext *s)
+             if ((arg_info(op->args[1])->mask & 0x80000000) != 0) {
+                 break;
+             }
++            fallthrough();
+         case INDEX_op_extu_i32_i64:
+             /* We do not compute affected as it is a size changing op.  */
+             mask = (uint32_t)arg_info(op->args[1])->mask;
+-- 
+2.18.2
 
-Title:
-  [regression][powerpc] some vcpus are found offline inside guest with
-  different vsmt setting from qemu-cmdline and breaks subsequent vcpu
-  hotplug operation (xive)
-
-Status in QEMU:
-  New
-
-Bug description:
-  Env:
-  Host: Power9 HW ppc64le
-
-  # lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          128
-  On-line CPU(s) list:             24-31,40-159
-  Thread(s) per core:              4
-  Core(s) per socket:              16
-  Socket(s):                       2
-  NUMA node(s):                    2
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9, altivec supported
-  Frequency boost:                 enabled
-  CPU max MHz:                     3800.0000
-  CPU min MHz:                     2300.0000
-  L1d cache:                       1 MiB
-  L1i cache:                       1 MiB
-  L2 cache:                        8 MiB
-  L3 cache:                        160 MiB
-  NUMA node0 CPU(s):               24-31,40-79
-  NUMA node8 CPU(s):               80-159
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardware accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  Host Kernel: 5.9.0-0.rc8.28.fc34.ppc64le (Fedora rawhide)
-  Guest Kernel: Fedora33(5.8.6-301.fc33.ppc64le)
-
-  Qemu: e12ce85b2c79d83a340953291912875c30b3af06 (qemu/master)
-
-  =
-
-  Steps to reproduce:
-
-  Boot below kvm guest: (-M pseries,vsmt=3D2 -smp 8,cores=3D8,threads=3D1)
-
-   /home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2
-  -accel kvm -m 4096  -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults
-  -serial mon:stdio -vga none -nographic -device virtio-scsi-pci -drive
-  file=3D/home/sath/tests/data/avocado-vt/images/fdevel-
-  ppc64le.qcow2,if=3Dnone,id=3Dhd0,format=3Dqcow2,cache=3Dnone -device scsi-
-  hd,drive=3Dhd0
-
-  =
-
-  lscpu inside guest:
-  Actual:
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0,2,4,6
-  Off-line CPU(s) list:            1,3,5,7 --------------------------NOK
-  Thread(s) per core:              1
-  Core(s) per socket:              4
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       128 KiB
-  L1i cache:                       128 KiB
-  NUMA node0 CPU(s):               0,2,4,6
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-  =
-
-  Expected:
-
-  [root@atest-guest ~]# lscpu
-  Architecture:                    ppc64le
-  Byte Order:                      Little Endian
-  CPU(s):                          8
-  On-line CPU(s) list:             0-7
-  Thread(s) per core:              1
-  Core(s) per socket:              8
-  Socket(s):                       1
-  NUMA node(s):                    1
-  Model:                           2.3 (pvr 004e 1203)
-  Model name:                      POWER9 (architected), altivec supported
-  Hypervisor vendor:               KVM
-  Virtualization type:             para
-  L1d cache:                       256 KiB
-  L1i cache:                       256 KiB
-  NUMA node0 CPU(s):               0-7
-  Vulnerability Itlb multihit:     Not affected
-  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Mds:               Not affected
-  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
-hread
-  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
-ieio)
-  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
- ori31 =
-
-                                   speculation barrier enabled
-  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
-hardwar
-                                   e accelerated), Software link stack flush
-  Vulnerability Srbds:             Not affected
-  Vulnerability Tsx async abort:   Not affected
-
-
-  There by further vcpuhotplug operation fails...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1900241/+subscriptions
 
