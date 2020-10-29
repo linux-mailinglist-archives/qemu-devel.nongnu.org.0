@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DE3429EEA6
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:44:48 +0100 (CET)
-Received: from localhost ([::1]:48290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D664A29EEC1
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:50:46 +0100 (CET)
+Received: from localhost ([::1]:56516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY9AV-0000X7-Lj
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:44:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55752)
+	id 1kY9GH-0004E3-VG
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:50:45 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kY981-0007AC-7t
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:42:13 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:43251)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kY97y-00081f-7e
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:42:12 -0400
-Received: by mail-wr1-x443.google.com with SMTP id g12so3030899wrp.10
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 07:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=8t1JEggWEgtOw/O52D17ErYztHoM3WZWQIZcbzThXIQ=;
- b=o2zsKOUdeuO1VVA3FdfgXIaZoUuRQfkkcFOV+MaFYBCXk7sLkd8BpWofdCLgIGtJdS
- r+uWafUlFeowgGdCnEw7aPkCR99uRkPG/CiG0A/CaZA5fXbmIuiwVyzFT9AHAtT6P6Aw
- YkQxSFKW/r2Vedo5W96wUpGyh3SAl9hWdgU4k/v5eFDGuS8EjaQ95ixdyKHvtFDrxooV
- oZHEBkBbGNrx+HLFqvK7zzfyhHTlTIgKxo/z3eO8JxuDAhXNh7sN54SLyOWWh2rD+ftA
- m06a55RnJ/WfSLoKg01SHA+xO7sdBaq0lxBTXJl1+matLSYv1ZovqT++mFMGLrjOjqMh
- TUow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=8t1JEggWEgtOw/O52D17ErYztHoM3WZWQIZcbzThXIQ=;
- b=jqQB0/9hUtPdUAewBQN7bw267u6cpf6h7MFDJzcALPKseLNnkBeTBz82AZ/dG8mMNX
- /VxwXvoxnnn90nhsTbTKldwglQoFbUSxA/JrXBPcxSVCl93MAyCh7hjmLOVTxAagcGB9
- apQUPZiW8sOx0nN9Tj/XNYehirlES8IMSSUXfFqtUC7V6+Da9Z9DTIHRbPdy/UECZzFe
- nlPEI5vE5S13IxnomCDmqHGKCfu7MZHh98hpxQ93GVfV9jPWc02CeFmQ8YquHzmHQRo+
- kxDT7/T6NCX6Xei9VqaRGlOjsXS9mJzvo4HUuQwn+3I9tWyB7Yg9b7vLCOisFa98kms4
- jUlQ==
-X-Gm-Message-State: AOAM532pe7620eoRnV2hML6K7u1aVoZ0wgssrNKwpqoj7DI70K6KD3oa
- KBi1+eMCTY48yRJ+KzNnzIKJ5g==
-X-Google-Smtp-Source: ABdhPJyFztNdzsOcFqgEaV8G1/MCWpVBV3pvI3gNTGD17vpSbltjoPZC/IhLl2d+zQgDjvZWjlUbag==
-X-Received: by 2002:adf:97cb:: with SMTP id t11mr6485498wrb.292.1603982527380; 
- Thu, 29 Oct 2020 07:42:07 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b136sm103369wmb.21.2020.10.29.07.42.05
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 07:42:05 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 00B2A1FF7E;
- Thu, 29 Oct 2020 14:42:04 +0000 (GMT)
-References: <20200915134317.11110-1-alex.bennee@linaro.org>
- <20200915134317.11110-9-alex.bennee@linaro.org>
- <599acb88-ab14-c8c7-5ba6-6526b6e7c629@redhat.com>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 8/8] configure: add [lm32|unicore32]-softmmu to
- deprecation logic
-In-reply-to: <599acb88-ab14-c8c7-5ba6-6526b6e7c629@redhat.com>
-Date: Thu, 29 Oct 2020 14:42:04 +0000
-Message-ID: <874kmdm6v7.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kY9Ee-0003TX-7o
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:49:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51231)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kY9Ec-0000Tl-0Y
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:49:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603982939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fvVMqZSd4VN1ZLw8n4EK7pU8ZfGt/oolMQPE84iYdls=;
+ b=LCPolFshlOU0CYLoSXZIl14RXsSk+dGRwPojrHAPMIuVAn2DYTO7+bZ1dZ/4FQ7WHOu6T7
+ srkyI0doOBGIgon9vd8QulqgaOZfuYqkmSiLfw60e/uXN2fs12I6gKc2S8G4mlpenl2Te8
+ /whCPI6gEF7A60He4l2nEWIkFBdwmPc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-111-0gFQdUguOhuQbsrx1Mf05g-1; Thu, 29 Oct 2020 10:48:57 -0400
+X-MC-Unique: 0gFQdUguOhuQbsrx1Mf05g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A13891019635
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 14:48:56 +0000 (UTC)
+Received: from steredhat.redhat.com (ovpn-112-127.ams2.redhat.com
+ [10.36.112.127])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F095F5B4CD;
+ Thu, 29 Oct 2020 14:48:50 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vhost-vsock: set vhostfd to non-blocking mode
+Date: Thu, 29 Oct 2020 15:48:49 +0100
+Message-Id: <20201029144849.70958-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,140 +78,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+vhost IOTLB API uses read()/write() to exchange iotlb messages with
+the kernel module.
+The QEMU implementation expects a non-blocking fd, indeed commit
+c471ad0e9b ("vhost_net: device IOTLB support") set it for vhost-net.
 
-Thomas Huth <thuth@redhat.com> writes:
+Without this patch, if we enable iommu for the vhost-vsock device,
+QEMU can hang when exchanging IOTLB messages.
 
-> On 15/09/2020 15.43, Alex Benn=C3=A9e wrote:
->> While we are at it move the few places where they are into the
->> deprecation build bucket.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  configure      | 2 +-
->>  .gitlab-ci.yml | 9 +++++----
->>  .shippable.yml | 2 +-
->>  3 files changed, 7 insertions(+), 6 deletions(-)
->
->  Hi Alex,
->
-> I noticed that these deprecated targets do not show up in the
-> output of "configure --help" at all anymore:
->
->  --target-list=3DLIST       set target list (default: build everything)
->                            Available targets: aarch64-softmmu alpha-softm=
-mu=20
->                            arm-softmmu avr-softmmu cris-softmmu hppa-soft=
-mmu=20
->                            i386-softmmu m68k-softmmu microblazeel-softmmu=
-=20
->                            microblaze-softmmu mips64el-softmmu mips64-sof=
-tmmu=20
->                            mipsel-softmmu mips-softmmu moxie-softmmu=20
->                            nios2-softmmu or1k-softmmu ppc64-softmmu ppc-s=
-oftmmu=20
->                            riscv32-softmmu riscv64-softmmu rx-softmmu=20
->                            s390x-softmmu sh4eb-softmmu sh4-softmmu=20
->                            sparc64-softmmu sparc-softmmu tricore-softmmu=
-=20
->                            x86_64-softmmu xtensaeb-softmmu xtensa-softmmu=
-=20
->                            aarch64_be-linux-user aarch64-linux-user=20
->                            alpha-linux-user armeb-linux-user arm-linux-us=
-er=20
->                            cris-linux-user hppa-linux-user i386-linux-use=
-r=20
->                            m68k-linux-user microblazeel-linux-user=20
->                            microblaze-linux-user mips64el-linux-user=20
->                            mips64-linux-user mipsel-linux-user mips-linux=
--user=20
->                            mipsn32el-linux-user mipsn32-linux-user=20
->                            nios2-linux-user or1k-linux-user ppc64le-linux=
--user=20
->                            ppc64-linux-user ppc-linux-user riscv32-linux-=
-user=20
->                            riscv64-linux-user s390x-linux-user sh4eb-linu=
-x-user=20
->                            sh4-linux-user sparc32plus-linux-user=20
->                            sparc64-linux-user sparc-linux-user=20
->                            x86_64-linux-user xtensaeb-linux-user=20
->                            xtensa-linux-user
->
-> The text "default: build everything" is now also not accurate anymore.
-> How is a user who is still interested in these targets supposed to find
-> the right --target-list parameters now?
+As commit 894022e616 ("net: check if the file descriptor is valid
+before using it") did for tap, let's use qemu_try_set_nonblock()
+when fd is provided by the user.
 
-How about:
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ hw/virtio/vhost-vsock.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
---8<---------------cut here---------------start------------->8---
-modified   configure
-@@ -1644,9 +1644,11 @@ Standard options:
-   --prefix=3DPREFIX          install in PREFIX [$prefix]
-   --interp-prefix=3DPREFIX   where to find shared libraries, etc.
-                            use %M for cpu name [$interp_prefix]
--  --target-list=3DLIST       set target list (default: build everything)
-+  --target-list=3DLIST       set target list (default: build all non-deprc=
-ated)
- $(echo Available targets: $default_target_list | \
-   fold -s -w 53 | sed -e 's/^/                           /')
-+$(echo Deprecated targets: $deprecated_targets_list | \
-+  fold -s -w 53 | sed -e 's/^/                           /')
-   --target-list-exclude=3DLIST exclude a set of targets from the default t=
-arget-list
-=20
- Advanced options (experts only):
---8<---------------cut here---------------end--------------->8---
+diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
+index f9db4beb47..8ddfb9abfe 100644
+--- a/hw/virtio/vhost-vsock.c
++++ b/hw/virtio/vhost-vsock.c
+@@ -16,6 +16,7 @@
+ #include "qapi/error.h"
+ #include "hw/virtio/virtio-access.h"
+ #include "qemu/error-report.h"
++#include "qemu/sockets.h"
+ #include "hw/qdev-properties.h"
+ #include "hw/virtio/vhost-vsock.h"
+ #include "monitor/monitor.h"
+@@ -148,6 +149,13 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+             error_prepend(errp, "vhost-vsock: unable to parse vhostfd: ");
+             return;
+         }
++
++        ret = qemu_try_set_nonblock(vhostfd);
++        if (ret < 0) {
++            error_setg_errno(errp, -ret,
++                             "vhost-vsock: unable to set non-blocking mode");
++            return;
++        }
+     } else {
+         vhostfd = open("/dev/vhost-vsock", O_RDWR);
+         if (vhostfd < 0) {
+@@ -155,6 +163,8 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
+                              "vhost-vsock: failed to open vhost device");
+             return;
+         }
++
++        qemu_set_nonblock(vhostfd);
+     }
+ 
+     vhost_vsock_common_realize(vdev, "vhost-vsock");
+-- 
+2.26.2
 
-Which would give:
-
-
-  --target-list=3DLIST       set target list (default: build all non-deprca=
-ted)
-                           Available targets: aarch64-softmmu alpha-softmmu=
-=20
-                           arm-softmmu avr-softmmu cris-softmmu hppa-softmm=
-u=20
-                           i386-softmmu m68k-softmmu microblaze-softmmu=20
-                           microblazeel-softmmu mips-softmmu mips64-softmmu=
-=20
-                           mips64el-softmmu mipsel-softmmu moxie-softmmu=20
-                           nios2-softmmu or1k-softmmu ppc-softmmu ppc64-sof=
-tmmu=20
-                           riscv32-softmmu riscv64-softmmu rx-softmmu=20
-                           s390x-softmmu sh4-softmmu sh4eb-softmmu=20
-                           sparc-softmmu sparc64-softmmu tricore-softmmu=20
-                           x86_64-softmmu xtensa-softmmu xtensaeb-softmmu=20
-                           aarch64-linux-user aarch64_be-linux-user=20
-                           alpha-linux-user arm-linux-user armeb-linux-user=
-=20
-                           cris-linux-user hppa-linux-user i386-linux-user=
-=20
-                           m68k-linux-user microblaze-linux-user=20
-                           microblazeel-linux-user mips-linux-user=20
-                           mips64-linux-user mips64el-linux-user=20
-                           mipsel-linux-user mipsn32-linux-user=20
-                           mipsn32el-linux-user nios2-linux-user=20
-                           or1k-linux-user ppc-linux-user ppc64-linux-user=
-=20
-                           ppc64le-linux-user riscv32-linux-user=20
-                           riscv64-linux-user s390x-linux-user sh4-linux-us=
-er=20
-                           sh4eb-linux-user sparc-linux-user=20
-                           sparc32plus-linux-user sparc64-linux-user=20
-                           x86_64-linux-user xtensa-linux-user=20
-                           xtensaeb-linux-user
-                           Deprecated targets:=20
-                           ppc64abi32-linux-user,tilegx-linux-user,lm32-sof=
-tmmu,
-                           unicore32-softmmu
-  --target-list-exclude=3DLIST exclude a set of targets from the default ta=
-rget-list
-
---=20
-Alex Benn=C3=A9e
 
