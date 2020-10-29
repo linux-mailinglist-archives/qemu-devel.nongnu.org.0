@@ -2,33 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E88429EE53
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:33:10 +0100 (CET)
-Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7821A29EE7B
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:39:09 +0100 (CET)
+Received: from localhost ([::1]:34916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY8zF-0002b7-4o
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:33:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
+	id 1kY952-0003EP-II
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:39:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kY8tw-0004Pt-7B; Thu, 29 Oct 2020 10:27:40 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2311)
+ id 1kY8tw-0004PH-1Y; Thu, 29 Oct 2020 10:27:40 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kY8ts-00064A-OS; Thu, 29 Oct 2020 10:27:39 -0400
+ id 1kY8tt-00064C-MV; Thu, 29 Oct 2020 10:27:39 -0400
 Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMST02d9Fzkb0w;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMST02y61zkc5K;
  Thu, 29 Oct 2020 22:27:32 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS414-HUB.china.huawei.com
  (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Thu, 29 Oct 2020
  22:27:22 +0800
 From: jokenzhang <zhangxinhao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v2 1/3] hw/9pfs : add spaces around operator
-Date: Thu, 29 Oct 2020 22:26:17 +0800
-Message-ID: <20201029142619.1309649-1-zhangxinhao1@huawei.com>
+Subject: [PATCH v2 2/3] hw/9pfs : open brace '{' following struct go on the
+ same line
+Date: Thu, 29 Oct 2020 22:26:18 +0800
+Message-ID: <20201029142619.1309649-2-zhangxinhao1@huawei.com>
 X-Mailer: git-send-email 2.29.0-rc1
+In-Reply-To: <20201029142619.1309649-1-zhangxinhao1@huawei.com>
+References: <20201029142619.1309649-1-zhangxinhao1@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -61,100 +64,49 @@ Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu_oss@crudebyte.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix code style. Operator needs spaces both sides.
+Fix code style. Open braces for struct should go on the same line.
 
 Signed-off-by: jokenzhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
 Reported-by: Euler Robot <euler.robot@huawei.com>
 ---
- hw/9pfs/9p-local.c | 10 +++++-----
- hw/9pfs/9p.c       | 16 ++++++++--------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ hw/9pfs/9p.h | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 3107637209..af52c1daac 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -162,13 +162,13 @@ static void local_mapped_file_attr(int dirfd, const char *name,
-     memset(buf, 0, ATTR_MAX);
-     while (fgets(buf, ATTR_MAX, fp)) {
-         if (!strncmp(buf, "virtfs.uid", 10)) {
--            stbuf->st_uid = atoi(buf+11);
-+            stbuf->st_uid = atoi(buf + 11);
-         } else if (!strncmp(buf, "virtfs.gid", 10)) {
--            stbuf->st_gid = atoi(buf+11);
-+            stbuf->st_gid = atoi(buf + 11);
-         } else if (!strncmp(buf, "virtfs.mode", 11)) {
--            stbuf->st_mode = atoi(buf+12);
-+            stbuf->st_mode = atoi(buf + 12);
-         } else if (!strncmp(buf, "virtfs.rdev", 11)) {
--            stbuf->st_rdev = atoi(buf+12);
-+            stbuf->st_rdev = atoi(buf + 12);
-         }
-         memset(buf, 0, ATTR_MAX);
-     }
-@@ -823,7 +823,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
-         if (fd == -1) {
-             goto out;
-         }
--        credp->fc_mode = credp->fc_mode|S_IFREG;
-+        credp->fc_mode = credp->fc_mode | S_IFREG;
-         if (fs_ctx->export_flags & V9FS_SM_MAPPED) {
-             /* Set cleint credentials in xattr */
-             err = local_set_xattrat(dirfd, name, credp);
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 741d222c3f..94df440fc7 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1091,7 +1091,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
-         }
-     }
+diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
+index 3dd1b50b1a..32df81f360 100644
+--- a/hw/9pfs/9p.h
++++ b/hw/9pfs/9p.h
+@@ -143,8 +143,7 @@ typedef struct {
+  */
+ QEMU_BUILD_BUG_ON(sizeof(P9MsgHeader) != 7);
  
--    if (!(ret&~0777)) {
-+    if (!(ret & ~0777)) {
-         ret |= S_IFREG;
-     }
+-struct V9fsPDU
+-{
++struct V9fsPDU {
+     uint32_t size;
+     uint16_t tag;
+     uint8_t id;
+@@ -270,8 +269,7 @@ union V9fsFidOpenState {
+     void *private;
+ };
  
-@@ -2776,7 +2776,7 @@ static void coroutine_fn v9fs_create(void *opaque)
-         v9fs_path_unlock(s);
-     } else {
-         err = v9fs_co_open2(pdu, fidp, &name, -1,
--                            omode_to_uflags(mode)|O_CREAT, perm, &stbuf);
-+                            omode_to_uflags(mode) | O_CREAT, perm, &stbuf);
-         if (err < 0) {
-             goto out;
-         }
-@@ -3428,7 +3428,7 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-      * compute bsize factor based on host file system block size
-      * and client msize
-      */
--    bsize_factor = (s->msize - P9_IOHDRSZ)/stbuf->f_bsize;
-+    bsize_factor = (s->msize - P9_IOHDRSZ) / stbuf->f_bsize;
-     if (!bsize_factor) {
-         bsize_factor = 1;
-     }
-@@ -3440,9 +3440,9 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-      * adjust(divide) the number of blocks, free blocks and available
-      * blocks by bsize factor
-      */
--    f_blocks = stbuf->f_blocks/bsize_factor;
--    f_bfree  = stbuf->f_bfree/bsize_factor;
--    f_bavail = stbuf->f_bavail/bsize_factor;
-+    f_blocks = stbuf->f_blocks / bsize_factor;
-+    f_bfree  = stbuf->f_bfree / bsize_factor;
-+    f_bavail = stbuf->f_bavail / bsize_factor;
-     f_files  = stbuf->f_files;
-     f_ffree  = stbuf->f_ffree;
-     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-@@ -4185,6 +4185,6 @@ static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
-         error_report("Failed to get the resource limit");
-         exit(1);
-     }
--    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur/3);
--    open_fd_rc = rlim.rlim_cur/2;
-+    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
-+    open_fd_rc = rlim.rlim_cur / 2;
- }
+-struct V9fsFidState
+-{
++struct V9fsFidState {
+     int fid_type;
+     int32_t fid;
+     V9fsPath path;
+@@ -338,8 +336,7 @@ typedef struct {
+     uint64_t path;
+ } QpfEntry;
+ 
+-struct V9fsState
+-{
++struct V9fsState {
+     QLIST_HEAD(, V9fsPDU) free_list;
+     QLIST_HEAD(, V9fsPDU) active_list;
+     V9fsFidState *fid_list;
 -- 
 2.29.0-rc1
 
