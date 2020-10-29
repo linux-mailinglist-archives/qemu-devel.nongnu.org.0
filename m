@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F9829F30B
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:25:07 +0100 (CET)
-Received: from localhost ([::1]:41794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7776729F334
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:28:53 +0100 (CET)
+Received: from localhost ([::1]:50646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYBfe-00017J-Rq
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:25:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37980)
+	id 1kYBjI-0004v8-Hz
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:28:52 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYBbn-0004c8-Q1
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:21:08 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45223)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYBbi-0003vP-OI
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:21:07 -0400
-Received: by mail-ej1-x630.google.com with SMTP id dk16so4292956ejb.12
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 10:21:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to;
- bh=VMzUzeNQrIX2+vMe2GrHUdKkSTLfIXJeqymGGOEeFaE=;
- b=xZXLo9Qhz38LJhLyP9Q347WEck/6ovEM69I8FmSRijEK8/c9lsw6JwzTattPCVRd26
- 7entz7tl+hsoMPO3a4O1UdeJNUIAwYGm4PqZexvL9+HfVwQPGzMpvekJBB8+chRY7B9r
- gem92Uh7Dj4pHpCNG/Lwosoyg+2Ypl7knWIta4LRXU44S1Z6meXUQEKGTlgH4DWT44AY
- g7gaRmumjaaILWzqW+mOJLtxI5UWWImFTSVeuc4yxxic24FtoaWwn8n2muWoZOivqAqR
- LoeJzRxGfGDQqg8cyOPMaJDHMjiBur69vKdw50TDakfF+/biRn0n138DMpLep4bgONgi
- y5tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=VMzUzeNQrIX2+vMe2GrHUdKkSTLfIXJeqymGGOEeFaE=;
- b=VTFvJJscgLmNXTF7EOcNb8IhcjkihrXnd8EyY/uYY/BLUYW2r/Mhurlamqj/b1g/nk
- yikq3LS6FQUtwgi03gRmp/LNsmK8ZkiEqrwr3cJ7jtqfDncxauhSsv5XZBrfmuo7oa60
- Mj+lKNwz7lsOYbLYtPI/Cy+sq/KV4UNQkz1TN9aTDu8qZJnksoYy2/rYfA5Vo3LbI+d7
- BgCbRsL3xInaF6vl6UN+uXTGjWZ/D5xUG2ej2M8INGMMaUdGUuzgMj33ZrjAsbgk+S84
- WpTMqzAGrviM2N3PCkDJv4BjVIa5Qjfx60duT6nYIGxvuPseqkoROO8P7DWPr2jntgxc
- fIGQ==
-X-Gm-Message-State: AOAM532PvI40OPmGwHfGLog7j6PRF/1W9Zx/gRaBNSWE+YpDyrzs+xud
- Vhid6+BtL5xIgzrU8NVIBt6GEAn1uWsNV1JqyFyaZAwviWE=
-X-Google-Smtp-Source: ABdhPJy7ynLiIZLyfF4HgGiNR/Ow2zCXMyxXi+YVR21In+HUcKX0p1D9tibUQXRBxO1OSdAMvwZy8i1CtSxdXgJkk4M=
-X-Received: by 2002:a17:907:9e3:: with SMTP id ce3mr5162416ejc.4.1603992060253; 
- Thu, 29 Oct 2020 10:21:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kYBdI-0007Tr-Iq
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:22:42 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kYBdF-00041O-L5
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:22:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1603992156;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EHPE8FoZ6hCRV7nSC0vpAbi6PuhSRg30Kat8BR7jWP0=;
+ b=gXOxLO77SrfHCT31d2r2h+Wg9P2rp1DFowuFGSe4pKt3pvxot9wXxV/Jf/b3cgWp1X4TZ7
+ DjTar9AWDzj4yerHQpCr6QLrs7N1ZbKUsIwxEg4t7b72axbp5DceADfZ432WfA/Reqw91C
+ 3nmNvpXzKbLmFNxQpirUCmn9wlt4ZmQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-40-XeTChwLUOcacJI9PRVQuoQ-1; Thu, 29 Oct 2020 13:22:33 -0400
+X-MC-Unique: XeTChwLUOcacJI9PRVQuoQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 040D510309B0;
+ Thu, 29 Oct 2020 17:22:23 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A884B5DA2A;
+ Thu, 29 Oct 2020 17:22:22 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] coverity_scan: switch to vpath build
+Date: Thu, 29 Oct 2020 13:22:21 -0400
+Message-Id: <20201029172222.3940324-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 29 Oct 2020 17:20:48 +0000
-Message-ID: <CAFEAcA-EsEZWDbUSy6_AXym5e-wP_B4buZYG0swF946ue41WKg@mail.gmail.com>
-Subject: recent flakiness (intermittent hangs) of migration-test
-To: QEMU Developers <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>, 
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,20 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Recently I've seen the 'make check' migration-test developing an
-intermittent hang; I've seen this now on aarch32 host several times
-and also on s390x host. The symptom is that the test just hangs
-with a couple of child qemu processes sitting around doing nothing.
-^Cing out of 'make check' doesn't kill the qemu processes; they
-seem to need a 'kill -9'.
+This is the patch that has been running on the coverity cronjob
+for a few weeks now.
 
-Sorry for the low-information-density bug report, but I don't really
-have time at the moment to debug failures in merge build test runs
-because the queue of stuff still to merge is enormous...
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/coverity-scan/run-coverity-scan | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-thanks
--- PMM
+diff --git a/scripts/coverity-scan/run-coverity-scan b/scripts/coverity-scan/run-coverity-scan
+index 6eefb4b558..7395bbfad4 100755
+--- a/scripts/coverity-scan/run-coverity-scan
++++ b/scripts/coverity-scan/run-coverity-scan
+@@ -380,15 +380,17 @@ export PATH="$TOOLBIN:$PATH"
+ 
+ cd "$SRCDIR"
+ 
+-echo "Doing make distclean..."
+-make distclean
++echo "Nuking build directory..."
++rm -rf +build
++mkdir +build
++cd +build
+ 
+ echo "Configuring..."
+ # We configure with a fixed set of enables here to ensure that we don't
+ # accidentally reduce the scope of the analysis by doing the build on
+ # the system that's missing a dependency that we need to build part of
+ # the codebase.
+-./configure --disable-modules --enable-sdl --enable-gtk \
++../configure --disable-modules --enable-sdl --enable-gtk \
+     --enable-opengl --enable-vte --enable-gnutls \
+     --enable-nettle --enable-curses --enable-curl \
+     --audio-drv-list=oss,alsa,sdl,pa --enable-virtfs \
+-- 
+2.26.2
+
 
