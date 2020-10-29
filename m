@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5224629E83A
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:04:11 +0100 (CET)
-Received: from localhost ([::1]:34420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5322529E86D
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 11:10:05 +0100 (CET)
+Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY4mw-0000vf-CL
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:04:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
+	id 1kY4se-00077Q-EK
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 06:10:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kY4kb-0007rB-NO
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:48 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40234)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kY4mK-0001Sg-M2
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:03:33 -0400
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:44463)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kY4kO-0007yB-Kr
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:01:40 -0400
-Received: by mail-wr1-x441.google.com with SMTP id m13so2054838wrj.7
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 03:01:31 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kY4mI-0000CK-Ut
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 06:03:32 -0400
+Received: by mail-ed1-x530.google.com with SMTP id w1so1280799edv.11
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 03:03:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=NgsgEF3cxh4a2QJyJ3yz8CSoN5GhmG6ImfMK4QDU38Q=;
- b=eGHuWm7a8YHGoQQJkRVDw9QsDr2F43cQVL2euxj7XBnjYPtt7Ib7g0Fn20LpIHzM47
- AeRkPIcP3DbwaJ6NXZg2r6ecLsBsD6o91apVoD6gYryRRyOKYestNhleAmHqSuM1+qyz
- CYCR7QIFKJXHbeCTDBP3r+bQ1E3vz1F42SOctC7E1xzUbbuFAjnYA/ZXCEOi8hdrXMFo
- j9SIq0z07Vcs/z9RucelrLvYmvli/8Kkkqepvn/93566Ch38fBldRiJk3vo+rjc1jZiU
- WsVXVdM7YuZmZ4BHH+ILPVAmBYZw8oz2yEtuSmn16ftgAavQQNSm3t/moMEUu/ymqq+f
- E1tQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=E2YCmm4hqIiNa7O/d+tl+9EEzjZMgYTXxABBb2o0uj8=;
+ b=GwS+i9Tj8FuePBiht52Z6qixTIHW4I9pBuYXa7ebuYV7T5dOqOJacgWh7v8nZpu+rz
+ v+hobu88QfOJkWXcmtGqS8hYuXGvddFe5cE4XNhLKOo4IanAk2KAaavpxxYb6bZaUfsc
+ 7w5saTQQswrhIu9OR6RmanCrwCfDZ4tPvBt6kx4yHX0PJvPRXxjmwPRvHiTIvgNNOtpf
+ 1jJjCG+xLlHyGawNjcCWY0ZdGlCcQggV1g+7PM/9TWnIcTjQcqOGZiOl/2SyhuqrgwKS
+ FYcrrKIPgqjgvarfnN9iuzaFqdiBFv24o8wpJ1gCAxCXjmiQodtYhQ0rV6lBRVgAh0gr
+ Gb+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=NgsgEF3cxh4a2QJyJ3yz8CSoN5GhmG6ImfMK4QDU38Q=;
- b=gtOFYDGi7DZ/dVyCUvnUjkWOcREfBDSPUvuwBJNvAbHDbuQZ8iZ8rFTwITwz8Ve8nU
- vK1tHVcslULmGU22k8kM+PfV917Ww3TTNNAypG3FWQ+u3uyq75lS3I3fN0iuVFcvqyTr
- R9NahB5XJQ3bG2dOI+IY4F7nvq6bI3T6J1T9XEwpLNG9Zdc8p93Jv+cvC9OuQoDi0fco
- ZnMO9+5QzOgCde63c2CbEVbSsmYcH8tqOGaeevba+O7PDD6xSRrNqOPttYtkp2nrA+l6
- j3oLY+W5Y13VPaPhzGeegS1kpZch7iKaAxbqXtxBYeWVp9PuWErJ+y9T8LlEq1ChozcK
- pwEQ==
-X-Gm-Message-State: AOAM530awPoY7T0rehxSSX7klfI1E2ScWWs4d/7+9eN7UCH5XiOjjxzd
- FJ8gsohiUaX/CRfl6dpP0FwfHA==
-X-Google-Smtp-Source: ABdhPJzWpStp+pVp+vl7p4xVCS8J5Ty0ezaMWiGhF7GJHh+IQlKU+PIE3IZJSNl53jpoBI09DxLgvA==
-X-Received: by 2002:a5d:448b:: with SMTP id j11mr4433017wrq.129.1603965689861; 
- Thu, 29 Oct 2020 03:01:29 -0700 (PDT)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m8sm4010179wrw.17.2020.10.29.03.01.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 03:01:28 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CD4601FF7E;
- Thu, 29 Oct 2020 10:01:27 +0000 (GMT)
-References: <20201028174406.23424-1-alex.bennee@linaro.org>
- <alpine.DEB.2.21.2010281406080.12247@sstabellini-ThinkPad-T480s>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefano Stabellini <sstabellini@kernel.org>
-Subject: Re: [PATCH] meson.build: fix building of Xen support for aarch64
-In-reply-to: <alpine.DEB.2.21.2010281406080.12247@sstabellini-ThinkPad-T480s>
-Date: Thu, 29 Oct 2020 10:01:27 +0000
-Message-ID: <87d011mjuw.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=E2YCmm4hqIiNa7O/d+tl+9EEzjZMgYTXxABBb2o0uj8=;
+ b=Vu/gvtwTvApI6OUF4mAWSxq3L6VlWmTrUam3sWNlVvtRbWZ0O4rnDL6FW8roDlLX1k
+ 3cIMnTKQSxGT7Mjg2/tbdt0vilrNIJBNDb4orawe31wKk8fvxy5KxLiQa4XgMXRAHd81
+ NnI7nmFhFtmcaNWpq66avT6Nwybh0QlovPcMtqB+xmilsnyjHxZmJ0v967hfR23SXZKK
+ aQ8ApWIc5YYMAFrDvLmvnzOkWoh2Y1BEnxtpj0l7D7ssn1hFXdOEOKojRxBs/DrjTjj1
+ p5JGgsXyjaK8XzTzZiZzkgI08L1Auw+oX74QxT0S5sfGkNrLJf+2oUuZHZsi9dnAKCFa
+ pB2Q==
+X-Gm-Message-State: AOAM5308GgoV1h/KqLW1+nUDdc65so4jS9MQ0TkL9iDQwsG3itIcM53o
+ jHUNkSN1jV5ZP3xG00iU/LOSAa7x9Y4EtjLKRfH8eQ==
+X-Google-Smtp-Source: ABdhPJzeH6mU/r2bkjqFbEQ7teexDjpfGuzqDj2N+i+ako99Ha+1HLetK8OGRZiBLL4KcZL1y9O2UsnTaBzZqdD1mog=
+X-Received: by 2002:aa7:c683:: with SMTP id n3mr3047688edq.146.1603965808891; 
+ Thu, 29 Oct 2020 03:03:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20201027095938.28673-1-alex.bennee@linaro.org>
+In-Reply-To: <20201027095938.28673-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 29 Oct 2020 10:03:17 +0000
+Message-ID: <CAFEAcA90vgR2FfPE08CkDLWPg3P89Cxo3LMrSSaHz6dwCp+Z=A@mail.gmail.com>
+Subject: Re: [PULL 0/8] testing and misc (gitdm, gitlab, docker, make)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,155 +80,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- qemu-devel@nongnu.org, Masami Hiramatsu <masami.hiramatsu@linaro.org>,
- Paul Durrant <paul@xen.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Stefano Stabellini <sstabellini@kernel.org> writes:
-
-> On Wed, 28 Oct 2020, Alex Benn=C3=A9e wrote:
->> Xen is supported on aarch64 although weirdly using the i386-softmmu
->> model. Checking based on the host CPU meant we never enabled Xen
->> support. It would be nice to enable CONFIG_XEN for aarch64-softmmu to
->> make it not seem weird but that will require further build surgery.
->>=20
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Cc: Masami Hiramatsu <masami.hiramatsu@linaro.org>
->> Cc: Stefano Stabellini <sstabellini@kernel.org>
->> Cc: Anthony Perard <anthony.perard@citrix.com>
->> Cc: Paul Durrant <paul@xen.org>
->> Fixes: 8a19980e3f ("configure: move accelerator logic to meson")
->> ---
->>  meson.build | 2 ++
->>  1 file changed, 2 insertions(+)
->>=20
->> diff --git a/meson.build b/meson.build
->> index 835424999d..f1fcbfed4c 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -81,6 +81,8 @@ if cpu in ['x86', 'x86_64']
->>      'CONFIG_HVF': ['x86_64-softmmu'],
->>      'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
->>    }
->> +elif cpu in [ 'arm', 'aarch64' ]
->> +  accelerator_targets +=3D { 'CONFIG_XEN': ['i386-softmmu'] }
->>  endif
+On Tue, 27 Oct 2020 at 09:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> This looks very reasonable -- the patch makes sense.
+> The following changes since commit 1dc887329a10903940501b43e8c0cc67af7c06=
+d5:
 >
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-202010=
+26' into staging (2020-10-26 17:19:26 +0000)
 >
-> However I have two questions, mostly for my own understanding. I tried
-> to repro the aarch64 build problem but it works at my end, even without
-> this patch.
-
-Building on a x86 host or with cross compiler?
-
-> I wonder why. I suspect it works thanks to these lines in
-> meson.build:
+> are available in the Git repository at:
 >
->   if not get_option('xen').disabled() and 'CONFIG_XEN_BACKEND' in config_=
-host
->     accelerators +=3D 'CONFIG_XEN'
->     have_xen_pci_passthrough =3D not get_option('xen_pci_passthrough').di=
-sabled() and targetos =3D=3D 'linux'
->   else
->     have_xen_pci_passthrough =3D false
->   endif
+>   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-271020-1
 >
-> But I am not entirely sure who is adding CONFIG_XEN_BACKEND to
-> config_host.
-
-The is part of the top level configure check - which basically checks
-for --enable-xen or autodetects the presence of the userspace libraries.
-I'm not sure if we have a slight over proliferation of symbols for Xen
-support (although I'm about to add more).
-
-> The other question is: does it make sense to print the value of
-> CONFIG_XEN as part of the summary? Something like:
+> for you to fetch changes up to c8e6cfba1291df2202bf406bb5137c9d365505d1:
 >
-> diff --git a/meson.build b/meson.build
-> index 47e32e1fcb..c6e7832dc9 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2070,6 +2070,7 @@ summary_info +=3D {'KVM support':       config_all.=
-has_key('CONFIG_KVM')}
->  summary_info +=3D {'HAX support':       config_all.has_key('CONFIG_HAX')}
->  summary_info +=3D {'HVF support':       config_all.has_key('CONFIG_HVF')}
->  summary_info +=3D {'WHPX support':      config_all.has_key('CONFIG_WHPX'=
-)}
-> +summary_info +=3D {'XEN support':      config_all.has_key('CONFIG_XEN')}
->  summary_info +=3D {'TCG support':       config_all.has_key('CONFIG_TCG')}
->  if config_all.has_key('CONFIG_TCG')
->    summary_info +=3D {'TCG debug enabled': config_host.has_key('CONFIG_DE=
-BUG_TCG')}
+>   makefile: handle -n / -k / -q correctly (2020-10-27 09:53:51 +0000)
 >
+> ----------------------------------------------------------------
+> Testing and gitdm updates
 >
-> But I realize there is already:
+>   - add some more individual contributors
+>   - include SDL2 in centos images
+>   - skip checkpatch check when no commits found
+>   - use random port for gdb reverse debugging
+>   - make gitlab use it's own mirrors to clone
+>   - fix detection of make -nqp
 >
-> summary_info +=3D {'xen support':       config_host.has_key('CONFIG_XEN_B=
-ACKEND')}
->
-> so it would be a bit of a duplicate
-
-Hmm so what we have is:
-
-  CONFIG_XEN_BACKEND
-    - ensures that appropriate compiler flags are added
-    - pegs RAM_ADDR_MAX at UINT64_MAX (instead of UINTPTR_MAX)
-  CONFIG_XEN
-    - which controls a bunch of build objects, some of which may be i386 on=
-ly?
-    ./accel/meson.build:15:specific_ss.add_all(when: ['CONFIG_XEN'], if_tru=
-e: dummy_ss)
-    ./accel/stubs/meson.build:2:specific_ss.add(when: 'CONFIG_XEN', if_fals=
-e: files('xen-stub.c'))
-    ./accel/xen/meson.build:1:specific_ss.add(when: 'CONFIG_XEN', if_true: =
-files('xen-all.c'))
-    ./hw/9pfs/meson.build:17:fs_ss.add(when: 'CONFIG_XEN', if_true: files('=
-xen-9p-backend.c'))
-    ./hw/block/dataplane/meson.build:2:specific_ss.add(when: 'CONFIG_XEN', =
-if_true: files('xen-block.c'))
-    ./hw/block/meson.build:14:softmmu_ss.add(when: 'CONFIG_XEN', if_true: f=
-iles('xen-block.c'))
-    ./hw/char/meson.build:23:softmmu_ss.add(when: 'CONFIG_XEN', if_true: fi=
-les('xen_console.c'))
-    ./hw/display/meson.build:18:softmmu_ss.add(when: 'CONFIG_XEN', if_true:=
- files('xenfb.c'))
-    ./hw/i386/xen/meson.build:1:i386_ss.add(when: 'CONFIG_XEN', if_true: fi=
-les('xen-hvm.c',
-                                                                           =
-    'xen-mapcache.c',
-                                                                           =
-    'xen_apic.c',
-                                                                           =
-    'xen_platform.c',
-                                                                           =
-    'xen_pvdevice.c')
-    ./hw/net/meson.build:2:softmmu_ss.add(when: 'CONFIG_XEN', if_true: file=
-s('xen_nic.c'))
-    ./hw/usb/meson.build:76:softmmu_ss.add(when: ['CONFIG_USB', 'CONFIG_XEN=
-', libusb], if_true: files('xen-usb.c'))
-    ./hw/xen/meson.build:1:softmmu_ss.add(when: ['CONFIG_XEN', xen], if_tru=
-e: files(
-    ./hw/xen/meson.build:20:specific_ss.add_all(when: ['CONFIG_XEN', xen], =
-if_true: xen_specific_ss)
-    ./hw/xenpv/meson.build:3:xenpv_ss.add(when: 'CONFIG_XEN', if_true: file=
-s('xen_machine_pv.c'))
-    - there are also some stubbed inline functions controlled by it
-  CONFIG_XEN_IGD_PASSTHROUGH
-    - specific x86 PC only feature via Kconfig rule
-  CONFIG_XEN_PCI_PASSTHROUGH
-    - control Linux specific specific feature (via meson rule)
+> ----------------------------------------------------------------
 
 
-First obvious question - is everything in hw/i386/xen actually i386
-only? APIC seems pretty PC orientated but what about xen_platform and
-pvdevice? There seem to be some dependancies on xen-mapcache across the
-code.
+Applied, thanks.
 
---=20
-Alex Benn=C3=A9e
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
