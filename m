@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0511F29F7C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:22:20 +0100 (CET)
-Received: from localhost ([::1]:55402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48AF129F7A8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:18:09 +0100 (CET)
+Received: from localhost ([::1]:43362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYGJG-0002Y8-VU
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:22:19 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42878)
+	id 1kYGFE-0005xt-AT
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:18:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG1e-0003ug-Ev
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42009)
+ id 1kYG1c-0003tN-12
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG1Q-0006eK-Pf
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:06 -0400
+ id 1kYG1R-0006eY-HT
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604009031;
+ s=mimecast20190719; t=1604009032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ghGtQGb+4l5vTeOq5EcJj/Yo0EHPLxl5VGbxEaF22Yo=;
- b=IXXiR5KXr56MuwZJW/5bMPZNiUiwXIhgMQStpzWI6eRVjvfAbA11pIjAfAuK73pWuZMvpS
- 6DM+RfrN2veLeLwdfyZdtf43ulMZPnFCeZJpXsCy3QiU6hVaU9TgpnTJuaBojy0SK3yS1V
- hTrw+beUuHW+5kdHAndkCB+t5kgh57Y=
+ bh=WMUrlr5Nzg2z1fF/Bg2uIbL8BR52n2nZGCLd1uOXnGQ=;
+ b=G0aOmEFnPJilttC1BJBvgQveyw2itaN1KtbKq73RG5OmgJcxtOxjDNRlCclVe793BwmJ5b
+ gtYMlL6nJfHDgAbcgFMecRf/ZZlBg4ITbh4sfiJnMCaQnY09SiQ9B7zzqqEW3p6TC8LpzK
+ pd8UvCvyQelgj6QsurqoBk8nrmiIz08=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-V-z-WGJaOwy6R88EMbiifg-1; Thu, 29 Oct 2020 18:03:50 -0400
-X-MC-Unique: V-z-WGJaOwy6R88EMbiifg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-461-S5_60EvlMuqRSSbN4f9fug-1; Thu, 29 Oct 2020 18:03:50 -0400
+X-MC-Unique: S5_60EvlMuqRSSbN4f9fug-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4722C1018F7A;
- Thu, 29 Oct 2020 22:03:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF845802B66
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:03:49 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8958D5B4A4;
- Thu, 29 Oct 2020 22:03:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4695A60C17;
+ Thu, 29 Oct 2020 22:03:49 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 25/36] qdev: Rename qdev_get_prop_ptr() to
- object_static_prop_ptr()
-Date: Thu, 29 Oct 2020 18:02:35 -0400
-Message-Id: <20201029220246.472693-26-ehabkost@redhat.com>
+Subject: [PATCH 26/36] qdev: Move softmmu properties to
+ qdev-properties-system.h
+Date: Thu, 29 Oct 2020 18:02:36 -0400
+Message-Id: <20201029220246.472693-27-ehabkost@redhat.com>
 In-Reply-To: <20201029220246.472693-1-ehabkost@redhat.com>
 References: <20201029220246.472693-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,694 +81,1106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
- Stefano Stabellini <sstabellini@kernel.org>, qemu-block@nongnu.org,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Alex Williamson <alex.williamson@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-s390x@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The function will be moved to common QOM code, as it is not
-specific to TYPE_DEVICE anymore.
+Move the property types and property macros implemented in
+qdev-properties-system.c to a new qdev-properties-system.h
+header.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
-Cc: Kevin Wolf <kwolf@redhat.com>
-Cc: Max Reitz <mreitz@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: "Daniel P. Berrangé" <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: qemu-devel@nongnu.org
-Cc: xen-devel@lists.xenproject.org
-Cc: qemu-block@nongnu.org
-Cc: qemu-s390x@nongnu.org
----
- include/hw/qdev-properties.h     |  2 +-
- backends/tpm/tpm_util.c          |  6 +--
- hw/block/xen-block.c             |  4 +-
- hw/core/qdev-properties-system.c | 46 +++++++++++------------
- hw/core/qdev-properties.c        | 64 ++++++++++++++++----------------
- hw/s390x/css.c                   |  4 +-
- hw/s390x/s390-pci-bus.c          |  4 +-
- hw/vfio/pci-quirks.c             |  4 +-
- 8 files changed, 67 insertions(+), 67 deletions(-)
+ audio/audio.h                       |  1 +
+ include/hw/block/block.h            |  1 +
+ include/hw/qdev-properties-system.h | 68 +++++++++++++++++++++++++++++
+ include/hw/qdev-properties.h        | 61 --------------------------
+ include/net/net.h                   |  1 +
+ hw/arm/pxa2xx.c                     |  1 +
+ hw/arm/strongarm.c                  |  1 +
+ hw/block/fdc.c                      |  1 +
+ hw/block/m25p80.c                   |  1 +
+ hw/block/nand.c                     |  1 +
+ hw/block/onenand.c                  |  1 +
+ hw/block/pflash_cfi01.c             |  1 +
+ hw/block/pflash_cfi02.c             |  1 +
+ hw/block/vhost-user-blk.c           |  1 +
+ hw/char/avr_usart.c                 |  1 +
+ hw/char/bcm2835_aux.c               |  1 +
+ hw/char/cadence_uart.c              |  1 +
+ hw/char/cmsdk-apb-uart.c            |  1 +
+ hw/char/debugcon.c                  |  1 +
+ hw/char/digic-uart.c                |  1 +
+ hw/char/escc.c                      |  1 +
+ hw/char/etraxfs_ser.c               |  1 +
+ hw/char/exynos4210_uart.c           |  1 +
+ hw/char/grlib_apbuart.c             |  1 +
+ hw/char/ibex_uart.c                 |  1 +
+ hw/char/imx_serial.c                |  1 +
+ hw/char/ipoctal232.c                |  1 +
+ hw/char/lm32_juart.c                |  1 +
+ hw/char/lm32_uart.c                 |  1 +
+ hw/char/mcf_uart.c                  |  1 +
+ hw/char/milkymist-uart.c            |  1 +
+ hw/char/nrf51_uart.c                |  1 +
+ hw/char/parallel.c                  |  1 +
+ hw/char/pl011.c                     |  1 +
+ hw/char/renesas_sci.c               |  1 +
+ hw/char/sclpconsole-lm.c            |  1 +
+ hw/char/sclpconsole.c               |  1 +
+ hw/char/serial-pci-multi.c          |  1 +
+ hw/char/serial.c                    |  1 +
+ hw/char/spapr_vty.c                 |  1 +
+ hw/char/stm32f2xx_usart.c           |  1 +
+ hw/char/terminal3270.c              |  1 +
+ hw/char/virtio-console.c            |  1 +
+ hw/char/xilinx_uartlite.c           |  1 +
+ hw/core/qdev-properties-system.c    |  1 +
+ hw/i386/kvm/i8254.c                 |  1 +
+ hw/ide/qdev.c                       |  1 +
+ hw/ipmi/ipmi_bmc_extern.c           |  1 +
+ hw/misc/ivshmem.c                   |  1 +
+ hw/misc/mac_via.c                   |  1 +
+ hw/misc/sifive_u_otp.c              |  1 +
+ hw/net/rocker/rocker.c              |  1 +
+ hw/nvram/eeprom_at24c.c             |  1 +
+ hw/nvram/spapr_nvram.c              |  1 +
+ hw/pci-bridge/gen_pcie_root_port.c  |  1 +
+ hw/pci/pci.c                        |  1 +
+ hw/ppc/pnv_pnor.c                   |  1 +
+ hw/rdma/vmw/pvrdma_main.c           |  1 +
+ hw/rtc/mc146818rtc.c                |  1 +
+ hw/scsi/scsi-disk.c                 |  1 +
+ hw/scsi/scsi-generic.c              |  1 +
+ hw/scsi/vhost-user-scsi.c           |  1 +
+ hw/sd/sd.c                          |  1 +
+ hw/usb/ccid-card-passthru.c         |  1 +
+ hw/usb/dev-serial.c                 |  1 +
+ hw/usb/redirect.c                   |  1 +
+ hw/vfio/pci.c                       |  1 +
+ hw/virtio/vhost-user-fs.c           |  1 +
+ hw/virtio/vhost-user-vsock.c        |  1 +
+ hw/virtio/virtio-iommu-pci.c        |  1 +
+ hw/xen/xen_pt.c                     |  1 +
+ migration/migration.c               |  1 +
+ 72 files changed, 138 insertions(+), 61 deletions(-)
+ create mode 100644 include/hw/qdev-properties-system.h
 
+diff --git a/audio/audio.h b/audio/audio.h
+index b883ebfb1f..21fe3226ae 100644
+--- a/audio/audio.h
++++ b/audio/audio.h
+@@ -28,6 +28,7 @@
+ #include "qemu/queue.h"
+ #include "qapi/qapi-types-audio.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ 
+ typedef void (*audio_callback_fn) (void *opaque, int avail);
+ 
+diff --git a/include/hw/block/block.h b/include/hw/block/block.h
+index 1e8b6253dd..c172cbe65f 100644
+--- a/include/hw/block/block.h
++++ b/include/hw/block/block.h
+@@ -13,6 +13,7 @@
+ 
+ #include "exec/hwaddr.h"
+ #include "qapi/qapi-types-block-core.h"
++#include "hw/qdev-properties-system.h"
+ 
+ /* Configuration */
+ 
+diff --git a/include/hw/qdev-properties-system.h b/include/hw/qdev-properties-system.h
+new file mode 100644
+index 0000000000..0792d5236e
+--- /dev/null
++++ b/include/hw/qdev-properties-system.h
+@@ -0,0 +1,68 @@
++#ifndef HW_QDEV_PROPERTIES_SYSTEM_H
++#define HW_QDEV_PROPERTIES_SYSTEM_H
++
++#include "hw/qdev-properties.h"
++
++extern const PropertyInfo qdev_prop_drive;
++extern const PropertyInfo qdev_prop_drive_iothread;
++extern const PropertyInfo qdev_prop_chr;
++extern const PropertyInfo qdev_prop_macaddr;
++extern const PropertyInfo qdev_prop_netdev;
++extern const PropertyInfo qdev_prop_audiodev;
++extern const PropertyInfo qdev_prop_losttickpolicy;
++extern const PropertyInfo qdev_prop_blocksize;
++extern const PropertyInfo qdev_prop_blockdev_on_error;
++extern const PropertyInfo qdev_prop_bios_chs_trans;
++extern const PropertyInfo qdev_prop_fdc_drive_type;
++extern const PropertyInfo qdev_prop_multifd_compression;
++extern const PropertyInfo qdev_prop_reserved_region;
++extern const PropertyInfo qdev_prop_pci_devfn;
++extern const PropertyInfo qdev_prop_pci_host_devaddr;
++extern const PropertyInfo qdev_prop_off_auto_pcibar;
++extern const PropertyInfo qdev_prop_pcie_link_speed;
++extern const PropertyInfo qdev_prop_pcie_link_width;
++
++#define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
++#define DEFINE_PROP_CHR(_n, _s, _f)             \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
++#define DEFINE_PROP_NETDEV(_n, _s, _f)             \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_netdev, NICPeers)
++#define DEFINE_PROP_DRIVE(_n, _s, _f) \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_drive, BlockBackend *)
++#define DEFINE_PROP_DRIVE_IOTHREAD(_n, _s, _f) \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_drive_iothread, BlockBackend *)
++#define DEFINE_PROP_MACADDR(_n, _s, _f)         \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_macaddr, MACAddr)
++#define DEFINE_PROP_RESERVED_REGION(_n, _s, _f)         \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_reserved_region, ReservedRegion)
++#define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_multifd_compression, \
++                       MultiFDCompression)
++#define DEFINE_PROP_LOSTTICKPOLICY(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_losttickpolicy, \
++                        LostTickPolicy)
++#define DEFINE_PROP_BLOCKDEV_ON_ERROR(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_blockdev_on_error, \
++                        BlockdevOnError)
++#define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
++#define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
++    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
++#define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAddress)
++#define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_off_auto_pcibar, \
++                        OffAutoPCIBAR)
++#define DEFINE_PROP_PCIE_LINK_SPEED(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pcie_link_speed, \
++                        PCIExpLinkSpeed)
++#define DEFINE_PROP_PCIE_LINK_WIDTH(_n, _s, _f, _d) \
++    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pcie_link_width, \
++                        PCIExpLinkWidth)
++#define DEFINE_PROP_AUDIODEV(_n, _s, _f) \
++    DEFINE_PROP(_n, _s, _f, qdev_prop_audiodev, QEMUSoundCard)
++
++
++
++#endif
 diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 0acc92ae2b..4146dac281 100644
+index 4146dac281..3a7b4c8643 100644
 --- a/include/hw/qdev-properties.h
 +++ b/include/hw/qdev-properties.h
-@@ -332,7 +332,7 @@ void qdev_prop_set_macaddr(DeviceState *dev, const char *name,
-                            const uint8_t *value);
- void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
+@@ -55,30 +55,12 @@ extern const PropertyInfo qdev_prop_uint64;
+ extern const PropertyInfo qdev_prop_int64;
+ extern const PropertyInfo qdev_prop_size;
+ extern const PropertyInfo qdev_prop_string;
+-extern const PropertyInfo qdev_prop_chr;
+ extern const PropertyInfo qdev_prop_tpm;
+-extern const PropertyInfo qdev_prop_macaddr;
+-extern const PropertyInfo qdev_prop_reserved_region;
+ extern const PropertyInfo qdev_prop_on_off_auto;
+-extern const PropertyInfo qdev_prop_multifd_compression;
+-extern const PropertyInfo qdev_prop_losttickpolicy;
+-extern const PropertyInfo qdev_prop_blockdev_on_error;
+-extern const PropertyInfo qdev_prop_bios_chs_trans;
+-extern const PropertyInfo qdev_prop_fdc_drive_type;
+-extern const PropertyInfo qdev_prop_drive;
+-extern const PropertyInfo qdev_prop_drive_iothread;
+-extern const PropertyInfo qdev_prop_netdev;
+-extern const PropertyInfo qdev_prop_pci_devfn;
+ extern const PropertyInfo qdev_prop_size32;
+-extern const PropertyInfo qdev_prop_blocksize;
+-extern const PropertyInfo qdev_prop_pci_host_devaddr;
+ extern const PropertyInfo qdev_prop_uuid;
+ extern const PropertyInfo qdev_prop_arraylen;
+-extern const PropertyInfo qdev_prop_audiodev;
+ extern const PropertyInfo qdev_prop_link;
+-extern const PropertyInfo qdev_prop_off_auto_pcibar;
+-extern const PropertyInfo qdev_prop_pcie_link_speed;
+-extern const PropertyInfo qdev_prop_pcie_link_width;
  
--void *qdev_get_prop_ptr(Object *obj, Property *prop);
-+void *object_static_prop_ptr(Object *obj, Property *prop);
+ #define DEFINE_PROP(_name, _state, _field, _prop, _type) { \
+         .name      = (_name),                                    \
+@@ -209,52 +191,12 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_int64, int64_t)
+ #define DEFINE_PROP_SIZE(_n, _s, _f, _d)                       \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_size, uint64_t)
+-#define DEFINE_PROP_PCI_DEVFN(_n, _s, _f, _d)                   \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pci_devfn, int32_t)
+-
+-#define DEFINE_PROP_CHR(_n, _s, _f)             \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_chr, CharBackend)
+ #define DEFINE_PROP_STRING(_n, _s, _f)             \
+     DEFINE_PROP(_n, _s, _f, qdev_prop_string, char*)
+-#define DEFINE_PROP_NETDEV(_n, _s, _f)             \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_netdev, NICPeers)
+-#define DEFINE_PROP_DRIVE(_n, _s, _f) \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_drive, BlockBackend *)
+-#define DEFINE_PROP_DRIVE_IOTHREAD(_n, _s, _f) \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_drive_iothread, BlockBackend *)
+-#define DEFINE_PROP_MACADDR(_n, _s, _f)         \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_macaddr, MACAddr)
+-#define DEFINE_PROP_RESERVED_REGION(_n, _s, _f)         \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_reserved_region, ReservedRegion)
+ #define DEFINE_PROP_ON_OFF_AUTO(_n, _s, _f, _d) \
+     DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_on_off_auto, OnOffAuto)
+-#define DEFINE_PROP_MULTIFD_COMPRESSION(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_multifd_compression, \
+-                       MultiFDCompression)
+-#define DEFINE_PROP_LOSTTICKPOLICY(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_losttickpolicy, \
+-                        LostTickPolicy)
+-#define DEFINE_PROP_BLOCKDEV_ON_ERROR(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_blockdev_on_error, \
+-                        BlockdevOnError)
+-#define DEFINE_PROP_BIOS_CHS_TRANS(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_bios_chs_trans, int)
+ #define DEFINE_PROP_SIZE32(_n, _s, _f, _d)                       \
+     DEFINE_PROP_UNSIGNED(_n, _s, _f, _d, qdev_prop_size32, uint32_t)
+-#define DEFINE_PROP_BLOCKSIZE(_n, _s, _f) \
+-    DEFINE_PROP_UNSIGNED(_n, _s, _f, 0, qdev_prop_blocksize, uint32_t)
+-#define DEFINE_PROP_PCI_HOST_DEVADDR(_n, _s, _f) \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_pci_host_devaddr, PCIHostDeviceAddress)
+-#define DEFINE_PROP_OFF_AUTO_PCIBAR(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_off_auto_pcibar, \
+-                        OffAutoPCIBAR)
+-#define DEFINE_PROP_PCIE_LINK_SPEED(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pcie_link_speed, \
+-                        PCIExpLinkSpeed)
+-#define DEFINE_PROP_PCIE_LINK_WIDTH(_n, _s, _f, _d) \
+-    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_pcie_link_width, \
+-                        PCIExpLinkWidth)
+-
+ #define DEFINE_PROP_UUID(_name, _state, _field) {                  \
+         .name      = (_name),                                      \
+         .info      = &qdev_prop_uuid,                              \
+@@ -262,9 +204,6 @@ extern const PropertyInfo qdev_prop_pcie_link_width;
+             + type_check(QemuUUID, typeof_field(_state, _field)),  \
+         .set_default = true,                                       \
+         }
+-#define DEFINE_PROP_AUDIODEV(_n, _s, _f) \
+-    DEFINE_PROP(_n, _s, _f, qdev_prop_audiodev, QEMUSoundCard)
+-
+ #define DEFINE_PROP_UUID_NODEFAULT(_name, _state, _field) {        \
+         .name      = (_name),                                      \
+         .info      = &qdev_prop_uuid,                              \
+diff --git a/include/net/net.h b/include/net/net.h
+index 897b2d7595..da48bc8254 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -4,6 +4,7 @@
+ #include "qemu/queue.h"
+ #include "qapi/qapi-types-net.h"
+ #include "net/queue.h"
++#include "hw/qdev-properties-system.h"
  
- void qdev_prop_register_global(GlobalProperty *prop);
- const GlobalProperty *qdev_find_global_prop(Object *obj,
-diff --git a/backends/tpm/tpm_util.c b/backends/tpm/tpm_util.c
-index 042cacfcca..2b5f788861 100644
---- a/backends/tpm/tpm_util.c
-+++ b/backends/tpm/tpm_util.c
-@@ -35,7 +35,7 @@
- static void get_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
+ #define MAC_FMT "%02X:%02X:%02X:%02X:%02X:%02X"
+ #define MAC_ARG(x) ((uint8_t *)(x))[0], ((uint8_t *)(x))[1], \
+diff --git a/hw/arm/pxa2xx.c b/hw/arm/pxa2xx.c
+index 591776ba88..9c8030a271 100644
+--- a/hw/arm/pxa2xx.c
++++ b/hw/arm/pxa2xx.c
+@@ -21,6 +21,7 @@
+ #include "hw/i2c/i2c.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/ssi/ssi.h"
+ #include "hw/sd/sd.h"
+ #include "chardev/char-fe.h"
+diff --git a/hw/arm/strongarm.c b/hw/arm/strongarm.c
+index ca7c385f31..c7ca54bcea 100644
+--- a/hw/arm/strongarm.c
++++ b/hw/arm/strongarm.c
+@@ -33,6 +33,7 @@
+ #include "hw/boards.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "strongarm.h"
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 4c2c35e223..3636874432 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -36,6 +36,7 @@
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "hw/block/block.h"
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 483925f57a..0ef7f00cb6 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -25,6 +25,7 @@
+ #include "qemu/units.h"
+ #include "sysemu/block-backend.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/ssi/ssi.h"
+ #include "migration/vmstate.h"
+ #include "qemu/bitops.h"
+diff --git a/hw/block/nand.c b/hw/block/nand.c
+index bcceb64ebb..5558f5d2fa 100644
+--- a/hw/block/nand.c
++++ b/hw/block/nand.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/hw.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/block/flash.h"
+ #include "sysemu/block-backend.h"
+ #include "migration/vmstate.h"
+diff --git a/hw/block/onenand.c b/hw/block/onenand.c
+index 5ff7be86bb..579a73d7f7 100644
+--- a/hw/block/onenand.c
++++ b/hw/block/onenand.c
+@@ -24,6 +24,7 @@
+ #include "hw/block/flash.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/block-backend.h"
+ #include "exec/memory.h"
+ #include "hw/sysbus.h"
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index f0fcd63f84..90baa72f82 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -40,6 +40,7 @@
+ #include "hw/block/block.h"
+ #include "hw/block/flash.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/block-backend.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index eb02fccfa5..e2d8a004fe 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -36,6 +36,7 @@
+ #include "hw/block/block.h"
+ #include "hw/block/flash.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "qemu/bitmap.h"
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index a076b1e54d..492dc73275 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -22,6 +22,7 @@
+ #include "qemu/cutils.h"
+ #include "hw/qdev-core.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/virtio/vhost.h"
+ #include "hw/virtio/vhost-user-blk.h"
+ #include "hw/virtio/virtio.h"
+diff --git a/hw/char/avr_usart.c b/hw/char/avr_usart.c
+index fbe2a112b7..5bcf9db0b7 100644
+--- a/hw/char/avr_usart.c
++++ b/hw/char/avr_usart.c
+@@ -24,6 +24,7 @@
+ #include "qemu/log.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ 
+ static int avr_usart_can_receive(void *opaque)
  {
--    TPMBackend **be = qdev_get_prop_ptr(obj, opaque);
-+    TPMBackend **be = object_static_prop_ptr(obj, opaque);
-     char *p;
+diff --git a/hw/char/bcm2835_aux.c b/hw/char/bcm2835_aux.c
+index dade2ab5fd..96410b1ff8 100644
+--- a/hw/char/bcm2835_aux.c
++++ b/hw/char/bcm2835_aux.c
+@@ -24,6 +24,7 @@
+ #include "hw/char/bcm2835_aux.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+diff --git a/hw/char/cadence_uart.c b/hw/char/cadence_uart.c
+index e196906c92..c603e14012 100644
+--- a/hw/char/cadence_uart.c
++++ b/hw/char/cadence_uart.c
+@@ -32,6 +32,7 @@
+ #include "hw/char/cadence_uart.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-clock.h"
++#include "hw/qdev-properties-system.h"
+ #include "trace.h"
  
-     p = g_strdup(*be ? (*be)->id : "");
-@@ -47,7 +47,7 @@ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
- {
-     Property *prop = opaque;
--    TPMBackend *s, **be = qdev_get_prop_ptr(obj, prop);
-+    TPMBackend *s, **be = object_static_prop_ptr(obj, prop);
-     char *str;
+ #ifdef CADENCE_UART_ERR_DEBUG
+diff --git a/hw/char/cmsdk-apb-uart.c b/hw/char/cmsdk-apb-uart.c
+index 626b68f2ec..ba2cbbee3d 100644
+--- a/hw/char/cmsdk-apb-uart.c
++++ b/hw/char/cmsdk-apb-uart.c
+@@ -27,6 +27,7 @@
+ #include "chardev/char-serial.h"
+ #include "hw/char/cmsdk-apb-uart.h"
+ #include "hw/irq.h"
++#include "hw/qdev-properties-system.h"
  
-     if (!visit_type_str(v, name, &str, errp)) {
-@@ -67,7 +67,7 @@ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
- static void release_tpm(Object *obj, const char *name, void *opaque)
- {
-     Property *prop = opaque;
--    TPMBackend **be = qdev_get_prop_ptr(obj, prop);
-+    TPMBackend **be = object_static_prop_ptr(obj, prop);
+ REG32(DATA, 0)
+ REG32(STATE, 4)
+diff --git a/hw/char/debugcon.c b/hw/char/debugcon.c
+index 2a063ad72c..fdb04fee09 100644
+--- a/hw/char/debugcon.c
++++ b/hw/char/debugcon.c
+@@ -30,6 +30,7 @@
+ #include "chardev/char-fe.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qom/object.h"
  
-     if (*be) {
-         tpm_backend_reset(*be);
-diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
-index bd1aef63a7..20985c465a 100644
---- a/hw/block/xen-block.c
-+++ b/hw/block/xen-block.c
-@@ -336,7 +336,7 @@ static void xen_block_get_vdev(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    XenBlockVdev *vdev = qdev_get_prop_ptr(obj, prop);
-+    XenBlockVdev *vdev = object_static_prop_ptr(obj, prop);
-     char *str;
+ #define TYPE_ISA_DEBUGCON_DEVICE "isa-debugcon"
+diff --git a/hw/char/digic-uart.c b/hw/char/digic-uart.c
+index e130cb4692..00e5df5517 100644
+--- a/hw/char/digic-uart.c
++++ b/hw/char/digic-uart.c
+@@ -35,6 +35,7 @@
  
-     switch (vdev->type) {
-@@ -396,7 +396,7 @@ static void xen_block_set_vdev(Object *obj, Visitor *v, const char *name,
-                                void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    XenBlockVdev *vdev = qdev_get_prop_ptr(obj, prop);
-+    XenBlockVdev *vdev = object_static_prop_ptr(obj, prop);
-     char *str, *p;
-     const char *end;
+ #include "hw/char/digic-uart.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
  
+ enum {
+     ST_RX_RDY = (1 << 0),
+diff --git a/hw/char/escc.c b/hw/char/escc.c
+index 7d16ee8688..52e7978287 100644
+--- a/hw/char/escc.c
++++ b/hw/char/escc.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+diff --git a/hw/char/etraxfs_ser.c b/hw/char/etraxfs_ser.c
+index d9fba2ae6c..6bee3ee18e 100644
+--- a/hw/char/etraxfs_ser.c
++++ b/hw/char/etraxfs_ser.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "chardev/char-fe.h"
+ #include "qemu/log.h"
+diff --git a/hw/char/exynos4210_uart.c b/hw/char/exynos4210_uart.c
+index 96afe3580f..6361df2ad3 100644
+--- a/hw/char/exynos4210_uart.c
++++ b/hw/char/exynos4210_uart.c
+@@ -32,6 +32,7 @@
+ #include "hw/arm/exynos4210.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ 
+ #include "trace.h"
+ #include "qom/object.h"
+diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
+index 3f80f6824e..82ff40a530 100644
+--- a/hw/char/grlib_apbuart.c
++++ b/hw/char/grlib_apbuart.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sparc/grlib.h"
+ #include "hw/sysbus.h"
+ #include "qemu/module.h"
+diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+index cc49a35013..89f1182c9b 100644
+--- a/hw/char/ibex_uart.c
++++ b/hw/char/ibex_uart.c
+@@ -30,6 +30,7 @@
+ #include "hw/irq.h"
+ #include "hw/qdev-clock.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+diff --git a/hw/char/imx_serial.c b/hw/char/imx_serial.c
+index 731b8fc64c..ee1375e26d 100644
+--- a/hw/char/imx_serial.c
++++ b/hw/char/imx_serial.c
+@@ -22,6 +22,7 @@
+ #include "hw/char/imx_serial.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+diff --git a/hw/char/ipoctal232.c b/hw/char/ipoctal232.c
+index ad000a39b9..3311e0872c 100644
+--- a/hw/char/ipoctal232.c
++++ b/hw/char/ipoctal232.c
+@@ -12,6 +12,7 @@
+ #include "hw/ipack/ipack.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qemu/bitops.h"
+ #include "qemu/module.h"
+diff --git a/hw/char/lm32_juart.c b/hw/char/lm32_juart.c
+index b97aacba91..c5ead05e08 100644
+--- a/hw/char/lm32_juart.c
++++ b/hw/char/lm32_juart.c
+@@ -26,6 +26,7 @@
+ 
+ #include "hw/char/lm32_juart.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qom/object.h"
+ 
+ enum {
+diff --git a/hw/char/lm32_uart.c b/hw/char/lm32_uart.c
+index 0e8b4e46a3..5cb87de548 100644
+--- a/hw/char/lm32_uart.c
++++ b/hw/char/lm32_uart.c
+@@ -25,6 +25,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
+diff --git a/hw/char/mcf_uart.c b/hw/char/mcf_uart.c
+index e6814faffb..6fa4ac502c 100644
+--- a/hw/char/mcf_uart.c
++++ b/hw/char/mcf_uart.c
+@@ -13,6 +13,7 @@
+ #include "qapi/error.h"
+ #include "hw/m68k/mcf.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "chardev/char-fe.h"
+ #include "qom/object.h"
+ 
+diff --git a/hw/char/milkymist-uart.c b/hw/char/milkymist-uart.c
+index 1e83dbcafa..09e2f6bd76 100644
+--- a/hw/char/milkymist-uart.c
++++ b/hw/char/milkymist-uart.c
+@@ -24,6 +24,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
+diff --git a/hw/char/nrf51_uart.c b/hw/char/nrf51_uart.c
+index d1fef77acd..045ca5fa40 100644
+--- a/hw/char/nrf51_uart.c
++++ b/hw/char/nrf51_uart.c
+@@ -18,6 +18,7 @@
+ #include "hw/char/nrf51_uart.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "trace.h"
+ 
+diff --git a/hw/char/parallel.c b/hw/char/parallel.c
+index 8b418abf71..b45e67bfbb 100644
+--- a/hw/char/parallel.c
++++ b/hw/char/parallel.c
+@@ -32,6 +32,7 @@
+ #include "hw/irq.h"
+ #include "hw/isa/isa.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "hw/char/parallel.h"
+ #include "sysemu/reset.h"
+diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+index ede16c781c..ea4a4e5235 100644
+--- a/hw/char/pl011.c
++++ b/hw/char/pl011.c
+@@ -23,6 +23,7 @@
+ #include "hw/irq.h"
+ #include "hw/sysbus.h"
+ #include "hw/qdev-clock.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "chardev/char-fe.h"
+ #include "qemu/log.h"
+diff --git a/hw/char/renesas_sci.c b/hw/char/renesas_sci.c
+index 5d7c6e6523..1c63467290 100644
+--- a/hw/char/renesas_sci.c
++++ b/hw/char/renesas_sci.c
+@@ -26,6 +26,7 @@
+ #include "hw/irq.h"
+ #include "hw/registerfields.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/char/renesas_sci.h"
+ #include "migration/vmstate.h"
+ 
+diff --git a/hw/char/sclpconsole-lm.c b/hw/char/sclpconsole-lm.c
+index 81f6d0ed4f..b9e9b2d453 100644
+--- a/hw/char/sclpconsole-lm.c
++++ b/hw/char/sclpconsole-lm.c
+@@ -23,6 +23,7 @@
+ #include "migration/vmstate.h"
+ #include "hw/s390x/event-facility.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/s390x/ebcdic.h"
+ #include "qom/object.h"
+ 
+diff --git a/hw/char/sclpconsole.c b/hw/char/sclpconsole.c
+index aa72ab40b9..c36b572222 100644
+--- a/hw/char/sclpconsole.c
++++ b/hw/char/sclpconsole.c
+@@ -20,6 +20,7 @@
+ #include "hw/s390x/sclp.h"
+ #include "migration/vmstate.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/s390x/event-facility.h"
+ #include "chardev/char-fe.h"
+ #include "qom/object.h"
+diff --git a/hw/char/serial-pci-multi.c b/hw/char/serial-pci-multi.c
+index 2cf3e44177..3a9f96c2d1 100644
+--- a/hw/char/serial-pci-multi.c
++++ b/hw/char/serial-pci-multi.c
+@@ -33,6 +33,7 @@
+ #include "hw/irq.h"
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ 
+ #define PCI_SERIAL_MAX_PORTS 4
+diff --git a/hw/char/serial.c b/hw/char/serial.c
+index 97f71879ff..d99daa7695 100644
+--- a/hw/char/serial.c
++++ b/hw/char/serial.c
+@@ -35,6 +35,7 @@
+ #include "qemu/error-report.h"
+ #include "trace.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ 
+ #define UART_LCR_DLAB	0x80	/* Divisor latch access bit */
+ 
+diff --git a/hw/char/spapr_vty.c b/hw/char/spapr_vty.c
+index e726d4d915..79eaa2fa52 100644
+--- a/hw/char/spapr_vty.c
++++ b/hw/char/spapr_vty.c
+@@ -8,6 +8,7 @@
+ #include "hw/ppc/spapr.h"
+ #include "hw/ppc/spapr_vio.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qom/object.h"
+ 
+ #define VTERM_BUFSIZE   16
+diff --git a/hw/char/stm32f2xx_usart.c b/hw/char/stm32f2xx_usart.c
+index 0d661be6d3..8df0832424 100644
+--- a/hw/char/stm32f2xx_usart.c
++++ b/hw/char/stm32f2xx_usart.c
+@@ -26,6 +26,7 @@
+ #include "hw/char/stm32f2xx_usart.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+ 
+diff --git a/hw/char/terminal3270.c b/hw/char/terminal3270.c
+index d77981bb6d..a9a46c8ed3 100644
+--- a/hw/char/terminal3270.c
++++ b/hw/char/terminal3270.c
+@@ -16,6 +16,7 @@
+ #include "qemu/module.h"
+ #include "chardev/char-fe.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/s390x/3270-ccw.h"
+ #include "qom/object.h"
+ 
+diff --git a/hw/char/virtio-console.c b/hw/char/virtio-console.c
+index bc752cf90f..6b132caa29 100644
+--- a/hw/char/virtio-console.c
++++ b/hw/char/virtio-console.c
+@@ -16,6 +16,7 @@
+ #include "qemu/module.h"
+ #include "trace.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/virtio/virtio-serial.h"
+ #include "qapi/error.h"
+ #include "qapi/qapi-events-char.h"
+diff --git a/hw/char/xilinx_uartlite.c b/hw/char/xilinx_uartlite.c
+index 2e773ec4c4..99b9a6f851 100644
+--- a/hw/char/xilinx_uartlite.c
++++ b/hw/char/xilinx_uartlite.c
+@@ -26,6 +26,7 @@
+ #include "qemu/log.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "qemu/module.h"
+ #include "chardev/char-fe.h"
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index d9355053d2..448d77ecab 100644
+index 448d77ecab..8cfa9a3d20 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -60,7 +60,7 @@ static void get_drive(Object *obj, Visitor *v, const char *name, void *opaque,
-                       Error **errp)
- {
-     Property *prop = opaque;
--    void **ptr = qdev_get_prop_ptr(obj, prop);
-+    void **ptr = object_static_prop_ptr(obj, prop);
-     const char *value;
-     char *p;
+@@ -12,6 +12,7 @@
  
-@@ -86,7 +86,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
- {
-     DeviceState *dev = DEVICE(obj);
-     Property *prop = opaque;
--    void **ptr = qdev_get_prop_ptr(obj, prop);
-+    void **ptr = object_static_prop_ptr(obj, prop);
-     char *str;
-     BlockBackend *blk;
-     bool blk_created = false;
-@@ -179,7 +179,7 @@ static void release_drive(Object *obj, const char *name, void *opaque)
- {
-     DeviceState *dev = DEVICE(obj);
-     Property *prop = opaque;
--    BlockBackend **ptr = qdev_get_prop_ptr(obj, prop);
-+    BlockBackend **ptr = object_static_prop_ptr(obj, prop);
+ #include "qemu/osdep.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qapi/error.h"
+ #include "qapi/visitor.h"
+ #include "qapi/qapi-types-block.h"
+diff --git a/hw/i386/kvm/i8254.c b/hw/i386/kvm/i8254.c
+index 40d84734e7..c73254e886 100644
+--- a/hw/i386/kvm/i8254.c
++++ b/hw/i386/kvm/i8254.c
+@@ -32,6 +32,7 @@
+ #include "sysemu/runstate.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/timer/i8254_internal.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/kvm.h"
+ #include "qom/object.h"
  
-     if (*ptr) {
-         AioContext *ctx = blk_get_aio_context(*ptr);
-@@ -212,7 +212,7 @@ const PropertyInfo qdev_prop_drive_iothread = {
- static void get_chr(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
- {
--    CharBackend *be = qdev_get_prop_ptr(obj, opaque);
-+    CharBackend *be = object_static_prop_ptr(obj, opaque);
-     char *p;
+diff --git a/hw/ide/qdev.c b/hw/ide/qdev.c
+index 27ff1f7f66..73499a6235 100644
+--- a/hw/ide/qdev.c
++++ b/hw/ide/qdev.c
+@@ -26,6 +26,7 @@
+ #include "qemu/module.h"
+ #include "hw/ide/internal.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/block-backend.h"
+ #include "sysemu/blockdev.h"
+ #include "hw/block/block.h"
+diff --git a/hw/ipmi/ipmi_bmc_extern.c b/hw/ipmi/ipmi_bmc_extern.c
+index c3f3306e66..e141a5cd45 100644
+--- a/hw/ipmi/ipmi_bmc_extern.c
++++ b/hw/ipmi/ipmi_bmc_extern.c
+@@ -35,6 +35,7 @@
+ #include "chardev/char-fe.h"
+ #include "hw/ipmi/ipmi.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qom/object.h"
  
-     p = g_strdup(be->chr && be->chr->label ? be->chr->label : "");
-@@ -224,7 +224,7 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
- {
-     Property *prop = opaque;
--    CharBackend *be = qdev_get_prop_ptr(obj, prop);
-+    CharBackend *be = object_static_prop_ptr(obj, prop);
-     Chardev *s;
-     char *str;
+diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
+index e321e5cb69..0505b52c98 100644
+--- a/hw/misc/ivshmem.c
++++ b/hw/misc/ivshmem.c
+@@ -23,6 +23,7 @@
+ #include "qemu/cutils.h"
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+ #include "sysemu/kvm.h"
+diff --git a/hw/misc/mac_via.c b/hw/misc/mac_via.c
+index 6db62dab7d..488d086a17 100644
+--- a/hw/misc/mac_via.c
++++ b/hw/misc/mac_via.c
+@@ -28,6 +28,7 @@
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/block-backend.h"
+ #include "trace.h"
+ #include "qemu/log.h"
+diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+index 60066375ab..4401787a5c 100644
+--- a/hw/misc/sifive_u_otp.c
++++ b/hw/misc/sifive_u_otp.c
+@@ -21,6 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/sysbus.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
+diff --git a/hw/net/rocker/rocker.c b/hw/net/rocker/rocker.c
+index 1af1e6fa2f..0fb8db1dee 100644
+--- a/hw/net/rocker/rocker.c
++++ b/hw/net/rocker/rocker.c
+@@ -18,6 +18,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "hw/pci/msix.h"
+ #include "net/net.h"
+diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+index 3e93dbbffb..af6f5dbb99 100644
+--- a/hw/nvram/eeprom_at24c.c
++++ b/hw/nvram/eeprom_at24c.c
+@@ -13,6 +13,7 @@
+ #include "qemu/module.h"
+ #include "hw/i2c/i2c.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/block-backend.h"
+ #include "qom/object.h"
  
-@@ -260,7 +260,7 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
- static void release_chr(Object *obj, const char *name, void *opaque)
- {
-     Property *prop = opaque;
--    CharBackend *be = qdev_get_prop_ptr(obj, prop);
-+    CharBackend *be = object_static_prop_ptr(obj, prop);
+diff --git a/hw/nvram/spapr_nvram.c b/hw/nvram/spapr_nvram.c
+index fc53a42572..9e51bc82ae 100644
+--- a/hw/nvram/spapr_nvram.c
++++ b/hw/nvram/spapr_nvram.c
+@@ -39,6 +39,7 @@
+ #include "hw/ppc/spapr.h"
+ #include "hw/ppc/spapr_vio.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qom/object.h"
  
-     qemu_chr_fe_deinit(be, false);
- }
-@@ -284,7 +284,7 @@ static void get_mac(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
- {
-     Property *prop = opaque;
--    MACAddr *mac = qdev_get_prop_ptr(obj, prop);
-+    MACAddr *mac = object_static_prop_ptr(obj, prop);
-     char buffer[2 * 6 + 5 + 1];
-     char *p = buffer;
+ struct SpaprNvram {
+diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_pcie_root_port.c
+index 8931afc049..ec9907917e 100644
+--- a/hw/pci-bridge/gen_pcie_root_port.c
++++ b/hw/pci-bridge/gen_pcie_root_port.c
+@@ -16,6 +16,7 @@
+ #include "hw/pci/msix.h"
+ #include "hw/pci/pcie_port.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qom/object.h"
  
-@@ -299,7 +299,7 @@ static void set_mac(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
- {
-     Property *prop = opaque;
--    MACAddr *mac = qdev_get_prop_ptr(obj, prop);
-+    MACAddr *mac = object_static_prop_ptr(obj, prop);
-     int i, pos;
-     char *str;
-     const char *p;
-@@ -361,7 +361,7 @@ static void get_netdev(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    NICPeers *peers_ptr = qdev_get_prop_ptr(obj, prop);
-+    NICPeers *peers_ptr = object_static_prop_ptr(obj, prop);
-     char *p = g_strdup(peers_ptr->ncs[0] ? peers_ptr->ncs[0]->name : "");
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 100c9381c2..2cd644285c 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -30,6 +30,7 @@
+ #include "hw/pci/pci_bus.h"
+ #include "hw/pci/pci_host.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/vmstate.h"
+ #include "monitor/monitor.h"
+diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
+index c365ee58b8..ef8dff03e0 100644
+--- a/hw/ppc/pnv_pnor.c
++++ b/hw/ppc/pnv_pnor.c
+@@ -17,6 +17,7 @@
+ #include "hw/loader.h"
+ #include "hw/ppc/pnv_pnor.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
  
-     visit_type_str(v, name, &p, errp);
-@@ -372,7 +372,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
+ static uint64_t pnv_pnor_read(void *opaque, hwaddr addr, unsigned size)
  {
-     Property *prop = opaque;
--    NICPeers *peers_ptr = qdev_get_prop_ptr(obj, prop);
-+    NICPeers *peers_ptr = object_static_prop_ptr(obj, prop);
-     NetClientState **ncs = peers_ptr->ncs;
-     NetClientState *peers[MAX_QUEUE_NUM];
-     int queues, err = 0, i = 0;
-@@ -434,7 +434,7 @@ static void get_audiodev(Object *obj, Visitor *v, const char* name,
-                          void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    QEMUSoundCard *card = qdev_get_prop_ptr(obj, prop);
-+    QEMUSoundCard *card = object_static_prop_ptr(obj, prop);
-     char *p = g_strdup(audio_get_id(card));
+diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
+index 77b1235a3f..8593570332 100644
+--- a/hw/rdma/vmw/pvrdma_main.c
++++ b/hw/rdma/vmw/pvrdma_main.c
+@@ -21,6 +21,7 @@
+ #include "hw/pci/msi.h"
+ #include "hw/pci/msix.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "cpu.h"
+ #include "trace.h"
+ #include "monitor/monitor.h"
+diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+index 7a38540cb9..5d0fcacd0c 100644
+--- a/hw/rtc/mc146818rtc.c
++++ b/hw/rtc/mc146818rtc.c
+@@ -30,6 +30,7 @@
+ #include "hw/acpi/aml-build.h"
+ #include "hw/irq.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qemu/timer.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/replay.h"
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index e859534eaf..f9a591cd17 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -34,6 +34,7 @@
+ #include "sysemu/blockdev.h"
+ #include "hw/block/block.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "sysemu/dma.h"
+ #include "sysemu/sysemu.h"
+ #include "qemu/cutils.h"
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index 2cb23ca891..9740f7e36a 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -19,6 +19,7 @@
+ #include "hw/scsi/scsi.h"
+ #include "migration/qemu-file-types.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/scsi/emulation.h"
+ #include "sysemu/block-backend.h"
+ #include "trace.h"
+diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
+index 7c0631656c..4666019442 100644
+--- a/hw/scsi/vhost-user-scsi.c
++++ b/hw/scsi/vhost-user-scsi.c
+@@ -21,6 +21,7 @@
+ #include "hw/fw-path-provider.h"
+ #include "hw/qdev-core.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/virtio/vhost.h"
+ #include "hw/virtio/vhost-backend.h"
+ #include "hw/virtio/vhost-user-scsi.h"
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 3091382614..fa07398c8c 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -42,6 +42,7 @@
+ #include "qapi/error.h"
+ #include "qemu/bitmap.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qemu/error-report.h"
+ #include "qemu/timer.h"
+ #include "qemu/log.h"
+diff --git a/hw/usb/ccid-card-passthru.c b/hw/usb/ccid-card-passthru.c
+index e8e9d37e88..c27c602697 100644
+--- a/hw/usb/ccid-card-passthru.c
++++ b/hw/usb/ccid-card-passthru.c
+@@ -14,6 +14,7 @@
+ #include <libcacard.h>
+ #include "chardev/char-fe.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
+index b1622b7c7f..504e1ef423 100644
+--- a/hw/usb/dev-serial.c
++++ b/hw/usb/dev-serial.c
+@@ -14,6 +14,7 @@
+ #include "qemu/error-report.h"
+ #include "qemu/module.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/usb.h"
+ #include "migration/vmstate.h"
+ #include "desc.h"
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index 3238de6bb8..0b7e0e15f4 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -42,6 +42,7 @@
+ #include <usbredirfilter.h>
  
-     visit_type_str(v, name, &p, errp);
-@@ -445,7 +445,7 @@ static void set_audiodev(Object *obj, Visitor *v, const char* name,
-                          void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    QEMUSoundCard *card = qdev_get_prop_ptr(obj, prop);
-+    QEMUSoundCard *card = object_static_prop_ptr(obj, prop);
-     AudioState *state;
-     int err = 0;
-     char *str;
-@@ -547,7 +547,7 @@ static void set_blocksize(Object *obj, Visitor *v, const char *name,
- {
-     DeviceState *dev = DEVICE(obj);
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
-     uint64_t value;
-     Error *local_err = NULL;
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/usb.h"
+ #include "migration/qemu-file-types.h"
+ #include "migration/vmstate.h"
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 0d83eb0e47..2e7e4bd6c7 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -27,6 +27,7 @@
+ #include "hw/pci/msix.h"
+ #include "hw/pci/pci_bridge.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "migration/vmstate.h"
+ #include "qemu/error-report.h"
+ #include "qemu/main-loop.h"
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index 1bc5d03a00..ed036ad9c1 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -16,6 +16,7 @@
+ #include "standard-headers/linux/virtio_fs.h"
+ #include "qapi/error.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/virtio/virtio-bus.h"
+ #include "hw/virtio/virtio-access.h"
+ #include "qemu/error-report.h"
+diff --git a/hw/virtio/vhost-user-vsock.c b/hw/virtio/vhost-user-vsock.c
+index 3534a39d62..a6f08c26b9 100644
+--- a/hw/virtio/vhost-user-vsock.c
++++ b/hw/virtio/vhost-user-vsock.c
+@@ -13,6 +13,7 @@
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/virtio/vhost-user-vsock.h"
  
-@@ -635,7 +635,7 @@ static void get_reserved_region(Object *obj, Visitor *v, const char *name,
-                                 void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    ReservedRegion *rr = qdev_get_prop_ptr(obj, prop);
-+    ReservedRegion *rr = object_static_prop_ptr(obj, prop);
-     char buffer[64];
-     char *p = buffer;
-     int rc;
-@@ -651,7 +651,7 @@ static void set_reserved_region(Object *obj, Visitor *v, const char *name,
-                                 void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    ReservedRegion *rr = qdev_get_prop_ptr(obj, prop);
-+    ReservedRegion *rr = object_static_prop_ptr(obj, prop);
-     Error *local_err = NULL;
-     const char *endptr;
-     char *str;
-@@ -713,7 +713,7 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    int32_t value, *ptr = qdev_get_prop_ptr(obj, prop);
-+    int32_t value, *ptr = object_static_prop_ptr(obj, prop);
-     unsigned int slot, fn, n;
-     char *str;
+ static const int user_feature_bits[] = {
+diff --git a/hw/virtio/virtio-iommu-pci.c b/hw/virtio/virtio-iommu-pci.c
+index 378f63b210..770c286be7 100644
+--- a/hw/virtio/virtio-iommu-pci.c
++++ b/hw/virtio/virtio-iommu-pci.c
+@@ -14,6 +14,7 @@
+ #include "virtio-pci.h"
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
+ #include "qom/object.h"
+diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+index 6d359ee486..3cbd08b10e 100644
+--- a/hw/xen/xen_pt.c
++++ b/hw/xen/xen_pt.c
+@@ -58,6 +58,7 @@
  
-@@ -751,7 +751,7 @@ invalid:
- static int print_pci_devfn(Object *obj, Property *prop, char *dest,
-                            size_t len)
- {
--    int32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    int32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     if (*ptr == -1) {
-         return snprintf(dest, len, "<unset>");
-@@ -775,7 +775,7 @@ static void get_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-                                  void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    PCIHostDeviceAddress *addr = qdev_get_prop_ptr(obj, prop);
-+    PCIHostDeviceAddress *addr = object_static_prop_ptr(obj, prop);
-     char buffer[] = "ffff:ff:ff.f";
-     char *p = buffer;
-     int rc = 0;
-@@ -801,7 +801,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-                                  void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    PCIHostDeviceAddress *addr = qdev_get_prop_ptr(obj, prop);
-+    PCIHostDeviceAddress *addr = object_static_prop_ptr(obj, prop);
-     char *str, *p;
-     const char *e;
-     unsigned long val;
-@@ -890,7 +890,7 @@ static void get_prop_pcielinkspeed(Object *obj, Visitor *v, const char *name,
-                                    void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    PCIExpLinkSpeed *p = qdev_get_prop_ptr(obj, prop);
-+    PCIExpLinkSpeed *p = object_static_prop_ptr(obj, prop);
-     int speed;
- 
-     switch (*p) {
-@@ -918,7 +918,7 @@ static void set_prop_pcielinkspeed(Object *obj, Visitor *v, const char *name,
-                                    void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    PCIExpLinkSpeed *p = qdev_get_prop_ptr(obj, prop);
-+    PCIExpLinkSpeed *p = object_static_prop_ptr(obj, prop);
-     int speed;
- 
-     if (!visit_type_enum(v, prop->name, &speed, prop->info->enum_table,
-@@ -960,7 +960,7 @@ static void get_prop_pcielinkwidth(Object *obj, Visitor *v, const char *name,
-                                    void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    PCIExpLinkWidth *p = qdev_get_prop_ptr(obj, prop);
-+    PCIExpLinkWidth *p = object_static_prop_ptr(obj, prop);
-     int width;
- 
-     switch (*p) {
-@@ -997,7 +997,7 @@ static void set_prop_pcielinkwidth(Object *obj, Visitor *v, const char *name,
-                                    void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    PCIExpLinkWidth *p = qdev_get_prop_ptr(obj, prop);
-+    PCIExpLinkWidth *p = object_static_prop_ptr(obj, prop);
-     int width;
- 
-     if (!visit_type_enum(v, prop->name, &width, prop->info->enum_table,
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index e4aba2b237..0b53e5ba63 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -51,7 +51,7 @@ void qdev_prop_allow_set_link_before_realize(const Object *obj,
-     }
- }
- 
--void *qdev_get_prop_ptr(Object *obj, Property *prop)
-+void *object_static_prop_ptr(Object *obj, Property *prop)
- {
-     void *ptr = obj;
-     ptr += prop->offset;
-@@ -97,7 +97,7 @@ void object_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
-                             void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    int *ptr = qdev_get_prop_ptr(obj, prop);
-+    int *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_enum(v, prop->name, ptr, prop->info->enum_table, errp);
- }
-@@ -106,7 +106,7 @@ void object_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
-                             void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    int *ptr = qdev_get_prop_ptr(obj, prop);
-+    int *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_enum(v, prop->name, ptr, prop->info->enum_table, errp);
- }
-@@ -135,7 +135,7 @@ static uint32_t qdev_get_prop_mask(Property *prop)
- 
- static void bit_prop_set(Object *obj, Property *props, bool val)
- {
--    uint32_t *p = qdev_get_prop_ptr(obj, props);
-+    uint32_t *p = object_static_prop_ptr(obj, props);
-     uint32_t mask = qdev_get_prop_mask(props);
-     if (val) {
-         *p |= mask;
-@@ -148,7 +148,7 @@ static void prop_get_bit(Object *obj, Visitor *v, const char *name,
-                          void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint32_t *p = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *p = object_static_prop_ptr(obj, prop);
-     bool value = (*p & qdev_get_prop_mask(prop)) != 0;
- 
-     visit_type_bool(v, name, &value, errp);
-@@ -189,7 +189,7 @@ static uint64_t qdev_get_prop_mask64(Property *prop)
- 
- static void bit64_prop_set(Object *obj, Property *props, bool val)
- {
--    uint64_t *p = qdev_get_prop_ptr(obj, props);
-+    uint64_t *p = object_static_prop_ptr(obj, props);
-     uint64_t mask = qdev_get_prop_mask64(props);
-     if (val) {
-         *p |= mask;
-@@ -202,7 +202,7 @@ static void prop_get_bit64(Object *obj, Visitor *v, const char *name,
-                            void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint64_t *p = qdev_get_prop_ptr(obj, prop);
-+    uint64_t *p = object_static_prop_ptr(obj, prop);
-     bool value = (*p & qdev_get_prop_mask64(prop)) != 0;
- 
-     visit_type_bool(v, name, &value, errp);
-@@ -234,7 +234,7 @@ static void get_bool(Object *obj, Visitor *v, const char *name, void *opaque,
-                      Error **errp)
- {
-     Property *prop = opaque;
--    bool *ptr = qdev_get_prop_ptr(obj, prop);
-+    bool *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_bool(v, name, ptr, errp);
- }
-@@ -243,7 +243,7 @@ static void set_bool(Object *obj, Visitor *v, const char *name, void *opaque,
-                      Error **errp)
- {
-     Property *prop = opaque;
--    bool *ptr = qdev_get_prop_ptr(obj, prop);
-+    bool *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_bool(v, name, ptr, errp);
- }
-@@ -261,7 +261,7 @@ static void get_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
-                       Error **errp)
- {
-     Property *prop = opaque;
--    uint8_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint8_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint8(v, name, ptr, errp);
- }
-@@ -270,7 +270,7 @@ static void set_uint8(Object *obj, Visitor *v, const char *name, void *opaque,
-                       Error **errp)
- {
-     Property *prop = opaque;
--    uint8_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint8_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint8(v, name, ptr, errp);
- }
-@@ -300,7 +300,7 @@ static void get_uint16(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint16_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint16_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint16(v, name, ptr, errp);
- }
-@@ -309,7 +309,7 @@ static void set_uint16(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint16_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint16_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint16(v, name, ptr, errp);
- }
-@@ -327,7 +327,7 @@ static void get_uint32(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint32(v, name, ptr, errp);
- }
-@@ -336,7 +336,7 @@ static void set_uint32(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint32(v, name, ptr, errp);
- }
-@@ -345,7 +345,7 @@ void object_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
-                              void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    int32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    int32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_int32(v, name, ptr, errp);
- }
-@@ -354,7 +354,7 @@ static void set_int32(Object *obj, Visitor *v, const char *name, void *opaque,
-                       Error **errp)
- {
-     Property *prop = opaque;
--    int32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    int32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_int32(v, name, ptr, errp);
- }
-@@ -379,7 +379,7 @@ static void get_uint64(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint64_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint64_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint64(v, name, ptr, errp);
- }
-@@ -388,7 +388,7 @@ static void set_uint64(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint64_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint64_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint64(v, name, ptr, errp);
- }
-@@ -397,7 +397,7 @@ static void get_int64(Object *obj, Visitor *v, const char *name,
-                       void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    int64_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    int64_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_int64(v, name, ptr, errp);
- }
-@@ -406,7 +406,7 @@ static void set_int64(Object *obj, Visitor *v, const char *name,
-                       void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    int64_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    int64_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_int64(v, name, ptr, errp);
- }
-@@ -430,14 +430,14 @@ const PropertyInfo qdev_prop_int64 = {
- static void release_string(Object *obj, const char *name, void *opaque)
- {
-     Property *prop = opaque;
--    g_free(*(char **)qdev_get_prop_ptr(obj, prop));
-+    g_free(*(char **)object_static_prop_ptr(obj, prop));
- }
- 
- static void get_string(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    char **ptr = qdev_get_prop_ptr(obj, prop);
-+    char **ptr = object_static_prop_ptr(obj, prop);
- 
-     if (!*ptr) {
-         char *str = (char *)"";
-@@ -451,7 +451,7 @@ static void set_string(Object *obj, Visitor *v, const char *name,
-                        void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    char **ptr = qdev_get_prop_ptr(obj, prop);
-+    char **ptr = object_static_prop_ptr(obj, prop);
-     char *str;
- 
-     if (!visit_type_str(v, name, &str, errp)) {
-@@ -485,7 +485,7 @@ void object_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
-     uint64_t value = *ptr;
- 
-     visit_type_size(v, name, &value, errp);
-@@ -495,7 +495,7 @@ static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
-                        Error **errp)
- {
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
-     uint64_t value;
- 
-     if (!visit_type_size(v, name, &value, errp)) {
-@@ -526,7 +526,7 @@ static void get_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
-                      Error **errp)
- {
-     Property *prop = opaque;
--    QemuUUID *uuid = qdev_get_prop_ptr(obj, prop);
-+    QemuUUID *uuid = object_static_prop_ptr(obj, prop);
-     char buffer[UUID_FMT_LEN + 1];
-     char *p = buffer;
- 
-@@ -541,7 +541,7 @@ static void set_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
-                     Error **errp)
- {
-     Property *prop = opaque;
--    QemuUUID *uuid = qdev_get_prop_ptr(obj, prop);
-+    QemuUUID *uuid = object_static_prop_ptr(obj, prop);
-     char *str;
- 
-     if (!visit_type_str(v, name, &str, errp)) {
-@@ -605,7 +605,7 @@ static ArrayElementProperty *array_element_new(Object *obj,
-      * being inside the device struct.
-      */
-     arrayprop->prop.offset = eltptr - (void *)obj;
--    assert(qdev_get_prop_ptr(obj, &arrayprop->prop) == eltptr);
-+    assert(object_static_prop_ptr(obj, &arrayprop->prop) == eltptr);
-     return arrayprop;
- }
- 
-@@ -646,7 +646,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-      * array itself and dynamically add the corresponding properties.
-      */
-     Property *prop = opaque;
--    uint32_t *alenptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *alenptr = object_static_prop_ptr(obj, prop);
-     void **arrayptr = (void *)obj + prop->arrayoffset;
-     void *eltptr;
-     const char *arrayname;
-@@ -867,7 +867,7 @@ static void get_size(Object *obj, Visitor *v, const char *name, void *opaque,
-                      Error **errp)
- {
-     Property *prop = opaque;
--    uint64_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint64_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_size(v, name, ptr, errp);
- }
-@@ -876,7 +876,7 @@ static void set_size(Object *obj, Visitor *v, const char *name, void *opaque,
-                      Error **errp)
- {
-     Property *prop = opaque;
--    uint64_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint64_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_size(v, name, ptr, errp);
- }
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index 46cab94e2b..c8e7ce232a 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -2344,7 +2344,7 @@ static void get_css_devid(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    CssDevId *dev_id = qdev_get_prop_ptr(obj, prop);
-+    CssDevId *dev_id = object_static_prop_ptr(obj, prop);
-     char buffer[] = "xx.x.xxxx";
-     char *p = buffer;
-     int r;
-@@ -2373,7 +2373,7 @@ static void set_css_devid(Object *obj, Visitor *v, const char *name,
-                           void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    CssDevId *dev_id = qdev_get_prop_ptr(obj, prop);
-+    CssDevId *dev_id = object_static_prop_ptr(obj, prop);
-     char *str;
-     int num, n1, n2;
-     unsigned int cssid, ssid, devid;
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index d02e93a192..74a469e91d 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -1248,7 +1248,7 @@ static void s390_pci_get_fid(Object *obj, Visitor *v, const char *name,
-                          void *opaque, Error **errp)
- {
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint32(v, name, ptr, errp);
- }
-@@ -1258,7 +1258,7 @@ static void s390_pci_set_fid(Object *obj, Visitor *v, const char *name,
- {
-     S390PCIBusDevice *zpci = S390_PCI_DEVICE(obj);
-     Property *prop = opaque;
--    uint32_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint32_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     if (!visit_type_uint32(v, name, ptr, errp)) {
-         return;
-diff --git a/hw/vfio/pci-quirks.c b/hw/vfio/pci-quirks.c
-index 802979635c..37cb9ab1fa 100644
---- a/hw/vfio/pci-quirks.c
-+++ b/hw/vfio/pci-quirks.c
-@@ -1489,7 +1489,7 @@ static void get_nv_gpudirect_clique_id(Object *obj, Visitor *v,
-                                        Error **errp)
- {
-     Property *prop = opaque;
--    uint8_t *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint8_t *ptr = object_static_prop_ptr(obj, prop);
- 
-     visit_type_uint8(v, name, ptr, errp);
- }
-@@ -1499,7 +1499,7 @@ static void set_nv_gpudirect_clique_id(Object *obj, Visitor *v,
-                                        Error **errp)
- {
-     Property *prop = opaque;
--    uint8_t value, *ptr = qdev_get_prop_ptr(obj, prop);
-+    uint8_t value, *ptr = object_static_prop_ptr(obj, prop);
- 
-     if (!visit_type_uint8(v, name, &value, errp)) {
-         return;
+ #include "hw/pci/pci.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "hw/xen/xen.h"
+ #include "hw/i386/pc.h"
+ #include "hw/xen/xen-legacy-backend.h"
+diff --git a/migration/migration.c b/migration/migration.c
+index 9bb4fee5ac..071e35ed44 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -52,6 +52,7 @@
+ #include "migration/colo.h"
+ #include "hw/boards.h"
+ #include "hw/qdev-properties.h"
++#include "hw/qdev-properties-system.h"
+ #include "monitor/monitor.h"
+ #include "net/announce.h"
+ #include "qemu/queue.h"
 -- 
 2.28.0
 
