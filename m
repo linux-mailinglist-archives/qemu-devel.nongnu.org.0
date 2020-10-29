@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D1B429EBD9
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 13:27:56 +0100 (CET)
-Received: from localhost ([::1]:41596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCE5229EBEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 13:37:22 +0100 (CET)
+Received: from localhost ([::1]:51772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY723-0005nl-74
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 08:27:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54410)
+	id 1kY7BB-00025b-Qx
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 08:37:21 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kY70L-0005Md-5B
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:26:09 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39210)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kY70J-0003ag-62
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:26:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603974365;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1UHVOXMcOLM2KzmXH74xiQeErVDqZAD6FIBToTVz340=;
- b=ZfCjXl5NdhE0nyFdm0Qk6/gPSe2Vgc+citP5mJ9VIjZfGG4GkvPoF6js5rcBXFukMJFS32
- qxpy6iz6jbx4wDg4eRnrTvvnVqu+YVv6pNNYNxdMGPuJedAqYI1nA07MVOdQxgeSYocNli
- koS72tc8vVdtahEWsiIQ2IQViVOVbOA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-166-6wF5JOQjOp-Mo9zDgyGL6A-1; Thu, 29 Oct 2020 08:26:03 -0400
-X-MC-Unique: 6wF5JOQjOp-Mo9zDgyGL6A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 527C818C9F51;
- Thu, 29 Oct 2020 12:26:02 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-114.ams2.redhat.com [10.36.113.114])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 824EA1002C01;
- Thu, 29 Oct 2020 12:25:57 +0000 (UTC)
-Subject: Re: [PATCH v2 8/8] configure: add [lm32|unicore32]-softmmu to
- deprecation logic
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
-References: <20200915134317.11110-1-alex.bennee@linaro.org>
- <20200915134317.11110-9-alex.bennee@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <599acb88-ab14-c8c7-5ba6-6526b6e7c629@redhat.com>
-Date: Thu, 29 Oct 2020 13:25:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kY79g-0001O3-0x
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:35:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kY79d-0006lE-LX
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 08:35:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kY79b-00012x-E4
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 12:35:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6956B2E804E
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 12:35:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200915134317.11110-9-alex.bennee@linaro.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.261, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2020 12:23:28 -0000
+From: Gustavo Romero <1900241@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided;
+ assignee=gromero@br.ibm.com; 
+X-Launchpad-Bug-Tags: kvm powerpc xive
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: sathnaga
+X-Launchpad-Bug-Reporter: Satheesh Rajendran (sathnaga)
+X-Launchpad-Bug-Modifier: Gustavo Romero (gromero)
+References: <160293454254.8431.993577940537988142.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160397420933.8731.9491736527520602012.launchpad@soybean.canonical.com>
+Subject: [Bug 1900241] Re: [regression][powerpc] some vcpus are found offline
+ inside guest with different vsmt setting from qemu-cmdline and breaks
+ subsequent vcpu hotplug operation (xive)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="96ff31b88b65a0d0ea73b89333fe7c4a2669d8fb"; Instance="production"
+X-Launchpad-Hash: c7dcd3e4acd2e72641997c6aa2213dc4d9a722ab
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 08:35:43
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,58 +75,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reply-To: Bug 1900241 <1900241@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/09/2020 15.43, Alex Bennée wrote:
-> While we are at it move the few places where they are into the
-> deprecation build bucket.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  configure      | 2 +-
->  .gitlab-ci.yml | 9 +++++----
->  .shippable.yml | 2 +-
->  3 files changed, 7 insertions(+), 6 deletions(-)
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Gustavo Romero (gromero)
 
- Hi Alex,
+-- =
 
-I noticed that these deprecated targets do not show up in the
-output of "configure --help" at all anymore:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1900241
 
- --target-list=LIST       set target list (default: build everything)
-                           Available targets: aarch64-softmmu alpha-softmmu 
-                           arm-softmmu avr-softmmu cris-softmmu hppa-softmmu 
-                           i386-softmmu m68k-softmmu microblazeel-softmmu 
-                           microblaze-softmmu mips64el-softmmu mips64-softmmu 
-                           mipsel-softmmu mips-softmmu moxie-softmmu 
-                           nios2-softmmu or1k-softmmu ppc64-softmmu ppc-softmmu 
-                           riscv32-softmmu riscv64-softmmu rx-softmmu 
-                           s390x-softmmu sh4eb-softmmu sh4-softmmu 
-                           sparc64-softmmu sparc-softmmu tricore-softmmu 
-                           x86_64-softmmu xtensaeb-softmmu xtensa-softmmu 
-                           aarch64_be-linux-user aarch64-linux-user 
-                           alpha-linux-user armeb-linux-user arm-linux-user 
-                           cris-linux-user hppa-linux-user i386-linux-user 
-                           m68k-linux-user microblazeel-linux-user 
-                           microblaze-linux-user mips64el-linux-user 
-                           mips64-linux-user mipsel-linux-user mips-linux-user 
-                           mipsn32el-linux-user mipsn32-linux-user 
-                           nios2-linux-user or1k-linux-user ppc64le-linux-user 
-                           ppc64-linux-user ppc-linux-user riscv32-linux-user 
-                           riscv64-linux-user s390x-linux-user sh4eb-linux-user 
-                           sh4-linux-user sparc32plus-linux-user 
-                           sparc64-linux-user sparc-linux-user 
-                           x86_64-linux-user xtensaeb-linux-user 
-                           xtensa-linux-user
+Title:
+  [regression][powerpc] some vcpus are found offline inside guest with
+  different vsmt setting from qemu-cmdline and breaks subsequent vcpu
+  hotplug operation (xive)
 
-The text "default: build everything" is now also not accurate anymore.
-How is a user who is still interested in these targets supposed to find
-the right --target-list parameters now?
+Status in QEMU:
+  New
 
- Thomas
+Bug description:
+  Env:
+  Host: Power9 HW ppc64le
 
+  # lscpu
+  Architecture:                    ppc64le
+  Byte Order:                      Little Endian
+  CPU(s):                          128
+  On-line CPU(s) list:             24-31,40-159
+  Thread(s) per core:              4
+  Core(s) per socket:              16
+  Socket(s):                       2
+  NUMA node(s):                    2
+  Model:                           2.3 (pvr 004e 1203)
+  Model name:                      POWER9, altivec supported
+  Frequency boost:                 enabled
+  CPU max MHz:                     3800.0000
+  CPU min MHz:                     2300.0000
+  L1d cache:                       1 MiB
+  L1i cache:                       1 MiB
+  L2 cache:                        8 MiB
+  L3 cache:                        160 MiB
+  NUMA node0 CPU(s):               24-31,40-79
+  NUMA node8 CPU(s):               80-159
+  Vulnerability Itlb multihit:     Not affected
+  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
+hread
+  Vulnerability Mds:               Not affected
+  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
+hread
+  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
+ieio)
+  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
+ ori31 speculation barrier enabled
+  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
+hardware accelerated), Software link stack flush
+  Vulnerability Srbds:             Not affected
+  Vulnerability Tsx async abort:   Not affected
+
+
+  Host Kernel: 5.9.0-0.rc8.28.fc34.ppc64le (Fedora rawhide)
+  Guest Kernel: Fedora33(5.8.6-301.fc33.ppc64le)
+
+  Qemu: e12ce85b2c79d83a340953291912875c30b3af06 (qemu/master)
+
+  =
+
+  Steps to reproduce:
+
+  Boot below kvm guest: (-M pseries,vsmt=3D2 -smp 8,cores=3D8,threads=3D1)
+
+   /home/sath/qemu/build/qemu-system-ppc64 -name vm1 -M pseries,vsmt=3D2
+  -accel kvm -m 4096  -smp 8,cores=3D8,threads=3D1 -nographic -nodefaults
+  -serial mon:stdio -vga none -nographic -device virtio-scsi-pci -drive
+  file=3D/home/sath/tests/data/avocado-vt/images/fdevel-
+  ppc64le.qcow2,if=3Dnone,id=3Dhd0,format=3Dqcow2,cache=3Dnone -device scsi-
+  hd,drive=3Dhd0
+
+  =
+
+  lscpu inside guest:
+  Actual:
+  [root@atest-guest ~]# lscpu
+  Architecture:                    ppc64le
+  Byte Order:                      Little Endian
+  CPU(s):                          8
+  On-line CPU(s) list:             0,2,4,6
+  Off-line CPU(s) list:            1,3,5,7 --------------------------NOK
+  Thread(s) per core:              1
+  Core(s) per socket:              4
+  Socket(s):                       1
+  NUMA node(s):                    1
+  Model:                           2.3 (pvr 004e 1203)
+  Model name:                      POWER9 (architected), altivec supported
+  Hypervisor vendor:               KVM
+  Virtualization type:             para
+  L1d cache:                       128 KiB
+  L1i cache:                       128 KiB
+  NUMA node0 CPU(s):               0,2,4,6
+  Vulnerability Itlb multihit:     Not affected
+  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
+hread
+  Vulnerability Mds:               Not affected
+  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
+hread
+  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
+ieio)
+  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
+ ori31 =
+
+                                   speculation barrier enabled
+  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
+hardwar
+                                   e accelerated), Software link stack flush
+  Vulnerability Srbds:             Not affected
+  Vulnerability Tsx async abort:   Not affected
+
+  =
+
+  Expected:
+
+  [root@atest-guest ~]# lscpu
+  Architecture:                    ppc64le
+  Byte Order:                      Little Endian
+  CPU(s):                          8
+  On-line CPU(s) list:             0-7
+  Thread(s) per core:              1
+  Core(s) per socket:              8
+  Socket(s):                       1
+  NUMA node(s):                    1
+  Model:                           2.3 (pvr 004e 1203)
+  Model name:                      POWER9 (architected), altivec supported
+  Hypervisor vendor:               KVM
+  Virtualization type:             para
+  L1d cache:                       256 KiB
+  L1i cache:                       256 KiB
+  NUMA node0 CPU(s):               0-7
+  Vulnerability Itlb multihit:     Not affected
+  Vulnerability L1tf:              Mitigation; RFI Flush, L1D private per t=
+hread
+  Vulnerability Mds:               Not affected
+  Vulnerability Meltdown:          Mitigation; RFI Flush, L1D private per t=
+hread
+  Vulnerability Spec store bypass: Mitigation; Kernel entry/exit barrier (e=
+ieio)
+  Vulnerability Spectre v1:        Mitigation; __user pointer sanitization,=
+ ori31 =
+
+                                   speculation barrier enabled
+  Vulnerability Spectre v2:        Mitigation; Software count cache flush (=
+hardwar
+                                   e accelerated), Software link stack flush
+  Vulnerability Srbds:             Not affected
+  Vulnerability Tsx async abort:   Not affected
+
+
+  There by further vcpuhotplug operation fails...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1900241/+subscriptions
 
