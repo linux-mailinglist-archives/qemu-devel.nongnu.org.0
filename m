@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E802C29F44E
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 19:54:32 +0100 (CET)
-Received: from localhost ([::1]:49458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1005C29F454
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 19:57:21 +0100 (CET)
+Received: from localhost ([::1]:53032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYD4C-0001nW-1J
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 14:54:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59962)
+	id 1kYD6u-0003Wc-2u
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 14:57:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYD2l-0001Jw-US
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 14:53:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58737)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYD57-0002M5-Gt
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 14:55:30 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32352)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYD2k-00080M-CW
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 14:53:03 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYD50-0008O3-Gu
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 14:55:29 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603997581;
+ s=mimecast20190719; t=1603997719;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Pzd4wP/7zfeWM3gIaOIKjxOM2z6m580NhWodcYV4yBg=;
- b=ICClzW5SJEUt9TR0axBiTCAapCV8/7xDJpi+yB9TyPAE0LEVof2Xj50wCZE2i87WgT9r99
- INT0ei1TWPAOua9RlT3z7Pxx51lEufGNJVsZXOzXBcsGfMIZ5bl4lfISjZEhMPnrpKUSX5
- u6Aao3fWzytD4f0pFnm3ao5F+TqEL6U=
+ bh=GrNscM+VMyaXi1Co8D0kkVgjGeqRhErYsW4l2XRfHEo=;
+ b=D8Azyk5Odq7nbnXDFJuj43g39Naw/jk8D4//iHbCMLjSsU1lLmVa1UHIGC3L705bv+Rjmy
+ NtkHzuwaQDLY+x+Q3Az7x2fwu9IajVNspxezzkWkqFDH4Y5eptIMXpUlzNMtZ5E5dj5dKB
+ jVJ5S3ZleGxFU9BfO+DNODHFEBLSFwo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-492-D7wnz4H9PzSZiCHUosZ0Dw-1; Thu, 29 Oct 2020 14:52:59 -0400
-X-MC-Unique: D7wnz4H9PzSZiCHUosZ0Dw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-328-BzBAZa9nNnCMOJlOWUP9pw-1; Thu, 29 Oct 2020 14:55:17 -0400
+X-MC-Unique: BzBAZa9nNnCMOJlOWUP9pw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A954A1020900;
- Thu, 29 Oct 2020 18:52:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 59F781097A91;
+ Thu, 29 Oct 2020 18:54:52 +0000 (UTC)
 Received: from [10.3.112.145] (ovpn-112-145.phx2.redhat.com [10.3.112.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13BD15DA2A;
- Thu, 29 Oct 2020 18:52:58 +0000 (UTC)
-Subject: Re: [PATCH 04/11] test-util-sockets: Factor out
- test_socket_unix_abstract_one()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AE3EE55764;
+ Thu, 29 Oct 2020 18:54:51 +0000 (UTC)
+Subject: Re: [PATCH 05/11] test-util-sockets: Synchronize properly, don't
+ sleep(1)
 To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 References: <20201029133833.3450220-1-armbru@redhat.com>
- <20201029133833.3450220-5-armbru@redhat.com>
+ <20201029133833.3450220-6-armbru@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <e34a1c54-d02f-4f22-540e-7f3d591c3047@redhat.com>
-Date: Thu, 29 Oct 2020 13:52:57 -0500
+Message-ID: <bbac60a2-c4d9-f3c8-dcb4-2822b5b0b9ba@redhat.com>
+Date: Thu, 29 Oct 2020 13:54:51 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201029133833.3450220-5-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201029133833.3450220-6-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -91,10 +91,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 10/29/20 8:38 AM, Markus Armbruster wrote:
+> The abstract sockets test spawns a thread to listen and a accept, and
+
+s/and a/and/
+
+> a second one to connect, with a sleep(1) in between to "ensure" the
+> former is listening when the latter tries to connect.  Review fail.
+> Risks spurious test failure, say when a heavily loaded machine doesn't
+> schedule the first thread quickly enough.  It's also slow.
+> 
+> Listen and accept in the main thread, and start the connect thread in
+> between.  Look ma, no sleep!  Run time drops from 2s wall clock to a
+> few milliseconds.
+> 
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->  tests/test-util-sockets.c | 48 ++++++++++++++++-----------------------
->  1 file changed, 20 insertions(+), 28 deletions(-)
+>  tests/test-util-sockets.c | 39 +++++++++++++--------------------------
+>  1 file changed, 13 insertions(+), 26 deletions(-)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
