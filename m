@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8866E29ED35
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 14:42:33 +0100 (CET)
-Received: from localhost ([::1]:45248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E218829ED71
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 14:47:43 +0100 (CET)
+Received: from localhost ([::1]:60804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY8CG-000185-Iw
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 09:42:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41168)
+	id 1kY8HG-0007c6-Vq
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 09:47:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kY88f-0005qM-GP
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:38:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42288)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kY88r-00060B-Im
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:39:01 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kY88c-0008JF-Om
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:38:49 -0400
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kY88k-0008Ln-D0
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:39:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603978725;
+ s=mimecast20190719; t=1603978732;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0aaI62MqpCVlWiqfeRGUdxe9LfKHQujWNQ0NbrrtWK8=;
- b=F9tPcrXx4hhnLs6FUv7kOnbkaJNObqv2DySXXI7BIty4C+RfwAWf+hdmk4/7PU0/VGjXL6
- 7pkXiWCVtw27OgEF9PwrCUDpB2zuNDyycThGwC35SRWmXQqNPbAOCW5D3sUHr68mHK2Pco
- h/654ozV06ZxXiymCMLXqCv+K+cJXxU=
+ bh=/OY7QJGK3vdY037YYRIecs8AA+sXSLcI4y2LIdA4Gn8=;
+ b=AljFCpQvP5eWaCwctH9UYuiBWqjI2ail1CHS4aF/hNHibYDEcZNDTKmXuGOtlq74mWeIiL
+ JzMNzTQGoq0ZLUPAzAUA34My3GeKO5t+icpYpc6cwCexc/laqNit+KCeFisJml4GRr+9Da
+ ewXN2j7CXtX/lGfooGnbaiwv8Gsn44o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-232-_6pBecWGO52W8yGO31eumg-1; Thu, 29 Oct 2020 09:38:44 -0400
-X-MC-Unique: _6pBecWGO52W8yGO31eumg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-228-BwRyBJJOP0GIp-vl4uyl9Q-1; Thu, 29 Oct 2020 09:38:49 -0400
+X-MC-Unique: BwRyBJJOP0GIp-vl4uyl9Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 418826D584;
- Thu, 29 Oct 2020 13:38:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6623807321;
+ Thu, 29 Oct 2020 13:38:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D8795D9EF;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D9735B4A9;
  Thu, 29 Oct 2020 13:38:43 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B2CC21132922; Thu, 29 Oct 2020 14:38:33 +0100 (CET)
+ id B60A1113275D; Thu, 29 Oct 2020 14:38:33 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 09/11] char-socket: Fix qemu_chr_socket_address() for abstract
+Subject: [PATCH 10/11] sockets: Bypass "replace empty @path" for abstract unix
  sockets
-Date: Thu, 29 Oct 2020 14:38:31 +0100
-Message-Id: <20201029133833.3450220-10-armbru@redhat.com>
+Date: Thu, 29 Oct 2020 14:38:32 +0100
+Message-Id: <20201029133833.3450220-11-armbru@redhat.com>
 In-Reply-To: <20201029133833.3450220-1-armbru@redhat.com>
 References: <20201029133833.3450220-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,39 +87,34 @@ Cc: kwolf@redhat.com, berrange@redhat.com, zxq_yx_007@163.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 776b97d360 "qemu-sockets: add abstract UNIX domain socket
-support" neglected to update qemu_chr_socket_address().  It shows
-shows neither @abstract nor @tight.  Fix that.
+unix_listen_saddr() replaces empty @path by unique value.  It obtains
+the value by creating and deleting a unique temporary file with
+mkstemp().  This is racy, as the comment explains.  It's also entirely
+undocumented as far as I can tell.  Goes back to commit d247d25f18
+"sockets: helper functions for qemu (Gerd Hoffman)", v0.10.0.
+
+Since abstract socket addresses have no connection with filesystem
+pathnames, making them up with mkstemp() seems inappropriate.  Bypass
+the replacement of empty @path.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- chardev/char-socket.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ util/qemu-sockets.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index 1ee5a8c295..dc1cf86ecf 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -443,10 +443,18 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
-                                s->is_listen ? ",server" : "");
-         break;
-     case SOCKET_ADDRESS_TYPE_UNIX:
--        return g_strdup_printf("%sunix:%s%s", prefix,
-+    {
-+        UnixSocketAddress *sa = &s->addr->u.q_unix;
-+
-+        return g_strdup_printf("%sunix:%s%s%s%s", prefix,
-                                s->addr->u.q_unix.path,
-+                               sa->has_abstract && sa->abstract
-+                               ? ",abstract" : "",
-+                               sa->has_tight && sa->tight
-+                               ? ",tight" : "",
-                                s->is_listen ? ",server" : "");
-         break;
-+    }
-     case SOCKET_ADDRESS_TYPE_FD:
-         return g_strdup_printf("%sfd:%s%s", prefix, s->addr->u.fd.str,
-                                s->is_listen ? ",server" : "");
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 801c5e3957..18c8de8cdb 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -871,7 +871,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr,
+         return -1;
+     }
+ 
+-    if (saddr->path && saddr->path[0]) {
++    if (saddr->path[0] || saddr->abstract) {
+         path = saddr->path;
+     } else {
+         const char *tmpdir = getenv("TMPDIR");
 -- 
 2.26.2
 
