@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF9A29F7E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:26:07 +0100 (CET)
-Received: from localhost ([::1]:41568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9B329F7CC
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 23:24:09 +0100 (CET)
+Received: from localhost ([::1]:34902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYGMw-000086-Ay
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:26:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42946)
+	id 1kYGL2-0005lQ-5Z
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 18:24:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG1h-0003wj-VP
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:11 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48118)
+ id 1kYG1n-0003xR-FL
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:19 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYG1d-0006fo-Jv
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:09 -0400
+ id 1kYG1d-0006g0-VP
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 18:04:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604009043;
+ s=mimecast20190719; t=1604009045;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lLBh8AHI5w5zORkGrS1PT6VyJYohW+X+eV7Twa8JhNg=;
- b=OHi6PUU4bPzggN6FqaggN1PQjmzAOqql5kqZdk6YnyWM3B3Gq39Qzycuo5L1tQWPB1QUca
- 4usRdORn0XZa7Ua05MQlHXXWOxhJtXTInflTLiRPqDduNqqr1CvMnVeW14iHINQGUj9jiY
- 5gtnJ8kxKwtUcn+eLvGoOAS/sdrwbnw=
+ bh=WaGICVKFJXVkLncju1zY88FyPaqJBQvQuxC4WR7cjZU=;
+ b=AWrE54+s1PNjAn3i6g1fSQDRBu5JEv/RBsoYliPZLX5wRiCTic8z85qoqP52rXMuDG7M07
+ OhnDJ789EaaqjE362b6eReUNdE08ojzivgixHIiI4DotgDUTGTsJpcHbs1KfkWVFIBlXFp
+ b1aHVduvY1ViaLu24YEp2uLLnx0CM0o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-54-e9vWb2IFMAaFYFaHdzI1Jg-1; Thu, 29 Oct 2020 18:04:01 -0400
-X-MC-Unique: e9vWb2IFMAaFYFaHdzI1Jg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-511-iSgGScHrNdaOptsD6ZFhyA-1; Thu, 29 Oct 2020 18:04:03 -0400
+X-MC-Unique: iSgGScHrNdaOptsD6ZFhyA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCAED10E2184
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:04:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3C8D49CC01
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:04:02 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CFC355780;
- Thu, 29 Oct 2020 22:04:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DF53260C17;
+ Thu, 29 Oct 2020 22:04:01 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 34/36] machine: Use DEFINE_PROP_STRING for string properties
-Date: Thu, 29 Oct 2020 18:02:44 -0400
-Message-Id: <20201029220246.472693-35-ehabkost@redhat.com>
+Subject: [PATCH 35/36] machine: Use DEFINE_PROP_BOOL for boolean properties
+Date: Thu, 29 Oct 2020 18:02:45 -0400
+Message-Id: <20201029220246.472693-36-ehabkost@redhat.com>
 In-Reply-To: <20201029220246.472693-1-ehabkost@redhat.com>
 References: <20201029220246.472693-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 01:47:28
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,266 +87,151 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Unfortunately, the "usb" property is not trivial because it
+actually represents a pair of booleans.  It probably should be
+replaced by a OnOffAuto property instead.
+
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- hw/core/machine.c | 166 ++++++----------------------------------------
- 1 file changed, 19 insertions(+), 147 deletions(-)
+ hw/core/machine.c | 77 +++--------------------------------------------
+ 1 file changed, 5 insertions(+), 72 deletions(-)
 
 diff --git a/hw/core/machine.c b/hw/core/machine.c
-index c5e0e79e6d..97e102911a 100644
+index 97e102911a..e62097526a 100644
 --- a/hw/core/machine.c
 +++ b/hw/core/machine.c
-@@ -27,6 +27,7 @@
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
- #include "migration/vmstate.h"
-+#include "qom/static-property.h"
- 
- GlobalProperty hw_compat_5_1[] = {
-     { "vhost-scsi", "num_queues", "1"},
-@@ -211,81 +212,6 @@ GlobalProperty hw_compat_2_1[] = {
- };
- const size_t hw_compat_2_1_len = G_N_ELEMENTS(hw_compat_2_1);
- 
--static char *machine_get_kernel(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->kernel_filename);
--}
--
--static void machine_set_kernel(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->kernel_filename);
--    ms->kernel_filename = g_strdup(value);
--}
--
--static char *machine_get_initrd(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->initrd_filename);
--}
--
--static void machine_set_initrd(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->initrd_filename);
--    ms->initrd_filename = g_strdup(value);
--}
--
--static char *machine_get_append(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->kernel_cmdline);
--}
--
--static void machine_set_append(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->kernel_cmdline);
--    ms->kernel_cmdline = g_strdup(value);
--}
--
--static char *machine_get_dtb(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->dtb);
--}
--
--static void machine_set_dtb(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->dtb);
--    ms->dtb = g_strdup(value);
--}
--
--static char *machine_get_dumpdtb(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->dumpdtb);
--}
--
--static void machine_set_dumpdtb(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->dumpdtb);
--    ms->dumpdtb = g_strdup(value);
--}
--
- static void machine_get_phandle_start(Object *obj, Visitor *v,
-                                       const char *name, void *opaque,
-                                       Error **errp)
-@@ -310,21 +236,6 @@ static void machine_set_phandle_start(Object *obj, Visitor *v,
+@@ -236,34 +236,6 @@ static void machine_set_phandle_start(Object *obj, Visitor *v,
      ms->phandle_start = value;
  }
  
--static char *machine_get_dt_compatible(Object *obj, Error **errp)
+-static bool machine_get_dump_guest_core(Object *obj, Error **errp)
 -{
 -    MachineState *ms = MACHINE(obj);
 -
--    return g_strdup(ms->dt_compatible);
+-    return ms->dump_guest_core;
 -}
 -
--static void machine_set_dt_compatible(Object *obj, const char *value, Error **errp)
+-static void machine_set_dump_guest_core(Object *obj, bool value, Error **errp)
 -{
 -    MachineState *ms = MACHINE(obj);
 -
--    g_free(ms->dt_compatible);
--    ms->dt_compatible = g_strdup(value);
+-    ms->dump_guest_core = value;
 -}
 -
- static bool machine_get_dump_guest_core(Object *obj, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
-@@ -353,6 +264,18 @@ static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
-     ms->mem_merge = value;
+-static bool machine_get_mem_merge(Object *obj, Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-
+-    return ms->mem_merge;
+-}
+-
+-static void machine_set_mem_merge(Object *obj, bool value, Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-
+-    ms->mem_merge = value;
+-}
+-
+ static Property machine_props[] = {
+     DEFINE_PROP_STRING("kernel", MachineState, kernel_filename),
+     DEFINE_PROP_STRING("initrd", MachineState, initrd_filename),
+@@ -273,6 +245,10 @@ static Property machine_props[] = {
+     DEFINE_PROP_STRING("dt-compatible", MachineState, dt_compatible),
+     DEFINE_PROP_STRING("firmware", MachineState, firmware),
+     DEFINE_PROP_STRING("memory-backend", MachineState, ram_memdev_id),
++    DEFINE_PROP_BOOL("dump-guest-core", MachineState, dump_guest_core, true),
++    DEFINE_PROP_BOOL("mem-merge", MachineState, mem_merge, true),
++    DEFINE_PROP_BOOL("graphics", MachineState, enable_graphics, true),
++    DEFINE_PROP_BOOL("suppress-vmdesc", MachineState, suppress_vmdesc, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -291,34 +267,6 @@ static void machine_set_usb(Object *obj, bool value, Error **errp)
+     ms->usb_disabled = !value;
  }
  
-+static Property machine_props[] = {
-+    DEFINE_PROP_STRING("kernel", MachineState, kernel_filename),
-+    DEFINE_PROP_STRING("initrd", MachineState, initrd_filename),
-+    DEFINE_PROP_STRING("append", MachineState, kernel_cmdline),
-+    DEFINE_PROP_STRING("dtb", MachineState, dtb),
-+    DEFINE_PROP_STRING("dumpdtb", MachineState, dumpdtb),
-+    DEFINE_PROP_STRING("dt-compatible", MachineState, dt_compatible),
-+    DEFINE_PROP_STRING("firmware", MachineState, firmware),
-+    DEFINE_PROP_STRING("memory-backend", MachineState, ram_memdev_id),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static bool machine_get_usb(Object *obj, Error **errp)
- {
-     MachineState *ms = MACHINE(obj);
-@@ -382,21 +305,6 @@ static void machine_set_graphics(Object *obj, bool value, Error **errp)
-     ms->enable_graphics = value;
- }
- 
--static char *machine_get_firmware(Object *obj, Error **errp)
+-static bool machine_get_graphics(Object *obj, Error **errp)
 -{
 -    MachineState *ms = MACHINE(obj);
 -
--    return g_strdup(ms->firmware);
+-    return ms->enable_graphics;
 -}
 -
--static void machine_set_firmware(Object *obj, const char *value, Error **errp)
+-static void machine_set_graphics(Object *obj, bool value, Error **errp)
 -{
 -    MachineState *ms = MACHINE(obj);
 -
--    g_free(ms->firmware);
--    ms->firmware = g_strdup(value);
+-    ms->enable_graphics = value;
 -}
 -
- static void machine_set_suppress_vmdesc(Object *obj, bool value, Error **errp)
+-static void machine_set_suppress_vmdesc(Object *obj, bool value, Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-
+-    ms->suppress_vmdesc = value;
+-}
+-
+-static bool machine_get_suppress_vmdesc(Object *obj, Error **errp)
+-{
+-    MachineState *ms = MACHINE(obj);
+-
+-    return ms->suppress_vmdesc;
+-}
+-
+ static char *machine_get_memory_encryption(Object *obj, Error **errp)
  {
      MachineState *ms = MACHINE(obj);
-@@ -519,21 +427,6 @@ static void validate_sysbus_device(SysBusDevice *sbdev, void *opaque)
+@@ -339,7 +287,7 @@ static void machine_set_memory_encryption(Object *obj, const char *value,
+      * so there's no point in it trying to merge areas.
+      */
+     if (value) {
+-        machine_set_mem_merge(obj, false, errp);
++        ms->mem_merge = false;
      }
  }
  
--static char *machine_get_memdev(Object *obj, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    return g_strdup(ms->ram_memdev_id);
--}
--
--static void machine_set_memdev(Object *obj, const char *value, Error **errp)
--{
--    MachineState *ms = MACHINE(obj);
--
--    g_free(ms->ram_memdev_id);
--    ms->ram_memdev_id = g_strdup(value);
--}
--
- 
- static void machine_init_notify(Notifier *notifier, void *data)
- {
-@@ -773,28 +666,20 @@ static void machine_class_init(ObjectClass *oc, void *data)
-      */
-     mc->numa_mem_align_shift = 23;
- 
--    object_class_property_add_str(oc, "kernel",
--        machine_get_kernel, machine_set_kernel);
-+    /*
-+     * TODO: provide a allow_set callback and prevent properties
-+     * from being set after machine was already initialized
-+     */
-+    object_class_add_static_props(oc, machine_props, NULL);
-+
-     object_class_property_set_description(oc, "kernel",
-         "Linux kernel image file");
--
--    object_class_property_add_str(oc, "initrd",
--        machine_get_initrd, machine_set_initrd);
-     object_class_property_set_description(oc, "initrd",
-         "Linux initial ramdisk file");
--
--    object_class_property_add_str(oc, "append",
--        machine_get_append, machine_set_append);
-     object_class_property_set_description(oc, "append",
-         "Linux kernel command line");
--
--    object_class_property_add_str(oc, "dtb",
--        machine_get_dtb, machine_set_dtb);
-     object_class_property_set_description(oc, "dtb",
-         "Linux kernel device tree file");
--
--    object_class_property_add_str(oc, "dumpdtb",
--        machine_get_dumpdtb, machine_set_dumpdtb);
-     object_class_property_set_description(oc, "dumpdtb",
-         "Dump current dtb to a file and quit");
- 
-@@ -804,8 +689,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "phandle-start",
-         "The first phandle ID we may generate dynamically");
- 
--    object_class_property_add_str(oc, "dt-compatible",
--        machine_get_dt_compatible, machine_set_dt_compatible);
+@@ -692,13 +640,8 @@ static void machine_class_init(ObjectClass *oc, void *data)
      object_class_property_set_description(oc, "dt-compatible",
          "Overrides the \"compatible\" property of the dt root node");
  
-@@ -829,8 +712,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
+-    object_class_property_add_bool(oc, "dump-guest-core",
+-        machine_get_dump_guest_core, machine_set_dump_guest_core);
+     object_class_property_set_description(oc, "dump-guest-core",
+         "Include guest memory in a core dump");
+-
+-    object_class_property_add_bool(oc, "mem-merge",
+-        machine_get_mem_merge, machine_set_mem_merge);
+     object_class_property_set_description(oc, "mem-merge",
+         "Enable/disable memory merge support");
+ 
+@@ -707,16 +650,10 @@ static void machine_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "usb",
+         "Set on/off to enable/disable usb");
+ 
+-    object_class_property_add_bool(oc, "graphics",
+-        machine_get_graphics, machine_set_graphics);
      object_class_property_set_description(oc, "graphics",
          "Set on/off to enable/disable graphics emulation");
- 
--    object_class_property_add_str(oc, "firmware",
--        machine_get_firmware, machine_set_firmware);
+-
      object_class_property_set_description(oc, "firmware",
          "Firmware image");
+-
+-    object_class_property_add_bool(oc, "suppress-vmdesc",
+-        machine_get_suppress_vmdesc, machine_set_suppress_vmdesc);
+     object_class_property_set_description(oc, "suppress-vmdesc",
+         "Set on to disable self-describing migration");
  
-@@ -844,8 +725,6 @@ static void machine_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "memory-encryption",
-         "Set memory encryption object to use");
- 
--    object_class_property_add_str(oc, "memory-backend",
--                                  machine_get_memdev, machine_set_memdev);
-     object_class_property_set_description(oc, "memory-backend",
-                                           "Set RAM backend"
-                                           "Valid value is ID of hostmem based backend");
-@@ -920,13 +799,6 @@ static void machine_finalize(Object *obj)
- {
+@@ -751,10 +688,6 @@ static void machine_initfn(Object *obj)
      MachineState *ms = MACHINE(obj);
+     MachineClass *mc = MACHINE_GET_CLASS(obj);
  
--    g_free(ms->kernel_filename);
--    g_free(ms->initrd_filename);
--    g_free(ms->kernel_cmdline);
--    g_free(ms->dtb);
--    g_free(ms->dumpdtb);
--    g_free(ms->dt_compatible);
--    g_free(ms->firmware);
-     g_free(ms->device_memory);
-     g_free(ms->nvdimms_state);
-     g_free(ms->numa_state);
+-    ms->dump_guest_core = true;
+-    ms->mem_merge = true;
+-    ms->enable_graphics = true;
+-
+     if (mc->nvdimm_supported) {
+         Object *obj = OBJECT(ms);
+ 
 -- 
 2.28.0
 
