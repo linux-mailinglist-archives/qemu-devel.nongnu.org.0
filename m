@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4707A29E3A0
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 08:05:33 +0100 (CET)
-Received: from localhost ([::1]:56562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFA829E3A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 08:08:18 +0100 (CET)
+Received: from localhost ([::1]:33390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY204-0007DB-Cq
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 03:05:32 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57688)
+	id 1kY22j-0000yh-Ar
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 03:08:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kY1x8-0005me-L3
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 03:02:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1kY1x5-0001Ag-GJ
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 03:02:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603954943;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1LCiOkbrK+4ryCpKLa/LqV2l45XFLIjZnvH/1qu+hY0=;
- b=gnRPf5rpHWKNLjyvabElPn6MeSQBqt0xbI2iDMlfyr7I7POKTpcXctvYRG5Tf38qjDwGbC
- j6ui0AIsyL9a5CHeRAKkhOo7U1EAQHX4QV9ReqXjrSKNjIq3CBI1JKktoKHPGuZx9b2SE1
- dZdTVKrR944q1UNxcklp1T5ik9WopQ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-GZfNoBqrN7GQIBSCeA8CfQ-1; Thu, 29 Oct 2020 03:02:20 -0400
-X-MC-Unique: GZfNoBqrN7GQIBSCeA8CfQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 929B81009E39;
- Thu, 29 Oct 2020 07:02:19 +0000 (UTC)
-Received: from [10.72.12.209] (ovpn-12-209.pek2.redhat.com [10.72.12.209])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AE74C6EF6A;
- Thu, 29 Oct 2020 07:02:08 +0000 (UTC)
-Subject: Re: [PATCH v2] virtio: skip guest index check on device load
-To: Felipe Franciosi <felipe@nutanix.com>, qemu-devel@nongnu.org
-References: <20201028134643.110698-1-felipe@nutanix.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <ca52cfce-0d89-3a13-ac75-400230462a9c@redhat.com>
-Date: Thu, 29 Oct 2020 15:02:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kY21Z-0000EX-Kr; Thu, 29 Oct 2020 03:07:05 -0400
+Received: from szxga08-in.huawei.com ([45.249.212.255]:2234)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kY21R-0002hj-QB; Thu, 29 Oct 2020 03:07:05 -0400
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4CMGhT4qLWz13N1S;
+ Thu, 29 Oct 2020 15:06:49 +0800 (CST)
+Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.225]) by
+ DGGEMM401-HUB.china.huawei.com ([10.3.20.209]) with mapi id 14.03.0487.000;
+ Thu, 29 Oct 2020 15:06:44 +0800
+From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Thomas Huth <thuth@redhat.com>
+Subject: RE: [PATCH 7/9] ppc: silence the compiler warnings
+Thread-Topic: [PATCH 7/9] ppc: silence the compiler warnings
+Thread-Index: AQHWrOF+tr0Fl7gIT0SaZWaF976IB6mr5dcAgACraoCAAJXHgIABAeEw
+Date: Thu, 29 Oct 2020 07:06:44 +0000
+Message-ID: <7412CDE03601674DA8197E2EBD8937E83BA0F9E3@dggemm531-mbx.china.huawei.com>
+References: <20201028041819.2169003-1-kuhn.chenqun@huawei.com>
+ <20201028041819.2169003-8-kuhn.chenqun@huawei.com>
+ <20201028042900.GC5604@yekko.fritz.box>
+ <ddcb887d-42ec-2021-1785-a6fb0d13d6b9@redhat.com>
+ <20201028233835.GG5604@yekko.fritz.box>
+In-Reply-To: <20201028233835.GG5604@yekko.fritz.box>
+Accept-Language: en-US
+Content-Language: zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.174.185.149]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <20201028134643.110698-1-felipe@nutanix.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.921, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.255;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga08-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 03:06:51
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,65 +66,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>, ganqixin <ganqixin@huawei.com>,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2020/10/28 下午9:47, Felipe Franciosi wrote:
-> QEMU must be careful when loading device state off migration streams to
-> prevent a malicious source from exploiting the emulator. Overdoing these
-> checks has the side effect of allowing a guest to "pin itself" in cloud
-> environments by messing with state which is entirely in its control.
->
-> Similarly to what f3081539 achieved in usb_device_post_load(), this
-> commit removes such a check from virtio_load(). Worth noting, the result
-> of a load without this check is the same as if a guest enables a VQ with
-> invalid indexes to begin with. That is, the virtual device is set in a
-> broken state (by the datapath handler) and must be reset.
->
-> Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
-> ---
-> v2: Keep the check around for logging.
->
->   hw/virtio/virtio.c | 13 +++++++------
->   1 file changed, 7 insertions(+), 6 deletions(-)
->
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 6f8f865aff..ceb58fda6c 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -17,6 +17,7 @@
->   #include "trace.h"
->   #include "exec/address-spaces.h"
->   #include "qemu/error-report.h"
-> +#include "qemu/log.h"
->   #include "qemu/main-loop.h"
->   #include "qemu/module.h"
->   #include "hw/virtio/virtio.h"
-> @@ -3160,12 +3161,12 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
->               nheads = vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_avail_idx;
->               /* Check it isn't doing strange things with descriptor numbers. */
->               if (nheads > vdev->vq[i].vring.num) {
-> -                error_report("VQ %d size 0x%x Guest index 0x%x "
-> -                             "inconsistent with Host index 0x%x: delta 0x%x",
-> -                             i, vdev->vq[i].vring.num,
-> -                             vring_avail_idx(&vdev->vq[i]),
-> -                             vdev->vq[i].last_avail_idx, nheads);
-> -                return -1;
-> +                qemu_log_mask(LOG_GUEST_ERROR,
-> +                              "VQ %d size 0x%x Guest index 0x%x "
-> +                              "inconsistent with Host index 0x%x: delta 0x%x",
-> +                              i, vdev->vq[i].vring.num,
-> +                              vring_avail_idx(&vdev->vq[i]),
-> +                              vdev->vq[i].last_avail_idx, nheads);
->               }
->               vdev->vq[i].used_idx = vring_used_idx(&vdev->vq[i]);
->               vdev->vq[i].shadow_avail_idx = vring_avail_idx(&vdev->vq[i]);
-
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBEYXZpZCBHaWJzb24gW21haWx0
+bzpkYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXVdDQo+IFNlbnQ6IFRodXJzZGF5LCBPY3RvYmVy
+IDI5LCAyMDIwIDc6MzkgQU0NCj4gVG86IFRob21hcyBIdXRoIDx0aHV0aEByZWRoYXQuY29tPg0K
+PiBDYzogQ2hlbnF1biAoa3VobikgPGt1aG4uY2hlbnF1bkBodWF3ZWkuY29tPjsgcWVtdS10cml2
+aWFsQG5vbmdudS5vcmc7DQo+IEV1bGVyIFJvYm90IDxldWxlci5yb2JvdEBodWF3ZWkuY29tPjsg
+cWVtdS1kZXZlbEBub25nbnUub3JnOyBnYW5xaXhpbg0KPiA8Z2FucWl4aW5AaHVhd2VpLmNvbT47
+IFpoYW5naGFpbGlhbmcgPHpoYW5nLnpoYW5naGFpbGlhbmdAaHVhd2VpLmNvbT47DQo+IHFlbXUt
+cHBjQG5vbmdudS5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCA3LzldIHBwYzogc2lsZW5jZSB0
+aGUgY29tcGlsZXIgd2FybmluZ3MNCj4gDQo+IE9uIFdlZCwgT2N0IDI4LCAyMDIwIGF0IDAzOjQy
+OjMxUE0gKzAxMDAsIFRob21hcyBIdXRoIHdyb3RlOg0KPiA+IE9uIDI4LzEwLzIwMjAgMDUuMjks
+IERhdmlkIEdpYnNvbiB3cm90ZToNCj4gPiA+IE9uIFdlZCwgT2N0IDI4LCAyMDIwIGF0IDEyOjE4
+OjE3UE0gKzA4MDAsIENoZW4gUXVuIHdyb3RlOg0KPiA+ID4+IFdoZW4gdXNpbmcgLVdpbXBsaWNp
+dC1mYWxsdGhyb3VnaCBpbiBvdXIgQ0ZMQUdTLCB0aGUgY29tcGlsZXIgc2hvd2VkDQo+IHdhcm5p
+bmc6DQo+ID4gPj4gaHcvcHBjL3BwYy5jOiBJbiBmdW5jdGlvbiDigJhwcGM2eHhfc2V0X2lyceKA
+mToNCj4gPiA+PiBody9wcGMvcHBjLmM6MTE4OjE2OiB3YXJuaW5nOiB0aGlzIHN0YXRlbWVudCBt
+YXkgZmFsbCB0aHJvdWdoDQo+IFstV2ltcGxpY2l0LWZhbGx0aHJvdWdoPV0NCj4gPiA+PiAgIDEx
+OCB8ICAgICAgICAgICAgIGlmIChsZXZlbCkgew0KPiA+ID4+ICAgICAgIHwgICAgICAgICAgICAg
+ICAgXg0KPiA+ID4+IGh3L3BwYy9wcGMuYzoxMjM6OTogbm90ZTogaGVyZQ0KPiA+ID4+ICAgMTIz
+IHwgICAgICAgICBjYXNlIFBQQzZ4eF9JTlBVVF9JTlQ6DQo+ID4gPj4gICAgICAgfCAgICAgICAg
+IF5+fn4NCj4gPiA+Pg0KPiA+ID4+IEFkZCB0aGUgY29ycmVzcG9uZGluZyAiZmFsbCB0aHJvdWdo
+IiBjb21tZW50IHRvIGZpeCBpdC4NCj4gPiA+Pg0KPiA+ID4+IFJlcG9ydGVkLWJ5OiBFdWxlciBS
+b2JvdCA8ZXVsZXIucm9ib3RAaHVhd2VpLmNvbT4NCj4gPiA+PiBTaWduZWQtb2ZmLWJ5OiBDaGVu
+IFF1biA8a3Vobi5jaGVucXVuQGh1YXdlaS5jb20+DQo+ID4gPg0KPiA+ID4gQWNrZWQtYnk6IERh
+dmlkIEdpYnNvbiA8ZGF2aWRAZ2lic29uLmRyb3BiZWFyLmlkLmF1Pg0KPiA+ID4NCj4gPiA+PiAt
+LS0NCj4gPiA+PiBDYzogRGF2aWQgR2lic29uIDxkYXZpZEBnaWJzb24uZHJvcGJlYXIuaWQuYXU+
+DQo+ID4gPj4gLS0tDQo+ID4gPj4gIGh3L3BwYy9wcGMuYyB8IDEgKw0KPiA+ID4+ICAxIGZpbGUg
+Y2hhbmdlZCwgMSBpbnNlcnRpb24oKykNCj4gPiA+Pg0KPiA+ID4+IGRpZmYgLS1naXQgYS9ody9w
+cGMvcHBjLmMgYi9ody9wcGMvcHBjLmMgaW5kZXgNCj4gPiA+PiA0YTExZmIxNjQwLi5mOWViOGYy
+MWI0IDEwMDY0NA0KPiA+ID4+IC0tLSBhL2h3L3BwYy9wcGMuYw0KPiA+ID4+ICsrKyBiL2h3L3Bw
+Yy9wcGMuYw0KPiA+ID4+IEBAIC0xMjAsNiArMTIwLDcgQEAgc3RhdGljIHZvaWQgcHBjNnh4X3Nl
+dF9pcnEodm9pZCAqb3BhcXVlLCBpbnQgcGluLA0KPiBpbnQgbGV2ZWwpDQo+ID4gPj4gICAgICAg
+ICAgICAgIH0gZWxzZSB7DQo+ID4gPj4gICAgICAgICAgICAgICAgICBjcHVfcHBjX3RiX3N0b3Ao
+ZW52KTsNCj4gPiA+PiAgICAgICAgICAgICAgfQ0KPiA+ID4+ICsgICAgICAgICAgICAvKiBmYWxs
+IHRocm91Z2ggKi8NCj4gPiA+PiAgICAgICAgICBjYXNlIFBQQzZ4eF9JTlBVVF9JTlQ6DQo+ID4g
+Pj4gICAgICAgICAgICAgIC8qIExldmVsIHNlbnNpdGl2ZSAtIGFjdGl2ZSBoaWdoICovDQo+ID4g
+Pj4gICAgICAgICAgICAgIExPR19JUlEoIiVzOiBzZXQgdGhlIGV4dGVybmFsIElSUSBzdGF0ZSB0
+byAlZFxuIiwNCj4gPiA+DQo+ID4NCj4gPiBJcyB0aGF0IGZhbGwgdGhyb3VnaCBhY3R1YWxseSBy
+ZWFsbHkgdGhlIHJpZ2h0IHRoaW5nIHRvIGRvIGhlcmU/IEknZA0KPiA+IHJhdGhlciBleHBlY3Qg
+dG8gc2VlIGEgUFBDX0lOVEVSUlVQVF9ERUNSIGluc3RlYWQgb2YgYQ0KPiA+IFBQQ19JTlRFUlJV
+UFRfRVhUIGluIGNhc2Ugc29tZW9uZSBtZXNzZXMgd2l0aCB0aGUgVEJFTiBwaW4/IFNvIEkNCj4g
+PiBhc3N1bWUgdGhpcyBpcyBsaWtlbHkgcmF0aGVyIGJ1ZyBhbmQgd2Ugc2hvdWxkIGEgImJyZWFr
+IiBzdGF0ZW1lbnQgaGVyZQ0KPiBpbnN0ZWFkPw0KPiANCj4gT2guLiBnb29kIGNhdGNoLCBJIHRo
+aW5rIEkgbWlzcmVhZCB0aGlzLiAgSSB0aG91Z2h0IHRoZSBjaGFuZ2Ugd2FzIGNvcnJlY3QsDQo+
+IGJlY2F1c2UgREVDUnMgbG9vayBzb21ld2hhdCBsaWtlIGV4dGVybmFsIGludGVycnVwdHMuICBC
+dXQgdGhpcyBpcyBUQkVOLCBub3QNCj4gYSBERUNSIGludGVycnVwdCBwZXIgc2UuICBTbywgeWVz
+LCBJIHRoaW5rIHRoaXMgd2FzIGEgYnVnIGFuZCBpdCBzaG91bGQgYmUgYQ0KPiBicmVhayBpbnN0
+ZWFkLg0KPiANClRoaXMgYnVnIGxvb2tzIGxpa2UgaXQncyBiZWVuIGhpZGRlbiBmb3IgeWVhcnMu
+IFRoYW5rcyBmb3IgeW91ciBwb2ludC4NCkFjY29yZGluZyB0byB5b3VyIG9waW5pb24sIEkgd2ls
+bCBtb2RpZnkgaXQgaW4gdGhlIG5leHQgdmVyc2lvbi4NCg0KVGhhbmtzLA0KQ2hlbiBRdW4NCj4g
+LS0NCj4gRGF2aWQgR2lic29uCQkJfCBJJ2xsIGhhdmUgbXkgbXVzaWMgYmFyb3F1ZSwgYW5kIG15
+IGNvZGUNCj4gZGF2aWQgQVQgZ2lic29uLmRyb3BiZWFyLmlkLmF1CXwgbWluaW1hbGlzdCwgdGhh
+bmsgeW91LiAgTk9UIF90aGVfDQo+IF9vdGhlcl8NCj4gCQkJCXwgX3dheV8gX2Fyb3VuZF8hDQo+
+IGh0dHA6Ly93d3cub3psYWJzLm9yZy9+ZGdpYnNvbg0K
 
