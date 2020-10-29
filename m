@@ -2,89 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEEE29F631
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 21:29:48 +0100 (CET)
-Received: from localhost ([::1]:34216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72E6429F63F
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 21:34:21 +0100 (CET)
+Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYEYN-0003lX-3Y
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 16:29:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52186)
+	id 1kYEcm-0005uB-H6
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 16:34:20 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kYEWx-0002pl-6V
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 16:28:19 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56545)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kYEWv-0003LI-DZ
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 16:28:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604003296;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wZzaHMviqVkpZa7QSCxxrBkriR8R8iSg9XMVcOWnoI0=;
- b=KAVWl6NwTgqWTnrZK4AAxBq2nL6mrzGi6dY9z3NkhOd60FRd125GlzsdDV24mTKAef7OSD
- /2zMMZjw8MsDKa13PHAZq+/GC58QBvIIrLOkyvo6vvrdGwHcUc8TFQaF2n2aoIwOpp8N/f
- ZfLiT2u0FPjCwGRSkBj9SVipYG5QVao=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-211-RKfpN4zNNSG898VE80jMfQ-1; Thu, 29 Oct 2020 16:28:14 -0400
-X-MC-Unique: RKfpN4zNNSG898VE80jMfQ-1
-Received: by mail-il1-f197.google.com with SMTP id c19so2921272ilk.21
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 13:28:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wZzaHMviqVkpZa7QSCxxrBkriR8R8iSg9XMVcOWnoI0=;
- b=eHjYCWpIhe5cwkWYPvoz1Ux8cPk+bev89ju5gGkeHWvIck62tswQshNSskIOnLqNjz
- 3pLRVQrNejr66DoXFkf89isAteS4rCNcL3MZrp7o2xGEi1QxIYNhTAcLMyG26pszVf38
- MvKldwC5SDcs5WCBowo5bRU+rqb7Qs5k2giTnYPiJOwc9m0txDo2sJjRpSlzcSG50iB3
- WHdE53GKlet3CWkG/K4VHWq60l7qV6suBNhIL35sZTv5UYBasdSLjW9kH1rYNFVOgLMp
- VMyFPEIse+6PKSELCUOvPAcvPijj9rx78iN9ILcSnIWFmOsk2yfkUN85o0OY2MtjJzDG
- YOxQ==
-X-Gm-Message-State: AOAM5325Ukt6vS+1kCwxz4cgajjkRdtPLpvVaF73v2VZMR6NjGzVSBlA
- 1kqpfZXJt+a5I2CiMRtIxi60gzW95lvWHpO3vB78C+TOIOQpoutCk58zPaGVlfDNEBAlz/qC4co
- 9pwsSEVBYHaq6WjY=
-X-Received: by 2002:a92:40d2:: with SMTP id d79mr4703470ill.7.1604003292977;
- Thu, 29 Oct 2020 13:28:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyMA1kXQDDZFN/AxZ2pJ7HcZUwps9mHuCEy161RLxIL3fwIBP8gfVkmluG3D/a44QOFMxBtaw==
-X-Received: by 2002:a92:40d2:: with SMTP id d79mr4703456ill.7.1604003292714;
- Thu, 29 Oct 2020 13:28:12 -0700 (PDT)
-Received: from xz-x1 (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca.
- [174.95.215.133])
- by smtp.gmail.com with ESMTPSA id p18sm3020244ile.72.2020.10.29.13.28.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 13:28:11 -0700 (PDT)
-Date: Thu, 29 Oct 2020 16:28:10 -0400
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: recent flakiness (intermittent hangs) of migration-test
-Message-ID: <20201029202810.GD455015@xz-x1>
-References: <CAFEAcA-EsEZWDbUSy6_AXym5e-wP_B4buZYG0swF946ue41WKg@mail.gmail.com>
- <20201029174124.GD3335@work-vm>
- <CAFEAcA9ex69Ov=hfb4LUQak=_bnwQc8mjUx4MgEwgSciD8Ut+A@mail.gmail.com>
- <20201029193433.GE3335@work-vm>
+ (Exim 4.90_1) (envelope-from <shaked.m@neuroblade.ai>)
+ id 1kYEbI-0005Dn-8z
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 16:32:48 -0400
+Received: from mail-eopbgr70123.outbound.protection.outlook.com
+ ([40.107.7.123]:55402 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shaked.m@neuroblade.ai>)
+ id 1kYEbE-0003sy-MC
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 16:32:47 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oVdL/6mPGFVExncfacMAjuoN03bmJs//YQ8OK8NuD8tVDm7DVWT5Gc0zpfJFLqAeSIql5ZjLJfHcabtDxfCPqBUrXj4Ap1huqcumRGb9UXVq6C1sT4pumWakX7uZGccUDaomSA4zHf6+3AyaqsORigrUibTuQRDWGpCRpRJ5J1J6EpAmH0nO+iUSDXWzZMp/t+mDe+3H9bagtQLpNB7OYSU7L1ROgEfBpAkbrZYFlyYHOHN5XPpW11mWogAjDgMndOETHypVYtDNhPhyyno/FbZyXZcsplKBR98UhuZTdzb+CIHvrfNKTFGlhdXv/is0Yaz6fXdnB/PShny0Er83bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aoZNJUSZO2VvygTh4qykD1DGiybQC5E1WZdZncdLWi4=;
+ b=GOnRyMaLYDvu07ooBgO1r+GK5apHWhn9pvs4A0rfcUbTS78th8LYZDwNE3A7N5EKJFaXBT2V5nuFbCosZi2AgRBHadr3kZZuqKBv2eysocwc2yd3xiPMLu7XC1p1dsc3d0aXzjQBHcE1VFk44/ZsRdYDi+mOF9vlHwcPCB4r/1cAHgtZen/+Ivq8z4m5zrfY0TC7N2IaEgrTuFoUwVZspzUzVcW0UG33lFdBVRbfoF6g4QU9qm1zXfdyNPP1YHrom12TbG6yFMdy1mPiLuNbkwCWO2YXIVCe6vSymIWP2qhI3vtYg8siRlsgo3gtEnlu4ApIucX0SzsPJwajI4tShg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=neuroblade.ai; dmarc=pass action=none
+ header.from=neuroblade.ai; dkim=pass header.d=neuroblade.ai; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NeuroBlade.onmicrosoft.com; s=selector2-NeuroBlade-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aoZNJUSZO2VvygTh4qykD1DGiybQC5E1WZdZncdLWi4=;
+ b=lWxjKHXZ8E0P71OOtIl2nUWDTCYPyluJZ49JzUM/JyyqeT4Xi/Xp53wR3pKU+Bo33ub9eAW17AboXUJD6dTeVmZ+W44MVuL73Zh9PK4Ea3XSrdRFKEGJXSBscnX9GMpidMEDMg3Z557m/Jq9hSNaT+q0uNZhWoHAEV1QEZKkuKE=
+Received: from AM9PR09MB4643.eurprd09.prod.outlook.com (2603:10a6:20b:286::17)
+ by AM4PR0902MB1812.eurprd09.prod.outlook.com (2603:10a6:200:92::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.23; Thu, 29 Oct
+ 2020 20:32:40 +0000
+Received: from AM9PR09MB4643.eurprd09.prod.outlook.com
+ ([fe80::3c65:130c:3906:6542]) by AM9PR09MB4643.eurprd09.prod.outlook.com
+ ([fe80::3c65:130c:3906:6542%7]) with mapi id 15.20.3499.027; Thu, 29 Oct 2020
+ 20:32:40 +0000
+From: Shaked Matzner <shaked.m@neuroblade.ai>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: RE: simple example of pci driver with dma
+Thread-Topic: simple example of pci driver with dma
+Thread-Index: AdatzlSpgJldPz/zQsi+/NRP8xO5pwAPEvcAAAm5xbA=
+Date: Thu, 29 Oct 2020 20:32:39 +0000
+Message-ID: <AM9PR09MB4643DE281C54F5A4FA09958382140@AM9PR09MB4643.eurprd09.prod.outlook.com>
+References: <AM9PR09MB4643ECD51E00A54B871DED7682140@AM9PR09MB4643.eurprd09.prod.outlook.com>
+ <CAFEAcA8mcRhyYvfJyTZhdCmwkzP77Nhb=ehUBmYSiwZxMnSBdA@mail.gmail.com>
+In-Reply-To: <CAFEAcA8mcRhyYvfJyTZhdCmwkzP77Nhb=ehUBmYSiwZxMnSBdA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none header.from=neuroblade.ai;
+x-originating-ip: [79.181.92.59]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: da7dab94-922d-43ff-81cf-08d87c49c7d9
+x-ms-traffictypediagnostic: AM4PR0902MB1812:
+x-microsoft-antispam-prvs: <AM4PR0902MB181256E54010492D9858C3FF82140@AM4PR0902MB1812.eurprd09.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: BL+SjxuAN7LVbzeIaLEi4+Qc7YRDMbSZXw+QEfmr3SLS8wu6Tbr5vzwCMCF2EXws62Rd4t/rd8caGntTyJI27N164nzD9MIizT8hu8JvCOWg0cGlKodlgZNVZCGVf2Z6KqApipDCx80WTsH0ejJknrfm5copbKaSEEEgoyXnKFBC+GwTXnv31btuonhlIPiRFiJDddh4ahtdt3IBUwpgkzYNJ1fInWVnGKq372t79QPDpijL0uutxViXTHOmOEiHalBzk0lJV00d2Ur55oP0d5hunEyoIDNdFWLjKIFwXnw2Hw4QSHZVpuS5q179CUNRIT8bbhQkQ6gSupHVu3ZqrA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR09MB4643.eurprd09.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(366004)(376002)(346002)(39830400003)(396003)(136003)(2906002)(9686003)(26005)(6916009)(5660300002)(66556008)(52536014)(8936002)(86362001)(8676002)(55016002)(478600001)(4326008)(316002)(83380400001)(6506007)(186003)(53546011)(66476007)(7696005)(33656002)(64756008)(66946007)(76116006)(71200400001)(66446008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: KFKNuJ9XYwuxLZw6GTEUacNC7pfzKS42Cb3G+Cp4yLH6X98HAJRWMKhsHrhUdncCBgo/jjWN7PG7c2si7EyPNi+eRBMqoBMQy0cUg24uRog6pGcoEBCGHpl3jLip9TC3S7YpMMEeRbg/Qbq7wlhgeYaJpr1/0gOIeCke+TroqJ2axKJ+Ddj3NTq2tqlhDgA9z9mKFwM65RHyGavn9OyeF5Qtk4fRzN4LE4vGlS/BVUYv+ooOG2vTmH7GD5NymsxloevkLl9vEgDJe742INSK7tiPEv7WL6qNW/1edcQsZDROdXFCIgtYaqOafCBRdlgqoj77O6TN0d5TW36QkaK4lt/huy2o6nEG0n6dLTQ0UGKOK5dKcQ6Qj8VyTeKJlDqfOJVJv6RM0ytpuNBU1PRCA8L832nj4wggJCA3mTLO8DXXap1DCxB7XrCYvWpvQnoritcOimBCnSxSLUKRDzoSwQHQ/tVXuJLILzoTB8qCVOaFGIgNVa6yZBYwF89VbszDbBC0hcVeSPwwQlnxk1Gb0hQlq57S01xUnNqzit+k825tP8d9KAh90iO/rMVT0VdL6LZAlAypb/GexG8DJIGTFIApGHbrx24mBEKJSNrfque/zqDgzynR7eNsS2BmJJDQiOAAaiec+0ToNiBs6YVhRg==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM9PR09MB4643DE281C54F5A4FA09958382140AM9PR09MB4643eurp_"
 MIME-Version: 1.0
-In-Reply-To: <20201029193433.GE3335@work-vm>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: neuroblade.ai
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4643.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da7dab94-922d-43ff-81cf-08d87c49c7d9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Oct 2020 20:32:39.9824 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 63c61203-65af-4cf8-98e5-d12f35edaefa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rVqOgfChaeEGUx/FoDQt4pPHQd3UQ97k08O4697yTI5mnoqek3DPEQwDuRm5V/P0f7wrRTNUPiJycjoqWFWzQw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4PR0902MB1812
+Received-SPF: pass client-ip=40.107.7.123; envelope-from=shaked.m@neuroblade.ai;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 16:32:41
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,85 +111,271 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Juan Quintela <quintela@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 29, 2020 at 07:34:33PM +0000, Dr. David Alan Gilbert wrote:
-> > Here's qemu process 3514:
-> > Thread 5 (Thread 0x3ff4affd910 (LWP 3628)):
-> > #0  0x000003ff94c8d936 in futex_wait_cancelable (private=<optimized
-> > out>, expected=0, futex_word=0x2aa26cd74dc)
-> >     at ../sysdeps/unix/sysv/linux/futex-internal.h:88
-> > #1  0x000003ff94c8d936 in __pthread_cond_wait_common (abstime=0x0,
-> > mutex=0x2aa26cd7488, cond=0x2aa26cd74b0)
-> >     at pthread_cond_wait.c:502
-> > #2  0x000003ff94c8d936 in __pthread_cond_wait
-> > (cond=cond@entry=0x2aa26cd74b0, mutex=mutex@entry=0x2aa26cd7488)
-> >     at pthread_cond_wait.c:655
-> > #3  0x000002aa2497072c in qemu_sem_wait (sem=sem@entry=0x2aa26cd7488)
-> > at ../../util/qemu-thread-posix.c:328
-> > #4  0x000002aa244f4a02 in postcopy_pause (s=0x2aa26cd7000) at
-> > ../../migration/migration.c:3192
+--_000_AM9PR09MB4643DE281C54F5A4FA09958382140AM9PR09MB4643eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-So the postcopy pause state didn't continue successfully on src due to some
-reason ...
-
-> > #5  0x000002aa244f4a02 in migration_detect_error (s=0x2aa26cd7000) at
-> > ../../migration/migration.c:3255
-> > #6  0x000002aa244f4a02 in migration_thread
-> > (opaque=opaque@entry=0x2aa26cd7000) at
-> > ../../migration/migration.c:3564
-> > #7  0x000002aa2496fa3a in qemu_thread_start (args=<optimized out>) at
-> > ../../util/qemu-thread-posix.c:521
-> > #8  0x000003ff94c87aa8 in start_thread (arg=0x3ff4affd910) at
-> > pthread_create.c:463
-> > #9  0x000003ff94b7a896 in thread_start () at
-> > ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
-
-[...]
-
-> > And here's 3528:
-> > Thread 6 (Thread 0x3ff6ccfd910 (LWP 3841)):
-> > #0  0x000003ffb1b8d936 in futex_wait_cancelable (private=<optimized
-> > out>, expected=0, futex_word=0x2aa387a6aac)
-> >     at ../sysdeps/unix/sysv/linux/futex-internal.h:88
-> > #1  0x000003ffb1b8d936 in __pthread_cond_wait_common (abstime=0x0,
-> > mutex=0x2aa387a6a58, cond=0x2aa387a6a80)
-> >     at pthread_cond_wait.c:502
-> > #2  0x000003ffb1b8d936 in __pthread_cond_wait
-> > (cond=cond@entry=0x2aa387a6a80, mutex=mutex@entry=0x2aa387a6a58)
-> >     at pthread_cond_wait.c:655
-> > #3  0x000002aa36bf072c in qemu_sem_wait (sem=sem@entry=0x2aa387a6a58)
-> > at ../../util/qemu-thread-posix.c:328
-> > #4  0x000002aa366c369a in postcopy_pause_incoming (mis=<optimized
-> > out>) at ../../migration/savevm.c:2541
-
-Same on the destination side.
-
-> > #5  0x000002aa366c369a in qemu_loadvm_state_main
-> > (f=f@entry=0x2aa38897930, mis=mis@entry=0x2aa387a6820)
-> >     at ../../migration/savevm.c:2615
-> > #6  0x000002aa366c44fa in postcopy_ram_listen_thread
-> > (opaque=opaque@entry=0x0) at ../../migration/savevm.c:1830
-> > #7  0x000002aa36befa3a in qemu_thread_start (args=<optimized out>) at
-> > ../../util/qemu-thread-posix.c:521
-> > #8  0x000003ffb1b87aa8 in start_thread (arg=0x3ff6ccfd910) at
-> > pthread_create.c:463
-> > #9  0x000003ffb1a7a896 in thread_start () at
-> > ../sysdeps/unix/sysv/linux/s390/s390-64/clone.S:65
-
-Peter, is it possible that you enable QTEST_LOG=1 in your future migration-test
-testcase and try to capture the stderr?  With the help of commit a47295014d
-("migration-test: Only hide error if !QTEST_LOG", 2020-10-26), the test should
-be able to dump quite some helpful information to further identify the issue.
-
-I'll also try to find another s390 host to try reproduce on my side.
-
+Hey Peter,
+Currently I have this test in the driver which allocates data, assign it to=
+ default value config source as the BASE address of dma, dest as the physic=
+al address which I got from dma_alloc_coherent, set the count and assign th=
+e command to raise interrupt and read,the piece of code used is something l=
+ike this(this a test performed from the probe function of the driver)
+                                                vaddr_to =3D dma_alloc_cohe=
+rent(&(dev->dev), 4, &dma_handle_to, GFP_ATOMIC |GFP_KERNEL);
+            *((volatile int*)vaddr_to) =3D 0xff;
+                                                test->vaddr_to =3D vaddr_to=
+;
+                                                dev_info(&(dev->dev), "vadd=
+r_to =3D %px\n", vaddr_to);
+                                                dev_info(&(dev->dev), "dma_=
+handle_to =3D %llx\n", (unsigned long long)dma_handle_to);
+                                                iowrite32(DMA_BASE, mmio + =
+IO_DMA_SRC);
+                                                iowrite32((u32)dma_handle_t=
+o, mmio + IO_DMA_DST);
+                                                iowrite32(SIZE, mmio + IO_D=
+MA_CNT);
+                                               iowrite32(DMA_CMD | DMA_FROM=
+_DEV | DMA_IRQ, mmio + IO_DMA_CMD);
+Where and when should the pci_set_master hould be called?
 Thanks,
+             Shaked Matzner
 
--- 
-Peter Xu
+From: Peter Maydell <peter.maydell@linaro.org>
+Sent: Thursday, October 29, 2020 5:46 PM
+To: Shaked Matzner <shaked.m@neuroblade.ai>
+Cc: qemu-devel@nongnu.org
+Subject: Re: simple example of pci driver with dma
 
+[https://s3.amazonaws.com/staticmediafiles/media/sights/iron-icon-color.png=
+]
+IRONSCALES couldn't recognize this email as this is the first time you rece=
+ived an email from this sender peter.maydell@linaro.org<mailto:peter.maydel=
+l@linaro.org>
+
+[EXTERNAL]
+
+On Thu, 29 Oct 2020 at 14:59, Shaked Matzner wrote:
+> however the value I get is still 255(0xff) and not 18(0x12) probably I've=
+ missed something but when the interrupt is called the transfer to the RAM =
+address should be completed, however it seems like the dma_write_buffer fun=
+ction from the device does not perform any transfer. What Am I missing?
+
+The usual mistake is forgetting in the guest code to program the
+PCI device to enable bus mastering by setting the Bus Master bit
+in the Command register in the PCI config space registers for
+the device. Unless you do that then all DMA attempts will fail
+(same as on real h/w). In the Linux kernel the function for this
+is pci_set_master(), I think.
+
+thanks
+-- PMM
+
+
+The contents of this email message and any attachments are intended solely =
+for the addressee(s) and may contain confidential and/or privileged informa=
+tion and may be legally protected from disclosure. If you are not the inten=
+ded recipient of this message or their agent, or if this message has been a=
+ddressed to you in error, please immediately alert the sender by reply emai=
+l and then delete this message and any attachments. If you are not the inte=
+nded recipient, you are hereby notified that any use, dissemination, copyin=
+g, or storage of this message or its attachments is strictly prohibited.
+
+--_000_AM9PR09MB4643DE281C54F5A4FA09958382140AM9PR09MB4643eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<!--[if !mso]><style>v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle19
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hey Peter,<o:p></o:p></p>
+<p class=3D"MsoNormal">Currently I have this test in the driver which alloc=
+ates data, assign it to default value config source as the BASE address of =
+dma, dest as the physical address which I got from dma_alloc_coherent, set =
+the count and assign the command to
+ raise interrupt and read,the piece of code used is something like this(thi=
+s a test performed from the probe function of the driver)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vaddr_to =3D dma_=
+alloc_coherent(&amp;(dev-&gt;dev), 4, &amp;dma_handle_to, GFP_ATOMIC |GFP_K=
+ERNEL);<o:p></o:p></p>
+<p class=3D"MsoNormal" style=3D"margin-left:1.0in">&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *((volatile int*)vaddr_to) =3D 0=
+xff;<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; test-&gt;vaddr_to =3D vaddr_to;<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; dev_info(&amp;(dev-&gt;dev), &quot;vaddr_to =3D %px\n&quot;, vaddr_to=
+);<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; dev_info(&amp;(dev-&gt;dev), &quot;dma_handle_to =3D %llx\n&quot;, (u=
+nsigned long long)dma_handle_to);<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; iowrite32(DMA_BASE, mmio + IO_DMA_SRC);<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; iowrite32((u32)dma_handle_to, mmio + IO_DMA_DST);<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; iowrite32(SIZE, mmio + IO_DMA_CNT);<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iowri=
+te32(DMA_CMD | DMA_FROM_DEV | DMA_IRQ, mmio + IO_DMA_CMD);<o:p></o:p></p>
+<p class=3D"MsoNormal">Where and when should the pci_set_master hould be ca=
+lled?<br>
+Thanks,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; &nbsp;Shaked Matzner<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b>From:</b> Peter Maydell &lt;peter.maydell@linaro.=
+org&gt; <br>
+<b>Sent:</b> Thursday, October 29, 2020 5:46 PM<br>
+<b>To:</b> Shaked Matzner &lt;shaked.m@neuroblade.ai&gt;<br>
+<b>Cc:</b> qemu-devel@nongnu.org<br>
+<b>Subject:</b> Re: simple example of pci driver with dma<o:p></o:p></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<div id=3D"eyJ0eXBlIjoic2lnaHRzLWJhbm5lciIsIm5vcm10ZXh0IjoiaXJvbnNjYWxlc2Nv=
+dWxkbnRyZWNvZ25pemV0aGlzZW1haWxhc3RoaXNpc3RoZWZpcnN0dGltZXlvdXJlY2VpdmVkYW5=
+lbWFpbGZyb210aGlzc2VuZGVycGV0ZXJtYXlkZWxsbGluYXJvb3JnIn0:1kYA8I:pct7yR_kbZs=
+lB2j1AtUcJ8iors4">
+<div>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0" width=3D"100%" style=3D"width:100.0%;background:gainsboro">
+<tbody>
+<tr>
+<td valign=3D"top" style=3D"padding:3.75pt 3.75pt 3.75pt 3.75pt">
+<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,sans-se=
+rif"><span style=3D"color:black"><img id=3D"_x0000_i1025" src=3D"https://s3=
+.amazonaws.com/staticmediafiles/media/sights/iron-icon-color.png"></span><o=
+:p></o:p></span></p>
+</td>
+<td style=3D"padding:3.75pt 3.75pt 3.75pt 3.75pt">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:9.0pt;font-family:&quot;=
+Arial&quot;,sans-serif;color:black">IRONSCALES couldn't recognize this emai=
+l as this is the first time you received an email from this sender
+<a href=3D"mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a><o:=
+p></o:p></span></b></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+<div>
+<p class=3D"MsoNormal">[EXTERNAL]<br>
+<br>
+On Thu, 29 Oct 2020 at 14:59, Shaked Matzner wrote:<br>
+&gt; however the value I get is still 255(0xff) and not 18(0x12) probably I=
+'ve missed something but when the interrupt is called the transfer to the R=
+AM address should be completed, however it seems like the dma_write_buffer =
+function from the device does not perform
+ any transfer. What Am I missing?<br>
+<br>
+The usual mistake is forgetting in the guest code to program the<br>
+PCI device to enable bus mastering by setting the Bus Master bit<br>
+in the Command register in the PCI config space registers for<br>
+the device. Unless you do that then all DMA attempts will fail<br>
+(same as on real h/w). In the Linux kernel the function for this<br>
+is pci_set_master(), I think.<br>
+<br>
+thanks<br>
+-- PMM <o:p></o:p></p>
+</div>
+</div>
+<br>
+<p style=3D"font-size:8pt; line-height:10pt; font-family: 'Cambria','times =
+roman',serif;">
+The contents of this email message and any attachments are intended solely =
+for the addressee(s) and may contain confidential and/or privileged informa=
+tion and may be legally protected from disclosure. If you are not the inten=
+ded recipient of this message or
+ their agent, or if this message has been addressed to you in error, please=
+ immediately alert the sender by reply email and then delete this message a=
+nd any attachments. If you are not the intended recipient, you are hereby n=
+otified that any use, dissemination,
+ copying, or storage of this message or its attachments is strictly prohibi=
+ted. </p>
+</body>
+</html>
+
+--_000_AM9PR09MB4643DE281C54F5A4FA09958382140AM9PR09MB4643eurp_--
 
