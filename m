@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E24C29EE2D
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:27:43 +0100 (CET)
-Received: from localhost ([::1]:50688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76EB29EE43
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 15:30:35 +0100 (CET)
+Received: from localhost ([::1]:59040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY8ty-0003FY-49
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:27:42 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51470)
+	id 1kY8wk-0006gP-O2
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 10:30:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51496)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
- id 1kY8rx-0001VH-8x
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:37 -0400
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42881)
+ id 1kY8ry-0001Yw-Rj
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:39 -0400
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:42885)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=56447669b=alistair.francis@wdc.com>)
- id 1kY8rv-0005fG-7c
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:36 -0400
+ id 1kY8rw-0005fQ-QN
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 10:25:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1603981534; x=1635517534;
+ t=1603981536; x=1635517536;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=g+WPltm5YpaGI86/aQt4WJbADi/eUHg46l1ls02OzYI=;
- b=A0TkQRQJ400n4KEG+xzYDYrixv3o+JA+Lnga5+ssfpNtAXTwIi+0TlEV
- PB9ZlYx/pHnOdbVDmZXSiNUlNimbg/wl0IMdKlh7Ao5FVgG+czuSMGWVQ
- ZQanZTKIbATAKX9EbWAjujCNu5zch3+EtGV/f/8z9ab1sJnnh/d9OBBw6
- aFai47+WuE8zLrOz7pyvxj6S6uOpiRfDrWbYTmNkdFBvQqANYQU6RhwFq
- v4UunX9FTTFkDCoI1M56QNNHagt9vUVGWcMk6JtCQJM/VIk5O7sXjuHAR
- ugm+tALKcvnOAlXjZZNLIjp06jDik9UNRrWW6RsSXnjw94NlUKKLYVNwd Q==;
-IronPort-SDR: JKIIydD+MvyU+0Ei/130Hz02cJTjr4xPQAg6HjWoKT/Tuyt1j3S3Z1/9af/91vYNc4SMMljQFu
- KUPaczE3mRa4gYVBsw5QsbeexPhjrZZvlN2/DSaZ+E+GHZrtxb3+8ZA4+mdCYh5N5s4v4Ft+up
- uKQAOcnsDBYPe8uowT09HJka8+aHIQjsEufS7XDdDWxWLVKoEolvzVsd9AwfyRXyMUH1c9x8Hf
- 7bAPTR5ZsM68HbaoWdbpCTShM+3g6OYKOg6GGS18/YH6kkVVkBWyw+HBzzG0M+Wkeq2zUUNotb
- P3Q=
-X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317879"
+ bh=g4WdlHNUsSqm5IYl1xQpaPDV/gYQAaTlwhWn8+X0BO0=;
+ b=fXxsX6a1HJb7QjQNgJYB8acRN1hRqfjzDt94qkLb5sfw5LMLr60Bn9GD
+ yftuCPtH9o5w/IzU0LKDk6yQNfMIVesxXgdVVDnvJtc0Wgv8o9/uYDWHJ
+ YSF41nWao/tmZ4eDVHm4QVmIiTi4195VnbJm1vF31ILMBxMj+I6tPfe8O
+ 9ip7iwCGMXRIycw/N3KTnD8UYsUPE8rHfnJ987LRiE5OSpddgVn8IxgGv
+ TQ2co4vrdyRVWmveij/rPClntrBwkyqLQL91rnAR5hsLMQvEROAcQiYGb
+ zL5X0bAK/HeV977mYOKxPjWSiO20h+LEIbL454b/i7vktSPzaAnJrBpCu w==;
+IronPort-SDR: OrmVCNKqJ92yfJD8yqtnEknxXjYkJ8s5DHa9OVuyRbFanvymv+GGaii+LimnGHaRLC+TLBZi1/
+ 0KR9mN1z5/cDtwsKaRrXA5NG6XskOj8sgxN+bD1TxOuIeiq+y3sTIf8Kv0vF6Sz4lHBKvYK6CO
+ 1p5H77l7oLhyQfgyGc96Ix4/S8bI/RoQMue4dTUv9fgJRA+x99gr71cuY5HUm2YnOE37MzB8Jm
+ 7EMVRxKp6K/EfXdyQIwIo+otJ5crXrYMxWIzXOB3VwZYBnHyNIOCdqkVczZ5FWZu9eD4YmxFzQ
+ qus=
+X-IronPort-AV: E=Sophos;i="5.77,430,1596470400"; d="scan'208";a="151317884"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2020 22:25:27 +0800
-IronPort-SDR: H6SvyV8RsIgyCTTp/3yvhiyhJEd/6lDwF37RgM2ACIwnbn1Cgnyt4jyD36Zy2kegeOPIowvUEU
- aWBkg4tyltPsGqVph9tXaREtzkMyLngmVwsBnBxg8xveGEAmxAdEhCuiFVQ/ZfiVo4w+hMFLFx
- lg3qkdDe6oOasSKkrhsCfyFktjBhRjU4gmu9MN31PwKnPCO2mW84Ah1EMnvJQUmcD3FtMBUCL3
- qLBbq4cygtqnPzIqjKF2hXBualxM35rIF8VsJK79jOZMIz0Ihz1+X1lt9RjNPaQstdZuUQ3FMj
- 2y46TUt5YbD1xZe7IL3V3Nrw
+ by ob1.hgst.iphmx.com with ESMTP; 29 Oct 2020 22:25:28 +0800
+IronPort-SDR: 1D+IQcwbfnLHRfX8v7wOBAn6oe/0d6zWiNc+eXuKTSj4gCMyU8d5NJwAbx5HWYVptRgAg/G0GN
+ lRkxz+GN2gD53PPWFSevQERxR6q8YbA4HAEwLYWNLd0lWdztPdbh0nSybkuL4EMC2DmmmkgFs+
+ 4GvGWqm+7u33a6K6OpM9eVuZL2t+ToS+CmHsFNhagT2B55yyPL8ntWeaSj1t2IpiNJMWveGYgB
+ OlkbX6N92uS0shsk0g8TGsyRe5UCp9qxocy+hzW50jvKHFFzt7kNb514ePLFkVCyoVaqxIxbLH
+ 0W7YG/G/6v52fwml34IoFVB7
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 29 Oct 2020 07:11:42 -0700
-IronPort-SDR: abPuG4i59dNyG8dQgvUv55v5S3AXb/v2yuQDBOvN1cErn0n2RTWba/lytZab6hRjk7M0NZpXsI
- 557Iu0qb+3rI2qSGVdL4yT/gxxkaFcA6h3sFMFL2679Hfd5M/fPIIHs7qJuzySX1LcrL4Oul+i
- GoI/mrY17FB+4Pk2ghq2cq1JJ9Ugs0wRrEw+FGW6mziAoI114bA0x+WDbXhlsn5E7PpSZGhd8D
- DYhe4Wwt/xBJYpoz/ppcoYFF/Uz2gHQpC2YUfxSOY6uNll5CK6s5Hy+WUoPE31rSm3p3E7B5kk
- bu0=
+ 29 Oct 2020 07:11:43 -0700
+IronPort-SDR: m/BpHhmTfDtR+uerBV3x5/Zre4Vvb1dvFznU5t6P3K91Ngd7b7HynRA+DqdyfL9ag61glsPIft
+ xqTEJgzTHu20pHK9m9F0ZnFvtwkcr2gDeq8m/0DAGzA36vNwYvd6YrFJWTykwGwiwoyWlY5pvL
+ jXn2dqoHPi2k91taLTzWmVd/n/Gb/T/qfgU0ZoNmgZbZI6Q1adrIlkFwBKHTdfC9+0901l4GeS
+ y5Wjp0gqU6i/p9xjMXtPmbTp9V7WjTQFDpAJSgxgh2FOBlY1DjsNsaNYvZSt7O+N5MEiqlOqAC
+ 1+M=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.131])
- by uls-op-cesaip01.wdc.com with ESMTP; 29 Oct 2020 07:25:28 -0700
+ by uls-op-cesaip01.wdc.com with ESMTP; 29 Oct 2020 07:25:29 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL 06/18] target/riscv: Add H extension state description
-Date: Thu, 29 Oct 2020 07:13:46 -0700
-Message-Id: <20201029141358.3102636-7-alistair.francis@wdc.com>
+Subject: [PULL 08/18] target/riscv: Add sifive_plic vmstate
+Date: Thu, 29 Oct 2020 07:13:48 -0700
+Message-Id: <20201029141358.3102636-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201029141358.3102636-1-alistair.francis@wdc.com>
 References: <20201029141358.3102636-1-alistair.francis@wdc.com>
@@ -101,83 +101,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yifei Jiang <jiangyifei@huawei.com>
 
-In the case of supporting H extension, add H extension description
-to vmstate_riscv_cpu.
+Add sifive_plic vmstate for supporting sifive_plic migration.
+Current vmstate framework only supports one structure parameter
+as num field to describe variable length arrays, so introduce
+num_enables.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201026115530.304-5-jiangyifei@huawei.com
+Message-id: 20201026115530.304-7-jiangyifei@huawei.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/machine.c | 47 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ include/hw/intc/sifive_plic.h |  1 +
+ hw/intc/sifive_plic.c         | 26 +++++++++++++++++++++++++-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index fc1461d88e..ae60050898 100644
---- a/target/riscv/machine.c
-+++ b/target/riscv/machine.c
-@@ -68,6 +68,52 @@ static const VMStateDescription vmstate_pmp = {
-     }
- };
+diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
+index b75b1f145d..1e451a270c 100644
+--- a/include/hw/intc/sifive_plic.h
++++ b/include/hw/intc/sifive_plic.h
+@@ -52,6 +52,7 @@ struct SiFivePLICState {
+     uint32_t num_addrs;
+     uint32_t num_harts;
+     uint32_t bitfield_words;
++    uint32_t num_enables;
+     PLICAddr *addr_config;
+     uint32_t *source_priority;
+     uint32_t *target_priority;
+diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
+index f42fd695d8..97a1a27a9a 100644
+--- a/hw/intc/sifive_plic.c
++++ b/hw/intc/sifive_plic.c
+@@ -30,6 +30,7 @@
+ #include "hw/intc/sifive_plic.h"
+ #include "target/riscv/cpu.h"
+ #include "sysemu/sysemu.h"
++#include "migration/vmstate.h"
  
-+static bool hyper_needed(void *opaque)
-+{
-+    RISCVCPU *cpu = opaque;
-+    CPURISCVState *env = &cpu->env;
-+
-+    return riscv_has_ext(env, RVH);
-+}
-+
-+static const VMStateDescription vmstate_hyper = {
-+    .name = "cpu/hyper",
+ #define RISCV_DEBUG_PLIC 0
+ 
+@@ -448,11 +449,12 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
+                           TYPE_SIFIVE_PLIC, plic->aperture_size);
+     parse_hart_config(plic);
+     plic->bitfield_words = (plic->num_sources + 31) >> 5;
++    plic->num_enables = plic->bitfield_words * plic->num_addrs;
+     plic->source_priority = g_new0(uint32_t, plic->num_sources);
+     plic->target_priority = g_new(uint32_t, plic->num_addrs);
+     plic->pending = g_new0(uint32_t, plic->bitfield_words);
+     plic->claimed = g_new0(uint32_t, plic->bitfield_words);
+-    plic->enable = g_new0(uint32_t, plic->bitfield_words * plic->num_addrs);
++    plic->enable = g_new0(uint32_t, plic->num_enables);
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &plic->mmio);
+     qdev_init_gpio_in(dev, sifive_plic_irq_request, plic->num_sources);
+ 
+@@ -472,12 +474,34 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
+     msi_nonbroken = true;
+ }
+ 
++static const VMStateDescription vmstate_sifive_plic = {
++    .name = "riscv_sifive_plic",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
-+    .needed = hyper_needed,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
-+        VMSTATE_UINTTL(env.htval, RISCVCPU),
-+        VMSTATE_UINTTL(env.htinst, RISCVCPU),
-+        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
-+        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-+
-+        VMSTATE_UINT64(env.vsstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
-+        VMSTATE_UINTTL(env.vscause, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstval, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
-+        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
-+        VMSTATE_UINT64(env.mstatus_hs, RISCVCPU),
-+
-+        VMSTATE_END_OF_LIST()
-+    }
++            VMSTATE_VARRAY_UINT32(source_priority, SiFivePLICState,
++                                  num_sources, 0,
++                                  vmstate_info_uint32, uint32_t),
++            VMSTATE_VARRAY_UINT32(target_priority, SiFivePLICState,
++                                  num_addrs, 0,
++                                  vmstate_info_uint32, uint32_t),
++            VMSTATE_VARRAY_UINT32(pending, SiFivePLICState, bitfield_words, 0,
++                                  vmstate_info_uint32, uint32_t),
++            VMSTATE_VARRAY_UINT32(claimed, SiFivePLICState, bitfield_words, 0,
++                                  vmstate_info_uint32, uint32_t),
++            VMSTATE_VARRAY_UINT32(enable, SiFivePLICState, num_enables, 0,
++                                  vmstate_info_uint32, uint32_t),
++            VMSTATE_END_OF_LIST()
++        }
 +};
 +
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
-     .version_id = 1,
-@@ -119,6 +165,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-     },
-     .subsections = (const VMStateDescription * []) {
-         &vmstate_pmp,
-+        &vmstate_hyper,
-         NULL
-     }
- };
+ static void sifive_plic_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     device_class_set_props(dc, sifive_plic_properties);
+     dc->realize = sifive_plic_realize;
++    dc->vmsd = &vmstate_sifive_plic;
+ }
+ 
+ static const TypeInfo sifive_plic_info = {
 -- 
 2.28.0
 
