@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D63629F395
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:46:09 +0100 (CET)
-Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E53729F398
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 18:49:10 +0100 (CET)
+Received: from localhost ([::1]:55228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYC00-0000C5-4g
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:46:08 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
+	id 1kYC2v-0002QN-89
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 13:49:09 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kYBvc-0005YO-SS
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:41:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kYBva-0006cl-FK
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:41:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603993292;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=NFoxW9FEp1PMI0/ZHaScrJsOS+WkAmfpHnkiGkjxXyI=;
- b=FNNzedcz1QfOL8j4dexD5WUEQTkeaIqVZ/7lm37QCKzPksbwoVWxHT5A1yQDt4IGZ6w7on
- /YsAWRpkc452JOekd+LhFOZergw79rYxwEwV5kbbIrv/WgQionI9A/LnQ6wwp+RE+ED8kz
- KBRx8xmyEEqKjGDe/n9zJGyxuMTVrIE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-467-i89KmzDzN02FvqTonV-_MA-1; Thu, 29 Oct 2020 13:41:29 -0400
-X-MC-Unique: i89KmzDzN02FvqTonV-_MA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 583671018F7C;
- Thu, 29 Oct 2020 17:41:28 +0000 (UTC)
-Received: from work-vm (ovpn-114-233.ams2.redhat.com [10.36.114.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 632795C22D;
- Thu, 29 Oct 2020 17:41:27 +0000 (UTC)
-Date: Thu, 29 Oct 2020 17:41:24 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: recent flakiness (intermittent hangs) of migration-test
-Message-ID: <20201029174124.GD3335@work-vm>
-References: <CAFEAcA-EsEZWDbUSy6_AXym5e-wP_B4buZYG0swF946ue41WKg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kYC1b-0001dd-Rp
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:47:47 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:12789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kYC1Z-0007Py-Q5
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 13:47:47 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5f9b00450000>; Thu, 29 Oct 2020 10:47:49 -0700
+Received: from [10.40.102.184] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 29 Oct
+ 2020 17:47:33 +0000
+Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>, David
+ Edmondson <dme@dme.org>
+References: <20201027151400.GA138065@stefanha-x1.localdomain>
+ <CAJSP0QWrmNN1Ci-M-4WDFZBOGHyeZvF71utg0w2ajCbOLtynJw@mail.gmail.com>
+ <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
+ <cunr1ph3t5p.fsf@vroomfondel.hh.sledj.net>
+ <20201029164205.GH27369@redhat.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <f0e24955-db5a-7e97-b842-029d7adacc84@nvidia.com>
+Date: Thu, 29 Oct 2020 23:17:30 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-EsEZWDbUSy6_AXym5e-wP_B4buZYG0swF946ue41WKg@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20201029164205.GH27369@redhat.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1603993669; bh=ef5l2dZh/f1fG1vvIor7sQi8R5qGLUecKWu7gmaXLcw=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=nXmRuo1XPIaOUrjbwsRCvfuL7BD3A/ftvMVFzsIILYXV3FJXFi/0aXOyPTTLYMh/m
+ GYKGQYJvR8k/rk4rw/0sUnKyfBsphW2+NjzrvKsOWxTKQIrHkpwS8pcSfjjGqDn9zD
+ n/D9Fo3RpVt4pshqG1iMFOb3PtT5s5fQas/7bHZR+MpawQjk7ev8MWRcj/P1lMFuks
+ CExQFEUBCzek2dMmizfYcDNwf7MLmoclHsLpeZSs+D3v2t19j+WN0kgoGobR81nees
+ HGT0CJK8/RSnOnRg77ioBtYRPCLpwV1B9UI0DNvD29yI4dZ6Nfe7I2O3N3qICcPu2o
+ Aa2njwJX+gE4Q==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 13:47:44
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.261, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,35 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Juan Quintela <quintela@redhat.com>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ "mst@redhat.com" <mtsirkin@redhat.com>,
+ Janosch Frank <frankja@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ Yan Vugenfirer <yan@daynix.com>, Jag Raman <jag.raman@oracle.com>,
+ Anup Patel <anup@brainfault.org>,
+ Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Liran Alon <liran.alon@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Halil Pasic <pasic@linux.vnet.ibm.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, fam <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Maydell (peter.maydell@linaro.org) wrote:
-> Recently I've seen the 'make check' migration-test developing an
-> intermittent hang; I've seen this now on aarch32 host several times
-> and also on s390x host. The symptom is that the test just hangs
-> with a couple of child qemu processes sitting around doing nothing.
-> ^Cing out of 'make check' doesn't kill the qemu processes; they
-> seem to need a 'kill -9'.
 
-If you can send us a copy of the ps -eaf of the qemu commandlines
-in the failing case it would be interesting to see.
 
-> Sorry for the low-information-density bug report, but I don't really
-> have time at the moment to debug failures in merge build test runs
-> because the queue of stuff still to merge is enormous...
+On 10/29/2020 10:12 PM, Daniel P. Berrang=C3=A9 wrote:
+> On Thu, Oct 29, 2020 at 04:15:30PM +0000, David Edmondson wrote:
+>> On Thursday, 2020-10-29 at 21:02:05 +08, Jason Wang wrote:
+>>
+>>> 2) Did qemu even try to migrate opaque blobs before? It's probably a ba=
+d
+>>> design of migration protocol as well.
+>>
+>> The TPM emulator backend migrates blobs that are only understood by
+>> swtpm.
+>=20
+> The separate slirp-helper net backend does the same too IIUC
+>=20
 
-If you get a moment to breath then a backtrace of the migration-test
-process itself would be useful to see where it's hanging.
+When sys mem pages are marked dirty and content is copied to=20
+destination, content of sys mem is also opaque to QEMU.
 
-Dave
-
-> thanks
-> -- PMM
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Thanks,
+Kirti
 
