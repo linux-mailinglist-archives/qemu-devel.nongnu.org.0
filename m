@@ -2,96 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839DB29EC77
-	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 14:07:21 +0100 (CET)
-Received: from localhost ([::1]:47648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EF929ECB8
+	for <lists+qemu-devel@lfdr.de>; Thu, 29 Oct 2020 14:19:03 +0100 (CET)
+Received: from localhost ([::1]:52866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kY7eC-0005Da-K5
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 09:07:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35074)
+	id 1kY7pW-0007rL-T5
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 09:19:03 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kY7dE-0004mx-Pv
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:06:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kY7d9-0000bb-KC
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 09:06:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1603976775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3Lv+3hDJ/gfmNc4Vg28z7Fab9P2SUI/z38eUYUEFf6A=;
- b=M4DMHNcknWv0AzkHmpO5TheDqo+mgzJqVkyexkqGenyUCmOouMkmf0kHE4eEROA/DOl44E
- Y5QeGBf2+JCxttteNlGO01OwHEahf80cny3VeGzJ4guwR3NEBNn7L5rieN/Px/sd7mw0Z1
- N4198lPKxnJ1pnGc9Xdm7+nqXBmkQP4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-XWYvmCv_N3mcMQEKw21QmA-1; Thu, 29 Oct 2020 09:06:13 -0400
-X-MC-Unique: XWYvmCv_N3mcMQEKw21QmA-1
-Received: by mail-wr1-f71.google.com with SMTP id f11so1250897wro.15
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 06:06:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3Lv+3hDJ/gfmNc4Vg28z7Fab9P2SUI/z38eUYUEFf6A=;
- b=Xobk+J3u+/xNfw0sglDcIwLemX5+ayV+xirXA9bON/E7LVdikB+mFaogN8Hz5wGhUC
- Tq4hQ7d8/KBm237y37IL9hVErTQjRdPdOUV6G4CRQicUBXUHIkC9j5sc4ZlhFaYW6/mX
- u8ykfh14anTXqBbBnFXYy20emPKsusMJ6Ew9ZfqrN74y0bR2UEbqqGdAWcTCNtjTERz1
- 5jAB3moKELx2aPDkW7hOa7N5DNbsL6S9CWU1zhaonRD54DyO5G2BovyfojRp/dIG32SG
- Xz7fGE7qvxOydWvNmcT3LXHjz7WdODx0+zz2uaIjpo8cU2KelsADi2hCK0L6oio2kyvn
- Hu6g==
-X-Gm-Message-State: AOAM533TmW1Y0yvWXNZ3f6ToKWZKj7iY1YoMtudNcSwTSwlF5fcuZxh5
- YBczV50xYdpTx/43X/0BchjiGD90rIxY28i8OK9adaBHKLjciyl9+c6eOxspFVGLu5H6mDvpOWk
- rdblVnXBil1aQT3Y=
-X-Received: by 2002:a1c:7d49:: with SMTP id y70mr4350630wmc.103.1603976771301; 
- Thu, 29 Oct 2020 06:06:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxquK44tJmrDQuv7Tqk1p21FHEHBvf6UMpq8iVgUPsiJymgrWYY8DwoAEoHWLMI91MG24rU5A==
-X-Received: by 2002:a1c:7d49:: with SMTP id y70mr4350532wmc.103.1603976770657; 
- Thu, 29 Oct 2020 06:06:10 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t6sm1620693wrp.68.2020.10.29.06.06.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 06:06:08 -0700 (PDT)
-Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
-To: Jason Wang <jasowang@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20201027151400.GA138065@stefanha-x1.localdomain>
- <CAJSP0QWrmNN1Ci-M-4WDFZBOGHyeZvF71utg0w2ajCbOLtynJw@mail.gmail.com>
- <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7977d79c-0e2b-9a71-631e-77811b508bd7@redhat.com>
-Date: Thu, 29 Oct 2020 14:06:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kY7l0-0006Kq-TY; Thu, 29 Oct 2020 09:14:22 -0400
+Received: from out3-smtp.messagingengine.com ([66.111.4.27]:44021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kY7ky-0003Lg-L1; Thu, 29 Oct 2020 09:14:22 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 6AF295C007C;
+ Thu, 29 Oct 2020 09:14:18 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Thu, 29 Oct 2020 09:14:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=/hFL0HvrLcnD+feQL7F8JhgR5kT
+ cgIVJMIg/0RKOumw=; b=YfTx7ThriDjsscZmZaBE4yHewinShx0jyNahYejKkT9
+ g7YmX3oD1ChVNCRYDnR0Nlho9Bc8iWM30joDG+YsChBfStq+OCCer33SCW0AMEa/
+ +CyCe4QuVsGUO5OTpI6Z4W3KrrWy5+ZvNxHIXlP0ND4MxCq4BmqNI9LyjPgLuIGm
+ Sag6YOufsJhrdUpfHsyfvKiptda4Lin/zzbsgtn3bhUgb23mvLrbPzPN6Z6fP/e0
+ U5VkHZzvEPaeysnxnFD54UtxyfpJ+cK9aNiGfvc99DMR+hVUUgY9IZ9vVVT4FMHw
+ PaOOBY6XMkGhvjgKz42+efUehCwpkSn6hvKr09xi/KQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=/hFL0H
+ vrLcnD+feQL7F8JhgR5kTcgIVJMIg/0RKOumw=; b=cyhxxxenxr4yXO6IkkPqdQ
+ GfZ5HvgsYxXy+Jqzv4ga00IGcUyaPHCJIalzQwXz57hGKb9ZOxpqZ+Lou1e9WTGf
+ qzXAYF6FY+ij85kzKi5PvdISFbso2QugcpZtlTSmT7wBY1PdR6wVMF+xMEpMjTGJ
+ Bf38K6pYLaz8gwWIhmAThayJsPFjzbVWdZx4X7TgKwn5+ajw5Pg3mNz0+WRGQrGr
+ 2KAGvwNoe9qytZs9FdvoKH3BIwx+jCJWlgW+8Ffo+AnmwAv2Z35Ixa2gGbE2kHBy
+ HNOoGIhKMVyjohjTUffECAR9Feo33d7m8nVtMzWqUyCltraDBmvgmnjjvjuvHmZA
+ ==
+X-ME-Sender: <xms:KcCaX8YF7ca3UCXfxYKOwe4uDGeWRpAsSkR62HXanKZkKa75e3_eVg>
+ <xme:KcCaX3Z1mfTdSe4eKx4TJGf-CWDtC0Xe-L1LPK_lC_W9pqOgbd3UwRW_5HGzHfYk3
+ 041pJYlfsNVxfiU30A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleefgdeglecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepuddtheelledvtedvfeeuheegvefhjeeuleeihfduhfeiffffhfdutdekkeeikeef
+ necuffhomhgrihhnpehinhhfrhgruggvrggurdhorhhgnecukfhppeektddrudeijedrle
+ ekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhho
+ mhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:KcCaX29fB5ngWhr-rgagTAU7fW7rCJVUcnzgMfODnz7tJmHeYiyBUw>
+ <xmx:KcCaX2rIGEmJMp9_j0IvsabqpWciQL0NohqDgBnDLfLjRps8Bnv0uw>
+ <xmx:KcCaX3pVmE3pTIojYeIcfN1JPjh6sK-7Zr8RJ9dlCk_rvWciSQcVfQ>
+ <xmx:KsCaX4njPUhBjWSQ2py_WbnhcGnkRSpO5NMpofxP8Rso709Zspakzw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3E4A73280063;
+ Thu, 29 Oct 2020 09:14:16 -0400 (EDT)
+Date: Thu, 29 Oct 2020 14:14:14 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PULL 00/30] nvme emulation patches for 5.2
+Message-ID: <20201029131414.GB777050@apples.localdomain>
+References: <20201027104932.558087-1-its@irrelevant.dk>
+ <CAFEAcA8EcEfaFZYUicbL5ShA5y5sTP7hmNNX5Ot=3ZyAGnV81A@mail.gmail.com>
+ <20201029115254.GA777050@apples.localdomain>
+ <1cd6447c-66f2-df28-a3ce-94456a17fcf4@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 00:47:54
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="IrhDeMKUP4DT/M7F"
+Content-Disposition: inline
+In-Reply-To: <1cd6447c-66f2-df28-a3ce-94456a17fcf4@redhat.com>
+Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
+ helo=out3-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 09:14:18
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.261, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,44 +99,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- "mst@redhat.com" <mtsirkin@redhat.com>,
- Janosch Frank <frankja@linux.vnet.ibm.com>, qemu-devel <qemu-devel@nongnu.org>,
- Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Yan Vugenfirer <yan@daynix.com>, Jag Raman <jag.raman@oracle.com>,
- Anup Patel <anup@brainfault.org>,
- Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Liran Alon <liran.alon@oracle.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Halil Pasic <pasic@linux.vnet.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, fam <fam@euphon.net>
+Cc: Keith Busch <kbusch@kernel.org>, Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
+ Klaus Jensen <k.jensen@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/10/20 14:02, Jason Wang wrote:
-> 
-> 
-> 1) Reading something that is opaque to userspace is probably a hint of
-> bad uAPI design
-> 2) Did qemu even try to migrate opaque blobs before? It's probably a bad
-> design of migration protocol as well.
 
-The nested live migration data is an opaque blob.  The format is
-documented by the kernel; for Intel it is also guest-visible.  However
-QEMU doesn't try to parse it.
+--IrhDeMKUP4DT/M7F
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Paolo
+On Oct 29 13:20, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 10/29/20 12:52 PM, Klaus Jensen wrote:
+> > On Oct 29 11:39, Peter Maydell wrote:
+> >> On Tue, 27 Oct 2020 at 10:49, Klaus Jensen <its@irrelevant.dk> wrote:
+> >>>
+> >>> From: Klaus Jensen <k.jensen@samsung.com>
+> >>>
+> >>> Hi Peter,
+> >>>
+> >>> The following changes since commit 1dc887329a10903940501b43e8c0cc67af=
+7c06d5:
+> >>>
+> >>>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20=
+201026' into staging (2020-10-26 17:19:26 +0000)
+> >>>
+> >>> are available in the Git repository at:
+> >>>
+> >>>   git://git.infradead.org/qemu-nvme.git tags/nvme-next-pull-request
+> >>>
+> >>> for you to fetch changes up to 843c8f91a7ad63f8f3e4e564d3f41f3d030ab8=
+a9:
+> >>>
+> >>>   hw/block/nvme: fix queue identifer validation (2020-10-27 11:29:25 =
++0100)
+> >>>
+> >>> ----------------------------------------------------------------
+> >>> nvme emulation patches for 5.2
+> >>>
+> >>>   - lots of cleanups
+> >>>   - add support for scatter/gather lists
+> >>>   - add support for multiple namespaces (adds new nvme-ns device)
+> >>>   - change default pci vendor/device id
+> >>>   - add support for per-namespace smart log
+> >>
+> >> Hi. This tag appears to have been signed with a GPG key
+> >> which isn't one that's been used before for an nvme pullreq
+> >> and which isn't on the public GPG servers...
+> >>
+> >=20
+> > Uhm. Keith, can we coordinate a keysigning?
+> >=20
+> > Would a signature by Keith on my key be acceptable to you Peter? That
+> > way Keith doesn't have to create a new tag and bomb the list again.
+>=20
+> Although list bombing isn't really a problem, if you don't modify
+> the patches, then you can simply post the cover (as v2) without
+> the patches.
+>=20
+> You can also get your key signed and ask Peter to retry your tag,
+> or push a different tag and ask again, replying to this cover.
+>=20
 
+Thanks Phil!
+
+--IrhDeMKUP4DT/M7F
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+awCQACgkQTeGvMW1P
+Dek2lQf/Q3YH5auqi20rMdosW60Hy66VzA7/ntcpRbsT+foUfyLaABT7EGdNMJ46
+tYfpSJ8dW1NWivg2xYN6Im6dGWLTAsmExqNBAzquTVRqvoovoVaq8iseIcouHBk1
+FRbhmijCOE/AtLcbMmEHOp23CRYM0NloJbMkEUOvlsBmuVwMwJ6R7t9TVSxwQiZi
+cv2+q/SAfgWkehhHA87pRMugzZtdQAAeLMiUps170rDBoX5zRyHMNJ7ttiHbDOuk
+yMEwT62B0EbLf7g07tZOYpxCGOUPcvdOOMhbkbUXT+byn0SsW5QVYA019jSdkrM7
+vcoSFEx16bEAvmBYdrl0HRru8dkAzg==
+=QAvW
+-----END PGP SIGNATURE-----
+
+--IrhDeMKUP4DT/M7F--
 
