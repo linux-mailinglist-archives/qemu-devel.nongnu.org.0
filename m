@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC18F2A069E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:40:55 +0100 (CET)
-Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08B662A06BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:48:56 +0100 (CET)
+Received: from localhost ([::1]:47870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYUeE-0004Sl-VG
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:40:54 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
+	id 1kYUlz-0007Pz-4H
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:48:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kYUcB-0003af-IH
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:48 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:57921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kYUc6-0002JY-N8
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=2ZzEwn26CPfQ9tcZcekNgeTUl44Ct8FkhKL0mOrciYo=; b=j8T/QTgUUZ5OlHNuwj4QannSMa
- VTuijCxJRyjuCfaDhU/gnLfjyCeS3UBEXr/c4+Bk3YevFEd9a+5w8vMz44umPemBlc9tbCfF4dCAO
- SMoxcPY3lKp/WPWCg9ONvpauHbCJU+b0K1gbBymn66ER14koi55dVx74o1uhGgkZc0lYf3fsHI9nz
- ZSVutzZcF1tLweIlEF1RD+5hDi2J9Nt86M67f40fcDDUYADApDHWlOLnXeHsxC58mRr3AyRVjW5J2
- oOtREz75Vkua4oZHm3N9CK6nFYBj+7m1gof5IeiN6OVFbmVNbZBdriVi1AIWjh+EOIL1HagyKhLcd
- t0+2F8RA==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2 0/2] 9pfs: test suite fixes
-Date: Fri, 30 Oct 2020 14:38:38 +0100
-Message-ID: <2966378.E1T83bONKy@silver>
-In-Reply-To: <20201030142315.183f9d91@bahia.lan>
-References: <cover.1604061839.git.qemu_oss@crudebyte.com>
- <20201030142315.183f9d91@bahia.lan>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYUkM-0006kz-TA
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:47:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYUkK-00049n-GW
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:47:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604065630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4BUUvfKLhhkeEZX58ifRtpk7l5XynEDEHKRkFOKAClA=;
+ b=J7nndi6+9xuI8Xvwgh1lIROxa3wunMy+isjD5n1hsmW8/NtthRuoYLNb2hIz4+MMt+BNBz
+ cjXNOVA1ptVqB2sP8YObq177t38qsxO1ySDxttZyhL9PkbrvQTEYxf+RxlUuDrF/dIKpuB
+ /6g8mRhXr6oGWGSwIRoy5NKqUuKR5TQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-278-oZIIrIWdOVGyDG0r6FEfwA-1; Fri, 30 Oct 2020 09:47:06 -0400
+X-MC-Unique: oZIIrIWdOVGyDG0r6FEfwA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 54E058F62CB;
+ Fri, 30 Oct 2020 13:47:05 +0000 (UTC)
+Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C8BB310027AB;
+ Fri, 30 Oct 2020 13:47:04 +0000 (UTC)
+Subject: Re: QEMU release tagging script?
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <e8b378a2-144c-e915-3e5e-c84c9e9a17b5@redhat.com>
+ <CAFEAcA8cc_C6aKkO0n=Z_b3ais6AE0VSvZD1TZweAzhocm6aTg@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <926ca0d9-840a-f850-19b1-cd22c25c0daa@redhat.com>
+Date: Fri, 30 Oct 2020 09:47:04 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
+In-Reply-To: <CAFEAcA8cc_C6aKkO0n=Z_b3ais6AE0VSvZD1TZweAzhocm6aTg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -23
+X-Spam_score: -2.4
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.253, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,40 +83,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Freitag, 30. Oktober 2020 14:23:15 CET Greg Kurz wrote:
-> On Fri, 30 Oct 2020 13:43:59 +0100
+On 10/30/20 9:38 AM, Peter Maydell wrote:
+> On Fri, 30 Oct 2020 at 13:32, John Snow <jsnow@redhat.com> wrote:
+>> Is there a script that's public that you use for tagging the QEMU
+>> release? I see make-release in scripts/, but that's for creating the
+>> tarballs after the tagging has been done.
 > 
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > Fixes two bugs with the 9pfs 'local' tests as discussed with latest 9P PR
-> > (2020-10-23). See the discussion of that PR for details.
-> > 
-> > v1->v2:
-> >   - Added Greg's tested-by tag [patch 1].
-> >   
-> >   - Log an info-level message if mkdir() failed [patch 2].
-> >   
-> >   - Update commit log message about coverity being the reporter and
-> >   
-> >     details of the coverity report [patch 2].
-> > 
-> > Christian Schoenebeck (2):
-> >   tests/9pfs: fix test dir for parallel tests
-> >   tests/9pfs: fix coverity error in create_local_test_dir()
-> >  
-> >  tests/qtest/libqos/virtio-9p.c | 32 +++++++++++++++++++++++++-------
-> >  1 file changed, 25 insertions(+), 7 deletions(-)
+> I use this script:
+> https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/qemu-tag-release
 > 
-> Series,
+
+Thanks!
+
+>> I am looking into being able to cut releases for our Python QMP library,
+>> but due to constraints in the Python packaging ecosystem I have not yet
+>> been able to solve, it requires its own VERSION file.
+>>
+>> It would be nice if when 5.2.0 is tagged that "0.5.2.0" could be written
+>> into ./python/VERSION as well.
 > 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
+> I'm pretty strongly against having the version hardcoded
+> anywhere except the top level VERSION file. Everything else
+> should read the information from there.
+> 
 
-Thanks for review and testing. I appreciate it.
+Yeah, I know. I don't want to do it either, but I don't see an 
+alternative that works with Python packaging tooling right now.
 
-Best regards,
-Christian Schoenebeck
+The problem is that whenever you run an install, (which runs a python 
+"build"), the source is copied out into a temp directory where it loses 
+all access to the parent directory and any knowledge of .git.
 
+Perhaps someone has a solution, but I've not found one yet. The authors 
+of pip are aware of the problem and are working on a solution, but we 
+don't have one yet.
+
+> thanks
+> -- PMM
+> 
 
 
