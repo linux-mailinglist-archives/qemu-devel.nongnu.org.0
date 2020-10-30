@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853B229FA13
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:56:18 +0100 (CET)
-Received: from localhost ([::1]:40722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297EA29FA19
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:58:38 +0100 (CET)
+Received: from localhost ([::1]:49236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIiH-0004Dw-IP
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:56:17 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46798)
+	id 1kYIkX-0007lQ-6O
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:58:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbu-0004DF-Kn
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:42 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42010)
+ id 1kYIbw-0004En-5Y
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:44 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:42809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbq-0001qr-KK
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:42 -0400
-Received: by mail-pg1-x541.google.com with SMTP id k9so2059110pgt.9
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:36 -0700 (PDT)
+ id 1kYIbs-0001rG-Ps
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:43 -0400
+Received: by mail-pl1-x643.google.com with SMTP id t22so2131932plr.9
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WQtz9VJLYSx04Hh8zsTVQFn8wB6GzwGePEieOesZ6FA=;
- b=q7dP2FeGiKfgbHeD3ZoC9tyxhsY6euZLjKFB8UVJ2Os+FTeXieruZjkVJPX8063QtA
- 6rKY+/RsrEJtH3BzwA9/J1wUNj0190vaFRYxctpo8n93hMQLp9uTemoTKrPhM+/hpUJk
- 8WHVSmzih0AzUqbfCtHEcQibe4RyJ4GAIaWOnFDVPT/LMSIJQZWv/VWHrhm7TSEE7UHq
- TGX3Z6j74oixxooLLIEuV4vnZic04zzM/FwOOGwvAlgKVnSikLbptstCGIlplc2PhSpE
- kig5c/BJNvFWZ5FFdS1rCffK98svhum1nQWo1XF+R0nvAwrpHAqKgmPjABtKIxdJ5GiT
- gg+Q==
+ bh=iw63tVm/gJW8ix0+OZbB8FxuagBCr8ISw8kd0ux54hg=;
+ b=cOGcuCchwaUIeQTOR18NTSmT0AtmucDwexJKrvVZ82aIClJjxQjvb6UTnPmi8TcF9M
+ DTVyBoi2ByCBF6yErPJv8/n4uvUZjaU0rdR9cC1cIzz9RASlX5KKe5qGxX84XavKTyc9
+ gMcPmc/VcqggAZLYzinNzwylUeFmZHVt8MhlRnWm06XxTV2Q6FSxpYT543pCEr8wnNn/
+ cB3seysgD3sNhIq2vqqONNCmFirp3zzhf/ERayyFUK+k2Riv8TcJ6IIs08e5sSuJMIAr
+ t6vCeeOFOmLtgeaYh2fixmxfrmpLVtC6VWYEIhNHgDBG5PYEvwniqdhsoZw8P7kQD4GH
+ BU2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WQtz9VJLYSx04Hh8zsTVQFn8wB6GzwGePEieOesZ6FA=;
- b=OilHpmdHnRajFOOiPzP/TiMqIj0NIBKyoFsG64mv/dsATQM8DPyR3BMqzbNQABijSG
- IaGURNj+arLmhob+VRN+CoiFBAD31Z2De51lZxnUuiqJECy0aj8IfVudU8vqhn8uvSbQ
- zmKMzTnu+4QgCzwjTXqxvF9k7tcA/q4iurO9aYQujq1GfAi4pNuLFD/vqSyqzKFfdn6V
- xyfdp8PU3WMD173eD4mP2LhMP2IN5fE+b+goBvnG5xSl/GQFdAecdpspFkl7hdrp3shq
- peVXTGLWFy2tpbSW82izSFCt8jo/5aCiXN61IyoPwcagJWVJhaxnIA8W7nFOmqECBMWC
- VCIg==
-X-Gm-Message-State: AOAM530hYUb7HMeibzHLuI/Rkg2n2+s7Lok2itGEtecJ29hmOEiZr0rf
- 2yAoMZ68E/DMlg5pNd7KV1BVznzze0a3ug==
-X-Google-Smtp-Source: ABdhPJwd0FdbZKzzGsPvHsH9Yi1kqbYmhKXMgg2ZiaGGfZ9JtekrukCB5/c9jH/ctZsn9DRz+xZ/Dg==
-X-Received: by 2002:aa7:8b0b:0:b029:152:900d:2288 with SMTP id
- f11-20020aa78b0b0000b0290152900d2288mr6950906pfd.53.1604018975744; 
- Thu, 29 Oct 2020 17:49:35 -0700 (PDT)
+ bh=iw63tVm/gJW8ix0+OZbB8FxuagBCr8ISw8kd0ux54hg=;
+ b=CI3i8K6zxW+/jKbps9rTaV5M672mh4e0PuNUGGFG6Dg1T3CIosd+m74uGZo7sBXO37
+ ACVRINtUTf4tEb6TmN1aIKwwXKEgTO0CuxwECAYhz9eQINp6iHO/N+Wk/6b04dpxlZes
+ 4Ampb1jOitc4ppWPlK6iWGrSFI2fcd/pR2GLlXtLF7CACZ6xANpL/jTk8NlAB5tpwg9w
+ XnmcY0KtPSr/kdny6vvvpKhhYnl3pUGmv243UrkCTKUIGjgNZ/8Z4axM3MIx1bTbXBtp
+ XGYuKX5GKE97DN9n3iBzIf63PTS3ibdaEQQuyQBzzk/yhpkVGqTQYMLcagU/aIY+GvZW
+ V72A==
+X-Gm-Message-State: AOAM531gCmGBLcc9ASaLN76qpyY7pmU0SNZRZKS0mRmV7HyNJHd63B75
+ VWmdgtGCkkXUcDs8bG06xWdaUzXRbgOMAQ==
+X-Google-Smtp-Source: ABdhPJwzJZniYFAeBxsqwv/5d0wyFZHWoMYuah1+Yr9gZTfKHh+AxIlYKLO8IEs6BJScgvC/Ss5Lgw==
+X-Received: by 2002:a17:902:934b:b029:d4:e4c7:26f5 with SMTP id
+ g11-20020a170902934bb02900d4e4c726f5mr6793966plp.60.1604018978445; 
+ Thu, 29 Oct 2020 17:49:38 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.34
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:34 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:37 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/19] tcg: Make DisasContextBase.tb const
-Date: Thu, 29 Oct 2020 17:49:11 -0700
-Message-Id: <20201030004921.721096-10-richard.henderson@linaro.org>
+Subject: [PATCH v2 11/19] tcg: Use Error with alloc_code_gen_buffer
+Date: Thu, 29 Oct 2020 17:49:13 -0700
+Message-Id: <20201030004921.721096-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,111 +89,151 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is nothing within the translators that ought to be
-changing the TranslationBlock data, so make it const.
-
-This does not actually use the read-only copy of the
-data structure that exists within the rx mirror.
+Report better error messages than just "could not allocate".
+Let alloc_code_gen_buffer set ctx->code_gen_buffer_size
+and ctx->code_gen_buffer, and simply return bool.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/gen-icount.h  | 4 ++--
- include/exec/translator.h  | 2 +-
- include/tcg/tcg-op.h       | 2 +-
- accel/tcg/translator.c     | 4 ++--
- target/arm/translate-a64.c | 2 +-
- tcg/tcg-op.c               | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+ accel/tcg/translate-all.c | 60 ++++++++++++++++++++++-----------------
+ 1 file changed, 34 insertions(+), 26 deletions(-)
 
-diff --git a/include/exec/gen-icount.h b/include/exec/gen-icount.h
-index 822c43cfd3..aa4b44354a 100644
---- a/include/exec/gen-icount.h
-+++ b/include/exec/gen-icount.h
-@@ -32,7 +32,7 @@ static inline void gen_io_end(void)
-     tcg_temp_free_i32(tmp);
- }
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index c3e35bdee6..fca632eefa 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -59,6 +59,7 @@
+ #include "sysemu/cpus.h"
+ #include "sysemu/cpu-timers.h"
+ #include "sysemu/tcg.h"
++#include "qapi/error.h"
  
--static inline void gen_tb_start(TranslationBlock *tb)
-+static inline void gen_tb_start(const TranslationBlock *tb)
+ /* #define DEBUG_TB_INVALIDATE */
+ /* #define DEBUG_TB_FLUSH */
+@@ -973,7 +974,7 @@ static void page_lock_pair(PageDesc **ret_p1, tb_page_addr_t phys1,
+   (DEFAULT_CODE_GEN_BUFFER_SIZE_1 < MAX_CODE_GEN_BUFFER_SIZE \
+    ? DEFAULT_CODE_GEN_BUFFER_SIZE_1 : MAX_CODE_GEN_BUFFER_SIZE)
+ 
+-static inline size_t size_code_gen_buffer(size_t tb_size)
++static size_t size_code_gen_buffer(size_t tb_size)
  {
-     TCGv_i32 count, imm;
+     /* Size the buffer.  */
+     if (tb_size == 0) {
+@@ -1024,7 +1025,7 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
+ static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
+     __attribute__((aligned(CODE_GEN_ALIGN)));
  
-@@ -71,7 +71,7 @@ static inline void gen_tb_start(TranslationBlock *tb)
-     tcg_temp_free_i32(count);
- }
- 
--static inline void gen_tb_end(TranslationBlock *tb, int num_insns)
-+static inline void gen_tb_end(const TranslationBlock *tb, int num_insns)
+-static inline void *alloc_code_gen_buffer(void)
++static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
  {
-     if (tb_cflags(tb) & CF_USE_ICOUNT) {
-         /* Update the num_insn immediate parameter now that we know
-diff --git a/include/exec/translator.h b/include/exec/translator.h
-index 638e1529c5..24232ead41 100644
---- a/include/exec/translator.h
-+++ b/include/exec/translator.h
-@@ -67,7 +67,7 @@ typedef enum DisasJumpType {
-  * Architecture-agnostic disassembly context.
-  */
- typedef struct DisasContextBase {
--    TranslationBlock *tb;
-+    const TranslationBlock *tb;
-     target_ulong pc_first;
-     target_ulong pc_next;
-     DisasJumpType is_jmp;
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 5abf17fecc..cbe39a3b95 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -805,7 +805,7 @@ static inline void tcg_gen_insn_start(target_ulong pc, target_ulong a1,
-  * be NULL and @idx should be 0.  Otherwise, @tb should be valid and
-  * @idx should be one of the TB_EXIT_ values.
-  */
--void tcg_gen_exit_tb(TranslationBlock *tb, unsigned idx);
-+void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx);
+     void *buf = static_code_gen_buffer;
+     void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
+@@ -1037,9 +1038,8 @@ static inline void *alloc_code_gen_buffer(void)
+     size = end - buf;
  
- /**
-  * tcg_gen_goto_tb() - output goto_tb TCG operation
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index fb1e19c585..a49a794065 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -133,8 +133,8 @@ void translator_loop(const TranslatorOps *ops, DisasContextBase *db,
+     /* Honor a command-line option limiting the size of the buffer.  */
+-    if (size > tcg_ctx->code_gen_buffer_size) {
+-        size = QEMU_ALIGN_DOWN(tcg_ctx->code_gen_buffer_size,
+-                               qemu_real_host_page_size);
++    if (size > tb_size) {
++        size = QEMU_ALIGN_DOWN(tb_size, qemu_real_host_page_size);
      }
+     tcg_ctx->code_gen_buffer_size = size;
  
-     /* The disas_log hook may use these values rather than recompute.  */
--    db->tb->size = db->pc_next - db->pc_first;
--    db->tb->icount = db->num_insns;
-+    tb->size = db->pc_next - db->pc_first;
-+    tb->icount = db->num_insns;
+@@ -1051,31 +1051,43 @@ static inline void *alloc_code_gen_buffer(void)
+ #endif
  
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_IN_ASM)
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 072754fa24..297782e6ef 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -410,7 +410,7 @@ static inline bool use_goto_tb(DisasContext *s, int n, uint64_t dest)
+     if (qemu_mprotect_rwx(buf, size)) {
+-        abort();
++        error_setg_errno(errp, errno, "mprotect of jit buffer");
++        return false;
+     }
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
  
- static inline void gen_goto_tb(DisasContext *s, int n, uint64_t dest)
+-    return buf;
++    tcg_ctx->code_gen_buffer = buf;
++    return true;
+ }
+ #elif defined(_WIN32)
+-static inline void *alloc_code_gen_buffer(void)
++static bool alloc_code_gen_buffer(size_t size, Error **errp)
  {
--    TranslationBlock *tb;
-+    const TranslationBlock *tb;
- 
-     tb = s->base.tb;
-     if (use_goto_tb(s, n, dest)) {
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 4b8a473fad..e3dc0cb4cb 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2664,7 +2664,7 @@ void tcg_gen_extr32_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i64 arg)
- 
- /* QEMU specific operations.  */
- 
--void tcg_gen_exit_tb(TranslationBlock *tb, unsigned idx)
-+void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
+-    size_t size = tcg_ctx->code_gen_buffer_size;
+-    return VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
+-                        PAGE_EXECUTE_READWRITE);
++    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
++                             PAGE_EXECUTE_READWRITE);
++    if (buf == NULL) {
++        error_setg_win32(errp, GetLastError(),
++                         "allocate %zu bytes for jit buffer", size);
++        return false;
++    }
++
++    tcg_ctx->code_gen_buffer = buf;
++    tcg_ctx->code_gen_buffer_size = size;
++    return true;
+ }
+ #else
+-static inline void *alloc_code_gen_buffer(void)
++static bool alloc_code_gen_buffer(size_t size, Error **errp)
  {
-     uintptr_t val = (uintptr_t)tb + idx;
+     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+-    size_t size = tcg_ctx->code_gen_buffer_size;
+     void *buf;
  
+     buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+-        return NULL;
++        error_setg_errno(errp, errno,
++                         "allocate %zu bytes for jit buffer", size);
++        return false;
+     }
++    tcg_ctx->code_gen_buffer_size = size;
+ 
+ #ifdef __mips__
+     if (cross_256mb(buf, size)) {
+@@ -1114,20 +1126,11 @@ static inline void *alloc_code_gen_buffer(void)
+     /* Request large pages for the buffer.  */
+     qemu_madvise(buf, size, QEMU_MADV_HUGEPAGE);
+ 
+-    return buf;
++    tcg_ctx->code_gen_buffer = buf;
++    return true;
+ }
+ #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
+ 
+-static inline void code_gen_alloc(size_t tb_size)
+-{
+-    tcg_ctx->code_gen_buffer_size = size_code_gen_buffer(tb_size);
+-    tcg_ctx->code_gen_buffer = alloc_code_gen_buffer();
+-    if (tcg_ctx->code_gen_buffer == NULL) {
+-        fprintf(stderr, "Could not allocate dynamic translator buffer\n");
+-        exit(1);
+-    }
+-}
+-
+ static bool tb_cmp(const void *ap, const void *bp)
+ {
+     const TranslationBlock *a = ap;
+@@ -1154,11 +1157,16 @@ static void tb_htable_init(void)
+    size. */
+ void tcg_exec_init(unsigned long tb_size)
+ {
++    bool ok;
++
+     tcg_allowed = true;
+     cpu_gen_init();
+     page_init();
+     tb_htable_init();
+-    code_gen_alloc(tb_size);
++
++    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
++    assert(ok);
++
+ #if defined(CONFIG_SOFTMMU)
+     /* There's no guest base to take into account, so go ahead and
+        initialize the prologue now.  */
 -- 
 2.25.1
 
