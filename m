@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E71BD29FB40
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 03:30:00 +0100 (CET)
-Received: from localhost ([::1]:59218 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C90E629FB36
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 03:28:14 +0100 (CET)
+Received: from localhost ([::1]:52782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYKAy-0000Z1-0T
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 22:30:00 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39760)
+	id 1kYK9F-0006Mz-Et
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 22:28:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYK7V-0004yi-Db
+ id 1kYK7V-0004yj-Cq
  for qemu-devel@nongnu.org; Thu, 29 Oct 2020 22:26:25 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:32797)
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:38793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYK7T-0005u0-Fj
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 22:26:24 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id b19so2256318pld.0
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 19:26:21 -0700 (PDT)
+ id 1kYK7T-0005uD-Es
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 22:26:25 -0400
+Received: by mail-pl1-x643.google.com with SMTP id f21so2248346plr.5
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 19:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hWFPHSjsVgdkpwaXmpPyiEJodAdz7dCX6Ri0ZTK6cK8=;
- b=x/fKT/cmwIXnwSo8MCGaRpIhmifd5D5s2ER+1atRem6b/a1+2k+DJ7YJlJoBJ4xbnw
- SyxB4dpI5tb3fueW7KxzKxenIgZpnn/w5xhyQjzXtUSE8cmBqj3ZjibxMX7M41savdLZ
- 6koDiw4yrfVZaR8KT9+k3mSlbMfXGfZMkeJm5JeUFikJ/wvRO5IZO4bqGBYt5AWT4bnq
- Q5fEhs61Y8RdwuFAZeY5fhYEQZ0JCcb4gESIoUsnCvYEAE/Ic9XZoy9S6ms4LgDOjsbw
- gjkmnCIax64SIeUraUW9BBWEoh+cncvurj5PqsYfDlwEToadi1Y97eZK/pG1ItgljlSq
- SyQQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=pKwAEGss07SFEqvTkuenDxl2hW2mchkMUugv+tWaYr8=;
+ b=Pb6+X5fQwVWKsS3DbmfE6X7NPWGv8SEqx+8vr4/g5N2W7xi8DAgrDCwWKO84/WgNjw
+ Qu9M0l7Rdd439+CNt0gc3s3OEIyv7P4ivgUG3cUe9m8wvAIpshePRM7qh89w7tReP2UM
+ iaEgFSMBekfUkpEJIBfDTzo0CNByF5PW79NYTGewhfQenrLTfjlcdKZXN6MqRz/LzwF5
+ vupJHxAcgxpQD/gAD83Nd8Tvfl7caLNua68tX2DbQWteSzrpInIyQgm5pDn19L92zsgw
+ lL9epjZYvWKi89N19lFPwmSYlsMsBGmalYK4CBs1cAzH3tbUXpWSCepStgc6EaCh+yQ8
+ YEXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=hWFPHSjsVgdkpwaXmpPyiEJodAdz7dCX6Ri0ZTK6cK8=;
- b=emTHkoPe1l5u+NZON7Wh/llDHMXi2IAceqAQGU6XWHCz+RotJ8tifu1nr7qUWt6Xrn
- 8FMUBZLUOZMkAXVjS6lJxiN8/kTk2fjkNjGy6pfI5Qxl/0/qSoSujDSJ1rXOIzqYide2
- mEp29bTh43tAYe6OXPgi9Pguc8meUQnVoCoxEYM892b0Aus1czpQRrf9c+fStZCNkugm
- iiaUUi4h9qMpfJlrULH6xtnz//q7NRVRYgWsJi87zBc68aHXyBZoxqrEFpvtlzWkhRgF
- TTVhAXvey2JX7XHy6qURqv1wd8nhe9eJjf6plXiekCfdF99qpz76UBeHg8pliojmOZHg
- shcg==
-X-Gm-Message-State: AOAM533Pb6wVNyMlUE/4VbD6DglXKJvyUFKXQEZhh55csMlcVKAUV+xq
- INKC9/uSyn5f1RBbZ3d8zfRFu7jVBHpp2w==
-X-Google-Smtp-Source: ABdhPJzIW+9bcyeOfVQLFqF5v079gynX5ykPUiuAHPh0nfDEKH8pIkzHG+Y/TazUfIzHD7M5PLMxjw==
-X-Received: by 2002:a17:902:9a4c:b029:d6:1f21:8021 with SMTP id
- x12-20020a1709029a4cb02900d61f218021mr6704567plv.58.1604024780264; 
- Thu, 29 Oct 2020 19:26:20 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=pKwAEGss07SFEqvTkuenDxl2hW2mchkMUugv+tWaYr8=;
+ b=aIeamkedfAj7u0oMKhQL47BYOjYGm5GHdHqT4Rk4/vstdqEMt1DBSB7QP32SyJCy6E
+ YO+OpIdpMM7w3Doiforzeky2zXyKiVJ2AFd5ZduLQ4B65udUmiNE46BTEwcgBWsmnGXU
+ 9dsRz8QRUSd6TOiIxGdmWHcsIQYThiH27LpDFOBDfAZ9LI4l2J7m9EyQm6Sjk9pB800Y
+ gxF1/4F1c0U1SFnwTrn/Z2qwY+nRj5M6bTUncAilYgWlqSZW7gy1rSVVUR+HoSBR7iS3
+ Lo34NVdvd/yuZF/J40JidkSDCUg3iGNwQdAsMnKFdQIKh/56jbFGMP5k+aIweQ+3xVdn
+ qXzg==
+X-Gm-Message-State: AOAM5314DKKH9NEShshPkXA0IDumIvsACcLQzFK0uxs20hsShb1VDFUH
+ ue6QMi3TIH2XtONx+ObT7B/HTC6mm/YJew==
+X-Google-Smtp-Source: ABdhPJz37YwmI8uZx2I6CdTCbtKz+ZVBx2CE8wjGPRXirDTiBN1R8y3ViTJI6dwjq5ZXFmOSB6vc1Q==
+X-Received: by 2002:a17:902:fe07:b029:d6:88c5:f5d5 with SMTP id
+ g7-20020a170902fe07b02900d688c5f5d5mr6013516plj.63.1604024781479; 
+ Thu, 29 Oct 2020 19:26:21 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b7sm4446517pfr.171.2020.10.29.19.26.18
+ by smtp.gmail.com with ESMTPSA id b7sm4446517pfr.171.2020.10.29.19.26.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 19:26:19 -0700 (PDT)
+ Thu, 29 Oct 2020 19:26:20 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/11] target/arm: Fix neon reg offsets
-Date: Thu, 29 Oct 2020 19:26:07 -0700
-Message-Id: <20201030022618.785675-1-richard.henderson@linaro.org>
+Subject: [PATCH v2 01/11] target/arm: Introduce neon_full_reg_offset
+Date: Thu, 29 Oct 2020 19:26:08 -0700
+Message-Id: <20201030022618.785675-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201030022618.785675-1-richard.henderson@linaro.org>
+References: <20201030022618.785675-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,36 +89,176 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Much of the existing usage of neon_reg_offset is broken for
-big-endian hosts, as it computes the offset of the first
-32-bit unit, not the offset of the entire vector register.
+This function makes it clear that we're talking about the whole
+register, and not the 32-bit piece at index 0.  This fixes a bug
+when running on a big-endian host.
 
-Fix this by separating out the different usages.  Make the
-whole thing look a bit more like the aarch64 code.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/translate.c          |  8 ++++++
+ target/arm/translate-neon.c.inc | 44 ++++++++++++++++-----------------
+ target/arm/translate-vfp.c.inc  |  2 +-
+ 3 files changed, 31 insertions(+), 23 deletions(-)
 
-Changes for v2:
-  * Fix two tcg temp leaks.
-
-r~
-
-Richard Henderson (11):
-  target/arm: Introduce neon_full_reg_offset
-  target/arm: Move neon_element_offset to translate.c
-  target/arm: Use neon_element_offset in neon_load/store_reg
-  target/arm: Use neon_element_offset in vfp_reg_offset
-  target/arm: Add read/write_neon_element32
-  target/arm: Expand read/write_neon_element32 to all MemOp
-  target/arm: Rename neon_load_reg32 to vfp_load_reg32
-  target/arm: Add read/write_neon_element64
-  target/arm: Rename neon_load_reg64 to vfp_load_reg64
-  target/arm: Simplify do_long_3d and do_2scalar_long
-  target/arm: Improve do_prewiden_3d
-
- target/arm/translate.c          | 153 ++++++++---
- target/arm/translate-neon.c.inc | 472 +++++++++++++++++---------------
- target/arm/translate-vfp.c.inc  | 341 ++++++++++-------------
- 3 files changed, 516 insertions(+), 450 deletions(-)
-
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 38371db540..1b61e50f9c 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -1094,6 +1094,14 @@ static inline void gen_hlt(DisasContext *s, int imm)
+     unallocated_encoding(s);
+ }
+ 
++/*
++ * Return the offset of a "full" NEON Dreg.
++ */
++static long neon_full_reg_offset(unsigned reg)
++{
++    return offsetof(CPUARMState, vfp.zregs[reg >> 1].d[reg & 1]);
++}
++
+ static inline long vfp_reg_offset(bool dp, unsigned reg)
+ {
+     if (dp) {
+diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
+index 4d1a292981..e259e24c05 100644
+--- a/target/arm/translate-neon.c.inc
++++ b/target/arm/translate-neon.c.inc
+@@ -76,7 +76,7 @@ neon_element_offset(int reg, int element, MemOp size)
+         ofs ^= 8 - element_size;
+     }
+ #endif
+-    return neon_reg_offset(reg, 0) + ofs;
++    return neon_full_reg_offset(reg) + ofs;
+ }
+ 
+ static void neon_load_element(TCGv_i32 var, int reg, int ele, MemOp mop)
+@@ -585,12 +585,12 @@ static bool trans_VLD_all_lanes(DisasContext *s, arg_VLD_all_lanes *a)
+              * We cannot write 16 bytes at once because the
+              * destination is unaligned.
+              */
+-            tcg_gen_gvec_dup_i32(size, neon_reg_offset(vd, 0),
++            tcg_gen_gvec_dup_i32(size, neon_full_reg_offset(vd),
+                                  8, 8, tmp);
+-            tcg_gen_gvec_mov(0, neon_reg_offset(vd + 1, 0),
+-                             neon_reg_offset(vd, 0), 8, 8);
++            tcg_gen_gvec_mov(0, neon_full_reg_offset(vd + 1),
++                             neon_full_reg_offset(vd), 8, 8);
+         } else {
+-            tcg_gen_gvec_dup_i32(size, neon_reg_offset(vd, 0),
++            tcg_gen_gvec_dup_i32(size, neon_full_reg_offset(vd),
+                                  vec_size, vec_size, tmp);
+         }
+         tcg_gen_addi_i32(addr, addr, 1 << size);
+@@ -691,9 +691,9 @@ static bool trans_VLDST_single(DisasContext *s, arg_VLDST_single *a)
+ static bool do_3same(DisasContext *s, arg_3same *a, GVecGen3Fn fn)
+ {
+     int vec_size = a->q ? 16 : 8;
+-    int rd_ofs = neon_reg_offset(a->vd, 0);
+-    int rn_ofs = neon_reg_offset(a->vn, 0);
+-    int rm_ofs = neon_reg_offset(a->vm, 0);
++    int rd_ofs = neon_full_reg_offset(a->vd);
++    int rn_ofs = neon_full_reg_offset(a->vn);
++    int rm_ofs = neon_full_reg_offset(a->vm);
+ 
+     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+         return false;
+@@ -1177,8 +1177,8 @@ static bool do_vector_2sh(DisasContext *s, arg_2reg_shift *a, GVecGen2iFn *fn)
+ {
+     /* Handle a 2-reg-shift insn which can be vectorized. */
+     int vec_size = a->q ? 16 : 8;
+-    int rd_ofs = neon_reg_offset(a->vd, 0);
+-    int rm_ofs = neon_reg_offset(a->vm, 0);
++    int rd_ofs = neon_full_reg_offset(a->vd);
++    int rm_ofs = neon_full_reg_offset(a->vm);
+ 
+     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+         return false;
+@@ -1620,8 +1620,8 @@ static bool do_fp_2sh(DisasContext *s, arg_2reg_shift *a,
+ {
+     /* FP operations in 2-reg-and-shift group */
+     int vec_size = a->q ? 16 : 8;
+-    int rd_ofs = neon_reg_offset(a->vd, 0);
+-    int rm_ofs = neon_reg_offset(a->vm, 0);
++    int rd_ofs = neon_full_reg_offset(a->vd);
++    int rm_ofs = neon_full_reg_offset(a->vm);
+     TCGv_ptr fpst;
+ 
+     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+@@ -1756,7 +1756,7 @@ static bool do_1reg_imm(DisasContext *s, arg_1reg_imm *a,
+         return true;
+     }
+ 
+-    reg_ofs = neon_reg_offset(a->vd, 0);
++    reg_ofs = neon_full_reg_offset(a->vd);
+     vec_size = a->q ? 16 : 8;
+     imm = asimd_imm_const(a->imm, a->cmode, a->op);
+ 
+@@ -2300,9 +2300,9 @@ static bool trans_VMULL_P_3d(DisasContext *s, arg_3diff *a)
+         return true;
+     }
+ 
+-    tcg_gen_gvec_3_ool(neon_reg_offset(a->vd, 0),
+-                       neon_reg_offset(a->vn, 0),
+-                       neon_reg_offset(a->vm, 0),
++    tcg_gen_gvec_3_ool(neon_full_reg_offset(a->vd),
++                       neon_full_reg_offset(a->vn),
++                       neon_full_reg_offset(a->vm),
+                        16, 16, 0, fn_gvec);
+     return true;
+ }
+@@ -2445,8 +2445,8 @@ static bool do_2scalar_fp_vec(DisasContext *s, arg_2scalar *a,
+ {
+     /* Two registers and a scalar, using gvec */
+     int vec_size = a->q ? 16 : 8;
+-    int rd_ofs = neon_reg_offset(a->vd, 0);
+-    int rn_ofs = neon_reg_offset(a->vn, 0);
++    int rd_ofs = neon_full_reg_offset(a->vd);
++    int rn_ofs = neon_full_reg_offset(a->vn);
+     int rm_ofs;
+     int idx;
+     TCGv_ptr fpstatus;
+@@ -2477,7 +2477,7 @@ static bool do_2scalar_fp_vec(DisasContext *s, arg_2scalar *a,
+     /* a->vm is M:Vm, which encodes both register and index */
+     idx = extract32(a->vm, a->size + 2, 2);
+     a->vm = extract32(a->vm, 0, a->size + 2);
+-    rm_ofs = neon_reg_offset(a->vm, 0);
++    rm_ofs = neon_full_reg_offset(a->vm);
+ 
+     fpstatus = fpstatus_ptr(a->size == 1 ? FPST_STD_F16 : FPST_STD);
+     tcg_gen_gvec_3_ptr(rd_ofs, rn_ofs, rm_ofs, fpstatus,
+@@ -2923,7 +2923,7 @@ static bool trans_VDUP_scalar(DisasContext *s, arg_VDUP_scalar *a)
+         return true;
+     }
+ 
+-    tcg_gen_gvec_dup_mem(a->size, neon_reg_offset(a->vd, 0),
++    tcg_gen_gvec_dup_mem(a->size, neon_full_reg_offset(a->vd),
+                          neon_element_offset(a->vm, a->index, a->size),
+                          a->q ? 16 : 8, a->q ? 16 : 8);
+     return true;
+@@ -3412,8 +3412,8 @@ static bool trans_VCVT_F32_F16(DisasContext *s, arg_2misc *a)
+ static bool do_2misc_vec(DisasContext *s, arg_2misc *a, GVecGen2Fn *fn)
+ {
+     int vec_size = a->q ? 16 : 8;
+-    int rd_ofs = neon_reg_offset(a->vd, 0);
+-    int rm_ofs = neon_reg_offset(a->vm, 0);
++    int rd_ofs = neon_full_reg_offset(a->vd);
++    int rm_ofs = neon_full_reg_offset(a->vm);
+ 
+     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
+         return false;
+diff --git a/target/arm/translate-vfp.c.inc b/target/arm/translate-vfp.c.inc
+index a7ed9bc81b..368bae0a73 100644
+--- a/target/arm/translate-vfp.c.inc
++++ b/target/arm/translate-vfp.c.inc
+@@ -653,7 +653,7 @@ static bool trans_VDUP(DisasContext *s, arg_VDUP *a)
+     }
+ 
+     tmp = load_reg(s, a->rt);
+-    tcg_gen_gvec_dup_i32(size, neon_reg_offset(a->vn, 0),
++    tcg_gen_gvec_dup_i32(size, neon_full_reg_offset(a->vn),
+                          vec_size, vec_size, tmp);
+     tcg_temp_free_i32(tmp);
+ 
 -- 
 2.25.1
 
