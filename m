@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45ED029FC7E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:07:27 +0100 (CET)
-Received: from localhost ([::1]:46070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF1729FCD3
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:46:54 +0100 (CET)
+Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYLhF-0000nI-LH
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:07:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57782)
+	id 1kYMJR-0001fh-7F
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:46:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reader@fennosys.fi>)
- id 1kYLcW-0000HV-6S
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 00:02:32 -0400
-Received: from smtp.fennosys.fi ([62.241.241.27]:45662 helo=mail.fennosys.fi)
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kYL8Y-00056L-5e; Thu, 29 Oct 2020 23:31:34 -0400
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <reader@fennosys.fi>)
- id 1kYLcT-0005CI-NL
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 00:02:31 -0400
-Received: (qmail 9371 invoked by uid 210); 30 Oct 2020 04:02:22 -0000
-Received: from 49.158.119.22 (antti@fennosys.fi@49.158.119.22) by
- mail01-fennosys (envelope-from <reader@fennosys.fi>,
- uid 201) with qmail-scanner-2.08st 
- (clamdscan: 0.98.7/25972. spamassassin: 3.4.0. perlscan: 2.08st.  
- Clear:RC:1(49.158.119.22):. 
- Processed in 0.035032 secs); 30 Oct 2020 04:02:22 -0000
-Received: from unknown (HELO gail) (antti@fennosys.fi@49.158.119.22)
- by 10.200.232.5 with ESMTPA; 30 Oct 2020 04:02:22 -0000
-Date: Fri, 30 Oct 2020 12:02:18 +0800
-From: Antti Antinoja <reader@fennosys.fi>
-To: qemu-devel@nongnu.org
-Subject: Live migration not possible from 5.0 to 5.1?
-Message-Id: <20201030120218.57ce841be22970274491be08@fennosys.fi>
-X-Mailer: Sylpheed 3.7.0
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kYL8U-0002Ii-Pm; Thu, 29 Oct 2020 23:31:33 -0400
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CMns96snRzhcyG;
+ Fri, 30 Oct 2020 11:31:09 +0800 (CST)
+Received: from [10.108.235.13] (10.108.235.13) by
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 30 Oct 2020 11:30:59 +0800
+Subject: block: Fix some code style problems, "foo* bar" should be "foo *bar"
+References: <7d7f2b33-8c3f-2050-e11f-8357f0db152f@huawei.com>
+To: <kwolf@redhat.com>, <mreitz@redhat.com>
+From: shiliyang <shiliyang@huawei.com>
+X-Forwarded-Message-Id: <7d7f2b33-8c3f-2050-e11f-8357f0db152f@huawei.com>
+Message-ID: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
+Date: Fri, 30 Oct 2020 11:30:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
+MIME-Version: 1.0
+In-Reply-To: <7d7f2b33-8c3f-2050-e11f-8357f0db152f@huawei.com>
+Content-Type: text/plain; charset="gbk"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=62.241.241.27; envelope-from=reader@fennosys.fi;
- helo=mail.fennosys.fi
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 00:02:23
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.108.235.13]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191; envelope-from=shiliyang@huawei.com;
+ helo=szxga05-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 23:31:10
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 30 Oct 2020 00:44:44 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -58,41 +60,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+There have some code style problems be found when read the block driver code.
+So I fixes some problems of this error, ERROR: "foo* bar" should be "foo *bar".
 
-I couldn't find any mention about live migration incompatibility between 5.0 and 5.1 in the release notes but at least on our AMD based platform live migration from 5.0 to 5.1 is not possible.
+Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+---
+ block/blkdebug.c |  2 +-
+ block/dmg.c      |  2 +-
+ block/qcow2.c    |  4 ++--
+ block/qcow2.h    |  6 +++---
+ block/vpc.c      | 10 +++++-----
+ 5 files changed, 12 insertions(+), 12 deletions(-)
 
-The upgraded host had identical versions with it's pair before the upgrade was started:
-* qemu 5.0.0-r2
-* kernel 5.7.17
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 54da719dd1..5fe6172da9 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -173,7 +173,7 @@ static int add_rule(void *opaque, QemuOpts *opts, Error **errp)
+ {
+     struct add_rule_data *d = opaque;
+     BDRVBlkdebugState *s = d->s;
+-    const char* event_name;
++    const char *event_name;
+     int event;
+     struct BlkdebugRule *rule;
+     int64_t sector;
+diff --git a/block/dmg.c b/block/dmg.c
+index 0d6c317296..ef35a505f2 100644
+--- a/block/dmg.c
++++ b/block/dmg.c
+@@ -559,7 +559,7 @@ static void dmg_refresh_limits(BlockDriverState *bs, Error **errp)
+     bs->bl.request_alignment = BDRV_SECTOR_SIZE; /* No sub-sector I/O */
+ }
 
-After upgrade:
-* qemu 5.1.0-r1
-* kernel 5.8.16
+-static inline int is_sector_in_chunk(BDRVDMGState* s,
++static inline int is_sector_in_chunk(BDRVDMGState *s,
+                 uint32_t chunk_num, uint64_t sector_num)
+ {
+     if (chunk_num >= s->n_chunks || s->sectors[chunk_num] > sector_num ||
+diff --git a/block/qcow2.c b/block/qcow2.c
+index b6cb4db8bb..0f94c43ce9 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -269,7 +269,7 @@ static int qcow2_read_extensions(BlockDriverState *bs, uint64_t start_offset,
 
-After reverting qemu back to 5.0.0-r2 migration worked normally.
+         case QCOW2_EXT_MAGIC_FEATURE_TABLE:
+             if (p_feature_table != NULL) {
+-                void* feature_table = g_malloc0(ext.len + 2 * sizeof(Qcow2Feature));
++                void *feature_table = g_malloc0(ext.len + 2 * sizeof(Qcow2Feature));
+                 ret = bdrv_pread(bs->file, offset , feature_table, ext.len);
+                 if (ret < 0) {
+                     error_setg_errno(errp, -ret, "ERROR: ext_feature_table: "
+@@ -3374,7 +3374,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
+     size_t cluster_size;
+     int version;
+     int refcount_order;
+-    uint64_t* refcount_table;
++    uint64_t *refcount_table;
+     int ret;
+     uint8_t compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
 
-On the sending end "info migrate" shows:
-(qemu) info migrate
-info migrate
-globals:
-store-global-state: on
-only-migratable: off
-send-configuration: on
-send-section-footer: on
-decompress-error-check: on
-clear-bitmap-shift: 18
-Migration status: failed (Unable to write to socket: Broken pipe)
-total time: 0 milliseconds
+diff --git a/block/qcow2.h b/block/qcow2.h
+index 125ea9679b..2da03e1d1e 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -343,8 +343,8 @@ typedef struct BDRVQcow2State {
+     uint64_t l1_table_offset;
+     uint64_t *l1_table;
 
-At least once the receiving end died (while running 5.1.0-r1). All attempts resulted a "Broken pipe" error on the sending (5.0.0-r2) end.
+-    Qcow2Cache* l2_table_cache;
+-    Qcow2Cache* refcount_block_cache;
++    Qcow2Cache *l2_table_cache;
++    Qcow2Cache *refcount_block_cache;
+     QEMUTimer *cache_clean_timer;
+     unsigned cache_clean_interval;
 
-Cheers,
-Antti
+@@ -394,7 +394,7 @@ typedef struct BDRVQcow2State {
+     uint64_t autoclear_features;
+
+     size_t unknown_header_fields_size;
+-    void* unknown_header_fields;
++    void *unknown_header_fields;
+     QLIST_HEAD(, Qcow2UnknownHeaderExtension) unknown_header_ext;
+     QTAILQ_HEAD (, Qcow2DiscardRegion) discards;
+     bool cache_discards;
+diff --git a/block/vpc.c b/block/vpc.c
+index 890554277e..1ab55f9287 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -172,7 +172,7 @@ static QemuOptsList vpc_runtime_opts = {
+
+ static QemuOptsList vpc_create_opts;
+
+-static uint32_t vpc_checksum(uint8_t* buf, size_t size)
++static uint32_t vpc_checksum(uint8_t *buf, size_t size)
+ {
+     uint32_t res = 0;
+     int i;
+@@ -528,7 +528,7 @@ static inline int64_t get_image_offset(BlockDriverState *bs, uint64_t offset,
+  *
+  * Returns 0 on success and < 0 on error
+  */
+-static int rewrite_footer(BlockDriverState* bs)
++static int rewrite_footer(BlockDriverState *bs)
+ {
+     int ret;
+     BDRVVPCState *s = bs->opaque;
+@@ -548,7 +548,7 @@ static int rewrite_footer(BlockDriverState* bs)
+  *
+  * Returns the sectors' offset in the image file on success and < 0 on error
+  */
+-static int64_t alloc_block(BlockDriverState* bs, int64_t offset)
++static int64_t alloc_block(BlockDriverState *bs, int64_t offset)
+ {
+     BDRVVPCState *s = bs->opaque;
+     int64_t bat_offset;
+@@ -781,8 +781,8 @@ static int coroutine_fn vpc_co_block_status(BlockDriverState *bs,
+  * the hardware EIDE and ATA-2 limit of 16 heads (max disk size of 127 GB)
+  * and instead allow up to 255 heads.
+  */
+-static int calculate_geometry(int64_t total_sectors, uint16_t* cyls,
+-    uint8_t* heads, uint8_t* secs_per_cyl)
++static int calculate_geometry(int64_t total_sectors, uint16_t *cyls,
++    uint8_t *heads, uint8_t *secs_per_cyl)
+ {
+     uint32_t cyls_times_heads;
 
 -- 
-Antti Antinoja <reader@fennosys.fi>
+2.17.1.windows.2
+
+
 
