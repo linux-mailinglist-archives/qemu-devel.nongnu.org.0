@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1DE29FA61
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:13:05 +0100 (CET)
-Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254CD29FA56
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:10:11 +0100 (CET)
+Received: from localhost ([::1]:51232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIyW-0006yV-LD
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:13:04 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
+	id 1kYIvi-0003co-6r
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:10:10 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITq-0001Xm-94; Thu, 29 Oct 2020 20:41:23 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2313)
+ id 1kYITo-0001W0-R8; Thu, 29 Oct 2020 20:41:20 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2367)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITm-00013h-MX; Thu, 29 Oct 2020 20:41:21 -0400
+ id 1kYITm-00013j-HI; Thu, 29 Oct 2020 20:41:20 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMk574mdjzkbpt;
- Fri, 30 Oct 2020 08:41:15 +0800 (CST)
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMk583hqkz15PJ5;
+ Fri, 30 Oct 2020 08:41:16 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
- 08:41:05 +0800
+ 08:41:06 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 2/8] hw/intc/arm_gicv3_kvm: silence the compiler warnings
-Date: Fri, 30 Oct 2020 08:40:40 +0800
-Message-ID: <20201030004046.2191790-3-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 3/8] accel/tcg/user-exec: silence the compiler warnings
+Date: Fri, 30 Oct 2020 08:40:41 +0800
+Message-ID: <20201030004046.2191790-4-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
 References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
@@ -58,121 +58,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
- qemu-arm@nongnu.org, ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-hw/intc/arm_gicv3_kvm.c: In function ‘kvm_arm_gicv3_put’:
-hw/intc/arm_gicv3_kvm.c:484:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             kvm_gicc_access(s, ICC_AP0R_EL1(1), ncpu, &reg64, true);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-hw/intc/arm_gicv3_kvm.c:485:9: note: here
-         default:
-         ^~~~~~~
-hw/intc/arm_gicv3_kvm.c:495:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             kvm_gicc_access(s, ICC_AP1R_EL1(2), ncpu, &reg64, true);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-hw/intc/arm_gicv3_kvm.c:496:9: note: here
-         case 6:
-         ^~~~
-hw/intc/arm_gicv3_kvm.c:498:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             kvm_gicc_access(s, ICC_AP1R_EL1(1), ncpu, &reg64, true);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-hw/intc/arm_gicv3_kvm.c:499:9: note: here
-         default:
-         ^~~~~~~
+../accel/tcg/user-exec.c: In function ‘handle_cpu_signal’:
+../accel/tcg/user-exec.c:169:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  169 |             cpu_exit_tb_from_sighandler(cpu, old_set);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../accel/tcg/user-exec.c:172:9: note: here
+  172 |         default:
 
-hw/intc/arm_gicv3_kvm.c: In function ‘kvm_arm_gicv3_get’:
-hw/intc/arm_gicv3_kvm.c:634:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             c->icc_apr[GICV3_G0][2] = reg64;
-             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-hw/intc/arm_gicv3_kvm.c:635:9: note: here
-         case 6:
-         ^~~~
-hw/intc/arm_gicv3_kvm.c:637:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             c->icc_apr[GICV3_G0][1] = reg64;
-             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-hw/intc/arm_gicv3_kvm.c:638:9: note: here
-         default:
-         ^~~~~~~
-hw/intc/arm_gicv3_kvm.c:648:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             c->icc_apr[GICV3_G1NS][2] = reg64;
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-hw/intc/arm_gicv3_kvm.c:649:9: note: here
-         case 6:
-         ^~~~
-hw/intc/arm_gicv3_kvm.c:651:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
-             c->icc_apr[GICV3_G1NS][1] = reg64;
-             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
-hw/intc/arm_gicv3_kvm.c:652:9: note: here
-         default:
-         ^~~~~~~
+Mark the cpu_exit_tb_from_sighandler() function with QEMU_NORETURN to fix it.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm@nongnu.org
----
- hw/intc/arm_gicv3_kvm.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+v1->v2: Add QEMU_NORETURN to cpu_exit_tb_from_sighandler() function
+to avoid the compiler warnings(Base on Thomas's and Richard's comments).
 
-diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
-index 187eb054e0..d040a5d1e9 100644
---- a/hw/intc/arm_gicv3_kvm.c
-+++ b/hw/intc/arm_gicv3_kvm.c
-@@ -478,9 +478,11 @@ static void kvm_arm_gicv3_put(GICv3State *s)
-             kvm_gicc_access(s, ICC_AP0R_EL1(3), ncpu, &reg64, true);
-             reg64 = c->icc_apr[GICV3_G0][2];
-             kvm_gicc_access(s, ICC_AP0R_EL1(2), ncpu, &reg64, true);
-+            /* fall through */
-         case 6:
-             reg64 = c->icc_apr[GICV3_G0][1];
-             kvm_gicc_access(s, ICC_AP0R_EL1(1), ncpu, &reg64, true);
-+            /* fall through */
-         default:
-             reg64 = c->icc_apr[GICV3_G0][0];
-             kvm_gicc_access(s, ICC_AP0R_EL1(0), ncpu, &reg64, true);
-@@ -492,9 +494,11 @@ static void kvm_arm_gicv3_put(GICv3State *s)
-             kvm_gicc_access(s, ICC_AP1R_EL1(3), ncpu, &reg64, true);
-             reg64 = c->icc_apr[GICV3_G1NS][2];
-             kvm_gicc_access(s, ICC_AP1R_EL1(2), ncpu, &reg64, true);
-+            /* fall through */
-         case 6:
-             reg64 = c->icc_apr[GICV3_G1NS][1];
-             kvm_gicc_access(s, ICC_AP1R_EL1(1), ncpu, &reg64, true);
-+            /* fall through */
-         default:
-             reg64 = c->icc_apr[GICV3_G1NS][0];
-             kvm_gicc_access(s, ICC_AP1R_EL1(0), ncpu, &reg64, true);
-@@ -631,9 +635,11 @@ static void kvm_arm_gicv3_get(GICv3State *s)
-             c->icc_apr[GICV3_G0][3] = reg64;
-             kvm_gicc_access(s, ICC_AP0R_EL1(2), ncpu, &reg64, false);
-             c->icc_apr[GICV3_G0][2] = reg64;
-+            /* fall through */
-         case 6:
-             kvm_gicc_access(s, ICC_AP0R_EL1(1), ncpu, &reg64, false);
-             c->icc_apr[GICV3_G0][1] = reg64;
-+            /* fall through */
-         default:
-             kvm_gicc_access(s, ICC_AP0R_EL1(0), ncpu, &reg64, false);
-             c->icc_apr[GICV3_G0][0] = reg64;
-@@ -645,9 +651,11 @@ static void kvm_arm_gicv3_get(GICv3State *s)
-             c->icc_apr[GICV3_G1NS][3] = reg64;
-             kvm_gicc_access(s, ICC_AP1R_EL1(2), ncpu, &reg64, false);
-             c->icc_apr[GICV3_G1NS][2] = reg64;
-+            /* fall through */
-         case 6:
-             kvm_gicc_access(s, ICC_AP1R_EL1(1), ncpu, &reg64, false);
-             c->icc_apr[GICV3_G1NS][1] = reg64;
-+            /* fall through */
-         default:
-             kvm_gicc_access(s, ICC_AP1R_EL1(0), ncpu, &reg64, false);
-             c->icc_apr[GICV3_G1NS][0] = reg64;
+Cc: Thomas Huth <thuth@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+---
+ accel/tcg/user-exec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 4ebe25461a..293ee86ea4 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -49,7 +49,8 @@ __thread uintptr_t helper_retaddr;
+ /* exit the current TB from a signal handler. The host registers are
+    restored in a state compatible with the CPU emulator
+  */
+-static void cpu_exit_tb_from_sighandler(CPUState *cpu, sigset_t *old_set)
++static void QEMU_NORETURN cpu_exit_tb_from_sighandler(CPUState *cpu,
++                                                      sigset_t *old_set)
+ {
+     /* XXX: use siglongjmp ? */
+     sigprocmask(SIG_SETMASK, old_set, NULL);
 -- 
 2.27.0
 
