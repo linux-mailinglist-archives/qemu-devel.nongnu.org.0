@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7317D29FA03
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:51:47 +0100 (CET)
-Received: from localhost ([::1]:52380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D45F29FA12
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:56:08 +0100 (CET)
+Received: from localhost ([::1]:39680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIdu-0005yh-FF
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:51:46 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46676)
+	id 1kYIi6-0003oC-Iv
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:56:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbk-00047w-Tx
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:33 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:32902)
+ id 1kYIbm-00048N-OV
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:36 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbe-0001p6-Ur
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:32 -0400
-Received: by mail-pl1-x643.google.com with SMTP id b19so2153407pld.0
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:26 -0700 (PDT)
+ id 1kYIbg-0001pF-IM
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:34 -0400
+Received: by mail-pg1-x543.google.com with SMTP id n16so3736055pgv.13
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2MjqX+QUgqVahxBoM+KI4RqbWF/gNIemuVyULL2YybU=;
- b=tnp5GvzQ2ypewdHOBHCWdZ3aUMjnTRVKJblwYOwPp6/ynLtXrtJBVLxhRVhKHG4Cam
- 54wTI6aJiDIveOpScZDXNHzRdPUdSFWX5HouOw4uEQChI/6Fk17MRbW17iHtZAXrJrIO
- QEBIf6K1BDgOmPrcsrj0ZeO1f/h/2G9sMn/GHI3/QZuE+u/mt1a+YNkjB55Tog82BSKy
- WP3ooBzC/jXh7JgR1uEPK7aZRbV+EYBLVJpo2JxmxqnC+SY7y01opoFzKGb/ZWAG5LwH
- 6abFcbi3CvI1vXQ2RtJsRj+HRqkOv4Pam9He8HbkaZjStKrQLAgUn20soHAEgsru9OHa
- Hb8g==
+ bh=8pLkiqkIjZ/7Qr8Zv4gVi8ZhnT5Yj9+J9ATOQP2/qhI=;
+ b=Yk89YWszf5JD6Ic7xaLk6bhhr8ojInWKf7wBno+yhJ2sLbAeWHSP9a5IxjG0UbKzJQ
+ +FYpnteOkJFzxSZ+eo6UnId4bxdmO2We8M4+5BYqSfrlAXpn78xbjl2EHkX8vMk94sxQ
+ otuwwyej9/bxrnkp3p4aDmgAdBkIIlvgqbHzXtbSWf7vJpNHdhCsD5yvC+MGCvGRCWZj
+ oMEioEbc7M43mGSRePzalcgzWEGWSII4w4D4ZxPwhKXew+BEtwE+3oaAcYSavuTV1srS
+ Th1GhONSVjqP9XCILvQ+iK1CmbELbPyTa8UOFJhqf/8dItWP73+bATT15Tj8lEZQnW0D
+ oZtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2MjqX+QUgqVahxBoM+KI4RqbWF/gNIemuVyULL2YybU=;
- b=OqfyscGXtmcOj95BrJQQicSGmOXxM5OApRbexU/5fNmDUAL3Fx2f3nbVy/BYpiy82W
- 2e7dPzfMLe+68EzXhtfP+eSzaAzGyoLzEzDJ+PeAm6ILS+MaO74FTi5atmlO40OzKIyE
- k2nEA0IqTChHB6yFAMtqRVp1SLM0gtnsiSs8J0sP3/Z2YPvvAlpaG425x5v9XqMYWO2A
- 9JKOZdRKx9hG0WnS5mudn3za8URZAuU9wp+fx03s3noWu7qI0iFeOtG78fzpLC3caplz
- 220chlbloL1tOqmzMcrrgP+C1oPYNSVIRDgI2D4SUnXJO2p7h1D9Yjnji/A/8phsxnzw
- aj0w==
-X-Gm-Message-State: AOAM5327gOauymOlNmQV8+TBovvNxDyGc81amyn/hnG6JeTDEZajwuxl
- NMRV38L8UIrKJprdQWZCo/oHOt2ksX5+4Q==
-X-Google-Smtp-Source: ABdhPJyj+wuA4wLMbVDQuv/FdboGY3PAdjMT9OX7qDQXCEk8Ln3n8KHtz/VPfOGVhugyqBuEEwlqCQ==
-X-Received: by 2002:a17:902:c404:b029:d6:30a7:dee8 with SMTP id
- k4-20020a170902c404b02900d630a7dee8mr6765947plk.78.1604018964848; 
- Thu, 29 Oct 2020 17:49:24 -0700 (PDT)
+ bh=8pLkiqkIjZ/7Qr8Zv4gVi8ZhnT5Yj9+J9ATOQP2/qhI=;
+ b=MEeHI+8MCoLQX4SMZ8e0pBcwKw/eAnSQ8feJgARKTCdKG85hwxtukKC+F9Gxdfq6AV
+ 6pp3gGz5Zo6YANUER98U3XX/fPTHgtwaP5tq5APcKQtAuYYdIRYIxe4w5YmqOLkPWolA
+ hyvfDiyJP4P2vJEnqs8NkXDc3N25CMQuqqQ59pWA3ikBZ97ztLrFqIM51MzUUbzZgeka
+ Ry6OOVv/aHOsWAVDXLgBRotUFMaTmIHMBSmBGPmmgeZjpt0T6Jy+uheGTy61/n628YiV
+ MNmise4saT+DFYzdYOFFNoDld/Fno6bCbDZh195Lk5m+xTBgyeXz/m5ov1T+58YSFqPA
+ b4PA==
+X-Gm-Message-State: AOAM5310YP9ghVJBB6Uh7usGbmRh3sHLRiNvphvZVr7W7M9jALNDa6uW
+ c+4sP3KyqQmGREVhuFIXMxKt3FPIA6DQaA==
+X-Google-Smtp-Source: ABdhPJwEI8f80BYXNQS4p5IlkC+4Mdt/XvKMiEeCNXsa28tZS8mONk2q2mie4Z/TRVnC2MPW4srz3A==
+X-Received: by 2002:a63:134d:: with SMTP id 13mr6282120pgt.370.1604018966204; 
+ Thu, 29 Oct 2020 17:49:26 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.23
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:24 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/19] tcg: Enhance flush_icache_range with separate data
- pointer
-Date: Thu, 29 Oct 2020 17:49:03 -0700
-Message-Id: <20201030004921.721096-2-richard.henderson@linaro.org>
+Subject: [PATCH v2 02/19] tcg: Move tcg prologue pointer out of TCGContext
+Date: Thu, 29 Oct 2020 17:49:04 -0700
+Message-Id: <20201030004921.721096-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,328 +88,107 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are shortly going to have a split rw/rx jit buffer.  Depending
-on the host, we need to flush the dcache at the rw data pointer and
-flush the icache at the rx code pointer.
+This value is constant across all thread-local copies of TCGContext,
+so we might as well move it out of thread-local storage.
 
-For now, the two passed pointers are identical, so there is no
-effective change in behaviour.
+Use the correct function pointer type, and name the variable
+tcg_qemu_tb_exec, which means that we are able to remove the
+macro that does the casting.
+
+Replace HAVE_TCG_QEMU_TB_EXEC with CONFIG_TCG_INTERPRETER,
+as this is somewhat clearer in intent.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h     |  9 +++++++--
- tcg/arm/tcg-target.h         |  8 ++++++--
- tcg/i386/tcg-target.h        |  3 ++-
- tcg/mips/tcg-target.h        |  8 ++++++--
- tcg/ppc/tcg-target.h         |  2 +-
- tcg/riscv/tcg-target.h       |  8 ++++++--
- tcg/s390/tcg-target.h        |  3 ++-
- tcg/sparc/tcg-target.h       |  8 +++++---
- tcg/tci/tcg-target.h         |  3 ++-
- softmmu/physmem.c            |  9 ++++++++-
- tcg/tcg.c                    |  5 +++--
- tcg/aarch64/tcg-target.c.inc |  2 +-
- tcg/mips/tcg-target.c.inc    |  2 +-
- tcg/ppc/tcg-target.c.inc     | 21 +++++++++++----------
- tcg/sparc/tcg-target.c.inc   |  4 ++--
- 15 files changed, 63 insertions(+), 32 deletions(-)
+ include/tcg/tcg.h    | 9 ++++-----
+ tcg/tci/tcg-target.h | 2 --
+ tcg/tcg.c            | 9 ++++++++-
+ tcg/tci.c            | 3 ++-
+ 4 files changed, 14 insertions(+), 9 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 663dd0b95e..d0a6a059b7 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -148,9 +148,14 @@ typedef enum {
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 8804a8c4a2..5ff5bf2a73 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -621,7 +621,6 @@ struct TCGContext {
+        here, because there's too much arithmetic throughout that relies
+        on addition and subtraction working on bytes.  Rely on the GCC
+        extension that allows arithmetic on void*.  */
+-    void *code_gen_prologue;
+     void *code_gen_epilogue;
+     void *code_gen_buffer;
+     size_t code_gen_buffer_size;
+@@ -1220,11 +1219,11 @@ static inline unsigned get_mmuidx(TCGMemOpIdx oi)
+ #define TB_EXIT_IDXMAX    1
+ #define TB_EXIT_REQUESTED 3
  
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    __builtin___clear_cache((char *)start, (char *)stop);
-+    /* TODO: Copy this from gcc to avoid 4 loops instead of 2. */
-+    if (rw != rx) {
-+        __builtin___clear_cache((char *)rw, (char *)(rw + len));
-+    }
-+    __builtin___clear_cache((char *)rx, (char *)(rx + len));
- }
- 
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 17e771374d..fa88b24e43 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -134,9 +134,13 @@ enum {
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
- 
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    __builtin___clear_cache((char *) start, (char *) stop);
-+    if (rw != rx) {
-+        __builtin___clear_cache((char *)rw, (char *)(rw + len));
-+    }
-+    __builtin___clear_cache((char *)rx, (char *)(rx + len));
- }
- 
- /* not defined -- call should be eliminated at compile time */
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index abd4ac7fc0..8323e72639 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -206,7 +206,8 @@ extern bool have_avx2;
- #define TCG_TARGET_extract_i64_valid(ofs, len) \
-     (((ofs) == 8 && (len) == 8) || ((ofs) + (len)) == 32)
- 
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
- }
- 
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index c6b091d849..47b1226ee9 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -207,9 +207,13 @@ extern bool use_mips32r2_instructions;
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
- 
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    cacheflush ((void *)start, stop-start, ICACHE);
-+    if (rx != rw) {
-+        cacheflush((void *)rw, len, DCACHE);
-+    }
-+    cacheflush((void *)rx, len, ICACHE);
- }
- 
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index be10363956..fbb6dc1b47 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -175,7 +175,7 @@ extern bool have_vsx;
- #define TCG_TARGET_HAS_bitsel_vec       have_vsx
- #define TCG_TARGET_HAS_cmpsel_vec       0
- 
--void flush_icache_range(uintptr_t start, uintptr_t stop);
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len);
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
- 
- #define TCG_TARGET_DEFAULT_MO (0)
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index 032439d806..0fa6ae358e 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -159,9 +159,13 @@ typedef enum {
- #define TCG_TARGET_HAS_mulsh_i64        1
+-#ifdef HAVE_TCG_QEMU_TB_EXEC
+-uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr);
++#ifdef CONFIG_TCG_INTERPRETER
++uintptr_t tcg_qemu_tb_exec(CPUArchState *env, void *tb_ptr);
+ #else
+-# define tcg_qemu_tb_exec(env, tb_ptr) \
+-    ((uintptr_t (*)(void *, void *))tcg_ctx->code_gen_prologue)(env, tb_ptr)
++typedef uintptr_t tcg_prologue_fn(CPUArchState *env, void *tb_ptr);
++extern tcg_prologue_fn *tcg_qemu_tb_exec;
  #endif
  
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    __builtin___clear_cache((char *)start, (char *)stop);
-+    if (rx != rw) {
-+        __builtin___clear_cache((char *)rw, (char *)(rw + len));
-+    }
-+    __builtin___clear_cache((char *)rx, (char *)(rx + len));
- }
- 
- /* not defined -- call should be eliminated at compile time */
-diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-index 63c8797bd3..c3dc2e8938 100644
---- a/tcg/s390/tcg-target.h
-+++ b/tcg/s390/tcg-target.h
-@@ -145,7 +145,8 @@ enum {
-     TCG_AREG0 = TCG_REG_R10,
- };
- 
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
- }
- 
-diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-index 633841ebf2..c27c40231e 100644
---- a/tcg/sparc/tcg-target.h
-+++ b/tcg/sparc/tcg-target.h
-@@ -168,10 +168,12 @@ extern bool use_vis3_instructions;
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
- 
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- {
--    uintptr_t p;
--    for (p = start & -8; p < ((stop + 7) & -8); p += 8) {
-+    /* No additional data flush to the RW virtual address required. */
-+    uintptr_t p, end = (rx + len + 7) & -8;
-+    for (p = rx & -8; p < end; p += 8) {
-         __asm__ __volatile__("flush\t%0" : : "r" (p));
-     }
- }
+ void tcg_register_jit(void *buf, size_t buf_size);
 diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 8c1c1d265d..6460449719 100644
+index 6460449719..49f3291f8a 100644
 --- a/tcg/tci/tcg-target.h
 +++ b/tcg/tci/tcg-target.h
-@@ -191,7 +191,8 @@ void tci_disas(uint8_t opc);
+@@ -189,8 +189,6 @@ typedef enum {
  
- #define HAVE_TCG_QEMU_TB_EXEC
+ void tci_disas(uint8_t opc);
  
--static inline void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+-#define HAVE_TCG_QEMU_TB_EXEC
+-
+ /* Flush the dcache at RW, and the icache at RX, as necessary. */
+ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
  {
- }
- 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index a9adedb9f8..b23c1fef54 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2954,7 +2954,14 @@ static inline MemTxResult address_space_write_rom_internal(AddressSpace *as,
-                 invalidate_and_set_dirty(mr, addr1, l);
-                 break;
-             case FLUSH_CACHE:
--                flush_icache_range((uintptr_t)ram_ptr, (uintptr_t)ram_ptr + l);
-+                /*
-+                 * FIXME: This function is currently located in tcg/host/,
-+                 * but we never come here when tcg is enabled; only for
-+                 * real hardware acceleration.  This can actively fail
-+                 * when TCI is configured, since that function is a nop.
-+                 * We should move this to util/ or something.
-+                 */
-+                flush_idcache_range((uintptr_t)ram_ptr, (uintptr_t)ram_ptr, l);
-                 break;
-             }
-         }
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index a8c28440e2..3bf36e0cfe 100644
+index 3bf36e0cfe..8d63c714fb 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -1076,7 +1076,7 @@ void tcg_prologue_init(TCGContext *s)
+@@ -161,6 +161,10 @@ static TCGContext **tcg_ctxs;
+ static unsigned int n_tcg_ctxs;
+ TCGv_env cpu_env = 0;
+ 
++#ifndef CONFIG_TCG_INTERPRETER
++tcg_prologue_fn *tcg_qemu_tb_exec;
++#endif
++
+ struct tcg_region_tree {
+     QemuMutex lock;
+     GTree *tree;
+@@ -1053,7 +1057,10 @@ void tcg_prologue_init(TCGContext *s)
+     s->code_ptr = buf0;
+     s->code_buf = buf0;
+     s->data_gen_ptr = NULL;
+-    s->code_gen_prologue = buf0;
++
++#ifndef CONFIG_TCG_INTERPRETER
++    tcg_qemu_tb_exec = (tcg_prologue_fn *)buf0;
++#endif
+ 
+     /* Compute a high-water mark, at which we voluntarily flush the buffer
+        and start over.  The size here is arbitrary, significantly larger
+diff --git a/tcg/tci.c b/tcg/tci.c
+index 82039fd163..d996eb7cf8 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -475,8 +475,9 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
  #endif
  
-     buf1 = s->code_ptr;
--    flush_icache_range((uintptr_t)buf0, (uintptr_t)buf1);
-+    flush_idcache_range((uintptr_t)buf0, (uintptr_t)buf0, buf1 - buf0);
- 
-     /* Deduct the prologue from the buffer.  */
-     prologue_size = tcg_current_code_size(s);
-@@ -4268,7 +4268,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
-     }
- 
-     /* flush instruction cache */
--    flush_icache_range((uintptr_t)s->code_buf, (uintptr_t)s->code_ptr);
-+    flush_idcache_range((uintptr_t)s->code_buf, (uintptr_t)s->code_buf,
-+                        s->code_ptr - s->code_buf);
- 
-     return tcg_current_code_size(s);
- }
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 26f71cb599..83af3108a4 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1363,7 +1363,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-     }
-     pair = (uint64_t)i2 << 32 | i1;
-     qatomic_set((uint64_t *)jmp_addr, pair);
--    flush_icache_range(jmp_addr, jmp_addr + 8);
-+    flush_idcache_range(jmp_addr, jmp_addr, 8);
- }
- 
- static inline void tcg_out_goto_label(TCGContext *s, TCGLabel *l)
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 41be574e89..c255ecb444 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -2660,7 +2660,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-                               uintptr_t addr)
+ /* Interpret pseudo code in tb. */
+-uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr)
++uintptr_t tcg_qemu_tb_exec(CPUArchState *env, void *v_tb_ptr)
  {
-     qatomic_set((uint32_t *)jmp_addr, deposit32(OPC_J, 0, 26, addr >> 2));
--    flush_icache_range(jmp_addr, jmp_addr + 4);
-+    flush_idcache_range(jmp_addr, jmp_addr, 4);
- }
- 
- typedef struct {
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 18ee989f95..a848e98383 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -1753,12 +1753,12 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-         /* As per the enclosing if, this is ppc64.  Avoid the _Static_assert
-            within qatomic_set that would fail to build a ppc32 host.  */
-         qatomic_set__nocheck((uint64_t *)jmp_addr, pair);
--        flush_icache_range(jmp_addr, jmp_addr + 8);
-+        flush_idcache_range(jmp_addr, jmp_addr, 8);
-     } else {
-         intptr_t diff = addr - jmp_addr;
-         tcg_debug_assert(in_range_b(diff));
-         qatomic_set((uint32_t *)jmp_addr, B | (diff & 0x3fffffc));
--        flush_icache_range(jmp_addr, jmp_addr + 4);
-+        flush_idcache_range(jmp_addr, jmp_addr, 4);
-     }
- }
- 
-@@ -3864,22 +3864,23 @@ void tcg_register_jit(void *buf, size_t buf_size)
- }
- #endif /* __ELF__ */
- 
--void flush_icache_range(uintptr_t start, uintptr_t stop)
-+/* Flush the dcache at RW, and the icache at RX, as necessary. */
-+void flush_idcache_range(uintptr_t rx, uintptr_t rw, uintptr_t len)
- {
--    uintptr_t p, start1, stop1;
-+    uintptr_t p, start, stop;
-     size_t dsize = qemu_dcache_linesize;
-     size_t isize = qemu_icache_linesize;
- 
--    start1 = start & ~(dsize - 1);
--    stop1 = (stop + dsize - 1) & ~(dsize - 1);
--    for (p = start1; p < stop1; p += dsize) {
-+    start = rw & ~(dsize - 1);
-+    stop = (rw + len + dsize - 1) & ~(dsize - 1);
-+    for (p = start; p < stop; p += dsize) {
-         asm volatile ("dcbst 0,%0" : : "r"(p) : "memory");
-     }
-     asm volatile ("sync" : : : "memory");
- 
--    start &= start & ~(isize - 1);
--    stop1 = (stop + isize - 1) & ~(isize - 1);
--    for (p = start1; p < stop1; p += isize) {
-+    start = rx & ~(isize - 1);
-+    stop = (rx + len + isize - 1) & ~(isize - 1);
-+    for (p = start; p < stop; p += isize) {
-         asm volatile ("icbi 0,%0" : : "r"(p) : "memory");
-     }
-     asm volatile ("sync" : : : "memory");
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 6775bd30fc..6e2d755f6a 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -1836,7 +1836,7 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-     if (!USE_REG_TB) {
-         qatomic_set((uint32_t *)jmp_addr,
- 		    deposit32(CALL, 0, 30, br_disp >> 2));
--        flush_icache_range(jmp_addr, jmp_addr + 4);
-+        flush_idcache_range(jmp_addr, jmp_addr, 4);
-         return;
-     }
- 
-@@ -1860,5 +1860,5 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
-     }
- 
-     qatomic_set((uint64_t *)jmp_addr, deposit64(i2, 32, 32, i1));
--    flush_icache_range(jmp_addr, jmp_addr + 8);
-+    flush_idcache_range(jmp_addr, jmp_addr, 8);
- }
++    uint8_t *tb_ptr = v_tb_ptr;
+     tcg_target_ulong regs[TCG_TARGET_NB_REGS];
+     long tcg_temps[CPU_TEMP_BUF_NLONGS];
+     uintptr_t sp_value = (uintptr_t)(tcg_temps + CPU_TEMP_BUF_NLONGS);
 -- 
 2.25.1
 
