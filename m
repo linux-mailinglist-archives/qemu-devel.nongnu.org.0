@@ -2,63 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D9A2A0692
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:37:03 +0100 (CET)
-Received: from localhost ([::1]:36414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1B622A069F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:40:57 +0100 (CET)
+Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYUaU-0002DX-Pl
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:37:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
+	id 1kYUeG-0004XE-WF
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:40:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYUYT-00019n-0i
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:34:57 -0400
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:46504)
+ id 1kYUcI-0003bK-Fp
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:54 -0400
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:39319)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYUYQ-0000p5-Om
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:34:56 -0400
-Received: by mail-ej1-x642.google.com with SMTP id t25so8589255ejd.13
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 06:34:54 -0700 (PDT)
+ id 1kYUcG-0002LN-K3
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:54 -0400
+Received: by mail-ej1-x630.google.com with SMTP id bn26so8673698ejb.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 06:38:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=G7JfKGJGCmQ6dccOnGzetPbHmR3VObzYH/qAOt3oHR4=;
- b=jPzgU1Q1Z5a+vf6vJWUUlfJxGxNjj+ue7LffW1KRY6VKK8wAdDNckO/SynYevkvr6A
- kJxJpU/uLHF7THMdRnFqggx/DRI+jaQgD9xnjUq2qGOHfKbYfSUG5ccuRlhuVDyfPAFs
- SDfrGI78J4x90N/9vbcUteZfLK3hAZjwneBXgWX6Eb2jASBCVpWajOeI2J2ORzZelPrp
- 0NwdGSu5ORKi/CqHoqxT1alYmeqwlEBeGyr45N7WxJQck/tNwjM90fVXe7VFNxSj8jI9
- 0ujnkew1DaI3cDk/SySq9s7iN6edF1LE60WZkYIkvSS8Nb4nLQux8mH1uA1HReJOF3JC
- aHlg==
+ :cc; bh=tLgimgS94VotXE8VnhIMiE+D+3vRhYWowm+oEHPgvRw=;
+ b=lr9HHJ6/1n2EvR4KhPV7M/puhjoMpNeaBaQicTo/lODCo4oApY75OxQ0zj8W/fhQ+Y
+ EPDbHwkl/fxfiqHdpWTgVQ6m4yGCnaJ3pa8wKju4V7clWDi3tKGWeRbrW9AULx++YdD3
+ 97or22qfPQJHIKEZVmIrbkBh1FyYag0b6IZVCCBeCg2zPZ7noZpImR6R63Nd0FifVJWS
+ uHE7/knLuGaetZ8LFaHL8yha651qEK9RSQAVlu7OnJx1bcQWdIIVcYb7F7SwAYjhoggD
+ Hy4v/uK57b4t7psGYiiMtjCyBRqiB120FT008a7S0RaTh+IK+VEPzAAcZW1oXFCXJ+bO
+ P2LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=G7JfKGJGCmQ6dccOnGzetPbHmR3VObzYH/qAOt3oHR4=;
- b=LbL8Tj+J9u0Kg0h9fOC0KhOYs8vxX5M7DhdhFjaw2+pt84MF8uRaUDAR9TGxr+vhF/
- LpZnXiBlg/H9idBdAG2Mc8Pak4W9lDmjKeDqF2oeRzGr/Vpgf81uHk0bViA038kxlowD
- x08hBGvdJc/0IpXums5aZePSdBI/YVBXVAVpp/DCY3NcmcSSO6wSaSjxiZHu1Daz8eem
- Ae28Dix3QPySYriGM5sFlw3vsB1ukdbQ+97obwlxMh+bYazS8JquYTrrOzhSbofndvue
- YbkacSfMowvx0fA3P2Rc92Lp19zlxGnyXEYKZhzq/QOuo2pr9x8A97ICottv/T74mg96
- myJg==
-X-Gm-Message-State: AOAM533PeWTwRk8Bd1zAW4jVz4gIcBu94vj7m9fQyBeq6biZzUUkMcDs
- /Qa0xCSP/ycDg3WV5/AQbYqHzh5j9OKF2yHx9+IXBw==
-X-Google-Smtp-Source: ABdhPJxo+1UpeySYok0MUbhqLMSOtSKBJjIYosZdSlVnPTKFxOZvCrty0z2VeQW4bjkY8EHAPDx4bql7+9hHcmqpFq8=
-X-Received: by 2002:a17:906:3a97:: with SMTP id
- y23mr2497066ejd.250.1604064892894; 
- Fri, 30 Oct 2020 06:34:52 -0700 (PDT)
+ bh=tLgimgS94VotXE8VnhIMiE+D+3vRhYWowm+oEHPgvRw=;
+ b=BWnuQTPmknypZNYK5x1OqChu1YBhkd7S0DH37ftjTCWw9Uno5wncnBhJ6PXRUsK20r
+ gTLej4ZBETvc3gnZ02ApEedM6ICX6QPdkYFcioQ62A+FsB6I+3U17wcXKWz67J4+UljS
+ yu/XoH+F3UoH/PiBRjY5KLqDmO/Xu7ttaE6Squbcf7L2+WSa8zSILnGHCvOSJwyXlsU7
+ sXZvjp8wjYLYAgxAgesrUC/oV1xxm4TZ1mX3QxK4gNgzmXtE46P84u8/t3zgQPYQzdbp
+ 3gpB6qwHn+6dFdqmrAzmTNkbb7pr4T6r74j64ybK2G8MC88ULhC1KFKXjweZCycba/vs
+ QYjA==
+X-Gm-Message-State: AOAM530sZGMlP49E3WrPakmv/suIRgxP57Wm6tPPOslYcfGP11ZiOPSC
+ 0EgI4b3DwYDr3LvCAueQcYKWVEs1ywp7nF3s9UlHmw==
+X-Google-Smtp-Source: ABdhPJzSKdGTZm7gWniXe72BFnjb5+w4WpezTLKx5o4lOXdJ0G/M6TBf/ibLj+ovurev8BQUTcO0/oZ85qBzTxNCRok=
+X-Received: by 2002:a17:907:9e3:: with SMTP id ce3mr2578598ejc.4.1604065126796; 
+ Fri, 30 Oct 2020 06:38:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201023210637.351238-1-hskinnemoen@google.com>
- <20201023210637.351238-5-hskinnemoen@google.com>
-In-Reply-To: <20201023210637.351238-5-hskinnemoen@google.com>
+References: <e8b378a2-144c-e915-3e5e-c84c9e9a17b5@redhat.com>
+In-Reply-To: <e8b378a2-144c-e915-3e5e-c84c9e9a17b5@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Oct 2020 13:34:41 +0000
-Message-ID: <CAFEAcA_w5j47qz+L02H10UbmyxwD4sxHPu8h2mAinME08Mjkqw@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] hw/misc: Add npcm7xx random number generator
-To: Havard Skinnemoen <hskinnemoen@google.com>
+Date: Fri, 30 Oct 2020 13:38:32 +0000
+Message-ID: <CAFEAcA8cc_C6aKkO0n=Z_b3ais6AE0VSvZD1TZweAzhocm6aTg@mail.gmail.com>
+Subject: Re: QEMU release tagging script?
+To: John Snow <jsnow@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -80,62 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Patrick Venture <venture@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
- CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 at 22:06, Havard Skinnemoen <hskinnemoen@google.com> wrote:
+On Fri, 30 Oct 2020 at 13:32, John Snow <jsnow@redhat.com> wrote:
+> Is there a script that's public that you use for tagging the QEMU
+> release? I see make-release in scripts/, but that's for creating the
+> tarballs after the tagging has been done.
+
+I use this script:
+https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/qemu-tag-release
+
+> I am looking into being able to cut releases for our Python QMP library,
+> but due to constraints in the Python packaging ecosystem I have not yet
+> been able to solve, it requires its own VERSION file.
 >
-> The RNG module returns a byte of randomness when the Data Valid bit is
-> set.
->
-> This implementation ignores the prescaler setting, and loads a new value
-> into RNGD every time RNGCS is read while the RNG is enabled and random
-> data is available.
->
-> A qtest featuring some simple randomness tests is included.
->
-> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Havard Skinnemoen <hskinnemoen@google.com>
+> It would be nice if when 5.2.0 is tagged that "0.5.2.0" could be written
+> into ./python/VERSION as well.
 
-I've just seen some intermittent failures on the rng tests
-in this patch:
-
-PASS 1 qtest-arm/npcm7xx_rng-test /arm/npcm7xx_rng/enable_disable
-PASS 2 qtest-arm/npcm7xx_rng-test /arm/npcm7xx_rng/rosel
-**
-ERROR:../../tests/qtest/npcm7xx_rng-test.c:190:test_continuous_monobit:
-assertion failed (calc_monobit_p(buf, sizeof(buf)) > 0.01):
-(0.00800994233 > 0.01)
-
-(on OSX)
-
-and (on x86-64 Linux):
-
-MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
-QTEST_QEMU_IMG=./qemu-img G_TEST_DBUS_DAEMON=/home/petmay01/li
-naro/qemu-for-merges/tests/dbus-vmstate-daemon.sh
-QTEST_QEMU_BINARY=./qemu-system-arm tests/qtest/npcm7xx_rng-test --tap
--k
-PASS 1 qtest-arm/npcm7xx_rng-test /arm/npcm7xx_rng/enable_disable
-PASS 2 qtest-arm/npcm7xx_rng-test /arm/npcm7xx_rng/rosel
-PASS 3 qtest-arm/npcm7xx_rng-test /arm/npcm7xx_rng/continuous/monobit
-**
-ERROR:../../tests/qtest/npcm7xx_rng-test.c:211:test_continuous_runs:
-assertion failed (calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE) >
-0.01): (0.00198053202 > 0.01)
-
-
-Are these just "we got a bit unlucky in the values we got from
-the RNG" ?
-
-If so, we probably need to disable these tests from the set
-that we run in "make check" -- we can't really have "there's
-a non-zero chance that the test fails" tests in our CI loop...
+I'm pretty strongly against having the version hardcoded
+anywhere except the top level VERSION file. Everything else
+should read the information from there.
 
 thanks
 -- PMM
