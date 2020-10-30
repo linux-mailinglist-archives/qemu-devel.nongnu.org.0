@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1115B29FF6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 09:10:23 +0100 (CET)
-Received: from localhost ([::1]:57940 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02712A0037
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 09:42:58 +0100 (CET)
+Received: from localhost ([::1]:44182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYPUM-0007Vv-54
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 04:10:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43532)
+	id 1kYPzt-0007B3-JE
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 04:42:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYPQh-0005Ke-JF
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:06:35 -0400
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34286)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYPQf-0000KP-UE
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:06:35 -0400
-Received: by mail-ej1-x62c.google.com with SMTP id o9so5270020ejg.1
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 01:06:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=QE2A7DTGQUoUj8rij+aZkhoCdqGpNk5vOjLcWCWdy2E=;
- b=EJIwxNayEA6X0M7lXwDfEJ2zvIATLz+2LWdo9l/9VhrzPwtqTxlAfuFIwA2X6SUvZ5
- XUEvtAVPExBi6KVtL9AYV2PvzQr77Gi5Jq+bnHnrfEQjg7nQBX6qOI+YffdmsNkaJIf2
- UlR/Ay2uyTQCWUh/+N951TfV95hLO0j/07SeZ/akqB6TJ4jY7anpR7tkIkwwFtlFbqPY
- bVE3/dw40i70Mn2T13Gi6M4YnBlmPxcUS9OjDP2pc/ORsw9Dh2N/UUde2c5pr6lBwJ3D
- +tEcWGj5tRVR3xDgyrTIv3yyYgQa6kT2zHDCWENMpLG1oBxnqMIE8nQw+lePSfi+ma+E
- /+Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=QE2A7DTGQUoUj8rij+aZkhoCdqGpNk5vOjLcWCWdy2E=;
- b=nuPWVprFC9d+bOQ4SecuFULZTuAivqFe/6yqRhZBMbPLCj/KjMXvfzaBaY/tPFcwIY
- d7r5GDHovy7ipI0hFAcMUe6KFoW68fzBNq7tNYCQ2cnvjrF9uIGxNbcyn2vhMJD5u3wP
- IhAKh9E8dnSBTNDY6nVtiNmwI9LruwNhn2AVOWNkY3gptMRRal5xQD9+yks3zTBQ8Y1q
- 5l0X6jWixLufIj785WmYxvwdPQvON1aPamNS93rQ+Ldh6M24VCvSE0uWoiwo99OJLQlk
- kd7oitdfpym9ugSSRcP6rNp3OfYtgJnVyPnNFz5XPKOt8fo//nlAwTRaOi33H0Nycfvj
- Ixpg==
-X-Gm-Message-State: AOAM5308aBPMdjDCySymZe+BK7Mj5SWAHVfEdzVSYcDZzVmrJsZPDWNZ
- vUg1SyL3iLDKaIXLLf2i2npX6bh+KuL8+88Cuno=
-X-Google-Smtp-Source: ABdhPJxFwyQgVCqNWQZsl2Tc1/tdze4CePUXtICt3TRDM5OYD+MbONC8ngfq554X+vrYfQtKhCQFoBd7bqDB4/MatPA=
-X-Received: by 2002:a17:906:1a11:: with SMTP id
- i17mr1216845ejf.381.1604045192610; 
- Fri, 30 Oct 2020 01:06:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201029220246.472693-1-ehabkost@redhat.com>
- <20201029220246.472693-14-ehabkost@redhat.com>
-In-Reply-To: <20201029220246.472693-14-ehabkost@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 30 Oct 2020 12:06:18 +0400
-Message-ID: <CAJ+F1CJY4xu--+hmCgVBdXyrcxG45s5fVy==2Em+MgvELRN34Q@mail.gmail.com>
-Subject: Re: [PATCH 13/36] qdev: Wrap getters and setters in separate helpers
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e8cadf05b2dedf45"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1)
+ (envelope-from <73a2acc5ca29f95d6d2e5ce60ec69c62bd55f637@lizzy.crudebyte.com>)
+ id 1kYPyO-0006J6-5e
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:41:24 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:52601)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <73a2acc5ca29f95d6d2e5ce60ec69c62bd55f637@lizzy.crudebyte.com>)
+ id 1kYPyM-000432-57
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:41:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=FZEBSYePsIFOW2CmW0yoFTgrrrEQwM44sA87p65ipA8=; b=dbXpZ
+ 34jgapHQihclKMWs9JdtFKg2YEEiUSUnQ3YaKj/+ysBEBR21N6OHMWWg1Iy0XJo0PdgsYtpaWWCoP
+ ndC3xNeBFQDZFK8e7POSPBUJACu7P7XKXzQmMJUkMNHfz1yEDRseeF7tyH9P16LLvmKB25nEFqKcb
+ J8MieD2v1aC7PApDJJ47IrjLnw8NHqQNdiBzTJbzFesqNnQSv8ARLzMtqapjelTNcx1+4NOEOskxO
+ qADOzG8r+HFQ5DBB7aCt+15y3TT8bs8C/DLprFH8hhtChjxXILo4CxCNj5micoPXWwF3qHC5Y3T0M
+ aUauyDekJJA8tsLCl7UV+BfDl9ZVQ==;
+Message-Id: <73a2acc5ca29f95d6d2e5ce60ec69c62bd55f637.1604046404.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1604046404.git.qemu_oss@crudebyte.com>
+References: <cover.1604046404.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 30 Oct 2020 09:19:46 +0100
+Subject: [PATCH 1/2] tests/9pfs: fix test dir for parallel tests
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=73a2acc5ca29f95d6d2e5ce60ec69c62bd55f637@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 04:40:14
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,61 +61,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e8cadf05b2dedf45
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use mkdtemp() to generate a unique directory for the 9p 'local' tests.
 
-On Fri, Oct 30, 2020 at 2:11 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
-:
+This fixes occasional 9p test failures when running 'make check -jN' if
+QEMU was compiled for multiple target architectures, because the individual
+architecture's test suites would run in parallel and interfere with each
+other's data as the test directory was previously hard coded and hence the
+same directory was used by all of them simultaniously.
 
-> We'll add extra code to the qdev property getters and setters, so
-> add wrapper functions where additional actions can be performed.
->
-> The new functions have a "static_prop_" prefix instead of "qdev_"
-> because the code will eventually be moved outside
-> qdev-properties.c, to common QOM code.
->
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->
+This also requires a change how the test directory is created and deleted:
+As the test path is now randomized and virtio_9p_register_nodes() being
+called in a somewhat undeterministic way, that's no longer an appropriate
+place to create and remove the test directory. Use a constructor and
+destructor function for creating and removing the test directory instead.
+Unfortunately libqos currently does not support setup/teardown callbacks
+to handle this more cleanly.
 
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/libqos/virtio-9p.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index d43647b3b7..6b22fa0e9a 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -35,7 +35,12 @@ static char *concat_path(const char* a, const char* b)
+ static void init_local_test_path(void)
+ {
+     char *pwd = g_get_current_dir();
+-    local_test_path = concat_path(pwd, "qtest-9p-local");
++    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++    local_test_path = mkdtemp(template);
++    if (!local_test_path) {
++        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
++    }
++    g_assert(local_test_path);
+     g_free(pwd);
+ }
+ 
+@@ -246,11 +251,6 @@ static void virtio_9p_register_nodes(void)
+     const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
+     const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
+ 
+-    /* make sure test dir for the 'local' tests exists and is clean */
+-    init_local_test_path();
+-    remove_local_test_dir();
+-    create_local_test_dir();
+-
+     QPCIAddress addr = {
+         .devfn = QPCI_DEVFN(4, 0),
+     };
+@@ -278,3 +278,16 @@ static void virtio_9p_register_nodes(void)
+ }
+ 
+ libqos_init(virtio_9p_register_nodes);
++
++static void __attribute__((constructor)) construct_virtio_9p(void)
++{
++    /* make sure test dir for the 'local' tests exists */
++    init_local_test_path();
++    create_local_test_dir();
++}
++
++static void __attribute__((destructor)) destruct_virtio_9p(void)
++{
++    /* remove previously created test dir when test suite completed */
++    remove_local_test_dir();
++}
+-- 
+2.20.1
 
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000e8cadf05b2dedf45
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2020 at 2:11 AM Eduar=
-do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">We=
-&#39;ll add extra code to the qdev property getters and setters, so<br>
-add wrapper functions where additional actions can be performed.<br>
-<br>
-The new functions have a &quot;static_prop_&quot; prefix instead of &quot;q=
-dev_&quot;<br>
-because the code will eventually be moved outside<br>
-qdev-properties.c, to common QOM code.<br>
-<br>
-Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
-arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
-><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
-ureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;=C2=
-=A0=C2=A0 <br></div><br></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000e8cadf05b2dedf45--
 
