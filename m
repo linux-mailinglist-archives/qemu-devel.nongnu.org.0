@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E91D2A05FF
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:55:15 +0100 (CET)
-Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9AE2A05BB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:48:00 +0100 (CET)
+Received: from localhost ([::1]:46618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTw2-00038Q-6T
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:55:14 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53710)
+	id 1kYTp1-0002Md-EK
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:47:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmY-0000WW-Jn
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36050)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTma-0000Z3-9X
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38809)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmW-0000c5-P7
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:26 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmY-0000eD-I5
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061924;
+ s=mimecast20190719; t=1604061925;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rJH7iZei/FUThhkCklYQGVmfL7OJejtyEbzG9hdsPU0=;
- b=Mrrf7BSXZkBbLe7k1H0GTp4R6CgRF3oWQs/SsFy56CZGC6hCDgVOHCzQ94uFS/xQF9BAUV
- fTvNrgfoegr4zn1UTc3jvahcjX4iwnwoXG7Ows+HaYlCxEUepwD3vMrLXjN/K8jweW8gBt
- zIPrLVxelKT1EPfInjYYAuq1Fm0SRMQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-o2RDD5N5N_C6v6AD_mkiBw-1; Fri, 30 Oct 2020 08:45:21 -0400
-X-MC-Unique: o2RDD5N5N_C6v6AD_mkiBw-1
-Received: by mail-wm1-f69.google.com with SMTP id s25so1198128wmj.7
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:21 -0700 (PDT)
+ bh=B/zT27wrNEHsIn9RPNBpuM2tzqmJYYoAGZySli/obU8=;
+ b=SNmDLRfhcI/9mIAN/dW3pv2og1GGCnIwknyrHmUAbvLGn8Gs94uNcAD/GZXjbRFjF+QuZF
+ BQ0d9G0WLcJITe2UUd5Q3DwhXFRaVVgR0QEH5gLeLB67f5AJes2QZfAHkaR/1+eEOAKlKJ
+ N7CieII13qTliz9rm0ddUNguhrgjOl4=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-p8oNuSqwP32YI3V6yiAn6Q-1; Fri, 30 Oct 2020 08:45:24 -0400
+X-MC-Unique: p8oNuSqwP32YI3V6yiAn6Q-1
+Received: by mail-wr1-f72.google.com with SMTP id t11so2619051wrv.10
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=rJH7iZei/FUThhkCklYQGVmfL7OJejtyEbzG9hdsPU0=;
- b=nblKMgosnTdrtup0cjTs7J3KvkTFnJXUwqxNQp/cdCKBQfrJ47D0x8DoAxK9riQP5s
- inIrQsuHZ65D7QrbnkTlvBVM4lQdQM0GDmb92RkGpIQFmGjE15yHV1bxnSx7YBFv8fyv
- NT8+UNe6sDZtXciNFPkH68ogp6o0DOML/CODR9YcUWGjgpvGCWRP+yaw1S9NIlosl26u
- 3zYLVbPnJrGI4PIdzRX0mjXGwfjlKC1az6+6W4FeA59i58foaIK8KWiPHaHU5QVnLATa
- K35VfhwL81mTk1cBUEAtbFuzGNDYKe9BGy2zctLU0E2HMU3dK0qW1DLlEvuWPju8KUAn
- e4sA==
-X-Gm-Message-State: AOAM532+uGKleCw+JcIdLOWOzS5sJuf0rLGhbR0Zl0la43SFeDZzeq7G
- rrV12PiLhDsZIk2x2q569GIOzhWLOlGUeENPk8WEkSY0rKRpMfX55Pklny8BCeR5mIU5WO3H483
- MzdZ1thHFFkEnjRg=
-X-Received: by 2002:a1c:9d94:: with SMTP id g142mr2605991wme.66.1604061920273; 
- Fri, 30 Oct 2020 05:45:20 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzRy3wCmSKSHwXqbVM1wWlfuIRoL50WNd4zO8/8TfnQNjcEypmUtoOCZHsGUFI7lovJttc8bw==
-X-Received: by 2002:a1c:9d94:: with SMTP id g142mr2605972wme.66.1604061920127; 
- Fri, 30 Oct 2020 05:45:20 -0700 (PDT)
+ bh=B/zT27wrNEHsIn9RPNBpuM2tzqmJYYoAGZySli/obU8=;
+ b=aOB1JVwswe2tt+HC493ChB8sgfhhz4fy45nVYP1hyzPSUyhHyBeVQiIptvGtWZ9tOf
+ HEVPwLa+prpiI0qOQmgNNp3YmpcnjriuHXZKGN4LkljQZ7yVYjXuhSkc1YL/7xU4E/Vl
+ UHq2AHfiPdzxOZqeM2uOK0thLxTGFRA4l1SdiRuX3vXv/VtD6SmB1Wxwh1h6n95Z+PZU
+ 1fW71JCczCQX1HpPk0QxTNX2c++enp55NJwnEk01ERoE0wLEzQ+7gn6YVpd08iUtzdzK
+ +OLSOLpg8i1+/dRHXDbcO8DJT3YhlTdXLs7PIPx8IaIZnlQAX2IW8jaTfQldHXWBk+ST
+ cp6A==
+X-Gm-Message-State: AOAM530x6WwqFEqFQiKS5e3ANo/VZGEFcMSNqupE+4lCwT37GQjxkVnD
+ tXnzFLHtE/XuSXKeNbk7i2cVeBewrLmz03/vBq1TeWKysF+/8ROBbLMsoOYeSDlVpmbi7aUDNEB
+ qGKY17w9cQ4QYkC0=
+X-Received: by 2002:a5d:4b12:: with SMTP id v18mr2882661wrq.259.1604061922520; 
+ Fri, 30 Oct 2020 05:45:22 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWpB2dIplVbLMFmPo22CKqNaAudJKkIqAfJ4iUVHWvHAYKi5BTxYxtrGhHTv1hI0sEMBf1IA==
+X-Received: by 2002:a5d:4b12:: with SMTP id v18mr2882644wrq.259.1604061922375; 
+ Fri, 30 Oct 2020 05:45:22 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id z5sm10530539wrw.87.2020.10.30.05.45.18
+ by smtp.gmail.com with ESMTPSA id g8sm4597291wma.36.2020.10.30.05.45.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:19 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:18 -0400
+ Fri, 30 Oct 2020 05:45:21 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/15] hw/pci: Extract pci_bus_change_irq_level() from
- pci_change_irq_level()
-Message-ID: <20201030124454.854286-7-mst@redhat.com>
+Subject: [PULL 07/15] pci: Assert irqnum is between 0 and bus->nirqs in
+ pci_bus_change_irq_level
+Message-ID: <20201030124454.854286-8-mst@redhat.com>
 References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
@@ -104,48 +104,35 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Extract pci_bus_change_irq_level() from pci_change_irq_level() to
-make it clearer it operates on the bus.
+These assertions similar to those in the adjacent pci_bus_get_irq_level()
+function ensure that irqnum lies within the valid PCI bus IRQ range.
 
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-Id: <20201011082022.3016-1-mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201024203900.3619498-2-f4bug@amsat.org>
+Message-Id: <20201024203900.3619498-3-f4bug@amsat.org>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/pci/pci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 100c9381c2..081ddcadd1 100644
+index 081ddcadd1..dc4019865b 100644
 --- a/hw/pci/pci.c
 +++ b/hw/pci/pci.c
-@@ -248,6 +248,12 @@ static inline void pci_set_irq_state(PCIDevice *d, int irq_num, int level)
-         d->irq_state |= level << irq_num;
- }
+@@ -250,6 +250,8 @@ static inline void pci_set_irq_state(PCIDevice *d, int irq_num, int level)
  
-+static void pci_bus_change_irq_level(PCIBus *bus, int irq_num, int change)
-+{
-+    bus->irq_count[irq_num] += change;
-+    bus->set_irq(bus->irq_opaque, irq_num, bus->irq_count[irq_num] != 0);
-+}
-+
- static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
+ static void pci_bus_change_irq_level(PCIBus *bus, int irq_num, int change)
  {
-     PCIBus *bus;
-@@ -258,8 +264,7 @@ static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
-             break;
-         pci_dev = bus->parent_dev;
-     }
--    bus->irq_count[irq_num] += change;
--    bus->set_irq(bus->irq_opaque, irq_num, bus->irq_count[irq_num] != 0);
-+    pci_bus_change_irq_level(bus, irq_num, change);
++    assert(irq_num >= 0);
++    assert(irq_num < bus->nirq);
+     bus->irq_count[irq_num] += change;
+     bus->set_irq(bus->irq_opaque, irq_num, bus->irq_count[irq_num] != 0);
  }
- 
- int pci_bus_get_irq_level(PCIBus *bus, int irq_num)
 -- 
 MST
 
