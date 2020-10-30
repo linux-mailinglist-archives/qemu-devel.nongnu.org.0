@@ -2,45 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE4B29FCD4
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:46:56 +0100 (CET)
-Received: from localhost ([::1]:34800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0463629FCBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:39:55 +0100 (CET)
+Received: from localhost ([::1]:56656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYMJT-0001jp-Gg
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:46:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52736)
+	id 1kYMCg-0006yP-3n
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:39:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kYLCL-0005IQ-Ju; Thu, 29 Oct 2020 23:35:29 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2118)
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kYM9X-0004Tv-O8; Fri, 30 Oct 2020 00:36:39 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kYLCI-0003eh-Vr; Thu, 29 Oct 2020 23:35:29 -0400
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMny50nB8z70qL;
- Fri, 30 Oct 2020 11:35:25 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 30 Oct 2020 11:35:12 +0800
-Subject: [PATCH] block: Fix some code style problems, "foo* bar" should be
- "foo *bar"
-References: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
-To: <kwolf@redhat.com>, <mreitz@redhat.com>
-From: shiliyang <shiliyang@huawei.com>
-X-Forwarded-Message-Id: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
-Message-ID: <3211f389-6d22-46c1-4a16-e6a2ba66f070@huawei.com>
-Date: Fri, 30 Oct 2020 11:35:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
+ id 1kYM9U-00016Y-4M; Fri, 30 Oct 2020 00:36:39 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMqJX2jQfz6ty3;
+ Fri, 30 Oct 2020 12:36:28 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by DGGEMS409-HUB.china.huawei.com
+ (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
+ 12:36:17 +0800
+From: Xinhao Zhang <zhangxinhao1@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH v3 1/3] hw/9pfs : add spaces around operator
+Date: Fri, 30 Oct 2020 12:35:13 +0800
+Message-ID: <20201030043515.1030223-1-zhangxinhao1@huawei.com>
+X-Mailer: git-send-email 2.29.0-rc1
 MIME-Version: 1.0
-In-Reply-To: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=shiliyang@huawei.com;
- helo=szxga07-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.35;
+ envelope-from=zhangxinhao1@huawei.com; helo=szxga07-in.huawei.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 23:35:23
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
@@ -50,7 +45,6 @@ X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 30 Oct 2020 00:44:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -62,140 +56,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu_oss@crudebyte.com,
+ groug@kaod.org, dengkai1@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There have some code style problems be found when read the block driver code.
-So I fixes some problems of this error, ERROR: "foo* bar" should be "foo *bar".
+Fix code style. Operator needs spaces both sides.
 
-Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
+Signed-off-by: Kai Deng <dengkai1@huawei.com>
 Reported-by: Euler Robot <euler.robot@huawei.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- block/blkdebug.c |  2 +-
- block/dmg.c      |  2 +-
- block/qcow2.c    |  4 ++--
- block/qcow2.h    |  6 +++---
- block/vpc.c      | 10 +++++-----
- 5 files changed, 12 insertions(+), 12 deletions(-)
+ hw/9pfs/9p-local.c | 10 +++++-----
+ hw/9pfs/9p.c       | 16 ++++++++--------
+ 2 files changed, 13 insertions(+), 13 deletions(-)
 
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index 54da719dd1..5fe6172da9 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -173,7 +173,7 @@ static int add_rule(void *opaque, QemuOpts *opts, Error **errp)
- {
-     struct add_rule_data *d = opaque;
-     BDRVBlkdebugState *s = d->s;
--    const char* event_name;
-+    const char *event_name;
-     int event;
-     struct BlkdebugRule *rule;
-     int64_t sector;
-diff --git a/block/dmg.c b/block/dmg.c
-index 0d6c317296..ef35a505f2 100644
---- a/block/dmg.c
-+++ b/block/dmg.c
-@@ -559,7 +559,7 @@ static void dmg_refresh_limits(BlockDriverState *bs, Error **errp)
-     bs->bl.request_alignment = BDRV_SECTOR_SIZE; /* No sub-sector I/O */
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 3107637209..af52c1daac 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -162,13 +162,13 @@ static void local_mapped_file_attr(int dirfd, const char *name,
+     memset(buf, 0, ATTR_MAX);
+     while (fgets(buf, ATTR_MAX, fp)) {
+         if (!strncmp(buf, "virtfs.uid", 10)) {
+-            stbuf->st_uid = atoi(buf+11);
++            stbuf->st_uid = atoi(buf + 11);
+         } else if (!strncmp(buf, "virtfs.gid", 10)) {
+-            stbuf->st_gid = atoi(buf+11);
++            stbuf->st_gid = atoi(buf + 11);
+         } else if (!strncmp(buf, "virtfs.mode", 11)) {
+-            stbuf->st_mode = atoi(buf+12);
++            stbuf->st_mode = atoi(buf + 12);
+         } else if (!strncmp(buf, "virtfs.rdev", 11)) {
+-            stbuf->st_rdev = atoi(buf+12);
++            stbuf->st_rdev = atoi(buf + 12);
+         }
+         memset(buf, 0, ATTR_MAX);
+     }
+@@ -823,7 +823,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+         if (fd == -1) {
+             goto out;
+         }
+-        credp->fc_mode = credp->fc_mode|S_IFREG;
++        credp->fc_mode = credp->fc_mode | S_IFREG;
+         if (fs_ctx->export_flags & V9FS_SM_MAPPED) {
+             /* Set cleint credentials in xattr */
+             err = local_set_xattrat(dirfd, name, credp);
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 741d222c3f..94df440fc7 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -1091,7 +1091,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
+         }
+     }
+ 
+-    if (!(ret&~0777)) {
++    if (!(ret & ~0777)) {
+         ret |= S_IFREG;
+     }
+ 
+@@ -2776,7 +2776,7 @@ static void coroutine_fn v9fs_create(void *opaque)
+         v9fs_path_unlock(s);
+     } else {
+         err = v9fs_co_open2(pdu, fidp, &name, -1,
+-                            omode_to_uflags(mode)|O_CREAT, perm, &stbuf);
++                            omode_to_uflags(mode) | O_CREAT, perm, &stbuf);
+         if (err < 0) {
+             goto out;
+         }
+@@ -3428,7 +3428,7 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
+      * compute bsize factor based on host file system block size
+      * and client msize
+      */
+-    bsize_factor = (s->msize - P9_IOHDRSZ)/stbuf->f_bsize;
++    bsize_factor = (s->msize - P9_IOHDRSZ) / stbuf->f_bsize;
+     if (!bsize_factor) {
+         bsize_factor = 1;
+     }
+@@ -3440,9 +3440,9 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
+      * adjust(divide) the number of blocks, free blocks and available
+      * blocks by bsize factor
+      */
+-    f_blocks = stbuf->f_blocks/bsize_factor;
+-    f_bfree  = stbuf->f_bfree/bsize_factor;
+-    f_bavail = stbuf->f_bavail/bsize_factor;
++    f_blocks = stbuf->f_blocks / bsize_factor;
++    f_bfree  = stbuf->f_bfree / bsize_factor;
++    f_bavail = stbuf->f_bavail / bsize_factor;
+     f_files  = stbuf->f_files;
+     f_ffree  = stbuf->f_ffree;
+     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
+@@ -4185,6 +4185,6 @@ static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
+         error_report("Failed to get the resource limit");
+         exit(1);
+     }
+-    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur/3);
+-    open_fd_rc = rlim.rlim_cur/2;
++    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
++    open_fd_rc = rlim.rlim_cur / 2;
  }
-
--static inline int is_sector_in_chunk(BDRVDMGState* s,
-+static inline int is_sector_in_chunk(BDRVDMGState *s,
-                 uint32_t chunk_num, uint64_t sector_num)
- {
-     if (chunk_num >= s->n_chunks || s->sectors[chunk_num] > sector_num ||
-diff --git a/block/qcow2.c b/block/qcow2.c
-index b6cb4db8bb..0f94c43ce9 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -269,7 +269,7 @@ static int qcow2_read_extensions(BlockDriverState *bs, uint64_t start_offset,
-
-         case QCOW2_EXT_MAGIC_FEATURE_TABLE:
-             if (p_feature_table != NULL) {
--                void* feature_table = g_malloc0(ext.len + 2 * sizeof(Qcow2Feature));
-+                void *feature_table = g_malloc0(ext.len + 2 * sizeof(Qcow2Feature));
-                 ret = bdrv_pread(bs->file, offset , feature_table, ext.len);
-                 if (ret < 0) {
-                     error_setg_errno(errp, -ret, "ERROR: ext_feature_table: "
-@@ -3374,7 +3374,7 @@ qcow2_co_create(BlockdevCreateOptions *create_options, Error **errp)
-     size_t cluster_size;
-     int version;
-     int refcount_order;
--    uint64_t* refcount_table;
-+    uint64_t *refcount_table;
-     int ret;
-     uint8_t compression_type = QCOW2_COMPRESSION_TYPE_ZLIB;
-
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 125ea9679b..2da03e1d1e 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -343,8 +343,8 @@ typedef struct BDRVQcow2State {
-     uint64_t l1_table_offset;
-     uint64_t *l1_table;
-
--    Qcow2Cache* l2_table_cache;
--    Qcow2Cache* refcount_block_cache;
-+    Qcow2Cache *l2_table_cache;
-+    Qcow2Cache *refcount_block_cache;
-     QEMUTimer *cache_clean_timer;
-     unsigned cache_clean_interval;
-
-@@ -394,7 +394,7 @@ typedef struct BDRVQcow2State {
-     uint64_t autoclear_features;
-
-     size_t unknown_header_fields_size;
--    void* unknown_header_fields;
-+    void *unknown_header_fields;
-     QLIST_HEAD(, Qcow2UnknownHeaderExtension) unknown_header_ext;
-     QTAILQ_HEAD (, Qcow2DiscardRegion) discards;
-     bool cache_discards;
-diff --git a/block/vpc.c b/block/vpc.c
-index 890554277e..1ab55f9287 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -172,7 +172,7 @@ static QemuOptsList vpc_runtime_opts = {
-
- static QemuOptsList vpc_create_opts;
-
--static uint32_t vpc_checksum(uint8_t* buf, size_t size)
-+static uint32_t vpc_checksum(uint8_t *buf, size_t size)
- {
-     uint32_t res = 0;
-     int i;
-@@ -528,7 +528,7 @@ static inline int64_t get_image_offset(BlockDriverState *bs, uint64_t offset,
-  *
-  * Returns 0 on success and < 0 on error
-  */
--static int rewrite_footer(BlockDriverState* bs)
-+static int rewrite_footer(BlockDriverState *bs)
- {
-     int ret;
-     BDRVVPCState *s = bs->opaque;
-@@ -548,7 +548,7 @@ static int rewrite_footer(BlockDriverState* bs)
-  *
-  * Returns the sectors' offset in the image file on success and < 0 on error
-  */
--static int64_t alloc_block(BlockDriverState* bs, int64_t offset)
-+static int64_t alloc_block(BlockDriverState *bs, int64_t offset)
- {
-     BDRVVPCState *s = bs->opaque;
-     int64_t bat_offset;
-@@ -781,8 +781,8 @@ static int coroutine_fn vpc_co_block_status(BlockDriverState *bs,
-  * the hardware EIDE and ATA-2 limit of 16 heads (max disk size of 127 GB)
-  * and instead allow up to 255 heads.
-  */
--static int calculate_geometry(int64_t total_sectors, uint16_t* cyls,
--    uint8_t* heads, uint8_t* secs_per_cyl)
-+static int calculate_geometry(int64_t total_sectors, uint16_t *cyls,
-+    uint8_t *heads, uint8_t *secs_per_cyl)
- {
-     uint32_t cyls_times_heads;
-
 -- 
-2.17.1.windows.2
-
+2.29.0-rc1
 
 
