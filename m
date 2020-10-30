@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3171B2A0512
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:12:42 +0100 (CET)
-Received: from localhost ([::1]:45538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6622A0605
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:57:42 +0100 (CET)
+Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTGr-0004lP-9v
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:12:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45788)
+	id 1kYTyN-0005Bl-T3
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:57:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYTDy-0002xg-Tt
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:09:44 -0400
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:40058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYTDv-0004lT-NM
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:09:42 -0400
-Received: by mail-ej1-x643.google.com with SMTP id oq3so6410805ejb.7
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:09:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jGCl4PWS5uo6m2PFMVXPiLo1Y/4zUOWjNgXlPDjSGCk=;
- b=L5NIEc4jNgPmYPDiDcmvIRc4ZJcGRC9GjLifF1DxUtL2cBNsMzizK1g2HmLaEq9hYZ
- W6mF0kCkOjL1Q7DmLQXjJ1/XXY4e+YM8rpu4KOtJ/xSMRE8WZFVMzcOkbgiGOfAoy27v
- svVvPuqkUKo3BIJY3/TbssAjpFlCLo46Cc86Jh02D5yw5Fpf84eSaoZjWYKaYUoWuhyl
- sZyO+K7LX0IKllSwgsS1J+LpV1KydILsOA1zmdQJMc6T0/pMkjJCn6FBWMQzSqRwU4Vg
- 65AwvSWLEJaI6GaO3apnyaVunThG9l+Ned1LoBF3XmgzFD2a6IQxQcRIeKLjznDP5jF4
- d8qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jGCl4PWS5uo6m2PFMVXPiLo1Y/4zUOWjNgXlPDjSGCk=;
- b=LZ9b/BWarA1FO2wAlASwlHg4can6A59W8sqmKLotk/5I9yiH9vvKCEDIHoNn99YkXo
- LhM1SGfD25OVc4Gzk4VMJfHcWQAo/s0MAd1GfCbd0tQ8X8MsGYGtYud6wzVtQSnKhlX8
- BWhFdtBhlcMywHAT2Guq9jCEffqqmYkOe9ekTe+zn6AK9/PFYzU6xanSaqA2KRFTUclo
- sxsk7DLGCZZNSp7RmsIOxTIZIxR4t1LMDVxDvTyzcYkWJgO3cMv6Ri8qoHos9i+wk6ZQ
- 4WhmAmjn7f+5D0dR8KKs5Y4TOvvCApIYH1OGVwk9iasGH0fel/oFDPUddlI6dUW88r5+
- UX9Q==
-X-Gm-Message-State: AOAM533To30s6Jo5I7pM8xfZnUGybRUDJ3GYuC3VuSan/mg0iYga3c/z
- 1EluAu7Ni8GSm4XSXZyi4gr4SHE4xfMuwt3Cm0cSRQ==
-X-Google-Smtp-Source: ABdhPJwWokJH/LoBVng/tUJ7XLG4M1PwnESdbCND8ShlUwFxbB4XRkaZ6c37fq6MBDeV4fUItdkHyABfZX/y24zG8os=
-X-Received: by 2002:a17:906:3a97:: with SMTP id
- y23mr2117735ejd.250.1604059777949; 
- Fri, 30 Oct 2020 05:09:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1604046404.git.qemu_oss@crudebyte.com>
- <b111895492f8fb79bcca1c3e9586c0615f46cc97.1604046404.git.qemu_oss@crudebyte.com>
- <20201030124418.1a20fb9f@bahia.lan> <3565953.R2qxJ1zP7r@silver>
-In-Reply-To: <3565953.R2qxJ1zP7r@silver>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Oct 2020 12:09:26 +0000
-Message-ID: <CAFEAcA8QW0T3e4gUAOWh0Jnfov09=rPnqXGQDvHs3sYAYn7O3g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] tests/9pfs: fix coverity error in
+ (Exim 4.90_1)
+ (envelope-from <03f68c7ec08064e20f43797f4eb4305ad21e1e8e@lizzy.crudebyte.com>)
+ id 1kYTwI-0003xM-3K
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:55:30 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:33871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <03f68c7ec08064e20f43797f4eb4305ad21e1e8e@lizzy.crudebyte.com>)
+ id 1kYTwF-0003lo-Fy
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:55:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=9s02O/KYcd7A7lc/0kRbCK6nYi9tDPfa0S4ictjN0vw=; b=YT1tj
+ RC5+bOA3w0oqYHkaeIn4abX1BKAUWzEswOakZFJYTIL8ZgdK8ZydioFzkiB/iib2iavbnt4YPSFqH
+ B8T68N6/XVadkdHcwM3BSOBOMWu7ui02M/82ENeVUY+znJTNVgnyRWayjKw6WvRy8zd+GsMhKrPpV
+ PymnTrIC4/nhsGqngu++L9dcfAdzLAo9onvKHUkwSa088+NnHmN8Vo011iOx9FbAKsNZwTmMlu/j7
+ Q1L8q5EFKeIb5Kkf+saDABEUGs1zCdmab1uxXy3+dtUdaGbby6yadGDQvgnqM3JmLsCU/0GUkiW7c
+ 2jNkmVoSDsE+jE3ZqXHuTIgbVbjlw==;
+Message-Id: <03f68c7ec08064e20f43797f4eb4305ad21e1e8e.1604061839.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1604061839.git.qemu_oss@crudebyte.com>
+References: <cover.1604061839.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 30 Oct 2020 13:07:03 +0100
+Subject: [PATCH v2 2/2] tests/9pfs: fix coverity error in
  create_local_test_dir()
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=03f68c7ec08064e20f43797f4eb4305ad21e1e8e@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,31 +62,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 at 12:02, Christian Schoenebeck
-<qemu_oss@crudebyte.com> wrote:
-> On Freitag, 30. Oktober 2020 12:44:18 CET Greg Kurz wrote:
-> It's not clear to me where this coverity report is accessible online. A quick
-> search only brought me to statistics about its latest check, but not the
-> details of the report you quoted.
+Coverity wants the return value of mkdir() to be checked:
 
-https://scan.coverity.com/projects/qemu . To see the actual
-defect reports you need to create an account and request
-access to the QEMU project (we happily give access to developers,
-but it is a manual-approval process).
+  /qemu/tests/qtest/libqos/virtio-9p.c: 48 in create_local_test_dir()
+  42     /* Creates the directory for the 9pfs 'local' filesystem driver to
+  access. */
+  43     static void create_local_test_dir(void)
+  44     {
+  45         struct stat st;
+  46
+  47         g_assert(local_test_path != NULL);
+  >>> CID 1435963:  Error handling issues  (CHECKED_RETURN)
+  >>> Calling "mkdir(local_test_path, 511U)" without checking return value.
+  This library function may fail and return an error code.
+  48         mkdir(local_test_path, 0777);
+  49
+  50         /* ensure test directory exists now ... */
+  51         g_assert(stat(local_test_path, &st) == 0);
+  52         /* ... and is actually a directory */
+  53         g_assert((st.st_mode & S_IFMT) == S_IFDIR);
 
-> And more importantly: is there coverity CI support that one could enable on
-> github, so that pending patches were checked before upstream merge?
+So let's just do that and log an info-level message at least, because we
+actually only care if the required directory exists and we do have an
+existence check for that in place already.
 
-No, unfortunately not. The Coverity free-for-open-source-projects
-system has a very limited number of scans it allows (for a project
-the size of ours just one a day) so we can't open it up to
-submaintainer branches or even use it on pull requests pre merge;
-the best we can do is running it on master daily.
+Reported-by: Coverity (CID 1435963)
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/libqos/virtio-9p.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-thanks
--- PMM
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index 6b22fa0e9a..8459a3ee58 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -48,9 +48,14 @@ static void init_local_test_path(void)
+ static void create_local_test_dir(void)
+ {
+     struct stat st;
++    int res;
+ 
+     g_assert(local_test_path != NULL);
+-    mkdir(local_test_path, 0777);
++    res = mkdir(local_test_path, 0777);
++    if (res < 0) {
++        g_test_message("mkdir('%s') failed: %s", local_test_path,
++                       strerror(errno));
++    }
+ 
+     /* ensure test directory exists now ... */
+     g_assert(stat(local_test_path, &st) == 0);
+-- 
+2.20.1
+
 
