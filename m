@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DC312A07E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:31:45 +0100 (CET)
-Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AA492A0806
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:37:23 +0100 (CET)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVRQ-0007xw-Bi
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:31:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49786)
+	id 1kYVWs-0005so-91
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:37:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50718)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYVPr-0006U4-CO
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:30:07 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:44450)
+ id 1kYVT1-0002De-IE
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:33:23 -0400
+Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:38014)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYVPo-00014Z-7B
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:30:07 -0400
-Received: by mail-ed1-x544.google.com with SMTP id w1so5737534edv.11
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:30:02 -0700 (PDT)
+ id 1kYVSz-0001cH-L6
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:33:22 -0400
+Received: by mail-ej1-x641.google.com with SMTP id za3so8914330ejb.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=NFC39zceG2i5PizwvZ93zNijf5+W6zdm3h74OVX7MHw=;
- b=u+QJ+YdXWOzUPGLjBli0nwiLKVuv471nujgNi/3R6oF3X6zsMN0E3wsg75seRCVAuJ
- JNTvntIE1UJOcldV+vP4tAmdR4YuG9X9O4dCa4jeXNh+DzfvUAT/D29r+tvNzkpOxo6u
- Sgov0uQD/mFtATUnQlarNkCeeRmr9VSQHvYplgEV1uBnR7DL4yzu7LTaGEJN/ERZ+4cK
- SbYwKI5QGBevA+jI8sVHtmWswVk+1Y5DLGRjhjyomj72R4v6nUIsFH27ROmlUnWRmOc2
- PmJ2rki2L/MMr8q+Wi/hCLJ/jXeOecjx+uf3bfCg5yL7veNuBSbzqikNrV8FLX9AAkRv
- EQiA==
+ :cc:content-transfer-encoding;
+ bh=nWBcIljEW/ko2t1mvxBhw1CzN0d8Sg1eJ094QT7vBgA=;
+ b=IYqsPYhICcdaJlKdW7SdyblrbWgDM5E0GnFT3BE06+BbenULPEIWjY+hw7cWNywAWS
+ pOxtwUKzg6Sd/+E6isxolHVHCjumaOo3lJblF/DJ7ESCYsvYDzDMlt1GNyS+WeYu/5Hl
+ CQUd/mtcTwxypzZ2L2yeB0KEnGBknQs4e5E0FMmGgsx0dDBSleNpgyoKyxnNqaP3dsju
+ sk9WFPehbT1Q7khRJvxBGDPTmZg4QfPhJ/AsJXaNN2cLjGntfz3SHfC8rX+T6GIF4DKa
+ l8AN0Fg81yTNzdlDULEAlbC0zCm1n9vySI+20zAn+kYJ2pjv2CZy60wYCTzZ/FmjKTCS
+ m9zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=NFC39zceG2i5PizwvZ93zNijf5+W6zdm3h74OVX7MHw=;
- b=gxO2jfPehQeiYrUKZxjqX0qTWnreXZucWVeGO8d+e8JcqFYIr65HpeHDdvlnaeMZUD
- FaUxtJwNH2VPrrKCutatIJivpI085asghcWEown39lxqERcO79+B8CsEKXnDM2tkFrGH
- /fUw7u4QUwsTYCgPy5vH2xbde0WFDzzO7fIRqSC+87d+2F5CJLPBDxNi4UrHYC5hB3Wn
- TXNfAKvhv9R+MJbLR2TAIzjBQEfS7pL5Ve4ByOIh9ddM3d0M/rAQE4UFOHwoe/gHH4NS
- ZHYygpAIw8GDU3PdVYN4LOfteFlKoRFoju4kUvCFTuxxmJAsPHnzq8qzICbfKiDfxO7I
- fi5g==
-X-Gm-Message-State: AOAM531d8IQa2ecJZXvqq57366j51Phfcs5morIvHiCGs0m5dkkL+NmA
- VPSo/H2cvYRzTPV4+D80ZW2E8yoR24E53o47ILV2/w==
-X-Google-Smtp-Source: ABdhPJx6FCWljKrUairC2DLeWPCw2fKw1oLldfsils4Y62/uuplvIwLeKUS5j6F4jcxjXcsCdgijcJKRuYI+Tm2U0so=
-X-Received: by 2002:aa7:d699:: with SMTP id d25mr2639196edr.44.1604068201154; 
- Fri, 30 Oct 2020 07:30:01 -0700 (PDT)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=nWBcIljEW/ko2t1mvxBhw1CzN0d8Sg1eJ094QT7vBgA=;
+ b=AoKvoqwCRPrSFsq6L/8q/yw24Fh9sWyuJBzF6ADuVmVyPUoG3dog8wQ4J/PkWnkm62
+ 662AsT1MULIXsRxIatzfeSFgxmMqTc4i2JqMDzCoTHdW0eMj+YiWySOGopqPJRlURQbk
+ Rf3c6+KOjolN7O/DUZbXj97mkhi2WurW2yhCY7qDQd06EG0Kuls3canXWOigCPMrJhem
+ cUDG2ap1UXlkjR2KSg2QTiQjq0obyxA6QacfF3KRW9g9uE+f9/F6qD6W8qZBsMlxANuo
+ pP7TaIB2sHi4nQMv/b1jNhhRswftDk9XjmkfDTNkQag6a0gLWqu5tDiGPe87tsjuhtsv
+ Tbdg==
+X-Gm-Message-State: AOAM531zog5q8Vqm7E9qRmqHPRtBcQP2l2wbY4muGCktvoDiBtQSNNsP
+ t5dabqBIAvpIv7WTkuFOkTw76e8XiXKU9Y7w17PvsqnGQzE9Dw==
+X-Google-Smtp-Source: ABdhPJzclBiMxBwkwZEXWHJi/nOButkjqUoS5j6kyZnrv79v3+ptWzgGlNS0VSD1AWvaQZ8NVNWSgjvF3EYKo4AbBnI=
+X-Received: by 2002:a17:906:7254:: with SMTP id
+ n20mr2642285ejk.382.1604068400137; 
+ Fri, 30 Oct 2020 07:33:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <5F9BE993.4050406@huawei.com>
-In-Reply-To: <5F9BE993.4050406@huawei.com>
+References: <20201019082121.1544550-1-f4bug@amsat.org>
+In-Reply-To: <20201019082121.1544550-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Oct 2020 14:29:49 +0000
-Message-ID: <CAFEAcA8hpb2UVd3PSY4XuEpKYeu1Am1+41DQ=gN48xbAv281TQ@mail.gmail.com>
-Subject: Re: [PATCH] hw/display/omap_lcdc: Fix potential NULL pointer
- dereference
-To: AlexChen <alex.chen@huawei.com>
+Date: Fri, 30 Oct 2020 14:33:08 +0000
+Message-ID: <CAFEAcA9tBN9mDsotycNHnh4cUVMaYtGJO8NBqgvATKw8fJ7i7g@mail.gmail.com>
+Subject: Re: [PATCH] docs/system: Deprecate raspi2/raspi3 machine aliases
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::544;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::641;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x641.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -66,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,26 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Libvirt <libvir-list@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 at 10:23, AlexChen <alex.chen@huawei.com> wrote:
+On Mon, 19 Oct 2020 at 09:23, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> In omap_lcd_interrupts(), the pointer omap_lcd is dereferenced before
-> being check if it is valid, which may lead to NULL pointer dereference.
-> So move the assignment to surface after checking that the omap_lcd is valid.
+> Since commit aa35ec2213b ("hw/arm/raspi: Use more
+> specific machine names") the raspi2/raspi3 machines
+> have been renamed as raspi2b/raspi3b.
 >
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> As more Raspberry Pi 2/3 models are emulated, in order
+> to avoid confusion deprecate the raspi2/raspi3 machine
+> aliases.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/display/omap_lcdc.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  docs/system/deprecated.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index 905628f3a0c..f0c7aaeb2ff 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -355,6 +355,11 @@ This machine has been renamed ``fuloong2e``.
+>  These machine types are very old and likely can not be used for live mig=
+ration
+>  from old QEMU versions anymore. A newer machine type should be used inst=
+ead.
+>
+> +Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
+> +'''''''''''''''''''''''''''''''''''''
+> +
+> +These machines have been respectively renamed ``raspi2b`` and ``raspi3b`=
+`.
+> +
 
+This isn't valid rST syntax, which requires the underlining to
+be exactly the same length as the title string it underlines:
 
+Warning, treated as error:
+/home/petmay01/linaro/qemu-from-laptop/qemu/docs/system/deprecated.rst:348:=
+Title
+underline too short.
 
-Applied to target-arm.next, thanks.
+Raspberry Pi ``raspi2`` and ``raspi3`` machines (since 5.2)
+'''''''''''''''''''''''''''''''''''''
 
+I also think it would be helpful to have at least a sentence
+saying why we've renamed the machines.
+
+thanks
 -- PMM
 
