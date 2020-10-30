@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B622A069F
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:40:57 +0100 (CET)
-Received: from localhost ([::1]:41718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC18F2A069E
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:40:55 +0100 (CET)
+Received: from localhost ([::1]:41576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYUeG-0004XE-WF
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:40:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38446)
+	id 1kYUeE-0004Sl-VG
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:40:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYUcI-0003bK-Fp
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:54 -0400
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:39319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kYUcG-0002LN-K3
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:54 -0400
-Received: by mail-ej1-x630.google.com with SMTP id bn26so8673698ejb.6
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 06:38:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tLgimgS94VotXE8VnhIMiE+D+3vRhYWowm+oEHPgvRw=;
- b=lr9HHJ6/1n2EvR4KhPV7M/puhjoMpNeaBaQicTo/lODCo4oApY75OxQ0zj8W/fhQ+Y
- EPDbHwkl/fxfiqHdpWTgVQ6m4yGCnaJ3pa8wKju4V7clWDi3tKGWeRbrW9AULx++YdD3
- 97or22qfPQJHIKEZVmIrbkBh1FyYag0b6IZVCCBeCg2zPZ7noZpImR6R63Nd0FifVJWS
- uHE7/knLuGaetZ8LFaHL8yha651qEK9RSQAVlu7OnJx1bcQWdIIVcYb7F7SwAYjhoggD
- Hy4v/uK57b4t7psGYiiMtjCyBRqiB120FT008a7S0RaTh+IK+VEPzAAcZW1oXFCXJ+bO
- P2LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tLgimgS94VotXE8VnhIMiE+D+3vRhYWowm+oEHPgvRw=;
- b=BWnuQTPmknypZNYK5x1OqChu1YBhkd7S0DH37ftjTCWw9Uno5wncnBhJ6PXRUsK20r
- gTLej4ZBETvc3gnZ02ApEedM6ICX6QPdkYFcioQ62A+FsB6I+3U17wcXKWz67J4+UljS
- yu/XoH+F3UoH/PiBRjY5KLqDmO/Xu7ttaE6Squbcf7L2+WSa8zSILnGHCvOSJwyXlsU7
- sXZvjp8wjYLYAgxAgesrUC/oV1xxm4TZ1mX3QxK4gNgzmXtE46P84u8/t3zgQPYQzdbp
- 3gpB6qwHn+6dFdqmrAzmTNkbb7pr4T6r74j64ybK2G8MC88ULhC1KFKXjweZCycba/vs
- QYjA==
-X-Gm-Message-State: AOAM530sZGMlP49E3WrPakmv/suIRgxP57Wm6tPPOslYcfGP11ZiOPSC
- 0EgI4b3DwYDr3LvCAueQcYKWVEs1ywp7nF3s9UlHmw==
-X-Google-Smtp-Source: ABdhPJzSKdGTZm7gWniXe72BFnjb5+w4WpezTLKx5o4lOXdJ0G/M6TBf/ibLj+ovurev8BQUTcO0/oZ85qBzTxNCRok=
-X-Received: by 2002:a17:907:9e3:: with SMTP id ce3mr2578598ejc.4.1604065126796; 
- Fri, 30 Oct 2020 06:38:46 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kYUcB-0003af-IH
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:48 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:57921)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kYUc6-0002JY-N8
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 09:38:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=2ZzEwn26CPfQ9tcZcekNgeTUl44Ct8FkhKL0mOrciYo=; b=j8T/QTgUUZ5OlHNuwj4QannSMa
+ VTuijCxJRyjuCfaDhU/gnLfjyCeS3UBEXr/c4+Bk3YevFEd9a+5w8vMz44umPemBlc9tbCfF4dCAO
+ SMoxcPY3lKp/WPWCg9ONvpauHbCJU+b0K1gbBymn66ER14koi55dVx74o1uhGgkZc0lYf3fsHI9nz
+ ZSVutzZcF1tLweIlEF1RD+5hDi2J9Nt86M67f40fcDDUYADApDHWlOLnXeHsxC58mRr3AyRVjW5J2
+ oOtREz75Vkua4oZHm3N9CK6nFYBj+7m1gof5IeiN6OVFbmVNbZBdriVi1AIWjh+EOIL1HagyKhLcd
+ t0+2F8RA==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v2 0/2] 9pfs: test suite fixes
+Date: Fri, 30 Oct 2020 14:38:38 +0100
+Message-ID: <2966378.E1T83bONKy@silver>
+In-Reply-To: <20201030142315.183f9d91@bahia.lan>
+References: <cover.1604061839.git.qemu_oss@crudebyte.com>
+ <20201030142315.183f9d91@bahia.lan>
 MIME-Version: 1.0
-References: <e8b378a2-144c-e915-3e5e-c84c9e9a17b5@redhat.com>
-In-Reply-To: <e8b378a2-144c-e915-3e5e-c84c9e9a17b5@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 30 Oct 2020 13:38:32 +0000
-Message-ID: <CAFEAcA8cc_C6aKkO0n=Z_b3ais6AE0VSvZD1TZweAzhocm6aTg@mail.gmail.com>
-Subject: Re: QEMU release tagging script?
-To: John Snow <jsnow@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,30 +63,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 at 13:32, John Snow <jsnow@redhat.com> wrote:
-> Is there a script that's public that you use for tagging the QEMU
-> release? I see make-release in scripts/, but that's for creating the
-> tarballs after the tagging has been done.
+On Freitag, 30. Oktober 2020 14:23:15 CET Greg Kurz wrote:
+> On Fri, 30 Oct 2020 13:43:59 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > Fixes two bugs with the 9pfs 'local' tests as discussed with latest 9P PR
+> > (2020-10-23). See the discussion of that PR for details.
+> > 
+> > v1->v2:
+> >   - Added Greg's tested-by tag [patch 1].
+> >   
+> >   - Log an info-level message if mkdir() failed [patch 2].
+> >   
+> >   - Update commit log message about coverity being the reporter and
+> >   
+> >     details of the coverity report [patch 2].
+> > 
+> > Christian Schoenebeck (2):
+> >   tests/9pfs: fix test dir for parallel tests
+> >   tests/9pfs: fix coverity error in create_local_test_dir()
+> >  
+> >  tests/qtest/libqos/virtio-9p.c | 32 +++++++++++++++++++++++++-------
+> >  1 file changed, 25 insertions(+), 7 deletions(-)
+> 
+> Series,
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 
-I use this script:
-https://git.linaro.org/people/peter.maydell/misc-scripts.git/tree/qemu-tag-release
+Thanks for review and testing. I appreciate it.
 
-> I am looking into being able to cut releases for our Python QMP library,
-> but due to constraints in the Python packaging ecosystem I have not yet
-> been able to solve, it requires its own VERSION file.
->
-> It would be nice if when 5.2.0 is tagged that "0.5.2.0" could be written
-> into ./python/VERSION as well.
+Best regards,
+Christian Schoenebeck
 
-I'm pretty strongly against having the version hardcoded
-anywhere except the top level VERSION file. Everything else
-should read the information from there.
 
-thanks
--- PMM
 
