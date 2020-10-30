@@ -2,74 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E82C12A09DC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:29:02 +0100 (CET)
-Received: from localhost ([::1]:56098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEA2D2A09F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:35:58 +0100 (CET)
+Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYWKs-0003yC-1a
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:29:02 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37016)
+	id 1kYWRZ-0007Hj-D4
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:35:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYWJk-0003Ja-F9
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:27:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52383)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWQ5-00063t-35
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:34:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYWJi-0000aU-K9
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:27:52 -0400
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWQ2-0001Ux-Vm
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:34:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604071669;
+ s=mimecast20190719; t=1604072061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=ODLpRQSBoXdl2bHweXJxYHi5dpQs8FLpRt3OFMg34a8=;
- b=hrEXSGom8forsHV+AuJlt7TgvXosHJUqhyph+8nOnzyw7Alvnwi71eDSqPr7qB/Afip6o6
- 0d+MQEGwf75dp31N3XPZwr36G/s3wBl9F8HUn2tYagLp3krQWVzvKJ+SF8uhaQ+1odkcO/
- SN8nvVu03TdUccK+AjuqcX6eo3zvMKI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-sN_8XrC4MjmEFyrDT4RE4Q-1; Fri, 30 Oct 2020 11:27:47 -0400
-X-MC-Unique: sN_8XrC4MjmEFyrDT4RE4Q-1
-Received: by mail-wr1-f71.google.com with SMTP id q15so2786105wrw.8
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 08:27:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ODLpRQSBoXdl2bHweXJxYHi5dpQs8FLpRt3OFMg34a8=;
- b=muKa7D0y/5eqks6XNC0xLl+/P2IvfQvkROFjkYx72dfy3iocuXhgG3DsIlewTVHdtK
- /IF7G+HTpAhlzyJ1Oj4KOHOZjQcsTN5PBScy/92kAgFr8XP7LWNR9VKSkfkNb44pKc1m
- D2tBs3j1Ji52Sn9leRRp7xcSCnQKAJoAdRp68izEZiu1bqSyR6RMS8qi9/dcpmAyNnAe
- KzjWceugp8EKAJwXyoaUPtfWSKAu+gao3vRWy3Xj3w5SxBlzY6T5YeDyLBItCwsQBIZ5
- k5BlB5uMceVtFXi6H85nWJ4kN7SziqqBSof2MZhY1eGDLWfPSWfVj25J8RhVZr8fdRYM
- hB9Q==
-X-Gm-Message-State: AOAM531lekSLt6n/atyJmYPS5GzybVXMFhPs8VtQTTcog9fIvAHW763D
- tbJz3VI9UoXWTZMiQH04xgjRPV98J350nTtJWN6L3xls5UTxMTgj4fhvAQZiTh+F9jAvadWKNV1
- WWMsTfVhI8XCT1Mg=
-X-Received: by 2002:a7b:cb98:: with SMTP id m24mr3469674wmi.133.1604071665919; 
- Fri, 30 Oct 2020 08:27:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy3Dcxvi3XzCBl1YGdtvla7Qmz6e78ESlq+XKDZyMg1El3isjuWJq/ymQKTrsJKa45YWs/nsA==
-X-Received: by 2002:a7b:cb98:: with SMTP id m24mr3469654wmi.133.1604071665744; 
- Fri, 30 Oct 2020 08:27:45 -0700 (PDT)
-Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id f20sm5123247wmc.26.2020.10.30.08.27.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 08:27:44 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ bh=+N3f/GA3T/C9XZs+uetP90pC+aUkUej7u0uBF0iT9Jc=;
+ b=Y9HUobPuU6pLoO8FbmsR529K1/9EoOsR/dZUe6Vei0+uI/Hxx5tuwzOfIqCRN7vMpBZ0po
+ 6urplDCUcT2U28HgRnXToQeszc6Byqo0uHb98B254Ju0OLeXVKhoulTKc5bnYsjzGhQYp8
+ 1XP1EpZ9qeY/HSdQeh6COQXdpAEjNpM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-133-NCdRd6w2NkCkJzlx5RNt1A-1; Fri, 30 Oct 2020 11:34:19 -0400
+X-MC-Unique: NCdRd6w2NkCkJzlx5RNt1A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE973186DD51;
+ Fri, 30 Oct 2020 15:34:17 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57F215D9D2;
+ Fri, 30 Oct 2020 15:34:17 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2] hw/smbios: Fix leaked fd in save_opt_one() error path
-Date: Fri, 30 Oct 2020 16:27:42 +0100
-Message-Id: <20201030152742.1553968-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+Subject: [PATCH 0/2] MAINTAINERS cleanups
+Date: Fri, 30 Oct 2020 11:34:14 -0400
+Message-Id: <20201030153416.429791-1-jsnow@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -92,53 +75,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laszlo Ersek <lersek@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the following Coverity issue (RESOURCE_LEAK):
-
-  CID 1432879: Resource leak
-
-    Handle variable fd going out of scope leaks the handle.
-
-Replace a close() call by qemu_close() since the handle is
-opened with qemu_open().
-
-Fixes: bb99f4772f5 ("hw/smbios: support loading OEM strings values from a file")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/smbios/smbios.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-index 8b30906e50a..6a3d39793bc 100644
---- a/hw/smbios/smbios.c
-+++ b/hw/smbios/smbios.c
-@@ -988,16 +988,18 @@ static int save_opt_one(void *opaque,
-             if (ret < 0) {
-                 error_setg(errp, "Unable to read from %s: %s",
-                            value, strerror(errno));
-+                qemu_close(fd);
-                 return -1;
-             }
-             if (memchr(buf, '\0', ret)) {
-                 error_setg(errp, "NUL in OEM strings value in %s", value);
-+                qemu_close(fd);
-                 return -1;
-             }
-             g_byte_array_append(data, (guint8 *)buf, ret);
-         }
- 
--        close(fd);
-+        qemu_close(fd);
- 
-         *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
-         (*opt->dest)[*opt->ndest] = (char *)g_byte_array_free(data,  FALSE);
--- 
-2.26.2
+=0D
+=0D
+John Snow (2):=0D
+  MAINTAINERS: Remove Ben Warren=0D
+  MAINTAINERS: Make status spellings consistent=0D
+=0D
+ MAINTAINERS | 13 ++++++-------=0D
+ 1 file changed, 6 insertions(+), 7 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
