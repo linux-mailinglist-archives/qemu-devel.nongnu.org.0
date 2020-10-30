@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE292A0124
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 10:21:26 +0100 (CET)
-Received: from localhost ([::1]:56476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A5C2A010A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 10:18:06 +0100 (CET)
+Received: from localhost ([::1]:51208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYQb7-0000zj-Vb
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 05:21:26 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57122)
+	id 1kYQXt-00070u-JJ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 05:18:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kYQVM-0005Uh-Az; Fri, 30 Oct 2020 05:15:28 -0400
-Received: from mail-yb1-xb43.google.com ([2607:f8b0:4864:20::b43]:39775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1kYQVI-0008Ih-Sq; Fri, 30 Oct 2020 05:15:27 -0400
-Received: by mail-yb1-xb43.google.com with SMTP id 67so4539100ybt.6;
- Fri, 30 Oct 2020 02:15:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fTmzJ/jElPGt3FUJEPmktOZo3WNUdJ8tMml+rQeBq28=;
- b=CbJg6KQnWwSSUA+3V3qGxh8WxhviH8NXtjMZcCFRlJj+vLaOnTLCO8drVFSGV7zAEb
- G0Q/21keK738qYjHfgzNT0zH12sMPgjhrgMeY3kRXFne/RaKjDU49mRa2d4xwupdEEXf
- ybEfQDTEe/PNGcCMKmQyyC1pV5JQooZM8ykEm4+nIKowULE5Uv3d5ezuYoBBcf1knI+A
- 8V8WoXo+jbHPZWlVloTL6WPHIYmHQvgFxP84QLx5pzo999wS2A6onZZVO7BI/HQpoB+J
- PNu0QfLOcsOTgnNndjwsvjL7mbQ32WotPBUQPrp6TI+vXLFwCFMiNhj6zw2TIn079vF6
- YU0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fTmzJ/jElPGt3FUJEPmktOZo3WNUdJ8tMml+rQeBq28=;
- b=nfTiV6tvLhsSLZKwrk+GWHPvkTN7Zb5ZiS+mzMpwbE8h1pZKYJhM9dq+zz+QIkXVHU
- Zdla9OQ8IpTXffBSH95WCjPW7aY6jguswsDHQlDQeHR1Tqj+kKACJrFtGbtt4WyDW5x+
- rKNbrH7q3/AOuWA+OYe8C8oOOeNtnWwucVy8hg46ypwX03kHSpo3wasaJwks4RAeGIrd
- VVilGCoNHQG454w4CG8y/AYeW3RAWz8kZtPdPLn4byi+bpLLZXbzTEU2iNqCSdQidwzn
- lBxIfhYzh9Ndu1ZnH1/hHI6nIWJAfffotf7eba4mytyY5N+xPbTY3KQehMTBhcAekJsO
- 5REA==
-X-Gm-Message-State: AOAM533+mraZ/DqKt3NvGXuns+ZXkSAdab1J37M7yiY8WXWOZH//AX6R
- aFdtM7+Ye/8FZ8Yz+DQJDUdyyQSVQmC0pJm1Zo0=
-X-Google-Smtp-Source: ABdhPJzyaz3TLdkBpdY/WAo8jRIPqU6hJM+zgBm4GcJo0talYxJXicMoju6vPSqN+oVYAB2CDoFXCIb5oNB0MM0Ai9U=
-X-Received: by 2002:a25:f81e:: with SMTP id u30mr2269160ybd.332.1604049310069; 
- Fri, 30 Oct 2020 02:15:10 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kYQWQ-0006My-Mx
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:16:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25653)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kYQWO-0000SF-NQ
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:16:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604049392;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=08Ota15zfhDnw1Wa82QJvyhl/zON0Cheo9LP/5MheaY=;
+ b=C9pzjC99vnax8notC4hKq2sMSGoJqTByBF2mw+vYDlC7BNsRCRh8YaBsnRu21Up1nq9j8r
+ 8kD5Hyo1ukFbhqBNv7/S9OQB7n3xVndWOB3LRszj0/ppXxmDTdn1709j2j8ebmZAZu/jIx
+ pgmIk8cS9eUiiklCKWwFh0iGor2PMKw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-GcZcoCq3MQKI9wj4N62V-A-1; Fri, 30 Oct 2020 05:16:27 -0400
+X-MC-Unique: GcZcoCq3MQKI9wj4N62V-A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F49910066FB;
+ Fri, 30 Oct 2020 09:16:26 +0000 (UTC)
+Received: from redhat.com (ovpn-113-50.ams2.redhat.com [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2790819C71;
+ Fri, 30 Oct 2020 09:16:20 +0000 (UTC)
+Date: Fri, 30 Oct 2020 09:16:18 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: Our abstract UNIX domain socket support is a mess
+Message-ID: <20201030091618.GB99222@redhat.com>
+References: <87o8kmwmjh.fsf@dusky.pond.sub.org>
+ <20201029140242.GE27369@redhat.com>
+ <20201029160744.GB6271@merkur.fritz.box>
+ <c52b8cd0-feea-a7ca-fe95-47112a4c36b1@redhat.com>
 MIME-Version: 1.0
-References: <20201030004815.4172849-1-zhangxinhao1@huawei.com>
-In-Reply-To: <20201030004815.4172849-1-zhangxinhao1@huawei.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Fri, 30 Oct 2020 17:14:59 +0800
-Message-ID: <CAEUhbmXNRkFSvtPg8AQhCmN1X-VYow2JiEypeZFZFnswFB9BUg@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv/csr.c : add space before the open
- parenthesis '('
-To: Xinhao Zhang <zhangxinhao1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b43;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <c52b8cd0-feea-a7ca-fe95-47112a4c36b1@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,27 +83,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- alex.chen@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, dengkai1@huawei.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 30, 2020 at 8:58 AM Xinhao Zhang <zhangxinhao1@huawei.com> wrote:
->
-> Fix code style. Space required before the open parenthesis '('.
->
-> Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-> Signed-off-by: Kai Deng <dengkai1@huawei.com>
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> ---
->  target/riscv/csr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+On Thu, Oct 29, 2020 at 01:47:02PM -0500, Eric Blake wrote:
+> On 10/29/20 11:07 AM, Kevin Wolf wrote:
+> 
+> >>>
+> >>> QEMU's interface is differently messy.
+> >>>
+> >>> Our equivalent to struct sockaddr_un is QAPI type UnixSocketAddress:
+> >>>
+> >>>     { 'struct': 'UnixSocketAddress',
+> >>>       'data': {
+> >>>         'path': 'str' }
+> >>>
+> >>> @path corresponds to sockaddr_un member sun_path.  sun_family = AF_UNIX
+> >>> and socklen_t sizeof(sockaddr_un) are implied.
+> >>>
+> >>> We didn't repurpose @path for abstract sockets like the Linux kernel did
+> >>> with sun_path.  Instead, we added a flag @abstract (default false).
+> >>> When it's on, we make a binary blob by prefixing @path with a 0 byte,
+> >>> and pad it with more 0 bytes.
+> >>>
+> >>> We added a second flag @tight (default true) to optionally cut the
+> >>> socklen_t to the end of the string (the terminating 0 byte is not
+> >>> included).
+> >>>
+> 
+> > Using magic characters in strings to distinguish different types of
+> > objects is always wrong in QAPI. If we interpreted leading '@' this way,
+> > you wouldn't be able to specify a relative filename starting with '@'
+> > any more.
+> > 
+> >> Or, just or by having  explicit flags "abstract" and "tight" to
+> >> control the behaviour.  The latter is what 'socat' does to allow
+> >> use of abstract sockets.
+> >>
+> >> For QEMU the former approach gives broad interoperabiltiy with
+> >> userspace applications, so made more sense than using magic "@".
+> > 
+> > Boolean flags to distinguish different types are better than parsing
+> > strings, but still not optimal. Documentation like "only matters for
+> > abstract sockets" is another hint that we're treating things the same
+> > that aren't the same.
+> 
+> But why two boolean flags for three sensible states (where it is unclear
+> if the fourth combination that makes no sense is silently accepted or
+> loudly rejected), instead of a single tri-state-valued enum?
 
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
+This is simply mirroring what  "socat" supports as configuration.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
