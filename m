@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92B0A29F9F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:45:56 +0100 (CET)
-Received: from localhost ([::1]:33674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1C929F9F8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:48:35 +0100 (CET)
+Received: from localhost ([::1]:43226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIYF-0006Y8-Fo
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:45:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44946)
+	id 1kYIao-00025K-E9
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:48:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITp-0001WP-Dz; Thu, 29 Oct 2020 20:41:21 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2366)
+ id 1kYITt-0001ao-8X; Thu, 29 Oct 2020 20:41:25 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2060)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITm-00013i-NU; Thu, 29 Oct 2020 20:41:21 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMk583W8Wz15PJ3;
- Fri, 30 Oct 2020 08:41:16 +0800 (CST)
+ id 1kYITq-00014N-Dr; Thu, 29 Oct 2020 20:41:24 -0400
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CMk5G3Bpdzhd2m;
+ Fri, 30 Oct 2020 08:41:22 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
- 08:41:08 +0800
+ 08:41:09 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 4/8] linux-user/mips/cpu_loop: silence the compiler warnings
-Date: Fri, 30 Oct 2020 08:40:42 +0800
-Message-ID: <20201030004046.2191790-5-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 5/8] target/sparc/translate: silence the compiler warnings
+Date: Fri, 30 Oct 2020 08:40:43 +0800
+Message-ID: <20201030004046.2191790-6-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
 References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
@@ -36,9 +36,9 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [10.175.104.175]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga04-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 20:41:14
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga06-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 20:41:10
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -58,71 +58,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com,
- Laurent Vivier <laurent@vivier.eu>, ganqixin@huawei.com,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>
+Cc: zhang.zhanghailiang@huawei.com,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-linux-user/mips/cpu_loop.c: In function ‘cpu_loop’:
-linux-user/mips/cpu_loop.c:104:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  104 |                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
-      |                        ^
-linux-user/mips/cpu_loop.c:107:17: note: here
-  107 |                 case 7:
-      |                 ^~~~
-linux-user/mips/cpu_loop.c:108:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  108 |                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
-      |                        ^
-linux-user/mips/cpu_loop.c:111:17: note: here
-  111 |                 case 6:
-      |                 ^~~~
-linux-user/mips/cpu_loop.c:112:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  112 |                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
-      |                        ^
-linux-user/mips/cpu_loop.c:115:17: note: here
-  115 |                 case 5:
-      |                 ^~~~
+target/sparc/translate.c: In function ‘gen_st_asi’:
+target/sparc/translate.c:2320:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
+ 2320 |         if (!(dc->def->features & CPU_FEATURE_HYPV)) {
+      |            ^
+target/sparc/translate.c:2329:5: note: here
+ 2329 |     case GET_ASI_DIRECT:
+      |     ^~~~
 
-Add the corresponding "fall through" comment to fix it.
+The "fall through" statement place is not correctly identified by the compiler.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 ---
- linux-user/mips/cpu_loop.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/sparc/translate.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
-index 553e8ca7f5..cfe7ba5c47 100644
---- a/linux-user/mips/cpu_loop.c
-+++ b/linux-user/mips/cpu_loop.c
-@@ -104,18 +104,22 @@ void cpu_loop(CPUMIPSState *env)
-                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
-                         goto done_syscall;
-                     }
-+                    /* fall through */
-                 case 7:
-                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
-                         goto done_syscall;
-                     }
-+                    /* fall through */
-                 case 6:
-                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
-                         goto done_syscall;
-                     }
-+                    /* fall through */
-                 case 5:
-                     if ((ret = get_user_ual(arg5, sp_reg + 16)) != 0) {
-                         goto done_syscall;
-                     }
-+                    /* fall through */
-                 default:
-                     break;
-                 }
+diff --git a/target/sparc/translate.c b/target/sparc/translate.c
+index 1a4efd4ed6..a3d9aaa46b 100644
+--- a/target/sparc/translate.c
++++ b/target/sparc/translate.c
+@@ -2324,8 +2324,8 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
+         }
+         /* in OpenSPARC T1+ CPUs TWINX ASIs in store instructions
+          * are ST_BLKINIT_ ASIs */
+-        /* fall through */
+ #endif
++        /* fall through */
+     case GET_ASI_DIRECT:
+         gen_address_mask(dc, addr);
+         tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop);
 -- 
 2.27.0
 
