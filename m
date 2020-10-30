@@ -2,91 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6A1729FF28
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:54:20 +0100 (CET)
-Received: from localhost ([::1]:39054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CA029FF2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:56:14 +0100 (CET)
+Received: from localhost ([::1]:42808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYPEp-0007Wf-Vp
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:54:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40776)
+	id 1kYPGf-0000gi-NE
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:56:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYPCg-0006eZ-Hz
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:52:07 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44223)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYPCe-0003Zi-Pd
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:52:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604044322;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iJCdG32GGfN0WQ/wlQmPi99CRvTx0WAN6+aga6ukpJw=;
- b=I+jVVoaAPeOWlx1PoPJ7cG3GaJ4g4Vd8PH8OU0f4iVgQncFIEdHtfx6BJ7AxJQi1Q0lVEn
- 4/0fPN0//vTqMJiPlmhdVLlfKoPaMG3aevn+4f8oI04Pj55cNZAHTh3L+2c7OLIMwyrczY
- 025ZeLk+R0AW9B5uyZzSlueAKXJmH/I=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-o1QbmXDpNJ2HxDRi8_wgbA-1; Fri, 30 Oct 2020 03:52:00 -0400
-X-MC-Unique: o1QbmXDpNJ2HxDRi8_wgbA-1
-Received: by mail-wr1-f69.google.com with SMTP id j13so2353035wrn.4
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:52:00 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kYPEb-00084M-Nx
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:54:05 -0400
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kYPEY-0004B8-4O
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:54:04 -0400
+Received: by mail-ed1-x531.google.com with SMTP id l16so5673382eds.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=90pFzOxked17m4c8ghFksVGytoeYjHBIezpyvRFjWYw=;
+ b=sbjQ7zN8w5rk9mBUXi7Wc+9xzcGXM6gwWCRAj8GEnCzpqh+Ykb/QunIhoFxrsuSTHH
+ s2xv1Pex6D6LlAKSV6WI2/3E+rUND9rRi6Ey3cnulL7tiv30es8BldVB9g9hxEmiLl09
+ OSq5eDkrGWiWTsRZEGwng3lQIStjHopEN4gddUroiUzDXR729yvTnQcL3sC+er9TjZVw
+ kuG1tAqvZPGq/gtvlWZJOt7PZ5H3tq15MGjMMwSLQoe+z/BpStTzfjZT6NLVLpyTC1uj
+ v9r6O+WL44KD6cXZHTraJBBI8F1tvg/g/2fFXT/mO9rV+ERwOxdob2+cqAxwOy0twDx/
+ YsOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=iJCdG32GGfN0WQ/wlQmPi99CRvTx0WAN6+aga6ukpJw=;
- b=gzDMXvk20Jhhq8VqU3z6y5nb/CE60W+Lje+EXmTS73DW7lY2fWEPJWagm30Z9wgHdK
- Ai2OuXUjyfNxyd335MtDiOlX9gWWA7zGXfL/J4ewUUVc29YkBZrA+Q5MGYErxvEqkZgW
- cVnGJThKm5HJi+iW2+6ArmpZAkdbbLsNU30EY21JB4Quk22ifE+OIz5BQ7mY4T5fGZ3x
- /gwZ7/x9TjfteM+1BX7bvjV7Z2ZUkWywOBX9ey6bwBqRDU3bYWtZCcHLNuebRTVFMgET
- 7lojvlWNNPbiIPo1zYXzzJINf+YWNa9fHYO/CNs40u2w4Y3TT2miBy/cu8o6Kif1tG8N
- 8U7A==
-X-Gm-Message-State: AOAM530rnTfJu/eqbFLP3SqZHo9OQ0AehKz4vLM2rSYVcm9UcUEdjqjc
- CBGEmzXkj+MTpPpXaUeqyk5KksB5wcBpGgG2g41qBncAgCmBBBHduLSTMoqlamI6qZyjNZzWW+f
- qP7yEzO64ptXlCUo=
-X-Received: by 2002:a1c:81d7:: with SMTP id c206mr1086995wmd.140.1604044319409; 
- Fri, 30 Oct 2020 00:51:59 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJycpxlC9YkQ8AC8lWMX/YvRVRAeNAr4MiCT3Z8p8yJANlHFDLZ+cYmejXnygpXTG4XKVe3Sfg==
-X-Received: by 2002:a1c:81d7:: with SMTP id c206mr1086952wmd.140.1604044319171; 
- Fri, 30 Oct 2020 00:51:59 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id y4sm9501533wrp.74.2020.10.30.00.51.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 00:51:58 -0700 (PDT)
-Date: Fri, 30 Oct 2020 03:51:53 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
-Message-ID: <20201030032011-mutt-send-email-mst@kernel.org>
-References: <20201027151400.GA138065@stefanha-x1.localdomain>
- <CAJSP0QWrmNN1Ci-M-4WDFZBOGHyeZvF71utg0w2ajCbOLtynJw@mail.gmail.com>
- <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
- <20201029083130.0617a28f@w520.home>
- <b85405de-d525-bf59-826c-737fa7bbdfef@redhat.com>
- <20201029094603.15382476@w520.home>
- <d4f7df42-7b02-6505-c2c7-245bf813b513@redhat.com>
- <20201029210407.33d6f008@x1.home>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=90pFzOxked17m4c8ghFksVGytoeYjHBIezpyvRFjWYw=;
+ b=IelYfPjWGqng01ByIUWy5L55PmP0X9pINyK8LBaiQk+lGRgI3tIaAm/wTJva6lGh1L
+ G6LRBjIj4r8dytIhOOo8rVSNW/PCRB+kSFpnoHzvMK/gDXTMpaRYd/5OJ3Unru+03FU/
+ TjYnjA7hXOwRzMh/WZzN9R1W5BCWonKEKjRZEFb11J+snrGoz+n1mYfhnC74S8VR0C3N
+ jPZIbIf71kts5NclbJi5oQ0VOGqemZ85opGAi53fqMbp+pDV1Flp8gzCDKcqxPHywbny
+ vIq6eK+GIYKBE5Om342vdnJA2k/GcKEpgenNkM3pbfz/qORAWv3+0qXX85sRBI/Tm4dM
+ +2nw==
+X-Gm-Message-State: AOAM530rB3dk3t9cazRXBVi58NwIlaOQHg7qzKqjeM4kwYTKaoHl0H+8
+ SZqbLvykPhVLhg/EGPqasciCag0N2Feag/NM0PM=
+X-Google-Smtp-Source: ABdhPJwU288691E+OJmChaA0dNvZA+ZWRPRbbr0HxPcvyG+bvOqDR2inM6p9usMGN1OH7XOSBiigpc1F7XpsCNHGhNY=
+X-Received: by 2002:a05:6402:195:: with SMTP id
+ r21mr959954edv.164.1604044440383; 
+ Fri, 30 Oct 2020 00:54:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201029210407.33d6f008@x1.home>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201029220246.472693-1-ehabkost@redhat.com>
+ <20201029220246.472693-12-ehabkost@redhat.com>
+In-Reply-To: <20201029220246.472693-12-ehabkost@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 30 Oct 2020 11:53:48 +0400
+Message-ID: <CAJ+F1C+Ofu+i4C8dEiAuHbxFikBibQiLM8YkT82c+O7nrGs_ng@mail.gmail.com>
+Subject: Re: [PATCH 11/36] qdev: Make check_prop_still_unset() get Object*
+ argument
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000012be0105b2deb3e8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x531.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,100 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Janosch Frank <frankja@linux.vnet.ibm.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Kirti Wankhede <kwankhede@nvidia.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
- Jag Raman <jag.raman@oracle.com>, Anup Patel <anup@brainfault.org>,
- Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Liran Alon <liran.alon@oracle.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Halil Pasic <pasic@linux.vnet.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, fam <fam@euphon.net>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> A migration compatibility interface has not been determined for vfio.
-> We currently rely on the vendor drivers to provide their own internal
-> validation and harmlessly reject migration from an incompatible device.
-> It would be great if we could make progress on this, but it's a
-> difficult problem, and one that I hope we can further address once we
-> have a base level of migration support.
-> 
-> It's great to revisit ideas, but proclaiming a uAPI is bad solely
-> because the data transfer is opaque, without defining why that's bad,
+--00000000000012be0105b2deb3e8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Oct 30, 2020 at 2:14 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
+
+> Make the code more generic and not specific to TYPE_DEVICE.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>
+
+ Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-That makes sense.
+--=20
+Marc-Andr=C3=A9 Lureau
 
-I feel what is missing from all of these discussions is comparison
-with an existing Out-of-Process solution - namely vhost-user.
-As a result I feel the proposals tend to forget some of the
-lessons learned designing that interface.
+--00000000000012be0105b2deb3e8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In particular I personally see cross-version and cross vendor
-migration as a litmus test: it is a hard problem, one that
-1. I do not believe vendors will be motivated enough to solve by themselves
-2. I don't believe QEMU will be able to add after the fact
-for the reason that "supporting QEMU" will come to not imply any level
-of compatibility whatsoever.
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2020 at 2:14 AM Eduar=
+do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Ma=
+ke the code more generic and not specific to TYPE_DEVICE.<br>
+<br>
+Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
+arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
+><div>=C2=A0Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marca=
+ndre.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; <br></div></div=
+><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"gmail_signature">Ma=
+rc-Andr=C3=A9 Lureau<br></div></div>
 
-That was a hard learned lesson and that's the reason I (and maybe Jason,
-too) keep harping on that, not that it's so burningly important by
-itself.
-
-
-I think at this point we have an opportunity to make people document
-their interfaces up to a point and also actually somewhat standardize
-them, using upstream inclusion as a carrot. Some big vendors will
-probably ignore it, small ones hopefully won't. After X years margins
-become thin, vendors lose interest, and we are at that point glad we
-have standards and documentation.
-
-
-> evaluating the feasibility and implementation of defining a well
-> specified data format rather than protocol, including cross-vendor
-> support, or proposing any sort of alternative is not so helpful imo.
-
-
-
-For example, with a registry of supported device/vendor/subsystem tuples
-and a list of compatibility features and a documented migration data format for
-each, maintained in QEMU, with a handshake validating that would create
-a kind of a registry documenting what is compatible with what.
-
-That could then serve for debugging, validation, and also
-help push people towards more standard interfaces.
-
-That is just one idea.
-
-> Note that we also migrate guest memory as opaque data; we don't require
-> knowing the data structures it holds or how regions are used, we simply
-> look for changes and transfer the new data.  That's not so different
-> from a vendor driver passing us a blob of data as "information it needs
-> to replicate the device state at the target."
-
-
-I don't really understand this argument. At the device level we know
-exactly how is each region used: some are IO, some are RAM.
-In fact one can migrate between systems released years apart.
-
--- 
-MST
-
+--00000000000012be0105b2deb3e8--
 
