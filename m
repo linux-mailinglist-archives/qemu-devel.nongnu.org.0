@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF0929FA74
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:19:23 +0100 (CET)
-Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E0E29FA39
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:04:51 +0100 (CET)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYJ4c-0006pe-IZ
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
+	id 1kYIqY-00065D-7R
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:04:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIc0-0004Lk-Ff
+ id 1kYIc0-0004L9-7t
  for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:48 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35646)
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:38296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbu-0001rV-Ha
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:48 -0400
-Received: by mail-pg1-x543.google.com with SMTP id f38so3768782pgm.2
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:42 -0700 (PDT)
+ id 1kYIbv-0001ri-Tr
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:47 -0400
+Received: by mail-pg1-x543.google.com with SMTP id i26so3751033pgl.5
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=T96qfuK9LFACPCMFZJEu5AkD3dQj8mh/jlsxNmhHWgc=;
- b=aEzjT9MbPPJEh1dWF/Lcp/5LIMr+SHddMruzd6YFuUrSCOtTaE92IIgAqSMFepEvDg
- vZ4JSwcHLP+XBRiTQmNhOWPvWAXTxtDKbYJIHzt5nZqBLTjbxf/mYOnABBu4onHjSXUl
- nkAsALOBuisaP88jr3dGcqOOeBodzvdNqbsrcK0NCG8tqFVsSI32egzRtgcZ6b3FGDiw
- 3C8Nqa2mJwF7s/eVo7szITQ1d985p6V+9EvV1uoijarMU87XlZCtfH+EnRCpavduXtsb
- B/QJBugUVyMJm7m+OLzty9ISlq8XuyngsH8+w2hccpihnNNBUvh7vjC44R/H4k//6etf
- GZNA==
+ bh=z2KaP1xs6rRO9cwUUOTb/ugn+4CyHbulGJfJyCgsn04=;
+ b=xx33lHJBzp23BGBvF1qD0vsRKsTSd2golyL79BF+ezblp2OuSSEvG2eoPCkdqUsebS
+ BE6zIEL2kcsy4iCH/LbU5JLZI+JVnlQ2CSkzchye8ln66nKhPZnu3mK4jxcJK4kbL1Gx
+ eYqMVR8Pk0GxhD3QstDMVGj7Hrr6Ye32YHjV7EVz5uCAA7o5zOURa0GNG2rJhpBbH01f
+ hcDDyNG0mQWUJBx2V0xqJwZh4Bp2l5VEB6nw29n05Wid5XzLoadrfBZCkwj7PpZkRpHM
+ geRZthL+tPxiyaLbagpV6+nuazmBJtQANQtWvsC2Mchq0m9ugmJUp5TFJ6IOX3znvZV4
+ Lwxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=T96qfuK9LFACPCMFZJEu5AkD3dQj8mh/jlsxNmhHWgc=;
- b=a8fd5aS1DBJlsncGhwkGH5NcShFZiHSU4kyay3l9N9KVst6ViKcMdCycsA0Kn4ejdV
- P/2F+jk8IjzSd4NQ8smA764+Lxxt1UiOdcrQzUWGw6GXpuN92mdQYPkuezSEpN2wc3et
- 0R9KBnq+VeHN2PEXjtKrg1XSB5nNiBBkJQA9gDmwRi0cCoczsePd5TxGvYXThj/FTGzO
- 0qiGBmdP41zrQM0jX5c2Lu82fgOrROs0JGwM9HedF5pczNMWzXD3onqf2klIHZd5KePC
- FXaOdTBhGNzgeo2XgCz+IFkrFre5fPZGjc2nql80pC5Tebxwt4xJY/Tmjhd7cBF/mgdg
- 5HEg==
-X-Gm-Message-State: AOAM533Z1r5YXb4pRc0saYfHcpO1yZq3n75X0Zp85QCKv6bncs/ERjd+
- 7FNU2+agGVmGSQWhKlj6JLDqNQkyvUHmBA==
-X-Google-Smtp-Source: ABdhPJwUjfesT51VF5wK71IbTvsUs4sRCwWHUapt8R+qEUabJmP0iItLA/vE8NClwS6C10ebd1w18Q==
-X-Received: by 2002:a63:f84c:: with SMTP id v12mr6265769pgj.125.1604018980939; 
- Thu, 29 Oct 2020 17:49:40 -0700 (PDT)
+ bh=z2KaP1xs6rRO9cwUUOTb/ugn+4CyHbulGJfJyCgsn04=;
+ b=j30M7h/p9VBjs0foEp9Ouxf/UqQ9JtR/gNuZKAEEnysjOxZcfbS3CKxgDMb37XWosq
+ 7DqI+xzgQRvKCIbj0fRCv/I+ljri4ZYaDeqlihU+p59JR3xvwgX2T0EcxdS+gT/TAnLa
+ HAnu4qqRrekuA2Qc8xCz1APqoqTH+vXNdKu9VV7CK7Esoh0VwXW/fEc1di6yJaNc2eyP
+ 8FcvoNN2Bto3/EBeKwYlY0bihv7lpn1X7FPWWKN/OreCYJwgwF7TbGfxRdcHoSjxVS4H
+ 4Cik0WkcC3ywvqSZ33pL8jTjr3TyqEBXgy/8lRyiOg6FpIEUZ6kgilGlyJYTTb220LVh
+ +eqw==
+X-Gm-Message-State: AOAM5310lt8O3nmzpDjyxWzndkYBvShaWYKElaFjsi3grLRLHU99wIGZ
+ 0/zWHFsh5r0rDq/pLkgFTH33jzVmLQrWmQ==
+X-Google-Smtp-Source: ABdhPJwummvSf5QzF5URwHX1p7LEfKV6GeR6dMekG2urAv9+ph955YF6bnVR0wzdNIJ5/oX5o0ytcw==
+X-Received: by 2002:a17:90a:1690:: with SMTP id
+ o16mr1964360pja.148.1604018982218; 
+ Thu, 29 Oct 2020 17:49:42 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.39
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:40 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/19] accel/tcg: Support split-rwx for linux with memfd
-Date: Thu, 29 Oct 2020 17:49:15 -0700
-Message-Id: <20201030004921.721096-14-richard.henderson@linaro.org>
+Subject: [PATCH v2 14/19] RFC: accel/tcg: Support split-rwx for darwin/iOS
+ with vm_remap
+Date: Thu, 29 Oct 2020 17:49:16 -0700
+Message-Id: <20201030004921.721096-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
@@ -88,124 +90,106 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We cannot use a real temp file, because we would need to find
-a filesystem that does not have noexec enabled.  However, a
-memfd is not associated with any filesystem.
+Cribbed from code posted by Joelle van Dyne <j@getutm.app>,
+and rearranged to a cleaner structure.  Completely untested.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translate-all.c | 87 +++++++++++++++++++++++++++++++++++----
- 1 file changed, 80 insertions(+), 7 deletions(-)
+ accel/tcg/translate-all.c | 68 ++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 67 insertions(+), 1 deletion(-)
 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 8918a09f10..3e69ebd1d3 100644
+index 3e69ebd1d3..bf8263fdb4 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -1088,17 +1088,11 @@ static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
-     return true;
- }
- #else
--static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
-+static bool alloc_code_gen_buffer_anon(size_t size, int prot, Error **errp)
- {
--    int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+@@ -1093,6 +1093,11 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot, Error **errp)
      int flags = MAP_PRIVATE | MAP_ANONYMOUS;
      void *buf;
  
--    if (mirror > 0) {
--        error_setg(errp, "jit split-rwx not supported");
--        return false;
--    }
--
++#ifdef CONFIG_DARWIN
++    /* Applicable to both iOS and macOS (Apple Silicon). */
++    flags |= MAP_JIT;
++#endif
++
      buf = mmap(NULL, size, prot, flags, -1, 0);
      if (buf == MAP_FAILED) {
          error_setg_errno(errp, errno,
-@@ -1147,6 +1141,85 @@ static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
-     tcg_ctx->code_gen_buffer = buf;
+@@ -1182,13 +1187,74 @@ static bool alloc_code_gen_buffer_mirror_memfd(size_t size, Error **errp)
+     qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
      return true;
  }
+-#endif
++#endif /* CONFIG_LINUX */
 +
-+#ifdef CONFIG_LINUX
-+#include "qemu/memfd.h"
++#ifdef CONFIG_DARWIN
++#include <mach/mach.h>
 +
-+static bool alloc_code_gen_buffer_mirror_memfd(size_t size, Error **errp)
++extern kern_return_t mach_vm_remap(vm_map_t target_task,
++                                   mach_vm_address_t *target_address,
++                                   mach_vm_size_t size,
++                                   mach_vm_offset_t mask,
++                                   int flags,
++                                   vm_map_t src_task,
++                                   mach_vm_address_t src_address,
++                                   boolean_t copy,
++                                   vm_prot_t *cur_protection,
++                                   vm_prot_t *max_protection,
++                                   vm_inherit_t inheritance);
++
++static bool alloc_code_gen_buffer_mirror_vmremap(size_t size, Error **errp)
 +{
-+    void *buf_rw, *buf_rx;
-+    int fd;
++    kern_return_t ret;
++    mach_vm_address_t buf_rw, buf_rx;
++    vm_prot_t cur_prot, max_prot;
 +
-+    fd = qemu_memfd_create("tcg-jit", size, false, 0, 0, errp);
-+    if (fd < 0) {
++    /* Map the read-write portion via normal anon memory. */
++    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE, errp)) {
 +        return false;
 +    }
 +
-+    buf_rw = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
-+    if (buf_rw == MAP_FAILED) {
-+        error_setg_errno(errp, errno,
-+                         "allocate %zu bytes for jit buffer", size);
-+        close(fd);
++    buf_rw = tcg_ctx->code_gen_buffer;
++    buf_rx = 0;
++    ret = mach_vm_remap(mach_task_self(),
++                        &buf_rx,
++                        size,
++                        0,
++                        VM_FLAGS_ANYWHERE | VM_FLAGS_RANDOM_ADDR,
++                        mach_task_self(),
++                        buf_rw,
++                        false,
++                        &cur_prot,
++                        &max_prot,
++                        VM_INHERIT_NONE);
++    if (ret != KERN_SUCCESS) {
++        /* TODO: Convert "ret" to a human readable error message. */
++        error_setg(errp, "vm_remap for jit mirror failed");
++        munmap((void *)buf_rw, size);
 +        return false;
 +    }
 +
-+    buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
-+    if (buf_rx == MAP_FAILED) {
-+        error_setg_errno(errp, errno,
-+                         "allocate %zu bytes for jit mirror", size);
-+        munmap(buf_rw, size);
-+        close(fd);
++    if (mprotect((void *)buf_rx, size, PROT_READ | PROT_EXEC) != 0) {
++        error_setg_errno(errp, errno, "mprotect for jit mirror");
++        munmap((void *)buf_rx, size);
++        munmap((void *)buf_rw, size);
 +        return false;
 +    }
-+    close(fd);
 +
-+    tcg_ctx->code_gen_buffer = buf_rw;
-+    tcg_ctx->code_gen_buffer_size = size;
 +    tcg_rx_mirror_diff = buf_rx - buf_rw;
-+
-+    /* Request large pages for the buffer and the mirror.  */
-+    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
-+    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
 +    return true;
 +}
-+#endif
-+
-+static bool alloc_code_gen_buffer_mirror(size_t size, Error **errp)
-+{
-+    if (TCG_TARGET_SUPPORT_MIRROR) {
-+#ifdef CONFIG_LINUX
-+        return alloc_code_gen_buffer_mirror_memfd(size, errp);
-+#endif
-+    }
-+    error_setg(errp, "jit split-rwx not supported");
-+    return false;
-+}
-+
-+static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
-+{
-+    if (mirror) {
-+        Error *local_err = NULL;
-+        if (alloc_code_gen_buffer_mirror(size, &local_err)) {
-+            return true;
-+        }
-+        /*
-+         * If mirror force-on (1), fail;
-+         * if mirror default-on (-1), fall through to mirror off.
-+         */
-+        if (mirror > 0) {
-+            error_propagate(errp, local_err);
-+            return false;
-+        }
-+    }
-+
-+    int prot = PROT_READ | PROT_WRITE | PROT_EXEC;
-+#ifdef CONFIG_TCG_INTERPRETER
-+    /* The tcg interpreter does not need execute permission. */
-+    prot = PROT_READ | PROT_WRITE;
-+#endif
-+
-+    return alloc_code_gen_buffer_anon(size, prot, errp);
-+}
- #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
++#endif /* CONFIG_DARWIN */
  
- static bool tb_cmp(const void *ap, const void *bp)
+ static bool alloc_code_gen_buffer_mirror(size_t size, Error **errp)
+ {
+     if (TCG_TARGET_SUPPORT_MIRROR) {
+ #ifdef CONFIG_LINUX
+         return alloc_code_gen_buffer_mirror_memfd(size, errp);
++#endif
++#ifdef CONFIG_DARWIN
++        return alloc_code_gen_buffer_mirror_vmremap(size, errp);
+ #endif
+     }
+     error_setg(errp, "jit split-rwx not supported");
 -- 
 2.25.1
 
