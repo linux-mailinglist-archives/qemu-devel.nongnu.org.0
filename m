@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34502A0D16
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 19:07:54 +0100 (CET)
-Received: from localhost ([::1]:41288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 104782A0D1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 19:09:28 +0100 (CET)
+Received: from localhost ([::1]:48826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYYob-0006iY-4q
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 14:07:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44744)
+	id 1kYYq7-0001M9-1z
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 14:09:27 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kYYmf-00055E-HP
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:05:53 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39886)
+ id 1kYYmf-00055G-Ih
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:05:54 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:34926)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kYYmZ-0004om-W0
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:05:51 -0400
-Received: by mail-wr1-x442.google.com with SMTP id y12so7439789wrp.6
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 11:05:47 -0700 (PDT)
+ id 1kYYmb-0004ot-DP
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:05:53 -0400
+Received: by mail-wm1-x343.google.com with SMTP id h22so3768341wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 11:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ogWY79DGBphZ5cSLWp+iarT8DOVPwPU4DycZP1s48eM=;
- b=hIDI38dchaM7mwa6axoQPbJKDp9g5SlsXm3WUx3q0ejkGkv5+NDSfhr9t8gGZWkiCh
- vA6L/NECH3bGi5Sh2HoBDckZ08jeFcXbiS/kyQZgU4YOgOcA6F70vULt16TVT9dSwLbd
- 6X585Sc7C/mjp4Cn1NjZF07xP7SE15M/ON527gWTtAJ8rJx4YJR4/m5SD/Bces3yZwz0
- qAlNtIT3g0E8ugZQNp4XZtG7I7T5Kn5+cFv+TZBkP48k66l2vpuTOiPjAlWG7m4NvrAe
- iw8kWy/shmR/0yuv1t6nr0rDew3jDpSxl07pvfne1sczVIAinMhdlfsgdFRvTkHjswPk
- s2fg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=x+cvpu7ceWHktnpLf54xiiETIbszTKNIsMfFS/95CA0=;
+ b=jnPcSnIREOXzqoUrjsQz/YmUF5n172hh7fbdxLDHsmBohlCVOTi6HSQvNf2N4Qtcnj
+ ZCzDmF6fta5TR2MdxOsjBU2ZBHh2DwO3HXEq7fN+fKknA2EbEZQsL4FqzoDA1tnH6AAY
+ 8UXDj9992XoQehqM9IJKmixG4k2WRE8phwSOGqMMgYksdidkEqYiBHO4ZaIxUon+OZ2T
+ TjHN9BJsS7xGILH7Ywf7vHB/FY9hZskxQ77IQQYwGjflGIkcI4CRSr9nXsWbQu9nRoXb
+ yYVLLb25oG9hPwPUTZCuThJqCXIyws2M9UwKJbtFLEQrQC4i6NjTaFEF+D7nh5A9QGq6
+ cEIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ogWY79DGBphZ5cSLWp+iarT8DOVPwPU4DycZP1s48eM=;
- b=Oymogdy2Bvz6RVmwcIFLvnVUf9SawGM/2Tk2Na14dpIv0t6fpAZBRwHt805cs6+bfy
- inrVrkwAvDVZJMhsURtBs9q0b8UpNxo4vQ7XlOSNWoYdxrEMY95M0aUISzr26YEPOiHT
- FUy33wEdmO/FcqM8+nudogchMK8DYmHxvS+MB5UZSCr5z0tBg0q0I6f3hJOv9OuZUBEk
- YMD8VP35SG383UiVnoJMbLmaB7SgwKJpF15MVszbF3WuVHp7xZopaks7WwUVOGxIdwa7
- 5l8P++Mo351gHIVPljHxYe77eqjaLS1w+u0hdH4IbHSQPN4ox7dkfHcTVXzpvQ4lHMZe
- babA==
-X-Gm-Message-State: AOAM5303kA98ELAK5JoyEr7JPibtT9p0eGBI4GEMhupKe73WPronWpLm
- gHwEFuTHtb3Za0fXkRgEC0ME8Q==
-X-Google-Smtp-Source: ABdhPJzpYSnuWLVORF6kIqZC3wVYhBKzRrEYGYvaFs2y8heoy9AXPozN0zkxlxzTaASMFLeDYJJNYA==
-X-Received: by 2002:a5d:54d0:: with SMTP id x16mr4612623wrv.75.1604081146325; 
- Fri, 30 Oct 2020 11:05:46 -0700 (PDT)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=x+cvpu7ceWHktnpLf54xiiETIbszTKNIsMfFS/95CA0=;
+ b=S4DY8x4mDwggJb+NH5RWqo+xQxLUkdxDZFdVCnLNDBD8RD+HwyOzaK4JF6CM96wx4O
+ PBz8L3E/2Y9SgpvrZiwsk2CGXVxewPOPXniVfJRwijegPJsIG6VN4uwFbHYhXhw4LIkF
+ /yBmNxygV9DOjtLQN2uPNP3k+eC0dv1Bde6dFTFlEa9/AZMlZphnfRpTZT35AYMo5ax+
+ NGiezFAyHwP6wahhr/xDm0tihmqwSRt76aLnmAEiUUVXigg/JuHCUEF97P2zmMrXOCHC
+ an2bPUKPodt9ZjcgZsHaKyoovmYLhNQ3exRMEnhu+zk7isrbQrLEe0O0UOMqTQqqW0pW
+ q1yg==
+X-Gm-Message-State: AOAM533EolInXVeFm6ROqbF/a7cZbb+EEAoLKP9DiEFnRWgVZ7WVnYFS
+ lTn6zHfZvYkd1yXS5JbQ/Cs92w==
+X-Google-Smtp-Source: ABdhPJycfkGqQGLXB82Im0P3inWb2CLLsnwg522WPSaDqlKEi3SEAOhK1eZG3/wW/7cPjj4cvJE2Sg==
+X-Received: by 2002:a1c:c2c5:: with SMTP id s188mr4185427wmf.174.1604081147547; 
+ Fri, 30 Oct 2020 11:05:47 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id u3sm10044438wro.33.2020.10.30.11.05.44
+ by smtp.gmail.com with ESMTPSA id u3sm10044438wro.33.2020.10.30.11.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 11:05:45 -0700 (PDT)
+ Fri, 30 Oct 2020 11:05:46 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com,
 	alex.williamson@redhat.com
-Subject: [PATCH v11 00/10] virtio-iommu: VFIO integration
-Date: Fri, 30 Oct 2020 19:05:00 +0100
-Message-Id: <20201030180510.747225-1-jean-philippe@linaro.org>
+Subject: [PATCH v11 01/10] virtio-iommu: Fix virtio_iommu_mr()
+Date: Fri, 30 Oct 2020 19:05:01 +0100
+Message-Id: <20201030180510.747225-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.29.1
+In-Reply-To: <20201030180510.747225-1-jean-philippe@linaro.org>
+References: <20201030180510.747225-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x442.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x343.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,39 +87,37 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, mst@redhat.com,
- qemu-devel@nongnu.org, peterx@redhat.com, pbonzini@redhat.com,
- bbhushan2@marvell.com
+ qemu-devel@nongnu.org, peterx@redhat.com, QEMU Stable <qemu-stable@nongnu.org>,
+ pbonzini@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series adds support for VFIO endpoints to virtio-iommu.
-Since [v10] I addressed the review comments, and changed the logic of
-patch 9 for setting the page mask, as discussed. Please see individual
-changelogs for details.
+Due to an invalid mask, virtio_iommu_mr() may return the wrong memory
+region. It hasn't been too problematic so far because the function was
+only used to test existence of an endpoint, but that is about to change.
 
-[v10] https://lore.kernel.org/qemu-devel/20201008171558.410886-1-jean-philippe@linaro.org/
+Fixes: cfb42188b24d ("virtio-iommu: Implement attach/detach command")
+Cc: QEMU Stable <qemu-stable@nongnu.org>
+Acked-by: Eric Auger <eric.auger@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ hw/virtio/virtio-iommu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Bharat Bhushan (7):
-  virtio-iommu: Add memory notifiers for map/unmap
-  virtio-iommu: Call memory notifiers in attach/detach
-  virtio-iommu: Add replay() memory region callback
-  virtio-iommu: Add notify_flag_changed() memory region callback
-  memory: Add interface to set iommu page size mask
-  vfio: Set IOMMU page size as per host supported page size
-  virtio-iommu: Set supported page size mask
-
-Jean-Philippe Brucker (3):
-  virtio-iommu: Fix virtio_iommu_mr()
-  virtio-iommu: Store memory region in endpoint struct
-  vfio: Don't issue full 2^64 unmap
-
- include/exec/memory.h    |  38 ++++++++
- hw/vfio/common.c         |  19 ++++
- hw/virtio/virtio-iommu.c | 205 ++++++++++++++++++++++++++++++++++++++-
- softmmu/memory.c         |  13 +++
- hw/virtio/trace-events   |   6 ++
- 5 files changed, 279 insertions(+), 2 deletions(-)
-
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 21ec63b1082..4c8f3909b7d 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -101,7 +101,7 @@ static IOMMUMemoryRegion *virtio_iommu_mr(VirtIOIOMMU *s, uint32_t sid)
+     bus_n = PCI_BUS_NUM(sid);
+     iommu_pci_bus = iommu_find_iommu_pcibus(s, bus_n);
+     if (iommu_pci_bus) {
+-        devfn = sid & PCI_DEVFN_MAX;
++        devfn = sid & (PCI_DEVFN_MAX - 1);
+         dev = iommu_pci_bus->pbdev[devfn];
+         if (dev) {
+             return &dev->iommu_mr;
 -- 
 2.29.1
 
