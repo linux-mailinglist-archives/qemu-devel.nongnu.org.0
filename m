@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3A542A0956
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:12:28 +0100 (CET)
-Received: from localhost ([::1]:56680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F4E2A096D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:18:49 +0100 (CET)
+Received: from localhost ([::1]:41196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYW4p-0000Co-Py
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:12:27 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60074)
+	id 1kYWAy-0005ng-Mi
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:18:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYW2S-0006ra-8H
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:10:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39508)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYW7k-00032A-Mh
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:15:28 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55720)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYW2Q-0006B2-KK
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:09:59 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYW7i-00072S-Bf
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:15:27 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604070596;
+ s=mimecast20190719; t=1604070924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NslL+8MYXzNC6tAMGQfCXeMzktZ0gagTiI4JSbA18W8=;
- b=ZvBuidanGOEzO1ADyWwmeq88zdE2eRyZ+799Yx6Lqj7AzLEaDshspxO8/c0EZveZdlA+1i
- zeC+90MpmYWocqdJvq+ZT9rbkLMMFcUsQJKOIIOiwKcfPg8XKRcjH+08iwg/06QwX1mwfr
- X7o53NJ8zpUW5qA5SqMSIMri0hZTnZo=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-GAzrNyJENWCIgxEevvYxBQ-1; Fri, 30 Oct 2020 11:09:55 -0400
-X-MC-Unique: GAzrNyJENWCIgxEevvYxBQ-1
-Received: by mail-wr1-f69.google.com with SMTP id x16so2754163wrg.7
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 08:09:55 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=Zm331ISzY+wdNeofPTl4+CzEGhRGPiQrXLmfNYGiVOo=;
+ b=ZYvYObrdW/MOJPkyY99GgqZEcXadaOa05BBpCs1MohpnYM2Z2Y9/O+vvxCCNyTcx4pBaji
+ PZYEEzBJVHMjzWieYFD+XQt+LfuAXIw0afW9sdeF2GeeHctxHNZAx7iwNCJzAFV4csh+Vp
+ WU6GxbAeAPpUdvpZpY7esFfiUEZ9cqQ=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-468-Fbc5BvOcOoSvbKK0Z7iZ9A-1; Fri, 30 Oct 2020 11:15:21 -0400
+X-MC-Unique: Fbc5BvOcOoSvbKK0Z7iZ9A-1
+Received: by mail-ot1-f70.google.com with SMTP id i25so2412813otj.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 08:15:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=NslL+8MYXzNC6tAMGQfCXeMzktZ0gagTiI4JSbA18W8=;
- b=gBXIxM4ZvRZ3hKCDjdZWLuN+WsMhXrMWMeJmi/j5zcXd/rLlqTM9t6rq/o1D0+a4R3
- wL7UE4sJ9VRQKGBQRqNX8BN0K/kQUd2LXqselly+32CvhHu8zhxKYUNYHpqVB2jazcsj
- 0+IdTkpAG+Wv2AQ+OSjgURPR6bjgIRVVpf7IM0PzUItX5jZYc7Z/NU4QyA5AiHd2P2NJ
- hcj01kHRpB1yx4x4gozfJ11PMMAqLtfW07w7ORD2UfhldwnQiMYxkiBIHGnp3HS3xWUf
- Ovpk0pU9pLJBY6HLyEn1kxYeD+ut2ZPZFM6/cwWM7FQvVCWp8X3/hNbHK/sbQcjxqrK4
- MKnQ==
-X-Gm-Message-State: AOAM531/7y+4Ji+G+8NkK/9Xlw5+QScn1AoUloMqIF2Ssm++V6oX+VLy
- m2bK3Y5goWFYOqILE9DQLaSltXN4uqqVDxdOn+g4CqQqe7ZotVq4e6b04HUxrG/4W7Sf5haQnnj
- y8D6gnC1eNwN0pto=
-X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr3711632wru.316.1604070593900; 
- Fri, 30 Oct 2020 08:09:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy08572UuSUWEeSTw0/5piLBtMPI1ONmMzgcSLEM/xGd+3me2lR8GDNrpGpbFFn7UfWUdBDnQ==
-X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr3711608wru.316.1604070593710; 
- Fri, 30 Oct 2020 08:09:53 -0700 (PDT)
-Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id r3sm11201258wrm.51.2020.10.30.08.09.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 08:09:52 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH-for-5.2] tools/virtiofsd: Check vu_init() return value
- (CID 1435958)
-Date: Fri, 30 Oct 2020 16:09:51 +0100
-Message-Id: <20201030150951.1542382-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Zm331ISzY+wdNeofPTl4+CzEGhRGPiQrXLmfNYGiVOo=;
+ b=RORzjUc7J6+MM0ZYrnACbFMxBDRTSirMVs0YeMGEKCqe/L2LA1XlIdaGBIEhvk2Y8Y
+ glk58NajfEmfJTB2dpz3vU8pysEysh/H02w/8WRIn4Mve00RJbTyq5enqB8qHokcqMml
+ ZgbhazzEQgEqMBnrWCASMyAEjOBPI0taaEGENXk3ddQZ/b0YCYrlXPZRBaDoZrwDUBTe
+ rZ/JBa1MFfQ+MNq76+KTkBxPJgKJ6SJLIob+Cwfwr2WjXNehxGDLAeHMHrK7qzMI/y2M
+ VnejfZUKK3R5lyDntFbl+mTfF7XKdTv/F4k2QfwwAif47m/5jGzTaiSYQed3BGwsGEYr
+ rctA==
+X-Gm-Message-State: AOAM531xfad724iMXBFOthoovUJhZYltyjTKSnpmJTJ6GIQ6ovq1lnQp
+ u7qFOuR8odx7ZwQRWoI2ro1anP5LBQVX6oZGx08gnBCgNsTN50GjtOW5zmzTPiNqzCZqieZAJ0+
+ V0pByZgL+k24qSDfcNCNBDF4uwk+1KP0=
+X-Received: by 2002:a9d:6419:: with SMTP id h25mr2119910otl.79.1604070921034; 
+ Fri, 30 Oct 2020 08:15:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxWtT0biTHK9KSzBC4advdxfQo/zFvLsJTbgWWr2+w/uWqa8/aBoQKlSvaufGoLybUbcuPUKIxgLUmhA1WfeQ0=
+X-Received: by 2002:a9d:6419:: with SMTP id h25mr2119886otl.79.1604070920702; 
+ Fri, 30 Oct 2020 08:15:20 -0700 (PDT)
 MIME-Version: 1.0
+References: <20201006072947.487729-1-pbonzini@redhat.com>
+ <20201006072947.487729-35-pbonzini@redhat.com>
+In-Reply-To: <20201006072947.487729-35-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Fri, 30 Oct 2020 16:15:09 +0100
+Message-ID: <CAP+75-XRQ4uqhtn12kPe9gOrH269rOpW3SowHEj_KqkX=zAeoQ@mail.gmail.com>
+Subject: Re: [PULL 34/37] gdbstub: add reverse continue support in replay mode
+To: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
@@ -93,42 +88,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit 6f5fd837889, vu_init() can fail if malloc() returns NULL.
+Hi Pavel,
 
-This fixes the following Coverity warning:
+On Tue, Oct 6, 2020 at 9:41 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> From: Pavel Dovgalyuk <Pavel.Dovgaluk@ispras.ru>
+>
+> This patch adds support of the reverse continue operation for gdbstub.
+> Reverse continue finds the last breakpoint that would happen in normal
+> execution from the beginning to the current moment.
+> Implementation of the reverse continue replays the execution twice:
+> to find the breakpoints that were hit and to seek to the last breakpoint.
+> Reverse continue loads the previous snapshot and tries to find the breakpoint
+> since that moment. If there are no such breakpoints, it proceeds to
+> the earlier snapshot, and so on. When no breakpoints or watchpoints were
+> hit at all, execution stops at the beginning of the replay log.
+>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> Message-Id: <160174522930.12451.6994758004725016836.stgit@pasha-ThinkPad-X280>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  exec.c                    |  1 +
+>  gdbstub.c                 | 10 +++++-
+>  include/sysemu/replay.h   |  8 +++++
+>  replay/replay-debugging.c | 72 +++++++++++++++++++++++++++++++++++++++
+>  softmmu/cpus.c            |  5 +++
+>  stubs/replay.c            |  5 +++
+>  6 files changed, 100 insertions(+), 1 deletion(-)
+...
+> +static void replay_continue_stop(void *opaque)
+> +{
+> +    Error *err = NULL;
+> +    if (replay_last_breakpoint != -1LL) {
+> +        replay_seek(replay_last_breakpoint, replay_stop_vm_debug, &err);
+> +        if (err) {
+> +            error_free(err);
+> +            replay_continue_end();
+> +        }
+> +        return;
+> +    }
+> +    /*
+> +     * No breakpoints since the last snapshot.
+> +     * Find previous snapshot and try again.
+> +     */
+> +    if (replay_last_snapshot != 0) {
+> +        replay_seek(replay_last_snapshot - 1, replay_continue_stop, &err);
+> +        if (err) {
+> +            error_free(err);
+> +            replay_continue_end();
+> +        }
+> +        replay_last_snapshot = replay_get_current_icount();
+> +        return;
+> +    } else {
+> +        /* Seek to the very first step */
+> +        replay_seek(0, replay_stop_vm_debug, &err);
+> +        if (err) {
+> +            error_free(err);
+> +            replay_continue_end();
+> +        }
+> +        return;
+> +    }
 
-  CID 1435958 (#1 of 1): Unchecked return value (CHECKED_RETURN)
+Coverity (CID 1433220) reports this is dead code:
 
-Fixes: 6f5fd837889 ("libvhost-user: support many virtqueues")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- tools/virtiofsd/fuse_virtio.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 324936948d3..3a32256e7af 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -1013,8 +1013,10 @@ int virtio_session_mount(struct fuse_session *se)
-     se->vu_socketfd = data_sock;
-     se->virtio_dev->se = se;
-     pthread_rwlock_init(&se->virtio_dev->vu_dispatch_rwlock, NULL);
--    vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
--            fv_set_watch, fv_remove_watch, &fv_iface);
-+    if (!vu_init(&se->virtio_dev->dev, 2, se->vu_socketfd, fv_panic, NULL,
-+                 fv_set_watch, fv_remove_watch, &fv_iface)) {
-+        return -1;
-+    }
- 
-     return 0;
- }
--- 
-2.26.2
+> +    replay_continue_end();
+> +}
+> +
 
 
