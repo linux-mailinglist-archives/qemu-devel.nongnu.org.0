@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B99F2A0FA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:40:02 +0100 (CET)
-Received: from localhost ([::1]:36594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9A92A0F87
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:34:29 +0100 (CET)
+Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYbBp-0005PS-Le
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:40:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53236)
+	id 1kYb6S-0008Hy-Bf
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:34:28 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYaud-000101-PM
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:15 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44956)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYb4l-0006nd-Kt
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:32:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37993)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYaub-0007m4-NB
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:15 -0400
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYb4j-0000UH-HO
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:32:43 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604089332;
+ s=mimecast20190719; t=1604089958;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UA2p0lb4BLS2VhD6LDFkfpe/k3TZeq6sGxwETdPSMjY=;
- b=NEJLFK2jrfXTN/GC3YSE34+1KkwEwL6PzRlTFEbJIRKU8+k6IwbqyMhlMTBb3bIOXYODub
- rGAWKZnPmKMMEv6xWbzTgfgmOsxXsXklc8ITJjLZ+LgHvXeqyzutLtsI18mjlv8Hr3hDV8
- cmR8wGcM2gZ1ZieTqZAImEUtovprGA0=
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fLFfMmAiHmys+Q03WCcf6/EBoOlc3H8DSL44oe4QMP8=;
+ b=Vju52eRCR2d+SvxL32aWYaz9pfXh3BNWbx1CmHoy++ojmCM4Ff5QvfMAxvWPQFYtQZuwpD
+ i3q8pwIccM7ZT7LvtjzjbUaHBA1wCCFivDjMVWhX08Wm/G9YQocZVd8OHgU8QF4lFM+Mg0
+ 4+ahzpOKvxwa4kl3STzwp1pQwuZ6m4w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-5xCFLWBgMCOrciWcngTriw-1; Fri, 30 Oct 2020 16:22:10 -0400
-X-MC-Unique: 5xCFLWBgMCOrciWcngTriw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-40-RL6-xqUjMaWiC55qCmIacA-1; Fri, 30 Oct 2020 16:32:36 -0400
+X-MC-Unique: RL6-xqUjMaWiC55qCmIacA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA9A3802B69
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:22:09 +0000 (UTC)
-Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC2005B4A9;
- Fri, 30 Oct 2020 20:22:06 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82B60802B74
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:32:35 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-218.phx2.redhat.com [10.3.113.218])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 51A9419D61
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:32:35 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 19/20] filter-buffer: Remove unnecessary prefix from error
- message
-Date: Fri, 30 Oct 2020 16:21:30 -0400
-Message-Id: <20201030202131.796967-20-ehabkost@redhat.com>
-In-Reply-To: <20201030202131.796967-1-ehabkost@redhat.com>
-References: <20201030202131.796967-1-ehabkost@redhat.com>
+Subject: [PULL v2 00/12] NBD patches for 2020-10-27 soft-freeze
+Date: Fri, 30 Oct 2020 15:32:19 -0500
+Message-Id: <20201030203231.107486-1-eblake@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 16:21:37
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,37 +75,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-object_property_parse() will add a
-  "Property '<TYPE>.<PROP>' can't take value '<VALUE>'"
-prefix automatically for us.
+The following changes since commit 9a2ea4f4a7230fe224dee91d9adf2ef872c3d226:
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Cc: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org
----
- net/filter-buffer.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-5.2-pull-request' into staging (2020-10-30 15:49:35 +0000)
 
-diff --git a/net/filter-buffer.c b/net/filter-buffer.c
-index d8392be53c..2c70dc6c33 100644
---- a/net/filter-buffer.c
-+++ b/net/filter-buffer.c
-@@ -175,8 +175,7 @@ static void filter_buffer_set_interval(Object *obj, Visitor *v,
-         return;
-     }
-     if (!value) {
--        error_setg(errp, "Property '%s.%s' requires a positive value",
--                   object_get_typename(obj), name);
-+        error_setg(errp, "interval can't be zero");
-         return;
-     }
-     s->interval = value;
+are available in the Git repository at:
+
+  https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-10-27-v2
+
+for you to fetch changes up to dbc7b01492371e4a54b92d2b6d968f9b863cc794:
+
+  nbd: Add 'qemu-nbd -A' to expose allocation depth (2020-10-30 15:22:00 -0500)
+
+v2: Respin to fix compilation error due to semantic merge conflict
+(only the changed patch is resent)
+
+----------------------------------------------------------------
+nbd patches for 2020-10-27
+
+- Tweak the new block-export-add QMP command
+- Allow multiple -B options for qemu-nbd
+- Add qemu:allocation-depth metadata context as qemu-nbd -A
+- Improve iotest use of NBD
+
+----------------------------------------------------------------
+Eric Blake (10):
+      block: Simplify QAPI_LIST_ADD
+      qapi: Add QAPI_LIST_PREPEND() macro
+      nbd: Utilize QAPI_CLONE for type conversion
+      nbd: Update qapi to support exporting multiple bitmaps
+      nbd: Simplify qemu bitmap context name
+      nbd: Refactor counting of metadata contexts
+      nbd: Allow export of multiple bitmaps for one device
+      block: Return depth level during bdrv_is_allocated_above
+      nbd: Add new qemu:allocation-depth metadata context
+      nbd: Add 'qemu-nbd -A' to expose allocation depth
+
+Max Reitz (2):
+      iotests/291: Filter irrelevant parts of img-info
+      iotests/291: Stop NBD server
+
+ docs/interop/nbd.txt       |  23 +++--
+ docs/system/deprecated.rst |   3 +-
+ docs/tools/qemu-nbd.rst    |   8 +-
+ qapi/block-core.json       |   7 +-
+ qapi/block-export.json     |  46 +++++++---
+ block/coroutines.h         |   6 +-
+ include/block/nbd.h        |   8 +-
+ include/qapi/util.h        |  13 +++
+ block/io.c                 |  31 +++++--
+ block.c                    |  22 ++---
+ block/commit.c             |   2 +-
+ block/mirror.c             |   2 +-
+ block/nbd.c                |  26 ++++--
+ block/stream.c             |   2 +-
+ blockdev-nbd.c             |  19 +++--
+ nbd/server.c               | 208 +++++++++++++++++++++++++++++++++++----------
+ qemu-nbd.c                 |  30 ++++---
+ tests/qemu-iotests/291     |  22 +++--
+ tests/qemu-iotests/291.out |  20 -----
+ tests/qemu-iotests/309     |  77 +++++++++++++++++
+ tests/qemu-iotests/309.out |  22 +++++
+ tests/qemu-iotests/group   |   1 +
+ 22 files changed, 446 insertions(+), 152 deletions(-)
+ create mode 100755 tests/qemu-iotests/309
+ create mode 100644 tests/qemu-iotests/309.out
+
 -- 
-2.28.0
+2.29.2
 
 
