@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DEBD2A02DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 11:29:53 +0100 (CET)
-Received: from localhost ([::1]:47262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48D992A02DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 11:30:01 +0100 (CET)
+Received: from localhost ([::1]:47772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYRfM-0002Mq-BR
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 06:29:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48556)
+	id 1kYRfU-0002b5-BS
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 06:30:00 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kYRcQ-00089w-RW
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:26:50 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40999)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kYRbz-0007am-SN
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:26:23 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35260)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1kYRcJ-0001LF-9A
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:26:48 -0400
-Received: by mail-pg1-x542.google.com with SMTP id g12so4815188pgm.8
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 03:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=g815fsiESMKmgDH5cPf9Tkif9Ardfh9VTYbXrHpvFI8=;
- b=sfAhk4Mym36HIdPwDKmfSBDzOMsSj4fbmmo06Ar3T+4L6wIiNSB4xebhmtUy82j89v
- JXp6+GtDCyx+BiNmDXfIgMzAjW4PCL1sgAH1bNbixzqbF0W7iFiU6AliXA0qHlTbCzXs
- nLQLgyh9b/UrcjPusHaXTeavWDGPY161K5+OvkcmPPqCiR/fmtMqPbWwUFGte8XwyMnx
- Cc+ws29W2KnyAdqei1elzIjM7MQc2XRKkYsSUEMAAsdQnwSAp4N79VQkzcDrKSEJuWXE
- m2HGyR8PoE5eCnmRaVxbMaWbHND22ig0OFlwenYb3ixy7T4WrGki2Lc05rtQ3mSxvYHR
- tKDw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kYRbx-0001Eb-20
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:26:23 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id n15so5887279wrq.2
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 03:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Ht7WYueNgfp0UhVkFiZol+cFg7ruSFbIxqfSH2tHy8w=;
+ b=e0leOUGOHWJzi7zHF/W2SLhWtX8QcqSn/UwCVkDGdFtiYxSQo3m21UaG8XsJPG2/XQ
+ Xt43U+olHddIT4ERXEs/rXiSnCQlJtjasaiuboiLuC7Kyme8TWfP3WdYPL07nvS5m6M7
+ 7GiOBIVWLT0A9/V19lSsmyIDXpedidaAOownLzIkluhGYY6xDfqxBqizCRQVq1mpAP6n
+ 80Abi5kZlzLoQnBlI7/wZ+I6TkIgFCoZWy7ezcvzZGn4mEPFfJcnOFaU05ZBhFc4u9rH
+ EuvLJFNmcI8CQ880TMakKsIBgH6BrCsWI2IcCgq4XwWjjVthwLZX88aXh+J2vZ6KNGFn
+ WSIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=g815fsiESMKmgDH5cPf9Tkif9Ardfh9VTYbXrHpvFI8=;
- b=f3FXu1tQBoPxtvXaectteXCL/kvDlpACtjYLEfj1qXIXF6q437M5lbxn/4CCQF6Ejf
- FgzVQk6mqwjlVT/8r1N7GP46DnaMF84a+uoh1k78+fYJH5dXoYgdch15e4/f5HvN/dar
- i56sPdSsnrG6gB2oNUt7MKhTBymYp3nvdfoluk1SkxScgazH2b/l76XiGE16P6UPvqF3
- kLrjvWchlxLcDwpShm+dolx8ZSiOBKapnbNCdbWEucG2YlJv/ovR2dmImDEwD6qYftRM
- 1U5b9hLmJ8eVEiw9VVctNfSBIr7Wwl5XhQcJfOfjXsT5Btl42n4s0QMUhpE1TbCOTIo3
- eHFA==
-X-Gm-Message-State: AOAM532FMt3JjLD/sxBfc48W+Mm5UXp9TE0RA1KcGyjnKVaLyWgIAiRr
- 19GvP9h0j08L4o7DjLjyu9Q=
-X-Google-Smtp-Source: ABdhPJwC0dDSxCTqpvZWMxGgO0eLGEHLrfh/mvgEJ48USojhS1YD21GnjjlSsWZmke+7kxzyBElZeQ==
-X-Received: by 2002:a17:90a:ab92:: with SMTP id
- n18mr1924985pjq.233.1604053601533; 
- Fri, 30 Oct 2020 03:26:41 -0700 (PDT)
-Received: from software.domain.org ([45.77.13.216])
- by smtp.gmail.com with ESMTPSA id v79sm6062146pfc.197.2020.10.30.03.26.38
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 30 Oct 2020 03:26:40 -0700 (PDT)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-Subject: [PATCH V16 2/6] target/mips: Add unaligned access support for
- MIPS64R6 and Loongson-3
-Date: Fri, 30 Oct 2020 18:25:37 +0800
-Message-Id: <1604053541-27822-3-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1604053541-27822-1-git-send-email-chenhc@lemote.com>
-References: <1604053541-27822-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pg1-x542.google.com
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=Ht7WYueNgfp0UhVkFiZol+cFg7ruSFbIxqfSH2tHy8w=;
+ b=SgI2ihZQjelwwPVP/UppOwGRm4ssg3v4RVfyGgC1CeP5ivTlJDUUGD3/MtWSrNgfR4
+ zXv1chN6Ry+Vhl0oGvBjbDH7ElSE5eDM/5bKB8vXbEdsdnUyArzpxJvCHDpOCFsbFWGH
+ 5C7j13nqqBMiri7CRFjQczfcaLILkcVuHAFzbuoGbNtXIZ3GeCbmq3duj73s6COukj6q
+ ACbSoXzZsUBwUeF15F8yLQZXzZxMpN9N49/+ii0GNPG3bH1zdPOoH2TaXkbjn3eynQK7
+ hV3mH6xZt14LXfybzCR6BOvsyDwux6Z5UPw9e0IqZ7ozOPy34ojBmTbfU/im+xnQKKO7
+ USXw==
+X-Gm-Message-State: AOAM532NPaB2Lj8LIsAGOeSXu8AH1OtUMR7XY4xPz1t6/H52FYmSNp+V
+ OQnlxettvOYSXuMHm4DM7mXD1w==
+X-Google-Smtp-Source: ABdhPJxcLaut66Xrd6WH0apfByRTJ2hfWsTg2BRumsWI3avp4AzbixVqDZjT5SOWq9tiQJmXj0G4Vg==
+X-Received: by 2002:adf:a50e:: with SMTP id i14mr2203576wrb.121.1604053579157; 
+ Fri, 30 Oct 2020 03:26:19 -0700 (PDT)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id t4sm4174335wmb.20.2020.10.30.03.26.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 30 Oct 2020 03:26:17 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 2AC021FF7E;
+ Fri, 30 Oct 2020 10:26:17 +0000 (GMT)
+References: <bda4f471-8ed6-3832-29ac-279a6d3bb7cc@redhat.com>
+ <20201029174114.47e2b351.cohuck@redhat.com>
+ <CAKmqyKOY+5WcxUg3Rvq2t3vYWOHrHQdhcv8PkiqZX2zVMdqJ3Q@mail.gmail.com>
+ <3713093e-bf3b-bf23-a8d0-70fe429032ba@redhat.com>
+ <c7308133-cf29-8668-f781-6d025eb16722@redhat.com>
+ <3d9b264a-5e1f-b936-8455-bafc6b89ebe5@redhat.com>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: Migrating to the gitlab issue tracker
+In-reply-to: <3d9b264a-5e1f-b936-8455-bafc6b89ebe5@redhat.com>
+Date: Fri, 30 Oct 2020 10:26:17 +0000
+Message-ID: <87v9esko1i.fsf@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,41 +93,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIPSR6 (not only MIPS32R6) processors support unaligned access in
-hardware, so set MO_UNALN in their default_tcg_memop_mask. Btw, new
-Loongson-3 (such as Loongson-3A4000) also support unaligned access,
-since both old and new Loongson-3 use the same binaries, we can simply
-set MO_UNALN for all Loongson-3 processors.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
----
- target/mips/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+John Snow <jsnow@redhat.com> writes:
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index f449758..470f59c 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -31442,8 +31442,8 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- #else
-         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
- #endif
--    ctx->default_tcg_memop_mask = (ctx->insn_flags & ISA_MIPS32R6) ?
--                                  MO_UNALN : MO_ALIGN;
-+    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
-+                                  INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
- 
-     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
-               ctx->hflags);
--- 
-2.7.0
+> On 10/29/20 3:55 PM, Thomas Huth wrote:
+>> On 29/10/2020 18.12, John Snow wrote:
+>>> On 10/29/20 12:49 PM, Alistair Francis wrote:
+>>>> On Thu, Oct 29, 2020 at 9:41 AM Cornelia Huck <cohuck@redhat.com> wrot=
+e:
+>>>>>
+>>>>> On Thu, 29 Oct 2020 12:01:27 -0400
+>>>>> John Snow <jsnow@redhat.com> wrote:
+>>>>>
+>>>>>> If you're in the CC list, it's because you are listed in MAINTAINERS.
+>>>>>
+>>>>> <cleared the cc: list except for qemu-devel :)>
+>>>>>
+>>>>>>
+>>>>>> Paolo's QEMU keynote this morning mentioned the possible use of the
+>>>>>> Gitlab issue tracker instead of using Launchpad.
+>>>>>>
+>>>>>> I'm quite fond of the gitlab issue tracker, I think it works quite w=
+ell
+>>>>>> and it has pretty good and uncomplicated API access to it in order to
+>>>>>> customize your workflow if you'd really like to.
+>>>>>>
+>>>>>> In experimenting with my mirror on gitlab though, I was unable to fi=
+nd a
+>>>>>> way to configure it to send issue tracker notifications to the email
+>>>>>> list. A move to gitlab would likely mean, then:
+>>>>>>
+>>>>>> 1. The cessation of (automatic) issue tracker mails to the list
 
+It would miss this feature as sometimes I get wind of things I can track
+down. On the other hand there is a fair bit of list noise at the end of
+a release when stuff gets closed.
+
+>>>>>> 2. The loss of the ability to update the issue tracker by replying to
+>>>>>> said emails
+>>>>>> 3. Anyone listed in MAINTAINERS would be expected to have a gitlab
+>>>>>> account in order to interact with the issue tracker.
+
+Not a problem for me at least - it's just another (2FA) account.
+
+<snip>
+>> So could somebody please enable the issue tracker there, so we can give =
+it a
+>> try? Phil? Alex? Stefan? ...?
+>>=20
+>> If it works well, I can certainly help to get the links etc. in our webs=
+ite
+>> fixed.
+>>=20
+>
+> Great! You are the primary bug wrangler, so if you are interested in=20
+> trialing it, I am interested in helping!
+>
+> If we enable the bug tracker, can we please add Thomas and myself as=20
+> 'Reporter' level contributors to QEMU so we can wrangle bugs?
+
+I have enabled the issue tracker and assigned Thomas and you the first
+bug.
+
+> Info on permissions: https://docs.gitlab.com/ee/user/permissions.html
+>
+> There's also an old bug (2 years) about migrating Launchpad to Gitlab,=20
+> but there's been no movement.
+>
+> https://gitlab.com/gitlab-org/gitlab/-/issues/22600
+>
+> If we like the results of the trial, we'll need a convincing migration=20
+> strategy.
+
+Can we extract data as a CSV from Launchpad?
+
+--=20
+Alex Benn=C3=A9e
 
