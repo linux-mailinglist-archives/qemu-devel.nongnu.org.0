@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 445C72A05CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:50:44 +0100 (CET)
-Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2972A05EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:53:41 +0100 (CET)
+Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTrf-000615-9v
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:50:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
+	id 1kYTuW-0000vK-K2
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:53:40 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53894)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmk-0000mp-ET
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:38 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29142)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmr-0000rK-0x
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:46 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmi-0000is-By
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:38 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmo-0000lF-Sh
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:44 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061935;
+ s=mimecast20190719; t=1604061941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OQbV+eeH0Jal8wQ3qnCI4bc8h7HSMGkH1TuPaMitNA4=;
- b=GBiDn9QBqPRRJ/Lib6MpD/DlwFA+xydmAjyi5EGrV4Jf7jYaN05j9hN852IFuDuHhEdX6Z
- ES3LrqQOdG/c5mTR+XK0mF5yp/s9dnKRaa3acdbJ6QOyPkgowVTbIWgdxxnWLZ+JHuGNPB
- DhtNAv1tYIOX6Cva/J1FWXd3CBj/hOA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-y0TTm1enMpuOeqckdSNrcA-1; Fri, 30 Oct 2020 08:45:33 -0400
-X-MC-Unique: y0TTm1enMpuOeqckdSNrcA-1
-Received: by mail-wr1-f69.google.com with SMTP id 2so2625606wrd.14
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:32 -0700 (PDT)
+ bh=gHTVvLyQX/nQL7WIpglC+HzeG7xS+O6ap0K+bTpJUHA=;
+ b=Z5m4lyxKUep1aBIR36mcu9iA0HgO0A6N2Nf1FDzrS97mf96OjAgxdG86mjJUvqoxAWtdhL
+ 291qKfz+OWEzPMhnTftFU1uVR17cQ3rFLQmIxQC2Df1rcrLSCD59YVqiJlu+6baFOR34cn
+ i4St789DWidrraxcJnxvMv26GjC5PFQ=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-fRD7MxgeNv-MJNpKi-34cA-1; Fri, 30 Oct 2020 08:45:38 -0400
+X-MC-Unique: fRD7MxgeNv-MJNpKi-34cA-1
+Received: by mail-wm1-f72.google.com with SMTP id s25so1198358wmj.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:38 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=OQbV+eeH0Jal8wQ3qnCI4bc8h7HSMGkH1TuPaMitNA4=;
- b=HHcf8OMFnLHaZ38sggNOIMNeLP+Z7AmV5Sk49vhvejn7wFe7xrjf6icmgunExpYlSE
- 8xyAD23QdBk619CL1IPAOXR55eG5oqOvoFclPUdFroQR1U8tHK5ry6zQ6lbXfacR/urN
- +OsDPM+4+zyRsXeFgZfPDfpgdkIarzuHsI4P7Qv3mHr2ThMBUsCc+4tevyk2qnZyjlSP
- XTXpsc3gji2aAn5p3TKbowWrcbemej/FhEu/8rNOlCqnQUuregSH2nxh7G2/TRl95de3
- gX87w5wGQ1ujpYK9sL3pjwDvlg4iz08lK1GUSHAc1vpgdZ8z0wOnBgXAE3jBUVvXSebD
- L1/w==
-X-Gm-Message-State: AOAM532iw9KWc4Hd4A5UiDbQ2ZJZLToNkMfWaaa7m/xPPcLa8eRFYq6u
- dmFvbgMmQxSQi0ZE153nLFI5louPJozGSHjEwe3y8Dk/vEaYgMtmVcek1Wywcr8o9bnbf20+zAQ
- 3aGdIIJP0UCCysEc=
-X-Received: by 2002:adf:fa4e:: with SMTP id y14mr2838921wrr.377.1604061931747; 
- Fri, 30 Oct 2020 05:45:31 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzZmzFpF57+XWqVg8AINqODziGkq6JddLydZIZsQfLOevVkt4QbThXM8uqJ4myB+LYrHm5NIg==
-X-Received: by 2002:adf:fa4e:: with SMTP id y14mr2838904wrr.377.1604061931601; 
- Fri, 30 Oct 2020 05:45:31 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=gHTVvLyQX/nQL7WIpglC+HzeG7xS+O6ap0K+bTpJUHA=;
+ b=AfU6DcsKI8EFoRXWLlYL4lX8njwA7o5ojyAgHqQQasxaljo8zhpkP3mJTtYKlrc8vV
+ g7l/hF1XkWJT3Ba2BlisqH87xFu9jN8clLYRV45kLPFd/A97WGoKN/T7GdKlwNhbyXlZ
+ DJqaFhiBd4XXyQ+0SKr6AV6UcKdb5oO6SZihkSepHR2o0zbIn8NG3MrkeyeJ7gwvCOql
+ z048bhrNSVsFZ/mDn4O51fZw39xZCJBunGv1oeCvZEBsOx8KskCmWznkd+ArOKtkjV+l
+ hfYQiXoZiGUgKNWrFlb+f0fd+U1gdfrKHkAtAtouTyoW2v2BtKOdGTp+0YbLtJ4Rzmce
+ yu+Q==
+X-Gm-Message-State: AOAM531sWuYFQ/mOwKypUkeHJH2tx5fKrFtQrMWGccwB/eRcOHcrp3Sr
+ SV3RzFoNf77NoX3gjN7XfX8eSRgIcsANgcruasrt98+eYEoqSdbkC4TgBwjOFbpSfcM8dMqX+C4
+ vprn9NpuzZtTVlWI=
+X-Received: by 2002:a1c:4c05:: with SMTP id z5mr2476049wmf.122.1604061936467; 
+ Fri, 30 Oct 2020 05:45:36 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyiy/jQLLTwTiDLjbFQgIW6Cx/VKSJbRoWuSY0x49NlHj7PxlqXZXYAZpOd2l4lHDUgn59c0Q==
+X-Received: by 2002:a1c:4c05:: with SMTP id z5mr2476031wmf.122.1604061936260; 
+ Fri, 30 Oct 2020 05:45:36 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id j9sm10601842wrp.59.2020.10.30.05.45.30
+ by smtp.gmail.com with ESMTPSA id i33sm10834024wri.79.2020.10.30.05.45.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:30 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:29 -0400
+ Fri, 30 Oct 2020 05:45:35 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/15] pci: Change error_report to assert(3)
-Message-ID: <20201030124454.854286-12-mst@redhat.com>
+Subject: [PULL 13/15] vhost-blk: set features before setting inflight feature
+Message-ID: <20201030124454.854286-14-mst@redhat.com>
 References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
@@ -71,9 +69,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
@@ -97,46 +94,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Jin Yu <jin.yu@intel.com>,
+ Max Reitz <mreitz@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jin Yu <jin.yu@intel.com>
 
-Asserts are used for developer bugs. As registering a bar of the wrong
-size is not something that should be possible for a user to achieve,
-this is a developer bug.
+Virtqueue has split and packed, so before setting inflight,
+you need to inform the back-end virtqueue format.
 
-While here, use the more obvious helper function.
-
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Message-Id: <20201015181411.89104-1-ben.widawsky@intel.com>
+Signed-off-by: Jin Yu <jin.yu@intel.com>
+Message-Id: <20200910134851.7817-1-jin.yu@intel.com>
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/pci/pci.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ include/hw/virtio/vhost.h |  1 +
+ hw/block/vhost-user-blk.c |  6 ++++++
+ hw/virtio/vhost.c         | 18 ++++++++++++++++++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index dc4019865b..e5b7c9a42b 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1151,11 +1151,7 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 94585067f7..839bfb153c 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -141,6 +141,7 @@ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
+ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f);
++int vhost_dev_prepare_inflight(struct vhost_dev *hdev);
+ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight);
+ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index a076b1e54d..f67b29bbf3 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -131,6 +131,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
  
-     assert(region_num >= 0);
-     assert(region_num < PCI_NUM_REGIONS);
--    if (size & (size-1)) {
--        error_report("ERROR: PCI region size must be pow2 "
--                    "type=0x%x, size=0x%"FMT_PCIBUS"", type, size);
--        exit(1);
--    }
-+    assert(is_power_of_2(size));
+     s->dev.acked_features = vdev->guest_features;
  
-     r = &pci_dev->io_regions[region_num];
-     r->addr = PCI_BAR_UNMAPPED;
++    ret = vhost_dev_prepare_inflight(&s->dev);
++    if (ret < 0) {
++        error_report("Error set inflight format: %d", -ret);
++        goto err_guest_notifiers;
++    }
++
+     if (!s->inflight->addr) {
+         ret = vhost_dev_get_inflight(&s->dev, s->queue_size, s->inflight);
+         if (ret < 0) {
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 79b2be20df..f2482378c6 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1645,6 +1645,24 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
+     return 0;
+ }
+ 
++int vhost_dev_prepare_inflight(struct vhost_dev *hdev)
++{
++    int r;
++ 
++    if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
++        hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
++        return 0;
++    }
++ 
++    r = vhost_dev_set_features(hdev, hdev->log_enabled);
++    if (r < 0) {
++        VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
++        return r;
++    }
++
++    return 0;
++}
++
+ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight)
+ {
 -- 
 MST
 
