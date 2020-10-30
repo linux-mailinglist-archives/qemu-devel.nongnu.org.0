@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A85762A05CB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:50:38 +0100 (CET)
-Received: from localhost ([::1]:55006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7FD2A0608
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:58:02 +0100 (CET)
+Received: from localhost ([::1]:46106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTrZ-0005nK-O8
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:50:37 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53784)
+	id 1kYTyj-0005T5-Th
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:58:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53792)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTme-0000h2-2d
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51864)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmf-0000jD-4a
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmc-0000go-4B
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmd-0000hI-41
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:32 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061929;
+ s=mimecast20190719; t=1604061930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hB2moo/cmsKV0TlRa+A5mqgcufQ43ovjOtrGZziNS+A=;
- b=ReHbLg0Np+QA/UfLiSaTYAtXohhZgo78iP3pHI/f4+RR2h7N4XDmD55zcDEV3nN45NfIZ/
- kSk70gUP1sniDm7o1XJ5ltVZCg09FsFRpM578BQT8+sMgnB0UvWQ7ZqvjdxkHA79MeWLMH
- 0rLzdI4gEUNHAKjD4lkJolqELhZYZig=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-Q0WyB51VNzig-L4ApEol2w-1; Fri, 30 Oct 2020 08:45:26 -0400
-X-MC-Unique: Q0WyB51VNzig-L4ApEol2w-1
-Received: by mail-wm1-f71.google.com with SMTP id z62so1690704wmb.1
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:26 -0700 (PDT)
+ bh=et4yufnnD++h3AJk3UX83J9geIWo0Gn07GUHuuNVBW4=;
+ b=AADDCT0Crmze10IqU30Yi9kl28PqfpjIrcXmFupwe5n2vUjMglrnhumzQgnx9kxyAJDPyL
+ jfwC2ebcyu+EVcwvIGVREZEfcXdgeiiO2Cc75a1QIwc5FxhhSRdiYbqb8Dmh3MaaIB/24P
+ 3LfWIr5HAjRzUMwboGQDyILkwMpWUiM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-485-_857mqX_OWSQWxySwSR-DQ-1; Fri, 30 Oct 2020 08:45:28 -0400
+X-MC-Unique: _857mqX_OWSQWxySwSR-DQ-1
+Received: by mail-wr1-f72.google.com with SMTP id m4so2597017wrq.23
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=hB2moo/cmsKV0TlRa+A5mqgcufQ43ovjOtrGZziNS+A=;
- b=LExirNLQZcePAZ2Ocq0CLUYbOFlK4mQYJ5apAyNSdU//kZ7YQMuxZDQuapz3b9Buqm
- hLQIQB5V0k5WPgQrolZXN6iyxKkW45kaih/+oGjejiavT7UDKBRQvnNqil4NnJBbRQzM
- GRhrIJX+lt3zjudw9Ozm39V7aY+r2mX3YDW0l82ajkMI7/zbW+4BCNkHs3AEAuEsiDpt
- 5p3WVhtttKW8AMg8C8vNwzL5yVIky/C0PpWj3HV4iUHmBg544gLbhgEp3ZTEnJyxHH9L
- pVNxm3zKJrnfeWZEIyM2YEm65EP+q76oWd3YPZzBfcSoOGPFdCuVYp+XyC9CghkvKEqg
- zTdg==
-X-Gm-Message-State: AOAM5307B25eF4t473hXzb7h4OYcIUfS9fOwDuXIZfQDEaxZwnkbkx5z
- N44g01smLVcFRQ7hLKQJrjXRUv1CXW1TP8NQ+xU6Otp59BiuPlwInz2Un7zb9DQvmQzOaArY++B
- XP8su2fbvTpm6rA8=
-X-Received: by 2002:a5d:5048:: with SMTP id h8mr2972027wrt.135.1604061924728; 
- Fri, 30 Oct 2020 05:45:24 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzwTMh2GF97i4m7rEqXRNrKAAlmTlUpZOCxngKuojpJTXhbwvWlgfAoYdGdSMa3JueV1JBPYg==
-X-Received: by 2002:a5d:5048:: with SMTP id h8mr2972006wrt.135.1604061924563; 
- Fri, 30 Oct 2020 05:45:24 -0700 (PDT)
+ bh=et4yufnnD++h3AJk3UX83J9geIWo0Gn07GUHuuNVBW4=;
+ b=UTmPWM1JNJabRGM1k2q7sRyxaBzSje30J6e12qVruX1yt2ytTCOmMObuTf/O4ScDwq
+ 1aK4qNfKJzeU9PTKluBzfsWwkvWONCEkFMPwAilKVIG2M5pz1ajvb+eX5Bp1Zw4ChdqN
+ HjVorzwxcKQuXoCsMmaTWJ9CQsq9incyCyvnTM67ZCA2gnMmdx22E1zjW/ahoI74Kngc
+ diCBD0i0lsuz6XGWHunsVeySvelTAorSJ0Ll2f+3MJA3Mlo8MMv7VjO8b5hN7Y+5bwHw
+ XDVzlunr2peR8utIHokllyrHe6m7CuMIM5Eh5M3tUT9JlNnXPY5KMHygxCGJafeVcKum
+ Q6Sg==
+X-Gm-Message-State: AOAM532nrpybkjOipNhHbiJkVULu40etWB/F3WxNL7PUJiy9BHARi0Sx
+ nHcCvf5wxRJTpJaS5vsYiQbmPQhPq1U7tjKcqhDeksx5Md3/9mXV7AJ3szqEJgZsjju6eWj9Mk1
+ KIM8kZXBvFJACQGg=
+X-Received: by 2002:adf:8296:: with SMTP id 22mr2960841wrc.341.1604061927123; 
+ Fri, 30 Oct 2020 05:45:27 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxfgIGDgNXwq/bPKsUiZZTo4tRlxIFyTi8HTCOCbqiHNy4DHap84X9Yn0olk3+duD2NuOwDCw==
+X-Received: by 2002:adf:8296:: with SMTP id 22mr2960810wrc.341.1604061926931; 
+ Fri, 30 Oct 2020 05:45:26 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id e25sm11530300wrc.76.2020.10.30.05.45.23
+ by smtp.gmail.com with ESMTPSA id m8sm10224612wrw.17.2020.10.30.05.45.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:23 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:22 -0400
+ Fri, 30 Oct 2020 05:45:26 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:24 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/15] vhost: Don't special case vq->used_phys in
- vhost_get_log_size()
-Message-ID: <20201030124454.854286-9-mst@redhat.com>
+Subject: [PULL 09/15] pc: Implement -no-hpet as sugar for -machine hpet=on
+Message-ID: <20201030124454.854286-10-mst@redhat.com>
 References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
@@ -95,64 +94,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Greg Kurz <groug@kaod.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <rth@twiddle.net>, Eduardo Habkost <ehabkost@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Eduardo Habkost <ehabkost@redhat.com>
 
-The first loop in vhost_get_log_size() computes the size of the dirty log
-bitmap so that it allows to track changes in the entire guest memory, in
-terms of GPA.
+Get rid of yet another global variable.
 
-When not using a vIOMMU, the address of the vring's used structure,
-vq->used_phys, is a GPA. It is thus already covered by the first loop.
+The default will be hpet=on only if CONFIG_HPET=y.
 
-When using a vIOMMU, vq->used_phys is a GIOVA that will be translated
-to an HVA when the vhost backend needs to update the used structure. It
-will log the corresponding GPAs into the bitmap but it certainly won't
-log the GIOVA.
-
-So in any case, vq->used_phys shouldn't be explicitly used to size the
-bitmap. Drop the second loop.
-
-This fixes a crash of the source when migrating a guest using in-kernel
-vhost-net and iommu_platform=on on POWER, because DMA regions are put
-over 0x800000000000000ULL. The resulting insanely huge log size causes
-g_malloc0() to abort.
-
-BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1879349
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160208823418.29027.15172801181796272300.stgit@bahia.lan>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Message-Id: <20201021144716.1536388-1-ehabkost@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ include/hw/i386/pc.h  |  1 +
+ include/hw/i386/x86.h |  3 ---
+ hw/i386/pc.c          | 63 +++++++++++++++++++++++++++++--------------
+ hw/i386/pc_piix.c     |  2 +-
+ softmmu/vl.c          |  4 +--
+ 5 files changed, 47 insertions(+), 26 deletions(-)
 
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 3077fa6ef5..79b2be20df 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -172,16 +172,6 @@ static uint64_t vhost_get_log_size(struct vhost_dev *dev)
-                                        reg->memory_size);
-         log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 84639d0ebc..911e460097 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -43,6 +43,7 @@ typedef struct PCMachineState {
+     bool smbus_enabled;
+     bool sata_enabled;
+     bool pit_enabled;
++    bool hpet_enabled;
+ 
+     /* NUMA information: */
+     uint64_t numa_nodes;
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index bfa9cb2a25..739fac5087 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -126,7 +126,4 @@ qemu_irq x86_allocate_cpu_irq(void);
+ void gsi_handler(void *opaque, int n, int level);
+ void ioapic_init_gsi(GSIState *gsi_state, const char *parent_name);
+ 
+-/* hpet.c */
+-extern int no_hpet;
+-
+ #endif
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 4e323755d0..416fb0e0f6 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1142,28 +1142,31 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+      * Without KVM_CAP_PIT_STATE2, we cannot switch off the in-kernel PIT
+      * when the HPET wants to take over. Thus we have to disable the latter.
+      */
+-    if (!no_hpet && (!kvm_irqchip_in_kernel() || kvm_has_pit_state2())) {
++    if (pcms->hpet_enabled && (!kvm_irqchip_in_kernel() ||
++                               kvm_has_pit_state2())) {
+         hpet = qdev_try_new(TYPE_HPET);
+-        if (hpet) {
+-            /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+-             * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
+-             * IRQ8 and IRQ2.
+-             */
+-            uint8_t compat = object_property_get_uint(OBJECT(hpet),
+-                    HPET_INTCAP, NULL);
+-            if (!compat) {
+-                qdev_prop_set_uint32(hpet, HPET_INTCAP, hpet_irqs);
+-            }
+-            sysbus_realize_and_unref(SYS_BUS_DEVICE(hpet), &error_fatal);
+-            sysbus_mmio_map(SYS_BUS_DEVICE(hpet), 0, HPET_BASE);
+-
+-            for (i = 0; i < GSI_NUM_PINS; i++) {
+-                sysbus_connect_irq(SYS_BUS_DEVICE(hpet), i, gsi[i]);
+-            }
+-            pit_isa_irq = -1;
+-            pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
+-            rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
++        if (!hpet) {
++            error_report("couldn't create HPET device");
++            exit(1);
+         }
++        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
++            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
++            * IRQ8 and IRQ2.
++            */
++        uint8_t compat = object_property_get_uint(OBJECT(hpet),
++                HPET_INTCAP, NULL);
++        if (!compat) {
++            qdev_prop_set_uint32(hpet, HPET_INTCAP, hpet_irqs);
++        }
++        sysbus_realize_and_unref(SYS_BUS_DEVICE(hpet), &error_fatal);
++        sysbus_mmio_map(SYS_BUS_DEVICE(hpet), 0, HPET_BASE);
++
++        for (i = 0; i < GSI_NUM_PINS; i++) {
++            sysbus_connect_irq(SYS_BUS_DEVICE(hpet), i, gsi[i]);
++        }
++        pit_isa_irq = -1;
++        pit_alt_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_PIT_INT);
++        rtc_irq = qdev_get_gpio_in(hpet, HPET_LEGACY_RTC_INT);
      }
--    for (i = 0; i < dev->nvqs; ++i) {
--        struct vhost_virtqueue *vq = dev->vqs + i;
--
--        if (!vq->used_phys && !vq->used_size) {
--            continue;
--        }
--
--        uint64_t last = vq->used_phys + vq->used_size - 1;
--        log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
--    }
-     return log_size;
+     *rtc_state = mc146818_rtc_init(isa_bus, 2000, rtc_irq);
+ 
+@@ -1535,6 +1538,20 @@ static void pc_machine_set_pit(Object *obj, bool value, Error **errp)
+     pcms->pit_enabled = value;
  }
  
++static bool pc_machine_get_hpet(Object *obj, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++
++    return pcms->hpet_enabled;
++}
++
++static void pc_machine_set_hpet(Object *obj, bool value, Error **errp)
++{
++    PCMachineState *pcms = PC_MACHINE(obj);
++
++    pcms->hpet_enabled = value;
++}
++
+ static void pc_machine_get_max_ram_below_4g(Object *obj, Visitor *v,
+                                             const char *name, void *opaque,
+                                             Error **errp)
+@@ -1585,6 +1602,9 @@ static void pc_machine_initfn(Object *obj)
+     pcms->smbus_enabled = true;
+     pcms->sata_enabled = true;
+     pcms->pit_enabled = true;
++#ifdef CONFIG_HPET
++    pcms->hpet_enabled = true;
++#endif
+ 
+     pc_system_flash_create(pcms);
+     pcms->pcspk = isa_new(TYPE_PC_SPEAKER);
+@@ -1705,6 +1725,9 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+ 
+     object_class_property_add_bool(oc, PC_MACHINE_PIT,
+         pc_machine_get_pit, pc_machine_set_pit);
++
++    object_class_property_add_bool(oc, "hpet",
++        pc_machine_get_hpet, pc_machine_set_hpet);
+ }
+ 
+ static const TypeInfo pc_machine_info = {
+diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+index 0cf22a57ad..13d1628f13 100644
+--- a/hw/i386/pc_piix.c
++++ b/hw/i386/pc_piix.c
+@@ -216,7 +216,7 @@ static void pc_init1(MachineState *machine,
+         i440fx_state = NULL;
+         isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
+                               &error_abort);
+-        no_hpet = 1;
++        pcms->hpet_enabled = false;
+     }
+     isa_bus_irqs(isa_bus, x86ms->gsi);
+ 
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 7c1c6d37ef..a537a0377f 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -146,7 +146,6 @@ static Chardev **serial_hds;
+ Chardev *parallel_hds[MAX_PARALLEL_PORTS];
+ int win2k_install_hack = 0;
+ int singlestep = 0;
+-int no_hpet = 0;
+ int fd_bootchk = 1;
+ static int no_reboot;
+ int no_shutdown = 0;
+@@ -3562,7 +3561,8 @@ void qemu_init(int argc, char **argv, char **envp)
+                 qemu_opts_parse_noisily(olist, "acpi=off", false);
+                 break;
+             case QEMU_OPTION_no_hpet:
+-                no_hpet = 1;
++                olist = qemu_find_opts("machine");
++                qemu_opts_parse_noisily(olist, "hpet=off", false);
+                 break;
+             case QEMU_OPTION_no_reboot:
+                 no_reboot = 1;
 -- 
 MST
 
