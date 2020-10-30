@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9566629FA58
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:11:46 +0100 (CET)
-Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A1DE29FA61
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:13:05 +0100 (CET)
+Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIxF-0005DJ-M6
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:11:45 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44938)
+	id 1kYIyW-0006yV-LD
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:13:04 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITp-0001W9-9r; Thu, 29 Oct 2020 20:41:21 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2368)
+ id 1kYITq-0001Xm-94; Thu, 29 Oct 2020 20:41:23 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITm-00013k-Lq; Thu, 29 Oct 2020 20:41:20 -0400
+ id 1kYITm-00013h-MX; Thu, 29 Oct 2020 20:41:21 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMk583tpYz15PJ7;
- Fri, 30 Oct 2020 08:41:16 +0800 (CST)
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CMk574mdjzkbpt;
+ Fri, 30 Oct 2020 08:41:15 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
- 08:41:03 +0800
+ 08:41:05 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 1/8] target/i386: silence the compiler warnings in
- gen_shiftd_rm_T1
-Date: Fri, 30 Oct 2020 08:40:39 +0800
-Message-ID: <20201030004046.2191790-2-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 2/8] hw/intc/arm_gicv3_kvm: silence the compiler warnings
+Date: Fri, 30 Oct 2020 08:40:40 +0800
+Message-ID: <20201030004046.2191790-3-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
 References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
@@ -59,60 +58,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com, Richard
- Henderson <richard.henderson@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
- ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, zhang.zhanghailiang@huawei.com,
+ qemu-arm@nongnu.org, ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
+ Chen Qun <kuhn.chenqun@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current "#ifdef TARGET_X86_64" statement affects
-the compiler's determination of fall through.
-
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-target/i386/translate.c: In function ‘gen_shiftd_rm_T1’:
-target/i386/translate.c:1773:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
-         if (is_right) {
-            ^
-target/i386/translate.c:1782:5: note: here
-     case MO_32:
-     ^~~~
+hw/intc/arm_gicv3_kvm.c: In function ‘kvm_arm_gicv3_put’:
+hw/intc/arm_gicv3_kvm.c:484:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             kvm_gicc_access(s, ICC_AP0R_EL1(1), ncpu, &reg64, true);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/intc/arm_gicv3_kvm.c:485:9: note: here
+         default:
+         ^~~~~~~
+hw/intc/arm_gicv3_kvm.c:495:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             kvm_gicc_access(s, ICC_AP1R_EL1(2), ncpu, &reg64, true);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/intc/arm_gicv3_kvm.c:496:9: note: here
+         case 6:
+         ^~~~
+hw/intc/arm_gicv3_kvm.c:498:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             kvm_gicc_access(s, ICC_AP1R_EL1(1), ncpu, &reg64, true);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hw/intc/arm_gicv3_kvm.c:499:9: note: here
+         default:
+         ^~~~~~~
+
+hw/intc/arm_gicv3_kvm.c: In function ‘kvm_arm_gicv3_get’:
+hw/intc/arm_gicv3_kvm.c:634:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             c->icc_apr[GICV3_G0][2] = reg64;
+             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+hw/intc/arm_gicv3_kvm.c:635:9: note: here
+         case 6:
+         ^~~~
+hw/intc/arm_gicv3_kvm.c:637:37: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             c->icc_apr[GICV3_G0][1] = reg64;
+             ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+hw/intc/arm_gicv3_kvm.c:638:9: note: here
+         default:
+         ^~~~~~~
+hw/intc/arm_gicv3_kvm.c:648:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             c->icc_apr[GICV3_G1NS][2] = reg64;
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+hw/intc/arm_gicv3_kvm.c:649:9: note: here
+         case 6:
+         ^~~~
+hw/intc/arm_gicv3_kvm.c:651:39: warning: this statement may fall through [-Wimplicit-fallthrough=]
+             c->icc_apr[GICV3_G1NS][1] = reg64;
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+hw/intc/arm_gicv3_kvm.c:652:9: note: here
+         default:
+         ^~~~~~~
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-v1->v2: Add comments to explain the two case of fall through,
-depending on whether TARGET_X86_64 is defined.
-
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org
 ---
- target/i386/translate.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ hw/intc/arm_gicv3_kvm.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index caea6f5fb1..77cb66208e 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -1777,9 +1777,12 @@ static void gen_shiftd_rm_T1(DisasContext *s, MemOp ot, int op1,
-         } else {
-             tcg_gen_deposit_tl(s->T1, s->T0, s->T1, 16, 16);
-         }
--        /* FALLTHRU */
--#ifdef TARGET_X86_64
-+        /*
-+         * If TARGET_X86_64 defined then fall through into MO_32 case,
-+         * otherwise fall through default case.
-+         */
-     case MO_32:
-+#ifdef TARGET_X86_64
-         /* Concatenate the two 32-bit values and use a 64-bit shift.  */
-         tcg_gen_subi_tl(s->tmp0, count, 1);
-         if (is_right) {
+diff --git a/hw/intc/arm_gicv3_kvm.c b/hw/intc/arm_gicv3_kvm.c
+index 187eb054e0..d040a5d1e9 100644
+--- a/hw/intc/arm_gicv3_kvm.c
++++ b/hw/intc/arm_gicv3_kvm.c
+@@ -478,9 +478,11 @@ static void kvm_arm_gicv3_put(GICv3State *s)
+             kvm_gicc_access(s, ICC_AP0R_EL1(3), ncpu, &reg64, true);
+             reg64 = c->icc_apr[GICV3_G0][2];
+             kvm_gicc_access(s, ICC_AP0R_EL1(2), ncpu, &reg64, true);
++            /* fall through */
+         case 6:
+             reg64 = c->icc_apr[GICV3_G0][1];
+             kvm_gicc_access(s, ICC_AP0R_EL1(1), ncpu, &reg64, true);
++            /* fall through */
+         default:
+             reg64 = c->icc_apr[GICV3_G0][0];
+             kvm_gicc_access(s, ICC_AP0R_EL1(0), ncpu, &reg64, true);
+@@ -492,9 +494,11 @@ static void kvm_arm_gicv3_put(GICv3State *s)
+             kvm_gicc_access(s, ICC_AP1R_EL1(3), ncpu, &reg64, true);
+             reg64 = c->icc_apr[GICV3_G1NS][2];
+             kvm_gicc_access(s, ICC_AP1R_EL1(2), ncpu, &reg64, true);
++            /* fall through */
+         case 6:
+             reg64 = c->icc_apr[GICV3_G1NS][1];
+             kvm_gicc_access(s, ICC_AP1R_EL1(1), ncpu, &reg64, true);
++            /* fall through */
+         default:
+             reg64 = c->icc_apr[GICV3_G1NS][0];
+             kvm_gicc_access(s, ICC_AP1R_EL1(0), ncpu, &reg64, true);
+@@ -631,9 +635,11 @@ static void kvm_arm_gicv3_get(GICv3State *s)
+             c->icc_apr[GICV3_G0][3] = reg64;
+             kvm_gicc_access(s, ICC_AP0R_EL1(2), ncpu, &reg64, false);
+             c->icc_apr[GICV3_G0][2] = reg64;
++            /* fall through */
+         case 6:
+             kvm_gicc_access(s, ICC_AP0R_EL1(1), ncpu, &reg64, false);
+             c->icc_apr[GICV3_G0][1] = reg64;
++            /* fall through */
+         default:
+             kvm_gicc_access(s, ICC_AP0R_EL1(0), ncpu, &reg64, false);
+             c->icc_apr[GICV3_G0][0] = reg64;
+@@ -645,9 +651,11 @@ static void kvm_arm_gicv3_get(GICv3State *s)
+             c->icc_apr[GICV3_G1NS][3] = reg64;
+             kvm_gicc_access(s, ICC_AP1R_EL1(2), ncpu, &reg64, false);
+             c->icc_apr[GICV3_G1NS][2] = reg64;
++            /* fall through */
+         case 6:
+             kvm_gicc_access(s, ICC_AP1R_EL1(1), ncpu, &reg64, false);
+             c->icc_apr[GICV3_G1NS][1] = reg64;
++            /* fall through */
+         default:
+             kvm_gicc_access(s, ICC_AP1R_EL1(0), ncpu, &reg64, false);
+             c->icc_apr[GICV3_G1NS][0] = reg64;
 -- 
 2.27.0
 
