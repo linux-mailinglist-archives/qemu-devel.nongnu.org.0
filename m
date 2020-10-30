@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836D429FA21
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:00:59 +0100 (CET)
-Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF0929FA74
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:19:23 +0100 (CET)
+Received: from localhost ([::1]:50362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYImo-0002iq-GU
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:00:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
+	id 1kYJ4c-0006pe-IZ
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:19:22 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbw-0004FJ-Ia
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:44 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40651)
+ id 1kYIc0-0004Lk-Ff
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:48 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbu-0001rK-7Q
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:44 -0400
-Received: by mail-pf1-x441.google.com with SMTP id w21so3803702pfc.7
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:41 -0700 (PDT)
+ id 1kYIbu-0001rV-Ha
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:48 -0400
+Received: by mail-pg1-x543.google.com with SMTP id f38so3768782pgm.2
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=913x7jDuXStPzetM9NC5rzqxFgbTKLk6AmpdIsMpi64=;
- b=tIenJssxpGGRvQZ1Hoz34t/8WJDMUkNKw87zY/sHomKb26WmwLreePpwZDnT4ykqcM
- PPzwUQWRuW9+m/A0b8PJVVRAdYrbBhft0eM2jBwlJE5aMPc8lgdkQF59xB3QeirDWcrm
- /7nELUS8P3CMw6LukOJfgn1TyonaTKSyNGNBUO/o/ig5Qn0ykN2DwHrfEwRwYNu10PUy
- IhyV4THeY5TWvL7t2VAdLfHV1lgEtbCmrfXuzJf4UXr8DS3rzx30LoDxlEePIgyuYNEs
- Bw8NwDDuNTOilDBwH4fhQVDkWndNq1s2T39v88B4DIyX6RMz17D6lL3IH8y7lNzWsVxP
- 8I7A==
+ bh=T96qfuK9LFACPCMFZJEu5AkD3dQj8mh/jlsxNmhHWgc=;
+ b=aEzjT9MbPPJEh1dWF/Lcp/5LIMr+SHddMruzd6YFuUrSCOtTaE92IIgAqSMFepEvDg
+ vZ4JSwcHLP+XBRiTQmNhOWPvWAXTxtDKbYJIHzt5nZqBLTjbxf/mYOnABBu4onHjSXUl
+ nkAsALOBuisaP88jr3dGcqOOeBodzvdNqbsrcK0NCG8tqFVsSI32egzRtgcZ6b3FGDiw
+ 3C8Nqa2mJwF7s/eVo7szITQ1d985p6V+9EvV1uoijarMU87XlZCtfH+EnRCpavduXtsb
+ B/QJBugUVyMJm7m+OLzty9ISlq8XuyngsH8+w2hccpihnNNBUvh7vjC44R/H4k//6etf
+ GZNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=913x7jDuXStPzetM9NC5rzqxFgbTKLk6AmpdIsMpi64=;
- b=HxbDFLygAiAljPqByGunsldHR75RBl6O6wW+maE+Yvg+LBMndj4ypD25sXy+HeVA9A
- KRx/dETLs/sQh8v9A55GSp2wNT8MhdjDNok8ZKHpxRZ8QqhkjTNiy0RPQqnVJOKNgbzP
- fVLkGGfkxc80wDcnGzc3lT7NJ6AZqvo8t0WEQdgbXxJdmAUUulrpJ+3iIJlLDdcj/apG
- b/kAkQ8Gxa4coaIYqYO6i2zZle0TF7rhyjZXw13LyuaM25MskRjkxBwtXT/xWxsZtqK6
- D5GJkkhuZOJTNwYKBGU+tQnmqfUpQXhEN3ZL5Zse64mn9NpM5CuNuILdYlWxcT1meerl
- 2cVg==
-X-Gm-Message-State: AOAM533NZamQ1YabCKDd/gzk9RdM1f8U3Rml5yls3p6FOvqDkkOvJ8Oa
- Ff88bPAHAetwLO0W6pdIm5LGZnRH1zyF0g==
-X-Google-Smtp-Source: ABdhPJzie8mguXRVL6xhwoF7tiokDUUpLflXY0JpKgmORIlYqTLAWdQMaRqKplFIQ0MAUYCjAFdwQQ==
-X-Received: by 2002:a63:174a:: with SMTP id 10mr6390794pgx.212.1604018979625; 
- Thu, 29 Oct 2020 17:49:39 -0700 (PDT)
+ bh=T96qfuK9LFACPCMFZJEu5AkD3dQj8mh/jlsxNmhHWgc=;
+ b=a8fd5aS1DBJlsncGhwkGH5NcShFZiHSU4kyay3l9N9KVst6ViKcMdCycsA0Kn4ejdV
+ P/2F+jk8IjzSd4NQ8smA764+Lxxt1UiOdcrQzUWGw6GXpuN92mdQYPkuezSEpN2wc3et
+ 0R9KBnq+VeHN2PEXjtKrg1XSB5nNiBBkJQA9gDmwRi0cCoczsePd5TxGvYXThj/FTGzO
+ 0qiGBmdP41zrQM0jX5c2Lu82fgOrROs0JGwM9HedF5pczNMWzXD3onqf2klIHZd5KePC
+ FXaOdTBhGNzgeo2XgCz+IFkrFre5fPZGjc2nql80pC5Tebxwt4xJY/Tmjhd7cBF/mgdg
+ 5HEg==
+X-Gm-Message-State: AOAM533Z1r5YXb4pRc0saYfHcpO1yZq3n75X0Zp85QCKv6bncs/ERjd+
+ 7FNU2+agGVmGSQWhKlj6JLDqNQkyvUHmBA==
+X-Google-Smtp-Source: ABdhPJwUjfesT51VF5wK71IbTvsUs4sRCwWHUapt8R+qEUabJmP0iItLA/vE8NClwS6C10ebd1w18Q==
+X-Received: by 2002:a63:f84c:: with SMTP id v12mr6265769pgj.125.1604018980939; 
+ Thu, 29 Oct 2020 17:49:40 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.38
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:38 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 12/19] tcg: Add --accel tcg,split-rwx property
-Date: Thu, 29 Oct 2020 17:49:14 -0700
-Message-Id: <20201030004921.721096-13-richard.henderson@linaro.org>
+Subject: [PATCH v2 13/19] accel/tcg: Support split-rwx for linux with memfd
+Date: Thu, 29 Oct 2020 17:49:15 -0700
+Message-Id: <20201030004921.721096-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,317 +88,124 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Plumb the value through to alloc_code_gen_buffer.
-This is not supported by any os or tcg backend so
-for now, enabling it will result in an error.
+We cannot use a real temp file, because we would need to find
+a filesystem that does not have noexec enabled.  However, a
+memfd is not associated with any filesystem.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/sysemu/tcg.h      |  2 +-
- tcg/aarch64/tcg-target.h  |  1 +
- tcg/arm/tcg-target.h      |  1 +
- tcg/i386/tcg-target.h     |  1 +
- tcg/mips/tcg-target.h     |  1 +
- tcg/ppc/tcg-target.h      |  1 +
- tcg/riscv/tcg-target.h    |  1 +
- tcg/s390/tcg-target.h     |  1 +
- tcg/sparc/tcg-target.h    |  1 +
- tcg/tci/tcg-target.h      |  1 +
- accel/tcg/tcg-all.c       | 26 +++++++++++++++++++++++++-
- accel/tcg/translate-all.c | 35 +++++++++++++++++++++++++++--------
- bsd-user/main.c           |  2 +-
- linux-user/main.c         |  2 +-
- 14 files changed, 64 insertions(+), 12 deletions(-)
+ accel/tcg/translate-all.c | 87 +++++++++++++++++++++++++++++++++++----
+ 1 file changed, 80 insertions(+), 7 deletions(-)
 
-diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
-index d9d3ca8559..5734dd92dc 100644
---- a/include/sysemu/tcg.h
-+++ b/include/sysemu/tcg.h
-@@ -8,7 +8,7 @@
- #ifndef SYSEMU_TCG_H
- #define SYSEMU_TCG_H
- 
--void tcg_exec_init(unsigned long tb_size);
-+void tcg_exec_init(unsigned long tb_size, int mirror);
- #ifdef CONFIG_TCG
- extern bool tcg_allowed;
- #define tcg_enabled() (tcg_allowed)
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 91313d93be..fa64058d43 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -164,5 +164,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- #endif /* AARCH64_TCG_TARGET_H */
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index b21a2fb6a1..e355d6a4b2 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -150,5 +150,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- #endif
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index f52ba0ffec..1b9d41bd56 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -236,5 +236,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- #endif
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index cd548dacec..d231522dc9 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -206,6 +206,7 @@ extern bool use_mips32r2_instructions;
- 
- #define TCG_TARGET_DEFAULT_MO (0)
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- /* Flush the dcache at RW, and the icache at RX, as necessary. */
- static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 8f3e4c924a..78d6a5e96f 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -185,5 +185,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- #endif
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index e03fd17427..3c2e8305b0 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -179,5 +179,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_POOL_LABELS
- 
- #define TCG_TARGET_HAS_MEMORY_BSWAP 0
-+#define TCG_TARGET_SUPPORT_MIRROR   0
- 
- #endif
-diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-index c5a749e425..8324197127 100644
---- a/tcg/s390/tcg-target.h
-+++ b/tcg/s390/tcg-target.h
-@@ -163,5 +163,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- #endif
-diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-index 87e2be61e6..517840705f 100644
---- a/tcg/sparc/tcg-target.h
-+++ b/tcg/sparc/tcg-target.h
-@@ -181,5 +181,6 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- 
- #define TCG_TARGET_NEED_POOL_LABELS
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- #endif
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index a19a6b06e5..3653fef947 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -200,6 +200,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
- #define TCG_TARGET_DEFAULT_MO  (0)
- 
- #define TCG_TARGET_HAS_MEMORY_BSWAP     1
-+#define TCG_TARGET_SUPPORT_MIRROR       0
- 
- static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-                                             uintptr_t jmp_rw, uintptr_t addr)
-diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
-index fa1208158f..ba4206d507 100644
---- a/accel/tcg/tcg-all.c
-+++ b/accel/tcg/tcg-all.c
-@@ -38,6 +38,7 @@ struct TCGState {
-     AccelState parent_obj;
- 
-     bool mttcg_enabled;
-+    int mirror_enabled;
-     unsigned long tb_size;
- };
- typedef struct TCGState TCGState;
-@@ -94,6 +95,13 @@ static void tcg_accel_instance_init(Object *obj)
-     TCGState *s = TCG_STATE(obj);
- 
-     s->mttcg_enabled = default_mttcg_enabled();
-+
-+    /* If debugging enabled, default "auto on", otherwise off. */
-+#ifdef CONFIG_DEBUG_TCG
-+    s->mirror_enabled = -1;
-+#else
-+    s->mirror_enabled = 0;
-+#endif
- }
- 
- bool mttcg_enabled;
-@@ -102,7 +110,7 @@ static int tcg_init(MachineState *ms)
- {
-     TCGState *s = TCG_STATE(current_accel());
- 
--    tcg_exec_init(s->tb_size * 1024 * 1024);
-+    tcg_exec_init(s->tb_size * 1024 * 1024, s->mirror_enabled);
-     mttcg_enabled = s->mttcg_enabled;
-     cpus_register_accel(&tcg_cpus);
- 
-@@ -168,6 +176,18 @@ static void tcg_set_tb_size(Object *obj, Visitor *v,
-     s->tb_size = value;
- }
- 
-+static bool tcg_get_split_rwx(Object *obj, Error **errp)
-+{
-+    TCGState *s = TCG_STATE(obj);
-+    return s->mirror_enabled;
-+}
-+
-+static void tcg_set_split_rwx(Object *obj, bool value, Error **errp)
-+{
-+    TCGState *s = TCG_STATE(obj);
-+    s->mirror_enabled = value;
-+}
-+
- static void tcg_accel_class_init(ObjectClass *oc, void *data)
- {
-     AccelClass *ac = ACCEL_CLASS(oc);
-@@ -185,6 +205,10 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
-     object_class_property_set_description(oc, "tb-size",
-         "TCG translation block cache size");
- 
-+    object_class_property_add_bool(oc, "split-rwx",
-+        tcg_get_split_rwx, tcg_set_split_rwx);
-+    object_class_property_set_description(oc, "split-rwx",
-+        "Map jit pages into separate RW and RX regions");
- }
- 
- static const TypeInfo tcg_accel_type = {
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index fca632eefa..8918a09f10 100644
+index 8918a09f10..3e69ebd1d3 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -1025,13 +1025,19 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
- static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
-     __attribute__((aligned(CODE_GEN_ALIGN)));
- 
--static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
-+static bool alloc_code_gen_buffer(size_t tb_size, int mirror, Error **errp)
- {
--    void *buf = static_code_gen_buffer;
--    void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
-+    void *buf, *end;
-     size_t size;
- 
-+    if (mirror > 0) {
-+        error_setg(errp, "jit split-rwx not supported");
-+        return false;
-+    }
-+
-     /* page-align the beginning and end of the buffer */
-+    buf = static_code_gen_buffer;
-+    end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
-     buf = QEMU_ALIGN_PTR_UP(buf, qemu_real_host_page_size);
-     end = QEMU_ALIGN_PTR_DOWN(end, qemu_real_host_page_size);
- 
-@@ -1060,9 +1066,16 @@ static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
-     return true;
- }
- #elif defined(_WIN32)
--static bool alloc_code_gen_buffer(size_t size, Error **errp)
-+static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
- {
--    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
-+    void *buf;
-+
-+    if (mirror > 0) {
-+        error_setg(errp, "jit split-rwx not supported");
-+        return false;
-+    }
-+
-+    buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
-                              PAGE_EXECUTE_READWRITE);
-     if (buf == NULL) {
-         error_setg_win32(errp, GetLastError(),
-@@ -1075,12 +1088,17 @@ static bool alloc_code_gen_buffer(size_t size, Error **errp)
+@@ -1088,17 +1088,11 @@ static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
      return true;
  }
  #else
--static bool alloc_code_gen_buffer(size_t size, Error **errp)
-+static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
+-static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
++static bool alloc_code_gen_buffer_anon(size_t size, int prot, Error **errp)
  {
-     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+-    int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
      int flags = MAP_PRIVATE | MAP_ANONYMOUS;
      void *buf;
  
-+    if (mirror > 0) {
-+        error_setg(errp, "jit split-rwx not supported");
-+        return false;
-+    }
-+
+-    if (mirror > 0) {
+-        error_setg(errp, "jit split-rwx not supported");
+-        return false;
+-    }
+-
      buf = mmap(NULL, size, prot, flags, -1, 0);
      if (buf == MAP_FAILED) {
          error_setg_errno(errp, errno,
-@@ -1155,7 +1173,7 @@ static void tb_htable_init(void)
- /* Must be called before using the QEMU cpus. 'tb_size' is the size
-    (in bytes) allocated to the translation buffer. Zero means default
-    size. */
--void tcg_exec_init(unsigned long tb_size)
-+void tcg_exec_init(unsigned long tb_size, int mirror)
- {
-     bool ok;
+@@ -1147,6 +1141,85 @@ static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
+     tcg_ctx->code_gen_buffer = buf;
+     return true;
+ }
++
++#ifdef CONFIG_LINUX
++#include "qemu/memfd.h"
++
++static bool alloc_code_gen_buffer_mirror_memfd(size_t size, Error **errp)
++{
++    void *buf_rw, *buf_rx;
++    int fd;
++
++    fd = qemu_memfd_create("tcg-jit", size, false, 0, 0, errp);
++    if (fd < 0) {
++        return false;
++    }
++
++    buf_rw = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
++    if (buf_rw == MAP_FAILED) {
++        error_setg_errno(errp, errno,
++                         "allocate %zu bytes for jit buffer", size);
++        close(fd);
++        return false;
++    }
++
++    buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
++    if (buf_rx == MAP_FAILED) {
++        error_setg_errno(errp, errno,
++                         "allocate %zu bytes for jit mirror", size);
++        munmap(buf_rw, size);
++        close(fd);
++        return false;
++    }
++    close(fd);
++
++    tcg_ctx->code_gen_buffer = buf_rw;
++    tcg_ctx->code_gen_buffer_size = size;
++    tcg_rx_mirror_diff = buf_rx - buf_rw;
++
++    /* Request large pages for the buffer and the mirror.  */
++    qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
++    qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
++    return true;
++}
++#endif
++
++static bool alloc_code_gen_buffer_mirror(size_t size, Error **errp)
++{
++    if (TCG_TARGET_SUPPORT_MIRROR) {
++#ifdef CONFIG_LINUX
++        return alloc_code_gen_buffer_mirror_memfd(size, errp);
++#endif
++    }
++    error_setg(errp, "jit split-rwx not supported");
++    return false;
++}
++
++static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
++{
++    if (mirror) {
++        Error *local_err = NULL;
++        if (alloc_code_gen_buffer_mirror(size, &local_err)) {
++            return true;
++        }
++        /*
++         * If mirror force-on (1), fail;
++         * if mirror default-on (-1), fall through to mirror off.
++         */
++        if (mirror > 0) {
++            error_propagate(errp, local_err);
++            return false;
++        }
++    }
++
++    int prot = PROT_READ | PROT_WRITE | PROT_EXEC;
++#ifdef CONFIG_TCG_INTERPRETER
++    /* The tcg interpreter does not need execute permission. */
++    prot = PROT_READ | PROT_WRITE;
++#endif
++
++    return alloc_code_gen_buffer_anon(size, prot, errp);
++}
+ #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
  
-@@ -1164,7 +1182,8 @@ void tcg_exec_init(unsigned long tb_size)
-     page_init();
-     tb_htable_init();
- 
--    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
-+    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
-+                               mirror, &error_fatal);
-     assert(ok);
- 
- #if defined(CONFIG_SOFTMMU)
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index ac40d79bfa..ffd4888a26 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -910,7 +910,7 @@ int main(int argc, char **argv)
-     }
- 
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
--    tcg_exec_init(0);
-+    tcg_exec_init(0, false);
- 
-     cpu_type = parse_cpu_option(cpu_model);
-     cpu = cpu_create(cpu_type);
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 75c9785157..3856b2611d 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -705,7 +705,7 @@ int main(int argc, char **argv, char **envp)
-     cpu_type = parse_cpu_option(cpu_model);
- 
-     /* init tcg before creating CPUs and to get qemu_host_page_size */
--    tcg_exec_init(0);
-+    tcg_exec_init(0, false);
- 
-     cpu = cpu_create(cpu_type);
-     env = cpu->env_ptr;
+ static bool tb_cmp(const void *ap, const void *bp)
 -- 
 2.25.1
 
