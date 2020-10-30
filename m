@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20FD02A0F70
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:28:16 +0100 (CET)
-Received: from localhost ([::1]:33810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A18C2A0F6B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:26:36 +0100 (CET)
+Received: from localhost ([::1]:56386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYb0R-0000Zk-5B
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:28:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53156)
+	id 1kYayp-0006jR-H6
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:26:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYauP-0000pY-59
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:02 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29555)
+ id 1kYauN-0000of-8c
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:00 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYauK-0007kZ-Aa
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:00 -0400
+ id 1kYauK-0007kb-AF
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604089315;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sb/+dSSrHqAyU1tDNbl+mqJpOazWYo1gHH7SeW5Egp4=;
- b=Vmbo7zYKg5tiIxArVSQOuy2/JyiZvLikJ/rMkkyqvMtHYYsVasaDF4aC7hyczDDIgcY9wz
- eQMhGztUNJy3b2SpQV3PR8oiJh17zWfGuRZDiJ+o3JXYeXl89g5kk/6h01qhuk9zuTqJXZ
- I2SO/xJbaYr8j4Ti82NAGt7G+uk4HkE=
+ bh=HtAssr3+a6M+1T8evYjqF4+kuT250KbABypJsxRiXKQ=;
+ b=J8EowlvLpTUDFRcmLud+j7OG4LpZuPN/Zn1xvGA/CkAfbAlyDX0QrTsWZOVxeT//Dar3pS
+ NFRyY8PUF9FNjs3QHB4833MX0CeUanAAUmcuhHVaj9byhheQJ4B/jHW0WFiH7qXmZ6GD/b
+ yb/myMvefvtvoZRQWTMYB7/HB2Op4JM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-21IiiSVqNgWvhSuJeC-9Gg-1; Fri, 30 Oct 2020 16:21:52 -0400
-X-MC-Unique: 21IiiSVqNgWvhSuJeC-9Gg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-553-ogrz7rKpMtiAv8MQp-d2QA-1; Fri, 30 Oct 2020 16:21:53 -0400
+X-MC-Unique: ogrz7rKpMtiAv8MQp-d2QA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B69BA805EF4
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:21:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8893107AFD0
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:21:52 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D7966115F;
- Fri, 30 Oct 2020 20:21:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 85A3026329;
+ Fri, 30 Oct 2020 20:21:52 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/20] qdev: drive: Remove unnecessary prefix from error
+Subject: [PATCH 13/20] qdev: chardev: Remove unnecessary prefix from error
  message
-Date: Fri, 30 Oct 2020 16:21:23 -0400
-Message-Id: <20201030202131.796967-13-ehabkost@redhat.com>
+Date: Fri, 30 Oct 2020 16:21:24 -0400
+Message-Id: <20201030202131.796967-14-ehabkost@redhat.com>
 In-Reply-To: <20201030202131.796967-1-ehabkost@redhat.com>
 References: <20201030202131.796967-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 16:21:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,23 +98,28 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties-system.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/core/qdev-properties-system.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 0290d64bf1..815eee8035 100644
+index 815eee8035..90799412be 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -134,8 +134,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
-         }
-     }
-     if (!blk) {
+@@ -248,11 +248,9 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+ 
+     s = qemu_chr_find(str);
+     if (s == NULL) {
 -        error_setg(errp, "Property '%s.%s' can't find value '%s'",
--                   object_get_typename(OBJECT(dev)), prop->name, str);
-+        error_setg(errp, "block backend not found");
-         goto fail;
+-                   object_get_typename(obj), prop->name, str);
+-    } else if (!qemu_chr_fe_init(be, s, errp)) {
+-        error_prepend(errp, "Property '%s.%s' can't take value '%s': ",
+-                      object_get_typename(obj), prop->name, str);
++        error_setg(errp, "chardev not found");
++    } else {
++        qemu_chr_fe_init(be, s, errp);
      }
-     if (blk_attach_dev(blk, dev) < 0) {
+     g_free(str);
+ }
 -- 
 2.28.0
 
