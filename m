@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32632A0F68
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:25:55 +0100 (CET)
-Received: from localhost ([::1]:53438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A21FA2A0F6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:28:13 +0100 (CET)
+Received: from localhost ([::1]:33588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYayA-0005RX-VX
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:25:55 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53004)
+	id 1kYb0O-0000UG-OR
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:28:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYau7-0000GZ-L8
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21710)
+ id 1kYauB-0000RP-AS
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47694)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYau6-0007he-2c
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:43 -0400
+ id 1kYau9-0007i2-Kq
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604089301;
+ s=mimecast20190719; t=1604089304;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y+ETHuJHJ4SgmolQsEBNReIoHbZc9iqX+ntcUJXw3JQ=;
- b=d2sf5OdMqTSAnxpbkNoUyX+uZQZi8d7qFQHjWFFoaK31uHxf9MgVsf9bWCN6niJxtATLuS
- LIVE/CPcTRqRqamKvbypKVBTPI/e4qwtrVghFoThaGCEjE2epwZo3ZWPYupbeQZnQml8J6
- CYDFAlsnF9DLBqQoBHZEDyGcuL4WMIA=
+ bh=gW8t/u1GvE0ZZGBmo/WYAyMqpPvRNCVcucwpa4P5Mkw=;
+ b=d7dBsoCaWoKkJdfTeeEIc4rTKtOSTOqY/XIOw5+5R/IUMaJ8DV49Xtc+j7v3ukCMoh/Tye
+ HC/Pb3gQujIJjw0phxqHIGPl1mE6nWcdb6Xt695cXVbqUljwZoRj+FShukNs8p7LYGCI/o
+ B6ya3w6HvnciRMY75Mpb93Cm8zuw5Gs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-3Qgk7EmYP3-HSmr7seP6-w-1; Fri, 30 Oct 2020 16:21:39 -0400
-X-MC-Unique: 3Qgk7EmYP3-HSmr7seP6-w-1
+ us-mta-527-snA03sb3P2a7Rs7GYcBFMQ-1; Fri, 30 Oct 2020 16:21:40 -0400
+X-MC-Unique: snA03sb3P2a7Rs7GYcBFMQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92877802B63
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:21:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1D98108597C
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:21:39 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 228441002C01;
- Fri, 30 Oct 2020 20:21:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 950961002C01;
+ Fri, 30 Oct 2020 20:21:39 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/20] qdev: Stop using error_set_from_qdev_prop_error() for
- devfn property
-Date: Fri, 30 Oct 2020 16:21:16 -0400
-Message-Id: <20201030202131.796967-6-ehabkost@redhat.com>
+Subject: [PATCH 06/20] qdev: Stop using error_set_from_qdev_prop_error() for
+ PCI host device property
+Date: Fri, 30 Oct 2020 16:21:17 -0400
+Message-Id: <20201030202131.796967-7-ehabkost@redhat.com>
 In-Reply-To: <20201030202131.796967-1-ehabkost@redhat.com>
 References: <20201030202131.796967-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -92,13 +92,13 @@ simpler and makes error messages clearer.
 
 Before:
 
-  $ qemu-system-x86_64 -device e1000,addr=x
-  qemu-system-x86_64: -device e1000,addr=x: Property 'e1000.addr' doesn't take value 'x'
+  $ qemu-system-x86_64 -device vfio-pci,host=x
+  qemu-system-x86_64: -device vfio-pci,host=x: Property 'vfio-pci.host' doesn't take value 'x'
 
 After:
 
-  $ qemu-system-x86_64 -device e1000,addr=x
-  qemu-system-x86_64: -device e1000,addr=x: Property 'e1000.addr' can't take value 'x': invalid PCI address
+  $ qemu-system-x86_64 -device vfio-pci,host=x
+  qemu-system-x86_64: -device vfio-pci,host=x: Property 'vfio-pci.host' can't take value 'x': invalid host device address
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -111,15 +111,15 @@ Cc: qemu-devel@nongnu.org
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index fc0abcae17..5d3cb32708 100644
+index 5d3cb32708..0290d64bf1 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -742,7 +742,7 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
+@@ -859,7 +859,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
      return;
  
- invalid:
+ inval:
 -    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+    error_setg(errp, "invalid PCI address");
++    error_setg(errp, "invalid host device address");
      g_free(str);
  }
  
