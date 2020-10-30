@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4302A05C9
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:50:31 +0100 (CET)
-Received: from localhost ([::1]:54374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E91D2A05FF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:55:15 +0100 (CET)
+Received: from localhost ([::1]:40606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTrS-0005Xl-Lo
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:50:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53702)
+	id 1kYTw2-00038Q-6T
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:55:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmY-0000VS-1f
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmY-0000WW-Jn
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:26 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56766)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36050)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmW-0000ZM-5R
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:25 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmW-0000c5-P7
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061921;
+ s=mimecast20190719; t=1604061924;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=z+z1Pzm/JUurzVLAFZHFV/vzVTD3l9eIdz7HgpfiM6o=;
- b=DbtfP3PcDnIS0g4foZfVAmF/XuPZIDHby3/HDXTwmY+YPQAGeAglHpWhDd5Ea0nA2Lgkop
- XA+z09/JV9dZ0/QCFKu7rnkwHvOWdv7kHCvJiJC/D1VF8InjWzUCCBCKeNhEdwCplDEyKb
- WrbYZvTC2pLc8Ik8viafhiD/CIPhLqU=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-A84L1iU9MbSXqdFq3q955A-1; Fri, 30 Oct 2020 08:45:19 -0400
-X-MC-Unique: A84L1iU9MbSXqdFq3q955A-1
-Received: by mail-wr1-f70.google.com with SMTP id j15so2612789wrd.16
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:19 -0700 (PDT)
+ bh=rJH7iZei/FUThhkCklYQGVmfL7OJejtyEbzG9hdsPU0=;
+ b=Mrrf7BSXZkBbLe7k1H0GTp4R6CgRF3oWQs/SsFy56CZGC6hCDgVOHCzQ94uFS/xQF9BAUV
+ fTvNrgfoegr4zn1UTc3jvahcjX4iwnwoXG7Ows+HaYlCxEUepwD3vMrLXjN/K8jweW8gBt
+ zIPrLVxelKT1EPfInjYYAuq1Fm0SRMQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-335-o2RDD5N5N_C6v6AD_mkiBw-1; Fri, 30 Oct 2020 08:45:21 -0400
+X-MC-Unique: o2RDD5N5N_C6v6AD_mkiBw-1
+Received: by mail-wm1-f69.google.com with SMTP id s25so1198128wmj.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=z+z1Pzm/JUurzVLAFZHFV/vzVTD3l9eIdz7HgpfiM6o=;
- b=ByLP30mRLSuNqehUGyD1/biClc2IrWRx2aHJfHZ0icAb1ew/YWiQgowhchJH0BX6Xy
- TNSOtEfEyR9biQ0aV/HIvxOfbKOnUxYptIs2B4MUvDm8WTVrinU4ZR3ujdQftd5ttF0p
- Jfaz9P5F76uIkN5BDc3irTUDkb5Q52S0JAIOpdziDGm3tTplnG7mPL+WWqoymo4C56Vp
- QTqXZGG6WubgU4dsF1b4GCsCb4tQeoVzgVoP4bQ4rDNuSCzHsN4tTfIimZASluBkriNO
- l+v3DYYDvLwq8NYdctXFTagQ9GJRWikJutM+Xoat68nYGNNKxsa9NFl9lS7Krh5E3DtB
- inUA==
-X-Gm-Message-State: AOAM530HRCLLj+eBT2sMgKIwBSLNG4g6SxFwt+DTPMhxbpqW0mZyATmu
- K1QMl+uuxJqE4aOqc42rbQN4vfHbmZbkJyTSuOBXjE4CTEyT02SUGURqJqM+4fsnzEu+YIXo/uM
- n3znkScaj3Cge9LM=
-X-Received: by 2002:adf:f10e:: with SMTP id r14mr2783724wro.337.1604061918043; 
- Fri, 30 Oct 2020 05:45:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxa4Bglpmk8XSE5mL50swaXXVk7LkktQyXC1wB943GSivsG2JKX0POs0SXtb5blt1JW+jnFbw==
-X-Received: by 2002:adf:f10e:: with SMTP id r14mr2783705wro.337.1604061917903; 
- Fri, 30 Oct 2020 05:45:17 -0700 (PDT)
+ bh=rJH7iZei/FUThhkCklYQGVmfL7OJejtyEbzG9hdsPU0=;
+ b=nblKMgosnTdrtup0cjTs7J3KvkTFnJXUwqxNQp/cdCKBQfrJ47D0x8DoAxK9riQP5s
+ inIrQsuHZ65D7QrbnkTlvBVM4lQdQM0GDmb92RkGpIQFmGjE15yHV1bxnSx7YBFv8fyv
+ NT8+UNe6sDZtXciNFPkH68ogp6o0DOML/CODR9YcUWGjgpvGCWRP+yaw1S9NIlosl26u
+ 3zYLVbPnJrGI4PIdzRX0mjXGwfjlKC1az6+6W4FeA59i58foaIK8KWiPHaHU5QVnLATa
+ K35VfhwL81mTk1cBUEAtbFuzGNDYKe9BGy2zctLU0E2HMU3dK0qW1DLlEvuWPju8KUAn
+ e4sA==
+X-Gm-Message-State: AOAM532+uGKleCw+JcIdLOWOzS5sJuf0rLGhbR0Zl0la43SFeDZzeq7G
+ rrV12PiLhDsZIk2x2q569GIOzhWLOlGUeENPk8WEkSY0rKRpMfX55Pklny8BCeR5mIU5WO3H483
+ MzdZ1thHFFkEnjRg=
+X-Received: by 2002:a1c:9d94:: with SMTP id g142mr2605991wme.66.1604061920273; 
+ Fri, 30 Oct 2020 05:45:20 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzRy3wCmSKSHwXqbVM1wWlfuIRoL50WNd4zO8/8TfnQNjcEypmUtoOCZHsGUFI7lovJttc8bw==
+X-Received: by 2002:a1c:9d94:: with SMTP id g142mr2605972wme.66.1604061920127; 
+ Fri, 30 Oct 2020 05:45:20 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id c10sm1960254wrx.13.2020.10.30.05.45.16
+ by smtp.gmail.com with ESMTPSA id z5sm10530539wrw.87.2020.10.30.05.45.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:17 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:15 -0400
+ Fri, 30 Oct 2020 05:45:19 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/15] hw/virtio/vhost-vdpa: Fix Coverity CID 1432864
-Message-ID: <20201030124454.854286-6-mst@redhat.com>
+Subject: [PULL 06/15] hw/pci: Extract pci_bus_change_irq_level() from
+ pci_change_irq_level()
+Message-ID: <20201030124454.854286-7-mst@redhat.com>
 References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
@@ -74,16 +75,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,48 +99,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fix uninitialized value issues reported by Coverity:
+Extract pci_bus_change_irq_level() from pci_change_irq_level() to
+make it clearer it operates on the bus.
 
-  Field 'msg.reserved' is uninitialized when calling write().
-
-Fixes: a5bd05800f8 ("vhost-vdpa: batch updating IOTLB mappings")
-Reported-by: Coverity (CID 1432864: UNINIT)
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201028154004.776760-1-philmd@redhat.com>
+Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20201024203900.3619498-2-f4bug@amsat.org>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-vdpa.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/pci/pci.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 4f1039910a..01d2101d09 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -90,7 +90,7 @@ static void vhost_vdpa_listener_begin(MemoryListener *listener)
- {
-     struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-     struct vhost_dev *dev = v->dev;
--    struct vhost_msg_v2 msg;
-+    struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index 100c9381c2..081ddcadd1 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -248,6 +248,12 @@ static inline void pci_set_irq_state(PCIDevice *d, int irq_num, int level)
+         d->irq_state |= level << irq_num;
+ }
  
-     if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
-@@ -110,7 +110,7 @@ static void vhost_vdpa_listener_commit(MemoryListener *listener)
++static void pci_bus_change_irq_level(PCIBus *bus, int irq_num, int change)
++{
++    bus->irq_count[irq_num] += change;
++    bus->set_irq(bus->irq_opaque, irq_num, bus->irq_count[irq_num] != 0);
++}
++
+ static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
  {
-     struct vhost_vdpa *v = container_of(listener, struct vhost_vdpa, listener);
-     struct vhost_dev *dev = v->dev;
--    struct vhost_msg_v2 msg;
-+    struct vhost_msg_v2 msg = {};
-     int fd = v->device_fd;
+     PCIBus *bus;
+@@ -258,8 +264,7 @@ static void pci_change_irq_level(PCIDevice *pci_dev, int irq_num, int change)
+             break;
+         pci_dev = bus->parent_dev;
+     }
+-    bus->irq_count[irq_num] += change;
+-    bus->set_irq(bus->irq_opaque, irq_num, bus->irq_count[irq_num] != 0);
++    pci_bus_change_irq_level(bus, irq_num, change);
+ }
  
-     if (!(dev->backend_cap & (0x1ULL << VHOST_BACKEND_F_IOTLB_BATCH))) {
+ int pci_bus_get_irq_level(PCIBus *bus, int irq_num)
 -- 
 MST
 
