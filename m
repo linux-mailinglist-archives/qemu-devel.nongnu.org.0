@@ -2,22 +2,22 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667E52A0F67
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:25:53 +0100 (CET)
-Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBD32A0F61
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:23:38 +0100 (CET)
+Received: from localhost ([::1]:45022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYay8-0005LG-C1
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:25:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52982)
+	id 1kYavx-00021M-NC
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:23:37 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYau5-0000C2-LS
+ id 1kYau5-0000Bo-G2
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35062)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYau3-0007h9-VQ
+ id 1kYau3-0007hA-Si
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:21:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604089299;
@@ -25,29 +25,29 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t+iBjVC7xcw6X3t+JOTGvDiD6Rn9cdGic8J7WThIGNg=;
- b=BFPC9OcqBo5Pc3W2aG1IqnBZlmVnfWFZ5n1lHLFv5fHKwNf1Ea9anTl1zkAcq80hsY1+EJ
- kPkUDgDjkuSCIGiBRo6lEPtcvDQ2dfp7Qr3PDWHl5QkokMylM0q4QqJzbBFfQyhXoA5GxT
- gCOwY06Xmiqwggt/5zy07n02rU7JOOw=
+ bh=heSHQZUMbRn1It5jncQ6+b74Z3Hrufzin1N4upH9idU=;
+ b=gUAMDIS4zaS5oMiqIwJse0UmuE4p3Rdp8uvrjyvrlYAV2g0GCpzMaD73u64qJ8ktXGmh74
+ /0THZUzO2zuQI28ZQgBoFInVLiRIacETN3TQfqg3hpuKb9o2Fu282Jmon/IWkAyAxitI0F
+ vPNw4TXspIEvPq1vB1GsNosTLziKOxg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-595-oEECHw-IPIGvlfqNIfZITA-1; Fri, 30 Oct 2020 16:21:36 -0400
-X-MC-Unique: oEECHw-IPIGvlfqNIfZITA-1
+ us-mta-469-voZOZUAqMsCf7N5J3hFq5A-1; Fri, 30 Oct 2020 16:21:37 -0400
+X-MC-Unique: voZOZUAqMsCf7N5J3hFq5A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2245A805F12
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:21:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73E0F18A2257
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:21:36 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DF8325D9D2;
- Fri, 30 Oct 2020 20:21:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 417455D9D2;
+ Fri, 30 Oct 2020 20:21:36 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 02/20] qdev: Stop using error_set_from_qdev_prop_error() for
- netdev property
-Date: Fri, 30 Oct 2020 16:21:13 -0400
-Message-Id: <20201030202131.796967-3-ehabkost@redhat.com>
+Subject: [PATCH 03/20] qdev: Stop using error_set_from_qdev_prop_error() for
+ audiodev property
+Date: Fri, 30 Oct 2020 16:21:14 -0400
+Message-Id: <20201030202131.796967-4-ehabkost@redhat.com>
 In-Reply-To: <20201030202131.796967-1-ehabkost@redhat.com>
 References: <20201030202131.796967-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -92,17 +92,13 @@ simpler and makes error messages clearer.
 
 Before:
 
-  $ qemu-system-x86_64 -device e1000,netdev=n0
-  qemu-system-x86_64: -device e1000,netdev=n0: Property 'e1000.netdev' can't find value 'n0'
-  $ qemu-system-x86_64 -netdev id=n0,type=user -device e1000,netdev=n0 -device e1000,netdev=n0
-  qemu-system-x86_64: -device e1000,netdev=n0: Property 'e1000.netdev' can't take value 'n0', it's in use
+  $ qemu-system-x86_64 -device AC97,audiodev=a0
+  qemu-system-x86_64: -device AC97,audiodev=a0: Property 'AC97.audiodev' can't find value 'a0'
 
 After:
 
-  $ ./qemu-system-x86_64 -device e1000,netdev=n0
-  qemu-system-x86_64: -device e1000,netdev=n0: Property 'e1000.netdev' can't take value 'n0': netdev not found
-  $ ./qemu-system-x86_64 -netdev id=n0,type=user -device e1000,netdev=n0 -device e1000,netdev=n0
-  qemu-system-x86_64: -device e1000,netdev=n0: Property 'e1000.netdev' can't take value 'n0': netdev is in use
+  $ ./qemu-system-x86_64 -device AC97,audiodev=a0
+  qemu-system-x86_64: -device AC97,audiodev=a0: Property 'AC97.audiodev' can't take value 'a0': audiodev not found
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -111,42 +107,30 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties-system.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/core/qdev-properties-system.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index 232ff955fa..60be09efba 100644
+index 60be09efba..a5a1a6ffee 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -376,7 +376,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-     NICPeers *peers_ptr = object_static_prop_ptr(obj, prop);
-     NetClientState **ncs = peers_ptr->ncs;
-     NetClientState *peers[MAX_QUEUE_NUM];
--    int queues, err = 0, i = 0;
-+    int queues, i = 0;
+@@ -447,7 +447,6 @@ static void set_audiodev(Object *obj, Visitor *v, const char* name,
+     Property *prop = opaque;
+     QEMUSoundCard *card = object_static_prop_ptr(obj, prop);
+     AudioState *state;
+-    int err = 0;
      char *str;
  
      if (!visit_type_str(v, name, &str, errp)) {
-@@ -387,7 +387,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-                                           NET_CLIENT_DRIVER_NIC,
-                                           MAX_QUEUE_NUM);
-     if (queues == 0) {
+@@ -457,13 +456,12 @@ static void set_audiodev(Object *obj, Visitor *v, const char* name,
+     state = audio_state_by_name(str);
+ 
+     if (!state) {
 -        err = -ENOENT;
-+        error_setg(errp, "netdev not found");
++        error_setg(errp, "audiodev not found");
          goto out;
      }
- 
-@@ -399,7 +399,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
- 
-     for (i = 0; i < queues; i++) {
-         if (peers[i]->peer) {
--            err = -EEXIST;
-+            error_setg(errp, "netdev is in use");
-             goto out;
-         }
- 
-@@ -418,7 +418,6 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-     peers_ptr->queues = queues;
+     card->state = state;
  
  out:
 -    error_set_from_qdev_prop_error(errp, err, obj, prop, str);
