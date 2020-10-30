@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF642A07C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:23:45 +0100 (CET)
-Received: from localhost ([::1]:48876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 010A42A07D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:28:40 +0100 (CET)
+Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVJg-0007Ul-KU
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:23:44 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46098)
+	id 1kYVOR-00046p-2e
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:28:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8s-0003o7-2p
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34302)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8p-0003ls-TW
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:31 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22887)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8n-0007H7-AV
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:33 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8n-0007HJ-BC
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:31 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604067143;
+ s=mimecast20190719; t=1604067146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=l6Xr3YozF4IKRpFrhD0A/HyzyCVetEbDlqfMsE4vvfI=;
- b=JCAgmYUo/KvXnGnW0Vq1xN5YrKCS0QzjvChkESFVHZpvJwctYg0SNJ1K4BTESKLnyC3jkN
- oUvNU2kYp3hRxbz3euOjaEwKOO4n1qislJUR9VzvfUaGtk5j/fQAW2eB7ZypnbsnNXDdU4
- 6S3xHnps+22W33SqsDHxg3V+JY3nmww=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-VNtCPUKrOA61vRHvJ9iOfA-1; Fri, 30 Oct 2020 10:12:20 -0400
-X-MC-Unique: VNtCPUKrOA61vRHvJ9iOfA-1
-Received: by mail-wr1-f70.google.com with SMTP id h8so2712714wrt.9
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:20 -0700 (PDT)
+ bh=gHTVvLyQX/nQL7WIpglC+HzeG7xS+O6ap0K+bTpJUHA=;
+ b=iCVqmiECvBkDMnMdUBsyg29MoN+94+T+bDq8Vz62JqwOxotYaN71WCAIB9zz12wCLoQfDb
+ 4Qv/c5PaNPSA70y4yV9N4YnUmTlW8NkH8wP75iMXu0WKuHGqSuYyPFIlOj+Y5FbsWz2CBe
+ PZxT9IIemj8ZdNfN8Txtk/td1GVHqsc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-428-G3rtJnvINvyIs8QTY_2PtQ-1; Fri, 30 Oct 2020 10:12:23 -0400
+X-MC-Unique: G3rtJnvINvyIs8QTY_2PtQ-1
+Received: by mail-wm1-f72.google.com with SMTP id z7so1287059wme.8
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=l6Xr3YozF4IKRpFrhD0A/HyzyCVetEbDlqfMsE4vvfI=;
- b=WO/jlhJb8M4Wpl8CqE/W7F/gE+CE9w7rETq38cfzJ1FNEoWHI7C4K3a+wylq6oApyC
- ZUkcefGomEU5Li6i6izpbD/XIATq9JrA2JXvEivUiFeZSQe/apw+RCVG5wTGkUApiPmH
- VgVMNWkCgS1tZzmCENAWgdJusxsKiEFH21mwrcjpN6LocXm/3pns14oRY08/1985JSAr
- xYK/CzFuZHlsPc2lDOAvt5Pu+ro7dYsRvv+ztElYC78gIw28UpOAltA97Oq36IyBtD+n
- hvM/SpyX0Ym29AxrJXpchXZPLIQYeS5kzNqv+Y7nm5OB2A7oYNGoBgUxKzuohKA6UiOe
- dDqw==
-X-Gm-Message-State: AOAM5305PVXe2qOJ84yZ1Ld8xj9y2XR2uIpXobOTa7cR4f0wG8X4/VU1
- 48FfPfnzUohgmUCvuNJjmYTjdxZvKFpSXnAy7AleTXMuW0Bc5/1JoS4+9bj6GcC7f5WInlwp8Pa
- TXTa8VXc3ec6VPPk=
-X-Received: by 2002:adf:e892:: with SMTP id d18mr3620631wrm.103.1604067138891; 
- Fri, 30 Oct 2020 07:12:18 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfdnUb2d32ttTtm/PYVoQtbPY8uGtcVL12j/NYgBMoAc4PMSRACN7d5AyVvcQspH/JJnefDg==
-X-Received: by 2002:adf:e892:: with SMTP id d18mr3620590wrm.103.1604067138633; 
- Fri, 30 Oct 2020 07:12:18 -0700 (PDT)
+ bh=gHTVvLyQX/nQL7WIpglC+HzeG7xS+O6ap0K+bTpJUHA=;
+ b=sieULGPfv4tbxmXZGdt2gIshVCLxQddVQZzEF5nIUWq0sEo6txeu70l75IKW9xoF+A
+ Q4CQjFQETsrFlGzNja+PeDmLCQsSRbYZPZ6BXy6iTsrzI1pphWf7CPcUnbamNvtbFu7I
+ LfJSdUIqSYOW9BCnQwHBsGVZgXw7048QaXsivG9Y6OpEugwqUfQAFrCGEZi4RutzAFom
+ 1rWFTQi0gyvAHn8Qaeducilfv/yTIJmwphGNW+rQklO7pRwqVh4A41fo0BHoE7Rw/iOJ
+ 19soGF97HX1NUdWGP1G319oyMGQJa5QS02lJQMYO/unsKZrfUB8HHNm5v3FticxM9Ph2
+ vnfw==
+X-Gm-Message-State: AOAM5308fhw5xXfrpR4SmRny0kMWGAJSEIxR8RwYWZQC0an4xhEt0twO
+ Fj0EnJ9pTePTa077u8ZAULrvAaZKm5fPeiyXmEq5pXYhTbiV5gZZo556WXoWFxzJZsDg23Ph8T9
+ c3irkVzK9mPUrm8Q=
+X-Received: by 2002:adf:9066:: with SMTP id h93mr3661150wrh.166.1604067141297; 
+ Fri, 30 Oct 2020 07:12:21 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwDIMb00/CfHdELkB/TIcXkpKPMTsvEx4C3H1aYIpKNR9OWMzVwoBhsXZEX7aY1Dh2QgUdd+g==
+X-Received: by 2002:adf:9066:: with SMTP id h93mr3661131wrh.166.1604067141159; 
+ Fri, 30 Oct 2020 07:12:21 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id j9sm7394525wrr.49.2020.10.30.07.12.17
+ by smtp.gmail.com with ESMTPSA id t19sm5423460wmi.26.2020.10.30.07.12.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 07:12:18 -0700 (PDT)
-Date: Fri, 30 Oct 2020 10:12:16 -0400
+ Fri, 30 Oct 2020 07:12:20 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:12:18 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/15] pci: Disallow improper BAR registration for type 1
-Message-ID: <20201030141136.1013521-13-mst@redhat.com>
+Subject: [PULL 13/15] vhost-blk: set features before setting inflight feature
+Message-ID: <20201030141136.1013521-14-mst@redhat.com>
 References: <20201030141136.1013521-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030141136.1013521-1-mst@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,50 +94,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ben Widawsky <ben.widawsky@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Jin Yu <jin.yu@intel.com>,
+ Max Reitz <mreitz@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Ben Widawsky <ben.widawsky@intel.com>
+From: Jin Yu <jin.yu@intel.com>
 
-Prevent future developers working on root complexes, root ports, or
-bridges that also wish to implement a BAR for those, from shooting
-themselves in the foot. PCI type 1 headers only support 2 base address
-registers. It is incorrect and difficult to figure out what is wrong
-with the device when this mistake is made. With this, it is immediate
-and obvious what has gone wrong.
+Virtqueue has split and packed, so before setting inflight,
+you need to inform the back-end virtqueue format.
 
-Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Message-Id: <20201015181411.89104-2-ben.widawsky@intel.com>
+Signed-off-by: Jin Yu <jin.yu@intel.com>
+Message-Id: <20200910134851.7817-1-jin.yu@intel.com>
+Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/pci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/virtio/vhost.h |  1 +
+ hw/block/vhost-user-blk.c |  6 ++++++
+ hw/virtio/vhost.c         | 18 ++++++++++++++++++
+ 3 files changed, 25 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index e5b7c9a42b..0131d9d02c 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1148,11 +1148,17 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
-     uint32_t addr; /* offset in pci config space */
-     uint64_t wmask;
-     pcibus_t size = memory_region_size(memory);
-+    uint8_t hdr_type;
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 94585067f7..839bfb153c 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -141,6 +141,7 @@ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
+ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f);
++int vhost_dev_prepare_inflight(struct vhost_dev *hdev);
+ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight);
+ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index a076b1e54d..f67b29bbf3 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -131,6 +131,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
  
-     assert(region_num >= 0);
-     assert(region_num < PCI_NUM_REGIONS);
-     assert(is_power_of_2(size));
+     s->dev.acked_features = vdev->guest_features;
  
-+    /* A PCI bridge device (with Type 1 header) may only have at most 2 BARs */
-+    hdr_type =
-+        pci_dev->config[PCI_HEADER_TYPE] & ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-+    assert(hdr_type != PCI_HEADER_TYPE_BRIDGE || region_num < 2);
++    ret = vhost_dev_prepare_inflight(&s->dev);
++    if (ret < 0) {
++        error_report("Error set inflight format: %d", -ret);
++        goto err_guest_notifiers;
++    }
 +
-     r = &pci_dev->io_regions[region_num];
-     r->addr = PCI_BAR_UNMAPPED;
-     r->size = size;
+     if (!s->inflight->addr) {
+         ret = vhost_dev_get_inflight(&s->dev, s->queue_size, s->inflight);
+         if (ret < 0) {
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 79b2be20df..f2482378c6 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1645,6 +1645,24 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
+     return 0;
+ }
+ 
++int vhost_dev_prepare_inflight(struct vhost_dev *hdev)
++{
++    int r;
++ 
++    if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
++        hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
++        return 0;
++    }
++ 
++    r = vhost_dev_set_features(hdev, hdev->log_enabled);
++    if (r < 0) {
++        VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
++        return r;
++    }
++
++    return 0;
++}
++
+ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight)
+ {
 -- 
 MST
 
