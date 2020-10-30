@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44EB2A05B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:47:49 +0100 (CET)
-Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93ED12A05ED
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:53:40 +0100 (CET)
+Received: from localhost ([::1]:35270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYToq-00025q-T2
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:47:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53556)
+	id 1kYTuV-0000vI-LM
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:53:39 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmM-0000Qc-JN
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:14 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47414)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTpG-0003dK-MP
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:48:16 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25202)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmK-0000KW-CB
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:14 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTpE-0001Wb-Nz
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:48:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061909;
+ s=mimecast20190719; t=1604062092;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=VQON/qkHfDHAcqI32ttgHuJ36suArQZ7MBSOwD5g+6Y=;
- b=VMPDAlWjbeGzdNfPJ/4FFfs9UyCnPE1EE/P2o4k6kVUpHxjkfUWbcsLnSqeKBLTfS1wSeN
- D7kf5S+0w8dvx4f41Njs8IrUptb1apPo6YNoFdW+pg/RKwizU9zRpi9GmuHBIomySJk/+g
- nDHvFLIBoXzGthaxXwZJSzKokFzFpgI=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-XQDtYldNM_yPDOFPWx5M_Q-1; Fri, 30 Oct 2020 08:45:08 -0400
-X-MC-Unique: XQDtYldNM_yPDOFPWx5M_Q-1
-Received: by mail-wr1-f70.google.com with SMTP id n14so2616102wrp.1
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:07 -0700 (PDT)
+ in-reply-to:in-reply-to:references:references;
+ bh=zjLk5rYnsVamvL3ZAKIsdxK/c57DAaLzJqbsx6rIiu4=;
+ b=HYLKmMv+c5DFFheqOfkJR0dKpChvtnxBnNKzQd4p5+/GoWCAlhf6QdlCV3VfRc+FhsibXq
+ 3MZufwoiJUkdFyfV+6GWjx1NGlePcP+80I7DmAje/QGJC3NS4hrd4lCIyMob2AhIAn7jAb
+ 76IYNamqqfcFpJnDoj9l8tRxtd6jCI8=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-y7wG7fAOMaKx_wRogQbqBQ-1; Fri, 30 Oct 2020 08:45:10 -0400
+X-MC-Unique: y7wG7fAOMaKx_wRogQbqBQ-1
+Received: by mail-wr1-f69.google.com with SMTP id v5so2641026wrr.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition:content-transfer-encoding;
- bh=VQON/qkHfDHAcqI32ttgHuJ36suArQZ7MBSOwD5g+6Y=;
- b=LtSwRG1GvNKd+m/yFW7HZOWmDzcomBk6XmY2/kK1E+gruCTkUkzTzI58psJt7GnbP+
- qoaH9Bkx+9WAvXW7NMOnQ1vLyy4gObLw3ZdsVVsVirmhSTf7ULrzKneHUXYaxmng12aG
- Vw0yKebJB1eB9mHbzUv+eQ4gIrEKqY9BWkbY/l3YmBUDaozD6HJOE95wosKaVjlk0qeK
- rpctd8JOQdX/tkeuaCuE8w22i65F/oOD4nSSvms5NxL0sp3rAazezxFEx/iIN8nOtUIX
- 4SFpAXSWIj2Hwysjgiu7o4mwpcASZD2cZV5MG4FeQ+G+m+GqkeHhaJs2vSQOSnCfLzl3
- J/pg==
-X-Gm-Message-State: AOAM532SA/JwCvRF/LTW8y9+R/UWegETLwbVQvpkkPCRejpWZajV4tt/
- 6R8QCHqVuEAvB26fq5eO98Ndf7f3N73sYtYssF4xe5kinKQzKQpDE6eCQeXTwkig4KampnidFlk
- cw8YGr7Sne1GVYn8=
-X-Received: by 2002:a1c:3d54:: with SMTP id k81mr2640168wma.144.1604061906376; 
- Fri, 30 Oct 2020 05:45:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyQXoq4HHkVVEzPfrCzKk/9c3SYote7ULp1yu6VAG+Zlf1u5ZVbXyC+ihsCeOYT1j9VUXsSNA==
-X-Received: by 2002:a1c:3d54:: with SMTP id k81mr2640156wma.144.1604061906216; 
- Fri, 30 Oct 2020 05:45:06 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=zjLk5rYnsVamvL3ZAKIsdxK/c57DAaLzJqbsx6rIiu4=;
+ b=X/dNbtqIGnuuuuqU7vTQe7RNeS6qVmcKlk84urr5kcS5BVSuNUZEutHmUNp9bT+CcT
+ 1kyDkVI9hCRfZGwet5DQvhl5rYh7uM7Vo4nAOAhqxXbKbS4bqIcCKZ4mrbOt9Pt9HbF3
+ ucB9FBhw5B5N3kIxgX9xB7BVWGuAEGZanOqbg0XDDDyGcXPgYSNqGAOxobs5U2h9Ui1U
+ i3Z3DjJdF6VIyLyqs7J8v+XjwKs4xlpZ8AF/BWU6MYpZwZWiq1FNbEUokdQay4Z2L94Z
+ 5ckCpeiZp1Qq8FVirmXCvWM/Mr1+qeaCfeTaha4p4/3n+3P9YrzESF47/48eKxiqA5hK
+ xHZA==
+X-Gm-Message-State: AOAM5320dpIk1uJ+6lCU6NJ/KhKMKBJeRwq1VMQq4vUVu/34+1cxcLHx
+ BxXMZHEB8NWlIarFtHI5J8kY3UOQOh+p9h9HfhHEfaYwU1ho8KWIJvDLOTWVtbji32XdHavc422
+ Mcq+y4G6Pihk49OE=
+X-Received: by 2002:adf:f2c9:: with SMTP id d9mr2902165wrp.319.1604061908635; 
+ Fri, 30 Oct 2020 05:45:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzhdldf1PLZKGFqfxKTtjrj7dHkgJ7RFpuFpMRrruoYxFrON9PQYYu+iiDQZDJ+XLz7Jr68ig==
+X-Received: by 2002:adf:f2c9:: with SMTP id d9mr2902143wrp.319.1604061908469; 
+ Fri, 30 Oct 2020 05:45:08 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id a17sm10585283wra.29.2020.10.30.05.45.05
+ by smtp.gmail.com with ESMTPSA id a199sm4901495wmd.8.2020.10.30.05.45.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:05 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:04 -0400
+ Fri, 30 Oct 2020 05:45:07 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:06 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/15] pc,pci,vhost,virtio: misc fixes
-Message-ID: <20201030124454.854286-1-mst@redhat.com>
+Subject: [PULL 01/15] vhost-vdpa: negotiate VIRTIO_NET_F_STATUS with driver
+Message-ID: <20201030124454.854286-2-mst@redhat.com>
+References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,83 +94,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Si-Wei Liu <si-wei.liu@oracle.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 802427bcdae1ad2eceea8a8877ecad835e3f8fde:
+From: Si-Wei Liu <si-wei.liu@oracle.com>
 
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201027-1' into staging (2020-10-29 11:40:04 +0000)
+Vendor driver may not support or implement config
+interrupt delivery for link status notifications.
+In this event, vendor driver is expected to NACK
+the feature, but guest will keep link always up.
 
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-
-for you to fetch changes up to 73beb01ec54969f76ab32d1e0605a759b6c95ab0:
-
-  intel_iommu: Fix two misuse of "0x%u" prints (2020-10-30 06:48:53 -0400)
-
-----------------------------------------------------------------
-pc,pci,vhost,virtio: misc fixes
-
-Just a bunch of bugfixes all over the place.
-
+Signed-off-by: Si-Wei Liu <si-wei.liu@oracle.com>
+Message-Id: <1601582985-14944-1-git-send-email-si-wei.liu@oracle.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ net/vhost-vdpa.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-----------------------------------------------------------------
-Ben Widawsky (4):
-      acpi/crs: Prevent bad ranges for host bridges
-      acpi/crs: Support ranges > 32b for hosts
-      pci: Change error_report to assert(3)
-      pci: Disallow improper BAR registration for type 1
-
-Eduardo Habkost (1):
-      pc: Implement -no-hpet as sugar for -machine hpet=on
-
-Felipe Franciosi (1):
-      virtio: skip guest index check on device load
-
-Greg Kurz (1):
-      vhost: Don't special case vq->used_phys in vhost_get_log_size()
-
-Jason Wang (1):
-      pci: advertise a page aligned ATS
-
-Jin Yu (1):
-      vhost-blk: set features before setting inflight feature
-
-Mark Cave-Ayland (1):
-      pci: Assert irqnum is between 0 and bus->nirqs in pci_bus_change_irq_level
-
-Peter Xu (1):
-      intel_iommu: Fix two misuse of "0x%u" prints
-
-Philippe Mathieu-Daudé (2):
-      hw/virtio/vhost-vdpa: Fix Coverity CID 1432864
-      hw/pci: Extract pci_bus_change_irq_level() from pci_change_irq_level()
-
-Si-Wei Liu (1):
-      vhost-vdpa: negotiate VIRTIO_NET_F_STATUS with driver
-
-Stefano Garzarella (1):
-      vhost-vsock: set vhostfd to non-blocking mode
-
- include/hw/i386/pc.h      |  1 +
- include/hw/i386/x86.h     |  3 ---
- include/hw/virtio/vhost.h |  1 +
- hw/block/vhost-user-blk.c |  6 +++++
- hw/i386/acpi-build.c      | 12 +++++++--
- hw/i386/intel_iommu.c     |  4 +--
- hw/i386/pc.c              | 63 ++++++++++++++++++++++++++++++++---------------
- hw/i386/pc_piix.c         |  2 +-
- hw/pci/pci.c              | 23 +++++++++++------
- hw/pci/pcie.c             |  5 ++--
- hw/virtio/vhost-vdpa.c    |  4 +--
- hw/virtio/vhost-vsock.c   | 10 ++++++++
- hw/virtio/vhost.c         | 28 +++++++++++++--------
- hw/virtio/virtio.c        | 13 +++++-----
- net/vhost-vdpa.c          |  1 +
- softmmu/vl.c              |  4 +--
- 16 files changed, 123 insertions(+), 57 deletions(-)
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index e2b3ba85bf..99c476db8c 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -55,6 +55,7 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
++    VIRTIO_NET_F_STATUS,
+     VHOST_INVALID_FEATURE_BIT
+ };
+ 
+-- 
+MST
 
 
