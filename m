@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5982A0868
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:50:02 +0100 (CET)
-Received: from localhost ([::1]:47448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D81922A0866
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:49:55 +0100 (CET)
+Received: from localhost ([::1]:46664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVj7-0006EK-Ql
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:50:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
+	id 1kYVj0-0005pt-Th
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:49:54 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <69067bf1436aab1c84b98b8461e81a9633ec7872@lizzy.crudebyte.com>)
- id 1kYVfs-0002U5-8j
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:46:41 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34033)
+ (envelope-from <fd3237f7b005b1b73c954ccd5c6011e8228e19a3@lizzy.crudebyte.com>)
+ id 1kYVeB-0000Ux-Qw
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:44:56 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:58665)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <69067bf1436aab1c84b98b8461e81a9633ec7872@lizzy.crudebyte.com>)
- id 1kYVfq-0003QK-IR
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:46:39 -0400
+ (envelope-from <fd3237f7b005b1b73c954ccd5c6011e8228e19a3@lizzy.crudebyte.com>)
+ id 1kYVe9-00035C-K9
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:44:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=xsjARTJMRsIzsvTagiZQBElZfq3230JVVbcEUvQWxjk=; b=GIe+r
- ADfFJ2z8oGCgZik0dxBvlpxt/Jr16LVxlgl6d8fZ7EocQ/qE1oVxO1FO+JQxrNWmJJ/Dgp781GEvB
- Esfa4h6y+q9nnNCQ1cHtlzNLscSNE7QyUnm2ffCVP1f+pwdYp7nZx1mnZEJ8RK0V7qVNgQIixeHY3
- LQdmuH0GSsk7WKQQ6d665SWFzdID3umLYd7XVuB0kH1mf1O1NodShCJmH/5Ftx/62nzpyCvCCytoF
- 1yFAG2xHZvB7+FIdn082Zcb+p6FR6Wm6anGzkU5+z8c5DDvbnasuD29eQn5BcMhGPLqgXEbdHqZi1
- EcfAAjPWg2jwT4sgChxwKOrZVSEgw==;
-Message-Id: <69067bf1436aab1c84b98b8461e81a9633ec7872.1604067568.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=Z0ImmQscMHR59q1t1F4LKh1wUiJ144ww81BSEZTFXJ4=; b=maWH9
+ Zaqg7MXsiOZYTaKdHsTqDQT5Tvpzt6xGKTRI8DJTHh8IFa/HlPWiNpnH0+WjVoNQUKdcM+7VSPMwo
+ j96LBYvezriAJciR5rkWyc3lZaaB9quHi7IE1No9I3LnDml3KoPpQ53aSoJh2qEegbtbKU9Wwyz6F
+ p029C6RHiu4esUshm5YhUH73W22DO3PITc3Iw2tld/w17BxG3pA6jtgWFbb28AOutGYXhEV24/nVg
+ Y87DLW9cOqqCD28qCCTDx5wjWVQw3pxl05JBOyTDXjlsJ+bopBwC3q//OB6/SdwY3ubSzYhf9OQuC
+ +kAypCCbOI1Nmbr+DuWOunwDzpxIA==;
+Message-Id: <fd3237f7b005b1b73c954ccd5c6011e8228e19a3.1604067568.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1604067568.git.qemu_oss@crudebyte.com>
 References: <cover.1604067568.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 21 Oct 2020 14:55:46 +0200
-Subject: [PULL v2 16/16] tests/9pfs: add local Tunlinkat hard link test
+Date: Fri, 30 Oct 2020 13:07:03 +0100
+Subject: [PULL v2 01/16] tests/9pfs: fix test dir for parallel tests
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=69067bf1436aab1c84b98b8461e81a9633ec7872@lizzy.crudebyte.com;
+ envelope-from=fd3237f7b005b1b73c954ccd5c6011e8228e19a3@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,65 +65,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test case uses a Tunlinkat request to remove a previously hard
-linked file by using the 9pfs 'local' fs driver.
+Use mkdtemp() to generate a unique directory for the 9p 'local' tests.
+
+This fixes occasional 9p test failures when running 'make check -jN' if
+QEMU was compiled for multiple target architectures, because the individual
+architecture's test suites would run in parallel and interfere with each
+other's data as the test directory was previously hard coded and hence the
+same directory was used by all of them simultaniously.
+
+This also requires a change how the test directory is created and deleted:
+As the test path is now randomized and virtio_9p_register_nodes() being
+called in a somewhat undeterministic way, that's no longer an appropriate
+place to create and remove the test directory. Use a constructor and
+destructor function for creating and removing the test directory instead.
+Unfortunately libqos currently does not support setup/teardown callbacks
+to handle this more cleanly.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Tested-by: Greg Kurz <groug@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <9bec33a7d8f006ef8f80517985d0d6ac48650d53.1603285620.git.qemu_oss@crudebyte.com>
+Message-Id: <a37fbc713614f7615b11d0a3cb8d9adc3b8fba4b.1604061839.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ tests/qtest/libqos/virtio-9p.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 460fa49fe3..23433913bb 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1391,6 +1391,34 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(real_file);
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index d43647b3b7..6b22fa0e9a 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -35,7 +35,12 @@ static char *concat_path(const char* a, const char* b)
+ static void init_local_test_path(void)
+ {
+     char *pwd = g_get_current_dir();
+-    local_test_path = concat_path(pwd, "qtest-9p-local");
++    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++    local_test_path = mkdtemp(template);
++    if (!local_test_path) {
++        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
++    }
++    g_assert(local_test_path);
+     g_free(pwd);
  }
  
-+static void fs_unlinkat_hardlink(void *obj, void *data,
-+                                 QGuestAllocator *t_alloc)
+@@ -246,11 +251,6 @@ static void virtio_9p_register_nodes(void)
+     const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
+     const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
+ 
+-    /* make sure test dir for the 'local' tests exists and is clean */
+-    init_local_test_path();
+-    remove_local_test_dir();
+-    create_local_test_dir();
+-
+     QPCIAddress addr = {
+         .devfn = QPCI_DEVFN(4, 0),
+     };
+@@ -278,3 +278,16 @@ static void virtio_9p_register_nodes(void)
+ }
+ 
+ libqos_init(virtio_9p_register_nodes);
++
++static void __attribute__((constructor)) construct_virtio_9p(void)
 +{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    struct stat st_real, st_link;
-+    char *real_file = virtio_9p_test_path("08/real_file");
-+    char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
-+
-+    do_attach(v9p);
-+    do_mkdir(v9p, "/", "08");
-+    do_lcreate(v9p, "08", "real_file");
-+    g_assert(stat(real_file, &st_real) == 0);
-+    g_assert((st_real.st_mode & S_IFMT) == S_IFREG);
-+
-+    do_hardlink(v9p, "08", "hardlink_file", "08/real_file");
-+    g_assert(stat(hardlink_file, &st_link) == 0);
-+
-+    do_unlinkat(v9p, "08", "hardlink_file", 0);
-+    /* symlink should be gone now */
-+    g_assert(stat(hardlink_file, &st_link) != 0);
-+    /* and old file should still exist */
-+    g_assert(stat(real_file, &st_real) == 0);
-+
-+    g_free(hardlink_file);
-+    g_free(real_file);
++    /* make sure test dir for the 'local' tests exists */
++    init_local_test_path();
++    create_local_test_dir();
 +}
 +
- static void *assign_9p_local_driver(GString *cmd_line, void *arg)
- {
-     virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
-@@ -1438,6 +1466,8 @@ static void register_virtio_9p_test(void)
-     qos_add_test("local/unlinkat_symlink", "virtio-9p", fs_unlinkat_symlink,
-                  &opts);
-     qos_add_test("local/hardlink_file", "virtio-9p", fs_hardlink_file, &opts);
-+    qos_add_test("local/unlinkat_hardlink", "virtio-9p", fs_unlinkat_hardlink,
-+                 &opts);
- }
- 
- libqos_init(register_virtio_9p_test);
++static void __attribute__((destructor)) destruct_virtio_9p(void)
++{
++    /* remove previously created test dir when test suite completed */
++    remove_local_test_dir();
++}
 -- 
 2.20.1
 
