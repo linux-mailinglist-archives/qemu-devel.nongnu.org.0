@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 382D42A02EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 11:32:22 +0100 (CET)
-Received: from localhost ([::1]:55138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 155BD2A02FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 11:34:43 +0100 (CET)
+Received: from localhost ([::1]:33476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYRhk-0005mG-Rr
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 06:32:21 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48498)
+	id 1kYRk2-0000Ca-4e
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 06:34:42 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYRcJ-00086B-Ho
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:26:43 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38822)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYRdJ-00012s-H1
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:27:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28066)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYRcF-0001K7-D0
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:26:41 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYRdH-0001eg-1O
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 06:27:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604053597;
+ s=mimecast20190719; t=1604053662;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XURLfmIBmkN3M8zln9MT16idTxjsy7ulWWJmF/4Hn7c=;
- b=Yh7DZF/YMClMujn8e78D+3lbwMsG87411uV3QI2JmiIKZ/PUe9X6Tt8/DhIe/tQU9BepT6
- CcJAZznuC4AWj2J3SyIfdPMfgXCwp9BLmH/9w1Q5RhNUJu83zd8pc+ve5pC02S0CwEfVOB
- KKGBsn8lEsXgquOjgU994KN9IhO+fA4=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-434-MZvcCpOTPf2R5-rqbaUALg-1; Fri, 30 Oct 2020 06:26:35 -0400
-X-MC-Unique: MZvcCpOTPf2R5-rqbaUALg-1
-Received: by mail-wr1-f70.google.com with SMTP id n14so2486993wrp.1
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 03:26:35 -0700 (PDT)
+ bh=65nP2oj8Anbq++XyhT+a7wHS+bvup33fv24cxypeHHY=;
+ b=eub6lCLAgouSWi1giXG9OprhZNLy+zVqYNk+j4cgRa+qtsiZoUQNuPCAO+PfxUYleMHUTO
+ nXKE2J2MU1md2tSB6zeyjEXGKVjdcOSO+090GcvDtj3oDtbrbzEfTj6k9Qm/Ge9Sb67X2r
+ mmmnPgaytKRWJrKqqjvvoC+78hgEqME=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-20-e5FSFLNANv2om7tGbJNxFA-1; Fri, 30 Oct 2020 06:27:40 -0400
+X-MC-Unique: e5FSFLNANv2om7tGbJNxFA-1
+Received: by mail-wm1-f72.google.com with SMTP id s12so1579324wmj.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 03:27:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=XURLfmIBmkN3M8zln9MT16idTxjsy7ulWWJmF/4Hn7c=;
- b=gBFW8LusAY/2NknVxUwjD8MEqYeT41n3LliBHBwMSegCyAO/7xCmlRNRiTgrWdFDgT
- q3FnGQ6ynQdRuNLGsVH3qDKrp70DT56paCjRoibTGp58ItQpNMtjFKWXWmD1vFlXMxk0
- Z5+xcCbetph8gE0LLb0mh2n6j7UpDiDZEuNdfwC2zgCf9L9PWyI4d4KLz/AP5t7N4wvD
- chsY0tiEIFgm87u6EiclQ4EV4MsQSxkq2fYSJSgRq2i2S9+0dMW/MZ5hbop6+xEP1GXQ
- 7urG9dCiHk5ugGBWFkusEuJ1qqGTHts8XO8HvAyblrJDtRwgDSrz7WVWf3PYoaU6BNsg
- uyZQ==
-X-Gm-Message-State: AOAM5324yQIYQ3QlB15pHaqSxLsbeqFPeUUVqdwddDp7kkjovEqiP7Ul
- wdrPYNjPyFziC/IC9UopyCpLINIKH3dZihpUGsTl9x18GnaJv7wnOrDZtruJzZSRZTewj6+cbE9
- cp2rZcFK1bLzkx/8=
-X-Received: by 2002:a5d:4fc5:: with SMTP id h5mr2064743wrw.145.1604053594649; 
- Fri, 30 Oct 2020 03:26:34 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvStEsspwMX49OCer+ApIvMxH9kj62MpYaj6h+m4Wg/ilKldx6iDWMWNv8Gvdm4UMJYBjF6A==
-X-Received: by 2002:a5d:4fc5:: with SMTP id h5mr2064724wrw.145.1604053594518; 
- Fri, 30 Oct 2020 03:26:34 -0700 (PDT)
+ bh=65nP2oj8Anbq++XyhT+a7wHS+bvup33fv24cxypeHHY=;
+ b=BYK1196df1Cg7ubt4K9M3j9Jcry+Va6Cy9GtlkuyoxkuXPf9ki3Rxapnr5qRUR9jWk
+ BTlMATecGerzMTXDKHoI+vABaYvjFFnQLD6WCSeoBUzW9Mmmf/V+6cD1ilSAy7d5k+PG
+ TFM0hgf1W8XoVNaoJt6vibdRNpLnlD3cnZ1fjIiU3xJr8uFwlf6Lu4/bkbAk8WCbbx6L
+ o7KMsX2qyypILc0HsCG41iRrFRKU0sD2PX9wtOiG1bRCs4hbGLi7L0gpxZK9YoRE82fG
+ hkHvS+tUpIUrIRdWqrmxGZPrlp7j7dV/U2N2fHrUG9zd3ZN5S4LHqghBIqPGnA2UBPBN
+ 9Gsw==
+X-Gm-Message-State: AOAM533LyA3pL8YLqMHzDsK7PN6HLCCFvZPmWSvunQ0brasDW/IR4HRv
+ MKmmjWFhWWVwqJVeQhfWAUhCX/oeTgQHceo3CZC7xS4MpPI91WPObtuRpkckCv7nifCOBPJOhSB
+ rtYgyIIwdTj9PnmQ=
+X-Received: by 2002:adf:f9cf:: with SMTP id w15mr2215447wrr.185.1604053658877; 
+ Fri, 30 Oct 2020 03:27:38 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyu1GH3KEzhvAX/Bb0lHsrVG+Eu8aXq9E6i9aAIW32Q3gWM9xPewFNO1Amcoga6mPXRmlkCdw==
+X-Received: by 2002:adf:f9cf:: with SMTP id w15mr2215424wrr.185.1604053658714; 
+ Fri, 30 Oct 2020 03:27:38 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id t7sm9505805wrx.42.2020.10.30.03.26.32
+ by smtp.gmail.com with ESMTPSA id m12sm4129649wmi.33.2020.10.30.03.27.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 03:26:33 -0700 (PDT)
-Date: Fri, 30 Oct 2020 06:26:31 -0400
+ Fri, 30 Oct 2020 03:27:38 -0700 (PDT)
+Date: Fri, 30 Oct 2020 06:27:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH v10 08/10] vfio: Set IOMMU page size as per host
- supported page size
-Message-ID: <20201030062606-mutt-send-email-mst@kernel.org>
+To: Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: Re: [PATCH v10 00/10] virtio-iommu: VFIO integration
+Message-ID: <20201030062714-mutt-send-email-mst@kernel.org>
 References: <20201008171558.410886-1-jean-philippe@linaro.org>
- <20201008171558.410886-9-jean-philippe@linaro.org>
- <20201008152254.7bf6d8a7@w520.home>
 MIME-Version: 1.0
-In-Reply-To: <20201008152254.7bf6d8a7@w520.home>
+In-Reply-To: <20201008171558.410886-1-jean-philippe@linaro.org>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -95,53 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org,
- peterx@redhat.com, eric.auger@redhat.com, pbonzini@redhat.com,
- bbhushan2@marvell.com
+Cc: qemu-devel@nongnu.org, peterx@redhat.com, eric.auger@redhat.com,
+ alex.williamson@redhat.com, pbonzini@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 08, 2020 at 03:22:54PM -0600, Alex Williamson wrote:
-> On Thu,  8 Oct 2020 19:15:56 +0200
-> Jean-Philippe Brucker <jean-philippe@linaro.org> wrote:
+On Thu, Oct 08, 2020 at 07:15:48PM +0200, Jean-Philippe Brucker wrote:
+> This series adds support for VFIO endpoints to virtio-iommu.
 > 
-> > From: Bharat Bhushan <bbhushan2@marvell.com>
-> > 
-> > Set IOMMU supported page size mask same as host Linux supported page
-> > size mask.
-> > 
-> > Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-> > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> > ---
-> >  hw/vfio/common.c | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > index 13471ae2943..e66054b02a7 100644
-> > --- a/hw/vfio/common.c
-> > +++ b/hw/vfio/common.c
-> > @@ -636,6 +636,14 @@ static void vfio_listener_region_add(MemoryListener *listener,
-> >                              int128_get64(llend),
-> >                              iommu_idx);
-> >  
-> > +        ret = memory_region_iommu_set_page_size_mask(giommu->iommu,
-> > +                                                     container->pgsizes,
-> > +                                                     &err);
-> > +        if (ret) {
-> > +            g_free(giommu);
-> > +            goto fail;
-> > +        }
-> > +
-> >          ret = memory_region_register_iommu_notifier(section->mr, &giommu->n,
-> >                                                      &err);
-> >          if (ret) {
+> Versions 1 to 9 were posted by Bharat Bhushan, but I am taking over for
+> now since he doesn't have much time to spend on it. Thanks again Bharat
+> for the work!
+
+ok so just minor things left, correct? Do you plan to post v11?
+
+> Two major changes since [v9]:
 > 
-> Acked-by: Alex Williamson <alex.williamson@redhat.com>
-
-This one too, seems independent of the rest of the
-patchset and can be merged separately, right?
-If so
-
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+> * Don't use per-endoint page_size_mask properties. Instead keep a global
+>   page size for the virtio-iommu device, updated when adding a VFIO
+>   endpoint. Reject hotplug if the page size is incompatible.
+> 
+> * Try to make the MAP/UNMAP paths more efficient, by keeping track of
+>   memory region within the endpoint structure.
+> 
+> More testing would be appreciated, since I can only test using a software
+> model as host at the moment. But it does seem to hold well with PCIe
+> hotplug/unplug, and pass-through to guest userspace, which are no mean
+> feat.
+> 
+> Note that one page size combination is not supported: host 64kB guest
+> 4kB cannot work, because the host IOMMU driver will automatically pick
+> 64kB pages which prevents mapping at a smaller granule. Supporting this
+> case would require introducing a page size negotiation mechanism from
+> the guest all the way to the host IOMMU driver. Possible, but not
+> planned at the moment.
+> 
+> [v9] https://lore.kernel.org/qemu-devel/20200323084617.1782-1-bbhushan2@marvell.com/
+> 
+> Bharat Bhushan (7):
+>   virtio-iommu: Add memory notifiers for map/unmap
+>   virtio-iommu: Call memory notifiers in attach/detach
+>   virtio-iommu: Add replay() memory region callback
+>   virtio-iommu: Add notify_flag_changed() memory region callback
+>   memory: Add interface to set iommu page size mask
+>   vfio: Set IOMMU page size as per host supported page size
+>   virtio-iommu: Set supported page size mask
+> 
+> Jean-Philippe Brucker (3):
+>   virtio-iommu: Fix virtio_iommu_mr()
+>   virtio-iommu: Store memory region in endpoint struct
+>   vfio: Don't issue full 2^64 unmap
+> 
+>  include/exec/memory.h    |  26 +++++
+>  hw/vfio/common.c         |  19 ++++
+>  hw/virtio/virtio-iommu.c | 204 ++++++++++++++++++++++++++++++++++++++-
+>  softmmu/memory.c         |  13 +++
+>  hw/virtio/trace-events   |   5 +
+>  5 files changed, 265 insertions(+), 2 deletions(-)
+> 
+> -- 
+> 2.28.0
 
 
