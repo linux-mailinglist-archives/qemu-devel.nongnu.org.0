@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC362A05CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:50:32 +0100 (CET)
-Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9CEA2A05DF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:53:30 +0100 (CET)
+Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTrT-0005Yj-5f
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:50:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
+	id 1kYTuL-0000eE-Le
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:53:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmS-0000Rt-AV
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:21 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48652)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmW-0000TD-Jk
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:24 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmP-0000Rh-Ke
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:19 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmU-0000Y0-4R
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061917;
+ s=mimecast20190719; t=1604061920;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=smveN6Rzbijww7fMqUTE3pDIKVjvYutAyE50uFiM4wM=;
- b=Wu26BOEq1hFX+yeQmadOGe5swZADmGF7OcDju5MET+gco5VdB+Rti/PXeWiJjO4RngON5l
- KlWZOjF1SwC/wGuc2qBI+E1Oe0iyuhf68vpN5joRHuzJWsQkJeHBlgWMdJogmRw8gti7Ms
- FRIhwrd8Iz5tmOwDgOyIgnqNbvj0xbY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-261-ylUlWg9DPLyAIDBNyiozmg-1; Fri, 30 Oct 2020 08:45:14 -0400
-X-MC-Unique: ylUlWg9DPLyAIDBNyiozmg-1
-Received: by mail-wm1-f69.google.com with SMTP id t21so583338wmt.8
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:14 -0700 (PDT)
+ bh=LjrL669fVKay5a5661uPNZ920ikHdDz6ECFPczH1Ej8=;
+ b=GWfLjESrWyeaIiNwsO2yp0NfNgsz9e6PKCAX4CCoMxeuLEiFXebxEGTXWs0UYWFX2AECv4
+ iRTcF8tCX74XSp94QbdWKQHFX0uPKRiFPqn+qG6vs75l1YVoqdfci73cSVVCWwv9Yuao4O
+ FlyPzLMPzf3U42moI9e+HO2/N4JWMwA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-HW_7GY4TM-64BDBrW7oDSg-1; Fri, 30 Oct 2020 08:45:18 -0400
+X-MC-Unique: HW_7GY4TM-64BDBrW7oDSg-1
+Received: by mail-wr1-f70.google.com with SMTP id w1so2613722wrr.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:17 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=smveN6Rzbijww7fMqUTE3pDIKVjvYutAyE50uFiM4wM=;
- b=OeQTA3D6+LNTN0d8vZmEHMTKto5M0m4r2DmAgF5aRY8DiqlTOjZrzMiJhfCSPEB1pR
- ZxfBgJXcAcbef60dIsIExCQZSEnd1Gc8Z77S/6ddwA3VTwRt8dOnALY+j7i5xTvkSQzM
- cYlN9oxsZso9GFOd4/bdRODoGgz3hRDFZrwiWmZ6nwKWFlVBQerav3RV4ivgmqZWdOs2
- aUmnY56Mr+1XgojkquCY+p46ERGCyagAs+mzqrCVGd2hakhPBH7+G+a08DoOFrpIaGEV
- DUOs2XdSNhlmvJ7YoUpIISX6ZYGGx0UOiWNZ1Cz5bk1g/Jq8SocG4A4Ht7nkWsF3HdI6
- DOxw==
-X-Gm-Message-State: AOAM532C14PNT9TXVOg/Czdc3IMcV2JfBaqaMv7pCOI+aNvguoAAb4Y9
- Sqg8Wivsur6dkDWotiHhOJnRm97332H73HPfzZliMRmkrDkGmwW5zzksP5OhpPQFTfFPAZ5oWPT
- c8CzUUCy9+0FKY0c=
-X-Received: by 2002:a1c:190:: with SMTP id 138mr2348070wmb.113.1604061913431; 
- Fri, 30 Oct 2020 05:45:13 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUK2Or34hHYTLReg6pGYXi/hTH0MSt7yDxOZBFmolRsJrR1WASsmn2AWTmub0QRS/C609EAw==
-X-Received: by 2002:a1c:190:: with SMTP id 138mr2348046wmb.113.1604061913179; 
- Fri, 30 Oct 2020 05:45:13 -0700 (PDT)
+ bh=LjrL669fVKay5a5661uPNZ920ikHdDz6ECFPczH1Ej8=;
+ b=p1UC/yKirxZWkwwBPeFVswOg4+7rzG7aKAUcmOAFJGpwmyHlwNB5LF2E14aK4p3Gyh
+ Tq2WsBYWzpOWjLRw5ND3uwD/TEc8N3AtT4UveqTvYxnD14CLUEifVIcBdgzeeh2EmZS7
+ o5pkX2DJ3y2Gyrtz4JYx+DTXJhvcaF686UL/xzShttn/f70W+f6Jv4lyVijgYYMu2MqH
+ LZxfutPfQpwtyjLUD96LobW/TKxFpxMobmUD/f0Okf02gZZYuNtkT78Rvk4mRGjwOvER
+ jpr/A929kP87rKstSDkbKNx0lyZMBVKEYXHZLExABP26L/V6ycUDCzp2kRjDIo6Zuvs3
+ y9zg==
+X-Gm-Message-State: AOAM5339lRBzDokwtEwC2KnQGzphW61orTqMWr4+Qw5GhvdjinMatke4
+ YkRzTp3SDJYUoqAm1JAVD3NyEfK+1clRnxYO0f1Mp8zZIMLas+1K8F0bkVtCUgAM6J44QXbkoX9
+ gCtdyt4OiD+4pRMM=
+X-Received: by 2002:a1c:5545:: with SMTP id j66mr2578812wmb.31.1604061915888; 
+ Fri, 30 Oct 2020 05:45:15 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy9qlYBhg8YsvJxKm3VZiyiGOpIGpwHAaxWGhiM2LOLgxqWRSuMS0m/iR3yujXtYMPInGgRPQ==
+X-Received: by 2002:a1c:5545:: with SMTP id j66mr2578783wmb.31.1604061915671; 
+ Fri, 30 Oct 2020 05:45:15 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id p9sm4466695wma.12.2020.10.30.05.45.11
+ by smtp.gmail.com with ESMTPSA id i33sm10833100wri.79.2020.10.30.05.45.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:12 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:10 -0400
+ Fri, 30 Oct 2020 05:45:15 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:13 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/15] acpi/crs: Prevent bad ranges for host bridges
-Message-ID: <20201030124454.854286-4-mst@redhat.com>
+Subject: [PULL 04/15] acpi/crs: Support ranges > 32b for hosts
+Message-ID: <20201030124454.854286-5-mst@redhat.com>
 References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,35 +103,44 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Ben Widawsky <ben.widawsky@intel.com>
 
-Prevent _CRS resources being quietly chopped off and instead throw an
-assertion. _CRS is used by host bridges to declare regions of io and/or
-memory that they consume. On some (all?) platforms the host bridge
-doesn't have PCI header space and so they need some way to convey the
-information.
+According to PCIe spec 5.0 Type 1 header space Base Address Registers
+are defined by 7.5.1.2.1 Base Address Registers (same as Type 0). The
+_CRS region should allow for the same range (up to 64b). Prior to this
+change, any host bridge utilizing more than 32b for the BAR would have
+the address truncated and likely lead to conflicts when the operating
+systems reads the _CRS object.
 
 Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 
-Message-Id: <20201026193924.985014-1-ben.widawsky@intel.com>
+Message-Id: <20201026193924.985014-2-ben.widawsky@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/i386/acpi-build.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index e3a4bc206c..98ff9f5cef 100644
+index 98ff9f5cef..4f66642d88 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -866,6 +866,8 @@ static Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
-     crs_range_merge(temp_range_set.mem_ranges);
-     for (i = 0; i < temp_range_set.mem_ranges->len; i++) {
-         entry = g_ptr_array_index(temp_range_set.mem_ranges, i);
-+        assert(entry->limit <= UINT32_MAX &&
-+               (entry->limit - entry->base + 1) <= UINT32_MAX);
-         aml_append(crs,
-                    aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
-                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
+@@ -786,8 +786,14 @@ static Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+                 crs_range_insert(temp_range_set.io_ranges,
+                                  range_base, range_limit);
+             } else { /* "memory" */
+-                crs_range_insert(temp_range_set.mem_ranges,
+-                                 range_base, range_limit);
++                uint64_t length = range_limit - range_base + 1;
++                if (range_limit <= UINT32_MAX && length <= UINT32_MAX) {
++                    crs_range_insert(temp_range_set.mem_ranges, range_base,
++                                     range_limit);
++                } else {
++                    crs_range_insert(temp_range_set.mem_64bit_ranges,
++                                     range_base, range_limit);
++                }
+             }
+         }
+ 
 -- 
 MST
 
