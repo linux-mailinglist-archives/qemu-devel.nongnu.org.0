@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AC542A0D1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 19:09:30 +0100 (CET)
-Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF412A0D2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 19:12:54 +0100 (CET)
+Received: from localhost ([::1]:58524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYYq9-0001RW-Aq
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 14:09:29 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44876)
+	id 1kYYtR-0005Pc-VQ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 14:12:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kYYmx-00059u-0E
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:06:11 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45684)
+ id 1kYYmt-00059Y-Ce
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:06:08 -0400
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38254)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1kYYmm-0004qu-49
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:06:10 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a9so7414032wrg.12
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 11:05:57 -0700 (PDT)
+ id 1kYYmn-0004qz-Pc
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 14:06:07 -0400
+Received: by mail-wm1-x32a.google.com with SMTP id l8so3745943wmg.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 11:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=12Ju8kXQSFpn0papdnxccSNLTxeP7E2Kw7ISAbJMDvA=;
- b=gnHqDIsVm60CzSvp3ox9M41hiKc0xgMyTHFXNxMiCYt9+Hc7FXB3f3JQdpN6xctB65
- 17tPqA3r6A5TiHmwMlYTfmNqHG+bJuhsw5JK7dUAhIEe/n+xdL+nNOfQkrFDfBcNuRcV
- tsEgz1Dz8+YwrzDwkxQQhjcT/jX/GhaGv7K4mVI6mu2razq1xXywif76cD1aHXOyP9YV
- AzN6OAJ+DP9iZsQEhN8EXNcwiGD+FEPORgnkWN1OB3i5qdJdzmnVfScp2KbLNePy0TrA
- T/31/OODvxU3jZUcC7FtJMAKcQzrFybCg5e3hG/AYO57GrzFZnPjlqWM2g6JMiel57q5
- LQPg==
+ bh=Dg6KgMRhe+BDU/aQn0+rRvWHE//ly0GmnJbDrG3nhDE=;
+ b=HpJEUqpVFuZPcKweNR+djPDKqDFedR/o2qpdMNLvABKExA2TPXSgJ7JxXoWngFAmx3
+ V/NSmJrOk5L+nMXKZHqTnYv+KjSjL7i4mQKUT0XxTnuLbGTgDuqpNtkvFrlMb4+fXEHW
+ gWZqqQN75cbM0s7SYbg4+gFuxcXN6U7bsyEEbic1jq/ILoMo03CMZa437sZavEXUIUIl
+ oDbWFkJ+81nhKA7rZbExldBmTffNe1cyKGk9TwS9zo1btTje3owy1dnTosr3iXWi8PYt
+ WdurYylCGWV2unzSmAyVGhGoG1yg+td/zuTI8/h/HmsHk4xX3LFLOyzV9xYNFd5wRL35
+ jFDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=12Ju8kXQSFpn0papdnxccSNLTxeP7E2Kw7ISAbJMDvA=;
- b=oqzsxvug3Fn8rI0YHS6M/GfYZpyKU1kZ7p6BuBZB62SAEfb9ClTVc8raDzLE2Jjh3p
- pOt3Tx6Ko6Jlgy3A2gOWyUJ2o7ZFQooLzwpTqnbI8gRfp5FHYC7KU/xuk+WV6EHWdj6G
- MspPBotLgVOG6xZeRdv7MtmsfP37qir5sZ5+/4QZJUEP882W65KLuQLUpYE+ZCtrRkyp
- v0larOvciFY3MuE+1sPPtR+ne/nMPOQ5BNzDfxu4UCX01uwF0FecxXVWC+Y4EaBXsqLa
- JMjkf31BQpTL0KVqY+S9cl55VRUCBxMkqjT9l2agT+pC4bHKbydA/8i1QTXgGYDpJ6/y
- 4GXQ==
-X-Gm-Message-State: AOAM531E0T3Qzt089bfvh1Z31gl1ZyHT1b+cvPv3JuOIDoj4RCtpacnc
- CWHYArPq7ipEl5yba3KcOoNxCg==
-X-Google-Smtp-Source: ABdhPJwbx4BxAg0T9Wm7S4xKTvG8ISfboebdWxrXsuZnP4IbjVwQLiW45u0wJrbGmuNDyC9noc0ROg==
-X-Received: by 2002:adf:80c8:: with SMTP id 66mr4795705wrl.415.1604081156768; 
- Fri, 30 Oct 2020 11:05:56 -0700 (PDT)
+ bh=Dg6KgMRhe+BDU/aQn0+rRvWHE//ly0GmnJbDrG3nhDE=;
+ b=EK94SQTvEhGGojHxfq64a9uSmxPF8+4WGuEmUhBMyNqQtxsus2mxHRkxCfdBazeCUW
+ N+E27qviu7bozgpPZsHnY9PtNoYrQxp5jZ6xniwurIXbYM9/Jj/BHuitvRuYaNSTd58/
+ oARP6wRBWxo8/JJ0MtnNSAJNGE1ZPI4MQPUrk3X0T3YCJE07k22nusAmFy3aKv6L1VYj
+ C+qcOyF6ijnPIJE7XpFvcJhuqswK8lIHLNLkuBEtEnbecUwLqAwSoV14I1rR8uFMzDpM
+ R8eqkuKCa3IKt97cm5r1Uo221/9UEsT68eFf4yGAD/d4ONZ0dBZH44XehzxNbWxgy64k
+ SLLg==
+X-Gm-Message-State: AOAM532Yh+9vKI7ORtv86aicveW/ElgniTPcL7EJ61c1hcd3qh41SCXZ
+ RN+L/ovM73jGJcVT+NUSyrnToA==
+X-Google-Smtp-Source: ABdhPJy3/qP4TMDnHcXus1pOkM+f0hcMY2/bDgqtnQRcC9NNwauMYaaelvovxL5LYEb6mZDalSqDLw==
+X-Received: by 2002:a1c:e006:: with SMTP id x6mr4150190wmg.107.1604081158148; 
+ Fri, 30 Oct 2020 11:05:58 -0700 (PDT)
 Received: from localhost.localdomain
  ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id u3sm10044438wro.33.2020.10.30.11.05.55
+ by smtp.gmail.com with ESMTPSA id u3sm10044438wro.33.2020.10.30.11.05.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 11:05:55 -0700 (PDT)
+ Fri, 30 Oct 2020 11:05:57 -0700 (PDT)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: eric.auger@redhat.com,
 	alex.williamson@redhat.com
-Subject: [PATCH v11 08/10] vfio: Set IOMMU page size as per host supported
- page size
-Date: Fri, 30 Oct 2020 19:05:08 +0100
-Message-Id: <20201030180510.747225-9-jean-philippe@linaro.org>
+Subject: [PATCH v11 09/10] virtio-iommu: Set supported page size mask
+Date: Fri, 30 Oct 2020 19:05:09 +0100
+Message-Id: <20201030180510.747225-10-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201030180510.747225-1-jean-philippe@linaro.org>
 References: <20201030180510.747225-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,37 +94,104 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bharat Bhushan <bbhushan2@marvell.com>
 
-Set IOMMU supported page size mask same as host Linux supported page
-size mask.
+The virtio-iommu device can deal with arbitrary page sizes for virtual
+endpoints, but for endpoints assigned with VFIO it must follow the page
+granule used by the host IOMMU driver.
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
+Implement the interface to set the vIOMMU page size mask, called by VFIO
+for each endpoint. We assume that all host IOMMU drivers use the same
+page granule (the host page granule). Override the page_size_mask field
+in the virtio config space.
+
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
+v11: Simplify the update logic slightly
 ---
- hw/vfio/common.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/virtio/virtio-iommu.c | 50 ++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/trace-events   |  1 +
+ 2 files changed, 51 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 13471ae2943..e66054b02a7 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -636,6 +636,14 @@ static void vfio_listener_region_add(MemoryListener *listener,
-                             int128_get64(llend),
-                             iommu_idx);
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index 78e07aa40a5..fc5c75d6933 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -899,6 +899,55 @@ static int virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
+     return 0;
+ }
  
-+        ret = memory_region_iommu_set_page_size_mask(giommu->iommu,
-+                                                     container->pgsizes,
-+                                                     &err);
-+        if (ret) {
-+            g_free(giommu);
-+            goto fail;
-+        }
++/*
++ * The default mask (TARGET_PAGE_MASK) is the smallest supported guest granule,
++ * for example 0xfffffffffffff000. When an assigned device has page size
++ * restrictions due to the hardware IOMMU configuration, apply this restriction
++ * to the mask.
++ */
++static int virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
++                                           uint64_t new_mask,
++                                           Error **errp)
++{
++    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
++    VirtIOIOMMU *s = sdev->viommu;
++    uint64_t cur_mask = s->config.page_size_mask;
 +
-         ret = memory_region_register_iommu_notifier(section->mr, &giommu->n,
-                                                     &err);
-         if (ret) {
++    trace_virtio_iommu_set_page_size_mask(mr->parent_obj.name, cur_mask,
++                                          new_mask);
++
++    if ((cur_mask & new_mask) == 0) {
++        error_setg(errp, "virtio-iommu page mask 0x%"PRIx64
++                   " is incompatible with mask 0x%"PRIx64, cur_mask, new_mask);
++        return -1;
++    }
++
++    /*
++     * After the machine is finalized, we can't change the mask anymore. If by
++     * chance the hotplugged device supports the same granule, we can still
++     * accept it. Having a different masks is possible but the guest will use
++     * sub-optimal block sizes, so warn about it.
++     */
++    if (qdev_hotplug) {
++        int new_granule = ctz64(new_mask);
++        int cur_granule = ctz64(cur_mask);
++
++        if (new_granule != cur_granule) {
++            error_setg(errp, "virtio-iommu page mask 0x%"PRIx64
++                       " is incompatible with mask 0x%"PRIx64, cur_mask,
++                       new_mask);
++            return -1;
++        } else if (new_mask != cur_mask) {
++            warn_report("virtio-iommu page mask 0x%"PRIx64
++                        " does not match 0x%"PRIx64, cur_mask, new_mask);
++        }
++        return 0;
++    }
++
++    s->config.page_size_mask &= new_mask;
++    return 0;
++}
++
+ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+@@ -1130,6 +1179,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
+     imrc->translate = virtio_iommu_translate;
+     imrc->replay = virtio_iommu_replay;
+     imrc->notify_flag_changed = virtio_iommu_notify_flag_changed;
++    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
+ }
+ 
+ static const TypeInfo virtio_iommu_info = {
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index 982d0002a65..2060a144a2f 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -109,6 +109,7 @@ virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start,
+ virtio_iommu_notify_map(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64" flags=%d"
+ virtio_iommu_notify_unmap(const char *name, uint64_t virt_start, uint64_t virt_end) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64
+ virtio_iommu_remap(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64
++virtio_iommu_set_page_size_mask(const char *name, uint64_t old, uint64_t new) "mr=%s old_mask=0x%"PRIx64" new_mask=0x%"PRIx64
+ virtio_iommu_notify_flag_add(const char *name) "add notifier to mr %s"
+ virtio_iommu_notify_flag_del(const char *name) "del notifier from mr %s"
+ 
 -- 
 2.29.1
 
