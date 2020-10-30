@@ -2,33 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EA9929FCBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:38:11 +0100 (CET)
-Received: from localhost ([::1]:53182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DAC329FCBB
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:38:08 +0100 (CET)
+Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYMAz-0005Yz-1C
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:38:10 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35188)
+	id 1kYMAw-0005Xw-MI
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:38:06 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kYM9W-0004Td-Mg; Fri, 30 Oct 2020 00:36:38 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2120)
+ id 1kYM9W-0004Tg-SX; Fri, 30 Oct 2020 00:36:38 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kYM9U-00016X-4k; Fri, 30 Oct 2020 00:36:38 -0400
+ id 1kYM9U-00016b-9q; Fri, 30 Oct 2020 00:36:38 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMqJX32rrz6vmm;
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMqJX2t6Wz6vgC;
  Fri, 30 Oct 2020 12:36:28 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
  12:36:18 +0800
 From: Xinhao Zhang <zhangxinhao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 2/3] hw/9pfs : open brace '{' following struct go on the
- same line
-Date: Fri, 30 Oct 2020 12:35:14 +0800
-Message-ID: <20201030043515.1030223-2-zhangxinhao1@huawei.com>
+Subject: [PATCH v3 3/3] hw/9pfs : add space before the open parenthesis '('
+Date: Fri, 30 Oct 2020 12:35:15 +0800
+Message-ID: <20201030043515.1030223-3-zhangxinhao1@huawei.com>
 X-Mailer: git-send-email 2.29.0-rc1
 In-Reply-To: <20201030043515.1030223-1-zhangxinhao1@huawei.com>
 References: <20201030043515.1030223-1-zhangxinhao1@huawei.com>
@@ -64,50 +63,29 @@ Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu_oss@crudebyte.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix code style. Open braces for struct should go on the same line.
+Fix code style. Space required before the open parenthesis '('.
 
 Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 ---
- hw/9pfs/9p.h | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ hw/9pfs/cofs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 3dd1b50b1a..32df81f360 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -143,8 +143,7 @@ typedef struct {
-  */
- QEMU_BUILD_BUG_ON(sizeof(P9MsgHeader) != 7);
+diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
+index 55991916ec..0b321b456e 100644
+--- a/hw/9pfs/cofs.c
++++ b/hw/9pfs/cofs.c
+@@ -23,7 +23,7 @@ static ssize_t __readlink(V9fsState *s, V9fsPath *path, V9fsString *buf)
+     ssize_t len, maxlen = PATH_MAX;
  
--struct V9fsPDU
--{
-+struct V9fsPDU {
-     uint32_t size;
-     uint16_t tag;
-     uint8_t id;
-@@ -270,8 +269,7 @@ union V9fsFidOpenState {
-     void *private;
- };
- 
--struct V9fsFidState
--{
-+struct V9fsFidState {
-     int fid_type;
-     int32_t fid;
-     V9fsPath path;
-@@ -338,8 +336,7 @@ typedef struct {
-     uint64_t path;
- } QpfEntry;
- 
--struct V9fsState
--{
-+struct V9fsState {
-     QLIST_HEAD(, V9fsPDU) free_list;
-     QLIST_HEAD(, V9fsPDU) active_list;
-     V9fsFidState *fid_list;
+     buf->data = g_malloc(PATH_MAX);
+-    for(;;) {
++    for (;;) {
+         len = s->ops->readlink(&s->ctx, path, buf->data, maxlen);
+         if (len < 0) {
+             g_free(buf->data);
 -- 
 2.29.0-rc1
 
