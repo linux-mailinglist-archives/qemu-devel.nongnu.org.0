@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C1C929F9F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:48:35 +0100 (CET)
-Received: from localhost ([::1]:43226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2516229FA08
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 01:53:15 +0100 (CET)
+Received: from localhost ([::1]:58586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIao-00025K-E9
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:48:34 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45014)
+	id 1kYIfK-0008Sg-6B
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 20:53:14 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITt-0001ao-8X; Thu, 29 Oct 2020 20:41:25 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2060)
+ id 1kYITv-0001ff-2D; Thu, 29 Oct 2020 20:41:27 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kYITq-00014N-Dr; Thu, 29 Oct 2020 20:41:24 -0400
+ id 1kYITs-00014T-0H; Thu, 29 Oct 2020 20:41:26 -0400
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CMk5G3Bpdzhd2m;
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CMk5G3cqJzhd8P;
  Fri, 30 Oct 2020 08:41:22 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
- 08:41:09 +0800
+ 08:41:10 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2 5/8] target/sparc/translate: silence the compiler warnings
-Date: Fri, 30 Oct 2020 08:40:43 +0800
-Message-ID: <20201030004046.2191790-6-kuhn.chenqun@huawei.com>
+Subject: [PATCH v2 6/8] target/sparc/win_helper: silence the compiler warnings
+Date: Fri, 30 Oct 2020 08:40:44 +0800
+Message-ID: <20201030004046.2191790-7-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
 References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
@@ -60,48 +60,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: zhang.zhanghailiang@huawei.com,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>,
  ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
  Chen Qun <kuhn.chenqun@huawei.com>, Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-target/sparc/translate.c: In function ‘gen_st_asi’:
-target/sparc/translate.c:2320:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
- 2320 |         if (!(dc->def->features & CPU_FEATURE_HYPV)) {
-      |            ^
-target/sparc/translate.c:2329:5: note: here
- 2329 |     case GET_ASI_DIRECT:
+target/sparc/win_helper.c: In function ‘get_gregset’:
+target/sparc/win_helper.c:304:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  304 |         trace_win_helper_gregset_error(pstate);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+target/sparc/win_helper.c:306:5: note: here
+  306 |     case 0:
       |     ^~~~
 
-The "fall through" statement place is not correctly identified by the compiler.
+Add the corresponding "fall through" comment to fix it.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
+v1->v2: Combine the /* fall through */ to the preceding comments
+(Base on Philippe's comments).
+
+Cc: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Cc: Artyom Tarasenko <atar4qemu@gmail.com>
 ---
- target/sparc/translate.c | 2 +-
+ target/sparc/win_helper.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/sparc/translate.c b/target/sparc/translate.c
-index 1a4efd4ed6..a3d9aaa46b 100644
---- a/target/sparc/translate.c
-+++ b/target/sparc/translate.c
-@@ -2324,8 +2324,8 @@ static void gen_st_asi(DisasContext *dc, TCGv src, TCGv addr,
-         }
-         /* in OpenSPARC T1+ CPUs TWINX ASIs in store instructions
-          * are ST_BLKINIT_ ASIs */
--        /* fall through */
- #endif
-+        /* fall through */
-     case GET_ASI_DIRECT:
-         gen_address_mask(dc, addr);
-         tcg_gen_qemu_st_tl(src, addr, da.mem_idx, da.memop);
+diff --git a/target/sparc/win_helper.c b/target/sparc/win_helper.c
+index 8290a21142..e78660b60a 100644
+--- a/target/sparc/win_helper.c
++++ b/target/sparc/win_helper.c
+@@ -302,7 +302,7 @@ static inline uint64_t *get_gregset(CPUSPARCState *env, uint32_t pstate)
+     switch (pstate) {
+     default:
+         trace_win_helper_gregset_error(pstate);
+-        /* pass through to normal set of global registers */
++        /* fall through to normal set of global registers */
+     case 0:
+         return env->bgregs;
+     case PS_AG:
 -- 
 2.27.0
 
