@@ -2,62 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D864B2A0116
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 10:19:23 +0100 (CET)
-Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BA472A015B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 10:24:58 +0100 (CET)
+Received: from localhost ([::1]:59548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYQZ8-00089T-Vb
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 05:19:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57534)
+	id 1kYQeX-0002Oh-4J
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 05:24:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kYQXb-0007By-Fs
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:17:48 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26845)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kYQdN-0001yY-HY
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:23:45 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29121)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kYQXX-0000oE-6o
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:17:47 -0400
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kYQdL-0002yl-0d
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:23:45 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604049461;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YbEezLcbNvMN6Yp8g+3s0l+AzAUc/ApccLNKxoEqWJw=;
- b=NyHV5WzF3cpEMZsZ/izwiyP6Db//gYl7PJXbHCBD0aE1aYBHz9NqlFi6fBl7Wz3SZGEKJw
- z2nBddEJtpFiy0jgjicbSFrmKVpSaVOt3jDiG50eReg5gfba1hUlXS2SiZt39ipS/hgDZc
- xed4ECxuwXJi3cCZxhaAQjcmx4/OOQI=
+ s=mimecast20190719; t=1604049821;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=n5MK7qC0Y+mReXFtRePz/SIcCZsLWDOPZnNTG+Tlycs=;
+ b=aMdJghSXjYL617TWISKBeIlBtuq1cxDrpGEs4jBt56V56FWusL6+0T5PYpbrQRP/yrJAaW
+ smCNp9OZnxM3Xc5/rXlyyg83gajY8AcBzGvK2hDKx6ygx0KEncWOWXqESu9VRiybhREeNU
+ bJNg4f8lTpdEOq+UZr7loVRuitF+1Tc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-dKKojUB9MkmzpJXT7pKxWg-1; Fri, 30 Oct 2020 05:17:38 -0400
-X-MC-Unique: dKKojUB9MkmzpJXT7pKxWg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-568-SNUxL_PiOv-lyaL61XbN_w-1; Fri, 30 Oct 2020 05:23:39 -0400
+X-MC-Unique: SNUxL_PiOv-lyaL61XbN_w-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FC9D1868422;
- Fri, 30 Oct 2020 09:17:31 +0000 (UTC)
-Received: from localhost (ovpn-113-41.ams2.redhat.com [10.36.113.41])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7744B19C71;
- Fri, 30 Oct 2020 09:16:37 +0000 (UTC)
-Date: Fri, 30 Oct 2020 09:16:36 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11ADD803F50;
+ Fri, 30 Oct 2020 09:23:38 +0000 (UTC)
+Received: from redhat.com (ovpn-113-50.ams2.redhat.com [10.36.113.50])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 76D495DA6B;
+ Fri, 30 Oct 2020 09:23:26 +0000 (UTC)
+Date: Fri, 30 Oct 2020 09:23:24 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: John Snow <jsnow@redhat.com>
 Subject: Re: Migrating to the gitlab issue tracker
-Message-ID: <20201030091636.GD307361@stefanha-x1.localdomain>
+Message-ID: <20201030092324.GC99222@redhat.com>
 References: <bda4f471-8ed6-3832-29ac-279a6d3bb7cc@redhat.com>
+ <20201029174114.47e2b351.cohuck@redhat.com>
+ <CAKmqyKOY+5WcxUg3Rvq2t3vYWOHrHQdhcv8PkiqZX2zVMdqJ3Q@mail.gmail.com>
+ <3713093e-bf3b-bf23-a8d0-70fe429032ba@redhat.com>
+ <c7308133-cf29-8668-f781-6d025eb16722@redhat.com>
+ <3d9b264a-5e1f-b936-8455-bafc6b89ebe5@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <bda4f471-8ed6-3832-29ac-279a6d3bb7cc@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <3d9b264a-5e1f-b936-8455-bafc6b89ebe5@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="osDK9TLjxFScVI/L"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -80,146 +85,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <cminyard@mvista.com>, Jeff Cody <codyprime@gmail.com>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Markus Armbruster <armbru@redhat.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>,
- Klaus Jensen <its@irrelevant.dk>, Alberto Garcia <berto@igalia.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- Ben Warren <ben@skyportsystems.com>, Halil Pasic <pasic@linux.ibm.com>,
- Kamil Rytarowski <kamil@netbsd.org>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Laszlo Ersek <lersek@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Brad Smith <brad@comstyle.com>, Laurent Vivier <lvivier@redhat.com>,
- Jiri Pirko <jiri@resnulli.us>, Eduardo Habkost <ehabkost@redhat.com>,
- Xie Changlong <xiechanglong.d@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
- Peter Lieven <pl@kamp.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Beniamino Galvani <b.galvani@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
- Alex Williamson <alex.williamson@redhat.com>,
- Ronnie Sahlberg <ronniesahlberg@gmail.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aarushi Mehta <mehta.aaru20@gmail.com>, Richard Henderson <rth@twiddle.net>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Ed Maste <emaste@freebsd.org>, Chris Wulff <crwulff@gmail.com>,
- Laurent Vivier <laurent@vivier.eu>, Coiby Xu <Coiby.Xu@gmail.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Stefan Berger <stefanb@linux.ibm.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Igor Mammedov <imammedo@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Anup Patel <anup.patel@wdc.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
- David Hildenbrand <david@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Thomas Huth <thuth@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
- Su Hang <suhang16@mails.ucas.ac.cn>,
- Alistair Francis <alistair.francis@wdc.com>, "Denis V. Lunev" <den@openvz.org>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>, Hannes Reinecke <hare@suse.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, Zhang Chen <chen.zhang@intel.com>,
- Gonglei <arei.gonglei@huawei.com>, Radoslaw Biernacki <rad@semihalf.com>,
- Liu Yuan <namei.unix@gmail.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Eric Farman <farman@linux.ibm.com>, Corey Minyard <minyard@acm.org>,
- Stefan Weil <sw@weilnetz.de>, Julia Suvorova <jusual@redhat.com>,
- Greg Kurz <groug@kaod.org>, Cameron Esfahani <dirty@apple.com>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Stafford Horne <shorne@gmail.com>, Paul Burton <paulburton@kernel.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Tyrone Ting <kfting@nuvoton.com>, Wenchao Wang <wenchao.wang@intel.com>,
- Michael Rolnik <mrolnik@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>, Paul Durrant <paul@xen.org>,
- Anthony Green <green@moxielogic.com>, Bin Meng <bin.meng@windriver.com>,
- Peter Xu <peterx@redhat.com>, Colin Xu <colin.xu@intel.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Ari Sundholm <ari@tuxera.com>,
- Rob Herring <robh@kernel.org>, Juan Quintela <quintela@redhat.com>,
- Michael Roth <mdroth@linux.vnet.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Antony Pavlov <antonynpavlov@gmail.com>, Jason Dillaman <dillaman@redhat.com>,
- Joel Stanley <joel@jms.id.au>, Sergio Lopez <slp@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Fabien Chouteau <chouteau@adacore.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Cleber Rosa <crosa@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- Eduardo Otubo <otubo@redhat.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- "Richard W.M. Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Vincenzo Maffione <v.maffione@gmail.com>, Huacai Chen <chenhc@lemote.com>,
- Jiri Slaby <jslaby@suse.cz>, Peter Chubb <peter.chubb@nicta.com.au>,
- Marek Vasut <marex@denx.de>, Jia Liu <proljc@gmail.com>,
- Sven Schnelle <svens@stackframe.org>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>,
- Vikram Garhwal <fnu.vikram@xilinx.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
- Li-Wen Hsu <lwhsu@freebsd.org>, David Gibson <david@gibson.dropbear.id.au>,
- Tony Krowiak <akrowiak@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
- Thomas Huth <huth@tuxfamily.org>, Wen Congyang <wencongyang2@huawei.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair23@gmail.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---osDK9TLjxFScVI/L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, Oct 29, 2020 at 04:27:44PM -0400, John Snow wrote:
+> On 10/29/20 3:55 PM, Thomas Huth wrote:
+> > On 29/10/2020 18.12, John Snow wrote:
+> > > On 10/29/20 12:49 PM, Alistair Francis wrote:
+> > > > On Thu, Oct 29, 2020 at 9:41 AM Cornelia Huck <cohuck@redhat.com> wrote:
+> > > > > 
+> > > > > On Thu, 29 Oct 2020 12:01:27 -0400
+> > > > > John Snow <jsnow@redhat.com> wrote:
+> > > > > 
+> > > > > > If you're in the CC list, it's because you are listed in MAINTAINERS.
+> > > > > 
+> > > > > <cleared the cc: list except for qemu-devel :)>
+> > > > > 
+> > > > > > 
+> > > > > > Paolo's QEMU keynote this morning mentioned the possible use of the
+> > > > > > Gitlab issue tracker instead of using Launchpad.
+> > > > > > 
+> > > > > > I'm quite fond of the gitlab issue tracker, I think it works quite well
+> > > > > > and it has pretty good and uncomplicated API access to it in order to
+> > > > > > customize your workflow if you'd really like to.
+> > > > > > 
+> > > > > > In experimenting with my mirror on gitlab though, I was unable to find a
+> > > > > > way to configure it to send issue tracker notifications to the email
+> > > > > > list. A move to gitlab would likely mean, then:
+> > > > > > 
+> > > > > > 1. The cessation of (automatic) issue tracker mails to the list
+> > > > > > 2. The loss of the ability to update the issue tracker by replying to
+> > > > > > said emails
+> > > > > > 3. Anyone listed in MAINTAINERS would be expected to have a gitlab
+> > > > > > account in order to interact with the issue tracker.
+> > > > > 
+> > > > > The gitlab issue tracker is almost certainly is an improvement over
+> > > > > launchpad (and I do have a gitlab account); but not being able to
+> > > > > interact via email is at least annoying. I expect that not only
+> > > > > maintainers will want to interact with bug reports?
+> > > > > 
+> > > > > > 
+> > > > > > However, once you have a gitlab account, you DO gain the ability to
+> > > > > > receive emails for issues; possibly only those tagged with labels that
+> > > > > > you cared about -- giving a nice filtering mechanism to receive only
+> > > > > > bugs you care about.
+> > > > > > 
+> > > > > > Gitlab also does support individual accounts updating issues using a
+> > > > > > generated personalized email address, so if the email workflow is
+> > > > > > crucial to you, it is still available.
+> > > > > 
+> > > > > You mean that I can update via email, provided it's an address
+> > > > > associated with my account?
+> > > > > 
+> > > > > > 
+> > > > > > I'm for it, or at least for beginning a pilot program where we
+> > > > > > experiment with the idea for interested parties. I wanted to send up a
+> > > > > > trial balloon to see how we were feeling about this.
+> > > > 
+> > > > I'm not sure if you want Acks, but it sounds good to me.
+> > > > 
+> > > > Alistair
+> > > > 
+> > > 
+> > > Mostly I was looking for any hard objections over the idea of issues not
+> > > necessarily being sent to the list anymore, if there were any.
+> > > 
+> > > I want to hear from Thomas Huth too, but maybe we can work out a pilot
+> > > migration and give it a test-run and find more concrete objections that way.
+> > 
+> > I'd certainly give it a try! Launchpad is IMHO really a pain (let me know if
+> > I should elaborate on that topic again...), and the email bridge is often
+> > also not working correctly (replies to bug mails sometimes get put into the
+> > bug tracker, sometimes not), so this is not something I would really miss
+> > when we quite Launchpad.
+> > 
+> > So could somebody please enable the issue tracker there, so we can give it a
+> > try? Phil? Alex? Stefan? ...?
+> > 
+> > If it works well, I can certainly help to get the links etc. in our website
+> > fixed.
+> > 
+> 
+> Great! You are the primary bug wrangler, so if you are interested in
+> trialing it, I am interested in helping!
+> 
+> If we enable the bug tracker, can we please add Thomas and myself as
+> 'Reporter' level contributors to QEMU so we can wrangle bugs?
+> 
+> Info on permissions: https://docs.gitlab.com/ee/user/permissions.html
+> 
+> There's also an old bug (2 years) about migrating Launchpad to Gitlab, but
+> there's been no movement.
+> 
+> https://gitlab.com/gitlab-org/gitlab/-/issues/22600
+> 
+> If we like the results of the trial, we'll need a convincing migration
+> strategy.
 
-On Thu, Oct 29, 2020 at 12:01:27PM -0400, John Snow wrote:
-> In experimenting with my mirror on gitlab though, I was unable to find a =
-way
-> to configure it to send issue tracker notifications to the email list. A
-> move to gitlab would likely mean, then:
->=20
-> 1. The cessation of (automatic) issue tracker mails to the list
+My convincing strategy is "do nothing" :-)
 
-A bot could do this.
+Most importantly we need to be able to make the existing "QEMU" component
+in launch read-only to prevent people filing new bugs there, ideally with
+a change in the description to point people to the new bug tracker.
 
-> 2. The loss of the ability to update the issue tracker by replying to sai=
-d
-> emails
+We can leave existing bugs in LP to continue their discussion. If there
+are some we explicitly want in gitlab manually re-file them. Aside from
+that if we periodically auto-close any stale bugs, after a while we'll
+have culled launchpad down to zero.
 
-This is too bad. It's something I liked about Launchpad.
-
-> 3. Anyone listed in MAINTAINERS would be expected to have a gitlab accoun=
-t
-> in order to interact with the issue tracker.
-
-Maintainers should start running pull requests through the GitLab CI
-anyway, so this is probably okay.
-
-Stefan
-
---osDK9TLjxFScVI/L
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+b2fQACgkQnKSrs4Gr
-c8iADQf+NHqzAJ63Ay5im4sp8dRoXXESLD7m4lgwktOUJNQEpZ3WCRIi1mLrGf1L
-dAJMeRHWbwKlMg4Ad4LMq1WgrX7VccPOgxAf1ADmF7ttb+GuE4n/OQJL+RtRt/cF
-fTe2Clf0FtcsilBjgWd+Gu7GOX5ILmmSnTRt3cdJGSxOKsPBnXZOucpbZ4YxdrfN
-metM5uTxfBEf1lhHqgcb+OGq03yGCZEvJRFMilFjioaYX1U4kPnMiWhXWEOQ3OXt
-CsV/6yAdCf/i4IGT+o0SAW1a3RnTUL3xmMp/YY/5jcaPiQj+XbhfL0KCjyfQPF+3
-SxPEr/Km5y+S4xX0JhNNcMyE/J0lHg==
-=Sf70
------END PGP SIGNATURE-----
-
---osDK9TLjxFScVI/L--
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
