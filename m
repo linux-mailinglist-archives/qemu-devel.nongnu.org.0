@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E521D29FA37
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:03:53 +0100 (CET)
-Received: from localhost ([::1]:35944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F2DB29FA7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:22:35 +0100 (CET)
+Received: from localhost ([::1]:58790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYIpc-0005Xe-AK
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:03:52 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46872)
+	id 1kYJ7i-000201-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:22:34 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIc0-0004N3-UN
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:48 -0400
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37423)
+ id 1kYIc4-0004Tj-9A
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:52 -0400
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:37425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbx-0001rz-NV
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:48 -0400
-Received: by mail-pf1-x42d.google.com with SMTP id 13so3813623pfy.4
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:45 -0700 (PDT)
+ id 1kYIbz-0001s7-P4
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:50 -0400
+Received: by mail-pf1-x42f.google.com with SMTP id 13so3813658pfy.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kH58hAvJQddV+gmkJiQg38KIE2g2nGM8vibdHYkRrZc=;
- b=HfO/9XcB4uWJwX4YQdTwAr8b0aqlxs7EGkF5NdDiEENE/ENIsVnYWjJef5K1gGuCBf
- WGDb8PF4mqZ4yp4/lwG/y3Vqof0VFxF8GO6V7OTS1DsGuhBgZPLWWKdXSlrb2na608Hs
- IonnmbHaobxGGlokTe47h3YET9OfyQWCUPJOJRXDAfpRLMoBW/vE/RMVZmQUzB34HuWK
- N2GFDEsB9doGfH1yrmY8qKdbxaNXyNCTJUqoXOWvv8n/f6KUEvn4J/rQ8kOr3QcPSdTH
- KTCE19Udi1k82LwjfmGsuoyzvj7cdw05H2oCMlMesBtpOOO71AYUwVD3Tyv2A2IALf/1
- OQjg==
+ bh=5sZj0iMK7ubylfsLHfG7ZnZlvOfpvu4oqHrbQTSE0h8=;
+ b=brBZfapfvv/dF8l0rMBK5wXWMgZ92uTv18ETaALqmWMYfav6qJR+1gHFK98fJ0JRtD
+ ktjuUgJlFMaTgBpKc6WQqW74YSSBRM8F8gaFgai+ehoP4pMzN1cUd5BbSoI1XZ1LJejl
+ uwIbScuRokd9GLwIu+ss5+z9+TUTbA4S75eh3YHZWUPY3zFBxQONZYORARlVV28vctn2
+ YxttnW/qge1Qhw43lih97T3Tpk5yTMQtgR8CSyaXl3yE0OCoykDdXPl+9cuKqTwvA4Lu
+ 6nnaSMZ2AivndisNtyM+VS4fAkfzy14R+zZHxEbQv70i3SwIxlYFZrF0BCCTTlDUxryo
+ HJOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kH58hAvJQddV+gmkJiQg38KIE2g2nGM8vibdHYkRrZc=;
- b=qLdLzc38Ts71l8OU/TetaHIG8lLv5KxO1PIu+1r5+3AE99Kmns7r0tJuLlAz76xnDN
- R7cTwfOnP4NUR7iEh99jZr8xZvxxjinL+niFp/Ono1AYr7eZ+nL2SxHIbuHFfINsvacr
- LlTYG07BsgBgYipBABcdz/4qZwU7wkcYYP1aRaOIUsuuEXIMmP3/pFsaK4PVug0f0wAl
- wiRZjcmCCTaJzlOCVGNkBzI+P/WpP3vgkgyCSDmY0sYvq6iG+9DgYXlINd76bdH5oJ2P
- zheqpUbFzs3VXIMtBKX86kwJ6KL+TTiAD1bw5jDkGeVD5Q4DoOU7ARENWh7kB22tZpCX
- cdWg==
-X-Gm-Message-State: AOAM531yPs5h6dptdj9gyNkE8QGZ865w5lEiJuuLgZx5HtDQxtLHutQ1
- 4Z6chz2VSAj5zDLEOx7+00nMCX3zMVEaKQ==
-X-Google-Smtp-Source: ABdhPJxIN3X4Fakvn/arv07f26A4a2S1Jgo89ARkXO75tN2GD+rxz1uEHNlxJJoyM7VpAz2FpGdmKw==
-X-Received: by 2002:a65:6883:: with SMTP id e3mr5900352pgt.38.1604018983799;
- Thu, 29 Oct 2020 17:49:43 -0700 (PDT)
+ bh=5sZj0iMK7ubylfsLHfG7ZnZlvOfpvu4oqHrbQTSE0h8=;
+ b=REd7etlPsOc7YEHhR8wuM9sCprKSU7OPgXiMoFYjUoTMR+oL7BVwIoyq65yDbRv5DK
+ DQt2SIX3/TkEqOH6vgvnQ37L+IlNMeiedv0YNPvlBYJubC1qu6QQXSKh8nOsSwUJO2hr
+ K6r0Ylx2aC0pyQHSrX3eKaimt0oSqcvqMmKx0b08OJfHP+JO6qy0wTkxTH5WEaOJCP9y
+ BiCIB87sb3EwoVGtEbK2n6j7yhgJsZERw4w7sAGmHFG+p5Aw+ilnqILPX8Zq4Phjgi+A
+ bwwEfT8eF6GD+uzbH6yfT+SqrHsb6z7h20b3nB/+hYUWfYOzHVKCeRPLuv3G5gKKHuF6
+ ua3g==
+X-Gm-Message-State: AOAM533doHUdefyQ0KIqLroqCfJJGhpYjWcthGuX3fnzOeScEFEhWEGO
+ wbEHDO1tfp3IYS8DmZlc9ZxjJkNwgATyPA==
+X-Google-Smtp-Source: ABdhPJy4Fv4f4G5ylFAk5xj1caGQ+fXv7mfd0SEE2L8eWH3X0jzbYeI7Dqihl6x9m32YpmGlaSVKsQ==
+X-Received: by 2002:a63:e847:: with SMTP id a7mr2753160pgk.192.1604018985101; 
+ Thu, 29 Oct 2020 17:49:45 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.42
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:43 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 15/19] tcg: Return the rx mirror of TranslationBlock from
- exit_tb
-Date: Thu, 29 Oct 2020 17:49:17 -0700
-Message-Id: <20201030004921.721096-16-richard.henderson@linaro.org>
+Subject: [PATCH v2 16/19] tcg/i386: Support split-rwx code generation
+Date: Thu, 29 Oct 2020 17:49:18 -0700
+Message-Id: <20201030004921.721096-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,142 +88,107 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This produces a small pc-relative displacement within the
-generated code to the TB structure that preceeds it.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 35 ++++++++++++++++++++++-------------
- tcg/tcg-op.c         | 13 ++++++++++++-
- 2 files changed, 34 insertions(+), 14 deletions(-)
+ tcg/i386/tcg-target.h     |  2 +-
+ tcg/i386/tcg-target.c.inc | 20 +++++++++++---------
+ 2 files changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 4af3faba80..f3d17f28d0 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -144,12 +144,13 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
- #endif /* CONFIG USER ONLY */
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index 1b9d41bd56..bbbd1c2d4a 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -236,6 +236,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
+-#define TCG_TARGET_SUPPORT_MIRROR       0
++#define TCG_TARGET_SUPPORT_MIRROR       1
  
- /* Execute a TB, and fix up the CPU state afterwards if necessary */
--static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-+static inline TranslationBlock *cpu_tb_exec(CPUState *cpu,
-+                                            TranslationBlock *itb,
-+                                            int *tb_exit)
- {
-     CPUArchState *env = cpu->env_ptr;
-     uintptr_t ret;
-     TranslationBlock *last_tb;
--    int tb_exit;
-     const void *tb_ptr = itb->tc.ptr;
+ #endif
+diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+index 7f74c77d7f..e2c85381cd 100644
+--- a/tcg/i386/tcg-target.c.inc
++++ b/tcg/i386/tcg-target.c.inc
+@@ -165,7 +165,7 @@ static bool have_lzcnt;
+ # define have_lzcnt 0
+ #endif
  
-     qemu_log_mask_and_addr(CPU_LOG_EXEC, itb->pc,
-@@ -177,11 +178,20 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+-static tcg_insn_unit *tb_ret_addr;
++static const tcg_insn_unit *tb_ret_addr;
  
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
-     cpu->can_do_io = 1;
--    last_tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
--    tb_exit = ret & TB_EXIT_MASK;
--    trace_exec_tb_exit(last_tb, tb_exit);
-+    /*
-+     * TODO: Delay swapping back to the read-write mirror of the TB
-+     * until we actually need to modify the TB.  The read-only copy,
-+     * coming from the rx mirror, shares the same host TLB entry as
-+     * the code that executed the exit_tb opcode that arrived here.
-+     * If we insist on touching both the RX and the RW pages, we
-+     * double the host TLB pressure.
-+     */
-+    last_tb = tcg_mirror_rx_to_rw((void *)(ret & ~TB_EXIT_MASK));
-+    *tb_exit = ret & TB_EXIT_MASK;
- 
--    if (tb_exit > TB_EXIT_IDX1) {
-+    trace_exec_tb_exit(last_tb, *tb_exit);
-+
-+    if (*tb_exit > TB_EXIT_IDX1) {
-         /* We didn't start executing this TB (eg because the instruction
-          * counter hit zero); we must restore the guest PC to the address
-          * of the start of the TB.
-@@ -199,7 +209,7 @@ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
-             cc->set_pc(cpu, last_tb->pc);
+ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+                         intptr_t value, intptr_t addend)
+@@ -173,7 +173,7 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+     value += addend;
+     switch(type) {
+     case R_386_PC32:
+-        value -= (uintptr_t)code_ptr;
++        value -= (uintptr_t)tcg_mirror_rw_to_rx(code_ptr);
+         if (value != (int32_t)value) {
+             return false;
          }
+@@ -182,7 +182,7 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+         tcg_patch32(code_ptr, value);
+         break;
+     case R_386_PC8:
+-        value -= (uintptr_t)code_ptr;
++        value -= (uintptr_t)tcg_mirror_rw_to_rx(code_ptr);
+         if (value != (int8_t)value) {
+             return false;
+         }
+@@ -1006,7 +1006,7 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
      }
--    return ret;
-+    return last_tb;
+ 
+     /* Try a 7 byte pc-relative lea before the 10 byte movq.  */
+-    diff = arg - ((uintptr_t)s->code_ptr + 7);
++    diff = tcg_pcrel_diff(s, (const void *)arg) - 7;
+     if (diff == (int32_t)diff) {
+         tcg_out_opc(s, OPC_LEA | P_REXW, ret, 0, 0);
+         tcg_out8(s, (LOWREGMASK(ret) << 3) | 5);
+@@ -1615,7 +1615,7 @@ static inline void tcg_out_call(TCGContext *s, const tcg_insn_unit *dest)
+     tcg_out_branch(s, 1, dest);
  }
  
- #ifndef CONFIG_USER_ONLY
-@@ -210,6 +220,7 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
+-static void tcg_out_jmp(TCGContext *s, tcg_insn_unit *dest)
++static void tcg_out_jmp(TCGContext *s, const tcg_insn_unit *dest)
  {
-     TranslationBlock *tb;
-     uint32_t cflags = curr_cflags() | CF_NOCACHE;
-+    int tb_exit;
+     tcg_out_branch(s, 0, dest);
+ }
+@@ -1786,7 +1786,8 @@ static void add_qemu_ldst_label(TCGContext *s, bool is_ld, bool is_64,
+     label->datahi_reg = datahi;
+     label->addrlo_reg = addrlo;
+     label->addrhi_reg = addrhi;
+-    label->raddr = raddr;
++    /* TODO: Cast goes away when all hosts converted */
++    label->raddr = (void *)tcg_mirror_rw_to_rx(raddr);
+     label->label_ptr[0] = label_ptr[0];
+     if (TARGET_LONG_BITS > TCG_TARGET_REG_BITS) {
+         label->label_ptr[1] = label_ptr[1];
+@@ -2280,7 +2281,7 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+             /* jump displacement must be aligned for atomic patching;
+              * see if we need to add extra nops before jump
+              */
+-            gap = tcg_pcrel_diff(s, QEMU_ALIGN_PTR_UP(s->code_ptr + 1, 4));
++            gap = QEMU_ALIGN_PTR_UP(s->code_ptr + 1, 4) - s->code_ptr;
+             if (gap != 1) {
+                 tcg_out_nopn(s, gap - 1);
+             }
+@@ -3825,11 +3826,12 @@ static void tcg_target_qemu_prologue(TCGContext *s)
+      * Return path for goto_ptr. Set return value to 0, a-la exit_tb,
+      * and fall through to the rest of the epilogue.
+      */
+-    tcg_code_gen_epilogue = s->code_ptr;
++    /* TODO: Cast goes away when all hosts converted */
++    tcg_code_gen_epilogue = (void *)tcg_mirror_rw_to_rx(s->code_ptr);
+     tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_EAX, 0);
  
-     if (ignore_icount) {
-         cflags &= ~CF_USE_ICOUNT;
-@@ -227,7 +238,7 @@ static void cpu_exec_nocache(CPUState *cpu, int max_cycles,
+     /* TB epilogue */
+-    tb_ret_addr = s->code_ptr;
++    tb_ret_addr = tcg_mirror_rw_to_rx(s->code_ptr);
  
-     /* execute the generated code */
-     trace_exec_tb_nocache(tb, tb->pc);
--    cpu_tb_exec(cpu, tb);
-+    cpu_tb_exec(cpu, tb, &tb_exit);
+     tcg_out_addi(s, TCG_REG_CALL_STACK, stack_addend);
  
-     mmap_lock();
-     tb_phys_invalidate(tb, -1);
-@@ -244,6 +255,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     uint32_t flags;
-     uint32_t cflags = 1;
-     uint32_t cf_mask = cflags & CF_HASH_MASK;
-+    int tb_exit;
- 
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-         start_exclusive();
-@@ -260,7 +272,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         cc->cpu_exec_enter(cpu);
-         /* execute the generated code */
-         trace_exec_tb(tb, pc);
--        cpu_tb_exec(cpu, tb);
-+        cpu_tb_exec(cpu, tb, &tb_exit);
-         cc->cpu_exec_exit(cpu);
-     } else {
-         /*
-@@ -653,13 +665,10 @@ static inline bool cpu_handle_interrupt(CPUState *cpu,
- static inline void cpu_loop_exec_tb(CPUState *cpu, TranslationBlock *tb,
-                                     TranslationBlock **last_tb, int *tb_exit)
- {
--    uintptr_t ret;
-     int32_t insns_left;
- 
-     trace_exec_tb(tb, tb->pc);
--    ret = cpu_tb_exec(cpu, tb);
--    tb = (TranslationBlock *)(ret & ~TB_EXIT_MASK);
--    *tb_exit = ret & TB_EXIT_MASK;
-+    tb = cpu_tb_exec(cpu, tb, tb_exit);
-     if (*tb_exit != TB_EXIT_REQUESTED) {
-         *last_tb = tb;
-         return;
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index e3dc0cb4cb..f0d22de3de 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -2666,7 +2666,18 @@ void tcg_gen_extr32_i64(TCGv_i64 lo, TCGv_i64 hi, TCGv_i64 arg)
- 
- void tcg_gen_exit_tb(const TranslationBlock *tb, unsigned idx)
- {
--    uintptr_t val = (uintptr_t)tb + idx;
-+    /*
-+     * Let the jit code return the read-only version of the
-+     * TranslationBlock, so that we minimize the pc-relative
-+     * distance of the address of the exit_tb code to TB.
-+     * This will improve utilization of pc-relative address loads.
-+     *
-+     * TODO: Move this to translator_loop, so that all const
-+     * TranslationBlock pointers refer to read-only memory.
-+     * This requires coordination with targets that do not use
-+     * the translator_loop.
-+     */
-+    uintptr_t val = (uintptr_t)tcg_mirror_rw_to_rx((void *)tb) + idx;
- 
-     if (tb == NULL) {
-         tcg_debug_assert(idx == 0);
 -- 
 2.25.1
 
