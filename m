@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2DAA29FF00
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:46:10 +0100 (CET)
-Received: from localhost ([::1]:52254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318A629FF10
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:49:36 +0100 (CET)
+Received: from localhost ([::1]:58234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYP6v-0000sG-Js
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:46:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38900)
+	id 1kYPAF-0003YQ-6i
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:49:35 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYP3h-0007Jx-MZ
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:42:49 -0400
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40952)
+ id 1kYP3r-0007P4-Af
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:42:59 -0400
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYP3g-0000Nj-6z
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:42:49 -0400
-Received: by mail-ed1-x52d.google.com with SMTP id p93so5602373edd.7
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:42:47 -0700 (PDT)
+ id 1kYP3o-0000Rd-SM
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:42:58 -0400
+Received: by mail-ed1-x52f.google.com with SMTP id t11so5550665edj.13
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lkzrzNC9uo1Ei1wQFhfc46awGpfP9sF5bbRLJW+JhCk=;
- b=k+qFRXlVBaYTZIvAzgVbPop4T61xsgP+wKmeRTIgevSGhxngDf80m+/w//NX8wX4AB
- anjownn/IZA4YqaaZScCpk0lHAkDjPiY+bU7mg+ySt0agw60qeUpbb00+tjctQMaMbFG
- 2u2c+Ce3wzwoCA+65DWgUDCuKbPPeJ727jXLIR1n/o7wnP5THdAXk6voTgcVj4z29brN
- px0SecxARA7KloqPauUZ2qVgjE+w0gAaO7IsnJqfRcA/BvDvAhQ3l/Yv2aztJgHpMJPp
- dH4nWGLyOHS0Un0lVzqe+RpW4EV0or25IesxGpTwmYI2PHja+qj9Gqifmu9Vm5I9a4qs
- 5eiQ==
+ :cc; bh=p4myVGXuMAjJjzFCdX9E7RxvVmJX2D+/FE8AVOvevtw=;
+ b=eklf+1Svz8V6zyWx5z4lvCqhIKHExwB8Mwz+X9BDqq9Xy3PEan59wQihYGmI8U4dBr
+ A5J4AeBI7VFx4IaxzikBPmqIzyMM+Eqzu09BBhg3MEqYjIKo+U9WNpszY5HN5O/dmeIp
+ /vQk2Xopj2Rxrlfs8y9fBP8pEybnH33GGp+TaDnK2OeJWgxuTz4DGeTh1U3BpJ0y+1IC
+ nhVfByNZP3/eR+0LwEgCWE0etNRYAmKChmz4CWlrEuKt898pzBCSLJjQHZsF1dpUAIgg
+ 5+5EAYjwLXnRnLVO4hGIeK/2ZUCQPk5dIfC87VZg4u2qHXkKvcZo2IHng6t0U3OHzPf1
+ Q9bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=lkzrzNC9uo1Ei1wQFhfc46awGpfP9sF5bbRLJW+JhCk=;
- b=ARMRsqtQlmmJoV5VC6QGFfpTueXLbu/3pjXIb2SyYuXsrcD6sjz+MVNZtbSKKe8kLb
- GQbCZGg7A5LrJ7MNHSAj0DxPEIj+OmgmJkGP7rQdvhYSnNtnLTcy/NcRlTiiyDXFYFVd
- eJ/dRrM5uPyZjICbc7rENhgy8t4a67nzxe6117gOedx1fTrz+VuVy/98uDFjPsGiQ8OG
- oEPY5Lvqmd0UNjaiaiLvBbYd94RS6Nau9CSCA78eeXgfEwtlGhsvM9ZRBZ8bBhXJkXxk
- graq6liqb6uSSInQdJSEa/jYzNF2Cyez1erJe4Yi3/WbKuJ+edYSlvPw6D9O98F/pzWV
- hiWQ==
-X-Gm-Message-State: AOAM531xfRsHakq4IcwpnssxXpMlXx2livkLdhXRCC4T8IiqksONPWUi
- ftRt9UuKFC1gc+KU+sJ1W9Gczs+sZKeZ3dxAORY=
-X-Google-Smtp-Source: ABdhPJwcZ6qPSs6gVcvVg85BFwVxIcXqBtblF/jq4yfRkR4EEFkdFUNmmWEqinSK1300N3ZeDxqtoKPsheDJX9Hg87I=
-X-Received: by 2002:a05:6402:6ca:: with SMTP id
- n10mr954495edy.314.1604043766822; 
- Fri, 30 Oct 2020 00:42:46 -0700 (PDT)
+ bh=p4myVGXuMAjJjzFCdX9E7RxvVmJX2D+/FE8AVOvevtw=;
+ b=lIpqu4eAVu4TrKWXE7SPganW/r1oSvRAoevVXOD25inSH7kgMQn+tiUFDUqWR44N+V
+ WXrqNjmNcjaBP6Zo5Y2emWiieKs3/Lh6CobnlQV/TGX0X/EMOnPb7BslGmeO+BpdPl1r
+ j9Qtc8wpXjY56xIbC03cN4xMy0SHt5e9daxd0z6cuINucrfjWYL3g1BAIRs2FQI0h0a9
+ ZqyZPGzu6xYcm2jbUClz26Yev+dBZANFff/xM8KJAmTbsNx0Uo7vBODF0FJbm+Q+NWvD
+ C5NDtTD58o40l+kdn4n3JgOaIoZUWgQj1BCFXujI85horvy1TW8dPWInIdfx8v5d3eRV
+ B1Ew==
+X-Gm-Message-State: AOAM533qKSYdvOv0j1/EWdeyULeNYO806iLX+wbL4SKCn9Fd81QSz2yk
+ sMDTGTg2d4qc6jM1oPoy3RqqQA5W+rgeVNbcpKZYd0AOrnU=
+X-Google-Smtp-Source: ABdhPJyBWAHVciRyqjfvU9kEHgbQRQLpGoH/B1TAo13pWCDMyursen+xWoUty+/HQew6mNTZrtNSC88MfCqiodmuUx8=
+X-Received: by 2002:aa7:dd42:: with SMTP id o2mr927549edw.53.1604043775100;
+ Fri, 30 Oct 2020 00:42:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201029220246.472693-1-ehabkost@redhat.com>
- <20201029220246.472693-4-ehabkost@redhat.com>
-In-Reply-To: <20201029220246.472693-4-ehabkost@redhat.com>
+ <20201029220246.472693-7-ehabkost@redhat.com>
+In-Reply-To: <20201029220246.472693-7-ehabkost@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 30 Oct 2020 11:42:33 +0400
-Message-ID: <CAJ+F1CLWo2OYjgQVRY9W-U8c8CxWW63JoiU+p4-0eT2kgp5yKQ@mail.gmail.com>
-Subject: Re: [PATCH 03/36] qdev: Move property code to qdev-properties.[ch]
+Date: Fri, 30 Oct 2020 11:42:42 +0400
+Message-ID: <CAJ+F1CJJ=87U-zqScZdc=t+kdmckb5mhNT37OwZhnuho1SLjQg@mail.gmail.com>
+Subject: Re: [PATCH 06/36] qdev: Don't use dev->id on set_size32() error
+ message
 To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ecfca805b2de8a09"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52d.google.com
+Content-Type: multipart/alternative; boundary="0000000000006b4d1705b2de8b19"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52f.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,25 +88,28 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ecfca805b2de8a09
+--0000000000006b4d1705b2de8b19
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, Oct 30, 2020 at 2:05 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
 :
 
-> Move everything related to Property and PropertyInfo to
-> qdev-properties.[ch] to make it easier to refactor that code.
+> All other qdev property error messages use "<type>.<property>"
+> instead of "<id>.<property>".  Change set_size32() for consistency,
+> and to make the code not specific to TYPE_DEVICE.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
+
+
 --=20
 Marc-Andr=C3=A9 Lureau
 
---000000000000ecfca805b2de8a09
+--0000000000006b4d1705b2de8b19
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -115,14 +118,18 @@ Content-Transfer-Encoding: quoted-printable
 do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" target=3D"_blank">eha=
 bkost@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
 style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">Move everything related to Property and PropertyInfo to<br>
-qdev-properties.[ch] to make it easier to refactor that code.<br>
+dding-left:1ex">All other qdev property error messages use &quot;&lt;type&g=
+t;.&lt;property&gt;&quot;<br>
+instead of &quot;&lt;id&gt;.&lt;property&gt;&quot;.=C2=A0 Change set_size32=
+() for consistency,<br>
+and to make the code not specific to TYPE_DEVICE.<br>
 <br>
 Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
 arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
 ><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
 ureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</di=
-v><br></div>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
+v><br></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 L=
+ureau<br></div></div>
 
---000000000000ecfca805b2de8a09--
+--0000000000006b4d1705b2de8b19--
 
