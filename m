@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA2D2A09F5
+	by mail.lfdr.de (Postfix) with ESMTPS id E366E2A09F6
 	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:35:58 +0100 (CET)
-Received: from localhost ([::1]:35122 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:35106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYWRZ-0007Hj-D4
+	id 1kYWRZ-0007HH-Iq
 	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:35:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38492)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWQ5-00063t-35
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWQ5-00063v-38
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:34:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47475)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28690)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWQ2-0001Ux-Vm
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWQ3-0001Uv-Bd
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:34:24 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604072061;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+N3f/GA3T/C9XZs+uetP90pC+aUkUej7u0uBF0iT9Jc=;
- b=Y9HUobPuU6pLoO8FbmsR529K1/9EoOsR/dZUe6Vei0+uI/Hxx5tuwzOfIqCRN7vMpBZ0po
- 6urplDCUcT2U28HgRnXToQeszc6Byqo0uHb98B254Ju0OLeXVKhoulTKc5bnYsjzGhQYp8
- 1XP1EpZ9qeY/HSdQeh6COQXdpAEjNpM=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2Bk2s4X/31h4rBp3uVEZDdbxDDdtpL9hsbYCj/zLzRw=;
+ b=Daah7w3YscdoiFIgB0fjMInahaAGIk1v3sxEnWcoH1G1G2d+yPFYS10L6C0cQyWfJhBS/6
+ MTOz4Xfctb3YIM2EAlGqQvVHcMGuOZNjQRpTnVqZ8N+bvdLzCFiXnRV7jRAL64vPeakXlI
+ M4ngfrnb6403KHZKaAo7NSWh3eYe7p8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-NCdRd6w2NkCkJzlx5RNt1A-1; Fri, 30 Oct 2020 11:34:19 -0400
-X-MC-Unique: NCdRd6w2NkCkJzlx5RNt1A-1
+ us-mta-286-mUtEuczVOvSqeWbwySCXiA-1; Fri, 30 Oct 2020 11:34:19 -0400
+X-MC-Unique: mUtEuczVOvSqeWbwySCXiA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE973186DD51;
- Fri, 30 Oct 2020 15:34:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88C51186DD55;
+ Fri, 30 Oct 2020 15:34:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57F215D9D2;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 010DD5D9D2;
  Fri, 30 Oct 2020 15:34:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] MAINTAINERS cleanups
-Date: Fri, 30 Oct 2020 11:34:14 -0400
-Message-Id: <20201030153416.429791-1-jsnow@redhat.com>
+Subject: [PATCH 1/2] MAINTAINERS: Remove Ben Warren
+Date: Fri, 30 Oct 2020 11:34:15 -0400
+Message-Id: <20201030153416.429791-2-jsnow@redhat.com>
+In-Reply-To: <20201030153416.429791-1-jsnow@redhat.com>
+References: <20201030153416.429791-1-jsnow@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,17 +82,29 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=0D
-=0D
-John Snow (2):=0D
-  MAINTAINERS: Remove Ben Warren=0D
-  MAINTAINERS: Make status spellings consistent=0D
-=0D
- MAINTAINERS | 13 ++++++-------=0D
- 1 file changed, 6 insertions(+), 7 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Ben's email bounces and he no longer works for Skyport Systems. I was
+unable to reach Ben, so mark this section as Orphaned for now.
+
+Signed-off-by: John Snow <jsnow@redhat.com>
+---
+ MAINTAINERS | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8c744a9bdf42..d46f7b126c9e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1960,8 +1960,7 @@ F: include/hw/nvram/chrp_nvram.h
+ F: tests/qtest/prom-env-test.c
+ 
+ VM Generation ID
+-M: Ben Warren <ben@skyportsystems.com>
+-S: Maintained
++S: Orphan
+ F: hw/acpi/vmgenid.c
+ F: include/hw/acpi/vmgenid.h
+ F: docs/specs/vmgenid.txt
+-- 
+2.26.2
 
 
