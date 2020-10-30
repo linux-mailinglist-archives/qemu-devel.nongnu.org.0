@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FF1729FCD3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:46:54 +0100 (CET)
-Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EE4B29FCD4
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:46:56 +0100 (CET)
+Received: from localhost ([::1]:34800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYMJR-0001fh-7F
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:46:53 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52184)
+	id 1kYMJT-0001jp-Gg
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:46:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kYL8Y-00056L-5e; Thu, 29 Oct 2020 23:31:34 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2489)
+ id 1kYLCL-0005IQ-Ju; Thu, 29 Oct 2020 23:35:29 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:2118)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kYL8U-0002Ii-Pm; Thu, 29 Oct 2020 23:31:33 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CMns96snRzhcyG;
- Fri, 30 Oct 2020 11:31:09 +0800 (CST)
+ id 1kYLCI-0003eh-Vr; Thu, 29 Oct 2020 23:35:29 -0400
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMny50nB8z70qL;
+ Fri, 30 Oct 2020 11:35:25 +0800 (CST)
 Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 30 Oct 2020 11:30:59 +0800
-Subject: block: Fix some code style problems, "foo* bar" should be "foo *bar"
-References: <7d7f2b33-8c3f-2050-e11f-8357f0db152f@huawei.com>
+ DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 30 Oct 2020 11:35:12 +0800
+Subject: [PATCH] block: Fix some code style problems, "foo* bar" should be
+ "foo *bar"
+References: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
 To: <kwolf@redhat.com>, <mreitz@redhat.com>
 From: shiliyang <shiliyang@huawei.com>
-X-Forwarded-Message-Id: <7d7f2b33-8c3f-2050-e11f-8357f0db152f@huawei.com>
-Message-ID: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
-Date: Fri, 30 Oct 2020 11:30:59 +0800
+X-Forwarded-Message-Id: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
+Message-ID: <3211f389-6d22-46c1-4a16-e6a2ba66f070@huawei.com>
+Date: Fri, 30 Oct 2020 11:35:12 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <7d7f2b33-8c3f-2050-e11f-8357f0db152f@huawei.com>
+In-Reply-To: <b7e77b38-6115-9a3d-5668-f51737476400@huawei.com>
 Content-Type: text/plain; charset="gbk"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.108.235.13]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=shiliyang@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 23:31:10
+Received-SPF: pass client-ip=45.249.212.35; envelope-from=shiliyang@huawei.com;
+ helo=szxga07-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 23:35:23
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 30 Oct 2020 00:44:44 -0400
+X-Mailman-Approved-At: Fri, 30 Oct 2020 00:44:45 -0400
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
