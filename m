@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798FC2A018A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 10:37:39 +0100 (CET)
-Received: from localhost ([::1]:47278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EE3B2A01B5
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 10:46:40 +0100 (CET)
+Received: from localhost ([::1]:50864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYQqo-0001D4-Ij
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 05:37:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34794)
+	id 1kYQzW-0003DH-Mn
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 05:46:38 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kYQq5-0000nn-1o
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:36:53 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25910)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kYQq0-0007xd-AC
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:36:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604050607;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=IKmmMKjQelECBfrVllIIrt5HZhPRzaFN2JiXpKdgcWo=;
- b=AWAD+QL9U0k8YLBbg4BkKkE44uUCakRfX27w2oQTt/KxUgWOVcsP3BmB6p/mW4GgB3g6yB
- tSGDEqnxS69Us6mM4v5rsKOjrgg+7gfoYblDCVtTwTCu2uEnm5YPLeDz48RsoDlT2qn69J
- YhXRoUnbulLKgiOrpvgGao0e3D6T3aE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-506-he7GpeFpMjaB-__3jAIOHA-1; Fri, 30 Oct 2020 05:36:44 -0400
-X-MC-Unique: he7GpeFpMjaB-__3jAIOHA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 840058030A4;
- Fri, 30 Oct 2020 09:36:43 +0000 (UTC)
-Received: from redhat.com (ovpn-113-50.ams2.redhat.com [10.36.113.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D9405C1CF;
- Fri, 30 Oct 2020 09:36:35 +0000 (UTC)
-Date: Fri, 30 Oct 2020 09:36:32 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 03/11] test-util-sockets: Clean up SocketAddress
- construction
-Message-ID: <20201030093632.GF99222@redhat.com>
-References: <20201029133833.3450220-1-armbru@redhat.com>
- <20201029133833.3450220-4-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kYQya-0002fv-68
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:45:41 -0400
+Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:36326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kYQyV-0002up-Tg
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 05:45:39 -0400
+Received: by mail-ej1-x643.google.com with SMTP id o21so686143ejb.3
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 02:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QC3UutznicSZrdvaN94nX6+ZFJ6gIW8uSMDkwy5ce7E=;
+ b=uoXhTt8SNvWrhcccMo61VY95TymzaTUkK50u/amnUZBaJXNzxi4qCJ1w/OvkzGNN7o
+ wbJEF1/c5y7LWpX0pJWc2sATsZ9FzupacP5YU0xTiu2WwBmSRarpdPeipLNVo0AmIpDz
+ 1I5NzSB0U/Ae9Ann4BYBu65u4RxIrXFINkBdxj9GMRVmDDaBDvExjsQiAHnE2LccLX6Y
+ s3FLswA9RBVCPUWiy634+UOSjoDSpo7X+oLLwuIgdlU2JNvKXIJL640eQ6ViVHzk0VEW
+ xT8RB67Sd7iz2g4m6keznA5tQAdpbuvP/L6hXaF8fkkJKf0bw1YT1NKpBgooPDmOvmNq
+ EDvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QC3UutznicSZrdvaN94nX6+ZFJ6gIW8uSMDkwy5ce7E=;
+ b=p3kn7TyS7sTWSIAu9a8ANcQ8SI8qhwEb0+77V5LBERhWVEV6VUoi2tM/PzfC/Qp7Gb
+ EYqvTO+vsLnulShJaEN0MTBilaHoPnxn8dClUFrrE/UDIIDUQ7uwNX5yxwWAFwdMLVR2
+ QY2lsH+NrMnMCblEWluv+c7gHwmdx06PH3NAnQDAGxAKEoteBwT6Rbz/tp9L2OzX37xM
+ D4KXR9Vo9Ot7l9Dyn0nBC3iZT5pv1B7SZX6sPyNobucnxxz6Kiw6/Wt0JZm86hF7+dfb
+ aXpAq7RlbxRiGXkBW/3fsTfVuPQk/GTZA+qfk5zK0vgo0A5KaRsS7qrQdkTTstNhuVkn
+ hulg==
+X-Gm-Message-State: AOAM530yu2e7GrcrqkokFYovFj/jw8ChHS88ebqLbB+YPqqOdnk4XHIY
+ hom70qFxWur1nyYwUkirFr/uMgQRrsTIs9RdQyg=
+X-Google-Smtp-Source: ABdhPJzLx2eCOQ5lEX6kU7ZQUcZ6U6ASV9OxkshIMKvwEHfQg4B7OH4vWwEp3rEQmKEZzxxdmH0lVDoDSexzWsP+2MI=
+X-Received: by 2002:a17:906:f6cf:: with SMTP id
+ jo15mr1529167ejb.105.1604051131831; 
+ Fri, 30 Oct 2020 02:45:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201029133833.3450220-4-armbru@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201029220246.472693-1-ehabkost@redhat.com>
+ <20201029220246.472693-17-ehabkost@redhat.com>
+In-Reply-To: <20201029220246.472693-17-ehabkost@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 30 Oct 2020 13:45:20 +0400
+Message-ID: <CAJ+F1CK=mTevr4m0fvRkQj6=E6uAcDNoWdL06v1-hy-XX+qLFQ@mail.gmail.com>
+Subject: Re: [PATCH 16/36] qdev: Make qdev_class_add_property() more flexible
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000ea1ce405b2e04194"
+Received-SPF: pass client-ip=2a00:1450:4864:20::643;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,92 +80,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, zxq_yx_007@163.com, qemu-devel@nongnu.org,
- kraxel@redhat.com, pbonzini@redhat.com, marcandre.lureau@redhat.com
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 29, 2020 at 02:38:25PM +0100, Markus Armbruster wrote:
-> The thread functions build the SocketAddress from global variable
-> @abstract_sock_name and the tight flag passed as pointer
-> argument (either NULL or (gpointer)1).  There is no need for such
-> hackery; simply pass the SocketAddress instead.
-> 
-> While there, dumb down g_rand_int_range() to g_random_int().
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+--000000000000ea1ce405b2e04194
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Oct 30, 2020 at 2:13 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
+
+> Support Property.set_default and PropertyInfo.description even if
+> PropertyInfo.create is set.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  tests/test-util-sockets.c | 62 +++++++++++++++------------------------
->  1 file changed, 24 insertions(+), 38 deletions(-)
-> 
-> diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-> index 9d317e73a6..b1b5628bd5 100644
-> --- a/tests/test-util-sockets.c
-> +++ b/tests/test-util-sockets.c
-> @@ -230,25 +230,14 @@ static void test_socket_fd_pass_num_nocli(void)
->  #endif
->  
->  #ifdef __linux__
-> -static gchar *abstract_sock_name;
-> -
->  static gpointer unix_server_thread_func(gpointer user_data)
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: "Daniel P. Berrang=C3=A9" <berrange@redhat.com>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  hw/core/qdev-properties.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+>
+> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+> index 89e292dc25..ad685f371d 100644
+> --- a/hw/core/qdev-properties.c
+> +++ b/hw/core/qdev-properties.c
+> @@ -912,24 +912,25 @@ void qdev_property_add_static(DeviceState *dev,
+> Property *prop)
+>  static void qdev_class_add_property(DeviceClass *klass, Property *prop)
 >  {
-> -    SocketAddress addr;
-
-Keep this but as a pointer, and initialize it to "user_data",
-so that it is clear what data type this parameter is expected
-to be.
-
-> -    Error *err = NULL;
-> -    int fd = -1;
-> -    int connfd = -1;
-> +    int fd;
-> +    int connfd;
->      struct sockaddr_un un;
->      socklen_t len = sizeof(un);
->  
-> -    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
-> -    addr.u.q_unix.path = abstract_sock_name;
-> -    addr.u.q_unix.has_tight = true;
-> -    addr.u.q_unix.tight = user_data != NULL;
-> -    addr.u.q_unix.has_abstract = true;
-> -    addr.u.q_unix.abstract = true;
+>      ObjectClass *oc =3D OBJECT_CLASS(klass);
+> +    ObjectProperty *op;
+>
+>      if (prop->info->create) {
+> -        prop->info->create(oc, prop);
+> +        op =3D prop->info->create(oc, prop);
+>      } else {
+> -        ObjectProperty *op;
 > -
-> -    fd = socket_listen(&addr, 1, &err);
-> +    fd = socket_listen(user_data, 1, &error_abort);
+>          op =3D object_class_property_add(oc,
+>                                         prop->name, prop->info->name,
+>                                         static_prop_getter(prop->info),
+>                                         static_prop_setter(prop->info),
+>                                         prop->info->release,
+>                                         prop);
+> -        if (prop->set_default) {
+> -            prop->info->set_default_value(op, prop);
+> -        }
+>      }
+> -    object_class_property_set_description(oc, prop->name,
+> -                                          prop->info->description);
+> +    if (prop->set_default) {
+> +        prop->info->set_default_value(op, prop);
+> +    }
+> +    if (prop->info->description) {
+> +        object_class_property_set_description(oc, prop->name,
+> +                                            prop->info->description);
+>
 
-Then keep this as passing "addr"
+indentation is off, other than that:
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
++    }
+>  }
+>
+>  /**
+> --
+> 2.28.0
+>
+>
+>
 
->  
->  static gpointer unix_client_thread_func(gpointer user_data)
->  {
-> -    SocketAddress addr;
+--=20
+Marc-Andr=C3=A9 Lureau
 
-Same note here
+--000000000000ea1ce405b2e04194
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> -    Error *err = NULL;
-> -    int fd = -1;
-> -
-> -    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
-> -    addr.u.q_unix.path = abstract_sock_name;
-> -    addr.u.q_unix.has_tight = true;
-> -    addr.u.q_unix.tight = user_data != NULL;
-> -    addr.u.q_unix.has_abstract = true;
-> -    addr.u.q_unix.abstract = true;
-> -
-> -    fd = socket_connect(&addr, &err);
-> +    int fd;
->  
-> +    fd = socket_connect(user_data, &error_abort);
->      g_assert_cmpint(fd, >=, 0);
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2020 at 2:13 AM Eduar=
+do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Su=
+pport Property.set_default and PropertyInfo.description even if<br>
+PropertyInfo.create is set.<br>
+<br>
+Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
+arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br>
+---<br>
+Cc: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" target=3D"_bla=
+nk">pbonzini@redhat.com</a>&gt;<br>
+Cc: &quot;Daniel P. Berrang=C3=A9&quot; &lt;<a href=3D"mailto:berrange@redh=
+at.com" target=3D"_blank">berrange@redhat.com</a>&gt;<br>
+Cc: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" target=3D"_b=
+lank">ehabkost@redhat.com</a>&gt;<br>
+Cc: <a href=3D"mailto:qemu-devel@nongnu.org" target=3D"_blank">qemu-devel@n=
+ongnu.org</a><br>
+---<br>
+=C2=A0hw/core/qdev-properties.c | 17 +++++++++--------<br>
+=C2=A01 file changed, 9 insertions(+), 8 deletions(-)<br>
+<br>
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c<br>
+index 89e292dc25..ad685f371d 100644<br>
+--- a/hw/core/qdev-properties.c<br>
++++ b/hw/core/qdev-properties.c<br>
+@@ -912,24 +912,25 @@ void qdev_property_add_static(DeviceState *dev, Prope=
+rty *prop)<br>
+=C2=A0static void qdev_class_add_property(DeviceClass *klass, Property *pro=
+p)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0ObjectClass *oc =3D OBJECT_CLASS(klass);<br>
++=C2=A0 =C2=A0 ObjectProperty *op;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (prop-&gt;info-&gt;create) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 prop-&gt;info-&gt;create(oc, prop);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 op =3D prop-&gt;info-&gt;create(oc, prop);<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ObjectProperty *op;<br>
+-<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0op =3D object_class_property_add(oc,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prop-&gt=
+;name, prop-&gt;info-&gt;name,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 static_p=
+rop_getter(prop-&gt;info),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 static_p=
+rop_setter(prop-&gt;info),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prop-&gt=
+;info-&gt;release,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prop);<b=
+r>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (prop-&gt;set_default) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prop-&gt;info-&gt;set_default_va=
+lue(op, prop);<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+-=C2=A0 =C2=A0 object_class_property_set_description(oc, prop-&gt;name,<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 p=
+rop-&gt;info-&gt;description);<br>
++=C2=A0 =C2=A0 if (prop-&gt;set_default) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 prop-&gt;info-&gt;set_default_value(op, prop);=
+<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 if (prop-&gt;info-&gt;description) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 object_class_property_set_description(oc, prop=
+-&gt;name,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 prop-&gt;info-&gt;description);<br></blockquote><div><br></div><div>=
+indentation is off, other than that:</div><div>Reviewed-by: Marc-Andr=C3=A9=
+ Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau=
+@redhat.com</a>&gt;</div><div> <br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">
++=C2=A0 =C2=A0 }<br>
+=C2=A0}<br>
+<br>
+=C2=A0/**<br>
+-- <br>
+2.28.0<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--000000000000ea1ce405b2e04194--
 
