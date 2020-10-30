@@ -2,54 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6622A0605
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:57:42 +0100 (CET)
-Received: from localhost ([::1]:45462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56DB22A057B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:32:57 +0100 (CET)
+Received: from localhost ([::1]:59538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTyN-0005Bl-T3
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:57:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55498)
+	id 1kYTaR-0003YM-TL
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:32:55 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <03f68c7ec08064e20f43797f4eb4305ad21e1e8e@lizzy.crudebyte.com>)
- id 1kYTwI-0003xM-3K
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:55:30 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:33871)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kYTWF-00027u-Gw; Fri, 30 Oct 2020 08:28:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:27826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <03f68c7ec08064e20f43797f4eb4305ad21e1e8e@lizzy.crudebyte.com>)
- id 1kYTwF-0003lo-Fy
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:55:29 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=9s02O/KYcd7A7lc/0kRbCK6nYi9tDPfa0S4ictjN0vw=; b=YT1tj
- RC5+bOA3w0oqYHkaeIn4abX1BKAUWzEswOakZFJYTIL8ZgdK8ZydioFzkiB/iib2iavbnt4YPSFqH
- B8T68N6/XVadkdHcwM3BSOBOMWu7ui02M/82ENeVUY+znJTNVgnyRWayjKw6WvRy8zd+GsMhKrPpV
- PymnTrIC4/nhsGqngu++L9dcfAdzLAo9onvKHUkwSa088+NnHmN8Vo011iOx9FbAKsNZwTmMlu/j7
- Q1L8q5EFKeIb5Kkf+saDABEUGs1zCdmab1uxXy3+dtUdaGbby6yadGDQvgnqM3JmLsCU/0GUkiW7c
- 2jNkmVoSDsE+jE3ZqXHuTIgbVbjlw==;
-Message-Id: <03f68c7ec08064e20f43797f4eb4305ad21e1e8e.1604061839.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1604061839.git.qemu_oss@crudebyte.com>
-References: <cover.1604061839.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 30 Oct 2020 13:07:03 +0100
-Subject: [PATCH v2 2/2] tests/9pfs: fix coverity error in
- create_local_test_dir()
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=03f68c7ec08064e20f43797f4eb4305ad21e1e8e@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1kYTWD-00030C-Ha; Fri, 30 Oct 2020 08:28:35 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 09UC2Vfp013847; Fri, 30 Oct 2020 08:28:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=fAilbE+DOMC+LSljOWLvPLtXdUGINSrGsFpNxtrU184=;
+ b=DLR6RiKKDxegSz5icBMtY13OfD8xYFoW/eghGi6+M2t0fQQvm892PYa3dzZ0hmmsiG62
+ MoaxabmTGrs7gZ/ezi7jUbI6BvvabkVdozlwy4/o2+HwYq45d1vBlgRsPItycnAf13av
+ SA5A3OpG1h5Zatd6/MVvFxAHjrvyaJ0tQtW/9URw95SeNDNCIrpAs6jrWG3LYrWN9kTJ
+ 6ssEQw66OLZDlzLdt+UFm3xrxRBjQu+YXqK7itnf6oK1mNu6xpfwPnrO/EVTsyolKpqW
+ T57KWjL4G7vKEeDeEaaux/HX0NGsPMXD5Bc9nIM6Rc1f0+xgv4L3Rt2wXXmCeqH1CrrI 8g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34ge51159p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Oct 2020 08:28:29 -0400
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09UC2VkS013878;
+ Fri, 30 Oct 2020 08:28:29 -0400
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34ge51158s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Oct 2020 08:28:29 -0400
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09UCQv91029795;
+ Fri, 30 Oct 2020 12:28:27 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 34fv15rkvu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 30 Oct 2020 12:28:26 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 09UCSNwx28770762
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 30 Oct 2020 12:28:23 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C25D05205A;
+ Fri, 30 Oct 2020 12:28:23 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTPS id AE7C552054;
+ Fri, 30 Oct 2020 12:28:23 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 5DAD4E24D3; Fri, 30 Oct 2020 13:28:23 +0100 (CET)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: [PATCH] s390-bios: Skip writing iplb location to low core for ccw ipl
+Date: Fri, 30 Oct 2020 13:28:23 +0100
+Message-Id: <20201030122823.347140-1-borntraeger@de.ibm.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-10-30_04:2020-10-30,
+ 2020-10-30 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0
+ bulkscore=0 spamscore=0 adultscore=0 impostorscore=0 suspectscore=0
+ priorityscore=1501 clxscore=1015 mlxlogscore=651 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010300085
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 08:28:30
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,60 +104,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity wants the return value of mkdir() to be checked:
+From: "Jason J. Herne" <jjherne@linux.ibm.com>
 
-  /qemu/tests/qtest/libqos/virtio-9p.c: 48 in create_local_test_dir()
-  42     /* Creates the directory for the 9pfs 'local' filesystem driver to
-  access. */
-  43     static void create_local_test_dir(void)
-  44     {
-  45         struct stat st;
-  46
-  47         g_assert(local_test_path != NULL);
-  >>> CID 1435963:  Error handling issues  (CHECKED_RETURN)
-  >>> Calling "mkdir(local_test_path, 511U)" without checking return value.
-  This library function may fail and return an error code.
-  48         mkdir(local_test_path, 0777);
-  49
-  50         /* ensure test directory exists now ... */
-  51         g_assert(stat(local_test_path, &st) == 0);
-  52         /* ... and is actually a directory */
-  53         g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+The architecture states that the iplb location is only written to low
+core for list directed ipl and not for traditional ccw ipl. If we don't
+skip this then operating systems that load by reading into low core
+memory may fail to start.
 
-So let's just do that and log an info-level message at least, because we
-actually only care if the required directory exists and we do have an
-existence check for that in place already.
+We should also not write the iplb pointer for network boot as it might
+overwrite content that we got via network.
 
-Reported-by: Coverity (CID 1435963)
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+Fixes: 9bfc04f9ef68 ("pc-bios: s390x: Save iplb location in lowcore")
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ pc-bios/s390-ccw/main.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 6b22fa0e9a..8459a3ee58 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -48,9 +48,14 @@ static void init_local_test_path(void)
- static void create_local_test_dir(void)
+diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+index 43c792cf9509..fc4bfaa45529 100644
+--- a/pc-bios/s390-ccw/main.c
++++ b/pc-bios/s390-ccw/main.c
+@@ -43,7 +43,9 @@ void write_subsystem_identification(void)
+ 
+ void write_iplb_location(void)
  {
-     struct stat st;
-+    int res;
- 
-     g_assert(local_test_path != NULL);
--    mkdir(local_test_path, 0777);
-+    res = mkdir(local_test_path, 0777);
-+    if (res < 0) {
-+        g_test_message("mkdir('%s') failed: %s", local_test_path,
-+                       strerror(errno));
+-    lowcore->ptr_iplb = ptr2u32(&iplb);
++    if (cutype == CU_TYPE_VIRTIO && virtio_get_device_type() != VIRTIO_ID_NET) {
++        lowcore->ptr_iplb = ptr2u32(&iplb);
 +    }
+ }
  
-     /* ensure test directory exists now ... */
-     g_assert(stat(local_test_path, &st) == 0);
+ unsigned int get_loadparm_index(void)
 -- 
-2.20.1
+2.26.2
 
 
