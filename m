@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54E2F2A0BA5
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 17:48:50 +0100 (CET)
-Received: from localhost ([::1]:51004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84FF62A0BAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 17:49:42 +0100 (CET)
+Received: from localhost ([::1]:54672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYXa5-0004DV-CA
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 12:48:49 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55944)
+	id 1kYXav-0005kx-Kp
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 12:49:41 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kYXTM-00053q-17; Fri, 30 Oct 2020 12:41:52 -0400
-Received: from mout.web.de ([212.227.17.11]:40829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1kYXTK-00031o-00; Fri, 30 Oct 2020 12:41:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1604076104;
- bh=+FKqBqao7ItTK71ZCGq6sHXUeOqTRGtg3DJ0zS0YP10=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=Vset/olPEF0ONfW62YdhkiNhkvz2e822mHNlyr+AsRfReKScyxvJRCjDP2K+yHo1W
- t/hK7UR4x7gGj3XmDbtYB+3WHiPiUTXVOAS0JbAeRBUNyL6akKkYD0M8VqEe9PGgxn
- sTPvn56lRRKYa2G0PwfHWg7s7PctykEq4wfxJUtU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from luklap ([87.123.206.100]) by smtp.web.de (mrweb101
- [213.165.67.124]) with ESMTPSA (Nemesis) id 0M1X0v-1kF5sH1qjR-00tQcT; Fri, 30
- Oct 2020 17:41:44 +0100
-Date: Fri, 30 Oct 2020 17:41:43 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: qemu-devel <qemu-devel@nongnu.org>
-Subject: [PATCH v10 8/8] tests/test-char.c: Wait for the chardev to connect
- in char_socket_client_dupid_test
-Message-ID: <20201030174143.0269a488@luklap>
-In-Reply-To: <cover.1604075469.git.lukasstraub2@web.de>
-References: <cover.1604075469.git.lukasstraub2@web.de>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kYXUH-0006Ei-3x
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 12:42:49 -0400
+Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:37799)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1kYXUF-000355-AH
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 12:42:48 -0400
+Received: by mail-ed1-x543.google.com with SMTP id o18so7346173edq.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 09:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=6yYkPSmtTyZx4Tr/CmInbdlIjHzB+3zaylgHbwePlrE=;
+ b=OWVKjCl2bDe8Ns8ptJY1ywc0gySD2qRZEyhi7JulPX/DeiegaT2SJWzjAp2m/at7Hj
+ rAoIMpX4Xl5j5D4llox8XYfCpm1RSFd3j0BNOgYHGOLeIURHhCWVs6dTh7PIV2awNOkj
+ qYQ0fVlDxuRC1YqJAqpahFHLsCdA0rYBlufSmJ4piabxF/2teeD/1+G6N47gHm05e2tg
+ AqOCyo5OnJMsq7zgH8wGlacPRS8oH3U+ha3+k73jy24N5IpflJfIRlN8HZF3qp4ZiY0b
+ M0JL7+yKBLWboWWRG4cJU798jXyyhXAk7gvobv9gpHz6DNNvi5YT74HtDZ8Zo/oLtTHm
+ GF9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=6yYkPSmtTyZx4Tr/CmInbdlIjHzB+3zaylgHbwePlrE=;
+ b=YhRIxje18zZkhAX2ETINMgwk4Sjqfmj4tQS3KDIxlqQ8FZfj9w5bsLdQLyxUjhO0rg
+ weSs6DHTu5inZ+2t9+5d+5puQ4u5OiOpp59JPcgM0OzPYA0T0GIVkfq1pk9hK0KidEqz
+ R4dSr5YWOch4Is5ginSl1662t3x42LbA50lXEVykzpJPyoD+MkF9ZBMYe/IMzqAcjQ8m
+ 7nFw+2QS2hLHU4E97IYAyHxpAb2wvnE8P/EG9855NNKqxiNmchfLTOJ1egWijTU8q9+/
+ jPgrkPW3FbGEjtTcuzQZU1ENDft4nwAnoJY6/HldDVUAqVE1vcZ9vEgcHfbCXFTK4bp8
+ Hqhw==
+X-Gm-Message-State: AOAM531/pJ88rp1ctZmsufI6OrUes5AhY/GPANPh/ph+jl5fQFfhpHS3
+ Ix1biorLeMo9ic7sh8JrDmaNzoVDPdJqUJUdjJs=
+X-Google-Smtp-Source: ABdhPJwY36Y2LLPTeOgELwkLC3pugXbYsz86fpJTIWhi0sgxiBdR8rNxx0lg9GcrvGr3MwzlQ3Pn/hG/iYLlYgfOgKU=
+X-Received: by 2002:a05:6402:6ca:: with SMTP id
+ n10mr3411385edy.314.1604076164769; 
+ Fri, 30 Oct 2020 09:42:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/LdbojqvvVGG/z.uIgt61==w";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-X-Provags-ID: V03:K1:sOrMWSQPC62ykrJxQ16jjdCfqRo5qIBQdcam8vzgVCIg6rhdCZP
- fZJtgDAg7DO01VJ5WMbRGzdZ89/vKE+X5T9Kg/kr7X0HLWXFODZebh6vAMyYqwzz6f/5tBV
- l3BK2r9vOrZdM7RgN2FzcRLUcnQiM6PcuIs70paY6ePA1l3/np99QVWpaxshzD1nLq6k2zM
- pn2tcvgNh1UOJOQFP8Gnw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:H+NixxWgGqA=:NJWtyplGuMoxEnyPXYlyfP
- 5Tyciu7S+UW94z+V3OYnNv+GMmiFHNa0ZUTXfgMB/nfS9y9VlxP0wNnbBwBiE4IBfq+sqx2ga
- Aj+577QWhPo2vrfcn71bJJvhnRtfS1/RazIvZdmrON0g1wBfdozcXjZkecTpzs8/vp5ITmgrC
- CSbeCsQVJDsRJni03Xfw6M8F+DCUSXIDIRZu1bV9Ss16wWjPbdNifr2UCpg4uK+rFWHxPo83u
- qNJgFekWtS7yeg01Bd+sD6Slxylfi5Pp6ZeBFY+KHdEb475ou1u0AJWoftxhOO87WQ/pmhRT8
- 4zT7ZTGBN+O3A/ccCELxij9rmWVHh2TMfFqHOJhyeamKSRb8bii4P6dvOixmuHOB8Cwf65+9x
- 72oZB4W+bSPs+3721ndeGiUcc5G+ADPP9/hQZmQ5ywosnQHD8lH9YBZMPi2pnSG1WgzKZ44n8
- mr/LNkcs8pdQaJBpOEGGhrBav+izvZYBtYhpw/jeKwGJ6D7AEdXeZFg6eH8c1PSbJvG6nEySz
- Jt9hKB3b404W3gjKu5NNhhSps7FFtBJBNxnOvdmChGq43SqwXK+80r3fPuNvX+33l1rgGYhZ2
- D2+Qv2GbR+gmUIPk9KgXygmVymYsYN+0buVEGMGxKsoPRsCU3SbNzP4W8TTq9I/tC0BOYQG2p
- KR1ykVVw7noIzYdtq9+SqWzIvG5YcCE4Pe4x119TMglhfo1WrMZ+Nay+NTpYo3eXFDl3+dmIy
- QGQXV9532th9Nmx3euEk1YyDylqQTRylZAZSXJEAqlC1iwdp6k9JBjJKuvRHV+Go0dQwo5v3B
- ruV96QsiAJQSJ0WsdmVMdQl9diPqdm63EkRxVmOGrP4J4IHBc5HLZR0FgLbYz7ZGpflt7toyj
- xSxB3zQqbEgQD/BDO6pQ==
-Received-SPF: pass client-ip=212.227.17.11; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 11:19:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+References: <20201029220246.472693-1-ehabkost@redhat.com>
+ <20201029220246.472693-23-ehabkost@redhat.com>
+In-Reply-To: <20201029220246.472693-23-ehabkost@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 30 Oct 2020 20:42:32 +0400
+Message-ID: <CAJ+F1CJGW3q=x4_DHxeSOuPaNdub6kHeb13WaFH-E_uMx_54LA@mail.gmail.com>
+Subject: Re: [PATCH 22/36] qdev: Make qdev_prop_allow_set() a property
+ allow_set callback
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000fe6c0f05b2e615ed"
+Received-SPF: pass client-ip=2a00:1450:4864:20::543;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,69 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRy?= =?UTF-8?B?w6k=?= Lureau <marcandre.lureau@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/LdbojqvvVGG/z.uIgt61==w
-Content-Type: text/plain; charset=UTF-8
+--000000000000fe6c0f05b2e615ed
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-A connecting chardev object has an additional reference by the connecting
-thread, so if the chardev is still connecting by the end of the test,
-then the chardev object won't be freed. This in turn means that the yank
-instance won't be unregistered and when running the next test-case
-yank_register_instance will abort, because the yank instance is
-already/still registered.
+On Fri, Oct 30, 2020 at 2:15 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
+:
 
-Signed-off-by: Lukas Straub <lukasstraub2@web.de>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
----
- tests/test-char.c | 1 +
- 1 file changed, 1 insertion(+)
+> This removes the last remaining DeviceState-specific line of code
+> inside qdev property registration code, and will allow us to make
+> static properties a core QOM feature.
+>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+>
 
-diff --git a/tests/test-char.c b/tests/test-char.c
-index 9196e566e9..aedb5c9eda 100644
---- a/tests/test-char.c
-+++ b/tests/test-char.c
-@@ -937,6 +937,7 @@ static void char_socket_client_dupid_test(gconstpointer=
- opaque)
-     g_assert_nonnull(opts);
-     chr1 =3D qemu_chr_new_from_opts(opts, NULL, &error_abort);
-     g_assert_nonnull(chr1);
-+    qemu_chr_wait_connected(chr1, &error_abort);
 
-     chr2 =3D qemu_chr_new_from_opts(opts, NULL, &local_err);
-     g_assert_null(chr2);
---
-2.20.1
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
---Sig_/LdbojqvvVGG/z.uIgt61==w
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+--=20
+Marc-Andr=C3=A9 Lureau
 
------BEGIN PGP SIGNATURE-----
+--000000000000fe6c0f05b2e615ed
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-iQIzBAEBCgAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAl+cQkcACgkQNasLKJxd
-slgiBA/+L8Rr2tUiS0nIJSMQACbXazLCJdW4Te9LUUk30XS5ep9CfpgFgPbYw0vO
-AYvKPyYN6QD5qIrtfbbXSyzhjF4YZRtToxR/NbE3V5cF4JEmK44CgkZp9jAlG1th
-EgAD6SUI6iUP8N2VQoPJj/24Zq87LQOuPXol3WuKjTsJY6rHWCON39X4v1H53zfr
-fKmz9YTXU3ZckQZczmWoeDU+WxUFrE4vURrQ9VzhHIx75h+eZOEvzS14JIcZyrzK
-qkFGPAP3oWsDiQ0b77W6H03H2+oweX4FYtEZH2Q+q1NVjWjXLQT4u139BYNY5WBA
-ujzlt4RdupEiwrtPRF0i8AQE8bm9IIDQZhxrmYo5JM2Jgj1rrn5vYBhiPhLNT2XU
-B7MfEyXOHLLho/fuOpUzUXVIhWu4eEz2fLpBcfZrgcpMHxrM0gZ3i16oGfvS+eAb
-JUJIecC6BQghvBh+1EYBb99OEbVCHNkfO1Wlhd7w6Ef47ju995aesFn4KFvQGDWj
-R8hwHMgnahRqjITsazr7Jo+oPigvpUavMtZPvG9vmuC/IqigWzc3jLchSJu1PRuj
-r9vs+5flX4KN1A/WD3lVYCJvPZRMAzWxsJrnFH6izPK7d6NtQB2xJ0fqLp589Mq2
-BRPtOlQrtUN1LLpjKZ1lyTtQdlwyTczL3gTvG0pcuCx61qjJl4g=
-=lMnR
------END PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2020 at 2:15 AM Eduar=
+do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</=
+a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Th=
+is removes the last remaining DeviceState-specific line of code<br>
+inside qdev property registration code, and will allow us to make<br>
+static properties a core QOM feature.<br>
+<br>
+Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
+arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+</blockquote></div><div><br></div><div><br></div><div>Reviewed-by: Marc-And=
+r=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre=
+.lureau@redhat.com</a>&gt;</div><br>-- <br><div dir=3D"ltr" class=3D"gmail_=
+signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---Sig_/LdbojqvvVGG/z.uIgt61==w--
+--000000000000fe6c0f05b2e615ed--
 
