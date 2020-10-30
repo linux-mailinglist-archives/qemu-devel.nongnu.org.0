@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CF4D2A05BF
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:48:23 +0100 (CET)
-Received: from localhost ([::1]:47134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 445C72A05CC
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:50:44 +0100 (CET)
+Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTpO-0002ZK-KN
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:48:22 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
+	id 1kYTrf-000615-9v
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:50:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmi-0000kr-OB
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:37 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26020)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmk-0000mp-ET
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmg-0000iE-OX
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:36 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmi-0000is-By
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:38 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061933;
+ s=mimecast20190719; t=1604061935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2qvybBCIE1Zjv+mt4qBhgbngIyzXePj4i5BwfD1rO8Y=;
- b=JOfrw4Ytd2ULEsuRP+uu0DhK6veIvmbOl8P2wQ8W7adOX0B/QBc8VKYoclgU/bDCQloDjf
- WOITWGkDNyc64l2FewgZmFNQgwkU3wv0KQttUSZiloKzN8afvlW7j2lO375ztXQl8V1whq
- vTll8yUJjAfjqhRNP1ZSHlz+o95OXXs=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-197-88jYwgSCPxWsuyK3OEp0Kw-1; Fri, 30 Oct 2020 08:45:30 -0400
-X-MC-Unique: 88jYwgSCPxWsuyK3OEp0Kw-1
-Received: by mail-wm1-f69.google.com with SMTP id y21so316163wmi.7
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:30 -0700 (PDT)
+ bh=OQbV+eeH0Jal8wQ3qnCI4bc8h7HSMGkH1TuPaMitNA4=;
+ b=GBiDn9QBqPRRJ/Lib6MpD/DlwFA+xydmAjyi5EGrV4Jf7jYaN05j9hN852IFuDuHhEdX6Z
+ ES3LrqQOdG/c5mTR+XK0mF5yp/s9dnKRaa3acdbJ6QOyPkgowVTbIWgdxxnWLZ+JHuGNPB
+ DhtNAv1tYIOX6Cva/J1FWXd3CBj/hOA=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-59-y0TTm1enMpuOeqckdSNrcA-1; Fri, 30 Oct 2020 08:45:33 -0400
+X-MC-Unique: y0TTm1enMpuOeqckdSNrcA-1
+Received: by mail-wr1-f69.google.com with SMTP id 2so2625606wrd.14
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=2qvybBCIE1Zjv+mt4qBhgbngIyzXePj4i5BwfD1rO8Y=;
- b=Bj64RkgZN7Cd3oFm3WBmtWaTHkvWpyjnLiDE+5Nm3SYvKcsk5tK3whHqwoPQlVGqDs
- EpOOgME8pwjUr0VXjvvcDmShIeeKG0kyOBEks2KnVwKuOFiG5Zog9VAf98mwSOwLuS/O
- jGVBzReNV/zuFj5EZhwBEopoDDYp8Qv5SEdGyCIvUwV2w0HUnDBrMNkkmwJchZBNNaEh
- u4w9p6IZgdUDVDbrPkbQu3b9245h70TOy1mc/GdrmC9fkWV0eNLLXb2j5XNu3a51FJwj
- 1JQ951ugS0/SJV18/eBIZ9MdK0YnUQ0LCItTP1ea8OJCi3jPRNNBQIJAUyop5TiG/D5l
- nOoQ==
-X-Gm-Message-State: AOAM533SAFn7VDTDXJh3qbyp+HII7CxNRzSTBu1mHTyJzdSM8XbtOFgG
- xn6ENcYFVJJYagoXxLy8huQtzBCydi35ZqiyvFyoe610JxyQCgNwWIUaWJYrIEopN3nntTW+NMu
- I79l8ZbAA3EJcCDQ=
-X-Received: by 2002:a1c:4d14:: with SMTP id o20mr2441791wmh.72.1604061929450; 
- Fri, 30 Oct 2020 05:45:29 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyocOfMUmDYW7MlCrgP8+STQiAso4Njm5zwNXPERdlLOAvy7spFLjdptL6oXGytgo3z8GZM4g==
-X-Received: by 2002:a1c:4d14:: with SMTP id o20mr2441779wmh.72.1604061929287; 
- Fri, 30 Oct 2020 05:45:29 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=OQbV+eeH0Jal8wQ3qnCI4bc8h7HSMGkH1TuPaMitNA4=;
+ b=HHcf8OMFnLHaZ38sggNOIMNeLP+Z7AmV5Sk49vhvejn7wFe7xrjf6icmgunExpYlSE
+ 8xyAD23QdBk619CL1IPAOXR55eG5oqOvoFclPUdFroQR1U8tHK5ry6zQ6lbXfacR/urN
+ +OsDPM+4+zyRsXeFgZfPDfpgdkIarzuHsI4P7Qv3mHr2ThMBUsCc+4tevyk2qnZyjlSP
+ XTXpsc3gji2aAn5p3TKbowWrcbemej/FhEu/8rNOlCqnQUuregSH2nxh7G2/TRl95de3
+ gX87w5wGQ1ujpYK9sL3pjwDvlg4iz08lK1GUSHAc1vpgdZ8z0wOnBgXAE3jBUVvXSebD
+ L1/w==
+X-Gm-Message-State: AOAM532iw9KWc4Hd4A5UiDbQ2ZJZLToNkMfWaaa7m/xPPcLa8eRFYq6u
+ dmFvbgMmQxSQi0ZE153nLFI5louPJozGSHjEwe3y8Dk/vEaYgMtmVcek1Wywcr8o9bnbf20+zAQ
+ 3aGdIIJP0UCCysEc=
+X-Received: by 2002:adf:fa4e:: with SMTP id y14mr2838921wrr.377.1604061931747; 
+ Fri, 30 Oct 2020 05:45:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzZmzFpF57+XWqVg8AINqODziGkq6JddLydZIZsQfLOevVkt4QbThXM8uqJ4myB+LYrHm5NIg==
+X-Received: by 2002:adf:fa4e:: with SMTP id y14mr2838904wrr.377.1604061931601; 
+ Fri, 30 Oct 2020 05:45:31 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id r18sm11477001wrj.50.2020.10.30.05.45.27
+ by smtp.gmail.com with ESMTPSA id j9sm10601842wrp.59.2020.10.30.05.45.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:28 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:27 -0400
+ Fri, 30 Oct 2020 05:45:30 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:29 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/15] pci: advertise a page aligned ATS
-Message-ID: <20201030124454.854286-11-mst@redhat.com>
+Subject: [PULL 11/15] pci: Change error_report to assert(3)
+Message-ID: <20201030124454.854286-12-mst@redhat.com>
 References: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
@@ -69,8 +71,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
@@ -94,54 +97,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- qemu-stable@nongnu.org, Peter Xu <peterx@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ben Widawsky <ben.widawsky@intel.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jason Wang <jasowang@redhat.com>
+From: Ben Widawsky <ben.widawsky@intel.com>
 
-After Linux kernel commit 61363c1474b1 ("iommu/vt-d: Enable ATS only
-if the device uses page aligned address."), ATS will be only enabled
-if device advertises a page aligned request.
+Asserts are used for developer bugs. As registering a bar of the wrong
+size is not something that should be possible for a user to achieve,
+this is a developer bug.
 
-Unfortunately, vhost-net is the only user and we don't advertise the
-aligned request capability in the past since both vhost IOTLB and
-address_space_get_iotlb_entry() can support non page aligned request.
+While here, use the more obvious helper function.
 
-Though it's not clear that if the above kernel commit makes
-sense. Let's advertise a page aligned ATS here to make vhost device
-IOTLB work with Intel IOMMU again.
-
-Note that in the future we may extend pcie_ats_init() to accept
-parameters like queue depth and page alignment.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Jason Wang <jasowang@redhat.com>
-Message-Id: <20200909081731.24688-1-jasowang@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
+Message-Id: <20201015181411.89104-1-ben.widawsky@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/pci/pcie.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/pci/pci.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-index 5b48bae0f6..d4010cf8f3 100644
---- a/hw/pci/pcie.c
-+++ b/hw/pci/pcie.c
-@@ -971,8 +971,9 @@ void pcie_ats_init(PCIDevice *dev, uint16_t offset)
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index dc4019865b..e5b7c9a42b 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -1151,11 +1151,7 @@ void pci_register_bar(PCIDevice *pci_dev, int region_num,
  
-     dev->exp.ats_cap = offset;
+     assert(region_num >= 0);
+     assert(region_num < PCI_NUM_REGIONS);
+-    if (size & (size-1)) {
+-        error_report("ERROR: PCI region size must be pow2 "
+-                    "type=0x%x, size=0x%"FMT_PCIBUS"", type, size);
+-        exit(1);
+-    }
++    assert(is_power_of_2(size));
  
--    /* Invalidate Queue Depth 0, Page Aligned Request 0 */
--    pci_set_word(dev->config + offset + PCI_ATS_CAP, 0);
-+    /* Invalidate Queue Depth 0, Page Aligned Request 1 */
-+    pci_set_word(dev->config + offset + PCI_ATS_CAP,
-+                 PCI_ATS_CAP_PAGE_ALIGNED);
-     /* STU 0, Disabled by default */
-     pci_set_word(dev->config + offset + PCI_ATS_CTRL, 0);
- 
+     r = &pci_dev->io_regions[region_num];
+     r->addr = PCI_BAR_UNMAPPED;
 -- 
 MST
 
