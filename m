@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF88C29FA6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:17:41 +0100 (CET)
-Received: from localhost ([::1]:43912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B2729FA77
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:20:31 +0100 (CET)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYJ2y-00044D-Qo
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:17:40 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46850)
+	id 1kYJ5i-0007mx-B1
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:20:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIby-0004Iy-EL
+ id 1kYIby-0004HY-0p
  for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:46 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:38649)
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbn-0001qT-E5
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:46 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id f21so2145895plr.5
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:34 -0700 (PDT)
+ id 1kYIbs-0001r7-II
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:45 -0400
+Received: by mail-pl1-x636.google.com with SMTP id b19so2153637pld.0
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=48p8W0cP5+rHGeUcp39fHqqdSqoVJv3RUP5dQwok3FU=;
- b=EVSW04QXijdyT9lJn2iOx9GOAKCYdkPPWKlZs9QxmVfJ+eJeChTQ0OchqbzFm7ofno
- M49qEF0ribLjryIziboRic6OJGt+WeMpxaNOrTTuwKHP7kacJ02JeMtXeF3LKQLAYZmP
- nLL8b9F1VVJ+Gj1+Au/YgVpWlfHKXwRHWUfI4H0Ze8rNJEBOxoIghNgdOC21due6RKEm
- WK6/oTKE8CEtwNXGjbgmw/JyqL33x4Up34YaKdZEjQHLKYNUoc9gcdh+j1KraaeUaYAd
- xi25q+K/RBmuKxZFdBpLic6CwzjVV7a/4yufBe8JGGC5gP5J7MUzwTuhxuOTGz2s2kXK
- 3Niw==
+ bh=EDW5N3EY6pf0lhD/cP7nYSG7huQisBooduf1CEfu/zQ=;
+ b=TAUHvB4pqOIv0vWpopXB42N27xLW5dFaE5S29PvwH08w4HyakhXgtuWel5KZag0z0z
+ oKF+z0IecUMs+hGvxsZ0p7MAJROxVC8r6NIIcElI9azno0dXBMvGzvZekUDOoFGra/aQ
+ nKTYwC0kSzlLQoM/j8/XeP/oB7zVkQ2n2qTaz6vu/WZMA2eoHsiBptvM/eX6c0JbjT8S
+ l5wnz7R2VwP4fyCuEJpQutxNMrpbaqsXtH9It15NTIOYHEkQnqPWzRpe7kK3VZ7Rhsck
+ zQ5plhOYNA/QFJ8HPJ+iXN/HuMDpeZGtqzNwLksnPbB5amAs1LyDrhGly/Bqkl3tRCK1
+ 9Azw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=48p8W0cP5+rHGeUcp39fHqqdSqoVJv3RUP5dQwok3FU=;
- b=l9f3mvzpgbiRNTjQvIep6gClxhoDeGFvufz0oUne+QKNowXQstz/HOGxXFrip8Gygw
- dytJEjeOEG0if/wIZTxTbeSXuGjqhKzy+ZCH17b5NrulHPayQO+obR9KBLEsU+nxhy/w
- 5RA0nQGTKVAjfqSZkZjFR72sel2E5z6WVzoRI6/H6ZTKa6DtpaJUYr7BnbaR4y8g5CBG
- lZ51kj9tq8pgH9PJ/DAlm4jkg2JkEY+riz7e8ByJAalk43YDvtUAU/eNvifG8a6u1T0K
- zBWfG3BLyFZ5/m7f+zqRmfxIvRhCSdJpqkdFmDhP69nkm7JoeBR9h68vvcAcItkszK7h
- ITZQ==
-X-Gm-Message-State: AOAM530qBhlQS4EQSPjJ+PpmYVwOSmumM5bfwoKChSiwJrUV18eI07Re
- VzU6K5jz67t2t1v4W+nx7PLzGXD3jagxCw==
-X-Google-Smtp-Source: ABdhPJx4Me6fwyb7kFA4uZxMn6LVATTd1giQGiQP8e9UoZbHGjVdZljjlq7uN7uFU4abCMbyGIQwAw==
-X-Received: by 2002:a17:902:ee53:b029:d6:ff1:d569 with SMTP id
- 19-20020a170902ee53b02900d60ff1d569mr6497836plo.23.1604018973110; 
- Thu, 29 Oct 2020 17:49:33 -0700 (PDT)
+ bh=EDW5N3EY6pf0lhD/cP7nYSG7huQisBooduf1CEfu/zQ=;
+ b=nGJIyOBofaz+bcbrrz7Ye5PoUpdCm5B0LVSA5mnLcxphCDH9tFm6WwWj3RpgV6YsSU
+ rl0IrYtLlnvhYuvcLW9CW5Oslb52zIct796rLYJpj3AamrVy4ujfL7+6TltgH6VuLjBH
+ 5cL5kaMmjc5Mm3SBnmau8FDePIN62cTThpJn/tXCV265EiwmVqkacdc3x72jZ6FlMMhR
+ neFBFkO3vown3Pu9odyrdCep7Vwjg4joSnpVabLRHsUQtedGAXsqT6NmMDEoDuR2p+yw
+ iit6lX3n4Fld8yGWVvSzsjjpv7bTKA8g2VllD1tCo0OV/ugd3KBsTpU+10OQPknOk8Qn
+ BmVA==
+X-Gm-Message-State: AOAM530JSuEa20sXhvHNFPH0zUBK5VIRoBAaD3RoUhZ5Nbplclu0zu5q
+ mLTUEkv6nnUk7xHOj6pbu9fNbPH/IAWpAg==
+X-Google-Smtp-Source: ABdhPJyaNbeE4ETrqpdhiCArPacK6Fl1D/SGkdW9CNIxJOO2yVw/3Kocp06RLhMXTiq1AhTnzZO6kA==
+X-Received: by 2002:a17:902:6ac4:b029:d5:edd9:43c with SMTP id
+ i4-20020a1709026ac4b02900d5edd9043cmr6626788plt.16.1604018977274; 
+ Thu, 29 Oct 2020 17:49:37 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.31
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:32 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 07/19] tcg: Adjust tcg_register_jit for const
-Date: Thu, 29 Oct 2020 17:49:09 -0700
-Message-Id: <20201030004921.721096-8-richard.henderson@linaro.org>
+Subject: [PATCH v2 10/19] tcg: Make tb arg to synchronize_from_tb const
+Date: Thu, 29 Oct 2020 17:49:12 -0700
+Message-Id: <20201030004921.721096-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,187 +89,195 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We must change all targets at once, since all must match
-the declaration in tcg.c.
+There is nothing within the translators that ought to be
+changing the TranslationBlock data, so make it const.
+
+This does not actually use the read-only copy of the
+data structure that exists within the rx mirror.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h            |  2 +-
- tcg/tcg.c                    | 10 +++++-----
- tcg/aarch64/tcg-target.c.inc |  2 +-
- tcg/arm/tcg-target.c.inc     |  2 +-
- tcg/i386/tcg-target.c.inc    |  2 +-
- tcg/mips/tcg-target.c.inc    |  2 +-
- tcg/ppc/tcg-target.c.inc     |  2 +-
- tcg/riscv/tcg-target.c.inc   |  2 +-
- tcg/s390/tcg-target.c.inc    |  2 +-
- tcg/sparc/tcg-target.c.inc   |  2 +-
- 10 files changed, 14 insertions(+), 14 deletions(-)
+ include/hw/core/cpu.h   | 3 ++-
+ target/arm/cpu.c        | 3 ++-
+ target/avr/cpu.c        | 3 ++-
+ target/hppa/cpu.c       | 3 ++-
+ target/i386/cpu.c       | 3 ++-
+ target/microblaze/cpu.c | 3 ++-
+ target/mips/cpu.c       | 3 ++-
+ target/riscv/cpu.c      | 3 ++-
+ target/rx/cpu.c         | 3 ++-
+ target/sh4/cpu.c        | 3 ++-
+ target/sparc/cpu.c      | 3 ++-
+ target/tricore/cpu.c    | 2 +-
+ 12 files changed, 23 insertions(+), 12 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index f6f84421b2..76717b358b 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1242,7 +1242,7 @@ typedef uintptr_t tcg_prologue_fn(CPUArchState *env, const void *tb_ptr);
- extern tcg_prologue_fn *tcg_qemu_tb_exec;
- #endif
- 
--void tcg_register_jit(void *buf, size_t buf_size);
-+void tcg_register_jit(const void *buf, size_t buf_size);
- 
- #if TCG_TARGET_MAYBE_vec
- /* Return zero if the tuple (opc, type, vece) is unsupportable;
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index da16378d1c..4d5c95526c 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -96,7 +96,7 @@ typedef struct QEMU_PACKED {
-     DebugFrameFDEHeader fde;
- } DebugFrameHeader;
- 
--static void tcg_register_jit_int(void *buf, size_t size,
-+static void tcg_register_jit_int(const void *buf, size_t size,
-                                  const void *debug_frame,
-                                  size_t debug_frame_size)
-     __attribute__((unused));
-@@ -1133,7 +1133,7 @@ void tcg_prologue_init(TCGContext *s)
-     total_size -= prologue_size;
-     s->code_gen_buffer_size = total_size;
- 
--    tcg_register_jit(s->code_gen_buffer, total_size);
-+    tcg_register_jit(tcg_mirror_rw_to_rx(s->code_gen_buffer), total_size);
- 
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
-@@ -4449,7 +4449,7 @@ static int find_string(const char *strtab, const char *str)
+diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+index 9c3a45ad7b..67253e662b 100644
+--- a/include/hw/core/cpu.h
++++ b/include/hw/core/cpu.h
+@@ -189,7 +189,8 @@ struct CPUClass {
+     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+                                Error **errp);
+     void (*set_pc)(CPUState *cpu, vaddr value);
+-    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
++    void (*synchronize_from_tb)(CPUState *cpu,
++                                const struct TranslationBlock *tb);
+     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+                      MMUAccessType access_type, int mmu_idx,
+                      bool probe, uintptr_t retaddr);
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 07492e9f9a..2f9be1c0ee 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -54,7 +54,8 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
      }
  }
  
--static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
-+static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
-                                  const void *debug_frame,
-                                  size_t debug_frame_size)
+-static void arm_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void arm_cpu_synchronize_from_tb(CPUState *cs,
++                                        const TranslationBlock *tb)
  {
-@@ -4651,13 +4651,13 @@ static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
- /* No support for the feature.  Provide the entry point expected by exec.c,
-    and implement the internal function we declared earlier.  */
- 
--static void tcg_register_jit_int(void *buf, size_t size,
-+static void tcg_register_jit_int(const void *buf, size_t size,
-                                  const void *debug_frame,
-                                  size_t debug_frame_size)
- {
+     ARMCPU *cpu = ARM_CPU(cs);
+     CPUARMState *env = &cpu->env;
+diff --git a/target/avr/cpu.c b/target/avr/cpu.c
+index 5d9c4ad5bf..6f3d5a9e4a 100644
+--- a/target/avr/cpu.c
++++ b/target/avr/cpu.c
+@@ -41,7 +41,8 @@ static bool avr_cpu_has_work(CPUState *cs)
+             && cpu_interrupts_enabled(env);
  }
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void avr_cpu_synchronize_from_tb(CPUState *cs,
++                                        const TranslationBlock *tb)
  {
+     AVRCPU *cpu = AVR_CPU(cs);
+     CPUAVRState *env = &cpu->env;
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 71b6aca45d..e28f047d10 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -35,7 +35,8 @@ static void hppa_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.iaoq_b = value + 4;
  }
- #endif /* ELF_HOST_MACHINE */
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 6d8152c468..9ace859db3 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -2964,7 +2964,7 @@ static const DebugFrame debug_frame = {
+ 
+-static void hppa_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void hppa_cpu_synchronize_from_tb(CPUState *cs,
++                                         const TranslationBlock *tb)
+ {
+     HPPACPU *cpu = HPPA_CPU(cs);
+ 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 0d8606958e..01a8acafe3 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -7012,7 +7012,8 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.eip = value;
+ }
+ 
+-static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void x86_cpu_synchronize_from_tb(CPUState *cs,
++                                        const TranslationBlock *tb)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+ 
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 9b2482159d..c8e754cfb1 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -83,7 +83,8 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.iflags = 0;
+ }
+ 
+-static void mb_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void mb_cpu_synchronize_from_tb(CPUState *cs,
++                                       const TranslationBlock *tb)
+ {
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+ 
+diff --git a/target/mips/cpu.c b/target/mips/cpu.c
+index 76d50b00b4..79eee215cf 100644
+--- a/target/mips/cpu.c
++++ b/target/mips/cpu.c
+@@ -44,7 +44,8 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
      }
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
  }
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index d6dfe2b428..431af3107c 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -2353,7 +2353,7 @@ static const DebugFrame debug_frame = {
-     }
- };
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-static void mips_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void mips_cpu_synchronize_from_tb(CPUState *cs,
++                                         const TranslationBlock *tb)
  {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+     MIPSCPU *cpu = MIPS_CPU(cs);
+     CPUMIPSState *env = &cpu->env;
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 0bbfd7f457..faaa9d1e8f 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -282,7 +282,8 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
+     env->pc = value;
  }
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 0ac1ef3d82..7f74c77d7f 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -3998,7 +3998,7 @@ static const DebugFrame debug_frame = {
- #endif
  
- #if defined(ELF_HOST_MACHINE)
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-static void riscv_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void riscv_cpu_synchronize_from_tb(CPUState *cs,
++                                          const TranslationBlock *tb)
  {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+     RISCVCPU *cpu = RISCV_CPU(cs);
+     CPURISCVState *env = &cpu->env;
+diff --git a/target/rx/cpu.c b/target/rx/cpu.c
+index 23ee17a701..2bb14144a7 100644
+--- a/target/rx/cpu.c
++++ b/target/rx/cpu.c
+@@ -33,7 +33,8 @@ static void rx_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
-diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 064f46fc6d..b74dc15b86 100644
---- a/tcg/mips/tcg-target.c.inc
-+++ b/tcg/mips/tcg-target.c.inc
-@@ -2702,7 +2702,7 @@ static const DebugFrame debug_frame = {
-     }
- };
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-static void rx_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void rx_cpu_synchronize_from_tb(CPUState *cs,
++                                       const TranslationBlock *tb)
  {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+     RXCPU *cpu = RX_CPU(cs);
+ 
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index 3c68021c56..1e0f05a15b 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -34,7 +34,8 @@ static void superh_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.pc = value;
  }
-diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 513d784a83..bdaffeabb3 100644
---- a/tcg/ppc/tcg-target.c.inc
-+++ b/tcg/ppc/tcg-target.c.inc
-@@ -3847,7 +3847,7 @@ static DebugFrame debug_frame = {
-     }
- };
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-static void superh_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void superh_cpu_synchronize_from_tb(CPUState *cs,
++                                           const TranslationBlock *tb)
  {
-     uint8_t *p = &debug_frame.fde_reg_ofs[3];
-     int i;
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 4416a93e1f..025e3cd0bb 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -1907,7 +1907,7 @@ static const DebugFrame debug_frame = {
-     }
- };
+     SuperHCPU *cpu = SUPERH_CPU(cs);
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index cf21efd85f..b9241208b1 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -691,7 +691,8 @@ static void sparc_cpu_set_pc(CPUState *cs, vaddr value)
+     cpu->env.npc = value + 4;
  }
-diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index 7983befd96..2444511177 100644
---- a/tcg/s390/tcg-target.c.inc
-+++ b/tcg/s390/tcg-target.c.inc
-@@ -2620,7 +2620,7 @@ static const DebugFrame debug_frame = {
-     }
- };
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-static void sparc_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
++static void sparc_cpu_synchronize_from_tb(CPUState *cs,
++                                          const TranslationBlock *tb)
  {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
- }
-diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 1a40911660..4c81d5f1c2 100644
---- a/tcg/sparc/tcg-target.c.inc
-+++ b/tcg/sparc/tcg-target.c.inc
-@@ -1816,7 +1816,7 @@ static const DebugFrame debug_frame = {
-     .fde_ret_save = { 9, 15, 31 },      /* DW_CFA_register o7, i7 */
- };
+     SPARCCPU *cpu = SPARC_CPU(cs);
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
+index 2f2e5b029f..4bff1d4718 100644
+--- a/target/tricore/cpu.c
++++ b/target/tricore/cpu.c
+@@ -42,7 +42,7 @@ static void tricore_cpu_set_pc(CPUState *cs, vaddr value)
  }
+ 
+ static void tricore_cpu_synchronize_from_tb(CPUState *cs,
+-                                            TranslationBlock *tb)
++                                            const TranslationBlock *tb)
+ {
+     TriCoreCPU *cpu = TRICORE_CPU(cs);
+     CPUTriCoreState *env = &cpu->env;
 -- 
 2.25.1
 
