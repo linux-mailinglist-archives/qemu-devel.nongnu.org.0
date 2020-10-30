@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15CA2A05AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:43:43 +0100 (CET)
-Received: from localhost ([::1]:40878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44EB2A05B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:47:49 +0100 (CET)
+Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTkt-0008Ae-2U
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:43:43 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53090)
+	id 1kYToq-00025q-T2
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:47:48 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTjk-0007hv-PI
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:42:32 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53605)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmM-0000Qc-JN
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:14 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTjg-0007sI-1L
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:42:32 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmK-0000KW-CB
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061746;
+ s=mimecast20190719; t=1604061909;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=KtUb4W7qsUtOz+VocPR8ieTOCtSssjr+CeRTXxdkFM4=;
- b=VaS+d0JHRsQtletjXeXsWxxMBs0TLV4ral8hzge1t4BCxRMywuXfy194sxvRsHL16Cjvvo
- WQdizypCKALMV3Yp9HiQYD3Q2pmvzJ55PwqlpgBjchtVu2z4CFGcZLfGYEe2jk+bbNyFGM
- f7p1/qty3rliHElfvObHSkNFSog/KJc=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-18-elIPmjuAPcmrgJN5m2LVbA-1; Fri, 30 Oct 2020 08:42:24 -0400
-X-MC-Unique: elIPmjuAPcmrgJN5m2LVbA-1
-Received: by mail-wr1-f72.google.com with SMTP id 11so1501982wrc.3
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:42:24 -0700 (PDT)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VQON/qkHfDHAcqI32ttgHuJ36suArQZ7MBSOwD5g+6Y=;
+ b=VMPDAlWjbeGzdNfPJ/4FFfs9UyCnPE1EE/P2o4k6kVUpHxjkfUWbcsLnSqeKBLTfS1wSeN
+ D7kf5S+0w8dvx4f41Njs8IrUptb1apPo6YNoFdW+pg/RKwizU9zRpi9GmuHBIomySJk/+g
+ nDHvFLIBoXzGthaxXwZJSzKokFzFpgI=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-194-XQDtYldNM_yPDOFPWx5M_Q-1; Fri, 30 Oct 2020 08:45:08 -0400
+X-MC-Unique: XQDtYldNM_yPDOFPWx5M_Q-1
+Received: by mail-wr1-f70.google.com with SMTP id n14so2616102wrp.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=KtUb4W7qsUtOz+VocPR8ieTOCtSssjr+CeRTXxdkFM4=;
- b=AT3nnVJbPBEjrTgK2NaAFqLLRl6zof6SVDmaHiK2n9zTh6oPsfgAfetDPO3/fAxCTI
- xL/jpHLcSbAOvuDQbPsmZjOoBPjWLVJV90maJXXwrc9uSWgOt9YEfyYUFSor5BdtYlsL
- PCOnWtdVbuTam7DGFs/FOHx9ti5xr78/tw4uKXyXKJnEJyaV98CkPVvZ9YqGyJ+u33Ih
- IX8BYOl4sxEUxK/42YtlhXJAdigmxR8cbYtBiWojI9+nPOfcap0ixgH8zU2J2+XSXfGq
- UZptOY8jNOPaneqkihuaIwzIxwJcRmtH1YlY5tVMhxgCp4TbiZ9g8X0RYqGr7a70twg+
- /X0A==
-X-Gm-Message-State: AOAM533jihpstiJHfk65m3Wbj7S88PB4IrcLNTwkAMX2fOnql1lbEsqM
- quFDU6Us4dX/HRrxIBxt/2E8XH5c0+q6ytQCdrLxC0YUA38sD3+dQOJ/DHDeTPPV1AiG3adbSzw
- ezK1Zrp5IPunTlt0=
-X-Received: by 2002:a1c:2d97:: with SMTP id t145mr2366445wmt.132.1604061743108; 
- Fri, 30 Oct 2020 05:42:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyn9QYN7XAQIFFAzE8sGLiEFVNgH0uHUruD1Ty66zxz9ROt0nz6n6RexUMbNHgfEZiL+qqp7Q==
-X-Received: by 2002:a1c:2d97:: with SMTP id t145mr2366418wmt.132.1604061742868; 
- Fri, 30 Oct 2020 05:42:22 -0700 (PDT)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+ :content-disposition:content-transfer-encoding;
+ bh=VQON/qkHfDHAcqI32ttgHuJ36suArQZ7MBSOwD5g+6Y=;
+ b=LtSwRG1GvNKd+m/yFW7HZOWmDzcomBk6XmY2/kK1E+gruCTkUkzTzI58psJt7GnbP+
+ qoaH9Bkx+9WAvXW7NMOnQ1vLyy4gObLw3ZdsVVsVirmhSTf7ULrzKneHUXYaxmng12aG
+ Vw0yKebJB1eB9mHbzUv+eQ4gIrEKqY9BWkbY/l3YmBUDaozD6HJOE95wosKaVjlk0qeK
+ rpctd8JOQdX/tkeuaCuE8w22i65F/oOD4nSSvms5NxL0sp3rAazezxFEx/iIN8nOtUIX
+ 4SFpAXSWIj2Hwysjgiu7o4mwpcASZD2cZV5MG4FeQ+G+m+GqkeHhaJs2vSQOSnCfLzl3
+ J/pg==
+X-Gm-Message-State: AOAM532SA/JwCvRF/LTW8y9+R/UWegETLwbVQvpkkPCRejpWZajV4tt/
+ 6R8QCHqVuEAvB26fq5eO98Ndf7f3N73sYtYssF4xe5kinKQzKQpDE6eCQeXTwkig4KampnidFlk
+ cw8YGr7Sne1GVYn8=
+X-Received: by 2002:a1c:3d54:: with SMTP id k81mr2640168wma.144.1604061906376; 
+ Fri, 30 Oct 2020 05:45:06 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyQXoq4HHkVVEzPfrCzKk/9c3SYote7ULp1yu6VAG+Zlf1u5ZVbXyC+ihsCeOYT1j9VUXsSNA==
+X-Received: by 2002:a1c:3d54:: with SMTP id k81mr2640156wma.144.1604061906216; 
+ Fri, 30 Oct 2020 05:45:06 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id p13sm10148804wrt.73.2020.10.30.05.42.20
+ by smtp.gmail.com with ESMTPSA id a17sm10585283wra.29.2020.10.30.05.45.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:42:22 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:42:19 -0400
+ Fri, 30 Oct 2020 05:45:05 -0700 (PDT)
+Date: Fri, 30 Oct 2020 08:45:04 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH 00/12] block/export: vhost-user-blk server cleanups and
- tests
-Message-ID: <20201030084155-mutt-send-email-mst@kernel.org>
-References: <20201027173528.213464-1-stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/15] pc,pci,vhost,virtio: misc fixes
+Message-ID: <20201030124454.854286-1-mst@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201027173528.213464-1-stefanha@redhat.com>
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
@@ -93,66 +93,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Coiby Xu <Coiby.Xu@gmail.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Oct 27, 2020 at 05:35:16PM +0000, Stefan Hajnoczi wrote:
-> This patch series solves some issues with the new vhost-user-blk-server and
-> adds the qtest test case. The test case was not included in the pull request
-> that introduced the vhost-user-blk server because of reliability issues that
-> are fixed in this patch series.
+The following changes since commit 802427bcdae1ad2eceea8a8877ecad835e3f8fde:
 
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201027-1' into staging (2020-10-29 11:40:04 +0000)
 
-Fails make check for me:
+are available in the Git repository at:
 
-Running test qtest-i386/qos-test
-Broken pipe
-../qemu/tests/qtest/libqtest.c:161: kill_qemu() detected QEMU death from signal 11 (Segmentation fault) (core dumped)
-ERROR qtest-i386/qos-test - too few tests run (expected 92, got 65)
-make: *** [Makefile.mtest:1857: run-test-230] Error 1
+  git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
+for you to fetch changes up to 73beb01ec54969f76ab32d1e0605a759b6c95ab0:
 
-> Coiby Xu (1):
->   test: new qTest case to test the vhost-user-blk-server
-> 
-> Stefan Hajnoczi (11):
->   libvhost-user: follow QEMU comment style
->   configure: introduce --enable-vhost-user-blk-server
->   block/export: make vhost-user-blk config space little-endian
->   block/export: fix vhost-user-blk get_config() information leak
->   contrib/vhost-user-blk: fix get_config() information leak
->   tests/qtest: add multi-queue test case to vhost-user-blk-test
->   libqtest: add qtest_socket_server()
->   vhost-user-blk-test: rename destroy_drive() to destroy_file()
->   vhost-user-blk-test: close fork child file descriptors
->   vhost-user-blk-test: drop unused return value
->   vhost-user-blk-test: fix races by using fd passing
-> 
->  configure                               |  15 +
->  contrib/libvhost-user/libvhost-user.h   |  15 +-
->  tests/qtest/libqos/libqtest.h           |  25 +
->  tests/qtest/libqos/vhost-user-blk.h     |  48 ++
->  block/export/export.c                   |   4 +-
->  block/export/vhost-user-blk-server.c    |  28 +-
->  contrib/vhost-user-blk/vhost-user-blk.c |   2 +
->  tests/qtest/libqos/vhost-user-blk.c     | 129 ++++
->  tests/qtest/libqtest.c                  |  76 ++-
->  tests/qtest/vhost-user-blk-test.c       | 843 ++++++++++++++++++++++++
->  block/export/meson.build                |   2 +-
->  tests/qtest/libqos/meson.build          |   1 +
->  tests/qtest/meson.build                 |   2 +
->  util/meson.build                        |   2 +-
->  14 files changed, 1151 insertions(+), 41 deletions(-)
->  create mode 100644 tests/qtest/libqos/vhost-user-blk.h
->  create mode 100644 tests/qtest/libqos/vhost-user-blk.c
->  create mode 100644 tests/qtest/vhost-user-blk-test.c
-> 
-> -- 
-> 2.26.2
-> 
+  intel_iommu: Fix two misuse of "0x%u" prints (2020-10-30 06:48:53 -0400)
+
+----------------------------------------------------------------
+pc,pci,vhost,virtio: misc fixes
+
+Just a bunch of bugfixes all over the place.
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Ben Widawsky (4):
+      acpi/crs: Prevent bad ranges for host bridges
+      acpi/crs: Support ranges > 32b for hosts
+      pci: Change error_report to assert(3)
+      pci: Disallow improper BAR registration for type 1
+
+Eduardo Habkost (1):
+      pc: Implement -no-hpet as sugar for -machine hpet=on
+
+Felipe Franciosi (1):
+      virtio: skip guest index check on device load
+
+Greg Kurz (1):
+      vhost: Don't special case vq->used_phys in vhost_get_log_size()
+
+Jason Wang (1):
+      pci: advertise a page aligned ATS
+
+Jin Yu (1):
+      vhost-blk: set features before setting inflight feature
+
+Mark Cave-Ayland (1):
+      pci: Assert irqnum is between 0 and bus->nirqs in pci_bus_change_irq_level
+
+Peter Xu (1):
+      intel_iommu: Fix two misuse of "0x%u" prints
+
+Philippe Mathieu-Daudé (2):
+      hw/virtio/vhost-vdpa: Fix Coverity CID 1432864
+      hw/pci: Extract pci_bus_change_irq_level() from pci_change_irq_level()
+
+Si-Wei Liu (1):
+      vhost-vdpa: negotiate VIRTIO_NET_F_STATUS with driver
+
+Stefano Garzarella (1):
+      vhost-vsock: set vhostfd to non-blocking mode
+
+ include/hw/i386/pc.h      |  1 +
+ include/hw/i386/x86.h     |  3 ---
+ include/hw/virtio/vhost.h |  1 +
+ hw/block/vhost-user-blk.c |  6 +++++
+ hw/i386/acpi-build.c      | 12 +++++++--
+ hw/i386/intel_iommu.c     |  4 +--
+ hw/i386/pc.c              | 63 ++++++++++++++++++++++++++++++++---------------
+ hw/i386/pc_piix.c         |  2 +-
+ hw/pci/pci.c              | 23 +++++++++++------
+ hw/pci/pcie.c             |  5 ++--
+ hw/virtio/vhost-vdpa.c    |  4 +--
+ hw/virtio/vhost-vsock.c   | 10 ++++++++
+ hw/virtio/vhost.c         | 28 +++++++++++++--------
+ hw/virtio/virtio.c        | 13 +++++-----
+ net/vhost-vdpa.c          |  1 +
+ softmmu/vl.c              |  4 +--
+ 16 files changed, 123 insertions(+), 57 deletions(-)
 
 
