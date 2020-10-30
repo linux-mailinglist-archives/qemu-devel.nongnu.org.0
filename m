@@ -2,40 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69692A003B
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 09:43:48 +0100 (CET)
-Received: from localhost ([::1]:47360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3D92A0036
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 09:42:44 +0100 (CET)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYQ0h-0008Uh-Rz
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 04:43:47 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50024)
+	id 1kYPzf-0006xe-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 04:42:43 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <b111895492f8fb79bcca1c3e9586c0615f46cc97@lizzy.crudebyte.com>)
- id 1kYPyV-0006Ur-H5
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:41:31 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34439)
+ id 1kYPyI-0006Ck-78
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:41:18 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:49965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <b111895492f8fb79bcca1c3e9586c0615f46cc97@lizzy.crudebyte.com>)
- id 1kYPyT-000487-S6
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:41:31 -0400
+ id 1kYPyG-0003td-IJ
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:41:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=TYpAqY+nQKdFSjfR6Uv42nfzjmKSdH0n8xLRASXaJqA=; b=i9T8I
- 2gUqFsAMQZEou/Y89t/yiDnOHgCaUeP0eMauuUKt0QKoHIXkOyLuYw6G2yhLneJN+6+7ua3QRYT8f
- r2kDcUNS2T88DMqNyaV2B/RLoCZpAilpOXj0Vcr6dZXjqMnoCmXiapxwtb0ggwBOCm611TmktOmNk
- 97l0mUVQNJNx4R/r4nXaXbfA23/uS9ZZXa7vsxvSgJio6ODxob8ona5POfqvyNde+4gofK/IyxiAS
- 0ObxlY9uOnR8E2nWZNRzWP6JJYc/GC8YcC/bmKhwLShpJ9fZKpPjA0E3F7Q1wlzuw8aRu54cjKHO+
- 23BbAis7VwXDxumAFGIN03oXTLMqQ==;
-Message-Id: <b111895492f8fb79bcca1c3e9586c0615f46cc97.1604046404.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1604046404.git.qemu_oss@crudebyte.com>
-References: <cover.1604046404.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=2Di0ZkcguuNFEQk2O0yhBNVqRcIe/tlVGUFcAmSPFHM=; b=BiW1i
+ zqfnpzHZvoYP3CAnDw4pAwkamrhK6anCoqx33EFzDoLJeDH1dSp0qbIuEk+WsRjBj3JPnIFYLttpG
+ v/3q0xNOv86AH5wLh8js1YHb/xkcMy3U2psOvWaoqUV5wx6RAaWngsIt9+dLgtVZRM51pB7Ut8FSG
+ 7S6J8N1hm1Xr6XNfqJFkcoYFV+K1a34D6AGEEG1idIwTp3nsVOi52UaBknUDx/tNPtRQA5sHtM4ad
+ aZD/PxJDRmn1cM2tneCEnCPUT6Cmy/4nnmArlrjtfKCvCDEgLRt0zokJoNg+aEe9G9xQ0BKznxEvk
+ nXJ0x/f+V4/lT5e0awTqDaAYOzxuw==;
+Message-Id: <cover.1604046404.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Fri, 30 Oct 2020 09:19:46 +0100
-Subject: [PATCH 2/2] tests/9pfs: fix coverity error in create_local_test_dir()
+Date: Fri, 30 Oct 2020 09:26:44 +0100
+Subject: [PATCH 0/2] 9pfs: test suite fixes
 To: qemu-devel@nongnu.org
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
@@ -64,37 +62,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity wants the return value of mkdir() to be checked, so let's
-pretend to do that. We're actually just making a dummy check and
-ignore the result, because we actually only care if the required
-directory exists and we have an existence check for that in place
-already.
+Fixes two bugs with the 9pfs 'local' tests as discussed with latest 9P PR
+(2020-10-23). See the discussion of that PR for details.
 
-Reported-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/libqos/virtio-9p.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Christian Schoenebeck (2):
+  tests/9pfs: fix test dir for parallel tests
+  tests/9pfs: fix coverity error in create_local_test_dir()
 
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 6b22fa0e9a..0a7c0ee5d8 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -48,9 +48,13 @@ static void init_local_test_path(void)
- static void create_local_test_dir(void)
- {
-     struct stat st;
-+    int res;
- 
-     g_assert(local_test_path != NULL);
--    mkdir(local_test_path, 0777);
-+    res = mkdir(local_test_path, 0777);
-+    if (res < 0) {
-+        /* ignore error, dummy check to prevent error by coverity */
-+    }
- 
-     /* ensure test directory exists now ... */
-     g_assert(stat(local_test_path, &st) == 0);
+ tests/qtest/libqos/virtio-9p.c | 31 ++++++++++++++++++++++++-------
+ 1 file changed, 24 insertions(+), 7 deletions(-)
+
 -- 
 2.20.1
 
