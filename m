@@ -2,50 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DAC329FCBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 05:38:08 +0100 (CET)
-Received: from localhost ([::1]:53146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9620229FD77
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 06:52:30 +0100 (CET)
+Received: from localhost ([::1]:43664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYMAw-0005Xw-MI
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 00:38:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35196)
+	id 1kYNKv-00016X-7p
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 01:52:29 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kYM9W-0004Tg-SX; Fri, 30 Oct 2020 00:36:38 -0400
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kYM9U-00016b-9q; Fri, 30 Oct 2020 00:36:38 -0400
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CMqJX2t6Wz6vgC;
- Fri, 30 Oct 2020 12:36:28 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS409-HUB.china.huawei.com
- (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Fri, 30 Oct 2020
- 12:36:18 +0800
-From: Xinhao Zhang <zhangxinhao1@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 3/3] hw/9pfs : add space before the open parenthesis '('
-Date: Fri, 30 Oct 2020 12:35:15 +0800
-Message-ID: <20201030043515.1030223-3-zhangxinhao1@huawei.com>
-X-Mailer: git-send-email 2.29.0-rc1
-In-Reply-To: <20201030043515.1030223-1-zhangxinhao1@huawei.com>
-References: <20201030043515.1030223-1-zhangxinhao1@huawei.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kYNJb-0000YV-Gu
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 01:51:07 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kYNJW-0002Y5-Uw
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 01:51:07 -0400
+Received: by mail-pf1-x444.google.com with SMTP id 13so4324842pfy.4
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 22:51:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=O7acSnAlvapnus1R91XjuiTGjEbPamfaAD1/OSk1Q9I=;
+ b=TRa/SZrP90DcoxkI/qxIFj1hoTGe6lC5M4rKmDPI6+cD+haiqGt9F/zftL/RUl0aTz
+ gCjdkaWsVzK8bNrBPN2BlcPH06wHuWYn1vbMqYBIzfa3ENdn901qJ6SAej1DnBBsYoQQ
+ dGYcfpoH7evMyQaRkIeAKzvGPk+ufmcsWoFvlCP3+3JA+Pcx8Erp0je9Kq5CiP8VcH0m
+ V0KSRaYegdzW0e5VIyHXVcgo/IG9c9ulQCCtxikuShfnfIeTN1BoFIAKPAsuSWuDvYc3
+ at7lPdZ3VW2TLMmNyj+sMJpv4qu60SAcgvkaiw2k9vjvq7m1Ogf7Mpk889v4QjMrSElz
+ Fp2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=O7acSnAlvapnus1R91XjuiTGjEbPamfaAD1/OSk1Q9I=;
+ b=s6LW3adGkmGvgUD2YL+lDYj4Jvn0gz/8SsYJRPvlKZwQSeTdJbTQz8ZRkxD7vD9Rp1
+ 6pviPLIqTBi9BAgzAxuSjACJhpbQrEI5uVTWoIsIHrIo53l6rBENhKNzYfRLSMBbVe9x
+ ThmougbWanXSvPAaH52gMQGR8iqlg7TSdUi+bQrJfXTsVCMxaw1ZguQnn6kDBj9w9R5W
+ Drc3Z1Fjcchy7JaWFhaviNthA17dfRcMBEUNQ3AAvdOFIWgPqd0N/BpM5GPE59Z0+VQv
+ sLZtV3DKV/KmKxYIqMqI9kWAUl8d9KCmYf4R9F6G8Bfw11JXcsHJf/lWJO5HRp1LhncA
+ mZ1w==
+X-Gm-Message-State: AOAM530nR4DoPSNSkSHMPtBTZsxZVGhqy81Rynj5XLPTM1vmy8I6oy+F
+ JBK5D1jumyh+Qgk0iVShvZRH0A==
+X-Google-Smtp-Source: ABdhPJymNL8adJGANOnn96YyLpPChvi5Bn1qdNhgZvT3GjqqChJcMqbAMxmiZ7iDyQ8x6GHSIoYs1Q==
+X-Received: by 2002:a65:52cb:: with SMTP id z11mr782893pgp.368.1604037061261; 
+ Thu, 29 Oct 2020 22:51:01 -0700 (PDT)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id 11sm4353133pgd.24.2020.10.29.22.51.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 29 Oct 2020 22:51:00 -0700 (PDT)
+Subject: Re: [PATCH v2 3/8] accel/tcg/user-exec: silence the compiler warnings
+To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
+ qemu-trivial@nongnu.org
+References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
+ <20201030004046.2191790-4-kuhn.chenqun@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <84c34163-d177-be21-ef7d-85f5428e3c0e@linaro.org>
+Date: Thu, 29 Oct 2020 22:50:58 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20201030004046.2191790-4-kuhn.chenqun@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=zhangxinhao1@huawei.com; helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/29 23:35:23
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.261,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,35 +90,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu_oss@crudebyte.com,
- groug@kaod.org, dengkai1@huawei.com
+Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com,
+ Riku Voipio <riku.voipio@iki.fi>, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix code style. Space required before the open parenthesis '('.
+On 10/29/20 5:40 PM, Chen Qun wrote:
+> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
+> ../accel/tcg/user-exec.c: In function ‘handle_cpu_signal’:
+> ../accel/tcg/user-exec.c:169:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
+>   169 |             cpu_exit_tb_from_sighandler(cpu, old_set);
+>       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> ../accel/tcg/user-exec.c:172:9: note: here
+>   172 |         default:
+> 
+> Mark the cpu_exit_tb_from_sighandler() function with QEMU_NORETURN to fix it.
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> ---
+> v1->v2: Add QEMU_NORETURN to cpu_exit_tb_from_sighandler() function
+> to avoid the compiler warnings(Base on Thomas's and Richard's comments).
 
-Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
----
- hw/9pfs/cofs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
-index 55991916ec..0b321b456e 100644
---- a/hw/9pfs/cofs.c
-+++ b/hw/9pfs/cofs.c
-@@ -23,7 +23,7 @@ static ssize_t __readlink(V9fsState *s, V9fsPath *path, V9fsString *buf)
-     ssize_t len, maxlen = PATH_MAX;
- 
-     buf->data = g_malloc(PATH_MAX);
--    for(;;) {
-+    for (;;) {
-         len = s->ops->readlink(&s->ctx, path, buf->data, maxlen);
-         if (len < 0) {
-             g_free(buf->data);
--- 
-2.29.0-rc1
 
+r~
 
