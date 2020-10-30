@@ -2,89 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24A632A060D
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 13:58:26 +0100 (CET)
-Received: from localhost ([::1]:46570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B742A0637
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 14:07:54 +0100 (CET)
+Received: from localhost ([::1]:33914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYTz7-0005ex-7h
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 08:58:25 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53926)
+	id 1kYU8H-0004FR-AT
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 09:07:53 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmw-0000uT-Lu
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:52 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53820)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYTmu-0000nE-Rr
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:45:50 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604061948;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d0O00/al7cwQGWZwwOP6NLGwTcTYmOVWX7BhS/dcA4E=;
- b=FMJe4HzMamcQyAOVX0xvjt6Wq4vQ6dvT74D9MhrJ1xVkKe9ex9Zc98QRhjNztcf1Z7S3pe
- 5alu+SwyzJF1PeJpnRqUK5pw13xdSowRcRW0RvDK2Tiv3GbGw1jO1KDEqS7bvos+NBoJSu
- I8O9G1l7RtUIdGzQ0uofSkwmI+VZUKo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-aRqpl91VPpGOWU54nm-07A-1; Fri, 30 Oct 2020 08:45:44 -0400
-X-MC-Unique: aRqpl91VPpGOWU54nm-07A-1
-Received: by mail-wm1-f69.google.com with SMTP id 13so1212263wmf.0
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 05:45:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=d0O00/al7cwQGWZwwOP6NLGwTcTYmOVWX7BhS/dcA4E=;
- b=o2Zw/zTm31QPReN+yK25e9EgtouhV8tfoFbT0kWmozeii3saPqTqu7pQlTItNG16t3
- o1AiAlTOmZYBzRBkSb4e4afpVKKwie+yWjoZ0yEOopkaZxLbKF90ZRNwwXusAKLSejm/
- 1r94p8RAKmlERhMmLbS3SbVW0Mdlf+dAkUqtFjnpHTBTI4wksJisbAZKwYFExEAECRoG
- qOUvvcqKa2wzXVLDzeJV78aceNW7oAV/7nzF/fdGf3DaGyrHKJfK3weOYwAtXFX1VjZe
- JvjwYzdQgMR/r6nXhh2LN746wWdIqNUqP919GDf+ragZtlXlllhz6K8EkWtLkquyWzZA
- +s5w==
-X-Gm-Message-State: AOAM530CSrYAZx01dBtbOBizsmOmVREgrNrUm+PO7qnNjezy+FWivSEF
- sc8Tu7wwT/oDXh3yP/TSgHmANCUlBdhGuCjGghfqDpSMY7Y7F8Vubg9FzqUT0MGSnAlbmAI4/wG
- goY98lk1DsgDWeZ0=
-X-Received: by 2002:adf:de91:: with SMTP id w17mr2903961wrl.84.1604061941794; 
- Fri, 30 Oct 2020 05:45:41 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyS1eyLrIV2EGFJ+mVITJxSDEJQ+/befsmFugOUGtNYxicEuDDDD8hlFiybicxx7gTJp+HsKg==
-X-Received: by 2002:adf:de91:: with SMTP id w17mr2903940wrl.84.1604061941600; 
- Fri, 30 Oct 2020 05:45:41 -0700 (PDT)
-Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id u202sm4784660wmu.23.2020.10.30.05.45.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 05:45:40 -0700 (PDT)
-Date: Fri, 30 Oct 2020 08:45:39 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ (Exim 4.90_1)
+ (envelope-from <a37fbc713614f7615b11d0a3cb8d9adc3b8fba4b@lizzy.crudebyte.com>)
+ id 1kYTwG-0003wU-2o
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:55:28 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:44555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <a37fbc713614f7615b11d0a3cb8d9adc3b8fba4b@lizzy.crudebyte.com>)
+ id 1kYTwA-0003k2-Ls
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 08:55:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=Ld7D9oh7N3BYknwG5EaWpmySWIkgoTSxmXWvwmQbqDc=; b=eUW+E
+ 2rifWqS9wkZ5MjRnsS3oSR8TCeG3SkdoDYMI3Cd7rVbKCq96weWHIEuwnIIFq4TlMgMe0w5AgwyuW
+ 1guk9RlHka2bhBRRowaewxt5r5bHoU47uf32yr55rlgQgpGshUCeuw7duNzhy/KTIC5/feRZPGetU
+ fhx+NFJXpUK7VdWUcNq5e7CI3QgfvtIw9lAAxJjCR3WxAZAcgFdgK9ctuIDv1QuvFiii9cIFZ8+wa
+ /3RldAejKs4m3zbStDXjnER0xLVFe7kjeAKyl6EyzMcbOgMj91pVEBYY8w1wgefbY/W3F1ax9pGFZ
+ M6IwRlQy0AixnqOPQky6nYgzfDILw==;
+Message-Id: <a37fbc713614f7615b11d0a3cb8d9adc3b8fba4b.1604061839.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1604061839.git.qemu_oss@crudebyte.com>
+References: <cover.1604061839.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Fri, 30 Oct 2020 13:07:03 +0100
+Subject: [PATCH v2 1/2] tests/9pfs: fix test dir for parallel tests
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/15] intel_iommu: Fix two misuse of "0x%u" prints
-Message-ID: <20201030124454.854286-16-mst@redhat.com>
-References: <20201030124454.854286-1-mst@redhat.com>
-MIME-Version: 1.0
-In-Reply-To: <20201030124454.854286-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=a37fbc713614f7615b11d0a3cb8d9adc3b8fba4b@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 07:59:50
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,54 +61,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Xu <peterx@redhat.com>
+Use mkdtemp() to generate a unique directory for the 9p 'local' tests.
 
-Dave magically found this.  Fix them with "0x%x".
+This fixes occasional 9p test failures when running 'make check -jN' if
+QEMU was compiled for multiple target architectures, because the individual
+architecture's test suites would run in parallel and interfere with each
+other's data as the test directory was previously hard coded and hence the
+same directory was used by all of them simultaniously.
 
-Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Peter Xu <peterx@redhat.com>
-Message-Id: <20201019173922.100270-1-peterx@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+This also requires a change how the test directory is created and deleted:
+As the test path is now randomized and virtio_9p_register_nodes() being
+called in a somewhat undeterministic way, that's no longer an appropriate
+place to create and remove the test directory. Use a constructor and
+destructor function for creating and removing the test directory instead.
+Unfortunately libqos currently does not support setup/teardown callbacks
+to handle this more cleanly.
+
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Tested-by: Greg Kurz <groug@kaod.org>
 ---
- hw/i386/intel_iommu.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 25 +++++++++++++++++++------
+ 1 file changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
-index 749eb6ad63..70ac837733 100644
---- a/hw/i386/intel_iommu.c
-+++ b/hw/i386/intel_iommu.c
-@@ -2665,7 +2665,7 @@ static uint64_t vtd_mem_read(void *opaque, hwaddr addr, unsigned size)
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index d43647b3b7..6b22fa0e9a 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -35,7 +35,12 @@ static char *concat_path(const char* a, const char* b)
+ static void init_local_test_path(void)
+ {
+     char *pwd = g_get_current_dir();
+-    local_test_path = concat_path(pwd, "qtest-9p-local");
++    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++    local_test_path = mkdtemp(template);
++    if (!local_test_path) {
++        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
++    }
++    g_assert(local_test_path);
+     g_free(pwd);
+ }
  
-     if (addr + size > DMAR_REG_SIZE) {
-         error_report_once("%s: MMIO over range: addr=0x%" PRIx64
--                          " size=0x%u", __func__, addr, size);
-+                          " size=0x%x", __func__, addr, size);
-         return (uint64_t)-1;
-     }
+@@ -246,11 +251,6 @@ static void virtio_9p_register_nodes(void)
+     const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
+     const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
  
-@@ -2716,7 +2716,7 @@ static void vtd_mem_write(void *opaque, hwaddr addr,
+-    /* make sure test dir for the 'local' tests exists and is clean */
+-    init_local_test_path();
+-    remove_local_test_dir();
+-    create_local_test_dir();
+-
+     QPCIAddress addr = {
+         .devfn = QPCI_DEVFN(4, 0),
+     };
+@@ -278,3 +278,16 @@ static void virtio_9p_register_nodes(void)
+ }
  
-     if (addr + size > DMAR_REG_SIZE) {
-         error_report_once("%s: MMIO over range: addr=0x%" PRIx64
--                          " size=0x%u", __func__, addr, size);
-+                          " size=0x%x", __func__, addr, size);
-         return;
-     }
- 
+ libqos_init(virtio_9p_register_nodes);
++
++static void __attribute__((constructor)) construct_virtio_9p(void)
++{
++    /* make sure test dir for the 'local' tests exists */
++    init_local_test_path();
++    create_local_test_dir();
++}
++
++static void __attribute__((destructor)) destruct_virtio_9p(void)
++{
++    /* remove previously created test dir when test suite completed */
++    remove_local_test_dir();
++}
 -- 
-MST
+2.20.1
 
 
