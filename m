@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D952A07A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:18:15 +0100 (CET)
-Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 647BC2A07BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:23:31 +0100 (CET)
+Received: from localhost ([::1]:48032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVEM-0000Wj-Va
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:18:15 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
+	id 1kYVJS-00079I-Fc
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:23:30 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8s-0003oB-Ip
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60970)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8t-0003pI-HD
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:39 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8p-0007HR-8j
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:34 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8r-0007Hk-Ax
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:35 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604067147;
+ s=mimecast20190719; t=1604067151;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=509YkEUpGBV1ErtRUsNd1psMy3xW+1ruB0fSsKITRuw=;
- b=gO4u/vr3snnPovY3mtEmw1gXtexieY/vAwSrCX1Q2SX8Rf/EpRsFIii6BOYQVaodq6GXlj
- B2I5tSvD3BF1UPiBELMaS2dN5kuixBHwjPVOXF7ZCv5ddxSGv95k3DNKYXTJ0zkHMewo9W
- 1pYYfMTdE4Zm3tyzliSFCA7OhJfJUio=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-_ekKt7giO7-UWTdQIuQ4RA-1; Fri, 30 Oct 2020 10:12:25 -0400
-X-MC-Unique: _ekKt7giO7-UWTdQIuQ4RA-1
-Received: by mail-wm1-f71.google.com with SMTP id b68so670546wme.5
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:25 -0700 (PDT)
+ bh=d0O00/al7cwQGWZwwOP6NLGwTcTYmOVWX7BhS/dcA4E=;
+ b=LQLHxNQSzW3VeNodyJ5moxkw8cJY6i+LB0PxAK2pE7fGl2wnzAsxeUIrF+cq43W2Y+Eo85
+ /c17p02jwlH5wFXBVpQ3/5Unl8TnVDdoIFF2k0Y3i/i5wpZ5vPxkLg9UHEJ7Ihqdf4OG40
+ npFVExakoJ5TKmAQMa3hAcWGzcah+oU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-224-0iXj627ONi2OBktI-Bue_g-1; Fri, 30 Oct 2020 10:12:28 -0400
+X-MC-Unique: 0iXj627ONi2OBktI-Bue_g-1
+Received: by mail-wm1-f70.google.com with SMTP id t21so664749wmt.8
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=509YkEUpGBV1ErtRUsNd1psMy3xW+1ruB0fSsKITRuw=;
- b=cwh6k4RqNmrSsT+jTDumUIueioxKmn7Z4bdCrGtLuQ9Vkzl4yzTxrdkwDs1GhmSieq
- SdSdeDls+rTz++qbPIrentLPqDRlMIGV6RatQ4bwjGuh2S9DZ1jadS8wCZo9kHyCdowv
- b4gOCLT/tCvuwzTEEx+TgUZV094a6OvloRNBX4fYVcaB+XPgYF9+Yn/D8UF8Jlng69N0
- cIi/BR35KSmXdnnxABew4TdGKxOj4100olT7tE+9cZYIqntimUx+J6/Ou7xXd8tSc0SV
- GSlTWNhOmz4N97tZEKCreN+dh0Sz4IIHbLn1/pDltBIArsyZeEDTri6ZLN3sxs6BRI52
- bnyw==
-X-Gm-Message-State: AOAM531j+UnYkxBI9QxPM+4Q3LhPF3bIUHXeQT/rsEmMMnNbVk6ngFHP
- r5zhbscdhkZfC+i09lkbb3UVbchDZLqK+FInije3E8v1JEH88YPhYAKhlwkcpQ6IZ6qwSat8mT4
- Pd8j9DsQoxmLAN2o=
-X-Received: by 2002:a5d:554b:: with SMTP id g11mr3476477wrw.370.1604067143794; 
- Fri, 30 Oct 2020 07:12:23 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzOO1kOXsh78wpA3CxygZa/o5KI1H5QmBu/eqD3taBkynXdsgJrLRVEMZJZSrrWzhta7oZtHA==
-X-Received: by 2002:a5d:554b:: with SMTP id g11mr3476461wrw.370.1604067143643; 
- Fri, 30 Oct 2020 07:12:23 -0700 (PDT)
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=d0O00/al7cwQGWZwwOP6NLGwTcTYmOVWX7BhS/dcA4E=;
+ b=hLWfqELOjrcDBZyfN7TuDJ8N4L1VOqSd1YugzDwRMCECRN3WqZBkNsXV4ruyvnZaSD
+ eSO5t2/IvQia/GYamTc27aLSIYHWDK0Jr7ZmfYbw39ljb3cUaDv1KIpX71K6tT97RuPG
+ Q479w+Xqz5D66PVJcLAS1bDa6xCIGhmQ+AMlYCtXlLrJFNbpaiwfiUGSg3DcsLd5Pmxi
+ DD9pVWnVxdLEJ1osoyXrqHi+mMQ6zU+2R9KMqLb/HeixTj7sbwu+U8ioz9E1cMva8Nyf
+ oNRtcXD94fpcWp1OHzrqTlyCAW0/rHkVHv7JyYRCeJ5UWXrgElTQcT2Ifuuf77req9RX
+ x77A==
+X-Gm-Message-State: AOAM5312OS4vU/z3bYwz72Zh1W05W/atSJlSxGmOdc3PSBzPB+1S0v8I
+ 1rIW8WRfqUGqahVwcPuNI43vIf7si6K/QvbUWtlFHR0Asa0u7Sx+o3JfbzFfill9wtCKxnC9uEM
+ WUdKisHR3LciyxyI=
+X-Received: by 2002:a1c:4646:: with SMTP id t67mr3036968wma.40.1604067146761; 
+ Fri, 30 Oct 2020 07:12:26 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzcTcYNgqIFZ0NNodQZDD9IwI+YtMCFvbOWX+sYeS8Vc9t8Afe/H296/0mB688FAqZA7kKPqg==
+X-Received: by 2002:a1c:4646:: with SMTP id t67mr3036929wma.40.1604067146524; 
+ Fri, 30 Oct 2020 07:12:26 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id a3sm4835738wmb.46.2020.10.30.07.12.22
+ by smtp.gmail.com with ESMTPSA id b4sm2655071wro.57.2020.10.30.07.12.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 07:12:22 -0700 (PDT)
-Date: Fri, 30 Oct 2020 10:12:21 -0400
+ Fri, 30 Oct 2020 07:12:25 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:12:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/15] virtio: skip guest index check on device load
-Message-ID: <20201030141136.1013521-15-mst@redhat.com>
+Subject: [PULL 15/15] intel_iommu: Fix two misuse of "0x%u" prints
+Message-ID: <20201030141136.1013521-16-mst@redhat.com>
 References: <20201030141136.1013521-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030141136.1013521-1-mst@redhat.com>
@@ -69,8 +71,9 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
@@ -94,64 +97,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Felipe Franciosi <felipe@nutanix.com>
+From: Peter Xu <peterx@redhat.com>
 
-QEMU must be careful when loading device state off migration streams to
-prevent a malicious source from exploiting the emulator. Overdoing these
-checks has the side effect of allowing a guest to "pin itself" in cloud
-environments by messing with state which is entirely in its control.
+Dave magically found this.  Fix them with "0x%x".
 
-Similarly to what f3081539 achieved in usb_device_post_load(), this
-commit removes such a check from virtio_load(). Worth noting, the result
-of a load without this check is the same as if a guest enables a VQ with
-invalid indexes to begin with. That is, the virtual device is set in a
-broken state (by the datapath handler) and must be reset.
-
-Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
-Message-Id: <20201028134643.110698-1-felipe@nutanix.com>
+Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20201019173922.100270-1-peterx@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+ hw/i386/intel_iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 6f8f865aff..ceb58fda6c 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -17,6 +17,7 @@
- #include "trace.h"
- #include "exec/address-spaces.h"
- #include "qemu/error-report.h"
-+#include "qemu/log.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
- #include "hw/virtio/virtio.h"
-@@ -3160,12 +3161,12 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
-             nheads = vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_avail_idx;
-             /* Check it isn't doing strange things with descriptor numbers. */
-             if (nheads > vdev->vq[i].vring.num) {
--                error_report("VQ %d size 0x%x Guest index 0x%x "
--                             "inconsistent with Host index 0x%x: delta 0x%x",
--                             i, vdev->vq[i].vring.num,
--                             vring_avail_idx(&vdev->vq[i]),
--                             vdev->vq[i].last_avail_idx, nheads);
--                return -1;
-+                qemu_log_mask(LOG_GUEST_ERROR,
-+                              "VQ %d size 0x%x Guest index 0x%x "
-+                              "inconsistent with Host index 0x%x: delta 0x%x",
-+                              i, vdev->vq[i].vring.num,
-+                              vring_avail_idx(&vdev->vq[i]),
-+                              vdev->vq[i].last_avail_idx, nheads);
-             }
-             vdev->vq[i].used_idx = vring_used_idx(&vdev->vq[i]);
-             vdev->vq[i].shadow_avail_idx = vring_avail_idx(&vdev->vq[i]);
+diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+index 749eb6ad63..70ac837733 100644
+--- a/hw/i386/intel_iommu.c
++++ b/hw/i386/intel_iommu.c
+@@ -2665,7 +2665,7 @@ static uint64_t vtd_mem_read(void *opaque, hwaddr addr, unsigned size)
+ 
+     if (addr + size > DMAR_REG_SIZE) {
+         error_report_once("%s: MMIO over range: addr=0x%" PRIx64
+-                          " size=0x%u", __func__, addr, size);
++                          " size=0x%x", __func__, addr, size);
+         return (uint64_t)-1;
+     }
+ 
+@@ -2716,7 +2716,7 @@ static void vtd_mem_write(void *opaque, hwaddr addr,
+ 
+     if (addr + size > DMAR_REG_SIZE) {
+         error_report_once("%s: MMIO over range: addr=0x%" PRIx64
+-                          " size=0x%u", __func__, addr, size);
++                          " size=0x%x", __func__, addr, size);
+         return;
+     }
+ 
 -- 
 MST
 
