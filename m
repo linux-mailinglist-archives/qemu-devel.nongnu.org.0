@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 937F22A0941
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:09:06 +0100 (CET)
-Received: from localhost ([::1]:47426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 222D72A0909
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:02:57 +0100 (CET)
+Received: from localhost ([::1]:60328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYW1Z-0004hb-3l
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:09:05 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55304)
+	id 1kYVvc-0006X1-5a
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:02:56 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYVkj-0001PD-Po
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:51:41 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21199)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYVld-0002Wn-Mt
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:52:38 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYVkh-0003yS-Kf
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:51:41 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYVla-00041j-Uj
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:52:37 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604069499;
+ s=mimecast20190719; t=1604069554;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qtKS7lwN7u0IFjDWDyJXAKW2kgHV62xxsRXwVFZo75k=;
- b=U1LbVVszwAD+ch8lzlgjIHjkJb60DCSbLH4+csvVCc3PIg1weSW2CmuB21mKaCoAC75rUj
- bOrC4jZrep/kh+31RtLCZDVbG3/EZe5zNQqonLYAdDx8lTiQ1hAF3O7IRfajTKvdbA0VTP
- SUVFSMyeU84nirzXeb4a7LjK5UlDEGk=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-lsyfkeyNMamNxJqQCQGRlA-1; Fri, 30 Oct 2020 10:51:36 -0400
-X-MC-Unique: lsyfkeyNMamNxJqQCQGRlA-1
-Received: by mail-wr1-f70.google.com with SMTP id m4so2731051wrq.23
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:51:36 -0700 (PDT)
+ bh=vqu0rV0cOSyl+5SSlJ72JCTq1DZwy2EtpKqlnXFM2jQ=;
+ b=i3jSk4g3YM0c2Y6Hj6+S7VYPS942m3oFR38+pffqArc4FhjbZorrVKj+t/AoYDWXPIVTHQ
+ M0fRC+q0SNsJWAxL0xFkI71ruL5dxFCubciGhPHr/mdW4/hg+1g5dhGcKR/LaHodurs62z
+ ed19EWstLdbT+ny7wGr4p+3SVHlmDAg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-512-cMbX7Qf0PTC-XTCWHycL5A-1; Fri, 30 Oct 2020 10:52:32 -0400
+X-MC-Unique: cMbX7Qf0PTC-XTCWHycL5A-1
+Received: by mail-wm1-f70.google.com with SMTP id f7so718715wmc.0
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:52:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4YgAyreCt3RuIM9969z4u8MrkWopdCD8NoBNXd05d50=;
- b=bSozcGNGmFiGvLMWLDqwia54GPL6HP8NKm/qxz66QeP+iBpTNAcEpQFUB5WfZAJh79
- MVRfIWRyQ6fAaU94oqGZTkBJVHoHWs25OHqf/uVJuikHU2qPyg1w9iDw15ZgNcQ4IFCO
- fjposJHDZ++5Z6MapSvuSWMYsTcN2Xwz8lnzfncLeeuGxEjPNiduaSYxpuT71D4r5iJn
- G9uR/gnwRR4yglNvPTc0jfUKWbjcFvWfx1E++BVkO1dFVUkPtZlqmR9+ZYkExcltx/r7
- a6EOR/HdDKSVAntJ1+9EA0AnOZ6HE21DkT7kENtwIz6vmblSBEDq2yHEnsv0uTGk960M
- x9Lw==
-X-Gm-Message-State: AOAM531C8yyH+VhdO5jmnvXM1GbjKkc9znQ5O0wcjpH8LDuutBxZ6GMj
- HaLAOXGg7Fc3WCRhOlDWsAYzwS5CzN89A5mCKkAbNWsLHfKE9o9tTMeoNfRMDU+xOo8Y1CaA6Ri
- YLUKk2pCgzw546cU=
-X-Received: by 2002:a1c:2096:: with SMTP id g144mr3228747wmg.79.1604069492404; 
- Fri, 30 Oct 2020 07:51:32 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJy5Hqd7RA6M3JomYKztOBfJM28ECAf1epVuxaU9Oj5AFHMhREwhtjA8hhWvF9CMkbml26q/TQ==
-X-Received: by 2002:a1c:2096:: with SMTP id g144mr3228720wmg.79.1604069492193; 
- Fri, 30 Oct 2020 07:51:32 -0700 (PDT)
+ bh=pZgKSk8ygvE23+ghK6eHP5e/78YniwWL3wCh9oEPuGY=;
+ b=e813C4HiZ0IExmx/mowBL4S3DMNK3p13L7/K+0ay00bnXvdrIAaxGqZ1I2s5sIDGI/
+ 1Z/n5lZhFZm4n6ZV8O8WyVI+53W8xHCmy6ZjDhpZI6SrnRhHgzWwtfwoeIuoEYKAKKQo
+ IEX3pMa9KMpybMYIOZb7lz43pFNCh4BIwrl5urNowr/cg+zN7Vjcs+Y76Ru53BpDN9rv
+ m+7jbaZ6iwY7RiYuNtQe1dtz8fDAuYL1ZT3XxBreRZ13NOSL8Jy+fiS9njRmocOF2Ek9
+ u5c4+CF3eDaAQHy19qBsK5tHCnB119KrobPdtfSoCtA4lcTTGhyrlsqVaqGmbfxY6dgm
+ iM5g==
+X-Gm-Message-State: AOAM532bOymT7vEEE/rE7z2ReQ+K1NJGoJUwrfuRi3yGICK0ky096rGH
+ /z5/gG9r4v4nbTnYzTzwJ/mAcoE8MosrS7B1UmfqWCUkPRPt/cDhv7KS5VOcL06gUfoSj6Z74pc
+ tcRRV8ChLxXeGYms=
+X-Received: by 2002:a5d:6a0a:: with SMTP id m10mr3711999wru.189.1604069550984; 
+ Fri, 30 Oct 2020 07:52:30 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxvUSOym0YB/Z/jrRlDyBvFCdH68irtd18Avda02QGXIqTFsCq9kBSqZMwSiT2+vjzYThrkNg==
+X-Received: by 2002:a5d:6a0a:: with SMTP id m10mr3711974wru.189.1604069550818; 
+ Fri, 30 Oct 2020 07:52:30 -0700 (PDT)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t5sm12254702wrb.21.2020.10.30.07.51.30
+ by smtp.gmail.com with ESMTPSA id f1sm2017598wmj.3.2020.10.30.07.52.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 30 Oct 2020 07:51:31 -0700 (PDT)
-Subject: Re: [PATCH 13/25] block/nvme: Introduce Completion Queue definitions
+ Fri, 30 Oct 2020 07:52:30 -0700 (PDT)
+Subject: Re: [PATCH-for-5.2 v2 12/25] block/nvme: Introduce Completion Queue
+ definitions
 To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20201027135547.374946-1-philmd@redhat.com>
- <20201027135547.374946-14-philmd@redhat.com>
- <20201028151633.GH231368@stefanha-x1.localdomain>
- <d2e9983d-066d-e721-55ca-5d7cdbf35dbc@redhat.com>
- <43f09633-dfc6-289a-f138-32e32afd69de@redhat.com>
- <20201030114626.GH307361@stefanha-x1.localdomain>
+References: <20201029093306.1063879-1-philmd@redhat.com>
+ <20201029093306.1063879-13-philmd@redhat.com>
+ <20201030140340.GD330921@stefanha-x1.localdomain>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1f697299-996e-12ba-c5f4-8d59b9d800f2@redhat.com>
-Date: Fri, 30 Oct 2020 15:51:30 +0100
+Message-ID: <7779d2aa-3a5d-7d2f-adc4-f15740711e20@redhat.com>
+Date: Fri, 30 Oct 2020 15:52:29 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201030114626.GH307361@stefanha-x1.localdomain>
+In-Reply-To: <20201030140340.GD330921@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -80,18 +78,18 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=WINDOWS-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -23
 X-Spam_score: -2.4
 X-Spam_bar: --
 X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.253, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.253, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,88 +102,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Eric Auger <eric.auger@redhat.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Eric Auger <eric.auger@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/30/20 12:46 PM, Stefan Hajnoczi wrote:
-> On Thu, Oct 29, 2020 at 10:02:37AM +0100, Philippe Mathieu-Daudé wrote:
->> On 10/28/20 7:24 PM, Philippe Mathieu-DaudÃ© wrote:
->>> On 10/28/20 4:16 PM, Stefan Hajnoczi wrote:
->>>> On Tue, Oct 27, 2020 at 02:55:35PM +0100, Philippe Mathieu-DaudÃ© wrote:
->>>>> Rename Submission Queue flags with 'Sq' and introduce
->>>>> Completion Queue flag definitions.
->>>>>
->>>>> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
->>>>> ---
->>>>>  include/block/nvme.h | 17 +++++++++++------
->>>>>  1 file changed, 11 insertions(+), 6 deletions(-)
->>>>>
->>>>> diff --git a/include/block/nvme.h b/include/block/nvme.h
->>>>> index 65e68a82c89..079f884a2d3 100644
->>>>> --- a/include/block/nvme.h
->>>>> +++ b/include/block/nvme.h
->>>>> @@ -491,6 +491,11 @@ typedef struct QEMU_PACKED NvmeCreateCq {
->>>>>  #define NVME_CQ_FLAGS_PC(cq_flags)  (cq_flags & 0x1)
->>>>>  #define NVME_CQ_FLAGS_IEN(cq_flags) ((cq_flags >> 1) & 0x1)
->>>>>  
->>>>> +enum NvmeFlagsCq {
->>>>> +    NVME_CQ_PC          = 1,
->>>>> +    NVME_CQ_IEN         = 2,
->>>>> +};
->>>>> +
->>>>>  typedef struct QEMU_PACKED NvmeCreateSq {
->>>>>      uint8_t     opcode;
->>>>>      uint8_t     flags;
->>>>> @@ -508,12 +513,12 @@ typedef struct QEMU_PACKED NvmeCreateSq {
->>>>>  #define NVME_SQ_FLAGS_PC(sq_flags)      (sq_flags & 0x1)
->>>>>  #define NVME_SQ_FLAGS_QPRIO(sq_flags)   ((sq_flags >> 1) & 0x3)
->>>>>  
->>>>> -enum NvmeQueueFlags {
->>>>> -    NVME_Q_PC           = 1,
->>>>> -    NVME_Q_PRIO_URGENT  = 0,
->>>>> -    NVME_Q_PRIO_HIGH    = 1,
->>>>> -    NVME_Q_PRIO_NORMAL  = 2,
->>>>> -    NVME_Q_PRIO_LOW     = 3,
->>>>> +enum NvmeFlagsSq {
->>>>> +    NVME_SQ_PC          = 1,
->>>>> +    NVME_SQ_PRIO_URGENT = 0,
->>>>> +    NVME_SQ_PRIO_HIGH   = 1,
->>>>> +    NVME_SQ_PRIO_NORMAL = 2,
->>>>> +    NVME_SQ_PRIO_LOW    = 3,
->>>>>  };
->>>>
->>>> There is also:
->>>>
->>>>   #define NVME_SQ_FLAGS_PC(sq_flags)      (sq_flags & 0x1)
->>>>   #define NVME_SQ_FLAGS_QPRIO(sq_flags)   ((sq_flags >> 1) & 0x3)
->>>>
->>>> These macros should use the new constants.
+On 10/30/20 3:03 PM, Stefan Hajnoczi wrote:
+> On Thu, Oct 29, 2020 at 10:32:53AM +0100, Philippe Mathieu-Daudé wrote:
+>> Rename Submission Queue flags with 'Sq' to differentiate
+>> submission queue flags from command queue flags, and introduce
+>> Completion Queue flag definitions.
 >>
->> SQ_PC is bit#0, NVME_SQ_PC is "bit SQ_PC set (PC enabled)",
->> SQ_PRIO are bits #1-2 (shift by 1, mask 2 bits),
->> NVME_SQ_PRIO_xxx is the enum of these 2 bits.
->>
->> The NVME_SQ_FLAGS_X() macros extract the flags.
->>
->> So the macros can not use the new constants.
+>> Reviewed-by: Eric Auger <eric.auger@redhat.com>
+>> Tested-by: Eric Auger <eric.auger@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  include/block/nvme.h | 18 ++++++++++++------
+>>  1 file changed, 12 insertions(+), 6 deletions(-)
 > 
-> I'm not sure I understand. Does this mean the header only defines the
-> flag values but not the bit shift constants?
+> I mentioned more possible cleanups in the previous revision, but they
+> are not a blocker:
 
-Yes.
+Your cleanups haven't been ignored, simply postponed :)
 
 > 
-> It seems like hw/block/nvme.c and block/nvme.c are expressing flags in
-> slightly different approaches. Can they be unified instead of
-> introducing hw/block/nvme.c- and block/nvme.c-only constants in the
-> shared header file?
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
 
-I suggested the hw/block/nvme.c to unify the style.
-Klaus agreed (at least to have a look). Any change will
-be for 6.0 anyway.
+Thanks!
 
 
