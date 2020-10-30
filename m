@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010A42A07D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:28:40 +0100 (CET)
-Received: from localhost ([::1]:60500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D952A07A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:18:15 +0100 (CET)
+Received: from localhost ([::1]:60586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVOR-00046p-2e
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:28:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46078)
+	id 1kYVEM-0000Wj-Va
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:18:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8p-0003ls-TW
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:31 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22887)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8s-0003oB-Ip
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:34 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8n-0007HJ-BC
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:31 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8p-0007HR-8j
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:34 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604067146;
+ s=mimecast20190719; t=1604067147;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=gHTVvLyQX/nQL7WIpglC+HzeG7xS+O6ap0K+bTpJUHA=;
- b=iCVqmiECvBkDMnMdUBsyg29MoN+94+T+bDq8Vz62JqwOxotYaN71WCAIB9zz12wCLoQfDb
- 4Qv/c5PaNPSA70y4yV9N4YnUmTlW8NkH8wP75iMXu0WKuHGqSuYyPFIlOj+Y5FbsWz2CBe
- PZxT9IIemj8ZdNfN8Txtk/td1GVHqsc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-G3rtJnvINvyIs8QTY_2PtQ-1; Fri, 30 Oct 2020 10:12:23 -0400
-X-MC-Unique: G3rtJnvINvyIs8QTY_2PtQ-1
-Received: by mail-wm1-f72.google.com with SMTP id z7so1287059wme.8
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:23 -0700 (PDT)
+ bh=509YkEUpGBV1ErtRUsNd1psMy3xW+1ruB0fSsKITRuw=;
+ b=gO4u/vr3snnPovY3mtEmw1gXtexieY/vAwSrCX1Q2SX8Rf/EpRsFIii6BOYQVaodq6GXlj
+ B2I5tSvD3BF1UPiBELMaS2dN5kuixBHwjPVOXF7ZCv5ddxSGv95k3DNKYXTJ0zkHMewo9W
+ 1pYYfMTdE4Zm3tyzliSFCA7OhJfJUio=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-464-_ekKt7giO7-UWTdQIuQ4RA-1; Fri, 30 Oct 2020 10:12:25 -0400
+X-MC-Unique: _ekKt7giO7-UWTdQIuQ4RA-1
+Received: by mail-wm1-f71.google.com with SMTP id b68so670546wme.5
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=gHTVvLyQX/nQL7WIpglC+HzeG7xS+O6ap0K+bTpJUHA=;
- b=sieULGPfv4tbxmXZGdt2gIshVCLxQddVQZzEF5nIUWq0sEo6txeu70l75IKW9xoF+A
- Q4CQjFQETsrFlGzNja+PeDmLCQsSRbYZPZ6BXy6iTsrzI1pphWf7CPcUnbamNvtbFu7I
- LfJSdUIqSYOW9BCnQwHBsGVZgXw7048QaXsivG9Y6OpEugwqUfQAFrCGEZi4RutzAFom
- 1rWFTQi0gyvAHn8Qaeducilfv/yTIJmwphGNW+rQklO7pRwqVh4A41fo0BHoE7Rw/iOJ
- 19soGF97HX1NUdWGP1G319oyMGQJa5QS02lJQMYO/unsKZrfUB8HHNm5v3FticxM9Ph2
- vnfw==
-X-Gm-Message-State: AOAM5308fhw5xXfrpR4SmRny0kMWGAJSEIxR8RwYWZQC0an4xhEt0twO
- Fj0EnJ9pTePTa077u8ZAULrvAaZKm5fPeiyXmEq5pXYhTbiV5gZZo556WXoWFxzJZsDg23Ph8T9
- c3irkVzK9mPUrm8Q=
-X-Received: by 2002:adf:9066:: with SMTP id h93mr3661150wrh.166.1604067141297; 
- Fri, 30 Oct 2020 07:12:21 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwDIMb00/CfHdELkB/TIcXkpKPMTsvEx4C3H1aYIpKNR9OWMzVwoBhsXZEX7aY1Dh2QgUdd+g==
-X-Received: by 2002:adf:9066:: with SMTP id h93mr3661131wrh.166.1604067141159; 
- Fri, 30 Oct 2020 07:12:21 -0700 (PDT)
+ bh=509YkEUpGBV1ErtRUsNd1psMy3xW+1ruB0fSsKITRuw=;
+ b=cwh6k4RqNmrSsT+jTDumUIueioxKmn7Z4bdCrGtLuQ9Vkzl4yzTxrdkwDs1GhmSieq
+ SdSdeDls+rTz++qbPIrentLPqDRlMIGV6RatQ4bwjGuh2S9DZ1jadS8wCZo9kHyCdowv
+ b4gOCLT/tCvuwzTEEx+TgUZV094a6OvloRNBX4fYVcaB+XPgYF9+Yn/D8UF8Jlng69N0
+ cIi/BR35KSmXdnnxABew4TdGKxOj4100olT7tE+9cZYIqntimUx+J6/Ou7xXd8tSc0SV
+ GSlTWNhOmz4N97tZEKCreN+dh0Sz4IIHbLn1/pDltBIArsyZeEDTri6ZLN3sxs6BRI52
+ bnyw==
+X-Gm-Message-State: AOAM531j+UnYkxBI9QxPM+4Q3LhPF3bIUHXeQT/rsEmMMnNbVk6ngFHP
+ r5zhbscdhkZfC+i09lkbb3UVbchDZLqK+FInije3E8v1JEH88YPhYAKhlwkcpQ6IZ6qwSat8mT4
+ Pd8j9DsQoxmLAN2o=
+X-Received: by 2002:a5d:554b:: with SMTP id g11mr3476477wrw.370.1604067143794; 
+ Fri, 30 Oct 2020 07:12:23 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzOO1kOXsh78wpA3CxygZa/o5KI1H5QmBu/eqD3taBkynXdsgJrLRVEMZJZSrrWzhta7oZtHA==
+X-Received: by 2002:a5d:554b:: with SMTP id g11mr3476461wrw.370.1604067143643; 
+ Fri, 30 Oct 2020 07:12:23 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id t19sm5423460wmi.26.2020.10.30.07.12.19
+ by smtp.gmail.com with ESMTPSA id a3sm4835738wmb.46.2020.10.30.07.12.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 07:12:20 -0700 (PDT)
-Date: Fri, 30 Oct 2020 10:12:18 -0400
+ Fri, 30 Oct 2020 07:12:22 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:12:21 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/15] vhost-blk: set features before setting inflight feature
-Message-ID: <20201030141136.1013521-14-mst@redhat.com>
+Subject: [PULL 14/15] virtio: skip guest index check on device load
+Message-ID: <20201030141136.1013521-15-mst@redhat.com>
 References: <20201030141136.1013521-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030141136.1013521-1-mst@redhat.com>
@@ -94,86 +94,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Jin Yu <jin.yu@intel.com>,
- Max Reitz <mreitz@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jin Yu <jin.yu@intel.com>
+From: Felipe Franciosi <felipe@nutanix.com>
 
-Virtqueue has split and packed, so before setting inflight,
-you need to inform the back-end virtqueue format.
+QEMU must be careful when loading device state off migration streams to
+prevent a malicious source from exploiting the emulator. Overdoing these
+checks has the side effect of allowing a guest to "pin itself" in cloud
+environments by messing with state which is entirely in its control.
 
-Signed-off-by: Jin Yu <jin.yu@intel.com>
-Message-Id: <20200910134851.7817-1-jin.yu@intel.com>
-Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Similarly to what f3081539 achieved in usb_device_post_load(), this
+commit removes such a check from virtio_load(). Worth noting, the result
+of a load without this check is the same as if a guest enables a VQ with
+invalid indexes to begin with. That is, the virtual device is set in a
+broken state (by the datapath handler) and must be reset.
+
+Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
+Message-Id: <20201028134643.110698-1-felipe@nutanix.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost.h |  1 +
- hw/block/vhost-user-blk.c |  6 ++++++
- hw/virtio/vhost.c         | 18 ++++++++++++++++++
- 3 files changed, 25 insertions(+)
+ hw/virtio/virtio.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 94585067f7..839bfb153c 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -141,6 +141,7 @@ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
- void vhost_dev_free_inflight(struct vhost_inflight *inflight);
- void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
- int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f);
-+int vhost_dev_prepare_inflight(struct vhost_dev *hdev);
- int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight);
- int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index a076b1e54d..f67b29bbf3 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -131,6 +131,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
- 
-     s->dev.acked_features = vdev->guest_features;
- 
-+    ret = vhost_dev_prepare_inflight(&s->dev);
-+    if (ret < 0) {
-+        error_report("Error set inflight format: %d", -ret);
-+        goto err_guest_notifiers;
-+    }
-+
-     if (!s->inflight->addr) {
-         ret = vhost_dev_get_inflight(&s->dev, s->queue_size, s->inflight);
-         if (ret < 0) {
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 79b2be20df..f2482378c6 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1645,6 +1645,24 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
-     return 0;
- }
- 
-+int vhost_dev_prepare_inflight(struct vhost_dev *hdev)
-+{
-+    int r;
-+ 
-+    if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
-+        hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
-+        return 0;
-+    }
-+ 
-+    r = vhost_dev_set_features(hdev, hdev->log_enabled);
-+    if (r < 0) {
-+        VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
-+        return r;
-+    }
-+
-+    return 0;
-+}
-+
- int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight)
- {
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 6f8f865aff..ceb58fda6c 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -17,6 +17,7 @@
+ #include "trace.h"
+ #include "exec/address-spaces.h"
+ #include "qemu/error-report.h"
++#include "qemu/log.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/module.h"
+ #include "hw/virtio/virtio.h"
+@@ -3160,12 +3161,12 @@ int virtio_load(VirtIODevice *vdev, QEMUFile *f, int version_id)
+             nheads = vring_avail_idx(&vdev->vq[i]) - vdev->vq[i].last_avail_idx;
+             /* Check it isn't doing strange things with descriptor numbers. */
+             if (nheads > vdev->vq[i].vring.num) {
+-                error_report("VQ %d size 0x%x Guest index 0x%x "
+-                             "inconsistent with Host index 0x%x: delta 0x%x",
+-                             i, vdev->vq[i].vring.num,
+-                             vring_avail_idx(&vdev->vq[i]),
+-                             vdev->vq[i].last_avail_idx, nheads);
+-                return -1;
++                qemu_log_mask(LOG_GUEST_ERROR,
++                              "VQ %d size 0x%x Guest index 0x%x "
++                              "inconsistent with Host index 0x%x: delta 0x%x",
++                              i, vdev->vq[i].vring.num,
++                              vring_avail_idx(&vdev->vq[i]),
++                              vdev->vq[i].last_avail_idx, nheads);
+             }
+             vdev->vq[i].used_idx = vring_used_idx(&vdev->vq[i]);
+             vdev->vq[i].shadow_avail_idx = vring_avail_idx(&vdev->vq[i]);
 -- 
 MST
 
