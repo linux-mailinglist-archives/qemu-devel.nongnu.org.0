@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CF5E2A07AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:18:21 +0100 (CET)
-Received: from localhost ([::1]:60582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A642A079B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:15:09 +0100 (CET)
+Received: from localhost ([::1]:52174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVES-0000Wb-49
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:18:20 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45890)
+	id 1kYVBM-0005QT-6r
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:15:08 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8O-0003fp-Qq
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:06 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46144)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8M-0007FC-3e
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8N-0003fl-UW
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8L-0007F6-F0
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:03 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604067121;
+ s=mimecast20190719; t=1604067120;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3iN6qY5085FKhuB3oQvig3p5w7EA9qYLRFEmWUtLf20=;
- b=G8sHSqy66vielRPCn4oVUl8sNJR3u2fsW7Z60iHSdd4oh/NDdsJWElsgeHoKsLYM27Tv1L
- xu4n7Nu3wI/08sJgT74fb7iBx1WuO4NTz6hIOoiO4mA70IgsNUWsIOeMNLhSGTNmulspar
- ODr9rlX6HC7goPvOQJMha4N7jwSE9QU=
+ bh=smveN6Rzbijww7fMqUTE3pDIKVjvYutAyE50uFiM4wM=;
+ b=QFGmXGmRFpNJXJc5yRhbqwoWjECm69KYbYdC3Os0vRVOZcj0j8+EdtEJvlt/4ljEuJFjEH
+ N/IuNV+qo+RRyraVyFzxvF0AdWdcaJiH8Iou9N7qXZg6VHYONyvHN8aPj2MVY/3VOJAiz2
+ +VBCWgQufEBl55zuhE1Ij6orzkVhnoE=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-3mFcp4RWNbqkjf_ZY8GhyQ-1; Fri, 30 Oct 2020 10:11:55 -0400
-X-MC-Unique: 3mFcp4RWNbqkjf_ZY8GhyQ-1
-Received: by mail-wm1-f70.google.com with SMTP id y21so397235wmi.7
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:11:55 -0700 (PDT)
+ us-mta-297-XxxoqjE3O2qlh_fdMTNGsw-1; Fri, 30 Oct 2020 10:11:58 -0400
+X-MC-Unique: XxxoqjE3O2qlh_fdMTNGsw-1
+Received: by mail-wm1-f70.google.com with SMTP id l23so668159wmg.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:11:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=3iN6qY5085FKhuB3oQvig3p5w7EA9qYLRFEmWUtLf20=;
- b=GejI8WGd6FfV1mpx5qWVnPL78bXvqvu/VjgKDTOjgHTTL/yh3I7ZG5eFiOU4j5uX3k
- v3igLuNGhJLQsmb63q9Yd+SCZ3qAGJDseqzsm+4vKhMQWYQetn2TtnBefkhht2e8sQ4W
- 2pumqUruNSRAdzvBPMKcYnsqSYXFJjw83D7Y/oWYdU7OkdcSo/u8yOPYrh+NjrlYUTev
- 3qzQH+8rt060TicZ9gHLpDpuGlVkmNqTcVPAr3K/qkdNd1GEmQb6FAt3mbWgsQDNAP3Y
- G3r5K7/o+mR1pWH6Wc6h1JHiHinrxx6IISP6CVdh9hkHO4JPXMLoNLzU+nLyKVJJtkox
- 8R8w==
-X-Gm-Message-State: AOAM532LTU8cMTCcrxGNTGSSGdnc4Ly8gjGxrw/ItuYZVeAhpt9xUcMT
- Wfkv+bky/IAhhJKPNIy21tUGvwJtqkydFpFVwfmlRiy4FneQBK9mKmtnb7Vy/iZFZE9SO9ig1Zk
- VjezMYFAHK0lRpt4=
-X-Received: by 2002:a5d:534d:: with SMTP id t13mr3295093wrv.69.1604067114191; 
- Fri, 30 Oct 2020 07:11:54 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwRswmFwFXfYKNzZjeNymBYTd7pW0k8LdpW4QABK5PwsJB5f3l/VKb+AKj4DKO4QsWQl341yQ==
-X-Received: by 2002:a5d:534d:: with SMTP id t13mr3295083wrv.69.1604067114045; 
- Fri, 30 Oct 2020 07:11:54 -0700 (PDT)
+ bh=smveN6Rzbijww7fMqUTE3pDIKVjvYutAyE50uFiM4wM=;
+ b=cPVHXXLFQLr7bKiCNokkpQGowsCnrW4Vy3VUh6HmErJy+DgtR+OM8mq3z670s3/vdL
+ 5+RyJayhGmbF5rfF9jYMgjARZQjD9DSxsQ7K2rdQ04ZTa9JIJrICbFlP+/hWhy9V9cKI
+ PSn+rIWv+Gd1wDqDPHht6P+yhdVGoYYNF9f1IVzKEPCQu6rFEZ3rU8AeRdi6l6gLC9xg
+ MNMuysEkqEf0R6SReroc/seQOittD9cWRy+GlQXkP9SUDCeg2e5HrNW8kr3hpa3IJrf5
+ QNSWXAl3WKihjFTr0JqMcOEMyhSbufLAc07BSWS/jFDmCR07EnV2zQnHgRKjR4+ob/DP
+ RHjQ==
+X-Gm-Message-State: AOAM531sUoUN8/y2Gfq7FWT3lZCR/A1vFZRHzrOR5mtAAKxHqhNsDWpz
+ /z/H9pIrJ0mChpExiKRDotSZ8NjDOWliFyMPpBPg87PbpZNDhsKCrl/+ogdb3lEgpeCizgvLwz9
+ /I1BVF8D+nJFFVoc=
+X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr3727074wrc.276.1604067116803; 
+ Fri, 30 Oct 2020 07:11:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyAt7GGceYMLbksXnePSKL6GK/AXRaAnEXZdJOoy/uuSfG/o9rgJClybsLY+cbBNl+tNytLUg==
+X-Received: by 2002:a5d:6cc9:: with SMTP id c9mr3727053wrc.276.1604067116638; 
+ Fri, 30 Oct 2020 07:11:56 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id 130sm5151750wmd.18.2020.10.30.07.11.52
+ by smtp.gmail.com with ESMTPSA id o197sm4816442wme.17.2020.10.30.07.11.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 07:11:53 -0700 (PDT)
-Date: Fri, 30 Oct 2020 10:11:52 -0400
+ Fri, 30 Oct 2020 07:11:55 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:11:54 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/15] vhost-vsock: set vhostfd to non-blocking mode
-Message-ID: <20201030141136.1013521-3-mst@redhat.com>
+Subject: [PULL 03/15] acpi/crs: Prevent bad ranges for host bridges
+Message-ID: <20201030141136.1013521-4-mst@redhat.com>
 References: <20201030141136.1013521-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030141136.1013521-1-mst@redhat.com>
@@ -95,67 +95,43 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Ben Widawsky <ben.widawsky@intel.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefano Garzarella <sgarzare@redhat.com>
+From: Ben Widawsky <ben.widawsky@intel.com>
 
-vhost IOTLB API uses read()/write() to exchange iotlb messages with
-the kernel module.
-The QEMU implementation expects a non-blocking fd, indeed commit
-c471ad0e9b ("vhost_net: device IOTLB support") set it for vhost-net.
+Prevent _CRS resources being quietly chopped off and instead throw an
+assertion. _CRS is used by host bridges to declare regions of io and/or
+memory that they consume. On some (all?) platforms the host bridge
+doesn't have PCI header space and so they need some way to convey the
+information.
 
-Without this patch, if we enable iommu for the vhost-vsock device,
-QEMU can hang when exchanging IOTLB messages.
+Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
 
-As commit 894022e616 ("net: check if the file descriptor is valid
-before using it") did for tap, let's use qemu_try_set_nonblock()
-when fd is provided by the user.
-
-Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20201029144849.70958-1-sgarzare@redhat.com>
+Message-Id: <20201026193924.985014-1-ben.widawsky@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 ---
- hw/virtio/vhost-vsock.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ hw/i386/acpi-build.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/hw/virtio/vhost-vsock.c b/hw/virtio/vhost-vsock.c
-index f9db4beb47..8ddfb9abfe 100644
---- a/hw/virtio/vhost-vsock.c
-+++ b/hw/virtio/vhost-vsock.c
-@@ -16,6 +16,7 @@
- #include "qapi/error.h"
- #include "hw/virtio/virtio-access.h"
- #include "qemu/error-report.h"
-+#include "qemu/sockets.h"
- #include "hw/qdev-properties.h"
- #include "hw/virtio/vhost-vsock.h"
- #include "monitor/monitor.h"
-@@ -148,6 +149,13 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-             error_prepend(errp, "vhost-vsock: unable to parse vhostfd: ");
-             return;
-         }
-+
-+        ret = qemu_try_set_nonblock(vhostfd);
-+        if (ret < 0) {
-+            error_setg_errno(errp, -ret,
-+                             "vhost-vsock: unable to set non-blocking mode");
-+            return;
-+        }
-     } else {
-         vhostfd = open("/dev/vhost-vsock", O_RDWR);
-         if (vhostfd < 0) {
-@@ -155,6 +163,8 @@ static void vhost_vsock_device_realize(DeviceState *dev, Error **errp)
-                              "vhost-vsock: failed to open vhost device");
-             return;
-         }
-+
-+        qemu_set_nonblock(vhostfd);
-     }
- 
-     vhost_vsock_common_realize(vdev, "vhost-vsock");
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index e3a4bc206c..98ff9f5cef 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -866,6 +866,8 @@ static Aml *build_crs(PCIHostState *host, CrsRangeSet *range_set)
+     crs_range_merge(temp_range_set.mem_ranges);
+     for (i = 0; i < temp_range_set.mem_ranges->len; i++) {
+         entry = g_ptr_array_index(temp_range_set.mem_ranges, i);
++        assert(entry->limit <= UINT32_MAX &&
++               (entry->limit - entry->base + 1) <= UINT32_MAX);
+         aml_append(crs,
+                    aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED,
+                                     AML_MAX_FIXED, AML_NON_CACHEABLE,
 -- 
 MST
 
