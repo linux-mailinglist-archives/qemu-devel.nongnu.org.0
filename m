@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7FF12A0F8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:34:48 +0100 (CET)
-Received: from localhost ([::1]:54064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067752A0FB1
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:44:18 +0100 (CET)
+Received: from localhost ([::1]:40106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYb6m-0000j3-1p
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:34:48 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54834)
+	id 1kYbFv-0007Bs-1x
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:44:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYb55-0007Or-Eb
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:33:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42180)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kYbDq-0006TS-Df
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:42:06 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kYb53-0000X9-Jv
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:33:03 -0400
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kYbDo-0001ei-3v
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:42:05 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604089980;
+ s=mimecast20190719; t=1604090523;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oEBVNOLK3VgfxIONcRm45nNux8I0osCz7cTnlDCpsoE=;
- b=FNcwOMtsZmGFsigEbOWa3yWUgPBDk+4X+ssTK81QqCX8ey0xdTnjwRB6zwuKl+LX6xDVtN
- fQwb8xRzcrWErvak6wY963vAFTUlzZXzy3U43fnUddA1YjFGsGgoWB81lBy1sxzDO4OT72
- GovBprVZBLo0vA0+WRF4uHMWJFa2yS8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-BTVnnAcTO0GIl3IKYr1uLw-1; Fri, 30 Oct 2020 16:32:55 -0400
-X-MC-Unique: BTVnnAcTO0GIl3IKYr1uLw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44624805EF4;
- Fri, 30 Oct 2020 20:32:54 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-218.phx2.redhat.com [10.3.113.218])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4C3B19D61;
- Fri, 30 Oct 2020 20:32:50 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 10/12] block: Return depth level during
- bdrv_is_allocated_above
-Date: Fri, 30 Oct 2020 15:32:29 -0500
-Message-Id: <20201030203231.107486-11-eblake@redhat.com>
-In-Reply-To: <20201030203231.107486-1-eblake@redhat.com>
-References: <20201030203231.107486-1-eblake@redhat.com>
+ bh=aA+Z/ohyF/Xaz4RGR1v3fIUg0Rh/SxgBog9dsKiz+Dk=;
+ b=JbDqJt6Okore5xy4azjd8xfcN05WwF9f34Mm5SINwd8kiaCHPPU9lKiPsXdCA1mBhg103l
+ b3dPjKSc2KI7Vn4E7O0THIxsQhLW0nc7CcLx5oVTqIPYN/GQ+QB5DO7/9tP5sa7qiYstPA
+ BXYgvMZ9lQ3V+EXZo4Vw60qXWQkMOzM=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-q4k6_nQHOOip1nNPA2hDjg-1; Fri, 30 Oct 2020 16:42:01 -0400
+X-MC-Unique: q4k6_nQHOOip1nNPA2hDjg-1
+Received: by mail-pg1-f198.google.com with SMTP id e16so5427075pgm.1
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 13:42:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aA+Z/ohyF/Xaz4RGR1v3fIUg0Rh/SxgBog9dsKiz+Dk=;
+ b=MSQDdjImwsLODX4ypyPJ37moG6a9oecF8OLOgWFLuwv6JdIkWZCA1d9AxhzfRJQcjR
+ 56kiplVpesWvgJIPGaZ3WYphrjwWP4N4jPf2evKTdpEWeywZOuySg/XDHCJvlOEWl/d/
+ 6DU8/m4nd3DHjaO5KINBen4EVmg7bAHzEWOAhk3P4FhmcRUk049Qlsd7GwVl7i+9BcYN
+ z0spPY7WFg/vv2G3ZfVK96uOY8ZHG3Us5FlN1mzPNUuLpKcwXxGl60Fq4pJSPFa9dtBK
+ Gg+6igW6AoEKaELYW/B2NUdN8QEsvW/7d3zcTgPum/BZFekjcSQySK5G4uECFlf1RlH/
+ mAtg==
+X-Gm-Message-State: AOAM533SEdD1drFhrJeQh8uBeHnsTa/sE5/L3+hp4l5Brp5WSZPZadxn
+ wHJFmy1dgdJaLHIGenAMFDIu08KTXi1l/rEFt5V/XSpBd0fliLKt2VFlPwZmq3OrY5DIKY+CDGP
+ kNVHqR0HAqxtcEzSpStj9m1z1hwHsTDo=
+X-Received: by 2002:a63:cb4f:: with SMTP id m15mr3654820pgi.281.1604090519133; 
+ Fri, 30 Oct 2020 13:41:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyWHZFBsqiTDCX6slLRC5hNSFcodM3bpvel6dQmgG3UWDFbIzw5pRK818FMkqCIwhNwI4wYo4U1cJnbZrC6hUs=
+X-Received: by 2002:a63:cb4f:: with SMTP id m15mr3654800pgi.281.1604090518872; 
+ Fri, 30 Oct 2020 13:41:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20201029220246.472693-1-ehabkost@redhat.com>
+ <20201029220246.472693-35-ehabkost@redhat.com>
+ <ae632c6e-017b-e0e6-0cb2-9ace77a13ff9@redhat.com>
+ <20201030200348.GQ5733@habkost.net>
+In-Reply-To: <20201030200348.GQ5733@habkost.net>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Fri, 30 Oct 2020 21:41:46 +0100
+Message-ID: <CABgObfa5Yt=Si7i0ohhYQdMSzGqj5QEnMmTpO7MsCds0fgW_Mg@mail.gmail.com>
+Subject: Re: [PATCH 34/36] machine: Use DEFINE_PROP_STRING for string
+ properties
+To: Eduardo Habkost <ehabkost@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000090c25605b2e96da2"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 16:21:37
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,198 +94,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block Jobs" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When checking for allocation across a chain, it's already easy to
-count the depth within the chain at which the allocation is found.
-Instead of throwing that information away, return it to the caller.
-Existing callers only cared about allocated/non-allocated, but having
-a depth available will be used by NBD in the next patch.
+--00000000000090c25605b2e96da2
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Message-Id: <20201027050556.269064-9-eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-[eblake: rebase to master]
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- block/coroutines.h |  6 ++++--
- block/io.c         | 31 +++++++++++++++++++++++--------
- block/commit.c     |  2 +-
- block/mirror.c     |  2 +-
- block/stream.c     |  2 +-
- 5 files changed, 30 insertions(+), 13 deletions(-)
+Il ven 30 ott 2020, 21:03 Eduardo Habkost <ehabkost@redhat.com> ha scritto:
 
-diff --git a/block/coroutines.h b/block/coroutines.h
-index 1cb3128b942c..4cfb4946e65e 100644
---- a/block/coroutines.h
-+++ b/block/coroutines.h
-@@ -47,7 +47,8 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
-                                   int64_t bytes,
-                                   int64_t *pnum,
-                                   int64_t *map,
--                                  BlockDriverState **file);
-+                                  BlockDriverState **file,
-+                                  int *depth);
- int generated_co_wrapper
- bdrv_common_block_status_above(BlockDriverState *bs,
-                                BlockDriverState *base,
-@@ -57,7 +58,8 @@ bdrv_common_block_status_above(BlockDriverState *bs,
-                                int64_t bytes,
-                                int64_t *pnum,
-                                int64_t *map,
--                               BlockDriverState **file);
-+                               BlockDriverState **file,
-+                               int *depth);
+> >     OBJECT_CLASS_PROPERTY_ADD_STR(oc, MachineState, kernel_filename,
+> >                                   "kernel", prop_allow_set_always);
+>
+> I like the idea of having an interface like this, but I would
+> like to avoid having to write even more boilerplate for each
+> property type to make this work.
+>
+> What would you think of:
+>    OBJECT_CLASS_PROPERTY_ADD(oc,
+>        PROP_STRING("kernel", MachineState, kernel_filename),
+>        prop_allow_set_always);
+>
+> Then we could make the same PROP_STRING macro usable both as
+> object_class_property_add_static() argument and as initializer
+> for existing static Property arrays.
+>
 
- int coroutine_fn bdrv_co_readv_vmstate(BlockDriverState *bs,
-                                        QEMUIOVector *qiov, int64_t pos);
-diff --git a/block/io.c b/block/io.c
-index 9918f2499c19..ec5e152bb70f 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -2362,20 +2362,28 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
-                                   int64_t bytes,
-                                   int64_t *pnum,
-                                   int64_t *map,
--                                  BlockDriverState **file)
-+                                  BlockDriverState **file,
-+                                  int *depth)
- {
-     int ret;
-     BlockDriverState *p;
-     int64_t eof = 0;
-+    int dummy;
+The name should be an argument to OBJECT_CLASS_PROPERTY_ADD though (which
+could be a function and not  macro; perhaps
+object_class_property_add_field?). PROP_STRING would be
+DEFINE_PROP_STRING(NULL, etc.) and would not be entirely reusable in
+Property arrays.
 
-     assert(!include_base || base); /* Can't include NULL base */
+But even with that snag I agree with your less-boilerplate argument against
+my proposal.
 
-+    if (!depth) {
-+        depth = &dummy;
-+    }
-+    *depth = 0;
-+
-     if (!include_base && bs == base) {
-         *pnum = bytes;
-         return 0;
-     }
+Since most if not all device properties would have to specify the same
+allow-set function, we would end up defining more macros
+DEVICE_CLASS_PROPERTY_ADD_STR, and so on. If the Property isbpassed a
+struct, instead, we can define just one wrapper
+device_class_property_add_field.
 
-     ret = bdrv_co_block_status(bs, want_zero, offset, bytes, pnum, map, file);
-+    ++*depth;
-     if (ret < 0 || *pnum == 0 || ret & BDRV_BLOCK_ALLOCATED || bs == base) {
-         return ret;
-     }
-@@ -2392,6 +2400,7 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
-     {
-         ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
-                                    file);
-+        ++*depth;
-         if (ret < 0) {
-             return ret;
-         }
-@@ -2450,7 +2459,7 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
-                             int64_t *map, BlockDriverState **file)
- {
-     return bdrv_common_block_status_above(bs, base, false, true, offset, bytes,
--                                          pnum, map, file);
-+                                          pnum, map, file, NULL);
- }
+So what about:
 
- int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
-@@ -2478,7 +2487,7 @@ int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
-     }
+1) add new constructors without the DEFINE prefix and without the name
+argument
 
-     ret = bdrv_common_block_status_above(bs, NULL, false, false, offset,
--                                         bytes, &pnum, NULL, NULL);
-+                                         bytes, &pnum, NULL, NULL, NULL);
+2) add object_class_property_add_field
 
-     if (ret < 0) {
-         return ret;
-@@ -2495,7 +2504,7 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+And later:
 
-     ret = bdrv_common_block_status_above(bs, bs, true, false, offset,
-                                          bytes, pnum ? pnum : &dummy, NULL,
--                                         NULL);
-+                                         NULL, NULL);
-     if (ret < 0) {
-         return ret;
-     }
-@@ -2505,8 +2514,9 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
- /*
-  * Given an image chain: ... -> [BASE] -> [INTER1] -> [INTER2] -> [TOP]
-  *
-- * Return 1 if (a prefix of) the given range is allocated in any image
-- * between BASE and TOP (BASE is only included if include_base is set).
-+ * Return a positive depth if (a prefix of) the given range is allocated
-+ * in any image between BASE and TOP (BASE is only included if include_base
-+ * is set).  Depth 1 is TOP, 2 is the first backing layer, and so forth.
-  * BASE can be NULL to check if the given offset is allocated in any
-  * image of the chain.  Return 0 otherwise, or negative errno on
-  * failure.
-@@ -2523,13 +2533,18 @@ int bdrv_is_allocated_above(BlockDriverState *top,
-                             bool include_base, int64_t offset,
-                             int64_t bytes, int64_t *pnum)
- {
-+    int depth;
-     int ret = bdrv_common_block_status_above(top, base, include_base, false,
--                                             offset, bytes, pnum, NULL, NULL);
-+                                             offset, bytes, pnum, NULL, NULL,
-+                                             &depth);
-     if (ret < 0) {
-         return ret;
-     }
+3) add device_class_property_add_field and remove dc->props
 
--    return !!(ret & BDRV_BLOCK_ALLOCATED);
-+    if (ret & BDRV_BLOCK_ALLOCATED) {
-+        return depth;
-+    }
-+    return 0;
- }
+4) remove the name field from Property.
 
- int coroutine_fn
-diff --git a/block/commit.c b/block/commit.c
-index 1e85c306cc41..71db7ba7472e 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -156,7 +156,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
-         /* Copy if allocated above the base */
-         ret = bdrv_is_allocated_above(blk_bs(s->top), s->base_overlay, true,
-                                       offset, COMMIT_BUFFER_SIZE, &n);
--        copy = (ret == 1);
-+        copy = (ret > 0);
-         trace_commit_one_iteration(s, offset, n, ret);
-         if (copy) {
-             assert(n < SIZE_MAX);
-diff --git a/block/mirror.c b/block/mirror.c
-index 26acf4af6fb7..8e1ad6eceb57 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -846,7 +846,7 @@ static int coroutine_fn mirror_dirty_init(MirrorBlockJob *s)
-         }
+Paolo
 
-         assert(count);
--        if (ret == 1) {
-+        if (ret > 0) {
-             bdrv_set_dirty_bitmap(s->dirty_bitmap, offset, count);
-         }
-         offset += count;
-diff --git a/block/stream.c b/block/stream.c
-index 8ce6729a33da..236384f2f739 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -167,7 +167,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-                 n = len - offset;
-             }
 
--            copy = (ret == 1);
-+            copy = (ret > 0);
-         }
-         trace_stream_one_iteration(s, offset, n, ret);
-         if (copy) {
--- 
-2.29.2
+> --
+> Eduardo
+>
+>
+
+--00000000000090c25605b2e96da2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Il ven 30 ott 2020, 21:03 Eduardo Habkost &lt;<a href=
+=3D"mailto:ehabkost@redhat.com">ehabkost@redhat.com</a>&gt; ha scritto:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">&gt;=C2=A0 =C2=A0 =C2=A0OBJECT_CLASS_P=
+ROPERTY_ADD_STR(oc, MachineState, kernel_filename,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;kernel&quot;, =
+prop_allow_set_always);<br>
+<br>
+I like the idea of having an interface like this, but I would<br>
+like to avoid having to write even more boilerplate for each<br>
+property type to make this work.<br>
+<br>
+What would you think of:<br>
+=C2=A0 =C2=A0OBJECT_CLASS_PROPERTY_ADD(oc,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0PROP_STRING(&quot;kernel&quot;, MachineState, ke=
+rnel_filename),<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0prop_allow_set_always);<br>
+<br>
+Then we could make the same PROP_STRING macro usable both as<br>
+object_class_property_add_static() argument and as initializer<br>
+for existing static Property arrays.<br></blockquote></div></div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">The name should be an argument to=C2=
+=A0<span style=3D"font-family:sans-serif">OBJECT_CLASS_PROPERTY_ADD though =
+(which could be a function and not=C2=A0 macro; perhaps object_class_proper=
+ty_add_field?). PROP_STRING would be DEFINE_PROP_STRING(NULL, etc.) and wou=
+ld not be entirely reusable in Property arrays.</span></div><div dir=3D"aut=
+o"><span style=3D"font-family:sans-serif"><br></span></div><div dir=3D"auto=
+"><span style=3D"font-family:sans-serif">But even with that snag I agree wi=
+th your less-boilerplate argument against my proposal.</span></div><div dir=
+=3D"auto"><span style=3D"font-family:sans-serif"><br></span></div><div dir=
+=3D"auto"><span style=3D"font-family:sans-serif">Since most if not all devi=
+ce properties would have to specify the same allow-set function, we would e=
+nd up defining more macros DEVICE_CLASS_PROPERTY_ADD_STR, and so on. If the=
+ Property isbpassed a struct, instead, we can define just one wrapper devic=
+e_class_property_add_field.</span></div><div dir=3D"auto"><span style=3D"fo=
+nt-family:sans-serif"><br></span></div><div dir=3D"auto"><span style=3D"fon=
+t-family:sans-serif">So what about:</span></div><div dir=3D"auto"><span sty=
+le=3D"font-family:sans-serif"><br></span></div><div dir=3D"auto"><span styl=
+e=3D"font-family:sans-serif">1) add new constructors without the DEFINE pre=
+fix and without the name argument</span></div><div dir=3D"auto"><span style=
+=3D"font-family:sans-serif"><br></span></div><div dir=3D"auto"><span style=
+=3D"font-family:sans-serif">2) add object_class_property_add_field</span></=
+div><div dir=3D"auto"><span style=3D"font-family:sans-serif"><br></span></d=
+iv><div dir=3D"auto"><span style=3D"font-family:sans-serif">And later:</spa=
+n></div><div dir=3D"auto"><span style=3D"font-family:sans-serif"><br></span=
+></div><div dir=3D"auto"><span style=3D"font-family:sans-serif">3) add devi=
+ce_class_property_add_field and remove dc-&gt;props</span></div><div dir=3D=
+"auto"><span style=3D"font-family:sans-serif"><br></span></div><div dir=3D"=
+auto"><span style=3D"font-family:sans-serif">4) remove the name field from =
+Property.</span></div><div dir=3D"auto"><span style=3D"font-family:sans-ser=
+if"><br></span></div><div dir=3D"auto"><span style=3D"font-family:sans-seri=
+f">Paolo</span></div><div dir=3D"auto"><span style=3D"font-family:sans-seri=
+f"><br></span></div><div dir=3D"auto"><div class=3D"gmail_quote"><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+<br>
+-- <br>
+Eduardo<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000090c25605b2e96da2--
 
 
