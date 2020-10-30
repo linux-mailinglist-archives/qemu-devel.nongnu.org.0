@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876A62A0084
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 09:55:07 +0100 (CET)
-Received: from localhost ([::1]:52030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B062C2A008A
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 09:58:17 +0100 (CET)
+Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYQBe-0002oG-3Q
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 04:55:06 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52864)
+	id 1kYQEi-000519-PC
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 04:58:16 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYQAa-0002DT-G0
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:54:00 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32778)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYQBi-0003E4-LX
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:55:10 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYQAX-0000eV-Mz
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:53:59 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYQBg-00016a-VH
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 04:55:10 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604048034;
+ s=mimecast20190719; t=1604048107;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O5RrLpTYa43fjCq1KGnXa0GcnhU5yFW51NBspWRS8So=;
- b=CkAp47lMTfGIECtcqXJPOwd47T9QcvL0b5XtT8kIpB3kD4HxWro/KTSKLgvOYr+NJ3xNic
- xNJj12kZSQ+HSYMoVCiwowvwu6Gnx37ivgO9VqaXFv3DaQsmbxpAhTIl+x18oZV7xGjU/S
- 1ie7LwFhcZYpnhP8EaqdCN5RqvWqQv4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-4V-uDQjfOvyTkUbAvQoOUA-1; Fri, 30 Oct 2020 04:53:53 -0400
-X-MC-Unique: 4V-uDQjfOvyTkUbAvQoOUA-1
-Received: by mail-wm1-f69.google.com with SMTP id s85so412681wme.3
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 01:53:52 -0700 (PDT)
+ bh=U/TYpv2LtHe2B6yJhDrSVC3BRVje8+xPiPTOxYqesY4=;
+ b=dg7BtrKSZxVLzggzFyLNwM/yq+6+2oX1hcRVEwuwQuGoYdQjSCQWIxiLhd82cuql3u4C/k
+ nzGnggdqcISiMAN/GIoB/xSk1jY+YOg/FrjHxtrGVjBrz99LRiz5STzSJ1S+YfQSHAbt7R
+ ET6o3Bq6PSP3YKpGeJGpJiPL0RPu6Fo=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-qRHJ6o4FOluEZK-CJeVBlA-1; Fri, 30 Oct 2020 04:55:05 -0400
+X-MC-Unique: qRHJ6o4FOluEZK-CJeVBlA-1
+Received: by mail-wm1-f72.google.com with SMTP id c10so137303wmh.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 01:55:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=O5RrLpTYa43fjCq1KGnXa0GcnhU5yFW51NBspWRS8So=;
- b=ti8B46zoIuFHvBy/ANourv7mPMkZENcrZB54W/MsLitiTDmUgNylJ3Ix1/z+uDlwrn
- zN+h2aaBjj+GfhxskgTkIV8kz36Q2RMXZnREEhVUFdbmeju7uoduBo+tEfzObhC2gYuK
- yyjbTZam6YdRx8FGM+cJ99TTdB2AqzRTtcRN6ucn6kTH6vUD6Bgn2kriix3zIrQEJvDb
- eqd0P8CC2v3jU02hJKA81xiWPHqrQ3s+OUC0EfKpP6aqwo9rAkKqluitdmdIsDoqiG/A
- 9/t6xmtxtIZbquRFi4wnrcuG8usGN0pyJ9Xh3jMMNbTTeVhFEFCts0EgQIPe5K/crhEE
- F5LA==
-X-Gm-Message-State: AOAM531U+50T7kk+O3FfmmIq6EUV9EmsoUYCHubnUNXXzd39bqDL1KL2
- 40+qot8CERtjrErlUf6jR1Qm8cV6TlNePnG6x4IWb/QVOANKwYxYQsKKLoSt6Hr183FuChKksI2
- oohdidnjGvzrk/ow=
-X-Received: by 2002:adf:ab50:: with SMTP id r16mr1609568wrc.235.1604048031995; 
- Fri, 30 Oct 2020 01:53:51 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxxHe+vjfbmQoayOPkhAqIZ4VKThpr4pV9ynuG2dzZyM8tacSh3zEIquFBS6oLqFIQBUoPbDQ==
-X-Received: by 2002:adf:ab50:: with SMTP id r16mr1609552wrc.235.1604048031778; 
- Fri, 30 Oct 2020 01:53:51 -0700 (PDT)
+ bh=U/TYpv2LtHe2B6yJhDrSVC3BRVje8+xPiPTOxYqesY4=;
+ b=qfus7Z8ckAKmaUHj4Ymy2S8WQQkM+uK3/j+bIxRGDXNRSI4Rd/hD7cbtQe+exGFv9e
+ jG4IjQ3vUOIdLq7Y5HFsm3pO5HqlpCpqmOHP4GIbxI1Iqn4UiZ6NRZqN/chuHPuE4vC1
+ UIC7gc+X8QCpI/i2xj7+m5OcuXNpm12Xdk6vSqIzfqI1UAhSKCjpG8Y/SS+YvAwdjqDb
+ kijl3SpC9+djJ6lUaArb2WGTcfgqHwADlWvdk3UKaiy2eaWhMYSGZHKubVGHTAe4T1iN
+ TtJXhdTGpIEyLQ7PwVOOoPydVrKSbvA5J/V+WrEs8Y9bKxtuANB8fI2P+Ks/CshP0q1V
+ xJfw==
+X-Gm-Message-State: AOAM5311oMTOUElBWD9FTCe1ITEWIlgp1B+3+N5BR1Hw75Rlfy+aQ5K6
+ 4Ctlt5BZBQpeA51d23OpEZkiwzeHCYGsDBYkuNA72xxK98rktPLlkDB+VA8q/sKieLEgiVcuF2W
+ 59EF5IQjJ0vk7uJM=
+X-Received: by 2002:a5d:51d0:: with SMTP id n16mr1629506wrv.43.1604048104632; 
+ Fri, 30 Oct 2020 01:55:04 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwe8Rh5rA1584QnDCCF7CgkERXJHv33Lb+45q1h3Oabe/alH7OF5BV50PYQAo4xXoKP7T5Beg==
+X-Received: by 2002:a5d:51d0:: with SMTP id n16mr1629487wrv.43.1604048104443; 
+ Fri, 30 Oct 2020 01:55:04 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id 71sm10329897wrm.20.2020.10.30.01.53.50
+ by smtp.gmail.com with ESMTPSA id x64sm4000972wmg.33.2020.10.30.01.55.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 01:53:51 -0700 (PDT)
-Date: Fri, 30 Oct 2020 04:53:48 -0400
+ Fri, 30 Oct 2020 01:55:03 -0700 (PDT)
+Date: Fri, 30 Oct 2020 04:55:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Cindy Lu <lulu@redhat.com>
 Subject: Re: [PATCH v3] virtio-net: Add check for mac address while peer is
  vdpa
-Message-ID: <20201030045228-mutt-send-email-mst@kernel.org>
+Message-ID: <20201030045421-mutt-send-email-mst@kernel.org>
 References: <20201026062126.25255-1-lulu@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201026062126.25255-1-lulu@redhat.com>
@@ -70,16 +70,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,6 +103,10 @@ On Mon, Oct 26, 2020 at 02:21:26PM +0800, Cindy Lu wrote:
 > if we get an 0 mac address we will use the default mac address instead
 > 
 > Signed-off-by: Cindy Lu <lulu@redhat.com>
+
+I wonder whether we can retrieve the mac earlier and fail init.
+That would be better than second-guessing bad configs ...
+
 > ---
 >  hw/net/virtio-net.c | 7 ++++++-
 >  1 file changed, 6 insertions(+), 1 deletion(-)
@@ -128,13 +132,6 @@ On Mon, Oct 26, 2020 at 02:21:26PM +0800, Cindy Lu wrote:
 > +                memcpy(config, &netcfg, n->config_size);
 > +            } else {
 > +                info_report("Get an all zero mac address from hardware");
-
-s/Get/Got/
-
-let's add more data here please "hardware" does not really
-tell users what is going on. Let's mention at least the device
-name and type, maybe peer name and type ...
-
 > +            }
 >          }
 >      }
