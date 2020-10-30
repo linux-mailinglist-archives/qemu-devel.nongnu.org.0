@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD652A0FA4
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:38:32 +0100 (CET)
-Received: from localhost ([::1]:33926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B99F2A0FA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 21:40:02 +0100 (CET)
+Received: from localhost ([::1]:36594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYbAN-0004GA-SG
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:38:31 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53222)
+	id 1kYbBp-0005PS-Le
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 16:40:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYaua-0000uW-GI
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:12 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58704)
+ id 1kYaud-000101-PM
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:15 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44956)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kYauV-0007lb-T3
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:11 -0400
+ id 1kYaub-0007m4-NB
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 16:22:15 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604089326;
+ s=mimecast20190719; t=1604089332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HSOOxfNhrZ9l5ZrJ8GMDAt4DHKLA5YsaRSPlCu3byRQ=;
- b=SNcdYgpiTLNAPFLy6ScFif/bQxb4m/Gtu51n0eT7qv0eE+STnYcPCgXyLQSLi3nMCl9gKW
- c/WI6rhKmW5OKN0CRLkzz0J3wCZAwNyFD8FE8bG/l2owm/bTt+MlZX3bJJCA/nZQpQKGI6
- /8PLy9NQ9uRkGxSkmBgfHcTo3Lsw1Ss=
+ bh=UA2p0lb4BLS2VhD6LDFkfpe/k3TZeq6sGxwETdPSMjY=;
+ b=NEJLFK2jrfXTN/GC3YSE34+1KkwEwL6PzRlTFEbJIRKU8+k6IwbqyMhlMTBb3bIOXYODub
+ rGAWKZnPmKMMEv6xWbzTgfgmOsxXsXklc8ITJjLZ+LgHvXeqyzutLtsI18mjlv8Hr3hDV8
+ cmR8wGcM2gZ1ZieTqZAImEUtovprGA0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-HPeGaDuTN2ilc2nQhs-VrQ-1; Fri, 30 Oct 2020 16:22:04 -0400
-X-MC-Unique: HPeGaDuTN2ilc2nQhs-VrQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-337-5xCFLWBgMCOrciWcngTriw-1; Fri, 30 Oct 2020 16:22:10 -0400
+X-MC-Unique: 5xCFLWBgMCOrciWcngTriw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1A7D107AFB2;
- Fri, 30 Oct 2020 20:22:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA9A3802B69
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 20:22:09 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 21F1B6198D;
- Fri, 30 Oct 2020 20:22:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC2005B4A9;
+ Fri, 30 Oct 2020 20:22:06 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 17/20] colo-compare: Remove unnecessary prefix from error
+Subject: [PATCH 19/20] filter-buffer: Remove unnecessary prefix from error
  message
-Date: Fri, 30 Oct 2020 16:21:28 -0400
-Message-Id: <20201030202131.796967-18-ehabkost@redhat.com>
+Date: Fri, 30 Oct 2020 16:21:30 -0400
+Message-Id: <20201030202131.796967-20-ehabkost@redhat.com>
 In-Reply-To: <20201030202131.796967-1-ehabkost@redhat.com>
 References: <20201030202131.796967-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,8 +81,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhang Chen <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Li Zhijian <lizhijian@cn.fujitsu.com>
+Cc: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -92,48 +91,26 @@ prefix automatically for us.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Zhang Chen <chen.zhang@intel.com>
-Cc: Li Zhijian <lizhijian@cn.fujitsu.com>
 Cc: Jason Wang <jasowang@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- net/colo-compare.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ net/filter-buffer.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/net/colo-compare.c b/net/colo-compare.c
-index 3a45d64175..ae61e32c5b 100644
---- a/net/colo-compare.c
-+++ b/net/colo-compare.c
-@@ -1097,8 +1097,7 @@ static void compare_set_timeout(Object *obj, Visitor *v,
+diff --git a/net/filter-buffer.c b/net/filter-buffer.c
+index d8392be53c..2c70dc6c33 100644
+--- a/net/filter-buffer.c
++++ b/net/filter-buffer.c
+@@ -175,8 +175,7 @@ static void filter_buffer_set_interval(Object *obj, Visitor *v,
          return;
      }
      if (!value) {
 -        error_setg(errp, "Property '%s.%s' requires a positive value",
 -                   object_get_typename(obj), name);
-+        error_setg(errp, "timeout can't be zero");
++        error_setg(errp, "interval can't be zero");
          return;
      }
-     s->compare_timeout = value;
-@@ -1125,8 +1124,7 @@ static void compare_set_expired_scan_cycle(Object *obj, Visitor *v,
-         return;
-     }
-     if (!value) {
--        error_setg(errp, "Property '%s.%s' requires a positive value",
--                   object_get_typename(obj), name);
-+        error_setg(errp, "expired_scan_cycle can't be zero");
-         return;
-     }
-     s->expired_scan_cycle = value;
-@@ -1153,8 +1151,7 @@ static void set_max_queue_size(Object *obj, Visitor *v,
-         goto out;
-     }
-     if (!value) {
--        error_setg(&local_err, "Property '%s.%s' requires a positive value",
--                   object_get_typename(obj), name);
-+        error_setg(errp, "queue size can't be zero");
-         goto out;
-     }
-     max_queue_size = value;
+     s->interval = value;
 -- 
 2.28.0
 
