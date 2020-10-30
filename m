@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD5E329FDE0
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 07:35:07 +0100 (CET)
-Received: from localhost ([::1]:33936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634F429FDEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 07:40:51 +0100 (CET)
+Received: from localhost ([::1]:39464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYO0A-0002mm-Vc
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 02:35:07 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55954)
+	id 1kYO5i-0005E4-Ah
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 02:40:50 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kYNxm-0001oq-UW; Fri, 30 Oct 2020 02:32:38 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kYNxh-00009A-Dv; Fri, 30 Oct 2020 02:32:38 -0400
-Received: by mail-wm1-x341.google.com with SMTP id p22so1835629wmg.3;
- Thu, 29 Oct 2020 23:32:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=x6CaBBtnk1ZQ5qcwfpox4tasXgcArXuldXXRPaxVmCs=;
- b=W90wGVSaNIhJkvccwKdqUWehUZJt+WNeGU5fxj3bYEYHge+tUDLaeKRsb0GG7nK6tc
- 2DYETw0hcKJs39ipR/VbGGix6ubiyOXVPbSuq/gXlCEQeMiD+SjM5tTwP8yDdE0fM/EP
- SpHRX1j2VwVTfa4hiUXTKKNOgHM7NPmlpTwdQ/6tue2jiD5oYtDYvZbTnxiBxgaeAAvN
- 2ftcLWwLfSqInZpvCXv4wjF+1xXbt+T+53HhfaOnJ6FZZ1IG0Y2rn6eLevLtJVoX30IT
- dwh80SNZp8sNdYsk/D4XEyA3lHvdCL7qjR3wZzz64WrJTVKMjWRjxbWIj1fEM7dxuivx
- 329w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=x6CaBBtnk1ZQ5qcwfpox4tasXgcArXuldXXRPaxVmCs=;
- b=CqIBbrAEXKqlYLNAxqEbpEcFIdETykCCcHM2hnwa3uq69edTEqZOuPboaS8ZvZDOiL
- o7P3sSxX6H/du/KSZFvBIvBoKT+xjgafrRTnzvLqhEjEaBR6MZY53XMwV9A79lgH2S9p
- 2cHIgAEb3ImgpUtQ1ze7Du7M5LNGKPIrWG9k6wQaKmoMbZeuUiZsYZ2DlLzcAbe6Kimm
- fWp8KMcDAc8FoUnnMpr+Z5F16EP19H4kcastOqTF24IqFa3/ML38mq3AAfsBKpomBhYr
- 5CrRVWL+7EPeF27TpP7cWpTPVjs319oSVEKMQECSBt1SjTWrXVhBghT+DuT/fXFJManO
- g4fw==
-X-Gm-Message-State: AOAM533XJYqMhVi2yol3zkSROqdZ6ZQoRu6vLd5XfvJoSK2kDBvK72FB
- 8lNjFiGKtxosfITefhoVhjc=
-X-Google-Smtp-Source: ABdhPJx6p5yydnT6e3PBbIktaZyydlBFdDz+lv/7uwgRgVttJIgMWh2VU2MKtjgwxlN9CUkUHdlDbQ==
-X-Received: by 2002:a1c:7f0f:: with SMTP id a15mr755885wmd.97.1604039551215;
- Thu, 29 Oct 2020 23:32:31 -0700 (PDT)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t1sm8965282wrs.48.2020.10.29.23.32.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 29 Oct 2020 23:32:30 -0700 (PDT)
-Subject: Re: [PATCH v2 6/8] target/sparc/win_helper: silence the compiler
- warnings
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
- <20201030004046.2191790-7-kuhn.chenqun@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <01f1395a-fb31-b3bb-c252-437f48efafd1@amsat.org>
-Date: Fri, 30 Oct 2020 07:32:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kYNyi-0002P3-J4; Fri, 30 Oct 2020 02:33:36 -0400
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:55503)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kYNyg-0000QV-0p; Fri, 30 Oct 2020 02:33:36 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 4CA14A53;
+ Fri, 30 Oct 2020 02:33:31 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Fri, 30 Oct 2020 02:33:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=QMyK1XK6AWldGHbHvLUzyXdHLdx
+ /c48wkIV8tvPtppY=; b=cL+iJAc7YpfnskrXHLvc84GQkCrp91LvODx6+DjzzcS
+ caXp0LRg/ZC90nm2D9HsSTW9uQ/Rd1s+lLXQk4dnP8SaxS8EOh0qfdMHQfH2k163
+ kA41G8JxD+7lEdn+lt++FGk5XymRzhaGw0p7PeSCV5m7H70zRqJHBoAAEXSX4G/3
+ g/yosjvTbvyxAyZfC53lZyXKwrG7LAqF+P4ecRqYLsXNLk/SMBPeoxdOmmocSj1j
+ QbH5G+915D25eB3It0r7vNRNPY9ejiD9gAb7TtlZpYYrPN+OeLBkmxlGGKRrPYe2
+ JVjupXzoedUBaKHW9Gd3b/fc4YRI8n/vvDB07fnuowg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=QMyK1X
+ K6AWldGHbHvLUzyXdHLdx/c48wkIV8tvPtppY=; b=YMmoG0haPbLgRhsnTbnKsV
+ IyEPme0ixDHtNkoklccQXwMjlARvllaKf6UR8hBN9dI7W+AHwhKt7yREZHXqOqh6
+ ciTIyLFmhReBT/m8Sr2OdZJ/iRtpZZ1hlGoEZUWdmhWLGJoSbYwx/L0W6CRforar
+ MXU6s2Q5je8/TjNEGhKVAgCBCfH+BkE1N2RF/Mkpgy02YTLk8MR4iPAil8G4gqCP
+ cBe5gVJbtOor9a1+Fhc2EjBPXotMN0ko6exeQ/8vNAc5nklovYOL2N0UbXGdOF6p
+ lqA9sHaJIqhgVfnV7bwT8EG70250+MiUTtaxAFYASt42Wmm6MyfCGrZl+muqLXyg
+ ==
+X-ME-Sender: <xms:urObX9G4eLZkUt2SUAZ47hjujh8haSGS1aTyObj_gJjaG5OPb7yy8A>
+ <xme:urObXyWTFA6j8Kg7d5UTv8QeSu7f5iafNJ-uPJ0jW9w1Ryoi4sVs65UGWLKfUNQzc
+ wFJxSYz0JIug23uMOk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleeggdelhecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:urObX_I8ci63aUdVBF088fNK7wcCasDWI2NeAVief-FCvDVkXA45jw>
+ <xmx:urObXzHLYLnT1W8Of4sGFtKqjxE9kA3ujqgtbPXhUDOGg5V11aMyBw>
+ <xmx:urObXzVONPAIiD-zFmq3LnCmrUUYh500UUHxgjbK09jKJt-ap2dIlg>
+ <xmx:urObX5y5VNJAgqcffX2hyWpLxM_hQvnWp0-R7TpplusNu_fH_fSmQw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 244A13064674;
+ Fri, 30 Oct 2020 02:33:29 -0400 (EDT)
+Date: Fri, 30 Oct 2020 07:33:27 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH v7 0/3] hw/block/nvme: dulbe and dsm support
+Message-ID: <20201030063327.GA1079527@apples.localdomain>
+References: <20201027175725.586890-1-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20201030004046.2191790-7-kuhn.chenqun@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.261,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="0F1p//8PRICkK4MW"
+Content-Disposition: inline
+In-Reply-To: <20201027175725.586890-1-its@irrelevant.dk>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:33:32
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,32 +95,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philippe.mathieu.daude@gmail.com>,
- ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/30/20 1:40 AM, Chen Qun wrote:
-> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-> target/sparc/win_helper.c: In function ‘get_gregset’:
-> target/sparc/win_helper.c:304:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
->   304 |         trace_win_helper_gregset_error(pstate);
->       |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> target/sparc/win_helper.c:306:5: note: here
->   306 |     case 0:
->       |     ^~~~
-> 
-> Add the corresponding "fall through" comment to fix it.
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> Reviewed-by: Artyom Tarasenko <atar4qemu@gmail.com>
-> ---
-> v1->v2: Combine the /* fall through */ to the preceding comments
-> (Base on Philippe's comments).
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+--0F1p//8PRICkK4MW
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Oct 27 18:57, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> This adds support for the Deallocated or Unwritten Logical Block error
+> recovery feature as well as the Dataset Management command.
+>=20
+> v7:
+>   - Handle negative return value from bdrv_block_status.
+>   - bdrv_get_info may not be supported on all block drivers, so do not
+>     consider it a fatal error.
+>=20
+> v6:
+>   - Skip the allocation of the discards integer and just use the opaque
+>     value directly (Philippe)
+>   - Split changes to include/block/nvme.h into a separate patch
+>     (Philippe)
+>   - Clean up some convoluted checks on the discards value (Philippe)
+>   - Use unambiguous units in the commit messages (Philippe)
+>   - Stack allocate the range array (Keith)
+>=20
+> v5:
+>   - Restore status code from callback (Keith)
+>=20
+> v4:
+>   - Removed mixed declaration and code (Keith)
+>   - Set NPDG and NPDA and account for the blockdev cluster size.
+>=20
+> Klaus Jensen (3):
+>   hw/block/nvme: add dulbe support
+>   nvme: add namespace I/O optimization fields to shared header
+>   hw/block/nvme: add the dataset management command
+>=20
+>  hw/block/nvme-ns.h    |   4 +
+>  hw/block/nvme.h       |   2 +
+>  include/block/nvme.h  |  12 ++-
+>  hw/block/nvme-ns.c    |  34 ++++++--
+>  hw/block/nvme.c       | 193 +++++++++++++++++++++++++++++++++++++++++-
+>  hw/block/trace-events |   4 +
+>  6 files changed, 240 insertions(+), 9 deletions(-)
+>=20
+> --=20
+> 2.29.1
+>=20
+
+Keith, I cleared your R-b's from both patch 1 and 3 - please re-review.
+The diff from v6 is very small, but it does include functional changes.
+
+--0F1p//8PRICkK4MW
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+bs7MACgkQTeGvMW1P
+DelsQAf/Sof3YBnBzuRy5K/Fe+oda9X7MKJjJxSKs1cath/l8EvuagsixZPqROde
+W3B7k9ktL1cuJJ6olV1+JWI6VS7korcVMuvTLqfhrQxlb95b/XGXDIn7TLWp5IYr
+LQRxvqzoEmTUVMqz6HIdv8zppammtxceVA25w1noCNUTQVISQ61o/5l0D2j3gtmt
+Q3zQxoknA4nL18FH5mQvm+vq/T3UlOqh0KuMO7A/LdJkzyzPPw4kKeZDAp3xNe3j
+UORQ9du4D/JWn7eW0wjoCGi9q6ED8hZE+wVhwCUYqc5tvIRBz9lSZJdsYGmhv61S
+QARCm5w+is/HR9su1E0igeKw8tG2rg==
+=9d9g
+-----END PGP SIGNATURE-----
+
+--0F1p//8PRICkK4MW--
 
