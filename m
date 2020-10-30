@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24E072A2795
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:58:32 +0100 (CET)
-Received: from localhost ([::1]:49870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8882A2785
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:55:18 +0100 (CET)
+Received: from localhost ([::1]:39450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWbf-0002Pe-3g
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:58:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49398)
+	id 1kZWYX-0006Vn-Hs
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:55:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3fe4baf47be2633022ed4af71466aca6ddfc3f19@lizzy.crudebyte.com>)
- id 1kZWU7-0002QY-E1
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:50:45 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:41507)
+ (envelope-from <5409d8bea40289106e1005c41973382a7dfacf1c@lizzy.crudebyte.com>)
+ id 1kZWTV-00027t-ER
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:50:05 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <3fe4baf47be2633022ed4af71466aca6ddfc3f19@lizzy.crudebyte.com>)
- id 1kZWU0-0006se-Om
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:50:38 -0500
+ (envelope-from <5409d8bea40289106e1005c41973382a7dfacf1c@lizzy.crudebyte.com>)
+ id 1kZWTR-0006gI-Nf
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:50:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=XvvlpV7JJMEP8WWu+wvPOxEv/u5A60bGNocLFFYxiHY=; b=JDKxg
- fBGY4dMTuci2dj8wxMdrJfGLQUl0rlqzlTJZXkO/P5D4qdmpVnIaYuF0wT9gSS6LARoQG1xtuQUr8
- WLc828CIBGy7qlJ6lGPdRvAS3sx1dEARlhVCkoa6p2bOlcOSL3MfHk5z7Qi+ve25rBL1e7XmNOTk7
- cMiy2RSqjfnhc2ZE9+IE3lrbr0gitzKnNFl1X/JY+EYvoHyhBRGfKXT41zuYJXSg/3C8Hds4jrB4I
- c+5PWOSS+Q07QyvZverk7TNtRUY4jJsN0rs2yrMl82jQLvKhngwXDktReo1+FkbHO0pYYNfwhZMxf
- BSavH4/VpBH9EhUEJCIGzDIAp1E9A==;
-Message-Id: <3fe4baf47be2633022ed4af71466aca6ddfc3f19.1604309512.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=SG24nj4kAoQT9Jl8qWJ5ZyJy6bKq46bWP1SjB59f1c8=; b=J44Jt
+ 6ARddOn03uXTyyOaU095xOhPKmS8wtGtIv3TmNJW1+stmOO3V0WttR6kMlNOlxh0H7+db7TWoanes
+ A2/NVnCV62FDAX+eQXeozytX8oaTMKNMqJIPsAMklqXUdn+zh+d/KPthhY0XPOPi4BcqFgNebKT6u
+ y7N9il9nu4i7S549Tmw4+avjTfXd31BvXNs/PkR6IbDtUB0eDiccCrbv6RtAdgbempWNXNcdJlJ+D
+ iioIvfsk9j8GcIMESEhB3ad2Fu1HiMkC4nkglUwPGNsKcf0Pgy208kgUVzRkgMoKrepDZwAGiLoty
+ Q3lyhyXJA7UcyXw2xeX2gf8HyqVHA==;
+Message-Id: <5409d8bea40289106e1005c41973382a7dfacf1c.1604309512.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1604309512.git.qemu_oss@crudebyte.com>
 References: <cover.1604309512.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Tue, 20 Oct 2020 18:09:34 +0200
-Subject: [PULL v3 07/17] tests/9pfs: Factor out do_attach() helper
+Date: Fri, 30 Oct 2020 13:07:03 +0100
+Subject: [PULL v3 03/17] tests/9pfs: fix coverity error in
+ create_local_test_dir()
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=3fe4baf47be2633022ed4af71466aca6ddfc3f19@lizzy.crudebyte.com;
+ envelope-from=5409d8bea40289106e1005c41973382a7dfacf1c@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 04:48:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,128 +66,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+Coverity wants the return value of mkdir() to be checked:
 
-fs_attach() is a top level test function. Factor out the reusable
-code to a separate helper instead of hijacking it in other tests.
+  /qemu/tests/qtest/libqos/virtio-9p.c: 48 in create_local_test_dir()
+  42     /* Creates the directory for the 9pfs 'local' filesystem driver to
+  access. */
+  43     static void create_local_test_dir(void)
+  44     {
+  45         struct stat st;
+  46
+  47         g_assert(local_test_path != NULL);
+  >>> CID 1435963:  Error handling issues  (CHECKED_RETURN)
+  >>> Calling "mkdir(local_test_path, 511U)" without checking return value.
+  This library function may fail and return an error code.
+  48         mkdir(local_test_path, 0777);
+  49
+  50         /* ensure test directory exists now ... */
+  51         g_assert(stat(local_test_path, &st) == 0);
+  52         /* ... and is actually a directory */
+  53         g_assert((st.st_mode & S_IFMT) == S_IFDIR);
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160321017450.266767.17377192504263871186.stgit@bahia.lan>
+So let's just do that and log an info-level message at least, because we
+actually only care if the required directory exists and we do have an
+existence check for that in place already.
+
+Reported-by: Coverity (CID 1435963)
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <03f68c7ec08064e20f43797f4eb4305ad21e1e8e.1604061839.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/virtio-9p-test.c | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index ab59431d79..9c2738885e 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -589,10 +589,8 @@ static void fs_version(void *obj, void *data, QGuestAllocator *t_alloc)
-     do_version(obj);
- }
- 
--static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-+static void do_attach(QVirtio9P *v9p)
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index 586e700b24..3671043108 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -47,11 +47,16 @@ static void init_local_test_path(void)
+ void virtio_9p_create_local_test_dir(void)
  {
--    QVirtio9P *v9p = obj;
--    alloc = t_alloc;
-     P9Req *req;
+     struct stat st;
++    int res;
  
-     do_version(v9p);
-@@ -601,6 +599,12 @@ static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-     v9fs_rattach(req, NULL);
- }
+     init_local_test_path();
  
-+static void fs_attach(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    alloc = t_alloc;
-+    do_attach(obj);
-+}
-+
- static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-     QVirtio9P *v9p = obj;
-@@ -615,7 +619,7 @@ static void fs_walk(void *obj, void *data, QGuestAllocator *t_alloc)
-         wnames[i] = g_strdup_printf(QTEST_V9FS_SYNTH_WALK_FILE, i);
-     }
+     g_assert(local_test_path != NULL);
+-    mkdir(local_test_path, 0777);
++    res = mkdir(local_test_path, 0777);
++    if (res < 0) {
++        g_test_message("mkdir('%s') failed: %s", local_test_path,
++                       strerror(errno));
++    }
  
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, P9_MAXWELEM, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nwqid, &wqid);
-@@ -684,7 +688,7 @@ static void fs_readdir(void *obj, void *data, QGuestAllocator *t_alloc)
-     struct V9fsDirent *entries = NULL;
-     P9Req *req;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, &nqid, NULL);
-@@ -741,7 +745,7 @@ static void fs_readdir_split(void *obj, void *data, QGuestAllocator *t_alloc,
-     int fid;
-     uint64_t offset;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
- 
-     fid = 1;
-     offset = 0;
-@@ -817,7 +821,7 @@ static void fs_walk_no_slash(void *obj, void *data, QGuestAllocator *t_alloc)
-     P9Req *req;
-     uint32_t err;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rlerror(req, &err);
-@@ -857,7 +861,7 @@ static void fs_lopen(void *obj, void *data, QGuestAllocator *t_alloc)
-     char *const wnames[] = { g_strdup(QTEST_V9FS_SYNTH_LOPEN_FILE) };
-     P9Req *req;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -879,7 +883,7 @@ static void fs_write(void *obj, void *data, QGuestAllocator *t_alloc)
-     uint32_t count;
-     P9Req *req;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -906,7 +910,7 @@ static void fs_flush_success(void *obj, void *data, QGuestAllocator *t_alloc)
-     uint32_t reply_len;
-     uint8_t should_block;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -943,7 +947,7 @@ static void fs_flush_ignored(void *obj, void *data, QGuestAllocator *t_alloc)
-     uint32_t count;
-     uint8_t should_block;
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     req = v9fs_twalk(v9p, 0, 1, 1, wnames, 0);
-     v9fs_req_wait_for_reply(req, NULL);
-     v9fs_rwalk(req, NULL, NULL);
-@@ -1026,7 +1030,7 @@ static void fs_create_dir(void *obj, void *data, QGuestAllocator *t_alloc)
- 
-     g_assert(root_path != NULL);
- 
--    fs_attach(v9p, NULL, t_alloc);
-+    do_attach(v9p);
-     fs_mkdir(v9p, data, t_alloc, "/", "01");
- 
-     /* check if created directory really exists now ... */
+     /* ensure test directory exists now ... */
+     g_assert(stat(local_test_path, &st) == 0);
 -- 
 2.20.1
 
