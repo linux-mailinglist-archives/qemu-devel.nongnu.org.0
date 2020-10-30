@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC3929FEFF
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:44:58 +0100 (CET)
-Received: from localhost ([::1]:50186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE9C29FF0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:48:14 +0100 (CET)
+Received: from localhost ([::1]:55194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYP5l-0008QB-Pg
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:44:57 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
+	id 1kYP8v-0002FX-KJ
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:48:13 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYP40-0007X7-UW
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:43:08 -0400
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:45332)
+ id 1kYP4C-0007bb-TE
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:43:20 -0400
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:39940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYP3z-0000UV-Ii
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:43:08 -0400
-Received: by mail-ej1-x62d.google.com with SMTP id dk16so6683675ejb.12
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:43:07 -0700 (PDT)
+ id 1kYP4A-0000YL-Cl
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:43:20 -0400
+Received: by mail-ed1-x536.google.com with SMTP id p93so5603343edd.7
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ce6CmTKEtb7rZhZ4T68foPmpS0FQlP1jmDULP3/uI9o=;
- b=ldH8rVqUdKh85n+CUrgjbZs7ZXE7oWqybP5qpm7HrqltG/4SCQ0H+035TTVP6hdfuy
- K8deHIibj7DSRuxEYZUniNtU9/LM7ZyT61ZHxgigrDIcOgen/0/4PV21mqjWFQ2b/jwY
- rP9uI70OCPggjyGzbTFziKlc7ODpRyPYK9izx2xzlNAjI0jOrNMN7ft1TspZnVoEZXz5
- Yo12jacs+EbamkgodyBKDGfaoznyHkfu3F0T2CWpacLqEDC+jzm9qUmNJgXhCetWP/aY
- AJpqL34DKb9Ssb3Rripmfd8ZU4K9Ywa4eNVlCzMnzz7OYMyvaS0joHRK03qwOrJJiRLI
- EWGg==
+ :cc; bh=oV5ITNCZTMLJ5x+waf0u654oeZ9RWReDzRLU8TqIGDc=;
+ b=XEpix+sBS5LLMtxRC10iXYNya+P6P3jAgtJrvDGwirYscA+F6fdB1s73WCc/Ub6np/
+ ZjNliSaBtDko9/ZbwOstBIEro10hlqpgHA1awalh5/XRW8rCZqt/VAZ2mRwjCTSVa/+V
+ Z2X6WFLPmMy/EjXj+7RvyiWCXTznWuOAxMpqRi0SAKhepWNeypR4f2kAQEkMjPKqjzO6
+ mU/DarJpYGCikR/b9n/qMP+p+4sPj8wuR7izqBs6DPJUijseHhmmXZ6dAbXSvz/ML4mi
+ Ne/M/MevXQSV13HSBLlEzOyoh+Gq41W2jBed+9X6m0ip33V0CX+w9qAOXwGtLSJkMuF+
+ Vm1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ce6CmTKEtb7rZhZ4T68foPmpS0FQlP1jmDULP3/uI9o=;
- b=NSSL0lW8TkWNrMRPKxzZoy49+xj6qq2l88tP2xFFxUMTY0EK/IYg8w8M60K8buiJtU
- FHMXOO1FGJGQxH1I4bingP8ajFwJihbTGVBDfp35zLQ3yWeLFfQ00UrlaWDtVNGlq0NB
- /xycJtXIKNuPT1KHuGMabxT+QbsL+iBHziwc+6daQFYGy0gEEq5DSHScpFUKzaLDkib+
- ARouYEMj68dXk+N2YprigFMdj01Lg3goK8LT2EoOjfD7NzomK2OGif44zKHq9ofwA7Tp
- CdFA3wv4h3vtXkaSU3ziFfgu2+55W0R1R2boSXolE/Q8oxu/on/ZKgBfdtsINWoxk/I7
- 8tgg==
-X-Gm-Message-State: AOAM530YXgJ5P5T2tw2HedVKf1ZPOYsyRZI0ur61IOEj7rBFnsIsU/uc
- sMTe1BheeOZlfGMS9N5IGoUo0TX3dpLWhRulDng=
-X-Google-Smtp-Source: ABdhPJzirUyWvXRD8bhL9/Z9YXICt3cWox+OcKZfsA9YvE+YnPQ/w9VwbTzWiAIuutg3AsLMkamOGa6/Vy5xjVE3AYM=
-X-Received: by 2002:a17:906:4e16:: with SMTP id
- z22mr1153444eju.527.1604043786234; 
- Fri, 30 Oct 2020 00:43:06 -0700 (PDT)
+ bh=oV5ITNCZTMLJ5x+waf0u654oeZ9RWReDzRLU8TqIGDc=;
+ b=NyflsG1EHi151cD/GMwRK4PswapB5HMVp0+nHwWDWb7EmZ6JPjlFqQBqNf8kBvhOYC
+ +YIj0W3xK2WT5DvfqEe6Pgf6hB7VEIw2ITrXGozN1ccZAYAZKQTjdt2OP2a35cK2GBon
+ fyEMd0EYyupNDF7sP+1rVRQARSGcE13qTH9c6bWcJp+EhNcLVgwucViw+0ppiGBKCCCv
+ Y400NrK8xMnUvbFkEVxlRe0vJEvAHkl0+StsLh33ehXLJ0nzLMS5dAl1uXA7C2O1xmNc
+ awzHlUkJU4Vev4jDHwF1d2T++I/wp/r2KYgAhceK2wq/1SQ5aMLcipcBpehD7HUTJjeB
+ tgyQ==
+X-Gm-Message-State: AOAM533rFhKAGbG5gL5L8RdAjXLZduEkVD6qgPjjWyiWBusl7GiQ81sk
+ jmoezrDxI/UeO4r8Nu+JASzBg1xiXfxxDyJGlCY=
+X-Google-Smtp-Source: ABdhPJzDfWCwrsrd/GCbuvxEBcJ3mOXPV9BRnKY09K4njwe/O3NNAdRwKgAn1PapMsGLFA+9dL2fz+Z2x/otMxcKgT4=
+X-Received: by 2002:a05:6402:195:: with SMTP id
+ r21mr930121edv.164.1604043796234; 
+ Fri, 30 Oct 2020 00:43:16 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201029220246.472693-1-ehabkost@redhat.com>
- <20201029220246.472693-3-ehabkost@redhat.com>
-In-Reply-To: <20201029220246.472693-3-ehabkost@redhat.com>
+ <20201029220246.472693-6-ehabkost@redhat.com>
+In-Reply-To: <20201029220246.472693-6-ehabkost@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 30 Oct 2020 11:42:52 +0400
-Message-ID: <CAJ+F1CLKpSGLY+zCdbuQSEbYLfs_L1RK8MpO0YzFLh1FHSw66A@mail.gmail.com>
-Subject: Re: [PATCH 02/36] cpu: Move cpu_common_props to hw/core/cpu.c
+Date: Fri, 30 Oct 2020 11:43:03 +0400
+Message-ID: <CAJ+F1CLA6VCY=3uF5RZRwYXNBomupw=PMdMd1G-nkybp-Cy2hA@mail.gmail.com>
+Subject: Re: [PATCH 05/36] sparc: Check dev->realized at sparc_set_nwindows()
 To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000015307105b2de8c29"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62d.google.com
+Content-Type: multipart/alternative; boundary="000000000000adc74d05b2de8ce1"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x536.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -82,33 +82,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "Daniel P. Berrange" <berrange@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- John Snow <jsnow@redhat.com>
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, John Snow <jsnow@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000015307105b2de8c29
+--000000000000adc74d05b2de8ce1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 On Fri, Oct 30, 2020 at 2:07 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
 :
 
-> There's no reason to keep the property list separate from the CPU
-> class code.  Move the variable to hw/core/cpu.c and make it
-> static.
+> sparc_set_nwindows() is one of the very few property setters that
+> don't check dev->realized, and there's no reason for it to be
+> special.  Check dev->realized like the other setters.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-
 --=20
 Marc-Andr=C3=A9 Lureau
 
---00000000000015307105b2de8c29
+--000000000000adc74d05b2de8ce1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -117,17 +117,17 @@ Content-Transfer-Encoding: quoted-printable
 do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" target=3D"_blank">eha=
 bkost@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
 style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">There&#39;s no reason to keep the property list separate fr=
-om the CPU<br>
-class code.=C2=A0 Move the variable to hw/core/cpu.c and make it<br>
-static.<br>
+dding-left:1ex">sparc_set_nwindows() is one of the very few property setter=
+s that<br>
+don&#39;t check dev-&gt;realized, and there&#39;s no reason for it to be<br=
+>
+special.=C2=A0 Check dev-&gt;realized like the other setters.<br>
 <br>
 Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
 arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
 ><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
 ureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</di=
-v><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lurea=
-u<br></div></div>
+v><br></div>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---00000000000015307105b2de8c29--
+--000000000000adc74d05b2de8ce1--
 
