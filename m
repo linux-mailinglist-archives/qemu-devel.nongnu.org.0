@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430922A0895
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:58:02 +0100 (CET)
-Received: from localhost ([::1]:45374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDE9D2A087B
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:52:47 +0100 (CET)
+Received: from localhost ([::1]:56038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVqr-0000LI-Ae
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:58:01 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54180)
+	id 1kYVlm-0001NY-Rg
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:52:46 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYVfg-0002Hj-6Z
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:46:28 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYVfd-0003TR-5s
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:46:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604069183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=e0jB6jiJn8QGLsdv/mqDddEswZ7xIZ5m5iNf0wcCKNM=;
- b=GPFKI3web6D1g1SA6MFe/EK04hDwVzP69IEU/04DPId3S/Ea+SEtmWxXxdgKdK4rlUaAii
- W0R0gjOHA90/a956wA6XG/W18MDsIEwNwUS3iUj+mNGph5BNA3gz1l4HRPkPE+6TyZlq2P
- sJ1ienBpaT/myUOYZmNnsPVbVYtl0C8=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-163-eWQs1EtbPjaTgRkqNzYDxg-1; Fri, 30 Oct 2020 10:46:21 -0400
-X-MC-Unique: eWQs1EtbPjaTgRkqNzYDxg-1
-Received: by mail-wm1-f72.google.com with SMTP id e15so704473wme.4
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:46:21 -0700 (PDT)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kYVga-0003vz-8C
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:47:24 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kYVgX-0003YA-Q6
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:47:23 -0400
+Received: by mail-pg1-x541.google.com with SMTP id h6so5399194pgk.4
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:47:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=45FXYFF3j1vdIPopUUAd5Urhixk5oA2LuWDIjFKJxFA=;
+ b=gWrTv2bVAHPgjBsPDbMwE1pCiCN+/VNVlwQOPqOLwgpTUb+0Bmd+ayOJUi/cDP/pum
+ YSQ994WYvcz+2RHVZkypM4CHbQn02+vI5JJvrp7EjmSkXpVQtxgOSAKjT1hV/P9YxOJq
+ igzbv5sm+zFAlc1J7G/gUFUxvTV+53u8Q1CA6ikEbvZM1SlVVLVKIXmDy5vlf/4WhGRd
+ XM3JJx6SWItLhEngBPFiasd8psouMQfxz34xjzfu3h6K6gGqDPgz7mUsiK9fZYaeDvls
+ cj5TzOgMrwyrQdfLXwoIWVE++b4N6VJK7MvcnxVN9F6qIO/wLx56UJxEgNtbfCwGGIe8
+ Ip1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e0jB6jiJn8QGLsdv/mqDddEswZ7xIZ5m5iNf0wcCKNM=;
- b=EMT9tKq9zmYmphHHUW8Ent5oDiupWkKg8xvGIgcm+ZvcDwzE/0Lr9aTEs/FbyFyYtW
- KEFMrDVna+8Jp8UexXz66rqEjFBg6ZxX/0YHv0Z1aHB5Oh8KTuPJIbvQ8kxxRYiQyF3o
- +p54IL9uBrcMoSVua5J1CQ0gdZAcvD43/xzizn5YcMrk9/YNM/1ZQl3kMfsqAZnYQxa8
- VQ7z6Iy0XOEVUqMNnrorq9kPTOPkWwHa/eOvv5ikePQqhDHEryKL8vO6xOUBm+7G6Snw
- MhdMbBj7VbxByAu7ncWmJm8cw+VYG54feqJUJSPL0EUt+DY3T2tzRxK2++g/gLSSCk+9
- grfg==
-X-Gm-Message-State: AOAM5332+rmKF47ahVBCmTpnoKYsG4Kou2Dz2+ja8oV/VAQGv9xtnrc0
- x1HG/uqHFnH3hRo0ELlAtbhjBzmcbO2iwlKvV2l4ODcShni7myegUuiBigpLH8JvGUo3264e/ZL
- lu4wSH3fjWOS1uNQ=
-X-Received: by 2002:a1c:4944:: with SMTP id w65mr3015455wma.50.1604069179854; 
- Fri, 30 Oct 2020 07:46:19 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxUr6X7yNMxn8YF2IWie8ctUePIVGCuADg/qj5Kk4caGoNBusFpOh+kjRcV2BqJYWpVuKtBzg==
-X-Received: by 2002:a1c:4944:: with SMTP id w65mr3015429wma.50.1604069179625; 
- Fri, 30 Oct 2020 07:46:19 -0700 (PDT)
-Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id y20sm1132435wma.15.2020.10.30.07.46.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 07:46:18 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2] hw/arm/smmuv3: Fix potential integer overflow (CID
- 1432363)
-Date: Fri, 30 Oct 2020 15:46:17 +0100
-Message-Id: <20201030144617.1535064-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=45FXYFF3j1vdIPopUUAd5Urhixk5oA2LuWDIjFKJxFA=;
+ b=Krzw1fU4aZp/TmxQ5Q/LtJoOU/Im496aNUQMPSwGGI9c430Ab6Exavnch5Rn8V2hO9
+ gHDgCrMq1ruhG9DLokWGaqJQVaF5pGuQgN9hoJHFJ0KoDJPivFjMPrdxNEbDBBur4STs
+ VLlE7iVjFgCq7kTXVH67kTEPnIRqUB290kv1Zft8U+8VYb8w7l0FQfq6yHNz1lkMB4Z2
+ j6IAAhOEZp40RvoBIXYD8gvQClcF/z0kgun86x/n31b5F/YOy41wODRrdkL9xHcRCMoe
+ /rEHlnvw+CbVmnE3kdxohkdVMbSc9SzVVYgTJ5AD65+Itgu6IHOlO26yOLG5q4upatQp
+ VGog==
+X-Gm-Message-State: AOAM532RvczEj385gTeMq0SYvur8GyO+eomtu4muvWOxUt2aptYFDNry
+ B1byI0fie5E+onaxIlnmVvK1i+kf6/znG5uoY6WJ4oBoVd4=
+X-Google-Smtp-Source: ABdhPJzCdz8KX796UaHfJeMeOGFGg7EYfcUlh6ARYfdVJuUuFsLQd35yjHOO8pTjl9epRtgjYZ8Udlce/5x8iXYO7Yw=
+X-Received: by 2002:a63:6d4e:: with SMTP id i75mr2539192pgc.305.1604069240523; 
+ Fri, 30 Oct 2020 07:47:20 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201022164408.13214-1-peter.maydell@linaro.org>
+In-Reply-To: <20201022164408.13214-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 30 Oct 2020 14:47:09 +0000
+Message-ID: <CAFEAcA9BZ=njKsnErZf9tgAmZXw4=rEiNLkPoPS-phbT2ptxmg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Get correct MMU index for other-security-state
+To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,50 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the BIT_ULL() macro to ensure we use 64-bit arithmetic.
-This fixes the following Coverity issue (OVERFLOW_BEFORE_WIDEN):
+Ping for code review, please ?
 
-  CID 1432363 (#1 of 1): Unintentional integer overflow:
+thanks
+-- PMM
 
-  overflow_before_widen:
-    Potentially overflowing expression 1 << scale with type int
-    (32 bits, signed) is evaluated using 32-bit arithmetic, and
-    then used in a context that expects an expression of type
-    hwaddr (64 bits, unsigned).
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/arm/smmuv3.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 2017ba7a5a7..22607c37841 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -17,6 +17,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/bitops.h"
- #include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-@@ -864,7 +865,7 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
-         scale = CMD_SCALE(cmd);
-         num = CMD_NUM(cmd);
-         ttl = CMD_TTL(cmd);
--        num_pages = (num + 1) * (1 << (scale));
-+        num_pages = (num + 1) * BIT_ULL(scale);
-     }
- 
-     if (type == SMMU_CMD_TLBI_NH_VA) {
--- 
-2.26.2
-
+On Thu, 22 Oct 2020 at 17:44, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> In arm_v7m_mmu_idx_for_secstate() we get the 'priv' level to pass to
+> armv7m_mmu_idx_for_secstate_and_priv() by calling arm_current_el().
+> This is incorrect when the security state being queried is not the
+> current one, because arm_current_el() uses the current security state
+> to determine which of the banked CONTROL.nPRIV bits to look at.
+> The effect was that if (for instance) Secure state was in privileged
+> mode but Non-Secure was not then we would return the wrong MMU index.
+>
+> The only places where we are using this function in a way that could
+> trigger this bug are for the stack loads during a v8M function-return
+> and for the instruction fetch of a v8M SG insn.
+>
+> Fix the bug by expanding out the M-profile version of the
+> arm_current_el() logic inline so it can use the passed in secstate
+> rather than env->v7m.secure.
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  target/arm/m_helper.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+> index 036454234c7..aad01ea0127 100644
+> --- a/target/arm/m_helper.c
+> +++ b/target/arm/m_helper.c
+> @@ -2719,7 +2719,8 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate_and_priv(CPUARMState *env,
+>  /* Return the MMU index for a v7M CPU in the specified security state */
+>  ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+>  {
+> -    bool priv = arm_current_el(env) != 0;
+> +    bool priv = arm_v7m_is_handler_mode(env) ||
+> +        !(env->v7m.control[secstate] & 1);
+>
+>      return arm_v7m_mmu_idx_for_secstate_and_priv(env, secstate, priv);
+>  }
+> --
+> 2.20.1
+>
 
