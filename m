@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27AE52A0A11
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:41:42 +0100 (CET)
-Received: from localhost ([::1]:44180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03FFB2A0A1C
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:44:02 +0100 (CET)
+Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYWX7-00036O-6w
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:41:41 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
+	id 1kYWZN-0005PC-24
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:44:01 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWVA-0001oa-J0
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:39:40 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43264)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYWVS-0001rr-Vm
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:39:58 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1kYWV8-00021b-OF
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:39:40 -0400
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kYWVR-00023C-4V
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:39:58 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604072377;
+ s=mimecast20190719; t=1604072396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+JL/AXiTfPCByujUJcVx224wjo4Vtqb2Hih44hRK31s=;
- b=hwMao7WJmmf+VJErVWkvpaYK1gmUPPV8wTltANbzJQ4a9kfdrPROGhwOfQKGFKk7uvWFI+
- ka3kgDnXDXd2ArMfmQdz0yp0xCKtOFh8fAMWkvk+mVCYyd4Dj2j2fKW5iksoDkH8CMuR0x
- 2kH82PDTdWwGkhy2B2AX7kKD29nVO2Y=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-tcOczcZdO6OvU2hSfUXoww-1; Fri, 30 Oct 2020 11:39:35 -0400
-X-MC-Unique: tcOczcZdO6OvU2hSfUXoww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5290064089
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 15:39:34 +0000 (UTC)
-Received: from [10.10.118.238] (ovpn-118-238.rdu2.redhat.com [10.10.118.238])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DE12B1000320;
- Fri, 30 Oct 2020 15:39:30 +0000 (UTC)
-Subject: Re: Migrating to the gitlab issue tracker
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <bda4f471-8ed6-3832-29ac-279a6d3bb7cc@redhat.com>
- <20201030091636.GD307361@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <71783050-4984-9ad4-f24a-6440490f6d21@redhat.com>
-Date: Fri, 30 Oct 2020 11:39:30 -0400
+ bh=uu5DQQvJShOF0xj3IpLFPuNZHpZaLCV+2VcB1NqWaMo=;
+ b=C+nX6xbiR+AwVuXV6cfajQWyIZZtItR3SUeU8MHkjKBbO3iSDLnUTO5bdQs5mzaPItfpo4
+ 3UgQSQTmRK3YJKoJ1J2O6NSVshU7xdi3ocbRUggErxE+GqnJke919QS/ZpS2UiFKUoo55D
+ M3+ebs4UYy6k7zbfcYtuwKOmQL7gdY0=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-csngwEksOLONGBgvCYmJGQ-1; Fri, 30 Oct 2020 11:39:54 -0400
+X-MC-Unique: csngwEksOLONGBgvCYmJGQ-1
+Received: by mail-wm1-f72.google.com with SMTP id r19so1373340wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 08:39:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uu5DQQvJShOF0xj3IpLFPuNZHpZaLCV+2VcB1NqWaMo=;
+ b=h5XHvS7AKd803ZuVDF7vrEUH9lgXc+l+AYoGYRgTQN9qrSG0xv7MNTNB8o0q5PFBcL
+ 4Cok2CXelIUwHoXjxkQuv69AQIk2UbTZTXzom33Xv1+GWwR/p4U03Pi5wBSjfXvQeTau
+ A+dcPc3WDEsYsUxk6fDxgs9hWPzIYr4Pltcf7mIuAUrlj9tx56oA5zmEFxrA33xgYyMy
+ HsrJoXcBAx0SUP2o4VkShayReFPUyj1W7vMmz94CHVRIa+24TVv1oK038VUl8es+u9Ea
+ he/hJceQqYgVDSC1hEPVbuxJ0Yy82l1Y37cDpxVSkxR6PjIoH6gFZM+981jp5MFXRvHp
+ cxoA==
+X-Gm-Message-State: AOAM533bSX/N3qZjGWbn5X1aBrxVaVuqqwq2/cJxWcpurV9fAdOaI72u
+ LVGjSOKtxyYE2952uLdaZQgKzT6elKYXbb+AJYg4QeJBZFsr9aFb+ILqtB7WSddgvDVfmORk+cq
+ mmhG8JNhuq7+t6eI=
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr3333048wme.171.1604072393131; 
+ Fri, 30 Oct 2020 08:39:53 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxW8WbQDz2GuNeB0U2pRsr8vn8scPEuFKdEk4Lx7A9QMBe3NaXihvxU2qVeE+ymO5iygRS0Fw==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr3333033wme.171.1604072392915; 
+ Fri, 30 Oct 2020 08:39:52 -0700 (PDT)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id y200sm564139wmc.23.2020.10.30.08.39.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 30 Oct 2020 08:39:52 -0700 (PDT)
+Subject: Re: [PATCH 2/2] MAINTAINERS: Make status spellings consistent
+To: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+References: <20201030153416.429791-1-jsnow@redhat.com>
+ <20201030153416.429791-3-jsnow@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <626897c7-2c2b-898d-88e6-11a256a24583@redhat.com>
+Date: Fri, 30 Oct 2020 16:39:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201030091636.GD307361@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201030153416.429791-3-jsnow@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -83,46 +100,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/30/20 5:16 AM, Stefan Hajnoczi wrote:
-> On Thu, Oct 29, 2020 at 12:01:27PM -0400, John Snow wrote:
->> In experimenting with my mirror on gitlab though, I was unable to find a way
->> to configure it to send issue tracker notifications to the email list. A
->> move to gitlab would likely mean, then:
->>
->> 1. The cessation of (automatic) issue tracker mails to the list
-> 
-> A bot could do this.
-> 
+On 10/30/20 4:34 PM, John Snow wrote:
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> ---
+>  MAINTAINERS | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 
-Yes, but someone would have to write it, and we'd have to host it 
-somewhere. It might not worth be doing.
-
->> 2. The loss of the ability to update the issue tracker by replying to said
->> emails
-> 
-> This is too bad. It's something I liked about Launchpad.
-> 
-
-However, if you subscribe to the issue tracker using your gitlab 
-account, you can reply to the emails you get to update the tracker that way!
-
-https://gitlab.com/qemu-project/qemu and click the little bell near 
-un/star and fork; click "custom" and subscribe to issue events.
-
->> 3. Anyone listed in MAINTAINERS would be expected to have a gitlab account
->> in order to interact with the issue tracker.
-> 
-> Maintainers should start running pull requests through the GitLab CI
-> anyway, so this is probably okay.
-> 
-
-Sounds like the consensus so far, yes.
-
-> Stefan
-> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
