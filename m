@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 318A629FF10
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:49:36 +0100 (CET)
-Received: from localhost ([::1]:58234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC3929FEFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 08:44:58 +0100 (CET)
+Received: from localhost ([::1]:50186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYPAF-0003YQ-6i
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:49:35 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38930)
+	id 1kYP5l-0008QB-Pg
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 03:44:57 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYP3r-0007P4-Af
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:42:59 -0400
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46732)
+ id 1kYP40-0007X7-UW
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:43:08 -0400
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:45332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kYP3o-0000Rd-SM
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:42:58 -0400
-Received: by mail-ed1-x52f.google.com with SMTP id t11so5550665edj.13
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:42:56 -0700 (PDT)
+ id 1kYP3z-0000UV-Ii
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 03:43:08 -0400
+Received: by mail-ej1-x62d.google.com with SMTP id dk16so6683675ejb.12
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 00:43:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=p4myVGXuMAjJjzFCdX9E7RxvVmJX2D+/FE8AVOvevtw=;
- b=eklf+1Svz8V6zyWx5z4lvCqhIKHExwB8Mwz+X9BDqq9Xy3PEan59wQihYGmI8U4dBr
- A5J4AeBI7VFx4IaxzikBPmqIzyMM+Eqzu09BBhg3MEqYjIKo+U9WNpszY5HN5O/dmeIp
- /vQk2Xopj2Rxrlfs8y9fBP8pEybnH33GGp+TaDnK2OeJWgxuTz4DGeTh1U3BpJ0y+1IC
- nhVfByNZP3/eR+0LwEgCWE0etNRYAmKChmz4CWlrEuKt898pzBCSLJjQHZsF1dpUAIgg
- 5+5EAYjwLXnRnLVO4hGIeK/2ZUCQPk5dIfC87VZg4u2qHXkKvcZo2IHng6t0U3OHzPf1
- Q9bQ==
+ :cc; bh=ce6CmTKEtb7rZhZ4T68foPmpS0FQlP1jmDULP3/uI9o=;
+ b=ldH8rVqUdKh85n+CUrgjbZs7ZXE7oWqybP5qpm7HrqltG/4SCQ0H+035TTVP6hdfuy
+ K8deHIibj7DSRuxEYZUniNtU9/LM7ZyT61ZHxgigrDIcOgen/0/4PV21mqjWFQ2b/jwY
+ rP9uI70OCPggjyGzbTFziKlc7ODpRyPYK9izx2xzlNAjI0jOrNMN7ft1TspZnVoEZXz5
+ Yo12jacs+EbamkgodyBKDGfaoznyHkfu3F0T2CWpacLqEDC+jzm9qUmNJgXhCetWP/aY
+ AJpqL34DKb9Ssb3Rripmfd8ZU4K9Ywa4eNVlCzMnzz7OYMyvaS0joHRK03qwOrJJiRLI
+ EWGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=p4myVGXuMAjJjzFCdX9E7RxvVmJX2D+/FE8AVOvevtw=;
- b=lIpqu4eAVu4TrKWXE7SPganW/r1oSvRAoevVXOD25inSH7kgMQn+tiUFDUqWR44N+V
- WXrqNjmNcjaBP6Zo5Y2emWiieKs3/Lh6CobnlQV/TGX0X/EMOnPb7BslGmeO+BpdPl1r
- j9Qtc8wpXjY56xIbC03cN4xMy0SHt5e9daxd0z6cuINucrfjWYL3g1BAIRs2FQI0h0a9
- ZqyZPGzu6xYcm2jbUClz26Yev+dBZANFff/xM8KJAmTbsNx0Uo7vBODF0FJbm+Q+NWvD
- C5NDtTD58o40l+kdn4n3JgOaIoZUWgQj1BCFXujI85horvy1TW8dPWInIdfx8v5d3eRV
- B1Ew==
-X-Gm-Message-State: AOAM533qKSYdvOv0j1/EWdeyULeNYO806iLX+wbL4SKCn9Fd81QSz2yk
- sMDTGTg2d4qc6jM1oPoy3RqqQA5W+rgeVNbcpKZYd0AOrnU=
-X-Google-Smtp-Source: ABdhPJyBWAHVciRyqjfvU9kEHgbQRQLpGoH/B1TAo13pWCDMyursen+xWoUty+/HQew6mNTZrtNSC88MfCqiodmuUx8=
-X-Received: by 2002:aa7:dd42:: with SMTP id o2mr927549edw.53.1604043775100;
- Fri, 30 Oct 2020 00:42:55 -0700 (PDT)
+ bh=ce6CmTKEtb7rZhZ4T68foPmpS0FQlP1jmDULP3/uI9o=;
+ b=NSSL0lW8TkWNrMRPKxzZoy49+xj6qq2l88tP2xFFxUMTY0EK/IYg8w8M60K8buiJtU
+ FHMXOO1FGJGQxH1I4bingP8ajFwJihbTGVBDfp35zLQ3yWeLFfQ00UrlaWDtVNGlq0NB
+ /xycJtXIKNuPT1KHuGMabxT+QbsL+iBHziwc+6daQFYGy0gEEq5DSHScpFUKzaLDkib+
+ ARouYEMj68dXk+N2YprigFMdj01Lg3goK8LT2EoOjfD7NzomK2OGif44zKHq9ofwA7Tp
+ CdFA3wv4h3vtXkaSU3ziFfgu2+55W0R1R2boSXolE/Q8oxu/on/ZKgBfdtsINWoxk/I7
+ 8tgg==
+X-Gm-Message-State: AOAM530YXgJ5P5T2tw2HedVKf1ZPOYsyRZI0ur61IOEj7rBFnsIsU/uc
+ sMTe1BheeOZlfGMS9N5IGoUo0TX3dpLWhRulDng=
+X-Google-Smtp-Source: ABdhPJzirUyWvXRD8bhL9/Z9YXICt3cWox+OcKZfsA9YvE+YnPQ/w9VwbTzWiAIuutg3AsLMkamOGa6/Vy5xjVE3AYM=
+X-Received: by 2002:a17:906:4e16:: with SMTP id
+ z22mr1153444eju.527.1604043786234; 
+ Fri, 30 Oct 2020 00:43:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201029220246.472693-1-ehabkost@redhat.com>
- <20201029220246.472693-7-ehabkost@redhat.com>
-In-Reply-To: <20201029220246.472693-7-ehabkost@redhat.com>
+ <20201029220246.472693-3-ehabkost@redhat.com>
+In-Reply-To: <20201029220246.472693-3-ehabkost@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 30 Oct 2020 11:42:42 +0400
-Message-ID: <CAJ+F1CJJ=87U-zqScZdc=t+kdmckb5mhNT37OwZhnuho1SLjQg@mail.gmail.com>
-Subject: Re: [PATCH 06/36] qdev: Don't use dev->id on set_size32() error
- message
+Date: Fri, 30 Oct 2020 11:42:52 +0400
+Message-ID: <CAJ+F1CLKpSGLY+zCdbuQSEbYLfs_L1RK8MpO0YzFLh1FHSw66A@mail.gmail.com>
+Subject: Re: [PATCH 02/36] cpu: Move cpu_common_props to hw/core/cpu.c
 To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000006b4d1705b2de8b19"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52f.google.com
+Content-Type: multipart/alternative; boundary="00000000000015307105b2de8c29"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,16 +88,16 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006b4d1705b2de8b19
+--00000000000015307105b2de8c29
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 30, 2020 at 2:05 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
+On Fri, Oct 30, 2020 at 2:07 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
 :
 
-> All other qdev property error messages use "<type>.<property>"
-> instead of "<id>.<property>".  Change set_size32() for consistency,
-> and to make the code not specific to TYPE_DEVICE.
+> There's no reason to keep the property list separate from the CPU
+> class code.  Move the variable to hw/core/cpu.c and make it
+> static.
 >
 > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 >
@@ -105,31 +105,29 @@ On Fri, Oct 30, 2020 at 2:05 AM Eduardo Habkost <ehabkost@redhat.com> wrote=
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 
-
 --=20
 Marc-Andr=C3=A9 Lureau
 
---0000000000006b4d1705b2de8b19
+--00000000000015307105b2de8c29
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2020 at 2:05 AM Eduar=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 30, 2020 at 2:07 AM Eduar=
 do Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" target=3D"_blank">eha=
 bkost@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
 style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">All other qdev property error messages use &quot;&lt;type&g=
-t;.&lt;property&gt;&quot;<br>
-instead of &quot;&lt;id&gt;.&lt;property&gt;&quot;.=C2=A0 Change set_size32=
-() for consistency,<br>
-and to make the code not specific to TYPE_DEVICE.<br>
+dding-left:1ex">There&#39;s no reason to keep the property list separate fr=
+om the CPU<br>
+class code.=C2=A0 Move the variable to hw/core/cpu.c and make it<br>
+static.<br>
 <br>
 Signed-off-by: Eduardo Habkost &lt;<a href=3D"mailto:ehabkost@redhat.com" t=
 arget=3D"_blank">ehabkost@redhat.com</a>&gt;<br></blockquote><div><br></div=
 ><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
 ureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;</di=
-v><br></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 L=
-ureau<br></div></div>
+v><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr">Marc-Andr=C3=A9 Lurea=
+u<br></div></div>
 
---0000000000006b4d1705b2de8b19--
+--00000000000015307105b2de8c29--
 
