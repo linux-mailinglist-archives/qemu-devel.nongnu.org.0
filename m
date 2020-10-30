@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B1A29FA79
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:21:19 +0100 (CET)
-Received: from localhost ([::1]:54596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03C1929FA3D
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:07:16 +0100 (CET)
+Received: from localhost ([::1]:44226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYJ6U-0000GM-C6
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:21:18 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46902)
+	id 1kYIst-0000eq-2S
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:07:15 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIc2-0004Rt-Ds
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:50 -0400
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:38657)
+ id 1kYIc4-0004Tk-C7
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:52 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44712)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbz-0001sI-UF
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:50 -0400
-Received: by mail-pl1-x635.google.com with SMTP id f21so2146100plr.5
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:47 -0700 (PDT)
+ id 1kYIc1-0001sU-Cw
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:52 -0400
+Received: by mail-pg1-x542.google.com with SMTP id o3so3735466pgr.11
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YKIoLTi5ySgzCVvhycZMdw7nP6Jv58IFUwkqltF23wU=;
- b=mScoixdVx+TtBqenU66+xOra942st+OgP4Svs5Ueve67MSHyNLMzdn05PihLgnOUv4
- 3ml6ENvYnBGyveWV+ThOUGI1SORqm27Hp02vOU/3tgZD/T7dK3NJ/323lw4MT4VVm1Qk
- HF3y7j+LYF1G+U8/J8bCJjf8w5lx+S4A+0uOroILzU3+Q80me8bmEiJFleWlx+Eu0/vF
- 6FqzJgos5YFZsZ1mOuuqKXS3HLl5oS9PhUHY6ICz5R9C/5C4txAHE5RZOuII5LwUCq9S
- 9iUyuGLnzn8ilpwtPqdvGA3DCqh0UvZv/krk1GnUJOkRsRawI5TRIUAfbJ7Gh6/p1vpF
- Ip9A==
+ bh=EhkdHT0Y0sf1vj+jVq46ouiJkTQDiOCLodMdEnwCB18=;
+ b=udiLio37T5afpZcNWLKcW9iXG0GpkmgTuRG3Q9Ua/WzCsgpEN29/eKxLhuV7LN5G1I
+ KCsLii2YrivaUGGS1u9VIOeGxVaXLRb5oVSpREk0eEzel0PCwHyD8hOeS7BHmnM6TH+O
+ Prf+lEUTHRTDdF4wbKBOVP0vBogecbPBkNlXwfrTWd4a7IwA0c4q78KY7swNfTt3K4BM
+ 9+X3RGebWexGeFda+8Z+cNicsOQYRcapfje931PRvVUxvTTxYuNrJiZej12+E3Q9lPyX
+ iLAWmG54gw8t0dgE8gPvhALjpzjD/ypsf1MYWDxeIEICVBYqGCvYqCBE/0K4N1uSa3Ib
+ m4+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YKIoLTi5ySgzCVvhycZMdw7nP6Jv58IFUwkqltF23wU=;
- b=rLoqUrSOOhAXw1tElLP7k/sGZ0k8vSrdTNOzY6E9jUnjBLMjjboI6CXQ0PMvL3/ZFE
- T76wr3n6dBBcXz4/nFnXQymRR8hbWBryoIJSl5/n4mcC8x5JGKh6pmH3s+rnIkTsBEAv
- FftIwOCaLdEabh0RWW8cqmxGLLGIAWrITT9pKoel2V2LznQR7u/q9ARm5C16Ro3Wvj65
- JS0ruv/frLngHOQO1UqjUG82tU/u1xvJ/YFOwSNCraQcjDSFvAbCyFqaN26G50FhIZ1K
- qe7/zadP9Up3IvCcuHjP7DDfbC+mx/SvNtwE/DzMBhaFNSbgyWp8Kg7mWugz9WfnjZxX
- 4eFg==
-X-Gm-Message-State: AOAM530ridE8hIuamjO0XtjOex9Ta30IXu77uZV3Rgk5KiW42147hWAY
- OwPkqFZFKuHoUB+d7kd0uogV57tOYK7feg==
-X-Google-Smtp-Source: ABdhPJwbCZaDGEjOM4Q8ura3Ky/hNL72DbKqz1CoT/RFZjnRh6wxAZ6D4NlwOpiYppYAOJ7NB26RjQ==
-X-Received: by 2002:a17:902:758d:b029:d6:57ea:a434 with SMTP id
- j13-20020a170902758db02900d657eaa434mr6151776pll.83.1604018986241; 
- Thu, 29 Oct 2020 17:49:46 -0700 (PDT)
+ bh=EhkdHT0Y0sf1vj+jVq46ouiJkTQDiOCLodMdEnwCB18=;
+ b=miPBibgV0HUI06jGZj0Zq12RtTCvVM5i4TuziqbQ6fVkjPkclqduHxi7nHfveiIdXL
+ uEQzpuv2AIJ7197ifNTQxr60XG8HF7buUekqf5bKUB7+AoOqKidxpinStWi1aPaYp96l
+ fxZIU9FduxA0Ul6fwGAoa//RSg61evo3krfvUdATdaz5Uz2ns+n16oZojxGt8KpKMZa5
+ c3weSaq5D6HL20z7D6L5g8LHdlPkN4dMe/Uq37ZZl4+CwRmLaQhTl7g8iEqO9X/vq+7f
+ iwTLmuTbTQA4N107B1q9gXJ7WqFZCKZzu/mzjd+KQsp2amhcTV0L0AfyDCTHarykj1A7
+ t9QQ==
+X-Gm-Message-State: AOAM530x+J1RMB8iEX1r11YYe7loJkbvwIXzC/5ryVGXDctU0bOYzKWV
+ ChBUNYzqPTiIAZkLZ3zbXWE02JiYInPa1A==
+X-Google-Smtp-Source: ABdhPJx8xEZZBE0dJbJ9v1ryHHa2f11PnCIoXgzyZW2is3T+bHDvP3ACqT1rF2iRpp+ZXEqyx5xZjg==
+X-Received: by 2002:a63:af02:: with SMTP id w2mr6195839pge.339.1604018987674; 
+ Thu, 29 Oct 2020 17:49:47 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.45
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:45 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/19] tcg/aarch64: Use B not BL for tcg_out_goto_long
-Date: Thu, 29 Oct 2020 17:49:19 -0700
-Message-Id: <20201030004921.721096-18-richard.henderson@linaro.org>
+Subject: [PATCH v2 18/19] tcg/aarch64: Implement flush_idcache_range manually
+Date: Thu, 29 Oct 2020 17:49:20 -0700
+Message-Id: <20201030004921.721096-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x542.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,26 +88,99 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A typo generated a branch-and-link insn instead of plain branch.
+Copy the single pointer implementation from libgcc and modify it to
+support the double pointer interface we require.  This halves the
+number of cache operations required when split-rwx is enabled.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/aarch64/tcg-target.h     | 11 +-------
+ tcg/aarch64/tcg-target.c.inc | 53 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 10 deletions(-)
 
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index fa64058d43..e62d38ba55 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -148,16 +148,7 @@ typedef enum {
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+ 
+-/* Flush the dcache at RW, and the icache at RX, as necessary. */
+-static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+-{
+-    /* TODO: Copy this from gcc to avoid 4 loops instead of 2. */
+-    if (rw != rx) {
+-        __builtin___clear_cache((char *)rw, (char *)(rw + len));
+-    }
+-    __builtin___clear_cache((char *)rx, (char *)(rx + len));
+-}
+-
++void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len);
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #ifdef CONFIG_SOFTMMU
 diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index fea784cf75..bd888bc66d 100644
+index bd888bc66d..5e8f3faad2 100644
 --- a/tcg/aarch64/tcg-target.c.inc
 +++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1317,7 +1317,7 @@ static inline void tcg_out_goto_long(TCGContext *s, tcg_insn_unit *target)
+@@ -2968,3 +2968,56 @@ void tcg_register_jit(const void *buf, size_t buf_size)
  {
-     ptrdiff_t offset = target - s->code_ptr;
-     if (offset == sextract64(offset, 0, 26)) {
--        tcg_out_insn(s, 3206, BL, offset);
-+        tcg_out_insn(s, 3206, B, offset);
-     } else {
-         tcg_out_movi(s, TCG_TYPE_I64, TCG_REG_TMP, (intptr_t)target);
-         tcg_out_insn(s, 3207, BR, TCG_REG_TMP);
+     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
++
++/*
++ * Flush the dcache at RW, and the icache at RX, as necessary.
++ * This is a copy of gcc's __aarch64_sync_cache_range, modified
++ * to fit this three-operand interface.
++ */
++void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
++{
++    const unsigned CTR_IDC = 1u << 28;
++    const unsigned CTR_DIC = 1u << 29;
++    static unsigned int cache_info;
++    uintptr_t icache_lsize, dcache_lsize, p;
++
++    if (!cache_info) {
++        /*
++         * CTR_EL0 [3:0] contains log2 of icache line size in words.
++         * CTR_EL0 [19:16] contains log2 of dcache line size in words.
++         */
++        asm volatile("mrs\t%0, ctr_el0" : "=r"(cache_info));
++    }
++
++    icache_lsize = 4 << extract32(cache_info, 0, 4);
++    dcache_lsize = 4 << extract32(cache_info, 16, 4);
++
++    /*
++     * If CTR_EL0.IDC is enabled, Data cache clean to the Point of Unification
++     * is not required for instruction to data coherence.
++     */
++    if (!(cache_info & CTR_IDC)) {
++        /*
++         * Loop over the address range, clearing one cache line at once.
++         * Data cache must be flushed to unification first to make sure
++         * the instruction cache fetches the updated data.
++         */
++        for (p = rw & -dcache_lsize; p < rw + len; p += dcache_lsize) {
++            asm volatile("dc\tcvau, %0" : : "r" (p) : "memory");
++        }
++        asm volatile("dsb\tish" : : : "memory");
++    }
++
++    /*
++     * If CTR_EL0.DIC is enabled, Instruction cache cleaning to the Point
++     * of Unification is not required for instruction to data coherence.
++     */
++    if (!(cache_info & CTR_DIC)) {
++        for (p = rx & -icache_lsize; p < rx + len; p += icache_lsize) {
++            asm volatile("ic\tivau, %0" : : "r"(p) : "memory");
++        }
++        asm volatile ("dsb\tish" : : : "memory");
++    }
++
++    asm volatile("isb" : : : "memory");
++}
 -- 
 2.25.1
 
