@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2A62A07B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:21:10 +0100 (CET)
-Received: from localhost ([::1]:40512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B372A07B8
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 15:21:13 +0100 (CET)
+Received: from localhost ([::1]:40860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYVHB-0003w7-Ni
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:21:09 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
+	id 1kYVHE-00044j-GF
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 10:21:12 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8e-0003i9-Fr
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8f-0003iN-UZ
  for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56617)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8Z-0007Fx-2M
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:20 -0400
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kYV8a-0007G5-9f
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 10:12:21 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604067132;
+ s=mimecast20190719; t=1604067133;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B/zT27wrNEHsIn9RPNBpuM2tzqmJYYoAGZySli/obU8=;
- b=WkU7fxjW3w8waHRYU9T4WRwy+GDJxfZ1CizWcI9GR/JLNntWKXZ/qy4tQGf0dpW8aOMHg5
- eyAB9SvKQzgixeL7pxmSTrV3CGa6bODcRNBdWaTc1JUt6BlBhPj1LLMflgGkMcKYxEpt3l
- kvxsWQoLayknZCMV8psnMToV3aI590E=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-3es-3gwWM8WqwBsIRMZ-Zg-1; Fri, 30 Oct 2020 10:12:08 -0400
-X-MC-Unique: 3es-3gwWM8WqwBsIRMZ-Zg-1
-Received: by mail-wr1-f72.google.com with SMTP id w3so616969wrt.11
- for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:08 -0700 (PDT)
+ bh=hB2moo/cmsKV0TlRa+A5mqgcufQ43ovjOtrGZziNS+A=;
+ b=V+KoyEvkiRU3MIQ+gYQoeJj4cGyDmqJbFJFhqnQUngEA0xykjOK912jFGR/d3KYLb0dlbB
+ dGVuWZmxaFrWZ3hmmDxBRTRWdy9HZwiJe5AtadbFFv2oF9pJbB9Xfdrw+e26J7nxOAZgB3
+ Lj1AJsNF8C1ZrybbilKgSuQpdd9kPwY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-FqOT1Xs7OLSgcj_hswXgng-1; Fri, 30 Oct 2020 10:12:11 -0400
+X-MC-Unique: FqOT1Xs7OLSgcj_hswXgng-1
+Received: by mail-wm1-f69.google.com with SMTP id c10so440124wmh.6
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 07:12:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=B/zT27wrNEHsIn9RPNBpuM2tzqmJYYoAGZySli/obU8=;
- b=dChyVuJPVA5qpka8/lh9wWDITGxescW6j+5+KiJnkGDZUKKjI3YmB4HWm2GH424tdc
- AL9AsIai8CgbFPHA4d+dPi06aSrr0ZSlrtLnr0ZWW0hXlj52/9im0oWgWsNimYgDs4NS
- PLzJv74sQObD5kqdLLMOxC5j6nZmymduyn2MbT7TYo/zgGGHiaW735XURaMG1KgNj6FE
- 2UKoIql2N35WMtPVqQwCVGkyX67YPVF5+LgBWgF56BpscJh0/6heMBAcgK4qMsWg0FBv
- dkmad+1jMhSSkxVuxuDoY/HB9E6F75btqu3comHSwISffQaPtX8+ZLc0+MXJcb+oDFCV
- baCA==
-X-Gm-Message-State: AOAM531GwDwBqCZNlc5imJVuV+2KyzQaPwq8CNsCQbFvIHuJaUdCbMkP
- 5TqqFcvfPp1eJinFE2pciPMcLo0OCFCrRVsb1Vexe6axltWmKOvuU0l0K5UlmHxnz3FqwWrrcJ/
- ey3unPI6YMFmkgEA=
-X-Received: by 2002:a5d:688c:: with SMTP id h12mr3577080wru.92.1604067126720; 
- Fri, 30 Oct 2020 07:12:06 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz88sXk08d3H74+ai8QgMNtx7G+dDD6r5jEDCWNgQ+yd73QVVkxAb6mKY5UPzwkhqDBXLLmfg==
-X-Received: by 2002:a5d:688c:: with SMTP id h12mr3577066wru.92.1604067126579; 
- Fri, 30 Oct 2020 07:12:06 -0700 (PDT)
+ :mime-version:content-disposition:in-reply-to;
+ bh=hB2moo/cmsKV0TlRa+A5mqgcufQ43ovjOtrGZziNS+A=;
+ b=gnl156ttR+6Gn1CTu3JqqBlcfYAJStYiX4oVLeWsy5SU8r0hgT3Z9tDel4csd4OH+2
+ Wo7ImTqVL2NAKqEqK039dWMjAMtOv0p6TymTWa9bqb/23rY+LBoCNAS2oMmDk3jfJVyx
+ owdLR0Mt5KVV4gV5piR9+xmyprQnzGTLQYohK5RTziW9pTdjTjv7D1q8ldtAYxiiLXGI
+ KAdOD/dXFo4DmfUc3tdrVSeH1NmFH0vcVS6Dxwoc7Q/bRwUq9TglkyisMXJmeYf+81N+
+ Dkz7CGCDOSz1Dw+MyLHInq5InHCyfSuwC7qVwNQV3HituenUkc39kCpIX/dKceDna93b
+ ATiw==
+X-Gm-Message-State: AOAM532GAR0NBDPsZyHgV8rNNhxs+6EGqNgdaiOLVUbucNhNB8XpJG96
+ oL/Sda4nTCbY5vFAewbuvsmopwCsVkVuCtp8SiYqshROeqAQLNfbWo6n3bEDHTQVMa8U0XPlU4w
+ O6NksOIoYq5hzbNY=
+X-Received: by 2002:adf:cf10:: with SMTP id o16mr3136186wrj.264.1604067129560; 
+ Fri, 30 Oct 2020 07:12:09 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwOXgFNg4LO+U7irrJ4ZfGItiEcSJhOgCYjGmSqPSQQuLf8S0P2kbGnfhHYpJFDbFCO6lf5vQ==
+X-Received: by 2002:adf:cf10:: with SMTP id o16mr3136118wrj.264.1604067128824; 
+ Fri, 30 Oct 2020 07:12:08 -0700 (PDT)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id m14sm10754435wro.43.2020.10.30.07.12.05
+ by smtp.gmail.com with ESMTPSA id p4sm11205572wrf.67.2020.10.30.07.12.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 30 Oct 2020 07:12:05 -0700 (PDT)
-Date: Fri, 30 Oct 2020 10:12:04 -0400
+ Fri, 30 Oct 2020 07:12:08 -0700 (PDT)
+Date: Fri, 30 Oct 2020 10:12:06 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/15] pci: Assert irqnum is between 0 and bus->nirqs in
- pci_bus_change_irq_level
-Message-ID: <20201030141136.1013521-8-mst@redhat.com>
+Subject: [PULL 08/15] vhost: Don't special case vq->used_phys in
+ vhost_get_log_size()
+Message-ID: <20201030141136.1013521-9-mst@redhat.com>
 References: <20201030141136.1013521-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201030141136.1013521-1-mst@redhat.com>
@@ -72,19 +70,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 02:24:40
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,41 +95,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+From: Greg Kurz <groug@kaod.org>
 
-These assertions similar to those in the adjacent pci_bus_get_irq_level()
-function ensure that irqnum lies within the valid PCI bus IRQ range.
+The first loop in vhost_get_log_size() computes the size of the dirty log
+bitmap so that it allows to track changes in the entire guest memory, in
+terms of GPA.
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <20201011082022.3016-1-mark.cave-ayland@ilande.co.uk>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201024203900.3619498-3-f4bug@amsat.org>
-Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+When not using a vIOMMU, the address of the vring's used structure,
+vq->used_phys, is a GPA. It is thus already covered by the first loop.
+
+When using a vIOMMU, vq->used_phys is a GIOVA that will be translated
+to an HVA when the vhost backend needs to update the used structure. It
+will log the corresponding GPAs into the bitmap but it certainly won't
+log the GIOVA.
+
+So in any case, vq->used_phys shouldn't be explicitly used to size the
+bitmap. Drop the second loop.
+
+This fixes a crash of the source when migrating a guest using in-kernel
+vhost-net and iommu_platform=on on POWER, because DMA regions are put
+over 0x800000000000000ULL. The resulting insanely huge log size causes
+g_malloc0() to abort.
+
+BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1879349
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160208823418.29027.15172801181796272300.stgit@bahia.lan>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/pci/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/virtio/vhost.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 081ddcadd1..dc4019865b 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -250,6 +250,8 @@ static inline void pci_set_irq_state(PCIDevice *d, int irq_num, int level)
- 
- static void pci_bus_change_irq_level(PCIBus *bus, int irq_num, int change)
- {
-+    assert(irq_num >= 0);
-+    assert(irq_num < bus->nirq);
-     bus->irq_count[irq_num] += change;
-     bus->set_irq(bus->irq_opaque, irq_num, bus->irq_count[irq_num] != 0);
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index 3077fa6ef5..79b2be20df 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -172,16 +172,6 @@ static uint64_t vhost_get_log_size(struct vhost_dev *dev)
+                                        reg->memory_size);
+         log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+     }
+-    for (i = 0; i < dev->nvqs; ++i) {
+-        struct vhost_virtqueue *vq = dev->vqs + i;
+-
+-        if (!vq->used_phys && !vq->used_size) {
+-            continue;
+-        }
+-
+-        uint64_t last = vq->used_phys + vq->used_size - 1;
+-        log_size = MAX(log_size, last / VHOST_LOG_CHUNK + 1);
+-    }
+     return log_size;
  }
+ 
 -- 
 MST
 
