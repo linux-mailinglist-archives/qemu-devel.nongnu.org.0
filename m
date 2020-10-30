@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E1A2A0A2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:46:39 +0100 (CET)
-Received: from localhost ([::1]:56312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C60D52A0A81
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 16:57:18 +0100 (CET)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYWbu-0008R0-1y
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:46:38 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40272)
+	id 1kYWmD-0007pG-TL
+	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 11:57:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kYWZ9-00066I-3i
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:43:47 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30808)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kYWZ6-0002Ub-UO
- for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:43:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604072622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OWT52VDkYRyUP9Cm9Pr1EYZaBC+r4AWVMx0HTwT6GFk=;
- b=CRB2QvUh8pIW5mJd8WFAQxFNHw2Q4eUuV4S237AJPfk7KGw2Q/S6R/eb3ic/6I49qRSlEi
- hHPHjIdZDFuhJQrH+GrUJ+o1UeEybJcn0Tj7Zy1kTvCpNrPQyTeLm+52QZF3vlgeMAuCYZ
- px/yqpdCpsFsIqJmfiBE+KjMd2tezMc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-60KQrv1hOTSMZ67uxgELtA-1; Fri, 30 Oct 2020 11:43:41 -0400
-X-MC-Unique: 60KQrv1hOTSMZ67uxgELtA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7702F1DDFE;
- Fri, 30 Oct 2020 15:43:39 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-113-87.ams2.redhat.com [10.36.113.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 873571A340;
- Fri, 30 Oct 2020 15:43:34 +0000 (UTC)
-Subject: Re: [PATCH v2 8/8] target/ppc: replaced the TODO with LOG_UNIMP and
- add break for silence warnings
-To: Chen Qun <kuhn.chenqun@huawei.com>, qemu-devel@nongnu.org,
- qemu-trivial@nongnu.org
-References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
- <20201030004046.2191790-9-kuhn.chenqun@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <784329cb-a46f-5b22-97a6-aab2568d8dd2@redhat.com>
-Date: Fri, 30 Oct 2020 16:43:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kYWkk-0006nR-EZ
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:55:46 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46604)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kYWke-0004S9-Ck
+ for qemu-devel@nongnu.org; Fri, 30 Oct 2020 11:55:45 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kYWkW-0003B2-1m
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 15:55:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DC47D2E813A
+ for <qemu-devel@nongnu.org>; Fri, 30 Oct 2020 15:55:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20201030004046.2191790-9-kuhn.chenqun@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 01:22:25
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.253, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Oct 2020 15:47:33 -0000
+From: Jingtao <1902262@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: jl939612
+X-Launchpad-Bug-Reporter: Jingtao (jl939612)
+X-Launchpad-Bug-Modifier: Jingtao (jl939612)
+Message-Id: <160407285408.8291.17235632998408436942.malonedeb@soybean.canonical.com>
+Subject: [Bug 1902262] [NEW] vmstate_load_state return error into virtio_load
+ function
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="96ff31b88b65a0d0ea73b89333fe7c4a2669d8fb"; Instance="production"
+X-Launchpad-Hash: 6b1aad2093087b537c039d003cb721d71d40ee93
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 11:55:32
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,62 +71,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- zhang.zhanghailiang@huawei.com, ganqixin@huawei.com,
- Euler Robot <euler.robot@huawei.com>
+Reply-To: Bug 1902262 <1902262@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/10/2020 01.40, Chen Qun wrote:
-> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-> target/ppc/mmu_helper.c: In function ‘dump_mmu’:
-> target/ppc/mmu_helper.c:1351:12: warning: this statement may fall through [-Wimplicit-fallthrough=]
->  1351 |         if (ppc64_v3_radix(env_archcpu(env))) {
->       |            ^
-> target/ppc/mmu_helper.c:1358:5: note: here
->  1358 |     default:
->       |     ^~~~~~~
-> 
-> Use "qemu_log_mask(LOG_UNIMP**)" instead of the TODO comment.
-> And add the break statement to fix it.
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> v1->v2: replace the TODO by a LOG_UNIMP call and add break statement(Base on Philippe's comments)
-> 
-> Cc: Thomas Huth <thuth@redhat.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  target/ppc/mmu_helper.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
-> index 8972714775..12723362b7 100644
-> --- a/target/ppc/mmu_helper.c
-> +++ b/target/ppc/mmu_helper.c
-> @@ -1349,11 +1349,12 @@ void dump_mmu(CPUPPCState *env)
->          break;
->      case POWERPC_MMU_3_00:
->          if (ppc64_v3_radix(env_archcpu(env))) {
-> -            /* TODO - Unsupported */
-> +            qemu_log_mask(LOG_UNIMP, "%s: the PPC64 MMU unsupported\n",
+Public bug reported:
 
-Maybe add a "is" between "MMU" and "unsupported"?
+Qemu version 4.2.1
 
-> +                          __func__);
->          } else {
->              dump_slb(env_archcpu(env));
-> -            break;
->          }
-> +        break;
->  #endif
->      default:
->          qemu_log_mask(LOG_UNIMP, "%s: unimplemented\n", __func__);
-> 
+In the function of virtio_load, the vmstate_load_state will return error
+in the following case.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+The virtio is legacy mode(disable-modern=3Don,disable-legacy=3Doff),
+virtio_device is in reset state.
 
+In the the function of "vmstate_load_state", it will load all subsection. F=
+or the vmstate_virtio_extra_state subsection. =
+
+It will execute:
+vmstate_load_state   -->
+          ret =3D field->info->get(f, curr_elem, size, field);    line 143 =
+ vmstate.c.
+           -->virtio_pci_load_extra_state
+                        -->  vmstate_load_state
+                                 -->qemu_peek_byte
+But if the f->buf_index is same with buf_size, qemu_peek_byte function will=
+ set "-EIO" error. =
+
+the field->info->get will return 0, then it will get the error "ret =3D qem=
+u_file_get_error(f);". then the vmstate_load_state will return error.
+
+It output is "Failed to load virtio/extra_state:extra_state"
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1902262
+
+Title:
+  vmstate_load_state return error into virtio_load function
+
+Status in QEMU:
+  New
+
+Bug description:
+  Qemu version 4.2.1
+
+  In the function of virtio_load, the vmstate_load_state will return
+  error in the following case.
+
+  The virtio is legacy mode(disable-modern=3Don,disable-legacy=3Doff),
+  virtio_device is in reset state.
+
+  In the the function of "vmstate_load_state", it will load all subsection.=
+ For the vmstate_virtio_extra_state subsection. =
+
+  It will execute:
+  vmstate_load_state   -->
+            ret =3D field->info->get(f, curr_elem, size, field);    line 14=
+3  vmstate.c.
+             -->virtio_pci_load_extra_state
+                          -->  vmstate_load_state
+                                   -->qemu_peek_byte
+  But if the f->buf_index is same with buf_size, qemu_peek_byte function wi=
+ll set "-EIO" error. =
+
+  the field->info->get will return 0, then it will get the error "ret =3D q=
+emu_file_get_error(f);". then the vmstate_load_state will return error.
+
+  It output is "Failed to load virtio/extra_state:extra_state"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1902262/+subscriptions
 
