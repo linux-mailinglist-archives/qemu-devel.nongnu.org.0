@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B2729FA77
-	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:20:31 +0100 (CET)
-Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 836D429FA21
+	for <lists+qemu-devel@lfdr.de>; Fri, 30 Oct 2020 02:00:59 +0100 (CET)
+Received: from localhost ([::1]:57680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYJ5i-0007mx-B1
-	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:20:30 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46848)
+	id 1kYImo-0002iq-GU
+	for lists+qemu-devel@lfdr.de; Thu, 29 Oct 2020 21:00:58 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIby-0004HY-0p
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:46 -0400
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:33587)
+ id 1kYIbw-0004FJ-Ia
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:44 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:40651)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kYIbs-0001r7-II
- for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:45 -0400
-Received: by mail-pl1-x636.google.com with SMTP id b19so2153637pld.0
- for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:38 -0700 (PDT)
+ id 1kYIbu-0001rK-7Q
+ for qemu-devel@nongnu.org; Thu, 29 Oct 2020 20:49:44 -0400
+Received: by mail-pf1-x441.google.com with SMTP id w21so3803702pfc.7
+ for <qemu-devel@nongnu.org>; Thu, 29 Oct 2020 17:49:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EDW5N3EY6pf0lhD/cP7nYSG7huQisBooduf1CEfu/zQ=;
- b=TAUHvB4pqOIv0vWpopXB42N27xLW5dFaE5S29PvwH08w4HyakhXgtuWel5KZag0z0z
- oKF+z0IecUMs+hGvxsZ0p7MAJROxVC8r6NIIcElI9azno0dXBMvGzvZekUDOoFGra/aQ
- nKTYwC0kSzlLQoM/j8/XeP/oB7zVkQ2n2qTaz6vu/WZMA2eoHsiBptvM/eX6c0JbjT8S
- l5wnz7R2VwP4fyCuEJpQutxNMrpbaqsXtH9It15NTIOYHEkQnqPWzRpe7kK3VZ7Rhsck
- zQ5plhOYNA/QFJ8HPJ+iXN/HuMDpeZGtqzNwLksnPbB5amAs1LyDrhGly/Bqkl3tRCK1
- 9Azw==
+ bh=913x7jDuXStPzetM9NC5rzqxFgbTKLk6AmpdIsMpi64=;
+ b=tIenJssxpGGRvQZ1Hoz34t/8WJDMUkNKw87zY/sHomKb26WmwLreePpwZDnT4ykqcM
+ PPzwUQWRuW9+m/A0b8PJVVRAdYrbBhft0eM2jBwlJE5aMPc8lgdkQF59xB3QeirDWcrm
+ /7nELUS8P3CMw6LukOJfgn1TyonaTKSyNGNBUO/o/ig5Qn0ykN2DwHrfEwRwYNu10PUy
+ IhyV4THeY5TWvL7t2VAdLfHV1lgEtbCmrfXuzJf4UXr8DS3rzx30LoDxlEePIgyuYNEs
+ Bw8NwDDuNTOilDBwH4fhQVDkWndNq1s2T39v88B4DIyX6RMz17D6lL3IH8y7lNzWsVxP
+ 8I7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EDW5N3EY6pf0lhD/cP7nYSG7huQisBooduf1CEfu/zQ=;
- b=nGJIyOBofaz+bcbrrz7Ye5PoUpdCm5B0LVSA5mnLcxphCDH9tFm6WwWj3RpgV6YsSU
- rl0IrYtLlnvhYuvcLW9CW5Oslb52zIct796rLYJpj3AamrVy4ujfL7+6TltgH6VuLjBH
- 5cL5kaMmjc5Mm3SBnmau8FDePIN62cTThpJn/tXCV265EiwmVqkacdc3x72jZ6FlMMhR
- neFBFkO3vown3Pu9odyrdCep7Vwjg4joSnpVabLRHsUQtedGAXsqT6NmMDEoDuR2p+yw
- iit6lX3n4Fld8yGWVvSzsjjpv7bTKA8g2VllD1tCo0OV/ugd3KBsTpU+10OQPknOk8Qn
- BmVA==
-X-Gm-Message-State: AOAM530JSuEa20sXhvHNFPH0zUBK5VIRoBAaD3RoUhZ5Nbplclu0zu5q
- mLTUEkv6nnUk7xHOj6pbu9fNbPH/IAWpAg==
-X-Google-Smtp-Source: ABdhPJyaNbeE4ETrqpdhiCArPacK6Fl1D/SGkdW9CNIxJOO2yVw/3Kocp06RLhMXTiq1AhTnzZO6kA==
-X-Received: by 2002:a17:902:6ac4:b029:d5:edd9:43c with SMTP id
- i4-20020a1709026ac4b02900d5edd9043cmr6626788plt.16.1604018977274; 
- Thu, 29 Oct 2020 17:49:37 -0700 (PDT)
+ bh=913x7jDuXStPzetM9NC5rzqxFgbTKLk6AmpdIsMpi64=;
+ b=HxbDFLygAiAljPqByGunsldHR75RBl6O6wW+maE+Yvg+LBMndj4ypD25sXy+HeVA9A
+ KRx/dETLs/sQh8v9A55GSp2wNT8MhdjDNok8ZKHpxRZ8QqhkjTNiy0RPQqnVJOKNgbzP
+ fVLkGGfkxc80wDcnGzc3lT7NJ6AZqvo8t0WEQdgbXxJdmAUUulrpJ+3iIJlLDdcj/apG
+ b/kAkQ8Gxa4coaIYqYO6i2zZle0TF7rhyjZXw13LyuaM25MskRjkxBwtXT/xWxsZtqK6
+ D5GJkkhuZOJTNwYKBGU+tQnmqfUpQXhEN3ZL5Zse64mn9NpM5CuNuILdYlWxcT1meerl
+ 2cVg==
+X-Gm-Message-State: AOAM533NZamQ1YabCKDd/gzk9RdM1f8U3Rml5yls3p6FOvqDkkOvJ8Oa
+ Ff88bPAHAetwLO0W6pdIm5LGZnRH1zyF0g==
+X-Google-Smtp-Source: ABdhPJzie8mguXRVL6xhwoF7tiokDUUpLflXY0JpKgmORIlYqTLAWdQMaRqKplFIQ0MAUYCjAFdwQQ==
+X-Received: by 2002:a63:174a:: with SMTP id 10mr6390794pgx.212.1604018979625; 
+ Thu, 29 Oct 2020 17:49:39 -0700 (PDT)
 Received: from localhost.localdomain ([71.212.141.89])
- by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.35
+ by smtp.gmail.com with ESMTPSA id b6sm3557264pgq.58.2020.10.29.17.49.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 29 Oct 2020 17:49:36 -0700 (PDT)
+ Thu, 29 Oct 2020 17:49:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/19] tcg: Make tb arg to synchronize_from_tb const
-Date: Thu, 29 Oct 2020 17:49:12 -0700
-Message-Id: <20201030004921.721096-11-richard.henderson@linaro.org>
+Subject: [PATCH v2 12/19] tcg: Add --accel tcg,split-rwx property
+Date: Thu, 29 Oct 2020 17:49:14 -0700
+Message-Id: <20201030004921.721096-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201030004921.721096-1-richard.henderson@linaro.org>
 References: <20201030004921.721096-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,195 +88,317 @@ Cc: pbonzini@redhat.com, j@getutm.app, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is nothing within the translators that ought to be
-changing the TranslationBlock data, so make it const.
-
-This does not actually use the read-only copy of the
-data structure that exists within the rx mirror.
+Plumb the value through to alloc_code_gen_buffer.
+This is not supported by any os or tcg backend so
+for now, enabling it will result in an error.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h   | 3 ++-
- target/arm/cpu.c        | 3 ++-
- target/avr/cpu.c        | 3 ++-
- target/hppa/cpu.c       | 3 ++-
- target/i386/cpu.c       | 3 ++-
- target/microblaze/cpu.c | 3 ++-
- target/mips/cpu.c       | 3 ++-
- target/riscv/cpu.c      | 3 ++-
- target/rx/cpu.c         | 3 ++-
- target/sh4/cpu.c        | 3 ++-
- target/sparc/cpu.c      | 3 ++-
- target/tricore/cpu.c    | 2 +-
- 12 files changed, 23 insertions(+), 12 deletions(-)
+ include/sysemu/tcg.h      |  2 +-
+ tcg/aarch64/tcg-target.h  |  1 +
+ tcg/arm/tcg-target.h      |  1 +
+ tcg/i386/tcg-target.h     |  1 +
+ tcg/mips/tcg-target.h     |  1 +
+ tcg/ppc/tcg-target.h      |  1 +
+ tcg/riscv/tcg-target.h    |  1 +
+ tcg/s390/tcg-target.h     |  1 +
+ tcg/sparc/tcg-target.h    |  1 +
+ tcg/tci/tcg-target.h      |  1 +
+ accel/tcg/tcg-all.c       | 26 +++++++++++++++++++++++++-
+ accel/tcg/translate-all.c | 35 +++++++++++++++++++++++++++--------
+ bsd-user/main.c           |  2 +-
+ linux-user/main.c         |  2 +-
+ 14 files changed, 64 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 9c3a45ad7b..67253e662b 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -189,7 +189,8 @@ struct CPUClass {
-     void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
-                                Error **errp);
-     void (*set_pc)(CPUState *cpu, vaddr value);
--    void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
-+    void (*synchronize_from_tb)(CPUState *cpu,
-+                                const struct TranslationBlock *tb);
-     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-                      MMUAccessType access_type, int mmu_idx,
-                      bool probe, uintptr_t retaddr);
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 07492e9f9a..2f9be1c0ee 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -54,7 +54,8 @@ static void arm_cpu_set_pc(CPUState *cs, vaddr value)
+diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+index d9d3ca8559..5734dd92dc 100644
+--- a/include/sysemu/tcg.h
++++ b/include/sysemu/tcg.h
+@@ -8,7 +8,7 @@
+ #ifndef SYSEMU_TCG_H
+ #define SYSEMU_TCG_H
+ 
+-void tcg_exec_init(unsigned long tb_size);
++void tcg_exec_init(unsigned long tb_size, int mirror);
+ #ifdef CONFIG_TCG
+ extern bool tcg_allowed;
+ #define tcg_enabled() (tcg_allowed)
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 91313d93be..fa64058d43 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -164,5 +164,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif /* AARCH64_TCG_TARGET_H */
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index b21a2fb6a1..e355d6a4b2 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -150,5 +150,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index f52ba0ffec..1b9d41bd56 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -236,5 +236,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index cd548dacec..d231522dc9 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -206,6 +206,7 @@ extern bool use_mips32r2_instructions;
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ /* Flush the dcache at RW, and the icache at RX, as necessary. */
+ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index 8f3e4c924a..78d6a5e96f 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -185,5 +185,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index e03fd17427..3c2e8305b0 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -179,5 +179,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ #define TCG_TARGET_NEED_POOL_LABELS
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP 0
++#define TCG_TARGET_SUPPORT_MIRROR   0
+ 
+ #endif
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+index c5a749e425..8324197127 100644
+--- a/tcg/s390/tcg-target.h
++++ b/tcg/s390/tcg-target.h
+@@ -163,5 +163,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
+index 87e2be61e6..517840705f 100644
+--- a/tcg/sparc/tcg-target.h
++++ b/tcg/sparc/tcg-target.h
+@@ -181,5 +181,6 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ #endif
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index a19a6b06e5..3653fef947 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -200,6 +200,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ #define TCG_TARGET_DEFAULT_MO  (0)
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
++#define TCG_TARGET_SUPPORT_MIRROR       0
+ 
+ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+                                             uintptr_t jmp_rw, uintptr_t addr)
+diff --git a/accel/tcg/tcg-all.c b/accel/tcg/tcg-all.c
+index fa1208158f..ba4206d507 100644
+--- a/accel/tcg/tcg-all.c
++++ b/accel/tcg/tcg-all.c
+@@ -38,6 +38,7 @@ struct TCGState {
+     AccelState parent_obj;
+ 
+     bool mttcg_enabled;
++    int mirror_enabled;
+     unsigned long tb_size;
+ };
+ typedef struct TCGState TCGState;
+@@ -94,6 +95,13 @@ static void tcg_accel_instance_init(Object *obj)
+     TCGState *s = TCG_STATE(obj);
+ 
+     s->mttcg_enabled = default_mttcg_enabled();
++
++    /* If debugging enabled, default "auto on", otherwise off. */
++#ifdef CONFIG_DEBUG_TCG
++    s->mirror_enabled = -1;
++#else
++    s->mirror_enabled = 0;
++#endif
+ }
+ 
+ bool mttcg_enabled;
+@@ -102,7 +110,7 @@ static int tcg_init(MachineState *ms)
+ {
+     TCGState *s = TCG_STATE(current_accel());
+ 
+-    tcg_exec_init(s->tb_size * 1024 * 1024);
++    tcg_exec_init(s->tb_size * 1024 * 1024, s->mirror_enabled);
+     mttcg_enabled = s->mttcg_enabled;
+     cpus_register_accel(&tcg_cpus);
+ 
+@@ -168,6 +176,18 @@ static void tcg_set_tb_size(Object *obj, Visitor *v,
+     s->tb_size = value;
+ }
+ 
++static bool tcg_get_split_rwx(Object *obj, Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    return s->mirror_enabled;
++}
++
++static void tcg_set_split_rwx(Object *obj, bool value, Error **errp)
++{
++    TCGState *s = TCG_STATE(obj);
++    s->mirror_enabled = value;
++}
++
+ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+ {
+     AccelClass *ac = ACCEL_CLASS(oc);
+@@ -185,6 +205,10 @@ static void tcg_accel_class_init(ObjectClass *oc, void *data)
+     object_class_property_set_description(oc, "tb-size",
+         "TCG translation block cache size");
+ 
++    object_class_property_add_bool(oc, "split-rwx",
++        tcg_get_split_rwx, tcg_set_split_rwx);
++    object_class_property_set_description(oc, "split-rwx",
++        "Map jit pages into separate RW and RX regions");
+ }
+ 
+ static const TypeInfo tcg_accel_type = {
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index fca632eefa..8918a09f10 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1025,13 +1025,19 @@ static inline void *split_cross_256mb(void *buf1, size_t size1)
+ static uint8_t static_code_gen_buffer[DEFAULT_CODE_GEN_BUFFER_SIZE]
+     __attribute__((aligned(CODE_GEN_ALIGN)));
+ 
+-static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
++static bool alloc_code_gen_buffer(size_t tb_size, int mirror, Error **errp)
+ {
+-    void *buf = static_code_gen_buffer;
+-    void *end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
++    void *buf, *end;
+     size_t size;
+ 
++    if (mirror > 0) {
++        error_setg(errp, "jit split-rwx not supported");
++        return false;
++    }
++
+     /* page-align the beginning and end of the buffer */
++    buf = static_code_gen_buffer;
++    end = static_code_gen_buffer + sizeof(static_code_gen_buffer);
+     buf = QEMU_ALIGN_PTR_UP(buf, qemu_real_host_page_size);
+     end = QEMU_ALIGN_PTR_DOWN(end, qemu_real_host_page_size);
+ 
+@@ -1060,9 +1066,16 @@ static bool alloc_code_gen_buffer(size_t tb_size, Error **errp)
+     return true;
+ }
+ #elif defined(_WIN32)
+-static bool alloc_code_gen_buffer(size_t size, Error **errp)
++static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
+ {
+-    void *buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
++    void *buf;
++
++    if (mirror > 0) {
++        error_setg(errp, "jit split-rwx not supported");
++        return false;
++    }
++
++    buf = VirtualAlloc(NULL, size, MEM_RESERVE | MEM_COMMIT,
+                              PAGE_EXECUTE_READWRITE);
+     if (buf == NULL) {
+         error_setg_win32(errp, GetLastError(),
+@@ -1075,12 +1088,17 @@ static bool alloc_code_gen_buffer(size_t size, Error **errp)
+     return true;
+ }
+ #else
+-static bool alloc_code_gen_buffer(size_t size, Error **errp)
++static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
+ {
+     int prot = PROT_WRITE | PROT_READ | PROT_EXEC;
+     int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+     void *buf;
+ 
++    if (mirror > 0) {
++        error_setg(errp, "jit split-rwx not supported");
++        return false;
++    }
++
+     buf = mmap(NULL, size, prot, flags, -1, 0);
+     if (buf == MAP_FAILED) {
+         error_setg_errno(errp, errno,
+@@ -1155,7 +1173,7 @@ static void tb_htable_init(void)
+ /* Must be called before using the QEMU cpus. 'tb_size' is the size
+    (in bytes) allocated to the translation buffer. Zero means default
+    size. */
+-void tcg_exec_init(unsigned long tb_size)
++void tcg_exec_init(unsigned long tb_size, int mirror)
+ {
+     bool ok;
+ 
+@@ -1164,7 +1182,8 @@ void tcg_exec_init(unsigned long tb_size)
+     page_init();
+     tb_htable_init();
+ 
+-    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size), &error_fatal);
++    ok = alloc_code_gen_buffer(size_code_gen_buffer(tb_size),
++                               mirror, &error_fatal);
+     assert(ok);
+ 
+ #if defined(CONFIG_SOFTMMU)
+diff --git a/bsd-user/main.c b/bsd-user/main.c
+index ac40d79bfa..ffd4888a26 100644
+--- a/bsd-user/main.c
++++ b/bsd-user/main.c
+@@ -910,7 +910,7 @@ int main(int argc, char **argv)
      }
- }
  
--static void arm_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void arm_cpu_synchronize_from_tb(CPUState *cs,
-+                                        const TranslationBlock *tb)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-     CPUARMState *env = &cpu->env;
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 5d9c4ad5bf..6f3d5a9e4a 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -41,7 +41,8 @@ static bool avr_cpu_has_work(CPUState *cs)
-             && cpu_interrupts_enabled(env);
- }
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+-    tcg_exec_init(0);
++    tcg_exec_init(0, false);
  
--static void avr_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void avr_cpu_synchronize_from_tb(CPUState *cs,
-+                                        const TranslationBlock *tb)
- {
-     AVRCPU *cpu = AVR_CPU(cs);
-     CPUAVRState *env = &cpu->env;
-diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-index 71b6aca45d..e28f047d10 100644
---- a/target/hppa/cpu.c
-+++ b/target/hppa/cpu.c
-@@ -35,7 +35,8 @@ static void hppa_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.iaoq_b = value + 4;
- }
+     cpu_type = parse_cpu_option(cpu_model);
+     cpu = cpu_create(cpu_type);
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 75c9785157..3856b2611d 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -705,7 +705,7 @@ int main(int argc, char **argv, char **envp)
+     cpu_type = parse_cpu_option(cpu_model);
  
--static void hppa_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void hppa_cpu_synchronize_from_tb(CPUState *cs,
-+                                         const TranslationBlock *tb)
- {
-     HPPACPU *cpu = HPPA_CPU(cs);
+     /* init tcg before creating CPUs and to get qemu_host_page_size */
+-    tcg_exec_init(0);
++    tcg_exec_init(0, false);
  
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 0d8606958e..01a8acafe3 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -7012,7 +7012,8 @@ static void x86_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.eip = value;
- }
- 
--static void x86_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void x86_cpu_synchronize_from_tb(CPUState *cs,
-+                                        const TranslationBlock *tb)
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
-diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index 9b2482159d..c8e754cfb1 100644
---- a/target/microblaze/cpu.c
-+++ b/target/microblaze/cpu.c
-@@ -83,7 +83,8 @@ static void mb_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.iflags = 0;
- }
- 
--static void mb_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void mb_cpu_synchronize_from_tb(CPUState *cs,
-+                                       const TranslationBlock *tb)
- {
-     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
- 
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index 76d50b00b4..79eee215cf 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -44,7 +44,8 @@ static void mips_cpu_set_pc(CPUState *cs, vaddr value)
-     }
- }
- 
--static void mips_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void mips_cpu_synchronize_from_tb(CPUState *cs,
-+                                         const TranslationBlock *tb)
- {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-     CPUMIPSState *env = &cpu->env;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 0bbfd7f457..faaa9d1e8f 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -282,7 +282,8 @@ static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
-     env->pc = value;
- }
- 
--static void riscv_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void riscv_cpu_synchronize_from_tb(CPUState *cs,
-+                                          const TranslationBlock *tb)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 23ee17a701..2bb14144a7 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -33,7 +33,8 @@ static void rx_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.pc = value;
- }
- 
--static void rx_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void rx_cpu_synchronize_from_tb(CPUState *cs,
-+                                       const TranslationBlock *tb)
- {
-     RXCPU *cpu = RX_CPU(cs);
- 
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index 3c68021c56..1e0f05a15b 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -34,7 +34,8 @@ static void superh_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.pc = value;
- }
- 
--static void superh_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void superh_cpu_synchronize_from_tb(CPUState *cs,
-+                                           const TranslationBlock *tb)
- {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
- 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index cf21efd85f..b9241208b1 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -691,7 +691,8 @@ static void sparc_cpu_set_pc(CPUState *cs, vaddr value)
-     cpu->env.npc = value + 4;
- }
- 
--static void sparc_cpu_synchronize_from_tb(CPUState *cs, TranslationBlock *tb)
-+static void sparc_cpu_synchronize_from_tb(CPUState *cs,
-+                                          const TranslationBlock *tb)
- {
-     SPARCCPU *cpu = SPARC_CPU(cs);
- 
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index 2f2e5b029f..4bff1d4718 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -42,7 +42,7 @@ static void tricore_cpu_set_pc(CPUState *cs, vaddr value)
- }
- 
- static void tricore_cpu_synchronize_from_tb(CPUState *cs,
--                                            TranslationBlock *tb)
-+                                            const TranslationBlock *tb)
- {
-     TriCoreCPU *cpu = TRICORE_CPU(cs);
-     CPUTriCoreState *env = &cpu->env;
+     cpu = cpu_create(cpu_type);
+     env = cpu->env_ptr;
 -- 
 2.25.1
 
