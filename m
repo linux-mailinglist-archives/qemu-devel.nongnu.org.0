@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7012D2A135B
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Oct 2020 04:37:13 +0100 (CET)
-Received: from localhost ([::1]:44688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 339902A1378
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Oct 2020 06:19:18 +0100 (CET)
+Received: from localhost ([::1]:55872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYhhY-0007W4-1M
-	for lists+qemu-devel@lfdr.de; Fri, 30 Oct 2020 23:37:12 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60158)
+	id 1kYjIL-0001Wi-8Z
+	for lists+qemu-devel@lfdr.de; Sat, 31 Oct 2020 01:19:17 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kYhgO-0006rR-Ho; Fri, 30 Oct 2020 23:36:00 -0400
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2491)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kYjHO-0000Wx-Hz; Sat, 31 Oct 2020 01:18:18 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:46903)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kYhgL-00046d-Lm; Fri, 30 Oct 2020 23:36:00 -0400
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CNPw50qLpzhcVL;
- Sat, 31 Oct 2020 11:35:49 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Sat, 31 Oct 2020 11:35:38 +0800
-Message-ID: <5F9CDB8A.9000001@huawei.com>
-Date: Sat, 31 Oct 2020 11:35:38 +0800
-From: AlexChen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kYjHM-0006qQ-9q; Sat, 31 Oct 2020 01:18:18 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CNSB44xDNz9sS8; Sat, 31 Oct 2020 16:18:04 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1604121484;
+ bh=IfzrySUWrgkfxbmthEf/Bl4Sc8gQc05wOAFUqTBSJ/o=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=W6YDFEX12ynP2RleU4DnmiHfJYXPJuHPYEMREsxVLPkZeLys2zeu/VmLjZRJz3jhg
+ DaXUEvG2cTjrM0Pi8YimJ0tOPUcS4Fv67rPJCHkjYnoJKI0ts741rYo0SKydGNKDUG
+ nC3J8EB7ASWU25mBBPPfJowgFGxy1hJa4d5qyBMU=
+Date: Sat, 31 Oct 2020 16:01:02 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Chen Qun <kuhn.chenqun@huawei.com>
+Subject: Re: [PATCH v2 7/8] ppc: Add a missing break for PPC6xx_INPUT_TBEN
+Message-ID: <20201031050102.GA17638@yekko.fritz.box>
+References: <20201030004046.2191790-1-kuhn.chenqun@huawei.com>
+ <20201030004046.2191790-8-kuhn.chenqun@huawei.com>
 MIME-Version: 1.0
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH V2] hw/display/omap_lcdc: Fix potential NULL pointer
- dereference
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/30 23:35:49
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YZ5djTAD1cGYuMQK"
+Content-Disposition: inline
+In-Reply-To: <20201030004046.2191790-8-kuhn.chenqun@huawei.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,49 +60,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, zhengchuan@huawei.com,
- qemu-arm <qemu-arm@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
- zhang.zhanghailiang@huawei.com
+Cc: Thomas Huth <thuth@redhat.com>, zhang.zhanghailiang@huawei.com,
+ qemu-trivial@nongnu.org, qemu-devel@nongnu.org, ganqixin@huawei.com,
+ Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In omap_lcd_interrupts(), the pointer omap_lcd is dereferinced before
-being check if it is valid, which may lead to NULL pointer dereference.
-So move the assignment to surface after checking that the omap_lcd is valid
-and move surface_bits_per_pixel(surface) to after the surface assignment.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: AlexChen <alex.chen@huawei.com>
----
- hw/display/omap_lcdc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+--YZ5djTAD1cGYuMQK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hw/display/omap_lcdc.c b/hw/display/omap_lcdc.c
-index fa4a381db6..58e659c94f 100644
---- a/hw/display/omap_lcdc.c
-+++ b/hw/display/omap_lcdc.c
-@@ -78,14 +78,18 @@ static void omap_lcd_interrupts(struct omap_lcd_panel_s *s)
- static void omap_update_display(void *opaque)
- {
-     struct omap_lcd_panel_s *omap_lcd = (struct omap_lcd_panel_s *) opaque;
--    DisplaySurface *surface = qemu_console_surface(omap_lcd->con);
-+    DisplaySurface *surface;
-     draw_line_func draw_line;
-     int size, height, first, last;
-     int width, linesize, step, bpp, frame_offset;
-     hwaddr frame_base;
+On Fri, Oct 30, 2020 at 08:40:45AM +0800, Chen Qun wrote:
+> When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warn=
+ing:
+> hw/ppc/ppc.c: In function =E2=80=98ppc6xx_set_irq=E2=80=99:
+> hw/ppc/ppc.c:118:16: warning: this statement may fall through [-Wimplicit=
+-fallthrough=3D]
+>   118 |             if (level) {
+>       |                ^
+> hw/ppc/ppc.c:123:9: note: here
+>   123 |         case PPC6xx_INPUT_INT:
+>       |         ^~~~
+>=20
+> According to the discussion, a break statement needs to be added here.
+>=20
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> ---
+> v1->v2: Add a "break" statement here instead of /* fall through */ commen=
+ts
+> (Base on Thomas's and David review).
+>=20
+> Cc: Thomas Huth <thuth@redhat.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
 
--    if (!omap_lcd || omap_lcd->plm == 1 || !omap_lcd->enable ||
--        !surface_bits_per_pixel(surface)) {
-+    if (!omap_lcd || omap_lcd->plm == 1 || !omap_lcd->enable) {
-+        return;
-+    }
-+
-+    surface = qemu_console_surface(omap_lcd->con);
-+    if (!surface_bits_per_pixel(surface)) {
-         return;
-     }
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
--- 
-2.19.1
+> ---
+>  hw/ppc/ppc.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index 4a11fb1640..1b98272076 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -120,6 +120,7 @@ static void ppc6xx_set_irq(void *opaque, int pin, int=
+ level)
+>              } else {
+>                  cpu_ppc_tb_stop(env);
+>              }
+> +            break;
+>          case PPC6xx_INPUT_INT:
+>              /* Level sensitive - active high */
+>              LOG_IRQ("%s: set the external IRQ state to %d\n",
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--YZ5djTAD1cGYuMQK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+c74wACgkQbDjKyiDZ
+s5K18RAAshjfnaPQGovwz8mLIXHmbQ2zbsn3JgWdJYreDG3GhuSFT0QluQJ9QzXu
+zekS+SF1W05LB+/ptpvH0RcbDyw+qzcBobpdLRTmDGdxs9hfJi1YbU3eB9Cp32W6
+ioSRPurGRpvh1s1iJob3Imfu2uYnk6dudNhazxti/XuNkYrWTgDl+LYkgDHS/bwx
+jjyOugjrtMGMxu/sEmgYxeGtuPdoBuvnwoBYi1PM3BNJSjurjAN2lySPkg8e8enl
+0dAAD9TEfHsUgx+94gQPkLt8Zau9KXww2i/5DzZtGENv1vX2eqRxSx67t2viZ+Hm
+74qKBfmiRI1OfVL3b1eysYEualsZBwSA7MaJfBi0ChoNoD0cgvZBQBhcAa8xP/vT
+ce7fvZuG8r+C0OD1g4nZjTSV4T61EJbKc5/siw/gYEVe4JqMElL9drLWHEbZ5gtK
+uO56WReqhKHq0xtCqD35gdn1PRRh0w7yuPOeBMr9XgQ0W2WCc0v/CgpsGnLfCD2g
+Thoxm9ixmg8SBYdzgJObW/PbCuFaz8nmRm9TDsUvRKnZ0A8O3lSliKdMDNlARzcc
+97gcEZH38HIs0j/MaxCgkIhI48lj2xnQ78sJLdazKp893cp/C+L1C/+7oTlRDkdY
+nQjVhLIrdwrg1TuvkWzdHjco/vN9owLXzcUjDiBkMiabGj4bg6E=
+=wqfi
+-----END PGP SIGNATURE-----
+
+--YZ5djTAD1cGYuMQK--
 
