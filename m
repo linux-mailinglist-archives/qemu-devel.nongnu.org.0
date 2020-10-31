@@ -2,82 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 896852A152B
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Oct 2020 11:27:59 +0100 (CET)
-Received: from localhost ([::1]:60242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 150E02A1564
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Oct 2020 12:07:01 +0100 (CET)
+Received: from localhost ([::1]:44162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYo74-0007Uu-4G
-	for lists+qemu-devel@lfdr.de; Sat, 31 Oct 2020 06:27:58 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
+	id 1kYoip-0007Cc-Ma
+	for lists+qemu-devel@lfdr.de; Sat, 31 Oct 2020 07:06:59 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kYo5T-0006hf-VH
- for qemu-devel@nongnu.org; Sat, 31 Oct 2020 06:26:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kYo5Q-0004s9-Nr
- for qemu-devel@nongnu.org; Sat, 31 Oct 2020 06:26:19 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604139974;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kdHtLe8ZJwHLhY7rbWm1s6LRofKbM9RJROIfuVVS938=;
- b=gLkgBlkOqeZj+z6ifvUAmu+57Z/HEirlC4KZ2792o+w5zZA5MTiAT463fVumZoNVROZXOj
- ey7LiNNdMTKWnz4oxKMFXApIGKgLREhI17qC0NakZfz4weXaBBrh8b/HVpVbvuC69Owb8R
- lqLg3noNAA5H4QxEz8xtXP/Jd5ofrnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-wXYXgx6kPluWjqn1NuvjQA-1; Sat, 31 Oct 2020 06:26:11 -0400
-X-MC-Unique: wXYXgx6kPluWjqn1NuvjQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 16178185A0D9;
- Sat, 31 Oct 2020 10:26:09 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-43.ams2.redhat.com [10.36.112.43])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4FD415D9CD;
- Sat, 31 Oct 2020 10:25:54 +0000 (UTC)
-Subject: Re: --enable-xen on gitlab CI? (was Re: [PATCH 09/36] qdev: Make
- qdev_get_prop_ptr() get Object* arg)
-To: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost
- <ehabkost@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@gmail.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20201029220246.472693-1-ehabkost@redhat.com>
- <20201029220246.472693-10-ehabkost@redhat.com>
- <CAJ+F1CKqo3D20=qSAovVKWCGz4otctaWnGC0O5p-Z1ZG9Pj_Mw@mail.gmail.com>
- <20201030113516.GP5733@habkost.net>
- <7645972e-5cad-6511-b057-bd595b91c4aa@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e35c50b6-e795-d901-61e4-4879c5eadd61@redhat.com>
-Date: Sat, 31 Oct 2020 11:25:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kYog7-0005nq-7Z; Sat, 31 Oct 2020 07:04:11 -0400
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2314)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kYog3-0001Uy-TA; Sat, 31 Oct 2020 07:04:10 -0400
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CNbsB4czJzkbWD;
+ Sat, 31 Oct 2020 19:03:58 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.487.0; Sat, 31 Oct 2020 19:03:54 +0800
+Message-ID: <5F9D449A.900@huawei.com>
+Date: Sat, 31 Oct 2020 19:03:54 +0800
+From: AlexChen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-In-Reply-To: <7645972e-5cad-6511-b057-bd595b91c4aa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>, <mjt@tls.msk.ru>
+Subject: [PATCH] util: Remove redundant checks in the openpty()
+Content-Type: text/plain; charset="ISO-8859-1"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/31 05:20:40
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.253, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Originating-IP: [10.174.187.138]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
+ helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/31 07:04:00
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,38 +57,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
- QEMU <qemu-devel@nongnu.org>, Stefano Stabellini <sstabellini@kernel.org>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>,
- David Hildenbrand <david@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Qemu-s390x list <qemu-s390x@nongnu.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <rth@twiddle.net>, Kevin Wolf <kwolf@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/10/2020 18.13, Paolo Bonzini wrote:
-> On 30/10/20 12:35, Eduardo Habkost wrote:
->>
->> What is necessary to make sure we have a CONFIG_XEN=y job in
->> gitlab CI?  Maybe just including xen-devel in some of the
->> container images is enough?
-> 
-> Fedora already has it, but build-system-fedora does not include
-> x86_64-softmmu.
+As we can see from the following function call stack, the amaster and the aslave
+cannot be NULL: char_pty_open() -> qemu_openpty_raw() -> openpty().
+In addition, the amaster and the aslave has been dereferenced at the beginning
+of the openpty(). So the checks on amaster and aslave in the openpty() are redundant.
 
-Eduardo, could you try to add xen-devel to the centos8 container? If that
-does not work, we can still move the x86_64-softmmu target to the fedora
-pipeline instead.
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+---
+ util/qemu-openpty.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
- Thomas
+diff --git a/util/qemu-openpty.c b/util/qemu-openpty.c
+index eb17f5b0bc..427f43a769 100644
+--- a/util/qemu-openpty.c
++++ b/util/qemu-openpty.c
+@@ -80,10 +80,9 @@ static int openpty(int *amaster, int *aslave, char *name,
+             (termp != NULL && tcgetattr(sfd, termp) < 0))
+                 goto err;
 
+-        if (amaster)
+-                *amaster = mfd;
+-        if (aslave)
+-                *aslave = sfd;
++        *amaster = mfd;
++        *aslave = sfd;
++
+         if (winp)
+                 ioctl(sfd, TIOCSWINSZ, winp);
 
+-- 
+2.19.1
 
