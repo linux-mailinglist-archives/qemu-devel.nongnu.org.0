@@ -2,87 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F18B2A1913
-	for <lists+qemu-devel@lfdr.de>; Sat, 31 Oct 2020 18:47:41 +0100 (CET)
-Received: from localhost ([::1]:52576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3717D2A1A3F
+	for <lists+qemu-devel@lfdr.de>; Sat, 31 Oct 2020 20:19:06 +0100 (CET)
+Received: from localhost ([::1]:46714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kYuyZ-00059N-No
-	for lists+qemu-devel@lfdr.de; Sat, 31 Oct 2020 13:47:39 -0400
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60804)
+	id 1kYwP3-0004Nf-8S
+	for lists+qemu-devel@lfdr.de; Sat, 31 Oct 2020 15:19:05 -0400
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kYuxP-0004hq-GZ
- for qemu-devel@nongnu.org; Sat, 31 Oct 2020 13:46:27 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1kYuxM-0006sB-Aj
- for qemu-devel@nongnu.org; Sat, 31 Oct 2020 13:46:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604166376;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZgPfCLY4W3v4Yj3EhVOjrLtNMfqlAES7GdDvZrFW5sg=;
- b=Fl6YE62Cgi1xV3ZMBQmAO8Yv/iNw7fuoiQsI9UEL0hdzBLA1oZJsVVSqaJ1LWh+pi6Cz5x
- mcSxH4ej+1In4KXPPlyG2yYV1onj989F73PNBRFBDfhiwQAhVP0o+hi4jaHX2U1TFeJGtu
- wZsaT9ZY+nmN1WafJQlDs3wlgmVMokM=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-396-3s0EpuR7Nh-tD3stu2jjDA-1; Sat, 31 Oct 2020 13:46:14 -0400
-X-MC-Unique: 3s0EpuR7Nh-tD3stu2jjDA-1
-Received: by mail-qv1-f71.google.com with SMTP id s8so5745390qvv.18
- for <qemu-devel@nongnu.org>; Sat, 31 Oct 2020 10:46:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=ZgPfCLY4W3v4Yj3EhVOjrLtNMfqlAES7GdDvZrFW5sg=;
- b=bVyfGWnJlXjP2Vzy4nbCbrQgiHSzmUmBuLFbB8BIX+lkzSVM2paYB4Bw6n7iYBsLvx
- Om/W+ssurntV+bj6i26hIXee6czuP9MITWkhYEav9V6/78M4l9DxD84QEk4Co9KFARfc
- 9d5e4rNpZj/vdGBqmRBUt2l01/aOKzMm7E6798Iemk1Ju9fUzgSSahuFjfkFINr9Qi3c
- rq4Dg1sjOq8YuO/MQLoUOAo4SN7NWU0owTXhqf8aUxEzUriXWDcSNccNjB3BSoVIAs9S
- Z75i/vQw+2v9PeriFitS7nKu6JgVIiyT7AzEaynBmGmcFaQh3mQ5vGjJrWyuAu0mmfmQ
- 9xxQ==
-X-Gm-Message-State: AOAM531UCLZ/o1WGQ2IEXLMEl2vdj02gi2wYSYtDt8yyb/NJCmJN016m
- SqTQikZHwVZl9LBBX6p/fCTMCehp4z5w1hYdWtzy+8g3obozJTwT58Z7zGDbjoNfMg4UmbLZuLi
- U9iTdvCpcdHSeHi4=
-X-Received: by 2002:ac8:7155:: with SMTP id h21mr7608100qtp.1.1604166374137;
- Sat, 31 Oct 2020 10:46:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzpBgu9oxAQT0t96alsuNw7J2wXdGYp25hOWsKvUrsdUDrfBetfNjMFidWEoaZD3QAkc0WvwA==
-X-Received: by 2002:ac8:7155:: with SMTP id h21mr7608083qtp.1.1604166373886;
- Sat, 31 Oct 2020 10:46:13 -0700 (PDT)
-Received: from xz-x1 (toroon474qw-lp140-04-174-95-215-133.dsl.bell.ca.
- [174.95.215.133])
- by smtp.gmail.com with ESMTPSA id w25sm4319316qkj.85.2020.10.31.10.46.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 31 Oct 2020 10:46:13 -0700 (PDT)
-Date: Sat, 31 Oct 2020 13:46:11 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kYwO1-0003ve-8C
+ for qemu-devel@nongnu.org; Sat, 31 Oct 2020 15:18:01 -0400
+Received: from lizzy.crudebyte.com ([91.194.90.13]:56475)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kYwNy-0008Kj-N8
+ for qemu-devel@nongnu.org; Sat, 31 Oct 2020 15:18:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=QxdieUAXh4gPpCpa3IOd/t2wbkNdGGRcX5NQVKdGDgw=; b=Mulw5L5jDZvIqy8Se3hVsYBSOg
+ sCiQpI7rYazSHcWoAo3FcbY0a8mjDrHrLIY0FzTI+Ld4HyM0OPR7pak+AjaMvVZ0gGh8lP2aoz8Ze
+ m6Zg5rgVmxoKRyQO03/GAj94ewtg4K0dFpazNGUA4trEF4Qz5+M7VYKsHkHv0VfyOwolkAW2fR+ex
+ FbwDBdDrRDeA2XTHw5OOTQcy9j6JQ0B6PMshyNT7yDGH4uED7XnG2CAOY4cHnCckcqNCP50XUYZem
+ sgCM2nWPjBFI3wdre16TjPTGJBixcItkgeWKuQuiriicRAgH0ZPxQsIsC1KxZuFYcWYJn2ZfcCrd9
+ NjgtbYgw==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Xu <peterx@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bihong Yu <yubihong@huawei.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 Subject: Re: [PULL 00/16] migration queue
-Message-ID: <20201031174611.GG6357@xz-x1>
+Date: Sat, 31 Oct 2020 20:10:49 +0100
+Message-ID: <1908851.GJEdv41Ba9@silver>
+In-Reply-To: <20201031174611.GG6357@xz-x1>
 References: <20201026161952.149188-1-dgilbert@redhat.com>
- <2333379.eghUmhzIt0@silver>
  <CAFEAcA-ZfZ6pLEMRj5_qhD2Lz7gQtaLaybDK+BxvJbqoDMmSfA@mail.gmail.com>
+ <20201031174611.GG6357@xz-x1>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-ZfZ6pLEMRj5_qhD2Lz7gQtaLaybDK+BxvJbqoDMmSfA@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/31 13:46:17
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/10/31 15:17:56
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,48 +66,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bihong Yu <yubihong@huawei.com>, Juan Quintela <quintela@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Oct 31, 2020 at 05:26:28PM +0000, Peter Maydell wrote:
-> On Sat, 31 Oct 2020 at 16:12, Christian Schoenebeck
-> <qemu_oss@crudebyte.com> wrote:
-> >
-> > On Montag, 26. Oktober 2020 17:19:36 CET Dr. David Alan Gilbert (git) wrote:
-> > > ----------------------------------------------------------------
-> > > migration pull: 2020-10-26
-> > >
-> > > Another go at Peter's postcopy fixes
-> > >
-> > > Cleanups from Bihong Yu and Peter Maydell.
-> > >
-> > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > >
-> >
-> > May it be possible that this PR introduced a lockup of the qtests that I am
-> > encountering in this week's upstream revisions?
+On Samstag, 31. Oktober 2020 18:46:11 CET Peter Xu wrote:
+> On Sat, Oct 31, 2020 at 05:26:28PM +0000, Peter Maydell wrote:
+> > On Sat, 31 Oct 2020 at 16:12, Christian Schoenebeck
+> > 
+> > <qemu_oss@crudebyte.com> wrote:
+> > > On Montag, 26. Oktober 2020 17:19:36 CET Dr. David Alan Gilbert (git) 
+wrote:
+> > > > ----------------------------------------------------------------
+> > > > migration pull: 2020-10-26
+> > > > 
+> > > > Another go at Peter's postcopy fixes
+> > > > 
+> > > > Cleanups from Bihong Yu and Peter Maydell.
+> > > > 
+> > > > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > 
+> > > May it be possible that this PR introduced a lockup of the qtests that I
+> > > am
+> > > encountering in this week's upstream revisions?
+> > 
+> > If you try the patches Peter Xu attached to this thread
+> > does the lockup go away ?
+> > 
+> > https://lore.kernel.org/qemu-devel/20201030135350.GA588069@xz-x1/
+> > 
+> > (I'm also seeing intermittent hangs, for some reason almost always
+> > on s390x host.)
 > 
-> If you try the patches Peter Xu attached to this thread
-> does the lockup go away ?
+> It would be good to know exactly which test hanged.  If it's migration-test
+> then it's very possible.
+
+It's run-test-144 that does not return; according to Makefile.mtest that's 
+migration-test, so chances are high that it's indeed introduced by this PR.
+
+> The race above patch(es) tried to fix should logically be reproducable on
+> all archs, not s390x only.
 > 
-> https://lore.kernel.org/qemu-devel/20201030135350.GA588069@xz-x1/
-> 
-> (I'm also seeing intermittent hangs, for some reason almost always
-> on s390x host.)
+> Thanks,
 
-It would be good to know exactly which test hanged.  If it's migration-test
-then it's very possible.
+Yes, it's i386 here that locks up.
 
-The race above patch(es) tried to fix should logically be reproducable on all
-archs, not s390x only.
+I'm running the loop with your patches now, so far so good, let's see if it's 
+still alive tomorrow.
 
-Thanks,
+Best regards,
+Christian Schoenebeck
 
--- 
-Peter Xu
 
 
