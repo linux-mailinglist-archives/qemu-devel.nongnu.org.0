@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BD2C2A1E6B
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 15:04:20 +0100 (CET)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4242F2A1E79
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 15:10:01 +0100 (CET)
+Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZDxz-0002jF-1C
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 09:04:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41050)
+	id 1kZE3T-0005fD-Qu
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 09:09:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZDw4-0001kb-H7
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 09:02:20 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:40291)
+ id 1kZDxs-00031v-Iz
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 09:04:12 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZDw2-0005ZF-Jr
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 09:02:19 -0500
-Received: by mail-ed1-x530.google.com with SMTP id p93so11447272edd.7
- for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 06:02:18 -0800 (PST)
+ id 1kZDxo-0005gK-TY
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 09:04:12 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id dk16so14362455ejb.12
+ for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 06:04:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=B1vfD/Upk/o86+TNLq24gmTbYD7GApKeoSWcCqy7BFA=;
- b=UXtHSmhYQZ54iaJcd6CJ4kjbCCI/SY2Ti3SeD26mTzENHswW1ekeWWFoEqf/OmEwR/
- 44mN/LKAemVRlSwVaEqcajpL6NleEgqZa0VJZJpdzwW+E4B9Nj4y2MONzK/V3fixR4rD
- kQLZSXwaah1XTTuJPNs2eZEIQxpAyLUci498gfDWgJ3q4Y0cH8xjuWuj59K3FkoWna+U
- uNrLjy3cGb46HMQ6zFhTOTjM5EvJDHvaLQDLVti82VBF5zS5tXKmbaqhkwaa5kSUWRsN
- DPCp3/n8oVHJq++INQaReKbNx3jJS082i8iM0e8ctpQ+sVZIajU+MvYenvcAnYkUPOPN
- yfoA==
+ :cc; bh=Pj5h8g/hFUrUEnoxVhmM8FsQNthXkpXS3vn/Xg9zEYc=;
+ b=cRBY0iyy2swBY4wdMYxMME64D9hJleXqT450KRIFtN6Gj3zix9qz1rr9R5FqZ0VVY0
+ nD4RuSN6n8OkMmD4oD2fpiqCgpanGRATvcyfqvuPAAEz8zZSusIFRjekSkqRTGQCHfB2
+ q5OMzUN6H2GVAWp+hDuCgiiON47Y/OzgOsV79JVYAyGEWyriqi3Eo1ioLelDpkI0Jdhc
+ qfqDSxUjLEXMfXFTiUcM0C6OQu00mJ3R/5NW/X0Tgnu0tHE0IcgeIZRQi7BhlyDO/VvP
+ edjdOGcvWNhqZJK7yNbaQ+1k0OyNbSoEyJFfXYNGhj7TPMwkV3XEyJNqvwBdCbCAIiYv
+ AwKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=B1vfD/Upk/o86+TNLq24gmTbYD7GApKeoSWcCqy7BFA=;
- b=PSkYAuRn+rmIlzv/pimyM1kEaLCoovjy5qfTQBDxblTgkOELfhiv7bFID/pA5Iwtr2
- qPmO3jfm02ml6qFUtu4kQ1zuGHQ3FNHLXrfVLKi+UppEGi0Njbab8eRh4ehnKjmelF4J
- LRtAlJq7NTsab2xkPIWRoNGRzN3wRcde1UG2Mdqj3mT3di4bXlHP0/hrf8k59VvkmRWQ
- bWXmHyt5mV7H1jHKft1aYi8AhgwNjE9Jzh81w39rwrZ8ztL+qCXVyHCe16y4lZ6NIkG3
- 0tUTBxGJnsfW9Weu3r6DyNaFQK2oZYvULENIDrJcLQYAIFEfBAVRO+FD6hFQgic8dvkM
- eD8w==
-X-Gm-Message-State: AOAM532HXbF8/lMIe1K2FPGkOBRX5rbkMOInMya8MwYUOyK+AngkWZZv
- RXMouJ72P5RLCdl2QApb3HLwhMo4C/Vy5rKIkK6+xA==
-X-Google-Smtp-Source: ABdhPJzBw4y1zakEqZ8YPhzftoygcDzuHQv/4+MDtKTWTAb8+snlUcUqlGT0UtUYpfKtYPYSv9C3RZRK3lwgviNDN7Y=
-X-Received: by 2002:a50:fc87:: with SMTP id f7mr523802edq.36.1604239337182;
- Sun, 01 Nov 2020 06:02:17 -0800 (PST)
+ bh=Pj5h8g/hFUrUEnoxVhmM8FsQNthXkpXS3vn/Xg9zEYc=;
+ b=qYR5+zh0vY7LWY2aCw6602GAp2zr23P+VRfUEI0kr9xGCnslWeK9pIMQXZDHS2S/96
+ psDSgbOSykfsMo3Ei77EAMD+8mKWcfaRYrE4fejcWH6k5e6XRd0WKIvBJZFwcy/qdiBZ
+ tHJMQh2UdLIrSpecoANHXAYDDNK0ggt+3P+4DZWQ8AG/+lXWYXOjoPe525muT3YPuD0N
+ fseLZE0VC2n7A+ZXTt4GU/LYqrl59kbW9uuwTjF+wCurLLw2Ip6jMIUd00d39eFokEcz
+ fK8QHGznOfOrkPHOwInTx4ZtfSx/LuZmTzXBwp6CoR2Wc70L+aQ7hboe0MXBzq646jBA
+ ioyA==
+X-Gm-Message-State: AOAM530M7tvMf+Ar0Yw8xmnN4tF5lOmUuyItJ7q7FUClS4VRzuE8/GVh
+ hul4TkOCqXVZhwcwC4LmkjmDG0QNGb5ED8Wji2q/CkJorVI=
+X-Google-Smtp-Source: ABdhPJyOjoh5lA45sTRznzLxy8zJOM1GYKYv2IbEKYujrvUjKt8LnHhVfuXXJ18pV90uhOLe/Mywkh8wKERzegyubQk=
+X-Received: by 2002:a17:906:af8c:: with SMTP id
+ mj12mr10786539ejb.85.1604239447062; 
+ Sun, 01 Nov 2020 06:04:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20201029141358.3102636-1-alistair.francis@wdc.com>
-In-Reply-To: <20201029141358.3102636-1-alistair.francis@wdc.com>
+References: <20201030141136.1013521-1-mst@redhat.com>
+ <160406842210.5222.16586020334648182159@66eaa9a8a123>
+In-Reply-To: <160406842210.5222.16586020334648182159@66eaa9a8a123>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 1 Nov 2020 14:02:05 +0000
-Message-ID: <CAFEAcA9cTDhKjcvOL_QaeeDjWKUPaLxh22iueE0s4i7+WtMtiw@mail.gmail.com>
-Subject: Re: [PULL 00/18] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
+Date: Sun, 1 Nov 2020 14:03:56 +0000
+Message-ID: <CAFEAcA_vzpTivJSGmM2aR56-z5adXe0hn9A8K+2Hb0KdR6sXkA@mail.gmail.com>
+Subject: Re: [PULL 00/15] pc,pci,vhost,virtio: misc fixes
+To: QEMU Developers <qemu-devel@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,46 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 29 Oct 2020 at 14:25, Alistair Francis <alistair.francis@wdc.com> wrote:
+On Fri, 30 Oct 2020 at 14:33, <no-reply@patchew.org> wrote:
 >
-> The following changes since commit c0444009147aa935d52d5acfc6b70094bb42b0dd:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qmp-2020-10-27' into staging (2020-10-29 10:03:32 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201029
->
-> for you to fetch changes up to e041badcd4ac644a67f02f8765095a5ff7a24d47:
->
->   hw/riscv: microchip_pfsoc: Hook the I2C1 controller (2020-10-29 07:11:14 -0700)
->
-> ----------------------------------------------------------------
-> This series adds support for migration to RISC-V QEMU and expands the
-> Microchip PFSoC to allow unmodified HSS and Linux boots.
->
-> ----------------------------------------------------------------
+> Patchew URL: https://patchew.org/QEMU/20201030141136.1013521-1-mst@redhat.com/
 
-Hi; this fails 'make check' on 32-bit hosts:
+I'll apply this pullreq (unless it has other more serious
+issues), but could you look at the coding style warnings in
+a followup patch, please?
 
-qemu-system-riscv64: at most 2047 MB RAM can be simulated
-Broken pipe
-../../tests/qtest/libqtest.c:167: kill_qemu() tried to terminate QEMU
-process but encountered exit status 1 (expected 0)
-ERROR qtest-riscv64/qom-test - too few tests run (expected 6, got 3)
 
-and
+> 9/15 Checking commit 660b206b990b (pc: Implement -no-hpet as sugar for -machine hpet=on)
+> WARNING: Block comments use a leading /* on a separate line
+> #53: FILE: hw/i386/pc.c:1152:
+> +        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+>
+> WARNING: Block comments should align the * on each line
+> #54: FILE: hw/i386/pc.c:1153:
+> +        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+> +            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
+>
 
-qemu-system-riscv64: at most 2047 MB RAM can be simulated
-Broken pipe
-../../tests/qtest/libqtest.c:167: kill_qemu() tried to terminate QEMU
-process but encountered exit status 1 (expected 0)
-ERROR qtest-riscv64/test-hmp - too few tests run (expected 7, got 3)
+> 13/15 Checking commit e013e462e230 (vhost-blk: set features before setting inflight feature)
+> ERROR: trailing whitespace
+> #45: FILE: hw/virtio/vhost.c:1651:
+> + $
+>
+> ERROR: trailing whitespace
+> #50: FILE: hw/virtio/vhost.c:1656:
+> + $
+
+These all look like nits that should be fixed.
 
 thanks
 -- PMM
