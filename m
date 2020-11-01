@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01E72A2789
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:56:18 +0100 (CET)
-Received: from localhost ([::1]:41468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E22A2798
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:59:24 +0100 (CET)
+Received: from localhost ([::1]:55406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWZV-0007LN-PK
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:56:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49156)
+	id 1kZWcV-0004c9-8P
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:59:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <8db193c4108e09996923a4d716b51fc98efb7f3a@lizzy.crudebyte.com>)
- id 1kZWTD-0001W4-2Q
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:49:47 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:60689)
+ (envelope-from <136b7af22774a6f0fb44c9c1b8c088b52e2e92ed@lizzy.crudebyte.com>)
+ id 1kZWTL-0001sw-NS
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:49:55 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:58301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <8db193c4108e09996923a4d716b51fc98efb7f3a@lizzy.crudebyte.com>)
- id 1kZWTB-0006Zo-FL
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:49:46 -0500
+ (envelope-from <136b7af22774a6f0fb44c9c1b8c088b52e2e92ed@lizzy.crudebyte.com>)
+ id 1kZWTJ-0006cm-V8
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:49:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=qnTnQy0Xa8xQsWTotjLWOzYssCe4FirszozZZ3yzRxU=; b=U3aZv
- fSDPmOLIhwk7P213qMHgGj2PFnwe21hxvBPwZ8lIEZBSfSCPbTyLPQp1CRkOsIPkcrOLP89D2pGRu
- vh+47QYITqQhZDxPmnGms+za6odk6lUVvcaxsycbB9ghe32MMBDB3UzDyr00ngAZ+rs4heSsH0/qs
- g8yMifPcQqXL9cP90jZlxfM6AJGXLf1HcYESelwKirsRkPpMlH+DDN//F+lbgtsf1rrpwwtG7Ukjb
- 54DJW3U6DvJvptBwQ14o9GUOd5ufHxlIjBOSEKd8xc8PlB9+t6qRMHpr4w/WAbxvpJMK7oo3SDd0W
- eqfQEM4Er0eE0YviiY9haxqRk8Dvg==;
-Message-Id: <8db193c4108e09996923a4d716b51fc98efb7f3a.1604309512.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=tO675tDFEeFMR7lltQjZleg7qUOrV75TbEgjX8683Fk=; b=i+LNF
+ 9yp3r/ZqfvduzDsaF4v1EjTAvW/n1nwIugLSmdxtjSH7UyKz+4VaePRv0Rg/BQu/n4eOxyK16lw9C
+ WwqPf+NKFgGfjxeoLikIXn5olCPzIc4SkE0vDp0UCIvS354BTTfTwa8ODoZ+L4ZvxCuCvQtM93bLj
+ CB6JZLmTeVS0ZoHmBrlLsCJAHVVnfvWnA+45Ef/rZ3MrTKKuNu7ycn1RxDOwPAkwfm9o7h5z2P3xp
+ 0k4BbjGdTEHZOI9DOSfUfSd+rH/lBKNitsIJsXQZPeMHreaqKDOYD7sBMQx+orPjsUsESGwj28eU+
+ 5DV427lH3GXKlChJwv/FKzSdoX8fg==;
+Message-Id: <136b7af22774a6f0fb44c9c1b8c088b52e2e92ed.1604309512.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1604309512.git.qemu_oss@crudebyte.com>
 References: <cover.1604309512.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 1 Nov 2020 15:25:14 +0100
-Subject: [PULL v3 01/17] tests/9pfs: make create/remove test dir public
+Date: Sun, 1 Nov 2020 15:37:12 +0100
+Subject: [PULL v3 02/17] tests/9pfs: fix test dir for parallel tests
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=8db193c4108e09996923a4d716b51fc98efb7f3a@lizzy.crudebyte.com;
+ envelope-from=136b7af22774a6f0fb44c9c1b8c088b52e2e92ed@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 04:48:35
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,74 +65,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make functions create_local_test_dir() and remove_local_test_dir()
-public. They're going to be used in the next patch.
+Use mkdtemp() to generate a unique directory for the 9p 'local' tests.
+
+This fixes occasional 9p test failures when running 'make check -jN' if
+QEMU was compiled for multiple target architectures, because the individual
+architecture's test suites would run in parallel and interfere with each
+other's data as the test directory was previously hard coded and hence the
+same directory was used by all of them simultaniously.
+
+This also requires a change how the test directory is created and deleted:
+As the test path is now randomized and virtio_9p_register_nodes() being
+called in a somewhat undeterministic way, that's no longer an appropriate
+place to create and remove the test directory. Use a constructor and
+destructor function for creating and removing the test directory instead.
+Unfortunately libqos currently does not support setup/teardown callbacks
+to handle this more cleanly.
+
+The constructor functions needs to be in virtio-9p-test.c, not in
+virtio-9p.c, because in the latter location it would cause all apps that
+link to libqos (i.e. entirely unrelated test suites) to create a 9pfs
+test directory as well, which would even break other test suites.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <ec90703cbc23d6b612b3672f946d7741f4a16080.1604243521.git.qemu_oss@crudebyte.com>
+Tested-by: Greg Kurz <groug@kaod.org>
+Message-Id: <7746f42d8f557593898d3d9d8e57c46e872dfb4f.1604243521.git.qemu_oss@crudebyte.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/libqos/virtio-9p.c | 10 ++++------
- tests/qtest/libqos/virtio-9p.h | 10 ++++++++++
- 2 files changed, 14 insertions(+), 6 deletions(-)
+ tests/qtest/libqos/virtio-9p.c | 14 ++++++++------
+ tests/qtest/virtio-9p-test.c   | 12 ++++++++++++
+ 2 files changed, 20 insertions(+), 6 deletions(-)
 
 diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index d43647b3b7..2736e9ae2a 100644
+index 2736e9ae2a..586e700b24 100644
 --- a/tests/qtest/libqos/virtio-9p.c
 +++ b/tests/qtest/libqos/virtio-9p.c
-@@ -39,8 +39,7 @@ static void init_local_test_path(void)
+@@ -35,7 +35,12 @@ static char *concat_path(const char* a, const char* b)
+ static void init_local_test_path(void)
+ {
+     char *pwd = g_get_current_dir();
+-    local_test_path = concat_path(pwd, "qtest-9p-local");
++    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
++    local_test_path = mkdtemp(template);
++    if (!local_test_path) {
++        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
++    }
++    g_assert(local_test_path);
      g_free(pwd);
  }
  
--/* Creates the directory for the 9pfs 'local' filesystem driver to access. */
--static void create_local_test_dir(void)
-+void virtio_9p_create_local_test_dir(void)
+@@ -43,6 +48,8 @@ void virtio_9p_create_local_test_dir(void)
  {
      struct stat st;
  
-@@ -53,8 +52,7 @@ static void create_local_test_dir(void)
-     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
- }
- 
--/* Deletes directory previously created by create_local_test_dir(). */
--static void remove_local_test_dir(void)
-+void virtio_9p_remove_local_test_dir(void)
- {
++    init_local_test_path();
++
      g_assert(local_test_path != NULL);
-     char *cmd = g_strdup_printf("rm -r '%s'\n", local_test_path);
-@@ -248,8 +246,8 @@ static void virtio_9p_register_nodes(void)
+     mkdir(local_test_path, 0777);
  
-     /* make sure test dir for the 'local' tests exists and is clean */
-     init_local_test_path();
--    remove_local_test_dir();
--    create_local_test_dir();
-+    virtio_9p_remove_local_test_dir();
-+    virtio_9p_create_local_test_dir();
+@@ -244,11 +251,6 @@ static void virtio_9p_register_nodes(void)
+     const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
+     const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
  
+-    /* make sure test dir for the 'local' tests exists and is clean */
+-    init_local_test_path();
+-    virtio_9p_remove_local_test_dir();
+-    virtio_9p_create_local_test_dir();
+-
      QPCIAddress addr = {
          .devfn = QPCI_DEVFN(4, 0),
-diff --git a/tests/qtest/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
-index 19a4d97454..480727120e 100644
---- a/tests/qtest/libqos/virtio-9p.h
-+++ b/tests/qtest/libqos/virtio-9p.h
-@@ -44,6 +44,16 @@ struct QVirtio9PDevice {
-     QVirtio9P v9p;
- };
+     };
+diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
+index c15908f27b..6401d4f564 100644
+--- a/tests/qtest/virtio-9p-test.c
++++ b/tests/qtest/virtio-9p-test.c
+@@ -1076,3 +1076,15 @@ static void register_virtio_9p_test(void)
+ }
  
-+/**
-+ * Creates the directory for the 9pfs 'local' filesystem driver to access.
-+ */
-+void virtio_9p_create_local_test_dir(void);
+ libqos_init(register_virtio_9p_test);
 +
-+/**
-+ * Deletes directory previously created by virtio_9p_create_local_test_dir().
-+ */
-+void virtio_9p_remove_local_test_dir(void);
++static void __attribute__((constructor)) construct_9p_test(void)
++{
++    /* make sure test dir for the 'local' tests exists */
++    virtio_9p_create_local_test_dir();
++}
 +
- /**
-  * Prepares QEMU command line for 9pfs tests using the 'local' fs driver.
-  */
++static void __attribute__((destructor)) destruct_9p_test(void)
++{
++    /* remove previously created test dir when test suite completed */
++    virtio_9p_remove_local_test_dir();
++}
 -- 
 2.20.1
 
