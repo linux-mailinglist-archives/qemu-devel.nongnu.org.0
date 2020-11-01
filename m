@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4242F2A1E79
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 15:10:01 +0100 (CET)
-Received: from localhost ([::1]:35634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2A42A1F03
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 16:25:38 +0100 (CET)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZE3T-0005fD-Qu
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 09:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41284)
+	id 1kZFEe-0004VK-K8
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 10:25:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZDxs-00031v-Iz
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 09:04:12 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:45977)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZDxo-0005gK-TY
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 09:04:12 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id dk16so14362455ejb.12
- for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 06:04:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Pj5h8g/hFUrUEnoxVhmM8FsQNthXkpXS3vn/Xg9zEYc=;
- b=cRBY0iyy2swBY4wdMYxMME64D9hJleXqT450KRIFtN6Gj3zix9qz1rr9R5FqZ0VVY0
- nD4RuSN6n8OkMmD4oD2fpiqCgpanGRATvcyfqvuPAAEz8zZSusIFRjekSkqRTGQCHfB2
- q5OMzUN6H2GVAWp+hDuCgiiON47Y/OzgOsV79JVYAyGEWyriqi3Eo1ioLelDpkI0Jdhc
- qfqDSxUjLEXMfXFTiUcM0C6OQu00mJ3R/5NW/X0Tgnu0tHE0IcgeIZRQi7BhlyDO/VvP
- edjdOGcvWNhqZJK7yNbaQ+1k0OyNbSoEyJFfXYNGhj7TPMwkV3XEyJNqvwBdCbCAIiYv
- AwKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Pj5h8g/hFUrUEnoxVhmM8FsQNthXkpXS3vn/Xg9zEYc=;
- b=qYR5+zh0vY7LWY2aCw6602GAp2zr23P+VRfUEI0kr9xGCnslWeK9pIMQXZDHS2S/96
- psDSgbOSykfsMo3Ei77EAMD+8mKWcfaRYrE4fejcWH6k5e6XRd0WKIvBJZFwcy/qdiBZ
- tHJMQh2UdLIrSpecoANHXAYDDNK0ggt+3P+4DZWQ8AG/+lXWYXOjoPe525muT3YPuD0N
- fseLZE0VC2n7A+ZXTt4GU/LYqrl59kbW9uuwTjF+wCurLLw2Ip6jMIUd00d39eFokEcz
- fK8QHGznOfOrkPHOwInTx4ZtfSx/LuZmTzXBwp6CoR2Wc70L+aQ7hboe0MXBzq646jBA
- ioyA==
-X-Gm-Message-State: AOAM530M7tvMf+Ar0Yw8xmnN4tF5lOmUuyItJ7q7FUClS4VRzuE8/GVh
- hul4TkOCqXVZhwcwC4LmkjmDG0QNGb5ED8Wji2q/CkJorVI=
-X-Google-Smtp-Source: ABdhPJyOjoh5lA45sTRznzLxy8zJOM1GYKYv2IbEKYujrvUjKt8LnHhVfuXXJ18pV90uhOLe/Mywkh8wKERzegyubQk=
-X-Received: by 2002:a17:906:af8c:: with SMTP id
- mj12mr10786539ejb.85.1604239447062; 
- Sun, 01 Nov 2020 06:04:07 -0800 (PST)
-MIME-Version: 1.0
-References: <20201030141136.1013521-1-mst@redhat.com>
- <160406842210.5222.16586020334648182159@66eaa9a8a123>
-In-Reply-To: <160406842210.5222.16586020334648182159@66eaa9a8a123>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 1 Nov 2020 14:03:56 +0000
-Message-ID: <CAFEAcA_vzpTivJSGmM2aR56-z5adXe0hn9A8K+2Hb0KdR6sXkA@mail.gmail.com>
-Subject: Re: [PULL 00/15] pc,pci,vhost,virtio: misc fixes
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+ (Exim 4.90_1)
+ (envelope-from <ec90703cbc23d6b612b3672f946d7741f4a16080@lizzy.crudebyte.com>)
+ id 1kZFCZ-0003Fx-6l
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:23:27 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:36899)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <ec90703cbc23d6b612b3672f946d7741f4a16080@lizzy.crudebyte.com>)
+ id 1kZFCW-0006k0-S3
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:23:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
+ Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
+ Content-Description; bh=M4F3q8KaK+NXBeqlbOxwURsCLbUnH74xNhiohvqEx/4=; b=ULDeq
+ 4obX2L2KJPTUDISmyYF/sKDlJOAZwkI+JTzjc3EBCI9aH8vjlutzDIx52MMcJiIJNs0D4ZwOwVpZN
+ CITFnR4LFi+2VACbPHPysOsDfVgFyI3c8T4sfp0MMsQfIjFYjjDVtZAXTdH0rU9zelmwLFXihAE4K
+ w/81e8vIWm5oAkRW9PhASGfYPOAkOI/UnfAjiodoZOYJI0tAAToroD5YmULoD+Nz7OGqsm3TXsnae
+ YiGvlcT7WqnxqunkzvViAghQ2lRfKh6whLNavI6eb80kGCbR8JVJN2poSjS8bnnpCvc14VQvnNKL2
+ qSSJ+nyaWQN7eWX7xN7tlKdkvjxVg==;
+Message-Id: <ec90703cbc23d6b612b3672f946d7741f4a16080.1604243521.git.qemu_oss@crudebyte.com>
+In-Reply-To: <cover.1604243521.git.qemu_oss@crudebyte.com>
+References: <cover.1604243521.git.qemu_oss@crudebyte.com>
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Date: Sun, 1 Nov 2020 15:25:14 +0100
+Subject: [PATCH v3 1/2] tests/9pfs: make create/remove test dir public
+To: qemu-devel@nongnu.org
+Cc: Greg Kurz <groug@kaod.org>
+Received-SPF: none client-ip=91.194.90.13;
+ envelope-from=ec90703cbc23d6b612b3672f946d7741f4a16080@lizzy.crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 10:22:17
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,41 +61,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 at 14:33, <no-reply@patchew.org> wrote:
->
-> Patchew URL: https://patchew.org/QEMU/20201030141136.1013521-1-mst@redhat.com/
+Make functions create_local_test_dir() and remove_local_test_dir()
+public. They're going to be used in the next patch.
 
-I'll apply this pullreq (unless it has other more serious
-issues), but could you look at the coding style warnings in
-a followup patch, please?
+Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ tests/qtest/libqos/virtio-9p.c | 10 ++++------
+ tests/qtest/libqos/virtio-9p.h | 10 ++++++++++
+ 2 files changed, 14 insertions(+), 6 deletions(-)
 
+diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+index d43647b3b7..2736e9ae2a 100644
+--- a/tests/qtest/libqos/virtio-9p.c
++++ b/tests/qtest/libqos/virtio-9p.c
+@@ -39,8 +39,7 @@ static void init_local_test_path(void)
+     g_free(pwd);
+ }
+ 
+-/* Creates the directory for the 9pfs 'local' filesystem driver to access. */
+-static void create_local_test_dir(void)
++void virtio_9p_create_local_test_dir(void)
+ {
+     struct stat st;
+ 
+@@ -53,8 +52,7 @@ static void create_local_test_dir(void)
+     g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+ }
+ 
+-/* Deletes directory previously created by create_local_test_dir(). */
+-static void remove_local_test_dir(void)
++void virtio_9p_remove_local_test_dir(void)
+ {
+     g_assert(local_test_path != NULL);
+     char *cmd = g_strdup_printf("rm -r '%s'\n", local_test_path);
+@@ -248,8 +246,8 @@ static void virtio_9p_register_nodes(void)
+ 
+     /* make sure test dir for the 'local' tests exists and is clean */
+     init_local_test_path();
+-    remove_local_test_dir();
+-    create_local_test_dir();
++    virtio_9p_remove_local_test_dir();
++    virtio_9p_create_local_test_dir();
+ 
+     QPCIAddress addr = {
+         .devfn = QPCI_DEVFN(4, 0),
+diff --git a/tests/qtest/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
+index 19a4d97454..480727120e 100644
+--- a/tests/qtest/libqos/virtio-9p.h
++++ b/tests/qtest/libqos/virtio-9p.h
+@@ -44,6 +44,16 @@ struct QVirtio9PDevice {
+     QVirtio9P v9p;
+ };
+ 
++/**
++ * Creates the directory for the 9pfs 'local' filesystem driver to access.
++ */
++void virtio_9p_create_local_test_dir(void);
++
++/**
++ * Deletes directory previously created by virtio_9p_create_local_test_dir().
++ */
++void virtio_9p_remove_local_test_dir(void);
++
+ /**
+  * Prepares QEMU command line for 9pfs tests using the 'local' fs driver.
+  */
+-- 
+2.20.1
 
-> 9/15 Checking commit 660b206b990b (pc: Implement -no-hpet as sugar for -machine hpet=on)
-> WARNING: Block comments use a leading /* on a separate line
-> #53: FILE: hw/i386/pc.c:1152:
-> +        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
->
-> WARNING: Block comments should align the * on each line
-> #54: FILE: hw/i386/pc.c:1153:
-> +        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
-> +            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
->
-
-> 13/15 Checking commit e013e462e230 (vhost-blk: set features before setting inflight feature)
-> ERROR: trailing whitespace
-> #45: FILE: hw/virtio/vhost.c:1651:
-> + $
->
-> ERROR: trailing whitespace
-> #50: FILE: hw/virtio/vhost.c:1656:
-> + $
-
-These all look like nits that should be fixed.
-
-thanks
--- PMM
 
