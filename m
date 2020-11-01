@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0332A21DA
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 22:20:26 +0100 (CET)
-Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 625622A21E2
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 22:24:57 +0100 (CET)
+Received: from localhost ([::1]:37960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZKm1-0007iE-3o
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 16:20:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60924)
+	id 1kZKqO-0003rf-5m
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 16:24:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kZKVt-0000Xb-NF
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:03:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kZKVs-0005cq-2E
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:03:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604264622;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4E1TZ2mcY2ZxsPIsCrqCwiH9bjepLcxDYhtljCmZ+8I=;
- b=Cy8DkBlAmez0sgS3JgtkF26o1WgM01H1isFKj/pl2mRMHZhJta+x/WHHk7RbYkwX6DLoNk
- A5QHziSANCs/rZ4YTJsjufpZTQCkN1Vxwp3A2reHuH0TrSLEH68zN7LGiL0YBcbqD6o+uh
- ksoFumiKmcfYZm1OAPQ/NfBBD/HoDks=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-OqOM_mgkNrOQK8hb-MT9Ow-1; Sun, 01 Nov 2020 16:03:40 -0500
-X-MC-Unique: OqOM_mgkNrOQK8hb-MT9Ow-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 332F31868408;
- Sun,  1 Nov 2020 21:03:39 +0000 (UTC)
-Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F03615D9D2;
- Sun,  1 Nov 2020 21:03:36 +0000 (UTC)
-Subject: [PULL v3 32/32] vfio: fix incorrect print type
-From: Alex Williamson <alex.williamson@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sun, 01 Nov 2020 14:03:35 -0700
-Message-ID: <160426461583.24886.2635229986954059521.stgit@gimli.home>
-In-Reply-To: <160426371498.24886.12193840637250368669.stgit@gimli.home>
-References: <160426371498.24886.12193840637250368669.stgit@gimli.home>
-User-Agent: StGit/0.21-dirty
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kZKdE-0003ia-CL
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:11:20 -0500
+Received: from mail-io1-f65.google.com ([209.85.166.65]:33872)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1kZKdC-0006Wv-9D
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:11:19 -0500
+Received: by mail-io1-f65.google.com with SMTP id z5so13050087iob.1
+ for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 13:11:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=5L5v3pEfYK7064mC1fv44rrn+W6tYPiByrmYV5fWSPQ=;
+ b=Q5a8NV/QIfTb2v2HK9xbSd0DdIZrW5hb6CckedibWJy3y7AbY/a7JS5/yhhwl/gHRW
+ IrFEQHfGmJOjTZuvNQG/Zu6U5WYNyVdcHSQvHIDvxRIFqxqczRciScnTvajDf2KabcyB
+ rLIWtc3lmjaWdMzpeKQV++8p64SMpiAvzh+UUCUNbgycF93/Kku57Q1dwOXU1gdD8a+Q
+ CNcyGbre1umscTPV+c7qkHBdXYzvPryRJQpfYnXTlEhreLEL2mOEnOoDJr7ukIwD6LQZ
+ ato3IMFt4BiOS6laaxxYF5GiOFwWMBbLOSeWn3aQjlM65aNlgLyPEt+sZRPETcOZ3z5l
+ 009A==
+X-Gm-Message-State: AOAM532XdRN3qpCFt5bBDeKOo3SmaRqWpVyC43sm7ABOy5FBk2cpF5Ok
+ RK5GeyOfKLV2cf0FUpuQiDME6MYJ4Zo=
+X-Google-Smtp-Source: ABdhPJy2XDBgsgQ1qij7dXkXZMsNBZ6koItBiLII8nWT8SH28FlAGA75g/tGq6vKP+WOgjUjgeTREA==
+X-Received: by 2002:a5e:c017:: with SMTP id u23mr8254543iol.81.1604265077169; 
+ Sun, 01 Nov 2020 13:11:17 -0800 (PST)
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com.
+ [209.85.166.179])
+ by smtp.gmail.com with ESMTPSA id w81sm9918391ilk.38.2020.11.01.13.11.16
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Nov 2020 13:11:16 -0800 (PST)
+Received: by mail-il1-f179.google.com with SMTP id c11so11219718iln.9
+ for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 13:11:16 -0800 (PST)
+X-Received: by 2002:a92:ac0e:: with SMTP id r14mr9118863ilh.197.1604265076545; 
+ Sun, 01 Nov 2020 13:11:16 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 15:59:21
+References: <20201030004921.721096-1-richard.henderson@linaro.org>
+ <20201030004921.721096-15-richard.henderson@linaro.org>
+ <CA+E+eSCNbkraRcEsnR7ReReQT600FnJoaPRmNoTxETwCgobytQ@mail.gmail.com>
+In-Reply-To: <CA+E+eSCNbkraRcEsnR7ReReQT600FnJoaPRmNoTxETwCgobytQ@mail.gmail.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Sun, 1 Nov 2020 13:11:05 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSCFTZy6=Emj=L0=z7rMsZ6NbjXJCt=fE-G2ic1H06De1A@mail.gmail.com>
+Message-ID: <CA+E+eSCFTZy6=Emj=L0=z7rMsZ6NbjXJCt=fE-G2ic1H06De1A@mail.gmail.com>
+Subject: Re: [PATCH v2 14/19] RFC: accel/tcg: Support split-rwx for darwin/iOS
+ with vm_remap
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.65; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f65.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 16:11:17
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,42 +83,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zhengui li <lizhengui@huawei.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhengui li <lizhengui@huawei.com>
+Another change I made in alloc_code_gen_buffer_mirror_vmremap (in my
+patch as well) is to remove VM_FLAGS_RANDOM_ADDR. This was causing a
+rare out of memory error whenever the random address it chooses is too
+high.
 
-The type of input variable is unsigned int
-while the printer type is int. So fix incorrect print type.
+-j
 
-Signed-off-by: Zhengui li <lizhengui@huawei.com>
-Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
----
- hw/vfio/common.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 57f55f0447d6..e18ea2cf9124 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -205,7 +205,7 @@ void vfio_region_write(void *opaque, hwaddr addr,
-         buf.qword = cpu_to_le64(data);
-         break;
-     default:
--        hw_error("vfio: unsupported write size, %d bytes", size);
-+        hw_error("vfio: unsupported write size, %u bytes", size);
-         break;
-     }
- 
-@@ -262,7 +262,7 @@ uint64_t vfio_region_read(void *opaque,
-         data = le64_to_cpu(buf.qword);
-         break;
-     default:
--        hw_error("vfio: unsupported read size, %d bytes", size);
-+        hw_error("vfio: unsupported read size, %u bytes", size);
-         break;
-     }
- 
-
+On Sat, Oct 31, 2020 at 6:42 PM Joelle van Dyne <j@getutm.app> wrote:
+>
+> There's a compiler warning:
+>
+> warning: incompatible pointer to integer conversion assigning to
+> 'mach_vm_address_t' (aka 'unsigned long long') from 'void *'
+> [-Wint-conversion]
+>     buf_rw = tcg_ctx->code_gen_buffer;
+>
+> I changed it to
+>     buf_rw = (mach_vm_address_t)tcg_ctx->code_gen_buffer;
+>
+> Also, MAP_JIT doesn't work with the split mapping (it needs the same
+> entitlements that allows for RWX mapping) so I made the following
+> changes
+>
+> @@ -1088,15 +1094,11 @@ static bool alloc_code_gen_buffer(size_t size,
+> int mirror, Error **errp)
+>      return true;
+>  }
+>  #else
+> -static bool alloc_code_gen_buffer_anon(size_t size, int prot, Error **errp)
+> +static bool alloc_code_gen_buffer_anon(size_t size, int prot, int
+> flags, Error **errp)
+>  {
+> -    int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+>      void *buf;
+>
+> -#ifdef CONFIG_DARWIN
+> -    /* Applicable to both iOS and macOS (Apple Silicon). */
+> -    flags |= MAP_JIT;
+> -#endif
+> +    flags |= MAP_PRIVATE | MAP_ANONYMOUS;
+>
+>      buf = mmap(NULL, size, prot, flags, -1, 0);
+>      if (buf == MAP_FAILED) {
+> @@ -1211,7 +1213,7 @@ static bool
+> alloc_code_gen_buffer_mirror_vmremap(size_t size, Error **errp)
+>      vm_prot_t cur_prot, max_prot;
+>
+>      /* Map the read-write portion via normal anon memory. */
+> -    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE, errp)) {
+> +    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE, 0, errp)) {
+>          return false;
+>      }
+>
+> @@ -1263,6 +1265,8 @@ static bool alloc_code_gen_buffer_mirror(size_t
+> size, Error **errp)
+>
+>  static bool alloc_code_gen_buffer(size_t size, int mirror, Error **errp)
+>  {
+> +    int flags = 0;
+> +
+>      if (mirror) {
+>          Error *local_err = NULL;
+>          if (alloc_code_gen_buffer_mirror(size, &local_err)) {
+> @@ -1283,8 +1287,11 @@ static bool alloc_code_gen_buffer(size_t size,
+> int mirror, Error **errp)
+>      /* The tcg interpreter does not need execute permission. */
+>      prot = PROT_READ | PROT_WRITE;
+>  #endif
+> +#ifdef CONFIG_DARWIN
+> +    flags |= MAP_JIT;
+> +#endif
+>
+> -    return alloc_code_gen_buffer_anon(size, prot, errp);
+> +    return alloc_code_gen_buffer_anon(size, prot, flags, errp);
+>  }
+>  #endif /* USE_STATIC_CODE_GEN_BUFFER, WIN32, POSIX */
+>
+> With this in addition to the iOS host patches, I was able to run it on
+> the iPad but am getting random crashes that I am continuing to debug.
+>
+> -j
+>
+> On Thu, Oct 29, 2020 at 5:49 PM Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Cribbed from code posted by Joelle van Dyne <j@getutm.app>,
+> > and rearranged to a cleaner structure.  Completely untested.
+> >
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  accel/tcg/translate-all.c | 68 ++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 67 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> > index 3e69ebd1d3..bf8263fdb4 100644
+> > --- a/accel/tcg/translate-all.c
+> > +++ b/accel/tcg/translate-all.c
+> > @@ -1093,6 +1093,11 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot, Error **errp)
+> >      int flags = MAP_PRIVATE | MAP_ANONYMOUS;
+> >      void *buf;
+> >
+> > +#ifdef CONFIG_DARWIN
+> > +    /* Applicable to both iOS and macOS (Apple Silicon). */
+> > +    flags |= MAP_JIT;
+> > +#endif
+> > +
+> >      buf = mmap(NULL, size, prot, flags, -1, 0);
+> >      if (buf == MAP_FAILED) {
+> >          error_setg_errno(errp, errno,
+> > @@ -1182,13 +1187,74 @@ static bool alloc_code_gen_buffer_mirror_memfd(size_t size, Error **errp)
+> >      qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
+> >      return true;
+> >  }
+> > -#endif
+> > +#endif /* CONFIG_LINUX */
+> > +
+> > +#ifdef CONFIG_DARWIN
+> > +#include <mach/mach.h>
+> > +
+> > +extern kern_return_t mach_vm_remap(vm_map_t target_task,
+> > +                                   mach_vm_address_t *target_address,
+> > +                                   mach_vm_size_t size,
+> > +                                   mach_vm_offset_t mask,
+> > +                                   int flags,
+> > +                                   vm_map_t src_task,
+> > +                                   mach_vm_address_t src_address,
+> > +                                   boolean_t copy,
+> > +                                   vm_prot_t *cur_protection,
+> > +                                   vm_prot_t *max_protection,
+> > +                                   vm_inherit_t inheritance);
+> > +
+> > +static bool alloc_code_gen_buffer_mirror_vmremap(size_t size, Error **errp)
+> > +{
+> > +    kern_return_t ret;
+> > +    mach_vm_address_t buf_rw, buf_rx;
+> > +    vm_prot_t cur_prot, max_prot;
+> > +
+> > +    /* Map the read-write portion via normal anon memory. */
+> > +    if (!alloc_code_gen_buffer_anon(size, PROT_READ | PROT_WRITE, errp)) {
+> > +        return false;
+> > +    }
+> > +
+> > +    buf_rw = tcg_ctx->code_gen_buffer;
+> > +    buf_rx = 0;
+> > +    ret = mach_vm_remap(mach_task_self(),
+> > +                        &buf_rx,
+> > +                        size,
+> > +                        0,
+> > +                        VM_FLAGS_ANYWHERE | VM_FLAGS_RANDOM_ADDR,
+> > +                        mach_task_self(),
+> > +                        buf_rw,
+> > +                        false,
+> > +                        &cur_prot,
+> > +                        &max_prot,
+> > +                        VM_INHERIT_NONE);
+> > +    if (ret != KERN_SUCCESS) {
+> > +        /* TODO: Convert "ret" to a human readable error message. */
+> > +        error_setg(errp, "vm_remap for jit mirror failed");
+> > +        munmap((void *)buf_rw, size);
+> > +        return false;
+> > +    }
+> > +
+> > +    if (mprotect((void *)buf_rx, size, PROT_READ | PROT_EXEC) != 0) {
+> > +        error_setg_errno(errp, errno, "mprotect for jit mirror");
+> > +        munmap((void *)buf_rx, size);
+> > +        munmap((void *)buf_rw, size);
+> > +        return false;
+> > +    }
+> > +
+> > +    tcg_rx_mirror_diff = buf_rx - buf_rw;
+> > +    return true;
+> > +}
+> > +#endif /* CONFIG_DARWIN */
+> >
+> >  static bool alloc_code_gen_buffer_mirror(size_t size, Error **errp)
+> >  {
+> >      if (TCG_TARGET_SUPPORT_MIRROR) {
+> >  #ifdef CONFIG_LINUX
+> >          return alloc_code_gen_buffer_mirror_memfd(size, errp);
+> > +#endif
+> > +#ifdef CONFIG_DARWIN
+> > +        return alloc_code_gen_buffer_mirror_vmremap(size, errp);
+> >  #endif
+> >      }
+> >      error_setg(errp, "jit split-rwx not supported");
+> > --
+> > 2.25.1
+> >
 
