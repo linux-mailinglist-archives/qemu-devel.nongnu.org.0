@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F7F2A1F04
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 16:25:38 +0100 (CET)
-Received: from localhost ([::1]:50574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A6E2A1F75
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 17:17:54 +0100 (CET)
+Received: from localhost ([::1]:33406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZFEf-0004Uq-0H
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 10:25:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57306)
+	id 1kZG3F-0006yr-GU
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 11:17:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <7746f42d8f557593898d3d9d8e57c46e872dfb4f@lizzy.crudebyte.com>)
- id 1kZFCT-0003Ey-Dt
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:23:22 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:43213)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <7746f42d8f557593898d3d9d8e57c46e872dfb4f@lizzy.crudebyte.com>)
- id 1kZFCR-0006jX-9j
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:23:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
- Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
- Content-Description; bh=E89zUvvTnsPZotS/rjepCXsjA5Lb0J07hcIWq2SYElU=; b=UgmQj
- xx5ET5PX/Ib7m9lsVLGpM+5Djeuw1h098u19v8nLOhNQhPMK6tL+AzCeHJKctdNbtPEWDNVef41uM
- QextxMRJfqLWNAU2nBwoxnEUB3rBLrOQx1SMmbgcATr9R454bwSofeN9zFm6zrK6kCBy5QB9JJM//
- HwwCmb5v546k2GiO3qGJUdbp2DBPCU/VOgqxOSgWil2/usKBh15NI8H9JKr99WtZP3/7yHIT7iWhq
- cPbxkk5cqRvw8gGLrhx9uoYYGGgiuFyAnf6pRYpJi0tWnnfd3jNvLUlC0US8KBT7rzIc6v6bnOFEi
- CnvxRDy7Sy/dqwl32NyTg0zdV0x0g==;
-Message-Id: <cover.1604243521.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 1 Nov 2020 16:12:01 +0100
-Subject: [PATCH v3 0/2] 9pfs: test suite fixes
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kZG1J-0005tV-7F
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 11:15:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22490)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kZG1D-0004Sz-4b
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 11:15:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604247342;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=wxDui5vLhkrEB0SMvc7xZ9F+UPVtAyMSnU2M6fkS+Mc=;
+ b=GEMz9n2y4XKSPHlBzyUuzWoRowCRFb2tjhCQ/Ez42LjZz3Bq0VxIK4abIXB/EbD/T0+zeQ
+ mWMrYMvQ9DS7dwdnB4Php/eBabqeXpiImQAT45fjbNBtf/I/+aI95Ua2TS7bm1M8YNeMV5
+ 64kVr1Oq12r/RPhfnNbGNXihxVejh6c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-LzYQAqSCOwmev3Sxj0PYbQ-1; Sun, 01 Nov 2020 11:15:39 -0500
+X-MC-Unique: LzYQAqSCOwmev3Sxj0PYbQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E4D11868402;
+ Sun,  1 Nov 2020 16:15:38 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.35.206.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 825F55C1A3;
+ Sun,  1 Nov 2020 16:15:34 +0000 (UTC)
+From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=7746f42d8f557593898d3d9d8e57c46e872dfb4f@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 10:22:17
+Subject: [PATCH v2 0/2] Assorted fixes to tests that were broken by recent
+ scsi changes
+Date: Sun,  1 Nov 2020 18:15:30 +0200
+Message-Id: <20201101161532.259609-1-mlevitsk@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 11:15:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,48 +78,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes test failures with the 9pfs 'local' tests as discussed with latest
-9P PR. See the discussion of that PR v2 (Fri, Oct 30th) for details.
-
-In conjunction with Peter Xu's two migration patches (fixing occasional
-lockups of migration tests) overall situation appears to be smooth now:
-https://lore.kernel.org/qemu-devel/20201030135350.GA588069@xz-x1/
-
-v2->v3:
-
-  - Make the two functions for creating and removing the 9pfs test directory
-    public [NEW patch 1].
-
-  - Place the constructor and destructor functions in virtio-9p-test.c, not
-    in virtio-9p.c, because the latter location would cause the constructor
-    to be executed whenever libqos is loaded, which would break other,
-    completely unrelated tests suites that just link to libqos [patch 2].
-
-  - Previous patch 2 (coverity fix) is already queued, no changes, hence
-    omitted in this v3.
-
-v1->v2:
-
-  - Added Greg's tested-by tag [patch 1].
-
-  - Log an info-level message if mkdir() failed [patch 2].
-
-  - Update commit log message about coverity being the reporter and
-    details of the coverity report [patch 2].
-
-Christian Schoenebeck (2):
-  tests/9pfs: make create/remove test dir public
-  tests/9pfs: fix test dir for parallel tests
-
- tests/qtest/libqos/virtio-9p.c | 20 ++++++++++----------
- tests/qtest/libqos/virtio-9p.h | 10 ++++++++++
- tests/qtest/virtio-9p-test.c   | 12 ++++++++++++
- 3 files changed, 32 insertions(+), 10 deletions(-)
-
--- 
-2.20.1
+While most of the patches in V1 of this series are already merged upstream,=
+=0D
+the patch that fixes iotest 240 was broken on s390 and was not accepted.=0D
+=0D
+This is=09an updated version of this patch, based on Paulo's suggestion,=0D
+that hopefully makes this iotest work on both x86 and s390.=0D
+=0D
+Best regards,=0D
+=09Maxim Levitsky=0D
+=0D
+Maxim Levitsky (2):=0D
+  iotests: add filter_qmp_virtio_scsi function=0D
+  iotests: rewrite iotest 240 in python=0D
+=0D
+ tests/qemu-iotests/240        | 228 +++++++++++++++-------------------=0D
+ tests/qemu-iotests/240.out    |  76 +++++++-----=0D
+ tests/qemu-iotests/iotests.py |  10 ++=0D
+ 3 files changed, 153 insertions(+), 161 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
