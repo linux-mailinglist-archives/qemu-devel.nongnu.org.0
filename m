@@ -2,53 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1170E2A1F09
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 16:26:55 +0100 (CET)
-Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 461CE2A1EE3
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 16:10:16 +0100 (CET)
+Received: from localhost ([::1]:38640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZFFu-0006ZB-5d
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 10:26:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57392)
+	id 1kZEzm-000703-Rj
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 10:10:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <7746f42d8f557593898d3d9d8e57c46e872dfb4f@lizzy.crudebyte.com>)
- id 1kZFCf-0003No-Hs
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:23:33 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:51771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <7746f42d8f557593898d3d9d8e57c46e872dfb4f@lizzy.crudebyte.com>)
- id 1kZFCd-0006kh-PH
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:23:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=tgAD6D3APZHppVajKkzG3/l4JDgMPHhecmwfxqWqFbA=; b=cte5y
- 5XGQW5J70IeTFzv1Ld7/7JPQK0K5Js1EWjTz9E0DaKN3/dWgT2L3y1BooeUyro73NEG2FY97ic/rg
- nt2bZb6b+5of25Be+zsSfhtMtIw0Qf8sBr6RMss+4/TKzQoUbM45Z1ev8xL+4nrntZlGyam0ehZxg
- 8J50sD57/thev5EZuto43Bgkx20cWd92fkiM8KlyvCdO52aVoFD3nlBHcrDsDw++htt2srIGuC3S2
- QstNWetsMWx4ujerqfIpJcBIFLWbeAdvsO1krllXHmEEP6BdayATGEQkfa7pECSyOoSOEWbksR7Kr
- pXxjR+jmcWWbwhHVLDzV8d8TNFM7w==;
-Message-Id: <7746f42d8f557593898d3d9d8e57c46e872dfb4f.1604243521.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1604243521.git.qemu_oss@crudebyte.com>
-References: <cover.1604243521.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Sun, 1 Nov 2020 15:37:12 +0100
-Subject: [PATCH v3 2/2] tests/9pfs: fix test dir for parallel tests
-To: qemu-devel@nongnu.org
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=7746f42d8f557593898d3d9d8e57c46e872dfb4f@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 10:22:17
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kZEz1-0006XF-AD
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:09:27 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kZEyy-0004vl-1E
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 10:09:26 -0500
+Received: by mail-pg1-x543.google.com with SMTP id n16so8616316pgv.13
+ for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 07:09:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=slk5pB+JpVUDaJs8/EuJGFpbSROm1a1H+wOTfnTFmbw=;
+ b=r/pGTBdX0Wr0fVnbAoJ9M/gof5917+PHfGvpNyk2bOqdnwAWveX3OJo3I+5VYkMBba
+ xucCoQ6cJUbeZNocMtv8Jb3GXP8LsQZuj/1JYCM3PfnqEz9Wx5GKijMc+FoG64p9U0ia
+ LGE17U3tbB8sbQZPvkWyryCHPxoXlE/kZs1Sp5CKQGJSxvJOlftciACGcs/21ZgKo7W9
+ B++uVKhTWO4XiX3tt232B49i+DgQiKsI8w7CLDtumuDyPdT39MsfCgrSqoYzOQQod8+w
+ ub1/bS7bja9BocNJpeeaBsLfEDABLjWuKnZ+mJTvrWj2xuehzMr2ZvUOaEHmjQXixJIP
+ Wxgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=slk5pB+JpVUDaJs8/EuJGFpbSROm1a1H+wOTfnTFmbw=;
+ b=efGH72pMDBA7xqJQjjjddFY89EeSbbvLpcHzA/R5FEXKHy4IR4gMr+i6Uf/taMfA2I
+ 1RZjz5dnwVtLdF1SX1DaTERS6pZaMSwGY0nlIpqWKhcffX/SkEC1MVH6dlCOxVGgr2MC
+ P9IiXAmtYQWFfGSYDsmadx9oaXf3b1gKrUkurVss2pPTiMU56ot5ezbIw+Zd1iZh5+S8
+ T1ZexgERiSdVgV74x6Ng7Jq0d8fgBTYYFY2faL7tYsOeEqEmvv1EXs7zGoOn556WcLoi
+ DtohaKVtnOBXlG2ESe8DfUqR9d7OGywUPdM+OnNsxVmNE99GEbAULZbga/4AzewguL4N
+ bTwA==
+X-Gm-Message-State: AOAM530XNi3FEHFtEi2uQ2mhIKEwkIotnbBJemYl3OmXEmePpgSrIk43
+ yU4/mEOxVBb+rIOfs/ulOuNmxPuQksuUFg==
+X-Google-Smtp-Source: ABdhPJwG5hLyz8ADtrg0XMUWcVmDQcW/oR5fs7nXZJ1pwfouolbcE7ABEZNypC+lRvgwzC99Ei/j9g==
+X-Received: by 2002:a65:5606:: with SMTP id l6mr10078344pgs.49.1604243360030; 
+ Sun, 01 Nov 2020 07:09:20 -0800 (PST)
+Received: from [192.168.1.11] ([71.212.141.89])
+ by smtp.gmail.com with ESMTPSA id e14sm10340764pga.61.2020.11.01.07.09.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 01 Nov 2020 07:09:18 -0800 (PST)
+Subject: Re: [PATCH v2 18/19] tcg/aarch64: Implement flush_idcache_range
+ manually
+To: Joelle van Dyne <j@getutm.app>
+References: <20201030004921.721096-1-richard.henderson@linaro.org>
+ <20201030004921.721096-19-richard.henderson@linaro.org>
+ <CA+E+eSB64cm8GPsuEYNQJLkF2gPiF2oueYPOOTtxpYy7hWzTRg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <29b4f60b-bc5e-d966-7913-9f64cc8b4006@linaro.org>
+Date: Sun, 1 Nov 2020 07:09:16 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CA+E+eSB64cm8GPsuEYNQJLkF2gPiF2oueYPOOTtxpYy7hWzTRg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,96 +91,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use mkdtemp() to generate a unique directory for the 9p 'local' tests.
+On 10/31/20 6:25 PM, Joelle van Dyne wrote:
+> Another thing, for x86 (and maybe other archs), the icache is cache
+> coherent but does it apply if we are aliasing the memory address? I
+> think in that case, it's like we're doing a DMA right and still need
+> to do flushing+invalidating?
 
-This fixes occasional 9p test failures when running 'make check -jN' if
-QEMU was compiled for multiple target architectures, because the individual
-architecture's test suites would run in parallel and interfere with each
-other's data as the test directory was previously hard coded and hence the
-same directory was used by all of them simultaniously.
+No, it is not like dma.  The x86 caches are physically tagged, so virtual
+aliasing does not matter.
 
-This also requires a change how the test directory is created and deleted:
-As the test path is now randomized and virtio_9p_register_nodes() being
-called in a somewhat undeterministic way, that's no longer an appropriate
-place to create and remove the test directory. Use a constructor and
-destructor function for creating and removing the test directory instead.
-Unfortunately libqos currently does not support setup/teardown callbacks
-to handle this more cleanly.
 
-The constructor functions needs to be in virtio-9p-test.c, not in
-virtio-9p.c, because in the latter location it would cause all apps that
-link to libqos (i.e. entirely unrelated test suites) to create a 9pfs
-test directory as well, which would even break other test suites.
-
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/libqos/virtio-9p.c | 14 ++++++++------
- tests/qtest/virtio-9p-test.c   | 12 ++++++++++++
- 2 files changed, 20 insertions(+), 6 deletions(-)
-
-diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
-index 2736e9ae2a..586e700b24 100644
---- a/tests/qtest/libqos/virtio-9p.c
-+++ b/tests/qtest/libqos/virtio-9p.c
-@@ -35,7 +35,12 @@ static char *concat_path(const char* a, const char* b)
- static void init_local_test_path(void)
- {
-     char *pwd = g_get_current_dir();
--    local_test_path = concat_path(pwd, "qtest-9p-local");
-+    char *template = concat_path(pwd, "qtest-9p-local-XXXXXX");
-+    local_test_path = mkdtemp(template);
-+    if (!local_test_path) {
-+        g_test_message("mkdtemp('%s') failed: %s", template, strerror(errno));
-+    }
-+    g_assert(local_test_path);
-     g_free(pwd);
- }
- 
-@@ -43,6 +48,8 @@ void virtio_9p_create_local_test_dir(void)
- {
-     struct stat st;
- 
-+    init_local_test_path();
-+
-     g_assert(local_test_path != NULL);
-     mkdir(local_test_path, 0777);
- 
-@@ -244,11 +251,6 @@ static void virtio_9p_register_nodes(void)
-     const char *str_simple = "fsdev=fsdev0,mount_tag=" MOUNT_TAG;
-     const char *str_addr = "fsdev=fsdev0,addr=04.0,mount_tag=" MOUNT_TAG;
- 
--    /* make sure test dir for the 'local' tests exists and is clean */
--    init_local_test_path();
--    virtio_9p_remove_local_test_dir();
--    virtio_9p_create_local_test_dir();
--
-     QPCIAddress addr = {
-         .devfn = QPCI_DEVFN(4, 0),
-     };
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index c15908f27b..6401d4f564 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1076,3 +1076,15 @@ static void register_virtio_9p_test(void)
- }
- 
- libqos_init(register_virtio_9p_test);
-+
-+static void __attribute__((constructor)) construct_9p_test(void)
-+{
-+    /* make sure test dir for the 'local' tests exists */
-+    virtio_9p_create_local_test_dir();
-+}
-+
-+static void __attribute__((destructor)) destruct_9p_test(void)
-+{
-+    /* remove previously created test dir when test suite completed */
-+    virtio_9p_remove_local_test_dir();
-+}
--- 
-2.20.1
-
+r~
 
