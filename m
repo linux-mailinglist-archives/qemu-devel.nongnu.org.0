@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F102A21D8
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 22:20:01 +0100 (CET)
-Received: from localhost ([::1]:52956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0332A21DA
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 22:20:26 +0100 (CET)
+Received: from localhost ([::1]:55262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZKlc-0006lg-AT
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 16:20:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60912)
+	id 1kZKm1-0007iE-3o
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 16:20:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kZKVl-0000Sq-9c
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:03:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41229)
+ id 1kZKVt-0000Xb-NF
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:03:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kZKVj-0005ca-00
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:03:36 -0500
+ id 1kZKVs-0005cq-2E
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 16:03:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604264614;
+ s=mimecast20190719; t=1604264622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1pTJYrQcWoNUCvyzp4rJ9qbcRwtZ2fTZovZ/x+ugX04=;
- b=K0BRoGYOehmZkMB9y9qW6NC2J+59NdNuc9T6RHhiTgBS8rabEKQDaNGDcU4Q9KvlHFIZGx
- tzXop4xFvWqFQh0dkbjpkw76FP1j3JNstEGWQqWVJGNEQyHAX+Cf7MQMSfnb4SulMo6vo3
- HUw+YKMLTpkMtuE8DMa9Vj6eeFosaCo=
+ bh=4E1TZ2mcY2ZxsPIsCrqCwiH9bjepLcxDYhtljCmZ+8I=;
+ b=Cy8DkBlAmez0sgS3JgtkF26o1WgM01H1isFKj/pl2mRMHZhJta+x/WHHk7RbYkwX6DLoNk
+ A5QHziSANCs/rZ4YTJsjufpZTQCkN1Vxwp3A2reHuH0TrSLEH68zN7LGiL0YBcbqD6o+uh
+ ksoFumiKmcfYZm1OAPQ/NfBBD/HoDks=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-386-gBvNgj6CNCm9w7iiDWXxFQ-1; Sun, 01 Nov 2020 16:03:31 -0500
-X-MC-Unique: gBvNgj6CNCm9w7iiDWXxFQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-332-OqOM_mgkNrOQK8hb-MT9Ow-1; Sun, 01 Nov 2020 16:03:40 -0500
+X-MC-Unique: OqOM_mgkNrOQK8hb-MT9Ow-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC8ED57050;
- Sun,  1 Nov 2020 21:03:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 332F31868408;
+ Sun,  1 Nov 2020 21:03:39 +0000 (UTC)
 Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B48DB55776;
- Sun,  1 Nov 2020 21:03:27 +0000 (UTC)
-Subject: [PULL v3 31/32] hw/vfio: Use lock guard macros
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F03615D9D2;
+ Sun,  1 Nov 2020 21:03:36 +0000 (UTC)
+Subject: [PULL v3 32/32] vfio: fix incorrect print type
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 01 Nov 2020 14:03:27 -0700
-Message-ID: <160426460736.24886.752943316593613476.stgit@gimli.home>
+Date: Sun, 01 Nov 2020 14:03:35 -0700
+Message-ID: <160426461583.24886.2635229986954059521.stgit@gimli.home>
 In-Reply-To: <160426371498.24886.12193840637250368669.stgit@gimli.home>
 References: <160426371498.24886.12193840637250368669.stgit@gimli.home>
 User-Agent: StGit/0.21-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,63 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Amey Narkhede <ameynarkhede03@gmail.com>
+Cc: Zhengui li <lizhengui@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Amey Narkhede <ameynarkhede03@gmail.com>
+From: Zhengui li <lizhengui@huawei.com>
 
-Use qemu LOCK_GUARD macros in hw/vfio.
-Saves manual unlock calls
+The type of input variable is unsigned int
+while the printer type is int. So fix incorrect print type.
 
-Signed-off-by: Amey Narkhede <ameynarkhede03@gmail.com>
+Signed-off-by: Zhengui li <lizhengui@huawei.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/platform.c |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ hw/vfio/common.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index 869ed2c39dcd..cc3f66f7e44c 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -166,7 +166,7 @@ static void vfio_intp_mmap_enable(void *opaque)
-     VFIOINTp *tmp;
-     VFIOPlatformDevice *vdev = (VFIOPlatformDevice *)opaque;
- 
--    qemu_mutex_lock(&vdev->intp_mutex);
-+    QEMU_LOCK_GUARD(&vdev->intp_mutex);
-     QLIST_FOREACH(tmp, &vdev->intp_list, next) {
-         if (tmp->state == VFIO_IRQ_ACTIVE) {
-             trace_vfio_platform_intp_mmap_enable(tmp->pin);
-@@ -174,12 +174,10 @@ static void vfio_intp_mmap_enable(void *opaque)
-             timer_mod(vdev->mmap_timer,
-                       qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-                           vdev->mmap_timeout);
--            qemu_mutex_unlock(&vdev->intp_mutex);
-             return;
-         }
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 57f55f0447d6..e18ea2cf9124 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -205,7 +205,7 @@ void vfio_region_write(void *opaque, hwaddr addr,
+         buf.qword = cpu_to_le64(data);
+         break;
+     default:
+-        hw_error("vfio: unsupported write size, %d bytes", size);
++        hw_error("vfio: unsupported write size, %u bytes", size);
+         break;
      }
-     vfio_mmap_set_enabled(vdev, true);
--    qemu_mutex_unlock(&vdev->intp_mutex);
- }
  
- /**
-@@ -289,7 +287,7 @@ static void vfio_platform_eoi(VFIODevice *vbasedev)
-     VFIOPlatformDevice *vdev =
-         container_of(vbasedev, VFIOPlatformDevice, vbasedev);
- 
--    qemu_mutex_lock(&vdev->intp_mutex);
-+    QEMU_LOCK_GUARD(&vdev->intp_mutex);
-     QLIST_FOREACH(intp, &vdev->intp_list, next) {
-         if (intp->state == VFIO_IRQ_ACTIVE) {
-             trace_vfio_platform_eoi(intp->pin,
-@@ -314,7 +312,6 @@ static void vfio_platform_eoi(VFIODevice *vbasedev)
-         vfio_intp_inject_pending_lockheld(intp);
-         QSIMPLEQ_REMOVE_HEAD(&vdev->pending_intp_queue, pqnext);
+@@ -262,7 +262,7 @@ uint64_t vfio_region_read(void *opaque,
+         data = le64_to_cpu(buf.qword);
+         break;
+     default:
+-        hw_error("vfio: unsupported read size, %d bytes", size);
++        hw_error("vfio: unsupported read size, %u bytes", size);
+         break;
      }
--    qemu_mutex_unlock(&vdev->intp_mutex);
- }
  
- /**
 
 
