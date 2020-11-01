@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCEF2A21A9
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 22:01:23 +0100 (CET)
-Received: from localhost ([::1]:43758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF5372A21AC
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 22:03:57 +0100 (CET)
+Received: from localhost ([::1]:51492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZKTa-0004ep-P8
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 16:01:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60076)
+	id 1kZKW4-000863-Te
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 16:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kZKRh-0003eG-Rn
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 15:59:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59705)
+ id 1kZKRq-0003mz-OQ
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 15:59:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1kZKRe-00057i-Eo
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 15:59:25 -0500
+ id 1kZKRo-00057w-O0
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 15:59:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604264361;
+ s=mimecast20190719; t=1604264371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gRBv8gtvtb+BxoGYfOE4XPwq2UrnEob7q3biKmwLgeM=;
- b=C2YQlGMk2ubeIqb+PKzDyR5LKjGUTsnEXxXOI0ohnUXDUBeQt4JJPCkWKCDnm3OfMMP1XB
- R5lKlorL/Z5lsS3HrKtAl6sQVOh+OXlgi3na6bIF5AKgZKowT1DYn8SopeSDTqAnhvMmr4
- 37PuObSW8/4CIKQig3R3d9ZnVsC5EOg=
+ bh=w3tsDtWPjtAI09YsN6kV8JC84S7nvj4OSZL0BEYfi6Q=;
+ b=Yn1ZuIKMWeuZbUQGxbqPMDoZwGFGhL2gCs0CwEZZ+Xt9jev01G0LnnQDG7EH17bqm/vsj6
+ 3l25GiQK3LnhSBkP85Ni7MReX/zTP1pAJZSpoStyF7eJfsPMqXQGcIpl3AHOtNUSUCRCgb
+ 2K+javQ2YcUQmT54WCM0YYFBUyO1VEQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-JidBzKZvN2iaGNu5GR4MnA-1; Sun, 01 Nov 2020 15:59:18 -0500
-X-MC-Unique: JidBzKZvN2iaGNu5GR4MnA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-512-9FwwnFY3MqiIgqvzGYq49w-1; Sun, 01 Nov 2020 15:59:27 -0500
+X-MC-Unique: 9FwwnFY3MqiIgqvzGYq49w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 658F81087D60;
- Sun,  1 Nov 2020 20:59:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 720811006C89;
+ Sun,  1 Nov 2020 20:59:26 +0000 (UTC)
 Received: from gimli.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 02451109F1AE;
- Sun,  1 Nov 2020 20:59:14 +0000 (UTC)
-Subject: [PULL v3 01/32] vfio: Add function to unmap VFIO region
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0B0A01A885;
+ Sun,  1 Nov 2020 20:59:22 +0000 (UTC)
+Subject: [PULL v3 02/32] vfio: Add vfio_get_object callback to VFIODeviceOps
 From: Alex Williamson <alex.williamson@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 01 Nov 2020 13:59:13 -0700
-Message-ID: <160426435384.24886.14312296492628266981.stgit@gimli.home>
+Date: Sun, 01 Nov 2020 13:59:22 -0700
+Message-ID: <160426436248.24886.17645817353812569188.stgit@gimli.home>
 In-Reply-To: <160426371498.24886.12193840637250368669.stgit@gimli.home>
 References: <160426371498.24886.12193840637250368669.stgit@gimli.home>
 User-Agent: StGit/0.21-dirty
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,100 +89,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Kirti Wankhede <kwankhede@nvidia.com>
 
-This function will be used for migration region.
-Migration region is mmaped when migration starts and will be unmapped when
-migration is complete.
+Hook vfio_get_object callback for PCI devices.
 
 Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
 Reviewed-by: Neo Jia <cjia@nvidia.com>
+Suggested-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Signed-off-by: Alex Williamson <alex.williamson@redhat.com>
 ---
- hw/vfio/common.c              |   32 ++++++++++++++++++++++++++++----
- hw/vfio/trace-events          |    1 +
+ hw/vfio/pci.c                 |    8 ++++++++
  include/hw/vfio/vfio-common.h |    1 +
- 3 files changed, 30 insertions(+), 4 deletions(-)
+ 2 files changed, 9 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 13471ae29436..c6e98b8d61be 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -924,6 +924,18 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
-     return 0;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 0d83eb0e47bb..bffd5bfe3b78 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2394,10 +2394,18 @@ static void vfio_pci_compute_needs_reset(VFIODevice *vbasedev)
+     }
  }
  
-+static void vfio_subregion_unmap(VFIORegion *region, int index)
++static Object *vfio_pci_get_object(VFIODevice *vbasedev)
 +{
-+    trace_vfio_region_unmap(memory_region_name(&region->mmaps[index].mem),
-+                            region->mmaps[index].offset,
-+                            region->mmaps[index].offset +
-+                            region->mmaps[index].size - 1);
-+    memory_region_del_subregion(region->mem, &region->mmaps[index].mem);
-+    munmap(region->mmaps[index].mmap, region->mmaps[index].size);
-+    object_unparent(OBJECT(&region->mmaps[index].mem));
-+    region->mmaps[index].mmap = NULL;
++    VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
++
++    return OBJECT(vdev);
 +}
 +
- int vfio_region_mmap(VFIORegion *region)
- {
-     int i, prot = 0;
-@@ -954,10 +966,7 @@ int vfio_region_mmap(VFIORegion *region)
-             region->mmaps[i].mmap = NULL;
+ static VFIODeviceOps vfio_pci_ops = {
+     .vfio_compute_needs_reset = vfio_pci_compute_needs_reset,
+     .vfio_hot_reset_multi = vfio_pci_hot_reset_multi,
+     .vfio_eoi = vfio_intx_eoi,
++    .vfio_get_object = vfio_pci_get_object,
+ };
  
-             for (i--; i >= 0; i--) {
--                memory_region_del_subregion(region->mem, &region->mmaps[i].mem);
--                munmap(region->mmaps[i].mmap, region->mmaps[i].size);
--                object_unparent(OBJECT(&region->mmaps[i].mem));
--                region->mmaps[i].mmap = NULL;
-+                vfio_subregion_unmap(region, i);
-             }
- 
-             return ret;
-@@ -982,6 +991,21 @@ int vfio_region_mmap(VFIORegion *region)
-     return 0;
- }
- 
-+void vfio_region_unmap(VFIORegion *region)
-+{
-+    int i;
-+
-+    if (!region->mem) {
-+        return;
-+    }
-+
-+    for (i = 0; i < region->nr_mmaps; i++) {
-+        if (region->mmaps[i].mmap) {
-+            vfio_subregion_unmap(region, i);
-+        }
-+    }
-+}
-+
- void vfio_region_exit(VFIORegion *region)
- {
-     int i;
-diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index 93a0bc2522f8..a0c7b49a2ebc 100644
---- a/hw/vfio/trace-events
-+++ b/hw/vfio/trace-events
-@@ -113,6 +113,7 @@ vfio_region_mmap(const char *name, unsigned long offset, unsigned long end) "Reg
- vfio_region_exit(const char *name, int index) "Device %s, region %d"
- vfio_region_finalize(const char *name, int index) "Device %s, region %d"
- vfio_region_mmaps_set_enabled(const char *name, bool enabled) "Region %s mmaps enabled: %d"
-+vfio_region_unmap(const char *name, unsigned long offset, unsigned long end) "Region %s unmap [0x%lx - 0x%lx]"
- vfio_region_sparse_mmap_header(const char *name, int index, int nr_areas) "Device %s region %d: %d sparse mmap entries"
- vfio_region_sparse_mmap_entry(int i, unsigned long start, unsigned long end) "sparse entry %d [0x%lx - 0x%lx]"
- vfio_get_dev_region(const char *name, int index, uint32_t type, uint32_t subtype) "%s index %d, %08x/%0x8"
+ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index c78f3ff5593c..dc95f527b583 100644
+index dc95f527b583..fe99c36a693a 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -171,6 +171,7 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
-                       int index, const char *name);
- int vfio_region_mmap(VFIORegion *region);
- void vfio_region_mmaps_set_enabled(VFIORegion *region, bool enabled);
-+void vfio_region_unmap(VFIORegion *region);
- void vfio_region_exit(VFIORegion *region);
- void vfio_region_finalize(VFIORegion *region);
- void vfio_reset_handler(void *opaque);
+@@ -119,6 +119,7 @@ struct VFIODeviceOps {
+     void (*vfio_compute_needs_reset)(VFIODevice *vdev);
+     int (*vfio_hot_reset_multi)(VFIODevice *vdev);
+     void (*vfio_eoi)(VFIODevice *vdev);
++    Object *(*vfio_get_object)(VFIODevice *vdev);
+ };
+ 
+ typedef struct VFIOGroup {
 
 
