@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72A402A1FB0
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 17:56:24 +0100 (CET)
-Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45B612A1FED
+	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 18:05:58 +0100 (CET)
+Received: from localhost ([::1]:43434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZGeV-0004IM-8V
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 11:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43994)
+	id 1kZGnk-0000v7-Te
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 12:05:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kZGcF-0002rp-4R; Sun, 01 Nov 2020 11:54:04 -0500
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:38924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kZGcC-0000Aw-OQ; Sun, 01 Nov 2020 11:54:02 -0500
-Received: by mail-io1-xd43.google.com with SMTP id p7so12621239ioo.6;
- Sun, 01 Nov 2020 08:53:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=q3vjChWvWe7JinD45TCoP7FFNdaFMlLd4eBLL6s1YZs=;
- b=P4QVVfvYOh+A+ls9yYosDg+hdKvJIc2KcrsMr+Rn4qKyYkeoBDbmD0gaGGVeSt5XaM
- 94LUXH8C701r1X4WCYE9ZOaKFHQRIcnwUgzMtYZd1G3JGnh5oLZPHHgWsDoRiu/cHJje
- MBSoQIz4ULYLiQH33GRnR9PZIU3fQRMkWOgHz8uH3Me7EKCXeNdG0HyLIleYcwaeatGv
- jEDewFdBoqxOL5fuXa0TMY4iKUHm0BQJ6Y2FPvz3OHfHkbx4SkT7tOVskq1DgvSJBDHK
- z9Vj6oDMcOJGy/hi1871rE9krxDK1OiNGarW9UzSW5dtCedhh7o+mjOf6X4nNGC5TxI8
- FkHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=q3vjChWvWe7JinD45TCoP7FFNdaFMlLd4eBLL6s1YZs=;
- b=kVaJG1+0aC2qX1co2suu51WBrWz19thnerRQuANhPvnFAtIIU2XQRM4m6YrSqsL/d5
- TrqaEn1tqAZXtqZraTwV1ERnBpywAFgZ+jvyjlBkHjWnYzoV9OSew4uyffVLPaUG6mde
- eRZpLXmmrI29KtfUIC0yPvREM6cZWDRvelBC4izBFYdyVgrz5oRCQzrliC6p9dh4gaVA
- 4GpPaWzOoynO0iv6ciYpdnfMoPuISj6QMA3FtYLwEYuTeFixghcjz8V9rl6kb9d7W4a2
- OAB1PAnT3drpVjVKcuFL1JBro4uWTagc1WGYNYWeEYyCqPUT29Irq+GS3dVYyU+6nFeg
- UBlw==
-X-Gm-Message-State: AOAM532y9sCzjeItS4vGapIPUVzYg/Bj2vMml0bF0cZH4tzKDLjnRAHc
- oloCXUajaYDdGAguoxQWliCrLj8main2okaH6mY=
-X-Google-Smtp-Source: ABdhPJwtHsXn7S+W4lJZU1b0cGMcTk2i8UYwDgzqvF6yzso2hM8ZZGyZuyHpJA+JjEWGyhXp7AOJT+WnLxE2SELFbRs=
-X-Received: by 2002:a6b:b30b:: with SMTP id c11mr841696iof.175.1604249639286; 
- Sun, 01 Nov 2020 08:53:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kZGlC-0007sa-Kz
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 12:03:18 -0500
+Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:58189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1kZGl8-0001Uy-Io
+ for qemu-devel@nongnu.org; Sun, 01 Nov 2020 12:03:18 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.132])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id BBBF32007F2;
+ Sun,  1 Nov 2020 18:03:01 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Sun, 1 Nov 2020
+ 18:03:01 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005b5d3c0d1-c26b-46b2-b5c4-4feefcc3fa22,
+ 510A72FFAFC78B4C24D608C8B6637C1151DF677A) smtp.auth=groug@kaod.org
+Date: Sun, 1 Nov 2020 18:03:00 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH v3 1/2] tests/9pfs: make create/remove test dir public
+Message-ID: <20201101180300.00e6f228@bahia.lan>
+In-Reply-To: <ec90703cbc23d6b612b3672f946d7741f4a16080.1604243521.git.qemu_oss@crudebyte.com>
+References: <cover.1604243521.git.qemu_oss@crudebyte.com>
+ <ec90703cbc23d6b612b3672f946d7741f4a16080.1604243521.git.qemu_oss@crudebyte.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201101163753.15059-1-bmeng.cn@gmail.com>
- <CAKmqyKMSzNSSOoDtR3w2G-T+AhD6oqSy=9q7Vitvb_VtO+zX2Q@mail.gmail.com>
- <CAEUhbmXjjWM4bfv+DdDSKs6aXheY=91Bvg1P0E9SyoNPrQ3btA@mail.gmail.com>
-In-Reply-To: <CAEUhbmXjjWM4bfv+DdDSKs6aXheY=91Bvg1P0E9SyoNPrQ3btA@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Sun, 1 Nov 2020 08:53:32 -0800
-Message-ID: <CAKmqyKONRcbPK7d6uaCxb=DpY_RZFkcuPrDB6OoEnJtLJd9CDg@mail.gmail.com>
-Subject: Re: [PATCH v3] hw/riscv: microchip_pfsoc: Correct DDR memory map
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 2aa2b6b5-939b-4568-83e4-d46df0db2c05
+X-Ovh-Tracer-Id: 16880898779478858138
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrleelgdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.33.105.233; envelope-from=groug@kaod.org;
+ helo=2.mo52.mail-out.ovh.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 12:03:02
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,52 +69,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Nov 1, 2020 at 8:51 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> Hi Alistair,
->
-> On Mon, Nov 2, 2020 at 12:46 AM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Sun, Nov 1, 2020 at 8:42 AM Bin Meng <bmeng.cn@gmail.com> wrote:
-> > >
-> > > From: Bin Meng <bin.meng@windriver.com>
-> > >
-> > > When system memory is larger than 1 GiB (high memory), PolarFire SoC
-> > > maps it at address 0x10_0000_0000. Address 0xC000_0000 and above is
-> > > aliased to the same 1 GiB low memory with different cache attributes.
-> > >
-> > > At present QEMU maps the system memory contiguously from 0x8000_0000.
-> > > This corrects the wrong QEMU logic. Note address 0x14_0000_0000 is
-> > > the alias to the high memory, and even physical memory is only 1 GiB,
-> > > the HSS codes still tries to probe the high memory alias address.
-> > > It seems there is no issue on the real hardware, so we will have to
-> > > take that into the consideration in our emulation. Due to this, we
-> > > we increase the default system memory size to 2047 MiB (the largest
-> > > ram size allowed when running on a 32-bit host) so that user gets
-> > > notified an error when less than 2047 MiB is specified.
-> >
-> > Is this better than just not supporting 32-bit hosts? Or could we make
->
-> I am not sure if we have a general rule about discontinuing 32-bit
-> hosts support, i.e.: deprecating 32-bit hosts at some time?
->
-> > this number even lower (as low as possible that still works with HSS)?
-> >
->
-> Sure I will figure this out and set this number to meet the minium
-> requirement of HSS.
+On Sun, 1 Nov 2020 15:25:14 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-Thanks, that's probably the best bet for both 32 and 64-bit hosts then.
+> Make functions create_local_test_dir() and remove_local_test_dir()
+> public. They're going to be used in the next patch.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
 
-Alistair
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
->
-> Regards,
-> Bin
+>  tests/qtest/libqos/virtio-9p.c | 10 ++++------
+>  tests/qtest/libqos/virtio-9p.h | 10 ++++++++++
+>  2 files changed, 14 insertions(+), 6 deletions(-)
+> 
+> diff --git a/tests/qtest/libqos/virtio-9p.c b/tests/qtest/libqos/virtio-9p.c
+> index d43647b3b7..2736e9ae2a 100644
+> --- a/tests/qtest/libqos/virtio-9p.c
+> +++ b/tests/qtest/libqos/virtio-9p.c
+> @@ -39,8 +39,7 @@ static void init_local_test_path(void)
+>      g_free(pwd);
+>  }
+>  
+> -/* Creates the directory for the 9pfs 'local' filesystem driver to access. */
+> -static void create_local_test_dir(void)
+> +void virtio_9p_create_local_test_dir(void)
+>  {
+>      struct stat st;
+>  
+> @@ -53,8 +52,7 @@ static void create_local_test_dir(void)
+>      g_assert((st.st_mode & S_IFMT) == S_IFDIR);
+>  }
+>  
+> -/* Deletes directory previously created by create_local_test_dir(). */
+> -static void remove_local_test_dir(void)
+> +void virtio_9p_remove_local_test_dir(void)
+>  {
+>      g_assert(local_test_path != NULL);
+>      char *cmd = g_strdup_printf("rm -r '%s'\n", local_test_path);
+> @@ -248,8 +246,8 @@ static void virtio_9p_register_nodes(void)
+>  
+>      /* make sure test dir for the 'local' tests exists and is clean */
+>      init_local_test_path();
+> -    remove_local_test_dir();
+> -    create_local_test_dir();
+> +    virtio_9p_remove_local_test_dir();
+> +    virtio_9p_create_local_test_dir();
+>  
+>      QPCIAddress addr = {
+>          .devfn = QPCI_DEVFN(4, 0),
+> diff --git a/tests/qtest/libqos/virtio-9p.h b/tests/qtest/libqos/virtio-9p.h
+> index 19a4d97454..480727120e 100644
+> --- a/tests/qtest/libqos/virtio-9p.h
+> +++ b/tests/qtest/libqos/virtio-9p.h
+> @@ -44,6 +44,16 @@ struct QVirtio9PDevice {
+>      QVirtio9P v9p;
+>  };
+>  
+> +/**
+> + * Creates the directory for the 9pfs 'local' filesystem driver to access.
+> + */
+> +void virtio_9p_create_local_test_dir(void);
+> +
+> +/**
+> + * Deletes directory previously created by virtio_9p_create_local_test_dir().
+> + */
+> +void virtio_9p_remove_local_test_dir(void);
+> +
+>  /**
+>   * Prepares QEMU command line for 9pfs tests using the 'local' fs driver.
+>   */
+
 
