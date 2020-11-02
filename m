@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2373E2A32F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:27:40 +0100 (CET)
-Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3451C2A32FB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:29:31 +0100 (CET)
+Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZeYN-0002VR-3s
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:27:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42274)
+	id 1kZeaA-0004xN-9g
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:29:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZeX5-0001HK-QI
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:26:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46922)
+ id 1kZeXt-0002zw-AK
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:27:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49890)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZeX4-0007eY-2N
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:26:19 -0500
+ id 1kZeXr-0007iS-OC
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:27:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604341577;
+ s=mimecast20190719; t=1604341627;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
  bh=yZ7ES9Yuix9uTvWG8uNiRAGWR8lvHDtOQ2repv1PLLc=;
- b=aLhjZ74e0EFLUb383NyD2e+jYT97YPOgwU48m9CHNn6GGPVA383qqWtSZPGGOXftOyLOK7
- 9onwBc7HE58dmXvZ5NqfLIINMyLj5u5balG9DBfWzm30pLgqUXKWlEgFb9G3OAzu/Pm5Ef
- tYttaxkz2uAbndsH+iadqTqx/n9nmO4=
+ b=VTzDeQ6u4S8CKaVzuIfy9Zf/wl931LKM2hCQ9JkrZ0Z7An5c8W++NzMohWgFVkxLJOxtXi
+ MUVz4ZavwFhR5bZbfjN8TOq1pqU3rJgGxwkk7+7kaafHLe4NFFhhuuD+gHI8l5cOzbBWQt
+ UhQk0ftzDNo0gLBnoFb6BHz+2RKCPds=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-OWnkCUU0O7eonTKYqIQULw-1; Mon, 02 Nov 2020 13:26:15 -0500
-X-MC-Unique: OWnkCUU0O7eonTKYqIQULw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-311-2dlO1jH7OAyz1GbTg6jJ4w-1; Mon, 02 Nov 2020 13:27:05 -0500
+X-MC-Unique: 2dlO1jH7OAyz1GbTg6jJ4w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 17841805EE3;
- Mon,  2 Nov 2020 18:26:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F011006C97;
+ Mon,  2 Nov 2020 18:27:04 +0000 (UTC)
 Received: from work-vm (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11F4D5B4DB;
- Mon,  2 Nov 2020 18:26:07 +0000 (UTC)
-Date: Mon, 2 Nov 2020 18:26:05 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 80DF321E8C;
+ Mon,  2 Nov 2020 18:27:00 +0000 (UTC)
+Date: Mon, 2 Nov 2020 18:26:57 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Subject: Re: [PATCH 0/2] migration: Two extra fixes
-Message-ID: <20201102182605.GM3673@work-vm>
+Message-ID: <20201102182657.GN3673@work-vm>
 References: <20201102153010.11979-1-peterx@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201102153010.11979-1-peterx@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
