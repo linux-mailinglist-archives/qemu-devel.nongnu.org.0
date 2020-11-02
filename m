@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0157E2A34DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:06:49 +0100 (CET)
-Received: from localhost ([::1]:47602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602F02A34D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:04:36 +0100 (CET)
+Received: from localhost ([::1]:41562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZg6K-0005yo-3P
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:06:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34596)
+	id 1kZg49-0003NC-U5
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:04:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZfxM-0003HA-GH
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21007)
+ id 1kZfxO-0003L8-9g
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZfxC-0002HP-2b
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:32 -0500
+ id 1kZfxL-0002Ii-Lr
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604347041;
+ s=mimecast20190719; t=1604347051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4nqa2wuxEqSEQNPnnV9gO+2UaknUX475HtNarZP9XHU=;
- b=UzU6XKPNhfYv4+ltRjW0U1TuzqaPvkpshqjI6ioY+3k1BbIzJdLqx2ur3IuS9jnGqhuXDK
- 0tRCfceRPnE/WPPb8sQYE0U+75sT1w6ht7UY+sE2s8Q/aT8oi3sRkBdynhQwHoTIhscJCt
- sCGtFLGPAQ9YpFHcXXVuvOOnNjnKcvw=
+ bh=mxaI1nWPWoN6ERfgr/20Oo48cGu6IBeGmyDAXbuXpbE=;
+ b=ImelUIAWuPVxKU+yDpViiNGJ1+o4BqKHlm+rQDb6BuhFzmskRyIkIC2yXO0UxQPLYQvwdJ
+ sKVqDinII6NYqHN0Se2SJe2ocA9gC6oyhnrRI0nGNNRHp6yONEizdd99Pj0izq599wYaYr
+ 4bRLt+GB8AXSAiHkF5TZTMaP2GjIk14=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-E4XIHjgBOseIal7HEn9R_w-1; Mon, 02 Nov 2020 14:57:19 -0500
-X-MC-Unique: E4XIHjgBOseIal7HEn9R_w-1
+ us-mta-459-OdiGnfJKMM2dv8gLkU91Iw-1; Mon, 02 Nov 2020 14:57:28 -0500
+X-MC-Unique: OdiGnfJKMM2dv8gLkU91Iw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F5BC8030A2;
- Mon,  2 Nov 2020 19:57:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79B811074640;
+ Mon,  2 Nov 2020 19:57:26 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-142.ams2.redhat.com
  [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E56141002C0A;
- Mon,  2 Nov 2020 19:57:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BC3351002C0A;
+ Mon,  2 Nov 2020 19:57:18 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, peterx@redhat.com, philmd@redhat.com,
  zhangjiachen.jaycee@bytedance.com, mreitz@redhat.com
-Subject: [PULL 06/12] virtiofsd: Check FUSE_SUBMOUNTS
-Date: Mon,  2 Nov 2020 19:56:51 +0000
-Message-Id: <20201102195657.219501-7-dgilbert@redhat.com>
+Subject: [PULL 07/12] virtiofsd: Add attr_flags to fuse_entry_param
+Date: Mon,  2 Nov 2020 19:56:52 +0000
+Message-Id: <20201102195657.219501-8-dgilbert@redhat.com>
 In-Reply-To: <20201102195657.219501-1-dgilbert@redhat.com>
 References: <20201102195657.219501-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -88,52 +88,50 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-FUSE_SUBMOUNTS is a pure indicator by the kernel to signal that it
-supports submounts.  It does not check its state in the init reply, so
-there is nothing for fuse_lowlevel.c to do but to check its existence
-and copy it into fuse_conn_info.capable.
+fuse_entry_param is converted to fuse_attr on the line (by
+fill_entry()), so it should have a member that mirrors fuse_attr.flags.
+
+fill_entry() should then copy this fuse_entry_param.attr_flags to
+fuse_attr.flags.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201102161859.156603-2-mreitz@redhat.com>
+Message-Id: <20201102161859.156603-3-mreitz@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- tools/virtiofsd/fuse_common.h   | 7 +++++++
- tools/virtiofsd/fuse_lowlevel.c | 3 +++
- 2 files changed, 10 insertions(+)
+ tools/virtiofsd/fuse_lowlevel.c | 2 ++
+ tools/virtiofsd/fuse_lowlevel.h | 5 +++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/tools/virtiofsd/fuse_common.h b/tools/virtiofsd/fuse_common.h
-index 686c42c0a5..5aee5193eb 100644
---- a/tools/virtiofsd/fuse_common.h
-+++ b/tools/virtiofsd/fuse_common.h
-@@ -352,6 +352,13 @@ struct fuse_file_info {
-  */
- #define FUSE_CAP_NO_OPENDIR_SUPPORT (1 << 24)
- 
-+/**
-+ * Indicates that the kernel supports the FUSE_ATTR_SUBMOUNT flag.
-+ *
-+ * Setting (or unsetting) this flag in the `want` field has *no effect*.
-+ */
-+#define FUSE_CAP_SUBMOUNTS (1 << 27)
-+
- /**
-  * Ioctl flags
-  *
 diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index 4d1ba2925d..370222339b 100644
+index 370222339b..c70fb16a9a 100644
 --- a/tools/virtiofsd/fuse_lowlevel.c
 +++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -1988,6 +1988,9 @@ static void do_init(fuse_req_t req, fuse_ino_t nodeid,
-             bufsize = max_bufsize;
-         }
-     }
-+    if (arg->flags & FUSE_SUBMOUNTS) {
-+        se->conn.capable |= FUSE_CAP_SUBMOUNTS;
-+    }
- #ifdef HAVE_SPLICE
- #ifdef HAVE_VMSPLICE
-     se->conn.capable |= FUSE_CAP_SPLICE_WRITE | FUSE_CAP_SPLICE_MOVE;
+@@ -341,6 +341,8 @@ static void fill_entry(struct fuse_entry_out *arg,
+         .attr_valid_nsec = calc_timeout_nsec(e->attr_timeout),
+     };
+     convert_stat(&e->attr, &arg->attr);
++
++    arg->attr.flags = e->attr_flags;
+ }
+ 
+ /*
+diff --git a/tools/virtiofsd/fuse_lowlevel.h b/tools/virtiofsd/fuse_lowlevel.h
+index 562fd5241e..9c06240f9e 100644
+--- a/tools/virtiofsd/fuse_lowlevel.h
++++ b/tools/virtiofsd/fuse_lowlevel.h
+@@ -102,6 +102,11 @@ struct fuse_entry_param {
+      *  large value.
+      */
+     double entry_timeout;
++
++    /**
++     * Flags for fuse_attr.flags that do not fit into attr.
++     */
++    uint32_t attr_flags;
+ };
+ 
+ /**
 -- 
 2.28.0
 
