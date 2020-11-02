@@ -2,81 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3063B2A2802
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:16:19 +0100 (CET)
-Received: from localhost ([::1]:53054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FB252A280E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:17:33 +0100 (CET)
+Received: from localhost ([::1]:57388 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWss-0001WT-6R
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:16:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51424)
+	id 1kZWu4-0003Ne-Ak
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:17:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZWd2-0007DT-Ht
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:59:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60147)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZWd0-00023J-1S
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:59:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604311192;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p7N+8h+oqreD6FW464wyeo6wUQ4uuZC1MRyd4fCUbIA=;
- b=eQTt31OXxOQiEEsB0fZQQi62W+XvsQNBfHrlVp0oy1Yc5+0jnHlDz1CFhiMn2ysSxAyBWa
- Nl23fapFbsRawmMwx23CcpwsuayfUODkF7l6DmqSZZ6wO2W3tpdhbsfa2neItCbixkC7nh
- 9qgPygXrxay6LzynlnS7EdGd9hLytiA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-455-7a4T4Y2bNoe_DTATvUrt-w-1; Mon, 02 Nov 2020 04:59:51 -0500
-X-MC-Unique: 7a4T4Y2bNoe_DTATvUrt-w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 15E211891E90;
- Mon,  2 Nov 2020 09:59:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C69485D9DD;
- Mon,  2 Nov 2020 09:59:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4EBAF1132BD6; Mon,  2 Nov 2020 10:59:43 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH 00/11] sockets: Attempt to drain the abstract socket swamp
-References: <20201029133833.3450220-1-armbru@redhat.com>
- <CAJ+F1CLW=zfWq3apgrKear2v42LYarSMQKw07BHadM-rYjcmoA@mail.gmail.com>
- <87pn50vxa0.fsf@dusky.pond.sub.org>
- <20201030102049.GI99222@redhat.com>
- <87zh40no5a.fsf@dusky.pond.sub.org>
- <20201102091804.GC134709@redhat.com>
-Date: Mon, 02 Nov 2020 10:59:43 +0100
-In-Reply-To: <20201102091804.GC134709@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
- =?utf-8?Q?rrang=C3=A9=22's?=
- message of "Mon, 2 Nov 2020 09:18:04 +0000")
-Message-ID: <875z6om640.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kZWdO-0007nL-Uw
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:00:19 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:43171)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kZWdK-0002C8-Qj
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:00:16 -0500
+Received: by mail-wr1-x441.google.com with SMTP id g12so13788687wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:00:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VXcdbHryCKfOmvF7bPo+U2fnt8UIY92DQGOuPw5QX3E=;
+ b=NJcyFPuF1K8skzHuVL3dPxPgSkaDZk+Jw/IrqEwJeY6aVU2lO6Y8/tP8XEishTM8m3
+ QqXY45LRVVc4N/J7gsfCY8Kmp9Zi0JJaevnNAA4cDncD+YOW1Z1klPbmyQ8kxogAxtPj
+ kzJRGqc6e1ogPcpitD4G8RQ+3u7A3Vl5Ogpy/KsEV9Wk/XWXbG04I7GFnq5gbeEYwbAG
+ Cvk1sUfutULb1StUApqUVgkjSzWASPpqhgsi7MaZIjbvUJLQfBFbTLFyf/QQpgPBf9q0
+ GLvydCjlZ5g4dgjgjE9xcsCWxpMHFe1NDD8I4S9beci50yLsFpTtAIb9SLRrdR9nLx/5
+ ARHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=VXcdbHryCKfOmvF7bPo+U2fnt8UIY92DQGOuPw5QX3E=;
+ b=UU2Rh6pJurLkfkTywb/paE/9nVHtAXEH+gRTw6TSUkGJLMUN1KU7Zvcxozlt41nBjX
+ ioa5AunGJf22AawVdveMGw3r/BGZvLB4gnFyRQNq9vXFwXJ2EoKKhJfbwJBOn/ASj9z1
+ OVWqPaHSsIDIT79kY+Fi+JRnEAzoIWC4xx1bRjX9nrUFRk3CfN9ySLxvW/LdnVXmhPJX
+ WCKKWhf2Pz63Pb3VOA0Cnccn3NBbzdHDUwBgiLiEprRsEF4i2Wm0bwtDtxU4HuYEDdEQ
+ XWkqoVEER9sYDlUlWkZeHByU3JwSczHBUIDBOy30XuGr5r2lRKPOmsDlORdhOGe2NoxQ
+ nR+g==
+X-Gm-Message-State: AOAM533NOQp8YD93Ttw9VE3NKnYMqGbjnjGlF89Q0xP75mNGsM95WuY2
+ Tvw12oUl9SaiHvHfiC2EREw=
+X-Google-Smtp-Source: ABdhPJwmxNQ1136QYkc9PA3muYgnR4p2qL5tLzKXL3lm576ULSXTsbWX7IBpIKH9M8f/1LW+Ilc4Kg==
+X-Received: by 2002:adf:ec50:: with SMTP id w16mr19023608wrn.265.1604311211088; 
+ Mon, 02 Nov 2020 02:00:11 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id b63sm15649221wme.9.2020.11.02.02.00.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 02:00:10 -0800 (PST)
+Subject: target/mips: Deprecate nanoMIPS ISA?
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Matthew Fortune <matthew.fortune@mips.com>,
+ Paul Burton <paulburton@kernel.org>,
+ Stefan Markovic <Stefan.Markovic@mips.com>,
+ Robert Suchanek <Robert.Suchanek@mips.com>
+References: <CA+Lzsy=o9yshAAAacuTwcs3Hfr4MfWiX-SiUf5A2Fds3vGOrAQ@mail.gmail.com>
+ <CAFEAcA9ap=c=1XZ6wpphiE=FYtCU+vdNCX8THW-m-hUp_XyGmg@mail.gmail.com>
+ <b384912c-0e62-604d-df0b-b5181c2e7f3d@linaro.org>
+ <05afa227-3db0-4b11-d541-7fce7139729d@amsat.org>
+Message-ID: <38441531-1509-724f-4643-2ff2db253e3f@amsat.org>
+Date: Mon, 2 Nov 2020 11:00:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <05afa227-3db0-4b11-d541-7fce7139729d@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x441.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,46 +99,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
- QEMU <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: James Hogan <jhogan@kernel.org>,
+ Marcin Nowakowski <marcin.nowakowski@fungible.com>,
+ zou xu <iwatchnima@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+Hi Richard,
 
-> On Mon, Nov 02, 2020 at 09:44:49AM +0100, Markus Armbruster wrote:
->> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->>=20
->> > On Fri, Oct 30, 2020 at 11:11:19AM +0100, Markus Armbruster wrote:
->> >> Marc-Andr=C3=A9 Lureau <marcandre.lureau@gmail.com> writes:
->> >>=20
->> >> > Hi Markus,
->> >> >
->> >> > On Thu, Oct 29, 2020 at 5:43 PM Markus Armbruster <armbru@redhat.co=
-m> wrote:
-[...]
->> >> >> Regardless, I *will* make time for ripping the feature out if we
->> >> >> decide to do that.  Quick & easy way to avoid reviewing this serie=
-s
->> >> >> *hint* *hint*.
->> >> >>
->> >> >
->> >> > well, fwiw, I would also take that approach too, to the risk of ups=
-etting
->> >> > the users.
->> >>=20
->> >> Reverting the feature requires rough consensus and a patch.
->> >>=20
->> >> I can provide a patch, but let's give everybody a chance to object
->> >> first.
->>=20
->> Daniel, do you object, yes or no?
->
-> Yes, I object to removing the feature as it is clearly useful.
+Cc'ing developers who introduced nanoMIPS.
 
-Thanks.  I sent v2 of my fixes.  Can you take care of getting them
-merged, hopefully in time for 5.2?
+On 9/11/20 7:23 PM, Philippe Mathieu-Daudé wrote:
+> On 9/11/20 6:55 PM, Richard Henderson wrote:
+>> On 9/11/20 3:41 AM, Peter Maydell wrote:
+>>>> +    /* Detect store by reading the instruction at the program counter. */
+>>>> +    uint32_t insn = *(uint32_t *)pc;
+>>>> +    switch(insn>>29) {
+>>>> +    case 0x5:
+>>>> +        switch((insn>>26) & 0x7) {
+>>>
+>>> Here we mask to get a 3-bit field...
+>>>
+>>>> +        case 0x0: /* SB */
+>>>> +        case 0x1: /* SH */
+>>>> +        case 0x2: /* SWL */
+>>>> +        case 0x3: /* SW */
+>>>> +        case 0x4: /* SDL */
+>>>> +        case 0x5: /* SDR */
+>>>> +        case 0x6: /* SWR */
+>>>> +        case 0x7: /* CACHE */
+>>>> +            is_write = 1;
+>>>
+>>> ...but here all 8 cases are handled identically.
+>>> Is there a typo/logic error here, or should this
+>>> really just be
+>>>
+>>>     case 0x5:
+>>>         /* SB, SH, SWL, SW, SDL, SDR, SWR, CACHE */
+>>>         is_write = 1;
+>>>
+>>> ?
+>>>
+>>> Is CACHE really a write insn ?
+>>
+>> Indeed not.  However, it's also illegal for user-mode, so we cannot arrive here
+>> with SIGSEGV by executing it.  So we could ignore that case and not decode this
+>> field.
+>>
+>>>> +    case 0x7:
+>>>> +        switch((insn>>26) & 0x7) {
+>>>> +        case 0x0: /* SC */
+>>>> +        case 0x1: /* SWC1 */
+>>>> +        case 0x2: /* SWC2 */
+>>>> +        case 0x4: /* SCD */
+>>>> +        case 0x5: /* SDC1 */
+>>>> +        case 0x6: /* SDC2 */
+>>>> +        case 0x7: /* SD */
+>>>> +            is_write = 1;
+>>
+>> Well, the unconditional check of SWC2/SDC2 is not quite right. MIPS64R6 removes
+>> them and replaces them with some compact branches.  That's easy enough to
+>> include here, using
+>>
+>> #if !defined(__mips_isa_rev) || __mips_isa_rev < 6
+>>     case 2: /* SWC2 */
+>>     case 6: /* SDC2 */
+>> #endif
+>>
+>> We should also add
+>>
+>> #if defined(__mips16) || defined(__mips_micromips)
+>> # error "Unsupported encoding"
+>> #endif
+>>
+>> I see no upstream compiler support for nanomips at all, so there's no point in
+>> checking for that encoding.  (Indeed, I wonder at the code in target/mips...
+>> how could it be tested?)
+> 
+> I took the information from commit f7d257cb4a1
+> ("qemu-doc: Add nanoMIPS ISA information") to add
+> the tests in  f375ad6a0d6 ("BootLinuxConsoleTest:
+> Test nanoMIPS kernels on the I7200 CPU"), but I
+> haven't tried to recompile these files myself.
 
+I checked the various nanoMIPS announcements:
+GCC:   https://gcc.gnu.org/legacy-ml/gcc/2018-05/msg00012.html
+Linux: https://lwn.net/Articles/753605/
+QEMU:  https://www.mail-archive.com/qemu-devel@nongnu.org/msg530721.html
+
+Unfortunately www.mips.com doesn't work anymore.
+
+From this Wayback machine link:
+https://web.archive.org/web/20180904044530/https://www.mips.com/develop/tools/compilers/
+
+I found this working web (the toolchain is a later release than the
+one referenced in the announcement mails):
+http://codescape.mips.com/components/toolchain/nanomips/2018.04-02/downloads.html
+
+The toolchain page mention LLVM but simply links http://llvm.org/
+where I couldn't find any reference on nanoMIPS.
+
+The only reference in the GCC mailing list, is the nanoMIPS
+announcement: https://gcc.gnu.org/pipermail/gcc/2018-May.txt
+
+
+It looks safe for QEMU to declare nanoMIPS deprecated (it has no
+maintainer), to give time to interested parties to finish upstreaming
+process and step in to maintain it.
+Thoughts?
+
+Regards,
+
+Phil.
 
