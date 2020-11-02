@@ -2,73 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B43C2A2848
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:31:25 +0100 (CET)
-Received: from localhost ([::1]:46626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3C3F2A2861
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:36:24 +0100 (CET)
+Received: from localhost ([::1]:55696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZX7U-0002pX-C3
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:31:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58834)
+	id 1kZXCJ-0006iw-H3
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:36:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZX5J-0001Uf-Bf
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:29:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40787)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZXBB-0005tl-FZ
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:35:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27016)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZX5H-0004G4-Nq
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:29:09 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZXB8-0006OO-Nm
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:35:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604312947;
+ s=mimecast20190719; t=1604313309;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=yvuUCr8ABlDxp2zeuuOZnidCYZjmA+G2M67SbKuof7M=;
- b=cHSXGkUEOxjvIVD9REf43m9H3kqzcizzhzQYRettG7s+D1EWKQtvm8n89UWdisdtx9TYbA
- rs6DJviAvtJORyU4A3Ija5cHxPFA5sKN00kBLGK0s5uDHah1O2mUzfj4bQTQi5iSrloPLh
- UyGDOQ7umYutBUBYLldBYPz81q2dlMk=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-dbi1_arxPuKpqhvySU8wNA-1; Mon, 02 Nov 2020 05:29:03 -0500
-X-MC-Unique: dbi1_arxPuKpqhvySU8wNA-1
-Received: by mail-wr1-f71.google.com with SMTP id x16so6213479wrg.7
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:29:03 -0800 (PST)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jJWI+AehPUDEnWpfA416YDr42UqW/df4IkVyTwqf06E=;
+ b=YmWsfG3eU7XnXU0/y4Lhi/5ixsJGLQ048XI62RcgYKuYfzh1qLkLhZLaPHUQa2j95bf22I
+ PdeYqhu9fJdBvwifOhYJ0FzuKyEvvQds9mDZtuYKhTOv0Epk86JcVQ5O8svtLUViacWMFU
+ RahkntOuM/CRekJcTJs92xiMuHWTVJM=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-RPxJsgw3O-KB4YM9ncl2Tg-1; Mon, 02 Nov 2020 05:35:07 -0500
+X-MC-Unique: RPxJsgw3O-KB4YM9ncl2Tg-1
+Received: by mail-wm1-f71.google.com with SMTP id t21so1723555wmt.8
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:35:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
- :content-disposition;
- bh=yvuUCr8ABlDxp2zeuuOZnidCYZjmA+G2M67SbKuof7M=;
- b=TFOaZ9wcyXW4p+BI92x4R5KnHI7r8RsyaXGjZQ1vZXEEpyWi9LDpTnTB8ovqrgp9M9
- 9Sb1FnOu91/HcvzyUgwLiusBlkITj7fd+y0+oiOWOJyX+8Jyan/MeeZLmm/VsfBiL8GU
- C9LoQPYV7D7+pAl3o9rBwTQdwr97cOkUY8XgGMoNvs/UO/KuFoTMRGxAeTkgATx5B+F2
- ej8mSxWtdwVVel5fhYoJtnglKGzu0xngicXM5qMkPRuoJLddWOX+88G5yRZvLLrtPdNR
- OZoCtcBBaPTcne1WTMwCVK2/pnkqFr1KlpzudzFTZI4x7HpuOOEfRd8B3VW9Ckrv6u9K
- 3HXQ==
-X-Gm-Message-State: AOAM530cC4H743v4x6d2xDR8j4yr7zlYPklA3mia4pbFHdTlSdDnV8Tx
- nlESRUrcawOGowzSWLI5X0hwz8uVAQ9qYD8Z3YPu3MdqE9lu3asnom2jDY7yj1eGAXiWs8jCjJb
- FVc8MIpXxl/ky0cw=
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr16897995wmk.65.1604312942212; 
- Mon, 02 Nov 2020 02:29:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwailHr16tNUwU5GURfSXhmGknw7HVpp15eOD9lB2Nihli/t6R6/a90SPparBxyiUxIYQKieA==
-X-Received: by 2002:a7b:c4c3:: with SMTP id g3mr16897986wmk.65.1604312942085; 
- Mon, 02 Nov 2020 02:29:02 -0800 (PST)
-Received: from redhat.com (bzq-79-181-134-187.red.bezeqint.net.
- [79.181.134.187])
- by smtp.gmail.com with ESMTPSA id z191sm15280436wme.30.2020.11.02.02.29.00
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=jJWI+AehPUDEnWpfA416YDr42UqW/df4IkVyTwqf06E=;
+ b=GG0EHvge/0TXHYPJFV8KiD2FjAa/pCo40E2N2nD4bbfeNJFPE+rnDjBmQs5STc8q/y
+ jhx4v9l3NS9l4sfzwI2jjW23/wLHP+S6ahFhQPy8X6SGM1VGGW4W9sr5MxrDTon/MMO4
+ lN1S/Q7p/yPXUsjRFmngg12M3PjGv95Q6B6PpQOZX4woZKISFgvn8KE4jRLeG6TyZX8z
+ E5a42He5Qh2xRAvUWv639vr2zB7L7qTRgM102IQMP2/nYHuyZej5XshKBi01VynrxAFC
+ pOSkiGyZQfcemYCVPFsTHOykSM3+oePscLXA2aMPLr/l1zRKttcuRENnCOwIJht0g3UQ
+ T6RQ==
+X-Gm-Message-State: AOAM533/S8FTqtitH48wyyQQSds7tfvVT/ROd0RT2Y65/VhJQb7irjR7
+ PkrVNVXIpENeA58y7eRc4LzvaLoSj81+Tz1yrPcTFy/wMQXR+4y6qtYz09q0gBg5Heftd+Jm7nV
+ f7WFWAew5zvIOS+0=
+X-Received: by 2002:a1c:3502:: with SMTP id c2mr11679829wma.79.1604313306449; 
+ Mon, 02 Nov 2020 02:35:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyL8TB0awLU70BUFMMxE2cT5jE+LUGMDTR5m+w5R6jgheOkhCN6MvZgfoa5gjyVx9EGwsfSJw==
+X-Received: by 2002:a1c:3502:: with SMTP id c2mr11679786wma.79.1604313306257; 
+ Mon, 02 Nov 2020 02:35:06 -0800 (PST)
+Received: from redhat.com (bzq-79-182-97-190.red.bezeqint.net. [79.182.97.190])
+ by smtp.gmail.com with ESMTPSA id y2sm21976969wrh.0.2020.11.02.02.35.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 02:29:01 -0800 (PST)
-Date: Mon, 2 Nov 2020 05:28:59 -0500
+ Mon, 02 Nov 2020 02:35:05 -0800 (PST)
+Date: Mon, 2 Nov 2020 05:34:50 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] pc: comment style fixup
-Message-ID: <20201102102815.1102222-1-mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
+Message-ID: <20201102053142-mutt-send-email-mst@kernel.org>
+References: <20201029083130.0617a28f@w520.home>
+ <b85405de-d525-bf59-826c-737fa7bbdfef@redhat.com>
+ <20201029094603.15382476@w520.home>
+ <d4f7df42-7b02-6505-c2c7-245bf813b513@redhat.com>
+ <20201029210407.33d6f008@x1.home>
+ <CAJSP0QVto+xFEnWv-aj=-0mZ72SzfeAvg4q0RCoLGK-N7C-WEw@mail.gmail.com>
+ <04179584-3324-994e-d793-04be18d2dab2@redhat.com>
+ <CAJSP0QXQmFgtSsJL1B3eMUr8teQc3cvvEFvr7LvnFkJPcE3ZpA@mail.gmail.com>
+ <0cabda60-f10d-fb74-f3eb-d21be7db7334@redhat.com>
+ <20201102102754.GB42093@stefanha-x1.localdomain>
 MIME-Version: 1.0
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
+In-Reply-To: <20201102102754.GB42093@stefanha-x1.localdomain>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
@@ -92,43 +104,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ Janosch Frank <frankja@linux.vnet.ibm.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Yan Vugenfirer <yan@daynix.com>,
+ Jag Raman <jag.raman@oracle.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Anup Patel <anup@brainfault.org>,
+ Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
+ Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Liran Alon <liran.alon@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Halil Pasic <pasic@linux.vnet.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>, fam <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix up checkpatch comment style warnings.
+On Mon, Nov 02, 2020 at 10:27:54AM +0000, Stefan Hajnoczi wrote:
+> On Mon, Nov 02, 2020 at 11:00:12AM +0800, Jason Wang wrote:
+> > 
+> > On 2020/10/30 下午7:13, Stefan Hajnoczi wrote:
+> > > > I still don't get why it must be opaque.
+> > > If the device state format needs to be in the VMM then each device
+> > > needs explicit enablement in each VMM (QEMU, cloud-hypervisor, etc).
+> > > 
+> > > Let's invert the question: why does the VMM need to understand the
+> > > device state of a_passthrough_  device?
+> > 
+> > 
+> > It's not a 100% passthrough device if you want to support live migration.
+> > E.g the device state save and restore is not under the control of drivers in
+> > the guest.
+> 
+> VFIO devices are already not pure passthrough (even without mdev) since
+> the PCI bus is emulated and device-specific quirks may be implemented.
 
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
+So since it's not a pure passthrough anyway, let's try to
+introduce some standards even if we can not always enforce
+them.
 
-changes from v1:
-    address philippe's comments
-:w
+> Adding device state save/load does not change anything here.
 
- hw/i386/pc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+It's as good a time as any to try to standardize things and
+not just let each driver do whatever it wants. In particular
+if you consider things like cross version support it's
+a hard problem where vendors are sure to get it wrong without
+guidance.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 416fb0e0f6..aae45ba779 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1149,10 +1149,11 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-             error_report("couldn't create HPET device");
-             exit(1);
-         }
--        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
--            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
--            * IRQ8 and IRQ2.
--            */
-+        /*
-+         * For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7 and
-+         * earlier, use IRQ2 for compat. Otherwise, use IRQ16~23, IRQ8 and
-+         * IRQ2.
-+         */
-         uint8_t compat = object_property_get_uint(OBJECT(hpet),
-                 HPET_INTCAP, NULL);
-         if (!compat) {
 -- 
 MST
 
