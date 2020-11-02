@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3451C2A32FB
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:29:31 +0100 (CET)
-Received: from localhost ([::1]:41838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE002A32CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:22:31 +0100 (CET)
+Received: from localhost ([::1]:45374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZeaA-0004xN-9g
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:29:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
+	id 1kZeTN-0003Cb-Vv
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:22:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZeXt-0002zw-AK
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:27:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZeXr-0007iS-OC
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:27:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604341627;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=yZ7ES9Yuix9uTvWG8uNiRAGWR8lvHDtOQ2repv1PLLc=;
- b=VTzDeQ6u4S8CKaVzuIfy9Zf/wl931LKM2hCQ9JkrZ0Z7An5c8W++NzMohWgFVkxLJOxtXi
- MUVz4ZavwFhR5bZbfjN8TOq1pqU3rJgGxwkk7+7kaafHLe4NFFhhuuD+gHI8l5cOzbBWQt
- UhQk0ftzDNo0gLBnoFb6BHz+2RKCPds=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-311-2dlO1jH7OAyz1GbTg6jJ4w-1; Mon, 02 Nov 2020 13:27:05 -0500
-X-MC-Unique: 2dlO1jH7OAyz1GbTg6jJ4w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F011006C97;
- Mon,  2 Nov 2020 18:27:04 +0000 (UTC)
-Received: from work-vm (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 80DF321E8C;
- Mon,  2 Nov 2020 18:27:00 +0000 (UTC)
-Date: Mon, 2 Nov 2020 18:26:57 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH 0/2] migration: Two extra fixes
-Message-ID: <20201102182657.GN3673@work-vm>
-References: <20201102153010.11979-1-peterx@redhat.com>
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeQw-0001WR-IQ
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:00 -0500
+Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:39295)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeQq-0006hN-Uf
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:19:58 -0500
+Received: by mail-lf1-x143.google.com with SMTP id 184so18646639lfd.6
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 10:19:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ceOm0Xxf/LJg7f2HRgjqVHLIfEk3x6v7meMsg/XEr9M=;
+ b=bHXdgUlBKqDAeYVIYMTEuTUT1QPGBC5FoS4ISB+8MnnOliCOziWgpoNX5T4Q92pahM
+ UscpfvyEWJVvA5OByRFBQZ5u2TnuEu7cswnuOkA0iintkXmmxYoO4v8E9NhAPFyGoOh5
+ wxv514fxLlMLbdyZ122ca2R3WnP/MJAn4fHxLJpICFiyARkjk379q1XdLmeaKbacF7Vg
+ PxnRo7SwaOhyIFjIjEK9saipRGFYXW9b37aYsDn+g5izlkWUUV7wnEoZphEHiT0XPGnL
+ GgWkZfqIxpoOv9gG7oygB9bd318c5yBR1ITyy80XykA+wLcb50wqYATHVw4X8kNKVQHM
+ iXqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ceOm0Xxf/LJg7f2HRgjqVHLIfEk3x6v7meMsg/XEr9M=;
+ b=XqD+H2K4qB2swsd2LkX5GMezYnAPIx7Hn3Mlre939oN7HMUWUmWVvnT6l483BPIESt
+ Tmnqtfui/iX372t/zWHKpraSC8OQkLL7a8c5Sh4QToTfR4PJ2S94FLDGP31/yEpcUEwQ
+ ltFPR22yIQJcWwl0LSywdkRKVt+Q/RaX88iGkVXe/vYfoh0nxJYWpncKy529UvUpZA9v
+ c4gJ/GVYdPx0ZiL/9n/xmq7fcDh82ewCKFysXyKdctUOktqq2TKXGFrZtHtih0AB773z
+ +leDJ9sTexayK/0qLmZ3HN8mQWuX3ndKfiTap/hSm78gielWRCr/gQnFx/WG3i5FrgCx
+ bEUg==
+X-Gm-Message-State: AOAM530zSO5aUGd2Dcy21Dtq7j8U1IqP7Oix/393k1sSbpWyrb4t1AX3
+ QlgCBBmQCZyj4/Ld3Zh0MRaztg==
+X-Google-Smtp-Source: ABdhPJwwz9DsqK2bITAqMEcHJMog+brLdpS9fvO3zYMJdqbwuxz9MlDwUmW16jTiBLL6Rc0nHR4BsQ==
+X-Received: by 2002:a05:6512:47c:: with SMTP id
+ x28mr3456181lfd.321.1604341190582; 
+ Mon, 02 Nov 2020 10:19:50 -0800 (PST)
+Received: from navi.cosmonova.net.ua ([95.67.24.131])
+ by smtp.gmail.com with ESMTPSA id c6sm2527007lfm.226.2020.11.02.10.19.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 10:19:49 -0800 (PST)
+From: Andrew Melnychenko <andrew@daynix.com>
+To: jasowang@redhat.com,
+	mst@redhat.com
+Subject: [RFC PATCH 0/6] eBPF RSS support for virtio-net
+Date: Mon,  2 Nov 2020 20:51:10 +0200
+Message-Id: <20201102185115.7425-1-andrew@daynix.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201102153010.11979-1-peterx@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::143;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x143.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,33 +82,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+Cc: yan@daynix.com, yuri.benditovich@daynix.com,
+ Andrew Melnychenko <andrew@daynix.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Peter Xu (peterx@redhat.com) wrote:
-> This should fix intermittent hang of migration-test due to the latest update to
-> postcopy recovery.
-> 
-> Thanks,
+Basic idea is to use eBPF to calculate and steer packets in TAP.
+RSS(Receive Side Scaling) is used to distribute network packets to guest virtqueues
+by calculating packet hash.
+eBPF RSS allows us to use RSS with vhost TAP.
 
-Queued
+This set of patches introduces the usage of eBPF for packet steering
+and RSS hash calculation:
+* RSS(Receive Side Scaling) is used to distribute network packets to
+guest virtqueues by calculating packet hash
+* eBPF RSS suppose to be faster than already existing 'software'
+implementation in QEMU
+* Additionally adding support for the usage of RSS with vhost
 
-> 
-> Peter Xu (2):
->   migration: Unify reset of last_rb on destination node when recover
->   migration: Postpone the kick of the fault thread after recover
-> 
->  migration/postcopy-ram.c |  2 --
->  migration/savevm.c       | 17 ++++++++++++++---
->  2 files changed, 14 insertions(+), 5 deletions(-)
-> 
-> -- 
-> 2.26.2
-> 
-> 
+Supported kernels: 5.8+
+
+Implementation notes:
+Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+Added eBPF support to qemu directly through a system call, see the
+bpf(2) for details.
+The eBPF program is part of the qemu and presented as an array of bpf
+instructions.
+The program can be recompiled by provided Makefile.ebpf(need to adjust
+'linuxhdrs'),
+although it's not required to build QEMU with eBPF support.
+Added changes to virtio-net and vhost, primary eBPF RSS is used.
+'Software' RSS used in the case of hash population and as a fallback option.
+For vhost, the hash population feature is not reported to the guest.
+
+Please also see the documentation in PATCH 6/6.
+
+I am sending those patches as RFC to initiate the discussions and get
+feedback on the following points:
+* Fallback when eBPF is not supported by the kernel
+* Live migration to the kernel that doesn't have eBPF support
+* Integration with current QEMU build
+* Additional usage for eBPF for packet filtering
+
+Know issues:
+* hash population not supported by eBPF RSS: 'software' RSS used
+as a fallback, also, hash population feature is not reported to guests
+with vhost.
+* big-endian BPF support: for now, eBPF is disabled for big-endian systems.
+
+Andrew (6):
+  Added SetSteeringEBPF method for NetClientState.
+  ebpf: Added basic eBPF API.
+  ebpf: Added eBPF RSS program.
+  ebpf: Added eBPF RSS loader.
+  virtio-net: Added eBPF RSS to virtio-net.
+  docs: Added eBPF documentation.
+
+ MAINTAINERS                    |   6 +
+ configure                      |  36 +++
+ docs/ebpf.rst                  |  29 ++
+ docs/ebpf_rss.rst              | 129 ++++++++
+ ebpf/EbpfElf_to_C.py           |  67 ++++
+ ebpf/Makefile.ebpf             |  38 +++
+ ebpf/ebpf-stub.c               |  28 ++
+ ebpf/ebpf.c                    | 107 +++++++
+ ebpf/ebpf.h                    |  35 +++
+ ebpf/ebpf_rss.c                | 178 +++++++++++
+ ebpf/ebpf_rss.h                |  30 ++
+ ebpf/meson.build               |   1 +
+ ebpf/rss.bpf.c                 | 470 ++++++++++++++++++++++++++++
+ ebpf/trace-events              |   4 +
+ ebpf/trace.h                   |   2 +
+ ebpf/tun_rss_steering.h        | 556 +++++++++++++++++++++++++++++++++
+ hw/net/vhost_net.c             |   2 +
+ hw/net/virtio-net.c            | 120 ++++++-
+ include/hw/virtio/virtio-net.h |   4 +
+ include/net/net.h              |   2 +
+ meson.build                    |   3 +
+ net/tap-bsd.c                  |   5 +
+ net/tap-linux.c                |  19 ++
+ net/tap-solaris.c              |   5 +
+ net/tap-stub.c                 |   5 +
+ net/tap.c                      |   9 +
+ net/tap_int.h                  |   1 +
+ net/vhost-vdpa.c               |   2 +
+ 28 files changed, 1889 insertions(+), 4 deletions(-)
+ create mode 100644 docs/ebpf.rst
+ create mode 100644 docs/ebpf_rss.rst
+ create mode 100644 ebpf/EbpfElf_to_C.py
+ create mode 100755 ebpf/Makefile.ebpf
+ create mode 100644 ebpf/ebpf-stub.c
+ create mode 100644 ebpf/ebpf.c
+ create mode 100644 ebpf/ebpf.h
+ create mode 100644 ebpf/ebpf_rss.c
+ create mode 100644 ebpf/ebpf_rss.h
+ create mode 100644 ebpf/meson.build
+ create mode 100644 ebpf/rss.bpf.c
+ create mode 100644 ebpf/trace-events
+ create mode 100644 ebpf/trace.h
+ create mode 100644 ebpf/tun_rss_steering.h
+
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.28.0
 
 
