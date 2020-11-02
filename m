@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 004D02A3173
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:25:30 +0100 (CET)
-Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0981C2A3166
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:22:59 +0100 (CET)
+Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdaE-00031r-18
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:25:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54036)
+	id 1kZdXm-0008QI-2i
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:22:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLx-00014B-8v
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:45 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35865)
+ id 1kZdLv-00012q-Vh
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:44 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37543)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLs-0006bw-VL
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:44 -0500
-Received: by mail-wm1-x341.google.com with SMTP id e2so10222737wme.1
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:40 -0800 (PST)
+ id 1kZdLt-0006c9-GK
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:43 -0500
+Received: by mail-wm1-x342.google.com with SMTP id c16so10222648wmd.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=rwxRQ2VGsaY/8EHSjzxMZ0dJGo8ROLSJrdHaZKDxSh4=;
- b=I7+qtFh4PXoSMdPKlefZ0gBI0QuK0+Yli7RHv1nbiPdtmvaF63ewIEDLE5DZ+wZb5p
- 7rzTSkbZ3QzHhb64ECIyDaN2wEOKMzs4vw5g8CAY8ifqvtkuwPlfvVj3Htzbx9dPgCDo
- Ckg8T0zpAe+8v09uEmE7MNXaK7FE2enihFxAyQ8/dVA6vNwIBQpZINxSjIQbZQxK6RUt
- EONRn/9RM/wSt/SeJdXlu6+gf+cSXR8rEiZu5t8JlL6wKhLvkKI5iZbjSH9rbABcwxOK
- 2LuddmtKUPinVIKT6aq9V0VdWw7tGNsUapZCSUnWhtK5qMG9BCIqQrOg7f8zKz9aJYAf
- XDWg==
+ bh=PHlIRH7863n7trY1b/lRLkeSRiEQjbh9eyt3Xp710GY=;
+ b=svWAz9bWchfwgECY344PtiYeWsCE/Hm77JXZ1Rc3jOwwqcnLTVJ8WYU8Hn5PqDcZJN
+ X3KGf+/U9dy1++42xBMZ+Sf7K4exyyBLgMA4XtHkncH+i8hkPWDclLOFT2ynv7sVc892
+ Z27lpyQcenwAMkhpLIL51A3w4vUG5rlh/SjJkO6HgTZtha6TmLUyFZ8lJCJPxlgTZD4W
+ gZm/msABK5JeHZhotAunFnHCCdDBHSGN9K7oGxkY8klBzaueGEI6oEUUjRouqx9HRfai
+ JSih+eyBeEqe9KTOZ+jZQBIIotmvJU0IlhyjnpPezXOhmKclbYWIj9k8IBk2TgnRXIhL
+ QRpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rwxRQ2VGsaY/8EHSjzxMZ0dJGo8ROLSJrdHaZKDxSh4=;
- b=oW/mwskpuD1wPKEMGJNALVfyrMaP3SNX2pdVid9DqQ0L5vF1447v6sMOtjxM+NTPDa
- +0b0mf8L/ZRk4mwR8ehiWd/tCiCdEkR9LRM7cQL40MU39ucTIuxhsrpJ1tG+fvMmBerR
- WRg+zFSYbntPVmCy7Ye0A+n/srmLkpvyePPQrLWdDYXeCQ7pM5/qHb8fTRUTD8BBAUV9
- xL7/Bb4JAlfQiDGLs+YgbG2jnVudVMYHJV5CJkcCcDwS/1NER8q4412EA1cLEj/IYaGd
- eJJp2z7pNaHhqNPThmHOlpaPGZYqRVGXA9piQsIqhj8J6zw82CZuzwu2K82vDfl+am9F
- 5Jiw==
-X-Gm-Message-State: AOAM532QwZCWkzLyAZmzQPEBH0YKAokroBp812cwnb/MnQqwNWCcI1Ow
- 3/UB4GS6AaB286A2Ms8LMhSRt6aaFZuBBA==
-X-Google-Smtp-Source: ABdhPJxpGYP9dRK2J8pZp7wI3fv+wcctz0bh2qCH9OJt6UgU/UjGT8wVN/FJknbHr+lKf5Bj8qB6AQ==
-X-Received: by 2002:a1c:ed0b:: with SMTP id l11mr18316543wmh.46.1604337038708; 
- Mon, 02 Nov 2020 09:10:38 -0800 (PST)
+ bh=PHlIRH7863n7trY1b/lRLkeSRiEQjbh9eyt3Xp710GY=;
+ b=YYLNE3a2diEiAKU6+z+8EbOAQem5Sfjbe0wJG1CieCn96/LslESaMoxUrhSinFKdnQ
+ gkuTnJyd4FGK9TRVgwJ4iUu0Kq2wzvYb0Y4ESNwvIJINzfB4Bu/nfdR+K9utgya7DKrF
+ cj3exqPpmScNA3fv/KKjA/cNKetwy7AvHz+QTfWd2+ZyBsW7AUW4CphGXXg13iHvjjsB
+ qSK1KLAoBxXFYeV8s/ab0mUf1gEUNWkv6S6js9IehdtuqkRHJIukzoXcbNpXoXAByBeN
+ ZDKodFuWuHzsOsbLUeRmsfizMBHGDMKzyCaChtgqLVyH8hn0emskP0k6ECRIPVnEbenZ
+ kwRA==
+X-Gm-Message-State: AOAM530n+H9GFmgf03PgvlK4YghmLT8Lmx/7pmtCxtSwIcT280bVPz5j
+ HR+nrHBUb6jzm+cjZ2HVH0UEBahrQH7aFQ==
+X-Google-Smtp-Source: ABdhPJyfaNC8iq2bC+Fzv/VeJDQNtGjqsh6Gjps53kazktb8pMB0nyjUXaBx0E+0735k9qG+w5ymvw==
+X-Received: by 2002:a1c:ac87:: with SMTP id
+ v129mr18630069wme.119.1604337039975; 
+ Mon, 02 Nov 2020 09:10:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.37
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:37 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/26] hw/arm/boot: fix SVE for EL3 direct kernel boot
-Date: Mon,  2 Nov 2020 17:09:57 +0000
-Message-Id: <20201102171005.30690-19-peter.maydell@linaro.org>
+Subject: [PULL 19/26] hw/display/omap_lcdc: Fix potential NULL pointer
+ dereference
+Date: Mon,  2 Nov 2020 17:09:58 +0000
+Message-Id: <20201102171005.30690-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,33 +90,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+From: AlexChen <alex.chen@huawei.com>
 
-When booting a CPU with EL3 using the -kernel flag, set up CPTR_EL3 so
-that SVE will not trap to EL3.
+In omap_lcd_interrupts(), the pointer omap_lcd is dereferinced before
+being check if it is valid, which may lead to NULL pointer dereference.
+So move the assignment to surface after checking that the omap_lcd is valid
+and move surface_bits_per_pixel(surface) to after the surface assignment.
 
-Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201030151541.11976-1-remi@remlab.net
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: AlexChen <alex.chen@huawei.com>
+Message-id: 5F9CDB8A.9000001@huawei.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/boot.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/display/omap_lcdc.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 3e9816af803..cf97600a915 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -742,6 +742,9 @@ static void do_cpu_reset(void *opaque)
-                     if (cpu_isar_feature(aa64_mte, cpu)) {
-                         env->cp15.scr_el3 |= SCR_ATA;
-                     }
-+                    if (cpu_isar_feature(aa64_sve, cpu)) {
-+                        env->cp15.cptr_el[3] |= CPTR_EZ;
-+                    }
-                     /* AArch64 kernels never boot in secure mode */
-                     assert(!info->secure_boot);
-                     /* This hook is only supported for AArch32 currently:
+diff --git a/hw/display/omap_lcdc.c b/hw/display/omap_lcdc.c
+index fa4a381db64..58e659c94ff 100644
+--- a/hw/display/omap_lcdc.c
++++ b/hw/display/omap_lcdc.c
+@@ -78,14 +78,18 @@ static void omap_lcd_interrupts(struct omap_lcd_panel_s *s)
+ static void omap_update_display(void *opaque)
+ {
+     struct omap_lcd_panel_s *omap_lcd = (struct omap_lcd_panel_s *) opaque;
+-    DisplaySurface *surface = qemu_console_surface(omap_lcd->con);
++    DisplaySurface *surface;
+     draw_line_func draw_line;
+     int size, height, first, last;
+     int width, linesize, step, bpp, frame_offset;
+     hwaddr frame_base;
+ 
+-    if (!omap_lcd || omap_lcd->plm == 1 || !omap_lcd->enable ||
+-        !surface_bits_per_pixel(surface)) {
++    if (!omap_lcd || omap_lcd->plm == 1 || !omap_lcd->enable) {
++        return;
++    }
++
++    surface = qemu_console_surface(omap_lcd->con);
++    if (!surface_bits_per_pixel(surface)) {
+         return;
+     }
+ 
 -- 
 2.20.1
 
