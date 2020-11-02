@@ -2,66 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9283A2A2463
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 06:39:40 +0100 (CET)
-Received: from localhost ([::1]:53456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F7A62A2473
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 06:51:49 +0100 (CET)
+Received: from localhost ([::1]:58088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZSZ9-0006rt-12
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 00:39:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49322)
+	id 1kZSku-0003ym-JP
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 00:51:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1kZSXc-0006PR-9o
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 00:38:04 -0500
-Received: from forwardcorp1j.mail.yandex.net ([5.45.199.163]:38078)
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kZSdK-0002Oc-AG; Mon, 02 Nov 2020 00:43:58 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2374)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1kZSXX-0007aA-Hq
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 00:38:01 -0500
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id 4D9902E14A5;
- Mon,  2 Nov 2020 08:37:51 +0300 (MSK)
-Received: from vla5-58875c36c028.qloud-c.yandex.net
- (vla5-58875c36c028.qloud-c.yandex.net [2a02:6b8:c18:340b:0:640:5887:5c36])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- eYdk0TlvHf-bpxmXQJt; Mon, 02 Nov 2020 08:37:51 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1604295471; bh=w1p+M4bytOYcc9eybEp8vVRX5dHM418kcy618LYUs3Q=;
- h=Message-Id:Date:Subject:To:From:Cc;
- b=whbEFPTj1ufR4hIPqVqs8NvBuLpZ/M+XnOWHs/0EGh7Mf87img4nF84L8SJOPLSa5
- nV6YJNDTeh3WcJGuYDiUOGFRKPHNUS5TrnDqBkPzxK2GgQY+4fKWZmSNKm7p3eMFJs
- wKmPCg4bcl3c215UIgj0OjS5epmJQbHTYHy9RC58=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
- [2a02:6b8:b081:114::1:2])
- by vla5-58875c36c028.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- xsYJakoIsR-boneZij0; Mon, 02 Nov 2020 08:37:51 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] pci/shpc: don't push attention button when ejecting
- powered-off device
-Date: Mon,  2 Nov 2020 08:37:50 +0300
-Message-Id: <20201102053750.2281818-1-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
+ id 1kZSdG-0001EO-JC; Mon, 02 Nov 2020 00:43:57 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CPhfh4TjNz15PhT;
+ Mon,  2 Nov 2020 13:43:40 +0800 (CST)
+Received: from localhost.localdomain (10.175.124.27) by
+ DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 2 Nov 2020 13:43:31 +0800
+From: Peng Liang <liangpeng10@huawei.com>
+To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [RFC v3 00/10] Support disable/enable CPU features for AArch64
+Date: Mon, 2 Nov 2020 13:40:45 +0800
+Message-ID: <20201102054055.686143-1-liangpeng10@huawei.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.45.199.163; envelope-from=rvkagan@yandex-team.ru;
- helo=forwardcorp1j.mail.yandex.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 00:37:51
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.175.124.27]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=liangpeng10@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 00:43:42
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,97 +56,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: peter.maydell@linaro.org, drjones@redhat.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, cohuck@redhat.com,
+ xiexiangyou@huawei.com, Peng Liang <liangpeng10@huawei.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the slot is in steady powered-off state and the device is being
-removed, there's no need to press the attention button.  Nor is it
-mandated by the Standard Hot-Plug Controller Specification, Rev. 1.0.
+QEMU does not support disable/enable CPU features in AArch64 for now.
+This patch series add support for CPU features in AArch64.
 
-Moreover it confuses the guest, Linux in particular, as it assumes that
-the attention button pressed in this state indicates that the device has
-been inserted and will need to be powered on.  Therefore it transitions
-the slot into BLINKING_ON state for 5 seconds, and discovers at the end
-that no device is actually inserted:
+Firstly, we change the isar struct in ARMCPU to an array for
+convenience.  Secondly, we add support to configure CPU feautres in
+AArch64 and make sure that the ID registers can be synchronized to KVM
+so that guest can read the value we configure.  Thirdly, we add a
+mechanism to solve the dependency relationship of some CPU features.
+Last, we add a KVM_CAP_ARM_CPU_FEATURE to check whether KVM supports to
+set CPU features in AArch64.
 
-... unplug request
-[12685.451329] shpchp 0000:01:00.0: Button pressed on Slot(2)
-[12685.455478] shpchp 0000:01:00.0: PCI slot #2 - powering off due to button press
-... in 5 seconds OS powers off the slot, QEMU ejects the device
-[12690.632282] shpchp 0000:01:00.0: Latch open on Slot(2)
-... excessive button press in steady powered-off state
-[12690.634267] shpchp 0000:01:00.0: Button pressed on Slot(2)
-[12690.636256] shpchp 0000:01:00.0: Card not present on Slot(2)
-... the last button press spawns powering on the slot
-[12690.638909] shpchp 0000:01:00.0: PCI slot #2 - powering on due to button press
-... in 5 more seconds attempt to power on discovers empty slot
-[12695.735986] shpchp 0000:01:00.0: No adapter on slot(2)
+Also export CPU features to the result of qmp query-cpu-model-expansion
+so that libvirt can get the supported CPU features.
 
-Worse, if the real device insertion happens within 5 seconds from the
-apparent completion of the previous device removal (signaled via
-DEVICE_DELETED event), the new button press will be interpreted as the
-cancellation of that misguided powering on:
+Update the ID fields to ARMv8.6 and add some CPU features according to
+the new ID fields.
 
-[13448.965295] shpchp 0000:01:00.0: Button pressed on Slot(2)
-[13448.969430] shpchp 0000:01:00.0: PCI slot #2 - powering off due to button press
-[13454.025107] shpchp 0000:01:00.0: Latch open on Slot(2)
-[13454.027101] shpchp 0000:01:00.0: Button pressed on Slot(2)
-[13454.029165] shpchp 0000:01:00.0: Card not present on Slot(2)
-... the excessive button press spawns powering on the slot
-... device has already been ejected by QEMU
-[13454.031949] shpchp 0000:01:00.0: PCI slot #2 - powering on due to button press
-... new device is inserted in the slot
-[13456.861545] shpchp 0000:01:00.0: Latch close on Slot(2)
-... valid button press arrives before 5 s since the wrong one
-[13456.864894] shpchp 0000:01:00.0: Button pressed on Slot(2)
-[13456.869211] shpchp 0000:01:00.0: Card present on Slot(2)
-... the valid button press is counted as cancellation of the wrong one
-[13456.873173] shpchp 0000:01:00.0: Button cancel on Slot(2)
-[13456.877101] shpchp 0000:01:00.0: PCI slot #2 - action canceled due to button press
+With related KVM patch set[1], we can disable/enable CPU features in
+AArch64.
 
-As a result, the newly inserted device isn't brought up by the guest.
+[1] https://patchwork.kernel.org/project/kvm/cover/20201102033422.657391-1-liangpeng10@huawei.com/
 
-Avoid this situation by not pushing the attention button when the device
-in the slot is in powered-off state and is being ejected.
+v2 -> v3:
+ - rebase to newest code
 
-FWIW pcie implementation doesn't suffer from this problem.
+v1 -> v2:
+ - adjust the order of patches
+ - only expose AArch64 features which are exposed by kernel via /proc/cpuinfo
+ - add check for conflict CPU features set by user
+ - split the change in linux-headers/linux/kvm.h
 
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
----
- hw/pci/shpc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Peng Liang (10):
+  linux-header: Introduce KVM_CAP_ARM_CPU_FEATURE
+  target/arm: Update ID fields
+  target/arm: only set ID_PFR1_EL1.GIC for AArch32 guest
+  target/arm: convert isar regs to array
+  target/arm: Introduce kvm_arm_cpu_feature_supported
+  target/arm: register CPU features for property
+  target/arm: Allow ID registers to synchronize to KVM
+  target/arm: Introduce user_mask to indicate whether the feature is set
+    explicitly
+  target/arm: introduce CPU feature dependency mechanism
+  target/arm: Add CPU features to query-cpu-model-expansion
 
-diff --git a/hw/pci/shpc.c b/hw/pci/shpc.c
-index b00dce629c..837159c5bd 100644
---- a/hw/pci/shpc.c
-+++ b/hw/pci/shpc.c
-@@ -300,7 +300,6 @@ static void shpc_slot_command(SHPCDevice *shpc, uint8_t target,
-             shpc_set_status(shpc, slot, SHPC_SLOT_STATUS_PRSNT_EMPTY,
-                             SHPC_SLOT_STATUS_PRSNT_MASK);
-             shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |=
--                SHPC_SLOT_EVENT_BUTTON |
-                 SHPC_SLOT_EVENT_MRL |
-                 SHPC_SLOT_EVENT_PRESENCE;
-         }
-@@ -566,7 +565,6 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-         return;
-     }
- 
--    shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |= SHPC_SLOT_EVENT_BUTTON;
-     state = shpc_get_status(shpc, slot, SHPC_SLOT_STATE_MASK);
-     led = shpc_get_status(shpc, slot, SHPC_SLOT_PWR_LED_MASK);
-     if (state == SHPC_STATE_DISABLED && led == SHPC_LED_OFF) {
-@@ -577,6 +575,8 @@ void shpc_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-         shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |=
-             SHPC_SLOT_EVENT_MRL |
-             SHPC_SLOT_EVENT_PRESENCE;
-+    } else {
-+        shpc->config[SHPC_SLOT_EVENT_LATCH(slot)] |= SHPC_SLOT_EVENT_BUTTON;
-     }
-     shpc_set_status(shpc, slot, 0, SHPC_SLOT_STATUS_66);
-     shpc_interrupt_update(pci_hotplug_dev);
+ hw/intc/armv7m_nvic.c     |  32 +--
+ linux-headers/linux/kvm.h |   1 +
+ target/arm/cpu.c          | 575 +++++++++++++++++++++++++++++---------
+ target/arm/cpu.h          | 255 +++++++++--------
+ target/arm/cpu64.c        | 190 ++++++-------
+ target/arm/cpu_tcg.c      | 314 +++++++++++----------
+ target/arm/helper.c       | 106 ++++---
+ target/arm/internals.h    |  15 +-
+ target/arm/kvm.c          |  38 +++
+ target/arm/kvm64.c        |  90 +++---
+ target/arm/kvm_arm.h      |  10 +
+ target/arm/monitor.c      |   4 +
+ 12 files changed, 1038 insertions(+), 592 deletions(-)
+
 -- 
-2.28.0
+2.26.2
 
 
