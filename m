@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5437A2A3147
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:19:31 +0100 (CET)
-Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 004D02A3173
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:25:30 +0100 (CET)
+Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdUQ-0004lK-9S
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:19:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
+	id 1kZdaE-00031r-18
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:25:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLu-0000zg-Ra
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:42 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33263)
+ id 1kZdLx-00014B-8v
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:45 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:35865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLr-0006bn-Kt
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:42 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p19so1682060wmg.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:38 -0800 (PST)
+ id 1kZdLs-0006bw-VL
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:44 -0500
+Received: by mail-wm1-x341.google.com with SMTP id e2so10222737wme.1
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bsOcsFLrF4fremZGGn3w83VG5q1zGI8Vc4YzNY5qHV0=;
- b=mZd8NMuIp7Y8uEC7FswrXDeZmqhrNudvI8saNzmXLja17vqXxGb70SGeJ5zPjE2Ny+
- I0i7vrUVXz+pyDbHAj4h1hGrynJxjo5QBm7PiEyONkNM25/5O9+dQQX1a64Rv76+bxkI
- AvnDnDEHAdyXlCLEOHOFmyAn3Mr5Qy6v4ChgeqWWl9xHyLcN5Qut8ARZaAgZQWj0SuH+
- do3Q9LDAjyFt6nFlZnAYRp7EHeSxbUBgBKJTTtrWIwEgaM6yX91luJzyuxUS6huwfN89
- 7iEfG2w79azKuSxE3m17Hc6p1/HYzb/CdLzSgOVzgvwHCHxj97AA/Mm9D4NehtwW66Yl
- 3M6g==
+ bh=rwxRQ2VGsaY/8EHSjzxMZ0dJGo8ROLSJrdHaZKDxSh4=;
+ b=I7+qtFh4PXoSMdPKlefZ0gBI0QuK0+Yli7RHv1nbiPdtmvaF63ewIEDLE5DZ+wZb5p
+ 7rzTSkbZ3QzHhb64ECIyDaN2wEOKMzs4vw5g8CAY8ifqvtkuwPlfvVj3Htzbx9dPgCDo
+ Ckg8T0zpAe+8v09uEmE7MNXaK7FE2enihFxAyQ8/dVA6vNwIBQpZINxSjIQbZQxK6RUt
+ EONRn/9RM/wSt/SeJdXlu6+gf+cSXR8rEiZu5t8JlL6wKhLvkKI5iZbjSH9rbABcwxOK
+ 2LuddmtKUPinVIKT6aq9V0VdWw7tGNsUapZCSUnWhtK5qMG9BCIqQrOg7f8zKz9aJYAf
+ XDWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bsOcsFLrF4fremZGGn3w83VG5q1zGI8Vc4YzNY5qHV0=;
- b=ogDZ+IDMUrT1fciXRuuYPGDqwscvFwyn3l8Ci89e2/9bYhaL8v5mUP88CSIrniMU17
- laek17PhzjdzF+pwoJbiDhsQRGF6CQAnR/6ILGEyIuJp5j6bA4LwJaxB3lwRIYGoWmSz
- 43j+QD7ebxabe8g8Fw5oKFJ9D4hrEG0D9OsMRf59rytkHsz519RIYA2zj3TmW/7w+oGG
- ER8pLL2O49QttQgKvLziXLC5c0YWhTvjz0xBJVkSlclNneHjW8mlYAy5DcG7bztje0Tq
- 69/Xor5YySKlZmoHJHvjbQrlzVevqJu7qfqzgVLxsPndEVIRRiAjUX85tXWKTpveru28
- mhXQ==
-X-Gm-Message-State: AOAM531OqTfvcW6HjumEzldtoHOF5GP1+0gN8qkePX3rE64UKDtlocbR
- ZT8HAJD68X50yijhedqF27UmMCcj73ATzA==
-X-Google-Smtp-Source: ABdhPJxcTF40fn/fDUopkWFpxLfLL7gDtXCdecYKosuK0A9/gbWxGX7oHNq5AQE5SROfm3RH7zHRuA==
-X-Received: by 2002:a7b:c201:: with SMTP id x1mr8239989wmi.42.1604337037641;
- Mon, 02 Nov 2020 09:10:37 -0800 (PST)
+ bh=rwxRQ2VGsaY/8EHSjzxMZ0dJGo8ROLSJrdHaZKDxSh4=;
+ b=oW/mwskpuD1wPKEMGJNALVfyrMaP3SNX2pdVid9DqQ0L5vF1447v6sMOtjxM+NTPDa
+ +0b0mf8L/ZRk4mwR8ehiWd/tCiCdEkR9LRM7cQL40MU39ucTIuxhsrpJ1tG+fvMmBerR
+ WRg+zFSYbntPVmCy7Ye0A+n/srmLkpvyePPQrLWdDYXeCQ7pM5/qHb8fTRUTD8BBAUV9
+ xL7/Bb4JAlfQiDGLs+YgbG2jnVudVMYHJV5CJkcCcDwS/1NER8q4412EA1cLEj/IYaGd
+ eJJp2z7pNaHhqNPThmHOlpaPGZYqRVGXA9piQsIqhj8J6zw82CZuzwu2K82vDfl+am9F
+ 5Jiw==
+X-Gm-Message-State: AOAM532QwZCWkzLyAZmzQPEBH0YKAokroBp812cwnb/MnQqwNWCcI1Ow
+ 3/UB4GS6AaB286A2Ms8LMhSRt6aaFZuBBA==
+X-Google-Smtp-Source: ABdhPJxpGYP9dRK2J8pZp7wI3fv+wcctz0bh2qCH9OJt6UgU/UjGT8wVN/FJknbHr+lKf5Bj8qB6AQ==
+X-Received: by 2002:a1c:ed0b:: with SMTP id l11mr18316543wmh.46.1604337038708; 
+ Mon, 02 Nov 2020 09:10:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.36
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:36 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:37 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/26] hw/arm/smmuv3: Fix potential integer overflow (CID
- 1432363)
-Date: Mon,  2 Nov 2020 17:09:56 +0000
-Message-Id: <20201102171005.30690-18-peter.maydell@linaro.org>
+Subject: [PULL 18/26] hw/arm/boot: fix SVE for EL3 direct kernel boot
+Date: Mon,  2 Nov 2020 17:09:57 +0000
+Message-Id: <20201102171005.30690-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,49 +89,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-Use the BIT_ULL() macro to ensure we use 64-bit arithmetic.
-This fixes the following Coverity issue (OVERFLOW_BEFORE_WIDEN):
+When booting a CPU with EL3 using the -kernel flag, set up CPTR_EL3 so
+that SVE will not trap to EL3.
 
-  CID 1432363 (#1 of 1): Unintentional integer overflow:
-
-  overflow_before_widen:
-    Potentially overflowing expression 1 << scale with type int
-    (32 bits, signed) is evaluated using 32-bit arithmetic, and
-    then used in a context that expects an expression of type
-    hwaddr (64 bits, unsigned).
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Eric Auger <eric.auger@redhat.com>
-Message-id: 20201030144617.1535064-1-philmd@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20201030151541.11976-1-remi@remlab.net
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/smmuv3.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/arm/boot.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 2017ba7a5a7..22607c37841 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -17,6 +17,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "qemu/bitops.h"
- #include "hw/irq.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
-@@ -864,7 +865,7 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
-         scale = CMD_SCALE(cmd);
-         num = CMD_NUM(cmd);
-         ttl = CMD_TTL(cmd);
--        num_pages = (num + 1) * (1 << (scale));
-+        num_pages = (num + 1) * BIT_ULL(scale);
-     }
- 
-     if (type == SMMU_CMD_TLBI_NH_VA) {
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 3e9816af803..cf97600a915 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -742,6 +742,9 @@ static void do_cpu_reset(void *opaque)
+                     if (cpu_isar_feature(aa64_mte, cpu)) {
+                         env->cp15.scr_el3 |= SCR_ATA;
+                     }
++                    if (cpu_isar_feature(aa64_sve, cpu)) {
++                        env->cp15.cptr_el[3] |= CPTR_EZ;
++                    }
+                     /* AArch64 kernels never boot in secure mode */
+                     assert(!info->secure_boot);
+                     /* This hook is only supported for AArch32 currently:
 -- 
 2.20.1
 
