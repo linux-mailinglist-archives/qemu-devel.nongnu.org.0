@@ -2,70 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2D5D2A2896
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:59:06 +0100 (CET)
-Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 348012A2898
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:59:52 +0100 (CET)
+Received: from localhost ([::1]:53796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZXYH-0008Gv-MZ
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:59:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37954)
+	id 1kZXZ1-0001YA-6x
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:59:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38140)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZXX3-0007BK-6e
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:57:49 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:33151)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZXWz-0006az-Ds
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:57:48 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id v4so13943993edi.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:57:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kRJDsFf++5w28jvN7jyZCDy8wvmMEEIc5KDDQmrxtqM=;
- b=pJMvn3P4ZNaa0PlRxzep/LciyrUV/QTO2sx3iQUiOfeDvFy6GdWsWc72FYrOmX2P9U
- Dc3NPk9fl8Z5km95FmfoVGnl+948OeWMk6YRqOgXxds8XpVsZQPMcz3Fj0r2NOQho1ro
- oOPkUbUlynnKYOGdTQg309EdCMZ0e0O34ju3s/e+mS095C9Sd40vlHaRE2tppXErrccy
- 95twX94f0CaEnoinRXdVZAVw/7BzSgjYWA8Rr/Zy1JCvFQwFAGqGi8O00DNBFjR5deDl
- VsjSsElr3b/NXLWEuBmKGxEwHzNQUm1UmfelZMAIIyITjcF7EatpZumEMj+UmUaXuAtp
- Jlvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kRJDsFf++5w28jvN7jyZCDy8wvmMEEIc5KDDQmrxtqM=;
- b=ihowpap7icKLxapysrY9oUPQbTtCp3DQjwG9Dk05z2X6ksLencsL7V8UUqKnbzi3vp
- t6mJHXNa5/MnSbo8Tkf+m2SCRoVRKp3xh49OIvxUhvLYA3xYRm6zPDNJsIoLjtQMjmXJ
- zfSYPlm6NLtiOyr/CY4HTNbTR3tbpN62yqGoFbe2plzzX9gsNjOO7ApSog3R63ET2pvD
- J4t9RNB++QcWBmKvv4n7g1vOueXEasDMBa0SjQPcRj17NDCIR/1Ev6XjYS3bqEj0tKCm
- 6AjjrTu2FXkMDh/l9lf/hzf+3D95pH3fNUrEjWhIrbAJtfG+RxPjAmdpCc0zrG6Wzu9Y
- tA+Q==
-X-Gm-Message-State: AOAM530bIyFyZPJwRaL46KdtHNQz8bOQULxu71Dx9eCVpnyUbpPytlxP
- xlq9Ajlp7bu90d6I1o+v/5qgWywkhYaUjnuEMC9yiQ==
-X-Google-Smtp-Source: ABdhPJwxqfAF7T2x01AStrCGVgJPFO+ygRR2jFVFkdrMaOj/ijrgAtp+y8QCm5l4zAliD7/wez+Ywj3HVSfFuB02Pvw=
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr15543431edq.146.1604314662382; 
- Mon, 02 Nov 2020 02:57:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kZXXO-0007Re-VV; Mon, 02 Nov 2020 05:58:10 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:39538
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kZXXL-0006io-Vh; Mon, 02 Nov 2020 05:58:10 -0500
+Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 5C0EA5FBC5;
+ Mon,  2 Nov 2020 11:58:02 +0100 (CET)
+From: remi.denis.courmont@huawei.com
+To: qemu-arm@nongnu.org
+Subject: [PATCH 01/14] target/arm: add arm_is_el2_enabled() helper
+Date: Mon,  2 Nov 2020 12:57:49 +0200
+Message-Id: <20201102105802.39332-1-remi.denis.courmont@huawei.com>
+X-Mailer: git-send-email 2.29.1
+In-Reply-To: <2172054.ElGaqSPkdT@basile.remlab.net>
+References: <2172054.ElGaqSPkdT@basile.remlab.net>
 MIME-Version: 1.0
-References: <160426371498.24886.12193840637250368669.stgit@gimli.home>
-In-Reply-To: <160426371498.24886.12193840637250368669.stgit@gimli.home>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Nov 2020 10:57:31 +0000
-Message-ID: <CAFEAcA_a-heHs=2HS9SxKnSQfCyEq_eX+HeAUuSMT8KH3T_8Ow@mail.gmail.com>
-Subject: Re: [PULL v3 00/32] VFIO updates 2020-11-01 (for QEMU 5.2 soft-freeze)
-To: Alex Williamson <alex.williamson@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 05:57:15
+X-ACL-Warn: Detected OS   = ???
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,54 +54,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Artem Polyakov <artemp@nvidia.com>, Zhengui li <lizhengui@huawei.com>,
- Yan Zhao <yan.y.zhao@intel.com>, Zhi Wang <zhi.wang.linux@gmail.com>,
- Pierre Morel <pmorel@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Neo Jia <cjia@nvidia.com>,
- Amey Narkhede <ameynarkhede03@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 1 Nov 2020 at 21:01, Alex Williamson <alex.williamson@redhat.com> wrote:
->
-> Aggregated interdiff versus v1 pull request below.  Thanks,
->
-> Alex
->
-> The following changes since commit 700d20b49e303549b32d3a7a3efbfcee8c7a4f6c:
->
->   Merge remote-tracking branch 'remotes/mst/tags/for_upstream' into staging (2020-11-01 14:02:19 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/awilliam/qemu-vfio.git tags/vfio-update-20201101.0
->
-> for you to fetch changes up to c624b6b312680b76d2a19a4c65cfdb234e875e1b:
->
->   vfio: fix incorrect print type (2020-11-01 12:30:52 -0700)
->
-> ----------------------------------------------------------------
-> VFIO update 2020-11-01
->
->  * Migration support (Kirti Wankhede)
->  * s390 DMA limiting (Matthew Rosato)
->  * zPCI hardware info (Matthew Rosato)
->  * Lock guard (Amey Narkhede)
->  * Print fixes (Zhengui li)
->  * Warning/build fixes
->
+From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
+This checks if EL2 is enabled (meaning EL2 registers take effects) in
+the current security context.
 
-Applied, thanks.
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+---
+ target/arm/cpu.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index c18a916766..aaf3671806 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2040,6 +2040,15 @@ static inline bool arm_is_secure(CPUARMState *env)
+     return arm_is_secure_below_el3(env);
+ }
+ 
++/* Return true if the current security state has AArch64 EL2 or AArch32 Hyp */
++static inline bool arm_is_el2_enabled(CPUARMState *env)
++{
++    if (arm_feature(env, ARM_FEATURE_EL2)) {
++        return !arm_is_secure_below_el3(env);
++    }
++    return false;
++}
++
+ #else
+ static inline bool arm_is_secure_below_el3(CPUARMState *env)
+ {
+@@ -2050,6 +2059,11 @@ static inline bool arm_is_secure(CPUARMState *env)
+ {
+     return false;
+ }
++
++static inline bool arm_is_el2_enabled(CPUARMState *env)
++{
++    return false;
++}
+ #endif
+ 
+ /**
+-- 
+2.29.1
 
--- PMM
 
