@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614E72A27C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:09:36 +0100 (CET)
-Received: from localhost ([::1]:35178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 325B72A27D2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:12:16 +0100 (CET)
+Received: from localhost ([::1]:43338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWmN-0002WO-Et
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:09:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
+	id 1kZWox-0005tp-8p
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:12:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZWfg-0001wQ-9s
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:02:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31244)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZWly-0002eK-5a
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:09:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZWfe-00039f-8W
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:02:39 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZWlv-0005Ki-FS
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:09:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604311357;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1604311744;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=F0ljDcmL8NE72QQUstwpvO0atFqMLhnfInFPB5JtY0M=;
- b=C7Rou1lhpBK10aTwdtP51cW+6HIPYl2Hz3M2YnFOEOxSHQSqw4ImhvgZC0apo3ig5NCx/T
- cmx8XRyxhavNm3S3jroSvK0IlnKAF59ifMPMH27dJOCddqbFJiAJKCcIZPcMOQ3Z5ZWpGL
- Tv4I6UBmJCXyn1PmPLu4TUdAiBf3TB4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-6sYce2ZWMGGLZNXkm38Htg-1; Mon, 02 Nov 2020 05:02:30 -0500
-X-MC-Unique: 6sYce2ZWMGGLZNXkm38Htg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0E1757053;
- Mon,  2 Nov 2020 10:02:29 +0000 (UTC)
-Received: from redhat.com (ovpn-114-136.ams2.redhat.com [10.36.114.136])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A6F325C1BB;
- Mon,  2 Nov 2020 10:02:24 +0000 (UTC)
-Date: Mon, 2 Nov 2020 10:02:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 00/11] sockets: Attempt to drain the abstract socket swamp
-Message-ID: <20201102100221.GA136514@redhat.com>
-References: <20201029133833.3450220-1-armbru@redhat.com>
- <CAJ+F1CLW=zfWq3apgrKear2v42LYarSMQKw07BHadM-rYjcmoA@mail.gmail.com>
- <87pn50vxa0.fsf@dusky.pond.sub.org>
- <20201030102049.GI99222@redhat.com>
- <87zh40no5a.fsf@dusky.pond.sub.org>
- <20201102091804.GC134709@redhat.com>
- <875z6om640.fsf@dusky.pond.sub.org>
+ bh=tpfvga1D5sVj+WNXSSRop+Andp3BEC3tZxvRURQO4mU=;
+ b=Q72gpJk26tr5nrB72dKR6CPWNx6gDkhjZk+cCqO7QlS45rj0tcBNNpSXDfuxZPnGPcruVc
+ Ks+aLv3SoGY1tUKnxU4whFb9Ra+Skxuq9Fc1X/0gNIuLexJwtBAQH5rYkUg68Bypwudame
+ mqsxdWLK0EEnLcA9a8wUKYpYD0pyWX4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-50-OXirh0ztPrWm2C5dnsp55g-1; Mon, 02 Nov 2020 05:09:01 -0500
+X-MC-Unique: OXirh0ztPrWm2C5dnsp55g-1
+Received: by mail-wr1-f70.google.com with SMTP id w1so6230389wrr.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:09:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=tpfvga1D5sVj+WNXSSRop+Andp3BEC3tZxvRURQO4mU=;
+ b=K0sCLrlifTCNP2gJYV9UarYy4BlAg8M2c5tndXJextO3PamCRpljPfne4r5zUbX7MI
+ MXcSa2k8KTJJToMY7f0xmpSv/oiXvs6HyZuvtZ3VqEnEuVKUn6jySf2t1qT6kPbohYcq
+ WahZXq6r2NuFFZWRLC+uYglOXsK0C1FTcefD5Kb4Wik4ggS451sw33oVaks2qFm4YMiF
+ 1RLEKRb9km9h5sKD95K1dB1zlcX6bbgCP0YlJtBvkMIEXR/RYSl0SClusfhEAvdaEwSa
+ QGDSUKhPNXk7BvsEC19w9Vv1AvyuQKjr8LSGASdZGh4Nvv37bZfZIbh/GujKXXBjh6uv
+ iUfQ==
+X-Gm-Message-State: AOAM532Hi9G7a4P+QGkG5R5pSyf0ALiaB//1NEd7Z5OwweA3lyecrnvL
+ +nXLhLkr2j+yb4Bhx8Itc28W4Teibx1g/DDBYFxMDsjUxH44fJZK/K5gnVmehdgLHR5jizzT/Ro
+ +6lIlm+y3V/iyQaw=
+X-Received: by 2002:a5d:6652:: with SMTP id f18mr18331581wrw.186.1604311740590; 
+ Mon, 02 Nov 2020 02:09:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzmX3tvwWS9UX5PjFMVfx+vqQVboPvrpGs+gV+hACem3k9ADfZdZmAnXa2J8KLUlkp71+lMWw==
+X-Received: by 2002:a5d:6652:: with SMTP id f18mr18331563wrw.186.1604311740423; 
+ Mon, 02 Nov 2020 02:09:00 -0800 (PST)
+Received: from redhat.com (bzq-79-182-97-190.red.bezeqint.net. [79.182.97.190])
+ by smtp.gmail.com with ESMTPSA id r3sm21576928wrm.51.2020.11.02.02.08.58
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 02:08:59 -0800 (PST)
+Date: Mon, 2 Nov 2020 05:08:56 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 00/15] pc,pci,vhost,virtio: misc fixes
+Message-ID: <20201102050841-mutt-send-email-mst@kernel.org>
+References: <20201030141136.1013521-1-mst@redhat.com>
+ <160406842210.5222.16586020334648182159@66eaa9a8a123>
+ <CAFEAcA_vzpTivJSGmM2aR56-z5adXe0hn9A8K+2Hb0KdR6sXkA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <875z6om640.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <CAFEAcA_vzpTivJSGmM2aR56-z5adXe0hn9A8K+2Hb0KdR6sXkA@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -89,54 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, xiaoqiang zhao <zxq_yx_007@163.com>,
- QEMU <qemu-devel@nongnu.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 02, 2020 at 10:59:43AM +0100, Markus Armbruster wrote:
-> Daniel P. Berrangé <berrange@redhat.com> writes:
-> 
-> > On Mon, Nov 02, 2020 at 09:44:49AM +0100, Markus Armbruster wrote:
-> >> Daniel P. Berrangé <berrange@redhat.com> writes:
-> >> 
-> >> > On Fri, Oct 30, 2020 at 11:11:19AM +0100, Markus Armbruster wrote:
-> >> >> Marc-André Lureau <marcandre.lureau@gmail.com> writes:
-> >> >> 
-> >> >> > Hi Markus,
-> >> >> >
-> >> >> > On Thu, Oct 29, 2020 at 5:43 PM Markus Armbruster <armbru@redhat.com> wrote:
-> [...]
-> >> >> >> Regardless, I *will* make time for ripping the feature out if we
-> >> >> >> decide to do that.  Quick & easy way to avoid reviewing this series
-> >> >> >> *hint* *hint*.
-> >> >> >>
-> >> >> >
-> >> >> > well, fwiw, I would also take that approach too, to the risk of upsetting
-> >> >> > the users.
-> >> >> 
-> >> >> Reverting the feature requires rough consensus and a patch.
-> >> >> 
-> >> >> I can provide a patch, but let's give everybody a chance to object
-> >> >> first.
-> >> 
-> >> Daniel, do you object, yes or no?
+On Sun, Nov 01, 2020 at 02:03:56PM +0000, Peter Maydell wrote:
+> On Fri, 30 Oct 2020 at 14:33, <no-reply@patchew.org> wrote:
 > >
-> > Yes, I object to removing the feature as it is clearly useful.
+> > Patchew URL: https://patchew.org/QEMU/20201030141136.1013521-1-mst@redhat.com/
 > 
-> Thanks.  I sent v2 of my fixes.  Can you take care of getting them
-> merged, hopefully in time for 5.2?
+> I'll apply this pullreq (unless it has other more serious
+> issues), but could you look at the coding style warnings in
+> a followup patch, please?
 
-Sure, I'll aim to review & send PR today / tomorrow.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Will do, thanks!
+
+> 
+> > 9/15 Checking commit 660b206b990b (pc: Implement -no-hpet as sugar for -machine hpet=on)
+> > WARNING: Block comments use a leading /* on a separate line
+> > #53: FILE: hw/i386/pc.c:1152:
+> > +        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+> >
+> > WARNING: Block comments should align the * on each line
+> > #54: FILE: hw/i386/pc.c:1153:
+> > +        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+> > +            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
+> >
+> 
+> > 13/15 Checking commit e013e462e230 (vhost-blk: set features before setting inflight feature)
+> > ERROR: trailing whitespace
+> > #45: FILE: hw/virtio/vhost.c:1651:
+> > + $
+> >
+> > ERROR: trailing whitespace
+> > #50: FILE: hw/virtio/vhost.c:1656:
+> > + $
+> 
+> These all look like nits that should be fixed.
+> 
+> thanks
+> -- PMM
 
 
