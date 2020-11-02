@@ -2,53 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4ECF2A22A5
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 02:06:47 +0100 (CET)
-Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9222A22E2
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 03:07:23 +0100 (CET)
+Received: from localhost ([::1]:33580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZOJ4-0000ei-Cz
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 20:06:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
+	id 1kZPFi-00037e-Nz
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 21:07:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kZOHf-0008EU-J9; Sun, 01 Nov 2020 20:05:19 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:49657 helo=ozlabs.org)
+ id 1kZPDY-0001vC-QI; Sun, 01 Nov 2020 21:05:08 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42071 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kZOHc-0007LT-LQ; Sun, 01 Nov 2020 20:05:18 -0500
+ id 1kZPDW-0005az-0o; Sun, 01 Nov 2020 21:05:08 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CPZT823nDz9sVH; Mon,  2 Nov 2020 12:05:00 +1100 (AEDT)
+ id 4CPbpL6Xs5z9sVX; Mon,  2 Nov 2020 13:04:58 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1604279100;
- bh=b7HomrenV/FFWQpqN7r9WFMdvcv/rU/8LMX1lHNBhNo=;
+ d=gibson.dropbear.id.au; s=201602; t=1604282698;
+ bh=nLDkD3ziWbVcXQ7izS1+JJAwUeIFujdyvLkoANr7jUs=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=etnHL5sNt4KjdXFqeUIugO4YPpBHn4PnosYhLfkD1dPhAxN8Ez8J+4C+ka3yL+mYI
- tayIQf+ISThuiPdu8K4oiB+40f1HuZKrtwhI79sw6Ek8mMsqq/UnESUEFx7S/Rwfdr
- 7xHdCOduUBlH4FUFv1EVmY0s6ChLY6KA1mQ4U4Q0=
-Date: Mon, 2 Nov 2020 11:57:56 +1100
+ b=TIgrFjSeMvmYCdz5/Z4BCsSdOJ9iDAqx1GqkiMkG/oPlcbY1Bjc4tL6a/h4BIXAn1
+ iWTHNR4BZ9hhTy0J2EUM3aoxvR3+a3QSvGNzAe/nTfwfqkLqOFHhNwBgTM8b0mDnaa
+ XNriyd2z+oH61bgSGPFO2VLjRm/P6TWH/j39tsjQ=
+Date: Mon, 2 Nov 2020 12:51:52 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
- properties
-Message-ID: <20201102005756.GB143651@yekko.fritz.box>
-References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
- <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
- <20201023211509.5c316c01@redhat.com>
- <20201025162444.0fdec88a@bahia.lan>
- <20201027125424.13833af8@redhat.com>
- <20201027161858.590329a7@bahia>
- <20201028162216.0f33e0ef@redhat.com>
- <20201030142542.3051b508@bahia.lan>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 1/4] hw/pci-host/prep: Update coding style to make
+ checkpatch.pl happy
+Message-ID: <20201102015152.GC143651@yekko.fritz.box>
+References: <20201012071906.3301481-1-f4bug@amsat.org>
+ <20201012071906.3301481-2-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="cmJC7u66zC7hs+87"
+ protocol="application/pgp-signature"; boundary="UFHRwCdBEJvubb2X"
 Content-Disposition: inline
-In-Reply-To: <20201030142542.3051b508@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20201012071906.3301481-2-f4bug@amsat.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 20:05:01
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -67,49 +61,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: qemu-ppc@nongnu.org, Thomas Huth <thuth@redhat.com>,
+ =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---cmJC7u66zC7hs+87
-Content-Type: text/plain; charset=us-ascii
+--UFHRwCdBEJvubb2X
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 30, 2020 at 02:25:42PM +0100, Greg Kurz wrote:
-> On Wed, 28 Oct 2020 16:22:16 +0100
-> Igor Mammedov <imammedo@redhat.com> wrote:
+On Mon, Oct 12, 2020 at 09:19:03AM +0200, Philippe Mathieu-Daud=E9 wrote:
+> To make the next commit easier to review, clean this code first.
 >=20
-> > On Tue, 27 Oct 2020 16:18:58 +0100
-> > Greg Kurz <groug@kaod.org> wrote:
-> >=20
-> [...]
-> > >=20
-> > > It might require some more code refactoring because the way regular
-> > > PC-DIMMs are broken down into a set of logical memory blocks (LMBs),
-> > > each one having its own DRC but it's certainly doable. Probably for
-> > > QEMU 6.0 though since we're entering soft freeze and David already
-> > > fired a PR today.
-> >=20
-> > as far as it's not forgotten, it can be done later.
-> >=20
->=20
-> David,
->=20
-> Can you create a ppc-for-6.0 branch ?
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
 
-Done.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
+> ---
+>  hw/pci-host/prep.c | 6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >=20
-> Cheers,
->=20
+> diff --git a/hw/pci-host/prep.c b/hw/pci-host/prep.c
+> index d0323fefb10..80dfb67da43 100644
+> --- a/hw/pci-host/prep.c
+> +++ b/hw/pci-host/prep.c
+> @@ -234,8 +234,10 @@ static void raven_pcihost_realizefn(DeviceState *d, =
+Error **errp)
+>              sysbus_init_irq(dev, &s->pci_irqs[i]);
+>          }
+>      } else {
+> -        /* According to PReP specification section 6.1.6 "System Interru=
+pt
+> -         * Assignments", all PCI interrupts are routed via IRQ 15 */
+> +        /*
+> +         * According to PReP specification section 6.1.6 "System Interru=
+pt
+> +         * Assignments", all PCI interrupts are routed via IRQ 15
+> +         */
+>          s->or_irq =3D OR_IRQ(object_new(TYPE_OR_IRQ));
+>          object_property_set_int(OBJECT(s->or_irq), "num-lines", PCI_NUM_=
+PINS,
+>                                  &error_fatal);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -117,25 +112,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---cmJC7u66zC7hs+87
+--UFHRwCdBEJvubb2X
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+fWZQACgkQbDjKyiDZ
-s5J8VRAAqxjdOqdkW7ubsTScSWIm1KPwKXkdZ1VXxvMmsFfskfimH5rgOCz+/z8n
-XNBc0rdYTxZYhBEYsPevIg2cc6Oj8kqPikhB2V8voHI7ryQxxgaM3buDAujQrPFp
-9J1A3Bz29lGQ5ry6rwtUI+/NGp5FB2kw8EjtOYL3OFu97yHDaB4QEzVF5CS7TTgO
-8XDuaFnURjkgT4gvEeQ408xGmVKQV5KjwWvyJ6b6B2wyLYhX6N0wrLOipFQdaUNY
-DVm4AMldCc+aGG5PcjYPSOja2yL630p5iptIkeGjbmzOgq4lMlRRHAndYCxO/APj
-KGaGf/9oWib2zObhQAOHdoMWrEXK4vvg2CPwH7jilXrQ5Me6YsxcbrlI6AlijQj0
-Hi3npgFyopZRIzEksb9BNz9boMhhu8xw+ydqLSlWXkdJogl8kbhcPXkB55NHW2ER
-CtBrlJq4Fn0JMmbKZzKqDWAygfqyYI0JiL30Z1VdNDa6Xtnv9CooV7ILQZweNIyy
-M96tjPHpujt5N0yVQyTNe+eP0BzEb0ebqG2N5cnigfy+Cn2lI6PlFdEHDGSNEsgE
-qVxK1CvMmEI1cHyGTpDnlqWBI3R3fPjrhAhcZkammucgiZkeufGAxNVUP2JSP8Ak
-KkSQDA01PGk1hU2nzBOoUyBND9cEs4PqV/sVBCLxtcBWJy+FIlI=
-=ssRw
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+fZjYACgkQbDjKyiDZ
+s5KPpBAArGh7B+VYklfydWvUKxuUgc8kmwX5VKZVuHBHHYN+gE4gmR+xNydIbUrS
+s6xlF0y8lQdgm9FTVkHXNFLgQnGpEgV9rrhnwiKLES/XA7c441NvKxgYAanDCM9U
+0YvbMwBTz4Y6/5RHTcXxQ9sPCTWNXs9v2K9SYmjTeHfR++QYvve2ofCKOU2WGVMH
+JSuENp+vl5h9uJdJm6bJJkgyLTFMyvncREKqpGS54BF8jNIt2wRlOyWm7vRH2L2d
+VvBbnkCEt/NYGdHbwq9IrtzH53CbXFFOzuxYE+N0632SnXaFqPeAtBDmg3rvPzd/
+JnxhkxfQTgJlEuruxLGNahee5wWSsnU9kWrHSjhnI1+3zmk5B6GHLO/TOvOJDa8a
+Biiw8VAiZMCyeDLx+Ym39tyIgNn9ni0HBkPQZNdLEYyFnFIfdl1hvsS3SwjwdzSL
+r0/LYCspTFLWrAUt8/tKnS4s0Up6aMWbDmfINAWYRtSqeojykWs/xkaY7hwaJTU4
+lBjYN9HhF6lSoakXYcCf/yieaF1gT9EdtoMzgbS1qUT0JlMGTUwuSPtGeiL09e+5
+n78CbJfjxDp8AcjN/28TY73Al4TQMei9BL6Swgwr8h9gF9jN1bEW5g9E0YhlZHhh
+xyLdFmTZdKKz48FcAKdPg1sztGgoFsd6Rb/unkqgxOSci0kKoQU=
+=sy+F
 -----END PGP SIGNATURE-----
 
---cmJC7u66zC7hs+87--
+--UFHRwCdBEJvubb2X--
 
