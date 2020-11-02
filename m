@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAC9D2A34A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 20:55:16 +0100 (CET)
-Received: from localhost ([::1]:48092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6F802A34BF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 20:59:41 +0100 (CET)
+Received: from localhost ([::1]:53202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZfv9-0002Tx-T5
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 14:55:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33358)
+	id 1kZfzQ-0004qD-Rs
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 14:59:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZfuP-00022K-MK
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:54:29 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:36756)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZfuN-0001nD-Sm
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:54:29 -0500
-Received: by mail-ed1-x534.google.com with SMTP id l16so15602716eds.3
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 11:54:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=IMnaQHPJyIWk9HesfAiUpFReMmHFGCd0aTr6/9osafc=;
- b=sPGgNyAPlprRXS1Qvh4+YjRvxWtzW2tE4E5E3AEP/OQIy3eMkOa1alMfA7nT5NWzsS
- vNok0lmAX4Mo0cWFr+1t4SZzVbS7ZzfxBjXXR3dwpT1bHBR0ABDETwDJ3pFssfo6AAUI
- iTCxmZlDP9L0mkVcCUavk3RlN7CgYEA0gvxFMpURvfoX5qFeEDSVaL7FH+Q2f5RExLfD
- hYU4bJrHX7pzwbmpdop65VBWQaaPrOYdgxg2Xp61n/6SNApJZEkHYpGpJkYSYxOgAYXf
- Pf2yFCmpqJb6Gn8GLpVStY2QY2L5jHGhhmZVL3ffj0yhoFqKeFG4b3LMVui0AUSAZgtM
- YaHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=IMnaQHPJyIWk9HesfAiUpFReMmHFGCd0aTr6/9osafc=;
- b=dLXRshr6PQdtxUZi5SPdG+pnMMElnqoZk3a7IQjQ7ZYo5NXWN2BrJEYsqqReDvpI3b
- /uX5/umpVFm27pd2eRbH64H7LaJly6x7OwdO/Gd4TK0dpyELl7/pMsIFh+dBKxxjit8v
- iqGXCOUwBxWpPTJvhb60d4CBLycaz1ouLSiaz4zgLpeXNRqux32mD5Q/ERkw8FEjZ7PI
- TATNFLu3galvlc6ELShL64RLRN3983/4ovoxGlS3r6ZgZlC8N1KvZ6jgwg80xvSdCypa
- MUwTUdW01WChlJ76bPW2U4IzzG2aHxHf6waYmgzcFmkFxRMPTqSsaLEKNiriZwgDbLtC
- 49bw==
-X-Gm-Message-State: AOAM533aDAcNeqXLjaStoMdhjr5Xzj1uYBWOzI/XN5XOZgzKvyigFySe
- bh9/6Ti1M7W+WaJ3kCr4Dt3GNzIpa6my9lXqDxFW6by/o+w=
-X-Google-Smtp-Source: ABdhPJzVu2W/Kn9h04ji6YBynSIGINbHag3565jRodanGPnxXy2OtXdp0qElzl2vMXf7c7WhXMFfVV5HX/9xQE7wZ0o=
-X-Received: by 2002:a05:6402:4c6:: with SMTP id
- n6mr18642513edw.204.1604346865495; 
- Mon, 02 Nov 2020 11:54:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kZfxF-0003ES-Bx
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kZfx9-0002GE-59
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604347032;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fzycBra8mlhDh63R4ZAlgIbcsaqGA0OLwNPOh+WHyGo=;
+ b=Giojq6labONjmuyjvwz45DPm/Wc+Sg8sKn0sVtjtKaLkgat+C5mSaUqk7brTWXBeAZj6YQ
+ ro2daQqbFEeEy9nwK9fMT3ZJSrYAYDTObkltaDgwbKE8g/GksX1FGo1sJVXts1x9E3NFnm
+ Dl0unbDMTE0svcbY/dvvVFJa0ZGzZhg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-27-Y5zV_siuPAa9LKh6tgxBwQ-1; Mon, 02 Nov 2020 14:57:08 -0500
+X-MC-Unique: Y5zV_siuPAa9LKh6tgxBwQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 650411006CA3;
+ Mon,  2 Nov 2020 19:57:07 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-114-142.ams2.redhat.com
+ [10.36.114.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7154F1001281;
+ Mon,  2 Nov 2020 19:56:59 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, peterx@redhat.com, philmd@redhat.com,
+ zhangjiachen.jaycee@bytedance.com, mreitz@redhat.com
+Subject: [PULL 00/12] migration queue
+Date: Mon,  2 Nov 2020 19:56:45 +0000
+Message-Id: <20201102195657.219501-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Nov 2020 19:54:14 +0000
-Message-ID: <CAFEAcA93d5VKj+jbJQcyxsG+54G32r1k53DPT8rGRqZcROU2hA@mail.gmail.com>
-Subject: Does QEMU's coverity-scan run need to track coverity issues in dtb or
- slirp ?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,21 +79,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: stefanha@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently QEMU's Coverity-Scan project has a bunch of unresolved
-issues in code in dtc/ and also in slirp/. (I suspect most of them
-are actually false-positives that got re-reported when we switched
-to Meson and the filenames changed, or some similar event.)
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Do dtc and slirp as upstream projects already track Coverity issues
-(in which case we can just close the issues in the QEMU tracker as
-irrelevant, or do we need to investigate these and potentially
-forward them into whatever upstream bug tracker is appropriate?
+The following changes since commit b139d11ae198aba0e009daddf7a3370ce84b2d09:
 
-thanks
--- PMM
+  Merge remote-tracking branch 'remotes/aperard/tags/pull-xen-20201102' into staging (2020-11-02 16:05:47 +0000)
+
+are available in the Git repository at:
+
+  git://github.com/dagrh/qemu.git tags/pull-migration-20201102a
+
+for you to fetch changes up to af1bb3fe7f146fafdaadb479975ca2b53b49df40:
+
+  tests/acceptance: Add virtiofs_submounts.py (2020-11-02 19:23:48 +0000)
+
+----------------------------------------------------------------
+Migration and virtiofs fixes 2020-11-02
+
+Fixes for postcopy migration test hang
+A seccomp crash for virtiofsd on some !x86
+Help message and minor CID fix
+
+And another crack at Max's set.
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+----------------------------------------------------------------
+Dr. David Alan Gilbert (1):
+      virtiofsd: Seccomp: Add 'send' for syslog
+
+Jiachen Zhang (1):
+      virtiofsd: Fix the help message of posix lock
+
+Max Reitz (7):
+      virtiofsd: Check FUSE_SUBMOUNTS
+      virtiofsd: Add attr_flags to fuse_entry_param
+      meson.build: Check for statx()
+      virtiofsd: Add mount ID to the lo_inode key
+      virtiofsd: Announce sub-mount points
+      tests/acceptance/boot_linux: Accept SSH pubkey
+      tests/acceptance: Add virtiofs_submounts.py
+
+Peter Xu (2):
+      migration: Unify reset of last_rb on destination node when recover
+      migration: Postpone the kick of the fault thread after recover
+
+Philippe Mathieu-Daudé (1):
+      tools/virtiofsd: Check vu_init() return value (CID 1435958)
+
+ meson.build                                        |  16 +
+ migration/postcopy-ram.c                           |   2 -
+ migration/savevm.c                                 |  17 +-
+ tests/acceptance/boot_linux.py                     |  13 +-
+ tests/acceptance/virtiofs_submounts.py             | 321 +++++++++++++++++++++
+ .../virtiofs_submounts.py.data/cleanup.sh          |  46 +++
+ .../virtiofs_submounts.py.data/guest-cleanup.sh    |  30 ++
+ .../acceptance/virtiofs_submounts.py.data/guest.sh | 138 +++++++++
+ .../acceptance/virtiofs_submounts.py.data/host.sh  | 127 ++++++++
+ tools/virtiofsd/fuse_common.h                      |   7 +
+ tools/virtiofsd/fuse_lowlevel.c                    |   5 +
+ tools/virtiofsd/fuse_lowlevel.h                    |   5 +
+ tools/virtiofsd/fuse_virtio.c                      |   7 +-
+ tools/virtiofsd/helper.c                           |   3 +-
+ tools/virtiofsd/passthrough_ll.c                   | 117 +++++++-
+ tools/virtiofsd/passthrough_seccomp.c              |   2 +
+ 16 files changed, 832 insertions(+), 24 deletions(-)
+ create mode 100644 tests/acceptance/virtiofs_submounts.py
+ create mode 100644 tests/acceptance/virtiofs_submounts.py.data/cleanup.sh
+ create mode 100644 tests/acceptance/virtiofs_submounts.py.data/guest-cleanup.sh
+ create mode 100644 tests/acceptance/virtiofs_submounts.py.data/guest.sh
+ create mode 100644 tests/acceptance/virtiofs_submounts.py.data/host.sh
+
 
