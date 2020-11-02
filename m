@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2365E2A32CC
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:22:34 +0100 (CET)
-Received: from localhost ([::1]:45636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F36822A32F1
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:26:44 +0100 (CET)
+Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZeTR-0003J1-56
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:22:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40860)
+	id 1kZeXU-0001Dg-1S
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeR0-0001Wi-GW
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:04 -0500
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38909)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeR7-0001fn-JC
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:09 -0500
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:42017)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeQs-0006hc-84
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:02 -0500
-Received: by mail-lf1-x142.google.com with SMTP id 141so18658544lfn.5
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 10:19:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeQu-0006hs-8u
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:09 -0500
+Received: by mail-lf1-x141.google.com with SMTP id a7so18628526lfk.9
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 10:19:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zZvFse3oqHhuPCkivJ8Tz4pHGWRjZvWGfQDergDm21A=;
- b=ERwKG+s3W00tHZ68lWQPt8K6vtXzZv9cAnR9J4haXllUqSsnGCT/VTztPYhqXv4z0A
- XI9cCNMPrLkXNoSo162e7jCeiCqXqHJFOZX5utcKVy1MWta2aSRs0AOwaK1hZydzF6j8
- pF7xpscQ1OW1HNOZo6nNwFSTIbY9R/5U6RLsIbe6JtT5wknzw0Wzsf20xYC7scizqwn7
- ktyVXAyqJRImfpnK3JPjFv/s1mvHGuhVe5q8yQv4CnOo/WyN0UFP5S9dE1JXcIrOSSx7
- rh1UjGn2iKzW7uO1ezUdBjxVfqoanMyf4JiTv3bqF5H9bAYZFhfVQNs8tzoAXqpu9EZ7
- wxcQ==
+ bh=3+YyHTEOmoDlnxZwQCww4YXw4Lozy8Eon7UHJCT2EzM=;
+ b=NSz4/piZs7R5rtGK6iEwyUNc2Se7teWjllHhJvvkPZoOcbmA1wXHbX8aN2cxtWUqcT
+ qSzXv0aH4cnfCjNf/JI74QcPE1eFrgi/B2KnjYvYMrnQh0Ybe0wj/BafbVvFvVxfR7YT
+ 5ISxA4W/SeGiTYUwgv5EVCT4SsV6oon0IY1KQV39VHEaJt1/441oXOHu8bNmY3WO0twS
+ 19GJx/VLt8aQWbaY0DbBw/KbICx04T0cozFXck2ddd3zaW0cpsVxvGB5A2p+nsdajEuE
+ i3/nh3qVB0waw+tbWMcP455OjYidGMJzflvTzM9u5aQUuUuuILPGjBA5wuKZ7x5yvkOs
+ /zxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zZvFse3oqHhuPCkivJ8Tz4pHGWRjZvWGfQDergDm21A=;
- b=HwN3oZTvgB9mgOYq3glcLIlUcqB+jrdo+9/uJE5BqBsUjiqibZwrHfg7mxxuMnexwc
- vVH3e/WPhXPfNaOC1OuwbMuxI5bx34eRanTb/EmnaO+4QhVasaM2vxOo8bWdWth7t37r
- yI1MOPHI0qqWDTBC7AraM6E7ZoOJZKXkzjkJP5Ag+CcgElGDW0LUYK162RfCkJ4VHjw/
- QzK3xdBs/EsOsipY7wMZgy5hIckL30ro9D9bhYGohMFzfiBcnNXvZ1wzlCMexlsXPOIO
- YlEsSsnjynsk3wANIfTwbe4GjAgf2xmdZqbauQgmha8BJBU4j4fQxbnIORYZnakMamSj
- tC4A==
-X-Gm-Message-State: AOAM533dFUFXhs1LZVqax8HcW/3GKrOBAOTLROSf81ZLY3AZ34uMXxu8
- TvCSNYCcV1glbMqOR9rdKr9uXg==
-X-Google-Smtp-Source: ABdhPJxTtWH4sA5v9GvGaINC4EwhEIae0lw+9gsTkNjf92azqomY4q7IyfERfnUJDrHkE4aoN4r0EQ==
-X-Received: by 2002:ac2:43ad:: with SMTP id t13mr3782788lfl.282.1604341191910; 
- Mon, 02 Nov 2020 10:19:51 -0800 (PST)
+ bh=3+YyHTEOmoDlnxZwQCww4YXw4Lozy8Eon7UHJCT2EzM=;
+ b=YeWMDN9ZYukJ/WsAO8ur6KQTa+1ostZ9p8H1AMxdSXdQtRqplANLhYawcVUDgGpvsf
+ MwERQXlu4HEfLOKyiwjOpgm1UZDrpAQJ6ypIhLGOHY1QS2bOMojfC7BSDCgMo4UkpuDn
+ 0OzT7HU0rr0umplxJL4u3kwZtALzwg6njKDL9zNG32PORLcaxo0qAtfLIQkc7wKtDrJq
+ mRz5bLQeJJysB1Iox+qrKHsUgjtE93rJdO03utcMoW337AEZkkublykyxtfuhVUBZKkw
+ 7/MTlhSJz512h3FJjFiMeOr+ojBXewaLVkpjELF1dUIvezGCxYLA53tLZFJbX7hOk+1r
+ Ap3g==
+X-Gm-Message-State: AOAM531xhdUsbI0tk0TFfJqY0OvivrLKjJaSyE7ZM8xUmCqoLtEp0csU
+ Sa54/6+HIPnpiKelvabNfxna7w==
+X-Google-Smtp-Source: ABdhPJyRiaXqfwvJsq1jD9Ly3RknIiCLSt5abf9+ZSuAhO20/Ls5tn9ghUt3xXlBm+Il3nKjaUMYOw==
+X-Received: by 2002:ac2:47fc:: with SMTP id b28mr5969722lfp.454.1604341193176; 
+ Mon, 02 Nov 2020 10:19:53 -0800 (PST)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id c6sm2527007lfm.226.2020.11.02.10.19.50
+ by smtp.gmail.com with ESMTPSA id c6sm2527007lfm.226.2020.11.02.10.19.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 10:19:51 -0800 (PST)
+ Mon, 02 Nov 2020 10:19:52 -0800 (PST)
 From: Andrew Melnychenko <andrew@daynix.com>
 To: jasowang@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH 1/6] net: Added SetSteeringEBPF method for NetClientState.
-Date: Mon,  2 Nov 2020 20:51:11 +0200
-Message-Id: <20201102185115.7425-2-andrew@daynix.com>
+Subject: [RFC PATCH 2/6] ebpf: Added basic eBPF API.
+Date: Mon,  2 Nov 2020 20:51:12 +0200
+Message-Id: <20201102185115.7425-3-andrew@daynix.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201102185115.7425-1-andrew@daynix.com>
 References: <20201102185115.7425-1-andrew@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::142;
- envelope-from=andrew@daynix.com; helo=mail-lf1-x142.google.com
+Received-SPF: none client-ip=2a00:1450:4864:20::141;
+ envelope-from=andrew@daynix.com; helo=mail-lf1-x141.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -18
@@ -90,153 +90,197 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew <andrew@daynix.com>
 
-For now, that method supported only by Linux TAP.
-Linux TAP uses TUNSETSTEERINGEBPF ioctl.
-TUNSETSTEERINGBPF was added 3 years ago.
-Qemu checks if it was defined before using.
+Added basic functions for creating eBPF maps and loading programs.
+Also added helper function to 'fix' eBPF map descriptors in programs.
+During runtime, different values of eBPF map file descriptors created,
+and it required to place them into eBPF instructions for proper work.
+It's similar to ELF's relocation table section routine.
 
+Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 ---
- include/net/net.h |  2 ++
- net/tap-bsd.c     |  5 +++++
- net/tap-linux.c   | 19 +++++++++++++++++++
- net/tap-solaris.c |  5 +++++
- net/tap-stub.c    |  5 +++++
- net/tap.c         |  9 +++++++++
- net/tap_int.h     |  1 +
- 7 files changed, 46 insertions(+)
+ ebpf/ebpf.c       | 107 ++++++++++++++++++++++++++++++++++++++++++++++
+ ebpf/ebpf.h       |  35 +++++++++++++++
+ ebpf/trace-events |   4 ++
+ ebpf/trace.h      |   2 +
+ 4 files changed, 148 insertions(+)
+ create mode 100644 ebpf/ebpf.c
+ create mode 100644 ebpf/ebpf.h
+ create mode 100644 ebpf/trace-events
+ create mode 100644 ebpf/trace.h
 
-diff --git a/include/net/net.h b/include/net/net.h
-index 897b2d7595..d8a41fb010 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -60,6 +60,7 @@ typedef int (SetVnetBE)(NetClientState *, bool);
- typedef struct SocketReadState SocketReadState;
- typedef void (SocketReadStateFinalize)(SocketReadState *rs);
- typedef void (NetAnnounce)(NetClientState *);
-+typedef bool (SetSteeringEBPF)(NetClientState *, int);
- 
- typedef struct NetClientInfo {
-     NetClientDriver type;
-@@ -81,6 +82,7 @@ typedef struct NetClientInfo {
-     SetVnetLE *set_vnet_le;
-     SetVnetBE *set_vnet_be;
-     NetAnnounce *announce;
-+    SetSteeringEBPF *set_steering_ebpf;
- } NetClientInfo;
- 
- struct NetClientState {
-diff --git a/net/tap-bsd.c b/net/tap-bsd.c
-index 77aaf674b1..4f64f31e98 100644
---- a/net/tap-bsd.c
-+++ b/net/tap-bsd.c
-@@ -259,3 +259,8 @@ int tap_fd_get_ifname(int fd, char *ifname)
- {
-     return -1;
- }
+diff --git a/ebpf/ebpf.c b/ebpf/ebpf.c
+new file mode 100644
+index 0000000000..cec35a484c
+--- /dev/null
++++ b/ebpf/ebpf.c
+@@ -0,0 +1,107 @@
++#include "ebpf/ebpf.h"
++#include <sys/syscall.h>
++#include "trace.h"
 +
-+int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++#define ptr_to_u64(x) ((uint64_t)(uintptr_t)x)
++
++static inline int ebpf(enum bpf_cmd cmd, union bpf_attr *attr,
++        unsigned int size)
 +{
-+    return -1;
-+}
-diff --git a/net/tap-linux.c b/net/tap-linux.c
-index b0635e9e32..196373019f 100644
---- a/net/tap-linux.c
-+++ b/net/tap-linux.c
-@@ -31,6 +31,7 @@
- 
- #include <net/if.h>
- #include <sys/ioctl.h>
-+#include <linux/if_tun.h> /* TUNSETSTEERINGEBPF */
- 
- #include "qapi/error.h"
- #include "qemu/error-report.h"
-@@ -316,3 +317,21 @@ int tap_fd_get_ifname(int fd, char *ifname)
-     pstrcpy(ifname, sizeof(ifr.ifr_name), ifr.ifr_name);
-     return 0;
- }
-+
-+int tap_fd_set_steering_ebpf(int fd, int prog_fd)
-+{
-+#ifdef TUNSETSTEERINGEBPF
-+    if (ioctl(fd, TUNSETSTEERINGEBPF, (void *) &prog_fd) != 0) {
-+        error_report("Issue while setting TUNSETSTEERINGEBPF:"
-+                    " %s with fd: %d, prog_fd: %d",
-+                    strerror(errno), fd, prog_fd);
-+
-+       return -1;
++    int ret = syscall(__NR_bpf, cmd, attr, size);
++    if (ret < 0) {
++        trace_ebpf_error("eBPF syscall error", strerror(errno));
 +    }
 +
-+    return 0;
-+#else
-+    error_report("TUNSETSTEERINGEBPF is not supported");
-+    return -1;
-+#endif
++    return ret;
 +}
-diff --git a/net/tap-solaris.c b/net/tap-solaris.c
-index 0475a58207..d85224242b 100644
---- a/net/tap-solaris.c
-+++ b/net/tap-solaris.c
-@@ -255,3 +255,8 @@ int tap_fd_get_ifname(int fd, char *ifname)
- {
-     return -1;
- }
 +
-+int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++int bpf_create_map(enum bpf_map_type map_type,
++                   unsigned int key_size,
++                   unsigned int value_size,
++                   unsigned int max_entries)
 +{
-+    return -1;
-+}
-diff --git a/net/tap-stub.c b/net/tap-stub.c
-index de525a2e69..a0fa25804b 100644
---- a/net/tap-stub.c
-+++ b/net/tap-stub.c
-@@ -85,3 +85,8 @@ int tap_fd_get_ifname(int fd, char *ifname)
- {
-     return -1;
- }
++    union bpf_attr attr = {
++            .map_type    = map_type,
++            .key_size    = key_size,
++            .value_size  = value_size,
++            .max_entries = max_entries
++    };
 +
-+int tap_fd_set_steering_ebpf(int fd, int prog_fd)
++    return ebpf(BPF_MAP_CREATE, &attr, sizeof(attr));
++}
++
++int bpf_lookup_elem(int fd, const void *key, void *value)
 +{
-+    return -1;
++    union bpf_attr attr = {
++            .map_fd = (uint32_t)fd,
++            .key    = ptr_to_u64(key),
++            .value  = ptr_to_u64(value),
++    };
++
++    return ebpf(BPF_MAP_LOOKUP_ELEM, &attr, sizeof(attr));
 +}
-diff --git a/net/tap.c b/net/tap.c
-index c46ff66184..81f50017bd 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -337,6 +337,14 @@ static void tap_poll(NetClientState *nc, bool enable)
-     tap_write_poll(s, enable);
- }
- 
-+static bool tap_set_steering_ebpf(NetClientState *nc, int prog_fd)
++
++int bpf_update_elem(int fd, const void *key, const void *value,
++                    uint64_t flags)
 +{
-+    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-+    assert(nc->info->type == NET_CLIENT_DRIVER_TAP);
++    union bpf_attr attr = {
++            .map_fd = (uint32_t)fd,
++            .key    = ptr_to_u64(key),
++            .value  = ptr_to_u64(value),
++            .flags  = flags,
++    };
 +
-+    return tap_fd_set_steering_ebpf(s->fd, prog_fd) == 0;
++    return ebpf(BPF_MAP_UPDATE_ELEM, &attr, sizeof(attr));
 +}
 +
- int tap_get_fd(NetClientState *nc)
- {
-     TAPState *s = DO_UPCAST(TAPState, nc, nc);
-@@ -362,6 +370,7 @@ static NetClientInfo net_tap_info = {
-     .set_vnet_hdr_len = tap_set_vnet_hdr_len,
-     .set_vnet_le = tap_set_vnet_le,
-     .set_vnet_be = tap_set_vnet_be,
-+    .set_steering_ebpf = tap_set_steering_ebpf,
- };
- 
- static TAPState *net_tap_fd_init(NetClientState *peer,
-diff --git a/net/tap_int.h b/net/tap_int.h
-index 225a49ea48..547f8a5a28 100644
---- a/net/tap_int.h
-+++ b/net/tap_int.h
-@@ -44,5 +44,6 @@ int tap_fd_set_vnet_be(int fd, int vnet_is_be);
- int tap_fd_enable(int fd);
- int tap_fd_disable(int fd);
- int tap_fd_get_ifname(int fd, char *ifname);
-+int tap_fd_set_steering_ebpf(int fd, int prog_fd);
- 
- #endif /* NET_TAP_INT_H */
++int bpf_delete_elem(int fd, const void *key)
++{
++    union bpf_attr attr = {
++            .map_fd = (uint32_t)fd,
++            .key    = ptr_to_u64(key),
++    };
++
++    return ebpf(BPF_MAP_DELETE_ELEM, &attr, sizeof(attr));
++}
++
++#define BPF_LOG_BUF_SIZE (UINT32_MAX >> 8)
++static char bpf_log_buf[BPF_LOG_BUF_SIZE] = {};
++
++int bpf_prog_load(enum bpf_prog_type type,
++                  const struct bpf_insn *insns, int insn_cnt,
++                  const char *license)
++{
++    int ret = 0;
++    union bpf_attr attr = {};
++    attr.prog_type = type;
++    attr.insns     = ptr_to_u64(insns);
++    attr.insn_cnt  = (uint32_t)insn_cnt;
++    attr.license   = ptr_to_u64(license);
++    attr.log_buf   = ptr_to_u64(bpf_log_buf);
++    attr.log_size  = BPF_LOG_BUF_SIZE;
++    attr.log_level = 1;
++
++    ret = ebpf(BPF_PROG_LOAD, &attr, sizeof(attr));
++    if (ret < 0) {
++        trace_ebpf_error("eBPF program load error:", bpf_log_buf);
++    }
++
++    return ret;
++}
++
++unsigned int bpf_fixup_mapfd(struct fixup_mapfd_t *table,
++                             size_t table_size, struct bpf_insn *insn,
++                             size_t insn_len, const char *map_name, int fd) {
++    unsigned int ret = 0;
++    int i = 0;
++
++    for (; i < table_size; ++i) {
++        if (strcmp(table[i].map_name, map_name) == 0) {
++            insn[table[i].instruction_num].src_reg = 1;
++            insn[table[i].instruction_num].imm = fd;
++            ++ret;
++        }
++    }
++
++    return ret;
++}
+diff --git a/ebpf/ebpf.h b/ebpf/ebpf.h
+new file mode 100644
+index 0000000000..511ad0a06f
+--- /dev/null
++++ b/ebpf/ebpf.h
+@@ -0,0 +1,35 @@
++#ifndef QEMU_EBPF_H
++#define QEMU_EBPF_H
++
++#include "qemu/osdep.h"
++
++#ifdef CONFIG_EBPF
++#include <linux/bpf.h>
++
++int bpf_create_map(enum bpf_map_type map_type,
++                   unsigned int key_size,
++                   unsigned int value_size,
++                   unsigned int max_entries);
++
++int bpf_lookup_elem(int fd, const void *key, void *value);
++
++int bpf_update_elem(int fd, const void *key, const void *value,
++                    uint64_t flags);
++
++int bpf_delete_elem(int fd, const void *key);
++
++int bpf_prog_load(enum bpf_prog_type type,
++                  const struct bpf_insn *insns, int insn_cnt,
++                  const char *license);
++
++struct fixup_mapfd_t {
++    const char *map_name;
++    size_t instruction_num;
++};
++
++unsigned int bpf_fixup_mapfd(struct fixup_mapfd_t *table,
++                             size_t table_size, struct bpf_insn *insn,
++                             size_t insn_len, const char *map_name, int fd);
++
++#endif /* CONFIG_EBPF */
++#endif /* QEMU_EBPF_H */
+diff --git a/ebpf/trace-events b/ebpf/trace-events
+new file mode 100644
+index 0000000000..3c189516e3
+--- /dev/null
++++ b/ebpf/trace-events
+@@ -0,0 +1,4 @@
++# See docs/devel/tracing.txt for syntax documentation.
++
++# ebpf.c
++ebpf_error(const char *s1, const char *s2) "error in %s: %s"
+diff --git a/ebpf/trace.h b/ebpf/trace.h
+new file mode 100644
+index 0000000000..ad570e6691
+--- /dev/null
++++ b/ebpf/trace.h
+@@ -0,0 +1,2 @@
++#include "trace/trace-ebpf.h"
++
 -- 
 2.28.0
 
