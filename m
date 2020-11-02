@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F342A29B0
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 12:44:23 +0100 (CET)
-Received: from localhost ([::1]:41428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 431982A29B3
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 12:45:07 +0100 (CET)
+Received: from localhost ([::1]:43670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZYG6-0007YY-LL
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 06:44:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49040)
+	id 1kZYGj-0008Rh-9A
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 06:45:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZYEc-0006Ba-CK
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:42:50 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42213)
+ id 1kZYFC-0006w4-Vt
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:43:27 -0500
+Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:34970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZYEY-0006HK-Jb
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:42:49 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id i19so7451985ejx.9
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 03:42:46 -0800 (PST)
+ id 1kZYFB-0006a1-C4
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:43:26 -0500
+Received: by mail-ej1-x642.google.com with SMTP id p5so18492726ejj.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 03:43:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=nA/mgyo4bdJ6AprBPHyFO1GHk3Xz54ee1cAgbBU9P3A=;
- b=wdTVupi0JC0RUiWacLAdLnk6CWjqs7sGY55eq2HYksy6v88hMNROlm96+dff0MB2+O
- X3BWA+p5XVRshREp7cDpkstKS9Gh0ihAHbQqa49SbllaIL6O1XVO6N0EenZHCOPsMXLQ
- 52YzO/ohMS23F/Fr6OMlc9gO8yYRxJsEG1dbD/COo1Bj1+tV5/EIDKf80LmjgePKoC/Z
- 56LxiRTNPCTqziM8zbqd9gMYlV/8MSR/4SmhD2kIbAMOlM6w1onbYw86m2laBF3Bpyjf
- qXkeXkwchpccNRyl+b/DQYe3QRITC4+cD57qtIpaEGyc957v42zfiijT0rVd/JF7bXRu
- lulQ==
+ bh=Lh4FMiC0ZDtG1v8r5aV0+yTQMHhtss4uQt29DivgaMY=;
+ b=ZNcw2MDfvqc7h8uM7BDfegQi4eMuETaw5Hxr5izY87P0McVmFPjADW5IcGeVFGEgbg
+ L/61EnYnMiKm/3DqjHhFDHHJob6X94M0aHDfvc5uaL3LtdjEStZ7zu/qxxHQcDoLkOl4
+ UB1J99gExCXZeUjaveofmxnttVQc526lHX/xXQhytNa/RuEH+wAs2rsz8LKVmrEa8mms
+ bsP2vkNiPyBZhOMOi+vCd+2Ys3kYmP92hIzc3r0EQuoGz5xAQXboW384kYMSVDuhSnta
+ SXIJhsURZmTwPEtp1AjeI1Nhk6ztVRVsmyBK4qgt+3HM3Y4mrc0r7XuvhX2+OeOTXKKV
+ XXcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=nA/mgyo4bdJ6AprBPHyFO1GHk3Xz54ee1cAgbBU9P3A=;
- b=ttyhdf3z+b3RhjRj8WGsFZIr2945qzi4vdmQH3s4Oiz6VR7MqNlpYdr0gB9y51EOYy
- KECEfBHeUEdDbGIA8coghVtEx5OI3oKEW3rwAoohHeilSFYfYZCs0qeN3bCh1UqCRGPi
- GU0IL3iAlf5mJIH4FKvtDqLshKkFi6onbdULIQ4apIPkW5gf/aesnV84wI49iYo0AI/t
- 2JeFqU6o6dy7vpMRS7UnnBnZ+0zsw2QBu32slaXbadcQVWsc7LElqIhl+saiC7t0VSHX
- WAhQzPFOk6dRWJfzhJ4Qd3mAtfcG/OYGvxAvOH/URGkS3KvNBc362J6CBg4BUrh7fpRA
- VjGQ==
-X-Gm-Message-State: AOAM532/QBZH5FrfAxz+AZ/6CBTAXLc9w8TpXaggtKlbgNF+TmOXm6bp
- 8UasYgfq4AfhMb3rdXaEw901Y+HTxxnK1xHXcWYeMw==
-X-Google-Smtp-Source: ABdhPJy7NMiHnQCm7Y80pGLvBNTSLYgYOkopxcj9COzSMUTlRD+Fqx10qbB/8ME1zkReXsUenJolnd8KnN8Cwz0nGdc=
-X-Received: by 2002:a17:906:7254:: with SMTP id
- n20mr14235701ejk.382.1604317364277; 
- Mon, 02 Nov 2020 03:42:44 -0800 (PST)
+ bh=Lh4FMiC0ZDtG1v8r5aV0+yTQMHhtss4uQt29DivgaMY=;
+ b=qhG4NmZwg43hJMq6JDalicqqZ0TyHuqGVtzcoxnpP0yB5HHcTPCAqG4l9RFZz+4QEm
+ 66jjlYEiKrjasd3kdaULXeIhoLaElhZIIfnxM0oTpe2TyxZLymRhLA5MfF9ADKqdxP1n
+ oP3LWAyp14OU0sEY6ygIYgjLvPLvYaPo+VjvlREbq3+SVSK/DiockS6o7NwytQwZPuoA
+ 5pvs7y6jdSkX+U/4ZVNlViZ35o82ycODfmz6gNF/rFJQKIYptljMqO0l7qG8dzePshOn
+ Hp2qrf42bwwRihVb9ne+1MSuHJUer6yzj07ifCbh3V3rZW5pgHJUP6EJjaLBi1pgP5yF
+ XSiw==
+X-Gm-Message-State: AOAM531HCyNRg+0EsKbB4Mb4kYDbiK+KIAQKQgodKmL5kFQslUgL1KLs
+ JKsQD3ZTvcSijKLwOgn+NFw+RWrYOlf8gLXfTDUCTg==
+X-Google-Smtp-Source: ABdhPJz6r2+eNvd+prCJq7W+PWEZ91E6L7/nnd66h+ApT+sZbfohTTG2sw25K2BCzgH9+x+2VxVVOT4XWxBQr5e0cSk=
+X-Received: by 2002:a17:906:af8c:: with SMTP id
+ mj12mr14391848ejb.85.1604317403905; 
+ Mon, 02 Nov 2020 03:43:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201030144617.1535064-1-philmd@redhat.com>
-In-Reply-To: <20201030144617.1535064-1-philmd@redhat.com>
+References: <20201030151541.11976-1-remi@remlab.net>
+ <e6066544-a259-9739-3acd-2d9abc2d7455@linaro.org>
+In-Reply-To: <e6066544-a259-9739-3acd-2d9abc2d7455@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Nov 2020 11:42:33 +0000
-Message-ID: <CAFEAcA-8efmgL2_x=Z-9Bz1C2rR_LW02AfnMSLO29xLRhZu6MQ@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2] hw/arm/smmuv3: Fix potential integer overflow
- (CID 1432363)
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 2 Nov 2020 11:43:12 +0000
+Message-ID: <CAFEAcA8wCQrg9zST1eM3Wsa0LPVkG1D=NFjRu__GPYLpssr1ag@mail.gmail.com>
+Subject: Re: [PATCH] hw/arm/boot: fix SVE for EL3 direct kernel boot
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::642;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -69,7 +69,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,29 +82,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi@remlab.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 at 14:46, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Fri, 30 Oct 2020 at 18:56, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Use the BIT_ULL() macro to ensure we use 64-bit arithmetic.
-> This fixes the following Coverity issue (OVERFLOW_BEFORE_WIDEN):
+> On 10/30/20 8:15 AM, remi@remlab.net wrote:
+> > From: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> >
+> > When booting a CPU with EL3 using the -kernel flag, set up CPTR_EL3 so
+> > that SVE will not trap to EL3.
+> >
+> > Signed-off-by: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com=
 >
->   CID 1432363 (#1 of 1): Unintentional integer overflow:
+> > ---
+> >  hw/arm/boot.c | 3 +++
+> >  1 file changed, 3 insertions(+)
 >
->   overflow_before_widen:
->     Potentially overflowing expression 1 << scale with type int
->     (32 bits, signed) is evaluated using 32-bit arithmetic, and
->     then used in a context that expects an expression of type
->     hwaddr (64 bits, unsigned).
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/arm/smmuv3.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 
