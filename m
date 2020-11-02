@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A63E42A315A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:20:39 +0100 (CET)
-Received: from localhost ([::1]:44798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06CA92A3189
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:30:32 +0100 (CET)
+Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdVW-00062Z-J0
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:20:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54130)
+	id 1kZdf5-0000fW-2m
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:30:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdM4-0001L8-07
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:52 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54459)
+ id 1kZdP9-0006EN-0Q
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:14:03 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:35968)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdM2-0006dr-2w
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:51 -0500
-Received: by mail-wm1-x341.google.com with SMTP id d142so1522594wmd.4
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:49 -0800 (PST)
+ id 1kZdP6-0006rP-8m
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:14:02 -0500
+Received: by mail-ed1-x544.google.com with SMTP id l16so15133559eds.3
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:13:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=BTFTRZ0y4CNDARID0tRYWHO8z4mtsdjFARUw5VYJhGg=;
- b=Wr99HUI91YBmxhaZD/2EX1ZtWaK14Lx6lwbNAH6F/B+18ezvp8m1PsDHFf48Gj7PKm
- 1FrI3fHb6KYGZtNZj/xd6me8Ak6A1IoHDSh9eVp11yXLmKKVMFsiTutyJQhdYNkAnxKk
- BPNZud1MErGwm34Ak99ov5qmYgP8UOsIR/TF2gn5HijXlvsgPf8ilOTvtTqz5Yi8MdeS
- rDnPwA/tEER5qdGisz43oDitU2zeC2HBliA+Zf1+1fckV9F8ZrBC/i/SLCLjDE50xrsH
- NrKH5/RrGFmE5t1Hc5gmkHCTO4g9+NkQzi3O9zMLmdxRBrnlcfpi4TrRGzK75ZyrV2yd
- THpA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=dZIWI5JAmVyE/Zg7mnv1he/B+pFzgzRP2f5+f8UXVeE=;
+ b=So3w0U5fdpsvZFRA6cgiFLFi6x9VbPjm4i/7SXgRkSW0Aw+a9NSZ+W+soDw5UFFDnv
+ f0SwCTO8QF+XSRqbviEaz0Rc4q98b4i7Ji+c9mRY/Vg9aV7c3WxN3SDYxNYqjnqkwwHI
+ opUNk23qAjuG3ck/3B6c79f+nNk8X0B+d+bdAKbF1ODPgbzyK8gyQM6CEI+3i2d7OQyF
+ azvUjUvJL+FHSiPrg/AXUAiLaTg3izo3mCow24sycv5jdBbEOleSo2aHWAVZbn2TxgDA
+ x7R1Ybc02IoMVYgcuy/4SSw+LD/IDtjFDx78kK3+R0clZPq+t5ARO8zn3iFMy8QAT+5i
+ 9vcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=BTFTRZ0y4CNDARID0tRYWHO8z4mtsdjFARUw5VYJhGg=;
- b=F/V6Hy7rWuijNj85Q0h7bA35/O5Ig6INCprrZZZjrYSpSbFbaM7BqcODZQzJVeM1vT
- DCJOCpQ6eac0PubdAyuRom/OSnKsgo9YeDPfbDMJVECF9Cs2CHJdxPN50gn36F7iOXJo
- t/KDtwPfXdXrj0Sd2eTnueMiq4gSuRm4+NzIc+xF8FfYvYHSNX8946y3Bb5eW/MRg9qh
- nK73G2puvqDdEE6uDaA2znxhi8Ap8gWTYUZz7KYadVhdrVCWmTG4wda5/Z4+AtWJ8Mez
- RheNottEu45tbl5xMJMIouYCxqA+aoVcb7n2fTlY93pl9/SsRoqZadxm+HnAdiJGx01S
- ODPQ==
-X-Gm-Message-State: AOAM531TZZ6A+HCKf66HSX30CoAGfvksr+3lJ+F5+wpo8dttE+bAi65V
- 4nDjKqGOrkeEV0C/2vXRAupBkjC8TZ7m7Q==
-X-Google-Smtp-Source: ABdhPJyWGJyeQbLvIk2MgCpuXLsRJ8sw2weGSvfCAbWSffG8bsF+cNtw9DbGvFT6l3AWeqVQn/IJsQ==
-X-Received: by 2002:a7b:c858:: with SMTP id c24mr18798186wml.176.1604337048338; 
- Mon, 02 Nov 2020 09:10:48 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.47
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:47 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 26/26] tests/qtest/npcm7xx_rng-test: Disable randomness tests
-Date: Mon,  2 Nov 2020 17:10:05 +0000
-Message-Id: <20201102171005.30690-27-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
-References: <20201102171005.30690-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=dZIWI5JAmVyE/Zg7mnv1he/B+pFzgzRP2f5+f8UXVeE=;
+ b=TjJ8ipwLhdncTc0x2LJI5QGwJTOZYaKefzKtPTbPEf3W2JZ58tC+5EnzokSKDDVVzk
+ OFwGwc2xHnKTHUngfny2s5MAxemE5WuqrMHayEqhmqlJV1Lgf0gAdjDqNGcuPgtCrIGu
+ fwUeS3Q0c3JSgrZbi3VN5FObq8qgFUIxN1+CfBde7DmSPGMxtPMXlSPxVLrC9tKyzzh8
+ tKu0HjnF0mAFZKUnwhmgsOlPBkaUwqX/Ud6ZnJfEm0YTSJ7kLNV7LFvlG7aRrW3X84MK
+ gn57hD0dmBs3l/yiWiMQnGcsbCTG7cs/MjDade77sHrPa5YZIGNnYC3vTtJAKBoM7UGS
+ Q/AQ==
+X-Gm-Message-State: AOAM53397y5PVuSNnDA/JsP94o+qwQ1SMKeoy+SD5i56epiTxsKe5ZSu
+ oxau9jnSjnY3R18zT4wrPYRWV+0YF6yG6bXt867m2g==
+X-Google-Smtp-Source: ABdhPJwJIMbZRp0ir24DaBRGKV+QrMJHzVlq0/S83AX6PnW8nYD8S14HeKDUCQKCZ8tcHwoBuRhhVkSt5cvlh8Snd88=
+X-Received: by 2002:aa7:d699:: with SMTP id d25mr17185489edr.44.1604337238390; 
+ Mon, 02 Nov 2020 09:13:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+References: <20201023210637.351238-1-hskinnemoen@google.com>
+ <20201023210637.351238-5-hskinnemoen@google.com>
+ <CAFEAcA8YvmFA7=7+CGVpubVScuKPdy+OQdmJdfMD+Fmk+Hb0SA@mail.gmail.com>
+ <CAFQmdRZOKLb6=NJoeY9U3eYq3rbG_OWGFDDZdGTf8vjVOA11TQ@mail.gmail.com>
+In-Reply-To: <CAFQmdRZOKLb6=NJoeY9U3eYq3rbG_OWGFDDZdGTf8vjVOA11TQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Nov 2020 17:13:47 +0000
+Message-ID: <CAFEAcA-KxvtQGsH9yT9FrVnAu4cDWjMzPx_vGoBueGYhB8sziA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] hw/misc: Add npcm7xx random number generator
+To: Havard Skinnemoen <hskinnemoen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -73,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,59 +81,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Patrick Venture <venture@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Hao Wu <wuhaotsh@google.com>,
+ CS20 KFTing <kfting@nuvoton.com>, qemu-arm <qemu-arm@nongnu.org>,
+ IS20 Avi Fishman <Avi.Fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The randomness tests in the NPCM7xx RNG test fail intermittently
-but fairly frequently. On my machine running the test in a loop:
- while QTEST_QEMU_BINARY=./qemu-system-aarch64 ./tests/qtest/npcm7xx_rng-test; do true; done
+On Mon, 2 Nov 2020 at 16:50, Havard Skinnemoen <hskinnemoen@google.com> wrote:
+> But none of this is really specific to the RNG test, so I can remove
+> it if you prefer for consistency.
 
-will fail in less than a minute with an error like:
-ERROR:../../tests/qtest/npcm7xx_rng-test.c:256:test_first_byte_runs:
-assertion failed (calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE) > 0.01): (0.00286205989 > 0.01)
+I would prefer us to be consistent. If you want to propose
+don't-stop-on-asserts then we should set that consistently
+at some higher level of the test suite, not in every
+individual test.
 
-(Failures have been observed on all 4 of the randomness tests,
-not just first_byte_runs.)
-
-It's not clear why these tests are failing like this, but intermittent
-failures make CI and merge testing awkward, so disable running them
-unless a developer specifically sets QEMU_TEST_FLAKY_RNG_TESTS when
-running the test suite, until we work out the cause.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20201102152454.8287-1-peter.maydell@linaro.org
-Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
----
- tests/qtest/npcm7xx_rng-test.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
-diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
-index da6e639bf6f..e7cde85fbbc 100644
---- a/tests/qtest/npcm7xx_rng-test.c
-+++ b/tests/qtest/npcm7xx_rng-test.c
-@@ -265,10 +265,16 @@ int main(int argc, char **argv)
- 
-     qtest_add_func("npcm7xx_rng/enable_disable", test_enable_disable);
-     qtest_add_func("npcm7xx_rng/rosel", test_rosel);
--    qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
--    qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
--    qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
--    qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
-+    /*
-+     * These tests fail intermittently; only run them on explicit
-+     * request until we figure out why.
-+     */
-+    if (getenv("QEMU_TEST_FLAKY_RNG_TESTS")) {
-+        qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
-+        qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
-+        qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
-+        qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
-+    }
- 
-     qtest_start("-machine npcm750-evb");
-     ret = g_test_run();
--- 
-2.20.1
-
+thanks
+-- PMM
 
