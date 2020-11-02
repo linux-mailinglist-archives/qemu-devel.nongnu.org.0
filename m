@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 889882A2E4C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 16:26:50 +0100 (CET)
-Received: from localhost ([::1]:48744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA9E2A2E4E
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 16:29:08 +0100 (CET)
+Received: from localhost ([::1]:52048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZbjN-0004Io-Jn
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 10:26:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52826)
+	id 1kZblb-0005hf-HN
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 10:29:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZbhh-00031i-Ce
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:25:05 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:33417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZbha-0007za-Pm
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:25:04 -0500
-Received: by mail-wr1-x442.google.com with SMTP id b8so15110172wrn.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 07:24:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tOVjHBCUTdpVBGeIO9jNhl1R0X/cU6YKPF5ubl/f53w=;
- b=MRQfBfzts61X2h0olj0xATIoGOjvf2UUVUtcF9cwHL9M/910ZGabOhReW+a8jPG0Uu
- V0ORSBidldCTbp4nQy7fwzRS1HHIT8i/9oNkaVhGamqWNSqLJrijsUF+trAMlulPTkuv
- nsax5Q18vHVouIvKNS2ODrnZuucNy4DY7j2I231B3Is3ICjTJi57W3cXbFeKVqEKJlvm
- 5RUd31bBNKWhKAMzqyjxdY2RoQsPuyl2d9l7zUdn2R+O1vjzseHKK2Ni87tymVUL3JW7
- 0njtw4IbSqHbjHtAFjfQm3YyqWgVM7LKeUTUJlT1GMPQ6K9+EuvSceQWunx+QR7F7K2K
- paEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tOVjHBCUTdpVBGeIO9jNhl1R0X/cU6YKPF5ubl/f53w=;
- b=So1dw8vW/PJycZpXrpil0UIFvBbzmSvjsKW/cZlBTNGf9l843pmUi5anBVCN/h6n2s
- iTSueBysm1/SwRnbgdoUiGumLvGvPoN1Nh/NW1XAui3aWtcZVmvW4dOQhaAOjJKn2uq4
- Hcx5q4wo1zRlgvHs9MAe3mc95IFEWG0J7JRwfQUJfwNKIJUlUu4FXOKNEi7U9m83LoPl
- 0wY1xWfZZVIItJNyIoBSGacfFJBwI+dIywEFDStG/4xL0Bgqm7L7VYenyDcOIzbaCWMI
- 2663h4W4ItR9oNTO588DUz0M0qIMB0we2erpTrnZQuINyob+RzaFbdNWo7J6+RCrWXKz
- OYyg==
-X-Gm-Message-State: AOAM533cEg4xhEMKRoF4mWQZ0NWz0gXQGEn9ZozTmrvlp1IuzLSaSQfM
- cRREup0ReA1qb3Ord/tQitw+Jw==
-X-Google-Smtp-Source: ABdhPJy3LgJUsGlTNj+jGimxaS7WOT77WIOX8Ho1YSDApvvpLU1enC5Z5gSPXQ0afboyH120y3qjPQ==
-X-Received: by 2002:adf:bc0f:: with SMTP id s15mr21065035wrg.83.1604330696935; 
- Mon, 02 Nov 2020 07:24:56 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 9sm12907632wmk.5.2020.11.02.07.24.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 07:24:56 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] tests/qtest/npcm7xx_rng-test: Disable randomness tests
-Date: Mon,  2 Nov 2020 15:24:54 +0000
-Message-Id: <20201102152454.8287-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kZbkZ-0005DJ-CE; Mon, 02 Nov 2020 10:28:03 -0500
+Received: from mail.kernel.org ([198.145.29.99]:47030)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1kZbkT-00004w-Jj; Mon, 02 Nov 2020 10:28:02 -0500
+Received: from redsun51.ssa.fujisawa.hgst.com (unknown [129.253.182.57])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.kernel.org (Postfix) with ESMTPSA id BCE0122453;
+ Mon,  2 Nov 2020 15:27:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=default; t=1604330874;
+ bh=yP/CL1memJ6RSiFZ1u2Xa9ZEXv1P8YFrfTiHa0rmfTg=;
+ h=Date:From:To:Cc:Subject:From;
+ b=FaxbEFCLInitudTocxzKaOaf0LU7DV9Ip1/iEhPhHqFM9Dc9oMWr2W4qDCiOBV7/I
+ Amfz04iOj/AdImokN+9IfE8kZSkhQtg9OpbLxypNJ0ouX/PRPQXLy3kbYomiyH0bcU
+ BTnvJf7tmC7OaykGSLXhhHeSBXc9Zy3RJYVWC/1Y=
+Date: Tue, 3 Nov 2020 00:27:47 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: peter.maydell@linaro.org, qemu-devel@nongnu.org
+Subject: [PULL] nvme emulation patches for 5.2
+Message-ID: <20201102152747.GA28552@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 10:27:54
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,59 +61,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Tyrone Ting <kfting@nuvoton.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Havard Skinnemoen <hskinnemoen@google.com>
+Cc: its@irrelevant.dk, k.jensen@samsung.com, kbusch@kernel.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The randomness tests in the NPCM7xx RNG test fail intermittently
-but fairly frequently. On my machine running the test in a loop:
- while QTEST_QEMU_BINARY=./qemu-system-aarch64 ./tests/qtest/npcm7xx_rng-test; do true; done
+Hi Peter,
 
-will fail in less than a minute with an error like:
-ERROR:../../tests/qtest/npcm7xx_rng-test.c:256:test_first_byte_runs:
-assertion failed (calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE) > 0.01): (0.00286205989 > 0.01)
+We are sorting out Klaus' signature authentication this week, but in the
+interest of timing, I've signed our pull request for this round.
 
-(Failures have been observed on all 4 of the randomness tests,
-not just first_byte_runs.)
+The following changes since commit 1dc887329a10903940501b43e8c0cc67af7c06d5:
 
-It's not clear why these tests are failing like this, but intermittent
-failures make CI and merge testing awkward, so disable running them
-unless a developer specifically sets QEMU_TEST_FLAKY_RNG_TESTS when
-running the test suite, until we work out the cause.
+  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20201026' into staging (2020-10-26 17:19:26 +0000)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- tests/qtest/npcm7xx_rng-test.c | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+are available in the Git repository at:
 
-diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
-index da6e639bf6f..e7cde85fbbc 100644
---- a/tests/qtest/npcm7xx_rng-test.c
-+++ b/tests/qtest/npcm7xx_rng-test.c
-@@ -265,10 +265,16 @@ int main(int argc, char **argv)
- 
-     qtest_add_func("npcm7xx_rng/enable_disable", test_enable_disable);
-     qtest_add_func("npcm7xx_rng/rosel", test_rosel);
--    qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
--    qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
--    qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
--    qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
-+    /*
-+     * These tests fail intermittently; only run them on explicit
-+     * request until we figure out why.
-+     */
-+    if (getenv("QEMU_TEST_FLAKY_RNG_TESTS")) {
-+        qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
-+        qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
-+        qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
-+        qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
-+    }
- 
-     qtest_start("-machine npcm750-evb");
-     ret = g_test_run();
--- 
-2.20.1
+  git://git.infradead.org/qemu-nvme.git tags/pull-nvme-20201102
+
+for you to fetch changes up to 843c8f91a7ad63f8f3e4e564d3f41f3d030ab8a9:
+
+  hw/block/nvme: fix queue identifer validation (2020-10-27 11:29:25 +0100)
+
+nvme emulation patches for 5.2
+
+  - lots of cleanups
+  - add support for scatter/gather lists
+  - add support for multiple namespaces (adds new nvme-ns device)
+  - change default pci vendor/device id
+  - add support for per-namespace smart log
+
+----------------------------------------------------------------
+nvme pull 2 Nov 2020
+
+----------------------------------------------------------------
+Dmitry Fomichev (1):
+      hw/block/nvme: report actual LBA data shift in LBAF
+
+Gollu Appalanaidu (4):
+      hw/block/nvme: add support for sgl bit bucket descriptor
+      hw/block/nvme: fix prp mapping status codes
+      hw/block/nvme: fix create IO SQ/CQ status codes
+      hw/block/nvme: fix queue identifer validation
+
+Keith Busch (5):
+      hw/block/nvme: remove pointless rw indirection
+      hw/block/nvme: fix log page offset check
+      hw/block/nvme: support per-namespace smart log
+      hw/block/nvme: validate command set selected
+      hw/block/nvme: support for admin-only command set
+
+Klaus Jensen (20):
+      hw/block/nvme: fix typo in trace event
+      pci: pass along the return value of dma_memory_rw
+      hw/block/nvme: handle dma errors
+      hw/block/nvme: commonize nvme_rw error handling
+      hw/block/nvme: alignment style fixes
+      hw/block/nvme: add a lba to bytes helper
+      hw/block/nvme: fix endian conversion
+      hw/block/nvme: add symbolic command name to trace events
+      hw/block/nvme: refactor aio submission
+      hw/block/nvme: default request status to success
+      hw/block/nvme: harden cmb access
+      hw/block/nvme: add support for scatter gather lists
+      hw/block/nvme: refactor identify active namespace id list
+      hw/block/nvme: support multiple namespaces
+      pci: allocate pci id for nvme
+      hw/block/nvme: change controller pci id
+      hw/block/nvme: update nsid when registered
+      hw/block/nvme: reject io commands if only admin command set selected
+      hw/block/nvme: add nsid to get/setfeat trace events
+      hw/block/nvme: add trace event for requests with non-zero status code
+
+ MAINTAINERS            |   1 +
+ docs/specs/nvme.txt    |  23 ++
+ docs/specs/pci-ids.txt |   1 +
+ hw/block/meson.build   |   2 +-
+ hw/block/nvme-ns.c     | 168 +++++++++
+ hw/block/nvme-ns.h     |  74 ++++
+ hw/block/nvme.c        | 915 +++++++++++++++++++++++++++++++++++--------------
+ hw/block/nvme.h        |  83 ++++-
+ hw/block/trace-events  |  32 +-
+ hw/core/machine.c      |   1 +
+ include/block/nvme.h   |  18 +-
+ include/hw/pci/pci.h   |   4 +-
+ 12 files changed, 1022 insertions(+), 300 deletions(-)
+ create mode 100644 docs/specs/nvme.txt
+ create mode 100644 hw/block/nvme-ns.c
+ create mode 100644 hw/block/nvme-ns.h
 
 
