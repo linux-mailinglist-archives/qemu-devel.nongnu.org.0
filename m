@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E98E2A34D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:04:43 +0100 (CET)
-Received: from localhost ([::1]:41668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7789A2A34CE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:01:54 +0100 (CET)
+Received: from localhost ([::1]:33382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZg4I-0003Pl-Ez
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:04:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34540)
+	id 1kZg1Z-0008LV-Dj
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:01:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZfxG-0003Ep-6g
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21429)
+ id 1kZfxF-0003Ef-Pi
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51304)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZfxA-0002GC-4s
+ id 1kZfxA-0002Gj-33
  for qemu-devel@nongnu.org; Mon, 02 Nov 2020 14:57:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604347032;
+ s=mimecast20190719; t=1604347036;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=O5iX5qnRsmgE19cr2YJogWeW0JbFHwetHbj13RNNblU=;
- b=CNpsRPTw+ZgoJczyn74n4KF2cQs9brcpPt5KE0nWYd0VEva82CdcChhF2VIxy+YV9CgfsG
- gsrXcapII1oUb0+Me0xGsKfXB+F6iJ3VWdQN1tVOESbB6cnuIDFkThjsiIKkDGloGlOlqJ
- Evc9OHkdwHU4eEaTFj5M4Rw63cNyKME=
+ bh=b0JhSY5xBg6fuYItqmFjGmYKEGgqRB5m4QGHuXEds/g=;
+ b=GVLu4oKUQ9eiCKO5wwU4kJgJHrEfQjaQu4DfGeILWLEkhlYF3AvgElgy7j33SzJCgzlbxo
+ 465x1lbkLgcRlPHFNN/DxlrhRvJYXMOs2uV9/+XYPjER/9MU/0xOXpPcN1oa1KX2gxVrCn
+ KqDnKbnXVdmd9GZarYatwVkXnH/eL18=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-XYcvEgmpPXyJpXUaZzy4VQ-1; Mon, 02 Nov 2020 14:57:10 -0500
-X-MC-Unique: XYcvEgmpPXyJpXUaZzy4VQ-1
+ us-mta-117-bksrdqA7M4mp9jH7Cq6NDw-1; Mon, 02 Nov 2020 14:57:12 -0500
+X-MC-Unique: bksrdqA7M4mp9jH7Cq6NDw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BBAF8030DD;
- Mon,  2 Nov 2020 19:57:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A12C8030C8;
+ Mon,  2 Nov 2020 19:57:11 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-114-142.ams2.redhat.com
  [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B09D51002C1C;
- Mon,  2 Nov 2020 19:57:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 869A11002C0A;
+ Mon,  2 Nov 2020 19:57:09 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, peterx@redhat.com, philmd@redhat.com,
  zhangjiachen.jaycee@bytedance.com, mreitz@redhat.com
-Subject: [PULL 01/12] migration: Unify reset of last_rb on destination node
- when recover
-Date: Mon,  2 Nov 2020 19:56:46 +0000
-Message-Id: <20201102195657.219501-2-dgilbert@redhat.com>
+Subject: [PULL 02/12] migration: Postpone the kick of the fault thread after
+ recover
+Date: Mon,  2 Nov 2020 19:56:47 +0000
+Message-Id: <20201102195657.219501-3-dgilbert@redhat.com>
 In-Reply-To: <20201102195657.219501-1-dgilbert@redhat.com>
 References: <20201102195657.219501-1-dgilbert@redhat.com>
 MIME-Version: 1.0
@@ -60,16 +60,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,71 +89,59 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Xu <peterx@redhat.com>
 
-When postcopy recover happens, we need to reset last_rb after each return of
-postcopy_pause_fault_thread() because that means we just got the postcopy
-migration continued.
+The new migrate_send_rp_req_pages_pending() call should greatly improve
+destination responsiveness because it will resync faulted address after
+postcopy recovery.  However it is also the 1st place to initiate the page
+request from the main thread.
 
-Unify this reset to the place right before we want to kick the fault thread
-again, when we get the command MIG_CMD_POSTCOPY_RESUME from source.
+One thing is overlooked on that migrate_send_rp_message_req_pages() is not
+designed to be thread-safe.  So if we wake the fault thread before syncing all
+the faulted pages in the main thread, it means they can race.
 
-This is actually more than that - because the main thread on destination will
-now be able to call migrate_send_rp_req_pages_pending() too, so the fault
-thread is not the only user of last_rb now.  Move the reset earlier will allow
-the first call to migrate_send_rp_req_pages_pending() to use the reset value
-even if called from the main thread.
-
-(NOTE: this is not a real fix to 0c26781c09 mentioned below, however it is just
- a mark that when picking up 0c26781c09 we'd better have this one too; the real
- fix will come later)
+Postpone the wake up operation after the sync of faulted addresses.
 
 Fixes: 0c26781c09 ("migration: Sync requested pages after postcopy recovery")
 Tested-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
+Message-Id: <20201102153010.11979-3-peterx@redhat.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20201102153010.11979-2-peterx@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/postcopy-ram.c | 2 --
- migration/savevm.c       | 6 ++++++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ migration/savevm.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index d3bb3a744b..d99842eb1b 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -903,7 +903,6 @@ static void *postcopy_ram_fault_thread(void *opaque)
-              * the channel is rebuilt.
-              */
-             if (postcopy_pause_fault_thread(mis)) {
--                mis->last_rb = NULL;
-                 /* Continue to read the userfaultfd */
-             } else {
-                 error_report("%s: paused but don't allow to continue",
-@@ -985,7 +984,6 @@ retry:
-                 /* May be network failure, try to wait for recovery */
-                 if (ret == -EIO && postcopy_pause_fault_thread(mis)) {
-                     /* We got reconnected somehow, try to continue */
--                    mis->last_rb = NULL;
-                     goto retry;
-                 } else {
-                     /* This is a unavoidable fault */
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 21ccba9fb3..e8834991ec 100644
+index e8834991ec..5f937a2762 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -2061,6 +2061,12 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
-         return 0;
-     }
+@@ -2069,12 +2069,9 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
  
-+    /*
-+     * Reset the last_rb before we resend any page req to source again, since
-+     * the source should have it reset already.
-+     */
-+    mis->last_rb = NULL;
-+
      /*
       * This means source VM is ready to resume the postcopy migration.
-      * It's time to switch state and release the fault thread to
+-     * It's time to switch state and release the fault thread to
+-     * continue service page faults.
+      */
+     migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_RECOVER,
+                       MIGRATION_STATUS_POSTCOPY_ACTIVE);
+-    qemu_sem_post(&mis->postcopy_pause_sem_fault);
+ 
+     trace_loadvm_postcopy_handle_resume();
+ 
+@@ -2095,6 +2092,14 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
+      */
+     migrate_send_rp_req_pages_pending(mis);
+ 
++    /*
++     * It's time to switch state and release the fault thread to continue
++     * service page faults.  Note that this should be explicitly after the
++     * above call to migrate_send_rp_req_pages_pending().  In short:
++     * migrate_send_rp_message_req_pages() is not thread safe, yet.
++     */
++    qemu_sem_post(&mis->postcopy_pause_sem_fault);
++
+     return 0;
+ }
+ 
 -- 
 2.28.0
 
