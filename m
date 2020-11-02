@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3273B2A3507
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:19:47 +0100 (CET)
-Received: from localhost ([::1]:41508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B70ED2A34FE
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:16:22 +0100 (CET)
+Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZgIs-0007N8-1B
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:19:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37204)
+	id 1kZgFZ-0004qD-QG
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:16:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZg74-0006yy-MQ
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:07:34 -0500
-Received: from mail-ej1-x641.google.com ([2a00:1450:4864:20::641]:34695)
+ id 1kZgCc-0003bb-Ie
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:13:18 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZg72-0003V5-V3
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:07:34 -0500
-Received: by mail-ej1-x641.google.com with SMTP id o9so18512169ejg.1
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 12:07:32 -0800 (PST)
+ id 1kZgCZ-0004NQ-W7
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:13:18 -0500
+Received: by mail-wr1-x434.google.com with SMTP id n15so16107656wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 12:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=k971elLantKjQPGZmun5ZxHqJWYx3OkNik+siF3ahlo=;
- b=RiknRV8b3/jZ9/ZFtC4F3BJriojPTHngEuco+aG0SwLpxpvr64yD6oW8c2jY+SrEiy
- vfUQXcqWmUTb9GL9K28gAC6UNLJ5z+QLmQ6bhxmCkfbqPI3htR1tV/KgTZCvFxWV+a34
- CdNTUzrOvbVPF4bd+zTbYyyW0sS8G2rSARZSOeB24uidwJP35e9UCga3dwb8GBummZhb
- /t5BtSb0umtGRGqe2TlJSsFL0+D+CaHknOUrNUWDeD6LkfMqN4oqQT+Sr1Mhv8TiT/p9
- yP28UnxiUSYsLE4U+G99WQccuerpvOssft/kdWngFg+4hutgh1PsykxDqhYF5wsnpXA7
- 3B0A==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zJvN3LgH+5e54B3iKgw/oQMGpwPMQdEXv28RMQDjV8E=;
+ b=hSuRzfGYfjYvvLUCh0B0BFkF7OsnQ50w7NrQj7PfF1+ubryOFlIRNJnZVWO2xGDewg
+ 3ko6jUvqHoVLJrYUs68MBSyoSVPmlQIxK8/hCdgMhbuNB+iPG7B7GdeuIIjh33oVBTTF
+ QpqsewnFY3XhIdng05TA/Brj3LL8FNP7vhcJ0noqyCJ+vOZno5nKaSXtI7A+N8sLCXdR
+ qAwrkjT4hbqANZaZT1YO/AZ4Scxt9qtR6ZQubADSirL4S7NpCBwEeeL78ZdH7l6r0zw2
+ k9KbGwHgotjZ9YJRHpgUhV/H/AOvzRAH001qAega91shS/wS5SXUXLGLXlwGyAV7/pbp
+ oepA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=k971elLantKjQPGZmun5ZxHqJWYx3OkNik+siF3ahlo=;
- b=QvUB0W7K7OCg4dXql9+yTbfEDzMNlr1G24pDXCzVBz8Vg8cRmIDTkEDNrnoNQ4dfSC
- n26pZsFG/eWnzaocmmQQDL5PyjigzdhMpYyp5xQYr4yeEhTHscoJ7w0Dd13genZlLBjq
- NESgqQPe+36QBY1yhISGRt8vUwvBKeSlbT/cbv0HaoYQaGop60p6pYqc2l/OSs/A1lZR
- Ay/4OfcLX87bwFpEF0JH8TnoKILqIM7kkXeeNEsKPJJ0MtMIevfh8sCpCZKz23qzTKgo
- P7o+l7j57ZdHQqdWjcLcLj3ngkupRTfTmlVbt33AScNIAghHhKEQJnMJk6Vrex3Cuxx2
- CiJw==
-X-Gm-Message-State: AOAM5324ELLPef0G6iXqF5GhGNr/Fhyxh0x61Zg9ULrrQuxcX7OjtGSL
- vxGcBhIwltqJQD2IgTUUbZc=
-X-Google-Smtp-Source: ABdhPJzEjx1NpjwKUEXFdjbyzo7wjrskISYh0mD/ubxEemt5pefmwzIEJcgrK8I283i3N+PRrbFmSQ==
-X-Received: by 2002:a17:906:82c4:: with SMTP id
- a4mr6835670ejy.131.1604347651452; 
- Mon, 02 Nov 2020 12:07:31 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=zJvN3LgH+5e54B3iKgw/oQMGpwPMQdEXv28RMQDjV8E=;
+ b=jJ5B2zStXkyu2fqvMWw0yxq6SIUyn8CToIMaJh8q214MCDnwKJgZ+9R7uePj4l4IBL
+ 5OGQ0rC+d1hO+yDzv1AV6nYFOvfCtd49tp7IdTsg9xlt8Q5rYfu7/Coz5HiywR9yOf2h
+ ODvzrCwHWZycW3wPoUCCFcQe/1+zjm/Njk8o57CtgqebTS/Vfx1Gei5IDRE2Gtb6pcsR
+ 5uNjyiqQRcWkn+pRDBTV/bLaTvBy7wW8HLwf3DjTYLIIuO1XAxuyZVb3dBMvLKrSNDp2
+ jmsU1M8A5N5o6Dy/k4v2RNwEksM2P6YmXT5XbeFhzVJgOJJsa+Tyr2csQWdKZ2iFhxgZ
+ bLBQ==
+X-Gm-Message-State: AOAM533hRiDhPpgbvt9kpWYt0H0Y/8ZCRAkN4eyVqBPp5jaOMrCo/2Mb
+ m08EIRwQyCcngdONAx9ulkQg1sh36NU=
+X-Google-Smtp-Source: ABdhPJwjvPId/u3QSNvVoj/ZU1oBW6fGAAt/TJrgRnLlrOdWCV21wDbO52fJSOIX8i5W000MXOvyGQ==
+X-Received: by 2002:adf:fec8:: with SMTP id q8mr23087464wrs.64.1604347993867; 
+ Mon, 02 Nov 2020 12:13:13 -0800 (PST)
+Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b21sm7518564ejg.93.2020.11.02.12.07.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Nov 2020 12:07:30 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 v2] hw/mips: Remove the 'r4k' machine
+ by smtp.gmail.com with ESMTPSA id 30sm23372680wrs.84.2020.11.02.12.13.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 12:13:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-References: <20201102185041.2198130-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ccebd738-6e4f-08be-e43d-b47abe2541cb@amsat.org>
-Date: Mon, 2 Nov 2020 21:07:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+Subject: [PATCH-for-5.2 v3] hw/mips: Remove the 'r4k' machine
+Date: Mon,  2 Nov 2020 21:13:11 +0100
+Message-Id: <20201102201311.2220005-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20201102185041.2198130-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::641;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x641.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -76,7 +70,7 @@ X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -91,54 +85,455 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, libvir-list@redhat.com,
+Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
  Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/20 7:50 PM, Philippe Mathieu-Daudé wrote:
-> We deprecated the support for the 'r4k' machine for the 5.0 release
-> (commit d32dc61421), which means that our deprecation policy allows
-> us to drop it in release 5.2. Remove the code.
-> 
-> To repeat the rationale from the deprecation note:
-> - this virtual machine has no specification
-> - the Linux kernel dropped support for it 10 years ago
-> 
-> Users are recommended to use the Malta board instead.
-> 
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v2: Fixed Header underline length (Richard)
-> ---
->  docs/system/deprecated.rst                    |   4 +-
->  .../devices/mips-softmmu-common.mak           |   1 -
->  hw/mips/r4k.c                                 | 318 ------------------
->  MAINTAINERS                                   |   6 -
->  hw/mips/Kconfig                               |  13 -
->  hw/mips/meson.build                           |   1 -
->  6 files changed, 2 insertions(+), 341 deletions(-)
->  delete mode 100644 hw/mips/r4k.c
-> 
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 0ebce37a191..2a16078a09b 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -327,8 +327,8 @@ The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
->  System emulator machines
->  ------------------------
->  
-> -mips ``r4k`` platform (since 5.0)
-> -'''''''''''''''''''''''''''''''''
-> +mips ``r4k`` platform (removed in 5.2)
-> +''''''''''''''''''''''''''''''''''''''
->  
->  This machine type is very old and unmaintained. Users should use the ``malta``
->  machine type instead.
+We deprecated the support for the 'r4k' machine for the 5.0 release
+(commit d32dc61421), which means that our deprecation policy allows
+us to drop it in release 5.2. Remove the code.
 
-This is incorrect, I have to move it from "Deprecated features"
-to "Recently removed features" section.
+To repeat the rationale from the deprecation note:
+- this virtual machine has no specification
+- the Linux kernel dropped support for it 10 years ago
+
+Users are recommended to use the Malta board instead.
+
+Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v3: Move to "Recently removed features" section
+---
+ docs/system/deprecated.rst                    |  12 +-
+ .../devices/mips-softmmu-common.mak           |   1 -
+ hw/mips/r4k.c                                 | 318 ------------------
+ MAINTAINERS                                   |   6 -
+ hw/mips/Kconfig                               |  13 -
+ hw/mips/meson.build                           |   1 -
+ 6 files changed, 6 insertions(+), 345 deletions(-)
+ delete mode 100644 hw/mips/r4k.c
+
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 0ebce37a191..e5b7cf274d3 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -327,12 +327,6 @@ The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
+ System emulator machines
+ ------------------------
+ 
+-mips ``r4k`` platform (since 5.0)
+-'''''''''''''''''''''''''''''''''
+-
+-This machine type is very old and unmaintained. Users should use the ``malta``
+-machine type instead.
+-
+ mips ``fulong2e`` machine (since 5.1)
+ '''''''''''''''''''''''''''''''''''''
+ 
+@@ -575,6 +569,12 @@ The version specific Spike machines have been removed in favour of the
+ generic ``spike`` machine. If you need to specify an older version of the RISC-V
+ spec you can use the ``-cpu rv64gcsu,priv_spec=v1.10.0`` command line argument.
+ 
++mips ``r4k`` platform (removed in 5.2)
++''''''''''''''''''''''''''''''''''''''
++
++This machine type is very old and unmaintained. Users should use the ``malta``
++machine type instead.
++
+ Related binaries
+ ----------------
+ 
+diff --git a/default-configs/devices/mips-softmmu-common.mak b/default-configs/devices/mips-softmmu-common.mak
+index da29c6c0b24..ea78fe72759 100644
+--- a/default-configs/devices/mips-softmmu-common.mak
++++ b/default-configs/devices/mips-softmmu-common.mak
+@@ -33,7 +33,6 @@ CONFIG_MC146818RTC=y
+ CONFIG_EMPTY_SLOT=y
+ CONFIG_MIPS_CPS=y
+ CONFIG_MIPS_ITU=y
+-CONFIG_R4K=y
+ CONFIG_MALTA=y
+ CONFIG_PCNET_PCI=y
+ CONFIG_MIPSSIM=y
+diff --git a/hw/mips/r4k.c b/hw/mips/r4k.c
+deleted file mode 100644
+index 38308543421..00000000000
+--- a/hw/mips/r4k.c
++++ /dev/null
+@@ -1,318 +0,0 @@
+-/*
+- * QEMU/MIPS pseudo-board
+- *
+- * emulates a simple machine with ISA-like bus.
+- * ISA IO space mapped to the 0x14000000 (PHYS) and
+- * ISA memory at the 0x10000000 (PHYS, 16Mb in size).
+- * All peripherial devices are attached to this "bus" with
+- * the standard PC ISA addresses.
+- */
+-
+-#include "qemu/osdep.h"
+-#include "qemu/units.h"
+-#include "qapi/error.h"
+-#include "qemu-common.h"
+-#include "cpu.h"
+-#include "hw/clock.h"
+-#include "hw/mips/mips.h"
+-#include "hw/mips/cpudevs.h"
+-#include "hw/intc/i8259.h"
+-#include "hw/char/serial.h"
+-#include "hw/isa/isa.h"
+-#include "net/net.h"
+-#include "hw/net/ne2000-isa.h"
+-#include "sysemu/sysemu.h"
+-#include "hw/boards.h"
+-#include "hw/block/flash.h"
+-#include "qemu/log.h"
+-#include "hw/mips/bios.h"
+-#include "hw/ide.h"
+-#include "hw/ide/internal.h"
+-#include "hw/loader.h"
+-#include "elf.h"
+-#include "hw/rtc/mc146818rtc.h"
+-#include "hw/input/i8042.h"
+-#include "hw/timer/i8254.h"
+-#include "exec/address-spaces.h"
+-#include "sysemu/qtest.h"
+-#include "sysemu/reset.h"
+-#include "sysemu/runstate.h"
+-#include "qemu/error-report.h"
+-
+-#define MAX_IDE_BUS 2
+-
+-static const int ide_iobase[2] = { 0x1f0, 0x170 };
+-static const int ide_iobase2[2] = { 0x3f6, 0x376 };
+-static const int ide_irq[2] = { 14, 15 };
+-
+-static ISADevice *pit; /* PIT i8254 */
+-
+-/* i8254 PIT is attached to the IRQ0 at PIC i8259 */
+-
+-static struct _loaderparams {
+-    int ram_size;
+-    const char *kernel_filename;
+-    const char *kernel_cmdline;
+-    const char *initrd_filename;
+-} loaderparams;
+-
+-static void mips_qemu_write(void *opaque, hwaddr addr,
+-                            uint64_t val, unsigned size)
+-{
+-    if ((addr & 0xffff) == 0 && val == 42) {
+-        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+-    } else if ((addr & 0xffff) == 4 && val == 42) {
+-        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+-    }
+-}
+-
+-static uint64_t mips_qemu_read(void *opaque, hwaddr addr,
+-                               unsigned size)
+-{
+-    return 0;
+-}
+-
+-static const MemoryRegionOps mips_qemu_ops = {
+-    .read = mips_qemu_read,
+-    .write = mips_qemu_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-};
+-
+-typedef struct ResetData {
+-    MIPSCPU *cpu;
+-    uint64_t vector;
+-} ResetData;
+-
+-static int64_t load_kernel(void)
+-{
+-    const size_t params_size = 264;
+-    int64_t entry, kernel_high, initrd_size;
+-    long kernel_size;
+-    ram_addr_t initrd_offset;
+-    uint32_t *params_buf;
+-    int big_endian;
+-
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    big_endian = 1;
+-#else
+-    big_endian = 0;
+-#endif
+-    kernel_size = load_elf(loaderparams.kernel_filename, NULL,
+-                           cpu_mips_kseg0_to_phys, NULL,
+-                           (uint64_t *)&entry, NULL,
+-                           (uint64_t *)&kernel_high, NULL, big_endian,
+-                           EM_MIPS, 1, 0);
+-    if (kernel_size < 0) {
+-        error_report("could not load kernel '%s': %s",
+-                     loaderparams.kernel_filename,
+-                     load_elf_strerror(kernel_size));
+-        exit(1);
+-    }
+-
+-    /* load initrd */
+-    initrd_size = 0;
+-    initrd_offset = 0;
+-    if (loaderparams.initrd_filename) {
+-        initrd_size = get_image_size(loaderparams.initrd_filename);
+-        if (initrd_size > 0) {
+-            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
+-            if (initrd_offset + initrd_size > ram_size) {
+-                error_report("memory too small for initial ram disk '%s'",
+-                             loaderparams.initrd_filename);
+-                exit(1);
+-            }
+-            initrd_size = load_image_targphys(loaderparams.initrd_filename,
+-                                              initrd_offset,
+-                                              ram_size - initrd_offset);
+-        }
+-        if (initrd_size == (target_ulong) -1) {
+-            error_report("could not load initial ram disk '%s'",
+-                         loaderparams.initrd_filename);
+-            exit(1);
+-        }
+-    }
+-
+-    /* Store command line.  */
+-    params_buf = g_malloc(params_size);
+-
+-    params_buf[0] = tswap32(ram_size);
+-    params_buf[1] = tswap32(0x12345678);
+-
+-    if (initrd_size > 0) {
+-        snprintf((char *)params_buf + 8, 256,
+-                 "rd_start=0x%" PRIx64 " rd_size=%" PRId64 " %s",
+-                 cpu_mips_phys_to_kseg0(NULL, initrd_offset),
+-                 initrd_size, loaderparams.kernel_cmdline);
+-    } else {
+-        snprintf((char *)params_buf + 8, 256,
+-        "%s", loaderparams.kernel_cmdline);
+-    }
+-
+-    rom_add_blob_fixed("params", params_buf, params_size,
+-                       16 * MiB - params_size);
+-
+-    g_free(params_buf);
+-    return entry;
+-}
+-
+-static void main_cpu_reset(void *opaque)
+-{
+-    ResetData *s = (ResetData *)opaque;
+-    CPUMIPSState *env = &s->cpu->env;
+-
+-    cpu_reset(CPU(s->cpu));
+-    env->active_tc.PC = s->vector;
+-}
+-
+-static const int sector_len = 32 * KiB;
+-static
+-void mips_r4k_init(MachineState *machine)
+-{
+-    const char *kernel_filename = machine->kernel_filename;
+-    const char *kernel_cmdline = machine->kernel_cmdline;
+-    const char *initrd_filename = machine->initrd_filename;
+-    char *filename;
+-    MemoryRegion *address_space_mem = get_system_memory();
+-    MemoryRegion *bios;
+-    MemoryRegion *iomem = g_new(MemoryRegion, 1);
+-    MemoryRegion *isa_io = g_new(MemoryRegion, 1);
+-    MemoryRegion *isa_mem = g_new(MemoryRegion, 1);
+-    int bios_size;
+-    Clock *cpuclk;
+-    MIPSCPU *cpu;
+-    CPUMIPSState *env;
+-    ResetData *reset_info;
+-    int i;
+-    qemu_irq *i8259;
+-    ISABus *isa_bus;
+-    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+-    DriveInfo *dinfo;
+-    int be;
+-
+-    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
+-    clock_set_hz(cpuclk, 200000000); /* 200 MHz */
+-
+-    /* init CPUs */
+-    cpu = mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
+-    env = &cpu->env;
+-
+-    reset_info = g_malloc0(sizeof(ResetData));
+-    reset_info->cpu = cpu;
+-    reset_info->vector = env->active_tc.PC;
+-    qemu_register_reset(main_cpu_reset, reset_info);
+-
+-    /* allocate RAM */
+-    if (machine->ram_size > 256 * MiB) {
+-        error_report("Too much memory for this machine: %" PRId64 "MB,"
+-                     " maximum 256MB", ram_size / MiB);
+-        exit(1);
+-    }
+-    memory_region_add_subregion(address_space_mem, 0, machine->ram);
+-
+-    memory_region_init_io(iomem, NULL, &mips_qemu_ops,
+-                          NULL, "mips-qemu", 0x10000);
+-
+-    memory_region_add_subregion(address_space_mem, 0x1fbf0000, iomem);
+-
+-    /*
+-     * Try to load a BIOS image. If this fails, we continue regardless,
+-     * but initialize the hardware ourselves. When a kernel gets
+-     * preloaded we also initialize the hardware, since the BIOS wasn't
+-     * run.
+-     */
+-
+-    if (bios_name == NULL) {
+-        bios_name = BIOS_FILENAME;
+-    }
+-    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
+-    if (filename) {
+-        bios_size = get_image_size(filename);
+-    } else {
+-        bios_size = -1;
+-    }
+-#ifdef TARGET_WORDS_BIGENDIAN
+-    be = 1;
+-#else
+-    be = 0;
+-#endif
+-    dinfo = drive_get(IF_PFLASH, 0, 0);
+-    if ((bios_size > 0) && (bios_size <= BIOS_SIZE)) {
+-        bios = g_new(MemoryRegion, 1);
+-        memory_region_init_rom(bios, NULL, "mips_r4k.bios", BIOS_SIZE,
+-                               &error_fatal);
+-        memory_region_add_subregion(get_system_memory(), 0x1fc00000, bios);
+-
+-        load_image_targphys(filename, 0x1fc00000, BIOS_SIZE);
+-    } else if (dinfo != NULL) {
+-        uint32_t mips_rom = 0x00400000;
+-        if (!pflash_cfi01_register(0x1fc00000, "mips_r4k.bios", mips_rom,
+-                                   blk_by_legacy_dinfo(dinfo),
+-                                   sector_len, 4, 0, 0, 0, 0, be)) {
+-            fprintf(stderr, "qemu: Error registering flash memory.\n");
+-        }
+-    } else if (!qtest_enabled()) {
+-        /* not fatal */
+-        warn_report("could not load MIPS bios '%s'", bios_name);
+-    }
+-    g_free(filename);
+-
+-    if (kernel_filename) {
+-        loaderparams.ram_size = machine->ram_size;
+-        loaderparams.kernel_filename = kernel_filename;
+-        loaderparams.kernel_cmdline = kernel_cmdline;
+-        loaderparams.initrd_filename = initrd_filename;
+-        reset_info->vector = load_kernel();
+-    }
+-
+-    /* Init CPU internal devices */
+-    cpu_mips_irq_init_cpu(cpu);
+-    cpu_mips_clock_init(cpu);
+-
+-    /* ISA bus: IO space at 0x14000000, mem space at 0x10000000 */
+-    memory_region_init_alias(isa_io, NULL, "isa-io",
+-                             get_system_io(), 0, 0x00010000);
+-    memory_region_init(isa_mem, NULL, "isa-mem", 0x01000000);
+-    memory_region_add_subregion(get_system_memory(), 0x14000000, isa_io);
+-    memory_region_add_subregion(get_system_memory(), 0x10000000, isa_mem);
+-    isa_bus = isa_bus_new(NULL, isa_mem, get_system_io(), &error_abort);
+-
+-    /* The PIC is attached to the MIPS CPU INT0 pin */
+-    i8259 = i8259_init(isa_bus, env->irq[2]);
+-    isa_bus_irqs(isa_bus, i8259);
+-
+-    mc146818_rtc_init(isa_bus, 2000, NULL);
+-
+-    pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
+-
+-    serial_hds_isa_init(isa_bus, 0, MAX_ISA_SERIAL_PORTS);
+-
+-    isa_vga_init(isa_bus);
+-
+-    if (nd_table[0].used) {
+-        isa_ne2000_init(isa_bus, 0x300, 9, &nd_table[0]);
+-    }
+-
+-    ide_drive_get(hd, ARRAY_SIZE(hd));
+-    for (i = 0; i < MAX_IDE_BUS; i++)
+-        isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i], ide_irq[i],
+-                     hd[MAX_IDE_DEVS * i],
+-                     hd[MAX_IDE_DEVS * i + 1]);
+-
+-    isa_create_simple(isa_bus, TYPE_I8042);
+-}
+-
+-static void mips_machine_init(MachineClass *mc)
+-{
+-    mc->deprecation_reason = "use malta machine type instead";
+-    mc->desc = "mips r4k platform";
+-    mc->init = mips_r4k_init;
+-    mc->block_default_type = IF_IDE;
+-#ifdef TARGET_MIPS64
+-    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("R4000");
+-#else
+-    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
+-#endif
+-    mc->default_ram_id = "mips_r4k.ram";
+-}
+-
+-DEFINE_MACHINE("mips", mips_machine_init)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8c744a9bdf4..77a67becc1f 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1138,12 +1138,6 @@ S: Orphaned
+ F: hw/mips/mipssim.c
+ F: hw/net/mipsnet.c
+ 
+-R4000
+-R: Aurelien Jarno <aurelien@aurel32.net>
+-R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
+-S: Obsolete
+-F: hw/mips/r4k.c
+-
+ Fuloong 2E
+ M: Huacai Chen <chenhc@lemote.com>
+ M: Philippe Mathieu-Daudé <f4bug@amsat.org>
+diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
+index 67d39c56a4e..8be70122f4c 100644
+--- a/hw/mips/Kconfig
++++ b/hw/mips/Kconfig
+@@ -1,16 +1,3 @@
+-config R4K
+-    bool
+-    select ISA_BUS
+-    select SERIAL_ISA
+-    select I8259
+-    select I8254
+-    select MC146818RTC
+-    imply VGA_ISA
+-    imply NE2000_ISA
+-    select IDE_ISA
+-    select PCKBD
+-    select PFLASH_CFI01
+-
+ config MALTA
+     bool
+     select ISA_SUPERIO
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index 46294b7382f..bcdf96be69f 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -6,6 +6,5 @@
+ mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
+ mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
+ mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
+-mips_ss.add(when: 'CONFIG_R4K', if_true: files('r4k.c'))
+ 
+ hw_arch += {'mips': mips_ss}
+-- 
+2.26.2
+
 
