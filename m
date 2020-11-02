@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D4E2A2B3F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 14:11:25 +0100 (CET)
-Received: from localhost ([::1]:59922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5455A2A2B4D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 14:14:04 +0100 (CET)
+Received: from localhost ([::1]:40928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZZcK-0005dc-Uu
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 08:11:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38912)
+	id 1kZZet-0000wK-E2
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 08:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZZah-0004M8-SB
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 08:09:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59869)
+ id 1kZZak-0004PO-Hj
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 08:09:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZZag-0003Ls-7Q
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 08:09:43 -0500
+ id 1kZZai-0003NH-OV
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 08:09:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604322581;
+ s=mimecast20190719; t=1604322584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B/LM4wfIa4cVIdLEi2TuLjN3k4rymWp18Mv8P2Vo+Ao=;
- b=b/nbZo5VsWBLEqcGOaTgwV58uAZJXicXsEcqBG/J7XQ/+c/7P3cmoEWgcETT7ttpCESgre
- HsLCnkB0AOR8USn+hrPeOIz8uHmuorPl8V++rSnTEJwhCI9lKyYHpyOhh22nNSBoXk/RSS
- qE66OBhiptz4avBI12mznAlJm/tDQoI=
+ bh=xkzOcfULddzdjgTJYmiy3AM503DDuZdPb/VoF702x14=;
+ b=AYmYta8jbSzB8PqsIv2vo21szh+sCxGY3WnODmeds+XjykHhsBUCY8DCzEciHQST0c0M4/
+ 5ATQat1Pwd7sxJ3mFGSJFUP2E93m+mrmkx+yrGcN6YR0DefP2JfANIRl4O8nauitnP7wbj
+ Q0ZUOFehqd1n3AQlbmRvK0+hk01Mhk0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-531-9abRmovSO0mfh-oGsS17pw-1; Mon, 02 Nov 2020 08:09:39 -0500
-X-MC-Unique: 9abRmovSO0mfh-oGsS17pw-1
+ us-mta-593-XYcGYT7-PeK3up1ItBigwA-1; Mon, 02 Nov 2020 08:09:42 -0500
+X-MC-Unique: XYcGYT7-PeK3up1ItBigwA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B2BBE809DD3;
- Mon,  2 Nov 2020 13:09:38 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47F9B1009E25;
+ Mon,  2 Nov 2020 13:09:41 +0000 (UTC)
 Received: from fedora.redhat.com (ovpn-114-136.ams2.redhat.com [10.36.114.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9075D1002C21;
- Mon,  2 Nov 2020 13:09:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71D141002C21;
+ Mon,  2 Nov 2020 13:09:39 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/4] gitlab: force enable docs build in Fedora, Ubuntu, Debian
-Date: Mon,  2 Nov 2020 13:09:24 +0000
-Message-Id: <20201102130926.161183-3-berrange@redhat.com>
+Subject: [PATCH 3/4] docs: show stdout/stderr when meson fails build test
+Date: Mon,  2 Nov 2020 13:09:25 +0000
+Message-Id: <20201102130926.161183-4-berrange@redhat.com>
 In-Reply-To: <20201102130926.161183-1-berrange@redhat.com>
 References: <20201102130926.161183-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -88,45 +88,37 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson runs a test to see if Sphinx works, and automatically disables it
-on error. This can lead to the CI jobs skipping docs build without
-maintainers noticing the problem. Use --enable-docs to force a fatal
-error if Sphinx doesn't work on the jobs where we expect it to be OK.
+It is hard to diagnose why Sphinx fails in a CI environment, as we
+discard the stdout/err and just print a generic error message.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .gitlab-ci.yml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ docs/meson.build | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index a41725d6f7..f17bff652d 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -80,6 +80,7 @@ build-system-ubuntu:
-     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
-       moxie-softmmu microblazeel-softmmu mips64el-softmmu
-     MAKE_CHECK_ARGS: check-build
-+    CONFIGURE_ARGS: --enable-docs
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -111,6 +112,7 @@ build-system-debian:
-     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
-       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
-     MAKE_CHECK_ARGS: check-build
-+    CONFIGURE_ARGS: --enable-docs
-   artifacts:
-     expire_in: 2 days
-     paths:
-@@ -139,7 +141,7 @@ build-system-fedora:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: fedora
--    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle
-+    CONFIGURE_ARGS: --disable-gcrypt --enable-nettle --enable-docs
-     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
-       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
-     MAKE_CHECK_ARGS: check-build
+diff --git a/docs/meson.build b/docs/meson.build
+index 8c222f96bb..278098dd4f 100644
+--- a/docs/meson.build
++++ b/docs/meson.build
+@@ -20,14 +20,15 @@ if sphinx_build.found()
+   # version requirement). This will fail if sphinx-build is too old.
+   run_command('mkdir', ['-p', tmpdir / 'sphinx'])
+   run_command('touch', [tmpdir / 'sphinx/index.rst'])
+-  sphinx_build_test_out = run_command(SPHINX_ARGS + [
++  sphinx_cmd = run_command(SPHINX_ARGS + [
+     '-c', meson.current_source_dir(),
+     '-b', 'html', tmpdir / 'sphinx',
+     tmpdir / 'sphinx/out'])
+-  build_docs = (sphinx_build_test_out.returncode() == 0)
++  build_docs = (sphinx_cmd.returncode() == 0)
+ 
+   if not build_docs
+-    warning('@0@ exists but it is either too old or uses too old a Python version'.format(get_option('sphinx_build')))
++    warning('@0@ exists but it is either too old or uses too old a Python version\nstdout:@1@\nstderr:@2@'.format(
++      get_option('sphinx_build'), sphinx_cmd.stdout().strip(), sphinx_cmd.stderr().strip()))
+     if get_option('docs').enabled()
+       error('Install a Python 3 version of python-sphinx')
+     endif
 -- 
 2.28.0
 
