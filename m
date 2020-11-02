@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 250C82A3192
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:32:19 +0100 (CET)
-Received: from localhost ([::1]:47028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 670882A31AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:36:29 +0100 (CET)
+Received: from localhost ([::1]:55564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdgo-0002LW-77
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:32:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54120)
+	id 1kZdkq-0006Dp-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:36:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdM2-0001HH-Fo
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:50 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:39183)
+ id 1kZdSV-0002BO-6R
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:17:32 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:36210)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLz-0006dN-H1
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:50 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id 205so2472310wma.4
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:47 -0800 (PST)
+ id 1kZdSS-0007Mh-7K
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:17:30 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id o21so12894544ejb.3
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:17:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=KnPXJ6NqptesuWN0QOJA3/7JLRDcQ5MPX9LbhM6n5G4=;
- b=JrLqcbFGMBk3yfGooxAODLMRIsLrQ2y2MW+X8r/4W5pIPI6dGQhVdVy/hFEwjKEuho
- tiSLZnw/5CFJAAjBgaPRiTChn/Bt6htSknaDCnww+0mo81aj2MMfgl5sIcZ9YgCj8+jw
- AQCB1CwaQP6k+e0a6bQD+HZ7VdlVtB0HshLH+x5GLI+BA8HGgYglw4veFYR7qxX5m2l9
- I88gkIxrPRCuchtRrXpKtQ7DyS3BLhsmBle6/mDPesa6v2rONlwTbXwE88yR58ZZRefQ
- dr8xXBhur/9f6bwVZhZ8b+19m3YyR7sOyH1UBjeQCeNW+Ch5gUvjl9bVYLKi69yrwQMJ
- viRA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=XGRW0P85vubc8Mkx0vN2N/OeC7sS23ThAUPQR2NCAt8=;
+ b=QWZ06nMQEI4DytQUM+lYgbqeydsrOlDqNjSUBHW4nMSWjv7sb3n6X3BL+Y/524awUF
+ uke38eR9fSAo6UnX28TfU3eI4PD9pDwu3PIQOWUo74OiXOcQie40t+BJlXz9yKuTa6YL
+ OJYMlfFECNibtD7fL/vNE9sO6X9GDe42M65C/WUKs+8eQzJwryqh0stdXjVfEgRCWl6h
+ Shq2PaPNsdZoOTiM8TXm4BEnMqMvde3IJJSHe5dOlk+015AH1Q1NQdfqC0C8yVMb1LnJ
+ HNnJ+/IZ5MOl7tXiqF2S2F49HHp0s0k53liRruyZ1/Y5O8iju1n7Z2QzLOZj9NDiU64Y
+ HPsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=KnPXJ6NqptesuWN0QOJA3/7JLRDcQ5MPX9LbhM6n5G4=;
- b=MU9d0rxkAE+G/kKGzpzjfAS8HKe4R1UeZH+3XpZIwK23IlOAz7UQwYI1GuGDiEW1ts
- W74ZTlG0P75+u/pe9QxkJjHUa/mvxuP+Nw2fQqArwjEa4SlKQEyUp1UPv6EuZDUJaMuN
- UJRadTBnnx8OtYOZw3HtmP8uqDEi57N085kiyBtbeFxG81GVY/D/cHo2+s8nVWSTroaB
- 3FP2UI7XsD3s1ZpameiK1YA52M+tKlgS/UlxFqKKeCkQpTm1Xvyw6UJhcGXX5oTcR+m4
- qevXicJtnqZ4M4LpMFv3IWagkw6H/UZAW+0E++NK6/zeUrKAxMm3Avkhkombm+pYa8Xa
- LEyA==
-X-Gm-Message-State: AOAM532Mh4j11B75DJsuLdv/FFrene4+miCxAvOpHsjlv/McyU1znqqc
- JlSQugiFPIj/qsF22pNfB1nf1QcmNPJnmg==
-X-Google-Smtp-Source: ABdhPJzUlHkgxwrN3ysatg0fgf/GBQRFk8S0qZA+HCh9FPJjQVhw7OHuzn5dZTlhINSd7G0w4UdoGA==
-X-Received: by 2002:a1c:5946:: with SMTP id n67mr3550105wmb.162.1604337045863; 
- Mon, 02 Nov 2020 09:10:45 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.44
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:45 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 24/26] scripts/kerneldoc: For Sphinx 3 use c:macro for macros
- with arguments
-Date: Mon,  2 Nov 2020 17:10:03 +0000
-Message-Id: <20201102171005.30690-25-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
-References: <20201102171005.30690-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=XGRW0P85vubc8Mkx0vN2N/OeC7sS23ThAUPQR2NCAt8=;
+ b=sxKCXWm5fsgxO+BVU24ty487CAP/7Xy3Gf00MZhs1sRVlE3q+TwchQ7vVP3kBVjZTH
+ /q2XkGuK7XD7XNjbX+ChS0BnWGp/Pyc2rmmv2Tj3YxXsHzkMG7Lt0jylU4e+Y52tMh5t
+ Nt8m/HSOPO5qnlve0oPMbLIfusY9WlbOUTY9KcE0AMV01BEqQRJwQYwaspgdG7TxgMOg
+ FtUEaDOD0X2c13zHoGKvvdlzJJYZPllluQEi0EQV21REkk3aNkHkbUsPjTGbQfak/SIj
+ 0u1+rdjwa1AxhOWxuypSPM5o3GukhAIqIDtZDU7fdePKqK5WJ75b2/qTyNZkoRL8WqqH
+ OiyA==
+X-Gm-Message-State: AOAM530FIDPUjc4yp1JPH8m/j5oIC2p/LtxKacgzxwK5R/ASCbWoGXSe
+ W9eY9lqETAqE+R4iU1otMfQlwvLnzMh5zNBO2oyh5g==
+X-Google-Smtp-Source: ABdhPJzd4SAoBQAtsrmnXmKMrxholBZRxAq4plGgvjJQkLNmIGb3giUdvoZrJQu0rxObHjC8hZCbpJyDRyTC+/rCSSY=
+X-Received: by 2002:a17:906:7254:: with SMTP id
+ n20mr15577768ejk.382.1604337446627; 
+ Mon, 02 Nov 2020 09:17:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+References: <20201102144454.995592-1-anthony.perard@citrix.com>
+In-Reply-To: <20201102144454.995592-1-anthony.perard@citrix.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Nov 2020 17:17:15 +0000
+Message-ID: <CAFEAcA9fUBTFqQ_oM1SN5qPP9me9tJ1KvFpAr4RSQuteKFKv3w@mail.gmail.com>
+Subject: Re: [PULL 0/1] xen queue 2020-11-02
+To: Anthony PERARD <anthony.perard@citrix.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,73 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The kerneldoc script currently emits Sphinx markup for a macro with
-arguments that uses the c:function directive. This is correct for
-Sphinx versions earlier than Sphinx 3, where c:macro doesn't allow
-documentation of macros with arguments and c:function is not picky
-about the syntax of what it is passed. However, in Sphinx 3 the
-c:macro directive was enhanced to support macros with arguments,
-and c:function was made more picky about what syntax it accepted.
+On Mon, 2 Nov 2020 at 14:51, Anthony PERARD <anthony.perard@citrix.com> wrote:
+>
+> The following changes since commit 2c6605389c1f76973d92b69b85d40d94b8f1092c:
+>
+>   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201101.0' into staging (2020-11-02 09:54:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20201102
+>
+> for you to fetch changes up to 045b1d4dbb44da67f1f86efa75b02843c0e951ef:
+>
+>   xen: rework pci_piix3_xen_ide_unplug (2020-11-02 11:56:55 +0000)
+>
+> ----------------------------------------------------------------
+> xen patch
+>
+> - Rework Xen disk unplug to work with newer command line
+>   options.
+>
 
-When kerneldoc is told that it needs to produce output for Sphinx
-3 or later, make it emit c:function only for functions and c:macro
-for macros with arguments. We assume that anything with a return
-type is a function and anything without is a macro.
+Applied, thanks.
 
-This fixes the Sphinx error:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-/home/petmay01/linaro/qemu-from-laptop/qemu/docs/../include/qom/object.h:155:Error in declarator
-If declarator-id with parameters (e.g., 'void f(int arg)'):
-  Invalid C declaration: Expected identifier in nested name. [error at 25]
-    DECLARE_INSTANCE_CHECKER ( InstanceType,  OBJ_NAME,  TYPENAME)
-    -------------------------^
-If parenthesis in noptr-declarator (e.g., 'void (*f(int arg))(double)'):
-  Error in declarator or parameters
-  Invalid C declaration: Expecting "(" in parameters. [error at 39]
-    DECLARE_INSTANCE_CHECKER ( InstanceType,  OBJ_NAME,  TYPENAME)
-    ---------------------------------------^
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20201030174700.7204-2-peter.maydell@linaro.org
----
- scripts/kernel-doc | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/kernel-doc b/scripts/kernel-doc
-index 0ff62bb6a2d..4fbaaa05e38 100755
---- a/scripts/kernel-doc
-+++ b/scripts/kernel-doc
-@@ -839,7 +839,23 @@ sub output_function_rst(%) {
- 	output_highlight_rst($args{'purpose'});
- 	$start = "\n\n**Syntax**\n\n  ``";
-     } else {
--	print ".. c:function:: ";
-+        if ((split(/\./, $sphinx_version))[0] >= 3) {
-+            # Sphinx 3 and later distinguish macros and functions and
-+            # complain if you use c:function with something that's not
-+            # syntactically valid as a function declaration.
-+            # We assume that anything with a return type is a function
-+            # and anything without is a macro.
-+            if ($args{'functiontype'} ne "") {
-+                print ".. c:function:: ";
-+            } else {
-+                print ".. c:macro:: ";
-+            }
-+        } else {
-+            # Older Sphinx don't support documenting macros that take
-+            # arguments with c:macro, and don't complain about the use
-+            # of c:function for this.
-+            print ".. c:function:: ";
-+        }
-     }
-     if ($args{'functiontype'} ne "") {
- 	$start .= $args{'functiontype'} . " " . $args{'function'} . " (";
--- 
-2.20.1
-
+-- PMM
 
