@@ -2,48 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543EA2A26F1
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:26:50 +0100 (CET)
-Received: from localhost ([::1]:48016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B862A26F5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:28:06 +0100 (CET)
+Received: from localhost ([::1]:51038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZW6z-0002qU-Dv
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:26:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44380)
+	id 1kZW8E-00044U-2r
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:28:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44684)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kZW5g-0002JB-HL
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:25:28 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:56308)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kZW5e-0006Qi-6w
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:25:28 -0500
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 5173B40D403E;
- Mon,  2 Nov 2020 09:25:18 +0000 (UTC)
-Subject: Re: [PATCH] target/s390x: fix execution with icount
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <160404699734.17100.6515653500382355060.stgit@pasha-ThinkPad-X280>
- <fd06fcf1-3850-3858-5e02-908d642d5229@linaro.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <7484db0f-ed50-881b-34ce-5ff4964160db@ispras.ru>
-Date: Mon, 2 Nov 2020 12:25:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kZW78-0003Jj-Af
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:26:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56245)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1kZW76-00076A-NH
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:26:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604309215;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wvGhxUsJqo06ipVi86w+zJhdXv1eFtqbOarLy6QAmdY=;
+ b=IjZFvGuM4SZIjBjzzpPrHFn84nrGYN5Rt5e9nZRLyA1PaAisP1c64JRnxaS075nR/DjBkE
+ Ss/J9qdGJZyfa6Rce44I3t1wIdz8PYF2PWblQTQpEqa9bWW0pU2YUgJXB8ZzKV2rTxoKti
+ R0vuwXNhNilmELe3A5uhbme9wpi7VxE=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-378-m2e2FvQrMLqzBQYxHomplA-1; Mon, 02 Nov 2020 04:26:54 -0500
+X-MC-Unique: m2e2FvQrMLqzBQYxHomplA-1
+Received: by mail-wm1-f71.google.com with SMTP id z7so3113641wme.8
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 01:26:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=uR6TwZCpcZCZ+h7IM7HScu7o4n8bS7ER7TMaqeoMaI8=;
+ b=FUaniDCai6OhfVEc5VpXMnjK5SMOwAGQ4pdBVhM9HkKKYnErILphzzX/7zclKNJgSE
+ ta/cpdGkfcFJHz/6MAYwAQEFHs4HzfI5kg3P/FIVZklOXmIHAKASWv0kmur0uhlYn9N/
+ z22JEILwLdX7TVtvw84nkWB7vqKrw1KLwCmaZVtmZ46dZDONMLZXA+6CmX8+gu7CozbP
+ UFItVGyyVnak+kE2r6unmh4XEhkqYauFdEOEB8BWVlV2hkvcyUFHk+ko9dEk0iDRWTiJ
+ w+vr6zWyJFglEeV0xj2xV72eCHsrxOZMwp5N7OBrhZPqzTp99EWQJPYxec7IunDvusHv
+ n7bw==
+X-Gm-Message-State: AOAM532GslWOvX36GD/ma8crazc9ArSKNraHHMxRRFqvqhdGUJrRAuLT
+ yboZ51HLeNnjd3rVFnUxkbC9E9WT9JIFbX0C2FUBsIM1/gNp8tTI1L+Yp/7RddSsxjjko4tjHkh
+ 70W7KLMzrM1VsyGU=
+X-Received: by 2002:a1c:2441:: with SMTP id k62mr17365984wmk.10.1604309212538; 
+ Mon, 02 Nov 2020 01:26:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzRe+IZVHLAqiWAsI4RD6usavgvek+w7lWv3Gk3n03ohF1RO5S4hcHH6Mbe3mIG8pi+4lcPxA==
+X-Received: by 2002:a1c:2441:: with SMTP id k62mr17365963wmk.10.1604309212293; 
+ Mon, 02 Nov 2020 01:26:52 -0800 (PST)
+Received: from steredhat (host-79-22-200-33.retail.telecomitalia.it.
+ [79.22.200.33])
+ by smtp.gmail.com with ESMTPSA id e20sm14222599wme.35.2020.11.02.01.26.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 01:26:51 -0800 (PST)
+Date: Mon, 2 Nov 2020 10:26:49 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2] hw/smbios: Fix leaked fd in save_opt_one() error
+ path
+Message-ID: <20201102092649.ciwhp4mpcs4dc6ri@steredhat>
+References: <20201030152742.1553968-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <fd06fcf1-3850-3858-5e02-908d642d5229@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 04:25:18
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20201030152742.1553968-1-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,29 +99,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, rth@twiddle.net, david@redhat.com
+Cc: Igor Mammedov <imammedo@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30.10.2020 19:21, Richard Henderson wrote:
-> On 10/30/20 1:36 AM, Pavel Dovgalyuk wrote:
->> This patch adds some gen_io_start() calls to allow execution
->> of s390x targets in icount mode with -smp 1.
->> It enables deterministic timers and record/replay features.
-> 
-> Thanks for pointing this out.
-> 
-> There are enough of these that I think it would be worthwhile to annotate them
-> in insn-data.def instead, much as we do for privileged instructions with IF_PRIV.
-> 
-> Perhaps call it IF_IO?
+On Fri, Oct 30, 2020 at 04:27:42PM +0100, Philippe Mathieu-Daudé wrote:
+>Fix the following Coverity issue (RESOURCE_LEAK):
+>
+>  CID 1432879: Resource leak
+>
+>    Handle variable fd going out of scope leaks the handle.
+>
+>Replace a close() call by qemu_close() since the handle is
+>opened with qemu_open().
+>
+>Fixes: bb99f4772f5 ("hw/smbios: support loading OEM strings values from a file")
+>Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>---
+> hw/smbios/smbios.c | 4 +++-
+> 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thanks for the idea.
-New version of the patch is coming.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-> 
-> 
-> r~
-> 
+>
+>diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+>index 8b30906e50a..6a3d39793bc 100644
+>--- a/hw/smbios/smbios.c
+>+++ b/hw/smbios/smbios.c
+>@@ -988,16 +988,18 @@ static int save_opt_one(void *opaque,
+>             if (ret < 0) {
+>                 error_setg(errp, "Unable to read from %s: %s",
+>                            value, strerror(errno));
+>+                qemu_close(fd);
+>                 return -1;
+>             }
+>             if (memchr(buf, '\0', ret)) {
+>                 error_setg(errp, "NUL in OEM strings value in %s", value);
+>+                qemu_close(fd);
+>                 return -1;
+>             }
+>             g_byte_array_append(data, (guint8 *)buf, ret);
+>         }
+>
+>-        close(fd);
+>+        qemu_close(fd);
+>
+>         *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
+>         (*opt->dest)[*opt->ndest] = (char *)g_byte_array_free(data,  FALSE);
+>-- 
+>2.26.2
+>
+>
 
 
