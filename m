@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEED2A2801
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:16:16 +0100 (CET)
-Received: from localhost ([::1]:52936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D8302A281A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:19:40 +0100 (CET)
+Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWsp-0001TZ-8z
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:16:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
+	id 1kZWw7-0005U8-7i
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:19:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kZWnb-00059o-GP; Mon, 02 Nov 2020 05:10:51 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2066)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kZWnY-00069t-BM; Mon, 02 Nov 2020 05:10:50 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CPpZn4jQ1zhZ39;
- Mon,  2 Nov 2020 18:10:41 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 2 Nov 2020 18:10:34 +0800
-Message-ID: <5F9FDB1A.4010700@huawei.com>
-Date: Mon, 2 Nov 2020 18:10:34 +0800
-From: AlexChen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZWps-0007cu-Nc
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:13:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28645)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZWpq-00072h-U6
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:13:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604311990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=+e5m0qkU8IZ1dkUMkaUXDUZye21tgFmNOZ5OFmTpaQY=;
+ b=IlVPlXAuvHyvsLi0P1VAImGn/lLCvJUSe5MIgSL1ANRtgjVu0YGouRgHXPM3e96Igf85Jc
+ S9GlR5LZrzVHQ/QM+NsMyJ0WsinJAlMu9+6LeXT3zRm3Qmf3Fyzo59adMiipo8IuNUY0vf
+ e9D3j95+Pqec/7/Q2hzFgrREXp6V8fA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-368-ivWxeIMYNHGU6B1N86XyiQ-1; Mon, 02 Nov 2020 05:13:08 -0500
+X-MC-Unique: ivWxeIMYNHGU6B1N86XyiQ-1
+Received: by mail-wm1-f69.google.com with SMTP id o19so3170245wme.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:13:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+ :content-disposition;
+ bh=+e5m0qkU8IZ1dkUMkaUXDUZye21tgFmNOZ5OFmTpaQY=;
+ b=DaV5SIE1WDVlazhFiX9Lo2cAhXYDA3x/WoHwVia9SrguU6o0zvdEhVE/QICrC9S+XV
+ dQH7iLhWTumzaL+681+CBUXsEynzK6BI++ERDRr9jMJ7+1561eyW4A24gwzCvtkxlpHH
+ jYngYCrWDeWgXS25Zx8V/wnY6HTIgL/tDJfOErzwOqLM5rfjvpYGKkd6WzrT0b6h6SOC
+ K5Fq592dvkiLpPJNc0DnXDgYibxEXpXQBPUVcRzLF4ti7kkXwbe3b3J/rIQw3kdJJIDq
+ g6j3i06kBmQTaCwary515MKSj7EAXsNgRMzbgTKyPZoYKW/nLFKGymxbXyVfOuqwtKIz
+ ju6w==
+X-Gm-Message-State: AOAM532B4k7og2B77d5tL1glYOtL059zsbQtpS//VTc9O9BOnn3/EmHY
+ dj+Hbleaya1uONx0851SckroSA3lNNoXXu7s2XGLD1m5bXt+tP4k6SP2ZQfWwUmgdCqhOUXljVA
+ /FgWftVneS/tRWJU=
+X-Received: by 2002:a1c:328a:: with SMTP id y132mr1715037wmy.134.1604311986721; 
+ Mon, 02 Nov 2020 02:13:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyjAWvXeD+rIJuxobM89Y2OFGB8ddJ0KgUuVNAh7+BbG+RvaQbfepB6esYpa9clkoeil2gL0w==
+X-Received: by 2002:a1c:328a:: with SMTP id y132mr1715029wmy.134.1604311986581; 
+ Mon, 02 Nov 2020 02:13:06 -0800 (PST)
+Received: from redhat.com (bzq-79-182-97-190.red.bezeqint.net. [79.182.97.190])
+ by smtp.gmail.com with ESMTPSA id y187sm3040903wmg.33.2020.11.02.02.13.04
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 02 Nov 2020 02:13:05 -0800 (PST)
+Date: Mon, 2 Nov 2020 05:13:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] vhost: fix up trailing whitespace
+Message-ID: <20201102101301.1101378-1-mst@redhat.com>
 MIME-Version: 1.0
-To: =?UTF-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Subject: Re: [PATCH V2] hw/display/exynos4210_fimd: Fix potential NULL pointer
- dereference
-References: <5F9F8D88.9030102@huawei.com>
- <b2945df0-186e-e670-bdfc-34104d8ddf2c@redhat.com>
-In-Reply-To: <b2945df0-186e-e670-bdfc-34104d8ddf2c@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=alex.chen@huawei.com;
- helo=szxga06-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 05:10:42
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,36 +92,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU <qemu-devel@nongnu.org>, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2020/11/2 17:16, Philippe Mathieu-Daudé wrote:
-> On 11/2/20 5:39 AM, AlexChen wrote:
->> In exynos4210_fimd_update(), the pointer s is dereferinced before
-> 
-> Typo dereferinced -> dereferenced.
-> 
->> being check if it is valid, which may lead to NULL pointer dereference.
->> So move the assignment to global_width after checking that the s is valid.
-> 
-> Easier to read "after checking 's' is valid."
-> 
->>
->> Reported-by: Euler Robot <euler.robot@huawei.com>
->> Signed-off-by: Alex Chen <alex.chen@huawei.com>
->> ---
->>  hw/display/exynos4210_fimd.c | 4 +++-
->>  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
+Drop trailing whitespace in vhost.c
 
-Thanks for your review, I will fix it in my patch V3.
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+---
+ hw/virtio/vhost.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Thanks,
-Alex
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index f2482378c6..2e904bbd62 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1648,12 +1648,12 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
+ int vhost_dev_prepare_inflight(struct vhost_dev *hdev)
+ {
+     int r;
+- 
++
+     if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
+         hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
+         return 0;
+     }
+- 
++
+     r = vhost_dev_set_features(hdev, hdev->log_enabled);
+     if (r < 0) {
+         VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
+-- 
+MST
 
 
