@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 271562A3177
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:25:55 +0100 (CET)
-Received: from localhost ([::1]:58230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5437A2A3147
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:19:31 +0100 (CET)
+Received: from localhost ([::1]:41672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdac-0003Ot-6D
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:25:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53994)
+	id 1kZdUQ-0004lK-9S
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:19:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLv-00011m-Kr
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:43 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50798)
+ id 1kZdLu-0000zg-Ra
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:42 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLr-0006bN-Jk
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:43 -0500
-Received: by mail-wm1-x332.google.com with SMTP id 13so10160138wmf.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:37 -0800 (PST)
+ id 1kZdLr-0006bn-Kt
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:42 -0500
+Received: by mail-wm1-x331.google.com with SMTP id p19so1682060wmg.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bg1yVgXIhU8cNkSuYiD5wujRWcjW+EPEExJMC8FO3EU=;
- b=FfItod380r8GFhUrvfdO2oC+R5iMdRkPL0yE9ITi01miSE5Vp6X+eIuAY8NBNSVzqd
- 49TzJgY1/hoGtbv64G95yJxSXzKMp97oubiV49ypDqHP0nwjgtvxzxshxGQDKFh3vxUo
- Su/xsouMu6IqytPsVCvEoJ4cSlgMGGN63LG4Kqu3Sr3MebQ3HA8w37mWEKGBPi/2HUPZ
- UO+iXfOCqSsLs5ioAnUJxXsP4CVKzGm/QsI77/MS9tbICAyRpuDoSnWW7dQ7DtS7tsQa
- plbh0ZYD1lazJi2/amU0N8R/n+EUGFtc8cT6ECV9boCZCdedhgNcyz1vyhGmyKmYVxlI
- Iw0Q==
+ bh=bsOcsFLrF4fremZGGn3w83VG5q1zGI8Vc4YzNY5qHV0=;
+ b=mZd8NMuIp7Y8uEC7FswrXDeZmqhrNudvI8saNzmXLja17vqXxGb70SGeJ5zPjE2Ny+
+ I0i7vrUVXz+pyDbHAj4h1hGrynJxjo5QBm7PiEyONkNM25/5O9+dQQX1a64Rv76+bxkI
+ AvnDnDEHAdyXlCLEOHOFmyAn3Mr5Qy6v4ChgeqWWl9xHyLcN5Qut8ARZaAgZQWj0SuH+
+ do3Q9LDAjyFt6nFlZnAYRp7EHeSxbUBgBKJTTtrWIwEgaM6yX91luJzyuxUS6huwfN89
+ 7iEfG2w79azKuSxE3m17Hc6p1/HYzb/CdLzSgOVzgvwHCHxj97AA/Mm9D4NehtwW66Yl
+ 3M6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bg1yVgXIhU8cNkSuYiD5wujRWcjW+EPEExJMC8FO3EU=;
- b=hK6hUhW7qMDBkm8ILzScXZoV83qa/JYksOlkgdu4WS96qY4Dc/pdXDjEzJpmWufmMP
- gxLVfRgfkFm/AUhaAELChha98SYMsyZBwCdEOrflftiv7XB2ut3ZwkoXAcPc3CXQE2Pn
- q/dzswL4CxnNB/0B6ntcHseHnR0jXW94rDpJEyiKQX27GDqn5T9SCYnrLbIub+P0JLe5
- 6yL4id5yPlwjFbi93bfZwRBYu5SX5H3RaVAbZhAsSDlqCbpjXsI33O2yPX5nVSSm3mhp
- 6StsYBlvZheQTpanW9xPOTJdrTj/YYenjNBRC/S3O0Dq1MTCq/gH8Q94HGqIAqWORDoq
- nAQw==
-X-Gm-Message-State: AOAM532Nb7jhANhdv+dhnZYpYadePb+PRN9/YDaXLdkG0ul3kCaTMaZF
- ZGddOzyTDzlRCrBrhhN4nn/GAWyH17/CvA==
-X-Google-Smtp-Source: ABdhPJxDRwMB8Id+0cMXa5XNiDLumNhk4YUNmFQaqgWuqdAzVPUUQa1lxfMInJqCbFWBWC2dc3kZ8A==
-X-Received: by 2002:a1c:f604:: with SMTP id w4mr19088691wmc.87.1604337036503; 
- Mon, 02 Nov 2020 09:10:36 -0800 (PST)
+ bh=bsOcsFLrF4fremZGGn3w83VG5q1zGI8Vc4YzNY5qHV0=;
+ b=ogDZ+IDMUrT1fciXRuuYPGDqwscvFwyn3l8Ci89e2/9bYhaL8v5mUP88CSIrniMU17
+ laek17PhzjdzF+pwoJbiDhsQRGF6CQAnR/6ILGEyIuJp5j6bA4LwJaxB3lwRIYGoWmSz
+ 43j+QD7ebxabe8g8Fw5oKFJ9D4hrEG0D9OsMRf59rytkHsz519RIYA2zj3TmW/7w+oGG
+ ER8pLL2O49QttQgKvLziXLC5c0YWhTvjz0xBJVkSlclNneHjW8mlYAy5DcG7bztje0Tq
+ 69/Xor5YySKlZmoHJHvjbQrlzVevqJu7qfqzgVLxsPndEVIRRiAjUX85tXWKTpveru28
+ mhXQ==
+X-Gm-Message-State: AOAM531OqTfvcW6HjumEzldtoHOF5GP1+0gN8qkePX3rE64UKDtlocbR
+ ZT8HAJD68X50yijhedqF27UmMCcj73ATzA==
+X-Google-Smtp-Source: ABdhPJxcTF40fn/fDUopkWFpxLfLL7gDtXCdecYKosuK0A9/gbWxGX7oHNq5AQE5SROfm3RH7zHRuA==
+X-Received: by 2002:a7b:c201:: with SMTP id x1mr8239989wmi.42.1604337037641;
+ Mon, 02 Nov 2020 09:10:37 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.35
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.36
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:35 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:36 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/26] disas/capstone: Fix monitor disassembly of >32 bytes
-Date: Mon,  2 Nov 2020 17:09:55 +0000
-Message-Id: <20201102171005.30690-17-peter.maydell@linaro.org>
+Subject: [PULL 17/26] hw/arm/smmuv3: Fix potential integer overflow (CID
+ 1432363)
+Date: Mon,  2 Nov 2020 17:09:56 +0000
+Message-Id: <20201102171005.30690-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,69 +90,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If we're using the capstone disassembler, disassembly of a run of
-instructions more than 32 bytes long disassembles the wrong data for
-instructions beyond the 32 byte mark:
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-(qemu) xp /16x 0x100
-0000000000000100: 0x00000005 0x54410001 0x00000001 0x00001000
-0000000000000110: 0x00000000 0x00000004 0x54410002 0x3c000000
-0000000000000120: 0x00000000 0x00000004 0x54410009 0x74736574
-0000000000000130: 0x00000000 0x00000000 0x00000000 0x00000000
-(qemu) xp /16i 0x100
-0x00000100: 00000005 andeq r0, r0, r5
-0x00000104: 54410001 strbpl r0, [r1], #-1
-0x00000108: 00000001 andeq r0, r0, r1
-0x0000010c: 00001000 andeq r1, r0, r0
-0x00000110: 00000000 andeq r0, r0, r0
-0x00000114: 00000004 andeq r0, r0, r4
-0x00000118: 54410002 strbpl r0, [r1], #-2
-0x0000011c: 3c000000 .byte 0x00, 0x00, 0x00, 0x3c
-0x00000120: 54410001 strbpl r0, [r1], #-1
-0x00000124: 00000001 andeq r0, r0, r1
-0x00000128: 00001000 andeq r1, r0, r0
-0x0000012c: 00000000 andeq r0, r0, r0
-0x00000130: 00000004 andeq r0, r0, r4
-0x00000134: 54410002 strbpl r0, [r1], #-2
-0x00000138: 3c000000 .byte 0x00, 0x00, 0x00, 0x3c
-0x0000013c: 00000000 andeq r0, r0, r0
+Use the BIT_ULL() macro to ensure we use 64-bit arithmetic.
+This fixes the following Coverity issue (OVERFLOW_BEFORE_WIDEN):
 
-Here the disassembly of 0x120..0x13f is using the data that is in
-0x104..0x123.
+  CID 1432363 (#1 of 1): Unintentional integer overflow:
 
-This is caused by passing the wrong value to the read_memory_func().
-The intention is that at this point in the loop the 'cap_buf' buffer
-already contains 'csize' bytes of data for the instruction at guest
-addr 'pc', and we want to read in an extra 'tsize' bytes.  Those
-extra bytes are therefore at 'pc + csize', not 'pc'.  On the first
-time through the loop 'csize' happens to be zero, so the initial read
-of 32 bytes into cap_buf is correct and as long as the disassembly
-never needs to read more data we return the correct information.
+  overflow_before_widen:
+    Potentially overflowing expression 1 << scale with type int
+    (32 bits, signed) is evaluated using 32-bit arithmetic, and
+    then used in a context that expects an expression of type
+    hwaddr (64 bits, unsigned).
 
-Use the correct guest address in the call to read_memory_func().
-
-Cc: qemu-stable@nongnu.org
-Fixes: https://bugs.launchpad.net/qemu/+bug/1900779
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20201030144617.1535064-1-philmd@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201022132445.25039-1-peter.maydell@linaro.org
 ---
- disas/capstone.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/smmuv3.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/disas/capstone.c b/disas/capstone.c
-index 0a9ef9c8927..7462c0e3053 100644
---- a/disas/capstone.c
-+++ b/disas/capstone.c
-@@ -286,7 +286,7 @@ bool cap_disas_monitor(disassemble_info *info, uint64_t pc, int count)
+diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+index 2017ba7a5a7..22607c37841 100644
+--- a/hw/arm/smmuv3.c
++++ b/hw/arm/smmuv3.c
+@@ -17,6 +17,7 @@
+  */
  
-         /* Make certain that we can make progress.  */
-         assert(tsize != 0);
--        info->read_memory_func(pc, cap_buf + csize, tsize, info);
-+        info->read_memory_func(pc + csize, cap_buf + csize, tsize, info);
-         csize += tsize;
+ #include "qemu/osdep.h"
++#include "qemu/bitops.h"
+ #include "hw/irq.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+@@ -864,7 +865,7 @@ static void smmuv3_s1_range_inval(SMMUState *s, Cmd *cmd)
+         scale = CMD_SCALE(cmd);
+         num = CMD_NUM(cmd);
+         ttl = CMD_TTL(cmd);
+-        num_pages = (num + 1) * (1 << (scale));
++        num_pages = (num + 1) * BIT_ULL(scale);
+     }
  
-         if (cs_disasm_iter(handle, &cbuf, &csize, &pc, insn)) {
+     if (type == SMMU_CMD_TLBI_NH_VA) {
 -- 
 2.20.1
 
