@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AD3B2A3178
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:25:55 +0100 (CET)
-Received: from localhost ([::1]:58232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 196A42A3188
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:30:03 +0100 (CET)
+Received: from localhost ([::1]:42306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdac-0003Ov-9h
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:25:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
+	id 1kZdec-0000EB-4w
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:30:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLy-00018B-P1
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:46 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40836)
+ id 1kZdM2-0001GM-3I
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:50 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:38587)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLw-0006cf-N2
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:46 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id k18so10219272wmj.5
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:43 -0800 (PST)
+ id 1kZdLx-0006ct-6T
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:49 -0500
+Received: by mail-wm1-x333.google.com with SMTP id h62so5403921wme.3
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=jMjtfOiFG10GNhNUO0WFVBSDgvdA1bWEPrli5zIV9Do=;
- b=E57Tchret6x8g43AVWfwJNw6B8wgtPFmoT827ztHr+ZExQGGpFq4rDRoCwGzBqtvl8
- mig708t098yaB9tJxgDgRBfZjfsj5TxZVfAf787KZpP15xGt7B5MJUXKOqi9n2XxXVWd
- /Ihj1uYjWkHxek/Mr4UnQaNRJvo17lCDN5bfm/ECKTKvqqX7a5GG6ZyQqr2WmlgC/ga8
- aMbShkIx9XwtKXD9nblZYhGGqqJiHeZP8qFQq4LKXWv5UzTi1zIPNVkSP4jtPiKFiLIr
- KMkE/nr4UCIRhcVfJkVYT44je0hEdiswT+L2axzT7qu1l+X4/9MVS2AtwH2tD429EJbG
- p3Rg==
+ bh=1UkAowOgugs4Mdi7jPockoQV3dWs7h5MywTlHoiRgXg=;
+ b=Xb9LnuaQmW2ancLD3qM8/p0CHVO9XJLa+/V7oZq8zYIzIxWUwK/zHXLl2A3ZM88cMM
+ dj8QLGPlvMJppaV7BnkpuAJhBZ2ogHxfMMUskvIXub/MHQ0E5nZEGobrg3RvVbRpXKIv
+ bs0y9lEXa/XOFNZYFHpSCqQkO4mxlYvSfUb/L+TvxggSo5SRcqExqWRjp8f0Jd7e45s3
+ D7Ldz98C+4TFIuv3L2voCX3uQR5S0nONwynPw1p2vHR48tbyLYSBwP6fNFEYU8476RuQ
+ qs7+05AzkPKPDOhmQWMf99Fzp5gdFioFmTXJbfU7ln0Mm+xVvUlqC/Aao9ycaaIivBPi
+ j0/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jMjtfOiFG10GNhNUO0WFVBSDgvdA1bWEPrli5zIV9Do=;
- b=m1eXC42jZm7C8DP4WxfDIq+EojePT73NQYgrrloYd+Z/uH+J3jwjDl7i1NzIsUz5hT
- P2vXV4ul/hV3SVxPAHRFv4Qsy3Nt6SqO+QNcgd09DeDX2t7xV7OK/12xQAZKrSFHCeFg
- R9QdiHXh6S6kH89WHBKPiqlCRVnhhd+7J0S0ACNhhMLdUi68gid0r78AtevN49RFfdbZ
- LKS8HQs8yIj8LQYFVKpkiSh8rcuYis8Uuj83pbV9w2WLiD5AHDBF3p344AOQ8QmTw5Ma
- 8oT3+UBpUmjwim7tdvOHc/MJ1cglN7OqnywLyu89qy6Wa18Nv+pe9so+j29qJQ5JTTAo
- 4uQQ==
-X-Gm-Message-State: AOAM531P6kSNgW2XFcfMqhxTHo+ES9TQTbdnkwjmt572sDW0hROgJXYo
- 5XdP4W70OAacRXp+nri36oFQ3Mr9rVvT0Q==
-X-Google-Smtp-Source: ABdhPJwJ8K8QXAsBK3OA2S61bd+4Pu71MnXooat+Wjn8JRecktN1Sy/jQoiMhsCGteqZzx5fa1F/xA==
-X-Received: by 2002:a1c:f311:: with SMTP id q17mr18234987wmq.28.1604337042332; 
- Mon, 02 Nov 2020 09:10:42 -0800 (PST)
+ bh=1UkAowOgugs4Mdi7jPockoQV3dWs7h5MywTlHoiRgXg=;
+ b=dZ7VbA/tDJXclfX3ZGwZoV4TakOR9KM7+rN+6iNPYVrCL5ZlqS6A9qy4wrkE1bMofX
+ VvQ1kqSJhidGCCEjbB4SUek5ox7nBKuu3xiuOG7JhmZ41/zB3NKaquJ7lWeNCeCJNiGS
+ 55jP6AaXUXTWnoi+bvztnMhaCd2W1Q/PLxmoUaeSwTigCchCSxS1dwv6qCHZo4BFndpi
+ W2i7FilLMY60WLZZxXnImTRpvCErku8JQ2Ya8+uhSdDxnzlKdT9SHp9VWk2nLubYdpxn
+ UPu8vfX8Dw+j0f3HDIa/wJg90WLVFNqpxkNVIX31M7JF5yRJOYmbmyy8pjbP9+qYhnZz
+ YzvA==
+X-Gm-Message-State: AOAM5305QNRAvjt5W6NXHQbLkGECL9rnH9ci8tDTa2LvLQpYpVxAD2/J
+ t77an1wij5R5tEspqnapi6NEj8cy76au+w==
+X-Google-Smtp-Source: ABdhPJy7K07qMXKJdoeO6hcdG6Z6II6mlHIvsfbhzqykcid0r9mZDCYNtu2v2ZDCP9kFZXLR688v9g==
+X-Received: by 2002:a7b:c7c3:: with SMTP id z3mr18417123wmk.43.1604337043584; 
+ Mon, 02 Nov 2020 09:10:43 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.41
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.42
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:41 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/26] target/arm: Get correct MMU index for
- other-security-state
-Date: Mon,  2 Nov 2020 17:10:00 +0000
-Message-Id: <20201102171005.30690-22-peter.maydell@linaro.org>
+Subject: [PULL 22/26] configure: Test that gio libs from pkg-config work
+Date: Mon,  2 Nov 2020 17:10:01 +0000
+Message-Id: <20201102171005.30690-23-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x333.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,43 +89,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In arm_v7m_mmu_idx_for_secstate() we get the 'priv' level to pass to
-armv7m_mmu_idx_for_secstate_and_priv() by calling arm_current_el().
-This is incorrect when the security state being queried is not the
-current one, because arm_current_el() uses the current security state
-to determine which of the banked CONTROL.nPRIV bits to look at.
-The effect was that if (for instance) Secure state was in privileged
-mode but Non-Secure was not then we would return the wrong MMU index.
+On some hosts (eg Ubuntu Bionic) pkg-config returns a set of
+libraries for gio-2.0 which don't actually work when compiling
+statically. (Specifically, the returned library string includes
+-lmount, but not -lblkid which -lmount depends upon, so linking
+fails due to missing symbols.)
 
-The only places where we are using this function in a way that could
-trigger this bug are for the stack loads during a v8M function-return
-and for the instruction fetch of a v8M SG insn.
-
-Fix the bug by expanding out the M-profile version of the
-arm_current_el() logic inline so it can use the passed in secstate
-rather than env->v7m.secure.
+Check that the libraries work, and don't enable gio if they don't,
+in the same way we do for gnutls.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201022164408.13214-1-peter.maydell@linaro.org
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20200928160402.7961-1-peter.maydell@linaro.org
 ---
- target/arm/m_helper.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ configure | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 036454234c7..aad01ea0127 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2719,7 +2719,8 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate_and_priv(CPUARMState *env,
- /* Return the MMU index for a v7M CPU in the specified security state */
- ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
- {
--    bool priv = arm_current_el(env) != 0;
-+    bool priv = arm_v7m_is_handler_mode(env) ||
-+        !(env->v7m.control[secstate] & 1);
+diff --git a/configure b/configure
+index 6df4306c884..2c3c69f1188 100755
+--- a/configure
++++ b/configure
+@@ -3489,13 +3489,21 @@ if test "$static" = yes && test "$mingw32" = yes; then
+ fi
  
-     return arm_v7m_mmu_idx_for_secstate_and_priv(env, secstate, priv);
- }
+ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
+-    gio=yes
+     gio_cflags=$($pkg_config --cflags gio-2.0)
+     gio_libs=$($pkg_config --libs gio-2.0)
+     gdbus_codegen=$($pkg_config --variable=gdbus_codegen gio-2.0)
+     if [ ! -x "$gdbus_codegen" ]; then
+         gdbus_codegen=
+     fi
++    # Check that the libraries actually work -- Ubuntu 18.04 ships
++    # with pkg-config --static --libs data for gio-2.0 that is missing
++    # -lblkid and will give a link error.
++    write_c_skeleton
++    if compile_prog "" "gio_libs" ; then
++        gio=yes
++    else
++        gio=no
++    fi
+ else
+     gio=no
+ fi
 -- 
 2.20.1
 
