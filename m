@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D2DF2A28F5
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 12:23:42 +0100 (CET)
-Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DACAA2A290C
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 12:25:04 +0100 (CET)
+Received: from localhost ([::1]:49500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZXw4-0005WY-KP
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 06:23:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44764)
+	id 1kZXxP-0006i7-Os
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 06:25:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kZXvE-00052M-EC
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:22:50 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36748)
+ id 1kZXwf-0006DT-8k
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:24:17 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:44844)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1kZXvC-0007A0-Of
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:22:48 -0500
-Received: by mail-pl1-x644.google.com with SMTP id r10so6674779plx.3
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 03:22:45 -0800 (PST)
+ id 1kZXwd-0007lL-52
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:24:16 -0500
+Received: by mail-pl1-x644.google.com with SMTP id t6so6651674plq.11
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 03:24:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6XDMO3dY+P6KF4ULhZ3+1GiinKDisc3vIbzVvD5wddI=;
- b=q3On0vmn+1n6io/wy2R/MzfqZ2V+uT0vOrys9i1FSo06hQd7zka103j/j/Q65sb1XF
- Nhg5TZbpdP5KrVQqfWEhQHNshqZQMH81ziDuByA995YnbZdJ6erZ2AXfxG6eiVcbnkAf
- d1vup+7rVQ7nttntHOZj7efPu/oeKKRqvDv4mk9RuWr6oDnAJTaGmb3eMgiRNJe9NLTf
- XAXUEyHK3zdF0BVEZ1DS0a7h3fFC5KgLKrj9tcSeqVPg9Jb95S6np03ALKNIXxAgfTG4
- qnk2gz4fztP83nQSYD+Itl5CBncusTAJsy3HWgycYdLNM8EJy5ApTjUDSZOSlEA0mtjd
- dJ3A==
+ :cc; bh=mYbIFK1vPZMCZXBjfRyftvToN2oZtamsI1KveVMp7e0=;
+ b=i7QrubM1wDznm0N2gjc+MTjGDi1avfr6dynaPuQ+X8T9hegJX7NzYaDjMiQVAKzzeY
+ WAIf9APVN+EHaJT/YTdke3oYld8dxCpauegfuLgSkXRM2JoL7Vrj4VdRLUUCqc+3mOEA
+ yYU4pt5Mlstym0ow9Ngey0FNg3BubrJwn8XNjjF7KO6JAWt91dbd93PCE67tho3WV2wJ
+ 03NejerwvcfTFSx0LRFzCNuyYjWEU9LKmYYY+N5GpX3xlssHRpaEPUzc1DlX/4/MCv1o
+ LJ7nSzJpJWZp4AGgL07/fiajPebKM2JKULAcl7+UwwftOvFiQx+7HxxnXTCubEiezyyV
+ G60Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=6XDMO3dY+P6KF4ULhZ3+1GiinKDisc3vIbzVvD5wddI=;
- b=cOGJYAek7g2IiBSf+UZkCSGaUO2Ajw18ag2vGFsy/usbrc6a0HWJ2fXkLnYYz8LbMG
- j4SvMPGT4oGqX7rra+s49mS9s1+dr7Kjo4aj8pBQnwbaS3InNc1aLYjrzEHkdxS80f6Q
- cNY+vA2wsfl5I0QXcaqq5YaSm8ZDPEFD5CiMup9H2Cd/rCI+Wp9dGzfGLl6eFLW1zXDV
- oysYDlEDvoNg0Vr/94ooGtZcP2fMKFwX0KSL5aVhDua/d+XN62kdmCqn8RqKTbIKuXWw
- zec8XLcYUNxo4Yk+sXUfG5HQszqPkvFmJcaL0gKdoaj64had9tbTv7JwD+NctElLKG8u
- WFzg==
-X-Gm-Message-State: AOAM5320bzu+XZorurCp9iwARQtetZeo+lJHnBEcg7nkWAY1M+1KTByl
- FExPkqAw8NcdWh5Er0sjbokit8zRt6UrkgDUvyY=
-X-Google-Smtp-Source: ABdhPJxm9/cGvjcSBTye+nuDD2YcqAXEmOYCHIRtI6TWBTFY12ByUJ1BgcWTrPhOw2EvsJjXBHpWbhBo4TxNG4nHmMw=
-X-Received: by 2002:a17:902:59cd:b029:d6:7656:af1 with SMTP id
- d13-20020a17090259cdb02900d676560af1mr20519279plj.43.1604316164552; Mon, 02
- Nov 2020 03:22:44 -0800 (PST)
+ bh=mYbIFK1vPZMCZXBjfRyftvToN2oZtamsI1KveVMp7e0=;
+ b=ENunbzFUrUra08JeCCPraHciMPgD5DTTnBoUs6MWeeMdppGASDS4vn23MlazD1zFE1
+ 2zYdLiF5PZSIsCumlm6Fro99FqZeDheCwJJgP+SCgNId91+cCRuUbeyttm8+zJY7nQXk
+ n2CatC4dNGbI8j+j4o899uVa8oM4UqsoNYayViu8Xn8ndtXfbOyuA223VCMAZFLmRjZp
+ jMH8ZKu9RJisIQ4Ah9PQ2e56K8hTU5VrOuJztp8OuEunNaKYnmi77eZSlGZGDmeuVyfA
+ 850h7jvex/ZYopDJ9uyudrEXQeq+WcLhQIk2sZXl0a1mMMJDSZQzCl31uFCZT3sQoq2W
+ nyBA==
+X-Gm-Message-State: AOAM530a0mkf6cHUN0CoXRf+DISZvE/0axtpwOUxTSwz6nmPCU4NIUtB
+ 2bSuigUpe58DGuxQA+opDBEFiZ1LvMVs53ObEfQ=
+X-Google-Smtp-Source: ABdhPJxYBg8kt5WVVcuAXa3a+Tr9cucHHNDKgcSGeHRw1qDkdJaPsOZpENbl3swU9CnnDLN1kHgbHkfo6nf/lQh1JQ8=
+X-Received: by 2002:a17:902:9697:b029:d6:c3f6:8dcf with SMTP id
+ n23-20020a1709029697b02900d6c3f68dcfmr7233574plp.8.1604316253821; Mon, 02 Nov
+ 2020 03:24:13 -0800 (PST)
 MIME-Version: 1.0
 References: <20201030174700.7204-1-peter.maydell@linaro.org>
- <20201030174700.7204-3-peter.maydell@linaro.org>
-In-Reply-To: <20201030174700.7204-3-peter.maydell@linaro.org>
+ <20201030174700.7204-2-peter.maydell@linaro.org>
+In-Reply-To: <20201030174700.7204-2-peter.maydell@linaro.org>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 2 Nov 2020 11:22:33 +0000
-Message-ID: <CAJSP0QXd0YF=kVL41oMSTPRbRe5YC8Tt+VLAvwvuVVtrWr+dYA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] qemu-option-trace.rst.inc: Don't use option:: markup
+Date: Mon, 2 Nov 2020 11:24:02 +0000
+Message-ID: <CAJSP0QWTwUW5HrtczzT0G_i5HCxHbzMOiQ7jUnf8-9MNf_wf0Q@mail.gmail.com>
+Subject: Re: [PATCH 1/2] scripts/kerneldoc: For Sphinx 3 use c:macro for
+ macros with arguments
 To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
@@ -86,30 +87,38 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Oct 30, 2020 at 5:48 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Fri, Oct 30, 2020 at 5:47 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Sphinx 3.2 is pickier than earlier versions about the option:: markup,
-> and complains about our usage in qemu-option-trace.rst:
+> The kerneldoc script currently emits Sphinx markup for a macro with
+> arguments that uses the c:function directive. This is correct for
+> Sphinx versions earlier than Sphinx 3, where c:macro doesn't allow
+> documentation of macros with arguments and c:function is not picky
+> about the syntax of what it is passed. However, in Sphinx 3 the
+> c:macro directive was enhanced to support macros with arguments,
+> and c:function was made more picky about what syntax it accepted.
 >
-> ../../docs/qemu-option-trace.rst.inc:4:Malformed option description
->   '[enable=]PATTERN', should look like "opt", "-opt args", "--opt args",
->   "/opt args" or "+opt args"
+> When kerneldoc is told that it needs to produce output for Sphinx
+> 3 or later, make it emit c:function only for functions and c:macro
+> for macros with arguments. We assume that anything with a return
+> type is a function and anything without is a macro.
 >
-> In this file, we're really trying to document the different parts of
-> the top-level --trace option, which qemu-nbd.rst and qemu-img.rst
-> have already introduced with an option:: markup.  So it's not right
-> to use option:: here anyway.  Switch to a different markup
-> (definition lists) which gives about the same formatted output.
+> This fixes the Sphinx error:
 >
-> (Unlike option::, this markup doesn't produce index entries; but
-> at the moment we don't do anything much with indexes anyway, and
-> in any case I think it doesn't make much sense to have individual
-> index entries for the sub-parts of the --trace option.)
+> /home/petmay01/linaro/qemu-from-laptop/qemu/docs/../include/qom/object.h:155:Error in declarator
+> If declarator-id with parameters (e.g., 'void f(int arg)'):
+>   Invalid C declaration: Expected identifier in nested name. [error at 25]
+>     DECLARE_INSTANCE_CHECKER ( InstanceType,  OBJ_NAME,  TYPENAME)
+>     -------------------------^
+> If parenthesis in noptr-declarator (e.g., 'void (*f(int arg))(double)'):
+>   Error in declarator or parameters
+>   Invalid C declaration: Expecting "(" in parameters. [error at 39]
+>     DECLARE_INSTANCE_CHECKER ( InstanceType,  OBJ_NAME,  TYPENAME)
+>     ---------------------------------------^
 >
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  docs/qemu-option-trace.rst.inc | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  scripts/kernel-doc | 18 +++++++++++++++++-
+>  1 file changed, 17 insertions(+), 1 deletion(-)
 
 Tested-by: Stefan Hajnoczi <stefanha@redhat.com>
 
