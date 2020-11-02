@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8A8E2A2897
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:59:33 +0100 (CET)
-Received: from localhost ([::1]:51844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF70E2A2899
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:59:53 +0100 (CET)
+Received: from localhost ([::1]:54012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZXYi-0000m8-RE
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:59:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38100)
+	id 1kZXZ2-0001dK-QH
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:59:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <remi@remlab.net>)
- id 1kZXXN-0007QB-Lc; Mon, 02 Nov 2020 05:58:09 -0500
-Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:39546
+ id 1kZXXQ-0007UX-A7; Mon, 02 Nov 2020 05:58:12 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:39564
  helo=ns207790.ip-94-23-215.eu)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <remi@remlab.net>)
- id 1kZXXL-0006jB-T4; Mon, 02 Nov 2020 05:58:09 -0500
+ id 1kZXXO-0006lm-KZ; Mon, 02 Nov 2020 05:58:11 -0500
 Received: from basile.remlab.net (ip6-localhost [IPv6:::1])
- by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 7B21860098;
- Mon,  2 Nov 2020 11:58:03 +0100 (CET)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTP id 7F51560362;
+ Mon,  2 Nov 2020 11:58:04 +0100 (CET)
 From: remi.denis.courmont@huawei.com
 To: qemu-arm@nongnu.org
-Subject: [PATCH 05/14] target/arm: declare new AA64PFR0 bit-fields
-Date: Mon,  2 Nov 2020 12:57:53 +0200
-Message-Id: <20201102105802.39332-5-remi.denis.courmont@huawei.com>
+Subject: [PATCH 09/14] target/arm: add ARMv8.4-SEL2 system registers
+Date: Mon,  2 Nov 2020 12:57:57 +0200
+Message-Id: <20201102105802.39332-9-remi.denis.courmont@huawei.com>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <2172054.ElGaqSPkdT@basile.remlab.net>
 References: <2172054.ElGaqSPkdT@basile.remlab.net>
@@ -62,38 +62,68 @@ From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
 Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 ---
- target/arm/cpu.h | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ target/arm/cpu.h    |  2 ++
+ target/arm/helper.c | 24 ++++++++++++++++++++++++
+ 2 files changed, 26 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 263e650560..724b11ee57 100644
+index 3fbb70e273..c047b17a81 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1849,6 +1849,12 @@ FIELD(ID_AA64PFR0, ADVSIMD, 20, 4)
- FIELD(ID_AA64PFR0, GIC, 24, 4)
- FIELD(ID_AA64PFR0, RAS, 28, 4)
- FIELD(ID_AA64PFR0, SVE, 32, 4)
-+FIELD(ID_AA64PFR0, SEL2, 36, 4)
-+FIELD(ID_AA64PFR0, MPAM, 40, 4)
-+FIELD(ID_AA64PFR0, AMU, 44, 4)
-+FIELD(ID_AA64PFR0, DIT, 48, 4)
-+FIELD(ID_AA64PFR0, CSV2, 56, 4)
-+FIELD(ID_AA64PFR0, CSV3, 60, 4)
+@@ -323,9 +323,11 @@ typedef struct CPUARMState {
+             uint64_t ttbr1_el[4];
+         };
+         uint64_t vttbr_el2; /* Virtualization Translation Table Base.  */
++        uint64_t vsttbr_el2; /* Secure Virtualization Translation Table. */
+         /* MMU translation table base control. */
+         TCR tcr_el[4];
+         TCR vtcr_el2; /* Virtualization Translation Control.  */
++        TCR vstcr_el2; /* Secure Virtualization Translation Control. */
+         uint32_t c2_data; /* MPU data cacheable bits.  */
+         uint32_t c2_insn; /* MPU instruction cacheable bits.  */
+         union { /* MMU domain access control register
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index eeae3ecff2..4c86e4f57c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5724,6 +5724,27 @@ static const ARMCPRegInfo el2_v8_cp_reginfo[] = {
+     REGINFO_SENTINEL
+ };
  
- FIELD(ID_AA64PFR1, BT, 0, 4)
- FIELD(ID_AA64PFR1, SBSS, 4, 4)
-@@ -3879,6 +3885,11 @@ static inline bool isar_feature_aa64_sve(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SVE) != 0;
- }
- 
-+static inline bool isar_feature_aa64_sel2(const ARMISARegisters *id)
++static CPAccessResult sel2_access(CPUARMState *env, const ARMCPRegInfo *ri,
++                                  bool isread)
 +{
-+    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SEL2) != 0;
++    if (arm_current_el(env) == 3 || arm_is_secure_below_el3(env)) {
++        return CP_ACCESS_OK;
++    }
++    return CP_ACCESS_TRAP_UNCATEGORIZED;
 +}
 +
- static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
++static const ARMCPRegInfo el2_sec_cp_reginfo[] = {
++    { .name = "VSTTBR_EL2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 0,
++      .access = PL2_RW, .accessfn = sel2_access,
++      .fieldoffset = offsetof(CPUARMState, cp15.vsttbr_el2) },
++    { .name = "VSTCR_EL2", .state = ARM_CP_STATE_AA64,
++      .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 6, .opc2 = 2,
++      .access = PL2_RW, .accessfn = sel2_access,
++      .fieldoffset = offsetof(CPUARMState, cp15.vstcr_el2) },
++    REGINFO_SENTINEL
++};
++
+ static CPAccessResult nsacr_access(CPUARMState *env, const ARMCPRegInfo *ri,
+                                    bool isread)
  {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
+@@ -7745,6 +7766,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+         if (arm_feature(env, ARM_FEATURE_V8)) {
+             define_arm_cp_regs(cpu, el2_v8_cp_reginfo);
+         }
++        if (cpu_isar_feature(aa64_sel2, cpu)) {
++            define_arm_cp_regs(cpu, el2_sec_cp_reginfo);
++        }
+         /* RVBAR_EL2 is only implemented if EL2 is the highest EL */
+         if (!arm_feature(env, ARM_FEATURE_EL3)) {
+             ARMCPRegInfo rvbar = {
 -- 
 2.29.1
 
