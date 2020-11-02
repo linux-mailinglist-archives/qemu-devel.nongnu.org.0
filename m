@@ -2,74 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2AE2A21FC
-	for <lists+qemu-devel@lfdr.de>; Sun,  1 Nov 2020 23:03:13 +0100 (CET)
-Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4ECF2A22A5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 02:06:47 +0100 (CET)
+Received: from localhost ([::1]:46498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZLRQ-00026D-I5
-	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 17:03:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45322)
+	id 1kZOJ4-0000ei-Cz
+	for lists+qemu-devel@lfdr.de; Sun, 01 Nov 2020 20:06:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZLQQ-0001Sv-94
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 17:02:10 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:39170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZLQO-0004Yt-Fm
- for qemu-devel@nongnu.org; Sun, 01 Nov 2020 17:02:09 -0500
-Received: by mail-ej1-x642.google.com with SMTP id s25so2284904ejy.6
- for <qemu-devel@nongnu.org>; Sun, 01 Nov 2020 14:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xN6pThlJJY/1nn8Jdp2yQyY2QYEg0MLN4vCH0ynaGos=;
- b=gdY35BjRVYa8yrLc22cbA3o42sImMdAyUz7rZpxfrhrPbiCR+bwLzrDm0O65V/mayg
- lBC02Mg1OEZET6LsV1pnGhyQzqx48l1Q046oZvEjjDMVcMi2UpOv+a9xigYWtOJFRZyT
- Z6fYHwkt8Yqp12EFN/FBq5tRQuy724GxPVXPoPthgVF3DxGdukVHtHNfaf2M1pC/HDiZ
- nQR6f+wyZ4wWD5DexUh3O9MPNLdhuCVKaR1zv3kF0dNHdZMLXSzj3VBobhRLmZ6vDrgV
- BJQ2a51SpN6mGYO6QY9SB9S24VR843lOHWthCgcX8IChxir4/gwv8mQTvCCA9bEQYAVy
- 5wfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xN6pThlJJY/1nn8Jdp2yQyY2QYEg0MLN4vCH0ynaGos=;
- b=jB7y3mCwIyVJFNEO5x2DkbmuylRqR9oTBd+wlDFQaS8zDOlDi4++kPW+Anah0xZR+a
- V16FJfEhXcZg/pGSu3atvqk8+iB9TcxbmavnvByzn7cIzO9rhpSmpya166jeb7nug+gJ
- q/vsklXCtAZt9JQqOy5AtXnRGycAv/uMX91JFCoqprL0J0Yq9PnwbV4cyW6vUPtuvV68
- GWv40wopv/at/exl0/pPe3b2TZ5FPKBCmqUSO5OhX7O9Dt+UiS+YQtbOjK4mIVJisQCZ
- f3EhSk41P+WEzzOghTPSPm/A/MLPPyqMJf7bFtye9IyJSgP49ml1wwWrqvRCAEDf/gPJ
- P/5Q==
-X-Gm-Message-State: AOAM530hlpn1TI6Bn89m4iDfWrgUyqA5kb+0AKZcxew6pUi0jUr/6mys
- zA7r2oNQX5zMOzc0HwiRdmSG0xX6b/y/hLhwQ/e+AQ==
-X-Google-Smtp-Source: ABdhPJz2kKxlgcxVXrBF+jmzcZHBYyZQK3jOAKxDKio3HnOoLrl3SehPiDck4Eiw9GqHhwIKBjG+pkJftu6HSva9P80=
-X-Received: by 2002:a17:906:3b59:: with SMTP id
- h25mr13280112ejf.56.1604268126905; 
- Sun, 01 Nov 2020 14:02:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kZOHf-0008EU-J9; Sun, 01 Nov 2020 20:05:19 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:49657 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kZOHc-0007LT-LQ; Sun, 01 Nov 2020 20:05:18 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CPZT823nDz9sVH; Mon,  2 Nov 2020 12:05:00 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1604279100;
+ bh=b7HomrenV/FFWQpqN7r9WFMdvcv/rU/8LMX1lHNBhNo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=etnHL5sNt4KjdXFqeUIugO4YPpBHn4PnosYhLfkD1dPhAxN8Ez8J+4C+ka3yL+mYI
+ tayIQf+ISThuiPdu8K4oiB+40f1HuZKrtwhI79sw6Ek8mMsqq/UnESUEFx7S/Rwfdr
+ 7xHdCOduUBlH4FUFv1EVmY0s6ChLY6KA1mQ4U4Q0=
+Date: Mon, 2 Nov 2020 11:57:56 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 4/5] spapr: Pass &error_abort when getting some PC DIMM
+ properties
+Message-ID: <20201102005756.GB143651@yekko.fritz.box>
+References: <160309727218.2739814.14722724927730985344.stgit@bahia.lan>
+ <160309732180.2739814.7243774674998010907.stgit@bahia.lan>
+ <20201023211509.5c316c01@redhat.com>
+ <20201025162444.0fdec88a@bahia.lan>
+ <20201027125424.13833af8@redhat.com>
+ <20201027161858.590329a7@bahia>
+ <20201028162216.0f33e0ef@redhat.com>
+ <20201030142542.3051b508@bahia.lan>
 MIME-Version: 1.0
-References: <20201101215755.2021421-1-f4bug@amsat.org>
-In-Reply-To: <20201101215755.2021421-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 1 Nov 2020 22:01:55 +0000
-Message-ID: <CAFEAcA_3Vd+VdVLx6Z=Oe_NGDdK4yUsH2e2LQAQ6Zyuhj3LNMg@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2 v3] util/cutils: Fix Coverity array overrun in
- freq_to_str()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="cmJC7u66zC7hs+87"
+Content-Disposition: inline
+In-Reply-To: <20201030142542.3051b508@bahia.lan>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/01 20:05:01
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,54 +67,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc@lmichel.fr>, Eduardo Habkost <ehabkost@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 1 Nov 2020 at 21:57, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> =
-wrote:
->
-> Fix Coverity CID 1435957:  Memory - illegal accesses (OVERRUN):
->
-> >>> Overrunning array "suffixes" of 7 8-byte elements at element
->     index 7 (byte offset 63) using index "idx" (which evaluates to 7).
->
-> Note, the biggest input value freq_to_str() can accept is UINT64_MAX,
-> which is ~18.446 EHz, less than 1000 EHz.
->
-> Reported-by: Eduardo Habkost <ehabkost@redhat.com>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> v3: Follow Peter's suggestion
-> ---
->  util/cutils.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/util/cutils.c b/util/cutils.c
-> index c395974fab4..2f869a843a5 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -891,10 +891,11 @@ char *freq_to_str(uint64_t freq_hz)
->      double freq =3D freq_hz;
->      size_t idx =3D 0;
->
-> -    while (freq >=3D 1000.0 && idx < ARRAY_SIZE(suffixes)) {
-> +    while (freq >=3D 1000.0) {
->          freq /=3D 1000.0;
->          idx++;
->      }
-> +    assert(idx < ARRAY_SIZE(suffixes));
->
->      return g_strdup_printf("%0.3g %sHz", freq, suffixes[idx]);
->  }
-> --
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+--cmJC7u66zC7hs+87
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks
--- PMM
+On Fri, Oct 30, 2020 at 02:25:42PM +0100, Greg Kurz wrote:
+> On Wed, 28 Oct 2020 16:22:16 +0100
+> Igor Mammedov <imammedo@redhat.com> wrote:
+>=20
+> > On Tue, 27 Oct 2020 16:18:58 +0100
+> > Greg Kurz <groug@kaod.org> wrote:
+> >=20
+> [...]
+> > >=20
+> > > It might require some more code refactoring because the way regular
+> > > PC-DIMMs are broken down into a set of logical memory blocks (LMBs),
+> > > each one having its own DRC but it's certainly doable. Probably for
+> > > QEMU 6.0 though since we're entering soft freeze and David already
+> > > fired a PR today.
+> >=20
+> > as far as it's not forgotten, it can be done later.
+> >=20
+>=20
+> David,
+>=20
+> Can you create a ppc-for-6.0 branch ?
+
+Done.
+
+>=20
+> Cheers,
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--cmJC7u66zC7hs+87
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+fWZQACgkQbDjKyiDZ
+s5J8VRAAqxjdOqdkW7ubsTScSWIm1KPwKXkdZ1VXxvMmsFfskfimH5rgOCz+/z8n
+XNBc0rdYTxZYhBEYsPevIg2cc6Oj8kqPikhB2V8voHI7ryQxxgaM3buDAujQrPFp
+9J1A3Bz29lGQ5ry6rwtUI+/NGp5FB2kw8EjtOYL3OFu97yHDaB4QEzVF5CS7TTgO
+8XDuaFnURjkgT4gvEeQ408xGmVKQV5KjwWvyJ6b6B2wyLYhX6N0wrLOipFQdaUNY
+DVm4AMldCc+aGG5PcjYPSOja2yL630p5iptIkeGjbmzOgq4lMlRRHAndYCxO/APj
+KGaGf/9oWib2zObhQAOHdoMWrEXK4vvg2CPwH7jilXrQ5Me6YsxcbrlI6AlijQj0
+Hi3npgFyopZRIzEksb9BNz9boMhhu8xw+ydqLSlWXkdJogl8kbhcPXkB55NHW2ER
+CtBrlJq4Fn0JMmbKZzKqDWAygfqyYI0JiL30Z1VdNDa6Xtnv9CooV7ILQZweNIyy
+M96tjPHpujt5N0yVQyTNe+eP0BzEb0ebqG2N5cnigfy+Cn2lI6PlFdEHDGSNEsgE
+qVxK1CvMmEI1cHyGTpDnlqWBI3R3fPjrhAhcZkammucgiZkeufGAxNVUP2JSP8Ak
+KkSQDA01PGk1hU2nzBOoUyBND9cEs4PqV/sVBCLxtcBWJy+FIlI=
+=ssRw
+-----END PGP SIGNATURE-----
+
+--cmJC7u66zC7hs+87--
 
