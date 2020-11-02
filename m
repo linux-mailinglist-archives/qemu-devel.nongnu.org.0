@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41D9F2A2A40
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 13:00:04 +0100 (CET)
-Received: from localhost ([::1]:53926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1137A2A2A42
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 13:01:52 +0100 (CET)
+Received: from localhost ([::1]:57102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZYVH-0004l3-9x
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 07:00:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51960)
+	id 1kZYX1-0006C1-51
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 07:01:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZYUB-0003uc-1Q
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:58:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24113)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZYWF-0005lA-VI
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 07:01:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZYU8-0003dB-Ul
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:58:54 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZYWE-0004Wj-9F
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 07:01:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604318332;
+ s=mimecast20190719; t=1604318461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ycHutG8a0nYkkphwYHwwF11Dqcw1B5bZHU7Uu2oN1Vo=;
- b=C7Z+GLaVs7I0EdbqDOpmhyUrDIkDS8y8QlpDjEexYo1IPpp8iWQVK1xmxYdHQZnTAKedSu
- 0w0jHGXC9txaVs3sSF0aT2vYlUQ2pk7Ec5/3Xgx1V0Nm7FzrfjLEoAEM6otJpa6AcrtNcH
- uVAuCnArqVSVj2zw/n8LiPnQa1FqbQw=
+ in-reply-to:in-reply-to:references:references;
+ bh=dtAMTn//B67yDHl6S+FPA8RzwBwlrcl+R8C+Mh8XIBM=;
+ b=AxXcKDGtC8C0VYQ9bCvkMcFpkg6X+FgI6tVhwyp5fxQmhuHk6gWC2NlJfKKUvLyU20n7L9
+ TPoAhtrouaUE0wtM2CptRGsojXMDz3nquZzX80ZlCCUYuerVrvcMqWbdO8SyL95jf7Wbgp
+ pAszPLT+BlNMJW1z32Ch7nAnmJSnyQo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-349-3kyDT1Y-P0SZ2sIYxpw03g-1; Mon, 02 Nov 2020 06:58:50 -0500
-X-MC-Unique: 3kyDT1Y-P0SZ2sIYxpw03g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-550-lLqvwOAbM42F5TL4YGkdQg-1; Mon, 02 Nov 2020 07:00:57 -0500
+X-MC-Unique: lLqvwOAbM42F5TL4YGkdQg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7448E18B9F8A
- for <qemu-devel@nongnu.org>; Mon,  2 Nov 2020 11:58:49 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 47EAC5C5DE;
- Mon,  2 Nov 2020 11:58:42 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] trace: remove argument from trace_init_file
-Date: Mon,  2 Nov 2020 06:58:41 -0500
-Message-Id: <20201102115841.4017692-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F17DF10932A2;
+ Mon,  2 Nov 2020 12:00:50 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AFF2E5DA6B;
+ Mon,  2 Nov 2020 12:00:50 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 214AE1132BD6; Mon,  2 Nov 2020 13:00:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] pc: comment stule fixup
+References: <20201102100948.1101121-1-mst@redhat.com>
+Date: Mon, 02 Nov 2020 13:00:49 +0100
+In-Reply-To: <20201102100948.1101121-1-mst@redhat.com> (Michael S. Tsirkin's
+ message of "Mon, 2 Nov 2020 05:09:54 -0500")
+Message-ID: <877dr4j7da.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,342 +81,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: stefanha@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is not needed, all the callers are just saving what was
-retrieved from -trace and trace_init_file can retrieve it
-on its own.
+"Michael S. Tsirkin" <mst@redhat.com> writes:
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- bsd-user/main.c                      |  6 ++----
- linux-user/main.c                    |  6 ++----
- qemu-img.c                           |  6 ++----
- qemu-io.c                            |  6 ++----
- qemu-nbd.c                           |  6 ++----
- scsi/qemu-pr-helper.c                |  6 ++----
- softmmu/vl.c                         |  6 ++----
- storage-daemon/qemu-storage-daemon.c |  9 +++------
- trace/control.c                      | 10 ++++------
- trace/control.h                      | 12 +++---------
- 10 files changed, 24 insertions(+), 49 deletions(-)
+> Fix up checkpatch comment style warnings.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/i386/pc.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 416fb0e0f6..5872ae6095 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -1150,9 +1150,9 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+>              exit(1);
+>          }
+>          /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
+> -            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
+> -            * IRQ8 and IRQ2.
+> -            */
+> +         * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
+> +         * IRQ8 and IRQ2.
+> +         */
+>          uint8_t compat = object_property_get_uint(OBJECT(hpet),
+>                  HPET_INTCAP, NULL);
+>          if (!compat) {
 
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index ac40d79bfa..0a918e8f74 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -745,7 +745,6 @@ int main(int argc, char **argv)
-     const char *gdbstub = NULL;
-     char **target_environ, **wrk;
-     envlist_t *envlist = NULL;
--    char *trace_file = NULL;
-     bsd_type = target_openbsd;
- 
-     if (argc <= 1)
-@@ -851,8 +850,7 @@ int main(int argc, char **argv)
-         } else if (!strcmp(r, "strace")) {
-             do_strace = 1;
-         } else if (!strcmp(r, "trace")) {
--            g_free(trace_file);
--            trace_file = trace_opt_parse(optarg);
-+            trace_opt_parse(optarg);
-         } else {
-             usage();
-         }
-@@ -880,7 +878,7 @@ int main(int argc, char **argv)
-     if (!trace_init_backends()) {
-         exit(1);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
- 
-     /* Zero out regs */
-     memset(regs, 0, sizeof(struct target_pt_regs));
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 75c9785157..24d1eb73ad 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -386,11 +386,9 @@ static void handle_arg_version(const char *arg)
-     exit(EXIT_SUCCESS);
- }
- 
--static char *trace_file;
- static void handle_arg_trace(const char *arg)
- {
--    g_free(trace_file);
--    trace_file = trace_opt_parse(arg);
-+    trace_opt_parse(arg);
- }
- 
- #if defined(TARGET_XTENSA)
-@@ -672,7 +670,7 @@ int main(int argc, char **argv, char **envp)
-     if (!trace_init_backends()) {
-         exit(1);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
-     if (qemu_plugin_load_list(&plugins)) {
-         exit(1);
-     }
-diff --git a/qemu-img.c b/qemu-img.c
-index a968c74cba..5856811645 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -5466,7 +5466,6 @@ int main(int argc, char **argv)
-     const img_cmd_t *cmd;
-     const char *cmdname;
-     Error *local_error = NULL;
--    char *trace_file = NULL;
-     int c;
-     static const struct option long_options[] = {
-         {"help", no_argument, 0, 'h'},
-@@ -5516,8 +5515,7 @@ int main(int argc, char **argv)
-             printf(QEMU_IMG_VERSION);
-             return 0;
-         case 'T':
--            g_free(trace_file);
--            trace_file = trace_opt_parse(optarg);
-+            trace_opt_parse(optarg);
-             break;
-         }
-     }
-@@ -5535,7 +5533,7 @@ int main(int argc, char **argv)
-     if (!trace_init_backends()) {
-         exit(1);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
-     qemu_set_log(LOG_TRACE);
- 
-     /* find the command */
-diff --git a/qemu-io.c b/qemu-io.c
-index 7cc832b3d6..ac88d8bd40 100644
---- a/qemu-io.c
-+++ b/qemu-io.c
-@@ -536,7 +536,6 @@ int main(int argc, char **argv)
-     Error *local_error = NULL;
-     QDict *opts = NULL;
-     const char *format = NULL;
--    char *trace_file = NULL;
-     bool force_share = false;
- 
- #ifdef CONFIG_POSIX
-@@ -601,8 +600,7 @@ int main(int argc, char **argv)
-             }
-             break;
-         case 'T':
--            g_free(trace_file);
--            trace_file = trace_opt_parse(optarg);
-+            trace_opt_parse(optarg);
-             break;
-         case 'V':
-             printf("%s version " QEMU_FULL_VERSION "\n"
-@@ -653,7 +651,7 @@ int main(int argc, char **argv)
-     if (!trace_init_backends()) {
-         exit(1);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
-     qemu_set_log(LOG_TRACE);
- 
-     /* initialize commands */
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index 75ced65030..a7075c5419 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -581,7 +581,6 @@ int main(int argc, char **argv)
-     const char *tlscredsid = NULL;
-     bool imageOpts = false;
-     bool writethrough = true;
--    char *trace_file = NULL;
-     bool fork_process = false;
-     bool list = false;
-     int old_stderr = -1;
-@@ -768,8 +767,7 @@ int main(int argc, char **argv)
-             imageOpts = true;
-             break;
-         case 'T':
--            g_free(trace_file);
--            trace_file = trace_opt_parse(optarg);
-+            trace_opt_parse(optarg);
-             break;
-         case QEMU_NBD_OPT_TLSAUTHZ:
-             tlsauthz = optarg;
-@@ -816,7 +814,7 @@ int main(int argc, char **argv)
-     if (!trace_init_backends()) {
-         exit(1);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
-     qemu_set_log(LOG_TRACE);
- 
-     socket_activation = check_socket_activation();
-diff --git a/scsi/qemu-pr-helper.c b/scsi/qemu-pr-helper.c
-index d26faaf91e..2733d92f2d 100644
---- a/scsi/qemu-pr-helper.c
-+++ b/scsi/qemu-pr-helper.c
-@@ -884,7 +884,6 @@ int main(int argc, char **argv)
-     int quiet = 0;
-     int ch;
-     Error *local_err = NULL;
--    char *trace_file = NULL;
-     bool daemonize = false;
-     bool pidfile_specified = false;
-     bool socket_path_specified = false;
-@@ -968,8 +967,7 @@ int main(int argc, char **argv)
-             ++loglevel;
-             break;
-         case 'T':
--            g_free(trace_file);
--            trace_file = trace_opt_parse(optarg);
-+            trace_opt_parse(optarg);
-             break;
-         case 'V':
-             version(argv[0]);
-@@ -992,7 +990,7 @@ int main(int argc, char **argv)
-     if (!trace_init_backends()) {
-         exit(EXIT_FAILURE);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
-     qemu_set_log(LOG_TRACE);
- 
- #ifdef CONFIG_MPATH
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index c0ad123e2b..8070c273b2 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -2885,7 +2885,6 @@ void qemu_init(int argc, char **argv, char **envp)
-     int display_remote = 0;
-     const char *log_mask = NULL;
-     const char *log_file = NULL;
--    char *trace_file = NULL;
-     ram_addr_t maxram_size;
-     uint64_t ram_slots = 0;
-     FILE *vmstate_dump_file = NULL;
-@@ -3687,8 +3686,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 xen_domid_restrict = true;
-                 break;
-             case QEMU_OPTION_trace:
--                g_free(trace_file);
--                trace_file = trace_opt_parse(optarg);
-+                trace_opt_parse(optarg);
-                 break;
-             case QEMU_OPTION_plugin:
-                 qemu_plugin_opt_parse(optarg, &plugin_list);
-@@ -3938,7 +3936,7 @@ void qemu_init(int argc, char **argv, char **envp)
-     if (!trace_init_backends()) {
-         exit(1);
-     }
--    trace_init_file(trace_file);
-+    trace_init_file();
- 
-     /* Open the logfile at this point and set the log mask if necessary.
-      */
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index e419ba9f19..7c914b0dc1 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -180,12 +180,9 @@ static void process_options(int argc, char *argv[])
-             help();
-             exit(EXIT_SUCCESS);
-         case 'T':
--            {
--                char *trace_file = trace_opt_parse(optarg);
--                trace_init_file(trace_file);
--                g_free(trace_file);
--                break;
--            }
-+            trace_opt_parse(optarg);
-+            trace_init_file();
-+            break;
-         case 'V':
-             printf("qemu-storage-daemon version "
-                    QEMU_FULL_VERSION "\n" QEMU_COPYRIGHT "\n");
-diff --git a/trace/control.c b/trace/control.c
-index 5669db7eea..b82fb87316 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -222,8 +222,10 @@ static void trace_init_events(const char *fname)
-     loc_pop(&loc);
- }
- 
--void trace_init_file(const char *file)
-+void trace_init_file(void)
- {
-+    QemuOpts *opts = qemu_find_opts_singleton("trace");
-+    const char *file = qemu_opt_get(opts, "file");
- #ifdef CONFIG_TRACE_SIMPLE
-     st_set_trace_file(file);
-     if (init_trace_on_startup) {
-@@ -289,9 +291,8 @@ bool trace_init_backends(void)
-     return true;
- }
- 
--char *trace_opt_parse(const char *optarg)
-+void trace_opt_parse(const char *optarg)
- {
--    char *trace_file;
-     QemuOpts *opts = qemu_opts_parse_noisily(qemu_find_opts("trace"),
-                                              optarg, true);
-     if (!opts) {
-@@ -301,11 +302,8 @@ char *trace_opt_parse(const char *optarg)
-         trace_enable_events(qemu_opt_get(opts, "enable"));
-     }
-     trace_init_events(qemu_opt_get(opts, "events"));
--    trace_file = g_strdup(qemu_opt_get(opts, "file"));
-     init_trace_on_startup = true;
-     qemu_opts_del(opts);
--
--    return trace_file;
- }
- 
- uint32_t trace_get_vcpu_event_count(void)
-diff --git a/trace/control.h b/trace/control.h
-index 1f81c491b6..05b95ea453 100644
---- a/trace/control.h
-+++ b/trace/control.h
-@@ -167,8 +167,6 @@ void trace_event_set_vcpu_state_dynamic(CPUState *vcpu,
- 
- /**
-  * trace_init_backends:
-- * @file:   Name of trace output file; may be NULL.
-- *          Corresponds to commandline option "--trace file=...".
-  *
-  * Initialize the tracing backend.
-  *
-@@ -178,14 +176,12 @@ bool trace_init_backends(void);
- 
- /**
-  * trace_init_file:
-- * @file:   Name of trace output file; may be NULL.
-- *          Corresponds to commandline option "--trace file=...".
-  *
-  * Record the name of the output file for the tracing backend.
-  * Exits if no selected backend does not support specifying the
-- * output file, and a non-NULL file was passed.
-+ * output file, and a file was specified with "-trace file=...".
-  */
--void trace_init_file(const char *file);
-+void trace_init_file(void);
- 
- /**
-  * trace_init_vcpu:
-@@ -229,10 +225,8 @@ extern QemuOptsList qemu_trace_opts;
-  * @optarg: A string argument of --trace command line argument
-  *
-  * Initialize tracing subsystem.
-- *
-- * Returns the filename to save trace to.  It must be freed with g_free().
-  */
--char *trace_opt_parse(const char *optarg);
-+void trace_opt_parse(const char *optarg);
- 
- /**
-  * trace_get_vcpu_event_count:
--- 
-2.26.2
+Since you're touching this already...
+
+CODING_STYLE.rst:
+
+    Multiline comment blocks should have a row of stars on the left,
+    and the initial /``*`` and terminating ``*``/ both on their own lines:
+
+    .. code-block:: c
+
+        /*
+         * like
+         * this
+         */
 
 
