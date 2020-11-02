@@ -2,61 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E39F2A2DAC
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 16:09:17 +0100 (CET)
-Received: from localhost ([::1]:38986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 189B72A2DD3
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 16:13:41 +0100 (CET)
+Received: from localhost ([::1]:44426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZbSN-0004rO-Mu
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 10:09:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48364)
+	id 1kZbWd-0007MT-FP
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 10:13:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZbRK-0004Qy-QV
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:08:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47849)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZbUw-0005qh-U6
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:11:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1kZbRI-0005gY-Di
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:08:09 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZbUv-0006Ew-5z
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:11:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604329686;
+ s=mimecast20190719; t=1604329912;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=A2trkZvSPMcij12fk5Ov94Bno7+g/Hd1raAjCgdWRxs=;
- b=amblMceMb5eUDaY8iSOf3A3hd1jewwLbzxsUd3vsCLmPFp/kBcmPp08qzRREBq5R8x1QNs
- kKutD28FedM/p44TeWQDdP3wKY10wvQVR6RyPEDVJlYtLuY2irsu/1gfoLndIb4NycLe9x
- 82EvJEQdxm829gchpl6rCjlawLVoFzk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-sKrXOYdCPrqr7RSdPFq6gw-1; Mon, 02 Nov 2020 10:08:00 -0500
-X-MC-Unique: sKrXOYdCPrqr7RSdPFq6gw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7475C809DCD;
- Mon,  2 Nov 2020 15:07:59 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-114-142.ams2.redhat.com
- [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 657A75DA6B;
- Mon,  2 Nov 2020 15:07:52 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs@redhat.com, amulmek1@in.ibm.com,
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dsaPR7/j/QS8+liIT0HTIJopWuYx4/UMRPz/YdD5+w8=;
+ b=TQQq8/eQiPhayiuVm0xh3DJMz7Digc7gzKrOQSX7lAubbX9hHNBetKy/3PNmc8fyqlVTN1
+ avBzH/9r5QQ1LwKa4Zrei/en+/j/WVCHXeDXm+pczF+P7Fx4JEH0lRcmd4Xb4Rzrs/pSfz
+ /F2B211585lqnJklwnMLt9xnWwbkSDw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-496--lRdOV8wOvKAxeq1Fl-cJQ-1; Mon, 02 Nov 2020 10:11:47 -0500
+X-MC-Unique: -lRdOV8wOvKAxeq1Fl-cJQ-1
+Received: by mail-ed1-f70.google.com with SMTP id c2so888182edw.21
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 07:11:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=dsaPR7/j/QS8+liIT0HTIJopWuYx4/UMRPz/YdD5+w8=;
+ b=Zy1uJC0dny5CKHljlWaAjXTbtRrogY6lh/jxuI9rAmQirApeeA4fhDYcyKEWNHQFnK
+ PfAPNFOypHcvaifqMfpJmw7DfUMs/Av1wXp/n+DAmH+wXUyyQY5LA5X0SRZAuL1l6oc8
+ t8sSCrHZdxREPnf7ZyGmce15HD9clLK7O0eNEUFE9ZkEGgkG04nH7iBxygBXEV0LlRBB
+ OFvOt3dY5ZxHvxDGF/n8uq0LEVKwnkmiEOHNaTNRvWwJjcd6DlpzzqINT5RRLGivPU/0
+ MFMAO34/k1hVA/Az0cIldNOJISGDTTOv7CU4A9Q6/+dvtta8+99JJam8F4HfCXCVwl37
+ bK2A==
+X-Gm-Message-State: AOAM531kaRqtgcUJfFETut2E0407P4zo104z4owPtND2eQPhY5vnMfwM
+ JmLDTrzPGCfx+JhE1rIr0lUFeGipGpVhLqekzk0oBGyK6S84NrRRhv+HbMKWPJwH9Lssnn49US5
+ kb3N8/jD3ZJ60vCM=
+X-Received: by 2002:a50:9e86:: with SMTP id a6mr3152867edf.238.1604329906487; 
+ Mon, 02 Nov 2020 07:11:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw7jVUOPagzom0J4UCAEUfwFvTnBvzHa1CYL3o6ECz1n0yoAArpTLO+bKn4FyrDA0rctQ8n0g==
+X-Received: by 2002:a50:9e86:: with SMTP id a6mr3152855edf.238.1604329906327; 
+ Mon, 02 Nov 2020 07:11:46 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id la9sm1176414ejb.121.2020.11.02.07.11.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 07:11:45 -0800 (PST)
+Subject: Re: [PATCH] virtiofsd: Seccomp: Add 'send' for syslog
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>,
+ qemu-devel@nongnu.org, virtio-fs@redhat.com, amulmek1@in.ibm.com,
  stefanha@redhat.com
-Subject: [PATCH] virtiofsd: Seccomp: Add 'send' for syslog
-Date: Mon,  2 Nov 2020 15:07:50 +0000
-Message-Id: <20201102150750.34565-1-dgilbert@redhat.com>
+References: <20201102150750.34565-1-dgilbert@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e1a007ed-7a9f-38cd-4003-144d0e99dd6e@redhat.com>
+Date: Mon, 2 Nov 2020 16:11:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201102150750.34565-1-dgilbert@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -65,8 +86,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,31 +104,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+On 11/2/20 4:07 PM, Dr. David Alan Gilbert (git) wrote:
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> 
+> On ppc it looks like syslog ends up using 'send' rather than 'sendto'.
+> 
+> Reference: https://github.com/kata-containers/kata-containers/issues/1050
+> 
+> Reported-by: amulmek1@in.ibm.com
+> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_seccomp.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> index eb9af8265f..672fb72a31 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.c
+> +++ b/tools/virtiofsd/passthrough_seccomp.c
+> @@ -118,6 +118,7 @@ static const int syscall_whitelist[] = {
+>  
+>  /* Syscalls used when --syslog is enabled */
+>  static const int syscall_whitelist_syslog[] = {
 
-On ppc it looks like syslog ends up using 'send' rather than 'sendto'.
+Is it worth restricting the syscall to POWER?
 
-Reference: https://github.com/kata-containers/kata-containers/issues/1050
+   #if defined(__powerpc64__)
 
-Reported-by: amulmek1@in.ibm.com
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/passthrough_seccomp.c | 1 +
- 1 file changed, 1 insertion(+)
+> +    SCMP_SYS(send),
 
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-index eb9af8265f..672fb72a31 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -118,6 +118,7 @@ static const int syscall_whitelist[] = {
- 
- /* Syscalls used when --syslog is enabled */
- static const int syscall_whitelist_syslog[] = {
-+    SCMP_SYS(send),
-     SCMP_SYS(sendto),
- };
- 
--- 
-2.28.0
+   #endif
+
+>      SCMP_SYS(sendto),
+>  };
+>  
+> 
 
 
