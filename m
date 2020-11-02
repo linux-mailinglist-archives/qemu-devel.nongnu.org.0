@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71B32A2623
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 09:32:05 +0100 (CET)
-Received: from localhost ([::1]:59418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2992A262A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 09:34:25 +0100 (CET)
+Received: from localhost ([::1]:33680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZVG0-0005zW-8g
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 03:32:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58050)
+	id 1kZVIG-0007A5-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 03:34:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZVF0-0005Vw-OX
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 03:31:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29722)
+ id 1kZVHU-0006Yi-3N
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 03:33:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZVEx-0002i8-Ma
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 03:31:01 -0500
+ id 1kZVHS-0003YD-Ap
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 03:33:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604305857;
+ s=mimecast20190719; t=1604306013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TgByJND0II4RGxxdGnPLF9mWiZItu9WEOonFJBwGs4Y=;
- b=DB3/nrOHn8gdk0dI08mfCwhD79Mc9H5VvN/7u7ALmidlXfBXRh06x42ozEnDvYtgLJAmBy
- nUTL+uDxgWUizIXOV5Colb1+pgw6zyUatcWRfKzCrilATVyBC86xm5p1fovXynR16Hc88j
- ZpPUGlUf7O8zPpKS9fS/Xl5XC6epV8c=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-67-SMeI8f6qOeWaHOqeZfcmWQ-1; Mon, 02 Nov 2020 03:30:54 -0500
-X-MC-Unique: SMeI8f6qOeWaHOqeZfcmWQ-1
-Received: by mail-wr1-f70.google.com with SMTP id h8so6149891wrt.9
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 00:30:54 -0800 (PST)
+ bh=pxSfnjahEFEWAzPFZRHd9Njse7YiuZ/EihSjOOgLrUc=;
+ b=L7MFWbsvSevuYDmaGlvnYMoCzh20kUkwz6Uc1R0ATcQx3K4d3EiPpMNuwng7xShSCU4JYm
+ gKCJ+WoUTxUcTRDO/Ig8wyrDhQr0FxAV30gu5H4MG6mO4ISlUAfgeSYjqb3wHezXlqc+c2
+ sTSxX+MWjuScYpDlU70Gt6B7gjR+A/E=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-rr1kSKo1O7GxDnDXOuhdjg-1; Mon, 02 Nov 2020 03:33:31 -0500
+X-MC-Unique: rr1kSKo1O7GxDnDXOuhdjg-1
+Received: by mail-wr1-f69.google.com with SMTP id m4so6112732wrq.23
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 00:33:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=TgByJND0II4RGxxdGnPLF9mWiZItu9WEOonFJBwGs4Y=;
- b=Pnnrw7y46FgVodCVox5aFLjOOX2Y4ioK0OwAE9Y8lg3vpII2P62U9MMFOSZ2/oV9eg
- Ztho1KjMgX9YVpCO/9I5fScIU2YSbSU30RYLnlCRLglbcyJWJZcWO4b6y/z6RtPJXR18
- sGgFXt2tBek7b7QH1/tfs/+UVNg6LzN5FRJRilIfxaT8iPuDo1bs+GvRjyHZB5NOQrXQ
- jmxuxEfSes+Svv2QsRVjF4HoSXmSxKv39eFSgBcmd6z+vQ84lnGpKc37TkfZxIypwPsU
- gQO2XNZchl/KTeEYMVJEL525hhAUQh0INwMUfXuzW/ERnZgdfyCIudUWXehGgQ25IxxT
- GMKg==
-X-Gm-Message-State: AOAM533UW4ayRW1NyvB8QoHxWCDP05teT8yN39Dfq+azCAboYQaoZ17N
- eDrh5LnLOvys1TTbRwEttQ3IaLlE0YfVZDcBmAXKU+QDs+jzWjLUJZrGfbpN8GGPOpajrsmHRQn
- QlDOhZPA5d5TNJw0=
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr18506784wro.420.1604305853292; 
- Mon, 02 Nov 2020 00:30:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsNEVopzt9s6MK45JIs+jNjUmx4KtuYpcvlI8xU8KBfDhyzuZNDo7R5MbOGE/aoN+MfCkRlw==
-X-Received: by 2002:adf:ef92:: with SMTP id d18mr18506774wro.420.1604305853121; 
- Mon, 02 Nov 2020 00:30:53 -0800 (PST)
+ bh=pxSfnjahEFEWAzPFZRHd9Njse7YiuZ/EihSjOOgLrUc=;
+ b=IyHY4eTnUhYQr0RG1PWYCRpIzHw9IlDxsLq3FuYc33PjVIeSnWNJiQl6O7n5suSxWt
+ 90f5aRcTN2FNbaVyUzVEZJXLiYzct0uNx1nW7NibqdgMjzi7Hh52Ux7XcYWLB4He0dYG
+ 9y+2POFs3kEQNtrhgtvu/1ZQjJaSNZONyvqF6gjOMEuZptS6d8ZK3BNjDuNibVO0Fndn
+ h8LykLZX5uIOoY0R8G4Lw//XDpIqZV/hXyA2Gpb/MNZ5JJBZDX8dpbxziPUdKkHFmQEr
+ bZOxFo+wcY/NF6DG9eggCShkPGYwADNSXNTJ9AvwuMVBnBLqFs5vo/knU2iRK8eHl7AK
+ 7PXQ==
+X-Gm-Message-State: AOAM531tWxXlFa3WtYC1hbgS1dPOoqoeSLeJh3h7XX4j+e7UZk3EM71W
+ CcdqrvSnudieiGVTUIZyHJJNV5XOoYFywk0WXI8SLpOYfKs120i7eAbRxVnlKbSbanr1n13EmbQ
+ K41uFJNqbhjApce4=
+X-Received: by 2002:adf:8362:: with SMTP id 89mr19289819wrd.280.1604306010472; 
+ Mon, 02 Nov 2020 00:33:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy92MykdNQPELLV5wxLx/Hzg8dkuwoTG2D8dOaTYSnS09DeIV8+JQwdOOf2pxwKhXKDcsZLMg==
+X-Received: by 2002:adf:8362:: with SMTP id 89mr19289800wrd.280.1604306010278; 
+ Mon, 02 Nov 2020 00:33:30 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
  ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.gmail.com with ESMTPSA id b63sm15327080wme.9.2020.11.02.00.30.51
+ by smtp.gmail.com with ESMTPSA id m14sm21239840wro.43.2020.11.02.00.33.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Nov 2020 00:30:52 -0800 (PST)
-Subject: Re: [PATCH-for-5.2] scripts/oss-fuzz: rename bin/qemu-fuzz-i386
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20201101212245.185819-1-alxndr@bu.edu>
+ Mon, 02 Nov 2020 00:33:29 -0800 (PST)
+Subject: Re: [PATCH v2 0/2] Assorted fixes to tests that were broken by recent
+ scsi changes
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20201101161532.259609-1-mlevitsk@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0caf1656-e66b-22d4-8183-e53b0829a3e7@redhat.com>
-Date: Mon, 2 Nov 2020 09:30:51 +0100
+Message-ID: <5f8ea310-1c8a-93bf-8b5f-987eae45da8b@redhat.com>
+Date: Mon, 2 Nov 2020 09:33:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201101212245.185819-1-alxndr@bu.edu>
+In-Reply-To: <20201101161532.259609-1-mlevitsk@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,58 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: darren.kenny@oracle.com, thuth@redhat.com, bsd@redhat.com,
- stefanha@redhat.com, f4bug@amsat.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/11/20 22:22, Alexander Bulekov wrote:
-> OSS-Fuzz changed the way it scans for fuzzers in $DEST_DIR. The new code
-> also scans subdirectories for fuzzers. This means that OSS-Fuzz is
-> considering bin/qemu-fuzz-i386 as an independent fuzzer (it is not - it
-> requires a --fuzz-target argument). This has led to coverage-build
-> failures and false crash reports. To work around this, we take advantage
-> of OSS-Fuzz' filename extension check - OSS-Fuzz will not run anything
-> that has an extension that is not ".exe":
-> https://github.com/google/oss-fuzz/blob/master/infra/utils.py#L115
+On 01/11/20 17:15, Maxim Levitsky wrote:
+> While most of the patches in V1 of this series are already merged upstream,
+> the patch that fixes iotest 240 was broken on s390 and was not accepted.
 > 
-> Reported-by: OSS-Fuzz (Issue 26725)
-> Reported-by: OSS-Fuzz (Issue 26679)
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
+> This is	an updated version of this patch, based on Paulo's suggestion,
+> that hopefully makes this iotest work on both x86 and s390.
 > 
-> Also, for context:
-> https://github.com/google/oss-fuzz/issues/4575
+> Best regards,
+> 	Maxim Levitsky
 > 
->  scripts/oss-fuzz/build.sh | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Maxim Levitsky (2):
+>   iotests: add filter_qmp_virtio_scsi function
+>   iotests: rewrite iotest 240 in python
 > 
-> diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-> index fcae4a0c26..3b1c82b63d 100755
-> --- a/scripts/oss-fuzz/build.sh
-> +++ b/scripts/oss-fuzz/build.sh
-> @@ -91,7 +91,7 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
->  # Copy over the datadir
->  cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
->  
-> -cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
-> +cp "./qemu-fuzz-i386" "$DEST_DIR/bin/qemu-fuzz-i386.base"
->  
->  # Run the fuzzer with no arguments, to print the help-string and get the list
->  # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
-> @@ -104,7 +104,7 @@ do
->      # that are thin wrappers around this target that set the required
->      # environment variables according to predefined configs.
->      if [ "$target" != "generic-fuzz" ]; then
-> -        ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
-> +        ln  "$DEST_DIR/bin/qemu-fuzz-i386.base" \
->              "$DEST_DIR/qemu-fuzz-i386-target-$target"
->      fi
->  done
+>  tests/qemu-iotests/240        | 228 +++++++++++++++-------------------
+>  tests/qemu-iotests/240.out    |  76 +++++++-----
+>  tests/qemu-iotests/iotests.py |  10 ++
+>  3 files changed, 153 insertions(+), 161 deletions(-)
 > 
 
-Queued, thanks.
-
-Paolo
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
