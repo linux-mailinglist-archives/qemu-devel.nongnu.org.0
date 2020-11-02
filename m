@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7913A2A317B
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:27:30 +0100 (CET)
-Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD3B2A3178
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:25:55 +0100 (CET)
+Received: from localhost ([::1]:58232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdc9-0005kS-Gq
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:27:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1kZdac-0003Ov-9h
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:25:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLy-00016b-3D
+ id 1kZdLy-00018B-P1
  for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:46 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:56090)
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:40836)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLu-0006cN-Q3
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:45 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c9so8605713wml.5
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:42 -0800 (PST)
+ id 1kZdLw-0006cf-N2
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:46 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id k18so10219272wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=ed/BTbi7euqfL1hXrKVEmFWNJJJT/JBXDy33Yta9R7U=;
- b=TvTnE7PwnkqUuwn6H7RD13+NfZIpEdUkznHeUQeFVQXh39/CqsOxp2fhwC1SbNGTt1
- azfUfYe49rHZeaYdg2cA9XA2MyeaRN2Hfjg0bAYky7o1zlwT7kzHtf+uMEYssZQAD/jB
- D9hKTmHO8sv8ZSCnBqaKsum4fmhxUrnP3X+/ul0mBa6OVykRnRcQ7oT1q5GJ3lT8vgUZ
- 1rF0mCfsWpVwVJ5f/bDrYsV90h48ru4alLEOqnQ1wOIa4lSBiOq5yPDMWLU6vs8NmcSq
- 8hH7xb8zBjV/gQfuV+hIHLkidyTFEmTlH1w8jWijCXw1TecuraLh9UeqzCb53fTm592D
- O0Ww==
+ bh=jMjtfOiFG10GNhNUO0WFVBSDgvdA1bWEPrli5zIV9Do=;
+ b=E57Tchret6x8g43AVWfwJNw6B8wgtPFmoT827ztHr+ZExQGGpFq4rDRoCwGzBqtvl8
+ mig708t098yaB9tJxgDgRBfZjfsj5TxZVfAf787KZpP15xGt7B5MJUXKOqi9n2XxXVWd
+ /Ihj1uYjWkHxek/Mr4UnQaNRJvo17lCDN5bfm/ECKTKvqqX7a5GG6ZyQqr2WmlgC/ga8
+ aMbShkIx9XwtKXD9nblZYhGGqqJiHeZP8qFQq4LKXWv5UzTi1zIPNVkSP4jtPiKFiLIr
+ KMkE/nr4UCIRhcVfJkVYT44je0hEdiswT+L2axzT7qu1l+X4/9MVS2AtwH2tD429EJbG
+ p3Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ed/BTbi7euqfL1hXrKVEmFWNJJJT/JBXDy33Yta9R7U=;
- b=DcrhwdIBwiLreKbf6Pg0Uo9piqDoDVTmo6GWkZ3cXPFug25JE2aqi89DnCbMTWJt1W
- SzDAIZlCCvSy0Ie4c9zN/PDstF0KOcCVIgke4NmCA9MUIX+Fd1fSL+3z0IMPgNQwE/bJ
- LxPAMapd0gunk2fSnwsNUbLpxj3Of6PcpECfIQMsv8rv9ayTl89B2T3ZjZUQlPAEjLM9
- G0REoAQM3jqwNfpFoV8TvrhOHW7KEclORyT+3/dgvHRtTWZTldo8fu1gNlsRT4ZtI1Dc
- bsjmUlqz44u850AwioZEaUFO9WtXQa5stMsljLEmYCyIFO6oVQYL4vR11sInkDff6t7n
- S3Bw==
-X-Gm-Message-State: AOAM531wuBkxSr7OLmJ7Wmp+tsAlN12DBIQ6+tKHnGkVA8jb9sIdvzLM
- fmOqoEC+0L+m4bscGwmOIx1HHUmSY/ekKg==
-X-Google-Smtp-Source: ABdhPJxNAaM7Rer+oJ5v+BdkOK1sKxhQLHn/lQa9rsJmRbTvMzSg9xxRtCjS+PI2DzGhweo6IOeCkg==
-X-Received: by 2002:a1c:4d14:: with SMTP id o20mr18197607wmh.72.1604337041221; 
- Mon, 02 Nov 2020 09:10:41 -0800 (PST)
+ bh=jMjtfOiFG10GNhNUO0WFVBSDgvdA1bWEPrli5zIV9Do=;
+ b=m1eXC42jZm7C8DP4WxfDIq+EojePT73NQYgrrloYd+Z/uH+J3jwjDl7i1NzIsUz5hT
+ P2vXV4ul/hV3SVxPAHRFv4Qsy3Nt6SqO+QNcgd09DeDX2t7xV7OK/12xQAZKrSFHCeFg
+ R9QdiHXh6S6kH89WHBKPiqlCRVnhhd+7J0S0ACNhhMLdUi68gid0r78AtevN49RFfdbZ
+ LKS8HQs8yIj8LQYFVKpkiSh8rcuYis8Uuj83pbV9w2WLiD5AHDBF3p344AOQ8QmTw5Ma
+ 8oT3+UBpUmjwim7tdvOHc/MJ1cglN7OqnywLyu89qy6Wa18Nv+pe9so+j29qJQ5JTTAo
+ 4uQQ==
+X-Gm-Message-State: AOAM531P6kSNgW2XFcfMqhxTHo+ES9TQTbdnkwjmt572sDW0hROgJXYo
+ 5XdP4W70OAacRXp+nri36oFQ3Mr9rVvT0Q==
+X-Google-Smtp-Source: ABdhPJwJ8K8QXAsBK3OA2S61bd+4Pu71MnXooat+Wjn8JRecktN1Sy/jQoiMhsCGteqZzx5fa1F/xA==
+X-Received: by 2002:a1c:f311:: with SMTP id q17mr18234987wmq.28.1604337042332; 
+ Mon, 02 Nov 2020 09:10:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.40
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.41
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:40 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:41 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/26] hw/display/exynos4210_fimd: Fix potential NULL pointer
- dereference
-Date: Mon,  2 Nov 2020 17:09:59 +0000
-Message-Id: <20201102171005.30690-21-peter.maydell@linaro.org>
+Subject: [PULL 21/26] target/arm: Get correct MMU index for
+ other-security-state
+Date: Mon,  2 Nov 2020 17:10:00 +0000
+Message-Id: <20201102171005.30690-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,41 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: AlexChen <alex.chen@huawei.com>
+In arm_v7m_mmu_idx_for_secstate() we get the 'priv' level to pass to
+armv7m_mmu_idx_for_secstate_and_priv() by calling arm_current_el().
+This is incorrect when the security state being queried is not the
+current one, because arm_current_el() uses the current security state
+to determine which of the banked CONTROL.nPRIV bits to look at.
+The effect was that if (for instance) Secure state was in privileged
+mode but Non-Secure was not then we would return the wrong MMU index.
 
-In exynos4210_fimd_update(), the pointer s is dereferinced before
-being check if it is valid, which may lead to NULL pointer dereference.
-So move the assignment to global_width after checking that the s is valid.
+The only places where we are using this function in a way that could
+trigger this bug are for the stack loads during a v8M function-return
+and for the instruction fetch of a v8M SG insn.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 5F9F8D88.9030102@huawei.com
+Fix the bug by expanding out the M-profile version of the
+arm_current_el() logic inline so it can use the passed in secstate
+rather than env->v7m.secure.
+
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20201022164408.13214-1-peter.maydell@linaro.org
 ---
- hw/display/exynos4210_fimd.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/arm/m_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
-index 4c16e1f5a00..34a960a9765 100644
---- a/hw/display/exynos4210_fimd.c
-+++ b/hw/display/exynos4210_fimd.c
-@@ -1275,12 +1275,14 @@ static void exynos4210_fimd_update(void *opaque)
-     bool blend = false;
-     uint8_t *host_fb_addr;
-     bool is_dirty = false;
--    const int global_width = (s->vidtcon[2] & FIMD_VIDTCON2_SIZE_MASK) + 1;
-+    int global_width;
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 036454234c7..aad01ea0127 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -2719,7 +2719,8 @@ ARMMMUIdx arm_v7m_mmu_idx_for_secstate_and_priv(CPUARMState *env,
+ /* Return the MMU index for a v7M CPU in the specified security state */
+ ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+ {
+-    bool priv = arm_current_el(env) != 0;
++    bool priv = arm_v7m_is_handler_mode(env) ||
++        !(env->v7m.control[secstate] & 1);
  
-     if (!s || !s->console || !s->enabled ||
-         surface_bits_per_pixel(qemu_console_surface(s->console)) == 0) {
-         return;
-     }
-+
-+    global_width = (s->vidtcon[2] & FIMD_VIDTCON2_SIZE_MASK) + 1;
-     exynos4210_update_resolution(s);
-     surface = qemu_console_surface(s->console);
- 
+     return arm_v7m_mmu_idx_for_secstate_and_priv(env, secstate, priv);
+ }
 -- 
 2.20.1
 
