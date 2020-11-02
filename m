@@ -2,81 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364492A2842
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:30:41 +0100 (CET)
-Received: from localhost ([::1]:44720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C42D2A2849
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:31:29 +0100 (CET)
+Received: from localhost ([::1]:47006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZX6m-0001y5-7L
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:30:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58722)
+	id 1kZX7Y-0002zG-Hy
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:31:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZX4V-0000wg-0Z
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:28:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22902)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZX3B-0008WI-DB
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:27:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZX4T-00041B-8I
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:28:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZX39-0003bp-W8
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 05:26:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604312895;
+ s=mimecast20190719; t=1604312815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xNiT3mtdjmKOVHyg2YncVZENVTVwm67KySSR9FdXYF0=;
- b=FGwjzGlHY1z4R8ofDbA0hIaWyF0G69uyerN/x9mKYjpDTVAoVcwYs5ZkMPqB8a2vU+K2YS
- 4kVicbpfN8CcwQJz0C6CoLGTgphiyJZWyluC8urmnwKbuEzNI0T4qDDpvAR7hEsW+4BYAy
- wXruB2hh3P+gA0xHO9lcDnaqaX4mUYw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-206-LcSvZ8AVOWCNMcyEaoQx-g-1; Mon, 02 Nov 2020 05:28:14 -0500
-X-MC-Unique: LcSvZ8AVOWCNMcyEaoQx-g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93052809DC6;
- Mon,  2 Nov 2020 10:28:11 +0000 (UTC)
-Received: from localhost (ovpn-114-205.ams2.redhat.com [10.36.114.205])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 724A65C1A3;
- Mon,  2 Nov 2020 10:27:55 +0000 (UTC)
-Date: Mon, 2 Nov 2020 10:27:54 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
-Message-ID: <20201102102754.GB42093@stefanha-x1.localdomain>
-References: <c4e5b631-1607-a0ec-ee88-6c5a9493e3de@redhat.com>
- <20201029083130.0617a28f@w520.home>
- <b85405de-d525-bf59-826c-737fa7bbdfef@redhat.com>
- <20201029094603.15382476@w520.home>
- <d4f7df42-7b02-6505-c2c7-245bf813b513@redhat.com>
- <20201029210407.33d6f008@x1.home>
- <CAJSP0QVto+xFEnWv-aj=-0mZ72SzfeAvg4q0RCoLGK-N7C-WEw@mail.gmail.com>
- <04179584-3324-994e-d793-04be18d2dab2@redhat.com>
- <CAJSP0QXQmFgtSsJL1B3eMUr8teQc3cvvEFvr7LvnFkJPcE3ZpA@mail.gmail.com>
- <0cabda60-f10d-fb74-f3eb-d21be7db7334@redhat.com>
+ bh=6s7sZKwjrVBjlusaRmPZYQ0r2G5ERLZAPT8kPT4iE+4=;
+ b=KGRTDMk2kCaFPWA39W3RXQ7IKpAGwKO6O0F4nG438ohz7mRnkWr/XsnMsCSDo7Yr6OvOT+
+ UKLpfh3zJ8ER2Xd7gV3NkKgozlxLe3Gnj8DUirLAPL8kt2H601iqsPdbi5yaZnNDnXlVQv
+ ZGDkxllv45J3lBpV+U3uDZixgLGrmhY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-219-kEzKXVzGMB6j6FQyf4K_Cg-1; Mon, 02 Nov 2020 05:26:53 -0500
+X-MC-Unique: kEzKXVzGMB6j6FQyf4K_Cg-1
+Received: by mail-wr1-f70.google.com with SMTP id i1so6234148wrb.18
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 02:26:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=6s7sZKwjrVBjlusaRmPZYQ0r2G5ERLZAPT8kPT4iE+4=;
+ b=KeCCyogU9JLKUrsPO/x7GCgLL6t7hYk8ykDKM2kybn/umW4y6rG4JMLjYcC213c8Sj
+ l60I4KfNsF5Zw/wLw5WP9qssvNe46K3zCzd+cNwy9w1Z0dZYk9qPist+UdgWPfrpZXgC
+ eI7ix808wLfld8mCi08+Ol/W66FFMZCMhh+bpJzvTBwjY2rKumQhwnbW9O8GEIpH90n4
+ NUZoZ/fZE+kyWPcq/BlSq3K2GyGB1pUZx0cLRvKFqC9/gh2Wp/QyLudvjnawvs9dS2rT
+ qQmE/m8b6V1ZNVI9kxteENErCTvvG2ckeomsuksXLuqxJW0wV+PBEchD4ZWJzrn5NCf1
+ PZ+w==
+X-Gm-Message-State: AOAM532U9/4CkF6f1Ba2is7f3/LgKHsFA8CF1c/XaBiaRk50txpE0dbb
+ 3FhIAtUSmCoPUMjwlfixXwN2qDj9CefEP3SanpgoQIE/qipZj4orz3SwbNdhvI1yh4HGe8OTE1Y
+ 9scw7G88zWudxVF8=
+X-Received: by 2002:a1c:2087:: with SMTP id
+ g129mr10698284wmg.158.1604312812563; 
+ Mon, 02 Nov 2020 02:26:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwXAaIvdk/Krsl3IMvJMKG6G+51aLeIu51dR+yaAiQSX/O+yGAKLsZIBywD69g9b5eNiH96EQ==
+X-Received: by 2002:a1c:2087:: with SMTP id
+ g129mr10698270wmg.158.1604312812394; 
+ Mon, 02 Nov 2020 02:26:52 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id j127sm15136012wma.31.2020.11.02.02.26.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 02:26:51 -0800 (PST)
+Subject: Re: [PATCH] vhost: fix up trailing whitespace
+To: "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org
+References: <20201102101301.1101378-1-mst@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <dd6d907b-fe97-8c67-8676-928c0e5ef258@redhat.com>
+Date: Mon, 2 Nov 2020 11:26:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <0cabda60-f10d-fb74-f3eb-d21be7db7334@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20201102101301.1101378-1-mst@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aM3YZ0Iwxop3KEKx"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=-1, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,107 +101,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- "mst@redhat.com" <mtsirkin@redhat.com>,
- Janosch Frank <frankja@linux.vnet.ibm.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Kirti Wankhede <kwankhede@nvidia.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Yan Vugenfirer <yan@daynix.com>, Jag Raman <jag.raman@oracle.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- Anup Patel <anup@brainfault.org>,
- Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
- Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
- Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Jens Freimann <jfreimann@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
- Kashyap Chamarthy <kchamart@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Liran Alon <liran.alon@oracle.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Halil Pasic <pasic@linux.vnet.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>, fam <fam@euphon.net>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---aM3YZ0Iwxop3KEKx
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/2/20 11:13 AM, Michael S. Tsirkin wrote:
+> Drop trailing whitespace in vhost.c
+> 
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> ---
+>  hw/virtio/vhost.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Mon, Nov 02, 2020 at 11:00:12AM +0800, Jason Wang wrote:
->=20
-> On 2020/10/30 =E4=B8=8B=E5=8D=887:13, Stefan Hajnoczi wrote:
-> > > I still don't get why it must be opaque.
-> > If the device state format needs to be in the VMM then each device
-> > needs explicit enablement in each VMM (QEMU, cloud-hypervisor, etc).
-> >=20
-> > Let's invert the question: why does the VMM need to understand the
-> > device state of a_passthrough_  device?
->=20
->=20
-> It's not a 100% passthrough device if you want to support live migration.
-> E.g the device state save and restore is not under the control of drivers=
- in
-> the guest.
-
-VFIO devices are already not pure passthrough (even without mdev) since
-the PCI bus is emulated and device-specific quirks may be implemented.
-Adding device state save/load does not change anything here.
-
-> And if I understand correctly, it usually requires device emulation or
-> mediation in either userspace or kernel to support e.g dirty page trackin=
-g
-> and other things.
-
-Breaking down the options further:
-
-1. VFIO on physical PCI devices. Here I see two approaches:
-
-   a. An mdev vendor driver implements the migration region described in
-      Kirti's patch series. Individual device state fields are
-      marshalled by the driver.
-
-   b. The VFIO PCI core parses a PCI Capability that indicates migration
-      support on the physical device and filters it out. The remainder
-      of the device is passed through. The device state representation
-      is saved/loaded by the physical hardware when the VFIO PCI core
-      receives the ioctl and notifies the hardware. QEMU and host
-      kernel code does not marshall individual device state fields.
-
-      In the future it may be desirable to also expose the PCI
-      Capability so that the guest is able to snapshot and restore the
-      device. That could be useful for checkpointing AI/HPC workloads on
-      GPUs, for example. I don't think there is a fundamental reason why
-      device state save/load needs to be handled by the host except that
-      VM live migration is supposed to be transparent to guests and
-      cannot rely on guest cooperation.
-
-2. vfio-user device backends. The device backend implements the
-   save/load.
-
---aM3YZ0Iwxop3KEKx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+f3yoACgkQnKSrs4Gr
-c8gWcAgAoCiy21hOSiIA16R00aXmGP4LvIWL1OpiPh9FQUDHtJDxb7VI2EA3c4yR
-Yfl4pOxt0QTqoQxrSISwWmiEqDbTRF/+KRKjs0gx4apWv/XyaSYcxFMHnDxIO/GQ
-/Hx4MTSNNBdWspmv3ksECOPZ1PS4L9+OoWvZuv/jP45RwZHF+siHIdVrWgxaNCd1
-K8LRrVcaQmYloUlhutfiKvOf24D62jGF2vnU25RWgGdjAu/pmfF/RqCl381GDJx1
-9yDs3zRBRXXHbalK6Mk0B7nv21kR1kfbkrm326P877E6/LavetpGNF3MvsY8cMM8
-mSmKT34KnI2hBolgapfJV0MbGB1vhA==
-=uYTE
------END PGP SIGNATURE-----
-
---aM3YZ0Iwxop3KEKx--
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
