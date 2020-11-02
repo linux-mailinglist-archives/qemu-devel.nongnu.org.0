@@ -2,73 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1B212A2EDD
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 16:59:24 +0100 (CET)
-Received: from localhost ([::1]:50222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AEFF2A2F72
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 17:15:21 +0100 (CET)
+Received: from localhost ([::1]:39340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZcEt-0004TD-QW
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 10:59:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34558)
+	id 1kZcUK-0004Eq-E1
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 11:15:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZcDf-0003m5-Tq
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:58:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZcDd-0004U7-Mt
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 10:58:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604332684;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6xif89NqpHV3WRGoCrX9YDB6Q1oI5PqP9JRQpFmTFQk=;
- b=SonghTsqdSj3t3bQQKdf0s1QnqUQdRYKhtOQB+r6aJec+SOKrFnhdJ3jaJi3xofobofMxe
- +pLXwTZLrFvLSjBc9ub0KktV+2qPa1EkCZ0ChONqHBljHum+gJu4y7bGykv0Tmeylo9SRc
- YwemmFndMBUSVqeKNHNoRbFkaidUTo8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-404-yMec9bwiODGRmlvGVCQkww-1; Mon, 02 Nov 2020 10:58:00 -0500
-X-MC-Unique: yMec9bwiODGRmlvGVCQkww-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9F1471099F60
- for <qemu-devel@nongnu.org>; Mon,  2 Nov 2020 15:57:59 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AED961002C2A;
- Mon,  2 Nov 2020 15:57:58 +0000 (UTC)
-Date: Mon, 2 Nov 2020 16:57:56 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH v2 00/37] cleanup qemu_init and make sense of
- command line processing
-Message-ID: <20201102165756.69540720@redhat.com>
-In-Reply-To: <20201027182144.3315885-1-pbonzini@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kZcSy-0003Ky-Sy
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 11:14:00 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:33840)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kZcSv-0006oA-0A
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 11:13:55 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A2G9Yv4065555;
+ Mon, 2 Nov 2020 16:13:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2020-01-29;
+ bh=jjIfD9cfNTOR+XSGV2lKLHHzQPpiWMLV2itqoevKKm0=;
+ b=IvntMnNs4Br0ooqXXjAZHua0jstH7UxvKxcaRDLfm8RtJ2CeAZlkM5C8Bet3ZA6BjnIn
+ B+hWplHBlREMLUWT0Lp8GOqa9xX5ovC0L1zj+fMp+uil7dVpRbXNij+qQ6GfSdJi6JLH
+ 7ORSTQUmMViDqrkhYGB4wZhrg88qfHzd13NltPsoWbqlkZHsfN8/1dyM19P3jRjYv5So
+ obHtEpv/S1dcnBmxnh69IvZMyI2K9yMixjnXOUW7ocObWgBEhtR4RlEIvpv3FdEgJs4p
+ dzIcHsuSHCLymo8wAqETiOMXCh+KNIDYPPC3tzZZhjWNBO5jKnARS2uP62MZzyUUH/17 8A== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by aserp2120.oracle.com with ESMTP id 34hhvc4rmq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Mon, 02 Nov 2020 16:13:46 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A2GAwWt057860;
+ Mon, 2 Nov 2020 16:13:46 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+ by aserp3030.oracle.com with ESMTP id 34jf46qwte-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 02 Nov 2020 16:13:46 +0000
+Received: from abhmp0016.oracle.com (abhmp0016.oracle.com [141.146.116.22])
+ by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0A2GDjYg015953;
+ Mon, 2 Nov 2020 16:13:45 GMT
+Received: from ca-dev63.us.oracle.com (/10.211.8.221)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Mon, 02 Nov 2020 08:13:45 -0800
+From: Steve Sistare <steven.sistare@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH V2] vl: pause option
+Date: Mon,  2 Nov 2020 07:50:03 -0800
+Message-Id: <1604332203-435466-1-git-send-email-steven.sistare@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9793
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=1 mlxscore=0
+ bulkscore=0 malwarescore=0 mlxlogscore=954 phishscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011020125
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9793
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=1
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=971
+ bulkscore=0 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011020125
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 11:13:48
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,110 +92,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Steve Sistare <steven.sistare@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 27 Oct 2020 14:21:15 -0400
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+Provide the -pause command-line parameter and the QEMU_PAUSE environment
+variable to pause QEMU during process startup using SIGSTOP and allow a
+developer to attach a debugger, or observe the process using tools such as
+strace.  Useful when the QEMU has been launched with some other entity, such
+as libvirt.  QEMU_PAUSE is checked in a constructor at the highest priority,
+and can be used to debug other constructors.  The -pause option is checked
+later, during argument processing in main, but is useful if passing an
+environment variable from a launcher to qemu is awkard.
 
-> The main improvements with respect to v1 are:
+Usage: qemu -pause, or QEMU_PAUSE=1
+After attaching a debugger, send SIGCONT to the qemu process to continue.
 
-series no longer applies to master
-what commit if was based on?
+Example:
 
-> 
-> - further extraction of various phases of command line processing and VM
->   creation to separate function;
-> 
-> - removing the preconfig main_loop: the VM is effectively always starting
->   as if -preconfig was specified, it just executes automatically if not
->   requested.  This enables "-incoming defer" to be specified together
->   with "-preconfig".
-> 
-> I have other patches with which I could configure the VM like
-> 
->   $ qemu -vnc :0 -monitor stdio -preconfig
->     ... in theory blockdev-add and other backend creation would go here...
->   (qemu) x-create-onboard-devices
->   (qemu) device_add virtio-mouse-pci
->   (qemu) cont
-> 
-> Here, x-create-onboard-devices creates enough of the machine to make
-> it possible to issue device_add monitor commands equivalent to
-> the -device command line.
-> 
-> However, I'm not posting that part because the above is not the
-> final state of the QMP interface.  The final QMP interface would have
-> three commands (machine-set, accel-set, machine-set-memory) that
-> bring the VM through successive phases of initialization corresponding
-> roughly to qemu_apply_machine_options (-smp, -boot, -M, -cpu?),
-> configure_accelerators (-accel) and qemu_finish_machine_init (-m, -M memdev);
-> after these three steps, one of migrate-incoming, cont, loadvm or
-> finish-machine-init (the latter of which is equivalent to -S on the
-> command line) leaves preconfig mode.  For more information see
-> https://wiki.qemu.org/User:Paolo_Bonzini/Machine_init_sequence#Basic_phases.
-> 
-> Based-on: <20201026143028.3034018-1-pbonzini@redhat.com>
-> 
-> Paolo Bonzini (29):
->   trace: remove argument from trace_init_file
->   semihosting: fix order of initialization functions
->   vl: extract validation of -smp to machine.c
->   vl: remove bogus check
->   vl: split various early command line options to a separate function
->   vl: move various initialization routines out of qemu_init
->   vl: extract qemu_init_subsystems
->   vl: move prelaunch part of qemu_init to new functions
->   vl: extract various command line validation snippets to a new function
->   vl: preconfig and loadvm are mutually exclusive
->   vl: extract various command line desugaring snippets to a new function
->   vl: create "-net nic -net user" default earlier
->   vl: load plugins as late as possible
->   vl: move semihosting command line fallback to qemu_finish_machine_init
->   vl: extract default devices to separate functions
->   vl: move CHECKPOINT_INIT after preconfig
->   vl: separate qemu_create_early_backends
->   vl: separate qemu_create_late_backends
->   vl: separate qemu_create_machine
->   vl: separate qemu_apply_machine_options
->   vl: separate qemu_resolve_machine_memdev
->   vl: initialize displays before preconfig loop
->   vl: move -global check earlier
->   migration, vl: start migration via qmp_migrate_incoming
->   vl: start VM via qmp_cont
->   hmp: introduce cmd_available
->   remove preconfig state
->   vl: remove separate preconfig main_loop
->   vl: allow -incoming defer with -preconfig
-> 
->  bsd-user/main.c                      |    6 +-
->  hw/core/machine-qmp-cmds.c           |    5 +-
->  hw/core/machine.c                    |   27 +
->  include/hw/boards.h                  |    1 +
->  include/hw/qdev-core.h               |    8 -
->  include/migration/misc.h             |    1 -
->  include/qapi/qmp/dispatch.h          |    1 +
->  include/sysemu/runstate.h            |    1 -
->  linux-user/main.c                    |    6 +-
->  migration/migration.c                |   37 +-
->  monitor/hmp.c                        |   23 +-
->  monitor/qmp-cmds.c                   |   10 -
->  qapi/qmp-dispatch.c                  |    5 +-
->  qapi/run-state.json                  |    5 +-
->  qemu-img.c                           |    6 +-
->  qemu-io.c                            |    6 +-
->  qemu-nbd.c                           |    6 +-
->  scsi/qemu-pr-helper.c                |    6 +-
->  softmmu/qdev-monitor.c               |   18 +-
->  softmmu/vl.c                         | 1796 +++++++++++++-------------
->  storage-daemon/qemu-storage-daemon.c |    9 +-
->  stubs/meson.build                    |    1 +
->  stubs/qmp-command-available.c        |    7 +
->  trace/control.c                      |   10 +-
->  trace/control.h                      |   12 +-
->  25 files changed, 1021 insertions(+), 992 deletions(-)
->  create mode 100644 stubs/qmp-command-available.c
-> 
+$ QEMU_PAUSE=1 qemu-system-x86_64 ...
+QEMU pid 18371 is stopped.
+[1]+  Stopped
+                                 $ gdb -p 18371
+                                 (gdb)
+$ kill -cont 18371
+                                 (gdb) break rcu_init
+                                 (gdb) continue
+                                 Program received signal SIGCONT, Continued.
+                                 (gdb) continue
+                                 Breakpoint 1, rcu_init () at util/rcu.c:380
+
+Thanks to Daniel P. Berrange <berrange@redhat.com> for suggesting SIGSTOP.
+
+Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+---
+ qemu-options.hx | 14 ++++++++++++++
+ softmmu/vl.c    | 23 +++++++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 708583b..42edd70 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3668,6 +3668,20 @@ SRST
+     option is experimental.
+ ERST
+ 
++DEF("pause", 0, QEMU_OPTION_pause, \
++    "-pause          pause the qemu process in main using SIGSTOP.\n"
++    "                to pause earlier, before constructors are run, set the\n"
++    "                environment variable QEMU_PAUSE=1 before starting qemu.\n",
++    QEMU_ARCH_ALL)
++
++SRST
++``-pause``
++    Pause the qemu process in main using SIGSTOP.  This is useful for attaching
++    a debugger after QEMU has been launched by some other entity.  After
++    attaching, send SIGCONT to continue.  To pause earlier, before constructors
++    are run, set the environment variable QEMU_PAUSE=1 before starting qemu.
++ERST
++
+ DEF("S", 0, QEMU_OPTION_S, \
+     "-S              freeze CPU at startup (use 'c' to start execution)\n",
+     QEMU_ARCH_ALL)
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 4eb9d1f..aee1a96 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2829,6 +2829,24 @@ static void create_default_memdev(MachineState *ms, const char *path)
+                             &error_fatal);
+ }
+ 
++static __attribute__((constructor(101))) void maybe_pause(void)
++{
++    const char *pause = getenv("QEMU_PAUSE");
++
++    if (pause) {
++        if (!pause[0] || !strcmp(pause, "1")) {
++            printf("QEMU pid %d is stopped.  Send SIGCONT to continue.\n",
++                   getpid());
++            kill(getpid(), SIGSTOP);
++        } else if (strcmp(pause, "0")) {
++            fprintf(stderr, "error: QEMU_PAUSE bad value %s. Must be 1 or "
++                            "empty to enable, 0 or unset to disable.\n",
++                            pause);
++            exit(1);
++        }
++    }
++}
++
+ void qemu_init(int argc, char **argv, char **envp)
+ {
+     int i;
+@@ -3191,6 +3209,11 @@ void qemu_init(int argc, char **argv, char **envp)
+             case QEMU_OPTION_gdb:
+                 add_device_config(DEV_GDB, optarg);
+                 break;
++            case QEMU_OPTION_pause:
++                printf("QEMU pid %d is stopped.  Send SIGCONT to continue.\n",
++                       getpid());
++                kill(getpid(), SIGSTOP);
++                break;
+             case QEMU_OPTION_L:
+                 if (is_help_option(optarg)) {
+                     list_data_dirs = true;
+-- 
+1.8.3.1
 
 
