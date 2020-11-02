@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAAEA2A317F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:27:41 +0100 (CET)
-Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A63E42A315A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:20:39 +0100 (CET)
+Received: from localhost ([::1]:44798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdcK-00064Y-OU
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:27:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54152)
+	id 1kZdVW-00062Z-J0
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:20:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdM5-0001PL-Hi
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:53 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:50799)
+ id 1kZdM4-0001L8-07
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:52 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:54459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdM3-0006eX-QW
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:53 -0500
-Received: by mail-wm1-x331.google.com with SMTP id 13so10160900wmf.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:51 -0800 (PST)
+ id 1kZdM2-0006dr-2w
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:51 -0500
+Received: by mail-wm1-x341.google.com with SMTP id d142so1522594wmd.4
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=UP1n0K2qtWKcroM5xmLdq4+koLBx0NwxnaUUM2A/CGU=;
- b=Cirx/Fu7gnDaFZx1nWzqOvrdDwioh2/I5VuLofjwmlxUTV3bUfTl7OZpq/ShmO5mmq
- ZrVyQ6qoBcRDhmKRbvmVXMrr7IP04VKrzcTq660QMTmKCOtocHy/Nfujw38neeYnsOF5
- hUr5zstHTRgOLL3w+TwP2FjAnVCnkHPGwaDFIZpf15JBEo90l1Mc2UE4eS9sMA5esWlR
- G5tlRCh1NqRflBGVsnaUIcbUK2KeI65fdLGi8dl9lG6Tp5+/OqeYE7UcJhhl/ANC6pxH
- WyOZ2bHIrFciIcIzxvCePDGTwHm5Ck6ek6oCg98MEPEgmiesaZT3c7AN2O082zVQWGCR
- q4wA==
+ bh=BTFTRZ0y4CNDARID0tRYWHO8z4mtsdjFARUw5VYJhGg=;
+ b=Wr99HUI91YBmxhaZD/2EX1ZtWaK14Lx6lwbNAH6F/B+18ezvp8m1PsDHFf48Gj7PKm
+ 1FrI3fHb6KYGZtNZj/xd6me8Ak6A1IoHDSh9eVp11yXLmKKVMFsiTutyJQhdYNkAnxKk
+ BPNZud1MErGwm34Ak99ov5qmYgP8UOsIR/TF2gn5HijXlvsgPf8ilOTvtTqz5Yi8MdeS
+ rDnPwA/tEER5qdGisz43oDitU2zeC2HBliA+Zf1+1fckV9F8ZrBC/i/SLCLjDE50xrsH
+ NrKH5/RrGFmE5t1Hc5gmkHCTO4g9+NkQzi3O9zMLmdxRBrnlcfpi4TrRGzK75ZyrV2yd
+ THpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UP1n0K2qtWKcroM5xmLdq4+koLBx0NwxnaUUM2A/CGU=;
- b=UB9uRm81NPthFzaU20nK836WXfFzcMv8i/tOv1RB5+8+siK5uv7+15EG4Roob4a3vj
- 28XYLbfcvZoV8H5xF21fVnPpWyNB9vq+InDWShUrl2M9r7PLNT0+cMPxzQmHQq4pFx3L
- siDr7uaXZdKX3KyUvpVIFd/Esvsn90FrtmZuHMkq1UAEvkAQxNzxa7wGdFRIc1nkG+8u
- fIRZgd4s9kR4rHKD2weQL+1dPzDP81me7JOShF/8x5Lzy7L/ZjYydX4ddPBMAU24/+Mn
- W5mlnso+gJl0HtpoU7uZtbkG6etWkuYB792h/rLJfEjdPUgMWSoEl17oQb2aWaMKF0GS
- xorA==
-X-Gm-Message-State: AOAM532ydsa2rwG7YhGTmP4sjU5XNMb0QNICerh6NgYVFekf/YF60YC/
- ogBbzIfE8Hhu6VLH0IMh7T1zqcbfYXgMlA==
-X-Google-Smtp-Source: ABdhPJwm9xC3EAt0OHfEC1G8Xm0RCgBhEpyucX8BBn6b8hhwkI9VNO5UYzc5bvaN9CIirQIC5Okfrw==
-X-Received: by 2002:a1c:ac87:: with SMTP id
- v129mr18630593wme.119.1604337047232; 
- Mon, 02 Nov 2020 09:10:47 -0800 (PST)
+ bh=BTFTRZ0y4CNDARID0tRYWHO8z4mtsdjFARUw5VYJhGg=;
+ b=F/V6Hy7rWuijNj85Q0h7bA35/O5Ig6INCprrZZZjrYSpSbFbaM7BqcODZQzJVeM1vT
+ DCJOCpQ6eac0PubdAyuRom/OSnKsgo9YeDPfbDMJVECF9Cs2CHJdxPN50gn36F7iOXJo
+ t/KDtwPfXdXrj0Sd2eTnueMiq4gSuRm4+NzIc+xF8FfYvYHSNX8946y3Bb5eW/MRg9qh
+ nK73G2puvqDdEE6uDaA2znxhi8Ap8gWTYUZz7KYadVhdrVCWmTG4wda5/Z4+AtWJ8Mez
+ RheNottEu45tbl5xMJMIouYCxqA+aoVcb7n2fTlY93pl9/SsRoqZadxm+HnAdiJGx01S
+ ODPQ==
+X-Gm-Message-State: AOAM531TZZ6A+HCKf66HSX30CoAGfvksr+3lJ+F5+wpo8dttE+bAi65V
+ 4nDjKqGOrkeEV0C/2vXRAupBkjC8TZ7m7Q==
+X-Google-Smtp-Source: ABdhPJyWGJyeQbLvIk2MgCpuXLsRJ8sw2weGSvfCAbWSffG8bsF+cNtw9DbGvFT6l3AWeqVQn/IJsQ==
+X-Received: by 2002:a7b:c858:: with SMTP id c24mr18798186wml.176.1604337048338; 
+ Mon, 02 Nov 2020 09:10:48 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.45
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.47
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:46 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 25/26] qemu-option-trace.rst.inc: Don't use option:: markup
-Date: Mon,  2 Nov 2020 17:10:04 +0000
-Message-Id: <20201102171005.30690-26-peter.maydell@linaro.org>
+Subject: [PULL 26/26] tests/qtest/npcm7xx_rng-test: Disable randomness tests
+Date: Mon,  2 Nov 2020 17:10:05 +0000
+Message-Id: <20201102171005.30690-27-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,63 +89,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sphinx 3.2 is pickier than earlier versions about the option:: markup,
-and complains about our usage in qemu-option-trace.rst:
+The randomness tests in the NPCM7xx RNG test fail intermittently
+but fairly frequently. On my machine running the test in a loop:
+ while QTEST_QEMU_BINARY=./qemu-system-aarch64 ./tests/qtest/npcm7xx_rng-test; do true; done
 
-../../docs/qemu-option-trace.rst.inc:4:Malformed option description
-  '[enable=]PATTERN', should look like "opt", "-opt args", "--opt args",
-  "/opt args" or "+opt args"
+will fail in less than a minute with an error like:
+ERROR:../../tests/qtest/npcm7xx_rng-test.c:256:test_first_byte_runs:
+assertion failed (calc_runs_p(buf.l, sizeof(buf) * BITS_PER_BYTE) > 0.01): (0.00286205989 > 0.01)
 
-In this file, we're really trying to document the different parts of
-the top-level --trace option, which qemu-nbd.rst and qemu-img.rst
-have already introduced with an option:: markup.  So it's not right
-to use option:: here anyway.  Switch to a different markup
-(definition lists) which gives about the same formatted output.
+(Failures have been observed on all 4 of the randomness tests,
+not just first_byte_runs.)
 
-(Unlike option::, this markup doesn't produce index entries; but
-at the moment we don't do anything much with indexes anyway, and
-in any case I think it doesn't make much sense to have individual
-index entries for the sub-parts of the --trace option.)
+It's not clear why these tests are failing like this, but intermittent
+failures make CI and merge testing awkward, so disable running them
+unless a developer specifically sets QEMU_TEST_FLAKY_RNG_TESTS when
+running the test suite, until we work out the cause.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20201030174700.7204-3-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20201102152454.8287-1-peter.maydell@linaro.org
+Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
 ---
- docs/qemu-option-trace.rst.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/npcm7xx_rng-test.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/docs/qemu-option-trace.rst.inc b/docs/qemu-option-trace.rst.inc
-index 7e09773a9c5..d7acbe67f73 100644
---- a/docs/qemu-option-trace.rst.inc
-+++ b/docs/qemu-option-trace.rst.inc
-@@ -1,7 +1,7 @@
+diff --git a/tests/qtest/npcm7xx_rng-test.c b/tests/qtest/npcm7xx_rng-test.c
+index da6e639bf6f..e7cde85fbbc 100644
+--- a/tests/qtest/npcm7xx_rng-test.c
++++ b/tests/qtest/npcm7xx_rng-test.c
+@@ -265,10 +265,16 @@ int main(int argc, char **argv)
  
- Specify tracing options.
+     qtest_add_func("npcm7xx_rng/enable_disable", test_enable_disable);
+     qtest_add_func("npcm7xx_rng/rosel", test_rosel);
+-    qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
+-    qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
+-    qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
+-    qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
++    /*
++     * These tests fail intermittently; only run them on explicit
++     * request until we figure out why.
++     */
++    if (getenv("QEMU_TEST_FLAKY_RNG_TESTS")) {
++        qtest_add_func("npcm7xx_rng/continuous/monobit", test_continuous_monobit);
++        qtest_add_func("npcm7xx_rng/continuous/runs", test_continuous_runs);
++        qtest_add_func("npcm7xx_rng/first_byte/monobit", test_first_byte_monobit);
++        qtest_add_func("npcm7xx_rng/first_byte/runs", test_first_byte_runs);
++    }
  
--.. option:: [enable=]PATTERN
-+``[enable=]PATTERN``
- 
-   Immediately enable events matching *PATTERN*
-   (either event name or a globbing pattern).  This option is only
-@@ -11,7 +11,7 @@ Specify tracing options.
- 
-   Use :option:`-trace help` to print a list of names of trace points.
- 
--.. option:: events=FILE
-+``events=FILE``
- 
-   Immediately enable events listed in *FILE*.
-   The file must contain one event name (as listed in the ``trace-events-all``
-@@ -19,7 +19,7 @@ Specify tracing options.
-   available if QEMU has been compiled with the ``simple``, ``log`` or
-   ``ftrace`` tracing backend.
- 
--.. option:: file=FILE
-+``file=FILE``
- 
-   Log output traces to *FILE*.
-   This option is only available if QEMU has been compiled with
+     qtest_start("-machine npcm750-evb");
+     ret = g_test_run();
 -- 
 2.20.1
 
