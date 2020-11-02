@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16B2C2A3235
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:50:48 +0100 (CET)
-Received: from localhost ([::1]:43228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B4E2A3267
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:56:57 +0100 (CET)
+Received: from localhost ([::1]:53126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdyg-0005Sh-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:50:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33832)
+	id 1kZe4e-0001Tj-E5
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:56:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdxG-0004WG-7j
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:49:18 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35098)
+ id 1kZe3d-0000wR-EN
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:55:53 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:39098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdxE-0002oY-B3
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:49:17 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id p5so20096693ejj.2
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:49:15 -0800 (PST)
+ id 1kZe3b-0003jy-KK
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:55:52 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id s25so6165672ejy.6
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z9lQPUng9Rd08wCHtEAGZksDuvuO8w8CeJ/qkKUWbMQ=;
- b=XFZQMkgpb9lUXYqy1jRC5kTyOv0N/wOfBJ7TYMHN69p0DBQ60/zVsVSKjhEZWthA0V
- aaPZZ9F8MKvf4aLqHOn8qM3bCTxorz+6LsPK8gIvXzCrJ4YpnRe+F6ZJtRY8CP6sHJam
- yrQLtiqq9ELjzoPl75+C/cQTyP39GjgIePi4Ty7sACTljCU9hVfkSrCWkCJ1qjKwCYxB
- l07FAkVrBbofSTRmQx74pDK3Uxtiloavd+GlrZI+WtUpHajxPuqvwr8L6Lxwv1kSHMSH
- TI5gTwAjz/P3MZfeTpIODfZje5zL5pBz//EhLNThXFpj3d3Vaqf/jGrEL5iFeKS66IhB
- vdLw==
+ :cc; bh=mrqtb4U7+BeErVk3fbKEXg4Tr6WGfztb2QohSFWGHJI=;
+ b=KdvXIw1bTgiAkbn0stEzW8Hpah4APlQ7GpNHUzYDyW+0Lc5lcr48LZt6Hc0ZEVY6Ck
+ WU5l9NY7AE3TjorpmA5fSidlkdOVhCXB/KpX3Jb8XzdHa5J3bhshBrF0/Qox3kfHZY5j
+ JmbW3gydhjbnoP4m0JYtMX+R2BBK2FEmvZI5gONVT3E013xEKk+bIfDF4j0QO1lHFwhV
+ KpbtMeVF5xPBDqpbcAto5YyBZaJQzGqnrEwAGVpco1gVXS/HfHefi8OdDgUDWGg8JgmL
+ RMaN2pLTgup7Bl0tXhnCM6SNqT0dD/D69vrU++Ufaq8hMjUqhq+lT2/XFN0HENyFSb4E
+ /Q3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=z9lQPUng9Rd08wCHtEAGZksDuvuO8w8CeJ/qkKUWbMQ=;
- b=cN3oOhESZOJDzuDi6oVu5pu7Amb92M+O3oZmImUDxkvv8VWI+8O+6SQJrt7JQl1Kaf
- J0xdtJUdZd4FsZr0S0erkoWGumsEp6jhc4FLV41bDNOlpJWtbTC+kYz3YiGWRSPPpym7
- wwpSBAkGPcrEtvGkJ4vI0cwsgWxRSF5sjybEPYbbaBdz1lilfi9wDc8msXBjfyD4PhpP
- htJSn8sEr48G/GBdy7XXYMu+JIsmdLHsCr5kcdsMYs0RgMhjPUZnZxUfSm07N9cWXX/t
- +g3dHON42MksdA1anct+ZpHEVBj//DH7TDzen/hUTri+iUPjH1pVAwdDByRIuMHBfbJN
- rRQA==
-X-Gm-Message-State: AOAM532arWSfI8AV6XTeC7zSt7dQ1CKlb+aFJ/qoWS5V4Vf7UE3Uc5z0
- 3ga9T/Q2Eug/afdktWvi88Ryy2uRE0e350ihBYxO+w==
-X-Google-Smtp-Source: ABdhPJxHhuHs3v6FQDk5EkIlMH2xJmqCo1V4vJqNp5fcUQX8CmItzlZzNFHoQnGnPFc2NyaZJNl/ZSd6CChOU+3oKfg=
-X-Received: by 2002:a17:906:3a97:: with SMTP id
- y23mr16419733ejd.250.1604339354532; 
- Mon, 02 Nov 2020 09:49:14 -0800 (PST)
+ bh=mrqtb4U7+BeErVk3fbKEXg4Tr6WGfztb2QohSFWGHJI=;
+ b=W2vR/3iRZ7gBq6mZaZklc48WQBMLA6wXlLsixBPyzm/M4WOYdD7Gi4as/8/+0BUltf
+ HXhfPtrUEzxLbuWkwHLzim+nygaTSTcPssY356mejwvq+06l6yl+KOG8fncdg+urY6NY
+ EK/IdnatTImpKyjixkamfic1NtDt2+z8cq47fU9baXiTqt3E56UbPo//rZCs7Lv+D+vI
+ RPqsbZo8QwsUwac6AduLRmD5VjdcWb3U6xoR815zH5cVT3uPF0LO+6rPMAvfwDU+38Tl
+ j8Ht8EAPR4ps0b/9W5VEFCbp1g7YIVctjMXudsjaqQ3qh21FPD9p6WltDGGr4OMEbg9G
+ KqFg==
+X-Gm-Message-State: AOAM530O0K/DWAcE/fXaLagwN50K7CxtLha6p+G6AZSjgApbLYDJAMZC
+ tdgmWKOjSQx6CqaVTCQ1iSXm4bn+47QG73Z7Y5qGnA==
+X-Google-Smtp-Source: ABdhPJw5yKBaMKbRVh1ZG6UJOkBt7QPGv232BwjGmRooTE23H6LJurqddNgMB/YvoZEAZ6YX4jOmdRWr/acace/xTwM=
+X-Received: by 2002:a17:907:9e3:: with SMTP id
+ ce3mr16656043ejc.4.1604339749887; 
+ Mon, 02 Nov 2020 09:55:49 -0800 (PST)
 MIME-Version: 1.0
-References: <20201023151619.3175155-1-alistair.francis@wdc.com>
- <20201023151619.3175155-13-alistair.francis@wdc.com>
-In-Reply-To: <20201023151619.3175155-13-alistair.francis@wdc.com>
+References: <20201023152147.1016281-1-stefanha@redhat.com>
+ <20201023152147.1016281-7-stefanha@redhat.com>
+In-Reply-To: <20201023152147.1016281-7-stefanha@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Nov 2020 17:49:03 +0000
-Message-ID: <CAFEAcA9MEG_g_YTFdnfjAp6U9zwqKmQWD8UnPYwbGj0c7WnOUg@mail.gmail.com>
-Subject: Re: [PULL 12/12] hw/misc/sifive_u_otp: Add backend drive support
-To: Alistair Francis <alistair.francis@wdc.com>
+Date: Mon, 2 Nov 2020 17:55:38 +0000
+Message-ID: <CAFEAcA9uLPuLr9vn8--b=MBo_wCztKbF_Oi2v0st7Qu1aFQtAw@mail.gmail.com>
+Subject: Re: [PULL v3 06/28] block/export: vhost-user block device backend
+ server
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
  envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
@@ -80,82 +81,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>, Bin Meng <bin.meng@windriver.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Green Wan <green.wan@sifive.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 23 Oct 2020 at 16:27, Alistair Francis <alistair.francis@wdc.com> wrote:
+On Fri, 23 Oct 2020 at 16:22, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> From: Green Wan <green.wan@sifive.com>
+> From: Coiby Xu <coiby.xu@gmail.com>
 >
-> Add '-drive' support to OTP device. Allow users to assign a raw file
-> as OTP image.
+> By making use of libvhost-user, block device drive can be shared to
+> the connected vhost-user client. Only one client can connect to the
+> server one time.
+>
+> Since vhost-user-server needs a block drive to be created first, delay
+> the creation of this object.
 
-Hi; Coverity reports some issues with this code (CID 1435959,
-CID 1435960, CID 1435961). They're all basically the same thing:
-in read, write and reset functions this code calls blk_pread()
-or blk_pwrite() but doesn't check the return value, so if the
-underlying file operation fails then the guest will be
-returned garbage data or have its write thrown away without
-either the guest or the user being warned about that.
+Hi; Coverity points out a possible bug in this function
+(CID 1435956):
 
-> @@ -54,6 +57,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
->          if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
->              (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
->              (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
-> +
-> +            /* read from backend */
-> +            if (s->blk) {
-> +                int32_t buf;
-> +
-> +                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
-> +                          SIFIVE_U_OTP_FUSE_WORD);
-> +                return buf;
-> +            }
-> +
->              return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
->          } else {
->              return 0xff;
-> @@ -145,6 +158,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
->              /* write bit data */
->              SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
->
-> +            /* write to backend */
-> +            if (s->blk) {
-> +                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
-> +                           &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD, 0);
-> +            }
-> +
->              /* update written bit */
->              SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
->          }
-> @@ -168,16 +187,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
-
->  static void sifive_u_otp_reset(DeviceState *dev)
-> @@ -191,6 +242,20 @@ static void sifive_u_otp_reset(DeviceState *dev)
->      s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
->      s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
->
-> +    if (s->blk) {
-> +        /* Put serial number to backend as well*/
-> +        uint32_t serial_data;
-> +        int index = SIFIVE_U_OTP_SERIAL_ADDR;
-> +
-> +        serial_data = s->serial;
-> +        blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
-> +                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
-> +
-> +        serial_data = ~(s->serial);
-> +        blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
-> +                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> +static int coroutine_fn
+> +vu_block_discard_write_zeroes(VuBlockReq *req, struct iovec *iov,
+> +                              uint32_t iovcnt, uint32_t type)
+> +{
+> +    struct virtio_blk_discard_write_zeroes desc;
+> +    ssize_t size = iov_to_buf(iov, iovcnt, 0, &desc, sizeof(desc));
+> +    if (unlikely(size != sizeof(desc))) {
+> +        error_report("Invalid size %zd, expect %zu", size, sizeof(desc));
+> +        return -EINVAL;
 > +    }
 > +
->      /* Initialize write-once map */
->      memset(s->fuse_wo, 0x00, sizeof(s->fuse_wo));
->  }
-> --
-> 2.28.0
+> +    VuBlockDev *vdev_blk = get_vu_block_device_by_server(req->server);
+> +    uint64_t range[2] = { le64_to_cpu(desc.sector) << 9,
+> +                          le32_to_cpu(desc.num_sectors) << 9 };
+
+Here we get a 32-bit integer from desc.num_sectors, and then the
+shift left might make it overflow the 32-bit value before it gets
+put into a uint64_t in the range array. Should this be
+
+   (uint64_t)le32_to_cpu(desc.num_sectors) << 9
+
+?
 
 thanks
 -- PMM
