@@ -2,54 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67F292A27C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:11:05 +0100 (CET)
-Received: from localhost ([::1]:40698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 134632A27AF
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:04:22 +0100 (CET)
+Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWno-0004lw-Fh
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:11:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49830)
+	id 1kZWhJ-0003Uq-4A
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:04:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <4d0746e2135f56c59c6e61ef42d700b7139065b4@lizzy.crudebyte.com>)
- id 1kZWVI-0004TQ-T3
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:51:58 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:41791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <4d0746e2135f56c59c6e61ef42d700b7139065b4@lizzy.crudebyte.com>)
- id 1kZWVF-0007Lm-AG
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:51:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=YWmXVtZVZRtkS+BYg5kf2HB49/4Oet8HpRKUq5fnvUg=; b=Q0mBt
- HTSm7smeZAp+uIDUFjwM695GTXUfmAOOQ3qk5PMTmxriUfL5yDQWeVqWBZeIMZDPhal7MtJoqQEXM
- 6V7H1pu0hAlhStP6qJNGu80AzbxCPnSyrBbVcMS7CZBhx9um2jCnSlXyCISNKCV5U83hFDBefFBSM
- 2Ipg86IazFWIoKukrd3B4/WAdxIDlno5hjuLmxFNb2Wp4NBLgQpJvZEimH0mcmB9Gt4N3KeBqs0+X
- 7BtGAM/REvDOOv97VaGbGjnIdL+nM0YZpdQq9ZwxIUByJe4riATZ0m7qPMWBEz09JCSCp5DD7u/5M
- rUJH9goPuAzasew11HVQqIk4F8Z8Q==;
-Message-Id: <4d0746e2135f56c59c6e61ef42d700b7139065b4.1604309512.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1604309512.git.qemu_oss@crudebyte.com>
-References: <cover.1604309512.git.qemu_oss@crudebyte.com>
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Date: Wed, 21 Oct 2020 14:55:46 +0200
-Subject: [PULL v3 17/17] tests/9pfs: add local Tunlinkat hard link test
-To: qemu-devel@nongnu.org,
-    Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>
-Received-SPF: none client-ip=91.194.90.13;
- envelope-from=4d0746e2135f56c59c6e61ef42d700b7139065b4@lizzy.crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 04:48:35
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: 13
-X-Spam_score: 1.3
-X-Spam_bar: +
-X-Spam_report: (1.3 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZWUN-0002gq-Ln
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:50:59 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:39035)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZWUL-0007OK-1B
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:50:59 -0500
+Received: by mail-ed1-x532.google.com with SMTP id e18so2545128edy.6
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 01:50:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QP3mO4N0e2zy5Xe68Nrspvl6MDsRH3Wb8REYuar2i7c=;
+ b=yLjZZc66UST0vC9FV1d/x44LtC1CjemfSDSwBhvVLyqmzNV+6lDYzUxkVKnaujtPV0
+ O1LBreo4zXOHaqLmfLOkjAl1+ZgY1ayTRIljfHHe+SpjBC4TFwzmKzwSEWqN/r6ybl0D
+ Lq86cJwe18b+ZABpVaqAQw4aE1P4heVFnOzy3hke+yKnHxoOxGsjh3tkQ08Ep079s/wn
+ dU99f8VrDFoIqqpuO8ZSQIeDlenuwRUP+UZyLF5M7DDFFhXIth4PHen9M+OVC+gwu4TZ
+ dZjPi76EaSX0OzO6GqyskzenV9LBug0s4CM0gW9oyX4KvurSPGkQuWGAkJ8hMrMCgaWd
+ SyjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QP3mO4N0e2zy5Xe68Nrspvl6MDsRH3Wb8REYuar2i7c=;
+ b=qdju0mR3ETtsczB7BNA9gGwBQ0JtUsH1N7V4FOcDkmF43v+kuidYLmlNrKMPhQyWDA
+ rBhQk0WbMJmF2bxJSnc1Dvdr6zd4SCS4REE1UxygS2tpAQk6HIdH+KR8HT7nFYbLVeJ0
+ I6koflhvwz6K2q+rnoRStYphXLWSYCe9mrRfQdYk7iBGVmuATOEXCdbg5qGU5SaY3AxH
+ JDJVWnhAk9R8nyTOV9aBAUPfqfCCSfrIVwdWQujF8jhbkv5bgcTIFdlJFReS5tDV/2DY
+ cSkq5t/CcBqtvf0kTZ+iKuTpIXGXP/35Mpj8DPXTJpG3TJVE60UKabprqrEP7dp9Ssak
+ p43w==
+X-Gm-Message-State: AOAM530ShHViwWHRbQUJ4CZc0mUoBMV23Iwmn0Cl2xO9ykXAF0Ffyhpr
+ Y52DYFK0L5yOC5oaL0RIkM+HtUD/VFIOMy/81fwZ5A==
+X-Google-Smtp-Source: ABdhPJzS4SrpdU3lyJOuW4fF7NAcJ35tbraXqHEEDAxXFvvXhu4hQpkL7oQ4MD3oq1Zx/Dh0BkNBDAlP+mhy74GdqWY=
+X-Received: by 2002:a05:6402:4c6:: with SMTP id
+ n6mr16033878edw.204.1604310655376; 
+ Mon, 02 Nov 2020 01:50:55 -0800 (PST)
+MIME-Version: 1.0
+References: <5F9D449A.900@huawei.com>
+ <CAFEAcA9w_JZ5m2Cj9Cuc4GMka8vp-AabtmqNLwe0q7ObN7QKyA@mail.gmail.com>
+ <5F9F953A.4060603@huawei.com>
+In-Reply-To: <5F9F953A.4060603@huawei.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Nov 2020 09:50:43 +0000
+Message-ID: <CAFEAcA9JN00jcP0ss2wjm7QkR3OFZAksVLuTYNv_tjSG8v2esA@mail.gmail.com>
+Subject: Re: [PATCH] util: Remove redundant checks in the openpty()
+To: AlexChen <alex.chen@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,69 +81,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test case uses a Tunlinkat request to remove a previously hard
-linked file by using the 9pfs 'local' fs driver.
+On Mon, 2 Nov 2020 at 05:12, AlexChen <alex.chen@huawei.com> wrote:
+> Thanks for your review, I will add this description to my commit message in my patch V2.
+> In addition, since the amaster and the aslave are not allow to be NULL,
+> do we need to check that the amaster and the aslave are NULL in the beginning of the openpty()?
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <9bec33a7d8f006ef8f80517985d0d6ac48650d53.1603285620.git.qemu_oss@crudebyte.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/virtio-9p-test.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+No, we can just assume it. Our coding style doesn't
+mandate that level of defensive-coding against caller
+errors.
 
-diff --git a/tests/qtest/virtio-9p-test.c b/tests/qtest/virtio-9p-test.c
-index 35499e74ed..21e340fa5f 100644
---- a/tests/qtest/virtio-9p-test.c
-+++ b/tests/qtest/virtio-9p-test.c
-@@ -1391,6 +1391,34 @@ static void fs_hardlink_file(void *obj, void *data, QGuestAllocator *t_alloc)
-     g_free(real_file);
- }
- 
-+static void fs_unlinkat_hardlink(void *obj, void *data,
-+                                 QGuestAllocator *t_alloc)
-+{
-+    QVirtio9P *v9p = obj;
-+    alloc = t_alloc;
-+    struct stat st_real, st_link;
-+    char *real_file = virtio_9p_test_path("08/real_file");
-+    char *hardlink_file = virtio_9p_test_path("08/hardlink_file");
-+
-+    do_attach(v9p);
-+    do_mkdir(v9p, "/", "08");
-+    do_lcreate(v9p, "08", "real_file");
-+    g_assert(stat(real_file, &st_real) == 0);
-+    g_assert((st_real.st_mode & S_IFMT) == S_IFREG);
-+
-+    do_hardlink(v9p, "08", "hardlink_file", "08/real_file");
-+    g_assert(stat(hardlink_file, &st_link) == 0);
-+
-+    do_unlinkat(v9p, "08", "hardlink_file", 0);
-+    /* symlink should be gone now */
-+    g_assert(stat(hardlink_file, &st_link) != 0);
-+    /* and old file should still exist */
-+    g_assert(stat(real_file, &st_real) == 0);
-+
-+    g_free(hardlink_file);
-+    g_free(real_file);
-+}
-+
- static void *assign_9p_local_driver(GString *cmd_line, void *arg)
- {
-     virtio_9p_assign_local_driver(cmd_line, "security_model=mapped-xattr");
-@@ -1438,6 +1466,8 @@ static void register_virtio_9p_test(void)
-     qos_add_test("local/unlinkat_symlink", "virtio-9p", fs_unlinkat_symlink,
-                  &opts);
-     qos_add_test("local/hardlink_file", "virtio-9p", fs_hardlink_file, &opts);
-+    qos_add_test("local/unlinkat_hardlink", "virtio-9p", fs_unlinkat_hardlink,
-+                 &opts);
- }
- 
- libqos_init(register_virtio_9p_test);
--- 
-2.20.1
-
+thanks
+-- PMM
 
