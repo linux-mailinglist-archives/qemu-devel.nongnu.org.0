@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EB472A32E7
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:24:34 +0100 (CET)
-Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF0B02A32CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:22:37 +0100 (CET)
+Received: from localhost ([::1]:45940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZeVN-0006d1-G1
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:24:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40898)
+	id 1kZeTV-0003QZ-1a
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:22:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeR3-0001YT-TF
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:05 -0500
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:37762)
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeR4-0001Z6-8J
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:06 -0500
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:39298)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeQw-0006iJ-8j
+ (Exim 4.90_1) (envelope-from <andrew@daynix.com>) id 1kZeQy-0006ic-7W
  for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:20:05 -0500
-Received: by mail-lf1-x144.google.com with SMTP id j30so18671363lfp.4
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 10:19:57 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id 184so18647048lfd.6
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 10:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20150623.gappssmtp.com; s=20150623;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WUVUKv4PYWLLTid/U5M6cN4MwS3ke7uD6rvIMKkcOa8=;
- b=am3c7YU6Zc6q27BtqVlk9sOu7yFbX37F41tlp/oGYRUw1ULx/NXqDtrr+1NRdKK+Cp
- sPWS0rl/+TpycG/vbHKZjtQ7aYF5mscdWTDjl99m0V+EA0IhicM7EvDhEuQBEBQrLgtx
- ZdKlVp16NwVA/CvmInU5cAgvxq/XcBxSB+HxJbmoDrABderaSj1uqsDlVB0dXmS3Z92Z
- T6hup70vA60BXsJkB2T3a8+UEoDsXpCKk/yA24nA7BJys8PDoq23m55y5zKJ+uW/TNPM
- zgTvoO6BvkeSOpBA1VRTV5r0hymMiOsxKJi7BWUpH6bP3FL99d97K1ktBQVe8TXYmPec
- GdOA==
+ bh=EFtkV8vk9mojAwXkn433NVuLfi5G+E0yJnsXG3+z/Cg=;
+ b=xUkk56RaLggvLvpA4i/rbOe3nBZt+mgqu5QHEZ/3QKs26JSMzF8OX0EgTakeFolGAD
+ yIePVz3XNvU+5WgJhGsM+8tiE03pU13ZbLan0KXas70beYh5LRHTOldaZaQIQN12TEsj
+ tZJ47h2Pd7/EKECiGz1Q/mheiYzJlHipSsKIpjxnvRJPkWzdWiUvvCO7HXoXid32AfQe
+ Awinnvi+gqH1g4cpGlRCa+w2RLdBvftZmU+szd7kFOqv7lTLyXvYkWk7TYHW0s36pUXA
+ DiKzLodj1t4E9tPYfJbzKJse8amjxdJgje5cQ9keAire3rgKYblX0Q0KosmBERpbz6dT
+ 4DOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=WUVUKv4PYWLLTid/U5M6cN4MwS3ke7uD6rvIMKkcOa8=;
- b=iDh1FNxrGUFuWtKXUjLPQMmXj/g80QqhSbeOhXK7KgRknzEEPVwIlmICI4zqK28sCz
- hBIiTIf7n1JCOyRgqQLltAOccgn/jM+goV6Iih5BjwCx6zBU9QLsHFyhC9vf1EyX1D76
- hBG/yRHA0AEkEkhyM/Nplya7ZKm1k1xVtftB1cBbsFEB1PDbM9LyxE2gZQU/bsxK2C7b
- RYRJjlJMcg4DJxJtDKjY/KdyTdoChVKDhHAEXZfVN6kqF09RM/p8UHD+EHD2mti+VYgn
- tQAItg55Od3kw6g+QWqR0jxHTH4QPsqLPPgPh7zWg48C2mAgprg4ylHxQucpc/GpBjmR
- AbYQ==
-X-Gm-Message-State: AOAM530SXD9bpwAwi1O7YnXxFv074J+U2v9cYH2PppjojLbeIXjhgvmK
- f4vqT8xN54QAImEtdHuzJty3FA==
-X-Google-Smtp-Source: ABdhPJym5PpktOhe1HYFmkMhYeEYy6d77PYukIjPHukWIXViZyS/mlocpiy0CaNs5onurd+DNuzROA==
-X-Received: by 2002:a05:6512:210f:: with SMTP id
- q15mr5756726lfr.78.1604341195879; 
- Mon, 02 Nov 2020 10:19:55 -0800 (PST)
+ bh=EFtkV8vk9mojAwXkn433NVuLfi5G+E0yJnsXG3+z/Cg=;
+ b=Z7v+pDpL9UpAeIsdKf3jZ0fe5vQJ29XIBMqD2Sa4JdZ2UDzuDlgDbezfy9ueEQCnBk
+ Syz+v+oVsq4RHMC18nO4o6Pt6K/fMy1WtssMJBFAz95YqwJ4fMQjFbP6yAskEICv86jc
+ 1camp1eDpAoMLu8qnhXT+okMMELFB/s88Fadv1Sw8pBdFZgLBw2Q1tK2ZS9TnToHrc36
+ TSSB72gv1rRM1slPSjP2JFN0oYRUF7jfjzz0mRjUZ8irxR+ubTCCzY31lMa8dpkpB5NO
+ sybxwJhzFxwH3e5oEbGFO3j5ELkQT8S5NBEvsEHzYAbpF0O9Tp3wIyfEQkO8gcmXjjyG
+ eFPA==
+X-Gm-Message-State: AOAM532QSm0m4+gPc1mue1Vls0+w0OCKFiFUFw/LM780W3/0CeRBFyaK
+ onBrUDYr5RB4fa+7pt3039Bxwg==
+X-Google-Smtp-Source: ABdhPJyILR/U8PvhT/LO24ZoIKzdnGYff+Gj5TxAQybWNZEtqicLTx/EeL/2AR5FrvqT3q3bkfU0Nw==
+X-Received: by 2002:ac2:5973:: with SMTP id h19mr5835910lfp.458.1604341197079; 
+ Mon, 02 Nov 2020 10:19:57 -0800 (PST)
 Received: from navi.cosmonova.net.ua ([95.67.24.131])
- by smtp.gmail.com with ESMTPSA id c6sm2527007lfm.226.2020.11.02.10.19.54
+ by smtp.gmail.com with ESMTPSA id c6sm2527007lfm.226.2020.11.02.10.19.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 10:19:55 -0800 (PST)
+ Mon, 02 Nov 2020 10:19:56 -0800 (PST)
 From: Andrew Melnychenko <andrew@daynix.com>
 To: jasowang@redhat.com,
 	mst@redhat.com
-Subject: [RFC PATCH 4/6] ebpf: Added eBPF RSS loader.
-Date: Mon,  2 Nov 2020 20:51:14 +0200
-Message-Id: <20201102185115.7425-5-andrew@daynix.com>
+Subject: [RFC PATCH 5/6] virtio-net: Added eBPF RSS to virtio-net.
+Date: Mon,  2 Nov 2020 20:51:15 +0200
+Message-Id: <20201102185115.7425-6-andrew@daynix.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201102185115.7425-1-andrew@daynix.com>
 References: <20201102185115.7425-1-andrew@daynix.com>
@@ -85,396 +84,271 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: yan@daynix.com, yuri.benditovich@daynix.com, Andrew <andrew@daynix.com>,
- Sameeh Jubran <sameeh@daynix.com>, qemu-devel@nongnu.org
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew <andrew@daynix.com>
 
-Added function that loads RSS eBPF program.
-Added stub functions for RSS eBPF.
-Added meson and configuration options.
+When RSS is enabled the device tries to load the eBPF program
+to select RX virtqueue in the TUN. If eBPF can be loaded
+the RSS will function also with vhost (works with kernel 5.8 and later).
+Software RSS is used as a fallback with vhost=off when eBPF can't be loaded
+or when hash population requested by the guest.
 
-Signed-off-by: Sameeh Jubran <sameeh@daynix.com>
 Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
 Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
 ---
- configure        |  36 ++++++++++
- ebpf/ebpf-stub.c |  28 ++++++++
- ebpf/ebpf_rss.c  | 178 +++++++++++++++++++++++++++++++++++++++++++++++
- ebpf/ebpf_rss.h  |  30 ++++++++
- ebpf/meson.build |   1 +
- meson.build      |   3 +
- 6 files changed, 276 insertions(+)
- create mode 100644 ebpf/ebpf-stub.c
- create mode 100644 ebpf/ebpf_rss.c
- create mode 100644 ebpf/ebpf_rss.h
- create mode 100644 ebpf/meson.build
+ hw/net/vhost_net.c             |   2 +
+ hw/net/virtio-net.c            | 120 +++++++++++++++++++++++++++++++--
+ include/hw/virtio/virtio-net.h |   4 ++
+ net/vhost-vdpa.c               |   2 +
+ 4 files changed, 124 insertions(+), 4 deletions(-)
 
-diff --git a/configure b/configure
-index 6df4306c88..bae4ea54f8 100755
---- a/configure
-+++ b/configure
-@@ -330,6 +330,7 @@ vhost_scsi=""
- vhost_vsock=""
- vhost_user=""
- vhost_user_fs=""
-+bpf=""
- kvm="auto"
- hax="auto"
- hvf="auto"
-@@ -1210,6 +1211,10 @@ for opt do
-   ;;
-   --enable-membarrier) membarrier="yes"
-   ;;
-+  --disable-bpf) bpf="no"
-+  ;;
-+  --enable-bpf) bpf="yes"
-+  ;;
-   --disable-blobs) blobs="false"
-   ;;
-   --with-pkgversion=*) pkgversion="$optarg"
-@@ -1792,6 +1797,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-   vhost-vdpa      vhost-vdpa kernel backend support
-+  bpf             BPF kernel support
-   spice           spice
-   rbd             rados block device (rbd)
-   libiscsi        iscsi support
-@@ -5347,6 +5353,33 @@ else
-     membarrier=no
- fi
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index 24d555e764..16124f99c3 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_NET_F_RSS,
++    VIRTIO_NET_F_HASH_REPORT,
  
-+##########################################
-+# check for usable bpf system call
-+if test "$bpf" = ""; then
-+    have_bpf=no
-+    if test "$linux" = "yes" ; then
-+        cat > $TMPC << EOF
-+    #include <sys/syscall.h>
-+    #include <linux/bpf.h>
-+    #include <unistd.h>
-+    #include <stdlib.h>
-+    #include <string.h>
-+    int main(void) {
-+        union bpf_attr * attr = NULL;
-+        syscall(__NR_bpf, BPF_PROG_LOAD, attr, sizeof(attr));
-+        exit(0);
-+    }
-+EOF
-+        if compile_prog "" "" ; then
-+            have_bpf=yes
-+            bpf=yes
-+        fi
-+    fi
-+    if test "$have_bpf" = "no"; then
-+      feature_not_found "bpf" "the bpf system call is not available"
-+    fi
-+fi
-+
- ##########################################
- # check if rtnetlink.h exists and is useful
- have_rtnetlink=no
-@@ -6279,6 +6312,9 @@ fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
-+if test "$bpf" = "yes" -a "$bigendian" != "yes"; then
-+  echo "CONFIG_EBPF=y" >> $config_host_mak
-+fi
- if test "$signalfd" = "yes" ; then
-   echo "CONFIG_SIGNALFD=y" >> $config_host_mak
- fi
-diff --git a/ebpf/ebpf-stub.c b/ebpf/ebpf-stub.c
-new file mode 100644
-index 0000000000..281dc039d3
---- /dev/null
-+++ b/ebpf/ebpf-stub.c
-@@ -0,0 +1,28 @@
-+#include "qemu/osdep.h"
-+#include "ebpf/ebpf_rss.h"
-+
-+void ebpf_rss_init(struct EBPFRSSContext *ctx)
+     /* This bit implies RARP isn't sent by QEMU out of band */
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 277289d56e..afcc3032ec 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -698,6 +698,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+ 
+ static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+ 
++static uint64_t fix_ebpf_vhost_features(uint64_t features)
 +{
++    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS feature */
++    uint64_t ret = features;
++#ifndef CONFIG_EBPF
++    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
++#endif
++    /* for now, there is no solution for populating the hash from eBPF */
++    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
 +
++    return ret;
 +}
 +
-+bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx)
-+{
-+    return false;
-+}
+ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+                                         Error **errp)
+ {
+@@ -732,9 +745,9 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
+         return features;
+     }
+ 
+-    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
+-    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
+-    features = vhost_net_get_features(get_vhost_net(nc->peer), features);
++    features = fix_ebpf_vhost_features(
++            vhost_net_get_features(get_vhost_net(nc->peer), features));
 +
-+bool ebpf_rss_load(struct EBPFRSSContext *ctx)
-+{
-+    return false;
-+}
+     vdev->backend_features = features;
+ 
+     if (n->mtu_bypass_backend &&
+@@ -1169,12 +1182,75 @@ static int virtio_net_handle_announce(VirtIONet *n, uint8_t cmd,
+     }
+ }
+ 
++static void virtio_net_unload_epbf_rss(VirtIONet *n);
 +
-+bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
-+                      uint16_t *indirections_table, uint8_t *toeplitz_key)
-+{
-+    return false;
-+}
+ static void virtio_net_disable_rss(VirtIONet *n)
+ {
+     if (n->rss_data.enabled) {
+         trace_virtio_net_rss_disable();
+     }
+     n->rss_data.enabled = false;
 +
-+void ebpf_rss_unload(struct EBPFRSSContext *ctx)
-+{
-+
-+}
-diff --git a/ebpf/ebpf_rss.c b/ebpf/ebpf_rss.c
-new file mode 100644
-index 0000000000..f3c948a7a0
---- /dev/null
-+++ b/ebpf/ebpf_rss.c
-@@ -0,0 +1,178 @@
-+#include "qemu/osdep.h"
-+#include "qemu/error-report.h"
-+
-+#include "hw/virtio/virtio-net.h" /* VIRTIO_NET_RSS_MAX_TABLE_LEN */
-+
-+#include "ebpf/ebpf_rss.h"
-+#include "ebpf/ebpf.h"
-+#include "ebpf/tun_rss_steering.h"
-+#include "trace.h"
-+
-+void ebpf_rss_init(struct EBPFRSSContext *ctx)
-+{
-+    if (ctx != NULL) {
-+        ctx->program_fd = -1;
++    if (!n->rss_data.enabled_software_rss && ebpf_rss_is_loaded(&n->ebpf_rss)) {
++        virtio_net_unload_epbf_rss(n);
 +    }
 +}
 +
-+bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx)
++static bool virtio_net_attach_steering_ebpf(NICState *nic, int prog_fd)
 +{
-+    return ctx != NULL && ctx->program_fd >= 0;
-+}
-+
-+bool ebpf_rss_load(struct EBPFRSSContext *ctx)
-+{
-+    if (ctx == NULL) {
++    NetClientState *nc = qemu_get_peer(qemu_get_queue(nic), 0);
++    if (nc == NULL || nc->info->set_steering_ebpf == NULL) {
 +        return false;
 +    }
 +
-+    ctx->map_configuration =
-+            bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(uint32_t),
-+                           sizeof(struct EBPFRSSConfig), 1);
-+    if (ctx->map_configuration < 0) {
-+        trace_ebpf_error("eBPF RSS", "can not create MAP for configurations");
-+        goto l_conf_create;
-+    }
-+    ctx->map_toeplitz_key =
-+            bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(uint32_t),
-+                           VIRTIO_NET_RSS_MAX_KEY_SIZE, 1);
-+    if (ctx->map_toeplitz_key < 0) {
-+        trace_ebpf_error("eBPF RSS", "can not create MAP for toeplitz key");
-+        goto l_toe_create;
-+    }
-+
-+    ctx->map_indirections_table =
-+            bpf_create_map(BPF_MAP_TYPE_ARRAY, sizeof(uint32_t),
-+                           sizeof(uint16_t), VIRTIO_NET_RSS_MAX_TABLE_LEN);
-+    if (ctx->map_indirections_table < 0) {
-+        trace_ebpf_error("eBPF RSS", "can not create MAP for indirections table");
-+        goto l_table_create;
-+    }
-+
-+    bpf_fixup_mapfd(reltun_rss_steering,
-+            sizeof(reltun_rss_steering) / sizeof(struct fixup_mapfd_t),
-+            instun_rss_steering,
-+            sizeof(instun_rss_steering) / sizeof(struct bpf_insn),
-+            "tap_rss_map_configurations", ctx->map_configuration);
-+
-+    bpf_fixup_mapfd(reltun_rss_steering,
-+            sizeof(reltun_rss_steering) / sizeof(struct fixup_mapfd_t),
-+            instun_rss_steering,
-+            sizeof(instun_rss_steering) / sizeof(struct bpf_insn),
-+            "tap_rss_map_toeplitz_key", ctx->map_toeplitz_key);
-+
-+    bpf_fixup_mapfd(reltun_rss_steering,
-+            sizeof(reltun_rss_steering) / sizeof(struct fixup_mapfd_t),
-+            instun_rss_steering,
-+            sizeof(instun_rss_steering) / sizeof(struct bpf_insn),
-+            "tap_rss_map_indirection_table", ctx->map_indirections_table);
-+
-+    ctx->program_fd =
-+            bpf_prog_load(BPF_PROG_TYPE_SOCKET_FILTER, instun_rss_steering,
-+                         sizeof(instun_rss_steering) / sizeof(struct bpf_insn),
-+                         "GPL");
-+    if (ctx->program_fd < 0) {
-+        trace_ebpf_error("eBPF RSS", "can not load eBPF program");
-+        goto l_prog_load;
-+    }
-+
-+    return true;
-+l_prog_load:
-+    close(ctx->map_indirections_table);
-+l_table_create:
-+    close(ctx->map_toeplitz_key);
-+l_toe_create:
-+    close(ctx->map_configuration);
-+l_conf_create:
-+    return false;
++    return nc->info->set_steering_ebpf(nc, prog_fd);
 +}
 +
-+static bool ebpf_rss_set_config(struct EBPFRSSContext *ctx,
-+                                struct EBPFRSSConfig *config)
++static void rss_data_to_rss_config(struct VirtioNetRssData *data,
++                                   struct EBPFRSSConfig *config)
 +{
-+    if (!ebpf_rss_is_loaded(ctx)) {
-+        return false;
-+    }
-+    uint32_t map_key = 0;
-+    if (bpf_update_elem(ctx->map_configuration,
-+                            &map_key, config, BPF_ANY) < 0) {
-+        return false;
-+    }
-+    return true;
++    config->redirect = data->redirect;
++    config->populate_hash = data->populate_hash;
++    config->hash_types = data->hash_types;
++    config->indirections_len = data->indirections_len;
++    config->default_queue = data->default_queue;
 +}
 +
-+static bool ebpf_rss_set_indirections_table(struct EBPFRSSContext *ctx,
-+                                            uint16_t *indirections_table,
-+                                            size_t len)
++static bool virtio_net_load_epbf_rss(VirtIONet *n)
 +{
-+    if (!ebpf_rss_is_loaded(ctx) || indirections_table == NULL ||
-+       len > VIRTIO_NET_RSS_MAX_TABLE_LEN) {
-+        return false;
-+    }
-+    uint32_t i = 0;
++    struct EBPFRSSConfig config = {};
 +
-+    for (; i < len; ++i) {
-+        if (bpf_update_elem(ctx->map_indirections_table, &i,
-+                                indirections_table + i, BPF_ANY) < 0) {
-+            return false;
++    if (!n->rss_data.enabled) {
++        if (ebpf_rss_is_loaded(&n->ebpf_rss)) {
++            ebpf_rss_unload(&n->ebpf_rss);
 +        }
++        return true;
 +    }
-+    return true;
-+}
 +
-+static bool ebpf_rss_set_toepliz_key(struct EBPFRSSContext *ctx,
-+                                     uint8_t *toeplitz_key)
-+{
-+    if (!ebpf_rss_is_loaded(ctx) || toeplitz_key == NULL) {
-+        return false;
-+    }
-+    uint32_t map_key = 0;
-+
-+    /* prepare toeplitz key */
-+    uint8_t toe[VIRTIO_NET_RSS_MAX_KEY_SIZE] = {};
-+    memcpy(toe, toeplitz_key, VIRTIO_NET_RSS_MAX_KEY_SIZE);
-+    *(uint32_t *)toe = ntohl(*(uint32_t *)toe);
-+
-+    if (bpf_update_elem(ctx->map_toeplitz_key, &map_key, toe,
-+                            BPF_ANY) < 0) {
-+        return false;
-+    }
-+    return true;
-+}
-+
-+bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
-+                      uint16_t *indirections_table, uint8_t *toeplitz_key)
-+{
-+    if (!ebpf_rss_is_loaded(ctx) || config == NULL ||
-+        indirections_table == NULL || toeplitz_key == NULL) {
++    if (!ebpf_rss_is_loaded(&n->ebpf_rss) && !ebpf_rss_load(&n->ebpf_rss)) {
 +        return false;
 +    }
 +
-+    if (!ebpf_rss_set_config(ctx, config)) {
++    rss_data_to_rss_config(&n->rss_data, &config);
++
++    if (!ebpf_rss_set_all(&n->ebpf_rss, &config,
++                          n->rss_data.indirections_table, n->rss_data.key)) {
++        ebpf_rss_unload(&n->ebpf_rss);
 +        return false;
 +    }
 +
-+    if (!ebpf_rss_set_indirections_table(ctx, indirections_table,
-+                                      config->indirections_len)) {
-+        return false;
-+    }
-+
-+    if (!ebpf_rss_set_toepliz_key(ctx, toeplitz_key)) {
++    if (!virtio_net_attach_steering_ebpf(n->nic, n->ebpf_rss.program_fd)) {
++        ebpf_rss_unload(&n->ebpf_rss);
 +        return false;
 +    }
 +
 +    return true;
 +}
 +
-+void ebpf_rss_unload(struct EBPFRSSContext *ctx)
++static void virtio_net_unload_epbf_rss(VirtIONet *n)
 +{
-+    if (!ebpf_rss_is_loaded(ctx)) {
-+        return;
-+    }
-+
-+    close(ctx->program_fd);
-+    close(ctx->map_configuration);
-+    close(ctx->map_toeplitz_key);
-+    close(ctx->map_indirections_table);
-+    ctx->program_fd = -1;
-+}
-diff --git a/ebpf/ebpf_rss.h b/ebpf/ebpf_rss.h
-new file mode 100644
-index 0000000000..ffed7b571a
---- /dev/null
-+++ b/ebpf/ebpf_rss.h
-@@ -0,0 +1,30 @@
-+#ifndef QEMU_EBPF_RSS_H
-+#define QEMU_EBPF_RSS_H
-+
-+struct EBPFRSSContext {
-+    int program_fd;
-+    int map_configuration;
-+    int map_toeplitz_key;
-+    int map_indirections_table;
-+};
-+
-+struct EBPFRSSConfig {
-+    uint8_t redirect;
-+    uint8_t populate_hash;
-+    uint32_t hash_types;
-+    uint16_t indirections_len;
-+    uint16_t default_queue;
-+};
-+
-+void ebpf_rss_init(struct EBPFRSSContext *ctx);
-+
-+bool ebpf_rss_is_loaded(struct EBPFRSSContext *ctx);
-+
-+bool ebpf_rss_load(struct EBPFRSSContext *ctx);
-+
-+bool ebpf_rss_set_all(struct EBPFRSSContext *ctx, struct EBPFRSSConfig *config,
-+                      uint16_t *indirections_table, uint8_t *toeplitz_key);
-+
-+void ebpf_rss_unload(struct EBPFRSSContext *ctx);
-+
-+#endif /* QEMU_EBPF_RSS_H */
-diff --git a/ebpf/meson.build b/ebpf/meson.build
-new file mode 100644
-index 0000000000..10f4bc9ca8
---- /dev/null
-+++ b/ebpf/meson.build
-@@ -0,0 +1 @@
-+specific_ss.add(when: 'CONFIG_EBPF', if_true: files('ebpf_rss.c', 'ebpf.c'), if_false: files('ebpf-stub.c'))
-diff --git a/meson.build b/meson.build
-index 47e32e1fcb..d0ea1a0e9d 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1368,6 +1368,7 @@ if have_system
-     'backends',
-     'backends/tpm',
-     'chardev',
-+    'ebpf',
-     'hw/9pfs',
-     'hw/acpi',
-     'hw/alpha',
-@@ -1530,6 +1531,7 @@ subdir('accel')
- subdir('plugins')
- subdir('bsd-user')
- subdir('linux-user')
-+subdir('ebpf')
++    virtio_net_attach_steering_ebpf(n->nic, -1);
++    ebpf_rss_unload(&n->ebpf_rss);
+ }
  
- bsd_user_ss.add(files('gdbstub.c'))
- specific_ss.add_all(when: 'CONFIG_BSD_USER', if_true: bsd_user_ss)
-@@ -2093,6 +2095,7 @@ summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK'
- summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_KERNEL')}
- summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
- summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
-+summary_info += {'bpf support': config_host.has_key('CONFIG_EBPF')}
- summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
- if config_host['TRACE_BACKENDS'].split().contains('simple')
-   summary_info += {'Trace output file': config_host['CONFIG_TRACE_FILE'] + '-<pid>'}
+ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+@@ -1208,6 +1284,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+         err_value = (uint32_t)s;
+         goto error;
+     }
++    n->rss_data.enabled_software_rss = false;
+     n->rss_data.hash_types = virtio_ldl_p(vdev, &cfg.hash_types);
+     n->rss_data.indirections_len =
+         virtio_lduw_p(vdev, &cfg.indirection_table_mask);
+@@ -1289,9 +1366,30 @@ static uint16_t virtio_net_handle_rss(VirtIONet *n,
+         goto error;
+     }
+     n->rss_data.enabled = true;
++
++    if (!n->rss_data.populate_hash) {
++        /* load EBPF RSS */
++        if (!virtio_net_load_epbf_rss(n)) {
++            /* EBPF mast be loaded for vhost */
++            if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
++                warn_report("Can't load eBPF RSS for vhost");
++                goto error;
++            }
++            /* fallback to software RSS */
++            warn_report("Can't load eBPF RSS - fallback to software RSS");
++            n->rss_data.enabled_software_rss = true;
++        }
++    } else {
++        /* use software RSS for hash populating */
++        /* and unload eBPF if was loaded before */
++        virtio_net_unload_epbf_rss(n);
++        n->rss_data.enabled_software_rss = true;
++    }
++
+     trace_virtio_net_rss_enable(n->rss_data.hash_types,
+                                 n->rss_data.indirections_len,
+                                 temp.b);
++
+     return queues;
+ error:
+     trace_virtio_net_rss_error(err_msg, err_value);
+@@ -1674,7 +1772,7 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+         return -1;
+     }
+ 
+-    if (!no_rss && n->rss_data.enabled) {
++    if (!no_rss && n->rss_data.enabled && n->rss_data.enabled_software_rss) {
+         int index = virtio_net_process_rss(nc, buf, size);
+         if (index >= 0) {
+             NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
+@@ -2780,6 +2878,18 @@ static int virtio_net_post_load_device(void *opaque, int version_id)
+     }
+ 
+     if (n->rss_data.enabled) {
++        n->rss_data.enabled_software_rss = n->rss_data.populate_hash;
++        if (!n->rss_data.populate_hash) {
++            if (!virtio_net_load_epbf_rss(n)) {
++                if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
++                    error_report("Can't post-load eBPF RSS for vhost");
++                } else {
++                    warn_report("Can't post-load eBPF RSS - fallback to software RSS");
++                    n->rss_data.enabled_software_rss = true;
++                }
++            }
++        }
++
+         trace_virtio_net_rss_enable(n->rss_data.hash_types,
+                                     n->rss_data.indirections_len,
+                                     sizeof(n->rss_data.key));
+@@ -3453,6 +3563,8 @@ static void virtio_net_instance_init(Object *obj)
+     device_add_bootindex_property(obj, &n->nic_conf.bootindex,
+                                   "bootindex", "/ethernet-phy@0",
+                                   DEVICE(n));
++
++    ebpf_rss_init(&n->ebpf_rss);
+ }
+ 
+ static int virtio_net_pre_save(void *opaque)
+diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio-net.h
+index f4852ac27b..4d29a577eb 100644
+--- a/include/hw/virtio/virtio-net.h
++++ b/include/hw/virtio/virtio-net.h
+@@ -21,6 +21,8 @@
+ #include "qemu/option_int.h"
+ #include "qom/object.h"
+ 
++#include "ebpf/ebpf_rss.h"
++
+ #define TYPE_VIRTIO_NET "virtio-net-device"
+ OBJECT_DECLARE_SIMPLE_TYPE(VirtIONet, VIRTIO_NET)
+ 
+@@ -130,6 +132,7 @@ typedef struct VirtioNetRscChain {
+ 
+ typedef struct VirtioNetRssData {
+     bool    enabled;
++    bool    enabled_software_rss;
+     bool    redirect;
+     bool    populate_hash;
+     uint32_t hash_types;
+@@ -214,6 +217,7 @@ struct VirtIONet {
+     Notifier migration_state;
+     VirtioNetRssData rss_data;
+     struct NetRxPkt *rx_pkt;
++    struct EBPFRSSContext ebpf_rss;
+ };
+ 
+ void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 99c476db8c..feb5fa8624 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -54,6 +54,8 @@ const int vdpa_feature_bits[] = {
+     VIRTIO_NET_F_MTU,
+     VIRTIO_F_IOMMU_PLATFORM,
+     VIRTIO_F_RING_PACKED,
++    VIRTIO_NET_F_RSS,
++    VIRTIO_NET_F_HASH_REPORT,
+     VIRTIO_NET_F_GUEST_ANNOUNCE,
+     VIRTIO_NET_F_STATUS,
+     VHOST_INVALID_FEATURE_BIT
 -- 
 2.28.0
 
