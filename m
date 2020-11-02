@@ -2,32 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F64A2A246C
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 06:49:04 +0100 (CET)
-Received: from localhost ([::1]:48332 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9A62A246A
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 06:48:34 +0100 (CET)
+Received: from localhost ([::1]:46966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZSiF-0008LA-5h
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 00:49:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51244)
+	id 1kZShl-0007nJ-OZ
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 00:48:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kZSdR-0002Wo-Lj; Mon, 02 Nov 2020 00:44:08 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2380)
+ id 1kZSdT-0002X0-JB; Mon, 02 Nov 2020 00:44:08 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2379)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <liangpeng10@huawei.com>)
- id 1kZSdM-0001Nb-75; Mon, 02 Nov 2020 00:44:05 -0500
+ id 1kZSdM-0001Nd-9s; Mon, 02 Nov 2020 00:44:06 -0500
 Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CPhft3nrqz15PmP;
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CPhft4BnLz15Q15;
  Mon,  2 Nov 2020 13:43:50 +0800 (CST)
 Received: from localhost.localdomain (10.175.124.27) by
  DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 2 Nov 2020 13:43:43 +0800
+ 14.3.487.0; Mon, 2 Nov 2020 13:43:45 +0800
 From: Peng Liang <liangpeng10@huawei.com>
 To: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-Subject: [RFC v3 06/10] target/arm: register CPU features for property
-Date: Mon, 2 Nov 2020 13:40:51 +0800
-Message-ID: <20201102054055.686143-7-liangpeng10@huawei.com>
+Subject: [RFC v3 07/10] target/arm: Allow ID registers to synchronize to KVM
+Date: Mon, 2 Nov 2020 13:40:52 +0800
+Message-ID: <20201102054055.686143-8-liangpeng10@huawei.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201102054055.686143-1-liangpeng10@huawei.com>
 References: <20201102054055.686143-1-liangpeng10@huawei.com>
@@ -65,241 +65,180 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Arm architecture specifies a number of ID registers that are
-characterized as comprising a set of 4-bit ID fields. Each ID field
-identifies the presence, and possibly the level of support for, a
-particular feature in an implementation of the architecture. [1]
+There are 2 steps to synchronize the values of system registers from
+CPU state to KVM:
+1. write to the values of system registers from CPU state to
+   (index,value) list by write_cpustate_to_list;
+2. write the values in (index,value) list to KVM by
+   write_list_to_kvmstate;
 
-For most of the ID fields, there is a minimum presence value, equal to
-or higher than which means the corresponding CPU feature is implemented.
-Hence, we can use the minimum presence value to determine whether a CPU
-feature is enabled and enable a CPU feature.
+In step 1, the values of constant system registers are not allowed to
+write to (index,value) list.  However, a constant system register is
+CONSTANT for guest but not for QEMU, which means, QEMU can set/modify
+the value of constant system registers that is different from phsical
+registers when startup.  But if KVM is enabled, guest can not read the
+values of the system registers which QEMU set unless they can be written
+to (index,value) list.  And why not try to write to KVM if kvm_sync is
+true?
 
-To disable a CPU feature, setting the corresponding ID field to 0x0/0xf
-(for unsigned/signed field) seems as a good idea.  However, it maybe
-lead to some problems.  For example,  ID_AA64PFR0_EL1.FP is a signed ID
-field. ID_AA64PFR0_EL1.FP == 0x0 represents the implementation of FP
-(floating-point) and ID_AA64PFR0_EL1.FP == 0x1 represents the
-implementation of FPHP (half-precision floating-point).  If
-ID_AA64PFR0_EL1.FP is set to 0xf when FPHP is disabled (which is also
-disable FP), guest kernel maybe stuck.  Hence, we add a ni_value (means
-not-implemented value) to disable a CPU feature safely.
-
-[1] D13.1.3 Principles of the ID scheme for fields in ID registers in
-    DDI.0487
+At the moment we call write_cpustate_to_list, all ID registers are
+contant, including ID_PFR1_EL1 and ID_AA64PFR0_EL1 because GIC has been
+initialized.  Hence, let's give all ID registers a chance to write to
+KVM.  If the write is successful, then write to (index,value) list.
 
 Signed-off-by: zhanghailiang <zhang.zhanghailiang@huawei.com>
 Signed-off-by: Peng Liang <liangpeng10@huawei.com>
 ---
- target/arm/cpu.c | 188 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 188 insertions(+)
+ target/arm/helper.c  | 46 +++++++++++++++++++++++++++++++++-----------
+ target/arm/kvm.c     | 38 ++++++++++++++++++++++++++++++++++++
+ target/arm/kvm_arm.h |  3 +++
+ 3 files changed, 76 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 13179e13e358..c5530550ece0 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1157,6 +1157,193 @@ unsigned int gt_cntfrq_period_ns(ARMCPU *cpu)
-       NANOSECONDS_PER_SECOND / cpu->gt_cntfrq_hz : 1;
- }
- 
-+/**
-+ * CPUFeatureInfo:
-+ * @reg: The ID register where the ID field is in.
-+ * @name: The name of the CPU feature.
-+ * @length: The bit length of the ID field.
-+ * @shift: The bit shift of the ID field in the ID register.
-+ * @min_value: The minimum value equal to or larger than which means the CPU
-+ *   feature is implemented.
-+ * @ni_value: Not-implemented value. It will be set to the ID field when
-+ *   disabling the CPU feature.  Usually, it's min_value - 1.
-+ * @sign: Whether the ID field is signed.
-+ * @is_32bit: Whether the CPU feature is for 32-bit.
-+ *
-+ * In ARM, a CPU feature is described by an ID field, which is a 4-bit field in
-+ * an ID register.
-+ */
-+typedef struct CPUFeatureInfo {
-+    CPUIDReg reg;
-+    const char *name;
-+    int length;
-+    int shift;
-+    int min_value;
-+    int ni_value;
-+    bool sign;
-+    bool is_32bit;
-+} CPUFeatureInfo;
-+
-+#define FIELD_INFO(feat_name, id_reg, field, s, min_val, ni_val, is32bit) { \
-+    .reg = id_reg, \
-+    .length = R_ ## id_reg ## _ ## field ## _LENGTH, \
-+    .shift = R_ ## id_reg ## _ ## field ## _SHIFT, \
-+    .sign = s, \
-+    .min_value = min_val, \
-+    .ni_value = ni_val, \
-+    .name = feat_name, \
-+    .is_32bit = is32bit, \
-+}
-+
-+static struct CPUFeatureInfo cpu_features[] = {
-+    FIELD_INFO("aes", ID_AA64ISAR0, AES, false, 1, 0, false),
-+    FIELD_INFO("sha1", ID_AA64ISAR0, SHA1, false, 1, 0, false),
-+    FIELD_INFO("sha2", ID_AA64ISAR0, SHA2, false, 1, 0, false),
-+    FIELD_INFO("crc32", ID_AA64ISAR0, CRC32, false, 1, 0, false),
-+    FIELD_INFO("atomics", ID_AA64ISAR0, ATOMIC, false, 1, 0, false),
-+    FIELD_INFO("asimdrdm", ID_AA64ISAR0, RDM, false, 1, 0, false),
-+    FIELD_INFO("sha3", ID_AA64ISAR0, SHA3, false, 1, 0, false),
-+    FIELD_INFO("sm3", ID_AA64ISAR0, SM3, false, 1, 0, false),
-+    FIELD_INFO("sm4", ID_AA64ISAR0, SM4, false, 1, 0, false),
-+    FIELD_INFO("asimddp", ID_AA64ISAR0, DP, false, 1, 0, false),
-+    FIELD_INFO("asimdfhm", ID_AA64ISAR0, FHM, false, 1, 0, false),
-+    FIELD_INFO("flagm", ID_AA64ISAR0, TS, false, 1, 0, false),
-+    FIELD_INFO("rng", ID_AA64ISAR0, RNDR, false, 1, 0, false),
-+
-+    FIELD_INFO("dcpop", ID_AA64ISAR1, DPB, false, 1, 0, false),
-+    FIELD_INFO("jscvt", ID_AA64ISAR1, JSCVT, false, 1, 0, false),
-+    FIELD_INFO("fcma", ID_AA64ISAR1, FCMA, false, 1, 0, false),
-+    FIELD_INFO("lrcpc", ID_AA64ISAR1, LRCPC, false, 1, 0, false),
-+    FIELD_INFO("frint", ID_AA64ISAR1, FRINTTS, false, 1, 0, false),
-+    FIELD_INFO("sb", ID_AA64ISAR1, SB, false, 1, 0, false),
-+    FIELD_INFO("i8mm", ID_AA64ISAR1, I8MM, false, 1, 0, false),
-+    FIELD_INFO("bf16", ID_AA64ISAR1, BF16, false, 1, 0, false),
-+    FIELD_INFO("dgh", ID_AA64ISAR1, DGH, false, 1, 0, false),
-+
-+    FIELD_INFO("fp", ID_AA64PFR0, FP, true, 0, 0xf, false),
-+    FIELD_INFO("asimd", ID_AA64PFR0, ADVSIMD, true, 0, 0xf, false),
-+    FIELD_INFO("dit", ID_AA64PFR0, DIT, false, 1, 0, false),
-+
-+    FIELD_INFO("bt", ID_AA64PFR1, BT, false, 1, 0, false),
-+    FIELD_INFO("sbss", ID_AA64PFR1, SBSS, false, 1, 0, false),
-+
-+    FIELD_INFO("uscat", ID_AA64MMFR2, AT, false, 1, 0, false),
-+
-+    {
-+        .reg = ID_AA64PFR0, .length = R_ID_AA64PFR0_FP_LENGTH,
-+        .shift = R_ID_AA64PFR0_FP_SHIFT, .sign = true, .min_value = 1,
-+        .ni_value = 0, .name = "fphp", .is_32bit = false,
-+    },
-+    {
-+        .reg = ID_AA64PFR0, .length = R_ID_AA64PFR0_ADVSIMD_LENGTH,
-+        .shift = R_ID_AA64PFR0_ADVSIMD_SHIFT, .sign = true, .min_value = 1,
-+        .ni_value = 0, .name = "asimdhp", .is_32bit = false,
-+    },
-+    {
-+        .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_AES_LENGTH,
-+        .shift = R_ID_AA64ISAR0_AES_SHIFT, .sign = false, .min_value = 2,
-+        .ni_value = 1, .name = "pmull", .is_32bit = false,
-+    },
-+    {
-+        .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_SHA2_LENGTH,
-+        .shift = R_ID_AA64ISAR0_SHA2_SHIFT, .sign = false, .min_value = 2,
-+        .ni_value = 1, .name = "sha512", .is_32bit = false,
-+    },
-+    {
-+        .reg = ID_AA64ISAR0, .length = R_ID_AA64ISAR0_TS_LENGTH,
-+        .shift = R_ID_AA64ISAR0_TS_SHIFT, .sign = false, .min_value = 2,
-+        .ni_value = 1, .name = "flagm2", .is_32bit = false,
-+    },
-+    {
-+        .reg = ID_AA64ISAR1, .length = R_ID_AA64ISAR1_DPB_LENGTH,
-+        .shift = R_ID_AA64ISAR1_DPB_SHIFT, .sign = false, .min_value = 2,
-+        .ni_value = 1, .name = "dcpodp", .is_32bit = false,
-+    },
-+    {
-+        .reg = ID_AA64ISAR1, .length = R_ID_AA64ISAR1_LRCPC_LENGTH,
-+        .shift = R_ID_AA64ISAR1_LRCPC_SHIFT, .sign = false, .min_value = 2,
-+        .ni_value = 1, .name = "ilrcpc", .is_32bit = false,
-+    },
-+};
-+
-+static void arm_cpu_get_feature_prop(Object *obj, Visitor *v, const char *name,
-+                                     void *opaque, Error **errp)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+    CPUFeatureInfo *feat = opaque;
-+    int field_value = feat->sign ? sextract64(cpu->isar.regs[feat->reg],
-+                                              feat->shift, feat->length) :
-+                                   extract64(cpu->isar.regs[feat->reg],
-+                                             feat->shift, feat->length);
-+    bool value = field_value >= feat->min_value;
-+
-+    visit_type_bool(v, name, &value, errp);
-+}
-+
-+static void arm_cpu_set_feature_prop(Object *obj, Visitor *v, const char *name,
-+                                     void *opaque, Error **errp)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+    ARMCPU *cpu = ARM_CPU(obj);
-+    ARMISARegisters *isar = &cpu->isar;
-+    CPUFeatureInfo *feat = opaque;
-+    Error *local_err = NULL;
-+    bool value;
-+
-+    if (!kvm_arm_cpu_feature_supported()) {
-+        warn_report("KVM doesn't support to set CPU feature in arm.  "
-+                    "Setting to `%s` is ignored.", name);
-+        return;
-+    }
-+    if (dev->realized) {
-+        qdev_prop_set_after_realize(dev, name, errp);
-+        return;
-+    }
-+
-+    visit_type_bool(v, name, &value, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
-+
-+    if (value) {
-+        if (object_property_get_bool(obj, feat->name, &error_abort)) {
-+            return;
-+        }
-+        isar->regs[feat->reg] = deposit64(isar->regs[feat->reg],
-+                                          feat->shift, feat->length,
-+                                          feat->min_value);
-+    } else {
-+        if (!object_property_get_bool(obj, feat->name, &error_abort)) {
-+            return;
-+        }
-+        isar->regs[feat->reg] = deposit64(isar->regs[feat->reg],
-+                                          feat->shift, feat->length,
-+                                          feat->ni_value);
-+    }
-+}
-+
-+static void arm_cpu_register_feature_props(ARMCPU *cpu)
-+{
-+    int i;
-+    ObjectProperty *op;
-+    CPUARMState *env = &cpu->env;
-+
-+    for (i = 0; i < ARRAY_SIZE(cpu_features); i++) {
-+        if (!(arm_feature(env, ARM_FEATURE_AARCH64) ^
-+              cpu_features[i].is_32bit)) {
-+            continue;
-+        }
-+        op = object_property_find(OBJECT(cpu), cpu_features[i].name);
-+        if (!op) {
-+            object_property_add(OBJECT(cpu), cpu_features[i].name, "bool",
-+                                arm_cpu_get_feature_prop,
-+                                arm_cpu_set_feature_prop,
-+                                NULL, &cpu_features[i]);
-+        }
-+    }
-+}
-+
- void arm_cpu_post_init(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -1282,6 +1469,7 @@ void arm_cpu_post_init(Object *obj)
-         }
-     }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 7f7100783b3a..41d912c7b8ff 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -35,6 +35,7 @@
+ #include "arm_ldst.h"
+ #include "exec/cpu_ldst.h"
  #endif
-+    arm_cpu_register_feature_props(cpu);
++#include "kvm_arm.h"
+ 
+ #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+ 
+@@ -355,6 +356,16 @@ static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
+     return true;
  }
  
- static void arm_cpu_finalizefn(Object *obj)
++static inline bool is_id_register(const ARMCPRegInfo *ri)
++{
++    /*
++     * (Op0, Op1, CRn, CRm, Op2) of ID registers is (3, 0, 0, crm, op2),
++     * where 1<=crm<8, 0<=op2<8.
++     */
++    return ri->opc0 == 3 && ri->opc1 == 0 && ri->crn == 0 &&
++        ri->crm > 0 && ri->crm < 8;
++}
++
+ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
+ {
+     /* Write the coprocessor state from cpu->env to the (index,value) list. */
+@@ -371,30 +382,43 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
+             ok = false;
+             continue;
+         }
+-        if (ri->type & ARM_CP_NO_RAW) {
++        /* Let's give ID registers a chance to synchronize to kvm. */
++        if ((ri->type & ARM_CP_NO_RAW) && !(kvm_sync && is_id_register(ri))) {
+             continue;
+         }
+ 
+         newval = read_raw_cp_reg(&cpu->env, ri);
+         if (kvm_sync) {
+-            /*
+-             * Only sync if the previous list->cpustate sync succeeded.
+-             * Rather than tracking the success/failure state for every
+-             * item in the list, we just recheck "does the raw write we must
+-             * have made in write_list_to_cpustate() read back OK" here.
+-             */
+-            uint64_t oldval = cpu->cpreg_values[i];
++            /* Only sync if we can sync to KVM successfully. */
++            uint64_t oldval;
++            uint64_t kvmval;
+ 
++            if (kvm_arm_get_one_reg(cpu, cpu->cpreg_indexes[i], &oldval)) {
++                continue;
++            }
+             if (oldval == newval) {
+                 continue;
+             }
+ 
+-            write_raw_cp_reg(&cpu->env, ri, oldval);
+-            if (read_raw_cp_reg(&cpu->env, ri) != oldval) {
++            if (kvm_arm_set_one_reg(cpu, cpu->cpreg_indexes[i], &newval)) {
++                if (is_id_register(ri)) {
++                    ok = false;
++                    error_report("Cannot set ID regsiter %s: %s", ri->name,
++                                 strerror(errno));
++                }
++                continue;
++            }
++            if (kvm_arm_get_one_reg(cpu, cpu->cpreg_indexes[i], &kvmval) ||
++                kvmval != newval) {
++                if (is_id_register(ri)) {
++                    ok = false;
++                    error_report("Setting ID register %s doesn't effect",
++                                 ri->name);
++                }
+                 continue;
+             }
+ 
+-            write_raw_cp_reg(&cpu->env, ri, newval);
++            kvm_arm_set_one_reg(cpu, cpu->cpreg_indexes[i], &oldval);
+         }
+         cpu->cpreg_values[i] = newval;
+     }
+diff --git a/target/arm/kvm.c b/target/arm/kvm.c
+index ffe186de8d19..40d01ed9e3a4 100644
+--- a/target/arm/kvm.c
++++ b/target/arm/kvm.c
+@@ -506,6 +506,44 @@ out:
+     return ret;
+ }
+ 
++int kvm_arm_get_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *target)
++{
++    uint32_t v32;
++    int ret;
++
++    switch (regidx & KVM_REG_SIZE_MASK) {
++    case KVM_REG_SIZE_U32:
++        ret = kvm_get_one_reg(CPU(cpu), regidx, &v32);
++        if (ret == 0) {
++            *target = v32;
++        }
++        return ret;
++    case KVM_REG_SIZE_U64:
++        return kvm_get_one_reg(CPU(cpu), regidx, target);
++    default:
++        return -1;
++    }
++}
++
++int kvm_arm_set_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *source)
++{
++    uint32_t v32;
++
++    switch (regidx & KVM_REG_SIZE_MASK) {
++    case KVM_REG_SIZE_U32:
++        v32 = *source;
++        if (v32 != *source) {
++            error_report("the value of source is too large");
++            return -1;
++        }
++        return kvm_set_one_reg(CPU(cpu), regidx, &v32);
++    case KVM_REG_SIZE_U64:
++        return kvm_set_one_reg(CPU(cpu), regidx, source);
++    default:
++        return -1;
++    }
++}
++
+ bool write_kvmstate_to_list(ARMCPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
+index a6a1df775cd2..74935e081e80 100644
+--- a/target/arm/kvm_arm.h
++++ b/target/arm/kvm_arm.h
+@@ -535,4 +535,7 @@ static inline const char *its_class_name(void)
+     }
+ }
+ 
++int kvm_arm_get_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *target);
++int kvm_arm_set_one_reg(ARMCPU *cpu, uint64_t regidx, uint64_t *source);
++
+ #endif
 -- 
 2.26.2
 
