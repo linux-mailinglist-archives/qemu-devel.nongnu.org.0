@@ -2,67 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE542A2D5F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 15:50:56 +0100 (CET)
-Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E322A2D6D
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 15:54:26 +0100 (CET)
+Received: from localhost ([::1]:50088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZbAd-0002MS-GH
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 09:50:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44052)
+	id 1kZbE0-0005Lu-HX
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 09:54:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kZb8k-0001AA-NX
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:49:00 -0500
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:55265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kZb8d-0007AW-GM
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:48:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1604328531;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=O4lN/nFPj6Dg10BjrFvx6wJqgawoIv0G+MT9lnkXiOs=;
- b=YTfz8sSCToW+7TFvOs0/3C+i+o75czUo0mrBUOQilF6dCAndebolWgVu
- H0XIvWvGlOs+zOaTEYFv/D5Kh8afVuz+z2yLyjJl6DwBNLhRSWblkGGgN
- fu8oj0AafZDa5XtOwnxKzalz9nLQuIFnvGHBCYGvqcFnG2TFp37LN6dhz M=;
-Authentication-Results: esa1.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-IronPort-SDR: vdNO5e+VUc5koX0bchd+sTWRuGYSQINfwtJEM9uq9qmSuUK96i/aPZW6Dt2D5YYO3KuFFzjWq1
- qT0KDXIr8gRmuiUFDfr9ay51ia/MItpkhFzgyilsxN8kzkjlLItUUDotVDtNWTh2ihTCBw7T6e
- IV0CL65k6bqM8ztZ7PNprLBirCWlkn2omOEIWEN5mB6mp3A51n3YGIuBVtoC7ukvEDDcX8YmPn
- 7iJuxPiVWiMehZT7AH1+//4i2rFg8ArSoGzzsXu35WR74goh/OIRBGMQyDB04UON71IahamkDQ
- qzQ=
-X-SBRS: None
-X-MesageID: 30625389
-X-Ironport-Server: esa1.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.158.21
-X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.77,445,1596513600"; d="scan'208";a="30625389"
-To: <qemu-devel@nongnu.org>
-CC: Peter Maydell <peter.maydell@linaro.org>, Anthony PERARD
- <anthony.perard@citrix.com>
-Subject: [PULL 1/1] xen: rework pci_piix3_xen_ide_unplug
-Date: Mon, 2 Nov 2020 14:44:54 +0000
-Message-ID: <20201102144454.995592-2-anthony.perard@citrix.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201102144454.995592-1-anthony.perard@citrix.com>
-References: <20201102144454.995592-1-anthony.perard@citrix.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZb8y-0001FP-NA
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:49:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48096)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZb8w-0007H1-BW
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:49:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604328548;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ksPKBsHGw1d9og8ybW3biRjlo4kbYsMsj5bBVchxT0s=;
+ b=c3hhkLYfpPFTMvc8wjJM1o5hkSa3oUX+/A7VK1ZYcB5dzrwyo+PwNhrs+dfOg0dQX/BEG4
+ xjhu8RvWf8EW9Z9ORo+TIkZqUNlWsu6rWozR517m5EiAmpa5WQrrmQfRVjUJmO5WjPoMZg
+ J9fjDqUFzdLwwc8kSW2peTi+dw33c80=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-6knZpXg0PUqJe-2xoCg82g-1; Mon, 02 Nov 2020 09:49:05 -0500
+X-MC-Unique: 6knZpXg0PUqJe-2xoCg82g-1
+Received: by mail-wr1-f72.google.com with SMTP id v5so6568757wrr.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 06:49:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ksPKBsHGw1d9og8ybW3biRjlo4kbYsMsj5bBVchxT0s=;
+ b=b0ujjlmtoC6NoHvKjn4mAgrr2ieB4EprvUaJwIfRngKwBFY5lGuCSXmC0vDzq2jGvE
+ xslMEByQsO6Gn5VKFCWx2cjXaw7J4BK0FFnPuop2krJ/FENvBSCkOo/KXfGUnuWHE/sj
+ spjjx7Bdqiydnv/qfwBXuOnVpeGe4nHMrRwQWR8DDWz5DLgy43tglagfW2exG7IGwmM3
+ M9pv14AQFg8NDkyAC1imT6TuNh6SX31IJXjI0waStK8YHe+fYGHvRi6esPzJMj8/nd0a
+ PadX/HH49EbLzTdAWqu/3Ei2mwppEirfYp4KGyIK3hlVP1L3AXEe1/yZynSya9Abt9uI
+ IXBA==
+X-Gm-Message-State: AOAM5330I8F8xNCgZcE4Y2Rtc6bD3E40uRryeU4bArmMpZyMTW5j6NsD
+ u8zXoqIL8ExO9ugZSAjJnJGUKEm9xEf+hepS8BRs9dQdmet3AYjnJIWRnt0XlMhLHqXAVR+XZ4/
+ Q+FI5TffH9X23kPU=
+X-Received: by 2002:a05:6000:36f:: with SMTP id
+ f15mr20536443wrf.78.1604328543305; 
+ Mon, 02 Nov 2020 06:49:03 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzQJF7eRrmt3je6U+ap6D2N1PBctm1aCW2B2mgNZQYbKh0VFjj3eWKGPoLNdFWyrQu0Ctd5Qg==
+X-Received: by 2002:a05:6000:36f:: with SMTP id
+ f15mr20536424wrf.78.1604328543108; 
+ Mon, 02 Nov 2020 06:49:03 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id 4sm22293812wrp.58.2020.11.02.06.49.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 06:49:02 -0800 (PST)
+Subject: Re: [PATCH 1/4] gitlab: publish the docs built during CI
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20201102130926.161183-1-berrange@redhat.com>
+ <20201102130926.161183-2-berrange@redhat.com>
+ <e496d701-c943-6bac-073b-97a9bb7567f0@redhat.com>
+ <20201102142134.GC138796@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <aff807da-ed0d-636f-2e95-6a7f57549d43@redhat.com>
+Date: Mon, 2 Nov 2020 15:49:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201102142134.GC138796@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.71.145.142;
- envelope-from=anthony.perard@citrix.com; helo=esa1.hc3370-68.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 09:48:45
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,82 +104,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to: Anthony PERARD <anthony.perard@citrix.com>
-From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-This is to allow IDE disks to be unplugged when adding to QEMU via:
-    -drive file=/root/disk_file,if=none,id=ide-disk0,format=raw
-    -device ide-hd,drive=ide-disk0,bus=ide.0,unit=0
+On 11/2/20 3:21 PM, Daniel P. Berrangé wrote:
+> On Mon, Nov 02, 2020 at 02:50:19PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 11/2/20 2:09 PM, Daniel P. Berrangé wrote:
+>>> Most of the build jobs will create the sphinx documentation. If we
+>>> expose this as an artifact of a "pages" job in a "public" directory, it
+>>> will get published using GitLab Pages. This means a user can push a
+>>> branch with docs changes to GitLab and view the results at
+>>>
+>>>   https://yourusername.gitlab.io/qemu/
+>>
+>> Do we want that only for forks or also for the main repo?
+>>
+>> For the main repo we need to keep older releases archived
+>> but accessible.
+> 
+> I'm not suggesting we use this as the actual hosting we direct end
+> users to.
+> 
+> Instead, whatever cronjob on www.qemu.org currently builds
+> 
+> https://www.qemu.org/docs/master/
+> 
+> can simply download the published artifact from CI for the master
+> branch, and any release tags, and unpack them on www.qemu.org host.
+> 
+> IOW, we avoid need to run builds on www.qemu.org server.
+> 
+>>
+>>>
+>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> ---
+>>>  .gitlab-ci.yml | 14 ++++++++++++++
+>>>  1 file changed, 14 insertions(+)
+>>>
+>>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+>>> index 3b15ae5c30..a41725d6f7 100644
+>>> --- a/.gitlab-ci.yml
+>>> +++ b/.gitlab-ci.yml
+>>> @@ -423,3 +423,17 @@ check-dco:
+>>>        - $CI_PROJECT_NAMESPACE == 'qemu-project' && $CI_COMMIT_BRANCH == 'master'
+>>>    variables:
+>>>      GIT_DEPTH: 1000
+>>> +
+>>> +pages:
+>>> +  image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
+>>> +  stage: test
+>>> +  needs:
+>>> +    - job: build-system-ubuntu
+>>> +      artifacts: true
+>>> +  script:
+>>> +    - mkdir public
+>>
+>> I'd rather use public/$CI_COMMIT_BRANCH, that way we can
+>> diff between 2 versions.
+>>
+>> What about adding a manual job to clean public/$CI_COMMIT_BRANCH?
+>> (depending on push-pages success).
+> 
+> The publishing isn't additive - whatever is in the "public" dir
+> is exactly what is visible on gitlab pages. You can't publish
+> multiple different branches.
 
-as the current code only works for disk added with:
-    -drive file=/root/disk_file,if=ide,index=0,media=disk,format=raw
+Oh OK.
 
-Since the code already have the IDE controller as `dev`, we don't need
-to use the legacy DriveInfo to find all the drive we want to unplug.
-We can simply use `blk` from the controller, as it kind of was already
-assume to be the same, by setting it to NULL.
+Then:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
-
-Acked-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Message-Id: <20201027154058.495112-1-anthony.perard@citrix.com>
-Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
----
- hw/ide/piix.c | 27 +++++++++++++--------------
- 1 file changed, 13 insertions(+), 14 deletions(-)
-
-diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index b402a936362b..b9860e35a5c4 100644
---- a/hw/ide/piix.c
-+++ b/hw/ide/piix.c
-@@ -164,30 +164,29 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
- int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
- {
-     PCIIDEState *pci_ide;
--    DriveInfo *di;
-     int i;
-     IDEDevice *idedev;
-+    IDEBus *idebus;
-+    BlockBackend *blk;
- 
-     pci_ide = PCI_IDE(dev);
- 
-     for (i = aux ? 1 : 0; i < 4; i++) {
--        di = drive_get_by_index(IF_IDE, i);
--        if (di != NULL && !di->media_cd) {
--            BlockBackend *blk = blk_by_legacy_dinfo(di);
--            DeviceState *ds = blk_get_attached_dev(blk);
-+        idebus = &pci_ide->bus[i / 2];
-+        blk = idebus->ifs[i % 2].blk;
- 
--            blk_drain(blk);
--            blk_flush(blk);
--
--            if (ds) {
--                blk_detach_dev(blk, ds);
--            }
--            pci_ide->bus[di->bus].ifs[di->unit].blk = NULL;
-+        if (blk && idebus->ifs[i % 2].drive_kind != IDE_CD) {
-             if (!(i % 2)) {
--                idedev = pci_ide->bus[di->bus].master;
-+                idedev = idebus->master;
-             } else {
--                idedev = pci_ide->bus[di->bus].slave;
-+                idedev = idebus->slave;
-             }
-+
-+            blk_drain(blk);
-+            blk_flush(blk);
-+
-+            blk_detach_dev(blk, DEVICE(idedev));
-+            idebus->ifs[i % 2].blk = NULL;
-             idedev->conf.blk = NULL;
-             monitor_remove_blk(blk);
-             blk_unref(blk);
--- 
-Anthony PERARD
+> 
+> Essentially this "pages" job published an artifact containing
+> the entire content, and this is unpacked on the gitlab.io
+> service.
+> 
+> This is why I suggest www.qemu.org cronjob pull down the
+> artifact for "master", and also pull down the artifacts for
+> any release git tags, and unpack them in suitable subdirs.
+> 
+>>
+>>> +    - mv build/docs/index.html public/
+>>> +    - for i in devel interop specs system tools user ; do mv build/docs/$i public/ ; done
+>>> +  artifacts:
+>>> +    paths:
+>>> +      - public
+> 
+> Regards,
+> Daniel
+> 
 
 
