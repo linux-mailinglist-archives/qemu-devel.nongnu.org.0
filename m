@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0981C2A3166
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:22:59 +0100 (CET)
-Received: from localhost ([::1]:50120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7913A2A317B
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:27:30 +0100 (CET)
+Received: from localhost ([::1]:35502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdXm-0008QI-2i
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:22:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54006)
+	id 1kZdc9-0005kS-Gq
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:27:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLv-00012q-Vh
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:44 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37543)
+ id 1kZdLy-00016b-3D
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:46 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:56090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLt-0006c9-GK
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:43 -0500
-Received: by mail-wm1-x342.google.com with SMTP id c16so10222648wmd.2
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:41 -0800 (PST)
+ id 1kZdLu-0006cN-Q3
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:45 -0500
+Received: by mail-wm1-x342.google.com with SMTP id c9so8605713wml.5
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=PHlIRH7863n7trY1b/lRLkeSRiEQjbh9eyt3Xp710GY=;
- b=svWAz9bWchfwgECY344PtiYeWsCE/Hm77JXZ1Rc3jOwwqcnLTVJ8WYU8Hn5PqDcZJN
- X3KGf+/U9dy1++42xBMZ+Sf7K4exyyBLgMA4XtHkncH+i8hkPWDclLOFT2ynv7sVc892
- Z27lpyQcenwAMkhpLIL51A3w4vUG5rlh/SjJkO6HgTZtha6TmLUyFZ8lJCJPxlgTZD4W
- gZm/msABK5JeHZhotAunFnHCCdDBHSGN9K7oGxkY8klBzaueGEI6oEUUjRouqx9HRfai
- JSih+eyBeEqe9KTOZ+jZQBIIotmvJU0IlhyjnpPezXOhmKclbYWIj9k8IBk2TgnRXIhL
- QRpQ==
+ bh=ed/BTbi7euqfL1hXrKVEmFWNJJJT/JBXDy33Yta9R7U=;
+ b=TvTnE7PwnkqUuwn6H7RD13+NfZIpEdUkznHeUQeFVQXh39/CqsOxp2fhwC1SbNGTt1
+ azfUfYe49rHZeaYdg2cA9XA2MyeaRN2Hfjg0bAYky7o1zlwT7kzHtf+uMEYssZQAD/jB
+ D9hKTmHO8sv8ZSCnBqaKsum4fmhxUrnP3X+/ul0mBa6OVykRnRcQ7oT1q5GJ3lT8vgUZ
+ 1rF0mCfsWpVwVJ5f/bDrYsV90h48ru4alLEOqnQ1wOIa4lSBiOq5yPDMWLU6vs8NmcSq
+ 8hH7xb8zBjV/gQfuV+hIHLkidyTFEmTlH1w8jWijCXw1TecuraLh9UeqzCb53fTm592D
+ O0Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PHlIRH7863n7trY1b/lRLkeSRiEQjbh9eyt3Xp710GY=;
- b=YYLNE3a2diEiAKU6+z+8EbOAQem5Sfjbe0wJG1CieCn96/LslESaMoxUrhSinFKdnQ
- gkuTnJyd4FGK9TRVgwJ4iUu0Kq2wzvYb0Y4ESNwvIJINzfB4Bu/nfdR+K9utgya7DKrF
- cj3exqPpmScNA3fv/KKjA/cNKetwy7AvHz+QTfWd2+ZyBsW7AUW4CphGXXg13iHvjjsB
- qSK1KLAoBxXFYeV8s/ab0mUf1gEUNWkv6S6js9IehdtuqkRHJIukzoXcbNpXoXAByBeN
- ZDKodFuWuHzsOsbLUeRmsfizMBHGDMKzyCaChtgqLVyH8hn0emskP0k6ECRIPVnEbenZ
- kwRA==
-X-Gm-Message-State: AOAM530n+H9GFmgf03PgvlK4YghmLT8Lmx/7pmtCxtSwIcT280bVPz5j
- HR+nrHBUb6jzm+cjZ2HVH0UEBahrQH7aFQ==
-X-Google-Smtp-Source: ABdhPJyfaNC8iq2bC+Fzv/VeJDQNtGjqsh6Gjps53kazktb8pMB0nyjUXaBx0E+0735k9qG+w5ymvw==
-X-Received: by 2002:a1c:ac87:: with SMTP id
- v129mr18630069wme.119.1604337039975; 
- Mon, 02 Nov 2020 09:10:39 -0800 (PST)
+ bh=ed/BTbi7euqfL1hXrKVEmFWNJJJT/JBXDy33Yta9R7U=;
+ b=DcrhwdIBwiLreKbf6Pg0Uo9piqDoDVTmo6GWkZ3cXPFug25JE2aqi89DnCbMTWJt1W
+ SzDAIZlCCvSy0Ie4c9zN/PDstF0KOcCVIgke4NmCA9MUIX+Fd1fSL+3z0IMPgNQwE/bJ
+ LxPAMapd0gunk2fSnwsNUbLpxj3Of6PcpECfIQMsv8rv9ayTl89B2T3ZjZUQlPAEjLM9
+ G0REoAQM3jqwNfpFoV8TvrhOHW7KEclORyT+3/dgvHRtTWZTldo8fu1gNlsRT4ZtI1Dc
+ bsjmUlqz44u850AwioZEaUFO9WtXQa5stMsljLEmYCyIFO6oVQYL4vR11sInkDff6t7n
+ S3Bw==
+X-Gm-Message-State: AOAM531wuBkxSr7OLmJ7Wmp+tsAlN12DBIQ6+tKHnGkVA8jb9sIdvzLM
+ fmOqoEC+0L+m4bscGwmOIx1HHUmSY/ekKg==
+X-Google-Smtp-Source: ABdhPJxNAaM7Rer+oJ5v+BdkOK1sKxhQLHn/lQa9rsJmRbTvMzSg9xxRtCjS+PI2DzGhweo6IOeCkg==
+X-Received: by 2002:a1c:4d14:: with SMTP id o20mr18197607wmh.72.1604337041221; 
+ Mon, 02 Nov 2020 09:10:41 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.38
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.40
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:39 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:40 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/26] hw/display/omap_lcdc: Fix potential NULL pointer
+Subject: [PULL 20/26] hw/display/exynos4210_fimd: Fix potential NULL pointer
  dereference
-Date: Mon,  2 Nov 2020 17:09:58 +0000
-Message-Id: <20201102171005.30690-20-peter.maydell@linaro.org>
+Date: Mon,  2 Nov 2020 17:09:59 +0000
+Message-Id: <20201102171005.30690-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::342;
  envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
@@ -92,45 +92,38 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: AlexChen <alex.chen@huawei.com>
 
-In omap_lcd_interrupts(), the pointer omap_lcd is dereferinced before
+In exynos4210_fimd_update(), the pointer s is dereferinced before
 being check if it is valid, which may lead to NULL pointer dereference.
-So move the assignment to surface after checking that the omap_lcd is valid
-and move surface_bits_per_pixel(surface) to after the surface assignment.
+So move the assignment to global_width after checking that the s is valid.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: AlexChen <alex.chen@huawei.com>
-Message-id: 5F9CDB8A.9000001@huawei.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 5F9F8D88.9030102@huawei.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/display/omap_lcdc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ hw/display/exynos4210_fimd.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/omap_lcdc.c b/hw/display/omap_lcdc.c
-index fa4a381db64..58e659c94ff 100644
---- a/hw/display/omap_lcdc.c
-+++ b/hw/display/omap_lcdc.c
-@@ -78,14 +78,18 @@ static void omap_lcd_interrupts(struct omap_lcd_panel_s *s)
- static void omap_update_display(void *opaque)
- {
-     struct omap_lcd_panel_s *omap_lcd = (struct omap_lcd_panel_s *) opaque;
--    DisplaySurface *surface = qemu_console_surface(omap_lcd->con);
-+    DisplaySurface *surface;
-     draw_line_func draw_line;
-     int size, height, first, last;
-     int width, linesize, step, bpp, frame_offset;
-     hwaddr frame_base;
+diff --git a/hw/display/exynos4210_fimd.c b/hw/display/exynos4210_fimd.c
+index 4c16e1f5a00..34a960a9765 100644
+--- a/hw/display/exynos4210_fimd.c
++++ b/hw/display/exynos4210_fimd.c
+@@ -1275,12 +1275,14 @@ static void exynos4210_fimd_update(void *opaque)
+     bool blend = false;
+     uint8_t *host_fb_addr;
+     bool is_dirty = false;
+-    const int global_width = (s->vidtcon[2] & FIMD_VIDTCON2_SIZE_MASK) + 1;
++    int global_width;
  
--    if (!omap_lcd || omap_lcd->plm == 1 || !omap_lcd->enable ||
--        !surface_bits_per_pixel(surface)) {
-+    if (!omap_lcd || omap_lcd->plm == 1 || !omap_lcd->enable) {
-+        return;
-+    }
-+
-+    surface = qemu_console_surface(omap_lcd->con);
-+    if (!surface_bits_per_pixel(surface)) {
+     if (!s || !s->console || !s->enabled ||
+         surface_bits_per_pixel(qemu_console_surface(s->console)) == 0) {
          return;
      }
++
++    global_width = (s->vidtcon[2] & FIMD_VIDTCON2_SIZE_MASK) + 1;
+     exynos4210_update_resolution(s);
+     surface = qemu_console_surface(s->console);
  
 -- 
 2.20.1
