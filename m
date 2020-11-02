@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78E272A2F68
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 17:13:55 +0100 (CET)
-Received: from localhost ([::1]:36310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14B802A2F76
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 17:16:22 +0100 (CET)
+Received: from localhost ([::1]:40176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZcSw-0002yV-2n
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 11:13:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39168)
+	id 1kZcVJ-0004Zg-4f
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 11:16:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kZcRd-0002RP-GL
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 11:12:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57136)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kZcRb-0006ig-KL
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 11:12:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604333550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=C1LGVF7RvKSYCsbRfBNpYuojOvVveAb1QVOu49WXKKc=;
- b=Mmmuj3sVEe8lrlHji04oConR23ujq8QKpJ+mDIQnzytEB/MNDhWJi7QBHsKolGqYX2/52E
- 8oMH6vE+Ip5EcuDdsugxQDJ4fXdE6GXjXZZiORf740f/sQojkmzbU1qMlIZ9cwgrh/dmeP
- V+tXnyIuMQmAjHjXIupzyxgFzaCFuEI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-s2x4-DXdOBOzWJ19BxpeEw-1; Mon, 02 Nov 2020 11:12:26 -0500
-X-MC-Unique: s2x4-DXdOBOzWJ19BxpeEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37DC11006C9E;
- Mon,  2 Nov 2020 16:12:24 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DCACB5B4A9;
- Mon,  2 Nov 2020 16:12:17 +0000 (UTC)
-Date: Mon, 2 Nov 2020 11:12:16 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [RFC PATCH-for-5.2? 4/5] tests/acceptance: Only run tests tagged
- 'gating-ci' on GitLab CI
-Message-ID: <20201102161216.GA3021311@localhost.localdomain>
-References: <20201102144245.2134077-1-philmd@redhat.com>
- <20201102144245.2134077-5-philmd@redhat.com>
- <f40e30a8-7be3-3f02-352a-9e5f60446d25@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kZcTJ-0003fQ-Lh
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 11:14:17 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:44539)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kZcTD-0006qz-EN
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 11:14:13 -0500
+Received: by mail-pf1-x431.google.com with SMTP id 133so11508400pfx.11
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 08:14:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=EnU4BKIreEZVWlWFGVvnUTivgYZHxDgzODZdedSKtEc=;
+ b=I6w3jbGhGZ/rdXfEVETHNB+lAsEOY7geZUHnlPdIK+jVG8RB0OTEcsXY1E0QFHOSTJ
+ rhhY3QMApcWd7rF3bRNtzuCRl9G6Yq3rBlktM3dRNlXOTq0lea8XBtxqTqI2ZlyPuIaa
+ kjuH+2FMRu0BLtDDGpjilwEuvMYFWaOLENucfEvDct/M7gzurT2hNurubExuOYbpYWf1
+ B1KIrj6f6H8TkE/900O50/b3k/7zVdoDE4IQnSt6ho0znkZ/+dcWk3coAcY9jHpKBogQ
+ JiQ7m1o7W/mWw/sfp7EmST0OhtxdILpVakGlrG62+3asxQisFYnSRn8BJ3vLDGZ67Ekb
+ G6sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EnU4BKIreEZVWlWFGVvnUTivgYZHxDgzODZdedSKtEc=;
+ b=QO31m+XocB3FinLoyCmDXYIaipIg+/TxXPgZst3OX302kT/hp+ZjZpDluuMS7Z3Pgx
+ lLziwt6kYBJR23nOJDzncS3LuSyr9TlSvNgsCvpJmF/j/0dM6Ljjo1UFNQEOUFXPH2Gl
+ GlsyqQaPD9YonOFxP9mWKG9M4p3iMBbWurC5ihr3BjqU6MjFd6DQZbXLbgO0YPx8tHcy
+ piJAMhB6Vr0J12wXcxXKax2rRKI4m52e2dJs5m4xCa1/8b4lzODx29DBE7b3YS50F2jm
+ RUQjSf2YoYF+eBLC69cigUOngvYQEtedv2kjO8SnBOHX1p79HNMhGEbJVeaKoyN2GQff
+ 3+GQ==
+X-Gm-Message-State: AOAM5325zylfUi86sGzmh/Xzu6+sjTyramC1CSAgS2QFkzn7R5CUJkx8
+ 5vEOcTsqCxS/Uh5x6t/kgK5G1w==
+X-Google-Smtp-Source: ABdhPJxwKE300g7l74qbRgJmNqnNpLn/K9VZ5HB8X4Sj0T1wmSaPpz8r/YOReeFwW2YpXbQv0qWDtQ==
+X-Received: by 2002:a17:90a:5e4d:: with SMTP id
+ u13mr11526245pji.171.1604333649824; 
+ Mon, 02 Nov 2020 08:14:09 -0800 (PST)
+Received: from [192.168.101.174] ([75.147.178.105])
+ by smtp.gmail.com with ESMTPSA id e9sm3713664pgi.5.2020.11.02.08.14.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 08:14:09 -0800 (PST)
+Subject: Re: [PULL 0/3] tcg patch queue
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20201027165114.71508-1-richard.henderson@linaro.org>
+ <CAFEAcA8GOB1ivDj=JyjJb8Y5gfwSJePrrV1eci823H8FX_74aQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <dcbeb059-af0e-2a22-8ec1-56bad92abfc4@linaro.org>
+Date: Mon, 2 Nov 2020 08:14:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <f40e30a8-7be3-3f02-352a-9e5f60446d25@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="x+6KMIRAuhnl3hBn"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <CAFEAcA8GOB1ivDj=JyjJb8Y5gfwSJePrrV1eci823H8FX_74aQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,115 +90,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Sarah Harris <S.E.Harris@kent.ac.uk>,
- qemu-ppc@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
- Michael Rolnik <mrolnik@gmail.com>, Fabien Chouteau <chouteau@adacore.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Antony Pavlov <antonynpavlov@gmail.com>
+Cc: qemu@igor2.repo.hu, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---x+6KMIRAuhnl3hBn
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/2/20 5:57 AM, Peter Maydell wrote:
+> On Tue, 27 Oct 2020 at 16:51, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>> ----------------------------------------------------------------
+>> Optimize across branches.
+>> Add logging for cpu_io_recompile.
+> 
+> Igor2 reported on IRC that this seems to cause a crash when
+> using an hppa guest. This is apparently happening on a proprietary
+> disk image, so no reproducible test case, but the logging of
+> the tail end of -d in_asm,op is at:
+>  http://igor2.repo.hu/tmp/in_asm_op.log
+> 
+> QEMU asserts with
+> ../tcg/tcg.c:3346: tcg fatal error
+> 
+> The TB in question involves several conditional branches; the
+> generated TCG ops look OK to me, and reverting the two commits
+> b4cb76e6208cf6b5b and cd0372c515c4732d8b fixes the crash.
+> (We didn't test reverting only one of the two commits separately.)
 
-On Mon, Nov 02, 2020 at 03:59:12PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 11/2/20 3:42 PM, Philippe Mathieu-Daud=E9 wrote:
-> > To avoid breaking our CI each time a test is added, switch from the
-> > "run all but disable some" to "only run the tagged tests on CI".
-> > This way we can add a test to the repository, and promote it to
-> > 'gating-ci' once it is proven stable enough.
-> >=20
-> > Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > ---
-> >=20
-> > TODO: where to add documentation?
-> >=20
-> > - docs/devel/testing.rst (too big, split?)
-> > - tests/acceptance/README.rst
-> >=20
-> > ---
-> >  tests/Makefile.include | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > index 3a0524ce740..f39ba760c17 100644
-> > --- a/tests/Makefile.include
-> > +++ b/tests/Makefile.include
-> > @@ -126,7 +126,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR) g=
-et-vm-images
-> >              $(TESTS_VENV_DIR)/bin/python -m avocado \
-> >              --show=3D$(AVOCADO_SHOW) run --job-results-dir=3D$(TESTS_R=
-ESULTS_DIR) \
-> >              --filter-by-tags-include-empty --filter-by-tags-include-em=
-pty-key \
-> > -            $(AVOCADO_TAGS) \
-> > +            $(AVOCADO_TAGS) -t gating-ci \
->=20
-> This doesn't work as expected, since we have:
->=20
-> AVOCADO_TAGS=3D$(patsubst %-softmmu,-t arch:%, $(filter
-> %-softmmu,$(TARGET_DIRS)))
->=20
-> And avocado '-t' works as logical OR, not logical AND.
->=20
-> OTOH it seems this variable predate the auto-skip feature
-> (when a binary is not present).
->=20
-> So I'll test this instead, which is simpler:
->=20
-> -- >8 --
-> @@ -90,7 +90,7 @@ TESTS_RESULTS_DIR=3D$(BUILD_DIR)/tests/results
->  # Any number of command separated loggers are accepted.  For more
->  # information please refer to "avocado --help".
->  AVOCADO_SHOW=3Dapp
-> -AVOCADO_TAGS=3D$(patsubst %-softmmu,-t arch:%, $(filter
-> %-softmmu,$(TARGET_DIRS)))
-> +AVOCADO_TAGS=3D-t gating-ci
->
+Ok, thanks, I'll look into it.
 
-But you can *add* to the resulting list with the arches, and then you get a
-logical AND.  So it'd end up as:
 
- -t arch:x86_64,gating-ci -t arch:aarch64,gating-ci [...]
-
-To avoid having only "gating-ci" tests running on other environments that
-call "make check-acceptance", we can look at the environment variable that
-GitLab CI sets and optionally include the "gating-ci" tag.
-
-Regards,
-- Cleber.
-
---x+6KMIRAuhnl3hBn
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+gL90ACgkQZX6NM6Xy
-CfOzGQ/+NHrQ8+9cYrL48uxExVv4BYYs2U2KNGFFl2BMwm+tvh7o3YSDDjMQKUgj
-oNaVUb7GuMRXrBJZ0GqsXwtYgMYzeL085O7tjQ7qmoCzA5zCohMOYhfJCxHtIgez
-kOooeyNXk099hkVCf1js6Y9In/9jpbN/VoKr+Fst6EEk0UaHQaSiNqpEmJ8njzxT
-qpZR55EO2AzshK8na5vV/RQp5Pdm6EQngyc5P2vuAVakqYXc7uARmfTBsaUTa/oR
-fm/51L2RO6PBhrK6xqC5AyoTQ/Ihl4OsSJfHgvqYa6/RkBpUuXHagDpoDyMpqHW/
-U5beZX/TawPUYw/ShnA7OVa4DJpVvWMX9M+3pynum+ycPMj6r+dNfi4lEFPnrGBO
-D7uUOfdn6BJKnrl0iTdxiQn9SVr1QCJ1ykPK7D+bnpUY1G2THDNqtQV3YBJyqHIm
-6e5KNoB3hbP+41/7hiGp9X05VQh29fPYd/66mysXk0DmSQyAZB5ewtC5hFspsi51
-Kf3uk2FVBhIrVGibE84HWJns3DJdosJNAY9y0rCoKeEsNkltXCn/bqG7GPjghUs2
-KL3QAyNGJZuMlWS6mfbAFuMj5HxrHAmBoBnhUw1889XpPrt07iJOyQNJ5f6ko0nS
-65M1bLhfHwwYk+GZb+ZFQIe/jDRxy9Rx4n7GsbV+I1KxwK9ik18=
-=RkQD
------END PGP SIGNATURE-----
-
---x+6KMIRAuhnl3hBn--
+r~
 
 
