@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E27332A3109
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:12:30 +0100 (CET)
-Received: from localhost ([::1]:44078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C44272A3133
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:17:22 +0100 (CET)
+Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdNd-0002Dr-VH
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:12:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
+	id 1kZdSL-0000lb-PN
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:17:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLT-0000Up-Vu
+ id 1kZdLT-0000Ul-TY
  for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:15 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33116)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLQ-0006N5-Lr
+ id 1kZdLS-0006NJ-7V
  for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:15 -0500
-Received: by mail-wr1-x435.google.com with SMTP id b8so15524334wrn.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:12 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id g12so15468427wrp.10
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Yb81K1WgzUECohN6OsmqHKMszy1ABT92E/6OuxF9svY=;
- b=wPOpp8VHtXiTgV+myuUd/APwGrjWJXkCfl+7LQ/M/mGBPA+cWcIKovhCiSrQQoT4Io
- B9vyVJ9NAy5FaPyhfNQ/CBhjJx6mOIdzY7Vp2llaqAixIoQ92WD7mAAmp9Q8C/YvzZWH
- 7lL1jqT0hPKy3iZ5PzxW+HApRRdafUuGUOs+8IpbxMziHNUdy7esL0R6f8e/D9loVH8N
- vKh+IIMhB1KXdc/Ldon7Jn+qOnLtlRvlv++dXl78kWzU9rPt9gc/HQrSY5asI09fgmoN
- ZZ57ANmOGK4uY/IbITHVy/oRODj8MXIC+xz6QpA2JIjPryau48Xvs/clHFZrVK4Eop0q
- 4GAQ==
+ bh=JwYY+dnUWGn92siUF9yWZYm92u30bUmTLinCII/ykAU=;
+ b=hpg6d4CGarhwSYsLoknXiRwVJjw5j4A7JxuIb/gyxyUjoe9INUmu37ViIPfasid55R
+ 9CBqeJfpmhBxRI2zRsCFc0NbTSVVy5fCe6QpfU8h+RNjkm/DPGU/dFy4lRuQLWD9l6FL
+ AjPvpv9dPJsZyYp0Ebkm2I69higHqPoQfW2dRA0SGk58hjd2VFFt82hZgZQvxku1YLrz
+ w4//zIu3mMaKNy/GPUGo8YLyLjGEPdOLcZYncdnT2+erBaQtQdUMiMuEZxGhhElU7wKU
+ K9R7KFLsIU8sKysi9v6DPgWKc8Gn1fEFEmrsT3is501rWYHG5NwAmSrU7RvMjCMDhYEZ
+ pU0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Yb81K1WgzUECohN6OsmqHKMszy1ABT92E/6OuxF9svY=;
- b=GL47vEChyJeGdyQThO8isb8kdeMr9EOUSY/qOzSYeJCjWON/sNtaud5P4sHGlYCdIk
- /bqTP0scMoRusTU3ZooiZ1DU9EnPOCr/PhlJgLSCRcL7ibCNE0V1xAB0V9qK/+Mtlc8d
- mH7lwsZFVirWLp89nMu5RnLVmgLJn1URLCX53Wlb/WA9HB4TWHl5JcDmvqxhITfjOokO
- S48aZAermq5XrmvQ7yv57V1/FlhBwOkNVkj/VU0batfsnIBnKgX3a19omremv7GIShmG
- rDjodk4U2bf8vXF1RBrCFPizdo0oGPKcT5idS5Q1tSJ6Ga2eXrwyIc0+kOZSlEP8ZfTP
- WtnA==
-X-Gm-Message-State: AOAM532zPXx5ojYAS4MMmJyOsKnGd1im3cwGPoe1WZ5zOBxgqS/6h9n+
- i/NfouOBNXD3fkCqZMjaVuAI6ni0UGnSug==
-X-Google-Smtp-Source: ABdhPJzU0na+cw90ic0ZBPvxBB0HWh39emJwGfsunmm8YYbP3UAOLaoBNipUUzDdmp84F+Q1h6Tbig==
-X-Received: by 2002:adf:81e5:: with SMTP id 92mr21277897wra.411.1604337010949; 
- Mon, 02 Nov 2020 09:10:10 -0800 (PST)
+ bh=JwYY+dnUWGn92siUF9yWZYm92u30bUmTLinCII/ykAU=;
+ b=HJ44jooI/GPY26NPlGCKOZM1sgY6Ap5u7nfTuDq9EJMhLk8KWrbA1oVkVb6OwNYkLQ
+ MUsujxZqH1ieZhk6Z1fxNnHnlGLOrzPqCXCHLSXaFNQG2YeRqmp4rDYKEDUbbQzQ/8XM
+ BvGnJcr6mgp2cf8o3J+gBnsNS/wLG0GEgmQI/xafG6quMwhmFNgEaEdvtHIVtcCHkHJf
+ /LO3u83DMlL1wdVsuyd6q0vS4oeMjoj6gptSYFiW+9+PZbsLiC2pz/rGs7g8c+6BPZsd
+ ts5HL3MIpNOH4/CSy/vz7PmYKz5nKevhvsrjcgI/RRYnThJ+BqXUrgMBGNH71dfW02xH
+ 64rQ==
+X-Gm-Message-State: AOAM531p1+jJdHVWcjZFIv1AHhBXjBqAIrrGmn6RdlDN2/NQ7Se8Mmtx
+ LvZVmpIgd4pSTMN+ON0cId34k/eo7aCb3Q==
+X-Google-Smtp-Source: ABdhPJxMNaoa3Wv7BHpowglcKBv8MJk9URbNh8Xuk9/zscigs/5yFFKfzLT1oCozGyDXHtNf5ulVwg==
+X-Received: by 2002:adf:db51:: with SMTP id f17mr21218044wrj.126.1604337012379; 
+ Mon, 02 Nov 2020 09:10:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.09
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.11
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:09 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:11 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/26] target/arm: Move neon_element_offset to translate.c
-Date: Mon,  2 Nov 2020 17:09:41 +0000
-Message-Id: <20201102171005.30690-3-peter.maydell@linaro.org>
+Subject: [PULL 03/26] target/arm: Use neon_element_offset in
+ neon_load/store_reg
+Date: Mon,  2 Nov 2020 17:09:42 +0000
+Message-Id: <20201102171005.30690-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,78 +91,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-This will shortly have users outside of translate-neon.c.inc.
+These are the only users of neon_reg_offset, so remove that.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20201030022618.785675-3-richard.henderson@linaro.org
+Message-id: 20201030022618.785675-4-richard.henderson@linaro.org
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/translate.c          | 20 ++++++++++++++++++++
- target/arm/translate-neon.c.inc | 19 -------------------
- 2 files changed, 20 insertions(+), 19 deletions(-)
+ target/arm/translate.c | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
 
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 1b61e50f9c5..bf0b5cac616 100644
+index bf0b5cac616..88a926d1df0 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -1102,6 +1102,26 @@ static long neon_full_reg_offset(unsigned reg)
-     return offsetof(CPUARMState, vfp.zregs[reg >> 1].d[reg & 1]);
+@@ -1137,26 +1137,16 @@ static inline long vfp_reg_offset(bool dp, unsigned reg)
+     }
  }
  
-+/*
-+ * Return the offset of a 2**SIZE piece of a NEON register, at index ELE,
-+ * where 0 is the least significant end of the register.
-+ */
-+static long neon_element_offset(int reg, int element, MemOp size)
-+{
-+    int element_size = 1 << size;
-+    int ofs = element * element_size;
-+#ifdef HOST_WORDS_BIGENDIAN
-+    /*
-+     * Calculate the offset assuming fully little-endian,
-+     * then XOR to account for the order of the 8-byte units.
-+     */
-+    if (element_size < 8) {
-+        ofs ^= 8 - element_size;
-+    }
-+#endif
-+    return neon_full_reg_offset(reg) + ofs;
-+}
-+
- static inline long vfp_reg_offset(bool dp, unsigned reg)
- {
-     if (dp) {
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index e259e24c055..96ab2248fcf 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c.inc
-@@ -60,25 +60,6 @@ static inline int neon_3same_fp_size(DisasContext *s, int x)
- #include "decode-neon-ls.c.inc"
- #include "decode-neon-shared.c.inc"
- 
--/* Return the offset of a 2**SIZE piece of a NEON register, at index ELE,
-- * where 0 is the least significant end of the register.
-- */
+-/* Return the offset of a 32-bit piece of a NEON register.
+-   zero is the least significant end of the register.  */
 -static inline long
--neon_element_offset(int reg, int element, MemOp size)
+-neon_reg_offset (int reg, int n)
 -{
--    int element_size = 1 << size;
--    int ofs = element * element_size;
--#ifdef HOST_WORDS_BIGENDIAN
--    /* Calculate the offset assuming fully little-endian,
--     * then XOR to account for the order of the 8-byte units.
--     */
--    if (element_size < 8) {
--        ofs ^= 8 - element_size;
--    }
--#endif
--    return neon_full_reg_offset(reg) + ofs;
+-    int sreg;
+-    sreg = reg * 2 + n;
+-    return vfp_reg_offset(0, sreg);
 -}
 -
- static void neon_load_element(TCGv_i32 var, int reg, int ele, MemOp mop)
+ static TCGv_i32 neon_load_reg(int reg, int pass)
  {
-     long offset = neon_element_offset(reg, ele, mop & MO_SIZE);
+     TCGv_i32 tmp = tcg_temp_new_i32();
+-    tcg_gen_ld_i32(tmp, cpu_env, neon_reg_offset(reg, pass));
++    tcg_gen_ld_i32(tmp, cpu_env, neon_element_offset(reg, pass, MO_32));
+     return tmp;
+ }
+ 
+ static void neon_store_reg(int reg, int pass, TCGv_i32 var)
+ {
+-    tcg_gen_st_i32(var, cpu_env, neon_reg_offset(reg, pass));
++    tcg_gen_st_i32(var, cpu_env, neon_element_offset(reg, pass, MO_32));
+     tcg_temp_free_i32(var);
+ }
+ 
 -- 
 2.20.1
 
