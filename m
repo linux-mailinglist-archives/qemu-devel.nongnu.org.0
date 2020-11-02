@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 347DE2A2D38
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 15:45:25 +0100 (CET)
-Received: from localhost ([::1]:54666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 227D92A2D41
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 15:47:44 +0100 (CET)
+Received: from localhost ([::1]:34838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZb5I-00041h-8S
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 09:45:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42598)
+	id 1kZb7X-0007V9-5u
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 09:47:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZb2y-00023K-SA
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:43:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20926)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZb36-00027m-2o
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:43:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZb2x-00056I-1M
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:43:00 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZb33-00059Z-NN
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:43:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604328178;
+ s=mimecast20190719; t=1604328183;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0UYZMAjZdsbOMrPX+8Jgmz9tN62XrUtMBK1x3PbC+Aw=;
- b=RRhKsSMQduGnJNwDczl75swbIy5rmF3RzvLC9IM3n2YnXQJla9epnzA9AvtlduF3Ih2EJc
- O8X3Hn7pTadBFPz4qtzlw88n45JPe1Wn9GVQTJlOlBsh82s7mU5q439vrcC2kbinLoQg+G
- vicaOIdQP2RRG9BOiVRYlVvx810l6Yo=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-14-VEVnV-M1N2-UCnDOBVB5-g-1; Mon, 02 Nov 2020 09:42:56 -0500
-X-MC-Unique: VEVnV-M1N2-UCnDOBVB5-g-1
-Received: by mail-wr1-f70.google.com with SMTP id i1so6495425wrb.18
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 06:42:56 -0800 (PST)
+ bh=j3HaWimA2sQhV0m5yDO0w67enm5B0faDw85mk9Xsiio=;
+ b=G6lBXEbcTxcy38IKL4wZpYPKNL0bpA5crNLeK2ey5LgE/KJ/CAEVZLVQB6e1dqUkdwaLzt
+ xFQilriODF9Ga6uZZgrl3zd9x+jP7kLgXl7Ex79XFka3iZF3qLcJjg1yeYDr+54qfauV8m
+ RsmP95Ld45+fYW63yQyiCEjb0/fir54=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-zYAJKrWUPA-CnM_xmEbOSw-1; Mon, 02 Nov 2020 09:43:02 -0500
+X-MC-Unique: zYAJKrWUPA-CnM_xmEbOSw-1
+Received: by mail-wm1-f69.google.com with SMTP id z7so3414092wme.8
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 06:43:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=0UYZMAjZdsbOMrPX+8Jgmz9tN62XrUtMBK1x3PbC+Aw=;
- b=G6YL6bpJ9DaSXgsETNRMr5O+W8FqvQOEQETuspny7aDjzgtcupuKta1EHEHvGXC77q
- RO+8XUWXjYGRpNUJR9Gok9P2d3HfCbxXWwjHIThYqbmmCo4RUBnKSY1CTVcOxBaCrdxU
- aaWTJCJ47ePN43zVD/zsB1rd3ztd3ifYmHomj7xfTL4uodc09CVw8avLZNoDHWLWQD1S
- eZqQd34bXDf8kxt0kgOhwXWGkPmi0bF30ahQ4E0gwN74X5OBEf6YDxSgh/rgzmpBNCdO
- SOyBfh0wE2iOBImdh/AUNI8gYfzuvo73vGp9bMDB/LOpilSnR/B72vtQqf3aM2W3zKAE
- aGFg==
-X-Gm-Message-State: AOAM532epYSUfM7NlmU/duaz2t6lbckyEgrFFCEYgqu76jHyzWfZHDBi
- Z95JE3ivvyTdWV5hQVwOyU2clq51OEF/xIfNfLNZHyWaQ/j9Kr/+AgtrhSy4bmJkEZRah8KE43f
- zyvcbN08Xf7Km+ak=
-X-Received: by 2002:adf:fd8a:: with SMTP id d10mr19953668wrr.85.1604328175170; 
- Mon, 02 Nov 2020 06:42:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxwhUurGPjd7MjqRJk55FT+bsDcssvJr4f8xbzMPSaiwDsDHEzYI7k+J13o1BvOQ1u7yAhBPg==
-X-Received: by 2002:adf:fd8a:: with SMTP id d10mr19953642wrr.85.1604328174982; 
- Mon, 02 Nov 2020 06:42:54 -0800 (PST)
+ bh=j3HaWimA2sQhV0m5yDO0w67enm5B0faDw85mk9Xsiio=;
+ b=dm94oege8vn1Qrid0zA4yONaCtCE9NPHWaWTlvbCHwls4TtfNko+iIQnrSGp8TXiEP
+ rv97ObsL4zfL8O2ms0gV2RpPMetE+lZvcTAZpeDZnB/3uZzZHXp4eyWd0ARLhgXh1Pkp
+ Yp+dq4po4xq8RlRcQxZJ3HTAR48ZYxEA2zibZ0VJTrDKST+Agz5knlWyQOtfZfQdoKXP
+ mOxz8F4un+IOm6tbnX21vgs0vjUay3f8vxuCHXANzHzxMdxCwl1sYBXFmdbl60tIHxk7
+ v0jbiFdFsY6fA3ih4s9u5WDgQ0S23glssFPuuNUHDJZ0LKGMcWShavVmBRcCdfNqTxdj
+ 5dhQ==
+X-Gm-Message-State: AOAM530mUwRgXqnR1+wwmltPghXtyOmTZtlJ+RJWSnleS35ymtI1hX6R
+ aL8YmRQkZUtALGBgkKrJeXE5f73WsQrHwQ5VX2tB6WBz73nx4iIoxVQO/Tl0dxC7KK34VB38p+1
+ FhmmEhDeJvuvKJ1I=
+X-Received: by 2002:adf:a303:: with SMTP id c3mr20547925wrb.417.1604328180671; 
+ Mon, 02 Nov 2020 06:43:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzKqSrSnCfKuauKcpuql6Y2lxNqP4TC9X/JlJSZuojLMeDbMpjmMXhALtoOf8Y76G/uZTVX5Q==
+X-Received: by 2002:adf:a303:: with SMTP id c3mr20547894wrb.417.1604328180546; 
+ Mon, 02 Nov 2020 06:43:00 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id b8sm1715681wmj.9.2020.11.02.06.42.53
+ by smtp.gmail.com with ESMTPSA id o186sm16176699wmb.12.2020.11.02.06.42.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 06:42:54 -0800 (PST)
+ Mon, 02 Nov 2020 06:42:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
-Subject: [PATCH-for-5.2? 1/5] tests/acceptance: Restrict virtio_check_params
- tests to X86 target
-Date: Mon,  2 Nov 2020 15:42:41 +0100
-Message-Id: <20201102144245.2134077-2-philmd@redhat.com>
+Subject: [PATCH-for-5.2? 2/5] tests/acceptance: Restore MIPS Malta multicore
+ tests
+Date: Mon,  2 Nov 2020 15:42:42 +0100
+Message-Id: <20201102144245.2134077-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201102144245.2134077-1-philmd@redhat.com>
 References: <20201102144245.2134077-1-philmd@redhat.com>
@@ -86,7 +86,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,44 +115,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We disabled the virtio_check_params tests in commit 2d6a6e238a2
-("tests/acceptance/virtio_check_params: Disable the test"),
-because these tests were making multiarch CI fail (virtio is
-multiarch).
+Since 42a052333a6 ("hw/misc/mips_cpc: Start vCPU when powered on")
+the multicore support of the MIPS Malta board has been fixed.
 
-We took the big hammer, as we can restrict the tests to the X86
-arch. Restore them on this single arch.
+This reverts commit 61bbce96fe4c8e3a2b7df5a67ba7dc6ba418e54b.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- tests/acceptance/virtio_check_params.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ tests/acceptance/machine_mips_malta.py | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/acceptance/virtio_check_params.py b/tests/acceptance/virtio_check_params.py
-index 87e6c839d14..fecf1c094b1 100644
---- a/tests/acceptance/virtio_check_params.py
-+++ b/tests/acceptance/virtio_check_params.py
-@@ -42,6 +42,12 @@
+diff --git a/tests/acceptance/machine_mips_malta.py b/tests/acceptance/machine_mips_malta.py
+index 7c9a4ee4d2d..eea046141d6 100644
+--- a/tests/acceptance/machine_mips_malta.py
++++ b/tests/acceptance/machine_mips_malta.py
+@@ -100,7 +100,6 @@ def test_mips_malta_i6400_framebuffer_logo_1core(self):
+         """
+         self.do_test_i6400_framebuffer_logo(1)
  
+-    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+     def test_mips_malta_i6400_framebuffer_logo_7cores(self):
+         """
+         :avocado: tags=arch:mips64el
+@@ -110,7 +109,6 @@ def test_mips_malta_i6400_framebuffer_logo_7cores(self):
+         """
+         self.do_test_i6400_framebuffer_logo(7)
  
- class VirtioMaxSegSettingsCheck(Test):
-+    """
-+    This test should be multi-arch, however only X86 is implemented.
-+
-+    :avocado: tags=arch:x86_64
-+    """
-+
-     @staticmethod
-     def make_pattern(props):
-         pattern_items = ['{0} = \w+'.format(prop) for prop in props]
-@@ -117,7 +123,6 @@ def seg_max_adjust_enabled(mt):
-             return True
-         return False
- 
--    @skip("break multi-arch CI")
-     def test_machine_types(self):
-         # collect all machine types except 'none', 'isapc', 'microvm'
-         with QEMUMachine(self.qemu_bin) as vm:
+-    @skipIf(os.getenv('GITLAB_CI'), 'Running on GitLab')
+     def test_mips_malta_i6400_framebuffer_logo_8cores(self):
+         """
+         :avocado: tags=arch:mips64el
 -- 
 2.26.2
 
