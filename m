@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9D42A2764
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 10:49:24 +0100 (CET)
-Received: from localhost ([::1]:50234 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3139E2A27A1
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 11:00:40 +0100 (CET)
+Received: from localhost ([::1]:33110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZWSp-0007k7-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 04:49:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48408)
+	id 1kZWdj-0006zE-7o
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 05:00:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kZWOv-0003Tu-3V
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:45:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60816)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1kZWOs-0005Pv-BC
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:45:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604310317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=I/Eyz92Eot+z49L+ud/LYdaMlxJ3vlqhx7/HL17WbtQ=;
- b=XOE0L/+p4Xz0B8enMMzxa/nXm3yWTlIZYX751KjTwiam0SWcpqXJhYOu7XxMN/z744OR6h
- zJSh1gZMN7AogRr2EI1DgZ4EfX6PRoVOtz6uCZCPdAKKQGqgMoiUGFP9kmg94HenJcohOi
- UZ6nYQomN0auVlskrCnFjBbSQeAjvbg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-IlzBQPJpMNC_uE6xjkRj6w-1; Mon, 02 Nov 2020 04:45:14 -0500
-X-MC-Unique: IlzBQPJpMNC_uE6xjkRj6w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D66158015A8;
- Mon,  2 Nov 2020 09:45:12 +0000 (UTC)
-Received: from [10.36.113.163] (ovpn-113-163.ams2.redhat.com [10.36.113.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C251F5C1BB;
- Mon,  2 Nov 2020 09:45:11 +0000 (UTC)
-Subject: Re: [PATCH v2] target/s390x: fix execution with icount
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
-References: <160430921917.21500.1486722139653938240.stgit@pasha-ThinkPad-X280>
- <af2ae869-08fc-540f-2829-89bc3fa4f5ae@redhat.com>
- <15e1e4ab-cbed-f641-2ad8-4823011bf40a@ispras.ru>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <22561df3-6a2b-47bb-2223-3257660b503e@redhat.com>
-Date: Mon, 2 Nov 2020 10:45:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZWXL-0005n4-SI
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:54:03 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45379)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZWXJ-0008P7-Vo
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 04:54:03 -0500
+Received: by mail-ed1-x533.google.com with SMTP id dg9so13672033edb.12
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 01:54:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=+mFSaNGC3IpJtZ69XWI1Ad6afA43c6xIC8LgQetABNU=;
+ b=Xif86ts82k+JVJkj71pfzR1GgrJev8JwHqPkt7CNRttRDNua+sGOZS4mQXieuRzkGo
+ 8a3YPbKlwFzSjVjyRYmRjqAu4uCiDHmroaaIMmO0OfCwk/fb9ozVQQtoP2gXVgHq2KSA
+ fpZXOsFlnhpa+7Kpu3fRpA/WpOjwEcZJFBk683e4+7qNl3kK8GYUVa+3UOvY6noCXWyI
+ eUB9GILphPUKi6k1D45VoLumzVjfJnqCnjIakAoSLlC3ju8CL9Mgfnk0xDfDsLvN+mjy
+ nX6ZTBoUh33NUMMjWosJfINhLi8S/8KIVRPPY/OlQDB5Xed0OEiThd+bNHfv+cTODh43
+ spUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=+mFSaNGC3IpJtZ69XWI1Ad6afA43c6xIC8LgQetABNU=;
+ b=EPLPpezo8FK2Mh2lHmWBAMbu68NEct/Lyj/sw0OdXjUMI5wOTD/zLRZlv0qMgFeDyd
+ /qF72X4IF6Igw+RoWfCj7t0AtIBDdl8JfsZA7Y/unnG+tPsnwfmHp+yst7S+NfIqdn9h
+ okpLPwhWiVhz/qfjyBy8E8qY7c8MaOKnGYxuPaXCfXhuzUoylRy9NbEq0l1VLJfayyBP
+ grJh8jfLKWTJ0ByOprnPJ2t5mnt9h4XQFeHLKLOgM+67oh/lNLBxhyFT3B3xEPrQr+36
+ /TcQAA10THbaQzVKATS/Ooo91t5vLeKhcE28UHsYI3SmoxtMHxAZoGt+9KG5TO4IRVh0
+ aSOg==
+X-Gm-Message-State: AOAM531ouxRk/GuAVLQMXLbnb8Me7IO+eXf3PC6rYn8lZQIWj/z8LcIG
+ oE7YEM1xR4MdMbroLds7m7AeenmwGyXlXcrOjrootQ==
+X-Google-Smtp-Source: ABdhPJyMtSJULu8D1lnOau8uNkmL9WszdkzJ2/9fKsRxfHX9bSykDHIc/4US/JeHfR2EETiPPMh9xKlWtw987GPHGTI=
+X-Received: by 2002:a05:6402:b35:: with SMTP id
+ bo21mr16230846edb.52.1604310840144; 
+ Mon, 02 Nov 2020 01:54:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <15e1e4ab-cbed-f641-2ad8-4823011bf40a@ispras.ru>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201030203231.107486-1-eblake@redhat.com>
+In-Reply-To: <20201030203231.107486-1-eblake@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 2 Nov 2020 09:53:48 +0000
+Message-ID: <CAFEAcA8in_GJAYG7N+RAant=DgvJMVgvt_V36EwM-tmmckEKeQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/12] NBD patches for 2020-10-27 soft-freeze
+To: Eric Blake <eblake@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,34 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, cohuck@redhat.com, rth@twiddle.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02.11.20 10:41, Pavel Dovgalyuk wrote:
-> On 02.11.2020 12:34, David Hildenbrand wrote:
->> On 02.11.20 10:26, Pavel Dovgalyuk wrote:
->>> This patch adds some gen_io_start() calls to allow execution
->>> of s390x targets in icount mode with -smp 1.
->>> It enables deterministic timers and record/replay features.
->>
->> Why do we have to set it for SIGP?
-> 
-> Timer-related instructions obviously needed IO.
-> But I'm not familiar with s390, therefore also added IO
-> for the instructions that lock iothread mutex, because they
-> probably can access some virtual hardware and change the timers.
-> But maybe this is not related to SIGP and it takes the mutex
-> for other reasons.
+On Fri, 30 Oct 2020 at 20:34, Eric Blake <eblake@redhat.com> wrote:
+>
+> The following changes since commit 9a2ea4f4a7230fe224dee91d9adf2ef872c3d226:
+>
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-5.2-pull-request' into staging (2020-10-30 15:49:35 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/ericb.git tags/pull-nbd-2020-10-27-v2
+>
+> for you to fetch changes up to dbc7b01492371e4a54b92d2b6d968f9b863cc794:
+>
+>   nbd: Add 'qemu-nbd -A' to expose allocation depth (2020-10-30 15:22:00 -0500)
+>
+> v2: Respin to fix compilation error due to semantic merge conflict
+> (only the changed patch is resent)
+>
+> ----------------------------------------------------------------
+> nbd patches for 2020-10-27
+>
+> - Tweak the new block-export-add QMP command
+> - Allow multiple -B options for qemu-nbd
+> - Add qemu:allocation-depth metadata context as qemu-nbd -A
+> - Improve iotest use of NBD
+>
 
-SIGP does IPI but also triggers CPU reset, so it deals with timers in 
-some sense (reset). So looks like the right thing to do. Thanks!
 
-Acked-by: David Hildenbrand <david@redhat.com>
+Applied, thanks.
 
--- 
-Thanks,
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
 
-David / dhildenb
-
+-- PMM
 
