@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC9952A2D6F
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 15:54:55 +0100 (CET)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE542A2D5F
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 15:50:56 +0100 (CET)
+Received: from localhost ([::1]:42884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZbEU-0005uj-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 09:54:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44690)
+	id 1kZbAd-0002MS-GH
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 09:50:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kZbB0-0003wM-I6
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:51:18 -0500
-Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:12148)
+ id 1kZb8k-0001AA-NX
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:49:00 -0500
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:55265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <anthony.perard@citrix.com>)
- id 1kZbAy-0008Ag-Kb
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:51:18 -0500
+ id 1kZb8d-0007AW-GM
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 09:48:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1604328676;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=VYe8Nw9tlBA8T+IdMSfAkXhMnrcsIZd0xQD6GPGdT44=;
- b=BScjE7AQ7qTMmDTFwDTMXKOiugpXQSISCAcWCTUGPj2P4FA+vhT9VY5J
- B5XIn3NMh2gmoJ421XlVmwulsxXgv5gXRCrRdeEHKxkQaFwh+/EzBb0p5
- 0SxKlRNRseNtRRcXRohyFhHmGpRMf9qQEBdxKgWlgrV7olhypr7TMvbAk Q=;
+ d=citrix.com; s=securemail; t=1604328531;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=O4lN/nFPj6Dg10BjrFvx6wJqgawoIv0G+MT9lnkXiOs=;
+ b=YTfz8sSCToW+7TFvOs0/3C+i+o75czUo0mrBUOQilF6dCAndebolWgVu
+ H0XIvWvGlOs+zOaTEYFv/D5Kh8afVuz+z2yLyjJl6DwBNLhRSWblkGGgN
+ fu8oj0AafZDa5XtOwnxKzalz9nLQuIFnvGHBCYGvqcFnG2TFp37LN6dhz M=;
 Authentication-Results: esa1.hc3370-68.iphmx.com;
  dkim=none (message not signed) header.i=none
-IronPort-SDR: 979c64Tij3E+/hS7kAp+6g5hstx69zr1ZTGK5F/XMxfLCeQJ72rzgwkNoDTEUoC4yiWjApBCGz
- aHa8gzcajTpADW81pimNx8UxwO4j1726ZNvmB0F3HkmFE4CJD6ttPYgTzlSaYfxtVNZhukkpCD
- G46J1ofuZQPlwu1NKs0TBQATJh0jrfO1LeCAxRF3znOaoAH6Jf1y3irrkcFue7P7NvAAfPCQsh
- nwAjA3i7Ke4m4/9HXfeSytDu6G7RfZLJLikguH7z7tWHtC0fGncJyCQZUidRpSkcvlP1/V40N/
- Fhc=
+IronPort-SDR: vdNO5e+VUc5koX0bchd+sTWRuGYSQINfwtJEM9uq9qmSuUK96i/aPZW6Dt2D5YYO3KuFFzjWq1
+ qT0KDXIr8gRmuiUFDfr9ay51ia/MItpkhFzgyilsxN8kzkjlLItUUDotVDtNWTh2ihTCBw7T6e
+ IV0CL65k6bqM8ztZ7PNprLBirCWlkn2omOEIWEN5mB6mp3A51n3YGIuBVtoC7ukvEDDcX8YmPn
+ 7iJuxPiVWiMehZT7AH1+//4i2rFg8ArSoGzzsXu35WR74goh/OIRBGMQyDB04UON71IahamkDQ
+ qzQ=
 X-SBRS: None
-X-MesageID: 30625594
+X-MesageID: 30625389
 X-Ironport-Server: esa1.hc3370-68.iphmx.com
 X-Remote-IP: 162.221.158.21
 X-Policy: $RELAYED
-X-IronPort-AV: E=Sophos;i="5.77,445,1596513600"; d="scan'208";a="30625594"
+X-IronPort-AV: E=Sophos;i="5.77,445,1596513600"; d="scan'208";a="30625389"
 To: <qemu-devel@nongnu.org>
 CC: Peter Maydell <peter.maydell@linaro.org>, Anthony PERARD
  <anthony.perard@citrix.com>
-Subject: [PULL 0/1] xen queue 2020-11-02
-Date: Mon, 2 Nov 2020 14:44:53 +0000
-Message-ID: <20201102144454.995592-1-anthony.perard@citrix.com>
+Subject: [PULL 1/1] xen: rework pci_piix3_xen_ide_unplug
+Date: Mon, 2 Nov 2020 14:44:54 +0000
+Message-ID: <20201102144454.995592-2-anthony.perard@citrix.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201102144454.995592-1-anthony.perard@citrix.com>
+References: <20201102144454.995592-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -78,28 +80,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to: Anthony PERARD <anthony.perard@citrix.com>
 From: Anthony PERARD via <qemu-devel@nongnu.org>
 
-The following changes since commit 2c6605389c1f76973d92b69b85d40d94b8f1092c:
+This is to allow IDE disks to be unplugged when adding to QEMU via:
+    -drive file=/root/disk_file,if=none,id=ide-disk0,format=raw
+    -device ide-hd,drive=ide-disk0,bus=ide.0,unit=0
 
-  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201101.0' into staging (2020-11-02 09:54:00 +0000)
+as the current code only works for disk added with:
+    -drive file=/root/disk_file,if=ide,index=0,media=disk,format=raw
 
-are available in the Git repository at:
+Since the code already have the IDE controller as `dev`, we don't need
+to use the legacy DriveInfo to find all the drive we want to unplug.
+We can simply use `blk` from the controller, as it kind of was already
+assume to be the same, by setting it to NULL.
 
-  https://xenbits.xen.org/git-http/people/aperard/qemu-dm.git tags/pull-xen-20201102
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 
-for you to fetch changes up to 045b1d4dbb44da67f1f86efa75b02843c0e951ef:
-
-  xen: rework pci_piix3_xen_ide_unplug (2020-11-02 11:56:55 +0000)
-
-----------------------------------------------------------------
-xen patch
-
-- Rework Xen disk unplug to work with newer command line
-  options.
-
-----------------------------------------------------------------
-Anthony PERARD (1):
-      xen: rework pci_piix3_xen_ide_unplug
-
+Acked-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+Message-Id: <20201027154058.495112-1-anthony.perard@citrix.com>
+Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
+---
  hw/ide/piix.c | 27 +++++++++++++--------------
  1 file changed, 13 insertions(+), 14 deletions(-)
+
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index b402a936362b..b9860e35a5c4 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -164,30 +164,29 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+ int pci_piix3_xen_ide_unplug(DeviceState *dev, bool aux)
+ {
+     PCIIDEState *pci_ide;
+-    DriveInfo *di;
+     int i;
+     IDEDevice *idedev;
++    IDEBus *idebus;
++    BlockBackend *blk;
+ 
+     pci_ide = PCI_IDE(dev);
+ 
+     for (i = aux ? 1 : 0; i < 4; i++) {
+-        di = drive_get_by_index(IF_IDE, i);
+-        if (di != NULL && !di->media_cd) {
+-            BlockBackend *blk = blk_by_legacy_dinfo(di);
+-            DeviceState *ds = blk_get_attached_dev(blk);
++        idebus = &pci_ide->bus[i / 2];
++        blk = idebus->ifs[i % 2].blk;
+ 
+-            blk_drain(blk);
+-            blk_flush(blk);
+-
+-            if (ds) {
+-                blk_detach_dev(blk, ds);
+-            }
+-            pci_ide->bus[di->bus].ifs[di->unit].blk = NULL;
++        if (blk && idebus->ifs[i % 2].drive_kind != IDE_CD) {
+             if (!(i % 2)) {
+-                idedev = pci_ide->bus[di->bus].master;
++                idedev = idebus->master;
+             } else {
+-                idedev = pci_ide->bus[di->bus].slave;
++                idedev = idebus->slave;
+             }
++
++            blk_drain(blk);
++            blk_flush(blk);
++
++            blk_detach_dev(blk, DEVICE(idedev));
++            idebus->ifs[i % 2].blk = NULL;
+             idedev->conf.blk = NULL;
+             monitor_remove_blk(blk);
+             blk_unref(blk);
+-- 
+Anthony PERARD
+
 
