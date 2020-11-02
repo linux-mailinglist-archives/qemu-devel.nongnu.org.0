@@ -2,70 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0B932A324E
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:53:42 +0100 (CET)
-Received: from localhost ([::1]:48842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94E62A31E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:45:18 +0100 (CET)
+Received: from localhost ([::1]:38502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZe1V-0007wZ-T0
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:53:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34274)
+	id 1kZdtN-0003BM-H5
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:45:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kZdza-0006uI-0L; Mon, 02 Nov 2020 12:51:42 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:36591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kZdzY-0003CN-DU; Mon, 02 Nov 2020 12:51:41 -0500
-Received: by mail-il1-x141.google.com with SMTP id p10so13726231ile.3;
- Mon, 02 Nov 2020 09:51:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gnK39zMRX750DqIj3DHvskbasklpdwswcibNrvwH+7Y=;
- b=bxpliuVtXeh0N4AXOdQ3T731dynaCRHKY7pIIsW/cfFitBG+PNevwYMIWlJwzXXmLR
- mR04MA+7YqJfqkAjwpdJP6EvkzrFoOPtZOWUvPYuELhka5woG7+NiKjtfFHhKWR+R1KC
- 0Lt3UXBms2NPjHvY+JRscnYC+avURjd8MaMyHkxLbwaxwzhKgClnLdRj6oz++f455eMm
- DM9C4TD6qVHOquQMRQLLL1q1j77l30uwlqMWUHyhzqDuGeVUg+5QO4+sRiVNKaQtrmt+
- IhpGk29jYj1gsT7AJBG8LKMKfxRxJRwsTSyB65uxgQFQUeKFe0R0ojWeEPCj3hl57KrV
- 5wLQ==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZdsR-0002jX-Ho
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:44:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31039)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZdsP-0002EE-K1
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:44:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604339056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9mjb6H4NvyFHwpcg6nWQkjOVtTi6BK+5QD1S2qqHl7Y=;
+ b=A/iDTVJ1ejvDgUOcPi1hlM7922rzJc5/+I+UTHDrunlJ5sWlMZsW53V54PSkNeOU2gdxzf
+ pqd0j82zS5apky44X+zeSemIf177beWws2VzS3V1VxvR6/C50FKa8tiimNe4hAwoVQBsZm
+ TrMQhkXYbLH0FSmt6hMU+Ppe02Aejc8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-283-QUizQ1shPhuplw2wHX4znw-1; Mon, 02 Nov 2020 12:44:14 -0500
+X-MC-Unique: QUizQ1shPhuplw2wHX4znw-1
+Received: by mail-wm1-f70.google.com with SMTP id o81so1045892wma.0
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:44:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gnK39zMRX750DqIj3DHvskbasklpdwswcibNrvwH+7Y=;
- b=IktX9mmThcx7i48+2pOdEUYXkDDrMhnUDNTOtvz+DYLECZ4YsA4ThTUVwx6QE/E5mP
- gqWhxHS2vhqkMkaRt5W/sgr+44sk65fRK7zRHlQ7MIQaVBTdtAt9j4QW/2zepKBnrEVS
- xPSfc6kjIFqywhTPuGng0I1glBs/URS2WXYFtUVhcWPOZHL8r3ujFe8S9b8kyNmx/MGb
- P5e7KY9EGJnGYO8lp/1V+LFrGhLEZbTAYgbNnxkfzHyUiNfr8eqLQrbdsvULzC/sBQYm
- /L2O9RISIei84CDKxmkg8LkfHagKkNhdga2J+9Ycqyq+1MWhWoI53WT3CIWYjZIK1fLq
- jLJw==
-X-Gm-Message-State: AOAM5333swjW2KEDJ4tBeS7BzRS9jh8ISK58KSxS/lGW7539mIKIPK2j
- saQoCN94DwXWpNjk11nB7up5nC5lIutCcHXyEKs=
-X-Google-Smtp-Source: ABdhPJwCNH3tH2f7gDkqadpi+5CMACZg7/b5UMdjeH3mwh0K3yVFQ4/U8Q3tRrVdgMJtFM8sb08T+QYteDV0mptD240=
-X-Received: by 2002:a05:6e02:f41:: with SMTP id
- y1mr12054296ilj.267.1604339498902; 
- Mon, 02 Nov 2020 09:51:38 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9mjb6H4NvyFHwpcg6nWQkjOVtTi6BK+5QD1S2qqHl7Y=;
+ b=Itr+fVjpVVT3E7nZFy5A9giZwvpROQPodPSodhHbe6M+JCTPMqLucLZp09yOFm8Lfm
+ pQQTupcfVkcQ6MMkME78pqQ8YRy8qFpbqtxGaGcDQKzIFkrZc4XfemaCThMx5EaTw3Ln
+ iCpLWvGlg7BECSF8ZU9Z0+bWmP9NHiugkPfC9n4Ts9+fLFuYu4WFfgp6QaqgEeaVNsxO
+ 2YlxjqkCMnFPxBAAG5dEC1fl6taPd1KerG6OZ9gAtEM4bGjSf/4vEnrhuKKbF9gJ5IpF
+ cbfdFL7boJby6BE+6rQz+63/HcTE3FRZCs1m1KwzuSILZwcne/awOJtB6v2mjkIa790S
+ MK+g==
+X-Gm-Message-State: AOAM530aBHv6Qv3HrJi6Tmley0UtTI+NW8I3zu0IPgcSr7HC7o3n9L75
+ cLf3Oj0GY0Or3tx0qyj4Va9k4LvluX7yseRg6a78MUVilmWRVaiN9rjHuM6Q40Dv4ftqKMR2n7K
+ rPz0i2hyKptpw/wc=
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr20014009wmb.129.1604339053390; 
+ Mon, 02 Nov 2020 09:44:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwdLo027Smfk5ZwfQjFGUAAtWi6PpifENT1CqY5UzqmAK/xlz4YJL0xXy4W4SK/cLju+csBiw==
+X-Received: by 2002:a1c:f002:: with SMTP id a2mr20013992wmb.129.1604339053147; 
+ Mon, 02 Nov 2020 09:44:13 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d3sm22318427wre.91.2020.11.02.09.44.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 09:44:12 -0800 (PST)
+Subject: Re: [PATCH v10 10/10] vfio: Don't issue full 2^64 unmap
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20201008171558.410886-1-jean-philippe@linaro.org>
+ <20201008171558.410886-11-jean-philippe@linaro.org>
+ <20201008152214.3cb1425b@w520.home>
+ <20201030062513-mutt-send-email-mst@kernel.org>
+ <20201030112622.0edaa660@w520.home>
+ <49788b62-ee5d-0b6f-36ff-3c2ba144df39@redhat.com>
+ <20201102103723.71fafca7@w520.home>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cf320b8e-d3a3-ae69-69ec-405bb58948ed@redhat.com>
+Date: Mon, 2 Nov 2020 18:44:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201030004815.4172849-1-zhangxinhao1@huawei.com>
-In-Reply-To: <20201030004815.4172849-1-zhangxinhao1@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 2 Nov 2020 09:39:43 -0800
-Message-ID: <CAKmqyKNiyTTWHOdgxsoQoFoDX7XN2Vdjz7oXyMtx8JEXiFwpcw@mail.gmail.com>
-Subject: Re: [PATCH] target/riscv/csr.c : add space before the open
- parenthesis '('
-To: Xinhao Zhang <zhangxinhao1@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201102103723.71fafca7@w520.home>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 01:33:03
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,47 +107,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- alex.chen@huawei.com, Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, "dengkai \(A\)" <dengkai1@huawei.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ peterx@redhat.com, eric.auger@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 29, 2020 at 5:56 PM Xinhao Zhang <zhangxinhao1@huawei.com> wrote:
->
-> Fix code style. Space required before the open parenthesis '('.
->
-> Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-> Signed-off-by: Kai Deng <dengkai1@huawei.com>
-> Reported-by: Euler Robot <euler.robot@huawei.com>
+On 02/11/20 18:37, Alex Williamson wrote:
+> I think we still have the issue at the vfio ioctl which takes __u64 iova
+> and size parameters, in bytes.  Therefore we cannot unmap an entire
+> 64-bit address space with a single ioctl call.  We'd need to make use
+> of a flag to modify the ioctl behavior to work terms of some page size
+> to achieve this, for example if iova and size were in terms of 4K
+> pages, we wouldn't have this issue.  Thanks,
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+What happens to the last page if size is unaligned (e.g. iova==0, size==
+2^64-1)?
 
-Alistair
+Paolo
 
-> ---
->  target/riscv/csr.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index aaef6c6f20..e8b149f0d2 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -881,7 +881,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
->          if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
->              return -RISCV_EXCP_ILLEGAL_INST;
->          } else {
-> -            if((val ^ env->satp) & SATP_ASID) {
-> +            if ((val ^ env->satp) & SATP_ASID) {
->                  tlb_flush(env_cpu(env));
->              }
->              env->satp = val;
-> --
-> 2.29.0-rc1
->
->
 
