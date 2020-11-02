@@ -2,81 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70ED2A34FE
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:16:22 +0100 (CET)
-Received: from localhost ([::1]:35776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 806C12A3514
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 21:27:09 +0100 (CET)
+Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZgFZ-0004qD-QG
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:16:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39978)
+	id 1kZgQ0-0001cl-37
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 15:27:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZgCc-0003bb-Ie
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:13:18 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35721)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kZgOc-0001Cw-Rz
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:25:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57866)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZgCZ-0004NQ-W7
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:13:18 -0500
-Received: by mail-wr1-x434.google.com with SMTP id n15so16107656wrq.2
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 12:13:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zJvN3LgH+5e54B3iKgw/oQMGpwPMQdEXv28RMQDjV8E=;
- b=hSuRzfGYfjYvvLUCh0B0BFkF7OsnQ50w7NrQj7PfF1+ubryOFlIRNJnZVWO2xGDewg
- 3ko6jUvqHoVLJrYUs68MBSyoSVPmlQIxK8/hCdgMhbuNB+iPG7B7GdeuIIjh33oVBTTF
- QpqsewnFY3XhIdng05TA/Brj3LL8FNP7vhcJ0noqyCJ+vOZno5nKaSXtI7A+N8sLCXdR
- qAwrkjT4hbqANZaZT1YO/AZ4Scxt9qtR6ZQubADSirL4S7NpCBwEeeL78ZdH7l6r0zw2
- k9KbGwHgotjZ9YJRHpgUhV/H/AOvzRAH001qAega91shS/wS5SXUXLGLXlwGyAV7/pbp
- oepA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=zJvN3LgH+5e54B3iKgw/oQMGpwPMQdEXv28RMQDjV8E=;
- b=jJ5B2zStXkyu2fqvMWw0yxq6SIUyn8CToIMaJh8q214MCDnwKJgZ+9R7uePj4l4IBL
- 5OGQ0rC+d1hO+yDzv1AV6nYFOvfCtd49tp7IdTsg9xlt8Q5rYfu7/Coz5HiywR9yOf2h
- ODvzrCwHWZycW3wPoUCCFcQe/1+zjm/Njk8o57CtgqebTS/Vfx1Gei5IDRE2Gtb6pcsR
- 5uNjyiqQRcWkn+pRDBTV/bLaTvBy7wW8HLwf3DjTYLIIuO1XAxuyZVb3dBMvLKrSNDp2
- jmsU1M8A5N5o6Dy/k4v2RNwEksM2P6YmXT5XbeFhzVJgOJJsa+Tyr2csQWdKZ2iFhxgZ
- bLBQ==
-X-Gm-Message-State: AOAM533hRiDhPpgbvt9kpWYt0H0Y/8ZCRAkN4eyVqBPp5jaOMrCo/2Mb
- m08EIRwQyCcngdONAx9ulkQg1sh36NU=
-X-Google-Smtp-Source: ABdhPJwjvPId/u3QSNvVoj/ZU1oBW6fGAAt/TJrgRnLlrOdWCV21wDbO52fJSOIX8i5W000MXOvyGQ==
-X-Received: by 2002:adf:fec8:: with SMTP id q8mr23087464wrs.64.1604347993867; 
- Mon, 02 Nov 2020 12:13:13 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id 30sm23372680wrs.84.2020.11.02.12.13.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 12:13:13 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v3] hw/mips: Remove the 'r4k' machine
-Date: Mon,  2 Nov 2020 21:13:11 +0100
-Message-Id: <20201102201311.2220005-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kZgOY-0005sz-VU
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 15:25:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kZgOX-00061F-4Q
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 20:25:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1EC6E2E804B
+ for <qemu-devel@nongnu.org>; Mon,  2 Nov 2020 20:25:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Nov 2020 20:16:38 -0000
+From: "Dr. David Alan Gilbert" <1902470@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dgilbert-h yanjin
+X-Launchpad-Bug-Reporter: Yan Jin (yanjin)
+X-Launchpad-Bug-Modifier: Dr. David Alan Gilbert (dgilbert-h)
+References: <160428587851.31102.18083040677647005532.malonedeb@gac.canonical.com>
+Message-Id: <20201102201638.GD4845@work-vm>
+Subject: Re: [Bug 1902470] Re: migration with TLS-MultiFD is stuck when the
+ dst-libvirtd service restarts
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="96ff31b88b65a0d0ea73b89333fe7c4a2669d8fb"; Instance="production"
+X-Launchpad-Hash: 4615470550ac94400cb78c10c6b453c73d0c248d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 15:25:37
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -85,455 +72,685 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1902470 <1902470@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We deprecated the support for the 'r4k' machine for the 5.0 release
-(commit d32dc61421), which means that our deprecation policy allows
-us to drop it in release 5.2. Remove the code.
+* zhengchuan (zhengchuan@huawei.com) wrote:
+> Anyone who could help this would be appreciated since we have stuck for t=
+hree days:(
+> =
 
-To repeat the rationale from the deprecation note:
-- this virtual machine has no specification
-- the Linux kernel dropped support for it 10 years ago
+> IIUC, the client (Src) has sent first hello message to sever(Dst), howeve=
+r due to something happened while restarted libvirtd,
+> The messages is lost, and both of them are waiting which leading to hang =
+forever, but I could find out how for now.
 
-Users are recommended to use the Malta board instead.
+If you need to un-break things, I suggest killing the destination might
+free it; but I'm not sure.
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
-v3: Move to "Recently removed features" section
----
- docs/system/deprecated.rst                    |  12 +-
- .../devices/mips-softmmu-common.mak           |   1 -
- hw/mips/r4k.c                                 | 318 ------------------
- MAINTAINERS                                   |   6 -
- hw/mips/Kconfig                               |  13 -
- hw/mips/meson.build                           |   1 -
- 6 files changed, 6 insertions(+), 345 deletions(-)
- delete mode 100644 hw/mips/r4k.c
+An interesting question is if we can make migration-cancel work in this
+case.
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 0ebce37a191..e5b7cf274d3 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -327,12 +327,6 @@ The 'scsi-disk' device is deprecated. Users should use 'scsi-hd' or
- System emulator machines
- ------------------------
- 
--mips ``r4k`` platform (since 5.0)
--'''''''''''''''''''''''''''''''''
--
--This machine type is very old and unmaintained. Users should use the ``malta``
--machine type instead.
--
- mips ``fulong2e`` machine (since 5.1)
- '''''''''''''''''''''''''''''''''''''
- 
-@@ -575,6 +569,12 @@ The version specific Spike machines have been removed in favour of the
- generic ``spike`` machine. If you need to specify an older version of the RISC-V
- spec you can use the ``-cpu rv64gcsu,priv_spec=v1.10.0`` command line argument.
- 
-+mips ``r4k`` platform (removed in 5.2)
-+''''''''''''''''''''''''''''''''''''''
-+
-+This machine type is very old and unmaintained. Users should use the ``malta``
-+machine type instead.
-+
- Related binaries
- ----------------
- 
-diff --git a/default-configs/devices/mips-softmmu-common.mak b/default-configs/devices/mips-softmmu-common.mak
-index da29c6c0b24..ea78fe72759 100644
---- a/default-configs/devices/mips-softmmu-common.mak
-+++ b/default-configs/devices/mips-softmmu-common.mak
-@@ -33,7 +33,6 @@ CONFIG_MC146818RTC=y
- CONFIG_EMPTY_SLOT=y
- CONFIG_MIPS_CPS=y
- CONFIG_MIPS_ITU=y
--CONFIG_R4K=y
- CONFIG_MALTA=y
- CONFIG_PCNET_PCI=y
- CONFIG_MIPSSIM=y
-diff --git a/hw/mips/r4k.c b/hw/mips/r4k.c
-deleted file mode 100644
-index 38308543421..00000000000
---- a/hw/mips/r4k.c
-+++ /dev/null
-@@ -1,318 +0,0 @@
--/*
-- * QEMU/MIPS pseudo-board
-- *
-- * emulates a simple machine with ISA-like bus.
-- * ISA IO space mapped to the 0x14000000 (PHYS) and
-- * ISA memory at the 0x10000000 (PHYS, 16Mb in size).
-- * All peripherial devices are attached to this "bus" with
-- * the standard PC ISA addresses.
-- */
--
--#include "qemu/osdep.h"
--#include "qemu/units.h"
--#include "qapi/error.h"
--#include "qemu-common.h"
--#include "cpu.h"
--#include "hw/clock.h"
--#include "hw/mips/mips.h"
--#include "hw/mips/cpudevs.h"
--#include "hw/intc/i8259.h"
--#include "hw/char/serial.h"
--#include "hw/isa/isa.h"
--#include "net/net.h"
--#include "hw/net/ne2000-isa.h"
--#include "sysemu/sysemu.h"
--#include "hw/boards.h"
--#include "hw/block/flash.h"
--#include "qemu/log.h"
--#include "hw/mips/bios.h"
--#include "hw/ide.h"
--#include "hw/ide/internal.h"
--#include "hw/loader.h"
--#include "elf.h"
--#include "hw/rtc/mc146818rtc.h"
--#include "hw/input/i8042.h"
--#include "hw/timer/i8254.h"
--#include "exec/address-spaces.h"
--#include "sysemu/qtest.h"
--#include "sysemu/reset.h"
--#include "sysemu/runstate.h"
--#include "qemu/error-report.h"
--
--#define MAX_IDE_BUS 2
--
--static const int ide_iobase[2] = { 0x1f0, 0x170 };
--static const int ide_iobase2[2] = { 0x3f6, 0x376 };
--static const int ide_irq[2] = { 14, 15 };
--
--static ISADevice *pit; /* PIT i8254 */
--
--/* i8254 PIT is attached to the IRQ0 at PIC i8259 */
--
--static struct _loaderparams {
--    int ram_size;
--    const char *kernel_filename;
--    const char *kernel_cmdline;
--    const char *initrd_filename;
--} loaderparams;
--
--static void mips_qemu_write(void *opaque, hwaddr addr,
--                            uint64_t val, unsigned size)
--{
--    if ((addr & 0xffff) == 0 && val == 42) {
--        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
--    } else if ((addr & 0xffff) == 4 && val == 42) {
--        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
--    }
--}
--
--static uint64_t mips_qemu_read(void *opaque, hwaddr addr,
--                               unsigned size)
--{
--    return 0;
--}
--
--static const MemoryRegionOps mips_qemu_ops = {
--    .read = mips_qemu_read,
--    .write = mips_qemu_write,
--    .endianness = DEVICE_NATIVE_ENDIAN,
--};
--
--typedef struct ResetData {
--    MIPSCPU *cpu;
--    uint64_t vector;
--} ResetData;
--
--static int64_t load_kernel(void)
--{
--    const size_t params_size = 264;
--    int64_t entry, kernel_high, initrd_size;
--    long kernel_size;
--    ram_addr_t initrd_offset;
--    uint32_t *params_buf;
--    int big_endian;
--
--#ifdef TARGET_WORDS_BIGENDIAN
--    big_endian = 1;
--#else
--    big_endian = 0;
--#endif
--    kernel_size = load_elf(loaderparams.kernel_filename, NULL,
--                           cpu_mips_kseg0_to_phys, NULL,
--                           (uint64_t *)&entry, NULL,
--                           (uint64_t *)&kernel_high, NULL, big_endian,
--                           EM_MIPS, 1, 0);
--    if (kernel_size < 0) {
--        error_report("could not load kernel '%s': %s",
--                     loaderparams.kernel_filename,
--                     load_elf_strerror(kernel_size));
--        exit(1);
--    }
--
--    /* load initrd */
--    initrd_size = 0;
--    initrd_offset = 0;
--    if (loaderparams.initrd_filename) {
--        initrd_size = get_image_size(loaderparams.initrd_filename);
--        if (initrd_size > 0) {
--            initrd_offset = ROUND_UP(kernel_high, INITRD_PAGE_SIZE);
--            if (initrd_offset + initrd_size > ram_size) {
--                error_report("memory too small for initial ram disk '%s'",
--                             loaderparams.initrd_filename);
--                exit(1);
--            }
--            initrd_size = load_image_targphys(loaderparams.initrd_filename,
--                                              initrd_offset,
--                                              ram_size - initrd_offset);
--        }
--        if (initrd_size == (target_ulong) -1) {
--            error_report("could not load initial ram disk '%s'",
--                         loaderparams.initrd_filename);
--            exit(1);
--        }
--    }
--
--    /* Store command line.  */
--    params_buf = g_malloc(params_size);
--
--    params_buf[0] = tswap32(ram_size);
--    params_buf[1] = tswap32(0x12345678);
--
--    if (initrd_size > 0) {
--        snprintf((char *)params_buf + 8, 256,
--                 "rd_start=0x%" PRIx64 " rd_size=%" PRId64 " %s",
--                 cpu_mips_phys_to_kseg0(NULL, initrd_offset),
--                 initrd_size, loaderparams.kernel_cmdline);
--    } else {
--        snprintf((char *)params_buf + 8, 256,
--        "%s", loaderparams.kernel_cmdline);
--    }
--
--    rom_add_blob_fixed("params", params_buf, params_size,
--                       16 * MiB - params_size);
--
--    g_free(params_buf);
--    return entry;
--}
--
--static void main_cpu_reset(void *opaque)
--{
--    ResetData *s = (ResetData *)opaque;
--    CPUMIPSState *env = &s->cpu->env;
--
--    cpu_reset(CPU(s->cpu));
--    env->active_tc.PC = s->vector;
--}
--
--static const int sector_len = 32 * KiB;
--static
--void mips_r4k_init(MachineState *machine)
--{
--    const char *kernel_filename = machine->kernel_filename;
--    const char *kernel_cmdline = machine->kernel_cmdline;
--    const char *initrd_filename = machine->initrd_filename;
--    char *filename;
--    MemoryRegion *address_space_mem = get_system_memory();
--    MemoryRegion *bios;
--    MemoryRegion *iomem = g_new(MemoryRegion, 1);
--    MemoryRegion *isa_io = g_new(MemoryRegion, 1);
--    MemoryRegion *isa_mem = g_new(MemoryRegion, 1);
--    int bios_size;
--    Clock *cpuclk;
--    MIPSCPU *cpu;
--    CPUMIPSState *env;
--    ResetData *reset_info;
--    int i;
--    qemu_irq *i8259;
--    ISABus *isa_bus;
--    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
--    DriveInfo *dinfo;
--    int be;
--
--    cpuclk = clock_new(OBJECT(machine), "cpu-refclk");
--    clock_set_hz(cpuclk, 200000000); /* 200 MHz */
--
--    /* init CPUs */
--    cpu = mips_cpu_create_with_clock(machine->cpu_type, cpuclk);
--    env = &cpu->env;
--
--    reset_info = g_malloc0(sizeof(ResetData));
--    reset_info->cpu = cpu;
--    reset_info->vector = env->active_tc.PC;
--    qemu_register_reset(main_cpu_reset, reset_info);
--
--    /* allocate RAM */
--    if (machine->ram_size > 256 * MiB) {
--        error_report("Too much memory for this machine: %" PRId64 "MB,"
--                     " maximum 256MB", ram_size / MiB);
--        exit(1);
--    }
--    memory_region_add_subregion(address_space_mem, 0, machine->ram);
--
--    memory_region_init_io(iomem, NULL, &mips_qemu_ops,
--                          NULL, "mips-qemu", 0x10000);
--
--    memory_region_add_subregion(address_space_mem, 0x1fbf0000, iomem);
--
--    /*
--     * Try to load a BIOS image. If this fails, we continue regardless,
--     * but initialize the hardware ourselves. When a kernel gets
--     * preloaded we also initialize the hardware, since the BIOS wasn't
--     * run.
--     */
--
--    if (bios_name == NULL) {
--        bios_name = BIOS_FILENAME;
--    }
--    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_name);
--    if (filename) {
--        bios_size = get_image_size(filename);
--    } else {
--        bios_size = -1;
--    }
--#ifdef TARGET_WORDS_BIGENDIAN
--    be = 1;
--#else
--    be = 0;
--#endif
--    dinfo = drive_get(IF_PFLASH, 0, 0);
--    if ((bios_size > 0) && (bios_size <= BIOS_SIZE)) {
--        bios = g_new(MemoryRegion, 1);
--        memory_region_init_rom(bios, NULL, "mips_r4k.bios", BIOS_SIZE,
--                               &error_fatal);
--        memory_region_add_subregion(get_system_memory(), 0x1fc00000, bios);
--
--        load_image_targphys(filename, 0x1fc00000, BIOS_SIZE);
--    } else if (dinfo != NULL) {
--        uint32_t mips_rom = 0x00400000;
--        if (!pflash_cfi01_register(0x1fc00000, "mips_r4k.bios", mips_rom,
--                                   blk_by_legacy_dinfo(dinfo),
--                                   sector_len, 4, 0, 0, 0, 0, be)) {
--            fprintf(stderr, "qemu: Error registering flash memory.\n");
--        }
--    } else if (!qtest_enabled()) {
--        /* not fatal */
--        warn_report("could not load MIPS bios '%s'", bios_name);
--    }
--    g_free(filename);
--
--    if (kernel_filename) {
--        loaderparams.ram_size = machine->ram_size;
--        loaderparams.kernel_filename = kernel_filename;
--        loaderparams.kernel_cmdline = kernel_cmdline;
--        loaderparams.initrd_filename = initrd_filename;
--        reset_info->vector = load_kernel();
--    }
--
--    /* Init CPU internal devices */
--    cpu_mips_irq_init_cpu(cpu);
--    cpu_mips_clock_init(cpu);
--
--    /* ISA bus: IO space at 0x14000000, mem space at 0x10000000 */
--    memory_region_init_alias(isa_io, NULL, "isa-io",
--                             get_system_io(), 0, 0x00010000);
--    memory_region_init(isa_mem, NULL, "isa-mem", 0x01000000);
--    memory_region_add_subregion(get_system_memory(), 0x14000000, isa_io);
--    memory_region_add_subregion(get_system_memory(), 0x10000000, isa_mem);
--    isa_bus = isa_bus_new(NULL, isa_mem, get_system_io(), &error_abort);
--
--    /* The PIC is attached to the MIPS CPU INT0 pin */
--    i8259 = i8259_init(isa_bus, env->irq[2]);
--    isa_bus_irqs(isa_bus, i8259);
--
--    mc146818_rtc_init(isa_bus, 2000, NULL);
--
--    pit = i8254_pit_init(isa_bus, 0x40, 0, NULL);
--
--    serial_hds_isa_init(isa_bus, 0, MAX_ISA_SERIAL_PORTS);
--
--    isa_vga_init(isa_bus);
--
--    if (nd_table[0].used) {
--        isa_ne2000_init(isa_bus, 0x300, 9, &nd_table[0]);
--    }
--
--    ide_drive_get(hd, ARRAY_SIZE(hd));
--    for (i = 0; i < MAX_IDE_BUS; i++)
--        isa_ide_init(isa_bus, ide_iobase[i], ide_iobase2[i], ide_irq[i],
--                     hd[MAX_IDE_DEVS * i],
--                     hd[MAX_IDE_DEVS * i + 1]);
--
--    isa_create_simple(isa_bus, TYPE_I8042);
--}
--
--static void mips_machine_init(MachineClass *mc)
--{
--    mc->deprecation_reason = "use malta machine type instead";
--    mc->desc = "mips r4k platform";
--    mc->init = mips_r4k_init;
--    mc->block_default_type = IF_IDE;
--#ifdef TARGET_MIPS64
--    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("R4000");
--#else
--    mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
--#endif
--    mc->default_ram_id = "mips_r4k.ram";
--}
--
--DEFINE_MACHINE("mips", mips_machine_init)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8c744a9bdf4..77a67becc1f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1138,12 +1138,6 @@ S: Orphaned
- F: hw/mips/mipssim.c
- F: hw/net/mipsnet.c
- 
--R4000
--R: Aurelien Jarno <aurelien@aurel32.net>
--R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
--S: Obsolete
--F: hw/mips/r4k.c
--
- Fuloong 2E
- M: Huacai Chen <chenhc@lemote.com>
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-diff --git a/hw/mips/Kconfig b/hw/mips/Kconfig
-index 67d39c56a4e..8be70122f4c 100644
---- a/hw/mips/Kconfig
-+++ b/hw/mips/Kconfig
-@@ -1,16 +1,3 @@
--config R4K
--    bool
--    select ISA_BUS
--    select SERIAL_ISA
--    select I8259
--    select I8254
--    select MC146818RTC
--    imply VGA_ISA
--    imply NE2000_ISA
--    select IDE_ISA
--    select PCKBD
--    select PFLASH_CFI01
--
- config MALTA
-     bool
-     select ISA_SUPERIO
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index 46294b7382f..bcdf96be69f 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -6,6 +6,5 @@
- mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
- mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
- mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
--mips_ss.add(when: 'CONFIG_R4K', if_true: files('r4k.c'))
- 
- hw_arch += {'mips': mips_ss}
--- 
-2.26.2
+Dave
 
+> -----Original Message-----
+> From: Qemu-devel [mailto:qemu-devel-bounces+zhengchuan=3Dhuawei.com@nongn=
+u.org] On Behalf Of Yan Jin
+> Sent: 2020=E5=B9=B411=E6=9C=882=E6=97=A5 11:12
+> To: qemu-devel@nongnu.org
+> Subject: [Bug 1902470] Re: migration with TLS-MultiFD is stuck when the d=
+st-libvirtd service restarts
+> =
+
+> ** Description changed:
+> =
+
+>   hi,
+>   =
+
+>   I found that the multi-channel TLS-handshake will be stuck when the dst-
+>   libvirtd restarts, both the src and dst sockets are blocked in recvmsg.
+>   In the meantime, live_migration thread is blocked in
+>   multifd_send_sync_main, so migration cannot be cancelled though src-
+>   libvirt has delivered the QMP command.
+>   =
+
+>   Is there any way to exit migration when the multi-channel TLS-handshake
+> - is stuck? Does setting TLS handshake timeout function take effect?
+> + is stuck? Does setting TLS-handshake timeout function take effect?
+>   =
+
+>   The stack trace are as follows:
+>   =
+
+>   =3D=3D=3D=3D=3Dsrc qemu-system-aar stack=3D=3D=3D=3D=3D:
+>   #0  0x0000ffff87d6f28c in recvmsg () from target:/usr/lib64/libpthread.=
+so.0
+>   #1  0x0000aaaae3817424 in qio_channel_socket_readv (ioc=3D0xaaaae9e30a3=
+0, iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ..=
+/io/channel-socket.c:502
+>   #2  0x0000aaaae380f468 in qio_channel_readv_full (ioc=3D0xaaaae9e30a30,=
+ iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel.c:66
+>   #3  0x0000aaaae380f9e8 in qio_channel_read (ioc=3D0xaaaae9e30a30, buf=
+=3D0xaaaaea204e9b "\026\003\001\001L\001", buflen=3D5, errp=3D0x0) at ../io=
+/channel.c:217
+>   #4  0x0000aaaae380e7d4 in qio_channel_tls_read_handler (buf=3D0xaaaaea2=
+04e9b "\026\003\001\001L\001", len=3D5, opaque=3D0xfffd38001190) at ../io/c=
+hannel-tls.c:53
+>   #5  0x0000aaaae3801114 in qcrypto_tls_session_pull (opaque=3D0xaaaae99d=
+5700, buf=3D0xaaaaea204e9b, len=3D5) at ../crypto/tlssession.c:89
+>   #6  0x0000ffff8822ed30 in _gnutls_stream_read (ms=3D0xffffdb58eaac, pul=
+l_func=3D0xfffd38001870, size=3D5, bufel=3D<synthetic pointer>, session=3D0=
+xaaaae983cd60) at buffers.c:346
+>   #7  _gnutls_read (ms=3D0xffffdb58eaac, pull_func=3D0xfffd38001870, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaae983cd60) at buffers.c:4=
+26
+>   #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaae983cd60,=
+ total=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xffffdb58eaac) =
+at buffers.c:581
+>   #9  0x0000ffff88224954 in recv_headers (ms=3D<optimized out>, record=3D=
+0xffff883cd000 <gnutls_x509_ext_export_name_constraints@got.plt>, htype=3D6=
+5535, type=3D2284006288, record_params=3D0xaaaae9e22a60, session=3D0xaaaae9=
+83cd60) at record.c:1163
+>   #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaae983cd60, =
+type=3D2284006288, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entr=
+y=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST, ms=3D<optimized out>, ms@entry=3D=
+0) at record.c:1302
+>   #11 0x0000ffff88230568 in _gnutls_handshake_io_recv_int (session=3Dsess=
+ion@entry=3D0xaaaae983cd60, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RE=
+TRY_REQUEST, hsk=3Dhsk@entry=3D0xffffdb58ec38, optional=3Doptional@entry=3D=
+1) at buffers.c:1445
+>   #12 0x0000ffff88232b90 in _gnutls_recv_handshake (session=3Dsession@ent=
+ry=3D0xaaaae983cd60, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUE=
+ST, optional=3Doptional@entry=3D1, buf=3Dbuf@entry=3D0x0) at handshake.c:15=
+34
+>   #13 0x0000ffff88235b40 in handshake_client (session=3Dsession@entry=3D0=
+xaaaae983cd60) at handshake.c:2925
+>   #14 0x0000ffff88237824 in gnutls_handshake (session=3D0xaaaae983cd60) a=
+t handshake.c:2739
+>   #15 0x0000aaaae380213c in qcrypto_tls_session_handshake (session=3D0xaa=
+aae99d5700, errp=3D0xffffdb58ee58) at ../crypto/tlssession.c:493
+>   #16 0x0000aaaae380ea40 in qio_channel_tls_handshake_task (ioc=3D0xfffd3=
+8001190, task=3D0xaaaaea61d4e0, context=3D0x0) at ../io/channel-tls.c:161
+>   #17 0x0000aaaae380ec60 in qio_channel_tls_handshake (ioc=3D0xfffd380011=
+90, func=3D0xaaaae3394d20 <multifd_tls_outgoing_handshake>, opaque=3D0xaaaa=
+ea189c30, destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+>   #18 0x0000aaaae3394e78 in multifd_tls_channel_connect (p=3D0xaaaaea189c=
+30, ioc=3D0xaaaae9e30a30, errp=3D0xffffdb58ef28) at ../migration/multifd.c:=
+782
+>   #19 0x0000aaaae3394f30 in multifd_channel_connect (p=3D0xaaaaea189c30, =
+ioc=3D0xaaaae9e30a30, error=3D0x0) at ../migration/multifd.c:804
+>   #20 0x0000aaaae33950b8 in multifd_new_send_channel_async (task=3D0xaaaa=
+ea6855a0, opaque=3D0xaaaaea189c30) at ../migration/multifd.c:858
+>   #21 0x0000aaaae3810cf8 in qio_task_complete (task=3D0xaaaaea6855a0) at =
+../io/task.c:197
+>   #22 0x0000aaaae381096c in qio_task_thread_result (opaque=3D0xaaaaea6855=
+a0) at ../io/task.c:112
+>   #23 0x0000ffff88701df8 in ?? () from target:/usr/lib64/libglib-2.0.so.0
+>   #24 0x0000ffff88705a7c in g_main_context_dispatch () from target:/usr/l=
+ib64/libglib-2.0.so.0
+>   #25 0x0000aaaae3a5a29c in glib_pollfds_poll () at ../util/main-loop.c:2=
+21
+>   #26 0x0000aaaae3a5a324 in os_host_main_loop_wait (timeout=3D0) at ../ut=
+il/main-loop.c:244
+>   #27 0x0000aaaae3a5a444 in main_loop_wait (nonblocking=3D0) at ../util/m=
+ain-loop.c:520
+>   #28 0x0000aaaae3696b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+>   #29 0x0000aaaae30949e4 in main (argc=3D81, argv=3D0xffffdb58f2c8, envp=
+=3D0xffffdb58f558) at ../softmmu/main.c:50
+>   =
+
+>   =3D=3D=3D=3D=3Dsrc live_migration stack=3D=3D=3D=3D=3D:
+>   #0  0x0000ffff87d6a5d8 in pthread_cond_wait () from target:/usr/lib64/l=
+ibpthread.so.0
+>   #1  0x0000aaaae3a5f3ec in qemu_sem_wait (sem=3D0xaaaaea189d40) at ../ut=
+il/qemu-thread-posix.c:328
+>   #2  0x0000aaaae3394838 in multifd_send_sync_main (f=3D0xaaaae983f0e0) a=
+t ../migration/multifd.c:638
+>   #3  0x0000aaaae37de310 in ram_save_setup (f=3D0xaaaae983f0e0, opaque=3D=
+0xaaaae4198708 <ram_state>) at ../migration/ram.c:2588
+>   #4  0x0000aaaae31cf7ac in qemu_savevm_state_setup (f=3D0xaaaae983f0e0) =
+at ../migration/savevm.c:1176
+>   #5  0x0000aaaae3248360 in migration_thread (opaque=3D0xaaaae9829f20) at=
+ ../migration/migration.c:3521
+>   #6  0x0000aaaae3a5f8fc in qemu_thread_start (args=3D0xaaaaea513ee0) at =
+../util/qemu-thread-posix.c:521
+>   #7  0x0000ffff87d647ac in ?? () from target:/usr/lib64/libpthread.so.0
+>   #8  0x0000ffff87cba6ec in ?? () from target:/usr/lib64/libc.so.6
+>   =
+
+>   =3D=3D=3D=3D=3Ddst qemu-system-aar stack=3D=3D=3D=3D=3D:
+>   #0  0x0000ffff7f17d28c in recvmsg () from target:/usr/lib64/libpthread.=
+so.0
+>   #1  0x0000aaaae263a424 in qio_channel_socket_readv (ioc=3D0xaaaaf998a80=
+0, iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ..=
+/io/channel-socket.c:502
+>   #2  0x0000aaaae2632468 in qio_channel_readv_full (ioc=3D0xaaaaf998a800,=
+ iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel.c:66
+>   #3  0x0000aaaae26329e8 in qio_channel_read (ioc=3D0xaaaaf998a800, buf=
+=3D0xaaaafa926dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5=
+I\247(N(K=3D\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\0=
+25R.\244\205\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\=
+247\032\354+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0=
+\036\223\022\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\27=
+2\025_\305s\372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\=
+203}\353\324A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334=
+&=3D\333>\212=C6=8FE\214]_\372\264]"..., buflen=3D5, errp=3D0x0) at ../io/c=
+hannel.c:217
+>   #4  0x0000aaaae26317d4 in qio_channel_tls_read_handler (buf=3D0xaaaafa9=
+26dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\247(N(K=3D=
+\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.\244\205=
+\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\032\354+=
+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036\223\022=
+\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\025_\305s\=
+372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}\353\324=
+A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D\333>\21=
+2=C6=8FE\214]_\372\264]"..., len=3D5, opaque=3D0xaaaaf9c4c400) at ../io/cha=
+nnel-tls.c:53
+>   #5  0x0000aaaae2624114 in qcrypto_tls_session_pull (opaque=3D0xaaaafa4a=
+3d90, buf=3D0xaaaafa926dbb, len=3D5) at ../crypto/tlssession.c:89
+>   #6  0x0000ffff7f63cd30 in _gnutls_stream_read (ms=3D0xfffff5d2317c, pul=
+l_func=3D0xaaaafa81a380, size=3D5, bufel=3D<synthetic pointer>, session=3D0=
+xaaaafa58b9d0) at buffers.c:346
+>   #7  _gnutls_read (ms=3D0xfffff5d2317c, pull_func=3D0xaaaafa81a380, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaafa58b9d0) at buffers.c:4=
+26
+>   #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaafa58b9d0,=
+ total=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xfffff5d2317c) =
+at buffers.c:581
+>   #9  0x0000ffff7f632954 in recv_headers (ms=3D<optimized out>, record=3D=
+0x1ee2a9fa78, htype=3D65535, type=3D2137262992, record_params=3D0xaaaafa4b7=
+1a0, session=3D0xaaaafa58b9d0) at record.c:1163
+>   #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaafa58b9d0, =
+type=3D2137262992, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entr=
+y=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, ms=3D<optimized out>, ms@entry=3D0) at r=
+ecord.c:1302
+>   #11 0x0000ffff7f63e568 in _gnutls_handshake_io_recv_int (session=3Dsess=
+ion@entry=3D0xaaaafa58b9d0, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_H=
+ELLO, hsk=3Dhsk@entry=3D0xfffff5d23308, optional=3Doptional@entry=3D0) at b=
+uffers.c:1445
+>   #12 0x0000ffff7f640b90 in _gnutls_recv_handshake (session=3Dsession@ent=
+ry=3D0xaaaafa58b9d0, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, opt=
+ional=3Doptional@entry=3D0, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
+>   #13 0x0000ffff7f645f18 in handshake_server (session=3D<optimized out>) =
+at handshake.c:3351
+>   #14 gnutls_handshake (session=3D0xaaaafa58b9d0) at handshake.c:2742
+>   #15 0x0000aaaae262513c in qcrypto_tls_session_handshake (session=3D0xaa=
+aafa4a3d90, errp=3D0xfffff5d23478) at ../crypto/tlssession.c:493
+>   #16 0x0000aaaae2631a40 in qio_channel_tls_handshake_task (ioc=3D0xaaaaf=
+9c4c400, task=3D0xaaaafa70e600, context=3D0x0) at ../io/channel-tls.c:161
+>   #17 0x0000aaaae2631c60 in qio_channel_tls_handshake (ioc=3D0xaaaaf9c4c4=
+00, func=3D0xaaaae20d4b58 <migration_tls_incoming_handshake>, opaque=3D0x0,=
+ destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+>   #18 0x0000aaaae20d4ca8 in migration_tls_channel_process_incoming (s=3D0=
+xaaaaf9b2ef20, ioc=3D0xaaaaf998a800, errp=3D0xfffff5d23548) at ../migration=
+/tls.c:103
+>   #19 0x0000aaaae20f9f7c in migration_channel_process_incoming (ioc=3D0xa=
+aaaf998a800) at ../migration/channel.c:42
+>   #20 0x0000aaaae1f484a8 in socket_accept_incoming_migration (listener=3D=
+0xffff64007a40, cioc=3D0xaaaaf998a800, opaque=3D0x0) at ../migration/socket=
+.c:130
+>   #21 0x0000aaaae2638570 in qio_net_listener_channel_func (ioc=3D0xaaaafa=
+410600, condition=3DG_IO_IN, opaque=3D0xffff64007a40) at ../io/net-listener=
+.c:54
+>   #22 0x0000aaaae263ac4c in qio_channel_fd_source_dispatch (source=3D0xaa=
+aafa81a380, callback=3D0xaaaae26384f8 <qio_net_listener_channel_func>, user=
+_data=3D0xffff64007a40) at ../io/channel-watch.c:84
+>   #23 0x0000ffff7fb13a7c in g_main_context_dispatch () from target:/usr/l=
+ib64/libglib-2.0.so.0
+>   #24 0x0000aaaae287d29c in glib_pollfds_poll () at ../util/main-loop.c:2=
+21
+>   #25 0x0000aaaae287d324 in os_host_main_loop_wait (timeout=3D571000000) =
+at ../util/main-loop.c:244
+>   #26 0x0000aaaae287d444 in main_loop_wait (nonblocking=3D0) at ../util/m=
+ain-loop.c:520
+>   #27 0x0000aaaae24b9b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+>   #28 0x0000aaaae1eb79e4 in main (argc=3D83, argv=3D0xfffff5d238c8, envp=
+=3D0xfffff5d23b68) at ../softmmu/main.c:50
+> =
+
+> --
+> You received this bug notification because you are a member of qemu- deve=
+l-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1902470
+> =
+
+> Title:
+>   migration with TLS-MultiFD is stuck when the dst-libvirtd service
+>   restarts
+> =
+
+> Status in QEMU:
+>   New
+> =
+
+> Bug description:
+>   hi,
+> =
+
+>   I found that the multi-channel TLS-handshake will be stuck when the
+>   dst-libvirtd restarts, both the src and dst sockets are blocked in
+>   recvmsg. In the meantime, live_migration thread is blocked in
+>   multifd_send_sync_main, so migration cannot be cancelled though src-
+>   libvirt has delivered the QMP command.
+> =
+
+>   Is there any way to exit migration when the multi-channel TLS-
+>   handshake is stuck? Does setting TLS-handshake timeout function take
+>   effect?
+> =
+
+>   The stack trace are as follows:
+> =
+
+>   =3D=3D=3D=3D=3Dsrc qemu-system-aar stack=3D=3D=3D=3D=3D:
+>   #0  0x0000ffff87d6f28c in recvmsg () from target:/usr/lib64/libpthread.=
+so.0
+>   #1  0x0000aaaae3817424 in qio_channel_socket_readv (ioc=3D0xaaaae9e30a3=
+0, iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ..=
+/io/channel-socket.c:502
+>   #2  0x0000aaaae380f468 in qio_channel_readv_full (ioc=3D0xaaaae9e30a30,=
+ iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel.c:66
+>   #3  0x0000aaaae380f9e8 in qio_channel_read (ioc=3D0xaaaae9e30a30, buf=
+=3D0xaaaaea204e9b "\026\003\001\001L\001", buflen=3D5, errp=3D0x0) at ../io=
+/channel.c:217
+>   #4  0x0000aaaae380e7d4 in qio_channel_tls_read_handler (buf=3D0xaaaaea2=
+04e9b "\026\003\001\001L\001", len=3D5, opaque=3D0xfffd38001190) at ../io/c=
+hannel-tls.c:53
+>   #5  0x0000aaaae3801114 in qcrypto_tls_session_pull (opaque=3D0xaaaae99d=
+5700, buf=3D0xaaaaea204e9b, len=3D5) at ../crypto/tlssession.c:89
+>   #6  0x0000ffff8822ed30 in _gnutls_stream_read (ms=3D0xffffdb58eaac, pul=
+l_func=3D0xfffd38001870, size=3D5, bufel=3D<synthetic pointer>, session=3D0=
+xaaaae983cd60) at buffers.c:346
+>   #7  _gnutls_read (ms=3D0xffffdb58eaac, pull_func=3D0xfffd38001870, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaae983cd60) at buffers.c:4=
+26
+>   #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaae983cd60,=
+ total=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xffffdb58eaac) =
+at buffers.c:581
+>   #9  0x0000ffff88224954 in recv_headers (ms=3D<optimized out>, record=3D=
+0xffff883cd000 <gnutls_x509_ext_export_name_constraints@got.plt>, htype=3D6=
+5535, type=3D2284006288, record_params=3D0xaaaae9e22a60, session=3D0xaaaae9=
+83cd60) at record.c:1163
+>   #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaae983cd60, =
+type=3D2284006288, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entr=
+y=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST, ms=3D<optimized out>, ms@entry=3D=
+0) at record.c:1302
+>   #11 0x0000ffff88230568 in _gnutls_handshake_io_recv_int (session=3Dsess=
+ion@entry=3D0xaaaae983cd60, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RE=
+TRY_REQUEST, hsk=3Dhsk@entry=3D0xffffdb58ec38, optional=3Doptional@entry=3D=
+1) at buffers.c:1445
+>   #12 0x0000ffff88232b90 in _gnutls_recv_handshake (session=3Dsession@ent=
+ry=3D0xaaaae983cd60, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUE=
+ST, optional=3Doptional@entry=3D1, buf=3Dbuf@entry=3D0x0) at handshake.c:15=
+34
+>   #13 0x0000ffff88235b40 in handshake_client (session=3Dsession@entry=3D0=
+xaaaae983cd60) at handshake.c:2925
+>   #14 0x0000ffff88237824 in gnutls_handshake (session=3D0xaaaae983cd60) a=
+t handshake.c:2739
+>   #15 0x0000aaaae380213c in qcrypto_tls_session_handshake (session=3D0xaa=
+aae99d5700, errp=3D0xffffdb58ee58) at ../crypto/tlssession.c:493
+>   #16 0x0000aaaae380ea40 in qio_channel_tls_handshake_task (ioc=3D0xfffd3=
+8001190, task=3D0xaaaaea61d4e0, context=3D0x0) at ../io/channel-tls.c:161
+>   #17 0x0000aaaae380ec60 in qio_channel_tls_handshake (ioc=3D0xfffd380011=
+90, func=3D0xaaaae3394d20 <multifd_tls_outgoing_handshake>, opaque=3D0xaaaa=
+ea189c30, destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+>   #18 0x0000aaaae3394e78 in multifd_tls_channel_connect (p=3D0xaaaaea189c=
+30, ioc=3D0xaaaae9e30a30, errp=3D0xffffdb58ef28) at ../migration/multifd.c:=
+782
+>   #19 0x0000aaaae3394f30 in multifd_channel_connect (p=3D0xaaaaea189c30, =
+ioc=3D0xaaaae9e30a30, error=3D0x0) at ../migration/multifd.c:804
+>   #20 0x0000aaaae33950b8 in multifd_new_send_channel_async (task=3D0xaaaa=
+ea6855a0, opaque=3D0xaaaaea189c30) at ../migration/multifd.c:858
+>   #21 0x0000aaaae3810cf8 in qio_task_complete (task=3D0xaaaaea6855a0) at =
+../io/task.c:197
+>   #22 0x0000aaaae381096c in qio_task_thread_result (opaque=3D0xaaaaea6855=
+a0) at ../io/task.c:112
+>   #23 0x0000ffff88701df8 in ?? () from target:/usr/lib64/libglib-2.0.so.0
+>   #24 0x0000ffff88705a7c in g_main_context_dispatch () from target:/usr/l=
+ib64/libglib-2.0.so.0
+>   #25 0x0000aaaae3a5a29c in glib_pollfds_poll () at ../util/main-loop.c:2=
+21
+>   #26 0x0000aaaae3a5a324 in os_host_main_loop_wait (timeout=3D0) at ../ut=
+il/main-loop.c:244
+>   #27 0x0000aaaae3a5a444 in main_loop_wait (nonblocking=3D0) at ../util/m=
+ain-loop.c:520
+>   #28 0x0000aaaae3696b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+>   #29 0x0000aaaae30949e4 in main (argc=3D81, argv=3D0xffffdb58f2c8, envp=
+=3D0xffffdb58f558) at ../softmmu/main.c:50
+> =
+
+>   =3D=3D=3D=3D=3Dsrc live_migration stack=3D=3D=3D=3D=3D:
+>   #0  0x0000ffff87d6a5d8 in pthread_cond_wait () from target:/usr/lib64/l=
+ibpthread.so.0
+>   #1  0x0000aaaae3a5f3ec in qemu_sem_wait (sem=3D0xaaaaea189d40) at ../ut=
+il/qemu-thread-posix.c:328
+>   #2  0x0000aaaae3394838 in multifd_send_sync_main (f=3D0xaaaae983f0e0) a=
+t ../migration/multifd.c:638
+>   #3  0x0000aaaae37de310 in ram_save_setup (f=3D0xaaaae983f0e0, opaque=3D=
+0xaaaae4198708 <ram_state>) at ../migration/ram.c:2588
+>   #4  0x0000aaaae31cf7ac in qemu_savevm_state_setup (f=3D0xaaaae983f0e0) =
+at ../migration/savevm.c:1176
+>   #5  0x0000aaaae3248360 in migration_thread (opaque=3D0xaaaae9829f20) at=
+ ../migration/migration.c:3521
+>   #6  0x0000aaaae3a5f8fc in qemu_thread_start (args=3D0xaaaaea513ee0) at =
+../util/qemu-thread-posix.c:521
+>   #7  0x0000ffff87d647ac in ?? () from target:/usr/lib64/libpthread.so.0
+>   #8  0x0000ffff87cba6ec in ?? () from target:/usr/lib64/libc.so.6
+> =
+
+>   =3D=3D=3D=3D=3Ddst qemu-system-aar stack=3D=3D=3D=3D=3D:
+>   #0  0x0000ffff7f17d28c in recvmsg () from target:/usr/lib64/libpthread.=
+so.0
+>   #1  0x0000aaaae263a424 in qio_channel_socket_readv (ioc=3D0xaaaaf998a80=
+0, iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ..=
+/io/channel-socket.c:502
+>   #2  0x0000aaaae2632468 in qio_channel_readv_full (ioc=3D0xaaaaf998a800,=
+ iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel.c:66
+>   #3  0x0000aaaae26329e8 in qio_channel_read (ioc=3D0xaaaaf998a800, buf=
+=3D0xaaaafa926dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5=
+I\247(N(K=3D\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\0=
+25R.\244\205\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\=
+247\032\354+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0=
+\036\223\022\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\27=
+2\025_\305s\372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\=
+203}\353\324A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334=
+&=3D\333>\212=C6=8FE\214]_\372\264]"..., buflen=3D5, errp=3D0x0) at ../io/c=
+hannel.c:217
+>   #4  0x0000aaaae26317d4 in qio_channel_tls_read_handler (buf=3D0xaaaafa9=
+26dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\247(N(K=3D=
+\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.\244\205=
+\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\032\354+=
+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036\223\022=
+\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\025_\305s\=
+372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}\353\324=
+A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D\333>\21=
+2=C6=8FE\214]_\372\264]"..., len=3D5, opaque=3D0xaaaaf9c4c400) at ../io/cha=
+nnel-tls.c:53
+>   #5  0x0000aaaae2624114 in qcrypto_tls_session_pull (opaque=3D0xaaaafa4a=
+3d90, buf=3D0xaaaafa926dbb, len=3D5) at ../crypto/tlssession.c:89
+>   #6  0x0000ffff7f63cd30 in _gnutls_stream_read (ms=3D0xfffff5d2317c, pul=
+l_func=3D0xaaaafa81a380, size=3D5, bufel=3D<synthetic pointer>, session=3D0=
+xaaaafa58b9d0) at buffers.c:346
+>   #7  _gnutls_read (ms=3D0xfffff5d2317c, pull_func=3D0xaaaafa81a380, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaafa58b9d0) at buffers.c:4=
+26
+>   #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaafa58b9d0,=
+ total=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xfffff5d2317c) =
+at buffers.c:581
+>   #9  0x0000ffff7f632954 in recv_headers (ms=3D<optimized out>, record=3D=
+0x1ee2a9fa78, htype=3D65535, type=3D2137262992, record_params=3D0xaaaafa4b7=
+1a0, session=3D0xaaaafa58b9d0) at record.c:1163
+>   #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaafa58b9d0, =
+type=3D2137262992, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entr=
+y=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, ms=3D<optimized out>, ms@entry=3D0) at r=
+ecord.c:1302
+>   #11 0x0000ffff7f63e568 in _gnutls_handshake_io_recv_int (session=3Dsess=
+ion@entry=3D0xaaaafa58b9d0, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_H=
+ELLO, hsk=3Dhsk@entry=3D0xfffff5d23308, optional=3Doptional@entry=3D0) at b=
+uffers.c:1445
+>   #12 0x0000ffff7f640b90 in _gnutls_recv_handshake (session=3Dsession@ent=
+ry=3D0xaaaafa58b9d0, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, opt=
+ional=3Doptional@entry=3D0, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
+>   #13 0x0000ffff7f645f18 in handshake_server (session=3D<optimized out>) =
+at handshake.c:3351
+>   #14 gnutls_handshake (session=3D0xaaaafa58b9d0) at handshake.c:2742
+>   #15 0x0000aaaae262513c in qcrypto_tls_session_handshake (session=3D0xaa=
+aafa4a3d90, errp=3D0xfffff5d23478) at ../crypto/tlssession.c:493
+>   #16 0x0000aaaae2631a40 in qio_channel_tls_handshake_task (ioc=3D0xaaaaf=
+9c4c400, task=3D0xaaaafa70e600, context=3D0x0) at ../io/channel-tls.c:161
+>   #17 0x0000aaaae2631c60 in qio_channel_tls_handshake (ioc=3D0xaaaaf9c4c4=
+00, func=3D0xaaaae20d4b58 <migration_tls_incoming_handshake>, opaque=3D0x0,=
+ destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+>   #18 0x0000aaaae20d4ca8 in migration_tls_channel_process_incoming (s=3D0=
+xaaaaf9b2ef20, ioc=3D0xaaaaf998a800, errp=3D0xfffff5d23548) at ../migration=
+/tls.c:103
+>   #19 0x0000aaaae20f9f7c in migration_channel_process_incoming (ioc=3D0xa=
+aaaf998a800) at ../migration/channel.c:42
+>   #20 0x0000aaaae1f484a8 in socket_accept_incoming_migration (listener=3D=
+0xffff64007a40, cioc=3D0xaaaaf998a800, opaque=3D0x0) at ../migration/socket=
+.c:130
+>   #21 0x0000aaaae2638570 in qio_net_listener_channel_func (ioc=3D0xaaaafa=
+410600, condition=3DG_IO_IN, opaque=3D0xffff64007a40) at ../io/net-listener=
+.c:54
+>   #22 0x0000aaaae263ac4c in qio_channel_fd_source_dispatch (source=3D0xaa=
+aafa81a380, callback=3D0xaaaae26384f8 <qio_net_listener_channel_func>, user=
+_data=3D0xffff64007a40) at ../io/channel-watch.c:84
+>   #23 0x0000ffff7fb13a7c in g_main_context_dispatch () from target:/usr/l=
+ib64/libglib-2.0.so.0
+>   #24 0x0000aaaae287d29c in glib_pollfds_poll () at ../util/main-loop.c:2=
+21
+>   #25 0x0000aaaae287d324 in os_host_main_loop_wait (timeout=3D571000000) =
+at ../util/main-loop.c:244
+>   #26 0x0000aaaae287d444 in main_loop_wait (nonblocking=3D0) at ../util/m=
+ain-loop.c:520
+>   #27 0x0000aaaae24b9b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+>   #28 0x0000aaaae1eb79e4 in main (argc=3D83, argv=3D0xfffff5d238c8, envp=
+=3D0xfffff5d23b68) at ../softmmu/main.c:50
+> =
+
+> To manage notifications about this bug go to:
+> https://bugs.launchpad.net/qemu/+bug/1902470/+subscriptions
+> =
+
+-- =
+
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1902470
+
+Title:
+  migration with TLS-MultiFD is stuck when the dst-libvirtd service
+  restarts
+
+Status in QEMU:
+  New
+
+Bug description:
+  hi,
+
+  I found that the multi-channel TLS-handshake will be stuck when the
+  dst-libvirtd restarts, both the src and dst sockets are blocked in
+  recvmsg. In the meantime, live_migration thread is blocked in
+  multifd_send_sync_main, so migration cannot be cancelled though src-
+  libvirt has delivered the QMP command.
+
+  Is there any way to exit migration when the multi-channel TLS-
+  handshake is stuck? Does setting TLS-handshake timeout function take
+  effect?
+
+  The stack trace are as follows:
+
+  =3D=3D=3D=3D=3Dsrc qemu-system-aar stack=3D=3D=3D=3D=3D:
+  #0  0x0000ffff87d6f28c in recvmsg () from target:/usr/lib64/libpthread.so=
+.0
+  #1  0x0000aaaae3817424 in qio_channel_socket_readv (ioc=3D0xaaaae9e30a30,=
+ iov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel-socket.c:502
+  #2  0x0000aaaae380f468 in qio_channel_readv_full (ioc=3D0xaaaae9e30a30, i=
+ov=3D0xffffdb58e8a8, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../io/=
+channel.c:66
+  #3  0x0000aaaae380f9e8 in qio_channel_read (ioc=3D0xaaaae9e30a30, buf=3D0=
+xaaaaea204e9b "\026\003\001\001L\001", buflen=3D5, errp=3D0x0) at ../io/cha=
+nnel.c:217
+  #4  0x0000aaaae380e7d4 in qio_channel_tls_read_handler (buf=3D0xaaaaea204=
+e9b "\026\003\001\001L\001", len=3D5, opaque=3D0xfffd38001190) at ../io/cha=
+nnel-tls.c:53
+  #5  0x0000aaaae3801114 in qcrypto_tls_session_pull (opaque=3D0xaaaae99d57=
+00, buf=3D0xaaaaea204e9b, len=3D5) at ../crypto/tlssession.c:89
+  #6  0x0000ffff8822ed30 in _gnutls_stream_read (ms=3D0xffffdb58eaac, pull_=
+func=3D0xfffd38001870, size=3D5, bufel=3D<synthetic pointer>, session=3D0xa=
+aaae983cd60) at buffers.c:346
+  #7  _gnutls_read (ms=3D0xffffdb58eaac, pull_func=3D0xfffd38001870, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaae983cd60) at buffers.c:4=
+26
+  #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaae983cd60, t=
+otal=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xffffdb58eaac) at=
+ buffers.c:581
+  #9  0x0000ffff88224954 in recv_headers (ms=3D<optimized out>, record=3D0x=
+ffff883cd000 <gnutls_x509_ext_export_name_constraints@got.plt>, htype=3D655=
+35, type=3D2284006288, record_params=3D0xaaaae9e22a60, session=3D0xaaaae983=
+cd60) at record.c:1163
+  #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaae983cd60, ty=
+pe=3D2284006288, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entry=
+=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST, ms=3D<optimized out>, ms@entry=3D0=
+) at record.c:1302
+  #11 0x0000ffff88230568 in _gnutls_handshake_io_recv_int (session=3Dsessio=
+n@entry=3D0xaaaae983cd60, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETR=
+Y_REQUEST, hsk=3Dhsk@entry=3D0xffffdb58ec38, optional=3Doptional@entry=3D1)=
+ at buffers.c:1445
+  #12 0x0000ffff88232b90 in _gnutls_recv_handshake (session=3Dsession@entry=
+=3D0xaaaae983cd60, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_HELLO_RETRY_REQUEST=
+, optional=3Doptional@entry=3D1, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
+  #13 0x0000ffff88235b40 in handshake_client (session=3Dsession@entry=3D0xa=
+aaae983cd60) at handshake.c:2925
+  #14 0x0000ffff88237824 in gnutls_handshake (session=3D0xaaaae983cd60) at =
+handshake.c:2739
+  #15 0x0000aaaae380213c in qcrypto_tls_session_handshake (session=3D0xaaaa=
+e99d5700, errp=3D0xffffdb58ee58) at ../crypto/tlssession.c:493
+  #16 0x0000aaaae380ea40 in qio_channel_tls_handshake_task (ioc=3D0xfffd380=
+01190, task=3D0xaaaaea61d4e0, context=3D0x0) at ../io/channel-tls.c:161
+  #17 0x0000aaaae380ec60 in qio_channel_tls_handshake (ioc=3D0xfffd38001190=
+, func=3D0xaaaae3394d20 <multifd_tls_outgoing_handshake>, opaque=3D0xaaaaea=
+189c30, destroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+  #18 0x0000aaaae3394e78 in multifd_tls_channel_connect (p=3D0xaaaaea189c30=
+, ioc=3D0xaaaae9e30a30, errp=3D0xffffdb58ef28) at ../migration/multifd.c:782
+  #19 0x0000aaaae3394f30 in multifd_channel_connect (p=3D0xaaaaea189c30, io=
+c=3D0xaaaae9e30a30, error=3D0x0) at ../migration/multifd.c:804
+  #20 0x0000aaaae33950b8 in multifd_new_send_channel_async (task=3D0xaaaaea=
+6855a0, opaque=3D0xaaaaea189c30) at ../migration/multifd.c:858
+  #21 0x0000aaaae3810cf8 in qio_task_complete (task=3D0xaaaaea6855a0) at ..=
+/io/task.c:197
+  #22 0x0000aaaae381096c in qio_task_thread_result (opaque=3D0xaaaaea6855a0=
+) at ../io/task.c:112
+  #23 0x0000ffff88701df8 in ?? () from target:/usr/lib64/libglib-2.0.so.0
+  #24 0x0000ffff88705a7c in g_main_context_dispatch () from target:/usr/lib=
+64/libglib-2.0.so.0
+  #25 0x0000aaaae3a5a29c in glib_pollfds_poll () at ../util/main-loop.c:221
+  #26 0x0000aaaae3a5a324 in os_host_main_loop_wait (timeout=3D0) at ../util=
+/main-loop.c:244
+  #27 0x0000aaaae3a5a444 in main_loop_wait (nonblocking=3D0) at ../util/mai=
+n-loop.c:520
+  #28 0x0000aaaae3696b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+  #29 0x0000aaaae30949e4 in main (argc=3D81, argv=3D0xffffdb58f2c8, envp=3D=
+0xffffdb58f558) at ../softmmu/main.c:50
+
+  =3D=3D=3D=3D=3Dsrc live_migration stack=3D=3D=3D=3D=3D:
+  #0  0x0000ffff87d6a5d8 in pthread_cond_wait () from target:/usr/lib64/lib=
+pthread.so.0
+  #1  0x0000aaaae3a5f3ec in qemu_sem_wait (sem=3D0xaaaaea189d40) at ../util=
+/qemu-thread-posix.c:328
+  #2  0x0000aaaae3394838 in multifd_send_sync_main (f=3D0xaaaae983f0e0) at =
+../migration/multifd.c:638
+  #3  0x0000aaaae37de310 in ram_save_setup (f=3D0xaaaae983f0e0, opaque=3D0x=
+aaaae4198708 <ram_state>) at ../migration/ram.c:2588
+  #4  0x0000aaaae31cf7ac in qemu_savevm_state_setup (f=3D0xaaaae983f0e0) at=
+ ../migration/savevm.c:1176
+  #5  0x0000aaaae3248360 in migration_thread (opaque=3D0xaaaae9829f20) at .=
+./migration/migration.c:3521
+  #6  0x0000aaaae3a5f8fc in qemu_thread_start (args=3D0xaaaaea513ee0) at ..=
+/util/qemu-thread-posix.c:521
+  #7  0x0000ffff87d647ac in ?? () from target:/usr/lib64/libpthread.so.0
+  #8  0x0000ffff87cba6ec in ?? () from target:/usr/lib64/libc.so.6
+
+  =3D=3D=3D=3D=3Ddst qemu-system-aar stack=3D=3D=3D=3D=3D:
+  #0  0x0000ffff7f17d28c in recvmsg () from target:/usr/lib64/libpthread.so=
+.0
+  #1  0x0000aaaae263a424 in qio_channel_socket_readv (ioc=3D0xaaaaf998a800,=
+ iov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../i=
+o/channel-socket.c:502
+  #2  0x0000aaaae2632468 in qio_channel_readv_full (ioc=3D0xaaaaf998a800, i=
+ov=3D0xfffff5d22f78, niov=3D1, fds=3D0x0, nfds=3D0x0, errp=3D0x0) at ../io/=
+channel.c:66
+  #3  0x0000aaaae26329e8 in qio_channel_read (ioc=3D0xaaaaf998a800, buf=3D0=
+xaaaafa926dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\24=
+7(N(K=3D\256\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.=
+\244\205\254\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\=
+032\354+\277\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036=
+\223\022\006\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\02=
+5_\305s\372\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}=
+\353\324A\340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D=
+\333>\212=C6=8FE\214]_\372\264]"..., buflen=3D5, errp=3D0x0) at ../io/chann=
+el.c:217
+  #4  0x0000aaaae26317d4 in qio_channel_tls_read_handler (buf=3D0xaaaafa926=
+dbb "q\024\335\365=C8=A3'\221,\\\357\246w\253\242=D1=A0=D8=B5I\247(N(K=3D\2=
+56\316DH\227QNf\371\"\271\017\226^\223\026\373\245z\255\227\025R.\244\205\2=
+54\002\031T\033\312:h\226\a=DD=94\204=D4=AA\324\351K\341\365\247\032\354+\2=
+77\005O'*l\301cXx\340~?\346\b\324k\225\223D\276\252\376\257_0\036\223\022\0=
+06\212D|7h\257\226\300&n','\005zL\203M=CD=86\023\213\237(o\272\025_\305s\37=
+2\362\351\002\367Ph\016\347\371E\n\030Y\340\002\r\362^&`\021\203}\353\324A\=
+340=D2=B3(\207]\300l}h\026\037H\372\n=3D\"C\024\t\200\325\334&=3D\333>\212=
+=C6=8FE\214]_\372\264]"..., len=3D5, opaque=3D0xaaaaf9c4c400) at ../io/chan=
+nel-tls.c:53
+  #5  0x0000aaaae2624114 in qcrypto_tls_session_pull (opaque=3D0xaaaafa4a3d=
+90, buf=3D0xaaaafa926dbb, len=3D5) at ../crypto/tlssession.c:89
+  #6  0x0000ffff7f63cd30 in _gnutls_stream_read (ms=3D0xfffff5d2317c, pull_=
+func=3D0xaaaafa81a380, size=3D5, bufel=3D<synthetic pointer>, session=3D0xa=
+aaafa58b9d0) at buffers.c:346
+  #7  _gnutls_read (ms=3D0xfffff5d2317c, pull_func=3D0xaaaafa81a380, size=
+=3D5, bufel=3D<synthetic pointer>, session=3D0xaaaafa58b9d0) at buffers.c:4=
+26
+  #8  _gnutls_io_read_buffered (session=3Dsession@entry=3D0xaaaafa58b9d0, t=
+otal=3D5, recv_type=3Drecv_type@entry=3D4294967295, ms=3D0xfffff5d2317c) at=
+ buffers.c:581
+  #9  0x0000ffff7f632954 in recv_headers (ms=3D<optimized out>, record=3D0x=
+1ee2a9fa78, htype=3D65535, type=3D2137262992, record_params=3D0xaaaafa4b71a=
+0, session=3D0xaaaafa58b9d0) at record.c:1163
+  #10 _gnutls_recv_in_buffers (session=3Dsession@entry=3D0xaaaafa58b9d0, ty=
+pe=3D2137262992, type@entry=3DGNUTLS_HANDSHAKE, htype=3D65535, htype@entry=
+=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, ms=3D<optimized out>, ms@entry=3D0) at re=
+cord.c:1302
+  #11 0x0000ffff7f63e568 in _gnutls_handshake_io_recv_int (session=3Dsessio=
+n@entry=3D0xaaaafa58b9d0, htype=3Dhtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HEL=
+LO, hsk=3Dhsk@entry=3D0xfffff5d23308, optional=3Doptional@entry=3D0) at buf=
+fers.c:1445
+  #12 0x0000ffff7f640b90 in _gnutls_recv_handshake (session=3Dsession@entry=
+=3D0xaaaafa58b9d0, type=3Dtype@entry=3DGNUTLS_HANDSHAKE_CLIENT_HELLO, optio=
+nal=3Doptional@entry=3D0, buf=3Dbuf@entry=3D0x0) at handshake.c:1534
+  #13 0x0000ffff7f645f18 in handshake_server (session=3D<optimized out>) at=
+ handshake.c:3351
+  #14 gnutls_handshake (session=3D0xaaaafa58b9d0) at handshake.c:2742
+  #15 0x0000aaaae262513c in qcrypto_tls_session_handshake (session=3D0xaaaa=
+fa4a3d90, errp=3D0xfffff5d23478) at ../crypto/tlssession.c:493
+  #16 0x0000aaaae2631a40 in qio_channel_tls_handshake_task (ioc=3D0xaaaaf9c=
+4c400, task=3D0xaaaafa70e600, context=3D0x0) at ../io/channel-tls.c:161
+  #17 0x0000aaaae2631c60 in qio_channel_tls_handshake (ioc=3D0xaaaaf9c4c400=
+, func=3D0xaaaae20d4b58 <migration_tls_incoming_handshake>, opaque=3D0x0, d=
+estroy=3D0x0, context=3D0x0) at ../io/channel-tls.c:239
+  #18 0x0000aaaae20d4ca8 in migration_tls_channel_process_incoming (s=3D0xa=
+aaaf9b2ef20, ioc=3D0xaaaaf998a800, errp=3D0xfffff5d23548) at ../migration/t=
+ls.c:103
+  #19 0x0000aaaae20f9f7c in migration_channel_process_incoming (ioc=3D0xaaa=
+af998a800) at ../migration/channel.c:42
+  #20 0x0000aaaae1f484a8 in socket_accept_incoming_migration (listener=3D0x=
+ffff64007a40, cioc=3D0xaaaaf998a800, opaque=3D0x0) at ../migration/socket.c=
+:130
+  #21 0x0000aaaae2638570 in qio_net_listener_channel_func (ioc=3D0xaaaafa41=
+0600, condition=3DG_IO_IN, opaque=3D0xffff64007a40) at ../io/net-listener.c=
+:54
+  #22 0x0000aaaae263ac4c in qio_channel_fd_source_dispatch (source=3D0xaaaa=
+fa81a380, callback=3D0xaaaae26384f8 <qio_net_listener_channel_func>, user_d=
+ata=3D0xffff64007a40) at ../io/channel-watch.c:84
+  #23 0x0000ffff7fb13a7c in g_main_context_dispatch () from target:/usr/lib=
+64/libglib-2.0.so.0
+  #24 0x0000aaaae287d29c in glib_pollfds_poll () at ../util/main-loop.c:221
+  #25 0x0000aaaae287d324 in os_host_main_loop_wait (timeout=3D571000000) at=
+ ../util/main-loop.c:244
+  #26 0x0000aaaae287d444 in main_loop_wait (nonblocking=3D0) at ../util/mai=
+n-loop.c:520
+  #27 0x0000aaaae24b9b20 in qemu_main_loop () at ../softmmu/vl.c:1677
+  #28 0x0000aaaae1eb79e4 in main (argc=3D83, argv=3D0xfffff5d238c8, envp=3D=
+0xfffff5d23b68) at ../softmmu/main.c:50
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1902470/+subscriptions
 
