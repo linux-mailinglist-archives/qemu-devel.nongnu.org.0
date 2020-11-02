@@ -2,82 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD552A32E4
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:23:48 +0100 (CET)
-Received: from localhost ([::1]:49106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26D062A32F8
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 19:28:29 +0100 (CET)
+Received: from localhost ([::1]:38990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZeUd-0004hD-Cp
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:23:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
+	id 1kZeZA-0003nq-7Y
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 13:28:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kZeSi-0002zg-Sk
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:21:50 -0500
-Received: from mail-ua1-x942.google.com ([2607:f8b0:4864:20::942]:36922)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hskinnemoen@google.com>)
- id 1kZeSg-00074Z-8I
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:21:48 -0500
-Received: by mail-ua1-x942.google.com with SMTP id 52so4207484uaj.4
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 10:21:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zjgNfeKQMSknIQ9nsPnuFj8DLkcAZAMRQyaoOVtXyuw=;
- b=VKeDtOg6uAu1hdHxOfzzL+vA7qb4mcuwPUOG5TzXIrLcxripZ5anUcJXJl7R/qhPmY
- Zh0P51IeYQNz2sT+Itw14lzCx/oN23W3e07CVIb9ev8X3KZ9ddt9pswFsyMnYr/3ugsJ
- jSvMx0ZMJ1seUAClHX6VO1MvIn4e8xQQ/zQhBkRJquwI6UAfPLS5pkVTyD8vJ366RKeT
- vyqNDhv29aVjP5QcKKrRvodFUE76tmzCsX6iG4Sw7+yrYtHOZcvwXnm7gSBx7ewVbVw+
- bkS1ubK0YAaUgevwhDi6Q7lkfER1yN6T0GPJ1F45eVHj7Gju0ul9h8+rYGoWUhjqjC9U
- fdLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zjgNfeKQMSknIQ9nsPnuFj8DLkcAZAMRQyaoOVtXyuw=;
- b=S86MnCGVwN/DNPnYeFAxjpGR9rhFp18OWUy62qMIcAaJY8piJ5KtKRMCyLY2vPWT7H
- fFyNbyqwWxhqqnYmNB+0UHdyCAuCC+CDjxCF99L4nwhTRuPJiXczjsRUc3XyqLxy50dL
- bkaJSCv+EyOIrSOVst5PSvY/DbnnNsTs2ibqkRrpm9hJYk1z8wg6xZ3leE1M7UYFqPpF
- yrY2BYDlEROpbQYp6taI5LP59NPhvSV0swTilWEZA7+iSld3KNg4lvJ1vBjaVa+xLDPG
- WDX4EFofLKS5Ez8XXimUJpP/6CoiaY+oMC510OItC3Almsql0SiB5naub/fFWzJjuSFU
- wlwA==
-X-Gm-Message-State: AOAM531Lsam/hfVieS6CAr4+gkTdBXWn1UDg7md6632mhM/yDGU20yR/
- 2bFTyxDVnJl0DhKCD26yp3lwkjoFS1xGW0inhLp+oA==
-X-Google-Smtp-Source: ABdhPJxvzrpPVmaDrBOLPf5jIk5xsCOO1uBxRg5yKREXLcINfZu868B7HX4hHppjyEYaHxv9FESwX1RAPQBti1CgghU=
-X-Received: by 2002:ab0:36db:: with SMTP id v27mr1885580uau.66.1604341304327; 
- Mon, 02 Nov 2020 10:21:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZeTC-0003vA-8z
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:22:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57268)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZeT6-00077L-6u
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 13:22:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604341329;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LomTBw8uZZy1rA9GJor/FwuuPqnxuVYa0w37Agyn06c=;
+ b=WsSGpakEop449a3OWoOdctgZ83O+cgG83vqvPE5r/RgYF5b/nBvEXQqDYI08mFXqO1Ikiz
+ 0qZfxsl53/qeqj8mnrqe2s31vulZ/j/e20QFJCGd2BUMRC8EThjT+LehLxL6PrM1h21m95
+ aNa38i4/Guyri6aV5MmQmkSjk04wpAQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-510-EmfJfPDGN_ms3Ma6oTpB6Q-1; Mon, 02 Nov 2020 13:22:07 -0500
+X-MC-Unique: EmfJfPDGN_ms3Ma6oTpB6Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2B68803F48;
+ Mon,  2 Nov 2020 18:22:06 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F5317366F;
+ Mon,  2 Nov 2020 18:22:06 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] cutils: replace strdup with g_strdup
+Date: Mon,  2 Nov 2020 13:22:05 -0500
+Message-Id: <20201102182205.5498-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20201023210637.351238-1-hskinnemoen@google.com>
- <20201023210637.351238-5-hskinnemoen@google.com>
- <CAFEAcA8YvmFA7=7+CGVpubVScuKPdy+OQdmJdfMD+Fmk+Hb0SA@mail.gmail.com>
- <CAFQmdRZOKLb6=NJoeY9U3eYq3rbG_OWGFDDZdGTf8vjVOA11TQ@mail.gmail.com>
- <CAFEAcA-KxvtQGsH9yT9FrVnAu4cDWjMzPx_vGoBueGYhB8sziA@mail.gmail.com>
-In-Reply-To: <CAFEAcA-KxvtQGsH9yT9FrVnAu4cDWjMzPx_vGoBueGYhB8sziA@mail.gmail.com>
-From: Havard Skinnemoen <hskinnemoen@google.com>
-Date: Mon, 2 Nov 2020 10:21:32 -0800
-Message-ID: <CAFQmdRYgd3eE3A_aoXvzFvbhVmz_Zc06xJvVgLOk6tDyZRbmNg@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] hw/misc: Add npcm7xx random number generator
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>, 
- IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- CS20 KFTing <kfting@nuvoton.com>, 
- Patrick Venture <venture@google.com>, Hao Wu <wuhaotsh@google.com>,
- Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::942;
- envelope-from=hskinnemoen@google.com; helo=mail-ua1-x942.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,73 +78,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 2, 2020 at 9:14 AM Peter Maydell <peter.maydell@linaro.org> wro=
-te:
->
-> On Mon, 2 Nov 2020 at 16:50, Havard Skinnemoen <hskinnemoen@google.com> w=
-rote:
-> > But none of this is really specific to the RNG test, so I can remove
-> > it if you prefer for consistency.
->
-> I would prefer us to be consistent. If you want to propose
-> don't-stop-on-asserts then we should set that consistently
-> at some higher level of the test suite, not in every
-> individual test.
+Memory returned by get_relocated_path must be freed with
+free or g_free depending on the path that the function
+took; Coverity takes exception to this practice.  The
+fix lets caller use g_free as is standard in QEMU.
 
-OK, I will remove g_test_set_nonfatal_assertions from all the tests
-I've submitted.
+While at it, mention the requirements on the caller in
+the doc comment.
 
-As for the randomness failures, I did find a bug in the runs test, but
-fixing it doesn't make much of an impact on the flakiness.
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/qemu/cutils.h | 1 +
+ util/cutils.c         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-I've seen failures from both monobit and runs, both first_bit and
-continuous. So it doesn't look like there's a systemic problem
-anywhere.
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 4bbf4834ea..986ed8e15f 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -205,6 +205,7 @@ int qemu_pstrcmp0(const char **str1, const char **str2);
+  * as the prefix.  For example, if `bindir` is `/usr/bin` and @dir is
+  * `/usr/share/qemu`, the function will append `../share/qemu` to the
+  * directory that contains the running executable and return the result.
++ * The returned string should be freed by the caller.
+  */
+ char *get_relocated_path(const char *dir);
+ 
+diff --git a/util/cutils.c b/util/cutils.c
+index c395974fab..9498e28e1a 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -937,7 +937,7 @@ char *get_relocated_path(const char *dir)
+     /* Fail if qemu_init_exec_dir was not called.  */
+     assert(exec_dir[0]);
+     if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
+-        return strdup(dir);
++        return g_strdup(dir);
+     }
+ 
+     result = g_string_new(exec_dir);
+-- 
+2.26.2
 
-I dumped the random data on failure and put it through the
-https://github.com/Honno/coinflip/ implementation of monobit and runs,
-and after fixing the runs bug, they consistently produce the same P
-value. Here's one example that failed the qtest with P=3D0.000180106965:
-
-$ ./randomness_test.py e1 ec cc 55  29 5d c9 ac  85 45 ed 4b  b6 96 56 ab
-Monobit test:
-normalised diff  0.53
-p-value          0.596
-=E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=AC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=90
-=E2=94=82 value =E2=94=82 count =E2=94=82
-=E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=A4
-=E2=94=82 1     =E2=94=82    67 =E2=94=82
-=E2=94=82 0     =E2=94=82    61 =E2=94=82
-=E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=B4=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=98
-
-Runs test:
-no. of runs  85
-p-value       0.0
-
-You can find the script at
-https://gist.github.com/hskinnemoen/41f7513ca228c2bac959c3b14e87025f
-
-Apparently, successive bits are toggling too often, producing too many
-runs of 1s or 0s. This will of course happen from time to time since
-the input is random. And the monobit test will fail if there are too
-many or too few 1s compared to zeroes, which is also something that
-can't really be prevented.
-
-While we can always tune this to happen less often, e.g. by dropping
-the P-value threshold or running the tests multiple times, we can
-never guarantee that a randomness test won't fail. So I suspect we
-should keep these tests disabled by default, but keep them available
-so that we can easily do a randomness test if there's any suspicion
-that the emulated RNG device produces bad data. Does that make sense?
-
-Havard
 
