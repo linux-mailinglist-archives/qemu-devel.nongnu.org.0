@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924EA2A312A
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:16:20 +0100 (CET)
-Received: from localhost ([::1]:56182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD82A2A3135
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:17:57 +0100 (CET)
+Received: from localhost ([::1]:33184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdRL-0007JQ-Kx
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:16:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53948)
+	id 1kZdSu-0001Hd-SZ
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:17:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLt-0000vz-9D
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:41 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:45750)
+ id 1kZdLu-0000z3-IK
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:42 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35358)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdLn-0006a3-Ie
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:40 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id a9so15467444wrg.12
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:34 -0800 (PST)
+ id 1kZdLp-0006aF-K6
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:10:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id n15so15538392wrq.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:10:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=bF6PwLy/yI0XHBna/A/NHJlJMEtI1ZSu2nypD5iZDi0=;
- b=HiTOm/aFhzuzQQnOnN3GhDnA5j3OcmgWkBlKj8w14AWt8I8f2rkdDo1xnVUmDXRYbn
- fE9eS0aYJzhWgdCtv5mWc6BMVlCKxWXDCfmZnfWajSdFqUne+sF2C+xAJl8LvrdDxRhK
- L+s3Q90CFYHCuamwmv6TxDf6MOs0tKIjt7/2PoyfSfvbCeNrIwV2AVj9fgIhNUlCXTk8
- yshy2hG47HG3qT9MQVTeIc45k7Y3rds8rn/MySMtUQhIY70WB1MYAUdJF+U96q1sKOTV
- CSlnghGRawddats5p8jxwPg6Q5zs6fVXkU12OheZx+ZXeprrKJyxZs0yz0Zq+C1ZJ8to
- I/2g==
+ bh=OEozF0m7quoDCvuv9KYsnQo/7jKMGFoMyuZr94zyBD4=;
+ b=HKpzIh2I6fjpdQ1XMY1MCHNOMt/nG1C3XMAXb6rv8aQLxxVn9TkO9kzyELw9cN3dLS
+ GaPwXxs52FL4zxet+Kne0yMJSN+1sXWFjbe8XwICsC0bJ/jDBm6wiBxioswobTZNrQxT
+ RCCA4hUQ+4Zkea2gUlG0wPbNx7K46HnHobiU2dxJjuE86ceAh2sNS99JczOCwFKBVBDd
+ s0wmMKzEHgujwiVSLhkLWEsfu0y+67/yrT2rErq0PLaE32LMSKOQ3Ap+LjL/IMhnjucw
+ BGpJlKUIAU+hw8X8BmJu18rp38IyE3uaINY5IcMb8SY2DZ1oPi83+DF29KRaTXEj2P6w
+ U4yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=bF6PwLy/yI0XHBna/A/NHJlJMEtI1ZSu2nypD5iZDi0=;
- b=A5DJcgq4qUSZ3BlLc61gxCUsibHRQ9muHYP96Rrn6ndi1DNrbem/hr6SYlKMqhaQdA
- aDLyZZU2EJgxshg7SkRMxCm3Bq3Z3IJ5hKHjyuzjAjjO1ABJloJFZ3wl9falhcaAPcjV
- JDgo8f5l2uVYKMBbTbJrYcfpk3ajgl4QSp6POv9LTg0jNxtkLjazgxzyLmbpElalLAJ5
- ioLWmvvYQ1Hp8ovpNOEerVwFRfzyDFdAKHheHnXpZGK5snV5S2iid9F19fSedH4Xsr0Y
- g7TcWBWZQ2CSUypZyIPBS2F28VnwjFMsaeh9ghB8D+iumQ6ONi3IKYG7uuTqa9cHUQ90
- jyTw==
-X-Gm-Message-State: AOAM530CGjjo2isZSifu/3wJTPFML+mUfiU/bbgzzDMiHd0Z5EJnvCbN
- ukVD4NU+92lC4BMlIXT5ToZYYLpAGnU2aQ==
-X-Google-Smtp-Source: ABdhPJzPj8E5bykgwlMBxWB9FprtsHpXDuUKZqrn3TG0di0WNRFy8fa28qGIqIw2VLJ9outunfoNhg==
-X-Received: by 2002:adf:f74e:: with SMTP id z14mr21204569wrp.312.1604337033116; 
- Mon, 02 Nov 2020 09:10:33 -0800 (PST)
+ bh=OEozF0m7quoDCvuv9KYsnQo/7jKMGFoMyuZr94zyBD4=;
+ b=cy5ZrK35c/2Ya2IWH7Zh56rRltNLkQNXUEbd+WTfDIdJdfNDGluzwRRmWGPwDbOKuU
+ yy+SPRz+ngY1bbz9p5XDO9p1ahHpkxrU8jqcxOp+EfgCrgnVr8MSkxFNDZAUzjwyBrbw
+ B0tGPrOjxS7PpJ1cxwS5P4e9atfgOLo0Ry967s1eQbQ2N0cVQiyGdua32437B6ZEra9a
+ 9NMaAYQyqhzwDTVwoEPA6JCknBsO+uWwfy7WbuCc8j+wrPiXBBrv1geoSymDu7PuIOER
+ Y1gh9UyIHZqNQbJ8nznOTa3mwIFQM5oNhH+7x+DGq74aei7pvMngl6vtEB8Xf1TOn0Oj
+ r5kQ==
+X-Gm-Message-State: AOAM531vE/zgc+jpFUy+jWvooyd67nBOD5vxNFLDnaFr8jFlFPe/ik34
+ DiI3b/OpormQC6XRlQ6V/B/6hIG0OQWtuw==
+X-Google-Smtp-Source: ABdhPJxR2Zg/J62S0b/+T1Qhng7FsG4npXY6uT9qITyy+9QJ0sWDkE+ynHmcyuMXK1aPxrQOkbxmzQ==
+X-Received: by 2002:a5d:67ca:: with SMTP id n10mr21075052wrw.209.1604337034432; 
+ Mon, 02 Nov 2020 09:10:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.31
+ by smtp.gmail.com with ESMTPSA id c18sm22396540wrt.10.2020.11.02.09.10.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 09:10:32 -0800 (PST)
+ Mon, 02 Nov 2020 09:10:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/26] target/arm: Fix VUDOT/VSDOT (scalar) on big-endian hosts
-Date: Mon,  2 Nov 2020 17:09:52 +0000
-Message-Id: <20201102171005.30690-14-peter.maydell@linaro.org>
+Subject: [PULL 14/26] target/arm: fix handling of HCR.FB
+Date: Mon,  2 Nov 2020 17:09:53 +0000
+Message-Id: <20201102171005.30690-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
 References: <20201102171005.30690-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,46 +89,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper functions for performing the udot/sdot operations against
-a scalar were not using an address-swizzling macro when converting
-the index of the scalar element into a pointer into the vm array.
-This had no effect on little-endian hosts but meant we generated
-incorrect results on big-endian hosts.
+From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 
-For these insns, the index is indexing over group of 4 8-bit values,
-so 32 bits per indexed entity, and H4() is therefore what we want.
-(For Neon the only possible input indexes are 0 and 1.)
+HCR should be applied when NS is set, not when it is cleared.
 
+Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201028191712.4910-3-peter.maydell@linaro.org
 ---
- target/arm/vec_helper.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/arm/helper.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/target/arm/vec_helper.c b/target/arm/vec_helper.c
-index 30d76d05beb..0f33127c4c4 100644
---- a/target/arm/vec_helper.c
-+++ b/target/arm/vec_helper.c
-@@ -293,7 +293,7 @@ void HELPER(gvec_sdot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
-     intptr_t index = simd_data(desc);
-     uint32_t *d = vd;
-     int8_t *n = vn;
--    int8_t *m_indexed = (int8_t *)vm + index * 4;
-+    int8_t *m_indexed = (int8_t *)vm + H4(index) * 4;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 97bb6b8c01b..dc51175bf05 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -731,13 +731,12 @@ static void tlbimvaa_is_write(CPUARMState *env, const ARMCPRegInfo *ri,
  
-     /* Notice the special case of opr_sz == 8, from aa64/aa32 advsimd.
-      * Otherwise opr_sz is a multiple of 16.
-@@ -324,7 +324,7 @@ void HELPER(gvec_udot_idx_b)(void *vd, void *vn, void *vm, uint32_t desc)
-     intptr_t index = simd_data(desc);
-     uint32_t *d = vd;
-     uint8_t *n = vn;
--    uint8_t *m_indexed = (uint8_t *)vm + index * 4;
-+    uint8_t *m_indexed = (uint8_t *)vm + H4(index) * 4;
+ /*
+  * Non-IS variants of TLB operations are upgraded to
+- * IS versions if we are at NS EL1 and HCR_EL2.FB is set to
++ * IS versions if we are at EL1 and HCR_EL2.FB is effectively set to
+  * force broadcast of these operations.
+  */
+ static bool tlb_force_broadcast(CPUARMState *env)
+ {
+-    return (env->cp15.hcr_el2 & HCR_FB) &&
+-        arm_current_el(env) == 1 && arm_is_secure_below_el3(env);
++    return arm_current_el(env) == 1 && (arm_hcr_el2_eff(env) & HCR_FB);
+ }
  
-     /* Notice the special case of opr_sz == 8, from aa64/aa32 advsimd.
-      * Otherwise opr_sz is a multiple of 16.
+ static void tlbiall_write(CPUARMState *env, const ARMCPRegInfo *ri,
 -- 
 2.20.1
 
