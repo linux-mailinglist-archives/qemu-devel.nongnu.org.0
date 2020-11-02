@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A49F2A31A7
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:34:50 +0100 (CET)
-Received: from localhost ([::1]:52780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C8282A31C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 18:40:07 +0100 (CET)
+Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZdjF-0004pQ-Ld
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:34:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58202)
+	id 1kZdoK-0008Ey-Cd
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 12:40:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdgE-0002rD-64
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:31:42 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:34925)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZdgB-0000hB-LB
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:31:41 -0500
-Received: by mail-ej1-x631.google.com with SMTP id p5so20026398ejj.2
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 09:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lrY8+fWQOho0yxiRfGKwjlRikfKieG6I4rjyCd+DF9U=;
- b=f5W9esqfsLI82ZXpwXoLTIrYeeB48TJefrQ/mun00b2LAdjeK4MFKOPe8HlkHKlCvh
- VrCZaNXF6y2b88mofb3SSHavj4qHXW+o6Maw6pkoIsQ5HJhw+Obu4Xw6UDxO9Unjm5kB
- +GeYrE74Et41UwHS63NJrPbXIipIA6KuxZVCg9thd+x/YZp8sLXevSl8F5/kc5sU+J+0
- m8fMMg6KZOdwDe6v0D4EbjyiRJIr6Sr/uDV+Iy0H3sje+RXUuOa5Ik/lvMJd8MbgIEIs
- +mOTBqQebgYCNf1oFjNznS2ZawFUQuUDhaOG5UdSrMh3acYhQjFMSE6Z5VrcftSyeGlm
- 5f5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lrY8+fWQOho0yxiRfGKwjlRikfKieG6I4rjyCd+DF9U=;
- b=gIjJ+SGCwiA2++PV9aSTPxx7Fd+o0k4eQeBddkyldZIMiLia7Ey5ubQi9lvHxKkHen
- qsyPnnreaGcYsbVrUOTw5bM7DKLP454HQ/45GefPsxG2TqPZWHTHN+JfLhXLDtqyJ5Qw
- +xnBRMbYtxA6bbXLHNzfL7XM1BFgNOwZ0fPz1J7xXzz6OZRuUiN4JaGExRCYyVra3leL
- 0DaXj9wPztU9rK28TAu7nSwWZ5qPPAbDb5wJm72LBVS1MncXUe64iEh9JgonSnp7HUcy
- ElON28VMdNoDJX74jyQTCrCpv/xIfnY6wvGzjUndt+p3YgWcf6nkbIkoZg3O0ibJt4lk
- Bt2Q==
-X-Gm-Message-State: AOAM532SCsDonh11fyRipz70egcQe1voBKlVtW935yAYqyFQ6S8UYVUj
- eg6BtJR0tElpAzJCZgc0pxf4zDPzGMVFkmPcGJw5Kg==
-X-Google-Smtp-Source: ABdhPJypMh6aN3SICBhYBIyFTaf8ynSo51TiKvcsPcpQNxvcuQIBIPjHN+sbC9mWU8hgbadiv3FN+VAc1V9DkJoyjXg=
-X-Received: by 2002:a17:907:9e3:: with SMTP id
- ce3mr16565584ejc.4.1604338297697; 
- Mon, 02 Nov 2020 09:31:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kZdm2-0007Du-Eu
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:37:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28805)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1kZdlz-0001QX-LK
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 12:37:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604338656;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mL6b+c+wfL/tfWSFvR/mnAAS0lAbH053vcgvpxdNCt4=;
+ b=VZqkoFxnXiNhSfFheBTvzNcu2qxAklttV0n+9t/jwaI3d+Z8uHoCfCuxjZbyAmUXUZImU/
+ zGzK0N9qsjGTaqaN0rcqPnQNMOlyCuG9Ag9Fc1N/Q+XG35ZdGkKgnSvycT87T2W/Q+3znc
+ VvXt3Gfw/4xMNOyqpc0YSlwGUJdD3jw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-596-yIlA2IALOsamxu1pKarhRQ-1; Mon, 02 Nov 2020 12:37:34 -0500
+X-MC-Unique: yIlA2IALOsamxu1pKarhRQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24B265708C;
+ Mon,  2 Nov 2020 17:37:33 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30D1D5B4A9;
+ Mon,  2 Nov 2020 17:37:24 +0000 (UTC)
+Date: Mon, 2 Nov 2020 10:37:23 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v10 10/10] vfio: Don't issue full 2^64 unmap
+Message-ID: <20201102103723.71fafca7@w520.home>
+In-Reply-To: <49788b62-ee5d-0b6f-36ff-3c2ba144df39@redhat.com>
+References: <20201008171558.410886-1-jean-philippe@linaro.org>
+ <20201008171558.410886-11-jean-philippe@linaro.org>
+ <20201008152214.3cb1425b@w520.home>
+ <20201030062513-mutt-send-email-mst@kernel.org>
+ <20201030112622.0edaa660@w520.home>
+ <49788b62-ee5d-0b6f-36ff-3c2ba144df39@redhat.com>
 MIME-Version: 1.0
-References: <20201028154004.776760-1-philmd@redhat.com>
-In-Reply-To: <20201028154004.776760-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Nov 2020 17:31:26 +0000
-Message-ID: <CAFEAcA_URCc2LjdrR8GbK-uu+isTVPH39qSce4yWqNV39RkbWg@mail.gmail.com>
-Subject: Re: [PATCH-for-5.2] hw/virtio/vhost-vdpa: Fix Coverity CID 1432864
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 03:02:24
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,26 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ peterx@redhat.com, eric.auger@redhat.com, bbhushan2@marvell.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 28 Oct 2020 at 15:45, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> Fix uninitialized value issues reported by Coverity:
->
->   Field 'msg.reserved' is uninitialized when calling write().
->
-> Fixes: a5bd05800f8 ("vhost-vdpa: batch updating IOTLB mappings")
-> Reported-by: Coverity (CID 1432864: UNINIT)
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+On Fri, 30 Oct 2020 19:19:14 +0100
+Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-Hi Philippe; thanks for this patch. I don't suppose you
-could also write a patch that fixes the same problem in
-vhost_kernel_send_device_iotlb_msg() (CID 1432871) ?
+> On 30/10/20 18:26, Alex Williamson wrote:
+> >>  
+> >>      if (try_unmap) {
+> >> +        if (llsize == int128_2_64()) {
+> >> +            /* The unmap ioctl doesn't accept a full 64-bit span. */
+> >> +            llsize = int128_rshift(llsize, 1);
+> >> +            ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
+> >> +            if (ret) {
+> >> +                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+> >> +                             "0x%"HWADDR_PRIx") = %d (%m)",
+> >> +                             container, iova, int128_get64(llsize), ret);
+> >> +            }
+> >> +            iova += int128_get64(llsize);
+> >> +        }
+> >>          ret = vfio_dma_unmap(container, iova, int128_get64(llsize));
+> >>          if (ret) {
+> >>              error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "    
+> > We're still susceptible that splitting the range in two could result in
+> > unmap calls that attempt to bisect a mapping that spans both ranges.
+> > Both unmap calls would fail in that case.  I think we could solve this
+> > more completely with a high water marker, but this probably good enough
+> > for now.
+> > 
+> > Acked-by: Alex Williamson <alex.williamson@redhat.com>    
+> 
+> Could it also be fixed by passing an Int128 to vfio_dma_unmap?
 
-thanks
--- PMM
+I think we still have the issue at the vfio ioctl which takes __u64 iova
+and size parameters, in bytes.  Therefore we cannot unmap an entire
+64-bit address space with a single ioctl call.  We'd need to make use
+of a flag to modify the ioctl behavior to work terms of some page size
+to achieve this, for example if iova and size were in terms of 4K
+pages, we wouldn't have this issue.  Thanks,
+
+Alex
+
 
