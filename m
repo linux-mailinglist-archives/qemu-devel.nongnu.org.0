@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F4102A28D7
-	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 12:15:04 +0100 (CET)
-Received: from localhost ([::1]:42614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D2DF2A28F5
+	for <lists+qemu-devel@lfdr.de>; Mon,  2 Nov 2020 12:23:42 +0100 (CET)
+Received: from localhost ([::1]:46704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZXnj-0003Om-Ff
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 06:15:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42098)
+	id 1kZXw4-0005WY-KP
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 06:23:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZXlN-0001Rg-OK
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:12:42 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:37758)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kZXvE-00052M-EC
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:22:50 -0500
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZXlK-0003Pa-Pf
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:12:37 -0500
-Received: by mail-ed1-x542.google.com with SMTP id o18so13966740edq.4
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 03:12:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1kZXvC-0007A0-Of
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 06:22:48 -0500
+Received: by mail-pl1-x644.google.com with SMTP id r10so6674779plx.3
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 03:22:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hfeX/a+AchVjQcqP2lFZDZCdUFs184FjMKpBV84t+OQ=;
- b=QRZJLcl6pdKHSN9sVIN/iG5OGl3VAp56elkA1F3YYDXnjWUbs6rcRAR7Vsh2M36h1/
- SFA2i5fC6RNH+/V6/W1to7YoGdk8w2rPSjjTKC0DShEs4MLMWCu+05+qdOc71g6ONwg7
- Scbw6hbEVmdXB6Px7zSztVYWq4mtt6BgqZ9fTZ67ghvY7c6Q3rZpl3bQ+8/2STD6OCAI
- SshHiHNpMVAZ3J+HQoGSjhd8wA2LeIe2IbHKUNLNow32cRLSp+Tcj039E+GY6UCIxA7w
- EI25+coDsHyHJizGI2MaChV4i1qkeh0pD7QAbO5TSUu2QxBPYwX/lHYX4hrYWQoabmuF
- Z2cQ==
+ :cc; bh=6XDMO3dY+P6KF4ULhZ3+1GiinKDisc3vIbzVvD5wddI=;
+ b=q3On0vmn+1n6io/wy2R/MzfqZ2V+uT0vOrys9i1FSo06hQd7zka103j/j/Q65sb1XF
+ Nhg5TZbpdP5KrVQqfWEhQHNshqZQMH81ziDuByA995YnbZdJ6erZ2AXfxG6eiVcbnkAf
+ d1vup+7rVQ7nttntHOZj7efPu/oeKKRqvDv4mk9RuWr6oDnAJTaGmb3eMgiRNJe9NLTf
+ XAXUEyHK3zdF0BVEZ1DS0a7h3fFC5KgLKrj9tcSeqVPg9Jb95S6np03ALKNIXxAgfTG4
+ qnk2gz4fztP83nQSYD+Itl5CBncusTAJsy3HWgycYdLNM8EJy5ApTjUDSZOSlEA0mtjd
+ dJ3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hfeX/a+AchVjQcqP2lFZDZCdUFs184FjMKpBV84t+OQ=;
- b=K+H7cjJiRdcEFAcGkLjwLqSIYXpnoesmZ60tauzR6jjSz/txx5iD9TTzkO+XnGIKhe
- qlvvFxfGKG1BVoVsuK2gY/6Cl9ypIRpb+203aFR+xZT5teQbHZHlibUCkDh0IL/U+oni
- YHk2BAeBhTeKW2FMNq1nRbEJ0Nx2GV8++qLHvIASGzfMkmeHqZF2f3IkZ8mLEeuphnLb
- SVQt9HlQjhze4jRpnb8NBSD8Mcmi7S6oBls6DT7AALP5ORWLbF7hFfYS8o7oz+6/eR/i
- bcpITkTBoICeXO/mju/KYNubWqeaT4cDfj8Wc53LFS+rW5oI0ZrzA18ChiiGIvt7VP0V
- Dd0g==
-X-Gm-Message-State: AOAM531usQPqHER1QX4yj1bLsOjXTzAxjt+ZbcoKRMQRVbeUq7bfvfW/
- iBIw0UVUdlpExFiJWv/SsF9S7Scoham5apb3X7qYOw==
-X-Google-Smtp-Source: ABdhPJwsbj4na2nrTjWJ/nslbm1VtvEND29/y7qyxS4kDKfWrCHfKEwL6mKKcQnCSuLASDYPn+fF9o0z6QZ9DrK3qYI=
-X-Received: by 2002:a05:6402:4c6:: with SMTP id
- n6mr16341518edw.204.1604315553097; 
- Mon, 02 Nov 2020 03:12:33 -0800 (PST)
+ bh=6XDMO3dY+P6KF4ULhZ3+1GiinKDisc3vIbzVvD5wddI=;
+ b=cOGJYAek7g2IiBSf+UZkCSGaUO2Ajw18ag2vGFsy/usbrc6a0HWJ2fXkLnYYz8LbMG
+ j4SvMPGT4oGqX7rra+s49mS9s1+dr7Kjo4aj8pBQnwbaS3InNc1aLYjrzEHkdxS80f6Q
+ cNY+vA2wsfl5I0QXcaqq5YaSm8ZDPEFD5CiMup9H2Cd/rCI+Wp9dGzfGLl6eFLW1zXDV
+ oysYDlEDvoNg0Vr/94ooGtZcP2fMKFwX0KSL5aVhDua/d+XN62kdmCqn8RqKTbIKuXWw
+ zec8XLcYUNxo4Yk+sXUfG5HQszqPkvFmJcaL0gKdoaj64had9tbTv7JwD+NctElLKG8u
+ WFzg==
+X-Gm-Message-State: AOAM5320bzu+XZorurCp9iwARQtetZeo+lJHnBEcg7nkWAY1M+1KTByl
+ FExPkqAw8NcdWh5Er0sjbokit8zRt6UrkgDUvyY=
+X-Google-Smtp-Source: ABdhPJxm9/cGvjcSBTye+nuDD2YcqAXEmOYCHIRtI6TWBTFY12ByUJ1BgcWTrPhOw2EvsJjXBHpWbhBo4TxNG4nHmMw=
+X-Received: by 2002:a17:902:59cd:b029:d6:7656:af1 with SMTP id
+ d13-20020a17090259cdb02900d676560af1mr20519279plj.43.1604316164552; Mon, 02
+ Nov 2020 03:22:44 -0800 (PST)
 MIME-Version: 1.0
-References: <20200921221045.699690-1-ehabkost@redhat.com>
- <20200921221045.699690-17-ehabkost@redhat.com>
-In-Reply-To: <20200921221045.699690-17-ehabkost@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 2 Nov 2020 11:12:21 +0000
-Message-ID: <CAFEAcA-hBRcOXmNbHPaPCuE94_g8dS61mPYyQL_JnYPCrBOZsw@mail.gmail.com>
-Subject: Re: [PATCH 16/24] virt: Register "its" as class property
-To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20201030174700.7204-1-peter.maydell@linaro.org>
+ <20201030174700.7204-3-peter.maydell@linaro.org>
+In-Reply-To: <20201030174700.7204-3-peter.maydell@linaro.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 2 Nov 2020 11:22:33 +0000
+Message-ID: <CAJSP0QXd0YF=kVL41oMSTPRbRe5YC8Tt+VLAvwvuVVtrWr+dYA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] qemu-option-trace.rst.inc: Don't use option:: markup
+To: Peter Maydell <peter.maydell@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
+ envelope-from=stefanha@gmail.com; helo=mail-pl1-x644.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,69 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, "Daniel P. Berrange" <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 21 Sep 2020 at 23:11, Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Fri, Oct 30, 2020 at 5:48 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Class properties make QOM introspection simpler and easier, as
-> they don't require an object to be instantiated.
+> Sphinx 3.2 is pickier than earlier versions about the option:: markup,
+> and complains about our usage in qemu-option-trace.rst:
 >
-> Note: "its" is currently registered conditionally, but this makes
-> the feature be registered unconditionally.  The only side effect
-> is that it will be now possible to set its=on on virt-2.7 and
-> older.
+> ../../docs/qemu-option-trace.rst.inc:4:Malformed option description
+>   '[enable=]PATTERN', should look like "opt", "-opt args", "--opt args",
+>   "/opt args" or "+opt args"
 >
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> In this file, we're really trying to document the different parts of
+> the top-level --trace option, which qemu-nbd.rst and qemu-img.rst
+> have already introduced with an option:: markup.  So it's not right
+> to use option:: here anyway.  Switch to a different markup
+> (definition lists) which gives about the same formatted output.
+>
+> (Unlike option::, this markup doesn't produce index entries; but
+> at the moment we don't do anything much with indexes anyway, and
+> in any case I think it doesn't make much sense to have individual
+> index entries for the sub-parts of the --trace option.)
+>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: qemu-arm@nongnu.org
-> Cc: qemu-devel@nongnu.org
-> ---
->  hw/arm/virt.c | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index d1ab660fa60..986b75a6b89 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2484,6 +2484,13 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
->                                            "Set on/off to enable/disable emulating a "
->                                            "guest CPU which implements the ARM "
->                                            "Memory Tagging Extension");
-> +
-> +    object_class_property_add_bool(oc, "its", virt_get_its,
-> +                                   virt_set_its);
-> +    object_class_property_set_description(oc, "its",
-> +                                          "Set on/off to enable/disable "
-> +                                          "ITS instantiation");
-> +
->  }
->
->  static void virt_instance_init(Object *obj)
-> @@ -2511,11 +2518,6 @@ static void virt_instance_init(Object *obj)
->      } else {
->          /* Default allows ITS instantiation */
->          vms->its = true;
-> -        object_property_add_bool(obj, "its", virt_get_its,
-> -                                 virt_set_its);
-> -        object_property_set_description(obj, "its",
-> -                                        "Set on/off to enable/disable "
-> -                                        "ITS instantiation");
->      }
+>  docs/qemu-option-trace.rst.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-This leaves the code reading
-  if (vmc->no_its) {
-      vms->its = false;
-  } else {
-      vms->its = true;
-  }
-
-which is more simply written "vms->its = !vmc->no_its;"
-
-thanks
--- PMM
+Tested-by: Stefan Hajnoczi <stefanha@redhat.com>
 
