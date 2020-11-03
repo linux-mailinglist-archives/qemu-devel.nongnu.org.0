@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A33C72A4A9D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:02:48 +0100 (CET)
-Received: from localhost ([::1]:52854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 833F32A4AC0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:05:41 +0100 (CET)
+Received: from localhost ([::1]:57962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZylj-0006TN-OR
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:02:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51756)
+	id 1kZyoW-0000As-I8
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:05:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyK2-0002MR-DT
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:34:10 -0500
+ id 1kZyKN-0002UH-SE
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:34:33 -0500
 Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyK0-0001FT-AL
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:34:10 -0500
+ id 1kZyKD-0001FT-GW
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:34:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604417648; x=1635953648;
+ t=1604417662; x=1635953662;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=2q5eaqHnasSx88RF++/1bEt2K4A/LzHypBeMeKb6C/M=;
- b=o4UdPBo5W1PlAdkBeu8gTf/SeW8qjVkF9bzpqQHSgPTiIedi64TUyLse
- 10yLoYk7/BwTy/+lqAxF3iXAULxDwEilCncib/Imo11BbynxlvwkEpk9u
- t8su9b7nT5hsi/rJtSvmxK/Vv484T9nc1+65TE5226DZWxfEyLO6/wsr2
- RC9Ym6lbsvSOKPtX8sQ1DyolvKyL0BN39g/OwYqYjCQCDmsC7ja1nbSaL
- c16Tz0J+ZS/L9jwEOEENMpKYBV+pxkGtCs7PJoIjz7WdgbWxIiP+RSEXF
- 1IJStw4YFb37mApN83KkZ4SPgAW//1FuQZmg4wS02ovI9ocIqqB7RNXVH A==;
-IronPort-SDR: NXB2E02c/8KIAurU4N6QCn7FxVU4ptSUIoImsN79MSnzuz1+gd5z7sFX2OnNV3QaZiXYD4bZ/B
- P8+vGU2En0j4WFXKBU/PWWrq+AZL8ov5lXIGKh5QW5wp8CF+otTvRJqva/OTbdoYM2AsHkHZyI
- hPks67Mwbx9JHiyvKdrqczyMvwDMR3CfOWbAxiTMslTT4WhN+IbbylTu2vTo5kEQ6NxLzI8cMv
- Dbx2CV4TWAiy2vSpFvN3XGEYkkWcLbMl5t0SCkIu+GqbjFR907AGRpTnxqVwWOa+diOdtkykPS
- Fj4=
-X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867482"
+ bh=gfyFOauU6Gej1Dn0hI4aczlzFeYXPNOkCE53IqC40bY=;
+ b=gdDejzMwv3YPaFgsTgYX1WaCX/J8xoFvgaSIroRCs7qQGXx55GJGJ9SW
+ iKiR4wCiViII5KjWzYuAKcWDOcoo2h+Yhf9aVF9phj20GpgBmb+ERDM8D
+ woDBc3IU661hLYEXG1sOoUxApeAYh0RIcV4xUGLUERqLyxNctxbeq7GGE
+ oCIvL2dxugoogzoC2Y/FmBjluPQS7T7HilKy+yPUl8KKc8wUD14xl1avf
+ u6ItYNU/WF9rGFGvf/7TNieVc57I5Obfi7yjqQ/rcviXiUvZj8FsJitqB
+ D0kpHc1wYI/vKKxGHnwPDdjehfkMgegp0SrkG2mPGfVrln2lXosegbN85 Q==;
+IronPort-SDR: UXa88enkiHN9SWtIIH8g+bUc7t6Km8EmeA76DFpz0yXFypHrCEo4iknLEwSUPhFWDp9OIXruZW
+ /Bbg/0Jni/7+nTIVbi1bpNpamYSVRtr8LsIPQqBxY9m+JwUpHb83rotK9aee2Yjif/YXwFqXGp
+ XThpx985tSl4GIz4WSFbeBy1gwl5t5QLYHB+alS4cLMJ9jieNH8ViXse+HSId7NhqtForIovTW
+ cqkevWEYThRrK5B0V4w744udIKvHfj/otI8roWvQcEMK6ghzV7vYXKVo1wug7eKlewc0ga/WYE
+ Orw=
+X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867488"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:27 +0800
-IronPort-SDR: WCpHK4Cr6jekYe5exuiKuwMIUKXYQhitlN7t6dRplHcDyigubEHHQxFl+WvNrwkUZh2/CUEKXK
- lyOxo7R0ZfmGzCrnLmTk1AhPekNwYA26Zqv9AdMT0WMinN7iYVamwjCSrdTS3tVjW6YJDWwdCh
- 2VgjoS0rGLWW9v3ZbmmVM1NGBzfGqp3l/Z9Sqeoxh01LlE+QuEiHgno4R+c87EgHI9SohFtEzh
- jCTg3dhOfeHhLIhOdHykFJktcWmmLAVTJ6KX8ciPTK2cVksMzwHCudOTwQoBYfbid8ZSffdQO+
- LdF3iIle55ZFJVF2TLNTSbQa
+ by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:28 +0800
+IronPort-SDR: 75I30xPdcWm6L+50XsVplSRYW86pD+PduwmJ4pbHPCN/FV+/mj0fN7CD8T8uATFRURJjhBWwyO
+ 2X7+iG7rKcqQZFeD+HLGi9soAkPJ9hOhhu7oq3ficq/1+G5kNPzOq3OQhs/JfZGrux5N3ikXr5
+ Dj8wqCIsmSTS67mXmkrVTiee4zX1oA8EoTufdKQ9+y8Ibf0n3BfLS+ObpVtA8ZYLjS0ATKvidJ
+ G8ap6Ylug84sHCuWfnkW5/Qdpgf2Q3Cu5x/tW6rrAJai9YId8VG6G91UxMQZjbLodeoEkxyIJ2
+ S26CcqjvVUJfWYBGKtdCxRqI
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2020 07:19:36 -0800
-IronPort-SDR: vkgOX51/ypMSSMceV7JPU8nfABUyjr/u2M7GXOfzPahUihzXV1E+Yyl5e6/hWZd7eKXqH1o1Tj
- x2l8NHmEKtmE3tis2Ofzpv9T5y3FA8imofWTj9kGWfv78DXsmTovBDZvPF/K0YPvPguGaEI0jt
- AJYnfw9TqbQW+Vnen4zQvTVr/PgOIC6r+d2oc+yFZfAenxi7Gi5/Y2Rhtz7o5655lGKfdmdf7h
- jJUSIBfcFrSb1Kd3VR+58TAppZEG+acqRqbsOjdTgCcDUjV7XIjOteeKRtQ5vwod9L0nX1fkOf
- SEc=
+ 03 Nov 2020 07:19:37 -0800
+IronPort-SDR: mnZtCmTsqEFzU18mCjIXP9pXVXu33b4ClzdI/2A9WDlD8AqjD+IXsNMm1wptEIKnKJw6hPwAGB
+ C6jl3VkJJXV7+yMoB/tXVN5RMA47YIf3gwAmN9ffvp//QA86kz/u9FJv2RPxdkddjMnXtN2JTr
+ lvizXMaitmanU3aSeKvxWbVmHV0bz9nDNmOqyRuHDPoeExBt5i7YTiIBQKL426fIGiVwhpCkh2
+ O65Z6E/Zm7VN2Q5c7holByzfrq7zVzy1+e0nWJCWA99zbrvJjklbYJZV8eOT5DIqOgPcYJmaNb
+ oag=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.113])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 07:33:28 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 07:33:29 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL v2 15/19] hw/riscv: microchip_pfsoc: Connect the SYSREG module
-Date: Tue,  3 Nov 2020 07:21:46 -0800
-Message-Id: <20201103152150.2677566-16-alistair.francis@wdc.com>
+Subject: [PULL v2 18/19] hw/riscv: microchip_pfsoc: Hook the I2C1 controller
+Date: Tue,  3 Nov 2020 07:21:49 -0800
+Message-Id: <20201103152150.2677566-19-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201103152150.2677566-1-alistair.francis@wdc.com>
 References: <20201103152150.2677566-1-alistair.francis@wdc.com>
@@ -101,78 +101,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Previously SYSREG was created as an unimplemented device. Now that
-we have a simple SYSREG module, connect it.
+The latest SD card image [1] released by Microchip ships a Linux
+kernel with built-in PolarFire SoC I2C driver support. The device
+tree file includes the description for the I2C1 node hence kernel
+tries to probe the I2C1 device during boot.
+
+It is enough to create an unimplemented device for I2C1 to allow
+the kernel to continue booting to the shell.
+
+[1] ftp://ftpsoc.microsemi.com/outgoing/core-image-minimal-dev-icicle-kit-es-sd-20201009141623.rootfs.wic.gz
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1603863010-15807-8-git-send-email-bmeng.cn@gmail.com
+Message-id: 1603863010-15807-11-git-send-email-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/microchip_pfsoc.h | 2 ++
- hw/riscv/microchip_pfsoc.c         | 9 ++++++---
- hw/riscv/Kconfig                   | 1 +
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ include/hw/riscv/microchip_pfsoc.h | 1 +
+ hw/riscv/microchip_pfsoc.c         | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/include/hw/riscv/microchip_pfsoc.h b/include/hw/riscv/microchip_pfsoc.h
-index a244ae6d39..245c82db61 100644
+index db77e9c84a..51d44637db 100644
 --- a/include/hw/riscv/microchip_pfsoc.h
 +++ b/include/hw/riscv/microchip_pfsoc.h
-@@ -26,6 +26,7 @@
- #include "hw/dma/sifive_pdma.h"
- #include "hw/misc/mchp_pfsoc_dmc.h"
- #include "hw/misc/mchp_pfsoc_ioscb.h"
-+#include "hw/misc/mchp_pfsoc_sysreg.h"
- #include "hw/net/cadence_gem.h"
- #include "hw/sd/cadence_sdhci.h"
- 
-@@ -47,6 +48,7 @@ typedef struct MicrochipPFSoCState {
-     MchpPfSoCMMUartState *serial2;
-     MchpPfSoCMMUartState *serial3;
-     MchpPfSoCMMUartState *serial4;
-+    MchpPfSoCSysregState sysreg;
-     SiFivePDMAState dma;
-     CadenceGEMState gem0;
-     CadenceGEMState gem1;
+@@ -97,6 +97,7 @@ enum {
+     MICROCHIP_PFSOC_MMUART2,
+     MICROCHIP_PFSOC_MMUART3,
+     MICROCHIP_PFSOC_MMUART4,
++    MICROCHIP_PFSOC_I2C1,
+     MICROCHIP_PFSOC_GEM0,
+     MICROCHIP_PFSOC_GEM1,
+     MICROCHIP_PFSOC_GPIO0,
 diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 438e0c464d..bc908e07d9 100644
+index 96cb8b983a..37ac46a1af 100644
 --- a/hw/riscv/microchip_pfsoc.c
 +++ b/hw/riscv/microchip_pfsoc.c
-@@ -153,6 +153,9 @@ static void microchip_pfsoc_soc_instance_init(Object *obj)
-     object_initialize_child(obj, "dma-controller", &s->dma,
-                             TYPE_SIFIVE_PDMA);
+@@ -113,6 +113,7 @@ static const struct MemmapEntry {
+     [MICROCHIP_PFSOC_MMUART2] =         { 0x20102000,     0x1000 },
+     [MICROCHIP_PFSOC_MMUART3] =         { 0x20104000,     0x1000 },
+     [MICROCHIP_PFSOC_MMUART4] =         { 0x20106000,     0x1000 },
++    [MICROCHIP_PFSOC_I2C1] =            { 0x2010b000,     0x1000 },
+     [MICROCHIP_PFSOC_GEM0] =            { 0x20110000,     0x2000 },
+     [MICROCHIP_PFSOC_GEM1] =            { 0x20112000,     0x2000 },
+     [MICROCHIP_PFSOC_GPIO0] =           { 0x20120000,     0x1000 },
+@@ -343,6 +344,11 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
+         qdev_get_gpio_in(DEVICE(s->plic), MICROCHIP_PFSOC_MMUART4_IRQ),
+         serial_hd(4));
  
-+    object_initialize_child(obj, "sysreg", &s->sysreg,
-+                            TYPE_MCHP_PFSOC_SYSREG);
++    /* I2C1 */
++    create_unimplemented_device("microchip.pfsoc.i2c1",
++        memmap[MICROCHIP_PFSOC_I2C1].base,
++        memmap[MICROCHIP_PFSOC_I2C1].size);
 +
-     object_initialize_child(obj, "ddr-sgmii-phy", &s->ddr_sgmii_phy,
-                             TYPE_MCHP_PFSOC_DDR_SGMII_PHY);
-     object_initialize_child(obj, "ddr-cfg", &s->ddr_cfg,
-@@ -280,9 +283,9 @@ static void microchip_pfsoc_soc_realize(DeviceState *dev, Error **errp)
-     }
+     /* GEMs */
  
-     /* SYSREG */
--    create_unimplemented_device("microchip.pfsoc.sysreg",
--        memmap[MICROCHIP_PFSOC_SYSREG].base,
--        memmap[MICROCHIP_PFSOC_SYSREG].size);
-+    sysbus_realize(SYS_BUS_DEVICE(&s->sysreg), errp);
-+    sysbus_mmio_map(SYS_BUS_DEVICE(&s->sysreg), 0,
-+                    memmap[MICROCHIP_PFSOC_SYSREG].base);
- 
-     /* MPUCFG */
-     create_unimplemented_device("microchip.pfsoc.mpucfg",
-diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
-index 8f043e38e0..facb0cbacc 100644
---- a/hw/riscv/Kconfig
-+++ b/hw/riscv/Kconfig
-@@ -7,6 +7,7 @@ config MICROCHIP_PFSOC
-     select MCHP_PFSOC_DMC
-     select MCHP_PFSOC_IOSCB
-     select MCHP_PFSOC_MMUART
-+    select MCHP_PFSOC_SYSREG
-     select MSI_NONBROKEN
-     select SIFIVE_CLINT
-     select SIFIVE_PDMA
+     nd = &nd_table[0];
 -- 
 2.28.0
 
