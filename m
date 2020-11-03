@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD032A3B47
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 05:07:48 +0100 (CET)
-Received: from localhost ([::1]:34412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A88912A3B54
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 05:10:58 +0100 (CET)
+Received: from localhost ([::1]:38750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZnbm-0002Nb-O4
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 23:07:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60192)
+	id 1kZner-0004KV-IF
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 23:10:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1kZnaq-0001xZ-87
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 23:06:48 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2498)
+ id 1kZndm-0003rQ-Ed
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 23:09:50 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1kZnak-0006rN-0Z
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 23:06:47 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CQGRx0phrzhfYP;
- Tue,  3 Nov 2020 12:06:21 +0800 (CST)
+ id 1kZndk-0007rS-A8
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 23:09:50 -0500
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CQGWl2pF1zkdxK;
+ Tue,  3 Nov 2020 12:09:39 +0800 (CST)
 Received: from [10.108.235.54] (10.108.235.54) by
- DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 3 Nov 2020 12:06:14 +0800
-Subject: [PATCH v2 1/3] softmmu: Do not use C99 // comments
+ DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
+ 14.3.487.0; Tue, 3 Nov 2020 12:09:36 +0800
+Subject: [PATCH v2 2/3] softmmu: Don't use '#' flag of printf format
+References: <edcc3e56-2419-8645-8639-d9e50d710a1d@huawei.com>
 To: <qemu-devel@nongnu.org>, <pbonzini@redhat.com>
-References: <160398385565.11191.16172040000588233087@66eaa9a8a123>
 From: chaihaoyu <chaihaoyu1@huawei.com>
-Message-ID: <edcc3e56-2419-8645-8639-d9e50d710a1d@huawei.com>
-Date: Tue, 3 Nov 2020 12:06:14 +0800
+X-Forwarded-Message-Id: <edcc3e56-2419-8645-8639-d9e50d710a1d@huawei.com>
+Message-ID: <ef0192da-8046-6c0f-0bfd-2cd228fd093e@huawei.com>
+Date: Tue, 3 Nov 2020 12:09:35 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <160398385565.11191.16172040000588233087@66eaa9a8a123>
+In-Reply-To: <edcc3e56-2419-8645-8639-d9e50d710a1d@huawei.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.108.235.54]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=chaihaoyu1@huawei.com; helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 20:52:53
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=chaihaoyu1@huawei.com; helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 20:52:58
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,51 +69,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Hi, recently I found some code style problems while using checkpatch.pl tool,please review.
 
 Date: Tue, 3 Nov 2020 11:01:40 +0800
+Subject: [PATCH] Don't use '#' flag of printf format
 signed-off-by: Haoyu Chai<chaihaoyu1@huawei.com>
 ---
- softmmu/memory.c         | 2 +-
- softmmu/memory_mapping.c | 2 +-
- softmmu/physmem.c        | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ softmmu/device_tree.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 107ce0a4f8..5fb591b001 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -36,7 +36,7 @@
- #include "hw/boards.h"
- #include "migration/vmstate.h"
+diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+index b335dae707..c70215ba6a 100644
+--- a/softmmu/device_tree.c
++++ b/softmmu/device_tree.c
+@@ -367,7 +367,7 @@ int qemu_fdt_setprop_cell(void *fdt, const char *node_path,
 
--//#define DEBUG_UNASSIGNED
-+/* #define DEBUG_UNASSIGNED */
-
- static unsigned memory_region_transaction_depth;
- static bool memory_region_update_pending;
-diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
-index 18d0b8067c..f64053499e 100644
---- a/softmmu/memory_mapping.c
-+++ b/softmmu/memory_mapping.c
-@@ -19,7 +19,7 @@
- #include "exec/memory.h"
- #include "exec/address-spaces.h"
-
--//#define DEBUG_GUEST_PHYS_REGION_ADD
-+/* #define DEBUG_GUEST_PHYS_REGION_ADD */
-
- static void memory_mapping_list_add_mapping_sorted(MemoryMappingList *list,
-                                                    MemoryMapping *mapping)
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 44ffb60b5d..78c1b6580a 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -75,7 +75,7 @@
- #include <daxctl/libdaxctl.h>
- #endif
-
--//#define DEBUG_SUBPAGE
-+/* #define DEBUG_SUBPAGE */
-
- /* ram_list is read under rcu_read_lock()/rcu_read_unlock().  Writes
-  * are protected by the ramlist lock.
+     r = fdt_setprop_cell(fdt, findnode_nofail(fdt, node_path), property, val);
+     if (r < 0) {
+-        error_report("%s: Couldn't set %s/%s = %#08x: %s", __func__,
++        error_report("%s: Couldn't set %s/%s = 0x%08x: %s", __func__,
+                      node_path, property, val, fdt_strerror(r));
+         exit(1);
+     }
 -- 
+2.29.1.59.gf9b6481aed
+
 
