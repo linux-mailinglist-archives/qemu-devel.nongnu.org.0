@@ -2,63 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E870F2A528F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 21:51:07 +0100 (CET)
-Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB2282A50E7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 21:32:58 +0100 (CET)
+Received: from localhost ([::1]:59732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka3Gi-0000Hk-Tq
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 15:51:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49366)
+	id 1ka2zB-0001Ip-Pk
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 15:32:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukma@denx.de>)
- id 1kZzb9-0001il-NA; Tue, 03 Nov 2020 11:55:55 -0500
-Received: from mail-out.m-online.net ([212.18.0.9]:34817)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukma@denx.de>)
- id 1kZzb6-0006D7-Sf; Tue, 03 Nov 2020 11:55:55 -0500
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
- by mail-out.m-online.net (Postfix) with ESMTP id 4CQbWm5qzfz1qs0P;
- Tue,  3 Nov 2020 17:55:48 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
- by mail.m-online.net (Postfix) with ESMTP id 4CQbWm5FZBz1qspZ;
- Tue,  3 Nov 2020 17:55:48 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
- by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
- port 10024)
- with ESMTP id SCC-USmKOzWx; Tue,  3 Nov 2020 17:55:46 +0100 (CET)
-X-Auth-Info: Ne9LxEHexrM33x4iO/w4NbXv/lN+djjc+5Eu7aKHbWs=
-Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mnet-online.de (Postfix) with ESMTPSA;
- Tue,  3 Nov 2020 17:55:46 +0100 (CET)
-Date: Tue, 3 Nov 2020 17:55:32 +0100
-From: Lukasz Majewski <lukma@denx.de>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: Re: [QEMU] Question regarding user mode support for ARM syscalls
-Message-ID: <20201103175532.796074fb@jawa>
-In-Reply-To: <CAKmqyKOFxO+NoyA0N2HbNDujKdDg4vFyMvpq=6+TPPxx4-VMFw@mail.gmail.com>
-References: <20201103120027.6fdc868c@jawa>
- <CAKmqyKOFxO+NoyA0N2HbNDujKdDg4vFyMvpq=6+TPPxx4-VMFw@mail.gmail.com>
-Organization: denx.de
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ka2yB-0000tC-0x
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 15:31:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22519)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1ka2y9-00066r-Aq
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 15:31:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604435512;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=W2xoQMtcZ45M2FDoabAb+oIuMsPmr+LIxDstfsaLsQQ=;
+ b=PaFtiWABs/hju6rEiVxiwFwvi8p0nxvCyqd6C+UnXMW6h9Ui7sudt53kCUL5m6hNcBdJjP
+ ADhzP26AYryahEj0+EJcZgag9AFIDo7LsBoTtcAJBhUb8VuWcIc0d2dAqJzJlISc7PFSsL
+ /85ec3wJIOi51sZevWxlXXD9vih4GyA=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-9KP-yz5jP3efZO8WAF4xNQ-1; Tue, 03 Nov 2020 15:31:50 -0500
+X-MC-Unique: 9KP-yz5jP3efZO8WAF4xNQ-1
+Received: by mail-wm1-f71.google.com with SMTP id c204so241032wmd.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 12:31:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W2xoQMtcZ45M2FDoabAb+oIuMsPmr+LIxDstfsaLsQQ=;
+ b=R7egUmCXMWOwNb/F7o9QX2aN0LaRM3peAknagwx3JjtmC/ImEUCYmal0PECM4G6Hbb
+ Ow63FkpQnKPXsvC2gp3hvJo/+PanPKFQV6A6YMEhsfybURmd67+X0QHGrx3d5WKKQiZz
+ gCuAjhF0g77mbDCbyPqWpIfjoaSfNEbdHC5i3a2IGuU1AY3p66sI5dTEHZ6nHepqOacY
+ 7XdFl34xlgCqQuuSBK52LoqZ88OB0TcTUhXj/11IOerm7wrpVopIX05VShgFH9s3M7Bf
+ CgXyWcIOrQvoB3KWbUpw3fYvTtnlVi65NDqJ4v7UTBkjR3ipqu8mdYN9sgXCAYA9vP1y
+ cIeg==
+X-Gm-Message-State: AOAM533GnbDt6xiKYVuKS8dllI0TcE0S0ehSQ6bl73uzDsGvTT03Mdbn
+ g9Yy61Vw+g7clYtE56mF3KcFSKWim2v6R3cPs3XBwJ1ucFbbV4Kkv0UUWJPqBJQBL/e7DG5Sjz3
+ C08lx6f58U9xzlF4=
+X-Received: by 2002:adf:e892:: with SMTP id d18mr29946479wrm.103.1604435509316; 
+ Tue, 03 Nov 2020 12:31:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5Kal2Q2BqN2crCt7Phj5MtwdE1YSjlg+L4Ckbm8BNES6hH2qy/addHtnYSbGKkq4WxUWSBQ==
+X-Received: by 2002:adf:e892:: with SMTP id d18mr29946459wrm.103.1604435509125; 
+ Tue, 03 Nov 2020 12:31:49 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id x10sm26462274wrp.62.2020.11.03.12.31.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Nov 2020 12:31:48 -0800 (PST)
+Subject: Re: [Qemu-devel] [PULL 09/36] 9p: simplify source file selection
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
+References: <1566284395-30287-1-git-send-email-pbonzini@redhat.com>
+ <1566284395-30287-10-git-send-email-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ab9a47b9-8ac5-c8f1-b035-b8b812551b3b@redhat.com>
+Date: Tue, 3 Nov 2020 21:31:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- boundary="Sig_/CqSCLvdd5re.s7aEWjS.8M0"; protocol="application/pgp-signature"
-Received-SPF: none client-ip=212.18.0.9; envelope-from=lukma@denx.de;
- helo=mail-out.m-online.net
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 11:55:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+In-Reply-To: <1566284395-30287-10-git-send-email-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 03 Nov 2020 15:49:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -70,256 +101,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-discuss <qemu-discuss@nongnu.org>,
- GNU C Library <libc-alpha@sourceware.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Cornelia Huck <cohuck@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/CqSCLvdd5re.s7aEWjS.8M0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Paolo,
 
-Hi Alistair,
+On 8/20/19 8:59 AM, Paolo Bonzini wrote:
+> Express the complex conditions in Kconfig rather than Makefiles, since Kconfig
+> is better suited at expressing dependencies and detecting contradictions.
+> 
+> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  Kconfig.host        | 1 +
+>  fsdev/Makefile.objs | 2 +-
+>  hw/9pfs/Kconfig     | 5 +++++
+>  3 files changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Kconfig.host b/Kconfig.host
+> index aec9536..bb6e116 100644
+> --- a/Kconfig.host
+> +++ b/Kconfig.host
+> @@ -28,6 +28,7 @@ config VHOST_USER
+>  
+>  config XEN
+>      bool
+> +    select FSDEV_9P if VIRTFS
 
-> On Tue, Nov 3, 2020 at 3:03 AM Lukasz Majewski <lukma@denx.de> wrote:
-> >
-> > Dear Qemu Community, =20
->=20
-> Hey Lukasz,
->=20
-> + QEMU Dev Mailing list
-> + Laurent
->=20
+There is something odd with CONFIG_XEN, as it is used
+to select accelerator and hardware.
 
-Thanks for reaching more people.
+>  
+>  config VIRTFS
+>      bool
+> diff --git a/fsdev/Makefile.objs b/fsdev/Makefile.objs
+> index 24bbb3e..42cd70c 100644
+> --- a/fsdev/Makefile.objs
+> +++ b/fsdev/Makefile.objs
+> @@ -1,6 +1,6 @@
+>  # Lots of the fsdev/9pcode is pulled in by vl.c via qemu_fsdev_add.
+>  # only pull in the actual 9p backend if we also enabled virtio or xen.
+> -ifeq ($(call land,$(CONFIG_VIRTFS),$(call lor,$(CONFIG_VIRTIO_9P),$(CONFIG_XEN))),y)
+> +ifeq ($(CONFIG_FSDEV_9P),y)
+>  common-obj-y = qemu-fsdev.o 9p-marshal.o 9p-iov-marshal.o
+>  else
+>  common-obj-y = qemu-fsdev-dummy.o
+> diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+> index 8c5032c..3ae5749 100644
+> --- a/hw/9pfs/Kconfig
+> +++ b/hw/9pfs/Kconfig
+> @@ -1,4 +1,9 @@
+> +config FSDEV_9P
+> +    bool
+> +    depends on VIRTFS
 
-> >
-> > I would like to ask you for some advice regarding the usage of
-> > arm-linux-user/qemu-arm user space program simulation.
-> >
-> > Background:
-> > -----------
-> >
-> > I'm looking for a way to efficiently test y2038 in-glibc solution
-> > for 32 bit architectures (e.g. ARM).
-> >
-> > For now I do use qemu-system-arm (part of Yocto/OE), which I'm
-> > using to run Linux kernel 5.1, glibc under test and Y2038 tests. It
-> > works [1].
-> >
-> > Problem:
-> > --------
-> >
-> > I would like to test cross-compiled tests (which are built from
-> > glibc sources) without the need to run the emulated system with
-> > qemu-system-arm.
-> >
-> > I've come across the "QEMU user mode", which would execute the
-> > cross-compiled test (with already cross-compiled glibc via -L
-> > switch) and just return exit status code. This sounds appealing. =20
->=20
-> As another advantage it is much, much faster at running the glibc
-> tests.
->=20
+Using "depends on VIRTFS && 9PFS" instead helps to
+reduce the link failure using --without-default-devices.
 
-+1
+> +
+>  config VIRTIO_9P
+>      bool
+>      default y
+>      depends on VIRTFS && VIRTIO
+> +    select FSDEV_9P
 
-> >
-> > As fair as I've read - QEMU user mode emulates ARM syscalls.
-> >
-> > During test execution (single qemu user mode process) I would need
-> > to adjust date with clock_settime64 syscall and then execute other
-> > syscalls if needed.
-> >
-> >
-> > Please correct me if I'm wrong:
-> > - It looks like qemu-arm doesn't have switch which would allow it to
-> >   set time offset (to e.g. year 2039 - something similar to
-> >   qemu-system-arm -rtc=3D).
-> >
-> > - As of 5.1 qemu version there is no support for syscalls
-> > supporting 64 bit time on 32 bit architectures (e.g.
-> > clock_settime64 and friends from [2]). =20
->=20
-> There is some support in the current master, for example
-> __NR_futex_time64 is supported.
+Here I used "depends on FSDEV_9P && VIRTIO" but this
+doesn't look right...
 
-I've just looked into v5.1.0 stable release. I will double check this
-with -master branch.
+Is it possible to include "config-devices.h" in
+hw/xen/xen-legacy-backend.c to use CONFIG_9PFS?
 
->=20
-> I started to add some support for RV32 once it was merged into glibc.
+xen_be_register_common() unconditionally calls:
 
-Ok.
+  xen_be_register("9pfs", &xen_9pfs_ops);
 
->=20
-> >
-> > For my example program [3] statically build for testing (it works
-> > with qemu-system-arm):
-> >
-> > ~/work/qemu-arm-tests-program$
-> > ../qemu-5.1.0-arm/arm-linux-user/qemu-arm -L
-> > ~/work/yocto/y2038/build/tmp/armv7at2hf-neon-poky-linux-gnueabi/y2038-g=
-libc/2.30+git999-r0/image/opt
-> > -strace ./cst
-> >
-> > 17746 brk(NULL) =3D 0x00074000
-> > 17746 brk(0x000748a8) =3D 0x000748a8
-> > 17746 uname(0x40800370) =3D 0
-> > 17746 readlink("/proc/self/exe",0x407ff488,4096) =3D 43
-> > 17746 brk(0x000958a8) =3D 0x000958a8
-> > 17746 brk(0x00096000) =3D 0x00096000
-> > 17746 mprotect(0x00070000,8192,PROT_READ) =3D 0
-> > 17746statx(1,"",AT_EMPTY_PATH|AT_NO_AUTOMOUNT,STATX_BASIC_STATS,0x407ff=
-d70)
-> > =3D 0
-> > 17746 Unknown syscall 404 --> is the syscall number of
-> > clock_settime64 =20
->=20
-> clock_settime64 is supported in master QEMU.
+As I have no much idea about Xen & 9pfs, I'm a bit
+lost here (regarding the dependencies order).
 
-I will double check it - thanks for pointing this out.
+Thanks,
 
->=20
-> >
-> > 17746 dup(2) =3D 3
-> > 17746 fcntl64(3,F_GETFL) =3D 2
-> > 17746statx(3,"",AT_EMPTY_PATH|AT_NO_AUTOMOUNT,STATX_BASIC_STATS,0x407ff=
-8e8)
-> > =3D 0 ERR
-> >
-> > Questions:
-> > ----------
-> >
-> > 1. Is there any plan to add support for emulating syscalls
-> > supporting 64 bit time on 32 bit architectures [2]? =20
->=20
-> I would like to have RV32 supported, but it's a low priority for me.
+Phil.
 
-Having syscalls supporting 64 bit time on 32 bit machines indicated in
-[2] would be a very welcome for glibc testing.
-
-> I
-> expect it's something that will eventually happen though.
-
-Ok.
-
->=20
-> >
-> > 2. Provide QEMU user space switch to adjust its time (i.e. add some
-> > offset to in-fly emulated time syscalls - like clock_settime64)
-> > when it is started? =20
->=20
-> That I'm not sure about.
-
-For me it would be enough to have:
-
-qemu-arm -rtc=3D"2039-01-01" -L... ./ctx
-So the emulated "time" would be after 32 bit time_t overflow when
-QEMU user space emulation process starts (as long as it doesn't touch
-the host machine time).
-
-
-Another option (workaround) would be to run clock_settime64() with time
-set to year 2038+ on the beginning of each glibc test. It shall work as
-long as we don't change host time (and all time changes would stay in
-the qemu user mode process).
-
-> I assume just running date/clock_settime64
-> from a script wouldn't work with the glibc test framework?
-
-Could you elaborate on this use case/scenario? Do you have some
-examples to share?
-
->=20
-> Alistair
->=20
-> >
-> >
-> > Thanks in advance for your help and reply.
-> >
-> >
-> > Links:
-> > [1] - https://github.com/lmajewski/meta-y2038/
-> > [2] -
-> > https://elixir.bootlin.com/linux/latest/source/arch/arm/tools/syscall.t=
-bl#L419
-> >
-> > [3]:
-> > Example program:
-> > cat <<- EOF >> clock_settime_test.c
-> > #include <stdio.h>
-> > #include <time.h>
-> >
-> > int main (int argc, char **argv)
-> > {
-> >         struct timespec tv;
-> >         int ret;
-> >
-> >         tv.tv_sec =3D 0x7FFFFFFF;
-> >         tv.tv_sec +=3D 61;
-> >         tv.tv_nsec =3D 0;
-> >
-> >         printf("clock_settime test program: ");
-> >         ret =3D clock_settime(CLOCK_REALTIME, &tv);
-> >         if (!ret)
-> >                 printf("OK\n");
-> >         else
-> >                 perror("ERR\n");
-> >
-> >         return 0;
-> > }
-> > EOF
-> >
-> > Build the test program:
-> > gcc -Wall -ggdb -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64
-> > -I/opt/include -I/opt/usr/include -L/opt/usr/lib \
-> > -Wl,-rpath=3D/opt/lib -Wl,--dynamic-linker=3D/opt/lib/ld-linux.so.2
-> > clock_settime_test.c -o cst -static
-> >
-> >
-> >
-> > Best regards,
-> >
-> > Lukasz Majewski
-> >
-> > --
-> >
-> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
-> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
-> > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
-> > lukma@denx.de =20
-
-
-
-
-Best regards,
-
-Lukasz Majewski
-
---
-
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
-
---Sig_/CqSCLvdd5re.s7aEWjS.8M0
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl+hi4QACgkQAR8vZIA0
-zr2gGwgAsuIw9Y1BN6zLUNhonkuQeDhTTGuI4O67tClohkaR92IA0WSaP+oWZLlb
-cqvAZ58JsuasQrl+sppKFjjY5CmrvA7SkGeBu4sEN8sWbKke0XVU3dbRt4mRRVax
-CJSZv3cQZXu4NPKmbK+BdGy6BEntjPBPlTaaMkoPrzqDhXNwpJ0BwUFG9YXAV4NT
-mDkHTI8mubyRp3Lg1wdz86H61Ft4UVTeHtH94cb+ZIuAuInm0Z0/UgbmtGciWnQw
-7tCLd5Rz+YBRaIEREf+r1+vNzg4fNfV5SmeeCUfdxal5+HxRMBKJl7CSy8WxyMTc
-vmeaSV5ZGaLZ4g4HGsLQwUJa+CPC6w==
-=A70+
------END PGP SIGNATURE-----
-
---Sig_/CqSCLvdd5re.s7aEWjS.8M0--
 
