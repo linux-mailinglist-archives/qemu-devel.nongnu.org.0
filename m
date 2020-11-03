@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE93E2A4562
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:44:04 +0100 (CET)
-Received: from localhost ([::1]:53554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FB22A4550
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:36:52 +0100 (CET)
+Received: from localhost ([::1]:40630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvfP-0007z9-Q5
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:44:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50550)
+	id 1kZvYR-0002Qp-B5
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:36:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvWO-0000y7-UJ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:34:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37217)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kZvX1-0001T0-2Y
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:35:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36364)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvWN-0004hk-7X
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:34:44 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kZvWz-0004zt-EZ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:35:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604406882;
+ s=mimecast20190719; t=1604406920;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lj3DazDN9nw5shyE1SyTwTcGhFsfdmApgeVxitLjVRg=;
- b=OMzlmvBSDhUiy/nWoFXpfo4dPj+DCpK788Y1oW0kVU3uetZsHE14zCEpJDeYhQ/WyejRPY
- 4ikiZGLcybtFyKKQszgNKJCJbj65b0aEyFjery5wXEnnpq/rXLOECKUobh4EDk8wPlQ8Tv
- vILO8X8ugj4e1ruu+JRAF526mXaHMdg=
+ bh=7Z8bYR8NkrRy52Ez2iKDxd/EFx6JL8EJiyg/bZ+I110=;
+ b=KYOhIRVJ6H393zYbGj+pXsXWEdS+wZrtOviOPvxHVUc0dKvuVILZasxpd9raXidS36NFjK
+ AzBDHrsmyatWRBeZ/+eek4dqk4GCsl6eoxRz2ugRM/RcqUPTvSDsSeBE24ix2KYZ9Q+Bpb
+ FnICLgadj8vPONb1N5b4d749oBsBjR8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-NPSjMMHbMmqqj84coRjRGw-1; Tue, 03 Nov 2020 07:34:40 -0500
-X-MC-Unique: NPSjMMHbMmqqj84coRjRGw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-465-djL612qyP0aYskUNo-vQ2Q-1; Tue, 03 Nov 2020 07:35:17 -0500
+X-MC-Unique: djL612qyP0aYskUNo-vQ2Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BECA879519;
- Tue,  3 Nov 2020 12:34:39 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 96B7B21E90;
- Tue,  3 Nov 2020 12:34:37 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:34:36 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 14/20] i386: Remove unnecessary prefix from error message
-Message-ID: <20201103133436.6ac2c336@redhat.com>
-In-Reply-To: <20201030202131.796967-15-ehabkost@redhat.com>
-References: <20201030202131.796967-1-ehabkost@redhat.com>
- <20201030202131.796967-15-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 815D88030B1;
+ Tue,  3 Nov 2020 12:35:15 +0000 (UTC)
+Received: from gondolin (ovpn-114-68.ams2.redhat.com [10.36.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2260F5B4D4;
+ Tue,  3 Nov 2020 12:35:13 +0000 (UTC)
+Date: Tue, 3 Nov 2020 13:35:10 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] s390-bios: Skip writing iplb location to low core for
+ ccw ipl
+Message-ID: <20201103133510.1f1f1467.cohuck@redhat.com>
+In-Reply-To: <8e5e3e03-f25b-4d69-a2bd-42c46a675c04@redhat.com>
+References: <20201030122823.347140-1-borntraeger@de.ibm.com>
+ <8e5e3e03-f25b-4d69-a2bd-42c46a675c04@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,43 +81,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: "Jason J. Herne" <jjherne@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>,
+ Janosch Frank <frankja@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 16:21:25 -0400
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+On Tue, 3 Nov 2020 13:32:47 +0100
+Thomas Huth <thuth@redhat.com> wrote:
 
-> object_property_parse() will add a
->   "Property '<TYPE>.<PROP>' can't take value '<VALUE>'"
-> prefix automatically for us.
+> On 30/10/2020 13.28, Christian Borntraeger wrote:
+> > From: "Jason J. Herne" <jjherne@linux.ibm.com>
+> > 
+> > The architecture states that the iplb location is only written to low
+> > core for list directed ipl and not for traditional ccw ipl. If we don't
+> > skip this then operating systems that load by reading into low core
+> > memory may fail to start.  
 > 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <rth@twiddle.net>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->  target/i386/cpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Just double-checking: But doing write_subsystem_identification()
+> unconditionally is ok, right?
 > 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 0d8606958e..2c00f94308 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4529,7 +4529,7 @@ static void x86_cpuid_set_vendor(Object *obj, const char *value,
->      int i;
->  
->      if (strlen(value) != CPUID_VENDOR_SZ) {
-> -        error_setg(errp, QERR_PROPERTY_VALUE_BAD, "", "vendor", value);
-> +        error_setg(errp, "invalid vendor ID");
->          return;
->      }
->  
+> > We should also not write the iplb pointer for network boot as it might
+> > overwrite content that we got via network.  
+> 
+> FWIW, write_iplb_location() is already just a dummy function in netmain.c,
+> so this should not have been an issue in the network bootloader, I hope.
+> 
+> > Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+> > Fixes: 9bfc04f9ef68 ("pc-bios: s390x: Save iplb location in lowcore")
+> > Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> > ---
+> >  pc-bios/s390-ccw/main.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/pc-bios/s390-ccw/main.c b/pc-bios/s390-ccw/main.c
+> > index 43c792cf9509..fc4bfaa45529 100644
+> > --- a/pc-bios/s390-ccw/main.c
+> > +++ b/pc-bios/s390-ccw/main.c
+> > @@ -43,7 +43,9 @@ void write_subsystem_identification(void)
+> >  
+> >  void write_iplb_location(void)
+> >  {
+> > -    lowcore->ptr_iplb = ptr2u32(&iplb);
+> > +    if (cutype == CU_TYPE_VIRTIO && virtio_get_device_type() != VIRTIO_ID_NET) {
+> > +        lowcore->ptr_iplb = ptr2u32(&iplb);
+> > +    }
+> >  }  
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
+> 
+> Christian, Cornelia, could you please pick up the patch? I'm not sure
+> whether I can do another PR this week for the RC...
+
+Will do, I have other things as well anyway.
 
 
