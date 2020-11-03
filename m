@@ -2,78 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F6092A50E1
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 21:29:31 +0100 (CET)
-Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E870F2A528F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 21:51:07 +0100 (CET)
+Received: from localhost ([::1]:46510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka2vq-0007PX-7H
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 15:29:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41090)
+	id 1ka3Gi-0000Hk-Tq
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 15:51:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ka2uZ-0006XA-ES
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 15:28:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1ka2uW-0005hr-Md
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 15:28:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604435287;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=//EwluFxECYvddt8H5V2R2oqW8PUpEfuJCRVinHXjYM=;
- b=ARU18EPH+mldFtB69GKrrhwVWp0ujnOi47Ytwy1Hp0GW6De2se8opj9tKEePmikSVnn2yU
- YBSd2STUqKYphhjr2QpXi9PjNrrBHs1OnMbO/ixv6nj8k7jJ9DgwCpWlZ7RwzOUtTP4Atk
- TuEc44retL0uTw4MY/pF7tTGZboa+s8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-sCX-1tH-P_6nTcARDEj7GQ-1; Tue, 03 Nov 2020 15:28:05 -0500
-X-MC-Unique: sCX-1tH-P_6nTcARDEj7GQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <lukma@denx.de>)
+ id 1kZzb9-0001il-NA; Tue, 03 Nov 2020 11:55:55 -0500
+Received: from mail-out.m-online.net ([212.18.0.9]:34817)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukma@denx.de>)
+ id 1kZzb6-0006D7-Sf; Tue, 03 Nov 2020 11:55:55 -0500
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+ by mail-out.m-online.net (Postfix) with ESMTP id 4CQbWm5qzfz1qs0P;
+ Tue,  3 Nov 2020 17:55:48 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+ by mail.m-online.net (Postfix) with ESMTP id 4CQbWm5FZBz1qspZ;
+ Tue,  3 Nov 2020 17:55:48 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+ by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+ port 10024)
+ with ESMTP id SCC-USmKOzWx; Tue,  3 Nov 2020 17:55:46 +0100 (CET)
+X-Auth-Info: Ne9LxEHexrM33x4iO/w4NbXv/lN+djjc+5Eu7aKHbWs=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 234511007469;
- Tue,  3 Nov 2020 20:28:04 +0000 (UTC)
-Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B26219D61;
- Tue,  3 Nov 2020 20:28:01 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:27:58 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Kirti Wankhede <kwankhede@nvidia.com>
-Subject: Re: [PATCH v1] docs/devel: Add VFIO device migration documentation
-Message-ID: <20201103132758.04b18f5c@w520.home>
-In-Reply-To: <47f8ccea-f75a-dfb7-b646-28d5123b322f@nvidia.com>
-References: <1603950791-27236-1-git-send-email-kwankhede@nvidia.com>
- <20201029125221.69352b48.cohuck@redhat.com>
- <9479dffd-e434-e336-6ed8-07fc2edd2453@nvidia.com>
- <20201029130519.7eb1e704@w520.home>
- <47f8ccea-f75a-dfb7-b646-28d5123b322f@nvidia.com>
+ by mail.mnet-online.de (Postfix) with ESMTPSA;
+ Tue,  3 Nov 2020 17:55:46 +0100 (CET)
+Date: Tue, 3 Nov 2020 17:55:32 +0100
+From: Lukasz Majewski <lukma@denx.de>
+To: Alistair Francis <alistair23@gmail.com>
+Subject: Re: [QEMU] Question regarding user mode support for ARM syscalls
+Message-ID: <20201103175532.796074fb@jawa>
+In-Reply-To: <CAKmqyKOFxO+NoyA0N2HbNDujKdDg4vFyMvpq=6+TPPxx4-VMFw@mail.gmail.com>
+References: <20201103120027.6fdc868c@jawa>
+ <CAKmqyKOFxO+NoyA0N2HbNDujKdDg4vFyMvpq=6+TPPxx4-VMFw@mail.gmail.com>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ boundary="Sig_/CqSCLvdd5re.s7aEWjS.8M0"; protocol="application/pgp-signature"
+Received-SPF: none client-ip=212.18.0.9; envelope-from=lukma@denx.de;
+ helo=mail-out.m-online.net
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 11:55:49
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -25
+X-Spam_score: -2.6
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 03 Nov 2020 15:49:23 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,98 +70,256 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mcrossley@nvidia.com, cjia@nvidia.com, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, dnigam@nvidia.com, philmd@redhat.com
+Cc: qemu-discuss <qemu-discuss@nongnu.org>,
+ GNU C Library <libc-alpha@sourceware.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Nov 2020 01:18:12 +0530
-Kirti Wankhede <kwankhede@nvidia.com> wrote:
+--Sig_/CqSCLvdd5re.s7aEWjS.8M0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-> On 10/30/2020 12:35 AM, Alex Williamson wrote:
-> > On Thu, 29 Oct 2020 23:11:16 +0530
-> > Kirti Wankhede <kwankhede@nvidia.com> wrote:
-> >   
-> 
-> <snip>
-> 
-> >>>> +System memory dirty pages tracking
-> >>>> +----------------------------------
-> >>>> +
-> >>>> +A ``log_sync`` memory listener callback is added to mark system memory pages  
-> >>>
-> >>> s/is added to mark/marks those/
-> >>>      
-> >>>> +as dirty which are used for DMA by VFIO device. Dirty pages bitmap is queried  
-> >>>
-> >>> s/by/by the/
-> >>> s/Dirty/The dirty/
-> >>>      
-> >>>> +per container. All pages pinned by vendor driver through vfio_pin_pages()  
-> >>>
-> >>> s/by/by the/
-> >>>      
-> >>>> +external API have to be marked as dirty during migration. When there are CPU
-> >>>> +writes, CPU dirty page tracking can identify dirtied pages, but any page pinned
-> >>>> +by vendor driver can also be written by device. There is currently no device  
-> >>>
-> >>> s/by/by the/ (x2)
-> >>>      
-> >>>> +which has hardware support for dirty page tracking. So all pages which are
-> >>>> +pinned by vendor driver are considered as dirty.
-> >>>> +Dirty pages are tracked when device is in stop-and-copy phase because if pages
-> >>>> +are marked dirty during pre-copy phase and content is transfered from source to
-> >>>> +destination, there is no way to know newly dirtied pages from the point they
-> >>>> +were copied earlier until device stops. To avoid repeated copy of same content,
-> >>>> +pinned pages are marked dirty only during stop-and-copy phase.  
-> >>
-> >>  
-> >>> Let me take a quick stab at rewriting this paragraph (not sure if I
-> >>> understood it correctly):
-> >>>
-> >>> "Dirty pages are tracked when the device is in the stop-and-copy phase.
-> >>> During the pre-copy phase, it is not possible to distinguish a dirty
-> >>> page that has been transferred from the source to the destination from
-> >>> newly dirtied pages, which would lead to repeated copying of the same
-> >>> content. Therefore, pinned pages are only marked dirty during the
-> >>> stop-and-copy phase." ?
-> >>>      
-> >>
-> >> I think above rephrase only talks about repeated copying in pre-copy
-> >> phase. Used "copied earlier until device stops" to indicate both
-> >> pre-copy and stop-and-copy till device stops.  
-> > 
-> > 
-> > Now I'm confused, I thought we had abandoned the idea that we can only
-> > report pinned pages during stop-and-copy.  Doesn't the device needs to
-> > expose its dirty memory footprint during the iterative phase regardless
-> > of whether that causes repeat copies?  If QEMU iterates and sees that
-> > all memory is still dirty, it may have transferred more data, but it
-> > can actually predict if it can achieve its downtime tolerances.  Which
-> > is more important, less data transfer or predictability?  Thanks,
-> >   
-> 
-> Even if QEMU copies and transfers content of all sys mem pages during 
-> pre-copy (worst case with IOMMU backed mdev device when its vendor 
-> driver is not smart to pin pages explicitly and all sys mem pages are 
-> marked dirty), then also its prediction about downtime tolerance will 
-> not be correct, because during stop-and-copy again all pages need to be 
-> copied as device can write to any of those pinned pages.
+Hi Alistair,
 
-I think you're only reiterating my point.  If QEMU copies all of guest
-memory during the iterative phase and each time it sees that all memory
-is dirty, such as if CPUs or devices (including assigned devices) are
-dirtying pages as fast as it copies them (or continuously marks them
-dirty), then QEMU can predict that downtime will require copying all
-pages.  If instead devices don't mark dirty pages until the VM is
-stopped, then QEMU might iterate through memory copy and predict a short
-downtime because not much memory is dirty, only to be surprised that
-all of memory is suddenly dirty.  At that point it's too late, the VM
-is already stopped, the predicted short downtime takes far longer than
-expected.  This is exactly why we made the kernel interface mark pinned
-pages persistently dirty when it was proposed that we only report
-pinned pages once.  Thanks,
+> On Tue, Nov 3, 2020 at 3:03 AM Lukasz Majewski <lukma@denx.de> wrote:
+> >
+> > Dear Qemu Community, =20
+>=20
+> Hey Lukasz,
+>=20
+> + QEMU Dev Mailing list
+> + Laurent
+>=20
 
-Alex
+Thanks for reaching more people.
 
+> >
+> > I would like to ask you for some advice regarding the usage of
+> > arm-linux-user/qemu-arm user space program simulation.
+> >
+> > Background:
+> > -----------
+> >
+> > I'm looking for a way to efficiently test y2038 in-glibc solution
+> > for 32 bit architectures (e.g. ARM).
+> >
+> > For now I do use qemu-system-arm (part of Yocto/OE), which I'm
+> > using to run Linux kernel 5.1, glibc under test and Y2038 tests. It
+> > works [1].
+> >
+> > Problem:
+> > --------
+> >
+> > I would like to test cross-compiled tests (which are built from
+> > glibc sources) without the need to run the emulated system with
+> > qemu-system-arm.
+> >
+> > I've come across the "QEMU user mode", which would execute the
+> > cross-compiled test (with already cross-compiled glibc via -L
+> > switch) and just return exit status code. This sounds appealing. =20
+>=20
+> As another advantage it is much, much faster at running the glibc
+> tests.
+>=20
+
++1
+
+> >
+> > As fair as I've read - QEMU user mode emulates ARM syscalls.
+> >
+> > During test execution (single qemu user mode process) I would need
+> > to adjust date with clock_settime64 syscall and then execute other
+> > syscalls if needed.
+> >
+> >
+> > Please correct me if I'm wrong:
+> > - It looks like qemu-arm doesn't have switch which would allow it to
+> >   set time offset (to e.g. year 2039 - something similar to
+> >   qemu-system-arm -rtc=3D).
+> >
+> > - As of 5.1 qemu version there is no support for syscalls
+> > supporting 64 bit time on 32 bit architectures (e.g.
+> > clock_settime64 and friends from [2]). =20
+>=20
+> There is some support in the current master, for example
+> __NR_futex_time64 is supported.
+
+I've just looked into v5.1.0 stable release. I will double check this
+with -master branch.
+
+>=20
+> I started to add some support for RV32 once it was merged into glibc.
+
+Ok.
+
+>=20
+> >
+> > For my example program [3] statically build for testing (it works
+> > with qemu-system-arm):
+> >
+> > ~/work/qemu-arm-tests-program$
+> > ../qemu-5.1.0-arm/arm-linux-user/qemu-arm -L
+> > ~/work/yocto/y2038/build/tmp/armv7at2hf-neon-poky-linux-gnueabi/y2038-g=
+libc/2.30+git999-r0/image/opt
+> > -strace ./cst
+> >
+> > 17746 brk(NULL) =3D 0x00074000
+> > 17746 brk(0x000748a8) =3D 0x000748a8
+> > 17746 uname(0x40800370) =3D 0
+> > 17746 readlink("/proc/self/exe",0x407ff488,4096) =3D 43
+> > 17746 brk(0x000958a8) =3D 0x000958a8
+> > 17746 brk(0x00096000) =3D 0x00096000
+> > 17746 mprotect(0x00070000,8192,PROT_READ) =3D 0
+> > 17746statx(1,"",AT_EMPTY_PATH|AT_NO_AUTOMOUNT,STATX_BASIC_STATS,0x407ff=
+d70)
+> > =3D 0
+> > 17746 Unknown syscall 404 --> is the syscall number of
+> > clock_settime64 =20
+>=20
+> clock_settime64 is supported in master QEMU.
+
+I will double check it - thanks for pointing this out.
+
+>=20
+> >
+> > 17746 dup(2) =3D 3
+> > 17746 fcntl64(3,F_GETFL) =3D 2
+> > 17746statx(3,"",AT_EMPTY_PATH|AT_NO_AUTOMOUNT,STATX_BASIC_STATS,0x407ff=
+8e8)
+> > =3D 0 ERR
+> >
+> > Questions:
+> > ----------
+> >
+> > 1. Is there any plan to add support for emulating syscalls
+> > supporting 64 bit time on 32 bit architectures [2]? =20
+>=20
+> I would like to have RV32 supported, but it's a low priority for me.
+
+Having syscalls supporting 64 bit time on 32 bit machines indicated in
+[2] would be a very welcome for glibc testing.
+
+> I
+> expect it's something that will eventually happen though.
+
+Ok.
+
+>=20
+> >
+> > 2. Provide QEMU user space switch to adjust its time (i.e. add some
+> > offset to in-fly emulated time syscalls - like clock_settime64)
+> > when it is started? =20
+>=20
+> That I'm not sure about.
+
+For me it would be enough to have:
+
+qemu-arm -rtc=3D"2039-01-01" -L... ./ctx
+So the emulated "time" would be after 32 bit time_t overflow when
+QEMU user space emulation process starts (as long as it doesn't touch
+the host machine time).
+
+
+Another option (workaround) would be to run clock_settime64() with time
+set to year 2038+ on the beginning of each glibc test. It shall work as
+long as we don't change host time (and all time changes would stay in
+the qemu user mode process).
+
+> I assume just running date/clock_settime64
+> from a script wouldn't work with the glibc test framework?
+
+Could you elaborate on this use case/scenario? Do you have some
+examples to share?
+
+>=20
+> Alistair
+>=20
+> >
+> >
+> > Thanks in advance for your help and reply.
+> >
+> >
+> > Links:
+> > [1] - https://github.com/lmajewski/meta-y2038/
+> > [2] -
+> > https://elixir.bootlin.com/linux/latest/source/arch/arm/tools/syscall.t=
+bl#L419
+> >
+> > [3]:
+> > Example program:
+> > cat <<- EOF >> clock_settime_test.c
+> > #include <stdio.h>
+> > #include <time.h>
+> >
+> > int main (int argc, char **argv)
+> > {
+> >         struct timespec tv;
+> >         int ret;
+> >
+> >         tv.tv_sec =3D 0x7FFFFFFF;
+> >         tv.tv_sec +=3D 61;
+> >         tv.tv_nsec =3D 0;
+> >
+> >         printf("clock_settime test program: ");
+> >         ret =3D clock_settime(CLOCK_REALTIME, &tv);
+> >         if (!ret)
+> >                 printf("OK\n");
+> >         else
+> >                 perror("ERR\n");
+> >
+> >         return 0;
+> > }
+> > EOF
+> >
+> > Build the test program:
+> > gcc -Wall -ggdb -D_TIME_BITS=3D64 -D_FILE_OFFSET_BITS=3D64
+> > -I/opt/include -I/opt/usr/include -L/opt/usr/lib \
+> > -Wl,-rpath=3D/opt/lib -Wl,--dynamic-linker=3D/opt/lib/ld-linux.so.2
+> > clock_settime_test.c -o cst -static
+> >
+> >
+> >
+> > Best regards,
+> >
+> > Lukasz Majewski
+> >
+> > --
+> >
+> > DENX Software Engineering GmbH,      Managing Director: Wolfgang
+> > Denk HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell,
+> > Germany Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email:
+> > lukma@denx.de =20
+
+
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/CqSCLvdd5re.s7aEWjS.8M0
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCgAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl+hi4QACgkQAR8vZIA0
+zr2gGwgAsuIw9Y1BN6zLUNhonkuQeDhTTGuI4O67tClohkaR92IA0WSaP+oWZLlb
+cqvAZ58JsuasQrl+sppKFjjY5CmrvA7SkGeBu4sEN8sWbKke0XVU3dbRt4mRRVax
+CJSZv3cQZXu4NPKmbK+BdGy6BEntjPBPlTaaMkoPrzqDhXNwpJ0BwUFG9YXAV4NT
+mDkHTI8mubyRp3Lg1wdz86H61Ft4UVTeHtH94cb+ZIuAuInm0Z0/UgbmtGciWnQw
+7tCLd5Rz+YBRaIEREf+r1+vNzg4fNfV5SmeeCUfdxal5+HxRMBKJl7CSy8WxyMTc
+vmeaSV5ZGaLZ4g4HGsLQwUJa+CPC6w==
+=A70+
+-----END PGP SIGNATURE-----
+
+--Sig_/CqSCLvdd5re.s7aEWjS.8M0--
 
