@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3B02A4A03
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:38:30 +0100 (CET)
-Received: from localhost ([::1]:33150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE122A4A33
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:43:56 +0100 (CET)
+Received: from localhost ([::1]:52800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyOD-0008Iv-Dd
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:38:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51368)
+	id 1kZyTT-0008Ei-M7
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:43:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJS-0001Us-Ia
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:34 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:14996)
+ id 1kZyJU-0001Y6-1w
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:36 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJQ-0001EJ-G9
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:34 -0500
+ id 1kZyJS-0001Fa-7G
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604417613; x=1635953613;
+ t=1604417614; x=1635953614;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=g+WPltm5YpaGI86/aQt4WJbADi/eUHg46l1ls02OzYI=;
- b=kRJjP8LxpxLXfVJ5enLpNljfoNCdZp81qbV3vbwLEw/5eqQvonvSjgVb
- GpXxbcpg3M8JEDTsePxvpnucDQt21aw2NBluXN1KjNdpaygOOzX4CwS6y
- ZGdzwDL5USIyryr+wLBT2nJTIC0EUm0fy0slcLp3qhYB780i229svevj7
- Ge+k5kBohk8G+z6hVuBHsXtvwTl5Y6Bis0Lg67O+ae0H0wF7uLuWfn34L
- DMvNybZR/4Ui/5qbayTpSg6G9vxl4McHJKWoAdZKyaBEIrQfV1fNLILCp
- +QkO/2Ih/yuC6azRf7Zb/MsdOtZWNAxogLdcQjClNFAi4tI+6xWSJNyj+ g==;
-IronPort-SDR: IwQyMRy8dsdxxz01dHNq/cz6+Xr7dl5XHtVk2+X20lwEb7xr/bf7NTxWFQVwh83I2V92sjPFwB
- Nfd+cMyFEF9KkOyehun2DJ97scy9B/SuGL9HLGR6YZOs3oLUn5jandc4/e4M/1iRaqb8uaTTMK
- ic6BFX258KB7LsvoiFIQqzw7QOErEAipOL//1jN4OQ50ZS+X06t7zauY/z0DbILP7a3OrzX/Jv
- HZ/g7ozwt5RvNDLg70VglxFGbLyehmExz7rh+Z4AoT1WRqe2rDuVon4dd54ebHp+Zs5YMzQsGj
- JIY=
-X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867460"
+ bh=Jn6EIm9hdrR24DW8Li1I2eFglThg87rXwX+el8u4/zc=;
+ b=fgtl1ViNkjzT8jsEWwJM1eSKGbOVs732DKUiCK2ZtaE7e7LKsVPyCqhi
+ ynVLkWzMJquwhADegQb7L/q4d63+e0fEhYWVljNRZX0O04qnlTckWI+Ft
+ DbeL/Nz67GeKzCdg0KecVuVSbjibQ2emah7G4jH4ASIOD8xkacxAMH+J1
+ tfydbFqpHtYN1G67Wt4rrvhtipQQpCDe/XtUdC0HfqjEd6J9deHvNqZmh
+ 6MmQneAregiZQsj4qFumjnnpQAcdTj2AMEYJ8Kdqil9n73FX2b5flknwk
+ dklcOyYiyTxXQu21SUx2ngPli7vE5DKvnOmLgYxm5xm0SOPGiHPXKOV/x w==;
+IronPort-SDR: fotZ8E+Bm2vFOBh0wL1SWluda+y1UkvzH2O6++kCJzE2+kVFSIFUSZlGpdGX7s3R/wOpzEYk/W
+ vvtPG4N1Tpy1cX8Ygas/4DftdUOL/go/a+a1NdKDJurlglLuhrXqDArsRqaLHIZ1fuU+jy+yrq
+ eA7NveVoDKDMD+/oPLI8ttx3GJUYE810yovHB4dTMRsmwyYjFIS6NSfdNqpyIFkY63hKv54ojX
+ 8wuEu/W1OCIith1LxRtYx6eLgyE7qvbW/QargzVAjkO03sf972iSbXPXKCRUeQvIl68UC2rSwt
+ 5LQ=
+X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867462"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:25 +0800
-IronPort-SDR: knT102/BOyjAbQxhh+d/bP3pSbO++2RAyWQqss5Vnq5oMvNKnCBL9QcH6cBh7sAW7LYFPoZ6VV
- N2ZgVz1PjJvHaKh1dI8+YpHVXy800+P+SJVF+PBb1fTKasbS5rkJUMk9tVRoG0GYZW3rQbiNY/
- 1g+Oe0dVRBwUbFXYjzZQd9LNQlN+JA3qbpdCVvbVTesm4KrD9Z4esgOS5aRYQ49C99FXewGou+
- gHSOLWQXHGjyR+Ia3NExXG0y69mKlnfxCd8KTY6yXiRCspngwb5L3wXXXQvSyl1pPGehWHXqlF
- jnnD1dhSgkAKJ97edBJ1Az8D
+IronPort-SDR: QKBdmz0z6xZQ/vOmvbyehrLFyEiWfhtJoRkZKjX5v+jCyGwlZmVUbM2aZ4yfoPazV0wZu4xiMK
+ ozX3TmR4dMwaPqVdKY8FyBLZ3BBMnLb+KSb2mXs2WpawO5zqjJauuOgyW8nu5rDAd1ik1IZy/j
+ iAEMzzCEU199hvAPkX7UdtazKw2mtztovpPD+6suxmk9NYhqFYxIBOFYHNrwYsxajUShp9IjBG
+ y7VNkIqUXjo+QkZvyGhmgyaW+HnHwdGvGq7k41gDmgYCQMJbJhhqQOnpgHNvF4hZrrx3+U6/DM
+ EXPwiyhu4UlKBNJCg9nbKVXi
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2020 07:19:33 -0800
-IronPort-SDR: CrAhbIOju9eqJ8nO5DREby+bryE5SEoFSk9LKGRp+jp7C8gWpEv1hu1dY64rNIu5TqbnvqKk0k
- ec6Lv927lxFJoRnEw2tAwr5GRvlMJdZbJ+zNu0/H2Y44QgaspD+MCBSPlVuncnsacJ9Wi5PwGL
- RJWplmisbxq83Z9xd7y83HNOJ6OO/BPZQDyhWju0Ivowpbf7Z7oAmdCcgfQ9xcSmxKuDuqdgC0
- Hbtnq2m0X/M52msg3wktH37KFlEqaWmrh+SU1c/8YQxM3TOcfmQC8NabhB/zttNDQIuaKqW1VX
- OrA=
+ 03 Nov 2020 07:19:34 -0800
+IronPort-SDR: ZK7gctL0dnWybucKtYOqNrSZ6WiEGpaezGj2sEQOZSrsgfpe3YGQONjHu+rThg8rB1VTf1bwhp
+ eyGZJ9bkEctGRkgv/OavfQbgPp+vcIddv7ns7dP8k4ZweT4z50brZ34On+jLvGh7LM3iJRswLk
+ fbtEEOB8PUjqt1jHJdoxlTaYsbsv2S+FgdIoeTS4iWaPZWx8lwPQ7a5Ihea1plJ19y3nsweHM0
+ CBOZEjuHbf2DNiQnNWABBgUR0VJP2xkPrKbbbyNkZEUvqd3rOFCQRKJUShka9BNx73ByosRhvO
+ G9I=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.113])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 07:33:25 -0800
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 07:33:26 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL v2 06/19] target/riscv: Add H extension state description
-Date: Tue,  3 Nov 2020 07:21:37 -0800
-Message-Id: <20201103152150.2677566-7-alistair.francis@wdc.com>
+Subject: [PULL v2 07/19] target/riscv: Add V extension state description
+Date: Tue,  3 Nov 2020 07:21:38 -0800
+Message-Id: <20201103152150.2677566-8-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201103152150.2677566-1-alistair.francis@wdc.com>
 References: <20201103152150.2677566-1-alistair.francis@wdc.com>
@@ -95,86 +95,66 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
  Yifei Jiang <jiangyifei@huawei.com>, Yipeng Yin <yinyipeng1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yifei Jiang <jiangyifei@huawei.com>
 
-In the case of supporting H extension, add H extension description
+In the case of supporting V extension, add V extension description
 to vmstate_riscv_cpu.
 
 Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
 Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201026115530.304-5-jiangyifei@huawei.com
+Message-id: 20201026115530.304-6-jiangyifei@huawei.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/machine.c | 47 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ target/riscv/machine.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
 diff --git a/target/riscv/machine.c b/target/riscv/machine.c
-index fc1461d88e..ae60050898 100644
+index ae60050898..44d4015bd6 100644
 --- a/target/riscv/machine.c
 +++ b/target/riscv/machine.c
-@@ -68,6 +68,52 @@ static const VMStateDescription vmstate_pmp = {
-     }
- };
+@@ -76,6 +76,30 @@ static bool hyper_needed(void *opaque)
+     return riscv_has_ext(env, RVH);
+ }
  
-+static bool hyper_needed(void *opaque)
++static bool vector_needed(void *opaque)
 +{
 +    RISCVCPU *cpu = opaque;
 +    CPURISCVState *env = &cpu->env;
 +
-+    return riscv_has_ext(env, RVH);
++    return riscv_has_ext(env, RVV);
 +}
 +
-+static const VMStateDescription vmstate_hyper = {
-+    .name = "cpu/hyper",
++static const VMStateDescription vmstate_vector = {
++    .name = "cpu/vector",
 +    .version_id = 1,
 +    .minimum_version_id = 1,
-+    .needed = hyper_needed,
++    .needed = vector_needed,
 +    .fields = (VMStateField[]) {
-+        VMSTATE_UINTTL(env.hstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.hedeleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.hideleg, RISCVCPU),
-+        VMSTATE_UINTTL(env.hcounteren, RISCVCPU),
-+        VMSTATE_UINTTL(env.htval, RISCVCPU),
-+        VMSTATE_UINTTL(env.htinst, RISCVCPU),
-+        VMSTATE_UINTTL(env.hgatp, RISCVCPU),
-+        VMSTATE_UINT64(env.htimedelta, RISCVCPU),
-+
-+        VMSTATE_UINT64(env.vsstatus, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstvec, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsscratch, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsepc, RISCVCPU),
-+        VMSTATE_UINTTL(env.vscause, RISCVCPU),
-+        VMSTATE_UINTTL(env.vstval, RISCVCPU),
-+        VMSTATE_UINTTL(env.vsatp, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.mtval2, RISCVCPU),
-+        VMSTATE_UINTTL(env.mtinst, RISCVCPU),
-+
-+        VMSTATE_UINTTL(env.stvec_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.sscratch_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.sepc_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.scause_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.stval_hs, RISCVCPU),
-+        VMSTATE_UINTTL(env.satp_hs, RISCVCPU),
-+        VMSTATE_UINT64(env.mstatus_hs, RISCVCPU),
-+
-+        VMSTATE_END_OF_LIST()
-+    }
++            VMSTATE_UINT64_ARRAY(env.vreg, RISCVCPU, 32 * RV_VLEN_MAX / 64),
++            VMSTATE_UINTTL(env.vxrm, RISCVCPU),
++            VMSTATE_UINTTL(env.vxsat, RISCVCPU),
++            VMSTATE_UINTTL(env.vl, RISCVCPU),
++            VMSTATE_UINTTL(env.vstart, RISCVCPU),
++            VMSTATE_UINTTL(env.vtype, RISCVCPU),
++            VMSTATE_END_OF_LIST()
++        }
 +};
 +
- const VMStateDescription vmstate_riscv_cpu = {
-     .name = "cpu",
+ static const VMStateDescription vmstate_hyper = {
+     .name = "cpu/hyper",
      .version_id = 1,
-@@ -119,6 +165,7 @@ const VMStateDescription vmstate_riscv_cpu = {
-     },
+@@ -166,6 +190,7 @@ const VMStateDescription vmstate_riscv_cpu = {
      .subsections = (const VMStateDescription * []) {
          &vmstate_pmp,
-+        &vmstate_hyper,
+         &vmstate_hyper,
++        &vmstate_vector,
          NULL
      }
  };
