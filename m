@@ -2,99 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C392A4C48
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:07:10 +0100 (CET)
-Received: from localhost ([::1]:52164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED532A4C50
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:08:49 +0100 (CET)
+Received: from localhost ([::1]:57818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZzm1-0004qC-U4
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:07:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52620)
+	id 1kZznc-0007Cf-9s
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:08:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzjM-0001ib-KI
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:04:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzjJ-0000j0-Ay
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:04:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604423059;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=poiJCMzoY3IBe38HXDFYbr82EESqtWVxhmZ6b0tqQv8=;
- b=Km1oV5FQFmbpEv23GOFLEhLb+6Ohdl3TUTEgiOZxadbiizGmncpQ/8fl5ohfsu3PF5YOfF
- aA8hkt/x35cVTYaYwp26+SqDCNzuPeLTMG6jw3fA/+rKM9fHZP61d/GKysZGlZuyBfJXkW
- OMI3/5yo6H5KtfUsTa6RpcZ1lId8bB4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-nDGT4a-UN7emM7GK58zsIg-1; Tue, 03 Nov 2020 12:04:16 -0500
-X-MC-Unique: nDGT4a-UN7emM7GK58zsIg-1
-Received: by mail-wm1-f69.google.com with SMTP id z7so1733wme.8
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:04:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kZzjz-0002jW-23
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:05:04 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:34182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kZzjw-0000vL-HZ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:05:02 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id t14so14171337pgg.1
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:05:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=A9TmnCBZIlx9QCghQVLdBUbJhN2pzDz32l6cbIU6DRI=;
+ b=jqDMmW4UC/Ppov1LXIoFxmqv+LbZkb5UgLPkWJgWQQXcxAm5vr1yyGdvLuHlaIqbsV
+ ZSrPEPyM01gl3lvfRnDgu7WUUKv3LGKL0Uep04ZmmxNSNEDdyYKaIt7tLYDF+6e8vGkn
+ WlsO+QHas3civxFkpM9PAobZYM0SS4N5Qir3YcdkSSIlYXM9mTLscJ0xneiGz/AyQUlb
+ KGHa5XST5Ioc4dAFmv0ZfLHOOdf+/U2V9CDXD5Qx6+4M2TVSJGqd+71Ij+GsyMPDbOhR
+ TBGmBMXwT36MVtHWqk3ejtKDbhJEYt0i3Rzw2r3RDHI/9rfO5Bf1Hc4ivBJ84RD7igi5
+ QSgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=poiJCMzoY3IBe38HXDFYbr82EESqtWVxhmZ6b0tqQv8=;
- b=d5keaonD5SfyekdMgfqaHDdamRVWd1bBFsetTXRIgUjUQQN9zfAvfehBudBfhSEG+F
- o2ubKJAEOdmNoluUoy6fIQxVWt99BEu+f5T/hmW58Fxp2rE4qiss5isEkaYevxNn87Uh
- PeyU775uOSS+bHzIn6auAt6VGW8AR4v2CSe4FKajd0yWMfi4Cb0CbelRzlDnxiFJcRD5
- a8BvNebgQOuSdUyVodJ19695p9AghOhFHeks54GYPTwFYw/VT0tbzL4h0tErs6ls9st8
- q+vbg/ToHK5O4wIWaFoMdmzsp/wQDLGwaytr6AR4NtDntHJwaOdm4r1DcsxAeOtRfkYE
- nzFQ==
-X-Gm-Message-State: AOAM532pQS/M+N7UkLtztmDaHOoL0ecB8lVv/CUoqIX8rF4kY1n1J0ll
- M8zS71m7kC1T/LE3GBgf/X3E/0vDUkQgQDJKvY3woo0rGStswOSFhyQIBdJyAL6fmd2/3p5Kb2D
- qJi4AvzfZzYfuQkI=
-X-Received: by 2002:a1c:df8a:: with SMTP id w132mr120530wmg.90.1604423055390; 
- Tue, 03 Nov 2020 09:04:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwhPavdeXAqmN31QepPdH3WgYyEYFt3nbQh+rILVUD6T4tn1A3Anyoz0UcURl1J401WTJCQrA==
-X-Received: by 2002:a1c:df8a:: with SMTP id w132mr120500wmg.90.1604423055231; 
- Tue, 03 Nov 2020 09:04:15 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id g138sm3525743wme.39.2020.11.03.09.04.13
+ bh=A9TmnCBZIlx9QCghQVLdBUbJhN2pzDz32l6cbIU6DRI=;
+ b=f8oECHRGi0ZHf/FfPnfnQsuvc2QIFTTzn2T0n1xhbytD8L+hEbRQeJbQfHgysx+LYi
+ tdguNlDygCnYXc28HiBoM+T0LlItdJ5u4JQTWNDrwgs94JA/R5VUWgRE7T2R6oiOZKWd
+ SWbuuxk5Epk9YHfvD2WjLMrLAmgEfM0LeiAhCYWJT8uZq30DP+M0XTD5U+IAzLSTYbZX
+ r1k9Txu/5ACa7oSVujLS3hokG4bF1x8bERo6HSbylcIkz+8Ixsa9kgjkShoyRyDplK+K
+ vxxX3sznY5XafdOOSaoBnLJePKwrCIY3CLazFFhS30n2H41fsFJJHdNFYT3lilM99tGi
+ FtZQ==
+X-Gm-Message-State: AOAM530ycYG92YviXTV2DM6wdFJtNKOFcq9hhdqoxOI2fSgHGraYzflw
+ oFvphYluk3LLv8FMCQMoF5nF3hHnI6csjw==
+X-Google-Smtp-Source: ABdhPJxZihxR38bt8L0lm1FI2li5Kp6O4DLeMQAj/jDTfd9RoycHL3Y+uRKQ0tDW9FzAE5lIp9vCdg==
+X-Received: by 2002:a05:6a00:22c6:b029:18b:3bb8:8b6d with SMTP id
+ f6-20020a056a0022c6b029018b3bb88b6dmr2425999pfj.31.1604423097680; 
+ Tue, 03 Nov 2020 09:04:57 -0800 (PST)
+Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ by smtp.gmail.com with ESMTPSA id e184sm17776281pfe.146.2020.11.03.09.04.55
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 09:04:14 -0800 (PST)
-Subject: Re: [PATCH-for-5.2 2/3] gitlab-ci: Add a job to cover the
- --without-default-devices config
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
- Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20201103164604.2692357-1-philmd@redhat.com>
- <20201103164604.2692357-3-philmd@redhat.com>
- <20201103165247.GT205187@redhat.com>
- <7654e063-98d3-84e0-8116-5a1b41d14636@redhat.com>
-Message-ID: <21e90ddb-fe8a-c780-2741-9b7a2f7f1c9a@redhat.com>
-Date: Tue, 3 Nov 2020 18:04:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Tue, 03 Nov 2020 09:04:56 -0800 (PST)
+Subject: Re: [PATCH 07/14] target/arm: return the stage 2 index for stage 1
+To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
+References: <2172054.ElGaqSPkdT@basile.remlab.net>
+ <20201102105802.39332-7-remi.denis.courmont@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d42125dd-2151-3d33-5fa9-921965b3259e@linaro.org>
+Date: Tue, 3 Nov 2020 09:04:54 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <7654e063-98d3-84e0-8116-5a1b41d14636@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201102105802.39332-7-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,48 +90,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I forgot to Cc the 9pfs & Xen maintainers, doing it now ;)
+On 11/2/20 2:57 AM, remi.denis.courmont@huawei.com wrote:
+> +        if (s2_mmu_idx != NULL)
+> +            *s2_mmu_idx = ARMMMUIdx_Stage2;
 
-On 11/3/20 6:01 PM, Philippe Mathieu-Daudé wrote:
-> On 11/3/20 5:52 PM, Daniel P. Berrangé wrote:
->> On Tue, Nov 03, 2020 at 05:46:03PM +0100, Philippe Mathieu-Daudé wrote:
->>> We test './configure --without-default-devices' since commit
->>> 20885b5b169 (".travis.yml: test that no-default-device builds
->>> do not regress") in Travis-CI.
->>>
->>> As we prefer to use GitLab-CI, add the equivalent job there.
->>>
->>> One minor difference: the GitLab Ubuntu docker image has the
->>> Xen devel packages installed. As it is automatically selected,
->>> we need to disable it with the --disable-xen option, else the
->>> build fails:
->>>
->>>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
->>>   hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
->>>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference to `local_ops'
->>>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference to `synth_ops'
->>>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference to `proxy_ops'
->>>   collect2: error: ld returned 1 exit status
->>
->> Surely this is a build bug we need to fix rather than ignore in CI ?
-> 
-> Well it predates this series, so nobody really cared
-> (thus I wonder if it makes sense to invest resources
-> there).
-> 
-> Anyway I can have a look after 5.2-rc1.
-> 
+Missing braces.  Otherwise,
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
