@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 301E22A458E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:50:43 +0100 (CET)
-Received: from localhost ([::1]:35992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C1D2A45AB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:55:28 +0100 (CET)
+Received: from localhost ([::1]:41432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvlq-0004BO-8h
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:50:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53596)
+	id 1kZvqP-0006Yb-JB
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:55:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZvij-0002Us-0C
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:47:29 -0500
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41069)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZvih-0000jS-60
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:47:28 -0500
-Received: by mail-wr1-x442.google.com with SMTP id s9so18402137wro.8
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 04:47:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=sHksTowz5dtsSX7PsRRADU4YGWUqCX7D+FbYtbwzQEA=;
- b=FATwurUZjDSbsvDUIWdIfsgrgJ7X8BoKOUjRfGI5ZM8U//nU/AMb1QYRytNlf60BHz
- JIoV5oVy5kAOlOwYn8pJRFhpijAXOg7UEzWPyNOaV1LBei7Q6syPP5nE5+I1xFCoIXxR
- ccayLqvXXaslVflpGXiJlXSyRPqTBVv3aD7n73taJCyQhfVnVm6bronde4dLtJWGeHK2
- sc0DqGZKkSZ/Tr+o21ln/ZuzW32PPsDXJFoqAxP55FJkFwaS5VuEe0//QOEOIkFm+EMO
- tE2sI2b+o/TA/+zhvMMldCsYVNXcmm5DXGUMFk0DwW+f7vtDIKUai3NhARzvlSA01cDq
- vE1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=sHksTowz5dtsSX7PsRRADU4YGWUqCX7D+FbYtbwzQEA=;
- b=G7+1k4Tqy0T93fk5xveOZh7nW0YT+HswXhtqqW3lZ2cSw4AjcFEm4tynJ6/SCLiS7S
- k/oGB9RNy3bPbfcJR/83jtlZzuj8ShIdc2Eu8DcwnybMIMoS3G5ftFW/dZAdCl8Ea7oc
- xvBCUoo+fNEd0iH/yFuwuMN4sXP/0bz5y0rIOQr8mVrHolXGXWrTW17iylDzCzweCxVe
- yt4CEbbiIcDQhD9x1IAlOEMqFq3YO7Tup4GWTLEx1Dca32Nay0jFN89tjFXaRamsPaMy
- ONHiYWws3UOIN11YFp3X6vEEjOkkbKCmhv1a/dVHuVUSkBZIgZt7S2ttw7E/6222mTAh
- ejmw==
-X-Gm-Message-State: AOAM530J3OnnRH+jWzFod/7BieSJNUsdD9JCzUi7oA3Yw6QHCugwYwdd
- vE1s3XeM1mr7usSIWmCirXM=
-X-Google-Smtp-Source: ABdhPJzpkUAJvmUHBgqtig5999YbMQZzm2GCtyxi8ieKguV9PVANKaPJziOeDoV9rOCywjq8jtk5KA==
-X-Received: by 2002:adf:e743:: with SMTP id c3mr26513895wrn.317.1604407645377; 
- Tue, 03 Nov 2020 04:47:25 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id z191sm2814395wme.30.2020.11.03.04.47.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 04:47:24 -0800 (PST)
-Subject: Re: [PATCH V16 2/6] target/mips: Add unaligned access support for
- MIPS64R6 and Loongson-3
-To: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <1604053541-27822-1-git-send-email-chenhc@lemote.com>
- <1604053541-27822-3-git-send-email-chenhc@lemote.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9c1b9a5a-7214-b724-f565-9069cc8823ab@amsat.org>
-Date: Tue, 3 Nov 2020 13:47:23 +0100
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kZvoN-0005WH-Ry
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:53:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49401)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kZvoL-0002nT-BX
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:53:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604407996;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WxeRgbplkRVU2pHLy2Jvm2HeI+ABnVdTCG4ffvtD3dw=;
+ b=XRQ5TiBaHfv8Yvdfamrjxi7R1o5uL0lINxo8ycB08Eo8TTOgP2FelHJBXUzqlQz+9zCLJT
+ LCTXKeiogjpeqaTTZoNXxP/Wd+B52cKetYZQ2pPmwdSCitPEYwq5lbIdyp7d7XQwQ8R7/h
+ bdJPfyIh/esXbKIGTHx7Zr8NOa1cQ7o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-p9EYLA9JOhK2Luylu25ZZA-1; Tue, 03 Nov 2020 07:53:14 -0500
+X-MC-Unique: p9EYLA9JOhK2Luylu25ZZA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CCC3188C135;
+ Tue,  3 Nov 2020 12:53:13 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.195.44])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BB3C19C4F;
+ Tue,  3 Nov 2020 12:53:07 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] iotests: rewrite iotest 240 in python
+To: Maxim Levitsky <mlevitsk@redhat.com>, qemu-devel@nongnu.org
+References: <20201101161532.259609-1-mlevitsk@redhat.com>
+ <20201101161532.259609-3-mlevitsk@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <be54a033-9672-052f-e45a-9d3322dd60a0@redhat.com>
+Date: Tue, 3 Nov 2020 13:53:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <1604053541-27822-3-git-send-email-chenhc@lemote.com>
+In-Reply-To: <20201101161532.259609-3-mlevitsk@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::442;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x442.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,44 +83,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/30/20 11:25 AM, Huacai Chen wrote:
-> MIPSR6 (not only MIPS32R6) processors support unaligned access in
-> hardware, so set MO_UNALN in their default_tcg_memop_mask. Btw, new
-> Loongson-3 (such as Loongson-3A4000) also support unaligned access,
-> since both old and new Loongson-3 use the same binaries, we can simply
-> set MO_UNALN for all Loongson-3 processors.
+On 01.11.20 17:15, Maxim Levitsky wrote:
+> The recent changes that brought RCU delayed device deletion,
+> broke few tests and this test breakage went unnoticed.
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> Fix this test by rewriting it in python
+> (which allows to wait for DEVICE_DELETED events before continuing).
+> 
+> Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
 > ---
->  target/mips/translate.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  tests/qemu-iotests/240     | 228 ++++++++++++++++---------------------
+>  tests/qemu-iotests/240.out |  76 ++++++++-----
+>  2 files changed, 143 insertions(+), 161 deletions(-)
 > 
-> diff --git a/target/mips/translate.c b/target/mips/translate.c
-> index f449758..470f59c 100644
-> --- a/target/mips/translate.c
-> +++ b/target/mips/translate.c
-> @@ -31442,8 +31442,8 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->  #else
->          ctx->mem_idx = hflags_mmu_index(ctx->hflags);
->  #endif
-> -    ctx->default_tcg_memop_mask = (ctx->insn_flags & ISA_MIPS32R6) ?
-> -                                  MO_UNALN : MO_ALIGN;
-> +    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
-> +                                  INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
->  
->      LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
->                ctx->hflags);
-> 
+> diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
+> index 8b4337b58d..bfc9b72f36 100755
+> --- a/tests/qemu-iotests/240
+> +++ b/tests/qemu-iotests/240
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+[...]
 
-And queued to mips-next.
+> +class TestCase(iotests.QMPTestCase):
+> +    test_driver = "null-co"
+> +
+> +    def required_drivers(self):
+> +        return [self.test_driver]
+> +
+> +    @iotests.skip_if_unsupported(required_drivers)
+> +    def setUp(self):
+> +        self.vm = iotests.VM()
+> +        self.vm.launch()
+
+It seems to me like all tests create a null-co block device.  The only
+difference is that test1() creates an R/W node, whereas all others
+create an RO node.  I don’t think that matters though, so maybe we can
+replace code duplication by creating the (RO) null-co node here.
+
+Furthermore, we could also create two I/O threads and two accompanying
+virtio-scsi devices here (tests that don’t use them shouldn’t care)...
+
+> +
+> +    def tearDown(self):
+
+...and clean all of those up here.
+
+> +        self.vm.shutdown()
+> +
+> +    def test1(self):
+> +        iotests.log('==Unplug a SCSI disk and then plug it again==')
+> +        self.vm.qmp_log('blockdev-add', driver='null-co', read_zeroes=True, node_name='hd0')
+> +        self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+> +        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters = [iotests.filter_qmp_virtio_scsi])
+
+A bit weird that you change your coding style for the @filters parameter
+(i.e., putting spaces around '='), and pylint thinks so, too.
+
+> +        self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+> +        self.vm.qmp_log('device_del', id='scsi-hd0')
+> +        self.vm.event_wait('DEVICE_DELETED')
+> +        self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+> +        self.vm.qmp_log('device_del', id='scsi-hd0')
+> +        self.vm.event_wait('DEVICE_DELETED')
+> +        self.vm.qmp_log('device_del', id='scsi0')
+
+I don’t think it makes a difference for this test, but perhaps it would
+be cleaner to wait for the DEVICE_DELETED event even for the virtio-scsi
+devices?
+
+> +        self.vm.qmp_log('blockdev-del', node_name='hd0')
+> +
+> +    def test2(self):
+> +        iotests.log('==Attach two SCSI disks using the same block device and the same iothread==')
+> +        self.vm.qmp_log('blockdev-add', driver='null-co', read_zeroes=True, node_name='hd0', read_only=True)
+> +        self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+> +        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters = [iotests.filter_qmp_virtio_scsi])
+> +
+> +        self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+> +        self.vm.qmp_log('device_add', id='scsi-hd1', driver='scsi-hd', drive='hd0')
+> +        self.vm.qmp_log('device_del', id='scsi-hd1')
+> +        self.vm.event_wait('DEVICE_DELETED')
+> +        self.vm.qmp_log('device_del', id='scsi-hd0')
+> +        self.vm.event_wait('DEVICE_DELETED')
+
+The bash version deleted them the other way around, but I suppose it
+doesn’t matter.  (It just made me wonder why you changed the order.)
+
+> +        self.vm.qmp_log('device_del', id='scsi0')
+> +        self.vm.qmp_log('blockdev-del', node_name='hd0')
+> +
+> +    def test3(self):
+> +        iotests.log('==Attach two SCSI disks using the same block device but different iothreads==')
+> +
+> +        self.vm.qmp_log('blockdev-add', driver='null-co', read_zeroes=True, node_name='hd0', read_only=True)
+> +
+> +        self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+> +        self.vm.qmp_log('object-add', qom_type='iothread', id="iothread1")
+> +
+> +        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters = [iotests.filter_qmp_virtio_scsi])
+> +        self.vm.qmp_log('device_add', id='scsi1', driver=iotests.get_virtio_scsi_device(), iothread='iothread1', filters = [iotests.filter_qmp_virtio_scsi])
+> +
+> +        self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0', bus="scsi0.0")
+> +        self.vm.qmp_log('device_add', id='scsi-hd1', driver='scsi-hd', drive='hd0', bus="scsi1.0")
+> +
+> +        self.vm.qmp_log('device_del', id='scsi-hd0')
+> +        self.vm.event_wait('DEVICE_DELETED')
+> +        self.vm.qmp_log('device_add', id='scsi-hd1', driver='scsi-hd', drive='hd0', bus="scsi1.0")
+> +
+> +        self.vm.qmp_log('device_del', id='scsi-hd1')
+> +        self.vm.event_wait('DEVICE_DELETED')
+> +
+> +        self.vm.qmp_log('device_del', id='scsi1')
+> +        self.vm.qmp_log('device_del', id='scsi0')
+> +
+> +        self.vm.qmp_log('blockdev-del', node_name='hd0')
+> +
+> +    def test4(self):
+> +        iotests.log('==Attach a SCSI disks using the same block device as a NBD server==')
+> +
+> +        self.vm.qmp_log('blockdev-add', driver='null-co', read_zeroes=True, node_name='hd0', read_only=True)
+> +
+> +        self.vm.qmp_log('nbd-server-start',
+> +                        filters=[iotests.filter_qmp_testfiles],
+> +                        addr={'type':'unix', 'data':{'path':nbd_sock}})
+> +
+> +        self.vm.qmp_log('nbd-server-add', device='hd0')
+> +
+> +        self.vm.qmp_log('object-add', qom_type='iothread', id="iothread0")
+> +        self.vm.qmp_log('device_add', id='scsi0', driver=iotests.get_virtio_scsi_device(), iothread='iothread0', filters = [iotests.filter_qmp_virtio_scsi])
+> +        self.vm.qmp_log('device_add', id='scsi-hd0', driver='scsi-hd', drive='hd0')
+> +
+> +
+> +if __name__ == '__main__':
+> +    if 'null-co' not in iotests.supported_formats():
+> +        iotests.notrun('null-co driver support missing')
+
+I suppose it isn’t wrong to check this in two places (in the setUp()
+decorator, and then here again), but it doesn’t seem necessary either.
+
+Max
+
+> +    iotests.activate_logging()
+> +    iotests.main()
+
 
