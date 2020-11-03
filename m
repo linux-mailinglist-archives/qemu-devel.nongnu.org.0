@@ -2,64 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EF562A3A7D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:36:37 +0100 (CET)
-Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978C82A3A84
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:40:50 +0100 (CET)
+Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZmBY-0005lB-4k
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:36:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
+	id 1kZmFd-0008HG-Nd
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:40:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kZm9i-0004XM-73; Mon, 02 Nov 2020 21:34:43 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188]:2050)
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1kZmCN-0007A7-HT
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:37:27 -0500
+Received: from mail-bn8nam11on2074.outbound.protection.outlook.com
+ ([40.107.236.74]:32464 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kZm9f-0006Zi-7r; Mon, 02 Nov 2020 21:34:41 -0500
-Received: from DGGEMM406-HUB.china.huawei.com (unknown [172.30.72.56])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4CQDQ21vPKzQmhd;
- Tue,  3 Nov 2020 10:34:34 +0800 (CST)
-Received: from DGGEMM422-HUB.china.huawei.com (10.1.198.39) by
- DGGEMM406-HUB.china.huawei.com (10.3.20.214) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Tue, 3 Nov 2020 10:34:34 +0800
-Received: from DGGEMM531-MBX.china.huawei.com ([169.254.5.225]) by
- dggemm422-hub.china.huawei.com ([169.254.138.104]) with mapi id
- 14.03.0487.000; Tue, 3 Nov 2020 10:34:28 +0800
-From: "Chenqun (kuhn)" <kuhn.chenqun@huawei.com>
-To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-trivial@nongnu.org"
- <qemu-trivial@nongnu.org>
-Subject: RE: [PATCH 5/6] plugins/loader: fix uninitialized variable warning
- in plugin_reset_uninstall()
-Thread-Topic: [PATCH 5/6] plugins/loader: fix uninitialized variable warning
- in plugin_reset_uninstall()
-Thread-Index: AQHWsYQOG+BA1V6h/kOkIdkZ4HoI+6m1JgQAgACIJTA=
-Date: Tue, 3 Nov 2020 02:34:27 +0000
-Message-ID: <7412CDE03601674DA8197E2EBD8937E83BA24B18@dggemm531-mbx.china.huawei.com>
-References: <20201103015228.2250547-1-kuhn.chenqun@huawei.com>
- <20201103015228.2250547-6-kuhn.chenqun@huawei.com>
- <b069ab47-8f3d-b4e9-77f6-567b1dcbd296@redhat.com>
-In-Reply-To: <b069ab47-8f3d-b4e9-77f6-567b1dcbd296@redhat.com>
-Accept-Language: en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.185.149]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
+ id 1kZmCL-0006xA-GK
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:37:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CJdMnFdaAiPM9HpcFJSgc2BuC3HG/GlJBMNPul/4GIthch/6IUcwA67+2FHed9jsjrvWPQBtVq2nIlWT1Ndsi3ENrDjDHpBjNMXDN8kDSdF4fl6SM+eaxQEt/HdgnrVpykD21AChL0MGtJdYAIP7AYTftASSyMDzDEJfV076zrXElseZe54DRIxJolmx7dSRGiMeMgvpsVIpjTTtgZk3B7YNfjCG1tWkYBKXSvsZ0whDczo5Bsa0n6g5j3+PZM8i4XPAkJqn2loEum1cFu9IubFGzG/uORGo/vo1w+9BJNtTGkr9RN9+vCUXeWnIHMyc7ip5zWsUEWSemO6+Wcimzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vJThjI1wv+QDQKhd+2KnZrvrEmOhSMLBtdK7bkJP6pQ=;
+ b=aSvwkfe7AIDJT+CaZjqzRqfSOEgmw9lBESHhsjudm+XK6aYu/2EnrdRMQ5L+1G/vBDO/Y1sGmRW+4avvCrO4DBV5uCpCmbRB9U6Nd1ciVUeGwGLbwBEiY9sJtvuOzU1foyMo99+KJE6HPulLdeP5BfGwVBN9oRoA+eRSq5CHI26R+HwQnX20N50N1RXJnOyzVMY3PqxR+HfAgzqCYZJDFYHezmYHSh7mhGbmUsrfxnGIMPGf2QKFzCXHLauR/7IWEXGb2DI27xvtBapPzCyLt34aP7d/RYSwnQX7UU34kkWDrbgdsl3b2uc0G1+UZk4xLdA7fj5PHhVrcDg/FqDEvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=vJThjI1wv+QDQKhd+2KnZrvrEmOhSMLBtdK7bkJP6pQ=;
+ b=0WuZCe9mHgR7hiFbpqFNK0s0SVxbffLuqR1kStvUPDVDsezSASS4YxJoJnNYeqeuddpKzzKII2+s/En8Yeu0P+TtW8i7DRqGuXRsvaSYNy3TJma3RgsXBuXGZEn6YnATfXyH9IH5FT4Bp7GkCccm6bCBDQ7qlBh42qghpkfv8O4=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
+ by CH2PR12MB3765.namprd12.prod.outlook.com (2603:10b6:610:25::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 3 Nov
+ 2020 02:37:20 +0000
+Received: from CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
+ ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
+ 02:37:20 +0000
+Date: Mon, 2 Nov 2020 20:37:07 -0600
+From: Michael Roth <michael.roth@amd.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PULL v2 00/12] qemu-ga patch queue for soft-freeze
+Message-ID: <20201103023707.kzx2gz7typtfdxzr@vm0>
+References: <20201103011134.887744-1-michael.roth@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201103011134.887744-1-michael.roth@amd.com>
+X-Originating-IP: [165.204.77.11]
+X-ClientProxiedBy: SN2PR01CA0076.prod.exchangelabs.com (2603:10b6:800::44) To
+ CH2PR12MB4133.namprd12.prod.outlook.com
+ (2603:10b6:610:7a::13)
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga02-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 21:34:35
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost (165.204.77.11) by
+ SN2PR01CA0076.prod.exchangelabs.com (2603:10b6:800::44) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 02:37:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ba684af8-6b28-4f04-39a2-08d87fa162fc
+X-MS-TrafficTypeDiagnostic: CH2PR12MB3765:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB376529D8107E7193D5F61DD495110@CH2PR12MB3765.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: p+EUeSBYl3Gqp2H/NyfTcHIZ4csRH4R4rhlERDHu6lDaa+M2moDjR/T+9QEpL/OknzYCRuRPUIGJTfToEHw6GQyxpZYohtrZPkcLlc/6+nTodvbqMz0EXcth2FVFAzoMWTMSLOt8BIjmMA58CWC8IYz9selhxKsAawZalDGFSAJLdDJdxXBp8Lm9memRXCrAXHie7rrb8YTNcOhjdsdQh7gZubIsxzsr0n7dQH1oOsbkF5ZDHYWnIr9f8MfXjY9dDQ3Xi1bjMFzeRuemhwWfvFGPsmRpyYrvdUdG62rCVmAN0uU/QRe7X+HInG0yoEKDE3L70p2ycNC7gmz/rCuoMw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(7916004)(4636009)(39860400002)(346002)(136003)(396003)(366004)(376002)(83380400001)(4326008)(8676002)(8936002)(66946007)(86362001)(66556008)(66476007)(316002)(956004)(4001150100001)(1076003)(6486002)(2906002)(44832011)(478600001)(9686003)(33716001)(26005)(6916009)(52116002)(6496006)(6666004)(5660300002)(186003)(16526019);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: Xnj7WGuPc6gz2gYg2aw/FBeD/xGPIcuiVn8POTJpS0d9SJJCAepGejkqd2Jt5p7wKeop4TZ/E6chdbMSPA732Zdwo8nXVE/Ll18vURWivnesTqMJj4TRSTMxXzRUmHjcFKPgfJie6Y4xnVbgVNXrS9M/0jvRarzkI0CNwxrzAgvJ+0OBguidVOT787kGyQKfmOvKQrYRN8DRtCIFXMpJ2ge/WXT68ThxpNKUNTq/2W9IU/EHwf0X1+jVC1rRemorV2AKrqwrpDh22CiDUp6/BKAiZPgGaWSPEQl15ol25zUWi/+400696pZVl6zRKJ4RH1XyvVMJV4CDc/EFA5y+ixo/Mq0d9+rRczG3FqBWkDk9kn23csBuXgPoV6MWcKKLP+PsW8j/X7DN7ZUxbazyMfeGxwBRVs4VLC4/md+zc92/TXKDTIeXkIS7yMgpWXPTM+znyyCUyXtRdjZ7NIF/Uu/iy/FCTlYOmVy5zRefycnyhmtUrKekAPdolt6QzpQ1HjGW3+jT4mHginViW7lzAyhZclvrtQmTi8JehbM+/K8hv8yzUCl1X77m95YXaYKueFzMg4WgXSaLlklwRq6FIyoPQhfeMPTjrMEAfW0Vaz/G2NVK2+QXY3iyNYzU15udamaRsjLP2bIA84n11eiqdg==
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ba684af8-6b28-4f04-39a2-08d87fa162fc
+X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:37:20.3001 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qpSq4qArcCRMBK+eJrMhivO8964BdSRa8/gDfjQgllg/RDp2uwTzrn2uxPqx7S9BdDBDpBHuDFxoJ9Z1fR/24A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3765
+Received-SPF: none client-ip=40.107.236.74; envelope-from=Michael.Roth@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 21:37:22
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,51 +113,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>, ganqixin <ganqixin@huawei.com>,
- Euler Robot <euler.robot@huawei.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURh
-dWTDqSBbbWFpbHRvOnBoaWxtZEByZWRoYXQuY29tXQ0KPiBTZW50OiBUdWVzZGF5LCBOb3ZlbWJl
-ciAzLCAyMDIwIDEwOjE4IEFNDQo+IFRvOiBDaGVucXVuIChrdWhuKSA8a3Vobi5jaGVucXVuQGh1
-YXdlaS5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmc7DQo+IHFlbXUtdHJpdmlhbEBub25nbnUu
-b3JnDQo+IENjOiBBbGV4IEJlbm7DqWUgPGFsZXguYmVubmVlQGxpbmFyby5vcmc+OyBaaGFuZ2hh
-aWxpYW5nDQo+IDx6aGFuZy56aGFuZ2hhaWxpYW5nQGh1YXdlaS5jb20+OyBnYW5xaXhpbiA8Z2Fu
-cWl4aW5AaHVhd2VpLmNvbT47IEV1bGVyDQo+IFJvYm90IDxldWxlci5yb2JvdEBodWF3ZWkuY29t
-Pg0KPiBTdWJqZWN0OiBSZTogW1BBVENIIDUvNl0gcGx1Z2lucy9sb2FkZXI6IGZpeCB1bmluaXRp
-YWxpemVkIHZhcmlhYmxlIHdhcm5pbmcgaW4NCj4gcGx1Z2luX3Jlc2V0X3VuaW5zdGFsbCgpDQo+
-IA0KPiBPbiAxMS8zLzIwIDI6NTIgQU0sIENoZW4gUXVuIHdyb3RlOg0KPiA+IEFmdGVyIHRoZSBX
-SVRIX1FFTVVfTE9DS19HVUFSRCBtYWNybyBpcyBhZGRlZCwgdGhlIGNvbXBpbGVyIGNhbm5vdA0K
-PiA+IGlkZW50aWZ5ICB0aGF0IHRoZSBzdGF0ZW1lbnRzIGluIHRoZSBtYWNybyBtdXN0IGJlIGV4
-ZWN1dGVkLiBBcyBhDQo+ID4gcmVzdWx0LCBzb21lIHZhcmlhYmxlcyAgYXNzaWdubWVudCBzdGF0
-ZW1lbnRzIGluIHRoZSBtYWNybyBtYXkgYmUNCj4gY29uc2lkZXJlZCBhcyB1bmV4ZWN1dGVkIGJ5
-IHRoZSBjb21waWxlci4NCj4gPg0KPiA+IFRoZSBjb21waWxlciBzaG93ZWQgd2FybmluZzoNCj4g
-PiBwbHVnaW5zL2xvYWRlci5jOiBJbiBmdW5jdGlvbiDigJhwbHVnaW5fcmVzZXRfdW5pbnN0YWxs
-4oCZOg0KPiA+IHBsdWdpbnMvbG9hZGVyLmM6MzgyOjE1OiB3YXJuaW5nOiDigJhjdHjigJkgbWF5
-IGJlIHVzZWQgdW5pbml0aWFsaXplZCBpbg0KPiA+IHRoaXMgZnVuY3Rpb24gWy1XbWF5YmUtdW5p
-bml0aWFsaXplZF0NCj4gDQo+IFRoaXMgc2hvdWxkbid0IGhhcHBlbiBhcyB0aGUgZnVuY3Rpb24g
-cmV0dXJucyBiZWZvcmUgKGVsc2UgdGhlcmUgaXMgYSBOVUxMDQo+IGRlcmVmKS4NCj4gDQpZZXMs
-IGluIGZhY3QsIGl0IHNob3VsZG4ndCBoYXZlIGhhcHBlbmVkIHdoZW4gdGhlIHByb2dyYW0gd2Fz
-IHJ1bm5pbmcuDQpCdXQgYWZ0ZXIgYWRkZWQgJ1dJVEhfUUVNVV9MT0NLX0dVQVJEJywgbGV0IHRo
-ZSBjb21waWxlciB0aGluayBpdCBtaWdodCBoYXBwZW4uDQpTbywgd2UgYWRkIGEgZGVmYXVsdCB2
-YWx1ZSwgbWFrZSB0aGUgY29tcGlsZXIgaGFwcHkuDQoNClRoYW5rcywNCkNoZW4gUXVuDQo+ID4g
-IDM4MiB8ICAgICBkYXRhLT5jdHggPSBjdHg7DQo+ID4gICAgICB8ICAgICB+fn5+fn5+fn5+Xn5+
-fn4NCj4gPg0KPiA+IEFkZCBhIGRlZmF1bHQgdmFsdWUgZm9yICdleHBpcmVfdGltZScgdG8gcHJl
-dmVudGVkIHRoZSB3YXJuaW5nLg0KPiA+DQo+ID4gUmVwb3J0ZWQtYnk6IEV1bGVyIFJvYm90IDxl
-dWxlci5yb2JvdEBodWF3ZWkuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENoZW4gUXVuIDxrdWhu
-LmNoZW5xdW5AaHVhd2VpLmNvbT4NCj4gPiAtLS0NCj4gPiBDYzogIkFsZXggQmVubsOpZSIgPGFs
-ZXguYmVubmVlQGxpbmFyby5vcmc+DQo+ID4gLS0tDQo+ID4gIHBsdWdpbnMvbG9hZGVyLmMgfCAy
-ICstDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
-PiA+DQo+ID4gZGlmZiAtLWdpdCBhL3BsdWdpbnMvbG9hZGVyLmMgYi9wbHVnaW5zL2xvYWRlci5j
-IGluZGV4DQo+ID4gOGFjNWRiYzIwZi4uODg1OTNmZTEzOCAxMDA2NDQNCj4gPiAtLS0gYS9wbHVn
-aW5zL2xvYWRlci5jDQo+ID4gKysrIGIvcGx1Z2lucy9sb2FkZXIuYw0KPiA+IEBAIC0zNjcsNyAr
-MzY3LDcgQEAgdm9pZCBwbHVnaW5fcmVzZXRfdW5pbnN0YWxsKHFlbXVfcGx1Z2luX2lkX3QgaWQs
-DQo+ID4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICBib29sIHJlc2V0KSAgew0KPiA+ICAg
-ICAgc3RydWN0IHFlbXVfcGx1Z2luX3Jlc2V0X2RhdGEgKmRhdGE7DQo+ID4gLSAgICBzdHJ1Y3Qg
-cWVtdV9wbHVnaW5fY3R4ICpjdHg7DQo+ID4gKyAgICBzdHJ1Y3QgcWVtdV9wbHVnaW5fY3R4ICpj
-dHggPSBOVUxMOw0KPiA+DQo+ID4gICAgICBXSVRIX1FFTVVfTE9DS19HVUFSRCgmcGx1Z2luLmxv
-Y2spIHsNCj4gPiAgICAgICAgICBjdHggPSBwbHVnaW5faWRfdG9fY3R4X2xvY2tlZChpZCk7DQo+
-ID4NCg0K
+On Mon, Nov 02, 2020 at 07:11:22PM -0600, Michael Roth wrote:
+> Hi Peter,
+> 
+> Sorry to get these out so late, for some inexplicable reason my email
+> client decided to flag all responses v1 as spam and I didn't notice
+> until I double-checked the archives this morning.
+> 
+> I've fixed the gcc-on-BSD and clang-on-linux issues you pointed out 
+> (PATCH 6) and added proper test coverage for both.
+> 
+> Also, the qga-ssh-test unit test introduced in this series triggers a
+> failure in Gitlab CI build-oss-fuzz test. This seems to be due to a
+> memory leak in GLib itself when G_TEST_OPTION_ISOLATE_DIRS option is
+> passed to g_test_init(). I verified the unit test doesn't introduce any
+> leaks when run without g_test* harness. Since G_TEST_OPTION_ISOLATE_DIRS
+> is currently needed to safely run the qga-ssh-test, I've disabled it for
+> now (PATCH 9 and 12) until we figure out solution.
+> 
+> Thanks,
+> 
+> Mike
+
+...And I just noticed Markus email noting that checkpatch complaints about
+g_assert_* aren't just noise. Re-spinning a v3 to address.
+
+> 
+> The following changes since commit 2c6605389c1f76973d92b69b85d40d94b8f1092c:
+> 
+>   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201101.0' into staging (2020-11-02 09:54:00 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   git://github.com/mdroth/qemu.git tags/qga-pull-2020-10-27-v2-tag
+> 
+> for you to fetch changes up to b457991dfb801bf9227e8823534de5dbb3c276c1:
+> 
+>   qga: add ssh-get-authorized-keys (2020-11-02 18:30:42 -0600)
+> 
+> ----------------------------------------------------------------
+> qemu-ga patch queue for soft-freeze
+> 
+> * add guest-get-disks for w32/linux
+> * add guest-{add,remove,get}-authorized-keys
+> * fix API violations and schema documentation inconsistencies with
+>   recently-added guest-get-devices
+> 
+> v2:
+> - fix BSD build error due to missing stub for guest_get_disks
+> - fix clang build error on linux due to unused variable
+> - disable qga-ssh-test for now due to a memory leak within GLib when
+>   G_TEST_OPTION_ISOLATE_DIRS is passed to g_test_init() since it
+>   break Gitlab CI build-oss-fuzz test
+> - rebased and re-tested on master
+> 
+> ----------------------------------------------------------------
+> Marc-André Lureau (5):
+>       glib-compat: add g_unix_get_passwd_entry_qemu()
+>       qga: add ssh-{add,remove}-authorized-keys
+>       qga: add *reset argument to ssh-add-authorized-keys
+>       meson: minor simplification
+>       qga: add ssh-get-authorized-keys
+> 
+> Markus Armbruster (4):
+>       qga: Rename guest-get-devices return member 'address' to 'id'
+>       qga: Use common time encoding for guest-get-devices 'driver-date'
+>       qga-win: Fix guest-get-devices error API violations
+>       qga: Flatten simple union GuestDeviceId
+> 
+> Tomáš Golembiovský (3):
+>       qga: add command guest-get-disks
+>       qga: add implementation of guest-get-disks for Linux
+>       qga: add implementation of guest-get-disks for Windows
+> 
+>  include/glib-compat.h    |  26 +++
+>  qga/commands-posix-ssh.c | 516 +++++++++++++++++++++++++++++++++++++++++++++++
+>  qga/commands-posix.c     | 297 ++++++++++++++++++++++++++-
+>  qga/commands-win32.c     | 140 +++++++++++--
+>  qga/meson.build          |  39 +++-
+>  qga/qapi-schema.json     | 127 +++++++++++-
+>  6 files changed, 1104 insertions(+), 41 deletions(-)
+>  create mode 100644 qga/commands-posix-ssh.c
+> 
+> 
 
