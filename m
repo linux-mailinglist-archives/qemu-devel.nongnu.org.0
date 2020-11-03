@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20ED2A48CA
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:58:37 +0100 (CET)
-Received: from localhost ([::1]:59782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5411B2A48DD
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:03:22 +0100 (CET)
+Received: from localhost ([::1]:45202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxlc-0001ez-RC
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:58:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
+	id 1kZxqD-0007cU-AC
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:03:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxPd-0005nq-0D
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46209)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOw-0004zL-AL
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxPV-0006wa-3E
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:52 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOt-0006a4-10
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414142;
+ s=mimecast20190719; t=1604414106;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=L0BE6BIYyp008EuFnEKAYjzMhrYRUbO0ZaRk54gDh4k=;
- b=OMG+B2rhsspzUWUJutwO30mgasxD2V66lSpxJCa8l/vM0ZZhp1WZF92VzZyURp4OKZhEEU
- SmSqBgJUm5hEMm9SxVtNcTWjcIQBKt5aRJWDSdjS4j9ryvRkuKGbwanySUVVxQqUXfackn
- n+c9f4lJgYmstlVe0mZobkcTLmuAoxE=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-457-HYsJju8uPGSueYleCp7IhA-1; Tue, 03 Nov 2020 09:35:40 -0500
-X-MC-Unique: HYsJju8uPGSueYleCp7IhA-1
-Received: by mail-wm1-f70.google.com with SMTP id c10so3822637wmh.6
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:35:40 -0800 (PST)
+ bh=Try6I8+Gzp362j90+uCp08fdMyiL5wC2Bsqj8twh+n4=;
+ b=Oge5vED8/T0NSBVeS0SBz8N0ldebBL6XFuz7ghOQbiDew7duBjeKvNIcu2lTB4whFOTq0x
+ LJLqvGkzGJC9PsqNoe5whChcIppgNTq6GBF0FirXtE9nrqNOPDJ+aoxuvyoL9GEg5z8sqv
+ JBxIHC9L3B2zvXV0EOGV7X7IXjZMcY4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-193-yoGiQsDEOwiPx8rr2Hn26g-1; Tue, 03 Nov 2020 09:35:04 -0500
+X-MC-Unique: yoGiQsDEOwiPx8rr2Hn26g-1
+Received: by mail-wr1-f69.google.com with SMTP id j15so7902518wrd.16
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:35:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=L0BE6BIYyp008EuFnEKAYjzMhrYRUbO0ZaRk54gDh4k=;
- b=Uv9SCgNVBs2qBJ82g4TDQR6vawtfLd6E56AxMI2cK/Z1gA070CdnUbK1/R1ESjZtNk
- wo/XWpyyzLIqJ9x5Bkurrrtxnwn8WcXd8pJYu7p1mzBCYg5k4qqAL+b2fOR8+mZeymB9
- FtI34PXGV2xRdz9QYwMyZNsIEi4IvfmFyw5O2kc1cMEjzeyZZ70b5wSRXf3VPncgJ8bg
- KwB5PKt7kpKlWKniawZpUflcDMSO7a77cB/An18xNaJm0vQTUvb/e3fdHT6qvqTH5ERO
- 1hMrQrBhy7D+idvx9ntfiN+9olhDX6phvqC+veMdT+00j/jzrQRIBe4nzbVtDZBe8wo+
- BxhQ==
-X-Gm-Message-State: AOAM5306ssHSNbLbzxyin1i91csHqKaefh04ehvYTKKLlfHqTYZk+Wdn
- X1/AjwZhojIYMA6ppbviV0Hy81+8FS6i1oqdOhQq8RfYwXVX/IKfEF/PKXdvxU/GXKh7b7YsXWH
- RFmTYR7Ujb/KUYFs=
-X-Received: by 2002:a5d:4987:: with SMTP id r7mr25151041wrq.327.1604414138892; 
- Tue, 03 Nov 2020 06:35:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw6eT8xSIAkLFdGF44qCEw81GfoHqealWC0BvlZUQ7Lze2P7OMlEvPznNZ+X2OmMquKrpWvLw==
-X-Received: by 2002:a5d:4987:: with SMTP id r7mr25151026wrq.327.1604414138695; 
- Tue, 03 Nov 2020 06:35:38 -0800 (PST)
+ bh=Try6I8+Gzp362j90+uCp08fdMyiL5wC2Bsqj8twh+n4=;
+ b=mdN21yfwmoQm6/HAMoCNmYI5T7hvena4F267+Mw1UiBTi0sc+T+rMoax+8+kKFo4Ay
+ 7XbVYlW4L01IwuHbPBtvoo6xhdd6FNs1refU+dlLazfJUx1PvRdMK54+tLGyTLlXHBvl
+ wVcUXZhopoHvHxxFf9C9Vj3YCd+eF5aaSZEOEajzhFN3XeJJ/soR34F19rSoYxAPD1Nj
+ nN4kQaspgfe+QV2ZwSdjfdfYU+dTt4w/LWmGg6mYiZofjITKUJUdmgpmCW0jlOokzgYP
+ J9UJGuFkQZD1iasms0TrDXtVLhMYlEosX4vNZMiOuRs2Ot6pGeACvgKCYM9L1RBJ+W4m
+ FRkA==
+X-Gm-Message-State: AOAM5334mzRfQkFlvHvneZSTq87xJ3tShIA/DgswMhDxyvzvwynevq35
+ yYBoimV7Cfo9D0ROgH/tyVySdYHozW1O1mROF4c4Jz3aIhjws4Lw8xslBeXe+K0kdgbvBvVWA/o
+ c3id520ZAn8X2PCE=
+X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr36861wmj.37.1604414102846;
+ Tue, 03 Nov 2020 06:35:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJza4rrcu/xR+QjdM8GsHhwuJ9vtUSLavliR20kgMLMjA+Tj66AKFQ72Q6aAv3V9GyDplIH1Sw==
+X-Received: by 2002:a7b:c3d5:: with SMTP id t21mr36844wmj.37.1604414102704;
+ Tue, 03 Nov 2020 06:35:02 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id s202sm3127156wme.39.2020.11.03.06.35.37
+ by smtp.gmail.com with ESMTPSA id v123sm3205562wme.7.2020.11.03.06.35.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 06:35:37 -0800 (PST)
-Date: Tue, 3 Nov 2020 09:35:36 -0500
+ Tue, 03 Nov 2020 06:35:02 -0800 (PST)
+Date: Tue, 3 Nov 2020 09:35:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 37/38] vhost-user-blk-test: drop unused return value
-Message-ID: <20201103142306.71782-38-mst@redhat.com>
+Subject: [PULL 23/38] vhost-vdpa: Add qemu_close in vhost_vdpa_cleanup
+Message-ID: <20201103142306.71782-24-mst@redhat.com>
 References: <20201103142306.71782-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
@@ -94,49 +94,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Hajnoczi <stefanha@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
 
-The sock_path return value was unused and bogus (it doesn't make sense
-when there are multiple drives because only the last path is arbitrarily
-returned).
+fix the bug that fd will still open after the cleanup
 
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201027173528.213464-12-stefanha@redhat.com>
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+Message-Id: <20201016030909.9522-1-lulu@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/vhost-user-blk-test.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ net/vhost-vdpa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index 15daf8ccbc..0d056cc189 100644
---- a/tests/qtest/vhost-user-blk-test.c
-+++ b/tests/qtest/vhost-user-blk-test.c
-@@ -705,8 +705,8 @@ static void quit_storage_daemon(void *qmp_test_state)
-     g_free(qmp_test_state);
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 99c476db8c..fe659ec9e2 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -145,6 +145,10 @@ static void vhost_vdpa_cleanup(NetClientState *nc)
+         g_free(s->vhost_net);
+         s->vhost_net = NULL;
+     }
++     if (s->vhost_vdpa.device_fd >= 0) {
++        qemu_close(s->vhost_vdpa.device_fd);
++        s->vhost_vdpa.device_fd = -1;
++    }
  }
  
--static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
--                                  int num_queues)
-+static void start_vhost_user_blk(GString *cmd_line, int vus_instances,
-+                                 int num_queues)
- {
-     const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
-     int fd, qmp_fd, i;
-@@ -774,7 +774,6 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
-     g_test_queue_destroy(quit_storage_daemon, qmp_test_state);
- 
-     qobject_unref(qtest_qmp(qmp_test_state, "{'execute': 'qmp_capabilities'}"));
--    return sock_path;
- }
- 
- static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
+ static bool vhost_vdpa_has_vnet_hdr(NetClientState *nc)
 -- 
 MST
 
