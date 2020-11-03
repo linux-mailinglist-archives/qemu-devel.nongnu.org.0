@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 394E12A3A20
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:57:43 +0100 (CET)
-Received: from localhost ([::1]:52916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9C42A3A21
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:57:45 +0100 (CET)
+Received: from localhost ([::1]:53028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZlZu-0003t3-6R
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:57:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59898)
+	id 1kZlZw-0003vW-NC
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kZlWe-00024a-NK; Mon, 02 Nov 2020 20:54:21 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2319)
+ id 1kZlWn-000266-7g; Mon, 02 Nov 2020 20:54:29 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2382)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1kZlVO-0001nn-RM; Mon, 02 Nov 2020 20:54:20 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CQCTy5VGxzkdZ2;
- Tue,  3 Nov 2020 09:52:54 +0800 (CST)
+ id 1kZlVO-0001nj-QB; Mon, 02 Nov 2020 20:54:28 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CQCV010rPz15P8T;
+ Tue,  3 Nov 2020 09:52:56 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
- 09:52:47 +0800
+ 09:52:50 +0800
 From: Chen Qun <kuhn.chenqun@huawei.com>
 To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH 2/6] hw/rdma/rdma_backend: fix uninitialized variable warning
- in rdma_poll_cq()
-Date: Tue, 3 Nov 2020 09:52:24 +0800
-Message-ID: <20201103015228.2250547-3-kuhn.chenqun@huawei.com>
+Subject: [PATCH 4/6] util/qemu-timer: fix uninitialized variable warning for
+ expire_time
+Date: Tue, 3 Nov 2020 09:52:26 +0800
+Message-ID: <20201103015228.2250547-5-kuhn.chenqun@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20201103015228.2250547-1-kuhn.chenqun@huawei.com>
 References: <20201103015228.2250547-1-kuhn.chenqun@huawei.com>
@@ -59,9 +59,9 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ganqixin@huawei.com, zhang.zhanghailiang@huawei.com,
- Yuval Shaia <yuval.shaia.ml@gmail.com>, Euler Robot <euler.robot@huawei.com>,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, Paolo
+ Bonzini <pbonzini@redhat.com>, zhang.zhanghailiang@huawei.com,
+ ganqixin@huawei.com, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -70,38 +70,47 @@ After the WITH_QEMU_LOCK_GUARD macro is added, the compiler cannot identify
  assignment statements in the macro may be considered as unexecuted by the compiler.
 
 The compiler showed warning:
-hw/rdma/rdma_backend.c: In function ‘rdma_poll_cq’:
-hw/rdma/rdma_utils.h:25:5: warning: ‘ne’ may be used uninitialized in this function [-Wmaybe-uninitialized]
- 25 |     error_report("%s: " fmt, "rdma", ## __VA_ARGS__)
-    |     ^~~~~~~~~~~~
-hw/rdma/rdma_backend.c:93:12: note: ‘ne’ was declared here
- 93 |     int i, ne, total_ne = 0;
-    |            ^~
+util/qemu-timer.c: In function ‘timerlist_expired’:
+util/qemu-timer.c:199:24: warning: ‘expire_time’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 199 |     return expire_time <= qemu_clock_get_ns(timer_list->clock->type);
+     |            ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+util/qemu-timer.c: In function ‘timerlist_deadline_ns’:
+util/qemu-timer.c:237:11: warning: ‘expire_time’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 237 |     delta = expire_time - qemu_clock_get_ns(timer_list->clock->type);
+     |     ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Add a default value for 'ne' to prevented the warning.
+Add a default value for 'expire_time' to prevented the warning.
 
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
-Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/rdma/rdma_backend.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ util/qemu-timer.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-index 5de010b1fa..2fe4a3501c 100644
---- a/hw/rdma/rdma_backend.c
-+++ b/hw/rdma/rdma_backend.c
-@@ -90,7 +90,7 @@ static void clean_recv_mads(RdmaBackendDev *backend_dev)
+diff --git a/util/qemu-timer.c b/util/qemu-timer.c
+index 8b73882fbb..3910003e86 100644
+--- a/util/qemu-timer.c
++++ b/util/qemu-timer.c
+@@ -183,7 +183,7 @@ bool qemu_clock_has_timers(QEMUClockType type)
  
- static int rdma_poll_cq(RdmaDeviceResources *rdma_dev_res, struct ibv_cq *ibcq)
+ bool timerlist_expired(QEMUTimerList *timer_list)
  {
--    int i, ne, total_ne = 0;
-+    int i, ne = 0, total_ne = 0;
-     BackendCtx *bctx;
-     struct ibv_wc wc[2];
-     RdmaProtectedGSList *cqe_ctx_list;
+-    int64_t expire_time;
++    int64_t expire_time = -1;
+ 
+     if (!qatomic_read(&timer_list->active_timers)) {
+         return false;
+@@ -213,7 +213,7 @@ bool qemu_clock_expired(QEMUClockType type)
+ int64_t timerlist_deadline_ns(QEMUTimerList *timer_list)
+ {
+     int64_t delta;
+-    int64_t expire_time;
++    int64_t expire_time = -1;
+ 
+     if (!qatomic_read(&timer_list->active_timers)) {
+         return -1;
 -- 
 2.27.0
 
