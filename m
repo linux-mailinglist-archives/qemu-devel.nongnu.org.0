@@ -2,79 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62B172A4419
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:23:13 +0100 (CET)
-Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC1C2A443C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:27:13 +0100 (CET)
+Received: from localhost ([::1]:43814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZuP9-0007n6-UB
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:23:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34264)
+	id 1kZuSx-0001aM-SH
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:27:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kZuL7-0006Nx-3z
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:19:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56829)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1kZuL4-0003iU-1o
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:19:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604402335;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EAeQ5/Jo2c/2thI0ZrCMUz59e04yd31oXdxP1WgsShQ=;
- b=SSCCsS/iBC+8boiUbfNCyyws+5+pLmFFHBfrbMubitPF5I0dHyUWYwwuEx+vmnhS0kifdK
- iXqCuGWLAPU5XP3M72J3nxlkeLnq4C8dgBCLsj4+My8Xl+ZL/+G6uHLpZ5VW+RSVfMtp23
- pmu7xiwfZ+jkziJE8Uj3NXntXFCGgzQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-330-lUuFpB6CNwGy6n6uCJWFJA-1; Tue, 03 Nov 2020 06:18:54 -0500
-X-MC-Unique: lUuFpB6CNwGy6n6uCJWFJA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDA6E1084D6F;
- Tue,  3 Nov 2020 11:18:52 +0000 (UTC)
-Received: from kaapi (unknown [10.33.36.22])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4F33755794;
- Tue,  3 Nov 2020 11:18:50 +0000 (UTC)
-Date: Tue, 3 Nov 2020 16:48:47 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Subject: Re: About 'qemu-security' mailing list
-In-Reply-To: <nycvar.YSQ.7.78.906.2010201935590.1506567@xnncv>
-Message-ID: <rrq49r0-qr6p-23o0-n1pr-364189541118@erqung.pbz>
-References: <nycvar.YSQ.7.78.906.2009111910280.36374@xnncv>
- <CAFEAcA_9BVbqFCHJqS8jj6L3OqVNc60NCjAjRs516VyLH2EFfw@mail.gmail.com>
- <20200914101517.GD579094@stefanha-x1.localdomain>
- <nycvar.YSQ.7.78.906.2009151536090.10832@xnncv>
- <20200916111025.GA756728@stefanha-x1.localdomain>
- <nycvar.YSQ.7.78.906.2009181031500.10832@xnncv> <m2362z8dvx.fsf@oracle.com>
- <nycvar.YSQ.7.78.906.2010011502290.830962@xnncv> <m2mu166uyg.fsf@oracle.com>
- <nycvar.YSQ.7.78.906.2010012320290.830962@xnncv>
- <nycvar.YSQ.7.78.906.2010161910530.1246156@xnncv>
- <nycvar.YSQ.7.78.906.2010201935590.1506567@xnncv>
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1kZuPm-00006b-5x
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:23:50 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:62618
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1kZuPj-0005QX-3W
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:23:49 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A3B1hIG182853
+ for <qemu-devel@nongnu.org>; Tue, 3 Nov 2020 06:23:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=UZtYZRIjFqw6sjS3B7VzszpK3COVV8aleHW8JUgUb3o=;
+ b=O/Zgtq7h5MKmMPPjvivOKRiYKbiM4XlHygKp+dmlpJANBPr1twWQ8Fc4LUh7fsdZEKQ1
+ yCsolExA4gFF1DJpmrruSum6XdzpA8B0pzYnJYDyKh4bdseExfhclWdQzzbFRDvwiI4h
+ g2dXOHJ18P/7Bm+FvuUIT0AmVAsMabxrYanTHb/3SlhDk+O6nH2mvcPK7asczJr1q3vi
+ KFBvzWhAEXH06mjiRbVex89DdjcJkKA/BOFyFtoXhF49LVSz5fuVxLI+gzpKWrCPCso5
+ SSFfwKHu4gVibEYeVMNPY+uXATgVihrZSS8n1O6lafmnNuz6avZtZWlU8LSK7SKkTdkE 7g== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34k3g2dhx3-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:23:43 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A3B1u7x183824
+ for <qemu-devel@nongnu.org>; Tue, 3 Nov 2020 06:23:43 -0500
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34k3g2dhw5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 06:23:43 -0500
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A3BHLJE032237;
+ Tue, 3 Nov 2020 11:23:41 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma05fra.de.ibm.com with ESMTP id 34h01qsmnd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 11:23:41 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A3BNcsK2949782
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 3 Nov 2020 11:23:38 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 82AF74C040;
+ Tue,  3 Nov 2020 11:23:38 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 449724C044;
+ Tue,  3 Nov 2020 11:23:38 +0000 (GMT)
+Received: from marcibm.ibmuc.com (unknown [9.145.145.228])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Tue,  3 Nov 2020 11:23:38 +0000 (GMT)
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] meson: vhost-user-gpu/virtiofsd: use absolute path
+Date: Tue,  3 Nov 2020 12:23:33 +0100
+Message-Id: <20201103112333.24734-1-mhartmay@linux.ibm.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-03_07:2020-11-03,
+ 2020-11-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0
+ clxscore=1015 phishscore=0 malwarescore=0 adultscore=0 suspectscore=1
+ lowpriorityscore=0 mlxscore=0 mlxlogscore=995 priorityscore=1501
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011030071
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 06:23:44
+X-ACL-Warn: Detected OS   = Linux 3.x [generic]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,34 +109,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
- =?ISO-8859-15?Q?Daniel_P=2E_Berrang=E9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Darren Kenny <darren.kenny@oracle.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Tue, 20 Oct 2020, P J P wrote --+
-| +-- On Fri, 16 Oct 2020, P J P wrote --+
-| | * So ie. we need to:
-| | 
-| |   1. Create/setup a regular non-encrypted 'qemu-security' list.
-| | 
-| |   2. Invite representatives from user/downstream communities to subscribe to 
-| |      it.
-| | 
-| |   3. Collect & store their PGP public keys. Also create a key for the list.
-| | 
-| |   4. Write 'encrypt & email' automation tool(s) to provide encryption support.
-| | 
-| |   5. Document and publish above details and list workflow on a page.
-| | 
-| | ...wdyt?
-|
+The option `libexecdir` is relative to `prefix` (see
+https://mesonbuild.com/Builtin-options.html), so we have to be aware
+of this when creating 50-qemu-gpu.json and
+50-qemu-virtiofsd.json. Otherwise, tools like libvirt will not be able
+to find the executable.
 
-Ping...!
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+Fixes: 16bf7a3326d8 ("configure: move directory options from config-host.mak to meson")
+Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+---
+ contrib/vhost-user-gpu/meson.build | 2 +-
+ tools/virtiofsd/meson.build        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
+index 37ecca13cafb..c487ca72c1ff 100644
+--- a/contrib/vhost-user-gpu/meson.build
++++ b/contrib/vhost-user-gpu/meson.build
+@@ -9,6 +9,6 @@ if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in config_host \
+ 
+   configure_file(input: '50-qemu-gpu.json.in',
+                  output: '50-qemu-gpu.json',
+-                 configuration: { 'libexecdir' : get_option('libexecdir') },
++                 configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
+                  install_dir: qemu_datadir / 'vhost-user')
+ endif
+diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
+index e1a4dc98d9ec..17edecf55c0a 100644
+--- a/tools/virtiofsd/meson.build
++++ b/tools/virtiofsd/meson.build
+@@ -15,5 +15,5 @@ executable('virtiofsd', files(
+ 
+ configure_file(input: '50-qemu-virtiofsd.json.in',
+                output: '50-qemu-virtiofsd.json',
+-               configuration: { 'libexecdir' : get_option('libexecdir') },
++               configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
+                install_dir: qemu_datadir / 'vhost-user')
+-- 
+2.25.4
 
 
