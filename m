@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A8D2A4527
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:29:55 +0100 (CET)
-Received: from localhost ([::1]:48792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 844C42A4531
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:31:35 +0100 (CET)
+Received: from localhost ([::1]:53862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvRi-0002Jt-4w
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49242)
+	id 1kZvTK-0004Wf-GI
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:31:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvQ5-0000qe-20
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:28:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39726)
+ id 1kZvQV-0001n8-OJ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:28:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvQ2-0002Ox-3D
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:28:12 -0500
+ id 1kZvQT-0002Y0-QF
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:28:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604406488;
+ s=mimecast20190719; t=1604406516;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=i+kCFMAsGbUeYIdH9PeX9X7F46vpMFSv/h0MWgrfwkA=;
- b=QJ3dAVxfsw7aCnIdYcCIEqG1PDqWSW1rbEFLzcyvipd983Bubb3sUNFvsGTqF5Jhung+il
- 1ZCeqr3QndKoZ0dD+7ctFbIuR86lEHPKN9RYtEmOARkHuZK0EZaaBzz0p1Eb92+3LMTSBY
- XiEgEtVkFORMgEiVmLev4+/pgr2a/0c=
+ bh=Pi3DS4YXAkM2HLQXOIYhWQFsnnY4SqzTZGXfX9Fe/WM=;
+ b=VSH+vMmPP5BFm1udirhxScNGdIb4wU6TdyQ5m/EbmArOtANAd7/gmHgWJ+9J06zQUO89aj
+ F9O/Yjlc7BOaaDu33u1DRb+RAbFrPp8FiDUJs9pzZRpfqGlRNF8NfMBiVGt1liT+QlxUSr
+ W2aDX1RtXYF8m+N/zPGwv8tXO4y1gEE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-272-zP77GQpnOH6G7Eg-tTZWeQ-1; Tue, 03 Nov 2020 07:28:06 -0500
-X-MC-Unique: zP77GQpnOH6G7Eg-tTZWeQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-596-y_VDOTpbPuSFF8KnK-xELA-1; Tue, 03 Nov 2020 07:28:33 -0500
+X-MC-Unique: y_VDOTpbPuSFF8KnK-xELA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B178030B3;
- Tue,  3 Nov 2020 12:28:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0DE157086;
+ Tue,  3 Nov 2020 12:28:31 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA1A25D9CC;
- Tue,  3 Nov 2020 12:27:59 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:27:56 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 781F560BF1;
+ Tue,  3 Nov 2020 12:28:26 +0000 (UTC)
+Date: Tue, 3 Nov 2020 13:28:25 +0100
 From: Igor Mammedov <imammedo@redhat.com>
 To: Xinhao Zhang <zhangxinhao1@huawei.com>
-Subject: Re: [PATCH 1/3] hw/acpi : Don't use '#' flag of printf format
-Message-ID: <20201103132756.5e9e1bbd@redhat.com>
-In-Reply-To: <20201103102634.273021-1-zhangxinhao1@huawei.com>
+Subject: Re: [PATCH 2/3] hw/acpi : add space before the open parenthesis '('
+Message-ID: <20201103132825.34c7f588@redhat.com>
+In-Reply-To: <20201103102634.273021-2-zhangxinhao1@huawei.com>
 References: <20201103102634.273021-1-zhangxinhao1@huawei.com>
+ <20201103102634.273021-2-zhangxinhao1@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,109 +86,32 @@ Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Nov 2020 18:26:32 +0800
+On Tue, 3 Nov 2020 18:26:33 +0800
 Xinhao Zhang <zhangxinhao1@huawei.com> wrote:
 
-> Fix code style. Don't use '#' flag of printf format ('%#') in
-> format strings, use '0x' prefix instead
+> Fix code style. Space required before the open parenthesis '('.
 > 
 > Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
 > Signed-off-by: Kai Deng <dengkai1@huawei.com>
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
----
-PS: in future please use --cover-letter when sending series of multiple patches.
-
 > ---
->  hw/acpi/nvdimm.c | 20 ++++++++++----------
->  1 file changed, 10 insertions(+), 10 deletions(-)
+>  hw/acpi/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-> index 8f7cc16add..8ad5516142 100644
-> --- a/hw/acpi/nvdimm.c
-> +++ b/hw/acpi/nvdimm.c
-> @@ -556,7 +556,7 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
->  
->      fit = fit_buf->fit;
->  
-> -    nvdimm_debug("Read FIT: offset %#x FIT size %#x Dirty %s.\n",
-> +    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
->                   read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
->  
->      if (read_fit->offset > fit->len) {
-> @@ -664,7 +664,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
->      label_size = nvdimm->label_size;
->      mxfer = nvdimm_get_max_xfer_label_size();
->  
-> -    nvdimm_debug("label_size %#x, max_xfer %#x.\n", label_size, mxfer);
-> +    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
->  
->      label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
->      label_size_out.label_size = cpu_to_le32(label_size);
-> @@ -680,19 +680,19 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
->      uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
->  
->      if (offset + length < offset) {
-> -        nvdimm_debug("offset %#x + length %#x is overflow.\n", offset,
-> +        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
->                       length);
->          return ret;
->      }
->  
->      if (nvdimm->label_size < offset + length) {
-> -        nvdimm_debug("position %#x is beyond label data (len = %" PRIx64 ").\n",
-> +        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
->                       offset + length, nvdimm->label_size);
->          return ret;
->      }
->  
->      if (length > nvdimm_get_max_xfer_label_size()) {
-> -        nvdimm_debug("length (%#x) is larger than max_xfer (%#x).\n",
-> +        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
->                       length, nvdimm_get_max_xfer_label_size());
->          return ret;
->      }
-> @@ -716,7 +716,7 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
->      get_label_data->offset = le32_to_cpu(get_label_data->offset);
->      get_label_data->length = le32_to_cpu(get_label_data->length);
->  
-> -    nvdimm_debug("Read Label Data: offset %#x length %#x.\n",
-> +    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
->                   get_label_data->offset, get_label_data->length);
->  
->      status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
-> @@ -755,7 +755,7 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
->      set_label_data->offset = le32_to_cpu(set_label_data->offset);
->      set_label_data->length = le32_to_cpu(set_label_data->length);
->  
-> -    nvdimm_debug("Write Label Data: offset %#x length %#x.\n",
-> +    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
->                   set_label_data->offset, set_label_data->length);
->  
->      status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
-> @@ -838,7 +838,7 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->      NvdimmDsmIn *in;
->      hwaddr dsm_mem_addr = val;
->  
-> -    nvdimm_debug("dsm memory address %#" HWADDR_PRIx ".\n", dsm_mem_addr);
-> +    nvdimm_debug("dsm memory address 0x%" HWADDR_PRIx ".\n", dsm_mem_addr);
->  
->      /*
->       * The DSM memory is mapped to guest address space so an evil guest
-> @@ -852,11 +852,11 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
->      in->function = le32_to_cpu(in->function);
->      in->handle = le32_to_cpu(in->handle);
->  
-> -    nvdimm_debug("Revision %#x Handler %#x Function %#x.\n", in->revision,
-> +    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
->                   in->handle, in->function);
->  
->      if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
-> -        nvdimm_debug("Revision %#x is not supported, expect %#x.\n",
-> +        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
->                       in->revision, 0x1);
->          nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
->          goto exit;
+> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+> index ade9158cbf..2c0c83221f 100644
+> --- a/hw/acpi/core.c
+> +++ b/hw/acpi/core.c
+> @@ -558,7 +558,7 @@ static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
+>      if (val & ACPI_BITMASK_SLEEP_ENABLE) {
+>          /* change suspend type */
+>          uint16_t sus_typ = (val >> 10) & 7;
+> -        switch(sus_typ) {
+> +        switch (sus_typ) {
+>          case 0: /* soft power off */
+>              qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+>              break;
 
 
