@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899A02A4C13
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:58:23 +0100 (CET)
-Received: from localhost ([::1]:56672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 637602A4C3E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:05:20 +0100 (CET)
+Received: from localhost ([::1]:45080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZzdW-0003Ci-Cj
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:58:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49604)
+	id 1kZzkF-0001pM-DU
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:05:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZzbu-0002Cm-1I
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:56:42 -0500
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:40866)
+ id 1kZzg8-0005ib-WB
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:07 -0500
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZzbs-0006Vt-C0
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:56:41 -0500
-Received: by mail-pl1-x644.google.com with SMTP id j5so8827686plk.7
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 08:56:39 -0800 (PST)
+ id 1kZzg5-00086i-Hr
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:04 -0500
+Received: by mail-pf1-x444.google.com with SMTP id 10so14753119pfp.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:00:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Dg7x18WPma1VvH4BjHj7HmfS4Xe3X5EsexEREWB71zc=;
- b=EJzv67dv9Cn7Ng8EwKQ7BAktUdIAlPRzfAjq3oItxG+y4AZtZ1D0OOJwVGdrnsxUaw
- 7D/j1qVvwdRJg2oGC7GSbPMt16hDhVIFM8KO1GGDcBtkt5jWSgOvsV7AFfvmxxevypEy
- mpohJhsOGjCXYsdzebq9DMdHigw8lOPg5SYU8tr1pGQoGd5//rrfelUxWs2gvuymPZ7b
- cQMfUaU3ZDh3N9VJXGrAT/WCyesvBMYCb3hYxtLOS0ZH4jFmk9jQhAm0RAwieqexGr2f
- PtKcZRr1tK93kl1BmsSeZhPJGDvhJCZUCMn2bOAwqq7Ms8qFpLxewC8MgLzYJPZhzLWZ
- iKDw==
+ bh=K+WGWnzJYW4S2iI8/mx93AwJbjDQ0v4CrAPEeljIjTg=;
+ b=KJCh7aJKI5EnlxloJ4ZPnSMBxccao4rWDqVyxz5LMOoMOiUCo4iSkJ89a2xJC63U75
+ EDOwAtgFYdqUMyDoUJmb8OkuevOLyoOrGOsWXfBFZUBoNfY2k4uC7027gHRtGdMhnyf8
+ CaBeh+xDH7LxHLVb74apmiACWVBCN28ff1/gtjvtnr9jEIiCWgne4dx/0OhSzeYPq23D
+ s89JwzTYIPyAKgXnda4BYgS7Mrv1jSzIwPT9IGgrXf3THR0YOZQcDmJsd5vhl8nkMSZs
+ L2l36Vo6KfG7qlDhqCjXIgnNegqKtHzlysZOrh2lwwi56Fjtw2qwWplZcuJNIv5VFRrY
+ Cxmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Dg7x18WPma1VvH4BjHj7HmfS4Xe3X5EsexEREWB71zc=;
- b=QSjLmtmtIlTGABhD/V6+or4+B6Vzs03JRdO1ZRIlPih/xxOwFK10sUwnvBIJJ9QavB
- nQkulSajolPqQZxzpc6iHlT+P70nYdc9IAbAX4/XcKNXJnzDPqDUr4lFY/u9zKG+5Qov
- 9Tnknjalkx5xn8K3J1YZvZo6cZisqkRf4/saKZ95u3O5UTnxEHsFc+asH0H+AFrEX/4Y
- oQ6+APb6N4ezQscNwvH6KcL0BrtYmitUg+JuODRgXskZs8/MvQ5VqgvzkOmGE8Smw8V7
- b2RtlSMMSWBR1L+3djLTWKAPoLpRn08nJdgi9ACi4vedjOMTC6XW8ocMeOSO/eszrmkk
- nWMw==
-X-Gm-Message-State: AOAM531VVFAi7ET5T9LCi5UZTXzLCLtnJ5HBViUTkkNEFQDZgkqf48dJ
- TGDBOXm79JQiJrL6eohFG42GUmBK/QVb6A==
-X-Google-Smtp-Source: ABdhPJykBW/IJ+ynDujF61vZyLPJpGx+esxNHwpZSNT3R3BqYOfJPY3Bhui+GYr7NOaYaLC1i3vcTA==
-X-Received: by 2002:a17:902:e983:b029:d5:f465:55d5 with SMTP id
- f3-20020a170902e983b02900d5f46555d5mr26121758plb.60.1604422597815; 
- Tue, 03 Nov 2020 08:56:37 -0800 (PST)
+ bh=K+WGWnzJYW4S2iI8/mx93AwJbjDQ0v4CrAPEeljIjTg=;
+ b=AyRKKq7ECcB3igWRiZOwMnBCi9efM2+pHmwHOa1XzjFcwy2tihLMLDegUT9as4nuqy
+ yuuDcyv8ALWlUd/+0yeowzAnd/YYr4hkHNiCN74XsWo7Yo8ctSdUKjBL5RDMNprIGuKx
+ 2oWGGWhSuRxfg6mFPrgEKIwYz893yR9XhV/kiKN3OQiGY/M/Vb6d4aoigtZcYc4l537M
+ cMEmvbBd1kG4DrVFFO28TimoJ7NYx9r+DXHrSKS/DbVuXgAX8GMaLNgHWaFDi0SHDOmc
+ 4KT325JPETUH2sH66viASA69BwusJwHqOqQxJprArDXkxcJHpjHcZwZpsHhYH9GV9GAl
+ QEjQ==
+X-Gm-Message-State: AOAM532FIpYCvdyAeCYAicspiiV2vQLPec9axpaN5HRs2MQL/VaEMmh2
+ jeynEz0dpuiEouPAAhxp43Sb3a5V2sakrQ==
+X-Google-Smtp-Source: ABdhPJx0YbxiH2QZjwSAg/vjsSv2Er5pC1bxKHPOhaAZc6VvVMDyvjQPIme3hac0yFWUZbYAy6gWfA==
+X-Received: by 2002:aa7:84d5:0:b029:18a:ae45:54bc with SMTP id
+ x21-20020aa784d50000b029018aae4554bcmr15469760pfn.27.1604422856231; 
+ Tue, 03 Nov 2020 09:00:56 -0800 (PST)
 Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id u11sm16532508pfk.164.2020.11.03.08.56.36
+ by smtp.gmail.com with ESMTPSA id j24sm4042568pjn.9.2020.11.03.09.00.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 08:56:36 -0800 (PST)
-Subject: Re: [PATCH 03/14] target/arm: use arm_hcr_el2_eff() where applicable
+ Tue, 03 Nov 2020 09:00:52 -0800 (PST)
+Subject: Re: [PATCH 04/14] target/arm: factor MDCR_EL2 common handling
 To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
 References: <2172054.ElGaqSPkdT@basile.remlab.net>
- <20201102105802.39332-3-remi.denis.courmont@huawei.com>
+ <20201102105802.39332-4-remi.denis.courmont@huawei.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <267b4dad-8c96-0931-1a50-39bfccffcc1b@linaro.org>
-Date: Tue, 3 Nov 2020 08:56:34 -0800
+Message-ID: <fe08bf17-ec53-582b-1d3f-bb78b2403691@linaro.org>
+Date: Tue, 3 Nov 2020 09:00:49 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201102105802.39332-3-remi.denis.courmont@huawei.com>
+In-Reply-To: <20201102105802.39332-4-remi.denis.courmont@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::644;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x644.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -97,12 +97,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 11/2/20 2:57 AM, remi.denis.courmont@huawei.com wrote:
 > From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > 
-> This will simplify accessing HCR conditionally in secure state.
+> This adds a common helper to compute the effective value of MDCR_EL2.
+> That is the actual value if EL2 is enabled in the current security
+> context, or 0 elsewise.
 > 
 > Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
 > ---
->  target/arm/helper.c | 30 +++++++++++++++++-------------
->  1 file changed, 17 insertions(+), 13 deletions(-)
+>  target/arm/helper.c | 38 ++++++++++++++++++++++----------------
+>  1 file changed, 22 insertions(+), 16 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
