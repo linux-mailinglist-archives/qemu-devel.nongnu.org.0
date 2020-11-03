@@ -2,101 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C612A2A4457
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:34:34 +0100 (CET)
-Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC732A4464
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:38:15 +0100 (CET)
+Received: from localhost ([::1]:41156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZua9-0001cr-TJ
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:34:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36760)
+	id 1kZudi-0004GR-JW
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:38:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1kZuUS-0004i2-0c
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:28:40 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:18120)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
- id 1kZuUP-0007EQ-JL
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:28:39 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A3B1jJO170055
- for <qemu-devel@nongnu.org>; Tue, 3 Nov 2020 06:28:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : in-reply-to : references : date : message-id : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=lUnQwMS2YxyQhe0ZjKNujIuetxlcN044wuV/6UwCjg8=;
- b=LQW3ST32svjdtRYkJNwOX9F6xsG4BgHSWWtGFlsw2xY1LfyEYMxWUf0bHgdj6hrGOHJD
- lmehzKxgXXPel22xqGkks248i/WN+UwBfEUGebc3VsBKXsmvh/RylVO4I+A6mmatVtuh
- Zk1dxONa6LPc0VeX31yGOedGc8t4IVQRyHCNX7SwedPbCZ1l1nQJ3pBixspihihNf5GY
- pmJHdum7xxEUFZ62qF5lyMsBpHbyi0UnZDc0xyCQyj7DPcjUUOYAPgfFKwt4lt7za2dx
- W0azR69UjI2yGe149hYmd0GSlsOg/5q5mya8gqYyaZ5AXJlbEPrBaAGE/prpPItbzkoP tw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34k28jfthe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:28:36 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A3B1mi1170445
- for <qemu-devel@nongnu.org>; Tue, 3 Nov 2020 06:28:36 -0500
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34k28jftgt-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 Nov 2020 06:28:36 -0500
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A3BPO87023997;
- Tue, 3 Nov 2020 11:28:34 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma03fra.de.ibm.com with ESMTP id 34j8rh8ta3-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 03 Nov 2020 11:28:34 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0A3BSVMW2753112
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 3 Nov 2020 11:28:31 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6EBFF4203F;
- Tue,  3 Nov 2020 11:28:31 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2672142041;
- Tue,  3 Nov 2020 11:28:31 +0000 (GMT)
-Received: from marcibm (unknown [9.145.145.228])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Tue,  3 Nov 2020 11:28:31 +0000 (GMT)
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
-To: Marc Hartmayer <mhartmay@linux.ibm.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH] meson: vhost-user-gpu/virtiofsd: use absolute path
-In-Reply-To: <20201103112333.24734-1-mhartmay@linux.ibm.com>
-References: <20201103112333.24734-1-mhartmay@linux.ibm.com>
-Date: Tue, 03 Nov 2020 12:28:30 +0100
-Message-ID: <877dr28ysh.fsf@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZucP-0003MD-Tl
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:36:53 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZucN-0001iy-9J
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:36:53 -0500
+Received: by mail-ed1-x531.google.com with SMTP id ay21so4528280edb.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:36:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=Tt7eOeKm4HkGz1Jm/YCy3l176pQhvcvxZOWZwSyW1XA=;
+ b=J5gmYd2FOftIxj7xkRGLJ8Tk+hA0Ppy+nm2fg+lyqaORycaiVrwHYveNgDOW7BqQbt
+ SQBuXwW447viQlBzlZjGV4vAx7I+4c4QPgl3yXAW5dkM35OVcQmqYNZVK/D512Cin1Wj
+ mMu5JdVVO4T9xoI9/ddlaDp/KhHeVdH4bwjU7Hzaw1F+NEPitBNd68lY8NguPUcoAV56
+ 94fiRa4Yv15pFKuBC8SJGh1yzosDNkdfDdhrDvFp+8PL9IwRYmkj7AGNETUxs0fjNJS5
+ RBwD1GEbYWenZ096auk4mHp3GUhoArHej+uIxjhmbZ4d8zgqtEBRlmOX8+gaO+Dl/4XI
+ 0N1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=Tt7eOeKm4HkGz1Jm/YCy3l176pQhvcvxZOWZwSyW1XA=;
+ b=TlzFNKRJlxA1uM8PhW4F9xNRVAQC+nOC60QFkxyrTRYyXJItAoqSLB44lzxJk3bqth
+ FEkpSuNVEsq9tfGMaHKLFPRFzon3simK89ai04b5wprZ2gfwM49QdyH3PbzM7aAm4S5F
+ ezwVcjNFJlb+JnCP1hebjz9WSEDmjFWX3hX+tG5SzTxe+cMNV1rrXX4fx2dNHS5hKZx4
+ OviXTq/T9ZjljWuMADnx6VI3rfHsNwDOsztcpFZv7jMO271bGBNal9EjqcwUG1vHFJMb
+ 10NpLeK9x0vNuHuHf4zE6MyzLLo1+cGOsfudS4cLpe7le1Yx+Msy36XsdO2ql8WT9DQ0
+ 0DlA==
+X-Gm-Message-State: AOAM532dTq29SocSDTe64Jr3YRZspnR2z76rh5ySHB2z0G85OZg9W7pH
+ whHaqY7XSw+IBb+GLRg8iOo4Md7Ov8KiUuJ8s+ew2+e+S5Q=
+X-Google-Smtp-Source: ABdhPJwgpZCTuAjhrDSdgvxeW9JhiTvJ/2TJjN3CAdK0JFsr5+NDyF1bhkmwdwRWrtMBLXi2xbAAjdwJAKNdfDMu3Yk=
+X-Received: by 2002:aa7:c683:: with SMTP id n3mr20770998edq.146.1604403408234; 
+ Tue, 03 Nov 2020 03:36:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
- definitions=2020-11-03_07:2020-11-03,
- 2020-11-03 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0
- lowpriorityscore=0 clxscore=1015 mlxscore=0 adultscore=0 spamscore=0
- priorityscore=1501 bulkscore=0 impostorscore=0 mlxlogscore=999
- phishscore=0 suspectscore=2 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2011030071
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mhartmay@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 06:23:44
-X-ACL-Warn: Detected OS   = Linux 3.x [generic]
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20201102171005.30690-1-peter.maydell@linaro.org>
+In-Reply-To: <20201102171005.30690-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Nov 2020 11:36:36 +0000
+Message-ID: <CAFEAcA8PeOXmQoEyCVqNSYPZ9OsPp3z7y+UFXake_wCXCU4XAw@mail.gmail.com>
+Subject: Re: [PULL 00/26] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,71 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 03, 2020 at 12:23 PM +0100, Marc Hartmayer <mhartmay@linux.ibm.=
-com> wrote:
-> The option `libexecdir` is relative to `prefix` (see
-> https://mesonbuild.com/Builtin-options.html), so we have to be aware
-> of this when creating 50-qemu-gpu.json and
-> 50-qemu-virtiofsd.json. Otherwise, tools like libvirt will not be able
-> to find the executable.
->
-> Fixes: 16bf7a3326d8 ("configure: move directory options from config-host.=
-mak to meson")
-> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-> ---
->  contrib/vhost-user-gpu/meson.build | 2 +-
->  tools/virtiofsd/meson.build        | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/=
-meson.build
-> index 37ecca13cafb..c487ca72c1ff 100644
-> --- a/contrib/vhost-user-gpu/meson.build
-> +++ b/contrib/vhost-user-gpu/meson.build
-> @@ -9,6 +9,6 @@ if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in co=
-nfig_host \
->
->    configure_file(input: '50-qemu-gpu.json.in',
->                   output: '50-qemu-gpu.json',
-> -                 configuration: { 'libexecdir' : get_option('libexecdir'=
-) },
-> +                 configuration: { 'libexecdir' : get_option('prefix') / =
-get_option('libexecdir') },
->                   install_dir: qemu_datadir / 'vhost-user')
->  endif
-> diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
-> index e1a4dc98d9ec..17edecf55c0a 100644
-> --- a/tools/virtiofsd/meson.build
-> +++ b/tools/virtiofsd/meson.build
-> @@ -15,5 +15,5 @@ executable('virtiofsd', files(
->
->  configure_file(input: '50-qemu-virtiofsd.json.in',
->                 output: '50-qemu-virtiofsd.json',
-> -               configuration: { 'libexecdir' : get_option('libexecdir') =
-},
-> +               configuration: { 'libexecdir' : get_option('prefix') / ge=
-t_option('libexecdir') },
->                 install_dir: qemu_datadir / 'vhost-user')
-> --=20
-> 2.25.4
+On Mon, 2 Nov 2020 at 17:10, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
 >
+> Small pile of bug fixes for rc1. I've included my patches to get
+> our docs building with Sphinx 3, just for convenience...
+>
+> -- PMM
+>
+> The following changes since commit b149dea55cce97cb226683d06af61984a1c11e96:
+>
+>   Merge remote-tracking branch 'remotes/cschoenebeck/tags/pull-9p-20201102' into staging (2020-11-02 10:57:48 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20201102
+>
+> for you to fetch changes up to ffb4fbf90a2f63c9cb33e4bb9f854c79bf04ca4a:
+>
+>   tests/qtest/npcm7xx_rng-test: Disable randomness tests (2020-11-02 16:52:18 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * target/arm: Fix Neon emulation bugs on big-endian hosts
+>  * target/arm: fix handling of HCR.FB
+>  * target/arm: fix LORID_EL1 access check
+>  * disas/capstone: Fix monitor disassembly of >32 bytes
+>  * hw/arm/smmuv3: Fix potential integer overflow (CID 1432363)
+>  * hw/arm/boot: fix SVE for EL3 direct kernel boot
+>  * hw/display/omap_lcdc: Fix potential NULL pointer dereference
+>  * hw/display/exynos4210_fimd: Fix potential NULL pointer dereference
+>  * target/arm: Get correct MMU index for other-security-state
+>  * configure: Test that gio libs from pkg-config work
+>  * hw/intc/arm_gicv3_cpuif: Make GIC maintenance interrupts work
+>  * docs: Fix building with Sphinx 3
+>  * tests/qtest/npcm7xx_rng-test: Disable randomness tests
 
-It=E2=80=99s probably not the best way to fix it, but at least a good hint
-what=E2=80=99s wrong :)
 
---=20
-Kind regards / Beste Gr=C3=BC=C3=9Fe
-   Marc Hartmayer
+Applied, thanks.
 
-IBM Deutschland Research & Development GmbH
-Vorsitzender des Aufsichtsrats: Gregor Pillen=20
-Gesch=C3=A4ftsf=C3=BChrung: Dirk Wittkopp
-Sitz der Gesellschaft: B=C3=B6blingen
-Registergericht: Amtsgericht Stuttgart, HRB 243294
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
