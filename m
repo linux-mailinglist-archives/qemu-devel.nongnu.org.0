@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE9AC2A4A06
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:39:50 +0100 (CET)
-Received: from localhost ([::1]:36072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C8232A4A12
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:41:56 +0100 (CET)
+Received: from localhost ([::1]:44372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyPV-00015j-Qp
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:39:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51242)
+	id 1kZyRX-0004o0-9a
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:41:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJN-0001JB-C3
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:29 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:14996)
+ id 1kZyJO-0001LU-BQ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:30 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJK-0001EJ-U4
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:28 -0500
+ id 1kZyJK-0001FT-U8
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1604417607; x=1635953607;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=WvesQhO5wv+7mElyU2TyDpctqU+vtAbEhVaxXit1ZlI=;
- b=ltYxb5E6ycvy8H8DqUtH0sNvVewV+vKnSjsewkQBjOUsrnmM/XMFxUbF
- MqtJyLXaEPcM6KqxBnBDH0J75LD/tVpzjOQXmmJZBXH9KfcyQJfE0Q8Oq
- 76wPNJNz98U4TCxCetoepWj1snlRDG/68GmAOoXLs7FcncN2w+yLeL3zx
- Eu/u1lsyKl3FLOOqaWvycxbUre48KktT80bkrI7VkV4oA+s5M3EZfbc3d
- A3SaOY71Qz1cQDMZauyGmwek++7I0bSvV+46+cPf+OBUB6otSaQQyEdtc
- EbAKPWsMlqtNnYaE9TFA2SHcKb2msmbM/uGaO61iZ6pmTIa2hgfbwZTIU Q==;
-IronPort-SDR: Dp/pyhz+KIhKI89OqM/wwafSqwxGnJZzowmwk+z0y/piW3PQclStLLJcBeaQSk0OkzTLOu35xg
- waxWLsRDHrxeWTiBbmRKivKABaKj7e1phUGmV8lY67UD2Sgrp8h3/11U29TWVZgO6dJxfEpTvI
- iP6ekD+3gw+V8XidDXPLrP+/thP0/+5z6HMQgOHz2tYCo6rlj0tPS93wONxa1P7ZexCdbfs0eq
- Ie02ffFEMsCA0qchX9z/gE84Spf9pPj4tIvZWWvWE9rpJkhQNff2HEq3byAwRR2l3e5yLtKGDS
- Aq0=
-X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867446"
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=bxfmTayuMlAkbdWAwkDMu9qmrbCTEm5F3jlbPoZ/kFE=;
+ b=Xw1g51n1RRvtIQV0X+Vqlai9/4IvAui2mYWAdR3ZJ7+QjWjKc61HiI64
+ txJagizXtDkXpa385yTspJsEzL5HOSVtJdvNgXcWeT6VFB8xQg+DNzIzQ
+ EMKA0YMkBz6MCetFQe+uuLzPjpsl5ERsVPdug1E+sCyZEM+MQQ8niT8B8
+ jBnuYKgH6CQS8a8itaO7a1VgJuS9u2L2eNz5bSgeK3zE9Irs3DROG4bXZ
+ LmIbECBNLtBBcVMk3SMSqLFXnzZur8Y+q9GY4DUCsmHKO+VTsBjixNoOY
+ 4eZiQN8IY4i24SeCcNMqTO8O1y/DIVvmcUYNqIEVJDR5Dw4APwx1AEQP+ w==;
+IronPort-SDR: 5Cp4p1Qn5d0EpSlKfMYxYvjbm1ILCuxccATXY6EAVFyPEtxkqVYyH/fi2XasuyWU6t2aMm7Vx4
+ ITiL3j2MiCYfbC9b35mj0ARWHM6e6mNW6Lqa8IO9/qttcaR9H90fHB4vl7U82g13jpgQSZOlc9
+ BERmpS7YBaqQojAT7H+U6Q6oQhAGAuSiaXKx9UGDrr7VRyTMem3KLB0nTezFFFLDUfKejQkIJQ
+ 3TvWxwKUvJwXidgd2xd6ty/gwxLrYiYLZpwSnrQIfayzJk5Etbt67ujYnVFliJwo13LP+vOqvS
+ T44=
+X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867448"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:23 +0800
-IronPort-SDR: oNwDi+1MW9IRHHH75lEr4sSHz53Qto9meNvCGMDAb5HAq5hRrSiS4CV6+YQy6LAcSwZP3MTioc
- joTVTrMRAzavzNkW/SJilfMcpO6IwYMl3sYkHCZI6eujpk6sfpC1kmbUd3b2TadlowiMDBg82S
- mWfY9y/7mOAU10hC5zKwTHtCTftcdrWrt0YllT9xwbatxQGsBoJApt/U/RLPszbKJpZSgU7u/g
- 7c5fsypEQ711lDKyV/IBG6TnntgfvKSFYUgNm2mEiOIH+zRUGNOVf4grrRtT+Mi76+kz4YOW7L
- T06H2jFLRG8SZh+nC7G1Hx2k
+ by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:24 +0800
+IronPort-SDR: LqLRVBZfHp+arN0o7N2LidaP5jag88m2mZKfUOxaSayg4kvj+GTgdFH+L4inRPNB9b1dL3ngR1
+ rtRmKhua3B6onEVKv3I1IvSiWyFijhNaAVK26yLlzsT/E6NhbRWkz2Py1/NrDTiWFs7EwcPvrV
+ 3xp3k98+u2aN53greBh/Q2Qn9wGZGhEbtmpTpeOGbf0Aw986vo9RwzN6dhEps+EXuXu1aN9G5e
+ I0gQb79otCuYywbYSEP4WR7/pYqN+r5td+PdnKLV6CNGnQcbBDvmn93uQ5mtbK0Ue5QcstoP59
+ PIds6T4rWktwhKi9ItzGcyyu
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Nov 2020 07:19:32 -0800
-IronPort-SDR: 6P2GDwOaJzozGLPCffmG47ucJ64M427jLUljmP+nEhP2FLPH7xSihCbz0mRY7i9Re0L0XnFQW/
- AiiEvUTsOpHhhwsJXCFKc7Eb19KwF91eh2hql4mxv4bPdy4aoog40E9IDbzFWy7LwU6hRkQSq1
- QfTsOHX454NY3J3+DEzlPHcxwsXUYRMJArUYxSTFkaGV7d2LEdKJjahXoPXTv8PvS9SkDVCffu
- D+suphar6b4wXYywkh3UaX2ccIHXQenoKgpiZjy+fr8iz1mjLL9/dmJt+YwOh3weGfDuDLQywE
- V5g=
+IronPort-SDR: d7jjGrTv0QmwftNlaBPkEXcnyaFEz5TG72GXJ28q/ou8fugFd7V/vOMFUyIGFPJae5MjiR+Tgx
+ J1z6cefoCOJHDDehALb98kyr48SVDXE355J1rhUjmkNvYqHJoZxU4r/ehJEkYEQqeFFHcQ1Cog
+ Ovh9dir0joI0JZAxnHqlFJclnOj4jewETTsqjA8wJPVSKyJu2+jnCzsj0IE2PsTWmJGOkWXDRz
+ ajbtlTbAQPeLAwGET0gEqyOHnb4aSWdlUZ6s9dqCjX/ZK9jvfZ/5OkXmFPe5XORH8K3ZuFbm33
+ eZQ=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.113])
@@ -62,10 +62,12 @@ Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL v2 00/19] riscv-to-apply queue
-Date: Tue,  3 Nov 2020 07:21:31 -0800
-Message-Id: <20201103152150.2677566-1-alistair.francis@wdc.com>
+Subject: [PULL v2 01/19] hw/riscv: sifive_u: Allow passing custom DTB
+Date: Tue,  3 Nov 2020 07:21:32 -0800
+Message-Id: <20201103152150.2677566-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201103152150.2677566-1-alistair.francis@wdc.com>
+References: <20201103152150.2677566-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.71.154.45;
@@ -92,87 +94,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>
+Cc: alistair23@gmail.com, Anup Patel <anup.patel@wdc.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 83851c7c60c90e9fb6a23ff48076387a77bc33cd:
+From: Anup Patel <anup.patel@wdc.com>
 
-  Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-10-27-v3-tag' into staging (2020-11-03 12:47:58 +0000)
+Extend sifive_u machine to allow passing custom DTB using "-dtb"
+command-line parameter. This will help users pass modified DTB
+or Linux SiFive DTB to sifive_u machine.
 
-are available in the Git repository at:
+Signed-off-by: Anup Patel <anup.patel@wdc.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20201022053225.2596110-1-anup.patel@wdc.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ hw/riscv/sifive_u.c | 28 ++++++++++++++++++++--------
+ 1 file changed, 20 insertions(+), 8 deletions(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20201103
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index b2472c6627..2f19a9cda2 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -100,14 +100,25 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+     int cpu;
+     uint32_t *cells;
+     char *nodename;
++    const char *dtb_filename;
+     char ethclk_names[] = "pclk\0hclk";
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle = 1;
+     uint32_t hfclk_phandle, rtcclk_phandle, phy_phandle;
+ 
+-    fdt = s->fdt = create_device_tree(&s->fdt_size);
+-    if (!fdt) {
+-        error_report("create_device_tree() failed");
+-        exit(1);
++    dtb_filename = qemu_opt_get(qemu_get_machine_opts(), "dtb");
++    if (dtb_filename) {
++        fdt = s->fdt = load_device_tree(dtb_filename, &s->fdt_size);
++        if (!fdt) {
++            error_report("load_device_tree() failed");
++            exit(1);
++        }
++        goto update_bootargs;
++    } else {
++        fdt = s->fdt = create_device_tree(&s->fdt_size);
++        if (!fdt) {
++            error_report("create_device_tree() failed");
++            exit(1);
++        }
+     }
+ 
+     qemu_fdt_setprop_string(fdt, "/", "model", "SiFive HiFive Unleashed A00");
+@@ -390,13 +401,14 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+ 
+     qemu_fdt_add_subnode(fdt, "/chosen");
+     qemu_fdt_setprop_string(fdt, "/chosen", "stdout-path", nodename);
+-    if (cmdline) {
+-        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
+-    }
+-
+     qemu_fdt_setprop_string(fdt, "/aliases", "serial0", nodename);
+ 
+     g_free(nodename);
++
++update_bootargs:
++    if (cmdline) {
++        qemu_fdt_setprop_string(fdt, "/chosen", "bootargs", cmdline);
++    }
+ }
+ 
+ static void sifive_u_machine_reset(void *opaque, int n, int level)
+-- 
+2.28.0
 
-for you to fetch changes up to 422819776101520cb56658ee5facf926526cf870:
-
-  target/riscv/csr.c : add space before the open parenthesis '(' (2020-11-03 07:17:23 -0800)
-
-----------------------------------------------------------------
-This series adds support for migration to RISC-V QEMU and expands the
-Microchip PFSoC to allow unmodified HSS and Linux boots.
-
-----------------------------------------------------------------
-Anup Patel (2):
-      hw/riscv: sifive_u: Allow passing custom DTB
-      hw/riscv: virt: Allow passing custom DTB
-
-Bin Meng (10):
-      hw/riscv: microchip_pfsoc: Document where to look at the SoC memory maps
-      hw/misc: Add Microchip PolarFire SoC DDR Memory Controller support
-      hw/riscv: microchip_pfsoc: Connect DDR memory controller modules
-      hw/misc: Add Microchip PolarFire SoC IOSCB module support
-      hw/riscv: microchip_pfsoc: Connect the IOSCB module
-      hw/misc: Add Microchip PolarFire SoC SYSREG module support
-      hw/riscv: microchip_pfsoc: Connect the SYSREG module
-      hw/riscv: microchip_pfsoc: Map the reserved memory at address 0
-      hw/riscv: microchip_pfsoc: Correct DDR memory map
-      hw/riscv: microchip_pfsoc: Hook the I2C1 controller
-
-Xinhao Zhang (1):
-      target/riscv/csr.c : add space before the open parenthesis '('
-
-Yifei Jiang (6):
-      target/riscv: Merge m/vsstatus and m/vsstatush into one uint64_t unit
-      target/riscv: Add basic vmstate description of CPU
-      target/riscv: Add PMP state description
-      target/riscv: Add H extension state description
-      target/riscv: Add V extension state description
-      target/riscv: Add sifive_plic vmstate
-
- include/hw/intc/sifive_plic.h       |   1 +
- include/hw/misc/mchp_pfsoc_dmc.h    |  56 +++++++++
- include/hw/misc/mchp_pfsoc_ioscb.h  |  50 ++++++++
- include/hw/misc/mchp_pfsoc_sysreg.h |  39 ++++++
- include/hw/riscv/microchip_pfsoc.h  |  18 ++-
- target/riscv/cpu.h                  |  24 ++--
- target/riscv/cpu_bits.h             |  19 +--
- target/riscv/internals.h            |   4 +
- target/riscv/pmp.h                  |   2 +
- hw/intc/sifive_plic.c               |  26 +++-
- hw/misc/mchp_pfsoc_dmc.c            | 216 ++++++++++++++++++++++++++++++++
- hw/misc/mchp_pfsoc_ioscb.c          | 242 ++++++++++++++++++++++++++++++++++++
- hw/misc/mchp_pfsoc_sysreg.c         |  99 +++++++++++++++
- hw/riscv/microchip_pfsoc.c          | 125 ++++++++++++++++---
- hw/riscv/sifive_u.c                 |  28 +++--
- hw/riscv/virt.c                     |  27 ++--
- target/riscv/cpu.c                  |  16 +--
- target/riscv/cpu_helper.c           |  35 ++----
- target/riscv/csr.c                  |  20 +--
- target/riscv/machine.c              | 196 +++++++++++++++++++++++++++++
- target/riscv/op_helper.c            |  11 +-
- target/riscv/pmp.c                  |  29 +++--
- MAINTAINERS                         |   6 +
- hw/misc/Kconfig                     |   9 ++
- hw/misc/meson.build                 |   3 +
- hw/riscv/Kconfig                    |   3 +
- target/riscv/meson.build            |   3 +-
- 27 files changed, 1180 insertions(+), 127 deletions(-)
- create mode 100644 include/hw/misc/mchp_pfsoc_dmc.h
- create mode 100644 include/hw/misc/mchp_pfsoc_ioscb.h
- create mode 100644 include/hw/misc/mchp_pfsoc_sysreg.h
- create mode 100644 hw/misc/mchp_pfsoc_dmc.c
- create mode 100644 hw/misc/mchp_pfsoc_ioscb.c
- create mode 100644 hw/misc/mchp_pfsoc_sysreg.c
- create mode 100644 target/riscv/machine.c
 
