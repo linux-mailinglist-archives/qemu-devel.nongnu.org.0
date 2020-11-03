@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EA12A487E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:46:10 +0100 (CET)
-Received: from localhost ([::1]:45954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC2ED2A4895
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:50:32 +0100 (CET)
+Received: from localhost ([::1]:60718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxZZ-0000jf-VE
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:46:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33464)
+	id 1kZxdn-0006ul-Vz
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33486)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxP5-0005L3-Mj
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24875)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxP6-0005OH-V8
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58198)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxP3-0006el-Dn
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:19 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxP3-0006ej-As
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604414116;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ay6G7kYGtMwl+/IxEdsu272p/jXvwydr69tjR0/ihX0=;
- b=SuYWGuc3wXTPPJ6gB72QiQQO6rldnnf4pKILpm9/2XKkEFzMqWekJpuc1tEOAoCzny3hWx
- Gj6sOKQbsUOE267iyAYGRdIiibBrA1dpBxB7aBTgth6SwnYmKz9qsalxckhOfRoaI9T+ly
- lH76N6QK+mRrbJkno01mf4dBk3T92i8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-327-Q7uTG_fWOzyF1Ro24Aj6Zw-1; Tue, 03 Nov 2020 09:35:12 -0500
-X-MC-Unique: Q7uTG_fWOzyF1Ro24Aj6Zw-1
-Received: by mail-wm1-f70.google.com with SMTP id 13so4685667wmf.0
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:35:12 -0800 (PST)
+ bh=APdAnMGOimWpi0/lmUkQSWdNUl1kK18oif2GgMOHc/o=;
+ b=NTob9/nV/jdls7qUfEFYyHigmUGCLRwmfJskk5YG1at3AryajlErEqlRx2OPhx+nC1o/T6
+ zGbeHcXRPs77NQnOg17I7hmQTZEHXWt2vmJDkNAgRD7eH47uzMprKevYRDXDaoTIRir9fZ
+ 4uZGuFh6VSr/1osP+XIsmIfWjLMfI8k=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-l0nhv9nZMQ-ds_GTRLbxQA-1; Tue, 03 Nov 2020 09:35:15 -0500
+X-MC-Unique: l0nhv9nZMQ-ds_GTRLbxQA-1
+Received: by mail-wm1-f72.google.com with SMTP id z62so18603wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:35:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ay6G7kYGtMwl+/IxEdsu272p/jXvwydr69tjR0/ihX0=;
- b=C5poTBvvwCbuG97d3X64tW/0VzWF0p/1XbgtnNmmFPIGjsHc4MgmV7OPWd1+Od3u0h
- rw654RQ0+6iZd3RYwBNcO0RedM7sBapx5+21kGwvyx3W5JpDHanEGimKKsOK31D/UY9D
- ZAD4EbNAzS6hoDA6l5633RDLB4svabDovjk7yZKdqIgd2OpCUp8TAfZtVnD9RS8hxRNK
- 2eoEpPl88E4ZxEFLFpTd4YBbyru0vBtpslMJfU2aitqXq+w+gjrGD4zPZBnw8Zz1tg4t
- dXYeuD45Fh3Oka+7UG48pCHxRA9RZjvQipIf/3wVZTPqayqjvUyBljX/GM9wWC+Z1PIg
- 1zMw==
-X-Gm-Message-State: AOAM532DZiwYyLNRL1o+e9XCXdcAMtGx+ZOJBzNHjx9Qy4E5+GwZEAXg
- gT3HOnIQdh9iTV40MFgJvYvL40OX3NGgyx22yerjGILArDNDv9ZBCbQIyqk9xETDm99QvG+xwtV
- 5soCmw+vrZ+Xsies=
-X-Received: by 2002:a1c:750b:: with SMTP id o11mr94075wmc.32.1604414110652;
- Tue, 03 Nov 2020 06:35:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx1hcFbfc36uCTcXTH0RBujb6aH3ehkwq4gFuYX+bJGZ0LL5T5YwBzGhm5W/v3/CIcSCjAnQA==
-X-Received: by 2002:a1c:750b:: with SMTP id o11mr94059wmc.32.1604414110496;
- Tue, 03 Nov 2020 06:35:10 -0800 (PST)
+ bh=APdAnMGOimWpi0/lmUkQSWdNUl1kK18oif2GgMOHc/o=;
+ b=gQuBTpmuvma+Zi9uiLBgCxxx4Utu50L3Vlk634BlVgTXKxy6IRXc6snf/8uzcF0TAU
+ EbzcYBNi3WYZzmtEw8qEGyMjkLiITJuiYxqU4N9p7RR0775Cve06a9GzbhW1dyjtZ5gF
+ KUxhz8JDF3DlmHo2NdFPd3fbhl1Iec75w6eiBvter4jCuWQMj63q1TS/vDIYN6NtKSgY
+ 07ClaLc1pEwEPtRAEHcGTHoXY5bIYLzA5M1XItnn8dcfML+S9psoG8Y+rPLoF5HVfuqZ
+ awR1JaefnrPnLvT+ZTDa2N5ncsv3B8KAJoqtJ4gUIreAbzGrqwd8Pdp991MRaFNYEdEJ
+ lecA==
+X-Gm-Message-State: AOAM533K8vczVG+fKachjmEEdAjiz3v+K4GRiI+f6xPJQyB8ME8eXeEi
+ h7O1aM5VfS+tA+osH4bdI0bzszhWSBBfvlT2MkzowjP5eja9Ehl/0DCgJEUUUeCtfU1HnVeUMmc
+ txM9+Awc80wsPJsU=
+X-Received: by 2002:a5d:4409:: with SMTP id z9mr26083329wrq.236.1604414113245; 
+ Tue, 03 Nov 2020 06:35:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZR2kKqcuddZ/U6aOOxHKUCf2fG112fCduIj9t2zuR4ymWycluttXqA0FkMzP7RA0aJ63HAw==
+X-Received: by 2002:a5d:4409:: with SMTP id z9mr26083314wrq.236.1604414113101; 
+ Tue, 03 Nov 2020 06:35:13 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id 66sm3321234wmb.3.2020.11.03.06.35.08
+ by smtp.gmail.com with ESMTPSA id c17sm3016007wml.14.2020.11.03.06.35.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 06:35:09 -0800 (PST)
-Date: Tue, 3 Nov 2020 09:35:08 -0500
+ Tue, 03 Nov 2020 06:35:12 -0800 (PST)
+Date: Tue, 3 Nov 2020 09:35:10 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/38] vhost-blk: set features before setting inflight feature
-Message-ID: <20201103142306.71782-27-mst@redhat.com>
+Subject: [PULL 27/38] libvhost-user: follow QEMU comment style
+Message-ID: <20201103142306.71782-28-mst@redhat.com>
 References: <20201103142306.71782-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
@@ -81,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,88 +94,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Jin Yu <jin.yu@intel.com>,
- Max Reitz <mreitz@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jin Yu <jin.yu@intel.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Virtqueue has split and packed, so before setting inflight,
-you need to inform the back-end virtqueue format.
-
-Signed-off-by: Jin Yu <jin.yu@intel.com>
-Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20201103123617.28256-1-jin.yu@intel.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20201027173528.213464-2-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost.h |  1 +
- hw/block/vhost-user-blk.c |  6 ++++++
- hw/virtio/vhost.c         | 20 ++++++++++++++++++++
- 3 files changed, 27 insertions(+)
+ contrib/libvhost-user/libvhost-user.h | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 94585067f7..4a8bc75415 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -141,6 +141,7 @@ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
- void vhost_dev_free_inflight(struct vhost_inflight *inflight);
- void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
- int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f);
-+int vhost_dev_prepare_inflight(struct vhost_dev *hdev, VirtIODevice *vdev);
- int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight);
- int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index a076b1e54d..2dd3d93ca0 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -131,6 +131,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 3bbeae8587..a1539dbb69 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -392,7 +392,8 @@ struct VuDev {
+     bool broken;
+     uint16_t max_queues;
  
-     s->dev.acked_features = vdev->guest_features;
+-    /* @read_msg: custom method to read vhost-user message
++    /*
++     * @read_msg: custom method to read vhost-user message
+      *
+      * Read data from vhost_user socket fd and fill up
+      * the passed VhostUserMsg *vmsg struct.
+@@ -409,15 +410,19 @@ struct VuDev {
+      *
+      */
+     vu_read_msg_cb read_msg;
+-    /* @set_watch: add or update the given fd to the watch set,
+-     * call cb when condition is met */
++
++    /*
++     * @set_watch: add or update the given fd to the watch set,
++     * call cb when condition is met.
++     */
+     vu_set_watch_cb set_watch;
  
-+    ret = vhost_dev_prepare_inflight(&s->dev, vdev);
-+    if (ret < 0) {
-+        error_report("Error set inflight format: %d", -ret);
-+        goto err_guest_notifiers;
-+    }
-+
-     if (!s->inflight->addr) {
-         ret = vhost_dev_get_inflight(&s->dev, s->queue_size, s->inflight);
-         if (ret < 0) {
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 79b2be20df..614ccc2bcb 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1645,6 +1645,26 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
-     return 0;
- }
+     /* @remove_watch: remove the given fd from the watch set */
+     vu_remove_watch_cb remove_watch;
  
-+int vhost_dev_prepare_inflight(struct vhost_dev *hdev, VirtIODevice *vdev)
-+{
-+    int r;
-+
-+    if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
-+        hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
-+        return 0;
-+    }
-+
-+    hdev->vdev = vdev;
-+
-+    r = vhost_dev_set_features(hdev, hdev->log_enabled);
-+    if (r < 0) {
-+        VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
-+        return r;
-+    }
-+
-+    return 0;
-+}
-+
- int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight)
- {
+-    /* @panic: encountered an unrecoverable error, you may try to
+-     * re-initialize */
++    /*
++     * @panic: encountered an unrecoverable error, you may try to re-initialize
++     */
+     vu_panic_cb panic;
+     const VuDevIface *iface;
+ 
 -- 
 MST
 
