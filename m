@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D501B2A4973
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:24:42 +0100 (CET)
-Received: from localhost ([::1]:38538 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A091D2A4925
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:14:07 +0100 (CET)
+Received: from localhost ([::1]:38406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyAr-0003s4-TP
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:24:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38320)
+	id 1kZy0c-0000Fd-K1
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:14:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZxgq-000408-CB
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:53:42 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZxgo-0004EV-Gd
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:53:39 -0500
-Received: by mail-wr1-x443.google.com with SMTP id n15so18924464wrq.2
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:53:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Abd1JDvWKvwvWMwVFtuk3o19dYdiYvo//0MeZhwCziU=;
- b=Uldos1DoFe3eLZMbgm9IbbxQbIk92ehGA95WC8RzaFGcBvQ/v1K4zFoG+GFaAyZiOH
- CUJNBq6ElY9xTDjEwjQw7Zl4JLRC19uMQlomDJOPmrkDyL++KBiWFLZ0Bldoqn6FXVTx
- S4ignYVVCpIYFFy6T74S482wHyBuyGl46iQ7527gEWy+WxMtdBg0Wf8oGvJBXT4s5GZr
- m/Whj4oqj9Ru4mAf6VPno5m6WhpTrur7JxBbEGYQcTgbVGYXV2Yl0t06dMPPAV3IIyo3
- 4p/9f2TkpHLkXo61WjIuv4Xl/bxC7pBJTanqro0MeTdIG+6VW0LZIdKm+qw1at6hpayg
- lhXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Abd1JDvWKvwvWMwVFtuk3o19dYdiYvo//0MeZhwCziU=;
- b=jGSt41a+LvihSr4b+PIr5+iMws6r9bCaQxADwwKP+nXDwmfaDtvR1WGdlskBNBte5I
- V/QoE/7Is41IquJaB6MdyTnz32ZPJYwdSra7fUCnIlgLq7FuYQ/KIngHqET1IfAro6Fb
- Mq0Z5EfBUKobAKDlTwIakhT7toLTNwlJWexDwRDsXYx1ttg9Mvlp+T9eNdxZVLTS3yFJ
- wTHqxBm8KnTJyZicjShJ3eT64w6UboAZyGeU58fUb3U20c1njB8qphv4TdH6TUdfaAxT
- JH9AcBM5fMnem4vDTVavT3uIyMyLq1rl/oZ0+Cyf5wbtv+P8SA2cCGO9TfUjBK81ppPP
- JTwA==
-X-Gm-Message-State: AOAM531tYLI/QMx+npZWQUZo6wzRaarS0hFM8Ne9eZoUDtcPCVhBovDp
- uig7hJFsqXKo4UU6sOH9MLo=
-X-Google-Smtp-Source: ABdhPJyNKVGySGYQXYESwLio+JBHRUiiv+W1PJATDZBCXkVF4SAD/2S+nwgoNe0TYl6jAeMA1Vv3lQ==
-X-Received: by 2002:adf:9e48:: with SMTP id v8mr15677585wre.55.1604415216316; 
- Tue, 03 Nov 2020 06:53:36 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id v12sm27452269wro.72.2020.11.03.06.53.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 06:53:35 -0800 (PST)
-Subject: Re: [PATCH V16 1/6] target/mips: Fix PageMask with variable page size
-To: Huacai Chen <zltjiangshi@gmail.com>,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>
-References: <1604053541-27822-1-git-send-email-chenhc@lemote.com>
- <1604053541-27822-2-git-send-email-chenhc@lemote.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <7fdb67f6-edf6-4fe9-6e3b-f2817a3a06f3@amsat.org>
-Date: Tue, 3 Nov 2020 15:53:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kZxkb-0001J6-90
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:57:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22423)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kZxkX-0005V4-Fo
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:57:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604415447;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JmjH+RXJAKPLltutGlToEaOaDac+EnKM6h7VI2aeC48=;
+ b=NdSFgfLUAYGKFT0ASVoJnOU6V92DsmJScDQYQ4IzAyhfOuT6m4R+6UK4JV3ssgWe6H98R7
+ AmfYOLBjOX5Iio407uZz/nknlNkdc9AxBFf2IHTQaCPAcYuBqsW5ENE+wJ5b9NDZmYMnIs
+ Ar1Qs3c2vkKxSUHxyPN5OYoyHzLPVLE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-585-JaGi608MOrm0hbpQTpC87w-1; Tue, 03 Nov 2020 09:57:24 -0500
+X-MC-Unique: JaGi608MOrm0hbpQTpC87w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E39B11009E2F;
+ Tue,  3 Nov 2020 14:57:22 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5E4DB610AF;
+ Tue,  3 Nov 2020 14:57:11 +0000 (UTC)
+Date: Tue, 3 Nov 2020 15:57:09 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eric DeVolder <eric.devolder@oracle.com>
+Subject: Re: [PATCH 0/1] acpi: Implement ACPI ERST support for guests
+Message-ID: <20201103155709.410240e4@redhat.com>
+In-Reply-To: <1603743573-9870-1-git-send-email-eric.devolder@oracle.com>
+References: <1603743573-9870-1-git-send-email-eric.devolder@oracle.com>
 MIME-Version: 1.0
-In-Reply-To: <1604053541-27822-2-git-send-email-chenhc@lemote.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x443.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,100 +80,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: ehabkost@redhat.com, mst@redhat.com, konrad.wilk@oracle.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, boris.ostrovsky@oracle.com,
+ lersek@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/30/20 11:25 AM, Huacai Chen wrote:
-> From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+On Mon, 26 Oct 2020 16:19:32 -0400
+Eric DeVolder <eric.devolder@oracle.com> wrote:
+
+> This changeset introduces support for the ACPI Error Record
+> Serialization Table, ERST.
 > 
-> Our current code assumed the target page size is always 4k
-> when handling PageMask and VPN2, however, variable page size
-> was just added to mips target and that's no longer true.
+> The change to hw/acpi/meson.build simply adds in the new .c file
+> for compilation.
 > 
-> Fixes: ee3863b9d414 ("target/mips: Support variable page size")
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Signed-off-by: Huacai Chen <chenhc@lemote.com>
+> The change to hw/i386/acpi-build.c calls out the building of the
+> ERST table (and also creates the associated device).
+> 
+> The new file hw/acpi/erst.c contains the building of the ERST
+> table, as well as the simple device for exchanging error records.
+> 
+> The new file include/hw/acpi/erst.h contains associated definitions
+> and declarations for ERST.
+> 
+> The primary description of this changeset is in the patch commit
+> message.
+> 
+> NOTES: When reviewing, I would especially appreciate feedback
+> on the following topics:
+> 
+> - The hope is to have ERST always present if ACPI is enabled, however,
+>   I have found it difficult to devise a method for passing the base
+>   address that does not require the workaround at the bottom of
+>   build_erst(). The issues I encountered are:
+>   - desire to keep this is common ACPI code
+>   - the device requires a qdev_new(), this needs to happen early,
+>     thus the workaround in build_erst()
+>   - the base address is machine/arch specific (eg ARM vs x86)
+>   I've not found a nice way to thread this needle, so what I've settled
+>   on is to simply lump ERST on to the CONFIG_ACPI (rather than a
+>   separate CONFIG_ACPI_ERST), and the workaround at the bottom of
+>   build_erst(). I suspect there is a better way for a built-in/
+>   always present device. This does not support "-device acpi-erst,...".
+> 
+> - I found a base address that "worked", but would like an address
+>   that would be known to be availabe, and then to document/reserve
+>   it for ERST. This takes into account that the base address can be
+>   different for x86 vs ARM.
+> 
+> - I've run this through checkpatch, and all issues addressed except
+>   for the long lines in build_erst(). For readable I left the long
+>   lines, but will change if asked.
+> 
+> - What else do I need to provide?
+
+For now, I have just several generic comments:
+
+1. that's quite a lot code to maintain, why not use existing UEFI vars
+   as pstore storage instead? 
+   Not sure ancient ACPI table is a way to go, with NVDIMMs around
+   it probably possible to use pstores ram backend or make it work
+   with nvdimms directly. The only benefit of ERST is that it should
+   just work without extra configuration, but then UEFI backend
+   would probably also just work.
+
+2. patch is too big to review, please split it up in smaller chunks.
+
+3. Use of packed structures is discouraged in new ACPI code,
+   see build_ghes_v2() as an example for building ACPI tables.
+
+4. Maybe instead of SYSBUS device, implement it as a PCI device and
+   use its BAR/control registers for pstore storage and control interface.
+   It could save you headache of picking address where to map it +
+   it would take care of migration part automatically, as firmware
+   would do it for you and then QEMU could pickup firmware programmed
+   address and put it into ERST table.
+
+5. instead of dealing with file for storage directly, reuse hostmem backend
+   to provide it to for your device. ex: pc-dimm. i.e. split device
+   on frontend and backend
+
+
+> Signed-off-by: Eric DeVolder <eric.devolder@oracle.com>
+> 
 > ---
->  target/mips/cp0_helper.c | 36 +++++++++++++++++++++++++++++-------
->  target/mips/cpu.h        |  1 +
->  2 files changed, 30 insertions(+), 7 deletions(-)
+>  hw/acpi/erst.c         | 909 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  hw/acpi/meson.build    |   1 +
+>  hw/i386/acpi-build.c   |   4 +
+>  include/hw/acpi/erst.h |  97 ++++++
+>  4 files changed, 1011 insertions(+)
+>  create mode 100644 hw/acpi/erst.c
+>  create mode 100644 include/hw/acpi/erst.h
 > 
-> diff --git a/target/mips/cp0_helper.c b/target/mips/cp0_helper.c
-> index 12143ac..d90ddd9 100644
-> --- a/target/mips/cp0_helper.c
-> +++ b/target/mips/cp0_helper.c
-> @@ -892,13 +892,31 @@ void helper_mtc0_memorymapid(CPUMIPSState *env, target_ulong arg1)
->  
->  void update_pagemask(CPUMIPSState *env, target_ulong arg1, int32_t *pagemask)
->  {
-> -    uint64_t mask = arg1 >> (TARGET_PAGE_BITS + 1);
-> -    if (!(env->insn_flags & ISA_MIPS32R6) || (arg1 == ~0) ||
-> -        (mask == 0x0000 || mask == 0x0003 || mask == 0x000F ||
-> -         mask == 0x003F || mask == 0x00FF || mask == 0x03FF ||
-> -         mask == 0x0FFF || mask == 0x3FFF || mask == 0xFFFF)) {
-> -        env->CP0_PageMask = arg1 & (0x1FFFFFFF & (TARGET_PAGE_MASK << 1));
-> +    unsigned long mask;
-> +    int maskbits;
-> +
-> +    if (env->insn_flags & ISA_MIPS32R6) {
-> +        return;
-> +    }
-> +    /* Don't care MASKX as we don't support 1KB page */
-> +    mask = extract32((uint32_t)arg1, CP0PM_MASK, 16);
-> +    maskbits = find_first_zero_bit(&mask, 32);
-> +
-> +    /* Ensure no more set bit after first zero */
-> +    if (mask >> maskbits) {
-> +        goto invalid;
-> +    }
-> +    /* We don't support VTLB entry smaller than target page */
-> +    if ((maskbits + 12) < TARGET_PAGE_BITS) {
-> +        goto invalid;
->      }
-> +    env->CP0_PageMask = mask << CP0PM_MASK;
-> +
-> +    return;
-> +
-> +invalid:
-> +    /* When invalid, set to default target page size. */
-> +    env->CP0_PageMask = (~TARGET_PAGE_MASK >> 12) << CP0PM_MASK;
->  }
 
-I was going to queue this patch for 5.2-rc1, but it fails all
-I6400 tests...
-
-  Linux version 4.7.0-rc1-dirty (root@2e66df87a9ff) (gcc version 6.3.0
-20170516 (Debian 6.3.0-18) ) #1 SMP Sat Feb 1 18:38:13 UTC 2020
-  GCRs appear to have been moved (expected them at 0x1fbf8000)!
-  earlycon: uart8250 at I/O port 0x3f8 (options '38400n8')
-  bootconsole [uart8250] enabled
-  MIPS CPS SMP unable to proceed without a CM
-  CPU0 revision is: 0001a900 (MIPS I6400)
-  FPU revision is: 20f30300
-  MSA revision is: 00000300
-  MIPS: machine is mti,malta
-  Software DMA cache coherency enabled
-  Determined physical RAM map:
-  memory: 0000000008000000 @ 0000000000000000 (usable)
-  Zone ranges:
-  DMA      [mem 0x0000000000000000-0x0000000000ffffff]
-  DMA32    [mem 0x0000000001000000-0x00000000ffffffff]
-  Normal   empty
-  Movable zone start for each node
-  Early memory node ranges
-  node   0: [mem 0x0000000000000000-0x0000000007ffffff]
-  Initmem setup node 0 [mem 0x0000000000000000-0x0000000007ffffff]
-  Primary instruction cache 64kB, VIPT, 4-way, linesize 64 bytes.
-  Primary data cache 64kB, 4-way, VIPT, no aliases, linesize 64 bytes
-  percpu: Embedded 5 pages/cpu @980000000107c000 s29664 r8192 d44064 u81920
-  Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 8163
-  Kernel command line: clocksource=GIC console=tty0 console=ttyS0
-  PID hash table entries: 512 (order: -2, 4096 bytes)
-  Dentry cache hash table entries: 16384 (order: 3, 131072 bytes)
-  Inode-cache hash table entries: 8192 (order: 2, 65536 bytes)
-  Kernel panic - not syncing: MMU doesn't support PAGE_SIZE=0x4000
 
