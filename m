@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A762A4610
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 14:17:18 +0100 (CET)
-Received: from localhost ([::1]:34818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12AB22A461E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 14:19:34 +0100 (CET)
+Received: from localhost ([::1]:40706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZwBZ-0008F8-7w
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 08:17:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39042)
+	id 1kZwDk-0002Fn-4D
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 08:19:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kZw9o-0007Ji-Qk
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 08:15:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35778)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kZwCR-0001R3-DM
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 08:18:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1kZw9j-0003Gr-Mu
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 08:15:26 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kZwCN-0004JP-9n
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 08:18:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604409317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hcY+gSyJOP+4RO5VFfCpl5otnP98uta6TwhvoHbpxFU=;
- b=Dh0zttEBGpalMHyH7mYhy0Rb7U0m2O6XY/VwKnuB+rhrQWoTH7JMN5ThfTLD8G03TiYNIV
- lgYDbq5UiycmGPp04HjN+u20s0fjJN5kHfUp/Wv97ehPMvG9SmAYXaoGWrnT/CMDRqVgJz
- BmVLWhz6VjjOqIbUQn32WjMxsa9hqXI=
+ s=mimecast20190719; t=1604409485;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=lPXvCK3K90d0+AgyyB2SYHr8XRWKSO19NhZcHkTJ/Y0=;
+ b=IuZirBdtiyDjm3YaUi+8piRTiVfGG/5rtB5B0pE8NEBKtC0NCIoOQmn6Wdjbus7LEFfExL
+ nCbFmZX8gHHXjPRuqCGrCspxD9FMF/c0OmAKvZVAwC+KSROwlhK7cJsk/OKIzuv1d/ob64
+ /eEZArgpxzY6Bm1DsUCGz1sumVNyV0w=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-4CdDjtp9M5-h7CulC6b0Kg-1; Tue, 03 Nov 2020 08:15:15 -0500
-X-MC-Unique: 4CdDjtp9M5-h7CulC6b0Kg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-172-Z0cb3dGWOnq9UeMYAs8eSg-1; Tue, 03 Nov 2020 08:17:45 -0500
+X-MC-Unique: Z0cb3dGWOnq9UeMYAs8eSg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7C2C5E06BB;
- Tue,  3 Nov 2020 13:15:12 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4128A5B4D8;
- Tue,  3 Nov 2020 13:14:58 +0000 (UTC)
-Date: Tue, 3 Nov 2020 14:14:55 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH-for-5.2 v3] hw/mips: Remove the 'r4k' machine
-Message-ID: <20201103131455.GN727443@angien.pipo.sk>
-References: <20201102201311.2220005-1-f4bug@amsat.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9EB708058AB;
+ Tue,  3 Nov 2020 13:17:44 +0000 (UTC)
+Received: from redhat.com (ovpn-115-87.ams2.redhat.com [10.36.115.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 841A46198E;
+ Tue,  3 Nov 2020 13:17:36 +0000 (UTC)
+Date: Tue, 3 Nov 2020 13:17:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 09/11] char-socket: Fix qemu_chr_socket_address() for
+ abstract sockets
+Message-ID: <20201103131733.GL205187@redhat.com>
+References: <20201102094422.173975-1-armbru@redhat.com>
+ <20201102094422.173975-10-armbru@redhat.com>
+ <9f594cfb-2138-c12d-f6f7-6a4653e78087@redhat.com>
+ <87r1pbosxn.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20201102201311.2220005-1-f4bug@amsat.org>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+In-Reply-To: <87r1pbosxn.fsf@dusky.pond.sub.org>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,44 +84,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, libvir-list@redhat.com,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, zxq_yx_007@163.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 02, 2020 at 21:13:11 +0100, Philippe Mathieu-Daudé wrote:
-> We deprecated the support for the 'r4k' machine for the 5.0 release
-> (commit d32dc61421), which means that our deprecation policy allows
-> us to drop it in release 5.2. Remove the code.
+On Tue, Nov 03, 2020 at 07:28:20AM +0100, Markus Armbruster wrote:
+> Eric Blake <eblake@redhat.com> writes:
 > 
-> To repeat the rationale from the deprecation note:
-> - this virtual machine has no specification
-> - the Linux kernel dropped support for it 10 years ago
+> > On 11/2/20 3:44 AM, Markus Armbruster wrote:
+> >> Commit 776b97d360 "qemu-sockets: add abstract UNIX domain socket
+> >> support" neglected to update qemu_chr_socket_address().  It shows
+> >> shows neither @abstract nor @tight.  Fix that.
+> >> 
+> >> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> >> ---
+> >>  chardev/char-socket.c | 10 +++++++++-
+> >>  1 file changed, 9 insertions(+), 1 deletion(-)
+> >> 
+> >> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+> >> index 1ee5a8c295..dc1cf86ecf 100644
+> >> --- a/chardev/char-socket.c
+> >> +++ b/chardev/char-socket.c
+> >> @@ -443,10 +443,18 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
+> >>                                 s->is_listen ? ",server" : "");
+> >>          break;
+> >>      case SOCKET_ADDRESS_TYPE_UNIX:
+> >> -        return g_strdup_printf("%sunix:%s%s", prefix,
+> >> +    {
+> >> +        UnixSocketAddress *sa = &s->addr->u.q_unix;
+> >> +
+> >> +        return g_strdup_printf("%sunix:%s%s%s%s", prefix,
+> >>                                 s->addr->u.q_unix.path,
+> >> +                               sa->has_abstract && sa->abstract
+> >> +                               ? ",abstract" : "",
+> >> +                               sa->has_tight && sa->tight
+> >> +                               ? ",tight" : "",
+> >>                                 s->is_listen ? ",server" : "");
+> >
+> > Gets modified again in 11/11, so I can accept this as a strict
+> > improvement, even if it is not the final form.
 > 
-> Users are recommended to use the Malta board instead.
-> 
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v3: Move to "Recently removed features" section
-> ---
->  docs/system/deprecated.rst                    |  12 +-
->  .../devices/mips-softmmu-common.mak           |   1 -
->  hw/mips/r4k.c                                 | 318 ------------------
->  MAINTAINERS                                   |   6 -
->  hw/mips/Kconfig                               |  13 -
->  hw/mips/meson.build                           |   1 -
->  6 files changed, 6 insertions(+), 345 deletions(-)
->  delete mode 100644 hw/mips/r4k.c
+> You're right, PATCH 11's change is better done here already.  Will tidy
+> up if I need to respin for some other reason.
 
-To be honest, libvirt doesn't have a single mips-based VM definition in
-the test-suite, so our mips support is rather theoretical.
+I can squash in the following part of patch 11:
 
-On behalf of libvirt:
+@@ -444,14 +444,20 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
+         break;
+     case SOCKET_ADDRESS_TYPE_UNIX:
+     {
++        const char *tight = "", *abstract = "";
+         UnixSocketAddress *sa = &s->addr->u.q_unix;
 
-ACKed-by: Peter Krempa <pkrempa@redhat.com>
+-        return g_strdup_printf("%sunix:%s%s%s%s", prefix,
+-                               s->addr->u.q_unix.path,
+-                               sa->has_abstract && sa->abstract
+-                               ? ",abstract" : "",
+-                               sa->has_tight && sa->tight
+-                               ? ",tight" : "",
++#ifdef CONFIG_LINUX
++        if (sa->has_abstract && sa->abstract) {
++            abstract = ",abstract";
++            if (sa->has_tight && sa->tight) {
++                tight = ",tight";
++            }
++        }
++#endif
++
++        return g_strdup_printf("%sunix:%s%s%s%s", prefix, sa->path,
++                               abstract, tight,
+                                s->is_listen ? ",server" : "");
+         break;
+     }
+
+but leaving out the CONFIG_LINUX ifdef until Patch 11
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
