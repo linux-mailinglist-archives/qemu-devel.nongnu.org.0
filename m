@@ -2,87 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AFCB2A4A51
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:49:04 +0100 (CET)
-Received: from localhost ([::1]:38884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F722A4A4C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:47:17 +0100 (CET)
+Received: from localhost ([::1]:33348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyYR-0005mZ-Io
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:49:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51962)
+	id 1kZyWi-0003VB-7K
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:47:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyKT-0002W8-NX
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:34:39 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15005)
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1kZyDL-0000fE-60; Tue, 03 Nov 2020 10:27:15 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17588)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyKR-0001Fa-9a
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:34:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604417675; x=1635953675;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version:content-transfer-encoding;
- bh=r57vaix6jaMv33EUrj+BDv2Ap6h5uq3sW8MQsYHDDPE=;
- b=B/6JgM/zkDiBCPHPmmx4FXs+K5qhEsALIwnAHTa+jzDEy6eU/ZBipX1S
- tybCkzwHotFkRttEMEOpEaNsRO3GPZ7F84ECvhDh9JaLx3TtB0x5LqPIF
- PJC7dmeeDOeOW2fO8nQEo+lirCcQATTWFRIZ8kREagblca+xQvmgGcfrR
- 6Y9Bqq8CBirI6iZTK0ZV0g8QUeCsIMem+ajaoQkXq5UhWTIY22DasUpdR
- i4FfXGjK5MBfj9Pcykn/lU2w0hzWFxjL6/sgkzCswKFZMyLkJ2RPwLJ9B
- n167weuPpQ3TBj+33+ijL2nc+Fymh3Om1mTTYjQC9liBGYG+OIDqRkbwx w==;
-IronPort-SDR: 6ADO8kF3uFxfIHhPd7uj5WWYbeSeVC9ifitvUrbEDZHMEWop3tboJuqd2twm1sIqoHdmoswLsj
- tlnKyE+eaUVR0SQdVgU/I7FavgnwwqJLn4sgRdGr4GaYB34xH/M3FT6XjSyecKvCoZl79A5M3f
- yJoV3kpHuAKCVloVfCOFn03duisubDMsgs4OoVQ4LojeHxkXDzPWKY0uRe0JJJyeFvbUH/6YYu
- pLb787v+7p4r33cbaQvP2D/X0vbIwm+fPqzKoD1XqtZIKE3z0l5sfGokMn45DcI/V4/aeyhsJT
- F/M=
-X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867490"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:29 +0800
-IronPort-SDR: fvYEqC0IChBRAmusUOwgdsGZbnT2UbHR4qFC5rpGJQ2sqicmufIcQvgw8VY8QkkuBdD1lxTxo3
- 7enSktmv3mAU87spuL0GfepWAQD9f27NllY1F1r0H3SKwPYgzMALuD5G8V4lO4BDxIvzFITXy9
- HZeI7f/FRN6Whl/Ltv1kiV8gPT4x3iyN1WKI/bO7BO4+i5iu+xRzT7qS1H5bPYoKsN+b1oqVmA
- e2E6zYEajFobqw2zjO15mYi/e5bFnZIWyDr8TPVxEXa7COgLLwFKEWe/Lg1TEXGkYhjRJYbIYQ
- goXuwv4RfZxJMPALELWSUSjN
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2020 07:19:37 -0800
-IronPort-SDR: Pjf9/EEDsvH8CX4x0ID5x+NLL8g1ijHk3jQ32f+KAbfll3sJ25muznBSLJ0IFf11dEz2nim02n
- EVJPMNKPHWrLMHTajg8iUogILVajQiahvLELjrj4QYsApQUnb2u0WGvVgQ9dqTTSCjAosMd0DU
- 0d1sDqr9z8uSu+jwNfZx30v5ooH9AtMkJW7IjuTMACmgWO/DygTIRnRF6HCyXDXWkxxASSbrEe
- MCeOuKcQcfy0hj+X7llnqNnl5Dxoxz+xfNM6jiZgrrmlcUNQ0U+zPcrAwAN2LALBwVBEfpq14b
- knc=
-WDCIronportException: Internal
-Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.60.113])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 07:33:29 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	peter.maydell@linaro.org
-Subject: [PULL v2 19/19] target/riscv/csr.c : add space before the open
- parenthesis '('
-Date: Tue,  3 Nov 2020 07:21:50 -0800
-Message-Id: <20201103152150.2677566-20-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201103152150.2677566-1-alistair.francis@wdc.com>
-References: <20201103152150.2677566-1-alistair.francis@wdc.com>
+ (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
+ id 1kZyDI-0007K9-6d; Tue, 03 Nov 2020 10:27:14 -0500
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A3F2sQ2147410; Tue, 3 Nov 2020 10:27:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=u8oXUg7oV+bsfYrYXEEcCt/+21XEDa4cLqTgbUtA1Rs=;
+ b=hqkuHbZC5Al8GmujaGI3rSZ8dj2+yiR6Pyu9UnlJDMxJH+nQoZm7MCxOxFWRas36jsXK
+ Bpq0cYcrMZf9HuiYRQysaJqEsEnLZL2F5e4fhT1ncimQ1bQE5RbCJ2i1x+caADloN9oR
+ DLxjszNJWOHH8bT5FL5FJ5SxWLpKJWnkBEjSL/eUAhFnFV07zCmT5GHO8oT0TMMZ7rHt
+ LvGierduLl6C2djzjE7KHlVRn5pu1jHYH1wSoH0sBR72UOXzGR8hweIC7+ozK0ptQ7gL
+ E0uILbWiHFc/sBgxLIt3Tjs9QqsD/m5+xD1bryAWv9K37xkK8tMHmbwdT1gw6h2IJqWb tQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34k999hux9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 10:27:04 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A3F2uIL000991;
+ Tue, 3 Nov 2020 10:27:04 -0500
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34k999hut8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 10:27:02 -0500
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A3FJVub019054;
+ Tue, 3 Nov 2020 15:26:59 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma02fra.de.ibm.com with ESMTP id 34j6j40y7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 15:26:59 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+ [9.149.105.232])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A3FQv6F8979008
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 3 Nov 2020 15:26:57 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 04B1952054;
+ Tue,  3 Nov 2020 15:26:57 +0000 (GMT)
+Received: from [9.160.83.122] (unknown [9.160.83.122])
+ by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id CEB1052050;
+ Tue,  3 Nov 2020 15:26:53 +0000 (GMT)
+Subject: Re: [PATCH-for-5.2 0/4] misc: Trivial format string fixes
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20201103112558.2554390-1-philmd@redhat.com>
+ <64132d34-dbd9-03ee-6f11-a6908df025bf@linux.vnet.ibm.com>
+ <ddd49883-7c97-966b-1f62-52f39f4952ad@linux.vnet.ibm.com>
+ <e2ae5627-a55d-909b-8591-f7c0400cd57c@redhat.com>
+From: Dov Murik <dovmurik@linux.vnet.ibm.com>
+Message-ID: <adbc0493-9ecb-97ad-a342-3e9bab6b07c0@linux.vnet.ibm.com>
+Date: Tue, 3 Nov 2020 17:26:51 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
+In-Reply-To: <e2ae5627-a55d-909b-8591-f7c0400cd57c@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.154.45;
- envelope-from=prvs=569a91e0c=alistair.francis@wdc.com;
- helo=esa6.hgst.iphmx.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 10:33:23
-X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-03_08:2020-11-03,
+ 2020-11-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 bulkscore=0 suspectscore=0 clxscore=1015
+ mlxlogscore=999 adultscore=0 lowpriorityscore=0 spamscore=0 mlxscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2011030102
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 05:07:52
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,42 +112,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Euler Robot <euler.robot@huawei.com>, alistair23@gmail.com,
- Xinhao Zhang <zhangxinhao1@huawei.com>, Kai Deng <dengkai1@huawei.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xinhao Zhang <zhangxinhao1@huawei.com>
 
-Fix code style. Space required before the open parenthesis '('.
 
-Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201030004815.4172849-1-zhangxinhao1@huawei.com
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- target/riscv/csr.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 03/11/2020 16:28, Philippe Mathieu-Daudé wrote:
+> On 11/3/20 3:03 PM, Dov Murik wrote:
+>>
+>> On 03/11/2020 15:58, Dov Murik wrote:
+>>> On 03/11/2020 13:25, Philippe Mathieu-Daudé wrote:
+>>>> IIUC qemu-trivial@ doesn't queue patches during freeze,
+>>>>
+>>>> so it might be easier if patches are queued by respective
+>>>>
+>>>> subsystem maintainers.
+>>>>
+>>>>
+>>>>
+>>>> Philippe Mathieu-Daudé (4):
+>>>>
+>>>>     hw/display/cirrus_vga: Remove debugging code commented out
+>>>>
+>>>>     hw/display/cirrus_vga: Fix hexadecimal format string specifier
+>>>>
+>>>>     hw/ppc/spapr_tpm_proxy: Fix hexadecimal format string specifier
+>>>>
+>>>>     migration/ram: Fix hexadecimal format string specifier
+>>>>
+>>>>
+>>>>
+>>>>    hw/display/cirrus_vga.c | 20 +-------------------
+>>>>
+>>>>    migration/ram.c         |  2 +-
+>>>>
+>>>>    hw/ppc/trace-events     |  2 +-
+>>>>
+>>>>    3 files changed, 3 insertions(+), 21 deletions(-)
+>>>>
+>>>>
+>>>>
+>>>
+>>>
+>>> There's at least one more easy fix:
+>>>
+>>> hw/misc/trace-events:106:mos6522_get_next_irq_time(uint16_t latch,
+>>> int64_t d, int64_t delta) "latch=%d counter=0x%"PRId64 "
+>>> delta_next=0x%"PRId64
+> 
+> Indeed.
+> 
+>>>
+>>> but I have no idea how to test this.
+>>>
+>>> -Dov
+>>>
+>>
+>> ... and one more in hw/usb/u2f-passthru.c:348 :
+>>
+>>          error_report("%s: Bad written size (req 0x%zu, val 0x%zd)",
+>>                       TYPE_U2F_PASSTHRU, sizeof(host_packet), written);
+> 
+> 'written' is signed, so this format looks correct...
+> 
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index e33f6cdc11..93263f8e06 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -882,7 +882,7 @@ static int write_satp(CPURISCVState *env, int csrno, target_ulong val)
-         if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
-             return -RISCV_EXCP_ILLEGAL_INST;
-         } else {
--            if((val ^ env->satp) & SATP_ASID) {
-+            if ((val ^ env->satp) & SATP_ASID) {
-                 tlb_flush(env_cpu(env));
-             }
-             env->satp = val;
--- 
-2.28.0
+If we keep the %zu and %zd format specifiers, then I suggest removing 
+the "0x" literal prefixes.
 
+
+>>
+>> Again, I have no idea how to test/trigger these areas in the code.
+>>
+>> -Dov
+>>
+> 
+> 
 
