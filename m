@@ -2,43 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49CFE2A41E4
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 11:30:56 +0100 (CET)
-Received: from localhost ([::1]:34698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9CF42A41E9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 11:31:32 +0100 (CET)
+Received: from localhost ([::1]:35628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZtaZ-0004iS-Ax
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 05:30:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48518)
+	id 1kZtb9-00059S-UT
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 05:31:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kZtYU-0003ay-JJ; Tue, 03 Nov 2020 05:28:47 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:2385)
+ id 1kZtYY-0003cG-Fd; Tue, 03 Nov 2020 05:28:50 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhangxinhao1@huawei.com>)
- id 1kZtYQ-0001xa-W7; Tue, 03 Nov 2020 05:28:46 -0500
-Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CQQww596Yz15LMn;
- Tue,  3 Nov 2020 18:28:32 +0800 (CST)
+ id 1kZtYS-0001vc-Kb; Tue, 03 Nov 2020 05:28:50 -0500
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CQQws2vDrzhdW1;
+ Tue,  3 Nov 2020 18:28:29 +0800 (CST)
 Received: from huawei.com (10.175.101.6) by DGGEMS409-HUB.china.huawei.com
  (10.3.19.209) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
- 18:28:25 +0800
+ 18:28:23 +0800
 From: Xinhao Zhang <zhangxinhao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH 3/3] hw/acpi : add spaces around operator
-Date: Tue, 3 Nov 2020 18:26:34 +0800
-Message-ID: <20201103102634.273021-3-zhangxinhao1@huawei.com>
+Subject: [PATCH 1/3] hw/acpi : Don't use '#' flag of printf format
+Date: Tue, 3 Nov 2020 18:26:32 +0800
+Message-ID: <20201103102634.273021-1-zhangxinhao1@huawei.com>
 X-Mailer: git-send-email 2.29.0-rc1
-In-Reply-To: <20201103102634.273021-1-zhangxinhao1@huawei.com>
-References: <20201103102634.273021-1-zhangxinhao1@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.175.101.6]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhangxinhao1@huawei.com; helo=szxga04-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 04:56:56
+Received-SPF: pass client-ip=45.249.212.32;
+ envelope-from=zhangxinhao1@huawei.com; helo=szxga06-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 05:28:30
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -63,27 +61,101 @@ Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, qemu-trivial@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix code style. Operator needs spaces both sides.
+Fix code style. Don't use '#' flag of printf format ('%#') in
+format strings, use '0x' prefix instead
 
 Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
 ---
- hw/acpi/pcihp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/acpi/nvdimm.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 32ae8b2c0a..17c32e0ffd 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -400,7 +400,7 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
-     s->io_len = ACPI_PCIHP_SIZE;
-     s->io_base = ACPI_PCIHP_ADDR;
+diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
+index 8f7cc16add..8ad5516142 100644
+--- a/hw/acpi/nvdimm.c
++++ b/hw/acpi/nvdimm.c
+@@ -556,7 +556,7 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
  
--    s->root= root_bus;
-+    s->root = root_bus;
-     s->legacy_piix = !bridges_enabled;
+     fit = fit_buf->fit;
  
-     memory_region_init_io(&s->io, owner, &acpi_pcihp_io_ops, s,
+-    nvdimm_debug("Read FIT: offset %#x FIT size %#x Dirty %s.\n",
++    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
+                  read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
+ 
+     if (read_fit->offset > fit->len) {
+@@ -664,7 +664,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
+     label_size = nvdimm->label_size;
+     mxfer = nvdimm_get_max_xfer_label_size();
+ 
+-    nvdimm_debug("label_size %#x, max_xfer %#x.\n", label_size, mxfer);
++    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
+ 
+     label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
+     label_size_out.label_size = cpu_to_le32(label_size);
+@@ -680,19 +680,19 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
+     uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
+ 
+     if (offset + length < offset) {
+-        nvdimm_debug("offset %#x + length %#x is overflow.\n", offset,
++        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
+                      length);
+         return ret;
+     }
+ 
+     if (nvdimm->label_size < offset + length) {
+-        nvdimm_debug("position %#x is beyond label data (len = %" PRIx64 ").\n",
++        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
+                      offset + length, nvdimm->label_size);
+         return ret;
+     }
+ 
+     if (length > nvdimm_get_max_xfer_label_size()) {
+-        nvdimm_debug("length (%#x) is larger than max_xfer (%#x).\n",
++        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
+                      length, nvdimm_get_max_xfer_label_size());
+         return ret;
+     }
+@@ -716,7 +716,7 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
+     get_label_data->offset = le32_to_cpu(get_label_data->offset);
+     get_label_data->length = le32_to_cpu(get_label_data->length);
+ 
+-    nvdimm_debug("Read Label Data: offset %#x length %#x.\n",
++    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
+                  get_label_data->offset, get_label_data->length);
+ 
+     status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
+@@ -755,7 +755,7 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
+     set_label_data->offset = le32_to_cpu(set_label_data->offset);
+     set_label_data->length = le32_to_cpu(set_label_data->length);
+ 
+-    nvdimm_debug("Write Label Data: offset %#x length %#x.\n",
++    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
+                  set_label_data->offset, set_label_data->length);
+ 
+     status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
+@@ -838,7 +838,7 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     NvdimmDsmIn *in;
+     hwaddr dsm_mem_addr = val;
+ 
+-    nvdimm_debug("dsm memory address %#" HWADDR_PRIx ".\n", dsm_mem_addr);
++    nvdimm_debug("dsm memory address 0x%" HWADDR_PRIx ".\n", dsm_mem_addr);
+ 
+     /*
+      * The DSM memory is mapped to guest address space so an evil guest
+@@ -852,11 +852,11 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
+     in->function = le32_to_cpu(in->function);
+     in->handle = le32_to_cpu(in->handle);
+ 
+-    nvdimm_debug("Revision %#x Handler %#x Function %#x.\n", in->revision,
++    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
+                  in->handle, in->function);
+ 
+     if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
+-        nvdimm_debug("Revision %#x is not supported, expect %#x.\n",
++        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
+                      in->revision, 0x1);
+         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
+         goto exit;
 -- 
 2.29.0-rc1
 
