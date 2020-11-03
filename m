@@ -2,43 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD2702A44FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:24:40 +0100 (CET)
-Received: from localhost ([::1]:33802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB0E2A450D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:26:34 +0100 (CET)
+Received: from localhost ([::1]:40180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvMd-0004Vb-Rr
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:24:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47898)
+	id 1kZvOT-00079J-EN
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:26:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kZvIP-0008TY-3w
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:20:17 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2127)
+ id 1kZvIN-0008PI-CE
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:20:15 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kZvII-000850-Ay
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:20:16 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CQTPY6Xnjz701m;
- Tue,  3 Nov 2020 20:20:01 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS407-HUB.china.huawei.com
- (10.3.19.207) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
- 20:19:54 +0800
+ id 1kZvIH-00084w-Qf
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:20:14 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CQTPZ2HkYzkcQ0;
+ Tue,  3 Nov 2020 20:20:02 +0800 (CST)
+Received: from localhost (10.174.184.155) by DGGEMS406-HUB.china.huawei.com
+ (10.3.19.206) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
+ 20:19:55 +0800
 From: Jiahui Cen <cenjiahui@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v9 0/8] pci_expander_brdige:acpi: Support pxb-pcie for ARM
-Date: Tue, 3 Nov 2020 20:01:49 +0800
-Message-ID: <20201103120157.2286-1-cenjiahui@huawei.com>
+Subject: [PATCH v9 1/8] acpi: Extract two APIs from acpi_dsdt_add_pci
+Date: Tue, 3 Nov 2020 20:01:50 +0800
+Message-ID: <20201103120157.2286-2-cenjiahui@huawei.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201103120157.2286-1-cenjiahui@huawei.com>
+References: <20201103120157.2286-1-cenjiahui@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.174.184.155]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
- helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 04:32:14
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=cenjiahui@huawei.com;
+ helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 04:56:56
 X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
 X-Spam_score_int: -41
 X-Spam_score: -4.2
@@ -65,74 +67,187 @@ Cc: xieyingtai@huawei.com, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes with v8
-v8->v9:
-Rebase to master
+From: Yubo Miao <miaoyubo@huawei.com>
 
-Changes with v7
-v7->v8:
-Fix the error:no member named 'fw_cfg' in 'struct PCMachineState'
+Extract two APIs acpi_dsdt_add_pci_route_table and
+acpi_dsdt_add_pci_osc from acpi_dsdt_add_pci. The first
+API is used to specify the pci route table and the second
+API is used to declare the operation system capabilities.
+These two APIs would be used to specify the pxb-pcie in DSDT.
 
-Changes with v6
-v6->v7:
-Refactor fw_cfg_write_extra_pci_roots
-Add API PCI_GET_PCIE_HOST_STATE
-Fix typos
+Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+---
+ hw/pci-host/gpex-acpi.c | 118 +++++++++++++++++++++++-----------------
+ 1 file changed, 67 insertions(+), 51 deletions(-)
 
-Changes with v5
-v5->v6: stat crs_range_insert in aml_build.h
-
-Changes with v4
-v4->v5: Not using specific resources for PXB.
-Instead, the resources for pxb are composed of the bar space of the
-pci-bridge/pcie-root-port behined it and the config space of devices
-behind it.
-
-Only if the bios(uefi for arm) support multiple roots,
-configure space of devices behind pxbs could be obtained.
-The uefi work is updated for discussion by the following link:
-https://edk2.groups.io/g/devel/message/56901?p=,,,20,0,0,0::Created,,add+extra+roots+for+Arm,20,2,0,72723351
-[PATCH] ArmVirtPkg/FdtPciHostBridgeLib: add extra roots for Arm.
-This patch will be updated to v2 later.
-
-Currently pxb-pcie is not supported by arm,
-the reason for it is pxb-pcie is not described in DSDT table
-and only one main host bridge is described in acpi tables,
-which means it is not impossible to present different io numas
-for different devices.
-
-This series of patches make arm to support PXB-PCIE.
-
-Users can configure pxb-pcie with certain numa, Example command
-is:
-
-   -device pxb-pcie,id=pci.7,bus_nr=128,numa_node=0,bus=pcie.0,addr=0x9
-
-Yubo Miao (8):
-  acpi: Extract two APIs from acpi_dsdt_add_pci
-  fw_cfg: Write the extra roots into the fw_cfg
-  acpi: Extract crs build form acpi_build.c
-  acpi: Refactor the source of host bridge and build tables for pxb
-  acpi: Align the size to 128k
-  unit-test: The files changed.
-  unit-test: Add testcase for pxb
-  unit-test: Add the binary file and clear diff.h
-
- hw/acpi/aml-build.c            | 273 ++++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c       |  30 +++-
- hw/arm/virt.c                  |   8 +
- hw/i386/acpi-build.c           | 293 ---------------------------------
- hw/i386/pc.c                   |  18 +-
- hw/nvram/fw_cfg.c              |  20 +++
- hw/pci-host/gpex-acpi.c        | 205 +++++++++++++++++------
- include/hw/acpi/aml-build.h    |  25 +++
- include/hw/nvram/fw_cfg.h      |   2 +
- include/hw/pci/pcie_host.h     |   4 +
- tests/data/acpi/virt/DSDT.pxb  | Bin 0 -> 7802 bytes
- tests/qtest/bios-tables-test.c |  58 ++++++-
- 12 files changed, 568 insertions(+), 368 deletions(-)
- create mode 100644 tests/data/acpi/virt/DSDT.pxb
-
+diff --git a/hw/pci-host/gpex-acpi.c b/hw/pci-host/gpex-acpi.c
+index dbb350a837..86ddb52cbd 100644
+--- a/hw/pci-host/gpex-acpi.c
++++ b/hw/pci-host/gpex-acpi.c
+@@ -2,20 +2,10 @@
+ #include "hw/acpi/aml-build.h"
+ #include "hw/pci-host/gpex.h"
+ 
+-void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
++static void acpi_dsdt_add_pci_route_table(Aml *dev, Aml *scope, uint32_t irq)
+ {
+-    int nr_pcie_buses = cfg->ecam.size / PCIE_MMCFG_SIZE_MIN;
+-    Aml *method, *crs, *ifctx, *UUID, *ifctx1, *elsectx, *buf;
+     int i, slot_no;
+-
+-    Aml *dev = aml_device("%s", "PCI0");
+-    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
+-    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
+-    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+-    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
+-    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
++    Aml *method, *crs;
+ 
+     /* Declare the PCI Routing Table. */
+     Aml *rt_pkg = aml_varpackage(PCI_SLOT_MAX * PCI_NUM_PINS);
+@@ -34,7 +24,7 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+ 
+     /* Create GSI link device */
+     for (i = 0; i < PCI_NUM_PINS; i++) {
+-        uint32_t irqs = cfg->irq + i;
++        uint32_t irqs = irq + i;
+         Aml *dev_gsi = aml_device("GSI%d", i);
+         aml_append(dev_gsi, aml_name_decl("_HID", aml_string("PNP0C0F")));
+         aml_append(dev_gsi, aml_name_decl("_UID", aml_int(i)));
+@@ -52,43 +42,11 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+         aml_append(dev_gsi, method);
+         aml_append(dev, dev_gsi);
+     }
++}
+ 
+-    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
+-    aml_append(method, aml_return(aml_int(cfg->ecam.base)));
+-    aml_append(dev, method);
+-
+-    Aml *rbuf = aml_resource_template();
+-    aml_append(rbuf,
+-        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
+-                            nr_pcie_buses));
+-    if (cfg->mmio32.size) {
+-        aml_append(rbuf,
+-                   aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio32.base,
+-                                    cfg->mmio32.base + cfg->mmio32.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio32.size));
+-    }
+-    if (cfg->pio.size) {
+-        aml_append(rbuf,
+-                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
+-                                AML_ENTIRE_RANGE, 0x0000, 0x0000,
+-                                cfg->pio.size - 1,
+-                                cfg->pio.base,
+-                                cfg->pio.size));
+-    }
+-    if (cfg->mmio64.size) {
+-        aml_append(rbuf,
+-                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
+-                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
+-                                    cfg->mmio64.base,
+-                                    cfg->mmio64.base + cfg->mmio64.size - 1,
+-                                    0x0000,
+-                                    cfg->mmio64.size));
+-    }
+-    aml_append(dev, aml_name_decl("_CRS", rbuf));
++static void acpi_dsdt_add_pci_osc(Aml *dev, Aml *scope)
++{
++    Aml *method, *UUID, *ifctx, *ifctx1, *elsectx, *buf;
+ 
+     /* Declare an _OSC (OS Control Handoff) method */
+     aml_append(dev, aml_name_decl("SUPP", aml_int(0)));
+@@ -97,7 +55,8 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     aml_append(method,
+         aml_create_dword_field(aml_arg(3), aml_int(0), "CDW1"));
+ 
+-    /* PCI Firmware Specification 3.0
++    /*
++     * PCI Firmware Specification 3.0
+      * 4.5.1. _OSC Interface for PCI Host Bridge Devices
+      * The _OSC interface for a PCI/PCI-X/PCI Express hierarchy is
+      * identified by the Universal Unique IDentifier (UUID)
+@@ -142,7 +101,8 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+ 
+     method = aml_method("_DSM", 4, AML_NOTSERIALIZED);
+ 
+-    /* PCI Firmware Specification 3.0
++    /*
++     * PCI Firmware Specification 3.0
+      * 4.6.1. _DSM for PCI Express Slot Information
+      * The UUID in _DSM in this context is
+      * {E5C937D0-3553-4D7A-9117-EA4D19C3434D}
+@@ -160,6 +120,62 @@ void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
+     buf = aml_buffer(1, byte_list);
+     aml_append(method, aml_return(buf));
+     aml_append(dev, method);
++}
++
++void acpi_dsdt_add_gpex(Aml *scope, struct GPEXConfig *cfg)
++{
++    int nr_pcie_buses = cfg->ecam.size / PCIE_MMCFG_SIZE_MIN;
++    Aml *method, *crs;
++
++    Aml *dev = aml_device("%s", "PCI0");
++    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0A08")));
++    aml_append(dev, aml_name_decl("_CID", aml_string("PNP0A03")));
++    aml_append(dev, aml_name_decl("_SEG", aml_int(0)));
++    aml_append(dev, aml_name_decl("_BBN", aml_int(0)));
++    aml_append(dev, aml_name_decl("_UID", aml_int(0)));
++    aml_append(dev, aml_name_decl("_STR", aml_unicode("PCIe 0 Device")));
++    aml_append(dev, aml_name_decl("_CCA", aml_int(1)));
++
++    acpi_dsdt_add_pci_route_table(dev, scope, cfg->irq);
++
++    method = aml_method("_CBA", 0, AML_NOTSERIALIZED);
++    aml_append(method, aml_return(aml_int(cfg->ecam.base)));
++    aml_append(dev, method);
++
++    Aml *rbuf = aml_resource_template();
++    aml_append(rbuf,
++        aml_word_bus_number(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                            0x0000, 0x0000, nr_pcie_buses - 1, 0x0000,
++                            nr_pcie_buses));
++    if (cfg->mmio32.size) {
++        aml_append(rbuf,
++                   aml_dword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                    cfg->mmio32.base,
++                                    cfg->mmio32.base + cfg->mmio32.size - 1,
++                                    0x0000,
++                                    cfg->mmio32.size));
++    }
++    if (cfg->pio.size) {
++        aml_append(rbuf,
++                   aml_dword_io(AML_MIN_FIXED, AML_MAX_FIXED, AML_POS_DECODE,
++                                AML_ENTIRE_RANGE, 0x0000, 0x0000,
++                                cfg->pio.size - 1,
++                                cfg->pio.base,
++                                cfg->pio.size));
++    }
++    if (cfg->mmio64.size) {
++        aml_append(rbuf,
++                   aml_qword_memory(AML_POS_DECODE, AML_MIN_FIXED, AML_MAX_FIXED,
++                                    AML_NON_CACHEABLE, AML_READ_WRITE, 0x0000,
++                                    cfg->mmio64.base,
++                                    cfg->mmio64.base + cfg->mmio64.size - 1,
++                                    0x0000,
++                                    cfg->mmio64.size));
++    }
++    aml_append(dev, aml_name_decl("_CRS", rbuf));
++
++    acpi_dsdt_add_pci_osc(dev, scope);
+ 
+     Aml *dev_res0 = aml_device("%s", "RES0");
+     aml_append(dev_res0, aml_name_decl("_HID", aml_string("PNP0C02")));
 -- 
 2.19.1
 
