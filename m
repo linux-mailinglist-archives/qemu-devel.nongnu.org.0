@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F9492A4859
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:37:13 +0100 (CET)
-Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D4D2A487C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:45:10 +0100 (CET)
+Received: from localhost ([::1]:43054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxQu-0006Hk-D9
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:37:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
+	id 1kZxYb-0007wD-Rc
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:45:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOP-0004F8-Sa
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38213)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOO-0004DB-Tw
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20203)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOM-0006OY-Fg
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxON-0006Oc-1z
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414073;
+ s=mimecast20190719; t=1604414074;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=g3L/0LWUS5AALGZ/Ad9jPepioK718BBOf2ilNljz6+w=;
- b=WsKy1whjvJWwNPoxucCKTu/tW3r1rPkkNY1WISvR0TjJxsOWgGp08DTJTGNe0x4/BXfmLP
- fCt0BAlNSnQzXQcmnfa0fcoBfw16yrSea1T8lMSsvNQcQVgZJFnyzqhbv93/fA9YaoqV/u
- lBoGvEBjn7kVPyeaiNsMDqS0y5pUvGg=
+ bh=kxx7KBtrm7vYLNNi8ILRStjcIKIqdM/KqZjCc2FDurE=;
+ b=J4MvPffNBLz/4rgzk61x0Yb/YmZe7Hhg5RZei5S/yiLNH14JkfUsy1h3M03EYECVJBvgXe
+ 9h05OL93jOthUV87kCdlLHnfL4VyD5YG6JxXtw9GZT7/a4wYwfLCVH/Tj0DgLjFX8sT1RZ
+ //5EV84IrzL3zDOfbb+Ab2onQGF64JE=
 Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
  [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-LMe-c61SNhKAn0CXVvg4aw-1; Tue, 03 Nov 2020 09:34:29 -0500
-X-MC-Unique: LMe-c61SNhKAn0CXVvg4aw-1
-Received: by mail-wm1-f70.google.com with SMTP id y187so1888582wmy.3
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:34:29 -0800 (PST)
+ us-mta-398-HR66kw6DOxGNHnWlmCdMLA-1; Tue, 03 Nov 2020 09:34:31 -0500
+X-MC-Unique: HR66kw6DOxGNHnWlmCdMLA-1
+Received: by mail-wm1-f70.google.com with SMTP id l16so2703610wmh.1
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:34:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=g3L/0LWUS5AALGZ/Ad9jPepioK718BBOf2ilNljz6+w=;
- b=a3KycwMu7HfIKNnpwweD0jpdefmZLUfkhOxJh4HsBUu5s0WOsWUrTNhtJwFAM5v/VF
- kDjiI4RCQ4SSr/gdoMLEtKd6ISrHTy7rvGbIqKWKHM60QgSivObaLZaf5Ym8r58TBYxZ
- JKhmfEPMCgRpeZv/7Yj3uX+6wwXMg4EMofUNHmhwJWyDfvTU1jzy2cBwlaMjzFPs3Vps
- mOlHAqkWu1VLZspaCClKx4q/gP8ym+3W2PULm+6Tp0SpRJ5CpNmzVJ4pJLJzgFL99Iad
- uOmJi+Z+1uq5ni7ZzShkhp/fgflNoanGnBj5sTgN0gpPoRoYNOHikAQdnO/geBNyOcY/
- wCvQ==
-X-Gm-Message-State: AOAM533LjyEKBIT0H9ZQTZH8+XVnKZK7w5Beq/aW3uBYQKDHu3ta4FZO
- d/KojSuXFPB/EcurSQzP5l3W0tZGVAa5w0PGADZjCBgPmXB2iPkWsf+wXtHJC/+bh+Fzu6k5rSD
- 5V7oA8kGCBRSooPk=
-X-Received: by 2002:a05:6000:108:: with SMTP id
- o8mr26457103wrx.256.1604414067347; 
- Tue, 03 Nov 2020 06:34:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyzSX/BUKuCoZCXCSXiOIKmDTuUBN7wgJ59kwHKuKPbfsh6Da4DdlXhsdawlV58XHuyAub7nw==
-X-Received: by 2002:a05:6000:108:: with SMTP id
- o8mr26457050wrx.256.1604414066730; 
- Tue, 03 Nov 2020 06:34:26 -0800 (PST)
+ bh=kxx7KBtrm7vYLNNi8ILRStjcIKIqdM/KqZjCc2FDurE=;
+ b=DWBro23smbQnvjG98pEAiN1Es9gVNeR0jfBU6FGE32EuhCC8p2b7zY4UlvW0KVxLjn
+ hNMCQBxt4xDJFv4gXSOmVRjsYf8OSoY9dL3SwYF54w/upX6DICAnAUXUJ+BYZFsUGZ5S
+ k7cjZwJZ7sI01QbxWudjx+zgFW57p2z4/u0pcApUUz+HoNWXEe1r6Q+d//E7FEUuj9tx
+ lS+WTftknubQDPgp78LYPkkUrSbbVYuQyxx0mcRJsU0Ppxxn8BM4TQoUuSwvrsHoLiMa
+ A0guPsHfv6eGWBK6c1m5neBLCgg3aoWGsP91OrmmH94+Pgm/U6nMYWMoWE61KO9Ai+d6
+ z7lg==
+X-Gm-Message-State: AOAM532C+sBxTVxetUBpAvl/JD7zlA41JiOhfvutmDHDA8yru5F/k1vS
+ 5ZnAiuyC4RGcD5N6R/cMS6p3l3w81I6yxrWHzyiEGtw/7eKJmpK6A6T0g4tD9Oh+G4lrFnEKiD8
+ F4sQt7eTCmL652Jk=
+X-Received: by 2002:a1c:98ce:: with SMTP id a197mr61569wme.116.1604414070366; 
+ Tue, 03 Nov 2020 06:34:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyKVunZqn0Mb1UMJ7Mlm5F/4ar5hjxQx1IXTL681GXBN2N0ONneg14ArRXb85LDPM4U6gNF2g==
+X-Received: by 2002:a1c:98ce:: with SMTP id a197mr61550wme.116.1604414070226; 
+ Tue, 03 Nov 2020 06:34:30 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id d8sm2956384wmb.11.2020.11.03.06.34.25
+ by smtp.gmail.com with ESMTPSA id j127sm3336605wma.31.2020.11.03.06.34.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 06:34:26 -0800 (PST)
-Date: Tue, 3 Nov 2020 09:34:24 -0500
+ Tue, 03 Nov 2020 06:34:28 -0800 (PST)
+Date: Tue, 3 Nov 2020 09:34:27 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/38] hw/acpi : add space before the open parenthesis '('
-Message-ID: <20201103142306.71782-10-mst@redhat.com>
+Subject: [PULL 10/38] hw/acpi : add spaces around operator
+Message-ID: <20201103142306.71782-11-mst@redhat.com>
 References: <20201103142306.71782-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
@@ -104,30 +102,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xinhao Zhang <zhangxinhao1@huawei.com>
 
-Fix code style. Space required before the open parenthesis '('.
+Fix code style. Operator needs spaces both sides.
 
 Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Message-Id: <20201103102634.273021-2-zhangxinhao1@huawei.com>
+Message-Id: <20201103102634.273021-3-zhangxinhao1@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/core.c | 2 +-
+ hw/acpi/pcihp.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index ade9158cbf..2c0c83221f 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -558,7 +558,7 @@ static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
-     if (val & ACPI_BITMASK_SLEEP_ENABLE) {
-         /* change suspend type */
-         uint16_t sus_typ = (val >> 10) & 7;
--        switch(sus_typ) {
-+        switch (sus_typ) {
-         case 0: /* soft power off */
-             qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
-             break;
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 32ae8b2c0a..17c32e0ffd 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -400,7 +400,7 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
+     s->io_len = ACPI_PCIHP_SIZE;
+     s->io_base = ACPI_PCIHP_ADDR;
+ 
+-    s->root= root_bus;
++    s->root = root_bus;
+     s->legacy_piix = !bridges_enabled;
+ 
+     memory_region_init_io(&s->io, owner, &acpi_pcihp_io_ops, s,
 -- 
 MST
 
