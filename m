@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACF682A4A1C
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:43:10 +0100 (CET)
-Received: from localhost ([::1]:50038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 112CD2A4A7B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:58:34 +0100 (CET)
+Received: from localhost ([::1]:41466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZySj-00076L-M2
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:43:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51446)
+	id 1kZyhd-0001hL-4G
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJV-0001bk-QM
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:37 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15001)
+ id 1kZyJj-0001vK-RR
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:53 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJT-0001FT-9g
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:37 -0500
+ id 1kZyJf-0001Fa-Nb
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604417615; x=1635953615;
+ t=1604417628; x=1635953628;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=P/qi2faPiuz4u3dNR7xsZrZ/3Jx9//l1Rlurl6tn9Fs=;
- b=kVzY1glR6niliEgvRbYYw4QShcT0fFDczLReBkK+3qspM4MQpMtCDXjO
- dLZ3PWQFknRhVSgcIO1vxxndP0wI1FSw5h+qz6hkh0ekAqCHuQmA6Q2Fx
- voy9MRqTLYZr/FXt7FI896VObL9A6a1+h2fxXUz2crZE+ya+RbU48ADpP
- 5xctLae6d7AAjY/7GnrqtRXbf0Ove/7i4gVH8wj5JH+0c0ofgDOhLXNRH
- Xe2utxEr+5QvO8T3pQjZZ1R0d9KF7Hhng3+a+moHqFrJw8MgxfKmLfhyL
- nZvzrpzQlUh1+lhs4KBzLDOrajVvrYhkMCch2Lt4OgUjK4xESq5aec+vy w==;
-IronPort-SDR: OZw60kG9GYna+v6CHCfKy/GbKnd/H9dTwJ/00fXhdl4OkFHF3KvKRf5+mFaNy28M5fM9y1GmIG
- FuXFsUvrzkVbmgFWQcIGzWcm0ab9+og7r/1HvtCsb1QwcDVIWXeeD4A5ogYOsR3arvRyZlmT8Z
- kz8uEhN0Jp0aWYgwkgRe+t4WYDTWAZuOZcRp+S3/UWPAYUuBn2HH8iOUmfbY8eHtlTcL4dG17D
- KjnJaFfunoCbvgO3XOG1AeAA9ycPD1BYj8pMhauVukEVaiiODETZdwUQRtNbMmecg3jgUCFaU4
- xiE=
-X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867467"
+ bh=v0KEo1sR11JezPsDWguUYfloVCM1WSvPtyX17iu14Os=;
+ b=H/uSb1Pq4NwBZkqFbeaDkCWGjJxIR5St0hlqZfIEoeUBlRweUlZOOsU2
+ P83eWQZ3HjWfM4NTCwT3bbKRy0IAhshC3NbstTkgJzm6/bWz6LzWwrXMO
+ r5IlXkjLb7t8eUHchPp2MpqCtRxR7N/ePLd5AxvALYSMIfealR/DlCwuU
+ sz23lN4hN9sY6zCV1iL6LZwp+iIkYxIwTNrQLWa9EmSSStzZuFUZmTj9k
+ gqEe8ZAvE6PW5LOssMakRUZP1wdxEevzSjWJylyxdBHWpTd6JtRqPOwEl
+ rQ3iqv4pLctakJZd6hdK+QnU/1KrQaPPhPPfxp+40B07blC4bwmn1qCXA Q==;
+IronPort-SDR: a0flfrA4nqNDlLVU0BuzCJcp4q3q3W96QAwhoH3OXrQF0ZzGIkJO9qIn6M6Yc6UzZEO8OOz411
+ 7I76gEtToOV8VT+6V2Tb/DAsYd1OPHz2lLDGTUoR7z09r85Zn8657t3IAkae+v9rHpMVsf384j
+ nJvy/Hw5pfG6mVD8q/ptV5KqImdPKPEFFhQ4+Dk5Z7UzAD4E7olQi3g/dE9ivXoE+mHKJf/dFy
+ HoFdR2pe7gRzCX3wup0zBUp+TjcIZC865LY679/I+EfW+sktQRRV9rAT9FxoW33wGAFm3ew5Pe
+ KAI=
+X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867470"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:26 +0800
-IronPort-SDR: ZXtY/2v6NJZDOxh2ijgPdRyq/v5hl1nETuIT4v/D9w9aGAGI91oJsp3Y5asl6RdMVaGiyXy/9a
- q4H+XTV1bD8cn7/MGE0tJPOtQ99kUP1b9fot1ERdV7tycNbxZIeI3Cllfbw7U0YCho/NEyRjcD
- 8Zy1Ci/Y14Wh5su0RXD4qu/6tyDoHk40skRe6YrA9EdfbTe50wrN1nSNodcBKAl455EuLmLIQc
- DeB/oDInv8OKM/cuk3BpF4tfvrdEsayhtNDCH2MSVGSL3zFiwZSxUaYCXi7yTizdvTu2cWesq7
- i1Rrc8yYZvPVTeuN1B1y+IqZ
+IronPort-SDR: Rr8PwmHLO4RPmAzJ7y2e+Ov81OOtl+w+UK8L6hOVO4bht4kHVdwM6gh7VecC0UXBhRSW6X+9FL
+ 5nsYuiuMUU1pwV21BstJd02FXSGHA53WoUeUXWdtZiaHDFGCsRaU4TvTnXEt5eqdMZPGaxFMga
+ 7HRCWDd2hy13eA0MP1lu26O/odpJQ2gf15aAU5skTb0KDMvszp6DOt56YJ6WxCtKCn/p761Q19
+ JuDf20L1dvvpHZtEyXCwA06f76huj8YVlajAQ+j9IIrGVyqk4xmuV8Z1Y4nXEzqDZ/ClOXgu+o
+ b+B/xElQbw+P9bxry58Mj/hk
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2020 07:19:34 -0800
-IronPort-SDR: PW7nqYWDT0F28ke6svIt4DO2TqMISCY+uaoR8H72EcY6scWscudid+HQl/cZs7JSsS2SAWRV2s
- vyVmHBW5jr8jV2WPcyfYN4tX9KYFCR9sBE4ZcImMdjM6GDv09W6VHYs5LIbzUCtPkYNscRhANy
- /wGr65hJcABWP8prOd7TuwQ3yH7sqJoEjBeykGM4Lw0s2mzvrjRzz46IvUoOtCaHvcoBrhaIrq
- iN1znbBYKd2FToORlovEJanF9NqKZ917/8FTpDpSuJ8dTypOs6OjyGKpv7U7JvgQiWZIV/RbKp
- eVQ=
+ 03 Nov 2020 07:19:35 -0800
+IronPort-SDR: BJBuSpwFhD96yUyWf2eov8XMeyCOtI1DfybajzCYhX8KkGhmgFUNBNe58vMHi+Jqruk9UWya66
+ uowlSJoLUHp786oZX+rkq1MBgGBPZSRB4n5nNMAldgWmHcb6E14cTvVX/5Sqgji6cqNuFBrjGs
+ 0mQrPZf+J87dl8MCICQUmi6GHrl5kaLauibASPdiJ1r8cV3K+I/cxD5vfQiQGp54Go7qNLRDXG
+ 8sJ5TMVAoOQLDiWnuBPwhjFIhgC10o/rcWn8aS7OSWn49EisFIzgvbjR5cad9lXJuWYsUIB9AX
+ li0=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.113])
@@ -62,10 +62,10 @@ Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL v2 09/19] hw/riscv: microchip_pfsoc: Document where to look at
- the SoC memory maps
-Date: Tue,  3 Nov 2020 07:21:40 -0800
-Message-Id: <20201103152150.2677566-10-alistair.francis@wdc.com>
+Subject: [PULL v2 10/19] hw/misc: Add Microchip PolarFire SoC DDR Memory
+ Controller support
+Date: Tue,  3 Nov 2020 07:21:41 -0800
+Message-Id: <20201103152150.2677566-11-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201103152150.2677566-1-alistair.francis@wdc.com>
 References: <20201103152150.2677566-1-alistair.francis@wdc.com>
@@ -102,48 +102,353 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-It is not easy to find out the memory map for a specific component
-in the PolarFire SoC as the information is scattered in different
-documents. Add some comments so that people can know where to get
-such information from the Microchip website.
+The PolarFire SoC DDR Memory Controller mainly includes 2 modules,
+called SGMII PHY module and the CFG module, as documented in the
+chipset datasheet.
+
+This creates a single file that groups these 2 modules, providing
+the minimum functionalities that make the HSS DDR initialization
+codes happy.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 1603863010-15807-2-git-send-email-bmeng.cn@gmail.com
+Message-id: 1603863010-15807-3-git-send-email-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/microchip_pfsoc.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ include/hw/misc/mchp_pfsoc_dmc.h |  56 ++++++++
+ hw/misc/mchp_pfsoc_dmc.c         | 216 +++++++++++++++++++++++++++++++
+ MAINTAINERS                      |   2 +
+ hw/misc/Kconfig                  |   3 +
+ hw/misc/meson.build              |   1 +
+ 5 files changed, 278 insertions(+)
+ create mode 100644 include/hw/misc/mchp_pfsoc_dmc.h
+ create mode 100644 hw/misc/mchp_pfsoc_dmc.c
 
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 4627179cd3..6aac8497fc 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -66,6 +66,24 @@
- /* GEM version */
- #define GEM_REVISION    0x0107010c
- 
+diff --git a/include/hw/misc/mchp_pfsoc_dmc.h b/include/hw/misc/mchp_pfsoc_dmc.h
+new file mode 100644
+index 0000000000..2baa1413b0
+--- /dev/null
++++ b/include/hw/misc/mchp_pfsoc_dmc.h
+@@ -0,0 +1,56 @@
 +/*
-+ * The complete description of the whole PolarFire SoC memory map is scattered
-+ * in different documents. There are several places to look at for memory maps:
++ * Microchip PolarFire SoC DDR Memory Controller module emulation
 + *
-+ * 1 Chapter 11 "MSS Memory Map", in the doc "UG0880: PolarFire SoC FPGA
-+ *   Microprocessor Subsystem (MSS) User Guide", which can be downloaded from
-+ *   https://www.microsemi.com/document-portal/doc_download/
-+ *   1244570-ug0880-polarfire-soc-fpga-microprocessor-subsystem-mss-user-guide,
-+ *   describes the whole picture of the PolarFire SoC memory map.
++ * Copyright (c) 2020 Wind River Systems, Inc.
 + *
-+ * 2 A zip file for PolarFire soC memory map, which can be downloaded from
-+ *   https://www.microsemi.com/document-portal/doc_download/
-+ *   1244581-polarfire-soc-register-map, contains the following 2 major parts:
-+ *   - Register Map/PF_SoC_RegMap_V1_1/pfsoc_regmap.htm
-+ *     describes the complete integrated peripherals memory map
-+ *   - Register Map/PF_SoC_RegMap_V1_1/MPFS250T/mpfs250t_ioscb_memmap_dri.htm
-+ *     describes the complete IOSCB modules memory maps
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
- static const struct MemmapEntry {
-     hwaddr base;
-     hwaddr size;
++
++#ifndef MCHP_PFSOC_DMC_H
++#define MCHP_PFSOC_DMC_H
++
++/* DDR SGMII PHY module */
++
++#define MCHP_PFSOC_DDR_SGMII_PHY_REG_SIZE   0x1000
++
++typedef struct MchpPfSoCDdrSgmiiPhyState {
++    SysBusDevice parent;
++    MemoryRegion sgmii_phy;
++} MchpPfSoCDdrSgmiiPhyState;
++
++#define TYPE_MCHP_PFSOC_DDR_SGMII_PHY "mchp.pfsoc.ddr_sgmii_phy"
++
++#define MCHP_PFSOC_DDR_SGMII_PHY(obj) \
++    OBJECT_CHECK(MchpPfSoCDdrSgmiiPhyState, (obj), \
++                 TYPE_MCHP_PFSOC_DDR_SGMII_PHY)
++
++/* DDR CFG module */
++
++#define MCHP_PFSOC_DDR_CFG_REG_SIZE         0x40000
++
++typedef struct MchpPfSoCDdrCfgState {
++    SysBusDevice parent;
++    MemoryRegion cfg;
++} MchpPfSoCDdrCfgState;
++
++#define TYPE_MCHP_PFSOC_DDR_CFG "mchp.pfsoc.ddr_cfg"
++
++#define MCHP_PFSOC_DDR_CFG(obj) \
++    OBJECT_CHECK(MchpPfSoCDdrCfgState, (obj), \
++                 TYPE_MCHP_PFSOC_DDR_CFG)
++
++#endif /* MCHP_PFSOC_DMC_H */
+diff --git a/hw/misc/mchp_pfsoc_dmc.c b/hw/misc/mchp_pfsoc_dmc.c
+new file mode 100644
+index 0000000000..15cf3d7725
+--- /dev/null
++++ b/hw/misc/mchp_pfsoc_dmc.c
+@@ -0,0 +1,216 @@
++/*
++ * Microchip PolarFire SoC DDR Memory Controller module emulation
++ *
++ * Copyright (c) 2020 Wind River Systems, Inc.
++ *
++ * Author:
++ *   Bin Meng <bin.meng@windriver.com>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License as
++ * published by the Free Software Foundation; either version 2 or
++ * (at your option) version 3 of the License.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "qemu/log.h"
++#include "qapi/error.h"
++#include "hw/hw.h"
++#include "hw/sysbus.h"
++#include "hw/misc/mchp_pfsoc_dmc.h"
++
++/* DDR SGMII PHY module */
++
++#define SGMII_PHY_IOC_REG1              0x208
++#define SGMII_PHY_TRAINING_STATUS       0x814
++#define SGMII_PHY_DQ_DQS_ERR_DONE       0x834
++#define SGMII_PHY_DQDQS_STATUS1         0x84c
++#define SGMII_PHY_PVT_STAT              0xc20
++
++static uint64_t mchp_pfsoc_ddr_sgmii_phy_read(void *opaque, hwaddr offset,
++                                              unsigned size)
++{
++    uint32_t val = 0;
++    static int training_status_bit;
++
++    switch (offset) {
++    case SGMII_PHY_IOC_REG1:
++        /* See ddr_pvt_calibration() in HSS */
++        val = BIT(4) | BIT(2);
++        break;
++    case SGMII_PHY_TRAINING_STATUS:
++        /*
++         * The codes logic emulates the training status change from
++         * DDR_TRAINING_IP_SM_BCLKSCLK to DDR_TRAINING_IP_SM_DQ_DQS.
++         *
++         * See ddr_setup() in mss_ddr.c in the HSS source codes.
++         */
++        val = 1 << training_status_bit;
++        training_status_bit = (training_status_bit + 1) % 5;
++        break;
++    case SGMII_PHY_DQ_DQS_ERR_DONE:
++        /*
++         * DDR_TRAINING_IP_SM_VERIFY state in ddr_setup(),
++         * check that DQ/DQS training passed without error.
++         */
++        val = 8;
++        break;
++    case SGMII_PHY_DQDQS_STATUS1:
++        /*
++         * DDR_TRAINING_IP_SM_VERIFY state in ddr_setup(),
++         * check that DQ/DQS calculated window is above 5 taps.
++         */
++        val = 0xff;
++        break;
++    case SGMII_PHY_PVT_STAT:
++        /* See sgmii_channel_setup() in HSS */
++        val = BIT(14) | BIT(6);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
++                      __func__, size, offset);
++        break;
++    }
++
++    return val;
++}
++
++static void mchp_pfsoc_ddr_sgmii_phy_write(void *opaque, hwaddr offset,
++                                           uint64_t value, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
++                  "(size %d, value 0x%" PRIx64
++                  ", offset 0x%" HWADDR_PRIx ")\n",
++                  __func__, size, value, offset);
++}
++
++static const MemoryRegionOps mchp_pfsoc_ddr_sgmii_phy_ops = {
++    .read = mchp_pfsoc_ddr_sgmii_phy_read,
++    .write = mchp_pfsoc_ddr_sgmii_phy_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void mchp_pfsoc_ddr_sgmii_phy_realize(DeviceState *dev, Error **errp)
++{
++    MchpPfSoCDdrSgmiiPhyState *s = MCHP_PFSOC_DDR_SGMII_PHY(dev);
++
++    memory_region_init_io(&s->sgmii_phy, OBJECT(dev),
++                          &mchp_pfsoc_ddr_sgmii_phy_ops, s,
++                          "mchp.pfsoc.ddr_sgmii_phy",
++                          MCHP_PFSOC_DDR_SGMII_PHY_REG_SIZE);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->sgmii_phy);
++}
++
++static void mchp_pfsoc_ddr_sgmii_phy_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "Microchip PolarFire SoC DDR SGMII PHY module";
++    dc->realize = mchp_pfsoc_ddr_sgmii_phy_realize;
++}
++
++static const TypeInfo mchp_pfsoc_ddr_sgmii_phy_info = {
++    .name          = TYPE_MCHP_PFSOC_DDR_SGMII_PHY,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MchpPfSoCDdrSgmiiPhyState),
++    .class_init    = mchp_pfsoc_ddr_sgmii_phy_class_init,
++};
++
++static void mchp_pfsoc_ddr_sgmii_phy_register_types(void)
++{
++    type_register_static(&mchp_pfsoc_ddr_sgmii_phy_info);
++}
++
++type_init(mchp_pfsoc_ddr_sgmii_phy_register_types)
++
++/* DDR CFG module */
++
++#define CFG_MT_DONE_ACK                 0x4428
++#define CFG_STAT_DFI_INIT_COMPLETE      0x10034
++#define CFG_STAT_DFI_TRAINING_COMPLETE  0x10038
++
++static uint64_t mchp_pfsoc_ddr_cfg_read(void *opaque, hwaddr offset,
++                                        unsigned size)
++{
++    uint32_t val = 0;
++
++    switch (offset) {
++    case CFG_MT_DONE_ACK:
++        /* memory test in MTC_test() */
++        val = BIT(0);
++        break;
++    case CFG_STAT_DFI_INIT_COMPLETE:
++        /* DDR_TRAINING_IP_SM_START_CHECK state in ddr_setup() */
++        val = BIT(0);
++        break;
++    case CFG_STAT_DFI_TRAINING_COMPLETE:
++        /* DDR_TRAINING_IP_SM_VERIFY state in ddr_setup() */
++        val = BIT(0);
++        break;
++    default:
++        qemu_log_mask(LOG_UNIMP, "%s: unimplemented device read "
++                      "(size %d, offset 0x%" HWADDR_PRIx ")\n",
++                      __func__, size, offset);
++        break;
++    }
++
++    return val;
++}
++
++static void mchp_pfsoc_ddr_cfg_write(void *opaque, hwaddr offset,
++                                     uint64_t value, unsigned size)
++{
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented device write "
++                  "(size %d, value 0x%" PRIx64
++                  ", offset 0x%" HWADDR_PRIx ")\n",
++                  __func__, size, value, offset);
++}
++
++static const MemoryRegionOps mchp_pfsoc_ddr_cfg_ops = {
++    .read = mchp_pfsoc_ddr_cfg_read,
++    .write = mchp_pfsoc_ddr_cfg_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++};
++
++static void mchp_pfsoc_ddr_cfg_realize(DeviceState *dev, Error **errp)
++{
++    MchpPfSoCDdrCfgState *s = MCHP_PFSOC_DDR_CFG(dev);
++
++    memory_region_init_io(&s->cfg, OBJECT(dev),
++                          &mchp_pfsoc_ddr_cfg_ops, s,
++                          "mchp.pfsoc.ddr_cfg",
++                          MCHP_PFSOC_DDR_CFG_REG_SIZE);
++    sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->cfg);
++}
++
++static void mchp_pfsoc_ddr_cfg_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "Microchip PolarFire SoC DDR CFG module";
++    dc->realize = mchp_pfsoc_ddr_cfg_realize;
++}
++
++static const TypeInfo mchp_pfsoc_ddr_cfg_info = {
++    .name          = TYPE_MCHP_PFSOC_DDR_CFG,
++    .parent        = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(MchpPfSoCDdrCfgState),
++    .class_init    = mchp_pfsoc_ddr_cfg_class_init,
++};
++
++static void mchp_pfsoc_ddr_cfg_register_types(void)
++{
++    type_register_static(&mchp_pfsoc_ddr_cfg_info);
++}
++
++type_init(mchp_pfsoc_ddr_cfg_register_types)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c1d16026ba..d370158069 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1327,8 +1327,10 @@ L: qemu-riscv@nongnu.org
+ S: Supported
+ F: hw/riscv/microchip_pfsoc.c
+ F: hw/char/mchp_pfsoc_mmuart.c
++F: hw/misc/mchp_pfsoc_dmc.c
+ F: include/hw/riscv/microchip_pfsoc.h
+ F: include/hw/char/mchp_pfsoc_mmuart.h
++F: include/hw/misc/mchp_pfsoc_dmc.h
+ 
+ RX Machines
+ -----------
+diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+index 877ecff447..32ab718cd3 100644
+--- a/hw/misc/Kconfig
++++ b/hw/misc/Kconfig
+@@ -139,6 +139,9 @@ config MAC_VIA
+ config AVR_POWER
+     bool
+ 
++config MCHP_PFSOC_DMC
++    bool
++
+ config SIFIVE_TEST
+     bool
+ 
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 4a06cbabef..2d7a517265 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -23,6 +23,7 @@ softmmu_ss.add(when: 'CONFIG_ARM11SCU', if_true: files('arm11scu.c'))
+ softmmu_ss.add(when: 'CONFIG_MOS6522', if_true: files('mos6522.c'))
+ 
+ # RISC-V devices
++softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_DMC', if_true: files('mchp_pfsoc_dmc.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_TEST', if_true: files('sifive_test.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_E_PRCI', if_true: files('sifive_e_prci.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_U_OTP', if_true: files('sifive_u_otp.c'))
 -- 
 2.28.0
 
