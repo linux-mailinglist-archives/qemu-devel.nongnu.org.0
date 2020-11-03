@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7692A487D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:45:13 +0100 (CET)
-Received: from localhost ([::1]:43224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F9492A4859
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:37:13 +0100 (CET)
+Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxYe-00080F-Ai
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:45:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32994)
+	id 1kZxQu-0006Hk-D9
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:37:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOJ-00041t-JA
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33116)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOP-0004F8-Sa
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38213)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOH-0006Mg-Gp
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:31 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxOM-0006OY-Fg
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414068;
+ s=mimecast20190719; t=1604414073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ghKT3iuLd9VX4UT4KJCLl/E2c6yAP84MyPy0077dPys=;
- b=MiuIpIjMbksMJL97i251swKGGsp9szitKTBQjWltan5/Pbo/9G3mPzv5MWFCauMA8EZHzU
- h0Muzb9bTLwNU2kckS6cQAQdRR8UB4AL20UHVPLpLVa/NNIpPC1oVOE65r7JhEJ+JukA/f
- xzFw346ASFj6BYVZ/BZK3mUfsiibSYg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-286-FhpUoh2xPZy-iSCE4EK8SQ-1; Tue, 03 Nov 2020 09:34:26 -0500
-X-MC-Unique: FhpUoh2xPZy-iSCE4EK8SQ-1
-Received: by mail-wr1-f69.google.com with SMTP id 33so7834117wrf.22
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:34:25 -0800 (PST)
+ bh=g3L/0LWUS5AALGZ/Ad9jPepioK718BBOf2ilNljz6+w=;
+ b=WsKy1whjvJWwNPoxucCKTu/tW3r1rPkkNY1WISvR0TjJxsOWgGp08DTJTGNe0x4/BXfmLP
+ fCt0BAlNSnQzXQcmnfa0fcoBfw16yrSea1T8lMSsvNQcQVgZJFnyzqhbv93/fA9YaoqV/u
+ lBoGvEBjn7kVPyeaiNsMDqS0y5pUvGg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-252-LMe-c61SNhKAn0CXVvg4aw-1; Tue, 03 Nov 2020 09:34:29 -0500
+X-MC-Unique: LMe-c61SNhKAn0CXVvg4aw-1
+Received: by mail-wm1-f70.google.com with SMTP id y187so1888582wmy.3
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:34:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ghKT3iuLd9VX4UT4KJCLl/E2c6yAP84MyPy0077dPys=;
- b=f+iF2nVGPjah+tUVqXwkWYyaMKrQwSqCsvRs2r/Odsn+4lA9zsb0BZfTzWjOP2xVD9
- CYuQeiC8zQsOTvsXseZJIF3ac9kQHxEIkj6SxDEFUuiqROQ1hykkwEDaBy7b/o77aNPM
- qXTmXDzedvVl61AQhoIVgFz4zyoa45Ra65+f0tACKeqXX3LcJGsOfWj4vAPNoaZBwWn7
- t4CjHCgrH5pghdNigIKghMwOXRVX6va/03dU7V0BXggS4XcY9hbPh1J8/sPp/oF7Exsz
- IQRzt3ukYOBVqmswTKMsQIhFAG01mDN8uI077J+Xw9Ww1WYcGtfRvG1NAdQZj6C6teYD
- PtCA==
-X-Gm-Message-State: AOAM530tLzqWrUGyda9PKEiqaYOJaQWSsipdlJhqfnuzN0BxWYci8IWz
- MPH3ceW8RCdUdui6BJUE9BVPpsk5oTiwY3+rbTzBt6887KSa37StTxaHelQwVbg4zlkxtSRjahi
- mi/OnRufCd3WhK8k=
-X-Received: by 2002:a5d:494c:: with SMTP id r12mr26072104wrs.406.1604414064444; 
- Tue, 03 Nov 2020 06:34:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxrmGx5g9IBI95ZFOgXtiMs//cfZsIX6/fqO3WuVzeZ256GGIRx+Wxjzk+vnENpewVrxN5hOA==
-X-Received: by 2002:a5d:494c:: with SMTP id r12mr26072090wrs.406.1604414064258; 
- Tue, 03 Nov 2020 06:34:24 -0800 (PST)
+ bh=g3L/0LWUS5AALGZ/Ad9jPepioK718BBOf2ilNljz6+w=;
+ b=a3KycwMu7HfIKNnpwweD0jpdefmZLUfkhOxJh4HsBUu5s0WOsWUrTNhtJwFAM5v/VF
+ kDjiI4RCQ4SSr/gdoMLEtKd6ISrHTy7rvGbIqKWKHM60QgSivObaLZaf5Ym8r58TBYxZ
+ JKhmfEPMCgRpeZv/7Yj3uX+6wwXMg4EMofUNHmhwJWyDfvTU1jzy2cBwlaMjzFPs3Vps
+ mOlHAqkWu1VLZspaCClKx4q/gP8ym+3W2PULm+6Tp0SpRJ5CpNmzVJ4pJLJzgFL99Iad
+ uOmJi+Z+1uq5ni7ZzShkhp/fgflNoanGnBj5sTgN0gpPoRoYNOHikAQdnO/geBNyOcY/
+ wCvQ==
+X-Gm-Message-State: AOAM533LjyEKBIT0H9ZQTZH8+XVnKZK7w5Beq/aW3uBYQKDHu3ta4FZO
+ d/KojSuXFPB/EcurSQzP5l3W0tZGVAa5w0PGADZjCBgPmXB2iPkWsf+wXtHJC/+bh+Fzu6k5rSD
+ 5V7oA8kGCBRSooPk=
+X-Received: by 2002:a05:6000:108:: with SMTP id
+ o8mr26457103wrx.256.1604414067347; 
+ Tue, 03 Nov 2020 06:34:27 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyzSX/BUKuCoZCXCSXiOIKmDTuUBN7wgJ59kwHKuKPbfsh6Da4DdlXhsdawlV58XHuyAub7nw==
+X-Received: by 2002:a05:6000:108:: with SMTP id
+ o8mr26457050wrx.256.1604414066730; 
+ Tue, 03 Nov 2020 06:34:26 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id e25sm27507660wra.71.2020.11.03.06.34.22
+ by smtp.gmail.com with ESMTPSA id d8sm2956384wmb.11.2020.11.03.06.34.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 06:34:23 -0800 (PST)
-Date: Tue, 3 Nov 2020 09:34:22 -0500
+ Tue, 03 Nov 2020 06:34:26 -0800 (PST)
+Date: Tue, 3 Nov 2020 09:34:24 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/38] hw/acpi : Don't use '#' flag of printf format
-Message-ID: <20201103142306.71782-9-mst@redhat.com>
+Subject: [PULL 09/38] hw/acpi : add space before the open parenthesis '('
+Message-ID: <20201103142306.71782-10-mst@redhat.com>
 References: <20201103142306.71782-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
@@ -96,111 +98,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Igor Mammedov <imammedo@redhat.com>, Kai Deng <dengkai1@huawei.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
  Xinhao Zhang <zhangxinhao1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xinhao Zhang <zhangxinhao1@huawei.com>
 
-Fix code style. Don't use '#' flag of printf format ('%#') in
-format strings, use '0x' prefix instead
+Fix code style. Space required before the open parenthesis '('.
 
 Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Message-Id: <20201103102634.273021-1-zhangxinhao1@huawei.com>
+Message-Id: <20201103102634.273021-2-zhangxinhao1@huawei.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/nvdimm.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ hw/acpi/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/acpi/nvdimm.c b/hw/acpi/nvdimm.c
-index 8f7cc16add..8ad5516142 100644
---- a/hw/acpi/nvdimm.c
-+++ b/hw/acpi/nvdimm.c
-@@ -556,7 +556,7 @@ static void nvdimm_dsm_func_read_fit(NVDIMMState *state, NvdimmDsmIn *in,
- 
-     fit = fit_buf->fit;
- 
--    nvdimm_debug("Read FIT: offset %#x FIT size %#x Dirty %s.\n",
-+    nvdimm_debug("Read FIT: offset 0x%x FIT size 0x%x Dirty %s.\n",
-                  read_fit->offset, fit->len, fit_buf->dirty ? "Yes" : "No");
- 
-     if (read_fit->offset > fit->len) {
-@@ -664,7 +664,7 @@ static void nvdimm_dsm_label_size(NVDIMMDevice *nvdimm, hwaddr dsm_mem_addr)
-     label_size = nvdimm->label_size;
-     mxfer = nvdimm_get_max_xfer_label_size();
- 
--    nvdimm_debug("label_size %#x, max_xfer %#x.\n", label_size, mxfer);
-+    nvdimm_debug("label_size 0x%x, max_xfer 0x%x.\n", label_size, mxfer);
- 
-     label_size_out.func_ret_status = cpu_to_le32(NVDIMM_DSM_RET_STATUS_SUCCESS);
-     label_size_out.label_size = cpu_to_le32(label_size);
-@@ -680,19 +680,19 @@ static uint32_t nvdimm_rw_label_data_check(NVDIMMDevice *nvdimm,
-     uint32_t ret = NVDIMM_DSM_RET_STATUS_INVALID;
- 
-     if (offset + length < offset) {
--        nvdimm_debug("offset %#x + length %#x is overflow.\n", offset,
-+        nvdimm_debug("offset 0x%x + length 0x%x is overflow.\n", offset,
-                      length);
-         return ret;
-     }
- 
-     if (nvdimm->label_size < offset + length) {
--        nvdimm_debug("position %#x is beyond label data (len = %" PRIx64 ").\n",
-+        nvdimm_debug("position 0x%x is beyond label data (len = %" PRIx64 ").\n",
-                      offset + length, nvdimm->label_size);
-         return ret;
-     }
- 
-     if (length > nvdimm_get_max_xfer_label_size()) {
--        nvdimm_debug("length (%#x) is larger than max_xfer (%#x).\n",
-+        nvdimm_debug("length (0x%x) is larger than max_xfer (0x%x).\n",
-                      length, nvdimm_get_max_xfer_label_size());
-         return ret;
-     }
-@@ -716,7 +716,7 @@ static void nvdimm_dsm_get_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
-     get_label_data->offset = le32_to_cpu(get_label_data->offset);
-     get_label_data->length = le32_to_cpu(get_label_data->length);
- 
--    nvdimm_debug("Read Label Data: offset %#x length %#x.\n",
-+    nvdimm_debug("Read Label Data: offset 0x%x length 0x%x.\n",
-                  get_label_data->offset, get_label_data->length);
- 
-     status = nvdimm_rw_label_data_check(nvdimm, get_label_data->offset,
-@@ -755,7 +755,7 @@ static void nvdimm_dsm_set_label_data(NVDIMMDevice *nvdimm, NvdimmDsmIn *in,
-     set_label_data->offset = le32_to_cpu(set_label_data->offset);
-     set_label_data->length = le32_to_cpu(set_label_data->length);
- 
--    nvdimm_debug("Write Label Data: offset %#x length %#x.\n",
-+    nvdimm_debug("Write Label Data: offset 0x%x length 0x%x.\n",
-                  set_label_data->offset, set_label_data->length);
- 
-     status = nvdimm_rw_label_data_check(nvdimm, set_label_data->offset,
-@@ -838,7 +838,7 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     NvdimmDsmIn *in;
-     hwaddr dsm_mem_addr = val;
- 
--    nvdimm_debug("dsm memory address %#" HWADDR_PRIx ".\n", dsm_mem_addr);
-+    nvdimm_debug("dsm memory address 0x%" HWADDR_PRIx ".\n", dsm_mem_addr);
- 
-     /*
-      * The DSM memory is mapped to guest address space so an evil guest
-@@ -852,11 +852,11 @@ nvdimm_dsm_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-     in->function = le32_to_cpu(in->function);
-     in->handle = le32_to_cpu(in->handle);
- 
--    nvdimm_debug("Revision %#x Handler %#x Function %#x.\n", in->revision,
-+    nvdimm_debug("Revision 0x%x Handler 0x%x Function 0x%x.\n", in->revision,
-                  in->handle, in->function);
- 
-     if (in->revision != 0x1 /* Currently we only support DSM Spec Rev1. */) {
--        nvdimm_debug("Revision %#x is not supported, expect %#x.\n",
-+        nvdimm_debug("Revision 0x%x is not supported, expect 0x%x.\n",
-                      in->revision, 0x1);
-         nvdimm_dsm_no_payload(NVDIMM_DSM_RET_STATUS_UNSUPPORT, dsm_mem_addr);
-         goto exit;
+diff --git a/hw/acpi/core.c b/hw/acpi/core.c
+index ade9158cbf..2c0c83221f 100644
+--- a/hw/acpi/core.c
++++ b/hw/acpi/core.c
+@@ -558,7 +558,7 @@ static void acpi_pm1_cnt_write(ACPIREGS *ar, uint16_t val)
+     if (val & ACPI_BITMASK_SLEEP_ENABLE) {
+         /* change suspend type */
+         uint16_t sus_typ = (val >> 10) & 7;
+-        switch(sus_typ) {
++        switch (sus_typ) {
+         case 0: /* soft power off */
+             qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+             break;
 -- 
 MST
 
