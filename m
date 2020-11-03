@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB7C2A4AE2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:12:19 +0100 (CET)
-Received: from localhost ([::1]:44428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B8602A4A90
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:01:27 +0100 (CET)
+Received: from localhost ([::1]:47530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyuw-0006bP-Un
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:12:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58436)
+	id 1kZykQ-0004Ko-9s
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:01:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kZycp-0004Tq-A1
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:53:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21413)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kZycm-0008O3-1U
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:53:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604418806;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dvogv/zGwg3nacSEYlK24KMhbxoTlaXr3ZZ8FhJ1LHQ=;
- b=XHZC0M3TAOKwFPv9TMylao7d+dOndZ1O6fAXnf7nKnR4x2SL9h9koDWGZMa/dRJPlvuRwi
- Ei+NzoWyshLxuja6w8Jp+Lr4i9kkTeJjbHwInNerW9oMI6WrNpnPfMBYQopysEFJ4/TtFb
- VOv/wEOkmrcsi21z+UJSQP55x59qw50=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-216-6jKc1TDtNtm-OdrEABJEiw-1; Tue, 03 Nov 2020 10:53:18 -0500
-X-MC-Unique: 6jKc1TDtNtm-OdrEABJEiw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C0A6064155;
- Tue,  3 Nov 2020 15:53:17 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.195.44])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BB055B4B6;
- Tue,  3 Nov 2020 15:53:15 +0000 (UTC)
-Subject: Re: [PATCH v2] qcow2: Document and enforce the QCowL2Meta invariants
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20201007161323.4667-1-berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <b1af7494-15da-cd1f-1bd3-fb9480608a4e@redhat.com>
-Date: Tue, 3 Nov 2020 16:53:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZyij-00032Y-PP
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:59:41 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:37215)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZyih-0002J3-UW
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:59:41 -0500
+Received: by mail-ej1-x635.google.com with SMTP id gn41so7578062ejc.4
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 07:59:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=90PcIvnK3QaxkyGFVcQl/vw8IMnm+CzLWTPAREKXP4g=;
+ b=FNBm+VPDogYJ48z/nCIpeVH2x1HJEUCLCKVMdYbdzIOgTam5TXAlvSjdft5FbUSzP8
+ Psxccr1rbW/ZPZ83Z6QOwbYj9DDwLhNloVPIYfnaflFmw32zw0qmK1FTiaqSwi4VM8TH
+ ZMtEOg8Qu9gaK8XOxpILmYGcmq/vPL8RjC3FAVVjd4PqLpCOi22XvXi5liNsHoIaj/c5
+ wP/BHmASaw4dkAa7l6Khkk2imiXVwyhpsg2lJZV9Nvw2iucmuylO4Hahfbuah0rpRCsv
+ S/oVtBkIJSgkQUbeaVUW3wr2htewedev+ItL0SvNVZ6sZy6RHsbJXIDIGabxZvu1hbyS
+ x9mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=90PcIvnK3QaxkyGFVcQl/vw8IMnm+CzLWTPAREKXP4g=;
+ b=fMvBcUeemu6Gj/2YrhwnSLfaHqj1eS/LjcM/bvrXFzf9u+pO22foGCqmV9AEcGC7aY
+ zo3mHUj9iklXaSV5q46kUDsFhBi/Y7fyuzZehahjiVb0rm4GFGnqJQVwpFOzp/omA68X
+ Tc0bpPt86MsJ66McA4ZsdRcsQRbYz93SSrs5cq4pxAIYuPSzI6h7N3Aogds+bMFr4ZUA
+ fh2qfWTTLeRokLf3qOS3ZoFUqi3ao2g9jNdg6mYnHJyZ2rCCU0yy5zkIKMa41BL5EGwk
+ EjUbLSnCibRnvU+BdzlzBpdm+FnMz7B++F9oxaX3+oPul2gUpouAGAIqoNnJwMJdt+22
+ 9pCw==
+X-Gm-Message-State: AOAM531uoKHOWGn/szwCh2iY36292Jm+owu3uleGhIUULngOvf4yDLHB
+ xPeLkbZBDo4Xa6YCzyOWuxG+njy1L4v+U1t0ta3Mbw==
+X-Google-Smtp-Source: ABdhPJzOy4R1OmfT2ikDJwe514YtWzNJGlLzloQRY8XSOF3uUlAfeYcL97TGY0wDkD2uqtAaJ0ExtSmzS+7qJSSzlhE=
+X-Received: by 2002:a17:906:6949:: with SMTP id
+ c9mr8571298ejs.482.1604419178151; 
+ Tue, 03 Nov 2020 07:59:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201007161323.4667-1-berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201103142306.71782-1-mst@redhat.com>
+In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Nov 2020 15:59:26 +0000
+Message-ID: <CAFEAcA_xrTeHybdCro0CNar1dsMtfGG2ucHtF=j_QsU2g-JZxw@mail.gmail.com>
+Subject: Re: [PULL 00/38] pc,pci,vhost,virtio: fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 07.10.20 18:13, Alberto Garcia wrote:
-> The QCowL2Meta structure is used to store information about a part of
-> a write request that touches clusters that need changes in their L2
-> entries. This happens with newly-allocated clusters or subclusters.
-> 
-> This structure has changed a bit since it was first created and its
-> current documentation is not quite up-to-date.
-> 
-> A write request can span a region consisting of a combination of
-> clusters of different types, and qcow2_alloc_host_offset() can
-> repeatedly call handle_copied() and handle_alloc() to add more
-> clusters to the mix as long as they all are contiguous on the image
-> file.
-> 
-> Because of this a write request has a list of QCowL2Meta structures,
-> one for each part of the request that needs changes in the L2
-> metadata.
-> 
-> Each one of them spans nb_clusters and has two copy-on-write regions
-> located immediately before and after the middle region touched by that
-> part of the write request. Even when those regions themselves are
-> empty their offsets must be correct because they are used to know the
-> location of the middle region.
-> 
-> This was not always the case but it is not a problem anymore
-> because the only two places where QCowL2Meta structures are created
-> (calculate_l2_meta() and qcow2_co_truncate()) ensure that the
-> copy-on-write regions are correctly defined, and so do assertions like
-> the ones in perform_cow().
-> 
-> The conditional initialization of the 'written_to' variable is
-> therefore unnecessary and is removed by this patch.
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/qcow2.h         | 19 +++++++++++--------
->  block/qcow2-cluster.c |  5 +++--
->  block/qcow2.c         | 19 +++++++++++++++----
->  3 files changed, 29 insertions(+), 14 deletions(-)
+On Tue, 3 Nov 2020 at 14:34, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit c7a7a877b716cf14848f1fd5c754d293e2f8d852:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201102' into staging (2020-11-03 10:38:05 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to cf0bdd0a703911f80fc645dec97f17c4415af267:
+>
+>   vhost-user-blk-test: fix races by using fd passing (2020-11-03 09:19:12 -0500)
+>
+> ----------------------------------------------------------------
+> pc,pci,vhost,virtio: fixes
+>
+> Lots of fixes all over the place.
+> virtio-mem and virtio-iommu patches are kind of fixes but
+> it seems better to just make them behave sanely than
+> try to educate users about the limitations ...
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> ----------------------------------------------------------------
 
-Thanks, applied to my block branch:
+Fails to compile on 32-bit host:
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+../../hw/vfio/common.c: In function 'vfio_listener_region_del':
+../../hw/vfio/common.c:953:20: error: invalid operands to binary ==
+(have 'Int128 {aka struct Int128}' and 'Int128 {aka struct Int128}')
+         if (llsize == int128_2_64()) {
+                    ^~ ~~~~~~~~~~~~~
 
-Max
+This needs to use int128_eq() to do the comparison.
 
+thanks
+-- PMM
 
