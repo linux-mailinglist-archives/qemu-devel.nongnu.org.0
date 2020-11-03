@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E4F2A48E0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:04:06 +0100 (CET)
-Received: from localhost ([::1]:48272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7845A2A4953
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:20:41 +0100 (CET)
+Received: from localhost ([::1]:56160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxqv-0000Wi-OC
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:04:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
+	id 1kZy6y-0007o5-Ir
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:20:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZxVH-0004qu-UX
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:41:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28314)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZxVF-0000X7-99
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:41:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414500;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZjiCBeoPx5hVsOUjoNhw5vQl5KCgy3G8W/PupiZ0LsY=;
- b=GTem5KKDCoHrUcEy54RNWw5XBgo3c2M3xVIhSDC4MHch6LwqEsKlD5339MfxHaeWPJxldC
- zN+qJpqSzCBdp+LcqE0ZFoydXxblZisxuWyIp7IY0xpS8AS/NKYWzt7QdtkTEjCkTegHFJ
- +LYPkkzqLjxKdvg+Tnp4UoyCgBjUgAs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-58-9w4UpIEyPKqT-TsvLT3shA-1; Tue, 03 Nov 2020 09:41:36 -0500
-X-MC-Unique: 9w4UpIEyPKqT-TsvLT3shA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4535191E2AD;
- Tue,  3 Nov 2020 14:41:35 +0000 (UTC)
-Received: from localhost (ovpn-115-37.ams2.redhat.com [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E6E9121E8D;
- Tue,  3 Nov 2020 14:41:31 +0000 (UTC)
-Date: Tue, 3 Nov 2020 14:41:30 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Yu, Jin" <jin.yu@intel.com>
-Subject: Re: [PATCH] Revert "vhost-blk: set features before setting inflight
- feature"
-Message-ID: <20201103144130.GA253848@stefanha-x1.localdomain>
-References: <20201102165709.232180-1-stefanha@redhat.com>
- <DM6PR11MB37234EA5646AF3693B66E7C180110@DM6PR11MB3723.namprd11.prod.outlook.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kZxW9-0006Ka-1T
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:42:37 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:42111)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kZxW7-0000oT-3F
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:42:36 -0500
+Received: by mail-wr1-x444.google.com with SMTP id w14so18806324wrs.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:42:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=16qbstMSW1ZJQ3461Qdt/24IGxiWT5eayRIBeTOOdzY=;
+ b=Yp8KiMl0TeePDKIdcV/wSW0yDOjUeMeBsM5qKWwpW+Fvs0KK7cxpuBJyCS3gqYkIff
+ 7Fqu6lpL0ZI/OL1nPnBu5LP/SwcVIDi0oHopgORgZNpgBtBzQqsYA0G2ukPe/wc/yOV8
+ Pf5BLHGvBWuT/WUfvkR0zwzOAzpuM6/CALO69tuznA+307JXT+gh0YguC8Fu9Do1RGs9
+ vLoE+W5XRsZExgAZhlvItroyZSWvIrwjdzCmkc0OW5Y0rZO0YPS78gUk4kG/sOj34zGJ
+ d2EK+aWAIulwqNX6X3dcUbMsKGFZ1wXr3PZ3nUn08wClPwt9/aOiNFgBXuSazIwVKROo
+ TyEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=16qbstMSW1ZJQ3461Qdt/24IGxiWT5eayRIBeTOOdzY=;
+ b=TEHjFO7MOoik5AUeWv62iN+IyuTeysQ97rYF78JmrKybWDxX/Y3Fa0+b+rrHVa+lQf
+ DNusxO5JMjkdOxh8PW4+NW5Pmmg6geezFg56fL1osXpd7MyxY77/3nNcMzkGOVwTHJbK
+ PUUydrPJem/+TV4CfRhvPu0BpwWwqY62KSwd4jG48NmP10FxBXcyw6ruRUbYAxyvuKez
+ 7hvouduXvkoDzZ01K8w9ER9Yg3h2dN5poCZ3Y+Uzn6pkZ9RwxZRrMT3FaUib/XDlbTUi
+ DPLx24yqFbX8LNu59t7qJNzcrIRXuzkqINYL8bryfG23FYePgWtYLMjiKfTR8pj2yeCP
+ rEIA==
+X-Gm-Message-State: AOAM533U7L5vMKWdoQqpSIVocRFjHjZ8h//iTEEfiBuyqY742BV26xtT
+ FVDyiMTG772nghJbaZhIepg=
+X-Google-Smtp-Source: ABdhPJynxfgmdioDaBFUU0ZuQlZEv1gKoax+HdHNsjYUbgNSzHpvIUztj42HptferozTMlmdPs1tuw==
+X-Received: by 2002:adf:dc85:: with SMTP id r5mr28183752wrj.66.1604414553529; 
+ Tue, 03 Nov 2020 06:42:33 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id l1sm27979948wrb.1.2020.11.03.06.42.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Nov 2020 06:42:32 -0800 (PST)
+Subject: Re: [PATCH] linux-user: Use "!= 0" when checking if
+ MAP_FIXED_NOREPLACE is non-zero
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201103142636.21125-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <669c1343-f2f4-c9fd-89fc-1d8567ec6595@amsat.org>
+Date: Tue, 3 Nov 2020 15:42:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <DM6PR11MB37234EA5646AF3693B66E7C180110@DM6PR11MB3723.namprd11.prod.outlook.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ReaqsoxgOBHFXBhH"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20201103142636.21125-1-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x444.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,41 +91,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ReaqsoxgOBHFXBhH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 11/3/20 3:26 PM, Peter Maydell wrote:
+> In pgd_find_hole_fallback(), Coverity doesn't like the use
+> of "if (MAP_FIXED_NOREPLACE || ...)" because it's using a
+> logical operator on a constant other than 0 or 1 and its
+> heuristic thinks we might have intended a bitwise operator
+> instead.
+> 
+> The logic is correct (we are checking whether the host really
+> has a MAP_FIXED_NOREPLACE or whether we fell back to the
+> "#define as 0 to ignore" from osdep.h); make Coverity
+> happier by explicitly writing out the comparison with zero.
+> 
+> Fixes: Coverity CID 1431059
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  linux-user/elfload.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-On Tue, Nov 03, 2020 at 05:11:18AM +0000, Yu, Jin wrote:
-> 	I have sent a version 2 and it should fix this issue.
-
-Great, thanks! Michael can review and consider it for merge instead of
-this patch.
-
-Stefan
-
---ReaqsoxgOBHFXBhH
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+hbBoACgkQnKSrs4Gr
-c8jktQgApn1AYkd0baEVxP7eDwLz3zaBbYfZpFWOcd4Fyk4dBAFcU0OmBugQ+wIY
-GwT4KyylAZgucQgPp2lJVPudLfj3OSjxV7kJDxHfEVx5oFrOsW9IsgjjHzvypUjm
-JlgTUDL4qF9lTWzD2qQ4Df9zblc77nSXIZo9sCDjPmc/5S5in8LNgZpZMskYT3RF
-rYVHcQRrrCHR0y8RpJ8iD78Y65kUYUsZWnRNCObpLWJhV0ub0B6/arGYIbVp3H1i
-LhNv+k5KJ/mfl+rpS7PlGQuorjgk9DgABYsyPhE//BMPscAGYHwIYmoVD0xaFUyg
-FoEeqfJXMqRAqB+hTLsVewZH0XfDtA==
-=wsQl
------END PGP SIGNATURE-----
-
---ReaqsoxgOBHFXBhH--
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
