@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 660222A4551
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:37:08 +0100 (CET)
-Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 286162A453D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:33:01 +0100 (CET)
+Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvYh-0002rc-Ee
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:37:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49710)
+	id 1kZvUi-0006Pu-4j
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:33:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvSJ-00044N-MX
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:30:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42679)
+ id 1kZvTE-000538-27
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:31:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33419)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvSH-0003EN-KW
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:30:31 -0500
+ id 1kZvTC-0003b6-3K
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:31:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604406629;
+ s=mimecast20190719; t=1604406685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zvlTrtKCbUUqX04j5vchgIGuywzZHvanTd77JlGCRWw=;
- b=YZyNTNlLKdOQ4Gu4F5FG84lhIIHXuu8Ok0V66l8fsDaMmb8JznqPdRu+/oMTjkCi8d0Opd
- t2NqWjkhMy2C38MvxRB0z5bW8O98C4WXh4o2uDPLOgR7WRBBk1J51rOruzMcXElyWHjkxB
- 3vpNdz5flXPAeQwUmSVJ+tz5z5/9vGo=
+ bh=PGnvEjPJJ0VdjKm9RCFITqBUBKzCvnEc/uGDBjoYwKo=;
+ b=aekwXRqe+zR3gKO6sIiHlI/8I+YX9Tj2cfKiMH+IDsUm4zi3Hd9kQAUe2OHrztiwrKSUGw
+ JRj3549QI4CbGuy62QHPKqvjROp0RJyxd3MkMlU8rN/aboFVKgGKcyUpexMluc0HGdNetc
+ LycqNqnvJLxQKEOLjSUBbZvvSvHlYNo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-9zls6QyIPEarTyTORyB--g-1; Tue, 03 Nov 2020 07:30:27 -0500
-X-MC-Unique: 9zls6QyIPEarTyTORyB--g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-200-q-uE3CtpPIaUOzrn2y10sA-1; Tue, 03 Nov 2020 07:31:23 -0500
+X-MC-Unique: q-uE3CtpPIaUOzrn2y10sA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F47100746B
- for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 12:30:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 895A78030B0;
+ Tue,  3 Nov 2020 12:31:22 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 534365B4D4;
- Tue,  3 Nov 2020 12:30:25 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:30:23 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F01EF1002D48;
+ Tue,  3 Nov 2020 12:31:17 +0000 (UTC)
+Date: Tue, 3 Nov 2020 13:31:16 +0100
 From: Igor Mammedov <imammedo@redhat.com>
 To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 10/20] memfd: Remove unnecessary prefix from error message
-Message-ID: <20201103133023.6d7a5241@redhat.com>
-In-Reply-To: <20201030202131.796967-11-ehabkost@redhat.com>
+Subject: Re: [PATCH 16/20] nvdimm: Remove unnecessary prefix from error message
+Message-ID: <20201103133116.38f36be9@redhat.com>
+In-Reply-To: <20201030202131.796967-17-ehabkost@redhat.com>
 References: <20201030202131.796967-1-ehabkost@redhat.com>
- <20201030202131.796967-11-ehabkost@redhat.com>
+ <20201030202131.796967-17-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,11 +81,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 16:21:21 -0400
+On Fri, 30 Oct 2020 16:21:27 -0400
 Eduardo Habkost <ehabkost@redhat.com> wrote:
 
 > object_property_parse() will add a
@@ -97,26 +99,37 @@ Eduardo Habkost <ehabkost@redhat.com> wrote:
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+> Cc: "Michael S. Tsirkin" <mst@redhat.com>
 > Cc: Igor Mammedov <imammedo@redhat.com>
 > Cc: qemu-devel@nongnu.org
 > ---
->  backends/hostmem-memfd.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  hw/mem/nvdimm.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-> index e5626d4330..05cf743fe8 100644
-> --- a/backends/hostmem-memfd.c
-> +++ b/backends/hostmem-memfd.c
-> @@ -87,8 +87,7 @@ memfd_backend_set_hugetlbsize(Object *obj, Visitor *v, const char *name,
+> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+> index e1574bc07c..b9a99d58ed 100644
+> --- a/hw/mem/nvdimm.c
+> +++ b/hw/mem/nvdimm.c
+> @@ -56,8 +56,7 @@ static void nvdimm_set_label_size(Object *obj, Visitor *v, const char *name,
 >          return;
 >      }
->      if (!value) {
-> -        error_setg(errp, "Property '%s.%s' doesn't take value '%" PRIu64 "'",
-> -                   object_get_typename(obj), name, value);
-> +        error_setg(errp, "hugetlbsize can't be zero");
+>      if (value < MIN_NAMESPACE_LABEL_SIZE) {
+> -        error_setg(errp, "Property '%s.%s' (0x%" PRIx64 ") is required"
+> -                   " at least 0x%lx", object_get_typename(obj), name, value,
+> +        error_setg(errp, "label size should be at least 0x%lx",
+>                     MIN_NAMESPACE_LABEL_SIZE);
 >          return;
 >      }
->      m->hugetlbsize = value;
+> @@ -89,8 +88,7 @@ static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
+>      }
+>  
+>      if (qemu_uuid_parse(value, &nvdimm->uuid) != 0) {
+> -        error_setg(errp, "Property '%s.%s' has invalid value",
+> -                   object_get_typename(obj), name);
+> +        error_setg(errp, "invalid UUID");
+>      }
+>  
+>      g_free(value);
 
 
