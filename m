@@ -2,61 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99E162A3DAE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 08:30:30 +0100 (CET)
-Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4D82A3DCB
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 08:39:27 +0100 (CET)
+Received: from localhost ([::1]:55940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZqlx-00046W-9K
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 02:30:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35288)
+	id 1kZqub-00066x-TQ
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 02:39:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kZqka-0003d1-IC
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 02:29:04 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:59723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kZqkY-0001Ld-Kp
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 02:29:04 -0500
-Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MYNS0-1kniWV14Uc-00VSeV; Tue, 03 Nov 2020 08:28:53 +0100
-Subject: Re: [PULL 1/1] linux-user: Support futex_time64
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20200330102945.2388294-1-laurent@vivier.eu>
- <20200330102945.2388294-2-laurent@vivier.eu>
- <CAFEAcA97s+jiZxH+ObdFeFgs7-Wub6XjZvJFmL2s4voRrny38Q@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <a1fd7792-b7fa-6e86-4a24-b53fb7ecac0f@vivier.eu>
-Date: Tue, 3 Nov 2020 08:28:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <remi@remlab.net>)
+ id 1kZqtb-0005Yr-EN; Tue, 03 Nov 2020 02:38:23 -0500
+Received: from poy.remlab.net ([2001:41d0:2:5a1a::]:50572
+ helo=ns207790.ip-94-23-215.eu)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <remi@remlab.net>)
+ id 1kZqtY-0004FX-PI; Tue, 03 Nov 2020 02:38:23 -0500
+Received: from basile.remlab.net (dzyqn8ypzhx7l91mxjsvy-3.rev.dnainternet.fi
+ [IPv6:2001:14ba:a01a:be01:9434:f69e:d553:3be2])
+ (Authenticated sender: remi)
+ by ns207790.ip-94-23-215.eu (Postfix) with ESMTPSA id 1DDDF5FBBF;
+ Tue,  3 Nov 2020 08:38:16 +0100 (CET)
+From: =?ISO-8859-1?Q?R=E9mi?= Denis-Courmont <remi@remlab.net>
+To: qemu-arm@nongnu.org
+Subject: Re: [PATCH 14/14] target/arm: enable Secure EL2 in max CPU
+Date: Tue, 03 Nov 2020 09:38:15 +0200
+Message-ID: <4572030.GXAFRqVoOG@basile.remlab.net>
+Organization: Remlab
+In-Reply-To: <20201102105802.39332-14-remi.denis.courmont@huawei.com>
+References: <2172054.ElGaqSPkdT@basile.remlab.net>
+ <20201102105802.39332-14-remi.denis.courmont@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA97s+jiZxH+ObdFeFgs7-Wub6XjZvJFmL2s4voRrny38Q@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:YYJAZyr4FVkxIYNyjJTNvFfSlSOqYRBmT9wRJBr0+JIKwzKCu+w
- ni9HKEeQ4cte3We891xs2Mo2U+wRiQO1trlIvBOaU2tQwIg0XLSv6HunaXI9QPBTx3KmM5R
- U0cEahsQG4licIrlwkvZWJV+lpgV0nPNowKGyzZQEIsIDx+ux3UWUPKWPe/D/jsGiDgOMIO
- u2RDZ0mjW9QuQ4ZdL4t7A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:OWw9Yr/Xd/A=:wQF52cZByB20pzo4Sa/s/j
- XGmeTKWPSx22pyVjlFeO7e34FdRFHTI2I6WpmRXMN5DTBM76yxzPYGdfQ89jNrfl0Q5t6mAv6
- boZfYzp6kkImVYVu1LGevg2qGKnM/v9Gc1Wy1hVG2HQUSTXQxi8zBuIDMyY/ofMO0R/ZcXP8j
- Rw8SQm2ONxKpWW56qpaKE3dMODr13wtqdT9E2HBgMSOJ+TeUSFOjdo1LHwvJ0eplZxEN/m/dW
- JO8QVGgZDj8qQOU3/xqRsiQj9YeNhqpCgVBkTK4D50tnb5v8UHEa8Kpp/5v60G/dK6BijLJ6S
- mKK5QkN8uHXwUS5cFVQVUkiyxtVroA2cVbbUjP1OFHS2+zRVMcW1umJQJfLMWCtfaOPz+jBEI
- rCcZrqzVabsNKfyd6Z5+Ajdc3IjsTstNYIad2/v1M62UgocWTbdqsknbJqleo/22tVNpEI7NB
- MEL4zyB4Ow==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 02:28:58
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2001:41d0:2:5a1a::; envelope-from=remi@remlab.net;
+ helo=ns207790.ip-94-23-215.eu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 02:38:16
+X-ACL-Warn: Detected OS   = ???
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,57 +56,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 02/11/2020 à 19:15, Peter Maydell a écrit :
-> On Mon, 30 Mar 2020 at 11:31, Laurent Vivier <laurent@vivier.eu> wrote:
->>
->> From: Alistair Francis <alistair.francis@wdc.com>
->>
->> Add support for host and target futex_time64. If futex_time64 exists on
->> the host we try that first before falling back to the standard futex
->> syscall.
-> 
-> Hi; I dunno why Coverity's only just noticed this, but in
-> CID 1432339 it points out:
-> 
->> +#if defined(TARGET_NR_futex_time64)
->> +static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong timeout,
->> +                           target_ulong uaddr2, int val3)
->> +{
->> +    struct timespec ts, *pts;
->> +    int base_op;
->> +
->> +    /* ??? We assume FUTEX_* constants are the same on both host
->> +       and target.  */
->> +#ifdef FUTEX_CMD_MASK
->> +    base_op = op & FUTEX_CMD_MASK;
->> +#else
->> +    base_op = op;
->> +#endif
->> +    switch (base_op) {
->> +    case FUTEX_WAIT:
->> +    case FUTEX_WAIT_BITSET:
->> +        if (timeout) {
->> +            pts = &ts;
->> +            target_to_host_timespec64(pts, timeout);
-> 
-> ...that here we call target_to_host_timespec64(), which can
-> fail with -TARGET_EFAULT, but (unlike all the other times we call
-> the function) we aren't checking its return value.
-> Is there missing error handling code here ?
-> 
+Le maanantaina 2. marraskuuta 2020, 12.58.02 EET=20
+remi.denis.courmont@huawei.com a =C3=A9crit :
+> From: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+>=20
+> Signed-off-by: R=C3=A9mi Denis-Courmont <remi.denis.courmont@huawei.com>
+> ---
+>  target/arm/cpu64.c | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+> index 649213082f..8c3749268e 100644
+> --- a/target/arm/cpu64.c
+> +++ b/target/arm/cpu64.c
+> @@ -641,6 +641,7 @@ static void aarch64_max_initfn(Object *obj)
+>          t =3D FIELD_DP64(t, ID_AA64PFR0, SVE, 1);
+>          t =3D FIELD_DP64(t, ID_AA64PFR0, FP, 1);
+>          t =3D FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);
+> +        t =3D FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);
+>          cpu->isar.id_aa64pfr0 =3D t;
+>=20
+>          t =3D cpu->isar.id_aa64pfr1;
 
-I think the code is like that because this is a cut&paste of function
-do_futex() witl "s/timespec/timespec64/".
+Answering my own patch as I have a policy question here...
 
-And yes I think we should check for the return value.
-I'm going to fix that.
+This exposes SEL2 without TTST (small translation tables). On a logical lev=
+el,=20
+the two extensions are orthogonal. But per DDI0487, SEL2 implies TTST, so I=
+ am=20
+not sure if this is considered an acceptable deviation in QEMU, or if=20
+implementing TTST is deemed necessary.
 
-Thanks,
-Laurent
+Note that there's what seems like an editorial error in the spec: VSTCR=20
+documentation covers the scenario that TTST is not supported by the CPU, ev=
+en=20
+though then VSTCR should not exist.
+
+=2D-=20
+=D0=A0=D0=B5=D0=BC=D0=B8 =D0=94=D1=91=D0=BD=D0=B8-=D0=9A=D1=83=D1=80=D0=BC=
+=D0=BE=D0=BD
+http://www.remlab.net/
+
+
+
 
