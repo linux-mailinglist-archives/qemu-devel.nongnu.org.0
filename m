@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2AC2A49AA
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:29:59 +0100 (CET)
-Received: from localhost ([::1]:57410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4F42A49D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:31:21 +0100 (CET)
+Received: from localhost ([::1]:34518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyFy-0003HQ-0A
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:29:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48448)
+	id 1kZyHI-0005V1-Gy
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:31:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDM-0000fr-6Q
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38249)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDK-0007Lc-8e
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604417233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pHaGZ7SVQPzUlZfGaIIEzEikVv4XIEvqwsKKTSOgZi0=;
- b=ZJVQ7TpxMBOrglEgBOK8KTxAYNSbDgHweNQCPLZq3LFseWSRrNqkiDC+kWaqWptZNZ5evW
- LRCD/16srgo4lUDZKw4UDTmhHskuMhbUnT93PSEMnZir/8JkN+Ku/kS8TKeSPaI5Md+aDv
- 2G2OBHozGLacyrPg3xUZAq8rHv+whAo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-525-WEBVQyl1P8CEIkLBXz0OsA-1; Tue, 03 Nov 2020 10:27:10 -0500
-X-MC-Unique: WEBVQyl1P8CEIkLBXz0OsA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74734800597;
- Tue,  3 Nov 2020 15:27:09 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-113-164.ams2.redhat.com [10.36.113.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5A4EA6EF73;
- Tue,  3 Nov 2020 15:27:08 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 2/6] qemu-img convert: Free @sn_opts in all error cases
-Date: Tue,  3 Nov 2020 16:26:54 +0100
-Message-Id: <20201103152658.119563-3-kwolf@redhat.com>
-In-Reply-To: <20201103152658.119563-1-kwolf@redhat.com>
-References: <20201103152658.119563-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kZxw0-0005bJ-VX
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:09:21 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:40500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kZxvz-0000w5-1L
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:09:20 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0A3F8e3x002067
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 3 Nov 2020 10:08:44 -0500
+Date: Tue, 3 Nov 2020 10:08:40 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: AlexChen <alex.chen@huawei.com>
+Subject: Re: [PATCH] tests/qtest: Fix potential NULL pointer dereference in
+ qos_build_main_args()
+Message-ID: <20201103150840.we7qkja6zcbz7vzy@mozz.bu.edu>
+References: <5FA16ED5.4000203@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5FA16ED5.4000203@huawei.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 10:09:16
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.374, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,43 +57,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
+ QEMU <qemu-devel@nongnu.org>, bsd@redhat.com, stefanha@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tuguoyi <tu.guoyi@h3c.com>
+On 201103 2253, AlexChen wrote:
+> In qos_build_main_args(), the pointer 'path' is dereferenced before
+> checking it is valid, which may lead to NULL pointer dereference.
+> So move the assignment to 'cmd_line' after checking 'path' is valid.
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
 
-@sn_opts is initialized at the beginning, so it should be deleted
-after jumping to the lable 'fail_getopt'
+Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
 
-Signed-off-by: Guoyi Tu <tu.guoyi@h3c.com>
-Message-Id: <6ff1c5d372944494be3932274f75485d@h3c.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- qemu-img.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks
 
-diff --git a/qemu-img.c b/qemu-img.c
-index a968c74cba..c2c56fc797 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -2751,7 +2751,6 @@ out:
-     qemu_progress_end();
-     qemu_opts_del(opts);
-     qemu_opts_free(create_opts);
--    qemu_opts_del(sn_opts);
-     qobject_unref(open_opts);
-     blk_unref(s.target);
-     if (s.src) {
-@@ -2763,6 +2762,7 @@ out:
-     g_free(s.src_sectors);
-     g_free(s.src_alignment);
- fail_getopt:
-+    qemu_opts_del(sn_opts);
-     g_free(options);
- 
-     return !!ret;
--- 
-2.28.0
-
+> ---
+>  tests/qtest/fuzz/qos_fuzz.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tests/qtest/fuzz/qos_fuzz.c b/tests/qtest/fuzz/qos_fuzz.c
+> index b943577b8c..cee1a2a60f 100644
+> --- a/tests/qtest/fuzz/qos_fuzz.c
+> +++ b/tests/qtest/fuzz/qos_fuzz.c
+> @@ -70,7 +70,7 @@ static GString *qos_build_main_args(void)
+>  {
+>      char **path = fuzz_path_vec;
+>      QOSGraphNode *test_node;
+> -    GString *cmd_line = g_string_new(path[0]);
+> +    GString *cmd_line;
+>      void *test_arg;
+> 
+>      if (!path) {
+> @@ -79,6 +79,7 @@ static GString *qos_build_main_args(void)
+>      }
+> 
+>      /* Before test */
+> +    cmd_line = g_string_new(path[0]);
+>      current_path = path;
+>      test_node = qos_graph_get_node(path[(g_strv_length(path) - 1)]);
+>      test_arg = test_node->u.test.arg;
+> -- 
+> 2.19.1
 
