@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A98E2A4D0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:33:24 +0100 (CET)
-Received: from localhost ([::1]:57224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7C92A4D1D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:35:33 +0100 (CET)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka0BP-0003XV-Dm
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:33:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60510)
+	id 1ka0DU-000610-3T
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:35:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ka09t-0001X1-Vj; Tue, 03 Nov 2020 12:31:50 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38102)
+ id 1ka0A0-0001ak-EH; Tue, 03 Nov 2020 12:31:56 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:42342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ka09r-0007cJ-If; Tue, 03 Nov 2020 12:31:49 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id n18so19387260wrs.5;
- Tue, 03 Nov 2020 09:31:46 -0800 (PST)
+ id 1ka09w-0007cn-Tv; Tue, 03 Nov 2020 12:31:55 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id w14so19361911wrs.9;
+ Tue, 03 Nov 2020 09:31:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uQkw/fFXtZYbLMzJPqkh+QCHUXnq5WFrEui1LRbfpqI=;
- b=sv5Gj0GLdzO4O8/BIPAF4HxFnkVs/u0Piw3qfNbC1bUj8DVBhx+3FO/pA63T7fi/Ts
- cynJaIMn76K28Asi4axqPYTr7cIQeQBs06bGKz15vUKMTFVmbfmVQcHDSG4fUBUKko31
- GDweZlwKuiqXMhe91x7LAv7q0iKz1QGvJ49biZ3WVfK4gi/XYFI1o9EA3b6mriXnye5Z
- Nlo49YrcETeBxgg8XuexHxLT8Gt0pRFz6xa8q+ZVLD2EOyt2w+ZeSSFke8E99EEhOUHQ
- /C6sKx1+IeUBRjm5gZ6SR7C/6D0IabvToj9s054s8FVH+ec2ZdBERbLNWXkxggK5Lyte
- aeiw==
+ bh=foVWc9r1HLdO6p7KIENhYlJk5TO0X5g97/2uwPfPPpU=;
+ b=tPdezbc1n/7FgU5soWgfOfxx7A1MGkzMndrq1LMmGVfF/x5VqKU/QTeZB8jths/pqg
+ BUXUz/A/y+v+iMkJNBN3vIHbngVb6xSVdnsrU45ujRvMhhV/NJ5FXYbcpXxRisQ82MBn
+ IIOjk2Ss72J4goucFk/2EBLv85txKUBm/Tw/ZLEjEt3m3aVX7vGv9JAv2F0HNeOkbJcD
+ vEiLEB+owCDzzjQ9suud2WpJHW7Ssti3nIpmUKpLpk10p9UZkzNtsEDRXWcJ1ETTMDio
+ SvzPxrqRTHdaWGMHfS/mMy8dTXLYiXwEd/rgeEfOru3VvcXoQf+ijGHDY5rPsTiGB1p0
+ raJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uQkw/fFXtZYbLMzJPqkh+QCHUXnq5WFrEui1LRbfpqI=;
- b=VZ4dsJlxgptd0ILCsYwo+pPiCa8SytLsBy5p5Cwg3B/JSYYpmt0v2cQlKOQ0n5rev6
- UeFU87stdi1rKqxaSuAWg7GNaLrdgGfxuQRV+4uqeuMMzwYOXG5n0ipAFXuWod9gh2jh
- a5rFKRufwrtvqV6oIEoP55L20aNgjy87FFDo83l7hEcR7kTG1DLQEdiLBsG6pzfhBwPq
- Oi+hVTcIHbMRTBRkuG+kZMOHFp/Ad3WLkjrylaZCn+70/3qAJyLCFORS8StxdDDcF3uC
- HZjL999O9v4j5k4tmQWc8ymY95y1hjQ/RW8UW1pVbpr2HXm5CXpW8YamnvWnyOppx7fa
- wbyA==
-X-Gm-Message-State: AOAM533Ow57hffYLOKyCQcmYpBtzfE5eM2v203VYKwOvd9HDIdBoXrYg
- 8RR++K3sEYWIqskYRvCmqqeQz0DxXAI=
-X-Google-Smtp-Source: ABdhPJyb3uYkPL4Kq/qc0e4nfle7YTIQ90dWfB0G70y/L5ZtN2EqhL+EgH76dc2CXh1YtNB5QspA1g==
-X-Received: by 2002:adf:ed49:: with SMTP id u9mr26589912wro.88.1604424705483; 
- Tue, 03 Nov 2020 09:31:45 -0800 (PST)
+ bh=foVWc9r1HLdO6p7KIENhYlJk5TO0X5g97/2uwPfPPpU=;
+ b=Nbp4t7fCUBnzZ5B3mCrR6UuAIgS2O/+TnA604oZbCOgCIvJ4xxClp/ktUCLXLRej1F
+ tCa6o0tn+N76ZFDN3jh1i0AkqpJzg+rGHCuCx1Lc5hiFk7r2kf7ppaLhK8SP9dWZz7NB
+ 5AE94xm/HNAusIO2NqdSKT7HKUxgwEWBB/Rbv1wfqLgZrZwdFURwS71ujuq8+kQr0qq0
+ Ic7fQ7w0+TgB+oIfbMwWH48ULPzRF9+rvW/cAGeQz56SxMDpFZwJRc0b3hgSZrmTTIeP
+ 7b5j/nw5vgguBZF0+zfsIGk1QbKBUw8t3DUlZPGrEhoMBQtWTz6P6GSQihMHEW8VfQ+N
+ L6TQ==
+X-Gm-Message-State: AOAM532aj35AwJnlUwnEEFVbRhpciEtuHIahh5WVKFa0+j3+xekpR+Kw
+ 8sedFy/qh55V/Mt83UF91vP7aP9DWBo=
+X-Google-Smtp-Source: ABdhPJyQKtbepnTGklAK/im/LjZLVxerUBaDgLC7W9fp0ilK2rCBdCDV4yFrPYGkdsvlFRur0qpE9A==
+X-Received: by 2002:a5d:4b12:: with SMTP id v18mr27108339wrq.259.1604424710951; 
+ Tue, 03 Nov 2020 09:31:50 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id h62sm28205976wrh.82.2020.11.03.09.31.43
+ by smtp.gmail.com with ESMTPSA id x10sm25986458wrp.62.2020.11.03.09.31.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 09:31:44 -0800 (PST)
+ Tue, 03 Nov 2020 09:31:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/6] hw/mips/boston: Fix Lesser GPL version number
-Date: Tue,  3 Nov 2020 18:31:24 +0100
-Message-Id: <20201103173127.2704256-4-f4bug@amsat.org>
+Subject: [PULL 4/6] hw/intc/loongson: Fix incorrect 'core' calculation in
+ liointc_read/write
+Date: Tue,  3 Nov 2020 18:31:25 +0100
+Message-Id: <20201103173127.2704256-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201103173127.2704256-1-f4bug@amsat.org>
 References: <20201103173127.2704256-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -14
@@ -88,84 +89,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  qemu-block@nongnu.org, Paul Burton <paulburton@kernel.org>,
  libvir-list@redhat.com, Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Euler Robot <euler.robot@huawei.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Chetan Pant <chetan4windows@gmail.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, AlexChen <alex.chen@huawei.com>,
  Huacai Chen <chenhc@lemote.com>, Paolo Bonzini <pbonzini@redhat.com>,
  John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chetan Pant <chetan4windows@gmail.com>
+From: AlexChen <alex.chen@huawei.com>
 
-There is no "version 2" of the "Lesser" General Public License.
-It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-This patch replaces all occurrences of "Lesser GPL version 2" with
-"Lesser GPL version 2.1" in comment section.
+According to the loongson spec
+(http://www.loongson.cn/uploadfile/cpu/3B1500/Loongson_3B1500_cpu_user_1.pdf)
+and the macro definition(#define R_PERCORE_ISR(x) (0x40 + 0x8 * x)), we know
+that the ISR size per CORE is 8, so here we need to divide
+(addr - R_PERCORE_ISR(0)) by 8, not 4.
 
-Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201023122633.19466-1-chetan4windows@gmail.com>
-[PMD: Added hw/mips/ prefix in subject]
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <5FA12391.8090400@huawei.com>
+[PMD: Shortened subject]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/pci-host/xilinx-pcie.h | 2 +-
- hw/core/loader-fit.c              | 2 +-
- hw/mips/boston.c                  | 2 +-
- hw/pci-host/xilinx-pcie.c         | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ hw/intc/loongson_liointc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/pci-host/xilinx-pcie.h b/include/hw/pci-host/xilinx-pcie.h
-index f079e50db44..89be88d87fd 100644
---- a/include/hw/pci-host/xilinx-pcie.h
-+++ b/include/hw/pci-host/xilinx-pcie.h
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/core/loader-fit.c b/hw/core/loader-fit.c
-index c465921b8f7..b7c7b3ba94d 100644
---- a/hw/core/loader-fit.c
-+++ b/hw/core/loader-fit.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index 74c18edbb34..3356d7a6814 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
-index 3b321421b66..38d5901a454 100644
---- a/hw/pci-host/xilinx-pcie.c
-+++ b/hw/pci-host/xilinx-pcie.c
-@@ -6,7 +6,7 @@
-  * This library is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU Lesser General Public
-  * License as published by the Free Software Foundation; either
-- * version 2 of the License, or (at your option) any later version.
-+ * version 2.1 of the License, or (at your option) any later version.
-  *
-  * This library is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
+index 30fb375b721..fbbfb57ee9c 100644
+--- a/hw/intc/loongson_liointc.c
++++ b/hw/intc/loongson_liointc.c
+@@ -130,7 +130,7 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
+ 
+     if (addr >= R_PERCORE_ISR(0) &&
+         addr < R_PERCORE_ISR(NUM_CORES)) {
+-        int core = (addr - R_PERCORE_ISR(0)) / 4;
++        int core = (addr - R_PERCORE_ISR(0)) / 8;
+         r = p->per_core_isr[core];
+         goto out;
+     }
+@@ -173,7 +173,7 @@ liointc_write(void *opaque, hwaddr addr,
+ 
+     if (addr >= R_PERCORE_ISR(0) &&
+         addr < R_PERCORE_ISR(NUM_CORES)) {
+-        int core = (addr - R_PERCORE_ISR(0)) / 4;
++        int core = (addr - R_PERCORE_ISR(0)) / 8;
+         p->per_core_isr[core] = value;
+         goto out;
+     }
 -- 
 2.26.2
 
