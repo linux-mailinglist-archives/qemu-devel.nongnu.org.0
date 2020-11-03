@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D0992A3A98
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:50:54 +0100 (CET)
-Received: from localhost ([::1]:46192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B9C82A3ABD
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:57:35 +0100 (CET)
+Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZmPN-0004p9-Hg
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:50:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48060)
+	id 1kZmVq-0002FP-IR
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:57:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmJz-00013a-6e
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:19 -0500
+ id 1kZmK1-00017o-HI
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:21 -0500
 Received: from mail-mw2nam12on2072.outbound.protection.outlook.com
  ([40.107.244.72]:13281 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmJw-0007gm-Uz
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:18 -0500
+ id 1kZmJz-0007gm-GS
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:21 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=g5k+3qvwb2/BvtRbBh4Hdb/mgV4gDKHRotQyOmIYUewCZ/l6zC3r+JA+gwJMaFr35rxo+nFRsXD5ReGrPm2xR7D9CoziGUtW3lbdH780VrSZg5g9QM/vYDY4N9lgeIzyTjNsQu8MVB80gyG/eufcewQfXAt4KEDsDEVHYMP5fBZJ7qePNLqfqhN71V75GwC0pmlydQQyIhrJfqVMUyaZAsnYLgzTa27RMLT7V25elaaPc+zW+7qRpcrcA8B8BDMtZ6jdfT2h676m6BLYShXaDRQHbUaR6qJYd9UORFUAKd1Vy8iMESR2sjk2awApCjMNNhpoo/zP7JJGcx/jg/PMgQ==
+ b=ndXcBJjCamVeglkm+ZHdMVYNV9Nq/C1ppGEu/8OVsjjP5W1T6p4gIWMSc58xO6OueNgHPV7yoc42MzM8f65RxzpYvfwddT4+Cjl2rdV1e3D7LxMrXOTfBu9kK84RzB9Q/1QAEohHq2h79Uu+Wzxb3FLopnH9f2k/sLu1YgZi0D1ZIwZ7qaIG7G5TK82YFLIkXHRR3x7Wvoye4qsp2AHywoMY3E1t5tAmcWI3/GTE4rDjx5hOSyQXz53/TucqS9kKDJ+NPCMPLAs//97RlqeuUVJgOLrW4pmMtX3b7DiBItmGfHza5nkEwM5C1qU0pklQNEiOJVuHqdsJyuwiRL0rYw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iVteiaszyvTJI5WzzsQ6wCqwI7QUBVQMc+lGITsCvwI=;
- b=NrtAPOPhreAoubywiXhhZmImXLRH9yP8O3nhX5TmlQqpo4HFD1MtFi8o7pTn6YJVhgMRyt8wWassva+foW3y8r8IJKSZa+k2ondOLcyZtIjnv5o/4FSd96eMkqJXDnglHkvGMtRkRL1+ag2l6EeL7ihpve9ZYRbFp+nJYjkDazkv1QNpncSbcjho2y4hU+FGqDLqAt2Aj2X3cuOhxgZcexwypBZ0XGuwEb/XFvScKk07qD7f9Zij/xFpfX2P9ZuTQ8CT4b9y8LSNvJV2vXbuBmY6FgBZcq7R5YiJQKhQgy5fHPe38TL7Khm0nYDsU9oLL53FaLYm6qb9RbKQMa9g1w==
+ bh=OE2J8ejvlIA4aWrHVkoErkL61tROkH+vRjXCeNj3n7A=;
+ b=DKOR+ErNMDoprABGGegS7uOuyVgFphuQZHX7S1JGNuMhKA5Ix0ehHg8GLG/TRM9oWLl+6WqkXObkCvEnjI2lMUK6ZqIE2+GTCBrisvbFHCv7/gBp6lg9dVHo09sCAbJ5QdBkMTaJzfAVKPAXuCb9OOqFuQDApuKnR7+87/wF5WkPEXGtQXU2urKvZnaR5HJgLOnZJCxHFQGvpuiy5e4sf1WjekD8NJ8IyBbGCX4GhBTx9EgKFqR3khwrJb6Qab3pW7rFWVo6zG7+JFCnTXeuIXRGBzYS+usFuNwBzACexSuxWS+E5Q3ocDr7xVFs7YCU3tj1ZGk6kQMKKoiJtjYQoQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iVteiaszyvTJI5WzzsQ6wCqwI7QUBVQMc+lGITsCvwI=;
- b=je4ZEO7EK7gcLQ4Xgv/6qoH1st616sDKdTD4t4pkg3Q2SEi/tCDEoxMnMtGLvGgHI5SAcVbw9kgoCvLqASC0IkptfC0U94QfrDS9Zpie1SdyUBHvwkQ7UCNH1YDE3VuYGX0tpK2bh7EbUyZcav3Q6WKfJPUp091cBik6ZOl10Bo=
+ bh=OE2J8ejvlIA4aWrHVkoErkL61tROkH+vRjXCeNj3n7A=;
+ b=bcE6SFc3CZ0S8pEoIS2alSpzPoGH/M8cs/dZ8O8hzpdRVTNJF7KzxRsvx9rrGSKDOKIpLzRXVa3P5dyIxtvOhtszeAYTkzwm99IB9bBPQa03BVMKty+Y7jns7nX+XYer7lhiSV1/SE5/jpOvhzt+tvBtovyndS4BIR0AxUBzJjw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
  by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 02:45:15 +0000
+ 2020 02:45:18 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 02:45:15 +0000
+ 02:45:18 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 06/12] qga: add implementation of guest-get-disks for Linux
-Date: Mon,  2 Nov 2020 20:43:38 -0600
-Message-Id: <20201103024343.894221-7-michael.roth@amd.com>
+Subject: [PULL v3 07/12] qga: add implementation of guest-get-disks for Windows
+Date: Mon,  2 Nov 2020 20:43:39 -0600
+Message-Id: <20201103024343.894221-8-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201103024343.894221-1-michael.roth@amd.com>
 References: <20201103024343.894221-1-michael.roth@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SN4PR0401CA0019.namprd04.prod.outlook.com
- (2603:10b6:803:21::29) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: SA0PR11CA0097.namprd11.prod.outlook.com
+ (2603:10b6:806:d1::12) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SN4PR0401CA0019.namprd04.prod.outlook.com (2603:10b6:803:21::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Tue, 3 Nov 2020 02:45:14 +0000
+ SA0PR11CA0097.namprd11.prod.outlook.com (2603:10b6:806:d1::12) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 02:45:17 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 87e63410-5fc7-4a28-ed81-08d87fa27e25
+X-MS-Office365-Filtering-Correlation-Id: 7fb4c1ad-efaa-42f7-b94a-08d87fa27fcc
 X-MS-TrafficTypeDiagnostic: CH2PR12MB4311:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB431167187A54632A2611404C95110@CH2PR12MB4311.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:619;
+X-Microsoft-Antispam-PRVS: <CH2PR12MB43119B14F879C6175EA8C83995110@CH2PR12MB4311.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:125;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KLEIFcBuurWc3XxUa+xSCK+yVUs//5RwDrsTSPMCWQGXoX5i5F/YofZTbCq4EqaryjyXqlnTqL+fQdiXwolCq6q9IpqU+ZOzdg3FprVd7n3p/roQAoq9ye1kErJv4fX5gEbPHU6aSLxQSVIv0ybpmioIJBMnpIMZNErIMitkSqeX6tkMfhc2cbeaA5LEOIOG3VM/SQR4w/dZyxuKeHIr1IrGbqzO31aAT/NVHE3dYwvUuJZGjQjCTSBTNT0vrD7oGS5WdFQO69AKB+SQOqwosdZ1eHrH81f5/9wgurWzyA9KdfOzXSvK+LgFkMUfATGA
+X-Microsoft-Antispam-Message-Info: KrE8WTKQhqOcr4kU4OLMUKVttEoVUXV8qodOaf9DbgdAzOY8VYfnyGbX2254p7DDiJp0Gn2TBN0p5q9kkr9txrP+cRcZgNiS2wJD3nepS568LLNm2Ko5QR/nnBHgDObRu6e6Ncoll6H5b5zoMaNAZugIk6XzVmpqtUBvf88Kb1gci3i6pBLKD26ZAac6K+kH5SeyOsB42DkkBNCN/vDE1y3zTlUN6fXWiqlAEkLRF5TaVd9n61YxZgmjL2sWPxKkQc6YcJsdyYh12SrjA7eQ+PSYfnWlK9+K1xR8GSEDhzhKumIOZwV5FB2+ewy64Ep/qVDEtcHT/XMkV0+RgR3J4g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(16526019)(186003)(5660300002)(8936002)(6916009)(8676002)(30864003)(36756003)(478600001)(86362001)(26005)(66556008)(956004)(66946007)(6666004)(6496006)(2616005)(6486002)(52116002)(66476007)(4326008)(1076003)(83380400001)(54906003)(44832011)(316002)(2906002);
+ SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(16526019)(186003)(5660300002)(8936002)(6916009)(8676002)(36756003)(478600001)(86362001)(26005)(66556008)(956004)(66946007)(6666004)(6496006)(2616005)(6486002)(52116002)(66476007)(4326008)(1076003)(83380400001)(44832011)(316002)(2906002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: 0XvQMCIKixC0Q8qkEOCUSt0sBGq+gVgQp7fID6qcxVXia7MldGQam8k6YyZOLSmKMD48uy4ahb1YsdxDsY6PX5XSla9p65WHkxfmUMLadh8EDUmb9y4leERxSRRcDKefusnzGLnY/hCzT2zcBfk/ltd4hcOdJx7QD9oLfn3Oa644eD8+TvXE1Irs//cUBLa/ZAOZ/56adM/Tumo0slGTwdftEzryqkBcmaBkoQhwuJYEyhHuMC/bvBz/dHxrymzpyru3b3pwzI6gxrwXtqZhpM3EVrzR/HPUVKHBwB4Jv4ItKNA1Ao0cI56VCvKwW/3tJ+h0WVCNM6HTWDIs78SLSeaLJBdRccLGKYGxjfKQfeGnBhgpoRzOUak6jULqLD5PN+W5lzXK8E+/VdK6bcwNuIZ/2eVXQSVbSth+fzSNEjiwpxUnHl6Pzj096QoYzrqjH557Au5YUikonxPmUW/xf5+3i75t06jese9spwWqwl7gBlvP9LPwS+LOc0oaT6VuJnSWXYim9J1byyW5vAn8fz6Gd2baioXdyELa22S52r8e5UVMuy44QMJth0D8ECo8Ky41mZvRh/czoLM1oqoWXh/BfZmnH6jae+Cxr3TTIb5wIE1lrZgq7gq3gehZj6A8eECEfUzECNZ5xm6z6Sw6JA==
+X-MS-Exchange-AntiSpam-MessageData: U+mgMudajkWm9ecz0gOJ7HgLTZjGFPFjMbSRJi5LlqmL1ADm/lRYXOHpWAYVVOeCGetpPKtLXMlRZu1QsH2ZuLYTCwnMWGcdTEGbPZsPYnppo+cRaydYm4YV3YO8nJdcTrnJsvqD+vX/zbwe5wd68uKPEExkKpys0SqyVsX8g7M6ifKiZt5Lz005LjYWtg9Yn8btn0a71a8SPd9G+YrfS/fX2Owb2gjMpssNqvU9v71WToE6PdkhSOVu561eKWSq9Rt9qE39N8sjHDVgS04uWdqZ/y4pKYCaJ1SqAP5o6CHCOmuPPTxaUUyMmPX0Ka/4jdtww26beOrcckLakRBUqN94RjAu+mi2daCZZwB0KAsetMUfKm307xdAcLuo8GJMGDsGpfeqhHPEjyHHoaFVs//wq/q8S+xwBu05LwONw6eHLFOgzjIFNKdVeyTrGOYl12dT/2Fpo+NWu80c9xqtJOmgrFilWYHhnY2cPO6Eto8vvZ+xNgEi47I/DzE8HKVMS2ZlnxuZXNuURGp/0KY1VIWhF7VoghvUuRwGiCuGSYO/gb1+lNdjjknQTLUXBLcadsaO39YwkZ7vnPIuAFZ3Q0RCqk7HDBLU8F5U5KEML95KLqNXmyBAv1In/dqfQ9zYpItMllM46hjy3A+4OQ78+Q==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87e63410-5fc7-4a28-ed81-08d87fa27e25
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb4c1ad-efaa-42f7-b94a-08d87fa27fcc
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:45:15.2352 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:45:17.9473 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vRjshPfYo3RxmKXacXXft0AZl78df0oPcZYNF+cZd0yMY71My7KRvusWDviERPFC9FS1tpKBMRSyF3M+Pcbn4g==
+X-MS-Exchange-CrossTenant-UserPrincipalName: urEhWIMUbGl8EoaR24Hiprc2KEuX9StdMYenXKUG539q8mltu5x+SlntA/mL9BnwNdMqy+Z/mwjn9H+oUl/2Wg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 Received-SPF: none client-ip=40.107.244.72; envelope-from=Michael.Roth@amd.com;
  helo=NAM12-MW2-obe.outbound.protection.outlook.com
@@ -115,409 +114,160 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+ =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tomáš Golembiovský <tgolembi@redhat.com>
 
-The command lists all disks (real and virtual) as well as disk
-partitions. For each disk the list of dependent disks is also listed and
-/dev path is used as a handle so it can be matched with "name" field of
-other returned disk entries. For disk partitions the "dependents" list
-is populated with the the parent device for easier tracking of
-hierarchy.
+The command lists all the physical disk drives. Unlike for Linux
+partitions and virtual volumes are not listed.
 
 Example output:
+
 {
   "return": [
-    ...
     {
-      "name": "/dev/dm-0",
-      "partition": false,
-      "dependents": [
-        "/dev/sda2"
-      ],
-      "alias": "luks-7062202e-5b9b-433e-81e8-6628c40da9f7"
-    },
-    {
-      "name": "/dev/sda2",
-      "partition": true,
-      "dependents": [
-        "/dev/sda"
-      ]
-    },
-    {
-      "name": "/dev/sda",
+      "name": "\\\\.\\PhysicalDrive0",
       "partition": false,
       "address": {
-        "serial": "SAMSUNG_MZ7LN512HCHP-000L1_S1ZKNXAG822493",
+        "serial": "QM00001",
         "bus-type": "sata",
         ...
-        "dev": "/dev/sda",
-        "target": 0
       },
       "dependents": []
-    },
-    ...
+    }
   ]
 }
 
 Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-*add missing stub for !defined(CONFIG_FSFREEZE)
-*remove unused deps_dir variable
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qga/commands-posix.c | 303 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 292 insertions(+), 11 deletions(-)
+ qga/commands-win32.c | 107 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 101 insertions(+), 6 deletions(-)
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index 422144bcff..3711080d07 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -1150,13 +1150,27 @@ static void build_guest_fsinfo_for_virtual_device(char const *syspath,
-     closedir(dir);
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index f7bdd5a8b5..300b87c859 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -979,6 +979,101 @@ out:
+     return list;
  }
  
-+static bool is_disk_virtual(const char *devpath, Error **errp)
-+{
-+    g_autofree char *syspath = realpath(devpath, NULL);
-+
-+    if (!syspath) {
-+        error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-+        return false;
-+    }
-+    return strstr(syspath, "/devices/virtual/block/") != NULL;
-+}
-+
- /* Dispatch to functions for virtual/real device */
- static void build_guest_fsinfo_for_device(char const *devpath,
-                                           GuestFilesystemInfo *fs,
-                                           Error **errp)
- {
--    char *syspath = realpath(devpath, NULL);
-+    ERRP_GUARD();
-+    g_autofree char *syspath = NULL;
-+    bool is_virtual = false;
- 
-+    syspath = realpath(devpath, NULL);
-     if (!syspath) {
-         error_setg_errno(errp, errno, "realpath(\"%s\")", devpath);
-         return;
-@@ -1167,16 +1181,281 @@ static void build_guest_fsinfo_for_device(char const *devpath,
-     }
- 
-     g_debug("  parse sysfs path '%s'", syspath);
--
--    if (strstr(syspath, "/devices/virtual/block/")) {
-+    is_virtual = is_disk_virtual(syspath, errp);
-+    if (*errp != NULL) {
-+        return;
-+    }
-+    if (is_virtual) {
-         build_guest_fsinfo_for_virtual_device(syspath, fs, errp);
-     } else {
-         build_guest_fsinfo_for_real_device(syspath, fs, errp);
-     }
-+}
-+
-+#ifdef CONFIG_LIBUDEV
-+
-+/*
-+ * Wrapper around build_guest_fsinfo_for_device() for getting just
-+ * the disk address.
-+ */
-+static GuestDiskAddress *get_disk_address(const char *syspath, Error **errp)
-+{
-+    g_autoptr(GuestFilesystemInfo) fs = NULL;
- 
--    free(syspath);
-+    fs = g_new0(GuestFilesystemInfo, 1);
-+    build_guest_fsinfo_for_device(syspath, fs, errp);
-+    if (fs->disk != NULL) {
-+        return g_steal_pointer(&fs->disk->value);
-+    }
-+    return NULL;
- }
- 
-+static char *get_alias_for_syspath(const char *syspath)
-+{
-+    struct udev *udev = NULL;
-+    struct udev_device *udevice = NULL;
-+    char *ret = NULL;
-+
-+    udev = udev_new();
-+    if (udev == NULL) {
-+        g_debug("failed to query udev");
-+        goto out;
-+    }
-+    udevice = udev_device_new_from_syspath(udev, syspath);
-+    if (udevice == NULL) {
-+        g_debug("failed to query udev for path: %s", syspath);
-+        goto out;
-+    } else {
-+        const char *alias = udev_device_get_property_value(
-+            udevice, "DM_NAME");
-+        /*
-+         * NULL means there was an error and empty string means there is no
-+         * alias. In case of no alias we return NULL instead of empty string.
-+         */
-+        if (alias == NULL) {
-+            g_debug("failed to query udev for device alias for: %s",
-+                syspath);
-+        } else if (*alias != 0) {
-+            ret = g_strdup(alias);
-+        }
-+    }
-+
-+out:
-+    udev_unref(udev);
-+    udev_device_unref(udevice);
-+    return ret;
-+}
-+
-+static char *get_device_for_syspath(const char *syspath)
-+{
-+    struct udev *udev = NULL;
-+    struct udev_device *udevice = NULL;
-+    char *ret = NULL;
-+
-+    udev = udev_new();
-+    if (udev == NULL) {
-+        g_debug("failed to query udev");
-+        goto out;
-+    }
-+    udevice = udev_device_new_from_syspath(udev, syspath);
-+    if (udevice == NULL) {
-+        g_debug("failed to query udev for path: %s", syspath);
-+        goto out;
-+    } else {
-+        ret = g_strdup(udev_device_get_devnode(udevice));
-+    }
-+
-+out:
-+    udev_unref(udev);
-+    udev_device_unref(udevice);
-+    return ret;
-+}
-+
-+static void get_disk_deps(const char *disk_dir, GuestDiskInfo *disk)
-+{
-+    g_autofree char *deps_dir = NULL;
-+    const gchar *dep;
-+    GDir *dp_deps = NULL;
-+
-+    /* List dependent disks */
-+    deps_dir = g_strdup_printf("%s/slaves", disk_dir);
-+    g_debug("  listing entries in: %s", deps_dir);
-+    dp_deps = g_dir_open(deps_dir, 0, NULL);
-+    if (dp_deps == NULL) {
-+        g_debug("failed to list entries in %s", deps_dir);
-+        return;
-+    }
-+    while ((dep = g_dir_read_name(dp_deps)) != NULL) {
-+        g_autofree char *dep_dir = NULL;
-+        strList *dep_item = NULL;
-+        char *dev_name;
-+
-+        /* Add dependent disks */
-+        dep_dir = g_strdup_printf("%s/%s", deps_dir, dep);
-+        dev_name = get_device_for_syspath(dep_dir);
-+        if (dev_name != NULL) {
-+            g_debug("  adding dependent device: %s", dev_name);
-+            dep_item = g_new0(strList, 1);
-+            dep_item->value = dev_name;
-+            dep_item->next = disk->dependents;
-+            disk->dependents = dep_item;
-+        }
-+    }
-+    g_dir_close(dp_deps);
-+}
-+
-+/*
-+ * Detect partitions subdirectory, name is "<disk_name><number>" or
-+ * "<disk_name>p<number>"
-+ *
-+ * @disk_name -- last component of /sys path (e.g. sda)
-+ * @disk_dir -- sys path of the disk (e.g. /sys/block/sda)
-+ * @disk_dev -- device node of the disk (e.g. /dev/sda)
-+ */
-+static GuestDiskInfoList *get_disk_partitions(
-+    GuestDiskInfoList *list,
-+    const char *disk_name, const char *disk_dir,
-+    const char *disk_dev)
-+{
-+    GuestDiskInfoList *item, *ret = list;
-+    struct dirent *de_disk;
-+    DIR *dp_disk = NULL;
-+    size_t len = strlen(disk_name);
-+
-+    dp_disk = opendir(disk_dir);
-+    while ((de_disk = readdir(dp_disk)) != NULL) {
-+        g_autofree char *partition_dir = NULL;
-+        char *dev_name;
-+        GuestDiskInfo *partition;
-+
-+        if (!(de_disk->d_type & DT_DIR)) {
-+            continue;
-+        }
-+
-+        if (!(strncmp(disk_name, de_disk->d_name, len) == 0 &&
-+            ((*(de_disk->d_name + len) == 'p' &&
-+            isdigit(*(de_disk->d_name + len + 1))) ||
-+                isdigit(*(de_disk->d_name + len))))) {
-+            continue;
-+        }
-+
-+        partition_dir = g_strdup_printf("%s/%s",
-+            disk_dir, de_disk->d_name);
-+        dev_name = get_device_for_syspath(partition_dir);
-+        if (dev_name == NULL) {
-+            g_debug("Failed to get device name for syspath: %s",
-+                disk_dir);
-+            continue;
-+        }
-+        partition = g_new0(GuestDiskInfo, 1);
-+        partition->name = dev_name;
-+        partition->partition = true;
-+        /* Add parent disk as dependent for easier tracking of hierarchy */
-+        partition->dependents = g_new0(strList, 1);
-+        partition->dependents->value = g_strdup(disk_dev);
-+
-+        item = g_new0(GuestDiskInfoList, 1);
-+        item->value = partition;
-+        item->next = ret;
-+        ret = item;
-+
-+    }
-+    closedir(dp_disk);
-+
-+    return ret;
-+}
-+
 +GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
 +{
-+    GuestDiskInfoList *item, *ret = NULL;
-+    GuestDiskInfo *disk;
-+    DIR *dp = NULL;
-+    struct dirent *de = NULL;
++    ERRP_GUARD();
++    GuestDiskInfoList *new = NULL, *ret = NULL;
++    HDEVINFO dev_info;
++    SP_DEVICE_INTERFACE_DATA dev_iface_data;
++    int i;
 +
-+    g_debug("listing /sys/block directory");
-+    dp = opendir("/sys/block");
-+    if (dp == NULL) {
-+        error_setg_errno(errp, errno, "Can't open directory \"/sys/block\"");
++    dev_info = SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
++        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
++    if (dev_info == INVALID_HANDLE_VALUE) {
++        error_setg_win32(errp, GetLastError(), "failed to get device tree");
 +        return NULL;
 +    }
-+    while ((de = readdir(dp)) != NULL) {
-+        g_autofree char *disk_dir = NULL, *line = NULL,
-+            *size_path = NULL;
-+        char *dev_name;
++
++    g_debug("enumerating devices");
++    dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
++    for (i = 0;
++        SetupDiEnumDeviceInterfaces(dev_info, NULL, &GUID_DEVINTERFACE_DISK,
++            i, &dev_iface_data);
++        i++) {
++        GuestDiskAddress *address = NULL;
++        GuestDiskInfo *disk = NULL;
 +        Error *local_err = NULL;
-+        if (de->d_type != DT_LNK) {
-+            g_debug("  skipping entry: %s", de->d_name);
-+            continue;
-+        }
++        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
++            pdev_iface_detail_data = NULL;
++        STORAGE_DEVICE_NUMBER sdn;
++        HANDLE dev_file;
++        DWORD size = 0;
++        BOOL result;
++        int attempt;
 +
-+        /* Check size and skip zero-sized disks */
-+        g_debug("  checking disk size");
-+        size_path = g_strdup_printf("/sys/block/%s/size", de->d_name);
-+        if (!g_file_get_contents(size_path, &line, NULL, NULL)) {
-+            g_debug("  failed to read disk size");
-+            continue;
-+        }
-+        if (g_strcmp0(line, "0\n") == 0) {
-+            g_debug("  skipping zero-sized disk");
-+            continue;
-+        }
-+
-+        g_debug("  adding %s", de->d_name);
-+        disk_dir = g_strdup_printf("/sys/block/%s", de->d_name);
-+        dev_name = get_device_for_syspath(disk_dir);
-+        if (dev_name == NULL) {
-+            g_debug("Failed to get device name for syspath: %s",
-+                disk_dir);
-+            continue;
-+        }
-+        disk = g_new0(GuestDiskInfo, 1);
-+        disk->name = dev_name;
-+        disk->partition = false;
-+        disk->alias = get_alias_for_syspath(disk_dir);
-+        disk->has_alias = (disk->alias != NULL);
-+        item = g_new0(GuestDiskInfoList, 1);
-+        item->value = disk;
-+        item->next = ret;
-+        ret = item;
-+
-+        /* Get address for non-virtual devices */
-+        bool is_virtual = is_disk_virtual(disk_dir, &local_err);
-+        if (local_err != NULL) {
-+            g_debug("  failed to check disk path, ignoring error: %s",
-+                error_get_pretty(local_err));
-+            error_free(local_err);
-+            local_err = NULL;
-+            /* Don't try to get the address */
-+            is_virtual = true;
-+        }
-+        if (!is_virtual) {
-+            disk->address = get_disk_address(disk_dir, &local_err);
-+            if (local_err != NULL) {
-+                g_debug("  failed to get device info, ignoring error: %s",
-+                    error_get_pretty(local_err));
-+                error_free(local_err);
-+                local_err = NULL;
-+            } else if (disk->address != NULL) {
-+                disk->has_address = true;
++        g_debug("  getting device path");
++        for (attempt = 0, result = FALSE; attempt < 2 && !result; attempt++) {
++            result = SetupDiGetDeviceInterfaceDetail(dev_info,
++                &dev_iface_data, pdev_iface_detail_data, size, &size, NULL);
++            if (result) {
++                break;
++            }
++            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
++                pdev_iface_detail_data = g_realloc(pdev_iface_detail_data,
++                    size);
++                pdev_iface_detail_data->cbSize =
++                    sizeof(*pdev_iface_detail_data);
++            } else {
++                g_debug("failed to get device interface details");
++                break;
 +            }
 +        }
++        if (!result) {
++            g_debug("skipping device");
++            continue;
++        }
 +
-+        get_disk_deps(disk_dir, disk);
-+        ret = get_disk_partitions(ret, de->d_name, disk_dir, dev_name);
++        g_debug("  device: %s", pdev_iface_detail_data->DevicePath);
++        dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
++            FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
++        if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
++                NULL, 0, &sdn, sizeof(sdn), &size, NULL)) {
++            CloseHandle(dev_file);
++            debug_error("failed to get storage device number");
++            continue;
++        }
++        CloseHandle(dev_file);
++
++        disk = g_new0(GuestDiskInfo, 1);
++        disk->name = g_strdup_printf("\\\\.\\PhysicalDrive%lu",
++            sdn.DeviceNumber);
++
++        g_debug("  number: %lu", sdn.DeviceNumber);
++        address = g_malloc0(sizeof(GuestDiskAddress));
++        address->has_dev = true;
++        address->dev = g_strdup(disk->name);
++        get_single_disk_info(sdn.DeviceNumber, address, &local_err);
++        if (local_err) {
++            g_debug("failed to get disk info: %s",
++                error_get_pretty(local_err));
++            error_free(local_err);
++            qapi_free_GuestDiskAddress(address);
++            address = NULL;
++        } else {
++            disk->address = address;
++            disk->has_address = true;
++        }
++
++        new = g_malloc0(sizeof(GuestDiskInfoList));
++        new->value = disk;
++        new->next = ret;
++        ret = new;
 +    }
++
++    SetupDiDestroyDeviceInfoList(dev_info);
 +    return ret;
 +}
 +
-+#else
-+
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
-+#endif
-+
- /* Return a list of the disk device(s)' info which @mount lies on */
- static GuestFilesystemInfo *build_guest_fsinfo(struct FsMount *mount,
-                                                Error **errp)
-@@ -2773,6 +3052,13 @@ int64_t qmp_guest_fsfreeze_thaw(Error **errp)
+ #else
  
-     return 0;
- }
-+
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
- #endif /* CONFIG_FSFREEZE */
- 
- #if !defined(CONFIG_FSTRIM)
-@@ -2809,7 +3095,8 @@ GList *ga_command_blacklist_init(GList *blacklist)
-         const char *list[] = {
-             "guest-get-fsinfo", "guest-fsfreeze-status",
-             "guest-fsfreeze-freeze", "guest-fsfreeze-freeze-list",
--            "guest-fsfreeze-thaw", "guest-get-fsinfo", NULL};
-+            "guest-fsfreeze-thaw", "guest-get-fsinfo",
-+            "guest-get-disks", NULL};
-         char **p = (char **)list;
- 
-         while (*p) {
-@@ -3051,9 +3338,3 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
- 
+ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
+@@ -986,6 +1081,12 @@ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
      return NULL;
+ }
+ 
++GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
++{
++    error_setg(errp, QERR_UNSUPPORTED);
++    return NULL;
++}
++
+ #endif /* CONFIG_QGA_NTDDSCSI */
+ 
+ static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
+@@ -2458,9 +2559,3 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+     }
+     return head;
  }
 -
 -GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
