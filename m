@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB7DE2A4A60
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:53:24 +0100 (CET)
-Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CFFB2A49F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:35:35 +0100 (CET)
+Received: from localhost ([::1]:47124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZycd-0003M1-OB
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:53:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
+	id 1kZyLN-0002LP-RA
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:35:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDS-0000pt-SU
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30676)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kZyDM-0000ft-QU
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60959)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDP-0007Ow-N3
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:22 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kZyDK-0007Lg-C9
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604417238;
+ s=mimecast20190719; t=1604417233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8Z76YkFndCKXfmICdrTuHcPQ4+kdhOB48dxkWsImBs=;
- b=QvK0kp6QAh3t3r8Tqkq9fKOG4fqd8MWTvFLRXcm9e8GzoIX3b7h9+oOC5/yKYkjGCibaUT
- GEqpsh/xyiIkUBlumh86OWyO6JvAKNNGQjpjaJO7wQmcyUG2zX+4KjaHpehM7KnsqOqP7B
- 00fC8isoH1OUh6TgFKIUY7cZziZp+rk=
+ bh=XmsV8V02GIyiq1VAtbijdVC/xhzGUTu39HqmWDSgVoQ=;
+ b=A7ngli6H6QJTIOtHXFnSbYiM33K1ulFNlH1Qxr3qpP4QVAyVw4i83h6RGfDtqwfqE5Xi+i
+ 3ZqZKKPaLbLwMr8M9w/oESnXnsH1hnL0J+wwhfYVYnua2EzmVLMDdvOnSs38yExQtl+tde
+ MidjCRpjj6z4UexVyIv/knDYoM6P5fQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-sKv6t3SIPj-26a-_VPJAHg-1; Tue, 03 Nov 2020 10:27:15 -0500
-X-MC-Unique: sKv6t3SIPj-26a-_VPJAHg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-567-bXdzfTOpMw2v7y6Eqtl-Sw-1; Tue, 03 Nov 2020 10:27:11 -0500
+X-MC-Unique: bXdzfTOpMw2v7y6Eqtl-Sw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E7E41006CAB;
- Tue,  3 Nov 2020 15:27:14 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-113-164.ams2.redhat.com [10.36.113.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 581AA6EF70;
- Tue,  3 Nov 2020 15:27:13 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 6/6] block/vvfat: Fix bad printf format specifiers
-Date: Tue,  3 Nov 2020 16:26:58 +0100
-Message-Id: <20201103152658.119563-7-kwolf@redhat.com>
-In-Reply-To: <20201103152658.119563-1-kwolf@redhat.com>
-References: <20201103152658.119563-1-kwolf@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B679E1006CAB;
+ Tue,  3 Nov 2020 15:27:09 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
+ [10.10.119.55])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 69F345B4BB;
+ Tue,  3 Nov 2020 15:27:05 +0000 (UTC)
+Date: Tue, 3 Nov 2020 10:27:03 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PULL 5/7] tests.acceptance: adds simple migration test
+Message-ID: <20201103152636.GA3140758@localhost.localdomain>
+References: <20190222194146.13102-1-crosa@redhat.com>
+ <20190222194146.13102-6-crosa@redhat.com>
+ <CAP+75-UtiMFdp=ReaH0Vn7OD60hS+ZNsSvJyvVp1948Syn=ZGQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <CAP+75-UtiMFdp=ReaH0Vn7OD60hS+ZNsSvJyvVp1948Syn=ZGQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="2B/JsCI69OhZNC5r"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,81 +81,181 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: AlexChen <alex.chen@huawei.com>
+--2B/JsCI69OhZNC5r
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-We should use printf format specifier "%u" instead of "%d" for
-argument of type "unsigned int".
-In addition, fix two error format problems found by checkpatch.pl:
-ERROR: space required after that ',' (ctx:VxV)
-+        fprintf(stderr,"%s attributes=0x%02x begin=%u size=%d\n",
-                       ^
-ERROR: line over 90 characters
-+        fprintf(stderr, "%d, %s (%u, %d)\n", i, commit->path ? commit->path : "(null)", commit->param.rename.cluster, commit->action);
+On Tue, Nov 03, 2020 at 11:40:30AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Hi,
+>=20
+> On Fri, Feb 22, 2019 at 8:42 PM Cleber Rosa <crosa@redhat.com> wrote:
+> >
+> > From: Caio Carrara <ccarrara@redhat.com>
+> >
+> > This change adds the simplest possible migration test. Beyond the test
+> > purpose itself it's also useful to exercise the multi virtual machines
+> > capabilities from base avocado qemu test class.
+> >
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > Signed-off-by: Caio Carrara <ccarrara@redhat.com>
+> > Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> > Message-Id: <20190212193855.13223-3-ccarrara@redhat.com>
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  tests/acceptance/migration.py | 53 +++++++++++++++++++++++++++++++++++
+> >  1 file changed, 53 insertions(+)
+> >  create mode 100644 tests/acceptance/migration.py
+> >
+> > diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration=
+.py
+> > new file mode 100644
+> > index 0000000000..6115cf6c24
+> > --- /dev/null
+> > +++ b/tests/acceptance/migration.py
+> > @@ -0,0 +1,53 @@
+> > +# Migration test
+> > +#
+> > +# Copyright (c) 2019 Red Hat, Inc.
+> > +#
+> > +# Authors:
+> > +#  Cleber Rosa <crosa@redhat.com>
+> > +#  Caio Carrara <ccarrara@redhat.com>
+> > +#
+> > +# This work is licensed under the terms of the GNU GPL, version 2 or
+> > +# later.  See the COPYING file in the top-level directory.
+> > +
+> > +
+> > +from avocado_qemu import Test
+> > +
+> > +from avocado.utils import network
+> > +from avocado.utils import wait
+> > +
+> > +
+> > +class Migration(Test):
+> > +    """
+> > +    :avocado: enable
+> > +    """
+> > +
+> > +    timeout =3D 10
+> > +
+> > +    @staticmethod
+> > +    def migration_finished(vm):
+> > +        return vm.command('query-migrate')['status'] in ('completed', =
+'failed')
+> > +
+> > +    def _get_free_port(self):
+> > +        port =3D network.find_free_port()
+> > +        if port is None:
+> > +            self.cancel('Failed to find a free port')
+> > +        return port
+>=20
+> This method doesn't seem to work when running with -j2: 2 tests started
+> with different arch configurations get the same port... Is this a known i=
+ssue?
+>
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
-Message-Id: <5FA12620.6030705@huawei.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- block/vvfat.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+It's not bullet proof, but it seems to be quite safe... This is what I've t=
+ried:
 
-diff --git a/block/vvfat.c b/block/vvfat.c
-index 5abb90e7c7..54807f82ca 100644
---- a/block/vvfat.c
-+++ b/block/vvfat.c
-@@ -1437,7 +1437,7 @@ static void print_direntry(const direntry_t* direntry)
-         for(i=0;i<11;i++)
-             ADD_CHAR(direntry->name[i]);
-         buffer[j] = 0;
--        fprintf(stderr,"%s attributes=0x%02x begin=%d size=%d\n",
-+        fprintf(stderr, "%s attributes=0x%02x begin=%u size=%u\n",
-                 buffer,
-                 direntry->attributes,
-                 begin_of_direntry(direntry),le32_to_cpu(direntry->size));
-@@ -1446,7 +1446,7 @@ static void print_direntry(const direntry_t* direntry)
- 
- static void print_mapping(const mapping_t* mapping)
- {
--    fprintf(stderr, "mapping (%p): begin, end = %d, %d, dir_index = %d, "
-+    fprintf(stderr, "mapping (%p): begin, end = %u, %u, dir_index = %u, "
-         "first_mapping_index = %d, name = %s, mode = 0x%x, " ,
-         mapping, mapping->begin, mapping->end, mapping->dir_index,
-         mapping->first_mapping_index, mapping->path, mapping->mode);
-@@ -1454,7 +1454,7 @@ static void print_mapping(const mapping_t* mapping)
-     if (mapping->mode & MODE_DIRECTORY)
-         fprintf(stderr, "parent_mapping_index = %d, first_dir_index = %d\n", mapping->info.dir.parent_mapping_index, mapping->info.dir.first_dir_index);
-     else
--        fprintf(stderr, "offset = %d\n", mapping->info.file.offset);
-+        fprintf(stderr, "offset = %u\n", mapping->info.file.offset);
- }
- #endif
- 
-@@ -1588,7 +1588,7 @@ typedef struct commit_t {
- static void clear_commits(BDRVVVFATState* s)
- {
-     int i;
--DLOG(fprintf(stderr, "clear_commits (%d commits)\n", s->commits.next));
-+DLOG(fprintf(stderr, "clear_commits (%u commits)\n", s->commits.next));
-     for (i = 0; i < s->commits.next; i++) {
-         commit_t* commit = array_get(&(s->commits), i);
-         assert(commit->path || commit->action == ACTION_WRITEOUT);
-@@ -2648,7 +2648,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState* s)
-     fprintf(stderr, "handle_renames\n");
-     for (i = 0; i < s->commits.next; i++) {
-         commit_t* commit = array_get(&(s->commits), i);
--        fprintf(stderr, "%d, %s (%d, %d)\n", i, commit->path ? commit->path : "(null)", commit->param.rename.cluster, commit->action);
-+        fprintf(stderr, "%d, %s (%u, %d)\n", i,
-+                commit->path ? commit->path : "(null)",
-+                commit->param.rename.cluster, commit->action);
-     }
- #endif
- 
--- 
-2.28.0
+ $ ./tests/venv/bin/avocado run --test-runner=3Dnrunner --nrunner-max-paral=
+lel-tasks=3D10 tests/acceptance/migration.py:Migration.test_migration_with_=
+tcp_localhost{,,,,,,,,,,,,,,,,,,,}=20
+JOB ID     : 377957f4a16fbc2c6a6f6d9ae225c61af86bd570
+JOB LOG    : /home/cleber/avocado/job-results/job-2020-11-03T10.24-377957f/=
+job.log
+ (02/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (06/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (01/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (05/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (03/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (10/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (07/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (09/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (04/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (08/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: STARTED
+ (02/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.46 s)
+ (06/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.60 s)
+ (01/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.51 s)
+ (03/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.49 s)
+ (05/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.52 s)
+ (10/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.51 s)
+ (07/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.52 s)
+ (09/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.53 s)
+ (04/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.49 s)
+ (08/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
+calhost: PASS (0.56 s)
+...
+RESULTS    : PASS 20 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | C=
+ANCEL 0
+JOB HTML   : /home/cleber/avocado/job-results/job-2020-11-03T10.24-377957f/=
+results.html
+JOB TIME   : 3.82 s
+
+If this is about the issue you posted on IRC, it's about s390x and migratio=
+n instead:
+
+2020-11-03 10:06:33,124 qmp              L0255 DEBUG| >>> {'execute': 'quer=
+y-migrate'}
+2020-11-03 10:06:33,124 qmp              L0148 DEBUG| <<< {'timestamp': {'s=
+econds': 1604415993, 'microseconds': 124382}, 'event': 'GUEST_PANICKED', 'd=
+ata': {'action': 'pause', 'info': {'core': 0, 'psw-addr': 0, 'reason': 'dis=
+abled-wait', 'psw-mask':
+
+I ran across this on Friday, and will properly report it.
+
+Let me know if that helps,
+- Cleber.
+
+--2B/JsCI69OhZNC5r
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+hdscACgkQZX6NM6Xy
+CfNo6g/9HDMO9UyCvbze2GCukIRfF7CiSRpqi8g9HwDGH37+yThMnnmH/1M5YOYo
+tWiF2e6aZ8vCWk6tLX2+aZJOSh0bBnpVV7fmKQYaK0z+eRytWkKaLXKCyN5a6Pbg
+5bb82XFRdZVQ1H6YIguISN3/6h0akgIwQkZxEyjWhXsYnqeA/k5nO5wWbjnANnzQ
+DlYKEEV5LOuZ4S8WdNG617T1qd/wgojADCcIfwOzgIU6diCaZ45XaiCLhMSuUqY8
+Phr7YSMxEvQGGxiceyia9c0so1YZO58EFGid3kyEKmvUiQb/oTKKriaII9Eh6Aei
+LxGtkctZosgfm0TF6xBZUD8wuH8KH39CXxu+PM8rZ2OR2d+/2wWqEjuFtNMnHd4f
+56q6Lt6CKsi7HVgpaU1tizvlAUK52YOC969T7ZxAP9paPmJ/N1BZGl4HOyxTTRRO
+udwGCFlKsDs3itTiCN4nnYHkwovd5nYvrUqU7EnVXW5xKZRXK3RkSg8stba+wV2e
+1hYKvy0UrlpN0lonl7WPnlWkMmhaOlKopjyUPAj3YFD2hdUpNAIWsd7zVcYuZ/0A
+aTd3iVpijMdpD0J2CkrsYBEpvO0O2NmWkFeigSrgZKx/B1p2uvzFBT43hTL5Pxmb
+DKbIh173aTLnKzT0SP/3AxFCRindhp9t6ijcFK5heexHFTNTxIs=
+=Hx64
+-----END PGP SIGNATURE-----
+
+--2B/JsCI69OhZNC5r--
 
 
