@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0070D2A4A0D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:41:29 +0100 (CET)
-Received: from localhost ([::1]:41686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACF682A4A1C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:43:10 +0100 (CET)
+Received: from localhost ([::1]:50038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyR6-0003e0-0h
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:41:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51442)
+	id 1kZySj-00076L-M2
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:43:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJV-0001bM-Kx
+ id 1kZyJV-0001bk-QM
  for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:37 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:14996)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:15001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
- id 1kZyJS-0001EJ-RO
+ id 1kZyJT-0001FT-9g
  for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:33:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1604417615; x=1635953615;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=g4WdlHNUsSqm5IYl1xQpaPDV/gYQAaTlwhWn8+X0BO0=;
- b=dtOlCLt3IkE6aVP9LBANvkQbezCH7yaZTpba/j7ngfJMlc+s/tMvwMbu
- U9GsqgHN/bs/uneiN5J+9jJPTAf5LccM2TVdynXSyzSLAhJ+kZQX6L0PR
- +77yK1dMJy4ggeiPdeRPvJ8c/WmXsW5VwlALPqZcD3XBQR7kH55PS4fy2
- T+mEUYYl/2EGpbWT4lHKBlj96JQ8jDxuGMdJagqYh3bbr+2TINMDWMR/D
- yeCI8VBAP/Hy+Z+yg76WkhFuK+Nf6KqgkFpREZmkZ1GahwcdB53Rn+sJQ
- +2XTPZukclV3pCBoCQZ6ded8nVWk6R+pX/vX7Gtuv0vAPlIp3rUQbx9ks Q==;
-IronPort-SDR: hDo9LPVF1pEKiVED61HUAjvxmdX0QHENUZQGAy/7gtzzMclY+1tcnfyL2Js5NkWDmRG3xd1cNK
- 8/Uj88YtxjoYTiE4xm8e+cxHBvLdsRNp5clWvKe6syHjd+LhjWydDxvq7dDJQ+vcZAdWOP9eu1
- S3Rpw5QR4EJ2IoR2a4yIV/xUfnENKozq6JNnwDH7ex/2esHSRVqeXW5JDq/aIjFp/LWDit0PXJ
- G17Wo5ghpmgGvKuEWdJfZ6DAyt4h+pYs4/Vfe9B8zFnwGFIlOCsfXk96liXnO6r+PATnJKzwH1
- tL0=
-X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867465"
+ bh=P/qi2faPiuz4u3dNR7xsZrZ/3Jx9//l1Rlurl6tn9Fs=;
+ b=kVzY1glR6niliEgvRbYYw4QShcT0fFDczLReBkK+3qspM4MQpMtCDXjO
+ dLZ3PWQFknRhVSgcIO1vxxndP0wI1FSw5h+qz6hkh0ekAqCHuQmA6Q2Fx
+ voy9MRqTLYZr/FXt7FI896VObL9A6a1+h2fxXUz2crZE+ya+RbU48ADpP
+ 5xctLae6d7AAjY/7GnrqtRXbf0Ove/7i4gVH8wj5JH+0c0ofgDOhLXNRH
+ Xe2utxEr+5QvO8T3pQjZZ1R0d9KF7Hhng3+a+moHqFrJw8MgxfKmLfhyL
+ nZvzrpzQlUh1+lhs4KBzLDOrajVvrYhkMCch2Lt4OgUjK4xESq5aec+vy w==;
+IronPort-SDR: OZw60kG9GYna+v6CHCfKy/GbKnd/H9dTwJ/00fXhdl4OkFHF3KvKRf5+mFaNy28M5fM9y1GmIG
+ FuXFsUvrzkVbmgFWQcIGzWcm0ab9+og7r/1HvtCsb1QwcDVIWXeeD4A5ogYOsR3arvRyZlmT8Z
+ kz8uEhN0Jp0aWYgwkgRe+t4WYDTWAZuOZcRp+S3/UWPAYUuBn2HH8iOUmfbY8eHtlTcL4dG17D
+ KjnJaFfunoCbvgO3XOG1AeAA9ycPD1BYj8pMhauVukEVaiiODETZdwUQRtNbMmecg3jgUCFaU4
+ xiE=
+X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="152867467"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 03 Nov 2020 23:33:26 +0800
-IronPort-SDR: iC7plak0tBkWUXGG9ie4QnfHTNAr1ZpGlpvacY4XQ9H4mryFjTpXyBOj6XgXm2A4fbjDCwjq+N
- p4LGZB78QjIypmaUZBl042CfCVYlSLydGg/A5JIrm3G4TckcN9sVGixnC4e1UuIr7oLIyHYglK
- 0mKgllcLqeiYmvU3S7Ebe0+YPAUhr4USP/Zi6czzX6SUDxq778SV6yPdhIZzbJ99hivbPLTA7I
- 1KlAQDd9kNfSVJ3HRaPvpFgaeajfOzaezEEs/r7LrrephTws3N0ETD+0pHnBCiukTMHYdtLMhv
- fSLGWup9/tsoPXcA0FcTDQCu
+IronPort-SDR: ZXtY/2v6NJZDOxh2ijgPdRyq/v5hl1nETuIT4v/D9w9aGAGI91oJsp3Y5asl6RdMVaGiyXy/9a
+ q4H+XTV1bD8cn7/MGE0tJPOtQ99kUP1b9fot1ERdV7tycNbxZIeI3Cllfbw7U0YCho/NEyRjcD
+ 8Zy1Ci/Y14Wh5su0RXD4qu/6tyDoHk40skRe6YrA9EdfbTe50wrN1nSNodcBKAl455EuLmLIQc
+ DeB/oDInv8OKM/cuk3BpF4tfvrdEsayhtNDCH2MSVGSL3zFiwZSxUaYCXi7yTizdvTu2cWesq7
+ i1Rrc8yYZvPVTeuN1B1y+IqZ
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  03 Nov 2020 07:19:34 -0800
-IronPort-SDR: eOqWtonO9HwqCFgkUMpS5s285aYyZzZFl39sZx40qnepr9cdHxm0meCE0ZCP3AAJILYPFhLkC8
- 2IzCOrdKqvflpmDCAqAWNKhbABAvex6SPQngW//I675ImrfdkkLsRj4XwupAnTYvxTfM5+d4oM
- bSckxfYrnP1kCbnuCO9FgUhTrNxDDntJpcaUuyXyd7/nOBfFGRu1++v/j7DNz+Tvoq3ksMBGJS
- 1Vv+EPlWPLP6lZ4sPdzvcfLuYionv/zhpp+AD5lLzYtxnRKHgwIfVnCOs5yD3yUbpXG5v7caPD
- Sts=
+IronPort-SDR: PW7nqYWDT0F28ke6svIt4DO2TqMISCY+uaoR8H72EcY6scWscudid+HQl/cZs7JSsS2SAWRV2s
+ vyVmHBW5jr8jV2WPcyfYN4tX9KYFCR9sBE4ZcImMdjM6GDv09W6VHYs5LIbzUCtPkYNscRhANy
+ /wGr65hJcABWP8prOd7TuwQ3yH7sqJoEjBeykGM4Lw0s2mzvrjRzz46IvUoOtCaHvcoBrhaIrq
+ iN1znbBYKd2FToORlovEJanF9NqKZ917/8FTpDpSuJ8dTypOs6OjyGKpv7U7JvgQiWZIV/RbKp
+ eVQ=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.113])
@@ -62,9 +62,10 @@ Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PULL v2 08/19] target/riscv: Add sifive_plic vmstate
-Date: Tue,  3 Nov 2020 07:21:39 -0800
-Message-Id: <20201103152150.2677566-9-alistair.francis@wdc.com>
+Subject: [PULL v2 09/19] hw/riscv: microchip_pfsoc: Document where to look at
+ the SoC memory maps
+Date: Tue,  3 Nov 2020 07:21:40 -0800
+Message-Id: <20201103152150.2677566-10-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201103152150.2677566-1-alistair.francis@wdc.com>
 References: <20201103152150.2677566-1-alistair.francis@wdc.com>
@@ -94,101 +95,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- Yifei Jiang <jiangyifei@huawei.com>, Yipeng Yin <yinyipeng1@huawei.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yifei Jiang <jiangyifei@huawei.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Add sifive_plic vmstate for supporting sifive_plic migration.
-Current vmstate framework only supports one structure parameter
-as num field to describe variable length arrays, so introduce
-num_enables.
+It is not easy to find out the memory map for a specific component
+in the PolarFire SoC as the information is scattered in different
+documents. Add some comments so that people can know where to get
+such information from the Microchip website.
 
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Signed-off-by: Yipeng Yin <yinyipeng1@huawei.com>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20201026115530.304-7-jiangyifei@huawei.com
+Message-id: 1603863010-15807-2-git-send-email-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/intc/sifive_plic.h |  1 +
- hw/intc/sifive_plic.c         | 26 +++++++++++++++++++++++++-
- 2 files changed, 26 insertions(+), 1 deletion(-)
+ hw/riscv/microchip_pfsoc.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/include/hw/intc/sifive_plic.h b/include/hw/intc/sifive_plic.h
-index b75b1f145d..1e451a270c 100644
---- a/include/hw/intc/sifive_plic.h
-+++ b/include/hw/intc/sifive_plic.h
-@@ -52,6 +52,7 @@ struct SiFivePLICState {
-     uint32_t num_addrs;
-     uint32_t num_harts;
-     uint32_t bitfield_words;
-+    uint32_t num_enables;
-     PLICAddr *addr_config;
-     uint32_t *source_priority;
-     uint32_t *target_priority;
-diff --git a/hw/intc/sifive_plic.c b/hw/intc/sifive_plic.c
-index f42fd695d8..97a1a27a9a 100644
---- a/hw/intc/sifive_plic.c
-+++ b/hw/intc/sifive_plic.c
-@@ -30,6 +30,7 @@
- #include "hw/intc/sifive_plic.h"
- #include "target/riscv/cpu.h"
- #include "sysemu/sysemu.h"
-+#include "migration/vmstate.h"
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 4627179cd3..6aac8497fc 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -66,6 +66,24 @@
+ /* GEM version */
+ #define GEM_REVISION    0x0107010c
  
- #define RISCV_DEBUG_PLIC 0
- 
-@@ -448,11 +449,12 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
-                           TYPE_SIFIVE_PLIC, plic->aperture_size);
-     parse_hart_config(plic);
-     plic->bitfield_words = (plic->num_sources + 31) >> 5;
-+    plic->num_enables = plic->bitfield_words * plic->num_addrs;
-     plic->source_priority = g_new0(uint32_t, plic->num_sources);
-     plic->target_priority = g_new(uint32_t, plic->num_addrs);
-     plic->pending = g_new0(uint32_t, plic->bitfield_words);
-     plic->claimed = g_new0(uint32_t, plic->bitfield_words);
--    plic->enable = g_new0(uint32_t, plic->bitfield_words * plic->num_addrs);
-+    plic->enable = g_new0(uint32_t, plic->num_enables);
-     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &plic->mmio);
-     qdev_init_gpio_in(dev, sifive_plic_irq_request, plic->num_sources);
- 
-@@ -472,12 +474,34 @@ static void sifive_plic_realize(DeviceState *dev, Error **errp)
-     msi_nonbroken = true;
- }
- 
-+static const VMStateDescription vmstate_sifive_plic = {
-+    .name = "riscv_sifive_plic",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+            VMSTATE_VARRAY_UINT32(source_priority, SiFivePLICState,
-+                                  num_sources, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(target_priority, SiFivePLICState,
-+                                  num_addrs, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(pending, SiFivePLICState, bitfield_words, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(claimed, SiFivePLICState, bitfield_words, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_VARRAY_UINT32(enable, SiFivePLICState, num_enables, 0,
-+                                  vmstate_info_uint32, uint32_t),
-+            VMSTATE_END_OF_LIST()
-+        }
-+};
-+
- static void sifive_plic_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     device_class_set_props(dc, sifive_plic_properties);
-     dc->realize = sifive_plic_realize;
-+    dc->vmsd = &vmstate_sifive_plic;
- }
- 
- static const TypeInfo sifive_plic_info = {
++/*
++ * The complete description of the whole PolarFire SoC memory map is scattered
++ * in different documents. There are several places to look at for memory maps:
++ *
++ * 1 Chapter 11 "MSS Memory Map", in the doc "UG0880: PolarFire SoC FPGA
++ *   Microprocessor Subsystem (MSS) User Guide", which can be downloaded from
++ *   https://www.microsemi.com/document-portal/doc_download/
++ *   1244570-ug0880-polarfire-soc-fpga-microprocessor-subsystem-mss-user-guide,
++ *   describes the whole picture of the PolarFire SoC memory map.
++ *
++ * 2 A zip file for PolarFire soC memory map, which can be downloaded from
++ *   https://www.microsemi.com/document-portal/doc_download/
++ *   1244581-polarfire-soc-register-map, contains the following 2 major parts:
++ *   - Register Map/PF_SoC_RegMap_V1_1/pfsoc_regmap.htm
++ *     describes the complete integrated peripherals memory map
++ *   - Register Map/PF_SoC_RegMap_V1_1/MPFS250T/mpfs250t_ioscb_memmap_dri.htm
++ *     describes the complete IOSCB modules memory maps
++ */
+ static const struct MemmapEntry {
+     hwaddr base;
+     hwaddr size;
 -- 
 2.28.0
 
