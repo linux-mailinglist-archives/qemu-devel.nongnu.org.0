@@ -2,53 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B0A22A460F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 14:17:10 +0100 (CET)
-Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 156832A45F3
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 14:08:47 +0100 (CET)
+Received: from localhost ([::1]:55188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZwBQ-00081R-UB
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 08:17:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38406)
+	id 1kZw3J-0004a7-GG
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 08:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kZw9B-0006xz-4p; Tue, 03 Nov 2020 08:14:49 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58323 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kZw98-000311-Ej; Tue, 03 Nov 2020 08:14:48 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CQVcc2nnvz9sSs; Wed,  4 Nov 2020 00:14:40 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1604409280;
- bh=5KKGYc46HYuVj17nvHU0QwaSj1jD5BWhEaBhj9s9iYw=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=htqVtI1d4aw3JebmdUcZN33H+KzCoHsw+33ws1xO0cGrbf1V2hKZPm6DdjCDmE/00
- aNKLyGjxKbKGNTA0XPWYOLF5+LIyVkJ3+JXD7V7bH0m9yhpwAhZ4W9sck38zRHTKDy
- apmeAtI2zyv1SnlQKPuW6fT9zP/D2Xkuv2F6GRkE=
-Date: Tue, 3 Nov 2020 22:39:48 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.2 3/4] hw/ppc/spapr_tpm_proxy: Fix hexadecimal
- format string specifier
-Message-ID: <20201103113948.GG143651@yekko.fritz.box>
-References: <20201103112558.2554390-1-philmd@redhat.com>
- <20201103112558.2554390-4-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kZw21-0003vO-EP
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 08:07:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22347)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1kZw1u-0008Qy-UT
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 08:07:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604408834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SbmKyhr8EbSE9HdMzkHDuoJH6boMqArz2Ah+lM4rvsY=;
+ b=OV++vaQweuXdBWmFaLSvddXXkhIFZWQh6N5QSv7jrpGBCJSZEBYbKW7+i+h3WL/MWt+N5j
+ 6fwOwEqx4xv/hDLz0EnXAIDR2gFgUheioji3sGReq3AqFdWXFQKh0FqF/iwPtLSGsmwfrC
+ fcewJPPdF2ijPnQknuqILbPJ4jxy3TY=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-72-gfXGWFJ6PbiwDlth4XjrLQ-1; Tue, 03 Nov 2020 08:07:12 -0500
+X-MC-Unique: gfXGWFJ6PbiwDlth4XjrLQ-1
+Received: by mail-wr1-f69.google.com with SMTP id u1so5554740wri.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 05:07:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=SbmKyhr8EbSE9HdMzkHDuoJH6boMqArz2Ah+lM4rvsY=;
+ b=Eg2863LvgWdRORJk1GVSGfA2BHeNp5ntZxLKDZPwKlMynMwBO/DERB00lb49rwOBFY
+ LbyzGwFYUO5YqQMPcV9tRsZmp8kiq7OrecrYi6jwjOgJTjRj8F/THlYQEH7G4LKdHhPx
+ uPN/ZiJqJgGXmA6E4ugSW2f/u9f6k4D0M9loiX0adbc2jeMvNUDwv3YJas1DvOmjYUxk
+ p2z5dYqSU034OYM4oY24qncq1mAhThGxwChS5szhFaDLcm9YXysBGQHe4N7225lEJacl
+ 1EocoTydZ4rPRTtWiXo3RIzFWlTNy1gByrGv6PNdAyMLO0/qnDzIXyx+/EKmS3KLGoiJ
+ TWXA==
+X-Gm-Message-State: AOAM532svZCu7qpS5BrjB6AktAZvI68j58N8HxWRbf0CDodPerO9Y5tI
+ c+2rWrBRIYflc/9DQ3xlG+oSIFfYTHfK4RJCEydDJP6B1yMaHjhUWGYbFx9XB0ovhC8+iS5d9pM
+ OzDrqooJHzyz6j/U=
+X-Received: by 2002:adf:f1c8:: with SMTP id z8mr28137363wro.371.1604408831055; 
+ Tue, 03 Nov 2020 05:07:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwpr1D7V/cKaTTGbgsBFb7aWjKRsfLu2Raq1WhS1dpStHDMYv2RQSoZ6gkMBpJSRSDM+Qm2iQ==
+X-Received: by 2002:adf:f1c8:: with SMTP id z8mr28137336wro.371.1604408830850; 
+ Tue, 03 Nov 2020 05:07:10 -0800 (PST)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id u16sm10224672wrn.55.2020.11.03.05.07.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Nov 2020 05:07:10 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH RFC] memory: pause all vCPUs for the duration of memory
+ transactions
+In-Reply-To: <20201102195729.GA20600@xz-x1>
+References: <20201026084916.3103221-1-vkuznets@redhat.com>
+ <20201102195729.GA20600@xz-x1>
+Date: Tue, 03 Nov 2020 14:07:09 +0100
+Message-ID: <87v9emy4g2.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="m0vRWufqUC70IDnR"
-Content-Disposition: inline
-In-Reply-To: <20201103112558.2554390-4-philmd@redhat.com>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,79 +95,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.vnet.ibm.com>,
- qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter Xu <peterx@redhat.com> writes:
 
---m0vRWufqUC70IDnR
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Vitaly,
+>
+> On Mon, Oct 26, 2020 at 09:49:16AM +0100, Vitaly Kuznetsov wrote:
+>> Currently, KVM doesn't provide an API to make atomic updates to memmap when
+>> the change touches more than one memory slot, e.g. in case we'd like to
+>> punch a hole in an existing slot.
+>> 
+>> Reports are that multi-CPU Q35 VMs booted with OVMF sometimes print something
+>> like
+>> 
+>> !!!! X64 Exception Type - 0E(#PF - Page-Fault)  CPU Apic ID - 00000003 !!!!
+>> ExceptionData - 0000000000000010  I:1 R:0 U:0 W:0 P:0 PK:0 SS:0 SGX:0
+>> RIP  - 000000007E35FAB6, CS  - 0000000000000038, RFLAGS - 0000000000010006
+>> RAX  - 0000000000000000, RCX - 000000007E3598F2, RDX - 00000000078BFBFF
+>> ...
+>> 
+>> The problem seems to be that TSEG manipulations on one vCPU are not atomic
+>> from other vCPUs views. In particular, here's the strace:
+>> 
+>> Initial creation of the 'problematic' slot:
+>> 
+>> 10085 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
+>>    memory_size=2146435072, userspace_addr=0x7fb89bf00000}) = 0
+>> 
+>> ... and then the update (caused by e.g. mch_update_smram()) later:
+>> 
+>> 10090 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
+>>    memory_size=0, userspace_addr=0x7fb89bf00000}) = 0
+>> 10090 ioctl(13, KVM_SET_USER_MEMORY_REGION, {slot=6, flags=0, guest_phys_addr=0x100000,
+>>    memory_size=2129657856, userspace_addr=0x7fb89bf00000}) = 0
+>> 
+>> In case KVM has to handle any event on a different vCPU in between these
+>> two calls the #PF will get triggered.
+>
+> A pure question: Why a #PF?  Is it injected into the guest?
+>
 
-On Tue, Nov 03, 2020 at 12:25:57PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> The '%u' conversion specifier is for decimal notation.
-> When prefixing a format with '0x', we want the hexadecimal
-> specifier ('%x').
->=20
-> Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Yes, we see a #PF injected in the guest during OVMF boot.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+> My understanding (which could be wrong) is that all thing should start with a
+> vcpu page fault onto the removed range, then when kvm finds that the memory
+> accessed is not within a valid memslot (since we're adding it back but not
+> yet), it'll become an user exit back to QEMU assuming it's an MMIO access.  Or
+> am I wrong somewhere?
 
-> ---
->  hw/ppc/trace-events | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-> index dcc06d49b5a..6d8d095aa28 100644
-> --- a/hw/ppc/trace-events
-> +++ b/hw/ppc/trace-events
-> @@ -19,7 +19,7 @@ spapr_update_dt_failed_size(unsigned cbold, unsigned cb=
-new, unsigned magic) "Old
->  spapr_update_dt_failed_check(unsigned cbold, unsigned cbnew, unsigned ma=
-gic) "Old blob %u bytes, new blob %u bytes, magic 0x%x"
-> =20
->  # spapr_tpm_proxy.c
-> -spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_devic=
-e_path=3D%s operation=3D0x%"PRIu64
-> +spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_devic=
-e_path=3D%s operation=3D0x%"PRIx64
->  spapr_tpm_execute(uint64_t data_in, uint64_t data_in_sz, uint64_t data_o=
-ut, uint64_t data_out_sz) "data_in=3D0x%"PRIx64", data_in_sz=3D%"PRIu64", d=
-ata_out=3D0x%"PRIx64", data_out_sz=3D%"PRIu64
-> =20
->  # spapr_iommu.c
+In case it is a normal access from the guest, yes, but AFAIR here
+guest's CR3 is pointing to non existent memory and when KVM detects that
+it injects #PF by itself without a loop through userspace.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+-- 
+Vitaly
 
---m0vRWufqUC70IDnR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+hQYEACgkQbDjKyiDZ
-s5Ip7A/+O4OeY7yjLbwtMaoMnrxalSFJDk6nGQK+hEIrgK1TjekfgK/T6OSz7Sl7
-dNKzjF+xtwJePuleIYwLzUUehc/Ab/QoG62gz33SIybarJUDUq1GBBX2b6RWuVEg
-50i3gC8pWOPhbL7a6y47LSsyAr3GdNvzE1s3vE1lm3KPp7Dtcq9saE+zPyDOK75J
-FnlhaF/FFA0xVGiLaI2SiA6wF1i852Ppj9NBZzJyh3to3YfjQqQSdAFQB2+eDIqF
-LiovyhGGqaKELqTKhvZxibWQ1GExbRrP0uLz2Elt0N0YP5AH9+6iy57nmmq+xwAs
-DON87piOCyQz4IAfFIHVYzka+cU/HBsBkzNbcs6U4uJlTxSgRBFjamxzy/I6IAkp
-G1UgkhmSr2+NMGYH4v20zzRpBt424BoYg0JQHTojrgPfT0Lb3raluet8JR8lo28I
-M3S9yiyYMo/1nWvM8v2mVRY+LvHp32FPUwiqqwFjJwwoEORV5Rj7HIY6wbjSLqlR
-GS9+5hfzZSAlI1CO36+HKucbw6TYJoVLatt921QvorznBh+ew2FJtNgTtOMWm5IY
-t7y0rEK1x3RadF6Euv4uL0EsUtSRKuzFBb81OD+/BjZaDZRG/Y+71QE2VTnHeIJl
-wgZY4AFR9H25naaGXk+ACQBsK8QUY+JBNo2rs+/8VcVFdNmfLCY=
-=4n5J
------END PGP SIGNATURE-----
-
---m0vRWufqUC70IDnR--
 
