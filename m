@@ -2,63 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1B5A2A4924
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:13:48 +0100 (CET)
-Received: from localhost ([::1]:37254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9E812A4937
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:17:33 +0100 (CET)
+Received: from localhost ([::1]:46278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZy0J-0008Ba-Np
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:13:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41424)
+	id 1kZy3w-0003iJ-9R
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:17:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZxsQ-0002bi-PP
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:05:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59089)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZy1V-0002ED-IS
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:15:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZxsM-0008Gu-8f
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:05:37 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZy1S-0002ug-IZ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:15:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604415932;
+ s=mimecast20190719; t=1604416496;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cAq0zPlTXsCKa/xZUGjvTNU8Jth3STSSJ2gNaKzIHiM=;
- b=RnttWad6QhE4GG4hzahlAHvUBsiCdj717FfyzEocb0kfA5XUOiQeuKSSQGksfFNfkRyCC3
- f6daszdEVxllV0hcY/Ah8I1jQkmpVvHXQfW0u88XVvTiw6eLTd+RalaMtyP0l4xfe6OPGs
- ZeqDJs9mX9blkzgI+wGWH7gY2H1lS24=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oqb6QWS2kkjTdebh4AMB/NIQII5Wu6cFG22e0ujUnQU=;
+ b=hwxDWgVVuYZetd9urBaY1nNwS9wLV4OoFXU4sAOTL92sS79puHxWJerOqThERQlNm+umqM
+ 5Z+Thb9eoZRufHTA+TKHJDBgEBfnrvsJbv0pDR1y5UPBMu4sTIa9wwt2kud8OF241O9AvB
+ u11IsfU0uzL6JJ5/jbQEDNkDFQ7sUpo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-XYTBq8TpOAWY-r1FcIceKg-1; Tue, 03 Nov 2020 10:05:14 -0500
-X-MC-Unique: XYTBq8TpOAWY-r1FcIceKg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-491-XJUfW1E3P9O0YIedVgeiqQ-1; Tue, 03 Nov 2020 10:14:54 -0500
+X-MC-Unique: XJUfW1E3P9O0YIedVgeiqQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2788D18C89D0;
- Tue,  3 Nov 2020 15:05:13 +0000 (UTC)
-Received: from localhost (ovpn-115-37.ams2.redhat.com [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBB897512C;
- Tue,  3 Nov 2020 15:05:09 +0000 (UTC)
-Date: Tue, 3 Nov 2020 15:05:08 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: VFIO Migration
-Message-ID: <20201103150508.GB253848@stefanha-x1.localdomain>
-References: <20201102111153.GC42093@stefanha-x1.localdomain>
- <20201103113929.GH205187@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5F0111018F63
+ for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 15:14:53 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0EC4010016DA;
+ Tue,  3 Nov 2020 15:14:52 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.2 0/4] deprecate short-form boolean options
+Date: Tue,  3 Nov 2020 10:14:48 -0500
+Message-Id: <20201103151452.416784-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201103113929.GH205187@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="H+4ONPRPur6+Ovig"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,159 +78,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
- quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
- Felipe Franciosi <felipe@nutanix.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---H+4ONPRPur6+Ovig
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+QemuOpts lets you write boolean options in "short form"
+where "abc" means "abc=on" and "noabc" means "abc=off".
+This is confusing, since it is not done for the first
+key=value pair but only if there is an implied key;
+it can also be grossly misused, for example "-device
+e1000,noid" will create a device with id equal to "off".
 
-On Tue, Nov 03, 2020 at 11:39:29AM +0000, Daniel P. Berrang=E9 wrote:
-> On Mon, Nov 02, 2020 at 11:11:53AM +0000, Stefan Hajnoczi wrote:
-> > Overview
-> > --------
-> > The purpose of device states is to save the device at a point in time a=
-nd then
-> > restore the device back to the saved state later. This is more challeng=
-ing than
-> > it first appears.
-> >=20
-> > The process of saving a device state and loading it later is called
-> > *migration*. The state may be loaded by the same device that saved it o=
-r by a
-> > new instance of the device, possibly running on a different computer.
-> >=20
-> > It must be possible to migrate to a newer implementation of the device
-> > as well as to an older implementation of the device. This allows users
-> > to upgrade and roll back their systems.
-> >=20
-> > Migration can fail if loading the device state is not possible. It shou=
-ld fail
-> > early with a clear error message. It must not appear to complete but le=
-ave the
-> > device inoperable due to a migration problem.
->=20
-> I think there needs to be an addition requirement.
->=20
->  It must be possible for a management application to query the supported
->  versions, independantly of execution of a migration  operation.
->=20
-> This is important to large scale data center / cloud management applicati=
-ons
-> because before initiating a migration they need to *automatically* select
-> a target host with high level of confidence that is will be compatible wi=
-th
-> the source host.
->=20
-> Today QEMU migration compatibility is largely determined by the machine
-> type version. Apps can query the supported machine types for host to
-> check whether it is compatible. Similarly they will query CPU model
-> features to check compatiblity.
->=20
-> Validation and error checking at time of migration is of course still
-> required, but the goal should be that an mgmt application will *NEVER*
-> hit these errors because they will have pre-selected a host that is
-> known to be compatible based on reported versions that are supported.
+Unfortunately, this idiom has found wide use with
+-chardev (think "server,nowait") and to a lesser extent
+-spice.
 
-Okay. What do you think of the following?
+Patch 4 in this series deprecates it for all other option
+groups.  The first three patches avoid emitting the warning
+in tests (which in one case were buggy, see patch 3) or
+for the "help" option.
 
-  [
-    {
-      "model": "https://qemu.org/devices/e1000e",
-      "params": [
-        "rss",
-=09...more configuration parameters...
-      ],
-      "versions": [
-        {
-=09  "name": "1",
-=09  "params": [],
-=09},
-=09{
-=09  "name": "2",
-=09  "params": ["rss=3Don"],
-=09},
-=09...more versions...
-      ]
-    },
-    ...more device models...
-  ]
+Paolo Bonzini (4):
+  ivshmem-test: do not use short-form boolean option
+  qemu-option: move help handling to get_opt_name_value
+  qtest: escape device name in device-introspect-test
+  qemu-option: warn for short-form boolean options
 
-The management tool can generate the configuration parameter list by
-expanding a version into its params.
+ chardev/char.c                       |  1 +
+ docs/system/deprecated.rst           |  7 ++++
+ include/qemu/option.h                |  1 +
+ tests/qtest/device-introspect-test.c |  9 +++--
+ tests/qtest/ivshmem-test.c           |  2 +-
+ tests/test-qemu-opts.c               |  1 +
+ ui/spice-core.c                      |  1 +
+ util/qemu-option.c                   | 51 ++++++++++++++++------------
+ 8 files changed, 48 insertions(+), 25 deletions(-)
 
-Configuration parameter types and input ranges need more thought. For
-example, version 1 of the device might not have rx-table-size (it's
-effectively 0). Version 2 introduces rx-table-size and sets it to 32.
-Version 3 raises the value to 64. In addition, the user can set a custom
-value like rx-table-size=3D48. I haven't defined the rules for this yet,
-but it's clear there needs to be a way to extend configuration
-parameters.
-
-To check migration compatibility:
-1. Verify that the device model URL matches the JSON data[n].model
-   field.
-2. For every configuration parameter name from the source device,
-   check that it is contained within the JSON data[n].params list.
-
-> > VFIO Implementation
-> > -------------------
-> > The following applies both to kernel VFIO/mdev drivers and vfio-user de=
-vice
-> > backends.
-> >=20
-> > Devices are instantiated based on a version and/or configuration parame=
-ters:
-> > * ``version=3D1`` - use the device configuration aliased by version 1
-> > * ``version=3D2,rx-filter-size=3D64`` - use version 1 and override ``rx=
--filter-size``
-> > * ``rx-filter-size=3D0`` - directly set configuration parameters withou=
-t using a version
-> >=20
-> > Device creation fails if the version and/or configuration parameters ar=
-e not
-> > supported.
-> >=20
-> > There must be a mechanism to query the "latest" configuration for a dev=
-ice
-> > model. It may simply report the ``version=3D5`` where 5 is the latest v=
-ersion but
-> > it could also report all configuration parameters instead of using a ve=
-rsion
-> > alias.
->=20
-> The mechanism needs to be able to report all supported versions strings,
-> not simple the latest version string. I think we need to specify the
-> actual mechanism todo this query too, because we can't end up in a place
-> where there's a different approach to queries for each device type.
-
-Makes sense.
-
-Stefan
-
---H+4ONPRPur6+Ovig
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+hcaQACgkQnKSrs4Gr
-c8g6Ogf/eWtotESqLmCJ0a9GcW3GIqdB3JGnTYdvVIt0LBP188BGJ688ZH08zte+
-LZUxSY5aG+GCqvQnvL5vNrJHISSr3x5wObgraSbiC8mvRPIF8bqdkb+5gsSY68+C
-FFLUptnEqxHA0pK8DeAbS4aMXeliRSlP2d1xXABWFiHOB9l1h0AAuSWqUDjGIuJu
-oa6eIDYfmGoEtrevvUyO0aOwNuOQkOHhQXCjDCLaKrih/WjxVaSVZx2EVH+Jvh1v
-NjL2LQvuw3fmQI/6U6n5YhDZxYRhzcWb8qTmb76tZAsrLFA6Pukz+QsyWkNVjTUx
-8DbRffI+ELiEjN+kZizB/puiEi9Svw==
-=hDcY
------END PGP SIGNATURE-----
-
---H+4ONPRPur6+Ovig--
+-- 
+2.26.2
 
 
