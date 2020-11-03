@@ -2,96 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0442A44A0
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:56:50 +0100 (CET)
-Received: from localhost ([::1]:43962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7733D2A44A7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:59:05 +0100 (CET)
+Received: from localhost ([::1]:51078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZuvh-0000ic-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:56:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42610)
+	id 1kZuxs-0003g5-Fb
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:59:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZuuX-000050-Dx
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:55:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49989)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kZuvH-0000jb-9k
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:56:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZuuU-00086s-K7
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:55:36 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1kZuvF-0008S6-0o
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:56:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604404530;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1604404580;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/ytEHdZdOz3332Wg4700sB32IrDic/XkvBt0e0imP0s=;
- b=STXfROuflU+C3MwyLpI7BhyYV7WMjqBZ3Chu6kxN5X1NmwJNHI2Km6IIAJEVZ5Q72yvOKf
- 62JUMhhug1oGQcyPpU4y7aNm/QIQiEPyx+YLk53WQLjnrVIwSRcRARUec7pXOp+1N7Ipxz
- emh+xbHOhMcs2TDoqxXg/tspSmmTJuA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-DDhTepkVPymQJSVasVSkMQ-1; Tue, 03 Nov 2020 06:55:28 -0500
-X-MC-Unique: DDhTepkVPymQJSVasVSkMQ-1
-Received: by mail-ed1-f72.google.com with SMTP id h6so7365804edt.12
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:55:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/ytEHdZdOz3332Wg4700sB32IrDic/XkvBt0e0imP0s=;
- b=a3QL6y5SGi6rOVppBigmuilz59IRbwgcsyPbEzQxK+S8mvDmu3xurxSM0nM2lstnRz
- Ryf8C/tu0nY6SF9K9a+gqlQCJOlSWmqtvsFjS1/A3/k3n2vMLTE1GTdTRIZQLeT7CVZU
- 92shaMNf0BGAD5F9q18C7244QG71BGOFJ/8cwG6VckM0/Kcg403gdUWN441KHP8dCSCP
- nPIdRv5/BTX3pWDsJskv8+HGb/09ZcZBYwjlfE4YsTS5Rxn2KDhBweqfLYMZjnkwV4WM
- M8JYr/wSulhz8EnOXb+LM8+LEoTj8cqkJm/xv3ikuFiqJCiMwHS6j79BYY43qAU2wzf3
- Z1QQ==
-X-Gm-Message-State: AOAM533d1ATOSshyQrYkOToKI3WrVNobCPYSR66iQE7Idstqb88+RwFi
- QoG2nVPfMMrA+6OcSef//BsWSjHTrariBzLUMMdhXt1j/fpw7vOS/jODKNaU1mpKXfvBKH33Cmw
- LXOAOAEPfyvIKWFs=
-X-Received: by 2002:a17:906:2490:: with SMTP id
- e16mr19337430ejb.17.1604404527178; 
- Tue, 03 Nov 2020 03:55:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwP+JMVOdQQHd7OEFueSgggG55cJg862FWyXlFpvEqHsnc4ugfy6MWhdbp4vxNF8k72n+5IQQ==
-X-Received: by 2002:a17:906:2490:: with SMTP id
- e16mr19337416ejb.17.1604404526920; 
- Tue, 03 Nov 2020 03:55:26 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id og19sm10099926ejb.7.2020.11.03.03.55.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 03:55:25 -0800 (PST)
-Subject: Re: [PATCH] meson: vhost-user-gpu/virtiofsd: use absolute path
-To: Marc Hartmayer <mhartmay@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20201103112333.24734-1-mhartmay@linux.ibm.com>
- <877dr28ysh.fsf@linux.ibm.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4798e23a-da0b-22f6-05bd-2373768a241c@redhat.com>
-Date: Tue, 3 Nov 2020 12:55:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=ON2uQqN1SCpz2ZTd9De2s7FMvHZTrJXz2vJdWHZH6HE=;
+ b=VsVE/5wym9QszSODeRE0WjhxW52NEDM4KtQvbbT4s+LyyaQCco8U0srGHRihbAW9IqfQAv
+ URgnmr5A/dkxaMKCAH8mr4zDJlfsjl8ImVhdQzSPwrTQAHQ75q2zi7WLrTW3Mp1Vc+5DMC
+ 1PyT/7nJnHTPkcZ9UC/I8nZ4EKE3jbo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-D_A8eBGAP9mfaavCHTjE3Q-1; Tue, 03 Nov 2020 06:56:13 -0500
+X-MC-Unique: D_A8eBGAP9mfaavCHTjE3Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 272E1108E1A5;
+ Tue,  3 Nov 2020 11:56:12 +0000 (UTC)
+Received: from redhat.com (ovpn-115-87.ams2.redhat.com [10.36.115.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BC8BF73671;
+ Tue,  3 Nov 2020 11:56:06 +0000 (UTC)
+Date: Tue, 3 Nov 2020 11:56:02 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+Subject: Re: [RFC PATCH 0/6] eBPF RSS support for virtio-net
+Message-ID: <20201103115602.GI205187@redhat.com>
+References: <20201102185115.7425-1-andrew@daynix.com>
+ <0164a42f-4542-6f3e-bd71-3319dfaae190@redhat.com>
+ <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <877dr28ysh.fsf@linux.ibm.com>
+In-Reply-To: <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,58 +85,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>, Andrew Melnychenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/11/20 12:28, Marc Hartmayer wrote:
-> On Tue, Nov 03, 2020 at 12:23 PM +0100, Marc Hartmayer <mhartmay@linux.ibm.com> wrote:
->> The option `libexecdir` is relative to `prefix` (see
->> https://mesonbuild.com/Builtin-options.html), so we have to be aware
->> of this when creating 50-qemu-gpu.json and
->> 50-qemu-virtiofsd.json. Otherwise, tools like libvirt will not be able
->> to find the executable.
->>
->> Fixes: 16bf7a3326d8 ("configure: move directory options from config-host.mak to meson")
->> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
->> ---
->>  contrib/vhost-user-gpu/meson.build | 2 +-
->>  tools/virtiofsd/meson.build        | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
->> index 37ecca13cafb..c487ca72c1ff 100644
->> --- a/contrib/vhost-user-gpu/meson.build
->> +++ b/contrib/vhost-user-gpu/meson.build
->> @@ -9,6 +9,6 @@ if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in config_host \
->>
->>    configure_file(input: '50-qemu-gpu.json.in',
->>                   output: '50-qemu-gpu.json',
->> -                 configuration: { 'libexecdir' : get_option('libexecdir') },
->> +                 configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
->>                   install_dir: qemu_datadir / 'vhost-user')
->>  endif
->> diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
->> index e1a4dc98d9ec..17edecf55c0a 100644
->> --- a/tools/virtiofsd/meson.build
->> +++ b/tools/virtiofsd/meson.build
->> @@ -15,5 +15,5 @@ executable('virtiofsd', files(
->>
->>  configure_file(input: '50-qemu-virtiofsd.json.in',
->>                 output: '50-qemu-virtiofsd.json',
->> -               configuration: { 'libexecdir' : get_option('libexecdir') },
->> +               configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
->>                 install_dir: qemu_datadir / 'vhost-user')
->> -- 
->> 2.25.4
->>
->>
+On Tue, Nov 03, 2020 at 12:32:43PM +0200, Yuri Benditovich wrote:
+> On Tue, Nov 3, 2020 at 11:02 AM Jason Wang <jasowang@redhat.com> wrote:
 > 
-> It’s probably not the best way to fix it, but at least a good hint
-> what’s wrong :)
+> >
+> > On 2020/11/3 上午2:51, Andrew Melnychenko wrote:
+> > > Basic idea is to use eBPF to calculate and steer packets in TAP.
+> > > RSS(Receive Side Scaling) is used to distribute network packets to guest
+> > virtqueues
+> > > by calculating packet hash.
+> > > eBPF RSS allows us to use RSS with vhost TAP.
+> > >
+> > > This set of patches introduces the usage of eBPF for packet steering
+> > > and RSS hash calculation:
+> > > * RSS(Receive Side Scaling) is used to distribute network packets to
+> > > guest virtqueues by calculating packet hash
+> > > * eBPF RSS suppose to be faster than already existing 'software'
+> > > implementation in QEMU
+> > > * Additionally adding support for the usage of RSS with vhost
+> > >
+> > > Supported kernels: 5.8+
+> > >
+> > > Implementation notes:
+> > > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+> > > Added eBPF support to qemu directly through a system call, see the
+> > > bpf(2) for details.
+> > > The eBPF program is part of the qemu and presented as an array of bpf
+> > > instructions.
+> > > The program can be recompiled by provided Makefile.ebpf(need to adjust
+> > > 'linuxhdrs'),
+> > > although it's not required to build QEMU with eBPF support.
+> > > Added changes to virtio-net and vhost, primary eBPF RSS is used.
+> > > 'Software' RSS used in the case of hash population and as a fallback
+> > option.
+> > > For vhost, the hash population feature is not reported to the guest.
+> > >
+> > > Please also see the documentation in PATCH 6/6.
+> > >
+> > > I am sending those patches as RFC to initiate the discussions and get
+> > > feedback on the following points:
+> > > * Fallback when eBPF is not supported by the kernel
+> >
+> >
+> > Yes, and it could also a lacking of CAP_BPF.
+> >
+> >
+> > > * Live migration to the kernel that doesn't have eBPF support
+> >
+> >
+> > Is there anything that we needs special treatment here?
+> >
+> > Possible case: rss=on, vhost=on, source system with kernel 5.8 (everything
+> works) -> dest. system 5.6 (bpf does not work), the adapter functions, but
+> all the steering does not use proper queues.
+> 
+> 
+> 
+> 
+> >
+> > > * Integration with current QEMU build
+> >
+> >
+> > Yes, a question here:
+> >
+> > 1) Any reason for not using libbpf, e.g it has been shipped with some
+> > distros
+> >
+> 
+> We intentionally do not use libbpf, as it present only on some distros.
+> We can switch to libbpf, but this will disable bpf if libbpf is not
+> installed
 
-No, it's okay.  I queued it.
+If we were modifying existing funtionality then introducing a dep on
+libbpf would be a problem as you'd be breaking existing QEMU users
+on distros without libbpf.
 
-Paolo
+This is brand new functionality though, so it is fine to place a
+requirement on libbpf. If distros don't ship that library and they
+want BPF features in QEMU, then those distros should take responsibility
+for adding libbpf to their package set.
+
+> > 2) It would be better if we can avoid shipping bytecodes
+> >
+> 
+> 
+> This creates new dependencies: llvm + clang + ...
+> We would prefer byte code and ability to generate it if prerequisites are
+> installed.
+
+I've double checked with Fedora, and generating the BPF program from
+source is a mandatory requirement for QEMU. Pre-generated BPF bytecode
+is not permitted.
+
+There was also a question raised about the kernel ABI compatibility
+for BPF programs ? 
+
+  https://lwn.net/Articles/831402/
+
+  "The basic problem is that when BPF is compiled, it uses a set
+   of kernel headers that describe various kernel data structures
+   for that particular version, which may be different from those
+   on the kernel where the program is run. Until relatively recently,
+   that was solved by distributing the BPF as C code along with the
+   Clang compiler to build the BPF on the system where it was going
+   to be run."
+
+Is this not an issue for QEMU's usage of BPF here ?
+
+The dependancy on llvm is unfortunate for people who build with GCC,
+but at least they can opt-out via a configure switch if they really
+want to. As that LWN article notes, GCC will gain BPF support
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
