@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA9732A48A2
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:54:09 +0100 (CET)
-Received: from localhost ([::1]:44582 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 267822A48B7
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:55:45 +0100 (CET)
+Received: from localhost ([::1]:49790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxhI-0003bp-FX
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:54:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33676)
+	id 1kZxiq-0005mc-2c
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:55:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxPO-0005i7-VL
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55132)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxPc-0005mt-8R
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50081)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxPJ-0006pP-AU
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:37 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxPQ-0006ul-6h
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:35:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414132;
+ s=mimecast20190719; t=1604414139;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IbXx/en61PP6xw7L1bYEyVwqp2fnuXoDT6+6BHQY4zY=;
- b=AaivHXYANZ8zGd9oJoismtP34Gt0leVCi1H0kukjk030FFcjouk5UNlG5NQ8heeRpWPhep
- Zkn4pE3Dhx2pyRnpes20raF4x5UzeE0jljJ+CYry7EEotHbVSxGUiLHvMGl48sdcYN+ywx
- Kopsn9qhHVboCniQYp62YH+ty5iYjKc=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-Fzq3V4rBOxWaVR2fhDhz-g-1; Tue, 03 Nov 2020 09:35:30 -0500
-X-MC-Unique: Fzq3V4rBOxWaVR2fhDhz-g-1
-Received: by mail-wr1-f71.google.com with SMTP id i1so7874489wrb.18
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:35:30 -0800 (PST)
+ bh=oAjLZ11EwsHXoMOOACL8j6jIH95zMRiiieEROhG5SCc=;
+ b=a8a8qtXb/f+L4JFh2dWjR/dVtSmXARhBRxYzdeCDbV7K0G8UWcsNHooUIy081EhxYXGuPm
+ XFH2zg6YJ1t+9RsvaG5J7I83A1LmZGeCiQrYwGR1/kmGSdiTo6V7YigUTlfv8bN/iSf8qh
+ gwO9zCmpQhUnr5bepmLC1pC4g5gZ5EE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-315-mmGjxVFvN6-tbNL8oTFi1A-1; Tue, 03 Nov 2020 09:35:35 -0500
+X-MC-Unique: mmGjxVFvN6-tbNL8oTFi1A-1
+Received: by mail-wm1-f72.google.com with SMTP id t21so2696092wmt.8
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:35:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=IbXx/en61PP6xw7L1bYEyVwqp2fnuXoDT6+6BHQY4zY=;
- b=ZvSA8fbNP/Jdb/TpOJmNMCU9Q2f0wm2H8zd1SiSZj8YwmFHPq/kJJZio92SaQv8vgd
- LK4XNHlyUuSnSUlj6P774U7Fz2x4vMU5I8cqwuV8Y8tVojK0YbXaBmvLDTeup1mmQUFQ
- 1LVlbmDHoizdCXIQQ7uyB1j41ogwRw3TSd+h3ZwKuJ2yCOU0evh1sd4nldHzGRHn5f97
- 3Bv67ilALKhxnrJHoBrCLHl0+/c6hZ4ytodoNepmikYK9mOGJnL9lT94EEoawMbqSbhf
- RwPjAmDadSAhNbV0+bTOAcR2ux3++wEWu9F+GH5UYYc7J4CvO0ITHbjlYw1ipnO4nIAy
- vVbQ==
-X-Gm-Message-State: AOAM5323tuFPyEpwG4uB67USu1vK8oaDyBiL0CB0ezvKJgLRLmL/0zfP
- ii/MSZt2/hN0qsP6lZdOwVg0FEHlXvXmmdlmSAEQFiNFSA5SWn0dfLZqrBXP6UvmoFRPbf1VtBa
- wvQDLKCfvNm/C7y4=
-X-Received: by 2002:a7b:cb09:: with SMTP id u9mr36113wmj.49.1604414128810;
- Tue, 03 Nov 2020 06:35:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxC4ZbKj/jcljWm0fq7m/1sq4qa4x682Uj1E+j7prl6LunIeBajGnY4vlVzZphAxLMlE2nyiQ==
-X-Received: by 2002:a7b:cb09:: with SMTP id u9mr36086wmj.49.1604414128563;
- Tue, 03 Nov 2020 06:35:28 -0800 (PST)
+ bh=oAjLZ11EwsHXoMOOACL8j6jIH95zMRiiieEROhG5SCc=;
+ b=uOnzlmpOfMAfd7nVaM4lkmtsOLJzJmE7NTd2Gmb8cSh+35GrLFWwAGFFu1uI64/5UF
+ Uk4n/kPLXZvjmPTQl1XybtgzAIUo6totZKLV0UXcy6z70Ee4kCEk3DsIpW2N77xaRFhU
+ +iXJ0xt/1u9yJ7fuTECjnOiKiHIXg4gMox9YbOF/fM1titi+2xs1Hkl4DpPxt5SkKHJA
+ cG0T8vCUoQU5fzIK/5HrZC6A04Qc8xIDwsYLTIZEGfcyVVG9VmQ26+AMJKk3QDoVqGnR
+ 3gEgzf453NVcsdg9F67lExelDHdMFRWccATy5/84nB/xFr51h4+Pp8LXkkZca05Tb+x3
+ pvmg==
+X-Gm-Message-State: AOAM5326YGiS0s9bzMoMENVoMy5ZG/thr3+PiQymLqZrf9eveG3gZWz6
+ aN5SrSyrVuEeshFSGaU351nzRCD8cK/4+fWG9xhl8yd6VBYb1FsDzyp+4c9Wwp1jaREyQ5kaTkH
+ pcObD84onVek167o=
+X-Received: by 2002:a1c:2583:: with SMTP id l125mr80540wml.50.1604414133758;
+ Tue, 03 Nov 2020 06:35:33 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyyANNMlJ4QNIKoDRnB7sRi+l/PB/29ywBQgYzrmXnCllCcepBuvfnXCC8D391ReiOBPZ87gw==
+X-Received: by 2002:a1c:2583:: with SMTP id l125mr80523wml.50.1604414133600;
+ Tue, 03 Nov 2020 06:35:33 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id l16sm10974041wrr.83.2020.11.03.06.35.27
+ by smtp.gmail.com with ESMTPSA id a199sm3293038wmd.8.2020.11.03.06.35.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 06:35:27 -0800 (PST)
-Date: Tue, 3 Nov 2020 09:35:26 -0500
+ Tue, 03 Nov 2020 06:35:32 -0800 (PST)
+Date: Tue, 3 Nov 2020 09:35:31 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/38] tests/qtest: add multi-queue test case to
- vhost-user-blk-test
-Message-ID: <20201103142306.71782-34-mst@redhat.com>
+Subject: [PULL 35/38] vhost-user-blk-test: rename destroy_drive() to
+ destroy_file()
+Message-ID: <20201103142306.71782-36-mst@redhat.com>
 References: <20201103142306.71782-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
@@ -82,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,143 +103,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
+The function is used not just for image files but also for UNIX domain
+sockets (QMP monitor and vhost-user-blk). Reflect that in the name.
+
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-id: 20201001144604.559733-3-stefanha@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201027173528.213464-8-stefanha@redhat.com>
+Message-Id: <20201027173528.213464-10-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/vhost-user-blk-test.c | 81 +++++++++++++++++++++++++++++--
- 1 file changed, 76 insertions(+), 5 deletions(-)
+ tests/qtest/vhost-user-blk-test.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/tests/qtest/vhost-user-blk-test.c b/tests/qtest/vhost-user-blk-test.c
-index e7e44f9bf0..31f2335f97 100644
+index 31f2335f97..f05f14c192 100644
 --- a/tests/qtest/vhost-user-blk-test.c
 +++ b/tests/qtest/vhost-user-blk-test.c
-@@ -559,6 +559,67 @@ static void pci_hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
-     qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
+@@ -658,7 +658,8 @@ static const char *qtest_qemu_storage_daemon_binary(void)
+     return qemu_storage_daemon_bin;
  }
  
-+static void multiqueue(void *obj, void *data, QGuestAllocator *t_alloc)
-+{
-+    QVirtioPCIDevice *pdev1 = obj;
-+    QVirtioDevice *dev1 = &pdev1->vdev;
-+    QVirtioPCIDevice *pdev8;
-+    QVirtioDevice *dev8;
-+    QTestState *qts = pdev1->pdev->bus->qts;
-+    uint64_t features;
-+    uint16_t num_queues;
-+
-+    /*
-+     * The primary device has 1 queue and VIRTIO_BLK_F_MQ is not enabled. The
-+     * VIRTIO specification allows VIRTIO_BLK_F_MQ to be enabled when there is
-+     * only 1 virtqueue, but --device vhost-user-blk-pci doesn't do this (which
-+     * is also spec-compliant).
-+     */
-+    features = qvirtio_get_features(dev1);
-+    g_assert_cmpint(features & (1u << VIRTIO_BLK_F_MQ), ==, 0);
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1u << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+                            (1u << VIRTIO_BLK_F_SCSI));
-+    qvirtio_set_features(dev1, features);
-+
-+    /* Hotplug a secondary device with 8 queues */
-+    qtest_qmp_device_add(qts, "vhost-user-blk-pci", "drv1",
-+                         "{'addr': %s, 'chardev': 'char2', 'num-queues': 8}",
-+                         stringify(PCI_SLOT_HP) ".0");
-+
-+    pdev8 = virtio_pci_new(pdev1->pdev->bus,
-+                           &(QPCIAddress) {
-+                               .devfn = QPCI_DEVFN(PCI_SLOT_HP, 0)
-+                           });
-+    g_assert_nonnull(pdev8);
-+    g_assert_cmpint(pdev8->vdev.device_type, ==, VIRTIO_ID_BLOCK);
-+
-+    qos_object_start_hw(&pdev8->obj);
-+
-+    dev8 = &pdev8->vdev;
-+    features = qvirtio_get_features(dev8);
-+    g_assert_cmpint(features & (1u << VIRTIO_BLK_F_MQ),
-+                    ==,
-+                    (1u << VIRTIO_BLK_F_MQ));
-+    features = features & ~(QVIRTIO_F_BAD_FEATURE |
-+                            (1u << VIRTIO_RING_F_INDIRECT_DESC) |
-+                            (1u << VIRTIO_F_NOTIFY_ON_EMPTY) |
-+                            (1u << VIRTIO_BLK_F_SCSI) |
-+                            (1u << VIRTIO_BLK_F_MQ));
-+    qvirtio_set_features(dev8, features);
-+
-+    num_queues = qvirtio_config_readw(dev8,
-+            offsetof(struct virtio_blk_config, num_queues));
-+    g_assert_cmpint(num_queues, ==, 8);
-+
-+    qvirtio_pci_device_disable(pdev8);
-+    qos_object_destroy(&pdev8->obj);
-+
-+    /* unplug secondary disk */
-+    qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
-+}
-+
- /*
-  * Check that setting the vring addr on a non-existent virtqueue does
-  * not crash.
-@@ -643,7 +704,8 @@ static void quit_storage_daemon(void *qmp_test_state)
-     g_free(qmp_test_state);
- }
- 
--static char *start_vhost_user_blk(GString *cmd_line, int vus_instances)
-+static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
-+                                  int num_queues)
+-static void drive_destroy(void *path)
++/* g_test_queue_destroy() cleanup function for files */
++static void destroy_file(void *path)
  {
-     const char *vhost_user_blk_bin = qtest_qemu_storage_daemon_binary();
-     int fd, qmp_fd, i;
-@@ -675,8 +737,8 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances)
+     unlink(path);
+     g_free(path);
+@@ -678,7 +679,7 @@ static char *drive_create(void)
+     g_assert_cmpint(ret, ==, 0);
+     close(fd);
+ 
+-    g_test_queue_destroy(drive_destroy, t_path);
++    g_test_queue_destroy(destroy_file, t_path);
+     return t_path;
+ }
+ 
+@@ -717,7 +718,7 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
+ 
+     qmp_fd = mkstemp(qmp_sock_path);
+     g_assert_cmpint(qmp_fd, >=, 0);
+-    g_test_queue_destroy(drive_destroy, qmp_sock_path);
++    g_test_queue_destroy(destroy_file, qmp_sock_path);
+ 
+     g_string_append_printf(storage_daemon_command,
+             "exec %s "
+@@ -731,7 +732,7 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances,
+         sock_path = g_strdup(sock_path_tempate);
+         fd = mkstemp(sock_path);
+         g_assert_cmpint(fd, >=, 0);
+-        g_test_queue_destroy(drive_destroy, sock_path);
++        g_test_queue_destroy(drive_file, sock_path);
+         /* create image file */
+         img_path = drive_create();
          g_string_append_printf(storage_daemon_command,
-             "--blockdev driver=file,node-name=disk%d,filename=%s "
-             "--export type=vhost-user-blk,id=disk%d,addr.type=unix,addr.path=%s,"
--            "node-name=disk%i,writable=on ",
--            i, img_path, i, sock_path, i);
-+            "node-name=disk%i,writable=on,num-queues=%d ",
-+            i, img_path, i, sock_path, i, num_queues);
- 
-         g_string_append_printf(cmd_line, "-chardev socket,id=char%d,path=%s ",
-                                i + 1, sock_path);
-@@ -705,7 +767,7 @@ static char *start_vhost_user_blk(GString *cmd_line, int vus_instances)
- 
- static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
- {
--    start_vhost_user_blk(cmd_line, 1);
-+    start_vhost_user_blk(cmd_line, 1, 1);
-     return arg;
- }
- 
-@@ -719,7 +781,13 @@ static void *vhost_user_blk_test_setup(GString *cmd_line, void *arg)
- static void *vhost_user_blk_hotplug_test_setup(GString *cmd_line, void *arg)
- {
-     /* "-chardev socket,id=char2" is used for pci_hotplug*/
--    start_vhost_user_blk(cmd_line, 2);
-+    start_vhost_user_blk(cmd_line, 2, 1);
-+    return arg;
-+}
-+
-+static void *vhost_user_blk_multiqueue_test_setup(GString *cmd_line, void *arg)
-+{
-+    start_vhost_user_blk(cmd_line, 2, 8);
-     return arg;
- }
- 
-@@ -746,6 +814,9 @@ static void register_vhost_user_blk_test(void)
- 
-     opts.before = vhost_user_blk_hotplug_test_setup;
-     qos_add_test("hotplug", "vhost-user-blk-pci", pci_hotplug, &opts);
-+
-+    opts.before = vhost_user_blk_multiqueue_test_setup;
-+    qos_add_test("multiqueue", "vhost-user-blk-pci", multiqueue, &opts);
- }
- 
- libqos_init(register_vhost_user_blk_test);
 -- 
 MST
 
