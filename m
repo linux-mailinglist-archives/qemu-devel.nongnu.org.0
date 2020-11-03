@@ -2,97 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 978C82A3A84
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:40:50 +0100 (CET)
-Received: from localhost ([::1]:35228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE662A3AA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:53:02 +0100 (CET)
+Received: from localhost ([::1]:51426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZmFd-0008HG-Nd
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:40:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45610)
+	id 1kZmRR-00075d-Ju
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:53:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmCN-0007A7-HT
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:37:27 -0500
-Received: from mail-bn8nam11on2074.outbound.protection.outlook.com
- ([40.107.236.74]:32464 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ id 1kZmJU-0000hp-1i
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:44:48 -0500
+Received: from mail-mw2nam12on2072.outbound.protection.outlook.com
+ ([40.107.244.72]:13281 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmCL-0006xA-GK
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:37:27 -0500
+ id 1kZmJS-0007gm-7p
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:44:47 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CJdMnFdaAiPM9HpcFJSgc2BuC3HG/GlJBMNPul/4GIthch/6IUcwA67+2FHed9jsjrvWPQBtVq2nIlWT1Ndsi3ENrDjDHpBjNMXDN8kDSdF4fl6SM+eaxQEt/HdgnrVpykD21AChL0MGtJdYAIP7AYTftASSyMDzDEJfV076zrXElseZe54DRIxJolmx7dSRGiMeMgvpsVIpjTTtgZk3B7YNfjCG1tWkYBKXSvsZ0whDczo5Bsa0n6g5j3+PZM8i4XPAkJqn2loEum1cFu9IubFGzG/uORGo/vo1w+9BJNtTGkr9RN9+vCUXeWnIHMyc7ip5zWsUEWSemO6+Wcimzw==
+ b=X0o7JMbmjIm9yfV5ZgX/mEi+5E4Ew92pjYByBwTzr9TkWccdkF9MZ3b+s1m0YzffzdcX7zbHTTa4OH7NdTrwuK1gFtk8awwUGjlcYmoFy1c8AdCTU6NLkcJYMUkEXaA5dJ1sLZoJMFn9ULvisniKHU8E8IU/OW0hMnW89AJcmJbJRNi1wThGCHCOxfujRDtfFmBybTvihJLvdiZE2xP10FtVEw/kilGxfR+1AXQKJaQq8VRf0004rlkBY9fH04COxrHRY7k8tcBIwhFe88Ki9boA+8HdFxyaAHgrM6xoObDMxlszB1njxoxoBXPToy9o3jDvOb4K4qotuH6mT6H0/Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vJThjI1wv+QDQKhd+2KnZrvrEmOhSMLBtdK7bkJP6pQ=;
- b=aSvwkfe7AIDJT+CaZjqzRqfSOEgmw9lBESHhsjudm+XK6aYu/2EnrdRMQ5L+1G/vBDO/Y1sGmRW+4avvCrO4DBV5uCpCmbRB9U6Nd1ciVUeGwGLbwBEiY9sJtvuOzU1foyMo99+KJE6HPulLdeP5BfGwVBN9oRoA+eRSq5CHI26R+HwQnX20N50N1RXJnOyzVMY3PqxR+HfAgzqCYZJDFYHezmYHSh7mhGbmUsrfxnGIMPGf2QKFzCXHLauR/7IWEXGb2DI27xvtBapPzCyLt34aP7d/RYSwnQX7UU34kkWDrbgdsl3b2uc0G1+UZk4xLdA7fj5PHhVrcDg/FqDEvw==
+ bh=6zTwqa28Izclx3PjHmVA0u+zhlBGCBTj0npDz+49DMI=;
+ b=bIV5cYwL18lZf2GJ87oGTXmaJ/fHTQkeFfbkUUUiSzvUMvC3EPi15/xSCtFLfZJ7vB0Z1awgaCh3PEdG5x2OZfoVFvKPvF/ipM42Gs0PyLJTWDu4WuF/8v7f5htzZNTkeMi7MtOaQ5LJdXITfVl0Qsg2Qr5s6MLtHfPHC9CZhIHFcg0Cb3lSCN7qjy+mhD+3V+Z4eNsrGlh0gXSqFA5W5oJsWfwqfCP3kSeRbXLcyISy+QX41X53UMurD20xwDMooEV+uwY+Bgjmt5zcHnaQrEOsc2Wwg95xkWcKkRfztJGybxSPJMTMymenhkFOiQrg3KLoU90qQJwLeV53hYWN5w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vJThjI1wv+QDQKhd+2KnZrvrEmOhSMLBtdK7bkJP6pQ=;
- b=0WuZCe9mHgR7hiFbpqFNK0s0SVxbffLuqR1kStvUPDVDsezSASS4YxJoJnNYeqeuddpKzzKII2+s/En8Yeu0P+TtW8i7DRqGuXRsvaSYNy3TJma3RgsXBuXGZEn6YnATfXyH9IH5FT4Bp7GkCccm6bCBDQ7qlBh42qghpkfv8O4=
+ bh=6zTwqa28Izclx3PjHmVA0u+zhlBGCBTj0npDz+49DMI=;
+ b=1BeV3cL5TJNOzw5ZoNzO5MEmt7DntKhY4VBEi9k6iNMBKfSMmKWHiI8PzjIfBAC/FlkrRrn8VHsxRwgFZt0ln205UUuwy5QOiOMYSbDgzdYoZ2VNCPyBcXaKw5g0jXtEaocdZ267FwoR7BBFP+4KzJex7+XNdK2yL8+8qCbgtkE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB3765.namprd12.prod.outlook.com (2603:10b6:610:25::18)
+ by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 3 Nov
- 2020 02:37:20 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
+ 2020 02:44:36 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 02:37:20 +0000
-Date: Mon, 2 Nov 2020 20:37:07 -0600
+ 02:44:36 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: Re: [PULL v2 00/12] qemu-ga patch queue for soft-freeze
-Message-ID: <20201103023707.kzx2gz7typtfdxzr@vm0>
-References: <20201103011134.887744-1-michael.roth@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Subject: [PULL v3 00/12] qemu-ga patch queue for soft-freeze
+Date: Mon,  2 Nov 2020 20:43:32 -0600
+Message-Id: <20201103024343.894221-1-michael.roth@amd.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201103011134.887744-1-michael.roth@amd.com>
 X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SN2PR01CA0076.prod.exchangelabs.com (2603:10b6:800::44) To
- CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: DM6PR02CA0116.namprd02.prod.outlook.com
+ (2603:10b6:5:1b4::18) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SN2PR01CA0076.prod.exchangelabs.com (2603:10b6:800::44) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 02:37:19 +0000
+ DM6PR02CA0116.namprd02.prod.outlook.com (2603:10b6:5:1b4::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Tue, 3 Nov 2020 02:44:36 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ba684af8-6b28-4f04-39a2-08d87fa162fc
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3765:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB376529D8107E7193D5F61DD495110@CH2PR12MB3765.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4303;
+X-MS-Office365-Filtering-Correlation-Id: a65110f9-1f5d-4ca5-0095-08d87fa26720
+X-MS-TrafficTypeDiagnostic: CH2PR12MB4311:
+X-Microsoft-Antispam-PRVS: <CH2PR12MB431160B27B967352B53F062395110@CH2PR12MB4311.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: p+EUeSBYl3Gqp2H/NyfTcHIZ4csRH4R4rhlERDHu6lDaa+M2moDjR/T+9QEpL/OknzYCRuRPUIGJTfToEHw6GQyxpZYohtrZPkcLlc/6+nTodvbqMz0EXcth2FVFAzoMWTMSLOt8BIjmMA58CWC8IYz9selhxKsAawZalDGFSAJLdDJdxXBp8Lm9memRXCrAXHie7rrb8YTNcOhjdsdQh7gZubIsxzsr0n7dQH1oOsbkF5ZDHYWnIr9f8MfXjY9dDQ3Xi1bjMFzeRuemhwWfvFGPsmRpyYrvdUdG62rCVmAN0uU/QRe7X+HInG0yoEKDE3L70p2ycNC7gmz/rCuoMw==
+X-Microsoft-Antispam-Message-Info: /v2iTWBKLsTUpIQwBrvWFkOIiKnuCNd6sKZWp25uj+Tslp9l+sQ7FPJLdrXbsls6RydQnaKJpkC7z6cdJd4f4Tek157Aci0uV3XRopxFSPNPPWX8MarzojcLue3kVt8DxbkH7mh7I3kciqSAhQDQhintvNXftbl/mtbbGKcvak/x3IndnezPohn1o+5ydMNIonXJYfe4fLfioim245UfnncraoFc7n2lBGurLRpDI1CGQk48bJECJHQR415xl0tRWE4hlyQINAcn0UXcYeFSQc74LQL+UfGZRsL+9ypDba/s3L1rCGRJj9Cww8rqs5FnY8hLAPOWQBNeUoP8MlxX1g==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(4636009)(39860400002)(346002)(136003)(396003)(366004)(376002)(83380400001)(4326008)(8676002)(8936002)(66946007)(86362001)(66556008)(66476007)(316002)(956004)(4001150100001)(1076003)(6486002)(2906002)(44832011)(478600001)(9686003)(33716001)(26005)(6916009)(52116002)(6496006)(6666004)(5660300002)(186003)(16526019);
+ SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(16526019)(186003)(5660300002)(8936002)(6916009)(8676002)(36756003)(478600001)(86362001)(26005)(66556008)(956004)(66946007)(6666004)(6496006)(2616005)(6486002)(52116002)(66476007)(4326008)(1076003)(83380400001)(44832011)(316002)(4001150100001)(2906002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: Xnj7WGuPc6gz2gYg2aw/FBeD/xGPIcuiVn8POTJpS0d9SJJCAepGejkqd2Jt5p7wKeop4TZ/E6chdbMSPA732Zdwo8nXVE/Ll18vURWivnesTqMJj4TRSTMxXzRUmHjcFKPgfJie6Y4xnVbgVNXrS9M/0jvRarzkI0CNwxrzAgvJ+0OBguidVOT787kGyQKfmOvKQrYRN8DRtCIFXMpJ2ge/WXT68ThxpNKUNTq/2W9IU/EHwf0X1+jVC1rRemorV2AKrqwrpDh22CiDUp6/BKAiZPgGaWSPEQl15ol25zUWi/+400696pZVl6zRKJ4RH1XyvVMJV4CDc/EFA5y+ixo/Mq0d9+rRczG3FqBWkDk9kn23csBuXgPoV6MWcKKLP+PsW8j/X7DN7ZUxbazyMfeGxwBRVs4VLC4/md+zc92/TXKDTIeXkIS7yMgpWXPTM+znyyCUyXtRdjZ7NIF/Uu/iy/FCTlYOmVy5zRefycnyhmtUrKekAPdolt6QzpQ1HjGW3+jT4mHginViW7lzAyhZclvrtQmTi8JehbM+/K8hv8yzUCl1X77m95YXaYKueFzMg4WgXSaLlklwRq6FIyoPQhfeMPTjrMEAfW0Vaz/G2NVK2+QXY3iyNYzU15udamaRsjLP2bIA84n11eiqdg==
+X-MS-Exchange-AntiSpam-MessageData: Nv13ntt5j/KkdwEBpngG8bzCBOTArOvPfeKGznoHCaSWcOhMuIYEZ22sixH8dpvBwD0wGXHqgUEbdMhA+omX6A+YRMRn7nWNz9314zmyyz2GFRqNkVAtQwwdcXKNWCUyLeKElID+1rMgQVqmdSza/G6Dl2+IP2+uzWzjZXB2VVBdWrzNpsnlo0GG8gNkY15wytj9erPI8wO6tdUO8fXS34v7lqEL/VJYapjlE1xQpAA6r4/G9c/6yoxvp7N1jwry9SZKT35YdyjqaQAu2QBJ+E64BlPQOA2/FJZ8cg041ERaweaVBHuzWGs0EJVQ6+YvLY9FNV0ipVfR6EaNT7K0Ezucxly25jZx9QGAgv8Fu+vQZYni6NM65gUTVwUCHNMNK5/MdgXIJxB2JUZ2fXnr7+Pe5DB2OhWGpjfkPzp3rcGaUkWA5jeunGrnzNfm1PM2kWhjP38o2fJ4MVbT4GzY7p3gip7RkwkBLRou5tC3OFLwSDlThc+XGpUJR8cwIqDngkjp3V9NrN7Wbc1efky1AuD6or+WMtryql3nStCu4d0ElFJ7akxvupLAz/Gpxc52yP3horaarTUFseStvgFLtd3ZHgdTO6k9YGfDU6IDynBv/fcQFswd5yOeak2VwqmNxhLcgY29K3QZMdmyDorbBA==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba684af8-6b28-4f04-39a2-08d87fa162fc
+X-MS-Exchange-CrossTenant-Network-Message-Id: a65110f9-1f5d-4ca5-0095-08d87fa26720
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:37:20.3001 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:44:36.6406 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qpSq4qArcCRMBK+eJrMhivO8964BdSRa8/gDfjQgllg/RDp2uwTzrn2uxPqx7S9BdDBDpBHuDFxoJ9Z1fR/24A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3765
-Received-SPF: none client-ip=40.107.236.74; envelope-from=Michael.Roth@amd.com;
- helo=NAM11-BN8-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 21:37:22
+X-MS-Exchange-CrossTenant-UserPrincipalName: eYy122zpNQiz48CkJ888gVDj1pDj6iWSdHkPT/fS1yb3n7ysYf0Vc57jJKXjy7EWkL9DT1uquW53+Q2cGOVcwg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
+Received-SPF: none client-ip=40.107.244.72; envelope-from=Michael.Roth@amd.com;
+ helo=NAM12-MW2-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 21:44:34
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -117,87 +115,92 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 02, 2020 at 07:11:22PM -0600, Michael Roth wrote:
-> Hi Peter,
-> 
-> Sorry to get these out so late, for some inexplicable reason my email
-> client decided to flag all responses v1 as spam and I didn't notice
-> until I double-checked the archives this morning.
-> 
-> I've fixed the gcc-on-BSD and clang-on-linux issues you pointed out 
-> (PATCH 6) and added proper test coverage for both.
-> 
-> Also, the qga-ssh-test unit test introduced in this series triggers a
-> failure in Gitlab CI build-oss-fuzz test. This seems to be due to a
-> memory leak in GLib itself when G_TEST_OPTION_ISOLATE_DIRS option is
-> passed to g_test_init(). I verified the unit test doesn't introduce any
-> leaks when run without g_test* harness. Since G_TEST_OPTION_ISOLATE_DIRS
-> is currently needed to safely run the qga-ssh-test, I've disabled it for
-> now (PATCH 9 and 12) until we figure out solution.
-> 
-> Thanks,
-> 
-> Mike
+Hi Peter,
 
-...And I just noticed Markus email noting that checkpatch complaints about
-g_assert_* aren't just noise. Re-spinning a v3 to address.
+Sorry to get these out so late, for some inexplicable reason my email
+client decided to flag all responses v1 as spam and I didn't notice
+until I double-checked the archives this morning.
 
-> 
-> The following changes since commit 2c6605389c1f76973d92b69b85d40d94b8f1092c:
-> 
->   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201101.0' into staging (2020-11-02 09:54:00 +0000)
-> 
-> are available in the Git repository at:
-> 
->   git://github.com/mdroth/qemu.git tags/qga-pull-2020-10-27-v2-tag
-> 
-> for you to fetch changes up to b457991dfb801bf9227e8823534de5dbb3c276c1:
-> 
->   qga: add ssh-get-authorized-keys (2020-11-02 18:30:42 -0600)
-> 
-> ----------------------------------------------------------------
-> qemu-ga patch queue for soft-freeze
-> 
-> * add guest-get-disks for w32/linux
-> * add guest-{add,remove,get}-authorized-keys
-> * fix API violations and schema documentation inconsistencies with
->   recently-added guest-get-devices
-> 
-> v2:
-> - fix BSD build error due to missing stub for guest_get_disks
-> - fix clang build error on linux due to unused variable
-> - disable qga-ssh-test for now due to a memory leak within GLib when
->   G_TEST_OPTION_ISOLATE_DIRS is passed to g_test_init() since it
->   break Gitlab CI build-oss-fuzz test
-> - rebased and re-tested on master
-> 
-> ----------------------------------------------------------------
-> Marc-André Lureau (5):
->       glib-compat: add g_unix_get_passwd_entry_qemu()
->       qga: add ssh-{add,remove}-authorized-keys
->       qga: add *reset argument to ssh-add-authorized-keys
->       meson: minor simplification
->       qga: add ssh-get-authorized-keys
-> 
-> Markus Armbruster (4):
->       qga: Rename guest-get-devices return member 'address' to 'id'
->       qga: Use common time encoding for guest-get-devices 'driver-date'
->       qga-win: Fix guest-get-devices error API violations
->       qga: Flatten simple union GuestDeviceId
-> 
-> Tomáš Golembiovský (3):
->       qga: add command guest-get-disks
->       qga: add implementation of guest-get-disks for Linux
->       qga: add implementation of guest-get-disks for Windows
-> 
->  include/glib-compat.h    |  26 +++
->  qga/commands-posix-ssh.c | 516 +++++++++++++++++++++++++++++++++++++++++++++++
->  qga/commands-posix.c     | 297 ++++++++++++++++++++++++++-
->  qga/commands-win32.c     | 140 +++++++++++--
->  qga/meson.build          |  39 +++-
->  qga/qapi-schema.json     | 127 +++++++++++-
->  6 files changed, 1104 insertions(+), 41 deletions(-)
->  create mode 100644 qga/commands-posix-ssh.c
-> 
-> 
+I've fixed the gcc-on-BSD and clang-on-linux issues you pointed out 
+(PATCH 6) and added proper test coverage for both.
+
+Also, the qga-ssh-test unit test introduced in this series triggers a
+failure in Gitlab CI build-oss-fuzz test. This seems to be due to a
+memory leak in GLib itself when G_TEST_OPTION_ISOLATE_DIRS option is
+passed to g_test_init(). I verified the unit test doesn't introduce any
+leaks when run without g_test* harness. Since G_TEST_OPTION_ISOLATE_DIRS
+is currently needed to safely run the qga-ssh-test, I've disabled it for
+now (PATCH 9 and 12) until we figure out solution.
+
+And finally (hopefully), I addressed the checkpatch warning regarding
+disallowed use of various g_assert_* macros. I previously thought they
+were just noise until Markus pointed out commit 6e9389563e.
+
+Sorry for all the noise,
+
+Mike
+
+The following changes since commit 2c6605389c1f76973d92b69b85d40d94b8f1092c:
+
+  Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201101.0' into staging (2020-11-02 09:54:00 +0000)
+
+are available in the Git repository at:
+
+  git://github.com/mdroth/qemu.git tags/qga-pull-2020-10-27-v3-tag
+
+for you to fetch changes up to cad97c08a1c17830d77a46780088bc0199df89d1:
+
+  qga: add ssh-get-authorized-keys (2020-11-02 20:04:13 -0600)
+
+----------------------------------------------------------------
+qemu-ga patch queue for soft-freeze
+
+* add guest-get-disks for w32/linux
+* add guest-{add,remove,get}-authorized-keys
+* fix API violations and schema documentation inconsistencies with
+  recently-added guest-get-devices
+
+v3:
+- fix checkpatch errors regarding disallowed usages of g_assert*
+  macros and other warnings
+
+v2:
+- fix BSD build error due to missing stub for guest_get_disks
+- fix clang build error on linux due to unused variable
+- disable qga-ssh-test for now due to a memory leak within GLib when
+  G_TEST_OPTION_ISOLATE_DIRS is passed to g_test_init() since it
+  break Gitlab CI build-oss-fuzz test
+- rebased and re-tested on master
+
+----------------------------------------------------------------
+Marc-André Lureau (4):
+      glib-compat: add g_unix_get_passwd_entry_qemu()
+      qga: add ssh-{add,remove}-authorized-keys
+      meson: minor simplification
+      qga: add ssh-get-authorized-keys
+
+Markus Armbruster (4):
+      qga: Rename guest-get-devices return member 'address' to 'id'
+      qga: Use common time encoding for guest-get-devices 'driver-date'
+      qga-win: Fix guest-get-devices error API violations
+      qga: Flatten simple union GuestDeviceId
+
+Michael Roth (1):
+      qga: add *reset argument to ssh-add-authorized-keys
+
+Tomáš Golembiovský (3):
+      qga: add command guest-get-disks
+      qga: add implementation of guest-get-disks for Linux
+      qga: add implementation of guest-get-disks for Windows
+
+ include/glib-compat.h    |  28 +++
+ qga/commands-posix-ssh.c | 516 +++++++++++++++++++++++++++++++++++++++++++++++
+ qga/commands-posix.c     | 297 ++++++++++++++++++++++++++-
+ qga/commands-win32.c     | 140 +++++++++++--
+ qga/meson.build          |  39 +++-
+ qga/qapi-schema.json     | 127 +++++++++++-
+ 6 files changed, 1106 insertions(+), 41 deletions(-)
+ create mode 100644 qga/commands-posix-ssh.c
+
+
 
