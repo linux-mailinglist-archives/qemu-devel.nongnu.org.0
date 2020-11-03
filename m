@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 007B42A384A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:18:14 +0100 (CET)
-Received: from localhost ([::1]:36510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B7A2A392C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:24:02 +0100 (CET)
+Received: from localhost ([::1]:44920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZkxg-0000Ch-W5
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51042)
+	id 1kZl3I-0003tw-Vm
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZkso-0006mU-W5
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:13:11 -0500
+ id 1kZksr-0006rt-BS
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:13:13 -0500
 Received: from mail-mw2nam10on2055.outbound.protection.outlook.com
  ([40.107.94.55]:25952 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZksn-0005Yp-95
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:13:10 -0500
+ id 1kZksp-0005Yp-Qv
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:13:13 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=OFlNtRSW1pELxC7OHNHZoPXB+FoiG9pCz/2iar1vGFLLh8b7AEisvVxpNdzAPOIe/EGHJHolXY/NJy4fT21AceHjiw8NIV2rtuSOSEUAT6McThytDIRUrg/a31Ek85nDD7ar1tWGoZCYOjsGKxCGe+8XeoWCqgyAnpVS7hOunVwV6ubwvyPNc1cHg+8k0ynH1fGfWdEuyroeEVBUlBwRUbbsYsK/fgfR2Ei7I5U+vdD6XcgQB2KG9/aocT30SYitKVKDG8o+7kwz3GvW1FAsuAiibOI7AOEyr4GGuqjSSE/MTkxxdFvHIxCgCDKsBSAA2Q1eXjNUFmKS1fGKA+7WNg==
+ b=XAWIxKuhimvr8k9U9MALQVcjAM+mpSYakH1lVK02EEmhC4QuKhTPOuQtkUqA4vsNV72M3M3MjsPuaQdG1TsMw0sVqcc56IdPZhjy0sbEx/ibVUWoQlV+tAqgNW/Ew6ZEzvIzMC7nkJiqBMH1Wx4F1kdpMqYMy5um6Uc2/hxsgY6hqw/MKMb+q4qO9L0K62LrVxtycdH5s/OCvSS4LC56T3kajwDE+jHkwODya0Mj80HXpzzn2UayoVm1uwcS6+hqYnDaxX+Syc82Flm2m3CQWvjnKrY6U5mTe8LCUsL9GjBMHJnXFF0m6DXPFzpcpL7CkxVYvtGGprx6tOMBzjD+uQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OE2J8ejvlIA4aWrHVkoErkL61tROkH+vRjXCeNj3n7A=;
- b=I8hp3bk+dHZzpO18qV7BAS24+5PQP5awVGJeW3xIKeufVTKBViZO9kIbJoODAxdpm+T2Ej5sc/osVGCN3DOXpLdsFjnslhN+sonixt/6UhOqYc5RrvCWj7AbgsWXmWSC33UWSwtb4KfzMo/DJCNkuuKzWHWWB6CBXbqgBzlNNbHC0Az2lambVgYxTN6XOxrfWOtL4gjLNEIqsTzTArmuzD31X6hkKWLk+qfP+IK3xr7rNhrWMwc4aQrx8+nr4BwgDVVgSnaDK5j6BRe0hvmbMa7+ldU6NP3VowhDpxfBteRN2CcWYh8pa6jiDWfdn5QlrkvkgNX1KnWX7Nbhe6XyBg==
+ bh=dxNQWgIru2r1B471fgC0ReHA9FdKC5m11LQJgXkIMtI=;
+ b=X3vFsSbShmAXD3YXJxZVvZMb7wVwABNyPGtJDgIG7enJ9awIuuwP85VolXzS2xChYuU/rlxjTQfXVxm7Kb9OhHd2SJN4+uJMhFuyDYMZDIxecWnA57CjiX1WonFOrs4YCp2UokMU/cKrpVMgjwsI/4cI87wl0/XOthHX/PwSyEZjGJCJ1C/Kdfmf8ygVKaUi9tuaJexq4AjPBTHgp+y1i+7A9qDkqVzr/6D1tiI7QOzv7uSQu2wxzpNR3GrUgka2Ais/p9lN2EMIncW7AjcX1FbbADlhqSEFUwMj3Ss7+HzvoXbztQctuTWgX3zYIdVrIAH40MWQp6B8A000X9/EwQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OE2J8ejvlIA4aWrHVkoErkL61tROkH+vRjXCeNj3n7A=;
- b=EyQ8vyNoYQWyDpKP0oJH2OquX1ynpwQsmqR9MQFOCiRk2PUnhouif4kdreNF+frnJinwrbtAVY5Dsm64EDgAiQYVH9oq/fPe8iILTcCrMyqpHNNgtbPhMYrUj2iHAqjRr6AlgVBvDeK2L014+dXQE8mhprE55tZktmlJ2V7DLNM=
+ bh=dxNQWgIru2r1B471fgC0ReHA9FdKC5m11LQJgXkIMtI=;
+ b=ftkoy3NF/mXiRDiBj1Ymt4SROB7YlV5FJml1UVjxYl9sNrsrseXcMT24A82XIZurzDQgfVgRfiNbK7g9LN/d8QPcXt/qJljzOM+Vl35Hri430/stPSSByZhT1nJ38HCfHSCaCl+Z2UxdYzpGRICi2lrt/TEXil7GH/u8gEJOGTA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
  by CH2PR12MB5001.namprd12.prod.outlook.com (2603:10b6:610:61::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 01:12:38 +0000
+ 2020 01:12:41 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 01:12:38 +0000
+ 01:12:41 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 07/12] qga: add implementation of guest-get-disks for Windows
-Date: Mon,  2 Nov 2020 19:11:29 -0600
-Message-Id: <20201103011134.887744-8-michael.roth@amd.com>
+Subject: [PULL v2 08/12] glib-compat: add g_unix_get_passwd_entry_qemu()
+Date: Mon,  2 Nov 2020 19:11:30 -0600
+Message-Id: <20201103011134.887744-9-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201103011134.887744-1-michael.roth@amd.com>
 References: <20201103011134.887744-1-michael.roth@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SN4PR0801CA0001.namprd08.prod.outlook.com
- (2603:10b6:803:29::11) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN4PR0801CA0004.namprd08.prod.outlook.com
+ (2603:10b6:803:29::14) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SN4PR0801CA0001.namprd08.prod.outlook.com (2603:10b6:803:29::11) with
+ SN4PR0801CA0004.namprd08.prod.outlook.com (2603:10b6:803:29::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend
- Transport; Tue, 3 Nov 2020 01:12:38 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend
+ Transport; Tue, 3 Nov 2020 01:12:40 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b7aac0bd-af8b-4a47-84fd-08d87f958e03
+X-MS-Office365-Filtering-Correlation-Id: 1d0c6307-92ee-4e85-af3b-08d87f958fb7
 X-MS-TrafficTypeDiagnostic: CH2PR12MB5001:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB50019BE97A075576F553303495110@CH2PR12MB5001.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:125;
+X-Microsoft-Antispam-PRVS: <CH2PR12MB500110E268CEF906BC989EED95110@CH2PR12MB5001.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: kRO5KFRcCbynh4n7k7JyMPY4alPucktAUgm41AFwdHlOqVgZReJj3Xj+1cS4K/ofZ7230QRGUleAqFQvbp/VIuhg7rvwBRYiNT8W1zq/e8DRuTYYWKvYxbortK6dH+myMKmP+LgqXL0RLF3S/O1imGIQqybMv1CL9z8QZGVVrb+14jSMaD4SrWSXGYDKNBbvsRCmOD8PM6CxKWyeqTrIowyiuA+zF7NzK76VKAZhCj4wqw1smOaX+afo0P7v7XUabW9zYerKYIzIDvhejEr0ES70QUNtWWQWkf/4DZLmaftEcRJ6H8nAQQ7FJMBX4bypPJthQjPnQlOzNQ3VdZEQfA==
+X-Microsoft-Antispam-Message-Info: u/kuLEiHPZF4TKLF4L7sGI7EJiYO5ZMgH2yyW6mu8CvRZnWYizIhl3Tv6XQAwNmuHaR1pAuqiPcC0V2KcbvAc2huxTR1+NejNmlFhwYLQYh0Co6ALLbqbE3wAHlTtf+ufpYsf3g9nUSW7SjjGnaVft8ewrKHEbbIh0lhBWHnYqEPazh1AmbQrx/4l2EwCdHW6Q5ibBEdbKiqGqrQ+wFrMq+rb65giAGuwUkmMJlKvUJOfUNZhFt9ll6cJyKXzd3G+T/UUOo1cbOIyyk45jIQtoTWZpvAZ2JWTiF8XQWhuGSNC64y8s/D9Avisxo7QBkWyqwxsg6X3E1BdACmEXEJDw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(26005)(44832011)(66556008)(66476007)(66946007)(8936002)(86362001)(6486002)(6666004)(83380400001)(4326008)(36756003)(2906002)(8676002)(5660300002)(52116002)(478600001)(186003)(316002)(6916009)(1076003)(16526019)(2616005)(956004)(6496006);
+ SFS:(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(26005)(44832011)(66556008)(66476007)(66946007)(8936002)(86362001)(6486002)(6666004)(4326008)(36756003)(54906003)(2906002)(8676002)(5660300002)(52116002)(478600001)(186003)(316002)(6916009)(1076003)(16526019)(2616005)(956004)(6496006);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: +D/ubJtEsraa+sq1FrE+vYdXzUvlT04uSUMbX17dnGl0ux9QPWMnXZE0n/EPrkbGBbDjBDuAWx+c6l++igHZ7jDJvpLnU0/+OHcvozX30ue+3m50tvTTNcPSXmzfEbryyC+Ov+J6wxzzISQYiMsRK8U5pfUGhlCFWB1OLAW0ENHDutglxHFs/PQgXkKQFpmKtuJmVUNfitWcgr7Yk7cQw2D+0hBUKkckSCcBXnquikPAKaxtZQSeDoo9oEhueGERGjY957pi007bUrWhKo7ASm4I8L3LoNhtYPcJS+Ug+hy+Ji6C4kXGyOn+ptT30UNzuxIkT9POfv7hiXMQcp/daDnjOR69Pev+jvp1ddnBHY1O6OQFBN/NkFHQSQLLtqXyQ2ofoCXVOg1iGStVNqhLCsq4Bua9U3bebEA2h2d1yzzaE6p2Be26cWC4juZV5QkZSFa5UtyZZ/3EMNTXwz8ITCF0JjXuF0XUhTqiry+EuHn7p0CdI5/tKts7LQfxG7PESxAQapBHiLZOYj6iwzGsgSmRYw3b0Hg10yM2C4xIYNrW3iX4vkczUbSgz0kdCIZdE48FRR8YfKaijxTZcvl3AYP2JAE8CwkgTLZPjlKQWYB+U13Onjf5fj2j+U8GE41U4uvgQiIu2I2cL+S5xl64xw==
+X-MS-Exchange-AntiSpam-MessageData: MsieuqxQFjLaEIBtOwro3vEE2iyLP+i/Np9oIS79f1Stt9OgeyCQgGgPT2NMsfppKNFZWmm4KGc5zr1xuQt/4L9kSG6XGem72A7vUtABlfhyeg/BpiOb0K1+h0RQMf6LtfTMsnYKpgBU/hlWjdh4JbZLxNuitbgTA1AHVmnz7HKiJZJ4lRRz6a8sfpzj0+Vo2XSUce946nNHOW8Ohjt6kZWWBB5sgvU0Q8I4gA+3TY/RHtAJFRgzv6B+p0yeZPkgjaZCcSJnrB1dRBzA3ODQmC1wAfn3jCKiKaZ+XDXcd4gQqNYMSAoN6Rxy9mArZ818yC3i3QZgvSy/v/IpN0TJeGrDgAqBp/HBbT4YqjZ127TE2uNAFdrJEC6p5l6nhfJ+iGHOn8vMYbzJVoccFtx7veKSLj9QC+xMn6JzL2N8U2Re+Mnm0ZmngpQJ+6UvGUHlIS7LDZs78JL6muWEMVklss3DQhBc9u+03bQvDM/7pJjKmm69/iRzUR6hEC4ojTAzqbRE//EvKDxIwWdol4eyw8y+KPrfZR3EnJUXN87rO+GY7bN9j0kThkz+MUUA29G7QJrwMTZGK7TPp7i72Nlt67QGbh3zI41NgTEIfF+r0Pp0iTQwDixZSAUqAHvBcncydwiV9rQsn276JpdY4eeoqw==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7aac0bd-af8b-4a47-84fd-08d87f958e03
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d0c6307-92ee-4e85-af3b-08d87f958fb7
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 01:12:38.4744 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 01:12:41.3289 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aLScvA6wPkZnOG9QLV0GVurHgtuZhEMTk9OByaTexs37LGbHfu4S5qpTg0221bJOmKAt7Aacl+WdTg9q62umLQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Iwsx0e8EdIMdZKE8aHYYr6mxjEX8+SRV9ANYD4Pr74rtIF/e2iZBMBkjFzu3Ccy4okZhuwLE+9sEMQV+wGQwcA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5001
 Received-SPF: none client-ip=40.107.94.55; envelope-from=Michael.Roth@amd.com;
  helo=NAM10-MW2-obe.outbound.protection.outlook.com
@@ -114,168 +114,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>, peter.maydell@linaro.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tomáš Golembiovský <tgolembi@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The command lists all the physical disk drives. Unlike for Linux
-partitions and virtual volumes are not listed.
+The glib function was introduced in 2.64. It's a safer version of
+getpwnam, and also simpler to use than getpwnam_r.
 
-Example output:
+Currently, it's only use by the next patch in qemu-ga, which doesn't
+(well well...) need the thread safety guarantees. Since the fallback
+version is still unsafe, I would rather keep the _qemu postfix, to make
+sure it's not being misused by mistake. When/if necessary, we can
+implement a safer fallback and drop the _qemu suffix.
 
-{
-  "return": [
-    {
-      "name": "\\\\.\\PhysicalDrive0",
-      "partition": false,
-      "address": {
-        "serial": "QM00001",
-        "bus-type": "sata",
-        ...
-      },
-      "dependents": []
-    }
-  ]
-}
-
-Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qga/commands-win32.c | 107 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 101 insertions(+), 6 deletions(-)
+ include/glib-compat.h | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index f7bdd5a8b5..300b87c859 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -979,6 +979,101 @@ out:
-     return list;
- }
+diff --git a/include/glib-compat.h b/include/glib-compat.h
+index 0b0ec76299..64e68aa730 100644
+--- a/include/glib-compat.h
++++ b/include/glib-compat.h
+@@ -30,6 +30,11 @@
+ #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
  
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
+ #include <glib.h>
++#if defined(G_OS_UNIX)
++#include <glib-unix.h>
++#include <sys/types.h>
++#include <pwd.h>
++#endif
+ 
+ /*
+  * Note that because of the GLIB_VERSION_MAX_ALLOWED constant above, allowing
+@@ -72,6 +77,27 @@
+ gint g_poll_fixed(GPollFD *fds, guint nfds, gint timeout);
+ #endif
+ 
++#if defined(G_OS_UNIX)
++/* Note: The fallback implementation is not MT-safe, and it returns a copy of
++ * the libc passwd (must be g_free() after use) but not the content. Because of
++ * these important differences the caller must be aware of, it's not #define for
++ * GLib API substitution. */
++static inline struct passwd *
++g_unix_get_passwd_entry_qemu(const gchar *user_name, GError **error)
 +{
-+    ERRP_GUARD();
-+    GuestDiskInfoList *new = NULL, *ret = NULL;
-+    HDEVINFO dev_info;
-+    SP_DEVICE_INTERFACE_DATA dev_iface_data;
-+    int i;
-+
-+    dev_info = SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
-+        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-+    if (dev_info == INVALID_HANDLE_VALUE) {
-+        error_setg_win32(errp, GetLastError(), "failed to get device tree");
++#if GLIB_CHECK_VERSION(2, 64, 0)
++    return g_unix_get_passwd_entry(user_name, error);
++#else
++    struct passwd *p = getpwnam(user_name);
++    if (!p) {
++        g_set_error_literal(error, G_UNIX_ERROR, 0, g_strerror(errno));
 +        return NULL;
 +    }
-+
-+    g_debug("enumerating devices");
-+    dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
-+    for (i = 0;
-+        SetupDiEnumDeviceInterfaces(dev_info, NULL, &GUID_DEVINTERFACE_DISK,
-+            i, &dev_iface_data);
-+        i++) {
-+        GuestDiskAddress *address = NULL;
-+        GuestDiskInfo *disk = NULL;
-+        Error *local_err = NULL;
-+        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
-+            pdev_iface_detail_data = NULL;
-+        STORAGE_DEVICE_NUMBER sdn;
-+        HANDLE dev_file;
-+        DWORD size = 0;
-+        BOOL result;
-+        int attempt;
-+
-+        g_debug("  getting device path");
-+        for (attempt = 0, result = FALSE; attempt < 2 && !result; attempt++) {
-+            result = SetupDiGetDeviceInterfaceDetail(dev_info,
-+                &dev_iface_data, pdev_iface_detail_data, size, &size, NULL);
-+            if (result) {
-+                break;
-+            }
-+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-+                pdev_iface_detail_data = g_realloc(pdev_iface_detail_data,
-+                    size);
-+                pdev_iface_detail_data->cbSize =
-+                    sizeof(*pdev_iface_detail_data);
-+            } else {
-+                g_debug("failed to get device interface details");
-+                break;
-+            }
-+        }
-+        if (!result) {
-+            g_debug("skipping device");
-+            continue;
-+        }
-+
-+        g_debug("  device: %s", pdev_iface_detail_data->DevicePath);
-+        dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
-+            FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-+        if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
-+                NULL, 0, &sdn, sizeof(sdn), &size, NULL)) {
-+            CloseHandle(dev_file);
-+            debug_error("failed to get storage device number");
-+            continue;
-+        }
-+        CloseHandle(dev_file);
-+
-+        disk = g_new0(GuestDiskInfo, 1);
-+        disk->name = g_strdup_printf("\\\\.\\PhysicalDrive%lu",
-+            sdn.DeviceNumber);
-+
-+        g_debug("  number: %lu", sdn.DeviceNumber);
-+        address = g_malloc0(sizeof(GuestDiskAddress));
-+        address->has_dev = true;
-+        address->dev = g_strdup(disk->name);
-+        get_single_disk_info(sdn.DeviceNumber, address, &local_err);
-+        if (local_err) {
-+            g_debug("failed to get disk info: %s",
-+                error_get_pretty(local_err));
-+            error_free(local_err);
-+            qapi_free_GuestDiskAddress(address);
-+            address = NULL;
-+        } else {
-+            disk->address = address;
-+            disk->has_address = true;
-+        }
-+
-+        new = g_malloc0(sizeof(GuestDiskInfoList));
-+        new->value = disk;
-+        new->next = ret;
-+        ret = new;
-+    }
-+
-+    SetupDiDestroyDeviceInfoList(dev_info);
-+    return ret;
++    return (struct passwd *)g_memdup(p, sizeof(*p));
++#endif
 +}
++#endif /* G_OS_UNIX */
 +
- #else
+ #pragma GCC diagnostic pop
  
- static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
-@@ -986,6 +1081,12 @@ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
-     return NULL;
- }
- 
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-+{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
-+}
-+
- #endif /* CONFIG_QGA_NTDDSCSI */
- 
- static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
-@@ -2458,9 +2559,3 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-     }
-     return head;
- }
--
--GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
--{
--    error_setg(errp, QERR_UNSUPPORTED);
--    return NULL;
--}
+ #endif
 -- 
 2.25.1
 
