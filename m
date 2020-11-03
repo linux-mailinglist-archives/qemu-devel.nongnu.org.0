@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943792A4485
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:48:28 +0100 (CET)
-Received: from localhost ([::1]:52452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617962A448D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:51:32 +0100 (CET)
+Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZunb-0000nw-Lo
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:48:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
+	id 1kZuqZ-0004FQ-Es
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:51:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZumE-0000HV-Mb
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:47:02 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38527)
+ id 1kZuoW-0002vB-RC
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:49:24 -0500
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZumC-0005Me-Sz
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:47:02 -0500
-Received: by mail-wm1-x344.google.com with SMTP id h62so7651233wme.3
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:47:00 -0800 (PST)
+ id 1kZuoU-00066g-FJ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:49:24 -0500
+Received: by mail-wm1-x342.google.com with SMTP id k18so12467621wmj.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:49:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vLwQzK3euyp1V0xxDaf9XmLFVlrucKWOw3sirbQ2sVw=;
- b=UxVuJI8A8x0DNhPGfoFHjGaF0RPjMSPT1a2KjqhHApl9pPhW6P1yYCboeUzLFIxLRe
- xUBNZPbrLVWt2nvGmAj/hyOMA0CEitbaGrzuw7O9guAJ/6nKQSmQaPoZUkH3OiaN2QVq
- ZoZmiUfT65QM5Haq2JM7hh/ydckXM3CDd2J3Dha17zCjuGzIQ/kj1OLPHCxx8NpqAgBy
- Lg84dXxuwKw9ilFfiE2/iLwCdAt0xuyDcu1ycVd8358G9Yy8vrAxtNdTc8FkmyFQWcPz
- zkhRD21rLlf2nulblvgpesCOueN7+XHOcfxjSA11mu5uWvTm4aPus+TvI3nGqLBp6vTo
- tRBQ==
+ bh=wfH8DgLEFheGCm4+olyiLAtiHOfKuRbs7i/BAfcD97k=;
+ b=mQlHJ0ZVCrHI4+FIfMriWgpSqi9oa6av7TdSdACHbdQ9V7wT0rcqU1uC6i46yqW1dE
+ jvstVaLblrNgAs8uJvATMo6XWWqPMCyXOOgjY/y/d3zjjlXBLjzy02Cj5Qa99PkXDkSl
+ tm2C1YEiHIBqfay0EEHfsOFgviAUkdZsWzYfa9HJNH71qmR+9Mhi2on7vpRCT8Wa2SON
+ 0bLC9d6pxzV3f9uu9byfDInrWOK9hbGY/cRh6Icyc1UJUaoU8lLAtsBWCxxeHt2MIEAf
+ zQZyST9WXFldjHcQJG0kO22O18Z6/krHLDBO9N3f/RwuHoMvT1PKFH4LXPjobtU7XQjE
+ CkSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=vLwQzK3euyp1V0xxDaf9XmLFVlrucKWOw3sirbQ2sVw=;
- b=gthHItQGj9+YztAgVLMYtlBxQcm4Gf/K3KPAS8vKNPU5PH/Vb9yY15KJyUcaosxh8y
- vme9l5cEiSwQiuJ7MKcV4qZLKj5cLhzhMfHe1yYUw3ktyjws5BDmHh5WfVK7nj7w13d5
- fctyLvHdbBivwykuJVWEL23Oj/Cq5Zs4qBZ3DezSaxUC9gBlkso5Bb3pGiwPLjc64GXL
- fylQxC4GYwsqg82I6b3Lpff/fzT9xjh1FdXy3mKodbhviq7pW7SEpyXCtjVC955JGrpW
- kCY5uBmHshb4EJ8/yrMkb3hEeRprAI6XBkYNf9X8P1ryRFFsCorXTr9rRwNKZpyi/H2Z
- yCuQ==
-X-Gm-Message-State: AOAM530OVjMn2y7tS/JhUF+TGOEI0tcTVHjEbrH9byMZ1cZuYnGW7vHQ
- mow0IWfV4WwtLQUR/ieBecZlKIur/qNKMg==
-X-Google-Smtp-Source: ABdhPJxKkN5vfMmG7reLTaFY2VXo1ZZFu5NVV6N32cPwcyzLgoXZP8ahJ6UqMg7XclGgzgimaxmRnA==
-X-Received: by 2002:a1c:4c13:: with SMTP id z19mr3129945wmf.121.1604404018287; 
- Tue, 03 Nov 2020 03:46:58 -0800 (PST)
+ bh=wfH8DgLEFheGCm4+olyiLAtiHOfKuRbs7i/BAfcD97k=;
+ b=sGhs+0Toh9ZFJhfMlIc8ryK0z3BET1AxFDuNgGiWkaARkDcCwn2eZaRp+LKZcJvkct
+ nKZnonCM/p4DEcRB44zMg1LN/J946lgmRa24PjipFSkLapII7iszm80RyLfob2R46rNM
+ JXsG0me7rgguO+ejWLClr8MkmoS9feGOJgwAvlNgM6pfK0OOJDIvVD8VDHd+6iuV/NdG
+ KEzQeDyANY/VkggR8Kz/pZeBgVtciEgv4UsHzGz4FSIxcXjirQmUrbIj6oJJo8RbtXKB
+ bXTAkdNKu8+6CnioHGZ2bbLGc2/y3YnysAUMk2dNwWugZjHKqqTwPvqGHWzPJOoZjfEx
+ p9Yw==
+X-Gm-Message-State: AOAM530xv0ajAArg1zS8hp4juz0od5N0kj89WJCAPihEgTBBsUrXFKGn
+ RUyivwj3qHcBPeG9+smYfXpyPw==
+X-Google-Smtp-Source: ABdhPJz3ZDq5OSsOTEiEjkvjHJKKHoE5PnKWGsNqPRGwbAm9/gTyglWH6IpF0uKaFUaNR/2MbmpNwg==
+X-Received: by 2002:a7b:c101:: with SMTP id w1mr3163253wmi.170.1604404160956; 
+ Tue, 03 Nov 2020 03:49:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 130sm2908224wmd.18.2020.11.03.03.46.57
+ by smtp.gmail.com with ESMTPSA id f13sm26434215wrp.12.2020.11.03.03.49.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 03:46:57 -0800 (PST)
+ Tue, 03 Nov 2020 03:49:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/openrisc: Remove dead code attempting to check "is
- timer disabled"
-Date: Tue,  3 Nov 2020 11:46:54 +0000
-Message-Id: <20201103114654.18540-1-peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH] hw/arm/nseries: Check return value from load_image_targphys()
+Date: Tue,  3 Nov 2020 11:49:18 +0000
+Message-Id: <20201103114918.11807-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::342;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,43 +83,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the mtspr helper we attempt to check for "is the timer disabled"
-with "if (env->ttmr & TIMER_NONE)".  This is wrong because TIMER_NONE
-is zero and the condition is always false (Coverity complains about
-the dead code.)
+The nseries machines have a codepath that allows them to load a
+secondary bootloader.  This code wasn't checking that the
+load_image_targphys() succeeded.  Check the return value and report
+the error to the user.
 
-The correct check would be to test whether the TTMR_M field in the
-register is equal to TIMER_NONE instead.  However, the
-cpu_openrisc_timer_update() function checks whether the timer is
-enabled (it looks at cpu->env.is_counting, which is set to 0 via
-cpu_openrisc_count_stop() when the TTMR_M field is set to
-TIMER_NONE), so there's no need to check for "timer disabled" in the
-target/openrisc code.  Instead, simply remove the dead code.
+While we're in the vicinity, fix the comment style of the
+comment documenting what this image load is doing.
 
-Fixes: Coverity CID 1005812
+Fixes: Coverity CID 1192904
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/openrisc/sys_helper.c | 3 ---
- 1 file changed, 3 deletions(-)
+ hw/arm/nseries.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/target/openrisc/sys_helper.c b/target/openrisc/sys_helper.c
-index d9fe6c59489..41390d046f6 100644
---- a/target/openrisc/sys_helper.c
-+++ b/target/openrisc/sys_helper.c
-@@ -176,9 +176,6 @@ void HELPER(mtspr)(CPUOpenRISCState *env, target_ulong spr, target_ulong rb)
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 76fd7fe9854..d49852c60d7 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -1380,7 +1380,8 @@ static void n8x0_init(MachineState *machine,
+         /* No, wait, better start at the ROM.  */
+         s->mpu->cpu->env.regs[15] = OMAP2_Q2_BASE + 0x400000;
  
-     case TO_SPR(10, 1): /* TTCR */
-         cpu_openrisc_count_set(cpu, rb);
--        if (env->ttmr & TIMER_NONE) {
--            return;
--        }
-         cpu_openrisc_timer_update(cpu);
-         break;
- #endif
+-        /* This is intended for loading the `secondary.bin' program from
++        /*
++         * This is intended for loading the `secondary.bin' program from
+          * Nokia images (the NOLO bootloader).  The entry point seems
+          * to be at OMAP2_Q2_BASE + 0x400000.
+          *
+@@ -1388,9 +1389,15 @@ static void n8x0_init(MachineState *machine,
+          * for them the entry point needs to be set to OMAP2_SRAM_BASE.
+          *
+          * The code above is for loading the `zImage' file from Nokia
+-         * images.  */
+-        load_image_targphys(option_rom[0].name, OMAP2_Q2_BASE + 0x400000,
+-                            machine->ram_size - 0x400000);
++         * images.
++         */
++        if (load_image_targphys(option_rom[0].name,
++                                OMAP2_Q2_BASE + 0x400000,
++                                machine->ram_size - 0x400000) < 0) {
++            error_report("Failed to load secondary bootloader %s",
++                         option_rom[0].name);
++            exit(EXIT_FAILURE);
++        }
+ 
+         n800_setup_nolo_tags(nolo_tags);
+         cpu_physical_memory_write(OMAP2_SRAM_BASE, nolo_tags, 0x10000);
 -- 
 2.20.1
 
