@@ -2,77 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7733D2A44A7
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:59:05 +0100 (CET)
-Received: from localhost ([::1]:51078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E30A42A44A4
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:57:39 +0100 (CET)
+Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZuxs-0003g5-Fb
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:59:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42936)
+	id 1kZuwV-0001rA-0O
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:57:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42836)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZuvH-0000jb-9k
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:56:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33848)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZuvB-0000am-4x
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:56:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZuvF-0008S6-0o
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:56:22 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kZuv8-0008Pb-D0
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:56:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604404580;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1604404571;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ON2uQqN1SCpz2ZTd9De2s7FMvHZTrJXz2vJdWHZH6HE=;
- b=VsVE/5wym9QszSODeRE0WjhxW52NEDM4KtQvbbT4s+LyyaQCco8U0srGHRihbAW9IqfQAv
- URgnmr5A/dkxaMKCAH8mr4zDJlfsjl8ImVhdQzSPwrTQAHQ75q2zi7WLrTW3Mp1Vc+5DMC
- 1PyT/7nJnHTPkcZ9UC/I8nZ4EKE3jbo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-D_A8eBGAP9mfaavCHTjE3Q-1; Tue, 03 Nov 2020 06:56:13 -0500
-X-MC-Unique: D_A8eBGAP9mfaavCHTjE3Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 272E1108E1A5;
- Tue,  3 Nov 2020 11:56:12 +0000 (UTC)
-Received: from redhat.com (ovpn-115-87.ams2.redhat.com [10.36.115.87])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BC8BF73671;
- Tue,  3 Nov 2020 11:56:06 +0000 (UTC)
-Date: Tue, 3 Nov 2020 11:56:02 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [RFC PATCH 0/6] eBPF RSS support for virtio-net
-Message-ID: <20201103115602.GI205187@redhat.com>
-References: <20201102185115.7425-1-andrew@daynix.com>
- <0164a42f-4542-6f3e-bd71-3319dfaae190@redhat.com>
- <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
+ bh=wMwjYshHHNNDPsfRAKKXqUFVQxg37tbAnaPOB1Mtzr8=;
+ b=H5lEGqEpFog7DFalzD+ufwvgzTYqArzl085rn2FJC4PVOauZ+qEv2rnsSZEkQXsjRiNX3d
+ MoeRHXb1WYe678I8XCD7w8X0X6/sC+FL4TGLcz+pXq4gwULVidYaCUHpd0J7U8iQuZZ5a7
+ uX1DQpxhdgo0cA+8BtQD6Z1N83TJuEw=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-102-7E3xscg4OHC-SCoNI2c9DA-1; Tue, 03 Nov 2020 06:56:10 -0500
+X-MC-Unique: 7E3xscg4OHC-SCoNI2c9DA-1
+Received: by mail-ej1-f70.google.com with SMTP id d13so5307880ejz.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:56:10 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wMwjYshHHNNDPsfRAKKXqUFVQxg37tbAnaPOB1Mtzr8=;
+ b=AENpOs6LLxxws71SMMHtzYJWkR+gHndt8A7D4Lj1GiPEiYCptKUusYn8inmWAfsmwn
+ 3+xh6yyY63KA+qw2C3C/1/qUqAZb8ye9FXi8C3gXhrfYhgu86+bPhXWre2cXVsXENshK
+ 6eDQ+jRU/sABo3r1rpUPzMczUBZyj8uo4dXNu/6k7g+t2dyjNGvzXkQwXxr0EIJzX+i0
+ gx0HxRBqhtwiUVzVgFMf9k/EV9D7NUcnXuUaFzzN8kHszYYYNTnLwc8MxLpPmfChv1Wp
+ stVRhOcUX/qagJenUISBGI3JAgZuCuaUvRY2ZAp2Q4Omjj5cLFPOnjE6vTjJcm6IE3Sk
+ mfoA==
+X-Gm-Message-State: AOAM531s6ON54GWMavdonWkTLo/ipomehDYxyyEa/ghtPLh149UjAGQU
+ WLiza0qjqtyd1kX7+ZrKcWwzCHeVMWHgQp7ZOyKbHQSltazPvUdHTgl9ucInU/szgiw9GvosNgl
+ pBLPGZ3fsSpR7OVw=
+X-Received: by 2002:aa7:c358:: with SMTP id j24mr21518970edr.265.1604404568957; 
+ Tue, 03 Nov 2020 03:56:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzNzXFgMCMcCsyS38anJ/RDAMAroI7Zoe8x1kJ0ZaxnvnSowqw9nZF1F5LUpcegoJVJ+hiLwA==
+X-Received: by 2002:aa7:c358:: with SMTP id j24mr21518949edr.265.1604404568775; 
+ Tue, 03 Nov 2020 03:56:08 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id c3sm11726333edl.60.2020.11.03.03.56.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Nov 2020 03:56:08 -0800 (PST)
+Subject: Re: [PATCH] tests/qtest/libqos/ahci.c: Avoid NULL dereference in
+ ahci_exec()
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201103115257.23623-1-peter.maydell@linaro.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d42056d2-32cb-aed0-a45f-974ae0fdb10c@redhat.com>
+Date: Tue, 3 Nov 2020 12:56:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201103115257.23623-1-peter.maydell@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,130 +102,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Andrew Melnychenko <andrew@daynix.com>,
- qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 03, 2020 at 12:32:43PM +0200, Yuri Benditovich wrote:
-> On Tue, Nov 3, 2020 at 11:02 AM Jason Wang <jasowang@redhat.com> wrote:
+On 03/11/20 12:52, Peter Maydell wrote:
+> In ahci_exec() we attempt to permit the caller to pass a NULL pointer
+> for opts_in (in which case we use a default set of options).  However
+> although we check for NULL when setting up the opts variable at the
+> top of the function, we unconditionally dereference opts_in at the
+> end of the function as part of freeing the opts->buffer.
 > 
-> >
-> > On 2020/11/3 上午2:51, Andrew Melnychenko wrote:
-> > > Basic idea is to use eBPF to calculate and steer packets in TAP.
-> > > RSS(Receive Side Scaling) is used to distribute network packets to guest
-> > virtqueues
-> > > by calculating packet hash.
-> > > eBPF RSS allows us to use RSS with vhost TAP.
-> > >
-> > > This set of patches introduces the usage of eBPF for packet steering
-> > > and RSS hash calculation:
-> > > * RSS(Receive Side Scaling) is used to distribute network packets to
-> > > guest virtqueues by calculating packet hash
-> > > * eBPF RSS suppose to be faster than already existing 'software'
-> > > implementation in QEMU
-> > > * Additionally adding support for the usage of RSS with vhost
-> > >
-> > > Supported kernels: 5.8+
-> > >
-> > > Implementation notes:
-> > > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
-> > > Added eBPF support to qemu directly through a system call, see the
-> > > bpf(2) for details.
-> > > The eBPF program is part of the qemu and presented as an array of bpf
-> > > instructions.
-> > > The program can be recompiled by provided Makefile.ebpf(need to adjust
-> > > 'linuxhdrs'),
-> > > although it's not required to build QEMU with eBPF support.
-> > > Added changes to virtio-net and vhost, primary eBPF RSS is used.
-> > > 'Software' RSS used in the case of hash population and as a fallback
-> > option.
-> > > For vhost, the hash population feature is not reported to the guest.
-> > >
-> > > Please also see the documentation in PATCH 6/6.
-> > >
-> > > I am sending those patches as RFC to initiate the discussions and get
-> > > feedback on the following points:
-> > > * Fallback when eBPF is not supported by the kernel
-> >
-> >
-> > Yes, and it could also a lacking of CAP_BPF.
-> >
-> >
-> > > * Live migration to the kernel that doesn't have eBPF support
-> >
-> >
-> > Is there anything that we needs special treatment here?
-> >
-> > Possible case: rss=on, vhost=on, source system with kernel 5.8 (everything
-> works) -> dest. system 5.6 (bpf does not work), the adapter functions, but
-> all the steering does not use proper queues.
+> Switch to checking whether the final buffer is the same as the
+> buffer we started with, instead of assuming the value we started
+> with is always opts_in->buffer.
 > 
+> At the moment all the callers pass a non-NULL opts argument, so
+> we never saw any crashes in practice.
 > 
+> Fixes: Coverity CID 1432302
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  tests/qtest/libqos/ahci.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
+> diff --git a/tests/qtest/libqos/ahci.c b/tests/qtest/libqos/ahci.c
+> index 2946abc15ae..fba3e7a954e 100644
+> --- a/tests/qtest/libqos/ahci.c
+> +++ b/tests/qtest/libqos/ahci.c
+> @@ -637,10 +637,13 @@ void ahci_exec(AHCIQState *ahci, uint8_t port,
+>      AHCICommand *cmd;
+>      int rc;
+>      AHCIOpts *opts;
+> +    uint64_t buffer_in;
+>  
+>      opts = g_memdup((opts_in == NULL ? &default_opts : opts_in),
+>                      sizeof(AHCIOpts));
+>  
+> +    buffer_in = opts->buffer;
+> +
+>      /* No guest buffer provided, create one. */
+>      if (opts->size && !opts->buffer) {
+>          opts->buffer = ahci_alloc(ahci, opts->size);
+> @@ -686,7 +689,7 @@ void ahci_exec(AHCIQState *ahci, uint8_t port,
+>          g_assert_cmpint(rc, ==, 0);
+>      }
+>      ahci_command_free(cmd);
+> -    if (opts->buffer != opts_in->buffer) {
+> +    if (opts->buffer != buffer_in) {
+>          ahci_free(ahci, opts->buffer);
+>      }
+>      g_free(opts);
 > 
-> >
-> > > * Integration with current QEMU build
-> >
-> >
-> > Yes, a question here:
-> >
-> > 1) Any reason for not using libbpf, e.g it has been shipped with some
-> > distros
-> >
-> 
-> We intentionally do not use libbpf, as it present only on some distros.
-> We can switch to libbpf, but this will disable bpf if libbpf is not
-> installed
 
-If we were modifying existing funtionality then introducing a dep on
-libbpf would be a problem as you'd be breaking existing QEMU users
-on distros without libbpf.
+Queued, thanks.
 
-This is brand new functionality though, so it is fine to place a
-requirement on libbpf. If distros don't ship that library and they
-want BPF features in QEMU, then those distros should take responsibility
-for adding libbpf to their package set.
-
-> > 2) It would be better if we can avoid shipping bytecodes
-> >
-> 
-> 
-> This creates new dependencies: llvm + clang + ...
-> We would prefer byte code and ability to generate it if prerequisites are
-> installed.
-
-I've double checked with Fedora, and generating the BPF program from
-source is a mandatory requirement for QEMU. Pre-generated BPF bytecode
-is not permitted.
-
-There was also a question raised about the kernel ABI compatibility
-for BPF programs ? 
-
-  https://lwn.net/Articles/831402/
-
-  "The basic problem is that when BPF is compiled, it uses a set
-   of kernel headers that describe various kernel data structures
-   for that particular version, which may be different from those
-   on the kernel where the program is run. Until relatively recently,
-   that was solved by distributing the BPF as C code along with the
-   Clang compiler to build the BPF on the system where it was going
-   to be run."
-
-Is this not an issue for QEMU's usage of BPF here ?
-
-The dependancy on llvm is unfortunate for people who build with GCC,
-but at least they can opt-out via a configure switch if they really
-want to. As that LWN article notes, GCC will gain BPF support
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Paolo
 
 
