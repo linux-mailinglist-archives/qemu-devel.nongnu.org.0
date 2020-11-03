@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286162A453D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:33:01 +0100 (CET)
-Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BE6B2A4556
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:38:45 +0100 (CET)
+Received: from localhost ([::1]:45926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvUi-0006Pu-4j
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:33:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49846)
+	id 1kZvaG-0004fk-AI
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:38:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvTE-000538-27
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:31:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33419)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kZvUf-0007Bv-Dm
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:32:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvTC-0003b6-3K
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:31:27 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kZvUc-00046F-1K
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:32:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604406685;
+ s=mimecast20190719; t=1604406772;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PGnvEjPJJ0VdjKm9RCFITqBUBKzCvnEc/uGDBjoYwKo=;
- b=aekwXRqe+zR3gKO6sIiHlI/8I+YX9Tj2cfKiMH+IDsUm4zi3Hd9kQAUe2OHrztiwrKSUGw
- JRj3549QI4CbGuy62QHPKqvjROp0RJyxd3MkMlU8rN/aboFVKgGKcyUpexMluc0HGdNetc
- LycqNqnvJLxQKEOLjSUBbZvvSvHlYNo=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Xmvu/DJeZOXBtmHVNhnqsCCfgmAyHqp5K3zowMGUgVI=;
+ b=Ea6+KVA/Hbshjl4Jr7T1TTcYtERk/ilwUkTOg+BZ/lWdqVGsbRQTBOc9bhzvnkGPNICCmK
+ FGdMrprCzw3eT4Ifg5x25TKd6td2HQKIMJMtWnGwkqm8uYEtPh25Q/gDdBVTj3JKZGfplr
+ nx1OFUj0s8pWFmX4jgm4mAcPqlaZAM4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200-q-uE3CtpPIaUOzrn2y10sA-1; Tue, 03 Nov 2020 07:31:23 -0500
-X-MC-Unique: q-uE3CtpPIaUOzrn2y10sA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-496-CozxhjOoP6qf-nELJUBBMA-1; Tue, 03 Nov 2020 07:32:51 -0500
+X-MC-Unique: CozxhjOoP6qf-nELJUBBMA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 895A78030B0;
- Tue,  3 Nov 2020 12:31:22 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F01EF1002D48;
- Tue,  3 Nov 2020 12:31:17 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:31:16 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH 16/20] nvdimm: Remove unnecessary prefix from error message
-Message-ID: <20201103133116.38f36be9@redhat.com>
-In-Reply-To: <20201030202131.796967-17-ehabkost@redhat.com>
-References: <20201030202131.796967-1-ehabkost@redhat.com>
- <20201030202131.796967-17-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6CC41074667;
+ Tue,  3 Nov 2020 12:32:49 +0000 (UTC)
+Received: from gondolin.redhat.com (ovpn-114-68.ams2.redhat.com [10.36.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9CD9C5DA71;
+ Tue,  3 Nov 2020 12:32:41 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.2] s390x: fix build for --without-default-devices
+Date: Tue,  3 Nov 2020 13:32:37 +0100
+Message-Id: <20201103123237.718242-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,55 +75,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Matthew Rosato <mjrosato@linux.ibm.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, qemu-s390x@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 16:21:27 -0400
-Eduardo Habkost <ehabkost@redhat.com> wrote:
+s390-pci-vfio.c calls into the vfio code, so we need it to be
+built conditionally on vfio (which implies CONFIG_LINUX).
 
-> object_property_parse() will add a
->   "Property '<TYPE>.<PROP>' can't take value '<VALUE>'"
-> prefix automatically for us.
-> 
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: cd7498d07fbb ("s390x/pci: Add routine to get the vfio dma available count")
+Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+---
+ hw/s390x/meson.build             | 2 +-
+ include/hw/s390x/s390-pci-vfio.h | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-
-> ---
-> Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>
-> Cc: "Michael S. Tsirkin" <mst@redhat.com>
-> Cc: Igor Mammedov <imammedo@redhat.com>
-> Cc: qemu-devel@nongnu.org
-> ---
->  hw/mem/nvdimm.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
-> index e1574bc07c..b9a99d58ed 100644
-> --- a/hw/mem/nvdimm.c
-> +++ b/hw/mem/nvdimm.c
-> @@ -56,8 +56,7 @@ static void nvdimm_set_label_size(Object *obj, Visitor *v, const char *name,
->          return;
->      }
->      if (value < MIN_NAMESPACE_LABEL_SIZE) {
-> -        error_setg(errp, "Property '%s.%s' (0x%" PRIx64 ") is required"
-> -                   " at least 0x%lx", object_get_typename(obj), name, value,
-> +        error_setg(errp, "label size should be at least 0x%lx",
->                     MIN_NAMESPACE_LABEL_SIZE);
->          return;
->      }
-> @@ -89,8 +88,7 @@ static void nvdimm_set_uuid(Object *obj, Visitor *v, const char *name,
->      }
->  
->      if (qemu_uuid_parse(value, &nvdimm->uuid) != 0) {
-> -        error_setg(errp, "Property '%s.%s' has invalid value",
-> -                   object_get_typename(obj), name);
-> +        error_setg(errp, "invalid UUID");
->      }
->  
->      g_free(value);
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index f4663a835514..2a7818d94b94 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -27,7 +27,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
+ ))
+ s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
+ s390x_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('3270-ccw.c'))
+-s390x_ss.add(when: 'CONFIG_LINUX', if_true: files('s390-pci-vfio.c'))
++s390x_ss.add(when: 'CONFIG_VFIO', if_true: files('s390-pci-vfio.c'))
+ 
+ virtio_ss = ss.source_set()
+ virtio_ss.add(files('virtio-ccw.c'))
+diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
+index c7984905b3b7..ff708aef500f 100644
+--- a/include/hw/s390x/s390-pci-vfio.h
++++ b/include/hw/s390x/s390-pci-vfio.h
+@@ -13,8 +13,9 @@
+ #define HW_S390_PCI_VFIO_H
+ 
+ #include "hw/s390x/s390-pci-bus.h"
++#include CONFIG_DEVICES
+ 
+-#ifdef CONFIG_LINUX
++#ifdef CONFIG_VFIO
+ bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
+ S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
+                                           S390PCIBusDevice *pbdev);
+-- 
+2.26.2
 
 
