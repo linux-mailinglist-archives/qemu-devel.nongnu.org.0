@@ -2,74 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A7352A4A91
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:01:43 +0100 (CET)
-Received: from localhost ([::1]:48794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6FB2A4AE6
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:13:37 +0100 (CET)
+Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZykg-0004pb-GE
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:01:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60244)
+	id 1kZywC-0007dM-KR
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:13:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZyjF-0003Qo-VN
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:00:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52077)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZyjC-0002Vm-VW
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:00:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604419209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IeBEkZ3rPPd3tykenEV5yTcAv5+AKEtQKdvPy2HzDwc=;
- b=UDwIFbnKW4PhyTv3lJgX1c843B5Q5G3VJiLlTRB1n+y40TG/v65CmqxLzwyqrt/HiUKEVf
- PhqMuIJllAu4VtdW1o7kQq8Nek8No+c6jejsVJE9OOo6602jGsQe0sZVTlogrD3Bd0SWPJ
- QUrmn3xuOg0MYNcPaR7d7/KamQJ10WI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-183-lwe-oJdYNd2sAYfs9ZcLOg-1; Tue, 03 Nov 2020 11:00:07 -0500
-X-MC-Unique: lwe-oJdYNd2sAYfs9ZcLOg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 487B218BA283
- for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 16:00:06 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D52F27512A;
- Tue,  3 Nov 2020 16:00:05 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4DA3A1132BD6; Tue,  3 Nov 2020 17:00:04 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] qapi: make all parsing visitors parse boolean options
- the same
-References: <20201103142344.402353-1-pbonzini@redhat.com>
-Date: Tue, 03 Nov 2020 17:00:04 +0100
-In-Reply-To: <20201103142344.402353-1-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Tue, 3 Nov 2020 09:23:44 -0500")
-Message-ID: <871rhajurf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kZyjd-0003rU-A8
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:00:37 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:56657)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kZyjb-0002nH-0u
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:00:36 -0500
+Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
+ (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N79ly-1kHHez3ZAS-017Xvk; Tue, 03 Nov 2020 17:00:22 +0100
+Subject: Re: [PULL 1/1] linux-user: Support futex_time64
+To: Alistair Francis <alistair23@gmail.com>
+References: <20200330102945.2388294-1-laurent@vivier.eu>
+ <20200330102945.2388294-2-laurent@vivier.eu>
+ <CAFEAcA97s+jiZxH+ObdFeFgs7-Wub6XjZvJFmL2s4voRrny38Q@mail.gmail.com>
+ <a1fd7792-b7fa-6e86-4a24-b53fb7ecac0f@vivier.eu>
+ <CAKmqyKN81bBXtJei7ch3CFLqjsnyiVfZOmYuTEL68a=i7JNPOQ@mail.gmail.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <7a26a668-cd6f-8d7c-5c35-fd15ad74a92b@vivier.eu>
+Date: Tue, 3 Nov 2020 17:00:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+In-Reply-To: <CAKmqyKN81bBXtJei7ch3CFLqjsnyiVfZOmYuTEL68a=i7JNPOQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:V41d/CAQjXa1gTTnAsUYQLYUTxZeE6qYUjP4pBez7X5esxaeRVT
+ xiMZmYwASw5Xqgb0VOYkMnHoWVjTRxJ4DiFbdjnutVE63ukip7IHoqN5XxFHQ4hpj4+f9Nj
+ vfCOsJXm1yqogah18Iey8MF5vYRt5dMyg6m8/SAjNKT23OE4Kpx0EfkJQDa6MYFsBZItqtJ
+ NK6j9NFfvJoSlL8NknWiA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iV2aHCzfgck=:Tfuia/BPoryqlphOrdCCfQ
+ gHJR3e+/IoVC6zMlwKigVM7xMa03W96s1K5yTCAF7tE2iqOxL1zUWB1keflN0MmxiR86L0Cl7
+ r0uUgO16oRk3SuTsMo33S6h39f14A2t9NwvSXDqhjhfBWIFNm3vsE526S03SXqLhB/MfxT65K
+ kXZ1aHcxU46bY9gxBtB/dust46eEMXHmNQD22itVNgiL67Ra6cBGSfI345qc205y/Cn/EO/gb
+ WC40/czECuUxNJyG2YFD8VgpUGxnqEpL9rW0Z3RVlgaKJJE+pLUAgoq4y/l2WOvTqWZFCJyOn
+ 6MuAHDVkm1PQpil0uiANH4t0UZmqKHakcGVATD5QGHBsLrl4FUQ7VOH/UQAdtAhBNCGR1NmB+
+ In+vUq++A3zHyXQ/CX1tIS2saCnmk4amzc6BIa5I6VfYvHIEPT1EUDqj2MTq/m8TJWyDMav7e
+ GQAHU/KdVg==
+Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 11:00:33
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,216 +71,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> OptsVisitor, StringInputVisitor and the keyval visitor have
-> three different ideas of how a human could write the value of
-> a boolean option.  Pay homage to the backwards-compatibility
-> gods and make the new common helper accept all four sets: on/off,
-> true/false, y/n and yes/no.
-
-Mention the match is now case-insensitive?
-
+Le 03/11/2020 à 16:40, Alistair Francis a écrit :
+> On Mon, Nov 2, 2020 at 11:29 PM Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> Le 02/11/2020 à 19:15, Peter Maydell a écrit :
+>>> On Mon, 30 Mar 2020 at 11:31, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>>
+>>>> From: Alistair Francis <alistair.francis@wdc.com>
+>>>>
+>>>> Add support for host and target futex_time64. If futex_time64 exists on
+>>>> the host we try that first before falling back to the standard futex
+>>>> syscall.
+>>>
+>>> Hi; I dunno why Coverity's only just noticed this, but in
+>>> CID 1432339 it points out:
+>>>
+>>>> +#if defined(TARGET_NR_futex_time64)
+>>>> +static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong timeout,
+>>>> +                           target_ulong uaddr2, int val3)
+>>>> +{
+>>>> +    struct timespec ts, *pts;
+>>>> +    int base_op;
+>>>> +
+>>>> +    /* ??? We assume FUTEX_* constants are the same on both host
+>>>> +       and target.  */
+>>>> +#ifdef FUTEX_CMD_MASK
+>>>> +    base_op = op & FUTEX_CMD_MASK;
+>>>> +#else
+>>>> +    base_op = op;
+>>>> +#endif
+>>>> +    switch (base_op) {
+>>>> +    case FUTEX_WAIT:
+>>>> +    case FUTEX_WAIT_BITSET:
+>>>> +        if (timeout) {
+>>>> +            pts = &ts;
+>>>> +            target_to_host_timespec64(pts, timeout);
+>>>
+>>> ...that here we call target_to_host_timespec64(), which can
+>>> fail with -TARGET_EFAULT, but (unlike all the other times we call
+>>> the function) we aren't checking its return value.
+>>> Is there missing error handling code here ?
+>>>
+>>
+>> I think the code is like that because this is a cut&paste of function
+>> do_futex() witl "s/timespec/timespec64/".
+>>
+>> And yes I think we should check for the return value.
+>> I'm going to fix that.
+> 
+> Thanks! Let me know if you want me to do it and I can send a patch instead.
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  include/qapi/util.h          |  2 ++
->  qapi/opts-visitor.c          | 13 +------------
->  qapi/qapi-util.c             | 23 +++++++++++++++++++++++
->  qapi/qobject-input-visitor.c | 11 +----------
->  qapi/string-input-visitor.c  | 17 +----------------
->  5 files changed, 28 insertions(+), 38 deletions(-)
->
-> diff --git a/include/qapi/util.h b/include/qapi/util.h
-> index bc312e90aa..6178e98e97 100644
-> --- a/include/qapi/util.h
-> +++ b/include/qapi/util.h
-> @@ -19,6 +19,8 @@ typedef struct QEnumLookup {
->  const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
->  int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
->                      int def, Error **errp);
-> +bool qapi_bool_parse(const char *name, const char *value, bool *obj,
-> +                     Error **errp);
->  
->  int parse_qapi_name(const char *name, bool complete);
->  
-> diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
-> index 7781c23a42..9b3a735e6d 100644
-> --- a/qapi/opts-visitor.c
-> +++ b/qapi/opts-visitor.c
 
-Oh no, the options visitor!
+If you have time, please do.
 
-> @@ -379,19 +379,8 @@ opts_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
-   /* mimics qemu-option.c::parse_option_bool() */
-
-This comment becomes wrong.
-
-   static bool
-   opts_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
-   {
-       OptsVisitor *ov = to_ov(v);
-       const QemuOpt *opt;
-
-       opt = lookup_scalar(ov, name, errp);
->      if (!opt) {
->          return false;
->      }
-> -
->      if (opt->str) {
-> -        if (strcmp(opt->str, "on") == 0 ||
-> -            strcmp(opt->str, "yes") == 0 ||
-> -            strcmp(opt->str, "y") == 0) {
-> -            *obj = true;
-> -        } else if (strcmp(opt->str, "off") == 0 ||
-> -            strcmp(opt->str, "no") == 0 ||
-> -            strcmp(opt->str, "n") == 0) {
-> -            *obj = false;
-> -        } else {
-> -            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, opt->name,
-> -                       "on|yes|y|off|no|n");
-> +        if (!qapi_bool_parse(name, opt->str, obj, errp)) {
-
-Exploits lookup_name() ensures name == opt->name.
-
-Obviously true when ov->list_mode == LM_NONE: lookup_name() returns the
-last QemuOpt of that name.
-
-We don't get here when ov->list_mode == LM_TRAVERSED: lookup_name()
-fails.
-
-"Obviously" true when ov->list_mode == LM_IN_PROGRESS: lookup_name()
-returns the next remaining QemuOpt of that name (I think).
-
->              return false;
->          }
->      } else {
-> diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
-> index 29a6c98b53..8a98813e42 100644
-> --- a/qapi/qapi-util.c
-> +++ b/qapi/qapi-util.c
-> @@ -13,6 +13,7 @@
->  #include "qemu/osdep.h"
->  #include "qapi/error.h"
->  #include "qemu/ctype.h"
-> +#include "qapi/qmp/qerror.h"
->  
->  const char *qapi_enum_lookup(const QEnumLookup *lookup, int val)
->  {
-> @@ -40,6 +41,28 @@ int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
->      return def;
->  }
->  
-> +bool qapi_bool_parse(const char *name, const char *value, bool *obj, Error **errp)
-> +{
-> +    if (!strcasecmp(value, "on") ||
-> +        !strcasecmp(value, "yes") ||
-> +        !strcasecmp(value, "true") ||
-> +        !strcasecmp(value, "y")) {
-
-I'd prefer breaking the lines before the || operator (Knuth style).
-
-> +        *obj = true;
-> +        return true;
-> +    }
-> +    if (!strcasecmp(value, "off") ||
-> +        !strcasecmp(value, "no") ||
-> +        !strcasecmp(value, "false") ||
-> +        !strcasecmp(value, "n")) {
-> +        *obj = false;
-> +        return true;
-> +    }
-> +
-> +    error_setg(errp, QERR_INVALID_PARAMETER_VALUE, name ? name : "null",
-> +               "boolean (on/off, yes/no, true/false, y/n)");
-> +    return false;
-
-Baroque.  Not this patch's fault.  I'm half-tempted to deprecate
-everything but 'on' and 'off', case-sensitive.
-
-Recommend to have the error message only mention the preferred form.  I
-like the laconic "'on' or 'off'".  It's really all the user needs to
-know.
-
-You copied the name ?: "null" from the string input visitor.  It's bad
-there (but nobody cares), and it's bad here (where I care).  I think it
-should be left to callers.  See also next hunk.
-
-> +}
-> +
->  /*
->   * Parse a valid QAPI name from @str.
->   * A valid name consists of letters, digits, hyphen and underscore.
-> diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-> index 7b184b50a7..183472e5e4 100644
-> --- a/qapi/qobject-input-visitor.c
-> +++ b/qapi/qobject-input-visitor.c
-> @@ -512,16 +512,7 @@ static bool qobject_input_type_bool_keyval(Visitor *v, const char *name,
->          return false;
->      }
->  
-> -    if (!strcmp(str, "on")) {
-> -        *obj = true;
-> -    } else if (!strcmp(str, "off")) {
-> -        *obj = false;
-> -    } else {
-> -        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-> -                   full_name(qiv, name), "'on' or 'off'");
-> -        return false;
-> -    }
-> -    return true;
-> +    return qapi_bool_parse(name, str, obj, errp);
-
-Error message regresses from full_name(), which is never null, to name
-?: "null".
-
-Test case:
-
-    $ qemu-storage-daemon --blockdev qcow2,node-name=node0,file.driver=file,file.filename=tmp.qcow2,file.x-check-cache-dropped=xxx
-    qemu-storage-daemon: --blockdev qcow2,node-name=node0,file.driver=file,file.filename=tmp.qcow2,file.x-check-cache-dropped=xxx: Parameter 'file.x-check-cache-dropped' expects 'on' or 'off'
-
-!name happens for ['bool'].  The error message is user-hostile then.  No
-test case, because ['bool'] occurs only in tests/ right now.
-
->  }
->  
->  static bool qobject_input_type_str(Visitor *v, const char *name, char **obj,
-> diff --git a/qapi/string-input-visitor.c b/qapi/string-input-visitor.c
-> index 6e53396ea3..ba2697d70f 100644
-> --- a/qapi/string-input-visitor.c
-> +++ b/qapi/string-input-visitor.c
-
-Oh no, the string visitor!
-
-> @@ -332,22 +332,7 @@ static bool parse_type_bool(Visitor *v, const char *name, bool *obj,
->      StringInputVisitor *siv = to_siv(v);
->  
->      assert(siv->lm == LM_NONE);
-> -    if (!strcasecmp(siv->string, "on") ||
-> -        !strcasecmp(siv->string, "yes") ||
-> -        !strcasecmp(siv->string, "true")) {
-> -        *obj = true;
-> -        return true;
-> -    }
-> -    if (!strcasecmp(siv->string, "off") ||
-> -        !strcasecmp(siv->string, "no") ||
-> -        !strcasecmp(siv->string, "false")) {
-> -        *obj = false;
-> -        return true;
-> -    }
-> -
-> -    error_setg(errp, QERR_INVALID_PARAMETER_TYPE, name ? name : "null",
-> -               "boolean");
-> -    return false;
-> +    return qapi_bool_parse(name, siv->string, obj, errp);
->  }
->  
->  static bool parse_type_str(Visitor *v, const char *name, char **obj,
-
-Puh!
+Thanks
+Laurent
 
 
