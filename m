@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335832A4444
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:29:03 +0100 (CET)
-Received: from localhost ([::1]:49632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF022A444A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:31:24 +0100 (CET)
+Received: from localhost ([::1]:56224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZuUo-0004FV-8n
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:29:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36214)
+	id 1kZuX5-00075w-8R
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:31:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZuSF-0002D7-8J
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:26:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20982)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZuSJ-0002Fr-FL
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:26:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZuSB-0006Xo-0q
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:26:22 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZuSC-0006Y0-Vt
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:26:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604402777;
+ s=mimecast20190719; t=1604402778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jsldW9KcK6vt6+l44bfLcLh5QfAWQnVBXAW4qRe393k=;
- b=Y6DLNd4/MJsirDaDxICZiKo0AD5e8EIfaL9jGjEJPPTePO2d0hzBboIPU6WAE1JV+CEfHf
- mrMw6AE1H66rNwTEiZz6qWRgkT910ngzfKtKnA7h8qgjiu1eA3HLek4Z0Eeo4WSYbVBIcV
- U0VHT7HKmo+MJj09oDtqeU2qcsIaXNQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-134-DB9rMa2SPc2mshJmB9qGZw-1; Tue, 03 Nov 2020 06:26:15 -0500
-X-MC-Unique: DB9rMa2SPc2mshJmB9qGZw-1
-Received: by mail-wr1-f69.google.com with SMTP id w3so5588939wrt.11
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:26:15 -0800 (PST)
+ bh=J/WriUkAF5WQqVMHWgQv1QLJ6c0DsVi572s0W42JyGk=;
+ b=YhqaQjJbixZonkQfLcB6WsJSlerp8HqiRmh9Avrv4GF6R/0c0cbWBH+6u1xZzW6bJ3dkVQ
+ rqRXY2rZUWjQ1Z3VpBS3FoJBVrWun4xj//NK23lI2+dWLTtr4L15DiB5XPoSzyS9Zma6nl
+ CKwKYjEvwB/s1O3EM7AdfAS2TbJROdk=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-SWgf8rXwMl6NBxo8iOECQA-1; Tue, 03 Nov 2020 06:26:17 -0500
+X-MC-Unique: SWgf8rXwMl6NBxo8iOECQA-1
+Received: by mail-wm1-f69.google.com with SMTP id o81so1470284wma.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:26:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=jsldW9KcK6vt6+l44bfLcLh5QfAWQnVBXAW4qRe393k=;
- b=F9gVdeDy13hRBcBVvQyVu8xod0gJsck6VCuusZ4xQo0emSatf6FR4rKK410mEYDW6v
- feUcMtqdLiPk7KuEe7PXfCKLjChu6RWHW20WkclKeRx/6AkWngAQebdA25zsxFONY8x5
- kBc4dUvMcDd1mH3IJj77mogJk9ZD7oOTdMdSBOf71NvRnSgcKmreaeRhVoDllb8JK/kN
- uRoVM2SvMgBDjKelsNq64u1wxc2FiFRVJNZHbsC9G0DkAS24vtveLNIghNI0i7hkT3eB
- CTbfqIISRSsDwVdiD9mxP23YoI8UWsWQytB1P3HDPF1OAupW44f39Z9G6rwWjs21pgmP
- 2pNA==
-X-Gm-Message-State: AOAM5319XMyD7+wfwMD1dM5Yvv7kFQqlbMzWs0iYcxBeq39HEDDmfO7y
- AhNA0cmZGeVRK0K87ZYO0P6XZXmhV7GkiWEw9u4odBi42VA9E8Bz1Z8RIM9oLcniH7zuZ3M3lls
- E/VRhS8hz/u1ZLI4=
-X-Received: by 2002:a7b:c2ef:: with SMTP id e15mr3229473wmk.180.1604402771193; 
- Tue, 03 Nov 2020 03:26:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwl52Ds1oRu6dTtUZhGm8AV0CHCxfu1jIdltfQr0X/jECQCS5/5xrlI7Ccy0qyfSva7NILQ9Q==
-X-Received: by 2002:a7b:c2ef:: with SMTP id e15mr3229451wmk.180.1604402771044; 
- Tue, 03 Nov 2020 03:26:11 -0800 (PST)
+ bh=J/WriUkAF5WQqVMHWgQv1QLJ6c0DsVi572s0W42JyGk=;
+ b=dQDemOpBizUhp34XkEVzeCJFbZoFdiWTPEp1v1kT4lauqzFWMV3xRkLaSfo42DbY72
+ hwoAImm+HkbVtCXQgxAqXMXLtl+mHEphMRD8wachbejYp/d64WHAJhuBHQPNvfoikyjm
+ 8Jsd2XgnJLphMkwQ+bPhHtCBGsujUhc5j/y21ytz86U7yaFen3YobRnHm8pJXqDK6XM5
+ j97++CYdMm5QwN/2BfUzgQ2sOrUY0/H4OTKLa6TLMs8RX8elg7S1Wye9BDVGroTlbdOY
+ RBxhNOhr44ItHe0wJBHbDrZmINDVxgL2yqGzF1jpA2deskc82LTDMhq/Pg+jPr43xLHs
+ fZdA==
+X-Gm-Message-State: AOAM531VETP6HIqs0p5fFZ94iIdQBvz2A8XOajRygiTjiCiBISb9FKgu
+ rCn4dzCM5BgtE5yqVQrfgUh8/Wm4UK3qklNYuJB5MVzRAsQB5Xx3VlVqMAkBKw99BWi0FaO17FK
+ 4ytappC2yAIPps50=
+X-Received: by 2002:adf:dc4c:: with SMTP id m12mr12923485wrj.177.1604402776125; 
+ Tue, 03 Nov 2020 03:26:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzTl+t5I9FpG8/KLS8m1QoHOaFWtqY+CTqoUmfuR/B2d6DVdY+/+PfSoNgEgI7cecNbPe3uAQ==
+X-Received: by 2002:adf:dc4c:: with SMTP id m12mr12923461wrj.177.1604402775992; 
+ Tue, 03 Nov 2020 03:26:15 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id n22sm2083018wmk.40.2020.11.03.03.26.09
+ by smtp.gmail.com with ESMTPSA id l3sm2990672wmg.32.2020.11.03.03.26.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 03:26:10 -0800 (PST)
+ Tue, 03 Nov 2020 03:26:15 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 2/4] hw/display/cirrus_vga: Fix hexadecimal format
+Subject: [PATCH-for-5.2 3/4] hw/ppc/spapr_tpm_proxy: Fix hexadecimal format
  string specifier
-Date: Tue,  3 Nov 2020 12:25:56 +0100
-Message-Id: <20201103112558.2554390-3-philmd@redhat.com>
+Date: Tue,  3 Nov 2020 12:25:57 +0100
+Message-Id: <20201103112558.2554390-4-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201103112558.2554390-1-philmd@redhat.com>
 References: <20201103112558.2554390-1-philmd@redhat.com>
@@ -113,22 +113,22 @@ specifier ('%x').
 Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/display/cirrus_vga.c | 2 +-
+ hw/ppc/trace-events | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index e14096deb46..fdca6ca659f 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -2105,7 +2105,7 @@ static void cirrus_vga_mem_write(void *opaque,
-     } else {
-         qemu_log_mask(LOG_GUEST_ERROR,
-                       "cirrus: mem_writeb 0x" TARGET_FMT_plx " "
--                      "value 0x%02" PRIu64 "\n", addr, mem_value);
-+                      "value 0x%02" PRIx64 "\n", addr, mem_value);
-     }
- }
+diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+index dcc06d49b5a..6d8d095aa28 100644
+--- a/hw/ppc/trace-events
++++ b/hw/ppc/trace-events
+@@ -19,7 +19,7 @@ spapr_update_dt_failed_size(unsigned cbold, unsigned cbnew, unsigned magic) "Old
+ spapr_update_dt_failed_check(unsigned cbold, unsigned cbnew, unsigned magic) "Old blob %u bytes, new blob %u bytes, magic 0x%x"
  
+ # spapr_tpm_proxy.c
+-spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_device_path=%s operation=0x%"PRIu64
++spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_device_path=%s operation=0x%"PRIx64
+ spapr_tpm_execute(uint64_t data_in, uint64_t data_in_sz, uint64_t data_out, uint64_t data_out_sz) "data_in=0x%"PRIx64", data_in_sz=%"PRIu64", data_out=0x%"PRIx64", data_out_sz=%"PRIu64
+ 
+ # spapr_iommu.c
 -- 
 2.26.2
 
