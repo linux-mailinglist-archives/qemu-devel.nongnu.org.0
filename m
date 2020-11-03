@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCC72A508F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 20:56:22 +0100 (CET)
-Received: from localhost ([::1]:56546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE7F2A509E
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 21:01:55 +0100 (CET)
+Received: from localhost ([::1]:36204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka2Pm-0000Ds-1f
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:56:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34684)
+	id 1ka2V8-0003ve-FE
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 15:01:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ka2ON-0007S5-Lc
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:54:56 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:42635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1ka2OK-0001a7-US
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:54:54 -0500
-Received: by mail-pg1-x543.google.com with SMTP id u4so2708237pgr.9
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 11:54:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=eDD9pZcUv9kiEIg0fEw1tNmd54O+9K55ilcE3Uho19c=;
- b=rDw6X3klCA7RI6u/DqHk0DET2E88CzR9sMM+PkSMPWpYgy4lOQHc7dPN/YJsyqfceq
- wn0i2vpjL+P0MXa3VVgflW4CGgTdCKiTyC7SWpuH+wCriH8SROj0OxIBM5vhJmOC1QBZ
- wFGREQvTy0U0bxGGDH9kl9vKuc9JOlyM3QK0N+qXpbZn1xSIJtPovoCqVWVrmsXeFOj6
- ogatKdMuyqqBp3T+WFeLdw11ntWM+LrluF4yv+praLdL9gPlY5S50tq7gqRp7VrHFhPS
- 3RKPs9gevLkiTD7Bwozz3VR9ymivBAjvl6V8R7aUkBtikaBui9bFSWwuHsTToCd26oNM
- hiHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=eDD9pZcUv9kiEIg0fEw1tNmd54O+9K55ilcE3Uho19c=;
- b=CAOKifxOWC6+j39+EhkcZUs+jdsOKu0Zxxc0xr3sJx4g9IxM9v+N+Ne4L3zPZv8mbS
- PVpq2d9anyWwUw1xA9BLdNr2VprL71ARnyt+GsPOaAfEvcmtljs8bA/cyMS3kxbTM1pu
- iwdGW6Ws1+1ZkLMPLRu1lGRkCs+6I49OhNhxykte/mbvf6apiKdnUuJBmyu579GcPY2x
- t2jn6WcDTR3rIB7rDg68gd05po9OsSKJdG/ZkAkR+I2JuPVp/w4cKh8DfvtxXQJNzXSz
- Spnu2TPjLEMOkALpUs3k7X1/UTSgTDl1KzAzZoKlAVIKiTzjmnZL6q7VEmw+7+k5Me27
- tWWA==
-X-Gm-Message-State: AOAM530N/Jg3Khx5gy88YxjK4GxAQ6CdD03DOuuKa8BzlTyl89UaFiyq
- nTJV/s+kXS2+EdBOinvZ/GPtS/KOEcGT4A==
-X-Google-Smtp-Source: ABdhPJwbvF9v7eR/xtktT03HT6YxiMSRJxPdGqg8A1zSnpgnB4wksFp45OiqutVvMla7/eSL4vtelQ==
-X-Received: by 2002:a17:90a:34cd:: with SMTP id
- m13mr821715pjf.201.1604433291128; 
- Tue, 03 Nov 2020 11:54:51 -0800 (PST)
-Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id e10sm3558808pfl.162.2020.11.03.11.54.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 11:54:50 -0800 (PST)
-Subject: Re: [PATCH 10/14] target/arm: do S1_ptw_translate() before address
- space lookup
-To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
-References: <2172054.ElGaqSPkdT@basile.remlab.net>
- <20201102105802.39332-10-remi.denis.courmont@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8ebcf033-7044-ee14-8b84-3812ff041d5c@linaro.org>
-Date: Tue, 3 Nov 2020 11:54:48 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1)
+ (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
+ id 1ka2Te-0003LZ-4M
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 15:00:22 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144]:41372)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=569a91e0c=alistair.francis@wdc.com>)
+ id 1ka2TZ-0002T1-Uo
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 15:00:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1604433617; x=1635969617;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=H3g8UXCzVOhSh+fFjb7cBfvP7RgEX58h3+CsdHSPvKg=;
+ b=iJKdzq+1/FI15lAuw9gpvYfgKBL1CTSi5YESV0kEbeO2BOA1v/Kz13II
+ G0MkaVuoj0OmgcLlCqe8orXTxE1tS7o69toRiRo7MaQBo5zJtub4C7Peo
+ etaSLxB6kXuntapofP2UN4TDhKIsw5RmvoY7oO6kvA45H7qNprgTwa9ON
+ EWdhrhaXIMoDOcreUdB+gOe4MfNQ+AfDY5ig08aodLXJ76+PKI2MxXMQ9
+ PXPUWoSa6byhBvaqTQsftzGdq5fHAcEne+hAkYDdTZ9ai0fV+bXZUS2B/
+ NhXDZ46Z4bTsup/eYbzc1eTz9ka+2eFLkS09fhPG7yAKTHvK4Zr2280G0 A==;
+IronPort-SDR: rD7XkZKWXDGZNwa+wgrfD1MWVRIAlZ5Jh1qyFlZ0r9PvyObDv0idnMsmmgdY/HeAJf/OIXojvA
+ UfniWq/UOjcbLOOF7s7M4bh8NtqGhLz71Ds/V1OraRqHWbhse/FzvBt/gEszJfINPJU243xfQO
+ Eyk6nTKluWGxN1314ljPcxPVMvUPCuvzALZR0L2tudmaSJ5bHTdY6vmuDWpTtPlMYQpHPsv6Ie
+ n/ZwaAYCdkqvnGKn5qlWTey/341qVz+nj+H1yz3PZN8DRZcoKNp2BuXt09V+38VE3ak8nGrHVB
+ GMg=
+X-IronPort-AV: E=Sophos;i="5.77,448,1596470400"; d="scan'208";a="151792545"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Nov 2020 04:00:14 +0800
+IronPort-SDR: CmoDcSgKpIoAw6civCykElet466O2Og3hgVOk6Yz7OZyWx3R7F8FFVzjSnaEuuAIeaCPFuJT/T
+ t3HytlqUeGT3Y9XRZkY9krSayadG8IBKI9cwDGWKLdNW56BxF6kP3DDMJfs2NSWy2Ya1GN2cXn
+ YkDlpCEaeh6LTI9evhqzHfyUBvm+1bwRLt88d9r7ap2aMt1mCgXLrqvCt45OwOyD79CUV2SoH/
+ RKSboi4SPI2T2Q7ynEnf7aJLA109ohCzhjLnduEmWgZ2jU+P+2u2WW3PuQiChXjKCyrKn1SfS6
+ YLyrjBt973L1cXRxf4Kt7UUI
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2020 11:46:23 -0800
+IronPort-SDR: 3bMZnyft4cFtFqsGtvD10MwkDncQNyArU3/G3UP53kQqaX+Jj2g26rHivGT5N0FUYuBZiXQwxo
+ Qwfy/FV2WLYW+5E4JmvDCaIs+6Ezl4QWL8c1WKnC0GSNv/M8HSbSwLMWgnPL9K9eVNSEd1Fy9s
+ Fj6WyvfPdFJOPF2sF0wy26+CajW3f9jy+XpYt+FAotomWlceeSPzrjgf3a5LRy0jhdDKEHD74Y
+ JSSZVGsRfHdpfoXb7aB/+FOwpV5SAkJGAatuisSGEPRF/X39a6suBtpav2phd2XnxhqELD33o2
+ Nqo=
+WDCIronportException: Internal
+Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.60.113])
+ by uls-op-cesaip02.wdc.com with ESMTP; 03 Nov 2020 12:00:15 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	laurent@vivier.eu
+Subject: [PATCH v1 1/1] linux-user/syscall: Fix missing
+ target_to_host_timespec64() check
+Date: Tue,  3 Nov 2020 11:48:44 -0800
+Message-Id: <cad74fae734d2562746b94acd9c34b00081c89bf.1604432881.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201102105802.39332-10-remi.denis.courmont@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=569a91e0c=alistair.francis@wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 14:48:57
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,48 +93,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, alistair.francis@wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/20 2:57 AM, remi.denis.courmont@huawei.com wrote:
-> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> 
-> In the secure stage 2 translation regime, the VSTCR.SW and VTCR.NSW
-> bits can invert the secure flag for pagetable walks. This patchset
-> allows S1_ptw_translate() to change the non-secure bit.
-> 
-> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> ---
->  target/arm/helper.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
-> 
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 4c86e4f57c..7c70460e65 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -10403,7 +10403,7 @@ static bool get_level1_table_address(CPUARMState *env, ARMMMUIdx mmu_idx,
->  
->  /* Translate a S1 pagetable walk through S2 if needed.  */
->  static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
-> -                               hwaddr addr, MemTxAttrs txattrs,
-> +                               hwaddr addr, bool *is_secure,
->                                 ARMMMUFaultInfo *fi)
->  {
->      ARMMMUIdx s2_mmu_idx;
-> @@ -10415,6 +10415,9 @@ static hwaddr S1_ptw_translate(CPUARMState *env, ARMMMUIdx mmu_idx,
->          int s2prot;
->          int ret;
->          ARMCacheAttrs cacheattrs = {};
-> +        MemTxAttrs txattrs = {};
-> +
-> +        assert(!*is_secure); /* TODO: S-EL2 */
+Coverity pointed out (CID 1432339) that target_to_host_timespec64() can
+fail with -TARGET_EFAULT but we never check the return value. This patch
+checks the return value and handles the error.
 
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ linux-user/syscall.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Are you sure that you don't want to pass in txattrs via pointer instead?  This
-change by itself looks questionable.  I guess I'll have to look forward to the
-other patch...
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 6fef8181e7..3160a9ba06 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7592,7 +7592,9 @@ static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong tim
+     case FUTEX_WAIT_BITSET:
+         if (timeout) {
+             pts = &ts;
+-            target_to_host_timespec64(pts, timeout);
++            if (target_to_host_timespec64(pts, timeout)) {
++                return -TARGET_EFAULT;
++            }
+         } else {
+             pts = NULL;
+         }
+-- 
+2.28.0
 
-
-r~
 
