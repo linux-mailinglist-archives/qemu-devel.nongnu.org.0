@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CFFB2A49F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:35:35 +0100 (CET)
-Received: from localhost ([::1]:47124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB61D2A4A63
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:54:40 +0100 (CET)
+Received: from localhost ([::1]:58628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyLN-0002LP-RA
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:35:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48472)
+	id 1kZydr-0005Vk-Pm
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:54:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kZyDM-0000ft-QU
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60959)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kZyEB-00025o-Ig
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:28:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1kZyDK-0007Lg-C9
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:16 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kZyE7-0007gK-Tm
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:28:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604417233;
+ s=mimecast20190719; t=1604417281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XmsV8V02GIyiq1VAtbijdVC/xhzGUTu39HqmWDSgVoQ=;
- b=A7ngli6H6QJTIOtHXFnSbYiM33K1ulFNlH1Qxr3qpP4QVAyVw4i83h6RGfDtqwfqE5Xi+i
- 3ZqZKKPaLbLwMr8M9w/oESnXnsH1hnL0J+wwhfYVYnua2EzmVLMDdvOnSs38yExQtl+tde
- MidjCRpjj6z4UexVyIv/knDYoM6P5fQ=
+ bh=2v53eMQiUJHDUG0Oa5TPLcOeuLdsjL5YlI4XBA/YECE=;
+ b=Jxit27VJslzDrnZkP7P2ALJREI33PVNfpCSAHEah0k3mJJAcYswhpIoUFw9eCWXx1an1CA
+ VOfY3gAQaXqrUi/YycKfPDx/ifkPdNk6usROtw+IPhbWJSjzmLBc7mmzukY4MZvF0acRFi
+ O+3Yrm8CISoW70mFAXXtuxD8apoknxg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-567-bXdzfTOpMw2v7y6Eqtl-Sw-1; Tue, 03 Nov 2020 10:27:11 -0500
-X-MC-Unique: bXdzfTOpMw2v7y6Eqtl-Sw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-513-MsLRr1XwOdOnLSFsd5qNgg-1; Tue, 03 Nov 2020 10:27:59 -0500
+X-MC-Unique: MsLRr1XwOdOnLSFsd5qNgg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B679E1006CAB;
- Tue,  3 Nov 2020 15:27:09 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-119-55.rdu2.redhat.com
- [10.10.119.55])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69F345B4BB;
- Tue,  3 Nov 2020 15:27:05 +0000 (UTC)
-Date: Tue, 3 Nov 2020 10:27:03 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PULL 5/7] tests.acceptance: adds simple migration test
-Message-ID: <20201103152636.GA3140758@localhost.localdomain>
-References: <20190222194146.13102-1-crosa@redhat.com>
- <20190222194146.13102-6-crosa@redhat.com>
- <CAP+75-UtiMFdp=ReaH0Vn7OD60hS+ZNsSvJyvVp1948Syn=ZGQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4324C10866B6;
+ Tue,  3 Nov 2020 15:27:58 +0000 (UTC)
+Received: from localhost (ovpn-115-37.ams2.redhat.com [10.36.115.37])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2726A5C629;
+ Tue,  3 Nov 2020 15:27:53 +0000 (UTC)
+Date: Tue, 3 Nov 2020 15:27:52 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: VFIO Migration
+Message-ID: <20201103152752.GC253848@stefanha-x1.localdomain>
+References: <20201102111153.GC42093@stefanha-x1.localdomain>
+ <20201103121709.GD3566@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <CAP+75-UtiMFdp=ReaH0Vn7OD60hS+ZNsSvJyvVp1948Syn=ZGQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20201103121709.GD3566@work-vm>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2B/JsCI69OhZNC5r"
+ protocol="application/pgp-signature"; boundary="f+W+jCU1fRNres8c"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -81,181 +81,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Wainer Moschetta <wainersm@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---2B/JsCI69OhZNC5r
-Content-Type: text/plain; charset=iso-8859-1
+--f+W+jCU1fRNres8c
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 03, 2020 at 11:40:30AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Hi,
+On Tue, Nov 03, 2020 at 12:17:09PM +0000, Dr. David Alan Gilbert wrote:
+> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > Device Models
+> > -------------
+> > Devices have a *hardware interface* consisting of hardware registers,
+> > interrupts, and so on.
+> >=20
+> > The hardware interface together with the device state representation is=
+ called
+> > a *device model*. Device models can be assigned URIs such as
+> > https://qemu.org/devices/e1000e to uniquely identify them.
 >=20
-> On Fri, Feb 22, 2019 at 8:42 PM Cleber Rosa <crosa@redhat.com> wrote:
-> >
-> > From: Caio Carrara <ccarrara@redhat.com>
-> >
-> > This change adds the simplest possible migration test. Beyond the test
-> > purpose itself it's also useful to exercise the multi virtual machines
-> > capabilities from base avocado qemu test class.
-> >
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > Signed-off-by: Caio Carrara <ccarrara@redhat.com>
-> > Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> > Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> > Message-Id: <20190212193855.13223-3-ccarrara@redhat.com>
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >  tests/acceptance/migration.py | 53 +++++++++++++++++++++++++++++++++++
-> >  1 file changed, 53 insertions(+)
-> >  create mode 100644 tests/acceptance/migration.py
-> >
-> > diff --git a/tests/acceptance/migration.py b/tests/acceptance/migration=
-.py
-> > new file mode 100644
-> > index 0000000000..6115cf6c24
-> > --- /dev/null
-> > +++ b/tests/acceptance/migration.py
-> > @@ -0,0 +1,53 @@
-> > +# Migration test
-> > +#
-> > +# Copyright (c) 2019 Red Hat, Inc.
-> > +#
-> > +# Authors:
-> > +#  Cleber Rosa <crosa@redhat.com>
-> > +#  Caio Carrara <ccarrara@redhat.com>
-> > +#
-> > +# This work is licensed under the terms of the GNU GPL, version 2 or
-> > +# later.  See the COPYING file in the top-level directory.
-> > +
-> > +
-> > +from avocado_qemu import Test
-> > +
-> > +from avocado.utils import network
-> > +from avocado.utils import wait
-> > +
-> > +
-> > +class Migration(Test):
-> > +    """
-> > +    :avocado: enable
-> > +    """
-> > +
-> > +    timeout =3D 10
-> > +
-> > +    @staticmethod
-> > +    def migration_finished(vm):
-> > +        return vm.command('query-migrate')['status'] in ('completed', =
-'failed')
-> > +
-> > +    def _get_free_port(self):
-> > +        port =3D network.find_free_port()
-> > +        if port is None:
-> > +            self.cancel('Failed to find a free port')
-> > +        return port
+> I think this is a unique identifier, not actually a URI; the https://
+> isn't needed since no one expects to ever connect to this.
+
+Yes, it could be any unique string. If the URI idea is not popular we
+can use any similar scheme.
+
+> > However, secondary aspects related to the physical port may affect the =
+device's
+> > hardware interface and need to be reflected in the device configuration=
+. The
+> > link speed may depend on the physical port and be reported through the =
+device's
+> > hardware interface. In that case a ``link-speed`` configuration paramet=
+er is
+> > required to prevent unexpected changes to the link speed after migratio=
+n.
 >=20
-> This method doesn't seem to work when running with -j2: 2 tests started
-> with different arch configurations get the same port... Is this a known i=
-ssue?
->
+> That's an interesting example; because depending on the device, it might
+> be:
+>     a) Completely virtualised so that the guest *shouldn't* know what
+> the physical link speed is, precisely to allow the physical network on
+> the destination to be different.
+>=20
+>     b) Part of the migrated state
+>=20
+>     c) Something that's allowed to be reloaded after migration
+>=20
+>     d) Configurable
+>=20
+> so I'm not sure whether it's a good example in this case or not.
 
-It's not bullet proof, but it seems to be quite safe... This is what I've t=
-ried:
+Can you think of an example that has only one option?
 
- $ ./tests/venv/bin/avocado run --test-runner=3Dnrunner --nrunner-max-paral=
-lel-tasks=3D10 tests/acceptance/migration.py:Migration.test_migration_with_=
-tcp_localhost{,,,,,,,,,,,,,,,,,,,}=20
-JOB ID     : 377957f4a16fbc2c6a6f6d9ae225c61af86bd570
-JOB LOG    : /home/cleber/avocado/job-results/job-2020-11-03T10.24-377957f/=
-job.log
- (02/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (06/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (01/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (05/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (03/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (10/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (07/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (09/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (04/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (08/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: STARTED
- (02/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.46 s)
- (06/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.60 s)
- (01/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.51 s)
- (03/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.49 s)
- (05/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.52 s)
- (10/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.51 s)
- (07/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.52 s)
- (09/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.53 s)
- (04/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.49 s)
- (08/20) tests/acceptance/migration.py:Migration.test_migration_with_tcp_lo=
-calhost: PASS (0.56 s)
-...
-RESULTS    : PASS 20 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | C=
-ANCEL 0
-JOB HTML   : /home/cleber/avocado/job-results/job-2020-11-03T10.24-377957f/=
-results.html
-JOB TIME   : 3.82 s
+I tried but couldn't. For example take a sound card. The guest is aware
+the device supports stereo playback (2 output channels), but which exact
+stereo host device is used doesn't matter, they are all suitable.
 
-If this is about the issue you posted on IRC, it's about s390x and migratio=
-n instead:
+Now imagine migrating to a 7.1 surround-sound device. Similar options
+come into play:
 
-2020-11-03 10:06:33,124 qmp              L0255 DEBUG| >>> {'execute': 'quer=
-y-migrate'}
-2020-11-03 10:06:33,124 qmp              L0148 DEBUG| <<< {'timestamp': {'s=
-econds': 1604415993, 'microseconds': 124382}, 'event': 'GUEST_PANICKED', 'd=
-ata': {'action': 'pause', 'info': {'core': 0, 'psw-addr': 0, 'reason': 'dis=
-abled-wait', 'psw-mask':
+a) Emulate stereo and mix it to 7.1 surround-sound on the physical
+   device. The guest still sees the stereo device.
 
-I ran across this on Friday, and will properly report it.
+b) Refuse migration.
 
-Let me know if that helps,
-- Cleber.
+c) Indicate that the output has switched and let the guest reconfigure
+   itself (e.g. a sound card with multiple outputs, where one of them is
+   stereo and another is 7.1 surround sound).
 
---2B/JsCI69OhZNC5r
+Which option is desirable depends on the use case.
+
+> Maybe what's needed is a stronger instruction to abstract external
+> device state so that it's not part of the configuration in most cases.
+
+Do you want to propose something?
+
+> > For example, if address filtering support was added to a network card t=
+hen
+> > device versions and the corresponding configurations may look like this=
+:
+> > * ``version=3D1`` - Behaves as if ``rx-filter-size=3D0``
+> > * ``version=3D2`` - ``rx-filter-size=3D32``
+>=20
+> Note configuration parameters might have been added during the life of
+> the device; e.g. if the original card had no support for rx-filters, it
+> might not have a rx-filter-size parameter.
+
+version=3D1 does not explicitly set rx-filter-size=3D0. When a new paramete=
+r
+is introduced it must have a default value that disables its effect on
+the hardware interface and/or device state representation. This is
+described in a bit more detail in the next section, maybe it should be
+reordered.
+
+> > Device States
+> > -------------
+> > The details of the device state representation are not covered in this =
+document
+> > but the general requirements are discussed here.
+> >=20
+> > The device state consists of data accessible through the device's hardw=
+are
+> > interface and internal state that is needed to restore device operation=
+.
+> > State in the hardware interface includes the values of hardware registe=
+rs.
+> > An example of internal state is an index value needed to avoid processi=
+ng
+> > queued requests more than once.
+>=20
+> I try and emphasise that 'internal state' should be represented in a way
+> that reflects the problem rather than the particular implementation;
+> this gives it a better chance of migrating to future versions.
+
+Sounds like a good idea.
+
+> > Changes can be made to the device state representation as follows. Each=
+ change
+> > to device state must have a corresponding device configuration paramete=
+r that
+> > allows the change to toggled:
+> >=20
+> > * When the parameter is disabled the hardware interface and device stat=
+e
+> >   representation are unchanged. This allows old device states to be loa=
+ded.
+> >=20
+> > * When the parameter is enabled the change comes into effect.
+> >=20
+> > * The parameter's default value disables the change. Therefore old vers=
+ions do
+> >   not have to explicitly specify the parameter.
+> >=20
+> > The following example illustrates migration from an old device
+> > implementation to a new one. A version=3D1 network card is migrated to =
+a
+> > new device implementation that is also capable of version=3D2 and adds =
+the
+> > rx-filter-size=3D32 parameter. The new device is instantiated with
+> > version=3D1, which disables rx-filter-size and is capable of loading th=
+e
+> > version=3D1 device state. The migration completes successfully but note
+> > the device is still operating at version=3D1 level in the new device.
+> >=20
+> > The following example illustrates migration from a new device
+> > implementation back to an older one. The new device implementation
+> > supports version=3D1 and version=3D2. The old device implementation sup=
+ports
+> > version=3D1 only. Therefore the device can only be migrated when
+> > instantiated with version=3D1 or the equivalent full configuration
+> > parameters.
+>=20
+> I'm sometimes asked for 'ways out' of buggy migration cases; e.g. what
+> happens if version=3D1 forgot to migrate the X register; or what happens
+> if verison=3D1 forgot to handle the special, rare case when X=3D5 and we
+> now need to migrate some extra state.
+
+Can these cases be handled by adding additional configuration parameters?
+
+If version=3D1 is lacks essential state then version=3D2 can add it. The
+user must configure the device to use version before they can save the
+full state.
+
+If version=3D1 didn't handle the X=3D5 case then the same solution is
+needed. A new configuration parameter is introduced and the user needs
+to configure the device to be the new version before migrating.
+
+Unfortunately this requires poweroff or hotplugging a new device
+instance. But some disruption is probably necessarily anyway so the
+migration code on the host side can be patched to use the updated device
+state representation.
+
+> > Orchestrating Migrations
+> > ------------------------
+> > The following steps must be followed to migrate devices:
+> >=20
+> > 1. Check that the source and destination devices support the same devic=
+e model.
+> >=20
+> > 2. Check that the destination device supports the source device's
+> >    configuration. Each configuration parameter must be accepted by the
+> >    destination in order to ensure that it will be possible to load the =
+device
+> >    state.
+>=20
+> This is written in terms of a 'check'; there are at least three tricky
+> things:
+>=20
+>   a) Where they both have the same parameter, do they accept the same
+> range of values; e.g. a newer version of the card might allow
+> rx-filter-size to go upto 128
+
+The easy way to handle that without lots of metadata is by instantiating
+the destination device to see if it works.
+
+But in the next point you mention cloud where we need a way to find a
+host that supports a given device. Metadata is probably needed to make
+that check easy. In the email reply to Daniel Berrange I posted the
+beginning of a JSON schema that describes device models for this
+purpose. I think that offers a solution for the cloud case.
+
+Stefan
+
+--f+W+jCU1fRNres8c
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAl+hdscACgkQZX6NM6Xy
-CfNo6g/9HDMO9UyCvbze2GCukIRfF7CiSRpqi8g9HwDGH37+yThMnnmH/1M5YOYo
-tWiF2e6aZ8vCWk6tLX2+aZJOSh0bBnpVV7fmKQYaK0z+eRytWkKaLXKCyN5a6Pbg
-5bb82XFRdZVQ1H6YIguISN3/6h0akgIwQkZxEyjWhXsYnqeA/k5nO5wWbjnANnzQ
-DlYKEEV5LOuZ4S8WdNG617T1qd/wgojADCcIfwOzgIU6diCaZ45XaiCLhMSuUqY8
-Phr7YSMxEvQGGxiceyia9c0so1YZO58EFGid3kyEKmvUiQb/oTKKriaII9Eh6Aei
-LxGtkctZosgfm0TF6xBZUD8wuH8KH39CXxu+PM8rZ2OR2d+/2wWqEjuFtNMnHd4f
-56q6Lt6CKsi7HVgpaU1tizvlAUK52YOC969T7ZxAP9paPmJ/N1BZGl4HOyxTTRRO
-udwGCFlKsDs3itTiCN4nnYHkwovd5nYvrUqU7EnVXW5xKZRXK3RkSg8stba+wV2e
-1hYKvy0UrlpN0lonl7WPnlWkMmhaOlKopjyUPAj3YFD2hdUpNAIWsd7zVcYuZ/0A
-aTd3iVpijMdpD0J2CkrsYBEpvO0O2NmWkFeigSrgZKx/B1p2uvzFBT43hTL5Pxmb
-DKbIh173aTLnKzT0SP/3AxFCRindhp9t6ijcFK5heexHFTNTxIs=
-=Hx64
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+hdvgACgkQnKSrs4Gr
+c8iDWwf+MBbgTuSZUgV6vmv+eL7YSB1fgU3kIU8kYg/7ypsBDjzziR0XKyE7wnFo
+orAMW26ZCeJYssrtkNI+n4Yi4DmXkge9+ruvOMZr8TreyZW0ByqQyF/ggTt1oxQH
+6noV/oZBg6XNCnq/G8TriPewaZY50NTe5G8XLS4wkKm67z108a72QwhtQZC5SBuK
+PBNV93Taei76HicvSR6vDl5MtW8EeIV/Frflt4Ju/KjO/5Fyq/ih5UnoU/fyg9ZP
+EbS+Oma1CyhsT4ncb2KTlVbprNjGmSooOo+gwwObbGrHiF77LRTn8pDBZumnkmj6
+cCCrnLcYHHMX1+t4cg3e+zbk7THWYg==
+=nC2D
 -----END PGP SIGNATURE-----
 
---2B/JsCI69OhZNC5r--
+--f+W+jCU1fRNres8c--
 
 
