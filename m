@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 617962A448D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:51:32 +0100 (CET)
-Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20ACF2A4495
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 12:54:02 +0100 (CET)
+Received: from localhost ([::1]:38696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZuqZ-0004FQ-Es
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:51:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41676)
+	id 1kZusz-0006pV-6q
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 06:54:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZuoW-0002vB-RC
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:49:24 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40828)
+ id 1kZuqQ-0004vl-A4
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:51:23 -0500
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:44808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kZuoU-00066g-FJ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:49:24 -0500
-Received: by mail-wm1-x342.google.com with SMTP id k18so12467621wmj.5
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:49:22 -0800 (PST)
+ id 1kZuqK-0006q8-Sa
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 06:51:22 -0500
+Received: by mail-wr1-x442.google.com with SMTP id b3so12303981wrx.11
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 03:51:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=wfH8DgLEFheGCm4+olyiLAtiHOfKuRbs7i/BAfcD97k=;
- b=mQlHJ0ZVCrHI4+FIfMriWgpSqi9oa6av7TdSdACHbdQ9V7wT0rcqU1uC6i46yqW1dE
- jvstVaLblrNgAs8uJvATMo6XWWqPMCyXOOgjY/y/d3zjjlXBLjzy02Cj5Qa99PkXDkSl
- tm2C1YEiHIBqfay0EEHfsOFgviAUkdZsWzYfa9HJNH71qmR+9Mhi2on7vpRCT8Wa2SON
- 0bLC9d6pxzV3f9uu9byfDInrWOK9hbGY/cRh6Icyc1UJUaoU8lLAtsBWCxxeHt2MIEAf
- zQZyST9WXFldjHcQJG0kO22O18Z6/krHLDBO9N3f/RwuHoMvT1PKFH4LXPjobtU7XQjE
- CkSg==
+ bh=alXfnBkR66bYup/wyv/podQcwPgcgWAs8h32oVCAplw=;
+ b=ubZQwWICECpJCHxC3yc26hTVRrl7OIqQGy2eTOaMR5wHqXqgg8PkhjV9qNVOOuDmYE
+ g8m4STSUCROdU/axyiRVMxIjRwj3OXZU+pcYjDO7OWjoUpmubCILKzzWHR1ctBJzTNgB
+ 5iIKNWsfEp+brDWa9aHtP+fZPshV5bneh1yR6dswY9L6r1XxufgpZLHgHXAMdu6bKqLX
+ gbRenB+4doU2Bl42oqr5DT/LAL3uvh0E78y8K1FbVAjh/NFGnEDpCsTdzq3P6N8LHoIN
+ 58FgpBHekiqycywMnHwW/W0vFhga2lf08ASL9CcurdYzOfa5SPmR8ODj8dlE4PkN0qQ6
+ YPlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=wfH8DgLEFheGCm4+olyiLAtiHOfKuRbs7i/BAfcD97k=;
- b=sGhs+0Toh9ZFJhfMlIc8ryK0z3BET1AxFDuNgGiWkaARkDcCwn2eZaRp+LKZcJvkct
- nKZnonCM/p4DEcRB44zMg1LN/J946lgmRa24PjipFSkLapII7iszm80RyLfob2R46rNM
- JXsG0me7rgguO+ejWLClr8MkmoS9feGOJgwAvlNgM6pfK0OOJDIvVD8VDHd+6iuV/NdG
- KEzQeDyANY/VkggR8Kz/pZeBgVtciEgv4UsHzGz4FSIxcXjirQmUrbIj6oJJo8RbtXKB
- bXTAkdNKu8+6CnioHGZ2bbLGc2/y3YnysAUMk2dNwWugZjHKqqTwPvqGHWzPJOoZjfEx
- p9Yw==
-X-Gm-Message-State: AOAM530xv0ajAArg1zS8hp4juz0od5N0kj89WJCAPihEgTBBsUrXFKGn
- RUyivwj3qHcBPeG9+smYfXpyPw==
-X-Google-Smtp-Source: ABdhPJz3ZDq5OSsOTEiEjkvjHJKKHoE5PnKWGsNqPRGwbAm9/gTyglWH6IpF0uKaFUaNR/2MbmpNwg==
-X-Received: by 2002:a7b:c101:: with SMTP id w1mr3163253wmi.170.1604404160956; 
- Tue, 03 Nov 2020 03:49:20 -0800 (PST)
+ bh=alXfnBkR66bYup/wyv/podQcwPgcgWAs8h32oVCAplw=;
+ b=fEmaKNLaLeRVOxzg9WLj9CHeGqQUKrtTtCKyalChVwNZ2SSikAgK7OdKtwA16hZu2k
+ 2u7n8RiiFJ5nstSnAqTOTYagZoSsB63pzYYq63gZgsiGsgL8d7P3MNv/hgkNXoZVsCVl
+ WAiHqlWGL0xfVgkYjR76dnrkEShhqU1HklejaRrYJ+FVG52ujFlDr4VksSrFA71N4fw7
+ JCF3CAz2QoSn2aAA+vJaDa8aixQj7CLs9vafJCNZq/De4Rv1KPZf1Wq/xOlKVTqSl/b8
+ tKWVtWWvs0Ax6bA9EAygQOAxiVqryz14SQXRDP4HqlLOxvJwnmTE+MNFsJcgq0w2PMsq
+ OYMA==
+X-Gm-Message-State: AOAM533pI/kZiQt15d+NYrE7y5CLgXBpZwkd/dTdtxc5lhrvIOCLsG3K
+ GYwSZ8NlxW/kKX2dce7L+02f5wOTN3zFqg==
+X-Google-Smtp-Source: ABdhPJysRhwHVA7XHWnjtvdZLYU3owcN7fs9Sbj8y/SNAu7aWh5gX2NRytlQ3sfdxkyU7kKb1f7a2A==
+X-Received: by 2002:adf:c101:: with SMTP id r1mr24691041wre.87.1604404275196; 
+ Tue, 03 Nov 2020 03:51:15 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id f13sm26434215wrp.12.2020.11.03.03.49.19
+ by smtp.gmail.com with ESMTPSA id v19sm2568444wmj.31.2020.11.03.03.51.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 03:49:20 -0800 (PST)
+ Tue, 03 Nov 2020 03:51:14 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/nseries: Check return value from load_image_targphys()
-Date: Tue,  3 Nov 2020 11:49:18 +0000
-Message-Id: <20201103114918.11807-1-peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tests/qtest/libqtest.c: Check for setsockopt() failure
+Date: Tue,  3 Nov 2020 11:51:12 +0000
+Message-Id: <20201103115112.19211-1-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::342;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x342.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::442;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -83,56 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The nseries machines have a codepath that allows them to load a
-secondary bootloader.  This code wasn't checking that the
-load_image_targphys() succeeded.  Check the return value and report
-the error to the user.
+In socket_accept() we use setsockopt() to set SO_RCVTIMEO,
+but we don't check the return value for failure. Do so.
 
-While we're in the vicinity, fix the comment style of the
-comment documenting what this image load is doing.
-
-Fixes: Coverity CID 1192904
+Fixes: Coverity CID 1432321
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/nseries.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ tests/qtest/libqtest.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index 76fd7fe9854..d49852c60d7 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -1380,7 +1380,8 @@ static void n8x0_init(MachineState *machine,
-         /* No, wait, better start at the ROM.  */
-         s->mpu->cpu->env.regs[15] = OMAP2_Q2_BASE + 0x400000;
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 99deff47efc..be0fb430ddd 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -110,8 +110,13 @@ static int socket_accept(int sock)
+     struct timeval timeout = { .tv_sec = SOCKET_TIMEOUT,
+                                .tv_usec = 0 };
  
--        /* This is intended for loading the `secondary.bin' program from
-+        /*
-+         * This is intended for loading the `secondary.bin' program from
-          * Nokia images (the NOLO bootloader).  The entry point seems
-          * to be at OMAP2_Q2_BASE + 0x400000.
-          *
-@@ -1388,9 +1389,15 @@ static void n8x0_init(MachineState *machine,
-          * for them the entry point needs to be set to OMAP2_SRAM_BASE.
-          *
-          * The code above is for loading the `zImage' file from Nokia
--         * images.  */
--        load_image_targphys(option_rom[0].name, OMAP2_Q2_BASE + 0x400000,
--                            machine->ram_size - 0x400000);
-+         * images.
-+         */
-+        if (load_image_targphys(option_rom[0].name,
-+                                OMAP2_Q2_BASE + 0x400000,
-+                                machine->ram_size - 0x400000) < 0) {
-+            error_report("Failed to load secondary bootloader %s",
-+                         option_rom[0].name);
-+            exit(EXIT_FAILURE);
-+        }
+-    setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (void *)&timeout,
+-               sizeof(timeout));
++    if (qemu_setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO,
++                        (void *)&timeout, sizeof(timeout))) {
++        fprintf(stderr, "%s failed to set SO_RCVTIMEO: %s\n",
++                __func__, strerror(errno));
++        close(sock);
++        return -1;
++    }
  
-         n800_setup_nolo_tags(nolo_tags);
-         cpu_physical_memory_write(OMAP2_SRAM_BASE, nolo_tags, 0x10000);
+     do {
+         addrlen = sizeof(addr);
 -- 
 2.20.1
 
