@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCF912A4938
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:17:35 +0100 (CET)
-Received: from localhost ([::1]:46352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AB082A4979
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:24:48 +0100 (CET)
+Received: from localhost ([::1]:39052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZy3y-0003kL-T1
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:17:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44132)
+	id 1kZyAx-00044o-DJ
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:24:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZy1V-0002ES-Uo
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:15:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55641)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZy8N-0001mD-Nr
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:22:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZy1S-0002vY-RM
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:15:01 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZy8I-0005R3-Jn
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:22:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604416497;
+ s=mimecast20190719; t=1604416918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xX3PJZ/vpF37kgHozJbvLL9WXGA1QJlGImPglV7fUf4=;
- b=BTw8nn+CnWqA4eMK3AkbTFielxSlXYSEoCnqYHXdbwG7Babk8heSJPOfht+dcbJ34CnLIL
- K857es918SNPXyIyl0Jk10bXWiUjZKu5lBx6xc1weipIoSyWGmj3aKVb51cAy1/T8QbkTz
- HGaoDf98YgcB/7z9h2OQm4xK1MLdF+w=
+ bh=1535lTPYDr0w41/hF1/zYUrcunKb1JN/pb0dtQR5l68=;
+ b=YI3qhroWNb/oC9mu7HIoevV1FH0XsnV+Cn7dJMkeyF2Cx6gyTlJR1DBjH9e3VKZ+SGru6U
+ PRFQ5xWSA1FiA9AH53WlLtk39YOWKyirSjXg+QS6cllFtzTAICHp+sbOV1OaCA5CdcDjfx
+ p6Cju5UBgj8lFltYPXchuEXTOFC+w48=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-302-D_8eCKaSPsW-USEbPWdJHQ-1; Tue, 03 Nov 2020 10:14:56 -0500
-X-MC-Unique: D_8eCKaSPsW-USEbPWdJHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-105-QHT2zNfrO8uvWCVHZGo-4w-1; Tue, 03 Nov 2020 10:21:57 -0500
+X-MC-Unique: QHT2zNfrO8uvWCVHZGo-4w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33E9E80B72B
- for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 15:14:55 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D7FDC10016DA;
- Tue,  3 Nov 2020 15:14:54 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 4/4] qemu-option: warn for short-form boolean options
-Date: Tue,  3 Nov 2020 10:14:52 -0500
-Message-Id: <20201103151452.416784-5-pbonzini@redhat.com>
-In-Reply-To: <20201103151452.416784-1-pbonzini@redhat.com>
-References: <20201103151452.416784-1-pbonzini@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 084A65F9C5;
+ Tue,  3 Nov 2020 15:21:56 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D4F016EF46;
+ Tue,  3 Nov 2020 15:21:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 599AA1132BD6; Tue,  3 Nov 2020 16:21:48 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [PATCH v2 09/11] char-socket: Fix qemu_chr_socket_address() for
+ abstract sockets
+References: <20201102094422.173975-1-armbru@redhat.com>
+ <20201102094422.173975-10-armbru@redhat.com>
+ <9f594cfb-2138-c12d-f6f7-6a4653e78087@redhat.com>
+ <87r1pbosxn.fsf@dusky.pond.sub.org>
+ <20201103131733.GL205187@redhat.com>
+Date: Tue, 03 Nov 2020 16:21:48 +0100
+In-Reply-To: <20201103131733.GL205187@redhat.com> ("Daniel P. =?utf-8?Q?Be?=
+ =?utf-8?Q?rrang=C3=A9=22's?=
+ message of "Tue, 3 Nov 2020 13:17:33 +0000")
+Message-ID: <87r1pajwj7.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,189 +89,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com
+Cc: kwolf@redhat.com, zxq_yx_007@163.com, qemu-devel@nongnu.org,
+ kraxel@redhat.com, marcandre.lureau@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Options such as "server" or "nowait", that are commonly found in -chardev,
-are sugar for "server=on" and "wait=off".  This is quite surprising and
-also does not have any notion of typing attached.  It is even possible to
-do "-device e1000,noid" and get a device with "id=off".
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
 
-Deprecate all this, except for -chardev and -spice where it is in
-wide use.
+> On Tue, Nov 03, 2020 at 07:28:20AM +0100, Markus Armbruster wrote:
+>> Eric Blake <eblake@redhat.com> writes:
+>>=20
+>> > On 11/2/20 3:44 AM, Markus Armbruster wrote:
+>> >> Commit 776b97d360 "qemu-sockets: add abstract UNIX domain socket
+>> >> support" neglected to update qemu_chr_socket_address().  It shows
+>> >> shows neither @abstract nor @tight.  Fix that.
+>> >>=20
+>> >> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+>> >> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> >> ---
+>> >>  chardev/char-socket.c | 10 +++++++++-
+>> >>  1 file changed, 9 insertions(+), 1 deletion(-)
+>> >>=20
+>> >> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
+>> >> index 1ee5a8c295..dc1cf86ecf 100644
+>> >> --- a/chardev/char-socket.c
+>> >> +++ b/chardev/char-socket.c
+>> >> @@ -443,10 +443,18 @@ static char *qemu_chr_socket_address(SocketChar=
+dev *s, const char *prefix)
+>> >>                                 s->is_listen ? ",server" : "");
+>> >>          break;
+>> >>      case SOCKET_ADDRESS_TYPE_UNIX:
+>> >> -        return g_strdup_printf("%sunix:%s%s", prefix,
+>> >> +    {
+>> >> +        UnixSocketAddress *sa =3D &s->addr->u.q_unix;
+>> >> +
+>> >> +        return g_strdup_printf("%sunix:%s%s%s%s", prefix,
+>> >>                                 s->addr->u.q_unix.path,
+>> >> +                               sa->has_abstract && sa->abstract
+>> >> +                               ? ",abstract" : "",
+>> >> +                               sa->has_tight && sa->tight
+>> >> +                               ? ",tight" : "",
+>> >>                                 s->is_listen ? ",server" : "");
+>> >
+>> > Gets modified again in 11/11, so I can accept this as a strict
+>> > improvement, even if it is not the final form.
+>>=20
+>> You're right, PATCH 11's change is better done here already.  Will tidy
+>> up if I need to respin for some other reason.
+>
+> I can squash in the following part of patch 11:
+>
+> @@ -444,14 +444,20 @@ static char *qemu_chr_socket_address(SocketChardev =
+*s, const char *prefix)
+>          break;
+>      case SOCKET_ADDRESS_TYPE_UNIX:
+>      {
+> +        const char *tight =3D "", *abstract =3D "";
+>          UnixSocketAddress *sa =3D &s->addr->u.q_unix;
+>
+> -        return g_strdup_printf("%sunix:%s%s%s%s", prefix,
+> -                               s->addr->u.q_unix.path,
+> -                               sa->has_abstract && sa->abstract
+> -                               ? ",abstract" : "",
+> -                               sa->has_tight && sa->tight
+> -                               ? ",tight" : "",
+> +#ifdef CONFIG_LINUX
+> +        if (sa->has_abstract && sa->abstract) {
+> +            abstract =3D ",abstract";
+> +            if (sa->has_tight && sa->tight) {
+> +                tight =3D ",tight";
+> +            }
+> +        }
+> +#endif
+> +
+> +        return g_strdup_printf("%sunix:%s%s%s%s", prefix, sa->path,
+> +                               abstract, tight,
+>                                 s->is_listen ? ",server" : "");
+>          break;
+>      }
+>
+> but leaving out the CONFIG_LINUX ifdef until Patch 11
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- chardev/char.c             |  1 +
- docs/system/deprecated.rst |  7 +++++++
- include/qemu/option.h      |  1 +
- tests/test-qemu-opts.c     |  1 +
- ui/spice-core.c            |  1 +
- util/qemu-option.c         | 22 +++++++++++++++-------
- 6 files changed, 26 insertions(+), 7 deletions(-)
-
-diff --git a/chardev/char.c b/chardev/char.c
-index 78553125d3..108da615df 100644
---- a/chardev/char.c
-+++ b/chardev/char.c
-@@ -829,6 +829,7 @@ Chardev *qemu_chr_find(const char *name)
- 
- QemuOptsList qemu_chardev_opts = {
-     .name = "chardev",
-+    .allow_flag_options = true, /* server, nowait, etc. */
-     .implied_opt_name = "backend",
-     .head = QTAILQ_HEAD_INITIALIZER(qemu_chardev_opts.head),
-     .desc = {
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 32a0e620db..0e7edf7e56 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -146,6 +146,13 @@ Drives with interface types other than ``if=none`` are for onboard
- devices.  It is possible to use drives the board doesn't pick up with
- -device.  This usage is now deprecated.  Use ``if=none`` instead.
- 
-+Short-form boolean options (since 5.2)
-+''''''''''''''''''''''''''''''''''''''
-+
-+Boolean options such as ``share=on``/``share=off`` can be written
-+in short form as ``share`` and ``noshare``.  This is deprecated
-+for all command-line options except ``-chardev` and ``-spice``, for
-+which the short form was in wide use.
- 
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/include/qemu/option.h b/include/qemu/option.h
-index ac69352e0e..046ac06a1f 100644
---- a/include/qemu/option.h
-+++ b/include/qemu/option.h
-@@ -65,6 +65,7 @@ struct QemuOptsList {
-     const char *name;
-     const char *implied_opt_name;
-     bool merge_lists;  /* Merge multiple uses of option into a single list? */
-+    bool allow_flag_options; /* Whether to warn for short-form boolean options */
-     QTAILQ_HEAD(, QemuOpts) head;
-     QemuOptDesc desc[];
- };
-diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
-index 297ffe79dd..a74c475773 100644
---- a/tests/test-qemu-opts.c
-+++ b/tests/test-qemu-opts.c
-@@ -77,6 +77,7 @@ static QemuOptsList opts_list_02 = {
- static QemuOptsList opts_list_03 = {
-     .name = "opts_list_03",
-     .implied_opt_name = "implied",
-+    .allow_flag_options = true,
-     .head = QTAILQ_HEAD_INITIALIZER(opts_list_03.head),
-     .desc = {
-         /* no elements => accept any params */
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index eea52f5389..08f834fa41 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -397,6 +397,7 @@ static SpiceChannelList *qmp_query_spice_channels(void)
- 
- static QemuOptsList qemu_spice_opts = {
-     .name = "spice",
-+    .allow_flag_options = true, /* disable-agent-file-xfer, sasl, unix, etc. */
-     .head = QTAILQ_HEAD_INITIALIZER(qemu_spice_opts.head),
-     .merge_lists = true,
-     .desc = {
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index 5824b7afe2..8b6050fbf7 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -779,16 +779,19 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
- 
- static const char *get_opt_name_value(const char *params,
-                                       const char *firstname,
-+                                      bool warn_on_flag,
-                                       bool *help_wanted,
-                                       char **name, char **value)
- {
-     const char *p;
-+    const char *prefix = "";
-     size_t len;
- 
-     len = strcspn(params, "=,");
-     if (params[len] != '=') {
-         if (help_wanted && starts_with_help_option(params) == len) {
-             *help_wanted = true;
-+            warn_on_flag = false;
-         }
-         /* found "foo,more" */
-         if (firstname) {
-@@ -801,9 +804,14 @@ static const char *get_opt_name_value(const char *params,
-             if (strncmp(*name, "no", 2) == 0) {
-                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
-                 *value = g_strdup("off");
-+                prefix = "no";
-             } else {
-                 *value = g_strdup("on");
-             }
-+            if (warn_on_flag) {
-+                error_report("short-form boolean option '%s%s' deprecated", prefix, *name);
-+                error_printf("Please use %s=%s instead\n", *name, *value);
-+            }
-         }
-     } else {
-         /* found "foo=bar,more" */
-@@ -822,14 +830,14 @@ static const char *get_opt_name_value(const char *params,
- 
- static bool opts_do_parse(QemuOpts *opts, const char *params,
-                           const char *firstname, bool prepend,
--                          bool *help_wanted, Error **errp)
-+                          bool warn_on_flag, bool *help_wanted, Error **errp)
- {
-     char *option, *value;
-     const char *p;
-     QemuOpt *opt;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-+        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
-         if (help_wanted && *help_wanted) {
-             return false;
-         }
-@@ -858,7 +866,7 @@ static char *opts_parse_id(const char *params)
-     char *name, *value;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, NULL, &name, &value);
-+        p = get_opt_name_value(p, NULL, false, NULL, &name, &value);
-         if (!strcmp(name, "id")) {
-             g_free(name);
-             return value;
-@@ -877,7 +885,7 @@ bool has_help_option(const char *params)
-     bool ret = false;
- 
-     for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, &ret, &name, &value);
-+        p = get_opt_name_value(p, NULL, false, &ret, &name, &value);
-         g_free(name);
-         g_free(value);
-         if (ret) {
-@@ -897,7 +905,7 @@ bool has_help_option(const char *params)
- bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
-                        const char *firstname, Error **errp)
- {
--    return opts_do_parse(opts, params, firstname, false, NULL, errp);
-+    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
- }
- 
- static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-@@ -925,8 +933,8 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
-         return NULL;
-     }
- 
--    if (!opts_do_parse(opts, params, firstname, defaults, help_wanted,
--                       errp)) {
-+    if (!opts_do_parse(opts, params, firstname, defaults,
-+                       !list->allow_flag_options, help_wanted, errp)) {
-         qemu_opts_del(opts);
-         return NULL;
-     }
--- 
-2.26.2
+Appreciated!
 
 
