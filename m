@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45BB62A4D22
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:35:52 +0100 (CET)
-Received: from localhost ([::1]:36344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 122382A4D09
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:33:21 +0100 (CET)
+Received: from localhost ([::1]:56730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka0Dn-0006g2-9l
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:35:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60654)
+	id 1ka0BM-0003KE-4f
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:33:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60540)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ka0A9-0001xF-P0; Tue, 03 Nov 2020 12:32:05 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:54139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1ka0A7-0007fC-QS; Tue, 03 Nov 2020 12:32:05 -0500
-Received: by mail-wm1-x343.google.com with SMTP id p22so121474wmg.3;
- Tue, 03 Nov 2020 09:32:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=xtn9UpLprZQgb3hjVTkUMy618Qe7q31gcHcVvA1M52o=;
- b=J490b6sPrOWXOcHMEgOlaCgBonTqhzKczJwva6bXlcBqa11a2VFlhPigpuAJds9bEU
- cwNaLbAZ4RcslQ/Juwbb3z3q9ozypzW20qaUMuiKw3gF4Q9NVnBMVi5BukhOP2vN4MiU
- v5iImSTwn9830SNGRCWbKhwMWh3r+igo7NC6j2cph9XoCh3hh4t1UgXN97wwzV3A47ci
- SCNA/rtnhUjb5iMFVgm1WBnxQzQ4q7IS0e1CG+6uO2YYZLKQPwiPFgiDFkdPm+vCFhtq
- nzlmLaMp9ihap2c1DU66R/Ck1Z6db73YXOFf4K8DRvCeuuvtA0uebsoNJwGYM8sHGv6Z
- glWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xtn9UpLprZQgb3hjVTkUMy618Qe7q31gcHcVvA1M52o=;
- b=em606iQudrs3qTSyMo3tfU6tJHSxxU1zrZXnf01ooIp6SWnL+ce9bg/jWv4tOt2UPe
- sBcXgib1ylAZOpMZucAm8aaQ1V5Bb2WO93BADtG/ExA2QTQmf4Cz7oCpp27OmnBsY7xR
- GVRmtp5AWXucQWbiKxeQabaZYKy2se/JFMAwtAL+8OOkru39h7n57eQnw0C/x9JuMoFp
- pQjjmEzGw5gtIJ0YqPB7j4JjRpR2pxAaigJ12BYX2PXBfx6qs8O515SS6Nhe+zIKjKNt
- 4xTYnL7GTLXwIhJgVWgFGp/GpvPY47QKZ0062ePvagmnPxWXjXipe6dsHui4jiByDXmP
- KZEA==
-X-Gm-Message-State: AOAM530zb5iMEHBRF8MTUdaKId7WZ8tyZoqJ4/ICdDb6j/fJZOhPna2w
- DxCeb8IOtCWrKngkhpcA+178YXOPkx4=
-X-Google-Smtp-Source: ABdhPJypUzW1ind7JILAg1GrFsSMfeUCwZif68g5FsFrEJBl+M+ugxb9nY8RG5N8HXJyjezA3Lf4uA==
-X-Received: by 2002:a7b:c04a:: with SMTP id u10mr226031wmc.83.1604424721805;
- Tue, 03 Nov 2020 09:32:01 -0800 (PST)
-Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id d16sm22910wrw.17.2020.11.03.09.32.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 09:32:01 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 6/6] target/mips: Add unaligned access support for MIPS64R6 and
- Loongson-3
-Date: Tue,  3 Nov 2020 18:31:27 +0100
-Message-Id: <20201103173127.2704256-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201103173127.2704256-1-f4bug@amsat.org>
-References: <20201103173127.2704256-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ka09z-0001Zm-Hk
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:31:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1ka09v-0007cY-Cp
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:31:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604424708;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AV6uN+96HsV282QBlLAmU6Oh19cDXX/t/5p7UE0egcw=;
+ b=IgTa3QxqchmwkSZ7MDP2UL0E9ggtNFOAMqnUwlIabx6tPj2vuoDfJTg0WfRdzU35cRKPhK
+ kReofRMrWNCvOf66caeiNPnbHY5HPdq+H/2fONbtJffqTguM2N/XuS+RV+8jNdUVpFQ54c
+ LFfBo86KHK2svHPEPSv1WNEBkosxNPw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-7KVERFg5Nzycv7rvcmA8CA-1; Tue, 03 Nov 2020 12:31:43 -0500
+X-MC-Unique: 7KVERFg5Nzycv7rvcmA8CA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8794F8049FE;
+ Tue,  3 Nov 2020 17:31:42 +0000 (UTC)
+Received: from w520.home (ovpn-112-213.phx2.redhat.com [10.3.112.213])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C5E705C5DE;
+ Tue,  3 Nov 2020 17:31:35 +0000 (UTC)
+Date: Tue, 3 Nov 2020 10:31:35 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: VFIO Migration
+Message-ID: <20201103103135.7da0a9c5@w520.home>
+In-Reply-To: <20201103153356.GO205187@redhat.com>
+References: <20201102111153.GC42093@stefanha-x1.localdomain>
+ <ly5z6m79c0.fsf@redhat.com> <20201103153356.GO205187@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,51 +82,161 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Huacai Chen <zltjiangshi@gmail.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Paul Burton <paulburton@kernel.org>, libvir-list@redhat.com,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhc@lemote.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Huacai Chen <zltjiangshi@gmail.com>
+On Tue, 3 Nov 2020 15:33:56 +0000
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
-MIPSR6 (not only MIPS32R6) processors support unaligned access in
-hardware, so set MO_UNALN in their default_tcg_memop_mask. Btw, new
-Loongson-3 (such as Loongson-3A4000) also support unaligned access,
-since both old and new Loongson-3 use the same binaries, we can simply
-set MO_UNALN for all Loongson-3 processors.
+> On Tue, Nov 03, 2020 at 04:23:43PM +0100, Christophe de Dinechin wrote:
+> >=20
+> > On 2020-11-02 at 12:11 CET, Stefan Hajnoczi wrote... =20
+> > > There is discussion about VFIO migration in the "Re: Out-of-Process
+> > > Device Emulation session at KVM Forum 2020" thread. The current statu=
+s
+> > > is that Kirti proposed a VFIO device region type for saving and loadi=
+ng
+> > > device state. There is currently no guidance on migrating between
+> > > different device versions or device implementations from different
+> > > vendors. This is known to be non-trivial and raised discussion about
+> > > whether it should really be handled by VFIO or centralized in QEMU.
+> > >
+> > > Below is a document that describes how to ensure migration compatibil=
+ity
+> > > in VFIO. It does not require changes to the VFIO migration interface.=
+ It
+> > > can be used for both VFIO/mdev kernel devices and vfio-user devices.
+> > >
+> > > The idea is that the device state blob is opaque to the VMM but the s=
+ame
+> > > level of migration compatibility that exists today is still available=
+.
+> > >
+> > > I hope this will help us reach consensus and let us discuss specifics=
+.
+> > >
+> > > If you followed the previous discussion, I changed the approach from
+> > > sending a magic constant in the device state blob to identifying devi=
+ce
+> > > models by URIs. Therefore the device state structure does not need to=
+ be
+> > > defined here - the critical information for ensuring device migration
+> > > compatibility is the device model and configuration defined below.
+> > >
+> > > Stefan
+> > > ---
+> > > VFIO Migration
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > This document describes how to save and load VFIO device states. Savi=
+ng a
+> > > device state produces a snapshot of a VFIO device's state that can be=
+ loaded
+> > > again at a later point in time to resume the device from the snapshot=
+.
+> > >
+> > > The data representation of the device state is outside the scope of t=
+his
+> > > document.
+> > >
+> > > Overview
+> > > --------
+> > > The purpose of device states is to save the device at a point in time=
+ and then
+> > > restore the device back to the saved state later. This is more challe=
+nging than
+> > > it first appears.
+> > >
+> > > The process of saving a device state and loading it later is called
+> > > *migration*. The state may be loaded by the same device that saved it=
+ or by a
+> > > new instance of the device, possibly running on a different computer.
+> > >
+> > > It must be possible to migrate to a newer implementation of the devic=
+e
+> > > as well as to an older implementation of the device. This allows user=
+s
+> > > to upgrade and roll back their systems.
+> > >
+> > > Migration can fail if loading the device state is not possible. It sh=
+ould fail
+> > > early with a clear error message. It must not appear to complete but =
+leave the
+> > > device inoperable due to a migration problem.
+> > >
+> > > The rest of this document describes how these requirements can be met=
+.
+> > >
+> > > Device Models
+> > > -------------
+> > > Devices have a *hardware interface* consisting of hardware registers,
+> > > interrupts, and so on.
+> > >
+> > > The hardware interface together with the device state representation =
+is called
+> > > a *device model*. Device models can be assigned URIs such as
+> > > https://qemu.org/devices/e1000e to uniquely identify them. =20
+> >=20
+> > Like others, I think we should either
+> >=20
+> > a) Give a relatively strong requirement regarding what is at the URL in
+> > question, e.g. docs, maybe even a machine-readable schema describing
+> > configuration and state for the device. Leaving the option "there can b=
+e
+> > nothing here" is IMO asking for trouble.
+> >=20
+> > b) simply call that a unique ID, and then either drop the https: entire=
+ly or
+> > use something else, like pci:// or, to be more specific, vfio://
+> >=20
+> > I'd favor option (b) for a different practical reason. URLs are subject=
+ to
+> > redirection and other mishaps. For example, using https:// begs the que=
+stion
+> > whether
+> > https://qemu.org/devices/e1000e and
+> > https://www.qemu.org/devices/e1000e
+> > should be treated as the same device. I believe that your intent is tha=
+t
+> > they shouldn't, but if the qemu web server redirects to www, and someon=
+e
+> > wants to copy-paste their web browser's URL bar to the command line, th=
+ey'd
+> > get the wrong one. =20
+>=20
+> That's not a real world problem IMHO, because neither of these URLs
+> ever need resolve to a real webpage, and thus not need to be cut +
+> paste from a browser.
+>=20
+> They are simply expressing a resource identifier using a URI as a
+> convenient format. This is the same as an XML namespace using a URI,
+> and rarely, if ever, resolving to any actual web page.
+>=20
+> This is a good thing, because if you say there needs to be a real page
+> there, then it creates a pile of corporate beaurocracy for contributors.
+> I can freely create a URI under https://redhat.com for purposes of being
+> a identifier, but I cannot get any content published there without jumpin=
+g
+> through many tedious corporate approvals and stand a good chance of being
+> rejected.
+>=20
+> If we're truely treating the URIs as an opaque string, we don't especiall=
+y
+> need to define any rules other than to say it should be under a domain th=
+at
+> you have authority over either directly, or via membership of a project
+> that delegates. We can suggest "https" since seeing "http" is a red flag
+> for many people these days.
 
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <1604053541-27822-3-git-send-email-chenhc@lemote.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/mips/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Hmm, an opaque string, sort of like the existing "name" attribute we
+have now where Christophe quoted some examples in his message.  Thanks,
 
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 3197a692c45..c64a1bc42e1 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -31442,8 +31442,8 @@ static void mips_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- #else
-         ctx->mem_idx = hflags_mmu_index(ctx->hflags);
- #endif
--    ctx->default_tcg_memop_mask = (ctx->insn_flags & ISA_MIPS32R6) ?
--                                  MO_UNALN : MO_ALIGN;
-+    ctx->default_tcg_memop_mask = (ctx->insn_flags & (ISA_MIPS32R6 | ISA_MIPS64R6 |
-+                                  INSN_LOONGSON3A)) ? MO_UNALN : MO_ALIGN;
- 
-     LOG_DISAS("\ntb %p idx %d hflags %04x\n", ctx->base.tb, ctx->mem_idx,
-               ctx->hflags);
--- 
-2.26.2
+Alex
 
 
