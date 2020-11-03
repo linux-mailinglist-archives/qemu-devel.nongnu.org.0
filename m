@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 637602A4C3E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:05:20 +0100 (CET)
-Received: from localhost ([::1]:45080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5CF12A4C3D
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:05:15 +0100 (CET)
+Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZzkF-0001pM-DU
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:05:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51212)
+	id 1kZzkA-0001bq-9r
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:05:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZzg8-0005ib-WB
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:07 -0500
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZzg5-00086i-Hr
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:04 -0500
-Received: by mail-pf1-x444.google.com with SMTP id 10so14753119pfp.5
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=K+WGWnzJYW4S2iI8/mx93AwJbjDQ0v4CrAPEeljIjTg=;
- b=KJCh7aJKI5EnlxloJ4ZPnSMBxccao4rWDqVyxz5LMOoMOiUCo4iSkJ89a2xJC63U75
- EDOwAtgFYdqUMyDoUJmb8OkuevOLyoOrGOsWXfBFZUBoNfY2k4uC7027gHRtGdMhnyf8
- CaBeh+xDH7LxHLVb74apmiACWVBCN28ff1/gtjvtnr9jEIiCWgne4dx/0OhSzeYPq23D
- s89JwzTYIPyAKgXnda4BYgS7Mrv1jSzIwPT9IGgrXf3THR0YOZQcDmJsd5vhl8nkMSZs
- L2l36Vo6KfG7qlDhqCjXIgnNegqKtHzlysZOrh2lwwi56Fjtw2qwWplZcuJNIv5VFRrY
- Cxmg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzgT-00067l-Sg
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzgO-0008Fh-I6
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604422878;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DYfZ9cjm0QflG3ChqOKSLNxpczjBPSLYd00UEPN52q0=;
+ b=XEFgaGjTTXCfmnqRCumWasmXRk+XlDQQwkj+NiDmJhNF+KFNNC0uD9Af3MOvl6KT+5vUpL
+ o9D+C1EDpj1UqWAsMjz5jxxAesmbuhbpev/FLpe6zf2usLxAZkENP+N0XY9mxX7bntJkyt
+ EwRoydKfqt+Nha9OH+r0Axt+T88C0WY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-88-fB2X-4IvPtWTHlTYdrbGlg-1; Tue, 03 Nov 2020 12:01:16 -0500
+X-MC-Unique: fB2X-4IvPtWTHlTYdrbGlg-1
+Received: by mail-wm1-f72.google.com with SMTP id c204so5058wmd.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:01:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=K+WGWnzJYW4S2iI8/mx93AwJbjDQ0v4CrAPEeljIjTg=;
- b=AyRKKq7ECcB3igWRiZOwMnBCi9efM2+pHmwHOa1XzjFcwy2tihLMLDegUT9as4nuqy
- yuuDcyv8ALWlUd/+0yeowzAnd/YYr4hkHNiCN74XsWo7Yo8ctSdUKjBL5RDMNprIGuKx
- 2oWGGWhSuRxfg6mFPrgEKIwYz893yR9XhV/kiKN3OQiGY/M/Vb6d4aoigtZcYc4l537M
- cMEmvbBd1kG4DrVFFO28TimoJ7NYx9r+DXHrSKS/DbVuXgAX8GMaLNgHWaFDi0SHDOmc
- 4KT325JPETUH2sH66viASA69BwusJwHqOqQxJprArDXkxcJHpjHcZwZpsHhYH9GV9GAl
- QEjQ==
-X-Gm-Message-State: AOAM532FIpYCvdyAeCYAicspiiV2vQLPec9axpaN5HRs2MQL/VaEMmh2
- jeynEz0dpuiEouPAAhxp43Sb3a5V2sakrQ==
-X-Google-Smtp-Source: ABdhPJx0YbxiH2QZjwSAg/vjsSv2Er5pC1bxKHPOhaAZc6VvVMDyvjQPIme3hac0yFWUZbYAy6gWfA==
-X-Received: by 2002:aa7:84d5:0:b029:18a:ae45:54bc with SMTP id
- x21-20020aa784d50000b029018aae4554bcmr15469760pfn.27.1604422856231; 
- Tue, 03 Nov 2020 09:00:56 -0800 (PST)
-Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id j24sm4042568pjn.9.2020.11.03.09.00.51
+ bh=DYfZ9cjm0QflG3ChqOKSLNxpczjBPSLYd00UEPN52q0=;
+ b=ul8pvwXKR16RXlHDemK1Pj4A8mBOGwoPTOhy8aDP3o5nPj4fXe6x5jQ1srmRlqweO9
+ SL/K/rzJnAN7/QWqpsOIhy1SPr/GAvd6QFfHQRgxkTywjzJH+NTbCCqub3LErfYepLDx
+ OKwalQbvNwwGyxqwXRYCUexnssEl9Wvocz5Oty8HlTgP50Py1CLP7csl10S25EQZpzwx
+ nyP7uRq2sIcR/CdTbBaeUZhEmNYKYhO9Kfu++ydlUvuYEvq3+iBxT126Hofbde/NZ6Le
+ BiMeeN/MtMDPykQ1cuMNN+6rj9jGt3d/BdRS8tUdknFe2n9o6nAAK1lmE0IaZEngF7WK
+ fH/A==
+X-Gm-Message-State: AOAM5300R3COtvLo7mhCNxxXMvHHbMHCrUwR5Er0HytuyXwmrRyzAfdD
+ pAtE1ecV+fxjgFWwTB77jWSWOLtESY+1hMLbZUZGIEmTsfdhNjjbWNiInld8nCTOSFFq9iKdl9y
+ 5GqIWqbVtjv54mxA=
+X-Received: by 2002:adf:d0cf:: with SMTP id z15mr29209004wrh.213.1604422875453; 
+ Tue, 03 Nov 2020 09:01:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxEAdwipoyKoSNOAH8LJMmbkRmnjMPV0ZqFaKi798xLjBoVN5OvvOMv7OzHq371dMFPVLOO8w==
+X-Received: by 2002:adf:d0cf:: with SMTP id z15mr29208960wrh.213.1604422875141; 
+ Tue, 03 Nov 2020 09:01:15 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id y200sm4003662wmc.23.2020.11.03.09.01.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 09:00:52 -0800 (PST)
-Subject: Re: [PATCH 04/14] target/arm: factor MDCR_EL2 common handling
-To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
-References: <2172054.ElGaqSPkdT@basile.remlab.net>
- <20201102105802.39332-4-remi.denis.courmont@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fe08bf17-ec53-582b-1d3f-bb78b2403691@linaro.org>
-Date: Tue, 3 Nov 2020 09:00:49 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Tue, 03 Nov 2020 09:01:14 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 2/3] gitlab-ci: Add a job to cover the
+ --without-default-devices config
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20201103164604.2692357-1-philmd@redhat.com>
+ <20201103164604.2692357-3-philmd@redhat.com>
+ <20201103165247.GT205187@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7654e063-98d3-84e0-8116-5a1b41d14636@redhat.com>
+Date: Tue, 3 Nov 2020 18:01:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201102105802.39332-4-remi.denis.courmont@huawei.com>
+In-Reply-To: <20201103165247.GT205187@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::444;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x444.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,24 +102,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/20 2:57 AM, remi.denis.courmont@huawei.com wrote:
-> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
+On 11/3/20 5:52 PM, Daniel P. Berrangé wrote:
+> On Tue, Nov 03, 2020 at 05:46:03PM +0100, Philippe Mathieu-Daudé wrote:
+>> We test './configure --without-default-devices' since commit
+>> 20885b5b169 (".travis.yml: test that no-default-device builds
+>> do not regress") in Travis-CI.
+>>
+>> As we prefer to use GitLab-CI, add the equivalent job there.
+>>
+>> One minor difference: the GitLab Ubuntu docker image has the
+>> Xen devel packages installed. As it is automatically selected,
+>> we need to disable it with the --disable-xen option, else the
+>> build fails:
+>>
+>>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
+>>   hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
+>>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference to `local_ops'
+>>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference to `synth_ops'
+>>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference to `proxy_ops'
+>>   collect2: error: ld returned 1 exit status
 > 
-> This adds a common helper to compute the effective value of MDCR_EL2.
-> That is the actual value if EL2 is enabled in the current security
-> context, or 0 elsewise.
-> 
-> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> ---
->  target/arm/helper.c | 38 ++++++++++++++++++++++----------------
->  1 file changed, 22 insertions(+), 16 deletions(-)
+> Surely this is a build bug we need to fix rather than ignore in CI ?
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Well it predates this series, so nobody really cared
+(thus I wonder if it makes sense to invest resources
+there).
 
+Anyway I can have a look after 5.2-rc1.
 
-r~
 
