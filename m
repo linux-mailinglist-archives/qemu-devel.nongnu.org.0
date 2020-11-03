@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AD0D2A4857
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:36:25 +0100 (CET)
-Received: from localhost ([::1]:46040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 813FE2A4861
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:39:19 +0100 (CET)
+Received: from localhost ([::1]:54262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxQ8-0005Hz-Ju
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:36:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32850)
+	id 1kZxSw-0000ci-Ii
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:39:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxO7-0003bc-BU
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54327)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxO9-0003gV-Pg
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46530)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxO4-0006HB-Hj
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:19 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kZxO7-0006I3-Hr
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:34:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414056;
+ s=mimecast20190719; t=1604414058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aiHSSZpWVmtRhYn18w/DUuKk+CQD6Uz5cJmFPDvNuls=;
- b=Mk02C4EeP3zhFv9KHp8cBLoVwpzs9fzOY8MkEHcv70nLumXR6ieXvAfQCb2y1dLQ1XVxnD
- RSA2w8Rn72y0dDJYtXxXRpPsARKs8RTbevhKcLO63btMboht9RmV7FUOAuBW3IBpXV7mwZ
- 9ShFXvni3kDAURCDOz7LM6Qs9b0koMY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-cDcgaWI4NIWQ6XM2-hfbnQ-1; Tue, 03 Nov 2020 09:34:13 -0500
-X-MC-Unique: cDcgaWI4NIWQ6XM2-hfbnQ-1
-Received: by mail-wr1-f69.google.com with SMTP id h11so4934180wrq.20
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:34:13 -0800 (PST)
+ bh=Bbvtq4HGVJ/wSfBQLsW+iRV9/tlIpRrNFHMItefyjY8=;
+ b=ZoYC/Augcd60zEX7+5AS8IaodEn/ax73mvFgAuAmSKtIQb/F1p9zn6Ndkwakfp84sSXImN
+ m+H8ir/e/wz2DUCSRgU57SPGxp7QSns1CSiaye3U1vc7MGnJKC96xEewKGE04oG46x5q8x
+ VoWCnTmHrwY8rmi/B9jwV/NnWM9pNLM=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-14-pVRSu7dgOV679Zz_LOGKPw-1; Tue, 03 Nov 2020 09:34:15 -0500
+X-MC-Unique: pVRSu7dgOV679Zz_LOGKPw-1
+Received: by mail-wm1-f72.google.com with SMTP id z62so17493wmb.1
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:34:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aiHSSZpWVmtRhYn18w/DUuKk+CQD6Uz5cJmFPDvNuls=;
- b=GrBRDN8gf0WsMudE4Jk7TTRxk1MsVWJY2t75uLeVBeKN7TaSSiV9slJh4925LI5Btl
- G2YxohWP6zvvytBqdnmktB0Qi2yHiHDfZF/5T4TfOQdx0UvMltEWSJL1RfgoslpTtqh+
- EPZaidJre5RJ9Ro+usm3GrVk/qJ/aeG4xCVRl2uCETjI8UoenAPf6M7SdhgXWqrnLze7
- U2eFPCShqbfyCsM2eoMuxwh5IdugiC5/4K3ewSI32WKnGzPNN6xtKq8+1dkU9kK3lw9N
- u39cyvSO74t+N2ygajeovKlt+EySQZTZiemdrqWAXuGg+C8TY4+2LsBGFHoXdLvfSPSe
- wDYg==
-X-Gm-Message-State: AOAM532P/7TTjME4ncx8MMJ1Tpjuv61FelcGnOTDyy2VNADHDAO73UZS
- W/kLv2VWmYEgyLrLTuvkgsUPy2t4VKhXpxCppxniaFUCYu6IsuupaduACBrV4kw5myDzdQsBGAF
- sTIID1FtbrJiL9Mw=
-X-Received: by 2002:adf:e490:: with SMTP id i16mr28287959wrm.178.1604414051702; 
- Tue, 03 Nov 2020 06:34:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGGsk6g63+jKOJzWvHqq8KRyUMrgNFre8YYwivm/4PfpwZBS9rbGCeiuS8a4vsA9F7KGPibg==
-X-Received: by 2002:adf:e490:: with SMTP id i16mr28287939wrm.178.1604414051511; 
- Tue, 03 Nov 2020 06:34:11 -0800 (PST)
+ bh=Bbvtq4HGVJ/wSfBQLsW+iRV9/tlIpRrNFHMItefyjY8=;
+ b=DfBR7Nan2e19iMVEbncujb94vlJDs3SohyqRrlVO3zgMwKnTVywaXvk9ZaRP1CzANV
+ S986MmMaG0S0W7TnVPZPKSQ6WxPmzs0SMvC1xKQUF7iaD3DkrmgS0pm1cdTyAtM1BaXC
+ W1Ij/dhC5G3gZ3e7p/X4xS3IPTF+aMSJfeVKs/BTNzJOaVGV52XH57YX3coXIzINMhOV
+ L2juKqUmElbgRV5JeK/+9XcOR/1IUU4SroVUu0Ox4oy7AcJOacPVE5vY6XMavBs7yLco
+ Hirbniq8XqqCfKrs40k0RJrIdERTwW/MuaT6WDiLSiVKyT7OsMA15ypJtrqNQNMvqz8I
+ 7xgQ==
+X-Gm-Message-State: AOAM533lPpAtBrz4D5raQmg5UAkUOJAfPkNoR93HsLPVAEMWlTqBWzS2
+ HgOluK1qDVgAyNi3FGRC5VOCEHpqBO/iPS0Z8slYJg5w2G2l4wFtcr/5YLMeBjgQY5juhMt9v9a
+ uD/eoQ7O8umLyPvc=
+X-Received: by 2002:a5d:67c4:: with SMTP id n4mr26131073wrw.125.1604414054238; 
+ Tue, 03 Nov 2020 06:34:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyY8oXxucAk0ZppGCT+iLOP/LB2FcfsJOnomIaYLCnDkvC/Ru4HBT+gMlonOeu77yVI4bSdXg==
+X-Received: by 2002:a5d:67c4:: with SMTP id n4mr26131055wrw.125.1604414054065; 
+ Tue, 03 Nov 2020 06:34:14 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id e5sm25074409wrw.93.2020.11.03.06.34.10
+ by smtp.gmail.com with ESMTPSA id 30sm26156133wrs.84.2020.11.03.06.34.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 06:34:10 -0800 (PST)
-Date: Tue, 3 Nov 2020 09:34:09 -0500
+ Tue, 03 Nov 2020 06:34:13 -0800 (PST)
+Date: Tue, 3 Nov 2020 09:34:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/38] virtio-mem: Make sure "usable_region_size" is always
- multiples of the block size
-Message-ID: <20201103142306.71782-4-mst@redhat.com>
+Subject: [PULL 04/38] virtio-mem: Probe THP size to determine default block
+ size
+Message-ID: <20201103142306.71782-5-mst@redhat.com>
 References: <20201103142306.71782-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201103142306.71782-1-mst@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,44 +105,182 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-The spec states:
-  "The device MUST set addr, region_size, usable_region_size, plugged_size,
-   requested_size to multiples of block_size."
+Let's allow a minimum block size of 1 MiB in all configurations. Select
+the default block size based on
+- The page size of the memory backend.
+- The THP size if the memory backend size corresponds to the real host
+  page size.
+- The global minimum of 1 MiB.
+and warn if something smaller is configured by the user.
 
-With block sizes > 256MB, we currently wouldn't guarantee that for the
-usable_region_size.
+VIRTIO_MEM only supports Linux (depends on LINUX), so we can probe the
+THP size unconditionally.
 
-Note that we cannot exceed the region_size, as we already enforce the
-alignment there properly.
+For now we only support virtio-mem on x86-64 - there isn't a user-visible
+change (x86-64 only supports 2 MiB THP on the PMD level) - the default
+was, and will be 2 MiB.
 
-Fixes: 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
+If we ever have THP on the PUD level (e.g., 1 GiB THP on x86-64), we
+expect it to be more transparent - e.g., to only optimize fully populated
+ranges unless explicitly told /configured otherwise (in contrast to PMD
+THP).
+
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Wei Yang <richardw.yang@linux.intel.com>
 Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20201008083029.9504-3-david@redhat.com>
+Message-Id: <20201008083029.9504-4-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/virtio/virtio-mem.c | 105 +++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 101 insertions(+), 4 deletions(-)
 
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 70200b4eac..461ac68ee8 100644
+index 461ac68ee8..655824ff81 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -227,6 +227,9 @@ static void virtio_mem_resize_usable_region(VirtIOMEM *vmem,
-     uint64_t newsize = MIN(memory_region_size(&vmem->memdev->mr),
-                            requested_size + VIRTIO_MEM_USABLE_EXTENT);
+@@ -33,10 +33,83 @@
+ #include "trace.h"
  
-+    /* The usable region size always has to be multiples of the block size. */
-+    newsize = QEMU_ALIGN_UP(newsize, vmem->block_size);
+ /*
+- * Use QEMU_VMALLOC_ALIGN, so no THP will have to be split when unplugging
+- * memory (e.g., 2MB on x86_64).
++ * Let's not allow blocks smaller than 1 MiB, for example, to keep the tracking
++ * bitmap small.
+  */
+-#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)QEMU_VMALLOC_ALIGN)
++#define VIRTIO_MEM_MIN_BLOCK_SIZE ((uint32_t)(1 * MiB))
 +
-     if (!requested_size) {
-         newsize = 0;
-     }
++#if defined(__x86_64__) || defined(__arm__) || defined(__aarch64__) || \
++    defined(__powerpc64__)
++#define VIRTIO_MEM_DEFAULT_THP_SIZE ((uint32_t)(2 * MiB))
++#else
++        /* fallback to 1 MiB (e.g., the THP size on s390x) */
++#define VIRTIO_MEM_DEFAULT_THP_SIZE VIRTIO_MEM_MIN_BLOCK_SIZE
++#endif
++
++/*
++ * We want to have a reasonable default block size such that
++ * 1. We avoid splitting THPs when unplugging memory, which degrades
++ *    performance.
++ * 2. We avoid placing THPs for plugged blocks that also cover unplugged
++ *    blocks.
++ *
++ * The actual THP size might differ between Linux kernels, so we try to probe
++ * it. In the future (if we ever run into issues regarding 2.), we might want
++ * to disable THP in case we fail to properly probe the THP size, or if the
++ * block size is configured smaller than the THP size.
++ */
++static uint32_t thp_size;
++
++#define HPAGE_PMD_SIZE_PATH "/sys/kernel/mm/transparent_hugepage/hpage_pmd_size"
++static uint32_t virtio_mem_thp_size(void)
++{
++    gchar *content = NULL;
++    const char *endptr;
++    uint64_t tmp;
++
++    if (thp_size) {
++        return thp_size;
++    }
++
++    /*
++     * Try to probe the actual THP size, fallback to (sane but eventually
++     * incorrect) default sizes.
++     */
++    if (g_file_get_contents(HPAGE_PMD_SIZE_PATH, &content, NULL, NULL) &&
++        !qemu_strtou64(content, &endptr, 0, &tmp) &&
++        (!endptr || *endptr == '\n')) {
++        /*
++         * Sanity-check the value, if it's too big (e.g., aarch64 with 64k base
++         * pages) or weird, fallback to something smaller.
++         */
++        if (!tmp || !is_power_of_2(tmp) || tmp > 16 * MiB) {
++            warn_report("Read unsupported THP size: %" PRIx64, tmp);
++        } else {
++            thp_size = tmp;
++        }
++    }
++
++    if (!thp_size) {
++        thp_size = VIRTIO_MEM_DEFAULT_THP_SIZE;
++        warn_report("Could not detect THP size, falling back to %" PRIx64
++                    "  MiB.", thp_size / MiB);
++    }
++
++    g_free(content);
++    return thp_size;
++}
++
++static uint64_t virtio_mem_default_block_size(RAMBlock *rb)
++{
++    const uint64_t page_size = qemu_ram_pagesize(rb);
++
++    /* We can have hugetlbfs with a page size smaller than the THP size. */
++    if (page_size == qemu_real_host_page_size) {
++        return MAX(page_size, virtio_mem_thp_size());
++    }
++    return MAX(page_size, VIRTIO_MEM_MIN_BLOCK_SIZE);
++}
++
+ /*
+  * Size the usable region bigger than the requested size if possible. Esp.
+  * Linux guests will only add (aligned) memory blocks in case they fully
+@@ -443,10 +516,23 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+     rb = vmem->memdev->mr.ram_block;
+     page_size = qemu_ram_pagesize(rb);
+ 
++    /*
++     * If the block size wasn't configured by the user, use a sane default. This
++     * allows using hugetlbfs backends of any page size without manual
++     * intervention.
++     */
++    if (!vmem->block_size) {
++        vmem->block_size = virtio_mem_default_block_size(rb);
++    }
++
+     if (vmem->block_size < page_size) {
+         error_setg(errp, "'%s' property has to be at least the page size (0x%"
+                    PRIx64 ")", VIRTIO_MEM_BLOCK_SIZE_PROP, page_size);
+         return;
++    } else if (vmem->block_size < virtio_mem_default_block_size(rb)) {
++        warn_report("'%s' property is smaller than the default block size (%"
++                    PRIx64 " MiB)", VIRTIO_MEM_BLOCK_SIZE_PROP,
++                    virtio_mem_default_block_size(rb) / MiB);
+     } else if (!QEMU_IS_ALIGNED(vmem->requested_size, vmem->block_size)) {
+         error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
+                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
+@@ -742,6 +828,18 @@ static void virtio_mem_get_block_size(Object *obj, Visitor *v, const char *name,
+     const VirtIOMEM *vmem = VIRTIO_MEM(obj);
+     uint64_t value = vmem->block_size;
+ 
++    /*
++     * If not configured by the user (and we're not realized yet), use the
++     * default block size we would use with the current memory backend.
++     */
++    if (!value) {
++        if (vmem->memdev && memory_region_is_ram(&vmem->memdev->mr)) {
++            value = virtio_mem_default_block_size(vmem->memdev->mr.ram_block);
++        } else {
++            value = virtio_mem_thp_size();
++        }
++    }
++
+     visit_type_size(v, name, &value, errp);
+ }
+ 
+@@ -821,7 +919,6 @@ static void virtio_mem_instance_init(Object *obj)
+ {
+     VirtIOMEM *vmem = VIRTIO_MEM(obj);
+ 
+-    vmem->block_size = VIRTIO_MEM_MIN_BLOCK_SIZE;
+     notifier_list_init(&vmem->size_change_notifiers);
+     vmem->precopy_notifier.notify = virtio_mem_precopy_notify;
+ 
 -- 
 MST
 
