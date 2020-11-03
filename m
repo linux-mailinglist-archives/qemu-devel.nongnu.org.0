@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C252A5094
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 20:59:35 +0100 (CET)
-Received: from localhost ([::1]:34046 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33DA12A5077
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 20:50:48 +0100 (CET)
+Received: from localhost ([::1]:42870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka2Ss-0002lc-Td
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:59:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35444)
+	id 1ka2KM-0002c5-NW
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:50:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ka2Rn-0002JK-Mr
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:58:27 -0500
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:36175)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1ka2Rl-0002Ik-KU
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:58:27 -0500
-Received: by mail-il1-x131.google.com with SMTP id p10so17249578ile.3
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 11:58:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=u6q8jG5bHWI7eqWyRnKTw72n3Ayv/dRHFS2O0XAnqOo=;
- b=O/ByFCCeA9qkSC7tWZe4JHSw0FntCsNn0iL0nO5PQvLcHhnmQ0X9rp5QKuEDfxXzVe
- /aKorRp3iU4cuzAim4uxITvLlxdj9WUctEet3/4iph+bcKpn+bR6v4xNXvEp0yyB5riP
- AzmhNzU6u9tBot1WcxsTEDgWOymMnMrTD2fiQH+6nywdAzlh1m1wWR4B5BcYpYKasvJ6
- j47SBghU/4Df8Qv7Vbp8usSPItZqANtehRgeMyAibYIRhrM/3QwRdZgemStDHT6qTiKf
- /mKYkCwSYql47Ek6mn/qXJPBgLAtkr8SLo+YlxMbJqivHPw9VPwvw9mq4+SsZPn8oV1M
- 305Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=u6q8jG5bHWI7eqWyRnKTw72n3Ayv/dRHFS2O0XAnqOo=;
- b=uNmOs+8oo6MFIHECG8vifXsIRxkfuOYfhTQ21ChzuYtLUZfAx7SmMQpmo/kI9CYanM
- zVdN370CXRlwUt3d6UFoHt3StRyyll4xepMcqNxE+neLvqcu99b8YjaFnCPWAqH9rh6K
- 2H/SnO8vvN04aPMpsj0rZZ/FWD+ipaoRIxtcrmb980F9dketTeeK6EpAuXW7iCJjM918
- IF71jRcZkTc4yhpRm/7r80YfhtbmiwQdAp08o3iHB0eyGVoGcEFUsirfWhv6VnjKsfEG
- t4eN2h8M2csNdX/TEpp6OnerZ1fanwsDQL6tZYv6IihmHFkgTnv34lolm30iEU48/Kkp
- eyKA==
-X-Gm-Message-State: AOAM530EKNnoSGwRm2Z2kZBuF5csNZqS0Yh/yqkFp7fBTKRKuQA3fb7B
- YnHZNGoyFxHw9LZsvZO00pRfyWKlR6osfDmCPsc=
-X-Google-Smtp-Source: ABdhPJyNqQ/5sEmG3UGN1Q4lGKmLr3DpBPdkMU56zipHqc738QOo91eiqH1cTqoDZ92IgRcdtBbS6NUSIwGAkIifBMg=
-X-Received: by 2002:a92:d991:: with SMTP id r17mr14022620iln.227.1604433504515; 
- Tue, 03 Nov 2020 11:58:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1ka2I4-0001i6-Lg
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:48:24 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18843)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1ka2I2-0000du-I9
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:48:24 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa1b4020000>; Tue, 03 Nov 2020 11:48:18 -0800
+Received: from [10.40.101.50] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
+ 2020 19:48:15 +0000
+Subject: Re: [PATCH v1] docs/devel: Add VFIO device migration documentation
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <1603950791-27236-1-git-send-email-kwankhede@nvidia.com>
+ <20201029125221.69352b48.cohuck@redhat.com>
+ <9479dffd-e434-e336-6ed8-07fc2edd2453@nvidia.com>
+ <20201029130519.7eb1e704@w520.home>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <47f8ccea-f75a-dfb7-b646-28d5123b322f@nvidia.com>
+Date: Wed, 4 Nov 2020 01:18:12 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20200330102945.2388294-1-laurent@vivier.eu>
- <20200330102945.2388294-2-laurent@vivier.eu>
- <CAFEAcA97s+jiZxH+ObdFeFgs7-Wub6XjZvJFmL2s4voRrny38Q@mail.gmail.com>
- <a1fd7792-b7fa-6e86-4a24-b53fb7ecac0f@vivier.eu>
- <CAKmqyKN81bBXtJei7ch3CFLqjsnyiVfZOmYuTEL68a=i7JNPOQ@mail.gmail.com>
- <7a26a668-cd6f-8d7c-5c35-fd15ad74a92b@vivier.eu>
-In-Reply-To: <7a26a668-cd6f-8d7c-5c35-fd15ad74a92b@vivier.eu>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 3 Nov 2020 11:46:28 -0800
-Message-ID: <CAKmqyKO7LDqXt8=1mw0g8dLoTN1cDyL_PP-+cD8k0tCn+4xRgw@mail.gmail.com>
-Subject: Re: [PULL 1/1] linux-user: Support futex_time64
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x131.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201029130519.7eb1e704@w520.home>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604432898; bh=ji99AbAIQdpRsOwWOyGgd5kX/5mpLuIKKFFzUlxRU0U=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=dC1csiqKH5loAd5MAYspbtewEjT29nQPTzZkauHVBmUTf1DNbrtFr618C4qvcsvy+
+ 5kGmf2z8wqD1ULD4ih76N3+VlXb9nBldVGqOL/2hoKvrazaqXPF+kAvgsIFRtpAaKP
+ hDUahkfTB2TwOc9RcGmtH5eAdFWbMP46L31nL3ztcL8tPcYxgx5ZAmHAiuZLvBriIs
+ 7IqMWy5vgLisCqTZf0CYCow35MV2al17XitqdEL7N0sbrWP9eSYSLBZQyKUAMGcpoB
+ 3Bja/o/Ije1HLGBrpXCQvsYiufCOtAgEVtWVxIJdRYxBs/SmD/C3pYjFS6YHHPz3vu
+ FyxjnL+AatFvw==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 14:48:19
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,78 +79,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: mcrossley@nvidia.com, cjia@nvidia.com, Cornelia Huck <cohuck@redhat.com>,
+ qemu-devel@nongnu.org, dnigam@nvidia.com, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 3, 2020 at 8:00 AM Laurent Vivier <laurent@vivier.eu> wrote:
->
-> Le 03/11/2020 =C3=A0 16:40, Alistair Francis a =C3=A9crit :
-> > On Mon, Nov 2, 2020 at 11:29 PM Laurent Vivier <laurent@vivier.eu> wrot=
-e:
-> >>
-> >> Le 02/11/2020 =C3=A0 19:15, Peter Maydell a =C3=A9crit :
-> >>> On Mon, 30 Mar 2020 at 11:31, Laurent Vivier <laurent@vivier.eu> wrot=
-e:
-> >>>>
-> >>>> From: Alistair Francis <alistair.francis@wdc.com>
-> >>>>
-> >>>> Add support for host and target futex_time64. If futex_time64 exists=
- on
-> >>>> the host we try that first before falling back to the standard futex
-> >>>> syscall.
-> >>>
-> >>> Hi; I dunno why Coverity's only just noticed this, but in
-> >>> CID 1432339 it points out:
-> >>>
-> >>>> +#if defined(TARGET_NR_futex_time64)
-> >>>> +static int do_futex_time64(target_ulong uaddr, int op, int val, tar=
-get_ulong timeout,
-> >>>> +                           target_ulong uaddr2, int val3)
-> >>>> +{
-> >>>> +    struct timespec ts, *pts;
-> >>>> +    int base_op;
-> >>>> +
-> >>>> +    /* ??? We assume FUTEX_* constants are the same on both host
-> >>>> +       and target.  */
-> >>>> +#ifdef FUTEX_CMD_MASK
-> >>>> +    base_op =3D op & FUTEX_CMD_MASK;
-> >>>> +#else
-> >>>> +    base_op =3D op;
-> >>>> +#endif
-> >>>> +    switch (base_op) {
-> >>>> +    case FUTEX_WAIT:
-> >>>> +    case FUTEX_WAIT_BITSET:
-> >>>> +        if (timeout) {
-> >>>> +            pts =3D &ts;
-> >>>> +            target_to_host_timespec64(pts, timeout);
-> >>>
-> >>> ...that here we call target_to_host_timespec64(), which can
-> >>> fail with -TARGET_EFAULT, but (unlike all the other times we call
-> >>> the function) we aren't checking its return value.
-> >>> Is there missing error handling code here ?
-> >>>
-> >>
-> >> I think the code is like that because this is a cut&paste of function
-> >> do_futex() witl "s/timespec/timespec64/".
-> >>
-> >> And yes I think we should check for the return value.
-> >> I'm going to fix that.
-> >
-> > Thanks! Let me know if you want me to do it and I can send a patch inst=
-ead.
-> >
->
-> If you have time, please do.
 
-Sending the patch now.
 
-Alistair
+On 10/30/2020 12:35 AM, Alex Williamson wrote:
+> On Thu, 29 Oct 2020 23:11:16 +0530
+> Kirti Wankhede <kwankhede@nvidia.com> wrote:
+> 
 
->
-> Thanks
-> Laurent
->
+<snip>
+
+>>>> +System memory dirty pages tracking
+>>>> +----------------------------------
+>>>> +
+>>>> +A ``log_sync`` memory listener callback is added to mark system memory pages
+>>>
+>>> s/is added to mark/marks those/
+>>>    
+>>>> +as dirty which are used for DMA by VFIO device. Dirty pages bitmap is queried
+>>>
+>>> s/by/by the/
+>>> s/Dirty/The dirty/
+>>>    
+>>>> +per container. All pages pinned by vendor driver through vfio_pin_pages()
+>>>
+>>> s/by/by the/
+>>>    
+>>>> +external API have to be marked as dirty during migration. When there are CPU
+>>>> +writes, CPU dirty page tracking can identify dirtied pages, but any page pinned
+>>>> +by vendor driver can also be written by device. There is currently no device
+>>>
+>>> s/by/by the/ (x2)
+>>>    
+>>>> +which has hardware support for dirty page tracking. So all pages which are
+>>>> +pinned by vendor driver are considered as dirty.
+>>>> +Dirty pages are tracked when device is in stop-and-copy phase because if pages
+>>>> +are marked dirty during pre-copy phase and content is transfered from source to
+>>>> +destination, there is no way to know newly dirtied pages from the point they
+>>>> +were copied earlier until device stops. To avoid repeated copy of same content,
+>>>> +pinned pages are marked dirty only during stop-and-copy phase.
+>>
+>>
+>>> Let me take a quick stab at rewriting this paragraph (not sure if I
+>>> understood it correctly):
+>>>
+>>> "Dirty pages are tracked when the device is in the stop-and-copy phase.
+>>> During the pre-copy phase, it is not possible to distinguish a dirty
+>>> page that has been transferred from the source to the destination from
+>>> newly dirtied pages, which would lead to repeated copying of the same
+>>> content. Therefore, pinned pages are only marked dirty during the
+>>> stop-and-copy phase." ?
+>>>    
+>>
+>> I think above rephrase only talks about repeated copying in pre-copy
+>> phase. Used "copied earlier until device stops" to indicate both
+>> pre-copy and stop-and-copy till device stops.
+> 
+> 
+> Now I'm confused, I thought we had abandoned the idea that we can only
+> report pinned pages during stop-and-copy.  Doesn't the device needs to
+> expose its dirty memory footprint during the iterative phase regardless
+> of whether that causes repeat copies?  If QEMU iterates and sees that
+> all memory is still dirty, it may have transferred more data, but it
+> can actually predict if it can achieve its downtime tolerances.  Which
+> is more important, less data transfer or predictability?  Thanks,
+> 
+
+Even if QEMU copies and transfers content of all sys mem pages during 
+pre-copy (worst case with IOMMU backed mdev device when its vendor 
+driver is not smart to pin pages explicitly and all sys mem pages are 
+marked dirty), then also its prediction about downtime tolerance will 
+not be correct, because during stop-and-copy again all pages need to be 
+copied as device can write to any of those pinned pages.
+
+Thanks,
+Kirti
+
 
