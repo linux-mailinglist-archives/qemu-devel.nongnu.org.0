@@ -2,107 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FF732A3A54
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:19:08 +0100 (CET)
-Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC0A2A3A5C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:21:18 +0100 (CET)
+Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZlud-0000yC-Bp
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:19:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37190)
+	id 1kZlwj-0002mj-Ax
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:21:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZlnT-0004rQ-Ei
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:11:44 -0500
-Received: from mail-eopbgr680059.outbound.protection.outlook.com
- ([40.107.68.59]:28077 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZlnQ-00045K-U2
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:11:43 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iYeAYBDXzI2oXnBFcHuT4OZWhY2Kd+SO3gDRaUSyEwrj1kXoHpc9cPO7xl2cH76mabVc+qigiUJtsp052FxwIQNxq8k1blwtrUWWdM3O+YLUZg4kBrVm11SaIvArMHQH1PWFPJGWQ68YcpSWTUe3m55oB5QTyLB63b7Ri5lKd8J7c6ki+CiY3dMYe9xImBiUIUTsHq5UJl5AlvjojS43tNyoau/E5dxpdVHEWipG14I0erpl5G3HOriLbBKX6dV4WsV1zUJrPYuqyYSJL9LQy2U+jQrEdix+xwaCqYp/ppvuaJw3fbp5LUwXoHCz6P+kdgAHfYC9XpOB+UwY42THvw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dAGscG1fxHpMulpQfdS4xhNdYwc0+uo5Z21iWQWlwF4=;
- b=DLUUrRUdEnWXNGNjkfZjGukEeSldX17U5sf5WKlpxVprlP5CiO6L7cIQqaQRJI7wN6dBn0b9pmMfvE2aGbr1OlP9eya0qMW0teIQSHqPkue4Msbi7fpvtBtBGpvS7HfmT/0A70BV65W1T1yii7QzCpbJ+9d918QhSgPje010xlIte3GTzJLLCbaPQnsObugJA+25j3PsEYW0YS/iFcSSN+FUdXG2by8w+azfSoI6Nka65qfDON4MGYzubbEbRvp0jH8jGp4+wNuwwAmqlUw95LZLySGX/FGy6YhYSlIP79NzQIbfSeohdaWh5M1nENdAOUL6J+cPT4I4daD3YQ9FKQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dAGscG1fxHpMulpQfdS4xhNdYwc0+uo5Z21iWQWlwF4=;
- b=WjJMgUykcGx+AZqg2E4V49k/mut5IzyV4Who4DVzY5unVxjfF19QGxs60/ZFWIbiBReiokBe+WVyE1u45fV8ldf/yePZZnxEISAbzRQwf7VQxJL1Pz6dMcio3UsnvZ5fIFEF/tdoZX1sJInIlqJgdobpsfklrimpPYhwwc1bUs8=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
- by CH2PR12MB3670.namprd12.prod.outlook.com (2603:10b6:610:21::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Tue, 3 Nov
- 2020 02:11:34 +0000
-Received: from CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
- ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 02:11:34 +0000
-Date: Mon, 2 Nov 2020 20:11:22 -0600
-From: Michael Roth <michael.roth@amd.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PULL 09/12] qga: add ssh-{add,remove}-authorized-keys
-Message-ID: <20201103021122.thtfyhrnvpic22sr@vm0>
-References: <20201027055317.351868-1-michael.roth@amd.com>
- <20201027055317.351868-10-michael.roth@amd.com>
- <878sbju5bs.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <878sbju5bs.fsf@dusky.pond.sub.org>
-X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: DM6PR02CA0077.namprd02.prod.outlook.com
- (2603:10b6:5:1f4::18) To CH2PR12MB4133.namprd12.prod.outlook.com
- (2603:10b6:610:7a::13)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZloE-0005fz-C8
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:12:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZloC-0004DZ-QT
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:12:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604369545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZLShU8l8nGVanUwnbwUmc67eR4WJS0nl6uROTb3rb2A=;
+ b=VCfyTdT7VpUXQO8gk3XXxTK2LQ62bQiCy6XaYaMmz9yJAoIiPGmjMlpwjD4xsbIZAjTK8Y
+ ydeu5z5GupQaHmHLMzjDZAhOXwj7RwoZjSaMNlfyhqWV563RX4uuRcA+ePRTJOQUtj2JbJ
+ kHTFYeUw87By8/GColoVckz58qhvQ1c=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-257-jfEft-PrPRelOyQy4EKhBQ-1; Mon, 02 Nov 2020 21:12:21 -0500
+X-MC-Unique: jfEft-PrPRelOyQy4EKhBQ-1
+Received: by mail-wm1-f72.google.com with SMTP id u207so4058473wmu.4
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 18:12:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZLShU8l8nGVanUwnbwUmc67eR4WJS0nl6uROTb3rb2A=;
+ b=ljlrsAVW1O8puiaMJZFht3Z0t/fjx7enhssusrWWebEH7i8rk/wF2s8dl9AvloGM6k
+ OnBHRRP3vtI+UJNQgOTEWwPlOUqcGryR0RdNtN04yDmv+MtDBYc+/sqJGvoWKkhVPoJL
+ vWhyThDUcDWJ5VcdjoxOJH+ZUhC57pR5IjBT/E714FfDyTL6ZR1xhnEKSUd1f5XsBA1z
+ nstegiHBDFPLMBZq8tpELHIMfvzdmaqNQz3rQFyZKeGcX8lGMsMTpJPjkagNYjOE5dDE
+ WwNshRM/lDDrzJ1UqiSpMMrD66nwCEfb5u4fM/yzTHc3LyxvdoqvgNpnxrro7iiWHB4C
+ h1qA==
+X-Gm-Message-State: AOAM532geR1fnEVvD8GLgqe82diVhaCx+6svcDNhCT/R1RQ61cwOuUkW
+ PbAssRLRKXwAOHKRvy24jIg1YD+wJbN9eTaK9m3y7Ji49LR/GhN4gKXChcfCIJ7wkymoMGDq50S
+ 8XQIxEqNrtjEKSAw=
+X-Received: by 2002:a05:6000:4c:: with SMTP id
+ k12mr22565725wrx.278.1604369540550; 
+ Mon, 02 Nov 2020 18:12:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwQWK50gnG+2IocF2guAyCmcKwnN4cMfWYxoOaI80OcSkE9WuS0WJcYhq6/Tr6jIze+SapDcA==
+X-Received: by 2002:a05:6000:4c:: with SMTP id
+ k12mr22565709wrx.278.1604369540415; 
+ Mon, 02 Nov 2020 18:12:20 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id m14sm24233009wro.43.2020.11.02.18.12.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 02 Nov 2020 18:12:19 -0800 (PST)
+Subject: Re: [PATCH-for-5.2? 3/5] tests/acceptance: Skip incomplete
+ virtio_version tests using '@skip'
+To: "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <20201102144245.2134077-1-philmd@redhat.com>
+ <20201102144245.2134077-4-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <974b193f-cf4b-832b-b963-e4a72fa14028@redhat.com>
+Date: Tue, 3 Nov 2020 03:12:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost (165.204.77.11) by
- DM6PR02CA0077.namprd02.prod.outlook.com (2603:10b6:5:1f4::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Tue, 3 Nov 2020 02:11:33 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9a3eb751-f400-437f-1ef3-08d87f9dc97c
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3670:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB3670E8B8904EAD572334FE7195110@CH2PR12MB3670.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vP/kx2z95MZWjYODQGQgBwX3XHCcEKz642BZUkJw0AwpzNZl0HHpA9lOgR7rd6zhithEooAlFypeaBLY2kOubDmy1JMNIv6u0FcWkS2zdPgs+lngIdR4RrboUTReVFlzs424q+t0smEXMvoQSYh7xWhhwK7HY1nfctBiiCwVgfxQnHCbD6WghLL7lhA07VEUID46Pu6rskgcONa5b4TNLalw6Dg7Go6VaI+u/pAtN6RKahA0vEJgr6+sEH9gVqtYSJLrelxmHOBIrpcwpg/z5EYmNea4z5hS2kafe+yTtavmJ0yzQobvBU/c92wdiPWcuo/uxaMsecXtGi88twN35C6JGBZek7eDlugXdn+TqrHy6Wym//wwHWIAUqrOrFVbZ5asMUvBMMyRR1pm7YA+4g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(4636009)(39860400002)(396003)(366004)(136003)(346002)(376002)(52116002)(8676002)(45080400002)(83380400001)(44832011)(8936002)(4326008)(54906003)(26005)(33716001)(86362001)(186003)(956004)(6486002)(478600001)(966005)(2906002)(6496006)(16526019)(6916009)(66556008)(6666004)(5660300002)(316002)(9686003)(1076003)(66946007)(66476007);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: vBzdeyDdNEQP7rpAJl4grmEjFPKoJSowuwkJA1cncC82Z9qbBi6DxpLQ7dzelYZ0T+z2cM/xQOydPjHgEZIIUtQxbL9Z4kYGJQV4iM7oPv6JSjwCWLyk8LHGD5xeqPbT0SdmW01mzV19aTiJgcqmsQsDBvbgCxS688Z0Ab5+RW9q7LNWtJ8hrmDi2qqbPit89ugk36Pox9emLfX4Tp6iyEQnmdcpa5/a6I2+mjar2WvELGpQuSMCARQZvKledxzV6FM40aK1NvEABJhxKZ3ki6tk+WQDMv9y7++6gA7SrTLp0N1I6H4EHFgSQHtBDVpy/FpXRQp82+iBA3sDaCZxebCed3Io3YwmMk7kL+zDCHkNDKTP1ekfBPykxlwgOubIYudqqx+ewyc7kbon4GdcBXEjP8E+7ZXRarcGUMXnD7l1MHG6sSVQpWd48HB3ba5iTiFJ7KeDKionkSAO1ZlA+fhEqEM2BKOsYFJb6pLGxKwicAxAQfWe4AYvZlraxdJYHOdO+lERLOINmd1TXzU/Kfh21oQ2fKbrz9ECSYIdS8kHxt4Zx4fGcY708FwpbRAV2c7/SuXZZlVdySs876z6KoOjrXLVbGuiU1SxCKBK6e80G4hYLl8/49OpqjhUI1zaZC1OPhGH5FXCjpu64qmjuA==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a3eb751-f400-437f-1ef3-08d87f9dc97c
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:11:34.3686 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4qQH7gLZIGOCqHCgNMnXrA+K76ijP0SUxNZgqsB8eI3qU44udcALiQmA+s2KrGUJjnkL/Z1hH017I4QrUAOdEA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB3670
-Received-SPF: none client-ip=40.107.68.59; envelope-from=Michael.Roth@amd.com;
- helo=NAM04-BN3-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 21:11:37
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, FORGED_SPF_HELO=1, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20201102144245.2134077-4-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 20:52:37
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -115,100 +106,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michal Privoznik <mprivozn@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- qemu-devel@nongnu.org,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- peter.maydell@linaro.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Michael Rolnik <mrolnik@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fabien Chouteau <chouteau@adacore.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>, qemu-ppc@nongnu.org,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-arm@nongnu.org,
+ Antony Pavlov <antonynpavlov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 02, 2020 at 04:49:27PM +0100, Markus Armbruster wrote:
-> Michael Roth <michael.roth@amd.com> writes:
+On 11/2/20 3:42 PM, Philippe Mathieu-DaudÃ© wrote:
+> Prefer skipping incomplete tests with the "@skip" keyword,
+> rather than commenting the code.
 > 
-> > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> >
-> > Add new commands to add and remove SSH public keys from
-> > ~/.ssh/authorized_keys.
-> >
-> > I took a different approach for testing, including the unit tests right
-> > with the code. I wanted to overwrite the function to get the user
-> > details, I couldn't easily do that over QMP. Furthermore, I prefer
-> > having unit tests very close to the code, and unit files that are domain
-> > specific (commands-posix is too crowded already). FWIW, that
-> > coding/testing style is Rust-style (where tests can or should even be
-> > part of the documentation!).
-> >
-> > Fixes:
-> > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Fbugzilla.redhat.com%2Fshow_bug.cgi%3Fid%3D1885332&amp;data=04%7C01%7Cmichael.roth%40amd.com%7C7302cfdd51b547a8c3de08d87f46e6cf%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637399289788005891%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=IcYz5b1yBg3Q%2BPg82Z5VMdpf60vYHsLL518ENd0T1A4%3D&amp;reserved=0
-> >
-> > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
-> > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> > *squashed in fix-ups for setting file ownership and use of QAPI
-> >  conditionals for CONFIG_POSIX instead of stub definitions
-> > Signed-off-by: Michael Roth <michael.roth@amd.com>
-> > ---
-> >  qga/commands-posix-ssh.c | 407 +++++++++++++++++++++++++++++++++++++++
-> >  qga/meson.build          |  20 +-
-> >  qga/qapi-schema.json     |  35 ++++
-> >  3 files changed, 461 insertions(+), 1 deletion(-)
-> >  create mode 100644 qga/commands-posix-ssh.c
-> >
-> > diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c
-> > new file mode 100644
-> > index 0000000000..a7bc9a1c24
-> > --- /dev/null
-> > +++ b/qga/commands-posix-ssh.c
-> > @@ -0,0 +1,407 @@
-> > + /*
-> > +  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> > +  * See the COPYING file in the top-level directory.
-> > +  */
-> > +#include "qemu/osdep.h"
-> > +
-> > +#include <glib-unix.h>
-> > +#include <glib/gstdio.h>
-> > +#include <locale.h>
-> > +#include <pwd.h>
-> > +
-> > +#include "qapi/error.h"
-> > +#include "qga-qapi-commands.h"
-> > +
-> > +#ifdef QGA_BUILD_UNIT_TEST
-> > +static struct passwd *
-> > +test_get_passwd_entry(const gchar *user_name, GError **error)
-> > +{
-> > +    struct passwd *p;
-> > +    int ret;
-> > +
-> > +    if (!user_name || g_strcmp0(user_name, g_get_user_name())) {
-> > +        g_set_error(error, G_UNIX_ERROR, 0, "Invalid user name");
-> > +        return NULL;
-> > +    }
-> > +
-> > +    p = g_new0(struct passwd, 1);
-> > +    p->pw_dir = (char *)g_get_home_dir();
-> > +    p->pw_uid = geteuid();
-> > +    p->pw_gid = getegid();
-> > +
-> > +    ret = g_mkdir_with_parents(p->pw_dir, 0700);
-> > +    g_assert_cmpint(ret, ==, 0);
+> Signed-off-by: Philippe Mathieu-DaudÃ© <philmd@redhat.com>
+> ---
+>  tests/acceptance/virtio_version.py | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
 > 
-> checkpatch ERROR: Use g_assert or g_assert_not_reached
-> 
-> See commit 6e9389563e "checkpatch: Disallow glib asserts in main code"
-> for rationale.
+> diff --git a/tests/acceptance/virtio_version.py b/tests/acceptance/virtio_version.py
+> index 33593c29dd0..187bbfa1f42 100644
+> --- a/tests/acceptance/virtio_version.py
+> +++ b/tests/acceptance/virtio_version.py
 
-Thanks for the pointer, I couldn't figure out what the issue was and
-assumed it was just noise. Wish I noticed this message before I sent out
-v2... v3 incoming.
+And I forgot:
 
-> 
-> More below, and in PATCH 10+12.
+-- >8 --
+@@ -14,6 +14,7 @@
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..',
+'python'))
+ from qemu.machine import QEMUMachine
+ from avocado_qemu import Test
++from avocado import skip
 
+ # Virtio Device IDs:
+ VIRTIO_NET = 1
+---
 
+> @@ -140,17 +140,20 @@ def check_all_variants(self, qemu_devtype, virtio_devid):
+>          self.assertIn('conventional-pci-device', trans_ifaces)
+>          self.assertNotIn('pci-express-device', trans_ifaces)
+>  
+> +    @skip("virtio-blk requires 'driver' parameter")
+> +    def test_conventional_devs_driver(self):
+> +        self.check_all_variants('virtio-blk-pci', VIRTIO_BLOCK)
+> +
+> +    @skip("virtio-9p requires 'fsdev' parameter")
+> +    def test_conventional_devs_fsdev(self):
+> +        self.check_all_variants('virtio-9p-pci', VIRTIO_9P)
+>  
+>      def test_conventional_devs(self):
+>          self.check_all_variants('virtio-net-pci', VIRTIO_NET)
+> -        # virtio-blk requires 'driver' parameter
+> -        #self.check_all_variants('virtio-blk-pci', VIRTIO_BLOCK)
+>          self.check_all_variants('virtio-serial-pci', VIRTIO_CONSOLE)
+>          self.check_all_variants('virtio-rng-pci', VIRTIO_RNG)
+>          self.check_all_variants('virtio-balloon-pci', VIRTIO_BALLOON)
+>          self.check_all_variants('virtio-scsi-pci', VIRTIO_SCSI)
+> -        # virtio-9p requires 'fsdev' parameter
+> -        #self.check_all_variants('virtio-9p-pci', VIRTIO_9P)
+>  
+>      def check_modern_only(self, qemu_devtype, virtio_devid):
+>          """Check if a modern-only virtio device type behaves as expected"""
 > 
-> [...]
-> 
+
 
