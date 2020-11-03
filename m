@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B6BD2A454B
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:34:47 +0100 (CET)
-Received: from localhost ([::1]:36562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660222A4551
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:37:08 +0100 (CET)
+Received: from localhost ([::1]:41624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvWQ-0000cy-6s
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:34:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49428)
+	id 1kZvYh-0002rc-Ee
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:37:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvQr-0002Gh-JI
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:29:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58859)
+ id 1kZvSJ-00044N-MX
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:30:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42679)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvQq-0002ex-0P
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:29:01 -0500
+ id 1kZvSH-0003EN-KW
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:30:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604406538;
+ s=mimecast20190719; t=1604406629;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BgnYb9jZ4Y0pn4uRTimL5tj4nliA7vXQm7F6JeerKow=;
- b=K9kgtXGdubol+A7CcC47iL2sps7eb3zd2XusAyg4miOeVQa5crngZKVYCrwshLkuR6qID0
- pS7JNYwdgxuLuQEhOJWGJG4r6DRgEINgzDXYAq2/eTxf17JQxeK1ppC3Cvo9tqcFT4MLCB
- 5a/NCJ1n2YOT5LPgIC7cYtjtxxdFtS8=
+ bh=zvlTrtKCbUUqX04j5vchgIGuywzZHvanTd77JlGCRWw=;
+ b=YZyNTNlLKdOQ4Gu4F5FG84lhIIHXuu8Ok0V66l8fsDaMmb8JznqPdRu+/oMTjkCi8d0Opd
+ t2NqWjkhMy2C38MvxRB0z5bW8O98C4WXh4o2uDPLOgR7WRBBk1J51rOruzMcXElyWHjkxB
+ 3vpNdz5flXPAeQwUmSVJ+tz5z5/9vGo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-K6nRQIEdMoqIi3U3c9za9A-1; Tue, 03 Nov 2020 07:28:57 -0500
-X-MC-Unique: K6nRQIEdMoqIi3U3c9za9A-1
+ us-mta-591-9zls6QyIPEarTyTORyB--g-1; Tue, 03 Nov 2020 07:30:27 -0500
+X-MC-Unique: 9zls6QyIPEarTyTORyB--g-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCC0B1009E26;
- Tue,  3 Nov 2020 12:28:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 82F47100746B
+ for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 12:30:26 +0000 (UTC)
 Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6FB625B4D4;
- Tue,  3 Nov 2020 12:28:50 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:28:48 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 534365B4D4;
+ Tue,  3 Nov 2020 12:30:25 +0000 (UTC)
+Date: Tue, 3 Nov 2020 13:30:23 +0100
 From: Igor Mammedov <imammedo@redhat.com>
-To: Xinhao Zhang <zhangxinhao1@huawei.com>
-Subject: Re: [PATCH 3/3] hw/acpi : add spaces around operator
-Message-ID: <20201103132848.0872850d@redhat.com>
-In-Reply-To: <20201103102634.273021-3-zhangxinhao1@huawei.com>
-References: <20201103102634.273021-1-zhangxinhao1@huawei.com>
- <20201103102634.273021-3-zhangxinhao1@huawei.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH 10/20] memfd: Remove unnecessary prefix from error message
+Message-ID: <20201103133023.6d7a5241@redhat.com>
+In-Reply-To: <20201030202131.796967-11-ehabkost@redhat.com>
+References: <20201030202131.796967-1-ehabkost@redhat.com>
+ <20201030202131.796967-11-ehabkost@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
@@ -68,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +81,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xiaoguangrong.eric@gmail.com, mst@redhat.com, qemu-trivial@nongnu.org,
- qemu-devel@nongnu.org, alex.chen@huawei.com, dengkai1@huawei.com
+Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Nov 2020 18:26:34 +0800
-Xinhao Zhang <zhangxinhao1@huawei.com> wrote:
+On Fri, 30 Oct 2020 16:21:21 -0400
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-> Fix code style. Operator needs spaces both sides.
+> object_property_parse() will add a
+>   "Property '<TYPE>.<PROP>' can't take value '<VALUE>'"
+> prefix automatically for us.
 > 
-> Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-> Signed-off-by: Kai Deng <dengkai1@huawei.com>
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  hw/acpi/pcihp.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Cc: Igor Mammedov <imammedo@redhat.com>
+> Cc: qemu-devel@nongnu.org
+> ---
+>  backends/hostmem-memfd.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-> index 32ae8b2c0a..17c32e0ffd 100644
-> --- a/hw/acpi/pcihp.c
-> +++ b/hw/acpi/pcihp.c
-> @@ -400,7 +400,7 @@ void acpi_pcihp_init(Object *owner, AcpiPciHpState *s, PCIBus *root_bus,
->      s->io_len = ACPI_PCIHP_SIZE;
->      s->io_base = ACPI_PCIHP_ADDR;
->  
-> -    s->root= root_bus;
-> +    s->root = root_bus;
->      s->legacy_piix = !bridges_enabled;
->  
->      memory_region_init_io(&s->io, owner, &acpi_pcihp_io_ops, s,
+> diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
+> index e5626d4330..05cf743fe8 100644
+> --- a/backends/hostmem-memfd.c
+> +++ b/backends/hostmem-memfd.c
+> @@ -87,8 +87,7 @@ memfd_backend_set_hugetlbsize(Object *obj, Visitor *v, const char *name,
+>          return;
+>      }
+>      if (!value) {
+> -        error_setg(errp, "Property '%s.%s' doesn't take value '%" PRIu64 "'",
+> -                   object_get_typename(obj), name, value);
+> +        error_setg(errp, "hugetlbsize can't be zero");
+>          return;
+>      }
+>      m->hugetlbsize = value;
 
 
