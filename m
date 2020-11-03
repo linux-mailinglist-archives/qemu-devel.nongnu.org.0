@@ -2,82 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1632A45CF
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 14:00:30 +0100 (CET)
-Received: from localhost ([::1]:49666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0A22A460F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 14:17:10 +0100 (CET)
+Received: from localhost ([::1]:34266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvvJ-0001dV-Bb
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 08:00:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56218)
+	id 1kZwBQ-00081R-UB
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 08:17:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZvtF-0000SG-Pa; Tue, 03 Nov 2020 07:58:21 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1kZvtE-0004Ut-1h; Tue, 03 Nov 2020 07:58:21 -0500
-Received: by mail-wm1-x341.google.com with SMTP id 205so4930827wma.4;
- Tue, 03 Nov 2020 04:58:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=QGTsdyyuqveNZtckZHCjlvQRIVCWG50U/JEh6Jp/BrI=;
- b=EtimwTTNYDIRaoy9hmFxwbkf50PoKZdOVyPfN54nXi3O6kbcscbFpEeU5VJb6SI1jo
- wbdpHDpQOESYxYk/RrEnJvDjHJBw/Iv7+D6AAZKEaYZx39Tnwwcc+3/ncIe0+pl9gWNC
- C3j2BIuWJAMD8aaIYffyrSJ/Xac2ePoGw/yb0wPAAb7/SvBKtIkddFDDovyyPVYQm2F+
- bQzKGwRQAt4ZXmbTS2ETWYaE1a8THMieK7CxfkWExx6deHiLWMsr3MvQC6oQdBP1MP0W
- 0fAZZXgAtH5ey7qn5K7SBZE5xCHpz2lUIP9Pix6c1dTP1V7HpUya3RFgGeaVMWolLEO1
- o99g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=QGTsdyyuqveNZtckZHCjlvQRIVCWG50U/JEh6Jp/BrI=;
- b=AC1ETCOTIewXexSGPZnOyS7PrZ/68iIE1WWFAXLOyyFxmG/I/WLnV2jCXpGEBFA8AZ
- OrdsdatjjmwrxHq3SRES18+ChneazxUXygXQntiBiDpsiwkuXwYumzCIR9UjTqO0zkum
- l+nGSwU3r66saHKkacIvQ9wKxafDClAV6/dmpWGwcA1JC7hJIU4q6Hezj9blEW/5f2bd
- IdJpDa3xvyOfiYy2VtlQ6RksPAbXjnW2LOhBxFliEgv9M7cZcgcpzs1W38a6eu/C0xSx
- uiPv8+QaivTDTbZ0/wMRV0d0nkq9uhYWT2V7cEtlrZHdWqVsibiOfD23AgOsRND4zjAT
- zUZw==
-X-Gm-Message-State: AOAM533GjScUoU9CPSguHvPyC88Ti8EYHHKh6YWul0u+PcV7DtVH63QG
- poh7P4/sok7oZk01p6V/dHY=
-X-Google-Smtp-Source: ABdhPJyN5vaKE+qtK0Eco7MDtHU8tqYTqZU9NuFnrP+bFH9jK4WTynnPOdOaNeSDKJu14OBu3/MRKw==
-X-Received: by 2002:a05:600c:216:: with SMTP id
- 22mr3306263wmi.149.1604408298071; 
- Tue, 03 Nov 2020 04:58:18 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id g138sm2810017wme.39.2020.11.03.04.58.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 04:58:17 -0800 (PST)
-Subject: Re: [PATCH 16/30] boston: Fix Lesser GPL version number
-To: Chetan Pant <chetan4windows@gmail.com>, qemu-trivial@nongnu.org
-References: <20201014134248.14146-1-chetan4windows@gmail.com>
- <20201023122633.19466-1-chetan4windows@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <60d7ba5b-6cf4-5dd5-ca22-2878669cf673@amsat.org>
-Date: Tue, 3 Nov 2020 13:58:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kZw9B-0006xz-4p; Tue, 03 Nov 2020 08:14:49 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:58323 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kZw98-000311-Ej; Tue, 03 Nov 2020 08:14:48 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CQVcc2nnvz9sSs; Wed,  4 Nov 2020 00:14:40 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1604409280;
+ bh=5KKGYc46HYuVj17nvHU0QwaSj1jD5BWhEaBhj9s9iYw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=htqVtI1d4aw3JebmdUcZN33H+KzCoHsw+33ws1xO0cGrbf1V2hKZPm6DdjCDmE/00
+ aNKLyGjxKbKGNTA0XPWYOLF5+LIyVkJ3+JXD7V7bH0m9yhpwAhZ4W9sck38zRHTKDy
+ apmeAtI2zyv1SnlQKPuW6fT9zP/D2Xkuv2F6GRkE=
+Date: Tue, 3 Nov 2020 22:39:48 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 3/4] hw/ppc/spapr_tpm_proxy: Fix hexadecimal
+ format string specifier
+Message-ID: <20201103113948.GG143651@yekko.fritz.box>
+References: <20201103112558.2554390-1-philmd@redhat.com>
+ <20201103112558.2554390-4-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201023122633.19466-1-chetan4windows@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x341.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="m0vRWufqUC70IDnR"
+Content-Disposition: inline
+In-Reply-To: <20201103112558.2554390-4-philmd@redhat.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,23 +61,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, paulburton@kernel.org
+Cc: Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.vnet.ibm.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/23/20 2:26 PM, Chetan Pant wrote:
-> There is no "version 2" of the "Lesser" General Public License.
-> It is either "GPL version 2.0" or "Lesser GPL version 2.1".
-> This patch replaces all occurrences of "Lesser GPL version 2" with
-> "Lesser GPL version 2.1" in comment section.
-> 
-> Signed-off-by: Chetan Pant <chetan4windows@gmail.com>
-> ---
->  hw/core/loader-fit.c              | 2 +-
->  hw/mips/boston.c                  | 2 +-
->  hw/pci-host/xilinx-pcie.c         | 2 +-
->  include/hw/pci-host/xilinx-pcie.h | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
 
-Thanks, applied to mips-next.
+--m0vRWufqUC70IDnR
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Nov 03, 2020 at 12:25:57PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> The '%u' conversion specifier is for decimal notation.
+> When prefixing a format with '0x', we want the hexadecimal
+> specifier ('%x').
+>=20
+> Inspired-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  hw/ppc/trace-events | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+> index dcc06d49b5a..6d8d095aa28 100644
+> --- a/hw/ppc/trace-events
+> +++ b/hw/ppc/trace-events
+> @@ -19,7 +19,7 @@ spapr_update_dt_failed_size(unsigned cbold, unsigned cb=
+new, unsigned magic) "Old
+>  spapr_update_dt_failed_check(unsigned cbold, unsigned cbnew, unsigned ma=
+gic) "Old blob %u bytes, new blob %u bytes, magic 0x%x"
+> =20
+>  # spapr_tpm_proxy.c
+> -spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_devic=
+e_path=3D%s operation=3D0x%"PRIu64
+> +spapr_h_tpm_comm(const char *device_path, uint64_t operation) "tpm_devic=
+e_path=3D%s operation=3D0x%"PRIx64
+>  spapr_tpm_execute(uint64_t data_in, uint64_t data_in_sz, uint64_t data_o=
+ut, uint64_t data_out_sz) "data_in=3D0x%"PRIx64", data_in_sz=3D%"PRIu64", d=
+ata_out=3D0x%"PRIx64", data_out_sz=3D%"PRIu64
+> =20
+>  # spapr_iommu.c
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--m0vRWufqUC70IDnR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+hQYEACgkQbDjKyiDZ
+s5Ip7A/+O4OeY7yjLbwtMaoMnrxalSFJDk6nGQK+hEIrgK1TjekfgK/T6OSz7Sl7
+dNKzjF+xtwJePuleIYwLzUUehc/Ab/QoG62gz33SIybarJUDUq1GBBX2b6RWuVEg
+50i3gC8pWOPhbL7a6y47LSsyAr3GdNvzE1s3vE1lm3KPp7Dtcq9saE+zPyDOK75J
+FnlhaF/FFA0xVGiLaI2SiA6wF1i852Ppj9NBZzJyh3to3YfjQqQSdAFQB2+eDIqF
+LiovyhGGqaKELqTKhvZxibWQ1GExbRrP0uLz2Elt0N0YP5AH9+6iy57nmmq+xwAs
+DON87piOCyQz4IAfFIHVYzka+cU/HBsBkzNbcs6U4uJlTxSgRBFjamxzy/I6IAkp
+G1UgkhmSr2+NMGYH4v20zzRpBt424BoYg0JQHTojrgPfT0Lb3raluet8JR8lo28I
+M3S9yiyYMo/1nWvM8v2mVRY+LvHp32FPUwiqqwFjJwwoEORV5Rj7HIY6wbjSLqlR
+GS9+5hfzZSAlI1CO36+HKucbw6TYJoVLatt921QvorznBh+ew2FJtNgTtOMWm5IY
+t7y0rEK1x3RadF6Euv4uL0EsUtSRKuzFBb81OD+/BjZaDZRG/Y+71QE2VTnHeIJl
+wgZY4AFR9H25naaGXk+ACQBsK8QUY+JBNo2rs+/8VcVFdNmfLCY=
+=4n5J
+-----END PGP SIGNATURE-----
+
+--m0vRWufqUC70IDnR--
 
