@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CF12A4C3D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:05:15 +0100 (CET)
-Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A5CD2A4C4C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:07:32 +0100 (CET)
+Received: from localhost ([::1]:52682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZzkA-0001bq-9r
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:05:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51546)
+	id 1kZzmN-00053w-FM
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:07:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzgT-00067l-Sg
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32890)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzhQ-0007bo-U1
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:02:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43409)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzgO-0008Fh-I6
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:01:24 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZzhO-00009g-Cd
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:02:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604422878;
+ s=mimecast20190719; t=1604422941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DYfZ9cjm0QflG3ChqOKSLNxpczjBPSLYd00UEPN52q0=;
- b=XEFgaGjTTXCfmnqRCumWasmXRk+XlDQQwkj+NiDmJhNF+KFNNC0uD9Af3MOvl6KT+5vUpL
- o9D+C1EDpj1UqWAsMjz5jxxAesmbuhbpev/FLpe6zf2usLxAZkENP+N0XY9mxX7bntJkyt
- EwRoydKfqt+Nha9OH+r0Axt+T88C0WY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-fB2X-4IvPtWTHlTYdrbGlg-1; Tue, 03 Nov 2020 12:01:16 -0500
-X-MC-Unique: fB2X-4IvPtWTHlTYdrbGlg-1
-Received: by mail-wm1-f72.google.com with SMTP id c204so5058wmd.5
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:01:16 -0800 (PST)
+ bh=ZirkYn6OYEdD5xiBiYgunRG1WhAcuG/3HyKICFCBH24=;
+ b=b5vAoDahcGC0egxP5XVqyTjFKWMYkTyGrtLjPx3nWSexqA+KvG4fD66LYzgvBWc5XsdT67
+ ax89ZE7CE5UZKIjyd5D2FZLyaJckIotjtnf7DGCGna4MVBv/eQo2ByVrzTjvyNJvZOroN+
+ NpK0gHzMkYtTIYCipJ8T4T0YIjFOd5E=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-46-IavYXMb6PnaW-fecyIED0Q-1; Tue, 03 Nov 2020 12:02:19 -0500
+X-MC-Unique: IavYXMb6PnaW-fecyIED0Q-1
+Received: by mail-wm1-f69.google.com with SMTP id b68so5405wme.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:02:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DYfZ9cjm0QflG3ChqOKSLNxpczjBPSLYd00UEPN52q0=;
- b=ul8pvwXKR16RXlHDemK1Pj4A8mBOGwoPTOhy8aDP3o5nPj4fXe6x5jQ1srmRlqweO9
- SL/K/rzJnAN7/QWqpsOIhy1SPr/GAvd6QFfHQRgxkTywjzJH+NTbCCqub3LErfYepLDx
- OKwalQbvNwwGyxqwXRYCUexnssEl9Wvocz5Oty8HlTgP50Py1CLP7csl10S25EQZpzwx
- nyP7uRq2sIcR/CdTbBaeUZhEmNYKYhO9Kfu++ydlUvuYEvq3+iBxT126Hofbde/NZ6Le
- BiMeeN/MtMDPykQ1cuMNN+6rj9jGt3d/BdRS8tUdknFe2n9o6nAAK1lmE0IaZEngF7WK
- fH/A==
-X-Gm-Message-State: AOAM5300R3COtvLo7mhCNxxXMvHHbMHCrUwR5Er0HytuyXwmrRyzAfdD
- pAtE1ecV+fxjgFWwTB77jWSWOLtESY+1hMLbZUZGIEmTsfdhNjjbWNiInld8nCTOSFFq9iKdl9y
- 5GqIWqbVtjv54mxA=
-X-Received: by 2002:adf:d0cf:: with SMTP id z15mr29209004wrh.213.1604422875453; 
- Tue, 03 Nov 2020 09:01:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxEAdwipoyKoSNOAH8LJMmbkRmnjMPV0ZqFaKi798xLjBoVN5OvvOMv7OzHq371dMFPVLOO8w==
-X-Received: by 2002:adf:d0cf:: with SMTP id z15mr29208960wrh.213.1604422875141; 
- Tue, 03 Nov 2020 09:01:15 -0800 (PST)
+ bh=ZirkYn6OYEdD5xiBiYgunRG1WhAcuG/3HyKICFCBH24=;
+ b=gCG9NQD+Z5s0bgNsFIZFUQSHrgjiqWGcJt7jOsLCj4EV8Wx8bxvEXZCO+FpDTUR7+K
+ XUfZsnGrUhpQYHEw//P43FWDOYAsyRK1qEfk0kfRGCePkLHExTHGLa3Dk0SDd1E5Kwsx
+ E4f9PLbwgZvEVJDdhxy/aCUccVe3AAC09pGjLtt/3Z+LMKavAfBZexthz3hqml7FPlV0
+ 0Q/06Ejk1HkAXL9qUJK0vHc8Po6UII0sTeBA4NcXt42CKB3KqTvrF6ACucpYoqQ+4TgP
+ lwqCHoZ8CAXd5+gXL9PwMGnNd08p0oZTr69JhDy/clLLmdsdqIBKFKxcm2DkXEN9JUo9
+ KB4w==
+X-Gm-Message-State: AOAM532VlrpvcfUeF/SOar+Bc1D9mdjM5nB6YryeGpW8fhPVIGM/mvv7
+ 630TzDFG6VrSbOM+dJa9A1iphroj4Mj4JLhU1hTDF9hD5AYsRFdehSRJM85jKXA4gEpxGNEFUPb
+ pfP8PQSxAAZw7UPw=
+X-Received: by 2002:a1c:4b04:: with SMTP id y4mr66097wma.93.1604422938680;
+ Tue, 03 Nov 2020 09:02:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy5XLNvctvfWkAd3WsDDvIiUuDkbPC+K6UVrjBTeztRX1KRVkN7ePEdrzm39PQMzj7WKL/3og==
+X-Received: by 2002:a1c:4b04:: with SMTP id y4mr66080wma.93.1604422938524;
+ Tue, 03 Nov 2020 09:02:18 -0800 (PST)
 Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id y200sm4003662wmc.23.2020.11.03.09.01.13
+ by smtp.gmail.com with ESMTPSA id 130sm3890356wmd.18.2020.11.03.09.02.16
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 09:01:14 -0800 (PST)
+ Tue, 03 Nov 2020 09:02:17 -0800 (PST)
 Subject: Re: [PATCH-for-5.2 2/3] gitlab-ci: Add a job to cover the
  --without-default-devices config
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
 References: <20201103164604.2692357-1-philmd@redhat.com>
  <20201103164604.2692357-3-philmd@redhat.com>
- <20201103165247.GT205187@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <7654e063-98d3-84e0-8116-5a1b41d14636@redhat.com>
-Date: Tue, 3 Nov 2020 18:01:12 +0100
+Message-ID: <19bbb3e3-3951-579c-ac91-4e7283e8e8bd@redhat.com>
+Date: Tue, 3 Nov 2020 18:02:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201103165247.GT205187@redhat.com>
+In-Reply-To: <20201103164604.2692357-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -103,8 +102,9 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
@@ -114,32 +114,56 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/3/20 5:52 PM, Daniel P. Berrangé wrote:
-> On Tue, Nov 03, 2020 at 05:46:03PM +0100, Philippe Mathieu-Daudé wrote:
->> We test './configure --without-default-devices' since commit
->> 20885b5b169 (".travis.yml: test that no-default-device builds
->> do not regress") in Travis-CI.
->>
->> As we prefer to use GitLab-CI, add the equivalent job there.
->>
->> One minor difference: the GitLab Ubuntu docker image has the
->> Xen devel packages installed. As it is automatically selected,
->> we need to disable it with the --disable-xen option, else the
->> build fails:
->>
->>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
->>   hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
->>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference to `local_ops'
->>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference to `synth_ops'
->>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference to `proxy_ops'
->>   collect2: error: ld returned 1 exit status
+On 11/3/20 5:46 PM, Philippe Mathieu-Daudé wrote:
+> We test './configure --without-default-devices' since commit
+> 20885b5b169 (".travis.yml: test that no-default-device builds
+> do not regress") in Travis-CI.
 > 
-> Surely this is a build bug we need to fix rather than ignore in CI ?
+> As we prefer to use GitLab-CI, add the equivalent job there.
+> 
+> One minor difference: the GitLab Ubuntu docker image has the
+> Xen devel packages installed. As it is automatically selected,
+> we need to disable it with the --disable-xen option, else the
+> build fails:
+> 
+>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
+>   hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
+>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference to `local_ops'
+>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference to `synth_ops'
+>   /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference to `proxy_ops'
+>   collect2: error: ld returned 1 exit status
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  .gitlab-ci.yml | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 3b15ae5c302..6ee098ec53c 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -262,6 +262,17 @@ build-user-plugins:
+>      MAKE_CHECK_ARGS: check-tcg
+>    timeout: 1h 30m
+>  
+> +build-system-ubuntu-without-default-devices:
+> +  <<: *native_build_job_definition
+> +  variables:
+> +    IMAGE: ubuntu2004
+> +    CONFIGURE_ARGS: --without-default-devices --disable-user --disable-xen --disable-tools --disable-docs
+> +    MAKE_CHECK_ARGS: check-build
 
-Well it predates this series, so nobody really cared
-(thus I wonder if it makes sense to invest resources
-there).
+The part below is pointless, as no job consume these artifacts.
+I'll remove it in the next iteration.
 
-Anyway I can have a look after 5.2-rc1.
+> +  artifacts:
+> +    expire_in: 2 days
+> +    paths:
+> +      - build
+> +
+>  build-clang:
+>    <<: *native_build_job_definition
+>    variables:
+> 
 
 
