@@ -2,67 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97AE52A4A5F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:53:24 +0100 (CET)
-Received: from localhost ([::1]:53390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 847C72A4A61
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:54:26 +0100 (CET)
+Received: from localhost ([::1]:57712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZycd-0003Lv-FB
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:53:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57836)
+	id 1kZydd-000590-Gb
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:54:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kZybL-0001s8-Jd
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:52:03 -0500
-Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:45110)
+ id 1kZycV-00044o-Ma
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:53:16 -0500
+Received: from mail-il1-x12c.google.com ([2607:f8b0:4864:20::12c]:42840)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kZybJ-0007tn-W5
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:52:03 -0500
-Received: by mail-io1-xd29.google.com with SMTP id u21so8345306iol.12
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 07:52:01 -0800 (PST)
+ id 1kZycU-0008IA-2Y
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:53:15 -0500
+Received: by mail-il1-x12c.google.com with SMTP id g15so1796399ilc.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 07:53:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=x0MLqSa/yG1P3OVA4XaUY3T2kxf5qkA2kMTvr9yPv4k=;
- b=Und6fJSldMtBerlJOgSJOu9HbKkZJ15H6BsxE9HmLe5zd9udk+FQpAzAuyLKXiV851
- M6es/N8j8Geohhj5+iD5tKhXaBdQh54AOkqGtqSnfbLe45gzmAkrGkGdGyB6mNYtnsYV
- yIFSfLY+iyMTzv52i1szT0dFYbkZ7ifpqUoO30mwirKW096HyYhW4qhhbcEHPrZnT7gi
- ZGXkev7T4t3+MKXTekdnMN1Zyo6PZgqSPrUGXcvVk0ExtKEYPDrvPIBB8RWNWm7AP2RU
- IKteH0qzAjh/5wcKBmH3VDwHjAur+LLNuciFWbyZHkL9Ycp2vCZNWQ080HAztL+I3MhI
- qaXA==
+ :cc; bh=iFz6AsDSw1gcUlBXxfxLgIu9Ln5wNr38zIYH1L4kx68=;
+ b=Qcagc8MD2q0+SJgTXGvC261nsIjfh3mqKXImPSldOPDIVOYe/BrkCO4RStaRruuzPx
+ gnMqYGgDHGk1o05QuZEFhWnrLdqpRORh6Y/tinkaDXhzIF0tLYxK9pg7RnBJYHwOzKoL
+ 8+D+SU/xb75RTSe+nbwPSfT15KLxmAs6Hbrljvuv0HZO/7C9fdNDPPsBFP+LgJWQJD00
+ UIVf1+lqIRB7nioI2BrP3VatVS6gWHaYWwBIh3tgwIibWKGw72sNQ60crIhXTJlnVMSR
+ DXhck2kc3cC9CHaZtqj1EKbH/YybzEgHqeqOUTqefoYWnFXsAuhH8ZVXN6j4eOtJ8ek3
+ 8Z9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=x0MLqSa/yG1P3OVA4XaUY3T2kxf5qkA2kMTvr9yPv4k=;
- b=VPfzVfNDuTu0wlg3Wp/3pLsSTGVFss60/6r03Taf7SsA4eG5ox9Jfb+Vddfn+bE2In
- 26TjVDMqET/o6ZzxNL/GLQqaB3ISphuEHvMnwPQYlv9xszefGqOBdjEyqG+JpA6sSD+O
- QEfhBQBIrgJeIh0vxtsF31kxiKD7LA8/g6Kb/Qg3VKRsXchYIdG3uDOwl21UVFZBU19d
- 9fUz6KosaDVqEYFlyOfOUiJKcEozZSbnRVUt+2p1qOQdH2tL40GmBiZJJYqR3nbfyF3j
- rRFE3XcvIdTkVH/X6L1SUKIJcxJvZfjYkUnUBlC6DRDzImolWybYLC6DDUkD28insyWO
- IgDQ==
-X-Gm-Message-State: AOAM530yYyY+yiHoKj6VgsorE7W9o1VNeJUFRXA7ysV7TxcX5QQby8Pg
- TjeiN1nYPn3wQWexIZ5lLq8KsxWVcw2vhujRSu9wO6b7fxw=
-X-Google-Smtp-Source: ABdhPJzFYT9/669jVrml6Pdvz1Je+FMrMFGgXzX40tkUuJ2ztu27XLV3zW4vAmlsPggvFBxcoHHp4IdtWLao0t4GEQU=
-X-Received: by 2002:a05:6602:2d4e:: with SMTP id
- d14mr14987437iow.105.1604418721027; 
- Tue, 03 Nov 2020 07:52:01 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=iFz6AsDSw1gcUlBXxfxLgIu9Ln5wNr38zIYH1L4kx68=;
+ b=s6GE+2qUzIwA0MphIrYVyAXm2vxsKtaoVHicV3j2LHGR/DKrpvnKBhmLzRtKMzSnOo
+ PmAY+FxFzNw8ojQUdiTL+eyNM/HPq3szxnfu8XcDDYGYwQqJjGnw6G2C0iw6tqQSbv72
+ WIAs+6kSAHIBioQGgh1zEiK/Vl6uNEvfsz0du4Oapbh9TY/WvlyscGPOmrqsYvOnG2lw
+ QCuasQ/brlWV/pEtpAJ3Wk84d7wSuSDWPlYqBzN9UeonkynGcS12kDK0QaEq/m5mUB5F
+ gKWQRoom3yKUM6okHiz3cN/tsRiv0BTe2ZIpyb0ImQksA4t6WsOS4JuAWrXVzmE/yH00
+ 2f+w==
+X-Gm-Message-State: AOAM5304y6NPPHIp1IrGec4Pv/x5hM7MPxmeMp1ozxJfSop8Hm+7gLKD
+ P8PIXWgjKXoFbYV0+Qv+lT5Fm1urPMRPT3H0Rfc=
+X-Google-Smtp-Source: ABdhPJxwwtuVB0rEnmzzIQfOfouQVRKK31YzbwGHfnamn3dlK331kef3PouQ5U2JG752USn9dbCsE2t4Z1QiG2j/Svo=
+X-Received: by 2002:a92:c5ce:: with SMTP id s14mr15488414ilt.40.1604418792306; 
+ Tue, 03 Nov 2020 07:53:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20200330102945.2388294-1-laurent@vivier.eu>
- <20200330102945.2388294-2-laurent@vivier.eu>
- <CAFEAcA97s+jiZxH+ObdFeFgs7-Wub6XjZvJFmL2s4voRrny38Q@mail.gmail.com>
- <a1fd7792-b7fa-6e86-4a24-b53fb7ecac0f@vivier.eu>
-In-Reply-To: <a1fd7792-b7fa-6e86-4a24-b53fb7ecac0f@vivier.eu>
+References: <20201023151619.3175155-1-alistair.francis@wdc.com>
+ <20201023151619.3175155-13-alistair.francis@wdc.com>
+ <CAFEAcA9MEG_g_YTFdnfjAp6U9zwqKmQWD8UnPYwbGj0c7WnOUg@mail.gmail.com>
+In-Reply-To: <CAFEAcA9MEG_g_YTFdnfjAp6U9zwqKmQWD8UnPYwbGj0c7WnOUg@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 3 Nov 2020 07:40:04 -0800
-Message-ID: <CAKmqyKN81bBXtJei7ch3CFLqjsnyiVfZOmYuTEL68a=i7JNPOQ@mail.gmail.com>
-Subject: Re: [PULL 1/1] linux-user: Support futex_time64
-To: Laurent Vivier <laurent@vivier.eu>
+Date: Tue, 3 Nov 2020 07:41:15 -0800
+Message-ID: <CAKmqyKP5b+3QN91BV8sZ8+diTGmJ5SMQJJLPi_jsENQCX_6O4g@mail.gmail.com>
+Subject: Re: [PULL 12/12] hw/misc/sifive_u_otp: Add backend drive support
+To: Green Wan <green.wan@sifive.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd29.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::12c;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x12c.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -17
@@ -85,67 +81,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>,
  Alistair Francis <alistair.francis@wdc.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 2, 2020 at 11:29 PM Laurent Vivier <laurent@vivier.eu> wrote:
+On Mon, Nov 2, 2020 at 9:49 AM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Le 02/11/2020 =C3=A0 19:15, Peter Maydell a =C3=A9crit :
-> > On Mon, 30 Mar 2020 at 11:31, Laurent Vivier <laurent@vivier.eu> wrote:
-> >>
-> >> From: Alistair Francis <alistair.francis@wdc.com>
-> >>
-> >> Add support for host and target futex_time64. If futex_time64 exists o=
-n
-> >> the host we try that first before falling back to the standard futex
-> >> syscall.
+> On Fri, 23 Oct 2020 at 16:27, Alistair Francis <alistair.francis@wdc.com> wrote:
 > >
-> > Hi; I dunno why Coverity's only just noticed this, but in
-> > CID 1432339 it points out:
+> > From: Green Wan <green.wan@sifive.com>
 > >
-> >> +#if defined(TARGET_NR_futex_time64)
-> >> +static int do_futex_time64(target_ulong uaddr, int op, int val, targe=
-t_ulong timeout,
-> >> +                           target_ulong uaddr2, int val3)
-> >> +{
-> >> +    struct timespec ts, *pts;
-> >> +    int base_op;
-> >> +
-> >> +    /* ??? We assume FUTEX_* constants are the same on both host
-> >> +       and target.  */
-> >> +#ifdef FUTEX_CMD_MASK
-> >> +    base_op =3D op & FUTEX_CMD_MASK;
-> >> +#else
-> >> +    base_op =3D op;
-> >> +#endif
-> >> +    switch (base_op) {
-> >> +    case FUTEX_WAIT:
-> >> +    case FUTEX_WAIT_BITSET:
-> >> +        if (timeout) {
-> >> +            pts =3D &ts;
-> >> +            target_to_host_timespec64(pts, timeout);
-> >
-> > ...that here we call target_to_host_timespec64(), which can
-> > fail with -TARGET_EFAULT, but (unlike all the other times we call
-> > the function) we aren't checking its return value.
-> > Is there missing error handling code here ?
-> >
+> > Add '-drive' support to OTP device. Allow users to assign a raw file
+> > as OTP image.
 >
-> I think the code is like that because this is a cut&paste of function
-> do_futex() witl "s/timespec/timespec64/".
->
-> And yes I think we should check for the return value.
-> I'm going to fix that.
+> Hi; Coverity reports some issues with this code (CID 1435959,
+> CID 1435960, CID 1435961). They're all basically the same thing:
+> in read, write and reset functions this code calls blk_pread()
+> or blk_pwrite() but doesn't check the return value, so if the
+> underlying file operation fails then the guest will be
+> returned garbage data or have its write thrown away without
+> either the guest or the user being warned about that.
 
-Thanks! Let me know if you want me to do it and I can send a patch instead.
+Green Wan are you able to send a patch to check the error value?
 
 Alistair
 
 >
-> Thanks,
-> Laurent
+> > @@ -54,6 +57,16 @@ static uint64_t sifive_u_otp_read(void *opaque, hwaddr addr, unsigned int size)
+> >          if ((s->pce & SIFIVE_U_OTP_PCE_EN) &&
+> >              (s->pdstb & SIFIVE_U_OTP_PDSTB_EN) &&
+> >              (s->ptrim & SIFIVE_U_OTP_PTRIM_EN)) {
+> > +
+> > +            /* read from backend */
+> > +            if (s->blk) {
+> > +                int32_t buf;
+> > +
+> > +                blk_pread(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD, &buf,
+> > +                          SIFIVE_U_OTP_FUSE_WORD);
+> > +                return buf;
+> > +            }
+> > +
+> >              return s->fuse[s->pa & SIFIVE_U_OTP_PA_MASK];
+> >          } else {
+> >              return 0xff;
+> > @@ -145,6 +158,12 @@ static void sifive_u_otp_write(void *opaque, hwaddr addr,
+> >              /* write bit data */
+> >              SET_FUSEARRAY_BIT(s->fuse, s->pa, s->paio, s->pdin);
+> >
+> > +            /* write to backend */
+> > +            if (s->blk) {
+> > +                blk_pwrite(s->blk, s->pa * SIFIVE_U_OTP_FUSE_WORD,
+> > +                           &s->fuse[s->pa], SIFIVE_U_OTP_FUSE_WORD, 0);
+> > +            }
+> > +
+> >              /* update written bit */
+> >              SET_FUSEARRAY_BIT(s->fuse_wo, s->pa, s->paio, WRITTEN_BIT_ON);
+> >          }
+> > @@ -168,16 +187,48 @@ static const MemoryRegionOps sifive_u_otp_ops = {
 >
+> >  static void sifive_u_otp_reset(DeviceState *dev)
+> > @@ -191,6 +242,20 @@ static void sifive_u_otp_reset(DeviceState *dev)
+> >      s->fuse[SIFIVE_U_OTP_SERIAL_ADDR] = s->serial;
+> >      s->fuse[SIFIVE_U_OTP_SERIAL_ADDR + 1] = ~(s->serial);
+> >
+> > +    if (s->blk) {
+> > +        /* Put serial number to backend as well*/
+> > +        uint32_t serial_data;
+> > +        int index = SIFIVE_U_OTP_SERIAL_ADDR;
+> > +
+> > +        serial_data = s->serial;
+> > +        blk_pwrite(s->blk, index * SIFIVE_U_OTP_FUSE_WORD,
+> > +                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> > +
+> > +        serial_data = ~(s->serial);
+> > +        blk_pwrite(s->blk, (index + 1) * SIFIVE_U_OTP_FUSE_WORD,
+> > +                   &serial_data, SIFIVE_U_OTP_FUSE_WORD, 0);
+> > +    }
+> > +
+> >      /* Initialize write-once map */
+> >      memset(s->fuse_wo, 0x00, sizeof(s->fuse_wo));
+> >  }
+> > --
+> > 2.28.0
+>
+> thanks
+> -- PMM
 
