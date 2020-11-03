@@ -2,93 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9C82A3ABD
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:57:35 +0100 (CET)
-Received: from localhost ([::1]:59638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65132A3A8A
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:47:40 +0100 (CET)
+Received: from localhost ([::1]:39352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZmVq-0002FP-IR
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:57:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48094)
+	id 1kZmME-00020I-Ud
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:47:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmK1-00017o-HI
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:21 -0500
+ id 1kZmJL-0000fY-Em
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:44:39 -0500
 Received: from mail-mw2nam12on2072.outbound.protection.outlook.com
  ([40.107.244.72]:13281 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmJz-0007gm-GS
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:21 -0500
+ id 1kZmJI-0007gm-La
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:44:39 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ndXcBJjCamVeglkm+ZHdMVYNV9Nq/C1ppGEu/8OVsjjP5W1T6p4gIWMSc58xO6OueNgHPV7yoc42MzM8f65RxzpYvfwddT4+Cjl2rdV1e3D7LxMrXOTfBu9kK84RzB9Q/1QAEohHq2h79Uu+Wzxb3FLopnH9f2k/sLu1YgZi0D1ZIwZ7qaIG7G5TK82YFLIkXHRR3x7Wvoye4qsp2AHywoMY3E1t5tAmcWI3/GTE4rDjx5hOSyQXz53/TucqS9kKDJ+NPCMPLAs//97RlqeuUVJgOLrW4pmMtX3b7DiBItmGfHza5nkEwM5C1qU0pklQNEiOJVuHqdsJyuwiRL0rYw==
+ b=JdbeYXRuIOQ44Le+TT+4NJcCRJN3vx1tAFRpLcgrEFJu92UR9H23SC0v68BUCJnr4qVw6tr/OIk+OIE9cK6GXZXxsQ2Jqf2e1/Osowuh3Hb2cZLIAFbOcaIWu6cTa1s6yjDKD2DRt6BbytWk8u1C1z6Qo5BEyzhSV7Gsk8ShTRXQAS2AphD+nqZzYqtkNXa58GbePHyh+nEPx5fqsNSyH99sKBmZRdbZSGXswsvjIpohgPMs1WB3pyas1b7W2fOa5zb/J/nfGitceQYBl6T8eEle7UhvGjSG3WVLm88yOQbbj+/VZdY418pm+Mk9ElAFDDEIT3Y+WBHr/PpaVFWzvA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OE2J8ejvlIA4aWrHVkoErkL61tROkH+vRjXCeNj3n7A=;
- b=DKOR+ErNMDoprABGGegS7uOuyVgFphuQZHX7S1JGNuMhKA5Ix0ehHg8GLG/TRM9oWLl+6WqkXObkCvEnjI2lMUK6ZqIE2+GTCBrisvbFHCv7/gBp6lg9dVHo09sCAbJ5QdBkMTaJzfAVKPAXuCb9OOqFuQDApuKnR7+87/wF5WkPEXGtQXU2urKvZnaR5HJgLOnZJCxHFQGvpuiy5e4sf1WjekD8NJ8IyBbGCX4GhBTx9EgKFqR3khwrJb6Qab3pW7rFWVo6zG7+JFCnTXeuIXRGBzYS+usFuNwBzACexSuxWS+E5Q3ocDr7xVFs7YCU3tj1ZGk6kQMKKoiJtjYQoQ==
+ bh=rE7JErgeuYA+dTbCF4pqLevJawUVbN6UgKVOCb2nu5s=;
+ b=hvemE06mw4FQsCjUpd+aGZ1QvYU9L6aGm+03CTLg+X80L68ECb3lgVUnEi32y4POeSLMwh7IhM/E+m0t+wmCAgW9Afc60ZKFICTMBO9dBOxqWoerT8j14ob72U4KHIIZGO9m9Hjkngpifqph28lU3O+jcJdzolmO7kWxpSchO0MBlO/ITTLR8Am05QjOR1h0juPEa+GBlHVQYZnC/vVJPSc9W3VDDTWO12Yvz899NG4ZQzQBebv/p6yh7qU4bQqpQX+b+Zw4T40D6SN+IcUE5prd7WGq3jqs8su4Eiu1XQVwTNFqSKN4nPb4FqvFUsHkIgFWPRWBq6YKL27UAHZ0QA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OE2J8ejvlIA4aWrHVkoErkL61tROkH+vRjXCeNj3n7A=;
- b=bcE6SFc3CZ0S8pEoIS2alSpzPoGH/M8cs/dZ8O8hzpdRVTNJF7KzxRsvx9rrGSKDOKIpLzRXVa3P5dyIxtvOhtszeAYTkzwm99IB9bBPQa03BVMKty+Y7jns7nX+XYer7lhiSV1/SE5/jpOvhzt+tvBtovyndS4BIR0AxUBzJjw=
+ bh=rE7JErgeuYA+dTbCF4pqLevJawUVbN6UgKVOCb2nu5s=;
+ b=1gk7RPx/HVC9LvAoKjb6p5bxCt9ShzlJippk+A5dCbdXrRkKm8sPAGdMpmF2HYjRWdxPoqcdJnK1RhESQ4ze747nWNFRavEFGo18WHjuNSGDE72+p+l/N5yAfyUB0ZPxEeoUiSlrvvWhNRKOCUFxEFu8N5heu8e1BHPAqAaGmyo=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
  by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 02:45:18 +0000
+ 2020 02:44:32 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 02:45:18 +0000
+ 02:44:31 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 07/12] qga: add implementation of guest-get-disks for Windows
-Date: Mon,  2 Nov 2020 20:43:39 -0600
-Message-Id: <20201103024343.894221-8-michael.roth@amd.com>
+Subject: [PULL v3 09/12] qga: add ssh-{add,remove}-authorized-keys
+Date: Mon,  2 Nov 2020 20:43:41 -0600
+Message-Id: <20201103024343.894221-10-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201103024343.894221-1-michael.roth@amd.com>
 References: <20201103024343.894221-1-michael.roth@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SA0PR11CA0097.namprd11.prod.outlook.com
- (2603:10b6:806:d1::12) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: DM3PR12CA0079.namprd12.prod.outlook.com
+ (2603:10b6:0:57::23) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SA0PR11CA0097.namprd11.prod.outlook.com (2603:10b6:806:d1::12) with Microsoft
+ DM3PR12CA0079.namprd12.prod.outlook.com (2603:10b6:0:57::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 02:45:17 +0000
+ 15.20.3499.19 via Frontend Transport; Tue, 3 Nov 2020 02:44:31 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7fb4c1ad-efaa-42f7-b94a-08d87fa27fcc
+X-MS-Office365-Filtering-Correlation-Id: f3288c44-82f3-423b-bb53-08d87fa2644a
 X-MS-TrafficTypeDiagnostic: CH2PR12MB4311:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB43119B14F879C6175EA8C83995110@CH2PR12MB4311.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:125;
+X-Microsoft-Antispam-PRVS: <CH2PR12MB431133DA52B75097DD879EC895110@CH2PR12MB4311.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1751;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: KrE8WTKQhqOcr4kU4OLMUKVttEoVUXV8qodOaf9DbgdAzOY8VYfnyGbX2254p7DDiJp0Gn2TBN0p5q9kkr9txrP+cRcZgNiS2wJD3nepS568LLNm2Ko5QR/nnBHgDObRu6e6Ncoll6H5b5zoMaNAZugIk6XzVmpqtUBvf88Kb1gci3i6pBLKD26ZAac6K+kH5SeyOsB42DkkBNCN/vDE1y3zTlUN6fXWiqlAEkLRF5TaVd9n61YxZgmjL2sWPxKkQc6YcJsdyYh12SrjA7eQ+PSYfnWlK9+K1xR8GSEDhzhKumIOZwV5FB2+ewy64Ep/qVDEtcHT/XMkV0+RgR3J4g==
+X-Microsoft-Antispam-Message-Info: guE3Tapm1pTiAiNIPX0r4LU2lLLuI2VVXrw01Gx9PURgQ8ko+f9ReHC6b2VBrVg8AEIZi4Fau5TP6KcwTEwNQ9uWanfkCF0JT0rezO6muRurpdE8hcuYoSYGd9qQkt2I+4aqiAP+HdQiQaUFhudafPzaN+M1m52iomc91Tn016Wlu1TPv/zw0DDAf/WW6B4zyE2XvrNhIKZKoYtYlKDIvKAooaQcjUKgJh4eYm/ANT1dj9zEyL37VvB62lyc0gxgjYTh1CcGdkh3fJMcWkiUaDw8PIZv/dD3j6Ggm3r9zDt5loKa+ayW4L3I6LrpdS9g2mFjoJZ/8phsMhf4M4cnPoznbPb3FpZaaeHlB0FqzBucLTrbOUYRTmjnX3kNZzbtikrZ4IEWxQkKx0OXLVbIjg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(16526019)(186003)(5660300002)(8936002)(6916009)(8676002)(36756003)(478600001)(86362001)(26005)(66556008)(956004)(66946007)(6666004)(6496006)(2616005)(6486002)(52116002)(66476007)(4326008)(1076003)(83380400001)(44832011)(316002)(2906002);
+ SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(16526019)(186003)(5660300002)(8936002)(6916009)(8676002)(30864003)(36756003)(478600001)(86362001)(26005)(66556008)(956004)(66946007)(6666004)(6496006)(2616005)(6486002)(966005)(52116002)(66476007)(4326008)(1076003)(83380400001)(54906003)(44832011)(316002)(2906002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: U+mgMudajkWm9ecz0gOJ7HgLTZjGFPFjMbSRJi5LlqmL1ADm/lRYXOHpWAYVVOeCGetpPKtLXMlRZu1QsH2ZuLYTCwnMWGcdTEGbPZsPYnppo+cRaydYm4YV3YO8nJdcTrnJsvqD+vX/zbwe5wd68uKPEExkKpys0SqyVsX8g7M6ifKiZt5Lz005LjYWtg9Yn8btn0a71a8SPd9G+YrfS/fX2Owb2gjMpssNqvU9v71WToE6PdkhSOVu561eKWSq9Rt9qE39N8sjHDVgS04uWdqZ/y4pKYCaJ1SqAP5o6CHCOmuPPTxaUUyMmPX0Ka/4jdtww26beOrcckLakRBUqN94RjAu+mi2daCZZwB0KAsetMUfKm307xdAcLuo8GJMGDsGpfeqhHPEjyHHoaFVs//wq/q8S+xwBu05LwONw6eHLFOgzjIFNKdVeyTrGOYl12dT/2Fpo+NWu80c9xqtJOmgrFilWYHhnY2cPO6Eto8vvZ+xNgEi47I/DzE8HKVMS2ZlnxuZXNuURGp/0KY1VIWhF7VoghvUuRwGiCuGSYO/gb1+lNdjjknQTLUXBLcadsaO39YwkZ7vnPIuAFZ3Q0RCqk7HDBLU8F5U5KEML95KLqNXmyBAv1In/dqfQ9zYpItMllM46hjy3A+4OQ78+Q==
+X-MS-Exchange-AntiSpam-MessageData: X8ip4XVqaYLX78BBHDbcVhn2kagF74PezmBnqvOLilodUpOe2Ac/exNerVEWLnPkBeUQ2O8Nl6ORBTUdbpnCmJVqPnWxbmarGlD7+H1sQxpkq+9IHEXm3GbZ5LcBess/L5r7ziI2GODucxbrkIWBxA/rAJppJokTAVHio4DkZiXqP3ap72CWc/OHdSHffIXR6YAxGT7og0piE7iKt/T+6eMu+Cfx5tc9ZF85ZdMJaQur/lI2gKojkI+73U8oM98jwfWQTNCgK5sENrgA5XPN3O+PI895PnY66acmdV2HlID8r9fYBLe4rZpMtG86G3CsODDEr4dlusUvypM1IvvVut0wW5LyzsiTotl0/ZlZrH5fpLRs3MuSOFCPF7ps5o75sA5IgJx70b2sPC4C/Qco+wlku898zKjDLVWOESX/A758j9ipWSMXKc7i6htnaUU7Jyzh9A82BAaX4+0YR1L9zPq20s5yjgmYJEN9f1Fmpg77B94RUCHD328s0Kjfw6Dh+SmDBKugoQ075mg9gqjSz+p1lngbxwNIqm84cwpWLW88qBcZICyZrdHLvL2ERO8xqcWp6XdWYN3rqiHQl8J3qC9MoGQtu0BNkN16axATp4H+Mtsi3y4cKCtVTaiTXA/ViZv2jRea1rBGj15M9y3A+g==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb4c1ad-efaa-42f7-b94a-08d87fa27fcc
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3288c44-82f3-423b-bb53-08d87fa2644a
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:45:17.9473 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:44:31.8656 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: urEhWIMUbGl8EoaR24Hiprc2KEuX9StdMYenXKUG539q8mltu5x+SlntA/mL9BnwNdMqy+Z/mwjn9H+oUl/2Wg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yey1s4HExbUDb/+iPoa8XoMJb3QP/5wIWDGJcsSWWt33vZ9q3yyiF4QPewM1+6HfDLi5wTBpJ8suW38f+mOUqA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 Received-SPF: none client-ip=40.107.244.72; envelope-from=Michael.Roth@amd.com;
  helo=NAM12-MW2-obe.outbound.protection.outlook.com
@@ -113,168 +113,540 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Tom=C3=A1=C5=A1=20Golembiovsk=C3=BD?= <tgolembi@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>, peter.maydell@linaro.org,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Tomáš Golembiovský <tgolembi@redhat.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The command lists all the physical disk drives. Unlike for Linux
-partitions and virtual volumes are not listed.
+Add new commands to add and remove SSH public keys from
+~/.ssh/authorized_keys.
 
-Example output:
+I took a different approach for testing, including the unit tests right
+with the code. I wanted to overwrite the function to get the user
+details, I couldn't easily do that over QMP. Furthermore, I prefer
+having unit tests very close to the code, and unit files that are domain
+specific (commands-posix is too crowded already). FWIW, that
+coding/testing style is Rust-style (where tests can or should even be
+part of the documentation!).
 
-{
-  "return": [
-    {
-      "name": "\\\\.\\PhysicalDrive0",
-      "partition": false,
-      "address": {
-        "serial": "QM00001",
-        "bus-type": "sata",
-        ...
-      },
-      "dependents": []
-    }
-  ]
-}
+Fixes:
+https://bugzilla.redhat.com/show_bug.cgi?id=1885332
 
-Signed-off-by: Tomáš Golembiovský <tgolembi@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+*squashed in fix-ups for setting file ownership and use of QAPI
+ conditionals for CONFIG_POSIX instead of stub definitions
+*disable qga-ssh-test for now due to G_TEST_OPTION_ISOLATE_DIRS
+ triggering leak detector in build-oss-fuzz
+*fix disallowed g_assert* usage reported by checkpatch
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qga/commands-win32.c | 107 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 101 insertions(+), 6 deletions(-)
+ qga/commands-posix-ssh.c | 407 +++++++++++++++++++++++++++++++++++++++
+ qga/meson.build          |  25 ++-
+ qga/qapi-schema.json     |  35 ++++
+ 3 files changed, 466 insertions(+), 1 deletion(-)
+ create mode 100644 qga/commands-posix-ssh.c
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index f7bdd5a8b5..300b87c859 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -979,6 +979,101 @@ out:
-     return list;
- }
- 
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
-+{
-+    ERRP_GUARD();
-+    GuestDiskInfoList *new = NULL, *ret = NULL;
-+    HDEVINFO dev_info;
-+    SP_DEVICE_INTERFACE_DATA dev_iface_data;
-+    int i;
+diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c
+new file mode 100644
+index 0000000000..f74d89679c
+--- /dev/null
++++ b/qga/commands-posix-ssh.c
+@@ -0,0 +1,407 @@
++ /*
++  * This work is licensed under the terms of the GNU GPL, version 2 or later.
++  * See the COPYING file in the top-level directory.
++  */
++#include "qemu/osdep.h"
 +
-+    dev_info = SetupDiGetClassDevs(&GUID_DEVINTERFACE_DISK, 0, 0,
-+        DIGCF_PRESENT | DIGCF_DEVICEINTERFACE);
-+    if (dev_info == INVALID_HANDLE_VALUE) {
-+        error_setg_win32(errp, GetLastError(), "failed to get device tree");
++#include <glib-unix.h>
++#include <glib/gstdio.h>
++#include <locale.h>
++#include <pwd.h>
++
++#include "qapi/error.h"
++#include "qga-qapi-commands.h"
++
++#ifdef QGA_BUILD_UNIT_TEST
++static struct passwd *
++test_get_passwd_entry(const gchar *user_name, GError **error)
++{
++    struct passwd *p;
++    int ret;
++
++    if (!user_name || g_strcmp0(user_name, g_get_user_name())) {
++        g_set_error(error, G_UNIX_ERROR, 0, "Invalid user name");
 +        return NULL;
 +    }
 +
-+    g_debug("enumerating devices");
-+    dev_iface_data.cbSize = sizeof(SP_DEVICE_INTERFACE_DATA);
-+    for (i = 0;
-+        SetupDiEnumDeviceInterfaces(dev_info, NULL, &GUID_DEVINTERFACE_DISK,
-+            i, &dev_iface_data);
-+        i++) {
-+        GuestDiskAddress *address = NULL;
-+        GuestDiskInfo *disk = NULL;
-+        Error *local_err = NULL;
-+        g_autofree PSP_DEVICE_INTERFACE_DETAIL_DATA
-+            pdev_iface_detail_data = NULL;
-+        STORAGE_DEVICE_NUMBER sdn;
-+        HANDLE dev_file;
-+        DWORD size = 0;
-+        BOOL result;
-+        int attempt;
++    p = g_new0(struct passwd, 1);
++    p->pw_dir = (char *)g_get_home_dir();
++    p->pw_uid = geteuid();
++    p->pw_gid = getegid();
 +
-+        g_debug("  getting device path");
-+        for (attempt = 0, result = FALSE; attempt < 2 && !result; attempt++) {
-+            result = SetupDiGetDeviceInterfaceDetail(dev_info,
-+                &dev_iface_data, pdev_iface_detail_data, size, &size, NULL);
-+            if (result) {
-+                break;
-+            }
-+            if (GetLastError() == ERROR_INSUFFICIENT_BUFFER) {
-+                pdev_iface_detail_data = g_realloc(pdev_iface_detail_data,
-+                    size);
-+                pdev_iface_detail_data->cbSize =
-+                    sizeof(*pdev_iface_detail_data);
-+            } else {
-+                g_debug("failed to get device interface details");
-+                break;
-+            }
-+        }
-+        if (!result) {
-+            g_debug("skipping device");
-+            continue;
-+        }
++    ret = g_mkdir_with_parents(p->pw_dir, 0700);
++    g_assert(ret == 0);
 +
-+        g_debug("  device: %s", pdev_iface_detail_data->DevicePath);
-+        dev_file = CreateFile(pdev_iface_detail_data->DevicePath, 0,
-+            FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
-+        if (!DeviceIoControl(dev_file, IOCTL_STORAGE_GET_DEVICE_NUMBER,
-+                NULL, 0, &sdn, sizeof(sdn), &size, NULL)) {
-+            CloseHandle(dev_file);
-+            debug_error("failed to get storage device number");
-+            continue;
-+        }
-+        CloseHandle(dev_file);
++    return p;
++}
 +
-+        disk = g_new0(GuestDiskInfo, 1);
-+        disk->name = g_strdup_printf("\\\\.\\PhysicalDrive%lu",
-+            sdn.DeviceNumber);
++#define g_unix_get_passwd_entry_qemu(username, err) \
++   test_get_passwd_entry(username, err)
++#endif
 +
-+        g_debug("  number: %lu", sdn.DeviceNumber);
-+        address = g_malloc0(sizeof(GuestDiskAddress));
-+        address->has_dev = true;
-+        address->dev = g_strdup(disk->name);
-+        get_single_disk_info(sdn.DeviceNumber, address, &local_err);
-+        if (local_err) {
-+            g_debug("failed to get disk info: %s",
-+                error_get_pretty(local_err));
-+            error_free(local_err);
-+            qapi_free_GuestDiskAddress(address);
-+            address = NULL;
-+        } else {
-+            disk->address = address;
-+            disk->has_address = true;
-+        }
++static struct passwd *
++get_passwd_entry(const char *username, Error **errp)
++{
++    g_autoptr(GError) err = NULL;
++    struct passwd *p;
 +
-+        new = g_malloc0(sizeof(GuestDiskInfoList));
-+        new->value = disk;
-+        new->next = ret;
-+        ret = new;
++    ERRP_GUARD();
++
++    p = g_unix_get_passwd_entry_qemu(username, &err);
++    if (p == NULL) {
++        error_setg(errp, "failed to lookup user '%s': %s",
++                   username, err->message);
++        return NULL;
 +    }
 +
-+    SetupDiDestroyDeviceInfoList(dev_info);
-+    return ret;
++    return p;
 +}
 +
- #else
- 
- static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
-@@ -986,6 +1081,12 @@ static GuestDiskAddressList *build_guest_disk_info(char *guid, Error **errp)
-     return NULL;
- }
- 
-+GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
++static bool
++mkdir_for_user(const char *path, const struct passwd *p,
++               mode_t mode, Error **errp)
 +{
-+    error_setg(errp, QERR_UNSUPPORTED);
-+    return NULL;
++    ERRP_GUARD();
++
++    if (g_mkdir(path, mode) == -1) {
++        error_setg(errp, "failed to create directory '%s': %s",
++                   path, g_strerror(errno));
++        return false;
++    }
++
++    if (chown(path, p->pw_uid, p->pw_gid) == -1) {
++        error_setg(errp, "failed to set ownership of directory '%s': %s",
++                   path, g_strerror(errno));
++        return false;
++    }
++
++    if (chmod(path, mode) == -1) {
++        error_setg(errp, "failed to set permissions of directory '%s': %s",
++                   path, g_strerror(errno));
++        return false;
++    }
++
++    return true;
 +}
 +
- #endif /* CONFIG_QGA_NTDDSCSI */
++static bool
++check_openssh_pub_key(const char *key, Error **errp)
++{
++    ERRP_GUARD();
++
++    /* simple sanity-check, we may want more? */
++    if (!key || key[0] == '#' || strchr(key, '\n')) {
++        error_setg(errp, "invalid OpenSSH public key: '%s'", key);
++        return false;
++    }
++
++    return true;
++}
++
++static bool
++check_openssh_pub_keys(strList *keys, size_t *nkeys, Error **errp)
++{
++    size_t n = 0;
++    strList *k;
++
++    ERRP_GUARD();
++
++    for (k = keys; k != NULL; k = k->next) {
++        if (!check_openssh_pub_key(k->value, errp)) {
++            return false;
++        }
++        n++;
++    }
++
++    if (nkeys) {
++        *nkeys = n;
++    }
++    return true;
++}
++
++static bool
++write_authkeys(const char *path, const GStrv keys,
++               const struct passwd *p, Error **errp)
++{
++    g_autofree char *contents = NULL;
++    g_autoptr(GError) err = NULL;
++
++    ERRP_GUARD();
++
++    contents = g_strjoinv("\n", keys);
++    if (!g_file_set_contents(path, contents, -1, &err)) {
++        error_setg(errp, "failed to write to '%s': %s", path, err->message);
++        return false;
++    }
++
++    if (chown(path, p->pw_uid, p->pw_gid) == -1) {
++        error_setg(errp, "failed to set ownership of directory '%s': %s",
++                   path, g_strerror(errno));
++        return false;
++    }
++
++    if (chmod(path, 0600) == -1) {
++        error_setg(errp, "failed to set permissions of '%s': %s",
++                   path, g_strerror(errno));
++        return false;
++    }
++
++    return true;
++}
++
++static GStrv
++read_authkeys(const char *path, Error **errp)
++{
++    g_autoptr(GError) err = NULL;
++    g_autofree char *contents = NULL;
++
++    ERRP_GUARD();
++
++    if (!g_file_get_contents(path, &contents, NULL, &err)) {
++        error_setg(errp, "failed to read '%s': %s", path, err->message);
++        return NULL;
++    }
++
++    return g_strsplit(contents, "\n", -1);
++
++}
++
++void
++qmp_guest_ssh_add_authorized_keys(const char *username, strList *keys,
++                                  Error **errp)
++{
++    g_autofree struct passwd *p = NULL;
++    g_autofree char *ssh_path = NULL;
++    g_autofree char *authkeys_path = NULL;
++    g_auto(GStrv) authkeys = NULL;
++    strList *k;
++    size_t nkeys, nauthkeys;
++
++    ERRP_GUARD();
++
++    if (!check_openssh_pub_keys(keys, &nkeys, errp)) {
++        return;
++    }
++
++    p = get_passwd_entry(username, errp);
++    if (p == NULL) {
++        return;
++    }
++
++    ssh_path = g_build_filename(p->pw_dir, ".ssh", NULL);
++    authkeys_path = g_build_filename(ssh_path, "authorized_keys", NULL);
++
++    authkeys = read_authkeys(authkeys_path, NULL);
++    if (authkeys == NULL) {
++        if (!g_file_test(ssh_path, G_FILE_TEST_IS_DIR) &&
++            !mkdir_for_user(ssh_path, p, 0700, errp)) {
++            return;
++        }
++    }
++
++    nauthkeys = authkeys ? g_strv_length(authkeys) : 0;
++    authkeys = g_realloc_n(authkeys, nauthkeys + nkeys + 1, sizeof(char *));
++    memset(authkeys + nauthkeys, 0, (nkeys + 1) * sizeof(char *));
++
++    for (k = keys; k != NULL; k = k->next) {
++        if (g_strv_contains((const gchar * const *)authkeys, k->value)) {
++            continue;
++        }
++        authkeys[nauthkeys++] = g_strdup(k->value);
++    }
++
++    write_authkeys(authkeys_path, authkeys, p, errp);
++}
++
++void
++qmp_guest_ssh_remove_authorized_keys(const char *username, strList *keys,
++                                     Error **errp)
++{
++    g_autofree struct passwd *p = NULL;
++    g_autofree char *authkeys_path = NULL;
++    g_autofree GStrv new_keys = NULL; /* do not own the strings */
++    g_auto(GStrv) authkeys = NULL;
++    GStrv a;
++    size_t nkeys = 0;
++
++    ERRP_GUARD();
++
++    if (!check_openssh_pub_keys(keys, NULL, errp)) {
++        return;
++    }
++
++    p = get_passwd_entry(username, errp);
++    if (p == NULL) {
++        return;
++    }
++
++    authkeys_path = g_build_filename(p->pw_dir, ".ssh",
++                                     "authorized_keys", NULL);
++    if (!g_file_test(authkeys_path, G_FILE_TEST_EXISTS)) {
++        return;
++    }
++    authkeys = read_authkeys(authkeys_path, errp);
++    if (authkeys == NULL) {
++        return;
++    }
++
++    new_keys = g_new0(char *, g_strv_length(authkeys) + 1);
++    for (a = authkeys; *a != NULL; a++) {
++        strList *k;
++
++        for (k = keys; k != NULL; k = k->next) {
++            if (g_str_equal(k->value, *a)) {
++                break;
++            }
++        }
++        if (k != NULL) {
++            continue;
++        }
++
++        new_keys[nkeys++] = *a;
++    }
++
++    write_authkeys(authkeys_path, new_keys, p, errp);
++}
++
++
++#ifdef QGA_BUILD_UNIT_TEST
++#if GLIB_CHECK_VERSION(2, 60, 0)
++static const strList test_key2 = {
++    .value = (char *)"algo key2 comments"
++};
++
++static const strList test_key1_2 = {
++    .value = (char *)"algo key1 comments",
++    .next = (strList *)&test_key2,
++};
++
++static char *
++test_get_authorized_keys_path(void)
++{
++    return g_build_filename(g_get_home_dir(), ".ssh", "authorized_keys", NULL);
++}
++
++static void
++test_authorized_keys_set(const char *contents)
++{
++    g_autoptr(GError) err = NULL;
++    g_autofree char *path = NULL;
++    int ret;
++
++    path = g_build_filename(g_get_home_dir(), ".ssh", NULL);
++    ret = g_mkdir_with_parents(path, 0700);
++    g_assert(ret == 0);
++    g_free(path);
++
++    path = test_get_authorized_keys_path();
++    g_file_set_contents(path, contents, -1, &err);
++    g_assert(err == NULL);
++}
++
++static void
++test_authorized_keys_equal(const char *expected)
++{
++    g_autoptr(GError) err = NULL;
++    g_autofree char *path = NULL;
++    g_autofree char *contents = NULL;
++
++    path = test_get_authorized_keys_path();
++    g_file_get_contents(path, &contents, NULL, &err);
++    g_assert(err == NULL);
++
++    g_assert(g_strcmp0(contents, expected) == 0);
++}
++
++static void
++test_invalid_user(void)
++{
++    Error *err = NULL;
++
++    qmp_guest_ssh_add_authorized_keys("", NULL, &err);
++    error_free_or_abort(&err);
++
++    qmp_guest_ssh_remove_authorized_keys("", NULL, &err);
++    error_free_or_abort(&err);
++}
++
++static void
++test_invalid_key(void)
++{
++    strList key = {
++        .value = (char *)"not a valid\nkey"
++    };
++    Error *err = NULL;
++
++    qmp_guest_ssh_add_authorized_keys(g_get_user_name(), &key, &err);
++    error_free_or_abort(&err);
++
++    qmp_guest_ssh_remove_authorized_keys(g_get_user_name(), &key, &err);
++    error_free_or_abort(&err);
++}
++
++static void
++test_add_keys(void)
++{
++    Error *err = NULL;
++
++    qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
++                                      (strList *)&test_key2, &err);
++    g_assert(err == NULL);
++
++    test_authorized_keys_equal("algo key2 comments");
++
++    qmp_guest_ssh_add_authorized_keys(g_get_user_name(),
++                                      (strList *)&test_key1_2, &err);
++    g_assert(err == NULL);
++
++    /*  key2 came first, and should'nt be duplicated */
++    test_authorized_keys_equal("algo key2 comments\n"
++                               "algo key1 comments");
++}
++
++static void
++test_remove_keys(void)
++{
++    Error *err = NULL;
++    static const char *authkeys =
++        "algo key1 comments\n"
++        /* originally duplicated */
++        "algo key1 comments\n"
++        "# a commented line\n"
++        "algo some-key another\n";
++
++    test_authorized_keys_set(authkeys);
++    qmp_guest_ssh_remove_authorized_keys(g_get_user_name(),
++                                         (strList *)&test_key2, &err);
++    g_assert(err == NULL);
++    test_authorized_keys_equal(authkeys);
++
++    qmp_guest_ssh_remove_authorized_keys(g_get_user_name(),
++                                         (strList *)&test_key1_2, &err);
++    g_assert(err == NULL);
++    test_authorized_keys_equal("# a commented line\n"
++                               "algo some-key another\n");
++}
++
++int main(int argc, char *argv[])
++{
++    setlocale(LC_ALL, "");
++
++    g_test_init(&argc, &argv, G_TEST_OPTION_ISOLATE_DIRS, NULL);
++
++    g_test_add_func("/qga/ssh/invalid_user", test_invalid_user);
++    g_test_add_func("/qga/ssh/invalid_key", test_invalid_key);
++    g_test_add_func("/qga/ssh/add_keys", test_add_keys);
++    g_test_add_func("/qga/ssh/remove_keys", test_remove_keys);
++
++    return g_test_run();
++}
++#else
++int main(int argc, char *argv[])
++{
++    g_test_message("test skipped, needs glib >= 2.60");
++    return 0;
++}
++#endif /* GLIB_2_60 */
++#endif /* BUILD_UNIT_TEST */
+diff --git a/qga/meson.build b/qga/meson.build
+index cd08bd953a..635de9af41 100644
+--- a/qga/meson.build
++++ b/qga/meson.build
+@@ -35,7 +35,9 @@ qga_ss.add(files(
+ ))
+ qga_ss.add(when: 'CONFIG_POSIX', if_true: files(
+   'channel-posix.c',
+-  'commands-posix.c'))
++  'commands-posix.c',
++  'commands-posix-ssh.c',
++))
+ qga_ss.add(when: 'CONFIG_WIN32', if_true: files(
+   'channel-win32.c',
+   'commands-win32.c',
+@@ -87,3 +89,24 @@ else
+ endif
  
- static GuestFilesystemInfo *build_guest_fsinfo(char *guid, Error **errp)
-@@ -2458,9 +2559,3 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-     }
-     return head;
- }
--
--GuestDiskInfoList *qmp_guest_get_disks(Error **errp)
--{
--    error_setg(errp, QERR_UNSUPPORTED);
--    return NULL;
--}
+ alias_target('qemu-ga', all_qga)
++
++test_env = environment()
++test_env.set('G_TEST_SRCDIR', meson.current_source_dir())
++test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
++
++# disable qga-ssh-test for now. glib's G_TEST_OPTION_ISOLATE_DIRS triggers
++# the leak detector in build-oss-fuzz Gitlab CI test. we should re-enable
++# this when an alternative is implemented or when the underlying glib
++# issue is identified/fix
++#if 'CONFIG_POSIX' in config_host
++if false
++  qga_ssh_test = executable('qga-ssh-test',
++                            files('commands-posix-ssh.c'),
++                            dependencies: [qemuutil],
++                            c_args: ['-DQGA_BUILD_UNIT_TEST'])
++
++  test('qga-ssh-test',
++       qga_ssh_test,
++       env: test_env,
++       suite: ['unit', 'qga'])
++endif
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index e123a000be..a2727ed86b 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1346,3 +1346,38 @@
+ ##
+ { 'command': 'guest-get-devices',
+   'returns': ['GuestDeviceInfo'] }
++
++##
++# @guest-ssh-add-authorized-keys:
++#
++# @username: the user account to add the authorized keys
++# @keys: the public keys to add (in OpenSSH/sshd(8) authorized_keys format)
++#
++# Append public keys to user .ssh/authorized_keys on Unix systems (not
++# implemented for other systems).
++#
++# Returns: Nothing on success.
++#
++# Since: 5.2
++##
++{ 'command': 'guest-ssh-add-authorized-keys',
++  'data': { 'username': 'str', 'keys': ['str'] },
++  'if': 'defined(CONFIG_POSIX)' }
++
++##
++# @guest-ssh-remove-authorized-keys:
++#
++# @username: the user account to remove the authorized keys
++# @keys: the public keys to remove (in OpenSSH/sshd(8) authorized_keys format)
++#
++# Remove public keys from the user .ssh/authorized_keys on Unix systems (not
++# implemented for other systems). It's not an error if the key is already
++# missing.
++#
++# Returns: Nothing on success.
++#
++# Since: 5.2
++##
++{ 'command': 'guest-ssh-remove-authorized-keys',
++  'data': { 'username': 'str', 'keys': ['str'] },
++  'if': 'defined(CONFIG_POSIX)' }
 -- 
 2.25.1
 
