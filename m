@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3033F2A5084
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 20:54:37 +0100 (CET)
-Received: from localhost ([::1]:52270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207C32A5090
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 20:56:38 +0100 (CET)
+Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka2O4-0006ka-9s
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:54:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33716)
+	id 1ka2Q1-0000TX-5G
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:56:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1ka2Js-0002xp-AB; Tue, 03 Nov 2020 14:50:16 -0500
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:41520)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ka2O7-0007F3-IY
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:54:39 -0500
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:43565)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuval.shaia.ml@gmail.com>)
- id 1ka2Jq-0000qN-BG; Tue, 03 Nov 2020 14:50:15 -0500
-Received: by mail-lf1-x144.google.com with SMTP id 126so23848958lfi.8;
- Tue, 03 Nov 2020 11:50:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1ka2O5-0001TB-Hb
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:54:39 -0500
+Received: by mail-ed1-x544.google.com with SMTP id b9so9527568edu.10
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 11:54:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5U1sh5MZyvuF/dyOxRnLXkyHcEX4/Vlgu2kBTFury7Q=;
- b=kUVUfKOIGTgeG35cZHyyuf2eQUgiP87AwpbS/SQBn8gtSvaWsVNSAHJpO7Y3NosMTy
- 37Dfyd1UAHLpefd1W4k1BVd1qNrmPjYVr1t9S9YJ/Z0ekRMbM9kIDFr4pj8T0NjBQlXn
- 82hgCoSH43YrzG4Jt88mX69lVqZfmJo5vrmF5EC/yNQOEBMMKpNQ5chuzMMu0Ezj8ug9
- /+21ItvfQe3Y3I/THhBj33CvQ9EoCup9k0aKBMSFjyUBR9YVNpaOQ9/pu6OfKKcAs3GS
- s57jMRgHGjaoZGLO3MJbWqmfQZUNCWllB8OCvKJuG0GjeJkMp9p3PLzRFKK6eE0GUDmK
- bV5Q==
+ :cc; bh=lONBOVJhECPXIwdmERHjW8dVnU0cyFVIUWsiU0o3HZk=;
+ b=a8WeS3hE3xEMKNdQq9tWczqPtoE2x8YQ1ChacbLiNgP0dQfVj45wlmrgyYAfsCV0Is
+ rcO1+LaKWrAi+SgECtyonTbStfQU8sSSEppFyTTML663H+yz0y30W0T9df561mH/9l5a
+ Knb1wODqMuBhdLqSZd+/NVSK8hr5Td7kbk8DZs8YxSzSpZpmbh+o9P/bJnB3YJEDk3LD
+ f+s+HDVr55Dg5Fp14vpMQKMbVoe9uLvP0P6vDvkQx4pXNBbX3z+a9Vfw4oud+9JRQfTs
+ Q7rOfo5F6qaYXSQr/yWSM02KWj9j3el6Fa0acg+5mz745eom3+UssP8fqC8tXD3Y1Rjl
+ teEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=5U1sh5MZyvuF/dyOxRnLXkyHcEX4/Vlgu2kBTFury7Q=;
- b=CoCwnBHQgoaOhEyh70l3kInoTdfKdYC5Bqwnlqj1d2PK9xTPUwxxbwbkfQq36GLlQw
- AZfGjsR1zKW3VIypdOo0mXFHk1mL/AGIBya6HUyCS2PvAfoJyoKsfvC0kjADtOjsLHrL
- c6kV0rGI1ebfDiNBsmJAhSHbU21Z+Nf65SMSVNAFmB0RJKQpCUnQnC/6reC1T9wMceJO
- 9biSqCffLrpnIwsM6zMygj+cZiUsiaoCwvU5cKDsfmIm3uw+zLNBn5Uw3gpdmOvZceZM
- n4cY8wYja0ANWQVRqWQh4LWK0dKkVD+8yWDgObVCRcOpBy64MjLAzGxBEKPhmp1+x28/
- mcWA==
-X-Gm-Message-State: AOAM533wwIErzRwUPlzU1N4bRhSTS7t7QsqIM9RTMoB/uuk9VUMFuOJV
- yJb/h4pgcCttkCp30W/1ojbpXoqKwRtlcKJQiXI=
-X-Google-Smtp-Source: ABdhPJxwQhM0VwrZDzgZMrUStGdyvH+jN7lwZS+EXOpQhJJrNx++LabgnADKCtKIeqK1c7aTgJ4WaA81SvBc5k9HFYQ=
-X-Received: by 2002:ac2:592c:: with SMTP id v12mr8220891lfi.492.1604433011099; 
- Tue, 03 Nov 2020 11:50:11 -0800 (PST)
+ bh=lONBOVJhECPXIwdmERHjW8dVnU0cyFVIUWsiU0o3HZk=;
+ b=uHfMgDll4fgJ78sT3WXXInQD/GX/BmMv3zPejOk5WdkIAhAd/MXMRdTNQm1LYA1zsl
+ PHNQ4UHNWqrAjHnnEH6kSw0d3J3zJtDaVB7LeJXKr+0LggXhCg/f9zODdRXdR6xG3HhQ
+ Nkh5Sy8fB0KHr4bPMT8lMJG0X2sSzZNBe4+8XVWiGRlFneIPyavOJs8wc5Ms25mPrV8M
+ 6rJFTc75Ki4761PE8BHm+55zWYIpRDcIHtj351MZHZV4CxZLLqxv2EUNzhJqKGkB0Yx7
+ GKShcsTMrofRoXFuV3mV+leV/m3Zdz9kiCb70ZgCG5Js5MoRn5fvHG+Qux36bOyrdZd3
+ mO9g==
+X-Gm-Message-State: AOAM533HhTMNqDCb3Th5xar0anOVvBhmVaeZkSGkqfFUDNL7XyBi+iNM
+ w4XYIOP/hnC0f5WpNrmRSZZSxpM5Buwkpb6utEY=
+X-Google-Smtp-Source: ABdhPJwXacoHswwTbuxlZDha6SI7MgHPeCN7+R9ybGRg0u3s2RehRhj6VR91FojPkWWX7r9FXtk8uu/REciN7g6/Pqo=
+X-Received: by 2002:a05:6402:1615:: with SMTP id
+ f21mr24378630edv.257.1604433275434; 
+ Tue, 03 Nov 2020 11:54:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20201103015228.2250547-1-kuhn.chenqun@huawei.com>
- <20201103015228.2250547-3-kuhn.chenqun@huawei.com>
-In-Reply-To: <20201103015228.2250547-3-kuhn.chenqun@huawei.com>
-From: Yuval Shaia <yuval.shaia.ml@gmail.com>
-Date: Tue, 3 Nov 2020 21:49:59 +0200
-Message-ID: <CAMPkWoN1UA+jVBhhZCa3v0EiP+wBR_3gpBBwFWcFZQF0_3HgZQ@mail.gmail.com>
-Subject: Re: [PATCH 2/6] hw/rdma/rdma_backend: fix uninitialized variable
- warning in rdma_poll_cq()
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Content-Type: multipart/alternative; boundary="000000000000b14cee05b3392b70"
-Received-SPF: pass client-ip=2a00:1450:4864:20::144;
- envelope-from=yuval.shaia.ml@gmail.com; helo=mail-lf1-x144.google.com
+References: <20201015165255.1573897-1-marcandre.lureau@redhat.com>
+ <20201015165255.1573897-3-marcandre.lureau@redhat.com>
+ <dc5f64c4-7945-dc13-69d6-858c43dd479b@redhat.com>
+In-Reply-To: <dc5f64c4-7945-dc13-69d6-858c43dd479b@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 3 Nov 2020 23:54:22 +0400
+Message-ID: <CAJ+F1CKTqZ1urnH0sTQ+JPE5DaByytErN8yEe345+aNs3f467A@mail.gmail.com>
+Subject: Re: [PATCH 2/9] qapi: move gen_if/gen_endif to IfCond
+To: John Snow <jsnow@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000072c00305b3393bd1"
+Received-SPF: pass client-ip=2a00:1450:4864:20::544;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x544.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -78,136 +81,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ganqixin@huawei.com, qemu-trivial@nongnu.org,
- QEMU Developers <qemu-devel@nongnu.org>, Euler Robot <euler.robot@huawei.com>,
- zhang.zhanghailiang@huawei.com
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000b14cee05b3392b70
+--00000000000072c00305b3393bd1
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks,
+Hi
 
-Reviewed-by:  Yuval Shaia <yuval.shaia.ml@gmail.com>
+On Wed, Oct 28, 2020 at 1:32 AM John Snow <jsnow@redhat.com> wrote:
 
-On Tue, 3 Nov 2020 at 03:53, Chen Qun <kuhn.chenqun@huawei.com> wrote:
-
-> After the WITH_QEMU_LOCK_GUARD macro is added, the compiler cannot identi=
-fy
->  that the statements in the macro must be executed. As a result, some
-> variables
->  assignment statements in the macro may be considered as unexecuted by th=
-e
-> compiler.
+> On 10/15/20 12:52 PM, marcandre.lureau@redhat.com wrote:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > Move the generating function to the IfCond class.
+> > (avoid cluttering and potential missuse of global functions, allow
+> > access to private members etc)
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >   scripts/qapi/common.py     | 22 ++++++++++------------
+> >   scripts/qapi/gen.py        |  6 ++----
+> >   scripts/qapi/introspect.py |  6 ++----
+> >   scripts/qapi/types.py      | 22 ++++++++++------------
+> >   scripts/qapi/visit.py      | 14 ++++++--------
+> >   5 files changed, 30 insertions(+), 40 deletions(-)
+> >
 >
-> The compiler showed warning:
-> hw/rdma/rdma_backend.c: In function =E2=80=98rdma_poll_cq=E2=80=99:
-> hw/rdma/rdma_utils.h:25:5: warning: =E2=80=98ne=E2=80=99 may be used unin=
-itialized in this
-> function [-Wmaybe-uninitialized]
->  25 |     error_report("%s: " fmt, "rdma", ## __VA_ARGS__)
->     |     ^~~~~~~~~~~~
-> hw/rdma/rdma_backend.c:93:12: note: =E2=80=98ne=E2=80=99 was declared her=
-e
->  93 |     int i, ne, total_ne =3D 0;
->     |            ^~
->
-> Add a default value for 'ne' to prevented the warning.
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-> ---
-> Cc: Yuval Shaia <yuval.shaia.ml@gmail.com>
-> Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> ---
->  hw/rdma/rdma_backend.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-> index 5de010b1fa..2fe4a3501c 100644
-> --- a/hw/rdma/rdma_backend.c
-> +++ b/hw/rdma/rdma_backend.c
-> @@ -90,7 +90,7 @@ static void clean_recv_mads(RdmaBackendDev *backend_dev=
-)
->
->  static int rdma_poll_cq(RdmaDeviceResources *rdma_dev_res, struct ibv_cq
-> *ibcq)
->  {
-> -    int i, ne, total_ne =3D 0;
-> +    int i, ne =3D 0, total_ne =3D 0;
->      BackendCtx *bctx;
->      struct ibv_wc wc[2];
->      RdmaProtectedGSList *cqe_ctx_list;
-> --
-> 2.27.0
->
+> Seems straightforward enough, though I guess your 'Ifcond' object
+> becomes something more of a code generator class than a pure abstract
+> representation by absorbing C generation functions, yeah?
 >
 
---000000000000b14cee05b3392b70
+Right, in its current form (
+https://github.com/elmarco/qemu/blob/qapi-rs/scripts/qapi/common.py#L283),
+it has  "def gen_if(self) -> str" & "def gen_endif(self) -> str" (for C),
+as well as "def gen_rs_cfg(self) -> str" (for Rust).
+
+I didn't bother doing a visitor or other fancy design, as it's easy to
+iterate later if needed, imho.
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000072c00305b3393bd1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thanks,<div><br><div>Reviewed-by:=C2=A0 Yuval Shaia &lt;<a=
- href=3D"mailto:yuval.shaia.ml@gmail.com">yuval.shaia.ml@gmail.com</a>&gt;<=
-br></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, 3 Nov 2020 at 03:53, Chen Qun &lt;<a href=3D"mailto=
-:kuhn.chenqun@huawei.com">kuhn.chenqun@huawei.com</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">After the WITH_QEMU_LOCK_G=
-UARD macro is added, the compiler cannot identify<br>
-=C2=A0that the statements in the macro must be executed. As a result, some =
-variables<br>
-=C2=A0assignment statements in the macro may be considered as unexecuted by=
- the compiler.<br>
-<br>
-The compiler showed warning:<br>
-hw/rdma/rdma_backend.c: In function =E2=80=98rdma_poll_cq=E2=80=99:<br>
-hw/rdma/rdma_utils.h:25:5: warning: =E2=80=98ne=E2=80=99 may be used uninit=
-ialized in this function [-Wmaybe-uninitialized]<br>
-=C2=A025 |=C2=A0 =C2=A0 =C2=A0error_report(&quot;%s: &quot; fmt, &quot;rdma=
-&quot;, ## __VA_ARGS__)<br>
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0^~~~~~~~~~~~<br>
-hw/rdma/rdma_backend.c:93:12: note: =E2=80=98ne=E2=80=99 was declared here<=
-br>
-=C2=A093 |=C2=A0 =C2=A0 =C2=A0int i, ne, total_ne =3D 0;<br>
-=C2=A0 =C2=A0 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~<br>
-<br>
-Add a default value for &#39;ne&#39; to prevented the warning.<br>
-<br>
-Reported-by: Euler Robot &lt;<a href=3D"mailto:euler.robot@huawei.com" targ=
-et=3D"_blank">euler.robot@huawei.com</a>&gt;<br>
-Signed-off-by: Chen Qun &lt;<a href=3D"mailto:kuhn.chenqun@huawei.com" targ=
-et=3D"_blank">kuhn.chenqun@huawei.com</a>&gt;<br>
+<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Wed, Oct 28, 2020 at 1:32 AM John Snow &lt=
+;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">On 10/15/20 12:52 PM, =
+<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcandre.=
+lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; Move the generating function to the IfCond class.<br>
+&gt; (avoid cluttering and potential missuse of global functions, allow<br>
+&gt; access to private members etc)<br>
+&gt; <br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0scripts/qapi/common.py=C2=A0 =C2=A0 =C2=A0| 22 ++++++++++-=
+-----------<br>
+&gt;=C2=A0 =C2=A0scripts/qapi/gen.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 6 +=
++----<br>
+&gt;=C2=A0 =C2=A0scripts/qapi/introspect.py |=C2=A0 6 ++----<br>
+&gt;=C2=A0 =C2=A0scripts/qapi/types.py=C2=A0 =C2=A0 =C2=A0 | 22 ++++++++++-=
+-----------<br>
+&gt;=C2=A0 =C2=A0scripts/qapi/visit.py=C2=A0 =C2=A0 =C2=A0 | 14 ++++++-----=
 ---<br>
-Cc: Yuval Shaia &lt;<a href=3D"mailto:yuval.shaia.ml@gmail.com" target=3D"_=
-blank">yuval.shaia.ml@gmail.com</a>&gt;<br>
-Cc: Marcel Apfelbaum &lt;<a href=3D"mailto:marcel.apfelbaum@gmail.com" targ=
-et=3D"_blank">marcel.apfelbaum@gmail.com</a>&gt;<br>
----<br>
-=C2=A0hw/rdma/rdma_backend.c | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;=C2=A0 =C2=A05 files changed, 30 insertions(+), 40 deletions(-)<br>
+&gt; <br>
 <br>
-diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c<br>
-index 5de010b1fa..2fe4a3501c 100644<br>
---- a/hw/rdma/rdma_backend.c<br>
-+++ b/hw/rdma/rdma_backend.c<br>
-@@ -90,7 +90,7 @@ static void clean_recv_mads(RdmaBackendDev *backend_dev)<=
+Seems straightforward enough, though I guess your &#39;Ifcond&#39; object <=
 br>
-<br>
-=C2=A0static int rdma_poll_cq(RdmaDeviceResources *rdma_dev_res, struct ibv=
-_cq *ibcq)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 int i, ne, total_ne =3D 0;<br>
-+=C2=A0 =C2=A0 int i, ne =3D 0, total_ne =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0BackendCtx *bctx;<br>
-=C2=A0 =C2=A0 =C2=A0struct ibv_wc wc[2];<br>
-=C2=A0 =C2=A0 =C2=A0RdmaProtectedGSList *cqe_ctx_list;<br>
--- <br>
-2.27.0<br>
-<br>
-</blockquote></div>
+becomes something more of a code generator class than a pure abstract <br>
+representation by absorbing C generation functions, yeah?<br>
+</blockquote><div><br></div><div>Right, in its current form (<a href=3D"htt=
+ps://github.com/elmarco/qemu/blob/qapi-rs/scripts/qapi/common.py#L283">http=
+s://github.com/elmarco/qemu/blob/qapi-rs/scripts/qapi/common.py#L283</a>), =
+it has=C2=A0 &quot;def gen_if(self) -&gt; str&quot; &amp; &quot;def gen_end=
+if(self) -&gt; str&quot; (for C), as well as &quot;def gen_rs_cfg(self) -&g=
+t; str&quot; (for Rust).</div><div><br></div><div>I didn&#39;t bother doing=
+ a visitor or other fancy design, as it&#39;s easy to iterate later if need=
+ed, imho.<br></div></div><br>-- <br><div dir=3D"ltr" class=3D"gmail_signatu=
+re">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000b14cee05b3392b70--
+--00000000000072c00305b3393bd1--
 
