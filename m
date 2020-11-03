@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB39A2A4C0A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:54:30 +0100 (CET)
-Received: from localhost ([::1]:48986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB9462A4C0C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 17:55:07 +0100 (CET)
+Received: from localhost ([::1]:50596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZzZl-0008Ks-Nq
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:54:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48650)
+	id 1kZzaM-0000Y9-N1
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 11:55:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZzYU-0007Av-5o
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:53:10 -0500
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39901)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZzYf-0007Un-Rz
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:53:21 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:45645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZzYR-0005FC-So
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:53:09 -0500
-Received: by mail-pf1-x441.google.com with SMTP id z3so8347683pfz.6
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 08:53:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZzYd-0005In-SN
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 11:53:21 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id dk16so24597056ejb.12
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 08:53:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=B589FvnXtpMWbeAhQjtZHt3WqH6PPw9vab82qCgueJk=;
- b=UdsHU+Hc9d7g246hQ49u++95yhAb7xoQ72fGzdms5FMc/XEpi8aW2ThZ2X8uJEwdW0
- dMeV/SY+2nQd8ug+4nLt+BOm+xn8pRPQeRmEXfeTj6Q4Hgjx2H1oR4+K8RlvP/cWD6EK
- tRFKdhZP9qMuOg+N57T8o3qQ9ej/lv3X4qo2Z0TdEyZFczQAbVG+hKFdYxDfsmxPqu0k
- TIx4rY6Idxh/kOVYqx8oimg0QG5Qe8LsRnZnpp1figewWua2ZxZlivgPY8BKgRYjnVYb
- kHKccd2wgWoJ9QHfJUAXja3BTgFVwiqTje8RHLSsuCAdSB2xihM2u0yupX9E2PqEpRSY
- WU+A==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Ow7be7yIvwyZTgIltesRgojMz53wBXNGdbCtwze2KlM=;
+ b=cJ7U6h4wcOzfX1GMlP43INRX0mRHwzMsii8v/rOMH74NlqMATOikI/0rr5X+rvBkbc
+ bzhE91QEKM0hP2d1xYMhdMtza9d/CFa0hKAePJJbkzkLPjPqVPT/7RerfVa5C2mq/fMW
+ KJfJVgw5prLWZVm0VUZa6KeE7vshCeHid8GqV968okGQxevtKP2umjhQZoLO+tVn+14P
+ hFPuoKyN6xLip0+kCvJ/gJmJrVmJ/WwnaJ4Za0JoeSk+O7IsGwueb+nDlkGe7teavEQ7
+ 5MuhvEn0n0L+tamLamiL1EBvodHxF4guUEjjDLoNAHRlsE4MueqVEZlDWrcYtjgDJXTE
+ yYZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=B589FvnXtpMWbeAhQjtZHt3WqH6PPw9vab82qCgueJk=;
- b=S/tjtjkKTuuruA10mTprmLIW4vBUOkb41Fb3SBDngY6JAehdAhaciaKj4sOYJMUH+Q
- niTn4MvLJn3JZKJZNMKn5ZooTKQtPe4TGlvpV5SYr5mBQ4lj6sXBiUjzHZ4IiHDWi6FL
- nlPQoSyU+97KfoP5TUo+hxHG4++VfVpwOTecZwONj1rflS8Drcpq+ZuBhQBNxSeRpv/U
- swmfk7kUUzUp/+BtMV1hN4RzlnKRdQibNunKwBr9luPYkbqgJqz7N2bwy5z6IWslAemq
- obF7PLlO8RrNHYvgnLNlAal8x+yMiE4UdJ3+IT79ZHYBmX8XrDzZ/1MxGNQN7m8qWuyI
- 10cg==
-X-Gm-Message-State: AOAM532qTlInef6bwF5W/W9B2A++5QO9EHC9KjyELXIwPq6CtJ4oMv8c
- wASOV4cKMlRapnz8ctPAAgEoZQWHAjNg9Q==
-X-Google-Smtp-Source: ABdhPJwAEJGoK9w9R1vhz2o2RZ1J7BH4zOhq7GecyPBB+tlYcMSOyBUsu+0ackpMXd/FAp7aVTHRJQ==
-X-Received: by 2002:a17:90a:134b:: with SMTP id
- y11mr68719pjf.182.1604422386120; 
- Tue, 03 Nov 2020 08:53:06 -0800 (PST)
-Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id 145sm1711396pga.11.2020.11.03.08.53.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 08:53:05 -0800 (PST)
-Subject: Re: [PATCH 02/14] target/arm: use arm_is_el2_enabled() where
- applicable
-To: remi.denis.courmont@huawei.com, qemu-arm@nongnu.org
-References: <2172054.ElGaqSPkdT@basile.remlab.net>
- <20201102105802.39332-2-remi.denis.courmont@huawei.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f7fecf2b-1aef-ae0c-66b1-2dbbd7cfde18@linaro.org>
-Date: Tue, 3 Nov 2020 08:53:03 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Ow7be7yIvwyZTgIltesRgojMz53wBXNGdbCtwze2KlM=;
+ b=T6uZ5nksRn/LxEwH26KlA6odbyJlGYk6SJLJ947V0tXajMA2CMqIBzE2wdpO4FU6yj
+ icgpaRH5imoQoPK8y03GO/QhdbwH3mq9kyEKyGGV2TxpQ8s1BaTvrKNKsFYwmmiVpHSp
+ mDgnhHtWJIiLh7b6uKURcwIeemu5Df/iW6nXaJ+8TXuSgWPw+1R4wwNLp0MZw96QTxOs
+ TZKQtk7Zn6SajMeoh17rjY5Y2kZWPVYGDQs6Cckje+tS6pThTM7JZRjeEtV+1rxKWadm
+ bTYWdjji00lOOMZi68DSCn9G0vCgXB99e7lPwmxZAYbjhVZjfMihakPViGFhxRAOxxmY
+ +DQQ==
+X-Gm-Message-State: AOAM531wIgwA1LyHlSqKl6fvaxG4gjtSiEK1iVU0Clud2WKAL5om1WAt
+ EEwDm61Gy5C94qy5U9qC128fFRmqysEZXuqfgJC0Hg==
+X-Google-Smtp-Source: ABdhPJxUDRDFdTDMYyh9YSE3pTkQ9Qnj3iT7PWQzotKdBEhw22n8zLwv4aj2V9buhYnOJJYUGwBH+6/gu0KXcoadEnk=
+X-Received: by 2002:a17:907:9e3:: with SMTP id
+ ce3mr21193352ejc.4.1604422397843; 
+ Tue, 03 Nov 2020 08:53:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201102105802.39332-2-remi.denis.courmont@huawei.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::441;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x441.google.com
+References: <20201103152658.119563-1-kwolf@redhat.com>
+In-Reply-To: <20201103152658.119563-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Nov 2020 16:53:06 +0000
+Message-ID: <CAFEAcA-x8ZNNrke6if1WLBiyxYRQGrjSzYw5iBdGZt+3yZZp-g@mail.gmail.com>
+Subject: Re: [PULL 0/6] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -91,25 +79,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/2/20 2:57 AM, remi.denis.courmont@huawei.com wrote:
-> From: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> 
-> Do not assume that EL2 is available in non-secure context.
-> That equivalence is broken by ARMv8.4-SEL2.
-> 
-> Signed-off-by: Rémi Denis-Courmont <remi.denis.courmont@huawei.com>
-> ---
->  target/arm/cpu.h        |  4 ++--
->  target/arm/helper-a64.c |  8 +-------
->  target/arm/helper.c     | 33 +++++++++++++--------------------
->  3 files changed, 16 insertions(+), 29 deletions(-)
+On Tue, 3 Nov 2020 at 15:27, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 83851c7c60c90e9fb6a23ff48076387a77bc33cd:
+>
+>   Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-10-27-v3-tag' into staging (2020-11-03 12:47:58 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to c9eb2f3e386840844bcc91e66d0a3475bc650780:
+>
+>   block/vvfat: Fix bad printf format specifiers (2020-11-03 16:24:56 +0100)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - iotests: Fix pylint/mypy warnings with Python 3.9
+> - qmp: fix aio_poll() assertion failure on Windows
+> - Some minor fixes
+>
+> ----------------------------------------------------------------
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+Applied, thanks.
 
-r~
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
