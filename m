@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8433A2A4C7F
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:16:22 +0100 (CET)
-Received: from localhost ([::1]:37290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4382A4C87
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 18:17:32 +0100 (CET)
+Received: from localhost ([::1]:41844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZzuv-0002c2-In
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:16:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55548)
+	id 1kZzw3-0004Zl-L5
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 12:17:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZztq-000211-3e
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:15:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46372)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kZzto-0004hu-Gs
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:15:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604423711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DnKtQ25ZhyvNzyRAGpetjcC/qDZMdfc25zT/VFEDofc=;
- b=YvbHxIOaCVkC4hP5uctFiVZS6l+/SlefIjQT7Q5kn34/Kv41K/vku3FznxSXCsqe6sa6I/
- Y3JkDJE6qTpnxKsOIyhs1OcdxZGbg/1r5jY2xIey5SoYvE8R+5HblSh1QjUx+eAIakIenL
- uJNBBBJC25V6x2I7daqnXaHdWErR+YE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-297-BzukcTQlN76FpiOmGzNUFg-1; Tue, 03 Nov 2020 12:15:06 -0500
-X-MC-Unique: BzukcTQlN76FpiOmGzNUFg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47C33186DD33;
- Tue,  3 Nov 2020 17:15:05 +0000 (UTC)
-Received: from localhost (ovpn-115-37.ams2.redhat.com [10.36.115.37])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CBF61002C3A;
- Tue,  3 Nov 2020 17:15:00 +0000 (UTC)
-Date: Tue, 3 Nov 2020 17:14:57 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH-for-5.2 v2 00/25] block/nvme: Fix Aarch64 or big-endian
- hosts
-Message-ID: <20201103171457.GB259481@stefanha-x1.localdomain>
-References: <20201029093306.1063879-1-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kZztu-00025H-LM
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:15:18 -0500
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36890)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kZzts-0004iw-N5
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 12:15:18 -0500
+Received: by mail-wm1-x343.google.com with SMTP id c16so70209wmd.2
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 09:15:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RIDi68FtSRrge15G39Uk8YncI2fL88pAS4XBX1V0648=;
+ b=CyP5D4JO2CrrgU3L3goTHlPUc+4fnBvtflccVo8gTfPX7WjCFV3mD51JbvXou44sw3
+ 9rLP6/6oFpTMH0rsH4o0M2+xjMRwShDiz1veQVFS7vKVvY7VWwAbSTUbA8gwliav+NT2
+ 3U9xF27EFJha3TJoZBF4K7jp8blAIAbjNb3VWW5qcU7+/oqbV1A29AfR2D/NNcChbabz
+ 5CMUyLRsfqt2Iyy5W5PAY6yux/30NPAmc4ScbVIbIKvE+ePtjOh35jczIZbj0IrUtcKP
+ zrEuP5ym5ixKIZ0nmuUWt+zW3mziKN78KaK99RQPYp4NwR26+Msuh7bWRO+YdRgD3MN0
+ /I/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RIDi68FtSRrge15G39Uk8YncI2fL88pAS4XBX1V0648=;
+ b=gYp+UNnVH+jU2qs7qXYsqarDYF+tW6zP6Me2VmzrUExPQA2LzCuBnOniPyJXDcEZc7
+ /yrXHP4cbcKyFqXJZcZLNR8QGrbeJO2pWC6zUlYUqBkUYjNX3GrCFjBPj11oiZlI1kLW
+ VsUjbOCVVrkBOIkKT+MwPbvZ47ZkD1op37d4iBjzVRw5OvmzFobvljiVs7b12lHWDNmD
+ RmFfX6OtS+4/W4qU0r3K1m6BP+vyggXC+RlD4KizFu7V0MmYzrMGjrMAGZdwO4OkBGpv
+ j+5lSfhO+QQwoCoSOl6Q128e8Z1V5bvUMiopJCxyHFW4EX3vTxG7OWfje1pK48A1pGFe
+ sr9g==
+X-Gm-Message-State: AOAM533TtseNBARDPTKSYQJ/UZzlGJ9o5ESjpZGQRaPz4Rxtf3yjyJ8d
+ LFp1FJ2z/+56wgPxTjNTcIM=
+X-Google-Smtp-Source: ABdhPJyCBlKEreZS52jw6AzS1Uixj7Z9kKkbE7Ge8Nj1UYQZDCEhQ/vINT4LdrLB2UlZyXnR7Nq24Q==
+X-Received: by 2002:a1c:2c43:: with SMTP id s64mr169766wms.130.1604423715190; 
+ Tue, 03 Nov 2020 09:15:15 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id d8sm3378681wmb.11.2020.11.03.09.15.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 03 Nov 2020 09:15:14 -0800 (PST)
+Subject: Re: [PATCH] hw/intc: Fix incorrect calculation of core in
+ liointc_read() and liointc_write()
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, AlexChen <alex.chen@huawei.com>,
+ chenhc@lemote.com
+References: <5FA12391.8090400@huawei.com>
+ <a4915556-bc78-a8c4-c887-f53ed14251b6@amsat.org>
+ <02FD0B38-19BC-442F-9DAB-1B56BB8115B0@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <1c3e1462-fdbf-5e2e-6664-28e3ea44b609@amsat.org>
+Date: Tue, 3 Nov 2020 18:15:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201029093306.1063879-1-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="9zSXsLTf0vkW971A"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <02FD0B38-19BC-442F-9DAB-1B56BB8115B0@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::343;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x343.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,91 +94,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Eric Auger <eric.auger@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: zhengchuan@huawei.com, Markus Armbruster <armbru@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---9zSXsLTf0vkW971A
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/3/20 4:40 PM, Jiaxun Yang wrote:
+> 于 2020年11月3日 GMT+08:00 下午8:28:27, "Philippe Mathieu-Daudé" <f4bug@amsat.org> 写到:
+>> On 11/3/20 10:32 AM, AlexChen wrote:
+>>> According to the loongson spec
+>>> (http://www.loongson.cn/uploadfile/cpu/3B1500/Loongson_3B1500_cpu_user_1.pdf)
+>>> and the macro definition(#define R_PERCORE_ISR(x) (0x40 + 0x8 * x)), we know
+>>> that the ISR size of per CORE is 8, so here we need to divide
+>>> (addr - R_PERCORE_ISR(0)) by 8, not 4.
+>>>
+>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+>>> ---
+>>>  hw/intc/loongson_liointc.c | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> For a model added in 2020, its code style is a bit
+>> disappointing (leading to that kind of hidden bugs).
+>> I'm even surprised it passed the review process.
+>>
+>> Thanks for the fix.
+>>
+>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> It was my proof of concept code.
 
-On Thu, Oct 29, 2020 at 10:32:41AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Add a bit of tracing, clean around to finally fix few bugs.
-> In particular, restore NVMe on Aarch64 host.
->=20
-> Since v1:
-> - addressed Stefan and Eric review comments
-> - dropped unnecessary patches
-> - added BE fix reported by Keith
->=20
-> Patches missing review: #10, #24, #25
->=20
-> Supersedes: <20201027135547.374946-1-philmd@redhat.com>
->=20
-> Eric Auger (4):
->   block/nvme: Change size and alignment of IDENTIFY response buffer
->   block/nvme: Change size and alignment of queue
->   block/nvme: Change size and alignment of prp_list_pages
->   block/nvme: Align iov's va and size on host page size
->=20
-> Philippe Mathieu-Daud=E9 (21):
->   MAINTAINERS: Cover 'block/nvme.h' file
->   block/nvme: Use hex format to display offset in trace events
->   block/nvme: Report warning with warn_report()
->   block/nvme: Trace controller capabilities
->   block/nvme: Trace nvme_poll_queue() per queue
->   block/nvme: Improve nvme_free_req_queue_wait() trace information
->   block/nvme: Trace queue pair creation/deletion
->   block/nvme: Move definitions before structure declarations
->   block/nvme: Use unsigned integer for queue counter/size
->   block/nvme: Make nvme_identify() return boolean indicating error
->   block/nvme: Make nvme_init_queue() return boolean indicating error
->   block/nvme: Introduce Completion Queue definitions
->   block/nvme: Use definitions instead of magic values in add_io_queue()
->   block/nvme: Correctly initialize Admin Queue Attributes
->   block/nvme: Simplify ADMIN queue access
->   block/nvme: Simplify nvme_cmd_sync()
->   block/nvme: Set request_alignment at initialization
->   block/nvme: Correct minimum device page size
->   block/nvme: Fix use of write-only doorbells page on Aarch64 arch
->   block/nvme: Fix nvme_submit_command() on big-endian host
->   block/nvme: Simplify Completion Queue Command Identifier field use
->=20
->  include/block/nvme.h |  18 ++--
->  block/nvme.c         | 213 ++++++++++++++++++++++++-------------------
->  MAINTAINERS          |   2 +
->  block/trace-events   |  30 +++---
->  4 files changed, 150 insertions(+), 113 deletions(-)
->=20
-> --=20
-> 2.26.2
->=20
->=20
+Don't worry Jiaxun, this comment is not to you, but to
+the QEMU community as a whole. We should have asked
+improvements during review, and explain what could be
+improve, what is not the best style but acceptable,
+and what is good.
 
-Thanks, applied the 5.2 patches to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+> Any suggestions on enhancement?
+> I'll have some free time afterwards so probably can do something.
 
-Stefan
+It is a bit awkward to not comment on a patch (diff).
+Comment I'd have made:
 
---9zSXsLTf0vkW971A
-Content-Type: application/pgp-signature; name="signature.asc"
+- Add definition for 0x8 magic value in R_PERCORE_ISR()
+- Replace R_PERCORE_ISR() macro my function
+- Replace dead D() code by trace events
+- Use a simple 32-bit implementation (pic_ops.impl.min/max = 4)
+  to let the generic memory code deal with the 8-bit accesses
+  to mapper[].
 
------BEGIN PGP SIGNATURE-----
+If you have time, today what would be more useful is to have
+tests for the Loongson-3 board.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+hkBEACgkQnKSrs4Gr
-c8ileggArs55IPlNdr3tVQK2KWnj3kjugOzJppqbH0OiKUizHUClKx/vWhsBTTWk
-Hoo414rVWcqOJYt/9XeGkGF8w8izb1LAwzgq6W14tqi3OsPBEKHDMDdB6Opjchgk
-u7jW5maLdJyHxWuv9mUvrLZkqJL/LHQLWRgnHM/5IU+uc+HRrx8X3cxF4e3nEYQB
-+LM7OiLPpk7F3k+VRVIMl8IrksPcS1OMQDZx7ZdgjTkxuyPFTcKHkn5wpcXeaUum
-mCrWoQlGz9In1El0H/703BmUk1XMsu+HfnzWCXopBZlXj3exD97rv/lToS1I1sp5
-6vAKsA0e7p12rvb51tTMA4DFeatHag==
-=E1MZ
------END PGP SIGNATURE-----
+You can see some examples with the Malta board in the repository:
 
---9zSXsLTf0vkW971A--
+$ git-grep malta tests/acceptance/
 
+Regards,
+
+Phil.
 
