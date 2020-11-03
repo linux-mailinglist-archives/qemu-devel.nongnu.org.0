@@ -2,51 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D78F62A44FE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:24:45 +0100 (CET)
-Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4802B2A44BF
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:04:18 +0100 (CET)
+Received: from localhost ([::1]:57508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvMi-0004fQ-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:24:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47862)
+	id 1kZv2v-0006ek-DA
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:04:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kZvIM-0008Np-N3
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:20:14 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2129)
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1kZv1E-0005pd-K5
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:02:34 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:18160)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cenjiahui@huawei.com>)
- id 1kZvII-000854-AB
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:20:14 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CQTPc74msz702w;
- Tue,  3 Nov 2020 20:20:04 +0800 (CST)
-Received: from localhost (10.174.184.155) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
- 20:19:59 +0800
-From: Jiahui Cen <cenjiahui@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH v9 8/8] unit-test: Add the binary file and clear diff.h
-Date: Tue, 3 Nov 2020 20:01:57 +0800
-Message-ID: <20201103120157.2286-9-cenjiahui@huawei.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201103120157.2286-1-cenjiahui@huawei.com>
-References: <20201103120157.2286-1-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <mhartmay@linux.ibm.com>)
+ id 1kZv1C-00027t-FH
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:02:32 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A3C2JsQ014655
+ for <qemu-devel@nongnu.org>; Tue, 3 Nov 2020 07:02:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=cNIgARiivTyOkEUSFFeM+bsbdjetqv21HquJ0TFfBx8=;
+ b=qrYbDXtBHacxM532r7KSFpe6JWC6MHvAwtr6mOF+/rIY5iFWP7fbIUccZFXs/cz+KAHt
+ K3/r255ObStxJ4jJ+vQrQAeelWbwnrIw/jW9hpur6qql5YCPeEfItxBjrCcDIQ0Db0nx
+ oDoJY0RYLwfy4Po9iRmkTWy/MzW3b75UaEZ4A3mzy71xLq78chSG+zETjfwzKtj0yIKS
+ mrQO9KrvuXFIKdHnuDtyzexKrDYiC3VuRzBjRcSgD5+h7VhCdo1MP5YkEDsxwXdKxHGx
+ ccW8MEhALXqdn8PolRpMuPIPY5qNEiq7+SjfC+gDjQHRR/UOsnab3cD5Trj3YJqi5Vj8 fA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34jyyt4c0m-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 07:02:27 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A3C2RIo015393
+ for <qemu-devel@nongnu.org>; Tue, 3 Nov 2020 07:02:27 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34jyyt4byq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 07:02:27 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A3BsYUV014752;
+ Tue, 3 Nov 2020 12:02:25 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma03fra.de.ibm.com with ESMTP id 34j8rh8tsm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 03 Nov 2020 12:02:24 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A3C2Msu8913534
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 3 Nov 2020 12:02:22 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 72E5DA4054;
+ Tue,  3 Nov 2020 12:02:22 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2423DA4066;
+ Tue,  3 Nov 2020 12:02:22 +0000 (GMT)
+Received: from marcibm (unknown [9.145.145.228])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Tue,  3 Nov 2020 12:02:22 +0000 (GMT)
+From: Marc Hartmayer <mhartmay@linux.ibm.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH] meson: vhost-user-gpu/virtiofsd: use absolute path
+In-Reply-To: <4798e23a-da0b-22f6-05bd-2373768a241c@redhat.com>
+References: <20201103112333.24734-1-mhartmay@linux.ibm.com>
+ <877dr28ysh.fsf@linux.ibm.com>
+ <4798e23a-da0b-22f6-05bd-2373768a241c@redhat.com>
+Date: Tue, 03 Nov 2020 13:02:21 +0100
+Message-ID: <871rha8x82.fsf@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.184.155]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=cenjiahui@huawei.com;
- helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 04:32:14
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
+ definitions=2020-11-03_08:2020-11-03,
+ 2020-11-03 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 bulkscore=0
+ impostorscore=0 clxscore=1015 suspectscore=2 priorityscore=1501
+ adultscore=0 spamscore=0 lowpriorityscore=0 mlxlogscore=999 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011030079
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=mhartmay@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 05:07:52
+X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,75 +113,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: xieyingtai@huawei.com, peter.maydell@linaro.org,
- Jiahui Cen <cenjiahui@huawei.com>, berrange@redhat.com, mst@redhat.com,
- xiexiangyou@huawei.com, shannon.zhaosl@gmail.com, miaoyubo@huawei.com,
- imammedo@redhat.com, lersek@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yubo Miao <miaoyubo@huawei.com>
+On Tue, Nov 03, 2020 at 12:55 PM +0100, Paolo Bonzini <pbonzini@redhat.com>=
+ wrote:
+> On 03/11/20 12:28, Marc Hartmayer wrote:
+>> On Tue, Nov 03, 2020 at 12:23 PM +0100, Marc Hartmayer <mhartmay@linux.i=
+bm.com> wrote:
+>>> The option `libexecdir` is relative to `prefix` (see
+>>> https://mesonbuild.com/Builtin-options.html), so we have to be aware
+>>> of this when creating 50-qemu-gpu.json and
+>>> 50-qemu-virtiofsd.json. Otherwise, tools like libvirt will not be able
+>>> to find the executable.
+>>>
+>>> Fixes: 16bf7a3326d8 ("configure: move directory options from config-hos=
+t.mak to meson")
+>>> Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
+>>> ---
+>>>  contrib/vhost-user-gpu/meson.build | 2 +-
+>>>  tools/virtiofsd/meson.build        | 2 +-
+>>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gp=
+u/meson.build
+>>> index 37ecca13cafb..c487ca72c1ff 100644
+>>> --- a/contrib/vhost-user-gpu/meson.build
+>>> +++ b/contrib/vhost-user-gpu/meson.build
+>>> @@ -9,6 +9,6 @@ if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in =
+config_host \
+>>>
+>>>    configure_file(input: '50-qemu-gpu.json.in',
+>>>                   output: '50-qemu-gpu.json',
+>>> -                 configuration: { 'libexecdir' : get_option('libexecdi=
+r') },
+>>> +                 configuration: { 'libexecdir' : get_option('prefix') =
+/ get_option('libexecdir') },
+>>>                   install_dir: qemu_datadir / 'vhost-user')
+>>>  endif
+>>> diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
+>>> index e1a4dc98d9ec..17edecf55c0a 100644
+>>> --- a/tools/virtiofsd/meson.build
+>>> +++ b/tools/virtiofsd/meson.build
+>>> @@ -15,5 +15,5 @@ executable('virtiofsd', files(
+>>>
+>>>  configure_file(input: '50-qemu-virtiofsd.json.in',
+>>>                 output: '50-qemu-virtiofsd.json',
+>>> -               configuration: { 'libexecdir' : get_option('libexecdir'=
+) },
+>>> +               configuration: { 'libexecdir' : get_option('prefix') / =
+get_option('libexecdir') },
+>>>                 install_dir: qemu_datadir / 'vhost-user')
+>>> --=20
+>>> 2.25.4
+>>>
+>>>
+>>=20
+>> It=E2=80=99s probably not the best way to fix it, but at least a good hi=
+nt
+>> what=E2=80=99s wrong :)
+>
+> No, it's okay.  I queued it.
 
-Add the binary file DSDT.pxb and clear bios-tables-test-allowed-diff.h
+Thanks :)
 
-Signed-off-by: Yubo Miao <miaoyubo@huawei.com>
-Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
----
- tests/data/acpi/virt/DSDT.pxb               | Bin 0 -> 7802 bytes
- tests/qtest/bios-tables-test-allowed-diff.h |   1 -
- 2 files changed, 1 deletion(-)
- create mode 100644 tests/data/acpi/virt/DSDT.pxb
+>
+> Paolo
+>
+--=20
+Kind regards / Beste Gr=C3=BC=C3=9Fe
+   Marc Hartmayer
 
-diff --git a/tests/data/acpi/virt/DSDT.pxb b/tests/data/acpi/virt/DSDT.pxb
-new file mode 100644
-index 0000000000000000000000000000000000000000..d5f0533a02d62bc2ae2db9b9de9484e5c06652fe
-GIT binary patch
-literal 7802
-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
-ATL1t6
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index 90c53925fc..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,2 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/DSDT.pxb",
--- 
-2.19.1
-
+IBM Deutschland Research & Development GmbH
+Vorsitzender des Aufsichtsrats: Gregor Pillen=20
+Gesch=C3=A4ftsf=C3=BChrung: Dirk Wittkopp
+Sitz der Gesellschaft: B=C3=B6blingen
+Registergericht: Amtsgericht Stuttgart, HRB 243294
 
