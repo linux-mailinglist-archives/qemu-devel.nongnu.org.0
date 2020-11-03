@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE19A2A455B
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:42:02 +0100 (CET)
-Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CE822A456C
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:45:36 +0100 (CET)
+Received: from localhost ([::1]:56158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvdR-0006ds-Tz
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:42:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52042)
+	id 1kZvgt-0000h1-4i
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:45:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvb2-0005aR-QX
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:39:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35974)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kZveo-0008CC-7J
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:43:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kZvb0-0006OO-MZ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:39:32 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1kZvei-0007ja-RH
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:43:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604407165;
+ s=mimecast20190719; t=1604407399;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UI6Y4+XlJlwrHvxocB3ncP7ba8NPybAEToiaJnoIIyI=;
- b=Ts3Ix3o3h8sV7RTCxennQ5YDR6aviviUMswXgDMyrv+5rs8PKBwbNzYbDkim8aXRi0iZCY
- aNvqkQTIy0QrE4saQAGGxZKp4zAQDKTguLfydcADuFVE3o/d9k8MCOQXuI8MDKQkKLcz/y
- kDd9K938EfEl7UJmrzCsLk/lpYJElCY=
+ bh=rn9gc3ibgYP5yyzdUD+0i+5y3fmAU2EWC7mUiX0WCqI=;
+ b=Mq/oHWpTqx+DKBJd+vlEXaGGLmwefILNPBWxLA/FqWM/ONSBiq3BTCK/6ZzYNBtDsI51G+
+ 6FW5kqJRR9iDgwSbrO6DCtcubQpsYXFaLV2OHP9592pVh4NawBYUsEcSKQeFWCDgL1radQ
+ 25zuXmySSHsum6++MYYgA/apVACnkh4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-164-z2r4LVopP_-IEtFB6vhpUA-1; Tue, 03 Nov 2020 07:39:21 -0500
-X-MC-Unique: z2r4LVopP_-IEtFB6vhpUA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-73-JUVbyhckPJ2a6iBNBY_7fQ-1; Tue, 03 Nov 2020 07:43:17 -0500
+X-MC-Unique: JUVbyhckPJ2a6iBNBY_7fQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4245180364D;
- Tue,  3 Nov 2020 12:39:20 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F47F1002D49;
- Tue,  3 Nov 2020 12:39:16 +0000 (UTC)
-Date: Tue, 3 Nov 2020 13:39:13 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: Question on UEFI ACPI tables setup and probing on arm64
-Message-ID: <20201103133913.1fee3337@redhat.com>
-In-Reply-To: <ee3b7fdf-f6ba-cafc-5b44-42b0bcda01c5@huawei.com>
-References: <ee3b7fdf-f6ba-cafc-5b44-42b0bcda01c5@huawei.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40C561009E25;
+ Tue,  3 Nov 2020 12:43:16 +0000 (UTC)
+Received: from work-vm (ovpn-115-84.ams2.redhat.com [10.36.115.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BFEE060BF1;
+ Tue,  3 Nov 2020 12:42:58 +0000 (UTC)
+Date: Tue, 3 Nov 2020 12:42:55 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 1/4] hw/display/cirrus_vga: Remove debugging code
+ commented out
+Message-ID: <20201103124255.GE3566@work-vm>
+References: <20201103112558.2554390-1-philmd@redhat.com>
+ <20201103112558.2554390-2-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20201103112558.2554390-2-philmd@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,66 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, lersek@redhat.com,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- "wangzhigang17@huawei.com" <wangzhigang17@huawei.com>, philmd@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org, Dov Murik <dovmurik@linux.vnet.ibm.com>,
+ qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 30 Oct 2020 10:50:01 +0800
-Ying Fang <fangying1@huawei.com> wrote:
+* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> Commit ec87f206d70 ("cirrus: replace debug printf with trace points")
+> forgot to remove this code once replaced. Do it now.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> Hi,
-> 
-> I have a question on UEFI/ACPI tables setup and probing on arm64 platform.
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-CCing Laszlo,
-who might know how it's implemented.
- 
-> Currently on arm64 platform guest can be booted with both fdt and ACPI
-> supported. If ACPI is enabled, [1] says the only defined method for
-> passing ACPI tables to the kernel is via the UEFI system configuration
-> table. So AFAIK, ACPI Should be dependent on UEFI.
+> ---
+>  hw/display/cirrus_vga.c | 18 ------------------
+>  1 file changed, 18 deletions(-)
 > 
-> What's more [2] says UEFI kernel support on the ARM architectures
-> is only available through a *stub*. The stub populates the FDT /chosen
-> node with some UEFI parameters describing the UEFI location info.
+> diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
+> index 722b9e7004c..e14096deb46 100644
+> --- a/hw/display/cirrus_vga.c
+> +++ b/hw/display/cirrus_vga.c
+> @@ -2532,9 +2532,6 @@ static uint64_t cirrus_vga_ioport_read(void *opaque, hwaddr addr,
+>  	case 0x3c5:
+>  	    val = cirrus_vga_read_sr(c);
+>              break;
+> -#ifdef DEBUG_VGA_REG
+> -	    printf("vga: read SR%x = 0x%02x\n", s->sr_index, val);
+> -#endif
+>  	    break;
+>  	case 0x3c6:
+>  	    val = cirrus_read_hidden_dac(c);
+> @@ -2560,9 +2557,6 @@ static uint64_t cirrus_vga_ioport_read(void *opaque, hwaddr addr,
+>  	    break;
+>  	case 0x3cf:
+>  	    val = cirrus_vga_read_gr(c, s->gr_index);
+> -#ifdef DEBUG_VGA_REG
+> -	    printf("vga: read GR%x = 0x%02x\n", s->gr_index, val);
+> -#endif
+>  	    break;
+>  	case 0x3b4:
+>  	case 0x3d4:
+> @@ -2571,9 +2565,6 @@ static uint64_t cirrus_vga_ioport_read(void *opaque, hwaddr addr,
+>  	case 0x3b5:
+>  	case 0x3d5:
+>              val = cirrus_vga_read_cr(c, s->cr_index);
+> -#ifdef DEBUG_VGA_REG
+> -	    printf("vga: read CR%x = 0x%02x\n", s->cr_index, val);
+> -#endif
+>  	    break;
+>  	case 0x3ba:
+>  	case 0x3da:
+> @@ -2645,9 +2636,6 @@ static void cirrus_vga_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+>  	s->sr_index = val;
+>  	break;
+>      case 0x3c5:
+> -#ifdef DEBUG_VGA_REG
+> -	printf("vga: write SR%x = 0x%02" PRIu64 "\n", s->sr_index, val);
+> -#endif
+>  	cirrus_vga_write_sr(c, val);
+>          break;
+>      case 0x3c6:
+> @@ -2670,9 +2658,6 @@ static void cirrus_vga_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+>  	s->gr_index = val;
+>  	break;
+>      case 0x3cf:
+> -#ifdef DEBUG_VGA_REG
+> -	printf("vga: write GR%x = 0x%02" PRIu64 "\n", s->gr_index, val);
+> -#endif
+>  	cirrus_vga_write_gr(c, s->gr_index, val);
+>  	break;
+>      case 0x3b4:
+> @@ -2681,9 +2666,6 @@ static void cirrus_vga_ioport_write(void *opaque, hwaddr addr, uint64_t val,
+>  	break;
+>      case 0x3b5:
+>      case 0x3d5:
+> -#ifdef DEBUG_VGA_REG
+> -	printf("vga: write CR%x = 0x%02"PRIu64"\n", s->cr_index, val);
+> -#endif
+>  	cirrus_vga_write_cr(c, val);
+>  	break;
+>      case 0x3ba:
+> -- 
+> 2.26.2
 > 
-> So i dump /sys/firmware/fdt from the guest, it does have something like:
-> 
-> /dts-v1/;
-> 
-> / {
-> 	#size-cells = <0x02>;
-> 	#address-cells = <0x02>;
-> 
-> 	chosen {
-> 		linux,uefi-mmap-desc-ver = <0x01>;
-> 		linux,uefi-mmap-desc-size = <0x30>;
-> 		linux,uefi-mmap-size = <0x810>;
-> 		linux,uefi-mmap-start = <0x04 0x3c0ce018>;
-> 		linux,uefi-system-table = <0x04 0x3f8b0018>;
-> 		bootargs = "BOOT_IMAGE=/vmlinuz-4.19.90-2003.4.0.0036.oe1.aarch64 
-> root=/dev/mapper/openeuler-root ro rd.lvm.lv=openeuler/root 
-> rd.lvm.lv=openeuler/swap video=VGA-1:640x480-32@60me 
-> smmu.bypassdev=0x1000:0x17 smmu.bypassdev=0x1000:0x15 
-> crashkernel=1024M,high video=efifb:off video=VGA-1:640x480-32@60me";
-> 		linux,initrd-end = <0x04 0x3a85a5da>;
-> 		linux,initrd-start = <0x04 0x392f2000>;
-> 	};
-> };
-> 
-> But the question is that I did not see any code adding the uefi
-> in fdt chosen node in *arm_load_dtb* or anywhere else.
-> Qemu only maps the OVMF binary file into a pflash device.
-> So I'm really confused on how UEFI information is provided to
-> guest by qemu. Does anybody know of the details about it ?
-> 
-> [1] https://www.kernel.org/doc/html/latest/arm64/arm-acpi.html
-> [2] https://www.kernel.org/doc/Documentation/arm/uefi.rst
-> 
-> Thanks.
-> Ying
-> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
