@@ -2,94 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE652A38D7
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:22:48 +0100 (CET)
-Received: from localhost ([::1]:43462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29952A399F
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:27:07 +0100 (CET)
+Received: from localhost ([::1]:51924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZl27-0003Fx-4u
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:22:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50852)
+	id 1kZl6I-0006wz-NA
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:27:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZksR-0006RH-0c
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:12:47 -0500
+ id 1kZksT-0006Vx-QV
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:12:49 -0500
 Received: from mail-mw2nam10on2058.outbound.protection.outlook.com
  ([40.107.94.58]:64832 helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZksM-0005WU-0p
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:12:44 -0500
+ id 1kZksR-0005WU-JE
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:12:49 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DS1JQeFb+O/cloX/uk0gzpugVpMpFzQAyqzAKru5efAu8B1HJAlUmjY1fbNQLFmocwbtUH6dX+GzpNWt5iKLM7zksua8UXLInfZCnjOIymdVCl/ARpu7ozf6YWkRWfUmMDBa6TREF8Mumwm0N5wEKJk78up9Tu9qOgOKFp6+ugwAsLZqS5Kiupk7CQYRzIQpZXAe/X8xOB1jAUQnvDcguhtVNyTr3XWP26E9Az4HL2LtqS3HvPLQxMktPa7857I4wh1M+CkAB+rvMaQGPus9hoUGhsrM7fXBEVwEdHTMNtsS2yW/bZqKrS4CqSDpq1D5HAbi0AxCqIoxF5Qp4I1+IQ==
+ b=gJ6dXhOGvh+oogKpK8YFGk5hL2h+UvNS9x+x9QWEk40GOIB8mJ2TMBBmNBP5Z3KjSSEzpK/sqikGOc3ve0lTx6LKXSP8dTCQkYkMcNggLwNjYT7U3BEIq8UNKLzq0VSu6YYAGZXh0LAxupxVzIUSWpFPWuanXKfG4ZIpEJ4sngCOMgzt4rGrI0HUOe97tbiV8cLzol63Q1fXIqg9CYK58PNBn009RP+/L4dF7H2KiPRWVdEkkzSTECi4mueFDBte3OaejWUzNtnGBfulAv26dsy0lIsbm9z0EPvk6UUgE8DVh72xNxe36cejWcgKJcejV1koi5p3bqkAXOgFfdDXkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uLYNCImMe2utqvDZqwMheGO5CLksdSPZ6Oc6wmQm9/Q=;
- b=oeKrGuP7YkrJtRWMswmASlfJFqKXN/VQEcCOcDbcjk/gEkz4+0mA/pkRlQArYAmaDlytGJNubxq8FmYmV3y+2R3Fdr8oQcr79OTCJuwRsexyoqGCSge+bV2CLpTd38Fs+VbhbcddjWaADLktoqB3PTpk5nVVZFfL69dO6L9eE+GUYEHqrH9OImf/cCDbdETiYZSfBjWMkSuPQlETXLJCcb7ieuE4oFSvR6fLMXem1q1S90UMmyLYRVnJGCQobv2mxRcClC0sQTNCkEVo1ws/qQygEP2Ln0NQyqXPiwJxW9VBnV++WuktgV2HszZGpw2TciaW4y60R7Gk22ANPzc4+w==
+ bh=ppi/Xh995pP+WTM9r/wbc0QZQ9H8XIWE/UmcUBhTc9c=;
+ b=MG7rW2bEKwWme1gfVxoBG2aaW16Ccs/u7k+nysfZoO86+adIdbDREsU+5F95kUjoxWUncgD8q90H8rfmWFOvqzfX73E3pYalGJDxvnqyke0S94L/dnx0pK2ZpmleZWca3UJKidyFZLwTxQS4dYTuBSZxbvXU9/+IgvbiCaazYEpPSxjLvnvJ6d0q4N1GVuNkhsuo5xB8/4/yUasmZXZSIexyOc2TAV4uEQO2mP2k/5IxHi/QYuE/Yj1vSTaCNsqCivII5x+gatYvQFxEIdMieoaugJMd0fZNqEwAkocevAnkWOaobZMbxhlsIpFJmhSSs1PdJss60SBbJc6KvK3Euw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uLYNCImMe2utqvDZqwMheGO5CLksdSPZ6Oc6wmQm9/Q=;
- b=A7PrcLOPGSWAlX6eQW0uw5bky9cBmkqoRe36D2OFZELh7/I2GLzT4mT/oWWsPlV50AffabwpI6xzMSl82r4hgJ3icsUPYqkbXEBFJlFc7Dyo1YvORl/UKr0JT80+J8seM/DPFXQjnz04GzPlyqtLpU6twSTRspZVly2ptbcoZbQ=
+ bh=ppi/Xh995pP+WTM9r/wbc0QZQ9H8XIWE/UmcUBhTc9c=;
+ b=ZztAKNAr9H6qVbFijIXZFGnAzzGbVF3cBYDU5UQJm0AgUYyy7F4FPs+E1QVpk/T24LeSIHG/icxUoKg5j8sBVC2UOZCSh4bpt+0hLl9u/DnSBpYA085CjS8MUjTJB66YY6Zo+TiT8WxdGvq5absQjoZR1kEmMLBizxdDCuv4wjk=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
  by CH2PR12MB5001.namprd12.prod.outlook.com (2603:10b6:610:61::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 01:12:14 +0000
+ 2020 01:12:18 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 01:12:14 +0000
+ 01:12:18 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 11/12] meson: minor simplification
-Date: Mon,  2 Nov 2020 19:11:33 -0600
-Message-Id: <20201103011134.887744-12-michael.roth@amd.com>
+Subject: [PULL v2 12/12] qga: add ssh-get-authorized-keys
+Date: Mon,  2 Nov 2020 19:11:34 -0600
+Message-Id: <20201103011134.887744-13-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201103011134.887744-1-michael.roth@amd.com>
 References: <20201103011134.887744-1-michael.roth@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: SN4PR0801CA0023.namprd08.prod.outlook.com
- (2603:10b6:803:29::33) To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: SA9PR13CA0229.namprd13.prod.outlook.com
+ (2603:10b6:806:25::24) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- SN4PR0801CA0023.namprd08.prod.outlook.com (2603:10b6:803:29::33) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend
- Transport; Tue, 3 Nov 2020 01:12:14 +0000
+ SA9PR13CA0229.namprd13.prod.outlook.com (2603:10b6:806:25::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.10 via Frontend Transport; Tue, 3 Nov 2020 01:12:17 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 0c046609-13a2-4b8c-337c-08d87f957fc4
+X-MS-Office365-Filtering-Correlation-Id: e3a6afe0-db66-495a-da51-08d87f9581f5
 X-MS-TrafficTypeDiagnostic: CH2PR12MB5001:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB50013EAF4D68568D2E40117395110@CH2PR12MB5001.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:262;
+X-Microsoft-Antispam-PRVS: <CH2PR12MB5001CAD9EC47974B00F6685A95110@CH2PR12MB5001.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vRwHHExzjpdH1hv8MWsnW7/gdVufUpSJ5dhuz03N213i11p50V0XdYn8k6IrABExHfSl9PeAYra6s8VdDjR81JtRAwXx7toq4ljiuH4ZoOrTKMqBIJEif/l7wQJ4jxpYJyyqMXja6VUP4kQd65clheWHqDBMw28TOFJhgGYVJLhR/rhtTU6X59wdIADN169mejHwUdESI1WDKbwd7J30+91Ed0o2rBfXIGEC1WeDXb0BNTxULUR48JJ9DxoTtxtwyhNi73GPgW+CeyjOqPyKiMtwcX9dTntEvgNGFc47KHhIImgHMzRwsdXfrCkZazFe1G/RmddmoVkruzL1bcNXQQ==
+X-Microsoft-Antispam-Message-Info: dzDSbDgZay7/mRfS8odVpLsKxVyPdbnoCrsE4SChY0NScCwa934SNMvaiGIiFhH/uXLRj2x/hXp/rAmlY5O0pXpv8A91mVCfAv6N4L12WWad5fjWKYxLhNY5QfUsKpgpHF/VFBjSj3DKNLgp6caPS6HOHFkUkF3Z4qkmIKKMt/q8I/JDlbof1YfH6y7jfCMgFIs+wyU1yN9MQfXHmSvcu+wTX3gakWBgBgMPF0WlO5j26AUjim548A9LBxoWLWrIq8dpq6Nd25hkhVY46uZUMUvfjz5w9Upd+HGV2KoskhbThMDt2gw2NtZPiQCqRXza5OPEjy6dbWUpkBAKUDCWUQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(26005)(44832011)(66556008)(66476007)(66946007)(8936002)(86362001)(6486002)(6666004)(83380400001)(4326008)(4744005)(36756003)(2906002)(8676002)(5660300002)(52116002)(478600001)(186003)(316002)(6916009)(1076003)(16526019)(2616005)(956004)(6496006);
+ SFS:(4636009)(366004)(39860400002)(136003)(376002)(346002)(396003)(26005)(44832011)(66556008)(66476007)(66946007)(8936002)(86362001)(6486002)(6666004)(83380400001)(4326008)(36756003)(2906002)(8676002)(5660300002)(52116002)(478600001)(186003)(316002)(6916009)(1076003)(16526019)(2616005)(956004)(6496006);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: hy0ByobZ1uxaV0jjWAr//PY2FQs3UWxOGB87I0fagPLVciNyd100VzXxeQNPkU6CpAAAdw2niQEabl/43R0/hO55bE5AyptBnqlyhpkPFFT/XzJ0QGVO3Jl2tD29yfJHQbePQcd6IyoPGf81EwxMa3DNHwsQUzYYx57etow2iUCmEulfJxTggF22J14Rb9sSbyIYo0FhoejiUfTO0MraHn7b2nIQK7LxNheGqFHiJyYMSLr0wp62z4lQ+7J6sAMiEs8EKmpqndmvkjTax0PU9laMyXDhvT7AwtLDoZ4c4ZJO13jAUCdeHVoVgI2739nrAelXVOnXVF5AT8MBSzt90ZfmSMq02Eqwk1AaY4BZD5dQP2z9xDqx84+HSjs25d0kDZh3xg32M6e8erPUuEH79ul1T95vqXJpINzLYMNUBjU8u1dYkbfwJ+Pu7KhLCjYGtzWFK1KKdG30fm8+BWWVRXWIqDUKvmqqBfrYTDkQ7J/pK4STcppLuSJZykJipR5B4KB87fw/sIEV1EQBS1GnOjlTsIogkLPy9Xl/NZkHIJDvUtpuCxZSFJ0VQfJBIogNzDYMea8LVfuP2bK2OtOWiq4Am/NaDB4THi6R1KCJYTS6IWxP6/8iumTzLkGS42u4FM4E8itIyWBiUMZnD63CjA==
+X-MS-Exchange-AntiSpam-MessageData: 8qJZlrXOCaxueqdHKxlI/Dkawqf8DVRP5EbmI3ImH4x1dvCOwxJznxfS0nU6fl+TzJU51S6ay+KY8ijso0mnQoicuIci1WKEg1sE7FkJ/zHqcvRcNT/li5hzioEEIAv3rv2rpvWigfmcTZC0yaJO0b7/5amTc2xkzWg3Xca4YkxQ35t1cLP8wVgCkvv8hG6KUfXoZtC7jkkr1I0BGtujHhNpbmvs3wPoxpmpq46cQzflIkUsaOzX/5jVh2kpiunybj+RqWgadx81IEb64UrAlFkFin4HcTZLAbxhCOczvwepFfPFByp+bwbYqqi1Ge6sOIzgTlBfFYVNzz2fuhuLFgC4Q+OQK9YYJ5t+d6b6VDl/I42Yq3xDHfDxwpvd2D2xgiiWm03CFSyUbyYmqsRyzlffSCXyp+XbFdKVxp5R4Yi/0CfNXqEg6I+NxhxEPzan567jofrdc6AozMt2pbutpSi5n3xC1DWcyC5haw2qStPCn8QHOrOsBKfP2PzI+hyLWNfAs8372gcjQfUeyZumVbfpTB8ANkohuDHOoKlBayBSD4zEhufqfDxixJqB/+NuzLqrSj6sETmTLMNoViX7hSaSL1wOQyuATXgVdDCthAkrNzj5HDUyVCzLzWe6gN0Eo/9TRYpUrD7DUekqLghJog==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c046609-13a2-4b8c-337c-08d87f957fc4
+X-MS-Exchange-CrossTenant-Network-Message-Id: e3a6afe0-db66-495a-da51-08d87f9581f5
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 01:12:14.5017 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 01:12:18.1765 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6HOkaqBrSS4sBhgIo+SC2JQ3+NBUxTNFOSNQVX7QghEt+5sxC07Px2S3hKhulKkH4euYPhCMDR8sK4+jDSxCiA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: R/P/rb3Ag2RT3iuov4gWh/UH3JR1k6yJW/RImsufSi9yn+VYWMjTm+wpFultMS4dgKVCJ66OXA9ZHaqGxVyk1A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB5001
 Received-SPF: none client-ip=40.107.94.58; envelope-from=Michael.Roth@amd.com;
  helo=NAM10-MW2-obe.outbound.protection.outlook.com
@@ -122,29 +121,171 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+*fix-up merge conflicts due to qga-ssh-test being disabled in earlier
+ patch due to G_TEST_OPTION_ISOLATE_DIRS triggering build-oss-fuzz
+ leak detector.
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qga/meson.build | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ qga/commands-posix-ssh.c | 66 ++++++++++++++++++++++++++++++++++++++++
+ qga/meson.build          | 11 +++++--
+ qga/qapi-schema.json     | 31 +++++++++++++++++++
+ 3 files changed, 106 insertions(+), 2 deletions(-)
 
+diff --git a/qga/commands-posix-ssh.c b/qga/commands-posix-ssh.c
+index f974bc4b64..4d75cb0113 100644
+--- a/qga/commands-posix-ssh.c
++++ b/qga/commands-posix-ssh.c
+@@ -268,6 +268,46 @@ qmp_guest_ssh_remove_authorized_keys(const char *username, strList *keys,
+     write_authkeys(authkeys_path, new_keys, p, errp);
+ }
+ 
++GuestAuthorizedKeys *
++qmp_guest_ssh_get_authorized_keys(const char *username, Error **errp)
++{
++    g_autofree struct passwd *p = NULL;
++    g_autofree char *authkeys_path = NULL;
++    g_auto(GStrv) authkeys = NULL;
++    g_autoptr(GuestAuthorizedKeys) ret = NULL;
++    int i;
++
++    ERRP_GUARD();
++
++    p = get_passwd_entry(username, errp);
++    if (p == NULL) {
++        return NULL;
++    }
++
++    authkeys_path = g_build_filename(p->pw_dir, ".ssh",
++                                     "authorized_keys", NULL);
++    authkeys = read_authkeys(authkeys_path, errp);
++    if (authkeys == NULL) {
++        return NULL;
++    }
++
++    ret = g_new0(GuestAuthorizedKeys, 1);
++    for (i = 0; authkeys[i] != NULL; i++) {
++        strList *new;
++
++        g_strstrip(authkeys[i]);
++        if (!authkeys[i][0] || authkeys[i][0] == '#') {
++            continue;
++        }
++
++        new = g_new0(strList, 1);
++        new->value = g_strdup(authkeys[i]);
++        new->next = ret->keys;
++        ret->keys = new;
++    }
++
++    return g_steal_pointer (&ret);
++}
+ 
+ #ifdef QGA_BUILD_UNIT_TEST
+ #if GLIB_CHECK_VERSION(2, 60, 0)
+@@ -426,6 +466,31 @@ test_remove_keys(void)
+                                "algo some-key another\n");
+ }
+ 
++static void
++test_get_keys(void)
++{
++    Error *err = NULL;
++    static const char *authkeys =
++        "algo key1 comments\n"
++        "# a commented line\n"
++        "algo some-key another\n";
++    g_autoptr(GuestAuthorizedKeys) ret = NULL;
++    strList *k;
++    size_t len = 0;
++
++    test_authorized_keys_set(authkeys);
++
++    ret = qmp_guest_ssh_get_authorized_keys(g_get_user_name(), &err);
++    g_assert_null(err);
++
++    for (len = 0, k = ret->keys; k != NULL; k = k->next) {
++        g_assert(g_str_has_prefix(k->value, "algo "));
++        len++;
++    }
++
++    g_assert_cmpint(len, ==, 2);
++}
++
+ int main(int argc, char *argv[])
+ {
+     setlocale(LC_ALL, "");
+@@ -437,6 +502,7 @@ int main(int argc, char *argv[])
+     g_test_add_func("/qga/ssh/add_keys", test_add_keys);
+     g_test_add_func("/qga/ssh/add_reset_keys", test_add_reset_keys);
+     g_test_add_func("/qga/ssh/remove_keys", test_remove_keys);
++    g_test_add_func("/qga/ssh/get_keys", test_get_keys);
+ 
+     return g_test_run();
+ }
 diff --git a/qga/meson.build b/qga/meson.build
-index 635de9af41..4cb3b3f259 100644
+index 4cb3b3f259..53ba6de5f8 100644
 --- a/qga/meson.build
 +++ b/qga/meson.build
-@@ -22,12 +22,7 @@ qga_qapi_files = custom_target('QGA QAPI files',
-                                depend_files: qapi_gen_depends)
+@@ -95,8 +95,15 @@ test_env.set('G_TEST_BUILDDIR', meson.current_build_dir())
+ # issue is identified/fix
+ #if 'CONFIG_POSIX' in config_host
+ if false
+-  qga_ssh_test = executable('qga-ssh-test',
+-                            files('commands-posix-ssh.c'),
++  srcs = [files('commands-posix-ssh.c')]
++  i = 0
++  foreach output: qga_qapi_outputs
++    if output.startswith('qga-qapi-types') or output.startswith('qga-qapi-visit')
++      srcs += qga_qapi_files[i]
++    endif
++    i = i + 1
++  endforeach
++  qga_ssh_test = executable('qga-ssh-test', srcs,
+                             dependencies: [qemuutil],
+                             c_args: ['-DQGA_BUILD_UNIT_TEST'])
  
- qga_ss = ss.source_set()
--i = 0
--foreach output: qga_qapi_outputs
--  qga_ss.add(qga_qapi_files[i])
--  i = i + 1
--endforeach
--
-+qga_ss.add(qga_qapi_files.to_list())
- qga_ss.add(files(
-   'commands.c',
-   'guest-agent-command-state.c',
+diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
+index 4ddea898fa..6ca85f995f 100644
+--- a/qga/qapi-schema.json
++++ b/qga/qapi-schema.json
+@@ -1347,6 +1347,37 @@
+ { 'command': 'guest-get-devices',
+   'returns': ['GuestDeviceInfo'] }
+ 
++##
++# @GuestAuthorizedKeys:
++#
++# @keys: public keys (in OpenSSH/sshd(8) authorized_keys format)
++#
++# Since: 5.2
++##
++{ 'struct': 'GuestAuthorizedKeys',
++  'data': {
++      'keys': ['str']
++  },
++  'if': 'defined(CONFIG_POSIX)' }
++
++
++##
++# @guest-ssh-get-authorized-keys:
++#
++# @username: the user account to add the authorized keys
++#
++# Return the public keys from user .ssh/authorized_keys on Unix systems (not
++# implemented for other systems).
++#
++# Returns: @GuestAuthorizedKeys
++#
++# Since: 5.2
++##
++{ 'command': 'guest-ssh-get-authorized-keys',
++  'data': { 'username': 'str' },
++  'returns': 'GuestAuthorizedKeys',
++  'if': 'defined(CONFIG_POSIX)' }
++
+ ##
+ # @guest-ssh-add-authorized-keys:
+ #
 -- 
 2.25.1
 
