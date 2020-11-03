@@ -2,90 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079042A3A1E
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 02:56:38 +0100 (CET)
-Received: from localhost ([::1]:50190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 212422A3A39
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:06:54 +0100 (CET)
+Received: from localhost ([::1]:36372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZlYq-0002bh-AD
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 20:56:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59338)
+	id 1kZlin-0000oP-7V
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZlV8-0001Zp-Vu
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:52:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kZlV0-0001l5-5w
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 20:52:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604368355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yQh3j0ya4FkuELdIrOQG6llK5JJkZVpPImMv0NSBfXE=;
- b=eR4ie5RHSBA57RcagzgH8FksJbEP/yHQj0Rp6PEiFZi2AIlw9jykKOWjeNeYEUuVzUIptw
- 3l1DrqFdAoV2j6y/jGtn1ur71ecF4iYGAgaX0Yrh9TnjQuM0tuAZI1Ribn4Il4rmof0wLW
- Hrdg6zTzOIwNJIw62xFEDfYN65bHxv0=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-146-mz76xcNmPHm0Vxf--Rc2sw-1; Mon, 02 Nov 2020 20:52:34 -0500
-X-MC-Unique: mz76xcNmPHm0Vxf--Rc2sw-1
-Received: by mail-wm1-f71.google.com with SMTP id a130so924984wmf.0
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 17:52:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yQh3j0ya4FkuELdIrOQG6llK5JJkZVpPImMv0NSBfXE=;
- b=EJg/e3o/KiS8MdxneFMYXnDU2LRMpmClRWixe7RQ/n3s11x3/1gYeU9BuDg1S42h9i
- BjF1zWCtYE7RCgJT+fDJApjUKhSkr9bexME6JwdmV8EFYiLPyITn+HKcqqws1Frc3Jsk
- 5m1oB4mavICIyNGhuGS6k7VTJg8rQxxH8gjhbsQrKpAmONL9+0z7CXC6HF5bnQf/KCyD
- CsEZ0EdxqP8xR4OdECZv/7qWYGEcMLp5Gfbzdpuu0Oq5jBe/KVCYUJjOianLEci/IDl0
- S6wjKbZlbRcvUgPX0re8qZDeEV5JYYGdbsw/ujaWZUSzqkrSYwHoMrVZ80V9uTiZ0TkA
- Jp6g==
-X-Gm-Message-State: AOAM532FGwmk0ywem8xectMyhWtdDOOGkAUn5t12nXC/og5UymcE3gHc
- 4qwd9MLHCmb7qdjJSy7hqOEPuiMOgt73siMIE+KyAsQGhDqmIjVb0pZMxqC6icJQKguvr+t++97
- W/QsuMbduhA3OzM8=
-X-Received: by 2002:adf:fa4e:: with SMTP id y14mr22656936wrr.377.1604368352649; 
- Mon, 02 Nov 2020 17:52:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxrGeTDpFrOaF+o1pfUvSdHC0Q+Xp3GSlLux41gbGBn4UoosiiT/mbhqFKpi5ZlBzPJxlameg==
-X-Received: by 2002:adf:fa4e:: with SMTP id y14mr22656910wrr.377.1604368352245; 
- Mon, 02 Nov 2020 17:52:32 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id f17sm1339282wme.22.2020.11.02.17.52.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 02 Nov 2020 17:52:31 -0800 (PST)
-Subject: Re: [PATCH 0/3] tests/qtest: npcm7xx test fixes
-To: Havard Skinnemoen <hskinnemoen@google.com>, peter.maydell@linaro.org
-References: <20201103011457.2959989-1-hskinnemoen@google.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <d41219dd-6cac-f4a4-d559-27ac9b9d9554@redhat.com>
-Date: Tue, 3 Nov 2020 02:52:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kZlWo-00027O-HZ; Mon, 02 Nov 2020 20:54:30 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2494)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
+ id 1kZlVM-0001mc-75; Mon, 02 Nov 2020 20:54:30 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CQCTv14p2zhYxf;
+ Tue,  3 Nov 2020 09:52:51 +0800 (CST)
+Received: from huawei.com (10.175.104.175) by DGGEMS410-HUB.china.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server id 14.3.487.0; Tue, 3 Nov 2020
+ 09:52:44 +0800
+From: Chen Qun <kuhn.chenqun@huawei.com>
+To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
+Subject: [PATCH 0/6] fix uninitialized variable warning
+Date: Tue, 3 Nov 2020 09:52:22 +0800
+Message-ID: <20201103015228.2250547-1-kuhn.chenqun@huawei.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20201103011457.2959989-1-hskinnemoen@google.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 20:52:36
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Originating-IP: [10.175.104.175]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=kuhn.chenqun@huawei.com; helo=szxga05-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 20:52:53
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,33 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- qemu-arm@nongnu.org, "Daniel P . Berrange" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, zhang.zhanghailiang@huawei.com,
+ ganqixin@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Daniel (patches 1-3) & Marc-André (2).
+Hi all,
+  There are some variables initialized warnings reported by the compiler,
+even if the default CFLAG for the compiler parameters are uesed.
 
-On 11/3/20 2:14 AM, Havard Skinnemoen via wrote:
-> This series contains a fix for the randomness calculation in npcm7xx_rng-test.
-> It also makes test failures fatal. The last patch would have dumped the random
-> data to stderr if the randomness test fails, except now that failures are
-> fatal, it never actually gets a chance to do that.
-> 
-> It may not make sense to apply all three, but I'd definitely take (1), and I'll
-> leave it up to you whether to apply (2), (3) or both.
-> 
-> Havard Skinnemoen (3):
->   tests/qtest/npcm7xx_rng-test: count runs properly
->   tests/qtest/npcm7xx: Don't call g_test_set_nonfatal_assertions
->   tests/qtest/npcm7xx_rng-test: dump random data on failure
-> 
->  tests/qtest/npcm7xx_gpio-test.c           |  1 -
->  tests/qtest/npcm7xx_rng-test.c            | 15 +++++++++++++--
->  tests/qtest/npcm7xx_timer-test.c          |  1 -
->  tests/qtest/npcm7xx_watchdog_timer-test.c |  1 -
->  4 files changed, 13 insertions(+), 5 deletions(-)
-> 
+This serial has added some default values or changed the assignment places for the variablies to fix them.
+
+Thanks,
+Chen Qun
+
+
+Chen Qun (6):
+  target/xtensa: fix uninitialized variable warning
+  hw/rdma/rdma_backend: fix uninitialized variable warning in
+    rdma_poll_cq()
+  util/qemu-timer: fix uninitialized variable warning in
+    timer_mod_anticipate_ns()
+  util/qemu-timer: fix uninitialized variable warning for expire_time
+  plugins/loader: fix uninitialized variable warning in
+    plugin_reset_uninstall()
+  migration: fix uninitialized variable warning in
+    migrate_send_rp_req_pages()
+
+ hw/rdma/rdma_backend.c    | 2 +-
+ migration/migration.c     | 2 +-
+ plugins/loader.c          | 2 +-
+ target/xtensa/translate.c | 2 +-
+ util/qemu-timer.c         | 8 +++-----
+ 5 files changed, 7 insertions(+), 9 deletions(-)
+
+-- 
+2.27.0
 
 
