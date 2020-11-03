@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA7D2A4555
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:38:24 +0100 (CET)
-Received: from localhost ([::1]:45158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE19A2A455B
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 13:42:02 +0100 (CET)
+Received: from localhost ([::1]:50490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZvZv-0004Mr-Iy
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:38:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50806)
+	id 1kZvdR-0006ds-Tz
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 07:42:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kZvXh-0002Zj-3S
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:36:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59270)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kZvb2-0005aR-QX
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:39:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kZvXf-0005J0-Ee
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:36:04 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1kZvb0-0006OO-MZ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 07:39:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604406962;
+ s=mimecast20190719; t=1604407165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5wezGc+X3eOi0wPhPfSs1dnesInncz+sm/prCm0AH0s=;
- b=Y5oFxNZt0XviJ1xiG7N2oVLo1+SM9CL1P8oRTI+7E6Ic1d6sLp9WOIrIg65FwXblHOrHcF
- cCK7qotrZC+QQu+qeAAnB/+M76ys0U0D8wSrMzYXKrT9trxM15bXZtFf9Mj3q6bJ/3Pyc4
- Kq0cSC1WyX2PG2Gk9tu4AP0wwaGGAe4=
+ bh=UI6Y4+XlJlwrHvxocB3ncP7ba8NPybAEToiaJnoIIyI=;
+ b=Ts3Ix3o3h8sV7RTCxennQ5YDR6aviviUMswXgDMyrv+5rs8PKBwbNzYbDkim8aXRi0iZCY
+ aNvqkQTIy0QrE4saQAGGxZKp4zAQDKTguLfydcADuFVE3o/d9k8MCOQXuI8MDKQkKLcz/y
+ kDd9K938EfEl7UJmrzCsLk/lpYJElCY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-ji8TD7qvNqat0UAqB5250A-1; Tue, 03 Nov 2020 07:36:00 -0500
-X-MC-Unique: ji8TD7qvNqat0UAqB5250A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-164-z2r4LVopP_-IEtFB6vhpUA-1; Tue, 03 Nov 2020 07:39:21 -0500
+X-MC-Unique: z2r4LVopP_-IEtFB6vhpUA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7641087951F;
- Tue,  3 Nov 2020 12:35:59 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8DF421E94;
- Tue,  3 Nov 2020 12:35:58 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E6FB716E18; Tue,  3 Nov 2020 13:35:57 +0100 (CET)
-Date: Tue, 3 Nov 2020 13:35:57 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Ding Hui <dinghui@sangfor.com.cn>
-Subject: Re: [PATCH] vnc: fix resource leak when websocket channel error
-Message-ID: <20201103123557.aqc3klcvyhr4tbn4@sirius.home.kraxel.org>
-References: <20201029032241.11040-1-dinghui@sangfor.com.cn>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4245180364D;
+ Tue,  3 Nov 2020 12:39:20 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.69])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F47F1002D49;
+ Tue,  3 Nov 2020 12:39:16 +0000 (UTC)
+Date: Tue, 3 Nov 2020 13:39:13 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: Question on UEFI ACPI tables setup and probing on arm64
+Message-ID: <20201103133913.1fee3337@redhat.com>
+In-Reply-To: <ee3b7fdf-f6ba-cafc-5b44-42b0bcda01c5@huawei.com>
+References: <ee3b7fdf-f6ba-cafc-5b44-42b0bcda01c5@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <20201029032241.11040-1-dinghui@sangfor.com.cn>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,18 +80,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-stable@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, lersek@redhat.com,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ "wangzhigang17@huawei.com" <wangzhigang17@huawei.com>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Oct 29, 2020 at 11:22:41AM +0800, Ding Hui wrote:
-> When we connect to vnc by websocket channel, and disconnect
-> (maybe by some network exception) before handshake,
-> qemu will left CLOSE_WAIT socket and never close it
+On Fri, 30 Oct 2020 10:50:01 +0800
+Ying Fang <fangying1@huawei.com> wrote:
 
-Added to fixes queue.
+> Hi,
+> 
+> I have a question on UEFI/ACPI tables setup and probing on arm64 platform.
 
-thanks,
-  Gerd
+CCing Laszlo,
+who might know how it's implemented.
+ 
+> Currently on arm64 platform guest can be booted with both fdt and ACPI
+> supported. If ACPI is enabled, [1] says the only defined method for
+> passing ACPI tables to the kernel is via the UEFI system configuration
+> table. So AFAIK, ACPI Should be dependent on UEFI.
+> 
+> What's more [2] says UEFI kernel support on the ARM architectures
+> is only available through a *stub*. The stub populates the FDT /chosen
+> node with some UEFI parameters describing the UEFI location info.
+> 
+> So i dump /sys/firmware/fdt from the guest, it does have something like:
+> 
+> /dts-v1/;
+> 
+> / {
+> 	#size-cells = <0x02>;
+> 	#address-cells = <0x02>;
+> 
+> 	chosen {
+> 		linux,uefi-mmap-desc-ver = <0x01>;
+> 		linux,uefi-mmap-desc-size = <0x30>;
+> 		linux,uefi-mmap-size = <0x810>;
+> 		linux,uefi-mmap-start = <0x04 0x3c0ce018>;
+> 		linux,uefi-system-table = <0x04 0x3f8b0018>;
+> 		bootargs = "BOOT_IMAGE=/vmlinuz-4.19.90-2003.4.0.0036.oe1.aarch64 
+> root=/dev/mapper/openeuler-root ro rd.lvm.lv=openeuler/root 
+> rd.lvm.lv=openeuler/swap video=VGA-1:640x480-32@60me 
+> smmu.bypassdev=0x1000:0x17 smmu.bypassdev=0x1000:0x15 
+> crashkernel=1024M,high video=efifb:off video=VGA-1:640x480-32@60me";
+> 		linux,initrd-end = <0x04 0x3a85a5da>;
+> 		linux,initrd-start = <0x04 0x392f2000>;
+> 	};
+> };
+> 
+> But the question is that I did not see any code adding the uefi
+> in fdt chosen node in *arm_load_dtb* or anywhere else.
+> Qemu only maps the OVMF binary file into a pflash device.
+> So I'm really confused on how UEFI information is provided to
+> guest by qemu. Does anybody know of the details about it ?
+> 
+> [1] https://www.kernel.org/doc/html/latest/arm64/arm-acpi.html
+> [2] https://www.kernel.org/doc/Documentation/arm/uefi.rst
+> 
+> Thanks.
+> Ying
+> 
 
 
