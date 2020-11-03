@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C1C2A5041
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E15E2A5042
 	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 20:37:52 +0100 (CET)
-Received: from localhost ([::1]:60748 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:60796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka27q-000676-NG
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:37:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58968)
+	id 1ka27r-00068P-IM
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 14:37:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ka25d-0005FS-Hr
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:35:33 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35908)
+ id 1ka25e-0005GP-Kn
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:35:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35916)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1ka25a-0007bX-E5
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:35:33 -0500
+ id 1ka25b-0007ba-7D
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 14:35:34 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1ka25Y-0002vj-GL
+ id 1ka25Y-0002vr-Vo
  for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 19:35:28 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 75C0D2E8133
+ by loganberry.canonical.com (Postfix) with ESMTP id EEE2C2E811E
  for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 19:35:28 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 03 Nov 2020 19:23:51 -0000
+Date: Tue, 03 Nov 2020 19:26:01 -0000
 From: Rui Prior <1902777@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -41,14 +41,15 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: rcprior
 X-Launchpad-Bug-Reporter: Rui Prior (rcprior)
 X-Launchpad-Bug-Modifier: Rui Prior (rcprior)
-Message-Id: <160443143159.15248.310211538041972922.malonedeb@wampee.canonical.com>
-Subject: [Bug 1902777] [NEW] qemu with whpx acceleration crashes with vmx=on
+References: <160443143159.15248.310211538041972922.malonedeb@wampee.canonical.com>
+Message-Id: <160443156142.8671.14782499734113352488.malone@soybean.canonical.com>
+Subject: [Bug 1902777] Re: qemu with whpx acceleration crashes with vmx=on
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="96ff31b88b65a0d0ea73b89333fe7c4a2669d8fb"; Instance="production"
-X-Launchpad-Hash: 38f3213f61e7671f11df327dd407d873c59d738c
+X-Launchpad-Hash: d590f4a3fead28d3d66f04d02bba8debfc383871
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 14:35:28
@@ -75,29 +76,7 @@ Reply-To: Bug 1902777 <1902777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-Under Windows 10, qemu crashes when using whpx acceleration and the vmx=3Do=
-n option.  The reported error is
-  qemu-system-x86_64.exe: WHPX: Unexpected VP exit code 4
-Before the error, it reports
-  Windows Hypervisor Platform accelerator is operational
-
-The command line is the following:
-  "C:\Program Files\qemu\qemu-system-x86_64.exe" -accel whpx -cpu qemu64,vm=
-x=3Don
-It crashes with any model of CPU as long as the "vmx=3Don" option is added.=
-  Without this option it runs fine (but no nested virtualization).
-
-My processor is an Intel i7-10510U, and I am running Windows 10 2004
-(build 19041.572).
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: vmx whpx
+Forgot to say: qemu version 5.1.0
 
 -- =
 
