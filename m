@@ -2,94 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D8A52A3ABB
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:56:17 +0100 (CET)
-Received: from localhost ([::1]:57050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 901E02A3AA0
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 03:53:01 +0100 (CET)
+Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZmUa-00015G-4L
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:56:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47960)
+	id 1kZmRQ-00075e-Ld
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 21:53:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmJq-0000pA-Fu
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:10 -0500
+ id 1kZmJs-0000sd-ER
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:12 -0500
 Received: from mail-mw2nam12on2072.outbound.protection.outlook.com
  ([40.107.244.72]:13281 helo=NAM12-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Roth@amd.com>)
- id 1kZmJn-0007gm-SM
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:10 -0500
+ id 1kZmJq-0007gm-Px
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 21:45:12 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fOZIUbdS4xo0oR3AZXlxIE8sG9Clg4sh1sKoOtMpCPuz+lGKEx2iIHNbGT9jGQj73WW2pWw7QtDzc++9+LILQB7vRefs8yggzhQrtn8G/oYsO42GjJfpJaBOdFW5g1R9K6rTpZ14ipdqSQwyzfNqRSTHJToaeB0iwFg4yKIrS1+jTYG9SvJUI6AbeetR1K/DrZK0g+QiM2EJlJ9Oym99Uzv/9aKrb436SmROqB2qQh2gZqCJTcVxw8/fmAn069bz46YM5qAlVxudVMsAtHDYNaJZWCDmqPQ6oZd+XlYFfe+iwhpMtpnPZQ6+QCWcQtTCOInFL4OW6hs5KQoScKycJQ==
+ b=FdrdTrHXkhiLpOegsCIhAYtjf3m94b9ji4JvAaYCXElqYiv7xCVRMfzNfQi5+5vIKSSlW2IW8BEw0sb7H9JRBuERuv9JlLoBboJjPBekRF+8NZoEcLZ3DH7K7GbHzhWRZEqqmX8oGa2ZDN9wP94umE6q9R5ewRr7K4UeoFs7rfHPvqOKjqIU7plUxBi3bYclYEqTgyWF1xGUcjfVqbbLmbblvW2/QyOOOYl/DG1PlOoTkB1yBGfelmQsyogVQhALlxUl2Dl392t14rJntct2ZySUPbWqEGjTRvizzdcfouTir++n09VcVnGzOsknSKv0jlYYt2SGH0j7q7Cx3zsbxw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T8O8TEJqM9sAjKrgZxD2Qze0Mz6pcAyVSjw/Ml6CHMk=;
- b=EWnxPX0d/IxAjiVwypF88Sl4RQyn52FlNHa1l+80LzqmP5n0q+DwjxZo8dJIugApnZOrMjLMS1ojFtvKVmehAj+R6EATBt0FD7kLxqmB79NdvLqBMB7ciOTKS9h14aXE7r/hC2qN6arvzmbayJ5eEwKbg3dcReF+WsXsyCp4eSBOWmjivDwUm+i7EupJOC++Byud6sk54OnOCo/vfjkShOycAZOmlH+SJKiyY5RQoBGJH69aXToWNdF9dLjwdz2GxYejo9iXNExBYU3lZ6uDtsnnAlGxJn0h2iuGZZoefuNwmoC6wJ91dbcY/mMQ1c4/JNYaSdG9QCIHaw3vaKwC0A==
+ bh=UVOT+Ji/XN+UthHk4J8n5dOXuOASmrPvPQAuUjq7el8=;
+ b=K5X65DiPYi8QRL1OzvKEi3bge6PulJ74X63qH37ukVP62OYQss48ZVmyDWjrcNtsAWpYjIBPM4XnVNd0uVAtmoIXlEN4mCTwQ+EOn7wp0rkUC3LYu0CeCPvYDqQjMdzGpwi8x3qkWgNaeGDnC4My9gas5SyNslgIhmTWj/pZoprzNzTbzbhkpHhR/lTCS4u3mbMBGTUITFMBIYnmJhQ/k+Jy6GsXhckbM+1tt/EoY05tr5hsKLZ4+4mqJCCZ2xRAKoILcsvexHYdCIr1UnFnDpnmkvRoXcbbr2B+MlpMwk8r3Eml75eb2W/P1xXyHcNh0YUzHK3VL+vyi95GEIcaaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=T8O8TEJqM9sAjKrgZxD2Qze0Mz6pcAyVSjw/Ml6CHMk=;
- b=hGh/C65ArQXQsVwSdy3H19AbAtGM1bw72L42DfDYPx/sCZ8GsuDfeQxFxqpbFtJPZ3gvLpZ3nIqRY/GCYQkerlH6/6Cp5WBILFXm51GE596sfG1mtvnPTyhh71rRWy8+8aoPaCL1Y4Md0D6U92RM1cdWDJs3ShIb1a5QGWhb9MU=
+ bh=UVOT+Ji/XN+UthHk4J8n5dOXuOASmrPvPQAuUjq7el8=;
+ b=TIJwx6HDzeSXwmcFcXUamek1yIids8qt8/hdwtoaTbhO18OoHlZX39Bicp9FNytECafdtHA6njGI5C+NlcVwUyNxdiE4xjTyfMewL7n/yVJAeljJw+SVSPCJ3APHeyVltetwc+xHcrZkmhCJElXdDG5AU/mwHWdv2FkTtxnf33A=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com (2603:10b6:610:7a::13)
  by CH2PR12MB4311.namprd12.prod.outlook.com (2603:10b6:610:a8::21)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Tue, 3 Nov
- 2020 02:45:03 +0000
+ 2020 02:45:06 +0000
 Received: from CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300]) by CH2PR12MB4133.namprd12.prod.outlook.com
  ([fe80::f428:769b:3e9:8300%5]) with mapi id 15.20.3499.030; Tue, 3 Nov 2020
- 02:45:03 +0000
+ 02:45:06 +0000
 From: Michael Roth <michael.roth@amd.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 02/12] qga: Use common time encoding for guest-get-devices
- 'driver-date'
-Date: Mon,  2 Nov 2020 20:43:34 -0600
-Message-Id: <20201103024343.894221-3-michael.roth@amd.com>
+Subject: [PULL v3 03/12] qga-win: Fix guest-get-devices error API violations
+Date: Mon,  2 Nov 2020 20:43:35 -0600
+Message-Id: <20201103024343.894221-4-michael.roth@amd.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201103024343.894221-1-michael.roth@amd.com>
 References: <20201103024343.894221-1-michael.roth@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Originating-IP: [165.204.77.11]
-X-ClientProxiedBy: DM5PR18CA0079.namprd18.prod.outlook.com (2603:10b6:3:3::17)
- To CH2PR12MB4133.namprd12.prod.outlook.com
+X-ClientProxiedBy: SN4PR0501CA0070.namprd05.prod.outlook.com
+ (2603:10b6:803:41::47) To CH2PR12MB4133.namprd12.prod.outlook.com
  (2603:10b6:610:7a::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost (165.204.77.11) by
- DM5PR18CA0079.namprd18.prod.outlook.com (2603:10b6:3:3::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3499.18 via Frontend Transport; Tue, 3 Nov 2020 02:45:02 +0000
+ SN4PR0501CA0070.namprd05.prod.outlook.com (2603:10b6:803:41::47) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.10 via Frontend
+ Transport; Tue, 3 Nov 2020 02:45:06 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f199e9a6-2bdd-4978-7362-08d87fa27728
+X-MS-Office365-Filtering-Correlation-Id: d6312fa0-85e6-4f76-9825-08d87fa278f6
 X-MS-TrafficTypeDiagnostic: CH2PR12MB4311:
-X-Microsoft-Antispam-PRVS: <CH2PR12MB4311F078B2EEC1470D73A0D295110@CH2PR12MB4311.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:60;
+X-Microsoft-Antispam-PRVS: <CH2PR12MB43110D3B7F44794FF7CC876295110@CH2PR12MB4311.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vxK1Wm2MPDL9t7caED1bd+H2kbz61M/qHE2rUnDLDCpUc/X3pTrx6laHLnWczlmpLh0FNTG9CmPQqvXYoLRXOEPKHnOKFDNMfsjXcb764rC0sr1FMEZQVEFQi0rgiwoOA25GBT/TNoc/7mL76GroJfzeKLtm4AZxDIt4IkkGtkLF2sAacsSb9tc94KkhM0tkyBKykzLlsisu6IPyxB3zeZBM1uIVuSuxMLbil4hEtDPDhhB46QcQeBAHjdL7XLQrg7kiCsrPlQtkBCtZifmo030GqlQrmnfM1TalwqgcaO2RJHfLOL6oF3MJGfYUNuBYqW6KkUygYCMQC2ZQ5+zagw==
+X-Microsoft-Antispam-Message-Info: /qroMHNzFJXn5XshgiiPsYybM6YGdombIzd5ne4maAnVgSzJ3zIts5JWKg2JwtzCfBcuFPdpmuChUegwAhMz9jsYzIVt/Gs6FkZ4RRju2fLvoCmzi29nM8kXxX6I/6g0rxS9rn9jC2SF+U7DP4fE5ECo+FCJpbJkjUsICFBEOEOPH1RCDADBaGNqXhcDr+rCqAE3tts4KTs071/z+279EvbvGViLdpLgFuWS45SnHwvfH6dHohARzM/9jxrxaOm2syxDVq6049Eqar86B0/GnTlf0v2PfZ+q7WS8kcqRIqTcpAVyvSweH/6+wfOab7So
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:CH2PR12MB4133.namprd12.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(376002)(136003)(366004)(39860400002)(346002)(396003)(16526019)(186003)(5660300002)(8936002)(6916009)(8676002)(36756003)(478600001)(86362001)(26005)(66556008)(956004)(66946007)(6666004)(6496006)(2616005)(6486002)(52116002)(66476007)(4326008)(1076003)(83380400001)(54906003)(44832011)(316002)(2906002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: lRPv69uxN/avIhEaFkUgkrF7HIU58tORi5OkOOZAuH1nuoV8FhcB4wjy6Xojv0e/3X0aPb+9LoyoOwJ5Tm6si2mKVOCTVZCvIKnNGkTVbfjxEMkzbidubEM9tWebxEQ2JFSodsbzc4ZW3qUTd/k4/VByYW6NpzkAoZLGhhbuufUVSil4mMUZ890ktOt67pNugjzx7R3zFrrmOLLgGUxroEb23GPboL4VgYM/6BpX0ftZw30D9Vk+WtVnZW1A0VJ1d9t4Gpalmk+uRTQbNBqrecTLEu3gjwGnGlgniLiCAZViTx5xsY0J7u6ueYtrfli0ZK4cnx720jJ8inAjwXkuNCVZ9DtUIKwOaEYx3k/Qw81x0qCjOEbKY4Xdy88h4Wh60H30Pm0cp8OL1gUxUzXpxT3viH/oYjrqLRJz5QFjiPij2O2LQNgOLuVlRT1AnP4N/bKyhxfNxfgdtSmhfmr/ypfc6ifN0WDBie4yVKWiy0o8xFpDyh4iUyKcc0E4+0CjgDK5sXMpHx59OuSSqFeSeMT+Mrt1Qrdw6NmnESYZG1DfV2u40Vij71+QsQ0zjC25v4jMo5JXaWgaIMzsO+Q4JDQXO2lOhxg48MGCoDS1QFYWo2hMaV4/jl4R0oIhlIHdkxeDQZZN4Y/Y0QbKvckYPg==
+X-MS-Exchange-AntiSpam-MessageData: xlttWwYbdO5gjZz49GEwXfVhtACLNpWnskV3Q2nxsKgmWPakscgCAYF1V4y3ysUnKVwGIQTotak0zGWgLA0lReMYzNtzdyuV4beO8c1Sxhxfq5kjxY+T5MCYvs0ajlLNMlFDRO4IeWC5SrS4oMKXYh/4mdny0QYtrF5z+mEpxTddmuasa3romJyv2JfiMn/TEzDRdkovGlwGK/AA4YSkqKcbU89wHQRj6SJpb3VvxrjZdzPWiy35Q/Ml7QAPoh9fmWpz3Mt9c18dye0oPmRfaY8MQweAmXYDsqr6LyyaawoB4ZfxdYsBmsT5VSeO/Jb1YCK5nZIgaW7O2abrtjujSyvgak71bJPFGQCFzmxApb6RYYtnhs0Nx+WbXras4PzsSbtlyRvH/wfscJ94fw/d8+dNbaJMQ9b4imQZ1okqKeKVlmDC5nym97pwTT4F22S/wUr9XOLty7J8djDMdTfORnPrPA6HwxNeBRnlXqNl7LRfnzvuxeGpAZ8kXwDmpmTPyKMUK1q1mUH2GR5a6mfJMe45yH8dYni2p2ls58QeaTz/kkUwb29/eFN7ghzStZX7zZd4vWLlp5Y0TmaXPzqwI6pF8bo1Tr6EzzKzrvXfmZpnW/L/LRyR6Gn0r1waeIp4XwtlZFo4m+YDIxJSkAElBA==
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f199e9a6-2bdd-4978-7362-08d87fa27728
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6312fa0-85e6-4f76-9825-08d87fa278f6
 X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB4133.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:45:03.5545 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2020 02:45:06.4806 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CvOIbANsVO3mZOpatzUfBTMnA0eu3vkYenwCvJ6U+tqTfiwRuWxMHdmowAgz4sXNvjPWaPUP+eU2BVWHfASP+Q==
+X-MS-Exchange-CrossTenant-UserPrincipalName: H4CYyFUhJAslXEH3yRUi3yb5GIBqEcnzN6IJWOGlB7pyejv3BWqFR8a9XQq1rXia4Aj3So/+//pumheUTIaEhA==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4311
 Received-SPF: none client-ip=40.107.244.72; envelope-from=Michael.Roth@amd.com;
  helo=NAM12-MW2-obe.outbound.protection.outlook.com
@@ -114,104 +114,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Markus Armbruster <armbru@redhat.com>,
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-guest-get-devices returns 'driver-date' as string in the format
-YYYY-MM-DD.  Goes back to recent commit 2e4211cee4 "qga: add command
-guest-get-devices for reporting VirtIO devices".
+The Error ** argument must be NULL, &error_abort, &error_fatal, or a
+pointer to a variable containing NULL.  Passing an argument of the
+latter kind twice without clearing it in between is wrong: if the
+first call sets an error, it no longer points to NULL for the second
+call.
 
-We should avoid use of multiple encodings for the same kind of data.
-Especially string encodings.  Change it to return nanoseconds since
-the epoch, like guest-get-time does.
+qmp_guest_get_devices() is wrong that way: it calls error_setg() in a
+loop.
+
+If no iteration fails, the function returns a value and sets no error.
+Okay.
+
+If exactly one iteration fails, the function returns a value and sets
+an error.  Wrong.
+
+If multiple iterations fail, the function trips error_setv()'s
+assertion.
+
+Fix it to return immediately on error.
+
+Perhaps the failure to convert the driver version to UTF-8 should not
+be an error.  We could simply not report the botched version string
+instead.
+
+Drop a superfluous continue while there.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Michael Roth <michael.roth@amd.com>
 ---
- qga/commands-win32.c | 19 +++++++++++--------
- qga/qapi-schema.json |  4 ++--
- 2 files changed, 13 insertions(+), 10 deletions(-)
+ qga/commands-win32.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index 879b02b6c3..b01616a992 100644
+index b01616a992..1efe3ba076 100644
 --- a/qga/commands-win32.c
 +++ b/qga/commands-win32.c
-@@ -1641,6 +1641,12 @@ out:
-     return head;
- }
+@@ -2385,7 +2385,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+         device->driver_name = g_utf16_to_utf8(name, -1, NULL, NULL, NULL);
+         if (device->driver_name == NULL) {
+             error_setg(errp, "conversion to utf8 failed (driver name)");
+-            continue;
++            return NULL;
+         }
+         slog("querying device: %s", device->driver_name);
+         hw_ids = ga_get_hardware_ids(dev_info_data.DevInst);
+@@ -2428,7 +2428,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+             NULL, NULL);
+         if (device->driver_version == NULL) {
+             error_setg(errp, "conversion to utf8 failed (driver version)");
+-            continue;
++            return NULL;
+         }
+         device->has_driver_version = true;
  
-+static int64_t filetime_to_ns(const FILETIME *tf)
-+{
-+    return ((((int64_t)tf->dwHighDateTime << 32) | tf->dwLowDateTime)
-+            - W32_FT_OFFSET) * 100;
-+}
-+
- int64_t qmp_guest_get_time(Error **errp)
- {
-     SYSTEMTIME ts = {0};
-@@ -1657,8 +1663,7 @@ int64_t qmp_guest_get_time(Error **errp)
-         return -1;
+@@ -2452,7 +2452,6 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
+             cur_item->next = item;
+             cur_item = item;
+         }
+-        continue;
      }
  
--    return ((((int64_t)tf.dwHighDateTime << 32) | tf.dwLowDateTime)
--                - W32_FT_OFFSET) * 100;
-+    return filetime_to_ns(&tf);
- }
- 
- void qmp_guest_set_time(bool has_time, int64_t time_ns, Error **errp)
-@@ -2363,7 +2368,6 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-     slog("enumerating devices");
-     for (i = 0; SetupDiEnumDeviceInfo(dev_info, i, &dev_info_data); i++) {
-         bool skip = true;
--        SYSTEMTIME utc_date;
-         g_autofree LPWSTR name = NULL;
-         g_autofree LPFILETIME date = NULL;
-         g_autofree LPWSTR version = NULL;
-@@ -2434,13 +2438,12 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-             slog("failed to get driver date");
-             continue;
-         }
--        FileTimeToSystemTime(date, &utc_date);
--        device->driver_date = g_strdup_printf("%04d-%02d-%02d",
--            utc_date.wYear, utc_date.wMonth, utc_date.wDay);
-+        device->driver_date = filetime_to_ns(date);
-         device->has_driver_date = true;
- 
--        slog("driver: %s\ndriver version: %s,%s\n", device->driver_name,
--            device->driver_date, device->driver_version);
-+        slog("driver: %s\ndriver version: %" PRId64 ",%s\n",
-+             device->driver_name, device->driver_date,
-+             device->driver_version);
-         item = g_new0(GuestDeviceInfoList, 1);
-         item->value = g_steal_pointer(&device);
-         if (!cur_item) {
-diff --git a/qga/qapi-schema.json b/qga/qapi-schema.json
-index f2c81cda2b..c7bfb8bf6a 100644
---- a/qga/qapi-schema.json
-+++ b/qga/qapi-schema.json
-@@ -1282,7 +1282,7 @@
- # @GuestDeviceInfo:
- #
- # @driver-name: name of the associated driver
--# @driver-date: driver release date in format YYYY-MM-DD
-+# @driver-date: driver release date, in nanoseconds since the epoch
- # @driver-version: driver version
- # @id: device ID
- #
-@@ -1291,7 +1291,7 @@
- { 'struct': 'GuestDeviceInfo',
-   'data': {
-       'driver-name': 'str',
--      '*driver-date': 'str',
-+      '*driver-date': 'int',
-       '*driver-version': 'str',
-       '*id': 'GuestDeviceId'
-   } }
+     if (dev_info != INVALID_HANDLE_VALUE) {
 -- 
 2.25.1
 
