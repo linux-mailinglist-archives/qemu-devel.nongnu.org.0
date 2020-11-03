@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC9C2A3B18
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 04:41:57 +0100 (CET)
-Received: from localhost ([::1]:56578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7AFB2A3B48
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 05:08:42 +0100 (CET)
+Received: from localhost ([::1]:36528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZnCm-0006fU-2r
-	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 22:41:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56460)
+	id 1kZncf-0003Hy-RK
+	for lists+qemu-devel@lfdr.de; Mon, 02 Nov 2020 23:08:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZnAm-00069V-Gy
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 22:39:52 -0500
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46490)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kZnAk-000635-Mi
- for qemu-devel@nongnu.org; Mon, 02 Nov 2020 22:39:52 -0500
-Received: by mail-pg1-x543.google.com with SMTP id w4so2373394pgg.13
- for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 19:39:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bfjAIfz0w/Qz72IXs6gPJpI6mQ4YZEZ6ztRDcjP9YP4=;
- b=WKT6Jqh9laSkSuK0Gx4ybedfN1D9vFCRx56mPQkSKXL8cFkS3kGH0APhVPMqahGe1/
- qtqiybKaqa0D3wTMSVa4zPIHQfg4X1swtqPeovt5MuzUbtGB1tRRQOp71h2FT2kE1q+8
- MOMONCd+Q55s7gYYBTQQkebfwkYnpZBuECDNkHkAtdGn7ByLQXngCOGVBoK8DOAtvLGR
- r/TCIBSVPAp2NUdnC3rxH2JroOWnbADTFdeZ1Kxq25u2BHKHj7+YN2bNt9gUFSx1X8do
- sm/SGXEtA+gs9f9k2MvW2U//XMRJe0jNWSgZJH5E2D5FiHcJgSQgUroiMneFtGY1sA0r
- mE1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=bfjAIfz0w/Qz72IXs6gPJpI6mQ4YZEZ6ztRDcjP9YP4=;
- b=EPyKY4bnskPsUa+u8sp3xjHlVBH9QCpKhi0C1ombyWiUF47b2CsI5AqlLPFj+L0iDw
- ehlglCJN0IMzq6Ba2PKHVYCzoC5rNPo2erIFbPwyftv/1yjCN7UTpo6hCIEZYQZ4UaCI
- o/zr2eoH9cZCkK4P0dMP3Yg0VPll5wW3hRr1EHu3XyQBZMb5ZUqSpz7rl+llqoTA5Lau
- eh4ZH8NeYlA3KF1UMX6zMu0qknJzpyIfdJC9RA+BGLzGP6N0aRw9zo+8Qc0bG7WTzTsW
- T6+3eVwr9FJhfKI9mgDrrnLIhs+ouCqO1J6vv24JqK4am0j5qLQMIWwDWSq8ukkTa66W
- HwWA==
-X-Gm-Message-State: AOAM531QtrcPM0V+UTUchv9WkqKw082/e64tozboLI5bci8zNe04I4q2
- kyWEX78S9osrtGSWmeZBkjE2nciLINyR0w==
-X-Google-Smtp-Source: ABdhPJzeyT8MqCBaVYWqdeE3dJuk9WiDwhJ5ipPq8QcFVRxCy1La9IJwU3eKHeZU+yKFXX1QcQO3Bg==
-X-Received: by 2002:a17:90b:783:: with SMTP id
- l3mr1673992pjz.122.1604374788665; 
- Mon, 02 Nov 2020 19:39:48 -0800 (PST)
-Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
- [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id j5sm952875pjb.56.2020.11.02.19.39.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 02 Nov 2020 19:39:48 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2] tcg: Remove assert from set_jmp_reset_offset
-Date: Mon,  2 Nov 2020 19:39:47 -0800
-Message-Id: <20201103033947.94157-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kZnbt-0002oh-5D
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 23:07:53 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:41443 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1kZnbq-0007Ba-8D
+ for qemu-devel@nongnu.org; Mon, 02 Nov 2020 23:07:52 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4CQGTR2btSz9sVK; Tue,  3 Nov 2020 15:07:39 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1604376459;
+ bh=zeBMBE7b3gfz1mWHSjPim7M9f9nUUMZvNfmtctYchyw=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=YRY749xvJfSbV4E6kjf8NXalXLvZ0FKDMqMBNHJVW+GhU/6meLL5UFx296CVNBA/I
+ cqnAdoFDvssZCiuDUa3LCXrFKo9YidS0Wehl/6OKpGi2McLw6HjywCCqV8AsYESv1H
+ /3y6pBoD7OsPF2SfyDYFpqdPJJ7wJDXIomqV55IM=
+Date: Tue, 3 Nov 2020 12:41:43 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Does QEMU's coverity-scan run need to track coverity issues in
+ dtb or slirp ?
+Message-ID: <20201103014143.GF143651@yekko.fritz.box>
+References: <CAFEAcA93d5VKj+jbJQcyxsG+54G32r1k53DPT8rGRqZcROU2hA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mrJd9p1Ce66CJMxE"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA93d5VKj+jbJQcyxsG+54G32r1k53DPT8rGRqZcROU2hA@mail.gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/02 23:07:40
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic]
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,49 +62,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <saipava@xilinx.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The range check done here is done later, more appropriately,
-at the end of tcg_gen_code.  There, a failing range check
-results in a returned error code, which causes the TB to be
-restarted at half the size.
 
-Reported-by: Sai Pavan Boddu <saipava@xilinx.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
+--mrJd9p1Ce66CJMxE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sai, would you try this against your failing testcase?
+On Mon, Nov 02, 2020 at 07:54:14PM +0000, Peter Maydell wrote:
+> Currently QEMU's Coverity-Scan project has a bunch of unresolved
+> issues in code in dtc/ and also in slirp/. (I suspect most of them
+> are actually false-positives that got re-reported when we switched
+> to Meson and the filenames changed, or some similar event.)
+>=20
+> Do dtc and slirp as upstream projects already track Coverity issues
+> (in which case we can just close the issues in the QEMU tracker as
+> irrelevant, or do we need to investigate these and potentially
+> forward them into whatever upstream bug tracker is appropriate?
 
+dtc is wired up to coverity_scan, and quite a few of the things it
+caught were fixed a while back.  I must admit I don't re-examine the
+remaining warnings very frequently though.  I *think* what's still
+there are false positives, but I'm not super confident about that.
 
-r~
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
----
- tcg/tcg.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+--mrJd9p1Ce66CJMxE
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index f49f1a7f35..43c6cf8f52 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -335,10 +335,11 @@ static bool tcg_resolve_relocs(TCGContext *s)
- 
- static void set_jmp_reset_offset(TCGContext *s, int which)
- {
--    size_t off = tcg_current_code_size(s);
--    s->tb_jmp_reset_offset[which] = off;
--    /* Make sure that we didn't overflow the stored offset.  */
--    assert(s->tb_jmp_reset_offset[which] == off);
-+    /*
-+     * We will check for overflow at the end of the opcode loop in
-+     * tcg_gen_code, where we bound tcg_current_code_size to UINT16_MAX.
-+     */
-+    s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
- }
- 
- #include "tcg-target.c.inc"
--- 
-2.25.1
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAl+gtVUACgkQbDjKyiDZ
+s5LfMhAAn2aKjqPgYDi+lCin3iAdZ/BLpSkZjEY1Qx7MCuoxc/ROMyUc4v2jFUYM
+UfOlhM35OCPWz+r/1++SLzmYG8zh1VCoTEeetfxEFh35Nk1gp8crX/rUKDv6BZqT
+gvFs9RopHN6he8l7oBVVdeNAw+7rjSMMb6M5GD6FrRgKBqOGmrgsTj7kFuexX1Fk
+K/uQ8At3MKP5qk1gu97QIxBnlgQKCq2EB5HSg2BcLlQ8k5GuhLzzQzsFG+G6eh9i
+Z8De34nx2j+iDP7jOmZxHs5Bsm22t6VTQ7ywWSVD6NDvl26KaxbXQNSgdNlB598D
+r3uHRxXsQdbuTnv+H1wiTg0Ga5vkzluyBC3D4jT0KSVrKIANKN3gTjssEWrIJFLX
+9oWYtgyrpZn7AsOy2sVpn4gDE8LgPrnOg4t0wr0p88ilfXJkbfsPp1KmlvAR6BIo
+0LTIcD6Acwb9uFDbYxhQt5NJIvmgAR3r6gHk1xNc0UKulAVuH91CY8LUnesGp6na
+it+qqISidzcwX8BHnsa0bfsTC9jlm8INmud5YJ/ijCJKErJWU2vMYaJfXn530r1l
+uV5Z3AeDM5jQKcp09lsKPEecx4lE7OpCGC7KtRpN7BYlVEx3nGtnA3tGukB489TC
+ZZ6Hp2pNx4X4M916C2U8mITXjRVmulkJlWo5tI9iplsGTKPjcNk=
+=VtK7
+-----END PGP SIGNATURE-----
+
+--mrJd9p1Ce66CJMxE--
 
