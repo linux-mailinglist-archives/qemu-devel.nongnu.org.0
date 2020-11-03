@@ -2,76 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EFFF2A3CCE
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 07:29:51 +0100 (CET)
-Received: from localhost ([::1]:55792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 125962A3CD5
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 07:32:04 +0100 (CET)
+Received: from localhost ([::1]:59398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZppG-0006yW-AD
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 01:29:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53012)
+	id 1kZprJ-0000Am-PF
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 01:31:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZpo3-00068r-2K
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 01:28:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22574)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kZpo1-0000q3-DI
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 01:28:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604384912;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EjXOHkDwRJhpW1HrGLn0fLmJkVTe0pQs6dIGzByFfNY=;
- b=SLvXUEz5Naco9zC08h9RuL751CJNSanwXe6W5PE9EaVXS3qUVpW3EQa6OF/Ra3Tg0VIKbi
- A1ZhD49gy1cPBjpRieJmRh7V8iNc3Pq3QRsL4RHbUM1+zlxOBFNroGgMlF4tLYI+WWmiOL
- 7R5chM+IglpLcO/YcBpoG2YdK7+aVwY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-521-iMP6YIpjP8CKPrzkmSgX2w-1; Tue, 03 Nov 2020 01:28:30 -0500
-X-MC-Unique: iMP6YIpjP8CKPrzkmSgX2w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74C638015C3;
- Tue,  3 Nov 2020 06:28:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
- [10.36.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 400BF5C230;
- Tue,  3 Nov 2020 06:28:22 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E58C11132BD6; Tue,  3 Nov 2020 07:28:20 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [PATCH v2 09/11] char-socket: Fix qemu_chr_socket_address() for
- abstract sockets
-References: <20201102094422.173975-1-armbru@redhat.com>
- <20201102094422.173975-10-armbru@redhat.com>
- <9f594cfb-2138-c12d-f6f7-6a4653e78087@redhat.com>
-Date: Tue, 03 Nov 2020 07:28:20 +0100
-In-Reply-To: <9f594cfb-2138-c12d-f6f7-6a4653e78087@redhat.com> (Eric Blake's
- message of "Mon, 2 Nov 2020 08:08:24 -0600")
-Message-ID: <87r1pbosxn.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kZppk-00084E-CN
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 01:30:20 -0500
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:35009)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1kZppi-0001JM-9N
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 01:30:20 -0500
+Received: by mail-yb1-xb44.google.com with SMTP id m188so13909468ybf.2
+ for <qemu-devel@nongnu.org>; Mon, 02 Nov 2020 22:30:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JwQh73Em+CdqYJYjPPGRsUopwH1ts2iUbpIDE/BTE3s=;
+ b=Gxxx86d9icF+g0sNbO2juVQK4TIAxVCVtPkknLpkB671N/LxwYHN5WDE2MJViwd+ey
+ /S7rbsMhHMgT4tRWPZBuavMOmsKUWe0QD0RvFJypiEBOGnroyaGdqu+TtF/wfuP1NV8u
+ fgjnoZDzKUJ3CxOhoZwfcV5qPB3GU2QgrwNHPMbZRAMe3+SSfEkwSTneo98k6XllfoHE
+ 28DUuGW9ancJzMG6cjSbf87H8xrEzWUyK7uAVdpSHZJuHIXVy7ZxFwhfN4ODk40nmVsd
+ /mIOBdeX2qOmglOyt+Y+/545YC46T1i7SMBgwHwzSRcCJfM5gC9FxdPi5Pr+9lY+tyPL
+ bn6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JwQh73Em+CdqYJYjPPGRsUopwH1ts2iUbpIDE/BTE3s=;
+ b=iTCOsfZu7EP/kOYtdAANaokmcJo3WxLHTgsbr3N4uFyQXYcNgcFLHcfjHwkIVdJMWo
+ ps4A69brCnoN0YiN4/1DCCWU2wIvIsRljDWstdev/Z3bNYDa5PL7xlE22/7eajpDGiiL
+ ioBtqMZFjUtMqXEtn+h1kBbshTd71nzkrzoRIumtj0qnLVZEw34Ac4hNe9RJaSWN4UDT
+ ItDG+SaTVxyYepfCKtvfyCm2t36wQfp4VqAi9EGuTJpaLBP7qG4V0tGNbpPdNKzXy88p
+ OCiItgUMP310SNMZ9QxSRerXmoDG/vfUIUejL/Ab/dKm52fF8eVNZbrUi1kQSCaUsic2
+ PFRg==
+X-Gm-Message-State: AOAM530wvBfu2yXSZ2WkFzv6ud6G1e1ype/GPu0yVcziieKXZv/SThkD
+ UvFoIjygJFl3BxFFesdczs9PndjrDbTV1bW5Xm0=
+X-Google-Smtp-Source: ABdhPJxmzFOZSJOC6CuYY0dLAAY1JxUnfmPtZgz/dLdZ2UUil5Y5PfEHP3+2FQGdhvSvtG0FJuiSoSjDNS3hI+Yeg+A=
+X-Received: by 2002:a25:4113:: with SMTP id o19mr25862179yba.314.1604385017433; 
+ Mon, 02 Nov 2020 22:30:17 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <1603959941-9689-1-git-send-email-bmeng.cn@gmail.com>
+ <20201030051920-mutt-send-email-mst@kernel.org>
+ <CAEUhbmV+t06o7RjhfHiCS2P6UZLm9dra+ev_eX-qRahoyx8HJA@mail.gmail.com>
+In-Reply-To: <CAEUhbmV+t06o7RjhfHiCS2P6UZLm9dra+ev_eX-qRahoyx8HJA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 3 Nov 2020 14:30:06 +0800
+Message-ID: <CAEUhbmXniMgCzEUPgYGF-TXYHH46N_6poCsVCQstWj8DErnzXA@mail.gmail.com>
+Subject: Re: [PATCH] hw/9pfs: virtio-9p: Ensure config space is a multiple of
+ 4 bytes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b44;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb44.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,61 +81,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, berrange@redhat.com, zxq_yx_007@163.com,
- qemu-devel@nongnu.org, kraxel@redhat.com, marcandre.lureau@redhat.com,
- pbonzini@redhat.com
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
-
-> On 11/2/20 3:44 AM, Markus Armbruster wrote:
->> Commit 776b97d360 "qemu-sockets: add abstract UNIX domain socket
->> support" neglected to update qemu_chr_socket_address().  It shows
->> shows neither @abstract nor @tight.  Fix that.
->> 
->> Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  chardev/char-socket.c | 10 +++++++++-
->>  1 file changed, 9 insertions(+), 1 deletion(-)
->> 
->> diff --git a/chardev/char-socket.c b/chardev/char-socket.c
->> index 1ee5a8c295..dc1cf86ecf 100644
->> --- a/chardev/char-socket.c
->> +++ b/chardev/char-socket.c
->> @@ -443,10 +443,18 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
->>                                 s->is_listen ? ",server" : "");
->>          break;
->>      case SOCKET_ADDRESS_TYPE_UNIX:
->> -        return g_strdup_printf("%sunix:%s%s", prefix,
->> +    {
->> +        UnixSocketAddress *sa = &s->addr->u.q_unix;
->> +
->> +        return g_strdup_printf("%sunix:%s%s%s%s", prefix,
->>                                 s->addr->u.q_unix.path,
->> +                               sa->has_abstract && sa->abstract
->> +                               ? ",abstract" : "",
->> +                               sa->has_tight && sa->tight
->> +                               ? ",tight" : "",
->>                                 s->is_listen ? ",server" : "");
+On Tue, Nov 3, 2020 at 2:26 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Gets modified again in 11/11, so I can accept this as a strict
-> improvement, even if it is not the final form.
-
-You're right, PATCH 11's change is better done here already.  Will tidy
-up if I need to respin for some other reason.
-
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Thanks!
-
+> Hi Michael,
 >
->>          break;
->> +    }
->>      case SOCKET_ADDRESS_TYPE_FD:
->>          return g_strdup_printf("%sfd:%s%s", prefix, s->addr->u.fd.str,
->>                                 s->is_listen ? ",server" : "");
->> 
+> On Fri, Oct 30, 2020 at 5:29 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > On Thu, Oct 29, 2020 at 04:25:41PM +0800, Bin Meng wrote:
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > At present the virtio device config space access is handled by the
+> > > virtio_config_readX() and virtio_config_writeX() APIs. They perform
+> > > a sanity check on the result of address plus size against the config
+> > > space size before the access occurs.
+> > >
+> > > For unaligned access, the last converted naturally aligned access
+> > > will fail the sanity check on 9pfs. For example, with a mount_tag
+> > > `p9fs`, if guest software tries to read the mount_tag via a 4 byte
+> > > read at the mount_tag offset which is not 4 byte aligned, the read
+> > > result will be `p9\377\377`, which is wrong.
+> > >
+> > > This changes the size of device config space to be a multiple of 4
+> > > bytes so that correct result can be returned in all circumstances.
+> > >
+> > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> >
+> >
+> >
+> > The patch is ok, but I'd like to clarify the commit log.
+>
+> Thanks for the review.
+>
+> >
+> > If I understand correctly, what happens is:
+> > - tag is set to a value that is not a multiple of 4 bytes
+>
+> It's not about the mount_tag value, but the length of the mount_tag is 4.
+>
+> > - guest attempts to read the last 4 bytes of the tag
+>
+> Yep. So the config space of a 9pfs looks like the following:
+>
+> offset: 0x14, size: 2 bytes indicating the length of the following mount_tag
+> offset: 0x16, size: value of (offset 0x14).
+>
+> When a 4-byte mount_tag is given, guest software is subject to read 4
+> bytes (value read from offset 0x14) at offset 0x16.
+>
+> > - access returns -1
+> >
+>
+> The access will be split into 2 accesses, either by hardware or
+> software. On RISC-V such unaligned access is emulated by M-mode
+> firmware. On ARM I believe it's supported by the CPU. So the first
+> converted aligned access is to read 4 byte at 0x14 and the second
+> converted aligned access is to read 4 byte at 0x16, and drop the bytes
 
+Oops, typo. The 2nd access happens at offset 0x18
+
+> that are not needed, assemble the remaining bytes and return the
+> result to the guest software. The second aligned access will fail the
+> sanity check and return -1, but not the first access, hence the result
+> will be `p9\377\377`.
+>
+> >
+> > What I find confusing in the above description:
+> > - reference to unaligned access - I don't think these
+> >   are legal or allowed by QEMU
+> > - reference to `p9\377\377` - I think returned value will be -1
+> >
+
+Regards,
+Bin
 
