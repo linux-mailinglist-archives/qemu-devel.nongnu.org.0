@@ -2,98 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 778C62A490D
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:13:05 +0100 (CET)
-Received: from localhost ([::1]:35520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D6492A4947
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:18:38 +0100 (CET)
+Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZxzb-0007QU-U6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:13:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34252)
+	id 1kZy4z-0004o3-9k
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:18:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZxR5-0007lx-S4
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:37:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23646)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kZxR3-0007PO-Va
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:37:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604414240;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6nvCdA0ADTZNgkZ4YQafyTlrB7F+Il7qGwPiV4M5tIU=;
- b=djb6jAP7DJkQFMJJT89N3CdLtos13BC5873ZL48yqROAilxHYJRsSOmHnnHonzoswYga9S
- 1U7FZO2VQiaoXLT91tyKXfi/f4AgHMzg6i5pHH6kS6eXvjivfI1DVsLSlOvfLXtdYMxKy2
- DTgyfC9RtBzz3RBT0MOaYg53B4OZFX0=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-RIRecGbAOMOMn1NNmozVGw-1; Tue, 03 Nov 2020 09:37:16 -0500
-X-MC-Unique: RIRecGbAOMOMn1NNmozVGw-1
-Received: by mail-ej1-f71.google.com with SMTP id p18so5490919ejl.14
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:37:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZxUJ-0003OP-HE
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:40:43 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:32936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kZxUG-0000D2-Hm
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:40:43 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id 7so24473113ejm.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 06:40:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Uvy/IRiXB6+4yVVLpuaK04e+lQGaUXQngNHwxb3om4I=;
+ b=nI2F9z5Zh/YchWYnqJ8eqWeft+mW2ehY5YKkLpNirPr4yaX3oPI+dA39dsKRTY6usz
+ p92ojfm0wv2ox1nXdkli8vcX30PoS3QSC+TtcQetyHQgIa1JqpGeqVNiR/2bpYWzFprB
+ DUNg+LqvPK2J7iZqaDrGuiYa4xqM2mVlRGijtFN+cLBvXQcMm64IlSamwqR150D000BT
+ 9DQJQ8TE1v9AkXymJOORb0w23KkHsMqabZLRkR8SpnLkVOfaqJFhsRkFs3LsYd/sJKMv
+ fehQqlLSwL4d0RgM86CmtsobunmDH4J/hHMokff5cTMO6lxBSopfQr8AmUb04uMtDHfM
+ LZaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6nvCdA0ADTZNgkZ4YQafyTlrB7F+Il7qGwPiV4M5tIU=;
- b=VI+HNY61eb9JaQc56g8WhPjJxgvIXauL6ucMtohDwHFBqUkqDfQqLyH6ogNNLT1jxY
- kgJ1TxdirV+O3hjWjzZIEhw5rxRwm6TRPU1KL4pKH9ITfklhM0MtaUj68MQGzsrWvMkD
- s56uSVR1N19MmhiKqVG/JUAPpKVue5E6zK6CW7GJqixnNaAj+/cEzrsqhHJwt9hmXmFk
- Awo8H5OebirHdHLFQjVhRZP0nZ79YhWn8MHUktbMHmFSEJpu4qfvLpZYzNJ3PIuEecHh
- VvR3PNIMCWJFHHntsP9CCXis1PGozYcZVZf0eYrdPpvYU8tNhF/IRw24sCSwQlld1mZc
- wOXg==
-X-Gm-Message-State: AOAM530oGvI7OIPtwKuDvhk7rx9qv8R4fEpUcm2Y+TEYlAu0dvtvg0qU
- eX9EUpN7+Z+Qmtod+NclIBR68k9+kl2AWL5rmoSr9/HUTrmDgm+C7xj9Jsv4Y1XDuzn0wleKUpM
- HcGIWnYJQf5g3pDM=
-X-Received: by 2002:a17:906:404f:: with SMTP id
- y15mr1903894ejj.60.1604414234913; 
- Tue, 03 Nov 2020 06:37:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLwb/VJ+mnJuVEtJJT0JDzK1vDahUqTSxVeYxNciTmmVRoBYoimoqfOCG1htgCQd0Rr6w9Zw==
-X-Received: by 2002:a17:906:404f:: with SMTP id
- y15mr1903880ejj.60.1604414234742; 
- Tue, 03 Nov 2020 06:37:14 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o16sm7698086ejm.73.2020.11.03.06.37.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 03 Nov 2020 06:37:14 -0800 (PST)
-To: Igor Mammedov <imammedo@redhat.com>
-References: <20201027182144.3315885-1-pbonzini@redhat.com>
- <20201102165756.69540720@redhat.com>
- <6c08fbaa-57aa-b2da-c90a-6b53f628806a@redhat.com>
- <20201103135735.029c9b6d@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [RFC PATCH v2 00/37] cleanup qemu_init and make sense of command
- line processing
-Message-ID: <13f14d6c-e52a-390c-7940-9df2e220113e@redhat.com>
-Date: Tue, 3 Nov 2020 15:37:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Uvy/IRiXB6+4yVVLpuaK04e+lQGaUXQngNHwxb3om4I=;
+ b=YVANmgc0LQrdyQhuS0rKJfbW55vXoOLEIJhs3nQn0+h8RrG58b+jXbrTkDnCV3iu38
+ Qn4IygIn1c3faqfHDCf0u+SpHZ0qQEiD3sb2YGDiz3AsMvLfuxpAWb49SL4YWYYYBb5j
+ oydejts5ekS6Zvmgz4o3AHFkEM6ZuUdonm+Nbn2CTbXxgW/lSijpUnufgzamkbwAxpNI
+ T0/d1ZAPAlTT31AdoP/PsfIuUg0+v24GAncKcptaKHA/U1O51NF4mLyZdmyAyg5KEjg0
+ 76Us23wCj+4Lb/BRDtc9ecIerLY8jDBlimKvV+9xk7mKPpwIBaQ0aAxJOsBIxUEZUc7b
+ 48zA==
+X-Gm-Message-State: AOAM5331AFkEegZTS+UTGH2LbY9CM8Av+X46MNx5Pitjx/9SBDOxu3L7
+ nnftpu54P9rATpR88kB5IfwxHmmfVrBa8JxJPanxNA==
+X-Google-Smtp-Source: ABdhPJyWOYSQaE9bs0Q7Mjxm0p3wNF8K/h6B6DdePMtDfILgkBxYtW3okJW0iL9Ume6iLcpSvO08d6WjoInI3Wg22gI=
+X-Received: by 2002:a17:906:3a97:: with SMTP id
+ y23mr20357852ejd.250.1604414438456; 
+ Tue, 03 Nov 2020 06:40:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201103135735.029c9b6d@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201103024343.894221-1-michael.roth@amd.com>
+In-Reply-To: <20201103024343.894221-1-michael.roth@amd.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 3 Nov 2020 14:40:27 +0000
+Message-ID: <CAFEAcA-7FQd-ONSnsnK5nRs5wqpc47Dfqa8MRKEJXvt_5cxcsg@mail.gmail.com>
+Subject: Re: [PULL v3 00/12] qemu-ga patch queue for soft-freeze
+To: Michael Roth <michael.roth@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,19 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/11/20 13:57, Igor Mammedov wrote:
->> It's based on 20201026143028.3034018-1-pbonzini@redhat.com (which you
->> should be able to get through patchew).
-> Not sure what you mean and how to do that.
-> Is it possible to share v2 as a git tree somewhere?
+On Tue, 3 Nov 2020 at 02:44, Michael Roth <michael.roth@amd.com> wrote:
+>
+> Hi Peter,
+>
+> Sorry to get these out so late, for some inexplicable reason my email
+> client decided to flag all responses v1 as spam and I didn't notice
+> until I double-checked the archives this morning.
+>
+> I've fixed the gcc-on-BSD and clang-on-linux issues you pointed out
+> (PATCH 6) and added proper test coverage for both.
+>
+> Also, the qga-ssh-test unit test introduced in this series triggers a
+> failure in Gitlab CI build-oss-fuzz test. This seems to be due to a
+> memory leak in GLib itself when G_TEST_OPTION_ISOLATE_DIRS option is
+> passed to g_test_init(). I verified the unit test doesn't introduce any
+> leaks when run without g_test* harness. Since G_TEST_OPTION_ISOLATE_DIRS
+> is currently needed to safely run the qga-ssh-test, I've disabled it for
+> now (PATCH 9 and 12) until we figure out solution.
+>
+> And finally (hopefully), I addressed the checkpatch warning regarding
+> disallowed use of various g_assert_* macros. I previously thought they
+> were just noise until Markus pointed out commit 6e9389563e.
+>
+> Sorry for all the noise,
+>
+> Mike
+>
+> The following changes since commit 2c6605389c1f76973d92b69b85d40d94b8f1092c:
+>
+>   Merge remote-tracking branch 'remotes/awilliam/tags/vfio-update-20201101.0' into staging (2020-11-02 09:54:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/mdroth/qemu.git tags/qga-pull-2020-10-27-v3-tag
+>
+> for you to fetch changes up to cad97c08a1c17830d77a46780088bc0199df89d1:
+>
+>   qga: add ssh-get-authorized-keys (2020-11-02 20:04:13 -0600)
+>
+> ----------------------------------------------------------------
+> qemu-ga patch queue for soft-freeze
+>
+> * add guest-get-disks for w32/linux
+> * add guest-{add,remove,get}-authorized-keys
+> * fix API violations and schema documentation inconsistencies with
+>   recently-added guest-get-devices
+>
+> v3:
+> - fix checkpatch errors regarding disallowed usages of g_assert*
+>   macros and other warnings
+>
+> v2:
+> - fix BSD build error due to missing stub for guest_get_disks
+> - fix clang build error on linux due to unused variable
+> - disable qga-ssh-test for now due to a memory leak within GLib when
+>   G_TEST_OPTION_ISOLATE_DIRS is passed to g_test_init() since it
+>   break Gitlab CI build-oss-fuzz test
+> - rebased and re-tested on master
+>
 
-I pushed it to for-6.0 on my gitlab repo.  There's a lot more stuff in
-the branch, but these patches are at the top.
 
-Paolo
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
