@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 057A12A4733
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:04:59 +0100 (CET)
-Received: from localhost ([::1]:60988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929CF2A4747
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 15:08:33 +0100 (CET)
+Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZwvh-0008JW-VE
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:04:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49128)
+	id 1kZwzA-0003Bb-IO
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 09:08:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZwte-0006c2-3q
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:02:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21873)
+ id 1kZwtc-0006a6-DO
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:02:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kZwtY-0003IC-Jh
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:02:49 -0500
+ id 1kZwta-0003IN-KU
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 09:02:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604412162;
+ s=mimecast20190719; t=1604412165;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4ZQmbq0xB5DnH58qbXfj6utbb/hVdwsAPsSGEx2W6Gs=;
- b=U/I4ZU94BxmvJvESKZFWvD6ULV9PpQAoxs2kvNi+NyWAnnNd6fShY5xCDiCU6zh3Jdpd/3
- +6eueg3SFq90wlU7ouYNUkyEsC9eUtVulDdbZxVmDpGYb49hi+PUKrvx8OOMC/6f8ho18w
- AzpGDnnW4ee5bw2ZuBYU1wm2pCFDKWs=
+ bh=PfX9tvD80HpcY4mvycJt2UiFX8KtV4zGgMmbbxTCLyI=;
+ b=MrHSPIueybBbNmS3eOE9NOFBiHeZjelVaX+z80Ymh9n9vshgTN9nInwvEMDgJntAlz4f1H
+ Cjftq3yxzumIdaXV7Z8rcOTsIXEJge8GXTK8TfcQPyFsrV9wA7MHt6X+lecjR2RCdcKXo7
+ uv4R1PZKnukVsEYrNu5+iTcGpmOnkcg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-phQo3XqLOly3gM157Oiy4Q-1; Tue, 03 Nov 2020 09:02:41 -0500
-X-MC-Unique: phQo3XqLOly3gM157Oiy4Q-1
+ us-mta-268-aw9xCa-yPzaPUARhCP38Ew-1; Tue, 03 Nov 2020 09:02:43 -0500
+X-MC-Unique: aw9xCa-yPzaPUARhCP38Ew-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46C078058C7
- for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 14:02:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A928B186DD2A
+ for <qemu-devel@nongnu.org>; Tue,  3 Nov 2020 14:02:42 +0000 (UTC)
 Received: from fedora.redhat.com (ovpn-115-87.ams2.redhat.com [10.36.115.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 411B276640;
- Tue,  3 Nov 2020 14:02:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C3956F142;
+ Tue,  3 Nov 2020 14:02:40 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/11] test-util-sockets: Plug file descriptor leak
-Date: Tue,  3 Nov 2020 14:02:15 +0000
-Message-Id: <20201103140225.496776-2-berrange@redhat.com>
+Subject: [PULL 02/11] test-util-sockets: Correct to set has_abstract, has_tight
+Date: Tue,  3 Nov 2020 14:02:16 +0000
+Message-Id: <20201103140225.496776-3-berrange@redhat.com>
 In-Reply-To: <20201103140225.496776-1-berrange@redhat.com>
 References: <20201103140225.496776-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -81,7 +81,6 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
@@ -90,28 +89,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Markus Armbruster <armbru@redhat.com>
 
-Fixes: 4d3a329af59ef8acd076f99f05e82531d8129b34
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The code tested doesn't care, which is a bug I will fix shortly.
+
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- tests/test-util-sockets.c | 1 +
- 1 file changed, 1 insertion(+)
+ tests/test-util-sockets.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/tests/test-util-sockets.c b/tests/test-util-sockets.c
-index f6336e0f91..15da867b8f 100644
+index 15da867b8f..9d317e73a6 100644
 --- a/tests/test-util-sockets.c
 +++ b/tests/test-util-sockets.c
-@@ -252,6 +252,7 @@ static gpointer unix_server_thread_func(gpointer user_data)
+@@ -243,7 +243,9 @@ static gpointer unix_server_thread_func(gpointer user_data)
  
-     connfd = accept(fd, (struct sockaddr *)&un, &len);
-     g_assert_cmpint(connfd, !=, -1);
-+    close(connfd);
+     addr.type = SOCKET_ADDRESS_TYPE_UNIX;
+     addr.u.q_unix.path = abstract_sock_name;
++    addr.u.q_unix.has_tight = true;
+     addr.u.q_unix.tight = user_data != NULL;
++    addr.u.q_unix.has_abstract = true;
+     addr.u.q_unix.abstract = true;
  
-     close(fd);
+     fd = socket_listen(&addr, 1, &err);
+@@ -267,7 +269,9 @@ static gpointer unix_client_thread_func(gpointer user_data)
  
+     addr.type = SOCKET_ADDRESS_TYPE_UNIX;
+     addr.u.q_unix.path = abstract_sock_name;
++    addr.u.q_unix.has_tight = true;
+     addr.u.q_unix.tight = user_data != NULL;
++    addr.u.q_unix.has_abstract = true;
+     addr.u.q_unix.abstract = true;
+ 
+     fd = socket_connect(&addr, &err);
 -- 
 2.28.0
 
