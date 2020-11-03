@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10992A4A5A
-	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:51:44 +0100 (CET)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB7DE2A4A60
+	for <lists+qemu-devel@lfdr.de>; Tue,  3 Nov 2020 16:53:24 +0100 (CET)
+Received: from localhost ([::1]:53398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kZyb1-0000i6-8i
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:51:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48556)
+	id 1kZycd-0003M1-OB
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 10:53:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDP-0000hI-Rt
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36083)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDS-0000pt-SU
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30676)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDN-0007NY-Kk
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:19 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kZyDP-0007Ow-N3
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 10:27:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604417236;
+ s=mimecast20190719; t=1604417238;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eW0sP+Z6IJf6SxvnCG9cJZi0EnwihHOuG2VMMR8dm0c=;
- b=CH680FyB1RJsldrREj8KcMBW8aZx18usmnfVBxmDZy9cLIxwYoDt4cWZJ8SbEJG2qlDMsK
- BCAJh/7F8+kM7C9p40xMtCB0qsYfUfY+8ngCKrluJWFq5nJD57ZSvQHkR9mATuteKW/R2z
- jBLnM1QJJFXOFWiFNCrtE14m2Hpoe1A=
+ bh=m8Z76YkFndCKXfmICdrTuHcPQ4+kdhOB48dxkWsImBs=;
+ b=QvK0kp6QAh3t3r8Tqkq9fKOG4fqd8MWTvFLRXcm9e8GzoIX3b7h9+oOC5/yKYkjGCibaUT
+ GEqpsh/xyiIkUBlumh86OWyO6JvAKNNGQjpjaJO7wQmcyUG2zX+4KjaHpehM7KnsqOqP7B
+ 00fC8isoH1OUh6TgFKIUY7cZziZp+rk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-tZsAgmVyP_S_xYI0xVwGiQ-1; Tue, 03 Nov 2020 10:27:14 -0500
-X-MC-Unique: tZsAgmVyP_S_xYI0xVwGiQ-1
+ us-mta-556-sKv6t3SIPj-26a-_VPJAHg-1; Tue, 03 Nov 2020 10:27:15 -0500
+X-MC-Unique: sKv6t3SIPj-26a-_VPJAHg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10B371868411;
- Tue,  3 Nov 2020 15:27:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E7E41006CAB;
+ Tue,  3 Nov 2020 15:27:14 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-113-164.ams2.redhat.com [10.36.113.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C32D6EF70;
- Tue,  3 Nov 2020 15:27:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 581AA6EF70;
+ Tue,  3 Nov 2020 15:27:13 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 5/6] iotests: Use Python 3 style super()
-Date: Tue,  3 Nov 2020 16:26:57 +0100
-Message-Id: <20201103152658.119563-6-kwolf@redhat.com>
+Subject: [PULL 6/6] block/vvfat: Fix bad printf format specifiers
+Date: Tue,  3 Nov 2020 16:26:58 +0100
+Message-Id: <20201103152658.119563-7-kwolf@redhat.com>
 In-Reply-To: <20201103152658.119563-1-kwolf@redhat.com>
 References: <20201103152658.119563-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,19 +53,19 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,41 +82,76 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-pylint complains about the use of super with the current class and
-instance as arguments in VM.__init__():
+From: AlexChen <alex.chen@huawei.com>
 
-iotests.py:546:8: R1725: Consider using Python 3 style super() without arguments (super-with-arguments)
+We should use printf format specifier "%u" instead of "%d" for
+argument of type "unsigned int".
+In addition, fix two error format problems found by checkpatch.pl:
+ERROR: space required after that ',' (ctx:VxV)
++        fprintf(stderr,"%s attributes=0x%02x begin=%u size=%d\n",
+                       ^
+ERROR: line over 90 characters
++        fprintf(stderr, "%d, %s (%u, %d)\n", i, commit->path ? commit->path : "(null)", commit->param.rename.cluster, commit->action);
 
-No reason not to follow the advice and make it happy, so let's do this.
-
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20201027163806.290960-4-kwolf@redhat.com>
-Reviewed-by: John Snow <jsnow@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+Message-Id: <5FA12620.6030705@huawei.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/iotests.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ block/vvfat.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 28388a0fbc..814804a4c6 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -543,10 +543,10 @@ class VM(qtest.QEMUQtestMachine):
+diff --git a/block/vvfat.c b/block/vvfat.c
+index 5abb90e7c7..54807f82ca 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -1437,7 +1437,7 @@ static void print_direntry(const direntry_t* direntry)
+         for(i=0;i<11;i++)
+             ADD_CHAR(direntry->name[i]);
+         buffer[j] = 0;
+-        fprintf(stderr,"%s attributes=0x%02x begin=%d size=%d\n",
++        fprintf(stderr, "%s attributes=0x%02x begin=%u size=%u\n",
+                 buffer,
+                 direntry->attributes,
+                 begin_of_direntry(direntry),le32_to_cpu(direntry->size));
+@@ -1446,7 +1446,7 @@ static void print_direntry(const direntry_t* direntry)
  
-     def __init__(self, path_suffix=''):
-         name = "qemu%s-%d" % (path_suffix, os.getpid())
--        super(VM, self).__init__(qemu_prog, qemu_opts, name=name,
--                                 test_dir=test_dir,
--                                 socket_scm_helper=socket_scm_helper,
--                                 sock_dir=sock_dir)
-+        super().__init__(qemu_prog, qemu_opts, name=name,
-+                         test_dir=test_dir,
-+                         socket_scm_helper=socket_scm_helper,
-+                         sock_dir=sock_dir)
-         self._num_drives = 0
+ static void print_mapping(const mapping_t* mapping)
+ {
+-    fprintf(stderr, "mapping (%p): begin, end = %d, %d, dir_index = %d, "
++    fprintf(stderr, "mapping (%p): begin, end = %u, %u, dir_index = %u, "
+         "first_mapping_index = %d, name = %s, mode = 0x%x, " ,
+         mapping, mapping->begin, mapping->end, mapping->dir_index,
+         mapping->first_mapping_index, mapping->path, mapping->mode);
+@@ -1454,7 +1454,7 @@ static void print_mapping(const mapping_t* mapping)
+     if (mapping->mode & MODE_DIRECTORY)
+         fprintf(stderr, "parent_mapping_index = %d, first_dir_index = %d\n", mapping->info.dir.parent_mapping_index, mapping->info.dir.first_dir_index);
+     else
+-        fprintf(stderr, "offset = %d\n", mapping->info.file.offset);
++        fprintf(stderr, "offset = %u\n", mapping->info.file.offset);
+ }
+ #endif
  
-     def add_object(self, opts):
+@@ -1588,7 +1588,7 @@ typedef struct commit_t {
+ static void clear_commits(BDRVVVFATState* s)
+ {
+     int i;
+-DLOG(fprintf(stderr, "clear_commits (%d commits)\n", s->commits.next));
++DLOG(fprintf(stderr, "clear_commits (%u commits)\n", s->commits.next));
+     for (i = 0; i < s->commits.next; i++) {
+         commit_t* commit = array_get(&(s->commits), i);
+         assert(commit->path || commit->action == ACTION_WRITEOUT);
+@@ -2648,7 +2648,9 @@ static int handle_renames_and_mkdirs(BDRVVVFATState* s)
+     fprintf(stderr, "handle_renames\n");
+     for (i = 0; i < s->commits.next; i++) {
+         commit_t* commit = array_get(&(s->commits), i);
+-        fprintf(stderr, "%d, %s (%d, %d)\n", i, commit->path ? commit->path : "(null)", commit->param.rename.cluster, commit->action);
++        fprintf(stderr, "%d, %s (%u, %d)\n", i,
++                commit->path ? commit->path : "(null)",
++                commit->param.rename.cluster, commit->action);
+     }
+ #endif
+ 
 -- 
 2.28.0
 
