@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AE82A6D3C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:55:31 +0100 (CET)
-Received: from localhost ([::1]:42148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090032A6D3F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:56:23 +0100 (CET)
+Received: from localhost ([::1]:45296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaNwQ-0005tK-Br
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:55:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52642)
+	id 1kaNxF-0007HH-R0
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:56:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjq-0001hS-Jg
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjq-0001hf-Oz
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34898)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjo-00026L-SH
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjp-00026S-3Y
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604515346;
+ s=mimecast20190719; t=1604515348;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aTAjTe4Celzp7fll7OULoNskonibl44hj9qWQyy3thE=;
- b=SQoIjRXbQ6Uh/8XWadbgGEUveuDhsE8SB+2ln6aIIzOCk73zE68xlPIpEhxfJCS57MLHuG
- 6rs57VTGCpAvfJaoTfK97Y/qT0sYus9cW6gBvjxdFM5YwufnMAAwPFpuCQihun+fr6n5FL
- Ebo7kPh6Qktn9GZR7T2WS7oQD0H448s=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-1MVJBzloPo6tdpQ6epLBcA-1; Wed, 04 Nov 2020 13:42:24 -0500
-X-MC-Unique: 1MVJBzloPo6tdpQ6epLBcA-1
-Received: by mail-wm1-f72.google.com with SMTP id t201so1564981wmt.1
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:42:23 -0800 (PST)
+ bh=Try6I8+Gzp362j90+uCp08fdMyiL5wC2Bsqj8twh+n4=;
+ b=hzvxE2e4dL+i1++2dLycdR9lpW5vv84F+2QkQjjSw5DKVnih4TU3DJ0YP6uYv/umIaJu+F
+ dTuJMIpSFzrUx8TJD75xaBD11ECf8wZaWZsn1y50HVn8TlJXwnknufeHAr6PV9uWs6R5B9
+ 6LrtRl75Hfv84KeE4E7WWUL9OhDLaxk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-qbCEMJWQOXSge5r4EDebng-1; Wed, 04 Nov 2020 13:42:26 -0500
+X-MC-Unique: qbCEMJWQOXSge5r4EDebng-1
+Received: by mail-wr1-f72.google.com with SMTP id i1so9580359wrb.18
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:42:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=aTAjTe4Celzp7fll7OULoNskonibl44hj9qWQyy3thE=;
- b=pKppiBxpbgttSCLLghSXzhc0b/iIZ9/JRAhpdpoLbIhLMgurR9xjXqt+MWflds6Noq
- vHTaGD1lvfC3B7GZ2usnMy02b8dSyQKk2Z6LlGEiQBBdlMFqp5AzwP092QEqeTnMP181
- L8G/hWzmsXHv18uFxa/mDHgZVehFPil8+OP/l2PzMvZhv3Fg889YKo0DfBSqXGotAiFq
- WfOJI/DNNN9Uo+ijVljMzta7jt9dwuqCxBwToCF2NLAWFknDU+IW6sajffOM9veXU0Tu
- llF1QkhlDcSjffzhKzScZBYsZIHtjWir2VSdWX3X0HgJ+hyL92WMkxBTomMy7LgYQo3w
- LPUQ==
-X-Gm-Message-State: AOAM533JfL3qxzFI8hSqMwiGzdPdkOE07PZzR9E9ZNhLKj0rI6IIa/lX
- xr1drqBTLRQkO+TNEKlFx9Ap5nUcAromGGpKfDo+vRjEIy2yg32BMrXitPs5IqpvOgmOjuaW/11
- q8SUZR8k5QToBryY=
-X-Received: by 2002:adf:f10e:: with SMTP id r14mr32276638wro.337.1604515342311; 
- Wed, 04 Nov 2020 10:42:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0Ew60B9saI0kYYayGu9/3Anp3j/v1iSPyR3GKSxJsWsdXpXlyFoeEojgO6wYahTIY/9mEvQ==
-X-Received: by 2002:adf:f10e:: with SMTP id r14mr32276620wro.337.1604515342162; 
- Wed, 04 Nov 2020 10:42:22 -0800 (PST)
+ bh=Try6I8+Gzp362j90+uCp08fdMyiL5wC2Bsqj8twh+n4=;
+ b=t2v14mCS0rDTTQzCSB7leCNEZ54GJsE8bNOgCARJQUvjEGX9RppeJ4YzrA0smGR5Hr
+ kWR1Zr6JdFxYINpJOubov53dNxr3ng8wImasAAxzsLT2L+ZUukF4PFXCHIE/I4xrlttC
+ mc3daZ19bMPvQHxluCWexB4UnsFsFWAsKCzhQagcRG3mYVFWpaGgH5+ZFNuZ1IRh6sT3
+ 3NDN09fwxVGPxgwvNjQaBtUIDWEd6B8+ajLMMcwKuvyhE1vrrwL9VpfRKEqhv7y4EytL
+ EwRiAX6e3EkhVZ0mBtoCKi3kzwZc5cfqNGaBvUOgpbslo1/Kqi3yoYfl+FG1Cr6cWlkM
+ oSXg==
+X-Gm-Message-State: AOAM53072nwCN8tOzn9k+b8A0KNpNtpmhcOVYr62ZXLkGTeoQr0037c7
+ AvyvnOCZ3jU4RpBR0FOlleDbiUJdjxXkgkuyX1x/vO3JDbby6w/tIjEy7feW7XornfF28mUNBu5
+ D9zXYoDYoB0SSMJY=
+X-Received: by 2002:adf:dd09:: with SMTP id a9mr34051242wrm.208.1604515344947; 
+ Wed, 04 Nov 2020 10:42:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzkTfKeUmM+P7f/sQQduJMEEgzCrQvVQedNk9WCw2hBBLx+hy3QpsT0oBP0sYUWKulR5KSQZA==
+X-Received: by 2002:adf:dd09:: with SMTP id a9mr34051224wrm.208.1604515344810; 
+ Wed, 04 Nov 2020 10:42:24 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id t23sm3284378wmn.13.2020.11.04.10.42.20
+ by smtp.gmail.com with ESMTPSA id v6sm3269330wmj.6.2020.11.04.10.42.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 10:42:21 -0800 (PST)
-Date: Wed, 4 Nov 2020 13:42:19 -0500
+ Wed, 04 Nov 2020 10:42:24 -0800 (PST)
+Date: Wed, 4 Nov 2020 13:42:22 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 22/31] vfio: Don't issue full 2^64 unmap
-Message-ID: <20201104184040.285057-23-mst@redhat.com>
+Subject: [PULL v3 23/31] vhost-vdpa: Add qemu_close in vhost_vdpa_cleanup
+Message-ID: <20201104184040.285057-24-mst@redhat.com>
 References: <20201104184040.285057-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104184040.285057-1-mst@redhat.com>
@@ -94,53 +94,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alex Williamson <alex.williamson@redhat.com>,
- Eric Auger <eric.auger@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Cindy Lu <lulu@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+From: Cindy Lu <lulu@redhat.com>
 
-IOMMUs may declare memory regions spanning from 0 to UINT64_MAX. When
-attempting to deal with such region, vfio_listener_region_del() passes a
-size of 2^64 to int128_get64() which throws an assertion failure.  Even
-ignoring this, the VFIO_IOMMU_DMA_MAP ioctl cannot handle this size
-since the size field is 64-bit. Split the request in two.
+fix the bug that fd will still open after the cleanup
 
-Acked-by: Alex Williamson <alex.williamson@redhat.com>
-Reviewed-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20201030180510.747225-11-jean-philippe@linaro.org>
+Signed-off-by: Cindy Lu <lulu@redhat.com>
+Message-Id: <20201016030909.9522-1-lulu@redhat.com>
+Acked-by: Jason Wang <jasowang@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/vfio/common.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ net/vhost-vdpa.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 35895b18a6..c1fdbf17f2 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -950,6 +950,17 @@ static void vfio_listener_region_del(MemoryListener *listener,
+diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+index 99c476db8c..fe659ec9e2 100644
+--- a/net/vhost-vdpa.c
++++ b/net/vhost-vdpa.c
+@@ -145,6 +145,10 @@ static void vhost_vdpa_cleanup(NetClientState *nc)
+         g_free(s->vhost_net);
+         s->vhost_net = NULL;
      }
++     if (s->vhost_vdpa.device_fd >= 0) {
++        qemu_close(s->vhost_vdpa.device_fd);
++        s->vhost_vdpa.device_fd = -1;
++    }
+ }
  
-     if (try_unmap) {
-+        if (int128_eq(llsize, int128_2_64())) {
-+            /* The unmap ioctl doesn't accept a full 64-bit span. */
-+            llsize = int128_rshift(llsize, 1);
-+            ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-+            if (ret) {
-+                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-+                             "0x%"HWADDR_PRIx") = %d (%m)",
-+                             container, iova, int128_get64(llsize), ret);
-+            }
-+            iova += int128_get64(llsize);
-+        }
-         ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-         if (ret) {
-             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
+ static bool vhost_vdpa_has_vnet_hdr(NetClientState *nc)
 -- 
 MST
 
