@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA6102A6B9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:27:48 +0100 (CET)
-Received: from localhost ([::1]:52464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D072A6BA6
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:30:01 +0100 (CET)
+Received: from localhost ([::1]:60908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMZX-0003Lv-Rm
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:27:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60964)
+	id 1kaMbg-0006nI-NT
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:30:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXe-0001XU-FN
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59259)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kaMXx-0002GG-LH
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:26:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29528)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXc-0008Km-Od
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:50 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kaMXv-0008Lv-JR
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:26:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604510748;
+ s=mimecast20190719; t=1604510766;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kwACAshq5NS9uT54H9fF11qSNq1GFrFnRwSqIb1jpDQ=;
- b=W3/bvtJtb/WNWBN+WopsT6FfJJgpjFOHpsM58J/GqnOuQ3hSfMwY+Y+kCv5nM+UgbNkIBo
- 8Gos7E/61y9Be9UIx0EguHNseSTbWIpf624ljqU8XtfgdfUjkCaP2NWtXxrvwZfBvm2+0/
- dutgqZKRfUmqqGHCZ/yHf7SWJYkuTqo=
+ bh=QwvrnVGl3zzk4/gRFIeOl2yhxYKlFhxgYMVkMxa2fNM=;
+ b=d7yKWAjnlVRwrxr3Hp9qt+Bt/zO47ieXCrKY6VzHGKS1IPK2jZponIKPH+8y3hsW/f+20i
+ fHgq6qzsQj5RD8gK1gy4LPAK1qUc1Bi19xhR+wTa0dtlz/xcGXaf0ff59XqN+o+2tB6E4U
+ h4g3j2Pvwqxb7Kh3+U/1HCbzYS++FTA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-425-FPCIqXdGNmuW79xPauGz0Q-1; Wed, 04 Nov 2020 12:25:46 -0500
-X-MC-Unique: FPCIqXdGNmuW79xPauGz0Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-14-kTuKYArhNmCBw7vDWTV9Ow-1; Wed, 04 Nov 2020 12:26:03 -0500
+X-MC-Unique: kTuKYArhNmCBw7vDWTV9Ow-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4144911BD343;
- Wed,  4 Nov 2020 17:25:45 +0000 (UTC)
-Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D0B8E5DA33;
- Wed,  4 Nov 2020 17:25:44 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] sparc: Use FIELD_PTR at nwindows getter/setter
-Date: Wed,  4 Nov 2020 12:25:12 -0500
-Message-Id: <20201104172512.2381656-8-ehabkost@redhat.com>
-In-Reply-To: <20201104172512.2381656-1-ehabkost@redhat.com>
-References: <20201104172512.2381656-1-ehabkost@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5500B803659;
+ Wed,  4 Nov 2020 17:26:01 +0000 (UTC)
+Received: from gondolin (ovpn-114-18.ams2.redhat.com [10.36.114.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 031BF6F142;
+ Wed,  4 Nov 2020 17:25:49 +0000 (UTC)
+Date: Wed, 4 Nov 2020 18:25:47 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH-for-5.2 v3 1/4] s390x: fix build for
+ --without-default-devices
+Message-ID: <20201104182547.5ae54d3f.cohuck@redhat.com>
+In-Reply-To: <20201104115706.3101190-2-philmd@redhat.com>
+References: <20201104115706.3101190-1-philmd@redhat.com>
+ <20201104115706.3101190-2-philmd@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,62 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes the nwindows getter and setter more consistent with
-the other field getters and setters (which work with any struct
-field).
+On Wed,  4 Nov 2020 12:57:03 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
-Cc: qemu-devel@nongnu.org
----
- target/sparc/cpu.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+> From: Cornelia Huck <cohuck@redhat.com>
+>=20
+> s390-pci-vfio.c calls into the vfio code, so we need it to be
+> built conditionally on vfio (which implies CONFIG_LINUX).
+>=20
+> Reported-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Fixes: cd7498d07fbb ("s390x/pci: Add routine to get the vfio dma availabl=
+e count")
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> Message-Id: <20201103123237.718242-1-cohuck@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Acked-by: Greg Kurz <groug@kaod.org>
+> Tested-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  include/hw/s390x/s390-pci-vfio.h | 3 ++-
+>  hw/s390x/meson.build             | 2 +-
+>  2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 3acc99c29c..8bf02a4fe0 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -789,8 +789,8 @@ static void sparc_cpu_initfn(Object *obj)
- static void sparc_get_nwindows(Object *obj, Visitor *v, const char *name,
-                                Property *prop, Error **errp)
- {
--    SPARCCPU *cpu = SPARC_CPU(obj);
--    int64_t value = cpu->env.def.nwindows;
-+    uint32_t *ptr = FIELD_PTR(obj, prop, uint32_t);
-+    int64_t value = *ptr;
- 
-     visit_type_int(v, name, &value, errp);
- }
-@@ -798,9 +798,9 @@ static void sparc_get_nwindows(Object *obj, Visitor *v, const char *name,
- static void sparc_set_nwindows(Object *obj, Visitor *v, const char *name,
-                                Property *prop, Error **errp)
- {
-+    uint32_t *ptr = FIELD_PTR(obj, prop, uint32_t);
-     const int64_t min = MIN_NWINDOWS;
-     const int64_t max = MAX_NWINDOWS;
--    SPARCCPU *cpu = SPARC_CPU(obj);
-     int64_t value;
- 
-     if (!visit_type_int(v, name, &value, errp)) {
-@@ -814,7 +814,7 @@ static void sparc_set_nwindows(Object *obj, Visitor *v, const char *name,
-                    value, min, max);
-         return;
-     }
--    cpu->env.def.nwindows = value;
-+    *ptr = value;
- }
- 
- static PropertyInfo qdev_prop_nwindows = {
--- 
-2.28.0
+I think you're missing Matt's r-b?
+
+Do you plan to send this, or should I include it on my s390-fixes
+branch?
 
 
