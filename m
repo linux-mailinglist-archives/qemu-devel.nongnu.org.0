@@ -2,49 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 882EC2A6185
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:26:27 +0100 (CET)
-Received: from localhost ([::1]:33556 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CD42A61A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:32:37 +0100 (CET)
+Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaFzl-0007y2-Hm
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:26:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40934)
+	id 1kaG5k-0002Pl-2X
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:32:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kaFww-0004Li-HS; Wed, 04 Nov 2020 05:23:30 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2503)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaFwQ-0003Uy-Vw; Wed, 04 Nov 2020 05:22:59 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:33625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
- id 1kaFwu-0002Kr-O4; Wed, 04 Nov 2020 05:23:30 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CR2mV4TQgzhfFQ;
- Wed,  4 Nov 2020 18:23:22 +0800 (CST)
-Received: from [10.174.187.138] (10.174.187.138) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 4 Nov 2020 18:23:20 +0800
-Message-ID: <5FA28117.3020802@huawei.com>
-Date: Wed, 4 Nov 2020 18:23:19 +0800
-From: AlexChen <alex.chen@huawei.com>
-User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
- rv:17.0) Gecko/20130509 Thunderbird/17.0.6
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaFwO-0002Hj-Ee; Wed, 04 Nov 2020 05:22:58 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 6885C3D5;
+ Wed,  4 Nov 2020 05:22:54 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 04 Nov 2020 05:22:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=UA+VVCnGzkkNI
+ uqKXObtavL8wxUG01U2iUsM9Tmlh44=; b=BM/q3bo/I6Yb8FmWFFvq8L7MmQ2hY
+ JCt+6mUKjXSGM/O7LxS4rHyTy3tTts+h3IXPLqpUE/7etEH/mvTmkpKxhhAfxu+X
+ 2WF1JQKLzDzs9T51ud0wThWBuu1XAFY8HyhZ6rm6I/KjU5EtFMS5+vPS/BPLq8t6
+ z5ZQIK6GmJYQ8kMO9By+s+YiahLBGEFKsOxDjK7oW4VDcibMF3rlp1yi1BMaO36O
+ MTDYW/JgP5N9ECJ+epc+sWw8LCozgFAlyO74xWQILEaXbrTMDm/HKda7t4aSiBZh
+ gU5d6ZjZrda81L/RjLpurg93Z3of6tqiXUsCQ6rRaRx+n/jfheGKSMJDg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=UA+VVCnGzkkNIuqKXObtavL8wxUG01U2iUsM9Tmlh44=; b=caGL0rwr
+ QTwgyL5jhCAMOxGNcr8KEaL7jWOI6BQz5LY62eOBj1+d2dXWl00bW9XF/T4u8Hw/
+ ja0CGfzl/ELIpz4a6oOfQSrk9HGsVdr/HG3R6rHz4j0bN4/yjZt+Eh6R+56wbvHt
+ j34w6Vumz2G3yB9Fn7fOZhHKjTxbMNG8mkzyisMQN41PxQ7iPr2S2k/JHHroZRS8
+ R2utYbgr9w+u9joQ3dVETptUH94iPutiz2sWhbpNV6+WuUfhuM7Tj5tsB8uYOaX/
+ QcM7p8+IxyJ+GqvxPmJl5EipxDovcDYMqmG8lwXZvjI1oWWyqjn039EM66yg8xpT
+ j86OeiJr5h/2+g==
+X-ME-Sender: <xms:_YCiX2d8SLjNsJ68dnoBNyQCvYjM4_IOMiVWeGloDtgHaMbUWCVRwg>
+ <xme:_YCiXwOei9-uNkUhgI8DHZuGdqXkplYpvEGiDaQxt_mtnmEx6vzZE5qIv4rcMvQ5w
+ Ipg7qrN4t5_O_lYR9w>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:_YCiX3hRjdp6mMkkNZl4RVuha6yYi5hj2I-tMergVx9StqUNRZ6EKQ>
+ <xmx:_YCiXz_s4HSQXpTpeYPGQm6nhZuOkFq5FfBz_0IGFoeNSjoLyeqbyw>
+ <xmx:_YCiXyv1XIDl_1fRHhjQ0ESSAPm-waeZ6ax3i4KMMQX52NHOVepqxw>
+ <xmx:_oCiX_-udIULDQ3I9skdduOz8X9gdRdays8Wq-Sr6jxhjyn99QOC4Q>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 99ADC3280395;
+ Wed,  4 Nov 2020 05:22:52 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.2 2/3] hw/block/nvme: fix uint16_t use of uint32_t sgls
+ member
+Date: Wed,  4 Nov 2020 11:22:47 +0100
+Message-Id: <20201104102248.32168-3-its@irrelevant.dk>
+X-Mailer: git-send-email 2.29.1
+In-Reply-To: <20201104102248.32168-1-its@irrelevant.dk>
+References: <20201104102248.32168-1-its@irrelevant.dk>
 MIME-Version: 1.0
-To: <thuth@redhat.com>, <lvivier@redhat.com>, Paolo Bonzini
- <pbonzini@redhat.com>
-Subject: [PATCH] qtest: Fix bad printf format specifiers
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.187.138]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=alex.chen@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:20:51
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:22:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,59 +95,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should use printf format specifier "%u" instead of "%d" for
-argument of type "unsigned int".
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Alex Chen <alex.chen@huawei.com>
+nvme_map_sgl_data erroneously uses the sgls member of NvmeIdNs as a
+uint16_t.
+
+Reported-by: Coverity (CID 1436129)
+Fixes: cba0a8a344fe ("hw/block/nvme: add support for scatter gather lists")
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- tests/qtest/arm-cpu-features.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index d20094d5a7..bc681a95d5 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -536,7 +536,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-         if (kvm_supports_sve) {
-             g_assert(vls != 0);
-             max_vq = 64 - __builtin_clzll(vls);
--            sprintf(max_name, "sve%d", max_vq * 128);
-+            sprintf(max_name, "sve%u", max_vq * 128);
-
-             /* Enabling a supported length is of course fine. */
-             assert_sve_vls(qts, "host", vls, "{ %s: true }", max_name);
-@@ -556,7 +556,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-                  * unless all larger, supported vector lengths are also
-                  * disabled.
-                  */
--                sprintf(name, "sve%d", vq * 128);
-+                sprintf(name, "sve%u", vq * 128);
-                 error = g_strdup_printf("cannot disable %s", name);
-                 assert_error(qts, "host", error,
-                              "{ %s: true, %s: false }",
-@@ -569,7 +569,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-              * we need at least one vector length enabled.
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 080d782f1c2b..2bdc50eb6fce 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -452,7 +452,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
+              * segments and/or descriptors. The controller might accept
+              * ignoring the rest of the SGL.
               */
-             vq = __builtin_ffsll(vls);
--            sprintf(name, "sve%d", vq * 128);
-+            sprintf(name, "sve%u", vq * 128);
-             error = g_strdup_printf("cannot disable %s", name);
-             assert_error(qts, "host", error, "{ %s: false }", name);
-             g_free(error);
-@@ -581,7 +581,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
-                 }
+-            uint16_t sgls = le16_to_cpu(n->id_ctrl.sgls);
++            uint32_t sgls = le32_to_cpu(n->id_ctrl.sgls);
+             if (sgls & NVME_CTRL_SGLS_EXCESS_LENGTH) {
+                 break;
              }
-             if (vq <= SVE_MAX_VQ) {
--                sprintf(name, "sve%d", vq * 128);
-+                sprintf(name, "sve%u", vq * 128);
-                 error = g_strdup_printf("cannot enable %s", name);
-                 assert_error(qts, "host", error, "{ %s: true }", name);
-                 g_free(error);
 -- 
-2.19.1
+2.29.1
+
 
