@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090C92A5B72
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:04:46 +0100 (CET)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C5A2A5B7D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:07:27 +0100 (CET)
+Received: from localhost ([::1]:50410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7EC-0004hC-RN
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:04:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
+	id 1ka7Go-0008Eq-2D
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:07:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nX-0006um-9Y
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46020)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nc-00078i-40
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51801)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nV-0004vI-Jl
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:10 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6na-0004vh-6N
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450228;
+ s=mimecast20190719; t=1604450233;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8OIP/yQLJZUsi2soEpTbp9StYHP0czke4xPs/CZ/wFY=;
- b=O0GCFwavMYmS8WBdHbPS/8e0+Obyy26QzFMe4LY2JCozs28Vz3LIaC/aZv4riPwyRvccsh
- DxQsSAZr4bYjnojROuvz5P8IfD0oFswtS7djcjil+56D1vGEYHoboJT7jbL5gNOUWKIAzp
- 5/se/pB1TsWZj9Hro58vwDDSoX0/+9c=
+ bh=67hPomjxNLOBu5xnnDcvEm19yDZAmkXyoM6jA1VmJsY=;
+ b=EArcuoQDSav0lECru5ASNW9upmRMaatese0JPR90+EBaBT//zT9CwGAyzUIh3ED7RXK/Gz
+ 2I/Wb4l5+JvnBvLGhkfFR0hlNq6RrCSuVI7JZwGGZMxzUw66pw/ZfmPLdSSWum6+uPLzpD
+ Mq1GLcSbBO5Iu5phfduWDnqE3mBsKnk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-EFb-lIC-Pum0RFfcMjSvDg-1; Tue, 03 Nov 2020 19:37:06 -0500
-X-MC-Unique: EFb-lIC-Pum0RFfcMjSvDg-1
+ us-mta-360-0xe8iIbpPAGRIsVXMv8yXg-1; Tue, 03 Nov 2020 19:37:11 -0500
+X-MC-Unique: 0xe8iIbpPAGRIsVXMv8yXg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E8BA8015C3
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C820B8015C3
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:10 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E8A39747C6;
- Wed,  4 Nov 2020 00:37:04 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5366C55766;
+ Wed,  4 Nov 2020 00:37:06 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 46/72] python/qmp: Fix type of SocketAddrT
-Date: Tue,  3 Nov 2020 19:35:36 -0500
-Message-Id: <20201104003602.1293560-47-jsnow@redhat.com>
+Subject: [PATCH v2 47/72] python/qmp: add parse_address classmethod
+Date: Tue,  3 Nov 2020 19:35:37 -0500
+Message-Id: <20201104003602.1293560-48-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,30 +83,123 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an integer, not a string. We didn't catch this before because we
-have not been type checking any of the clients that use this, and it was
-self-consistent enough.
-
-Mypy was not introspecting into the socket() interface to realize we
-were passing a bad type. Fixed now.
+This takes the place of qmp-shell's __get_address function.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/qemu/qmp/__init__.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ python/qemu/qmp/__init__.py | 26 ++++++++++++++++++++++++++
+ scripts/qmp/qmp-shell       | 27 ++-------------------------
+ 2 files changed, 28 insertions(+), 25 deletions(-)
 
 diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
-index 7355a558796f..dd211e3f6511 100644
+index dd211e3f6511..a6e1a7b85775 100644
 --- a/python/qemu/qmp/__init__.py
 +++ b/python/qemu/qmp/__init__.py
-@@ -49,7 +49,7 @@
- # {} is the QMPReturnValue.
+@@ -97,6 +97,12 @@ def __init__(self, reply: QMPMessage):
+         self.reply = reply
  
  
--InternetAddrT = Tuple[str, str]
-+InternetAddrT = Tuple[str, int]
- UnixAddrT = str
- SocketAddrT = Union[InternetAddrT, UnixAddrT]
++class QMPBadPortError(QMPError):
++    """
++    Unable to parse socket address: Port was non-numerical.
++    """
++
++
+ class QEMUMonitorProtocol:
+     """
+     Provide an API to connect to QEMU via QEMU Monitor Protocol (QMP) and then
+@@ -224,6 +230,26 @@ def __exit__(self,
+         # Implement context manager exit function.
+         self.close()
+ 
++    @classmethod
++    def parse_address(cls, address: str) -> SocketAddrT:
++        """
++        Parse a string into a QMP address.
++
++        Figure out if the argument is in the port:host form.
++        If it's not, it's probably a file path.
++        """
++        components = address.split(':')
++        if len(components) == 2:
++            try:
++                port = int(components[1])
++            except ValueError:
++                msg = f"Bad port: '{components[1]}' in '{address}'."
++                raise QMPBadPortError(msg) from None
++            return (components[0], port)
++
++        # Treat as filepath.
++        return address
++
+     def connect(self, negotiate: bool = True) -> Optional[QMPMessage]:
+         """
+         Connect to the QMP Monitor and perform capabilities negotiation.
+diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
+index d5496aeac0bd..5a72b9d39502 100755
+--- a/scripts/qmp/qmp-shell
++++ b/scripts/qmp/qmp-shell
+@@ -92,10 +92,6 @@ class QMPShellError(Exception):
+     pass
+ 
+ 
+-class QMPShellBadPort(QMPShellError):
+-    pass
+-
+-
+ class FuzzyJSON(ast.NodeTransformer):
+     """
+     This extension of ast.NodeTransformer filters literal "true/false/null"
+@@ -118,7 +114,7 @@ class FuzzyJSON(ast.NodeTransformer):
+ #       _execute_cmd()). Let's design a better one.
+ class QMPShell(qmp.QEMUMonitorProtocol):
+     def __init__(self, address, pretty=False):
+-        super().__init__(self.__get_address(address))
++        super().__init__(self.parse_address(address))
+         self._greeting = None
+         self._completer = None
+         self._pretty = pretty
+@@ -128,22 +124,6 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                                       '.qmp-shell_history')
+         self._verbose = False
+ 
+-    @classmethod
+-    def __get_address(cls, arg):
+-        """
+-        Figure out if the argument is in the port:host form, if it's not it's
+-        probably a file path.
+-        """
+-        addr = arg.split(':')
+-        if len(addr) == 2:
+-            try:
+-                port = int(addr[1])
+-            except ValueError as err:
+-                raise QMPShellBadPort from err
+-            return addr[0], port
+-        # socket path
+-        return arg
+-
+     def _fill_completion(self):
+         cmds = self.cmd('query-commands')
+         if 'error' in cmds:
+@@ -337,9 +317,6 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+ 
+         return self._execute_cmd(cmdline)
+ 
+-    def set_verbosity(self, verbose):
+-        self._verbose = verbose
+-
+ 
+ class HMPShell(QMPShell):
+     def __init__(self, address):
+@@ -447,7 +424,7 @@ def main():
+             qemu = HMPShell(args.qmp_server)
+         else:
+             qemu = QMPShell(args.qmp_server, args.pretty)
+-    except QMPShellBadPort:
++    except qmp.QMPBadPortError:
+         parser.error(f"Bad port number: {args.qmp_server}")
+         return  # pycharm doesn't know error() is noreturn
  
 -- 
 2.26.2
