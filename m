@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 370302A5BE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:29:56 +0100 (CET)
-Received: from localhost ([::1]:52894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 464132A5B91
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:12:20 +0100 (CET)
+Received: from localhost ([::1]:39206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7cY-0007fA-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:29:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36068)
+	id 1ka7LX-0006sF-8q
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:12:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6o1-0007bl-7p
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32716)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6o8-0007gH-0v
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nz-0004ys-Fy
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:40 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6o3-0004zN-54
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450258;
+ s=mimecast20190719; t=1604450261;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9yzPsQt0eiaVQ5VaBtLTKYEsbKBliZF87O4/Y2R/1PA=;
- b=WotMD6TmOfhsonf/DcCVyKaJzne/Wh1N5dbp92g8ib4esHLNGq/2q0+ddqwvoMAbYlNMO8
- liqdQQl3QHESMAyE9vk8xYp85o9/c3bdV0oQELIIc4mRciSEyALFPTGew9nUEtx+zb6bsL
- GsPgn5fkKMTGTpl3D9U9yMH1jzy4FBI=
+ bh=H30on+FLWG6ibSTrgV/1k06Ld3pxmvIt0XZbcJ6B/NI=;
+ b=HasBv9Db1o5MbjsOu6l2z6ynuGJJ9D4CMKItt5II39wB2a6f3hRoxlAI/uOIMS5ghLN2qn
+ wyhalxcxgrXZSK4SomtRREbm1FYOgXu4fz6OqHbqGa1BxLo6zPuGb3gb7XEEkT3DYbdR6c
+ Z2t+glKAIKpoAiElksa3EiwO86tsfXs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-cmbCj18YOyCcZTjdd_yMSw-1; Tue, 03 Nov 2020 19:37:37 -0500
-X-MC-Unique: cmbCj18YOyCcZTjdd_yMSw-1
+ us-mta-584-GTdfkn5RNLu9_4LVp43E5Q-1; Tue, 03 Nov 2020 19:37:39 -0500
+X-MC-Unique: GTdfkn5RNLu9_4LVp43E5Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DA8D835B8D
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE9DD108E1A5
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:38 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E96F55766;
- Wed,  4 Nov 2020 00:37:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4199355766;
+ Wed,  4 Nov 2020 00:37:38 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 68/72] scripts/qmp-shell: make QMPShellError inherit
- QMPError
-Date: Tue,  3 Nov 2020 19:35:58 -0500
-Message-Id: <20201104003602.1293560-69-jsnow@redhat.com>
+Subject: [PATCH v2 71/72] python: add qmp-shell entry point
+Date: Tue,  3 Nov 2020 19:36:01 -0500
+Message-Id: <20201104003602.1293560-72-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,27 +83,26 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This way, all exceptions from the qemu.qmp namespace all derive from
-QMPError.
+now 'qmp-shell' should be available from the command line when
+installing the python package.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ python/setup.cfg | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 40ff9e0a82bd..1a8a4ba18ab4 100755
---- a/scripts/qmp/qmp-shell
-+++ b/scripts/qmp/qmp-shell
-@@ -123,7 +123,7 @@ class QMPCompleter:
-         return None
+diff --git a/python/setup.cfg b/python/setup.cfg
+index f2f54bcaefe8..230fd870ea91 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -42,6 +42,7 @@ console_scripts =
+     qom-tree = qemu.qmp.qom:QOMTree.entry_point
+     qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point
+     qemu-ga-client = qemu.qmp.qemu_ga_client:main
++    qmp-shell = qemu.qmp.qmp_shell:main
  
- 
--class QMPShellError(Exception):
-+class QMPShellError(qmp.QMPError):
-     pass
- 
- 
+ [flake8]
+ extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
 -- 
 2.26.2
 
