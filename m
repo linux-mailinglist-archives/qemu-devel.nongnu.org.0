@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB692A5B29
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:46:23 +0100 (CET)
-Received: from localhost ([::1]:59188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 603CF2A5B31
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:50:44 +0100 (CET)
+Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka6wQ-00022c-3n
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:46:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35388)
+	id 1ka70d-00009F-CT
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:50:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n7-0006Kq-C1
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27812)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nA-0006Ln-9s
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n3-0004pb-2t
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:45 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n5-0004pp-0i
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450198;
+ s=mimecast20190719; t=1604450201;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GEyKfqCOMtTbCFwo/NxuRRQTpPJP7N2yFgtZYCeRkL0=;
- b=g4lIx8BgGXgknqRUbpqoVFlIGuPMpotAtg5pBzwgpZB1FFsWcj044oKBfsPnF0+zgUbn/a
- JALh1POfiYL1BkfvAPRL919zFmd6OFnvOXnbNXcBzZFBLTjSja2kiZdARMMNfApoJxIExR
- rA+Dneecj9LNvnME3kLfnFnIfFUuGWQ=
+ bh=R+u+kSqbdZS8FFJfGmxFCCtl4DlAAKyVCV72nA5+Fag=;
+ b=gZbWZzwuXFrMYnmZeftM3u8X9b/vFySLqNSF90fcwd8ShV9i1BqlQGup6ej1fRSh7ZD98C
+ OP5D9Y4gdMzGHBocZaqB9GVPjGo6FMYv9CyvGep7V4tPxRMX3bKZVXblgEsxxh1Uq4dQc9
+ CJMV0vM8p/8DKkb6VPRBNiCzSUo9JIk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-241-D6a73BdXOxiYsKGaNoEzPg-1; Tue, 03 Nov 2020 19:36:37 -0500
-X-MC-Unique: D6a73BdXOxiYsKGaNoEzPg-1
+ us-mta-580-KDgQvT3GO4qZfRwQXeuUXQ-1; Tue, 03 Nov 2020 19:36:38 -0500
+X-MC-Unique: KDgQvT3GO4qZfRwQXeuUXQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03A1B890771
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EBF338BAF50
  for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:32 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28E9055766;
- Wed,  4 Nov 2020 00:36:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 33FA255766;
+ Wed,  4 Nov 2020 00:36:32 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 16/72] python: add optional fuse dependency
-Date: Tue,  3 Nov 2020 19:35:06 -0500
-Message-Id: <20201104003602.1293560-17-jsnow@redhat.com>
+Subject: [PATCH v2 17/72] scripts/qemu-ga-client: apply isort rules
+Date: Tue,  3 Nov 2020 19:35:07 -0500
+Message-Id: <20201104003602.1293560-18-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,29 +83,46 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can be opted into by installing "qemu[fuse]" instead of just
-"qemu". The package ought to work perfectly well with or without it.
+Hint:
+> ln -s scripts/qmp/qemu-ga-client python/qemu/qmp/qemu_ga_client.py
+> cd python
+> isort qemu
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- python/setup.cfg | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/qmp/qemu-ga-client | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 908e53527ddc..4e1c638d72d5 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -29,6 +29,10 @@ devel =
-     pytest >= 3.0.0
-     fusepy >= 2.0.4
+diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
+index ce122984a9ca..ae71b30dfa43 100755
+--- a/scripts/qmp/qemu-ga-client
++++ b/scripts/qmp/qemu-ga-client
+@@ -36,10 +36,11 @@
+ # See also: https://wiki.qemu.org/Features/QAPI/GuestAgent
+ #
  
-+# Provides qom-fuse functionality
-+fuse =
-+    fusepy >= 2.0.4
+-import os
+-import sys
+ import base64
++import os
+ import random
++import sys
 +
- [options.entry_points]
- console_scripts =
-     qom = qemu.qmp.qom:main
+ 
+ sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
+ from qemu import qmp
+@@ -279,9 +280,9 @@ def main(address, cmd, args):
+ 
+ 
+ if __name__ == '__main__':
+-    import sys
+-    import os
+     import optparse
++    import os
++    import sys
+ 
+     address = os.environ['QGA_CLIENT_ADDRESS'] if 'QGA_CLIENT_ADDRESS' in os.environ else None
+ 
 -- 
 2.26.2
 
