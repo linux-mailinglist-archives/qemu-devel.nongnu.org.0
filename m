@@ -2,69 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CE1B2A67FA
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:45:04 +0100 (CET)
-Received: from localhost ([::1]:37962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1151D2A67D8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:38:34 +0100 (CET)
+Received: from localhost ([::1]:39312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKy7-0000j1-47
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:45:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60914)
+	id 1kaKrp-0006NM-0y
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:38:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kaKc2-0000Vg-CB
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:22:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1kaKc0-0008TM-0e
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:22:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604503331;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1AFHdjTsEEWyU+9Ji73dICGnEMrarbV23JrcVT7tAvA=;
- b=AelltDVdVBK3HA3q1su9+SkEyqrYa+1590bwNqbmqv0oCteqUngLoE8EBE73Er3DvhdqO6
- clS/ZB3qo5PPJZNv2PgRrUksWN8rMBQxlSwB+AU+RUvW3PM4ucobz477yDbDl8H67FxqAb
- rh1BCeMu832YV0xUf1DYeSTzA4fXzPY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-509-b6RACBuLMhOaRenmdG-Slg-1; Wed, 04 Nov 2020 10:22:09 -0500
-X-MC-Unique: b6RACBuLMhOaRenmdG-Slg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B77081007284;
- Wed,  4 Nov 2020 15:22:07 +0000 (UTC)
-Received: from localhost (ovpn-115-145.ams2.redhat.com [10.36.115.145])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 57AE360C84;
- Wed,  4 Nov 2020 15:22:07 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 33/33] util/vfio-helpers: Assert offset is aligned to page size
-Date: Wed,  4 Nov 2020 15:18:28 +0000
-Message-Id: <20201104151828.405824-34-stefanha@redhat.com>
-In-Reply-To: <20201104151828.405824-1-stefanha@redhat.com>
-References: <20201104151828.405824-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kaKfn-00074E-Pt
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:26:07 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:37919)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kaKfl-0000Y8-RT
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:26:07 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0A4FP6Jp001017
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 4 Nov 2020 10:25:09 -0500
+Date: Wed, 4 Nov 2020 10:25:06 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: P J P <ppandit@redhat.com>
+Subject: Re: Ramping up Continuous Fuzzing of Virtual Devices in QEMU
+Message-ID: <20201104152506.abplvggv2ll36m6v@mozz.bu.edu>
+References: <20201022161938.7clfymu6a3zl46s2@mozz.bu.edu>
+ <20201022162416.iccjosbeg753qbzc@mozz.bu.edu>
+ <20201022163925.GE428835@redhat.com>
+ <p2qq7p64-r88p-s228-133q-n770po2ssonp@erqung.pbz>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <p2qq7p64-r88p-s228-133q-n770po2ssonp@erqung.pbz>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 10:26:04
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.379, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +60,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- Eric Auger <eric.auger@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Coiby Xu <Coiby.Xu@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, thuth@redhat.com,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>, rjones@redhat.com,
+ 0ops@0ops.net, liq3ea@gmail.com, qemu-devel@nongnu.org, f4bug@amsat.org,
+ darren.kenny@oracle.com, bsd@redhat.com, stefanha@redhat.com,
+ pbonzini@redhat.com, andrey.shinkevich@virtuozzo.com, dimastep@yandex-team.ru
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RnJvbTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPgoKbW1hcCgy
-KSBzdGF0ZXM6CgogICdvZmZzZXQnIG11c3QgYmUgYSBtdWx0aXBsZSBvZiB0aGUgcGFnZSBzaXpl
-IGFzIHJldHVybmVkCiAgIGJ5IHN5c2NvbmYoX1NDX1BBR0VfU0laRSkuCgpBZGQgYW4gYXNzZXJ0
-aW9uIHRvIGJlIHN1cmUgd2UgZG9uJ3QgYnJlYWsgdGhpcyBjb250cmFjdC4KClNpZ25lZC1vZmYt
-Ynk6IFBoaWxpcHBlIE1hdGhpZXUtRGF1ZMOpIDxwaGlsbWRAcmVkaGF0LmNvbT4KTWVzc2FnZS1p
-ZDogMjAyMDExMDMwMjA3MzMuMjMwMzE0OC04LXBoaWxtZEByZWRoYXQuY29tClNpZ25lZC1vZmYt
-Ynk6IFN0ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KVGVzdGVkLWJ5OiBFcmlj
-IEF1Z2VyIDxlcmljLmF1Z2VyQHJlZGhhdC5jb20+Ci0tLQogdXRpbC92ZmlvLWhlbHBlcnMuYyB8
-IDEgKwogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCgpkaWZmIC0tZ2l0IGEvdXRpbC92
-ZmlvLWhlbHBlcnMuYyBiL3V0aWwvdmZpby1oZWxwZXJzLmMKaW5kZXggNzNmN2JmYTc1NC4uODA0
-NzY4ZDVjNiAxMDA2NDQKLS0tIGEvdXRpbC92ZmlvLWhlbHBlcnMuYworKysgYi91dGlsL3ZmaW8t
-aGVscGVycy5jCkBAIC0xNjIsNiArMTYyLDcgQEAgdm9pZCAqcWVtdV92ZmlvX3BjaV9tYXBfYmFy
-KFFFTVVWRklPU3RhdGUgKnMsIGludCBpbmRleCwKICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICBFcnJvciAqKmVycnApCiB7CiAgICAgdm9pZCAqcDsKKyAgICBhc3NlcnQoUUVNVV9JU19BTElH
-TkVEKG9mZnNldCwgcWVtdV9yZWFsX2hvc3RfcGFnZV9zaXplKSk7CiAgICAgYXNzZXJ0X2Jhcl9p
-bmRleF92YWxpZChzLCBpbmRleCk7CiAgICAgcCA9IG1tYXAoTlVMTCwgTUlOKHNpemUsIHMtPmJh
-cl9yZWdpb25faW5mb1tpbmRleF0uc2l6ZSAtIG9mZnNldCksCiAgICAgICAgICAgICAgcHJvdCwg
-TUFQX1NIQVJFRCwKLS0gCjIuMjguMAoK
+On 201104 1600, P J P wrote:
+> +-- On Thu, 22 Oct 2020, Daniel P. BerrangÃ© wrote --+
+> | On Thu, Oct 22, 2020 at 12:24:16PM -0400, Alexander Bulekov wrote:
+> | > > Once [2] lands upstream, we should see a significant uptick in oss-fuzz 
+> | > > reports, and I hope that we can develop a process to ensure these bugs 
+> | > > are properly dealt with. One option we have is to make the reports 
+> | > > public immediately and send notifications to qemu-devel. This is the 
+> | > > approach taken by some other projects on oss-fuzz, such as LLVM. Though 
+> | > > its not on oss-fuzz, bugs found by syzkaller in the kernel, are also 
+> | > > automatically sent to a public list. The question is:
+> | > > 
+> | > > What approach should we take for dealing with bugs found on oss-fuzz?
+> | 
+> | If we assume that a non-negligible number of fuzz bugs will be exploitable
+> | by a malicious guest OS to break out into the host, then I think it is
+> | likely undesirable to make them public immediately without at least a basic
+> | human triage step to catch possibly serious security issues.
+> 
+> * Maybe the proposed 'qemu-security' list can receive such issue reports.  It 
+>   is more close than qemu-devel.
+> 
+>   But it also depends on the quantum of traffic oss-fuzz generates. We don't 
+>   want to flood/overwhelm qemu-security list or any other list for that 
+>   matter.
+> 
+
+If I understand correctly, this is analogous to what happens with
+Coverity reports. Access to Coverity is closed (not sure if there is a
+process to apply for access). It also seems that there is a push to fix
+CID issues prior to new releases. Maybe a similar process can be used for
+fuzzing?
+
+> * Human triage is required to know potential impact of an issue before it is 
+>   sent to a public list. It would not be good to send guest-to-host-escape
+>   type issues directly to a public list.
+> 
+> * Ideally preliminary human triage should be done on the fuzzers' side.  
+>   After it hits an issue, someone should have a look at it before sending an 
+>   email to a list OR maintainer(s).
+> 
+>   Ex. TCG issues are generally not considered for CVE. They need not go to a
+>   security list.
+
+Of all the issues found by the fuzzer, I think there are two major
+categories of "false-positives".
+    * Intentionally-triggerable assertion failures
+      (e.g. "assert Feature X not supported !")
+    * Problems only triggerable through CPU (e.g. problems related to
+      referencing the thread-local "current_cpu" variable.
+
+These should be a minority of all issues for which we can automatically
+generate qtest reproducers. As far as I know, OSS-Fuzz isn't fuzzing any
+devices unsupported by KVM. 
+
+Thanks
+-Alex
+
+> 
+> 
+> 
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
 
