@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC6BB2A5B39
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:52:41 +0100 (CET)
-Received: from localhost ([::1]:56066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9E982A5B45
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:54:49 +0100 (CET)
+Received: from localhost ([::1]:36220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka72W-0003zQ-RM
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:52:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35524)
+	id 1ka74a-0007Qd-UZ
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:54:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nJ-0006R2-T9
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38899)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nK-0006S8-W4
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nH-0004qx-Df
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:57 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nH-0004r6-Ip
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450213;
+ s=mimecast20190719; t=1604450214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=azWsNkEImKXAzSs0vtzelKINsN3FyUqpuERD20P/ZaM=;
- b=aCrDn8hqfmvVZHwZw0MmOYBYZAEi+Elovql1eTcHDj8/cJimurEz5sxs+NTrx8lz8604KY
- 8QUFPfYt/O1uQ0Xe7LbOux7ra1jzpHtA/toDfX7LQJEnM1ZaNBFohliUSI/+VSxcel6RZ1
- 8NfrmQf/jjNdRVFBJv4tAKdlc7w1Upc=
+ bh=cDHB7qkiQebVhRr/4xaqEBQKPrPJWBbCQEMQwjfYDfQ=;
+ b=Hg7bNL9w1jBEOlYfZ8ABM0nN0Sl7SshQedhCnPhVqk7x8BLj+xRh8NbN8BbDGtqBZmw0+1
+ JBdEveoFQV2mpnYYlyDRCCInIcRkys7hqhw+zX3jR7RyQzITL5Bqkpq+KDWhkLigPJHKbe
+ sUmktOnUl44DyYKVKBNxRZCG+VvYXLY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-380-zJieXX_XP1q20TNX7lojFg-1; Tue, 03 Nov 2020 19:36:51 -0500
-X-MC-Unique: zJieXX_XP1q20TNX7lojFg-1
+ us-mta-372-uzABpGxSMBm-OR_ZNV4GJA-1; Tue, 03 Nov 2020 19:36:53 -0500
+X-MC-Unique: uzABpGxSMBm-OR_ZNV4GJA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB408BAF7C
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AD48F192CC62
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:43 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8C6DE55766;
- Wed,  4 Nov 2020 00:36:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABCD755766;
+ Wed,  4 Nov 2020 00:36:42 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 25/72] scripts/qemu-ga-client: move to
- python/qemu/qmp/qemu_ga_client.py
-Date: Tue,  3 Nov 2020 19:35:15 -0500
-Message-Id: <20201104003602.1293560-26-jsnow@redhat.com>
+Subject: [PATCH v2 26/72] python/qemu-ga-client: add entry point
+Date: Tue,  3 Nov 2020 19:35:16 -0500
+Message-Id: <20201104003602.1293560-27-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,33 +83,39 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The script will be unavailable for a few commits before being
-restored. This helps move git history into the new file. To prevent
-linter regressions, though, we do need to immediately touch up the
-filename, remove the executable bit, and change the import paradigm.
+Remove the shebang, and add a package-defined entry point instead.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qemu-ga-client => python/qemu/qmp/qemu_ga_client.py | 2 --
- 1 file changed, 2 deletions(-)
- rename scripts/qmp/qemu-ga-client => python/qemu/qmp/qemu_ga_client.py (99%)
+ python/qemu/qmp/qemu_ga_client.py | 2 --
+ python/setup.cfg                  | 1 +
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+ mode change 100755 => 100644 python/qemu/qmp/qemu_ga_client.py
 
-diff --git a/scripts/qmp/qemu-ga-client b/python/qemu/qmp/qemu_ga_client.py
-similarity index 99%
-rename from scripts/qmp/qemu-ga-client
-rename to python/qemu/qmp/qemu_ga_client.py
-index 3e617e7e7abe..43abc023c63c 100755
---- a/scripts/qmp/qemu-ga-client
+diff --git a/python/qemu/qmp/qemu_ga_client.py b/python/qemu/qmp/qemu_ga_client.py
+old mode 100755
+new mode 100644
+index 43abc023c63c..6915e906374b
+--- a/python/qemu/qmp/qemu_ga_client.py
 +++ b/python/qemu/qmp/qemu_ga_client.py
-@@ -52,8 +52,6 @@
-     Sequence,
- )
- 
+@@ -1,5 +1,3 @@
+-#!/usr/bin/env python3
 -
--sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
- from qemu import qmp
- from qemu.qmp import SocketAddrT
+ # Copyright (C) 2012 Ryota Ozaki <ozaki.ryota@gmail.com>
+ #
+ # This work is licensed under the terms of the GNU GPL, version 2.  See
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 4e1c638d72d5..f2f54bcaefe8 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -41,6 +41,7 @@ console_scripts =
+     qom-list = qemu.qmp.qom:QOMList.entry_point
+     qom-tree = qemu.qmp.qom:QOMTree.entry_point
+     qom-fuse = qemu.qmp.qom_fuse:QOMFuse.entry_point
++    qemu-ga-client = qemu.qmp.qemu_ga_client:main
  
+ [flake8]
+ extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
 -- 
 2.26.2
 
