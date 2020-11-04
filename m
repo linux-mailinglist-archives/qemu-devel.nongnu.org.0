@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4652A5B73
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:04:46 +0100 (CET)
-Received: from localhost ([::1]:41954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E64F12A5B8F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:12:17 +0100 (CET)
+Received: from localhost ([::1]:39026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7EC-0004fk-2S
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:04:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35942)
+	id 1ka7LU-0006ng-VX
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:12:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nr-0007Km-EU
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34414)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nw-0007OD-2s
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6np-0004xS-Ew
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:31 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nr-0004xa-3p
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450248;
+ s=mimecast20190719; t=1604450250;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tyMp/WUkbkDPOvDMuuseh09FZ8+pmQhhXtOyGTRegsI=;
- b=NLKsDd5jxChADc2Dp+BRRaEHHsP4XU3oVgTvRpic8HqwupdNpJR751P1uGz6pB5x45ev/Q
- VXYh1ApOYcwkyBgWGJYcQ1YxQ/0VY9zE9Rq45HQGLMQDEvTmF+44qouGM8ioTcFmRLX3F8
- jqXLBokaMTHba8AWrzhj+4cRvCoiK1M=
+ bh=BjOVoF9IAQEpgMWUVUzthZy3hghyNPSDDg5CUOiAI4c=;
+ b=KGBfX/Bqg6adGF0Xwmth6zbHEPl3J4IAkiUb5CbVFZwvFrpllepwda0yE/ABp6h3z0OG7h
+ TsdZiHNSUbips5IHzw8gzmxrgdGJRaPXFYAmRhy4bxj1p1V1hkevQrlxyQKlZ+s+fSHPW8
+ TXPESC7ZM7zQZFaluZUX2w2JYXkFSl4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-257-L0qAOpe1OOiH19s5zOqXWQ-1; Tue, 03 Nov 2020 19:37:26 -0500
-X-MC-Unique: L0qAOpe1OOiH19s5zOqXWQ-1
+ us-mta-401-JKMZM7EgMEapCK6iTthzug-1; Tue, 03 Nov 2020 19:37:28 -0500
+X-MC-Unique: JKMZM7EgMEapCK6iTthzug-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F28F1009E26
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 894958030DF
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:27 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7562F55766;
- Wed,  4 Nov 2020 00:37:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 435D355766;
+ Wed,  4 Nov 2020 00:37:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 59/72] scripts/qmp-shell: unprivatize 'pretty' property
-Date: Tue,  3 Nov 2020 19:35:49 -0500
-Message-Id: <20201104003602.1293560-60-jsnow@redhat.com>
+Subject: [PATCH v2 60/72] python/qmp: return generic type from context manager
+Date: Tue,  3 Nov 2020 19:35:50 -0500
+Message-Id: <20201104003602.1293560-61-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,44 +83,37 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to verbose, there's no reason this needs to be hidden.
+__enter__ can be invoked from a subclass, so it needs a more specific
+type.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ python/qemu/qmp/__init__.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index b465c7f9e2d6..f14fe211cca4 100755
---- a/scripts/qmp/qmp-shell
-+++ b/scripts/qmp/qmp-shell
-@@ -135,11 +135,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         super().__init__(address)
-         self._greeting: Optional[QMPMessage] = None
-         self._completer = QMPCompleter()
--        self._pretty = pretty
-         self._transmode = False
-         self._actions: List[QMPMessage] = []
-         self._histfile = os.path.join(os.path.expanduser('~'),
-                                       '.qmp-shell_history')
-+        self.pretty = pretty
-         self.verbose = verbose
+diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+index ba0d2281d678..376954cb6d27 100644
+--- a/python/qemu/qmp/__init__.py
++++ b/python/qemu/qmp/__init__.py
+@@ -30,6 +30,7 @@
+     TextIO,
+     Tuple,
+     Type,
++    TypeVar,
+     Union,
+     cast,
+ )
+@@ -220,7 +221,9 @@ def __get_events(self, wait: Union[bool, float] = False) -> None:
+             if ret is None:
+                 raise QMPConnectError("Error while reading from socket")
  
-     def _fill_completion(self) -> None:
-@@ -274,10 +274,9 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         return qmpcmd
+-    def __enter__(self) -> 'QEMUMonitorProtocol':
++    T = TypeVar('T')
++
++    def __enter__(self: T) -> T:
+         # Implement context manager enter function.
+         return self
  
-     def _print(self, qmp_message: object) -> None:
--        indent = None
--        if self._pretty:
--            indent = 4
--        jsobj = json.dumps(qmp_message, indent=indent, sort_keys=self._pretty)
-+        jsobj = json.dumps(qmp_message,
-+                           indent=4 if self.pretty else None,
-+                           sort_keys=self.pretty)
-         print(str(jsobj))
- 
-     def _execute_cmd(self, cmdline: str) -> bool:
 -- 
 2.26.2
 
