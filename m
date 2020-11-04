@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39EF22A6204
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:39:07 +0100 (CET)
-Received: from localhost ([::1]:55298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98E542A6271
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:46:25 +0100 (CET)
+Received: from localhost ([::1]:40622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGC2-0000K6-9O
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:39:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43734)
+	id 1kaGJ6-00069b-NI
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:46:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaGAZ-0008Ah-1X
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:37:35 -0500
-Received: from mail-ej1-x644.google.com ([2a00:1450:4864:20::644]:37688)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaGAX-0004A1-At
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:37:34 -0500
-Received: by mail-ej1-x644.google.com with SMTP id gn41so11764488ejc.4
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 02:37:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HY8LN1nFdn/W7/Buh8tGg1saXl3RnhE4y4gxmZS7Oks=;
- b=uM1ecasqYIirp0Vq3+Qi8C/Ailkx5eSgLmFDgY4RURHiPKWcDtPh1xY5hCng2IuR9q
- 9SVx6I1TZ8nq8t1V2m64BBui5ExWHI1FwJ3+9As/SH6Fhs64GHDGfmAG8gp3q+Ju7F6O
- UtLa5H2JBCfsvP9df/BuMqbLc5+rm5zViEUkoC5I2GbOdrVdE4M0p5ZdBvCkSOxFsJ0I
- ic6VAUljj70qTChIplNDi4k0yBqG0q34X3wEPLzlfONgsV5gg7TeMHo18ahnqbuTyb5g
- 5EYtmn4a5GCydzyv6Eaq66Y5siwSDtY7TMcVfPCrdKie0Gd69ob/cMMMf7D8dNbmGzsS
- c0wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HY8LN1nFdn/W7/Buh8tGg1saXl3RnhE4y4gxmZS7Oks=;
- b=DYp8irT87Ae6BSiJSMxV0x5jTKfSXgfQ7uMlo27Ss3+VxeR0LTyqtFAR5cvIb1Yy5E
- 6+locGi3k/OV14IvQw2uzFuGaphrMP2TXod68umrjnGwfdmZapBUA9F85Y0rlXNEwRSV
- 9GktICJ+pvm8GV7apDZ8ZTXHuNk36qPCiddrnyxF150yjmmxxDqY0tnvZE3AEfI2M0we
- /iX7naARaALu/gq3xxSM1MYiQyCuBwcH3d2Yjw17AEW547C9QQWPgJVLXX1da+Yhps9K
- z0rUwFh3oShvmUSEu4H547UjsvKTYxRJ7wYOVIbRtBq6xyWi9p1KtCNObOLNKjngpxPS
- WVjg==
-X-Gm-Message-State: AOAM530nvhe9H7hvvZwn8awkVZ9u7s9j16RpA/CXZovL1XdWMDuu/a2y
- BqsniTxMiiRcl+lEqGsFb7aovdWijw8j1wWnXVvE2Q==
-X-Google-Smtp-Source: ABdhPJwnEsGq3E3evHE9RDHpC+to4mh83YNye+rh+AlnSD/ULh/AXUcXvI3Z5C+CSeNstNJ/JSAfOmyGqFrNyofYvmY=
-X-Received: by 2002:a17:906:6896:: with SMTP id
- n22mr6197134ejr.56.1604486248411; 
- Wed, 04 Nov 2020 02:37:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaGHi-0005Wz-0d
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:44:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaGHf-0004zg-Ff
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:44:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604486693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WPWDujVNM8hBiDf9P/eY9c/7XJIrt2NIUD9AJ+9wrdM=;
+ b=dg47H/i22HLDyZX2jaW2XWXwz3S7vcQv5QIWQsG+SwCqO/Q/swWdnVT5assb2cIGYNwy8b
+ ke8hChTZT5jMDfI/RvnGtN3mrrPweUnAKoDwMvaUouf6dF8kYvdW3tnPXb7v1Yxh8KFg0C
+ 4VIQZ+N20xx1qLcy1g0z+Ja5Fj39GfM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-211-cOxaQyZSNxmZMwziDzEJIg-1; Wed, 04 Nov 2020 05:44:51 -0500
+X-MC-Unique: cOxaQyZSNxmZMwziDzEJIg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB77D186DD28;
+ Wed,  4 Nov 2020 10:44:50 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-151.ams2.redhat.com [10.36.112.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F076110013C4;
+ Wed,  4 Nov 2020 10:44:47 +0000 (UTC)
+Subject: Re: [PATCH] qtest: Fix bad printf format specifiers
+To: AlexChen <alex.chen@huawei.com>, lvivier@redhat.com,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <5FA28117.3020802@huawei.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <67eca43e-99ea-f2ce-5d9e-a9cb5c7a3a83@redhat.com>
+Date: Wed, 4 Nov 2020 11:44:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-References: <20201103114654.18540-1-peter.maydell@linaro.org>
- <20201104071033.GB3294551@lianli.shorne-pla.net>
-In-Reply-To: <20201104071033.GB3294551@lianli.shorne-pla.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Nov 2020 10:37:17 +0000
-Message-ID: <CAFEAcA8mE=iDxyyBHAH2T1fMFK47eo1pkowJLGjBWQO7U5RRRQ@mail.gmail.com>
-Subject: Re: [PATCH] target/openrisc: Remove dead code attempting to check "is
- timer disabled"
-To: Stafford Horne <shorne@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::644;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x644.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <5FA28117.3020802@huawei.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,46 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Nov 2020 at 07:10, Stafford Horne <shorne@gmail.com> wrote:
->
-> On Tue, Nov 03, 2020 at 11:46:54AM +0000, Peter Maydell wrote:
-> > In the mtspr helper we attempt to check for "is the timer disabled"
-> > with "if (env->ttmr & TIMER_NONE)".  This is wrong because TIMER_NONE
-> > is zero and the condition is always false (Coverity complains about
-> > the dead code.)
-> >
-> > The correct check would be to test whether the TTMR_M field in the
-> > register is equal to TIMER_NONE instead.  However, the
-> > cpu_openrisc_timer_update() function checks whether the timer is
-> > enabled (it looks at cpu->env.is_counting, which is set to 0 via
-> > cpu_openrisc_count_stop() when the TTMR_M field is set to
-> > TIMER_NONE), so there's no need to check for "timer disabled" in the
-> > target/openrisc code.  Instead, simply remove the dead code.
->
-> Thanks for the patch!
->
-> I think the check is needed, but it's coded wrong.  The ttmr bits 31,30
-> are the timer mode.  If they are equal to zero (TIMER_NONE) then it means
-> the timer is disabled and we can skip the timer update.
+On 04/11/2020 11.23, AlexChen wrote:
+> We should use printf format specifier "%u" instead of "%d" for
+> argument of type "unsigned int".
+> 
+> Reported-by: Euler Robot <euler.robot@huawei.com>
+> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+> ---
+>  tests/qtest/arm-cpu-features.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
+> index d20094d5a7..bc681a95d5 100644
+> --- a/tests/qtest/arm-cpu-features.c
+> +++ b/tests/qtest/arm-cpu-features.c
+> @@ -536,7 +536,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>          if (kvm_supports_sve) {
+>              g_assert(vls != 0);
+>              max_vq = 64 - __builtin_clzll(vls);
+> -            sprintf(max_name, "sve%d", max_vq * 128);
+> +            sprintf(max_name, "sve%u", max_vq * 128);
+> 
+>              /* Enabling a supported length is of course fine. */
+>              assert_sve_vls(qts, "host", vls, "{ %s: true }", max_name);
+> @@ -556,7 +556,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>                   * unless all larger, supported vector lengths are also
+>                   * disabled.
+>                   */
+> -                sprintf(name, "sve%d", vq * 128);
+> +                sprintf(name, "sve%u", vq * 128);
+>                  error = g_strdup_printf("cannot disable %s", name);
+>                  assert_error(qts, "host", error,
+>                               "{ %s: true, %s: false }",
+> @@ -569,7 +569,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>               * we need at least one vector length enabled.
+>               */
+>              vq = __builtin_ffsll(vls);
+> -            sprintf(name, "sve%d", vq * 128);
+> +            sprintf(name, "sve%u", vq * 128);
+>              error = g_strdup_printf("cannot disable %s", name);
+>              assert_error(qts, "host", error, "{ %s: false }", name);
+>              g_free(error);
+> @@ -581,7 +581,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
+>                  }
+>              }
+>              if (vq <= SVE_MAX_VQ) {
+> -                sprintf(name, "sve%d", vq * 128);
+> +                sprintf(name, "sve%u", vq * 128);
+>                  error = g_strdup_printf("cannot enable %s", name);
+>                  assert_error(qts, "host", error, "{ %s: true }", name);
+>                  g_free(error);
+> 
 
-My analysis is in the commit message -- the timer_update() function
-will just happily do nothing if the timer is disabled. It seemed
-cleaner to me to let the timer function just do the right thing
-rather than having both layers of the code try to figure out if
-there's no action to take.
+max_vq and vq are both "uint32_t" and not "unsigned int" ... so if you want
+to fix this really really correctly, please use PRIu32 from inttypes.h instead.
 
-> The code should be something like ((env->ttmr >> 30) == TIMER_NONE). But I
-> haven't tested it.
+ Thanks,
+  Thomas
 
-TIMER_NONE and the other TIMER_* fields are defined as (n << 30),
-and the mask TTMR_M is (3 << 30), so "(env->ttmr & TTMR_M) == TIMER_NONE"
-would be the condition to check if we wanted to do it here. (That
-matches how the code earlier in the function does it.)
-
-thanks
--- PMM
 
