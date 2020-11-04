@@ -2,66 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B10AE2A643A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:25:38 +0100 (CET)
-Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E36BF2A642B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:22:50 +0100 (CET)
+Received: from localhost ([::1]:34152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaHr7-0001uX-Oq
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:25:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35936)
+	id 1kaHoP-0007c0-VW
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:22:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kaHk8-00049o-MN; Wed, 04 Nov 2020 07:18:24 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:34605)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kaHk6-0008PB-Em; Wed, 04 Nov 2020 07:18:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=/krue73RQvdTWcIblo1I9y7H3d6eOwA1QW3W+4qPpfE=; b=UHh3nTAHNFB2zk0OC/yuN81pAX
- CS3ZhcW/5BcC89K1b2ChCpUquZyD+PzyaUgL8Ho7EDpDwJWA4IZVim23uFNMgtdvecrENGVrtNs2s
- 01CK686+wZcKvd7lPZ4BljzXHhOrbVziSz4mYY3VQhU3yOXXGKCChQqqoT2rcJmAmr2UXXkkkV5YI
- nEEBDTWC5LDAqsGp0wZ54FJwoMtufRgdiU+Q8GSfgHfUx2o/UucIDGu5/lFc3X6JJWD/K6rFc0p3x
- 3W0m4ixzxQyWOR/ZZ6nRUGTW5O/CaDlLZDTngBRDb28ytW7EQURadvxENGyH+Lk6t++V7qYkPetk7
- UcDWglqg==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
- Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Richard Henderson <rth@twiddle.net>
-Subject: Re: [PATCH-for-5.2 v3 2/4] hw/9pfs: Fix Kconfig dependency problem
- between 9pfs and Xen
-Date: Wed, 04 Nov 2020 13:18:09 +0100
-Message-ID: <8965407.pN9RvXrJQ9@silver>
-In-Reply-To: <20201104115706.3101190-3-philmd@redhat.com>
-References: <20201104115706.3101190-1-philmd@redhat.com>
- <20201104115706.3101190-3-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kaHnS-0006kN-PO
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:21:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kaHnR-0000Ry-8P
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:21:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604492507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=M8mS/EXTnXJdGhLS3FPJht81xZVYb0CoJGI6hPwEEdg=;
+ b=E+eGyYLQfB45ljckF21hFUuYfeQimNaAP9dT9AThOBS2/tvbBKMKR/JsJHO+0lQrBWT5Sk
+ 8c66Yvd8JyWLA6QzlP+DcxwctkR8AQloa64t0bqDWeJyb7d8t1aTvUISRBNjNySgfaecDV
+ wNEvYu4VSxM1uC+W136B2LspOgijVZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-234-GSQSYqxWNJCfeYNcsngUyQ-1; Wed, 04 Nov 2020 07:21:46 -0500
+X-MC-Unique: GSQSYqxWNJCfeYNcsngUyQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9111464081
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 12:21:45 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 605C410074EA;
+ Wed,  4 Nov 2020 12:21:45 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id DCA971132BD6; Wed,  4 Nov 2020 13:21:43 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-5.2 2/4] qemu-option: move help handling to
+ get_opt_name_value
+References: <20201103151452.416784-1-pbonzini@redhat.com>
+ <20201103151452.416784-3-pbonzini@redhat.com>
+Date: Wed, 04 Nov 2020 13:21:43 +0100
+In-Reply-To: <20201103151452.416784-3-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Tue, 3 Nov 2020 10:14:50 -0500")
+Message-ID: <87blgdz50o.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:58:03
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,84 +83,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 4. November 2020 12:57:04 CET Philippe Mathieu-Daud=E9 wrote:
-> Commit b2c00bce54c ("meson: convert hw/9pfs, cleanup") introduced
-> CONFIG_9PFS (probably a wrong conflict resolution). This config is
-> not used anywhere. Backends depend on CONFIG_FSDEV_9P which itself
-> depends on CONFIG_VIRTFS.
->=20
-> Remove the invalid CONFIG_9PFS and use CONFIG_FSDEV_9P instead, to
-> fix the './configure --without-default-devices --enable-xen' build:
->=20
->   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function
-> `xen_be_register_common': hw/xen/xen-legacy-backend.c:754: undefined
-> reference to `xen_9pfs_ops' /usr/bin/ld:
-> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference =
-to
-> `local_ops' /usr/bin/ld:
-> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference
-> to `synth_ops' /usr/bin/ld:
-> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference
-> to `proxy_ops' collect2: error: ld returned 1 exit status
->=20
-> Fixes: b2c00bce54c ("meson: convert hw/9pfs, cleanup")
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Acked-by: Greg Kurz <groug@kaod.org>
-> Tested-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> Right now, help options are parsed normally and then checked
+> specially in opt_validate---but only if coming from
+> qemu_opts_parse or qemu_opts_parse_noisily, not if coming
+> from qemu_opt_set.
+>
+> Instead, move the check from opt_validate to the common workhorses
+> of qemu_opts_parse and qemu_opts_parse_noisily, opts_do_parse and
+> get_opt_name_value.
+>
+> This will come in handy in a subsequent patch, which will
+> raise a warning for "-object memory-backend-ram,share"
+> ("flag" option with no =on/=off part) but not for
+> "-object memory-backend-ram,help".
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-> ---
-> v2: Reworded description (Greg)
->=20
-> Cc: Stefano Stabellini <sstabellini@kernel.org>
-> Cc: Anthony Perard <anthony.perard@citrix.com>
-> Cc: Paul Durrant <paul@xen.org>
-> Cc: xen-devel@lists.xenproject.org
-> Cc: Greg Kurz <groug@kaod.org>
-> Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> ---
->  hw/9pfs/Kconfig     | 4 ----
->  hw/9pfs/meson.build | 2 +-
->  2 files changed, 1 insertion(+), 5 deletions(-)
->=20
-> diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
-> index d3ebd737301..3ae57496613 100644
-> --- a/hw/9pfs/Kconfig
-> +++ b/hw/9pfs/Kconfig
-> @@ -2,12 +2,8 @@ config FSDEV_9P
->      bool
->      depends on VIRTFS
->=20
-> -config 9PFS
-> -    bool
-> -
->  config VIRTIO_9P
->      bool
->      default y
->      depends on VIRTFS && VIRTIO
->      select FSDEV_9P
-> -    select 9PFS
-> diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
-> index cc094262122..99be5d91196 100644
-> --- a/hw/9pfs/meson.build
-> +++ b/hw/9pfs/meson.build
-> @@ -15,6 +15,6 @@
->    'coxattr.c',
->  ))
->  fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
-> -softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
-> +softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
->=20
->  specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true:
-> files('virtio-9p-device.c'))
+I'm afraid this fails my smoke test:
 
-Best regards,
-Christian Schoenebeck
+    $ o=`sed -n '/HAS_ARG,/s/DEF("\([^"]*\)".*/\1/p' qemu-options.hx`
+    $ for i in $o; do echo "= $i"; upstream-qemu -$i help -version; done 2>&1 | egrep -v 'QEMU emulator|Copyright'
 
+Many output differences.  False positives due to help printing lists in
+random order.  Arbitrarily picked true positive:
+
+    $ upstream-qemu -msg help
+    msg options:
+      guest-name=<bool (on/off)> - Prepends guest name for error messages but only if -name guest is set otherwise option is ignored
+
+      timestamp=<bool (on/off)>
+    $ echo $?
+    1
+
+regresses to silent failure.
 
 
