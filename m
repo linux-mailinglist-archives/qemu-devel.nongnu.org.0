@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 597DF2A5BA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:16:04 +0100 (CET)
-Received: from localhost ([::1]:49688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 417602A5B9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:12:39 +0100 (CET)
+Received: from localhost ([::1]:41268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7P9-0002jB-E2
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:16:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35996)
+	id 1ka7Lq-0007ir-9l
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:12:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nw-0007P3-DD
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26386)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nv-0007NR-Pc
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26687)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nt-0004xk-9m
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nt-0004xp-9u
  for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450251;
+ s=mimecast20190719; t=1604450252;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B9FRDK9RDXP1gvYcLKnDz5U4uhB4JEcP2LMYKIEAfCM=;
- b=I7tuQP2qUJQaLHe58S5shN6iNyL48a4aNiQdQtrO8jAXyfRoVhAE9i2MSFv9qbiMqFBP37
- dzj8KnJZKc+hKXQNSb7wx5ykv85xIfwdxQkvVKXafKeZkACtg6Bd4AIQxuRr70z2fyqj+o
- m27A+mEgELc4s9Np5NUmler+jmTArHw=
+ bh=TIFuMouv3BevsTrVSomuc/EthhkE99OcgJhVE2XMzY8=;
+ b=IvRImPQvAHmzTxlHhwT8QN0hfiomj2uDij75/m8vn4bpT4hTSVhJh2CUv71xyNkNMng+qb
+ c8MSup/zoYTny8nYlHABAfCY9Yqg8XVFSbirmZFPpA8DIhhSGTF/AQDCgimSrqqwxSpxDG
+ wGBEfGjFzTQuRF7SC+zSmSILuXE0jJY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-358-noO3gqbbOrWcxtyHMvo6gg-1; Tue, 03 Nov 2020 19:37:29 -0500
-X-MC-Unique: noO3gqbbOrWcxtyHMvo6gg-1
+ us-mta-343-qEaK0t9-Peei9aKrMiv0tg-1; Tue, 03 Nov 2020 19:37:31 -0500
+X-MC-Unique: qEaK0t9-Peei9aKrMiv0tg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA075108E1A8
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29E301009E26
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:30 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 00CD855766;
- Wed,  4 Nov 2020 00:37:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36C7E55766;
+ Wed,  4 Nov 2020 00:37:29 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 61/72] scripts/qmp-shell: Use context manager instead of
- atexit
-Date: Tue,  3 Nov 2020 19:35:51 -0500
-Message-Id: <20201104003602.1293560-62-jsnow@redhat.com>
+Subject: [PATCH v2 62/72] scripts/qmp-shell: use logging to show warnings
+Date: Tue,  3 Nov 2020 19:35:52 -0500
+Message-Id: <20201104003602.1293560-63-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -56,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,92 +83,53 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can invoke the shell history writing when we leave the QMPShell scope
-instead of relying on atexit. Doing so may be preferable to avoid global
-state being registered from within a class instead of from the
-application logic directly.
-
-Use QMP's context manager to hook this history saving at close time,
-which gets invoked when we leave the context block.
+Perfect candidate is non-fatal shell history messages.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ scripts/qmp/qmp-shell | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index f14fe211cca4..ec028d662e8e 100755
+index ec028d662e8e..0199a13a3428 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -66,7 +66,6 @@
- # sent to QEMU, which is useful for debugging and documentation generation.
+@@ -67,6 +67,7 @@
  import argparse
  import ast
--import atexit
  import json
++import logging
  import os
  import re
-@@ -142,6 +141,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         self.pretty = pretty
-         self.verbose = verbose
+ import readline
+@@ -85,6 +86,9 @@ from qemu import qmp
+ from qemu.qmp import QMPMessage
  
-+    def close(self) -> None:
-+        # Hook into context manager of parent to save shell history.
-+        self._save_history()
-+        super().close()
+ 
++LOG = logging.getLogger(__name__)
 +
-     def _fill_completion(self) -> None:
-         cmds = self.cmd('query-commands')
-         if 'error' in cmds:
-@@ -164,9 +168,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
++
+ class QMPCompleter:
+     # NB: Python 3.9+ will probably allow us to subclass list[str] directly,
+     # but pylint as of today does not know that List[str] is simply 'list'.
+@@ -167,13 +171,15 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         except FileNotFoundError:
              pass
          except IOError as err:
-             print(f"Failed to read history '{self._histfile}': {err!s}")
--        atexit.register(self.__save_history)
+-            print(f"Failed to read history '{self._histfile}': {err!s}")
++            msg = f"Failed to read history '{self._histfile}': {err!s}"
++            LOG.warning(msg)
  
--    def __save_history(self) -> None:
-+    def _save_history(self) -> None:
+     def _save_history(self) -> None:
          try:
              readline.write_history_file(self._histfile)
          except IOError as err:
-@@ -448,25 +451,25 @@ def main() -> None:
-         parser.error("QMP socket or TCP address must be specified")
+-            print(f"Failed to save history file '{self._histfile}': {err!s}")
++            msg = f"Failed to save history file '{self._histfile}': {err!s}"
++            LOG.warning(msg)
  
-     shell_class = HMPShell if args.hmp else QMPShell
-+
-     try:
-         address = shell_class.parse_address(args.qmp_server)
-     except qmp.QMPBadPortError:
-         parser.error(f"Bad port number: {args.qmp_server}")
-         return  # pycharm doesn't know error() is noreturn
- 
--    qemu = shell_class(address, args.pretty, args.verbose)
-+    with shell_class(address, args.pretty, args.verbose) as qemu:
-+        try:
-+            qemu.connect(negotiate=not args.skip_negotiation)
-+        except qmp.QMPConnectError:
-+            die("Didn't get QMP greeting message")
-+        except qmp.QMPCapabilitiesError:
-+            die("Couldn't negotiate capabilities")
-+        except OSError as err:
-+            die(f"Couldn't connect to {args.qmp_server}: {err!s}")
- 
--    try:
--        qemu.connect(negotiate=not args.skip_negotiation)
--    except qmp.QMPConnectError:
--        die("Didn't get QMP greeting message")
--    except qmp.QMPCapabilitiesError:
--        die("Couldn't negotiate capabilities")
--    except OSError as err:
--        die(f"Couldn't connect to {args.qmp_server}: {err!s}")
--
--    for _ in qemu.repl():
--        pass
-+        for _ in qemu.repl():
-+            pass
- 
- 
- if __name__ == '__main__':
+     @classmethod
+     def __parse_value(cls, val: str) -> object:
 -- 
 2.26.2
 
