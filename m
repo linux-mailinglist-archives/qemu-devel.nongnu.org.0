@@ -2,53 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8C4A2A616E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:23:46 +0100 (CET)
-Received: from localhost ([::1]:51452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E952A6197
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:30:10 +0100 (CET)
+Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaFxA-0003hv-8b
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:23:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
+	id 1kaG3L-0001Pv-EA
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:30:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kaFvJ-0002Ex-4U; Wed, 04 Nov 2020 05:21:49 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2074)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaFwP-0003TD-QT; Wed, 04 Nov 2020 05:22:57 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:53027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kaFvF-0002Bk-K1; Wed, 04 Nov 2020 05:21:48 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CR2kX5VDwzhZlP;
- Wed,  4 Nov 2020 18:21:40 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 4 Nov 2020 18:21:34 +0800
-Subject: [PATCH 4/4] bsd-user: suspect code indent for conditional statements
-References: <7ff969d1-3ed9-8723-3270-5737c9c4d1f7@huawei.com>
-To: <richard.henderson@linaro.org>, <pbonzini@redhat.com>,
- <philmd@redhat.com>, <alex.bennee@linaro.org>, <laurent@vivier.eu>
-From: shiliyang <shiliyang@huawei.com>
-X-Forwarded-Message-Id: <7ff969d1-3ed9-8723-3270-5737c9c4d1f7@huawei.com>
-Message-ID: <abd90c81-3263-4758-f78a-3d4d61d2515b@huawei.com>
-Date: Wed, 4 Nov 2020 18:21:34 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <7ff969d1-3ed9-8723-3270-5737c9c4d1f7@huawei.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaFwN-0002Gb-Ei; Wed, 04 Nov 2020 05:22:57 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 71B578B8;
+ Wed,  4 Nov 2020 05:22:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 04 Nov 2020 05:22:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm1; bh=srRT8XJhCUT9ojX3/6ge8wQnAa
+ Zk2RyYfWdREYs3Wqk=; b=CDKtMK5A5xFTnT792W+aBBq7QZBVj1stk1wajxhbck
+ YViMCcfmFQLzjnlKpke55h7o5KIQ/V+/qzbFLs+EK0RgrOPx1kP0Zuxwqoh9584v
+ MxrR/QXJehsXxw1kDjx+M4AQrbhGuFrdx9wrpjChWvPuzCQqzttDihkt8009Ck6a
+ +WetJQrbR15Ibz9neie3KxJ7K+7uKUFUCoTVq7C8G9diR6UY1+VrB49DGby4+29y
+ rQ4fa3eI8X0lymY33YwEEg4rNqP0LdcyQSDZ/1Sv2iOuTMeUG9m4QEXa+jWoiL4O
+ v8A98HkN0p6dAdEH7Gp3uXfxB4zWH2c4Z4QZtXy9H+/g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=srRT8X
+ JhCUT9ojX3/6ge8wQnAaZk2RyYfWdREYs3Wqk=; b=KX7wBvo24VMHGHD2ht0qaT
+ Y0XFyGy5QO/ddlXPzJuVd/WePZeekKmyLZKrwtieVyuysp54kZUJKFygzDPb14bh
+ iHvsXm5Tk3yqLpEGbw8qprBJPb6OAXm62XdmJ9eEoyoc6PTd+AwKhuLUI67QhBWI
+ mchJFuS/tTW0MqAMO5/Py4w69FRbXKRK65asmqW9rq2mNR5mlJfBm8cU2tCayo4s
+ 1+YFL34w20MOtJNSQAJ9Rj9mhGFdpbNPrJCUtjTGPpQTTxD6nciuQvZWLRtFpGtf
+ Etsap2jciiq4SybHCMZkCc2GwqwkCQMyw1xKLxmLZ3esU15DT9feFfjyc3ZtTBlw
+ ==
+X-ME-Sender: <xms:-oCiX-CkFqf5Orz5NYZRNSX9qpZtal5PaqczDofJYspCmx9BwxUBNw>
+ <xme:-oCiX4iPOwOWuB-3JnpQZhGkU22NGfoKhBb-GGu9oJein0vdu8_r1R0DrUfFyLkML
+ ljS6BblC7kKMan7NA8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:-4CiXxmlEBzH_vo6KpUCy7lm0nYkhCRGYowxttTwQrmf6Dw_Rib9yQ>
+ <xmx:-4CiX8wtWg1bdxlPHYh9ArkQEsen0sJsF4k4zUFddyUgl22gAin4xw>
+ <xmx:-4CiXzSM3hAZtvJYViXdQrsVxf7DPq0c31EokVj_ygeNar6uwceLZg>
+ <xmx:_ICiX8QLSEVYFmUHv7ar05HJ742aea3CAbO5tGWTuAg1Y9Z4qUpi6Q>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8EB4E328037B;
+ Wed,  4 Nov 2020 05:22:49 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH for-5.2 0/3] hw/block/nvme: coverity fixes
+Date: Wed,  4 Nov 2020 11:22:45 +0100
+Message-Id: <20201104102248.32168-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.29.1
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=shiliyang@huawei.com;
- helo=szxga06-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:21:41
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:22:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,99 +93,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- hunongda@huawei.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im.dev@gmail.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes error style problems found by checkpatch.pl:
-ERROR: suspect code indent for conditional statements
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Signed-off-by: Liyang Shi <shiliyang@huawei.com>
-
----
- bsd-user/elfload.c | 10 +++++-----
- bsd-user/main.c    |  4 ++--
- bsd-user/syscall.c |  2 +-
- 3 files changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index d5746f25e7..9f4210af9a 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -184,7 +184,7 @@ static inline void init_thread(struct target_pt_regs *regs, struct image_info *i
-     memset(regs, 0, sizeof(*regs));
-     regs->ARM_cpsr = 0x10;
-     if (infop->entry & 1)
--      regs->ARM_cpsr |= CPSR_T;
-+        regs->ARM_cpsr |= CPSR_T;
-     regs->ARM_pc = infop->entry & 0xfffffffe;
-     regs->ARM_sp = infop->start_stack;
-     /* FIXME - what to for failure of get_user()? */
-@@ -784,7 +784,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
-         sp = sp &~ (abi_ulong)15;
-         size = (DLINFO_ITEMS + 1) * 2;
-         if (k_platform)
--          size += 2;
-+            size += 2;
- #ifdef DLINFO_ARCH_ITEMS
-         size += DLINFO_ARCH_ITEMS * 2;
- #endif
-@@ -871,7 +871,7 @@ static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
-                 malloc(sizeof(struct elf_phdr) * interp_elf_ex->e_phnum);
-
-         if (!elf_phdata)
--          return ~((abi_ulong)0UL);
-+            return ~((abi_ulong)0UL);
-
-         /*
-          * If the size of this structure has changed, then punt, since
-@@ -1267,7 +1267,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
-
-             if (strcmp(elf_interpreter,"/usr/lib/libc.so.1") == 0 ||
-                 strcmp(elf_interpreter,"/usr/lib/ld.so.1") == 0) {
--              ibcs2_interpreter = 1;
-+                ibcs2_interpreter = 1;
-             }
-
- #if 0
-@@ -1314,7 +1314,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
-         /* Now figure out which format our binary is */
-         if ((N_MAGIC(interp_ex) != OMAGIC) && (N_MAGIC(interp_ex) != ZMAGIC) &&
-                 (N_MAGIC(interp_ex) != QMAGIC)) {
--          interpreter_type = INTERPRETER_ELF;
-+            interpreter_type = INTERPRETER_ELF;
-         }
-
-         if (interp_elf_ex.e_ident[0] != 0x7f ||
-diff --git a/bsd-user/main.c b/bsd-user/main.c
-index ac40d79bfa..d8a2011501 100644
---- a/bsd-user/main.c
-+++ b/bsd-user/main.c
-@@ -831,8 +831,8 @@ int main(int argc, char **argv)
-                 exit(1);
-             }
-         } else if (!strcmp(r, "B")) {
--           guest_base = strtol(argv[optind++], NULL, 0);
--           have_guest_base = true;
-+            guest_base = strtol(argv[optind++], NULL, 0);
-+            have_guest_base = true;
-         } else if (!strcmp(r, "drop-ld-preload")) {
-             (void) envlist_unsetenv(envlist, "LD_PRELOAD");
-         } else if (!strcmp(r, "bsd")) {
-diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
-index d38ec7a162..9b471b665c 100644
---- a/bsd-user/syscall.c
-+++ b/bsd-user/syscall.c
-@@ -241,7 +241,7 @@ static abi_long do_freebsd_sysctl(abi_ulong namep, int32_t namelen, abi_ulong ol
-         return -TARGET_EFAULT;
-     holdlen = oldlen;
-     for (p = hnamep, q = snamep, i = 0; i < namelen; p++, i++)
--       *q++ = tswap32(*p);
-+        *q++ = tswap32(*p);
-     oidfmt(snamep, namelen, NULL, &kind);
-     /* XXX swap hnewp */
-     ret = get_errno(sysctl(snamep, namelen, holdp, &holdlen, hnewp, newlen));
--- 
-2.29.1.59.gf9b6481aed
+Fix three issues reported by coverity (CIDs 1436128, 1436129 and=0D
+1436131).=0D
+=0D
+Klaus Jensen (3):=0D
+  hw/block/nvme: fix null ns in register namespace=0D
+  hw/block/nvme: fix uint16_t use of uint32_t sgls member=0D
+  hw/block/nvme: fix free of array-typed value=0D
+=0D
+ hw/block/nvme.c | 6 ++----=0D
+ 1 file changed, 2 insertions(+), 4 deletions(-)=0D
+=0D
+-- =0D
+2.29.1=0D
+=0D
 
