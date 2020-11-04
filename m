@@ -2,81 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB982A6B22
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:56:36 +0100 (CET)
-Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D4D2A6B3E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:59:33 +0100 (CET)
+Received: from localhost ([::1]:40532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaM5L-00078f-2J
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:56:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54116)
+	id 1kaM8C-0002CN-Iu
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kaM3m-0005xu-BR
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:54:58 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kaM3k-0003uk-FE
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:54:58 -0500
-Received: by mail-wm1-x344.google.com with SMTP id 23so2266751wmg.1
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 08:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:in-reply-to:date
- :message-id:mime-version:content-transfer-encoding;
- bh=4jjWpn4bcwLC7eZjYcSUVSK/OwVcFjwCXKimzrpEA18=;
- b=osQFm1jSPAgDnLwh/kW/r8CpAJdDTvPMUvweMlat8bmDz4AS0gR7n/zO/DCXS6h49x
- Ai4J45OlWEz5KClmmiorY7ixpxixy6fhNrsSkyE2PLmWdhhBWuoq/Z/DY8QVjK9rtAdr
- c9ysG/C4xXLwJCSHitsgKEWcjn2zDPF2XT6o4LamikLZ8+MuOS0nWbW/c+EH4gkMAYEe
- ayHAaGS9LK9qPDt77/g+Txh464ZW/L25r0lZ9KHNr2KrYOiYgYJuQ7KOMHTNj6AVjhdy
- EUifoyo2hvBIef8RX3+1AUWw3QyqkBHGv9ecKv4yF5u4mVzhu2rpxXYDuRAh9nySb4dq
- yX7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject
- :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
- bh=4jjWpn4bcwLC7eZjYcSUVSK/OwVcFjwCXKimzrpEA18=;
- b=igxPZe4gxFc2N2DeGmiIkZ5tG/oON2MM2LYT/aII1/tid2t2pYWPdsrCIeMWeFPWe6
- l+feWwz9ysjtKQiQK8HNEw9WEPe550ORfpcJ/ODGyIwwCuaOieB/XwNjM3Tz1KrJh5/0
- qwhO55eNXG/TjGbzB00uJ5XIpL+UkGTSFwxgrC9btj7NMcS/ap5KhS6Iw2ufTdwYLulX
- tqQfn8ic7n+TZgxY8s1D0sc03JAdaTOoph+h4KMq5TBiMH6r2O094SqLGLMuwHCVC3lW
- GKho8eVjYnuJn76rGYxFu/Mfg+JNlfxPusxgDSwtPtzxj51dAqmBOEXsWqIc4pj7k3wZ
- QV5A==
-X-Gm-Message-State: AOAM530WHx3LJDZZG7hkUVrbEsSw9oicroFmnNJ5DXEfCAyYEeT7/LHA
- 5LyIeGu1tfnTwS+a9GBse5EK5Q==
-X-Google-Smtp-Source: ABdhPJynb/uN3jJeod19WJJBzTzFlb9xcseIOuZihTTv0r+4OmJ6ZlLxTCQVXDpCjP/V6uNM9C6QPg==
-X-Received: by 2002:a1c:6a11:: with SMTP id f17mr5442154wmc.24.1604508895023; 
- Wed, 04 Nov 2020 08:54:55 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z2sm3009676wmf.45.2020.11.04.08.54.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 08:54:53 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4F0551FF7E;
- Wed,  4 Nov 2020 16:54:53 +0000 (GMT)
-References: <20201103104710.27150-1-alex.bennee@linaro.org>
- <20201103112339.GP1664@vanye>
-User-agent: mu4e 1.5.6; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Leif Lindholm <leif@nuviainc.com>
-Subject: Re: [RFC PATCH] docs: add some notes on the sbsa-ref machine
-In-reply-to: <20201103112339.GP1664@vanye>
-Date: Wed, 04 Nov 2020 16:54:53 +0000
-Message-ID: <87sg9pawpu.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaM4B-0006aA-1J
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:55:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26588)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaM49-00043h-8e
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:55:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604508918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KnozXQof4UYy6Yi3+xNoxUioVhVJzuBfXQ2lh1cdsWs=;
+ b=OxQYS/35yG0YsB1bm3oXuS6UEew2J+xRNoosRURYE0uj+hkCwiFkFbcK8PBOzjE94DRSFh
+ oHwCKG3/lUA2yj8MoBMristrnBRgXEKCvWAEJjbm1xsiXuF2obMHxKOGqF/bkXrlkZl6yp
+ lJ9VZsSVQ4+OB8AagaLyM1E4gW8cWyQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-w-1v6EwGME6tnofn6dl5WA-1; Wed, 04 Nov 2020 11:55:16 -0500
+X-MC-Unique: w-1v6EwGME6tnofn6dl5WA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68EDF10866AD;
+ Wed,  4 Nov 2020 16:55:15 +0000 (UTC)
+Received: from localhost (unknown [10.40.194.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EF8635C3E1;
+ Wed,  4 Nov 2020 16:55:14 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH 0/2] block: Remove unused BlockDeviceMapEntry
+Date: Wed,  4 Nov 2020 17:55:11 +0100
+Message-Id: <20201104165513.72720-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,84 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Graeme Gregory <graeme@nuviainc.com>,
- Hongbo Zhang <hongbo.zhang@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>, qemu-devel@nongnu.org,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Cc: Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-Leif Lindholm <leif@nuviainc.com> writes:
+Markus has revived a rather old patch to remove an unused QAPI
+structure:
 
-> On Tue, Nov 03, 2020 at 10:47:10 +0000, Alex Benn=C3=A9e wrote:
->> We should at least document what this machine is about.
->
-> Thanks!
-> (comments below)
->
->> Cc: Graeme Gregory <graeme@nuviainc.com>
->> Cc: Leif Lindholm <leif@nuviainc.com>
->> Cc: Hongbo Zhang <hongbo.zhang@linaro.org>
->> Cc: Shashi Mallela <shashi.mallela@linaro.org>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> ---
->>  docs/system/arm/sbsa.rst   | 30 ++++++++++++++++++++++++++++++
->>  docs/system/target-arm.rst |  1 +
->>  2 files changed, 31 insertions(+)
->>  create mode 100644 docs/system/arm/sbsa.rst
->>=20
->> diff --git a/docs/system/arm/sbsa.rst b/docs/system/arm/sbsa.rst
->> new file mode 100644
->> index 0000000000..a47c9360de
->> --- /dev/null
->> +++ b/docs/system/arm/sbsa.rst
->> @@ -0,0 +1,30 @@
->> +Arm Server Base System Architecture Reference board (``sbsa-ref``)
->> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> +
->> +While the `virt` board is a generic board platform that doesn't match
->> +any real hardware the `sbsa-ref` board intends to look like real
->> +hardware. The `Server Base System Architecture
->> +<https://developer.arm.com/documentation/den0029/latest>` defines a
->> +minimum base line of hardware support and importantly how the firmware
->> +reports that to any operating system. It is a static system that
->> +reports a very minimal DT to the firmware for command line input to
->> +the firmware.
->
-> I think you mean the right thing, but ...
-> "a very minimal DT to the firmware for non-discoverable information
->  about components affected by the qemu command line"
->  (i.e. cpus and memory)
->
->> As a result it must have a firmware specifically built
->> +to expect a certain hardware layout (as you would in a real machine).
->> +
->> +It is intended to be a machine for developing firmware and testing
->> +standards compliance with operating systems.
->> +
->> +Supported devices
->> +"""""""""""""""""
->> +
->> +The sbsa-ref board supports:
->> +
->> +  - A configurable number of Cortex-A57 cpus
->> +  - GIC version 3
->
-> The intent was always for sbsa-ref to be tracking SBSA development, so
-> I wonder whether we should be documenting specific versions of cpu and
-> gic (and then keep remembering to update the docs).
-> My short-term plan was to swap the a57 for "max", but
-> documentation-wise, could we just say "number of aarch64 cpus"?
-> Could we refer to the gic as "latest supported emulated"?
+https://lists.nongnu.org/archive/html/qemu-block/2020-10/msg01902.html
 
-I'm not sure we want a movable feast... shouldn't we at least provide
-compatibility for older variations? -cpu max is useful but you can get
-new features coming out of the blue.
+He quoted a response of mine to the original patch, where I noted that
+removing this structure is OK because it is superseded by another
+structure (MapEntry), but that other structure’s documentation is worse.
+So we should merge some of BlockDeviceMapEntry’s documentation into
+MapEntry before removing it.
 
---=20
-Alex Benn=C3=A9e
+This series combines said merge with Markus’s patch to drop
+BlockDeviceMapEntry.
+
+
+Markus Armbruster (1):
+  block: Remove unused BlockDeviceMapEntry
+
+Max Reitz (1):
+  qapi/block-core: Improve MapEntry documentation
+
+ qapi/block-core.json | 47 ++++++++++++--------------------------------
+ 1 file changed, 13 insertions(+), 34 deletions(-)
+
+-- 
+2.28.0
+
 
