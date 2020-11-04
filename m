@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218D42A6704
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:03:52 +0100 (CET)
-Received: from localhost ([::1]:48670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 477322A670E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:06:12 +0100 (CET)
+Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKKE-0004UB-Kc
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:03:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55224)
+	id 1kaKMV-0008HT-7S
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:06:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIU-0002uz-Un
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27811)
+ id 1kaKIh-00039E-BG
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIR-000612-Kh
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:02 -0500
+ id 1kaKIU-000625-TJ
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604502118;
+ s=mimecast20190719; t=1604502122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XNJiJhP8ymRDAECfSLwUKfgEfyjNuYyRk5amk7A7dvA=;
- b=ffP0HVujZEyONTeEIMVnksdMV2o6qmZTSsK0NYLZdcUbrjlCHOecV/b5D1bAwK7gHF2T3/
- 5Y2ip8IvalN+EnFIfSgfOsXPfTWwKTYf03At1FttH96fbRU7H/20zvytEBy/fsnw3zCOnN
- XB7SyATJbEASErOI8D5NvxvCTuV2L+I=
+ bh=kYUhquvtGZWEyt/D5O2VVHS6S+Wd9m2Cfct82xQV++A=;
+ b=Y8HqeZqJnStkwbDhHuNjxAvbQ1a0TN65AQ5/pNgeEp9jTGUX5cbyfbUddm5IbSYn6ndGqn
+ 0wJiOxt+w0jglkSxTuR0fWtp13pwVUYSwof8Y1ljHIOt6mLTU26J5AbuNB6dSPW5rTZ1Zn
+ OfWA23rtjlbR4HJYM360seaUqu12CVY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-285-lzErxlR6PiOoASMJgXmAbw-1; Wed, 04 Nov 2020 10:01:57 -0500
-X-MC-Unique: lzErxlR6PiOoASMJgXmAbw-1
+ us-mta-143-NvtGDayXOTCWPGNtdPg8sA-1; Wed, 04 Nov 2020 10:01:57 -0500
+X-MC-Unique: NvtGDayXOTCWPGNtdPg8sA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B83C1006CBF
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A9BD1016CE1;
+ Wed,  4 Nov 2020 15:01:56 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B0FDB1007501;
- Wed,  4 Nov 2020 15:01:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2C86B100750D;
+ Wed,  4 Nov 2020 15:01:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/20] exec: Remove dead code (CID 1432876)
-Date: Wed,  4 Nov 2020 10:01:36 -0500
-Message-Id: <20201104150153.541326-4-pbonzini@redhat.com>
+Subject: [PULL 04/20] scripts/oss-fuzz: rename bin/qemu-fuzz-i386
+Date: Wed,  4 Nov 2020 10:01:37 -0500
+Message-Id: <20201104150153.541326-5-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
@@ -81,52 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Alexander Bulekov <alxndr@bu.edu>
 
-We removed the global_locking field in commit 4174495408a,
-leaving dead code around the 'unlocked' variable. Remove it
-to fix the DEADCODE issue reported by Coverity (CID 1432876).
+OSS-Fuzz changed the way it scans for fuzzers in $DEST_DIR. The new code
+also scans subdirectories for fuzzers. This means that OSS-Fuzz is
+considering bin/qemu-fuzz-i386 as an independent fuzzer (it is not - it
+requires a --fuzz-target argument). This has led to coverage-build
+failures and false crash reports. To work around this, we take advantage
+of OSS-Fuzz' filename extension check - OSS-Fuzz will not run anything
+that has an extension that is not ".exe":
+https://github.com/google/oss-fuzz/blob/master/infra/utils.py#L115
 
-Fixes: 4174495408a ("exec: Remove MemoryRegion::global_locking field")
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201030153752.1557776-1-philmd@redhat.com>
+Reported-by: OSS-Fuzz (Issue 26725)
+Reported-by: OSS-Fuzz (Issue 26679)
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+Message-Id: <20201101212245.185819-1-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- softmmu/physmem.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ scripts/oss-fuzz/build.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index a9adedb9f8..0b31be2928 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2723,22 +2723,14 @@ static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
+diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
+index fcae4a0c26..3b1c82b63d 100755
+--- a/scripts/oss-fuzz/build.sh
++++ b/scripts/oss-fuzz/build.sh
+@@ -91,7 +91,7 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
+ # Copy over the datadir
+ cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
  
- static bool prepare_mmio_access(MemoryRegion *mr)
- {
--    bool unlocked = !qemu_mutex_iothread_locked();
-     bool release_lock = false;
+-cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
++cp "./qemu-fuzz-i386" "$DEST_DIR/bin/qemu-fuzz-i386.base"
  
--    if (unlocked) {
-+    if (!qemu_mutex_iothread_locked()) {
-         qemu_mutex_lock_iothread();
--        unlocked = false;
-         release_lock = true;
-     }
-     if (mr->flush_coalesced_mmio) {
--        if (unlocked) {
--            qemu_mutex_lock_iothread();
--        }
-         qemu_flush_coalesced_mmio_buffer();
--        if (unlocked) {
--            qemu_mutex_unlock_iothread();
--        }
-     }
- 
-     return release_lock;
+ # Run the fuzzer with no arguments, to print the help-string and get the list
+ # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
+@@ -104,7 +104,7 @@ do
+     # that are thin wrappers around this target that set the required
+     # environment variables according to predefined configs.
+     if [ "$target" != "generic-fuzz" ]; then
+-        ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
++        ln  "$DEST_DIR/bin/qemu-fuzz-i386.base" \
+             "$DEST_DIR/qemu-fuzz-i386-target-$target"
+     fi
+ done
 -- 
 2.26.2
 
