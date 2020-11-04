@@ -2,76 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FFE2A6260
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:41:39 +0100 (CET)
-Received: from localhost ([::1]:33704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD3262A61A4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:32:48 +0100 (CET)
+Received: from localhost ([::1]:43266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGEU-0003C2-S5
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:41:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41614)
+	id 1kaG5v-0003g4-PN
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:32:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kaG0I-0000dq-T1
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:26:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1kaG0G-0002nu-Bp
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:26:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604485615;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ajl8xRzgbOEdrRYPnJQY+mCvGARx6arJaCCh/jC3+gE=;
- b=iFph7rTP9JkrAEiiPxGn2p38Zj+TkL4q+gC7DHyrsPtm8S1OG38zgD+h9mEx44IuihvFqR
- pL22FNQD3qcEeJT8vaxgFy8Q62Tz10Kgk/Vp//tou54FPOkea84h4BMLCBpIPOs0y5b6nZ
- PnDM1hwOThpGtaMEz28ZR0yz6ogEY5k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-v_dTEh7EMICkJXnSPsRUJw-1; Wed, 04 Nov 2020 05:26:53 -0500
-X-MC-Unique: v_dTEh7EMICkJXnSPsRUJw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA02D1853DA5;
- Wed,  4 Nov 2020 10:26:52 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.66])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EC4C4DA85;
- Wed,  4 Nov 2020 10:26:51 +0000 (UTC)
-Date: Wed, 4 Nov 2020 11:26:48 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PULL 48/48] hw/timer/armv7m_systick: Rewrite to use ptimers
-Message-ID: <20201104102648.6fanj7ufk35quumw@kamzik.brq.redhat.com>
-References: <20201027114438.17662-1-peter.maydell@linaro.org>
- <20201027114438.17662-49-peter.maydell@linaro.org>
- <20201104100357.7t4nnwqot6ahprrh@kamzik.brq.redhat.com>
- <b68320e2-d0bc-3d17-c188-f68fb8136f46@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kaG1h-0001Jg-N6
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:28:25 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:43397)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kaG1f-0002zE-US
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:28:25 -0500
+Received: by mail-ed1-x531.google.com with SMTP id b9so11681174edu.10
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 02:28:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UQw0xIJ3j4vC9P62Fi73cBepSGsDHmSGkxBaz7gujs8=;
+ b=tx5BeMZGu/qLwZMZvrHw9FogWWUz8QuPOBMiztC5BsLTjsvdCmSU1K3zqV7Sx0uPQI
+ w2+f1/IDeDL0mbStWrc8Wym+qYX6ecb25gUzpjFeRz7sbBxdij3Xsf9oCuTvti2mg3If
+ 0c4iCY36vsnc6nKdOvJ9u43OPPFN5BwOMqFiwBDjNU4ts5PrLL54P01lqmAGPaD4leEu
+ 1e3ys+3mcCGHJEvOoAP3LJLkCDzlfEl7YMAzU1d474T6V7/iebaLGracVWBFgkRVSat1
+ tWbXvmL/8qAR1XTBbmeMERqRGciz9Pl6glJdnZ3qjWjfC4UKZsV+r0dtUEjgBC7XBbPS
+ 2J3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UQw0xIJ3j4vC9P62Fi73cBepSGsDHmSGkxBaz7gujs8=;
+ b=EsdCzgQB8SZl+dvZqsDZytkg6rWUZzVD8oYTFMmrnL9q25rae+OHR1rM7T7FVusQXz
+ tSVU/y+Sr+0WA++h5bR7/ELN6NabSJAKTlBpmRiDru/r3qu60pgCmMBmidDT41t349lJ
+ xYIGYwrdheRLaOvJMK2HOwmHbomC4RyJw36pUwID5w09tO5HdR2I5p2Lu9qIBpaq0Vlr
+ s2YoBEjTws7LBCQZ9eErJoKW+fM1TMafqld7BL+wnDLAnXvFmCxio7RMEMUMem0nkZSP
+ Xd/p/8a2PCxr/neMhqwwAnb2tJrI8+Pewfc14a4j+q0FJUvweILsSQ5b4BJhtRTqm8Vq
+ YBNA==
+X-Gm-Message-State: AOAM530natT0wSiGloY47IRPLLE2IDXGj8xwt8T8Y5ak/FGDbIiWQKuc
+ wz9ubHuWiSyMsbm1qXFPo/LAbQEkWKC9ilC5Nbpqdw==
+X-Google-Smtp-Source: ABdhPJyegAwcnXFmZP4h9vNut0MuxcVItueDD7V0zlyCRC6jVdRH4dIujrfX8zwtUs73iqXWHmn/T6hG6ELnoPBmYyk=
+X-Received: by 2002:a50:fc87:: with SMTP id f7mr15022662edq.36.1604485701792; 
+ Wed, 04 Nov 2020 02:28:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <b68320e2-d0bc-3d17-c188-f68fb8136f46@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201104044937.226370-1-mst@redhat.com>
+In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 4 Nov 2020 10:28:09 +0000
+Message-ID: <CAFEAcA8fUEq6jG5pbVwcaLFkkswsR86Ly5XOSUUYrnEu=sAeiA@mail.gmail.com>
+Subject: Re: [PULL v2 00/38] pc,pci,vhost,virtio: fixes
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,78 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 04, 2020 at 11:11:53AM +0100, Philippe Mathieu-Daudé wrote:
-> On 11/4/20 11:03 AM, Andrew Jones wrote:
-> > On Tue, Oct 27, 2020 at 11:44:38AM +0000, Peter Maydell wrote:
-> >> The armv7m systick timer is a 24-bit decrementing, wrap-on-zero,
-> >> clear-on-write counter. Our current implementation has various
-> >> bugs and dubious workarounds in it (for instance see
-> >> https://bugs.launchpad.net/qemu/+bug/1872237).
-> >>
-> >> We have an implementation of a simple decrementing counter
-> >> and we put a lot of effort into making sure it handles the
-> >> interesting corner cases (like "spend a cycle at 0 before
-> >> reloading") -- ptimer.
-> >>
-> >> Rewrite the systick timer to use a ptimer rather than
-> >> a raw QEMU timer.
-> >>
-> >> Unfortunately this is a migration compatibility break,
-> >> which will affect all M-profile boards.
-> >>
-> >> Among other bugs, this fixes
-> >> https://bugs.launchpad.net/qemu/+bug/1872237 :
-> >> now writes to SYST_CVR when the timer is enabled correctly
-> >> do nothing; when the timer is enabled via SYST_CSR.ENABLE,
-> >> the ptimer code will (because of POLICY_NO_IMMEDIATE_RELOAD)
-> >> arrange that after one timer tick the counter is reloaded
-> >> from SYST_RVR and then counts down from there, as the
-> >> architecture requires.
-> >>
-> >> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> >> Reviewed-by: Philippe Mathieu-DaudÃƒÆ’Ã‚Â© <f4bug@amsat.org>
-> >> Message-id: 20201015151829.14656-3-peter.maydell@linaro.org
-> >> ---
-> >>  include/hw/timer/armv7m_systick.h |   3 +-
-> >>  hw/timer/armv7m_systick.c         | 124 +++++++++++++-----------------
-> >>  2 files changed, 54 insertions(+), 73 deletions(-)
-> >>
-> > 
-> > Do we also need something like the diff below now?
-> > 
-> > 
-> > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > index fdf4464b9484..7d5d89e1acf9 100644
-> > --- a/hw/arm/Kconfig
-> > +++ b/hw/arm/Kconfig
-> > @@ -291,6 +291,7 @@ config ZYNQ
-> >  
-> >  config ARM_V7M
-> >      bool
-> > +    select PTIMER
-> 
-> Oops yes indeed.
+On Wed, 4 Nov 2020 at 04:50, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> Sending v2 since v1 was borken on 32 bit.
+>
+> The following changes since commit c7a7a877b716cf14848f1fd5c754d293e2f8d852:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20201102' into staging (2020-11-03 10:38:05 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to 5676edd6d984b0696d206faa230c8da15e271044:
+>
+>   vhost-user-blk-test: fix races by using fd passing (2020-11-03 16:39:06 -0500)
+>
+> ----------------------------------------------------------------
+> pc,pci,vhost,virtio: fixes
+>
+> Lots of fixes all over the place.
+> virtio-mem and virtio-iommu patches are kind of fixes but
+> it seems better to just make them behave sanely than
+> try to educate users about the limitations ...
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 
-OK, I'll post it.
+Fails 'make check' on ppc64be and s390x, ie the big-endian hosts:
 
-Thanks,
-drew
+**
+ERROR:../../tests/qtest/libqos/virtio.c:228:qvirtio_wait_used_elem:
+assertion failed: (g_get_monotonic_time() - start_time <= timeout_us)
+ERROR qtest-i386/qos-test - Bail out!
+ERROR:../../tests/qtest/libqos/virtio.c:228:qvirtio_wait_used_elem:
+assertion failed: (g_get_monotonic_time() - start_time <= timeout_us)
 
-> 
-> >  
-> >  config ALLWINNER_A10
-> >      bool
-> > 
-> > 
-> > Thanks,
-> > drew
-> > 
-> > 
-> 
-> 
-
+thanks
+-- PMM
 
