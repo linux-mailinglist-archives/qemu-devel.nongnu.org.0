@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543E62A5D89
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:07:03 +0100 (CET)
-Received: from localhost ([::1]:59412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A262A5D8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:09:05 +0100 (CET)
+Received: from localhost ([::1]:37688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaB0g-0002zY-2g
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:07:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59398)
+	id 1kaB2e-0005lQ-Et
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:09:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAlw-0006Qx-8M
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43979)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm6-0006i4-8H
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32191)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAlt-0004fy-Qf
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:47 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm4-0004jU-GJ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465504;
+ s=mimecast20190719; t=1604465515;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BrWBtHz+T2+mIPkAWH3w+WMghO+0VMpKeuA9wyAHhqM=;
- b=CdMQITVINj1uAlE6J+Lvf+KR5kL94q6hrbbkCc0oU/kEcyRM3WegAMJ+/jSqeoi6zhrhhh
- XdicCsrW51cwFf5ebsMf21qikpe+gF1Z5G5Ultd8EoK17zm5uSwVHX/se5PKFL9/sEySuI
- 15hdMOoMd7l20AnCgD/0Yxdbw4WTPps=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-m8IGIHTGMPW80lni1ZCflw-1; Tue, 03 Nov 2020 23:51:43 -0500
-X-MC-Unique: m8IGIHTGMPW80lni1ZCflw-1
-Received: by mail-wm1-f71.google.com with SMTP id 13so744730wmf.0
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:42 -0800 (PST)
+ bh=oxFgfij5tGa7wsPJMg6guJqSTCSDLHe43Ge56aYH6Hc=;
+ b=iS6flMErWKHzOt/HJkraFurL688Q+RIj0J4x/6r5arizv5YJE66Yd40Xzygv7CoDa4rBzm
+ lP5CyjgHVJdw0xvZLuShxgtrWzfUyvvuh4hNeVbpqdz3ZDJDUcwMusxFKRgHCJ+P487QbC
+ KU2hI5B5dYZeTJIj9sygFnPkPI7j0Gg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-1vIlnRScMhyEgwDSKVMV-A-1; Tue, 03 Nov 2020 23:51:53 -0500
+X-MC-Unique: 1vIlnRScMhyEgwDSKVMV-A-1
+Received: by mail-wr1-f71.google.com with SMTP id v5so8788952wrr.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=BrWBtHz+T2+mIPkAWH3w+WMghO+0VMpKeuA9wyAHhqM=;
- b=aisO4H4QkbCyf5/G975q05EShohisxlYmVrvxBGILFcny38w/bjBbQxRNQmqm5C+d6
- elYvlKkeaGTaUvzl99f/ZIsi7GMTNiSOh7+gisrKNXVvY4miwil3PU4Vf4jiRoITeIho
- dSjZPD5b7aW7oVRS4tkMQb4nY49arjPM+1ajyU1yj4+88kF+LjT526Korw4WFwmkDwLu
- 2lDrgsxk1C1sKMJTloEWYMEatjALStf/w5RTIBBhFJKxxa1Dd43waTEsAqAyWk9871jL
- mS6wcv/OTBhKaebuTeh/BqGIpmRVwQ9FdTNKD1o4WvY5aDvaL/XJ9yu7w+2mmxNOl21y
- 607A==
-X-Gm-Message-State: AOAM532gqNonffjqx6GGGIsuap/ZI4GNRFns+Z6tnbwBuUdqFhQXw0Lp
- ka+RvXVEWPMiMxaTeW2UoK0xqUr37A8E/SuiWIpiNwYcZYYL94JhsCFdW149TBusQXQJXtTBwE5
- 54ObZZOpdyYrPZxw=
-X-Received: by 2002:adf:b7c8:: with SMTP id t8mr30967516wre.143.1604465501475; 
- Tue, 03 Nov 2020 20:51:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwe2EdXTETdB6TxowMHOuv+AJ/Md6n6qtBktremJgT6P0gF1idQkNhYGIU1CQ7CBHe4h6NyuQ==
-X-Received: by 2002:adf:b7c8:: with SMTP id t8mr30967508wre.143.1604465501329; 
- Tue, 03 Nov 2020 20:51:41 -0800 (PST)
+ bh=oxFgfij5tGa7wsPJMg6guJqSTCSDLHe43Ge56aYH6Hc=;
+ b=MbRqIhapM01IA3hszTB7GJStPVkzevgZX3b7rChDnjhBBnHz5mGQWtjoU0b8Hjcdn/
+ CtVavZ13WGeyvV+leHeCvNwHDoOYod8JOlWhYyvWZwMcIavQX96O0vwPtY0wsYZczrj4
+ Z4qyqORz04JoLdyEYlZFOb7zza7Olv3ak/SacB+S/uCogvOOUtbBWPYotiajdli1bIcx
+ CEsTlNpWJemCuQmZXSUgR1OtglL6OBjoQyp+vsALreM10m/YjWnFNKTxXC9z/na9/1pk
+ lfqqdJGh6tRvFMHAGG5UzJUxeEWri/R80uY30sMVd2ZicPemCARDAgmDwz6H2moUqzSp
+ 7QKg==
+X-Gm-Message-State: AOAM533jNpAMKiS2R6sL68uybCrM1ovPluiJNE0SQStsdymYjMe1neRh
+ IfXSbangbLQDgLYYtRKcz/9oZLIAOkpdg7G1xCfZvWwmeiLLGAPiH0ZeEudzRsdTHVx4qttK9nI
+ clSMiPKwUo/3jE74=
+X-Received: by 2002:adf:f181:: with SMTP id h1mr30596327wro.374.1604465511725; 
+ Tue, 03 Nov 2020 20:51:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgE2spbSPxLsDfn+OBVTzrt4S7DgdJp17S/fpE/FAEam4thHp2XPibTLdC5DkvE5WZelVqKQ==
+X-Received: by 2002:adf:f181:: with SMTP id h1mr30596318wro.374.1604465511605; 
+ Tue, 03 Nov 2020 20:51:51 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id u6sm790064wmj.40.2020.11.03.20.51.40
+ by smtp.gmail.com with ESMTPSA id v14sm865180wrq.46.2020.11.03.20.51.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:40 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:39 -0500
+ Tue, 03 Nov 2020 20:51:50 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:51:49 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 21/38] virtio-iommu: Set supported page size mask
-Message-ID: <20201104044937.226370-22-mst@redhat.com>
+Subject: [PULL v2 25/38] Revert "vhost-blk: set features before setting
+ inflight feature"
+Message-ID: <20201104044937.226370-26-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -81,7 +82,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,113 +95,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bharat Bhushan <bbhushan2@marvell.com>, Eric Auger <eric.auger@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Jin Yu <jin.yu@intel.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bharat Bhushan <bbhushan2@marvell.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-The virtio-iommu device can deal with arbitrary page sizes for virtual
-endpoints, but for endpoints assigned with VFIO it must follow the page
-granule used by the host IOMMU driver.
+This reverts commit adb29c027341ba095a3ef4beef6aaef86d3a520e.
 
-Implement the interface to set the vIOMMU page size mask, called by VFIO
-for each endpoint. We assume that all host IOMMU drivers use the same
-page granule (the host page granule). Override the page_size_mask field
-in the virtio config space.
+The commit broke -device vhost-user-blk-pci because the
+vhost_dev_prepare_inflight() function it introduced segfaults in
+vhost_dev_set_features() when attempting to access struct vhost_dev's
+vdev pointer before it has been assigned.
 
-Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20201030180510.747225-10-jean-philippe@linaro.org>
+To reproduce the segfault simply launch a vhost-user-blk device with the
+contrib vhost-user-blk device backend:
+
+  $ build/contrib/vhost-user-blk/vhost-user-blk -s /tmp/vhost-user-blk.sock -r -b /var/tmp/foo.img
+  $ build/qemu-system-x86_64 \
+        -device vhost-user-blk-pci,id=drv0,chardev=char1,addr=4.0 \
+        -object memory-backend-memfd,id=mem,size=1G,share=on \
+        -M memory-backend=mem,accel=kvm \
+        -chardev socket,id=char1,path=/tmp/vhost-user-blk.sock
+  Segmentation fault (core dumped)
+
+Cc: Jin Yu <jin.yu@intel.com>
+Cc: Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20201102165709.232180-1-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-iommu.c | 50 ++++++++++++++++++++++++++++++++++++++++
- hw/virtio/trace-events   |  1 +
- 2 files changed, 51 insertions(+)
+ include/hw/virtio/vhost.h |  1 -
+ hw/block/vhost-user-blk.c |  6 ------
+ hw/virtio/vhost.c         | 18 ------------------
+ 3 files changed, 25 deletions(-)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 78e07aa40a..fc5c75d693 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -899,6 +899,55 @@ static int virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
+diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+index 839bfb153c..94585067f7 100644
+--- a/include/hw/virtio/vhost.h
++++ b/include/hw/virtio/vhost.h
+@@ -141,7 +141,6 @@ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_free_inflight(struct vhost_inflight *inflight);
+ void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
+ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f);
+-int vhost_dev_prepare_inflight(struct vhost_dev *hdev);
+ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight);
+ int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index f67b29bbf3..a076b1e54d 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -131,12 +131,6 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
+ 
+     s->dev.acked_features = vdev->guest_features;
+ 
+-    ret = vhost_dev_prepare_inflight(&s->dev);
+-    if (ret < 0) {
+-        error_report("Error set inflight format: %d", -ret);
+-        goto err_guest_notifiers;
+-    }
+-
+     if (!s->inflight->addr) {
+         ret = vhost_dev_get_inflight(&s->dev, s->queue_size, s->inflight);
+         if (ret < 0) {
+diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+index f2482378c6..79b2be20df 100644
+--- a/hw/virtio/vhost.c
++++ b/hw/virtio/vhost.c
+@@ -1645,24 +1645,6 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
      return 0;
  }
  
-+/*
-+ * The default mask (TARGET_PAGE_MASK) is the smallest supported guest granule,
-+ * for example 0xfffffffffffff000. When an assigned device has page size
-+ * restrictions due to the hardware IOMMU configuration, apply this restriction
-+ * to the mask.
-+ */
-+static int virtio_iommu_set_page_size_mask(IOMMUMemoryRegion *mr,
-+                                           uint64_t new_mask,
-+                                           Error **errp)
-+{
-+    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
-+    VirtIOIOMMU *s = sdev->viommu;
-+    uint64_t cur_mask = s->config.page_size_mask;
-+
-+    trace_virtio_iommu_set_page_size_mask(mr->parent_obj.name, cur_mask,
-+                                          new_mask);
-+
-+    if ((cur_mask & new_mask) == 0) {
-+        error_setg(errp, "virtio-iommu page mask 0x%"PRIx64
-+                   " is incompatible with mask 0x%"PRIx64, cur_mask, new_mask);
-+        return -1;
-+    }
-+
-+    /*
-+     * After the machine is finalized, we can't change the mask anymore. If by
-+     * chance the hotplugged device supports the same granule, we can still
-+     * accept it. Having a different masks is possible but the guest will use
-+     * sub-optimal block sizes, so warn about it.
-+     */
-+    if (qdev_hotplug) {
-+        int new_granule = ctz64(new_mask);
-+        int cur_granule = ctz64(cur_mask);
-+
-+        if (new_granule != cur_granule) {
-+            error_setg(errp, "virtio-iommu page mask 0x%"PRIx64
-+                       " is incompatible with mask 0x%"PRIx64, cur_mask,
-+                       new_mask);
-+            return -1;
-+        } else if (new_mask != cur_mask) {
-+            warn_report("virtio-iommu page mask 0x%"PRIx64
-+                        " does not match 0x%"PRIx64, cur_mask, new_mask);
-+        }
-+        return 0;
-+    }
-+
-+    s->config.page_size_mask &= new_mask;
-+    return 0;
-+}
-+
- static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+-int vhost_dev_prepare_inflight(struct vhost_dev *hdev)
+-{
+-    int r;
+- 
+-    if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
+-        hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
+-        return 0;
+-    }
+- 
+-    r = vhost_dev_set_features(hdev, hdev->log_enabled);
+-    if (r < 0) {
+-        VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
+-        return r;
+-    }
+-
+-    return 0;
+-}
+-
+ int vhost_dev_set_inflight(struct vhost_dev *dev,
+                            struct vhost_inflight *inflight)
  {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -1130,6 +1179,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
-     imrc->translate = virtio_iommu_translate;
-     imrc->replay = virtio_iommu_replay;
-     imrc->notify_flag_changed = virtio_iommu_notify_flag_changed;
-+    imrc->iommu_set_page_size_mask = virtio_iommu_set_page_size_mask;
- }
- 
- static const TypeInfo virtio_iommu_info = {
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 982d0002a6..2060a144a2 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -109,6 +109,7 @@ virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start,
- virtio_iommu_notify_map(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64" flags=%d"
- virtio_iommu_notify_unmap(const char *name, uint64_t virt_start, uint64_t virt_end) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64
- virtio_iommu_remap(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64
-+virtio_iommu_set_page_size_mask(const char *name, uint64_t old, uint64_t new) "mr=%s old_mask=0x%"PRIx64" new_mask=0x%"PRIx64
- virtio_iommu_notify_flag_add(const char *name) "add notifier to mr %s"
- virtio_iommu_notify_flag_del(const char *name) "del notifier from mr %s"
- 
 -- 
 MST
 
