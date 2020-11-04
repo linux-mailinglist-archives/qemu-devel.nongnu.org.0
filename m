@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477322A670E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:06:12 +0100 (CET)
-Received: from localhost ([::1]:57776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0479D2A6724
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:08:19 +0100 (CET)
+Received: from localhost ([::1]:37422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKMV-0008HT-7S
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:06:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55446)
+	id 1kaKOY-0003Bn-0g
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:08:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIh-00039E-BG
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44905)
+ id 1kaKIf-00037C-SM
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIU-000625-TJ
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:14 -0500
+ id 1kaKIX-00062u-E7
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604502122;
+ s=mimecast20190719; t=1604502124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kYUhquvtGZWEyt/D5O2VVHS6S+Wd9m2Cfct82xQV++A=;
- b=Y8HqeZqJnStkwbDhHuNjxAvbQ1a0TN65AQ5/pNgeEp9jTGUX5cbyfbUddm5IbSYn6ndGqn
- 0wJiOxt+w0jglkSxTuR0fWtp13pwVUYSwof8Y1ljHIOt6mLTU26J5AbuNB6dSPW5rTZ1Zn
- OfWA23rtjlbR4HJYM360seaUqu12CVY=
+ bh=cu8ztXNhKaBbzFKvUo1XRUBn93MUJ6VPsbbGLiVNu5g=;
+ b=e9WI6cD/ngk0wxL0CKD404FW3+Aau+DwQfdu91gFv/DRSNFmSRBWA62B7Q4X4e/48Xq0EV
+ P8F0m8Ds+K73Yzb1rYTfxXmkfcHlSyg4HKG9p3LTxbxMmXqHrnUfIbIVK57csu8s5R8FLm
+ 4c/UetuhN1Xy+oeKQK1+wbvPPdCbw0s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-NvtGDayXOTCWPGNtdPg8sA-1; Wed, 04 Nov 2020 10:01:57 -0500
-X-MC-Unique: NvtGDayXOTCWPGNtdPg8sA-1
+ us-mta-408-naXDccTQNwqbysnmU2abWA-1; Wed, 04 Nov 2020 10:01:58 -0500
+X-MC-Unique: naXDccTQNwqbysnmU2abWA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A9BD1016CE1;
- Wed,  4 Nov 2020 15:01:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3FA658015AD;
+ Wed,  4 Nov 2020 15:01:57 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C86B100750D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AC0E61002D41;
  Wed,  4 Nov 2020 15:01:56 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/20] scripts/oss-fuzz: rename bin/qemu-fuzz-i386
-Date: Wed,  4 Nov 2020 10:01:37 -0500
-Message-Id: <20201104150153.541326-5-pbonzini@redhat.com>
+Subject: [PULL 05/20] hw/isa/lpc_ich9: Ignore reserved/invalid SCI IRQ
+Date: Wed,  4 Nov 2020 10:01:38 -0500
+Message-Id: <20201104150153.541326-6-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,18 +56,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,52 +81,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>
+Cc: Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-OSS-Fuzz changed the way it scans for fuzzers in $DEST_DIR. The new code
-also scans subdirectories for fuzzers. This means that OSS-Fuzz is
-considering bin/qemu-fuzz-i386 as an independent fuzzer (it is not - it
-requires a --fuzz-target argument). This has led to coverage-build
-failures and false crash reports. To work around this, we take advantage
-of OSS-Fuzz' filename extension check - OSS-Fuzz will not run anything
-that has an extension that is not ".exe":
-https://github.com/google/oss-fuzz/blob/master/infra/utils.py#L115
+libFuzzer triggered the following assertion:
 
-Reported-by: OSS-Fuzz (Issue 26725)
-Reported-by: OSS-Fuzz (Issue 26679)
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201101212245.185819-1-alxndr@bu.edu>
+  cat << EOF | qemu-system-i386 -M pc-q35-5.0 \
+    -nographic -monitor none -serial none \
+    -qtest stdio -d guest_errors -trace pci\*
+  outl 0xcf8 0x8400f841
+  outl 0xcfc 0xebed205d
+  outl 0x5d02 0xedf82049
+  EOF
+  pci_cfg_write ICH9-LPC 31:0 @0x41 <- 0xebed205d
+  hw/pci/pci.c:268: int pci_bus_get_irq_level(PCIBus *, int): Assertion `irq_num < bus->nirq' failed.
+
+This is because ich9_lpc_sci_irq() returns -1 for reserved
+(illegal) values, but ich9_lpc_pmbase_sci_update() considers
+it valid and store it in a 8-bit unsigned type. Then the 255
+value is used as GSI IRQ, resulting in a PIRQ value of 247,
+more than ICH9_LPC_NB_PIRQS (8).
+
+Fix by simply ignoring the invalid access (and reporting it):
+
+  pci_cfg_write ICH9-LPC 31:0 @0x41 <- 0xebed205d
+  ICH9 LPC: SCI IRQ SEL #3 is reserved
+  pci_cfg_read mch 00:0 @0x0 -> 0x8086
+  pci_cfg_read mch 00:0 @0x0 -> 0x29c08086
+  ...
+
+Cc: qemu-stable@nongnu.org
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
+Fixes: 8f242cb724 ("ich9: implement SCI_IRQ_SEL register")
+BugLink: https://bugs.launchpad.net/qemu/+bug/1878642
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20200717151705.18611-1-f4bug@amsat.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- scripts/oss-fuzz/build.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/isa/lpc_ich9.c      | 14 +++++++++++---
+ include/hw/i386/ich9.h |  1 +
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/oss-fuzz/build.sh b/scripts/oss-fuzz/build.sh
-index fcae4a0c26..3b1c82b63d 100755
---- a/scripts/oss-fuzz/build.sh
-+++ b/scripts/oss-fuzz/build.sh
-@@ -91,7 +91,7 @@ make "-j$(nproc)" qemu-fuzz-i386 V=1
- # Copy over the datadir
- cp  -r ../pc-bios/ "$DEST_DIR/pc-bios"
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index 04e5323140..087a18d04d 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -29,6 +29,7 @@
+  */
  
--cp "./qemu-fuzz-i386" "$DEST_DIR/bin/"
-+cp "./qemu-fuzz-i386" "$DEST_DIR/bin/qemu-fuzz-i386.base"
+ #include "qemu/osdep.h"
++#include "qemu/log.h"
+ #include "cpu.h"
+ #include "qapi/visitor.h"
+ #include "qemu/range.h"
+@@ -312,10 +313,12 @@ void ich9_generate_smi(void)
+     cpu_interrupt(first_cpu, CPU_INTERRUPT_SMI);
+ }
  
- # Run the fuzzer with no arguments, to print the help-string and get the list
- # of available fuzz-targets. Copy over the qemu-fuzz-i386, naming it according
-@@ -104,7 +104,7 @@ do
-     # that are thin wrappers around this target that set the required
-     # environment variables according to predefined configs.
-     if [ "$target" != "generic-fuzz" ]; then
--        ln  "$DEST_DIR/bin/qemu-fuzz-i386" \
-+        ln  "$DEST_DIR/bin/qemu-fuzz-i386.base" \
-             "$DEST_DIR/qemu-fuzz-i386-target-$target"
-     fi
- done
++/* Returns -1 on error, IRQ number on success */
+ static int ich9_lpc_sci_irq(ICH9LPCState *lpc)
+ {
+-    switch (lpc->d.config[ICH9_LPC_ACPI_CTRL] &
+-            ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK) {
++    uint8_t sel = lpc->d.config[ICH9_LPC_ACPI_CTRL] &
++                  ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK;
++    switch (sel) {
+     case ICH9_LPC_ACPI_CTRL_9:
+         return 9;
+     case ICH9_LPC_ACPI_CTRL_10:
+@@ -328,6 +331,8 @@ static int ich9_lpc_sci_irq(ICH9LPCState *lpc)
+         return 21;
+     default:
+         /* reserved */
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "ICH9 LPC: SCI IRQ SEL #%u is reserved\n", sel);
+         break;
+     }
+     return -1;
+@@ -459,7 +464,7 @@ ich9_lpc_pmbase_sci_update(ICH9LPCState *lpc)
+ {
+     uint32_t pm_io_base = pci_get_long(lpc->d.config + ICH9_LPC_PMBASE);
+     uint8_t acpi_cntl = pci_get_long(lpc->d.config + ICH9_LPC_ACPI_CTRL);
+-    uint8_t new_gsi;
++    int new_gsi;
+ 
+     if (acpi_cntl & ICH9_LPC_ACPI_CTRL_ACPI_EN) {
+         pm_io_base &= ICH9_LPC_PMBASE_BASE_ADDRESS_MASK;
+@@ -470,6 +475,9 @@ ich9_lpc_pmbase_sci_update(ICH9LPCState *lpc)
+     ich9_pm_iospace_update(&lpc->pm, pm_io_base);
+ 
+     new_gsi = ich9_lpc_sci_irq(lpc);
++    if (new_gsi == -1) {
++        return;
++    }
+     if (lpc->sci_level && new_gsi != lpc->sci_gsi) {
+         qemu_set_irq(lpc->pm.irq, 0);
+         lpc->sci_gsi = new_gsi;
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 294024be5f..d1ea000d3d 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -144,6 +144,7 @@ struct ICH9LPCState {
+ #define ICH9_LPC_PMBASE_BASE_ADDRESS_MASK       Q35_MASK(32, 15, 7)
+ #define ICH9_LPC_PMBASE_RTE                     0x1
+ #define ICH9_LPC_PMBASE_DEFAULT                 0x1
++
+ #define ICH9_LPC_ACPI_CTRL                      0x44
+ #define ICH9_LPC_ACPI_CTRL_ACPI_EN              0x80
+ #define ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK     Q35_MASK(8, 2, 0)
 -- 
 2.26.2
 
