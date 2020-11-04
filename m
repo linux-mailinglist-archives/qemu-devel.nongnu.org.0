@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ACDF2A5BCC
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:20:04 +0100 (CET)
-Received: from localhost ([::1]:58206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2382A5BA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:14:46 +0100 (CET)
+Received: from localhost ([::1]:47454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7T1-0006P1-24
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:20:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36004)
+	id 1ka7Nt-0001oS-EV
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:14:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nw-0007QX-PW
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26746)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nx-0007SP-DG
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nv-0004xx-25
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:36 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nv-0004y2-Iu
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604450254;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YhQxOEX3MpAK3NV9j1/EgLWzuYfEtOEcMpjIm7W0Vck=;
- b=QBTV7zFsLF7YXPschc5AAnPLCy3VH8ArpzsWhOttNaNRqa84NYwuOYp5/PcBfsqy+oepiN
- O2r3X1D+LuMfuK4UWkLAVjzq1nQo1ZM0zZWCyhWXrz0+NHnPG0yoRO5zWGEZq3a/7R0VsT
- JBQBxennKqHusvKpGFKUORLM/yDdG/A=
+ bh=wzRB4cjrp4u7lt1vcXzG7IhYHDqdOiEuFhG6Dq+h9EY=;
+ b=RwdlGnD0f+k8MZ7ry2fWLiCflv2kMb7ma4vQX+8xbtHoqOI9mTXiICcMoyJqBL/bcbd+9p
+ MVrGCzJNPaubTmB4Lhanwx4RQme4zE/iaZrtbiaeulkUI/bmwwIhV0mNNQjq1r9YKfQvJP
+ ZJTkVXTjH8Sjo/bhyHbofiTXTfLTx0I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-xDIuIumZMGauO18wwFQG4A-1; Tue, 03 Nov 2020 19:37:32 -0500
-X-MC-Unique: xDIuIumZMGauO18wwFQG4A-1
+ us-mta-443-MblLetRpM7a0Ve_uZxc5qA-1; Tue, 03 Nov 2020 19:37:33 -0500
+X-MC-Unique: MblLetRpM7a0Ve_uZxc5qA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 598721009E27
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:31 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3ED7A6D243
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:32 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 585EF55766;
- Wed,  4 Nov 2020 00:37:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8255E747C6;
+ Wed,  4 Nov 2020 00:37:31 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 63/72] scripts/qmp-shell: remove TODO
-Date: Tue,  3 Nov 2020 19:35:53 -0500
-Message-Id: <20201104003602.1293560-64-jsnow@redhat.com>
+Subject: [PATCH v2 64/72] scripts/qmp-shell: Fix empty-transaction invocation
+Date: Tue,  3 Nov 2020 19:35:54 -0500
+Message-Id: <20201104003602.1293560-65-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,27 +83,56 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We still want to revamp qmp-shell again, but there's much more to the
-idea than the comment now intuits. Remove it.
+calling "transaction( )" is pointless, but valid. Rework the parser to
+allow this kind of invocation. This helps clean up exception handling
+later by removing accidental breakages of the parser that aren't
+explicitly forbidden.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 2 --
- 1 file changed, 2 deletions(-)
+ scripts/qmp/qmp-shell | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 0199a13a3428..3c32b576a37d 100755
+index 3c32b576a37d..78e4eae00754 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -130,8 +130,6 @@ class FuzzyJSON(ast.NodeTransformer):
-         return node
+@@ -244,11 +244,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         cmdargs = re.findall(argument_regex, cmdline)
+         qmpcmd: QMPMessage
  
+-        # Transactional CLI entry/exit:
+-        if cmdargs[0] == 'transaction(':
++        # Transactional CLI entry:
++        if cmdargs and cmdargs[0] == 'transaction(':
+             self._transmode = True
++            self._actions = []
+             cmdargs.pop(0)
+-        elif cmdargs[0] == ')' and self._transmode:
++
++        # Transactional CLI exit:
++        if cmdargs and cmdargs[0] == ')' and self._transmode:
+             self._transmode = False
+             if len(cmdargs) > 1:
+                 msg = 'Unexpected input after close of Transaction sub-shell'
+@@ -257,15 +260,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                 'execute': 'transaction',
+                 'arguments': {'actions': self._actions}
+             }
+-            self._actions = list()
+             return qmpcmd
  
--# TODO: QMPShell's interface is a bit ugly (eg. _fill_completion() and
--#       _execute_cmd()). Let's design a better one.
- class QMPShell(qmp.QEMUMonitorProtocol):
-     def __init__(self, address: qmp.SocketAddrT,
-                  pretty: bool = False, verbose: bool = False):
+-        # Nothing to process?
++        # No args, or no args remaining
+         if not cmdargs:
+             return None
+ 
+-        # Parse and then cache this Transactional Action
+         if self._transmode:
++            # Parse and cache this Transactional Action
+             finalize = False
+             action = {'type': cmdargs[0], 'data': {}}
+             if cmdargs[-1] == ')':
 -- 
 2.26.2
 
