@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3F732A5D84
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:06:16 +0100 (CET)
-Received: from localhost ([::1]:57262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 284AA2A5DAA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:18:45 +0100 (CET)
+Received: from localhost ([::1]:43564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAzv-00027a-Q0
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:06:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59582)
+	id 1kaBC0-0002wU-7Q
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:18:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmK-00075T-Jp
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44596)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAvz-0006cb-MV
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 00:02:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40311)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmI-0004pt-RN
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:12 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAvx-0008FD-Qb
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 00:02:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465529;
+ s=mimecast20190719; t=1604466129;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=cS4KIfPlpUgVDDoFSeX7cKA8yzTJmgIIdFHv/xDSqc0=;
- b=AnhnyU+tTPH9/Dr6EX+eptwtYdGMCxdIqlfFYPbiRZ2IHgNexd5164HtYEfuT/vGc+Ya/M
- bwm/WSbX/uhu4YmydqHXVLTQ0FLuRJtV6KyzEOJdKZH2anx1Ws7fxIK1SZml+Ckfv8BjMO
- NE+o/1jFHLbsF5LDKEwIQGRgU6otCsI=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-ATAjRjdtMXio1Y9a8PAHlw-1; Tue, 03 Nov 2020 23:52:07 -0500
-X-MC-Unique: ATAjRjdtMXio1Y9a8PAHlw-1
-Received: by mail-wr1-f71.google.com with SMTP id 31so8704706wrg.12
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:52:06 -0800 (PST)
+ bh=10gqAcInC2hOlA/e3e/PPVyOBwthTxnTi3QFwwaBdNU=;
+ b=NHeQlit9TKHgeqKZ/sNJBPziujLe64bQDH/iDQ5V5W883r+SbScXp4FaWHb96DGYc+i74P
+ 6l3BB3MWd7y3+uq3porpvcPbBp9TYP5oS9PCwR/ifjO5+gLAwJsmlAmxD3tGJEb1oByJQ/
+ 8dJzftS09yOjHXpM3UGDGEf1qX0ZDo0=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-WhqChcbEN6Ccp_DYeAL9Ig-1; Tue, 03 Nov 2020 23:52:09 -0500
+X-MC-Unique: WhqChcbEN6Ccp_DYeAL9Ig-1
+Received: by mail-wr1-f69.google.com with SMTP id b6so8661076wrn.17
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:52:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=cS4KIfPlpUgVDDoFSeX7cKA8yzTJmgIIdFHv/xDSqc0=;
- b=jzCv/AJu9ElA7V3zMSz2Tg4juhN+Uh+WwOPnd4ykIYGVxEYeebAchq8PlFM1dxeoZl
- 2znx1ZEXGSrduUKA4eWjRfY3UTy2L9rCHzuPbWWsExNUtAedrLaCTxNTlMgaE+spVF+v
- UJ4xH2PGOyqe5AbqG6OKSPdYaL1lOCfTn0Jrfr4/t3Co2TSz3fbS1eZ0N4mBOFGyUMZC
- K9DA+nyqOq15j+EEt6z4BZvZ1SwUfDyluDT025ohdlq/9SlXH2jefTsK4331/SfYtTYB
- q/9YqTdOybdCkLcoWS7Mojt7KiivgJzLHrpN7KuTHJ7/75rpyt5wZRAyMfaPt4K02rrN
- bqMQ==
-X-Gm-Message-State: AOAM532+ghMkbUMpwelHAkCgKpW60zVKuNVg1s2RG0ag7OIZO/y4h09D
- ZfST4geTavQehsEGlCZQPeFNU3xikg4fFA6oeLMLHWWt3YqujF7vn6yxsQEt+xkn4G8U8ZW7pab
- ZKcnxoLTICDwTQAU=
-X-Received: by 2002:a1c:e087:: with SMTP id x129mr2428140wmg.2.1604465525612; 
- Tue, 03 Nov 2020 20:52:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyuqIeBrmrKF6BkldU+V/RGr8/Husc9SuIZSp2u+7EjY6s0Wzyoe8Bms+w7lSWr0oR2TPAkhg==
-X-Received: by 2002:a1c:e087:: with SMTP id x129mr2428131wmg.2.1604465525474; 
- Tue, 03 Nov 2020 20:52:05 -0800 (PST)
+ bh=10gqAcInC2hOlA/e3e/PPVyOBwthTxnTi3QFwwaBdNU=;
+ b=Os4iKm6rksOTegP4uyZBldEajP8HYae1l4BlZRz4XDLHhIAb7R8DGgWAklNa27prDS
+ jEi/HzC1QNC5hDOSXtwNNJNsN6d3zxhaIFXm2JbHn5Uy6o82j3OaMBgLbjNA1bcy14qb
+ Oo5URHkljQovAvsJxDzRGknbSioi+ArjV3qBASKz6+2CKXjHeZEmJlqhB9/0ADZI5v77
+ psKIBEeUcWiTqwUXr8ogUkeLx/PBgTnft+4I/ihtq0T+3Lw4xkt7T/jDusSgjSuJEaNt
+ xpswLquudmsjff7ThGw84N80ctDV44jjBEUu4MJPUM1Eyl2WDV7CWVEPI9FppuElWnAi
+ Onlw==
+X-Gm-Message-State: AOAM532TSbur7HrxwjUlaqTDw8LCEopmAbgiewSxE5D4pHCT6rKllnQV
+ MGpxA1/Xa5NCfJCN33iy6IUa4iqo3aI35UGJh/6MPFLu0/QdHJIN2bliUgqg/CeqBJtjzAdx2ay
+ ZVhnHIz/18rthp7Y=
+X-Received: by 2002:adf:fc83:: with SMTP id g3mr29712200wrr.200.1604465528200; 
+ Tue, 03 Nov 2020 20:52:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzZXtbf+FdMMh6jOB0UaSiBhPZIf/pUwS6O64v5Dk/lV2cT25m3sqxDn1m4DjsjY1KdnsG3yA==
+X-Received: by 2002:adf:fc83:: with SMTP id g3mr29712191wrr.200.1604465528027; 
+ Tue, 03 Nov 2020 20:52:08 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id p13sm854792wrt.73.2020.11.03.20.52.03
+ by smtp.gmail.com with ESMTPSA id n22sm790091wmk.40.2020.11.03.20.52.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:52:04 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:52:03 -0500
+ Tue, 03 Nov 2020 20:52:07 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:52:05 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 30/38] block/export: fix vhost-user-blk get_config()
- information leak
-Message-ID: <20201104044937.226370-31-mst@redhat.com>
+Subject: [PULL v2 31/38] contrib/vhost-user-blk: fix get_config() information
+ leak
+Message-ID: <20201104044937.226370-32-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,38 +95,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Coiby Xu <Coiby.Xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Refuse get_config() requests in excess of sizeof(struct virtio_blk_config).
+Refuse get_config() in excess of sizeof(struct virtio_blk_config).
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201027173528.213464-5-stefanha@redhat.com>
+Message-Id: <20201027173528.213464-6-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- block/export/vhost-user-blk-server.c | 3 +++
- 1 file changed, 3 insertions(+)
+ contrib/vhost-user-blk/vhost-user-blk.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
-index 33cc0818b8..62672d1cb9 100644
---- a/block/export/vhost-user-blk-server.c
-+++ b/block/export/vhost-user-blk-server.c
-@@ -266,6 +266,9 @@ vu_blk_get_config(VuDev *vu_dev, uint8_t *config, uint32_t len)
- {
-     VuServer *server = container_of(vu_dev, VuServer, vu_dev);
-     VuBlkExport *vexp = container_of(server, VuBlkExport, vu_server);
-+
+diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
+index 25eccd02b5..caad88637e 100644
+--- a/contrib/vhost-user-blk/vhost-user-blk.c
++++ b/contrib/vhost-user-blk/vhost-user-blk.c
+@@ -404,6 +404,8 @@ vub_get_config(VuDev *vu_dev, uint8_t *config, uint32_t len)
+     VugDev *gdev;
+     VubDev *vdev_blk;
+ 
 +    g_return_val_if_fail(len <= sizeof(struct virtio_blk_config), -1);
 +
-     memcpy(config, &vexp->blkcfg, len);
-     return 0;
- }
+     gdev = container_of(vu_dev, VugDev, parent);
+     vdev_blk = container_of(gdev, VubDev, parent);
+     memcpy(config, &vdev_blk->blkcfg, len);
 -- 
 MST
 
