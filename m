@@ -2,99 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D6F72A6A37
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:48:08 +0100 (CET)
-Received: from localhost ([::1]:37768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F35E92A6A5C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:50:21 +0100 (CET)
+Received: from localhost ([::1]:43894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLx9-0005th-CP
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:48:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51906)
+	id 1kaLzJ-0008PL-1Z
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:50:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <foxen@windowslive.com>)
- id 1kaLvh-00052E-KP
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:46:37 -0500
-Received: from mail-am6eur05olkn2078.outbound.protection.outlook.com
- ([40.92.91.78]:16480 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <foxen@windowslive.com>)
- id 1kaLvb-0002rB-RS
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:46:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jnf1AyTg2Q4nMbQ4TPQhyzfeh3iDsxY7F+X4HRubDoZYjVY5wlzKP99/OPky4XkHU/ovh7UmDZtBHHPKvSz7vQ7rM+qKiBYjEJvjGR1ivjvI5tqYIp+vMYIYjZMiTDXeVkkMZ3tnLRGJBICk1j01lO75lQ5yFWteAxYpJnszAviKLOm1Bces6T59/7j0+Ke1aXkehB6sm/K/j53lmLmGLn2zMpjaqqp8kDDQCzqCGnCmq+2Ji++Ts50U6VZUHfCuHORCmO165CZKIV1ssbNsDMMb/Mmeg/QoY2slHxvqEtRQ18Zw1SXClL2oGvsD2WSMCz5vKJQbk6K3BUjpCpBg4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SF77jr8dEU+9bBKelvkvmijoIX2KOKadoP5urqD1/CA=;
- b=bkZzamx/P7aGBXV6r5ZeHrTJZVdzt+YhTeF/KUBEg/Gee3JU/Mo50tjSogAtYZakiYhMOaFO1CKwIhg+qRsfP7KH7zslKbXAy8J8IC2NWLgRQXxe1bSMXjAMiXfwrATYr3Y0UYdz0geHdl+NSSev7w3Sw1qXUxlYN01Xv5CpRpj5iGDiV2EaJZLUuxuTPwvGI233DIT5z91HFkGqH6HOfLLs+7eHdL6mPgegsyr5NAYyLD/DA6kIFQdGDpOY9QJPX+HgeWTL/eDy7Xkb9WQRA6QcYGF3qCSzpDXf69NgQ2b3Ohi2drf5E/lSNfk1Y4inAh+MKDpsUmLsfMJFbLUUtg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-Received: from AM6EUR05FT032.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::51) by
- AM6EUR05HT018.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::388)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3520.15; Wed, 4 Nov
- 2020 16:46:27 +0000
-Received: from AM0PR03MB6292.eurprd03.prod.outlook.com
- (2a01:111:e400:fc11::50) by AM6EUR05FT032.mail.protection.outlook.com
- (2a01:111:e400:fc11::101) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3520.15 via Frontend
- Transport; Wed, 4 Nov 2020 16:46:27 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:C7740B6E674A1F639C96C9F6E7CB103942AFA4025D8AE590311A08AF30D01B1B;
- UpperCasedChecksum:A66CB12BE39627A0161DF25115AC7F5AB170571F7C26389F1483413F5E5B1BE8;
- SizeAsReceived:7450; Count:45
-Received: from AM0PR03MB6292.eurprd03.prod.outlook.com
- ([fe80::bc55:cbe1:29ae:e5b0]) by AM0PR03MB6292.eurprd03.prod.outlook.com
- ([fe80::bc55:cbe1:29ae:e5b0%9]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
- 16:46:27 +0000
-From: Fotis Xenakis <foxen@windowslive.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH v2] Add virtio-fs in OSv overview blog post
-Date: Wed,  4 Nov 2020 18:46:16 +0200
-Message-ID: <AM0PR03MB629226965B72D3808EFB8795A6EF0@AM0PR03MB6292.eurprd03.prod.outlook.com>
-X-Mailer: git-send-email 2.29.2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-TMN: [OR+JuOXiBbADFpGJqEYutT6tzP8xdI3bxrkThUbLjskTifxH0mDw9+LEcmpzBc0E]
-X-ClientProxiedBy: VI1P194CA0007.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:800:be::17) To AM0PR03MB6292.eurprd03.prod.outlook.com
- (2603:10a6:20b:15e::24)
-X-Microsoft-Original-Message-ID: <20201104164616.46323-1-foxen@windowslive.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kaLx0-0006bp-G5
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:47:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43772)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kaLww-0002xM-5p
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:47:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604508472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=btPx6SZKvKtmzbvQxNCkDiUS+FEpi/B7UhWXP+rQr/o=;
+ b=W02IsLCZOM+yfDYF7xmLhrkRQ2jeoWDa73MZuzhvhjTJhJzok+DuHmUD2eAJDI6SM/C5mP
+ Q7iR8SF2yp9JeBKE49biKtrMntNuLInm7cXRsuvZw9Wwgg9hNxcou9MFPQXWTW8BaM3nI2
+ Bt8H5yHTQc37zrd0lb4fDAXFtj5Bi2g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-371-35A0-Qg9NqagYZRrWFPvfg-1; Wed, 04 Nov 2020 11:47:48 -0500
+X-MC-Unique: 35A0-Qg9NqagYZRrWFPvfg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D995C10A09A0;
+ Wed,  4 Nov 2020 16:47:45 +0000 (UTC)
+Received: from localhost (ovpn-115-145.ams2.redhat.com [10.36.115.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 26F3F1002C03;
+ Wed,  4 Nov 2020 16:47:44 +0000 (UTC)
+Date: Wed, 4 Nov 2020 16:47:44 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: VFIO Migration
+Message-ID: <20201104164744.GC425016@stefanha-x1.localdomain>
+References: <20201102111153.GC42093@stefanha-x1.localdomain>
+ <20201103121709.GD3566@work-vm>
+ <20201103152752.GC253848@stefanha-x1.localdomain>
+ <20201103184951.GM3566@work-vm>
+ <20201104073636.GB390503@stefanha-x1.localdomain>
+ <20201104101423.GB3896@work-vm>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (2a02:587:e81e:b103:7882:f80e:1722:90ab)
- by VI1P194CA0007.EURP194.PROD.OUTLOOK.COM (2603:10a6:800:be::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend
- Transport; Wed, 4 Nov 2020 16:46:26 +0000
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 45
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 0f51c344-616b-4b52-bbff-08d880e12c54
-X-MS-TrafficTypeDiagnostic: AM6EUR05HT018:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: dZmCA1eQi94WdDkxJ37bYe0vZi9muYMO1RcGJ+yjaTzxWwrPv8jVCJsMWJBC3pMzZ/QUakYDYATZRB9F1DOURI9Vz0G6CFECbXyJOOtT272Q+Q5+J8VFdfukeFZcn12MYl6RYKl1JpwNDPUvv0b4aiQqJ34C4A1kJAYNlJ2Xyg5jDNlHyDPv4PyZ5Hpsy++JlmT6fzLsoo9TggzjV/BohJ//Nu1jKkaWcHY7+bODRocRjhdl2M8CuTu2aMeKsvTV
-X-MS-Exchange-AntiSpam-MessageData: m6tZN2aednSbiTFxxfqc4H+x1DucGSHTovjZS9luXhotLR6h5xfJLDgdpf7EoO5PcynzVj9aS61zp4klJcf2Ltr4IGuu6AktwvuOqkQRuwpz+tKAhw0DjBKRXsNhWZGPIpylo2+3DXg1LsS6n1RRD5dNYZyndP18QuTHdSRgLlAFwY0jCRZKLRoPmVOEhqou5MBUlC+DNFGsFA2dF5fAbg==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f51c344-616b-4b52-bbff-08d880e12c54
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2020 16:46:27.5878 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-AuthSource: AM6EUR05FT032.eop-eur05.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT018
-Received-SPF: pass client-ip=40.92.91.78; envelope-from=foxen@windowslive.com;
- helo=EUR05-AM6-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 11:46:28
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, MSGID_FROM_MTA_HEADER=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201104101423.GB3896@work-vm>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KDt/GgjP6HVcx58l"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,537 +85,354 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, thuth@redhat.com,
- Fotis Xenakis <foxen@windowslive.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This post briefly goes over the main points of virtio-fs and OSv, a
-unikernel running under QEMU/KVM and taking advantage of its virtio-fs
-implementation.
+--KDt/GgjP6HVcx58l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Changes since v1:
-- Fixed wording and links, as suggested by Thomas Huth.
-- Added a short example of virtio-fs usage in OSv.
+On Wed, Nov 04, 2020 at 10:14:23AM +0000, Dr. David Alan Gilbert wrote:
+> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > On Tue, Nov 03, 2020 at 06:49:51PM +0000, Dr. David Alan Gilbert wrote:
+> > > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > > > On Tue, Nov 03, 2020 at 12:17:09PM +0000, Dr. David Alan Gilbert wr=
+ote:
+> > > > > * Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> > > > > > Device Models
+> > > > > > -------------
+> > > > > > Devices have a *hardware interface* consisting of hardware regi=
+sters,
+> > > > > > interrupts, and so on.
+> > > > > >=20
+> > > > > > The hardware interface together with the device state represent=
+ation is called
+> > > > > > a *device model*. Device models can be assigned URIs such as
+> > > > > > https://qemu.org/devices/e1000e to uniquely identify them.
+> > > > >=20
+> > > > > I think this is a unique identifier, not actually a URI; the http=
+s://
+> > > > > isn't needed since no one expects to ever connect to this.
+> > > >=20
+> > > > Yes, it could be any unique string. If the URI idea is not popular =
+we
+> > > > can use any similar scheme.
+> > >=20
+> > > I'm OK with it being a URI; just drop the https.
+> >=20
+> > Okay.
+> >=20
+> > > > > > However, secondary aspects related to the physical port may aff=
+ect the device's
+> > > > > > hardware interface and need to be reflected in the device confi=
+guration. The
+> > > > > > link speed may depend on the physical port and be reported thro=
+ugh the device's
+> > > > > > hardware interface. In that case a ``link-speed`` configuration=
+ parameter is
+> > > > > > required to prevent unexpected changes to the link speed after =
+migration.
+> > > > >=20
+> > > > > That's an interesting example; because depending on the device, i=
+t might
+> > > > > be:
+> > > > >     a) Completely virtualised so that the guest *shouldn't* know =
+what
+> > > > > the physical link speed is, precisely to allow the physical netwo=
+rk on
+> > > > > the destination to be different.
+> > > > >=20
+> > > > >     b) Part of the migrated state
+> > > > >=20
+> > > > >     c) Something that's allowed to be reloaded after migration
+> > > > >=20
+> > > > >     d) Configurable
+> > > > >=20
+> > > > > so I'm not sure whether it's a good example in this case or not.
+> > > >=20
+> > > > Can you think of an example that has only one option?
+> > > >=20
+> > > > I tried but couldn't. For example take a sound card. The guest is a=
+ware
+> > > > the device supports stereo playback (2 output channels), but which =
+exact
+> > > > stereo host device is used doesn't matter, they are all suitable.
+> > > >=20
+> > > > Now imagine migrating to a 7.1 surround-sound device. Similar optio=
+ns
+> > > > come into play:
+> > > >=20
+> > > > a) Emulate stereo and mix it to 7.1 surround-sound on the physical
+> > > >    device. The guest still sees the stereo device.
+> > > >=20
+> > > > b) Refuse migration.
+> > > >=20
+> > > > c) Indicate that the output has switched and let the guest reconfig=
+ure
+> > > >    itself (e.g. a sound card with multiple outputs, where one of th=
+em is
+> > > >    stereo and another is 7.1 surround sound).
+> > > >=20
+> > > > Which option is desirable depends on the use case.
+> > >=20
+> > > Yes, but I think it might be worth calling out these differences;  th=
+ere
+> > > are explicitly cases where you don't want external changes to be visi=
+ble
+> > > and other cases where you do; both are valid, but both need thinking
+> > > about. (Another one, GPU whether you have a monitor plugged in!)
+> >=20
+> > Okay.
+> >=20
+> > > > > Maybe what's needed is a stronger instruction to abstract externa=
+l
+> > > > > device state so that it's not part of the configuration in most c=
+ases.
+> > > >=20
+> > > > Do you want to propose something?
+> > >=20
+> > > I think something like 'Some part of a devices state may be irrelevan=
+t
+> > > to a migration; for example on some NICs it might be preferable to hi=
+de
+> > > the physical characteristics of the link from the guest.'
+> >=20
+> > Got it.
+> >=20
+> > > > > > For example, if address filtering support was added to a networ=
+k card then
+> > > > > > device versions and the corresponding configurations may look l=
+ike this:
+> > > > > > * ``version=3D1`` - Behaves as if ``rx-filter-size=3D0``
+> > > > > > * ``version=3D2`` - ``rx-filter-size=3D32``
+> > > > >=20
+> > > > > Note configuration parameters might have been added during the li=
+fe of
+> > > > > the device; e.g. if the original card had no support for rx-filte=
+rs, it
+> > > > > might not have a rx-filter-size parameter.
+> > > >=20
+> > > > version=3D1 does not explicitly set rx-filter-size=3D0. When a new =
+parameter
+> > > > is introduced it must have a default value that disables its effect=
+ on
+> > > > the hardware interface and/or device state representation. This is
+> > > > described in a bit more detail in the next section, maybe it should=
+ be
+> > > > reordered.
+> > >=20
+> > > We've generally found the definition of devices tends in practice to =
+be
+> > > done newer->older; i.e. you define the current machine, and then defi=
+ne
+> > > the next older machine setting the defaults that used to be true; the=
+n
+> > > define the older version behind that....
+> >=20
+> > That is not possible here because an older device implementation is
+> > unaware of new configuration parameters.
+> >=20
+> > Looking at the example above, imagine a version=3D1 device is instantia=
+ted
+> > on a device implementation that supports both version=3D1 and version=
+=3D2.
+> > Should the configuration parameter list for version=3D1 be empty or
+> > rx-filter-size=3D0?
+> >=20
+> > It must to be empty, otherwise an older device implementation that only
+> > supports version=3D1 cannot instantiate the device. The older device
+> > implementation does not recognize the rx-filter-size configuration
+> > parameter (it was introduced in version=3D2) so we cannot set it to 0.
+>=20
+> I think this question might come down to who expands the device version
+> definition.
+> If it's the device itself that expands that, then a version 2 device
+> knows about what it needs to do for version 1 compatibility.
+> But if you're saying someone outside the device needs to be able to
+> expand that list then I'm not sure how you'd keep that expansion in line
+> with the implementation of a device.
 
-Signed-off-by: Fotis Xenakis <foxen@windowslive.com>
----
- _posts/2020-11-04-osv-virtio-fs.md           | 143 +++++++++++++++++++
- screenshots/2020-11-04-unikernel-vs-gpos.svg |   1 +
- 2 files changed, 144 insertions(+)
- create mode 100644 _posts/2020-11-04-osv-virtio-fs.md
- create mode 100644 screenshots/2020-11-04-unikernel-vs-gpos.svg
+The current approach is that the version is expanded into configuration
+parameters when the device is instantiated. Those parameters are then
+used to check migration compatibility of the destination (versions don't
+play a role once the device has been created).
 
-diff --git a/_posts/2020-11-04-osv-virtio-fs.md b/_posts/2020-11-04-osv-vir=
-tio-fs.md
-new file mode 100644
-index 0000000..78ccab1
---- /dev/null
-+++ b/_posts/2020-11-04-osv-virtio-fs.md
-@@ -0,0 +1,143 @@
-+---
-+layout: post
-+title:  "Using virtio-fs on a unikernel"
-+author: Fotis Xenakis
-+date:   2020-11-04 02:00:00 +0200
-+categories: [storage, virtio-fs, unikernel, OSv]
-+---
-+
-+This article provides an overview of [virtio-fs](https://virtio-fs.gitlab.=
-io/),
-+a novel way for sharing the host file system with guests and
-+[OSv](https://github.com/cloudius-systems/osv), a specialized, lightweight
-+operating system (unikernel) for the cloud, as well as how these two fit
-+together.
-+
-+## virtio-fs
-+
-+Virtio-fs is a new host-guest shared filesystem, purpose-built for local f=
-ile
-+system semantics and performance. To that end, it takes full advantage of =
+Michael replied in another sub-thread wondering if versions are really
+necessary since tools do the migration checks. Let's try dropping
+versions to simplify things. We can bring them back if needed later.
+
+> > > > > > Device States
+> > > > > > -------------
+> > > > > > The details of the device state representation are not covered =
+in this document
+> > > > > > but the general requirements are discussed here.
+> > > > > >=20
+> > > > > > The device state consists of data accessible through the device=
+'s hardware
+> > > > > > interface and internal state that is needed to restore device o=
+peration.
+> > > > > > State in the hardware interface includes the values of hardware=
+ registers.
+> > > > > > An example of internal state is an index value needed to avoid =
+processing
+> > > > > > queued requests more than once.
+> > > > >=20
+> > > > > I try and emphasise that 'internal state' should be represented i=
+n a way
+> > > > > that reflects the problem rather than the particular implementati=
+on;
+> > > > > this gives it a better chance of migrating to future versions.
+> > > >=20
+> > > > Sounds like a good idea.
+> > > >=20
+> > > > > > Changes can be made to the device state representation as follo=
+ws. Each change
+> > > > > > to device state must have a corresponding device configuration =
+parameter that
+> > > > > > allows the change to toggled:
+> > > > > >=20
+> > > > > > * When the parameter is disabled the hardware interface and dev=
+ice state
+> > > > > >   representation are unchanged. This allows old device states t=
+o be loaded.
+> > > > > >=20
+> > > > > > * When the parameter is enabled the change comes into effect.
+> > > > > >=20
+> > > > > > * The parameter's default value disables the change. Therefore =
+old versions do
+> > > > > >   not have to explicitly specify the parameter.
+> > > > > >=20
+> > > > > > The following example illustrates migration from an old device
+> > > > > > implementation to a new one. A version=3D1 network card is migr=
+ated to a
+> > > > > > new device implementation that is also capable of version=3D2 a=
+nd adds the
+> > > > > > rx-filter-size=3D32 parameter. The new device is instantiated w=
+ith
+> > > > > > version=3D1, which disables rx-filter-size and is capable of lo=
+ading the
+> > > > > > version=3D1 device state. The migration completes successfully =
+but note
+> > > > > > the device is still operating at version=3D1 level in the new d=
+evice.
+> > > > > >=20
+> > > > > > The following example illustrates migration from a new device
+> > > > > > implementation back to an older one. The new device implementat=
+ion
+> > > > > > supports version=3D1 and version=3D2. The old device implementa=
+tion supports
+> > > > > > version=3D1 only. Therefore the device can only be migrated whe=
+n
+> > > > > > instantiated with version=3D1 or the equivalent full configurat=
+ion
+> > > > > > parameters.
+> > > > >=20
+> > > > > I'm sometimes asked for 'ways out' of buggy migration cases; e.g.=
+ what
+> > > > > happens if version=3D1 forgot to migrate the X register; or what =
+happens
+> > > > > if verison=3D1 forgot to handle the special, rare case when X=3D5=
+ and we
+> > > > > now need to migrate some extra state.
+> > > >=20
+> > > > Can these cases be handled by adding additional configuration param=
+eters?
+> > > >=20
+> > > > If version=3D1 is lacks essential state then version=3D2 can add it=
+. The
+> > > > user must configure the device to use version before they can save =
 the
-+host's and the guest's colocation on the same physical machine, unlike
-+network-based efforts, like virtio-9p.
-+
-+As the name suggests, virtio-fs builds on virtio for providing an efficient
-+transport: it is included in the (currently draft, to become v1.2) virtio
-+[specification](https://github.com/oasis-tcs/virtio-spec) as a new device.=
- The
-+protocol used by the device is a slightly extended version of
-+[FUSE](https://github.com/libfuse/libfuse), providing a solid foundation f=
-or
-+all file system operations native on Linux. Implementation-wise, on the QE=
-MU
-+side, it takes the approach of splitting between the guest interface (hand=
-led
-+by QEMU) and the host file system interface (the device "backend"). The la=
-tter
-+is handled by virtiofsd ("virtio-fs daemon"), running as a separate proces=
-s,
-+utilizing the
-+[vhost-user](https://www.qemu.org/docs/master/interop/vhost-user.html) pro=
-tocol
-+to communicate with QEMU.
-+
-+One prominent performance feature of virtio-fs is the DAX (Direct Access)
-+window. It's a shared memory window between the host and the guest, expose=
-d as
-+device memory (a PCI BAR) to the second. Upon request, the host (QEMU) map=
-s file contents to the window for the guest to access directly. This bears =
-performance
-+gains due to taking VMEXITs out of the read/write data path and bypassing =
-the
-+guest page cache on Linux, while not counting against the VM's memory (sin=
-ce
-+it's just device memory, managed on the host).
-+
-+![virtio-fs DAX architecture](https://gitlab.com/virtio-fs/virtio-fs.gitla=
-b.io/-/raw/master/architecture.svg)
-+
-+Virtio-fs is under active development, with its community focussing on a p=
-air of
-+device implementation in QEMU and device driver in Linux. Both components =
-are
-+already available upstream in their initial iterations, while upstreaming
-+continues further e.g. with DAX window support.
-+
-+## OSv
-+
-+OSv is a [unikernel](https://en.wikipedia.org/wiki/Unikernel) (framework).=
- The
-+two defining characteristics of a unikernel are:
-+
-+- **Application-specialized**: a unikernel is an executable machine image,
-+  consisting of an application and supporting code (drivers, memory manage=
-ment,
-+  runtime etc.) linked together, running in a single address space (typica=
-lly
-+  in guest "kernel mode").
-+- **Library OS**: each unikernel only contains the functionality mandated =
-by its
-+  application in terms of non-application code, i.e. no unused drivers, or=
- even
-+  whole subsystems (e.g. networking, if the application doesn't use the
-+  network).
-+
-+OSv in particular strives for binary compatibility with Linux, using a [dy=
-namic
-+linker](https://github.com/cloudius-systems/osv/wiki/Dynamic-Linker). This=
- means
-+that applications built for Linux should run as OSv unikernels without req=
-uiring
-+modifications or even rebuilding, at least most of the time. Of course, no=
-t the
-+whole Linux ABI is supported, with system calls like `fork()` and relatives
-+missing by design in all unikernels, which lack the notion of a process. D=
-espite
-+this limitation, OSv is quite full featured, with full SMP support, virtual
-+memory, a virtual file system (and many filesystem implementations, includ=
-ing
-+ZFS) as well as a mature networking stack, based on the FreeBSD sources.
-+
-+At this point, one is sure to wonder "Why bother with unikernels?". The pr=
-oblem
-+they were originally
-+[introduced](http://unikernel.org/files/2013-asplos-mirage.pdf) to solve i=
-s the
-+bloated software stack in modern cloud computing. Running general-purpose
-+operating systems as guests, typically for a single application/service, o=
-n top
-+of a hypervisor which already takes care of isolation and provides a stand=
-ard
-+device model means duplication, as well as loss of efficiency. This is were
-+unikernels come in, trying to be just enough to support a single applicati=
-on
-+and as light-weight as possible, based on the assumption that they are exe=
-cuting
-+inside a VM. Below is an illustration of the comparison between
-+general-purpose OS, unikernels and containers (as another approach to the =
-same
-+problem, for completeness).
-+
-+![Unikernels vs GPOS vs containers](/screenshots/2020-11-04-unikernel-vs-g=
-pos.svg)
-+
-+## OSv, meet virtio-fs
-+
-+As is apparent e.g. from the container world, it is very common for applic=
-ations
-+running in isolated environments (such as containers, or unikernels even m=
-ore
-+so) to require host file system access. Whereas containers sharing the host
-+kernel thus have an obvious, controlled path to the host file system, with
-+unikernels this has been more complex: all solutions were somewhat heavywe=
-ight,
-+requiring a network link or indirection through network protocols. Virtio-=
-fs
-+then provided a significantly more attractive route: straight-forward mapp=
-ing of
-+fs operations (via FUSE), reusing the existing virtio transport and decent
-+performance without high memory overhead.
-+
-+The OSv community quickly identified the opportunity and came up with a
-+read-only implementation on its side, when executing under QEMU. This emph=
-asized
-+being lightweight complexity-wise, while catering to many of its applicati=
-ons'
-+requirements (they are stateless, think e.g. serverless). Notably, it incl=
-udes
-+support for the DAX window (even before that's merged in upstream QEMU),
-+providing [excellent performance](https://github.com/foxeng/diploma), dire=
-ctly
-+rivalling that of its local (non-shared) counterparts such as ZFS and ROFS=
- (an
-+OSv-specific read-only file system).
-+
-+One central point is OSv's support for booting from virtio-fs: this enables
-+deploying a modified version or a whole new application **without rebuildi=
-ng**
-+the image, just by adjusting its root file system contents on the host. La=
-st,
-+owing to the DAX window practically providing low-overhead access to the h=
-ost's
-+page cache, scalability is also expected to excel, with it being a common
-+concern due to the potentially high density of unikernels per host.
-+
-+For example, to build the `cli` OSv image, bootable from virtio-fs, using =
-the
-+core OSv [build
-+system](https://github.com/cloudius-systems/osv#building-osv-kernel-and-cr=
-eating-images):
-+```
-+scripts/build fs=3Dvirtiofs export=3Dall image=3Dcli
-+```
-+This results in a minimal image (just the initramfs), while the root fs co=
-ntents
-+are placed in a directory on the host (`build/export` here, by default).
-+
-+[Running](https://github.com/cloudius-systems/osv#running-osv) the above i=
-mage
-+is just a step away (may want to use the virtio-fs development version of
-+[QEMU](https://gitlab.com/virtio-fs/qemu/-/tree/virtio-fs-dev), e.g. for D=
-AX
-+window support):
-+```
-+scripts/run.py --virtio-fs-tag=3Dmyfs --virtio-fs-dir=3D$(pwd)/build/export
-+```
-+This orchestrates running both virtiofsd and QEMU, using the contents of
-+`build/export` as the root file system. Any changes to this directory, dir=
-ectly
-+from the host will be visible in the guest without re-running the previous=
- build
-+step.
-+
-+## Conclusion
-+
-+OSv has gained a prominent new feature, powered by virtio-fs and its QEMU
-+implementation. This allows efficient, lightweight and performant access t=
-o the
-+host's file system, thanks to the native virtio transport, usage of the FU=
-SE
-+protocol and the DAX window architecture. In turn, it enables use cases li=
-ke
-+rapid unikernel reconfiguration.
-diff --git a/screenshots/2020-11-04-unikernel-vs-gpos.svg b/screenshots/202=
-0-11-04-unikernel-vs-gpos.svg
-new file mode 100644
-index 0000000..010db7e
---- /dev/null
-+++ b/screenshots/2020-11-04-unikernel-vs-gpos.svg
-@@ -0,0 +1 @@
-+<svg xmlns=3D"http://www.w3.org/2000/svg" xmlns:xlink=3D"http://www.w3.org=
-/1999/xlink" version=3D"1.1" width=3D"681px" height=3D"201px" viewBox=3D"-0=
-.5 -0.5 681 201"><defs/><g><rect x=3D"40" y=3D"160" width=3D"160" height=3D=
-"40" fill=3D"#f5f5f5" stroke=3D"#666666" pointer-events=3D"all"/><g transfo=
-rm=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"overflow: visib=
-le; text-align: left;" pointer-events=3D"none" width=3D"100%" height=3D"100=
-%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><d=
-iv xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; align-ite=
-ms: unsafe center; justify-content: unsafe center; width: 158px; height: 1p=
-x; padding-top: 180px; margin-left: 41px;"><div style=3D"box-sizing: border=
--box; font-size: 0; text-align: center; "><div style=3D"display: inline-blo=
-ck; font-size: 12px; font-family: Helvetica; color: #333333; line-height: 1=
-.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Hardware=
-</div></div></div></foreignObject><text x=3D"120" y=3D"184" fill=3D"#333333=
-" font-family=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Hardw=
-are</text></switch></g><rect x=3D"40" y=3D"120" width=3D"160" height=3D"40"=
- fill=3D"#dae8fc" stroke=3D"#6c8ebf" pointer-events=3D"all"/><g transform=
-=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible=
-; text-align: left;" pointer-events=3D"none" width=3D"100%" height=3D"100%"=
- requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div=
- xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; align-items=
-: unsafe center; justify-content: unsafe center; width: 158px; height: 1px;=
- padding-top: 140px; margin-left: 41px;"><div style=3D"box-sizing: border-b=
-ox; font-size: 0; text-align: center; "><div style=3D"display: inline-block=
-; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2=
-; pointer-events: all; white-space: normal; word-wrap: normal; ">Host OS</d=
-iv></div></div></foreignObject><text x=3D"120" y=3D"144" fill=3D"#000000" f=
-ont-family=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Host OS<=
-/text></switch></g><rect x=3D"40" y=3D"80" width=3D"160" height=3D"40" fill=
-=3D"#dae8fc" stroke=3D"#6c8ebf" pointer-events=3D"all"/><g transform=3D"tra=
-nslate(-0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-=
-align: left;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requir=
-edFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=
-=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsa=
-fe center; justify-content: unsafe center; width: 158px; height: 1px; paddi=
-ng-top: 100px; margin-left: 41px;"><div style=3D"box-sizing: border-box; fo=
-nt-size: 0; text-align: center; "><div style=3D"display: inline-block; font=
--size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; poin=
-ter-events: all; white-space: normal; word-wrap: normal; ">Hypervisor</div>=
-</div></div></foreignObject><text x=3D"120" y=3D"104" fill=3D"#000000" font=
--family=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Hypervisor<=
-/text></switch></g><rect x=3D"40" y=3D"40" width=3D"160" height=3D"40" fill=
-=3D"#f8cecc" stroke=3D"#b85450" pointer-events=3D"all"/><g transform=3D"tra=
-nslate(-0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-=
-align: left;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requir=
-edFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=
-=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsa=
-fe center; justify-content: unsafe center; width: 158px; height: 1px; paddi=
-ng-top: 60px; margin-left: 41px;"><div style=3D"box-sizing: border-box; fon=
-t-size: 0; text-align: center; "><div style=3D"display: inline-block; font-=
-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; point=
-er-events: all; white-space: normal; word-wrap: normal; ">Guest OS</div></d=
-iv></div></foreignObject><text x=3D"120" y=3D"64" fill=3D"#000000" font-fam=
-ily=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Guest OS</text>=
-</switch></g><rect x=3D"40" y=3D"0" width=3D"160" height=3D"40" fill=3D"#f8=
-cecc" stroke=3D"#b85450" pointer-events=3D"all"/><g transform=3D"translate(=
--0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-align: =
-left;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFeatu=
-res=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http=
-://www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe cente=
-r; justify-content: unsafe center; width: 158px; height: 1px; padding-top: =
-20px; margin-left: 41px;"><div style=3D"box-sizing: border-box; font-size: =
-0; text-align: center; "><div style=3D"display: inline-block; font-size: 12=
-px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-event=
-s: all; white-space: normal; word-wrap: normal; ">Application</div></div></=
-div></foreignObject><text x=3D"120" y=3D"24" fill=3D"#000000" font-family=
-=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Application</text>=
-</switch></g><rect x=3D"0" y=3D"120" width=3D"40" height=3D"40" fill=3D"#ff=
-ffff" stroke=3D"#000000" pointer-events=3D"all"/><g transform=3D"translate(=
--0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-align: =
-left;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFeatu=
-res=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http=
-://www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe cente=
-r; justify-content: unsafe center; width: 38px; height: 1px; padding-top: 1=
-40px; margin-left: 1px;"><div style=3D"box-sizing: border-box; font-size: 0=
-; text-align: center; "><div style=3D"display: inline-block; font-size: 12p=
-x; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events=
-: all; white-space: normal; word-wrap: normal; ">HKS</div></div></div></for=
-eignObject><text x=3D"20" y=3D"144" fill=3D"#000000" font-family=3D"Helveti=
-ca" font-size=3D"12px" text-anchor=3D"middle">HKS</text></switch></g><rect =
-x=3D"0" y=3D"80" width=3D"40" height=3D"40" fill=3D"#ffffff" stroke=3D"#000=
-000" pointer-events=3D"all"/><g transform=3D"translate(-0.5 -0.5)"><switch>=
-<foreignObject style=3D"overflow: visible; text-align: left;" pointer-event=
-s=3D"none" width=3D"100%" height=3D"100%" requiredFeatures=3D"http://www.w3=
-.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http://www.w3.org/1999/x=
-html" style=3D"display: flex; align-items: unsafe center; justify-content: =
-unsafe center; width: 38px; height: 1px; padding-top: 100px; margin-left: 1=
-px;"><div style=3D"box-sizing: border-box; font-size: 0; text-align: center=
-; "><div style=3D"display: inline-block; font-size: 12px; font-family: Helv=
-etica; color: #000000; line-height: 1.2; pointer-events: all; white-space: =
-normal; word-wrap: normal; ">HUS</div></div></div></foreignObject><text x=
-=3D"20" y=3D"104" fill=3D"#000000" font-family=3D"Helvetica" font-size=3D"1=
-2px" text-anchor=3D"middle">HUS</text></switch></g><rect x=3D"0" y=3D"40" w=
-idth=3D"40" height=3D"40" fill=3D"#ffffff" stroke=3D"#000000" pointer-event=
-s=3D"all"/><g transform=3D"translate(-0.5 -0.5)"><switch><foreignObject sty=
-le=3D"overflow: visible; text-align: left;" pointer-events=3D"none" width=
-=3D"100%" height=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/fe=
-ature#Extensibility"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"d=
-isplay: flex; align-items: unsafe center; justify-content: unsafe center; w=
-idth: 38px; height: 1px; padding-top: 60px; margin-left: 1px;"><div style=
-=3D"box-sizing: border-box; font-size: 0; text-align: center; "><div style=
-=3D"display: inline-block; font-size: 12px; font-family: Helvetica; color: =
-#000000; line-height: 1.2; pointer-events: all; white-space: normal; word-w=
-rap: normal; ">GKS</div></div></div></foreignObject><text x=3D"20" y=3D"64"=
- fill=3D"#000000" font-family=3D"Helvetica" font-size=3D"12px" text-anchor=
-=3D"middle">GKS</text></switch></g><rect x=3D"0" y=3D"0" width=3D"40" heigh=
-t=3D"40" fill=3D"#ffffff" stroke=3D"#000000" pointer-events=3D"all"/><g tra=
-nsform=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"overflow: v=
-isible; text-align: left;" pointer-events=3D"none" width=3D"100%" height=3D=
-"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensibility=
-"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; align=
--items: unsafe center; justify-content: unsafe center; width: 38px; height:=
- 1px; padding-top: 20px; margin-left: 1px;"><div style=3D"box-sizing: borde=
-r-box; font-size: 0; text-align: center; "><div style=3D"display: inline-bl=
-ock; font-size: 12px; font-family: Helvetica; color: #000000; line-height: =
-1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">GUS</di=
-v></div></div></foreignObject><text x=3D"20" y=3D"24" fill=3D"#000000" font=
--family=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">GUS</text><=
-/switch></g><rect x=3D"280" y=3D"160" width=3D"160" height=3D"40" fill=3D"#=
-f5f5f5" stroke=3D"#666666" pointer-events=3D"all"/><g transform=3D"translat=
-e(-0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-align=
-: left;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFea=
-tures=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"ht=
-tp://www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe cen=
-ter; justify-content: unsafe center; width: 158px; height: 1px; padding-top=
-: 180px; margin-left: 281px;"><div style=3D"box-sizing: border-box; font-si=
-ze: 0; text-align: center; "><div style=3D"display: inline-block; font-size=
-: 12px; font-family: Helvetica; color: #333333; line-height: 1.2; pointer-e=
-vents: all; white-space: normal; word-wrap: normal; ">Hardware</div></div><=
-/div></foreignObject><text x=3D"360" y=3D"184" fill=3D"#333333" font-family=
-=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Hardware</text></s=
-witch></g><rect x=3D"280" y=3D"120" width=3D"160" height=3D"40" fill=3D"#da=
-e8fc" stroke=3D"#6c8ebf" pointer-events=3D"all"/><g transform=3D"translate(=
--0.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-align: =
-left;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFeatu=
-res=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http=
-://www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe cente=
-r; justify-content: unsafe center; width: 158px; height: 1px; padding-top: =
-140px; margin-left: 281px;"><div style=3D"box-sizing: border-box; font-size=
-: 0; text-align: center; "><div style=3D"display: inline-block; font-size: =
-12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-eve=
-nts: all; white-space: normal; word-wrap: normal; ">Host OS</div></div></di=
-v></foreignObject><text x=3D"360" y=3D"144" fill=3D"#000000" font-family=3D=
-"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Host OS</text></switc=
-h></g><rect x=3D"280" y=3D"80" width=3D"160" height=3D"40" fill=3D"#dae8fc"=
- stroke=3D"#6c8ebf" pointer-events=3D"all"/><g transform=3D"translate(-0.5 =
--0.5)"><switch><foreignObject style=3D"overflow: visible; text-align: left;=
-" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFeatures=
-=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http://=
-www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe center; =
-justify-content: unsafe center; width: 158px; height: 1px; padding-top: 100=
-px; margin-left: 281px;"><div style=3D"box-sizing: border-box; font-size: 0=
-; text-align: center; "><div style=3D"display: inline-block; font-size: 12p=
-x; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events=
-: all; white-space: normal; word-wrap: normal; ">Hypervisor</div></div></di=
-v></foreignObject><text x=3D"360" y=3D"104" fill=3D"#000000" font-family=3D=
-"Helvetica" font-size=3D"12px" text-anchor=3D"middle">Hypervisor</text></sw=
-itch></g><rect x=3D"280" y=3D"40" width=3D"160" height=3D"40" fill=3D"#f8ce=
-cc" stroke=3D"#b85450" pointer-events=3D"all"/><g transform=3D"translate(-0=
-.5 -0.5)"><switch><foreignObject style=3D"overflow: visible; text-align: le=
-ft;" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFeature=
-s=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http:/=
-/www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe center;=
- justify-content: unsafe center; width: 158px; height: 1px; padding-top: 60=
-px; margin-left: 281px;"><div style=3D"box-sizing: border-box; font-size: 0=
-; text-align: center; "><div style=3D"display: inline-block; font-size: 12p=
-x; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events=
-: all; white-space: normal; word-wrap: normal; ">Unikernel</div></div></div=
-></foreignObject><text x=3D"360" y=3D"64" fill=3D"#000000" font-family=3D"H=
-elvetica" font-size=3D"12px" text-anchor=3D"middle">Unikernel</text></switc=
-h></g><rect x=3D"240" y=3D"120" width=3D"40" height=3D"40" fill=3D"#ffffff"=
- stroke=3D"#000000" pointer-events=3D"all"/><g transform=3D"translate(-0.5 =
--0.5)"><switch><foreignObject style=3D"overflow: visible; text-align: left;=
-" pointer-events=3D"none" width=3D"100%" height=3D"100%" requiredFeatures=
-=3D"http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http://=
-www.w3.org/1999/xhtml" style=3D"display: flex; align-items: unsafe center; =
-justify-content: unsafe center; width: 38px; height: 1px; padding-top: 140p=
-x; margin-left: 241px;"><div style=3D"box-sizing: border-box; font-size: 0;=
- text-align: center; "><div style=3D"display: inline-block; font-size: 12px=
-; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events:=
- all; white-space: normal; word-wrap: normal; ">HKS</div></div></div></fore=
-ignObject><text x=3D"260" y=3D"144" fill=3D"#000000" font-family=3D"Helveti=
-ca" font-size=3D"12px" text-anchor=3D"middle">HKS</text></switch></g><rect =
-x=3D"240" y=3D"80" width=3D"40" height=3D"40" fill=3D"#ffffff" stroke=3D"#0=
-00000" pointer-events=3D"all"/><g transform=3D"translate(-0.5 -0.5)"><switc=
-h><foreignObject style=3D"overflow: visible; text-align: left;" pointer-eve=
-nts=3D"none" width=3D"100%" height=3D"100%" requiredFeatures=3D"http://www.=
-w3.org/TR/SVG11/feature#Extensibility"><div xmlns=3D"http://www.w3.org/1999=
-/xhtml" style=3D"display: flex; align-items: unsafe center; justify-content=
-: unsafe center; width: 38px; height: 1px; padding-top: 100px; margin-left:=
- 241px;"><div style=3D"box-sizing: border-box; font-size: 0; text-align: ce=
-nter; "><div style=3D"display: inline-block; font-size: 12px; font-family: =
-Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-spa=
-ce: normal; word-wrap: normal; ">HUS</div></div></div></foreignObject><text=
- x=3D"260" y=3D"104" fill=3D"#000000" font-family=3D"Helvetica" font-size=
-=3D"12px" text-anchor=3D"middle">HUS</text></switch></g><rect x=3D"240" y=
-=3D"40" width=3D"40" height=3D"40" fill=3D"#ffffff" stroke=3D"#000000" poin=
-ter-events=3D"all"/><g transform=3D"translate(-0.5 -0.5)"><switch><foreignO=
-bject style=3D"overflow: visible; text-align: left;" pointer-events=3D"none=
-" width=3D"100%" height=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/S=
-VG11/feature#Extensibility"><div xmlns=3D"http://www.w3.org/1999/xhtml" sty=
-le=3D"display: flex; align-items: unsafe center; justify-content: unsafe ce=
-nter; width: 38px; height: 1px; padding-top: 60px; margin-left: 241px;"><di=
-v style=3D"box-sizing: border-box; font-size: 0; text-align: center; "><div=
- style=3D"display: inline-block; font-size: 12px; font-family: Helvetica; c=
-olor: #000000; line-height: 1.2; pointer-events: all; white-space: normal; =
-word-wrap: normal; ">GKS</div></div></div></foreignObject><text x=3D"260" y=
-=3D"64" fill=3D"#000000" font-family=3D"Helvetica" font-size=3D"12px" text-=
-anchor=3D"middle">GKS</text></switch></g><rect x=3D"520" y=3D"160" width=3D=
-"160" height=3D"40" fill=3D"#f5f5f5" stroke=3D"#666666" pointer-events=3D"a=
-ll"/><g transform=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"=
-overflow: visible; text-align: left;" pointer-events=3D"none" width=3D"100%=
-" height=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Ex=
-tensibility"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: =
-flex; align-items: unsafe center; justify-content: unsafe center; width: 15=
-8px; height: 1px; padding-top: 180px; margin-left: 521px;"><div style=3D"bo=
-x-sizing: border-box; font-size: 0; text-align: center; "><div style=3D"dis=
-play: inline-block; font-size: 12px; font-family: Helvetica; color: #333333=
-; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: no=
-rmal; ">Hardware</div></div></div></foreignObject><text x=3D"600" y=3D"184"=
- fill=3D"#333333" font-family=3D"Helvetica" font-size=3D"12px" text-anchor=
-=3D"middle">Hardware</text></switch></g><rect x=3D"520" y=3D"120" width=3D"=
-160" height=3D"40" fill=3D"#dae8fc" stroke=3D"#6c8ebf" pointer-events=3D"al=
-l"/><g transform=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"o=
-verflow: visible; text-align: left;" pointer-events=3D"none" width=3D"100%"=
- height=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Ext=
-ensibility"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: f=
-lex; align-items: unsafe center; justify-content: unsafe center; width: 158=
-px; height: 1px; padding-top: 140px; margin-left: 521px;"><div style=3D"box=
--sizing: border-box; font-size: 0; text-align: center; "><div style=3D"disp=
-lay: inline-block; font-size: 12px; font-family: Helvetica; color: #000000;=
- line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: nor=
-mal; ">Host OS</div></div></div></foreignObject><text x=3D"600" y=3D"144" f=
-ill=3D"#000000" font-family=3D"Helvetica" font-size=3D"12px" text-anchor=3D=
-"middle">Host OS</text></switch></g><rect x=3D"520" y=3D"80" width=3D"160" =
-height=3D"40" fill=3D"#dae8fc" stroke=3D"#6c8ebf" pointer-events=3D"all"/><=
-g transform=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"overfl=
-ow: visible; text-align: left;" pointer-events=3D"none" width=3D"100%" heig=
-ht=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensib=
-ility"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; =
-align-items: unsafe center; justify-content: unsafe center; width: 158px; h=
-eight: 1px; padding-top: 100px; margin-left: 521px;"><div style=3D"box-sizi=
-ng: border-box; font-size: 0; text-align: center; "><div style=3D"display: =
-inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line=
--height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; =
-">Container runtime</div></div></div></foreignObject><text x=3D"600" y=3D"1=
-04" fill=3D"#000000" font-family=3D"Helvetica" font-size=3D"12px" text-anch=
-or=3D"middle">Container runtime</text></switch></g><rect x=3D"520" y=3D"40"=
- width=3D"160" height=3D"40" fill=3D"#fff2cc" stroke=3D"#d6b656" pointer-ev=
-ents=3D"all"/><g transform=3D"translate(-0.5 -0.5)"><switch><foreignObject =
-style=3D"overflow: visible; text-align: left;" pointer-events=3D"none" widt=
-h=3D"100%" height=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/f=
-eature#Extensibility"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"=
-display: flex; align-items: unsafe center; justify-content: unsafe center; =
-width: 158px; height: 1px; padding-top: 60px; margin-left: 521px;"><div sty=
-le=3D"box-sizing: border-box; font-size: 0; text-align: center; "><div styl=
-e=3D"display: inline-block; font-size: 12px; font-family: Helvetica; color:=
- #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-=
-wrap: normal; ">Container</div></div></div></foreignObject><text x=3D"600" =
-y=3D"64" fill=3D"#000000" font-family=3D"Helvetica" font-size=3D"12px" text=
--anchor=3D"middle">Container</text></switch></g><rect x=3D"480" y=3D"120" w=
-idth=3D"40" height=3D"40" fill=3D"#ffffff" stroke=3D"#000000" pointer-event=
-s=3D"all"/><g transform=3D"translate(-0.5 -0.5)"><switch><foreignObject sty=
-le=3D"overflow: visible; text-align: left;" pointer-events=3D"none" width=
-=3D"100%" height=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/fe=
-ature#Extensibility"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"d=
-isplay: flex; align-items: unsafe center; justify-content: unsafe center; w=
-idth: 38px; height: 1px; padding-top: 140px; margin-left: 481px;"><div styl=
-e=3D"box-sizing: border-box; font-size: 0; text-align: center; "><div style=
-=3D"display: inline-block; font-size: 12px; font-family: Helvetica; color: =
-#000000; line-height: 1.2; pointer-events: all; white-space: normal; word-w=
-rap: normal; ">HKS</div></div></div></foreignObject><text x=3D"500" y=3D"14=
-4" fill=3D"#000000" font-family=3D"Helvetica" font-size=3D"12px" text-ancho=
-r=3D"middle">HKS</text></switch></g><rect x=3D"480" y=3D"40" width=3D"40" h=
-eight=3D"80" fill=3D"#ffffff" stroke=3D"#000000" pointer-events=3D"all"/><g=
- transform=3D"translate(-0.5 -0.5)"><switch><foreignObject style=3D"overflo=
-w: visible; text-align: left;" pointer-events=3D"none" width=3D"100%" heigh=
-t=3D"100%" requiredFeatures=3D"http://www.w3.org/TR/SVG11/feature#Extensibi=
-lity"><div xmlns=3D"http://www.w3.org/1999/xhtml" style=3D"display: flex; a=
-lign-items: unsafe center; justify-content: unsafe center; width: 38px; hei=
-ght: 1px; padding-top: 80px; margin-left: 481px;"><div style=3D"box-sizing:=
- border-box; font-size: 0; text-align: center; "><div style=3D"display: inl=
-ine-block; font-size: 12px; font-family: Helvetica; color: #000000; line-he=
-ight: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">H=
-US</div></div></div></foreignObject><text x=3D"500" y=3D"84" fill=3D"#00000=
-0" font-family=3D"Helvetica" font-size=3D"12px" text-anchor=3D"middle">HUS<=
-/text></switch></g></g><switch><g requiredFeatures=3D"http://www.w3.org/TR/=
-SVG11/feature#Extensibility"/><a transform=3D"translate(0,-5)" xlink:href=
-=3D"https://desk.draw.io/support/solutions/articles/16000042487" target=3D"=
-_blank"><text text-anchor=3D"middle" font-size=3D"10px" x=3D"50%" y=3D"100%=
-">Viewer does not support full SVG 1.1</text></a></switch></svg>
-\ No newline at end of file
---=20
-2.29.2
+> > > > full state.
+> > > >=20
+> > > > If version=3D1 didn't handle the X=3D5 case then the same solution =
+is
+> > > > needed. A new configuration parameter is introduced and the user ne=
+eds
+> > > > to configure the device to be the new version before migrating.
+> > > >=20
+> > > > Unfortunately this requires poweroff or hotplugging a new device
+> > > > instance. But some disruption is probably necessarily anyway so the
+> > > > migration code on the host side can be patched to use the updated d=
+evice
+> > > > state representation.
+> > >=20
+> > > There are some corner cases that people sometimes prefer; for example
+> > > lets say the X=3D5 case is actually really rare - but when it happens=
+ the
+> > > device is hopelessly broken, some device authors prefer to fix it and
+> > > send the extra data and let the migration fail if the destination
+> > > doesn't understand it (it would break anyway).
+> >=20
+> > The device implementation needs to be updated to send the extra data. A=
+t
+> > that point a new device configuration parameter should be introduced an=
+d
+> > if the user wishes to run the new version of the device then the extra
+> > data will be sent.
+> >=20
+> > If the destination doesn't support the new parameter then migration wil=
+l
+> > be refused. That matches what you've described, so I think the approach
+> > in this document handles this case.
+>=20
+> Well that's the ideal; but the case I'm describing is where you're
+> recovering from a screwup in which the migration is going to fail in a
+> rare (runtime defined) corner case, and only sending the extra data
+> in that rare case before you get a chance to define a new version.
+
+You need to upgrade the migration code in order to produce that extra
+data. Why not define a configuration parameter alongside this code
+change?
+
+> > > I've also been asked
+> > > by mst for a 'unexpected data' mechanism to send data that the
+> > > destination might not expect if it didn't know about it, for similar
+> > > cases.
+> >=20
+> > Do you mean optional data that can be more or less safely dropped? A ne=
+w
+> > device configuration parameter is not needed because the hardware
+> > interface and device state representation remain compatible. That
+> > feature can be defined in the device state representation spec and is
+> > not visible at the layer discussed in this document. But I think it's
+> > worth adding an explanation into this document explaining what to do.
+>=20
+> I mean a way to send optional data that the destination can drop; but
+> that the destination doesn't know what it means and at the time the
+> destination was written, wasn't yet defined. It is part of the device
+> state;  it's similar to the X=3D5 case above - but in this case it allows
+> the migration not to fail even when you start sending the extra data.
+
+The device state representation may have a way of sending optional data.
+Since it just gets dropped if the destination doesn't recognize it there
+is no need to introduce a configuration parameter and it doesn't play a
+part in migration compatibility checks.
+
+Stefan
+
+--KDt/GgjP6HVcx58l
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+i2y8ACgkQnKSrs4Gr
+c8gaxQf/WQOGSSkWhmP+yrWebyAO0Wl7i4yqpAHbEeRzERlf6e+WVVC269aKBKwd
+k3NWR6jMfQDKAM7PI4RoRyWTzqWIXRceOfG2uUE29PZ1PvEasBWZogKXGY8LemOY
+vzKUgTQZw7sC3+8rH+IgJwvQ9/6PBBWYsipiDPKQZsZWOU7/hW6rY+OgRjQiRofM
+mtrc5ONYAiwBL6HGGUyDNt29k1ivLQuqUidFjrhmKjTsbkc7PxTE3yl6A+PL5t2J
+gxxb2ln0UraTJoMl2wYu+22psVyzlJZxD8kXaWHZmZQ0pDXq2tV9Cz55Tw1JLdNH
+KreM3TnfxFTE50N4oduvMShZFJ8A5g==
+=Cb+g
+-----END PGP SIGNATURE-----
+
+--KDt/GgjP6HVcx58l--
 
 
