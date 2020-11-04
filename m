@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C1072A6736
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:15:21 +0100 (CET)
-Received: from localhost ([::1]:55222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAEE2A6750
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:19:29 +0100 (CET)
+Received: from localhost ([::1]:59590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKVM-0002J9-8L
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:15:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55474)
+	id 1kaKZM-0004Hj-Hi
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:19:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIi-0003A3-Se
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40270)
+ id 1kaKIl-0003D5-Qm
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51448)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIY-00063D-IP
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:15 -0500
+ id 1kaKIY-00063K-Us
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604502125;
+ s=mimecast20190719; t=1604502126;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Lb4syEnmU0K7xe+/tkz4DRw50t5jImgaqq34tSP2sek=;
- b=Dp1weRhcUaulW8RGAv0tOa5p4M+qnvfXFvl8H4C+Yu6UF6OoAEhXi3xATshGl1DL5XHddC
- uDJo4OYl2WZV3oHnQ3nVp753ReV8NyNlhYVVZ31TIFNItX0+0LmEfYyS5noo4DI0rn3rDz
- h/K5PuWvvtM+2H1H5VA0MjeEaPnUiQI=
+ bh=D6eWAOJ8fC0MGLUqxRYQZPCfq1h2n2iGddRTvUg4UO8=;
+ b=CiUvTqoPByR41Tn4OErmQQ+IaOLKazu/Y/dp9i6EO0RaGlio0DCn8f3LJtTdYGTqa2PRbo
+ pwrVM7Fa3yEaqbC3drYbt3r4fGVNFuliGeX6pPwbkO7Y1TY2z8Afj8iCgHDo5WgUCNCIFS
+ KHVJ0iGgPLQK5kL/eyUeDGMYlZPm12s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-S6edJIHfN0GSLnA36Ort9A-1; Wed, 04 Nov 2020 10:02:03 -0500
-X-MC-Unique: S6edJIHfN0GSLnA36Ort9A-1
+ us-mta-585-CKXVD694MCWHl1KEn0AYFA-1; Wed, 04 Nov 2020 10:02:04 -0500
+X-MC-Unique: CKXVD694MCWHl1KEn0AYFA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D685B64167;
- Wed,  4 Nov 2020 15:02:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 527771891E83;
+ Wed,  4 Nov 2020 15:02:03 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 720B07366D;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 032657366D;
  Wed,  4 Nov 2020 15:02:02 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/20] fuzz: fuzz offsets within pio/mmio regions
-Date: Wed,  4 Nov 2020 10:01:49 -0500
-Message-Id: <20201104150153.541326-17-pbonzini@redhat.com>
+Subject: [PULL 17/20] semihosting: fix order of initialization functions
+Date: Wed,  4 Nov 2020 10:01:50 -0500
+Message-Id: <20201104150153.541326-18-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -56,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
@@ -81,39 +81,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+qemu_semihosting_console_init uses semihosting.chardev which is set
+by qemu_semihosting_connect_chardevs.  Thus qemu_semihosting_connect_chardevs
+has to be called first.
 
-The code did not add offsets to FlatRange bases, so we did not fuzz
-offsets within device MemoryRegions.
+Both have to be called after processing -serial and friends though, so
+that the semihosting console can connect to a multiplexer as in
+"-serial mon:stdio -semihosting-config chardev=serial0"
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20201029172901.534442-4-alxndr@bu.edu>
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+Fixes: 619985e937 ("semihosting: defer connect_chardevs a little more to use serialx", 2020-07-27)
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ softmmu/vl.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index 3a5dbc3ce2..262a963d2e 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -298,6 +298,11 @@ static bool get_io_address(address_range *result, AddressSpace *as,
-     } while (cb_info.index != index && !cb_info.found);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index a537a0377f..a71164494e 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -4284,9 +4284,6 @@ void qemu_init(int argc, char **argv, char **envp)
+     qemu_opts_foreach(qemu_find_opts("mon"),
+                       mon_init_func, NULL, &error_fatal);
  
-     *result = cb_info.result;
-+    if (result->size) {
-+        offset = offset % result->size;
-+        result->addr += offset;
-+        result->size -= offset;
-+    }
-     return cb_info.found;
- }
+-    /* connect semihosting console input if requested */
+-    qemu_semihosting_console_init();
+-
+     if (foreach_device_config(DEV_SERIAL, serial_parse) < 0)
+         exit(1);
+     if (foreach_device_config(DEV_PARALLEL, parallel_parse) < 0)
+@@ -4296,6 +4293,7 @@ void qemu_init(int argc, char **argv, char **envp)
  
+     /* now chardevs have been created we may have semihosting to connect */
+     qemu_semihosting_connect_chardevs();
++    qemu_semihosting_console_init();
+ 
+     /* If no default VGA is requested, the default is "none".  */
+     if (default_vga) {
 -- 
 2.26.2
 
