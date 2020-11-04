@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37F22A710C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 00:17:21 +0100 (CET)
-Received: from localhost ([::1]:53252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89CE2A710B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 00:17:19 +0100 (CET)
+Received: from localhost ([::1]:53116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaS1p-0005KB-1q
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 18:17:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
+	id 1kaS1m-0005H5-Me
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 18:17:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaS0f-000478-8G
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:16:09 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41044)
+ id 1kaS0e-000472-RL
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:16:08 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaS0d-0002ZA-BB
+ id 1kaS0c-0002Z7-Q8
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:16:08 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kaS0a-0001E5-9B
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 23:16:04 +0000
+ id 1kaS0Z-0001Ca-RN
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 23:16:03 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DBC0E2E8148
+ by loganberry.canonical.com (Postfix) with ESMTP id 33C792E813E
  for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 23:16:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2020 23:04:47 -0000
-From: John Snow <1817239@bugs.launchpad.net>
+Date: Wed, 04 Nov 2020 23:09:39 -0000
+From: John Snow <1826200@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=berrange@redhat.com; 
+X-Launchpad-Bug-Tags: feature-request
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow laurent-vivier umarcor
-X-Launchpad-Bug-Reporter: umarcor (umarcor)
+X-Launchpad-Bug-Commenters: berrange jnsnow lersek
+X-Launchpad-Bug-Reporter: Laszlo Ersek (Red Hat) (lersek)
 X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <155080581544.22842.8774442486795126526.malonedeb@wampee.canonical.com>
-Message-Id: <160453108787.29032.15755295759980829067.malone@chaenomeles.canonical.com>
-Subject: [Bug 1817239] Re: add '--targets' option to qemu-binfmt-conf.sh
+References: <155610584995.13565.1262636932024040431.malonedeb@wampee.canonical.com>
+Message-Id: <160453137912.18915.5426777679998496960.malone@wampee.canonical.com>
+Subject: [Bug 1826200] Re: RFE: populate "OEM Strings" (type 11) SMBIOS table
+ strings from regular files
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 079c6c75521c295d6bf78baf8c12da14a85e2221
+X-Launchpad-Hash: 61285ce3cfa313dd3dbbae788162cc8ebaf78e17
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 17:35:34
@@ -71,88 +74,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1817239 <1817239@bugs.launchpad.net>
+Reply-To: Bug 1826200 <1826200@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series appears to have stalled as of v7:
-https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04241.html --
-moving back to 'New' status.
+Merged:
+https://patchew.org/QEMU/20200923133804.2089190-1-berrange@redhat.com/
 
+Commits:
+
+https://gitlab.com/qemu-project/qemu/-/commit/bb99f4772f54017490e3356ecbb3d=
+f25c5d4537f
+https://gitlab.com/qemu-project/qemu/-/commit/10c3666658f53c5ec8fd9ec27cdf5=
+c393ff814a0
+https://gitlab.com/qemu-project/qemu/-/commit/48a7ff4d516c92323ca7bd88df90e=
+bb974bc0a9a
 
 ** Changed in: qemu
-       Status: In Progress =3D> New
+       Status: In Progress =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1817239
+https://bugs.launchpad.net/bugs/1826200
 
 Title:
-  add '--targets' option to qemu-binfmt-conf.sh
+  RFE: populate "OEM Strings" (type 11) SMBIOS table strings from
+  regular files
 
 Status in QEMU:
-  New
+  Fix Committed
 
 Bug description:
-  I'd like to ask for the addition of option '--targets' to scripts
-  /qemu-binfmt-conf.sh, in order to allow registering the interpreters
-  for the given list of architectures only, instead of using all of the
-  ones defined in qemu_target_list. The following is a possible patch
-  that implements it:
+  The feature added in
 
-   qemu-binfmt-conf.sh | 9 ++++++++-
-   1 file changed, 8 insertions(+), 1 deletion(-)
+  https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D2d6dcbf93fb01b4a7f4=
+5a93d276d4d74b16392dd
 
-  diff --git a/qemu-binfmt-conf.sh b/qemu-binfmt-conf.sh
-  index b5a1674..be4a19b 100644
-  --- a/qemu-binfmt-conf.sh
-  +++ b/qemu-binfmt-conf.sh
-  @@ -170,6 +170,7 @@ usage() {
-   Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
-                              [--help][--credential yes|no][--exportdir PAT=
-H]
-                              [--persistent yes|no][--qemu-suffix SUFFIX]
-  +                           [--targets TARGETS]
+  and exposed by libvirt as
 
-          Configure binfmt_misc to use qemu interpreter
+    https://libvirt.org/formatdomain.html#elementsSysinfo
 
-  @@ -189,6 +190,8 @@ Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debia=
-n][--systemd CPU]
-          --persistent:  if yes, the interpreter is loaded when binfmt is
-                         configured and remains in memory. All future uses
-                         are cloned from the open file.
-  +       --targets:     comma-separated list of targets. If provided, only
-  +                      the targets in the list are registered.
+  allows the user to specify up to 255 strings in the unofmatted area of
+  the Type 11 SMBIOS table, where each string may be of arbitrary
+  length. This feature is useful for exposing arbitrary text to
+  arbitrary guest components (in particular when strings are prefixed
+  with "application identifiers").
 
-       To import templates with update-binfmts, use :
+  Right now, strings can only be specified on the QEMU command line,
+  which limits the amount of data that can be passed. Please enable
+  users to pass data from regular files too.
 
-  @@ -324,7 +327,7 @@ CREDENTIAL=3Dno
-   PERSISTENT=3Dno
-   QEMU_SUFFIX=3D""
+  For example:
 
-  -options=3D$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-=
-suffix:,exportdir:,help,credential:,persistent: -- "$@")
-  +options=3D$(getopt -o ds:Q:S:e:hc:p:t: -l debian,systemd:,qemu-path:,qem=
-u-suffix:,exportdir:,help,credential:,persistent:,targets: -- "$@")
-   eval set -- "$options"
+    $QEMU -smbios
+  type=3D11,value=3DHello,txtfile=3Dfile1.txt,txtfile=3Dfile2.txt
 
-   while true ; do
-  @@ -380,6 +383,10 @@ while true ; do
-           shift
-           PERSISTENT=3D"$1"
-           ;;
-  +    -t|--targets)
-  +        shift
-  +        qemu_target_list=3D"$(echo "$1" | tr ',' ' ')"
-  +        ;;
-       *)
-           break
-           ;;
-  --
-  2.20.1
+  where "file1.txt" and "file2.txt" could be text files containing ASCII
+  application prefixes, followed by base64-encoded binary data.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1817239/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1826200/+subscriptions
 
