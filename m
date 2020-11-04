@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F20C2A69AF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:27:39 +0100 (CET)
-Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC86C2A6960
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:23:18 +0100 (CET)
+Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLdK-0005SK-0T
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:27:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
+	id 1kaLZ7-0007xy-Pc
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:23:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFc-0003Mi-9G
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24193)
+ id 1kaLFW-000379-4F
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFT-0005gE-1j
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:07 -0500
+ id 1kaLFP-0005fE-2O
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505778;
+ s=mimecast20190719; t=1604505774;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JusAU4ZVcNlVO9yNQkafrHuHhs7zVpSsuF0b0bb2xWg=;
- b=dL0YUyXgFnMIzNpEaRERqOgFifbFHo32qDWtA3IiW1W4FUb5e9SFwk8/iakTkYVDh9RIdn
- cnykH7YQx1Pp3Vpw3R6iJJy9EV3zFk4w69tk5RtdU9PFDN0Vo5Ndc+vf/fkF9v0eng/Hdn
- 6XjH2i3xVls8vHLe2hsYJ1PJcDI1EIY=
+ bh=w0qlDVkSCLKR1bNv6qNzKzrUrp2LYDPUr6Bjx2oiUuw=;
+ b=jQjyrYqMZbOqNKxqVIWKdxOuqGQjJC6sFfcI8BqppHuRP0IIJ6XH63L8Ink+gFu2+Koyeg
+ iKFdbaKCYOh9Z/dqMUHmPlUb3pQMWlJI2FjmKFuhOMXe2bjcjzRSOeq3IzX34RMPkPNE6x
+ neLqYabNrk68FJc8yrvKDHELdlSsu/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-7o8RlAOzPOGzmI8b-s57vw-1; Wed, 04 Nov 2020 11:02:56 -0500
-X-MC-Unique: 7o8RlAOzPOGzmI8b-s57vw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-159-X2V4zEmuOryG2jDtEG1prA-1; Wed, 04 Nov 2020 11:02:51 -0500
+X-MC-Unique: X2V4zEmuOryG2jDtEG1prA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF071099F88;
- Wed,  4 Nov 2020 16:01:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B5301966335;
+ Wed,  4 Nov 2020 16:01:55 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F6706266E;
- Wed,  4 Nov 2020 16:01:53 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF57C19C4F;
+ Wed,  4 Nov 2020 16:01:54 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 25/44] qdev: Separate generic and device-specific property
- registration
-Date: Wed,  4 Nov 2020 11:00:02 -0500
-Message-Id: <20201104160021.2342108-26-ehabkost@redhat.com>
+Subject: [PATCH v2 26/44] qdev: Rename Property.name to Property.qdev_prop_name
+Date: Wed,  4 Nov 2020 11:00:03 -0500
+Message-Id: <20201104160021.2342108-27-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,157 +89,152 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qdev_class_add_property() and qdev_property_add_static() will
-have code that's specific for device types.
-
-object_class_property_add_field() and object_property_add_static()
-will be generic and part of the QOM field property API.  Note
-that the new functions have a `name` parameter because the plan
-is to eventually get rid of the Property.name field.
-
-The declarations for the new functions are being added to
-qdev-properties.h, but they will be moved to a QOM header later.
+The Property.name field won't always be set and we need to be
+100% sure its usage will be restricted to qdev/TYPE_DEVICE code.
+Renaming the field is a good way to ensure that and make its
+purpose more clear.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Changes v1 -> v2:
-* Patch redone after changes in previous patches in the series
-* Rename new functions to object*_property_add_field()
+This is a new patch added in v2 of the series
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-prop-internal.h | 13 +++++++++++++
- include/hw/qdev-properties.h | 16 ++++++++++++++++
- hw/core/qdev-properties.c    | 25 +++++++++++++++++--------
- 3 files changed, 46 insertions(+), 8 deletions(-)
+ include/hw/qdev-properties.h | 11 +++++++++--
+ hw/core/qdev-properties.c    | 20 ++++++++++----------
+ softmmu/qdev-monitor.c       |  8 ++++----
+ 3 files changed, 23 insertions(+), 16 deletions(-)
 
-diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
-index 9cf5cc1d51..0e16d28171 100644
---- a/hw/core/qdev-prop-internal.h
-+++ b/hw/core/qdev-prop-internal.h
-@@ -27,4 +27,17 @@ void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
- void qdev_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp);
- 
-+/**
-+ * object_property_add_field: Add a field property to an object instance
-+ * @obj: object instance
-+ * @name: property name
-+ * @prop: property definition
-+ *
-+ * This function should not be used in new code.  Please add class properties
-+ * instead, using object_class_add_field().
-+ */
-+ObjectProperty *
-+object_property_add_field(Object *obj, const char *name,
-+                          Property *prop);
-+
- #endif
 diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index aae882317a..bbc5244ed0 100644
+index bbc5244ed0..b301fe64d7 100644
 --- a/include/hw/qdev-properties.h
 +++ b/include/hw/qdev-properties.h
-@@ -167,6 +167,22 @@ extern const PropertyInfo qdev_prop_link;
- #define DEFINE_PROP_END_OF_LIST()               \
-     {}
+@@ -13,7 +13,14 @@
+  *     is true.
+  */
+ struct Property {
+-    const char   *name;
++    /**
++     * @qdev_prop_name: qdev property name
++     *
++     * qdev_prop_name is used only by TYPE_DEVICE code
++     * (device_class_set_props(), qdev_class_add_property(), and
++     * others).
++     */
++    const char   *qdev_prop_name;
+     const PropertyInfo *info;
+     ptrdiff_t    offset;
+     uint8_t      bitnr;
+@@ -63,7 +70,7 @@ extern const PropertyInfo qdev_prop_arraylen;
+ extern const PropertyInfo qdev_prop_link;
  
-+/**
-+ * object_class_property_add_field: Add a field property to object class
-+ * @oc: object class
-+ * @name: property name
-+ * @prop: property definition
-+ *
-+ * Add a field property to an object class.  A field property is
-+ * a property that will change a field at a specific offset of the
-+ * object instance struct.
-+ *
-+ * *@prop must exist for the life time of @oc.
-+ */
-+ObjectProperty *
-+object_class_property_add_field(ObjectClass *oc, const char *name,
-+                                Property *prop);
-+
- /*
-  * Set properties between creation and realization.
-  *
+ #define DEFINE_PROP(_name, _state, _field, _prop, _type, ...) {  \
+-        .name      = (_name),                                    \
++        .qdev_prop_name      = (_name),                          \
+         .info      = &(_prop),                                   \
+         .offset    = offsetof(_state, _field)                    \
+             + type_check(_type, typeof_field(_state, _field)),   \
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index a5d5d74f32..e9e2a34f3b 100644
+index e9e2a34f3b..5a4aa87fc9 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -835,20 +835,20 @@ const PropertyInfo qdev_prop_link = {
-     .create = create_link_property,
- };
- 
--void qdev_property_add_static(DeviceState *dev, Property *prop)
-+ObjectProperty *
-+object_property_add_field(Object *obj, const char *name, Property *prop)
- {
--    Object *obj = OBJECT(dev);
-     ObjectProperty *op;
- 
-     assert(!prop->info->create);
- 
--    op = object_property_add(obj, prop->name, prop->info->name,
-+    op = object_property_add(obj, name, prop->info->name,
-                              field_prop_getter(prop->info),
-                              field_prop_setter(prop->info),
-                              prop->info->release,
-                              prop);
- 
--    object_property_set_description(obj, prop->name,
-+    object_property_set_description(obj, name,
-                                     prop->info->description);
- 
-     if (prop->set_default) {
-@@ -857,12 +857,14 @@ void qdev_property_add_static(DeviceState *dev, Property *prop)
-             op->init(obj, op);
+@@ -596,7 +596,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+         arrayprop->release = prop->arrayinfo->release;
+         arrayprop->propname = propname;
+         arrayprop->prop.info = prop->arrayinfo;
+-        arrayprop->prop.name = propname;
++        arrayprop->prop.qdev_prop_name = propname;
+         /* This ugly piece of pointer arithmetic sets up the offset so
+          * that when the underlying get/set hooks call qdev_get_prop_ptr
+          * they get the right answer despite the array element not actually
+@@ -627,8 +627,8 @@ static Property *qdev_prop_walk(Property *props, const char *name)
+     if (!props) {
+         return NULL;
+     }
+-    while (props->name) {
+-        if (strcmp(props->name, name) == 0) {
++    while (props->qdev_prop_name) {
++        if (strcmp(props->qdev_prop_name, name) == 0) {
+             return props;
          }
-     }
-+
-+    return op;
- }
+         props++;
+@@ -889,7 +889,7 @@ object_class_property_add_field(ObjectClass *oc, const char *name,
  
--static void qdev_class_add_property(DeviceClass *klass, const char *name,
--                                    Property *prop)
-+ObjectProperty *
-+object_class_property_add_field(ObjectClass *oc, const char *name,
-+                                Property *prop)
+ void qdev_property_add_static(DeviceState *dev, Property *prop)
  {
--    ObjectClass *oc = OBJECT_CLASS(klass);
-     ObjectProperty *op;
- 
-     if (prop->info->create) {
-@@ -882,6 +884,12 @@ static void qdev_class_add_property(DeviceClass *klass, const char *name,
-         object_class_property_set_description(oc, name,
-                                               prop->info->description);
-     }
-+    return op;
-+}
-+
-+void qdev_property_add_static(DeviceState *dev, Property *prop)
-+{
-+    object_property_add_field(OBJECT(dev), prop->name, prop);
+-    object_property_add_field(OBJECT(dev), prop->name, prop);
++    object_property_add_field(OBJECT(dev), prop->qdev_prop_name, prop);
  }
  
  /**
-@@ -932,12 +940,13 @@ static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
+@@ -932,7 +932,7 @@ static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
+         return;
+     }
  
- void device_class_set_props(DeviceClass *dc, Property *props)
- {
-+    ObjectClass *oc = OBJECT_CLASS(dc);
+-    name = g_strdup_printf("legacy-%s", prop->name);
++    name = g_strdup_printf("legacy-%s", prop->qdev_prop_name);
+     object_class_property_add(OBJECT_CLASS(dc), name, "str",
+         prop->info->print ? qdev_get_legacy_property : prop->info->get,
+         NULL, NULL, prop);
+@@ -944,9 +944,9 @@ void device_class_set_props(DeviceClass *dc, Property *props)
      Property *prop;
  
      dc->props_ = props;
-     for (prop = props; prop && prop->name; prop++) {
+-    for (prop = props; prop && prop->name; prop++) {
++    for (prop = props; prop && prop->qdev_prop_name; prop++) {
          qdev_class_add_legacy_property(dc, prop);
--        qdev_class_add_property(dc, prop->name, prop);
-+        object_class_property_add_field(oc, prop->name, prop);
+-        object_class_property_add_field(oc, prop->name, prop);
++        object_class_property_add_field(oc, prop->qdev_prop_name, prop);
      }
  }
  
+@@ -959,9 +959,9 @@ void qdev_alias_all_properties(DeviceState *target, Object *source)
+     do {
+         DeviceClass *dc = DEVICE_CLASS(class);
+ 
+-        for (prop = dc->props_; prop && prop->name; prop++) {
+-            object_property_add_alias(source, prop->name,
+-                                      OBJECT(target), prop->name);
++        for (prop = dc->props_; prop && prop->qdev_prop_name; prop++) {
++            object_property_add_alias(source, prop->qdev_prop_name,
++                                      OBJECT(target), prop->qdev_prop_name);
+         }
+         class = object_class_get_parent(class);
+     } while (class != object_class_by_name(TYPE_DEVICE));
+diff --git a/softmmu/qdev-monitor.c b/softmmu/qdev-monitor.c
+index 79164e4a3f..786b9ce572 100644
+--- a/softmmu/qdev-monitor.c
++++ b/softmmu/qdev-monitor.c
+@@ -697,14 +697,14 @@ static void qdev_print_props(Monitor *mon, DeviceState *dev, Property *props,
+ {
+     if (!props)
+         return;
+-    for (; props->name; props++) {
++    for (; props->qdev_prop_name; props++) {
+         char *value;
+-        char *legacy_name = g_strdup_printf("legacy-%s", props->name);
++        char *legacy_name = g_strdup_printf("legacy-%s", props->qdev_prop_name);
+ 
+         if (object_property_get_type(OBJECT(dev), legacy_name, NULL)) {
+             value = object_property_get_str(OBJECT(dev), legacy_name, NULL);
+         } else {
+-            value = object_property_print(OBJECT(dev), props->name, true,
++            value = object_property_print(OBJECT(dev), props->qdev_prop_name, true,
+                                           NULL);
+         }
+         g_free(legacy_name);
+@@ -712,7 +712,7 @@ static void qdev_print_props(Monitor *mon, DeviceState *dev, Property *props,
+         if (!value) {
+             continue;
+         }
+-        qdev_printf("%s = %s\n", props->name,
++        qdev_printf("%s = %s\n", props->qdev_prop_name,
+                     *value ? value : "<null>");
+         g_free(value);
+     }
 -- 
 2.28.0
 
