@@ -2,84 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51E952A6197
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:30:10 +0100 (CET)
-Received: from localhost ([::1]:38134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F8182A617D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:24:44 +0100 (CET)
+Received: from localhost ([::1]:54484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaG3L-0001Pv-EA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:30:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40808)
+	id 1kaFy7-0004wb-42
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:24:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kaFwP-0003TD-QT; Wed, 04 Nov 2020 05:22:57 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:53027)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kaFwV-0003YN-Td; Wed, 04 Nov 2020 05:23:03 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kaFwN-0002Gb-Ei; Wed, 04 Nov 2020 05:22:57 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 71B578B8;
- Wed,  4 Nov 2020 05:22:52 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 04 Nov 2020 05:22:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm1; bh=srRT8XJhCUT9ojX3/6ge8wQnAa
- Zk2RyYfWdREYs3Wqk=; b=CDKtMK5A5xFTnT792W+aBBq7QZBVj1stk1wajxhbck
- YViMCcfmFQLzjnlKpke55h7o5KIQ/V+/qzbFLs+EK0RgrOPx1kP0Zuxwqoh9584v
- MxrR/QXJehsXxw1kDjx+M4AQrbhGuFrdx9wrpjChWvPuzCQqzttDihkt8009Ck6a
- +WetJQrbR15Ibz9neie3KxJ7K+7uKUFUCoTVq7C8G9diR6UY1+VrB49DGby4+29y
- rQ4fa3eI8X0lymY33YwEEg4rNqP0LdcyQSDZ/1Sv2iOuTMeUG9m4QEXa+jWoiL4O
- v8A98HkN0p6dAdEH7Gp3uXfxB4zWH2c4Z4QZtXy9H+/g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=srRT8X
- JhCUT9ojX3/6ge8wQnAaZk2RyYfWdREYs3Wqk=; b=KX7wBvo24VMHGHD2ht0qaT
- Y0XFyGy5QO/ddlXPzJuVd/WePZeekKmyLZKrwtieVyuysp54kZUJKFygzDPb14bh
- iHvsXm5Tk3yqLpEGbw8qprBJPb6OAXm62XdmJ9eEoyoc6PTd+AwKhuLUI67QhBWI
- mchJFuS/tTW0MqAMO5/Py4w69FRbXKRK65asmqW9rq2mNR5mlJfBm8cU2tCayo4s
- 1+YFL34w20MOtJNSQAJ9Rj9mhGFdpbNPrJCUtjTGPpQTTxD6nciuQvZWLRtFpGtf
- Etsap2jciiq4SybHCMZkCc2GwqwkCQMyw1xKLxmLZ3esU15DT9feFfjyc3ZtTBlw
- ==
-X-ME-Sender: <xms:-oCiX-CkFqf5Orz5NYZRNSX9qpZtal5PaqczDofJYspCmx9BwxUBNw>
- <xme:-oCiX4iPOwOWuB-3JnpQZhGkU22NGfoKhBb-GGu9oJein0vdu8_r1R0DrUfFyLkML
- ljS6BblC7kKMan7NA8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:-4CiXxmlEBzH_vo6KpUCy7lm0nYkhCRGYowxttTwQrmf6Dw_Rib9yQ>
- <xmx:-4CiX8wtWg1bdxlPHYh9ArkQEsen0sJsF4k4zUFddyUgl22gAin4xw>
- <xmx:-4CiXzSM3hAZtvJYViXdQrsVxf7DPq0c31EokVj_ygeNar6uwceLZg>
- <xmx:_ICiX8QLSEVYFmUHv7ar05HJ742aea3CAbO5tGWTuAg1Y9Z4qUpi6Q>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 8EB4E328037B;
- Wed,  4 Nov 2020 05:22:49 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 0/3] hw/block/nvme: coverity fixes
-Date: Wed,  4 Nov 2020 11:22:45 +0100
-Message-Id: <20201104102248.32168-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.29.1
-Content-Type: text/plain; charset="utf-8"
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kaFwU-0002HK-5U; Wed, 04 Nov 2020 05:23:03 -0500
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CR2ls5FBLzkZZ8;
+ Wed,  4 Nov 2020 18:22:49 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 4 Nov 2020 18:22:45 +0800
+Message-ID: <5FA280F5.8060902@huawei.com>
+Date: Wed, 4 Nov 2020 18:22:45 +0800
+From: AlexChen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:22:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+To: <alistair@alistair23.me>, Peter Maydell <peter.maydell@linaro.org>,
+ <jcd@tribudubois.net>, <peter.chubb@nicta.com.au>
+Subject: [PATCH] ssi: Fix bad printf format specifiers
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=alex.chen@huawei.com;
+ helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:21:16
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,28 +58,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU <qemu-devel@nongnu.org>, zhang.zhanghailiang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+We should use printf format specifier "%u" instead of "%d" for
+argument of type "unsigned int".
 
-Fix three issues reported by coverity (CIDs 1436128, 1436129 and=0D
-1436131).=0D
-=0D
-Klaus Jensen (3):=0D
-  hw/block/nvme: fix null ns in register namespace=0D
-  hw/block/nvme: fix uint16_t use of uint32_t sgls member=0D
-  hw/block/nvme: fix free of array-typed value=0D
-=0D
- hw/block/nvme.c | 6 ++----=0D
- 1 file changed, 2 insertions(+), 4 deletions(-)=0D
-=0D
--- =0D
-2.29.1=0D
-=0D
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
+---
+ hw/ssi/imx_spi.c    | 2 +-
+ hw/ssi/xilinx_spi.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
+index 7f703d8328..d8885ae454 100644
+--- a/hw/ssi/imx_spi.c
++++ b/hw/ssi/imx_spi.c
+@@ -53,7 +53,7 @@ static const char *imx_spi_reg_name(uint32_t reg)
+     case ECSPI_MSGDATA:
+         return  "ECSPI_MSGDATA";
+     default:
+-        sprintf(unknown, "%d ?", reg);
++        sprintf(unknown, "%u ?", reg);
+         return unknown;
+     }
+ }
+diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c
+index fec8817d94..49ff275593 100644
+--- a/hw/ssi/xilinx_spi.c
++++ b/hw/ssi/xilinx_spi.c
+@@ -142,7 +142,7 @@ static void xlx_spi_update_irq(XilinxSPI *s)
+        irq chain unless things really changed.  */
+     if (pending != s->irqline) {
+         s->irqline = pending;
+-        DB_PRINT("irq_change of state %d ISR:%x IER:%X\n",
++        DB_PRINT("irq_change of state %u ISR:%x IER:%X\n",
+                     pending, s->regs[R_IPISR], s->regs[R_IPIER]);
+         qemu_set_irq(s->irq, pending);
+     }
+-- 
+2.19.1
 
