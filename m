@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053BA2A5B5E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:57:32 +0100 (CET)
-Received: from localhost ([::1]:47426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21EFE2A5B46
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:54:52 +0100 (CET)
+Received: from localhost ([::1]:36422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka77D-0003gF-0h
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:57:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35634)
+	id 1ka74d-0007VX-6A
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:54:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nQ-0006cb-NJ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58861)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nX-0006wZ-Vn
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nP-0004tU-08
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:04 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nT-0004ut-KN
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450222;
+ s=mimecast20190719; t=1604450226;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lSvaaGwJNyTZUUmrwZxri+s5pGS41Pz/MnuVgFLqaXY=;
- b=G0MkQONhqSQSBnX3MNojiEsKQ9gTq8r6oqZXXlICSbmuxiZA/i7QNvBaTWgUpHy8O2t1cQ
- jvSVPHC/Cj70QOkZqO8TTRNtFE5euU84HmdKsJ9HzCz8BBAqPNwm8VgSkBwQSJ2D2WY6S+
- uYxV9jnLXeQNABSIEa4SHaIIHWIaJnA=
+ bh=ePl9uGgGQJd8ZpUc91/N3dU2eHmOACuZljeQ8+uIa3Q=;
+ b=HylTCZQ712w4pkHuojF6NQpfXxCnlt566XgGzTkrkeFcPZV98nllCWz2L5wjSA+Dat6MQz
+ fsefP4XUZ+L1ayE5Bivv9yEdW9yJumpA9BcV5+bwjZrbWiJE3A28t23+haqmsyjGOj6Qfr
+ NeyMFd3OGFOS19t1Sat8t0CjUtP0+Ro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-IcUReU27Mhan-a_Vl280Bw-1; Tue, 03 Nov 2020 19:36:59 -0500
-X-MC-Unique: IcUReU27Mhan-a_Vl280Bw-1
+ us-mta-421-NDBOMz4gPNeqvakzs_uF5A-1; Tue, 03 Nov 2020 19:37:04 -0500
+X-MC-Unique: NDBOMz4gPNeqvakzs_uF5A-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E57C010766DA
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAA1456C91
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:56 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E2AC955766;
- Wed,  4 Nov 2020 00:36:52 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 120A955766;
+ Wed,  4 Nov 2020 00:36:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 35/72] scripts/qmp-shell: Use python3-style super()
-Date: Tue,  3 Nov 2020 19:35:25 -0500
-Message-Id: <20201104003602.1293560-36-jsnow@redhat.com>
+Subject: [PATCH v2 38/72] scripts/qmp-shell: ignore visit_Name name
+Date: Tue,  3 Nov 2020 19:35:28 -0500
+Message-Id: <20201104003602.1293560-39-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,42 +83,26 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Not something I control, sorry, pylint.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qmp/qmp-shell | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 69359ec8ad7f..2e9ae5d59bd9 100755
+index 73b2c099f0f0..0f03c6c89575 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -116,7 +116,7 @@ class FuzzyJSON(ast.NodeTransformer):
- #       _execute_cmd()). Let's design a better one.
- class QMPShell(qmp.QEMUMonitorProtocol):
-     def __init__(self, address, pretty=False):
--        super(QMPShell, self).__init__(self.__get_address(address))
-+        super().__init__(self.__get_address(address))
-         self._greeting = None
-         self._completer = None
-         self._pretty = pretty
-@@ -301,7 +301,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         return True
+@@ -105,7 +105,7 @@ class FuzzyJSON(ast.NodeTransformer):
+     """
  
-     def connect(self, negotiate: bool = True):
--        self._greeting = super(QMPShell, self).connect(negotiate)
-+        self._greeting = super().connect(negotiate)
-         self.__completer_setup()
- 
-     def show_banner(self, msg='Welcome to the QMP low-level shell!'):
-@@ -342,7 +342,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
- 
- class HMPShell(QMPShell):
-     def __init__(self, address):
--        QMPShell.__init__(self, address)
-+        super().__init__(address)
-         self.__cpu_index = 0
- 
-     def __cmd_completion(self):
+     @classmethod
+-    def visit_Name(cls, node):
++    def visit_Name(cls, node):  # pylint: disable=invalid-name
+         if node.id == 'true':
+             node.id = 'True'
+         if node.id == 'false':
 -- 
 2.26.2
 
