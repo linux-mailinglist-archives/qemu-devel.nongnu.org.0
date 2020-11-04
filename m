@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACC22A5FD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 09:45:13 +0100 (CET)
-Received: from localhost ([::1]:58264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CFDD2A5FD4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 09:45:17 +0100 (CET)
+Received: from localhost ([::1]:58686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaEPo-0008Jj-2L
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 03:45:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46512)
+	id 1kaEPs-0008UL-JU
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 03:45:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaEOO-0006ev-Kr
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 03:43:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40079)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaEOU-0006jD-2d
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 03:43:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaEOL-0005ta-5u
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 03:43:44 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaEOS-0005uN-DR
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 03:43:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604479419;
+ s=mimecast20190719; t=1604479426;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tGrjmCEXBoBaCsyPVGeYrGNhz2JCmoDnznUDdTUcGTA=;
- b=BqqsdnRDPElx6Jf2T3KPAoen7j/3Jd6w7vPlnIGWGXjiYdoXEAwQpMqWO5vlpRpdkPYfSz
- 4u6+BwDTAD1B84YSFz1x/CXszOZE/jGiY3y2Jq2d1liZgBL9X9E/FSdkuh5HVxo7W8CfO1
- /4k9UuMYcu8rMwwkOUqQdtyqiRRXh08=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-442-_N_3a-8oPTCIBrGPFs-AUA-1; Wed, 04 Nov 2020 03:43:37 -0500
-X-MC-Unique: _N_3a-8oPTCIBrGPFs-AUA-1
-Received: by mail-wr1-f70.google.com with SMTP id 31so8941277wrg.12
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 00:43:37 -0800 (PST)
+ bh=AINBmnp1bWLA1LEpK/rcM7CoffR1YWyCikg181rfSi4=;
+ b=KClRyIm9Ad2y5f5hCELBDe/HZUCXeDoRA0kiqKsDvklnxsUyoyXfOc2M/fcPAhSaxMcfYd
+ Zq/2mPAsZvwWZRQYR9KalRhlchlTJYwfustn4tBYcg2izx2SWOvdx12WjMMLIUTx+flWfI
+ K5M8JHON5uWRsf2PILjd7UPCUvieFtk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-138-cvYZZPjpMem8DLU1y0LgWQ-1; Wed, 04 Nov 2020 03:43:42 -0500
+X-MC-Unique: cvYZZPjpMem8DLU1y0LgWQ-1
+Received: by mail-wr1-f69.google.com with SMTP id t17so8985988wrm.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 00:43:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tGrjmCEXBoBaCsyPVGeYrGNhz2JCmoDnznUDdTUcGTA=;
- b=TgRjXw9QTuJI+uUv/4LOsWA04eu+SEJiVof630xEAMCBc3wWpU50pMv6inKgp75Lyh
- stX+M99iRrd6z7bSCx41kQv4BSL58EpiaxxrRGnGNSwrMt5Cfc30VdjwtTk0KZBQH34s
- 9xL3vxHKbpLQwXIam25sN8zjCeXRVHu0sVCguE/HKAZAHou9cd/sPsbVo0BIxZSZ1wVd
- AMLXxn+jmmiTrEMbLaVbAMtuxcbJnaOO2fYZWLignnR/QDxRUwDGK/CyMoyVcl4CjlE/
- KBJXJf8APU62azxNO/bkLgfHpF0JUZAGmg2u12WK/v1rcExdUa+KkEvF6XCYZbmR4NAD
- 6ssw==
-X-Gm-Message-State: AOAM533GzIds8vViaYYqrnB6bfhOYQF9hgVLFL31p25LAE3RUwKWON36
- /lPWHGo/fDiO9/vUEpFjwThxbvR4SkllM0n92dHNhoHX9TrGXWTadBIfyq5Q5HNotBZQSxYRNXl
- 9k5QrW6eIPZgcAnI=
-X-Received: by 2002:a1c:328a:: with SMTP id y132mr3270205wmy.134.1604479416178; 
- Wed, 04 Nov 2020 00:43:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzAKBMbrYMVmfktTukMP82vBC6mMWUm7JJP3Ip5nEjHwOa1kocaNQENSOogMMSxmOQs/LYjew==
-X-Received: by 2002:a1c:328a:: with SMTP id y132mr3270172wmy.134.1604479415976; 
- Wed, 04 Nov 2020 00:43:35 -0800 (PST)
+ bh=AINBmnp1bWLA1LEpK/rcM7CoffR1YWyCikg181rfSi4=;
+ b=N21lG8E/upIWi6G9ttziy+wr5ckuDC5f90KhYzNBhEF8lqj/67UqWUgvNgl/PLYyNj
+ rv6Odu37GhRep+Oft/QqqbLyQbGenELruWifQCWAt2lTSVSyx0GdJUM2m9CZc34wh9Lg
+ UKcp+r/KBVC27+Utg8xXjIgQn0tMX5aJkeRxuZ0iecyzUyF3Q/rQ5hyG/cRPrgrHD5RK
+ DrAQRhGLCz0hFo0+tC8XXs2Lko5gPKErtlH/hwXWNPa8cSoZLAT7D0K3hVK1udbu+Wuw
+ sUC5xJ+pvA0WuOvfNHLHgAzr+pYhIZK5ydNPYz+ekAsicbuhnWVq/dQd6bgOkv9bR0B7
+ kn+Q==
+X-Gm-Message-State: AOAM531jYMyPTR/1BSNVzmhb7SG7y2nfRpMqPGM8Pwui/Y7r83Lqu1bj
+ 51uj9K7sErlrdb3jiKPYrj8BOm2idJelqTLWgf7xgXaCs3ijuFyvKuHRmm5S/7KQN6qfJvQzYAD
+ LTXPZEY2C4pS79QA=
+X-Received: by 2002:a1c:6782:: with SMTP id b124mr3528107wmc.117.1604479421390; 
+ Wed, 04 Nov 2020 00:43:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyO4zhDM8ZE9YI+Bb3lljj4jjXBr4C5MlBdNUU1BGAXUMIJaqRRVxrwdwAf4OskguQTBvWGag==
+X-Received: by 2002:a1c:6782:: with SMTP id b124mr3528078wmc.117.1604479421239; 
+ Wed, 04 Nov 2020 00:43:41 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id m4sm1513423wrr.47.2020.11.04.00.43.34
+ by smtp.gmail.com with ESMTPSA id u5sm1311657wml.13.2020.11.04.00.43.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 00:43:35 -0800 (PST)
+ Wed, 04 Nov 2020 00:43:40 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-5.2 v2 1/4] s390x: fix build for --without-default-devices
-Date: Wed,  4 Nov 2020 09:43:24 +0100
-Message-Id: <20201104084327.3010593-2-philmd@redhat.com>
+Subject: [PATCH-for-5.2 v2 2/4] hw/9pfs: Fix Kconfig dependency problem
+ between 9pfs and Xen
+Date: Wed,  4 Nov 2020 09:43:25 +0100
+Message-Id: <20201104084327.3010593-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201104084327.3010593-1-philmd@redhat.com>
 References: <20201104084327.3010593-1-philmd@redhat.com>
@@ -96,6 +97,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
  "Daniel P . Berrange" <berrange@redhat.com>,
  Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
@@ -104,55 +106,68 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Halil Pasic <pasic@linux.ibm.com>,
  Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+ Paul Durrant <paul@xen.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cornelia Huck <cohuck@redhat.com>
+Fixes './configure --without-default-devices --enable-xen' build:
 
-s390-pci-vfio.c calls into the vfio code, so we need it to be
-built conditionally on vfio (which implies CONFIG_LINUX).
+  /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
+  hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
+  /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference to `local_ops'
+  /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference to `synth_ops'
+  /usr/bin/ld: libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference to `proxy_ops'
+  collect2: error: ld returned 1 exit status
 
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Fixes: cd7498d07fbb ("s390x/pci: Add routine to get the vfio dma available count")
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20201103123237.718242-1-cohuck@redhat.com>
+Fixes: b2c00bce54c ("meson: convert hw/9pfs, cleanup")
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/s390x/s390-pci-vfio.h | 3 ++-
- hw/s390x/meson.build             | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+I'm not sure b2c00bce54c is the real culprit
 
-diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
-index c7984905b3b..ff708aef500 100644
---- a/include/hw/s390x/s390-pci-vfio.h
-+++ b/include/hw/s390x/s390-pci-vfio.h
-@@ -13,8 +13,9 @@
- #define HW_S390_PCI_VFIO_H
+Cc: Stefano Stabellini <sstabellini@kernel.org>
+Cc: Anthony Perard <anthony.perard@citrix.com>
+Cc: Paul Durrant <paul@xen.org>
+Cc: xen-devel@lists.xenproject.org
+Cc: Greg Kurz <groug@kaod.org>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+---
+ hw/9pfs/Kconfig     | 4 ----
+ hw/9pfs/meson.build | 2 +-
+ 2 files changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+index d3ebd737301..3ae57496613 100644
+--- a/hw/9pfs/Kconfig
++++ b/hw/9pfs/Kconfig
+@@ -2,12 +2,8 @@ config FSDEV_9P
+     bool
+     depends on VIRTFS
  
- #include "hw/s390x/s390-pci-bus.h"
-+#include CONFIG_DEVICES
- 
--#ifdef CONFIG_LINUX
-+#ifdef CONFIG_VFIO
- bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
- S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
-                                           S390PCIBusDevice *pbdev);
-diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-index f4663a83551..2a7818d94b9 100644
---- a/hw/s390x/meson.build
-+++ b/hw/s390x/meson.build
-@@ -27,7 +27,7 @@
+-config 9PFS
+-    bool
+-
+ config VIRTIO_9P
+     bool
+     default y
+     depends on VIRTFS && VIRTIO
+     select FSDEV_9P
+-    select 9PFS
+diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+index cc094262122..99be5d91196 100644
+--- a/hw/9pfs/meson.build
++++ b/hw/9pfs/meson.build
+@@ -15,6 +15,6 @@
+   'coxattr.c',
  ))
- s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
- s390x_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('3270-ccw.c'))
--s390x_ss.add(when: 'CONFIG_LINUX', if_true: files('s390-pci-vfio.c'))
-+s390x_ss.add(when: 'CONFIG_VFIO', if_true: files('s390-pci-vfio.c'))
+ fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+-softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
++softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
  
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio-ccw.c'))
+ specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-9p-device.c'))
 -- 
 2.26.2
 
