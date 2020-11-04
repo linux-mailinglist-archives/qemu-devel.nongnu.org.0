@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE0C72A5C99
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 03:09:08 +0100 (CET)
-Received: from localhost ([::1]:44062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6722A5C9D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 03:16:10 +0100 (CET)
+Received: from localhost ([::1]:46552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka8EV-0001Be-Gz
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 21:09:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49926)
+	id 1ka8LJ-0002ev-T0
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 21:16:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ka8DZ-0000mY-JD
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 21:08:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58327)
+ id 1ka8KU-0002DD-7V
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 21:15:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1ka8DW-00076I-9w
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 21:08:08 -0500
+ id 1ka8KS-0007zR-BD
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 21:15:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604455684;
+ s=mimecast20190719; t=1604456115;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=N5ZFD5yMsH2ZfQogTAtlr5nqksssj3/5TP1ePFcYupI=;
- b=HG8eoIv7baywq50yl1TlW/IfrbH0BX0+tvVzgq9SDH72T5VrI5wLJV609nDmVJDRITtWCe
- xv/Tco/z+3YY9fCIA8OO0FrFGLTFD766nuKsekUBDG0IHf5yxdj2bxNSGqqZvHZ0AOP8dN
- uk0zc2txwuMgkvsJaKQwHkN4u4v7tpw=
+ bh=QcCelvENtzzTasIe59XfnvMhSV6K5TB1bs4yMVPMv+Y=;
+ b=RvOQCG508wkYaF5aDZ+avJPKh8A96LfbDjwxRnWKmaNbjBtKBD4go+jf/G+M4h67Wylba6
+ ijvd+zXQ26whkPd5kvUUWB8fUQN30vqFDhSUsiW10yjqTPKMdA+JduJd1obynwz/ZTqKW2
+ BX7QaYWg1hq3jDpLBiXwbCjm1WjNiMk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-xEmzMeWkPA2nhof1Kzd7mQ-1; Tue, 03 Nov 2020 21:08:00 -0500
-X-MC-Unique: xEmzMeWkPA2nhof1Kzd7mQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-27-iVn9CxWsO92y29etiaiW7A-1; Tue, 03 Nov 2020 21:15:13 -0500
+X-MC-Unique: iVn9CxWsO92y29etiaiW7A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B341007464;
- Wed,  4 Nov 2020 02:07:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C90415F9D1;
+ Wed,  4 Nov 2020 02:15:11 +0000 (UTC)
 Received: from [10.72.13.133] (ovpn-13-133.pek2.redhat.com [10.72.13.133])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 478C573661;
- Wed,  4 Nov 2020 02:07:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 82FCA5C1D0;
+ Wed,  4 Nov 2020 02:15:06 +0000 (UTC)
 Subject: Re: [RFC PATCH 0/6] eBPF RSS support for virtio-net
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>
 References: <20201102185115.7425-1-andrew@daynix.com>
  <0164a42f-4542-6f3e-bd71-3319dfaae190@redhat.com>
  <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
+ <20201103115602.GI205187@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <caa38709-88f1-bd6d-3ff9-61e64c3aa51f@redhat.com>
-Date: Wed, 4 Nov 2020 10:07:52 +0800
+Message-ID: <e9037f4d-3a11-753e-79f7-195db652a6d2@redhat.com>
+Date: Wed, 4 Nov 2020 10:15:05 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201103115602.GI205187@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -92,221 +94,122 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 2020/11/3 下午6:32, Yuri Benditovich wrote:
+On 2020/11/3 下午7:56, Daniel P. Berrangé wrote:
+> On Tue, Nov 03, 2020 at 12:32:43PM +0200, Yuri Benditovich wrote:
+>> On Tue, Nov 3, 2020 at 11:02 AM Jason Wang <jasowang@redhat.com> wrote:
+>>
+>>> On 2020/11/3 上午2:51, Andrew Melnychenko wrote:
+>>>> Basic idea is to use eBPF to calculate and steer packets in TAP.
+>>>> RSS(Receive Side Scaling) is used to distribute network packets to guest
+>>> virtqueues
+>>>> by calculating packet hash.
+>>>> eBPF RSS allows us to use RSS with vhost TAP.
+>>>>
+>>>> This set of patches introduces the usage of eBPF for packet steering
+>>>> and RSS hash calculation:
+>>>> * RSS(Receive Side Scaling) is used to distribute network packets to
+>>>> guest virtqueues by calculating packet hash
+>>>> * eBPF RSS suppose to be faster than already existing 'software'
+>>>> implementation in QEMU
+>>>> * Additionally adding support for the usage of RSS with vhost
+>>>>
+>>>> Supported kernels: 5.8+
+>>>>
+>>>> Implementation notes:
+>>>> Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
+>>>> Added eBPF support to qemu directly through a system call, see the
+>>>> bpf(2) for details.
+>>>> The eBPF program is part of the qemu and presented as an array of bpf
+>>>> instructions.
+>>>> The program can be recompiled by provided Makefile.ebpf(need to adjust
+>>>> 'linuxhdrs'),
+>>>> although it's not required to build QEMU with eBPF support.
+>>>> Added changes to virtio-net and vhost, primary eBPF RSS is used.
+>>>> 'Software' RSS used in the case of hash population and as a fallback
+>>> option.
+>>>> For vhost, the hash population feature is not reported to the guest.
+>>>>
+>>>> Please also see the documentation in PATCH 6/6.
+>>>>
+>>>> I am sending those patches as RFC to initiate the discussions and get
+>>>> feedback on the following points:
+>>>> * Fallback when eBPF is not supported by the kernel
+>>>
+>>> Yes, and it could also a lacking of CAP_BPF.
+>>>
+>>>
+>>>> * Live migration to the kernel that doesn't have eBPF support
+>>>
+>>> Is there anything that we needs special treatment here?
+>>>
+>>> Possible case: rss=on, vhost=on, source system with kernel 5.8 (everything
+>> works) -> dest. system 5.6 (bpf does not work), the adapter functions, but
+>> all the steering does not use proper queues.
+>>
+>>
+>>
+>>
+>>>> * Integration with current QEMU build
+>>>
+>>> Yes, a question here:
+>>>
+>>> 1) Any reason for not using libbpf, e.g it has been shipped with some
+>>> distros
+>>>
+>> We intentionally do not use libbpf, as it present only on some distros.
+>> We can switch to libbpf, but this will disable bpf if libbpf is not
+>> installed
+> If we were modifying existing funtionality then introducing a dep on
+> libbpf would be a problem as you'd be breaking existing QEMU users
+> on distros without libbpf.
 >
+> This is brand new functionality though, so it is fine to place a
+> requirement on libbpf. If distros don't ship that library and they
+> want BPF features in QEMU, then those distros should take responsibility
+> for adding libbpf to their package set.
 >
-> On Tue, Nov 3, 2020 at 11:02 AM Jason Wang <jasowang@redhat.com 
-> <mailto:jasowang@redhat.com>> wrote:
+>>> 2) It would be better if we can avoid shipping bytecodes
+>>>
+>>
+>> This creates new dependencies: llvm + clang + ...
+>> We would prefer byte code and ability to generate it if prerequisites are
+>> installed.
+> I've double checked with Fedora, and generating the BPF program from
+> source is a mandatory requirement for QEMU. Pre-generated BPF bytecode
+> is not permitted.
 >
+> There was also a question raised about the kernel ABI compatibility
+> for BPF programs ?
 >
->     On 2020/11/3 上午2:51, Andrew Melnychenko wrote:
->     > Basic idea is to use eBPF to calculate and steer packets in TAP.
->     > RSS(Receive Side Scaling) is used to distribute network packets
->     to guest virtqueues
->     > by calculating packet hash.
->     > eBPF RSS allows us to use RSS with vhost TAP.
->     >
->     > This set of patches introduces the usage of eBPF for packet steering
->     > and RSS hash calculation:
->     > * RSS(Receive Side Scaling) is used to distribute network packets to
->     > guest virtqueues by calculating packet hash
->     > * eBPF RSS suppose to be faster than already existing 'software'
->     > implementation in QEMU
->     > * Additionally adding support for the usage of RSS with vhost
->     >
->     > Supported kernels: 5.8+
->     >
->     > Implementation notes:
->     > Linux TAP TUNSETSTEERINGEBPF ioctl was used to set the eBPF program.
->     > Added eBPF support to qemu directly through a system call, see the
->     > bpf(2) for details.
->     > The eBPF program is part of the qemu and presented as an array
->     of bpf
->     > instructions.
->     > The program can be recompiled by provided Makefile.ebpf(need to
->     adjust
->     > 'linuxhdrs'),
->     > although it's not required to build QEMU with eBPF support.
->     > Added changes to virtio-net and vhost, primary eBPF RSS is used.
->     > 'Software' RSS used in the case of hash population and as a
->     fallback option.
->     > For vhost, the hash population feature is not reported to the guest.
->     >
->     > Please also see the documentation in PATCH 6/6.
->     >
->     > I am sending those patches as RFC to initiate the discussions
->     and get
->     > feedback on the following points:
->     > * Fallback when eBPF is not supported by the kernel
+>    https://lwn.net/Articles/831402/
 >
+>    "The basic problem is that when BPF is compiled, it uses a set
+>     of kernel headers that describe various kernel data structures
+>     for that particular version, which may be different from those
+>     on the kernel where the program is run. Until relatively recently,
+>     that was solved by distributing the BPF as C code along with the
+>     Clang compiler to build the BPF on the system where it was going
+>     to be run."
 >
->     Yes, and it could also a lacking of CAP_BPF.
->
->
->     > * Live migration to the kernel that doesn't have eBPF support
->
->
->     Is there anything that we needs special treatment here?
->
-> Possible case: rss=on, vhost=on, source system with kernel 5.8 
-> (everything works) -> dest. system 5.6 (bpf does not work), the 
-> adapter functions, but all the steering does not use proper queues.
+> Is this not an issue for QEMU's usage of BPF here ?
 
 
-Right, I think we need to disable vhost on dest.
+That's good point. Actually, DPDK ships RSS bytecodes but I don't know 
+it works.
 
-
->
->
->
->     > * Integration with current QEMU build
->
->
->     Yes, a question here:
->
->     1) Any reason for not using libbpf, e.g it has been shipped with some
->     distros
->
->
-> We intentionally do not use libbpf, as it present only on some distros.
-> We can switch to libbpf, but this will disable bpf if libbpf is not 
-> installed
-
-
-That's better I think.
-
-
->     2) It would be better if we can avoid shipping bytecodes
->
->
->
-> This creates new dependencies: llvm + clang + ...
-> We would prefer byte code and ability to generate it if prerequisites 
-> are installed.
-
-
-It's probably ok if we treat the bytecode as a kind of firmware.
-
-But in the long run, it's still worthwhile consider the qemu source is 
-used for development and llvm/clang should be a common requirement for 
-generating eBPF bytecode for host.
-
-
->
->
->     > * Additional usage for eBPF for packet filtering
->
->
->     Another interesting topics in to implement mac/vlan filters. And
->     in the
->     future, I plan to add mac based steering. All of these could be
->     done via
->     eBPF.
->
->
-> No problem, we can cooperate if needed
->
->
->     >
->     > Know issues:
->     > * hash population not supported by eBPF RSS: 'software' RSS used
->
->
->     Is this because there's not way to write to vnet header in
->     STERRING BPF?
->
-> Yes. We plan to submit changes for kernel to cooperate with BPF and 
-> populate the hash, this work is in progress
-
-
-That would require a new type of eBPF program and may need some work on 
-verifier.
-
-Btw, macvtap is still lacking even steering ebpf program. Would you want 
-to post a patch to support that?
-
-
->
->     > as a fallback, also, hash population feature is not reported to
->     guests
->     > with vhost.
->     > * big-endian BPF support: for now, eBPF is disabled for
->     big-endian systems.
->
->
->     Are there any blocker for this?
->
->
-> No, can be added in v2
-
-
-Cool.
+But as mentioned in the link, if we generate the code with BTF that 
+would be fine.
 
 Thanks
 
 
 >
->     Just some quick questions after a glance of the codes. Will go
->     through
->     them tomorrow.
->
->     Thanks
+> The dependancy on llvm is unfortunate for people who build with GCC,
+> but at least they can opt-out via a configure switch if they really
+> want to. As that LWN article notes, GCC will gain BPF support
 >
 >
->     >
->     > Andrew (6):
->     >    Added SetSteeringEBPF method for NetClientState.
->     >    ebpf: Added basic eBPF API.
->     >    ebpf: Added eBPF RSS program.
->     >    ebpf: Added eBPF RSS loader.
->     >    virtio-net: Added eBPF RSS to virtio-net.
->     >    docs: Added eBPF documentation.
->     >
->     >   MAINTAINERS                    |   6 +
->     >   configure                      |  36 +++
->     >   docs/ebpf.rst                  |  29 ++
->     >   docs/ebpf_rss.rst              | 129 ++++++++
->     >   ebpf/EbpfElf_to_C.py           |  67 ++++
->     >   ebpf/Makefile.ebpf             |  38 +++
->     >   ebpf/ebpf-stub.c               |  28 ++
->     >   ebpf/ebpf.c                    | 107 +++++++
->     >   ebpf/ebpf.h                    |  35 +++
->     >   ebpf/ebpf_rss.c                | 178 +++++++++++
->     >   ebpf/ebpf_rss.h                |  30 ++
->     >   ebpf/meson.build               |   1 +
->     >   ebpf/rss.bpf.c                 | 470 ++++++++++++++++++++++++++++
->     >   ebpf/trace-events              |   4 +
->     >   ebpf/trace.h                   |   2 +
->     >   ebpf/tun_rss_steering.h        | 556
->     +++++++++++++++++++++++++++++++++
->     >   hw/net/vhost_net.c             |   2 +
->     >   hw/net/virtio-net.c            | 120 ++++++-
->     >   include/hw/virtio/virtio-net.h |   4 +
->     >   include/net/net.h              |   2 +
->     >   meson.build                    |   3 +
->     >   net/tap-bsd.c                  |   5 +
->     >   net/tap-linux.c                |  19 ++
->     >   net/tap-solaris.c              |   5 +
->     >   net/tap-stub.c                 |   5 +
->     >   net/tap.c                      |   9 +
->     >   net/tap_int.h                  |   1 +
->     >   net/vhost-vdpa.c               |   2 +
->     >   28 files changed, 1889 insertions(+), 4 deletions(-)
->     >   create mode 100644 docs/ebpf.rst
->     >   create mode 100644 docs/ebpf_rss.rst
->     >   create mode 100644 ebpf/EbpfElf_to_C.py
->     >   create mode 100755 ebpf/Makefile.ebpf
->     >   create mode 100644 ebpf/ebpf-stub.c
->     >   create mode 100644 ebpf/ebpf.c
->     >   create mode 100644 ebpf/ebpf.h
->     >   create mode 100644 ebpf/ebpf_rss.c
->     >   create mode 100644 ebpf/ebpf_rss.h
->     >   create mode 100644 ebpf/meson.build
->     >   create mode 100644 ebpf/rss.bpf.c
->     >   create mode 100644 ebpf/trace-events
->     >   create mode 100644 ebpf/trace.h
->     >   create mode 100644 ebpf/tun_rss_steering.h
->     >
->
+> Regards,
+> Daniel
 
 
