@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D562A688B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:55:13 +0100 (CET)
-Received: from localhost ([::1]:37366 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04F722A68E9
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:01:00 +0100 (CET)
+Received: from localhost ([::1]:45668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaL7w-0004CV-P3
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:55:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40000)
+	id 1kaLDV-0007wy-Na
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:00:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kaL6X-0003J4-OW
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:53:45 -0500
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:34012)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ani@anisinha.ca>) id 1kaL6U-0004Hr-7E
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:53:45 -0500
-Received: by mail-wm1-x342.google.com with SMTP id 23so2150966wmg.1
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 07:53:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=anisinha-ca.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=EmM11uwFlxel1TC6VuVmsoPnMMZWQGUHWg/ghcKYsrE=;
- b=MlIFbEhhAnx93cyPXzZ/xHF0kIF9m0xmHU3BupHIp0jEXZvVH3AY2vZiUdsrzYAyWi
- G01/FeFpjtLwdsCSzUs49e8DRE2Q7bwVNbbv6Dhem5Lr6FTEeT4JtzykTir+j3CwtqkP
- iwUqL93xgOFBaPY1tapU8A0CzgaTX4dd0IU6DK9UicPFqp2Du7IOSUO6H76U2+zMoegc
- oS2Aj9s3JxuWamyD41i2MOVUqHcjvHC62txX531Bmae82f8e7V6z843RcOX80l32Auvi
- zb0pxbXSpq+9xuZN1pG17dgUIaihIfnh/n24YnQOVFLSee2cOhXmA8YyCTl5GTOLwsRx
- s7eA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=EmM11uwFlxel1TC6VuVmsoPnMMZWQGUHWg/ghcKYsrE=;
- b=Y8uYGXF0Qimrlz4mp9XdqlT7xALLcIQQW2Wm1jPoroZx8n1vcffD/mbpbkPej2ggAX
- 59fEI9W50zpVcLsiO6pUUC2IiaPumtobNBHFb6lp+ARG3kyRL3SclsXZCYAViUhYJewk
- WNdFSyjAqOcoDIOl/p/TRukZPPNQMrENbOgy1D9T36DXl6zrl85FqExjbV3TNTFhBfGV
- Nkhh89ODimq/8KAML24TTSgzwmNQip28m/Pfhvmr5gb2CgTcIcNFeVRrB76gT+VZwCwA
- jstUWYCdy0IsuG76p3pvYporAHRDQwPd7Qaycc6klyPZ1EvD8J81wuAvqP8uDIAaMHU/
- xJ+g==
-X-Gm-Message-State: AOAM531w8x/sHETtw4VqPmJH3AWB0ORnvizY2M8ey7Ct5uQampXzCjTo
- wKYYdjAHgAdRW5mq5SnRvtAYcbFXfd41+KbYgdTKDw==
-X-Google-Smtp-Source: ABdhPJyhnaH7hu5jhjDj9tRBE1mUIgXbuM7PZiPxWHNRe0fDhkbyC7OpAAg7+5xhmpc/4VrVrq1EpdihaXLGkZcn3Wk=
-X-Received: by 2002:a1c:bc08:: with SMTP id m8mr4206653wmf.137.1604505220046; 
- Wed, 04 Nov 2020 07:53:40 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kaLCK-0007UA-1M
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:59:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33535)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1kaLCH-00055B-Ci
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:59:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604505579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xeN20FmHfppEdlFiLbFheQZKEiQ1KH/nJW1u18vDEDY=;
+ b=MdGxVPWFByEu+GyFylYrjX6xiGhbpkgT9Rr/0e7DMSk6zh4KoJaNlKKDbbWJi+QSbz2QjN
+ cJRDLpkdERdC27IT3ZF096SkTU4MPzQzE2GESIvq+yZAZBCp5jS2KcxwcyT0hDR4EwZzY1
+ qROnCREuMy9yevkDyLbA2RrH2KiI5Uo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-M17FlrZGMV6oEc4xktOHnA-1; Wed, 04 Nov 2020 10:59:37 -0500
+X-MC-Unique: M17FlrZGMV6oEc4xktOHnA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D28C803F62;
+ Wed,  4 Nov 2020 15:59:36 +0000 (UTC)
+Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4402473676;
+ Wed,  4 Nov 2020 15:59:36 +0000 (UTC)
+Date: Wed, 4 Nov 2020 10:59:35 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Ani Sinha <ani@anisinha.ca>
+Subject: Re: [PATCH v3] qom: code hardening - have bound checking while
+ looping with integer value
+Message-ID: <20201104155935.GU5733@habkost.net>
 References: <20200921093325.25617-1-ani@anisinha.ca>
  <20201015165215.GE5733@habkost.net>
  <CAARzgwwQAaJV=Mp=nB7FmCeZqmQO+gEBrkPiCWaVSESYYwGcbg@mail.gmail.com>
+MIME-Version: 1.0
 In-Reply-To: <CAARzgwwQAaJV=Mp=nB7FmCeZqmQO+gEBrkPiCWaVSESYYwGcbg@mail.gmail.com>
-From: Ani Sinha <ani@anisinha.ca>
-Date: Wed, 4 Nov 2020 21:23:29 +0530
-Message-ID: <CAARzgwxqCg2xC2CE=yWwLokrhsNN50eZvOVM2Rks90ZbO4g4BA@mail.gmail.com>
-Subject: Re: [PATCH v3] qom: code hardening - have bound checking while
- looping with integer value
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000ae785105b349fbbc"
-Received-SPF: none client-ip=2a00:1450:4864:20::342;
- envelope-from=ani@anisinha.ca; helo=mail-wm1-x342.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,88 +85,40 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
  QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ae785105b349fbbc
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Ping ...
-
-On Sat, Oct 31, 2020 at 9:51 PM Ani Sinha <ani@anisinha.ca> wrote:
-
-> On Thu, Oct 15, 2020 at 10:22 PM Eduardo Habkost <ehabkost@redhat.com>
-> wrote:
+On Sat, Oct 31, 2020 at 09:51:38PM +0530, Ani Sinha wrote:
+> On Thu, Oct 15, 2020 at 10:22 PM Eduardo Habkost <ehabkost@redhat.com> wrote:
 > >
 > > On Mon, Sep 21, 2020 at 03:03:25PM +0530, Ani Sinha wrote:
-> > > Object property insertion code iterates over an integer to get an
-> unused
-> > > index that can be used as an unique name for an object property. This
-> loop
-> > > increments the integer value indefinitely. Although very unlikely,
-> this can
+> > > Object property insertion code iterates over an integer to get an unused
+> > > index that can be used as an unique name for an object property. This loop
+> > > increments the integer value indefinitely. Although very unlikely, this can
 > > > still cause an integer overflow.
-> > > In this change, we fix the above code by checking against INT16_MAX
-> and making
-> > > sure that the interger index does not overflow beyond that value. If =
-no
-> > > available index is found, the code would cause an assertion failure.
-> This
-> > > assertion failure is necessary because the callers of the function do
-> not check
+> > > In this change, we fix the above code by checking against INT16_MAX and making
+> > > sure that the interger index does not overflow beyond that value. If no
+> > > available index is found, the code would cause an assertion failure. This
+> > > assertion failure is necessary because the callers of the function do not check
 > > > the return value for NULL.
 > > >
 > > > Signed-off-by: Ani Sinha <ani@anisinha.ca>
-> > > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > > Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 > >
 > > Queued on machine-next, thanks!  My apologies for the delay.
->
+> 
 > Any idea when this will be pulled?
->
 
---000000000000ae785105b349fbbc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I was planning to send a pull request before soft freeze,
+(October 27) but this was the only patch in the queue at that
+moment, so I decided to wait.
 
-<div dir=3D"auto">Ping ...</div><div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">On Sat, Oct 31, 2020 at 9:51 PM Ani Sinha &l=
-t;<a href=3D"mailto:ani@anisinha.ca">ani@anisinha.ca</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left-width:1px;border-left-style:solid;padding-left:1ex;border-left-color=
-:rgb(204,204,204)">On Thu, Oct 15, 2020 at 10:22 PM Eduardo Habkost &lt;<a =
-href=3D"mailto:ehabkost@redhat.com" target=3D"_blank">ehabkost@redhat.com</=
-a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, Sep 21, 2020 at 03:03:25PM +0530, Ani Sinha wrote:<br>
-&gt; &gt; Object property insertion code iterates over an integer to get an=
- unused<br>
-&gt; &gt; index that can be used as an unique name for an object property. =
-This loop<br>
-&gt; &gt; increments the integer value indefinitely. Although very unlikely=
-, this can<br>
-&gt; &gt; still cause an integer overflow.<br>
-&gt; &gt; In this change, we fix the above code by checking against INT16_M=
-AX and making<br>
-&gt; &gt; sure that the interger index does not overflow beyond that value.=
- If no<br>
-&gt; &gt; available index is found, the code would cause an assertion failu=
-re. This<br>
-&gt; &gt; assertion failure is necessary because the callers of the functio=
-n do not check<br>
-&gt; &gt; the return value for NULL.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Ani Sinha &lt;<a href=3D"mailto:ani@anisinha.ca" t=
-arget=3D"_blank">ani@anisinha.ca</a>&gt;<br>
-&gt; &gt; Reviewed-by: Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berran=
-ge@redhat.com" target=3D"_blank">berrange@redhat.com</a>&gt;<br>
-&gt;<br>
-&gt; Queued on machine-next, thanks!=C2=A0 My apologies for the delay.<br>
-<br>
-Any idea when this will be pulled?<br>
-</blockquote></div></div>
+As we're beyond freeze now, the pull request will be sent
+immediately after 5.2.0 is released.
 
---000000000000ae785105b349fbbc--
+-- 
+Eduardo
+
 
