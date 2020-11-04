@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3781A2A642E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:23:49 +0100 (CET)
-Received: from localhost ([::1]:36362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 718A02A642C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:22:57 +0100 (CET)
+Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaHpM-000063-9I
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:23:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34728)
+	id 1kaHns-0006kG-BD
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:22:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfW-0007es-HZ
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfW-0007e1-5g
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51360)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39163)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfS-0007pg-Ei
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:38 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfS-0007pi-RT
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604492013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qEs2RXZrN1CnST8I+xCmdo3dwGb0aHMQN6lPH3PEaDQ=;
- b=YIigWXopGJF7y8RqnD3uIbatoAa9+UYv/9QCgzNA8ujA8eYqiZJVjHRoo6BbwpjG/ovzjZ
- GLTC35iVgHjD50iVwcYW6ICdDH/3ylrJvce5mJ5zfnf9/zat7mgtTsntojkfELS99qs6P6
- ljxeIlh+kF43ZIWadYk4eNOANu/y03c=
+ bh=7CwwoAYvS2LJdkyGB+0F/NGd1MdSwpM/+LqhmsM5NCo=;
+ b=TMNXXsq0ohcwOUDZwkTs9J7J6gQfh4EUY7TPq7Wm4veLPRE6fct+QBdRczWup4KoNeO+t6
+ opQRZuWmo4Qo6Id1Ar4KSjgrfzsshknOW83o6GpzewcbdgR++4vQjy9reGku5ZUStR0g5E
+ RpEGHfrzbkzdboWz0aPj/ty6h7J5+zM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-357-kQoT9Nk_Oc6uDhe3LyyBrg-1; Wed, 04 Nov 2020 07:13:31 -0500
-X-MC-Unique: kQoT9Nk_Oc6uDhe3LyyBrg-1
+ us-mta-334-8ACHGK_7O2u4FB9OSpwSEQ-1; Wed, 04 Nov 2020 07:13:32 -0500
+X-MC-Unique: 8ACHGK_7O2u4FB9OSpwSEQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7F3D64165;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8813805EFD;
  Wed,  4 Nov 2020 12:13:30 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 28F58194B0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4128E1C924;
  Wed,  4 Nov 2020 12:13:27 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 813D49C90; Wed,  4 Nov 2020 13:13:21 +0100 (CET)
+ id 8CB059CA5; Wed,  4 Nov 2020 13:13:21 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 6/8] dev-serial: add always-plugged property to ensure USB
- device is always attached
-Date: Wed,  4 Nov 2020 13:13:19 +0100
-Message-Id: <20201104121321.7772-7-kraxel@redhat.com>
+Subject: [PULL 7/8] dev-serial: add support for setting data_bits in
+ QEMUSerialSetParams
+Date: Wed,  4 Nov 2020 13:13:20 +0100
+Message-Id: <20201104121321.7772-8-kraxel@redhat.com>
 In-Reply-To: <20201104121321.7772-1-kraxel@redhat.com>
 References: <20201104121321.7772-1-kraxel@redhat.com>
 MIME-Version: 1.0
@@ -57,18 +57,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,74 +84,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Some operating systems will generate a new device ID when a USB device is unplugged
-and then replugged into the USB. If this is done whilst switching between multiple
-applications over a virtual serial port, the change of device ID requires going
-back into the OS/application to locate the new device accordingly.
-
-Add a new always-plugged property that if specified will ensure that the device
-always remains attached to the USB regardless of the state of the backend
-chardev.
+Also implement the behaviour reported in Linux's ftdi_sio.c whereby if an invalid
+data_bits value is provided then the hardware defaults to using 8.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Message-id: 20201027150456.24606-7-mark.cave-ayland@ilande.co.uk
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20201027150456.24606-8-mark.cave-ayland@ilande.co.uk
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-serial.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ hw/usb/dev-serial.c | 17 +++++++++++++++++
+ hw/usb/trace-events |  1 +
+ 2 files changed, 18 insertions(+)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index 92c35615eb13..b9e308dca198 100644
+index b9e308dca198..e42ce362956b 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -97,6 +97,7 @@ struct USBSerialState {
-     uint8_t event_chr;
-     uint8_t error_chr;
-     uint8_t event_trigger;
-+    bool always_plugged;
-     QEMUSerialSetParams params;
-     int latency;        /* ms */
-     CharBackend cs;
-@@ -516,12 +517,12 @@ static void usb_serial_event(void *opaque, QEMUChrEvent event)
-         s->event_trigger |= FTDI_BI;
+@@ -308,6 +308,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
          break;
-     case CHR_EVENT_OPENED:
--        if (!s->dev.attached) {
-+        if (!s->always_plugged && !s->dev.attached) {
-             usb_device_attach(&s->dev, &error_abort);
-         }
-         break;
-     case CHR_EVENT_CLOSED:
--        if (s->dev.attached) {
-+        if (!s->always_plugged && s->dev.attached) {
-             usb_device_detach(&s->dev);
-         }
-         break;
-@@ -556,7 +557,8 @@ static void usb_serial_realize(USBDevice *dev, Error **errp)
-                              usb_serial_event, NULL, s, NULL, true);
-     usb_serial_handle_reset(dev);
- 
--    if (qemu_chr_fe_backend_open(&s->cs) && !dev->attached) {
-+    if ((s->always_plugged || qemu_chr_fe_backend_open(&s->cs)) &&
-+        !dev->attached) {
-         usb_device_attach(dev, &error_abort);
      }
-     s->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
-@@ -584,6 +586,7 @@ static const VMStateDescription vmstate_usb_serial = {
- 
- static Property serial_properties[] = {
-     DEFINE_PROP_CHR("chardev", USBSerialState, cs),
-+    DEFINE_PROP_BOOL("always-plugged", USBSerialState, always_plugged, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+     case VendorDeviceOutRequest | FTDI_SET_DATA:
++        switch (value & 0xff) {
++        case 7:
++            s->params.data_bits = 7;
++            break;
++        case 8:
++            s->params.data_bits = 8;
++            break;
++        default:
++            /*
++             * According to a comment in Linux's ftdi_sio.c original FTDI
++             * chips fall back to 8 data bits for unsupported data_bits
++             */
++            trace_usb_serial_unsupported_data_bits(bus->busnr, dev->addr,
++                                                   value & 0xff);
++            s->params.data_bits = 8;
++        }
++
+         switch (value & FTDI_PARITY) {
+         case 0:
+             s->params.parity = 'N';
+diff --git a/hw/usb/trace-events b/hw/usb/trace-events
+index 98ee1c54627d..109da521cf4d 100644
+--- a/hw/usb/trace-events
++++ b/hw/usb/trace-events
+@@ -327,6 +327,7 @@ usb_serial_handle_control(int bus, int addr, int request, int value) "dev %d:%u
+ usb_serial_unsupported_parity(int bus, int addr, int value) "dev %d:%u unsupported parity %d"
+ usb_serial_unsupported_stopbits(int bus, int addr, int value) "dev %d:%u unsupported stop bits %d"
+ usb_serial_unsupported_control(int bus, int addr, int request, int value) "dev %d:%u got unsupported/bogus control 0x%x, value 0x%x"
++usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%u unsupported data bits %d, falling back to 8"
+ usb_serial_bad_token(int bus, int addr) "dev %d:%u bad token"
+ usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
+ usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
 -- 
 2.27.0
 
