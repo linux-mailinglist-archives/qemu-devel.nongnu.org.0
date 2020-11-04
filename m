@@ -2,81 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231322A715B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 00:21:09 +0100 (CET)
-Received: from localhost ([::1]:59280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91A312A71DE
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 00:36:47 +0100 (CET)
+Received: from localhost ([::1]:44212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaS5T-0007wp-Vy
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 18:21:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49448)
+	id 1kaSKc-0005eJ-Fj
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 18:36:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
- id 1kaS4S-0007QV-Hu
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:20:06 -0500
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:37965)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <msys.mizuma@gmail.com>)
- id 1kaS4P-0002rq-0f
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:20:04 -0500
-Received: by mail-qt1-x842.google.com with SMTP id g17so284088qts.5
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 15:20:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=+Sp7CJUWmE0wbQglmZS/ehP1S+HYix3XN1ZxDsI0fR8=;
- b=h6wV+9QyQ+9zIMA16ePtvycvoW7Zia3fQVGB53YOUEoPXNyZw1AGPUkiynS3HCTtqA
- I0II3ES5BPu/9GvU0GO9eWuiRd1OY2e/aq0PIKzXX/rFl8DP1sv7Rq+bKo/IByPt3bl+
- H23BgnQS/Hee2oJBgQAq7cJO4hBvwLUntM/Wb1GdtblsGM4fxDEpb2hoEWJCo6crJJmA
- 610wVMnAL17aYmwnw3XgDjOJEu0tdsOp+k5VpT6OYeVb8hSaqSBDv77k/bZptAzt+d8I
- tXXQ+7Pki25zCB0TMKN3kMuKcIXK5zvSLyCUKrjWsykCxkTuhPEaGMR1D/3gO/ibFIl1
- 1J0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=+Sp7CJUWmE0wbQglmZS/ehP1S+HYix3XN1ZxDsI0fR8=;
- b=mFoor/WsDqdZ3uBPGtApDyTCmsdja19Xdmvcbw/jPywHUJ/+EJ7jH41/otVeQ1EEGd
- FlfXkdgy4NtfAPbgaAmt+XHb/xETd0T6LKBg30W6eI42QJcI7Jz+HIzm7AODmxyo/msh
- 3giZ9eJ28ATPQ/UzkyH2z6ZTsTZklwvm/9YkAMFCfpRxMlUwqy5JuHT5DiLZ7DxpBrBw
- ZV9u6wdbcb4qZ2aPVMz1jPpQku3Xq5YyeiMFqMiVCWLfDRHef/9BBNNXZQc3gxz1CmIb
- PvT/KEOJ9Ygah9slKSzRpWahznvnUeZhWuxH7vTvwyAzaPcyX32LxuW0QFVAgNTGN4Ea
- BKEw==
-X-Gm-Message-State: AOAM5327wKCI5HAgM+BR1BbNr4R+vPZTZknKs4/zy1NvETHcl/17Yj+U
- Bg/1SzR9Gqm30jq+IK02qg==
-X-Google-Smtp-Source: ABdhPJz1mX2DAH1qmvB43NkWJzU2SgP9tJ4T7qV6iq46uiCcm3Ogygk4L8OqPNXLJZeILbjbySutAw==
-X-Received: by 2002:aed:27dc:: with SMTP id m28mr483528qtg.12.1604531999966;
- Wed, 04 Nov 2020 15:19:59 -0800 (PST)
-Received: from gabell
- (209-6-122-159.s2973.c3-0.arl-cbr1.sbo-arl.ma.cable.rcncustomer.com.
- [209.6.122.159])
- by smtp.gmail.com with ESMTPSA id d188sm3953504qkb.10.2020.11.04.15.19.59
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 04 Nov 2020 15:19:59 -0800 (PST)
-Date: Wed, 4 Nov 2020 18:19:57 -0500
-From: Masayoshi Mizuma <msys.mizuma@gmail.com>
-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Subject: Re: locking option doesn't work as expected
-Message-ID: <20201104231957.57a7oxibollskstg@gabell>
-References: <20201104163556.ifevmhkj4bw6iuc2@gabell>
- <20201104164853.GM565323@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kaSJ9-0004eZ-QP; Wed, 04 Nov 2020 18:35:15 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:41145)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1kaSJ7-0004RC-FH; Wed, 04 Nov 2020 18:35:15 -0500
+Received: from [192.168.100.1] ([82.252.154.198]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MxVfj-1kPMXc1OZ7-00xs4P; Thu, 05 Nov 2020 00:35:09 +0100
+Subject: Re: [QEMU] Question regarding user mode support for ARM syscalls
+To: Lukasz Majewski <lukma@denx.de>, Alistair Francis <alistair23@gmail.com>
+References: <20201103120027.6fdc868c@jawa>
+ <CAKmqyKOFxO+NoyA0N2HbNDujKdDg4vFyMvpq=6+TPPxx4-VMFw@mail.gmail.com>
+ <20201103175532.796074fb@jawa>
+ <CAKmqyKNRU8EqcyVv4gduNsKcMOUWSmW2oWTvfWMNS3C70Nx9PQ@mail.gmail.com>
+ <20201104115706.154e76a4@jawa>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <bd34a46a-545b-49d4-7696-e62599947b83@vivier.eu>
+Date: Thu, 5 Nov 2020 00:35:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
+In-Reply-To: <20201104115706.154e76a4@jawa>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: fr
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201104164853.GM565323@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::842;
- envelope-from=msys.mizuma@gmail.com; helo=mail-qt1-x842.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:gGRlV9IQoAwrkt6pJYnT78Pz5DTtJDlPivsJrH/H3q3k+JHY3ex
+ kqG9hDk5qSToFNNgJFYAiqj0KUUGgS2SieIhRQF9UoD4rStPVoar3RUE1jOFF+C8EKyNbCY
+ zj018IXFmAvQ5Sl77TlKerv4UeLquFyEYp/SH7O/i4HQBOU25d2OByxWWiX638Tr+ErV979
+ mIyCbpW222L/cCdj5E8VA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:e6Y42seEdj0=:6qmCcAtf9Ugnmp7mxl5BJz
+ i6R01asNnRpWHRmACkZBiqDFLgaJozW84iUQKRxlVZYbboTOb3edTssjlxBSPyHls/w0WIzTX
+ XiFidVzrAfSvYmBKaW4ukh1pGNIeseC2vZg59YEk/UrVS9awRtF9K8Cx3NjrgNsUfNnAMCdyo
+ GIY5Rc8GUOE6G5RgH7C/Y7OUV4/kagpVRGoKManEkz3sBk3MxG1nWklfZSi5FqGN4nh+zmfiF
+ Y6YC2a5dKxNaG5ACCQwzxD34ft3xhhZjwwMo2nDvpvm9mRN+Yf7YhJiQOEImtkeQQJS65akT6
+ /YaLxZYD81rN58YlIduvb4wV7mfOjlSESs70bk+ymhorCCrLQzE4njFAR7O7/ig3yvtSJpVyz
+ /6PIvfnb6JDy8Zz6fjUEKb04uwOu9vBm+6B2p1UVjMgY6JsloR28a+PAyi3d0
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 18:35:11
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,71 +70,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: GNU C Library <libc-alpha@sourceware.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 04, 2020 at 04:48:53PM +0000, Daniel P. Berrangé wrote:
-> On Wed, Nov 04, 2020 at 11:35:56AM -0500, Masayoshi Mizuma wrote:
-> > Hello,
-> > 
-> > It seems that locking option doesn't work as expected.
-> > When I run qemu as following options, then I got an error and failed to
-> > boot the guest:
-> > 
-> >   qemu-system-x86_64 \
-> >     -machine pc \
-> >     -enable-kvm \
-> >     -cpu host \
-> >     -smp 1 -m 4G \
-> >     -nographic \
-> >     -serial telnet::1235,server,nowait \
-> >     -blockdev driver=qcow2,node-name=disk,file.driver=file,file.filename=/mnt/guest.qcow2,file.locking=auto \
-> >     -device virtio-blk-pci,scsi=off,drive=disk,id=virtio-disk0,bootindex=1
-> > 
-> >   qemu-system-x86_64: -blockdev driver=qcow2,node-name=disk,file.driver=file,file.filename=/mnt/guest.qcow2,file.locking=auto: Failed to lock byte 100
-> > 
-> > The error happens when the filesystem doesn't support OFD lock.
-> > qemu_probe_lock_ops() judges whether qemu can use OFD lock or not with doing
-> > fcntl(F_OFD_GETLK) to /dev/null, so the error happens if /dev/null supports OFD lock,
-> > but the filesystem doesn't support the lock.
-> > 
-> > I'm thinking how to fix the error. My idea is to add locking=posix option to use posix
-> > lock to the file, but I'm not sure the idea is good way to fix the error...
-> > 
-> > I would appreciate it if you could give me some advises to fix the error.
+Le 04/11/2020 à 11:57, Lukasz Majewski a écrit :
+> Hi Alistair,
 > 
-> Ideally we would not attempt to probe it on /dev/null at all. Instead just
-> attempt to lock the actual file using F_OFD_SETLK and if that fails, then
-> falback to F_SETLK.  We can do similar when checking whether the lock
-> currently exists. AFAIK, the locking code isn't so performance critical
-> that the extra syscall would hurt us in the case where OFD doesn't exist
-> or isn't supported by the FS.
+>> On Tue, Nov 3, 2020 at 8:55 AM Lukasz Majewski <lukma@denx.de> wrote:
+>>>
+>>> Hi Alistair,
+>>>  
+>>>> On Tue, Nov 3, 2020 at 3:03 AM Lukasz Majewski <lukma@denx.de>
+>>>> wrote:  
+>>>>>
+>>>>> Dear Qemu Community,  
+>>>>
+>>>> Hey Lukasz,
+>>>>
+>>>> + QEMU Dev Mailing list
+>>>> + Laurent
+>>>>  
+>>>
+>>> Thanks for reaching more people.
+>>>  
+>>>>>
+>>>>> I would like to ask you for some advice regarding the usage of
+>>>>> arm-linux-user/qemu-arm user space program simulation.
+>>>>>
+>>>>> Background:
+>>>>> -----------
+>>>>>
+>>>>> I'm looking for a way to efficiently test y2038 in-glibc
+>>>>> solution for 32 bit architectures (e.g. ARM).
+>>>>>
+>>>>> For now I do use qemu-system-arm (part of Yocto/OE), which I'm
+>>>>> using to run Linux kernel 5.1, glibc under test and Y2038
+>>>>> tests. It works [1].
+>>>>>
+>>>>> Problem:
+>>>>> --------
+>>>>>
+>>>>> I would like to test cross-compiled tests (which are built from
+>>>>> glibc sources) without the need to run the emulated system with
+>>>>> qemu-system-arm.
+>>>>>
+>>>>> I've come across the "QEMU user mode", which would execute the
+>>>>> cross-compiled test (with already cross-compiled glibc via -L
+>>>>> switch) and just return exit status code. This sounds
+>>>>> appealing.  
+>>>>
+>>>> As another advantage it is much, much faster at running the glibc
+>>>> tests.
+>>>>  
+>>>
+>>> +1
+>>>  
+>>>>>
+>>>>> As fair as I've read - QEMU user mode emulates ARM syscalls.
+>>>>>
+>>>>> During test execution (single qemu user mode process) I would
+>>>>> need to adjust date with clock_settime64 syscall and then
+>>>>> execute other syscalls if needed.
+>>>>>
+>>>>>
+>>>>> Please correct me if I'm wrong:
+>>>>> - It looks like qemu-arm doesn't have switch which would allow
+>>>>> it to set time offset (to e.g. year 2039 - something similar to
+>>>>>   qemu-system-arm -rtc=).
+>>>>>
+>>>>> - As of 5.1 qemu version there is no support for syscalls
+>>>>> supporting 64 bit time on 32 bit architectures (e.g.
+>>>>> clock_settime64 and friends from [2]).  
+>>>>
+>>>> There is some support in the current master, for example
+>>>> __NR_futex_time64 is supported.  
+>>>
+>>> I've just looked into v5.1.0 stable release. I will double check
+>>> this with -master branch.
+>>>  
+>>>>
+>>>> I started to add some support for RV32 once it was merged into
+>>>> glibc.  
+>>>
+>>> Ok.
+>>>  
+>>>>  
+>>>>>
+>>>>> For my example program [3] statically build for testing (it
+>>>>> works with qemu-system-arm):
+>>>>>
+>>>>> ~/work/qemu-arm-tests-program$
+>>>>> ../qemu-5.1.0-arm/arm-linux-user/qemu-arm -L
+>>>>> ~/work/yocto/y2038/build/tmp/armv7at2hf-neon-poky-linux-gnueabi/y2038-glibc/2.30+git999-r0/image/opt
+>>>>> -strace ./cst
+>>>>>
+>>>>> 17746 brk(NULL) = 0x00074000
+>>>>> 17746 brk(0x000748a8) = 0x000748a8
+>>>>> 17746 uname(0x40800370) = 0
+>>>>> 17746 readlink("/proc/self/exe",0x407ff488,4096) = 43
+>>>>> 17746 brk(0x000958a8) = 0x000958a8
+>>>>> 17746 brk(0x00096000) = 0x00096000
+>>>>> 17746 mprotect(0x00070000,8192,PROT_READ) = 0
+>>>>> 17746statx(1,"",AT_EMPTY_PATH|AT_NO_AUTOMOUNT,STATX_BASIC_STATS,0x407ffd70)
+>>>>> = 0
+>>>>> 17746 Unknown syscall 404 --> is the syscall number of
+>>>>> clock_settime64  
+>>>>
+>>>> clock_settime64 is supported in master QEMU.  
+>>>
+>>> I will double check it - thanks for pointing this out.
+>>>  
+>>>>  
+>>>>>
+>>>>> 17746 dup(2) = 3
+>>>>> 17746 fcntl64(3,F_GETFL) = 2
+>>>>> 17746statx(3,"",AT_EMPTY_PATH|AT_NO_AUTOMOUNT,STATX_BASIC_STATS,0x407ff8e8)
+>>>>> = 0 ERR
+>>>>>
+>>>>> Questions:
+>>>>> ----------
+>>>>>
+>>>>> 1. Is there any plan to add support for emulating syscalls
+>>>>> supporting 64 bit time on 32 bit architectures [2]?  
+>>>>
+>>>> I would like to have RV32 supported, but it's a low priority for
+>>>> me.  
+>>>
+>>> Having syscalls supporting 64 bit time on 32 bit machines indicated
+>>> in [2] would be a very welcome for glibc testing.
+>>>  
+>>>> I
+>>>> expect it's something that will eventually happen though.  
+>>>
+>>> Ok.
+>>>  
+>>>>  
+>>>>>
+>>>>> 2. Provide QEMU user space switch to adjust its time (i.e. add
+>>>>> some offset to in-fly emulated time syscalls - like
+>>>>> clock_settime64) when it is started?  
+>>>>
+>>>> That I'm not sure about.  
+>>>
+>>> For me it would be enough to have:
+>>>
+>>> qemu-arm -rtc="2039-01-01" -L... ./ctx
+>>> So the emulated "time" would be after 32 bit time_t overflow when
+>>> QEMU user space emulation process starts (as long as it doesn't
+>>> touch the host machine time).
+>>>
+>>>
+>>> Another option (workaround) would be to run clock_settime64() with
+>>> time set to year 2038+ on the beginning of each glibc test. It
+>>> shall work as long as we don't change host time (and all time
+>>> changes would stay in the qemu user mode process).
+>>>  
+>>>> I assume just running date/clock_settime64
+>>>> from a script wouldn't work with the glibc test framework?  
+>>>
+>>> Could you elaborate on this use case/scenario? Do you have some
+>>> examples to share?  
+>>
+>> Whoops, I got confused here. The clock_gettime syscall goes to the
+>> host, so we just report host time. I was thinking about softMMU where
+>> we maintain our own time.
+>>
+>> So your proposed `-rtc` command would add an offset to the host time?
+>> Something like:
+>>
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 3160a9ba06..240bd59bb2 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -12074,6 +12074,7 @@ static abi_long do_syscall1(void *cpu_env, int
+>> num, abi_long arg1,
+>>
+>>          ret = target_to_host_timespec64(&ts, arg2);
+>>          if (!is_error(ret)) {
+>> +            ts.tv_sec -= 567993505;
+>>              ret = get_errno(clock_settime(arg1, &ts));
+>>          }
+>>          return ret;
+>> @@ -12096,6 +12097,8 @@ static abi_long do_syscall1(void *cpu_env, int
+>> num, abi_long arg1,
+>>          struct timespec ts;
+>>          ret = get_errno(clock_gettime(arg1, &ts));
+>>          if (!is_error(ret)) {
+>> +            // Calculate different to same time in 2038
+>> +            ts.tv_sec += 567993505;
+>>              ret = host_to_target_timespec64(arg2, &ts);
+>>          }
+>>          return ret;
+>>
+>> That might end up working if you can intercept all of the absolute
+>> time syscalls.
+> 
+> It looks to me that intercepting _all_ time related syscalls seems to
+> be a time consuming task.
+> 
+>>
+>> Without any mainline support that would be easy to do in your local
+>> tree,
+> 
+> The "local tree" solution is not an acceptable solution for me.
+> 
+>> which would at least allow you to test. You could also change
+>> your host time to 2038, but that would break things for your host.
+> 
+> Yes, I would like to avoid changing the host time.
+> 
+>
 
-Thank you for your comments! I'll fix the error to lock the file using
-F_OFD_SETLK and if that fails, then falback to F_SETLK.
+I didn't read all the mail history but I think you should play with the
+time namespace, see "unshare" and "--time" parameter.
 
-Thanks!
-Masa
+https://man7.org/linux/man-pages/man1/unshare.1.html
+https://man7.org/linux/man-pages/man7/time_namespaces.7.html
 
-> 
-> > 
-> > BTW, locking=off may be useful for the workaround so far, however, locking=off
-> > doesn't work on the splitting blockdev configs as followings...
-> > I split the blockdev option as libvirt doing.
-> > 
-> >    -blockdev driver=file,filename=/mnt/guest.qcow2,node-name=storage,auto-read-only=on,locking=off \
-> >    -blockdev node-name=format,read-only=off,driver=qcow2,file=storage \
-> > 
-> > Thanks,
-> > Masa
-> > 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-> 
+Thanks,
+Laurent
 
