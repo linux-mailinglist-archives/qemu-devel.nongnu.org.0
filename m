@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47DF02A6733
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:13:41 +0100 (CET)
-Received: from localhost ([::1]:53062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF2BB2A672C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:10:44 +0100 (CET)
+Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKTk-0001Oz-Bq
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:13:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55370)
+	id 1kaKQt-0006TR-OC
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:10:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIb-00034f-Pz
+ id 1kaKIb-00033S-2P
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21659)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIW-000628-1R
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:09 -0500
+ id 1kaKIU-00061u-93
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604502122;
+ s=mimecast20190719; t=1604502121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G7C5nrVh412saTiG1cbTL7nr00T8RXOPGCId19jENRo=;
- b=Mb6BDtj8Ga60HgieP1FUFd77EUT5aCstpBgI3DCek6T4wPHvERnMWaKiL35VAhWQmmMqry
- 5zeVpLbYggv4nSO695az/Y4AfifmS694cpWxmV1ykxZzCYyriGf9EU7zmHwFhBCC6Cfvau
- EQySzQLjoCuj69qSBUPIc4u0TC9RhjU=
+ bh=J2klcdRVHrLD903yYHqI7Na7zwJnyvtU1u1DjM6UTAA=;
+ b=Vl7C3oQcuV1WyWluhbfyogUBoGMp9a6XDGngHgmi1ydZTP1EId6vngFNJnX20rhj7R8ae7
+ /oH+PwdplST2xmPSPnqLWERUx/WNJoFV07w+fCfX+SLlykn7i6reDPJihsNnXhzGMcSCPf
+ jpiJhTxr+CDMoguDdMsRcDpg+KBYceg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-26-df3_Mza1NJi3PwW5x5gq7g-1; Wed, 04 Nov 2020 10:01:59 -0500
-X-MC-Unique: df3_Mza1NJi3PwW5x5gq7g-1
+ us-mta-87-lpBDnK2AMJqHuU1W1s6buQ-1; Wed, 04 Nov 2020 10:01:59 -0500
+X-MC-Unique: lpBDnK2AMJqHuU1W1s6buQ-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B315987951C;
- Wed,  4 Nov 2020 15:01:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19C851016CE2
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:58 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6042A1002D41;
- Wed,  4 Nov 2020 15:01:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D086E1007505
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:57 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/20] qtest: add a reproducer for LP#1878642
-Date: Wed,  4 Nov 2020 10:01:39 -0500
-Message-Id: <20201104150153.541326-7-pbonzini@redhat.com>
+Subject: [PULL 07/20] meson: use b_staticpic=false for meson >=0.56.0
+Date: Wed,  4 Nov 2020 10:01:40 -0500
+Message-Id: <20201104150153.541326-8-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,16 +58,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,55 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+Meson 0.56.0 correctly builds non-PIC static libraries with -fPIE if
+b_pie=true.  We do not have to pass b_staticpic=true if PIE is requested
+if Meson is new-enough, which improves performance.
 
-https://bugs.launchpad.net/qemu/+bug/1878642
-
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20201102163336.115444-1-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz-test.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ configure   | 6 +++++-
+ meson.build | 4 ++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
-index 2f38bb1ec2..9cb4c42bde 100644
---- a/tests/qtest/fuzz-test.c
-+++ b/tests/qtest/fuzz-test.c
-@@ -34,6 +34,19 @@ static void test_lp1878263_megasas_zero_iov_cnt(void)
-     qtest_quit(s);
- }
+diff --git a/configure b/configure
+index 2c3c69f118..c87c1dfbf3 100755
+--- a/configure
++++ b/configure
+@@ -6961,6 +6961,10 @@ fi
+ mv $cross config-meson.cross
  
-+static void test_lp1878642_pci_bus_get_irq_level_assert(void)
-+{
-+    QTestState *s;
-+
-+    s = qtest_init("-M pc-q35-5.0 "
-+                   "-nographic -monitor none -serial none "
-+                   "-d guest_errors -trace pci*");
-+
-+    qtest_outl(s, 0xcf8, 0x8400f841);
-+    qtest_outl(s, 0xcfc, 0xebed205d);
-+    qtest_outl(s, 0x5d02, 0xebed205d);
-+}
-+
- int main(int argc, char **argv)
- {
-     const char *arch = qtest_get_arch();
-@@ -43,6 +56,8 @@ int main(int argc, char **argv)
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-         qtest_add_func("fuzz/test_lp1878263_megasas_zero_iov_cnt",
-                        test_lp1878263_megasas_zero_iov_cnt);
-+        qtest_add_func("fuzz/test_lp1878642_pci_bus_get_irq_level_assert",
-+                       test_lp1878642_pci_bus_get_irq_level_assert);
-     }
+ rm -rf meson-private meson-info meson-logs
++unset staticpic
++if ! version_ge "$($meson --version)" 0.56.0; then
++  staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi)
++fi
+ NINJA=$ninja $meson setup \
+         --prefix "$prefix" \
+         --libdir "$libdir" \
+@@ -6980,7 +6984,7 @@ NINJA=$ninja $meson setup \
+         -Dwerror=$(if test "$werror" = yes; then echo true; else echo false; fi) \
+         -Dstrip=$(if test "$strip_opt" = yes; then echo true; else echo false; fi) \
+         -Db_pie=$(if test "$pie" = yes; then echo true; else echo false; fi) \
+-        -Db_staticpic=$(if test "$pie" = yes; then echo true; else echo false; fi) \
++        ${staticpic:+-Db_staticpic=$staticpic} \
+         -Db_coverage=$(if test "$gcov" = yes; then echo true; else echo false; fi) \
+         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
+         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
+diff --git a/meson.build b/meson.build
+index 39ac5cf6d8..f5175010df 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1,6 +1,6 @@
+ project('qemu', ['c'], meson_version: '>=0.55.0',
+-        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11',
+-                          'b_colorout=auto'],
++        default_options: ['warning_level=1', 'c_std=gnu99', 'cpp_std=gnu++11', 'b_colorout=auto'] +
++                         (meson.version().version_compare('>=0.56.0') ? [ 'b_staticpic=false' ] : []),
+         version: run_command('head', meson.source_root() / 'VERSION').stdout().strip())
  
-     return g_test_run();
+ not_found = dependency('', required: false)
 -- 
 2.26.2
 
