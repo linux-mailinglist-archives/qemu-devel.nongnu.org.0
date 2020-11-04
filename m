@@ -2,100 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A55B82A6B8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:21:55 +0100 (CET)
-Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A25F2A6B76
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:13:10 +0100 (CET)
+Received: from localhost ([::1]:34510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMTq-0007iC-Pa
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:21:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
+	id 1kaMLN-0003YP-8D
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:13:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shaked.m@neuroblade.ai>)
- id 1kaMSp-0006R7-Fn
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:20:51 -0500
-Received: from mail-eopbgr70102.outbound.protection.outlook.com
- ([40.107.7.102]:2183 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shaked.m@neuroblade.ai>)
- id 1kaMSl-0007Lx-1x
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:20:50 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Oy63jJHAXiHqU57bxoozX3YGZdQdskvH+C4LsggQPPx9FBvE1wYTkCbBd8V5p8HfY2rH+qFqzk8iSLattRNQM1jcFnUFP0pu9F+pMZ0Om67LStomMtiwkqQFQxdghmZFSreQQvhkCX/alL8AmYQQcj5JZEWTJyd4TjfpcpOtAoH2l4OFYUPN1lN5KDDUFWrOYYqBo9BY6wGjLBGSGxXsnBazkrOGtn9hDIBh/4HUQ14rSqtzzKnf3xOe6t6iwI2nRLf2kat8U8sekJJnrnpJ/LvFVIgGHHD4vcLBbTs5ghD74hQs5T3uGeKe5uxS/eAymo64iXzPs4Y1Za+1bI3pSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BesOSfgS0XuOr2qvkKLrxcQbGYY5KBZIcp3LMrsei3g=;
- b=Bmi8Iw+7E1uYHcDluKNLr5hvOGkKXq1dsK2CLmRHZAN0bfryY9ih8q0ujuQdZ5JZ8o0JyON3euDvHY9FyRiwGI7UsV7WAwZgtjy/trqKYTIdO6Cw0n10cqVU1TJqW9g6V86dTAfpR0bmUveNVmWntmfRb7UXXgsv+vIOhzXhBguAAFN2pNUMmACjycboerkBliBOtNTl25j7uw7jSZ59ztxl7hcnbVxH09/sEoRIw3epT1huwfpEb3stSrkX4VoIhV1nLb++nILafsFYkOZfYwTpLtZAoQFwA5xXexOx49qUaOh30Lbt6INz4iViX6y/rAByqp3TPhiBzb1hDa89Ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=neuroblade.ai; dmarc=pass action=none
- header.from=neuroblade.ai; dkim=pass header.d=neuroblade.ai; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=NeuroBlade.onmicrosoft.com; s=selector2-NeuroBlade-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BesOSfgS0XuOr2qvkKLrxcQbGYY5KBZIcp3LMrsei3g=;
- b=cIBee3FfxpS14D/FQw8cENxaAvzwTrTIptPeoUv6End8zCZ0PrLdSHXaCAB3y5T2VN2T47dmbSPZxCH+TNFCZ5bfTWRr+LXU1A7eZxoP36O6/1zNV9l3Pe9cBmHcw4AMZvSeD+8zpIa4k1i+3Tr+6gKr/O1VQuFlqMlc8+b8EaI=
-Received: from AM9PR09MB4643.eurprd09.prod.outlook.com (2603:10a6:20b:286::17)
- by AM9PR09MB4786.eurprd09.prod.outlook.com (2603:10a6:20b:2d8::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 4 Nov
- 2020 17:05:37 +0000
-Received: from AM9PR09MB4643.eurprd09.prod.outlook.com
- ([fe80::3c65:130c:3906:6542]) by AM9PR09MB4643.eurprd09.prod.outlook.com
- ([fe80::3c65:130c:3906:6542%7]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
- 17:05:37 +0000
-From: Shaked Matzner <shaked.m@neuroblade.ai>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: executing user code to test qemu driver
-Thread-Topic: executing user code to test qemu driver
-Thread-Index: AdayyxAw30YcY7CFQgCfeGuQiNXcYQ==
-Date: Wed, 4 Nov 2020 17:05:37 +0000
-Message-ID: <AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0@AM9PR09MB4643.eurprd09.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=neuroblade.ai;
-x-originating-ip: [79.176.89.142]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d20fbd4e-5026-4e69-df74-08d880e3d9e3
-x-ms-traffictypediagnostic: AM9PR09MB4786:
-x-microsoft-antispam-prvs: <AM9PR09MB4786E6448AD3B20BB13944CA82EF0@AM9PR09MB4786.eurprd09.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6108;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: iOmBd9/DYPuTi2HChZkPeGbFgd1cT1gARDPCA0CLQshR/8P/wIbBOc7K5W0LCXe11aoPnyNSG5+ySWICnxAZE2bF87lQVuxL1NnnCK07XY02ewJmMjhMqyicYfaqHaexNfPRCY6f4pvI+NWE+2dbBNXxnh/GQ7zxcK7gZAY19m58hvkAweKyV0XsOLW/ebGcPnU/hKAbQ6jt917NMO58ObViZ6iGBZhVp39m5uiyj/7aZeCSbeaxd9phd6Ug5D9N9dk2CSJ6nc3kQXKPkp0Ggy/Ce7yDyv16yXK2FFq5+ATbbP8u1wLQKBVdziytyckp
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM9PR09MB4643.eurprd09.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(136003)(396003)(39830400003)(346002)(376002)(366004)(55016002)(6916009)(2906002)(186003)(316002)(26005)(8676002)(83380400001)(6506007)(7696005)(71200400001)(52536014)(33656002)(478600001)(9686003)(8936002)(66556008)(86362001)(66476007)(66946007)(66446008)(76116006)(5660300002)(64756008);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: EApPaLncwi3qG3P57nlIeR1io/wdEjv32XK4bT7VoO3zvsk+O+wfKHMTa96w/GY0ie8xdTuB0uv/BOCnSGgrAoHMHopdlGtE4+G8oTpipJLmFuVVOgtpz8Gb5iXRQKMLATccqp8mWU0zD8//KKrWVIy3rkMeR5SI7ywNAXD6az6qdxjPW5AN6H8OfxIOQNzbh6m+TcmGuut2zxJjMvdOU4rZvlot1qhGt2vUhLQRBDS88uRgNbymBCDVEz8xoh5ac2kOqMa/blmeYITqrihiBSJulg6+/G74lW1g/I2YVvN8QOTFgJhasTZCYIZiB1gmJ5K9legCIST84Fcv/T/fl/8lQqyHUT0fNrYRuTpzm5a1KlqWAxJq2HzRktUlEXx8qyOsX/6jai1l5/6MpuWXWiynBw8ZbHWrNKwbVbjoBC5ZofpAlSb7jUdGV05PHx7zVRDDPWDeA9aYOc7cAVSHcCDE8nRSjY/44M7HMECA+n2aPrMXcyklssUb7XGGAo+cT0hzS2eCxE7nH3NGp4d4QGmLMeXl7/gPwnSe2G2eZHO8W0KNGroJ+zydZFsflimx2b7Aryg+4VjUDQpCUWkdzrXnjFW7ernGK2xXQYa85mV5Wq2fKt3f7804Cbc++Nx0u8MVOFS20iKzg5Pc3HSzBQ==
-x-ms-exchange-transport-forked: True
-Content-Type: multipart/alternative;
- boundary="_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_"
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kaMKP-00038y-1o
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:12:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45037)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1kaMKM-0006DR-K1
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:12:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604509925;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HalWOEf3NMnab+bdRZ345yC3oT3fsF6+gnHzCgn7NsY=;
+ b=Wp4TxjSDPM1nSMHbGlL/XJNH6zEoUZ9HH59P10Mm3GMNoa2tQBzMyhcuRTCxdk+qrVVB7P
+ S+yywbgodjad5PjygRSgZAwXiT4ke3ckSlOg67y4AChGga1q2BKFpsohSJITdwIUat1Zue
+ JduCeMStnPeDE79NNh3gIBguHhr+7LQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-sqK3l9szMbOuuWE4PGwOAw-1; Wed, 04 Nov 2020 12:12:03 -0500
+X-MC-Unique: sqK3l9szMbOuuWE4PGwOAw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8FF0810A0B8F;
+ Wed,  4 Nov 2020 17:11:56 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-163.ams2.redhat.com
+ [10.36.112.163])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 862F11A3D7;
+ Wed,  4 Nov 2020 17:10:43 +0000 (UTC)
+Subject: Re: Migrating to the gitlab issue tracker
+To: Eric Blake <eblake@redhat.com>, =?UTF-8?Q?Daniel_P._Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <bda4f471-8ed6-3832-29ac-279a6d3bb7cc@redhat.com>
+ <20201030091636.GD307361@stefanha-x1.localdomain>
+ <62284d4e-ccd6-08b4-6cd4-0a5795488996@redhat.com>
+ <20201102142645.GE138796@redhat.com>
+ <1e4edd94-fc8d-2e1f-aeeb-ec81a8089d38@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <7e9fd376-6ac5-f1bb-0d91-e67daa59065c@redhat.com>
+Date: Wed, 4 Nov 2020 18:10:42 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: neuroblade.ai
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4643.eurprd09.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d20fbd4e-5026-4e69-df74-08d880e3d9e3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2020 17:05:37.3819 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 63c61203-65af-4cf8-98e5-d12f35edaefa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jZR7VuANRtirpdM3uYl+fw1NUvbeWqJ/Inv6rGlwGqNhAd5ZOqCpj5s/R4/+p0vDDq29ByYz0OC/KdsA/VdBZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR09MB4786
-Received-SPF: pass client-ip=40.107.7.102; envelope-from=shaked.m@neuroblade.ai;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 12:20:45
-X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1e4edd94-fc8d-2e1f-aeeb-ec81a8089d38@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,110 +85,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Corey Minyard <cminyard@mvista.com>,
+ Ronnie Sahlberg <ronniesahlberg@gmail.com>, Jeff Cody <codyprime@gmail.com>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>, Markus Armbruster <armbru@redhat.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Klaus Jensen <its@irrelevant.dk>, Alberto Garcia <berto@igalia.com>,
+ zhanghailiang <zhang.zhanghailiang@huawei.com>,
+ Ben Warren <ben@skyportsystems.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Halil Pasic <pasic@linux.ibm.com>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jason Wang <jasowang@redhat.com>, Brad Smith <brad@comstyle.com>,
+ Laurent Vivier <lvivier@redhat.com>, Jiri Pirko <jiri@resnulli.us>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Xie Changlong <xiechanglong.d@gmail.com>, Riku Voipio <riku.voipio@iki.fi>,
+ Peter Lieven <pl@kamp.de>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Beniamino Galvani <b.galvani@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, John Snow <jsnow@redhat.com>,
+ Aarushi Mehta <mehta.aaru20@gmail.com>, Richard Henderson <rth@twiddle.net>,
+ Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Ed Maste <emaste@freebsd.org>, Chris Wulff <crwulff@gmail.com>,
+ Laurent Vivier <laurent@vivier.eu>, Coiby Xu <Coiby.Xu@gmail.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Stefan Berger <stefanb@linux.ibm.com>, Igor Mammedov <imammedo@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Fam Zheng <fam@euphon.net>,
+ Peter Maydell <peter.maydell@linaro.org>, Anup Patel <anup.patel@wdc.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Thomas Huth <thuth@redhat.com>,
+ Max Filippov <jcmvbkbc@gmail.com>, Su Hang <suhang16@mails.ucas.ac.cn>,
+ Alistair Francis <alistair.francis@wdc.com>, "Denis V. Lunev" <den@openvz.org>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, Hannes Reinecke <hare@suse.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, Zhang Chen <chen.zhang@intel.com>,
+ Gonglei <arei.gonglei@huawei.com>, Radoslaw Biernacki <rad@semihalf.com>,
+ Liu Yuan <namei.unix@gmail.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Eric Farman <farman@linux.ibm.com>, Corey Minyard <minyard@acm.org>,
+ Stefan Weil <sw@weilnetz.de>, Julia Suvorova <jusual@redhat.com>,
+ Greg Kurz <groug@kaod.org>, Cameron Esfahani <dirty@apple.com>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, Jan Kiszka <jan.kiszka@web.de>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Stafford Horne <shorne@gmail.com>, Paul Burton <paulburton@kernel.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Tyrone Ting <kfting@nuvoton.com>, Wenchao Wang <wenchao.wang@intel.com>,
+ Michael Rolnik <mrolnik@gmail.com>, Aurelien Jarno <aurelien@aurel32.net>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>, Paul Durrant <paul@xen.org>,
+ Anthony Green <green@moxielogic.com>, Bin Meng <bin.meng@windriver.com>,
+ Peter Xu <peterx@redhat.com>, Colin Xu <colin.xu@intel.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Ari Sundholm <ari@tuxera.com>,
+ Rob Herring <robh@kernel.org>, Juan Quintela <quintela@redhat.com>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Antony Pavlov <antonynpavlov@gmail.com>, Jason Dillaman <dillaman@redhat.com>,
+ Joel Stanley <joel@jms.id.au>, Sergio Lopez <slp@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Cleber Rosa <crosa@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Sunil Muthuswamy <sunilmut@microsoft.com>,
+ Eduardo Otubo <otubo@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "Richard W.M. Jones" <rjones@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Pavel Pisa <pisa@cmp.felk.cvut.cz>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Li Zhijian <lizhijian@cn.fujitsu.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Vincenzo Maffione <v.maffione@gmail.com>, Huacai Chen <chenhc@lemote.com>,
+ Jiri Slaby <jslaby@suse.cz>, Peter Chubb <peter.chubb@nicta.com.au>,
+ Marek Vasut <marex@denx.de>, Jia Liu <proljc@gmail.com>,
+ Sven Schnelle <svens@stackframe.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Vikram Garhwal <fnu.vikram@xilinx.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Giuseppe Lettieri <g.lettieri@iet.unipi.it>, Luigi Rizzo <rizzo@iet.unipi.it>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, David Gibson <david@gibson.dropbear.id.au>,
+ Tony Krowiak <akrowiak@linux.ibm.com>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ Pierre Morel <pmorel@linux.ibm.com>, Eric Auger <eric.auger@redhat.com>,
+ Thomas Huth <huth@tuxfamily.org>, Wen Congyang <wencongyang2@huawei.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bin Meng <bmeng.cn@gmail.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+On 11/02/20 15:42, Eric Blake wrote:
+> On 11/2/20 8:26 AM, Daniel P. Berrangé wrote:
+>> On Mon, Nov 02, 2020 at 02:57:49PM +0100, Laszlo Ersek wrote:
+>>> On 10/30/20 10:16, Stefan Hajnoczi wrote:
+>>>> On Thu, Oct 29, 2020 at 12:01:27PM -0400, John Snow wrote:
+>>>>> In experimenting with my mirror on gitlab though, I was unable to find a way
+>>>>> to configure it to send issue tracker notifications to the email list. A
+>>>>> move to gitlab would likely mean, then:
+>>>>>
+>>>>> 1. The cessation of (automatic) issue tracker mails to the list
+>>>>
+>>>> A bot could do this.
+>>>
+>>> I think a "bug traffic" mailing list (possibly but not necessarily
+>>> separate from the main qemu development list) is important.
+>>
+>> What benefit is there to a bug traffic mailing list, as opposed to people
+>> subscribing to direct bug notifications ? In both case people who are
+>> interested in watching bugs can get the same content in their inboxes.
+> 
+> A mailing list would have archives (which can be helpful for archaeology
+> of past bug traffic even when you were not a gitlab subscriber), and
+> (depending on subscription settings) could permit additional
+> conversation in response to traffic by non-gitlab contributors.  But you
+> are right that a mailing list configured as read-only bug traffic (where
+> replies are not permitted) has no benefit over developers directly
+> subscribing to bug activity.
+> 
 
-Hey all,
-So I've created a small test to check ioctl calls of my pci with dma driver=
-, under a shared directory (which is mounted to the qemu-x86-64 instance).
-I've just tried to compile it with gcc (gcc test_dma.c -o test_dma_exec)
-I've tried to execute it from the qemu but it said it could not found the f=
-ile, also I wonder how does it recognize my kernel and devices),
-How should I compile it and run the code?
-BR,
-     Shaked Matzner
+BTW I think this could be handled by an "auto-CC" or "default-CC"
+feature in the bug tracker. Simply subscribe the list automatically to
+every new bug reported.
 
+Laszlo
 
-The contents of this email message and any attachments are intended solely =
-for the addressee(s) and may contain confidential and/or privileged informa=
-tion and may be legally protected from disclosure. If you are not the inten=
-ded recipient of this message or their agent, or if this message has been a=
-ddressed to you in error, please immediately alert the sender by reply emai=
-l and then delete this message and any attachments. If you are not the inte=
-nded recipient, you are hereby notified that any use, dissemination, copyin=
-g, or storage of this message or its attachments is strictly prohibited.
-
---_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hey all,<o:p></o:p></p>
-<p class=3D"MsoNormal">So I&#8217;ve created a small test to check ioctl ca=
-lls of my pci with dma driver, under a shared directory (which is mounted t=
-o the qemu-x86-64 instance).<o:p></o:p></p>
-<p class=3D"MsoNormal">I&#8217;ve just tried to compile it with gcc (gcc te=
-st_dma.c -o test_dma_exec)<o:p></o:p></p>
-<p class=3D"MsoNormal">I&#8217;ve tried to execute it from the qemu but it =
-said it could not found the file, also I wonder how does it recognize my ke=
-rnel and devices),<o:p></o:p></p>
-<p class=3D"MsoNormal">How should I compile it and run the code?<o:p></o:p>=
-</p>
-<p class=3D"MsoNormal">BR,<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; Shaked Matzner<o:p></o:p></=
-p>
-</div>
-<br>
-<p style=3D"font-size:8pt; line-height:10pt; font-family: 'Cambria','times =
-roman',serif;">
-The contents of this email message and any attachments are intended solely =
-for the addressee(s) and may contain confidential and/or privileged informa=
-tion and may be legally protected from disclosure. If you are not the inten=
-ded recipient of this message or
- their agent, or if this message has been addressed to you in error, please=
- immediately alert the sender by reply email and then delete this message a=
-nd any attachments. If you are not the intended recipient, you are hereby n=
-otified that any use, dissemination,
- copying, or storage of this message or its attachments is strictly prohibi=
-ted. </p>
-</body>
-</html>
-
---_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_--
 
