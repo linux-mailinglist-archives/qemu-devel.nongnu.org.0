@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 489392A6951
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:21:19 +0100 (CET)
-Received: from localhost ([::1]:33444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68BF02A694B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:19:18 +0100 (CET)
+Received: from localhost ([::1]:55296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLXC-0005Ix-CG
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:21:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42502)
+	id 1kaLVF-0002c3-Gc
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:19:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFP-0002ph-Th
+ id 1kaLFP-0002nf-0m
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24805)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFN-0005eP-7Y
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:55 -0500
+ id 1kaLFL-0005e4-Td
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505772;
+ s=mimecast20190719; t=1604505771;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P7uqdbbUA6vaMKp4AJvwIjipVYccfSRTLrzYBLz/3SI=;
- b=XL2A3ZvBW5Y2LFTcVdB39wXD32OhBe6bzi0ey57TUYHR2JsgN/Zyfn4QpRK9G8fyJV70Ql
- fPlfee/JCUE0W+/7NefU9QNwjIQEM7Hev5O5/PHfCIEsvI/YCA2AlTt9s9yHRaI2qCXnaC
- d93uue0HBMg4gK7REXASK5xCoxBg4rM=
+ bh=H98XLpUksdIgX7C5G11L5PaMJaT7m6T8YKA2VVNxxBo=;
+ b=MXxEyBtYJBx4BXx2yNw2omjDqwha+rT5QwswRuQi3UkmNEawl0/kKgVTGJNFUqyCn4y4aS
+ sh6/IZIU5VLVDbPPGo3Y0ybEJjsyh329MmjFImTDxKe5B0JezyEo3JlXMrAm8Wc9oTKH5J
+ QRNPZAShv4PJHqIt8GCTRzV6tBQefDE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-NCNjiKrKOPe0p3cpwXa1jA-1; Wed, 04 Nov 2020 11:02:51 -0500
-X-MC-Unique: NCNjiKrKOPe0p3cpwXa1jA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-227-6_tuzgmNNPuF0fzxxnmWkA-1; Wed, 04 Nov 2020 11:02:49 -0500
+X-MC-Unique: 6_tuzgmNNPuF0fzxxnmWkA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 48C4F807105;
- Wed,  4 Nov 2020 16:02:04 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A57851097F36;
+ Wed,  4 Nov 2020 16:02:12 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F33D960BFA;
- Wed,  4 Nov 2020 16:02:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6AE3A55798;
+ Wed,  4 Nov 2020 16:02:12 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 31/44] qdev: Reuse object_property_add_field() when adding
- array elements
-Date: Wed,  4 Nov 2020 11:00:08 -0500
-Message-Id: <20201104160021.2342108-32-ehabkost@redhat.com>
+Subject: [PATCH v2 32/44] qom: Add allow_set callback to ObjectProperty
+Date: Wed,  4 Nov 2020 11:00:09 -0500
+Message-Id: <20201104160021.2342108-33-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,42 +89,121 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we can call object_property_add() with exactly the same
-arguments as object_property_add_field(), we can just reuse the
-function.
+Add a ObjectProperty.allow_set callback, that can be set by QOM
+property registration functions.
+
+Note that this doesn't replace the check callback at
+object*_property_add_link() (yet), because currently the link
+property check callback needs to get the property value as
+argument (despite this not being necessary in most cases).
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes v1 -> v2:
-* Now we don't need to hack ObjectProperty.release anymore,
-  patch became trivial
+* Redone patch on top of changes in previous patches in the
+  series
+* Provide prop_allow_set_always() and prop_allow_set_never()
+  helpers
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ include/qom/object.h | 38 ++++++++++++++++++++++++++++++++++++++
+ qom/object.c         | 16 ++++++++++++++++
+ 2 files changed, 54 insertions(+)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 0aa482b3ab..5faf974c4f 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -574,12 +574,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-          */
-         arrayprop->offset = eltptr - (void *)obj;
-         assert(qdev_get_prop_ptr(obj, arrayprop) == eltptr);
--        object_property_add(obj, propname,
--                            arrayprop->info->name,
--                            field_prop_getter(arrayprop->info),
--                            field_prop_setter(arrayprop->info),
--                            arrayprop->info->release,
--                            arrayprop);
-+        object_property_add_field(obj, propname, arrayprop);
-     }
+diff --git a/include/qom/object.h b/include/qom/object.h
+index d378f13a11..2ab124b8f0 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -86,6 +86,43 @@ typedef void (ObjectPropertyRelease)(Object *obj,
+  */
+ typedef void (ObjectPropertyInit)(Object *obj, ObjectProperty *prop);
+ 
++/**
++ * typedef ObjectPropertyAllowSet:
++ * @obj: the object that owns the property
++ * @prop: the property being set
++ * @errp: pointer to error information
++ *
++ * Called when a property is being set.
++ *
++ * If return value is false, it will prevent the property from
++ * being changed.  Error information should be filled in @errp
++ * if return vlaue is false.
++ */
++typedef bool (ObjectPropertyAllowSet)(Object *obj, ObjectProperty *prop,
++                                      Error **errp);
++
++/**
++ * prop_allow_set_always:
++ * @obj: the object that owns the property
++ * @prop: the property being set
++ * @errp: pointer to error information
++ *
++ * ObjectPropertyAllowSet implementation that always allow the
++ * property to be set.
++ */
++bool prop_allow_set_always(Object *obj, ObjectProperty *prop, Error **errp);
++
++/**
++ * prop_allow_set_never:
++ * @obj: the object that owns the property
++ * @prop: the property being set
++ * @errp: pointer to error information
++ *
++ * ObjectPropertyAllowSet implementation that never allows the
++ * property to be set.
++ */
++bool prop_allow_set_never(Object *obj, ObjectProperty *prop, Error **errp);
++
+ struct ObjectProperty
+ {
+     char *name;
+@@ -96,6 +133,7 @@ struct ObjectProperty
+     ObjectPropertyResolve *resolve;
+     ObjectPropertyRelease *release;
+     ObjectPropertyInit *init;
++    ObjectPropertyAllowSet *allow_set;
+     void *opaque;
+     QObject *defval;
+ };
+diff --git a/qom/object.c b/qom/object.c
+index 1065355233..7c11bcd3b1 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -1381,6 +1381,18 @@ bool object_property_get(Object *obj, const char *name, Visitor *v,
+     return !err;
  }
  
++bool prop_allow_set_always(Object *obj, ObjectProperty *prop, Error **errp)
++{
++    return true;
++}
++
++bool prop_allow_set_never(Object *obj, ObjectProperty *prop, Error **errp)
++{
++    error_setg(errp, "Property '%s.%s' can't be set",
++               object_get_typename(obj), prop->name);
++    return false;
++}
++
+ bool object_property_set(Object *obj, const char *name, Visitor *v,
+                          Error **errp)
+ {
+@@ -1395,6 +1407,10 @@ bool object_property_set(Object *obj, const char *name, Visitor *v,
+         error_setg(errp, QERR_PERMISSION_DENIED);
+         return false;
+     }
++    if (prop->allow_set && !prop->allow_set(obj, prop, errp)) {
++        return false;
++    }
++
+     prop->set(obj, v, name, prop->opaque, &err);
+     error_propagate(errp, err);
+     return !err;
 -- 
 2.28.0
 
