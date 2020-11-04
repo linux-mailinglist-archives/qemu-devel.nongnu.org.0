@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 520D42A5D90
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:10:44 +0100 (CET)
-Received: from localhost ([::1]:44570 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0930F2A5D92
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:11:37 +0100 (CET)
+Received: from localhost ([::1]:47134 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaB4F-00006O-Cg
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:10:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59568)
+	id 1kaB56-0001F3-2x
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:11:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmI-00070g-Mj
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46188)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmN-0007Bi-1H
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35242)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmG-0004oe-0b
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmL-0004qL-9o
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465527;
+ s=mimecast20190719; t=1604465532;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4t5NY5zyTFxf5JdPvPR+dRhfn/ny8MSoW1vs+UM3VkI=;
- b=O9de0IJ+xfXkT4wuYEBGQsEzzkta3WLIfNqHkyULx13t8SW499sbjVaL8+aLI0ap89YfKG
- WnKu6G4jGUYK1a8ONqvhvmvz1ltlR/Wru1XDne8Stc6uq1BlTN9hKsoXLQLygnb1cx+iqs
- B6QT/5gVBjEh2gwUlPN1TZMeLN+udUY=
+ bh=QTkwT/HJ1lj3VKT9unaRe9zAEsq3t6jIEnXFjz8fDHg=;
+ b=AilTWkv2F+GCR21M0H9WidNTxewPkgV1OIf2lVqY1h0H8t8FDd6gtKok716lQ1ruZosJ3m
+ kQoWCRBOxLbmtUzBcY72aWOTmxJpyg6LEsm/2DftX1eRixI2VhVapDZkztomHBREIor8El
+ kBPwv1Vth3Yapwf8M80Z4MuRRBpAE4k=
 Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
  [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-103-dPaoXGiPPXuIhfhmU4rDBg-1; Tue, 03 Nov 2020 23:51:16 -0500
-X-MC-Unique: dPaoXGiPPXuIhfhmU4rDBg-1
-Received: by mail-wr1-f69.google.com with SMTP id t11so8747070wrv.10
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:16 -0800 (PST)
+ us-mta-259-st653kjrMb-laG9vRXT0ag-1; Tue, 03 Nov 2020 23:51:19 -0500
+X-MC-Unique: st653kjrMb-laG9vRXT0ag-1
+Received: by mail-wr1-f69.google.com with SMTP id h8so8752030wrt.9
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:content-transfer-encoding
  :in-reply-to;
- bh=4t5NY5zyTFxf5JdPvPR+dRhfn/ny8MSoW1vs+UM3VkI=;
- b=YY26dWFZdKTdxJszrfPGg5XIfEEerwTNeA39tQSBn5c292WQIr/WuWFczWAsJS11El
- tOQ+zPkMEFLMoWyUV1n/vfSLjC36Qkq0Xe1jHhMESU4S4mEuxasQX/ptwylQftsveC37
- bIS96stBG447RRM71jRYCU4IWmelP6231s03MPZoTts6xxHZ6eFovZx2tUiPGegdFS/s
- RZGAHU3TR1X2F0EVASWdaCIFBzf5xoVoo3+jiztyIviVHa+f2NwRHghfNJEMjNVK4FYM
- JVe5fJUEuOvCRPpMOOTMB8FGKQn7BcIRJE6bFldAQ8/hp6kayNI5c6Mg0J7FNmWHyjRc
- Iakw==
-X-Gm-Message-State: AOAM530mgsv0bJ/HUI/Sf5WEZgqI1aIc10D4xRPt6Smdz4EOJrIxTd3k
- rxb6VUVWcV0GdLWchHieMySI3or3/A/LZEKxKdhRgz5TuD4rMjCJYDi+DGnXvpooDuhy2zeOg9U
- sgra/XUOJvNLgDFg=
-X-Received: by 2002:a1c:26c3:: with SMTP id m186mr2308226wmm.115.1604465475000; 
- Tue, 03 Nov 2020 20:51:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzB5LneqeIqlqxcFrlHeD6jODLPG3/6pQPGEz6Ef2D4s/NR30+VTEKZWVqkQ5D2j8GmxfBXRw==
-X-Received: by 2002:a1c:26c3:: with SMTP id m186mr2308213wmm.115.1604465474810; 
- Tue, 03 Nov 2020 20:51:14 -0800 (PST)
+ bh=QTkwT/HJ1lj3VKT9unaRe9zAEsq3t6jIEnXFjz8fDHg=;
+ b=CXeTKNLj+q/tC6Cw6DDqm2AosywDZaiDwgJVdZcEkBWaIzb/gi3DKPaJGslCORAcs8
+ RJxBOQSNBYVMG5hfwLj40Z+aPfNlL2wgBpK4M293DBAhBiphK43Fj+5UCHrc2oNq4eCS
+ 4NykhNgAT2H0/CMLHmuVVDScK6wPMyNdeMwLhMfxGRAFTj7+O/C/+HR82NSFHT59VJV8
+ t9kiofITob/u/3fcRhRsPxcff/BP1DbM2vOS+6lB7DRnUkhKgVJP42PFI9+QKKFGnDMf
+ zemV+S30ZpJLC+0Q5Mvn58cWxCOWBAV7rOx1G7/JRJcxktJSYSJz2pFfbNA0gp//pFnq
+ S32A==
+X-Gm-Message-State: AOAM530liCVAYj09s53JfP2x/LWebEwmbZ4cn1ZgshvZT3ImAizWYriP
+ D9XAyKubIVhRlDWmHdypVET7CTqu0+50WLoUjKI8l9d/N2UiS7tyN2cCbNiolUoyoFJVRXvyhVO
+ a6DpAvRtmntT+CA0=
+X-Received: by 2002:a5d:54c1:: with SMTP id x1mr31535049wrv.172.1604465477640; 
+ Tue, 03 Nov 2020 20:51:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzUgsPaveUdfW8VUaAKa0QnpyrEuLakxvhVemX2FGAfbSC5w1+S79jiFtRprGeBjDFfnqL8OQ==
+X-Received: by 2002:a5d:54c1:: with SMTP id x1mr31535034wrv.172.1604465477476; 
+ Tue, 03 Nov 2020 20:51:17 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id v6sm859879wrs.39.2020.11.03.20.51.13
+ by smtp.gmail.com with ESMTPSA id o7sm879237wrp.23.2020.11.03.20.51.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:14 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:12 -0500
+ Tue, 03 Nov 2020 20:51:16 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:51:15 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 11/38] hw/virtio/vhost-backend: Fix Coverity CID 1432871
-Message-ID: <20201104044937.226370-12-mst@redhat.com>
+Subject: [PULL v2 12/38] hw/smbios: Fix leaked fd in save_opt_one() error path
+Message-ID: <20201104044937.226370-13-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -98,55 +98,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Igor Mammedov <imammedo@redhat.com>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+ Laszlo Ersek <lersek@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Fix uninitialized value issues reported by Coverity:
+Fix the following Coverity issue (RESOURCE_LEAK):
 
-  Field 'msg.reserved' is uninitialized when calling write().
+  CID 1432879: Resource leak
 
-While the 'struct vhost_msg' does not have a 'reserved' field,
-we still initialize it to have the two parts of the function
-consistent.
+    Handle variable fd going out of scope leaks the handle.
 
-Reported-by: Coverity (CID 1432864: UNINIT)
-Fixes: c471ad0e9bd ("vhost_net: device IOTLB support")
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Replace a close() call by qemu_close() since the handle is
+opened with qemu_open().
+
+Fixes: bb99f4772f5 ("hw/smbios: support loading OEM strings values from a file")
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20201103063541.2463363-1-philmd@redhat.com>
+Message-Id: <20201030152742.1553968-1-philmd@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/vhost-backend.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/smbios/smbios.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
-index 88c8ecc9e0..222bbcc62d 100644
---- a/hw/virtio/vhost-backend.c
-+++ b/hw/virtio/vhost-backend.c
-@@ -257,7 +257,7 @@ static int vhost_kernel_send_device_iotlb_msg(struct vhost_dev *dev,
-                                               struct vhost_iotlb_msg *imsg)
- {
-     if (dev->backend_cap & (1ULL << VHOST_BACKEND_F_IOTLB_MSG_V2)) {
--        struct vhost_msg_v2 msg;
-+        struct vhost_msg_v2 msg = {};
- 
-         msg.type = VHOST_IOTLB_MSG_V2;
-         msg.iotlb = *imsg;
-@@ -267,7 +267,7 @@ static int vhost_kernel_send_device_iotlb_msg(struct vhost_dev *dev,
-             return -EFAULT;
+diff --git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
+index 8b30906e50..6a3d39793b 100644
+--- a/hw/smbios/smbios.c
++++ b/hw/smbios/smbios.c
+@@ -988,16 +988,18 @@ static int save_opt_one(void *opaque,
+             if (ret < 0) {
+                 error_setg(errp, "Unable to read from %s: %s",
+                            value, strerror(errno));
++                qemu_close(fd);
+                 return -1;
+             }
+             if (memchr(buf, '\0', ret)) {
+                 error_setg(errp, "NUL in OEM strings value in %s", value);
++                qemu_close(fd);
+                 return -1;
+             }
+             g_byte_array_append(data, (guint8 *)buf, ret);
          }
-     } else {
--        struct vhost_msg msg;
-+        struct vhost_msg msg = {};
  
-         msg.type = VHOST_IOTLB_MSG;
-         msg.iotlb = *imsg;
+-        close(fd);
++        qemu_close(fd);
+ 
+         *opt->dest = g_renew(char *, *opt->dest, (*opt->ndest) + 1);
+         (*opt->dest)[*opt->ndest] = (char *)g_byte_array_free(data,  FALSE);
 -- 
 MST
 
