@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 131712A6ACF
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:53:05 +0100 (CET)
-Received: from localhost ([::1]:52146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8978D2A6B1E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:55:06 +0100 (CET)
+Received: from localhost ([::1]:57424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaM1w-0003XI-4x
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:53:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
+	id 1kaM3t-0005kq-Jj
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:55:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaM1B-00036q-Kf
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:52:17 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaM19-0003Ym-Q8
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:52:17 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id l24so23131761edj.8
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 08:52:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k4jSRRFzoRbguAZezJSW6oheX3UjW0JRhvFSd+h7jJI=;
- b=h8A3p/BOguWwcjT/9tBC5sSkl0rqkD8NQ36OlYDOdPg+LJzvNluhHDG5cfQkDj887F
- wr+LPIgOt/Q1UIrR0LUc2EQP/iVlRfxNuHJDLsDN9xyWpnI2SmqCdE/Le2FzIeJ7Isxa
- WFVsH/1givYPwxTch1G1wicDkhBywr5eKMNlCESTpxByAhraQqs/XzYIxWLmfQ2LV+cN
- e4+YpCmEGxQmebsmilMZugvsXQ01Xj4TG7q2vphexAOF926MrZnq21Ubs8Uy4kOC1LGZ
- 8mcCt0AG+sMPu7SVre6oL0m+NzAeITvso0x6uKZgAjszUcf06uURDNnmgBATe6zfh+pM
- rYSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k4jSRRFzoRbguAZezJSW6oheX3UjW0JRhvFSd+h7jJI=;
- b=jF6rCn1d3jZ3w7pZOA1ssjL1Av2VW4k+tSFbGBhRbcRTdIMazPUgBgJIXzon73jGan
- sS2IS+Ajnr/C42XH/vkYmlmNY5rjKUjvUuwuB5oRZAG2O6aT3Tzd3zwuyKXxctN5gO1O
- zpB1rxeNEqSxDZ6EqhKumVVV4/YdiyZFwPzOvX+ubQvoctWOeNUdQSq9meSH2YccpDPM
- iJ9K41XwIp/fp08wrsFoZYvgcK8X4IrWOjE6mns+ubOUNeCD6NPso1O6DrzkiNUgEKoG
- IDcAWakv9uBpdWQbcHBMha5VQoc2rBsOOwdqkIUZrAkg+zliKUvR0EO1eO1v3gtFsjzp
- DZZw==
-X-Gm-Message-State: AOAM530CtidvpTh/lzSxvfKznxYEiaZofp8cykYTOU1+tFjBnFqJhaWp
- jA447brQ8gefGM/x+2eoul5yZJuVd+F6N25UT5p3eQ==
-X-Google-Smtp-Source: ABdhPJx7Cv/gTx84wFvCbtUtdKZpRlHp8vE6+ViDUZrvzgsQdd0LSBJvbEM1jFI59wzBFHsc4dJE9zibpFA1wf22T9I=
-X-Received: by 2002:aa7:c683:: with SMTP id n3mr27240392edq.146.1604508733971; 
- Wed, 04 Nov 2020 08:52:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kaM2x-00053B-0Z
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:54:07 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:41021)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kaM2u-0003pH-Tf
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:54:06 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 0A4GqsEi019783
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Wed, 4 Nov 2020 11:52:58 -0500
+Date: Wed, 4 Nov 2020 11:52:54 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Ramping up Continuous Fuzzing of Virtual Devices in QEMU
+Message-ID: <20201104165254.2qibav3njmpmchnc@mozz.bu.edu>
+References: <20201022161938.7clfymu6a3zl46s2@mozz.bu.edu>
+ <20201022162416.iccjosbeg753qbzc@mozz.bu.edu>
+ <20201022163925.GE428835@redhat.com>
+ <p2qq7p64-r88p-s228-133q-n770po2ssonp@erqung.pbz>
+ <20201104152506.abplvggv2ll36m6v@mozz.bu.edu>
+ <CAFEAcA84Awk26JgRB90R5M9=R66XXR5eWs47pwZ6Oq0V7A34TA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20201104121321.7772-1-kraxel@redhat.com>
-In-Reply-To: <20201104121321.7772-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Nov 2020 16:52:02 +0000
-Message-ID: <CAFEAcA8odz-+rX=1J3N6rcSBamVrrc+NSGZJzTKyGhtrotzt=g@mail.gmail.com>
-Subject: Re: [PULL 0/8] Usb 20201104 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA84Awk26JgRB90R5M9=R66XXR5eWs47pwZ6Oq0V7A34TA@mail.gmail.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 10:26:04
+X-ACL-Warn: Detected OS   = Linux 2.6.x
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.379, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,36 +61,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, 0ops@0ops.net,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ P J P <ppandit@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Dima Stepanov <dimastep@yandex-team.ru>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Nov 2020 at 12:17, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 3d6e32347a3b57dac7f469a07c5f520e69bd070a:
->
->   Update version for v5.2.0-rc0 release (2020-11-03 21:11:57 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20201104-pull-request
->
-> for you to fetch changes up to 963a7bed570ce12604a48755c78244a2b6e179b3:
->
->   dev-serial: store flow control and xon/xoff characters (2020-11-04 07:22:37 +0100)
->
-> ----------------------------------------------------------------
-> usb: bugfixes for usb-serial
->
-> ----------------------------------------------------------------
->
+On 201104 1546, Peter Maydell wrote:
+> On Wed, 4 Nov 2020 at 15:26, Alexander Bulekov <alxndr@bu.edu> wrote:
+> > If I understand correctly, this is analogous to what happens with
+> > Coverity reports. Access to Coverity is closed (not sure if there is a
+> > process to apply for access). It also seems that there is a push to fix
+> > CID issues prior to new releases. Maybe a similar process can be used for
+> > fuzzing?
+> 
+> Coverity is only closed in the sense that you have to request
+> an account on the website. Anybody who's a QEMU developer
+> can look at the reports.
+> 
 
+OK thats good to know. Why should fuzzing reports be treated
+differently? Is it because they come with a ready-to-use reproducer?
 
-Applied, thanks.
+> The attempt to fix CID issues works because:
+>  * Coverity reports a fairly small number of issues, so
+>    "fix them all" is relatively tractable, and then once you
+>    get down to "no outstanding issues" the only new ones
+>    that get found are for new changes to QEMU (not entirely
+>    true, but close enough)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+I think fuzzing is quite similar. After an initial wave of reports,
+they should slow to a trickle and eventually should just catch problems
+in new changes.
 
--- PMM
+>  * Mostly issues are reported soon after the offending code
+>    goes into the tree, so it's often possible to quickly
+>    identify the patch that introduced the issue and ask
+>    the person who wrote that patch to fix the bug
+
+While fuzzing can take some time to find issues after new code is
+committed, I don't think the problem of reports on stale code is unique
+to fuzzing. That should only be an issue for the initial wave of reports
+(the same as I'm guessing it was was when Coverity started analyzing
+QEMU in 2013).
+Additionally, we can filter crashes based on where they occured, which
+should give a similar level of control as the Coverity
+components/patterns. If problems in e.g. ati or vmxnet are unlikely to
+be looked at, we can
+ 1.) Not fuzz them (easy to do by removing an entry from
+ tests/qtest/fuzz/generic_fuzz_configs.h)
+ 2.) Apply filters to ignore crash reports with ati.c or vmxnet.c in the
+ callstack.
+
+That said, IIUC main purpose of the Coverity componsnets/patterns is to
+prevent false positives. This shouldn't be nearly as much of a problem
+for oss-fuzz reports for which we can provide qtest reproducers.
+
+>  * Coverity reports are categorized by kind-of-failure,
+>    so it's easy to prioritize important stuff (buffer overflows)
+>    and leave less significant stuff (dead code) for later
+
+Fuzzer reports are the same. OSS-fuzz tells us if something is an
+overflow, UAF, overlapping-memcpy, double-free, assertion-failure,
+null-ptr derefs etc.
+If noise from assertion-failure/null-ptr derefs reports is a concern,
+maybe we can just ignore those for now?
+
+>  * Coverity's reports include the automated analysis of
+>    why Coverity thinks there's an issue -- this is not
+>    always right but it's a solid head start on "what's the
+>    bug here" compared to just having a repro case and an
+>    assertion-failure message
+
+Thats true - the types of bugs found by fuzzing rather than static
+analysis usually are tough to automatically suggest (pretty) fixes for.
+I have been thinking about ways to make this situation better, beyond
+just enabling the relevant -trace events and hoping they provide context
+and make life easier.
+
+>  * There's a set of people who care enough about Coverity
+>    reports to put the time in to fixing them...
+
+I hope this set of people grows for fuzzing reports as well. Though
+fuzzing reports are nothing compared to the ~1250 fixed coverity
+defects, fuzzing has already helped highlight some serious issues that
+have been hiding in the code for a long time. Unfortunately, I think
+there is a gap between the types of problems reported by fuzzing and
+Coverity, where I don't see someone picking up a dozen random fuzzing
+reports and having a dozen patches ready by the end of the day. Multiple
+people working on fuzzer-discovered issues have mentioned that they are
+often quite time consuming to properly fix (for little preceived
+reward). Maybe the solution is to limit the scope of fuzzer reports so
+that they might be rarer, but are more likely to feature problems that
+people will care about? This might mean having a narrower selection of
+fuzzed devices than just "anything that works with KVM"
+
+-Alex
+
+> 
+> thanks
+> -- PMM
 
