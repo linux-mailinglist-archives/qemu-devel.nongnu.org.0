@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2367D2A6B10
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:54:12 +0100 (CET)
-Received: from localhost ([::1]:55102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB982A6B22
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:56:36 +0100 (CET)
+Received: from localhost ([::1]:60504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaM31-0004mB-86
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:54:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53654)
+	id 1kaM5L-00078f-2J
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:56:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kaM22-0003wN-G5
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:53:10 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:35093)
+ id 1kaM3m-0005xu-BR
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:54:58 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:34357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kaM20-0003hA-1u
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:53:10 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id h22so2996553wmb.0
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 08:53:07 -0800 (PST)
+ id 1kaM3k-0003uk-FE
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:54:58 -0500
+Received: by mail-wm1-x344.google.com with SMTP id 23so2266751wmg.1
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 08:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e7hx2epu6TkDikGX2gTL44YNju92C6OybaHDlJuBm2o=;
- b=d/D2Dj3VWnk9U5kRCA3MaUZxxxKqDpxvB9w6h0+MMXwGgLKP0lu8TKVPtG04ljbHuP
- emGyciwaOUiJ+TA4v0w6ez2x6v/5jGG0bEmdUFTVIdxtX74ZUaqDUCHXWSaCdASgGDv6
- YwYdr8/hXVHXcOetVFgurRIQVQfK8TmPJye19bIcClZ+YdKOcVYc7fUb7DXWlDBTBvXR
- 7N9MQNSaj7XL8a6odLKZaYuUZhdljK1OOT/6eMfF/IBYWFt0GjWlHArkqCgXxWOXcImX
- 5fNUdUFkk+w7y4imGNYgk+dhtNGRRG6hbAZ0JeuOeQoa0ayhu9lzNCejSga8npPxK8hF
- pgDw==
+ h=references:user-agent:from:to:cc:subject:in-reply-to:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=4jjWpn4bcwLC7eZjYcSUVSK/OwVcFjwCXKimzrpEA18=;
+ b=osQFm1jSPAgDnLwh/kW/r8CpAJdDTvPMUvweMlat8bmDz4AS0gR7n/zO/DCXS6h49x
+ Ai4J45OlWEz5KClmmiorY7ixpxixy6fhNrsSkyE2PLmWdhhBWuoq/Z/DY8QVjK9rtAdr
+ c9ysG/C4xXLwJCSHitsgKEWcjn2zDPF2XT6o4LamikLZ8+MuOS0nWbW/c+EH4gkMAYEe
+ ayHAaGS9LK9qPDt77/g+Txh464ZW/L25r0lZ9KHNr2KrYOiYgYJuQ7KOMHTNj6AVjhdy
+ EUifoyo2hvBIef8RX3+1AUWw3QyqkBHGv9ecKv4yF5u4mVzhu2rpxXYDuRAh9nySb4dq
+ yX7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=e7hx2epu6TkDikGX2gTL44YNju92C6OybaHDlJuBm2o=;
- b=n2UvuK63YyzBFXdDkm/curS29aOaA/lbUCf+KxfN8keyoKxRPYOW3P8QuABK4YHvrY
- r8NDmAKh+yz5vBVbKvU4z0cwKb5ict4rQlzk2HlfZ0RJAiCgegX3AfJ2ohKwg79eppOR
- 6850YiCMVs0pHcNjPRXHxeJJAIZ0cQshueRPMpC3r2wp23tf2/rPKBqnWShgpHGJ2m8O
- cEZilbF8QX9ANmnAc4GIGy3/+sW82rmvLurTfWqMqr3WdKySNIYhTFkiJdz2NuNVvfXR
- TG+5Qvw1jtUOpJZfG4S6cqVL/1DskSCaYjKx1J+KrpwORpuzQJpQdftELI+bLIC9udk4
- 3i1A==
-X-Gm-Message-State: AOAM533q/MFw4e5IQzN4hnIiMkphhY8W+Ww8BiBKjNq7FbX/2PgLo+gL
- 8zbzGWKQr2KnJjWVL89f+aMDjg==
-X-Google-Smtp-Source: ABdhPJzSu/C/rdOgwkODsAyKxiC/EWRDRVwn9VH2QOq54S5Vx1/InP+0hbju4vNTGtnnDK8P/TOvUg==
-X-Received: by 2002:a1c:3c44:: with SMTP id j65mr5838805wma.13.1604508786628; 
- Wed, 04 Nov 2020 08:53:06 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject
+ :in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+ bh=4jjWpn4bcwLC7eZjYcSUVSK/OwVcFjwCXKimzrpEA18=;
+ b=igxPZe4gxFc2N2DeGmiIkZ5tG/oON2MM2LYT/aII1/tid2t2pYWPdsrCIeMWeFPWe6
+ l+feWwz9ysjtKQiQK8HNEw9WEPe550ORfpcJ/ODGyIwwCuaOieB/XwNjM3Tz1KrJh5/0
+ qwhO55eNXG/TjGbzB00uJ5XIpL+UkGTSFwxgrC9btj7NMcS/ap5KhS6Iw2ufTdwYLulX
+ tqQfn8ic7n+TZgxY8s1D0sc03JAdaTOoph+h4KMq5TBiMH6r2O094SqLGLMuwHCVC3lW
+ GKho8eVjYnuJn76rGYxFu/Mfg+JNlfxPusxgDSwtPtzxj51dAqmBOEXsWqIc4pj7k3wZ
+ QV5A==
+X-Gm-Message-State: AOAM530WHx3LJDZZG7hkUVrbEsSw9oicroFmnNJ5DXEfCAyYEeT7/LHA
+ 5LyIeGu1tfnTwS+a9GBse5EK5Q==
+X-Google-Smtp-Source: ABdhPJynb/uN3jJeod19WJJBzTzFlb9xcseIOuZihTTv0r+4OmJ6ZlLxTCQVXDpCjP/V6uNM9C6QPg==
+X-Received: by 2002:a1c:6a11:: with SMTP id f17mr5442154wmc.24.1604508895023; 
+ Wed, 04 Nov 2020 08:54:55 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u3sm3509429wro.33.2020.11.04.08.53.04
+ by smtp.gmail.com with ESMTPSA id z2sm3009676wmf.45.2020.11.04.08.54.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 08:53:05 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 600761FF7E;
- Wed,  4 Nov 2020 16:53:04 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] docs: add some notes on the sbsa-ref machine
-Date: Wed,  4 Nov 2020 16:52:54 +0000
-Message-Id: <20201104165254.24822-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Wed, 04 Nov 2020 08:54:53 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 4F0551FF7E;
+ Wed,  4 Nov 2020 16:54:53 +0000 (GMT)
+References: <20201103104710.27150-1-alex.bennee@linaro.org>
+ <20201103112339.GP1664@vanye>
+User-agent: mu4e 1.5.6; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Leif Lindholm <leif@nuviainc.com>
+Subject: Re: [RFC PATCH] docs: add some notes on the sbsa-ref machine
+In-reply-to: <20201103112339.GP1664@vanye>
+Date: Wed, 04 Nov 2020 16:54:53 +0000
+Message-ID: <87sg9pawpu.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -87,83 +90,83 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Graeme Gregory <graeme@nuviainc.com>,
+ Hongbo Zhang <hongbo.zhang@linaro.org>,
  Peter Maydell <peter.maydell@linaro.org>,
- Shashi Mallela <shashi.mallela@linaro.org>,
- "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Leif Lindholm <leif@nuviainc.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+ Shashi Mallela <shashi.mallela@linaro.org>, qemu-devel@nongnu.org,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We should at least document what this machine is about.
 
-Reviewed-by: Graeme Gregory <graeme@nuviainc.com>
-Cc: Leif Lindholm <leif@nuviainc.com>
-Cc: Shashi Mallela <shashi.mallela@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Leif Lindholm <leif@nuviainc.com> writes:
 
----
-v2
-  - reworded command line bit as per Leif
-  - s/cortex-a57 cpus/AArch64 CPUs/
-  - dropped the trailing .'s
----
- docs/system/arm/sbsa.rst   | 32 ++++++++++++++++++++++++++++++++
- docs/system/target-arm.rst |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 docs/system/arm/sbsa.rst
+> On Tue, Nov 03, 2020 at 10:47:10 +0000, Alex Benn=C3=A9e wrote:
+>> We should at least document what this machine is about.
+>
+> Thanks!
+> (comments below)
+>
+>> Cc: Graeme Gregory <graeme@nuviainc.com>
+>> Cc: Leif Lindholm <leif@nuviainc.com>
+>> Cc: Hongbo Zhang <hongbo.zhang@linaro.org>
+>> Cc: Shashi Mallela <shashi.mallela@linaro.org>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  docs/system/arm/sbsa.rst   | 30 ++++++++++++++++++++++++++++++
+>>  docs/system/target-arm.rst |  1 +
+>>  2 files changed, 31 insertions(+)
+>>  create mode 100644 docs/system/arm/sbsa.rst
+>>=20
+>> diff --git a/docs/system/arm/sbsa.rst b/docs/system/arm/sbsa.rst
+>> new file mode 100644
+>> index 0000000000..a47c9360de
+>> --- /dev/null
+>> +++ b/docs/system/arm/sbsa.rst
+>> @@ -0,0 +1,30 @@
+>> +Arm Server Base System Architecture Reference board (``sbsa-ref``)
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +While the `virt` board is a generic board platform that doesn't match
+>> +any real hardware the `sbsa-ref` board intends to look like real
+>> +hardware. The `Server Base System Architecture
+>> +<https://developer.arm.com/documentation/den0029/latest>` defines a
+>> +minimum base line of hardware support and importantly how the firmware
+>> +reports that to any operating system. It is a static system that
+>> +reports a very minimal DT to the firmware for command line input to
+>> +the firmware.
+>
+> I think you mean the right thing, but ...
+> "a very minimal DT to the firmware for non-discoverable information
+>  about components affected by the qemu command line"
+>  (i.e. cpus and memory)
+>
+>> As a result it must have a firmware specifically built
+>> +to expect a certain hardware layout (as you would in a real machine).
+>> +
+>> +It is intended to be a machine for developing firmware and testing
+>> +standards compliance with operating systems.
+>> +
+>> +Supported devices
+>> +"""""""""""""""""
+>> +
+>> +The sbsa-ref board supports:
+>> +
+>> +  - A configurable number of Cortex-A57 cpus
+>> +  - GIC version 3
+>
+> The intent was always for sbsa-ref to be tracking SBSA development, so
+> I wonder whether we should be documenting specific versions of cpu and
+> gic (and then keep remembering to update the docs).
+> My short-term plan was to swap the a57 for "max", but
+> documentation-wise, could we just say "number of aarch64 cpus"?
+> Could we refer to the gic as "latest supported emulated"?
 
-diff --git a/docs/system/arm/sbsa.rst b/docs/system/arm/sbsa.rst
-new file mode 100644
-index 0000000000..b8ecfdb62f
---- /dev/null
-+++ b/docs/system/arm/sbsa.rst
-@@ -0,0 +1,32 @@
-+Arm Server Base System Architecture Reference board (``sbsa-ref``)
-+==================================================================
-+
-+While the `virt` board is a generic board platform that doesn't match
-+any real hardware the `sbsa-ref` board intends to look like real
-+hardware. The `Server Base System Architecture
-+<https://developer.arm.com/documentation/den0029/latest>` defines a
-+minimum base line of hardware support and importantly how the firmware
-+reports that to any operating system. It is a static system that
-+reports a very minimal DT to the firmware for non-discoverable
-+information about components affected by the qemu command line (i.e.
-+cpus and memory). As a result it must have a firmware specifically
-+built to expect a certain hardware layout (as you would in a real
-+machine).
-+
-+It is intended to be a machine for developing firmware and testing
-+standards compliance with operating systems.
-+
-+Supported devices
-+"""""""""""""""""
-+
-+The sbsa-ref board supports:
-+
-+  - A configurable number of AArch64 CPUs
-+  - GIC version 3
-+  - System bus AHCI controller
-+  - System bus EHCI controller
-+  - CDROM and hard disc on AHCI bus
-+  - E1000E ethernet card on PCIe bus
-+  - VGA display adaptor on PCIe bus
-+  - A generic SBSA watchdog device
-+
-diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
-index fdcf25c237..9636f3fd00 100644
---- a/docs/system/target-arm.rst
-+++ b/docs/system/target-arm.rst
-@@ -79,6 +79,7 @@ undocumented; you can get a complete list by running
-    arm/mps2
-    arm/musca
-    arm/realview
-+   arm/sbsa-ref
-    arm/versatile
-    arm/vexpress
-    arm/aspeed
--- 
-2.20.1
+I'm not sure we want a movable feast... shouldn't we at least provide
+compatibility for older variations? -cpu max is useful but you can get
+new features coming out of the blue.
 
+--=20
+Alex Benn=C3=A9e
 
