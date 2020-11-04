@@ -2,85 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04E522A61DC
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:37:51 +0100 (CET)
-Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 305B72A6236
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:40:43 +0100 (CET)
+Received: from localhost ([::1]:58468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGAn-0005wg-K8
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:37:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
+	id 1kaGDa-0001h3-77
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:40:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kaFwS-0003WS-4A; Wed, 04 Nov 2020 05:23:01 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:39159)
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kaFwc-0003eW-P7; Wed, 04 Nov 2020 05:23:10 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2075)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kaFwQ-0002I7-BH; Wed, 04 Nov 2020 05:22:59 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id EDBD6AF7;
- Wed,  4 Nov 2020 05:22:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 04 Nov 2020 05:22:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=Ec7W6yqCDgaIQ
- yq5Zu2HxvoyaH/VyEJWeQB+2zxtbCo=; b=UKOgy4J4AQoH4c/PM7ClMyfbtpyvr
- izuANIygOgdwP4y66UbjrD0sahtbsaMhrB0f0iuFmWGwtsUFC7fo7L8soU+fWdWu
- Wc/WcrekWGh0iluYp6rG1qbSid9d0vg+kMLio5YgV4lAuKfHsvcdSUgkAQ+Yq+X9
- DvKCH7L0tT4jJtV+RuwEaCwiKBWkw+IQRoUjPqX3JV5XkKyzij+4URhNN3ck5Wdh
- x9o1aG7DYhXj4ARGswKIHd2GRdIPM1Y0dp7rVdNxT6KKnxMhY7zKdulz+SIENG1D
- rlS2V53PvIkD6SLuo7VWJbLEeY13SxDVGk4UWZ60emyAeyNM2E6sngkLQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=Ec7W6yqCDgaIQyq5Zu2HxvoyaH/VyEJWeQB+2zxtbCo=; b=JLjmsT9r
- QYPvFf+EFhsDOU0P4gHkyhHC0gYmkGF04OsKot8mhWIShyvBqz3NDm2bHp5/ARPP
- ooTcgAJjmULuTyMJAw6WekuoWXdLYlwEgjPKg9ESmp08DyvfGFaLChAaGC11F71D
- WbcXI91haMgfRcZTfO9Go8+ObTo9wrqt6Aw1XuV1vVYxkFlzv3ENqeL/prnqjUdD
- HdpoyIha+y0yVaTZRD39J5c4Y1GeHBWec5/XK0JqI7OWR0oihTSVMRDXAI2lAzcJ
- wNN74wFPOYE5vkORbR8/TLSJ3wb65jAGsYcuA3vJ+MjfPqqDmRr+3QdJ7z1mVIyq
- JVlcQ744P0NYIA==
-X-ME-Sender: <xms:_4CiX7_UMH0Bat26Js_jatL2AKk50jqjHXQrXYFQY_X0zfNgUqrt6A>
- <xme:_4CiX3tL-DYAkpEOOAXwvnJnhaFsZ7Uvcaj32JGwSGHpvL3QHvqFQFok_pUsaaiCu
- o02lQtJnJxkZ60VRGI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:_4CiX5D9TLIgTs5hQol6vIMSpq4PVrmiRXFv0Ls_xqqYkVgOdY2uuQ>
- <xmx:_4CiX3fCOvxwD-cE5oNWxUzMIVOyS01L32uxTWGntanovCftmAYJ8g>
- <xmx:_4CiXwN7s-Ndp9R0pw2hPcMjvtSdjJ8IPz5KKVgq9bLeyxVsYXUMzQ>
- <xmx:_4CiX3eqxyu8qor1ogL0HUJ8W3P07Klj1gRV1YLzCmSkxNtD4kKehQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1A31B3280390;
- Wed,  4 Nov 2020 05:22:54 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 3/3] hw/block/nvme: fix free of array-typed value
-Date: Wed,  4 Nov 2020 11:22:48 +0100
-Message-Id: <20201104102248.32168-4-its@irrelevant.dk>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201104102248.32168-1-its@irrelevant.dk>
-References: <20201104102248.32168-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <alex.chen@huawei.com>)
+ id 1kaFwZ-0002If-RG; Wed, 04 Nov 2020 05:23:10 -0500
+Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4CR2m72xJHzhbBq;
+ Wed,  4 Nov 2020 18:23:03 +0800 (CST)
+Received: from [10.174.187.138] (10.174.187.138) by
+ DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 4 Nov 2020 18:23:02 +0800
+Message-ID: <5FA28106.6000901@huawei.com>
+Date: Wed, 4 Nov 2020 18:23:02 +0800
+From: AlexChen <alex.chen@huawei.com>
+User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64;
+ rv:17.0) Gecko/20130509 Thunderbird/17.0.6
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:22:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+To: <mst@redhat.com>, <stefanha@redhat.com>, <marcandre.lureau@redhat.com>
+Subject: [PATCH] contrib/libvhost-user: Fix bad printf format specifiers
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.187.138]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=alex.chen@huawei.com;
+ helo=szxga06-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:21:41
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,40 +57,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Minwoo Im <minwoo.im.dev@gmail.com>,
- Klaus Jensen <its@irrelevant.dk>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+We should use printf format specifier "%u" instead of "%d" for
+argument of type "unsigned int".
 
-Since 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces"), the
-namespaces member of NvmeCtrl is no longer a dynamically allocated
-array. Remove the free.
-
-Fixes: 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces")
-Reported-by: Coverity (CID 1436131)
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Alex Chen <alex.chen@huawei.com>
 ---
- hw/block/nvme.c | 1 -
- 1 file changed, 1 deletion(-)
+ contrib/libvhost-user/libvhost-user.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 2bdc50eb6fce..01b657b1c5e2 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2799,7 +2799,6 @@ static void nvme_exit(PCIDevice *pci_dev)
-     NvmeCtrl *n = NVME(pci_dev);
- 
-     nvme_clear_ctrl(n);
--    g_free(n->namespaces);
-     g_free(n->cq);
-     g_free(n->sq);
-     g_free(n->aer_reqs);
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
+index bfec8a881a..5c73ffdd6b 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -701,7 +701,7 @@ vu_add_mem_reg(VuDev *dev, VhostUserMsg *vmsg) {
+         return false;
+     }
+
+-    DPRINT("Adding region: %d\n", dev->nregions);
++    DPRINT("Adding region: %u\n", dev->nregions);
+     DPRINT("    guest_phys_addr: 0x%016"PRIx64"\n",
+            msg_region->guest_phys_addr);
+     DPRINT("    memory_size:     0x%016"PRIx64"\n",
+@@ -848,7 +848,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserMsg *vmsg)
+     VhostUserMemory m = vmsg->payload.memory, *memory = &m;
+     dev->nregions = memory->nregions;
+
+-    DPRINT("Nregions: %d\n", memory->nregions);
++    DPRINT("Nregions: %u\n", memory->nregions);
+     for (i = 0; i < dev->nregions; i++) {
+         void *mmap_addr;
+         VhostUserMemoryRegion *msg_region = &memory->regions[i];
+@@ -938,7 +938,7 @@ vu_set_mem_table_exec(VuDev *dev, VhostUserMsg *vmsg)
+         return vu_set_mem_table_exec_postcopy(dev, vmsg);
+     }
+
+-    DPRINT("Nregions: %d\n", memory->nregions);
++    DPRINT("Nregions: %u\n", memory->nregions);
+     for (i = 0; i < dev->nregions; i++) {
+         void *mmap_addr;
+         VhostUserMemoryRegion *msg_region = &memory->regions[i];
+@@ -1049,8 +1049,8 @@ vu_set_vring_num_exec(VuDev *dev, VhostUserMsg *vmsg)
+     unsigned int index = vmsg->payload.state.index;
+     unsigned int num = vmsg->payload.state.num;
+
+-    DPRINT("State.index: %d\n", index);
+-    DPRINT("State.num:   %d\n", num);
++    DPRINT("State.index: %u\n", index);
++    DPRINT("State.num:   %u\n", num);
+     dev->vq[index].vring.num = num;
+
+     return false;
+@@ -1105,8 +1105,8 @@ vu_set_vring_base_exec(VuDev *dev, VhostUserMsg *vmsg)
+     unsigned int index = vmsg->payload.state.index;
+     unsigned int num = vmsg->payload.state.num;
+
+-    DPRINT("State.index: %d\n", index);
+-    DPRINT("State.num:   %d\n", num);
++    DPRINT("State.index: %u\n", index);
++    DPRINT("State.num:   %u\n", num);
+     dev->vq[index].shadow_avail_idx = dev->vq[index].last_avail_idx = num;
+
+     return false;
+@@ -1117,7 +1117,7 @@ vu_get_vring_base_exec(VuDev *dev, VhostUserMsg *vmsg)
+ {
+     unsigned int index = vmsg->payload.state.index;
+
+-    DPRINT("State.index: %d\n", index);
++    DPRINT("State.index: %u\n", index);
+     vmsg->payload.state.num = dev->vq[index].last_avail_idx;
+     vmsg->size = sizeof(vmsg->payload.state);
+
+@@ -1478,8 +1478,8 @@ vu_set_vring_enable_exec(VuDev *dev, VhostUserMsg *vmsg)
+     unsigned int index = vmsg->payload.state.index;
+     unsigned int enable = vmsg->payload.state.num;
+
+-    DPRINT("State.index: %d\n", index);
+-    DPRINT("State.enable:   %d\n", enable);
++    DPRINT("State.index: %u\n", index);
++    DPRINT("State.enable:   %u\n", enable);
+
+     if (index >= dev->max_queues) {
+         vu_panic(dev, "Invalid vring_enable index: %u", index);
+@@ -1728,7 +1728,7 @@ vu_handle_vring_kick(VuDev *dev, VhostUserMsg *vmsg)
+         return false;
+     }
+
+-    DPRINT("Got kick message: handler:%p idx:%d\n",
++    DPRINT("Got kick message: handler:%p idx:%u\n",
+            dev->vq[index].handler, index);
+
+     if (!dev->vq[index].started) {
+@@ -1772,7 +1772,7 @@ vu_process_message(VuDev *dev, VhostUserMsg *vmsg)
+     DPRINT("Request: %s (%d)\n", vu_request_to_string(vmsg->request),
+            vmsg->request);
+     DPRINT("Flags:   0x%x\n", vmsg->flags);
+-    DPRINT("Size:    %d\n", vmsg->size);
++    DPRINT("Size:    %u\n", vmsg->size);
+
+     if (vmsg->fd_num) {
+         int i;
 -- 
-2.29.1
-
+2.19.1
 
