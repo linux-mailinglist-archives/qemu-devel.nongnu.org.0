@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24332A632A
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:19:18 +0100 (CET)
-Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88F8E2A6316
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:15:28 +0100 (CET)
+Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGov-0005T1-JM
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:19:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50498)
+	id 1kaGlD-0001ms-Ke
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:15:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kaGjS-0008Ac-1w
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50880)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaGje-000097-E1
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59022)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kaGjP-00006G-U9
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:37 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaGjc-00006m-Qd
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604488415;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1604488427;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZK+kscyAhxLBU4zkTArjZfJgk427ovf+Sp3A4BUYwYI=;
- b=LyPMdwz0p0j9qdjV1+lraXGeyhSVihII6fVRIabnY5HTej+qrsETzSHk9mX/nVIikQEbx+
- ci0PvuwVAF3OYgFR/t5Js81T0RCtK/bwVbSr/bCb4NDGvWCS/ooq6DqHKC7TsO4897dLfW
- U7xe8gfN//K+XRDo0B/b3E/EHbYo/xs=
+ bh=52oOIG/KK+JZ1/vJcWQliC4tcHJL99AtXEoSDfkHVfM=;
+ b=XaP+HgccTc4VxQraCbfuoUHHoshnfdTxdQvH9e6N7JojDx1MsQXAgYAtlJRD+KFrb2XLzk
+ xLAZyZAyvuqwb0ryYIVD3g6Nr83IWliLWe2NBuoE4PhGmFtqHRDM5xYaG+BqZ1AQBJJIOf
+ 3Jahrk9RgpKLMkpjKGFnIVZpXmONbY4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-M5lauHF1OEe_NE7U0qzU_w-1; Wed, 04 Nov 2020 06:13:33 -0500
-X-MC-Unique: M5lauHF1OEe_NE7U0qzU_w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-543-waeS0JB8NCyenV3neV4xBA-1; Wed, 04 Nov 2020 06:13:44 -0500
+X-MC-Unique: waeS0JB8NCyenV3neV4xBA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A17210A0B82;
- Wed,  4 Nov 2020 11:13:31 +0000 (UTC)
-Received: from redhat.com (ovpn-115-26.ams2.redhat.com [10.36.115.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 501856EF7E;
- Wed,  4 Nov 2020 11:13:24 +0000 (UTC)
-Date: Wed, 4 Nov 2020 11:13:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Yuri Benditovich <yuri.benditovich@daynix.com>
-Subject: Re: [RFC PATCH 5/6] virtio-net: Added eBPF RSS to virtio-net.
-Message-ID: <20201104111320.GE565323@redhat.com>
-References: <20201102185115.7425-1-andrew@daynix.com>
- <20201102185115.7425-6-andrew@daynix.com>
- <060630f2-d077-7b71-f1d7-86036dd8f38d@redhat.com>
- <CAOEp5Oc7-1Dyj4ryF+S7BVP2YP=0ZrDRN89Qi0jajA3PE0Q6NA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A5F41019624;
+ Wed,  4 Nov 2020 11:13:41 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-151.ams2.redhat.com [10.36.112.151])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A31C60C84;
+ Wed,  4 Nov 2020 11:13:32 +0000 (UTC)
+Subject: Re: [PATCH-for-5.2? 3/5] tests/acceptance: Skip incomplete
+ virtio_version tests using '@skip'
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+References: <20201102144245.2134077-1-philmd@redhat.com>
+ <20201102144245.2134077-4-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <6fd67527-b887-54c5-8de6-4f54c8d66934@redhat.com>
+Date: Wed, 4 Nov 2020 12:13:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAOEp5Oc7-1Dyj4ryF+S7BVP2YP=0ZrDRN89Qi0jajA3PE0Q6NA@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20201102144245.2134077-4-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,95 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Yan Vugenfirer <yan@daynix.com>, Jason Wang <jasowang@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Andrew Melnychenko <andrew@daynix.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-ppc@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fabien Chouteau <chouteau@adacore.com>,
+ KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
+ Michael Rolnik <mrolnik@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Antony Pavlov <antonynpavlov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 04, 2020 at 01:07:41PM +0200, Yuri Benditovich wrote:
-> On Wed, Nov 4, 2020 at 5:09 AM Jason Wang <jasowang@redhat.com> wrote:
+On 02/11/2020 15.42, Philippe Mathieu-Daudé wrote:
+> Prefer skipping incomplete tests with the "@skip" keyword,
+> rather than commenting the code.
 > 
-> >
-> > On 2020/11/3 上午2:51, Andrew Melnychenko wrote:
-> > > From: Andrew <andrew@daynix.com>
-> > >
-> > > When RSS is enabled the device tries to load the eBPF program
-> > > to select RX virtqueue in the TUN. If eBPF can be loaded
-> > > the RSS will function also with vhost (works with kernel 5.8 and later).
-> > > Software RSS is used as a fallback with vhost=off when eBPF can't be
-> > loaded
-> > > or when hash population requested by the guest.
-> > >
-> > > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> > > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> > > ---
-> > >   hw/net/vhost_net.c             |   2 +
-> > >   hw/net/virtio-net.c            | 120 +++++++++++++++++++++++++++++++--
-> > >   include/hw/virtio/virtio-net.h |   4 ++
-> > >   net/vhost-vdpa.c               |   2 +
-> > >   4 files changed, 124 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
-> > > index 24d555e764..16124f99c3 100644
-> > > --- a/hw/net/vhost_net.c
-> > > +++ b/hw/net/vhost_net.c
-> > > @@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
-> > >       VIRTIO_NET_F_MTU,
-> > >       VIRTIO_F_IOMMU_PLATFORM,
-> > >       VIRTIO_F_RING_PACKED,
-> > > +    VIRTIO_NET_F_RSS,
-> > > +    VIRTIO_NET_F_HASH_REPORT,
-> > >
-> > >       /* This bit implies RARP isn't sent by QEMU out of band */
-> > >       VIRTIO_NET_F_GUEST_ANNOUNCE,
-> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > index 277289d56e..afcc3032ec 100644
-> > > --- a/hw/net/virtio-net.c
-> > > +++ b/hw/net/virtio-net.c
-> > > @@ -698,6 +698,19 @@ static void virtio_net_set_queues(VirtIONet *n)
-> > >
-> > >   static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
-> > >
-> > > +static uint64_t fix_ebpf_vhost_features(uint64_t features)
-> > > +{
-> > > +    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS feature */
-> > > +    uint64_t ret = features;
-> > > +#ifndef CONFIG_EBPF
-> > > +    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
-> > > +#endif
-> > > +    /* for now, there is no solution for populating the hash from eBPF
-> > */
-> > > +    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
-> >
-> >
-> > I think we probably need to to something reverse since RSS is under the
-> > control on qemu cli, disable features like this may break migration.
-> >
-> >
-> How by design we add new features to qemu in light of possible migration to
-> older qemu version when the destination
-> qemu does not support these features?
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  tests/acceptance/virtio_version.py | 11 +++++++----
+>  1 file changed, 7 insertions(+), 4 deletions(-)
+> 
+> diff --git a/tests/acceptance/virtio_version.py b/tests/acceptance/virtio_version.py
+> index 33593c29dd0..187bbfa1f42 100644
+> --- a/tests/acceptance/virtio_version.py
+> +++ b/tests/acceptance/virtio_version.py
+> @@ -140,17 +140,20 @@ def check_all_variants(self, qemu_devtype, virtio_devid):
+>          self.assertIn('conventional-pci-device', trans_ifaces)
+>          self.assertNotIn('pci-express-device', trans_ifaces)
+>  
+> +    @skip("virtio-blk requires 'driver' parameter")
 
-If the feature affects guest ABI, then we don't want to silently/
-automatically turn on features that have a dependancy on kernel
-features existing. They need to be an opt-in by mgmt app/admin.
+Shouldn't that be 'drive' instead of 'driver' ?
 
-IOW there needs to be an explicit property that is set to turn on use
-of eBPF. If this property is set, then QEMU must use eBPF or fail
-with an error. If it is unset, then QEMU must never use eBPF.
+> +    def test_conventional_devs_driver(self):
+> +        self.check_all_variants('virtio-blk-pci', VIRTIO_BLOCK)
+> +
+> +    @skip("virtio-9p requires 'fsdev' parameter")
+> +    def test_conventional_devs_fsdev(self):
+> +        self.check_all_variants('virtio-9p-pci', VIRTIO_9P)
+>  
+>      def test_conventional_devs(self):
+>          self.check_all_variants('virtio-net-pci', VIRTIO_NET)
+> -        # virtio-blk requires 'driver' parameter
+> -        #self.check_all_variants('virtio-blk-pci', VIRTIO_BLOCK)
+>          self.check_all_variants('virtio-serial-pci', VIRTIO_CONSOLE)
+>          self.check_all_variants('virtio-rng-pci', VIRTIO_RNG)
+>          self.check_all_variants('virtio-balloon-pci', VIRTIO_BALLOON)
+>          self.check_all_variants('virtio-scsi-pci', VIRTIO_SCSI)
+> -        # virtio-9p requires 'fsdev' parameter
+> -        #self.check_all_variants('virtio-9p-pci', VIRTIO_9P)
 
-The mgmt app controlling QEMU will decide whether to use eBPF and
-turn on the property, and will then know not to migrate it to a
-host without eBPF support.
+I think I'd prefer to keep the stuff commented ... otherwise it will show up
+in the logs, giving the impression that you could run the tests somehow if
+you just provided the right environment, which is just not possible right now.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+ Thomas
 
 
