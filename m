@@ -2,70 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BB12A6A31
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:46:16 +0100 (CET)
-Received: from localhost ([::1]:34326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDC5F2A69E8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:36:58 +0100 (CET)
+Received: from localhost ([::1]:46896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLvK-0004Tl-T8
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:46:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49114)
+	id 1kaLmL-00068a-H9
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:36:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kaLjO-0004X4-L7; Wed, 04 Nov 2020 11:33:54 -0500
-Received: from mail-il1-x143.google.com ([2607:f8b0:4864:20::143]:33995)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kaLfn-0000qU-NL
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:30:11 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:35452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kaLjM-0000r2-5c; Wed, 04 Nov 2020 11:33:54 -0500
-Received: by mail-il1-x143.google.com with SMTP id p2so5002047ilg.1;
- Wed, 04 Nov 2020 08:33:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hqwmb6PrP8ZH8SWTlskXS7GXfl2EXLdVj41LHwfo5jc=;
- b=NB59nJU80o5gEBh61X4PCFfbJzGBGOWlj6TuXeNwWO/NuRBIQ9WMtKvNxGxF3P4bEB
- zkBMHt3+5+Z85LNF9I53glrcdcBWdjIc8q1PZdoV+a03TTR1zZBp1QV5SbWZdF6BlAi5
- vj99CswShiN/rLbN19S4qmewmsncDZhqOPkkFYJKTgIpAH6zAHJB2NCHSPY+YgyPju7y
- TgxNph46mh3K9+ShNizXqBvFIlyrxyCxkoR2LAhiQ97uBqOO2CCppWDdJZ/Stp5xyrKG
- t0BcH61ULFdDcuvaG2TNBuf8/XEAu9Yiniyj5YZO6//XmHPkl2L3tJmoaFBOLRBZgypL
- g7fQ==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kaLfl-0000KO-3q
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:30:11 -0500
+Received: by mail-pf1-x442.google.com with SMTP id b3so17734218pfo.2
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 08:30:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=z8+8lJBcaaxeDudhji8oxO1dQe3v2xf8xPUwrZzPgYw=;
+ b=j2ap90iRMEVz6JgqBpQZ5vkG/oE8U096n16q6VZcOhM/S4tWAQFUbhxxn0VNa0zCVw
+ 80p/KFgWOI/VtbE9XUH7MOuveeFDcSHHA5WfVCvcv0sx/yXtmbQnsB6xC9qpA7z6ViJ5
+ CFv9SYklqPbR9/UIXwGEcbGgcNLxEx2u2ztLeFyWScWnqK5OZluvxOjGFuBoQUyKSDV3
+ HE1TaEuIlNDeysCTZIZ9wURlnSruSA5ihlbwZFhZM2MgXr1KfsVXloAH7HHc7mdxDTqv
+ iUa+ZrUa4YMbEq/oq8aW68YMRHSkkwJ7QCrzIYl+KJ+sq+a5ZlVojTz4R+zZsWJwGugW
+ 2h5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hqwmb6PrP8ZH8SWTlskXS7GXfl2EXLdVj41LHwfo5jc=;
- b=mNNzYP6DXmQn1r5+TNQ2khlDiJbDxckqiuxsTg9iWjA6F5c5kPTeaq2g7gPW5bsyRg
- IycGuzWCaOGjJaFArqem6m9uVHaRlCjBLPagI9yB0IYOMb/BoRiQra2u2dahwFGTHQzA
- dG0gun3WhDV0LHgKyiNZ2iTHgw+9zGB5q9F/75WyT27U+/nyk+vdEvDO0Je1T2QM0Xo7
- RF/OGzNS11aWcxth5gk1KSbGpAhk77RrD09knY5tL2+ClZV2WDwH46/wGgFWs4kctfzQ
- w/QTr5rUbeMpz+yJOSr17mYM9mnQXNZKAi0GM/KNYcfblpYRmiQJhPgPJSd1Gkwca456
- tIOw==
-X-Gm-Message-State: AOAM5310wWcj6L3EEJpeSRlQdfaCvTyDqREQ6wmq1I0EWCXO7tLdJgv3
- 2Wt/Yb99n/gERV5YQqm20TTel85xvOBzu1E1PuY=
-X-Google-Smtp-Source: ABdhPJy7/J9q5USDPMNzIyY+8ms4dvOYO68l/BY4jW8L5HQbOwwZYaD3aIVqBnVjaVEgz+ASjRvH9ILni7bfHETAdxI=
-X-Received: by 2002:a05:6e02:f41:: with SMTP id
- y1mr19868790ilj.267.1604507630165; 
- Wed, 04 Nov 2020 08:33:50 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=z8+8lJBcaaxeDudhji8oxO1dQe3v2xf8xPUwrZzPgYw=;
+ b=lwE+imJetP6vbQ5bQIv1lJlXyg74rrptYUF9D1llpq6hOSSVn2sOG7jeKbT+Rx2JAv
+ xrHUJbfj24aP91xebXu0+T7LvxLOdI6yxE4y1Jn+5MQEYnsVzCPrdVIrlAzWiDHxNla6
+ OZn4YaJtGNm/2uE0elBq+5OD5fxs2Db0ybHocqFbTfbGkOHf7e4GokcpA/Im92X86Zon
+ LFpfGgY6cxKGvjeIXmUIL6e1Up6IDTGX+KYJjEyUihc1YNFek34puQeNszwi7PaX76j+
+ 227tVy24mb4sBbGVxBEpjK4ArCkufCFmyzA5YFq5cCijnLlHe2fQoaK/owS9KryPVXAc
+ spJg==
+X-Gm-Message-State: AOAM5305m/O5+TpxAquh58UEajIlNpz1S2sbf65jnnVaixNHB0MjKt2T
+ RvhGtDeTTJuu2u8jvQvXwQcaPw==
+X-Google-Smtp-Source: ABdhPJz9X20rwrAnRDp+vCxGSfiomoTfRf9eP/hvGyY0t+EQBy3pTTGvJZNj5FbZeQ9jysWcjxVPxA==
+X-Received: by 2002:a62:fb09:0:b029:18a:df0f:cf2a with SMTP id
+ x9-20020a62fb090000b029018adf0fcf2amr15971682pfm.57.1604507407404; 
+ Wed, 04 Nov 2020 08:30:07 -0800 (PST)
+Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ by smtp.gmail.com with ESMTPSA id l3sm2689325pju.28.2020.11.04.08.30.06
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Nov 2020 08:30:06 -0800 (PST)
+Subject: Re: [PATCH v4 4/5] target/riscv: Remove the hyp load and store
+ functions
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <cover.1604464950.git.alistair.francis@wdc.com>
+ <189ac3e53ef2854824d18aad7074c6649f17de2c.1604464950.git.alistair.francis@wdc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d4f57237-518e-4bf8-f31e-988251f1689d@linaro.org>
+Date: Wed, 4 Nov 2020 08:30:04 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <5FA280F5.8060902@huawei.com>
-In-Reply-To: <5FA280F5.8060902@huawei.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 4 Nov 2020 08:21:52 -0800
-Message-ID: <CAKmqyKOS4bALKNTA9wMK=HANz4Dc=fffq2pZafCxGFqsJ_LMkg@mail.gmail.com>
-Subject: Re: [PATCH] ssi: Fix bad printf format specifiers
-To: AlexChen <alex.chen@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::143;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x143.google.com
+In-Reply-To: <189ac3e53ef2854824d18aad7074c6649f17de2c.1604464950.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +92,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>, QEMU <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>, qemu-arm <qemu-arm@nongnu.org>,
- Peter Chubb <peter.chubb@nicta.com.au>
+Cc: alistair23@gmail.com, bmeng.cn@gmail.com, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Nov 4, 2020 at 2:23 AM AlexChen <alex.chen@huawei.com> wrote:
->
-> We should use printf format specifier "%u" instead of "%d" for
-> argument of type "unsigned int".
->
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+On 11/3/20 8:43 PM, Alistair Francis wrote:
+> +#ifndef CONFIG_USER_ONLY
+> +static void check_access(DisasContext *ctx) {
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Newline before {.
 
-Alistair
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> ---
->  hw/ssi/imx_spi.c    | 2 +-
->  hw/ssi/xilinx_spi.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-> index 7f703d8328..d8885ae454 100644
-> --- a/hw/ssi/imx_spi.c
-> +++ b/hw/ssi/imx_spi.c
-> @@ -53,7 +53,7 @@ static const char *imx_spi_reg_name(uint32_t reg)
->      case ECSPI_MSGDATA:
->          return  "ECSPI_MSGDATA";
->      default:
-> -        sprintf(unknown, "%d ?", reg);
-> +        sprintf(unknown, "%u ?", reg);
->          return unknown;
->      }
->  }
-> diff --git a/hw/ssi/xilinx_spi.c b/hw/ssi/xilinx_spi.c
-> index fec8817d94..49ff275593 100644
-> --- a/hw/ssi/xilinx_spi.c
-> +++ b/hw/ssi/xilinx_spi.c
-> @@ -142,7 +142,7 @@ static void xlx_spi_update_irq(XilinxSPI *s)
->         irq chain unless things really changed.  */
->      if (pending != s->irqline) {
->          s->irqline = pending;
-> -        DB_PRINT("irq_change of state %d ISR:%x IER:%X\n",
-> +        DB_PRINT("irq_change of state %u ISR:%x IER:%X\n",
->                      pending, s->regs[R_IPISR], s->regs[R_IPIER]);
->          qemu_set_irq(s->irq, pending);
->      }
-> --
-> 2.19.1
->
+
+r~
 
