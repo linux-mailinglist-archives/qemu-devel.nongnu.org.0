@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973B02A5B6D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:02:25 +0100 (CET)
-Received: from localhost ([::1]:33500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 090C92A5B72
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:04:46 +0100 (CET)
+Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7Bw-0001DH-Jh
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:02:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35758)
+	id 1ka7EC-0004hC-RN
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:04:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nV-0006rD-SC
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57631)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nX-0006um-9Y
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nT-0004ue-4h
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:09 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nV-0004vI-Jl
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450226;
+ s=mimecast20190719; t=1604450228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zxjLjpJdipkVXuG2hbACyf4YwvY0FTbyUiG6pFbjAhk=;
- b=Gq9T5R9VJVAdGI+rjPrn88UCIBUSrAFWNyE+GbkW1Pel+yRf1Rm26cV7CPdQJkbe2YFdbK
- KNRMLDUnJNYQt58vhJgaEvGocne8em5uJe/pDgZEpGMDOmK9m9luRcL3df4k2lQn1RVTUJ
- UaARLbB3lWjxrhsk0caV+9XCZXIOz3A=
+ bh=8OIP/yQLJZUsi2soEpTbp9StYHP0czke4xPs/CZ/wFY=;
+ b=O0GCFwavMYmS8WBdHbPS/8e0+Obyy26QzFMe4LY2JCozs28Vz3LIaC/aZv4riPwyRvccsh
+ DxQsSAZr4bYjnojROuvz5P8IfD0oFswtS7djcjil+56D1vGEYHoboJT7jbL5gNOUWKIAzp
+ 5/se/pB1TsWZj9Hro58vwDDSoX0/+9c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-uN1R2NECPxSO-TJlnaZbew-1; Tue, 03 Nov 2020 19:37:04 -0500
-X-MC-Unique: uN1R2NECPxSO-TJlnaZbew-1
+ us-mta-212-EFb-lIC-Pum0RFfcMjSvDg-1; Tue, 03 Nov 2020 19:37:06 -0500
+X-MC-Unique: EFb-lIC-Pum0RFfcMjSvDg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90DC31891E92
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:03 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E8BA8015C3
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:06 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B3C9555766;
- Wed,  4 Nov 2020 00:37:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E8A39747C6;
+ Wed,  4 Nov 2020 00:37:04 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 44/72] scripts/qmp-shell: use isinstance() instead of type()
-Date: Tue,  3 Nov 2020 19:35:34 -0500
-Message-Id: <20201104003602.1293560-45-jsnow@redhat.com>
+Subject: [PATCH v2 46/72] python/qmp: Fix type of SocketAddrT
+Date: Tue,  3 Nov 2020 19:35:36 -0500
+Message-Id: <20201104003602.1293560-47-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,31 +83,31 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an integer, not a string. We didn't catch this before because we
+have not been type checking any of the clients that use this, and it was
+self-consistent enough.
+
+Mypy was not introspecting into the socket() interface to realize we
+were passing a bad type. Fixed now.
+
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ python/qemu/qmp/__init__.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 47863a604f51..0cd3ed7d43c7 100755
---- a/scripts/qmp/qmp-shell
-+++ b/scripts/qmp/qmp-shell
-@@ -215,13 +215,13 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-             for path in optpath[:-1]:
-                 curpath.append(path)
-                 obj = parent.get(path, {})
--                if type(obj) is not dict:
-+                if not isinstance(obj, dict):
-                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
-                     raise QMPShellError(msg.format('.'.join(curpath)))
-                 parent[path] = obj
-                 parent = obj
-             if optpath[-1] in parent:
--                if type(parent[optpath[-1]]) is dict:
-+                if isinstance(parent[optpath[-1]], dict):
-                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
-                     raise QMPShellError(msg.format('.'.join(curpath)))
-                 raise QMPShellError(f'Cannot set "{key}" multiple times')
+diff --git a/python/qemu/qmp/__init__.py b/python/qemu/qmp/__init__.py
+index 7355a558796f..dd211e3f6511 100644
+--- a/python/qemu/qmp/__init__.py
++++ b/python/qemu/qmp/__init__.py
+@@ -49,7 +49,7 @@
+ # {} is the QMPReturnValue.
+ 
+ 
+-InternetAddrT = Tuple[str, str]
++InternetAddrT = Tuple[str, int]
+ UnixAddrT = str
+ SocketAddrT = Union[InternetAddrT, UnixAddrT]
+ 
 -- 
 2.26.2
 
