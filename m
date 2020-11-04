@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD0A12A67F5
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:43:07 +0100 (CET)
-Received: from localhost ([::1]:57438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2922A6814
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:50:05 +0100 (CET)
+Received: from localhost ([::1]:55776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKwE-0005Y6-Ox
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:43:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36180)
+	id 1kaL2y-0008Fa-9l
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:50:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kaKsr-0001qB-LK
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:39:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kaKso-0002K4-S2
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:39:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604504373;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pvd61lW4hm/5iaB+TqMQcdVZqcaZaeqNIivcQ4EYhHo=;
- b=HhXSkVkAXbVOkX6GPqLpnPaZMI4DzAbYD3liIvmkRZenIIfkJh6+OVkAeUGosgu/5yjgCy
- dvuvD1JTWaTpgnES48TiPz/OtK70ZNNWP2eWUDWgAX2g7g1cL19oWGnAYdjSb8UeO/3/wf
- i9uhRwnA7bgduEeiAxZ2cRFpvdrb3sw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-MJJowykWO0a4wdi0o0g2SA-1; Wed, 04 Nov 2020 10:39:30 -0500
-X-MC-Unique: MJJowykWO0a4wdi0o0g2SA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D05481099F62;
- Wed,  4 Nov 2020 15:39:28 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-238.ams2.redhat.com [10.36.112.238])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FB4973661;
- Wed,  4 Nov 2020 15:39:27 +0000 (UTC)
-Date: Wed, 4 Nov 2020 16:39:25 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] Prefer 'on' | 'off' over 'yes' | 'no' for bool options
-Message-ID: <20201104153925.GA8710@merkur.fritz.box>
-References: <20201104140528.608015-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kaKzk-0003Yx-PN
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:46:44 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:47082)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kaKzf-0003KZ-3I
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:46:44 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id w13so16933256eju.13
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 07:46:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=uI4J0IBPpGYeAtKbKoE6VcIEv469KyGNMy6/KYbehno=;
+ b=PPsfgB1DGqUyTpTkIrMVoYASDF3V1ZkPUujfvCPSHL1nLYeqgFzNpO5Su0DvPsN7l1
+ +mM1BSNshYu8znS9JmBVVYy1PkVgpgB1qebyq7Vf+YJnaAdDFjnMK5261KQzMLF0Gx3p
+ e4tzw7ZFEEP2ZflN8ROJMaU4WpC+zTHZnRqM7GVrO9KqZaoxJvyUe/SD6Kxsd0hDEwPa
+ K5J4amOunbuA+hCM3iC1L95xyet79zIFjI+4kiXr9pwoLrVeYIb3tFtRr/e3Sml3+KcT
+ iJCoSM9ORduTAy9pw4rGo3U8Ic4Ybgih8NG3WuN53Rl0HRTJHBncyfiaHWUs34CjXz9L
+ GHBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=uI4J0IBPpGYeAtKbKoE6VcIEv469KyGNMy6/KYbehno=;
+ b=Vih8uwGmEeqD+aKuiR5C5XRTiujut1+H6d5mDNrmMg1Ur4TKAT12eYO35SvoDwrJYO
+ YYt1FOsVX4HJ+QztFwGRCsD5I2AJI+V1SD/eq2oJ55u3vII9U/DqFIezJI7+/l6vcRr1
+ 2ViDTOooaKCbfEbEgyB3KVzeztRlWJ9mAcF1cLq9GLM3wmfdudQ64Q1SE/QvxaNFt6oY
+ PwYntH7Y3u0RW5GmN41wrebo0XbsZ4Wo3fqwWa3gj2avQ7xhhsAwCEeh65OEx8OSoNrk
+ 6V84y7W0z+cMXtVx/wLkNKcFtJ6AQ2050uZn30bn0Ay/OmxIY4mPUH1ukVmKurQtRhwi
+ 1TGw==
+X-Gm-Message-State: AOAM5317EZt4AaD+IX6WyvfABPm+CKWkYn0kqtRUMcO0Fw0ONHmh7oAl
+ w4AR0W0PoaUJ/HZY97k5/obU4Othom64NP7DeAUprQ==
+X-Google-Smtp-Source: ABdhPJyFQPf6c2nOS5Kh9FuDcxTYATBSEG3YrJdUmbSyqRwvRyi2CwZpaTTI5vN5MEigU7rlgiKsjMd7Rcm/ayRdFEQ=
+X-Received: by 2002:a17:906:6949:: with SMTP id
+ c9mr13380746ejs.482.1604504797635; 
+ Wed, 04 Nov 2020 07:46:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201104140528.608015-1-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201022161938.7clfymu6a3zl46s2@mozz.bu.edu>
+ <20201022162416.iccjosbeg753qbzc@mozz.bu.edu>
+ <20201022163925.GE428835@redhat.com>
+ <p2qq7p64-r88p-s228-133q-n770po2ssonp@erqung.pbz>
+ <20201104152506.abplvggv2ll36m6v@mozz.bu.edu>
+In-Reply-To: <20201104152506.abplvggv2ll36m6v@mozz.bu.edu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 4 Nov 2020 15:46:26 +0000
+Message-ID: <CAFEAcA84Awk26JgRB90R5M9=R66XXR5eWs47pwZ6Oq0V7A34TA@mail.gmail.com>
+Subject: Re: Ramping up Continuous Fuzzing of Virtual Devices in QEMU
+To: Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,37 +83,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ "Richard W.M. Jones" <rjones@redhat.com>, 0ops@0ops.net,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ P J P <ppandit@redhat.com>, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>,
+ Dima Stepanov <dimastep@yandex-team.ru>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 04.11.2020 um 15:05 hat Daniel P. Berrangé geschrieben:
-> Update some docs and test cases to use 'on' | 'off' as the preferred
-> value for bool options.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  docs/system/vnc-security.rst | 6 +++---
->  include/authz/listfile.h     | 2 +-
->  qemu-options.hx              | 4 ++--
->  tests/qemu-iotests/233       | 4 ++--
->  4 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/docs/system/vnc-security.rst b/docs/system/vnc-security.rst
-> index b237b07330..e97b42dfdc 100644
-> --- a/docs/system/vnc-security.rst
-> +++ b/docs/system/vnc-security.rst
-> @@ -89,7 +89,7 @@ but with ``verify-peer`` set to ``yes`` instead.
+On Wed, 4 Nov 2020 at 15:26, Alexander Bulekov <alxndr@bu.edu> wrote:
+> If I understand correctly, this is analogous to what happens with
+> Coverity reports. Access to Coverity is closed (not sure if there is a
+> process to apply for access). It also seems that there is a push to fix
+> CID issues prior to new releases. Maybe a similar process can be used for
+> fuzzing?
 
-Looks like it's not only in example, but the text has a mention of
-"yes", too. It seems to be the only one, but we'll probably want to
-replace it there as well.
+Coverity is only closed in the sense that you have to request
+an account on the website. Anybody who's a QEMU developer
+can look at the reports.
 
-There is also an example of verify-peer=no in the file which this patch
-misses.
+The attempt to fix CID issues works because:
+ * Coverity reports a fairly small number of issues, so
+   "fix them all" is relatively tractable, and then once you
+   get down to "no outstanding issues" the only new ones
+   that get found are for new changes to QEMU (not entirely
+   true, but close enough)
+ * Mostly issues are reported soon after the offending code
+   goes into the tree, so it's often possible to quickly
+   identify the patch that introduced the issue and ask
+   the person who wrote that patch to fix the bug
+ * Coverity reports are categorized by kind-of-failure,
+   so it's easy to prioritize important stuff (buffer overflows)
+   and leave less significant stuff (dead code) for later
+ * Coverity's reports include the automated analysis of
+   why Coverity thinks there's an issue -- this is not
+   always right but it's a solid head start on "what's the
+   bug here" compared to just having a repro case and an
+   assertion-failure message
+ * There's a set of people who care enough about Coverity
+   reports to put the time in to fixing them...
 
-Kevin
-
+thanks
+-- PMM
 
