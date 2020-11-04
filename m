@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDD232A70A2
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 23:36:53 +0100 (CET)
-Received: from localhost ([::1]:37716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202E62A70A3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 23:36:55 +0100 (CET)
+Received: from localhost ([::1]:37800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaROe-0002Lo-Fe
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 17:36:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38990)
+	id 1kaROg-0002Np-61
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 17:36:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaRNR-0001Rh-L1
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:35:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35830)
+ id 1kaRNS-0001Rp-QR
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:35:38 -0500
+Received: from indium.canonical.com ([91.189.90.7]:35842)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaRNP-0005Un-Fr
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:35:37 -0500
+ id 1kaRNP-0005Up-FH
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:35:38 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kaRNN-00063l-TD
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 22:35:33 +0000
+ id 1kaRNO-000653-CS
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 22:35:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CEEBB2E8132
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 22:35:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5958F2E811E
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 22:35:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2020 22:23:58 -0000
+Date: Wed, 04 Nov 2020 22:27:06 -0000
 From: John Snow <1900779@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: dennis-restle jnsnow pmaydell
 X-Launchpad-Bug-Reporter: Chaoscode (dennis-restle)
 X-Launchpad-Bug-Modifier: John Snow (jnsnow)
 References: <160324353545.18570.15111142462284405315.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160452863852.18274.15834527466646652236.malone@wampee.canonical.com>
+Message-Id: <160452882622.18667.8918499722567011904.malone@soybean.canonical.com>
 Subject: [Bug 1900779] Re: xp /16i on arm mixes DWords
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 5781795bb6ae16b0a5df6bd72e3ed818f052cf35
+X-Launchpad-Hash: ff4b1e9b164574af1202238fcc8fdd39cece0583
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 17:35:34
@@ -77,10 +77,8 @@ Reply-To: Bug 1900779 <1900779@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Staged: 437588d81d99ac91cb1e4ff060610458e67852d5
-
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+https://gitlab.com/qemu-
+project/qemu/-/commit/437588d81d99ac91cb1e4ff060610458e67852d5
 
 -- =
 
