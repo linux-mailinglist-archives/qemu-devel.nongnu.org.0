@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC4B32A672D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:10:47 +0100 (CET)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35DE12A6728
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:09:10 +0100 (CET)
+Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKQw-0006Ww-VL
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:10:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55514)
+	id 1kaKPN-0004BK-8W
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:09:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIk-0003CU-OY
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37869)
+ id 1kaKIm-0003Ee-Ch
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55537)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIZ-00063c-Qd
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:17 -0500
+ id 1kaKIa-000644-91
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604502127;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XiD8HbcJhfbTr0TesAGVNWogVRGczLPh7/pZG4xTuw8=;
- b=D6rntFXyepCfh2Ydoy3kSJr6vpQfXQUL4cceb7XVkYbOmdY1D7hXX+uyo6DXu/5slBk7+s
- NCbDOeoyVO8cF/Qb+nZ4nHU0NUnBDvFWZyDOEpkEpDrhFCneERvtpha7nMc9PJbwcVXaR+
- AMGBhZTj9kqEzbvlsKh2iRfaiQneles=
+ bh=xl5aU7elg70wSOGi8/A71+anEuiZ5iSwym34BqN+em8=;
+ b=SEO6i4lnENBjGRmZtB0vXdr9UUNmNhyQPSnyzli7jnr9iNHvhszTj9Ov4yxfwSlszkc/pt
+ FtHk3TzxwRxbUlfPKdKSK2d1KTW+GElC1S6kPtmakRHdMXbQ9e8hRdos4VhEgSt/xCG8KT
+ 4E+aR2NTIfIg7j/DS+C2gs0Uce//+oU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-t03oaX70OAmalcJH75Uwcg-1; Wed, 04 Nov 2020 10:02:02 -0500
-X-MC-Unique: t03oaX70OAmalcJH75Uwcg-1
+ us-mta-525-NX7h985GM72-ZTY6UDZzWQ-1; Wed, 04 Nov 2020 10:02:03 -0500
+X-MC-Unique: NX7h985GM72-ZTY6UDZzWQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1D641891E9F;
- Wed,  4 Nov 2020 15:02:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50AB664165;
+ Wed,  4 Nov 2020 15:02:02 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FCF56EF6A;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E288F6EF6A;
  Wed,  4 Nov 2020 15:02:01 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 14/20] fuzz: fix writing DMA patterns
-Date: Wed,  4 Nov 2020 10:01:47 -0500
-Message-Id: <20201104150153.541326-15-pbonzini@redhat.com>
+Subject: [PULL 15/20] fuzz: check the MR in the DMA callback
+Date: Wed,  4 Nov 2020 10:01:48 -0500
+Message-Id: <20201104150153.541326-16-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -87,87 +87,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
-This code had all sorts of issues. We used a loop similar to
-address_space_write_rom, but I did not remove a "break" that only made
-sense in the context of the switch statement in the original code. Then,
-after the loop, we did a separate qtest_memwrite over the entire DMA
-access range, defeating the purpose of the loop. Additionally, we
-increment the buf pointer, and then try to g_free() it. Fix these
-problems.
+We should be checking that the device is trying to read from RAM, before
+filling the region with data. Otherwise, we will try to populate
+nonsensical addresses in RAM for callbacks on PIO/MMIO reads. We did
+this originally, however the final version I sent had the line commented
+out..
 
-Reported-by: OSS-Fuzz (Issue 26725)
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reported-by: OSS-Fuzz (Issue 26691)
 Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20201029172901.534442-2-alxndr@bu.edu>
+Message-Id: <20201029172901.534442-3-alxndr@bu.edu>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz.c | 37 +++++++++++++++------------------
- 1 file changed, 17 insertions(+), 20 deletions(-)
+ tests/qtest/fuzz/generic_fuzz.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index a8f5864883..3e2d50feaa 100644
+index 3e2d50feaa..3a5dbc3ce2 100644
 --- a/tests/qtest/fuzz/generic_fuzz.c
 +++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -229,10 +229,10 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
-     address_range ar = {addr, len};
-     g_array_append_val(dma_regions, ar);
-     pattern p = g_array_index(dma_patterns, pattern, dma_pattern_index);
--    void *buf = pattern_alloc(p, ar.size);
-+    void *buf_base = pattern_alloc(p, ar.size);
-+    void *buf = buf_base;
-     hwaddr l, addr1;
-     MemoryRegion *mr1;
--    uint8_t *ram_ptr;
-     while (len > 0) {
-         l = len;
-         mr1 = address_space_translate(first_cpu->as,
-@@ -244,30 +244,27 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
-             l = memory_access_size(mr1, l, addr1);
-         } else {
-             /* ROM/RAM case */
--            ram_ptr = qemu_map_ram_ptr(mr1->ram_block, addr1);
--            memcpy(ram_ptr, buf, l);
--            break;
-+            if (qtest_log_enabled) {
-+                /*
-+                * With QTEST_LOG, use a normal, slow QTest memwrite. Prefix the log
-+                * that will be written by qtest.c with a DMA tag, so we can reorder
-+                * the resulting QTest trace so the DMA fills precede the last PIO/MMIO
-+                * command.
-+                */
-+                fprintf(stderr, "[DMA] ");
-+                if (double_fetch) {
-+                    fprintf(stderr, "[DOUBLE-FETCH] ");
-+                }
-+                fflush(stderr);
-+            }
-+            qtest_memwrite(qts_global, addr, buf, l);
-         }
-         len -= l;
-         buf += l;
-         addr += l;
- 
-     }
--    if (qtest_log_enabled) {
--        /*
--         * With QTEST_LOG, use a normal, slow QTest memwrite. Prefix the log
--         * that will be written by qtest.c with a DMA tag, so we can reorder
--         * the resulting QTest trace so the DMA fills precede the last PIO/MMIO
--         * command.
--         */
--        fprintf(stderr, "[DMA] ");
--        if (double_fetch) {
--            fprintf(stderr, "[DOUBLE-FETCH] ");
--        }
--        fflush(stderr);
--    }
--    qtest_memwrite(qts_global, ar.addr, buf, ar.size);
--    g_free(buf);
-+    g_free(buf_base);
- 
-     /* Increment the index of the pattern for the next DMA access */
-     dma_pattern_index = (dma_pattern_index + 1) % dma_patterns->len;
+@@ -192,7 +192,7 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
+      */
+     if (dma_patterns->len == 0
+         || len == 0
+-        /* || mr != MACHINE(qdev_get_machine())->ram */
++        || mr != current_machine->ram
+         || is_write
+         || addr > current_machine->ram_size) {
+         return;
 -- 
 2.26.2
 
