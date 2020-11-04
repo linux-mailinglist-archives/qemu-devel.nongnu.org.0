@@ -2,79 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B0A2A5E18
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 07:22:12 +0100 (CET)
-Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA932A5E65
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 07:53:01 +0100 (CET)
+Received: from localhost ([::1]:50236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaCBP-0006yq-OK
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 01:22:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
+	id 1kaCfD-0003TP-Tv
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 01:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51790)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaCAd-0006Zc-HH
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 01:21:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24500)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaCdk-00032B-Pz
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 01:51:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45375)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaCAc-0000ZI-1F
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 01:21:23 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaCdi-0002nj-Iv
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 01:51:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604470881;
+ s=mimecast20190719; t=1604472685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=BCcTM3XW1gZx4JJqlX3rAt8CbcbfFKZsYeLnd0L+hdU=;
- b=gCDaD/Rc8cylPcXhYYOJDvaNkvAOsb2uvpxEmdc1Ne4Wmyqw8R6D0VHocgYT0bBWnYeIrn
- 8tFwzLxxw25ncfCAF8jbTsrHBgMWyOzccRqum+w9lOp8U0Dncm2/HadwAturJ2W1vUgS4s
- RFprMCmvyPWfjxvkiViofKv4qi7Wv5Y=
+ bh=fXP88vP5/sPDu8+yOvpevfUaErJi7jKQfn/zEKAkM2E=;
+ b=C71l6B3gFi8rk3n8H0ZAaPhzUEne3q4gXGw023DPbdyOdAdy5MRmuVUTPUoO8/qo7DLdSn
+ kaS9z3JDtsiN2GdQ86pK9N1VzM0yXskgxMYx7BSwhWU+eInQUtTib+McUnY29/fV1T0xc6
+ nAS+W7XVnKY1ZwBdkjQ38Bwzitnng9U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-461--sPfsZwhOcmbLEa97tlW1A-1; Wed, 04 Nov 2020 01:21:19 -0500
-X-MC-Unique: -sPfsZwhOcmbLEa97tlW1A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-80-kSD58KttNhiEqGiI_pe7oQ-1; Wed, 04 Nov 2020 01:51:23 -0500
+X-MC-Unique: kSD58KttNhiEqGiI_pe7oQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F02910E2181;
- Wed,  4 Nov 2020 06:21:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5FD4360E1C;
- Wed,  4 Nov 2020 06:21:09 +0000 (UTC)
-Subject: Re: [PATCH-for-5.2 2/3] gitlab-ci: Add a job to cover the
- --without-default-devices config
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201103164604.2692357-1-philmd@redhat.com>
- <20201103164604.2692357-3-philmd@redhat.com>
- <70b50ba2-f0e8-4cf7-b5ff-14178e03d595@redhat.com>
- <01ec47fa-4e0d-1be9-e4e6-312b9d810d74@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <8f79c67c-3851-06a3-8646-403041a793c5@redhat.com>
-Date: Wed, 4 Nov 2020 07:21:08 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 60172835B77;
+ Wed,  4 Nov 2020 06:51:20 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 550F221E84;
+ Wed,  4 Nov 2020 06:50:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 5B55616E31; Wed,  4 Nov 2020 07:50:52 +0100 (CET)
+Date: Wed, 4 Nov 2020 07:50:52 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Subject: Re: Out-of-Process Device Emulation session at KVM Forum 2020
+Message-ID: <20201104065052.hrc2entvg7bkodb6@sirius.home.kraxel.org>
+References: <20201029210407.33d6f008@x1.home>
+ <CAJSP0QVto+xFEnWv-aj=-0mZ72SzfeAvg4q0RCoLGK-N7C-WEw@mail.gmail.com>
+ <04179584-3324-994e-d793-04be18d2dab2@redhat.com>
+ <CAJSP0QXQmFgtSsJL1B3eMUr8teQc3cvvEFvr7LvnFkJPcE3ZpA@mail.gmail.com>
+ <95432b0c-919f-3868-b3f5-fc45a1eef721@redhat.com>
+ <CAJSP0QX_=dbDB2k7H-6D19ns1_HuM2P5ZMtUrFN9H7WU8aDXCg@mail.gmail.com>
+ <1cf6b664-63cc-7b57-0a2c-4d4f979d4950@redhat.com>
+ <20201102101308.GA42093@stefanha-x1.localdomain>
+ <c007455d-b9fc-32d5-a58c-fd8d17794996@redhat.com>
+ <CAJSP0QXJd-BK60t+efhAt2d6mj9+kgieiyfKm=DSC1z+fDCesA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <01ec47fa-4e0d-1be9-e4e6-312b9d810d74@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAJSP0QXJd-BK60t+efhAt2d6mj9+kgieiyfKm=DSC1z+fDCesA@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,57 +89,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
+ John G Johnson <john.g.johnson@oracle.com>,
+ "mst@redhat.com" <mtsirkin@redhat.com>,
+ Janosch Frank <frankja@linux.vnet.ibm.com>, Jason Wang <jasowang@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Kirti Wankhede <kwankhede@nvidia.com>,
+ Yan Vugenfirer <yan@daynix.com>, Jag Raman <jag.raman@oracle.com>,
+ Eugenio =?utf-8?B?UMOpcmV6?= <eperezma@redhat.com>,
+ Anup Patel <anup@brainfault.org>,
+ Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Roman Kagan <rkagan@virtuozzo.com>, Felipe Franciosi <felipe@nutanix.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Jens Freimann <jfreimann@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ Kashyap Chamarthy <kchamart@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Liran Alon <liran.alon@oracle.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Halil Pasic <pasic@linux.vnet.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, fam <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/11/2020 21.41, Philippe Mathieu-Daudé wrote:
-> On 11/3/20 7:43 PM, Thomas Huth wrote:
->> On 03/11/2020 17.46, Philippe Mathieu-Daudé wrote:
-[...]
->>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->>> index 3b15ae5c302..6ee098ec53c 100644
->>> --- a/.gitlab-ci.yml
->>> +++ b/.gitlab-ci.yml
->>> @@ -262,6 +262,17 @@ build-user-plugins:
->>>      MAKE_CHECK_ARGS: check-tcg
->>>    timeout: 1h 30m
->>>  
->>> +build-system-ubuntu-without-default-devices:
->>> +  <<: *native_build_job_definition
->>> +  variables:
->>> +    IMAGE: ubuntu2004
->>> +    CONFIGURE_ARGS: --without-default-devices --disable-user --disable-xen --disable-tools --disable-docs
->>> +    MAKE_CHECK_ARGS: check-build
->>
->> AFAIK "check-build" is pretty much a no-op since the convertion to meson ...
->> could you maybe replace with a set of qtest targets that work, to make sure
->> that we do not regress here? E.g.:
->>
->> MAKE_CHECK_ARGS: check-qtest-avr check-qtestcris check-qtest-m68k
->> check-qtest-microblaze check-qtest-mipsel check-qtest-moxie ...
+  Hi,
+
+> > I think not. Obviously each firmware should have its own ABI no matter
+> > whether its public or proprietary. For proprietary firmware, it should
+> > be understood by the proprietary userspace counterpart.
 > 
-> qtests don't work with --without-default-devices, as we don't check
-> for (un-)available devices.
+> Userspace does not necessarily need to interpret the contents. The
+> vendor can ship a binary blob and the driver loads the file onto the
+> device without interpreting it.
 
-Sure, "make check-qtest" does not work, I know. But some targets work fine,
-e.g. "make check-qtest-avr", and that's what I've suggested. By testing
-those targets, we can make sure that the qtests don't regress any further
-with --without-default-devices.
+Exactly.  Neither userspace nor kernel look at the blob, except maybe
+some headers with version, size, checksum etc.  Only the device does
+something with the actual content.
 
-> I'll try check-unit.
+Doing the same make sense for migration device state.  The kernel driver
+saves and restores the device state.  Userspace doesn't need to look at
+it.  Again, with an exception for some header fields.
 
-I think that does not have much benefit since it should be independent of
-the devices and is tested in the other pipelines already?
+So requiring userspace being able to interpret the migration data
+(except header) for all devices looks rather pointless to me.
 
- Thomas
+Speaking of headers: Defining a common header format makes sense.
+For standard devices (virtio, nvme, ...) it makes sense to try define
+a standard, cross-vendor migration data format.
+For vendor-specific devices (gpus for example) I absolutely don't see
+the point.
+
+take care,
+  Gerd
 
 
