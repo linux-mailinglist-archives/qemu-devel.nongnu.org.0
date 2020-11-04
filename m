@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25CF2A6596
+	by mail.lfdr.de (Postfix) with ESMTPS id CED532A6597
 	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 14:55:31 +0100 (CET)
-Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaJG6-0000UI-A8
+	id 1kaJG6-0000Sa-Fh
 	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 08:55:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60902)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60878)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaJEw-0007iK-3c
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:54:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaJEs-0004NL-92
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaJEv-0007iE-Em
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:54:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43066)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaJEs-0004NS-93
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:54:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604498052;
+ s=mimecast20190719; t=1604498053;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ljDRU4zBNDtmjEhvnBsiGngP1sd+6KsHxO1LaUd4Rs8=;
- b=iP5jOsRYC6jtXtnrvYaQlE2MG5NdzeubL6lEoncUSYtTsC18Mut/MhiqbAvPI+oGXv/fVD
- VblXL9hD5gyIcZoibFECnjNFD4GlkYoCi6bZO3H5ScHZ1zGo0wPN2aba52oc4LmJLyP6Sm
- IDPoojHDIoxtQXatvqk5x3tqqBp48dg=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rwHvnchTG1ZbFYaKV7uGi8lOlG33T5ID8s9iw/JqnAk=;
+ b=Q2oJGUQAeGMq9K5SFWOgfuUaUbdSGDrtYR7H/Br7I8BrZ3nnzx7/Q4CzITJi3cYM1gt+TL
+ vzbL7A3L6GZ++9R5/TWtcU6HAuOHiNmPBfIPexJTWM98VH5k2olOHuL85jShzNCtvIKXT5
+ 3ljdNIw7GvaFZzwA6D+Hn1DpS7rNy8E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-V8UuGhKdOmO1SZHMB3pwlA-1; Wed, 04 Nov 2020 08:54:10 -0500
-X-MC-Unique: V8UuGhKdOmO1SZHMB3pwlA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-547-dSjNuUTpO-ymZvVnJIMiGg-1; Wed, 04 Nov 2020 08:54:12 -0500
+X-MC-Unique: dSjNuUTpO-ymZvVnJIMiGg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A04907E4F
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 13:54:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19B5910866B2
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 13:54:11 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1567821E73;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0C8F26EF55;
  Wed,  4 Nov 2020 13:54:01 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id F0C8716E31; Wed,  4 Nov 2020 14:54:00 +0100 (CET)
+ id 04D439D0F; Wed,  4 Nov 2020 14:54:01 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/3] Ui 20201104 patches
-Date: Wed,  4 Nov 2020 14:53:57 +0100
-Message-Id: <20201104135400.3938-1-kraxel@redhat.com>
+Subject: [PULL 1/3] coroutine: let CoQueue wake up outside a coroutine
+Date: Wed,  4 Nov 2020 14:53:58 +0100
+Message-Id: <20201104135400.3938-2-kraxel@redhat.com>
+In-Reply-To: <20201104135400.3938-1-kraxel@redhat.com>
+References: <20201104135400.3938-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
@@ -80,45 +83,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 3d6e32347a3b57dac7f469a07c5f520e69bd070a=
-:=0D
-=0D
-  Update version for v5.2.0-rc0 release (2020-11-03 21:11:57 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://git.kraxel.org/qemu tags/ui-20201104-pull-request=0D
-=0D
-for you to fetch changes up to 0d9b90ce5c73505648909a89bcd5272081b9c348:=0D
-=0D
-  console: make QMP/HMP screendump run in coroutine (2020-11-04 08:02:25 +0=
-10=3D=0D
-0)=0D
-=0D
-----------------------------------------------------------------=0D
-ui: run screendump in coroutine=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Marc-Andr=3DC3=3DA9 Lureau (3):=0D
-  coroutine: let CoQueue wake up outside a coroutine=0D
-  console: modify ppm_save to take a pixman image ref=0D
-  console: make QMP/HMP screendump run in coroutine=0D
-=0D
- monitor/hmp-cmds.c         |  3 ++-=0D
- ui/console.c               | 47 ++++++++++++++++++++++++++++++--------=0D
- util/qemu-coroutine-lock.c |  6 ++---=0D
- hmp-commands.hx            |  1 +=0D
- qapi/ui.json               |  3 ++-=0D
- ui/trace-events            |  2 +-=0D
- 6 files changed, 45 insertions(+), 17 deletions(-)=0D
-=0D
---=3D20=0D
-2.27.0=0D
-=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
+
+The assert() was added in commit b681a1c73e15 ("block: Repair the
+throttling code."), when the qemu_co_queue_do_restart() function
+required to be running in a coroutine. It was later made unnecessary in
+commit a9d9235567e7 ("coroutine-lock: reschedule coroutine on the
+AioContext it was running on").
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20201027133602.3038018-2-marcandre.lureau@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ util/qemu-coroutine-lock.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 36927b5f88d5..5816bf890094 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -85,15 +85,13 @@ static bool qemu_co_queue_do_restart(CoQueue *queue, bool single)
+     return true;
+ }
+ 
+-bool coroutine_fn qemu_co_queue_next(CoQueue *queue)
++bool qemu_co_queue_next(CoQueue *queue)
+ {
+-    assert(qemu_in_coroutine());
+     return qemu_co_queue_do_restart(queue, true);
+ }
+ 
+-void coroutine_fn qemu_co_queue_restart_all(CoQueue *queue)
++void qemu_co_queue_restart_all(CoQueue *queue)
+ {
+-    assert(qemu_in_coroutine());
+     qemu_co_queue_do_restart(queue, false);
+ }
+ 
+-- 
+2.27.0
 
 
