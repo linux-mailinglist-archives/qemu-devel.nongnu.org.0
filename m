@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E83C2A6BF0
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:43:08 +0100 (CET)
-Received: from localhost ([::1]:39900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33822A6C22
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:47:56 +0100 (CET)
+Received: from localhost ([::1]:50006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMoM-0005IO-7l
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:43:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36360)
+	id 1kaMt1-0001CD-Pw
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:47:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaMmm-0004TJ-MV
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:41:28 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45676)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaMmk-0001q2-R2
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:41:28 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id a10so6109975edt.12
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 09:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=o8Zq+olWEGYik/6RhTq/V/iTEwRP8qx2DZdhCtjBOXg=;
- b=LujySD4WqvYiJeJfiq64MwQp2E5uGnJUwrdnWukncVp3U8qa0kFOIp5CYn1vKb7H0f
- 3rFBaKOPreZkkAl5SYuMd//DZCPZTjhbTJGYbbVH3gzzppROq0RTpLFpzeL/iqX0H4P/
- xtFie6PMBJPL5GYHbZpAsbPGUmu5v0Q45B0Wo4nkZ3aIic6tOuu01AR/wqcZ9Z2ZcSNH
- BnihMuE7zQs7EX9zRbMhziNSCaRcSIVLyUjJ7td5L+roUiJ+yHx+bp6pam9+w2/oggty
- RX9zi/UK2bNZxw9lcAvkFhtjISHfbFFIkk1vKG+ScOdzLf9rOd4C4bFS/Fa23oUostfd
- gRng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=o8Zq+olWEGYik/6RhTq/V/iTEwRP8qx2DZdhCtjBOXg=;
- b=UF6o0IsTgzZwl/5gBzXUZJYjKYSXJqEKmlS/jBHiEP/X/GfWyUMuWUk+OvKSr03aDh
- pYCUYYkMHEVTruEduVI6GbR1lTt2aPPOcXtVT/6KPUuPgPkaTMuTEDTFSjME6PTvbXvy
- RznuTy0F4Av9lKcab00smNiIJxHamCHBwfV/6nnkAXAR/CgyABOaHaPxri6sJQghsQ51
- mki236NpIo6madQ1/YolvQFXH2AgWN+FNommanuaTGdewV2hsdAnjb//q5jWK2YvROib
- LzcBE0H0gvdqzBN3XBE5nfJrJieondhNCLgTGwx8D4Qh8yHVkJm2FYuLC/YDUnj0kRhv
- zPEA==
-X-Gm-Message-State: AOAM531DG2Zgpm+dT0Yst/x30kWKg7mx0WneMEu9m+JcWYN/5k8m0CkU
- 1f7Y0fdoeKzviichnZQkfqi217DcIg3P+U7SViO8fQ==
-X-Google-Smtp-Source: ABdhPJwadZ3rxSaECxvPGC3jYLgEdlI4T4XnLDH+FwbQ+OWkzNVlfnnQRkqd7Xw2qJckSeStHuw9JF9D4CZjDMU6tbo=
-X-Received: by 2002:a50:fa92:: with SMTP id w18mr7709954edr.44.1604511684676; 
- Wed, 04 Nov 2020 09:41:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaMqg-000825-CA
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:45:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33369)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaMqd-00029p-2Y
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:45:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604511923;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qG0qKDliT7lNp8yWAZna0qB8WS5fWnIQsPP1YKlIYtc=;
+ b=Ro68uAfDcXGuTXKziX9QsogvRVFsck9+dGdXZxz/rqIEJRqZO3CptdN0KoQnvk5A0MwVWx
+ 8hKEI50ASWo5/OXc9Fq4qxrURf7bXsPUL1LWOIL/cp9qaQ2XeqgO75cpriW1TV8gm0li8c
+ Wnji1t1RQpncM8MpiXljpUFURXfoDWM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-Rs7d20yXMYqIzQhjQePD4A-1; Wed, 04 Nov 2020 12:45:22 -0500
+X-MC-Unique: Rs7d20yXMYqIzQhjQePD4A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E8E9518BA280;
+ Wed,  4 Nov 2020 17:45:20 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.194.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 11CEF19658;
+ Wed,  4 Nov 2020 17:45:15 +0000 (UTC)
+Subject: Re: [PATCH v2 17/20] backup: move to block-copy
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20200601181118.579-1-vsementsov@virtuozzo.com>
+ <20200601181118.579-18-vsementsov@virtuozzo.com>
+ <6376705f-d24d-1b40-f4dd-480c53c7ae55@redhat.com>
+ <beafc976-64bb-a278-3a94-4cc7b118fccb@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <8e2eac13-af38-899f-b8bb-88e4852e7cf9@redhat.com>
+Date: Wed, 4 Nov 2020 18:45:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <20201104135400.3938-1-kraxel@redhat.com>
-In-Reply-To: <20201104135400.3938-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Nov 2020 17:41:12 +0000
-Message-ID: <CAFEAcA_ZXUwVCfHFZepkVwESgHZryaBNRPh4M3=Hvhfaa1jCOA@mail.gmail.com>
-Subject: Re: [PULL 0/3] Ui 20201104 patches
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <beafc976-64bb-a278-3a94-4cc7b118fccb@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,38 +86,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Nov 2020 at 13:55, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit 3d6e32347a3b57dac7f469a07c5f520e69bd070a:
->
->   Update version for v5.2.0-rc0 release (2020-11-03 21:11:57 +0000)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/ui-20201104-pull-request
->
-> for you to fetch changes up to 0d9b90ce5c73505648909a89bcd5272081b9c348:
->
->   console: make QMP/HMP screendump run in coroutine (2020-11-04 08:02:25 +010=
-> 0)
->
-> ----------------------------------------------------------------
-> ui: run screendump in coroutine
->
-> ----------------------------------------------------------------
+On 26.10.20 16:18, Vladimir Sementsov-Ogievskiy wrote:
+> 23.07.2020 12:47, Max Reitz wrote:
+>>> +static void coroutine_fn backup_set_speed(BlockJob *job, int64_t speed)
+>>> +{
+>>> +    BackupBlockJob *s = container_of(job, BackupBlockJob, common);
+>>> +
+>>> +    if (s->bcs) {
+>>> +        /* In block_job_create we yet don't have bcs */
+>> Shouldn’t hurt to make it conditional, but how can we get here in
+>> block_job_create()?
+>>
+> 
+> block_job_set_speed is called from block_job_create.
 
+Ah, right.
 
-Applied, thanks.
+Max
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
 
