@@ -2,70 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4A62A5DA3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:17:01 +0100 (CET)
-Received: from localhost ([::1]:38250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E5282A5D7F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:02:32 +0100 (CET)
+Received: from localhost ([::1]:45780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaBAK-0000ll-AR
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:17:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60154)
+	id 1kaAwJ-0005rr-Ar
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:02:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kaAp4-00046m-KW; Tue, 03 Nov 2020 23:55:02 -0500
-Received: from mail-il1-x141.google.com ([2607:f8b0:4864:20::141]:44705)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1kaAp2-0005jA-MK; Tue, 03 Nov 2020 23:55:02 -0500
-Received: by mail-il1-x141.google.com with SMTP id z2so18188604ilh.11;
- Tue, 03 Nov 2020 20:54:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=J4efl48tawioznZ2bjfbrXOXeSNn+t0icjBdX9B6f+U=;
- b=cDqtQCiebZkY7y+G8m8tJqiHZN+7SWja/wS4spxmlfG5FRn0lZ0M7qAQ84ws+G4N1f
- QN6LT8GHG4V7AKx8hRf0k4YNOepU49dr5O9ZyqtofW2PsE1CEU0uoc5LQ6l9hhry2SMY
- VjExQeflSrcEB6My1MNCH/RxCqQOud5NnX+iR4JgK2L+nriSLJZ1LUX1UZ4tEaGVIIwj
- LnSVmbpi/UqGAqCoco2wbEiaDLrPQYNYm5c+7QLAIJ605vFUg53U8FUjTv777pSQbWuK
- nQ7f4hy46Z6tPRJgyHzyhwOTBCNyg4pdqITwVUQnnNA21VKye8HixG6z9l7cETDxtoQ7
- 0Oig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=J4efl48tawioznZ2bjfbrXOXeSNn+t0icjBdX9B6f+U=;
- b=uVL7yD2OXZsasA7gHZAhnl3HiI4xa5Sh0QuXs4ecrnF3oUDeUJW9kMc0jD88G06qzw
- VlUoln+DLmp/xFn7USavmCubjzCh4KjUOiqVXqT7R/XOw6MNaDuiKPYz95HlyqBYvQP8
- hbVed3rC87bl7vA8zl1+j4L0aYSA0r8YkehE68gSdDBSzbD/LMsLGTo1xFcPv8iygrQX
- /GT7zSUhqzLFpfvQTjEQCm2CJU4C/OJG75jWnsa2AMlPVQtdcD4bEdQyATHcHiQ9U3HP
- OER7MiRLPr+BjVrCMVm9vMibRFL+slxMLJaTsF0eixoLCiX+3oajnalLY3C35aHnQKMI
- /Jjg==
-X-Gm-Message-State: AOAM532cDJmrUnEOxqh7rGobIbycu2vhcG1CebgvTPz/dWBrAmm1v1Do
- PXokrYm51UZYlU0xJbF6wHW+hFiTwdhmMrEbOmk=
-X-Google-Smtp-Source: ABdhPJyKwrnd+1hYzDRH/bDVmNKpJHO6MC7KXGBfAL9bySApLa6YbIXRlb+/0xKcv8cwWqe4x94zWH3kzT4WgMjbjxA=
-X-Received: by 2002:a92:d991:: with SMTP id r17mr15433131iln.227.1604465695987; 
- Tue, 03 Nov 2020 20:54:55 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=57073d1dd=alistair.francis@wdc.com>)
+ id 1kaAp2-00041L-Ob; Tue, 03 Nov 2020 23:55:00 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=57073d1dd=alistair.francis@wdc.com>)
+ id 1kaAow-0005i4-RZ; Tue, 03 Nov 2020 23:55:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1604465694; x=1636001694;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=ep2GJLYUBqDTkqBDYjaRnUPXdh+Um5MrS3McpIDE6P8=;
+ b=SsnStMy50pX0zVR/PaCL6md/42CkdOTy+Ek5aCAnSXG7qMrYDAEXYLP3
+ Xc+taQ90zV4D4v8wIJ2FWs6SSvGjP4cZGtqoT0DHJQ9axq1vO/fq3OFgf
+ B1VLSu4M5YcwIDi3Ey2odW2CJrDOujFUdfOt9hmG4ywaTTFNR+EoyL2tu
+ fXlePTVYDG8s8iCAgxwTEa838SV2lR9S7DUKkTbut9XpXM+zKVEjonGsS
+ luIEL+4u9tqdxnnmizw+gbGuDOHfkXs1AZOLHKZlNUrfcXJZeaPHRuYDT
+ LtD5vYugWLf2XXGVedggX48RWq1tTDNi3dis3n+JkAP9o3M7yK0gfMd2i g==;
+IronPort-SDR: iC4b7TbDvPKDhqo1hIZ1k6d7PII74mVorujJJC8VhQLcQul4sa7hyt/smBB0tbFUB5gdV+wLQ/
+ 4l8gSz9ZSm++NiR/EybNlrYri7XNpAcaGQRQ2naXq8cel01e/aTd6C4296MAMdt1t2ZLexBFQs
+ 5dYgamDtcQXab29UWecIlcCwTmZpw4BXV1RBRPnreEiUCDMwO//G69m9vJfjKLY3zARZePRHnd
+ 4ghFaMJXYjTK0hs91/8m9NSbBEK/ou8PO0mjR2aHjJlGAhiPU1TdTzqiOvrbqHLjdYlY/i5bOB
+ Xgg=
+X-IronPort-AV: E=Sophos;i="5.77,449,1596470400"; d="scan'208";a="151656924"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Nov 2020 12:54:51 +0800
+IronPort-SDR: fYK+FbiMtAc1FhOMX52PEVY/N7duKarnitX7Ds1mrwWEJoZRocjFko98fweQL1E+szDgNfKFfD
+ cnYADYB+asHYJTI7+VezuigwhnYZV3u5JByTIErz/thIC5pRqbhtNVjkNdCtbjbJVviojgm3lb
+ tiG6wnn+bAcLEOy8vkLqxjYy7vBGgSgjOKbVPKNYH+IiHSeIgDjDfm9HUGDEdn4JFn/f5uNRos
+ nyGLFN2gpcgRlba3YgFz+09LKJfb7raVY02YvOM9TWVmft/Lc8OdEYPvU1MoiS5Ywbmg5qg20c
+ 3PxrI1l1Xiu/3zt+onTIt7FJ
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2020 20:41:00 -0800
+IronPort-SDR: Xgtj4n4cUNI+uiEcag2hlBaiju2sHiMCx10/2Hpu2aFN/jeTtcOspuOjK0LeL+3vz/kgMEISqz
+ 81gITj+jncZm37zz5vGq2BQt6hyImdk3BQV6JyflrOzsMLQAx4meKQ4Rs8o3xjb0iy8LMpP8Ps
+ pVdyNxSTENcdmwWeHi5iTWvvMHJs9WyjjEeDsEkSHIgpXI4aeXyCFeOc6ug5iXTGEEJCnRbwBb
+ wtIYWW/ybJHD1fb5g93MnzrmBAuDiF31bsq/brGZeI5HBDwhgDWJcp35SOhsNmTCEM8ferv1uX
+ At8=
+WDCIronportException: Internal
+Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
+ ([10.86.60.113])
+ by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 20:54:51 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH v4 0/5]  Fix the Hypervisor access functions
+Date: Tue,  3 Nov 2020 20:43:20 -0800
+Message-Id: <cover.1604464950.git.alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <cover.1604432950.git.alistair.francis@wdc.com>
- <5f25069661040bb96f945358bd7fa047f5b462ce.1604432950.git.alistair.francis@wdc.com>
- <29320e1d-6abf-a6bb-fc6e-43a3b17fca36@linaro.org>
-In-Reply-To: <29320e1d-6abf-a6bb-fc6e-43a3b17fca36@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 3 Nov 2020 20:42:59 -0800
-Message-ID: <CAKmqyKNmXR3bvf-Dvx6mfbxymwqppBEzPkAsY7A4utuEXE-t=w@mail.gmail.com>
-Subject: Re: [PATCH v3 2/7] target/riscv: Add a virtualised MMU Mode
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::141;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x141.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.71.154.42;
+ envelope-from=prvs=57073d1dd=alistair.francis@wdc.com;
+ helo=esa4.hgst.iphmx.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 23:54:51
+X-ACL-Warn: Detected OS   = FreeBSD 9.x or newer [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,32 +90,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: alistair.francis@wdc.com, richard.henderson@linaro.org, bmeng.cn@gmail.com,
+ palmer@dabbelt.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Nov 3, 2020 at 12:20 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 11/3/20 11:50 AM, Alistair Francis wrote:
-> > @@ -30,6 +30,10 @@ int riscv_cpu_mmu_index(CPURISCVState *env, bool ifetch)
-> >  #ifdef CONFIG_USER_ONLY
-> >      return 0;
-> >  #else
-> > +    if (riscv_cpu_virt_enabled(env)) {
-> > +        return env->priv | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
-> > +    }
->
-> Still setting this bit here, incorrectly.
+Richard pointed out that the Hypervisor access functions don't work
+correctly, see:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg751540.html.
+This seris fixes them up by adding a new MMU index for the virtualised
+state.
+v4:
+ - Consolidate the inline helper to a helper function
+ - Actually don't have a virtualised MMU index
+v3:
+ - Don't use an external helper
+v2:
+ - Use only 6 MMU modes instead of 8
 
-Argh! I must have dreamed fixing it. Sending a new version now.
+Alistair Francis (5):
+  target/riscv: Add a virtualised MMU Mode
+  target/riscv: Set the virtualised MMU mode when doing hyp accesses
+  target/riscv: Remove the HS_TWO_STAGE flag
+  target/riscv: Remove the hyp load and store functions
+  target/riscv: Split the Hypervisor execute load helpers
 
-Alistair
+ target/riscv/cpu-param.h                |  11 +-
+ target/riscv/cpu.h                      |  19 +++-
+ target/riscv/cpu_bits.h                 |   1 -
+ target/riscv/helper.h                   |   5 +-
+ target/riscv/cpu_helper.c               |  62 +++++-----
+ target/riscv/op_helper.c                | 124 +-------------------
+ target/riscv/translate.c                |   2 +
+ target/riscv/insn_trans/trans_rvh.c.inc | 143 +++++++++---------------
+ 8 files changed, 112 insertions(+), 255 deletions(-)
 
->
->
-> r~
+-- 
+2.28.0
+
 
