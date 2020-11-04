@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566CD2A697C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:26:00 +0100 (CET)
-Received: from localhost ([::1]:47950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F20C2A69AF
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:27:39 +0100 (CET)
+Received: from localhost ([::1]:53570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLbj-00036P-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:25:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42638)
+	id 1kaLdK-0005SK-0T
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:27:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFY-0003CF-2U
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34226)
+ id 1kaLFc-0003Mi-9G
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFQ-0005fZ-1l
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:03 -0500
+ id 1kaLFT-0005gE-1j
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:03:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505775;
+ s=mimecast20190719; t=1604505778;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1pPtsj17WK0T2HWsQv/1IZ7T7/vtbpEeIIfqQsiTes8=;
- b=Ehx7FXtqGyYGSfoiZdXjD8E55qMrdI1BfGYpXnVfUrzgnxarsh/SOSVhUkK1/Mxt/AMVO0
- npFWrVzkib2+hvvNva9mCBQqHs+z5MTznEbM8onHc3yynVqRTPgFTWaHYLMGXJLb+GdL+R
- ZxqoooZ5wOLVUZiwQIGCSOt0OYDZqCY=
+ bh=JusAU4ZVcNlVO9yNQkafrHuHhs7zVpSsuF0b0bb2xWg=;
+ b=dL0YUyXgFnMIzNpEaRERqOgFifbFHo32qDWtA3IiW1W4FUb5e9SFwk8/iakTkYVDh9RIdn
+ cnykH7YQx1Pp3Vpw3R6iJJy9EV3zFk4w69tk5RtdU9PFDN0Vo5Ndc+vf/fkF9v0eng/Hdn
+ 6XjH2i3xVls8vHLe2hsYJ1PJcDI1EIY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-107-7SmlzCMbMSmFetex76pCEA-1; Wed, 04 Nov 2020 11:02:53 -0500
-X-MC-Unique: 7SmlzCMbMSmFetex76pCEA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-577-7o8RlAOzPOGzmI8b-s57vw-1; Wed, 04 Nov 2020 11:02:56 -0500
+X-MC-Unique: 7o8RlAOzPOGzmI8b-s57vw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08729CE673;
- Wed,  4 Nov 2020 16:01:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDF071099F88;
+ Wed,  4 Nov 2020 16:01:53 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BAE8F6EF74;
- Wed,  4 Nov 2020 16:01:50 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F6706266E;
+ Wed,  4 Nov 2020 16:01:53 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 24/44] qdev: Make qdev_class_add_property() more flexible
-Date: Wed,  4 Nov 2020 11:00:01 -0500
-Message-Id: <20201104160021.2342108-25-ehabkost@redhat.com>
+Subject: [PATCH v2 25/44] qdev: Separate generic and device-specific property
+ registration
+Date: Wed,  4 Nov 2020 11:00:02 -0500
+Message-Id: <20201104160021.2342108-26-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,61 +90,157 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support Property.set_default and PropertyInfo.description even if
-PropertyInfo.create is set.
+qdev_class_add_property() and qdev_property_add_static() will
+have code that's specific for device types.
+
+object_class_property_add_field() and object_property_add_static()
+will be generic and part of the QOM field property API.  Note
+that the new functions have a `name` parameter because the plan
+is to eventually get rid of the Property.name field.
+
+The declarations for the new functions are being added to
+qdev-properties.h, but they will be moved to a QOM header later.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 Changes v1 -> v2:
-* Patch redone after changes in the previous patches in the
-  series
+* Patch redone after changes in previous patches in the series
+* Rename new functions to object*_property_add_field()
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+ hw/core/qdev-prop-internal.h | 13 +++++++++++++
+ include/hw/qdev-properties.h | 16 ++++++++++++++++
+ hw/core/qdev-properties.c    | 25 +++++++++++++++++--------
+ 3 files changed, 46 insertions(+), 8 deletions(-)
 
+diff --git a/hw/core/qdev-prop-internal.h b/hw/core/qdev-prop-internal.h
+index 9cf5cc1d51..0e16d28171 100644
+--- a/hw/core/qdev-prop-internal.h
++++ b/hw/core/qdev-prop-internal.h
+@@ -27,4 +27,17 @@ void qdev_propinfo_get_int32(Object *obj, Visitor *v, const char *name,
+ void qdev_propinfo_get_size32(Object *obj, Visitor *v, const char *name,
+                               void *opaque, Error **errp);
+ 
++/**
++ * object_property_add_field: Add a field property to an object instance
++ * @obj: object instance
++ * @name: property name
++ * @prop: property definition
++ *
++ * This function should not be used in new code.  Please add class properties
++ * instead, using object_class_add_field().
++ */
++ObjectProperty *
++object_property_add_field(Object *obj, const char *name,
++                          Property *prop);
++
+ #endif
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index aae882317a..bbc5244ed0 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -167,6 +167,22 @@ extern const PropertyInfo qdev_prop_link;
+ #define DEFINE_PROP_END_OF_LIST()               \
+     {}
+ 
++/**
++ * object_class_property_add_field: Add a field property to object class
++ * @oc: object class
++ * @name: property name
++ * @prop: property definition
++ *
++ * Add a field property to an object class.  A field property is
++ * a property that will change a field at a specific offset of the
++ * object instance struct.
++ *
++ * *@prop must exist for the life time of @oc.
++ */
++ObjectProperty *
++object_class_property_add_field(ObjectClass *oc, const char *name,
++                                Property *prop);
++
+ /*
+  * Set properties between creation and realization.
+  *
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 510b3f3fb5..a5d5d74f32 100644
+index a5d5d74f32..e9e2a34f3b 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -863,24 +863,25 @@ static void qdev_class_add_property(DeviceClass *klass, const char *name,
-                                     Property *prop)
+@@ -835,20 +835,20 @@ const PropertyInfo qdev_prop_link = {
+     .create = create_link_property,
+ };
+ 
+-void qdev_property_add_static(DeviceState *dev, Property *prop)
++ObjectProperty *
++object_property_add_field(Object *obj, const char *name, Property *prop)
  {
-     ObjectClass *oc = OBJECT_CLASS(klass);
-+    ObjectProperty *op;
+-    Object *obj = OBJECT(dev);
+     ObjectProperty *op;
+ 
+     assert(!prop->info->create);
+ 
+-    op = object_property_add(obj, prop->name, prop->info->name,
++    op = object_property_add(obj, name, prop->info->name,
+                              field_prop_getter(prop->info),
+                              field_prop_setter(prop->info),
+                              prop->info->release,
+                              prop);
+ 
+-    object_property_set_description(obj, prop->name,
++    object_property_set_description(obj, name,
+                                     prop->info->description);
+ 
+     if (prop->set_default) {
+@@ -857,12 +857,14 @@ void qdev_property_add_static(DeviceState *dev, Property *prop)
+             op->init(obj, op);
+         }
+     }
++
++    return op;
+ }
+ 
+-static void qdev_class_add_property(DeviceClass *klass, const char *name,
+-                                    Property *prop)
++ObjectProperty *
++object_class_property_add_field(ObjectClass *oc, const char *name,
++                                Property *prop)
+ {
+-    ObjectClass *oc = OBJECT_CLASS(klass);
+     ObjectProperty *op;
  
      if (prop->info->create) {
--        prop->info->create(oc, name, prop);
-+        op = prop->info->create(oc, name, prop);
-     } else {
--        ObjectProperty *op;
--
-         op = object_class_property_add(oc,
-                                        name, prop->info->name,
-                                        field_prop_getter(prop->info),
-                                        field_prop_setter(prop->info),
-                                        prop->info->release,
-                                        prop);
--        if (prop->set_default) {
--            prop->info->set_default_value(op, prop);
--        }
+@@ -882,6 +884,12 @@ static void qdev_class_add_property(DeviceClass *klass, const char *name,
+         object_class_property_set_description(oc, name,
+                                               prop->info->description);
      }
--    object_class_property_set_description(oc, name,
--                                          prop->info->description);
-+    if (prop->set_default) {
-+        prop->info->set_default_value(op, prop);
-+    }
-+    if (prop->info->description) {
-+        object_class_property_set_description(oc, name,
-+                                              prop->info->description);
-+    }
++    return op;
++}
++
++void qdev_property_add_static(DeviceState *dev, Property *prop)
++{
++    object_property_add_field(OBJECT(dev), prop->name, prop);
  }
  
  /**
+@@ -932,12 +940,13 @@ static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
+ 
+ void device_class_set_props(DeviceClass *dc, Property *props)
+ {
++    ObjectClass *oc = OBJECT_CLASS(dc);
+     Property *prop;
+ 
+     dc->props_ = props;
+     for (prop = props; prop && prop->name; prop++) {
+         qdev_class_add_legacy_property(dc, prop);
+-        qdev_class_add_property(dc, prop->name, prop);
++        object_class_property_add_field(oc, prop->name, prop);
+     }
+ }
+ 
 -- 
 2.28.0
 
