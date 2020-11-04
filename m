@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F397E2A5B24
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:44:50 +0100 (CET)
-Received: from localhost ([::1]:50414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC35C2A5B0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:38:36 +0100 (CET)
+Received: from localhost ([::1]:33104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka6uv-0006nr-Vu
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:44:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35230)
+	id 1ka6ot-0007t8-2D
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:38:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mm-00061b-VA
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28251)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6ml-00060S-30
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mi-0004ms-7h
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:24 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mi-0004mp-BV
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450179;
+ s=mimecast20190719; t=1604450178;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aRs9bWy/l+OS7Dmw/otXBWJQ78D/TeE5mmlSCOg0PRA=;
- b=CTavUqjEqnR4f93Wh53JJVMUfO+zmcirk5ob7AY3IYFUgGZsQ1ArSDq4VW7wILGFv/sYqU
- R8yWZA080pRa6daDqD/p4MbqPT9u9g2ZGkoCr7eAmQBBKnTiSVRehJkvCnwc8tJI9Uywt1
- lS+ELpfWFEyq7tRwlEg5PWR4Wqbhc3c=
+ bh=DwvcW7jNpBKcFtSfGFunStKf7oby9QF8aWFLGmTigZ8=;
+ b=P6htm2sO2nJh+hjh1MSjDaja2YdKdI0JZ5BPOM3T64CIKkh9Z0Aar62TcJypFVUkfnq6yG
+ xNCPsdenOwVXdx47/enVzIt/b//Xw3Q46eEKer9y68oaP7MRnUXvfykXX7k5YYmimQ1ujq
+ dq5l+ri28vGCcuuT3ZcyHyoDL84Xj2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-189-lbBUdxKmOVCwyaYgRb2fsA-1; Tue, 03 Nov 2020 19:36:14 -0500
-X-MC-Unique: lbBUdxKmOVCwyaYgRb2fsA-1
+ us-mta-547-3GElkm8JOMSGv7CsPXMHqA-1; Tue, 03 Nov 2020 19:36:15 -0500
+X-MC-Unique: 3GElkm8JOMSGv7CsPXMHqA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 819366D596
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E41B1804774
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:14 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7EDAA55766;
- Wed,  4 Nov 2020 00:36:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AE0C855766;
+ Wed,  4 Nov 2020 00:36:13 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 01/72] python/qmp: Add qom script rewrites
-Date: Tue,  3 Nov 2020 19:34:51 -0500
-Message-Id: <20201104003602.1293560-2-jsnow@redhat.com>
+Subject: [PATCH v2 02/72] python/qmp: add qom script entry points
+Date: Tue,  3 Nov 2020 19:34:52 -0500
+Message-Id: <20201104003602.1293560-3-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +53,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
@@ -78,397 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Inspired by qom-set, qom-get, qom-tree and qom-list; combine all four of
-those scripts into one script.
-
-A later addition of qom-fuse necessitates that some common features are
-split out and shared between them.
+Add the 'qom', 'qom-set', 'qom-get', 'qom-list', and 'qom-tree' scripts
+to the qemu.qmp package. When you install this package, these scripts
+will become available on your command line.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/qemu/qmp/qom.py        | 207 ++++++++++++++++++++++++++++++++++
- python/qemu/qmp/qom_common.py | 153 +++++++++++++++++++++++++
- 2 files changed, 360 insertions(+)
- create mode 100644 python/qemu/qmp/qom.py
- create mode 100644 python/qemu/qmp/qom_common.py
+ python/setup.cfg | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/python/qemu/qmp/qom.py b/python/qemu/qmp/qom.py
-new file mode 100644
-index 000000000000..912d1809e60d
---- /dev/null
-+++ b/python/qemu/qmp/qom.py
-@@ -0,0 +1,207 @@
-+"""
-+QEMU Object Model testing tools.
-+
-+usage: qom.py [-h] {set,get,list,tree} ...
-+
-+Query and manipulate QOM data
-+
-+optional arguments:
-+  -h, --help           show this help message and exit
-+
-+QOM commands:
-+  {set,get,list,tree,fuse}
-+    set                Set a QOM property value
-+    get                Get a QOM property value
-+    list               List QOM properties at a given path
-+    tree               Show QOM tree from a given path
-+"""
-+##
-+# Copyright John Snow 2020, for Red Hat, Inc.
-+# Copyright IBM, Corp. 2011
-+#
-+# Authors:
-+#  John Snow <jsnow@redhat.com>
-+#  Anthony Liguori <aliguori@amazon.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+#
-+# Based on ./scripts/qmp/qom-[set|get|tree|list]
-+##
-+
-+import argparse
-+import sys
-+
-+from . import QMPResponseError
-+from .qom_common import QOMCommand
-+
-+
-+class QOMSet(QOMCommand):
-+    """QOM Command - Set a property to a given value."""
-+    name = 'set'
-+    help = 'Set a QOM property value'
-+
-+    @classmethod
-+    def configure_parser(cls, parser: argparse.ArgumentParser) -> None:
-+        super().configure_parser(parser)
-+        cls.add_path_prop_arg(parser)
-+        parser.add_argument(
-+            'value',
-+            metavar='<value>',
-+            action='store',
-+            help='new QOM property value'
-+        )
-+
-+    def __init__(self, args: argparse.Namespace):
-+        super().__init__(args)
-+        self.path, self.prop = args.path_prop.rsplit('.', 1)
-+        self.value = args.value
-+
-+    def run(self) -> int:
-+        rsp = self.qmp.command(
-+            'qom-set',
-+            path=self.path,
-+            property=self.prop,
-+            value=self.value
-+        )
-+        print(rsp)
-+        return 0
-+
-+
-+class QOMGet(QOMCommand):
-+    """QOM Command - Get a property's current value."""
-+    name = 'get'
-+    help = 'Get a QOM property value'
-+
-+    @classmethod
-+    def configure_parser(cls, parser: argparse.ArgumentParser) -> None:
-+        super().configure_parser(parser)
-+        cls.add_path_prop_arg(parser)
-+
-+    def __init__(self, args: argparse.Namespace):
-+        super().__init__(args)
-+        try:
-+            tmp = args.path_prop.rsplit('.', 1)
-+        except ValueError as err:
-+            raise ValueError('Invalid format for <path>.<property>') from err
-+        self.path = tmp[0]
-+        self.prop = tmp[1]
-+
-+    def run(self) -> int:
-+        rsp = self.qmp.command(
-+            'qom-get',
-+            path=self.path,
-+            property=self.prop
-+        )
-+        if isinstance(rsp, dict):
-+            for key, value in rsp.items():
-+                print(f"{key}: {value}")
-+        else:
-+            print(rsp)
-+        return 0
-+
-+
-+class QOMList(QOMCommand):
-+    """QOM Command - List the properties at a given path."""
-+    name = 'list'
-+    help = 'List QOM properties at a given path'
-+
-+    @classmethod
-+    def configure_parser(cls, parser: argparse.ArgumentParser) -> None:
-+        super().configure_parser(parser)
-+        parser.add_argument(
-+            'path',
-+            metavar='<path>',
-+            action='store',
-+            help='QOM path',
-+        )
-+
-+    def __init__(self, args: argparse.Namespace):
-+        super().__init__(args)
-+        self.path = args.path
-+
-+    def run(self) -> int:
-+        rsp = self.qom_list(self.path)
-+        for item in rsp:
-+            if item.child:
-+                print(f"{item.name}/")
-+            elif item.link:
-+                print(f"@{item.name}/")
-+            else:
-+                print(item.name)
-+        return 0
-+
-+
-+class QOMTree(QOMCommand):
-+    """QOM Command - Show the full tree below a given path."""
-+    name = 'tree'
-+    help = 'Show QOM tree from a given path'
-+
-+    @classmethod
-+    def configure_parser(cls, parser: argparse.ArgumentParser) -> None:
-+        super().configure_parser(parser)
-+        parser.add_argument(
-+            'path',
-+            metavar='<path>',
-+            action='store',
-+            help='QOM path',
-+            nargs='?',
-+            default='/'
-+        )
-+
-+    def __init__(self, args: argparse.Namespace):
-+        super().__init__(args)
-+        self.path = args.path
-+
-+    def _list_node(self, path: str) -> None:
-+        print(path)
-+        items = self.qom_list(path)
-+        for item in items:
-+            if item.child:
-+                continue
-+            try:
-+                rsp = self.qmp.command('qom-get', path=path,
-+                                       property=item.name)
-+                print(f"  {item.name}: {rsp} ({item.type})")
-+            except QMPResponseError as err:
-+                print(f"  {item.name}: <EXCEPTION: {err!s}> ({item.type})")
-+        print('')
-+        for item in items:
-+            if not item.child:
-+                continue
-+            if path == '/':
-+                path = ''
-+            self._list_node(f"{path}/{item.name}")
-+
-+    def run(self) -> int:
-+        self._list_node(self.path)
-+        return 0
-+
-+
-+def main() -> int:
-+    """QOM script main entry point."""
-+    parser = argparse.ArgumentParser(
-+        description='Query and manipulate QOM data'
-+    )
-+    subparsers = parser.add_subparsers(
-+        title='QOM commands',
-+        dest='command'
-+    )
-+
-+    for command in QOMCommand.__subclasses__():
-+        command.register(subparsers)
-+
-+    args = parser.parse_args()
-+
-+    if args.command is None:
-+        parser.error('Command not specified.')
-+        return 1
-+
-+    assert issubclass(args.cmd_class, QOMCommand)
-+    cmd = args.cmd_class(args)
-+    assert isinstance(cmd, QOMCommand)
-+    return cmd.run()
-+
-+
-+if __name__ == '__main__':
-+    sys.exit(main())
-diff --git a/python/qemu/qmp/qom_common.py b/python/qemu/qmp/qom_common.py
-new file mode 100644
-index 000000000000..3890b247ae68
---- /dev/null
-+++ b/python/qemu/qmp/qom_common.py
-@@ -0,0 +1,153 @@
-+"""
-+QOM Command abstractions.
-+"""
-+##
-+# Copyright John Snow 2020, for Red Hat, Inc.
-+# Copyright IBM, Corp. 2011
-+#
-+# Authors:
-+#  John Snow <jsnow@redhat.com>
-+#  Anthony Liguori <aliguori@amazon.com>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or later.
-+# See the COPYING file in the top-level directory.
-+#
-+# Based on ./scripts/qmp/qom-[set|get|tree|list]
-+##
-+
-+import argparse
-+import os
-+from typing import (
-+    Any,
-+    Dict,
-+    List,
-+    Optional,
-+)
-+
-+from . import QEMUMonitorProtocol
-+
-+
-+Subparsers = argparse._SubParsersAction  # pylint: disable=protected-access
-+
-+
-+class ObjectPropertyInfo:
-+    """
-+    Represents the return type from e.g. qom-list.
-+    """
-+    def __init__(self, name: str, type_: str,
-+                 description: Optional[str] = None,
-+                 default_value: Optional[object] = None):
-+        self.name = name
-+        self.type = type_
-+        self.description = description
-+        self.default_value = default_value
-+
-+    @classmethod
-+    def make(cls, value: Dict[str, Any]) -> 'ObjectPropertyInfo':
-+        """
-+        Build an ObjectPropertyInfo from a Dict with an unknown shape.
-+        """
-+        assert value.keys() >= {'name', 'type'}
-+        assert value.keys() <= {'name', 'type', 'description', 'default-value'}
-+        return cls(value['name'], value['type'],
-+                   value.get('description'),
-+                   value.get('default-value'))
-+
-+    @property
-+    def child(self) -> bool:
-+        """Is this property a child property?"""
-+        return self.type.startswith('child<')
-+
-+    @property
-+    def link(self) -> bool:
-+        """Is this property a link property?"""
-+        return self.type.startswith('link<')
-+
-+
-+class QOMCommand:
-+    """
-+    Represents a QOM sub-command.
-+
-+    :param args: Parsed arguments, as returned from parser.parse_args.
-+    """
-+    name: str
-+    help: str
-+
-+    def __init__(self, args: argparse.Namespace):
-+        if args.socket is None:
-+            raise Exception("No QMP socket path or address given")
-+        self.qmp = QEMUMonitorProtocol(args.socket)
-+        self.qmp.connect()
-+
-+    @classmethod
-+    def register(cls, subparsers: Subparsers) -> None:
-+        """
-+        Register this command with the argument parser.
-+
-+        :param subparsers: argparse subparsers object, from "add_subparsers".
-+        """
-+        subparser = subparsers.add_parser(cls.name, help=cls.help,
-+                                          description=cls.help)
-+        cls.configure_parser(subparser)
-+
-+    @classmethod
-+    def configure_parser(cls, parser: argparse.ArgumentParser) -> None:
-+        """
-+        Configure a parser with this command's arguments.
-+
-+        :param parser: argparse parser or subparser object.
-+        """
-+        default_path = os.environ.get('QMP_SOCKET')
-+        parser.add_argument(
-+            '--socket', '-s',
-+            dest='socket',
-+            action='store',
-+            help='QMP socket path or address (addr:port).'
-+            ' May also be set via QMP_SOCKET environment variable.',
-+            default=default_path
-+        )
-+        parser.set_defaults(cmd_class=cls)
-+
-+    @classmethod
-+    def add_path_prop_arg(cls, parser: argparse.ArgumentParser) -> None:
-+        """
-+        Add the <path>.<proptery> positional argument to this command.
-+
-+        :param parser: The parser to add the argument to.
-+        """
-+        parser.add_argument(
-+            'path_prop',
-+            metavar='<path>.<property>',
-+            action='store',
-+            help="QOM path and property, separated by a period '.'"
-+        )
-+
-+    def run(self) -> int:
-+        """
-+        Run this command.
-+
-+        :return: 0 on success, 1 otherwise.
-+        """
-+        raise NotImplementedError
-+
-+    def qom_list(self, path: str) -> List[ObjectPropertyInfo]:
-+        """
-+        :return: a strongly typed list from the 'qom-list' command.
-+        """
-+        rsp = self.qmp.command('qom-list', path=path)
-+        # qom-list returns List[ObjectPropertyInfo]
-+        assert isinstance(rsp, list)
-+        return [ObjectPropertyInfo.make(x) for x in rsp]
-+
-+    @classmethod
-+    def entry_point(cls) -> int:
-+        """
-+        Build this command's parser, parse arguments, and run the command.
-+
-+        :return: `run`'s return code.
-+        """
-+        parser = argparse.ArgumentParser(description=cls.help)
-+        cls.configure_parser(parser)
-+        args = parser.parse_args()
-+        cmd = cls(args)
-+        return cmd.run()
+diff --git a/python/setup.cfg b/python/setup.cfg
+index 2c12d9ab89b4..c8b7215996e9 100644
+--- a/python/setup.cfg
++++ b/python/setup.cfg
+@@ -28,6 +28,13 @@ devel =
+     pylint >= 2.6.0
+     pytest >= 3.0.0
+ 
++[options.entry_points]
++console_scripts =
++    qom = qemu.qmp.qom:main
++    qom-set = qemu.qmp.qom:QOMSet.entry_point
++    qom-get = qemu.qmp.qom:QOMGet.entry_point
++    qom-list = qemu.qmp.qom:QOMList.entry_point
++    qom-tree = qemu.qmp.qom:QOMTree.entry_point
+ 
+ [flake8]
+ extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
 -- 
 2.26.2
 
