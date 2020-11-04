@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 783792A670D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:06:09 +0100 (CET)
-Received: from localhost ([::1]:57486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A0E22A6707
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:03:57 +0100 (CET)
+Received: from localhost ([::1]:49268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKMS-00089O-FZ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:06:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55390)
+	id 1kaKKK-0004j1-A0
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKId-00036K-TP
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35776)
+ id 1kaKIZ-00030K-6D
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50946)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIV-00062M-Nv
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:11 -0500
+ id 1kaKIV-00062A-2U
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604502122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bjdcvVYrOIR7hG9//K98ZTrykFLGkdV3TeCbDcMGj3Y=;
- b=cj4Yth21TwIq6Iy6dxGid+W4pqNmhwh4QWos78y+a+JzUnGDPSondvoS2dK5SW7MHpakk1
- tng14aii7PnFTjPjbMttysw7JMgNgyeZtC2J+YfkVOFiI2bKwnYYagjg0Ndrb6WpEXCuFp
- ZKj/f8x7ATpZaovDxa+jDqJ3lX8/c+w=
+ bh=e9BEGm1Q4og47egWEYDjCc+t61kdD3EHCWAUPII/OKE=;
+ b=FZP0UJYW2RWg7bCOGg5yzqpInXJ7U3C07otTLkzcoDw/kFwg8t9vljweJZ/8kR3FiRvBB1
+ DbMw01aXxDND2Yokgx5EgIkfd+tVd8SXnVQlY9jN7qfmINRz+TJkVrnzpmt8rN2dWi9Bss
+ iO2LIVR2ICo1hjDu18uW36z4bnxzJ3Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-135-_uoBe_nON623-VvG4rEK9Q-1; Wed, 04 Nov 2020 10:01:59 -0500
-X-MC-Unique: _uoBe_nON623-VvG4rEK9Q-1
+ us-mta-107-GclS-hlAOK2L56vyoRdFJA-1; Wed, 04 Nov 2020 10:02:00 -0500
+X-MC-Unique: GclS-hlAOK2L56vyoRdFJA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A2E21891E83;
- Wed,  4 Nov 2020 15:01:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07714801F9A;
+ Wed,  4 Nov 2020 15:01:59 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A39E100750B;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB3111007501;
  Wed,  4 Nov 2020 15:01:58 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/20] meson: vhost-user-gpu/virtiofsd: use absolute path
-Date: Wed,  4 Nov 2020 10:01:41 -0500
-Message-Id: <20201104150153.541326-9-pbonzini@redhat.com>
+Subject: [PULL 09/20] tests/qtest/libqtest.c: Check for setsockopt() failure
+Date: Wed,  4 Nov 2020 10:01:42 -0500
+Message-Id: <20201104150153.541326-10-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,50 +81,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marc Hartmayer <mhartmay@linux.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc Hartmayer <mhartmay@linux.ibm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
 
-The option `libexecdir` is relative to `prefix` (see
-https://mesonbuild.com/Builtin-options.html), so we have to be aware
-of this when creating 50-qemu-gpu.json and
-50-qemu-virtiofsd.json. Otherwise, tools like libvirt will not be able
-to find the executable.
+In socket_accept() we use setsockopt() to set SO_RCVTIMEO,
+but we don't check the return value for failure. Do so.
 
-Fixes: 16bf7a3326d8 ("configure: move directory options from config-host.mak to meson")
-Signed-off-by: Marc Hartmayer <mhartmay@linux.ibm.com>
-Message-Id: <20201103112333.24734-1-mhartmay@linux.ibm.com>
+Fixes: Coverity CID 1432321
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20201103115112.19211-1-peter.maydell@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- contrib/vhost-user-gpu/meson.build | 2 +-
- tools/virtiofsd/meson.build        | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ tests/qtest/libqtest.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/contrib/vhost-user-gpu/meson.build b/contrib/vhost-user-gpu/meson.build
-index 37ecca13ca..c487ca72c1 100644
---- a/contrib/vhost-user-gpu/meson.build
-+++ b/contrib/vhost-user-gpu/meson.build
-@@ -9,6 +9,6 @@ if 'CONFIG_TOOLS' in config_host and 'CONFIG_VIRGL' in config_host \
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 99deff47ef..be0fb430dd 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -110,8 +110,13 @@ static int socket_accept(int sock)
+     struct timeval timeout = { .tv_sec = SOCKET_TIMEOUT,
+                                .tv_usec = 0 };
  
-   configure_file(input: '50-qemu-gpu.json.in',
-                  output: '50-qemu-gpu.json',
--                 configuration: { 'libexecdir' : get_option('libexecdir') },
-+                 configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
-                  install_dir: qemu_datadir / 'vhost-user')
- endif
-diff --git a/tools/virtiofsd/meson.build b/tools/virtiofsd/meson.build
-index e1a4dc98d9..17edecf55c 100644
---- a/tools/virtiofsd/meson.build
-+++ b/tools/virtiofsd/meson.build
-@@ -15,5 +15,5 @@ executable('virtiofsd', files(
+-    setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO, (void *)&timeout,
+-               sizeof(timeout));
++    if (qemu_setsockopt(sock, SOL_SOCKET, SO_RCVTIMEO,
++                        (void *)&timeout, sizeof(timeout))) {
++        fprintf(stderr, "%s failed to set SO_RCVTIMEO: %s\n",
++                __func__, strerror(errno));
++        close(sock);
++        return -1;
++    }
  
- configure_file(input: '50-qemu-virtiofsd.json.in',
-                output: '50-qemu-virtiofsd.json',
--               configuration: { 'libexecdir' : get_option('libexecdir') },
-+               configuration: { 'libexecdir' : get_option('prefix') / get_option('libexecdir') },
-                install_dir: qemu_datadir / 'vhost-user')
+     do {
+         addrlen = sizeof(addr);
 -- 
 2.26.2
 
