@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE3A2A6909
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:06:31 +0100 (CET)
-Received: from localhost ([::1]:59888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4642A6921
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:09:57 +0100 (CET)
+Received: from localhost ([::1]:45402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLIr-0005hR-Bb
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:06:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41934)
+	id 1kaLMC-0003Ao-Sf
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:09:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLEc-0001Lv-QB
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57759)
+ id 1kaLEo-0001R9-3E
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLEV-0005Uj-Tu
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:06 -0500
+ id 1kaLEi-0005V9-3u
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505719;
+ s=mimecast20190719; t=1604505726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bjbAAGsu3eif6zWUP3OWVxWI0koAqnB2AtUWbzN1whY=;
- b=V5NJ5d5yNJ+bgtnbsPAAOScK5priuIgJnApnyastqvafhvQhSSI1KqjSI87qxLaFkdR1fY
- rqiWm42hrZJ1tnYBXWkBg0YStDIaOqvraKPDw8q72gwG3J8gnlM11d7QUeEialiGKnLDzo
- Xkj66HNPhTc0gKHaxS9iuePRnjN6WmE=
+ bh=GQ0NhKPBVv20x0zpCb2NBxK3BLDlcnNcp6ai4Es5lBw=;
+ b=PoE+/i53uO9n0vMXw91Wbb45igGnaxGQZLF7AbPeoAo5GbFdqaPm7SOIB9Y+Nv4oSQiBvb
+ mMDtcGueqm98XPSr83LRgY+PEl6zuYVji4ZHvcmrztspnqbrMCe0McNytXyw5d7YWhAtBf
+ /1NPMhyWOWT6w2itui8qd88qnlSN5YE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-XnWWIn47PAqkuzZK41kX3A-1; Wed, 04 Nov 2020 11:01:56 -0500
-X-MC-Unique: XnWWIn47PAqkuzZK41kX3A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-272-J2Y-SKRNOp-3frFt_RMt8A-1; Wed, 04 Nov 2020 11:02:04 -0500
+X-MC-Unique: J2Y-SKRNOp-3frFt_RMt8A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 381D5805F18;
- Wed,  4 Nov 2020 16:01:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8054D192F448;
+ Wed,  4 Nov 2020 16:01:19 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 45C9D277D3;
- Wed,  4 Nov 2020 16:01:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 64D6273675;
+ Wed,  4 Nov 2020 16:01:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 06/44] qdev: Don't use dev->id on set_size32() error message
-Date: Wed,  4 Nov 2020 10:59:43 -0500
-Message-Id: <20201104160021.2342108-7-ehabkost@redhat.com>
+Subject: [PATCH v2 07/44] qdev: Make PropertyInfo.print method get Object*
+ argument
+Date: Wed,  4 Nov 2020 10:59:44 -0500
+Message-Id: <20201104160021.2342108-8-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,9 +90,7 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All other qdev property error messages use "<type>.<property>"
-instead of "<id>.<property>".  Change set_size32() for consistency,
-and to make the code not specific to TYPE_DEVICE.
+Make the code more generic and not specific to TYPE_DEVICE.
 
 Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
@@ -101,21 +100,58 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/hw/qdev-properties.h     | 2 +-
+ hw/core/qdev-properties-system.c | 3 ++-
+ hw/core/qdev-properties.c        | 3 +--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
+index db7ce51dd5..0ea822e6a7 100644
+--- a/include/hw/qdev-properties.h
++++ b/include/hw/qdev-properties.h
+@@ -32,7 +32,7 @@ struct PropertyInfo {
+     const char *name;
+     const char *description;
+     const QEnumLookup *enum_table;
+-    int (*print)(DeviceState *dev, Property *prop, char *dest, size_t len);
++    int (*print)(Object *obj, Property *prop, char *dest, size_t len);
+     void (*set_default_value)(ObjectProperty *op, const Property *prop);
+     void (*create)(ObjectClass *oc, Property *prop);
+     ObjectPropertyAccessor *get;
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index b81a4e8d14..d0fb063a49 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -801,9 +801,10 @@ invalid:
+     g_free(str);
+ }
+ 
+-static int print_pci_devfn(DeviceState *dev, Property *prop, char *dest,
++static int print_pci_devfn(Object *obj, Property *prop, char *dest,
+                            size_t len)
+ {
++    DeviceState *dev = DEVICE(obj);
+     int32_t *ptr = qdev_get_prop_ptr(dev, prop);
+ 
+     if (*ptr == -1) {
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 67ae19df05..daf844c2d3 100644
+index daf844c2d3..b6cf53e929 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -542,7 +542,7 @@ static void set_size32(Object *obj, Visitor *v, const char *name, void *opaque,
-         error_setg(errp,
-                    "Property %s.%s doesn't take value %" PRIu64
-                    " (maximum: %u)",
--                   dev->id ? : "", name, value, UINT32_MAX);
-+                   object_get_typename(obj), name, value, UINT32_MAX);
-         return;
-     }
+@@ -988,13 +988,12 @@ static void qdev_get_legacy_property(Object *obj, Visitor *v,
+                                      const char *name, void *opaque,
+                                      Error **errp)
+ {
+-    DeviceState *dev = DEVICE(obj);
+     Property *prop = opaque;
+ 
+     char buffer[1024];
+     char *ptr = buffer;
+ 
+-    prop->info->print(dev, prop, buffer, sizeof(buffer));
++    prop->info->print(obj, prop, buffer, sizeof(buffer));
+     visit_type_str(v, name, &ptr, errp);
+ }
  
 -- 
 2.28.0
