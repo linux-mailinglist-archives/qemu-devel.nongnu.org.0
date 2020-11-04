@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071062A66C6
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 15:54:23 +0100 (CET)
-Received: from localhost ([::1]:42708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0D9F2A6705
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:03:52 +0100 (CET)
+Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKB4-0001RA-1r
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 09:54:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53260)
+	id 1kaKKF-0004Z2-SA
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:03:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kaKA8-0000yn-K0
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 09:53:24 -0500
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:34669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kaKA6-0004w2-JZ
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 09:53:24 -0500
-Received: by mail-ed1-x541.google.com with SMTP id a15so13917437edy.1
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 06:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hXHqhjQ9aAvBh4VmDmm6TItzPPr6lvIssTcrJgpYMCA=;
- b=BKLMDathcgWO7OjA1Tldfrn9nNJfzj0lsB2gN5gFFKDlQqY+Z/STFGykLwzLtJqT/a
- 9LzsM615ntXibvfKbiqiJdc2Cx4hAimFquFpreSZan/O06Z8oJtdH5L8VSovUTj3BMDh
- C6wyYsLp1Sswnf5Jo9VUQ1Yc9oxVto9rIZ0uNeo90M9D7Zttzo5id/72PYXrC0Uqwi/m
- NknhgCXSUWxeeqfsDJuDBqBZSNGFUByw/PH7wd7pNKenbiELn9cgAmEOI4nXve5JVNUK
- u6t8VcY0PDGl+s++N77kfHUHawYkyNGyA96TERoQwmqSNoHK1BVkOu2MC8VGoa7SIgGP
- Hutg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=hXHqhjQ9aAvBh4VmDmm6TItzPPr6lvIssTcrJgpYMCA=;
- b=FxRd/xP35h0R7Wvqk9Soriad5USDMEF3gvEzULme1ESNzEKVEdULZVXoCY1MPV+O5g
- ARWz+v12xehDW5YB6b1t5mXJGbl1EHtJnPOv593xdEUgZRYiSQpGfrR1l5/ynx+3fhlx
- cS/tlIhMuenvsp3lSqRdD7GD9Gl2Fgae6ibZUsXim6rWKVgs1EwgbwoNYTc9/7+TokvK
- Pn92OFPb+bR887ASdRm+yz+aRcTYGLqCee1FXtUXRtdtGnS1EwP4QhxLuj+6ddZl6uPg
- ym3iP2nSA9W/Vfk3lYexplaRa2jm1KU3F64Vv8eUrCS1aoCUmhQtDuMrehmG8e3av6eo
- nZ7A==
-X-Gm-Message-State: AOAM531mteA7kBgOYn1HtTDYaOD/NvOcFtZqfLpJtg482M7G0by3oJWs
- nz5aQKJvKA5xMM9HvR8FMBXC2naWk56BeFYS+rc=
-X-Google-Smtp-Source: ABdhPJw/+vmu1gHHUb2WTLtJk24nnwlLE0ZCfty/g5OqrGy11uYp12oeXuVEIb8+EhsT1WoRxG5jPp8c8VcfPES5q9w=
-X-Received: by 2002:a05:6402:1615:: with SMTP id
- f21mr28453642edv.257.1604501600684; 
- Wed, 04 Nov 2020 06:53:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kaKIV-0002vJ-OV
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kaKIS-00061M-Cd
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604502119;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XRRFdIMpXxSyI66/2is5rHYmKRRFgdPD8wC42nhiKBQ=;
+ b=Qa/WQrc6PeolWfcgWLPDrjoSQr9iZbRoDeC9R+MtSX/uBdXicrHaceQEXG6TrcpwYLkLdl
+ DruJy2a15vzwhzVlwAWusNeZtd6jii4ibf1+Rx84slBECzwmGfuRaCEcLKPdRfiqMxm62L
+ vpZlHsTbsflYvxax/CutdsTLL0r2z4s=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-593-hBYbPqvaNpGgCbigldHvZg-1; Wed, 04 Nov 2020 10:01:55 -0500
+X-MC-Unique: hBYbPqvaNpGgCbigldHvZg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B58576408E
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:54 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 783DE100750B
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:54 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/20] Misc patches for QEMU 5.2-rc1
+Date: Wed,  4 Nov 2020 10:01:33 -0500
+Message-Id: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20201026213637.47087-1-jsnow@redhat.com>
- <1e06ab88-8d8d-d0b1-03f4-a868e2d95561@redhat.com>
-In-Reply-To: <1e06ab88-8d8d-d0b1-03f4-a868e2d95561@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 4 Nov 2020 18:53:08 +0400
-Message-ID: <CAJ+F1CJ7Rq_NUp0nO6hbFX2DFp-BckH=Jb_vayYsGEN44cqE-A@mail.gmail.com>
-Subject: Re: [PATCH v2 00/16] qapi: static typing conversion, pt3
-To: John Snow <jsnow@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f34fed05b349234c"
-Received-SPF: pass client-ip=2a00:1450:4864:20::541;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x541.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,211 +78,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f34fed05b349234c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 83851c7c60c90e9fb6a23ff48076387a77bc33cd:
 
-Hi
+  Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-10-27-v3-tag' into staging (2020-11-03 12:47:58 +0000)
 
-On Wed, Nov 4, 2020 at 5:16 AM John Snow <jsnow@redhat.com> wrote:
+are available in the Git repository at:
 
-> On 10/26/20 5:36 PM, John Snow wrote:
-> > based-on: <20201026194251.11075-1-jsnow@redhat.com>
-> >            [PATCH v2 00/11] qapi: static typing conversion, pt2
->
-> Ping,
->
-> This series can be reviewed independently of pt2, so I encourage you to
-> try if you have the time.
->
-> >
-> > Hi, this series adds static type hints to the QAPI module.
-> > This is part three, and it focuses on expr.py.
-> >
-> > Part 3: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt3
-> > Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt=
-6
-> >
-> > - Requires Python 3.6+
-> > - Requires mypy 0.770 or newer (for type analysis only)
-> > - Requires pylint 2.6.0 or newer (for lint checking only)
-> >
-> > Type hints are added in patches that add *only* type hints and change n=
-o
-> > other behavior. Any necessary changes to behavior to accommodate typing
-> > are split out into their own tiny patches.
-> >
-> > Every commit should pass with:
-> >   - flake8 qapi/
-> >   - pylint --rcfile=3Dqapi/pylintrc qapi/
-> >   - mypy --config-file=3Dqapi/mypy.ini qapi/
-> >
-> > V2:
-> >   - Rebased on the latest V2
-> > 002/16:[0001] [FC] 'qapi/expr.py: Check for dict instead of OrderedDict=
-'
-> >   - Import order differences
-> > 007/16:[0006] [FC] 'qapi/expr.py: Add casts in a few select cases'
-> >   - Import order differences
-> > 008/16:[0006] [FC] 'qapi/expr.py: add type hint annotations'
-> >   - Import order differents
-> > 012/16:[0066] [FC] 'qapi/expr.py: Add docstrings'
-> >   - Various docstring changes for Sphinx
-> > 014/16:[0004] [FC] 'qapi/expr.py: Use tuples instead of lists for stati=
-c
-> data'
-> >   - Change to accommodate new 'coroutine' key
-> > 015/16:[0006] [FC] 'qapi/expr.py: move related checks inside check_xxx
-> functions'
-> >   - Fix check order (ehabkost)
-> >
-> > John Snow (16):
-> >    qapi/expr.py: Remove 'info' argument from nested check_if_str
-> >    qapi/expr.py: Check for dict instead of OrderedDict
-> >    qapi/expr.py: constrain incoming expression types
-> >    qapi/expr.py: Add assertion for union type 'check_dict'
-> >    qapi/expr.py: move string check upwards in check_type
-> >    qapi/expr.py: Check type of 'data' member
-> >    qapi/expr.py: Add casts in a few select cases
-> >    qapi/expr.py: add type hint annotations
-> >    qapi/expr.py: rewrite check_if
-> >    qapi/expr.py: Remove single-letter variable
-> >    qapi/expr.py: enable pylint checks
-> >    qapi/expr.py: Add docstrings
-> >    qapi/expr.py: Modify check_keys to accept any Iterable
-> >    qapi/expr.py: Use tuples instead of lists for static data
-> >    qapi/expr.py: move related checks inside check_xxx functions
-> >    qapi/expr.py: Use an expression checker dispatch table
-> >
-> >   scripts/qapi/expr.py  | 447 +++++++++++++++++++++++++++++++----------=
--
-> >   scripts/qapi/mypy.ini |   5 -
-> >   scripts/qapi/pylintrc |   1 -
-> >   3 files changed, 334 insertions(+), 119 deletions(-)
-> >
->
->
->
-Looks all good to me. And you have already reviewed-by on all patches.
-Given that it's hardening the current code, I would suggest to merge it
-during the freeze. Unless Markus can maintain a qapi-next branch where we
-can base our work on?
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
 
-thanks
+for you to fetch changes up to 46fe962264f91946ca75d23667015d9ba081d6ef:
 
---=20
-Marc-Andr=C3=A9 Lureau
+  qtest: escape device name in device-introspect-test (2020-11-04 07:29:56 -0500)
 
---000000000000f34fed05b349234c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+----------------------------------------------------------------
+Doc and bug fixes
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 4, 2020 at 5:16 AM John=
- Snow &lt;<a href=3D"mailto:jsnow@redhat.com">jsnow@redhat.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
-.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 10/26/20 5=
-:36 PM, John Snow wrote:<br>
-&gt; based-on: &lt;<a href=3D"mailto:20201026194251.11075-1-jsnow@redhat.co=
-m" target=3D"_blank">20201026194251.11075-1-jsnow@redhat.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [PATCH v2 00/11] qapi: static=
- typing conversion, pt2<br>
-<br>
-Ping,<br>
-<br>
-This series can be reviewed independently of pt2, so I encourage you to <br=
->
-try if you have the time.<br>
-<br>
-&gt; <br>
-&gt; Hi, this series adds static type hints to the QAPI module.<br>
-&gt; This is part three, and it focuses on expr.py.<br>
-&gt; <br>
-&gt; Part 3: <a href=3D"https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cl=
-eanup-pt3" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsnow/qe=
-mu/-/tree/python-qapi-cleanup-pt3</a><br>
-&gt; Everything: <a href=3D"https://gitlab.com/jsnow/qemu/-/tree/python-qap=
-i-cleanup-pt6" rel=3D"noreferrer" target=3D"_blank">https://gitlab.com/jsno=
-w/qemu/-/tree/python-qapi-cleanup-pt6</a><br>
-&gt; <br>
-&gt; - Requires Python 3.6+<br>
-&gt; - Requires mypy 0.770 or newer (for type analysis only)<br>
-&gt; - Requires pylint 2.6.0 or newer (for lint checking only)<br>
-&gt; <br>
-&gt; Type hints are added in patches that add *only* type hints and change =
-no<br>
-&gt; other behavior. Any necessary changes to behavior to accommodate typin=
-g<br>
-&gt; are split out into their own tiny patches.<br>
-&gt; <br>
-&gt; Every commit should pass with:<br>
-&gt;=C2=A0 =C2=A0- flake8 qapi/<br>
-&gt;=C2=A0 =C2=A0- pylint --rcfile=3Dqapi/pylintrc qapi/<br>
-&gt;=C2=A0 =C2=A0- mypy --config-file=3Dqapi/mypy.ini qapi/<br>
-&gt; <br>
-&gt; V2:<br>
-&gt;=C2=A0 =C2=A0- Rebased on the latest V2<br>
-&gt; 002/16:[0001] [FC] &#39;qapi/expr.py: Check for dict instead of Ordere=
-dDict&#39;<br>
-&gt;=C2=A0 =C2=A0- Import order differences<br>
-&gt; 007/16:[0006] [FC] &#39;qapi/expr.py: Add casts in a few select cases&=
-#39;<br>
-&gt;=C2=A0 =C2=A0- Import order differences<br>
-&gt; 008/16:[0006] [FC] &#39;qapi/expr.py: add type hint annotations&#39;<b=
-r>
-&gt;=C2=A0 =C2=A0- Import order differents<br>
-&gt; 012/16:[0066] [FC] &#39;qapi/expr.py: Add docstrings&#39;<br>
-&gt;=C2=A0 =C2=A0- Various docstring changes for Sphinx<br>
-&gt; 014/16:[0004] [FC] &#39;qapi/expr.py: Use tuples instead of lists for =
-static data&#39;<br>
-&gt;=C2=A0 =C2=A0- Change to accommodate new &#39;coroutine&#39; key<br>
-&gt; 015/16:[0006] [FC] &#39;qapi/expr.py: move related checks inside check=
-_xxx functions&#39;<br>
-&gt;=C2=A0 =C2=A0- Fix check order (ehabkost)<br>
-&gt; <br>
-&gt; John Snow (16):<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Remove &#39;info&#39; argument from nested =
-check_if_str<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Check for dict instead of OrderedDict<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: constrain incoming expression types<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Add assertion for union type &#39;check_dic=
-t&#39;<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: move string check upwards in check_type<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Check type of &#39;data&#39; member<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Add casts in a few select cases<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: add type hint annotations<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: rewrite check_if<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Remove single-letter variable<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: enable pylint checks<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Add docstrings<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Modify check_keys to accept any Iterable<br=
->
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Use tuples instead of lists for static data=
-<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: move related checks inside check_xxx functi=
-ons<br>
-&gt;=C2=A0 =C2=A0 qapi/expr.py: Use an expression checker dispatch table<br=
->
-&gt; <br>
-&gt;=C2=A0 =C2=A0scripts/qapi/expr.py=C2=A0 | 447 +++++++++++++++++++++++++=
-++++++-----------<br>
-&gt;=C2=A0 =C2=A0scripts/qapi/mypy.ini |=C2=A0 =C2=A05 -<br>
-&gt;=C2=A0 =C2=A0scripts/qapi/pylintrc |=C2=A0 =C2=A01 -<br>
-&gt;=C2=A0 =C2=A03 files changed, 334 insertions(+), 119 deletions(-)<br>
-&gt; <br>
-<br>
-<br>
-</blockquote></div><div><br></div><div>Looks all good to me. And you have a=
-lready reviewed-by on all patches. Given that it&#39;s hardening the curren=
-t code, I would suggest to merge it during the freeze. Unless Markus can ma=
-intain a qapi-next branch where we can base our work on?<br></div><div><br>=
-</div><div>thanks</div><div><br></div>-- <br><div dir=3D"ltr" class=3D"gmai=
-l_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+----------------------------------------------------------------
+AlexChen (1):
+      tests/qtest: Fix potential NULL pointer dereference in qos_build_main_args()
 
---000000000000f34fed05b349234c--
+Alexander Bulekov (5):
+      scripts/oss-fuzz: rename bin/qemu-fuzz-i386
+      qtest: add a reproducer for LP#1878642
+      fuzz: fix writing DMA patterns
+      fuzz: check the MR in the DMA callback
+      fuzz: fuzz offsets within pio/mmio regions
+
+Bruce Rogers (1):
+      configure: fix gio_libs reference
+
+Marc Hartmayer (1):
+      meson: vhost-user-gpu/virtiofsd: use absolute path
+
+Paolo Bonzini (8):
+      cutils: replace strdup with g_strdup
+      docs: expand sourceset documentation
+      meson: use b_staticpic=false for meson >=0.56.0
+      meson: fix warning for bad sphinx-build
+      semihosting: fix order of initialization functions
+      qapi, qemu-options: make all parsing visitors parse boolean options the same
+      ivshmem-test: do not use short-form boolean option
+      qtest: escape device name in device-introspect-test
+
+Peter Maydell (2):
+      tests/qtest/libqtest.c: Check for setsockopt() failure
+      tests/qtest/libqos/ahci.c: Avoid NULL dereference in ahci_exec()
+
+Philippe Mathieu-Daudé (2):
+      exec: Remove dead code (CID 1432876)
+      hw/isa/lpc_ich9: Ignore reserved/invalid SCI IRQ
+
+ configure                            |   8 +-
+ contrib/vhost-user-gpu/meson.build   |   2 +-
+ docs/devel/build-system.rst          | 158 +++++++++++++++++++++++------------
+ docs/devel/kconfig.rst               |   2 +
+ docs/meson.build                     |   3 +-
+ hw/isa/lpc_ich9.c                    |  14 +++-
+ include/hw/i386/ich9.h               |   1 +
+ include/qapi/util.h                  |   2 +
+ include/qemu/cutils.h                |   1 +
+ meson.build                          |   4 +-
+ qapi/opts-visitor.c                  |  14 +---
+ qapi/qapi-util.c                     |  23 +++++
+ qapi/qobject-input-visitor.c         |   6 +-
+ qapi/string-input-visitor.c          |  17 +---
+ scripts/oss-fuzz/build.sh            |   4 +-
+ softmmu/physmem.c                    |  10 +--
+ softmmu/vl.c                         |   4 +-
+ tests/qemu-iotests/051.out           |   6 +-
+ tests/qemu-iotests/051.pc.out        |   6 +-
+ tests/qemu-iotests/133.out           |   8 +-
+ tests/qemu-iotests/137.out           |   4 +-
+ tests/qtest/device-introspect-test.c |  10 ++-
+ tests/qtest/fuzz-test.c              |  15 ++++
+ tests/qtest/fuzz/generic_fuzz.c      |  44 +++++-----
+ tests/qtest/fuzz/qos_fuzz.c          |   3 +-
+ tests/qtest/ivshmem-test.c           |   2 +-
+ tests/qtest/libqos/ahci.c            |   5 +-
+ tests/qtest/libqtest.c               |   9 +-
+ tools/virtiofsd/meson.build          |   2 +-
+ util/cutils.c                        |   2 +-
+ util/qemu-option.c                   |  20 +----
+ 31 files changed, 239 insertions(+), 170 deletions(-)
+-- 
+2.26.2
+
 
