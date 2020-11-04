@@ -2,56 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672672A5EF4
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 08:51:41 +0100 (CET)
-Received: from localhost ([::1]:53232 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7416A2A5EFD
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 08:55:34 +0100 (CET)
+Received: from localhost ([::1]:57376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaDZy-0000YL-T8
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 02:51:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33698)
+	id 1kaDdk-0002Jz-2N
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 02:55:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1kaDYc-0008Nq-CS
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 02:50:14 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chaihaoyu1@huawei.com>)
- id 1kaDYZ-00071z-JF
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 02:50:13 -0500
-Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CQzMG70MLz72wq;
- Wed,  4 Nov 2020 15:49:46 +0800 (CST)
-Received: from [10.108.235.54] (10.108.235.54) by
- DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 4 Nov 2020 15:49:39 +0800
-Subject: Re: [PATCH v2 1/3] softmmu: Do not use C99 // comments
-To: Markus Armbruster <armbru@redhat.com>
-References: <160398385565.11191.16172040000588233087@66eaa9a8a123>
- <edcc3e56-2419-8645-8639-d9e50d710a1d@huawei.com>
- <87zh3zot3x.fsf@dusky.pond.sub.org>
-From: chaihaoyu <chaihaoyu1@huawei.com>
-Message-ID: <b062f265-db59-5ca9-7479-3ab7718180cd@huawei.com>
-Date: Wed, 4 Nov 2020 15:49:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaDZb-0000n7-CB
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 02:51:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30240)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaDZV-0007IE-0A
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 02:51:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604476268;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dPlJx29UvodIKiOv4TY3nk75ZTs0BDbFCQ6eiBjcg4A=;
+ b=C/pOA5TkqFx1IYvS1yysKuni8oMdC3xZwUNobRr81HrJan74VgVXqEW4KFkIwqmWxgIxlT
+ 0P/SIAj+p8cS0RS/eaIla3sAIaXHi4K00+sgcOaAegp/bWGb5Zc/w6+5hEFeKLb88SEkox
+ T9fRU+NxkxwfSH3wfBaO8MIigmRNNiw=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-225-SDLxapS9OhK62eqcM4VBmw-1; Wed, 04 Nov 2020 02:51:04 -0500
+X-MC-Unique: SDLxapS9OhK62eqcM4VBmw-1
+Received: by mail-wr1-f69.google.com with SMTP id t17so8927553wrm.13
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 23:51:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=dPlJx29UvodIKiOv4TY3nk75ZTs0BDbFCQ6eiBjcg4A=;
+ b=tAD3BRcZk+VStbqwcXsp049hExAP5AqcBvKdOsJ9D1pPVI6LoSm/pd/fwF/2k4sHp5
+ 4kpdgt2fI7Gq0W4zS9usXT5SWP8MGfFCPujUKS3OfN+9Em3fpL780X+cl68R0W67+5OM
+ 5GLfw2/J6X6LjoVPEAhlzNxGa26dCBMt7QI4VYaMuKqxFjc7TmDEFWJ38ZbUDl/fNPJT
+ othSKFZu/dPCrUKeI7muGJEKLgVEsLbP7WzfQ1ZHrL1eaxkTWJ6HPZuOBytTH1mqLZSS
+ eZEACZ8gDqGJo4jheFftPvbuGZxYX+8DKQhk6o+YG9Bm8Gj0hIiChNabIoz1awB0Fs99
+ 0HAQ==
+X-Gm-Message-State: AOAM5324H8tiWSihA1fcCrA/dGKct8tCANGTUoL61pm1DDrPkWvIsrqU
+ 2AdbA7lWWF02KtrXOuYrVN5jDBH5ZXFAtIARhTQsRewo0MGkzurStjvZYyDtBXbAPsAfh7G0K8m
+ zGL4wBvGCffGqrcs=
+X-Received: by 2002:a1c:1b85:: with SMTP id b127mr3240383wmb.163.1604476262969; 
+ Tue, 03 Nov 2020 23:51:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxj2LUcyAXmSZf9L4oWcCXF4QjgQg+o5PrSRoyiiiaiBm4xKklod1yjvXkWzl1a4zEWCZObbw==
+X-Received: by 2002:a1c:1b85:: with SMTP id b127mr3240354wmb.163.1604476262766; 
+ Tue, 03 Nov 2020 23:51:02 -0800 (PST)
+Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
+ by smtp.gmail.com with ESMTPSA id 3sm1201059wmd.19.2020.11.03.23.51.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 03 Nov 2020 23:51:01 -0800 (PST)
+Date: Wed, 4 Nov 2020 02:50:58 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: VFIO Migration
+Message-ID: <20201104024440-mutt-send-email-mst@kernel.org>
+References: <20201102111153.GC42093@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <87zh3zot3x.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset="gbk"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.108.235.54]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35; envelope-from=chaihaoyu1@huawei.com;
- helo=szxga07-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 02:49:55
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, MIME_CHARSET_FARAWAY=2.45,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201102111153.GC42093@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,86 +92,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, pbonzini@redhat.com, zhang.zhanghailiang@huawei.com,
- qemu-devel@nongnu.org, hunongda@huawei.com
+Cc: John G Johnson <john.g.johnson@oracle.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, qemu-devel@nongnu.org,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Nov 02, 2020 at 11:11:53AM +0000, Stefan Hajnoczi wrote:
+> Device States
+> -------------
+> The details of the device state representation are not covered in this document
+> but the general requirements are discussed here.
+> 
+> The device state consists of data accessible through the device's hardware
+> interface and internal state that is needed to restore device operation.
+> State in the hardware interface includes the values of hardware registers.
+> An example of internal state is an index value needed to avoid processing
+> queued requests more than once.
+> 
+> Changes can be made to the device state representation as follows. Each change
+> to device state must have a corresponding device configuration parameter that
+> allows the change to toggled:
+> 
+> * When the parameter is disabled the hardware interface and device state
+>   representation are unchanged. This allows old device states to be loaded.
+> 
+> * When the parameter is enabled the change comes into effect.
+> 
+> * The parameter's default value disables the change. Therefore old versions do
+>   not have to explicitly specify the parameter.
+> 
+> The following example illustrates migration from an old device
+> implementation to a new one. A version=1 network card is migrated to a
+> new device implementation that is also capable of version=2 and adds the
+> rx-filter-size=32 parameter. The new device is instantiated with
+> version=1, which disables rx-filter-size and is capable of loading the
+> version=1 device state. The migration completes successfully but note
+> the device is still operating at version=1 level in the new device.
+> 
+> The following example illustrates migration from a new device
+> implementation back to an older one. The new device implementation
+> supports version=1 and version=2. The old device implementation supports
+> version=1 only. Therefore the device can only be migrated when
+> instantiated with version=1 or the equivalent full configuration
+> parameters.
 
-Thank you for your replay. That's OK if C99 support both kinds of comment style.
+So all this is pretty complex and easy for vendors to get wrong.  How
+about we introduce a directory under docs/interop/ where each supported
+device can list the format of its state and parameters and what is tied
+to what?
 
-！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
-> chaihaoyu <chaihaoyu1@huawei.com> writes:
-> 
->> Hi, recently I found some code style problems while using checkpatch.pl tool,please review.
->>
->> Date: Tue, 3 Nov 2020 11:01:40 +0800
->> signed-off-by: Haoyu Chai<chaihaoyu1@huawei.com>
->> ---
->>  softmmu/memory.c         | 2 +-
->>  softmmu/memory_mapping.c | 2 +-
->>  softmmu/physmem.c        | 2 +-
->>  3 files changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/softmmu/memory.c b/softmmu/memory.c
->> index 107ce0a4f8..5fb591b001 100644
->> --- a/softmmu/memory.c
->> +++ b/softmmu/memory.c
->> @@ -36,7 +36,7 @@
->>  #include "hw/boards.h"
->>  #include "migration/vmstate.h"
->>
->> -//#define DEBUG_UNASSIGNED
->> +/* #define DEBUG_UNASSIGNED */
->>
->>  static unsigned memory_region_transaction_depth;
->>  static bool memory_region_update_pending;
->> diff --git a/softmmu/memory_mapping.c b/softmmu/memory_mapping.c
->> index 18d0b8067c..f64053499e 100644
->> --- a/softmmu/memory_mapping.c
->> +++ b/softmmu/memory_mapping.c
->> @@ -19,7 +19,7 @@
->>  #include "exec/memory.h"
->>  #include "exec/address-spaces.h"
->>
->> -//#define DEBUG_GUEST_PHYS_REGION_ADD
->> +/* #define DEBUG_GUEST_PHYS_REGION_ADD */
->>
->>  static void memory_mapping_list_add_mapping_sorted(MemoryMappingList *list,
->>                                                     MemoryMapping *mapping)
->> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
->> index 44ffb60b5d..78c1b6580a 100644
->> --- a/softmmu/physmem.c
->> +++ b/softmmu/physmem.c
->> @@ -75,7 +75,7 @@
->>  #include <daxctl/libdaxctl.h>
->>  #endif
->>
->> -//#define DEBUG_SUBPAGE
->> +/* #define DEBUG_SUBPAGE */
->>
->>  /* ram_list is read under rcu_read_lock()/rcu_read_unlock().  Writes
->>   * are protected by the ramlist lock.
-> 
-> I recommend to leave these alone.
-> 
-> CODING_STYLE.rst:
-> 
->     Rationale: The // form is valid in C99, so this is purely a matter of
->     consistency of style. The checkpatch script will warn you about this.
-> 
-> For "real" comments, we overwhelmingly use /* */, and avoiding // makes
-> sense.  Most exceptions are in code we copy from elsewhere, such as
-> disas/libvixl/.
-> 
-> For commenting out *code*, we use both forms.  Here are the counts for
-> commenting out macro definitions:
-> 
->     $ git-grep '^/\* *# *define' | wc -l
->     125
->     $ git-grep '^// *# *define' | wc -l
->     192
-> 
-> .
-> 
+I am a bit unsure about the usefulness of the version shortcut.
+It would be handy if all this was used directly by users
+but these are unlikely to want to orchestrate cross version
+migrations, and tools do not need shortcuts like these ...
+
+-- 
+MST
+
 
