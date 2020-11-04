@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B852A6917
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:08:26 +0100 (CET)
-Received: from localhost ([::1]:40456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB6672A6928
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:11:22 +0100 (CET)
+Received: from localhost ([::1]:51062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLKj-0000xM-OR
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:08:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42328)
+	id 1kaLNZ-0005Ws-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:11:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFH-0002UU-PY
+ id 1kaLFH-0002TG-9t
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55708)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFE-0005cD-3U
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:47 -0500
+ id 1kaLFD-0005c9-OX
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505763;
+ s=mimecast20190719; t=1604505762;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VS6q04t6dHHN72NkI74EXZ/EGgWszfu/YZ3EAegBiW8=;
- b=L8XXlYI+yAofW0cqVJN8cVigYEnz8C9lxg8Gk9/3b5YYr6sdhoFPJQa3I7HfnL8hTcEvOG
- JuuteEN69Z8KRtQdBVN5RzG4QR+Qv5T3yaEUmjhQq1lb8axqMF8BBkab3Q+wyl0d4+q9al
- 18iTOMhLUW1mQkIyGfrEp5om6D8eEvg=
+ bh=B/Dy3vbFXj/PEABANWsi/yWsndCc/kQP2GOtgkpAUPA=;
+ b=VCNe3mYBiVRZvhQm3Qfyn44OPNl0QydXbbERz9Dq3NYNyL3DfDKwGGg1Yk/eexTto7GlME
+ FRS8TQA9hmiCeyGbcv4lm0mwTyqaeWi4mIYMp7Dr7p+6XeG7Hd6ARI3wszS4I21o9Fx/KR
+ qVaobhIEu1GxV04BCumHHTEkRA3H8hE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-168-lDIe4f_iOHKkL09bPaxGIA-1; Wed, 04 Nov 2020 11:02:41 -0500
-X-MC-Unique: lDIe4f_iOHKkL09bPaxGIA-1
+ us-mta-584-jibUQCEPOKCTWjGjqVuH0A-1; Wed, 04 Nov 2020 11:02:39 -0500
+X-MC-Unique: jibUQCEPOKCTWjGjqVuH0A-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0513A11CC7E0;
- Wed,  4 Nov 2020 16:01:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7344A1902EC5;
+ Wed,  4 Nov 2020 16:01:28 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BF9B2277CF;
- Wed,  4 Nov 2020 16:01:25 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0589319C4F;
+ Wed,  4 Nov 2020 16:01:27 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/44] qdev: Make qdev_find_global_prop() get Object*
+Subject: [PATCH v2 11/44] qdev: Make check_prop_still_unset() get Object*
  argument
-Date: Wed,  4 Nov 2020 10:59:47 -0500
-Message-Id: <20201104160021.2342108-11-ehabkost@redhat.com>
+Date: Wed,  4 Nov 2020 10:59:48 -0500
+Message-Id: <20201104160021.2342108-12-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -100,59 +100,54 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/hw/qdev-properties.h     | 2 +-
- hw/core/qdev-properties-system.c | 2 +-
- hw/core/qdev-properties.c        | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ hw/core/qdev-properties-system.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 0b92cfc761..7620095fed 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -305,7 +305,7 @@ void qdev_prop_set_enum(DeviceState *dev, const char *name, int value);
- void *qdev_get_prop_ptr(Object *obj, Property *prop);
- 
- void qdev_prop_register_global(GlobalProperty *prop);
--const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
-+const GlobalProperty *qdev_find_global_prop(Object *obj,
-                                             const char *name);
- int qdev_prop_check_globals(void);
- void qdev_prop_set_globals(DeviceState *dev);
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index c8c73c371b..af1339e562 100644
+index af1339e562..85dd38db0f 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -36,7 +36,7 @@ static bool check_prop_still_unset(DeviceState *dev, const char *name,
+@@ -32,11 +32,11 @@
+ #include "hw/pci/pci.h"
+ #include "util/block-helpers.h"
+ 
+-static bool check_prop_still_unset(DeviceState *dev, const char *name,
++static bool check_prop_still_unset(Object *obj, const char *name,
                                     const void *old_val, const char *new_val,
                                     Error **errp)
  {
--    const GlobalProperty *prop = qdev_find_global_prop(dev, name);
-+    const GlobalProperty *prop = qdev_find_global_prop(OBJECT(dev), name);
+-    const GlobalProperty *prop = qdev_find_global_prop(OBJECT(dev), name);
++    const GlobalProperty *prop = qdev_find_global_prop(obj, name);
  
      if (!old_val) {
          return true;
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 0a54a922c8..41482d83d1 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -818,7 +818,7 @@ void qdev_prop_register_global(GlobalProperty *prop)
-     g_ptr_array_add(global_props(), prop);
- }
+@@ -105,7 +105,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
+      * TODO Should this really be an error?  If no, the old value
+      * needs to be released before we store the new one.
+      */
+-    if (!check_prop_still_unset(dev, name, *ptr, str, errp)) {
++    if (!check_prop_still_unset(obj, name, *ptr, str, errp)) {
+         return;
+     }
  
--const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
-+const GlobalProperty *qdev_find_global_prop(Object *obj,
-                                             const char *name)
- {
-     GPtrArray *props = global_props();
-@@ -827,7 +827,7 @@ const GlobalProperty *qdev_find_global_prop(DeviceState *dev,
+@@ -247,7 +247,7 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+      * TODO Should this really be an error?  If no, the old value
+      * needs to be released before we store the new one.
+      */
+-    if (!check_prop_still_unset(dev, name, be->chr, str, errp)) {
++    if (!check_prop_still_unset(obj, name, be->chr, str, errp)) {
+         return;
+     }
  
-     for (i = 0; i < props->len; i++) {
-         p = g_ptr_array_index(props, i);
--        if (object_dynamic_cast(OBJECT(dev), p->driver)
-+        if (object_dynamic_cast(obj, p->driver)
-             && !strcmp(p->property, name)) {
-             return p;
+@@ -429,7 +429,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
+          * TODO Should this really be an error?  If no, the old value
+          * needs to be released before we store the new one.
+          */
+-        if (!check_prop_still_unset(dev, name, ncs[i], str, errp)) {
++        if (!check_prop_still_unset(obj, name, ncs[i], str, errp)) {
+             goto out;
          }
+ 
 -- 
 2.28.0
 
