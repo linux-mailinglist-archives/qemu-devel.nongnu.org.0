@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A532A5D7C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:00:37 +0100 (CET)
-Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95AF12A5D6F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:54:35 +0100 (CET)
+Received: from localhost ([::1]:45400 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAuS-0003b5-8R
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:00:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59114)
+	id 1kaAoc-0002U0-Js
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:54:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAlE-0005cd-A4
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23353)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAlL-0005qF-I4
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48069)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAlC-0004Nj-EZ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAlG-0004Qd-Mm
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465461;
+ s=mimecast20190719; t=1604465466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Sdg1XQq2wWnBWKWHjU6hAJQnpSiiinwLqOwmCIMoYHk=;
- b=FNP+eZGtfevvx84RS8dib/AQTR78nVsb2wOHnS3F81GXPpFLaDK1LTApWItgC7JNt+oSTY
- ttkVLmnTmQuhr53+fUe3SKSG2ZLPd9VEDKucx16x0udQHFAISdY7J+BnMZaizJT8ZyFUk6
- O2MPG5QVtE7N5TzawXwDOj0absMvX2U=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-wR2tFf37MbSCtZ9RjgKgXw-1; Tue, 03 Nov 2020 23:50:59 -0500
-X-MC-Unique: wR2tFf37MbSCtZ9RjgKgXw-1
-Received: by mail-wr1-f71.google.com with SMTP id u1so6473662wri.6
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:50:59 -0800 (PST)
+ bh=73Mpz3vICh9QEBEOeL5uEWGSphcZBjM+o5MkFyzWxeI=;
+ b=O/9d5wDVhtyL0lM1kXwrxPJEFl5Ai2C8LZGoGvcMT7L8soHgb7kzoD0dihbil2cHYhtLOi
+ HPzATNdA3+oLGLlBanfSDAT0XNbYmtSbpOTlqRnwMliCnJAoTylrfIoRhqMI7ehSbRuBMK
+ sNsCEaw1OfRsbehIj7gWbHA09gzwGAU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-189-4eZ7zOzZOuSggcZZcxF_9Q-1; Tue, 03 Nov 2020 23:51:02 -0500
+X-MC-Unique: 4eZ7zOzZOuSggcZZcxF_9Q-1
+Received: by mail-wr1-f69.google.com with SMTP id w6so1099914wrk.1
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Sdg1XQq2wWnBWKWHjU6hAJQnpSiiinwLqOwmCIMoYHk=;
- b=qPP8Ru+IN3aTBAEeZsvs9mg4BTK81rjlU7RgXmLs8piJZeNrcAhKCop/YES4KV2r2S
- 9MHZXPWgiq3RlJ7/oU1ZcXy9c+iRlJSbsfAH/nzhHmLKsXWk3Rk3Am8wsuBLOHDfDdkF
- Zhr6Ty+thZVf0vBtRbhZWn2tpF8ryQ9FvqUcpJ4UvqTlyyItzzLFgt9OAayKRXBxf5wh
- YzdV6CdEG2UPCKnf86CIC7cac7i7wbPr8oZj4rAhwQhC3FSX3tIS9s79RFj1A1JkNdUB
- wE5LbAA3uDLZIClmKtFwZXh6ccTTUuOjFUR6+9xISHNLfhP1K8cNR0pEtMSixj6YbElM
- EBfw==
-X-Gm-Message-State: AOAM531Mp1uzHclvV9AP3x9cbmnWAKbT0qMaeRkIcor8yrAGpuyRXYDu
- //sEx29qC75yUuBXEIhktCVg2XW/X4KhaPg5Bq9MOEDZCN7hUoo/VcXOOxxj9Gv5hcjwEckDh+S
- LLVjAYBUdu86F8cM=
-X-Received: by 2002:adf:e287:: with SMTP id v7mr11744596wri.252.1604465458033; 
- Tue, 03 Nov 2020 20:50:58 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxDJs7OBHgH3OXB8HBckW2FQUU2Yp+YgQhuC5NvTqtTAjZiAo6XCuyAdwzcgwMDC9hlfvW6IQ==
-X-Received: by 2002:adf:e287:: with SMTP id v7mr11744581wri.252.1604465457923; 
- Tue, 03 Nov 2020 20:50:57 -0800 (PST)
+ bh=73Mpz3vICh9QEBEOeL5uEWGSphcZBjM+o5MkFyzWxeI=;
+ b=sFH4bKxKSD9sYzv8H3YJqXhoijpPeVPbMd+HBWAWmOSej/20uTNql6k1rT/JBd42e8
+ 3C4nwdc6aGfrhfe3sg9zI63ilTPFp2zYi1H3doPuf96ee1AWs5FCWY44XeqLAL6THjWF
+ j+qrOa6C0hamwn3xyIv7jBlzoXwlisRu0actUEdVQCJC6FaF7bfdkjswj+aNxVsw4ESV
+ /mEnZbH+xJbyALdPjtRnuWD2HrhoS345LHwquOZveFFrkFu/4vUzRyF7yB1TaJVnRVPb
+ Gcz+Z1tc+4HnZlaZTFyuyjMvRJ3DtYnAnCLCJb4v3sLNE1ci6k3Mo5xdryU1Rd8jcrxX
+ zwEw==
+X-Gm-Message-State: AOAM533Ku1cdhmRwhyjn8FgBgvluB34GrmW4uAIJ+u2DzE7ep1Rctx6Z
+ T4TqKWrEuYeAQo5Ex45nSBOv12mrP6pyTU7RaMSM3nQPCnEwM+rV4DJppYdp4Dv7JtdnzHIsl9+
+ /yUWNR0Wx83Reltc=
+X-Received: by 2002:a1c:1f91:: with SMTP id f139mr2336235wmf.187.1604465460814; 
+ Tue, 03 Nov 2020 20:51:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzlGTxgt4fQa8bVOXzeewVRGwCjYkKkN/GaCyW25cF43kupxdh/NTQGpck5fieisT+WO4yKbw==
+X-Received: by 2002:a1c:1f91:: with SMTP id f139mr2336229wmf.187.1604465460681; 
+ Tue, 03 Nov 2020 20:51:00 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id t11sm803380wmf.35.2020.11.03.20.50.56
+ by smtp.gmail.com with ESMTPSA id b7sm868891wrp.16.2020.11.03.20.50.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:50:57 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:50:55 -0500
+ Tue, 03 Nov 2020 20:51:00 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:50:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 05/38] memory-device: Support big alignment requirements
-Message-ID: <20201104044937.226370-6-mst@redhat.com>
+Subject: [PULL v2 06/38] memory-device: Add get_min_alignment() callback
+Message-ID: <20201104044937.226370-7-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,14 +104,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Let's warn instead of bailing out - the worst thing that can happen is
-that we'll fail hot/coldplug later. The user got warned, and this should
-be rare.
+Add a callback that can be used to express additional alignment
+requirements (exceeding the ones from the memory region).
 
-This will be necessary for memory devices with rather big (user-defined)
-alignment requirements - say a virtio-mem device with a 2G block size -
-which will become important, for example, when supporting vfio in the
-future.
+Will be used by virtio-mem to express special alignment requirements due
+to manually configured, big block sizes (e.g., 1GB with an ordinary
+memory-backend-ram). This avoids failing later when realizing, because
+auto-detection wasn't able to assign a properly aligned address.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -120,40 +119,64 @@ Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20201008083029.9504-5-david@redhat.com>
+Message-Id: <20201008083029.9504-6-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/mem/memory-device.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ include/hw/mem/memory-device.h | 10 ++++++++++
+ hw/mem/memory-device.c         | 11 +++++++++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
 
+diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-device.h
+index 30d7e99f52..48d2611fc5 100644
+--- a/include/hw/mem/memory-device.h
++++ b/include/hw/mem/memory-device.h
+@@ -88,6 +88,16 @@ struct MemoryDeviceClass {
+      */
+     MemoryRegion *(*get_memory_region)(MemoryDeviceState *md, Error **errp);
+ 
++    /*
++     * Optional: Return the desired minimum alignment of the device in guest
++     * physical address space. The final alignment is computed based on this
++     * alignment and the alignment requirements of the memory region.
++     *
++     * Called when plugging the memory device to detect the required alignment
++     * during address assignment.
++     */
++    uint64_t (*get_min_alignment)(const MemoryDeviceState *md);
++
+     /*
+      * Translate the memory device into #MemoryDeviceInfo.
+      */
 diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-index 4bc9cf0917..8a736f1a26 100644
+index 8a736f1a26..cf0627fd01 100644
 --- a/hw/mem/memory-device.c
 +++ b/hw/mem/memory-device.c
-@@ -119,9 +119,10 @@ static uint64_t memory_device_get_free_addr(MachineState *ms,
+@@ -259,7 +259,7 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
+ {
+     const MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(md);
+     Error *local_err = NULL;
+-    uint64_t addr, align;
++    uint64_t addr, align = 0;
+     MemoryRegion *mr;
  
-     /* start of address space indicates the maximum alignment we expect */
-     if (!QEMU_IS_ALIGNED(range_lob(&as), align)) {
--        error_setg(errp, "the alignment (0x%" PRIx64 ") is not supported",
--                   align);
--        return 0;
-+        warn_report("the alignment (0x%" PRIx64 ") exceeds the expected"
-+                    " maximum alignment, memory will get fragmented and not"
-+                    " all 'maxmem' might be usable for memory devices.",
-+                    align);
+     mr = mdc->get_memory_region(md, &local_err);
+@@ -267,7 +267,14 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
+         goto out;
      }
  
-     memory_device_check_addable(ms, size, &err);
-@@ -151,7 +152,7 @@ static uint64_t memory_device_get_free_addr(MachineState *ms,
-             return 0;
-         }
-     } else {
--        if (range_init(&new, range_lob(&as), size)) {
-+        if (range_init(&new, QEMU_ALIGN_UP(range_lob(&as), align), size)) {
-             error_setg(errp, "can't add memory device, device too big");
-             return 0;
-         }
+-    align = legacy_align ? *legacy_align : memory_region_get_alignment(mr);
++    if (legacy_align) {
++        align = *legacy_align;
++    } else {
++        if (mdc->get_min_alignment) {
++            align = mdc->get_min_alignment(md);
++        }
++        align = MAX(align, memory_region_get_alignment(mr));
++    }
+     addr = mdc->get_addr(md);
+     addr = memory_device_get_free_addr(ms, !addr ? NULL : &addr, align,
+                                        memory_region_size(mr), &local_err);
 -- 
 MST
 
