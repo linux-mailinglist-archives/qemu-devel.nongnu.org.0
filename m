@@ -2,77 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38F62A62DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:05:42 +0100 (CET)
-Received: from localhost ([::1]:35460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7CF2A62ED
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:09:18 +0100 (CET)
+Received: from localhost ([::1]:39416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGbl-0008C2-VA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:05:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48460)
+	id 1kaGfF-0001b6-Qy
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:09:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kaGaS-0007Eb-PO
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:04:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25179)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1kaGaP-0007B3-1n
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:04:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604487855;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WG9PsnGpnehNox59JgdctBibcXIVMvC6bLZA6wC8yd8=;
- b=LtsrhzHFGEPd56qbjWVJdiJdP6zYLNrgpH3Llw0K2nOam/wQOq0zM4OmBNQSjhmLWY3yFm
- zPRuDaqx5ArG9rmZuzMaD89521k75GkY9JdThqdGC50wBo8mTSM6zjGrTggjsrIvDogusJ
- 4QVLrRF2KCjHeQcd8x4u/UmrHI2h8Uw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-1WiEL9uCNXOtIRIHH2AWCg-1; Wed, 04 Nov 2020 06:04:08 -0500
-X-MC-Unique: 1WiEL9uCNXOtIRIHH2AWCg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 611381016D09
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 11:04:07 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.69])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E681719646;
- Wed,  4 Nov 2020 11:04:05 +0000 (UTC)
-Date: Wed, 4 Nov 2020 12:04:03 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH for-5.2 4/4] qemu-option: warn for short-form boolean
- options
-Message-ID: <20201104120403.0685dd5f@redhat.com>
-In-Reply-To: <5cf3ef53-0bd1-8226-caac-3f847645c692@redhat.com>
-References: <20201103151452.416784-1-pbonzini@redhat.com>
- <20201103151452.416784-5-pbonzini@redhat.com>
- <20201103160843.GP205187@redhat.com>
- <20201103222239.5463be00@redhat.com>
- <5cf3ef53-0bd1-8226-caac-3f847645c692@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaGaR-0007Dm-Gq; Wed, 04 Nov 2020 06:04:19 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:53681)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaGaL-0007Ak-7C; Wed, 04 Nov 2020 06:04:19 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 082F4AD2;
+ Wed,  4 Nov 2020 06:04:09 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 04 Nov 2020 06:04:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=VNLMYS9jQ4bqOPQZ5H7E9zA+fiK
+ Pn0PARpX5xuN8L18=; b=03sFWR2GthpvvXIgGmLFRkE4m7p8QmkaM7tyxdhT6cH
+ jsPuy6TpyxRs6HsEmBq46ZBm8vjXv9QefVDlUyb9sqW9ouLgjnmuVE16dUbHZcvG
+ HGNLRPTESGfNgn+Ynl3OlC+V8fwSVJPJIr6ZUnN89BCbC1fCo5Fn7w6BmUqBaWhv
+ EDr0rXeYUHJVtGIbKIXjc/0RHPhVDndzE8qVxOxgi+nYfLmfRdfv2HV/jvBPCetm
+ Fe4/My90RmBWZtHm/SLyZkqUJyZYXo3NtsVOaydRUZ2hWiz9Q3f19upSGB7Yxv3i
+ q4UukcFKLMjm4dx/Xoj+8fqWOikSyH+rYae/rQ7dgWg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VNLMYS
+ 9jQ4bqOPQZ5H7E9zA+fiKPn0PARpX5xuN8L18=; b=P0614mfjru2GObNBLY1/zh
+ 8h+pcoOnhYKEjMsgC3pX56zf4oC1vPH265bowlUeFoOXylq7Q9eY9xl+heQAk+8g
+ DoxvLqBgd0wKDlMbA3trypXpA7gNfF2+u1jvpHFp0rrhVwMXfDI756/oDOMu+VAr
+ 13P+YHUJGOmQXw6L0+8dw3w3BhFKcBxJHLRT797w3wAYR8NP3/2gSb6NSX/gZej8
+ Byv9lBIZ8xemoBk8ycTLstmemnJKivJobvurtPzFUmiWJX2/TDkmqSNY6AQm++6y
+ cytzeIlWncIjXumYsu3T/vyLUQVB470LOD0Z+Id7yiHOgHJINtVb+mcezFOK5LCw
+ ==
+X-ME-Sender: <xms:qIqiXxX_EVRKfTAb48e1gjSroSA4Ve-0jcbqihl5nn6x6520tqka5A>
+ <xme:qIqiXxmWKJwNtniI6izRUmY5BiqJxTC7FiscrHyCqOhwbEyBxQDw4s-k8YqX5yoPR
+ EN8Y9rMG4d7p8AdPbs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgvdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:qIqiX9a2jvg9TxDZK917sOaGvcwaJvC2rVCR65xewlMgQDq22Xdr3w>
+ <xmx:qIqiX0WJM3PTJiAMeL4h75kzTCuhsb_0U21aYYI-7uGb1I5LUWj3cw>
+ <xmx:qIqiX7k0Jfh2V5t5wOLBNn6pGBEjDCp6Dz_sR5HCgR90SGgRyFLhfw>
+ <xmx:qYqiX5XYN02pUFcR8IkL_QR0NqYL3WcSBFvrKqwdnkEN8qoEdIa9gA>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3D533306467E;
+ Wed,  4 Nov 2020 06:04:07 -0500 (EST)
+Date: Wed, 4 Nov 2020 12:04:05 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Max Reitz <mreitz@redhat.com>
+Subject: Re: [PATCH for-5.2 3/3] hw/block/nvme: fix free of array-typed value
+Message-ID: <20201104110405.GB35038@apples.localdomain>
+References: <20201104102248.32168-1-its@irrelevant.dk>
+ <20201104102248.32168-4-its@irrelevant.dk>
+ <6b54b9a6-a6f8-3009-b3a9-99aecad6fb3b@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="tsOsTdHNUZQcU9Ye"
+Content-Disposition: inline
+In-Reply-To: <6b54b9a6-a6f8-3009-b3a9-99aecad6fb3b@redhat.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:22:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,36 +97,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Nov 2020 22:41:40 +0100
-Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-> On 03/11/20 22:22, Igor Mammedov wrote:
-> > shall we also deprecate short forms for -cpu model,[feat|+feat|-feat]
-> > and in the end allow only -device compatible form i.e. -cpu type,feat=[on|off]
-> > 
-> > that would let us drop custom
-> >    x86_cpu_parse_featurestr,
-> >    ppc_cpu_parse_featurestr,
-> >    sparc_cpu_parse_features
-> > 
-> > and a bunch of cpu_class_by_name, where almost each target does its
-> > magic conversion of cpu_model to the type (which ranges from various
-> > prefix/suffix shuffling to completely ignoring cpu_model and returning
-> > a fixed cpu type)  
-> 
-> Yes please. :)  But I would prefer someone else to do the work because I 
-> have quite some KVM backlog...
-> 
+--tsOsTdHNUZQcU9Ye
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'll look into it.
+On Nov  4 11:59, Max Reitz wrote:
+> On 04.11.20 11:22, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Since 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces"), the
+> > namespaces member of NvmeCtrl is no longer a dynamically allocated
+> > array. Remove the free.
+> >=20
+> > Fixes: 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces")
+> > Reported-by: Coverity (CID 1436131)
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> > ---
+> >  hw/block/nvme.c | 1 -
+> >  1 file changed, 1 deletion(-)
+>=20
+> Thanks! :)
+>=20
+> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>=20
 
-> Paolo
-> 
-> 
+Will Peter pick up fixes like this directly so we don't have to go
+through a pull request from nvme-next?
 
+Did I correctly annotate with "for-5.2"? :)
+
+--tsOsTdHNUZQcU9Ye
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+iiqMACgkQTeGvMW1P
+Dekpdwf/U4R5gJ3uTC+Lj32/s5Q4c/Xw96hfGOgK5aGUUGI6fdEpr10KDW5grbRW
+sGjy8yFfg2BwAQauIqEJKaiL6Pfa9OwQuwJDujws4YdyAfeU0kkapRyAX/vQpEKG
+91tKuZkPgyp3d+q0fDDhLTOYaIUMB9C45WYVRNIcQ96gCq66C7+0EAq1tjwnMi6j
+Gthj4PoJCEjq/pymTboESbH6g4D0FGpbuZg4LFw/8Z4qFp7+Q+ppRCmsDg5p3zKW
+9xio3KYX2jo1Lp8kOMEZ3p0nJSew0auHLwgv9B/z3RfKh1FfDZAnyc7/ia/wBrqA
+QypjDj3b7BzyEwjibnTMyb4Bt2cvvA==
+=/b7F
+-----END PGP SIGNATURE-----
+
+--tsOsTdHNUZQcU9Ye--
 
