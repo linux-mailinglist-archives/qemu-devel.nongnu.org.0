@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B5122A5B63
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:58:39 +0100 (CET)
-Received: from localhost ([::1]:53066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 048CA2A5B52
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:55:44 +0100 (CET)
+Received: from localhost ([::1]:39066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka78I-0005x6-F7
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:58:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35604)
+	id 1ka75T-00007v-1J
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:55:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nP-0006Y2-3t
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24576)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nN-0006Uc-VM
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nL-0004rq-Dk
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:02 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nL-0004ro-E5
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604450218;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6p0SO5oHXSNKS+qK2XlouTQ4534lYn1bjRfEAh8Ppws=;
- b=E/Do2b1zic4+lRnBCFb7Ni7t8kmEXyhJVAcrxn1dgRBWiv5fQVob/Y/eZrP6ifMIHnlfK1
- 3dV5gJfM/fmKg/8XLRXn/vD9mYr7GjvqfdLXU/l2gNXn2A0H0w87H/qeo476SMPpfnrUCQ
- dIcqEyfQQQmdfMDxPZVQ3YypI7/evrM=
+ bh=kN52NtN0nPVDNW4h8Ym6yn5TAlHKdBs018ITcmMiytY=;
+ b=dtUkG7p6BA7OKcXg+lFZjZEgWCcAc8MsI7ejBuQY3beLjyUZ0meXbUfTipV381ez36v6rw
+ 5xf+KvkaLQ4bHBvX7U0W7NdIJ5wdkdE2bKL6STFOxbwz09ueRFS1MCslQc+X7n3ydaxN7S
+ V1DQvq4tTprOoy+oPOPDdXaKBZiEe4c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-9atS6l_KPCuQVxUqcNdLVQ-1; Tue, 03 Nov 2020 19:36:57 -0500
-X-MC-Unique: 9atS6l_KPCuQVxUqcNdLVQ-1
+ us-mta-448-Mz4DFH9ENlGzlZogncL94g-1; Tue, 03 Nov 2020 19:36:56 -0500
+X-MC-Unique: Mz4DFH9ENlGzlZogncL94g-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9F898058DD
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:47 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D346B8058DF
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:48 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F030855766;
- Wed,  4 Nov 2020 00:36:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 13F69747C6;
+ Wed,  4 Nov 2020 00:36:47 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 30/72] scripts/qmp-shell: fix show_banner signature
-Date: Tue,  3 Nov 2020 19:35:20 -0500
-Message-Id: <20201104003602.1293560-31-jsnow@redhat.com>
+Subject: [PATCH v2 31/72] scripts/qmp-shell: fix exception handling
+Date: Tue,  3 Nov 2020 19:35:21 -0500
+Message-Id: <20201104003602.1293560-32-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,28 +83,25 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The signatures need to match.
-
+Fixes: 50d189c
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qmp/qmp-shell | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 20c420ba4251..e2ad979aad98 100755
+index e2ad979aad98..330f8b32f9c2 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -408,8 +408,8 @@ class HMPShell(QMPShell):
-             print('%s: %s' % (resp['error']['class'], resp['error']['desc']))
-         return True
+@@ -471,7 +471,7 @@ def main():
+         die('Didn\'t get QMP greeting message')
+     except qmp.QMPCapabilitiesError:
+         die('Could not negotiate capabilities')
+-    except qemu.error:
++    except OSError:
+         die('Could not connect to %s' % addr)
  
--    def show_banner(self):
--        QMPShell.show_banner(self, msg='Welcome to the HMP shell!')
-+    def show_banner(self, msg='Welcome to the HMP shell!'):
-+        QMPShell.show_banner(self, msg)
- 
- 
- def die(msg):
+     qemu.show_banner()
 -- 
 2.26.2
 
