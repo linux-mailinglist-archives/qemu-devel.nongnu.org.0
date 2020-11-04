@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7332A6BC9
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:34:24 +0100 (CET)
-Received: from localhost ([::1]:46022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CC22A6BF2
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:44:09 +0100 (CET)
+Received: from localhost ([::1]:43222 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMfv-00048q-Pj
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:34:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34372)
+	id 1kaMpM-0006jm-I1
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:44:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kaMe8-0002j5-MK
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:32:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46352)
+ id 1kaMeD-0002mR-Ig
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:32:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
- id 1kaMe6-0000dJ-TS
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:32:32 -0500
+ id 1kaMeA-0000dq-Qh
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:32:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604511149;
+ s=mimecast20190719; t=1604511153;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5wplJQtQuROzoJYf8SyroEJMxVi0a0rlXKO+mYg59tY=;
- b=GfxV92J3uMA9w/wD3u6WNmv+hXfNFiuR4H6PfytfdsHT3fELXM5aXDsXq1xpxXmRsf66Yb
- G7anxpWpWTbDI9I3PhfBfjCnFNHdGelqQDqTnRsBuOp1tf7SGwQbD+2EVR8Pu+r6cgAoC9
- XGLDSDjFNJ7sl3pPD9hXzJTp5QtuSiA=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JAkNKONqo76aMaOLMEJtdIGjE54M7qVDn/xgaYjJzws=;
+ b=LBICOmu40rvISEEd+ku0EALAnSfGtcsuF7O1KRjX+yJL9I9soNS8SJo9fGV1EwtSDoKsDq
+ 1aT7SoDmIb1cI9VHJQWogT4ZU33oQ1wWe30JgW8ktYV6mRn9qZXr+ofQ/3jVQJhEeXCnWj
+ b1cGC1OmXWcpKPFmJkvL4/eD8OxBNjY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-47-Yy1Nh5syMSeIahwutMizIA-1; Wed, 04 Nov 2020 12:32:28 -0500
-X-MC-Unique: Yy1Nh5syMSeIahwutMizIA-1
+ us-mta-468-iVOoeJgpNtidOyQce_ZkpA-1; Wed, 04 Nov 2020 12:32:31 -0500
+X-MC-Unique: iVOoeJgpNtidOyQce_ZkpA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87A8D1084C9A;
- Wed,  4 Nov 2020 17:32:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BFAA80476C;
+ Wed,  4 Nov 2020 17:32:30 +0000 (UTC)
 Received: from localhost.localdomain (unknown [10.35.207.23])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1C7E75129;
- Wed,  4 Nov 2020 17:32:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2172075128;
+ Wed,  4 Nov 2020 17:32:26 +0000 (UTC)
 From: Maxim Levitsky <mlevitsk@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/5] SCSI: fix transfer limits for SCSI passthrough
-Date: Wed,  4 Nov 2020 19:32:12 +0200
-Message-Id: <20201104173217.417538-1-mlevitsk@redhat.com>
+Subject: [PATCH 1/5] file-posix: split hdev_refresh_limits from
+ raw_refresh_limits
+Date: Wed,  4 Nov 2020 19:32:13 +0200
+Message-Id: <20201104173217.417538-2-mlevitsk@redhat.com>
+In-Reply-To: <20201104173217.417538-1-mlevitsk@redhat.com>
+References: <20201104173217.417538-1-mlevitsk@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlevitsk@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,88 +90,125 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series attempts to provide a solution to the problem of the tran=
-sfer=0D
-limits of the raw file driver (host_device/file-posix), some of which I=0D
-already tried to fix in the past.=0D
-=0D
-I included 2 patches from Tom Yan which fix two issues with reading the lim=
-its=0D
-correctly from the */dev/sg* character devices in the first place.=0D
-=0D
-The only change to these patches is that I tweaked a bit the comments in th=
-e=0D
-source to better document the /dev/sg quirks.=0D
-=0D
-The other two patches in this series split the max transfer limits that qem=
-u=0D
-block devices expose in two:=0D
-One limit is for the regular IO, and another is for the SG_IO (aka bdrv_*_i=
-octl),=0D
-and the two device drivers (scsi-block and scsi-generic) that use the later=
-=0D
-are switched to the new interface.=0D
-=0D
-This should ensure that the raw driver can still advertise the unlimited=0D
-transfer  length, unless it is used for SG_IO, because that yields the high=
-est=0D
-performance.=0D
-=0D
-Also I include a somewhat unrelated fix to a bug I found in qemu's=0D
-SCSI passthrough while testing this:=0D
-When qemu emulates the VPD block limit page, for a SCSI device that doesn't=
-=0D
-implement it, it doesn't really advertise the emulated page to the guest.=
-=0D
-=0D
-I tested this by doing both regular and SG_IO passthrough of my=0D
-USB SD card reader.=0D
-=0D
-That device turned out to be a perfect device for the task, since it has ma=
-x=0D
-transfer size of 1024 blocks (512K), and it enforces it.=0D
-=0D
-Also it didn't implement the VPD block limits page,=0D
-(transfer size limit probably comes from something USB related) which trigg=
-ered=0D
-the unrelated bug.=0D
-=0D
-I was able to see IO errors without the patches, and the wrong max transfer=
-=0D
-size in the guest, and with patches both issues were gone.=0D
-=0D
-I also found an unrelated issue in /dev/sg passthrough in the kernel.=0D
-It turns out that in-kernel driver has a limitation of 16 requests in fligh=
-t,=0D
-regardless of what underlying device supports.=0D
-=0D
-With a large multi-threaded fio job  and a debug print in qemu, it is easy =
-to=0D
-see it, although the errors don't do much harm to the guest as it retries t=
-he=0D
-IO, and eventually succeed.=0D
-It is an open question if this should be solved.=0D
-=0D
-Maxim Levitsky (3):=0D
-  block: add max_ioctl_transfer to BlockLimits=0D
-  block: use blk_get_max_ioctl_transfer for SCSI passthrough=0D
-  block/scsi: correctly emulate the VPD block limits page=0D
-=0D
-Tom Yan (2):=0D
-  file-posix: split hdev_refresh_limits from raw_refresh_limits=0D
-  file-posix: add sg_get_max_segments that actually works with sg=0D
-=0D
- block/block-backend.c          | 12 ++++++=0D
- block/file-posix.c             | 79 +++++++++++++++++++++++++++-------=0D
- block/io.c                     |  2 +=0D
- block/iscsi.c                  |  1 +=0D
- hw/scsi/scsi-generic.c         | 32 ++++++++------=0D
- include/block/block_int.h      |  4 ++=0D
- include/sysemu/block-backend.h |  1 +=0D
- 7 files changed, 103 insertions(+), 28 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+From: Tom Yan <tom.ty89@gmail.com>
+
+We can and should get max transfer length and max segments for all host
+devices / cdroms (on Linux).
+
+Also use MIN_NON_ZERO instead when we clamp max transfer length against
+max segments.
+
+Signed-off-by: Tom Yan <tom.ty89@gmail.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+---
+ block/file-posix.c | 61 ++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 45 insertions(+), 16 deletions(-)
+
+diff --git a/block/file-posix.c b/block/file-posix.c
+index c63926d592..6581f41b2b 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1162,6 +1162,12 @@ static void raw_reopen_abort(BDRVReopenState *state)
+ 
+ static int sg_get_max_transfer_length(int fd)
+ {
++    /*
++     * BLKSECTGET for /dev/sg* character devices incorrectly returns
++     * the max transfer size in bytes (rather than in blocks).
++     * Also note that /dev/sg* doesn't support BLKSSZGET ioctl.
++     */
++
+ #ifdef BLKSECTGET
+     int max_bytes = 0;
+ 
+@@ -1175,7 +1181,24 @@ static int sg_get_max_transfer_length(int fd)
+ #endif
+ }
+ 
+-static int sg_get_max_segments(int fd)
++static int get_max_transfer_length(int fd)
++{
++#if defined(BLKSECTGET) && defined(BLKSSZGET)
++    int sect = 0;
++    int ssz = 0;
++
++    if (ioctl(fd, BLKSECTGET, &sect) == 0 &&
++        ioctl(fd, BLKSSZGET, &ssz) == 0) {
++        return sect * ssz;
++    } else {
++        return -errno;
++    }
++#else
++    return -ENOSYS;
++#endif
++}
++
++static int get_max_segments(int fd)
+ {
+ #ifdef CONFIG_LINUX
+     char buf[32];
+@@ -1230,23 +1253,29 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+ {
+     BDRVRawState *s = bs->opaque;
+ 
+-    if (bs->sg) {
+-        int ret = sg_get_max_transfer_length(s->fd);
++    raw_probe_alignment(bs, s->fd, errp);
++    bs->bl.min_mem_alignment = s->buf_align;
++    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
++}
+ 
+-        if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
+-            bs->bl.max_transfer = pow2floor(ret);
+-        }
++static void hdev_refresh_limits(BlockDriverState *bs, Error **errp)
++{
++    BDRVRawState *s = bs->opaque;
+ 
+-        ret = sg_get_max_segments(s->fd);
+-        if (ret > 0) {
+-            bs->bl.max_transfer = MIN(bs->bl.max_transfer,
+-                                      ret * qemu_real_host_page_size);
+-        }
++    int ret = bs->sg ? sg_get_max_transfer_length(s->fd) :
++                       get_max_transfer_length(s->fd);
++
++    if (ret > 0 && ret <= BDRV_REQUEST_MAX_BYTES) {
++        bs->bl.max_transfer = pow2floor(ret);
+     }
+ 
+-    raw_probe_alignment(bs, s->fd, errp);
+-    bs->bl.min_mem_alignment = s->buf_align;
+-    bs->bl.opt_mem_alignment = MAX(s->buf_align, qemu_real_host_page_size);
++    ret = get_max_segments(s->fd);
++    if (ret > 0) {
++        bs->bl.max_transfer = MIN_NON_ZERO(bs->bl.max_transfer,
++                                           ret * qemu_real_host_page_size);
++    }
++
++    raw_refresh_limits(bs, errp);
+ }
+ 
+ static int check_for_dasd(int fd)
+@@ -3600,7 +3629,7 @@ static BlockDriver bdrv_host_device = {
+     .bdrv_co_pdiscard       = hdev_co_pdiscard,
+     .bdrv_co_copy_range_from = raw_co_copy_range_from,
+     .bdrv_co_copy_range_to  = raw_co_copy_range_to,
+-    .bdrv_refresh_limits = raw_refresh_limits,
++    .bdrv_refresh_limits = hdev_refresh_limits,
+     .bdrv_io_plug = raw_aio_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+@@ -3724,7 +3753,7 @@ static BlockDriver bdrv_host_cdrom = {
+     .bdrv_co_preadv         = raw_co_preadv,
+     .bdrv_co_pwritev        = raw_co_pwritev,
+     .bdrv_co_flush_to_disk  = raw_co_flush_to_disk,
+-    .bdrv_refresh_limits = raw_refresh_limits,
++    .bdrv_refresh_limits = hdev_refresh_limits,
+     .bdrv_io_plug = raw_aio_plug,
+     .bdrv_io_unplug = raw_aio_unplug,
+     .bdrv_attach_aio_context = raw_aio_attach_aio_context,
+-- 
+2.26.2
 
 
