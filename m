@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34E32A6A0F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:42:21 +0100 (CET)
-Received: from localhost ([::1]:58572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39C6E2A6A6E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:51:11 +0100 (CET)
+Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLrX-0002dh-P3
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:42:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50320)
+	id 1kaM06-0001vC-9z
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:51:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kaLpT-0001mk-Hz
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:40:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44039)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kaLpj-0001rA-Ii
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:40:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58082)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kaLpO-0001iz-9n
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:40:09 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kaLph-0001qk-Md
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:40:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604508004;
+ s=mimecast20190719; t=1604508024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gqoekXM1BOzanoAnyeCgFyaEUXzrgeswDXKYIMHcmy4=;
- b=db/ka8+zBsmx+zPqEj0Ec2V0xslYvPCM1Z3sRtooEKAHPCYbwq1DxkTxufnAQJA9nS5BJY
- OfWOTfjD+F1QTdZaMAG+KheKeWenEfrP3KHRZmvxeJvXitcbYW+M6NA2FUo+fvRdqHtTfi
- LtBll3AV8hV5i4DnKoM9rcN0ej9ddHc=
+ in-reply-to:in-reply-to:references:references;
+ bh=RFaDDE5G3QsxQBe0+0kEr6deIw5hdHxGgXVQJu9MKXw=;
+ b=DawCmOn0PXLlibuaZUgNH+WFvlrWscxUvRGs+8Dhmu7qfwRRV/0/G7gWVYwIF+PFyStU0C
+ J9cILcypr4P0KdB9GY4tVlRWKukZwUzk71/Fn5WR0nedRj/K6n10c04ikCDao2puOvMMBr
+ TDVZD0Bb9ILxQFkSeEyCps5iQWX0cAs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-194-KwXk7h_KMkmy0a5EnNIX5w-1; Wed, 04 Nov 2020 11:40:02 -0500
-X-MC-Unique: KwXk7h_KMkmy0a5EnNIX5w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-317-nK2cQ0LQP6-9vs_N0hx6YQ-1; Wed, 04 Nov 2020 11:40:20 -0500
+X-MC-Unique: nK2cQ0LQP6-9vs_N0hx6YQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46431195CC41;
- Wed,  4 Nov 2020 16:40:00 +0000 (UTC)
-Received: from fedora.redhat.com (ovpn-112-222.ams2.redhat.com [10.36.112.222])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 155327512E;
- Wed,  4 Nov 2020 16:39:57 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] Prefer 'on' | 'off' over 'yes' | 'no' for bool options
-Date: Wed,  4 Nov 2020 16:39:56 +0000
-Message-Id: <20201104163956.618571-1-berrange@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B35195CC4A;
+ Wed,  4 Nov 2020 16:40:19 +0000 (UTC)
+Received: from localhost (ovpn-115-145.ams2.redhat.com [10.36.115.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA8915DA76;
+ Wed,  4 Nov 2020 16:40:11 +0000 (UTC)
+Date: Wed, 4 Nov 2020 16:40:10 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: VFIO Migration
+Message-ID: <20201104164010.GB425016@stefanha-x1.localdomain>
+References: <20201102111153.GC42093@stefanha-x1.localdomain>
+ <20201102132844.332f680c.cohuck@redhat.com>
+ <20201102145626.GA186617@stefanha-x1.localdomain>
+ <20201104080745.qvpofinyni2wprq2@sirius.home.kraxel.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20201104080745.qvpofinyni2wprq2@sirius.home.kraxel.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SkvwRMAIpAhPCcCJ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,131 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-block@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update some docs and test cases to use 'on' | 'off' as the preferred
-value for bool options.
+--SkvwRMAIpAhPCcCJ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- docs/system/vnc-security.rst | 10 +++++-----
- include/authz/listfile.h     |  2 +-
- qemu-options.hx              |  4 ++--
- tests/qemu-iotests/233       |  4 ++--
- 4 files changed, 10 insertions(+), 10 deletions(-)
+On Wed, Nov 04, 2020 at 09:07:45AM +0100, Gerd Hoffmann wrote:
+> > > > The hardware interface together with the device state representatio=
+n is called
+> > > > a *device model*. Device models can be assigned URIs such as
+> > > > https://qemu.org/devices/e1000e to uniquely identify them.
+> > >=20
+> > > Is that something that needs to be put together for every device wher=
+e we
+> > > want to support migration? How do you create the URI?
+> >=20
+> > Yes. If you are creating a custom device that no one else needs to
+> > emulate then you can simply pick a unique URL:
+> >=20
+> >   https://vendor.com/my-dev
+> >=20
+> > There doesn't need to be anything at the URL. It's just a unique string
+> > that no one else will use and therefore web URLs are handy because no
+> > one else will accidentally pick your string.
+>=20
+> If this is just a string I think it would be better to use the reverse
+> domain name scheme (as used by virtio-serial too), i.e.
+>=20
+>  - org.qemu.devices.e1000e
+>  - com.vendor.my-dev
 
-diff --git a/docs/system/vnc-security.rst b/docs/system/vnc-security.rst
-index b237b07330..3574bdb86c 100644
---- a/docs/system/vnc-security.rst
-+++ b/docs/system/vnc-security.rst
-@@ -65,7 +65,7 @@ encrypted session.
- .. parsed-literal::
- 
-    |qemu_system| [...OPTIONS...] \
--     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=no \
-+     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=off \
-      -vnc :1,tls-creds=tls0 -monitor stdio
- 
- In the above example ``/etc/pki/qemu`` should contain at least three
-@@ -84,12 +84,12 @@ connecting. The server will request that the client provide a
- certificate, which it will then validate against the CA certificate.
- This is a good choice if deploying in an environment with a private
- internal certificate authority. It uses the same syntax as previously,
--but with ``verify-peer`` set to ``yes`` instead.
-+but with ``verify-peer`` set to ``on`` instead.
- 
- .. parsed-literal::
- 
-    |qemu_system| [...OPTIONS...] \
--     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=yes \
-+     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=on \
-      -vnc :1,tls-creds=tls0 -monitor stdio
- 
- .. _vnc_005fsec_005fcertificate_005fpw:
-@@ -103,7 +103,7 @@ authentication to provide two layers of authentication for clients.
- .. parsed-literal::
- 
-    |qemu_system| [...OPTIONS...] \
--     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=yes \
-+     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=on \
-      -vnc :1,tls-creds=tls0,password -monitor stdio
-    (qemu) change vnc password
-    Password: ********
-@@ -145,7 +145,7 @@ x509 options:
- .. parsed-literal::
- 
-    |qemu_system| [...OPTIONS...] \
--     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=yes \
-+     -object tls-creds-x509,id=tls0,dir=/etc/pki/qemu,endpoint=server,verify-peer=on \
-      -vnc :1,tls-creds=tls0,sasl -monitor stdio
- 
- .. _vnc_005fsetup_005fsasl:
-diff --git a/include/authz/listfile.h b/include/authz/listfile.h
-index 0a1e5bddd3..0b7fe72198 100644
---- a/include/authz/listfile.h
-+++ b/include/authz/listfile.h
-@@ -73,7 +73,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(QAuthZListFile,
-  * The object can be created on the command line using
-  *
-  *   -object authz-list-file,id=authz0,\
-- *           filename=/etc/qemu/myvm-vnc.acl,refresh=yes
-+ *           filename=/etc/qemu/myvm-vnc.acl,refresh=on
-  *
-  */
- struct QAuthZListFile {
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 2c83390504..0bdc07bc47 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -5002,7 +5002,7 @@ SRST
-         Note the use of quotes due to the x509 distinguished name
-         containing whitespace, and escaping of ','.
- 
--    ``-object authz-listfile,id=id,filename=path,refresh=yes|no``
-+    ``-object authz-listfile,id=id,filename=path,refresh=on|off``
-         Create an authorization object that will control access to
-         network services.
- 
-@@ -5047,7 +5047,7 @@ SRST
- 
-              # |qemu_system| \\
-                  ... \\
--                 -object authz-simple,id=auth0,filename=/etc/qemu/vnc-sasl.acl,refresh=yes \\
-+                 -object authz-simple,id=auth0,filename=/etc/qemu/vnc-sasl.acl,refresh=on \\
-                  ...
- 
-     ``-object authz-pam,id=id,service=string``
-diff --git a/tests/qemu-iotests/233 b/tests/qemu-iotests/233
-index a5c17c3963..0b99530f7f 100755
---- a/tests/qemu-iotests/233
-+++ b/tests/qemu-iotests/233
-@@ -83,7 +83,7 @@ echo
- echo "== check plain client to TLS server fails =="
- 
- nbd_server_start_tcp_socket \
--    --object tls-creds-x509,dir=${tls_dir}/server1,endpoint=server,id=tls0,verify-peer=yes \
-+    --object tls-creds-x509,dir=${tls_dir}/server1,endpoint=server,id=tls0,verify-peer=on \
-     --tls-creds tls0 \
-     -f $IMGFMT "$TEST_IMG" 2>> "$TEST_DIR/server.log"
- 
-@@ -128,7 +128,7 @@ echo "== check TLS with authorization =="
- nbd_server_stop
- 
- nbd_server_start_tcp_socket \
--    --object tls-creds-x509,dir=${tls_dir}/server1,endpoint=server,id=tls0,verify-peer=yes \
-+    --object tls-creds-x509,dir=${tls_dir}/server1,endpoint=server,id=tls0,verify-peer=on \
-     --object "authz-simple,id=authz0,identity=CN=localhost,, \
-       O=Cthulu Dark Lord Enterprises client1,,L=R'lyeh,,C=South Pacific" \
-     --tls-authz authz0 \
--- 
-2.28.0
+This is the Java syntax. Go uses gitlab.com/my-user/foo and I think it's
+nicer but I think I'm bikeshedding.
+
+Is there any particular reason why you prefer the reverse domain name
+approach?
+
+Stefan
+
+--SkvwRMAIpAhPCcCJ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+i2WkACgkQnKSrs4Gr
+c8jlGgf+MaDelGxEnAYF6kroqJlgqytv+0+Ru4H8MdEDyZ8N2/mlReX0IZxtnSIa
+WibUV/Bhf2JWtVru9xws9juds3pqzDmJ+0SNllPP+vjQ+w87wPrmUsgStAUplnnb
+aEeq/F8ioXDR953jzk3TSxWXa0UOXx5QeUpfaZnAS9iD6VatKNXhI1n6h10HCVMN
+e5+KjNMFLxzbd2/CpyXYXhvjqgzYdIaRCzpfdt/tO1UsUYPpo9QoNoWxleoVHSTr
+7A0xd7w0SxmTB8MkLC5mmjMgvKjMFkou613wWI5ZqkvXBksporYKu0rj1T1EVQG0
+8Iy3T5kBBQcX4GFIkcNnobxBVl2NjA==
+=rNq5
+-----END PGP SIGNATURE-----
+
+--SkvwRMAIpAhPCcCJ--
 
 
