@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3EBB2A6D27
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:49:42 +0100 (CET)
-Received: from localhost ([::1]:45330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 379892A6D0F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:45:19 +0100 (CET)
+Received: from localhost ([::1]:56414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaNqn-0003vz-L6
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:49:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52216)
+	id 1kaNmY-0005FV-6Z
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:45:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNj6-0000dh-Ts
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:41:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60688)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjD-0000pL-94
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:41:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNj4-0001wf-VX
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:41:44 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjB-0001yq-HZ
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:41:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604515302;
+ s=mimecast20190719; t=1604515308;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=73Mpz3vICh9QEBEOeL5uEWGSphcZBjM+o5MkFyzWxeI=;
- b=FKRwzjqqzp5CYquKT6GYF8e4KWzsf9tK49h/Gkmi4me72JejXutLQn4PsGGqXRyXqJNEJd
- qGSHh6rHPqFswAJNqRqTDJ1jCe9qhBnTg81t4iDCG7OSJ2MFeT/RmwBo/Uyv0uPGoVLcI4
- E9XS7RHDB3RD4hxQLaclxO2mU0YCSlE=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-LYVv4JK5MGmW5bIZheAGiQ-1; Wed, 04 Nov 2020 13:41:38 -0500
-X-MC-Unique: LYVv4JK5MGmW5bIZheAGiQ-1
-Received: by mail-wr1-f72.google.com with SMTP id m20so9617684wrb.21
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:41:37 -0800 (PST)
+ bh=NLAI6E52qR6iiwo+p5ybiNDvz6sVMxaw+nStvrHSOQ4=;
+ b=SV5YG5LoeENTMt06x8N14NK7j6VgLNIK4/5hF3tYf8A4fJVvpe8mcFjAMvDW1xS6panCVI
+ TRKIEHbIQd5IpOE+NXLAzHxvtY46xwOUtzPs6LmqW1hIWGFb6QdluBhQ0fqnas3fBB4tbz
+ MI8EmaD12GvdCVg4YW+LkEyroFwfF/I=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-0qRGICcRM1G3sEs39zBbyA-1; Wed, 04 Nov 2020 13:41:40 -0500
+X-MC-Unique: 0qRGICcRM1G3sEs39zBbyA-1
+Received: by mail-wm1-f71.google.com with SMTP id 3so1548185wms.9
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:41:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=73Mpz3vICh9QEBEOeL5uEWGSphcZBjM+o5MkFyzWxeI=;
- b=U8vXoSa7DFdmUpdfY6StBkpzY9O9LAJlwcERit5qrsCTp/RUCqsPRu7lsokTmKUqpt
- cLk2DqJfZnTmvO2dR23n1/hXy/67cspBLh6meVqDg+1CxDUVOLuwDd1FO/aVkJ85HroU
- Y7/l3jflYmp0jAo4t8nVcyQCNoY2dwxY5Wt5uQ2HDFnuDY1c6a9k+mia5dgCZfpToHik
- WcjxCoskIXLHSce41mB2/nxPvZCC2H+SJ9hFVf3FxBNi6jwRd7mtKWPLzjM/cih5Bu0P
- ATsDeEr025J8rceiWStw95B1qV8hDbiANWjFddip8pzplvUr9E97q/knchYEfjCiWxVh
- ldSQ==
-X-Gm-Message-State: AOAM530CeVFdg6ewhzaMYZE+byjZmg6UI5xzy+bgO1u0BtPadAVAWL3W
- X36E5Jk0Cn2jAsRITNB+Ooprzjcn3wVEH6iL5XjKKvx/t+mGIBKJyITJqAFgo6bX9ImxijIEkzv
- XHogU3VLBWzXG5+M=
-X-Received: by 2002:a1c:99d3:: with SMTP id b202mr6012003wme.0.1604515296581; 
- Wed, 04 Nov 2020 10:41:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwOphEw6zEwJnClQGThbqzu7B+GB3A+b245i3U2i8A9zmLcfdortit7vCjQsRtLY+jsG/0UyA==
-X-Received: by 2002:a1c:99d3:: with SMTP id b202mr6011987wme.0.1604515296427; 
- Wed, 04 Nov 2020 10:41:36 -0800 (PST)
+ bh=NLAI6E52qR6iiwo+p5ybiNDvz6sVMxaw+nStvrHSOQ4=;
+ b=VHLT5ZDF0lkaGUKT4l0bXsKIo4HdonuyZWGBpXHFCxixPi+PhOsHTjGpO9Kj31J90P
+ J8wEJX6Xt616Ri5Af6eArhd/yDmxwFilbVxPZG2ZlgI7f5qvYnQglUXyK22ATuYpnOk3
+ mqV6bX6DnFV8gdTCNMzKauGI9UeV9mrjXIhJatUac/oHJ7Ru9XQfDdzYJs+Ceu2H+qs9
+ nHfosW+dl8yCSX6fTN6T3w1cMYIHEaRNrPitirPiJ3bfpu2ebfCO98QCbUIMsJ54SRb+
+ iymE2JG4sVMYZRgdCUWIj8Sdrp/tq4QsRkmkhfjCxS0KLOfpqQP/vGlNH10UGM4y9EA5
+ dYuQ==
+X-Gm-Message-State: AOAM533Q6UP6S7amh1zsjxXmvmlrdbGBGFT7pu4bQ1c0vU1TQsxXqkQG
+ D8qO4t1PYDmJnnuKjDEQCyH47tpDU47yBfo3QgoLwlYY3Ldf5B9XmzgLsaYQT6/SvlPTs4Gfgwf
+ DcKN9aTMyXEhpoEk=
+X-Received: by 2002:adf:ab02:: with SMTP id q2mr24439237wrc.320.1604515299402; 
+ Wed, 04 Nov 2020 10:41:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwM5pQcB2Q47JqsuCG9QhpSXhMQZKVpxhMqups1Yy5GG/jafRJHJxOH3PwEQjk7BnsZSp+8Qw==
+X-Received: by 2002:adf:ab02:: with SMTP id q2mr24439222wrc.320.1604515299267; 
+ Wed, 04 Nov 2020 10:41:39 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id m1sm3342310wme.48.2020.11.04.10.41.34
+ by smtp.gmail.com with ESMTPSA id f8sm3703180wrt.88.2020.11.04.10.41.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 10:41:35 -0800 (PST)
-Date: Wed, 4 Nov 2020 13:41:33 -0500
+ Wed, 04 Nov 2020 10:41:38 -0800 (PST)
+Date: Wed, 4 Nov 2020 13:41:36 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 06/31] memory-device: Add get_min_alignment() callback
-Message-ID: <20201104184040.285057-7-mst@redhat.com>
+Subject: [PULL v3 07/31] virito-mem: Implement get_min_alignment()
+Message-ID: <20201104184040.285057-8-mst@redhat.com>
 References: <20201104184040.285057-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104184040.285057-1-mst@redhat.com>
@@ -104,13 +104,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-Add a callback that can be used to express additional alignment
-requirements (exceeding the ones from the memory region).
+The block size determines the alignment requirements. Implement
+get_min_alignment() of the TYPE_MEMORY_DEVICE interface.
 
-Will be used by virtio-mem to express special alignment requirements due
-to manually configured, big block sizes (e.g., 1GB with an ordinary
-memory-backend-ram). This avoids failing later when realizing, because
-auto-detection wasn't able to assign a properly aligned address.
+This allows auto-assignment of a properly aligned address in guest
+physical address space. For example, when specifying a 2GB block size
+for a virtio-mem device with 10GB with a memory setup "-m 4G, 20G",
+we'll no longer fail when realizing.
 
 Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
@@ -119,64 +119,38 @@ Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20201008083029.9504-6-david@redhat.com>
+Message-Id: <20201008083029.9504-7-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/mem/memory-device.h | 10 ++++++++++
- hw/mem/memory-device.c         | 11 +++++++++--
- 2 files changed, 19 insertions(+), 2 deletions(-)
+ hw/virtio/virtio-mem-pci.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/hw/mem/memory-device.h b/include/hw/mem/memory-device.h
-index 30d7e99f52..48d2611fc5 100644
---- a/include/hw/mem/memory-device.h
-+++ b/include/hw/mem/memory-device.h
-@@ -88,6 +88,16 @@ struct MemoryDeviceClass {
-      */
-     MemoryRegion *(*get_memory_region)(MemoryDeviceState *md, Error **errp);
+diff --git a/hw/virtio/virtio-mem-pci.c b/hw/virtio/virtio-mem-pci.c
+index 913f4a3326..fa5395cd88 100644
+--- a/hw/virtio/virtio-mem-pci.c
++++ b/hw/virtio/virtio-mem-pci.c
+@@ -76,6 +76,12 @@ static void virtio_mem_pci_fill_device_info(const MemoryDeviceState *md,
+     info->type = MEMORY_DEVICE_INFO_KIND_VIRTIO_MEM;
+ }
  
-+    /*
-+     * Optional: Return the desired minimum alignment of the device in guest
-+     * physical address space. The final alignment is computed based on this
-+     * alignment and the alignment requirements of the memory region.
-+     *
-+     * Called when plugging the memory device to detect the required alignment
-+     * during address assignment.
-+     */
-+    uint64_t (*get_min_alignment)(const MemoryDeviceState *md);
++static uint64_t virtio_mem_pci_get_min_alignment(const MemoryDeviceState *md)
++{
++    return object_property_get_uint(OBJECT(md), VIRTIO_MEM_BLOCK_SIZE_PROP,
++                                    &error_abort);
++}
 +
-     /*
-      * Translate the memory device into #MemoryDeviceInfo.
-      */
-diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-index 8a736f1a26..cf0627fd01 100644
---- a/hw/mem/memory-device.c
-+++ b/hw/mem/memory-device.c
-@@ -259,7 +259,7 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
+ static void virtio_mem_pci_size_change_notify(Notifier *notifier, void *data)
  {
-     const MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(md);
-     Error *local_err = NULL;
--    uint64_t addr, align;
-+    uint64_t addr, align = 0;
-     MemoryRegion *mr;
+     VirtIOMEMPCI *pci_mem = container_of(notifier, VirtIOMEMPCI,
+@@ -110,6 +116,7 @@ static void virtio_mem_pci_class_init(ObjectClass *klass, void *data)
+     mdc->get_plugged_size = virtio_mem_pci_get_plugged_size;
+     mdc->get_memory_region = virtio_mem_pci_get_memory_region;
+     mdc->fill_device_info = virtio_mem_pci_fill_device_info;
++    mdc->get_min_alignment = virtio_mem_pci_get_min_alignment;
+ }
  
-     mr = mdc->get_memory_region(md, &local_err);
-@@ -267,7 +267,14 @@ void memory_device_pre_plug(MemoryDeviceState *md, MachineState *ms,
-         goto out;
-     }
- 
--    align = legacy_align ? *legacy_align : memory_region_get_alignment(mr);
-+    if (legacy_align) {
-+        align = *legacy_align;
-+    } else {
-+        if (mdc->get_min_alignment) {
-+            align = mdc->get_min_alignment(md);
-+        }
-+        align = MAX(align, memory_region_get_alignment(mr));
-+    }
-     addr = mdc->get_addr(md);
-     addr = memory_device_get_free_addr(ms, !addr ? NULL : &addr, align,
-                                        memory_region_size(mr), &local_err);
+ static void virtio_mem_pci_instance_init(Object *obj)
 -- 
 MST
 
