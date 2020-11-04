@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A232A5B25
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:44:54 +0100 (CET)
-Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 279892A5B1C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:42:22 +0100 (CET)
+Received: from localhost ([::1]:42430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka6uz-0006xs-Dq
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:44:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
+	id 1ka6sX-0003Rm-59
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:42:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35348)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n3-0006KD-CJ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mx-0004or-Cx
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n1-0006JS-Hw
  for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53543)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mx-0004ot-Cu
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450193;
+ s=mimecast20190719; t=1604450194;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sA6VFb1LRcC1wcG4j9cZhiPji9rUnXMqeMGltu8wD0k=;
- b=CmDRMu7mzrz4MU0fHCNCSt/LeqyunIHaF5T+P4K62vgDouqi2dyulc6oZofsGtAY9csWQl
- L3AFx4ds48nzjqpsKxykU/N5hQTN7AXnGxTM6xwNNoiWeWvrEuiV4LD7zbaf4Wl5LlNHmc
- YQsWHzLOS95r4wgo4wxpdKP9Vco/kBs=
+ bh=9cPHbgqyv+0Pkq8TWRjZx8HPizlCf0BBMFHwPUW/NYk=;
+ b=YQv2MZvc3R4gR+i4QK5YBEUAhoUcgoVsZeg8csPzDtrcj1V9gGvLfOezJzcWPkQpJmHF7W
+ aImZgYpnnQy1dD2JF3y36E6GrTJypaWEt50/txMkYhDecuL4Hl4pIgEwdWV9V33OSzoUvN
+ WB0DRBwcMH5icWyOO8sQS+RYDSn80Lk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-92-HOzc8W9zOiy-RrNPjAnIKA-1; Tue, 03 Nov 2020 19:36:32 -0500
-X-MC-Unique: HOzc8W9zOiy-RrNPjAnIKA-1
+ us-mta-575-u5dDua1nPxKqVerEolyyxg-1; Tue, 03 Nov 2020 19:36:32 -0500
+X-MC-Unique: u5dDua1nPxKqVerEolyyxg-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DBB11BD35A
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E8781015ED6
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:26 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EA8807512C;
- Wed,  4 Nov 2020 00:36:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2649255766;
+ Wed,  4 Nov 2020 00:36:25 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/72] scripts/qom-fuse: use QOMCommand.qom_list()
-Date: Tue,  3 Nov 2020 19:35:00 -0500
-Message-Id: <20201104003602.1293560-11-jsnow@redhat.com>
+Subject: [PATCH v2 11/72] scripts/qom-fuse: ensure QOMFuse.read always returns
+ bytes
+Date: Tue,  3 Nov 2020 19:35:01 -0500
+Message-Id: <20201104003602.1293560-12-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,18 +54,18 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,69 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the qom_list method provides a type-safe object that's easier to type
-check, so switch to using it.
+- Use FuseOSError to signal ENOENT instead of returning it
+- Wrap qom-get in str(), as we don't always know its type
+- The empty return should be b'', not ''.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- scripts/qmp/qom-fuse | 18 ++++++++----------
- 1 file changed, 8 insertions(+), 10 deletions(-)
+ scripts/qmp/qom-fuse | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-index f9bf85f38217..b1030273efaa 100755
+index b1030273efaa..b120b93391ba 100755
 --- a/scripts/qmp/qom-fuse
 +++ b/scripts/qmp/qom-fuse
-@@ -95,7 +95,7 @@ class QOMFuse(QOMCommand, Operations):
-     def is_object(self, path):
-         """Is the given QOM path an object?"""
-         try:
--            self.qmp.command('qom-list', path=path)
-+            self.qom_list(path)
-             return True
-         except QMPResponseError:
-             return False
-@@ -106,8 +106,8 @@ class QOMFuse(QOMCommand, Operations):
+@@ -128,19 +128,19 @@ class QOMFuse(QOMCommand, Operations):
+ 
+     def read(self, path, size, offset, fh):
+         if not self.is_property(path):
+-            return -ENOENT
++            raise FuseOSError(ENOENT)
+ 
+         path, prop = path.rsplit('/', 1)
          if path == '':
              path = '/'
          try:
--            for item in self.qmp.command('qom-list', path=path):
--                if item['name'] == prop:
-+            for item in self.qom_list(path):
-+                if item.name == prop:
-                     return True
-             return False
-         except QMPResponseError:
-@@ -119,11 +119,9 @@ class QOMFuse(QOMCommand, Operations):
-         if path == '':
-             path = '/'
-         try:
--            for item in self.qmp.command('qom-list', path=path):
--                if item['name'] == prop:
--                    if item['type'].startswith('link<'):
--                        return True
--                    return False
-+            for item in self.qom_list(path):
-+                if item.name == prop and item.link:
-+                    return True
-             return False
-         except QMPResponseError:
-             return False
-@@ -201,8 +199,8 @@ class QOMFuse(QOMCommand, Operations):
-     def readdir(self, path, fh):
-         yield '.'
-         yield '..'
--        for item in self.qmp.command('qom-list', path=path):
--            yield str(item['name'])
-+        for item in self.qom_list(path):
-+            yield item.name
+-            data = self.qmp.command('qom-get', path=path, property=prop)
++            data = str(self.qmp.command('qom-get', path=path, property=prop))
+             data += '\n'  # make values shell friendly
+         except QMPResponseError as err:
+             raise FuseOSError(EPERM) from err
  
+         if offset > len(data):
+-            return ''
++            return b''
  
- if __name__ == '__main__':
+         return bytes(data[offset:][:size], encoding='utf-8')
+ 
 -- 
 2.26.2
 
