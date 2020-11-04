@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E5362A5D66
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:52:32 +0100 (CET)
-Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBF22A5D6C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:53:59 +0100 (CET)
+Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAmc-0006Xl-QS
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:52:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59048)
+	id 1kaAo2-0001bb-86
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:53:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl1-0005Gx-HA
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31967)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl5-0005KS-1e
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36797)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAkz-0004G7-G1
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:50 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl3-0004JW-9c
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465448;
+ s=mimecast20190719; t=1604465452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=h0heXC8AZt7eXzCvDvOmqsibMEQ+v+zzRIJ+pXZVz+w=;
- b=Mtv2DFmJVLZwa7O3SAkBYgj3z5YbvdqlbWzRVgUigCtclKYhoACFWZ1d/Vk9syQr7xyguD
- ngpmBFhSNnE9KkvqbbcSJ6BGYGqdOegEwR5C4OLub+olYDT7BPO64yzbCPVnKqeMSkCwCd
- vPlN4kOLnUosyzcO+Ou5MVmQq9j28P8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-91-mzhFKT23P-aRPJiB6CRmTw-1; Tue, 03 Nov 2020 23:50:47 -0500
-X-MC-Unique: mzhFKT23P-aRPJiB6CRmTw-1
-Received: by mail-wr1-f71.google.com with SMTP id w3so6590269wrt.11
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:50:47 -0800 (PST)
+ bh=6mgCjhnq9faNGq2/uhjHeag8wnNyBtF7y3xz069QrTc=;
+ b=Mfb+K0T4X1yqneAls8u2p2sQX5zbOhjI3WzZ21hYx9IJYu/EDTo3VU7L80iWw5wQRimIYl
+ C5US478M/PrjosfHalV7aupC65WPPZDmEbGVMZxS1+XhgwsIfgsN2AJ8amKAW+dRlu3sG7
+ ijJqqkUDCoGOAXkE+cdq/0QjWL8DwPU=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-529-xURp4f9JOyqlChtYdOBphw-1; Tue, 03 Nov 2020 23:50:50 -0500
+X-MC-Unique: xURp4f9JOyqlChtYdOBphw-1
+Received: by mail-wm1-f70.google.com with SMTP id f70so728307wme.7
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:50:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=h0heXC8AZt7eXzCvDvOmqsibMEQ+v+zzRIJ+pXZVz+w=;
- b=G1eTEVq3RKi1bAqCSlkPopjHlk2mbN7fK1wTvz8SYUchCCV1dgAbQFYgs+RDi3DuuF
- BwlX1pmW7uJeMDMAWB282+kOUe5Bnu/sWl8g+OwpXInwCCmKxFS5Y3OuSzpcH4+QPSax
- P4EAe5dbA0RoboHU/BUncsPFtVvQFV40VxDiKrXdRcEguwk3vsMXy1rVPY0FSmZCVg8q
- 9iepAgioxNpyGU9O/esB65hereEiAx01WoGOefVIW22VVMbjsrM1YWamCoYlbdbA5IgJ
- pq+gikoqAlDIQ0T2r8YajrpBA+6WSlMXedS5P7hWrQDz9qq/etMBJ0qrXlWHXxvP9pJv
- WJVw==
-X-Gm-Message-State: AOAM531BsbQCVInANCQSUGm2b0dG5PAv07eAEnlludRpYp41ioYXAnOp
- rD1iRgxNR1lxFOl4xwjBntu+v5Noqqbr67TDye6Pqy6s3ZpjPDSYocCKplK/jLajxOQm73NiRYr
- t/GnzwBLaSSqg/R4=
-X-Received: by 2002:adf:f142:: with SMTP id y2mr29293504wro.160.1604465446226; 
- Tue, 03 Nov 2020 20:50:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwR8fS79irP/yMcqEEsTB+znKS1JR1WXzlvmNG1CDNAANTzslmkfifgBTPhApTG3c0iiAJIPQ==
-X-Received: by 2002:adf:f142:: with SMTP id y2mr29293487wro.160.1604465446008; 
- Tue, 03 Nov 2020 20:50:46 -0800 (PST)
+ bh=6mgCjhnq9faNGq2/uhjHeag8wnNyBtF7y3xz069QrTc=;
+ b=VoUJnYLrobDMMJ6/uPPvIhP4C73xnHIopbwtvjDe+uny2QkkNCezMWlSecQOKEMDKN
+ wsGRi86/suXO0JsF8G6iqJ9HSfEXp1X+5v37QHSTRT5tLF8QLmDHl889ybLREPpR2hhE
+ oo9iedNqf4G5sO5v2Hc2KXRXNN2Aq3o9UbQBCBU3vm7tAq0FTEoVEBgmAFx17XaqIiHk
+ fN4Gf9MvOAr+fstaBX43hO8C1k8E6l+BReemzKf0Dca0wLH65m+8qpl7VkBnDIhKDlAZ
+ +zXKfoVujsJZ2xI6K3CqX7NG3SWfFfJjQxFVuo06uRSY2fuaCs58fZsj0VfBXFYKGd1U
+ 3oQg==
+X-Gm-Message-State: AOAM533GsOCZMmvZ/CEI14aDiFm/bN+iuFvFAyvmRFew+xJawoEWVW1v
+ KTMOEbjjiG1JoIb7L4gj040QS1UFO7kphvkM1DcyX8sw680YYNLhnva0JW1kzvnvjSLXP4N4sk6
+ 7mqad+eVwmR7rng8=
+X-Received: by 2002:a1c:1f05:: with SMTP id f5mr2378256wmf.98.1604465448952;
+ Tue, 03 Nov 2020 20:50:48 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzh0SGYHFP/Z3qNjqEkjNqOznbpzFv8Y+lou3y7D4WNZCPT5TcCKgEgw55ihTcpgdYBpFmHeQ==
+X-Received: by 2002:a1c:1f05:: with SMTP id f5mr2378246wmf.98.1604465448818;
+ Tue, 03 Nov 2020 20:50:48 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id q2sm881069wrw.40.2020.11.03.20.50.44
+ by smtp.gmail.com with ESMTPSA id p4sm875018wrf.67.2020.11.03.20.50.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:50:45 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:50:43 -0500
+ Tue, 03 Nov 2020 20:50:48 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:50:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 01/38] pc: comment style fixup
-Message-ID: <20201104044937.226370-2-mst@redhat.com>
+Subject: [PULL v2 02/38] virtio-mem: Make sure "addr" is always multiples of
+ the block size
+Message-ID: <20201104044937.226370-3-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -95,39 +96,60 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Wei Yang <richardw.yang@linux.intel.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix up checkpatch comment style warnings.
+From: David Hildenbrand <david@redhat.com>
 
+The spec states:
+  "The device MUST set addr, region_size, usable_region_size, plugged_size,
+   requested_size to multiples of block_size."
+
+In some cases, we currently don't guarantee that for "addr": For example,
+when starting a VM with 4 GiB boot memory and a virtio-mem device with a
+block size of 2 GiB, "memaddr"/"addr" will be auto-assigned to
+0x140000000 (5 GiB).
+
+We'll try to improve auto-assignment for memory devices next, to avoid
+bailing out in case memory device code selects a bad address.
+
+Note: The Linux driver doesn't support such big block sizes yet.
+
+Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Fixes: 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
+Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Signed-off-by: David Hildenbrand <david@redhat.com>
+Message-Id: <20201008083029.9504-2-david@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Chen Qun <kuhn.chenqun@huawei.com>
 ---
- hw/i386/pc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/virtio/virtio-mem.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 5e6c0023e0..17b514d1da 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1149,10 +1149,11 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-             error_report("couldn't create HPET device");
-             exit(1);
-         }
--        /* For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7
--            * and earlier, use IRQ2 for compat. Otherwise, use IRQ16~23,
--            * IRQ8 and IRQ2.
--            */
-+        /*
-+         * For pc-piix-*, hpet's intcap is always IRQ2. For pc-q35-1.7 and
-+         * earlier, use IRQ2 for compat. Otherwise, use IRQ16~23, IRQ8 and
-+         * IRQ2.
-+         */
-         uint8_t compat = object_property_get_uint(OBJECT(hpet),
-                 HPET_INTCAP, NULL);
-         if (!compat) {
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 7c8ca9f28b..70200b4eac 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -449,6 +449,11 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
+                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
+                    VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
+         return;
++    } else if (!QEMU_IS_ALIGNED(vmem->addr, vmem->block_size)) {
++        error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
++                   ")", VIRTIO_MEM_ADDR_PROP, VIRTIO_MEM_BLOCK_SIZE_PROP,
++                   vmem->block_size);
++        return;
+     } else if (!QEMU_IS_ALIGNED(memory_region_size(&vmem->memdev->mr),
+                                 vmem->block_size)) {
+         error_setg(errp, "'%s' property memdev size has to be multiples of"
 -- 
 MST
 
