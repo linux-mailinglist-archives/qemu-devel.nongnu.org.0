@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27E82A6BA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:29:21 +0100 (CET)
-Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BABD22A6BA3
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:29:10 +0100 (CET)
+Received: from localhost ([::1]:58398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMb2-0005v0-RF
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:29:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60818)
+	id 1kaMar-0005mF-Ox
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:29:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXE-0000z5-Vr
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45215)
+ id 1kaMXF-0000zM-75
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49097)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXB-0008Ba-UW
+ id 1kaMXC-0008CT-RF
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604510720;
+ s=mimecast20190719; t=1604510721;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bD8WHQ5vkPZgFU67Ydv6CRTwa7bMPjoclBtYbd6jK3c=;
- b=PE+8dTVc7ryyWQIzjWLiFTiAwjyeR1fzbRgipif/WPj69ofteLzRUfmVs2D2DIKNXv4T7m
- GKLf2dBssIBWpy9jMIC0x4iQJ0fMLGd8c0UrnAxQTu5/IFUPk8h5Up1PHR4ttu91CNDPCy
- 4VY7pqpz9rymvFErD3luDMHk5npfBFA=
+ bh=/E/VfVeQ6SgwgOxmEY2GWK/9ySHK0Bx88fxijhLB0l0=;
+ b=c2EWaOYVEsySGCUAo7q5WSULwR3iaKDeA7V5V/dOU4fbXc5b6YqEPnhcJodn54hbkRTr5B
+ RBoKXy6cwH8TdPclRj+bV3kthoqFf6YlozpU4YYGDyviF8rWI2XfKVyTfc62MIVkYSqc8m
+ B82Tkk53MkujCcWQOFwYlVaiwB6ufB0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-eRHrlGKkOvqVzrcUNlO-EA-1; Wed, 04 Nov 2020 12:25:18 -0500
-X-MC-Unique: eRHrlGKkOvqVzrcUNlO-EA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-332-l_nZfuNiNhqSezBQijiOiA-1; Wed, 04 Nov 2020 12:25:20 -0500
+X-MC-Unique: l_nZfuNiNhqSezBQijiOiA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BBC11028D51
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 17:25:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 156FE18A6280
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 17:25:19 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E20660BFA;
- Wed,  4 Nov 2020 17:25:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A79005D98F;
+ Wed,  4 Nov 2020 17:25:18 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/7] qom: Save size of struct field in Property struct
-Date: Wed,  4 Nov 2020 12:25:07 -0500
-Message-Id: <20201104172512.2381656-3-ehabkost@redhat.com>
+Subject: [PATCH 3/7] qdev: Don't register unreadable legacy properties
+Date: Wed,  4 Nov 2020 12:25:08 -0500
+Message-Id: <20201104172512.2381656-4-ehabkost@redhat.com>
 In-Reply-To: <20201104172512.2381656-1-ehabkost@redhat.com>
 References: <20201104172512.2381656-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -86,8 +86,18 @@ Cc: Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This will let the code that reads/writes the field ensure it will
-never go out of bounds.
+The existing code at qdev_class_add_legacy_property() will
+register a property if both .print and .get are NULL, which is
+useless as it will register a property that can't be read or
+written.
+
+The only PropertyInfo struct in the whole tree that has both
+.print and .get set to NULL is qdev_prop_link.  This means every
+link property in the code had a useless "legacy-" property being
+registered.
+
+Fix this by only registering legacy properties if a .print method
+exists.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
@@ -96,50 +106,29 @@ Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- include/qom/field-property.h | 3 +++
- include/qom/property-types.h | 1 +
- qom/property-types.c         | 1 +
- 3 files changed, 5 insertions(+)
+ hw/core/qdev-properties.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/include/qom/field-property.h b/include/qom/field-property.h
-index bc866e1c93..e64a2b3c07 100644
---- a/include/qom/field-property.h
-+++ b/include/qom/field-property.h
-@@ -27,7 +27,10 @@ struct Property {
-      */
-     const char   *qdev_prop_name;
-     const PropertyInfo *info;
-+    /** @offset: offset of field in object instance struct */
-     ptrdiff_t    offset;
-+    /** @size: size of field in object instance struct */
-+    size_t       size;
-     uint8_t      bitnr;
-     /**
-      * @set_default: true if the default value should be set from @defval,
-diff --git a/include/qom/property-types.h b/include/qom/property-types.h
-index 3a36e1fec5..17bf007234 100644
---- a/include/qom/property-types.h
-+++ b/include/qom/property-types.h
-@@ -28,6 +28,7 @@ extern const PropertyInfo prop_info_link;
-         .info      = &(_prop),                                   \
-         .offset    = offsetof(_state, _field)                    \
-             + type_check(_type, typeof_field(_state, _field)),   \
-+        .size      = sizeof(typeof_field(_state, _field)),       \
-         __VA_ARGS__                                              \
-         }
+diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+index 5bb4ff5f46..73884a212a 100644
+--- a/hw/core/qdev-properties.c
++++ b/hw/core/qdev-properties.c
+@@ -264,13 +264,13 @@ static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
+     g_autofree char *name = NULL;
  
-diff --git a/qom/property-types.c b/qom/property-types.c
-index f566c05ec2..856b5ae76d 100644
---- a/qom/property-types.c
-+++ b/qom/property-types.c
-@@ -485,6 +485,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-          * being inside the device struct.
-          */
-         arrayprop->offset = eltptr - (void *)obj;
-+        arrayprop->size = prop->arrayfieldsize;
-         assert(object_field_prop_ptr(obj, arrayprop) == eltptr);
-         object_property_add_field(obj, propname, arrayprop, op->allow_set);
+     /* Register pointer properties as legacy properties */
+-    if (!prop->info->print && prop->info->get) {
++    if (!prop->info->print) {
+         return;
      }
+ 
+     name = g_strdup_printf("legacy-%s", prop->qdev_prop_name);
+     object_class_property_add(OBJECT_CLASS(dc), name, "str",
+-        prop->info->print ? qdev_get_legacy_property : prop->info->get,
++        qdev_get_legacy_property,
+         NULL, NULL, prop);
+ }
+ 
 -- 
 2.28.0
 
