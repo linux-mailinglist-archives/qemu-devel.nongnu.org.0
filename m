@@ -2,92 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E3C2A62FC
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:12:13 +0100 (CET)
-Received: from localhost ([::1]:47190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 199CC2A62F0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:09:35 +0100 (CET)
+Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGi4-000540-DC
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:12:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48756)
+	id 1kaGfW-0002eU-5i
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:09:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cdupontd@redhat.com>)
- id 1kaGbd-00005e-Al
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:05:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cdupontd@redhat.com>)
- id 1kaGbb-0007Mb-EY
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:05:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604487930;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0j216KX2d+fBUVjhfXxyP8fMfgnefI70Gvr45Qdo2Ao=;
- b=drHCmRTM2Tdbrr1iqmhcmTrK+aN4dGr4IuB5grFek8NFUeZg8/T1JjPN4/c0DIr98g6tCM
- KaJPoyPwTtkhMM4qZTZnSJGDiU71wiBWOj2YHoxowIdb2PFlFvg1WMBN9HrsBMxLt61bhd
- OibZZmg8oNpD6iEto9Oc9W2r/lFZ7oo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-119-tae0kDAJMVG-hsI7QBkKKQ-1; Wed, 04 Nov 2020 06:05:26 -0500
-X-MC-Unique: tae0kDAJMVG-hsI7QBkKKQ-1
-Received: by mail-wm1-f69.google.com with SMTP id t21so507522wmt.8
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 03:05:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1kaGe0-000219-8h
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:08:00 -0500
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:39730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1kaGdx-0007dj-0n
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:08:00 -0500
+Received: by mail-ot1-x344.google.com with SMTP id z16so13789377otq.6
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 03:07:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=RTv0Q3a+nhty33F8MH47BSPZITU0NU0UkB2RJDyVp7M=;
+ b=GOxJfCkGfu6Ml+QKEC4mnQUuDkGTj9RplCLoqsoRwwKahbENjpj5KeSiqBO4XA2aOh
+ ZBYGf8j1L/Dppe7H8TWmPWueOr3IMdFjXDIiVLXpRRcVUIEz3eBrjduJKMxbJsWsN5qD
+ w2y1t0X8pEqXDNOWnWkbv+q3aSqxz7zQmbTv4xez8Mvg33tY/G/+HfNPDOmgXo56o6qE
+ rxSmCAmnAAYcM4CUBXEqrdcT0izCOguTlpWcc1nDzeoLStelurRxDTmghG662idSRISH
+ E4ZyB+yrHUl31C5rcKOQ9dRJ6bUeRZu9Pd56E0oaPtxBJgJHDS7z7r6hXcAwmgz9jB7y
+ RbJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:message-id:mime-version:subject:date
- :in-reply-to:cc:to:references;
- bh=WRdqu6s286mRbd/74N0o4Sd4xNQt/nzJ9T5ydhYRBpY=;
- b=R3RB79H27a+U7hPDMPj/pTpFvOF0r2E6mfRj8wqGtaoCT876lMkhXAOeRzA+sk+zas
- bEaQh4sRr7yBfyaklS9wwVibscfezv9I2LF7r5vf5oM8FA9TNgg6S0KV/dHIGlSPn0op
- rqvPrBW/Wv4Z+THfHv9qhL1fvh7HTKIvwAG7lm2YjWzPHMki8hdvEXKAi/oak3u8QY6r
- iw3imo3Jj9X/sUt6F/NO/SJh7K+X4HLouFOmuEu8qOHK5W0BOaGlAjb4Zrf5PVb1sGeI
- SwbXx4WmdLe8NMsudG6of+J07ITajgBV/r1/19je6cKH3wmU6Zf0IugmHhnB8RcMu3t5
- f4jg==
-X-Gm-Message-State: AOAM532AYCC5GxViBXNBdb97Y8OU5/6HeWWLg9QKcUprfY5KyvxO924R
- H432nnrjyFwR6FUkHQC5dK80WclV7z/sfrEJ1SXmrTUIbQYJnRPlOGitdBHUNBryrU6+zcGFnrq
- k2YDbTj8Xl32QN2I=
-X-Received: by 2002:a5d:69d1:: with SMTP id s17mr31787537wrw.77.1604487924746; 
- Wed, 04 Nov 2020 03:05:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxPXJfJv9YnHKeGxzwvoxpTy5Rlhm1ymbPULz8u4n8ULFQUDEiP7sA3QCu1FxQ5488XqxgaPg==
-X-Received: by 2002:a5d:69d1:: with SMTP id s17mr31787496wrw.77.1604487924459; 
- Wed, 04 Nov 2020 03:05:24 -0800 (PST)
-Received: from ?IPv6:2a01:e0a:466:71c0:8ce9:a0d5:3af2:7f0f?
- ([2a01:e0a:466:71c0:8ce9:a0d5:3af2:7f0f])
- by smtp.gmail.com with ESMTPSA id t11sm1722910wmf.35.2020.11.04.03.05.22
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 04 Nov 2020 03:05:23 -0800 (PST)
-From: Christophe de Dinechin <cdupontd@redhat.com>
-Message-Id: <1254BB01-E5A3-468D-A423-838EC0DCE302@redhat.com>
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: VFIO Migration
-Date: Wed, 4 Nov 2020 12:05:21 +0100
-In-Reply-To: <20201103184951.GM3566@work-vm>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20201102111153.GC42093@stefanha-x1.localdomain>
- <20201103121709.GD3566@work-vm>
- <20201103152752.GC253848@stefanha-x1.localdomain>
- <20201103184951.GM3566@work-vm>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cdupontd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative;
- boundary="Apple-Mail=_5A40B49A-8545-4E0E-8734-461136A82EBD"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cdupontd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=RTv0Q3a+nhty33F8MH47BSPZITU0NU0UkB2RJDyVp7M=;
+ b=FREhJe72OHq7KF0XJw3jqyRbxeC1SgidNyWzLOtQ5A7q+rFWKkKKKVqZDGoy90eSYe
+ LL8KYBaEz7imVu9BYghWmxShTvhX4nFn5LKJi2pP/45lU2dlupVAq7Y/rbERT9ysOJeM
+ hi8a05r0CtHPgRzHCUBrEStgtnOTkjtXDW1jTLsAH+daIk02NsS1NkDJK9XgF1aAb2r5
+ /GgZpQALmg0inuYsYdbUsXNztqXtaeoGPvWyIvCV61uKjEn13R5pou6V5XbVaL6PWZ11
+ xwst+dLZbU/r/jDOOxWWHcNuKMlyDPnB6rURQqI07xZA48PM0lxfHN0fQba8bxm/wZk4
+ EM9Q==
+X-Gm-Message-State: AOAM530LgXCCAKfsbUSV2KK2OTKV8NMPA8aEtxOR/Onc5110mU7/RfMK
+ pRz/ueGFagne5pr9KMTBSaOwuJg6prGR7RmYZFdvcw==
+X-Google-Smtp-Source: ABdhPJygaov2pFu/VyNHP68XvmUEtmWkYZP/OhsTHXeRkJ+GZ1UuyV1RfJ3/gLu1amR2QiO1BG0gzmau8QumMD+Dj+g=
+X-Received: by 2002:a9d:61:: with SMTP id 88mr17424736ota.109.1604488072517;
+ Wed, 04 Nov 2020 03:07:52 -0800 (PST)
+MIME-Version: 1.0
+References: <20201102185115.7425-1-andrew@daynix.com>
+ <20201102185115.7425-6-andrew@daynix.com>
+ <060630f2-d077-7b71-f1d7-86036dd8f38d@redhat.com>
+In-Reply-To: <060630f2-d077-7b71-f1d7-86036dd8f38d@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Wed, 4 Nov 2020 13:07:41 +0200
+Message-ID: <CAOEp5Oc7-1Dyj4ryF+S7BVP2YP=0ZrDRN89Qi0jajA3PE0Q6NA@mail.gmail.com>
+Subject: Re: [RFC PATCH 5/6] virtio-net: Added eBPF RSS to virtio-net.
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: multipart/alternative; boundary="0000000000009c46d405b345fd36"
+Received-SPF: none client-ip=2607:f8b0:4864:20::344;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-ot1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,127 +80,759 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
- =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Jason Wang <jasowang@redhat.com>,
- BALATON Zoltan via <qemu-devel@nongnu.org>,
- Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Felipe Franciosi <felipe@nutanix.com>,
- Thanos Makatos <thanos.makatos@nutanix.com>
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Apple-Mail=_5A40B49A-8545-4E0E-8734-461136A82EBD
+--0000000000009c46d405b345fd36
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+On Wed, Nov 4, 2020 at 5:09 AM Jason Wang <jasowang@redhat.com> wrote:
+
+>
+> On 2020/11/3 =E4=B8=8A=E5=8D=882:51, Andrew Melnychenko wrote:
+> > From: Andrew <andrew@daynix.com>
+> >
+> > When RSS is enabled the device tries to load the eBPF program
+> > to select RX virtqueue in the TUN. If eBPF can be loaded
+> > the RSS will function also with vhost (works with kernel 5.8 and later)=
+.
+> > Software RSS is used as a fallback with vhost=3Doff when eBPF can't be
+> loaded
+> > or when hash population requested by the guest.
+> >
+> > Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
+> > Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
+> > ---
+> >   hw/net/vhost_net.c             |   2 +
+> >   hw/net/virtio-net.c            | 120 +++++++++++++++++++++++++++++++-=
+-
+> >   include/hw/virtio/virtio-net.h |   4 ++
+> >   net/vhost-vdpa.c               |   2 +
+> >   4 files changed, 124 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > index 24d555e764..16124f99c3 100644
+> > --- a/hw/net/vhost_net.c
+> > +++ b/hw/net/vhost_net.c
+> > @@ -71,6 +71,8 @@ static const int user_feature_bits[] =3D {
+> >       VIRTIO_NET_F_MTU,
+> >       VIRTIO_F_IOMMU_PLATFORM,
+> >       VIRTIO_F_RING_PACKED,
+> > +    VIRTIO_NET_F_RSS,
+> > +    VIRTIO_NET_F_HASH_REPORT,
+> >
+> >       /* This bit implies RARP isn't sent by QEMU out of band */
+> >       VIRTIO_NET_F_GUEST_ANNOUNCE,
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index 277289d56e..afcc3032ec 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -698,6 +698,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+> >
+> >   static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+> >
+> > +static uint64_t fix_ebpf_vhost_features(uint64_t features)
+> > +{
+> > +    /* If vhost=3Don & CONFIG_EBPF doesn't set - disable RSS feature *=
+/
+> > +    uint64_t ret =3D features;
+> > +#ifndef CONFIG_EBPF
+> > +    virtio_clear_feature(&ret, VIRTIO_NET_F_RSS);
+> > +#endif
+> > +    /* for now, there is no solution for populating the hash from eBPF
+> */
+> > +    virtio_clear_feature(&ret, VIRTIO_NET_F_HASH_REPORT);
+>
+>
+> I think we probably need to to something reverse since RSS is under the
+> control on qemu cli, disable features like this may break migration.
+>
+>
+How by design we add new features to qemu in light of possible migration to
+older qemu version when the destination
+qemu does not support these features?
 
 
+> We need disable vhost instead when:
+>
+> 1) eBPF is not supported but RSS is required from command line
+>
+> or
+>
+> 2) HASH_REPORT is required from command line
+>
+> > +
+> > +    return ret;
+> > +}
+> > +
+> >   static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t
+> features,
+> >                                           Error **errp)
+> >   {
+> > @@ -732,9 +745,9 @@ static uint64_t virtio_net_get_features(VirtIODevic=
+e
+> *vdev, uint64_t features,
+> >           return features;
+> >       }
+> >
+> > -    virtio_clear_feature(&features, VIRTIO_NET_F_RSS);
+> > -    virtio_clear_feature(&features, VIRTIO_NET_F_HASH_REPORT);
+> > -    features =3D vhost_net_get_features(get_vhost_net(nc->peer),
+> features);
+> > +    features =3D fix_ebpf_vhost_features(
+> > +            vhost_net_get_features(get_vhost_net(nc->peer), features))=
+;
+> > +
+> >       vdev->backend_features =3D features;
+> >
+> >       if (n->mtu_bypass_backend &&
+> > @@ -1169,12 +1182,75 @@ static int virtio_net_handle_announce(VirtIONet
+> *n, uint8_t cmd,
+> >       }
+> >   }
+> >
+> > +static void virtio_net_unload_epbf_rss(VirtIONet *n);
+> > +
+> >   static void virtio_net_disable_rss(VirtIONet *n)
+> >   {
+> >       if (n->rss_data.enabled) {
+> >           trace_virtio_net_rss_disable();
+> >       }
+> >       n->rss_data.enabled =3D false;
+> > +
+> > +    if (!n->rss_data.enabled_software_rss &&
+> ebpf_rss_is_loaded(&n->ebpf_rss)) {
+> > +        virtio_net_unload_epbf_rss(n);
+> > +    }
+> > +}
+> > +
+> > +static bool virtio_net_attach_steering_ebpf(NICState *nic, int prog_fd=
+)
+> > +{
+> > +    NetClientState *nc =3D qemu_get_peer(qemu_get_queue(nic), 0);
+> > +    if (nc =3D=3D NULL || nc->info->set_steering_ebpf =3D=3D NULL) {
+> > +        return false;
+> > +    }
+> > +
+> > +    return nc->info->set_steering_ebpf(nc, prog_fd);
+> > +}
+> > +
+> > +static void rss_data_to_rss_config(struct VirtioNetRssData *data,
+> > +                                   struct EBPFRSSConfig *config)
+> > +{
+> > +    config->redirect =3D data->redirect;
+> > +    config->populate_hash =3D data->populate_hash;
+> > +    config->hash_types =3D data->hash_types;
+> > +    config->indirections_len =3D data->indirections_len;
+> > +    config->default_queue =3D data->default_queue;
+> > +}
+> > +
+> > +static bool virtio_net_load_epbf_rss(VirtIONet *n)
+> > +{
+> > +    struct EBPFRSSConfig config =3D {};
+> > +
+> > +    if (!n->rss_data.enabled) {
+> > +        if (ebpf_rss_is_loaded(&n->ebpf_rss)) {
+> > +            ebpf_rss_unload(&n->ebpf_rss);
+> > +        }
+> > +        return true;
+> > +    }
+> > +
+> > +    if (!ebpf_rss_is_loaded(&n->ebpf_rss) &&
+> !ebpf_rss_load(&n->ebpf_rss)) {
+> > +        return false;
+> > +    }
+> > +
+> > +    rss_data_to_rss_config(&n->rss_data, &config);
+> > +
+> > +    if (!ebpf_rss_set_all(&n->ebpf_rss, &config,
+> > +                          n->rss_data.indirections_table,
+> n->rss_data.key)) {
+> > +        ebpf_rss_unload(&n->ebpf_rss);
+> > +        return false;
+> > +    }
+> > +
+> > +    if (!virtio_net_attach_steering_ebpf(n->nic,
+> n->ebpf_rss.program_fd)) {
+> > +        ebpf_rss_unload(&n->ebpf_rss);
+> > +        return false;
+> > +    }
+> > +
+> > +    return true;
+> > +}
+> > +
+> > +static void virtio_net_unload_epbf_rss(VirtIONet *n)
+> > +{
+> > +    virtio_net_attach_steering_ebpf(n->nic, -1);
+> > +    ebpf_rss_unload(&n->ebpf_rss);
+> >   }
+> >
+> >   static uint16_t virtio_net_handle_rss(VirtIONet *n,
+> > @@ -1208,6 +1284,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet *=
+n,
+> >           err_value =3D (uint32_t)s;
+> >           goto error;
+> >       }
+> > +    n->rss_data.enabled_software_rss =3D false;
+> >       n->rss_data.hash_types =3D virtio_ldl_p(vdev, &cfg.hash_types);
+> >       n->rss_data.indirections_len =3D
+> >           virtio_lduw_p(vdev, &cfg.indirection_table_mask);
+> > @@ -1289,9 +1366,30 @@ static uint16_t virtio_net_handle_rss(VirtIONet
+> *n,
+> >           goto error;
+> >       }
+> >       n->rss_data.enabled =3D true;
+> > +
+> > +    if (!n->rss_data.populate_hash) {
+> > +        /* load EBPF RSS */
+> > +        if (!virtio_net_load_epbf_rss(n)) {
+> > +            /* EBPF mast be loaded for vhost */
+> > +            if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
+> > +                warn_report("Can't load eBPF RSS for vhost");
+> > +                goto error;
+> > +            }
+> > +            /* fallback to software RSS */
+> > +            warn_report("Can't load eBPF RSS - fallback to software
+> RSS");
+> > +            n->rss_data.enabled_software_rss =3D true;
+> > +        }
+> > +    } else {
+> > +        /* use software RSS for hash populating */
+> > +        /* and unload eBPF if was loaded before */
+> > +        virtio_net_unload_epbf_rss(n);
+> > +        n->rss_data.enabled_software_rss =3D true;
+> > +    }
+> > +
+> >       trace_virtio_net_rss_enable(n->rss_data.hash_types,
+> >                                   n->rss_data.indirections_len,
+> >                                   temp.b);
+> > +
+> >       return queues;
+> >   error:
+> >       trace_virtio_net_rss_error(err_msg, err_value);
+> > @@ -1674,7 +1772,7 @@ static ssize_t
+> virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
+> >           return -1;
+> >       }
+> >
+> > -    if (!no_rss && n->rss_data.enabled) {
+> > +    if (!no_rss && n->rss_data.enabled &&
+> n->rss_data.enabled_software_rss) {
+> >           int index =3D virtio_net_process_rss(nc, buf, size);
+> >           if (index >=3D 0) {
+> >               NetClientState *nc2 =3D qemu_get_subqueue(n->nic, index);
+> > @@ -2780,6 +2878,18 @@ static int virtio_net_post_load_device(void
+> *opaque, int version_id)
+> >       }
+> >
+> >       if (n->rss_data.enabled) {
+> > +        n->rss_data.enabled_software_rss =3D n->rss_data.populate_hash=
+;
+> > +        if (!n->rss_data.populate_hash) {
+> > +            if (!virtio_net_load_epbf_rss(n)) {
+> > +                if (get_vhost_net(qemu_get_queue(n->nic)->peer)) {
+> > +                    error_report("Can't post-load eBPF RSS for vhost")=
+;
+> > +                } else {
+> > +                    warn_report("Can't post-load eBPF RSS - fallback t=
+o
+> software RSS");
+> > +                    n->rss_data.enabled_software_rss =3D true;
+> > +                }
+> > +            }
+> > +        }
+> > +
+> >           trace_virtio_net_rss_enable(n->rss_data.hash_types,
+> >                                       n->rss_data.indirections_len,
+> >                                       sizeof(n->rss_data.key));
+> > @@ -3453,6 +3563,8 @@ static void virtio_net_instance_init(Object *obj)
+> >       device_add_bootindex_property(obj, &n->nic_conf.bootindex,
+> >                                     "bootindex", "/ethernet-phy@0",
+> >                                     DEVICE(n));
+> > +
+> > +    ebpf_rss_init(&n->ebpf_rss);
+> >   }
+> >
+> >   static int virtio_net_pre_save(void *opaque)
+> > diff --git a/include/hw/virtio/virtio-net.h
+> b/include/hw/virtio/virtio-net.h
+> > index f4852ac27b..4d29a577eb 100644
+> > --- a/include/hw/virtio/virtio-net.h
+> > +++ b/include/hw/virtio/virtio-net.h
+> > @@ -21,6 +21,8 @@
+> >   #include "qemu/option_int.h"
+> >   #include "qom/object.h"
+> >
+> > +#include "ebpf/ebpf_rss.h"
+> > +
+> >   #define TYPE_VIRTIO_NET "virtio-net-device"
+> >   OBJECT_DECLARE_SIMPLE_TYPE(VirtIONet, VIRTIO_NET)
+> >
+> > @@ -130,6 +132,7 @@ typedef struct VirtioNetRscChain {
+> >
+> >   typedef struct VirtioNetRssData {
+> >       bool    enabled;
+> > +    bool    enabled_software_rss;
+>
+>
+> We probably need a better name of this since "software" is kind of
+> confusing.
+>
+> No problem
 
-> On 3 Nov 2020, at 19:49, Dr. David Alan Gilbert <dgilbert@redhat.com> wro=
-te:
->=20
-> * Stefan Hajnoczi (stefanha@redhat.com <mailto:stefanha@redhat.com>) wrot=
-e:
->> On Tue, Nov 03, 2020 at 12:17:09PM +0000, Dr. David Alan Gilbert wrote:
->>> * Stefan Hajnoczi (stefanha@redhat.com) wrote:
->>>> Device Models
->>>> -------------
->>>> Devices have a *hardware interface* consisting of hardware registers,
->>>> interrupts, and so on.
->>>>=20
->>>> The hardware interface together with the device state representation i=
-s called
->>>> a *device model*. Device models can be assigned URIs such as
->>>> https://qemu.org/devices/e1000e to uniquely identify them.
->>>=20
->>> I think this is a unique identifier, not actually a URI; the https://
->>> isn't needed since no one expects to ever connect to this.
->>=20
->> Yes, it could be any unique string. If the URI idea is not popular we
->> can use any similar scheme.
->=20
-> I'm OK with it being a URI; just drop the https.
 
-I completely agree. https gives the wrong idea about what this represents. =
-Unless you give it https semantics, by requiring a doc or a schema or whate=
-ver to be at the URL, but then you enter another universe of cans of worms.
+>
+> >       bool    redirect;
+> >       bool    populate_hash;
+> >       uint32_t hash_types;
+> > @@ -214,6 +217,7 @@ struct VirtIONet {
+> >       Notifier migration_state;
+> >       VirtioNetRssData rss_data;
+> >       struct NetRxPkt *rx_pkt;
+> > +    struct EBPFRSSContext ebpf_rss;
+> >   };
+> >
+> >   void virtio_net_set_netclient_name(VirtIONet *n, const char *name,
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 99c476db8c..feb5fa8624 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -54,6 +54,8 @@ const int vdpa_feature_bits[] =3D {
+> >       VIRTIO_NET_F_MTU,
+> >       VIRTIO_F_IOMMU_PLATFORM,
+> >       VIRTIO_F_RING_PACKED,
+> > +    VIRTIO_NET_F_RSS,
+> > +    VIRTIO_NET_F_HASH_REPORT,
+>
+>
+> This is fine but looks unrelated to eBPF RSS support.
+>
+> Usually it means the hardware can support RSS/hash reporting.
+>
+> As I see from
+https://github.com/qemu/qemu/blob/master/hw/virtio/vhost.c#L1526:
+If we do not add these features this means they are transparent to specific
+vhost solution.
+When in fact they are not. We need to ensure these features are not in use
+in case of
+vhost-vdpa or vhost-user.
 
 
+> Thanks
+>
+>
+> >       VIRTIO_NET_F_GUEST_ANNOUNCE,
+> >       VIRTIO_NET_F_STATUS,
+> >       VHOST_INVALID_FEATURE_BIT
+>
+>
 
---Apple-Mail=_5A40B49A-8545-4E0E-8734-461136A82EBD
+--0000000000009c46d405b345fd36
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
-=3Dus-ascii"></head><body style=3D"word-wrap: break-word; -webkit-nbsp-mode=
-: space; line-break: after-white-space;" class=3D""><br class=3D""><div><br=
- class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On 3 Nov 2=
-020, at 19:49, Dr. David Alan Gilbert &lt;<a href=3D"mailto:dgilbert@redhat=
-.com" class=3D"">dgilbert@redhat.com</a>&gt; wrote:</div><br class=3D"Apple=
--interchange-newline"><div class=3D""><span style=3D"caret-color: rgb(0, 0,=
- 0); font-family: Helvetica; font-size: 18px; font-style: normal; font-vari=
-ant-caps: normal; font-weight: normal; letter-spacing: normal; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; word-sp=
-acing: 0px; -webkit-text-stroke-width: 0px; text-decoration: none; float: n=
-one; display: inline !important;" class=3D"">* Stefan Hajnoczi (</span><a h=
-ref=3D"mailto:stefanha@redhat.com" style=3D"font-family: Helvetica; font-si=
-ze: 18px; font-style: normal; font-variant-caps: normal; font-weight: norma=
-l; letter-spacing: normal; orphans: auto; text-align: start; text-indent: 0=
-px; text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;" class=
-=3D"">stefanha@redhat.com</a><span style=3D"caret-color: rgb(0, 0, 0); font=
--family: Helvetica; font-size: 18px; font-style: normal; font-variant-caps:=
- normal; font-weight: normal; letter-spacing: normal; text-align: start; te=
-xt-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0p=
-x; -webkit-text-stroke-width: 0px; text-decoration: none; float: none; disp=
-lay: inline !important;" class=3D"">) wrote:</span><br style=3D"caret-color=
-: rgb(0, 0, 0); font-family: Helvetica; font-size: 18px; font-style: normal=
-; font-variant-caps: normal; font-weight: normal; letter-spacing: normal; t=
-ext-align: start; text-indent: 0px; text-transform: none; white-space: norm=
-al; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration: non=
-e;" class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; f=
-ont-size: 18px; font-style: normal; font-variant-caps: normal; font-weight:=
- normal; letter-spacing: normal; orphans: auto; text-align: start; text-ind=
-ent: 0px; text-transform: none; white-space: normal; widows: auto; word-spa=
-cing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; =
-text-decoration: none;" class=3D"">On Tue, Nov 03, 2020 at 12:17:09PM +0000=
-, Dr. David Alan Gilbert wrote:<br class=3D""><blockquote type=3D"cite" cla=
-ss=3D"">* Stefan Hajnoczi (<a href=3D"mailto:stefanha@redhat.com" class=3D"=
-">stefanha@redhat.com</a>) wrote:<br class=3D""><blockquote type=3D"cite" c=
-lass=3D"">Device Models<br class=3D"">-------------<br class=3D"">Devices h=
-ave a *hardware interface* consisting of hardware registers,<br class=3D"">=
-interrupts, and so on.<br class=3D""><br class=3D"">The hardware interface =
-together with the device state representation is called<br class=3D"">a *de=
-vice model*. Device models can be assigned URIs such as<br class=3D""><a hr=
-ef=3D"https://qemu.org/devices/e1000e" class=3D"">https://qemu.org/devices/=
-e1000e</a> to uniquely identify them.<br class=3D""></blockquote><br class=
-=3D"">I think this is a unique identifier, not actually a URI; the https://=
-<br class=3D"">isn't needed since no one expects to ever connect to this.<b=
-r class=3D""></blockquote><br class=3D"">Yes, it could be any unique string=
-. If the URI idea is not popular we<br class=3D"">can use any similar schem=
-e.<br class=3D""></blockquote><br style=3D"caret-color: rgb(0, 0, 0); font-=
-family: Helvetica; font-size: 18px; font-style: normal; font-variant-caps: =
-normal; font-weight: normal; letter-spacing: normal; text-align: start; tex=
-t-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px=
-; -webkit-text-stroke-width: 0px; text-decoration: none;" class=3D""><span =
-style=3D"caret-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 18px=
-; font-style: normal; font-variant-caps: normal; font-weight: normal; lette=
-r-spacing: normal; text-align: start; text-indent: 0px; text-transform: non=
-e; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-text-decoration: none; float: none; display: inline !important;" class=3D""=
->I'm OK with it being a URI; just drop the https.</span><br style=3D"caret-=
-color: rgb(0, 0, 0); font-family: Helvetica; font-size: 18px; font-style: n=
-ormal; font-variant-caps: normal; font-weight: normal; letter-spacing: norm=
-al; text-align: start; text-indent: 0px; text-transform: none; white-space:=
- normal; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration=
-: none;" class=3D""></div></blockquote><div><br class=3D""></div><div>I com=
-pletely agree. https gives the wrong idea about what this represents. Unles=
-s you give it https semantics, by requiring a doc or a schema or whatever t=
-o be at the URL, but then you enter another universe of cans of worms.</div=
-><br class=3D""></div><br class=3D""></body></html>
---Apple-Mail=_5A40B49A-8545-4E0E-8734-461136A82EBD--
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, Nov 4, 2020 at 5:09 AM Jason =
+Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowang@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+On 2020/11/3 =E4=B8=8A=E5=8D=882:51, Andrew Melnychenko wrote:<br>
+&gt; From: Andrew &lt;<a href=3D"mailto:andrew@daynix.com" target=3D"_blank=
+">andrew@daynix.com</a>&gt;<br>
+&gt;<br>
+&gt; When RSS is enabled the device tries to load the eBPF program<br>
+&gt; to select RX virtqueue in the TUN. If eBPF can be loaded<br>
+&gt; the RSS will function also with vhost (works with kernel 5.8 and later=
+).<br>
+&gt; Software RSS is used as a fallback with vhost=3Doff when eBPF can&#39;=
+t be loaded<br>
+&gt; or when hash population requested by the guest.<br>
+&gt;<br>
+&gt; Signed-off-by: Yuri Benditovich &lt;<a href=3D"mailto:yuri.benditovich=
+@daynix.com" target=3D"_blank">yuri.benditovich@daynix.com</a>&gt;<br>
+&gt; Signed-off-by: Andrew Melnychenko &lt;<a href=3D"mailto:andrew@daynix.=
+com" target=3D"_blank">andrew@daynix.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0hw/net/vhost_net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+&gt;=C2=A0 =C2=A0hw/net/virtio-net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 120 +++++++++++++++++++++++++++++++--<br>
+&gt;=C2=A0 =C2=A0include/hw/virtio/virtio-net.h |=C2=A0 =C2=A04 ++<br>
+&gt;=C2=A0 =C2=A0net/vhost-vdpa.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+&gt;=C2=A0 =C2=A04 files changed, 124 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c<br>
+&gt; index 24d555e764..16124f99c3 100644<br>
+&gt; --- a/hw/net/vhost_net.c<br>
+&gt; +++ b/hw/net/vhost_net.c<br>
+&gt; @@ -71,6 +71,8 @@ static const int user_feature_bits[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_NET_F_MTU,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_F_IOMMU_PLATFORM,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_F_RING_PACKED,<br>
+&gt; +=C2=A0 =C2=A0 VIRTIO_NET_F_RSS,<br>
+&gt; +=C2=A0 =C2=A0 VIRTIO_NET_F_HASH_REPORT,<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0/* This bit implies RARP isn&#39;t sent by Q=
+EMU out of band */<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_NET_F_GUEST_ANNOUNCE,<br>
+&gt; diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c<br>
+&gt; index 277289d56e..afcc3032ec 100644<br>
+&gt; --- a/hw/net/virtio-net.c<br>
+&gt; +++ b/hw/net/virtio-net.c<br>
+&gt; @@ -698,6 +698,19 @@ static void virtio_net_set_queues(VirtIONet *n)<b=
+r>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static void virtio_net_set_multiqueue(VirtIONet *n, int mu=
+ltiqueue);<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +static uint64_t fix_ebpf_vhost_features(uint64_t features)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 /* If vhost=3Don &amp; CONFIG_EBPF doesn&#39;t set - di=
+sable RSS feature */<br>
+&gt; +=C2=A0 =C2=A0 uint64_t ret =3D features;<br>
+&gt; +#ifndef CONFIG_EBPF<br>
+&gt; +=C2=A0 =C2=A0 virtio_clear_feature(&amp;ret, VIRTIO_NET_F_RSS);<br>
+&gt; +#endif<br>
+&gt; +=C2=A0 =C2=A0 /* for now, there is no solution for populating the has=
+h from eBPF */<br>
+&gt; +=C2=A0 =C2=A0 virtio_clear_feature(&amp;ret, VIRTIO_NET_F_HASH_REPORT=
+);<br>
+<br>
+<br>
+I think we probably need to to something reverse since RSS is under the <br=
+>
+control on qemu cli, disable features like this may break migration.<br>
+<br></blockquote><div><br></div><div>How by design we add new features to q=
+emu in light of possible migration to older qemu version when the destinati=
+on</div><div>qemu does not support these features?</div><div>=C2=A0</div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+We need disable vhost instead when:<br>
+<br>
+1) eBPF is not supported but RSS is required from command line<br>
+<br>
+or<br>
+<br>
+2) HASH_REPORT is required from command line<br>
+<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; +<b=
+r>
+&gt; +=C2=A0 =C2=A0 return ret;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0static uint64_t virtio_net_get_features(VirtIODevice *vdev=
+, uint64_t features,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0Error **errp)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt; @@ -732,9 +745,9 @@ static uint64_t virtio_net_get_features(VirtIODevi=
+ce *vdev, uint64_t features,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return features;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 virtio_clear_feature(&amp;features, VIRTIO_NET_F_RSS);<=
+br>
+&gt; -=C2=A0 =C2=A0 virtio_clear_feature(&amp;features, VIRTIO_NET_F_HASH_R=
+EPORT);<br>
+&gt; -=C2=A0 =C2=A0 features =3D vhost_net_get_features(get_vhost_net(nc-&g=
+t;peer), features);<br>
+&gt; +=C2=A0 =C2=A0 features =3D fix_ebpf_vhost_features(<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 vhost_net_get_features(get_=
+vhost_net(nc-&gt;peer), features));<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0vdev-&gt;backend_features =3D features;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (n-&gt;mtu_bypass_backend &amp;&amp;<br>
+&gt; @@ -1169,12 +1182,75 @@ static int virtio_net_handle_announce(VirtIONe=
+t *n, uint8_t cmd,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +static void virtio_net_unload_epbf_rss(VirtIONet *n);<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0static void virtio_net_disable_rss(VirtIONet *n)<br>
+&gt;=C2=A0 =C2=A0{<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (n-&gt;rss_data.enabled) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_virtio_net_rss_disable()=
+;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0n-&gt;rss_data.enabled =3D false;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!n-&gt;rss_data.enabled_software_rss &amp;&amp; ebp=
+f_rss_is_loaded(&amp;n-&gt;ebpf_rss)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 virtio_net_unload_epbf_rss(n);<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static bool virtio_net_attach_steering_ebpf(NICState *nic, int prog_f=
+d)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 NetClientState *nc =3D qemu_get_peer(qemu_get_queue(nic=
+), 0);<br>
+&gt; +=C2=A0 =C2=A0 if (nc =3D=3D NULL || nc-&gt;info-&gt;set_steering_ebpf=
+ =3D=3D NULL) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return nc-&gt;info-&gt;set_steering_ebpf(nc, prog_fd);<=
+br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void rss_data_to_rss_config(struct VirtioNetRssData *data,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct EBPFRSSConfi=
+g *config)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 config-&gt;redirect =3D data-&gt;redirect;<br>
+&gt; +=C2=A0 =C2=A0 config-&gt;populate_hash =3D data-&gt;populate_hash;<br=
+>
+&gt; +=C2=A0 =C2=A0 config-&gt;hash_types =3D data-&gt;hash_types;<br>
+&gt; +=C2=A0 =C2=A0 config-&gt;indirections_len =3D data-&gt;indirections_l=
+en;<br>
+&gt; +=C2=A0 =C2=A0 config-&gt;default_queue =3D data-&gt;default_queue;<br=
+>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static bool virtio_net_load_epbf_rss(VirtIONet *n)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 struct EBPFRSSConfig config =3D {};<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!n-&gt;rss_data.enabled) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (ebpf_rss_is_loaded(&amp;n-&gt;ebpf_rs=
+s)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ebpf_rss_unload(&amp;n-&gt;=
+ebpf_rss);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return true;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!ebpf_rss_is_loaded(&amp;n-&gt;ebpf_rss) &amp;&amp;=
+ !ebpf_rss_load(&amp;n-&gt;ebpf_rss)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 rss_data_to_rss_config(&amp;n-&gt;rss_data, &amp;config=
+);<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!ebpf_rss_set_all(&amp;n-&gt;ebpf_rss, &amp;config,=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 n-&gt;rss_data.indirections_table, n-&gt;rss_data.key=
+)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ebpf_rss_unload(&amp;n-&gt;ebpf_rss);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!virtio_net_attach_steering_ebpf(n-&gt;nic, n-&gt;e=
+bpf_rss.program_fd)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ebpf_rss_unload(&amp;n-&gt;ebpf_rss);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 return false;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 return true;<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +static void virtio_net_unload_epbf_rss(VirtIONet *n)<br>
+&gt; +{<br>
+&gt; +=C2=A0 =C2=A0 virtio_net_attach_steering_ebpf(n-&gt;nic, -1);<br>
+&gt; +=C2=A0 =C2=A0 ebpf_rss_unload(&amp;n-&gt;ebpf_rss);<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static uint16_t virtio_net_handle_rss(VirtIONet *n,<br>
+&gt; @@ -1208,6 +1284,7 @@ static uint16_t virtio_net_handle_rss(VirtIONet =
+*n,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0err_value =3D (uint32_t)s;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto error;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +=C2=A0 =C2=A0 n-&gt;rss_data.enabled_software_rss =3D false;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0n-&gt;rss_data.hash_types =3D virtio_ldl_p(v=
+dev, &amp;cfg.hash_types);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0n-&gt;rss_data.indirections_len =3D<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0virtio_lduw_p(vdev, &amp;cfg.i=
+ndirection_table_mask);<br>
+&gt; @@ -1289,9 +1366,30 @@ static uint16_t virtio_net_handle_rss(VirtIONet=
+ *n,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto error;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0n-&gt;rss_data.enabled =3D true;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if (!n-&gt;rss_data.populate_hash) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* load EBPF RSS */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!virtio_net_load_epbf_rss(n)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* EBPF mast be loaded for =
+vhost */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (get_vhost_net(qemu_get_=
+queue(n-&gt;nic)-&gt;peer)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&=
+quot;Can&#39;t load eBPF RSS for vhost&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto error;<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fallback to software RSS=
+ */<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 warn_report(&quot;Can&#39;t=
+ load eBPF RSS - fallback to software RSS&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n-&gt;rss_data.enabled_soft=
+ware_rss =3D true;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* use software RSS for hash populating *=
+/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* and unload eBPF if was loaded before *=
+/<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 virtio_net_unload_epbf_rss(n);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 n-&gt;rss_data.enabled_software_rss =3D t=
+rue;<br>
+&gt; +=C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0trace_virtio_net_rss_enable(n-&gt;rss_data.h=
+ash_types,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0n-&gt;rss_data.indir=
+ections_len,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0temp.b);<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0return queues;<br>
+&gt;=C2=A0 =C2=A0error:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0trace_virtio_net_rss_error(err_msg, err_valu=
+e);<br>
+&gt; @@ -1674,7 +1772,7 @@ static ssize_t virtio_net_receive_rcu(NetClientS=
+tate *nc, const uint8_t *buf,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -=C2=A0 =C2=A0 if (!no_rss &amp;&amp; n-&gt;rss_data.enabled) {<br>
+&gt; +=C2=A0 =C2=A0 if (!no_rss &amp;&amp; n-&gt;rss_data.enabled &amp;&amp=
+; n-&gt;rss_data.enabled_software_rss) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0int index =3D virtio_net_proce=
+ss_rss(nc, buf, size);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (index &gt;=3D 0) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0NetClientState *=
+nc2 =3D qemu_get_subqueue(n-&gt;nic, index);<br>
+&gt; @@ -2780,6 +2878,18 @@ static int virtio_net_post_load_device(void *op=
+aque, int version_id)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0if (n-&gt;rss_data.enabled) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 n-&gt;rss_data.enabled_software_rss =3D n=
+-&gt;rss_data.populate_hash;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!n-&gt;rss_data.populate_hash) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!virtio_net_load_epbf_r=
+ss(n)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (get_vhost=
+_net(qemu_get_queue(n-&gt;nic)-&gt;peer)) {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ error_report(&quot;Can&#39;t post-load eBPF RSS for vhost&quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ warn_report(&quot;Can&#39;t post-load eBPF RSS - fallback to software RSS&=
+quot;);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ n-&gt;rss_data.enabled_software_rss =3D true;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0trace_virtio_net_rss_enable(n-=
+&gt;rss_data.hash_types,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0n-&gt;=
+rss_data.indirections_len,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0sizeof=
+(n-&gt;rss_data.key));<br>
+&gt; @@ -3453,6 +3563,8 @@ static void virtio_net_instance_init(Object *obj=
+)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0device_add_bootindex_property(obj, &amp;n-&g=
+t;nic_conf.bootindex,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;bootind=
+ex&quot;, &quot;/ethernet-phy@0&quot;,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DEVICE(n));<b=
+r>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 ebpf_rss_init(&amp;n-&gt;ebpf_rss);<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0static int virtio_net_pre_save(void *opaque)<br>
+&gt; diff --git a/include/hw/virtio/virtio-net.h b/include/hw/virtio/virtio=
+-net.h<br>
+&gt; index f4852ac27b..4d29a577eb 100644<br>
+&gt; --- a/include/hw/virtio/virtio-net.h<br>
+&gt; +++ b/include/hw/virtio/virtio-net.h<br>
+&gt; @@ -21,6 +21,8 @@<br>
+&gt;=C2=A0 =C2=A0#include &quot;qemu/option_int.h&quot;<br>
+&gt;=C2=A0 =C2=A0#include &quot;qom/object.h&quot;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; +#include &quot;ebpf/ebpf_rss.h&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0#define TYPE_VIRTIO_NET &quot;virtio-net-device&quot;<br>
+&gt;=C2=A0 =C2=A0OBJECT_DECLARE_SIMPLE_TYPE(VirtIONet, VIRTIO_NET)<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; @@ -130,6 +132,7 @@ typedef struct VirtioNetRscChain {<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0typedef struct VirtioNetRssData {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool=C2=A0 =C2=A0 enabled;<br>
+&gt; +=C2=A0 =C2=A0 bool=C2=A0 =C2=A0 enabled_software_rss;<br>
+<br>
+<br>
+We probably need a better name of this since &quot;software&quot; is kind o=
+f <br>
+confusing.<br>
+<br></blockquote><div>No problem</div><div>=C2=A0</div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool=C2=A0 =C2=A0 redirect;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0bool=C2=A0 =C2=A0 populate_hash;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0uint32_t hash_types;<br>
+&gt; @@ -214,6 +217,7 @@ struct VirtIONet {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0Notifier migration_state;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VirtioNetRssData rss_data;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0struct NetRxPkt *rx_pkt;<br>
+&gt; +=C2=A0 =C2=A0 struct EBPFRSSContext ebpf_rss;<br>
+&gt;=C2=A0 =C2=A0};<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0void virtio_net_set_netclient_name(VirtIONet *n, const cha=
+r *name,<br>
+&gt; diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c<br>
+&gt; index 99c476db8c..feb5fa8624 100644<br>
+&gt; --- a/net/vhost-vdpa.c<br>
+&gt; +++ b/net/vhost-vdpa.c<br>
+&gt; @@ -54,6 +54,8 @@ const int vdpa_feature_bits[] =3D {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_NET_F_MTU,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_F_IOMMU_PLATFORM,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_F_RING_PACKED,<br>
+&gt; +=C2=A0 =C2=A0 VIRTIO_NET_F_RSS,<br>
+&gt; +=C2=A0 =C2=A0 VIRTIO_NET_F_HASH_REPORT,<br>
+<br>
+<br>
+This is fine but looks unrelated to eBPF RSS support.<br>
+<br>
+Usually it means the hardware can support RSS/hash reporting.<br>
+<br></blockquote><div>As I see from=C2=A0<a href=3D"https://github.com/qemu=
+/qemu/blob/master/hw/virtio/vhost.c#L1526">https://github.com/qemu/qemu/blo=
+b/master/hw/virtio/vhost.c#L1526</a>:</div><div>If we do not add these feat=
+ures this means they are transparent to specific vhost solution.</div><div>=
+When in fact they are not. We need to ensure these features are not in use =
+in case of</div><div>vhost-vdpa or vhost-user.</div><div>=C2=A0<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+Thanks<br>
+<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_NET_F_GUEST_ANNOUNCE,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VIRTIO_NET_F_STATUS,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0VHOST_INVALID_FEATURE_BIT<br>
+<br>
+</blockquote></div></div>
 
+--0000000000009c46d405b345fd36--
 
