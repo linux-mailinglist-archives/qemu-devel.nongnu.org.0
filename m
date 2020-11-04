@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F15D02A5B28
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:46:20 +0100 (CET)
-Received: from localhost ([::1]:58918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A232A5B25
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:44:54 +0100 (CET)
+Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka6wN-0001ud-W6
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:46:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
+	id 1ka6uz-0006xs-Dq
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:44:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mt-0006F3-TC
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33286)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n3-0006KD-CJ
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60063)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mr-0004ob-U1
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:31 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mx-0004or-Cx
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450189;
+ s=mimecast20190719; t=1604450193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=za4rE4qH6a3IQrOThgWqsc64uRgYKF2HZZqGYd/r9FY=;
- b=ivAHj1e+xksz5UaJRUImgrOxH2fu0pR/Oalq7lq5gWeFy75R1gcZuJLMi1YFJtzV0a7Vlb
- uRHfF68XwVpz09e/4oUpNsXnyMSZQhB0qpHsqe+BM9oo4xffcjBnMIxK9cb1ns0v2J2nKW
- LMqZD80/vsvQlikaj0ts5+A1t0sq4/s=
+ bh=sA6VFb1LRcC1wcG4j9cZhiPji9rUnXMqeMGltu8wD0k=;
+ b=CmDRMu7mzrz4MU0fHCNCSt/LeqyunIHaF5T+P4K62vgDouqi2dyulc6oZofsGtAY9csWQl
+ L3AFx4ds48nzjqpsKxykU/N5hQTN7AXnGxTM6xwNNoiWeWvrEuiV4LD7zbaf4Wl5LlNHmc
+ YQsWHzLOS95r4wgo4wxpdKP9Vco/kBs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-uUKHd0VmPoiN976UBPs3rQ-1; Tue, 03 Nov 2020 19:36:27 -0500
-X-MC-Unique: uUKHd0VmPoiN976UBPs3rQ-1
+ us-mta-92-HOzc8W9zOiy-RrNPjAnIKA-1; Tue, 03 Nov 2020 19:36:32 -0500
+X-MC-Unique: HOzc8W9zOiy-RrNPjAnIKA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A26C3100F949
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:23 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1DBB11BD35A
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:24 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 857E755766;
- Wed,  4 Nov 2020 00:36:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA8807512C;
+ Wed,  4 Nov 2020 00:36:23 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 09/72] scripts/qom-fuse: Convert to QOMCommand
-Date: Tue,  3 Nov 2020 19:34:59 -0500
-Message-Id: <20201104003602.1293560-10-jsnow@redhat.com>
+Subject: [PATCH v2 10/72] scripts/qom-fuse: use QOMCommand.qom_list()
+Date: Tue,  3 Nov 2020 19:35:00 -0500
+Message-Id: <20201104003602.1293560-11-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,115 +83,64 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move qom-fuse onto the QOMCommand base established in
-python/qemu/qmp/qom_common.py. The interface doesn't change
-incompatibly, "qom-fuse mountpoint" still works as an invocation, and
-QMP_SOCKET is still used as the environment variable.
+the qom_list method provides a type-safe object that's easier to type
+check, so switch to using it.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qom-fuse | 59 ++++++++++++++++++++++++++++++++++----------
- 1 file changed, 46 insertions(+), 13 deletions(-)
+ scripts/qmp/qom-fuse | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
-index 5b80da9df66b..f9bf85f38217 100755
+index f9bf85f38217..b1030273efaa 100755
 --- a/scripts/qmp/qom-fuse
 +++ b/scripts/qmp/qom-fuse
-@@ -8,11 +8,19 @@ may be browsed, queried and edited using traditional shell tooling.
- This script requires the 'fusepy' python package;
- you may install it by using ``pip3 install --user fusepy``.
- 
--ENV:
--    QMP_SOCKET: Path to the QMP server socket
- 
--Usage:
--    qom-fuse /mount/to/here
-+usage: qom-fuse [-h] [--socket SOCKET] <mount>
-+
-+Mount a QOM tree as a FUSE filesystem
-+
-+positional arguments:
-+  <mount>               Mount point
-+
-+optional arguments:
-+  -h, --help            show this help message and exit
-+  --socket SOCKET, -s SOCKET
-+                        QMP socket path or address (addr:port). May also be
-+                        set via QMP_SOCKET environment variable.
- """
- ##
- # Copyright IBM, Corp. 2012
-@@ -26,30 +34,56 @@ Usage:
- # See the COPYING file in the top-level directory.
- ##
- 
-+import argparse
- from errno import ENOENT, EPERM
- import os
- import stat
- import sys
-+from typing import Dict
- 
- import fuse
- from fuse import FUSE, FuseOSError, Operations
- 
- 
- sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.qmp import QEMUMonitorProtocol, QMPResponseError
-+from qemu.qmp import QMPResponseError
-+from qemu.qmp.qom_common import QOMCommand
- 
- 
- fuse.fuse_python_api = (0, 2)
- 
- 
--class QOMFS(Operations):
--    """QOMFS implements fuse.Operations to provide a QOM filesystem."""
--    def __init__(self, qmp):
--        self.qmp = qmp
--        self.qmp.connect()
--        self.ino_map = {}
-+class QOMFuse(QOMCommand, Operations):
-+    """
-+    QOMFuse implements both fuse.Operations and QOMCommand.
-+
-+    Operations implements the FS, and QOMCommand implements the CLI command.
-+    """
-+    name = 'fuse'
-+    help = 'Mount a QOM tree as a FUSE filesystem'
-+    fuse: FUSE
-+
-+    @classmethod
-+    def configure_parser(cls, parser: argparse.ArgumentParser) -> None:
-+        super().configure_parser(parser)
-+        parser.add_argument(
-+            'mount',
-+            metavar='<mount>',
-+            action='store',
-+            help="Mount point",
-+        )
-+
-+    def __init__(self, args: argparse.Namespace):
-+        super().__init__(args)
-+        self.mount = args.mount
-+        self.ino_map: Dict[str, int] = {}
-         self.ino_count = 1
- 
-+    def run(self) -> int:
-+        print(f"Mounting QOMFS to '{self.mount}'", file=sys.stderr)
-+        self.fuse = FUSE(self, self.mount, foreground=True)
-+        return 0
-+
-     def get_ino(self, path):
-         """Get an inode number for a given QOM path."""
-         if path in self.ino_map:
-@@ -172,5 +206,4 @@ class QOMFS(Operations):
+@@ -95,7 +95,7 @@ class QOMFuse(QOMCommand, Operations):
+     def is_object(self, path):
+         """Is the given QOM path an object?"""
+         try:
+-            self.qmp.command('qom-list', path=path)
++            self.qom_list(path)
+             return True
+         except QMPResponseError:
+             return False
+@@ -106,8 +106,8 @@ class QOMFuse(QOMCommand, Operations):
+         if path == '':
+             path = '/'
+         try:
+-            for item in self.qmp.command('qom-list', path=path):
+-                if item['name'] == prop:
++            for item in self.qom_list(path):
++                if item.name == prop:
+                     return True
+             return False
+         except QMPResponseError:
+@@ -119,11 +119,9 @@ class QOMFuse(QOMCommand, Operations):
+         if path == '':
+             path = '/'
+         try:
+-            for item in self.qmp.command('qom-list', path=path):
+-                if item['name'] == prop:
+-                    if item['type'].startswith('link<'):
+-                        return True
+-                    return False
++            for item in self.qom_list(path):
++                if item.name == prop and item.link:
++                    return True
+             return False
+         except QMPResponseError:
+             return False
+@@ -201,8 +199,8 @@ class QOMFuse(QOMCommand, Operations):
+     def readdir(self, path, fh):
+         yield '.'
+         yield '..'
+-        for item in self.qmp.command('qom-list', path=path):
+-            yield str(item['name'])
++        for item in self.qom_list(path):
++            yield item.name
  
  
  if __name__ == '__main__':
--    fuse = FUSE(QOMFS(QEMUMonitorProtocol(os.environ['QMP_SOCKET'])),
--                sys.argv[1], foreground=True)
-+    sys.exit(QOMFuse.entry_point())
 -- 
 2.26.2
 
