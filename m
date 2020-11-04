@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEC42A5B64
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:58:40 +0100 (CET)
-Received: from localhost ([::1]:53312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 319892A5B70
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:02:49 +0100 (CET)
+Received: from localhost ([::1]:35948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka78J-00063D-Pn
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:58:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35822)
+	id 1ka7CK-0002Db-6O
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:02:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nf-0007DE-Cm
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55806)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nR-0006fz-V1
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57102)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nd-0004w4-Mm
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:19 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nP-0004tm-P2
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450237;
+ s=mimecast20190719; t=1604450223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=l0geWX4GnzvjPC2sg3cL9qk3gkNtLddwm2qUwTAz6/I=;
- b=ce4ukbwLO1au1cpTanbBUUPmE9FUbQ7/BK5PTZzOOsUgR83UNxIxy9BUJaxXiTorrMsspn
- zpkiQZYE5EiVjdtEyxiCIZvufug40Ck9DzDARztNa/Dbg8N1IpDyhEaYWpkWx2JJdNd52s
- IXwcthLTxbCjA9lN+HXg3VksHIkaVOc=
+ bh=+/oPGaxsBU1BKCm6+jfKIafG4gKrNGhUSYPGoYNADDg=;
+ b=ADqDTVuywIEfX8s89LlK99dYod5sgVKg7slRIu2wskSxz99e7fpztqscj1G26evM/FEaA/
+ G2/W4xmr3Glh+D+TWRU/JQ2nNmb0vg/KTgs4xO1rlMh6Ab+wxlwXHv/vtypI466UFgs7ML
+ IkEx7Wjsi0dsJoORobEipY85jPWmI6g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-449-ZxGpM_vVPnaViecvq_q7hw-1; Tue, 03 Nov 2020 19:37:15 -0500
-X-MC-Unique: ZxGpM_vVPnaViecvq_q7hw-1
+ us-mta-369-G58_H04CPTaL_vyeC2A-iA-1; Tue, 03 Nov 2020 19:37:01 -0500
+X-MC-Unique: G58_H04CPTaL_vyeC2A-iA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BE9A8015C3
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:14 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E38D3107B272
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:54 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 89954747C6;
- Wed,  4 Nov 2020 00:37:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3381575121;
+ Wed,  4 Nov 2020 00:36:54 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 50/72] scripts/qmp-shell: move get_prompt() to prompt
- property
-Date: Tue,  3 Nov 2020 19:35:40 -0500
-Message-Id: <20201104003602.1293560-51-jsnow@redhat.com>
+Subject: [PATCH v2 36/72] scripts/qmp-shell: declare verbose in __init__
+Date: Tue,  3 Nov 2020 19:35:26 -0500
+Message-Id: <20201104003602.1293560-37-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,42 +83,23 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Small tidying; treat "prompt" like an immutable property instead of
-function/method/routine.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ scripts/qmp/qmp-shell | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index cfcefb95f9da..3b86ef7d8844 100755
+index 2e9ae5d59bd9..7233c4e00b89 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -292,10 +292,11 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         version = self._greeting['QMP']['version']['qemu']
-         print("Connected to QEMU {major}.{minor}.{micro}\n".format(**version))
+@@ -124,6 +124,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         self._actions = list()
+         self._histfile = os.path.join(os.path.expanduser('~'),
+                                       '.qmp-shell_history')
++        self._verbose = False
  
--    def get_prompt(self):
-+    @property
-+    def prompt(self):
-         if self._transmode:
--            return "TRANS> "
--        return "(QEMU) "
-+            return 'TRANS> '
-+        return '(QEMU) '
- 
-     def read_exec_command(self, prompt):
-         """
-@@ -435,7 +436,7 @@ def main():
-         die(f"Couldn't connect to {args.qmp_server}: {err!s}")
- 
-     qemu.show_banner()
--    while qemu.read_exec_command(qemu.get_prompt()):
-+    while qemu.read_exec_command(qemu.prompt):
-         pass
-     qemu.close()
- 
+     @classmethod
+     def __get_address(cls, arg):
 -- 
 2.26.2
 
