@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E8D52A695C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:22:40 +0100 (CET)
-Received: from localhost ([::1]:36496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9418D2A6949
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:18:28 +0100 (CET)
+Received: from localhost ([::1]:50336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLYV-0006er-1z
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:22:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42532)
+	id 1kaLUR-0000Wf-Lp
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFR-0002v9-Sv
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33292)
+ id 1kaLFN-0002kl-W9
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56977)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFN-0005eg-SQ
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:57 -0500
+ id 1kaLFJ-0005di-Qo
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505772;
+ s=mimecast20190719; t=1604505768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wgioVvnEJfRe3o9TCjHBlnbkW69cu8x4WGVYPgqFnJI=;
- b=W94WYe2WVCDlccIMgVzCYZx2eUhY17Sc+mMMQqp5MMpO6rKc6CguOTFurTh4Riyg5pCvrc
- dF9bC/L0mm6g1AOSLDNtUYgHF4QBT2UtmcsbEVzLUgVJaRncLw7ufmbn73Awjil58IwDSQ
- d+XwJCkrb+HXbDz9FAyFJ/OvfaLuI9s=
+ bh=B6dXnwhIoV8x22cVRtSGt60PTWtH1bcBZZOeQaFbA6A=;
+ b=BBMpV0EdwQAkPf3Xhr5ZHKcT6V8MeOyRoYPxxRBHgx+WLCJXP/sjQeooJQWemV2jBoVzMR
+ GGRC28FwPmdlU8TJCbetMJFACgCzORBOSc5JiVK7E+I1TOF0FwK3kAtaMPsOySZBrhEtFb
+ lCnBGH38qXipJTZZJWeMCi8DGNuuy7E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-mxA82Q6hNHC3i2iNN6ehyg-1; Wed, 04 Nov 2020 11:02:51 -0500
-X-MC-Unique: mxA82Q6hNHC3i2iNN6ehyg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-480-kyuFfUX2Noeq2pSJAlWOCg-1; Wed, 04 Nov 2020 11:02:47 -0500
+X-MC-Unique: kyuFfUX2Noeq2pSJAlWOCg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 55D11196634F;
- Wed,  4 Nov 2020 16:01:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D50431095216;
+ Wed,  4 Nov 2020 16:02:02 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DDCB65B4B8;
- Wed,  4 Nov 2020 16:01:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8CBB65C5DE;
+ Wed,  4 Nov 2020 16:02:02 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 27/44] qdev: Don't set qdev_prop_name for array elements
-Date: Wed,  4 Nov 2020 11:00:04 -0500
-Message-Id: <20201104160021.2342108-28-ehabkost@redhat.com>
+Subject: [PATCH v2 28/44] qdev: Avoid unnecessary DeviceState* variable at
+ set_prop_arraylen()
+Date: Wed,  4 Nov 2020 11:00:05 -0500
+Message-Id: <20201104160021.2342108-29-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,34 +90,45 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qdev_prop_name is supposed to be used only by qdev property
-registration code, we don't need to set it for array element
-properties.
+We're just doing pointer math with the device pointer, we can
+simply use obj instead.
 
+Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
----
-This is a new patch added in v2 of the series
 ---
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/core/qdev-properties.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 5a4aa87fc9..f1557f12b9 100644
+index f1557f12b9..4cbdd34a04 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -596,7 +596,6 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
-         arrayprop->release = prop->arrayinfo->release;
-         arrayprop->propname = propname;
-         arrayprop->prop.info = prop->arrayinfo;
--        arrayprop->prop.qdev_prop_name = propname;
-         /* This ugly piece of pointer arithmetic sets up the offset so
-          * that when the underlying get/set hooks call qdev_get_prop_ptr
+@@ -559,10 +559,9 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+      * array-length field in the device struct, we have to create the
+      * array itself and dynamically add the corresponding properties.
+      */
+-    DeviceState *dev = DEVICE(obj);
+     Property *prop = opaque;
+     uint32_t *alenptr = qdev_get_prop_ptr(obj, prop);
+-    void **arrayptr = (void *)dev + prop->arrayoffset;
++    void **arrayptr = (void *)obj + prop->arrayoffset;
+     void *eltptr;
+     const char *arrayname;
+     int i;
+@@ -601,7 +600,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
           * they get the right answer despite the array element not actually
+          * being inside the device struct.
+          */
+-        arrayprop->prop.offset = eltptr - (void *)dev;
++        arrayprop->prop.offset = eltptr - (void *)obj;
+         assert(qdev_get_prop_ptr(obj, &arrayprop->prop) == eltptr);
+         object_property_add(obj, propname,
+                             arrayprop->prop.info->name,
 -- 
 2.28.0
 
