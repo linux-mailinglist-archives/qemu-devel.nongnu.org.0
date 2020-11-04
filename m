@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E342A6268
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:44:19 +0100 (CET)
-Received: from localhost ([::1]:37938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C13CD2A61B0
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:34:40 +0100 (CET)
+Received: from localhost ([::1]:46506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGH4-0004vJ-FV
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:44:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42636)
+	id 1kaG7j-00051z-SB
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaG5G-0003aR-Ip
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:32:06 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:33107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaG5E-0003cC-Oa
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:32:06 -0500
-Received: by mail-ed1-x531.google.com with SMTP id v4so21922556edi.0
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 02:32:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=CNkRNQ2A5P1a+ruSsZELzV9v7zw/9Sbq22PEJn9bZmg=;
- b=QHLmpCDLZYJnjHX0mv3/cbv3uREEUe45gJlAdUcZIFClqYyl/odidyqhy20BVlOkOq
- H3V58OdNU8JJfPPbWzQ876k9R8FZaJVFZ7Inn27GbdeyCrdz7uZjBdPSND/+CZ+e/UAl
- C9u1tVZGXT/RG45xmNForRHnzxj7o/x+FawzPEPqJNFU7CxBV6RwBsh5U2jtDiPY/v3i
- agjvA+r+eTZad5iRfzm0lj937/CAJ7PaM374GkI80++r6qeZXOnbOwINgXxDiy2WPPeT
- 0IeoPTM+W05K4u1rNx/HPDxziMTWPznR5woJ+7HTT2TyknuZgX7tgwr4aYKpCBsXoG3G
- WdiQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=CNkRNQ2A5P1a+ruSsZELzV9v7zw/9Sbq22PEJn9bZmg=;
- b=SiKc+A2dQ5sam+PyLReJl5yVF/PCrzMmFwB/O/ztp6e9yDmFdlMApCsE9QPFMYJvS/
- 1h6vHZWE3l+Xd6Yhbw7vjwlpbfWX4Zr5Ipbo+OblSC8GCcdXrX0xgcm/5al1AFXcwhmX
- WJojdWJrvjxre7Rjq2hr7NSxAg26hbZnxGJm4KJbV7WiBQUvzIN2FmM5BdFnqp0fS1GL
- foEFJmR7NaCRoXnQM6vnFcEtSOeckXsRS1k5A8uDV/WABG3a/c5Y7y5m2P/wpEvCRx31
- tgt1JXFlpl5WF148GGVLxJcyPReljwe0qFlNDEao4GhdB5Jcv/bCwf0gxPaA+uBIxgwv
- 4BVA==
-X-Gm-Message-State: AOAM532gzJtePNtRr0ss1kStgpPDPHyFQabcBJfCLXa/PaJwQOZy2nm7
- 6pTs+V/ZLWkL2MBG12G388Gj+Oa6PFQlr4ucKAEyo/thSmw=
-X-Google-Smtp-Source: ABdhPJxULmZeXtqXD4B5GNeOrnRLD26qDi2QIUrxXdL9B0TeuOybuPODqw0dKQ834PNU3Y6/iiUFZGEiIZAKc9FxU3E=
-X-Received: by 2002:a50:fa92:: with SMTP id w18mr5937850edr.44.1604485922410; 
- Wed, 04 Nov 2020 02:32:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kaG6x-0004OF-Uo
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:33:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57943)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1kaG6w-0003ip-Ck
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:33:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604486029;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=SCYTCJZoPtuTkcxQDcG1n/GSFdqBYce7+yR57hQbrLc=;
+ b=WAjQlBDNYQjgNUlJnyfHcwthUgwUwtZ43no6Jc6muZkGdpY/gpOiXruEuV+ezsPPE7fpLl
+ 2dhGVM6kXAgIRCBS8wAxNcxoL8D5YaxY/NcpFEsaT9uhtWeJ16W70NeguE+TEistjX3Osq
+ qA+EJZ0yttqx9G1PeGazg8S8Qb/EQyA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-324-cHytBQbpOwyFvZC-rbm0Vw-1; Wed, 04 Nov 2020 05:33:48 -0500
+X-MC-Unique: cHytBQbpOwyFvZC-rbm0Vw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DDB33108597A;
+ Wed,  4 Nov 2020 10:33:46 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6D2F710013C1;
+ Wed,  4 Nov 2020 10:33:45 +0000 (UTC)
+From: Andrew Jones <drjones@redhat.com>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Subject: [PATCH] hw/arm/Kconfig: ARM_V7M depends on PTIMER
+Date: Wed,  4 Nov 2020 11:33:43 +0100
+Message-Id: <20201104103343.30392-1-drjones@redhat.com>
 MIME-Version: 1.0
-References: <BY5PR02MB6772DD4A5DE5980A1F7459D9CAEF0@BY5PR02MB6772.namprd02.prod.outlook.com>
-In-Reply-To: <BY5PR02MB6772DD4A5DE5980A1F7459D9CAEF0@BY5PR02MB6772.namprd02.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Nov 2020 10:31:50 +0000
-Message-ID: <CAFEAcA-c3KdiB+Etq4TNBDp0OXb3-7m8K=7oVHci5X2Y+ymatg@mail.gmail.com>
-Subject: Re: Debugging with rr
-To: Sai Pavan Boddu <saipava@xilinx.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,19 +78,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 4 Nov 2020 at 06:11, Sai Pavan Boddu <saipava@xilinx.com> wrote:
-> I tired debugging QEMU with rr version 4.1.0, on ubuntu 16.04. And I see below errors, any suggestions on the issue would be helpful
+commit 32bd322a0134 ("hw/timer/armv7m_systick: Rewrite to use ptimers")
+changed armv7m_systick to build on ptimers. Make sure we have ptimers
+in the build when building armv7m_systick.
 
-rr version 4.1.0 is pretty old -- it was released in 2016.
-QEMU does some complicated stuff that in the past rr
-needed fixes to handle. Start by trying the most recent
-rr release (or rr from git if you like). If that doesn't
-work then the rr folks are pretty responsive to bug reports.
+Signed-off-by: Andrew Jones <drjones@redhat.com>
+---
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-thanks
--- PMM
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index fdf4464b9484..7d5d89e1acf9 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -291,6 +291,7 @@ config ZYNQ
+ 
+ config ARM_V7M
+     bool
++    select PTIMER
+ 
+ config ALLWINNER_A10
+     bool
+-- 
+2.26.2
+
 
