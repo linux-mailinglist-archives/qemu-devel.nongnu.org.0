@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 994052A5B80
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:07:58 +0100 (CET)
-Received: from localhost ([::1]:52876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAD262A5B75
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:05:53 +0100 (CET)
+Received: from localhost ([::1]:44358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7HJ-0000pj-KY
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:07:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35704)
+	id 1ka7FI-0005eR-Nl
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:05:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nT-0006ji-88
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nT-0006jt-9A
  for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25002)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nR-0004u6-6e
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nQ-0004tu-GC
  for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450224;
+ s=mimecast20190719; t=1604450223;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E7SZRVgT0lGFWnot1YasBuS6Z6PH9w9Mg9556lxVaLw=;
- b=EUO+qDo2DFC5RS1dTH4dqLTXQ19wisZ4YQ1QC7TceRWAqN00dOXRlO+zPMFCSphxAPY4sm
- G2EMWfsT0iiBc3Ya+w0hBFoH4YJ/xAWNE5dvrCDuybSVLvAmrGeDRGpwOXqNs6OdabyyWD
- zRU+dibMqRobo0tTTebM/mJEOdKzgf8=
+ bh=ZQxAzjyzGbRxcwuIegrUQx22TWF+Hk/vmjJukeB95vU=;
+ b=RSvGL3iE1UcJ0LZU2N2TtluoE7+pl66VEnn3zgBJ2gHiBMN9VBFle4tXEN8h8Ov4AkgM5E
+ EFUxdz5b7ZxvPUUaP0Ema52Be9xw480DO4aEfsxA0DFfS7fGfAoiBpblPKvUMEo3SzA5da
+ FxLxsT+wNDbwQGUn8lz1jDphQGSzfZ0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-d5HEQ7MaOaS3vzGRoi0rZA-1; Tue, 03 Nov 2020 19:37:02 -0500
-X-MC-Unique: d5HEQ7MaOaS3vzGRoi0rZA-1
+ us-mta-302-D3sh1EGePzSfRzFv5gpJnQ-1; Tue, 03 Nov 2020 19:37:01 -0500
+X-MC-Unique: D3sh1EGePzSfRzFv5gpJnQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 41E81106B20E
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89F7C1891E96
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:59 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1A42755766;
- Wed,  4 Nov 2020 00:36:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B4A455766;
+ Wed,  4 Nov 2020 00:36:58 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 39/72] scripts/qmp-shell: make QMPCompleter returns explicit
-Date: Tue,  3 Nov 2020 19:35:29 -0500
-Message-Id: <20201104003602.1293560-40-jsnow@redhat.com>
+Subject: [PATCH v2 40/72] scripts/qmp-shell: rename one and two-letter
+ variables
+Date: Tue,  3 Nov 2020 19:35:30 -0500
+Message-Id: <20201104003602.1293560-41-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,32 +84,69 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This function returns None when it doesn't find a match; do that
-explicitly.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/qmp/qmp-shell | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 0f03c6c89575..e4163daf438d 100755
+index e4163daf438d..2fd677e3dabd 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -83,10 +83,10 @@ class QMPCompleter(list):
-     def complete(self, text, state):
-         for cmd in self:
-             if cmd.startswith(text):
--                if not state:
-+                if state == 0:
-                     return cmd
--                else:
--                    state -= 1
-+                state -= 1
-+        return None
- 
- 
- class QMPShellError(Exception):
+@@ -196,8 +196,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                 pass
+             # Try once again as FuzzyJSON:
+             try:
+-                st = ast.parse(val, mode='eval')
+-                return ast.literal_eval(FuzzyJSON().visit(st))
++                tree = ast.parse(val, mode='eval')
++                return ast.literal_eval(FuzzyJSON().visit(tree))
+             except SyntaxError:
+                 pass
+             except ValueError:
+@@ -215,14 +215,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+             value = self.__parse_value(val)
+             optpath = key.split('.')
+             curpath = []
+-            for p in optpath[:-1]:
+-                curpath.append(p)
+-                d = parent.get(p, {})
+-                if type(d) is not dict:
++            for path in optpath[:-1]:
++                curpath.append(path)
++                obj = parent.get(path, {})
++                if type(obj) is not dict:
+                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
+                     raise QMPShellError(msg.format('.'.join(curpath)))
+-                parent[p] = d
+-                parent = d
++                parent[path] = obj
++                parent = obj
+             if optpath[-1] in parent:
+                 if type(parent[optpath[-1]]) is dict:
+                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
+@@ -287,8 +287,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+     def _execute_cmd(self, cmdline):
+         try:
+             qmpcmd = self.__build_cmd(cmdline)
+-        except Exception as e:
+-            print('Error while parsing command line: %s' % e)
++        except Exception as err:
++            print('Error while parsing command line: %s' % err)
+             print('command format: <command-name> ', end=' ')
+             print('[arg-name1=arg1] ... [arg-nameN=argN]')
+             return True
+@@ -333,8 +333,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+             print()
+             return False
+         if cmdline == '':
+-            for ev in self.get_events():
+-                print(ev)
++            for event in self.get_events():
++                print(event)
+             self.clear_events()
+             return True
+         else:
 -- 
 2.26.2
 
