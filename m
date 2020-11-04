@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1243B2A5B23
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:44:50 +0100 (CET)
-Received: from localhost ([::1]:50330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413F92A5B37
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:52:25 +0100 (CET)
+Received: from localhost ([::1]:55394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka6uv-0006lZ-3Y
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:44:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35380)
+	id 1ka72G-0003iq-9J
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:52:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n4-0006KF-5Y
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28014)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nA-0006Lp-Cx
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6mz-0004p9-8j
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:41 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n1-0004pJ-5I
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450196;
+ s=mimecast20190719; t=1604450197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3OoUf1st3MKD0IcbpFlD7Ia+O2+OCjeATl4hUL6sx0k=;
- b=SiTjd1cYKDw4mUY2vYODzjExaUgOUZSUrSqW5xIOvPBy72cT0sfs8SkOjR0RVujW4xwJDo
- DSKcV9SUzhwYkaAfM9lFm1rGdMtP4Y5wRTQUChhqzRS3FoXr/2Gb5w3UXtcBLDi6CU2cvX
- osuh3ZpOYclLvDJPmfGkqQPf9RQ1pj4=
+ bh=8OUsqD1A5AmHCSv1ZS7ONZ7SFH5PBswPDcfSyVuf8AE=;
+ b=Uya+ymPnmBUBShPYOVM6wuv2QxKxKcU3rRsTKSWFoftX1LZiyi2yfgrB5nvud/1i0pv7WA
+ Me0I4OMlBJl7kGzLJk38ZA3EwdTw1pamHrukBbbIylOlxq04OVJOqZHSm308hc+HMKycAF
+ /PTupmmjIESx1/BsJrq1tC+07WDWcPI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-453-XbrXsa8NPhKMtkV07kXhHQ-1; Tue, 03 Nov 2020 19:36:34 -0500
-X-MC-Unique: XbrXsa8NPhKMtkV07kXhHQ-1
+ us-mta-193-VQN2NIf2POOQ-pBPfauNZA-1; Tue, 03 Nov 2020 19:36:35 -0500
+X-MC-Unique: VQN2NIf2POOQ-pBPfauNZA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F32418A62AB
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D6756D59C
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:29 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AAA6455766;
- Wed,  4 Nov 2020 00:36:27 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9C6D1747C6;
+ Wed,  4 Nov 2020 00:36:28 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 13/72] scripts/qom-fuse: move to python/qemu/qmp/qom_fuse.py
-Date: Tue,  3 Nov 2020 19:35:03 -0500
-Message-Id: <20201104003602.1293560-14-jsnow@redhat.com>
+Subject: [PATCH v2 14/72] scripts/qom-fuse: add redirection shim to
+ python/qemu/qmp/qom-fuse.py
+Date: Tue,  3 Nov 2020 19:35:04 -0500
+Message-Id: <20201104003602.1293560-15-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -53,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
@@ -78,113 +79,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
  Markus Armbruster <armbru@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move qom-fuse over to the python package now that it passes the
-linter. Update the import paradigms so that it passes.
-
-Immediately add 'fusepy' to the development requirements and re-lock the
-pipenv so that the test suite continues to pass.
+By leaving the script absent for a commit, git-blame travels to the new
+file instead of staying on the shim.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- python/Pipfile.lock                                 | 13 ++++++++++---
- scripts/qmp/qom-fuse => python/qemu/qmp/qom_fuse.py | 12 ++----------
- python/setup.cfg                                    |  1 +
- 3 files changed, 13 insertions(+), 13 deletions(-)
- rename scripts/qmp/qom-fuse => python/qemu/qmp/qom_fuse.py (95%)
- mode change 100755 => 100644
+ scripts/qmp/qom-fuse | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100755 scripts/qmp/qom-fuse
 
-diff --git a/python/Pipfile.lock b/python/Pipfile.lock
-index 0352a628ef6f..d1e56cbcafc6 100644
---- a/python/Pipfile.lock
-+++ b/python/Pipfile.lock
-@@ -46,6 +46,12 @@
-             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
-             "version": "==3.8.4"
-         },
-+        "fusepy": {
-+            "hashes": [
-+                "sha256:72ff783ec2f43de3ab394e3f7457605bf04c8cf288a2f4068b4cde141d4ee6bd"
-+            ],
-+            "version": "==3.0.1"
-+        },
-         "importlib-metadata": {
-             "hashes": [
-                 "sha256:77a540690e24b0305878c37ffd421785a6f7e53c8b5720d211b211de8d0e95da",
-@@ -208,10 +214,11 @@
-         },
-         "toml": {
-             "hashes": [
--                "sha256:926b612be1e5ce0634a2ca03470f95169cf16f939018233a670519cb4ac58b0f",
--                "sha256:bda89d5935c2eac546d648028b9901107a595863cb36bae0c73ac804a9b4ce88"
-+                "sha256:806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
-+                "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"
-             ],
--            "version": "==0.10.1"
-+            "markers": "python_version >= '2.6' and python_version not in '3.0, 3.1, 3.2'",
-+            "version": "==0.10.2"
-         },
-         "typed-ast": {
-             "hashes": [
-diff --git a/scripts/qmp/qom-fuse b/python/qemu/qmp/qom_fuse.py
-old mode 100755
-new mode 100644
-similarity index 95%
-rename from scripts/qmp/qom-fuse
-rename to python/qemu/qmp/qom_fuse.py
-index 22be36634967..b0adcc1f8e62
---- a/scripts/qmp/qom-fuse
-+++ b/python/qemu/qmp/qom_fuse.py
-@@ -1,4 +1,3 @@
--#!/usr/bin/env python3
- """
- QEMU Object Model FUSE filesystem tool
- 
-@@ -36,7 +35,6 @@
- 
- import argparse
- from errno import ENOENT, EPERM
--import os
- import stat
- import sys
- from typing import (
-@@ -51,10 +49,8 @@
- import fuse
- from fuse import FUSE, FuseOSError, Operations
- 
--
--sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
--from qemu.qmp import QMPResponseError
--from qemu.qmp.qom_common import QOMCommand
-+from . import QMPResponseError
-+from .qom_common import QOMCommand
- 
- 
- fuse.fuse_python_api = (0, 2)
-@@ -209,7 +205,3 @@ def readdir(self, path: str, fh: IO[bytes]) -> Iterator[str]:
-         yield '..'
-         for item in self.qom_list(path):
-             yield item.name
--
--
--if __name__ == '__main__':
--    sys.exit(QOMFuse.entry_point())
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 831555552f16..a9a76784d45a 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -27,6 +27,7 @@ devel =
-     mypy >= 0.770
-     pylint >= 2.6.0
-     pytest >= 3.0.0
-+    fusepy >= 2.0.4
- 
- [options.entry_points]
- console_scripts =
+diff --git a/scripts/qmp/qom-fuse b/scripts/qmp/qom-fuse
+new file mode 100755
+index 000000000000..a58c8ef9793b
+--- /dev/null
++++ b/scripts/qmp/qom-fuse
+@@ -0,0 +1,11 @@
++#!/usr/bin/env python3
++
++import os
++import sys
++
++sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'python'))
++from qemu.qmp.qom_fuse import QOMFuse
++
++
++if __name__ == '__main__':
++    sys.exit(QOMFuse.entry_point())
 -- 
 2.26.2
 
