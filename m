@@ -2,57 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 780672A70EA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 00:02:24 +0100 (CET)
-Received: from localhost ([::1]:42510 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37F22A710C
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 00:17:21 +0100 (CET)
+Received: from localhost ([::1]:53252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaRnL-0000Df-Ia
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 18:02:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45252)
+	id 1kaS1p-0005KB-1q
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 18:17:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaRm0-00087x-HH
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:01:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38344)
+ id 1kaS0f-000478-8G
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:16:09 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaRlx-0000dU-HE
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:01:00 -0500
+ id 1kaS0d-0002ZA-BB
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 18:16:08 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kaRlu-00089B-JQ
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 23:00:54 +0000
+ id 1kaS0a-0001E5-9B
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 23:16:04 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5BD182E8133
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 23:00:54 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id DBC0E2E8148
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 23:16:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2020 22:54:40 -0000
-From: John Snow <1888918@bugs.launchpad.net>
+Date: Wed, 04 Nov 2020 23:04:47 -0000
+From: John Snow <1817239@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=matthieu.bucchianeri@leostella.com; 
-X-Launchpad-Bug-Tags: floating ppc spe
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jnsnow matthieu-bucchianeri
-X-Launchpad-Bug-Reporter: Matthieu Bucchianeri (matthieu-bucchianeri)
+X-Launchpad-Bug-Commenters: jnsnow laurent-vivier umarcor
+X-Launchpad-Bug-Reporter: umarcor (umarcor)
 X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <159564442748.29789.2028598939567190639.malonedeb@chaenomeles.canonical.com>
-Message-Id: <160453048075.28244.7480295112776410572.malone@chaenomeles.canonical.com>
-Subject: [Bug 1888918] Re: qemu-system-ppc: Floating point instructions do not
- properly generate the SPE/Embedded Floating-Point Unavailable
- interrupt
+References: <155080581544.22842.8774442486795126526.malonedeb@wampee.canonical.com>
+Message-Id: <160453108787.29032.15755295759980829067.malone@chaenomeles.canonical.com>
+Subject: [Bug 1817239] Re: add '--targets' option to qemu-binfmt-conf.sh
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: d0ae80bc7a92f83688307980eeb8613aa0773c5f
+X-Launchpad-Hash: 079c6c75521c295d6bf78baf8c12da14a85e2221
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 17:35:34
@@ -75,138 +71,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1888918 <1888918@bugs.launchpad.net>
+Reply-To: Bug 1817239 <1817239@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Assuming that this commit:
-https://gitlab.com/qemu-project/qemu/-/commit/8dcdb535d7cc4ba6270bb756e12e1=
-d323254ed4e
+This series appears to have stalled as of v7:
+https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04241.html --
+moving back to 'New' status.
 
-is sufficient to mark this bug as Fix Committed. Please re-open if I am
-mistaken.
 
 ** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+       Status: In Progress =3D> New
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1888918
+https://bugs.launchpad.net/bugs/1817239
 
 Title:
-  qemu-system-ppc: Floating point instructions do not properly generate
-  the SPE/Embedded Floating-Point Unavailable interrupt
+  add '--targets' option to qemu-binfmt-conf.sh
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  When emulating certain floating point instructions or vector
-  instructions on PowerPC machines, QEMU does not properly generate the
-  SPE/Embedded Floating-Point Unavailable interrupt.
+  I'd like to ask for the addition of option '--targets' to scripts
+  /qemu-binfmt-conf.sh, in order to allow registering the interpreters
+  for the given list of architectures only, instead of using all of the
+  ones defined in qemu_target_list. The following is a possible patch
+  that implements it:
 
-  As described in the Signal Processing Engine (SPE) Programming
-  Environments Manual, Rev. 0, available at https://www.nxp.com/docs/en
-  /reference-manual/SPEPEM.pdf:
+   qemu-binfmt-conf.sh | 9 ++++++++-
+   1 file changed, 8 insertions(+), 1 deletion(-)
 
-  > An SPE/embedded floating-point unavailable exception occurs on an attem=
-pt to execute any of the
-  > following instructions and MSR[SPV] is not set:
-  > * SPE instruction (except brinc)
-  > * An embedded scalar double-precision instruction
-  > * A vector single-precision floating-point instructions
-  > It is not used by embedded scalar single-precision floating-point instr=
-uctions
+  diff --git a/qemu-binfmt-conf.sh b/qemu-binfmt-conf.sh
+  index b5a1674..be4a19b 100644
+  --- a/qemu-binfmt-conf.sh
+  +++ b/qemu-binfmt-conf.sh
+  @@ -170,6 +170,7 @@ usage() {
+   Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
+                              [--help][--credential yes|no][--exportdir PAT=
+H]
+                              [--persistent yes|no][--qemu-suffix SUFFIX]
+  +                           [--targets TARGETS]
 
-  This behavior was partially reported in Bug #1611394, however the
-  issue is larger than what is described in that bug. As mentioned in
-  that bug, some single-precision instructions generate the exception
-  (while they should not), which is incorrect but does not typically
-  produce an incorrect output. What is more of an issue is that several
-  double-precision and vector instructions do not generate the exception
-  (while they should), and this breaks support for lazy FPU/vector
-  context switching in Linux (for example).
+          Configure binfmt_misc to use qemu interpreter
 
-  The upper 32-bit of the double-precision/vector registers (which are
-  in fact hidden in the general purpose registers) is not properly
-  saved/restored, and this causes arithmetic errors. This was observed
-  very frequently on a commercial project that does a lot of double-
-  precision computations. The application works perfectly fine on an
-  MPC8548 CPU, but fails often with QEMU.
+  @@ -189,6 +190,8 @@ Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debia=
+n][--systemd CPU]
+          --persistent:  if yes, the interpreter is loaded when binfmt is
+                         configured and remains in memory. All future uses
+                         are cloned from the open file.
+  +       --targets:     comma-separated list of targets. If provided, only
+  +                      the targets in the list are registered.
 
-  This is only an issue with full platform emulation - the SPE/Embedded
-  Floating-Point Unavailable interrupt is not relevant for application
-  emulation.
+       To import templates with update-binfmts, use :
 
-  The issue can be reproduced using the attached Linux program "spe-
-  bug.c". This program properly prints the number 42 (as the result of
-  some very simple double-precision computation) on real PowerPC
-  hardware, but prints an incorrect result (typically 0) on QEMU.
+  @@ -324,7 +327,7 @@ CREDENTIAL=3Dno
+   PERSISTENT=3Dno
+   QEMU_SUFFIX=3D""
 
-  This issue was first discovered in an older version of QEMU, but is
-  also reproduced in the latest:
+  -options=3D$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-=
+suffix:,exportdir:,help,credential:,persistent: -- "$@")
+  +options=3D$(getopt -o ds:Q:S:e:hc:p:t: -l debian,systemd:,qemu-path:,qem=
+u-suffix:,exportdir:,help,credential:,persistent:,targets: -- "$@")
+   eval set -- "$options"
 
-  # git rev-parse HEAD
-  7adfbea8fd1efce36019a0c2f198ca73be9d3f18
-  # ppc-softmmu/qemu-system-ppc --version
-  QEMU emulator version 5.0.91 (v5.1.0-rc1-28-g7adfbea8fd-dirty)
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-  Upon further analysis a total of 39 instructions are misbehaving:
-
-  efsabs: raised: 1, expected: 0
-  efsnabs: raised: 1, expected: 0
-  efsneg: raised: 1, expected: 0
-  efdcfs: raised: 0, expected: 1
-  efdcfsf: raised: 0, expected: 1
-  efdcfsi: raised: 0, expected: 1
-  efdcfuf: raised: 0, expected: 1
-  efdcfui: raised: 0, expected: 1
-  efdctsf: raised: 0, expected: 1
-  efdctsi: raised: 0, expected: 1
-  efdctsiz: raised: 0, expected: 1
-  efdctuf: raised: 0, expected: 1
-  efdctui: raised: 0, expected: 1
-  efdctuiz: raised: 0, expected: 1
-  efscfd: raised: 0, expected: 1
-  evfscfsf: raised: 0, expected: 1
-  evfscfsi: raised: 0, expected: 1
-  evfscfuf: raised: 0, expected: 1
-  evfscfui: raised: 0, expected: 1
-  evfsctsf: raised: 0, expected: 1
-  evfsctsi: raised: 0, expected: 1
-  evfsctsiz: raised: 0, expected: 1
-  evfsctuf: raised: 0, expected: 1
-  evfsctui: raised: 0, expected: 1
-  evfsctuiz: raised: 0, expected: 1
-  brinc: raised: 0, expected: 1
-  efsadd: raised: 1, expected: 0
-  efsdiv: raised: 1, expected: 0
-  efsmul: raised: 1, expected: 0
-  efssub: raised: 1, expected: 0
-  evsplatfi: raised: 0, expected: 1
-  evsplati: raised: 0, expected: 1
-  efscmpeq: raised: 1, expected: 0
-  efscmpgt: raised: 1, expected: 0
-  efscmplt: raised: 1, expected: 0
-  efststeq: raised: 1, expected: 0
-  efststgt: raised: 1, expected: 0
-  efststlt: raised: 1, expected: 0
-  evsel: raised: 0, expected: 1
-
-  When "raised" is 0 and "expected" is 1, this means that the SPE/Embedded =
-Floating-Point Unavailable interrupt was not generated while it should have.
-  When "raised" is 1 and "expected" is 0, this means that the SPE/Embedded =
-Floating-Point Unavailable interrupt was generated while it should not have=
- (Bug #1611394).
-
-  A comprehensive program testing all the instructions listed in the
-  Signal Processing Engine (SPE) Programming Environments Manual, Rev. 0
-  is posted in the comments of this ticket, and can be used to reproduce
-  the issue, and validate the future fix.
+   while true ; do
+  @@ -380,6 +383,10 @@ while true ; do
+           shift
+           PERSISTENT=3D"$1"
+           ;;
+  +    -t|--targets)
+  +        shift
+  +        qemu_target_list=3D"$(echo "$1" | tr ',' ' ')"
+  +        ;;
+       *)
+           break
+           ;;
+  --
+  2.20.1
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1888918/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1817239/+subscriptions
 
