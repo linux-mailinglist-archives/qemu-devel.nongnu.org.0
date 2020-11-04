@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5E8C2A5D9C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:15:39 +0100 (CET)
-Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8B12A5D80
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:03:08 +0100 (CET)
+Received: from localhost ([::1]:48916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaB90-0006Kn-TY
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:15:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
+	id 1kaAwt-00078x-1r
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:03:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmr-0008QQ-Ke
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60192)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmH-0006wu-6I
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmp-0004zJ-Pn
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:45 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmF-0004oa-CF
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465562;
+ s=mimecast20190719; t=1604465526;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FOR/bv25dGPFB9FnzIFOxW/ObDgDZns8YprwAzRry/Y=;
- b=E73w5zNCZTTquuLAcHSZ0q4UvMlpTaWcwE0V0Aw4iUPmNNn9zVTBol0FqaRDuUDUp6AWAJ
- qQDr7gQSdcrBCApaMWLLnmZflnGVhjQ5wjysxxXflrJU4Z4utheZHUnv1j4sIUvBOxKSTg
- sTcoGnGfHtvVPE5GV2XRnv2GqQB15OQ=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-346-A5QjTE7bO--eG2BLY9L3lg-1; Tue, 03 Nov 2020 23:52:01 -0500
-X-MC-Unique: A5QjTE7bO--eG2BLY9L3lg-1
-Received: by mail-wr1-f69.google.com with SMTP id b6so8660944wrn.17
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:52:01 -0800 (PST)
+ bh=lgzOL39RvILiPn2GJxc4fQ6TNHjpeFII29h+nk2BQE8=;
+ b=RjjaQe38X7hk9q9I8nfkWRk6TKy8W1ddu4MPpd1WT+BXWs4j6I4YiuYe3zjRkokG4VSU3m
+ Ab1aC/GPkrXUBItAer1KOUUui6qUSE09oaxg8w0Ux8ZTGRqu7MJJhhM6hOEbTeQ8qxPXUL
+ glkHhXZ7ISTiSUu2w1DEJw2xGtszGL4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-513-F_7sRAEnPaOJbbcuYb50tw-1; Tue, 03 Nov 2020 23:52:04 -0500
+X-MC-Unique: F_7sRAEnPaOJbbcuYb50tw-1
+Received: by mail-wr1-f70.google.com with SMTP id w1so8715746wrr.5
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:52:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=FOR/bv25dGPFB9FnzIFOxW/ObDgDZns8YprwAzRry/Y=;
- b=EYDuxUbowdh3POq0uksVpjWFqN1RS90wXcaQWNdvaL5yhF+6epMuhTO93eXQU6qg63
- cmzLBm4nDLYqk0HTGx1rOl14GQRi1jCXhz6Yn8Kjmy5L6sko5Vm8MR9vDIiCgmiYcQmZ
- zBHGv8WbBgHexQ3Nzvx2mguM01xVbGMkaSlvIZGSxqS3Wor60lrG/VLVHaEwaUVC3FBN
- a/elfhkGdjk9q/ID/zeNF14VmzpbXT8yKNF9RVm6YdxNp8fdtR5MzZGp1FZhLjjmfBHx
- A7zMhEH5er3Zl5YXhfI37MxdgaI+ZgY9FFpPGp7cOTGhrEZHoblJ9pGSIGK3hA3yk/Kv
- Awgg==
-X-Gm-Message-State: AOAM531ylvu6bypTzZVq6w6Ix/leXqQkwps7PlpSfQ1Lz5ZFQ2pJ7QcS
- wZBAe+ozFsVPBH9QWkwWmgmvBLBdGmBXtlo2KCNAhsHbDDw2GLV/JK5jFQ0zWUHDrgCVPFAOJxb
- RyyV8aGsxJv0r40o=
-X-Received: by 2002:a5d:4c4f:: with SMTP id n15mr28976514wrt.137.1604465519814; 
- Tue, 03 Nov 2020 20:51:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxo6ZnRAG/CyyK5D5ryWKX4pbM4rBmKPi8zswxWO1XEaX2+DS4IM7ZCbRexCfz8IaYmzSMvBQ==
-X-Received: by 2002:a5d:4c4f:: with SMTP id n15mr28976509wrt.137.1604465519682; 
- Tue, 03 Nov 2020 20:51:59 -0800 (PST)
+ bh=lgzOL39RvILiPn2GJxc4fQ6TNHjpeFII29h+nk2BQE8=;
+ b=maM/5e1M7OgENOKqAzqVTTHGM4ljum1qGFdXQA3KyPlD64+5ri0XZgl3wTXQ5qayko
+ 0cbRU5TOmJ/oC3r1ekh0atbi25eXSnme7ByoIXfnRH51WhnLqO4L0ovTG7xqNWVRFRSD
+ r6iv9LgmyDM20Sl2bnDEobBl8QyehLts1f6YzK69ScgC6lvs+T8N7b5SzISU7MCAk6e7
+ EImDAlqOV8kkvaT169WkD/QOK43DD8Zsuk9eNAWJ834pn8fDqL4rWrk8cabkYigQYcqn
+ soaJ1c0oGVfYLyw7pPP78u4WUQ+Mlhm5Pn0VDEM4TBMRLs+l/P9K+zXi/ikk5COa5B1V
+ OCBQ==
+X-Gm-Message-State: AOAM530IkwFNjGpaovoCp4Tplr3klDXjPVG9cp19QscgLVs65UHZGY3b
+ i60+7bwqsheBfj7aeP31+jz/O4s3RdMkcpvHQJAYD3iKRm4tgT9LGhy4IVdXma7WWVJ141ANRJF
+ qp6F/K1gDMlWeuwI=
+X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr2475926wmc.88.1604465522788; 
+ Tue, 03 Nov 2020 20:52:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz5DhDAtpcepurpUgZdYPNJw26kJOIbtD7ONwZ0YooCQ7nfCZwZbMFRlvOd/Mw6cR3XBcrJFA==
+X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr2475911wmc.88.1604465522517; 
+ Tue, 03 Nov 2020 20:52:02 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id n8sm810292wmc.11.2020.11.03.20.51.58
+ by smtp.gmail.com with ESMTPSA id c2sm794577wmf.47.2020.11.03.20.52.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:59 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:57 -0500
+ Tue, 03 Nov 2020 20:52:01 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:52:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 28/38] configure: introduce --enable-vhost-user-blk-server
-Message-ID: <20201104044937.226370-29-mst@redhat.com>
+Subject: [PULL v2 29/38] block/export: make vhost-user-blk config space
+ little-endian
+Message-ID: <20201104044937.226370-30-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -71,17 +72,17 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,127 +96,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+ qemu-block@nongnu.org, Coiby Xu <Coiby.Xu@gmail.com>,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Make it possible to compile out the vhost-user-blk server. It is enabled
-by default on Linux.
-
-Note that vhost-user-server.c depends on libvhost-user, which requires
-CONFIG_LINUX. The CONFIG_VHOST_USER dependency was erroneous since that
-option controls vhost-user frontends (previously known as "master") and
-not device backends (previously known as "slave").
+VIRTIO 1.0 devices have little-endian configuration space. The
+vhost-user-blk-server.c code already uses little-endian for virtqueue
+processing but not for the configuration space fields. Fix this so the
+vhost-user-blk export works on big-endian hosts.
 
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201027173528.213464-3-stefanha@redhat.com>
+Message-Id: <20201027173528.213464-4-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- configure                | 15 +++++++++++++++
- block/export/export.c    |  4 ++--
- block/export/meson.build |  2 +-
- util/meson.build         |  2 +-
- 4 files changed, 19 insertions(+), 4 deletions(-)
+ block/export/vhost-user-blk-server.c | 25 ++++++++++++-------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/configure b/configure
-index 2c3c69f118..b5e8f5f72c 100755
---- a/configure
-+++ b/configure
-@@ -329,6 +329,7 @@ vhost_crypto=""
- vhost_scsi=""
- vhost_vsock=""
- vhost_user=""
-+vhost_user_blk_server=""
- vhost_user_fs=""
- kvm="auto"
- hax="auto"
-@@ -1246,6 +1247,10 @@ for opt do
-   ;;
-   --enable-vhost-vsock) vhost_vsock="yes"
-   ;;
-+  --disable-vhost-user-blk-server) vhost_user_blk_server="no"
-+  ;;
-+  --enable-vhost-user-blk-server) vhost_user_blk_server="yes"
-+  ;;
-   --disable-vhost-user-fs) vhost_user_fs="no"
-   ;;
-   --enable-vhost-user-fs) vhost_user_fs="yes"
-@@ -1791,6 +1796,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   vhost-crypto    vhost-user-crypto backend support
-   vhost-kernel    vhost kernel backend support
-   vhost-user      vhost-user backend support
-+  vhost-user-blk-server    vhost-user-blk server support
-   vhost-vdpa      vhost-vdpa kernel backend support
-   spice           spice
-   rbd             rados block device (rbd)
-@@ -2382,6 +2388,12 @@ if test "$vhost_net" = ""; then
-   test "$vhost_kernel" = "yes" && vhost_net=yes
- fi
+diff --git a/block/export/vhost-user-blk-server.c b/block/export/vhost-user-blk-server.c
+index 41f4933d6e..33cc0818b8 100644
+--- a/block/export/vhost-user-blk-server.c
++++ b/block/export/vhost-user-blk-server.c
+@@ -264,7 +264,6 @@ static uint64_t vu_blk_get_protocol_features(VuDev *dev)
+ static int
+ vu_blk_get_config(VuDev *vu_dev, uint8_t *config, uint32_t len)
+ {
+-    /* TODO blkcfg must be little-endian for VIRTIO 1.0 */
+     VuServer *server = container_of(vu_dev, VuServer, vu_dev);
+     VuBlkExport *vexp = container_of(server, VuBlkExport, vu_server);
+     memcpy(config, &vexp->blkcfg, len);
+@@ -343,18 +342,18 @@ vu_blk_initialize_config(BlockDriverState *bs,
+                          uint32_t blk_size,
+                          uint16_t num_queues)
+ {
+-    config->capacity = bdrv_getlength(bs) >> BDRV_SECTOR_BITS;
+-    config->blk_size = blk_size;
+-    config->size_max = 0;
+-    config->seg_max = 128 - 2;
+-    config->min_io_size = 1;
+-    config->opt_io_size = 1;
+-    config->num_queues = num_queues;
+-    config->max_discard_sectors = 32768;
+-    config->max_discard_seg = 1;
+-    config->discard_sector_alignment = config->blk_size >> 9;
+-    config->max_write_zeroes_sectors = 32768;
+-    config->max_write_zeroes_seg = 1;
++    config->capacity = cpu_to_le64(bdrv_getlength(bs) >> BDRV_SECTOR_BITS);
++    config->blk_size = cpu_to_le32(blk_size);
++    config->size_max = cpu_to_le32(0);
++    config->seg_max = cpu_to_le32(128 - 2);
++    config->min_io_size = cpu_to_le16(1);
++    config->opt_io_size = cpu_to_le32(1);
++    config->num_queues = cpu_to_le16(num_queues);
++    config->max_discard_sectors = cpu_to_le32(32768);
++    config->max_discard_seg = cpu_to_le32(1);
++    config->discard_sector_alignment = cpu_to_le32(config->blk_size >> 9);
++    config->max_write_zeroes_sectors = cpu_to_le32(32768);
++    config->max_write_zeroes_seg = cpu_to_le32(1);
+ }
  
-+# libvhost-user is Linux-only
-+test "$vhost_user_blk_server" = "" && vhost_user_blk_server=$linux
-+if test "$vhost_user_blk_server" = "yes" && test "$linux" = "no"; then
-+  error_exit "--enable-vhost-user-blk-server is only available on Linux"
-+fi
-+
- ##########################################
- # pkg-config probe
- 
-@@ -6275,6 +6287,9 @@ fi
- if test "$vhost_vdpa" = "yes" ; then
-   echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
- fi
-+if test "$vhost_user_blk_server" = "yes" ; then
-+  echo "CONFIG_VHOST_USER_BLK_SERVER=y" >> $config_host_mak
-+fi
- if test "$vhost_user_fs" = "yes" ; then
-   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
- fi
-diff --git a/block/export/export.c b/block/export/export.c
-index c3478c6c97..bad6f21b1c 100644
---- a/block/export/export.c
-+++ b/block/export/export.c
-@@ -22,13 +22,13 @@
- #include "qapi/qapi-commands-block-export.h"
- #include "qapi/qapi-events-block-export.h"
- #include "qemu/id.h"
--#if defined(CONFIG_LINUX) && defined(CONFIG_VHOST_USER)
-+#ifdef CONFIG_VHOST_USER_BLK_SERVER
- #include "vhost-user-blk-server.h"
- #endif
- 
- static const BlockExportDriver *blk_exp_drivers[] = {
-     &blk_exp_nbd,
--#if defined(CONFIG_LINUX) && defined(CONFIG_VHOST_USER)
-+#ifdef CONFIG_VHOST_USER_BLK_SERVER
-     &blk_exp_vhost_user_blk,
- #endif
- };
-diff --git a/block/export/meson.build b/block/export/meson.build
-index 9fb4fbf81d..19526435d8 100644
---- a/block/export/meson.build
-+++ b/block/export/meson.build
-@@ -1,2 +1,2 @@
- blockdev_ss.add(files('export.c'))
--blockdev_ss.add(when: ['CONFIG_LINUX', 'CONFIG_VHOST_USER'], if_true: files('vhost-user-blk-server.c'))
-+blockdev_ss.add(when: 'CONFIG_VHOST_USER_BLK_SERVER', if_true: files('vhost-user-blk-server.c'))
-diff --git a/util/meson.build b/util/meson.build
-index c5159ad79d..f359af0d46 100644
---- a/util/meson.build
-+++ b/util/meson.build
-@@ -66,7 +66,7 @@ if have_block
-   util_ss.add(files('main-loop.c'))
-   util_ss.add(files('nvdimm-utils.c'))
-   util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-coroutine-io.c'))
--  util_ss.add(when: ['CONFIG_LINUX', 'CONFIG_VHOST_USER'], if_true: [
-+  util_ss.add(when: 'CONFIG_LINUX', if_true: [
-     files('vhost-user-server.c'), vhost_user
-   ])
-   util_ss.add(files('block-helpers.c'))
+ static void vu_blk_exp_request_shutdown(BlockExport *exp)
 -- 
 MST
 
