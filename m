@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E40712A6B64
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:07:26 +0100 (CET)
-Received: from localhost ([::1]:59682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A55B82A6B8D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:21:55 +0100 (CET)
+Received: from localhost ([::1]:43246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMFq-0001x9-1a
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:07:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56124)
+	id 1kaMTq-0007iC-Pa
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:21:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaMCw-0007xO-3T
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:04:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59042)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaMCs-0005Bp-E0
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:04:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604509458;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3HPCJDfpddIrodZ04DA1g5MRbX+/QiNc5S/n0QBIkV0=;
- b=Xe/yPIakvzvKC/My8obbq07L1E8vn7D7NLGMnmLYoJFW7wf7vEjdFAf2C2WVY+hvmv/BlJ
- Twx4NhmBYpsmfTLI/RXV+9eEnP5M3SvbaYYzqRqRallbVxZJ/m1BfcG0TShH1gTNWecWKz
- S4beXCblgwNMI/FLRjyMSkeY4w8tMU4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-XjdvfW7kOyiMujVqnri0yQ-1; Wed, 04 Nov 2020 12:04:16 -0500
-X-MC-Unique: XjdvfW7kOyiMujVqnri0yQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B921711CC7EF
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 17:04:15 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 66FCD5C3E1;
- Wed,  4 Nov 2020 17:04:15 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 20/20] qapi,
- qemu-options: make all parsing visitors parse boolean options the same
-Date: Wed,  4 Nov 2020 12:04:14 -0500
-Message-Id: <20201104170414.546578-2-pbonzini@redhat.com>
-In-Reply-To: <20201104170414.546578-1-pbonzini@redhat.com>
-References: <20201104170414.546578-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <shaked.m@neuroblade.ai>)
+ id 1kaMSp-0006R7-Fn
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:20:51 -0500
+Received: from mail-eopbgr70102.outbound.protection.outlook.com
+ ([40.107.7.102]:2183 helo=EUR04-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shaked.m@neuroblade.ai>)
+ id 1kaMSl-0007Lx-1x
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:20:50 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Oy63jJHAXiHqU57bxoozX3YGZdQdskvH+C4LsggQPPx9FBvE1wYTkCbBd8V5p8HfY2rH+qFqzk8iSLattRNQM1jcFnUFP0pu9F+pMZ0Om67LStomMtiwkqQFQxdghmZFSreQQvhkCX/alL8AmYQQcj5JZEWTJyd4TjfpcpOtAoH2l4OFYUPN1lN5KDDUFWrOYYqBo9BY6wGjLBGSGxXsnBazkrOGtn9hDIBh/4HUQ14rSqtzzKnf3xOe6t6iwI2nRLf2kat8U8sekJJnrnpJ/LvFVIgGHHD4vcLBbTs5ghD74hQs5T3uGeKe5uxS/eAymo64iXzPs4Y1Za+1bI3pSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BesOSfgS0XuOr2qvkKLrxcQbGYY5KBZIcp3LMrsei3g=;
+ b=Bmi8Iw+7E1uYHcDluKNLr5hvOGkKXq1dsK2CLmRHZAN0bfryY9ih8q0ujuQdZ5JZ8o0JyON3euDvHY9FyRiwGI7UsV7WAwZgtjy/trqKYTIdO6Cw0n10cqVU1TJqW9g6V86dTAfpR0bmUveNVmWntmfRb7UXXgsv+vIOhzXhBguAAFN2pNUMmACjycboerkBliBOtNTl25j7uw7jSZ59ztxl7hcnbVxH09/sEoRIw3epT1huwfpEb3stSrkX4VoIhV1nLb++nILafsFYkOZfYwTpLtZAoQFwA5xXexOx49qUaOh30Lbt6INz4iViX6y/rAByqp3TPhiBzb1hDa89Ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=neuroblade.ai; dmarc=pass action=none
+ header.from=neuroblade.ai; dkim=pass header.d=neuroblade.ai; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=NeuroBlade.onmicrosoft.com; s=selector2-NeuroBlade-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BesOSfgS0XuOr2qvkKLrxcQbGYY5KBZIcp3LMrsei3g=;
+ b=cIBee3FfxpS14D/FQw8cENxaAvzwTrTIptPeoUv6End8zCZ0PrLdSHXaCAB3y5T2VN2T47dmbSPZxCH+TNFCZ5bfTWRr+LXU1A7eZxoP36O6/1zNV9l3Pe9cBmHcw4AMZvSeD+8zpIa4k1i+3Tr+6gKr/O1VQuFlqMlc8+b8EaI=
+Received: from AM9PR09MB4643.eurprd09.prod.outlook.com (2603:10a6:20b:286::17)
+ by AM9PR09MB4786.eurprd09.prod.outlook.com (2603:10a6:20b:2d8::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 4 Nov
+ 2020 17:05:37 +0000
+Received: from AM9PR09MB4643.eurprd09.prod.outlook.com
+ ([fe80::3c65:130c:3906:6542]) by AM9PR09MB4643.eurprd09.prod.outlook.com
+ ([fe80::3c65:130c:3906:6542%7]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
+ 17:05:37 +0000
+From: Shaked Matzner <shaked.m@neuroblade.ai>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: executing user code to test qemu driver
+Thread-Topic: executing user code to test qemu driver
+Thread-Index: AdayyxAw30YcY7CFQgCfeGuQiNXcYQ==
+Date: Wed, 4 Nov 2020 17:05:37 +0000
+Message-ID: <AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0@AM9PR09MB4643.eurprd09.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=neuroblade.ai;
+x-originating-ip: [79.176.89.142]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: d20fbd4e-5026-4e69-df74-08d880e3d9e3
+x-ms-traffictypediagnostic: AM9PR09MB4786:
+x-microsoft-antispam-prvs: <AM9PR09MB4786E6448AD3B20BB13944CA82EF0@AM9PR09MB4786.eurprd09.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6108;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: iOmBd9/DYPuTi2HChZkPeGbFgd1cT1gARDPCA0CLQshR/8P/wIbBOc7K5W0LCXe11aoPnyNSG5+ySWICnxAZE2bF87lQVuxL1NnnCK07XY02ewJmMjhMqyicYfaqHaexNfPRCY6f4pvI+NWE+2dbBNXxnh/GQ7zxcK7gZAY19m58hvkAweKyV0XsOLW/ebGcPnU/hKAbQ6jt917NMO58ObViZ6iGBZhVp39m5uiyj/7aZeCSbeaxd9phd6Ug5D9N9dk2CSJ6nc3kQXKPkp0Ggy/Ce7yDyv16yXK2FFq5+ATbbP8u1wLQKBVdziytyckp
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM9PR09MB4643.eurprd09.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(136003)(396003)(39830400003)(346002)(376002)(366004)(55016002)(6916009)(2906002)(186003)(316002)(26005)(8676002)(83380400001)(6506007)(7696005)(71200400001)(52536014)(33656002)(478600001)(9686003)(8936002)(66556008)(86362001)(66476007)(66946007)(66446008)(76116006)(5660300002)(64756008);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: EApPaLncwi3qG3P57nlIeR1io/wdEjv32XK4bT7VoO3zvsk+O+wfKHMTa96w/GY0ie8xdTuB0uv/BOCnSGgrAoHMHopdlGtE4+G8oTpipJLmFuVVOgtpz8Gb5iXRQKMLATccqp8mWU0zD8//KKrWVIy3rkMeR5SI7ywNAXD6az6qdxjPW5AN6H8OfxIOQNzbh6m+TcmGuut2zxJjMvdOU4rZvlot1qhGt2vUhLQRBDS88uRgNbymBCDVEz8xoh5ac2kOqMa/blmeYITqrihiBSJulg6+/G74lW1g/I2YVvN8QOTFgJhasTZCYIZiB1gmJ5K9legCIST84Fcv/T/fl/8lQqyHUT0fNrYRuTpzm5a1KlqWAxJq2HzRktUlEXx8qyOsX/6jai1l5/6MpuWXWiynBw8ZbHWrNKwbVbjoBC5ZofpAlSb7jUdGV05PHx7zVRDDPWDeA9aYOc7cAVSHcCDE8nRSjY/44M7HMECA+n2aPrMXcyklssUb7XGGAo+cT0hzS2eCxE7nH3NGp4d4QGmLMeXl7/gPwnSe2G2eZHO8W0KNGroJ+zydZFsflimx2b7Aryg+4VjUDQpCUWkdzrXnjFW7ernGK2xXQYa85mV5Wq2fKt3f7804Cbc++Nx0u8MVOFS20iKzg5Pc3HSzBQ==
+x-ms-exchange-transport-forked: True
+Content-Type: multipart/alternative;
+ boundary="_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_"
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-OriginatorOrg: neuroblade.ai
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR09MB4643.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d20fbd4e-5026-4e69-df74-08d880e3d9e3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2020 17:05:37.3819 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 63c61203-65af-4cf8-98e5-d12f35edaefa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jZR7VuANRtirpdM3uYl+fw1NUvbeWqJ/Inv6rGlwGqNhAd5ZOqCpj5s/R4/+p0vDDq29ByYz0OC/KdsA/VdBZQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR09MB4786
+Received-SPF: pass client-ip=40.107.7.102; envelope-from=shaked.m@neuroblade.ai;
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 12:20:45
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,212 +108,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-OptsVisitor, StringInputVisitor and the keyval visitor have
-three different ideas of how a human could write the value of
-a boolean option.  Pay homage to the backwards-compatibility
-gods and make the new common helper accept all four sets (on/off,
-true/false, y/n and yes/no), but remove case-insensitivity.
+--_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Since OptsVisitor is supposed to match qemu-options, adjust
-it as well.
+Hey all,
+So I've created a small test to check ioctl calls of my pci with dma driver=
+, under a shared directory (which is mounted to the qemu-x86-64 instance).
+I've just tried to compile it with gcc (gcc test_dma.c -o test_dma_exec)
+I've tried to execute it from the qemu but it said it could not found the f=
+ile, also I wonder how does it recognize my kernel and devices),
+How should I compile it and run the code?
+BR,
+     Shaked Matzner
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20201103161339.447118-1-pbonzini@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- include/qapi/util.h          |  2 ++
- qapi/opts-visitor.c          | 14 +-------------
- qapi/qapi-util.c             | 23 +++++++++++++++++++++++
- qapi/qobject-input-visitor.c |  6 +-----
- qapi/string-input-visitor.c  | 17 +----------------
- util/qemu-option.c           | 20 ++------------------
- 6 files changed, 30 insertions(+), 52 deletions(-)
 
-diff --git a/include/qapi/util.h b/include/qapi/util.h
-index bc312e90aa..6178e98e97 100644
---- a/include/qapi/util.h
-+++ b/include/qapi/util.h
-@@ -19,6 +19,8 @@ typedef struct QEnumLookup {
- const char *qapi_enum_lookup(const QEnumLookup *lookup, int val);
- int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
-                     int def, Error **errp);
-+bool qapi_bool_parse(const char *name, const char *value, bool *obj,
-+                     Error **errp);
- 
- int parse_qapi_name(const char *name, bool complete);
- 
-diff --git a/qapi/opts-visitor.c b/qapi/opts-visitor.c
-index 7781c23a42..587f31baf6 100644
---- a/qapi/opts-visitor.c
-+++ b/qapi/opts-visitor.c
-@@ -368,7 +368,6 @@ opts_type_str(Visitor *v, const char *name, char **obj, Error **errp)
- }
- 
- 
--/* mimics qemu-option.c::parse_option_bool() */
- static bool
- opts_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
- {
-@@ -379,19 +378,8 @@ opts_type_bool(Visitor *v, const char *name, bool *obj, Error **errp)
-     if (!opt) {
-         return false;
-     }
--
-     if (opt->str) {
--        if (strcmp(opt->str, "on") == 0 ||
--            strcmp(opt->str, "yes") == 0 ||
--            strcmp(opt->str, "y") == 0) {
--            *obj = true;
--        } else if (strcmp(opt->str, "off") == 0 ||
--            strcmp(opt->str, "no") == 0 ||
--            strcmp(opt->str, "n") == 0) {
--            *obj = false;
--        } else {
--            error_setg(errp, QERR_INVALID_PARAMETER_VALUE, opt->name,
--                       "on|yes|y|off|no|n");
-+        if (!qapi_bool_parse(opt->name, opt->str, obj, errp)) {
-             return false;
-         }
-     } else {
-diff --git a/qapi/qapi-util.c b/qapi/qapi-util.c
-index 29a6c98b53..3c24bb3d45 100644
---- a/qapi/qapi-util.c
-+++ b/qapi/qapi-util.c
-@@ -13,6 +13,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "qemu/ctype.h"
-+#include "qapi/qmp/qerror.h"
- 
- const char *qapi_enum_lookup(const QEnumLookup *lookup, int val)
- {
-@@ -40,6 +41,28 @@ int qapi_enum_parse(const QEnumLookup *lookup, const char *buf,
-     return def;
- }
- 
-+bool qapi_bool_parse(const char *name, const char *value, bool *obj, Error **errp)
-+{
-+    if (g_str_equal(value, "on") ||
-+        g_str_equal(value, "yes") ||
-+        g_str_equal(value, "true") ||
-+        g_str_equal(value, "y")) {
-+        *obj = true;
-+        return true;
-+    }
-+    if (g_str_equal(value, "off") ||
-+        g_str_equal(value, "no") ||
-+        g_str_equal(value, "false") ||
-+        g_str_equal(value, "n")) {
-+        *obj = false;
-+        return true;
-+    }
-+
-+    error_setg(errp, QERR_INVALID_PARAMETER_VALUE, name,
-+               "'on' or 'off'");
-+    return false;
-+}
-+
- /*
-  * Parse a valid QAPI name from @str.
-  * A valid name consists of letters, digits, hyphen and underscore.
-diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-index 7b184b50a7..23843b242e 100644
---- a/qapi/qobject-input-visitor.c
-+++ b/qapi/qobject-input-visitor.c
-@@ -512,11 +512,7 @@ static bool qobject_input_type_bool_keyval(Visitor *v, const char *name,
-         return false;
-     }
- 
--    if (!strcmp(str, "on")) {
--        *obj = true;
--    } else if (!strcmp(str, "off")) {
--        *obj = false;
--    } else {
-+    if (!qapi_bool_parse(name, str, obj, NULL)) {
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                    full_name(qiv, name), "'on' or 'off'");
-         return false;
-diff --git a/qapi/string-input-visitor.c b/qapi/string-input-visitor.c
-index 6e53396ea3..197139c1c0 100644
---- a/qapi/string-input-visitor.c
-+++ b/qapi/string-input-visitor.c
-@@ -332,22 +332,7 @@ static bool parse_type_bool(Visitor *v, const char *name, bool *obj,
-     StringInputVisitor *siv = to_siv(v);
- 
-     assert(siv->lm == LM_NONE);
--    if (!strcasecmp(siv->string, "on") ||
--        !strcasecmp(siv->string, "yes") ||
--        !strcasecmp(siv->string, "true")) {
--        *obj = true;
--        return true;
--    }
--    if (!strcasecmp(siv->string, "off") ||
--        !strcasecmp(siv->string, "no") ||
--        !strcasecmp(siv->string, "false")) {
--        *obj = false;
--        return true;
--    }
--
--    error_setg(errp, QERR_INVALID_PARAMETER_TYPE, name ? name : "null",
--               "boolean");
--    return false;
-+    return qapi_bool_parse(name ? name : "null", siv->string, obj, errp);
- }
- 
- static bool parse_type_str(Visitor *v, const char *name, char **obj,
-diff --git a/util/qemu-option.c b/util/qemu-option.c
-index b9f93a7f8b..acefbc23fa 100644
---- a/util/qemu-option.c
-+++ b/util/qemu-option.c
-@@ -96,21 +96,6 @@ const char *get_opt_value(const char *p, char **value)
-     return offset;
- }
- 
--static bool parse_option_bool(const char *name, const char *value, bool *ret,
--                              Error **errp)
--{
--    if (!strcmp(value, "on")) {
--        *ret = 1;
--    } else if (!strcmp(value, "off")) {
--        *ret = 0;
--    } else {
--        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
--                   name, "'on' or 'off'");
--        return false;
--    }
--    return true;
--}
--
- static bool parse_option_number(const char *name, const char *value,
-                                 uint64_t *ret, Error **errp)
- {
-@@ -363,7 +348,7 @@ static bool qemu_opt_get_bool_helper(QemuOpts *opts, const char *name,
-     if (opt == NULL) {
-         def_val = find_default_by_name(opts, name);
-         if (def_val) {
--            parse_option_bool(name, def_val, &ret, &error_abort);
-+            qapi_bool_parse(name, def_val, &ret, &error_abort);
-         }
-         return ret;
-     }
-@@ -471,8 +456,7 @@ static bool qemu_opt_parse(QemuOpt *opt, Error **errp)
-         /* nothing */
-         return true;
-     case QEMU_OPT_BOOL:
--        return parse_option_bool(opt->name, opt->str, &opt->value.boolean,
--                                 errp);
-+        return qapi_bool_parse(opt->name, opt->str, &opt->value.boolean, errp);
-     case QEMU_OPT_NUMBER:
-         return parse_option_number(opt->name, opt->str, &opt->value.uint,
-                                    errp);
--- 
-2.26.2
+The contents of this email message and any attachments are intended solely =
+for the addressee(s) and may contain confidential and/or privileged informa=
+tion and may be legally protected from disclosure. If you are not the inten=
+ded recipient of this message or their agent, or if this message has been a=
+ddressed to you in error, please immediately alert the sender by reply emai=
+l and then delete this message and any attachments. If you are not the inte=
+nded recipient, you are hereby notified that any use, dissemination, copyin=
+g, or storage of this message or its attachments is strictly prohibited.
 
+--_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hey all,<o:p></o:p></p>
+<p class=3D"MsoNormal">So I&#8217;ve created a small test to check ioctl ca=
+lls of my pci with dma driver, under a shared directory (which is mounted t=
+o the qemu-x86-64 instance).<o:p></o:p></p>
+<p class=3D"MsoNormal">I&#8217;ve just tried to compile it with gcc (gcc te=
+st_dma.c -o test_dma_exec)<o:p></o:p></p>
+<p class=3D"MsoNormal">I&#8217;ve tried to execute it from the qemu but it =
+said it could not found the file, also I wonder how does it recognize my ke=
+rnel and devices),<o:p></o:p></p>
+<p class=3D"MsoNormal">How should I compile it and run the code?<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">BR,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; Shaked Matzner<o:p></o:p></=
+p>
+</div>
+<br>
+<p style=3D"font-size:8pt; line-height:10pt; font-family: 'Cambria','times =
+roman',serif;">
+The contents of this email message and any attachments are intended solely =
+for the addressee(s) and may contain confidential and/or privileged informa=
+tion and may be legally protected from disclosure. If you are not the inten=
+ded recipient of this message or
+ their agent, or if this message has been addressed to you in error, please=
+ immediately alert the sender by reply email and then delete this message a=
+nd any attachments. If you are not the intended recipient, you are hereby n=
+otified that any use, dissemination,
+ copying, or storage of this message or its attachments is strictly prohibi=
+ted. </p>
+</body>
+</html>
+
+--_000_AM9PR09MB46436ACF9B2DCE0CDDB4440382EF0AM9PR09MB4643eurp_--
 
