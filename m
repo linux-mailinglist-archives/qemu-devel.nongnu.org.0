@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718A02A642C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:22:57 +0100 (CET)
-Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9EDA2A640B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:17:46 +0100 (CET)
+Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaHns-0006kG-BD
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:22:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34726)
+	id 1kaHjV-0002p9-Vi
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:17:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfW-0007e1-5g
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39163)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfa-0007m8-D6
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20247)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfS-0007pi-RT
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:37 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfY-0007qZ-Dz
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604492013;
+ s=mimecast20190719; t=1604492019;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7CwwoAYvS2LJdkyGB+0F/NGd1MdSwpM/+LqhmsM5NCo=;
- b=TMNXXsq0ohcwOUDZwkTs9J7J6gQfh4EUY7TPq7Wm4veLPRE6fct+QBdRczWup4KoNeO+t6
- opQRZuWmo4Qo6Id1Ar4KSjgrfzsshknOW83o6GpzewcbdgR++4vQjy9reGku5ZUStR0g5E
- RpEGHfrzbkzdboWz0aPj/ty6h7J5+zM=
+ bh=W/26RM5hlf5NGwN7ijzuGblgAmBmtVQ0RyzNJoompVY=;
+ b=i0POv7zLWkxFSMocdBJc6rYA8s4j6Thy4X3FhifpGF4hnG72CwGd6luVpHF1gAeTxDyosU
+ V8I+kc75qZfPQwD7230XYPTpRQkdUm3Bp6DqJ57BUlVFuvO66WAFXf41EyRm8I2pNLfgHB
+ j0L1C7uaoRWQyjz3ptUeLgg4mGdpRAg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-8ACHGK_7O2u4FB9OSpwSEQ-1; Wed, 04 Nov 2020 07:13:32 -0500
-X-MC-Unique: 8ACHGK_7O2u4FB9OSpwSEQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-426-T75FN1AiNQKomESNumAHxw-1; Wed, 04 Nov 2020 07:13:37 -0500
+X-MC-Unique: T75FN1AiNQKomESNumAHxw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8813805EFD;
- Wed,  4 Nov 2020 12:13:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40668804746;
+ Wed,  4 Nov 2020 12:13:36 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4128E1C924;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 421B7508E1;
  Wed,  4 Nov 2020 12:13:27 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8CB059CA5; Wed,  4 Nov 2020 13:13:21 +0100 (CET)
+ id 97F209CAE; Wed,  4 Nov 2020 13:13:21 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/8] dev-serial: add support for setting data_bits in
- QEMUSerialSetParams
-Date: Wed,  4 Nov 2020 13:13:20 +0100
-Message-Id: <20201104121321.7772-8-kraxel@redhat.com>
+Subject: [PULL 8/8] dev-serial: store flow control and xon/xoff characters
+Date: Wed,  4 Nov 2020 13:13:21 +0100
+Message-Id: <20201104121321.7772-9-kraxel@redhat.com>
 In-Reply-To: <20201104121321.7772-1-kraxel@redhat.com>
 References: <20201104121321.7772-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
@@ -84,66 +83,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
  Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
-Also implement the behaviour reported in Linux's ftdi_sio.c whereby if an invalid
-data_bits value is provided then the hardware defaults to using 8.
+Note that whilst the device does not do anything with these values, they are
+logged with trace events and stored to allow future implementation.
+
+The default flow control is set to none at reset as documented in the Linux
+ftdi_sio.h header file.
 
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20201027150456.24606-8-mark.cave-ayland@ilande.co.uk
+Message-id: 20201027150456.24606-9-mark.cave-ayland@ilande.co.uk
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-serial.c | 17 +++++++++++++++++
- hw/usb/trace-events |  1 +
- 2 files changed, 18 insertions(+)
+ hw/usb/dev-serial.c | 38 +++++++++++++++++++++++++++++++++++---
+ hw/usb/trace-events |  2 ++
+ 2 files changed, 37 insertions(+), 3 deletions(-)
 
 diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index b9e308dca198..e42ce362956b 100644
+index e42ce362956b..19e1933f0496 100644
 --- a/hw/usb/dev-serial.c
 +++ b/hw/usb/dev-serial.c
-@@ -308,6 +308,23 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+@@ -52,6 +52,7 @@
+ 
+ /* SET_FLOW_CTRL */
+ 
++#define FTDI_NO_HS         0
+ #define FTDI_RTS_CTS_HS    1
+ #define FTDI_DTR_DSR_HS    2
+ #define FTDI_XON_XOFF_HS   4
+@@ -98,6 +99,9 @@ struct USBSerialState {
+     uint8_t error_chr;
+     uint8_t event_trigger;
+     bool always_plugged;
++    uint8_t flow_control;
++    uint8_t xon;
++    uint8_t xoff;
+     QEMUSerialSetParams params;
+     int latency;        /* ms */
+     CharBackend cs;
+@@ -181,14 +185,36 @@ static const USBDesc desc_braille = {
+     .str  = desc_strings,
+ };
+ 
++static void usb_serial_set_flow_control(USBSerialState *s,
++                                        uint8_t flow_control)
++{
++    USBDevice *dev = USB_DEVICE(s);
++    USBBus *bus = usb_bus_from_device(dev);
++
++    /* TODO: ioctl */
++    s->flow_control = flow_control;
++    trace_usb_serial_set_flow_control(bus->busnr, dev->addr, flow_control);
++}
++
++static void usb_serial_set_xonxoff(USBSerialState *s, int xonxoff)
++{
++    USBDevice *dev = USB_DEVICE(s);
++    USBBus *bus = usb_bus_from_device(dev);
++
++    s->xon = xonxoff & 0xff;
++    s->xoff = (xonxoff >> 8) & 0xff;
++
++    trace_usb_serial_set_xonxoff(bus->busnr, dev->addr, s->xon, s->xoff);
++}
++
+ static void usb_serial_reset(USBSerialState *s)
+ {
+-    /* TODO: Set flow control to none */
+     s->event_chr = 0x0d;
+     s->event_trigger = 0;
+     s->recv_ptr = 0;
+     s->recv_used = 0;
+     /* TODO: purge in char driver */
++    usb_serial_set_flow_control(s, FTDI_NO_HS);
+ }
+ 
+ static void usb_serial_handle_reset(USBDevice *dev)
+@@ -285,9 +311,15 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
+         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
          break;
      }
-     case VendorDeviceOutRequest | FTDI_SET_DATA:
-+        switch (value & 0xff) {
-+        case 7:
-+            s->params.data_bits = 7;
-+            break;
-+        case 8:
-+            s->params.data_bits = 8;
-+            break;
-+        default:
-+            /*
-+             * According to a comment in Linux's ftdi_sio.c original FTDI
-+             * chips fall back to 8 data bits for unsupported data_bits
-+             */
-+            trace_usb_serial_unsupported_data_bits(bus->busnr, dev->addr,
-+                                                   value & 0xff);
-+            s->params.data_bits = 8;
-+        }
+-    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
+-        /* TODO: ioctl */
++    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL: {
++        uint8_t flow_control = index >> 8;
 +
-         switch (value & FTDI_PARITY) {
-         case 0:
-             s->params.parity = 'N';
++        usb_serial_set_flow_control(s, flow_control);
++        if (flow_control & FTDI_XON_XOFF_HS) {
++            usb_serial_set_xonxoff(s, value);
++        }
+         break;
++    }
+     case VendorDeviceOutRequest | FTDI_SET_BAUD: {
+         static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
+         int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
 diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 98ee1c54627d..109da521cf4d 100644
+index 109da521cf4d..a3292d46248f 100644
 --- a/hw/usb/trace-events
 +++ b/hw/usb/trace-events
-@@ -327,6 +327,7 @@ usb_serial_handle_control(int bus, int addr, int request, int value) "dev %d:%u
- usb_serial_unsupported_parity(int bus, int addr, int value) "dev %d:%u unsupported parity %d"
- usb_serial_unsupported_stopbits(int bus, int addr, int value) "dev %d:%u unsupported stop bits %d"
- usb_serial_unsupported_control(int bus, int addr, int request, int value) "dev %d:%u got unsupported/bogus control 0x%x, value 0x%x"
-+usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%u unsupported data bits %d, falling back to 8"
+@@ -331,3 +331,5 @@ usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%u unsupp
  usb_serial_bad_token(int bus, int addr) "dev %d:%u bad token"
  usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
  usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
++usb_serial_set_flow_control(int bus, int addr, int index) "dev %d:%u flow control %d"
++usb_serial_set_xonxoff(int bus, int addr, uint8_t xon, uint8_t xoff) "dev %d:%u xon 0x%x xoff 0x%x"
 -- 
 2.27.0
 
