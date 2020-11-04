@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D82C2A6D26
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:49:42 +0100 (CET)
-Received: from localhost ([::1]:45220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 933802A6D2D
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:51:33 +0100 (CET)
+Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaNqn-0003tC-7b
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:49:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52474)
+	id 1kaNsV-0007N2-Bi
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:51:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52534)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjW-0001Ey-Qx
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59399)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjb-0001R0-SO
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjV-00024L-2i
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:10 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjZ-00024z-Vl
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604515328;
+ s=mimecast20190719; t=1604515333;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CO5kV6TOgl7VkllXO+Cj7QHVQ3FQj45OIYdaYC1hBZU=;
- b=DUDnYRb5dlNZEUo1kejlk8cKALQkv4EIJ/XM61VULaaDkssG1pGJZRFqujvzeYX9JJANHA
- dDiJpW+sRxt+8P0eb1LrB7OMig0nj3hVvvwdcJeKyL9ghdDs48GWLcYLS0MFxvWxJSLpI4
- VBWrKSids7I4xmt9+oivVXpcqgAFnn8=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-249-aXbbKZ2lOfWTzlk-zCGouQ-1; Wed, 04 Nov 2020 13:42:06 -0500
-X-MC-Unique: aXbbKZ2lOfWTzlk-zCGouQ-1
-Received: by mail-wr1-f69.google.com with SMTP id i1so9580059wrb.18
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:42:06 -0800 (PST)
+ bh=Vj2K5KfIjYgXaS/HA+9u99+5hxZOJUDzQMD8f8h61Sg=;
+ b=MUEsKFTCL/rcxWBF43Z3+y7/rssEBtRUJxzxXtesoiLERF1rRnSipC9n0JY6RvyEiQojpS
+ zOAxuBngB3Tg5C12bxS9hKOksuL2RU4qBK3S0vtbbBh3E8s09koeM9FyLSqrWmmJyYFnfk
+ 1OyUITQ6OKq58H12C4KHHcj9FdE/xA4=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-S_RWgsFPNTOzkJWRRt81hw-1; Wed, 04 Nov 2020 13:42:11 -0500
+X-MC-Unique: S_RWgsFPNTOzkJWRRt81hw-1
+Received: by mail-wm1-f71.google.com with SMTP id h2so244629wmm.0
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:42:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=CO5kV6TOgl7VkllXO+Cj7QHVQ3FQj45OIYdaYC1hBZU=;
- b=md0nMy27Y6IjYzpvPLG6+U9sFZFg3/5p9nxdKv22NRrI0p+3JqXcmxmRlcXfTGTrKR
- ZSVN4Y/xZEsAQa3ehQv4TGcpaJNv3Tc1+cD9S2Vt3qz1LPgXXL51ED7N5+KY9rocYSk7
- gJpJBwUV1n+3wd2rN5+NwCOBYEWYhJwF5EBvCpHY095IxJxzstJ5q2aSqsdb3czAzxgo
- HQV06J0Jrel/4ZvXH/X9/HDBOHNoBRLKj7AZ+RcoSpJxk2TuEvkX1/W4w2t0/YWdTPkA
- PJ6CJqGmA8Sn1pJQv2TzKSwX1/YnPKoNJyxozTWI9IrRlr08PB1It1xCpKWCEGmbJ9Rc
- KtUQ==
-X-Gm-Message-State: AOAM532rzNVAZSyG7mdPKlwr9qCjU4EWO19DbkYeTT60VLn8LScnEeKd
- ewLR7dn8GCV11gHBxKgXpVjoPt6oc3UIt5Tu05T7Qkm43iav+PbtD8SP9i7faqNmhflaDoL210t
- zRw4urVHGX+Q4oLA=
-X-Received: by 2002:a5d:60c4:: with SMTP id x4mr35830536wrt.175.1604515325236; 
- Wed, 04 Nov 2020 10:42:05 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz6Dy0F6GR6UnqLZn65rM3HddEm7KF9VRexPdu3AzmNkvreR//Gh71T88/RO8sqh10JPmWtog==
-X-Received: by 2002:a5d:60c4:: with SMTP id x4mr35830517wrt.175.1604515325041; 
- Wed, 04 Nov 2020 10:42:05 -0800 (PST)
+ bh=Vj2K5KfIjYgXaS/HA+9u99+5hxZOJUDzQMD8f8h61Sg=;
+ b=bZUWeUlHsHsP4rh0smW9QemJe22rdL0YR1CjN5o0vmOvhxtRwEtrbkzxJEqiKAh2G7
+ l2UxSKomnRvLeBoNG3TZFK0SIU/Jl2EoumieuNq+OcTySraLdYnirwSD7S4YgYKHTI9F
+ kuAW2Gwy6JnM2nFZRwfhBt0K2MJTYjP6i9vzv2gHb1j3xpvLA2Vhc2yWuMFQOxmVNoFV
+ M+wt/7b8ijdV5NwxW+LOdDztGxcI+Zw2k3FeTcKiV1OwxDHuBy3PUdc/oOjjTmjHaXkP
+ uz4d5Xu5GOJ015WNZ5EBcZZPQ33ucKLImEUGPZK+U5RqSuSLLZWuANclWUNSYkH4Q9oB
+ OlvQ==
+X-Gm-Message-State: AOAM531BOew0ZdWl42I88NXB0Jy361iPt7R6sXMLaJYbQvOI/1GNe8hH
+ T9g82TtF52MhGg7mOFiNJ43E9dTjlHi/ngokppDOsVBNQFVsfIlxKGlpcKAxIlXXyE9MuuYaAJe
+ v004QfG+64m8Op1k=
+X-Received: by 2002:a1c:6484:: with SMTP id y126mr5783450wmb.141.1604515328315; 
+ Wed, 04 Nov 2020 10:42:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyETqU7jriIrUGsEzO4NqKeLs3NeylEWNekcUqojm5WU2hKvOUPsHgFOZPXjqQOBip5rlA9Dg==
+X-Received: by 2002:a1c:6484:: with SMTP id y126mr5783433wmb.141.1604515328141; 
+ Wed, 04 Nov 2020 10:42:08 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id l1sm4146616wrb.1.2020.11.04.10.42.03
+ by smtp.gmail.com with ESMTPSA id u5sm3261102wml.13.2020.11.04.10.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 10:42:04 -0800 (PST)
-Date: Wed, 4 Nov 2020 13:42:02 -0500
+ Wed, 04 Nov 2020 10:42:07 -0800 (PST)
+Date: Wed, 4 Nov 2020 13:42:05 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 16/31] virtio-iommu: Call memory notifiers in attach/detach
-Message-ID: <20201104184040.285057-17-mst@redhat.com>
+Subject: [PULL v3 17/31] virtio-iommu: Add replay() memory region callback
+Message-ID: <20201104184040.285057-18-mst@redhat.com>
 References: <20201104184040.285057-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104184040.285057-1-mst@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,74 +102,89 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bharat Bhushan <bbhushan2@marvell.com>
 
-Call the memory notifiers when attaching an endpoint to a domain, to
-replay existing mappings, and when detaching the endpoint, to remove all
-mappings.
+Implement the replay callback to setup all mappings for a new memory
+region.
 
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20201030180510.747225-5-jean-philippe@linaro.org>
+Message-Id: <20201030180510.747225-6-jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-iommu.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ hw/virtio/virtio-iommu.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ hw/virtio/trace-events   |  1 +
+ 2 files changed, 41 insertions(+)
 
 diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 7dd15c5eac..7b64892351 100644
+index 7b64892351..985257c88f 100644
 --- a/hw/virtio/virtio-iommu.c
 +++ b/hw/virtio/virtio-iommu.c
-@@ -170,11 +170,39 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
-     memory_region_notify_iommu(mr, 0, entry);
+@@ -847,6 +847,45 @@ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
+     return (ua > ub) - (ua < ub);
  }
  
-+static gboolean virtio_iommu_notify_unmap_cb(gpointer key, gpointer value,
-+                                             gpointer data)
-+{
-+    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
-+    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
-+
-+    virtio_iommu_notify_unmap(mr, interval->low, interval->high);
-+
-+    return false;
-+}
-+
-+static gboolean virtio_iommu_notify_map_cb(gpointer key, gpointer value,
-+                                           gpointer data)
++static gboolean virtio_iommu_remap(gpointer key, gpointer value, gpointer data)
 +{
 +    VirtIOIOMMUMapping *mapping = (VirtIOIOMMUMapping *) value;
 +    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
 +    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
 +
++    trace_virtio_iommu_remap(mr->parent_obj.name, interval->low, interval->high,
++                             mapping->phys_addr);
 +    virtio_iommu_notify_map(mr, interval->low, interval->high,
 +                            mapping->phys_addr, mapping->flags);
-+
 +    return false;
 +}
 +
- static void virtio_iommu_detach_endpoint_from_domain(VirtIOIOMMUEndpoint *ep)
++static void virtio_iommu_replay(IOMMUMemoryRegion *mr, IOMMUNotifier *n)
++{
++    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
++    VirtIOIOMMU *s = sdev->viommu;
++    uint32_t sid;
++    VirtIOIOMMUEndpoint *ep;
++
++    sid = virtio_iommu_get_bdf(sdev);
++
++    qemu_mutex_lock(&s->mutex);
++
++    if (!s->endpoints) {
++        goto unlock;
++    }
++
++    ep = g_tree_lookup(s->endpoints, GUINT_TO_POINTER(sid));
++    if (!ep || !ep->domain) {
++        goto unlock;
++    }
++
++    g_tree_foreach(ep->domain->mappings, virtio_iommu_remap, mr);
++
++unlock:
++    qemu_mutex_unlock(&s->mutex);
++}
++
+ static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
  {
-+    VirtIOIOMMUDomain *domain = ep->domain;
-+
-     if (!ep->domain) {
-         return;
-     }
-+    g_tree_foreach(domain->mappings, virtio_iommu_notify_unmap_cb,
-+                   ep->iommu_mr);
-     QLIST_REMOVE(ep, next);
-     ep->domain = NULL;
- }
-@@ -317,6 +345,10 @@ static int virtio_iommu_attach(VirtIOIOMMU *s,
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+@@ -1076,6 +1115,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
+     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_CLASS(klass);
  
-     ep->domain = domain;
- 
-+    /* Replay domain mappings on the associated memory region */
-+    g_tree_foreach(domain->mappings, virtio_iommu_notify_map_cb,
-+                   ep->iommu_mr);
-+
-     return VIRTIO_IOMMU_S_OK;
+     imrc->translate = virtio_iommu_translate;
++    imrc->replay = virtio_iommu_replay;
  }
  
+ static const TypeInfo virtio_iommu_info = {
+diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+index b87a397406..ea3c3b25ad 100644
+--- a/hw/virtio/trace-events
++++ b/hw/virtio/trace-events
+@@ -108,6 +108,7 @@ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uin
+ virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start, uint64_t end) "dev= %d, type=%d start=0x%"PRIx64" end=0x%"PRIx64
+ virtio_iommu_notify_map(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64" flags=%d"
+ virtio_iommu_notify_unmap(const char *name, uint64_t virt_start, uint64_t virt_end) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64
++virtio_iommu_remap(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64
+ 
+ # virtio-mem.c
+ virtio_mem_send_response(uint16_t type) "type=%" PRIu16
 -- 
 MST
 
