@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C0382A651B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 14:27:57 +0100 (CET)
-Received: from localhost ([::1]:58770 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AB6D2A6502
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 14:23:01 +0100 (CET)
+Received: from localhost ([::1]:50674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaIpP-0007pu-Jr
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 08:27:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
+	id 1kaIke-0004LF-Iz
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 08:23:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kaIhT-0002eh-R2
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:19:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24271)
+ id 1kaIhW-0002fV-2f
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:19:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36089)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kaIhR-0008Od-SQ
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:19:43 -0500
+ id 1kaIhU-0008Os-Bd
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:19:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604495980;
+ s=mimecast20190719; t=1604495983;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RVg4ORMcsdgJBufhD2Y8fk1Fp/517gGMOPrnP3bAkO0=;
- b=V7RRQX2IrObdTFMXL8Qb1DIZAMg1QPokm4gsGaV6tBNheljGaFn3PZmR6KJuEiNi30rQrX
- KRybihl1boycO+5GT3vaw/Gk68F8QfPZ+0Xf1d8h0rH7C94x+u99bwfVGLetjt+0Q27SE6
- JjXljm1CUGdlwBX4knmGJjSFlULV7fs=
+ bh=ivT0m7Hc2yDbTpToKHzOvmZ6pBPHFIa2RrkfFrbzO4I=;
+ b=iNZ4qKij5qf4UI6SugWJXNCvG9aFb6M8pwkWdg6E4wS5f+iNAqkdyJu/fu8HotWqysXgdY
+ HLAQnmMZ2qLGpxxE7Yuu+gOeaoPcSwsVmqnPcg47z0emzIzT3nKSOJbw1IgALXXcjM+F82
+ 9w+77F0CjdezhZx2noQmuYyYXTBmSb0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-68-EDpSiTqKPb6uj0NAwnsa1g-1; Wed, 04 Nov 2020 08:19:36 -0500
-X-MC-Unique: EDpSiTqKPb6uj0NAwnsa1g-1
+ us-mta-214-NTiLioq0NeKyY1U8nlO6bQ-1; Wed, 04 Nov 2020 08:19:39 -0500
+X-MC-Unique: NTiLioq0NeKyY1U8nlO6bQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A46D31084D64;
- Wed,  4 Nov 2020 13:19:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7F8D907E57;
+ Wed,  4 Nov 2020 13:19:37 +0000 (UTC)
 Received: from fedora.redhat.com (ovpn-115-26.ams2.redhat.com [10.36.115.26])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB6E775128;
- Wed,  4 Nov 2020 13:19:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0CD6C75131;
+ Wed,  4 Nov 2020 13:19:35 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] hw/usb/ccid: remove references to NSS
-Date: Wed,  4 Nov 2020 13:19:22 +0000
-Message-Id: <20201104131924.593522-2-berrange@redhat.com>
+Subject: [PATCH 2/3] tests: remove "bc" from package listing
+Date: Wed,  4 Nov 2020 13:19:23 +0000
+Message-Id: <20201104131924.593522-3-berrange@redhat.com>
 In-Reply-To: <20201104131924.593522-1-berrange@redhat.com>
 References: <20201104131924.593522-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -87,233 +87,77 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NSS package was previously pre-requisite for building CCID related
-features, however, this became obsolete when the libcacard library was
-spun off to a separate project:
-
-    commit 7b02f5447c64d1854468f758398c9f6fe9e5721f
-    Author: Marc-André Lureau <marcandre.lureau@redhat.com>
-    Date:   Sun Aug 30 11:48:40 2015 +0200
-
-        libcacard: use the standalone project
+There is no sign of 'bc' being used by any tests in the tree.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- .travis.yml                                | 14 +++++++-------
- docs/ccid.txt                              | 15 +++++++--------
- scripts/coverity-scan/coverity-scan.docker |  1 -
- tests/docker/dockerfiles/centos7.docker    |  1 +
- tests/docker/dockerfiles/centos8.docker    |  1 +
- tests/docker/dockerfiles/fedora.docker     |  2 +-
- 6 files changed, 17 insertions(+), 17 deletions(-)
+ scripts/coverity-scan/coverity-scan.docker         | 1 -
+ tests/docker/dockerfiles/debian10.docker           | 1 -
+ tests/docker/dockerfiles/fedora-win32-cross.docker | 1 -
+ tests/docker/dockerfiles/fedora-win64-cross.docker | 1 -
+ tests/docker/dockerfiles/fedora.docker             | 1 -
+ 5 files changed, 5 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index a3d78171ca..2bd2cfd0ba 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -27,6 +27,7 @@ addons:
-       - libattr1-dev
-       - libbrlapi-dev
-       - libcap-ng-dev
-+      - libcacard-dev
-       - libgcc-7-dev
-       - libgnutls28-dev
-       - libgtk-3-dev
-@@ -34,7 +35,6 @@ addons:
-       - liblttng-ust-dev
-       - libncurses5-dev
-       - libnfs-dev
--      - libnss3-dev
-       - libpixman-1-dev
-       - libpng-dev
-       - librados-dev
-@@ -268,6 +268,7 @@ jobs:
-             - libaio-dev
-             - libattr1-dev
-             - libbrlapi-dev
-+            - libcacard-dev
-             - libcap-ng-dev
-             - libgnutls28-dev
-             - libgtk-3-dev
-@@ -275,7 +276,6 @@ jobs:
-             - liblttng-ust-dev
-             - libnfs-dev
-             - libncurses5-dev
--            - libnss3-dev
-             - libpixman-1-dev
-             - libpng-dev
-             - librados-dev
-@@ -335,6 +335,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -343,7 +344,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-@@ -369,6 +369,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -377,7 +378,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-@@ -402,6 +402,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -410,7 +411,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-@@ -444,6 +444,7 @@ jobs:
-         apt_packages:
-           - libaio-dev
-           - libattr1-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgnutls28-dev
-           - libiscsi-dev
-@@ -451,7 +452,6 @@ jobs:
-           - liblzo2-dev
-           - libncurses-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libsdl2-dev
-           - libsdl2-image-dev
-@@ -487,6 +487,7 @@ jobs:
-           - libaio-dev
-           - libattr1-dev
-           - libbrlapi-dev
-+          - libcacard-dev
-           - libcap-ng-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-@@ -495,7 +496,6 @@ jobs:
-           - liblttng-ust-dev
-           - libncurses5-dev
-           - libnfs-dev
--          - libnss3-dev
-           - libpixman-1-dev
-           - libpng-dev
-           - librados-dev
-diff --git a/docs/ccid.txt b/docs/ccid.txt
-index c7fda6d07d..1baf03e29b 100644
---- a/docs/ccid.txt
-+++ b/docs/ccid.txt
-@@ -34,15 +34,14 @@ reader and smart card (i.e. not backed by a physical device) using this device.
- 
- 2. Building
- 
--The cryptographic functions and access to the physical card is done via NSS.
--
--Installing NSS:
-+The cryptographic functions and access to the physical card is done via the
-+libcacard library, whose development package must be installed prior to
-+building QEMU:
- 
- In redhat/fedora:
--    yum install nss-devel
--In ubuntu/debian:
--    apt-get install libnss3-dev
--    (not tested on ubuntu)
-+    yum install libcacard-devel
-+In ubuntu:
-+    apt-get install libcacard-dev
- 
- Configuring and building:
-     ./configure --enable-smartcard && make
-@@ -51,7 +50,7 @@ Configuring and building:
- 3. Using ccid-card-emulated with hardware
- 
- Assuming you have a working smartcard on the host with the current
--user, using NSS, qemu acts as another NSS client using ccid-card-emulated:
-+user, using libcacard, qemu acts as another client using ccid-card-emulated:
- 
-     qemu -usb -device usb-ccid -device ccid-card-emulated
- 
 diff --git a/scripts/coverity-scan/coverity-scan.docker b/scripts/coverity-scan/coverity-scan.docker
-index 501ac67233..ecff6ac5b4 100644
+index ecff6ac5b4..e49c5e8332 100644
 --- a/scripts/coverity-scan/coverity-scan.docker
 +++ b/scripts/coverity-scan/coverity-scan.docker
-@@ -93,7 +93,6 @@ ENV PACKAGES \
-     mingw64-SDL2 \
-     ncurses-devel \
-     nettle-devel \
--    nss-devel \
-     numactl-devel \
-     perl \
-     perl-Test-Harness \
-diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
-index 6f11af1989..d47c96135c 100644
---- a/tests/docker/dockerfiles/centos7.docker
-+++ b/tests/docker/dockerfiles/centos7.docker
-@@ -17,6 +17,7 @@ ENV PACKAGES \
-     glib2-devel \
-     gnutls-devel \
-     libaio-devel \
-+    libcacard-devel \
-     libepoxy-devel \
-     libfdt-devel \
-     libgcrypt-devel \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index 54bc6d54cd..bbd82421db 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -13,6 +13,7 @@ ENV PACKAGES \
-     git \
-     glib2-devel \
-     libaio-devel \
-+    libcacard-devel \
-     libepoxy-devel \
-     libgcrypt-devel \
-     lzo-devel \
+@@ -18,7 +18,6 @@
+ FROM fedora:30
+ ENV PACKAGES \
+     alsa-lib-devel \
+-    bc \
+     brlapi-devel \
+     bzip2 \
+     bzip2-devel \
+diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+index 21cc671d71..9f52e2ceae 100644
+--- a/tests/docker/dockerfiles/debian10.docker
++++ b/tests/docker/dockerfiles/debian10.docker
+@@ -17,7 +17,6 @@ RUN apt update && \
+     DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+     DEBIAN_FRONTEND=noninteractive eatmydata \
+     apt install -y --no-install-recommends \
+-        bc \
+         build-essential \
+         ca-certificates \
+         clang \
+diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
+index 5903e1b0b4..fccff862e1 100644
+--- a/tests/docker/dockerfiles/fedora-win32-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
+@@ -2,7 +2,6 @@ FROM fedora:32
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+-    bc \
+     bzip2 \
+     diffutils \
+     findutils \
+diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
+index 7f03cd8ffc..67dc33df63 100644
+--- a/tests/docker/dockerfiles/fedora-win64-cross.docker
++++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
+@@ -2,7 +2,6 @@ FROM fedora:32
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+-    bc \
+     bzip2 \
+     diffutils \
+     findutils \
 diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index 0b5053f2d0..29859beee3 100644
+index 29859beee3..0f5c76067b 100644
 --- a/tests/docker/dockerfiles/fedora.docker
 +++ b/tests/docker/dockerfiles/fedora.docker
-@@ -28,6 +28,7 @@ ENV PACKAGES \
-     libattr-devel \
-     libblockdev-mpath-devel \
-     libcap-ng-devel \
-+    libcacard-devel \
-     libcurl-devel \
-     libepoxy-devel \
-     libfdt-devel \
-@@ -77,7 +78,6 @@ ENV PACKAGES \
-     ncurses-devel \
-     nettle-devel \
-     ninja-build \
--    nss-devel \
-     numactl-devel \
-     perl \
-     perl-Test-Harness \
+@@ -2,7 +2,6 @@ FROM fedora:32
+ 
+ # Please keep this list sorted alphabetically
+ ENV PACKAGES \
+-    bc \
+     brlapi-devel \
+     bzip2 \
+     bzip2-devel \
 -- 
 2.28.0
 
