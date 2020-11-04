@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CD42A61A3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:32:37 +0100 (CET)
-Received: from localhost ([::1]:40478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04E522A61DC
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:37:51 +0100 (CET)
+Received: from localhost ([::1]:48508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaG5k-0002Pl-2X
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:32:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40826)
+	id 1kaGAn-0005wg-K8
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:37:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kaFwQ-0003Uy-Vw; Wed, 04 Nov 2020 05:22:59 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:33625)
+ id 1kaFwS-0003WS-4A; Wed, 04 Nov 2020 05:23:01 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:39159)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1kaFwO-0002Hj-Ee; Wed, 04 Nov 2020 05:22:58 -0500
+ id 1kaFwQ-0002I7-BH; Wed, 04 Nov 2020 05:22:59 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 6885C3D5;
- Wed,  4 Nov 2020 05:22:54 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id EDBD6AF7;
+ Wed,  4 Nov 2020 05:22:55 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 04 Nov 2020 05:22:55 -0500
+ by compute4.internal (MEProxy); Wed, 04 Nov 2020 05:22:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=UA+VVCnGzkkNI
- uqKXObtavL8wxUG01U2iUsM9Tmlh44=; b=BM/q3bo/I6Yb8FmWFFvq8L7MmQ2hY
- JCt+6mUKjXSGM/O7LxS4rHyTy3tTts+h3IXPLqpUE/7etEH/mvTmkpKxhhAfxu+X
- 2WF1JQKLzDzs9T51ud0wThWBuu1XAFY8HyhZ6rm6I/KjU5EtFMS5+vPS/BPLq8t6
- z5ZQIK6GmJYQ8kMO9By+s+YiahLBGEFKsOxDjK7oW4VDcibMF3rlp1yi1BMaO36O
- MTDYW/JgP5N9ECJ+epc+sWw8LCozgFAlyO74xWQILEaXbrTMDm/HKda7t4aSiBZh
- gU5d6ZjZrda81L/RjLpurg93Z3of6tqiXUsCQ6rRaRx+n/jfheGKSMJDg==
+ :mime-version:content-transfer-encoding; s=fm1; bh=Ec7W6yqCDgaIQ
+ yq5Zu2HxvoyaH/VyEJWeQB+2zxtbCo=; b=UKOgy4J4AQoH4c/PM7ClMyfbtpyvr
+ izuANIygOgdwP4y66UbjrD0sahtbsaMhrB0f0iuFmWGwtsUFC7fo7L8soU+fWdWu
+ Wc/WcrekWGh0iluYp6rG1qbSid9d0vg+kMLio5YgV4lAuKfHsvcdSUgkAQ+Yq+X9
+ DvKCH7L0tT4jJtV+RuwEaCwiKBWkw+IQRoUjPqX3JV5XkKyzij+4URhNN3ck5Wdh
+ x9o1aG7DYhXj4ARGswKIHd2GRdIPM1Y0dp7rVdNxT6KKnxMhY7zKdulz+SIENG1D
+ rlS2V53PvIkD6SLuo7VWJbLEeY13SxDVGk4UWZ60emyAeyNM2E6sngkLQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=UA+VVCnGzkkNIuqKXObtavL8wxUG01U2iUsM9Tmlh44=; b=caGL0rwr
- QTwgyL5jhCAMOxGNcr8KEaL7jWOI6BQz5LY62eOBj1+d2dXWl00bW9XF/T4u8Hw/
- ja0CGfzl/ELIpz4a6oOfQSrk9HGsVdr/HG3R6rHz4j0bN4/yjZt+Eh6R+56wbvHt
- j34w6Vumz2G3yB9Fn7fOZhHKjTxbMNG8mkzyisMQN41PxQ7iPr2S2k/JHHroZRS8
- R2utYbgr9w+u9joQ3dVETptUH94iPutiz2sWhbpNV6+WuUfhuM7Tj5tsB8uYOaX/
- QcM7p8+IxyJ+GqvxPmJl5EipxDovcDYMqmG8lwXZvjI1oWWyqjn039EM66yg8xpT
- j86OeiJr5h/2+g==
-X-ME-Sender: <xms:_YCiX2d8SLjNsJ68dnoBNyQCvYjM4_IOMiVWeGloDtgHaMbUWCVRwg>
- <xme:_YCiXwOei9-uNkUhgI8DHZuGdqXkplYpvEGiDaQxt_mtnmEx6vzZE5qIv4rcMvQ5w
- Ipg7qrN4t5_O_lYR9w>
+ fm1; bh=Ec7W6yqCDgaIQyq5Zu2HxvoyaH/VyEJWeQB+2zxtbCo=; b=JLjmsT9r
+ QYPvFf+EFhsDOU0P4gHkyhHC0gYmkGF04OsKot8mhWIShyvBqz3NDm2bHp5/ARPP
+ ooTcgAJjmULuTyMJAw6WekuoWXdLYlwEgjPKg9ESmp08DyvfGFaLChAaGC11F71D
+ WbcXI91haMgfRcZTfO9Go8+ObTo9wrqt6Aw1XuV1vVYxkFlzv3ENqeL/prnqjUdD
+ HdpoyIha+y0yVaTZRD39J5c4Y1GeHBWec5/XK0JqI7OWR0oihTSVMRDXAI2lAzcJ
+ wNN74wFPOYE5vkORbR8/TLSJ3wb65jAGsYcuA3vJ+MjfPqqDmRr+3QdJ7z1mVIyq
+ JVlcQ744P0NYIA==
+X-ME-Sender: <xms:_4CiX7_UMH0Bat26Js_jatL2AKk50jqjHXQrXYFQY_X0zfNgUqrt6A>
+ <xme:_4CiX3tL-DYAkpEOOAXwvnJnhaFsZ7Uvcaj32JGwSGHpvL3QHvqFQFok_pUsaaiCu
+ o02lQtJnJxkZ60VRGI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgudeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedgudeiucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:_YCiX3hRjdp6mMkkNZl4RVuha6yYi5hj2I-tMergVx9StqUNRZ6EKQ>
- <xmx:_YCiXz_s4HSQXpTpeYPGQm6nhZuOkFq5FfBz_0IGFoeNSjoLyeqbyw>
- <xmx:_YCiXyv1XIDl_1fRHhjQ0ESSAPm-waeZ6ax3i4KMMQX52NHOVepqxw>
- <xmx:_oCiX_-udIULDQ3I9skdduOz8X9gdRdays8Wq-Sr6jxhjyn99QOC4Q>
+X-ME-Proxy: <xmx:_4CiX5D9TLIgTs5hQol6vIMSpq4PVrmiRXFv0Ls_xqqYkVgOdY2uuQ>
+ <xmx:_4CiX3fCOvxwD-cE5oNWxUzMIVOyS01L32uxTWGntanovCftmAYJ8g>
+ <xmx:_4CiXwN7s-Ndp9R0pw2hPcMjvtSdjJ8IPz5KKVgq9bLeyxVsYXUMzQ>
+ <xmx:_4CiX3eqxyu8qor1ogL0HUJ8W3P07Klj1gRV1YLzCmSkxNtD4kKehQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 99ADC3280395;
- Wed,  4 Nov 2020 05:22:52 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1A31B3280390;
+ Wed,  4 Nov 2020 05:22:54 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 2/3] hw/block/nvme: fix uint16_t use of uint32_t sgls
- member
-Date: Wed,  4 Nov 2020 11:22:47 +0100
-Message-Id: <20201104102248.32168-3-its@irrelevant.dk>
+Subject: [PATCH for-5.2 3/3] hw/block/nvme: fix free of array-typed value
+Date: Wed,  4 Nov 2020 11:22:48 +0100
+Message-Id: <20201104102248.32168-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201104102248.32168-1-its@irrelevant.dk>
 References: <20201104102248.32168-1-its@irrelevant.dk>
@@ -105,29 +104,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-nvme_map_sgl_data erroneously uses the sgls member of NvmeIdNs as a
-uint16_t.
+Since 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces"), the
+namespaces member of NvmeCtrl is no longer a dynamically allocated
+array. Remove the free.
 
-Reported-by: Coverity (CID 1436129)
-Fixes: cba0a8a344fe ("hw/block/nvme: add support for scatter gather lists")
+Fixes: 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces")
+Reported-by: Coverity (CID 1436131)
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 080d782f1c2b..2bdc50eb6fce 100644
+index 2bdc50eb6fce..01b657b1c5e2 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -452,7 +452,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
-              * segments and/or descriptors. The controller might accept
-              * ignoring the rest of the SGL.
-              */
--            uint16_t sgls = le16_to_cpu(n->id_ctrl.sgls);
-+            uint32_t sgls = le32_to_cpu(n->id_ctrl.sgls);
-             if (sgls & NVME_CTRL_SGLS_EXCESS_LENGTH) {
-                 break;
-             }
+@@ -2799,7 +2799,6 @@ static void nvme_exit(PCIDevice *pci_dev)
+     NvmeCtrl *n = NVME(pci_dev);
+ 
+     nvme_clear_ctrl(n);
+-    g_free(n->namespaces);
+     g_free(n->cq);
+     g_free(n->sq);
+     g_free(n->aer_reqs);
 -- 
 2.29.1
 
