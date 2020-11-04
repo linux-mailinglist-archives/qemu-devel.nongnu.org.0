@@ -2,82 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF1222A6583
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 14:48:14 +0100 (CET)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25CF2A6596
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 14:55:31 +0100 (CET)
+Received: from localhost ([::1]:43602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaJ93-000472-Nl
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 08:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59774)
+	id 1kaJG6-0000UI-A8
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 08:55:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaJ87-0003Jd-C4
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:47:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57717)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaJEw-0007iK-3c
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:54:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaJ85-0003ji-NW
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:47:15 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaJEs-0004NL-92
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 08:54:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604497632;
+ s=mimecast20190719; t=1604498052;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XswLobcq4zX7iqoKiR0EPnCxps5pis2KOmuTREZRFBM=;
- b=CmHcWzuyy79XF3boQjcT+vScMJbh4ALZCQDfG8TPL5LDzNoU+pEBt4W1zNsTXJB0EE0FVE
- /aw92fSrkTGUpjd7Eol8zOS1ICD9iGjH3dPXoJenXk7JthUuJNwtC5xvTJA7c4uKka/WrK
- Cz59ozm2B/Bx/bUbIjDzt/5Cp6ebctY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-s-3ofevGOUGRsYANVCjeMg-1; Wed, 04 Nov 2020 08:47:09 -0500
-X-MC-Unique: s-3ofevGOUGRsYANVCjeMg-1
-Received: by mail-wm1-f72.google.com with SMTP id b68so642325wme.5
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 05:47:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XswLobcq4zX7iqoKiR0EPnCxps5pis2KOmuTREZRFBM=;
- b=pcjOZRs6Ubf2X50GPePaGL5zViN2ap2U5wFajelxqxN/mvsKLTxYKeqzHq4HMXVlhl
- iR1LQWqQmBBhNhEtZTy0DAOJOWew98UfboIKide9xpa92sUd8noSaJ5uV2ImiW/elIpi
- AJ+S0j5upvg4zIcWJxuDKXpy3dZepbD3sEjhj+0ddgDDEe1U2mGaENbOZ2s7VclLrPZO
- mPit9t5sjZwhxeUYnlQbVxy54CmuQCFqvR4e1tF32cO6H83AG/7X4SaWgehqUC6OA2CH
- Wf46Abm/kBbms72jZRU1IjJb5NJUFvDGBoCcYFfzdUEb5KDL+U63UhSkfKueIq/sQaSI
- eZmw==
-X-Gm-Message-State: AOAM533OcDHEgchF4SCY01xBdyqC5VOOPJBtc+LMz5Vy0Iza/XwoIi51
- N16mebppVNdlalYI48YL0GkyNDSIKd2sGRWGw0pbwWFHIAlXd8u4nSYlG4Ye9ozcy4KvrZ6dFoK
- d5uRzEBZDnmQ4oxE=
-X-Received: by 2002:adf:f3c7:: with SMTP id g7mr34397901wrp.394.1604497627704; 
- Wed, 04 Nov 2020 05:47:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzVwNbZWTalqwb/54ubRp7QknosAd52dTgpU/frWeZk2ZBaoU2e7nk1FV9l+NgYyeykg42hVA==
-X-Received: by 2002:adf:f3c7:: with SMTP id g7mr34397877wrp.394.1604497627491; 
- Wed, 04 Nov 2020 05:47:07 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id k81sm6818159wma.2.2020.11.04.05.47.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Nov 2020 05:47:06 -0800 (PST)
-Subject: Re: [PATCH 1/3] hw/usb/ccid: remove references to NSS
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201104131924.593522-1-berrange@redhat.com>
- <20201104131924.593522-2-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <48e24f80-1198-c101-28a8-3bec0318b482@redhat.com>
-Date: Wed, 4 Nov 2020 14:47:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ljDRU4zBNDtmjEhvnBsiGngP1sd+6KsHxO1LaUd4Rs8=;
+ b=iP5jOsRYC6jtXtnrvYaQlE2MG5NdzeubL6lEoncUSYtTsC18Mut/MhiqbAvPI+oGXv/fVD
+ VblXL9hD5gyIcZoibFECnjNFD4GlkYoCi6bZO3H5ScHZ1zGo0wPN2aba52oc4LmJLyP6Sm
+ IDPoojHDIoxtQXatvqk5x3tqqBp48dg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-159-V8UuGhKdOmO1SZHMB3pwlA-1; Wed, 04 Nov 2020 08:54:10 -0500
+X-MC-Unique: V8UuGhKdOmO1SZHMB3pwlA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A04907E4F
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 13:54:09 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1567821E73;
+ Wed,  4 Nov 2020 13:54:01 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id F0C8716E31; Wed,  4 Nov 2020 14:54:00 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 0/3] Ui 20201104 patches
+Date: Wed,  4 Nov 2020 14:53:57 +0100
+Message-Id: <20201104135400.3938-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201104131924.593522-2-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -86,9 +64,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,72 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/4/20 2:19 PM, Daniel P. Berrangé wrote:
-> The NSS package was previously pre-requisite for building CCID related
-> features, however, this became obsolete when the libcacard library was
-> spun off to a separate project:
-> 
->     commit 7b02f5447c64d1854468f758398c9f6fe9e5721f
->     Author: Marc-André Lureau <marcandre.lureau@redhat.com>
->     Date:   Sun Aug 30 11:48:40 2015 +0200
-> 
->         libcacard: use the standalone project
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  .travis.yml                                | 14 +++++++-------
->  docs/ccid.txt                              | 15 +++++++--------
->  scripts/coverity-scan/coverity-scan.docker |  1 -
->  tests/docker/dockerfiles/centos7.docker    |  1 +
->  tests/docker/dockerfiles/centos8.docker    |  1 +
->  tests/docker/dockerfiles/fedora.docker     |  2 +-
->  6 files changed, 17 insertions(+), 17 deletions(-)
-...
-
-> diff --git a/docs/ccid.txt b/docs/ccid.txt
-> index c7fda6d07d..1baf03e29b 100644
-> --- a/docs/ccid.txt
-> +++ b/docs/ccid.txt
-> @@ -34,15 +34,14 @@ reader and smart card (i.e. not backed by a physical device) using this device.
->  
->  2. Building
->  
-> -The cryptographic functions and access to the physical card is done via NSS.
-> -
-> -Installing NSS:
-> +The cryptographic functions and access to the physical card is done via the
-> +libcacard library, whose development package must be installed prior to
-> +building QEMU:
->  
->  In redhat/fedora:
-> -    yum install nss-devel
-> -In ubuntu/debian:
-> -    apt-get install libnss3-dev
-> -    (not tested on ubuntu)
-> +    yum install libcacard-devel
-> +In ubuntu:
-> +    apt-get install libcacard-dev
->  
->  Configuring and building:
->      ./configure --enable-smartcard && make
-> @@ -51,7 +50,7 @@ Configuring and building:
->  3. Using ccid-card-emulated with hardware
->  
->  Assuming you have a working smartcard on the host with the current
-> -user, using NSS, qemu acts as another NSS client using ccid-card-emulated:
-> +user, using libcacard, qemu acts as another client using ccid-card-emulated:
-
-Maybe replace 'qemu' by 'QEMU' (another instance line 125).
-
-Otherwise:
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Thanks.
+The following changes since commit 3d6e32347a3b57dac7f469a07c5f520e69bd070a=
+:=0D
+=0D
+  Update version for v5.2.0-rc0 release (2020-11-03 21:11:57 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  git://git.kraxel.org/qemu tags/ui-20201104-pull-request=0D
+=0D
+for you to fetch changes up to 0d9b90ce5c73505648909a89bcd5272081b9c348:=0D
+=0D
+  console: make QMP/HMP screendump run in coroutine (2020-11-04 08:02:25 +0=
+10=3D=0D
+0)=0D
+=0D
+----------------------------------------------------------------=0D
+ui: run screendump in coroutine=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Marc-Andr=3DC3=3DA9 Lureau (3):=0D
+  coroutine: let CoQueue wake up outside a coroutine=0D
+  console: modify ppm_save to take a pixman image ref=0D
+  console: make QMP/HMP screendump run in coroutine=0D
+=0D
+ monitor/hmp-cmds.c         |  3 ++-=0D
+ ui/console.c               | 47 ++++++++++++++++++++++++++++++--------=0D
+ util/qemu-coroutine-lock.c |  6 ++---=0D
+ hmp-commands.hx            |  1 +=0D
+ qapi/ui.json               |  3 ++-=0D
+ ui/trace-events            |  2 +-=0D
+ 6 files changed, 45 insertions(+), 17 deletions(-)=0D
+=0D
+--=3D20=0D
+2.27.0=0D
+=0D
 
 
