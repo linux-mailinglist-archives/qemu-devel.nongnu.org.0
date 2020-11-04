@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7913E2A5D8F
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:09:40 +0100 (CET)
-Received: from localhost ([::1]:40352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E8C2A5D9C
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:15:39 +0100 (CET)
+Received: from localhost ([::1]:59642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaB3D-0006qg-Gp
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:09:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59504)
+	id 1kaB90-0006Kn-TY
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:15:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm9-0006oP-Et
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20222)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmr-0008QQ-Ke
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60192)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm7-0004ka-Fs
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmp-0004zJ-Pn
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465518;
+ s=mimecast20190719; t=1604465562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ay6G7kYGtMwl+/IxEdsu272p/jXvwydr69tjR0/ihX0=;
- b=Jp6f8Ki2IEJbTtoGQyNJItpXLLfjl6iuDlZ+U37cVs2jwInULsNdO/Z1ms8fMH7SkATN/a
- LTDdOESK/Kt4uVxXeeyoPc8W97K7WPAj8Oxl0PMG/z/U1vxftREKK4aBukX23b2fdsHvhX
- I/CrrxYw+urVUxuRNpcZdyKFyGF6RO0=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-22K-WlXRNqCywc92m1tfAQ-1; Tue, 03 Nov 2020 23:51:56 -0500
-X-MC-Unique: 22K-WlXRNqCywc92m1tfAQ-1
-Received: by mail-wr1-f72.google.com with SMTP id 33so8658983wrf.22
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:56 -0800 (PST)
+ bh=FOR/bv25dGPFB9FnzIFOxW/ObDgDZns8YprwAzRry/Y=;
+ b=E73w5zNCZTTquuLAcHSZ0q4UvMlpTaWcwE0V0Aw4iUPmNNn9zVTBol0FqaRDuUDUp6AWAJ
+ qQDr7gQSdcrBCApaMWLLnmZflnGVhjQ5wjysxxXflrJU4Z4utheZHUnv1j4sIUvBOxKSTg
+ sTcoGnGfHtvVPE5GV2XRnv2GqQB15OQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-346-A5QjTE7bO--eG2BLY9L3lg-1; Tue, 03 Nov 2020 23:52:01 -0500
+X-MC-Unique: A5QjTE7bO--eG2BLY9L3lg-1
+Received: by mail-wr1-f69.google.com with SMTP id b6so8660944wrn.17
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:52:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=ay6G7kYGtMwl+/IxEdsu272p/jXvwydr69tjR0/ihX0=;
- b=D/MdRe7scREx+D7KpqhRWCorLrvr/j/4UzBhbNCTQqv69Fg17dSevP1XJy/ZnBrY6g
- aaGer3uXjHF9aW6ESLTCwFhv5v//jEbIZmyUfHRr55mTnsqE+feGvU24IB1r8DemeKBO
- Nj4Uo1OgO3EJlgaVI+2+Muz0oiRu7/lzMHhHu+JE0kwDrJgfs44APhFwqttrElxC0Zk8
- wKXS35dx4Zk0n74dPgfC94WYfnjObMm7LEsHK5n1I4Thr5aznjFQsL8SjDmhsogND5TW
- mrcMmU+xy34885LhVUssv0UMynw0ZzfVSORTQSYDtIrLoo7OCAB182AgUQtErGAXJR71
- yCQA==
-X-Gm-Message-State: AOAM530AvGfmMeGse1Pun2dZYBUs0h1Yqm5xOp1kcK0HI80mGUBhsHMH
- bIZzblfA8GSOa8fD0IJ5Rq4cmuQhHELHgBkpTY8F0q9dCoq2qlIotWFjhdCPY1sSSc65o6t+dSa
- jdW8LDzz4ZY5bSrY=
-X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr2502240wmg.18.1604465514552; 
- Tue, 03 Nov 2020 20:51:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwaV+HNlC7gSFAZlnRC5mQk5GWWYvogD9kRo5K9QJg3virI3EhAYqoPl6o2oVWrj9ujZmLuxg==
-X-Received: by 2002:a7b:cf1a:: with SMTP id l26mr2502230wmg.18.1604465514434; 
- Tue, 03 Nov 2020 20:51:54 -0800 (PST)
+ bh=FOR/bv25dGPFB9FnzIFOxW/ObDgDZns8YprwAzRry/Y=;
+ b=EYDuxUbowdh3POq0uksVpjWFqN1RS90wXcaQWNdvaL5yhF+6epMuhTO93eXQU6qg63
+ cmzLBm4nDLYqk0HTGx1rOl14GQRi1jCXhz6Yn8Kjmy5L6sko5Vm8MR9vDIiCgmiYcQmZ
+ zBHGv8WbBgHexQ3Nzvx2mguM01xVbGMkaSlvIZGSxqS3Wor60lrG/VLVHaEwaUVC3FBN
+ a/elfhkGdjk9q/ID/zeNF14VmzpbXT8yKNF9RVm6YdxNp8fdtR5MzZGp1FZhLjjmfBHx
+ A7zMhEH5er3Zl5YXhfI37MxdgaI+ZgY9FFpPGp7cOTGhrEZHoblJ9pGSIGK3hA3yk/Kv
+ Awgg==
+X-Gm-Message-State: AOAM531ylvu6bypTzZVq6w6Ix/leXqQkwps7PlpSfQ1Lz5ZFQ2pJ7QcS
+ wZBAe+ozFsVPBH9QWkwWmgmvBLBdGmBXtlo2KCNAhsHbDDw2GLV/JK5jFQ0zWUHDrgCVPFAOJxb
+ RyyV8aGsxJv0r40o=
+X-Received: by 2002:a5d:4c4f:: with SMTP id n15mr28976514wrt.137.1604465519814; 
+ Tue, 03 Nov 2020 20:51:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxo6ZnRAG/CyyK5D5ryWKX4pbM4rBmKPi8zswxWO1XEaX2+DS4IM7ZCbRexCfz8IaYmzSMvBQ==
+X-Received: by 2002:a5d:4c4f:: with SMTP id n15mr28976509wrt.137.1604465519682; 
+ Tue, 03 Nov 2020 20:51:59 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id s9sm880369wrf.90.2020.11.03.20.51.52
+ by smtp.gmail.com with ESMTPSA id n8sm810292wmc.11.2020.11.03.20.51.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:53 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:52 -0500
+ Tue, 03 Nov 2020 20:51:59 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:51:57 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 26/38] vhost-blk: set features before setting inflight
- feature
-Message-ID: <20201104044937.226370-27-mst@redhat.com>
+Subject: [PULL v2 28/38] configure: introduce --enable-vhost-user-blk-server
+Message-ID: <20201104044937.226370-29-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -82,7 +81,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,87 +95,127 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Jin Yu <jin.yu@intel.com>,
- Max Reitz <mreitz@redhat.com>, Raphael Norwitz <raphael.norwitz@nutanix.com>
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Jin Yu <jin.yu@intel.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Virtqueue has split and packed, so before setting inflight,
-you need to inform the back-end virtqueue format.
+Make it possible to compile out the vhost-user-blk server. It is enabled
+by default on Linux.
 
-Signed-off-by: Jin Yu <jin.yu@intel.com>
-Acked-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-Message-Id: <20201103123617.28256-1-jin.yu@intel.com>
+Note that vhost-user-server.c depends on libvhost-user, which requires
+CONFIG_LINUX. The CONFIG_VHOST_USER dependency was erroneous since that
+option controls vhost-user frontends (previously known as "master") and
+not device backends (previously known as "slave").
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20201027173528.213464-3-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/virtio/vhost.h |  1 +
- hw/block/vhost-user-blk.c |  6 ++++++
- hw/virtio/vhost.c         | 20 ++++++++++++++++++++
- 3 files changed, 27 insertions(+)
+ configure                | 15 +++++++++++++++
+ block/export/export.c    |  4 ++--
+ block/export/meson.build |  2 +-
+ util/meson.build         |  2 +-
+ 4 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
-index 94585067f7..4a8bc75415 100644
---- a/include/hw/virtio/vhost.h
-+++ b/include/hw/virtio/vhost.h
-@@ -141,6 +141,7 @@ void vhost_dev_reset_inflight(struct vhost_inflight *inflight);
- void vhost_dev_free_inflight(struct vhost_inflight *inflight);
- void vhost_dev_save_inflight(struct vhost_inflight *inflight, QEMUFile *f);
- int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f);
-+int vhost_dev_prepare_inflight(struct vhost_dev *hdev, VirtIODevice *vdev);
- int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight);
- int vhost_dev_get_inflight(struct vhost_dev *dev, uint16_t queue_size,
-diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index a076b1e54d..2dd3d93ca0 100644
---- a/hw/block/vhost-user-blk.c
-+++ b/hw/block/vhost-user-blk.c
-@@ -131,6 +131,12 @@ static int vhost_user_blk_start(VirtIODevice *vdev)
+diff --git a/configure b/configure
+index 2c3c69f118..b5e8f5f72c 100755
+--- a/configure
++++ b/configure
+@@ -329,6 +329,7 @@ vhost_crypto=""
+ vhost_scsi=""
+ vhost_vsock=""
+ vhost_user=""
++vhost_user_blk_server=""
+ vhost_user_fs=""
+ kvm="auto"
+ hax="auto"
+@@ -1246,6 +1247,10 @@ for opt do
+   ;;
+   --enable-vhost-vsock) vhost_vsock="yes"
+   ;;
++  --disable-vhost-user-blk-server) vhost_user_blk_server="no"
++  ;;
++  --enable-vhost-user-blk-server) vhost_user_blk_server="yes"
++  ;;
+   --disable-vhost-user-fs) vhost_user_fs="no"
+   ;;
+   --enable-vhost-user-fs) vhost_user_fs="yes"
+@@ -1791,6 +1796,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   vhost-crypto    vhost-user-crypto backend support
+   vhost-kernel    vhost kernel backend support
+   vhost-user      vhost-user backend support
++  vhost-user-blk-server    vhost-user-blk server support
+   vhost-vdpa      vhost-vdpa kernel backend support
+   spice           spice
+   rbd             rados block device (rbd)
+@@ -2382,6 +2388,12 @@ if test "$vhost_net" = ""; then
+   test "$vhost_kernel" = "yes" && vhost_net=yes
+ fi
  
-     s->dev.acked_features = vdev->guest_features;
++# libvhost-user is Linux-only
++test "$vhost_user_blk_server" = "" && vhost_user_blk_server=$linux
++if test "$vhost_user_blk_server" = "yes" && test "$linux" = "no"; then
++  error_exit "--enable-vhost-user-blk-server is only available on Linux"
++fi
++
+ ##########################################
+ # pkg-config probe
  
-+    ret = vhost_dev_prepare_inflight(&s->dev, vdev);
-+    if (ret < 0) {
-+        error_report("Error set inflight format: %d", -ret);
-+        goto err_guest_notifiers;
-+    }
-+
-     if (!s->inflight->addr) {
-         ret = vhost_dev_get_inflight(&s->dev, s->queue_size, s->inflight);
-         if (ret < 0) {
-diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
-index 79b2be20df..614ccc2bcb 100644
---- a/hw/virtio/vhost.c
-+++ b/hw/virtio/vhost.c
-@@ -1645,6 +1645,26 @@ int vhost_dev_load_inflight(struct vhost_inflight *inflight, QEMUFile *f)
-     return 0;
- }
+@@ -6275,6 +6287,9 @@ fi
+ if test "$vhost_vdpa" = "yes" ; then
+   echo "CONFIG_VHOST_VDPA=y" >> $config_host_mak
+ fi
++if test "$vhost_user_blk_server" = "yes" ; then
++  echo "CONFIG_VHOST_USER_BLK_SERVER=y" >> $config_host_mak
++fi
+ if test "$vhost_user_fs" = "yes" ; then
+   echo "CONFIG_VHOST_USER_FS=y" >> $config_host_mak
+ fi
+diff --git a/block/export/export.c b/block/export/export.c
+index c3478c6c97..bad6f21b1c 100644
+--- a/block/export/export.c
++++ b/block/export/export.c
+@@ -22,13 +22,13 @@
+ #include "qapi/qapi-commands-block-export.h"
+ #include "qapi/qapi-events-block-export.h"
+ #include "qemu/id.h"
+-#if defined(CONFIG_LINUX) && defined(CONFIG_VHOST_USER)
++#ifdef CONFIG_VHOST_USER_BLK_SERVER
+ #include "vhost-user-blk-server.h"
+ #endif
  
-+int vhost_dev_prepare_inflight(struct vhost_dev *hdev, VirtIODevice *vdev)
-+{
-+    int r;
-+
-+    if (hdev->vhost_ops->vhost_get_inflight_fd == NULL ||
-+        hdev->vhost_ops->vhost_set_inflight_fd == NULL) {
-+        return 0;
-+    }
-+
-+    hdev->vdev = vdev;
-+
-+    r = vhost_dev_set_features(hdev, hdev->log_enabled);
-+    if (r < 0) {
-+        VHOST_OPS_DEBUG("vhost_dev_prepare_inflight failed");
-+        return r;
-+    }
-+
-+    return 0;
-+}
-+
- int vhost_dev_set_inflight(struct vhost_dev *dev,
-                            struct vhost_inflight *inflight)
- {
+ static const BlockExportDriver *blk_exp_drivers[] = {
+     &blk_exp_nbd,
+-#if defined(CONFIG_LINUX) && defined(CONFIG_VHOST_USER)
++#ifdef CONFIG_VHOST_USER_BLK_SERVER
+     &blk_exp_vhost_user_blk,
+ #endif
+ };
+diff --git a/block/export/meson.build b/block/export/meson.build
+index 9fb4fbf81d..19526435d8 100644
+--- a/block/export/meson.build
++++ b/block/export/meson.build
+@@ -1,2 +1,2 @@
+ blockdev_ss.add(files('export.c'))
+-blockdev_ss.add(when: ['CONFIG_LINUX', 'CONFIG_VHOST_USER'], if_true: files('vhost-user-blk-server.c'))
++blockdev_ss.add(when: 'CONFIG_VHOST_USER_BLK_SERVER', if_true: files('vhost-user-blk-server.c'))
+diff --git a/util/meson.build b/util/meson.build
+index c5159ad79d..f359af0d46 100644
+--- a/util/meson.build
++++ b/util/meson.build
+@@ -66,7 +66,7 @@ if have_block
+   util_ss.add(files('main-loop.c'))
+   util_ss.add(files('nvdimm-utils.c'))
+   util_ss.add(files('qemu-coroutine.c', 'qemu-coroutine-lock.c', 'qemu-coroutine-io.c'))
+-  util_ss.add(when: ['CONFIG_LINUX', 'CONFIG_VHOST_USER'], if_true: [
++  util_ss.add(when: 'CONFIG_LINUX', if_true: [
+     files('vhost-user-server.c'), vhost_user
+   ])
+   util_ss.add(files('block-helpers.c'))
 -- 
 MST
 
