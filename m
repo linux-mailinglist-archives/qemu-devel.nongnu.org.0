@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D9F2A6705
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:03:52 +0100 (CET)
-Received: from localhost ([::1]:48868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883202A670B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:06:05 +0100 (CET)
+Received: from localhost ([::1]:57030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKKF-0004Z2-SA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:03:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55252)
+	id 1kaKMO-0007wF-I7
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:06:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIV-0002vJ-OV
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54313)
+ id 1kaKIY-0002yV-3S
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52026)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIS-00061M-Cd
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:03 -0500
+ id 1kaKIR-00060e-UY
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604502119;
+ s=mimecast20190719; t=1604502117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=XRRFdIMpXxSyI66/2is5rHYmKRRFgdPD8wC42nhiKBQ=;
- b=Qa/WQrc6PeolWfcgWLPDrjoSQr9iZbRoDeC9R+MtSX/uBdXicrHaceQEXG6TrcpwYLkLdl
- DruJy2a15vzwhzVlwAWusNeZtd6jii4ibf1+Rx84slBECzwmGfuRaCEcLKPdRfiqMxm62L
- vpZlHsTbsflYvxax/CutdsTLL0r2z4s=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LomTBw8uZZy1rA9GJor/FwuuPqnxuVYa0w37Agyn06c=;
+ b=OdzwsvuZAqCbySaaPubC8HDwI4/QUZ6Lrg/M47yiJSlLPRv+tN/2YRDcQOnsxO7PQ9zJKu
+ fusmpLGrnwNEqLjBbR3PkzPi0+qf6BqiA0vgIXLO8hSq5GmX8DyiB95/stNNZviVKoqd8S
+ XIUQauLnfIQ3LDo5LYC/CLQiqZPdB/8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-593-hBYbPqvaNpGgCbigldHvZg-1; Wed, 04 Nov 2020 10:01:55 -0500
-X-MC-Unique: hBYbPqvaNpGgCbigldHvZg-1
+ us-mta-179-oH8T70htN--aTTXtPJUgTw-1; Wed, 04 Nov 2020 10:01:56 -0500
+X-MC-Unique: oH8T70htN--aTTXtPJUgTw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B58576408E
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 340891891E8A;
+ Wed,  4 Nov 2020 15:01:55 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 783DE100750B
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 15:01:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D630B1002D41;
+ Wed,  4 Nov 2020 15:01:54 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/20] Misc patches for QEMU 5.2-rc1
-Date: Wed,  4 Nov 2020 10:01:33 -0500
-Message-Id: <20201104150153.541326-1-pbonzini@redhat.com>
+Subject: [PULL 01/20] cutils: replace strdup with g_strdup
+Date: Wed,  4 Nov 2020 10:01:34 -0500
+Message-Id: <20201104150153.541326-2-pbonzini@redhat.com>
+In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
+References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
@@ -78,92 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 83851c7c60c90e9fb6a23ff48076387a77bc33cd:
+Memory returned by get_relocated_path must be freed with
+free or g_free depending on the path that the function
+took; Coverity takes exception to this practice.  The
+fix lets caller use g_free as is standard in QEMU.
 
-  Merge remote-tracking branch 'remotes/mdroth/tags/qga-pull-2020-10-27-v3-tag' into staging (2020-11-03 12:47:58 +0000)
+While at it, mention the requirements on the caller in
+the doc comment.
 
-are available in the Git repository at:
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ include/qemu/cutils.h | 1 +
+ util/cutils.c         | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
-
-for you to fetch changes up to 46fe962264f91946ca75d23667015d9ba081d6ef:
-
-  qtest: escape device name in device-introspect-test (2020-11-04 07:29:56 -0500)
-
-----------------------------------------------------------------
-Doc and bug fixes
-
-----------------------------------------------------------------
-AlexChen (1):
-      tests/qtest: Fix potential NULL pointer dereference in qos_build_main_args()
-
-Alexander Bulekov (5):
-      scripts/oss-fuzz: rename bin/qemu-fuzz-i386
-      qtest: add a reproducer for LP#1878642
-      fuzz: fix writing DMA patterns
-      fuzz: check the MR in the DMA callback
-      fuzz: fuzz offsets within pio/mmio regions
-
-Bruce Rogers (1):
-      configure: fix gio_libs reference
-
-Marc Hartmayer (1):
-      meson: vhost-user-gpu/virtiofsd: use absolute path
-
-Paolo Bonzini (8):
-      cutils: replace strdup with g_strdup
-      docs: expand sourceset documentation
-      meson: use b_staticpic=false for meson >=0.56.0
-      meson: fix warning for bad sphinx-build
-      semihosting: fix order of initialization functions
-      qapi, qemu-options: make all parsing visitors parse boolean options the same
-      ivshmem-test: do not use short-form boolean option
-      qtest: escape device name in device-introspect-test
-
-Peter Maydell (2):
-      tests/qtest/libqtest.c: Check for setsockopt() failure
-      tests/qtest/libqos/ahci.c: Avoid NULL dereference in ahci_exec()
-
-Philippe Mathieu-Daudé (2):
-      exec: Remove dead code (CID 1432876)
-      hw/isa/lpc_ich9: Ignore reserved/invalid SCI IRQ
-
- configure                            |   8 +-
- contrib/vhost-user-gpu/meson.build   |   2 +-
- docs/devel/build-system.rst          | 158 +++++++++++++++++++++++------------
- docs/devel/kconfig.rst               |   2 +
- docs/meson.build                     |   3 +-
- hw/isa/lpc_ich9.c                    |  14 +++-
- include/hw/i386/ich9.h               |   1 +
- include/qapi/util.h                  |   2 +
- include/qemu/cutils.h                |   1 +
- meson.build                          |   4 +-
- qapi/opts-visitor.c                  |  14 +---
- qapi/qapi-util.c                     |  23 +++++
- qapi/qobject-input-visitor.c         |   6 +-
- qapi/string-input-visitor.c          |  17 +---
- scripts/oss-fuzz/build.sh            |   4 +-
- softmmu/physmem.c                    |  10 +--
- softmmu/vl.c                         |   4 +-
- tests/qemu-iotests/051.out           |   6 +-
- tests/qemu-iotests/051.pc.out        |   6 +-
- tests/qemu-iotests/133.out           |   8 +-
- tests/qemu-iotests/137.out           |   4 +-
- tests/qtest/device-introspect-test.c |  10 ++-
- tests/qtest/fuzz-test.c              |  15 ++++
- tests/qtest/fuzz/generic_fuzz.c      |  44 +++++-----
- tests/qtest/fuzz/qos_fuzz.c          |   3 +-
- tests/qtest/ivshmem-test.c           |   2 +-
- tests/qtest/libqos/ahci.c            |   5 +-
- tests/qtest/libqtest.c               |   9 +-
- tools/virtiofsd/meson.build          |   2 +-
- util/cutils.c                        |   2 +-
- util/qemu-option.c                   |  20 +----
- 31 files changed, 239 insertions(+), 170 deletions(-)
+diff --git a/include/qemu/cutils.h b/include/qemu/cutils.h
+index 4bbf4834ea..986ed8e15f 100644
+--- a/include/qemu/cutils.h
++++ b/include/qemu/cutils.h
+@@ -205,6 +205,7 @@ int qemu_pstrcmp0(const char **str1, const char **str2);
+  * as the prefix.  For example, if `bindir` is `/usr/bin` and @dir is
+  * `/usr/share/qemu`, the function will append `../share/qemu` to the
+  * directory that contains the running executable and return the result.
++ * The returned string should be freed by the caller.
+  */
+ char *get_relocated_path(const char *dir);
+ 
+diff --git a/util/cutils.c b/util/cutils.c
+index c395974fab..9498e28e1a 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -937,7 +937,7 @@ char *get_relocated_path(const char *dir)
+     /* Fail if qemu_init_exec_dir was not called.  */
+     assert(exec_dir[0]);
+     if (!starts_with_prefix(dir) || !starts_with_prefix(bindir)) {
+-        return strdup(dir);
++        return g_strdup(dir);
+     }
+ 
+     result = g_string_new(exec_dir);
 -- 
 2.26.2
+
 
 
