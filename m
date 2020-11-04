@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41872A6319
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:16:10 +0100 (CET)
-Received: from localhost ([::1]:33784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96DB92A62FD
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:12:22 +0100 (CET)
+Received: from localhost ([::1]:48200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGlu-0002m5-0R
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:16:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49732)
+	id 1kaGiD-0005Uj-JL
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:12:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaGfr-0003Ei-K6
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:09:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45204)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaGgQ-00043A-6l
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:10:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53123)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaGfq-00084o-4M
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:09:55 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaGgN-000899-Uh
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:10:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604488192;
+ s=mimecast20190719; t=1604488227;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/43DGqJxPtuqcCjvGrtIFDS+vtJ02f3ixJxkIC40oXM=;
- b=ZqXqtgY3oI+uWV6hy6zpkEoefkTgZA2s0gQ/Zb1cNUA5Q0FAwJyKs11lpB4wwz/x+zo1hk
- 2T51O29ze7/AMpoTYVIG6fasay9NcsX7YEMVBUkkHcNfCpIrMs5yQDa5mpbMQMumJ0Ejh1
- Rqwhak5Jvdf1/YQXEYQ1lZR02mucbuw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-UuGyeKruNu675KZ6AfP6XQ-1; Wed, 04 Nov 2020 06:09:49 -0500
-X-MC-Unique: UuGyeKruNu675KZ6AfP6XQ-1
-Received: by mail-wr1-f70.google.com with SMTP id t11so9145719wrv.10
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 03:09:48 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/43DGqJxPtuqcCjvGrtIFDS+vtJ02f3ixJxkIC40oXM=;
- b=DmV0aroTnCnszJFoTalqtvt3/UIgp+vEiuBt0ErOdyosJ7R3qBtk5MPFKoXfxJPNy6
- hZ6FPu6OADm4Gt9oCb5hqECF3A6cD57MuerCKuF5QnerIKjNVwQ86NlqWYE/7DH9BzcP
- nAr4XG4ZMzX6UmHDHEbRROrNHCgqh8VZkACCfc3IfnNLxA8Rp3tLrsoZ0SXvM1PboBiD
- bSJpFQNMut4HCyDFDFe7uYtFsskEFZmkSEjqybktAl/xGrbY4DcQRohbNcFyWbIm0MwL
- zdSuW7JBBKj4xb4vlT1HDPVxzGCbOH97rB5y/tlEuVC5Y3dNnmb+LbmgOXNJLMsEItPU
- U9aQ==
-X-Gm-Message-State: AOAM531VvXYYqYIHCDVGxGxq/0pWlTR0QneqKQxhmZybLfNpiUliHoXg
- 5iaTmPVF1RygAvc4sHxAZt9ZsRFSYYjoPaC45jW7KdGrpmql38Ma3Ko+t6tBaeP17H68QURuQvz
- 4H4bF8CB+24VqrrA=
-X-Received: by 2002:a5d:43ca:: with SMTP id v10mr31586063wrr.7.1604488187958; 
- Wed, 04 Nov 2020 03:09:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzFYLjFRnxDBYKsUHHe+O90jk6UNcBS7zGTgwJx6ZRGolgal9i7kxfmBPQ2VGQBKxTI98wHIQ==
-X-Received: by 2002:a5d:43ca:: with SMTP id v10mr31586045wrr.7.1604488187850; 
- Wed, 04 Nov 2020 03:09:47 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id v6sm2104959wrb.53.2020.11.04.03.09.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 04 Nov 2020 03:09:47 -0800 (PST)
-Subject: Re: [PATCH for-5.2 2/3] hw/block/nvme: fix uint16_t use of uint32_t
- sgls member
-To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+ bh=/ym4stqHdPxs79GqIvHAcsYAOMhOSVuYJHxCAfplz2U=;
+ b=VPE5vJ2QvGeu6gGRj/56MHRKBU+jKLMM5bvFfM/H5MVU5VVsp/kF8Sbli16amyJ8LYgshw
+ tIAxuHtv8ixM+AkmOCSq7Nq/KiryHaVrOMuVAC4GZbs5DVyYtURe64D3wqzDrUiUlSw0ea
+ dtq+11mXeqsei0jTu1jaK2RKUMZUbOc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-432-eoqzKHPSNemakeTb5A_Wvg-1; Wed, 04 Nov 2020 06:10:25 -0500
+X-MC-Unique: eoqzKHPSNemakeTb5A_Wvg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91905879510;
+ Wed,  4 Nov 2020 11:10:23 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.194.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 47C317E19C;
+ Wed,  4 Nov 2020 11:10:20 +0000 (UTC)
+Subject: Re: [PATCH for-5.2 3/3] hw/block/nvme: fix free of array-typed value
+To: Klaus Jensen <its@irrelevant.dk>
 References: <20201104102248.32168-1-its@irrelevant.dk>
- <20201104102248.32168-3-its@irrelevant.dk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <394f4100-5532-76eb-bebd-ef36795f0166@redhat.com>
-Date: Wed, 4 Nov 2020 12:09:46 +0100
+ <20201104102248.32168-4-its@irrelevant.dk>
+ <6b54b9a6-a6f8-3009-b3a9-99aecad6fb3b@redhat.com>
+ <20201104110405.GB35038@apples.localdomain>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <c4ccc808-9771-e07e-bd1a-cf9e7fa66d5a@redhat.com>
+Date: Wed, 4 Nov 2020 12:10:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201104102248.32168-3-its@irrelevant.dk>
+In-Reply-To: <20201104110405.GB35038@apples.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -103,42 +87,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, Dmitry Fomichev <dmitry.fomichev@wdc.com>,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
  Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/4/20 11:22 AM, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On 04.11.20 12:04, Klaus Jensen wrote:
+> On Nov  4 11:59, Max Reitz wrote:
+>> On 04.11.20 11:22, Klaus Jensen wrote:
+>>> From: Klaus Jensen <k.jensen@samsung.com>
+>>>
+>>> Since 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces"), the
+>>> namespaces member of NvmeCtrl is no longer a dynamically allocated
+>>> array. Remove the free.
+>>>
+>>> Fixes: 7f0f1acedf15 ("hw/block/nvme: support multiple namespaces")
+>>> Reported-by: Coverity (CID 1436131)
+>>> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>>> ---
+>>>  hw/block/nvme.c | 1 -
+>>>  1 file changed, 1 deletion(-)
+>>
+>> Thanks! :)
+>>
+>> Reviewed-by: Max Reitz <mreitz@redhat.com>
+>>
 > 
-> nvme_map_sgl_data erroneously uses the sgls member of NvmeIdNs as a
-> uint16_t.
-> 
-> Reported-by: Coverity (CID 1436129)
-> Fixes: cba0a8a344fe ("hw/block/nvme: add support for scatter gather lists")
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 080d782f1c2b..2bdc50eb6fce 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -452,7 +452,7 @@ static uint16_t nvme_map_sgl_data(NvmeCtrl *n, QEMUSGList *qsg,
->               * segments and/or descriptors. The controller might accept
->               * ignoring the rest of the SGL.
->               */
-> -            uint16_t sgls = le16_to_cpu(n->id_ctrl.sgls);
-> +            uint32_t sgls = le32_to_cpu(n->id_ctrl.sgls);
->              if (sgls & NVME_CTRL_SGLS_EXCESS_LENGTH) {
+> Will Peter pick up fixes like this directly so we don't have to go
+> through a pull request from nvme-next?
 
-I'm surprise the compiler doesn't warn here.
+AFAIA, Peter only picks up build fixes.  Since the build wasn’t broken,
+I think someone™ will have to send a pull request...
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+I understand you don’t necessarily want to be that someone, so I suppose
+I might as well.
 
->                  break;
->              }
-> 
+> Did I correctly annotate with "for-5.2"? :)
+
+Yes!
+
+Max
 
 
