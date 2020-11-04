@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CBF22A5D6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:53:59 +0100 (CET)
-Received: from localhost ([::1]:43186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AA5B2A5D72
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:56:45 +0100 (CET)
+Received: from localhost ([::1]:51646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAo2-0001bb-86
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:53:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59074)
+	id 1kaAqi-0005BA-3K
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:56:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl5-0005KS-1e
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36797)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl9-0005To-Iw
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34578)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl3-0004JW-9c
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:54 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAl7-0004MV-Su
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:50:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465452;
+ s=mimecast20190719; t=1604465456;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=6mgCjhnq9faNGq2/uhjHeag8wnNyBtF7y3xz069QrTc=;
- b=Mfb+K0T4X1yqneAls8u2p2sQX5zbOhjI3WzZ21hYx9IJYu/EDTo3VU7L80iWw5wQRimIYl
- C5US478M/PrjosfHalV7aupC65WPPZDmEbGVMZxS1+XhgwsIfgsN2AJ8amKAW+dRlu3sG7
- ijJqqkUDCoGOAXkE+cdq/0QjWL8DwPU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-529-xURp4f9JOyqlChtYdOBphw-1; Tue, 03 Nov 2020 23:50:50 -0500
-X-MC-Unique: xURp4f9JOyqlChtYdOBphw-1
-Received: by mail-wm1-f70.google.com with SMTP id f70so728307wme.7
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:50:50 -0800 (PST)
+ bh=aiHSSZpWVmtRhYn18w/DUuKk+CQD6Uz5cJmFPDvNuls=;
+ b=XVdRFqo0Im53KZbAeyZkMjLckdirJs6harZaqtjthTHB/2QHyIDiJWeyM5RUpnjFzC5O/D
+ uGqpszM1iroN2hMZgB6OiulWlnWjSOreTrYr2kuuJh/A3M42Kvk0rTNyTI7FsNoepfibWs
+ I/XwzCv8mm3XUQ0QHB88kkX2TERLmU8=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-80-EXnVke99PNe2PjaGMcoKlg-1; Tue, 03 Nov 2020 23:50:54 -0500
+X-MC-Unique: EXnVke99PNe2PjaGMcoKlg-1
+Received: by mail-wr1-f72.google.com with SMTP id e11so1221718wrw.14
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:50:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=6mgCjhnq9faNGq2/uhjHeag8wnNyBtF7y3xz069QrTc=;
- b=VoUJnYLrobDMMJ6/uPPvIhP4C73xnHIopbwtvjDe+uny2QkkNCezMWlSecQOKEMDKN
- wsGRi86/suXO0JsF8G6iqJ9HSfEXp1X+5v37QHSTRT5tLF8QLmDHl889ybLREPpR2hhE
- oo9iedNqf4G5sO5v2Hc2KXRXNN2Aq3o9UbQBCBU3vm7tAq0FTEoVEBgmAFx17XaqIiHk
- fN4Gf9MvOAr+fstaBX43hO8C1k8E6l+BReemzKf0Dca0wLH65m+8qpl7VkBnDIhKDlAZ
- +zXKfoVujsJZ2xI6K3CqX7NG3SWfFfJjQxFVuo06uRSY2fuaCs58fZsj0VfBXFYKGd1U
- 3oQg==
-X-Gm-Message-State: AOAM533GsOCZMmvZ/CEI14aDiFm/bN+iuFvFAyvmRFew+xJawoEWVW1v
- KTMOEbjjiG1JoIb7L4gj040QS1UFO7kphvkM1DcyX8sw680YYNLhnva0JW1kzvnvjSLXP4N4sk6
- 7mqad+eVwmR7rng8=
-X-Received: by 2002:a1c:1f05:: with SMTP id f5mr2378256wmf.98.1604465448952;
- Tue, 03 Nov 2020 20:50:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzh0SGYHFP/Z3qNjqEkjNqOznbpzFv8Y+lou3y7D4WNZCPT5TcCKgEgw55ihTcpgdYBpFmHeQ==
-X-Received: by 2002:a1c:1f05:: with SMTP id f5mr2378246wmf.98.1604465448818;
- Tue, 03 Nov 2020 20:50:48 -0800 (PST)
+ bh=aiHSSZpWVmtRhYn18w/DUuKk+CQD6Uz5cJmFPDvNuls=;
+ b=XyFzSy7CMqfWVjALXCaUpa6qdCYyR+o5LdNFKrA1wG7wVpaD92a3WzCHYSGRPKBrrc
+ yknuVRL/C9ap/In7rXmAaDXsUDxdrY7HK/zmmyY6R+yGJpkOAmt/adGicR4sDlVDXc5W
+ B/Yso+B8bbY0OgG0WYFhiINqRlE0m3h9ouzNUcLgGKQmew0p609VpKe0xsv+dOsDjihX
+ 09Kgxk12+4bFWKgXc8A9/OgcDJWjXIsiUoK7UFx17yfI+SQDaOaOZ8RLrHnlS/wtmChW
+ K3GF2Bs4sCDAstNpWtfwV6gjhKcPw8sLR4vwGweQDlVsIjvro9hQC4c8ikWTgl+I3i7s
+ jm4A==
+X-Gm-Message-State: AOAM531x1Ks7uTrsQwXbv8feED5NyW5lKuwQjzVFNlpKU13qGbACWzr+
+ 8IghsAH5W465j+cvvzkxHuUou9CIWxChrL38UZ+R5ygRYpEgqWF5tlCbKGcUcCvI4HFQvACGVMw
+ 7BvphxpVzePmsFCo=
+X-Received: by 2002:a5d:63cb:: with SMTP id c11mr28127011wrw.243.1604465451615; 
+ Tue, 03 Nov 2020 20:50:51 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzWBU6G6H7aKVRlvxEpplsVFD3joQUH1nzVqW7v0tMF4otcMd0D9boa0u1yAv3wzU4S0mgeAg==
+X-Received: by 2002:a5d:63cb:: with SMTP id c11mr28127005wrw.243.1604465451504; 
+ Tue, 03 Nov 2020 20:50:51 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id p4sm875018wrf.67.2020.11.03.20.50.47
+ by smtp.gmail.com with ESMTPSA id j9sm859958wrp.59.2020.11.03.20.50.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:50:48 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:50:46 -0500
+ Tue, 03 Nov 2020 20:50:50 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:50:49 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 02/38] virtio-mem: Make sure "addr" is always multiples of
- the block size
-Message-ID: <20201104044937.226370-3-mst@redhat.com>
+Subject: [PULL v2 03/38] virtio-mem: Make sure "usable_region_size" is always
+ multiples of the block size
+Message-ID: <20201104044937.226370-4-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -72,16 +72,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,17 +109,12 @@ The spec states:
   "The device MUST set addr, region_size, usable_region_size, plugged_size,
    requested_size to multiples of block_size."
 
-In some cases, we currently don't guarantee that for "addr": For example,
-when starting a VM with 4 GiB boot memory and a virtio-mem device with a
-block size of 2 GiB, "memaddr"/"addr" will be auto-assigned to
-0x140000000 (5 GiB).
+With block sizes > 256MB, we currently wouldn't guarantee that for the
+usable_region_size.
 
-We'll try to improve auto-assignment for memory devices next, to avoid
-bailing out in case memory device code selects a bad address.
+Note that we cannot exceed the region_size, as we already enforce the
+alignment there properly.
 
-Note: The Linux driver doesn't support such big block sizes yet.
-
-Reviewed-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Fixes: 910b25766b33 ("virtio-mem: Paravirtualized memory hot(un)plug")
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Wei Yang <richardw.yang@linux.intel.com>
@@ -127,29 +122,27 @@ Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Cc: Igor Mammedov <imammedo@redhat.com>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20201008083029.9504-2-david@redhat.com>
+Message-Id: <20201008083029.9504-3-david@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ hw/virtio/virtio-mem.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 7c8ca9f28b..70200b4eac 100644
+index 70200b4eac..461ac68ee8 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -449,6 +449,11 @@ static void virtio_mem_device_realize(DeviceState *dev, Error **errp)
-                    ")", VIRTIO_MEM_REQUESTED_SIZE_PROP,
-                    VIRTIO_MEM_BLOCK_SIZE_PROP, vmem->block_size);
-         return;
-+    } else if (!QEMU_IS_ALIGNED(vmem->addr, vmem->block_size)) {
-+        error_setg(errp, "'%s' property has to be multiples of '%s' (0x%" PRIx64
-+                   ")", VIRTIO_MEM_ADDR_PROP, VIRTIO_MEM_BLOCK_SIZE_PROP,
-+                   vmem->block_size);
-+        return;
-     } else if (!QEMU_IS_ALIGNED(memory_region_size(&vmem->memdev->mr),
-                                 vmem->block_size)) {
-         error_setg(errp, "'%s' property memdev size has to be multiples of"
+@@ -227,6 +227,9 @@ static void virtio_mem_resize_usable_region(VirtIOMEM *vmem,
+     uint64_t newsize = MIN(memory_region_size(&vmem->memdev->mr),
+                            requested_size + VIRTIO_MEM_USABLE_EXTENT);
+ 
++    /* The usable region size always has to be multiples of the block size. */
++    newsize = QEMU_ALIGN_UP(newsize, vmem->block_size);
++
+     if (!requested_size) {
+         newsize = 0;
+     }
 -- 
 MST
 
