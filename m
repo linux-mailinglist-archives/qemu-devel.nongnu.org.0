@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F262A6BD4
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:36:04 +0100 (CET)
-Received: from localhost ([::1]:51108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D344E2A6BEC
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:41:08 +0100 (CET)
+Received: from localhost ([::1]:35660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMhX-0006Ir-Uw
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:36:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33830)
+	id 1kaMmR-0003WM-Te
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:41:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaMch-00019T-TE
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:31:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33257)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kaMcz-0001ZM-OQ
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:31:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38837)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaMcf-0000UI-Iw
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:31:03 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kaMcy-0000Wp-22
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:31:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604511059;
+ s=mimecast20190719; t=1604511079;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M83s8+IEC5ep5B5ccnV/5k4BcUTI0sJTLMXw6XIDZtI=;
- b=LHl2BpgH99di1VS6UOio6IE/hgWDKW0Jt0TabHzVTHEVwCaj3H1fyqISmVYeOjtxQwxfyN
- PhDOy+tlxjrvIZXhTh93eSb/yKV1olsUlDXWukuDXJdWIB6+wsskL7jVY5nFbHZKBqnlfL
- Bin97WcITeod7wpkCzdUHFgKzOJuGh8=
+ bh=2wkiMxzvt0Jw8PAtCPifmna4tXw7oIzUFcSvXP5WrEM=;
+ b=Apes77w/Xw92ZmbTxYydIW8pioTpIkBaDsSveL4U+nygpIfhJBXqHiCMCK+m+HMJaVR67h
+ /dB2YSmeSqROzEUYPVn7rvmrQpezZy/DTHKmMvL+/cMlH+j7fU4tCbzjuqpe12Y5Ovr5vf
+ bZ+qujhsSC3Nmoa/2jk+b1lUm4SvsME=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-4ekcUxxlOSW25PwvTvR7kg-1; Wed, 04 Nov 2020 12:30:55 -0500
-X-MC-Unique: 4ekcUxxlOSW25PwvTvR7kg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-274-gmdSUb5nM2uY2YqDThfbJw-1; Wed, 04 Nov 2020 12:31:15 -0500
+X-MC-Unique: gmdSUb5nM2uY2YqDThfbJw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3BC186DD24;
- Wed,  4 Nov 2020 17:30:54 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.194.145])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 68E4F1002C03;
- Wed,  4 Nov 2020 17:30:50 +0000 (UTC)
-Subject: Re: [PATCH v2 13/20] iotests: 129: prepare for backup over block-copy
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20200601181118.579-1-vsementsov@virtuozzo.com>
- <20200601181118.579-14-vsementsov@virtuozzo.com>
- <0293433f-7b37-f7bb-c4dc-3d64b2dbbc68@redhat.com>
- <95c4411f-9b88-2fbb-1e36-2fda369e51a8@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <bc4a3074-cda2-fad9-1bce-71aa3ce2f837@redhat.com>
-Date: Wed, 4 Nov 2020 18:30:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 637BD8049E7;
+ Wed,  4 Nov 2020 17:31:14 +0000 (UTC)
+Received: from gondolin (ovpn-114-18.ams2.redhat.com [10.36.114.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 997945C5DE;
+ Wed,  4 Nov 2020 17:31:09 +0000 (UTC)
+Date: Wed, 4 Nov 2020 18:31:06 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Subject: Re: [PATCH v2] target/s390x: fix execution with icount
+Message-ID: <20201104183106.6c823c57.cohuck@redhat.com>
+In-Reply-To: <160430921917.21500.1486722139653938240.stgit@pasha-ThinkPad-X280>
+References: <160430921917.21500.1486722139653938240.stgit@pasha-ThinkPad-X280>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <95c4411f-9b88-2fbb-1e36-2fda369e51a8@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -71,9 +65,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,29 +79,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- armbru@redhat.com, qemu-devel@nongnu.org, den@openvz.org, jsnow@redhat.com
+Cc: thuth@redhat.com, david@redhat.com, qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22.10.20 23:10, Vladimir Sementsov-Ogievskiy wrote:
-> 23.07.2020 11:03, Max Reitz wrote:
->> On 01.06.20 20:11, Vladimir Sementsov-Ogievskiy wrote:
->>> After introducing parallel async copy requests instead of plain
->>> cluster-by-cluster copying loop, backup job may finish earlier than
->>> final assertion in do_test_stop. Let's require slow backup explicitly
->>> by specifying speed parameter.
->>
->> Isn’t the problem really that block_set_io_throttle does absolutely
->> nothing?  (Which is a long-standing problem with 129.  I personally just
->> never run it, honestly.)
+On Mon, 02 Nov 2020 12:26:59 +0300
+Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> wrote:
+
+> This patch adds some gen_io_start() calls to allow execution
+> of s390x targets in icount mode with -smp 1.
+> It enables deterministic timers and record/replay features.
 > 
-> Hmm.. is it better to drop test_drive_backup() from here ?
+> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+> 
+> ---
+> 
+> v2:
+>  - added IF_IO flag to reuse icount code in translate_one()
+>    (suggested by Richard Henderson)
+> ---
+>  target/s390x/insn-data.def |   70 ++++++++++++++++++++++----------------------
+>  target/s390x/translate.c   |   15 +++++++++
+>  2 files changed, 50 insertions(+), 35 deletions(-)
 
-I think the best would be to revisit this:
+<looking for s390x patches to pick>
 
-https://lists.nongnu.org/archive/html/qemu-block/2019-06/msg00499.html
-
-Max
+So, will there be a v3, or should I pick this one?
 
 
