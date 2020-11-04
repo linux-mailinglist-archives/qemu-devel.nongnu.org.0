@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5A42A6816
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:50:56 +0100 (CET)
-Received: from localhost ([::1]:56868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441D22A681B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:51:44 +0100 (CET)
+Received: from localhost ([::1]:60104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaL3o-0000FQ-1S
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:50:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38170)
+	id 1kaL4T-0001kf-RP
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:51:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaKzy-0003pj-1Q
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaKzy-0003ps-8x
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:46:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56227)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27418)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaKzu-0003Nn-U5
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaKzv-0003O5-Ml
  for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:46:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604504813;
+ s=mimecast20190719; t=1604504815;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kbSYNM4jZEtZxtXKJKhl2nMQHBOpftEGtubYsEEFmJs=;
- b=CkW/5QQ/MpQ+N3EdxydOj/NuRMxnBLBgto1ybgrXPw58Lm37it/B8Nxfenxvva+BZrGH2k
- d6ZDg79seCJD7s+qHmI+21vCLITksaYzpCbO4WFniShxqFIXWtYKgNLOr5PaCRgXblDrzv
- nJR3lQcUAxsKsJCo4+ORJWZZmGdJ75g=
+ bh=4gKZDJ5TpcyqcAe+rq3dvI2u1DWXNqeCz9ZhL80LDGY=;
+ b=J0IKKPSs5Qa7jZ+kl/rqebB+RqBVJENv+dAFO4RxeO5k1dnBDrsI6lQaeCl2e2MbMVnPfQ
+ Z/Oj/Ei4b6ZFta7h1wgePHdsm3ejkTJi5RvbBqnRx9kd9HS6az4/PIUU3XZov0Ssl9hIHe
+ KnUQWOC9AqF53cEUijfKbAy7HzHnsmY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-TZZ_7oM3MwefOVKBNxlVaw-1; Wed, 04 Nov 2020 10:46:51 -0500
-X-MC-Unique: TZZ_7oM3MwefOVKBNxlVaw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-537-vLq9vC9aMKua1tEj7j7u4Q-1; Wed, 04 Nov 2020 10:46:51 -0500
+X-MC-Unique: vLq9vC9aMKua1tEj7j7u4Q-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 32187186DD33;
- Wed,  4 Nov 2020 15:46:50 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EF035186DD21;
+ Wed,  4 Nov 2020 15:46:49 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9A495C5DE;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C61A7702E7;
  Wed,  4 Nov 2020 15:46:46 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 0936A9D15; Wed,  4 Nov 2020 16:46:46 +0100 (CET)
+ id 1222B9D16; Wed,  4 Nov 2020 16:46:46 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/3] ati: check x y display parameter values
-Date: Wed,  4 Nov 2020 16:46:44 +0100
-Message-Id: <20201104154645.15877-3-kraxel@redhat.com>
+Subject: [PULL 3/3] roms/Makefile: Add qboot to .PHONY list
+Date: Wed,  4 Nov 2020 16:46:45 +0100
+Message-Id: <20201104154645.15877-4-kraxel@redhat.com>
 In-Reply-To: <20201104154645.15877-1-kraxel@redhat.com>
 References: <20201104154645.15877-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,53 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gaoning Pan <pgn@zju.edu.cn>, Gerd Hoffmann <kraxel@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
+From: Bruce Rogers <brogers@suse.com>
 
-The source and destination x,y display parameters in ati_2d_blt()
-may run off the vga limits if either of s->regs.[src|dst]_[xy] is
-zero. Check the parameter values to avoid potential crash.
+Adding qboot to the .PHONY directive will allow a
+make -C roms qboot invocation to work as expected
 
-Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-Message-id: 20201021103818.1704030-1-ppandit@redhat.com
+Signed-off-by: Bruce Rogers <brogers@suse.com>
+Message-id: 20201020152512.837769-1-brogers@suse.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ati_2d.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ roms/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-index 23a8ae0cd8ce..4dc10ea79529 100644
---- a/hw/display/ati_2d.c
-+++ b/hw/display/ati_2d.c
-@@ -75,8 +75,9 @@ void ati_2d_blt(ATIVGAState *s)
-         dst_stride *= bpp;
-     }
-     uint8_t *end = s->vga.vram_ptr + s->vga.vram_size;
--    if (dst_bits >= end || dst_bits + dst_x + (dst_y + s->regs.dst_height) *
--        dst_stride >= end) {
-+    if (dst_x > 0x3fff || dst_y > 0x3fff || dst_bits >= end
-+        || dst_bits + dst_x
-+         + (dst_y + s->regs.dst_height) * dst_stride >= end) {
-         qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-         return;
-     }
-@@ -107,8 +108,9 @@ void ati_2d_blt(ATIVGAState *s)
-             src_bits += s->regs.crtc_offset & 0x07ffffff;
-             src_stride *= bpp;
-         }
--        if (src_bits >= end || src_bits + src_x +
--            (src_y + s->regs.dst_height) * src_stride >= end) {
-+        if (src_x > 0x3fff || src_y > 0x3fff || src_bits >= end
-+            || src_bits + src_x
-+             + (src_y + s->regs.dst_height) * src_stride >= end) {
-             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-             return;
-         }
+diff --git a/roms/Makefile b/roms/Makefile
+index 1489d47350f2..7045e374d339 100644
+--- a/roms/Makefile
++++ b/roms/Makefile
+@@ -102,7 +102,7 @@ build-seabios-config-%: config.%
+ 		OUT=$(CURDIR)/seabios/builds/$*/ all
+ 
+ 
+-.PHONY: sgabios skiboot
++.PHONY: sgabios skiboot qboot
+ sgabios:
+ 	$(MAKE) -C sgabios
+ 	cp sgabios/sgabios.bin ../pc-bios
 -- 
 2.27.0
 
