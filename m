@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D87772A5D76
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:59:06 +0100 (CET)
-Received: from localhost ([::1]:60250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39A682A5D7B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:00:37 +0100 (CET)
+Received: from localhost ([::1]:40390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAsz-0000CC-Ta
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:59:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
+	id 1kaAuS-0003ac-7V
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:00:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm3-0006ba-NZ
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27417)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmB-0006rG-RA
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm1-0004j8-HR
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm9-0004lY-0U
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465512;
+ s=mimecast20190719; t=1604465520;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=MaK8aBvBSiaUINk0iflL/mAr7Ti2mM7e4TQ+bKVJ1uk=;
- b=K76xfGPUUSbvGvNw5sSXU7YAZu+g1/d3FRLi/ZuBtUb61TUK2T5p4AcAk7kKkPn0hCnOTb
- qnorTR+5tal2BX/JJjiPRe+PYBPUVB5G6fSQh00m92eY0O2vBwvKBX7JLoIwD7lYNM0SjB
- ikpaDILNxt+VLksjHt2BMDr+zPlNF3c=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-1nildKkpPVCljtPkapJE9A-1; Tue, 03 Nov 2020 23:51:50 -0500
-X-MC-Unique: 1nildKkpPVCljtPkapJE9A-1
-Received: by mail-wr1-f71.google.com with SMTP id w1so8715547wrr.5
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:50 -0800 (PST)
+ bh=APdAnMGOimWpi0/lmUkQSWdNUl1kK18oif2GgMOHc/o=;
+ b=H1b94kJuV5Vb5s06X3SIQnWvvlHy8j190kjcHB5arp2yIHn3oxGRVqqkenMxLiMS7kIvWg
+ E8HdjtLlXR0Xq2cyzix/eNvP65fI3S+SHJNPOKyN0v6UbldefS1RXvWDPzAtPsTDn385ct
+ n3RwFkZkjypFEEdt9ErsGdckG5u5gkI=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-csix4jsrOSyhXyJ-pkTWnw-1; Tue, 03 Nov 2020 23:51:58 -0500
+X-MC-Unique: csix4jsrOSyhXyJ-pkTWnw-1
+Received: by mail-wm1-f70.google.com with SMTP id 8so353004wmg.6
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=MaK8aBvBSiaUINk0iflL/mAr7Ti2mM7e4TQ+bKVJ1uk=;
- b=CdiAjhsLk9IHfztGDbfZXglTEvPVxU06FFZ5soiCbSRjIlHLtVeA4c4Ex+RlqIf34F
- TH9OcAUo4jKlEuhOMjW53YmLnWWhCW65zJz5oS2IwMv3iePBPXattayiuPu6AmfJGS4S
- EadxsDqUikLeWD9GBqlIW8nwHaS6GC7nPJvCRKfrE03FpY8MvuTxEZZH1CxCIwLZY8nd
- iBmOPtiMvSnwu8mlv7ACRIUEZbYCeoaJuaKqOkvMC5J30urNouTrj/3zpytU0+nJNgK3
- 2/vz95V+vDBGRIh/YJgJzeIz0QhQT4qF8jCdmGIm9IUzaASbjCXzLsREJx4x9g9Ohivb
- o8qA==
-X-Gm-Message-State: AOAM530+T0z7jzLjaMP+Qnd1GojIbodLOrxvw/E+tczmLcMBeiedPUqX
- 7ITH+S8OrwY2TPM/jC6bS9SMsM9+QlYaDV25q1KTanCyTUX8F1/j396O8wQp70axYYqHm7Q9Y4i
- V8FJHmXoe2AqfJyk=
-X-Received: by 2002:a7b:cb09:: with SMTP id u9mr2424751wmj.109.1604465509087; 
- Tue, 03 Nov 2020 20:51:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzMxLv+JaZiHu4RcPVJRW7FNGOc2a8eHWNjlgmREoTUDgMp7oZVs7xCNvk0cNW+rHNLY9LZoQ==
-X-Received: by 2002:a7b:cb09:: with SMTP id u9mr2424743wmj.109.1604465508908; 
- Tue, 03 Nov 2020 20:51:48 -0800 (PST)
+ bh=APdAnMGOimWpi0/lmUkQSWdNUl1kK18oif2GgMOHc/o=;
+ b=porg/kgO/AecjkeV6JQqiI0aJzgs3y0+KKJ0g3YUs+zei+E04hN2XhFvFm+DQs6DSD
+ CniwOpCPmTWfGSX6N61tBeAglbx2yVVgyvtRICg/KQ7DQlSPj1JkBbXK6q/6OnUpptlb
+ 16MIRBzepaxkm9RQqAlStchsKaplS/GUBg6vagkl0x9XUD/UNaKTzgH5r0PjwuD3i/6a
+ Ehbz8cDtdt7WVUQwEFAlWQeFnO9eG/nVAuA3keCGaVXxnzKDU+t1Scs7TPh8zoToTFCb
+ iWl9jilDxM5Pl30p2KThFzN1B6WdL07De5qgJfPeyXLLW0lEmPqXiEZP2uW1z/lzNIVn
+ HD+Q==
+X-Gm-Message-State: AOAM5317i6sK8D7NiafiMxjBelxkiLDpr97VoDn2+ddOeqpx36af2G2k
+ EkFR719xRHotDD7AqEb9YOwtlUKNFyj5SQgj+iBr565KPVrEH8l3O4jOQ6HC4ERxCVyFzw3+Ar3
+ 9y/7wDP8Jql3VLpI=
+X-Received: by 2002:a7b:cc05:: with SMTP id f5mr318636wmh.123.1604465517128;
+ Tue, 03 Nov 2020 20:51:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwVitv4451KFhArVolj6ppqGeiQnZ5Zn6Ci71hiCcrB94xKr7B3Uzrk7dAf6c52g3cGjDRm3A==
+X-Received: by 2002:a7b:cc05:: with SMTP id f5mr318619wmh.123.1604465516951;
+ Tue, 03 Nov 2020 20:51:56 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id t7sm854570wrx.42.2020.11.03.20.51.47
+ by smtp.gmail.com with ESMTPSA id y201sm886172wmd.27.2020.11.03.20.51.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:48 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:46 -0500
+ Tue, 03 Nov 2020 20:51:56 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:51:54 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 24/38] net: Add vhost-vdpa in show_netdevs()
-Message-ID: <20201104044937.226370-25-mst@redhat.com>
+Subject: [PULL v2 27/38] libvhost-user: follow QEMU comment style
+Message-ID: <20201104044937.226370-28-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -94,38 +94,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Cindy Lu <lulu@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cindy Lu <lulu@redhat.com>
+From: Stefan Hajnoczi <stefanha@redhat.com>
 
-Fix the bug that while Check qemu supported netdev,
-there is no vhost-vdpa
-
-Signed-off-by: Cindy Lu <lulu@redhat.com>
-Message-Id: <20201016030909.9522-2-lulu@redhat.com>
-Acked-by: Jason Wang <jasowang@redhat.com>
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20201027173528.213464-2-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/net.c | 3 +++
- 1 file changed, 3 insertions(+)
+ contrib/libvhost-user/libvhost-user.h | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
 
-diff --git a/net/net.c b/net/net.c
-index 7a2a0fb5ac..794c652282 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1049,6 +1049,9 @@ static void show_netdevs(void)
- #endif
- #ifdef CONFIG_POSIX
-         "vhost-user",
-+#endif
-+#ifdef CONFIG_VHOST_VDPA
-+        "vhost-vdpa",
- #endif
-     };
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 3bbeae8587..a1539dbb69 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -392,7 +392,8 @@ struct VuDev {
+     bool broken;
+     uint16_t max_queues;
+ 
+-    /* @read_msg: custom method to read vhost-user message
++    /*
++     * @read_msg: custom method to read vhost-user message
+      *
+      * Read data from vhost_user socket fd and fill up
+      * the passed VhostUserMsg *vmsg struct.
+@@ -409,15 +410,19 @@ struct VuDev {
+      *
+      */
+     vu_read_msg_cb read_msg;
+-    /* @set_watch: add or update the given fd to the watch set,
+-     * call cb when condition is met */
++
++    /*
++     * @set_watch: add or update the given fd to the watch set,
++     * call cb when condition is met.
++     */
+     vu_set_watch_cb set_watch;
+ 
+     /* @remove_watch: remove the given fd from the watch set */
+     vu_remove_watch_cb remove_watch;
+ 
+-    /* @panic: encountered an unrecoverable error, you may try to
+-     * re-initialize */
++    /*
++     * @panic: encountered an unrecoverable error, you may try to re-initialize
++     */
+     vu_panic_cb panic;
+     const VuDevIface *iface;
  
 -- 
 MST
