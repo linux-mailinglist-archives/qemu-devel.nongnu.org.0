@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EDA2A640B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:17:46 +0100 (CET)
-Received: from localhost ([::1]:51414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B10AE2A643A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 13:25:38 +0100 (CET)
+Received: from localhost ([::1]:40720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaHjV-0002p9-Vi
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:17:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34740)
+	id 1kaHr7-0001uX-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 07:25:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfa-0007m8-D6
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20247)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kaHfY-0007qZ-Dz
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 07:13:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604492019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=W/26RM5hlf5NGwN7ijzuGblgAmBmtVQ0RyzNJoompVY=;
- b=i0POv7zLWkxFSMocdBJc6rYA8s4j6Thy4X3FhifpGF4hnG72CwGd6luVpHF1gAeTxDyosU
- V8I+kc75qZfPQwD7230XYPTpRQkdUm3Bp6DqJ57BUlVFuvO66WAFXf41EyRm8I2pNLfgHB
- j0L1C7uaoRWQyjz3ptUeLgg4mGdpRAg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-426-T75FN1AiNQKomESNumAHxw-1; Wed, 04 Nov 2020 07:13:37 -0500
-X-MC-Unique: T75FN1AiNQKomESNumAHxw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40668804746;
- Wed,  4 Nov 2020 12:13:36 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 421B7508E1;
- Wed,  4 Nov 2020 12:13:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 97F209CAE; Wed,  4 Nov 2020 13:13:21 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kaHk8-00049o-MN; Wed, 04 Nov 2020 07:18:24 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34605)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kaHk6-0008PB-Em; Wed, 04 Nov 2020 07:18:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=/krue73RQvdTWcIblo1I9y7H3d6eOwA1QW3W+4qPpfE=; b=UHh3nTAHNFB2zk0OC/yuN81pAX
+ CS3ZhcW/5BcC89K1b2ChCpUquZyD+PzyaUgL8Ho7EDpDwJWA4IZVim23uFNMgtdvecrENGVrtNs2s
+ 01CK686+wZcKvd7lPZ4BljzXHhOrbVziSz4mYY3VQhU3yOXXGKCChQqqoT2rcJmAmr2UXXkkkV5YI
+ nEEBDTWC5LDAqsGp0wZ54FJwoMtufRgdiU+Q8GSfgHfUx2o/UucIDGu5/lFc3X6JJWD/K6rFc0p3x
+ 3W0m4ixzxQyWOR/ZZ6nRUGTW5O/CaDlLZDTngBRDb28ytW7EQURadvxENGyH+Lk6t++V7qYkPetk7
+ UcDWglqg==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] dev-serial: store flow control and xon/xoff characters
-Date: Wed,  4 Nov 2020 13:13:21 +0100
-Message-Id: <20201104121321.7772-9-kraxel@redhat.com>
-In-Reply-To: <20201104121321.7772-1-kraxel@redhat.com>
-References: <20201104121321.7772-1-kraxel@redhat.com>
+Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Richard Henderson <rth@twiddle.net>
+Subject: Re: [PATCH-for-5.2 v3 2/4] hw/9pfs: Fix Kconfig dependency problem
+ between 9pfs and Xen
+Date: Wed, 04 Nov 2020 13:18:09 +0100
+Message-ID: <8965407.pN9RvXrJQ9@silver>
+In-Reply-To: <20201104115706.3101190-3-philmd@redhat.com>
+References: <20201104115706.3101190-1-philmd@redhat.com>
+ <20201104115706.3101190-3-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:58:03
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,118 +74,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+On Mittwoch, 4. November 2020 12:57:04 CET Philippe Mathieu-Daud=E9 wrote:
+> Commit b2c00bce54c ("meson: convert hw/9pfs, cleanup") introduced
+> CONFIG_9PFS (probably a wrong conflict resolution). This config is
+> not used anywhere. Backends depend on CONFIG_FSDEV_9P which itself
+> depends on CONFIG_VIRTFS.
+>=20
+> Remove the invalid CONFIG_9PFS and use CONFIG_FSDEV_9P instead, to
+> fix the './configure --without-default-devices --enable-xen' build:
+>=20
+>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function
+> `xen_be_register_common': hw/xen/xen-legacy-backend.c:754: undefined
+> reference to `xen_9pfs_ops' /usr/bin/ld:
+> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined reference =
+to
+> `local_ops' /usr/bin/ld:
+> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined reference
+> to `synth_ops' /usr/bin/ld:
+> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined reference
+> to `proxy_ops' collect2: error: ld returned 1 exit status
+>=20
+> Fixes: b2c00bce54c ("meson: convert hw/9pfs, cleanup")
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Acked-by: Greg Kurz <groug@kaod.org>
+> Tested-by: Greg Kurz <groug@kaod.org>
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Note that whilst the device does not do anything with these values, they are
-logged with trace events and stored to allow future implementation.
+Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 
-The default flow control is set to none at reset as documented in the Linux
-ftdi_sio.h header file.
+> ---
+> v2: Reworded description (Greg)
+>=20
+> Cc: Stefano Stabellini <sstabellini@kernel.org>
+> Cc: Anthony Perard <anthony.perard@citrix.com>
+> Cc: Paul Durrant <paul@xen.org>
+> Cc: xen-devel@lists.xenproject.org
+> Cc: Greg Kurz <groug@kaod.org>
+> Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
+>  hw/9pfs/Kconfig     | 4 ----
+>  hw/9pfs/meson.build | 2 +-
+>  2 files changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/hw/9pfs/Kconfig b/hw/9pfs/Kconfig
+> index d3ebd737301..3ae57496613 100644
+> --- a/hw/9pfs/Kconfig
+> +++ b/hw/9pfs/Kconfig
+> @@ -2,12 +2,8 @@ config FSDEV_9P
+>      bool
+>      depends on VIRTFS
+>=20
+> -config 9PFS
+> -    bool
+> -
+>  config VIRTIO_9P
+>      bool
+>      default y
+>      depends on VIRTFS && VIRTIO
+>      select FSDEV_9P
+> -    select 9PFS
+> diff --git a/hw/9pfs/meson.build b/hw/9pfs/meson.build
+> index cc094262122..99be5d91196 100644
+> --- a/hw/9pfs/meson.build
+> +++ b/hw/9pfs/meson.build
+> @@ -15,6 +15,6 @@
+>    'coxattr.c',
+>  ))
+>  fs_ss.add(when: 'CONFIG_XEN', if_true: files('xen-9p-backend.c'))
+> -softmmu_ss.add_all(when: 'CONFIG_9PFS', if_true: fs_ss)
+> +softmmu_ss.add_all(when: 'CONFIG_FSDEV_9P', if_true: fs_ss)
+>=20
+>  specific_ss.add(when: 'CONFIG_VIRTIO_9P', if_true:
+> files('virtio-9p-device.c'))
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Message-id: 20201027150456.24606-9-mark.cave-ayland@ilande.co.uk
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/usb/dev-serial.c | 38 +++++++++++++++++++++++++++++++++++---
- hw/usb/trace-events |  2 ++
- 2 files changed, 37 insertions(+), 3 deletions(-)
+Best regards,
+Christian Schoenebeck
 
-diff --git a/hw/usb/dev-serial.c b/hw/usb/dev-serial.c
-index e42ce362956b..19e1933f0496 100644
---- a/hw/usb/dev-serial.c
-+++ b/hw/usb/dev-serial.c
-@@ -52,6 +52,7 @@
- 
- /* SET_FLOW_CTRL */
- 
-+#define FTDI_NO_HS         0
- #define FTDI_RTS_CTS_HS    1
- #define FTDI_DTR_DSR_HS    2
- #define FTDI_XON_XOFF_HS   4
-@@ -98,6 +99,9 @@ struct USBSerialState {
-     uint8_t error_chr;
-     uint8_t event_trigger;
-     bool always_plugged;
-+    uint8_t flow_control;
-+    uint8_t xon;
-+    uint8_t xoff;
-     QEMUSerialSetParams params;
-     int latency;        /* ms */
-     CharBackend cs;
-@@ -181,14 +185,36 @@ static const USBDesc desc_braille = {
-     .str  = desc_strings,
- };
- 
-+static void usb_serial_set_flow_control(USBSerialState *s,
-+                                        uint8_t flow_control)
-+{
-+    USBDevice *dev = USB_DEVICE(s);
-+    USBBus *bus = usb_bus_from_device(dev);
-+
-+    /* TODO: ioctl */
-+    s->flow_control = flow_control;
-+    trace_usb_serial_set_flow_control(bus->busnr, dev->addr, flow_control);
-+}
-+
-+static void usb_serial_set_xonxoff(USBSerialState *s, int xonxoff)
-+{
-+    USBDevice *dev = USB_DEVICE(s);
-+    USBBus *bus = usb_bus_from_device(dev);
-+
-+    s->xon = xonxoff & 0xff;
-+    s->xoff = (xonxoff >> 8) & 0xff;
-+
-+    trace_usb_serial_set_xonxoff(bus->busnr, dev->addr, s->xon, s->xoff);
-+}
-+
- static void usb_serial_reset(USBSerialState *s)
- {
--    /* TODO: Set flow control to none */
-     s->event_chr = 0x0d;
-     s->event_trigger = 0;
-     s->recv_ptr = 0;
-     s->recv_used = 0;
-     /* TODO: purge in char driver */
-+    usb_serial_set_flow_control(s, FTDI_NO_HS);
- }
- 
- static void usb_serial_handle_reset(USBDevice *dev)
-@@ -285,9 +311,15 @@ static void usb_serial_handle_control(USBDevice *dev, USBPacket *p,
-         qemu_chr_fe_ioctl(&s->cs, CHR_IOCTL_SERIAL_SET_TIOCM, &flags);
-         break;
-     }
--    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL:
--        /* TODO: ioctl */
-+    case VendorDeviceOutRequest | FTDI_SET_FLOW_CTRL: {
-+        uint8_t flow_control = index >> 8;
-+
-+        usb_serial_set_flow_control(s, flow_control);
-+        if (flow_control & FTDI_XON_XOFF_HS) {
-+            usb_serial_set_xonxoff(s, value);
-+        }
-         break;
-+    }
-     case VendorDeviceOutRequest | FTDI_SET_BAUD: {
-         static const int subdivisors8[8] = { 0, 4, 2, 1, 3, 5, 6, 7 };
-         int subdivisor8 = subdivisors8[((value & 0xc000) >> 14)
-diff --git a/hw/usb/trace-events b/hw/usb/trace-events
-index 109da521cf4d..a3292d46248f 100644
---- a/hw/usb/trace-events
-+++ b/hw/usb/trace-events
-@@ -331,3 +331,5 @@ usb_serial_unsupported_data_bits(int bus, int addr, int value) "dev %d:%u unsupp
- usb_serial_bad_token(int bus, int addr) "dev %d:%u bad token"
- usb_serial_set_baud(int bus, int addr, int baud) "dev %d:%u baud rate %d"
- usb_serial_set_data(int bus, int addr, int parity, int data, int stop) "dev %d:%u parity %c, data bits %d, stop bits %d"
-+usb_serial_set_flow_control(int bus, int addr, int index) "dev %d:%u flow control %d"
-+usb_serial_set_xonxoff(int bus, int addr, uint8_t xon, uint8_t xoff) "dev %d:%u xon 0x%x xoff 0x%x"
--- 
-2.27.0
 
 
