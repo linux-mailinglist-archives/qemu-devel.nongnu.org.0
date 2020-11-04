@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB10B2A6C61
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:06:55 +0100 (CET)
-Received: from localhost ([::1]:43484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A322A6C6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:08:30 +0100 (CET)
+Received: from localhost ([::1]:47340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaNBO-0002WP-RM
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:06:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
+	id 1kaNCv-00046e-9L
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:08:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaN9i-0001J0-1a
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:05:10 -0500
-Received: from mail-ej1-x642.google.com ([2a00:1450:4864:20::642]:44790)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaN9e-0004sI-EP
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:05:09 -0500
-Received: by mail-ej1-x642.google.com with SMTP id j24so30981152ejc.11
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:05:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=sI7TAhW2Sw37Yt5Y0QzVWuDziEmYYPc05s8hLAg4L6E=;
- b=OyDZ1kE9xDzZQacxCdqTEw0dym2WiocLAxmad9kq2nprR1+dqi8QnU/F8deerS4c8B
- aRdynzoPl1jCQwTUbg7aNeUcoeIX45+jMlS/whVXZItJKZvC6SyTIT5iMpE1ytZqH7AG
- e6RDC/zky5oUXcTo6AkjIKw59o0mdScflj1vf6gyEcXkG6TNdPOsWCP2BrjMVwq2OxSS
- mtzN/lhjyzi3ITABOlF7qAnBrT+n022BkXyeDqBBHLqTW+/65jhxVu34KBkQy1F5NFjd
- mqsrLce6ttrXgp0bqPUsZTbsgasvPqwiXkzaYdfoBxxIOSV2ZxxE+p/+3twrEva+/yWo
- MA2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=sI7TAhW2Sw37Yt5Y0QzVWuDziEmYYPc05s8hLAg4L6E=;
- b=fs2xOeLlr/CYsBmx6xz1q6KWko/OuYdzF0mAS3T7nc3pxYmaa1lrOP8RSr+IhexkbF
- eG4sOnROvm70scIRm65BLFiacNJ6ClOTzDB5Gg31VLfxcp2QMTw5Ckd1Qw28hFW54LcI
- R8dYr9oBsyX6cp4B+dyBtSaG1Qu8bTXYKRJMiUtBG3vv2FKjgL7fVdMIbJULJZ4UH05z
- aYgmKBynpYuRV8KUTtMpvBRbTIxn1IHxhi6FWayq5tWanevEUO990JKpya5AFBep180N
- EFNCkCGVxNo3Iu2QuRa1TbJ0n9Pq4mGWAyymPExXsadCTlohHZlIL/rA6BCYEnRGKbNF
- 6ZwA==
-X-Gm-Message-State: AOAM5336a0hlwxYnww3xYS5uOBMenmj4XDLv/TZowgwGFnda12/u+4wZ
- 7PnZ1amgasgd41IIuhW81KUyF84sqYQdgkU2PHR7hQ==
-X-Google-Smtp-Source: ABdhPJxvsf1uBhxn3y4+wYYKYNQLAQIBRLbIILDbz8g5JwKjkhBqoz+vIPH4cOh/2OZD3Rgu5wdOjzVGpbWJZ8wtwBg=
-X-Received: by 2002:a17:906:7254:: with SMTP id
- n20mr25016901ejk.382.1604513104937; 
- Wed, 04 Nov 2020 10:05:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kaNA6-0001q0-EF
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:05:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47226)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlevitsk@redhat.com>)
+ id 1kaNA3-0004yA-5l
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604513129;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MFSz4ic3aay5Qek8uAg3YL657H/Fm78lPuiy8WbAisw=;
+ b=dJDa2tsri7cd/dSIeOr6mWYjabdOCQSHCMROD1mntjsUzcTTUvStrwpd4Ef4l9MBBainzB
+ 8lI2ACLt6AKvI6M+rUl/JqcIauHOr2urtChFT6WFO38u3bbzPMsvJV6ZD8BnNBaIizPqY8
+ 8lU0+znx95bOKPhsSHQPrTSywpyuEqw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-316-AH4p6X60PlK1THnU6uRrvw-1; Wed, 04 Nov 2020 13:05:25 -0500
+X-MC-Unique: AH4p6X60PlK1THnU6uRrvw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AC45E1007464;
+ Wed,  4 Nov 2020 18:05:23 +0000 (UTC)
+Received: from starship (unknown [10.35.207.23])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3675E5B4B8;
+ Wed,  4 Nov 2020 18:05:16 +0000 (UTC)
+Message-ID: <054f240a70f83c6faf9fe48f6674158c5cb21235.camel@redhat.com>
+Subject: Re: [PATCH 0/5] SCSI: fix transfer limits for SCSI passthrough
+From: Maxim Levitsky <mlevitsk@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 04 Nov 2020 20:05:15 +0200
+In-Reply-To: <160451212210.17446.5025535715832636959@66eaa9a8a123>
+References: <160451212210.17446.5025535715832636959@66eaa9a8a123>
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32)
 MIME-Version: 1.0
-References: <20201103114529.638233-1-zhangxinhao1@huawei.com>
-In-Reply-To: <20201103114529.638233-1-zhangxinhao1@huawei.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 4 Nov 2020 18:04:53 +0000
-Message-ID: <CAFEAcA-EXS2czmGNePYcTPT+qJSp7jjHjECdaVRbwSda-zQOcg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] target/arm: add spaces around operator
-To: Xinhao Zhang <zhangxinhao1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlevitsk@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::642;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x642.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlevitsk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,29 +81,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: AlexChen <alex.chen@huawei.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
- dengkai1@huawei.com
+Cc: fam@euphon.net, kwolf@redhat.com, ronniesahlberg@gmail.com,
+ qemu-block@nongnu.org, pl@kamp.de, tom.ty89@gmail.com, stefanha@redhat.com,
+ pbonzini@redhat.com, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 3 Nov 2020 at 11:47, Xinhao Zhang <zhangxinhao1@huawei.com> wrote:
->
-> Fix code style. Operator needs spaces both sides.
+On Wed, 2020-11-04 at 09:48 -0800, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20201104173217.417538-1-mlevitsk@redhat.com/
+> 
+> 
+> 
+> Hi,
+> 
+> This series seems to have some coding style problems. See output below for
+> more information:
+> 
+> Type: series
+> Message-id: 20201104173217.417538-1-mlevitsk@redhat.com
+> Subject: [PATCH 0/5] SCSI: fix transfer limits for SCSI passthrough
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> git rev-parse base > /dev/null || exit 0
+> git config --local diff.renamelimit 0
+> git config --local diff.renames True
+> git config --local diff.algorithm histogram
+> ./scripts/checkpatch.pl --mailback base..
+> === TEST SCRIPT END ===
+> 
+> Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
+> From https://github.com/patchew-project/qemu
+>    b1266b6..3c8c36c  master     -> master
+>  - [tag update]      patchew/20201104160021.2342108-1-ehabkost@redhat.com -> patchew/20201104160021.2342108-1-ehabkost@redhat.com
+>  * [new tag]         patchew/20201104173217.417538-1-mlevitsk@redhat.com -> patchew/20201104173217.417538-1-mlevitsk@redhat.com
+> Switched to a new branch 'test'
+> bde6371 block/scsi: correctly emulate the VPD block limits page
+> c4180d6 block: use blk_get_max_ioctl_transfer for SCSI passthrough
+> 9ff7edc block: add max_ioctl_transfer to BlockLimits
+> dd2f1f7 file-posix: add sg_get_max_segments that actually works with sg
+> f9ad940 file-posix: split hdev_refresh_limits from raw_refresh_limits
+> 
+> === OUTPUT BEGIN ===
+> 1/5 Checking commit f9ad9400e011 (file-posix: split hdev_refresh_limits from raw_refresh_limits)
+> 2/5 Checking commit dd2f1f77a5d2 (file-posix: add sg_get_max_segments that actually works with sg)
+> 3/5 Checking commit 9ff7edc31002 (block: add max_ioctl_transfer to BlockLimits)
+> 4/5 Checking commit c4180d6accff (block: use blk_get_max_ioctl_transfer for SCSI passthrough)
+> 5/5 Checking commit bde637139536 (block/scsi: correctly emulate the VPD block limits page)
+> ERROR: braces {} are necessary for all arms of this statement
+> #51: FILE: hw/scsi/scsi-generic.c:196:
+> +            if (page_idx >= r->buflen)
+Sorry about that. Triple checked this code for correctness,
+but didn't run checkpatch on the last revision :-(
 
-Thanks; I have applied this series to target-arm.next.
+Best regards,
+	Maxim Levitsky
 
-For future patch submissions, please could you include a
-cover letter if you're submitting a series with more
-than one patch in it? (Single patches don't need a cover
-letter). The individual patches should all then be
-follow-ups to the cover letter (in the usual way that
-git format-patch --cover-letter sets up).
+> [...]
+> 
+> total: 1 errors, 0 warnings, 53 lines checked
+> 
+> Patch 5/5 has style problems, please review.  If any of these errors
+> are false positives report them to the maintainer, see
+> CHECKPATCH in MAINTAINERS.
+> 
+> === OUTPUT END ===
+> 
+> Test command exited with code: 1
+> 
+> 
+> The full log is available at
+> http://patchew.org/logs/20201104173217.417538-1-mlevitsk@redhat.com/testing.checkpatch/?type=message.
+> ---
+> Email generated automatically by Patchew [https://patchew.org/].
+> Please send your feedback to patchew-devel@redhat.com
 
-(We document this and other conventions for our code
-submission process at:
-https://wiki.qemu.org/Contribute/SubmitAPatch )
 
-thanks
--- PMM
 
