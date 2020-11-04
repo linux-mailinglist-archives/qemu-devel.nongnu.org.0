@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A37FB2A6710
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:06:32 +0100 (CET)
-Received: from localhost ([::1]:59878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 969192A6708
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 16:03:58 +0100 (CET)
+Received: from localhost ([::1]:49564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaKMp-0000lr-Kc
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:06:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55484)
+	id 1kaKKL-0004qH-Je
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 10:03:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIj-0003AK-2V
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22210)
+ id 1kaKIf-000377-Ik
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29974)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaKIY-00063F-QR
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:16 -0500
+ id 1kaKIW-00062f-DU
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 10:02:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604502126;
+ s=mimecast20190719; t=1604502123;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1eRgVyWZPuzxILvvT0dU8G0pOJ4Q3cU7wzjAUlDRy4s=;
- b=L0nUibVgBtVAGC/OQxA7fnTEafwuKVefaDcLX7HSjlgVjkexCApPq34brYg0INfi22+jM4
- oiarVnc0hwCne/RLrbaOSFV13ZH8wyHywZ9OtEYwXRD9SGvNLJXhkgZA0XpS9tj1B9YRlF
- u7KMAhfXuxMbnl0K4BupkEbHQZU1bwY=
+ bh=de2pXcanApnVObIMn4tUsdIN1cc7fIBf96JB+nxZj7E=;
+ b=d8T0ZTx6Oi7ujF/ozwcidCGjn2bCeKk9V4zLahwoeSttuukxFyfMh9J0zY9EfBbizHglev
+ 1dmJQLQAnD+h7oB4vk/LxK0RW3SofRVq6yEr/x/z003YwGJwV1cVlYamlYeJH1P26CIKBh
+ LBDi1XAJKCkJhtYPPiGEgvRuMXW8HUk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-wSd7kAkGOoKcgG01gQRbKg-1; Wed, 04 Nov 2020 10:02:02 -0500
-X-MC-Unique: wSd7kAkGOoKcgG01gQRbKg-1
+ us-mta-555-ccHtDAm-MqGgpUYyrwxS0A-1; Wed, 04 Nov 2020 10:02:01 -0500
+X-MC-Unique: ccHtDAm-MqGgpUYyrwxS0A-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40AB464093;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0EA6802B61;
  Wed,  4 Nov 2020 15:02:00 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E653C6EF7E;
- Wed,  4 Nov 2020 15:01:59 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6189C6EF6A;
+ Wed,  4 Nov 2020 15:02:00 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 11/20] meson: fix warning for bad sphinx-build
-Date: Wed,  4 Nov 2020 10:01:44 -0500
-Message-Id: <20201104150153.541326-12-pbonzini@redhat.com>
+Subject: [PULL 12/20] configure: fix gio_libs reference
+Date: Wed,  4 Nov 2020 10:01:45 -0500
+Message-Id: <20201104150153.541326-13-pbonzini@redhat.com>
 In-Reply-To: <20201104150153.541326-1-pbonzini@redhat.com>
 References: <20201104150153.541326-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -81,34 +81,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The warning was printing an empty string if the bad sphinx-build
-was not passed on the command line.  Instead, always use the
-path that was returned by find_program.
+From: Bruce Rogers <brogers@suse.com>
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+The gio library detection code no longer works, due to a missing $ in
+front of the gio_libs reference. Make the string be $gio_libs.
+
+Fixes: 76346b6264a ("configure: Test that gio libs from pkg-config
+work")
+
+Signed-off-by: Bruce Rogers <brogers@suse.com>
+Message-Id: <20201103145121.668865-1-brogers@suse.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- docs/meson.build | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ configure | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/docs/meson.build b/docs/meson.build
-index 8c222f96bb..bf8204a08f 100644
---- a/docs/meson.build
-+++ b/docs/meson.build
-@@ -27,7 +27,8 @@ if sphinx_build.found()
-   build_docs = (sphinx_build_test_out.returncode() == 0)
- 
-   if not build_docs
--    warning('@0@ exists but it is either too old or uses too old a Python version'.format(get_option('sphinx_build')))
-+    warning('@0@ is either too old or uses too old a Python version'
-+            .format(sphinx_build.full_path()))
-     if get_option('docs').enabled()
-       error('Install a Python 3 version of python-sphinx')
-     endif
+diff --git a/configure b/configure
+index c87c1dfbf3..8c4b5d6d9e 100755
+--- a/configure
++++ b/configure
+@@ -3499,7 +3499,7 @@ if $pkg_config --atleast-version=$glib_req_ver gio-2.0; then
+     # with pkg-config --static --libs data for gio-2.0 that is missing
+     # -lblkid and will give a link error.
+     write_c_skeleton
+-    if compile_prog "" "gio_libs" ; then
++    if compile_prog "" "$gio_libs" ; then
+         gio=yes
+     else
+         gio=no
 -- 
 2.26.2
 
