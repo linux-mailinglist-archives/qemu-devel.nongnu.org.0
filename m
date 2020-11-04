@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 883FC2A5B8B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:10:39 +0100 (CET)
-Received: from localhost ([::1]:33036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C98D02A5B6F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:02:46 +0100 (CET)
+Received: from localhost ([::1]:35754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7Ju-0004GC-GF
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:10:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35710)
+	id 1ka7CH-000293-QL
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:02:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nT-0006kJ-F5
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26234)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nU-0006ob-Ue
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nR-0004uB-Eg
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:07 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nR-0004uJ-Uv
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1604450224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pySCMETq1QtWaiErDZTOM4dTWAaBXBhNlXBJldhFyVE=;
- b=Dx89vIXZ950WnXVbHwPQAKAwbh9b/p1ZmjvdUZdRLpGF9Ymcen2CRWGL8QSujdTy2+XVnP
- COMNo9iz4IKEuYKCdIs2KYE0owiJ0h9M19bzu24IBQR5Hjh4o1CHEL8i3c9+t0l8VsSQQk
- ABdjgIvDhq8FR2WXifwExKm2ly1f2WA=
+ bh=La8LA7rAWBOZRtdJ7hAQXXLbNavMknquY2yV0eFl5mM=;
+ b=i9ZcCXTkG2FR1PsAcwfW4sLHGJxAO35e/ltzMRrPYMap+Y6NP2X1L5j4KLBSPfhLK8424A
+ Matfh54lFQQbOosJkZnP9cj8ln3Qd64nXBJ6daqWjsfPC4N5d4AiQ4ECDqB8qQrPGncEXC
+ 9Z3saEev7na8E+R765CcYHyp8spwPxE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-476-Bki5Nd_EPkatA2IraqDxyA-1; Tue, 03 Nov 2020 19:37:02 -0500
-X-MC-Unique: Bki5Nd_EPkatA2IraqDxyA-1
+ us-mta-436-53BI0lz9M4SGp9hs7n25dA-1; Tue, 03 Nov 2020 19:37:03 -0500
+X-MC-Unique: 53BI0lz9M4SGp9hs7n25dA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F393108BD07
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7139F1891E82
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:02 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BA76155766;
- Wed,  4 Nov 2020 00:37:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AAB5055766;
+ Wed,  4 Nov 2020 00:37:01 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 42/72] scripts/qmp-shell: explicitly chain exception context
-Date: Tue,  3 Nov 2020 19:35:32 -0500
-Message-Id: <20201104003602.1293560-43-jsnow@redhat.com>
+Subject: [PATCH v2 43/72] scripts/qmp-shell: remove if-raise-else patterns
+Date: Tue,  3 Nov 2020 19:35:33 -0500
+Message-Id: <20201104003602.1293560-44-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -85,24 +85,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/qmp/qmp-shell | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 6ad9384c1804..b3ab735397d4 100755
+index b3ab735397d4..47863a604f51 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -138,8 +138,8 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-         if len(addr) == 2:
-             try:
-                 port = int(addr[1])
--            except ValueError:
--                raise QMPShellBadPort
-+            except ValueError as err:
-+                raise QMPShellBadPort from err
-             return addr[0], port
-         # socket path
-         return arg
+@@ -224,8 +224,7 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+                 if type(parent[optpath[-1]]) is dict:
+                     msg = 'Cannot use "{:s}" as both leaf and non-leaf key'
+                     raise QMPShellError(msg.format('.'.join(curpath)))
+-                else:
+-                    raise QMPShellError(f'Cannot set "{key}" multiple times')
++                raise QMPShellError(f'Cannot set "{key}" multiple times')
+             parent[optpath[-1]] = value
+ 
+     def __build_cmd(self, cmdline):
+@@ -329,13 +328,14 @@ class QMPShell(qmp.QEMUMonitorProtocol):
+         except EOFError:
+             print()
+             return False
++
+         if cmdline == '':
+             for event in self.get_events():
+                 print(event)
+             self.clear_events()
+             return True
+-        else:
+-            return self._execute_cmd(cmdline)
++
++        return self._execute_cmd(cmdline)
+ 
+     def set_verbosity(self, verbose):
+         self._verbose = verbose
 -- 
 2.26.2
 
