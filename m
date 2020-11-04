@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BABD22A6BA3
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:29:10 +0100 (CET)
-Received: from localhost ([::1]:58398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A4A2A6B9E
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:27:24 +0100 (CET)
+Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMar-0005mF-Ox
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:29:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60820)
+	id 1kaMZ9-00035L-4F
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:27:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXF-0000zM-75
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49097)
+ id 1kaMXQ-0001Gn-A1
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54574)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXC-0008CT-RF
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:24 -0500
+ id 1kaMXO-0008Hr-8Y
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604510721;
+ s=mimecast20190719; t=1604510733;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/E/VfVeQ6SgwgOxmEY2GWK/9ySHK0Bx88fxijhLB0l0=;
- b=c2EWaOYVEsySGCUAo7q5WSULwR3iaKDeA7V5V/dOU4fbXc5b6YqEPnhcJodn54hbkRTr5B
- RBoKXy6cwH8TdPclRj+bV3kthoqFf6YlozpU4YYGDyviF8rWI2XfKVyTfc62MIVkYSqc8m
- B82Tkk53MkujCcWQOFwYlVaiwB6ufB0=
+ bh=eUqT7Z0R5qCCVThtevZpaE91ROAxKpPagPd6kCVEmTs=;
+ b=FjLRAGWQrDzXPADRytkpEHZsRCNshw0rewks65DcucRj8u/CPTSKn1/ulZubU1dhRJJ0wc
+ ffZMsoTyPkZDW1ROR2Ej7Xi9fwApxQAqdQrB29msdvCPt3ydpIWLsINqzBHwAp+1mPEO16
+ 5feMno9pH1ImXYDGdOR3bUVdpv6/zSI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-332-l_nZfuNiNhqSezBQijiOiA-1; Wed, 04 Nov 2020 12:25:20 -0500
-X-MC-Unique: l_nZfuNiNhqSezBQijiOiA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-348-GF_OskxJP2Og_Or2BwSJ0w-1; Wed, 04 Nov 2020 12:25:31 -0500
+X-MC-Unique: GF_OskxJP2Og_Or2BwSJ0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 156FE18A6280
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 17:25:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE9128049C3;
+ Wed,  4 Nov 2020 17:25:30 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A79005D98F;
- Wed,  4 Nov 2020 17:25:18 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75CCE5B4D7;
+ Wed,  4 Nov 2020 17:25:30 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/7] qdev: Don't register unreadable legacy properties
-Date: Wed,  4 Nov 2020 12:25:08 -0500
-Message-Id: <20201104172512.2381656-4-ehabkost@redhat.com>
+Subject: [PATCH 5/7] qom: Replace void* parameter with Property* on
+ PropertyInfo.release
+Date: Wed,  4 Nov 2020 12:25:10 -0500
+Message-Id: <20201104172512.2381656-6-ehabkost@redhat.com>
 In-Reply-To: <20201104172512.2381656-1-ehabkost@redhat.com>
 References: <20201104172512.2381656-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,52 +82,153 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Igor Mammedov <imammedo@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
  "Daniel P. Berrange" <berrange@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The existing code at qdev_class_add_legacy_property() will
-register a property if both .print and .get are NULL, which is
-useless as it will register a property that can't be read or
-written.
-
-The only PropertyInfo struct in the whole tree that has both
-.print and .get set to NULL is qdev_prop_link.  This means every
-link property in the code had a useless "legacy-" property being
-registered.
-
-Fix this by only registering legacy properties if a .print method
-exists.
+The release function must interpret the third argument as
+Property*.  Change the signature of PropertyInfo.release to
+indicate that.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- hw/core/qdev-properties.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ include/qom/field-property.h     | 11 ++++++++++-
+ backends/tpm/tpm_util.c          |  3 +--
+ hw/core/qdev-properties-system.c |  6 ++----
+ qom/field-property.c             | 13 +++++++++++--
+ qom/property-types.c             |  3 +--
+ 5 files changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index 5bb4ff5f46..73884a212a 100644
---- a/hw/core/qdev-properties.c
-+++ b/hw/core/qdev-properties.c
-@@ -264,13 +264,13 @@ static void qdev_class_add_legacy_property(DeviceClass *dc, Property *prop)
-     g_autofree char *name = NULL;
+diff --git a/include/qom/field-property.h b/include/qom/field-property.h
+index 438bb25896..1d3bf9699b 100644
+--- a/include/qom/field-property.h
++++ b/include/qom/field-property.h
+@@ -66,6 +66,15 @@ typedef void FieldAccessor(Object *obj, Visitor *v,
+                            const char *name, Property *prop,
+                            Error **errp);
  
-     /* Register pointer properties as legacy properties */
--    if (!prop->info->print && prop->info->get) {
-+    if (!prop->info->print) {
-         return;
++/**
++ * typedef FieldRelease:
++ * @obj: the object instance
++ * @name: the name of the property
++ * @prop: Field property definition
++ */
++typedef void FieldRelease(Object *obj, const char *name, Property *prop);
++
++
+ /**
+  * struct PropertyInfo: information on a specific QOM property type
+  */
+@@ -91,7 +100,7 @@ struct PropertyInfo {
+      * @release: Optional release function, called when the object
+      * is destroyed
+      */
+-    ObjectPropertyRelease *release;
++    FieldRelease *release;
+ };
+ 
+ /**
+diff --git a/backends/tpm/tpm_util.c b/backends/tpm/tpm_util.c
+index e8837938e5..556e21388c 100644
+--- a/backends/tpm/tpm_util.c
++++ b/backends/tpm/tpm_util.c
+@@ -63,9 +63,8 @@ static void set_tpm(Object *obj, Visitor *v, const char *name,
+     g_free(str);
+ }
+ 
+-static void release_tpm(Object *obj, const char *name, void *opaque)
++static void release_tpm(Object *obj, const char *name, Property *prop)
+ {
+-    Property *prop = opaque;
+     TPMBackend **be = object_field_prop_ptr(obj, prop);
+ 
+     if (*be) {
+diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
+index 4c649cb4b2..2fdd5863bb 100644
+--- a/hw/core/qdev-properties-system.c
++++ b/hw/core/qdev-properties-system.c
+@@ -176,10 +176,9 @@ static void set_drive_iothread(Object *obj, Visitor *v, const char *name,
+     set_drive_helper(obj, v, name, prop, true, errp);
+ }
+ 
+-static void release_drive(Object *obj, const char *name, void *opaque)
++static void release_drive(Object *obj, const char *name, Property *prop)
+ {
+     DeviceState *dev = DEVICE(obj);
+-    Property *prop = opaque;
+     BlockBackend **ptr = object_field_prop_ptr(obj, prop);
+ 
+     if (*ptr) {
+@@ -257,9 +256,8 @@ static void set_chr(Object *obj, Visitor *v, const char *name,
+     g_free(str);
+ }
+ 
+-static void release_chr(Object *obj, const char *name, void *opaque)
++static void release_chr(Object *obj, const char *name, Property *prop)
+ {
+-    Property *prop = opaque;
+     CharBackend *be = object_field_prop_ptr(obj, prop);
+ 
+     qemu_chr_fe_deinit(be, false);
+diff --git a/qom/field-property.c b/qom/field-property.c
+index 25a818bb69..865d4929a3 100644
+--- a/qom/field-property.c
++++ b/qom/field-property.c
+@@ -47,6 +47,15 @@ static ObjectPropertyAccessor *field_prop_setter(const PropertyInfo *info)
+     return info->set ? field_prop_set : NULL;
+ }
+ 
++static void field_prop_release(Object *obj, const char *name, void *opaque)
++{
++    Property *prop = opaque;
++    if (prop->info->release) {
++        prop->info->release(obj, name, prop);
++    }
++}
++
++
+ ObjectProperty *
+ object_property_add_field(Object *obj, const char *name, Property *prop,
+                           ObjectPropertyAllowSet allow_set)
+@@ -59,7 +68,7 @@ object_property_add_field(Object *obj, const char *name, Property *prop,
+     op = object_property_add(obj, name, prop->info->name,
+                              field_prop_getter(prop->info),
+                              field_prop_setter(prop->info),
+-                             prop->info->release,
++                             field_prop_release,
+                              prop);
+ 
+     object_property_set_description(obj, name,
+@@ -92,7 +101,7 @@ object_class_property_add_field(ObjectClass *oc, const char *name,
+                                        name, prop->info->name,
+                                        field_prop_getter(prop->info),
+                                        field_prop_setter(prop->info),
+-                                       prop->info->release,
++                                       field_prop_release,
+                                        prop);
      }
+     if (prop->set_default) {
+diff --git a/qom/property-types.c b/qom/property-types.c
+index 82a5932f4a..0182a73e38 100644
+--- a/qom/property-types.c
++++ b/qom/property-types.c
+@@ -321,9 +321,8 @@ const PropertyInfo prop_info_int64 = {
  
-     name = g_strdup_printf("legacy-%s", prop->qdev_prop_name);
-     object_class_property_add(OBJECT_CLASS(dc), name, "str",
--        prop->info->print ? qdev_get_legacy_property : prop->info->get,
-+        qdev_get_legacy_property,
-         NULL, NULL, prop);
+ /* --- string --- */
+ 
+-static void release_string(Object *obj, const char *name, void *opaque)
++static void release_string(Object *obj, const char *name, Property *prop)
+ {
+-    Property *prop = opaque;
+     g_free(*(char **)object_field_prop_ptr(obj, prop));
  }
  
 -- 
