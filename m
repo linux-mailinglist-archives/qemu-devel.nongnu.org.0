@@ -2,69 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C31812A6EC1
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 21:31:57 +0100 (CET)
-Received: from localhost ([::1]:57832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7E12A6F15
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 21:43:01 +0100 (CET)
+Received: from localhost ([::1]:41286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaPRi-0002QY-PQ
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 15:31:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45300)
+	id 1kaPcS-0007Ye-MY
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 15:43:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaPQi-000189-9j
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 15:30:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:51660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaPQd-0007Kv-At
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 15:30:52 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kaPQc-0001lx-0s
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 20:30:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 053942E8131
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 20:30:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kaPbe-0006rn-Fi
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 15:42:10 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:50440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1kaPbc-00005r-CP
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 15:42:09 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A4Ke46J067256;
+ Wed, 4 Nov 2020 20:42:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=corp-2020-01-29;
+ bh=IXZUb/wdZLKkxzr+7r9dVUdABFA16J3kpOOiHn4aoUw=;
+ b=OL0op4OEbZnutl6Y+HwXH/SeV38XCC76nlD6HnL8/SN87sVO1a8PvqiEH0dLj3pAVfNj
+ /5gNeH53GjOweNIkk7vsZWco1oFOdNlY0QPksZTWlL74wVAUCV/OqV4ymFIu1sCvhlub
+ uut0txyKP3mcOxlkJw1oCtSo9NuELaipRv3ZNU/j8yKUiLK1c3ZXpVcpKbHu8/CGHJxt
+ 3hEoXoxT3UZCc1GjNjkg+0x9knd7rUe653GDDhp65uxrfXPAWwPep5zNkHXP8mS6WTU/
+ XYYxFKKKtb0aQVjfsnQvYnKoSIlJ12RKofpEbmWkqgw/SrBV7SGc2zNm9dNYiJTEEAWA /Q== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 34hhvcgttr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+ Wed, 04 Nov 2020 20:42:04 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A4KaXs7166093;
+ Wed, 4 Nov 2020 20:40:03 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+ by aserp3020.oracle.com with ESMTP id 34hw0kf9g7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 04 Nov 2020 20:40:03 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+ by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0A4Ke10R006873;
+ Wed, 4 Nov 2020 20:40:01 GMT
+Received: from [10.39.255.100] (/10.39.255.100)
+ by default (Oracle Beehive Gateway v4.0)
+ with ESMTP ; Wed, 04 Nov 2020 12:40:00 -0800
+Subject: Re: [PATCH V2] vl: pause option
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <1604332203-435466-1-git-send-email-steven.sistare@oracle.com>
+ <d93b83ea-f31d-4e6b-2350-c6d4c9b71448@redhat.com>
+From: Steven Sistare <steven.sistare@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <5322e622-2ded-c917-8bb5-41d8670dc4dc@oracle.com>
+Date: Wed, 4 Nov 2020 15:39:59 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 04 Nov 2020 20:24:40 -0000
-From: John Snow <1878253@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=jsnow@redhat.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr jnsnow
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <158930706000.2313.17393615876486439811.malonedeb@gac.canonical.com>
-Message-Id: <160452148013.12454.7296896932442572511.malone@gac.canonical.com>
-Subject: [Bug 1878253] Re: null-ptr dereference in address_space_to_flatview
- through ide
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: f62cf5db6b18bf9a015b6abe7928172c51689d93
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 14:49:49
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d93b83ea-f31d-4e6b-2350-c6d4c9b71448@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9795
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
+ adultscore=0 bulkscore=0
+ mlxscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011040149
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9795
+ signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ suspectscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
+ bulkscore=0 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011040150
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=steven.sistare@oracle.com; helo=aserp2120.oracle.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 13:42:08
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,117 +102,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1878253 <1878253@bugs.launchpad.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Merged upstream:
+On 11/4/2020 2:26 PM, Eric Blake wrote:
+> On 11/2/20 9:50 AM, Steve Sistare wrote:
+>> Provide the -pause command-line parameter and the QEMU_PAUSE environment
+>> variable to pause QEMU during process startup using SIGSTOP and allow a
+>> developer to attach a debugger, or observe the process using tools such as
+>> strace.  Useful when the QEMU has been launched with some other entity, such
+>> as libvirt.  QEMU_PAUSE is checked in a constructor at the highest priority,
+>> and can be used to debug other constructors.  The -pause option is checked
+>> later, during argument processing in main, but is useful if passing an
+>> environment variable from a launcher to qemu is awkard.
+>>
+>> Usage: qemu -pause, or QEMU_PAUSE=1
+>> After attaching a debugger, send SIGCONT to the qemu process to continue.
+> 
+> Changing behavior via a new environment variable is awkward.  What
+> happens, for example, if libvirt inherits this variable set, but is not
+> aware of its impact to alter how qemu starts up? 
 
-55adb3c45620c31f29978f209e2a44a08d34e2da
-4ac4e7281a2dd1ca5158812198c4d2cbacf2ae25
-b45bcd81e05dea2781f2164ca1c9dd86069502ea
-1a9925e3390b6adf1125e3abaa17c80ca012bede
+The env var is intended to only be set by a developer.  The developer is responsible
+for sending SIGCONT, not libvirt.  libvirt does not need to understand the semantics
+of QEMU_PAUSE.
 
+For libvirt, the developer would add this to the domain definition file, so it only
+applies to that domain:
 
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+<qemu:commandline>
+   <qemu:env name='QEMU_PAUSE' value='1'/>
+</qemu:commandline>
 
--- =
+>  Can we get by with ONLY a command line option?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1878253
+The command line option is sufficient most of the time and I would be happy to get
+at least that.  The env var is even better, and if I do not push it, someone else
+will!
 
-Title:
-  null-ptr dereference in address_space_to_flatview through ide
+> Also, how does this option differ from what we already have with qemu
+> --preconfig?
 
-Status in QEMU:
-  Fix Committed
+pause stops the qemu process earlier, so more can be debugged before it occurs.
+With preconfig, qemu is still running its event loop and may respond to external
+events such as monitor requests, which may be undesirable.
 
-Bug description:
-  Hello,
-  While fuzzing, I found an input that triggers a null-ptr dereference in
-  address_space_to_flatview through ide:
+- Steve
 
-  =3D=3D31699=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x00000=
-0000020 (pc 0x55e0f562bafd bp 0x7ffee92355b0 sp 0x7ffee92354e0 T0)
-  =3D=3D31699=3D=3DThe signal is caused by a READ memory access.
-  =3D=3D31699=3D=3DHint: address points to the zero page.
-      #0 0x55e0f562bafd in address_space_to_flatview /home/alxndr/Developme=
-nt/qemu/include/exec/memory.h:693:12
-      #1 0x55e0f562bafd in address_space_write /home/alxndr/Development/qem=
-u/exec.c:3267:14
-      #2 0x55e0f562dd9c in address_space_unmap /home/alxndr/Development/qem=
-u/exec.c:3592:9
-      #3 0x55e0f5ab8277 in dma_memory_unmap /home/alxndr/Development/qemu/i=
-nclude/sysemu/dma.h:145:5
-      #4 0x55e0f5ab8277 in dma_blk_unmap /home/alxndr/Development/qemu/dma-=
-helpers.c:104:9
-      #5 0x55e0f5ab8277 in dma_blk_cb /home/alxndr/Development/qemu/dma-hel=
-pers.c:139:5
-      #6 0x55e0f617a6b8 in blk_aio_complete /home/alxndr/Development/qemu/b=
-lock/block-backend.c:1398:9
-      #7 0x55e0f617a6b8 in blk_aio_complete_bh /home/alxndr/Development/qem=
-u/block/block-backend.c:1408:5
-      #8 0x55e0f6355efb in aio_bh_call /home/alxndr/Development/qemu/util/a=
-sync.c:136:5
-      #9 0x55e0f6355efb in aio_bh_poll /home/alxndr/Development/qemu/util/a=
-sync.c:164:13
-      #10 0x55e0f63608ce in aio_dispatch /home/alxndr/Development/qemu/util=
-/aio-posix.c:380:5
-      #11 0x55e0f635799a in aio_ctx_dispatch /home/alxndr/Development/qemu/=
-util/async.c:306:5
-      #12 0x7f16e85d69ed in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x4e9ed)
-      #13 0x55e0f635e384 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/util/main-loop.c:219:9
-      #14 0x55e0f635e384 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/util/main-loop.c:242:5
-      #15 0x55e0f635e384 in main_loop_wait /home/alxndr/Development/qemu/ut=
-il/main-loop.c:518:11
-      #16 0x55e0f593d676 in qemu_main_loop /home/alxndr/Development/qemu/so=
-ftmmu/vl.c:1664:9
-      #17 0x55e0f6267c6a in main /home/alxndr/Development/qemu/softmmu/main=
-.c:49:5
-      #18 0x7f16e7186e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
-0/csu/../csu/libc-start.c:308:16
-      #19 0x55e0f55727b9 in _start (/home/alxndr/Development/qemu/build/i38=
-6-softmmu/qemu-system-i386+0x9027b9)
-
-  AddressSanitizer can not provide additional info.
-  SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/include/exe=
-c/memory.h:693:12 in address_space_to_flatview
-
-  I can reproduce it in qemu 5.0 using:
-
-  cat << EOF | ~/Development/qemu/build/i386-softmmu/qemu-system-i386 -M pc=
- -nographic -drive file=3Dnull-co://,if=3Dide,cache=3Dwriteback,format=3Dra=
-w -nodefaults -display none -nographic -qtest stdio -monitor none -serial n=
-one
-  outl 0xcf8 0x80000920
-  outl 0xcfc 0xc001
-  outl 0xcf8 0x80000924
-  outl 0xcf8 0x80000904
-  outw 0xcfc 0x7
-  outb 0x1f7 0xc8
-  outw 0x3f6 0xe784
-  outw 0x3f6 0xeb01
-  outb 0xc005 0x21
-  write 0x2103 0x1 0x4e
-  outb 0xc000 0x1b
-  outw 0x1f7 0xff35
-  EOF
-
-  I also attached the traces to this launchpad report, in case the
-  formatting is broken:
-
-  qemu-system-i386 -M pc -nographic -drive file=3Dnull-
-  co://,if=3Dide,cache=3Dwriteback,format=3Draw -nodefaults -display none
-  -nographic -qtest stdio -monitor none -serial none < attachment
-
-  Please let me know if I can provide any further info.
-  -Alex
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1878253/+subscriptions
+>> Example:
+>>
+>> $ QEMU_PAUSE=1 qemu-system-x86_64 ...
+>> QEMU pid 18371 is stopped.
+>> [1]+  Stopped
+>>                                  $ gdb -p 18371
+>>                                  (gdb)
+>> $ kill -cont 18371
+>>                                  (gdb) break rcu_init
+>>                                  (gdb) continue
+>>                                  Program received signal SIGCONT, Continued.
+>>                                  (gdb) continue
+>>                                  Breakpoint 1, rcu_init () at util/rcu.c:380
+>>
+>> Thanks to Daniel P. Berrange <berrange@redhat.com> for suggesting SIGSTOP.
+>>
+>> Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+>> ---
+>>  qemu-options.hx | 14 ++++++++++++++
+>>  softmmu/vl.c    | 23 +++++++++++++++++++++++
+>>  2 files changed, 37 insertions(+)
+>>
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 708583b..42edd70 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -3668,6 +3668,20 @@ SRST
+>>      option is experimental.
+>>  ERST
+>>  
+>> +DEF("pause", 0, QEMU_OPTION_pause, \
+>> +    "-pause          pause the qemu process in main using SIGSTOP.\n"
+>> +    "                to pause earlier, before constructors are run, set the\n"
+>> +    "                environment variable QEMU_PAUSE=1 before starting qemu.\n",
+>> +    QEMU_ARCH_ALL)
+>> +
+>> +SRST
+>> +``-pause``
+>> +    Pause the qemu process in main using SIGSTOP.  This is useful for attaching
+>> +    a debugger after QEMU has been launched by some other entity.  After
+>> +    attaching, send SIGCONT to continue.  To pause earlier, before constructors
+>> +    are run, set the environment variable QEMU_PAUSE=1 before starting qemu.
+>> +ERST
+> 
+> Isn't it always possible to provide a wrapper qemu process to be invoked
+> by whatever third-party management app (like libvirt), where your
+> wrapper then starts the real qemu under gdb to begin with, rather than
+> having to hack qemu itself to have a special start-up mode?
+> 
 
