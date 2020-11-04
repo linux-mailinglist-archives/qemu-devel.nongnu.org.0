@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67E302A70CA
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 23:48:29 +0100 (CET)
-Received: from localhost ([::1]:45890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207132A70CE
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 23:50:31 +0100 (CET)
+Received: from localhost ([::1]:53490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaRZs-0006RK-Cr
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 17:48:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41016)
+	id 1kaRbq-00015x-3l
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 17:50:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaRXi-0004xY-6X
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:46:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23034)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaRXj-0004xy-Lu
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:46:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaRXb-0006sj-HN
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:46:10 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaRXh-0006uK-Ln
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 17:46:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604529964;
+ s=mimecast20190719; t=1604529969;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=24FmUnLIzP+vDSOj2F56RQ+qN8x50NQXrQbZyJTmU88=;
- b=eJ6+LFqrfJfgwARAkzkuUesoaqjpC7iShxDZ+ogmE4eWHT01jrCPXJIu+LmQP6hbFpQWP1
- 5gGbvMc7JCTUNdiyekPV2wH6Gud9YSBbn2uPaReq450dazcrYUkdBCQV3nHukxYTxPI5eV
- YfTHhIhECPap/yjcaiPPpZHks+4cu10=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-594-61d3l7e4ML2QXPT14SCztA-1; Wed, 04 Nov 2020 17:46:02 -0500
-X-MC-Unique: 61d3l7e4ML2QXPT14SCztA-1
-Received: by mail-wr1-f69.google.com with SMTP id p12so21103wrx.3
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 14:46:02 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=HkmWM8pdBxBAkh2ux+VVNAnnOD7tHToqsp9wNXfrvV8=;
+ b=gPo4SPUFg/GZJmhAVVzA2pLfEuzN/OZ9KxszorhN/APH4JJsxM63FU9X5/wZX5dbbAffVM
+ qaVsZnXIDGRp7fWPrQ4XQG+hJppGtmAy1Qs9+MhLpwl59iZL5PrYUiHgFCA/rFm/AJ/igm
+ ct2GPBn4nv4UEDmdln/6jAtDt4my/xU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-282-7m5Xq-5KMcCePajbv77RJg-1; Wed, 04 Nov 2020 17:46:07 -0500
+X-MC-Unique: 7m5Xq-5KMcCePajbv77RJg-1
+Received: by mail-wr1-f71.google.com with SMTP id h11so4228wrq.20
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 14:46:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=24FmUnLIzP+vDSOj2F56RQ+qN8x50NQXrQbZyJTmU88=;
- b=qaP6kGvhYPzgqQDjRf0jKEbHtSdYjUG2lT0HqDeY132apSO/tPdomTyjbY2v41aSXJ
- VOyTv0sagvm7tzWPsAL7CVCUNaRa+88ji2a8637DWEQvyOx1M4JhUF1Ieos7hokjIC4s
- /FJTmcbzhDGrP1NQPxNyWrY6MUTZflDeTaOK9kAaSG54MGGthpk3CyC8eYopN+9634bD
- OFAy4Qp6GKDqHTku3IVIf2nPDQqVQSW+f/8qY2WVbha/+/e8ifsCmvji+/zdf2ywyXJx
- use2tPqM0IzFRbr3R23tQ01PlZdd/kibwIuk1Vo7sRrp9surnyfFFaRwjFP6NTrTYpac
- h7ow==
-X-Gm-Message-State: AOAM530nnbeFht+6uKBeFpg3Fc8o77tzxHgy4xXsxkhi0vegZmiiyKw1
- 0jY5tq5B3tefYIIeNPvWPc1atjD6gFKJuCINE555brLrkZrkGShGxWbHgikdxiemJX//YchN3Fz
- 9Tu7Cc0InUFv6k8s=
-X-Received: by 2002:a5d:4103:: with SMTP id l3mr251229wrp.260.1604529960850;
- Wed, 04 Nov 2020 14:46:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzsB1CwTjAuRp9LB6ibH6rwQe9xug/tkKhYeenQuRGINZh1nANevjZEX4duQgYi4kiuFRuF2w==
-X-Received: by 2002:a5d:4103:: with SMTP id l3mr251208wrp.260.1604529960648;
- Wed, 04 Nov 2020 14:46:00 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=HkmWM8pdBxBAkh2ux+VVNAnnOD7tHToqsp9wNXfrvV8=;
+ b=nUrSr6O0Z0caYChq/4EAnLv9ODyJ0zz8LC5XtgefwjGq8eejpSE6S5u7zCIuTfCEVM
+ prUKNys7Vn677GeKVacsAXY/cwfimBFbIMMtKaVRKpZIE+mwmWwalZ9LiNgJ7bfP/t5R
+ nT8aweaQjpLZjrHcPSg3GB7KTNN1nev8+EyHlvWaPaK3IFcbLLHA25j8FCIZE51mQ4kU
+ w8CO0cVN71TXCV0gjWPoHTk+o5c87tnaJZNvKzAFgmLE0FBd7D3L6p3OcsoQWWReJfZH
+ 1AFgFX4E/2uxKTK0Nf4+8QneVTgeNkNqhoX7ubtvPEVF7/DOiYDIpLhcgwGSDm5rLdbn
+ iGTQ==
+X-Gm-Message-State: AOAM5309iruzG4owmdirRhbYdijBcJf3fJusIIquevLY7EFS+9G8KlAr
+ gYflp1h0PpRO75BfYQpjLu6hIv3787wsUhIsSi7VhpddqoI7/Y/t5LqM9zc5qFhyyNpZ1rSW0tc
+ T5Ltje+BVopdyA1Q=
+X-Received: by 2002:a05:600c:4147:: with SMTP id
+ h7mr6864311wmm.186.1604529966054; 
+ Wed, 04 Nov 2020 14:46:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9CzAY/sUwvhSvOe/xNEi44Xc5Kj5A8DVnSOaxnZpa4iKK/TTktmtoGsI/BfPzECzsQrnNYA==
+X-Received: by 2002:a05:600c:4147:: with SMTP id
+ h7mr6864290wmm.186.1604529965826; 
+ Wed, 04 Nov 2020 14:46:05 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t12sm4969439wrm.25.2020.11.04.14.45.59
+ by smtp.gmail.com with ESMTPSA id u3sm4784514wrq.19.2020.11.04.14.46.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 14:45:59 -0800 (PST)
+ Wed, 04 Nov 2020 14:46:05 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 0/9] gitlab-ci: Allow forks to skip some build jobs
-Date: Wed,  4 Nov 2020 23:45:49 +0100
-Message-Id: <20201104224558.3384595-1-philmd@redhat.com>
+Subject: [RFC PATCH 1/9] gitlab-ci: Replace YAML anchors by extends
+ (cross_system_build_job)
+Date: Wed,  4 Nov 2020 23:45:50 +0100
+Message-Id: <20201104224558.3384595-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201104224558.3384595-1-philmd@redhat.com>
+References: <20201104224558.3384595-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
@@ -101,72 +107,146 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-2 months ago GitLab added time limit to their free CI offer [1].=0D
-This series provide developers with the possibility to not run=0D
-all jobs. By default all jobs are started, but we can disable=0D
-a subset of them.=0D
-=0D
-I think this should be the other way around (enable features one=0D
-wants to test, with a default to the "all" keyword), but I didn't=0D
-want to disrupt the current workflow.=0D
-=0D
-I'm not sure supporting both ("SKIP_BUILD=3D3Dall INCLUDE_BUILD=3D3Dsystem"=
-)=0D
-options is easy to implement, or to maintain (unlikely).=0D
-=0D
-In the next iteration I'll add the possibility to use a project-=0D
-wide environment variable [2] to set the default set of enabled /=0D
-disabled features a fork is interested in. User will still be=0D
-able to overload using git-push on the command line. A friendly=0D
-way to use this feature is with git aliases [3]:=0D
-=0D
- $ git config alias.pushci_system \=0D
-    'push -o ci.variable=3D3D"SKIP_BUILD=3D3Duser"'=0D
- $ git config alias.pushci_debian \=0D
-    'push -o ci.variable=3D3D"SKIP_BUILD=3D3Dcentos,fedora,ubuntu"'=0D
-=0D
-Then you can run the jobs based on Debian images (only) using:=0D
-=0D
- $ git pushci_debian gitlab_repo my_branch_for_debian=0D
-=0D
-Or run all system-mode emulation jobs only using:=0D
-=0D
-  $ git pushci_system my_gitlab_repo branch_with_system_feature=0D
-=0D
-Comments welcomed!=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-[1] https://about.gitlab.com/releases/2020/09/01/ci-minutes-update-free-use=
-rs/=0D
-[2] https://docs.gitlab.com/ee/ci/variables/README.html#create-a-custom-var=
-ia=3D=0D
-ble-in-the-ui=0D
-[3] https://docs.gitlab.com/ee/user/project/push_options.html#useful-git-al=
-ia=3D=0D
-ses=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (9):=0D
-  gitlab-ci: Replace YAML anchors by extends (cross_system_build_job)=0D
-  gitlab-ci: Replace YAML anchors by extends (native_build_job)=0D
-  gitlab-ci: Replace YAML anchors by extends (native_test_job)=0D
-  gitlab-ci: Replace YAML anchors by extends (acceptance_test_job)=0D
-  gitlab-ci: Rename acceptance_test_job -> integration_test_job=0D
-  gitlab-ci: Extract common job definition as 'cross_common_job'=0D
-  gitlab-ci: Extract common job definition as 'native_common_job'=0D
-  gitlab-ci: Add rules to skip building cross-jobs=0D
-  gitlab-ci: Add rules to skip building/testing native jobs=0D
-=0D
- .gitlab-ci.d/crossbuilds.yml |  57 +++++++++++--------=0D
- .gitlab-ci.yml               | 104 +++++++++++++++++++++--------------=0D
- 2 files changed, 98 insertions(+), 63 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+'extends' is an alternative to using YAML anchors
+and is a little more flexible and readable. See:
+https://docs.gitlab.com/ee/ci/yaml/#extends
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ .gitlab-ci.d/crossbuilds.yml | 40 ++++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 03ebfabb3fa..099949aaef3 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -1,5 +1,5 @@
+ 
+-.cross_system_build_job_template: &cross_system_build_job_definition
++.cross_system_build_job:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   timeout: 80m
+@@ -13,7 +13,7 @@
+           xtensa-softmmu"
+     - make -j$(expr $(nproc) + 1) all check-build
+ 
+-.cross_user_build_job_template: &cross_user_build_job_definition
++.cross_user_build_job:
+   stage: build
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   script:
+@@ -24,91 +24,91 @@
+     - make -j$(expr $(nproc) + 1) all check-build
+ 
+ cross-armel-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-armel-cross
+ 
+ cross-armel-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-armel-cross
+ 
+ cross-armhf-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-armhf-cross
+ 
+ cross-armhf-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-armhf-cross
+ 
+ cross-arm64-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-arm64-cross
+ 
+ cross-arm64-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-arm64-cross
+ 
+ cross-mips-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-mips-cross
+ 
+ cross-mips-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-mips-cross
+ 
+ cross-mipsel-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-mipsel-cross
+ 
+ cross-mipsel-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-mipsel-cross
+ 
+ cross-mips64el-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-mips64el-cross
+ 
+ cross-mips64el-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-mips64el-cross
+ 
+ cross-ppc64el-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-ppc64el-cross
+ 
+ cross-ppc64el-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-ppc64el-cross
+ 
+ cross-s390x-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: debian-s390x-cross
+ 
+ cross-s390x-user:
+-  <<: *cross_user_build_job_definition
++  extends: .cross_user_build_job
+   variables:
+     IMAGE: debian-s390x-cross
+ 
+ cross-win32-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: fedora-win32-cross
+ 
+ cross-win64-system:
+-  <<: *cross_system_build_job_definition
++  extends: .cross_system_build_job
+   variables:
+     IMAGE: fedora-win64-cross
+-- 
+2.26.2
 
 
