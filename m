@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED772A5D94
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:12:27 +0100 (CET)
-Received: from localhost ([::1]:51030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19BFE2A5D9A
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:14:57 +0100 (CET)
+Received: from localhost ([::1]:57718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaB5u-0002pW-AA
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:12:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60130)
+	id 1kaB8K-0005Ym-5J
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:14:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=57073d1dd=alistair.francis@wdc.com>)
- id 1kaAp3-000430-0D; Tue, 03 Nov 2020 23:55:01 -0500
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17614)
+ id 1kaAp5-00048B-1s; Tue, 03 Nov 2020 23:55:03 -0500
+Received: from esa4.hgst.iphmx.com ([216.71.154.42]:17620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=57073d1dd=alistair.francis@wdc.com>)
- id 1kaAoy-0005iz-2B; Tue, 03 Nov 2020 23:55:00 -0500
+ id 1kaAp2-0005k1-Lc; Tue, 03 Nov 2020 23:55:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1604465695; x=1636001695;
+ t=1604465700; x=1636001700;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=RisuKMhLqPB7mhA2jscmhvu/EDaATgNa1/SbhqIyQWg=;
- b=XWI60Lc15rHzeVQAYnZyiBIyHBRCYo/xYJ6RE84fARXHg1ya4SP20uXD
- WHc9BbJwaGdLQYsbGwq3cyxgmcr+T3bEZ+yqayrShlhtuWF94TQOGeCh7
- iwng3CxCpDX0YmE/dUSkFNbOCyGSBvFJo2IUQvQd4iO1NYe6+4j6jp2dL
- uZI6GldkwGpGX7vqTuFiWJ3qjeJZ38bzM1KVxrUy0iZo5xnXEP8p/1UoP
- lePsDznYCARHPh9wc2YxctCU8vuWtrMkCnuUixIYT8/TtXI6pAnqZTcxN
- 69z0Ar2lWPYKaci8HdNv3bw38VmUn/Y+TrWbobZCHiqsUY6GZccx9yUz/ g==;
-IronPort-SDR: VUyVQOYT2vuzoZFqM1BNbFS0XMyhSgxsArTvgvKc/hCtHGAjVA9KkSXRrXVt1ERXe6N92oVoUn
- k+cxl5l7Xk+KY88yp0TMQ1ob+bKxvaiYQmP0HNumg8LRYwsMAuQP4Qd+JCXojNWwCxbULSUd9s
- ONDUBrLp2ej83tvZ7E6foWjeoCm8mQranPAK5XuTf56z8bRA4LY3sY1n2OiYFBJ42JNKnbEobM
- HZQm+nYLn+qZEBdbWxt/hQWQOKv7y9jq2l97StNtgc64/6hPuKPj9+2Mc7V198pEolg7yU2bD7
- 4b0=
-X-IronPort-AV: E=Sophos;i="5.77,449,1596470400"; d="scan'208";a="151656927"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 04 Nov 2020 12:54:54 +0800
-IronPort-SDR: B5wgJZncStMPBuEBii5s7GQAfWYs0Fh0/7Dc6DRLsiVJJsTINYOqo19bVQLaPHBNr5y4C9OVR8
- q3mblVnrb7iFl4asxajkopUwnt5ow4+xUsZWqJSgxfDdA0+/Ic2fMFbkt+mD5ozLsD5DHZPGKW
- h44MajNmYsUDViI+B48Twn5BsjCVT9nDBVzc5ZtbFYSGKp1YuJaQAFib4LYI0YQ2eSb8KgN8GM
- BmVADkLcmHb5Sd5eaorHmVbe0cHGh4t1VFRy/9fXE6xPWsqc31slXSLCA/Z5Rf0/RwfpIGpaeA
- i0OK48xEmaFmPnUbGLK8Z56c
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 03 Nov 2020 20:41:02 -0800
-IronPort-SDR: EeS4b9xAsleFAb0WXJvbYMLmdz2mrxHL6Q24JNLWdo4SJBzAmy1TMCX9bfeUMjez2PEhIx7we0
- JbIzxZQ2ApA42YFh7hByllIyK1cVg5LEz5LFlygI8Qe+CCpldwEAR9QhHCQkGx350ftBHlQUvI
- rVeuT90ZCorWyHejp9B2a3QLBVslAzdzIRcdCtBESeZMHKgEXGuuJaZZbsXsyqX4JP/PGCrVgZ
- wZdmeiGsBiKTrg4KM9muKmL/9X3EPX9fq4L3fh9S8410qTx2q8LiksXwpEiD2fwssWfInoH5dl
- BZE=
+ bh=0cnh9t+t9g0YgjdwBXPqSgwt7Z2fQx44mGqfUiJG5h4=;
+ b=LBgzK4NMj61/Mrrlc54etyPUyZ9T5YH0Be5H+sDoRStVhwqeGec1rxGy
+ hTWXfY08BrbQtxQIXJusUwNcVUGEEp/XJaL3FZbvvlwE5pz4wr00U5aJ2
+ YoG7zaRvOeSNxditNeugkpiAg3ChlGbh29p6S3hMjqhTprIepZ4SyAlxG
+ 3WljHPXPhxBK2aL5aKj9smkgbcXAl1RdVXONM3Zc07T4rR3zK3PoireZN
+ 796yyK+diiH6rjOZoeA4pQM9hyl8MAJ3MMuRo8ULjAQ+FyzeK+v46QAI3
+ pG7HqxDE1h0lKXylS3vrfkXvM4d4ijBKAlbx/gsqvI7RWoFA2RqoZirMS g==;
+IronPort-SDR: eiaPOCjCAivFnCOlz483Sbn4q4yHIMhg2Xiv7mDWCfLewDuaNJA+r5DnCuVcUpEzKJpwtsh00S
+ YeDMuPV4MXD7WcJPimlIuo1pwjD3HdmUPGOoyV4I0rCzTvResWWcafDljOR+4DwhfQszdLLd3f
+ F9qN6nHyyFUa2eEf1dO9YYecJO45YnR8ITJjZ2rpftpcbJnF+cP5Eisz6gMMumEv4R/E9DCM0q
+ s+FJTzuSzYmn66DLc+yBOsDWc6HccQgiLDSwN9e5Ez4njOMdkZDQQ+wjr7ler9VhZLYE+hfbMt
+ ZZw=
+X-IronPort-AV: E=Sophos;i="5.77,449,1596470400"; d="scan'208";a="151656930"
+Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
+ ([199.255.45.15])
+ by ob1.hgst.iphmx.com with ESMTP; 04 Nov 2020 12:54:57 +0800
+IronPort-SDR: zxU5t4CJ2It1i320/2VAHK97/k9/+a07ol9lJIbJfv9dFDKhayE1AHGUYA6gww65GrwnWw7V7a
+ BMQtzmTToeOq3rG6/pRnDJb8hbXDcEFm6LRaiPmLepDKGrsOUb/cAPoTT1LFH34W0N/SyUkDjf
+ h11mX+M1sLBQ0jubCMVppU15ru+jj2Ap89uFBxBU5vRSMioAhy1syZzk0Xf0QDdZUKhm+rJAZD
+ M1uNmiFIPG6BfrqNWY0mlCsrACLgMF9Rk6qmRS+GiU4yTsFMzXhY0PAz+SyDf6hFMBUMJO/IRS
+ x+Q7eyo2XndUQ8AJ/DxoggGv
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 03 Nov 2020 20:39:55 -0800
+IronPort-SDR: NkRqUrVR00i4zen0TVFblCluK3P433CpMjAj+Q45c8EFfvZoILllI2JOXT76+iz6BAHdbOhR4p
+ Fy9ynpOT2SGeyUfHQ62HyxPeu2RGcrRfEf7yRBcqAXUO58NzEvHz/1rQJixBdlM9VN7mihlClU
+ 3+ucu4RM/wR7XxpVw2SIGguUoGTborT6/22agaxrztLA9zN4B8+fx1TkWxO5Z30XBslffX1WQg
+ HVWqZTVBjHvIoAFrfYfQRy0j1mDHnlNjmcgIWmSqdPl1MmdQqfjGudNaL4IECZG5Evjs48o0yu
+ eu4=
 WDCIronportException: Internal
 Received: from usa003000.ad.shared (HELO risc6-mainframe.hgst.com)
  ([10.86.60.113])
- by uls-op-cesaip01.wdc.com with ESMTP; 03 Nov 2020 20:54:54 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 03 Nov 2020 20:54:57 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v4 1/5] target/riscv: Add a virtualised MMU Mode
-Date: Tue,  3 Nov 2020 20:43:23 -0800
-Message-Id: <4b301bc0ea36da962fc1605371b65019ac3073df.1604464950.git.alistair.francis@wdc.com>
+Subject: [PATCH v4 2/5] target/riscv: Set the virtualised MMU mode when doing
+ hyp accesses
+Date: Tue,  3 Nov 2020 20:43:26 -0800
+Message-Id: <e411c61a1452cad16853f13cac2fb86dc91ebee8.1604464950.git.alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1604464950.git.alistair.francis@wdc.com>
 References: <cover.1604464950.git.alistair.francis@wdc.com>
@@ -97,64 +98,107 @@ Cc: alistair.francis@wdc.com, richard.henderson@linaro.org, bmeng.cn@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new MMU mode that includes the current virt mode.
+When performing the hypervisor load/store operations set the MMU mode to
+indicate that we are virtualised.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/cpu-param.h  | 11 ++++++++++-
- target/riscv/cpu.h        |  4 +++-
- target/riscv/cpu_helper.c |  2 +-
- 3 files changed, 14 insertions(+), 3 deletions(-)
+ target/riscv/op_helper.c | 30 +++++++++++++++++-------------
+ 1 file changed, 17 insertions(+), 13 deletions(-)
 
-diff --git a/target/riscv/cpu-param.h b/target/riscv/cpu-param.h
-index 664fc1d371..e4cf3c01eb 100644
---- a/target/riscv/cpu-param.h
-+++ b/target/riscv/cpu-param.h
-@@ -18,6 +18,15 @@
- # define TARGET_VIRT_ADDR_SPACE_BITS 32 /* sv32 */
- #endif
- #define TARGET_PAGE_BITS 12 /* 4 KiB Pages */
--#define NB_MMU_MODES 4
-+/*
-+ * The current MMU Modes are:
-+ *  - U mode 0b000
-+ *  - S mode 0b001
-+ *  - M mode 0b011
-+ *  - U mode HLV/HLVX/HSV 0b100
-+ *  - S mode HLV/HLVX/HSV 0b101
-+ *  - M mode HLV/HLVX/HSV 0b111
-+ */
-+#define NB_MMU_MODES 6
+diff --git a/target/riscv/op_helper.c b/target/riscv/op_helper.c
+index e20d56dcb8..548c5851ec 100644
+--- a/target/riscv/op_helper.c
++++ b/target/riscv/op_helper.c
+@@ -235,30 +235,31 @@ target_ulong helper_hyp_load(CPURISCVState *env, target_ulong address,
+         (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+             get_field(env->hstatus, HSTATUS_HU))) {
+         target_ulong pte;
++        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
  
- #endif
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 87b68affa8..5d8e54c426 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -363,7 +363,9 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
- void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
+         riscv_cpu_set_two_stage_lookup(env, true);
  
--#define TB_FLAGS_MMU_MASK   3
-+#define TB_FLAGS_MMU_MASK   7
-+#define TB_FLAGS_PRIV_MMU_MASK                3
-+#define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
+         switch (memop) {
+         case MO_SB:
+-            pte = cpu_ldsb_data_ra(env, address, GETPC());
++            pte = cpu_ldsb_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_UB:
+-            pte = cpu_ldub_data_ra(env, address, GETPC());
++            pte = cpu_ldub_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_TESW:
+-            pte = cpu_ldsw_data_ra(env, address, GETPC());
++            pte = cpu_ldsw_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_TEUW:
+-            pte = cpu_lduw_data_ra(env, address, GETPC());
++            pte = cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_TESL:
+-            pte = cpu_ldl_data_ra(env, address, GETPC());
++            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_TEUL:
+-            pte = cpu_ldl_data_ra(env, address, GETPC());
++            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_TEQ:
+-            pte = cpu_ldq_data_ra(env, address, GETPC());
++            pte = cpu_ldq_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         default:
+             g_assert_not_reached();
+@@ -284,23 +285,25 @@ void helper_hyp_store(CPURISCVState *env, target_ulong address,
+         (env->priv == PRV_S && !riscv_cpu_virt_enabled(env)) ||
+         (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+             get_field(env->hstatus, HSTATUS_HU))) {
++        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
++
+         riscv_cpu_set_two_stage_lookup(env, true);
  
- typedef CPURISCVState CPUArchState;
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 3eb3a034db..9dfa7af401 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -323,7 +323,7 @@ static int get_physical_address(CPURISCVState *env, hwaddr *physical,
-      * (riscv_cpu_do_interrupt) is correct */
-     MemTxResult res;
-     MemTxAttrs attrs = MEMTXATTRS_UNSPECIFIED;
--    int mode = mmu_idx;
-+    int mode = mmu_idx & TB_FLAGS_PRIV_MMU_MASK;
-     bool use_background = false;
+         switch (memop) {
+         case MO_SB:
+         case MO_UB:
+-            cpu_stb_data_ra(env, address, val, GETPC());
++            cpu_stb_mmuidx_ra(env, address, val, mmu_idx, GETPC());
+             break;
+         case MO_TESW:
+         case MO_TEUW:
+-            cpu_stw_data_ra(env, address, val, GETPC());
++            cpu_stw_mmuidx_ra(env, address, val, mmu_idx, GETPC());
+             break;
+         case MO_TESL:
+         case MO_TEUL:
+-            cpu_stl_data_ra(env, address, val, GETPC());
++            cpu_stl_mmuidx_ra(env, address, val, mmu_idx, GETPC());
+             break;
+         case MO_TEQ:
+-            cpu_stq_data_ra(env, address, val, GETPC());
++            cpu_stq_mmuidx_ra(env, address, val, mmu_idx, GETPC());
+             break;
+         default:
+             g_assert_not_reached();
+@@ -326,15 +329,16 @@ target_ulong helper_hyp_x_load(CPURISCVState *env, target_ulong address,
+         (env->priv == PRV_U && !riscv_cpu_virt_enabled(env) &&
+             get_field(env->hstatus, HSTATUS_HU))) {
+         target_ulong pte;
++        int mmu_idx = cpu_mmu_index(env, false) | TB_FLAGS_PRIV_HYP_ACCESS_MASK;
  
-     /*
+         riscv_cpu_set_two_stage_lookup(env, true);
+ 
+         switch (memop) {
+         case MO_TEUW:
+-            pte = cpu_lduw_data_ra(env, address, GETPC());
++            pte = cpu_lduw_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         case MO_TEUL:
+-            pte = cpu_ldl_data_ra(env, address, GETPC());
++            pte = cpu_ldl_mmuidx_ra(env, address, mmu_idx, GETPC());
+             break;
+         default:
+             g_assert_not_reached();
 -- 
 2.28.0
 
