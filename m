@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDB92A6B9B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:27:09 +0100 (CET)
-Received: from localhost ([::1]:50266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27E82A6BA4
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 18:29:21 +0100 (CET)
+Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaMYu-0002S6-UG
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:27:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60806)
+	id 1kaMb2-0005v0-RF
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 12:29:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXD-0000yB-4U
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52398)
+ id 1kaMXE-0000z5-Vr
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45215)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaMXA-00089x-T0
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:22 -0500
+ id 1kaMXB-0008Ba-UW
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 12:25:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604510718;
+ s=mimecast20190719; t=1604510720;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=GSqVm/KgbrzU6qODZkZODJ8w9yZNykzM/TsBNSVpeWk=;
- b=Tj2A9Qj7R+JKAiUY4JgPvOnRjcqqkrIFlvmCg2PJ4LjYYz4ysBhQHm7iTidq1brwxTAkMC
- fJO8AIBxvuLBXHN8mWGkB4dI5/kjN235IP1X8+L6ZISicha8+51Kr952Lk8hdD1oKrwLDy
- Fv42g4qXsGcmUq6mskng+mDg8TnnI8Y=
+ bh=bD8WHQ5vkPZgFU67Ydv6CRTwa7bMPjoclBtYbd6jK3c=;
+ b=PE+8dTVc7ryyWQIzjWLiFTiAwjyeR1fzbRgipif/WPj69ofteLzRUfmVs2D2DIKNXv4T7m
+ GKLf2dBssIBWpy9jMIC0x4iQJ0fMLGd8c0UrnAxQTu5/IFUPk8h5Up1PHR4ttu91CNDPCy
+ 4VY7pqpz9rymvFErD3luDMHk5npfBFA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-59-XsdCSUo2O4Wk_pKIXQigbg-1; Wed, 04 Nov 2020 12:25:17 -0500
-X-MC-Unique: XsdCSUo2O4Wk_pKIXQigbg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-528-eRHrlGKkOvqVzrcUNlO-EA-1; Wed, 04 Nov 2020 12:25:18 -0500
+X-MC-Unique: eRHrlGKkOvqVzrcUNlO-EA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04B031028D41;
- Wed,  4 Nov 2020 17:25:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BBC11028D51
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 17:25:17 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BD11A508E9;
- Wed,  4 Nov 2020 17:25:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E20660BFA;
+ Wed,  4 Nov 2020 17:25:17 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/7] sparc: Fix property/field size mismatch for iu-version
-Date: Wed,  4 Nov 2020 12:25:06 -0500
-Message-Id: <20201104172512.2381656-2-ehabkost@redhat.com>
+Subject: [PATCH 2/7] qom: Save size of struct field in Property struct
+Date: Wed,  4 Nov 2020 12:25:07 -0500
+Message-Id: <20201104172512.2381656-3-ehabkost@redhat.com>
 In-Reply-To: <20201104172512.2381656-1-ehabkost@redhat.com>
 References: <20201104172512.2381656-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,78 +81,65 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Igor Mammedov <imammedo@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  "Daniel P. Berrange" <berrange@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "iu-version" property is declared as uint64_t but points to a
-target_ulong struct field.  On the sparc 32-bit target, This
-makes every write of iu-version corrupt the 4 bytes after
-sparc_def_t.iu_version (where the fpu_version field is located).
+This will let the code that reads/writes the field ensure it will
+never go out of bounds.
 
-Change the type of the iu_version struct field to uint64_t,
-and just use DEFINE_PROP_UINT64.
-
-The only place where env.def.iu_version field is read is the
-    env->version = env->def.iu_version;
-assignment at sparc_cpu_realizefn().  This means behavior will be
-kept exactly the same (except for the memory corruption bug fix).
-
-It would be nice to explicitly validate iu_version against
-target_ulong limits, but that would be a new feature (since the
-first version of this code, iu-version was parsed as 64-bit value
-value).  It can be done later, once we have an appropriate API to
-define limits for integer properties.
-
-Fixes: de05005bf785 ("sparc: convert cpu features to qdev properties")
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: "Daniel P. Berrangé" <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Cc: qemu-devel@nongnu.org
 ---
- target/sparc/cpu.h | 2 +-
- target/sparc/cpu.c | 5 ++---
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ include/qom/field-property.h | 3 +++
+ include/qom/property-types.h | 1 +
+ qom/property-types.c         | 1 +
+ 3 files changed, 5 insertions(+)
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index b9369398f2..8ed0f4fef3 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -252,7 +252,7 @@ typedef struct trap_state {
+diff --git a/include/qom/field-property.h b/include/qom/field-property.h
+index bc866e1c93..e64a2b3c07 100644
+--- a/include/qom/field-property.h
++++ b/include/qom/field-property.h
+@@ -27,7 +27,10 @@ struct Property {
+      */
+     const char   *qdev_prop_name;
+     const PropertyInfo *info;
++    /** @offset: offset of field in object instance struct */
+     ptrdiff_t    offset;
++    /** @size: size of field in object instance struct */
++    size_t       size;
+     uint8_t      bitnr;
+     /**
+      * @set_default: true if the default value should be set from @defval,
+diff --git a/include/qom/property-types.h b/include/qom/property-types.h
+index 3a36e1fec5..17bf007234 100644
+--- a/include/qom/property-types.h
++++ b/include/qom/property-types.h
+@@ -28,6 +28,7 @@ extern const PropertyInfo prop_info_link;
+         .info      = &(_prop),                                   \
+         .offset    = offsetof(_state, _field)                    \
+             + type_check(_type, typeof_field(_state, _field)),   \
++        .size      = sizeof(typeof_field(_state, _field)),       \
+         __VA_ARGS__                                              \
+         }
  
- struct sparc_def_t {
-     const char *name;
--    target_ulong iu_version;
-+    uint64_t iu_version;
-     uint32_t fpu_version;
-     uint32_t mmu_version;
-     uint32_t mmu_bm;
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index ec59a13eb8..5a9397f19a 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -576,7 +576,7 @@ void sparc_cpu_list(void)
-     unsigned int i;
- 
-     for (i = 0; i < ARRAY_SIZE(sparc_defs); i++) {
--        qemu_printf("Sparc %16s IU " TARGET_FMT_lx
-+        qemu_printf("Sparc %16s IU %" PRIx64
-                     " FPU %08x MMU %08x NWINS %d ",
-                     sparc_defs[i].name,
-                     sparc_defs[i].iu_version,
-@@ -838,8 +838,7 @@ static Property sparc_cpu_properties[] = {
-     DEFINE_PROP_BIT("hypv",     SPARCCPU, env.def.features, 11, false),
-     DEFINE_PROP_BIT("cmt",      SPARCCPU, env.def.features, 12, false),
-     DEFINE_PROP_BIT("gl",       SPARCCPU, env.def.features, 13, false),
--    DEFINE_PROP_UNSIGNED("iu-version", SPARCCPU, env.def.iu_version, 0,
--                         prop_info_uint64, target_ulong),
-+    DEFINE_PROP_UINT64("iu-version", SPARCCPU, env.def.iu_version, 0),
-     DEFINE_PROP_UINT32("fpu-version", SPARCCPU, env.def.fpu_version, 0),
-     DEFINE_PROP_UINT32("mmu-version", SPARCCPU, env.def.mmu_version, 0),
-     DEFINE_PROP("nwindows",     SPARCCPU, env.def.nwindows,
+diff --git a/qom/property-types.c b/qom/property-types.c
+index f566c05ec2..856b5ae76d 100644
+--- a/qom/property-types.c
++++ b/qom/property-types.c
+@@ -485,6 +485,7 @@ static void set_prop_arraylen(Object *obj, Visitor *v, const char *name,
+          * being inside the device struct.
+          */
+         arrayprop->offset = eltptr - (void *)obj;
++        arrayprop->size = prop->arrayfieldsize;
+         assert(object_field_prop_ptr(obj, arrayprop) == eltptr);
+         object_property_add_field(obj, propname, arrayprop, op->allow_set);
+     }
 -- 
 2.28.0
 
