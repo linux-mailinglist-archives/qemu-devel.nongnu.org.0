@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F6332A5D79
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:59:59 +0100 (CET)
-Received: from localhost ([::1]:37368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B0F12A5D69
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:53:31 +0100 (CET)
+Received: from localhost ([::1]:40298 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAtq-0002MP-3T
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:59:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60030)
+	id 1kaAna-0000Rc-Dr
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:53:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAoR-0003Ff-Ip
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:54:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27963)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm0-0006VS-De
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAoP-0005ZN-Qq
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:54:23 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAly-0004i4-LF
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:51:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465661;
+ s=mimecast20190719; t=1604465510;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=FfMG5NPSSgbiHzXp+0EZ66dpqrizcgkZqiSRInNVyXY=;
- b=LIMrDMcTtG6ccw5U4RaE6BD21x8hQCLZ+wGGDqBdksYO4U+RbiwkYzTm9NKypz+Qn6NoYy
- ZqzCcbagMWC2ggVJECNxffeV92YXhGCcLgDSa6hVjOLPVVsLG9pzk/peDejyTMA55TComu
- 9FQEmpMB5EFdFh0bP8qMBCDonAm/daw=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-nO6vikAFPr2n7MszJ0lVdA-1; Tue, 03 Nov 2020 23:51:35 -0500
-X-MC-Unique: nO6vikAFPr2n7MszJ0lVdA-1
-Received: by mail-wm1-f70.google.com with SMTP id t21so348583wmt.8
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:34 -0800 (PST)
+ bh=aTAjTe4Celzp7fll7OULoNskonibl44hj9qWQyy3thE=;
+ b=YdnR6JkDKKPiDJIW2IpnMsyjbX1M6GQFog6Y98LcFC00MGtmc/UDedoVaS2d5Lr4roAM6l
+ YO1jr6aqfFkAt8P3BXo2LeVxnF2v7ZQCclc5myr1oWMUi3+nJrsaKO55pXMiGUm55XeYCC
+ 3bVyQjDTiXwUwZA9E05ZTLCgoWZ8JDk=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-467-GS7UyUCuN7CjPwzz7BSQSQ-1; Tue, 03 Nov 2020 23:51:45 -0500
+X-MC-Unique: GS7UyUCuN7CjPwzz7BSQSQ-1
+Received: by mail-wr1-f72.google.com with SMTP id 33so8658813wrf.22
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=FfMG5NPSSgbiHzXp+0EZ66dpqrizcgkZqiSRInNVyXY=;
- b=jdRaGKbw+KWp6ymd8oEi/A1+Tigvpp43mtP7KSqNToo4EFRgtfiWdrQ2mUQapc92t7
- PYzpmuS8z+kLC/XEHmcEwVMRDfEx3rRfdaVXhWP4lWymRUyOZ7OpcEwktoStVKqEZ/yb
- zhKEVYXIcgX+V8wXCCZ2CNE79x4sg9fX++77L4glVsLN7peGNKSUYiY/ppeuI+sfmDMw
- z7YkY5dYmzIKqnwRiPmMGMFsjZUbFO608jWUW8FnLeDSefKkxKOsXHrbUvIiE6KM2EqV
- INVDEVFt4HqONclepNxhZxAq+wmme2JDDJmhda1t0BiIAofWMQ67tlcVfmVmbuXIKvtc
- OKRw==
-X-Gm-Message-State: AOAM533dIoAscMy2VaJgMWwAZKqZHRYIo/C52TvUJSaEtvxUJ4W/UIBZ
- YdijAFTLDQpoHYnz7EYZRbcD71ZGwx+4KTuvVdS3ZFMzoWb5n54tnOT/qTDkSzaOetNCuheTYVV
- psNlXYrMM7JJUs70=
-X-Received: by 2002:a1c:9c51:: with SMTP id f78mr2538780wme.189.1604465493277; 
- Tue, 03 Nov 2020 20:51:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxfm37DJTuT+0bspB635VYK6q311o6nEx6dVRlyDbSkPk9sNUvqdY6sImBnIKAYWRS56SqDNg==
-X-Received: by 2002:a1c:9c51:: with SMTP id f78mr2538768wme.189.1604465493085; 
- Tue, 03 Nov 2020 20:51:33 -0800 (PST)
+ bh=aTAjTe4Celzp7fll7OULoNskonibl44hj9qWQyy3thE=;
+ b=Go+hDhP2Ls7uf734CH8AAUnJhBiRJ7aa4aYAWmGrkZ2pI8hj4MqziFcLOl4Jeo6U0A
+ aPaPY3R1rgISYQ7XSNkGC5fvzGDpWUkjm4euwG5BPaGcTm/NktN/DFhI/1qYwZJQBHYV
+ j/g1PbFPcHpQFDkd6XX1fePHZm1CKMsBzd7BurWaVo14TxInUX2Zns6gznSJpRdnxTi3
+ 3zz/B58eowbedqcnGXFD+8GiW51RIPlm4XvjAmZOmAFK0LfRZSAd3468SBcEWznEPJ9O
+ UbssfkA428YpaJgA8du4pBHLOx2YbwbzU1jNWnD9AIzTIZgALfj1oBNEs0wkf3V3yRDq
+ nS3A==
+X-Gm-Message-State: AOAM5310p+zMEtre9IMElK/tWlQgHO3dkWvQC3yh9bZ54yVdjAHoa489
+ bIdkDGm5NbF12dHRPGnljQeSB3k0mictW3BY2SsmtX3gIM/q6FGruVdZ5pv+MFhTlg2OpBma0qr
+ a8ampnHiylqNq1j0=
+X-Received: by 2002:adf:f382:: with SMTP id m2mr1757596wro.342.1604465503876; 
+ Tue, 03 Nov 2020 20:51:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzY2gJxY8JhVmYi9SaouHrEWqRyOcSHLY0fG2iZHbRVgmt9X+C6uzN7HvwUBoIDUKqYJve0Yw==
+X-Received: by 2002:adf:f382:: with SMTP id m2mr1757586wro.342.1604465503750; 
+ Tue, 03 Nov 2020 20:51:43 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id b4sm859043wro.57.2020.11.03.20.51.31
+ by smtp.gmail.com with ESMTPSA id e25sm869056wrc.76.2020.11.03.20.51.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:32 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:30 -0500
+ Tue, 03 Nov 2020 20:51:43 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:51:41 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 18/38] virtio-iommu: Add notify_flag_changed() memory
- region callback
-Message-ID: <20201104044937.226370-19-mst@redhat.com>
+Subject: [PULL v2 22/38] vfio: Don't issue full 2^64 unmap
+Message-ID: <20201104044937.226370-23-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -96,73 +95,52 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bharat Bhushan <bbhushan2@marvell.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Eric Auger <eric.auger@redhat.com>
+ Alex Williamson <alex.williamson@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bharat Bhushan <bbhushan2@marvell.com>
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 
-Add notify_flag_changed() to notice when memory listeners are added and
-removed.
+IOMMUs may declare memory regions spanning from 0 to UINT64_MAX. When
+attempting to deal with such region, vfio_listener_region_del() passes a
+size of 2^64 to int128_get64() which throws an assertion failure.  Even
+ignoring this, the VFIO_IOMMU_DMA_MAP ioctl cannot handle this size
+since the size field is 64-bit. Split the request in two.
 
-Acked-by: Eric Auger <eric.auger@redhat.com>
-Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20201030180510.747225-7-jean-philippe@linaro.org>
+Message-Id: <20201030180510.747225-11-jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-iommu.c | 14 ++++++++++++++
- hw/virtio/trace-events   |  2 ++
- 2 files changed, 16 insertions(+)
+ hw/vfio/common.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 985257c88f..78e07aa40a 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -886,6 +886,19 @@ unlock:
-     qemu_mutex_unlock(&s->mutex);
- }
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 35895b18a6..c1fdbf17f2 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -950,6 +950,17 @@ static void vfio_listener_region_del(MemoryListener *listener,
+     }
  
-+static int virtio_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu_mr,
-+                                            IOMMUNotifierFlag old,
-+                                            IOMMUNotifierFlag new,
-+                                            Error **errp)
-+{
-+    if (old == IOMMU_NOTIFIER_NONE) {
-+        trace_virtio_iommu_notify_flag_add(iommu_mr->parent_obj.name);
-+    } else if (new == IOMMU_NOTIFIER_NONE) {
-+        trace_virtio_iommu_notify_flag_del(iommu_mr->parent_obj.name);
-+    }
-+    return 0;
-+}
-+
- static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -1116,6 +1129,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
- 
-     imrc->translate = virtio_iommu_translate;
-     imrc->replay = virtio_iommu_replay;
-+    imrc->notify_flag_changed = virtio_iommu_notify_flag_changed;
- }
- 
- static const TypeInfo virtio_iommu_info = {
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index ea3c3b25ad..982d0002a6 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -109,6 +109,8 @@ virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start,
- virtio_iommu_notify_map(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64" flags=%d"
- virtio_iommu_notify_unmap(const char *name, uint64_t virt_start, uint64_t virt_end) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64
- virtio_iommu_remap(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64
-+virtio_iommu_notify_flag_add(const char *name) "add notifier to mr %s"
-+virtio_iommu_notify_flag_del(const char *name) "del notifier from mr %s"
- 
- # virtio-mem.c
- virtio_mem_send_response(uint16_t type) "type=%" PRIu16
+     if (try_unmap) {
++        if (int128_eq(llsize, int128_2_64())) {
++            /* The unmap ioctl doesn't accept a full 64-bit span. */
++            llsize = int128_rshift(llsize, 1);
++            ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
++            if (ret) {
++                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
++                             "0x%"HWADDR_PRIx") = %d (%m)",
++                             container, iova, int128_get64(llsize), ret);
++            }
++            iova += int128_get64(llsize);
++        }
+         ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
+         if (ret) {
+             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
 -- 
 MST
 
