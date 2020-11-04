@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91F3F2A5B2E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:48:52 +0100 (CET)
-Received: from localhost ([::1]:39164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0CFF2A5B32
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 01:50:52 +0100 (CET)
+Received: from localhost ([::1]:47710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka6yp-0005NP-Hr
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:48:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35430)
+	id 1ka70l-0000U2-Qw
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 19:50:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nB-0006Mr-PT
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57494)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nG-0006Pv-He
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58182)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n7-0004px-27
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:49 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6n9-0004q6-3e
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:36:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450202;
+ s=mimecast20190719; t=1604450205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QOf6X564u68YDgrr4+ImRp2w40G6MZqV8eYk6Yyrpk4=;
- b=N/Yekjwiaezdrdy5bqOTDtGC4elhD4JCEhkuzF8G4AvMXWSfSp+AAAStrpuCyfy5kZb5Nf
- yuqI+hf7QCxd1RuK4syzrEzCT4t7Qc/j4WlJhmnPZdMrng4xMNUDIrBGfIdWp4vI9XMXdn
- ZwWNysTCYVEQgApJ47ktmq7r+zIP5I0=
+ bh=Y0FZblywsV7MpnNMYEH05TlxqkUSbriCMMi7VScKPRA=;
+ b=I3Sh+VXGLoy8AEDHBRnHcWJUQECKWdv5anWrOHY3vFKDmwkoSfi8WB7z+goB8niUi70kBh
+ vioYez8MWmVaVfYePTVyv8/2GmCxaGs+7HnJlt31NQ7w534ZeHclrcnD+rK9Mqflt+kixA
+ DXoXCA/Etj3ZVHIl250XGRD3quToHDA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-55-EWfNmpFSPhSy29UJKR7V6w-1; Tue, 03 Nov 2020 19:36:40 -0500
-X-MC-Unique: EWfNmpFSPhSy29UJKR7V6w-1
+ us-mta-157-zI7t13D1P6-2dq9ZzzvmqQ-1; Tue, 03 Nov 2020 19:36:42 -0500
+X-MC-Unique: zI7t13D1P6-2dq9ZzzvmqQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EDE071054FA5
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FA0C84627E
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:36:35 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C847747C6;
- Wed,  4 Nov 2020 00:36:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 27F8D55766;
+ Wed,  4 Nov 2020 00:36:34 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 18/72] scripts/qemu-ga-client: apply (most) flake8 rules
-Date: Tue,  3 Nov 2020 19:35:08 -0500
-Message-Id: <20201104003602.1293560-19-jsnow@redhat.com>
+Subject: [PATCH v2 19/72] scripts/qemu-ga-client: Fix exception handling
+Date: Tue,  3 Nov 2020 19:35:09 -0500
+Message-Id: <20201104003602.1293560-20-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,99 +83,49 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-- Line length should be < 80
-- You shouldn't perform unscoped imports except at the top of the module
-
-Notably, the sys.path hack creates problems with the import rule. This
-will be fixed later.
-
+Fixes: 50d189c
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qemu-ga-client | 28 ++++++++++++++++------------
- 1 file changed, 16 insertions(+), 12 deletions(-)
+ scripts/qmp/qemu-ga-client | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/scripts/qmp/qemu-ga-client b/scripts/qmp/qemu-ga-client
-index ae71b30dfa43..a12e0e9b2a6e 100755
+index a12e0e9b2a6e..c4fbb6165d54 100755
 --- a/scripts/qmp/qemu-ga-client
 +++ b/scripts/qmp/qemu-ga-client
-@@ -12,7 +12,8 @@
- # Start QEMU with:
- #
- # # qemu [...] -chardev socket,path=/tmp/qga.sock,server,nowait,id=qga0 \
--#   -device virtio-serial -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
-+#   -device virtio-serial \
-+#   -device virtserialport,chardev=qga0,name=org.qemu.guest_agent.0
- #
- # Run the script:
- #
-@@ -37,6 +38,7 @@
- #
- 
- import base64
-+import optparse
- import os
- import random
- import sys
-@@ -94,9 +96,11 @@ class QemuGuestAgentClient:
-         msgs = []
-         msgs.append('version: ' + info['version'])
-         msgs.append('supported_commands:')
--        enabled = [c['name'] for c in info['supported_commands'] if c['enabled']]
-+        enabled = [c['name'] for c in info['supported_commands']
-+                   if c['enabled']]
-         msgs.append('\tenabled: ' + ', '.join(enabled))
--        disabled = [c['name'] for c in info['supported_commands'] if not c['enabled']]
-+        disabled = [c['name'] for c in info['supported_commands']
-+                    if not c['enabled']]
-         msgs.append('\tdisabled: ' + ', '.join(disabled))
- 
-         return '\n'.join(msgs)
-@@ -119,11 +123,11 @@ class QemuGuestAgentClient:
-                     if ipaddr['ip-address-type'] == 'ipv4':
-                         addr = ipaddr['ip-address']
-                         mask = self.__gen_ipv4_netmask(int(ipaddr['prefix']))
--                        msgs.append("\tinet %s  netmask %s" % (addr, mask))
-+                        msgs.append(f"\tinet {addr}  netmask {mask}")
-                     elif ipaddr['ip-address-type'] == 'ipv6':
-                         addr = ipaddr['ip-address']
-                         prefix = ipaddr['prefix']
--                        msgs.append("\tinet6 %s  prefixlen %s" % (addr, prefix))
-+                        msgs.append(f"\tinet6 {addr}  prefixlen {prefix}")
-             if nif['hardware-address'] != '00:00:00:00:00:00':
-                 msgs.append("\tether " + nif['hardware-address'])
- 
-@@ -237,6 +241,8 @@ def _cmd_suspend(client, args):
- 
- def _cmd_shutdown(client, args):
-     client.shutdown()
-+
-+
- _cmd_powerdown = _cmd_shutdown
+@@ -56,8 +56,6 @@ class QemuGuestAgent(qmp.QEMUMonitorProtocol):
  
  
-@@ -280,17 +286,15 @@ def main(address, cmd, args):
- 
- 
- if __name__ == '__main__':
--    import optparse
--    import os
--    import sys
-+    address = os.environ.get('QGA_CLIENT_ADDRESS')
- 
--    address = os.environ['QGA_CLIENT_ADDRESS'] if 'QGA_CLIENT_ADDRESS' in os.environ else None
+ class QemuGuestAgentClient:
+-    error = QemuGuestAgent.error
 -
--    usage = "%prog [--address=<unix_path>|<ipv4_address>] <command> [args...]\n"
-+    usage = ("%prog [--address=<unix_path>|<ipv4_address>]"
-+             " <command> [args...]\n")
-     usage += '<command>: ' + ', '.join(commands)
-     parser = optparse.OptionParser(usage=usage)
-     parser.add_option('--address', action='store', type='string',
--                      default=address, help='Specify a ip:port pair or a unix socket path')
-+                      default=address,
-+                      help='Specify a ip:port pair or a unix socket path')
-     options, args = parser.parse_args()
+     def __init__(self, address):
+         self.qga = QemuGuestAgent(address)
+         self.qga.connect(negotiate=False)
+@@ -137,7 +135,7 @@ class QemuGuestAgentClient:
+         self.qga.settimeout(timeout)
+         try:
+             self.qga.ping()
+-        except self.qga.timeout:
++        except TimeoutError:
+             return False
+         return True
  
-     address = options.address
+@@ -269,11 +267,11 @@ def main(address, cmd, args):
+ 
+     try:
+         client = QemuGuestAgentClient(address)
+-    except QemuGuestAgent.error as e:
++    except OSError as err:
+         import errno
+ 
+-        print(e)
+-        if e.errno == errno.ECONNREFUSED:
++        print(err)
++        if err.errno == errno.ECONNREFUSED:
+             print('Hint: qemu is not running?')
+         sys.exit(1)
+ 
 -- 
 2.26.2
 
