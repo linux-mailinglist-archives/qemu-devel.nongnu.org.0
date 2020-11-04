@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39A682A5D7B
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 06:00:37 +0100 (CET)
-Received: from localhost ([::1]:40390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93EE52A5D70
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 05:55:59 +0100 (CET)
+Received: from localhost ([::1]:48770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaAuS-0003ac-7V
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 00:00:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59524)
+	id 1kaApy-0003rB-IL
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 23:55:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmB-0006rG-RA
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27046)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmU-0007V4-ML
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51547)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAm9-0004lY-0U
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:03 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaAmS-0004t2-OA
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 23:52:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604465520;
+ s=mimecast20190719; t=1604465540;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=APdAnMGOimWpi0/lmUkQSWdNUl1kK18oif2GgMOHc/o=;
- b=H1b94kJuV5Vb5s06X3SIQnWvvlHy8j190kjcHB5arp2yIHn3oxGRVqqkenMxLiMS7kIvWg
- E8HdjtLlXR0Xq2cyzix/eNvP65fI3S+SHJNPOKyN0v6UbldefS1RXvWDPzAtPsTDn385ct
- n3RwFkZkjypFEEdt9ErsGdckG5u5gkI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-462-csix4jsrOSyhXyJ-pkTWnw-1; Tue, 03 Nov 2020 23:51:58 -0500
-X-MC-Unique: csix4jsrOSyhXyJ-pkTWnw-1
-Received: by mail-wm1-f70.google.com with SMTP id 8so353004wmg.6
- for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:51:58 -0800 (PST)
+ bh=TD7SW6oID+mQnZFy+V2Ba30n404JJ+wGVVREK/DvNQg=;
+ b=aZCP3jAcMXUKp7xzl4wGCRhPY1pmIPd0O7TT2J8FpshJwgy4PQ36lHSUyFr7QATiKWz1nQ
+ Dk+Na8/3W31OfT3gh6IVVXff8zH6/UM+Js2eD2IheGSeLD+G9fj5gmf9i57RHngRolXR+m
+ v3ng3OJZlx4iTpfTOb0j6ja7GOJDjQc=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-433-rl1JBh8nPFyQIOXc3GuTlQ-1; Tue, 03 Nov 2020 23:52:18 -0500
+X-MC-Unique: rl1JBh8nPFyQIOXc3GuTlQ-1
+Received: by mail-wm1-f71.google.com with SMTP id 13so745113wmf.0
+ for <qemu-devel@nongnu.org>; Tue, 03 Nov 2020 20:52:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=APdAnMGOimWpi0/lmUkQSWdNUl1kK18oif2GgMOHc/o=;
- b=porg/kgO/AecjkeV6JQqiI0aJzgs3y0+KKJ0g3YUs+zei+E04hN2XhFvFm+DQs6DSD
- CniwOpCPmTWfGSX6N61tBeAglbx2yVVgyvtRICg/KQ7DQlSPj1JkBbXK6q/6OnUpptlb
- 16MIRBzepaxkm9RQqAlStchsKaplS/GUBg6vagkl0x9XUD/UNaKTzgH5r0PjwuD3i/6a
- Ehbz8cDtdt7WVUQwEFAlWQeFnO9eG/nVAuA3keCGaVXxnzKDU+t1Scs7TPh8zoToTFCb
- iWl9jilDxM5Pl30p2KThFzN1B6WdL07De5qgJfPeyXLLW0lEmPqXiEZP2uW1z/lzNIVn
- HD+Q==
-X-Gm-Message-State: AOAM5317i6sK8D7NiafiMxjBelxkiLDpr97VoDn2+ddOeqpx36af2G2k
- EkFR719xRHotDD7AqEb9YOwtlUKNFyj5SQgj+iBr565KPVrEH8l3O4jOQ6HC4ERxCVyFzw3+Ar3
- 9y/7wDP8Jql3VLpI=
-X-Received: by 2002:a7b:cc05:: with SMTP id f5mr318636wmh.123.1604465517128;
- Tue, 03 Nov 2020 20:51:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwVitv4451KFhArVolj6ppqGeiQnZ5Zn6Ci71hiCcrB94xKr7B3Uzrk7dAf6c52g3cGjDRm3A==
-X-Received: by 2002:a7b:cc05:: with SMTP id f5mr318619wmh.123.1604465516951;
- Tue, 03 Nov 2020 20:51:56 -0800 (PST)
+ bh=TD7SW6oID+mQnZFy+V2Ba30n404JJ+wGVVREK/DvNQg=;
+ b=brJpTjVJVufENROetFwUeGYHHqEKLvwWFbTcHO8OcQwLXr3rUDT7+VEaRtNgM5cDS9
+ IRkg+Zk9fxumpVXr5XopjsC79Gtsj01n9um9rjLN9UeJ0ao9u2Y7sO8wmq4ui51EBiVF
+ IzoxBTXrmr283+mCjSW7gm1pRezFlHTsWw9+zBFRQa1e7DyDUZUy65fAaFhNc8Kk3ovT
+ wg7Npj5RUplgOPzC3CH93RtVMJxqtpumunQ7axTSFxoNFTef3p4FxJUNX/uMTS07B3hC
+ z1iQhDLxZmPrOLRMCDT5HrON4HGG6PWa2FFQoSffW11cQyxahXnJq/1MmnRHb1YFf+6Q
+ LHiw==
+X-Gm-Message-State: AOAM530rGfSmxOBbnunKH056Etmasi44ixvn5wriiUNrl96A6qv0n542
+ ki2qCRcOotPHze+wReVP6QD0repP758eiTnFpnjxGpKINAItogXEZOwghcKNXZTbZPcGyw79S0F
+ JjU/Kei35+S7+2ow=
+X-Received: by 2002:adf:8296:: with SMTP id 22mr30026186wrc.341.1604465536295; 
+ Tue, 03 Nov 2020 20:52:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzQtGJvRzuJRVkQQaGdOLzVKaIhBMX8O1pz2/91oQjb81dn1jhGsEP/DXOaEi0JSD38ETqDyw==
+X-Received: by 2002:adf:8296:: with SMTP id 22mr30026174wrc.341.1604465536166; 
+ Tue, 03 Nov 2020 20:52:16 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id y201sm886172wmd.27.2020.11.03.20.51.55
+ by smtp.gmail.com with ESMTPSA id x18sm926510wrg.4.2020.11.03.20.52.14
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 03 Nov 2020 20:51:56 -0800 (PST)
-Date: Tue, 3 Nov 2020 23:51:54 -0500
+ Tue, 03 Nov 2020 20:52:15 -0800 (PST)
+Date: Tue, 3 Nov 2020 23:52:13 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 27/38] libvhost-user: follow QEMU comment style
-Message-ID: <20201104044937.226370-28-mst@redhat.com>
+Subject: [PULL v2 34/38] libqtest: add qtest_socket_server()
+Message-ID: <20201104044937.226370-35-mst@redhat.com>
 References: <20201104044937.226370-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104044937.226370-1-mst@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,62 +94,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stefan Hajnoczi <stefanha@redhat.com>
 
+There is a qtest_socket_client() API. Add an equivalent
+qtest_socket_server() API that returns a new UNIX domain socket in the
+listen state. The code for this was already there but only used
+internally in init_socket().
+
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20201027173528.213464-2-stefanha@redhat.com>
+Message-Id: <20201027173528.213464-9-stefanha@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- contrib/libvhost-user/libvhost-user.h | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ tests/qtest/libqos/libqtest.h |  8 +++++++
+ tests/qtest/libqtest.c        | 40 ++++++++++++++++++++---------------
+ 2 files changed, 31 insertions(+), 17 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 3bbeae8587..a1539dbb69 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -392,7 +392,8 @@ struct VuDev {
-     bool broken;
-     uint16_t max_queues;
+diff --git a/tests/qtest/libqos/libqtest.h b/tests/qtest/libqos/libqtest.h
+index 241b5f89fb..699be8c2a2 100644
+--- a/tests/qtest/libqos/libqtest.h
++++ b/tests/qtest/libqos/libqtest.h
+@@ -132,6 +132,14 @@ void qtest_qmp_send(QTestState *s, const char *fmt, ...)
+ void qtest_qmp_send_raw(QTestState *s, const char *fmt, ...)
+     GCC_FMT_ATTR(2, 3);
  
--    /* @read_msg: custom method to read vhost-user message
-+    /*
-+     * @read_msg: custom method to read vhost-user message
-      *
-      * Read data from vhost_user socket fd and fill up
-      * the passed VhostUserMsg *vmsg struct.
-@@ -409,15 +410,19 @@ struct VuDev {
-      *
-      */
-     vu_read_msg_cb read_msg;
--    /* @set_watch: add or update the given fd to the watch set,
--     * call cb when condition is met */
++/**
++ * qtest_socket_server:
++ * @socket_path: the UNIX domain socket path
++ *
++ * Create and return a listen socket file descriptor, or abort on failure.
++ */
++int qtest_socket_server(const char *socket_path);
 +
-+    /*
-+     * @set_watch: add or update the given fd to the watch set,
-+     * call cb when condition is met.
-+     */
-     vu_set_watch_cb set_watch;
+ /**
+  * qtest_socket_client:
+  * @server_socket_path: the socket server's path
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index ab34075f2b..d652ffc90d 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -82,24 +82,8 @@ static void qtest_client_set_rx_handler(QTestState *s, QTestRecvFn recv);
  
-     /* @remove_watch: remove the given fd from the watch set */
-     vu_remove_watch_cb remove_watch;
+ static int init_socket(const char *socket_path)
+ {
+-    struct sockaddr_un addr;
+-    int sock;
+-    int ret;
+-
+-    sock = socket(PF_UNIX, SOCK_STREAM, 0);
+-    g_assert_cmpint(sock, !=, -1);
+-
+-    addr.sun_family = AF_UNIX;
+-    snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", socket_path);
++    int sock = qtest_socket_server(socket_path);
+     qemu_set_cloexec(sock);
+-
+-    do {
+-        ret = bind(sock, (struct sockaddr *)&addr, sizeof(addr));
+-    } while (ret == -1 && errno == EINTR);
+-    g_assert_cmpint(ret, !=, -1);
+-    ret = listen(sock, 1);
+-    g_assert_cmpint(ret, !=, -1);
+-
+     return sock;
+ }
  
--    /* @panic: encountered an unrecoverable error, you may try to
--     * re-initialize */
-+    /*
-+     * @panic: encountered an unrecoverable error, you may try to re-initialize
-+     */
-     vu_panic_cb panic;
-     const VuDevIface *iface;
+@@ -638,6 +622,28 @@ QTestState *qtest_create_state_with_qmp_fd(int fd)
+     return qmp_test_state;
+ }
  
++int qtest_socket_server(const char *socket_path)
++{
++    struct sockaddr_un addr;
++    int sock;
++    int ret;
++
++    sock = socket(PF_UNIX, SOCK_STREAM, 0);
++    g_assert_cmpint(sock, !=, -1);
++
++    addr.sun_family = AF_UNIX;
++    snprintf(addr.sun_path, sizeof(addr.sun_path), "%s", socket_path);
++
++    do {
++        ret = bind(sock, (struct sockaddr *)&addr, sizeof(addr));
++    } while (ret == -1 && errno == EINTR);
++    g_assert_cmpint(ret, !=, -1);
++    ret = listen(sock, 1);
++    g_assert_cmpint(ret, !=, -1);
++
++    return sock;
++}
++
+ int qtest_socket_client(char *server_socket_path)
+ {
+     struct sockaddr_un serv_addr;
 -- 
 MST
 
