@@ -2,68 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDEA42A5EED
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 08:47:55 +0100 (CET)
-Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22FC62A5EFA
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 08:53:19 +0100 (CET)
+Received: from localhost ([::1]:54622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaDWL-0007L0-Eg
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 02:47:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32768)
+	id 1kaDbY-00019a-Oz
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 02:53:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33362)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kaDUn-00064b-Av; Wed, 04 Nov 2020 02:46:17 -0500
-Received: from mail-ej1-x643.google.com ([2a00:1450:4864:20::643]:43166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1kaDUj-0006bt-B7; Wed, 04 Nov 2020 02:46:17 -0500
-Received: by mail-ej1-x643.google.com with SMTP id k3so28326616ejj.10;
- Tue, 03 Nov 2020 23:46:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H6y2Xa3sITJofh7w+9vCnAX4wTeS1ZhGD2fNKDpGrXs=;
- b=g6zLMwviiPxq3l/yRBQtZkUwRgWUQ3ZHYoWIZs88C5tLmwKZZdx2HkHARDDpYH+KBz
- lZFjbkkXM3AgFmhjOxchNkxb78ZrmrMRYkOM2D9I2AvKh6VPLcwvNSkrf7F4SRkU26Tv
- wh7ACLaMTntyZ8A+BHjrtk6zUXqqgGHn6wvIdj/xHROVOED/9JyztK0MATvaxJh5wVNd
- DBHqxt2LZJnVy8KpfpuqGMpXE7Una1C+j1cgfd1Ih/W5dwshYKvKujabcKxoU75RceOI
- 4STLvOpmZx8KKc0jplJwWZJ3lxVSqSC6oCujJgU49bTa8u3qqAaTSJfOvcnzHTN7A3VA
- OgBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H6y2Xa3sITJofh7w+9vCnAX4wTeS1ZhGD2fNKDpGrXs=;
- b=McAPPn3Om90tfJGikG+rFleZnJbT0Vv84HaQQdJL5suSZsU4CbiSdQeLgpO1VRuSz2
- iGsg5WTowcd25rc2U71tCWFII+x8klhHjudD0FulPB+Ti/02D2pBDIT+PmOyVXoSygof
- cfqO+VOo9xS01iXOnmd4FGeOK3jOnIQMLyOaFYGaXMkMn56RMZh8mE6tZJMop6r39xPa
- Y9iykcSNik+6NyWmo8Q2DQfLiN7TRwCNAHiz2c/0TZxhwlqIzEdLiBOyYSKkTBCOldyT
- 6GQ4MUQfx3UIpT4UHN7XjZ2572AjGbscPIOFr7cswKpygFZRz1qVZ7QjfgRPkrak7YtH
- 91dQ==
-X-Gm-Message-State: AOAM5325Qa3GIpr7etPAPpR14GHLiIUpspoE9sJe3x6VvLHCVcfRtaJR
- V4/In4RXJp+gduKtraAkrhaJNWkdGv/4Pzr02l2g25shNoLqGQ==
-X-Google-Smtp-Source: ABdhPJyFWXRTYGiiI85XGL3mNVYWQh9YX3jOynZb7EV1amfF0iEG4YxnDKuO7MQP1VKVmpRL5zQjF95M10XtCiVR1g4=
-X-Received: by 2002:a17:906:af47:: with SMTP id
- ly7mr25257487ejb.532.1604475971609; 
- Tue, 03 Nov 2020 23:46:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaDWg-00080m-SO; Wed, 04 Nov 2020 02:48:15 -0500
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:47745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1kaDWd-0006ti-Cb; Wed, 04 Nov 2020 02:48:14 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 48B8BF9B;
+ Wed,  4 Nov 2020 02:48:08 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 04 Nov 2020 02:48:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm1; bh=cD7ew9Z2oWVguXir6a9RoEy+1p+
+ teQS1+jQtvq7lpCk=; b=swFUAEYtXAGA/YWHpHJM6lisIbc4QoGL/awPhfjPSED
+ fuCoMom1KEHZXfpHQ7p9xJgsicvJkwlDe3G/xARslITmdyCqgGlzMzStZz4+qMPJ
+ k3a9F/z1UXt5VRv2Vcgx/dpzSz0Sj7Fkq5qiEsZS5zKqG0VYG8V8yEmSAWmFKhP3
+ NB14+dsftapThv+XqmZPFKB6ymqvB+48Fv3VTQUWJGndkIOtVTTmYNfVkSRhVQNJ
+ VUC4Dqki9DlmTWDtY9H7aLZgNeTE31jbzkywD6mH2DnekXyRK0g+G4KyhRKi+P7A
+ rVe1l+vdFd8axs0BfSe9j21pBUMVvhudQIIRIV5yVdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cD7ew9
+ Z2oWVguXir6a9RoEy+1p+teQS1+jQtvq7lpCk=; b=W70BnG+rxJugvkg3bjolCF
+ Dm/OhpRlNxCaRzSroYpPAW3r2eyds9qWhBqhB0XM8+HE8GD8ATLPReNsyrUav/ox
+ 4OfKyikBKdnH1i9BwURYLyIQ2QmE21VVl1NDIYPU0sttAYADg3nk2i3hBEnUf9SB
+ TDWHYmUjG3r17i6HrxciqShBOJMbahQ6sujmRgEoj92GlTPnt/lSwZQh2MsB4xrH
+ oGXb/RpoJnLSmOBUGyI9XRRAu/Iy4Nv10Dn7z51MZ3yHUmMOHUia4orAlQ7JUzo9
+ 7NQVQvgJai9KXE895hABh2Mc4LF2HH3kOfhiUGXIIZGI8zkZfLaBdBNocOcq8XDg
+ ==
+X-ME-Sender: <xms:tlyiXwQXYF4VSE5bwH2-xldGtSbWYFOImUJO3vBINrdWush-QfJM_w>
+ <xme:tlyiX9yAPXujQEXCV2Eb68TLpTx6pK3YAUsRtM-I3ByDcXBXiD260_Hs_nUB4OxbG
+ hofHMYyQx_pjBdjjb4>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtgedguddtlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghu
+ shculfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrth
+ htvghrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvddu
+ ffeknecukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptd
+ enucfrrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:tlyiX93dJUW_6BphhchMwyT_5JaVyogJbSS6wJZ5DJmex5pTK2YhFA>
+ <xmx:tlyiX0BxE-kRfB7da2vEBhcF3oa90PUCpZVSVhfx3XVoc7Scf7tTiQ>
+ <xmx:tlyiX5h8Sth3qkf-Yzmr1YekR49xxIimbwFz1gRCrxkRhv9lQTN-Fw>
+ <xmx:t1yiX0qizI-7bpB-z7F3kSm7bAHXCBx2FvRCDI5wLFPcnyiFHynIPSCeDXs>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id F156D3280390;
+ Wed,  4 Nov 2020 02:48:04 -0500 (EST)
+Date: Wed, 4 Nov 2020 08:48:03 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH v8 06/11] hw/block/nvme: Support allocated CNS command
+ variants
+Message-ID: <20201104074803.GB177281@apples.localdomain>
+References: <20201030023242.5204-1-dmitry.fomichev@wdc.com>
+ <20201030023242.5204-7-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-References: <5F96915D.2040102@huawei.com>
-In-Reply-To: <5F96915D.2040102@huawei.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 4 Nov 2020 11:46:00 +0400
-Message-ID: <CAJ+F1CJT7SDt63ZyUAVCZhoYJ=Ep4KXF7MbcQJREaDHrTZXBeA@mail.gmail.com>
-Subject: Re: [PATCH 0/4] qga: Fix some style problems
-To: AlexChen <alex.chen@huawei.com>
-Content-Type: multipart/alternative; boundary="00000000000056a96f05b3432c9f"
-Received-SPF: pass client-ip=2a00:1450:4864:20::643;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x643.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="U+BazGySraz5kW0T"
+Content-Disposition: inline
+In-Reply-To: <20201030023242.5204-7-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=64.147.123.27; envelope-from=its@irrelevant.dk;
+ helo=wnew2-smtp.messagingengine.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 02:21:52
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,68 +97,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu trival <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, QEMU <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Niklas Cassel <niklas.cassel@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Maxim Levitsky <mlevitsk@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Matias Bjorling <matias.bjorling@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000056a96f05b3432c9f
-Content-Type: text/plain; charset="UTF-8"
+
+--U+BazGySraz5kW0T
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 26, 2020 at 1:16 PM AlexChen <alex.chen@huawei.com> wrote:
+On Oct 30 11:32, Dmitry Fomichev wrote:
+> From: Niklas Cassel <niklas.cassel@wdc.com>
+>=20
+> Many CNS commands have "allocated" command variants. These include
+> a namespace as long as it is allocated, that is a namespace is
+> included regardless if it is active (attached) or not.
+>=20
+> While these commands are optional (they are mandatory for controllers
+> supporting the namespace attachment command), our QEMU implementation
+> is more complete by actually providing support for these CNS values.
+>=20
+> However, since our QEMU model currently does not support the namespace
+> attachment command, these new allocated CNS commands will return the
+> same result as the active CNS command variants.
+>=20
+> In NVMe, a namespace is active if it exists and is attached to the
+> controller.
+>=20
+> Add a new Boolean namespace flag, "attached", to provide the most
+> basic namespace attachment support. The default value for this new
+> flag is true. Also, implement the logic in the new CNS values to
+> include/exclude namespaces based on this new property. The only thing
+> missing is hooking up the actual Namespace Attachment command opcode,
+> which will allow a user to toggle the "attached" flag per namespace.
+>=20
+> The reason for not hooking up this command completely is because the
+> NVMe specification requires the namespace management command to be
+> supported if the namespace attachment command is supported.
+>=20
+> Signed-off-by: Niklas Cassel <niklas.cassel@wdc.com>
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> Reviewed-by: Keith Busch <kbusch@kernel.org>
+> ---
 
-> Fix some error style problems found by checkpatch.pl.
->
-> alexchen (4):
->   qga: Add spaces around operator
->   qga: Delete redundant spaces
->   qga: Open brace '{' following struct go on the same
->   qga: switch and case should be at the same indent
->
->  qga/channel-win32.c  |  6 ++---
->  qga/commands-posix.c |  4 +--
->  qga/commands-win32.c | 28 ++++++++++-----------
->  qga/commands.c       |  4 +--
->  qga/main.c           | 59 ++++++++++++++++++++++----------------------
->  5 files changed, 50 insertions(+), 51 deletions(-)
->
->
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Please rip out all the ns->attached conditionals (it's dead code).
 
+Just add the new CNS values in the switch and let them fall through.
 
---=20
-Marc-Andr=C3=A9 Lureau
+--U+BazGySraz5kW0T
+Content-Type: application/pgp-signature; name="signature.asc"
 
---00000000000056a96f05b3432c9f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+-----BEGIN PGP SIGNATURE-----
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 26, 2020 at 1:16 PM AlexC=
-hen &lt;<a href=3D"mailto:alex.chen@huawei.com">alex.chen@huawei.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Fix som=
-e error style problems found by <a href=3D"http://checkpatch.pl" rel=3D"nor=
-eferrer" target=3D"_blank">checkpatch.pl</a>.<br>
-<br>
-alexchen (4):<br>
-=C2=A0 qga: Add spaces around operator<br>
-=C2=A0 qga: Delete redundant spaces<br>
-=C2=A0 qga: Open brace &#39;{&#39; following struct go on the same<br>
-=C2=A0 qga: switch and case should be at the same indent<br>
-<br>
-=C2=A0qga/channel-win32.c=C2=A0 |=C2=A0 6 ++---<br>
-=C2=A0qga/commands-posix.c |=C2=A0 4 +--<br>
-=C2=A0qga/commands-win32.c | 28 ++++++++++-----------<br>
-=C2=A0qga/commands.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 4 +--<br>
-=C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 59 +++++++++++++=
-+++++++++----------------------<br>
-=C2=A05 files changed, 50 insertions(+), 51 deletions(-)<br>
-<br></blockquote><div><br></div><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &l=
-t;<a href=3D"mailto:marcandre.lureau@redhat.com">marcandre.lureau@redhat.co=
-m</a>&gt;</div><br clear=3D"all"></div><br>-- <br><div dir=3D"ltr" class=3D=
-"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAl+iXLEACgkQTeGvMW1P
+Dele2Af/c/tilRZnurZ1QQF+xtCScVMT/E+pnwNo7n61MEqLMGokQVjRRCd7/28V
+18hDByiRJSuvDm7mGTzmPtruP+CXZyT3tlJHyXnUhGeZHz86A3CSpp5u4Ny2Dalw
+7g0E9j5Gfh/QogcETJs3/Gv71kDUE6hoRTNShvAMywFwpIuydZTIAVsFTRse80JC
+yTbZanzPTJq+XORMCOXiWcN8vY02EVGB9tSEHedI5rlOX6+GmK/WVZF+E6CuBoLT
+8hoxoh9Py6dLKljwradM6k8bchwv6hXE/xCajngJwYq+/c9I99Jx0tQk/+cAG+Go
+KS1uVgpecew2GWRIZsFkmfz/8eo++g==
+=r3oG
+-----END PGP SIGNATURE-----
 
---00000000000056a96f05b3432c9f--
+--U+BazGySraz5kW0T--
 
