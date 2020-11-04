@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8559B2A6930
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:14:23 +0100 (CET)
-Received: from localhost ([::1]:34102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D368F2A6941
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 17:16:51 +0100 (CET)
+Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaLQU-0001yB-Ju
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:14:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42380)
+	id 1kaLSs-0005ZK-Io
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 11:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFK-0002b0-5E
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49861)
+ id 1kaLFN-0002jJ-Bz
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26444)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1kaLFF-0005cc-Vk
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:49 -0500
+ id 1kaLFG-0005ch-14
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 11:02:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604505764;
+ s=mimecast20190719; t=1604505765;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lP8Ipa5mLqAE9VjgBoHfNOntAlIkapGWtuBsO7JT7S0=;
- b=JIAazF69hi4UL2DGokdCrUSc9t5a9ieU0C4W5I8HwHCyAaC0XhEtxugreR0Ez9fmhQy3fd
- Teidc03dN6D13LveC9TRkDVZ9XtgmSlwSe2aDqnb9oytXnTCCzikhjyBWKzRK3EUBNqHXk
- cA2ogh/6pC4nvkyDfebSbPkNPQOWh24=
+ bh=9+RB0ohNZPBr/GZJzS2SbdLTVuV1E5QY+/WtEjuGi3k=;
+ b=TYAekpSTX5Li98RVFfyt7tQ0S/UD3sF1ZuS6VnVRRQVZHdpqUyVCjrtnW1moRa+8sjtCqq
+ UfeX5y5nraVnzbzSwreOfEH5HGuetHJ5KUIE6g4J6HrZLHLWguK5EKzfmiL1RUKgXYwQc5
+ 56xG+FEvqt6eWzu4xZXM/VIFGMbwsr8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-428-ItveJD3yO1SldmfE1lT_3Q-1; Wed, 04 Nov 2020 11:02:43 -0500
-X-MC-Unique: ItveJD3yO1SldmfE1lT_3Q-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-584-xwxdWl-DPKSoyKefpKFftw-1; Wed, 04 Nov 2020 11:02:39 -0500
+X-MC-Unique: xwxdWl-DPKSoyKefpKFftw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 766E71921FAE;
- Wed,  4 Nov 2020 16:01:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3DDF510506E1;
+ Wed,  4 Nov 2020 16:01:39 +0000 (UTC)
 Received: from localhost (ovpn-114-68.rdu2.redhat.com [10.10.114.68])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0AD4B7366D;
- Wed,  4 Nov 2020 16:01:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D92326266E;
+ Wed,  4 Nov 2020 16:01:38 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 17/44] qdev: Get just property name at
- error_set_from_qdev_prop_error()
-Date: Wed,  4 Nov 2020 10:59:54 -0500
-Message-Id: <20201104160021.2342108-18-ehabkost@redhat.com>
+Subject: [PATCH v2 18/44] qdev: Avoid using prop->name unnecessarily
+Date: Wed,  4 Nov 2020 10:59:55 -0500
+Message-Id: <20201104160021.2342108-19-ehabkost@redhat.com>
 In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
 References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,159 +80,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, John Snow <jsnow@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, David Hildenbrand <david@redhat.com>,
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, John Snow <jsnow@redhat.com>,
  Markus Armbruster <armbru@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- qemu-s390x@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace `Property *prop` parameter with `char *name`, to reduce
-dependency of getter and setter functions on the Property struct
-(which will be changed in following patches).
+We already get the property name as argument to the property
+getter and setters, we don't need to use prop->name.  This will
+make it easier to remove the Property.name field in the future.
 
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
 This is a new patch added in series v2
 ---
+Cc: Stefan Berger <stefanb@linux.vnet.ibm.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Daniel P. Berrangé" <berrange@redhat.com>
 Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: Halil Pasic <pasic@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: David Hildenbrand <david@redhat.com>
 Cc: qemu-devel@nongnu.org
-Cc: qemu-s390x@nongnu.org
 ---
- include/hw/qdev-properties.h     |  2 +-
- hw/core/qdev-properties-system.c | 12 ++++++------
- hw/core/qdev-properties.c        |  8 ++++----
- hw/s390x/css.c                   |  2 +-
- 4 files changed, 12 insertions(+), 12 deletions(-)
+ backends/tpm/tpm_util.c          |  2 +-
+ hw/core/qdev-properties-system.c | 14 +++++++-------
+ hw/core/qdev-properties.c        |  4 ++--
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/qdev-properties.h b/include/hw/qdev-properties.h
-index 1b58e4f922..476737b9da 100644
---- a/include/hw/qdev-properties.h
-+++ b/include/hw/qdev-properties.h
-@@ -201,7 +201,7 @@ const GlobalProperty *qdev_find_global_prop(Object *obj,
- int qdev_prop_check_globals(void);
- void qdev_prop_set_globals(DeviceState *dev);
- void error_set_from_qdev_prop_error(Error **errp, int ret, Object *obj,
--                                    Property *prop, const char *value);
-+                                    const char *name, const char *value);
- 
- /**
-  * qdev_property_add_static:
+diff --git a/backends/tpm/tpm_util.c b/backends/tpm/tpm_util.c
+index e91c21dd4a..dba2f6b04a 100644
+--- a/backends/tpm/tpm_util.c
++++ b/backends/tpm/tpm_util.c
+@@ -63,7 +63,7 @@ static void set_tpm(Object *obj, Visitor *v, const char *name, void *opaque,
+     s = qemu_find_tpm_be(str);
+     if (s == NULL) {
+         error_setg(errp, "Property '%s.%s' can't find value '%s'",
+-                   object_get_typename(obj), prop->name, str);
++                   object_get_typename(obj), name, str);
+     } else if (tpm_backend_init(s, TPM_IF(obj), errp) == 0) {
+         *be = s; /* weak reference, avoid cyclic ref */
+     }
 diff --git a/hw/core/qdev-properties-system.c b/hw/core/qdev-properties-system.c
-index a05150bfd0..808e7136a0 100644
+index 808e7136a0..202abd0e4b 100644
 --- a/hw/core/qdev-properties-system.c
 +++ b/hw/core/qdev-properties-system.c
-@@ -354,7 +354,7 @@ static void set_mac(Object *obj, Visitor *v, const char *name, void *opaque,
-     return;
- 
- inval:
--    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+    error_set_from_qdev_prop_error(errp, EINVAL, obj, name, str);
-     g_free(str);
- }
- 
-@@ -442,7 +442,7 @@ static void set_netdev(Object *obj, Visitor *v, const char *name,
-     peers_ptr->queues = queues;
- 
- out:
--    error_set_from_qdev_prop_error(errp, err, obj, prop, str);
-+    error_set_from_qdev_prop_error(errp, err, obj, name, str);
-     g_free(str);
- }
- 
-@@ -494,7 +494,7 @@ static void set_audiodev(Object *obj, Visitor *v, const char* name,
-     card->state = state;
- 
- out:
--    error_set_from_qdev_prop_error(errp, err, obj, prop, str);
-+    error_set_from_qdev_prop_error(errp, err, obj, name, str);
-     g_free(str);
- }
- 
-@@ -792,7 +792,7 @@ static void set_pci_devfn(Object *obj, Visitor *v, const char *name,
-     return;
- 
- invalid:
--    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+    error_set_from_qdev_prop_error(errp, EINVAL, obj, name, str);
-     g_free(str);
- }
- 
-@@ -915,7 +915,7 @@ static void set_pci_host_devaddr(Object *obj, Visitor *v, const char *name,
-     return;
- 
- inval:
--    error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+    error_set_from_qdev_prop_error(errp, EINVAL, obj, name, str);
-     g_free(str);
- }
- 
-@@ -1145,7 +1145,7 @@ static void set_uuid(Object *obj, Visitor *v, const char *name, void *opaque,
-     if (!strcmp(str, UUID_VALUE_AUTO)) {
-         qemu_uuid_generate(uuid);
-     } else if (qemu_uuid_parse(str, uuid) < 0) {
--        error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+        error_set_from_qdev_prop_error(errp, EINVAL, obj, name, str);
+@@ -141,7 +141,7 @@ static void set_drive_helper(Object *obj, Visitor *v, const char *name,
+     }
+     if (!blk) {
+         error_setg(errp, "Property '%s.%s' can't find value '%s'",
+-                   object_get_typename(OBJECT(dev)), prop->name, str);
++                   object_get_typename(OBJECT(dev)), name, str);
+         goto fail;
+     }
+     if (blk_attach_dev(blk, dev) < 0) {
+@@ -262,10 +262,10 @@ static void set_chr(Object *obj, Visitor *v, const char *name, void *opaque,
+     s = qemu_chr_find(str);
+     if (s == NULL) {
+         error_setg(errp, "Property '%s.%s' can't find value '%s'",
+-                   object_get_typename(obj), prop->name, str);
++                   object_get_typename(obj), name, str);
+     } else if (!qemu_chr_fe_init(be, s, errp)) {
+         error_prepend(errp, "Property '%s.%s' can't take value '%s': ",
+-                      object_get_typename(obj), prop->name, str);
++                      object_get_typename(obj), name, str);
      }
      g_free(str);
  }
+@@ -965,7 +965,7 @@ static void get_prop_pcielinkspeed(Object *obj, Visitor *v, const char *name,
+         abort();
+     }
+ 
+-    visit_type_enum(v, prop->name, &speed, prop->info->enum_table, errp);
++    visit_type_enum(v, name, &speed, prop->info->enum_table, errp);
+ }
+ 
+ static void set_prop_pcielinkspeed(Object *obj, Visitor *v, const char *name,
+@@ -981,7 +981,7 @@ static void set_prop_pcielinkspeed(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
+-    if (!visit_type_enum(v, prop->name, &speed, prop->info->enum_table,
++    if (!visit_type_enum(v, name, &speed, prop->info->enum_table,
+                          errp)) {
+         return;
+     }
+@@ -1050,7 +1050,7 @@ static void get_prop_pcielinkwidth(Object *obj, Visitor *v, const char *name,
+         abort();
+     }
+ 
+-    visit_type_enum(v, prop->name, &width, prop->info->enum_table, errp);
++    visit_type_enum(v, name, &width, prop->info->enum_table, errp);
+ }
+ 
+ static void set_prop_pcielinkwidth(Object *obj, Visitor *v, const char *name,
+@@ -1066,7 +1066,7 @@ static void set_prop_pcielinkwidth(Object *obj, Visitor *v, const char *name,
+         return;
+     }
+ 
+-    if (!visit_type_enum(v, prop->name, &width, prop->info->enum_table,
++    if (!visit_type_enum(v, name, &width, prop->info->enum_table,
+                          errp)) {
+         return;
+     }
 diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
-index d7796e8cc3..a7bbc1235a 100644
+index a7bbc1235a..69181ce31d 100644
 --- a/hw/core/qdev-properties.c
 +++ b/hw/core/qdev-properties.c
-@@ -679,21 +679,21 @@ static Property *qdev_prop_find(DeviceState *dev, const char *name)
+@@ -50,7 +50,7 @@ void qdev_propinfo_get_enum(Object *obj, Visitor *v, const char *name,
+     Property *prop = opaque;
+     int *ptr = qdev_get_prop_ptr(obj, prop);
+ 
+-    visit_type_enum(v, prop->name, ptr, prop->info->enum_table, errp);
++    visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
  }
  
- void error_set_from_qdev_prop_error(Error **errp, int ret, Object *obj,
--                                    Property *prop, const char *value)
-+                                    const char *name, const char *value)
- {
-     switch (ret) {
-     case -EEXIST:
-         error_setg(errp, "Property '%s.%s' can't take value '%s', it's in use",
--                  object_get_typename(obj), prop->name, value);
-+                  object_get_typename(obj), name, value);
-         break;
-     default:
-     case -EINVAL:
-         error_setg(errp, QERR_PROPERTY_VALUE_BAD,
--                   object_get_typename(obj), prop->name, value);
-+                   object_get_typename(obj), name, value);
-         break;
-     case -ENOENT:
-         error_setg(errp, "Property '%s.%s' can't find value '%s'",
--                  object_get_typename(obj), prop->name, value);
-+                  object_get_typename(obj), name, value);
-         break;
-     case 0:
-         break;
-diff --git a/hw/s390x/css.c b/hw/s390x/css.c
-index 38fd46b9a9..7a44320d12 100644
---- a/hw/s390x/css.c
-+++ b/hw/s390x/css.c
-@@ -2390,7 +2390,7 @@ static void set_css_devid(Object *obj, Visitor *v, const char *name,
- 
-     num = sscanf(str, "%2x.%1x%n.%4x%n", &cssid, &ssid, &n1, &devid, &n2);
-     if (num != 3 || (n2 - n1) != 5 || strlen(str) != n2) {
--        error_set_from_qdev_prop_error(errp, EINVAL, obj, prop, str);
-+        error_set_from_qdev_prop_error(errp, EINVAL, obj, name, str);
-         goto out;
+ void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
+@@ -65,7 +65,7 @@ void qdev_propinfo_set_enum(Object *obj, Visitor *v, const char *name,
+         return;
      }
-     if ((cssid > MAX_CSSID) || (ssid > MAX_SSID)) {
+ 
+-    visit_type_enum(v, prop->name, ptr, prop->info->enum_table, errp);
++    visit_type_enum(v, name, ptr, prop->info->enum_table, errp);
+ }
+ 
+ void qdev_propinfo_set_default_value_enum(ObjectProperty *op,
 -- 
 2.28.0
 
