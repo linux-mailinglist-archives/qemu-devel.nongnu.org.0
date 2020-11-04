@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 933802A6D2D
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:51:33 +0100 (CET)
-Received: from localhost ([::1]:53664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E412A6D23
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 19:48:50 +0100 (CET)
+Received: from localhost ([::1]:41066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaNsV-0007N2-Bi
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:51:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52534)
+	id 1kaNpx-0002Bz-Sd
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 13:48:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjb-0001R0-SO
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20663)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjh-0001Yl-Cq
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNjZ-00024z-Vl
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1kaNje-00025N-2A
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 13:42:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604515333;
+ s=mimecast20190719; t=1604515337;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Vj2K5KfIjYgXaS/HA+9u99+5hxZOJUDzQMD8f8h61Sg=;
- b=MUEsKFTCL/rcxWBF43Z3+y7/rssEBtRUJxzxXtesoiLERF1rRnSipC9n0JY6RvyEiQojpS
- zOAxuBngB3Tg5C12bxS9hKOksuL2RU4qBK3S0vtbbBh3E8s09koeM9FyLSqrWmmJyYFnfk
- 1OyUITQ6OKq58H12C4KHHcj9FdE/xA4=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-S_RWgsFPNTOzkJWRRt81hw-1; Wed, 04 Nov 2020 13:42:11 -0500
-X-MC-Unique: S_RWgsFPNTOzkJWRRt81hw-1
-Received: by mail-wm1-f71.google.com with SMTP id h2so244629wmm.0
- for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:42:10 -0800 (PST)
+ bh=FzlYUeG8X4vs91S4tquZq9KM016eO3pXrdQjhhAV7O0=;
+ b=Y/BS1SvxMlNp63ccwx7ZkMuUCwJD3HTnvLtPOfP9i18CrGDnW71Zyd90NpAtac2rvrhwrq
+ kd4EYjW32bDmijxTnshzV6bu2PX86LG09/lWrctHYWmXMesLSfzH1wPVgfbiqwhtm39juV
+ eA/s5j68AKXK2uPAR+AUNMg17nAAXyU=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-ZhgvCt1XO5qEgG1wKt7mgQ-1; Wed, 04 Nov 2020 13:42:15 -0500
+X-MC-Unique: ZhgvCt1XO5qEgG1wKt7mgQ-1
+Received: by mail-wr1-f69.google.com with SMTP id x16so9539148wrg.7
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 10:42:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Vj2K5KfIjYgXaS/HA+9u99+5hxZOJUDzQMD8f8h61Sg=;
- b=bZUWeUlHsHsP4rh0smW9QemJe22rdL0YR1CjN5o0vmOvhxtRwEtrbkzxJEqiKAh2G7
- l2UxSKomnRvLeBoNG3TZFK0SIU/Jl2EoumieuNq+OcTySraLdYnirwSD7S4YgYKHTI9F
- kuAW2Gwy6JnM2nFZRwfhBt0K2MJTYjP6i9vzv2gHb1j3xpvLA2Vhc2yWuMFQOxmVNoFV
- M+wt/7b8ijdV5NwxW+LOdDztGxcI+Zw2k3FeTcKiV1OwxDHuBy3PUdc/oOjjTmjHaXkP
- uz4d5Xu5GOJ015WNZ5EBcZZPQ33ucKLImEUGPZK+U5RqSuSLLZWuANclWUNSYkH4Q9oB
- OlvQ==
-X-Gm-Message-State: AOAM531BOew0ZdWl42I88NXB0Jy361iPt7R6sXMLaJYbQvOI/1GNe8hH
- T9g82TtF52MhGg7mOFiNJ43E9dTjlHi/ngokppDOsVBNQFVsfIlxKGlpcKAxIlXXyE9MuuYaAJe
- v004QfG+64m8Op1k=
-X-Received: by 2002:a1c:6484:: with SMTP id y126mr5783450wmb.141.1604515328315; 
- Wed, 04 Nov 2020 10:42:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyETqU7jriIrUGsEzO4NqKeLs3NeylEWNekcUqojm5WU2hKvOUPsHgFOZPXjqQOBip5rlA9Dg==
-X-Received: by 2002:a1c:6484:: with SMTP id y126mr5783433wmb.141.1604515328141; 
- Wed, 04 Nov 2020 10:42:08 -0800 (PST)
+ bh=FzlYUeG8X4vs91S4tquZq9KM016eO3pXrdQjhhAV7O0=;
+ b=to+RpdUjsl1N++yPHeYrgoR3Vc4VgtQm9I0KVAaXr1ScxPmU4Fa1vnN6ZhfPzdvea7
+ eNggGaW4rXilbUeSux2X3f9R0pHxZt0oXTsr+Bhj45scPqe3jbk+RIfEyfFtEl9qS+QK
+ 8tpCLGmCXcbDp332niPksb362+E2XfXiJr2Wa3Lp04fJ21dQeyeytnV1zUi4a+oAz/lq
+ CDOkF9KuoY1Q+R0DyjDgUEzWJJPuBH0iRTvDKxkQZXmJCsNDYTjNfatpJqNBQbLfnqcJ
+ kgjBqE6WLw2K2zgAh4jEFtK4YsyMNG4q0O9/k53FM2Y3NRLKnqqOz+NHBqKkoyi2Gp6c
+ s1bQ==
+X-Gm-Message-State: AOAM530KoNqdDl89ssMfg8tyEFOqLYC+f9iPmFvmorrxsHbFb9L0wtJH
+ SxtB8WE3KimYPk9SXoDt9l37LL4u9NG8U3w5OtzQe5csORnTi+DlKK+n1aCmKZALK7AZr8gMQpf
+ sZeF5bDpfdPfixQY=
+X-Received: by 2002:adf:9043:: with SMTP id h61mr34692968wrh.237.1604515334160; 
+ Wed, 04 Nov 2020 10:42:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywgtVR83s0UZ+9szyVXJqzQNOBMo98hfMOyetBpwpun6d9XC2pFB0aFARlrM7ypjPaX+i5pA==
+X-Received: by 2002:adf:9043:: with SMTP id h61mr34692950wrh.237.1604515333987; 
+ Wed, 04 Nov 2020 10:42:13 -0800 (PST)
 Received: from redhat.com (bzq-79-176-118-93.red.bezeqint.net. [79.176.118.93])
- by smtp.gmail.com with ESMTPSA id u5sm3261102wml.13.2020.11.04.10.42.06
+ by smtp.gmail.com with ESMTPSA id f17sm4098067wrm.27.2020.11.04.10.42.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 04 Nov 2020 10:42:07 -0800 (PST)
-Date: Wed, 4 Nov 2020 13:42:05 -0500
+ Wed, 04 Nov 2020 10:42:13 -0800 (PST)
+Date: Wed, 4 Nov 2020 13:42:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL v3 17/31] virtio-iommu: Add replay() memory region callback
-Message-ID: <20201104184040.285057-18-mst@redhat.com>
+Subject: [PULL v3 19/31] memory: Add interface to set iommu page size mask
+Message-ID: <20201104184040.285057-20-mst@redhat.com>
 References: <20201104184040.285057-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20201104184040.285057-1-mst@redhat.com>
@@ -71,16 +71,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,96 +95,110 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Bharat Bhushan <bbhushan2@marvell.com>, Eric Auger <eric.auger@redhat.com>,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
+ Jean-Philippe Brucker <jean-philippe@linaro.org>, Peter Xu <peterx@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Bharat Bhushan <bbhushan2@marvell.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bharat Bhushan <bbhushan2@marvell.com>
 
-Implement the replay callback to setup all mappings for a new memory
-region.
+Allow to set the page size mask supported by an iommu memory region.
+This enables a vIOMMU to communicate the page size granule supported by
+an assigned device, on hosts that use page sizes greater than 4kB.
 
+Acked-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Bharat Bhushan <bbhushan2@marvell.com>
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-Message-Id: <20201030180510.747225-6-jean-philippe@linaro.org>
+Message-Id: <20201030180510.747225-8-jean-philippe@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio-iommu.c | 40 ++++++++++++++++++++++++++++++++++++++++
- hw/virtio/trace-events   |  1 +
- 2 files changed, 41 insertions(+)
+ include/exec/memory.h | 38 ++++++++++++++++++++++++++++++++++++++
+ softmmu/memory.c      | 13 +++++++++++++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index 7b64892351..985257c88f 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -847,6 +847,45 @@ static gint int_cmp(gconstpointer a, gconstpointer b, gpointer user_data)
-     return (ua > ub) - (ua < ub);
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index aff6ef7605..0f3e6bcd5e 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -397,6 +397,32 @@ struct IOMMUMemoryRegionClass {
+      * @iommu: the IOMMUMemoryRegion
+      */
+     int (*num_indexes)(IOMMUMemoryRegion *iommu);
++
++    /**
++     * @iommu_set_page_size_mask:
++     *
++     * Restrict the page size mask that can be supported with a given IOMMU
++     * memory region. Used for example to propagate host physical IOMMU page
++     * size mask limitations to the virtual IOMMU.
++     *
++     * Optional method: if this method is not provided, then the default global
++     * page mask is used.
++     *
++     * @iommu: the IOMMUMemoryRegion
++     *
++     * @page_size_mask: a bitmask of supported page sizes. At least one bit,
++     * representing the smallest page size, must be set. Additional set bits
++     * represent supported block sizes. For example a host physical IOMMU that
++     * uses page tables with a page size of 4kB, and supports 2MB and 4GB
++     * blocks, will set mask 0x40201000. A granule of 4kB with indiscriminate
++     * block sizes is specified with mask 0xfffffffffffff000.
++     *
++     * Returns 0 on success, or a negative error. In case of failure, the error
++     * object must be created.
++     */
++     int (*iommu_set_page_size_mask)(IOMMUMemoryRegion *iommu,
++                                     uint64_t page_size_mask,
++                                     Error **errp);
+ };
+ 
+ typedef struct CoalescedMemoryRange CoalescedMemoryRange;
+@@ -1409,6 +1435,18 @@ int memory_region_iommu_attrs_to_index(IOMMUMemoryRegion *iommu_mr,
+  */
+ int memory_region_iommu_num_indexes(IOMMUMemoryRegion *iommu_mr);
+ 
++/**
++ * memory_region_iommu_set_page_size_mask: set the supported page
++ * sizes for a given IOMMU memory region
++ *
++ * @iommu_mr: IOMMU memory region
++ * @page_size_mask: supported page size mask
++ * @errp: pointer to Error*, to store an error if it happens.
++ */
++int memory_region_iommu_set_page_size_mask(IOMMUMemoryRegion *iommu_mr,
++                                           uint64_t page_size_mask,
++                                           Error **errp);
++
+ /**
+  * memory_region_name: get a memory region's name
+  *
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 21d533d8ed..71951fe4dc 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1841,6 +1841,19 @@ static int memory_region_update_iommu_notify_flags(IOMMUMemoryRegion *iommu_mr,
+     return ret;
  }
  
-+static gboolean virtio_iommu_remap(gpointer key, gpointer value, gpointer data)
++int memory_region_iommu_set_page_size_mask(IOMMUMemoryRegion *iommu_mr,
++                                           uint64_t page_size_mask,
++                                           Error **errp)
 +{
-+    VirtIOIOMMUMapping *mapping = (VirtIOIOMMUMapping *) value;
-+    VirtIOIOMMUInterval *interval = (VirtIOIOMMUInterval *) key;
-+    IOMMUMemoryRegion *mr = (IOMMUMemoryRegion *) data;
++    IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_GET_CLASS(iommu_mr);
++    int ret = 0;
 +
-+    trace_virtio_iommu_remap(mr->parent_obj.name, interval->low, interval->high,
-+                             mapping->phys_addr);
-+    virtio_iommu_notify_map(mr, interval->low, interval->high,
-+                            mapping->phys_addr, mapping->flags);
-+    return false;
++    if (imrc->iommu_set_page_size_mask) {
++        ret = imrc->iommu_set_page_size_mask(iommu_mr, page_size_mask, errp);
++    }
++    return ret;
 +}
 +
-+static void virtio_iommu_replay(IOMMUMemoryRegion *mr, IOMMUNotifier *n)
-+{
-+    IOMMUDevice *sdev = container_of(mr, IOMMUDevice, iommu_mr);
-+    VirtIOIOMMU *s = sdev->viommu;
-+    uint32_t sid;
-+    VirtIOIOMMUEndpoint *ep;
-+
-+    sid = virtio_iommu_get_bdf(sdev);
-+
-+    qemu_mutex_lock(&s->mutex);
-+
-+    if (!s->endpoints) {
-+        goto unlock;
-+    }
-+
-+    ep = g_tree_lookup(s->endpoints, GUINT_TO_POINTER(sid));
-+    if (!ep || !ep->domain) {
-+        goto unlock;
-+    }
-+
-+    g_tree_foreach(ep->domain->mappings, virtio_iommu_remap, mr);
-+
-+unlock:
-+    qemu_mutex_unlock(&s->mutex);
-+}
-+
- static void virtio_iommu_device_realize(DeviceState *dev, Error **errp)
+ int memory_region_register_iommu_notifier(MemoryRegion *mr,
+                                           IOMMUNotifier *n, Error **errp)
  {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-@@ -1076,6 +1115,7 @@ static void virtio_iommu_memory_region_class_init(ObjectClass *klass,
-     IOMMUMemoryRegionClass *imrc = IOMMU_MEMORY_REGION_CLASS(klass);
- 
-     imrc->translate = virtio_iommu_translate;
-+    imrc->replay = virtio_iommu_replay;
- }
- 
- static const TypeInfo virtio_iommu_info = {
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index b87a397406..ea3c3b25ad 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -108,6 +108,7 @@ virtio_iommu_report_fault(uint8_t reason, uint32_t flags, uint32_t endpoint, uin
- virtio_iommu_fill_resv_property(uint32_t devid, uint8_t subtype, uint64_t start, uint64_t end) "dev= %d, type=%d start=0x%"PRIx64" end=0x%"PRIx64
- virtio_iommu_notify_map(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start, uint32_t flags) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64" flags=%d"
- virtio_iommu_notify_unmap(const char *name, uint64_t virt_start, uint64_t virt_end) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64
-+virtio_iommu_remap(const char *name, uint64_t virt_start, uint64_t virt_end, uint64_t phys_start) "mr=%s virt_start=0x%"PRIx64" virt_end=0x%"PRIx64" phys_start=0x%"PRIx64
- 
- # virtio-mem.c
- virtio_mem_send_response(uint16_t type) "type=%" PRIu16
 -- 
 MST
 
