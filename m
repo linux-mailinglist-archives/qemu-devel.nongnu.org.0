@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DEF92A5B7E
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:07:28 +0100 (CET)
-Received: from localhost ([::1]:50432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4889E2A5BC8
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 02:19:45 +0100 (CET)
+Received: from localhost ([::1]:56118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1ka7Gp-0008FJ-2X
-	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:07:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36038)
+	id 1ka7Si-0005XK-BP
+	for lists+qemu-devel@lfdr.de; Tue, 03 Nov 2020 20:19:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36052)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6ny-0007VM-JH
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56491)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nz-0007Y6-I5
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nw-0004yL-Sn
- for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:38 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1ka6nx-0004yX-JV
+ for qemu-devel@nongnu.org; Tue, 03 Nov 2020 19:37:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604450255;
+ s=mimecast20190719; t=1604450257;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MguaJi7qsX+yMjl4mE0Iu+XWpMdwiaBCv2zhtIeLKwI=;
- b=abjMoJEsCUn7hrLW7CfJzKcJsiBcNEFpEoehDVsx+uL4iB6X9Go2GzQhjRiyPN/klke/0D
- vOoa2G8N/7AFvzCz+CiGAayxfF5CbQy8ilnY2Ww//PA37uKwU2kURpiaimDnNhQ8cA0yew
- ffDlWqCb20X66zYElKeRkw3RBOZEDgA=
+ bh=r5RN8S6BJ12v6o3a7OQWEM4M5IcdBBkgErIERMbrEj8=;
+ b=MUTT3F3Ce/7rLHG4QsLiP7by3qfIFlH4MGnCMakRDkAIjPT9twQ04ieWeo89GsS+NlRrxk
+ 915QNDpXF6Cc3Ob8A95nKvm8rsA6LBD5OW58EopZwuCPWx9qoEjRMLgRr/pB1dx2w6WTYj
+ Q/RWgmV3KviyPrKnqKgZNqidjk3VLCo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-8Jv4MU0iN-OwIV9VYZzd6g-1; Tue, 03 Nov 2020 19:37:34 -0500
-X-MC-Unique: 8Jv4MU0iN-OwIV9VYZzd6g-1
+ us-mta-523-Yxo1hrUCMii8rjTm09aNfQ-1; Tue, 03 Nov 2020 19:37:35 -0500
+X-MC-Unique: Yxo1hrUCMii8rjTm09aNfQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45BAA6D240
- for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:33 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 463BC108E1A6
+ for <qemu-devel@nongnu.org>; Wed,  4 Nov 2020 00:37:34 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-119-97.rdu2.redhat.com [10.10.119.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6A19855766;
- Wed,  4 Nov 2020 00:37:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 71ADE55766;
+ Wed,  4 Nov 2020 00:37:33 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 65/72] scripts/qmp-shell: Remove too-broad-exception
-Date: Tue,  3 Nov 2020 19:35:55 -0500
-Message-Id: <20201104003602.1293560-66-jsnow@redhat.com>
+Subject: [PATCH v2 66/72] scripts/qmp-shell: convert usage comment to docstring
+Date: Tue,  3 Nov 2020 19:35:56 -0500
+Message-Id: <20201104003602.1293560-67-jsnow@redhat.com>
 In-Reply-To: <20201104003602.1293560-1-jsnow@redhat.com>
 References: <20201104003602.1293560-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,16 +55,16 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 01:02:05
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,37 +83,156 @@ Cc: Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We are only anticipating QMPShellErrors here, for syntax we weren't able
-to understand. Other errors, if any, should be allowed to percolate
-upwards.
-
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qmp/qmp-shell | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ scripts/qmp/qmp-shell | 128 ++++++++++++++++++++++++------------------
+ 1 file changed, 72 insertions(+), 56 deletions(-)
 
 diff --git a/scripts/qmp/qmp-shell b/scripts/qmp/qmp-shell
-index 78e4eae00754..8d5845ab4815 100755
+index 8d5845ab4815..82fe16cff820 100755
 --- a/scripts/qmp/qmp-shell
 +++ b/scripts/qmp/qmp-shell
-@@ -291,10 +291,13 @@ class QMPShell(qmp.QEMUMonitorProtocol):
-     def _execute_cmd(self, cmdline: str) -> bool:
-         try:
-             qmpcmd = self.__build_cmd(cmdline)
--        except Exception as err:
--            print('Error while parsing command line: %s' % err)
--            print('command format: <command-name> ', end=' ')
--            print('[arg-name1=arg1] ... [arg-nameN=argN]')
-+        except QMPShellError as err:
-+            print(
-+                f"Error while parsing command line: {err!s}\n"
-+                "command format: <command-name> "
-+                "[arg-name1=arg1] ... [arg-nameN=argN",
-+                file=sys.stderr
-+            )
-             return True
-         # For transaction mode, we may have just cached the action:
-         if qmpcmd is None:
+@@ -1,7 +1,5 @@
+ #!/usr/bin/env python3
+ #
+-# Low-level QEMU shell on top of QMP.
+-#
+ # Copyright (C) 2009, 2010 Red Hat Inc.
+ #
+ # Authors:
+@@ -10,60 +8,78 @@
+ # This work is licensed under the terms of the GNU GPL, version 2.  See
+ # the COPYING file in the top-level directory.
+ #
+-# Usage:
+-#
+-# Start QEMU with:
+-#
+-# # qemu [...] -qmp unix:./qmp-sock,server
+-#
+-# Run the shell:
+-#
+-# $ qmp-shell ./qmp-sock
+-#
+-# Commands have the following format:
+-#
+-#    < command-name > [ arg-name1=arg1 ] ... [ arg-nameN=argN ]
+-#
+-# For example:
+-#
+-# (QEMU) device_add driver=e1000 id=net1
+-# {u'return': {}}
+-# (QEMU)
+-#
+-# key=value pairs also support Python or JSON object literal subset notations,
+-# without spaces. Dictionaries/objects {} are supported as are arrays [].
+-#
+-#    example-command arg-name1={'key':'value','obj'={'prop':"value"}}
+-#
+-# Both JSON and Python formatting should work, including both styles of
+-# string literal quotes. Both paradigms of literal values should work,
+-# including null/true/false for JSON and None/True/False for Python.
+-#
+-#
+-# Transactions have the following multi-line format:
+-#
+-#    transaction(
+-#    action-name1 [ arg-name1=arg1 ] ... [arg-nameN=argN ]
+-#    ...
+-#    action-nameN [ arg-name1=arg1 ] ... [arg-nameN=argN ]
+-#    )
+-#
+-# One line transactions are also supported:
+-#
+-#    transaction( action-name1 ... )
+-#
+-# For example:
+-#
+-#     (QEMU) transaction(
+-#     TRANS> block-dirty-bitmap-add node=drive0 name=bitmap1
+-#     TRANS> block-dirty-bitmap-clear node=drive0 name=bitmap0
+-#     TRANS> )
+-#     {"return": {}}
+-#     (QEMU)
+-#
+-# Use the -v and -p options to activate the verbose and pretty-print options,
+-# which will echo back the properly formatted JSON-compliant QMP that is being
+-# sent to QEMU, which is useful for debugging and documentation generation.
++
++"""
++Low-level QEMU shell on top of QMP.
++
++usage: qmp-shell [-h] [-H] [-N] [-v] [-p] qmp_server
++
++positional arguments:
++  qmp_server            < UNIX socket path | TCP address:port >
++
++optional arguments:
++  -h, --help            show this help message and exit
++  -H, --hmp             Use HMP interface
++  -N, --skip-negotiation
++                        Skip negotiate (for qemu-ga)
++  -v, --verbose         Verbose (echo commands sent and received)
++  -p, --pretty          Pretty-print JSON
++
++
++Start QEMU with:
++
++# qemu [...] -qmp unix:./qmp-sock,server
++
++Run the shell:
++
++$ qmp-shell ./qmp-sock
++
++Commands have the following format:
++
++   < command-name > [ arg-name1=arg1 ] ... [ arg-nameN=argN ]
++
++For example:
++
++(QEMU) device_add driver=e1000 id=net1
++{'return': {}}
++(QEMU)
++
++key=value pairs also support Python or JSON object literal subset notations,
++without spaces. Dictionaries/objects {} are supported as are arrays [].
++
++   example-command arg-name1={'key':'value','obj'={'prop':"value"}}
++
++Both JSON and Python formatting should work, including both styles of
++string literal quotes. Both paradigms of literal values should work,
++including null/true/false for JSON and None/True/False for Python.
++
++
++Transactions have the following multi-line format:
++
++   transaction(
++   action-name1 [ arg-name1=arg1 ] ... [arg-nameN=argN ]
++   ...
++   action-nameN [ arg-name1=arg1 ] ... [arg-nameN=argN ]
++   )
++
++One line transactions are also supported:
++
++   transaction( action-name1 ... )
++
++For example:
++
++    (QEMU) transaction(
++    TRANS> block-dirty-bitmap-add node=drive0 name=bitmap1
++    TRANS> block-dirty-bitmap-clear node=drive0 name=bitmap0
++    TRANS> )
++    {"return": {}}
++    (QEMU)
++
++Use the -v and -p options to activate the verbose and pretty-print options,
++which will echo back the properly formatted JSON-compliant QMP that is being
++sent to QEMU, which is useful for debugging and documentation generation.
++"""
++
+ import argparse
+ import ast
+ import json
 -- 
 2.26.2
 
