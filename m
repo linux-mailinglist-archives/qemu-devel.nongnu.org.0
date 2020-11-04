@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AE6B2A62CD
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 11:59:46 +0100 (CET)
-Received: from localhost ([::1]:48798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9FDB2A630B
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:14:10 +0100 (CET)
+Received: from localhost ([::1]:54926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGW1-0001lA-Gc
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 05:59:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
+	id 1kaGjx-0008F6-Ob
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:14:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kaGUT-0000HF-BQ
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:58:11 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:51317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kaGUO-0006Sr-V6
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 05:58:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=BuusXKipO9sV7IbeGX/ke1Pbc6tpoFRGsBHLpw4lasc=; b=T5Ejha61cF9Kpw4lq2xBLpp6sb
- PLWT2yj9xw5zzBw5KhERTduXDHYOOW5NmjrJ71DXTwusZbGM5wm592EuyurzImfb730TM/L7RFwvp
- K2XfxKEQ5fTrlC6emp3vUebDFmuxdKk89R3sOu6MH927uzx/g1QE+b4j1zDZOUhPXaTmuLSuLqnPd
- +oooQlfJ0gPVW4uBGPEREm+j6yFQBte6WjXKhSd/jRbSt1gZVaWUCVXBrLuEtvva7s6ES3O2bKz/x
- LUP+QnWgZTHDqbfG+zEC8wdWOn8B9dF43UX99kPpxEqY68LzhtgGYPfpodw5W3Zrck26Doq0/JO0I
- czfLvslw==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Bin Meng <bmeng.cn@gmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Bin Meng <bin.meng@windriver.com>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] hw/9pfs: virtio-9p: Ensure config space is a multiple of
- 4 bytes
-Date: Wed, 04 Nov 2020 11:57:59 +0100
-Message-ID: <10842894.6D7ucCyY7K@silver>
-In-Reply-To: <CAEUhbmUxHkvZ_CimzeAGwgZVNSH7OXtX2Xsu+GiWWYmGXfWuYA@mail.gmail.com>
-References: <1603959941-9689-1-git-send-email-bmeng.cn@gmail.com>
- <20201103065732-mutt-send-email-mst@kernel.org>
- <CAEUhbmUxHkvZ_CimzeAGwgZVNSH7OXtX2Xsu+GiWWYmGXfWuYA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kaGgn-0004Ry-2M
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:10:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1kaGgk-0008GS-Qz
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:10:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604488248;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=UUIXBXIPo0eR+eyxY9YTLCJI3mWD4fORO+1dRYXClyQ=;
+ b=I46cRYFmH6H96aDm97e3l1RpIvvOxKZuVOaoub5BQX+aTvBWhXI/RSUBPdqTiYg4CI3Z6p
+ 29Grz8T50QEMiBMAPwnykOTCcTzoyVjhq8HZ6upJShkYQZcIK7w3knCv1lD6uGtiUGCehO
+ 2gBVewbqXDNsTWwhSVm06374gGp8JZw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-pDADO__4O92qKNY92vKcSw-1; Wed, 04 Nov 2020 06:10:45 -0500
+X-MC-Unique: pDADO__4O92qKNY92vKcSw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6163101F009;
+ Wed,  4 Nov 2020 11:10:43 +0000 (UTC)
+Received: from localhost (ovpn-115-145.ams2.redhat.com [10.36.115.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04F087F8C8;
+ Wed,  4 Nov 2020 11:10:25 +0000 (UTC)
+Date: Wed, 4 Nov 2020 10:13:56 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: VFIO Migration
+Message-ID: <20201104101356.GC390503@stefanha-x1.localdomain>
+References: <20201102111153.GC42093@stefanha-x1.localdomain>
+ <ly5z6m79c0.fsf@redhat.com> <20201103153356.GO205187@redhat.com>
+ <20201103103135.7da0a9c5@w520.home>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 05:58:03
+In-Reply-To: <20201103103135.7da0a9c5@w520.home>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mvpLiMfbWzRoNl4x"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,163 +82,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: John G Johnson <john.g.johnson@oracle.com>, mtsirkin@redhat.com,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ quintela@redhat.com, Jason Wang <jasowang@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Felipe Franciosi <felipe@nutanix.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Thanos Makatos <thanos.makatos@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 4. November 2020 08:44:44 CET Bin Meng wrote:
-> Hi Michael,
-> 
-> On Tue, Nov 3, 2020 at 8:05 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > On Tue, Nov 03, 2020 at 02:26:10PM +0800, Bin Meng wrote:
-> > > Hi Michael,
-> > > 
-> > > On Fri, Oct 30, 2020 at 5:29 PM Michael S. Tsirkin <mst@redhat.com> 
-wrote:
-> > > > On Thu, Oct 29, 2020 at 04:25:41PM +0800, Bin Meng wrote:
-> > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > 
-> > > > > At present the virtio device config space access is handled by the
-> > > > > virtio_config_readX() and virtio_config_writeX() APIs. They perform
-> > > > > a sanity check on the result of address plus size against the config
-> > > > > space size before the access occurs.
-> > > > > 
-> > > > > For unaligned access, the last converted naturally aligned access
-> > > > > will fail the sanity check on 9pfs. For example, with a mount_tag
-> > > > > `p9fs`, if guest software tries to read the mount_tag via a 4 byte
-> > > > > read at the mount_tag offset which is not 4 byte aligned, the read
-> > > > > result will be `p9\377\377`, which is wrong.
-> > > > > 
-> > > > > This changes the size of device config space to be a multiple of 4
-> > > > > bytes so that correct result can be returned in all circumstances.
-> > > > > 
-> > > > > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > > > 
-> > > > The patch is ok, but I'd like to clarify the commit log.
-> > > 
-> > > Thanks for the review.
-> > > 
-> > > > If I understand correctly, what happens is:
-> > > > - tag is set to a value that is not a multiple of 4 bytes
-> > > 
-> > > It's not about the mount_tag value, but the length of the mount_tag is
-> > > 4.
-> > > 
-> > > > - guest attempts to read the last 4 bytes of the tag
-> > > 
-> > > Yep. So the config space of a 9pfs looks like the following:
-> > > 
-> > > offset: 0x14, size: 2 bytes indicating the length of the following
-> > > mount_tag offset: 0x16, size: value of (offset 0x14).
-> > > 
-> > > When a 4-byte mount_tag is given, guest software is subject to read 4
-> > > bytes (value read from offset 0x14) at offset 0x16.
-> > 
-> > Well looking at Linux guest code:
-> > 
-> > 
-> > static inline void __virtio_cread_many(struct virtio_device *vdev,
-> > 
-> >                                        unsigned int offset,
-> >                                        void *buf, size_t count, size_t
-> >                                        bytes)
-> > 
-> > {
-> > 
-> >         u32 old, gen = vdev->config->generation ?
-> >         
-> >                 vdev->config->generation(vdev) : 0;
-> >         
-> >         int i;
-> >         
-> >         might_sleep();
-> >         do {
-> >         
-> >                 old = gen;
-> >                 
-> >                 for (i = 0; i < count; i++)
-> >                 
-> >                         vdev->config->get(vdev, offset + bytes * i,
-> >                         
-> >                                           buf + i * bytes, bytes);
-> >                 
-> >                 gen = vdev->config->generation ?
-> >                 
-> >                         vdev->config->generation(vdev) : 0;
-> >         
-> >         } while (gen != old);
-> > 
-> > }
-> > 
-> > 
-> > 
-> > static inline void virtio_cread_bytes(struct virtio_device *vdev,
-> > 
-> >                                       unsigned int offset,
-> >                                       void *buf, size_t len)
-> > 
-> > {
-> > 
-> >         __virtio_cread_many(vdev, offset, buf, len, 1);
-> > 
-> > }
-> > 
-> > and:
-> >         virtio_cread_bytes(vdev, offsetof(struct virtio_9p_config, tag),
-> >         
-> >                            tag, tag_len);
-> > 
-> > So guest is doing multiple 1-byte reads.
-> 
-> Correct.
-> 
-> > Spec actually says:
-> >         For device configuration access, the driver MUST use 8-bit wide
-> >         accesses for 8-bit wide fields, 16-bit wide
-> >         
-> >         and aligned accesses for 16-bit wide fields and 32-bit wide and
-> >         aligned accesses for 32-bit and 64-bit wide
-> >         
-> >         fields. For 64-bit fields, the driver MAY access each of the high
-> >         and low 32-bit parts of the field independently.
-> Yes.
-> 
-> > 9p was never standardized, but the linux header at least lists it as
-> > follows:
-> > 
-> > struct virtio_9p_config {
-> > 
-> >         /* length of the tag name */
-> >         __virtio16 tag_len;
-> >         /* non-NULL terminated tag name */
-> >         __u8 tag[0];
-> > 
-> > } __attribute__((packed));
-> > 
-> > In that sense tag is an 8 byte field.
-> > 
-> > So which guest reads tag using a 32 bit read, and why?
-> 
-> The obvious fix can be made to the guest which exposed this issue, but
-> I was wondering whether we should enforce all virtio devices' config
-> space size to be a multiple of 4 bytes which sounds more natural.
-> 
-> Regards,
-> Bin
+--mvpLiMfbWzRoNl4x
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Personally I am not opposed for this to be addressed in qemu, but Michael 
-should decide that.
+On Tue, Nov 03, 2020 at 10:31:35AM -0700, Alex Williamson wrote:
+> On Tue, 3 Nov 2020 15:33:56 +0000
+> Daniel P. Berrang=E9 <berrange@redhat.com> wrote:
+>=20
+> > On Tue, Nov 03, 2020 at 04:23:43PM +0100, Christophe de Dinechin wrote:
+> > >=20
+> > > On 2020-11-02 at 12:11 CET, Stefan Hajnoczi wrote... =20
+> > > > There is discussion about VFIO migration in the "Re: Out-of-Process
+> > > > Device Emulation session at KVM Forum 2020" thread. The current sta=
+tus
+> > > > is that Kirti proposed a VFIO device region type for saving and loa=
+ding
+> > > > device state. There is currently no guidance on migrating between
+> > > > different device versions or device implementations from different
+> > > > vendors. This is known to be non-trivial and raised discussion abou=
+t
+> > > > whether it should really be handled by VFIO or centralized in QEMU.
+> > > >
+> > > > Below is a document that describes how to ensure migration compatib=
+ility
+> > > > in VFIO. It does not require changes to the VFIO migration interfac=
+e. It
+> > > > can be used for both VFIO/mdev kernel devices and vfio-user devices=
+.
+> > > >
+> > > > The idea is that the device state blob is opaque to the VMM but the=
+ same
+> > > > level of migration compatibility that exists today is still availab=
+le.
+> > > >
+> > > > I hope this will help us reach consensus and let us discuss specifi=
+cs.
+> > > >
+> > > > If you followed the previous discussion, I changed the approach fro=
+m
+> > > > sending a magic constant in the device state blob to identifying de=
+vice
+> > > > models by URIs. Therefore the device state structure does not need =
+to be
+> > > > defined here - the critical information for ensuring device migrati=
+on
+> > > > compatibility is the device model and configuration defined below.
+> > > >
+> > > > Stefan
+> > > > ---
+> > > > VFIO Migration
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > > This document describes how to save and load VFIO device states. Sa=
+ving a
+> > > > device state produces a snapshot of a VFIO device's state that can =
+be loaded
+> > > > again at a later point in time to resume the device from the snapsh=
+ot.
+> > > >
+> > > > The data representation of the device state is outside the scope of=
+ this
+> > > > document.
+> > > >
+> > > > Overview
+> > > > --------
+> > > > The purpose of device states is to save the device at a point in ti=
+me and then
+> > > > restore the device back to the saved state later. This is more chal=
+lenging than
+> > > > it first appears.
+> > > >
+> > > > The process of saving a device state and loading it later is called
+> > > > *migration*. The state may be loaded by the same device that saved =
+it or by a
+> > > > new instance of the device, possibly running on a different compute=
+r.
+> > > >
+> > > > It must be possible to migrate to a newer implementation of the dev=
+ice
+> > > > as well as to an older implementation of the device. This allows us=
+ers
+> > > > to upgrade and roll back their systems.
+> > > >
+> > > > Migration can fail if loading the device state is not possible. It =
+should fail
+> > > > early with a clear error message. It must not appear to complete bu=
+t leave the
+> > > > device inoperable due to a migration problem.
+> > > >
+> > > > The rest of this document describes how these requirements can be m=
+et.
+> > > >
+> > > > Device Models
+> > > > -------------
+> > > > Devices have a *hardware interface* consisting of hardware register=
+s,
+> > > > interrupts, and so on.
+> > > >
+> > > > The hardware interface together with the device state representatio=
+n is called
+> > > > a *device model*. Device models can be assigned URIs such as
+> > > > https://qemu.org/devices/e1000e to uniquely identify them. =20
+> > >=20
+> > > Like others, I think we should either
+> > >=20
+> > > a) Give a relatively strong requirement regarding what is at the URL =
+in
+> > > question, e.g. docs, maybe even a machine-readable schema describing
+> > > configuration and state for the device. Leaving the option "there can=
+ be
+> > > nothing here" is IMO asking for trouble.
+> > >=20
+> > > b) simply call that a unique ID, and then either drop the https: enti=
+rely or
+> > > use something else, like pci:// or, to be more specific, vfio://
+> > >=20
+> > > I'd favor option (b) for a different practical reason. URLs are subje=
+ct to
+> > > redirection and other mishaps. For example, using https:// begs the q=
+uestion
+> > > whether
+> > > https://qemu.org/devices/e1000e and
+> > > https://www.qemu.org/devices/e1000e
+> > > should be treated as the same device. I believe that your intent is t=
+hat
+> > > they shouldn't, but if the qemu web server redirects to www, and some=
+one
+> > > wants to copy-paste their web browser's URL bar to the command line, =
+they'd
+> > > get the wrong one. =20
+> >=20
+> > That's not a real world problem IMHO, because neither of these URLs
+> > ever need resolve to a real webpage, and thus not need to be cut +
+> > paste from a browser.
+> >=20
+> > They are simply expressing a resource identifier using a URI as a
+> > convenient format. This is the same as an XML namespace using a URI,
+> > and rarely, if ever, resolving to any actual web page.
+> >=20
+> > This is a good thing, because if you say there needs to be a real page
+> > there, then it creates a pile of corporate beaurocracy for contributors=
+.
+> > I can freely create a URI under https://redhat.com for purposes of bein=
+g
+> > a identifier, but I cannot get any content published there without jump=
+ing
+> > through many tedious corporate approvals and stand a good chance of bei=
+ng
+> > rejected.
+> >=20
+> > If we're truely treating the URIs as an opaque string, we don't especia=
+lly
+> > need to define any rules other than to say it should be under a domain =
+that
+> > you have authority over either directly, or via membership of a project
+> > that delegates. We can suggest "https" since seeing "http" is a red fla=
+g
+> > for many people these days.
+>=20
+> Hmm, an opaque string, sort of like the existing "name" attribute we
+> have now where Christophe quoted some examples in his message.  Thanks,
 
-But even if it would be addressed in qemu, I still think this would better be 
-addressed on virtio side, not on virtio user side (9pfs, etc.), because that's 
-a virtio implementation detail that might change in future.
+Let's go for b) in the next revision.
 
-What I definitely don't want to see though, is this alignment issue being 
-handled with a hard coded value on user (9pfs) side as this patch does right 
-now. Because that smells like it would be overseen if something changes on 
-virtio side one day.
+There will still be a structure <domain>/<path> but it won't be a URI
+with a scheme ("https"). The reason for keeping a structure and not
+simply declaring it a unique opaque string is that it's hard to
+ensure uniqueness if there is no structure. Two people might
+accidentally choose the same name, so let's keep the domain and path
+there.
 
-Best regards,
-Christian Schoenebeck
+Stefan
 
+--mvpLiMfbWzRoNl4x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAl+ifuQACgkQnKSrs4Gr
+c8j+lgf/bQjsd51if0gLjC3dzklM7ZA73av/8ZDlwKT3oVO2kYVlrGn43o/iujXM
+hYRGubnF6Pq8vESY8IvW1Acout/6Mwg+tGBeL8a9Zy5LTUsoDBhZCKl0ooD8WIUz
+63vDIK42QSIaXjZqHDS3XpX9gyz+FznrACO2W28XE7e7lkDTU+a05HF9AAV6T0oP
+wHgMj6JxQYQ0TJ1/xkdt1AH7kPCuKr5H/M1no2/qb+66KPV3m17WK8fTOY47673/
+D4JdXDWZ5dzDfM4U+AwLfsJhdP9KypzPByREOPJa4ZSZSjMKoq0lx+cwBl7A4eL7
+HwKRxzg51SFF37AYVdiJVcdTUOM+ZA==
+=l1Fd
+-----END PGP SIGNATURE-----
+
+--mvpLiMfbWzRoNl4x--
 
 
