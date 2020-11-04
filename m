@@ -2,79 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88F8E2A6316
-	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:15:28 +0100 (CET)
-Received: from localhost ([::1]:59696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 172442A632F
+	for <lists+qemu-devel@lfdr.de>; Wed,  4 Nov 2020 12:21:27 +0100 (CET)
+Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaGlD-0001ms-Ke
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:15:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50556)
+	id 1kaGqz-00070T-Qy
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 06:21:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaGje-000097-E1
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59022)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaGjm-0000Vl-LO
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaGjc-00006m-Qd
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:50 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaGjk-000083-S4
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 06:13:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604488427;
+ s=mimecast20190719; t=1604488435;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=52oOIG/KK+JZ1/vJcWQliC4tcHJL99AtXEoSDfkHVfM=;
- b=XaP+HgccTc4VxQraCbfuoUHHoshnfdTxdQvH9e6N7JojDx1MsQXAgYAtlJRD+KFrb2XLzk
- xLAZyZAyvuqwb0ryYIVD3g6Nr83IWliLWe2NBuoE4PhGmFtqHRDM5xYaG+BqZ1AQBJJIOf
- 3Jahrk9RgpKLMkpjKGFnIVZpXmONbY4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-waeS0JB8NCyenV3neV4xBA-1; Wed, 04 Nov 2020 06:13:44 -0500
-X-MC-Unique: waeS0JB8NCyenV3neV4xBA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A5F41019624;
- Wed,  4 Nov 2020 11:13:41 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-151.ams2.redhat.com [10.36.112.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A31C60C84;
- Wed,  4 Nov 2020 11:13:32 +0000 (UTC)
-Subject: Re: [PATCH-for-5.2? 3/5] tests/acceptance: Skip incomplete
- virtio_version tests using '@skip'
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-References: <20201102144245.2134077-1-philmd@redhat.com>
- <20201102144245.2134077-4-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <6fd67527-b887-54c5-8de6-4f54c8d66934@redhat.com>
-Date: Wed, 4 Nov 2020 12:13:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ bh=HS+dY8YTCUYIbmhvbzGBHroVhNemjCWzd1W0bmpcS40=;
+ b=Dy80Hh5tJOtXBBJeCaNksOtwanwzqc86qqMUXbbXeoUzx0ClUlYSP6E3qTymgzQXvUTu3+
+ 51Yr9kuQzYnCz6WDwQTQGu6kJGL8SzswkPylOHhgGccBrlEfeS0JJFrfi+PR2yOpP2R7FK
+ 3YLAiYflvpGn0NZLRwfX3xPZgICG/LU=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-268-y3z6uXSZPm-7fpG-2Flbhw-1; Wed, 04 Nov 2020 06:13:54 -0500
+X-MC-Unique: y3z6uXSZPm-7fpG-2Flbhw-1
+Received: by mail-wr1-f71.google.com with SMTP id b6so9061705wrn.17
+ for <qemu-devel@nongnu.org>; Wed, 04 Nov 2020 03:13:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=HS+dY8YTCUYIbmhvbzGBHroVhNemjCWzd1W0bmpcS40=;
+ b=hIZjRIzbp5mrh2zfHXbdvCHMdgSs5SGs8BdYd/8uGDnSJKuZgo9dVuLyt3DiuO88QZ
+ 8G+bKZtWFZA3eT99VQHHAQswpUg1NnauG8Qk6jxhwp+WYnyeNX9zePyvXjQb3tG2ZFeq
+ ByaJNimjqDsI3jXcZ6eEox9a4xJlfWkcfwtcC1RTZgl8PoA0U1pzmwJIXwDdbbqKXoAs
+ F331UJPtSH0QKTA6bnsWc9h9tlqlXYoqKl4nUMcuyNBLKjKHJdsXcqjveEZfoO9TmDef
+ FPAfw88jnfjSajJBLUKi9r3fAMo+W+TLGg8RtPfoGKNH4KZQgtJXhQWoGaJC4a3jYML/
+ WSzA==
+X-Gm-Message-State: AOAM532y1d+G+DY/N78e49b0CNMpopXBa2i0rH/VzYvzvWtkqd2qQVkk
+ NznppvNospoaBlzhABnMDYWHw1DevBKGw0IjbmnRWmhc1SyMPvKwnTFc19KQDsaO9VXY9dKKHT2
+ 3Ec8+eFcXxC7WGfE=
+X-Received: by 2002:adf:cd8d:: with SMTP id q13mr31348791wrj.268.1604488433255; 
+ Wed, 04 Nov 2020 03:13:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwgm1JqqBHRaGC57JWmjdH+rLAw6ErCtHRnvvHuNrzvcg4hC+luCKJh1soqvGKuLVswMWp+yw==
+X-Received: by 2002:adf:cd8d:: with SMTP id q13mr31348762wrj.268.1604488433029; 
+ Wed, 04 Nov 2020 03:13:53 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id u3sm2031998wro.33.2020.11.04.03.13.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 04 Nov 2020 03:13:52 -0800 (PST)
+Subject: Re: [PATCH 1/4] bsd-user: space required after semicolon
+To: Thomas Huth <thuth@redhat.com>, shiliyang <shiliyang@huawei.com>,
+ richard.henderson@linaro.org, pbonzini@redhat.com, alex.bennee@linaro.org,
+ laurent@vivier.eu
+References: <fc9d7415-a17f-2958-69fd-0b5f54e553a1@huawei.com>
+ <b7231b6c-97ad-5b4c-0932-08fa331dbb30@huawei.com>
+ <28961057-f570-a203-e098-6ec0d5be3f75@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <52c7980b-33bc-7e76-b985-9df77259f33b@redhat.com>
+Date: Wed, 4 Nov 2020 12:13:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201102144245.2134077-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <28961057-f570-a203-e098-6ec0d5be3f75@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 00:03:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/03 22:09:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,64 +103,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>,
- Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-ppc@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Fabien Chouteau <chouteau@adacore.com>,
- KONRAD Frederic <frederic.konrad@adacore.com>, qemu-arm@nongnu.org,
- Michael Rolnik <mrolnik@gmail.com>, Jiaxun Yang <jiaxun.yang@flygoat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Antony Pavlov <antonynpavlov@gmail.com>
+Cc: alex.chen@huawei.com, hunongda@huawei.com, qemu-trivial@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/11/2020 15.42, Philippe Mathieu-Daudé wrote:
-> Prefer skipping incomplete tests with the "@skip" keyword,
-> rather than commenting the code.
+On 11/4/20 12:08 PM, Thomas Huth wrote:
+> On 04/11/2020 11.20, shiliyang wrote:
+>> This patch fixes error style problems found by checkpatch.pl:
+>> ERROR: space required after that ';'
+>>
+>> Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+>>
+>> ---
+>>  bsd-user/elfload.c | 2 +-
+>>  bsd-user/syscall.c | 4 ++--
+>>  2 files changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+>> index 9f4210af9a..25e625d86b 100644
+>> --- a/bsd-user/elfload.c
+>> +++ b/bsd-user/elfload.c
+>> @@ -1227,7 +1227,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
+>>      end_data = 0;
+>>      interp_ex.a_info = 0;
+>>
+>> -    for(i=0;i < elf_ex.e_phnum; i++) {
+>> +    for(i=0; i < elf_ex.e_phnum; i++) {
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  tests/acceptance/virtio_version.py | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/acceptance/virtio_version.py b/tests/acceptance/virtio_version.py
-> index 33593c29dd0..187bbfa1f42 100644
-> --- a/tests/acceptance/virtio_version.py
-> +++ b/tests/acceptance/virtio_version.py
-> @@ -140,17 +140,20 @@ def check_all_variants(self, qemu_devtype, virtio_devid):
->          self.assertIn('conventional-pci-device', trans_ifaces)
->          self.assertNotIn('pci-express-device', trans_ifaces)
->  
-> +    @skip("virtio-blk requires 'driver' parameter")
+> While you're at it, please also add white spaces around the "=" in that line.
 
-Shouldn't that be 'drive' instead of 'driver' ?
-
-> +    def test_conventional_devs_driver(self):
-> +        self.check_all_variants('virtio-blk-pci', VIRTIO_BLOCK)
-> +
-> +    @skip("virtio-9p requires 'fsdev' parameter")
-> +    def test_conventional_devs_fsdev(self):
-> +        self.check_all_variants('virtio-9p-pci', VIRTIO_9P)
->  
->      def test_conventional_devs(self):
->          self.check_all_variants('virtio-net-pci', VIRTIO_NET)
-> -        # virtio-blk requires 'driver' parameter
-> -        #self.check_all_variants('virtio-blk-pci', VIRTIO_BLOCK)
->          self.check_all_variants('virtio-serial-pci', VIRTIO_CONSOLE)
->          self.check_all_variants('virtio-rng-pci', VIRTIO_RNG)
->          self.check_all_variants('virtio-balloon-pci', VIRTIO_BALLOON)
->          self.check_all_variants('virtio-scsi-pci', VIRTIO_SCSI)
-> -        # virtio-9p requires 'fsdev' parameter
-> -        #self.check_all_variants('virtio-9p-pci', VIRTIO_9P)
-
-I think I'd prefer to keep the stuff commented ... otherwise it will show up
-in the logs, giving the impression that you could run the tests somehow if
-you just provided the right environment, which is just not possible right now.
-
- Thomas
+IOW please run checkpatch after fixing a checkpatch issue ;)
 
 
