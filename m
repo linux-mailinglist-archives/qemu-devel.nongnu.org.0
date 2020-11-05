@@ -2,77 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B0342A7C89
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 12:03:37 +0100 (CET)
-Received: from localhost ([::1]:59414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0D42A7CA4
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 12:12:04 +0100 (CET)
+Received: from localhost ([::1]:36502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kad3I-00009H-JR
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 06:03:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57254)
+	id 1kadBT-0002rK-B5
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 06:12:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kad2X-0008Ao-Ue
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:02:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36099)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1kad2W-0007bq-90
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:02:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604574167;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vOpgOQ3vgKFOIuEH8UBhV3D2lIofMHQxlQEMcb91vKg=;
- b=hOGh/FGgnaCZd+hFCOPH6sKwR1Mjfkq/0t21Yzf+mGn9bcLs69cWfM2rfKNL4gMUfg+Pbl
- 5WpAy5tJXTd20OfSzTsxXnzbxy9Hcuzyb5gtNIg9WUKePKjvT3NcXOr3uym4yTHs9R6w6h
- lqNkGRC/QcsvbXzX4RCAOC4+VyWJFTM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-224-q7cfaq14Pa2QNh6C07uKvA-1; Thu, 05 Nov 2020 06:02:45 -0500
-X-MC-Unique: q7cfaq14Pa2QNh6C07uKvA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FA671074646;
- Thu,  5 Nov 2020 11:02:44 +0000 (UTC)
-Received: from redhat.com (ovpn-115-13.ams2.redhat.com [10.36.115.13])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 34D515B4A2;
- Thu,  5 Nov 2020 11:02:39 +0000 (UTC)
-Date: Thu, 5 Nov 2020 11:02:35 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 3/4] docs: show stdout/stderr when meson fails build test
-Message-ID: <20201105110235.GG630142@redhat.com>
-References: <20201102130926.161183-1-berrange@redhat.com>
- <20201102130926.161183-4-berrange@redhat.com>
- <CAFEAcA-Qn17C5E4ABsay=Anq8pmopisu87eD0vS50XDa7jYnwQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kadAA-0002El-Ob
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:10:42 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:44438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1kadA8-0001oT-Sp
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:10:42 -0500
+Received: by mail-ej1-x633.google.com with SMTP id o23so1052676ejn.11
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 03:10:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9F6pPuViKQ1FO1OcQ/4DM9J2PsGjMQVVxAwaU6R4Wkw=;
+ b=tv8aCbfpmeF4CsEC8jIG6xlZMQDkGXVQ1VIy5gTYndXP3uYn4DFuEIMU2BFzBVxfAW
+ j9BrmmjN1cbqThA4XEYMCp5ZQamhH2Wyj9TbbM0o7qCjW5zZefq6LDV/gfS5Y71d90ZW
+ Y+cDJm+G+GiFYDhb2w911KAav4bASUH803JIAymppUVlkc249Y+PwPOBQ9Lhd8PWdeFC
+ q3tcYPYD7iuILvCuyP/Olh4dPss5TTXHcKZl0k9UpUuWP3pNorAnrtERPmxJ1UrpRQs4
+ 81VPJpyd27TXbegZDKHMkxgixHlafljUEBTnhVdB5NEbp+B8IORKpl18KeOrqpk2fODW
+ rhuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9F6pPuViKQ1FO1OcQ/4DM9J2PsGjMQVVxAwaU6R4Wkw=;
+ b=PPCgbG+JxZe9k42SnU0xopJ8SwhZuuqI4Wh1tmqBXBUxGdjB5IbX4LSf6zPIq/rGPT
+ BSWYDxHVCecFMpVQAwjSRhKzy6YyznXl+j+xbA6KTZFBBiEf1mjWDvyxjl94r09ZpsvV
+ AXTtdakoqXatF9q7flhZSYPGQcgIw/pWc/0wu4ARydMDYEw2vaFNTpc4oJnu70RhqT0o
+ +P/Jd4Jm2cUoMdVJeQSpkMEAWZgoPiAXVx9nAWJHV1c0o2fCBY+DPIYu+Ybijwtz+od9
+ rCjlYBU+yz6rEzGNDhhLRyjAom7IFOaQOwTg/r3yFIqF5EbWSZD2ihywXnzBQz4Gdbks
+ kd6g==
+X-Gm-Message-State: AOAM533XvY8FHUS5pr0sp2Ji5MfxLy73xfDm/qa0VB0HHNzxTJP0cfue
+ pBB9WMkrNDOLc/TuVNnrztLJ2GqpEPIY1lRDVW/fYA==
+X-Google-Smtp-Source: ABdhPJwlU/zKDMGCDpKQ0+TWW1zqaYQRi9xBXL9nA7Cn6cMNPkC/5d3YT8rYvAGsbY2Z8dtcA1iuqs+lVlA7niy+iOY=
+X-Received: by 2002:a17:906:7254:: with SMTP id
+ n20mr1659364ejk.382.1604574639020; 
+ Thu, 05 Nov 2020 03:10:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-Qn17C5E4ABsay=Anq8pmopisu87eD0vS50XDa7jYnwQ@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <20201104154645.15877-1-kraxel@redhat.com>
+In-Reply-To: <20201104154645.15877-1-kraxel@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 5 Nov 2020 11:10:27 +0000
+Message-ID: <CAFEAcA_5c_Ug7KG6NjW9LvqTyqcgfz9pDNU9z+yORkbrCzW5Hw@mail.gmail.com>
+Subject: Re: [PULL 0/3] Fixes 20201104 patches
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,40 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Nov 02, 2020 at 01:48:00PM +0000, Peter Maydell wrote:
-> On Mon, 2 Nov 2020 at 13:09, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> >
-> > It is hard to diagnose why Sphinx fails in a CI environment, as we
-> > discard the stdout/err and just print a generic error message.
-> >
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> This kind of detailed-diagnostics should go into whatever
-> meson's equivalent of config.log is. There's an argument
-> for printing it if the user asked for --enable-docs specifically,
-> but if we're doing the usual "see if it works, use it if it does"
-> logic then we shouldn't be printing diagnostic logging from
-> Sphinx (which can be pretty ugly and longwinded) in the middle
-> of the meson output, IMHO.
+On Wed, 4 Nov 2020 at 15:49, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> The following changes since commit 3d6e32347a3b57dac7f469a07c5f520e69bd070a:
+>
+>   Update version for v5.2.0-rc0 release (2020-11-03 21:11:57 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kraxel.org/qemu tags/fixes-20201104-pull-request
+>
+> for you to fetch changes up to 577b808b0974fa4af53131cdfece6e9de3c6e4fd:
+>
+>   roms/Makefile: Add qboot to .PHONY list (2020-11-04 08:25:17 +0100)
+>
+> ----------------------------------------------------------------
+> misc bugfixes for 5.2
+>
+> ----------------------------------------------------------------
 
-Turns out this is already recorded in build/meson-logs/meson-log.txt
-by default. We can probably publish the file as an artifact in
-gitlab CI to aid debugging.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
+for any user-visible changes.
+
+-- PMM
 
