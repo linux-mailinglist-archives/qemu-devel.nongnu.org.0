@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE472A85F5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:16:09 +0100 (CET)
-Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EC2A2A85AB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:06:30 +0100 (CET)
+Received: from localhost ([::1]:45540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kajnr-0000HX-QK
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:16:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36202)
+	id 1kajeX-0000w9-Mn
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:06:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajWs-0003hH-2v
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:58:34 -0500
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36846)
+ id 1kajR3-0004Xt-Uv
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:34 -0500
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajWq-0005gJ-7X
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:58:33 -0500
-Received: by mail-wm1-x344.google.com with SMTP id a65so2128784wme.1
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:58:31 -0800 (PST)
+ id 1kajR2-0004t8-8q
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:33 -0500
+Received: by mail-wr1-x444.google.com with SMTP id x12so2780636wrm.8
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:52:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e1CT0XOx8Vvy8O4jAkV/r0nsAlwbNsoMSDp0qZ+mwlI=;
- b=IHQhRMPbEglYB1FwSKkG+NGlzWF9RwV19ldmzO/oohRLPXz1nJLWx5YunHxGWGRPxo
- /Aqz0lTJ/nD7arDBcf0sbMwranwxpNdfVLle85fnpiHqG1927kcijKhgq1httip10pAa
- KdTz6HLhjzWm0b0qNDlogU0/nN1mAGqhYE2bd3V5QGsXt52QdnSO9PaAy82oAt43TSN+
- IX8ENd//l1b1wJ2d9sbQ3iK8byU9/O/Q37z6PNy87kYYDQnEJtW9ygaJU0DTlRjf22vW
- toaG/0eERqixQ/tBJ3vBkMO1QSBse5bEngAD3ByWZ3P4n9rTt9XiI6N7lU+jtJE3csbr
- 9Iwg==
+ bh=S2GIs58/W24s0fp90d9pmy8FUWIlpMCzYhDdwe9s8Gc=;
+ b=y8VYfJKIVgovo9dlAt6OJzV2fWsBxN2k3Qtrdb4hD1XgOw6zMwhgc41Dig59hy8yaH
+ O1kh16ITKRkR907lC8Js4Ia8jgKPNg5sUs0krQPcEwDAT3Z2C5HTiuetC+S36lkiAVZx
+ bofeE7M1HpcodfKTdRNYMmbUyAPkKzHAI6Ed7yK0gieBk6E84RYpJpRJTVzlnKDN04D8
+ qCxKR2hB3CbQkoutSoQqNta1PJIj1EpW8SSRQAaCqvWCSV3wgJ0heclI8x2ItRF6Wbwj
+ 9iR7hjEF4+AEsU0s00PT1p1dLSfHDo0bEiAnjgxIl+uKkXsN91x13BMkXwgi4KWwluWx
+ j0dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e1CT0XOx8Vvy8O4jAkV/r0nsAlwbNsoMSDp0qZ+mwlI=;
- b=HhF12VIGoHe4JA+aNwIs1Vs0FggyfvACoLQFw1dwkipb4eLJADmq+xtDqNFWOHNaiw
- 9ptjVUxb40NuT9wt1xPiGCcAupG1/Z2RC9Yp7bbUPAnlWtc/xrRaH6TE/Tlipn/BpeN7
- efi6RG4y9bQysfjOBmnxVndbDtLD3ZDWDSPY9ZZo0oxGIGo/M1JMXHOtx5B2FY41d2MU
- MelyXpepfGS73HEsHc9kMwSClk8IEnQdzcDYN51k14XTLVDOyKqD7pzPb5ioYZktsgyb
- NoZBc2C1WoiCgMF0dDJsKUN4mWUsGWuyvjrtBWMXKy1gqiWo9hXr1IJF6pOiAoUeGRUX
- pcCg==
-X-Gm-Message-State: AOAM533PltJDR5SBXRfuXzjyCt5fLkmRXUDVwSr7KYhEr72tnMMjZ047
- 4ut+m+5v8TRAvMu2sHPvhPN7SA==
-X-Google-Smtp-Source: ABdhPJzeGNAWfHzipdSqUYwax9p+jCiQ9HF7pckIJMTgj1GksFvaLT2Ts2O4bY3gUQ2QwqxRyqJ0jg==
-X-Received: by 2002:a1c:9d08:: with SMTP id g8mr3981235wme.171.1604599110309; 
- Thu, 05 Nov 2020 09:58:30 -0800 (PST)
+ bh=S2GIs58/W24s0fp90d9pmy8FUWIlpMCzYhDdwe9s8Gc=;
+ b=P7gR26+FNcJNW+rjszal3V07/aNRGnzTG66LeEPPb2qrLZfNHJsC5CD6sDyu45JKlJ
+ ilsMo6zNwepTk/Dwc/GTK98ciwLmf/aTQP+s8/55ZyP3jVGMZF/kVmyXqkdAEJ+o/0qw
+ TSYAIaR4X+UiMORfTid8/42T/pQ6eszi/p2M6o1MAC4Uy7MScAl8RsO4yPfJxe/cBoie
+ TCm3nlMolXMQGKNmgbq+TH8EoEsskKXKEsnFefCWxkOonDu3zatjEl16om1zr8UkynzH
+ QbdqUxAZOO18UmSvdscsVMZgjeLfCun78JJRcGYXMkc2pOVXEyhJUXg+giX3g5hq3bw5
+ 8sjQ==
+X-Gm-Message-State: AOAM530ElV2N7FAJGOmbENIYB/SLtBlFGG+Tp1xNp59I9bJZT7ngt3X4
+ A3SoW7ZDuuejQHuXr+xNkD7y9A==
+X-Google-Smtp-Source: ABdhPJxUNz66xbbtM4Jjtwf6tt59B2TjgPZjQafK+I+tj512i1f7vkBJ0d6klAGbXLkJQvMTFOkFIg==
+X-Received: by 2002:adf:e443:: with SMTP id t3mr4398348wrm.14.1604598750991;
+ Thu, 05 Nov 2020 09:52:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l16sm3421423wrr.83.2020.11.05.09.58.29
+ by smtp.gmail.com with ESMTPSA id e6sm3707860wrs.7.2020.11.05.09.52.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 09:58:29 -0800 (PST)
+ Thu, 05 Nov 2020 09:52:15 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BDA3B1FF9A;
+ by zen.linaroharston (Postfix) with ESMTP id D505B1FF9B;
  Thu,  5 Nov 2020 17:51:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  11/15] include/hw/xen.h: drop superfluous struct
-Date: Thu,  5 Nov 2020 17:51:49 +0000
-Message-Id: <20201105175153.30489-12-alex.bennee@linaro.org>
+Subject: [RFC PATCH 12/15] stubs/xen-hw-stub: drop
+ xenstore_store_pv_console_info stub
+Date: Thu,  5 Nov 2020 17:51:50 +0000
+Message-Id: <20201105175153.30489-13-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201105175153.30489-1-alex.bennee@linaro.org>
 References: <20201105175153.30489-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::344;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::444;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x444.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -91,34 +92,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Stefano Stabellini <sstabellini@kernel.org>, julien@xen.org,
  masami.hiramatsu@linaro.org, Paul Durrant <paul@xen.org>,
  andre.przywara@arm.com, stefano.stabellini@linaro.org,
- takahiro.akashi@linaro.org, Anthony Perard <anthony.perard@citrix.com>,
+ takahiro.akashi@linaro.org,
  "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
- stefano.stabellini@xilinx.com,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, stefano.stabellini@xilinx.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Chardev is already a typedef'ed struct.
+We should never build something that calls this without having it.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/hw/xen/xen.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ stubs/xen-hw-stub.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
-index 1406648ca5..0f9962b1c1 100644
---- a/include/hw/xen/xen.h
-+++ b/include/hw/xen/xen.h
-@@ -28,7 +28,7 @@ int xen_is_pirq_msi(uint32_t msi_data);
+diff --git a/stubs/xen-hw-stub.c b/stubs/xen-hw-stub.c
+index 2ea8190921..15f3921a76 100644
+--- a/stubs/xen-hw-stub.c
++++ b/stubs/xen-hw-stub.c
+@@ -10,10 +10,6 @@
+ #include "hw/xen/xen.h"
+ #include "hw/xen/xen-x86.h"
  
- qemu_irq *xen_interrupt_controller_init(void);
- 
--void xenstore_store_pv_console_info(int i, struct Chardev *chr);
-+void xenstore_store_pv_console_info(int i, Chardev *chr);
- 
- void xen_register_framebuffer(struct MemoryRegion *mr);
- 
+-void xenstore_store_pv_console_info(int i, Chardev *chr)
+-{
+-}
+-
+ int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
+ {
+     return -1;
 -- 
 2.20.1
 
