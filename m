@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847362A7EA4
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:33:52 +0100 (CET)
-Received: from localhost ([::1]:33844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E44F52A7EB9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:36:48 +0100 (CET)
+Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaeSd-00077t-Gr
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44726)
+	id 1kaeVT-0002An-T1
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:36:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kaeNj-0001cU-IK; Thu, 05 Nov 2020 07:28:47 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2441)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kaeNn-0001n5-PT; Thu, 05 Nov 2020 07:28:51 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:39857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kaeNh-0004Zd-F1; Thu, 05 Nov 2020 07:28:47 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CRjVT40LwzLv6F;
- Thu,  5 Nov 2020 20:28:33 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 5 Nov 2020 20:28:29 +0800
-From: shiliyang <shiliyang@huawei.com>
-Subject: [PATCH V2 4/4] bsd-user: do not use C99 // comments
-To: <qemu-devel@nongnu.org>, <philmd@redhat.com>, <pbonzini@redhat.com>,
- <david@redhat.com>
-Message-ID: <3d09fce1-d7f2-6042-1019-73fe4c1b453c@huawei.com>
-Date: Thu, 5 Nov 2020 20:28:28 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1kaeNk-0004am-RZ; Thu, 05 Nov 2020 07:28:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=YPq/3yfFXLfPvAw4wtoOounGC9mB9vXYDsxqJBUvGTo=; b=Che2Ca+e11VJP8CmIRlpunNLMr
+ qRQYJY4aEOG0sW7s1/7HUUp1XpWOrnMQhEb929HTWWJVhd+a4HkpskarxDIq0Mx5NJDMkLSzlv4VU
+ yFcXwTsWK9Zs1Mj3kZL1g8mRojrX7WB/Uy3pxPoLLQGo/c55dsUS2KFv/49dHaSDSc5JNGbkRljuE
+ qAnqlj3I9P12l8yLegvSKpZyeBET7x7v9yXLWzM3e8xfxSyep95AX6+4VfUDDJoCdPoah94WEtGnQ
+ Olx7AccVhzmuG0AHKIG/Nk/isz/Zgy/ZfRPtwS4tbj5DgBKVrZ9xU6aBL0JTHG3q1xebPNdtoNHOe
+ kF4G/s6Q==;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: Greg Kurz <groug@kaod.org>
+Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Richard Henderson <rth@twiddle.net>
+Subject: Re: [PATCH-for-5.2 v3 2/4] hw/9pfs: Fix Kconfig dependency problem
+ between 9pfs and Xen
+Date: Thu, 05 Nov 2020 13:28:31 +0100
+Message-ID: <2140852.vo20GZeEQY@silver>
+In-Reply-To: <20201105132346.5e0adf94@bahia.lan>
+References: <20201104115706.3101190-1-philmd@redhat.com>
+ <17370310-d69c-91ff-763d-52a1355ad605@redhat.com>
+ <20201105132346.5e0adf94@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=shiliyang@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 07:27:48
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
+ helo=lizzy.crudebyte.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 07:28:44
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,41 +75,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, hunongda@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes error messages found by checkpatch.pl:
-ERROR: do not use C99 // comments
+On Donnerstag, 5. November 2020 13:23:46 CET Greg Kurz wrote:
+> On Thu, 5 Nov 2020 13:15:59 +0100
+>=20
+> Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
+> > On 11/4/20 6:54 PM, Greg Kurz wrote:
+> > > On Wed, 04 Nov 2020 13:18:09 +0100
+> > >=20
+> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > >> On Mittwoch, 4. November 2020 12:57:04 CET Philippe Mathieu-Daud=E9=
+=20
+wrote:
+> > >>> Commit b2c00bce54c ("meson: convert hw/9pfs, cleanup") introduced
+> > >>> CONFIG_9PFS (probably a wrong conflict resolution). This config is
+> > >>> not used anywhere. Backends depend on CONFIG_FSDEV_9P which itself
+> > >>> depends on CONFIG_VIRTFS.
+> > >>>=20
+> > >>> Remove the invalid CONFIG_9PFS and use CONFIG_FSDEV_9P instead, to
+> > >>>=20
+> > >>> fix the './configure --without-default-devices --enable-xen' build:
+> > >>>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in
+> > >>>   function
+> > >>>=20
+> > >>> `xen_be_register_common': hw/xen/xen-legacy-backend.c:754: undefined
+> > >>> reference to `xen_9pfs_ops' /usr/bin/ld:
+> > >>> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined
+> > >>> reference to
+> > >>> `local_ops' /usr/bin/ld:
+> > >>> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined
+> > >>> reference
+> > >>> to `synth_ops' /usr/bin/ld:
+> > >>> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined
+> > >>> reference
+> > >>> to `proxy_ops' collect2: error: ld returned 1 exit status
+> > >>>=20
+> > >>> Fixes: b2c00bce54c ("meson: convert hw/9pfs, cleanup")
+> > >>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> > >>> Acked-by: Greg Kurz <groug@kaod.org>
+> > >>> Tested-by: Greg Kurz <groug@kaod.org>
+> > >>> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > >>=20
+> > >> Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > >=20
+> > > Phil,
+> > >=20
+> > > Same questioning as Connie. Do you intend to get this merged or should
+> > > Christian or I take care of that ?
+> >=20
+> > Same answer too =3D) If you are preparing a pull request, please go ahe=
+ad!
+>=20
+> Heh I've just seen your answer.
+>=20
+> Christian,
+>=20
+> Maybe you can add this patch in your next PR ?
 
-Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+Yes, I will prepare a 9p PR today anyway, so I will include this patch.
 
----
- bsd-user/elfload.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Best regards,
+Christian Schoenebeck
 
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index fab9da757c..ff571088f7 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -1010,7 +1010,7 @@ static const char *lookup_symbolxx(struct syminfo *s, target_ulong orig_addr)
-     struct elf_sym *syms = s->disas_symtab.elf64;
- #endif
 
--    // binary search
-+    /* binary search */
-     struct elf_sym *sym;
-
-     sym = bsearch(&orig_addr, syms, s->disas_num_syms, sizeof(*syms), symfind);
-@@ -1092,7 +1092,7 @@ static void load_symbols(struct elfhdr *hdr, int fd)
- #ifdef BSWAP_NEEDED
-         bswap_sym(syms + i);
- #endif
--        // Throw away entries which we do not need.
-+        /* Throw away entries which we do not need. */
-         if (syms[i].st_shndx == SHN_UNDEF ||
-                 syms[i].st_shndx >= SHN_LORESERVE ||
-                 ELF_ST_TYPE(syms[i].st_info) != STT_FUNC) {
--- 
-2.29.1.59.gf9b6481aed
 
