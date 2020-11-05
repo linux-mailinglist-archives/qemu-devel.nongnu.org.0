@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 101762A7FF9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:51:11 +0100 (CET)
-Received: from localhost ([::1]:58302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 538282A800B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:54:28 +0100 (CET)
+Received: from localhost ([::1]:37940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaffR-0008IU-PM
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:51:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59052)
+	id 1kafid-0003AY-A2
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:54:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafW1-0003zR-M9
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:41:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54911)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kafYJ-0007CW-J1
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:43:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60755)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafVz-0004D9-PP
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:41:25 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1kafYH-0004tL-EM
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:43:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604583683;
+ s=mimecast20190719; t=1604583824;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=MpTu7+pxv+zPUU9VW6IUZ+BpvlWuitvM343kAr6A2YE=;
- b=gaPwhKOPbc8DqUsQzFclfUZf+ndIO2NvqUh/rr5GEHCiZaiST5XqwkzL59MlcmOFHlkYOH
- dFWtucn5fP/8EdgoaIk4lsH5MEaftIOd3aYNB2bwrQcebDt5uLdVjSN55BMZ2KTIf4s5Ym
- WKLD8+rhZyPYqXUzgubPR+qBnZMlED0=
+ bh=t7ARopnZSdNKPKp8LaxJXu/YtRILB4fMn6SslUhDm3o=;
+ b=Z3xcKgjQBGQtlo7wP3LZ1m+K9jOSYwThpq8TXGda9VJRbUKIeoJDaqZDuTdXe3lWpkABRh
+ IW7lHzHFYO4Vk8r6gbsV/Hxllz3FA/hd5tv3igs/2C/h46cy2aDAQ7jkKcYKY9m4GqkZFy
+ tqxcu6qt8XuzU9mDOxg2RYulEUpS8y0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-131-XcflAEQTMhqYEBNO-Atq7Q-1; Thu, 05 Nov 2020 08:41:18 -0500
-X-MC-Unique: XcflAEQTMhqYEBNO-Atq7Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-574-R36SiiMYPeaVAFfscOsWKw-1; Thu, 05 Nov 2020 08:43:39 -0500
+X-MC-Unique: R36SiiMYPeaVAFfscOsWKw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0B151009E26
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 13:41:17 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
- [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7A7705D9D5;
- Thu,  5 Nov 2020 13:41:17 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CC6B09AFB; Thu,  5 Nov 2020 14:41:12 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 6/6] xhci: move sanity checks
-Date: Thu,  5 Nov 2020 14:41:12 +0100
-Message-Id: <20201105134112.25119-7-kraxel@redhat.com>
-In-Reply-To: <20201105134112.25119-1-kraxel@redhat.com>
-References: <20201105134112.25119-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAEFE1009E26;
+ Thu,  5 Nov 2020 13:43:38 +0000 (UTC)
+Received: from [10.3.114.103] (ovpn-114-103.phx2.redhat.com [10.3.114.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 848287366D;
+ Thu,  5 Nov 2020 13:43:31 +0000 (UTC)
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20201105122808.1182973-1-marcandre.lureau@redhat.com>
+ <20201105122808.1182973-10-marcandre.lureau@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v2 9/9] docs: update the documentation about schema
+ configuration
+Message-ID: <28f4b64e-346d-b987-a43d-04a895c5da90@redhat.com>
+Date: Thu, 5 Nov 2020 07:43:30 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201105122808.1182973-10-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 01:14:53
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,45 +85,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, jsnow@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The v variable goes negative for reg < 0x20.  Reorder the code
-to first sanity check then calculate v and assign intr to make
-sanity checkers happy.
+On 11/5/20 6:28 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/devel/qapi-code-gen.txt | 26 +++++++++++++++-----------
+>  1 file changed, 15 insertions(+), 11 deletions(-)
+> 
+> diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
+> index 3d22a7ae21..c499352a74 100644
+> --- a/docs/devel/qapi-code-gen.txt
+> +++ b/docs/devel/qapi-code-gen.txt
+> @@ -772,26 +772,30 @@ downstream command __com.redhat_drive-mirror.
+>  === Configuring the schema ===
+>  
+>  Syntax:
+> -    COND = STRING
+> -         | [ STRING, ... ]
+> +    COND = CFG-ID
+> +         | [ COND, ... ]
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1902112
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/usb/hcd-xhci.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+As written, you allow recursion of [] such as:
 
-diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
-index d00bb0141dac..6dfb17cbe915 100644
---- a/hw/usb/hcd-xhci.c
-+++ b/hw/usb/hcd-xhci.c
-@@ -3010,14 +3010,17 @@ static void xhci_runtime_write(void *ptr, hwaddr reg,
-                                uint64_t val, unsigned size)
- {
-     XHCIState *xhci = ptr;
--    int v = (reg - 0x20) / 0x20;
--    XHCIInterrupter *intr = &xhci->intr[v];
-+    XHCIInterrupter *intr;
-+    int v;
-+
-     trace_usb_xhci_runtime_write(reg, val);
- 
-     if (reg < 0x20) {
-         trace_usb_xhci_unimplemented("runtime write", reg);
-         return;
-     }
-+    v = (reg - 0x20) / 0x20;
-+    intr = &xhci->intr[v];
- 
-     switch (reg & 0x1f) {
-     case 0x00: /* IMAN */
+[ [ ] ]
+
+I think you meant: [ CFG-ID, ...]
+
+
+> +         | { 'all: [ COND, ... ] }
+> +         | { 'any: [ COND, ... ] }
+> +         | { 'not': COND }
+
+Here, the recursion makes sense: it looks like you want to permit all of
+these:
+
+'if': { 'not': { 'any': [ 'COND1', 'COND2' ] } }
+'if': { 'not': [ 'COND3' ] }
+'if': { 'not': 'COND4' }
+
+>  
+> -All definitions take an optional 'if' member.  Its value must be a
+> -string or a list of strings.  A string is shorthand for a list
+> -containing just that string.  The code generated for the definition
+> -will then be guarded by #if STRING for each STRING in the COND list.
+> +    CFG-ID = STRING
+
+Does CFG-ID need its own rule?  Should this rule be listed before COND?
+
+> +
+> +All definitions take an optional 'if' member. Its value must be a string, a list
+> +of strings or an object with a single member 'all', 'any' or 'not'. A string is
+> +shorthand for a list containing just that string. A list is a shorthand for a
+> +'all'-member object. The C code generated for the definition will then be guarded
+> +by an #if precessor expression.
+>  
+>  Example: a conditional struct
+>  
+>   { 'struct': 'IfStruct', 'data': { 'foo': 'int' },
+> -   'if': ['CONFIG_FOO', 'HAVE_BAR'] }
+> +   'if': { 'all': [ 'CONFIG_FOO', 'HAVE_BAR' ] } }
+>  
+>  gets its generated code guarded like this:
+>  
+> - #if defined(CONFIG_FOO)
+> - #if defined(HAVE_BAR)
+> + #if defined(CONFIG_FOO) && defined(HAVE_BAR)
+>   ... generated code ...
+> - #endif /* defined(HAVE_BAR) */
+> - #endif /* defined(CONFIG_FOO) */
+> + #endif /* defined(HAVE_BAR) && defined(CONFIG_FOO) */
+>  
+>  Individual members of complex types, commands arguments, and
+>  event-specific data can also be made conditional.  This requires the
+> 
+
 -- 
-2.27.0
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
