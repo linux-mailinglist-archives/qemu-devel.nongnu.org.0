@@ -2,80 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E112A7A2C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 10:13:20 +0100 (CET)
-Received: from localhost ([::1]:37486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B800C2A7A60
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 10:22:07 +0100 (CET)
+Received: from localhost ([::1]:44678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kabKZ-0007cx-Vp
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 04:13:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36906)
+	id 1kabT4-0002dV-SD
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 04:22:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1kabIj-0006Yz-VY
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 04:11:26 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:39159)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kabRz-0001un-B6
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 04:20:59 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1kabIi-00015x-3M
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 04:11:25 -0500
-Received: by mail-oi1-x241.google.com with SMTP id u127so969505oib.6
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 01:11:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IDMvoz2/1E2tbuIRMIai5ZSsY7ulxaVmFXWYDEgNlo0=;
- b=jzCntycdZjKVRNywpWTwW3vAy2izfAyFTN4pTOMVClXSGz7LFjtgIGSaY3HL1Wgbx/
- POvsQMSHnlWpaKHF11b3a1l5eGt0pV4KHzTSy4LGZ5+mJ6nc8FI+mePC/YNYcH8OeGOz
- uaqyUs+2YC/QLiQ7upu83ypeOOZbTIYjphgubsOfr5+uK+FoCwFg09K6r1qexDIpgoOu
- rXwl5qgrRkh8ZwWfxsmIilcGwuvSM07X0XiWpbKydbtbTKNI6bWQ+0G3VwopzwxqI5Yx
- gKRIw6x5bTUhbkKCL6/LQ9sVoaN4DP5dvyt1Qk+92/FEr/1YjMYIigUSrjjCQkIl8tTp
- 1gzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IDMvoz2/1E2tbuIRMIai5ZSsY7ulxaVmFXWYDEgNlo0=;
- b=BwTvotkmzOUHVbxYTsciIsJeJwQGvkZxpwx1AEggOaKuRMrfm5PwmuAzKhxtHyxWpo
- 6UDSV7ZKB87/YhTvuscedGHElc/7rYyvhu3gNCG7VRZcrRRTUPISxfaWH3OHCTqaZNDV
- Ux/NGIl7MtrVThjQVU0pP9wUoueqY9LpWux97OFzTEFcZ29Pf6jZLy4uKmOJMuDif6eN
- h1u3IZNlYvfceYPYTFyPqtqX/0EWlUyqTdc3zj2Ruyk/s1222TyJiVK4+1dJYwQXAfSG
- 14xX+JxrtfZ2wmPcTHRPihApu/jca+f2r9N2OpWeraZXd6+9fWAN6GqXb07Fiq5xhHKf
- g+Pg==
-X-Gm-Message-State: AOAM531a2zTvye71lGA02Bj80lS/+bjxO12ofRyzyQHTgcmBrSXQym/0
- Q5RGMgKXOLHkFVUBUH+3hOJO0ctPHxpAcD1JvhFO2A==
-X-Google-Smtp-Source: ABdhPJyynTcZAJt8J09VXuNx06rHZTRvBc/h/vPmCmLhljhbrdjeBt1YKkFrSi29JZOa9/CeoDAqxjku3ltXq7J+v/8=
-X-Received: by 2002:a05:6808:1c4:: with SMTP id x4mr979059oic.91.1604567483017; 
- Thu, 05 Nov 2020 01:11:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kabRx-0004PC-CB
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 04:20:59 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kabRu-0002bs-HW
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:20:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 780672E8139
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 09:20:54 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201102185115.7425-1-andrew@daynix.com>
- <0164a42f-4542-6f3e-bd71-3319dfaae190@redhat.com>
- <CAOEp5Oe3btwgPcOA6v=kK9s2to=x2Hg6Qw2iCFXOOWZs49s=-Q@mail.gmail.com>
- <caa38709-88f1-bd6d-3ff9-61e64c3aa51f@redhat.com>
- <20201104093155.GB565323@redhat.com>
- <cc53c09c-9b3c-63e1-6df3-b5fc949e626c@redhat.com>
- <4bc0321a-773a-8aae-d94a-ef488f7ff646@redhat.com>
-In-Reply-To: <4bc0321a-773a-8aae-d94a-ef488f7ff646@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Thu, 5 Nov 2020 11:11:11 +0200
-Message-ID: <CAOEp5OfEvVKipm8kw-tbcWdetWQ3i4onVAasCNa9TXDY5q8LoA@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/6] eBPF RSS support for virtio-net
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d8025105b3587a92"
-Received-SPF: none client-ip=2607:f8b0:4864:20::241;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-oi1-x241.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2020 09:11:53 -0000
+From: Thomas Huth <1781463@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=Davidof130@gmail.com; 
+X-Launchpad-Bug-Tags: abs amiko emulation firmware qemu receiver
+ satelitereceiver stb
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: screamfox th-huth
+X-Launchpad-Bug-Reporter: David Martins (screamfox)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <153142289132.32266.13097437819271021346.malonedeb@wampee.canonical.com>
+Message-Id: <160456751340.13412.13399101976405980582.malone@gac.canonical.com>
+Subject: [Bug 1781463] Re: qemu don't start *.abs firmware files
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: 77bfeb2a61d485f8ec0a1e7789cdd6ad5bd13490
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 04:11:06
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,82 +74,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1781463 <1781463@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d8025105b3587a92
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+As far as I understand the original description, this was about running
+an arbitrary firmware in QEMU that has been written for a board that we
+do not support in QEMU? This can not work. A machine consists of a CPU
+and various devices that are on board, so you can only run the software
+that has been written for the CPU and the corresponding devices. If I've
+got you right, you want to run some software for a board that we do not
+model in QEMU, so it just can't work since the required devices are not
+emulated. Thus I'm closing this as "Invalid" now ... unless I've
+misunderstood your description, then please complain and we can open the
+ticket again.
 
-On Thu, Nov 5, 2020 at 5:52 AM Jason Wang <jasowang@redhat.com> wrote:
+** Changed in: qemu
+       Status: New =3D> Invalid
 
->
-> On 2020/11/5 =E4=B8=8A=E5=8D=8811:46, Jason Wang wrote:
-> >>
-> >> It's probably ok if we treat the bytecode as a kind of firmware.
-> > That is explicitly *not* OK for inclusion in Fedora. They require that
-> > BPF is compiled from source, and rejected my suggestion that it could
-> > be considered a kind of firmware and thus have an exception from buildi=
-ng
-> > from source.
->
->
-> Actually, there's another advantages. If we treat it as firmware,
-> (actually it is). It allows us to upgrade it independently with qemu.
->
-> Hi Jason,
-I think this is a big disadvantage to have the BPF binary outside of QEMU.
-It is compiled with common structures (for example RSS configuration)
-defined in QEMU and if it is not built in the QEMU then nobody is
-responsible for the compatibility of the BPF and QEMU.
-Just an array of instructions (af today) is ~2k, full object file (if we
-use libbpf) is ~8K, so there is no big problem with the size.
-If we even keep the entire object in QEMU, it is for sure 100% compatible.
+-- =
 
-Thanks
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1781463
 
---000000000000d8025105b3587a92
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Title:
+  qemu don't start *.abs firmware files
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 5, 2020 at 5:52 AM Jason =
-Wang &lt;<a href=3D"mailto:jasowang@redhat.com">jasowang@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-On 2020/11/5 =E4=B8=8A=E5=8D=8811:46, Jason Wang wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; It&#39;s probably ok if we treat the bytecode as a kind of firmwar=
-e.<br>
-&gt; That is explicitly *not* OK for inclusion in Fedora. They require that=
-<br>
-&gt; BPF is compiled from source, and rejected my suggestion that it could<=
-br>
-&gt; be considered a kind of firmware and thus have an exception from build=
-ing<br>
-&gt; from source. <br>
-<br>
-<br>
-Actually, there&#39;s another advantages. If we treat it as firmware, <br>
-(actually it is). It allows us to upgrade it independently with qemu.<br>
-<br></blockquote><div>Hi Jason,</div><div>I think this is a big disadvantag=
-e to have the BPF binary outside of QEMU.</div><div>It is compiled with com=
-mon structures (for example RSS configuration) defined in QEMU and if it is=
- not built in the QEMU then nobody is responsible for the compatibility of =
-the BPF and QEMU.</div><div>Just an array of instructions (af today) is ~2k=
-, full object file (if we use libbpf) is ~8K, so there is no=C2=A0big probl=
-em with the=C2=A0size.</div><div>If we even keep the entire object in QEMU,=
- it is for sure 100% compatible.</div><div><br></div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-Thanks<br>
-<br>
-</blockquote></div></div>
+Status in QEMU:
+  Invalid
 
---000000000000d8025105b3587a92--
+Bug description:
+  Hello Devs,
+
+  I'm here to report this bug/issue because i'm using Win64 Qemu but i
+  can't start a *.abs firmware at normally this firmware is based in
+  Linux Kernel and this type of firmware is made for STB Receivers,
+
+  So this is all information i provide to get support.
+
+  Files extracted by ( binwalk -e )
+
+  =
+
+  Terminal output:
+
+  # binwalk -e AMIKO_HD8150_2.4.43_emu.abs
+
+  DECIMAL       HEXADECIMAL     DESCRIPTION
+
+  -------------------------------------------------------------------------=
+-------
+  196736        0x30080         LZMA compressed data, properties: 0x6C, dic=
+tionary size: 8388608 bytes, uncompressed size: 11883876 bytes
+  3866752       0x3B0080        LZMA compressed data, properties: 0x6C, dic=
+tionary size: 8388608 bytes, uncompressed size: 3255512 bytes
+  5636224       0x560080        LZMA compressed data, properties: 0x6C, dic=
+tionary size: 8388608 bytes, uncompressed size: 87904 bytes
+
+  =
+
+  Files extracted with ALI TOOLS or Ali FirmwareDecriptor.
+
+  Windows files output:
+
+  Software used: Ali Main Code Decrypter 8.9
+
+  Files unpacked:
+
+  bootloader
+  MemCfg
+  maincode(AV)
+  seecode
+  default_lang
+  cipluskey
+  countryband
+  logo_user
+  logo_menu
+  logo_radio
+  logo_boot
+  patch
+  defaultdb(PRC)
+  userdb(64+64)
+
+  =
+
+  Terminal OUTPUT:
+
+  # hexdump -C
+
+  part of file
+
+  =
+
+  00b51a30  00 00 00 00 4c 69 62 63  6f 72 65 20 76 65 72 73  |....Libcore =
+vers|
+  00b51a40  69 6f 6e 20 31 33 2e 31  36 2e 30 40 53 44 4b 34  |ion 13.16.0@=
+SDK4|
+  00b51a50  2e 30 66 61 2e 31 33 2e  31 36 5f 32 30 31 36 31  |.0fa.13.16_2=
+0161|
+  00b51a60  30 31 39 28 67 63 63 20  76 65 72 73 69 6f 6e 20  |019(gcc vers=
+ion |
+  00b51a70  33 2e 34 2e 34 20 6d 69  70 73 73 64 65 2d 36 2e  |3.4.4 mipssd=
+e-6.|
+  00b51a80  30 36 2e 30 31 2d 32 30  30 37 30 34 32 30 29 28  |06.01-200704=
+20)(|
+  00b51a90  41 64 6d 69 6e 69 73 74  72 61 74 6f 72 40 20 46  |Administrato=
+r@ F|
+  00b51aa0  72 69 2c 20 4a 75 6c 20  32 38 2c 20 32 30 31 37  |ri, Jul 28, =
+2017|
+  00b51ab0  20 31 32 3a 35 33 3a 32  38 20 41 4d 29 0a 00 00  | 12:53:28 AM=
+)...|
+  00b51ac0  44 4d 58 5f 53 33 36 30  31 5f 30 00 00 a1 03 18  |DMX_S3601_0.=
+....|
+
+  =
+
+  When I use readelf it says files isn't an ELF file, so i can't run it lik=
+e a kernel (Bootloader,Maincode, and etc. )
+
+  so this is the cmd output when i use qemu Win64 (I don't whant to use
+  linux to do the emulation about this *.abs extension firmware so
+  please help me for win64 version from Qemu)
+
+  CMD OUTPUT:
+
+   C:\Program Files\qemu>qemu-system-mips.exe -machine mips -cpu
+  mips32r6-generic -drive
+  file=3DC:\30080.bin,index=3D0,media=3Ddisk,format=3Draw
+
+  qemu-system-mips.exe: warning: could not load MIPS bios
+  'mips_bios.bin'
+
+  I also tried a lot of diferents qemu-system... and a lot of diferent
+  configs like -machine -cpu -kernel -driver root=3D -PFLASH and etc...
+  and nothing hapenned
+
+  How can i reproduce this issue ? =
+
+  Reply:. =
+
+
+  Donwload *.abs firmware in amikoreceiver.com (only *.abs) and download
+  AliDekompressor in http://www.satedu.cba.pl/
+
+  Direct tools:
+
+  FirmwareDecrypter_v8.9.zip :
+
+  http://www.satedu.cba.pl/index.php?action=3Ddownloadfile&filename=3DFirmw=
+areDecrypter_v8.9.zip&directory=3DTest%20Folder&
+
+  Ali__tools_Console_v4.0__CRC_FIXER.rar :
+
+  http://www.satedu.cba.pl/index.php?action=3Ddownloadfile&filename=3DAli__=
+tools_Console_v4.0__CRC_FIXER.rar&directory=3DTest%20Folder&
+
+  =
+
+  so if Qemu can explain how can i fix this issue this can be highly helpfu=
+ll.
+
+  With my best regards,
+  David Martins =
+
+  Screamfox
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1781463/+subscriptions
 
