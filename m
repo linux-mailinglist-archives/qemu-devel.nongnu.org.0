@@ -2,60 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5FA2A80DA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 15:29:15 +0100 (CET)
-Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1687B2A80E8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 15:30:51 +0100 (CET)
+Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kagGI-0003xM-9x
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 09:29:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42520)
+	id 1kagHq-00063E-4w
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 09:30:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kagEl-000360-4r
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:27:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53939)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kagFq-0004TN-1o
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:28:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25895)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kagEj-0003is-Jb
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:27:38 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kagFn-00043J-Mx
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:28:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604586456;
+ s=mimecast20190719; t=1604586522;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HaqI3aTjBnthZvG/DOQIUIn94Yj437WSiD5u/KyRZjo=;
- b=Yb37xgjGw8b7dUtbH4BiyeGUmIfBhDUIJwFHJwZxUg0sindy/e6UjUtB0QkQlqhmHp/EL+
- rqBkCnozfU77a9Dp0gvj8xKVXnKjnE7n5GxU8WIXo6bXj2fo2dzZ0zW1/KnZ88My9rkgkv
- snJ7ypfB8E7ESKC1W4TCAIbdPjT36yU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-2_bIBnSLNMuihtLY10TeLw-1; Thu, 05 Nov 2020 09:27:33 -0500
-X-MC-Unique: 2_bIBnSLNMuihtLY10TeLw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 61CED100C61D
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 14:27:32 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0F16A5DAA2;
- Thu,  5 Nov 2020 14:27:31 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 0/2] deprecate short-form boolean options
-Date: Thu,  5 Nov 2020 09:27:29 -0500
-Message-Id: <20201105142731.623428-1-pbonzini@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1JrqMR42wthF6XW+e2mzn6VUVWmFWeb1d+kdctR7h3I=;
+ b=Y+fWdaJ5DvQ3Ks5eNvfeLCmbrdOq7QpWfTCMfHU336PDZdQWuZ+G497kaa4C0JPYecbhyJ
+ iO9nb9yKbqBfE5a14qUEZJXGaMQRa9VLa1RZgK4oJuYeHOAvAzAil+6DT6TcHF19HptlHT
+ n9SPDn+lYKLPipTrJw3zmuKICafxuPE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-286-z6JzhcYcOYqW1uDHOuUICg-1; Thu, 05 Nov 2020 09:28:40 -0500
+X-MC-Unique: z6JzhcYcOYqW1uDHOuUICg-1
+Received: by mail-wm1-f72.google.com with SMTP id c10so684226wmh.6
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 06:28:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1JrqMR42wthF6XW+e2mzn6VUVWmFWeb1d+kdctR7h3I=;
+ b=OmDeTmbzD9z+leHj3Qmc9WLpaEvmU/M/iJUoWxbEMlIvltMo/0Mn9hBl4PvyxnTrOC
+ MrrSqeWwGJvn63Rx/HsVNWflyz18Kv1wWrTg/gZPzFrSElUBqYkSXGLgU79+EgGcmSxV
+ 7GXA5/2mFxqoy0pFQGO4BkbnoMTchjTyjS4rKuJU/a5Fam8YhQ6KopOOjFIYIdMjreHP
+ IWoFzej1bTKn1g90lsSQejwrZ2WPjCQT+ZQvVgV6MPxo9OLjiLo+jhcBUMm/Z1sF7w6T
+ EDHGMKTKEQb81PXyJcBjVwtzGHGO3Pskip0q1Wxjd8K5bW+Ay06rz+KLrTsCacG2of0M
+ TSag==
+X-Gm-Message-State: AOAM532PMnIdueHvUFBpOVFgBjLji3gb3KjnPK40mJUCu4SYvI/nl2kE
+ b4CuQ/qY/qTGkamwDvf483LyCb5DMJe/p3zdR8EnPHG/CTSaA+44NpjKzRpqLLKoCnVpVylmqeu
+ 0QYEs5kzlCA9CeSM=
+X-Received: by 2002:a05:600c:2282:: with SMTP id
+ 2mr3248214wmf.154.1604586518463; 
+ Thu, 05 Nov 2020 06:28:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzfGpEXYubYBTsPorqQiJhFOnXzW13I9wIp7aDW9lJzbJtOwR0ng8QfVG0q2+Egf4+JkrjxSg==
+X-Received: by 2002:a05:600c:2282:: with SMTP id
+ 2mr3248202wmf.154.1604586518355; 
+ Thu, 05 Nov 2020 06:28:38 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id b1sm3080669wmd.43.2020.11.05.06.28.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Nov 2020 06:28:37 -0800 (PST)
+Subject: Re: [PATCH 5/6] xhci: fix guest triggerable assert
+To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20201105134112.25119-1-kraxel@redhat.com>
+ <20201105134112.25119-6-kraxel@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b9ce6e4c-2ae4-2c18-fa3b-2f1a0713dd15@redhat.com>
+Date: Thu, 5 Nov 2020 15:28:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201105134112.25119-6-kraxel@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -64,8 +87,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,40 +102,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QemuOpts lets you write boolean options in "short form"
-where "abc" means "abc=on" and "noabc" means "abc=off".
-This is confusing, since it is not done for the first
-key=value pair but only if there is an implied key;
-it can also be grossly misused, for example "-device
-e1000,noid" will create a device with id equal to "off".
+On 11/5/20 2:41 PM, Gerd Hoffmann wrote:
+> We didn't start any work yet so we can just return
+> at that point instead of asserting.
+> 
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1883732
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  hw/usb/hcd-xhci.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 
-Unfortunately, this idiom has found wide use with
--chardev (think "server,nowait") and to a lesser extent
--spice.
-
-Patch 2 in this series deprecates it for all other option
-groups.  The first patch avoids emitting the warning
-for the "help" option.
-
-Paolo
-
-Paolo Bonzini (2):
-  qemu-option: move help handling to get_opt_name_value
-  qemu-option: warn for short-form boolean options
-
- chardev/char.c             |  1 +
- docs/system/deprecated.rst |  7 +++++
- include/qemu/option.h      |  1 +
- tests/test-qemu-opts.c     |  1 +
- ui/spice-core.c            |  1 +
- util/qemu-option.c         | 55 +++++++++++++++++++++-----------------
- 6 files changed, 42 insertions(+), 24 deletions(-)
-
--- 
-2.26.2
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
