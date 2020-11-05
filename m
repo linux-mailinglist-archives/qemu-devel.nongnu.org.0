@@ -2,47 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D4B02A77C2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 08:10:22 +0100 (CET)
-Received: from localhost ([::1]:35806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 354772A77C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 08:10:42 +0100 (CET)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaZPZ-0001yH-KG
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 02:10:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43198)
+	id 1kaZPt-0002iy-7B
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 02:10:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZO2-0000HU-0L
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:51 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:33051)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZOF-0000WN-5j
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:59 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:46739)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZNz-0007Wp-7S
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:45 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZOC-0007Z1-QL
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:58 -0500
 Received: from localhost.localdomain ([82.252.154.198]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MofPt-1jyke93s41-00p90L; Thu, 05 Nov 2020 08:08:41 +0100
+ id 1MvKL3-1kIcxf142z-00rDQ1; Thu, 05 Nov 2020 08:08:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] Linux user for 5.2 patches
-Date: Thu,  5 Nov 2020 08:08:33 +0100
-Message-Id: <20201105070837.558332-1-laurent@vivier.eu>
+Subject: [PULL 1/4] linux-user/mips/cpu_loop: silence the compiler warnings
+Date: Thu,  5 Nov 2020 08:08:34 +0100
+Message-Id: <20201105070837.558332-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201105070837.558332-1-laurent@vivier.eu>
+References: <20201105070837.558332-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:DX+abNGKfEY7a9P/ZiYuTQKnB+7bHwTzsii7DtXJkMZBJBrf+qT
- ol+ySrWPh4A+FNeJA0rlW552POucziUpdUr6f0xvSeeV7fiayOAXoRj1nFHEpyi5+6cPGmI
- BhNAi2iph4QphO0hozWz1rnIIwGO6Iy9YYk4CK1a02ix8lashh0JAYaROfGzeyeq8vuartz
- kzzrYP0iM3+ky1AmUketA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:S1VvTNoEoCk=:QF7v4iwyCdeHIN3m4LfDNa
- ze7lLzlg8HjQLr63C0b+h6UWfobyHoEKff5VNbrbeRjBKgfms5rEFHgBCq5qINfSGs1aEnrLn
- DaGfCKSXNIYJ2Bfgns9eyxHFvSKS2PeHGJU77PRNkO1w6MoB9VQYktweqaausQ48l5L8JhrLE
- AOKQDukOc+6HFxHmV88XuGW7m0FFicGOEhmG5E0aDi/fPRNLYXkyN99YMe6l936hHHtSgn/no
- dHBHYYrBveAlFMWXAWmXPwcU4Q61GRbs3QKa2w4fCl6fOg9C8vgeSVIukFonJIQ4v20QcG8Ry
- dM6LNlaTdoB1Q8rF1SHd0WPKU+gsF2qmX8DEY4P4uPuVorrfXnvhwZxw6fJXGPK6nNCueI5oR
- 03XAhdkWycfX0G01qSxQqPCuCHTFO4YeBVLKaowWD4eb39iqZ5715Nqg0MORJ
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:mB2wYGg5fJmamHxht+mWKsCvbov7nBc+/AkihQD+UANjNMzleP3
+ 5lfScrPwvmH59imx+R+7m2HyXm/wyh5BiqHIj7v0HWMpIlY9omplsLzc42RG66F/oM8iO5T
+ 1Za9+C/icYIu6BtSzFtOc59pY21P1UzhPXFLbg5CFl9c2HxK+302RrioHYnbts/GBt4A1y9
+ s/dmsOGU9vJxL2twtU4ZQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cDY63zzMv0E=:n0XDVufOE5aKGnydyB/wmz
+ j3VC8TqXEXKsTVxRT87jIHQJuuLtuxpCIpL97zIH0S9HaRGl5f8WT2lklm6Z2+x0EIDFUpHnh
+ a5i6Izw8RbmshqaHDjvoPx+6p5yRT56+lGvKpFBEJ6CIoa0d70lPr7VTSiK7PTXVFmo3W9g1i
+ 2emKB56OXxqoq5pKh03wMaUvVRzTIS1yCOYgjxa2QO+fDd54HmPYAwsD0VTV961WAhDaRbWqv
+ wYNdMW6AtGIYip5y9Mt+2VM8+ko3HjCHmSA8zl1GJIsfMHXjg9n2NWzhPC1xMxl5Ponzgj0C+
+ juHCMTMRntoKC0SWTtbkmojdjeFnjnnFNUtsMmqUZruGV2GXGK2k/PvAJKK+rbp/UGWjNYfMG
+ bNAWlTt4PxtMKeuFwQfLI+hqZnyfF7IEhHWfBw4Ggs9nHr/r0lHJ6dTxIQLRG
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 02:08:41
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 02:08:48
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,49 +64,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Chen Qun <kuhn.chenqun@huawei.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>, Euler Robot <euler.robot@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 8680d6e36468f1ca00e2fe749bef50585d632401=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/nvme/tags/pull-nvme-20201102' into =
-st=3D=0D
-aging (2020-11-02 17:17:29 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request=0D
-=0D
-for you to fetch changes up to 022625a8ade3005addb42700a145bae6a1653240:=0D
-=0D
-  linux-user: Check copy_from_user() return value in vma_dump_size() (2020-=
-11=3D=0D
--04 22:28:05 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Coverity and compiler warning fixes=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Alistair Francis (1):=0D
-  linux-user/syscall: Fix missing target_to_host_timespec64() check=0D
-=0D
-Chen Qun (1):=0D
-  linux-user/mips/cpu_loop: silence the compiler warnings=0D
-=0D
-Peter Maydell (2):=0D
-  linux-user: Use "!=3D3D 0" when checking if MAP_FIXED_NOREPLACE is=0D
-    non-zero=0D
-  linux-user: Check copy_from_user() return value in vma_dump_size()=0D
-=0D
- linux-user/elfload.c       | 7 +++++--=0D
- linux-user/mips/cpu_loop.c | 4 ++++=0D
- linux-user/syscall.c       | 4 +++-=0D
- 3 files changed, 12 insertions(+), 3 deletions(-)=0D
-=0D
---=3D20=0D
-2.28.0=0D
-=0D
+From: Chen Qun <kuhn.chenqun@huawei.com>
+
+When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
+linux-user/mips/cpu_loop.c: In function ‘cpu_loop’:
+linux-user/mips/cpu_loop.c:104:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  104 |                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
+      |                        ^
+linux-user/mips/cpu_loop.c:107:17: note: here
+  107 |                 case 7:
+      |                 ^~~~
+linux-user/mips/cpu_loop.c:108:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  108 |                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
+      |                        ^
+linux-user/mips/cpu_loop.c:111:17: note: here
+  111 |                 case 6:
+      |                 ^~~~
+linux-user/mips/cpu_loop.c:112:24: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  112 |                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
+      |                        ^
+linux-user/mips/cpu_loop.c:115:17: note: here
+  115 |                 case 5:
+      |                 ^~~~
+
+Add the corresponding "fall through" comment to fix it.
+
+Reported-by: Euler Robot <euler.robot@huawei.com>
+Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201030004046.2191790-5-kuhn.chenqun@huawei.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/mips/cpu_loop.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/linux-user/mips/cpu_loop.c b/linux-user/mips/cpu_loop.c
+index 553e8ca7f576..cfe7ba5c47d8 100644
+--- a/linux-user/mips/cpu_loop.c
++++ b/linux-user/mips/cpu_loop.c
+@@ -104,18 +104,22 @@ void cpu_loop(CPUMIPSState *env)
+                     if ((ret = get_user_ual(arg8, sp_reg + 28)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 case 7:
+                     if ((ret = get_user_ual(arg7, sp_reg + 24)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 case 6:
+                     if ((ret = get_user_ual(arg6, sp_reg + 20)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 case 5:
+                     if ((ret = get_user_ual(arg5, sp_reg + 16)) != 0) {
+                         goto done_syscall;
+                     }
++                    /* fall through */
+                 default:
+                     break;
+                 }
+-- 
+2.28.0
+
 
