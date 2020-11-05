@@ -2,91 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765852A8555
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:54:05 +0100 (CET)
-Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA632A8567
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:56:45 +0100 (CET)
+Received: from localhost ([::1]:53074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kajSW-00056Q-1W
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:54:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
+	id 1kajV6-0008Gf-Bt
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:56:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kajPt-0003jt-U7
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:51:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57098)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kajPf-0004kZ-2c
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:51:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604598665;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KCHM9lsROgWZzvmvDgRT2KhgomWd0Ggq5X7K8imG90k=;
- b=ctjDdocJIhvtpmBQB6sUG9XlRsGmhRt5EJQ2XQwNuGpdtGOAx0dB2qmqKIdtagfPosnyaB
- JczUAUpXm4D1y+nZq2qJEdx6qXszbSP+X4Q/yk7M40WMjXvyq/QNThNZyWzpTqInrc5qJG
- IWx8lYl6M8ico4pmSGzrzouhQMm8A94=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-225-CoKOXeYMMBaZxK4G9Xpezg-1; Thu, 05 Nov 2020 12:51:03 -0500
-X-MC-Unique: CoKOXeYMMBaZxK4G9Xpezg-1
-Received: by mail-wr1-f69.google.com with SMTP id j15so1010230wrd.16
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:51:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kajQi-000421-0Z
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:12 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:56178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1kajQV-0004ov-Po
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:07 -0500
+Received: by mail-wm1-x344.google.com with SMTP id c9so2444216wml.5
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:51:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=aCdNQuOu1zzxY5qOLd2Gw49Fa90dfcQ1gien40zDfHs=;
+ b=gjvK7wvTUU9vVQv+LXzG71pIUtrHqjDoQpNuE7UFyrJHPETi4LZjHIGnzFXw4bYe6o
+ 0HvkdBC/GUywxz6ImrHgAQL96SIoTiZp3ObKGrF+DEzuPeQjPpGAh7coDwGpt3uM5BjS
+ dKXtfFLtzzo6jJxf7A0L97TrGuElh9QHtZNDzTvmsJIJzbGEMTazoyt9R/ChuVDCqTgg
+ r10AfXChdGXeVK55rlsRt2OY4GSce7NAJq6+duZ3BDJvlxVYjptOHrZ1UijwhdoPrd9w
+ Wn2wdL3YnHAnYJu27heOH1sIXbZHB4Z8dncIs4v+PXryZ0spP286RwhWUJEzNPqwwUen
+ kf+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KCHM9lsROgWZzvmvDgRT2KhgomWd0Ggq5X7K8imG90k=;
- b=H0fDblJ7zQslvrfTeIO+o0UjUcO+aITNrwRLGoJq9RnHn8zsLkJLD7S4on2qNK4z14
- Na3oC6xrhu/u54nhalyXTeG2GmwSkohiXJJhRfQnEZwmCYAXLPm3TRbtx7tHFRG6vPRf
- ehYOVyoC8yjWqYKVHWIbqLPmrM2iKC5wRL+1EFnttvLep++1nZ4OB2vFtQvOXmCkIZcj
- Me95nGdWb8Nb0xC9UAyhNp6skG5wwYDI32QZMFZ7Fc1cB5nX+UjKf7TTRRx86t7rcZRV
- iE8SZO8ekuEYAE9v8gi+D5OLRX9M1+9tpY8sNX6sKywBazEj27JKdx8QPEcYio1ULCv1
- RFyw==
-X-Gm-Message-State: AOAM530hRWXcHb0MTXBy1ADBa87zhfEza15hJAQPjfLmp1wt/MGlOfKA
- NRDSXhm9zjwQwUuWQdi0KUNeTtBv4/FV4fJ3023lursrbB7HxHW5f/ZMLG1qeQti7U4Ct1Dac7U
- fCFjFtg3AbK0TenI=
-X-Received: by 2002:a5d:67ca:: with SMTP id n10mr4220585wrw.209.1604598662185; 
- Thu, 05 Nov 2020 09:51:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw3pGL/zjb/wpjryR78Iu7wqTEEMOo23qqFzsuUGEWhIXKKI1MzjyMVgwR6PLfdli77ZGMlTg==
-X-Received: by 2002:a5d:67ca:: with SMTP id n10mr4220556wrw.209.1604598661867; 
- Thu, 05 Nov 2020 09:51:01 -0800 (PST)
-Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id f20sm3142198wmc.26.2020.11.05.09.51.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 05 Nov 2020 09:51:01 -0800 (PST)
-Subject: Re: [PATCH v2] hw/arm/virt enable support for virtio-mem
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>
-References: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a995b504-2ce5-1930-86df-077674cc2754@redhat.com>
-Date: Thu, 5 Nov 2020 18:51:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ bh=aCdNQuOu1zzxY5qOLd2Gw49Fa90dfcQ1gien40zDfHs=;
+ b=lKvUL1HBfWF4sYcvHO1Q/X2Q13aj5HSx2t+MLtANRAKpKVxYRV3gXcE8ow54tkxlpR
+ BLw23w6Cdcb6qAXwvD5Ciml17Sh4Io7AXrvgCOSxHRHR4VHoEho/vPP/QJoYtY04bDBR
+ IPNPYFTS+HDYhaIjm2FTN4F0o4o7W/OMvKQf/xuDkbCQXspa9uMvDsk21k7th+OhPOHe
+ URjYoQTLGqrQgO0pZJ712TB+DWgIjRxCeYQC+sh2x8gWEsN/UCahJnlCZ8vSf/ZnbgE8
+ zf10KBUTfNgfywuc6oIQd38p3GNjJn+Xy+SZlqKESqYjlpN6A9VjzXFoyQoj8/BtuYXF
+ 6ALQ==
+X-Gm-Message-State: AOAM531yidT106k8LJIz1QjNkMnEaw91TPaS98qPN8VAlK9J5ixWA7BE
+ GPskX6Eg+ZeY17BSm6oQcYA41g==
+X-Google-Smtp-Source: ABdhPJxuA9N8eBQQson9ZpqEdYO6mKqC3BGQpy9RnGSD+wUDEjaLSJaFKpC1Ay3sYbnPZzbGBGxvHA==
+X-Received: by 2002:a1c:ed15:: with SMTP id l21mr4191518wmh.26.1604598716137; 
+ Thu, 05 Nov 2020 09:51:56 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f1sm3336423wmj.3.2020.11.05.09.51.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 09:51:54 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A8C5E1FF7E;
+ Thu,  5 Nov 2020 17:51:53 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 00/15] Xen guest-loader and arm64 build fixes/enhancements
+Date: Thu,  5 Nov 2020 17:51:38 +0000
+Message-Id: <20201105175153.30489-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201105174311.566751-1-Jonathan.Cameron@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 01:14:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,219 +86,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Michael S . Tsirkin" <mst@redhat.com>, linuxarm@huawei.com,
- David Hildenbrand <david@redhat.com>
+Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
+ stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
+ stefano.stabellini@xilinx.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Igor.
+Hi,
 
-On 11/5/20 6:43 PM, Jonathan Cameron wrote:
-> Basically a cut and paste job from the x86 support with the exception of
-> needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
-> on ARM64 in Linux is 1G.
-> 
-> Tested:
-> * In full emulation and with KVM on an arm64 server.
-> * cold and hotplug for the virtio-mem-pci device.
-> * Wide range of memory sizes, added at creation and later.
-> * Fairly basic memory usage of memory added.  Seems to function as normal.
-> * NUMA setup with virtio-mem-pci devices on each node.
-> * Simple migration test.
-> 
-> Related kernel patch just enables the Kconfig item for ARM64 as an
-> alternative to x86 in drivers/virtio/Kconfig
-> 
-> The original patches from David Hildenbrand stated that he thought it should
-> work for ARM64 but it wasn't enabled in the kernel [1]
-> It appears he was correct and everything 'just works'.
-> 
-> The build system related stuff is intended to ensure virtio-mem support is
-> not built for arm32 (build will fail due no defined block size).
-> If there is a more elegant way to do this, please point me in the right
-> direction.
-> 
-> [1] https://lore.kernel.org/linux-mm/20191212171137.13872-1-david@redhat.com/
-> 
-> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> ---
->  default-configs/devices/aarch64-softmmu.mak |  1 +
->  hw/arm/Kconfig                              |  1 +
->  hw/arm/virt.c                               | 64 ++++++++++++++++++++-
->  hw/virtio/Kconfig                           |  4 ++
->  hw/virtio/virtio-mem.c                      |  2 +
->  5 files changed, 71 insertions(+), 1 deletion(-)
-> 
-> diff --git a/default-configs/devices/aarch64-softmmu.mak b/default-configs/devices/aarch64-softmmu.mak
-> index 958b1e08e4..31d6128a29 100644
-> --- a/default-configs/devices/aarch64-softmmu.mak
-> +++ b/default-configs/devices/aarch64-softmmu.mak
-> @@ -6,3 +6,4 @@ include arm-softmmu.mak
->  CONFIG_XLNX_ZYNQMP_ARM=y
->  CONFIG_XLNX_VERSAL=y
->  CONFIG_SBSA_REF=y
-> +CONFIG_ARCH_VIRTIO_MEM_SUPPORTED=y
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index fdf4464b94..eeae77eee9 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -20,6 +20,7 @@ config ARM_VIRT
->      select PLATFORM_BUS
->      select SMBIOS
->      select VIRTIO_MMIO
-> +    select VIRTIO_MEM_SUPPORTED if ARCH_VIRTIO_MEM_SUPPORTED
->      select ACPI_PCI
->      select MEM_DEVICE
->      select DIMM
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 8abb385d4e..6c96d71106 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -73,9 +73,11 @@
->  #include "hw/acpi/acpi.h"
->  #include "target/arm/internals.h"
->  #include "hw/mem/pc-dimm.h"
-> +#include "hw/mem/memory-device.h"
->  #include "hw/mem/nvdimm.h"
->  #include "hw/acpi/generic_event_device.h"
->  #include "hw/virtio/virtio-iommu.h"
-> +#include "hw/virtio/virtio-mem-pci.h"
->  #include "hw/char/pl011.h"
->  #include "qemu/guest-random.h"
->  
-> @@ -2286,6 +2288,34 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
->                           dev, &error_abort);
->  }
->  
-> +static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-> +                                      DeviceState *dev, Error **errp)
-> +{
-> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-> +    Error *local_err = NULL;
-> +
-> +    if (!hotplug_dev2 && dev->hotplugged) {
-> +        /*
-> +         * Without a bus hotplug handler, we cannot control the plug/unplug
-> +         * order. We should never reach this point when hotplugging,
-> +         * however, better add a safety net.
-> +         */
-> +        error_setg(errp, "hotplug of virtio-mem based memory devices not"
-> +                   " supported on this bus.");
-> +        return;
-> +    }
-> +    /*
-> +     * First, see if we can plug this memory device at all. If that
-> +     * succeeds, branch of to the actual hotplug handler.
-> +     */
-> +    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
-> +                           &local_err);
-> +    if (!local_err && hotplug_dev2) {
-> +        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-> +    }
-> +    error_propagate(errp, local_err);
-> +}
-> +
->  static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                              DeviceState *dev, Error **errp)
->  {
-> @@ -2293,6 +2323,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->  
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
->          virt_memory_pre_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);
->      } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
->          hwaddr db_start = 0, db_end = 0;
->          char *resv_prop_str;
-> @@ -2322,6 +2354,27 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->      }
->  }
->  
-> +static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-> +                                  DeviceState *dev, Error **errp)
-> +{
-> +    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-> +    Error *local_err = NULL;
-> +
-> +    /*
-> +     * Plug the memory device first and then branch off to the actual
-> +     * hotplug handler. If that one fails, we can easily undo the memory
-> +     * device bits.
-> +     */
-> +    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-> +    if (hotplug_dev2) {
-> +        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
-> +        if (local_err) {
-> +            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-> +        }
-> +    }
-> +    error_propagate(errp, local_err);
-> +}
-> +
->  static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
->                                          DeviceState *dev, Error **errp)
->  {
-> @@ -2336,6 +2389,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
->      if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
->          virt_memory_plug(hotplug_dev, dev, errp);
->      }
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
-> +    }
->      if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
->          PCIDevice *pdev = PCI_DEVICE(dev);
->  
-> @@ -2363,6 +2419,11 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
->          goto out;
->      }
->  
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-> +        error_setg(&local_err,
-> +                   "virtio-mem based memory devices cannot be unplugged.");
-> +        goto out;
-> +    }
->      hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
->                                     &local_err);
->  out:
-> @@ -2413,7 +2474,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
->                                                          DeviceState *dev)
->  {
->      if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE) ||
-> -       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
-> +        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-> +        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
->          return HOTPLUG_HANDLER(machine);
->      }
->      if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-> diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
-> index 0eda25c4e1..00dbf2939e 100644
-> --- a/hw/virtio/Kconfig
-> +++ b/hw/virtio/Kconfig
-> @@ -48,6 +48,10 @@ config VIRTIO_PMEM
->      depends on VIRTIO_PMEM_SUPPORTED
->      select MEM_DEVICE
->  
-> +config ARCH_VIRTIO_MEM_SUPPORTED
-> +    bool
-> +    default n
-> +
->  config VIRTIO_MEM_SUPPORTED
->      bool
->  
-> diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-> index 7c8ca9f28b..16f9de6ab6 100644
-> --- a/hw/virtio/virtio-mem.c
-> +++ b/hw/virtio/virtio-mem.c
-> @@ -53,6 +53,8 @@
->   */
->  #if defined(TARGET_X86_64) || defined(TARGET_I386)
->  #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-> +#elif defined(TARGET_AARCH64)
-> +#define VIRTIO_MEM_USABLE_EXTENT (2 * (1024 * MiB))
->  #else
->  #error VIRTIO_MEM_USABLE_EXTENT not defined
->  #endif
-> 
+There are two parts to this series, broadly related because they are
+all to do with Xen. The first half is a re-spin of the guest-loader
+patches from a few weeks ago. The only changes are to move the
+generic-loader documentation into the manual and then add some words
+about the guest-loader.
+
+The second half of the series is an attempt to fix and then clean up
+the handling of Xen enabled builds. Recent changes to the build system
+broke the ability to build qemu-system-i386 on arm64 hosts with Xen
+support enabled. The actual fix for that:
+
+  meson.build: fix building of Xen support for aarch64
+
+should probably be rolled into the current release as it fixes a
+regression. The rest can wait until the tree re-opens. The patches
+broadly try to:
+
+  - clean-up detection and reporting
+  - be more explicit about linking stubs for accel
+  - add an explicit CONFIG_XEN_HVM for x86
+
+and finally allow you to build a qemu-system-aarch64 with Xen support.
+
+This is my first major foray into tweaking meson builds and it seems
+to occasionally come unstuck and requires a distclean and re-configure
+to un-wedge itself. The following need review:
+
+  - meson.build: build a Xen aware qemu-aarch64-system
+  - xen: only build HVM support under CONFIG_XEN_HVM
+  - accel/stubs: drop unused cpu.h include
+  - stubs/xen-hw-stub: drop xenstore_store_pv_console_info stub
+  - include/hw/xen.h: drop superfluous struct
+  - meson.build: clean-up summary reporting of XEN and it's features
+  - meson.build: introduce CONFIG_XEN_HVM flag
+  - meson.build: fix building of Xen support for aarch64
+  - accel/meson: you only need accelerator stubs for softmmu builds
+  - docs: add some documentation for the guest-loader
+  - docs: move generic-loader documentation into the main manual
+
+
+Alex Bennée (15):
+  hw/board: promote fdt from ARM VirtMachineState to MachineState
+  hw/riscv: migrate fdt field to generic MachineState
+  device_tree: add qemu_fdt_setprop_string_array helper
+  hw/core: implement a guest-loader to support static hypervisor guests
+  docs: move generic-loader documentation into the main manual
+  docs: add some documentation for the guest-loader
+  accel/meson: you only need accelerator stubs for softmmu builds
+  meson.build: fix building of Xen support for aarch64
+  meson.build: introduce CONFIG_XEN_HVM flag
+  meson.build: clean-up summary reporting of XEN and it's features
+  include/hw/xen.h: drop superfluous struct
+  stubs/xen-hw-stub: drop xenstore_store_pv_console_info stub
+  accel/stubs: drop unused cpu.h include
+  xen: only build HVM support under CONFIG_XEN_HVM
+  meson.build: build a Xen aware qemu-aarch64-system
+
+ docs/generic-loader.txt        |  92 ----------
+ docs/system/generic-loader.rst | 117 ++++++++++++
+ docs/system/guest-loader.rst   |  54 ++++++
+ docs/system/index.rst          |   2 +
+ meson.build                    |  24 ++-
+ hw/core/guest-loader.h         |  34 ++++
+ include/hw/arm/virt.h          |   1 -
+ include/hw/boards.h            |   1 +
+ include/hw/riscv/virt.h        |   1 -
+ include/hw/xen/xen.h           |   2 +-
+ include/sysemu/device_tree.h   |  17 ++
+ include/sysemu/xen-mapcache.h  |   2 +-
+ include/sysemu/xen.h           |   9 +-
+ accel/stubs/hax-stub.c         |   1 -
+ accel/stubs/xen-all-stub.c     |  11 ++
+ accel/stubs/xen-stub.c         |   2 -
+ hw/arm/virt.c                  | 322 +++++++++++++++++----------------
+ hw/core/guest-loader.c         | 140 ++++++++++++++
+ hw/riscv/virt.c                |  20 +-
+ softmmu/device_tree.c          |  26 +++
+ stubs/xen-hw-stub.c            |   4 -
+ accel/Kconfig                  |   3 +
+ accel/meson.build              |   4 +-
+ accel/stubs/meson.build        |  13 +-
+ hw/core/meson.build            |   2 +
+ hw/i386/xen/meson.build        |   2 +-
+ 26 files changed, 627 insertions(+), 279 deletions(-)
+ delete mode 100644 docs/generic-loader.txt
+ create mode 100644 docs/system/generic-loader.rst
+ create mode 100644 docs/system/guest-loader.rst
+ create mode 100644 hw/core/guest-loader.h
+ create mode 100644 accel/stubs/xen-all-stub.c
+ create mode 100644 hw/core/guest-loader.c
+
+-- 
+2.20.1
 
 
