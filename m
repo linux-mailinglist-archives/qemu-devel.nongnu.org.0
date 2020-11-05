@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 117122A84E2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:29:26 +0100 (CET)
-Received: from localhost ([::1]:51438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41BFE2A84C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:22:25 +0100 (CET)
+Received: from localhost ([::1]:34598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaj4f-0001Hd-2X
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:29:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55228)
+	id 1kaixs-0002Cw-7K
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:22:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kairy-0004Pl-1Y
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54581)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kais4-0004US-AW
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52034)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kairv-0000Ks-3k
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:17 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kairz-0000Lt-J7
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604596573;
+ s=mimecast20190719; t=1604596578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tOlQmfFaNvcfnBXreBEQVhcMzqQm6Lj5i87BO0gaUIY=;
- b=PRT2gwa+99qHrq2odIiOQ18dM7jbcEM7cNwXW9R7vfTgBBOVJe+h8yl2SRU5gyt5NhGLfD
- OBIc4NX/SDgx2JhW2ubrWrPZj8/c/AIxwVXNyhstqZ0HrglIivX5wJqgT0DLkmCtuOJSLq
- jSmyG7svOrTcQUoy9rGAARo+JnWV9BA=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-G_DELpPeO4K7qN_tgwn4Fw-1; Thu, 05 Nov 2020 12:16:12 -0500
-X-MC-Unique: G_DELpPeO4K7qN_tgwn4Fw-1
-Received: by mail-wr1-f69.google.com with SMTP id m20so970158wrb.21
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:16:11 -0800 (PST)
+ bh=SuM/NV4PbLQPpbKnL+diVRLlTqVchxOKQRecSqdKDQY=;
+ b=JycKt7mQ/8Ja5qwisbK2EWRukXmOBoUwiN/94LnXeT+cAjOSGlmFvnvoEPh7VVSL3JTSpz
+ M7ZZUKDXRCkh4Ss1jDAz1TVEAxUycw4mxJA2k0EeFDkgd+w6NlgAi86SUcZrLh7aex0gAT
+ TqIKptNsAOqHDMetO+ADjQwBzS7tgT0=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-9XYD4yS-N9S8_PrNsjctlQ-1; Thu, 05 Nov 2020 12:16:16 -0500
+X-MC-Unique: 9XYD4yS-N9S8_PrNsjctlQ-1
+Received: by mail-wr1-f71.google.com with SMTP id 67so263808wra.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:16:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=tOlQmfFaNvcfnBXreBEQVhcMzqQm6Lj5i87BO0gaUIY=;
- b=KMeM5DO3IZ/T1CJ/hkIKxSJbHuTMGeXRBLKmzlRvdgELV+G2TDOSf/DoQkObApzcRK
- n+/Vb0k9UgsmIfsUEC6p+YoTsDs6fo9h+38B3Nw46xl/j9L//hNPHvbJJASAYDURa/f1
- AEw+mNvjYF0PyabEIxY5H9Y3g8Dfjz6ncahakPuBs2AtP66OOKpq0kz/9ft9roo7VhYY
- MPl8PifByPtLXzEhXAnqbUCiR6uQwisK+7gG+CUZI4MQSkKIn6h5bomcBxKgcBIfnsWF
- ZhueA3PVyMaNObHE27tM2+xD7WZLuaS21DyHxzF55dNdF38V9aYPlMTCZ+pBehleN9dF
- kraA==
-X-Gm-Message-State: AOAM530eT9uLJCdKfmxLO8B4CBS9OoFxXDnd9ucxnu9mcK4MURHxKyuv
- LHUn3C/w1LPH+syDGj0xH5YZnNVoX/oGRMKdZUZGBROwVrbBT5/7YwnyyQYDYX5qgpi7/nZ4rGV
- jSIFKZTUp+pt3Uyc=
-X-Received: by 2002:a1c:b0ca:: with SMTP id z193mr3789371wme.82.1604596570221; 
- Thu, 05 Nov 2020 09:16:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvfqvqlzKK5CFedjgTrZgyZyvsjS9hCmWkPCgSQBeqT4AGNpwc12lTUlxpOvo1Pafoedf8qg==
-X-Received: by 2002:a1c:b0ca:: with SMTP id z193mr3789345wme.82.1604596570057; 
- Thu, 05 Nov 2020 09:16:10 -0800 (PST)
+ bh=SuM/NV4PbLQPpbKnL+diVRLlTqVchxOKQRecSqdKDQY=;
+ b=b4DTdlHA9ZmkO3ZlLKpRZSKh+itUvmyI3frAWM/eOzRNlM/bB1FpAcn7a7Z5raXqYV
+ zewcDBd3v5jGTnXfMiUrh2ZWhyGqBesjp4F9GTJ/XHH/ax2Sg6xpG2EmglMGMxJMwGK1
+ /0RjSFmXsDVVWKbwfeq2Ri6dAnKKfvdx/oQyfUbvFrEg2n5xejqNccWEwbTjAEfHuWdK
+ 85lH/YCOnzcIYXdyN8sd675BQf2yZ536NUCUUTS46NQlKIdSJ/+7nZYvu/Bq5Uh9zZEZ
+ DkSxWlvKKWm1dyTairVuGDaJHUW23pYBpLg24hk4mf8eYFp5AXWiKd2uVqpJLD2a8ICr
+ D/2Q==
+X-Gm-Message-State: AOAM532tPrmEL/9shJzxcsW7ua6xfit+how6JZnx3IoJzp7u+ONOppRv
+ J80EJ0dkmAnVWAyohgy0uI6trrPxdvF9uNvT5OC1h2O5qxcFkruG58+xXI3nPRUN3kOp/oauxSb
+ 0gHWZH2SNNjx0+ck=
+X-Received: by 2002:a7b:cb46:: with SMTP id v6mr3683603wmj.159.1604596575390; 
+ Thu, 05 Nov 2020 09:16:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzacydmB61d0VpJd9NJ5llLAgk6WvBW7odPftBvtDa+a2Gi+gsoVQOr+26h4472RuZlajkglQ==
+X-Received: by 2002:a7b:cb46:: with SMTP id v6mr3683577wmj.159.1604596575203; 
+ Thu, 05 Nov 2020 09:16:15 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id y20sm3248715wma.15.2020.11.05.09.16.08
+ by smtp.gmail.com with ESMTPSA id u202sm3663443wmu.23.2020.11.05.09.16.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 09:16:09 -0800 (PST)
+ Thu, 05 Nov 2020 09:16:14 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 08/11] gitlab-ci: Extract common job definition as
- 'native_common_job'
-Date: Thu,  5 Nov 2020 18:15:23 +0100
-Message-Id: <20201105171526.3763499-9-philmd@redhat.com>
+Subject: [RFC PATCH v2 09/11] gitlab-ci: Add rules to select cross-jobs to
+ build
+Date: Thu,  5 Nov 2020 18:15:24 +0100
+Message-Id: <20201105171526.3763499-10-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201105171526.3763499-1-philmd@redhat.com>
 References: <20201105171526.3763499-1-philmd@redhat.com>
@@ -106,43 +106,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Extract the common definitions shared by '.native_build_job'
-and '.native_test_job' to '.native_common_job'.
+Add rules to select some crossbuild jobs.
+
+The following tags are available to restrict the CI jobs:
+- all    (select all jobs, this is default)
+- cross  (select all cross-jobs)
+- system (select all cross-system jobs)
+- user   (select all cross-user jobs)
+- $ARCH  (select an architecture: arm/mips/ppc/sparc/...)
+
+Developers can combine tags in the QEMU_BUILD variable when
+pushing a branch (or tag) to repositories. Examples:
+
+  $ git push -o ci.variable="QEMU_BUILD=user"        myrepo mybranch
+  $ git push -o ci.variable="QEMU_BUILD=user,system" myrepo mybranch
+
+References:
+- https://docs.gitlab.com/ee/ci/yaml/#rulesif
+- https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.yml | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ .gitlab-ci.d/crossbuilds.yml | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index d4526323169..f708573884e 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -13,9 +13,12 @@ include:
-   - local: '/.gitlab-ci.d/containers.yml'
-   - local: '/.gitlab-ci.d/crossbuilds.yml'
- 
--.native_build_job:
--  stage: build
-+.native_common_job:
+diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
+index 701550f028c..7503d24a57b 100644
+--- a/.gitlab-ci.d/crossbuilds.yml
++++ b/.gitlab-ci.d/crossbuilds.yml
+@@ -1,6 +1,36 @@
+ .cross_common_job:
+   stage: build
    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+
-+.native_build_job:
-+  extends: .native_common_job
-+  stage: build
-   before_script:
-     - JOBS=$(expr $(nproc) + 1)
-     - sed -i s,git.qemu.org/git,gitlab.com/qemu-project, .gitmodules
-@@ -35,8 +38,8 @@ include:
-       fi
++  rules:
++    # If the if statement is true, the job is added to the pipeline.
++    # We only filter for push events
++    - if: '$CI_PIPELINE_SOURCE != "push"'
++    # Build all when no variable defined, or set to "all"
++    - if: $QEMU_BUILD == null || $QEMU_BUILD =~ /^all$/
++    # Build specific job name
++    - if: $QEMU_BUILD =~ /^$CI_JOB_NAME$/
++    # Build set of jobs by feature
++    - if: $QEMU_BUILD =~ /cross/
++    - if: $QEMU_BUILD =~ /system/ && $CI_JOB_NAME =~ /system/
++    - if: $QEMU_BUILD =~ /user/ && $CI_JOB_NAME =~ /user/
++    # Build set of jobs by arch
++    - if: $QEMU_BUILD =~ /aarch64/ && ($CI_JOB_NAME =~ /aarch64/ || $IMAGE =~ /aarch64/)
++    - if: $QEMU_BUILD =~ /alpha/ && ($CI_JOB_NAME =~ /alpha/ || $IMAGE =~ /alpha/)
++    - if: $QEMU_BUILD =~ /arm/ && ($CI_JOB_NAME =~ /arm/ || $IMAGE =~ /arm/)
++    - if: $QEMU_BUILD =~ /avr/ && ($CI_JOB_NAME =~ /avr/ || $IMAGE =~ /avr/)
++    - if: $QEMU_BUILD =~ /hppa/ && ($CI_JOB_NAME =~ /hppa/ || $IMAGE =~ /hppa/)
++    - if: $QEMU_BUILD =~ /i386/ && ($CI_JOB_NAME =~ /i386/ || $IMAGE =~ /i386/)
++    - if: $QEMU_BUILD =~ /lm32/ && ($CI_JOB_NAME =~ /lm32/ || $IMAGE =~ /lm32/)
++    - if: $QEMU_BUILD =~ /m68k/ && ($CI_JOB_NAME =~ /m68k/ || $IMAGE =~ /m68k/)
++    - if: $QEMU_BUILD =~ /ppc/ && ($CI_JOB_NAME =~ /ppc/ || $IMAGE =~ /ppc/)
++    - if: $QEMU_BUILD =~ /riscv/ && ($CI_JOB_NAME =~ /riscv/ || $IMAGE =~ /riscv/)
++    - if: $QEMU_BUILD =~ /s390x/ && ($CI_JOB_NAME =~ /s390x/ || $IMAGE =~ /s390x/)
++    - if: $QEMU_BUILD =~ /sparc/ && ($CI_JOB_NAME =~ /sparc/ || $IMAGE =~ /sparc/)
++    - if: $QEMU_BUILD =~ /tricore/ && ($CI_JOB_NAME =~ /tricore/ || $IMAGE =~ /tricore/)
++    - if: $QEMU_BUILD =~ /x86/ && ($CI_JOB_NAME =~ /x86/ || $IMAGE =~ /x86/)
++    - if: $QEMU_BUILD =~ /xtensa/ && ($CI_JOB_NAME =~ /xtensa/ || $IMAGE =~ /xtensa/)
++    # In all other cases, the job is excluded from a pipeline.
++    - when: never
  
- .native_test_job:
-+  extends: .native_common_job
-   stage: test
--  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-   script:
-     - cd build
-     - find . -type f -exec touch {} +
+ .cross_system_build_job:
+   extends: .cross_common_job
 -- 
 2.26.2
 
