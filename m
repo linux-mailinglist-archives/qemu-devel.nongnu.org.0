@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33AB72A88EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 22:27:22 +0100 (CET)
-Received: from localhost ([::1]:39596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DDB52A8907
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 22:29:23 +0100 (CET)
+Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kammv-0005Ck-8g
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 16:27:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54652)
+	id 1kamos-00073r-AO
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 16:29:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kamj8-0002nt-9r
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 16:23:26 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42560)
+ id 1kamj9-0002oP-B8
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 16:23:27 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:40366)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kamj5-0005Tf-A6
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 16:23:26 -0500
-Received: by mail-wr1-x443.google.com with SMTP id w14so3394714wrs.9
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 13:23:20 -0800 (PST)
+ id 1kamj5-0005Tj-B4
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 16:23:27 -0500
+Received: by mail-wr1-x441.google.com with SMTP id 33so3397735wrl.7
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 13:23:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U8KdOlXXLYO3hwpDlX+ZEhUYjGxzebIeovcN6OjRKh4=;
- b=JtUfeBafB1Saa9/5UUEgPDrfD2799oLlSmNOMBeYSAz74HfSB8tfhPR04akGHpy7cC
- PFukcOeLDahImogqLaaFxwdbGS7ySjtdrkuY9s7/JYFqG+pAd6mgZAbDp3tKiUHUphdX
- qf2FxhFt9kzUoqNLrIg+pRyK5N8svpznlCDCyDU78RCTglAN+3tGhNmQmZ/V22Vic56k
- 7FtuzxG2pjgQF7UBHBMt0IQBgVRz79vli8KDpS0mHl3pnwlHpK/UepPoyPfeHxDJFFUy
- RQdPUS7gTWEKXiqq1jHy2txzjV1oUUyERUc3BI9ANAO0KQEgqSWii1oDdLLRMyjzV+x6
- VpCw==
+ bh=MvkEJhOTTURl32F+uN0ekuj0WJYncaqeHJMVTEXiVk4=;
+ b=HMdI09Xs/+trcFkmEhJq0dfdIe8E649T4Ov3fA9K/F5N6HBMQOEEiDs0Qxd8j0TWvs
+ BKG+COYBtztDNpynLfJsFXuL6QflprNjTughelbUxsJWEBPW6FUOWflYM3b4fXyR2sQq
+ mCTMi5+v7YBGbGBm5vuu55Z21buOJ3g2vxFJlY/n2cY3CT27qs9b/0Qrb1NGUTbBdpJN
+ Z3wn/QY0ESNXFejfLIED4469WPjl1fKLYyAGWGGQaULrPAi4AHtZrVtEPQNlJQq6vXLM
+ cjgRzoRnGtkYly5+h/4rr/nXZz476A6mYnxAlSrnZeOz1T1RUZTzmqkVUNwwvdlV7S9G
+ 1W7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U8KdOlXXLYO3hwpDlX+ZEhUYjGxzebIeovcN6OjRKh4=;
- b=hYpVzJTlpiSWTWcHECOv4ZNpLc22fVNln/W2B7fxFwMtPt1jXpng4njUVOAeiUUaiC
- bphX1Fba8aB198DyuQTLlaiSIVzFQDjUEAcLfi3udce4gZWpIeue0e8bJ2PWXzZCz/cz
- u5wyvFpLGujWblgYVZKakDuTkfO9ph83qaobQEZxqIs3qyYMaqh0JUWCJu0JHEpF+QEY
- AWzaSu+OnHeEaZ/yvW9nVC6kebhibxpL+bWMkf1HZFiB8OhO3Lav5nx1hQzHA8bO3ZUf
- m9kEaqK47wV6z1oyM42yLtE7oKgn2vygQLuwbRoKNaCkm0coplyshZoZII3XR3ghhA1p
- 0HDQ==
-X-Gm-Message-State: AOAM531kil0Ml302Ihm4vMM93MhHpv6yshe95tdxuLUwIPuir2+dd9tY
- jGOyGkPXIxgGKCQhPXXQGXP6Q3MMF+53xw==
-X-Google-Smtp-Source: ABdhPJxYpn23cpDQHJLVI9g4osRK6O5+iMy7YSc6U2tnsvTzpRFi7/CvMXIYzuyO/tn5kbrBpHGnPA==
-X-Received: by 2002:a5d:4448:: with SMTP id x8mr4613841wrr.364.1604611399675; 
- Thu, 05 Nov 2020 13:23:19 -0800 (PST)
+ bh=MvkEJhOTTURl32F+uN0ekuj0WJYncaqeHJMVTEXiVk4=;
+ b=Aq76iRaUbrPjWhTsyaA6gg8FLkaGiOIzUaxJ+AJsveRXfdg97+7iEkUBfLQ+1XUva0
+ w+CiMuuf8BuAUacen0729zbmeIq5CSHZLo+fMqoAudRdE1Xh7qbKjVb/jeJQxs9GdvLo
+ FNad/A5EX4qAmkbZqTXopLd4EivbIeELgJ/dSB1qX4i1+ruBOWQ9jbbhisTVLBJ+wt9h
+ t4qnJNAkp78G+0OHm4y48yzIpIkmEyrBItKxZlqCMzVSTEuqiLd+w0/U5/AirflhXhTW
+ gHzSGP3rlhhgqDbzWhVkoI3zf0ofmVni+LHsXcShrjigmrypM3+eYVCHOPBSJXtmTm3K
+ ae8w==
+X-Gm-Message-State: AOAM530gQPf/nXEEiCvgkFvQ1IuOJUH/J4GHABHqcfIqLEOwVClTDwWG
+ 8CkUWjVZHcAEu61F0MTRVpJfwU14HWy/Lg==
+X-Google-Smtp-Source: ABdhPJwXqA727fOm6dk3+A5Uvj4hJyAoKDWQPnwY9wfLO5yq2hQFTPbUgSgX4ZYlmzoCpRl0QFRR2Q==
+X-Received: by 2002:adf:80c8:: with SMTP id 66mr5252857wrl.415.1604611400761; 
+ Thu, 05 Nov 2020 13:23:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id e25sm4861587wrc.76.2020.11.05.13.23.18
+ by smtp.gmail.com with ESMTPSA id e25sm4861587wrc.76.2020.11.05.13.23.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 13:23:19 -0800 (PST)
+ Thu, 05 Nov 2020 13:23:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 2/3] linux-user/sparc: Correct set/get_context
- handling of fp and i7
-Date: Thu,  5 Nov 2020 21:23:13 +0000
-Message-Id: <20201105212314.9628-3-peter.maydell@linaro.org>
+Subject: [PATCH for-5.2 3/3] linux-user/sparc: Don't zero high half of PC, NPC,
+ PSR in sigreturn
+Date: Thu,  5 Nov 2020 21:23:14 +0000
+Message-Id: <20201105212314.9628-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201105212314.9628-1-peter.maydell@linaro.org>
 References: <20201105212314.9628-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -92,129 +92,37 @@ Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Because QEMU's user-mode emulation just directly accesses guest CPU
-state, for SPARC the guest register window state is not the same in
-the sparc64_get_context() and sparc64_set_context() functions as it
-is for the real kernel's versions of those functions.  Specifically,
-for the kernel it has saved the user space state such that the O*
-registers go into a pt_regs struct as UREG_I*, and the I* registers
-have been spilled onto the userspace stack.  For QEMU, we haven't
-done that, so the guest's O* registers are still in WREG_O* and the
-I* registers in WREG_I*.
+The function do_sigreturn() tries to store the PC, NPC and PSR in
+uint32_t local variables, which implicitly drops the high half of
+these fields for 64-bit guests.
 
-The code was already accessing the O* registers correctly for QEMU,
-but had copied the kernel code for accessing the I* registers off the
-userspace stack.  Replace this with direct accesses to fp and i7 in
-the CPU state, and add a comment explaining why we differ from the
-kernel code here.
+The usual effect was that a guest which used signals would crash on
+return from a signal unless it was lucky enough to take it while the
+PC was in the low 4GB of the address space.  In particular, Debian
+/bin/dash and /bin/bash would segfault after executing external
+commands.
 
-This fix is sufficient to get bash to a shell prompt.
+Use abi_ulong, which is the type these fields all have in the
+__siginfo_t struct.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-I'm really pretty unsure about our handling of SPARC register
-windows here. This fix works, but should we instead be
-ensuring that the flush_windows() call cpu_loop() does
-before handling this trap has written the I* regs to the
-stack ???
----
- linux-user/sparc/signal.c | 47 ++++++++++++++++++---------------------
- 1 file changed, 22 insertions(+), 25 deletions(-)
+ linux-user/sparc/signal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/linux-user/sparc/signal.c b/linux-user/sparc/signal.c
-index 57ea1593bfc..c315704b389 100644
+index c315704b389..d12adc8e6ff 100644
 --- a/linux-user/sparc/signal.c
 +++ b/linux-user/sparc/signal.c
-@@ -403,7 +403,6 @@ void sparc64_set_context(CPUSPARCState *env)
-     struct target_ucontext *ucp;
-     target_mc_gregset_t *grp;
-     abi_ulong pc, npc, tstate;
--    abi_ulong fp, i7, w_addr;
-     unsigned int i;
- 
-     ucp_addr = env->regwptr[WREG_O0];
-@@ -447,6 +446,15 @@ void sparc64_set_context(CPUSPARCState *env)
-     __get_user(env->gregs[5], (&(*grp)[SPARC_MC_G5]));
-     __get_user(env->gregs[6], (&(*grp)[SPARC_MC_G6]));
-     __get_user(env->gregs[7], (&(*grp)[SPARC_MC_G7]));
-+
-+    /*
-+     * Note that unlike the kernel, we didn't need to mess with the
-+     * guest register window state to save it into a pt_regs to run
-+     * the kernel. So for us the guest's O regs are still in WREG_O*
-+     * (unlike the kernel which has put them in UREG_I* in a pt_regs)
-+     * and the fp and i7 are still in WREG_I6 and WREG_I7 and don't
-+     * need to be written back to userspace memory.
-+     */
-     __get_user(env->regwptr[WREG_O0], (&(*grp)[SPARC_MC_O0]));
-     __get_user(env->regwptr[WREG_O1], (&(*grp)[SPARC_MC_O1]));
-     __get_user(env->regwptr[WREG_O2], (&(*grp)[SPARC_MC_O2]));
-@@ -456,18 +464,9 @@ void sparc64_set_context(CPUSPARCState *env)
-     __get_user(env->regwptr[WREG_O6], (&(*grp)[SPARC_MC_O6]));
-     __get_user(env->regwptr[WREG_O7], (&(*grp)[SPARC_MC_O7]));
- 
--    __get_user(fp, &(ucp->tuc_mcontext.mc_fp));
--    __get_user(i7, &(ucp->tuc_mcontext.mc_i7));
-+    __get_user(env->regwptr[WREG_FP], &(ucp->tuc_mcontext.mc_fp));
-+    __get_user(env->regwptr[WREG_I7], &(ucp->tuc_mcontext.mc_i7));
- 
--    w_addr = TARGET_STACK_BIAS + env->regwptr[WREG_O6];
--    if (put_user(fp, w_addr + offsetof(struct target_reg_window, ins[6]),
--                 abi_ulong) != 0) {
--        goto do_sigsegv;
--    }
--    if (put_user(i7, w_addr + offsetof(struct target_reg_window, ins[7]),
--                 abi_ulong) != 0) {
--        goto do_sigsegv;
--    }
-     /* FIXME this does not match how the kernel handles the FPU in
-      * its sparc64_set_context implementation. In particular the FPU
-      * is only restored if fenab is non-zero in:
-@@ -501,7 +500,6 @@ void sparc64_get_context(CPUSPARCState *env)
-     struct target_ucontext *ucp;
-     target_mc_gregset_t *grp;
-     target_mcontext_t *mcp;
--    abi_ulong fp, i7, w_addr;
-     int err;
-     unsigned int i;
-     target_sigset_t target_set;
-@@ -553,6 +551,15 @@ void sparc64_get_context(CPUSPARCState *env)
-     __put_user(env->gregs[5], &((*grp)[SPARC_MC_G5]));
-     __put_user(env->gregs[6], &((*grp)[SPARC_MC_G6]));
-     __put_user(env->gregs[7], &((*grp)[SPARC_MC_G7]));
-+
-+    /*
-+     * Note that unlike the kernel, we didn't need to mess with the
-+     * guest register window state to save it into a pt_regs to run
-+     * the kernel. So for us the guest's O regs are still in WREG_O*
-+     * (unlike the kernel which has put them in UREG_I* in a pt_regs)
-+     * and the fp and i7 are still in WREG_I6 and WREG_I7 and don't
-+     * need to be fished out of userspace memory.
-+     */
-     __put_user(env->regwptr[WREG_O0], &((*grp)[SPARC_MC_O0]));
-     __put_user(env->regwptr[WREG_O1], &((*grp)[SPARC_MC_O1]));
-     __put_user(env->regwptr[WREG_O2], &((*grp)[SPARC_MC_O2]));
-@@ -562,18 +569,8 @@ void sparc64_get_context(CPUSPARCState *env)
-     __put_user(env->regwptr[WREG_O6], &((*grp)[SPARC_MC_O6]));
-     __put_user(env->regwptr[WREG_O7], &((*grp)[SPARC_MC_O7]));
- 
--    w_addr = TARGET_STACK_BIAS + env->regwptr[WREG_O6];
--    fp = i7 = 0;
--    if (get_user(fp, w_addr + offsetof(struct target_reg_window, ins[6]),
--                 abi_ulong) != 0) {
--        goto do_sigsegv;
--    }
--    if (get_user(i7, w_addr + offsetof(struct target_reg_window, ins[7]),
--                 abi_ulong) != 0) {
--        goto do_sigsegv;
--    }
--    __put_user(fp, &(mcp->mc_fp));
--    __put_user(i7, &(mcp->mc_i7));
-+    __put_user(env->regwptr[WREG_FP], &(mcp->mc_fp));
-+    __put_user(env->regwptr[WREG_I7], &(mcp->mc_i7));
- 
-     {
-         uint32_t *dst = ucp->tuc_mcontext.mc_fpregs.mcfpu_fregs.sregs;
+@@ -247,7 +247,7 @@ long do_sigreturn(CPUSPARCState *env)
+ {
+     abi_ulong sf_addr;
+     struct target_signal_frame *sf;
+-    uint32_t up_psr, pc, npc;
++    abi_ulong up_psr, pc, npc;
+     target_sigset_t set;
+     sigset_t host_set;
+     int i;
 -- 
 2.20.1
 
