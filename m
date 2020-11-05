@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80E592A80EF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 15:31:19 +0100 (CET)
-Received: from localhost ([::1]:45204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2072A80F8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 15:32:53 +0100 (CET)
+Received: from localhost ([::1]:51602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kagII-0006Y2-IA
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 09:31:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42524)
+	id 1kagJo-0000os-OX
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 09:32:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kagEl-00036L-De
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:27:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56458)
+ id 1kagFV-00040t-Tb
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:28:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kagEj-0003iy-K6
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:27:39 -0500
+ id 1kagEt-0003ky-9b
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 09:28:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604586456;
+ s=mimecast20190719; t=1604586464;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qAcxVrJzljDRrn3EsYDcI0495qT8KRNfd4NFuKZhc2o=;
- b=GvRbibFYOjKTVwI+CcfNYheGshuVavzOlLj4fUS3Cyn8ONGovJNXbel3qrcPtb9PvcMaSI
- T6OQaeUTlE2dtJoG8UtLOe8gjR3KT2V2r603LHtsNEtLyzPSedBMiOcriZLwbVM6652Gx6
- LU8BXOV31hA+unWG1qfQfCcJDL1dF6g=
+ bh=x9RKO7Aiu+meuiVdQPRnrmJ5BkquMOmAuVrZOnp1c+4=;
+ b=Bu5j97USR8tx8OmfQGKAx5y4M4ZFCRQPYPWhjJH9zJEx0Z4FwPLe8cS0Spe1txdHXdkLq1
+ FeCclTW0zMm7B0E8NtTfToOm9lLx8jRZ8Gu8Oqmlys1tQb4zyVSwLItssLFsSdtIUGjMGB
+ b68YNoVZbK1w4myz3vfD8DbUGcGaINY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-uEB-qt5EPtmQVJpqRlVP1g-1; Thu, 05 Nov 2020 09:27:33 -0500
-X-MC-Unique: uEB-qt5EPtmQVJpqRlVP1g-1
+ us-mta-534-HUBD8k4YOleuTlS5miI1Ew-1; Thu, 05 Nov 2020 09:27:42 -0500
+X-MC-Unique: HUBD8k4YOleuTlS5miI1Ew-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEBF987951E
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 14:27:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D94211CC7E1
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 14:27:41 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7D0625DA78;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA9905DA78;
  Thu,  5 Nov 2020 14:27:32 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] qemu-option: move help handling to get_opt_name_value
-Date: Thu,  5 Nov 2020 09:27:30 -0500
-Message-Id: <20201105142731.623428-2-pbonzini@redhat.com>
+Subject: [PATCH 2/2] qemu-option: warn for short-form boolean options
+Date: Thu,  5 Nov 2020 09:27:31 -0500
+Message-Id: <20201105142731.623428-3-pbonzini@redhat.com>
 In-Reply-To: <20201105142731.623428-1-pbonzini@redhat.com>
 References: <20201105142731.623428-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -85,142 +85,178 @@ Cc: berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now, help options are parsed normally and then checked
-specially in opt_validate. but only if coming from
-qemu_opts_parse or qemu_opts_parse_noisily.
-Move the check from opt_validate to the common workhorses
-of qemu_opts_parse and qemu_opts_parse_noisily, opts_do_parse
-and get_opt_name_value.
+Options such as "server" or "nowait", that are commonly found in -chardev,
+are sugar for "server=on" and "wait=off".  This is quite surprising and
+also does not have any notion of typing attached.  It is even possible to
+do "-device e1000,noid" and get a device with "id=off".
 
-As a result, opts_parse and opts_do_parse do not return an error anymore
-when help is requested---just like qemu_opts_parse_noisily.
-
-This will come in handy in the next patch, which will
-raise a warning for "-object memory-backend-ram,share"
-("flag" option with no =on/=off part) but not for
-"-object memory-backend-ram,help".
+Deprecate all this, except for -chardev and -spice where it is in
+wide use.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/qemu-option.c | 40 ++++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+ chardev/char.c             |  1 +
+ docs/system/deprecated.rst |  7 +++++++
+ include/qemu/option.h      |  1 +
+ tests/test-qemu-opts.c     |  1 +
+ ui/spice-core.c            |  1 +
+ util/qemu-option.c         | 21 ++++++++++++++-------
+ 6 files changed, 25 insertions(+), 7 deletions(-)
 
+diff --git a/chardev/char.c b/chardev/char.c
+index 78553125d3..108da615df 100644
+--- a/chardev/char.c
++++ b/chardev/char.c
+@@ -829,6 +829,7 @@ Chardev *qemu_chr_find(const char *name)
+ 
+ QemuOptsList qemu_chardev_opts = {
+     .name = "chardev",
++    .allow_flag_options = true, /* server, nowait, etc. */
+     .implied_opt_name = "backend",
+     .head = QTAILQ_HEAD_INITIALIZER(qemu_chardev_opts.head),
+     .desc = {
+diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+index 32a0e620db..0e7edf7e56 100644
+--- a/docs/system/deprecated.rst
++++ b/docs/system/deprecated.rst
+@@ -146,6 +146,13 @@ Drives with interface types other than ``if=none`` are for onboard
+ devices.  It is possible to use drives the board doesn't pick up with
+ -device.  This usage is now deprecated.  Use ``if=none`` instead.
+ 
++Short-form boolean options (since 5.2)
++''''''''''''''''''''''''''''''''''''''
++
++Boolean options such as ``share=on``/``share=off`` can be written
++in short form as ``share`` and ``noshare``.  This is deprecated
++for all command-line options except ``-chardev` and ``-spice``, for
++which the short form was in wide use.
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index ac69352e0e..046ac06a1f 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -65,6 +65,7 @@ struct QemuOptsList {
+     const char *name;
+     const char *implied_opt_name;
+     bool merge_lists;  /* Merge multiple uses of option into a single list? */
++    bool allow_flag_options; /* Whether to warn for short-form boolean options */
+     QTAILQ_HEAD(, QemuOpts) head;
+     QemuOptDesc desc[];
+ };
+diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
+index 297ffe79dd..a74c475773 100644
+--- a/tests/test-qemu-opts.c
++++ b/tests/test-qemu-opts.c
+@@ -77,6 +77,7 @@ static QemuOptsList opts_list_02 = {
+ static QemuOptsList opts_list_03 = {
+     .name = "opts_list_03",
+     .implied_opt_name = "implied",
++    .allow_flag_options = true,
+     .head = QTAILQ_HEAD_INITIALIZER(opts_list_03.head),
+     .desc = {
+         /* no elements => accept any params */
+diff --git a/ui/spice-core.c b/ui/spice-core.c
+index eea52f5389..08f834fa41 100644
+--- a/ui/spice-core.c
++++ b/ui/spice-core.c
+@@ -397,6 +397,7 @@ static SpiceChannelList *qmp_query_spice_channels(void)
+ 
+ static QemuOptsList qemu_spice_opts = {
+     .name = "spice",
++    .allow_flag_options = true, /* disable-agent-file-xfer, sasl, unix, etc. */
+     .head = QTAILQ_HEAD_INITIALIZER(qemu_spice_opts.head),
+     .merge_lists = true,
+     .desc = {
 diff --git a/util/qemu-option.c b/util/qemu-option.c
-index acefbc23fa..61fc96f9dd 100644
+index 61fc96f9dd..858860377b 100644
 --- a/util/qemu-option.c
 +++ b/util/qemu-option.c
-@@ -504,17 +504,13 @@ static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value,
-     return opt;
- }
- 
--static bool opt_validate(QemuOpt *opt, bool *help_wanted,
--                         Error **errp)
-+static bool opt_validate(QemuOpt *opt, Error **errp)
- {
-     const QemuOptDesc *desc;
- 
-     desc = find_desc_by_name(opt->opts->list->desc, opt->name);
-     if (!desc && !opts_accepts_any(opt->opts)) {
-         error_setg(errp, QERR_INVALID_PARAMETER, opt->name);
--        if (help_wanted && is_help_option(opt->name)) {
--            *help_wanted = true;
--        }
-         return false;
-     }
- 
-@@ -531,7 +527,7 @@ bool qemu_opt_set(QemuOpts *opts, const char *name, const char *value,
- {
-     QemuOpt *opt = opt_create(opts, name, g_strdup(value), false);
- 
--    if (!opt_validate(opt, NULL, errp)) {
-+    if (!opt_validate(opt, errp)) {
-         qemu_opt_del(opt);
-         return false;
-     }
-@@ -767,16 +763,18 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
+@@ -763,10 +763,12 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
  
  static const char *get_opt_name_value(const char *params,
                                        const char *firstname,
-+                                      bool *help_wanted,
++                                      bool warn_on_flag,
+                                       bool *help_wanted,
                                        char **name, char **value)
  {
--    const char *p, *pe, *pc;
--
--    pe = strchr(params, '=');
--    pc = strchr(params, ',');
-+    const char *p;
-+    size_t len;
+     const char *p;
++    const char *prefix = "";
+     size_t len;
  
--    if (!pe || (pc && pc < pe)) {
-+    len = strcspn(params, "=,");
-+    if (params[len] != '=') {
-         /* found "foo,more" */
--        if (firstname) {
-+        if (help_wanted && starts_with_help_option(params) == len) {
-+            *help_wanted = true;
-+        } else if (firstname) {
-             /* implicitly named first option */
-             *name = g_strdup(firstname);
-             p = get_opt_value(params, value);
-@@ -814,7 +812,10 @@ static bool opts_do_parse(QemuOpts *opts, const char *params,
+     len = strcspn(params, "=,");
+@@ -784,9 +786,14 @@ static const char *get_opt_name_value(const char *params,
+             if (strncmp(*name, "no", 2) == 0) {
+                 memmove(*name, *name + 2, strlen(*name + 2) + 1);
+                 *value = g_strdup("off");
++                prefix = "no";
+             } else {
+                 *value = g_strdup("on");
+             }
++            if (warn_on_flag) {
++                error_report("short-form boolean option '%s%s' deprecated", prefix, *name);
++                error_printf("Please use %s=%s instead\n", *name, *value);
++            }
+         }
+     } else {
+         /* found "foo=bar,more" */
+@@ -805,14 +812,14 @@ static const char *get_opt_name_value(const char *params,
+ 
+ static bool opts_do_parse(QemuOpts *opts, const char *params,
+                           const char *firstname, bool prepend,
+-                          bool *help_wanted, Error **errp)
++                          bool warn_on_flag, bool *help_wanted, Error **errp)
+ {
+     char *option, *value;
+     const char *p;
      QemuOpt *opt;
  
      for (p = params; *p;) {
--        p = get_opt_name_value(p, firstname, &option, &value);
-+        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-+        if (help_wanted && *help_wanted) {
-+            return false;
-+        }
-         firstname = NULL;
- 
-         if (!strcmp(option, "id")) {
-@@ -825,7 +826,7 @@ static bool opts_do_parse(QemuOpts *opts, const char *params,
- 
-         opt = opt_create(opts, option, value, prepend);
-         g_free(option);
--        if (!opt_validate(opt, help_wanted, errp)) {
-+        if (!opt_validate(opt, errp)) {
-             qemu_opt_del(opt);
+-        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
++        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
+         if (help_wanted && *help_wanted) {
              return false;
          }
-@@ -840,7 +841,7 @@ static char *opts_parse_id(const char *params)
+@@ -841,7 +848,7 @@ static char *opts_parse_id(const char *params)
      char *name, *value;
  
      for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, &name, &value);
-+        p = get_opt_name_value(p, NULL, NULL, &name, &value);
+-        p = get_opt_name_value(p, NULL, NULL, &name, &value);
++        p = get_opt_name_value(p, NULL, false, NULL, &name, &value);
          if (!strcmp(name, "id")) {
              g_free(name);
              return value;
-@@ -856,11 +857,10 @@ bool has_help_option(const char *params)
- {
-     const char *p;
-     char *name, *value;
--    bool ret;
-+    bool ret = false;
+@@ -860,7 +867,7 @@ bool has_help_option(const char *params)
+     bool ret = false;
  
      for (p = params; *p;) {
--        p = get_opt_name_value(p, NULL, &name, &value);
--        ret = is_help_option(name);
-+        p = get_opt_name_value(p, NULL, &ret, &name, &value);
+-        p = get_opt_name_value(p, NULL, &ret, &name, &value);
++        p = get_opt_name_value(p, NULL, false, &ret, &name, &value);
          g_free(name);
          g_free(value);
          if (ret) {
-@@ -946,10 +946,10 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
-     bool help_wanted = false;
+@@ -880,7 +887,7 @@ bool has_help_option(const char *params)
+ bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
+                        const char *firstname, Error **errp)
+ {
+-    return opts_do_parse(opts, params, firstname, false, NULL, errp);
++    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
+ }
  
-     opts = opts_parse(list, params, permit_abbrev, false, &help_wanted, &err);
--    if (err) {
-+    if (!opts) {
-+        assert(!!err + !!help_wanted == 1);
-         if (help_wanted) {
-             qemu_opts_print_help(list, true);
--            error_free(err);
-         } else {
-             error_report_err(err);
-         }
+ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+@@ -908,8 +915,8 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
+         return NULL;
+     }
+ 
+-    if (!opts_do_parse(opts, params, firstname, defaults, help_wanted,
+-                       errp)) {
++    if (!opts_do_parse(opts, params, firstname, defaults,
++                       !list->allow_flag_options, help_wanted, errp)) {
+         qemu_opts_del(opts);
+         return NULL;
+     }
 -- 
 2.26.2
-
 
 
