@@ -2,64 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF8B32A83B9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 17:42:36 +0100 (CET)
-Received: from localhost ([::1]:33238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA522A8398
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 17:35:41 +0100 (CET)
+Received: from localhost ([::1]:47432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaiLL-0008GQ-Ud
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 11:42:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44832)
+	id 1kaiEe-0001mQ-8F
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 11:35:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaiC8-0000CX-8p
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 11:33:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60445)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kaiDT-0001D4-JE
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 11:34:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1kaiC5-0006CT-SB
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 11:33:03 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1kaiDR-0006hM-Qh
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 11:34:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604593981;
+ s=mimecast20190719; t=1604594064;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=5zIPaJ+TzRB5R378/Kg5Nk3DMZCatxdKPD0c3SCkNPQ=;
- b=H9fmpUZ56yZierTc3p3VyN2aWiu1CxUV915rcij7hMYArYvXJsP55aSw6YI3c8On0iIDe/
- gAKXxSP0Bs9+XGpMoUSqMrvw/xdhu7sZkpB3C3tZVRS2ZoLQHPWzLpvhLIPt72YofLdzPm
- rvewfLdGmOkHNU+ehkHMdOnN3Ls/mNw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-586-lyvv_eLhOLCMfFvTYB33MA-1; Thu, 05 Nov 2020 11:32:57 -0500
-X-MC-Unique: lyvv_eLhOLCMfFvTYB33MA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3B42884E7F;
- Thu,  5 Nov 2020 16:32:39 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-31.ams2.redhat.com
- [10.36.114.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A646CE4E;
- Thu,  5 Nov 2020 16:32:36 +0000 (UTC)
-Subject: Re: [PATCH v4] block: Fix integer promotion error in bdrv_getlength()
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20201105155122.60943-1-eblake@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <3aaa7cba-58db-315c-cc75-7fc160ff7c58@redhat.com>
-Date: Thu, 5 Nov 2020 17:32:35 +0100
+ bh=Vh/TXgiE8fmcF8isdTd+PiNUDsUWBqZxyrOU+UmhEwg=;
+ b=IZqxhYcDdl2OfnRw8eyS1CZf0YI4o/n9RKvQ2BNhuc5XObnTnhUQBYUIAPOIy76vwrV9ld
+ lnTX7zm0RrmCGliwwlpyvCtyxPFV02wVzXcTFz4mYQG4O0PMUllKL65AKSfM32md4LZxDE
+ M2UaiMOxY0H9P9IkVbfGShUOQd+hIYE=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-Mdv76oXbO76BB2Cer7lR6Q-1; Thu, 05 Nov 2020 11:34:22 -0500
+X-MC-Unique: Mdv76oXbO76BB2Cer7lR6Q-1
+Received: by mail-ej1-f72.google.com with SMTP id nt22so791518ejb.17
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 08:34:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Vh/TXgiE8fmcF8isdTd+PiNUDsUWBqZxyrOU+UmhEwg=;
+ b=srKwB8/jaE0vtqnR2T4WMYyohnm+hKkD/A6bF9XTjyaqN2K6i1EtB/2Z10ZlNbX/1G
+ xQfeJxqWKThZW5PIgu+3YvmMLk+/FpahEUqv3kt8ltU5MqZ5srf87i4UdNc6fsumlacV
+ SgK/mtglaAXxG+r5ZGL9kDjzh+mWyYo0TACjyBSMjLUeHSPlTaZMoIHx5S6TeOryZYiI
+ 4ZnSkzWr+YDNH1JECyoGVZ4yZMSvAbFZJn4rDemr9DZqVIQGs/nBxjAGuKlZeyhul97m
+ kXsqdpE8shj7LBP4wbv9lIw9pug0jWoCnuMtWezmslrptx32enDkOpXptc0dpvIxWj2E
+ VzXw==
+X-Gm-Message-State: AOAM530VaEXdiNrhDGgWzbmtyUJVf2UjmqkwIxvrwq0IhCOyd7rf6GMs
+ qEtOnpe2vQpk52oq8n5nO+o6JcW4RLNSUA1tVcuF/tJEQfJs/CsCMQPew0of7KDetsqq5iCnvCn
+ eYe21cSc9Xqv6N7c=
+X-Received: by 2002:a50:b5e1:: with SMTP id a88mr3499417ede.5.1604594061054;
+ Thu, 05 Nov 2020 08:34:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwMcP/0ogfOxHTXAol/lnyzGHcSb6pRD5KknqklgrayYqPQkJEdHPXedaySYAZZFkubrwjh+w==
+X-Received: by 2002:a50:b5e1:: with SMTP id a88mr3499402ede.5.1604594060854;
+ Thu, 05 Nov 2020 08:34:20 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id 11sm1235234ejy.19.2020.11.05.08.34.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Nov 2020 08:34:19 -0800 (PST)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ QEMU <qemu-devel@nongnu.org>
+References: <CAJ+F1CJ7KpB8C6-_+Gdh6twqjjRMweERUapw4tfjKyMqa6AM0w@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Documents not in sphinx toctree
+Message-ID: <8965346b-928f-d4f6-f0fb-3795e9df91bf@redhat.com>
+Date: Thu, 5 Nov 2020 17:34:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201105155122.60943-1-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <CAJ+F1CJ7KpB8C6-_+Gdh6twqjjRMweERUapw4tfjKyMqa6AM0w@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,7 +89,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,31 +102,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, chengchiwen@h3c.com, berto@igalia.com, tu.guoyi@h3c.com,
- "open list:Block layer core" <qemu-block@nongnu.org>, armbru@redhat.com,
- wang.yongD@h3c.com
+Cc: Pankaj Gupta <pagupta@redhat.com>, Jens Freimann <jfreimann@redhat.com>,
+ Sergio Lopez <slp@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05.11.20 16:51, Eric Blake wrote:
-> Back in 2015, we attempted to fix error reporting for images that
-> claimed to have more than INT64_MAX/512 sectors, but due to the type
-> promotions caused by BDRV_SECTOR_SIZE being unsigned, this
-> inadvertently forces all negative ret values to be slammed into -EFBIG
-> rather than the original error.  While we're at it, we can avoid the
-> confusing ?: by spelling the logic more directly.
+On 05/11/20 17:12, Marc-André Lureau wrote:
+> Hi,
 > 
-> Fixes: 4a9c9ea0d3
-> Reported-by: Guoyi Tu <tu.guoyi@h3c.com>
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->   block.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+> By running sphinx over the docs/ directory (like readthedocs.org 
+> <http://readthedocs.org> presumably does), it finds a couple of rst 
+> documents that are not referenced:
+> - cpu-hotplug.rst
+> - microvm.rst
+> - pr-manager.rst
+> - virtio-net-failover.rst
+> - virtio-pmem.rst
+> 
+> Shouldn't they be?
+> 
+> If not (I wonder why), there should be a way to explicitly exclude 
+> those, and avoid extra warnings.
 
-Thanks, applied to my block branch (replacing the original patch):
+They were written or converted after we had decided to switch to Sphinx, 
+but before we had a proper manual structure.
 
-https://git.xanclic.moe/XanClic/qemu/commits/branch/block
+The problem is finding them a place...
 
-Max
+Paolo
 
 
