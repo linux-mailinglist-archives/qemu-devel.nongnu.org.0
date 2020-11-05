@@ -2,75 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1408B2A84B7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:19:12 +0100 (CET)
-Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B42B2A849F
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:16:31 +0100 (CET)
+Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaiul-00074H-31
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:19:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54040)
+	id 1kaisA-0003Fo-6z
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:16:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kainQ-0008Ur-SW
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:11:38 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:46004)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kainO-00086h-KP
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:11:36 -0500
-Received: by mail-pl1-x635.google.com with SMTP id z1so1069365plo.12
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:11:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kNbjBkupF0zVjgUXfsX0pswQ6D+6HK9IRUb0+XAw64M=;
- b=bBDKNXVA2RSk/S/ZU9iptMBa2CDUYQ3WYvZGtdfIgnN4x5BsSWtE968o0weK7s+n8k
- 62UF5kiwNYJf4v/3J7nhgs5/usCgnU1O5ezaqu87SXTjabfWd8YhUbxQKJA5v5moU7TL
- G0IEgGAJjMPL0Maf3Q3HOwxMwj1p/zHmhuxlwXCgU0Z9mTQdXWLGOYglPP/nz+/+hDo8
- 4eB7uBRXR1UYXIavJ4KRNXCvtX+2lYnXWPlqVJi3mH3McQ/jH3Y0velOUpWFTiC49t/o
- ZH17BX3OgJLuLr7VSZA07PZLgHXOPUghb/ubAKhFoHexiRE2htJsMKEG8YdLa1Y9bDsm
- uY9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kNbjBkupF0zVjgUXfsX0pswQ6D+6HK9IRUb0+XAw64M=;
- b=AD60of7o2hMzJBUQ3o8Uzp74D2yaanKbfgp5Bqk/YNNRj0dVe/E7326u7D2OQQKano
- z/6/FJlofR/WQ0VsoTkCGmhFgy47i+RddyNahGbweeNtkH4VWTw0+Ig1hMlBVkzuj/s5
- KhGjyOxWvmCDq3Ac99JF8zAk1CL8GxXCPUFsXU7nScwRlTG/zqpR90d+raQGMPxIT1f3
- gqnfXNim5GsDbQ/4QPoFO8pphmhN3xK9L0IG0Kq1x5sbmqHNsLXYiKoPvrcZh6Yl22xg
- 4C8/fBw7ktiyabLAOm2TJ9ViL3dcSjPzOoFZkgrGegpv4zgj38sIVlUIyEEqPNNBf1AI
- Ugow==
-X-Gm-Message-State: AOAM530HUMMKTI3UV0Q0VrAUDLPNoDlb3GWEbEJe8m31MwGnZ0nd734v
- rGoKLx2z2erEZk4diGGZGxCjVg0y+D7NvQ==
-X-Google-Smtp-Source: ABdhPJzuk84QWs1JcAWwplfZ+wEpT1+a/Jn9jkOuDfgtJdq7sWQKTZmTVAo4jA+X9/TnMtjbfi4m4g==
-X-Received: by 2002:a17:902:d917:b029:d6:d1b8:5d9a with SMTP id
- c23-20020a170902d917b02900d6d1b85d9amr3115914plz.72.1604596291680; 
- Thu, 05 Nov 2020 09:11:31 -0800 (PST)
-Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
- [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id 5sm3526175pfx.63.2020.11.05.09.11.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 09:11:30 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2] target/arm: Fix neon VTBL/VTBX for len > 1
-Date: Thu,  5 Nov 2020 09:11:26 -0800
-Message-Id: <20201105171126.88014-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kaipH-0001ro-0B
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:13:31 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2048)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1kaipE-0008Gh-4B
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:13:30 -0500
+Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CRqn54jrnz67Hpt;
+ Fri,  6 Nov 2020 01:11:37 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+ 15.1.1913.5; Thu, 5 Nov 2020 18:13:12 +0100
+Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
+ lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
+ 15.1.1913.5; Thu, 5 Nov 2020 17:13:12 +0000
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: <qemu-devel@nongnu.org>
+Subject: [PATCH] hw/arm/virt enable support for virtio-mem
+Date: Fri, 6 Nov 2020 01:11:44 +0800
+Message-ID: <20201105171144.560612-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.123.41.22]
+X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 12:13:13
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,153 +65,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org,
- Ard Biesheuvel <ardb@kernel.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Hildenbrand <david@redhat.com>, linuxarm@huawei.com,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The helper function did not get updated when we reorganized
-the vector register file for SVE.  Since then, the neon dregs
-are non-sequential and cannot be simply indexed.
+Basically a cut and paste job from the x86 support with the exception of
+needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
+on ARM64 in Linux is 1G.
 
-At the same time, make the helper function operate on 64-bit
-quantities so that we do not have to call it twice.
+Tested:
+* In full emulation and with KVM on an arm64 server.
+* cold and hotplug for the virtio-mem-pci device.
+* Wide range of memory sizes, added at creation and later.
+* Fairly basic memory usage of memory added.  Seems to function as normal.
+* NUMA setup with virtio-mem-pci devices on each node.
+* Simple migration test.
 
-Fixes: c39c2b9043e
-Reported-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Related kernel patch just enables the Kconfig item for ARM64 as an
+alternative to x86 in drivers/virtio/Kconfig
+
+The original patches from David Hildenbrand stated that he thought it should
+work for ARM64 but it wasn't enabled in the kernel [1]
+It appears he was correct and everything 'just works'.
+
+The build system related stuff is intended to ensure virtio-mem support is
+not built for arm32 (build will fail due no defined block size).
+If there is a more elegant way to do this, please point me in the right
+direction.
+
+[1] https://lore.kernel.org/linux-mm/20191212171137.13872-1-david@redhat.com/
+
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- target/arm/helper.h             |  2 +-
- target/arm/op_helper.c          | 23 +++++++++--------
- target/arm/translate-neon.c.inc | 44 +++++++++++----------------------
- 3 files changed, 29 insertions(+), 40 deletions(-)
+ default-configs/devices/aarch64-softmmu.mak |  1 +
+ hw/arm/Kconfig                              |  1 +
+ hw/arm/virt.c                               | 64 ++++++++++++++++++++-
+ hw/virtio/Kconfig                           |  4 ++
+ hw/virtio/virtio-mem.c                      |  2 +
+ 5 files changed, 71 insertions(+), 1 deletion(-)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 774d2cddb5..ff8148ddc6 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -245,7 +245,7 @@ DEF_HELPER_FLAGS_2(rsqrte_f32, TCG_CALL_NO_RWG, f32, f32, ptr)
- DEF_HELPER_FLAGS_2(rsqrte_f64, TCG_CALL_NO_RWG, f64, f64, ptr)
- DEF_HELPER_FLAGS_1(recpe_u32, TCG_CALL_NO_RWG, i32, i32)
- DEF_HELPER_FLAGS_1(rsqrte_u32, TCG_CALL_NO_RWG, i32, i32)
--DEF_HELPER_FLAGS_4(neon_tbl, TCG_CALL_NO_RWG, i32, i32, i32, ptr, i32)
-+DEF_HELPER_FLAGS_4(neon_tbl, TCG_CALL_NO_RWG, i64, env, i32, i64, i64)
+diff --git a/default-configs/devices/aarch64-softmmu.mak b/default-configs/devices/aarch64-softmmu.mak
+index 958b1e08e4..31d6128a29 100644
+--- a/default-configs/devices/aarch64-softmmu.mak
++++ b/default-configs/devices/aarch64-softmmu.mak
+@@ -6,3 +6,4 @@ include arm-softmmu.mak
+ CONFIG_XLNX_ZYNQMP_ARM=y
+ CONFIG_XLNX_VERSAL=y
+ CONFIG_SBSA_REF=y
++CONFIG_ARCH_VIRTIO_MEM_SUPPORTED=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index fdf4464b94..eeae77eee9 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -20,6 +20,7 @@ config ARM_VIRT
+     select PLATFORM_BUS
+     select SMBIOS
+     select VIRTIO_MMIO
++    select VIRTIO_MEM_SUPPORTED if ARCH_VIRTIO_MEM_SUPPORTED
+     select ACPI_PCI
+     select MEM_DEVICE
+     select DIMM
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index 8abb385d4e..a9f927ce83 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -73,9 +73,11 @@
+ #include "hw/acpi/acpi.h"
+ #include "target/arm/internals.h"
+ #include "hw/mem/pc-dimm.h"
++#include "hw/mem/memory-device.h"
+ #include "hw/mem/nvdimm.h"
+ #include "hw/acpi/generic_event_device.h"
+ #include "hw/virtio/virtio-iommu.h"
++#include "hw/virtio/virtio-mem-pci.h"
+ #include "hw/char/pl011.h"
+ #include "qemu/guest-random.h"
  
- DEF_HELPER_3(shl_cc, i32, env, i32, i32)
- DEF_HELPER_3(shr_cc, i32, env, i32, i32)
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index b1065216b2..9bfd6760a0 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -68,21 +68,24 @@ void raise_exception_ra(CPUARMState *env, uint32_t excp, uint32_t syndrome,
-     cpu_loop_exit_restore(cs, ra);
+@@ -2286,6 +2288,34 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
+                          dev, &error_abort);
  }
  
--uint32_t HELPER(neon_tbl)(uint32_t ireg, uint32_t def, void *vn,
--                          uint32_t maxindex)
-+uint64_t HELPER(neon_tbl)(CPUARMState *env, uint32_t desc,
-+                          uint64_t ireg, uint64_t def)
- {
--    uint32_t val, shift;
--    uint64_t *table = vn;
-+    uint64_t tmp, val = 0;
-+    uint32_t maxindex = ((desc & 3) + 1) * 8;
-+    uint32_t base_reg = desc >> 2;
-+    uint32_t shift, index, reg;
- 
--    val = 0;
--    for (shift = 0; shift < 32; shift += 8) {
--        uint32_t index = (ireg >> shift) & 0xff;
-+    for (shift = 0; shift < 64; shift += 8) {
-+        index = (ireg >> shift) & 0xff;
-         if (index < maxindex) {
--            uint32_t tmp = (table[index >> 3] >> ((index & 7) << 3)) & 0xff;
--            val |= tmp << shift;
-+            reg = base_reg + (index >> 3);
-+            tmp = env->vfp.zregs[reg >> 1].d[reg & 1];
-+            tmp = ((tmp >> ((index & 7) << 3)) & 0xff) << shift;
-         } else {
--            val |= def & (0xff << shift);
-+            tmp = def & (0xffull << shift);
-         }
-+        val |= tmp;
-     }
-     return val;
- }
-diff --git a/target/arm/translate-neon.c.inc b/target/arm/translate-neon.c.inc
-index 59368cb243..0ae95cb8df 100644
---- a/target/arm/translate-neon.c.inc
-+++ b/target/arm/translate-neon.c.inc
-@@ -2861,9 +2861,8 @@ static bool trans_VEXT(DisasContext *s, arg_VEXT *a)
- 
- static bool trans_VTBL(DisasContext *s, arg_VTBL *a)
- {
--    int n;
--    TCGv_i32 tmp, tmp2, tmp3, tmp4;
--    TCGv_ptr ptr1;
-+    TCGv_i64 val, def;
-+    TCGv_i32 desc;
- 
-     if (!arm_dc_feature(s, ARM_FEATURE_NEON)) {
-         return false;
-@@ -2879,43 +2878,30 @@ static bool trans_VTBL(DisasContext *s, arg_VTBL *a)
-         return true;
-     }
- 
--    n = a->len + 1;
--    if ((a->vn + n) > 32) {
-+    if ((a->vn + a->len + 1) > 32) {
-         /*
-          * This is UNPREDICTABLE; we choose to UNDEF to avoid the
-          * helper function running off the end of the register file.
-          */
-         return false;
-     }
--    n <<= 3;
--    tmp = tcg_temp_new_i32();
--    if (a->op) {
--        read_neon_element32(tmp, a->vd, 0, MO_32);
--    } else {
--        tcg_gen_movi_i32(tmp, 0);
--    }
--    tmp2 = tcg_temp_new_i32();
--    read_neon_element32(tmp2, a->vm, 0, MO_32);
--    ptr1 = vfp_reg_ptr(true, a->vn);
--    tmp4 = tcg_const_i32(n);
--    gen_helper_neon_tbl(tmp2, tmp2, tmp, ptr1, tmp4);
- 
-+    desc = tcg_const_i32((a->vn << 2) | a->len);
-+    def = tcg_temp_new_i64();
-     if (a->op) {
--        read_neon_element32(tmp, a->vd, 1, MO_32);
-+        read_neon_element64(def, a->vd, 0, MO_64);
-     } else {
--        tcg_gen_movi_i32(tmp, 0);
-+        tcg_gen_movi_i64(def, 0);
-     }
--    tmp3 = tcg_temp_new_i32();
--    read_neon_element32(tmp3, a->vm, 1, MO_32);
--    gen_helper_neon_tbl(tmp3, tmp3, tmp, ptr1, tmp4);
--    tcg_temp_free_i32(tmp);
--    tcg_temp_free_i32(tmp4);
--    tcg_temp_free_ptr(ptr1);
-+    val = tcg_temp_new_i64();
-+    read_neon_element64(val, a->vm, 0, MO_64);
- 
--    write_neon_element32(tmp2, a->vd, 0, MO_32);
--    write_neon_element32(tmp3, a->vd, 1, MO_32);
--    tcg_temp_free_i32(tmp2);
--    tcg_temp_free_i32(tmp3);
-+    gen_helper_neon_tbl(val, cpu_env, desc, val, def);
-+    write_neon_element64(val, a->vd, 0, MO_64);
++static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
++                                      DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
 +
-+    tcg_temp_free_i64(def);
-+    tcg_temp_free_i64(val);
-+    tcg_temp_free_i32(desc);
-     return true;
++    if (!hotplug_dev2 && dev->hotplugged) {
++        /*
++         * Without a bus hotplug handler, we cannot control the plug/unplug
++         * order. We should never reach this point when hotplugging,
++         * however, better add a safety net.
++         */
++        error_setg(errp, "hotplug of virtio-mem based memory devices not supported"
++                   " on this bus.");
++        return;
++    }
++    /*
++     * First, see if we can plug this memory device at all. If that
++     * succeeds, branch of to the actual hotplug handler.
++     */
++    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
++                           &local_err);
++    if (!local_err && hotplug_dev2) {
++        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
++    }
++    error_propagate(errp, local_err);
++}
++
+ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+                                             DeviceState *dev, Error **errp)
+ {
+@@ -2293,6 +2323,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+ 
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         virt_memory_pre_plug(hotplug_dev, dev, errp);
++    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);        
+     } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+         hwaddr db_start = 0, db_end = 0;
+         char *resv_prop_str;
+@@ -2322,6 +2354,27 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+     }
  }
  
++static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
++                                  DeviceState *dev, Error **errp)
++{
++    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
++    Error *local_err = NULL;
++
++    /*
++     * Plug the memory device first and then branch off to the actual
++     * hotplug handler. If that one fails, we can easily undo the memory
++     * device bits.
++     */
++    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++    if (hotplug_dev2) {
++        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
++        if (local_err) {
++            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
++        }
++    }
++    error_propagate(errp, local_err);
++}
++
+ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+                                         DeviceState *dev, Error **errp)
+ {
+@@ -2336,6 +2389,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
+     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+         virt_memory_plug(hotplug_dev, dev, errp);
+     }
++    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
++    }
+     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+         PCIDevice *pdev = PCI_DEVICE(dev);
+ 
+@@ -2363,6 +2419,11 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
+         goto out;
+     }
+ 
++    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
++        error_setg(&local_err,
++                   "virtio-mem based memory devices cannot be unplugged.");
++        goto out;
++    }
+     hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
+                                    &local_err);
+ out:
+@@ -2413,7 +2474,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+                                                         DeviceState *dev)
+ {
+     if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE) ||
+-       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
++        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
++        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)){
+         return HOTPLUG_HANDLER(machine);
+     }
+     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
+index 0eda25c4e1..00dbf2939e 100644
+--- a/hw/virtio/Kconfig
++++ b/hw/virtio/Kconfig
+@@ -48,6 +48,10 @@ config VIRTIO_PMEM
+     depends on VIRTIO_PMEM_SUPPORTED
+     select MEM_DEVICE
+ 
++config ARCH_VIRTIO_MEM_SUPPORTED
++    bool
++    default n
++
+ config VIRTIO_MEM_SUPPORTED
+     bool
+ 
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 7c8ca9f28b..c28f12547a 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -53,6 +53,8 @@
+  */
+ #if defined(TARGET_X86_64) || defined(TARGET_I386)
+ #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
++#elif defined (TARGET_AARCH64)
++#define VIRTIO_MEM_USABLE_EXTENT (2 * (1024 * MiB))
+ #else
+ #error VIRTIO_MEM_USABLE_EXTENT not defined
+ #endif
 -- 
-2.25.1
+2.19.1
 
 
