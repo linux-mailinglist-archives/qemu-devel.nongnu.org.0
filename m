@@ -2,57 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B42B2A849F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:16:31 +0100 (CET)
-Received: from localhost ([::1]:46458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDEA2A84C2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:22:29 +0100 (CET)
+Received: from localhost ([::1]:35004 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaisA-0003Fo-6z
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:16:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
+	id 1kaixw-0002No-8O
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:22:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1kaipH-0001ro-0B
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:13:31 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2048)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1kaipE-0008Gh-4B
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:13:30 -0500
-Received: from fraeml704-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4CRqn54jrnz67Hpt;
- Fri,  6 Nov 2020 01:11:37 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml704-chm.china.huawei.com (10.206.15.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Thu, 5 Nov 2020 18:13:12 +0100
-Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
- lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id
- 15.1.1913.5; Thu, 5 Nov 2020 17:13:12 +0000
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: <qemu-devel@nongnu.org>
-Subject: [PATCH] hw/arm/virt enable support for virtio-mem
-Date: Fri, 6 Nov 2020 01:11:44 +0800
-Message-ID: <20201105171144.560612-1-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.19.1
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kairW-00047e-1z
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:15:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kairL-00008p-IH
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:15:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604596533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Kt8VNc7q/O/WmPMtLhHyEiZbAdRmqjH+/AfFLVv2PRM=;
+ b=gvQRspw+updXZTCe9UXGZZsrtDB0OYZ9qZFDdYSodU9uIwNCmzGp9PYuTYmwhy4rd4gUVl
+ 7vx5Jk0HWNri9UiMQ7TBZbPP8ujyKmr+Uy3lp8IbfzYtVCaWftt5b5z7UW1dV6GAilPwRG
+ XNoX3TLS6o7/igjRu27pHaq8Fi1ldJY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-IYIOD6EFMMiSikcmBPgrwA-1; Thu, 05 Nov 2020 12:15:31 -0500
+X-MC-Unique: IYIOD6EFMMiSikcmBPgrwA-1
+Received: by mail-wm1-f70.google.com with SMTP id o19so879265wme.2
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:15:31 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=5mlWPUWCo1DVzHeObueurpViXc1j4gYsOIFhvz3wayA=;
+ b=MFv4C3sHiCCXsKezaH4g9KvvdaMDLEpsuKqv4OSFJNZLyDl7fZMJK+9GdVIyqvQoos
+ 6iiAVPAxAA+6gS98xh0q7qOJQvKBQ77K/5coFSyOZrZ3b4f+h/ovfSea0JQBozDmR9Do
+ bQ80Tf2/5r7WEaeDzEwCS6se4naYhoiHN9C3Dk3kdP+v+Um+XkAiYpCZTXd3sTBDZnYq
+ cBZ/EmsWGry1y/3Jizk/IeD3DU7LAuOT/JGpfNCjMLr3wnntAqSevkXzcL6nhpUWDleZ
+ mRBKLAFdowpFBNLzeFZ9E0+SRNpCaHX8M9IO7404LBYyojg32ZRVDFh+w0rgkJsEy7+I
+ n8Gg==
+X-Gm-Message-State: AOAM531oCM9faTf7MSgzO/jvSF96ZPV8Smh7y90Gpm2vHymz/fBJT6F+
+ 9qt4/h4mGOhSnmF/34UnIEwt5y0BwOofvSVVPHxRQeLbuBEPyEzE9h7y8DiDhVBgQDdZmxm3zzq
+ Hy5wFfAb57f7LFi8=
+X-Received: by 2002:adf:a29e:: with SMTP id s30mr4487180wra.29.1604596530040; 
+ Thu, 05 Nov 2020 09:15:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxEobgLtK6GaBhV5ktnQKBwJuAU+imkWiFMvfUagKFT9NuPZ9UDpUFBN4/cD0LkjWKRqu5OFw==
+X-Received: by 2002:adf:a29e:: with SMTP id s30mr4487146wra.29.1604596529794; 
+ Thu, 05 Nov 2020 09:15:29 -0800 (PST)
+Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id h4sm3399661wrq.3.2020.11.05.09.15.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 09:15:28 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH v2 00/11] gitlab-ci: Allow forks to select & restrict
+ build jobs
+Date: Thu,  5 Nov 2020 18:15:15 +0100
+Message-Id: <20201105171526.3763499-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.123.41.22]
-X-ClientProxiedBy: lhreml705-chm.china.huawei.com (10.201.108.54) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 12:13:13
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,218 +93,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- David Hildenbrand <david@redhat.com>, linuxarm@huawei.com,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Basically a cut and paste job from the x86 support with the exception of
-needing a larger block size as the Memory Block Size (MIN_SECTION_SIZE)
-on ARM64 in Linux is 1G.
-
-Tested:
-* In full emulation and with KVM on an arm64 server.
-* cold and hotplug for the virtio-mem-pci device.
-* Wide range of memory sizes, added at creation and later.
-* Fairly basic memory usage of memory added.  Seems to function as normal.
-* NUMA setup with virtio-mem-pci devices on each node.
-* Simple migration test.
-
-Related kernel patch just enables the Kconfig item for ARM64 as an
-alternative to x86 in drivers/virtio/Kconfig
-
-The original patches from David Hildenbrand stated that he thought it should
-work for ARM64 but it wasn't enabled in the kernel [1]
-It appears he was correct and everything 'just works'.
-
-The build system related stuff is intended to ensure virtio-mem support is
-not built for arm32 (build will fail due no defined block size).
-If there is a more elegant way to do this, please point me in the right
-direction.
-
-[1] https://lore.kernel.org/linux-mm/20191212171137.13872-1-david@redhat.com/
-
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- default-configs/devices/aarch64-softmmu.mak |  1 +
- hw/arm/Kconfig                              |  1 +
- hw/arm/virt.c                               | 64 ++++++++++++++++++++-
- hw/virtio/Kconfig                           |  4 ++
- hw/virtio/virtio-mem.c                      |  2 +
- 5 files changed, 71 insertions(+), 1 deletion(-)
-
-diff --git a/default-configs/devices/aarch64-softmmu.mak b/default-configs/devices/aarch64-softmmu.mak
-index 958b1e08e4..31d6128a29 100644
---- a/default-configs/devices/aarch64-softmmu.mak
-+++ b/default-configs/devices/aarch64-softmmu.mak
-@@ -6,3 +6,4 @@ include arm-softmmu.mak
- CONFIG_XLNX_ZYNQMP_ARM=y
- CONFIG_XLNX_VERSAL=y
- CONFIG_SBSA_REF=y
-+CONFIG_ARCH_VIRTIO_MEM_SUPPORTED=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index fdf4464b94..eeae77eee9 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -20,6 +20,7 @@ config ARM_VIRT
-     select PLATFORM_BUS
-     select SMBIOS
-     select VIRTIO_MMIO
-+    select VIRTIO_MEM_SUPPORTED if ARCH_VIRTIO_MEM_SUPPORTED
-     select ACPI_PCI
-     select MEM_DEVICE
-     select DIMM
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 8abb385d4e..a9f927ce83 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -73,9 +73,11 @@
- #include "hw/acpi/acpi.h"
- #include "target/arm/internals.h"
- #include "hw/mem/pc-dimm.h"
-+#include "hw/mem/memory-device.h"
- #include "hw/mem/nvdimm.h"
- #include "hw/acpi/generic_event_device.h"
- #include "hw/virtio/virtio-iommu.h"
-+#include "hw/virtio/virtio-mem-pci.h"
- #include "hw/char/pl011.h"
- #include "qemu/guest-random.h"
- 
-@@ -2286,6 +2288,34 @@ static void virt_memory_plug(HotplugHandler *hotplug_dev,
-                          dev, &error_abort);
- }
- 
-+static void virt_virtio_md_pci_pre_plug(HotplugHandler *hotplug_dev,
-+                                      DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    Error *local_err = NULL;
-+
-+    if (!hotplug_dev2 && dev->hotplugged) {
-+        /*
-+         * Without a bus hotplug handler, we cannot control the plug/unplug
-+         * order. We should never reach this point when hotplugging,
-+         * however, better add a safety net.
-+         */
-+        error_setg(errp, "hotplug of virtio-mem based memory devices not supported"
-+                   " on this bus.");
-+        return;
-+    }
-+    /*
-+     * First, see if we can plug this memory device at all. If that
-+     * succeeds, branch of to the actual hotplug handler.
-+     */
-+    memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev), NULL,
-+                           &local_err);
-+    if (!local_err && hotplug_dev2) {
-+        hotplug_handler_pre_plug(hotplug_dev2, dev, &local_err);
-+    }
-+    error_propagate(errp, local_err);
-+}
-+
- static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-                                             DeviceState *dev, Error **errp)
- {
-@@ -2293,6 +2323,8 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
- 
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_pre_plug(hotplug_dev, dev, errp);
-+    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_pre_plug(hotplug_dev, dev, errp);        
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-         hwaddr db_start = 0, db_end = 0;
-         char *resv_prop_str;
-@@ -2322,6 +2354,27 @@ static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
-     }
- }
- 
-+static void virt_virtio_md_pci_plug(HotplugHandler *hotplug_dev,
-+                                  DeviceState *dev, Error **errp)
-+{
-+    HotplugHandler *hotplug_dev2 = qdev_get_bus_hotplug_handler(dev);
-+    Error *local_err = NULL;
-+
-+    /*
-+     * Plug the memory device first and then branch off to the actual
-+     * hotplug handler. If that one fails, we can easily undo the memory
-+     * device bits.
-+     */
-+    memory_device_plug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+    if (hotplug_dev2) {
-+        hotplug_handler_plug(hotplug_dev2, dev, &local_err);
-+        if (local_err) {
-+            memory_device_unplug(MEMORY_DEVICE(dev), MACHINE(hotplug_dev));
-+        }
-+    }
-+    error_propagate(errp, local_err);
-+}
-+
- static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-                                         DeviceState *dev, Error **errp)
- {
-@@ -2336,6 +2389,9 @@ static void virt_machine_device_plug_cb(HotplugHandler *hotplug_dev,
-     if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
-         virt_memory_plug(hotplug_dev, dev, errp);
-     }
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        virt_virtio_md_pci_plug(hotplug_dev, dev, errp);
-+    }
-     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-         PCIDevice *pdev = PCI_DEVICE(dev);
- 
-@@ -2363,6 +2419,11 @@ static void virt_dimm_unplug_request(HotplugHandler *hotplug_dev,
-         goto out;
-     }
- 
-+    if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)) {
-+        error_setg(&local_err,
-+                   "virtio-mem based memory devices cannot be unplugged.");
-+        goto out;
-+    }
-     hotplug_handler_unplug_request(HOTPLUG_HANDLER(vms->acpi_dev), dev,
-                                    &local_err);
- out:
-@@ -2413,7 +2474,8 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-                                                         DeviceState *dev)
- {
-     if (object_dynamic_cast(OBJECT(dev), TYPE_SYS_BUS_DEVICE) ||
--       (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM))) {
-+        object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM) ||
-+        object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_MEM_PCI)){
-         return HOTPLUG_HANDLER(machine);
-     }
-     if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-diff --git a/hw/virtio/Kconfig b/hw/virtio/Kconfig
-index 0eda25c4e1..00dbf2939e 100644
---- a/hw/virtio/Kconfig
-+++ b/hw/virtio/Kconfig
-@@ -48,6 +48,10 @@ config VIRTIO_PMEM
-     depends on VIRTIO_PMEM_SUPPORTED
-     select MEM_DEVICE
- 
-+config ARCH_VIRTIO_MEM_SUPPORTED
-+    bool
-+    default n
-+
- config VIRTIO_MEM_SUPPORTED
-     bool
- 
-diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 7c8ca9f28b..c28f12547a 100644
---- a/hw/virtio/virtio-mem.c
-+++ b/hw/virtio/virtio-mem.c
-@@ -53,6 +53,8 @@
-  */
- #if defined(TARGET_X86_64) || defined(TARGET_I386)
- #define VIRTIO_MEM_USABLE_EXTENT (2 * (128 * MiB))
-+#elif defined (TARGET_AARCH64)
-+#define VIRTIO_MEM_USABLE_EXTENT (2 * (1024 * MiB))
- #else
- #error VIRTIO_MEM_USABLE_EXTENT not defined
- #endif
--- 
-2.19.1
+Hi,=0D
+=0D
+2 months ago GitLab added time limit to their free CI offer [1].=0D
+This series provide developers with the possibility to not run=0D
+all jobs. By default all jobs are started, but we can restrict=0D
+by selecting a subset of them.=0D
+=0D
+Since v1:=0D
+- switch from "all but skip some" to "all or select some"=0D
+=0D
+I tried to use a project-wide environment variable [2] to set=0D
+the default set of selected features a fork is interested in,=0D
+but it didn't work out well yet.=0D
+=0D
+A friendly way to use this feature is with git aliases [3]:=0D
+=0D
+ $ git config alias.pushci_system \=0D
+    'push -o ci.variable=3D"QEMU_BUILD=3Dsystem"'=0D
+ $ git config alias.pushci_debian \=0D
+    'push -o ci.variable=3D"QEMU_BUILD=3Ddebian"'=0D
+=0D
+Then you can run the jobs based on Debian images (only) using:=0D
+=0D
+ $ git pushci_debian gitlab_repo my_branch_for_debian=0D
+=0D
+Or run all system-mode emulation jobs only using:=0D
+=0D
+  $ git pushci_system my_gitlab_repo branch_with_system_feature=0D
+=0D
+Comments welcomed!=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+[1] https://about.gitlab.com/releases/2020/09/01/ci-minutes-update-free-use=
+rs/=0D
+[2] https://docs.gitlab.com/ee/ci/variables/README.html#create-a-custom-var=
+iable-in-the-ui=0D
+[3] https://docs.gitlab.com/ee/user/project/push_options.html#useful-git-al=
+iases=0D
+=0D
+Supersedes: <20201104224558.3384595-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (11):=0D
+  gitlab-ci: Drop generic cache rule=0D
+  gitlab-ci: Replace YAML anchors by extends (cross_system_build_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (native_build_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (native_test_job)=0D
+  gitlab-ci: Replace YAML anchors by extends (acceptance_test_job)=0D
+  gitlab-ci: Rename acceptance_test_job -> integration_test_job=0D
+  gitlab-ci: Extract common job definition as 'cross_common_job'=0D
+  gitlab-ci: Extract common job definition as 'native_common_job'=0D
+  gitlab-ci: Add rules to select cross-jobs to build=0D
+  gitlab-ci: Add rules to select building/testing native jobs=0D
+  gitlab-ci: Move artifacts expiry rule to common 'native_build_job'=0D
+=0D
+ .gitlab-ci.d/crossbuilds.yml |  77 ++++++++++++------=0D
+ .gitlab-ci.yml               | 148 +++++++++++++++++++----------------=0D
+ 2 files changed, 136 insertions(+), 89 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
