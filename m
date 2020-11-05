@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 119A82A77C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 08:10:24 +0100 (CET)
-Received: from localhost ([::1]:35876 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C3462A77C9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 08:11:38 +0100 (CET)
+Received: from localhost ([::1]:42484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaZPa-000204-Vx
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 02:10:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43238)
+	id 1kaZQn-0004jP-Fb
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 02:11:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZO9-0000IZ-TK
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:53 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:33015)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZOA-0000Iu-4D
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:54 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:39399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZO2-0007Xg-8j
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1kaZO7-0007Xt-Bc
  for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:08:53 -0500
 Received: from localhost.localdomain ([82.252.154.198]) by
  mrelayeu.kundenserver.de (mreue010 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MmDVA-1jsOrb0f8C-00iFFw; Thu, 05 Nov 2020 08:08:43 +0100
+ id 1Mdevh-1k0xaM4Bd3-00ZgXB; Thu, 05 Nov 2020 08:08:44 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/4] linux-user: Use "!= 0" when checking if
- MAP_FIXED_NOREPLACE is non-zero
-Date: Thu,  5 Nov 2020 08:08:35 +0100
-Message-Id: <20201105070837.558332-3-laurent@vivier.eu>
+Subject: [PULL 3/4] linux-user/syscall: Fix missing
+ target_to_host_timespec64() check
+Date: Thu,  5 Nov 2020 08:08:36 +0100
+Message-Id: <20201105070837.558332-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201105070837.558332-1-laurent@vivier.eu>
 References: <20201105070837.558332-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:xp3EU+evYL7WeGagg5hHecSr5tQF2Vv/mnqq4smCZOuZhmFJ3Ct
- oiR3KDfFZFNukgEwTaUNXooykdLU7bWSs3PXotrpvWWSew7/d1Jktn0sQZRARv5i/6Pe5tU
- RSAKHN/KqfbAFsUoxJ5/KzZYA9KOC3pMb85DyJVPZGp/aaKm/iMItdwDC2UM44Nb3NiSw3G
- JEQYLrcupIYqiqSxSRogA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:AS40tPH6BGM=:0gePM1PvTBvvlM293FzAoJ
- kEg86ofm0zyF1rZIlUYNBsGbM3XqLSf0LceOYHbddvR7K+qK63ZFVGJ9BNAjkvkYwzC4xYcgL
- EOoewIo7hQ/BeDbDlqFI1mShiXXA4h6tc4HQm8pKzIELMYYw/hT2IAkE3Vb2VR4RbLa3wT1aC
- J9Gz5ApidMbHqdnFgoNCpmysjB5+sVFkX/c5qhQ9VSkyFQ9B3T8lQ/XQvbT2ewR8Vue8SXIwi
- F4xWaj8JWp44xjuF1GwrWHY5D8rBAuMgnl1YWjhOWsF9vfGKLsKEGd5hhX6PbIMuPsD0fjSi3
- YmhMo06ayTyQxFfvagnghRNDyajbYqNi8uBl6M3YeZRS4poP8ESkD3xrcqSOtKkxmWHc+rlfl
- qrjxzDSq/8Oyme4CpNiShvZnTzYrh0zCvc8R5HrL2rdNcTEyl30a/RO/ezl4u
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:nhYnG5QhwgCnkzuQyYDBGPnpGnHbLD2aCzUxPzGvcxAA9hBHnLc
+ 1BVFVSyTnA2o2zrt+UFHT5kxmWKjq+YOMtn5PalhNKNYI5H0bAfJvPyvxjHMikw2YSgZUJv
+ dC6evrnDQEUdP9esuwmupIUu6Erp6W3jShSJaWv3SLizRvNbdDZqeHBpyUxAGOKgqtNYYi9
+ JN3Z8vsEBR6c19BHePxXw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:NjR5CYtZrgc=:h/NQVx6aOYhj9RRh/Ak9tW
+ C2eJg+9li8qdgLR0Owd4791s9yB5YDDpNW1egIU7XLB++sbjGq5cSGQH/NOSrx64YOtdxEXbL
+ 6+P0okAqI+DN++AgRwEYaYeOiOm5CPwloiaE/4rIf9SP3BuLHMwXWOvha1fYXDBu8YNg7vPl2
+ CsGRSLaENcJH1K0McqplyMSTHFFMPPh13ZiHaPNh6N9D2xklF8u/nOnlT/v7xc+FTGxmMl9f0
+ wI9pVOnh7el+JRi4bqQISTJBG8/i3YKcGjpVPnthyl0Og0lsr3GX36/6yzm1twZ6B4UQZSe2s
+ bp+TsvPe4uChB4xiGu3FYYHJS4gD1jAvB3LmMU5g9bJZv+fsenJ3syJjjDT42+9JlUnh9KacA
+ 6diFg+5EQE0pcg0YwajTkEILoZMCzRqaJdQAy/H3tfLVNPDfcokyjq5Yc/tEGbTmbZ4u2EY+S
+ Z2EgwBqrUA==
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 02:08:45
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 02:08:48
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -65,48 +66,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Alistair Francis <alistair.francis@wdc.com>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Alistair Francis <alistair.francis@wdc.com>
 
-In pgd_find_hole_fallback(), Coverity doesn't like the use
-of "if (MAP_FIXED_NOREPLACE || ...)" because it's using a
-logical operator on a constant other than 0 or 1 and its
-heuristic thinks we might have intended a bitwise operator
-instead.
+Coverity pointed out (CID 1432339) that target_to_host_timespec64() can
+fail with -TARGET_EFAULT but we never check the return value. This patch
+checks the return value and handles the error.
 
-The logic is correct (we are checking whether the host really
-has a MAP_FIXED_NOREPLACE or whether we fell back to the
-"#define as 0 to ignore" from osdep.h); make Coverity
-happier by explicitly writing out the comparison with zero.
-
-Fixes: Coverity CID 1431059
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20201103142636.21125-1-peter.maydell@linaro.org>
+Message-Id: <cad74fae734d2562746b94acd9c34b00081c89bf.1604432881.git.alistair.francis@wdc.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index bf8c1bd25330..cae41d504d36 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2188,7 +2188,8 @@ static uintptr_t pgd_find_hole_fallback(uintptr_t guest_size, uintptr_t brk,
-                                      PROT_NONE, flags, -1, 0);
-             if (mmap_start != MAP_FAILED) {
-                 munmap((void *) align_start, guest_size);
--                if (MAP_FIXED_NOREPLACE || mmap_start == (void *) align_start) {
-+                if (MAP_FIXED_NOREPLACE != 0 ||
-+                    mmap_start == (void *) align_start) {
-                     return (uintptr_t) mmap_start + offset;
-                 }
-             }
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 6fef8181e738..3160a9ba06bd 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -7592,7 +7592,9 @@ static int do_futex_time64(target_ulong uaddr, int op, int val, target_ulong tim
+     case FUTEX_WAIT_BITSET:
+         if (timeout) {
+             pts = &ts;
+-            target_to_host_timespec64(pts, timeout);
++            if (target_to_host_timespec64(pts, timeout)) {
++                return -TARGET_EFAULT;
++            }
+         } else {
+             pts = NULL;
+         }
 -- 
 2.28.0
 
