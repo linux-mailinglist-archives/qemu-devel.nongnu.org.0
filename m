@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C531A2A7EDF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:45:37 +0100 (CET)
-Received: from localhost ([::1]:38912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F3582A7ED5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:43:23 +0100 (CET)
+Received: from localhost ([::1]:59964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaee0-0004Q9-SC
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:45:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45524)
+	id 1kaebq-0001P4-8t
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:43:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46558)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kaeS6-0007K3-Bn; Thu, 05 Nov 2020 07:33:18 -0500
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:40486)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kaeZc-000886-Rk
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:41:04 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kaeS1-0005uI-Np; Thu, 05 Nov 2020 07:33:18 -0500
-Received: by mail-lf1-x142.google.com with SMTP id e27so2039874lfn.7;
- Thu, 05 Nov 2020 04:33:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=MZSnS5vlxF5HvO6E9wZPRhJNQ+5D6tAp8z2brb2h4Yg=;
- b=lqFkB0X2eaD8jujC/4i9LsM4zAFthnvnrLrsVl0m4sqON4EZFcefB0g7scyMmKCluR
- DHuGi41nfNmc8YolBJ7mbts50wvEI0P2GMRDU3CJasU69xJJnP1InKmFy5/XSv5MCfLZ
- 3bL6oC3+ojIDeI0S63KzT61hvp3LGOBYXH53V1ik2nh1+hshGK5wbgPBZS4z6ho8AabM
- uXUk8QMW0FN8zmlyAGVY00ztDuM1bvCoAxJINMK7HCut873QgfnJvrgYY47kroQ4HdW3
- 0+nNMv90eYhOdohFcxywSzQrqOEkU+xctQFKYP7UF87aUxpDAb8K3E0482VPith2npMN
- 8HwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=MZSnS5vlxF5HvO6E9wZPRhJNQ+5D6tAp8z2brb2h4Yg=;
- b=qm44nKcFynnWHlJgvz0tEzx112fA5oDl67GL8748rWSlGPszuRAJ15U5h7PWrndDum
- ojDvMtz6sSTLzrTR68fNKhLaRMREmv7y++U42gCqVmtey9tmlqx0YFxP5ByZM1bv67et
- hhiT5TuLs5J16dGA6OqlUUmA9R5lrRJ0MwWS/UOPkUJ1+u7WsabZ0agxR7ee0Fh1kNID
- QtB55cWTWOJvrEEBES9CqXZRqC6OtIxo5eJMMQcAWab1byNDWS1FjjVhaaVueKUq48Zt
- 4HvzDkGD11ucliCUW1LuTw/6gEfDSny250Ilvccr/QnwP1vm18iSKlZuB9lyQtHHVJhU
- K1Mg==
-X-Gm-Message-State: AOAM530j60KFALexI6tsczwVDcyf6uCYIWsDmQrq/00Od+EFnPgdB9e9
- 41ozovvrlmVxNo2l9YCG69LS3jhzq39zfyyET/g=
-X-Google-Smtp-Source: ABdhPJwnHna168H02RyggCsw2WAF2Fye32sa3Y46YKtZxdvig68wj6CZ0rmIlIGRKWpMYCSZqpO2yv6TDYlbJLhVGv0=
-X-Received: by 2002:a19:e88:: with SMTP id 130mr840022lfo.599.1604579590103;
- Thu, 05 Nov 2020 04:33:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1kaeZa-0008Ki-JG
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:41:04 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1kaeZY-0001PR-BE
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 12:41:00 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 44F542E8136
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 12:41:00 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201013001545.1958-1-luoyonggang@gmail.com>
- <20201013001545.1958-3-luoyonggang@gmail.com>
- <2e501256-001e-a9c4-305c-f178d1b53137@redhat.com>
-In-Reply-To: <2e501256-001e-a9c4-305c-f178d1b53137@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Thu, 5 Nov 2020 20:32:59 +0800
-Message-ID: <CAE2XoE9datOEr3T391pPmQbD_8bKZgAL_hVoEonojVn-e0Z8PQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] block: enable libnfs on msys2/mingw in cirrus.yml
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: multipart/alternative; boundary="0000000000007b68e905b35b4cf9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::142;
- envelope-from=luoyonggang@gmail.com; helo=mail-lf1-x142.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 05 Nov 2020 12:33:34 -0000
+From: Thomas Huth <1877418@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=btrfs-progs; component=main;
+ status=Incomplete; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bump55 jnsnow
+X-Launchpad-Bug-Reporter: Bump (bump55)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <158887096525.4808.16857448132122344597.malonedeb@soybean.canonical.com>
+Message-Id: <160457961506.28553.2350176735285084153.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1877418] Re: qemu-nbd freezes access to VDI file
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
+X-Launchpad-Hash: f6667061a59e9791aa5302279fb50ac8f9b059cd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 04:11:06
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,95 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Peter Lieven <pl@kamp.de>, qemu-level <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>
+Reply-To: Bug 1877418 <1877418@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000007b68e905b35b4cf9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+** Changed in: btrfs-progs (Ubuntu)
+       Status: New =3D> Incomplete
 
-On Thu, Nov 5, 2020 at 7:43 PM Max Reitz <mreitz@redhat.com> wrote:
->
-> On 13.10.20 02:15, Yonggang Luo wrote:
-> > At the begging libnfs are not enabled because of compiling error,
-> > now it's fixed so enable it
-> >
-> > Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
-> > ---
-> >   .cirrus.yml | 1 +
-> >   1 file changed, 1 insertion(+)
-> >
-> > diff --git a/.cirrus.yml b/.cirrus.yml
-> > index f42ccb956a..2c6bf45e6d 100644
-> > --- a/.cirrus.yml
-> > +++ b/.cirrus.yml
-> > @@ -109,6 +109,7 @@ windows_msys2_task:
-> >             mingw-w64-x86_64-cyrus-sasl \
-> >             mingw-w64-x86_64-curl \
-> >             mingw-w64-x86_64-gnutls \
-> > +          mingw-w64-x86_64-libnfs \
-> >             "
-> >           bitsadmin /transfer msys_download /dynamic /download
-/priority FOREGROUND `
-> >
-https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-=
-any.pkg.tar.xz
-`
->
-> I=E2=80=99d love to test this, unfortunately git.qemu.org has some issues=
- now
-> and so I can=E2=80=99t run Cirrus tests. :/
->
-> I suppose I=E2=80=99ll retry when git.qemu.org works again.
->
-> Max
->
-Maybe we arealdy switched to gitlab?
+-- =
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1877418
 
---0000000000007b68e905b35b4cf9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Title:
+  qemu-nbd freezes access to VDI file
 
-<div dir=3D"ltr"><br><br>On Thu, Nov 5, 2020 at 7:43 PM Max Reitz &lt;<a hr=
-ef=3D"mailto:mreitz@redhat.com">mreitz@redhat.com</a>&gt; wrote:<br>&gt;<br=
->&gt; On 13.10.20 02:15, Yonggang Luo wrote:<br>&gt; &gt; At the begging li=
-bnfs are not enabled because of compiling error,<br>&gt; &gt; now it&#39;s =
-fixed so enable it<br>&gt; &gt;<br>&gt; &gt; Signed-off-by: Yonggang Luo &l=
-t;<a href=3D"mailto:luoyonggang@gmail.com">luoyonggang@gmail.com</a>&gt;<br=
->&gt; &gt; ---<br>&gt; &gt; =C2=A0 .cirrus.yml | 1 +<br>&gt; &gt; =C2=A0 1 =
-file changed, 1 insertion(+)<br>&gt; &gt;<br>&gt; &gt; diff --git a/.cirrus=
-.yml b/.cirrus.yml<br>&gt; &gt; index f42ccb956a..2c6bf45e6d 100644<br>&gt;=
- &gt; --- a/.cirrus.yml<br>&gt; &gt; +++ b/.cirrus.yml<br>&gt; &gt; @@ -109=
-,6 +109,7 @@ windows_msys2_task:<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 mingw-w64-x86_64-cyrus-sasl \<br>&gt; &gt; =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 mingw-w64-x86_64-curl \<br>&gt; &gt; =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 mingw-w64-x86_64-gnutls \<br>&gt; &gt; + =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mingw-w64-x86_64-libnfs \<br>&gt; &gt; =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>&gt; &gt; =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 bitsadmin /transfer msys_download /dynamic /download /=
-priority FOREGROUND `<br>&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 <a href=3D"https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-=
-sphinx-2.3.1-1-any.pkg.tar.xz">https://repo.msys2.org/mingw/x86_64/mingw-w6=
-4-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz</a> `<br>&gt;<br>&gt; I=E2=80=
-=99d love to test this, unfortunately <a href=3D"http://git.qemu.org">git.q=
-emu.org</a> has some issues now<br>&gt; and so I can=E2=80=99t run Cirrus t=
-ests. :/<br>&gt;<br>&gt; I suppose I=E2=80=99ll retry when <a href=3D"http:=
-//git.qemu.org">git.qemu.org</a> works again.<br>&gt;<br>&gt; Max<br>&gt;<b=
-r>Maybe we arealdy switched to gitlab?<br><br>--<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A=
-<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div>
+Status in QEMU:
+  Incomplete
+Status in btrfs-progs package in Ubuntu:
+  Incomplete
 
---0000000000007b68e905b35b4cf9--
+Bug description:
+  Mounted Oracle Virtualbox .vdi drive (dynamically allocated), which has G=
+TP+BTRFS:
+  sudo modprobe nbd max_part=3D16
+  sudo qemu-nbd -c /dev/nbd0 /storage/btrfs.vdi
+  mount /dev/nbd0p1 /mydata/
+
+  Then I am operating on the btrfs filesystem and suddenly it freezes.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1877418/+subscriptions
 
