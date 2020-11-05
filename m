@@ -2,74 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC5F22A7EBF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:37:16 +0100 (CET)
-Received: from localhost ([::1]:44576 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217C82A7E96
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:31:22 +0100 (CET)
+Received: from localhost ([::1]:53068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaeVv-0003Hc-Rx
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:37:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45162)
+	id 1kaeQD-0003Fb-3J
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:31:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kaePq-0003sQ-5o
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:30:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1kaePl-0005F8-22
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:30:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604579452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=08Ii7ADq210LKDryewmR2N85uoxpS0ATT5dLsrUwnXA=;
- b=APwnxdAUz1+WsqtpMb5Jjg+crlIEm7bGB3Ao05COWpzAw74wcrtVjp9ifun4fl0IRQzkES
- /j8snJdnRoeimCzm2+1y3BuFjOdFzMdhqdZmJI/EM0YpaN/sXj4CJXjaUJyv81kD4VXIIQ
- 2ptIVW1vvfe9YidAJZGt5AkgJNi65GI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-mP6hbsxePvuOJXySA0BFDw-1; Thu, 05 Nov 2020 07:30:50 -0500
-X-MC-Unique: mP6hbsxePvuOJXySA0BFDw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 765456D580;
- Thu,  5 Nov 2020 12:30:49 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.27])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 48997513F0;
- Thu,  5 Nov 2020 12:30:37 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 9/9] docs: update the documentation about schema
- configuration
-Date: Thu,  5 Nov 2020 16:28:08 +0400
-Message-Id: <20201105122808.1182973-10-marcandre.lureau@redhat.com>
-In-Reply-To: <20201105122808.1182973-1-marcandre.lureau@redhat.com>
-References: <20201105122808.1182973-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kaeNf-0001SJ-T2; Thu, 05 Nov 2020 07:28:43 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:2393)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
+ id 1kaeNb-0004YR-R8; Thu, 05 Nov 2020 07:28:43 -0500
+Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CRjVQ5n54z15RQh;
+ Thu,  5 Nov 2020 20:28:30 +0800 (CST)
+Received: from [10.108.235.13] (10.108.235.13) by
+ DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 5 Nov 2020 20:28:24 +0800
+From: shiliyang <shiliyang@huawei.com>
+Subject: [PATCH V2 3/4] bsd-user: space required after semicolon
+To: <qemu-devel@nongnu.org>, <philmd@redhat.com>, <pbonzini@redhat.com>,
+ <david@redhat.com>
+Message-ID: <b0ae1009-41c3-3751-4190-e2d42a7742ae@huawei.com>
+Date: Thu, 5 Nov 2020 20:28:23 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 01:14:53
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.108.235.13]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190; envelope-from=shiliyang@huawei.com;
+ helo=szxga04-in.huawei.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 07:27:41
+X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,71 +59,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, jsnow@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, hunongda@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+This patch fixes error style problems found by checkpatch.pl:
+ERROR: space required after that ';'
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+
 ---
- docs/devel/qapi-code-gen.txt | 26 +++++++++++++++-----------
- 1 file changed, 15 insertions(+), 11 deletions(-)
+ bsd-user/elfload.c | 2 +-
+ bsd-user/syscall.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/docs/devel/qapi-code-gen.txt b/docs/devel/qapi-code-gen.txt
-index 3d22a7ae21..c499352a74 100644
---- a/docs/devel/qapi-code-gen.txt
-+++ b/docs/devel/qapi-code-gen.txt
-@@ -772,26 +772,30 @@ downstream command __com.redhat_drive-mirror.
- === Configuring the schema ===
- 
- Syntax:
--    COND = STRING
--         | [ STRING, ... ]
-+    COND = CFG-ID
-+         | [ COND, ... ]
-+         | { 'all: [ COND, ... ] }
-+         | { 'any: [ COND, ... ] }
-+         | { 'not': COND }
- 
--All definitions take an optional 'if' member.  Its value must be a
--string or a list of strings.  A string is shorthand for a list
--containing just that string.  The code generated for the definition
--will then be guarded by #if STRING for each STRING in the COND list.
-+    CFG-ID = STRING
-+
-+All definitions take an optional 'if' member. Its value must be a string, a list
-+of strings or an object with a single member 'all', 'any' or 'not'. A string is
-+shorthand for a list containing just that string. A list is a shorthand for a
-+'all'-member object. The C code generated for the definition will then be guarded
-+by an #if precessor expression.
- 
- Example: a conditional struct
- 
-  { 'struct': 'IfStruct', 'data': { 'foo': 'int' },
--   'if': ['CONFIG_FOO', 'HAVE_BAR'] }
-+   'if': { 'all': [ 'CONFIG_FOO', 'HAVE_BAR' ] } }
- 
- gets its generated code guarded like this:
- 
-- #if defined(CONFIG_FOO)
-- #if defined(HAVE_BAR)
-+ #if defined(CONFIG_FOO) && defined(HAVE_BAR)
-  ... generated code ...
-- #endif /* defined(HAVE_BAR) */
-- #endif /* defined(CONFIG_FOO) */
-+ #endif /* defined(HAVE_BAR) && defined(CONFIG_FOO) */
- 
- Individual members of complex types, commands arguments, and
- event-specific data can also be made conditional.  This requires the
+diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
+index a121e71339..fab9da757c 100644
+--- a/bsd-user/elfload.c
++++ b/bsd-user/elfload.c
+@@ -1227,7 +1227,7 @@ int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
+     end_data = 0;
+     interp_ex.a_info = 0;
+
+-    for(i=0;i < elf_ex.e_phnum; i++) {
++    for (i = 0; i < elf_ex.e_phnum; i++) {
+         if (elf_ppnt->p_type == PT_INTERP) {
+             if ( elf_interpreter != NULL )
+             {
+diff --git a/bsd-user/syscall.c b/bsd-user/syscall.c
+index 9b471b665c..e16dc80478 100644
+--- a/bsd-user/syscall.c
++++ b/bsd-user/syscall.c
+@@ -271,7 +271,7 @@ static abi_long lock_iovec(int type, struct iovec *vec, abi_ulong target_addr,
+     target_vec = lock_user(VERIFY_READ, target_addr, count * sizeof(struct target_iovec), 1);
+     if (!target_vec)
+         return -TARGET_EFAULT;
+-    for(i = 0;i < count; i++) {
++    for (i = 0; i < count; i++) {
+         base = tswapl(target_vec[i].iov_base);
+         vec[i].iov_len = tswapl(target_vec[i].iov_len);
+         if (vec[i].iov_len != 0) {
+@@ -297,7 +297,7 @@ static abi_long unlock_iovec(struct iovec *vec, abi_ulong target_addr,
+     target_vec = lock_user(VERIFY_READ, target_addr, count * sizeof(struct target_iovec), 1);
+     if (!target_vec)
+         return -TARGET_EFAULT;
+-    for(i = 0;i < count; i++) {
++    for (i = 0; i < count; i++) {
+         if (target_vec[i].iov_base) {
+             base = tswapl(target_vec[i].iov_base);
+             unlock_user(vec[i].iov_base, base, copy ? vec[i].iov_len : 0);
 -- 
-2.29.0
-
+2.29.1.59.gf9b6481aed
 
