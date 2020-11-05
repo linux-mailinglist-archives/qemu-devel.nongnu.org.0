@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7D612A89A8
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:24:23 +0100 (CET)
-Received: from localhost ([::1]:57978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5DFF2A89D0
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:30:07 +0100 (CET)
+Received: from localhost ([::1]:44672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kang6-0003cv-Qj
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:24:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39880)
+	id 1kanlZ-0001Zd-Kh
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:30:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbH-0006s3-La; Thu, 05 Nov 2020 17:19:23 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:6100)
+ id 1kand6-0000sG-TL
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:21:16 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:5796
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbF-000409-Ic; Thu, 05 Nov 2020 17:19:23 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A5M2mRg058559; Thu, 5 Nov 2020 17:19:20 -0500
+ id 1kand3-0004IK-Jg
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:21:16 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 0A5M2G3A152546
+ for <qemu-devel@nongnu.org>; Thu, 5 Nov 2020 17:21:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=8oXxIUD/cSqLWGgnh3UvronhBOcl6oIFr9wjt0Pgxyw=;
- b=DUqivhmM+MbBlJ//xJpAW43qn20JbxwQCvuoCyGDxAogU1lQb3C2nTbzKpdnuM6tAn+m
- g6MUM2jwoXSqJFPlPKxLASJ5AUepbyljRiJfpLqeu7YhWfWw4dWZ2p2BYCzGGujjW6D9
- QOvPv6sE8sQdjgRJ1ldsUViE3Byr72B++xLW+DTLgw3GalL/tvFQgkE6fZKP/AryIGrD
- I67b2HZRfDimN7dfWZs3m7QO6K42/4X6XdvHZgYdf6lIBp+hn30JDm7a+BxcliT/Px6i
- BwNQhItK0ibD9wh2OhZs9lcUfzhXC9tnJsqN/7M/UawXn7aEr48cG9kS8P9LWvzcTHvs kQ== 
+ bh=RVgVX22wUUBmoZ3wdqFVy3xBom1l+qRdXCb7k8nqonw=;
+ b=aJa/NDFh8M+EstfHjdIlo1vV/YswYbYg/cg/ajkWQGvGBs9MKyq8ueRO2yawd6/5acn/
+ VUJayxFIf4lGcAUeI+B4UwpJUSylnUWMgMpYwuqhmoxnyhptEuhEVERgJbcJgrX959fb
+ hg8oZ4nZ9jfDfH8LqPzTYRh7LeZD0CLftRLFuZkr/iKt8druGI3OkOAJ7lxzJtsYo0Z/
+ blEFQIzV6LFdzjcH0BIW5Hjnx8lvqVV8STIvLCHpmEdTqRYwgQdon9bABwmSYue9nSZ1
+ uWcKHMrUC353HYmuAgYyq1Rk11PeNLrpgFGIv8DMLaLQuQra2eQG6RCjfwP+YAwDLSR4 kQ== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34mhxjtnva-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34mnyhq4f5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 17:21:08 -0500
+Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5MJpKK021946
+ for <qemu-devel@nongnu.org>; Thu, 5 Nov 2020 17:19:51 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 34mnyhq4ae-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:19 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5M3Wcv064827;
- Thu, 5 Nov 2020 17:19:19 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34mhxjtnuw-1
+ Thu, 05 Nov 2020 17:19:51 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MFOm6000664;
+ Thu, 5 Nov 2020 22:19:19 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma01wdc.us.ibm.com with ESMTP id 34h0253hva-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:19 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MC2Af017625;
- Thu, 5 Nov 2020 22:19:18 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma01dal.us.ibm.com with ESMTP id 34h0s801t1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 22:19:18 +0000
+ Thu, 05 Nov 2020 22:19:19 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0A5MJHm314877298
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A5MJIiv24379668
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Nov 2020 22:19:17 GMT
+ Thu, 5 Nov 2020 22:19:18 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 088576A054;
- Thu,  5 Nov 2020 22:19:17 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 909DA6A04F;
+ Thu,  5 Nov 2020 22:19:18 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1E7096A04D;
- Thu,  5 Nov 2020 22:19:16 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 103C36A047;
+ Thu,  5 Nov 2020 22:19:18 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.222.173])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  5 Nov 2020 22:19:16 +0000 (GMT)
+ Thu,  5 Nov 2020 22:19:17 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: dbuono@linux.vnet.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v3 2/9] s390x: fix clang 11 warnings in cpu_models.c
-Date: Thu,  5 Nov 2020 17:18:58 -0500
-Message-Id: <20201105221905.1350-3-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v3 3/9] hw/usb: reorder fields in UASStatus
+Date: Thu,  5 Nov 2020 17:18:59 -0500
+Message-Id: <20201105221905.1350-4-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
 References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
@@ -80,14 +84,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-11-05_15:2020-11-05,
  2020-11-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- clxscore=1015 adultscore=0 impostorscore=0 bulkscore=0 spamscore=0
- mlxscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011050141
-Received-SPF: none client-ip=148.163.156.1;
+ malwarescore=0 suspectscore=0
+ priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 mlxscore=0 adultscore=0 clxscore=1015
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2011050139
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:16
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:18
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -107,81 +111,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "open list:S390 KVM CPUs" <qemu-s390x@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are void * pointers that get casted to enums, in cpu_models.c
-Such casts can result in a small integer type and are caught as
-warnings with clang, starting with version 11:
+The UASStatus data structure has a variable sized field inside of type uas_iu,
+that however is not placed at the end of the data structure.
 
-Clang 11 finds a bunch of spots in the code that trigger this new warnings:
+This placement triggers a warning with clang 11, and while not a bug right now,
+(the status is never a uas_iu_command, which is the variable-sized case),
+it could become one in the future.
 
-../qemu-base/target/s390x/cpu_models.c:985:21: error: cast to smaller integer type 'S390Feat' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
-    S390Feat feat = (S390Feat) opaque;
-                    ^~~~~~~~~~~~~~~~~
-../qemu-base/target/s390x/cpu_models.c:1002:21: error: cast to smaller integer type 'S390Feat' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
-    S390Feat feat = (S390Feat) opaque;
-                    ^~~~~~~~~~~~~~~~~
-../qemu-base/target/s390x/cpu_models.c:1036:27: error: cast to smaller integer type 'S390FeatGroup' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
-    S390FeatGroup group = (S390FeatGroup) opaque;
-                          ^~~~~~~~~~~~~~~~~~~~~~
-../qemu-base/target/s390x/cpu_models.c:1057:27: error: cast to smaller integer type 'S390FeatGroup' from 'void *' [-Werror,-Wvoid-pointer-to-enum-cast]
-    S390FeatGroup group = (S390FeatGroup) opaque;
-                          ^~~~~~~~~~~~~~~~~~~~~~
-4 errors generated.
+../qemu-base/hw/usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+    uas_iu                    status;
+                              ^
+1 error generated.
 
-Avoid this warning by casting the pointer to uintptr_t first.
+Fix this by moving uas_iu at the end of the struct
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
- target/s390x/cpu_models.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/usb/dev-uas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 461e0b8f4a..b5abff8bef 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -986,7 +986,7 @@ void s390_realize_cpu_model(CPUState *cs, Error **errp)
- static void get_feature(Object *obj, Visitor *v, const char *name,
-                         void *opaque, Error **errp)
- {
--    S390Feat feat = (S390Feat) opaque;
-+    S390Feat feat = (S390Feat) (uintptr_t) opaque;
-     S390CPU *cpu = S390_CPU(obj);
-     bool value;
+diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+index cec071d96c..5ef3f4fec9 100644
+--- a/hw/usb/dev-uas.c
++++ b/hw/usb/dev-uas.c
+@@ -154,9 +154,9 @@ struct UASRequest {
  
-@@ -1003,7 +1003,7 @@ static void get_feature(Object *obj, Visitor *v, const char *name,
- static void set_feature(Object *obj, Visitor *v, const char *name,
-                         void *opaque, Error **errp)
- {
--    S390Feat feat = (S390Feat) opaque;
-+    S390Feat feat = (S390Feat) (uintptr_t) opaque;
-     DeviceState *dev = DEVICE(obj);
-     S390CPU *cpu = S390_CPU(obj);
-     bool value;
-@@ -1037,7 +1037,7 @@ static void set_feature(Object *obj, Visitor *v, const char *name,
- static void get_feature_group(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp)
- {
--    S390FeatGroup group = (S390FeatGroup) opaque;
-+    S390FeatGroup group = (S390FeatGroup) (uintptr_t) opaque;
-     const S390FeatGroupDef *def = s390_feat_group_def(group);
-     S390CPU *cpu = S390_CPU(obj);
-     S390FeatBitmap tmp;
-@@ -1058,7 +1058,7 @@ static void get_feature_group(Object *obj, Visitor *v, const char *name,
- static void set_feature_group(Object *obj, Visitor *v, const char *name,
-                               void *opaque, Error **errp)
- {
--    S390FeatGroup group = (S390FeatGroup) opaque;
-+    S390FeatGroup group = (S390FeatGroup) (uintptr_t) opaque;
-     const S390FeatGroupDef *def = s390_feat_group_def(group);
-     DeviceState *dev = DEVICE(obj);
-     S390CPU *cpu = S390_CPU(obj);
+ struct UASStatus {
+     uint32_t                  stream;
+-    uas_iu                    status;
+     uint32_t                  length;
+     QTAILQ_ENTRY(UASStatus)   next;
++    uas_iu                    status;
+ };
+ 
+ /* --------------------------------------------------------------------- */
 -- 
 2.17.1
 
