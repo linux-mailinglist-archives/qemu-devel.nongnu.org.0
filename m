@@ -2,46 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 275F82A763C
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 04:51:58 +0100 (CET)
-Received: from localhost ([::1]:37440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ED3C2A763B
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 04:51:44 +0100 (CET)
+Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaWJZ-000708-4Z
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 22:51:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35066)
+	id 1kaWJL-0006hV-3j
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 22:51:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kaWHO-0005Nr-NA; Wed, 04 Nov 2020 22:49:42 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:33859 helo=ozlabs.org)
+ id 1kaWHN-0005NY-Ih; Wed, 04 Nov 2020 22:49:41 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42279 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kaWHL-0003wV-Fj; Wed, 04 Nov 2020 22:49:42 -0500
+ id 1kaWHL-0003wX-DQ; Wed, 04 Nov 2020 22:49:41 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CRTzb1KK7z9sRR; Thu,  5 Nov 2020 14:49:31 +1100 (AEDT)
+ id 4CRTzb2bsCz9sTD; Thu,  5 Nov 2020 14:49:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1604548171;
- bh=zUzX5zu57Y2d4gMRLtDx5hcrmHkeL5+qsA7DiyUMmzk=;
+ bh=OjxTdqml0JkNTFyhEHrZhmtd+j41envfmwID7MLyDvw=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=P79qUpqq44edjnFaHGT0hSVcXqHeFz2nkQC2jhLaCTeCJ6Y/aKdQtLVZLrGI1uG1D
- 93hi61qNZ7FE/kGLwn0KMQxdqQsw8xVi25UH5a0OUbgUa89mWxGTwlULmzlINJvY4s
- lC/IcbKIG5u7+rtgJ3Dh+DauZgzMK5cHKTLKwIMU=
+ b=RVNE6zxv4ioloRbaj6RzMDQEAtIg0vhNR3CB7nSkLfDn/pU4kXOU+e1rAJUVqN5Kt
+ J8/Q3+QcLYEWRL52FQNXkS4R9WLSM+nmlwQhQ/Oo6DtwhoAvHt9r3nMS5cNcI19m3q
+ Y+mrSZMT7mD3Z2py7X7EqdS8sAeySfRbJAdGwx0c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 1/3] target/ppc/excp_helper: Add a fallthrough for fix compiler
- warning
-Date: Thu,  5 Nov 2020 14:49:17 +1100
-Message-Id: <20201105034919.393653-2-david@gibson.dropbear.id.au>
+Subject: [PULL 2/3] spapr: Drop dead code in spapr_reallocate_hpt()
+Date: Thu,  5 Nov 2020 14:49:18 +1100
+Message-Id: <20201105034919.393653-3-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201105034919.393653-1-david@gibson.dropbear.id.au>
 References: <20201105034919.393653-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:49:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -60,45 +58,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, groug@kaod.org, qemu-ppc@nongnu.org,
- Euler Robot <euler.robot@huawei.com>, Chen Qun <kuhn.chenqun@huawei.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen Qun <kuhn.chenqun@huawei.com>
+From: Greg Kurz <groug@kaod.org>
 
-When using -Wimplicit-fallthrough in our CFLAGS, the compiler showed warning:
-../target/ppc/excp_helper.c: In function ‘powerpc_excp’:
-../target/ppc/excp_helper.c:529:13: warning: this statement may fall through [-Wimplicit-fallthrough=]
-  529 |         msr |= env->error_code;
-      |         ~~~~^~~~~~~~~~~~~~~~~~
-../target/ppc/excp_helper.c:530:5: note: here
-  530 |     case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
-      |     ^~~~
+Sometimes QEMU needs to allocate the HPT in userspace, namely with TCG
+or PR KVM. This is performed with qemu_memalign() because of alignment
+requirements. Like glib's allocators, its behaviour is to abort on OOM
+instead of returning NULL.
 
-Add the corresponding "fall through" comment to fix it.
+This could be changed to qemu_try_memalign(), but in the specific case
+of spapr_reallocate_hpt(), the outcome would be to terminate QEMU anyway
+since no HPT means no MMU for the guest. Drop the dead code instead.
 
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
-Message-Id: <20201028055107.2170401-1-kuhn.chenqun@huawei.com>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Message-Id: <160398562892.32380.15006707861753544263.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/excp_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ hw/ppc/spapr.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-diff --git a/target/ppc/excp_helper.c b/target/ppc/excp_helper.c
-index d7411bcc81..ad0612555d 100644
---- a/target/ppc/excp_helper.c
-+++ b/target/ppc/excp_helper.c
-@@ -527,6 +527,7 @@ static inline void powerpc_excp(PowerPCCPU *cpu, int excp_model, int excp)
-         break;
-     case POWERPC_EXCP_HISI:      /* Hypervisor instruction storage exception */
-         msr |= env->error_code;
-+        /* fall through */
-     case POWERPC_EXCP_HDECR:     /* Hypervisor decrementer exception         */
-     case POWERPC_EXCP_HDSI:      /* Hypervisor data storage exception        */
-     case POWERPC_EXCP_HDSEG:     /* Hypervisor data segment exception        */
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 227075103e..12a012d9dd 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -1522,12 +1522,6 @@ int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp)
+         int i;
+ 
+         spapr->htab = qemu_memalign(size, size);
+-        if (!spapr->htab) {
+-            error_setg_errno(errp, errno,
+-                             "Could not allocate HPT of order %d", shift);
+-            return -ENOMEM;
+-        }
+-
+         memset(spapr->htab, 0, size);
+         spapr->htab_shift = shift;
+ 
 -- 
 2.28.0
 
