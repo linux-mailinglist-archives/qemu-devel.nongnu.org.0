@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F127C2A7664
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 05:27:16 +0100 (CET)
-Received: from localhost ([::1]:53800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5622A7669
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 05:29:48 +0100 (CET)
+Received: from localhost ([::1]:34002 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaWrk-00073t-1v
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 23:27:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40198)
+	id 1kaWuB-00026f-KH
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 23:29:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaWqM-0005XZ-NJ
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38130)
+ id 1kaWqL-0005WK-Ol
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38180)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaWqI-0000C4-HR
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:50 -0500
+ id 1kaWqJ-0000D8-PW
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:49 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kaWqH-0002rR-9W
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:25:45 +0000
+ id 1kaWqI-00030m-Kg
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:25:46 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4302D2E811E
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 04:25:45 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 93DF62E811E
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 04:25:46 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2020 04:17:21 -0000
-From: Launchpad Bug Tracker <1712818@bugs.launchpad.net>
+Date: Thu, 05 Nov 2020 04:17:22 -0000
+From: Launchpad Bug Tracker <1708617@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: eblake janitor meeho schu-schu th-huth
-X-Launchpad-Bug-Reporter: meeho yuen (meeho)
+X-Launchpad-Bug-Commenters: janitor ke.king th-huth
+X-Launchpad-Bug-Reporter: jinke (ke.king)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <150357954932.16920.8202218494274187188.malonedeb@gac.canonical.com>
-Message-Id: <160454984183.10129.11153655809108897733.malone@loganberry.canonical.com>
-Subject: [Bug 1712818] Re: live migration with storage encounter
- assert(!(bs->open_flags & BDRV_O_INACTIVE)) crashes
+References: <150183560010.4317.16234791379107519041.malonedeb@gac.canonical.com>
+Message-Id: <160454984261.10129.11286435699064439163.malone@loganberry.canonical.com>
+Subject: [Bug 1708617] Re: qemu2.9 meet a question using reconnect about
+ ovs+dpdk
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 6d9798614c53bfbdcb065921979c22c1779dc409
+X-Launchpad-Hash: f139842e61deb4609a50cd3ec30647426b3f4930
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 21:30:42
@@ -73,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1712818 <1712818@bugs.launchpad.net>
+Reply-To: Bug 1708617 <1708617@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -86,37 +86,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1712818
+https://bugs.launchpad.net/bugs/1708617
 
 Title:
-  live migration with storage encounter assert(!(bs->open_flags &
-  BDRV_O_INACTIVE)) crashes
+  qemu2.9 meet a question using reconnect about ovs+dpdk
 
 Status in QEMU:
   Expired
 
 Bug description:
-  The vm guest runs a iotest program, and i migrate it with virsh
-  --copy-storage-all,then the qemu process on the source host happens to
-  crash with the following message:
+  env:
+  qemu-2.9
+  dpdk-16.11
+  ovs-2.6.1
+  host os:Linux compute 3.10.0-514.el7.x86_64 #1 SMP Tue Nov 22 16:42:41 UT=
+C 2016 x86_64 x86_64 x86_64 GNU/Linux
+  guest os is same with host
 
-  kvm: block/io.c:1543: bdrv_co_pwritev: Assertion `!(bs->open_flags & 0x08=
-00)' failed.
-  2017-08-24 11:43:45.919+0000: shutting down, reason=3Dcrashed
+  1. ovs service is normal
+  2. start 2 qemu vm, using vhostuser port as server
+  taskset 0x3f qemu-system-x86_64 -cpu host -smp 2,cores=3D2 -drive file=3D=
+$QCOW2_IMAGE -m 4096M --enable-kvm -name $VM_NAME -nographic -object memory=
+-backend-file,id=3Dmem,size=3D$GUEST_MEM,mem-path=3D/dev/hugepages,share=3D=
+on -numa node,memdev=3Dmem -mem-prealloc -chardev socket,id=3Dchar1,path=3D=
+$VHOST_SOCK_DIR/dpdkvhostuser0,server -netdev type=3Dvhost-user,id=3Dmynet1=
+,chardev=3Dchar1,vhostforce,queues=3D2 -device virtio-net-pci,mac=3D00:00:0=
+0:00:00:01,netdev=3Dmynet1,mq=3Don,vectors=3D6  -nographic -vnc :0 =
 
-  here is the release:
-  qemu 2.7 & 2.10.rc3 were tested.
-  libvirt 3.0.0 & 3.2.0 were tested.
+  qemu-system-x86_64: -chardev socket,id=3Dchar1,path=3D/usr/local/var/run/=
+openvswitch/dpdkvhostuser0,server: QEMU waiting for connection on: disconne=
+cted:unix:/usr/local/var/run/openvswitch/dpdkvhostuser0,server
 
-  command line:
-  src_host:virsh migrate --verbose --live --persistent --copy-storage-all v=
-m-core qemu+ssh://dst_host/system
+  taskset 0x3f qemu-system-x86_64 -cpu host -smp 2,cores=3D2 -drive file=3D=
+$QCOW2_IMAGE -m 4096M --enable-kvm -name $VM_NAME -nographic -object memory=
+-backend-file,id=3Dmem,size=3D$GUEST_MEM,mem-path=3D/dev/hugepages,share=3D=
+on -numa node,memdev=3Dmem -mem-prealloc -chardev socket,id=3Dchar1,path=3D=
+$VHOST_SOCK_DIR/dpdkvhostuser0,server -netdev type=3Dvhost-user,id=3Dmynet1=
+,chardev=3Dchar1,vhostforce,queues=3D2 -device virtio-net-pci,mac=3D00:00:0=
+0:00:00:01,netdev=3Dmynet1,mq=3Don,vectors=3D6  -nographic -vnc :0 =
 
-  Possible Reason: After bdrv_inactivate_all() was called, mirror_run
-  coroutine still writes the left dirty disk data to remote nbd server,
-  which triggers the assertion. But I don't known how to avoid the
-  problem, help is needed!  Thanks.
+  qemu-system-x86_64: -chardev socket,id=3Dchar1,path=3D/usr/local/var/run/=
+openvswitch/dpdkvhostuser0,server: QEMU waiting for connection on: disconne=
+cted:unix:/usr/local/var/run/openvswitch/dpdkvhostuser1,server
+
+  3. add br and vhostuser port as client
+  ovs-vsctl add-br br1 -- set bridge br1 datapath_type=3Dnetdev
+  ovs-vsctl add-port br1 dpdkvhostuser0 -- set Interface dpdkvhostuser0 typ=
+e=3Ddpdkvhostuserclient  options:vhost-server-path=3D"/usr/local/var/run/op=
+envswitch/dpdkvhostuser0"			=
+
+  ovs-vsctl add-port br1 dpdkvhostuser1 -- set Interface dpdkvhostuser1 typ=
+e=3Ddpdkvhostuserclient  options:vhost-server-path=3D"/usr/local/var/run/op=
+envswitch/dpdkvhostuser1"			=
+
+  			=
+
+  4. ping between 2 vm is ok
+  5. restart ovs process
+   systemctl restart openvswitch
+
+  6. there is a question ping between 2 vm error
+
+  7. change qemu from 2.9 to 2.7, everything become ok
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1712818/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1708617/+subscriptions
 
