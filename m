@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7D22A7F07
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:53:16 +0100 (CET)
-Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46162A7EEF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:49:13 +0100 (CET)
+Received: from localhost ([::1]:49292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaelQ-0005XG-04
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:53:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46986)
+	id 1kaehU-0000Og-Rv
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:49:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaecX-0003KC-Aw
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:44:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25122)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaece-0003PY-BU
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:44:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43387)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaecU-0000m3-88
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:44:04 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaecb-0000o1-Jx
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:44:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604580240;
+ s=mimecast20190719; t=1604580248;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5rFeZdGY+Y6DZxjWAVj/DxxgkYhVHJreKFZrBdZJXJw=;
- b=LlZXlHJApy+/yvLqHuOmtU70iL3Ecg/lQkCr8X/uk2VLV9iPRtzA381hHpx+7DKyGqGevV
- XaJCbZGSkA18wkH62CCvVjHHPX2Ww2Re+CgzPtOtWqdwWO6THW1uK120ukfE2YjR6FG0wv
- g1h5JHRB7TiUa6lRwY8PuqSFTSudzcA=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-374-U7XoNScfNy-hCcPWLeQlMA-1; Thu, 05 Nov 2020 07:43:57 -0500
-X-MC-Unique: U7XoNScfNy-hCcPWLeQlMA-1
-Received: by mail-wm1-f70.google.com with SMTP id e15so341711wme.4
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:43:57 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QbMTJ3ao+EWjH5At6//uqbDIysge1ZWepFJJby54Ojc=;
+ b=TejuTH9920bcI7T+xcFaDVuWStu4stW0pKpoeEuDTbJL9OuNMHUShwug78YHqxeb0qzws+
+ KjmHMYmkkbeJ1CQjWdkAAzMLYQ4qTYvOFerT24v5QvQWwdHKT09blqDcCIWEkdXiWlkGpM
+ vw7P/jaCpKRlqkmRflJxnLqQZoiWux4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-1wHUrP3KO2K2t2iaEqwpLQ-1; Thu, 05 Nov 2020 07:44:03 -0500
+X-MC-Unique: 1wHUrP3KO2K2t2iaEqwpLQ-1
+Received: by mail-wr1-f69.google.com with SMTP id w6so683436wrk.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:44:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=iwmOBO5O0PMIuYr6JDEDXgS8lEoJ/PB4jkvPL4eELb4=;
- b=B5qRaa0VfRFY/TLKee801/LTAgIwPzbDUlsxcVwTMxoZ6r0ro8uBcRtzxN1BybK0L3
- y74izEYP9g3b5HvLuliYKTn7IRwTTIyzalL6JGsTCLnM6W+Azy9V3t9gJ/V+o+fiOhDU
- Dgk7pEjGRez7e0mdx2b9+AGVF2VbeZZdx1a/hM2oG3jOCclUhphlMinZKMXKVznmDLuc
- v19B4f4xGQyuKp0aWS23i9ulS1JKg+R7x+/1yHfZewBJ4Dciujh/SrreebcOuAte2tyr
- DakUJ+n1kmyZUVARex8xHPB9k4h4W5idkeXOwf/lueRxYG2LYeODxv+ZFwre3nJsLRtg
- 4n8w==
-X-Gm-Message-State: AOAM531MvZFbF4BsYJ7aifFiBUUB/38830nwdFmIw3dXWLjbvIRlqZFb
- eYJpVYaR5j/PNsJH/eu092lKX4j7YD5ATkS/NaGIJKT2mVgi5vP+Q7k3rUWCSJujVBnupdEdu7m
- 8CvtlmmdW7Qg14xQ=
-X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr2625974wrt.23.1604580236242; 
- Thu, 05 Nov 2020 04:43:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzQLCIUFSEyhq91BbQZh8qU7H1g8seNvNjJmPY+LizdfeOUC5hyMpbodPUma4ZOWc1Hi3C1JQ==
-X-Received: by 2002:a5d:4d0d:: with SMTP id z13mr2625928wrt.23.1604580235963; 
- Thu, 05 Nov 2020 04:43:55 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QbMTJ3ao+EWjH5At6//uqbDIysge1ZWepFJJby54Ojc=;
+ b=o7ZURse8V3HaZl8REv1rI2s5ODJZzQKtyl4LdCUyo/4zcyNmUSkv1k2Ob4TH5K6htZ
+ gHF1LRv0zk41p0PKZpY33BDDU/lNpsP1eliDmmseIq4IPbbxIbiBXkT5WcbrU8fcs6BG
+ JyTPEYMSm2/LPZen/TFdbTfMV0GqKyc+uwaJduqiA3ANAllnapmvAqXc2vKHjuXGpGRr
+ KdbgQwue51tT3I+sHo+kzqaptQEGVoInQJSMdARORVZSXO++QZWXh5Abj2Idk1PpJWK+
+ fW0WlFyfq/aFd+URKKaKJxwqZz/MODJsooZeoQG+1eTqefKP4QHSiCJI01GsZt76vWq6
+ gWCQ==
+X-Gm-Message-State: AOAM5301nvd6v+eoiN9CWvx7n3AEZ3sIPrZrCDN0sp0EMeLuu/SN2d8z
+ Ylci8QejnXdo20UvpNKGtJNSulliEG/SeTlMtqRnddfTPUVLnf3BP9MNJ+T+MsB8GYCEfwSkwHY
+ Q+NW8F4WHyWLNhFU=
+X-Received: by 2002:adf:f285:: with SMTP id k5mr2710331wro.299.1604580241680; 
+ Thu, 05 Nov 2020 04:44:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzDBKXqoZGV6QVR06D/ZHdIYvVnb7Xr/YHMllDCX1Blc96HXFdWLgRfsrKSWKsSK/e2UxC/qA==
+X-Received: by 2002:adf:f285:: with SMTP id k5mr2710301wro.299.1604580241450; 
+ Thu, 05 Nov 2020 04:44:01 -0800 (PST)
 Received: from x1w.redhat.com (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id n14sm1933681wrt.8.2020.11.05.04.43.54
+ by smtp.gmail.com with ESMTPSA id e5sm2170548wrw.93.2020.11.05.04.43.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 04:43:55 -0800 (PST)
+ Thu, 05 Nov 2020 04:44:00 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 0/3] hw/virtio: Allow to disable legacy VIRTIO
-Date: Thu,  5 Nov 2020 13:43:50 +0100
-Message-Id: <20201105124353.3680057-1-philmd@redhat.com>
+Subject: [PATCH-for-6.0 1/3] hw/virtio: Add configure switch to disable legacy
+ VIRTIO
+Date: Thu,  5 Nov 2020 13:43:51 +0100
+Message-Id: <20201105124353.3680057-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201105124353.3680057-1-philmd@redhat.com>
+References: <20201105124353.3680057-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
@@ -107,32 +111,176 @@ Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefan told me it would help the multi-process QEMU=0D
-series if virtio devices where not arch-specific.=0D
-As it didn't seem too complex, I gave it a try.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (3):=0D
-  hw/virtio: Add configure switch to disable legacy VIRTIO=0D
-  hw/virtio: Build most of virtio devices as arch-independent objects=0D
-  gitlab-ci: Test the --disable-virtio-legacy option=0D
-=0D
- configure                         | 10 ++++++++++=0D
- meson.build                       |  1 +=0D
- include/hw/virtio/virtio-access.h | 19 +++++--------------=0D
- hw/virtio/virtio-legacy.c         | 29 +++++++++++++++++++++++++++++=0D
- .gitlab-ci.yml                    |  1 +=0D
- hw/9pfs/meson.build               |  2 +-=0D
- hw/block/dataplane/meson.build    |  2 +-=0D
- hw/block/meson.build              |  2 +-=0D
- hw/char/meson.build               |  2 +-=0D
- hw/net/meson.build                |  2 +-=0D
- hw/scsi/meson.build               |  2 +-=0D
- hw/virtio/meson.build             | 14 +++++++++-----=0D
- 12 files changed, 61 insertions(+), 25 deletions(-)=0D
- create mode 100644 hw/virtio/virtio-legacy.c=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Per [1] (Terminology):
+
+  Legacy interfaces are not required; ie. don’t implement them
+  unless you have a need for backwards compatibility!
+
+[2] (Version 1.0):
+
+  The device configuration space uses the little-endian format
+  for multi-byte fields.
+
+and [3] (Legacy Interface):
+
+  for legacy interfaces, device configuration space is generally
+  the guest’s native endian, rather than PCI’s little-endian.
+  The correct endian-ness is documented for each device.
+
+Add the --disable-virtio-legacy configure flag to produce builds
+with VIRTIO 1.0 only, and the --enable-virtio-legacy to include
+legacy VIRTIO support (supporting legacy VIRTIO is the default).
+
+[1] http://docs.oasis-open.org/virtio/virtio/v1.0/cs04/virtio-v1.0-cs04.html#x1-60001
+[2] http://docs.oasis-open.org/virtio/virtio/v1.0/cs04/virtio-v1.0-cs04.html#x1-170003
+[3] http://docs.oasis-open.org/virtio/virtio/v1.0/cs04/virtio-v1.0-cs04.html#x1-200003
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ configure                         | 10 ++++++++++
+ meson.build                       |  1 +
+ include/hw/virtio/virtio-access.h | 19 +++++--------------
+ hw/virtio/virtio-legacy.c         | 29 +++++++++++++++++++++++++++++
+ hw/virtio/meson.build             |  1 +
+ 5 files changed, 46 insertions(+), 14 deletions(-)
+ create mode 100644 hw/virtio/virtio-legacy.c
+
+diff --git a/configure b/configure
+index 2c3c69f1188..f46216b3788 100755
+--- a/configure
++++ b/configure
+@@ -302,6 +302,7 @@ fdt="auto"
+ netmap="no"
+ sdl="auto"
+ sdl_image="auto"
++virtio_legacy="enabled"
+ virtiofsd="auto"
+ virtfs=""
+ libudev="auto"
+@@ -1001,6 +1002,10 @@ for opt do
+   ;;
+   --enable-libudev) libudev="enabled"
+   ;;
++  --disable-virtio-legacy) virtio_legacy="disabled"
++  ;;
++  --enable-virtio-legacy) virtio_legacy="enabled"
++  ;;
+   --disable-virtiofsd) virtiofsd="disabled"
+   ;;
+   --enable-virtiofsd) virtiofsd="enabled"
+@@ -1764,6 +1769,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   vnc-png         PNG compression for VNC server
+   cocoa           Cocoa UI (Mac OS X only)
+   virtfs          VirtFS
++  virtio-legacy   enable support for legacy virtio (before VIRTIO 1.0)
+   virtiofsd       build virtiofs daemon (virtiofsd)
+   libudev         Use libudev to enumerate host devices
+   mpath           Multipath persistent reservation passthrough
+@@ -6816,6 +6822,10 @@ if test "$safe_stack" = "yes"; then
+   echo "CONFIG_SAFESTACK=y" >> $config_host_mak
+ fi
+ 
++if test "$virtio_legacy" = "enabled"; then
++  echo "CONFIG_VIRTIO_LEGACY=y" >> $config_host_mak
++fi
++
+ # If we're using a separate build tree, set it up now.
+ # DIRS are directories which we simply mkdir in the build tree;
+ # LINKS are things to symlink back into the source tree
+diff --git a/meson.build b/meson.build
+index 39ac5cf6d8a..51406c28c6e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2061,6 +2061,7 @@
+ summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
+ summary_info += {'Block whitelist (ro)': config_host['CONFIG_BDRV_RO_WHITELIST']}
+ summary_info += {'VirtFS support':    config_host.has_key('CONFIG_VIRTFS')}
++summary_info += {'Legacy VIRTIO support': config_host.has_key('CONFIG_VIRTIO_LEGACY')}
+ summary_info += {'build virtiofs daemon': have_virtiofsd}
+ summary_info += {'Multipath support': mpathpersist.found()}
+ summary_info += {'VNC support':       vnc.found()}
+diff --git a/include/hw/virtio/virtio-access.h b/include/hw/virtio/virtio-access.h
+index 6818a23a2d3..b6c060f8cc6 100644
+--- a/include/hw/virtio/virtio-access.h
++++ b/include/hw/virtio/virtio-access.h
+@@ -20,24 +20,15 @@
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/virtio-bus.h"
+ 
+-#if defined(TARGET_PPC64) || defined(TARGET_ARM)
+-#define LEGACY_VIRTIO_IS_BIENDIAN 1
+-#endif
+-
++#ifdef CONFIG_VIRTIO_LEGACY
++bool virtio_access_is_big_endian(VirtIODevice *vdev);
++#else
+ static inline bool virtio_access_is_big_endian(VirtIODevice *vdev)
+ {
+-#if defined(LEGACY_VIRTIO_IS_BIENDIAN)
+-    return virtio_is_big_endian(vdev);
+-#elif defined(TARGET_WORDS_BIGENDIAN)
+-    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
+-        /* Devices conforming to VIRTIO 1.0 or later are always LE. */
+-        return false;
+-    }
+-    return true;
+-#else
++    /* Devices conforming to VIRTIO 1.0 or later are always LE. */
+     return false;
+-#endif
+ }
++#endif
+ 
+ static inline uint16_t virtio_lduw_phys(VirtIODevice *vdev, hwaddr pa)
+ {
+diff --git a/hw/virtio/virtio-legacy.c b/hw/virtio/virtio-legacy.c
+new file mode 100644
+index 00000000000..bf28c824a25
+--- /dev/null
++++ b/hw/virtio/virtio-legacy.c
+@@ -0,0 +1,29 @@
++/*
++ * Legacy virtio endian helpers.
++ *
++ * Copyright Red Hat, Inc. 2020
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include "qemu/osdep.h"
++#include "hw/virtio/virtio.h"
++#include "hw/virtio/virtio-access.h"
++
++#if defined(TARGET_PPC64) || defined(TARGET_ARM)
++# define LEGACY_VIRTIO_IS_BIENDIAN 1
++#endif
++
++bool virtio_access_is_big_endian(VirtIODevice *vdev)
++{
++#if defined(LEGACY_VIRTIO_IS_BIENDIAN)
++    return virtio_is_big_endian(vdev);
++#elif defined(TARGET_WORDS_BIGENDIAN)
++    if (virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1)) {
++        /* Devices conforming to VIRTIO 1.0 or later are always LE. */
++        return false;
++    }
++    return true;
++#else
++    return false;
++#endif
++}
+diff --git a/hw/virtio/meson.build b/hw/virtio/meson.build
+index fbff9bc9d4d..95415913a9a 100644
+--- a/hw/virtio/meson.build
++++ b/hw/virtio/meson.build
+@@ -11,6 +11,7 @@
+ 
+ virtio_ss = ss.source_set()
+ virtio_ss.add(files('virtio.c'))
++virtio_ss.add(when: 'CONFIG_VIRTIO_LEGACY', if_true: files('virtio-legacy.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST', if_true: files('vhost.c', 'vhost-backend.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER', if_true: files('vhost-user.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_VDPA', if_true: files('vhost-vdpa.c'))
+-- 
+2.26.2
 
 
