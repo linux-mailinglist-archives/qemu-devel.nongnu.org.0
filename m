@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD562A89AD
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:24:30 +0100 (CET)
-Received: from localhost ([::1]:58276 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F5B32A89A6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:22:43 +0100 (CET)
+Received: from localhost ([::1]:51010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kangD-0003kH-Mu
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:24:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
+	id 1kaneU-0000cy-HT
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:22:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbO-00074b-8F
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:30 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38520)
+ id 1kanbY-0007FP-Sz
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:42 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:31766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbM-00040u-EA
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:29 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
+ id 1kanbV-00041K-Gq
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:40 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A5LxRNj080576
- for <qemu-devel@nongnu.org>; Thu, 5 Nov 2020 17:19:27 -0500
+ 0A5M33Lb049144; Thu, 5 Nov 2020 17:19:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=xErAqC6I9OwJh/qZoz3Oj3u8WwSujwmsRcbDXIqNq9Q=;
- b=sF1K+pv27iWdUQDlor4HWvS3/OnIonVWxHgDf3dU+OqcWgWp+78bROuzkDlNynbxCBJj
- n0+bwatu6FlR3RVUpSEyfki4ktn3S811l81/6vV/KgsjqRgArU7td4VGh5AEk6k6ay80
- zXewssYugxo6xaNjJgqbqtYUHEPKGOKuR1y/TeMxSKwQYqHt2hoSjljBDPcnFcnisyv1
- MD1VecN27ea60mUsq8LZJjlVMvsGZHaG/epN1Grr62eG7OQDUKCwgMdbT/dXapXi+noM
- 530V+sVVoA+Gz+oVPd00tLEfqjhGydOXInV9fWbb9b9qaZpv0r9Pst4yI0eTMxBbXlHk ug== 
+ content-type : content-transfer-encoding; s=pp1;
+ bh=odZCzxgTRcMQ2DchUfi6h89JAhOqzq/bzlVGfblpgig=;
+ b=N01ua3JkhZdEcnf7irIc25Sw8oIKQKQpkwO0lxwXEgJxdU79kVZitSyyL4NWYPXSIGlw
+ nbNcQUa9PnTTAm2fvCEJmtrmXrFb4migkc0PppU50QTrL7fbG1eAwJuir/vMJo96MTkL
+ /RGn8TqBNsOcTnqDF2rcy3X3uYegUTXxzG6sgqZW9z/khQKgtb5qiQ2mF8VEbynVHAGU
+ ZdP13RTlcuutfksVV5S2xLMQWJvBvVOUiCSIOhKCjLte4PilwuZqazYwuBBv02u/KxkA
+ 9svPs/xLdqlurFp38n0p2Kb8+w03GD/SabEOOD1X5E8MEyvnBolT3c8jOb0LOE/+1lHV wg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34mfdgqgts-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 17:19:27 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5MFfhF003442
- for <qemu-devel@nongnu.org>; Thu, 5 Nov 2020 17:19:26 -0500
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34mfdgqgtd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34m8wwb21g-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:26 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MC30s020348;
- Thu, 5 Nov 2020 22:19:25 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma02wdc.us.ibm.com with ESMTP id 34h0ewkcn1-1
+ Thu, 05 Nov 2020 17:19:35 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5M3XN1051075;
+ Thu, 5 Nov 2020 17:19:35 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34m8wwb21a-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 22:19:25 +0000
+ Thu, 05 Nov 2020 17:19:34 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MBpab000532;
+ Thu, 5 Nov 2020 22:19:34 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 34h02mgc1j-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 05 Nov 2020 22:19:34 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0A5MJO3366846982
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A5MJOL811403792
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 5 Nov 2020 22:19:24 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A8D9C6A047;
- Thu,  5 Nov 2020 22:19:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id EB54C6A051;
+ Thu,  5 Nov 2020 22:19:32 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 42D6D6A04F;
- Thu,  5 Nov 2020 22:19:24 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 58AC26A047;
+ Thu,  5 Nov 2020 22:19:32 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.222.173])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  5 Nov 2020 22:19:24 +0000 (GMT)
+ Thu,  5 Nov 2020 22:19:32 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: dbuono@linux.vnet.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v3 6/9] configure,meson: add option to enable LTO
-Date: Thu,  5 Nov 2020 17:19:02 -0500
-Message-Id: <20201105221905.1350-7-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v3 7/9] cfi: Initial support for cfi-icall in QEMU
+Date: Thu,  5 Nov 2020 17:19:03 -0500
+Message-Id: <20201105221905.1350-8-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
 References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-TM-AS-GCONF: 00
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-11-05_15:2020-11-05,
  2020-11-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0
- mlxlogscore=784 spamscore=0 mlxscore=0 lowpriorityscore=0
- priorityscore=1501 impostorscore=0 clxscore=1015 phishscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011050139
+ clxscore=1015 mlxscore=0
+ lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=2
+ phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011050141
 Received-SPF: none client-ip=148.163.156.1;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:16
@@ -110,73 +110,303 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch allows to compile QEMU with link-time optimization (LTO).
-Compilation with LTO is handled directly by meson. This patch only
-adds the option in configure and forwards the request to meson
+LLVM/Clang, supports runtime checks for forward-edge Control-Flow
+Integrity (CFI).
 
-Tested with all major versions of clang from 6 to 12
+CFI on indirect function calls (cfi-icall) ensures that, in indirect
+function calls, the function called is of the right signature for the
+pointer type defined at compile time.
+
+For this check to work, the code must always respect the function
+signature when using function pointer, the function must be defined
+at compile time, and be compiled with link-time optimization.
+
+This rules out, for example, shared libraries that are dynamically loaded
+(given that functions are not known at compile time), and code that is
+dynamically generated at run-time.
+
+This patch:
+
+1) Introduces the CONFIG_CFI flag to support cfi in QEMU
+
+2) Introduces a decorator to allow the definition of "sensitive"
+functions, where a non-instrumented function may be called at runtime
+through a pointer. The decorator will take care of disabling cfi-icall
+checks on such functions, when cfi is enabled.
+
+3) Marks functions currently in QEMU that exhibit such behavior,
+in particular:
+- The function in TCG that calls pre-compiled TBs
+- The function in TCI that interprets instructions
+- Functions in the plugin infrastructures that jump to callbacks
+- Functions in util that directly call a signal handler
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Acked-by: Alex Bennée <alex.bennee@linaro.org> for plugins
 ---
- configure   | 7 +++++++
- meson.build | 1 +
- 2 files changed, 8 insertions(+)
+ accel/tcg/cpu-exec.c    | 11 +++++++++++
+ include/qemu/compiler.h | 12 ++++++++++++
+ plugins/core.c          | 37 +++++++++++++++++++++++++++++++++++++
+ plugins/loader.c        |  7 +++++++
+ tcg/tci.c               |  7 +++++++
+ util/main-loop.c        | 11 +++++++++++
+ util/oslib-posix.c      | 11 +++++++++++
+ 7 files changed, 96 insertions(+)
 
-diff --git a/configure b/configure
-index 2c3c69f118..7115655fe4 100755
---- a/configure
-+++ b/configure
-@@ -242,6 +242,7 @@ host_cc="cc"
- audio_win_int=""
- libs_qga=""
- debug_info="yes"
-+lto="false"
- stack_protector=""
- safe_stack=""
- use_containers="yes"
-@@ -1166,6 +1167,10 @@ for opt do
-   ;;
-   --disable-werror) werror="no"
-   ;;
-+  --enable-lto) lto="true"
-+  ;;
-+  --disable-lto) lto="false"
-+  ;;
-   --enable-stack-protector) stack_protector="yes"
-   ;;
-   --disable-stack-protector) stack_protector="no"
-@@ -1744,6 +1749,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   module-upgrades try to load modules from alternate paths for upgrades
-   debug-tcg       TCG debugging (default is disabled)
-   debug-info      debugging information
-+  lto             Enable Link-Time Optimization.
-   sparse          sparse checker
-   safe-stack      SafeStack Stack Smash Protection. Depends on
-                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
-@@ -6991,6 +6997,7 @@ NINJA=$ninja $meson setup \
-         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
-         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
-+        -Db_lto=$lto \
-         $cross_arg \
-         "$PWD" "$source_path"
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 58aea605d8..ffe0e1e3fb 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -26,6 +26,7 @@
+ #include "exec/exec-all.h"
+ #include "tcg/tcg.h"
+ #include "qemu/atomic.h"
++#include "qemu/compiler.h"
+ #include "sysemu/qtest.h"
+ #include "qemu/timer.h"
+ #include "qemu/rcu.h"
+@@ -144,6 +145,16 @@ static void init_delay_params(SyncClocks *sc, const CPUState *cpu)
+ #endif /* CONFIG USER ONLY */
  
-diff --git a/meson.build b/meson.build
-index 39ac5cf6d8..99c7ab1d38 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2023,6 +2023,7 @@ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
- summary_info += {'sparse enabled':    sparse.found()}
- summary_info += {'strip binaries':    get_option('strip')}
- summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
-+summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- if targetos == 'darwin'
-   summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
+ /* Execute a TB, and fix up the CPU state afterwards if necessary */
++/*
++ * Disable CFI checks.
++ * TCG creates binary blobs at runtime, with the transformed code.
++ * A TB is a blob of binary code, created at runtime and called with an
++ * indirect function call. Since such function did not exist at compile time,
++ * the CFI runtime has no way to verify its signature and would fail.
++ * TCG is not considered a security-sensitive part of QEMU so this does not
++ * affect the impact of CFI in environment with high security requirements
++ */
++QEMU_DISABLE_CFI
+ static inline tcg_target_ulong cpu_tb_exec(CPUState *cpu, TranslationBlock *itb)
+ {
+     CPUArchState *env = cpu->env_ptr;
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index c76281f354..c87c242063 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -243,4 +243,16 @@ extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
+ #define qemu_build_not_reached()  g_assert_not_reached()
+ #endif
+ 
++#ifdef CONFIG_CFI
++/*
++ * If CFI is enabled, use an attribute to disable cfi-icall on the following
++ * function
++ */
++#define QEMU_DISABLE_CFI __attribute__((no_sanitize("cfi-icall")))
++#else
++/* If CFI is not enabled, use an empty define to not change the behavior */
++#define QEMU_DISABLE_CFI
++#endif
++
++
+ #endif /* COMPILER_H */
+diff --git a/plugins/core.c b/plugins/core.c
+index 51bfc94787..87b823bbc4 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -31,6 +31,7 @@
+ #include "tcg/tcg-op.h"
+ #include "trace/mem-internal.h" /* mem_info macros */
+ #include "plugin.h"
++#include "qemu/compiler.h"
+ 
+ struct qemu_plugin_cb {
+     struct qemu_plugin_ctx *ctx;
+@@ -90,6 +91,12 @@ void plugin_unregister_cb__locked(struct qemu_plugin_ctx *ctx,
+     }
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The callback function has been loaded from an external library so we do not
++ * have type information
++ */
++QEMU_DISABLE_CFI
+ static void plugin_vcpu_cb__simple(CPUState *cpu, enum qemu_plugin_event ev)
+ {
+     struct qemu_plugin_cb *cb, *next;
+@@ -111,6 +118,12 @@ static void plugin_vcpu_cb__simple(CPUState *cpu, enum qemu_plugin_event ev)
+     }
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The callback function has been loaded from an external library so we do not
++ * have type information
++ */
++QEMU_DISABLE_CFI
+ static void plugin_cb__simple(enum qemu_plugin_event ev)
+ {
+     struct qemu_plugin_cb *cb, *next;
+@@ -128,6 +141,12 @@ static void plugin_cb__simple(enum qemu_plugin_event ev)
+     }
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The callback function has been loaded from an external library so we do not
++ * have type information
++ */
++QEMU_DISABLE_CFI
+ static void plugin_cb__udata(enum qemu_plugin_event ev)
+ {
+     struct qemu_plugin_cb *cb, *next;
+@@ -325,6 +344,12 @@ void plugin_register_vcpu_mem_cb(GArray **arr,
+     dyn_cb->f.generic = cb;
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The callback function has been loaded from an external library so we do not
++ * have type information
++ */
++QEMU_DISABLE_CFI
+ void qemu_plugin_tb_trans_cb(CPUState *cpu, struct qemu_plugin_tb *tb)
+ {
+     struct qemu_plugin_cb *cb, *next;
+@@ -339,6 +364,12 @@ void qemu_plugin_tb_trans_cb(CPUState *cpu, struct qemu_plugin_tb *tb)
+     }
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The callback function has been loaded from an external library so we do not
++ * have type information
++ */
++QEMU_DISABLE_CFI
+ void
+ qemu_plugin_vcpu_syscall(CPUState *cpu, int64_t num, uint64_t a1, uint64_t a2,
+                          uint64_t a3, uint64_t a4, uint64_t a5,
+@@ -358,6 +389,12 @@ qemu_plugin_vcpu_syscall(CPUState *cpu, int64_t num, uint64_t a1, uint64_t a2,
+     }
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The callback function has been loaded from an external library so we do not
++ * have type information
++ */
++QEMU_DISABLE_CFI
+ void qemu_plugin_vcpu_syscall_ret(CPUState *cpu, int64_t num, int64_t ret)
+ {
+     struct qemu_plugin_cb *cb, *next;
+diff --git a/plugins/loader.c b/plugins/loader.c
+index 8ac5dbc20f..fd491961de 100644
+--- a/plugins/loader.c
++++ b/plugins/loader.c
+@@ -32,6 +32,7 @@
+ #ifndef CONFIG_USER_ONLY
+ #include "hw/boards.h"
+ #endif
++#include "qemu/compiler.h"
+ 
+ #include "plugin.h"
+ 
+@@ -150,6 +151,12 @@ static uint64_t xorshift64star(uint64_t x)
+     return x * UINT64_C(2685821657736338717);
+ }
+ 
++/*
++ * Disable CFI checks.
++ * The install and version functions have been loaded from an external library
++ * so we do not have type information
++ */
++QEMU_DISABLE_CFI
+ static int plugin_load(struct qemu_plugin_desc *desc, const qemu_info_t *info)
+ {
+     qemu_plugin_install_func_t install;
+diff --git a/tcg/tci.c b/tcg/tci.c
+index 82039fd163..5d97b7c71c 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -31,6 +31,7 @@
+ #include "tcg/tcg.h"           /* MAX_OPC_PARAM_IARGS */
+ #include "exec/cpu_ldst.h"
+ #include "tcg/tcg-op.h"
++#include "qemu/compiler.h"
+ 
+ /* Marker for missing code. */
+ #define TODO() \
+@@ -475,6 +476,12 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
+ #endif
+ 
+ /* Interpret pseudo code in tb. */
++/*
++ * Disable CFI checks.
++ * One possible operation in the pseudo code is a call to binary code.
++ * Therefore, disable CFI checks in the interpreter function
++ */
++QEMU_DISABLE_CFI
+ uintptr_t tcg_qemu_tb_exec(CPUArchState *env, uint8_t *tb_ptr)
+ {
+     tcg_target_ulong regs[TCG_TARGET_NB_REGS];
+diff --git a/util/main-loop.c b/util/main-loop.c
+index 6470f8eae3..6bfc7c46f5 100644
+--- a/util/main-loop.c
++++ b/util/main-loop.c
+@@ -33,6 +33,7 @@
+ #include "block/aio.h"
+ #include "qemu/error-report.h"
+ #include "qemu/queue.h"
++#include "qemu/compiler.h"
+ 
+ #ifndef _WIN32
+ #include <sys/wait.h>
+@@ -44,6 +45,16 @@
+  * use signalfd to listen for them.  We rely on whatever the current signal
+  * handler is to dispatch the signals when we receive them.
+  */
++/*
++ * Disable CFI checks.
++ * We are going to call a signal hander directly. Such handler may or may not
++ * have been defined in our binary, so there's no guarantee that the pointer
++ * used to set the handler is a cfi-valid pointer. Since the handlers are
++ * stored in kernel memory, changing the handler to an attacker-defined
++ * function requires being able to call a sigaction() syscall,
++ * which is not as easy as overwriting a pointer in memory.
++ */
++QEMU_DISABLE_CFI
+ static void sigfd_handler(void *opaque)
+ {
+     int fd = (intptr_t)opaque;
+diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+index f15234b5c0..f1e2801b11 100644
+--- a/util/oslib-posix.c
++++ b/util/oslib-posix.c
+@@ -39,6 +39,7 @@
+ #include "qemu/thread.h"
+ #include <libgen.h>
+ #include "qemu/cutils.h"
++#include "qemu/compiler.h"
+ 
+ #ifdef CONFIG_LINUX
+ #include <sys/syscall.h>
+@@ -773,6 +774,16 @@ void qemu_free_stack(void *stack, size_t sz)
+     munmap(stack, sz);
+ }
+ 
++/*
++ * Disable CFI checks.
++ * We are going to call a signal hander directly. Such handler may or may not
++ * have been defined in our binary, so there's no guarantee that the pointer
++ * used to set the handler is a cfi-valid pointer. Since the handlers are
++ * stored in kernel memory, changing the handler to an attacker-defined
++ * function requires being able to call a sigaction() syscall,
++ * which is not as easy as overwriting a pointer in memory.
++ */
++QEMU_DISABLE_CFI
+ void sigaction_invoke(struct sigaction *action,
+                       struct qemu_signalfd_siginfo *info)
+ {
 -- 
 2.17.1
 
