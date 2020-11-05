@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291E92A7CB7
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 12:13:46 +0100 (CET)
-Received: from localhost ([::1]:39862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A288C2A7CCA
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 12:18:24 +0100 (CET)
+Received: from localhost ([::1]:52360 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kadD7-0004Ct-7r
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 06:13:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58540)
+	id 1kadHb-00016A-P0
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 06:18:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kadAh-0002bJ-QE
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:11:15 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40928)
+ id 1kadAk-0002h5-GL
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:11:18 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41024)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kadAf-00026A-RT
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:11:15 -0500
+ id 1kadAi-00027V-Gg
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:11:18 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kadAe-0008Ep-M8
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 11:11:12 +0000
+ id 1kadAh-0008I6-CX
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 11:11:15 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9B8D72E809C
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 11:11:12 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5BCFD2E80AB
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 11:11:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2020 10:57:45 -0000
-From: Peter Maydell <1861161@bugs.launchpad.net>
+Date: Thu, 05 Nov 2020 10:59:29 -0000
+From: Peter Maydell <1779017@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
 X-Launchpad-Bug-Tags: arm
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: philippe-vaucher pmaydell
-X-Launchpad-Bug-Reporter: Philippe Vaucher (philippe-vaucher)
+X-Launchpad-Bug-Commenters: pmaydell th-otto xrobau
+X-Launchpad-Bug-Reporter: Thorsten Otto (th-otto)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <158022582642.18726.3284794136336139049.malonedeb@gac.canonical.com>
-Message-Id: <160457386653.12514.15313175455236315182.launchpad@gac.canonical.com>
-Subject: [Bug 1861161] Re: qemu-arm-static stuck with 100% CPU when
- cross-compiling emacs
+References: <153014968219.17704.367188786620032253.malonedeb@chaenomeles.canonical.com>
+Message-Id: <160457397004.17771.14807613554467776737.malone@soybean.canonical.com>
+Subject: [Bug 1779017] Re: qemu-system-arm: crashes raspian kernels with
+ divide-by-zero
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: a7c75f8b92364e54a1a81f00b50cc521d0447f44
+X-Launchpad-Hash: 3adb5d56ec87f7b3777e79942f285f0d28f96ac3
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 04:11:06
@@ -74,104 +74,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1861161 <1861161@bugs.launchpad.net>
+Reply-To: Bug 1779017 <1779017@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
+This should be fixed for the 5.2 release, as we now have a model of the
+cprman clock control module.
 
-** Tags added: arm
+
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1861161
+https://bugs.launchpad.net/bugs/1779017
 
 Title:
-  qemu-arm-static stuck with 100% CPU when cross-compiling emacs
+  qemu-system-arm: crashes raspian kernels with divide-by-zero
 
 Status in QEMU:
-  Confirmed
+  Fix Committed
 
 Bug description:
-  Hello,
+  While trying to boot a arm kernel for a raspi2 machine (kernel7-4.9.41-st=
+retch.img in my case, but applies to other versions, too) the kernel crash =
+with a division by zero. The output on the sreial console is:
+  [   10.022377] [<8011d344>] (__warn) from [<8011d42c>] (warn_slowpath_nul=
+l+0x30/0x38)
+  [   10.024726] [<8011d42c>] (warn_slowpath_null) from [<804da378>] (uart_=
+get_baud_rate+0xf8/0x160)
 
-  I'm trying to build multi-arch docker images for
-  https://hub.docker.com/r/silex/emacs.
+  ...
 
-  Here is the machine I'm building on (hetzner cloud machine):
+  [   10.094933] Hardware name: BCM2835
+  [   10.101507] [<8010fb3c>] (unwind_backtrace) from [<8010c058>] (show_st=
+ack+0x20/0x24)
+  [   10.105413] [<8010c058>] (show_stack) from [<80455f84>] (dump_stack+0x=
+d4/0x118)
+  [   10.140268] [<80455f84>] (dump_stack) from [<8010bed4>] (__div0+0x24/0=
+x28)
+  [   10.143065] [<8010bed4>] (__div0) from [<8045498c>] (Ldiv0+0x8/0x14)
+  [   10.145553] [<8045498c>] (Ldiv0) from [<804e5538>] (pl011_set_termios+=
+0x9c/0x37c)
+  [   10.148017] [<804e5538>] (pl011_set_termios) from [<804da954>] (uart_c=
+hange_speed+0x40/0xfc)
+  [   10.185887] [<804da954>] (uart_change_speed) from [<804ddedc>] (uart_s=
+tartup.part.3+0xa4/0x13c)
+  [   10.222187] [<804ddedc>] (uart_startup.part.3) from [<804ddfcc>] (uart=
+_port_activate+0x58/0x64)
+  [   10.226014] [<804ddfcc>] (uart_port_activate) from [<804c93b8>] (tty_p=
+ort_open+0xa0/0xe0)
+  [   10.228398] [<804c93b8>] (tty_port_open) from [<804dce64>] (uart_open+=
+0x40/0x48)
+  [   10.264254] [<804dce64>] (uart_open) from [<804c1d70>] (tty_open+0xc0/=
+0x678)
+  [   10.266697] [<804c1d70>] (tty_open) from [<802753f0>] (chrdev_open+0xe=
+0/0x1a0)
+  [   10.269049] [<802753f0>] (chrdev_open) from [<8026d964>] (do_dentry_op=
+en+0x1f4/0x314)
+  [   10.271620] [<8026d964>] (do_dentry_open) from [<8026ec00>] (vfs_open+=
+0x60/0x8c)
+  [   10.275245] [<8026ec00>] (vfs_open) from [<8027f39c>] (path_openat+0x2=
+bc/0x1040)
+  [   10.312827] [<8027f39c>] (path_openat) from [<80281040>] (do_filp_open=
++0x70/0xd4)
+  [   10.317860] [<80281040>] (do_filp_open) from [<8026efd8>] (do_sys_open=
++0x120/0x1d0)
+  [   10.320370] [<8026efd8>] (do_sys_open) from [<8026f0b4>] (SyS_open+0x2=
+c/0x30)
+  [   10.357033] [<8026f0b4>] (SyS_open) from [<801080c0>] (ret_fast_syscal=
+l+0x0/0x1c)
 
-  root@ubuntu-4gb-fsn1-1:~# lsb_release -a
-  No LSB modules are available.
-  Distributor ID: Ubuntu
-  Description:    Ubuntu 18.04.3 LTS
-  Release:        18.04
-  Codename:       bionic
-  root@ubuntu-4gb-fsn1-1:~# uname -a
-  Linux ubuntu-4gb-fsn1-1 4.15.0-74-generic #84-Ubuntu SMP Thu Dec 19 08:06=
-:28 UTC 2019 x86_64 x86_64 x86_64 GNU/Linux
+  Tracking that down in the linux kernel source, it looks like somehow
+  uart_get_baud_rate() returns 0.
 
-  Whenever I try to build the following alpine Dockerfile
-  https://gitlab.com/Silex777/docker-
-  emacs/blob/master/26.3/alpine/3.9/dev/Dockerfile like this:
+  The same kernel could be booted without problem with qemu version 2.11.
+  Trying to bisecting the issue revealed commit @d9f8bbd8eb4e95db97cf02bd03=
+af86a3d606f4f1 as the culprit.
 
-  $ sysctl kernel.randomize_va_space=3D0
-  $ docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-  $ docker build --pull -t test --platform arm .
+  Commandline to run was:
+  qemu-system-arm -M raspi2 \
+  	-kernel "$KERNEL" \
+  	-m 1024 \
+  	-d guest_errors,unimp \
+  	-dtb bcm2709-rpi-2-b.dtb \
+  	-drive file=3D"$IMG,if=3Dsd,format=3Draw"
 
-  It builds fine until this:
-
-  root@ubuntu-4gb-fsn1-1:~# ps -ef | grep qemu
-  root     26473 26465 99 14:26 pts/0    01:59:58 /usr/bin/qemu-arm-static =
-../src/bootstrap-emacs -batch --no-site-file --no-site-lisp --eval (setq lo=
-ad-prefer-newer t) -f batch-byte-compile emacs-lisp/macroexp.el
-
-  This is supposed to take a few seconds, but here it takes 100% CPU and
-  never ends. When I strace the process I see a never ending loop like
-  this:
-
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-  getdents64(5, /* 0 entries */, 2048)    =3D 0
-  lseek(5, 0, SEEK_SET)                   =3D 0
-  getdents64(5, /* 5 entries */, 2048)    =3D 120
-  tgkill(5875, 5878, SIGRT_2)             =3D -1 EAGAIN (Resource temporari=
-ly unavailable)
-
-  It happens with all the QEMU versions I tested:
-  - 2.11.1 (OS version)
-  - 4.1.1-1 (from multiarch/qemu-user-static:4.1.1-1)
-  - 4.2.0-2 (from multiarch/qemu-user-static)
-
-  Any ideas of what I could do to debug it further?
-
-  Kind regards,
-  Philippe
-
-  p.s: Everything builds fine when the base image is ubuntu. I also had
-  similar hangs with basic commands like "apt-get install foo"
-  sometimes.
+  Distribution is SuSE tumbleweed (x86_64, kernel 4.17.2), but same
+  problem also happens with a freshly compiled qemu from git repository.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1861161/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1779017/+subscriptions
 
