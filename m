@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 155F22A856B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:57:15 +0100 (CET)
-Received: from localhost ([::1]:54728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481D52A8583
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:01:30 +0100 (CET)
+Received: from localhost ([::1]:38034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kajVa-0000fK-3u
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:57:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34768)
+	id 1kajZh-0005Wb-Bf
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:01:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajR2-0004UL-Ic
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:32 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37351)
+ id 1kajQl-00047M-Ds
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:15 -0500
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:38741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajQy-0004st-Up
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:32 -0500
-Received: by mail-wr1-x441.google.com with SMTP id w1so2798164wrm.4
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:52:27 -0800 (PST)
+ id 1kajQh-0004pb-M4
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:15 -0500
+Received: by mail-wm1-x341.google.com with SMTP id h62so2451046wme.3
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:52:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=PWX79l8aK71+AYI8WeJL1C20BLKUbqb3b0w9LAzwhV8=;
- b=sKuBjdxgzO5u9D8pgwF/tGU3Jl9e9kVQLXkjUZin+MoLsmfLdqrVeqhqiki4zrHNmt
- 5hy7oStzIxiY+o16gdITJ6d17aQlrLazLaOKd1So+BBwfe/FRh1q20LBPkyH1CYBKIBc
- 89BFyfERsJdvAKbEqLP1/bDRte++Si1BFXcV5wA53Yg3P8t5AiT8ptxNXg/9K4dFdUJ5
- sPXa8twvD5cGmJ5dvqqFdwnTja/ybh6DzAOswcsvh1WULOZk8Tif6W1wiM9fUjihlpqK
- kiMe6f4QE/wGEOHChHWXznLNi+6OKoDNmYdzcJDS8aOMnUWcpxcWrDD/Hk5hUq8sEImR
- ikkQ==
+ bh=Rn0hUbcz35n6uIROHy212hfaK77GbH9OkiZ/hZAVCwc=;
+ b=uj941NUrndN5VYOa79bbAM7aBjJjPG7/T6nruCQYrE+BOMY+XAW9RcRDaV0QdrQIk5
+ r+BXydHiKzPlf39zCOl8gWe4ybF/+1gWOC6Af4ecfFXKe5boorT9sy9jalOMWXZDv0/j
+ N3luJzW6tInEy43LCiyTlH/c0jK6U4oG9vs1t+2tE9a+elK+fE3+4kaCcAex/Ep4c+XX
+ C4ZyU3ZT5ouJnNfMeBVNeG3ntDJW6hCUf2GGP3Fhbhewn1Va3NpwkS7i7K07ek1uF/ZC
+ gY4TKv56UQlcM8SOFlQSwHtjiGFkgyIqbS7KJSnUVTwzYHBw6OSOftnw4Avn34kco3Sp
+ NwpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=PWX79l8aK71+AYI8WeJL1C20BLKUbqb3b0w9LAzwhV8=;
- b=A/LcD2V+bK45xnG7YhEl59JyogGaz4aBbqvkLv4ATTviGVIdxzFiEc2P86CcuyU39F
- HFeDnHuXLxBoho1x/atjHyxVJx9moMWHUHFbvmX90jjp8cK4SDvNa8sU05RJJGlbB6Qk
- nE/eJ0NspY2lLT6IBIuZ2KXm9ZGf7My47qp5isZT/DyPiuCUaRoEyWSbv+QS+qP9yN9I
- g+hx9QU/Z/me4kP9VjQG21vhz00Qy1dZnFAgM0eVIk4LhmuQH2ok1lVSIPyqRWEh+kmF
- wMV4GbWhEa1hvQEwb9vycAJN4VnRWPDGtKBmOfmlSCazpA1CoiB/4ZZN/9W+y/m85Cv5
- sjBg==
-X-Gm-Message-State: AOAM5315rQaTFrvG/vhdQvLH7C5/5kHO7G5nvfoZfyHksuKjDchk66R9
- ZFmCV5ULrwAvYwLVbSedg133Eg==
-X-Google-Smtp-Source: ABdhPJykPmP1sXUte37eZYccOK8QD1oW46dCne80dIEM79/5lUgUNgxRnHI2ok44wyDkI60skFiMrA==
-X-Received: by 2002:adf:eb4c:: with SMTP id u12mr4588066wrn.73.1604598746349; 
- Thu, 05 Nov 2020 09:52:26 -0800 (PST)
+ bh=Rn0hUbcz35n6uIROHy212hfaK77GbH9OkiZ/hZAVCwc=;
+ b=feOqM+XEyciWlETUTYHvhdzEhwDWmu5U+OSQz7F2fxNlY/N5gX0EQpf4sI9460BZAf
+ 3WVZmD0pVMl4tcurt/75vRh59zyqLgx5rnlf+1yjpt0kilFb0XFR37y6qZsEtheYlFjT
+ U0l6r9MFoKboUmkK+hlPfOZdVg1s9nMWn+ykolG/dfJGwN2cQXauQFUMITpTNd3Rb/qY
+ W4cjagdvRazXv36XMp/t8GT1larcFY+4FNekVKnWqXFcH40ik8+rXuNYncuKk7WzTPUl
+ KKQaZQmwisPPQ413+L7uY73NtoG2hgrp+phXsrSrLFUaAss5PgLysRUR9x/mHasJWPUW
+ 66fw==
+X-Gm-Message-State: AOAM532AyLWGC9yd2pNlmWpkKuiINdnsuI5OymsSg1ziyxO0g+6p6T9b
+ 7zLjoDSa84LQ10cnDYuhb5FDIQ==
+X-Google-Smtp-Source: ABdhPJyT87Nah9QvghVMiPknGnMnPuyShQdJ0FN+YNTdAFCCBOelVvLlNYQY4wNufHoIluuowbpz6A==
+X-Received: by 2002:a05:600c:2c4c:: with SMTP id
+ r12mr3814578wmg.157.1604598724129; 
+ Thu, 05 Nov 2020 09:52:04 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a185sm3323029wmf.24.2020.11.05.09.52.06
+ by smtp.gmail.com with ESMTPSA id y187sm3711917wmg.33.2020.11.05.09.51.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 09:52:15 -0800 (PST)
+ Thu, 05 Nov 2020 09:51:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 154F51FF9D;
- Thu,  5 Nov 2020 17:51:55 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 1F44A1FF90;
+ Thu,  5 Nov 2020 17:51:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  14/15] xen: only build HVM support under CONFIG_XEN_HVM
-Date: Thu,  5 Nov 2020 17:51:52 +0000
-Message-Id: <20201105175153.30489-15-alex.bennee@linaro.org>
+Subject: [RFC PATCH 04/15] hw/core: implement a guest-loader to support static
+ hypervisor guests
+Date: Thu,  5 Nov 2020 17:51:42 +0000
+Message-Id: <20201105175153.30489-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201105175153.30489-1-alex.bennee@linaro.org>
 References: <20201105175153.30489-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -88,133 +90,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, julien@xen.org,
- Eduardo Habkost <ehabkost@redhat.com>, masami.hiramatsu@linaro.org,
- Paul Durrant <paul@xen.org>, andre.przywara@arm.com,
- Richard Henderson <rth@twiddle.net>, stefano.stabellini@linaro.org,
- takahiro.akashi@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
- "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, stefano.stabellini@xilinx.com,
+Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
+ stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
+ stefano.stabellini@xilinx.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When running on non-x86 systems there is no point building HVM support
-because we will never see such things. To achieve this we need to
-shuffle a little bit of the inline and other stubs about.
+Hypervisors, especially type-1 ones, need the firmware/bootcode to put
+their initial guest somewhere in memory and pass the information to it
+via platform data. The guest-loader is modelled after the generic
+loader for exactly this sort of purpose:
+
+  $QEMU $ARGS  -kernel ~/xen.git/xen/xen \
+    -append "dom0_mem=1G,max:1G loglvl=all guest_loglvl=all" \
+    -device guest-loader,addr=0x42000000,kernel=Image,bootargs="root=/dev/sda2 ro console=hvc0 earlyprintk=xen" \
+    -device guest-loader,addr=0x47000000,initrd=rootfs.cpio
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20201021170842.25762-5-alex.bennee@linaro.org>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/sysemu/xen-mapcache.h |  2 +-
- include/sysemu/xen.h          |  9 +++++----
- accel/stubs/xen-all-stub.c    | 11 +++++++++++
- accel/stubs/xen-stub.c        |  2 --
- accel/stubs/meson.build       |  3 ++-
- hw/i386/xen/meson.build       |  2 +-
- 6 files changed, 20 insertions(+), 9 deletions(-)
- create mode 100644 accel/stubs/xen-all-stub.c
+ hw/core/guest-loader.h |  34 ++++++++++
+ hw/core/guest-loader.c | 140 +++++++++++++++++++++++++++++++++++++++++
+ hw/core/meson.build    |   2 +
+ 3 files changed, 176 insertions(+)
+ create mode 100644 hw/core/guest-loader.h
+ create mode 100644 hw/core/guest-loader.c
 
-diff --git a/include/sysemu/xen-mapcache.h b/include/sysemu/xen-mapcache.h
-index c8e7c2f6cf..4bba764745 100644
---- a/include/sysemu/xen-mapcache.h
-+++ b/include/sysemu/xen-mapcache.h
-@@ -13,7 +13,7 @@
- 
- typedef hwaddr (*phys_offset_to_gaddr_t)(hwaddr phys_offset,
-                                          ram_addr_t size);
--#ifdef CONFIG_XEN
-+#ifdef CONFIG_XEN_HVM
- 
- void xen_map_cache_init(phys_offset_to_gaddr_t f,
-                         void *opaque);
-diff --git a/include/sysemu/xen.h b/include/sysemu/xen.h
-index 0ca25697e4..43d2314441 100644
---- a/include/sysemu/xen.h
-+++ b/include/sysemu/xen.h
-@@ -24,7 +24,7 @@ extern bool xen_allowed;
- 
- #define xen_enabled()           (xen_allowed)
- 
--#ifndef CONFIG_USER_ONLY
-+#ifdef CONFIG_XEN_HVM
- void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length);
- void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
-                    struct MemoryRegion *mr, Error **errp);
-@@ -33,7 +33,10 @@ void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
- #else /* !CONFIG_XEN_IS_POSSIBLE */
- 
- #define xen_enabled() 0
--#ifndef CONFIG_USER_ONLY
-+
-+#endif /* CONFIG_XEN_IS_POSSIBLE */
-+
-+#if !defined(CONFIG_XEN_HVM) && !defined(CONFIG_USER_ONLY)
- static inline void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
- {
-     /* nothing */
-@@ -45,6 +48,4 @@ static inline void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size,
- }
- #endif
- 
--#endif /* CONFIG_XEN_IS_POSSIBLE */
--
- #endif
-diff --git a/accel/stubs/xen-all-stub.c b/accel/stubs/xen-all-stub.c
+diff --git a/hw/core/guest-loader.h b/hw/core/guest-loader.h
 new file mode 100644
-index 0000000000..597c5789cc
+index 0000000000..07f4b4884b
 --- /dev/null
-+++ b/accel/stubs/xen-all-stub.c
-@@ -0,0 +1,11 @@
++++ b/hw/core/guest-loader.h
+@@ -0,0 +1,34 @@
 +/*
-+ * Copyright (C) 2014       Citrix Systems UK Ltd.
++ * Guest Loader
++ *
++ * Copyright (C) 2020 Linaro
++ * Written by Alex Bennée <alex.bennee@linaro.org>
++ * (based on the generic-loader by Li Guang <lig.fnst@cn.fujitsu.com>)
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "sysemu/xen.h"
++#ifndef GUEST_LOADER_H
++#define GUEST_LOADER_H
 +
-+bool xen_allowed;
-diff --git a/accel/stubs/xen-stub.c b/accel/stubs/xen-stub.c
-index 7054965c48..6bc9906239 100644
---- a/accel/stubs/xen-stub.c
-+++ b/accel/stubs/xen-stub.c
-@@ -9,8 +9,6 @@
- #include "sysemu/xen.h"
- #include "qapi/qapi-commands-migration.h"
++#include "hw/qdev-core.h"
++#include "qom/object.h"
++
++struct GuestLoaderState {
++    /* <private> */
++    DeviceState parent_obj;
++
++    /* <public> */
++    uint64_t addr;
++    char *kernel;
++    char *args;
++    char *initrd;
++};
++
++#define TYPE_GUEST_LOADER "guest-loader"
++OBJECT_DECLARE_SIMPLE_TYPE(GuestLoaderState, GUEST_LOADER)
++
++#endif
+diff --git a/hw/core/guest-loader.c b/hw/core/guest-loader.c
+new file mode 100644
+index 0000000000..1ce39842be
+--- /dev/null
++++ b/hw/core/guest-loader.c
+@@ -0,0 +1,140 @@
++/*
++ * Guest Loader
++ *
++ * Copyright (C) 2020 Linaro
++ * Written by Alex Bennée <alex.bennee@linaro.org>
++ * (based on the generic-loader by Li Guang <lig.fnst@cn.fujitsu.com>)
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++/*
++ * Much like the generic-loader this is treated as a special device
++ * inside QEMU. However unlike the generic-loader this device is used
++ * to load guest images for hypervisors. As part of that process the
++ * hypervisor needs to have platform information passed to it by the
++ * lower levels of the stack (e.g. firmware/bootloader). If you boot
++ * the hypervisor directly you use the guest-loader to load the Dom0
++ * or equivalent guest images in the right place in the same way a
++ * boot loader would.
++ *
++ * This is only relevant for full system emulation.
++ */
++
++#include "qemu/osdep.h"
++#include "hw/core/cpu.h"
++#include "hw/sysbus.h"
++#include "sysemu/dma.h"
++#include "hw/loader.h"
++#include "hw/qdev-properties.h"
++#include "qapi/error.h"
++#include "qemu/module.h"
++#include "guest-loader.h"
++#include "sysemu/device_tree.h"
++#include "hw/boards.h"
++
++/*
++ * Insert some FDT nodes for the loaded blob.
++ */
++static void loader_insert_platform_data(GuestLoaderState *s, int size, Error **errp)
++{
++    MachineState *machine = MACHINE(qdev_get_machine());
++    void *fdt = machine->fdt;
++    g_autofree char *node = g_strdup_printf("/chosen/module@%#08lx", s->addr);
++    uint64_t reg_attr[2] = {cpu_to_be64(s->addr), cpu_to_be64(size)};
++
++    if (!fdt) {
++        error_setg(errp, "Cannot modify FDT fields if the machine has none");
++        return;
++    }
++
++    qemu_fdt_add_subnode(fdt, node);
++    qemu_fdt_setprop(fdt, node, "reg", &reg_attr, sizeof(reg_attr));
++
++    if (s->kernel) {
++        const char *compat[2] = { "multiboot,module", "multiboot,kernel" };
++        if (qemu_fdt_setprop_string_array
++            (fdt, node, "compatible", (char **) &compat, ARRAY_SIZE(compat)) < 0) {
++            error_setg(errp, "couldn't set %s/compatible", node);
++            return;
++        }
++        if (s->args) {
++            if (qemu_fdt_setprop_string(fdt, node, "bootargs", s->args) < 0) {
++                error_setg(errp, "couldn't set %s/bootargs", node);
++            }
++        }
++    } else if (s->initrd) {
++        const char * compat[2] = { "multiboot,module", "multiboot,ramdisk" };
++        if (qemu_fdt_setprop_string_array
++            (fdt, node, "compatible", (char **) &compat, ARRAY_SIZE(compat)) < 0) {
++            error_setg(errp, "couldn't set %s/compatible", node);
++            return;
++        }
++    }
++}
++
++static void guest_loader_realize(DeviceState *dev, Error **errp)
++{
++    GuestLoaderState *s = GUEST_LOADER(dev);
++    char *file = s->kernel ? s->kernel : s->initrd;
++    int size = 0;
++
++    /* Perform some error checking on the user's options */
++    if (s->kernel && s->initrd) {
++        error_setg(errp, "Cannot specify a kernel and initrd in the same stanza");
++        return;
++    } else if (!s->kernel && !s->initrd)  {
++        error_setg(errp, "Need to specify a kernel or initrd image");
++        return;
++    } else if (!s->addr) {
++        error_setg(errp, "Need to specify the address of guest blob");
++        return;
++    } else if (s->args && !s->kernel) {
++        error_setg(errp, "Boot args only relevant to kernel blobs");
++    }
++
++    /* Default to the maximum size being the machine's ram size */
++    size = load_image_targphys_as(file, s->addr, ram_size, NULL);
++    if (size < 0) {
++        error_setg(errp, "Cannot load specified image %s", file);
++        return;
++    }
++
++    /* Now the image is loaded we need to update the platform data */
++    loader_insert_platform_data(s, size, errp);
++}
++
++static Property guest_loader_props[] = {
++    DEFINE_PROP_UINT64("addr", GuestLoaderState, addr, 0),
++    DEFINE_PROP_STRING("kernel", GuestLoaderState, kernel),
++    DEFINE_PROP_STRING("bootargs", GuestLoaderState, args),
++    DEFINE_PROP_STRING("initrd", GuestLoaderState, initrd),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void guest_loader_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = guest_loader_realize;
++    device_class_set_props(dc, guest_loader_props);
++    dc->desc = "Guest Loader";
++    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
++}
++
++static TypeInfo guest_loader_info = {
++    .name = TYPE_GUEST_LOADER,
++    .parent = TYPE_DEVICE,
++    .instance_size = sizeof(GuestLoaderState),
++    .class_init = guest_loader_class_init,
++};
++
++static void guest_loader_register_type(void)
++{
++    type_register_static(&guest_loader_info);
++}
++
++type_init(guest_loader_register_type)
+diff --git a/hw/core/meson.build b/hw/core/meson.build
+index 4a744f3b5e..27a69fc578 100644
+--- a/hw/core/meson.build
++++ b/hw/core/meson.build
+@@ -37,6 +37,8 @@ softmmu_ss.add(files(
+   'clock-vmstate.c',
+ ))
  
--bool xen_allowed;
--
- void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
- {
- }
-diff --git a/accel/stubs/meson.build b/accel/stubs/meson.build
-index d65cb6a5e1..dca468c82a 100644
---- a/accel/stubs/meson.build
-+++ b/accel/stubs/meson.build
-@@ -1,7 +1,8 @@
- softmmu_stub_ss = ss.source_set()
- 
- softmmu_stub_ss.add(when: 'CONFIG_HAX', if_false: files('hax-stub.c'))
--softmmu_stub_ss.add(when: 'CONFIG_XEN', if_false: files('xen-stub.c'))
-+softmmu_stub_ss.add(when: 'CONFIG_XEN', if_false: files('xen-all-stub.c'))
-+softmmu_stub_ss.add(when: 'CONFIG_XEN_HVM', if_false: files('xen-stub.c'))
- softmmu_stub_ss.add(when: 'CONFIG_KVM', if_false: files('kvm-stub.c'))
- softmmu_stub_ss.add(when: 'CONFIG_TCG', if_false: files('tcg-stub.c'))
- 
-diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
-index be84130300..576e2cc5dc 100644
---- a/hw/i386/xen/meson.build
-+++ b/hw/i386/xen/meson.build
-@@ -1,4 +1,4 @@
--i386_ss.add(when: 'CONFIG_XEN', if_true: files(
-+i386_ss.add(when: 'CONFIG_XEN_HVM', if_true: files(
-   'xen-hvm.c',
-   'xen-mapcache.c',
-   'xen_apic.c',
++softmmu_ss.add(when: 'CONFIG_TCG', if_true: files('guest-loader.c'))
++
+ specific_ss.add(when: 'CONFIG_SOFTMMU', if_true: files(
+   'machine-qmp-cmds.c',
+   'numa.c',
 -- 
 2.20.1
 
