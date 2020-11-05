@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BFC72A785F
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 08:55:42 +0100 (CET)
-Received: from localhost ([::1]:60720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F5E22A7946
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 09:29:26 +0100 (CET)
+Received: from localhost ([::1]:43404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaa7R-0005xo-Hr
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 02:55:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51202)
+	id 1kaae5-0003jb-FD
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 03:29:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaa6A-0005Rr-Sm
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:54:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33173)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kaa68-00079G-38
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 02:54:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604562857;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MyPxR7rGHD1XZf95M2xm2rKMtSeMe5w5bSYOTmeF/Ko=;
- b=HqC5meXZDqdzqQlqMIJCtjVIYbA4UyMGjonz/QDjZMAbUnFsUIJ6B520uI8eWZVclVjqRm
- tZpRjnqgoWEyBT1DsvHFipwrB5aFRDJN0UTGY+MabMyAktXlhulhYF/3OJullX2G7Tb67Z
- wJlqyETEfTDL2sYiVGUE4vz5BfD3T5o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-HhiHFmNuPFCGA4spOWV0JQ-1; Thu, 05 Nov 2020 02:54:15 -0500
-X-MC-Unique: HhiHFmNuPFCGA4spOWV0JQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBEE7D3E80;
- Thu,  5 Nov 2020 07:54:13 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-117.ams2.redhat.com [10.36.112.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B18081C93D;
- Thu,  5 Nov 2020 07:54:12 +0000 (UTC)
-Subject: Re: [PATCH V2] qtest: Fix bad printf format specifiers
-To: AlexChen <alex.chen@huawei.com>, lvivier@redhat.com,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <5FA3A0C6.5040500@huawei.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <466ac5e7-abdd-2796-0b47-ce67557dfd1f@redhat.com>
-Date: Thu, 5 Nov 2020 08:54:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kaadO-0003IY-2r; Thu, 05 Nov 2020 03:28:42 -0500
+Received: from mail-ot1-f46.google.com ([209.85.210.46]:42764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1kaadM-0002ZJ-F8; Thu, 05 Nov 2020 03:28:41 -0500
+Received: by mail-ot1-f46.google.com with SMTP id h62so674203oth.9;
+ Thu, 05 Nov 2020 00:28:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xicmHF4rJAUG4xgwhhtkHu520Lkff9VoRcMLqSQLnKw=;
+ b=qlO3OBTFtI0Q9TQMFgQ3dyCJqXTAHku/UHpm7L0bRPWW1wttlTA1ut2w3bFHEU52xN
+ p7FjFQHI8IdG109/Ce83qFscSvPua/IDzZ8HRffv7E40TS+yN4T7HAbzfwVlygWymPWS
+ q3cy/8lie8IU2enaRnz2v0Vdqo5ZpHW1lRX6VUDxvigDfIHjGXoQPHKHd+qdCwvXK2rn
+ DQQFPNhqZRNI0m/AeuAdbwCP7IllMzIaXjSqkUN+EnKfmxZmOs2ktnoKW8fnGHAvgdyk
+ kjiwmczMeTSd0BXgTju2vr6htl2ubN9i+QNx0LkvKzHf0t/CViwCcSObHtYefglnTnKO
+ tUZA==
+X-Gm-Message-State: AOAM533BLwMe1XLNYNjbnROIJS8tdNApAYRBum++qT+Y1QeBjRvjfryw
+ 0U6gWVDY1XN6ZJLleEsFCIuvSP0UEQmZp9Siiuk=
+X-Google-Smtp-Source: ABdhPJxEnS6iGJDfFZSOe00EmRjaIdeCWilAcRGjzSID/8pP/7VpwLVCFr4tVDvsPF7uAQfyKHOUI4NIAHwsXXz43kQ=
+X-Received: by 2002:a05:6830:2085:: with SMTP id
+ y5mr940046otq.37.1604564919101; 
+ Thu, 05 Nov 2020 00:28:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5FA3A0C6.5040500@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
+References: <20201103164604.2692357-1-philmd@redhat.com>
+ <20201103164604.2692357-3-philmd@redhat.com>
+ <20201103165247.GT205187@redhat.com>
+ <7654e063-98d3-84e0-8116-5a1b41d14636@redhat.com>
+ <21e90ddb-fe8a-c780-2741-9b7a2f7f1c9a@redhat.com>
+ <alpine.DEB.2.21.2011031722100.3264@sstabellini-ThinkPad-T480s>
+ <9ac5e985-a701-f357-29fb-ef7975f5f2c2@redhat.com>
+ <alpine.DEB.2.21.2011041805060.3264@sstabellini-ThinkPad-T480s>
+In-Reply-To: <alpine.DEB.2.21.2011041805060.3264@sstabellini-ThinkPad-T480s>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Thu, 5 Nov 2020 09:19:34 +0100
+Message-ID: <CAAdtpL6tGqKyRSZiQK7ZaEuJyG6z2tAauzsDVQnet=3EkuqPBQ@mail.gmail.com>
+Subject: Re: [PATCH-for-5.2 2/3] gitlab-ci: Add a job to cover the
+ --without-default-devices config
+To: Stefano Stabellini <sstabellini@kernel.org>
+Content-Type: multipart/alternative; boundary="00000000000005af5d05b357e2c9"
+Received-SPF: pass client-ip=209.85.210.46;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ot1-f46.google.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 03:28:39
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,61 +76,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, Paul Durrant <paul@xen.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, David Hildenbrand <david@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/11/2020 07.50, AlexChen wrote:
-> We should use printf format specifier PRIu32 instead of "%d" for
-> argument of type 'uint32_t'.
-> 
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Alex Chen <alex.chen@huawei.com>
-> ---
->  tests/qtest/arm-cpu-features.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-> index d20094d5a7..003ba24fac 100644
-> --- a/tests/qtest/arm-cpu-features.c
-> +++ b/tests/qtest/arm-cpu-features.c
-> @@ -536,7 +536,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->          if (kvm_supports_sve) {
->              g_assert(vls != 0);
->              max_vq = 64 - __builtin_clzll(vls);
-> -            sprintf(max_name, "sve%d", max_vq * 128);
-> +            sprintf(max_name, "sve%" PRIu32, max_vq * 128);
-> 
->              /* Enabling a supported length is of course fine. */
->              assert_sve_vls(qts, "host", vls, "{ %s: true }", max_name);
-> @@ -556,7 +556,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->                   * unless all larger, supported vector lengths are also
->                   * disabled.
->                   */
-> -                sprintf(name, "sve%d", vq * 128);
-> +                sprintf(name, "sve%" PRIu32, vq * 128);
->                  error = g_strdup_printf("cannot disable %s", name);
->                  assert_error(qts, "host", error,
->                               "{ %s: true, %s: false }",
-> @@ -569,7 +569,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->               * we need at least one vector length enabled.
->               */
->              vq = __builtin_ffsll(vls);
-> -            sprintf(name, "sve%d", vq * 128);
-> +            sprintf(name, "sve%" PRIu32, vq * 128);
->              error = g_strdup_printf("cannot disable %s", name);
->              assert_error(qts, "host", error, "{ %s: false }", name);
->              g_free(error);
-> @@ -581,7 +581,7 @@ static void test_query_cpu_model_expansion_kvm(const void *data)
->                  }
->              }
->              if (vq <= SVE_MAX_VQ) {
-> -                sprintf(name, "sve%d", vq * 128);
-> +                sprintf(name, "sve%" PRIu32, vq * 128);
->                  error = g_strdup_printf("cannot enable %s", name);
->                  assert_error(qts, "host", error, "{ %s: true }", name);
->                  g_free(error);
+--00000000000005af5d05b357e2c9
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Le jeu. 5 nov. 2020 05:28, Stefano Stabellini <sstabellini@kernel.org> a
+=C3=A9crit :
 
+> On Wed, 4 Nov 2020, Thomas Huth wrote:
+> > On 04/11/2020 03.27, Stefano Stabellini wrote:
+> > [...]
+> > > Actually I care about Xen and 9pfs support, it is one of the few
+> > > combinations that I use regularly and it is even enabled in the Xilin=
+x
+> > > product I look after. But admittedly I don't test QEMU master as much
+> as
+> > > I should. With the recent changes to the build system it is not very
+> > > suprising that there are some issues. It would be great to have a Xen
+> > > and 9pfs test in the gitlab CI-loop.
+> > >
+> > >
+> > > FYI I tried to build the latest QEMU on Alpine Linux 3.12 ARM64 and I
+> > > get:
+> > >
+> > >   ninja: unknown tool 'query'
+> > >
+> > > Even after rebuilding ninja master by hand. Any ideas? I don't know
+> much
+> > > about ninja.
+> > >
+> > >
+> > > So I gave up on that and I spinned up a Debian Buster x86 container f=
+or
+> > > this build. That one got past the "ninja: unknown tool 'query'" error=
+.
+> > > The build completed without problems to the end.
+> > >
+> > > Either way I can't reproduce the build error above.
+> >
+> > Did you run "configure" with "--without-default-devices" ?
+>
+> Yes, and still I can't repro the issue, strange. Anyway, I saw that
+> Philippe managed to find and fix the issue with "hw/9pfs: Fix Kconfig
+> dependency problem between 9pfs and Xen", so all sorted :)
+>
+
+Paolo figured the problem and sent a diff, I just forwarded it as a formal
+patch ;)
+
+>
+
+--00000000000005af5d05b357e2c9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">Le jeu. 5 nov. 2020 05:28, Stefano Stabellini &lt;<a href=
+=3D"mailto:sstabellini@kernel.org">sstabellini@kernel.org</a>&gt; a =C3=A9c=
+rit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 4 Nov 2020, Thom=
+as Huth wrote:<br>
+&gt; On 04/11/2020 03.27, Stefano Stabellini wrote:<br>
+&gt; [...]<br>
+&gt; &gt; Actually I care about Xen and 9pfs support, it is one of the few<=
+br>
+&gt; &gt; combinations that I use regularly and it is even enabled in the X=
+ilinx<br>
+&gt; &gt; product I look after. But admittedly I don&#39;t test QEMU master=
+ as much as<br>
+&gt; &gt; I should. With the recent changes to the build system it is not v=
+ery<br>
+&gt; &gt; suprising that there are some issues. It would be great to have a=
+ Xen<br>
+&gt; &gt; and 9pfs test in the gitlab CI-loop.<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; FYI I tried to build the latest QEMU on Alpine Linux 3.12 ARM64 a=
+nd I<br>
+&gt; &gt; get:<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0ninja: unknown tool &#39;query&#39;<br>
+&gt; &gt; <br>
+&gt; &gt; Even after rebuilding ninja master by hand. Any ideas? I don&#39;=
+t know much<br>
+&gt; &gt; about ninja.<br>
+&gt; &gt; <br>
+&gt; &gt; <br>
+&gt; &gt; So I gave up on that and I spinned up a Debian Buster x86 contain=
+er for<br>
+&gt; &gt; this build. That one got past the &quot;ninja: unknown tool &#39;=
+query&#39;&quot; error.<br>
+&gt; &gt; The build completed without problems to the end.<br>
+&gt; &gt; <br>
+&gt; &gt; Either way I can&#39;t reproduce the build error above.<br>
+&gt; <br>
+&gt; Did you run &quot;configure&quot; with &quot;--without-default-devices=
+&quot; ?<br>
+<br>
+Yes, and still I can&#39;t repro the issue, strange. Anyway, I saw that<br>
+Philippe managed to find and fix the issue with &quot;hw/9pfs: Fix Kconfig<=
+br>
+dependency problem between 9pfs and Xen&quot;, so all sorted :)<br></blockq=
+uote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Paolo figure=
+d the problem and sent a diff, I just forwarded it as a formal patch ;)</di=
+v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">
+</blockquote></div></div></div>
+
+--00000000000005af5d05b357e2c9--
 
