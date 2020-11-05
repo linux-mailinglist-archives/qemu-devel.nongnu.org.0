@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7722A89A5
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:22:34 +0100 (CET)
-Received: from localhost ([::1]:50178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8850C2A89BD
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:27:42 +0100 (CET)
+Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaneL-00008W-Lu
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:22:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39894)
+	id 1kanjJ-0007NP-FI
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbK-0006x1-FC; Thu, 05 Nov 2020 17:19:26 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:11906)
+ id 1kanbR-00079G-2x
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbI-00040a-NZ; Thu, 05 Nov 2020 17:19:26 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ id 1kanbP-000414-9V
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:32 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A5M329H049101; Thu, 5 Nov 2020 17:19:23 -0500
+ 0A5M3jZN062850; Thu, 5 Nov 2020 17:19:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=f6D21Gd3sWqQXZmuk8zlfTHG3FzoNxQSDYZK3fctaUU=;
- b=StgBQOuDHB3VsBMRsNMNmyjs6BlWGvRqwGQoDwOUPeUeDrk/IHd5OV8MUKgUPjGj/9rg
- 1sp26ZUoNyNbI5Xwo9MILOemSkK0uVhmVOc+Sq1vGBImm1iSvVhop8kLa6yO71MY8ZFX
- QANUO/x/Rtg9RecwgMllLJsI+rW5JLXG0bsQPX7z+qRS2myX8Dj7MhLPPUHSyM4EpXVk
- vz5jkKs7q7oTuu36x6LrEZK5UhxtWucD+MgIW5M8S+jmdZPVplaHMBw0eVfcf1R4el8V
- 4YOJB1QWxeEsI8blp2dtc5N2WAvh2920Pnp19cJyVC6dM4Ll5oFC/bOQWG1p6EPUBgRB 7Q== 
+ bh=gH8y7yYhPRs4wKHaeMxKo7Sv6U9hFlnqoTm/mJlEwTk=;
+ b=gLKhQESPtSp+SStwmdDCxd6R2tDyiMH9xHDQ8h8kovZ903HVi40AG19AH0FbUjwJpMtV
+ k/w9XhnmrfFe0lm+7WJVJ+sDVJvDlkvG9TvPmaGHsYBAEXRhNu1PHXrUsfIVQE5m0xCI
+ ROWrIVL3WeBfAtdpkbXRyEIZVFywXLF54rv8OQFShNpSF7ai3nzz+X7J+irhZLzumlHN
+ LU7fF5S+IXFO1A5HGwqW9DmRymWMMiE8Kb3Pm7znXeDy/lPlC73PXQqZ5lhKBnPUGhjw
+ WzVF4ZiMxHcmOYy7egoLXbG69uu1ymcZ6auTpkWHXoXmmdEmQQbqW98LYDdSUKnhtqjv lw== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34m8wwb1wd-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34mryyss92-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:23 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5M36hv049462;
- Thu, 5 Nov 2020 17:19:22 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.27])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34m8wwb1w2-1
+ Thu, 05 Nov 2020 17:19:25 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5M4uil066548;
+ Thu, 5 Nov 2020 17:19:25 -0500
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34mryyss8e-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:22 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
- by ppma05wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MCkou007790;
- Thu, 5 Nov 2020 22:19:21 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma05wdc.us.ibm.com with ESMTP id 34h09nke70-1
+ Thu, 05 Nov 2020 17:19:24 -0500
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MJFq6000648;
+ Thu, 5 Nov 2020 22:19:24 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma03dal.us.ibm.com with ESMTP id 34hs33kcc5-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 22:19:21 +0000
+ Thu, 05 Nov 2020 22:19:24 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0A5MJEbX15335972
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A5MJHuf39584086
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Nov 2020 22:19:15 GMT
+ Thu, 5 Nov 2020 22:19:17 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 74F986A047;
- Thu,  5 Nov 2020 22:19:20 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id CF7B16A057;
+ Thu,  5 Nov 2020 22:19:22 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8B81E6A04D;
- Thu,  5 Nov 2020 22:19:19 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 631CF6A04D;
+ Thu,  5 Nov 2020 22:19:22 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.222.173])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  5 Nov 2020 22:19:19 +0000 (GMT)
+ Thu,  5 Nov 2020 22:19:22 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: dbuono@linux.vnet.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v3 4/9] s390x: Avoid variable size warning in ipl.h
-Date: Thu,  5 Nov 2020 17:19:00 -0500
-Message-Id: <20201105221905.1350-5-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v3 5/9] scsi: fix overflow in scsi_disk_new_request_dump
+Date: Thu,  5 Nov 2020 17:19:01 -0500
+Message-Id: <20201105221905.1350-6-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
 References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
@@ -80,14 +82,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-11-05_15:2020-11-05,
  2020-11-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 mlxscore=0
- lowpriorityscore=0 adultscore=0 impostorscore=0 suspectscore=0
- phishscore=0 bulkscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ adultscore=0 mlxlogscore=999
+ clxscore=1015 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ phishscore=0 malwarescore=0 spamscore=0 suspectscore=0 mlxscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2011050141
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:16
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:18
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -107,68 +109,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- "open list:S390-ccw boot" <qemu-s390x@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-S390IPLState contains two IplParameterBlock, which may in turn have
-either a IPLBlockPV or a IplBlockFcp, both ending with a variable
-sized field (an array).
+scsi_disk_new_request_dump is used to dump the content of a scsi request
+for tracing. It does that by decoding the command to get the size of the
+command buffer, and then printing the content of such buffer on a string.
 
-This causes a warning with clang 11 or greater, which checks that
-variable sized type are only allocated at the end of the struct:
+When using gcc with link-time optimizations, it warns that the argument of
+malloc may be too large.
 
-In file included from ../qemu-cfi-v3/target/s390x/diag.c:21:
-../qemu-cfi-v3/hw/s390x/ipl.h:161:23: error: field 'iplb' with variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-    IplParameterBlock iplb;
-                      ^
-../qemu-cfi-v3/hw/s390x/ipl.h:162:23: error: field 'iplb_pv' with variable sized type 'IplParameterBlock' (aka 'union IplParameterBlock') not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
-    IplParameterBlock iplb_pv;
+In function 'scsi_disk_new_request_dump',
+    inlined from 'scsi_new_request' at ../qemu-cfi-v3/hw/scsi/scsi-disk.c:2588:9:
+../qemu-cfi-v3/hw/scsi/scsi-disk.c:2562:17: warning: argument 1 value '18446744073709551612' exceeds maximum object size 9223372036854775807 [-Walloc-size-larger-than=]
+     line_buffer = g_malloc(len * 5 + 1);
+                 ^
+../qemu-cfi-v3/hw/scsi/scsi-disk.c: In function 'scsi_new_request':
+/usr/include/glib-2.0/glib/gmem.h:78:10: note: in a call to allocation function 'g_malloc' declared here
+ gpointer g_malloc         (gsize  n_bytes) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(1);
 
-In this case, however, the warning is a false positive, because
-IPLBlockPV and IplBlockFcp are allocated in a union wrapped at 4K,
-making the union non-variable sized.
+len is a signed integer filled up by scsi_cdb_length which can return -1
+if it can't decode the command. In this case, g_malloc would probably fail.
+However, an unknown command here is a possibility, and since this is used for
+tracing, we should try to print the command anyway, for debugging purposes.
 
-Fix the warning by turning the two variable sized arrays into arrays
-of size 0. This avoids the compiler error and should produce the
-same code.
+Since knowing the size of the command in the buffer is impossible (could not
+decode the command), only print the header by setting len=1 if scsi_cdb_length
+returned -1
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
-There is the possibility of removing  IplBlockFcp from
-IplParameterBlock, since it is not actually used.
-This would also allow to entirely remove the definition of
-IplBlockFcp, but we may want to keep it for completeness.
+If we had a way to know the (maximum) size of the buffer, we could
+alternatively dump the whole buffer, instead of dumping only the
+first byte. Not sure if this can be done, nor if it is considered
+a better option.
 
- hw/s390x/ipl.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+We could also produce an error instead/in addition to just dumping
+the buffer, if the command cannot be decoded.
 
-diff --git a/hw/s390x/ipl.h b/hw/s390x/ipl.h
-index 9e90169695..dfc6dfd89c 100644
---- a/hw/s390x/ipl.h
-+++ b/hw/s390x/ipl.h
-@@ -32,7 +32,7 @@ struct IPLBlockPV {
-     uint32_t num_comp;          /* 0x74 */
-     uint64_t pv_header_addr;    /* 0x78 */
-     uint64_t pv_header_len;     /* 0x80 */
--    struct IPLBlockPVComp components[];
-+    struct IPLBlockPVComp components[0];
- } QEMU_PACKED;
- typedef struct IPLBlockPV IPLBlockPV;
+ hw/scsi/scsi-disk.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index e859534eaf..d70dfdd9dc 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -2559,6 +2559,10 @@ static void scsi_disk_new_request_dump(uint32_t lun, uint32_t tag, uint8_t *buf)
+     int len = scsi_cdb_length(buf);
+     char *line_buffer, *p;
  
-@@ -63,7 +63,7 @@ struct IplBlockFcp {
-     uint64_t br_lba;
-     uint32_t scp_data_len;
-     uint8_t  reserved6[260];
--    uint8_t  scp_data[];
-+    uint8_t  scp_data[0];
- } QEMU_PACKED;
- typedef struct IplBlockFcp IplBlockFcp;
++    if (len < 0) {
++        len = 1;
++    }
++
+     line_buffer = g_malloc(len * 5 + 1);
  
+     for (i = 0, p = line_buffer; i < len; i++) {
 -- 
 2.17.1
 
