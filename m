@@ -2,60 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4148F2A7EEA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:47:46 +0100 (CET)
-Received: from localhost ([::1]:44064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AF02A7F03
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:52:17 +0100 (CET)
+Received: from localhost ([::1]:59034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaeg5-0006fK-Aw
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:47:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47234)
+	id 1kaekS-0004UT-SF
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:52:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaee7-0005Fd-Ue
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:45:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30070)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaegM-0008Hc-Tg
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:48:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31750)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kaee6-0001Sm-8T
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:45:43 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaegL-00028K-7u
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:48:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604580337;
+ s=mimecast20190719; t=1604580480;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=vcgxZJwI/c7varJiP8+ZtbOFfGw+5olrMRJpbJ8raes=;
- b=HJD9sQ+mtRFDi5hFl5ZcjHE6wT54gkcFPfhUMCkArwj/EZ07GUm8fq2SiTuX8PG8GEeQBJ
- I8N67HWWMk2b4HrgH3u1hfIUcoia8SwedrjEI5Q8RTDgeaRHwxNt3+joENKm2bZuS2X0Go
- cUMaRF/OQm9gjuqpZkWNnmeZrkQEr2Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-1jMTwQlFMHyz9fqldp1hoA-1; Thu, 05 Nov 2020 07:45:35 -0500
-X-MC-Unique: 1jMTwQlFMHyz9fqldp1hoA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0AB8107464B
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 12:45:34 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A2CC85D98F;
- Thu,  5 Nov 2020 12:45:34 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] fix make clean/distclean
-Date: Thu,  5 Nov 2020 07:45:34 -0500
-Message-Id: <20201105124534.620635-1-pbonzini@redhat.com>
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NQCqmgTHEWa12dQII1/mmbS1cS4a68PprST7eAF/BDA=;
+ b=iQcsOSxEW1WYSaaX+4YSqe+H8FosnfAUpzLcvjJVCFexiL/p4lD/pK2N6HWC4IpAV7HZgm
+ ilQHiOOt30NJQF3AxpegK8+C1Ih0lFNbDCB85txwwJksV9d1IW2Nxdd99dedb01ggGEaK4
+ 9zsL89X3Bi585GHX6vVXvLcR+Z5owuM=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-221-C-pA_8aPMriaHh-9nEaRGw-1; Thu, 05 Nov 2020 07:47:56 -0500
+X-MC-Unique: C-pA_8aPMriaHh-9nEaRGw-1
+Received: by mail-wr1-f69.google.com with SMTP id t17so661405wrm.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:47:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NQCqmgTHEWa12dQII1/mmbS1cS4a68PprST7eAF/BDA=;
+ b=RIjY8De0SJaByHeMFpQeFn/1lKT9CjRovIv1TxXG2OEnAC9do8Y8eBW43G4yWDL0Px
+ lgTiVqdC53dURqPJ0B5djE9iMaax2s4qfkF7L7qtZRIzjt3cH0TW8B7IrHJk9ctJoZ7s
+ Njnxn41bITn8mdM6lOBQhKS4R8UUTK0J+zX3AJGPFwsT4qwZuDnVh4/75x7AxqLCnDI+
+ R6PM/PZk3jageHrJbnJ7paInHq/51/zbQzHb82sRQh44GHy6U4rq0RwQ97W7LKqtXtu/
+ uxWXjZYT0HfYaieqK1tqYgllu3qXdXSWAhvy1vzAfNmieanrmGiitMa65b/XXUFlIFY5
+ pF5A==
+X-Gm-Message-State: AOAM533ujfnL8mYqg3GQpSy6qtjl20dqELKmdXrXs2pW4u3QHXF5zGvi
+ Qr2/TSbPwxtrsxz45XJOwpZzgB6huiGg4xArXvdi8DdSdHwGO2c9X4DTmsa8yaQmEofdH64nn8J
+ EcJKmwKxDJJKMxXk=
+X-Received: by 2002:a5d:63cb:: with SMTP id c11mr2588260wrw.243.1604580475610; 
+ Thu, 05 Nov 2020 04:47:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy4jMD5kKgSW0rVfHnL4oTDKy/H6iLW2t3/LrIDfiSP8sZusJrpEBT5zkVF4W+ysU/c1GNtYQ==
+X-Received: by 2002:a5d:63cb:: with SMTP id c11mr2588248wrw.243.1604580475452; 
+ Thu, 05 Nov 2020 04:47:55 -0800 (PST)
+Received: from [192.168.1.36] (234.red-83-42-66.dynamicip.rima-tde.net.
+ [83.42.66.234])
+ by smtp.gmail.com with ESMTPSA id y11sm2145757wmj.36.2020.11.05.04.47.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 05 Nov 2020 04:47:54 -0800 (PST)
+Subject: Re: [PATCH] fix make clean/distclean
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20201105124534.620635-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <97b908b1-acfb-0fb1-e773-585d1ef13925@redhat.com>
+Date: Thu, 5 Nov 2020 13:47:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201105124534.620635-1-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 01:14:53
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -64,8 +84,9 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,44 +99,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A misplaced $(quiet-@) meant that "make clean" and "make distclean" did
-not work properly.
+On 11/5/20 1:45 PM, Paolo Bonzini wrote:
+> A misplaced $(quiet-@) meant that "make clean" and "make distclean" did
+> not work properly.
+> 
+> Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  Makefile | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- Makefile | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-diff --git a/Makefile b/Makefile
-index 9465720696..6f2da3e7dc 100644
---- a/Makefile
-+++ b/Makefile
-@@ -212,8 +212,8 @@ recurse-clean: $(addsuffix /clean, $(ROM_DIRS))
- ######################################################################
- 
- clean: recurse-clean
--	-@test -f build.ninja && $(quiet-@)$(NINJA) $(NINJAFLAGS) -t clean || :
--	-@test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
-+	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean || :
-+	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) clean-ctlist || :
- # avoid old build problems by removing potentially incorrect old files
- 	rm -f config.mak op-i386.h opc-i386.h gen-op-i386.h op-arm.h opc-arm.h gen-op-arm.h
- 	find . \( -name '*.so' -o -name '*.dll' -o -name '*.[oda]' \) -type f \
-@@ -231,7 +231,7 @@ qemu-%.tar.bz2:
- 	$(SRC_PATH)/scripts/make-release "$(SRC_PATH)" "$(patsubst qemu-%.tar.bz2,%,$@)"
- 
- distclean: clean
--	-@test -f build.ninja && $(quiet-@)$(NINJA) $(NINJAFLAGS) -t clean -g || :
-+	-$(quiet-@)test -f build.ninja && $(NINJA) $(NINJAFLAGS) -t clean -g || :
- 	rm -f config-host.mak config-host.h*
- 	rm -f tests/tcg/config-*.mak
- 	rm -f config-all-disas.mak config.status
--- 
-2.26.2
+Thanks for the quick fix!
 
 
