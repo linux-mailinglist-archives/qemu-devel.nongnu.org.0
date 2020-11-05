@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8850C2A89BD
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:27:42 +0100 (CET)
-Received: from localhost ([::1]:38420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD562A89AD
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 23:24:30 +0100 (CET)
+Received: from localhost ([::1]:58276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kanjJ-0007NP-FI
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:27:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39930)
+	id 1kangD-0003kH-Mu
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 17:24:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbR-00079G-2x
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:33 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:64470)
+ id 1kanbO-00074b-8F
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:30 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:38520)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1kanbP-000414-9V
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:32 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ id 1kanbM-00040u-EA
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 17:19:29 -0500
+Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 0A5M3jZN062850; Thu, 5 Nov 2020 17:19:25 -0500
+ 0A5LxRNj080576
+ for <qemu-devel@nongnu.org>; Thu, 5 Nov 2020 17:19:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references : mime-version :
  content-transfer-encoding; s=pp1;
- bh=gH8y7yYhPRs4wKHaeMxKo7Sv6U9hFlnqoTm/mJlEwTk=;
- b=gLKhQESPtSp+SStwmdDCxd6R2tDyiMH9xHDQ8h8kovZ903HVi40AG19AH0FbUjwJpMtV
- k/w9XhnmrfFe0lm+7WJVJ+sDVJvDlkvG9TvPmaGHsYBAEXRhNu1PHXrUsfIVQE5m0xCI
- ROWrIVL3WeBfAtdpkbXRyEIZVFywXLF54rv8OQFShNpSF7ai3nzz+X7J+irhZLzumlHN
- LU7fF5S+IXFO1A5HGwqW9DmRymWMMiE8Kb3Pm7znXeDy/lPlC73PXQqZ5lhKBnPUGhjw
- WzVF4ZiMxHcmOYy7egoLXbG69uu1ymcZ6auTpkWHXoXmmdEmQQbqW98LYDdSUKnhtqjv lw== 
+ bh=xErAqC6I9OwJh/qZoz3Oj3u8WwSujwmsRcbDXIqNq9Q=;
+ b=sF1K+pv27iWdUQDlor4HWvS3/OnIonVWxHgDf3dU+OqcWgWp+78bROuzkDlNynbxCBJj
+ n0+bwatu6FlR3RVUpSEyfki4ktn3S811l81/6vV/KgsjqRgArU7td4VGh5AEk6k6ay80
+ zXewssYugxo6xaNjJgqbqtYUHEPKGOKuR1y/TeMxSKwQYqHt2hoSjljBDPcnFcnisyv1
+ MD1VecN27ea60mUsq8LZJjlVMvsGZHaG/epN1Grr62eG7OQDUKCwgMdbT/dXapXi+noM
+ 530V+sVVoA+Gz+oVPd00tLEfqjhGydOXInV9fWbb9b9qaZpv0r9Pst4yI0eTMxBbXlHk ug== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34mryyss92-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34mfdgqgts-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 17:19:27 -0500
+Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5MFfhF003442
+ for <qemu-devel@nongnu.org>; Thu, 5 Nov 2020 17:19:26 -0500
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 34mfdgqgtd-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:25 -0500
-Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 0A5M4uil066548;
- Thu, 5 Nov 2020 17:19:25 -0500
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.11])
- by mx0a-001b2d01.pphosted.com with ESMTP id 34mryyss8e-1
+ Thu, 05 Nov 2020 17:19:26 -0500
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MC30s020348;
+ Thu, 5 Nov 2020 22:19:25 GMT
+Received: from b03cxnp07028.gho.boulder.ibm.com
+ (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
+ by ppma02wdc.us.ibm.com with ESMTP id 34h0ewkcn1-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 17:19:24 -0500
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
- by ppma03dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 0A5MJFq6000648;
- Thu, 5 Nov 2020 22:19:24 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma03dal.us.ibm.com with ESMTP id 34hs33kcc5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 05 Nov 2020 22:19:24 +0000
+ Thu, 05 Nov 2020 22:19:25 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 0A5MJHuf39584086
+ by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 0A5MJO3366846982
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 5 Nov 2020 22:19:17 GMT
+ Thu, 5 Nov 2020 22:19:24 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CF7B16A057;
- Thu,  5 Nov 2020 22:19:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A8D9C6A047;
+ Thu,  5 Nov 2020 22:19:24 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 631CF6A04D;
- Thu,  5 Nov 2020 22:19:22 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 42D6D6A04F;
+ Thu,  5 Nov 2020 22:19:24 +0000 (GMT)
 Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.65.222.173])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu,  5 Nov 2020 22:19:22 +0000 (GMT)
+ Thu,  5 Nov 2020 22:19:24 +0000 (GMT)
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
 To: dbuono@linux.vnet.ibm.com, qemu-devel@nongnu.org
-Subject: [PATCH v3 5/9] scsi: fix overflow in scsi_disk_new_request_dump
-Date: Thu,  5 Nov 2020 17:19:01 -0500
-Message-Id: <20201105221905.1350-6-dbuono@linux.vnet.ibm.com>
+Subject: [PATCH v3 6/9] configure,meson: add option to enable LTO
+Date: Thu,  5 Nov 2020 17:19:02 -0500
+Message-Id: <20201105221905.1350-7-dbuono@linux.vnet.ibm.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
 References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
@@ -82,14 +83,14 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312, 18.0.737
  definitions=2020-11-05_15:2020-11-05,
  2020-11-05 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxlogscore=999
- clxscore=1015 priorityscore=1501 bulkscore=0 lowpriorityscore=0
- phishscore=0 malwarescore=0 spamscore=0 suspectscore=0 mlxscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011050141
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:18
+ malwarescore=0 bulkscore=0
+ mlxlogscore=784 spamscore=0 mlxscore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 phishscore=0 adultscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2011050139
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 17:19:16
 X-ACL-Warn: Detected OS   = Linux 3.x [generic] [fuzzy]
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -109,63 +110,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-scsi_disk_new_request_dump is used to dump the content of a scsi request
-for tracing. It does that by decoding the command to get the size of the
-command buffer, and then printing the content of such buffer on a string.
+This patch allows to compile QEMU with link-time optimization (LTO).
+Compilation with LTO is handled directly by meson. This patch only
+adds the option in configure and forwards the request to meson
 
-When using gcc with link-time optimizations, it warns that the argument of
-malloc may be too large.
-
-In function 'scsi_disk_new_request_dump',
-    inlined from 'scsi_new_request' at ../qemu-cfi-v3/hw/scsi/scsi-disk.c:2588:9:
-../qemu-cfi-v3/hw/scsi/scsi-disk.c:2562:17: warning: argument 1 value '18446744073709551612' exceeds maximum object size 9223372036854775807 [-Walloc-size-larger-than=]
-     line_buffer = g_malloc(len * 5 + 1);
-                 ^
-../qemu-cfi-v3/hw/scsi/scsi-disk.c: In function 'scsi_new_request':
-/usr/include/glib-2.0/glib/gmem.h:78:10: note: in a call to allocation function 'g_malloc' declared here
- gpointer g_malloc         (gsize  n_bytes) G_GNUC_MALLOC G_GNUC_ALLOC_SIZE(1);
-
-len is a signed integer filled up by scsi_cdb_length which can return -1
-if it can't decode the command. In this case, g_malloc would probably fail.
-However, an unknown command here is a possibility, and since this is used for
-tracing, we should try to print the command anyway, for debugging purposes.
-
-Since knowing the size of the command in the buffer is impossible (could not
-decode the command), only print the header by setting len=1 if scsi_cdb_length
-returned -1
+Tested with all major versions of clang from 6 to 12
 
 Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
 ---
-If we had a way to know the (maximum) size of the buffer, we could
-alternatively dump the whole buffer, instead of dumping only the
-first byte. Not sure if this can be done, nor if it is considered
-a better option.
+ configure   | 7 +++++++
+ meson.build | 1 +
+ 2 files changed, 8 insertions(+)
 
-We could also produce an error instead/in addition to just dumping
-the buffer, if the command cannot be decoded.
-
- hw/scsi/scsi-disk.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index e859534eaf..d70dfdd9dc 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2559,6 +2559,10 @@ static void scsi_disk_new_request_dump(uint32_t lun, uint32_t tag, uint8_t *buf)
-     int len = scsi_cdb_length(buf);
-     char *line_buffer, *p;
+diff --git a/configure b/configure
+index 2c3c69f118..7115655fe4 100755
+--- a/configure
++++ b/configure
+@@ -242,6 +242,7 @@ host_cc="cc"
+ audio_win_int=""
+ libs_qga=""
+ debug_info="yes"
++lto="false"
+ stack_protector=""
+ safe_stack=""
+ use_containers="yes"
+@@ -1166,6 +1167,10 @@ for opt do
+   ;;
+   --disable-werror) werror="no"
+   ;;
++  --enable-lto) lto="true"
++  ;;
++  --disable-lto) lto="false"
++  ;;
+   --enable-stack-protector) stack_protector="yes"
+   ;;
+   --disable-stack-protector) stack_protector="no"
+@@ -1744,6 +1749,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   module-upgrades try to load modules from alternate paths for upgrades
+   debug-tcg       TCG debugging (default is disabled)
+   debug-info      debugging information
++  lto             Enable Link-Time Optimization.
+   sparse          sparse checker
+   safe-stack      SafeStack Stack Smash Protection. Depends on
+                   clang/llvm >= 3.7 and requires coroutine backend ucontext.
+@@ -6991,6 +6997,7 @@ NINJA=$ninja $meson setup \
+         -Dcapstone=$capstone -Dslirp=$slirp -Dfdt=$fdt \
+         -Diconv=$iconv -Dcurses=$curses -Dlibudev=$libudev\
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
++        -Db_lto=$lto \
+         $cross_arg \
+         "$PWD" "$source_path"
  
-+    if (len < 0) {
-+        len = 1;
-+    }
-+
-     line_buffer = g_malloc(len * 5 + 1);
- 
-     for (i = 0, p = line_buffer; i < len; i++) {
+diff --git a/meson.build b/meson.build
+index 39ac5cf6d8..99c7ab1d38 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2023,6 +2023,7 @@ summary_info += {'gprof enabled':     config_host.has_key('CONFIG_GPROF')}
+ summary_info += {'sparse enabled':    sparse.found()}
+ summary_info += {'strip binaries':    get_option('strip')}
+ summary_info += {'profiler':          config_host.has_key('CONFIG_PROFILER')}
++summary_info += {'link-time optimization (LTO)': get_option('b_lto')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+ if targetos == 'darwin'
+   summary_info += {'Cocoa support': config_host.has_key('CONFIG_COCOA')}
 -- 
 2.17.1
 
