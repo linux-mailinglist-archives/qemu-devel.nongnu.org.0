@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C1B72A7E94
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:30:52 +0100 (CET)
-Received: from localhost ([::1]:51026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425FF2A7EA1
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:33:02 +0100 (CET)
+Received: from localhost ([::1]:58624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaePj-0002N6-KB
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:30:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44592)
+	id 1kaeRo-0005hk-UN
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:33:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kaeN0-0000cJ-S3; Thu, 05 Nov 2020 07:28:02 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shiliyang@huawei.com>)
- id 1kaeMx-0004KF-0H; Thu, 05 Nov 2020 07:28:02 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CRjTT5vcczLv69;
- Thu,  5 Nov 2020 20:27:41 +0800 (CST)
-Received: from [10.108.235.13] (10.108.235.13) by
- DGGEMS412-HUB.china.huawei.com (10.3.19.212) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 5 Nov 2020 20:27:38 +0800
-From: shiliyang <shiliyang@huawei.com>
-Subject: [PATCH V2 1/4] bsd-user: "foo * bar" should be "foo *bar"
-To: <qemu-devel@nongnu.org>, <philmd@redhat.com>, <pbonzini@redhat.com>,
- <david@redhat.com>
-Message-ID: <bc1ee8ad-d7d6-d0d8-6248-75896d874ab8@huawei.com>
-Date: Thu, 5 Nov 2020 20:27:38 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kaeO3-00021Z-3t
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:29:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53279)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1kaeNv-0004es-2f
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 07:29:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604579336;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=63roSaGqOmt6QmqIZY8qhYP1lJMEyG8r5lu5HbU+G7k=;
+ b=RgxJcPWPO65p+bvQdtEpJrZGDk9huufUUsCyhCCVqZJv7q3JrHr8/8VQ71qgX02K+1kVir
+ MkES3onP0I7DgeE5JoyZ7iGwvUjhglhk5n7ZgV8K0yyQIOzAwIriiNGV/YZvNaRFbijtIV
+ iE97gn5WVFEAiZSDkZErh4/Nsq4J+Ng=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-7vgW5gfRPeyjn_GRr328rQ-1; Thu, 05 Nov 2020 07:28:53 -0500
+X-MC-Unique: 7vgW5gfRPeyjn_GRr328rQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2115510B9CAA;
+ Thu,  5 Nov 2020 12:28:52 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C382F614F5;
+ Thu,  5 Nov 2020 12:28:11 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/9] qapi: untie 'if' conditions from C preprocessor
+Date: Thu,  5 Nov 2020 16:27:59 +0400
+Message-Id: <20201105122808.1182973-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.108.235.13]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=shiliyang@huawei.com;
- helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 07:27:48
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 01:14:53
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,166 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-trivial@nongnu.org, hunongda@huawei.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Michael Roth <mdroth@linux.vnet.ibm.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, jsnow@redhat.com,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch fixes error style problems found by checkpatch.pl:
-ERROR: "foo ** bar" should be "foo **bar".
-ERROR: "foo * bar" should be "foo *bar"
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
-Signed-off-by: Liyang Shi <shiliyang@huawei.com>
+Hi,=0D
+=0D
+This series makes the 'if' conditions less liberal, by formalizing a simple=
+=0D
+expression tree based on bare boolean logic of configure option identifiers=
+.=0D
+=0D
+(this will allow to express conditions in Rust in my QAPI-Rust PoC series, =
+but=0D
+it is worth a standalone post)=0D
+=0D
+This is based on John Snow QAPI cleanup branch:=0D
+https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
+=0D
+thanks=0D
+=0D
+v2:=0D
+ - fix the normalization step to handle recursive expr=0D
+ - replace IfCond by QAPISchemaIf (JohnS)=0D
+ - commit message and documentation tweaks=0D
+ - mypy/flake8/isort=0D
+=0D
+Marc-Andr=C3=A9 Lureau (9):=0D
+  qapi: replace List[str] by QAPISchemaIf=0D
+  qapi: move gen_if/gen_endif to QAPIIfSchema=0D
+  qapi: start building an 'if' predicate tree=0D
+  qapi: introduce IfPredicateList and IfAny=0D
+  qapi: add IfNot=0D
+  qapi: normalize 'if' condition to IfPredicate tree=0D
+  qapi: convert 'if' C expressions to the new literal form=0D
+  qapi: make 'if' condition strings simple identifiers=0D
+  docs: update the documentation about schema configuration=0D
+=0D
+ docs/devel/qapi-code-gen.txt                  |  32 ++--=0D
+ docs/sphinx/qapidoc.py                        |   6 +-=0D
+ qapi/block-core.json                          |  16 +-=0D
+ qapi/char.json                                |   8 +-=0D
+ qapi/machine-target.json                      |  28 +++-=0D
+ qapi/migration.json                           |  10 +-=0D
+ qapi/misc-target.json                         |  35 +++--=0D
+ qapi/ui.json                                  |  48 +++---=0D
+ scripts/qapi/commands.py                      |   3 +-=0D
+ scripts/qapi/common.py                        |  85 +++++++++--=0D
+ scripts/qapi/events.py                        |   3 +-=0D
+ scripts/qapi/expr.py                          |  64 +++++---=0D
+ scripts/qapi/gen.py                           |  21 +--=0D
+ scripts/qapi/introspect.py                    |  36 +++--=0D
+ scripts/qapi/schema.py                        | 138 ++++++++++++------=0D
+ scripts/qapi/types.py                         |  39 +++--=0D
+ scripts/qapi/visit.py                         |  23 ++-=0D
+ .../alternate-branch-if-invalid.err           |   2 +-=0D
+ tests/qapi-schema/bad-if-empty.err            |   2 +-=0D
+ tests/qapi-schema/bad-if-list.err             |   2 +-=0D
+ tests/qapi-schema/bad-if.err                  |   3 +-=0D
+ tests/qapi-schema/bad-if.json                 |   2 +-=0D
+ tests/qapi-schema/doc-good.json               |   6 +-=0D
+ tests/qapi-schema/doc-good.out                |  12 +-=0D
+ tests/qapi-schema/enum-if-invalid.err         |   3 +-=0D
+ tests/qapi-schema/features-if-invalid.err     |   2 +-=0D
+ tests/qapi-schema/features-missing-name.json  |   2 +-=0D
+ tests/qapi-schema/qapi-schema-test.json       |  55 +++----=0D
+ tests/qapi-schema/qapi-schema-test.out        |  63 ++++----=0D
+ .../qapi-schema/struct-member-if-invalid.err  |   2 +-=0D
+ tests/qapi-schema/union-branch-if-invalid.err |   2 +-=0D
+ tests/test-qmp-cmds.c                         |   1 +=0D
+ 32 files changed, 456 insertions(+), 298 deletions(-)=0D
+=0D
+--=20=0D
+2.29.0=0D
+=0D
 
----
- bsd-user/bsdload.c |  6 +++---
- bsd-user/elfload.c | 22 +++++++++++-----------
- bsd-user/qemu.h    | 14 +++++++-------
- 3 files changed, 21 insertions(+), 21 deletions(-)
-
-diff --git a/bsd-user/bsdload.c b/bsd-user/bsdload.c
-index f38c4faacf..b2f352c041 100644
---- a/bsd-user/bsdload.c
-+++ b/bsd-user/bsdload.c
-@@ -20,7 +20,7 @@ abi_long memcpy_to_target(abi_ulong dest, const void *src,
-     return 0;
- }
-
--static int count(char ** vec)
-+static int count(char **vec)
- {
-     int         i;
-
-@@ -125,8 +125,8 @@ abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
-     return sp;
- }
-
--int loader_exec(const char * filename, char ** argv, char ** envp,
--             struct target_pt_regs * regs, struct image_info *infop)
-+int loader_exec(const char *filename, char **argv, char **envp,
-+             struct target_pt_regs *regs, struct image_info *infop)
- {
-     struct linux_binprm bprm;
-     int retval;
-diff --git a/bsd-user/elfload.c b/bsd-user/elfload.c
-index 32378af7b2..35c340f13a 100644
---- a/bsd-user/elfload.c
-+++ b/bsd-user/elfload.c
-@@ -547,12 +547,12 @@ struct exec
-
- #define DLINFO_ITEMS 12
-
--static inline void memcpy_fromfs(void * to, const void * from, unsigned long n)
-+static inline void memcpy_fromfs(void *to, const void *from, unsigned long n)
- {
-         memcpy(to, from, n);
- }
-
--static int load_aout_interp(void * exptr, int interp_fd);
-+static int load_aout_interp(void *exptr, int interp_fd);
-
- #ifdef BSWAP_NEEDED
- static void bswap_ehdr(struct elfhdr *ehdr)
-@@ -613,7 +613,7 @@ static void bswap_sym(struct elf_sym *sym)
-  * to be put directly into the top of new user memory.
-  *
-  */
--static abi_ulong copy_elf_strings(int argc,char ** argv, void **page,
-+static abi_ulong copy_elf_strings(int argc, char **argv, void **page,
-                                   abi_ulong p)
- {
-     char *tmp, *tmp1, *pag = NULL;
-@@ -756,7 +756,7 @@ static void padzero(abi_ulong elf_bss, abi_ulong last_bss)
-
-
- static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
--                                   struct elfhdr * exec,
-+                                   struct elfhdr *exec,
-                                    abi_ulong load_addr,
-                                    abi_ulong load_bias,
-                                    abi_ulong interp_load_addr, int ibcs,
-@@ -834,7 +834,7 @@ static abi_ulong create_elf_tables(abi_ulong p, int argc, int envc,
- }
-
-
--static abi_ulong load_elf_interp(struct elfhdr * interp_elf_ex,
-+static abi_ulong load_elf_interp(struct elfhdr *interp_elf_ex,
-                                  int interpreter_fd,
-                                  abi_ulong *interp_load_addr)
- {
-@@ -1143,8 +1143,8 @@ static void load_symbols(struct elfhdr *hdr, int fd)
-     syminfos = s;
- }
-
--int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
--                    struct image_info * info)
-+int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
-+                    struct image_info *info)
- {
-     struct elfhdr elf_ex;
-     struct elfhdr interp_elf_ex;
-@@ -1155,11 +1155,11 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-     unsigned int interpreter_type = INTERPRETER_NONE;
-     unsigned char ibcs2_interpreter;
-     int i;
--    struct elf_phdr * elf_ppnt;
-+    struct elf_phdr *elf_ppnt;
-     struct elf_phdr *elf_phdata;
-     abi_ulong elf_bss, k, elf_brk;
-     int retval;
--    char * elf_interpreter;
-+    char *elf_interpreter;
-     abi_ulong elf_entry, interp_load_addr = 0;
-     abi_ulong start_code, end_code, start_data, end_data;
-     abi_ulong reloc_func_desc = 0;
-@@ -1334,7 +1334,7 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-        and then start this sucker up */
-
-     {
--        char * passed_p;
-+        char *passed_p;
-
-         if (interpreter_type == INTERPRETER_AOUT) {
-             snprintf(passed_fileno, sizeof(passed_fileno), "%d", bprm->fd);
-@@ -1553,7 +1553,7 @@ int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
-     return 0;
- }
-
--static int load_aout_interp(void * exptr, int interp_fd)
-+static int load_aout_interp(void *exptr, int interp_fd)
- {
-     printf("a.out interpreter not yet supported\n");
-     return(0);
-diff --git a/bsd-user/qemu.h b/bsd-user/qemu.h
-index f8bb1e5459..cbf42129e4 100644
---- a/bsd-user/qemu.h
-+++ b/bsd-user/qemu.h
-@@ -123,19 +123,19 @@ struct linux_binprm {
-         int argc, envc;
-         char **argv;
-         char **envp;
--        char * filename;        /* Name of binary */
-+        char *filename;        /* Name of binary */
- };
-
- void do_init_thread(struct target_pt_regs *regs, struct image_info *infop);
- abi_ulong loader_build_argptr(int envc, int argc, abi_ulong sp,
-                               abi_ulong stringp, int push_ptr);
--int loader_exec(const char * filename, char ** argv, char ** envp,
--             struct target_pt_regs * regs, struct image_info *infop);
-+int loader_exec(const char *filename, char **argv, char **envp,
-+             struct target_pt_regs *regs, struct image_info *infop);
-
--int load_elf_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
--                    struct image_info * info);
--int load_flt_binary(struct linux_binprm * bprm, struct target_pt_regs * regs,
--                    struct image_info * info);
-+int load_elf_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
-+                    struct image_info *info);
-+int load_flt_binary(struct linux_binprm *bprm, struct target_pt_regs *regs,
-+                    struct image_info *info);
-
- abi_long memcpy_to_target(abi_ulong dest, const void *src,
-                           unsigned long len);
--- 
-2.29.1.59.gf9b6481aed
 
