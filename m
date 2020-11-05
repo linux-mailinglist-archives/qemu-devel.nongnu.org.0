@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C922A84C4
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:23:04 +0100 (CET)
-Received: from localhost ([::1]:35848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DDE2A84CF
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:25:45 +0100 (CET)
+Received: from localhost ([::1]:43154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaiyV-0002lS-2h
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:23:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55304)
+	id 1kaj16-0005zS-7b
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:25:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaisA-0004ZX-7Y
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32206)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kaisB-0004cT-Fk
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kais6-0000MC-8p
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:29 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kais9-0000MP-LZ
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:16:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604596585;
+ s=mimecast20190719; t=1604596588;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aTSVN3oUuqR2+G30Aw9N7n9SpQDpAdEdj3jqg7jW23U=;
- b=dIcpldxAeMz9BMFNzC0eQ3AJYPPbN8GGLzedXng9NYjMP0raZ2CJspv8rmh5P95+XZy2X1
- 6HTcU1gDf+pZPZkJel5ZvMFqFXY+8WoVr3lCAV+T1HIpdeP8RLJIChEiN4N6Adn7Foczi+
- +nNrBb9M8grVzbhF3WNqdmlAkWcgFWE=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-102-Q_2PYruRPY-uECQoG2DTlg-1; Thu, 05 Nov 2020 12:16:22 -0500
-X-MC-Unique: Q_2PYruRPY-uECQoG2DTlg-1
-Received: by mail-wm1-f71.google.com with SMTP id t21so612521wmt.8
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:16:22 -0800 (PST)
+ bh=Dh8zYanri5cUjNjRO/cAMn2XcMmJnffL6Q+0hobMChg=;
+ b=OGwpMenz4YrxBDasK3tQR1BMTGqYmIqPOeR9KI5Z5dtjNyOMdTWuMzl5zITZZ28wyjALa/
+ UMY9/bpfe537EJLvNEQf5SnUGbbnWifVB6v58PksvL7+IO7l0ADtwPPFJHdpqgMZ7Std/R
+ VRP1xq5trj5jhqkrCrE3rFTCaN1wqGY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-Khwbfpo4P66V4NBSmF8DwQ-1; Thu, 05 Nov 2020 12:16:26 -0500
+X-MC-Unique: Khwbfpo4P66V4NBSmF8DwQ-1
+Received: by mail-wm1-f70.google.com with SMTP id e15so612538wme.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:16:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aTSVN3oUuqR2+G30Aw9N7n9SpQDpAdEdj3jqg7jW23U=;
- b=SSYfoH1LRZVAbzubShxL5HlDoNDUl7sGYcIJ/fiLvUpDrK5xPBycgLKAfsMOukNaxe
- y6LmSwa1KkjA9kkgpjl6uyUm0WzwKTWMPR3GfkjW577IHJH2tirQXjcuV8eTfdbj/0oy
- YXL61Uoi7pttHOjN4r8HdJB7/hHL43MbBNNEciBJ0JhjzlHCYGWE/VWGywovDOgQpRSv
- np6fjtKaZs0Fh8CJ0djkGdDl/XGpSW3eNxSFv9PtHp0CzQyeowO4u3UXnLE5qbEQy02y
- dJUO39GpeTT8uJfY9+/nX9i5m/ZVvzzwGQzDk/F4KBO1GSwTYbnvriCL6zccfbcXhtNe
- zXuA==
-X-Gm-Message-State: AOAM532Mod74DezLmhCwJ2cr8SefhqmeaEK5VCx3fbf6YPD1YZe92yDY
- 0oMyvg7Smx/eikedoxuhrmVmU6Heeu4ODIt1zNP6NkaYExPWZ6jZ9IIMUQYvDVDSotYx52LfTMK
- Al/4cvoUUaiIWI2Q=
-X-Received: by 2002:a1c:3c84:: with SMTP id j126mr3899186wma.151.1604596580369; 
- Thu, 05 Nov 2020 09:16:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzwuR8+oLVW+15w+g5aC0JpLhZrw0paviDb6+TKlGgM/OvHyWCAcrah//qFPg5TiS6nT+M9mQ==
-X-Received: by 2002:a1c:3c84:: with SMTP id j126mr3899160wma.151.1604596580146; 
- Thu, 05 Nov 2020 09:16:20 -0800 (PST)
+ bh=Dh8zYanri5cUjNjRO/cAMn2XcMmJnffL6Q+0hobMChg=;
+ b=IUHcOYUPrldqxxnqYxFjs0tVNYor9rGFh8S/HJ0fA94PZ77s/3uX3Jv4B714Xf579G
+ Hx/2El+YSN6Lts/0z87f/17OnESM+glDXF3lFEBA6BFAPksIUKuDg0wrFaz9gpNJbtg7
+ X3HoLWqeu51ClW8Wr5VIL7m/+lp947vyIN8GTdshQtMo2ey0tGM4VKl362kOk4qvAhEu
+ JMRhM0Nsh6Keu+3wbpvExFArxmHswxAegaNUkseAxMZ7RxQN6v41BvUqDb98IBEFdy97
+ a6TJXiuOwxAQ7kS6hRGF12tMieQHG0R0OJmszY9vXHWYMF8T+rO9HB6LQXzWULKk4FSW
+ N7wQ==
+X-Gm-Message-State: AOAM531flPUnyn9TbfyeDsqYWtPQscExS89iTA7adEboYC/puBuRruRr
+ Bu97/GTiqJMKm7z52eXrwLb63luhJYNimHWbNJIZIVZYhQn2m8Ympl6CVpsa8RBzd7MTv33VuoP
+ oiYxYXUdzcD6r+nI=
+X-Received: by 2002:adf:ef02:: with SMTP id e2mr3959532wro.381.1604596585409; 
+ Thu, 05 Nov 2020 09:16:25 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzytUtubNf9azxwy8izftM15Tlx9tFC/+UPKrgXy+qz4FcNWjoafVZs0jIWAzYx7bwxpEOVgQ==
+X-Received: by 2002:adf:ef02:: with SMTP id e2mr3959524wro.381.1604596585290; 
+ Thu, 05 Nov 2020 09:16:25 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t6sm3351615wrp.68.2020.11.05.09.16.18
+ by smtp.gmail.com with ESMTPSA id f17sm3601261wme.22.2020.11.05.09.16.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 09:16:19 -0800 (PST)
+ Thu, 05 Nov 2020 09:16:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v2 10/11] gitlab-ci: Add rules to select building/testing
- native jobs
-Date: Thu,  5 Nov 2020 18:15:25 +0100
-Message-Id: <20201105171526.3763499-11-philmd@redhat.com>
+Subject: [RFC PATCH v2 11/11] gitlab-ci: Move artifacts expiry rule to common
+ 'native_build_job'
+Date: Thu,  5 Nov 2020 18:15:26 +0100
+Message-Id: <20201105171526.3763499-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20201105171526.3763499-1-philmd@redhat.com>
 References: <20201105171526.3763499-1-philmd@redhat.com>
@@ -106,85 +106,85 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add rules to select various build/test jobs.
-
-The following tags are available to restrict CI jobs:
-- user        (user-mode jobs)
-- system      (system-mode jobs)
-- centos      (jobs based on CentOS distribution image)
-- debian      (...           Debian)
-- fedora      (...           Fedora)
-- ubuntu      (...           Ubuntu)
-- crypto      (jobs testing the crypto feature)
-- tci         (jobs testing TCI feature)
-- fuzz        (fuzzer job)
-- integration (integration tests)
-- $ARCH       (select an architecture: arm/mips/ppc/sparc/...)
-
-Developers can combine tags in the QEMU_BUILD variable when
-pushing a branch (or tag) to repositories. Examples:
-
-  $ git push -o ci.variable="QEMU_BUILD=user"                    myrepo mybranch
-  $ git push -o ci.variable="QEMU_BUILD=user,debian,crypto,fuzz" myrepo mybranch
-
-References:
-- https://docs.gitlab.com/ee/ci/yaml/#rulesif
-- https://docs.gitlab.com/ee/user/project/push_options.html#push-options-for-gitlab-cicd
+Build jobs include the 'native_build_job' template. Move
+the 'artifacts expiry' rule there. Now all build jobs benefit
+from it.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- .gitlab-ci.yml | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ .gitlab-ci.yml | 24 ++++--------------------
+ 1 file changed, 4 insertions(+), 20 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index f708573884e..debd4dea4fd 100644
+index debd4dea4fd..9c9a8584e4f 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -15,6 +15,44 @@ include:
+@@ -74,6 +74,10 @@ include:
+       then
+         make -j"$JOBS" $MAKE_CHECK_ARGS ;
+       fi
++  artifacts:
++    expire_in: 2 days
++    paths:
++      - build
  
- .native_common_job:
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  rules:
-+    # If the if statement is true, the job is added to the pipeline.
-+    # We only filter for push events
-+    - if: '$CI_PIPELINE_SOURCE != "push"'
-+    # Build all when no variable defined, or set to "all"
-+    - if: $QEMU_BUILD == null || $QEMU_BUILD =~ /^all$/
-+    # Build specific job name
-+    - if: $QEMU_BUILD == $CI_JOB_NAME
-+    # Build jobs using particular distribution image
-+    - if: $QEMU_BUILD =~ /centos/ && $IMAGE =~ /^centos/
-+    - if: $QEMU_BUILD =~ /debian/ && $IMAGE =~ /^debian/
-+    - if: $QEMU_BUILD =~ /fedora/ && $IMAGE =~ /^fedora/
-+    - if: $QEMU_BUILD =~ /ubuntu/ && $IMAGE =~ /^ubuntu/
-+    # Build set of jobs by feature
-+    - if: $QEMU_BUILD =~ /system/ && ($TARGETS =~ /softmmu/ || $CONFIGURE_ARGS =~ /disable-user/)
-+    - if: $QEMU_BUILD =~ /user/ && ($TARGETS =~ /user/ || $CONFIGURE_ARGS =~ /disable-system/)
-+    - if: $QEMU_BUILD =~ /integration/ && ($CI_JOB_NAME =~ /^integration/ || $CI_JOB_NAME =~ /^build-system/ || $MAKE_CHECK_ARGS =~ /check-acceptance/) # integration depends on build-system
-+    - if: $QEMU_BUILD =~ /crypto/ && $CI_JOB_NAME =~ /crypto/
-+    - if: $QEMU_BUILD =~ /tci/ && $CI_JOB_NAME =~ /tci$/
-+    - if: $QEMU_BUILD =~ /fuzz/ && $CI_JOB_NAME =~ /fuzz$/
-+    # Build set of jobs by arch
-+    - if: $QEMU_BUILD =~ /aarch64/ && ($CI_JOB_NAME =~ /aarch64/ || $TARGETS =~ /aarch64/)
-+    - if: $QEMU_BUILD =~ /alpha/ && ($CI_JOB_NAME =~ /alpha/ || $TARGETS =~ /alpha/)
-+    - if: $QEMU_BUILD =~ /arm/ && ($CI_JOB_NAME =~ /arm/ || $TARGETS =~ /arm/)
-+    - if: $QEMU_BUILD =~ /avr/ && ($CI_JOB_NAME =~ /avr/ || $TARGETS =~ /avr/)
-+    - if: $QEMU_BUILD =~ /hppa/ && ($CI_JOB_NAME =~ /hppa/ || $TARGETS =~ /hppa/)
-+    - if: $QEMU_BUILD =~ /i386/ && ($CI_JOB_NAME =~ /i386/ || $TARGETS =~ /i386/)
-+    - if: $QEMU_BUILD =~ /lm32/ && ($CI_JOB_NAME =~ /lm32/ || $TARGETS =~ /lm32/)
-+    - if: $QEMU_BUILD =~ /m68k/ && ($CI_JOB_NAME =~ /m68k/ || $TARGETS =~ /m68k/)
-+    - if: $QEMU_BUILD =~ /ppc/ && ($CI_JOB_NAME =~ /ppc/ || $TARGETS =~ /ppc/)
-+    - if: $QEMU_BUILD =~ /riscv/ && ($CI_JOB_NAME =~ /riscv/ || $TARGETS =~ /riscv/)
-+    - if: $QEMU_BUILD =~ /s390x/ && ($CI_JOB_NAME =~ /s390x/ || $TARGETS =~ /s390x/)
-+    - if: $QEMU_BUILD =~ /sparc/ && ($CI_JOB_NAME =~ /sparc/ || $TARGETS =~ /sparc/)
-+    - if: $QEMU_BUILD =~ /tricore/ && ($CI_JOB_NAME =~ /tricore/ || $TARGETS =~ /tricore/)
-+    - if: $QEMU_BUILD =~ /x86/ && ($CI_JOB_NAME =~ /x86/ || $TARGETS =~ /x86/)
-+    - if: $QEMU_BUILD =~ /xtensa/ && ($CI_JOB_NAME =~ /xtensa/ || $TARGETS =~ /xtensa/)
-+    # In all other cases, the job is excluded from a pipeline.
-+    - when: never
- 
- .native_build_job:
+ .native_test_job:
    extends: .native_common_job
+@@ -116,10 +120,6 @@ build-system-ubuntu:
+     TARGETS: aarch64-softmmu alpha-softmmu cris-softmmu hppa-softmmu
+       moxie-softmmu microblazeel-softmmu mips64el-softmmu
+     MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+ 
+ check-system-ubuntu:
+   extends: .native_test_job
+@@ -146,10 +146,6 @@ build-system-debian:
+     TARGETS: arm-softmmu avr-softmmu i386-softmmu mipsel-softmmu
+       riscv64-softmmu sh4eb-softmmu sparc-softmmu xtensaeb-softmmu
+     MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+ 
+ check-system-debian:
+   extends: .native_test_job
+@@ -177,10 +173,6 @@ build-system-fedora:
+     TARGETS: tricore-softmmu microblaze-softmmu mips-softmmu
+       xtensa-softmmu m68k-softmmu riscv32-softmmu ppc-softmmu sparc64-softmmu
+     MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+ 
+ check-system-fedora:
+   extends: .native_test_job
+@@ -208,10 +200,6 @@ build-system-centos:
+     TARGETS: ppc64-softmmu or1k-softmmu s390x-softmmu
+       x86_64-softmmu rx-softmmu sh4-softmmu nios2-softmmu
+     MAKE_CHECK_ARGS: check-build
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+ 
+ check-system-centos:
+   extends: .native_test_job
+@@ -312,10 +300,6 @@ build-deprecated:
+     MAKE_CHECK_ARGS: build-tcg
+     TARGETS: ppc64abi32-linux-user tilegx-linux-user lm32-softmmu
+       unicore32-softmmu
+-  artifacts:
+-    expire_in: 2 days
+-    paths:
+-      - build
+ 
+ # We split the check-tcg step as test failures are expected but we still
+ # want to catch the build breaking.
 -- 
 2.26.2
 
