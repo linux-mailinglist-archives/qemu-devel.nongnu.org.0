@@ -2,70 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3BA2A84DF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:29:14 +0100 (CET)
-Received: from localhost ([::1]:51220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E27972A84EB
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 18:31:41 +0100 (CET)
+Received: from localhost ([::1]:56808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaj4T-00019Z-GD
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:29:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57180)
+	id 1kaj6r-0003s3-0z
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 12:31:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaj0d-0006et-SH
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:25:15 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:39542)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kaj0b-0001Es-B4
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:25:15 -0500
-Received: by mail-ej1-x632.google.com with SMTP id s25so3748069ejy.6
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=LWFZFt6/lAdxK2htyE5ncud4LoGvYVo336GqLiPXDCM=;
- b=a92q+7ZFTvkD4OdABZaxBn7I4DCcVWHpC2znxUk1MAGPU5PAYPoLMChq99TSUgAMqm
- 7mTLsfBNvsQCmlj9QzIL3+ab13HRSnY7V0J+9MH3glwB/L15C/ytdGVJi1JZvFJYgJP+
- srIvDnW+bqXkQTFRegYTv0KGnaw0T/Zq6hxm6/GPk0GMmzUC8mkE+tpKyeHHI8Tm5uFU
- jvKhsiZ+jqFELfc7v0zsgC9DuZsuGicD3BxeoWYFdeaO2yYiBcyuqacSHsoeyYJOyHT8
- yZjWX+y3YjFz/d3OHpO83aJ5UMkP0toEr+RMsN5ZtCTCmHBOM2jWQESwCLMdjekjObOq
- ndag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LWFZFt6/lAdxK2htyE5ncud4LoGvYVo336GqLiPXDCM=;
- b=fJ922NYWRnkrChjSW+LYKy+fuXqri9rc1zOnoK6NFUIqHZ6MCdQrOKFIMj1SD59bky
- upux0RbrwKKR+pvyO6DavmGpWbxMnqbWUnUeKbKRnHnWfE5vv6o4fqPIH66vGhYCcQlX
- D5YOtie2xxTl/bIN4WkUdtFLA19fIpgt/uJk//V/QdsBfY5BXS6+kY9vdV6ExhHA2mcm
- 3qwh2hwJN7U2WevLDX47EMbsWT5bcDEgDa0yz8ptQib5zIbbt4TWkOrL5VyDbrr47Yyf
- hxECF8tnYeNNbryXx5ep5vzdpLP1WrJtqhFAD7i86vlRku/tC96W3j8MnHapH52qGAYb
- r5eg==
-X-Gm-Message-State: AOAM532urKGKH/oPH+YGKMav8cyNJphJvyCGfE30Mwr2qF1hIKvenbv/
- GA+RInkUqCDKhOltiCKtvdRPFmRChb5WaKgyUDj4fQ==
-X-Google-Smtp-Source: ABdhPJxZeFVOasktVo7HP1j4YQxsrU/84PBpGec7qA3a5U063+qrsqp82VGHGrwXNdQyRpNxZ/LKR27qybq20YDAN5Q=
-X-Received: by 2002:a17:906:3a97:: with SMTP id
- y23mr3296799ejd.250.1604597111111; 
- Thu, 05 Nov 2020 09:25:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kaiv1-0000bd-S4
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:19:27 -0500
+Resent-Date: Thu, 05 Nov 2020 12:19:27 -0500
+Resent-Message-Id: <E1kaiv1-0000bd-S4@lists.gnu.org>
+Received: from sender4-of-o57.zoho.com ([136.143.188.57]:21749)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1kaiuy-0000cs-S0
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:19:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1604596730; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=PV+Kgf0HMcNZta2OpMFT1AAS+fTb75QRf9YPBjj/exrkGcVvQU7qM3hqxeJ+nFpf4eQ5JiPiQbBIQFx453io43fHW02Gy4se+g9buLZun8AdcnfnitgMfdZU2ajdlIa/JpjGiVJDPSNfWAvvkU9QrbsdEzFRtYmeLoG6jq8+/EY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1604596730;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=DfL/9psBXP2jqztR1KR6XjK15cW9RjWDkmT767tEbJs=; 
+ b=b0dSNSYcS7SJUVsLECCqCgvr6ffidcvDQoF4tHSKp3GLAjPAjfbVCm/JM2ahm5coeTHNCqGw+z9oJZR55GJMCd0hYfDL5kB6D7H/LTgmPfYvpSqCTSeT7z7xDQ7/6JIcEYDBcvUOf1Tc+MyOXFEXJjiQDgQwiFSivNwM7j7zjnY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1604596728357733.7487499380366;
+ Thu, 5 Nov 2020 09:18:48 -0800 (PST)
+Subject: Re: [PATCH] hw/arm/virt enable support for virtio-mem
+Message-ID: <160459672683.17446.12267901804072951810@66eaa9a8a123>
+In-Reply-To: <20201105171144.560612-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-References: <20201105002935.680486-1-richard.henderson@linaro.org>
-In-Reply-To: <20201105002935.680486-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 5 Nov 2020 17:24:59 +0000
-Message-ID: <CAFEAcA_1w29gHJHnB6rC35p6DOf5g6zHPFQyKeW0QBRtbx-18g@mail.gmail.com>
-Subject: Re: [PULL for-5.2 0/2] tcg patch queue
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: Jonathan.Cameron@huawei.com
+Date: Thu, 5 Nov 2020 09:18:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.57; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o57.zoho.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 12:19:21
+X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,39 +69,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, mst@redhat.com, david@redhat.com,
+ linuxarm@huawei.com, qemu-devel@nongnu.org, Jonathan.Cameron@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Nov 2020 at 00:29, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The following changes since commit 3c8c36c9087da957f580a9bb5ebf7814a753d1c6:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/ui-20201104-pull-request' into staging (2020-11-04 16:52:17 +0000)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-tcg-20201104
->
-> for you to fetch changes up to c56caea3b2a4ef5d760266f554df0d92c5a45f87:
->
->   tcg: Revert "tcg/optimize: Flush data at labels not TCG_OPF_BB_END" (2020-11-04 10:35:40 -0800)
->
-> ----------------------------------------------------------------
-> Fix assert in set_jmp_reset_offset
-> Revert cross-branch optimization in tcg/optimize.c.
->
-> ----------------------------------------------------------------
-> Richard Henderson (2):
->       tcg: Remove assert from set_jmp_reset_offset
->       tcg: Revert "tcg/optimize: Flush data at labels not TCG_OPF_BB_END"
-
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
-
--- PMM
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIwMTEwNTE3MTE0NC41NjA2
+MTItMS1Kb25hdGhhbi5DYW1lcm9uQGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2Vl
+bXMgdG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBm
+b3IKbW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIwMTEwNTE3
+MTE0NC41NjA2MTItMS1Kb25hdGhhbi5DYW1lcm9uQGh1YXdlaS5jb20KU3ViamVjdDogW1BBVENI
+XSBody9hcm0vdmlydCBlbmFibGUgc3VwcG9ydCBmb3IgdmlydGlvLW1lbQoKPT09IFRFU1QgU0NS
+SVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwg
+fHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29y
+aXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4K
+PT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFk
+ZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0
+L3FlbXUKICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIwMTEwNTE3MTE0NC41NjA2MTIt
+MS1Kb25hdGhhbi5DYW1lcm9uQGh1YXdlaS5jb20gLT4gcGF0Y2hldy8yMDIwMTEwNTE3MTE0NC41
+NjA2MTItMS1Kb25hdGhhbi5DYW1lcm9uQGh1YXdlaS5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJh
+bmNoICd0ZXN0JwowM2NlMGViIGh3L2FybS92aXJ0IGVuYWJsZSBzdXBwb3J0IGZvciB2aXJ0aW8t
+bWVtCgo9PT0gT1VUUFVUIEJFR0lOID09PQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
+cwojODk6IEZJTEU6IGh3L2FybS92aXJ0LmM6MjI4OToKKyAgICAgICAgZXJyb3Jfc2V0ZyhlcnJw
+LCAiaG90cGx1ZyBvZiB2aXJ0aW8tbWVtIGJhc2VkIG1lbW9yeSBkZXZpY2VzIG5vdCBzdXBwb3J0
+ZWQiCgpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojMTEzOiBGSUxFOiBody9hcm0vdmlydC5j
+OjIzMTM6CisgICAgICAgIHZpcnRfdmlydGlvX21kX3BjaV9wcmVfcGx1Zyhob3RwbHVnX2Rldiwg
+ZGV2LCBlcnJwKTsgICAgICAgICQKCkVSUk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9w
+ZW4gYnJhY2UgJ3snCiMxNzM6IEZJTEU6IGh3L2FybS92aXJ0LmM6MjQ2NDoKKyAgICAgICAgb2Jq
+ZWN0X2R5bmFtaWNfY2FzdChPQkpFQ1QoZGV2KSwgVFlQRV9WSVJUSU9fTUVNX1BDSSkpewoKRVJS
+T1I6IHNwYWNlIHByb2hpYml0ZWQgYmV0d2VlbiBmdW5jdGlvbiBuYW1lIGFuZCBvcGVuIHBhcmVu
+dGhlc2lzICcoJwojMjAwOiBGSUxFOiBody92aXJ0aW8vdmlydGlvLW1lbS5jOjU2OgorI2VsaWYg
+ZGVmaW5lZCAoVEFSR0VUX0FBUkNINjQpCgp0b3RhbDogMyBlcnJvcnMsIDEgd2FybmluZ3MsIDEz
+OCBsaW5lcyBjaGVja2VkCgpDb21taXQgMDNjZTBlYjkyOGZiIChody9hcm0vdmlydCBlbmFibGUg
+c3VwcG9ydCBmb3IgdmlydGlvLW1lbSkgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3
+LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVt
+IHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09IE9V
+VFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxs
+IGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMDExMDUxNzEx
+NDQuNTYwNjEyLTEtSm9uYXRoYW4uQ2FtZXJvbkBodWF3ZWkuY29tL3Rlc3RpbmcuY2hlY2twYXRj
+aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
+Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
+IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
