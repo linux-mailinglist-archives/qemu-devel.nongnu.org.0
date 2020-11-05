@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E15652A7ECF
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:41:00 +0100 (CET)
-Received: from localhost ([::1]:52836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 226242A7EC3
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:38:12 +0100 (CET)
+Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaeZX-0006kj-Qo
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:40:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45300)
+	id 1kaeWp-0004eH-54
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:38:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kaeQY-00052d-UH; Thu, 05 Nov 2020 07:31:43 -0500
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:40116)
+ id 1kaeQf-00056e-MB; Thu, 05 Nov 2020 07:31:49 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:33523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1kaeQW-0005WO-7o; Thu, 05 Nov 2020 07:31:42 -0500
-Received: by mail-pg1-x542.google.com with SMTP id x13so1354161pgp.7;
- Thu, 05 Nov 2020 04:31:39 -0800 (PST)
+ id 1kaeQZ-0005XA-4w; Thu, 05 Nov 2020 07:31:49 -0500
+Received: by mail-pf1-x433.google.com with SMTP id q10so785900pfn.0;
+ Thu, 05 Nov 2020 04:31:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VWn79h0iDOJAfDYC4SZNlTPWm6c9gDOOKAAB4nJHU8E=;
- b=aSCgMjqlVQ5RzqzXx1KVV5hq0J1wnloMZW09FGyewCYLl5WmOV7KEGLueVskyaSQX5
- NoPZTgWdskWCEmt47lidOPdl4yFnbwWqhbRe3McImsET8BM3M21TTv8RpKnDPUMln5Xf
- U+f4zMOGi5wLG0FdtvhP+Q6O4FKe51gDn0nFQcqmmHaaDGx4zCOnoijMlXcoPeSw4Gjv
- FzARsjMKA2ZN4Y0+YeBoPSNngCV7mkrIwXlX5CfuFaQ0u2LiD2Rrvzz5TNGu2/PzX6Fi
- DLMWVtpvr3lWcUrbALeT4MzrtVL40p0js5GeDmQT5DpLAUaeyz1hhChHdH4h8D9UQjWf
- Z3bg==
+ bh=PJS7oGCcqz7pb4dQLFQlOPOs9s6TE2XwP4RwUlSKWNg=;
+ b=boXTXj6CbbMyCekKPLjd8r+95PdoEkk4Wijo3edr5w/gK5LpDPxp5MQgMB/IIdD2NY
+ rbIQU5eThiCve9vxEMSK1SLJaKMWXCuxrIg1UFXrfRP0DlZGZpxLrVnTK71ox6X3g9mj
+ uA+Wo4tmnHRW8rG4Rlq9IflfqSJEJ8XIGI0e0QQhQM59z6dJOifvxqgtWGc2GZceMvE8
+ pTKza5kZ1EohoRGPZdI/jB8mZZfFfFoDbNriDJljp8eWbY+UBbeDbTT9b+QH3YxkS6Kd
+ Y+ys5XUxjfMPzWivUfLlmEKzhEC4LoSB082ED4sThEO4fy2V9XLYuT4TP7PDCOS5GAnk
+ 4yWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VWn79h0iDOJAfDYC4SZNlTPWm6c9gDOOKAAB4nJHU8E=;
- b=gXb0Z0un6WzZ+K+jCAA8RjcSNfKOwZ96mpUXwyfsVyM4cOv2aJzjGnd3jz9SFxGmdo
- 9cvICCzBMd0+uTS/8kqq7Gw4daUi2Yz89uW3kAeJHvdRJwK5/ccDwtNk+TPASXuemHgB
- fKo4X88GVusbbXh/730HzJIhodHiorc1S07EDdZaEc7+wydgvr+m8GJzVA4VVvOBqNSM
- 2inOQ2yfogbaqjjd1JiRPN57QzoitGkD6gQwpvZkoDhZMBJXIenpEhkuyLbpsBp0EIoj
- RxcOvjb2rPtLozrEY3lrH639Gtm0/xjHKnZ/99bulU7+/ngcL6rvXA2JkqSMF7dj+6Nt
- kLGQ==
-X-Gm-Message-State: AOAM533duCGle4hmqizg9fNAb7GqpBjIJbY3jKyquiXgUPk7OSjFGJfQ
- jF7uN4cnh/xx9h91kMQp2BQtepOJnATM8U2T
-X-Google-Smtp-Source: ABdhPJz5DWOCWKeYIZvNxECCjlswkEPmZ60z0saezoCcJo8Tw0MSHfWuSGBoZZwcHHZfSdF9Upk3Cw==
-X-Received: by 2002:aa7:9e5b:0:b029:18a:8d88:12cb with SMTP id
- z27-20020aa79e5b0000b029018a8d8812cbmr2508465pfq.42.1604579497636; 
- Thu, 05 Nov 2020 04:31:37 -0800 (PST)
+ bh=PJS7oGCcqz7pb4dQLFQlOPOs9s6TE2XwP4RwUlSKWNg=;
+ b=jCR9EQhgpL25u+CXP2Z4AkBB18jM1PFJ/JXMaFSmvPAIzz3W8VZDAzw+OYmQZbsE6u
+ 0CqpPM/32pQiawh/bG7NdWXJH03X1MbUa6y2GBtxjB6tWBcwDsfd3/zk+81Sq1p1S3rK
+ CurCS563TKImjmPRVQ+x/ZO7uA0p3Cd74ZUb9cv6N4JaiwilAWtMO5rhcp5XxHUlN1EU
+ 04UEEwa0OYdo3pYODVjkyU6ZhQQOBNG3XswPRf19QGUgKtBGjjkbI2BBjUtfEVJtINK6
+ AYfWDFUU4Hpsaez78tDp7OBq/50OHc1TwA8N/jFm9aJI3L0Vg1TTedQOQlXrXSy8kyj6
+ 9tYA==
+X-Gm-Message-State: AOAM533U2/0vzIxGRSrOtU9yWifDUtbjCI3yoI4ZlPZRD5myd4B/wzVw
+ tmPBOL+vJJcTFuGjtL7MiFRe3UfYu6B81Lju
+X-Google-Smtp-Source: ABdhPJz042gWPuIUbJXgYjWnGNmioYA+us0tEm+WcYC8r2dbVyD1duQ/D+ZN66G+O6I8XL8qTna0rg==
+X-Received: by 2002:a63:1748:: with SMTP id 8mr2309229pgx.168.1604579500537;
+ Thu, 05 Nov 2020 04:31:40 -0800 (PST)
 Received: from localhost.localdomain ([103.94.185.75])
- by smtp.googlemail.com with ESMTPSA id hi10sm2987008pjb.0.2020.11.05.04.31.34
+ by smtp.googlemail.com with ESMTPSA id hi10sm2987008pjb.0.2020.11.05.04.31.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 04:31:36 -0800 (PST)
+ Thu, 05 Nov 2020 04:31:39 -0800 (PST)
 From: Yonggang Luo <luoyonggang@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 1/2] block: Fixes nfs compiling error on msys2/mingw
-Date: Thu,  5 Nov 2020 20:31:15 +0800
-Message-Id: <20201105123116.674-2-luoyonggang@gmail.com>
+Subject: [PATCH v4 2/2] block: enable libnfs on msys2/mingw in cirrus.yml
+Date: Thu,  5 Nov 2020 20:31:16 +0800
+Message-Id: <20201105123116.674-3-luoyonggang@gmail.com>
 X-Mailer: git-send-email 2.28.0.windows.1
 In-Reply-To: <20201105123116.674-1-luoyonggang@gmail.com>
 References: <20201105123116.674-1-luoyonggang@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::542;
- envelope-from=luoyonggang@gmail.com; helo=mail-pg1-x542.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pf1-x433.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,110 +88,26 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These compiling errors are fixed:
-../block/nfs.c:27:10: fatal error: poll.h: No such file or directory
-   27 | #include <poll.h>
-      |          ^~~~~~~~
-compilation terminated.
-
-../block/nfs.c:63:5: error: unknown type name 'blkcnt_t'
-   63 |     blkcnt_t st_blocks;
-      |     ^~~~~~~~
-../block/nfs.c: In function 'nfs_client_open':
-../block/nfs.c:550:27: error: 'struct _stat64' has no member named 'st_blocks'
-  550 |     client->st_blocks = st.st_blocks;
-      |                           ^
-../block/nfs.c: In function 'nfs_get_allocated_file_size':
-../block/nfs.c:751:41: error: 'struct _stat64' has no member named 'st_blocks'
-  751 |     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
-      |                                         ^
-../block/nfs.c: In function 'nfs_reopen_prepare':
-../block/nfs.c:805:31: error: 'struct _stat64' has no member named 'st_blocks'
-  805 |         client->st_blocks = st.st_blocks;
-      |                               ^
-../block/nfs.c: In function 'nfs_get_allocated_file_size':
-../block/nfs.c:752:1: error: control reaches end of non-void function [-Werror=return-type]
-  752 | }
-      | ^
-
-On msys2/mingw, there is no st_blocks in struct _stat64 yet, we disable the usage of it
-on msys2/mingw, and create a typedef long long blkcnt_t; for further implementation
+Initially, libnfs has not been enabled, and now it's fixed, so enable it
+on cirrus.
 
 Signed-off-by: Yonggang Luo <luoyonggang@gmail.com>
 ---
- block/nfs.c | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ .cirrus.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/nfs.c b/block/nfs.c
-index f86e660374..77905f516d 100644
---- a/block/nfs.c
-+++ b/block/nfs.c
-@@ -24,7 +24,9 @@
- 
- #include "qemu/osdep.h"
- 
-+#if !defined(_WIN32)
- #include <poll.h>
-+#endif
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-@@ -58,7 +60,7 @@ typedef struct NFSClient {
-     bool has_zero_init;
-     AioContext *aio_context;
-     QemuMutex mutex;
--    blkcnt_t st_blocks;
-+    uint64_t st_blocks;
-     bool cache_used;
-     NFSServer *server;
-     char *path;
-@@ -545,7 +547,9 @@ static int64_t nfs_client_open(NFSClient *client, BlockdevOptionsNfs *opts,
-     }
- 
-     ret = DIV_ROUND_UP(st.st_size, BDRV_SECTOR_SIZE);
-+#if !defined(_WIN32)
-     client->st_blocks = st.st_blocks;
-+#endif
-     client->has_zero_init = S_ISREG(st.st_mode);
-     *strp = '/';
-     goto out;
-@@ -706,6 +710,7 @@ static int nfs_has_zero_init(BlockDriverState *bs)
-     return client->has_zero_init;
- }
- 
-+#if !defined(_WIN32)
- /* Called (via nfs_service) with QemuMutex held.  */
- static void
- nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
-@@ -748,6 +753,7 @@ static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
- 
-     return (task.ret < 0 ? task.ret : st.st_blocks * 512);
- }
-+#endif
- 
- static int coroutine_fn
- nfs_file_co_truncate(BlockDriverState *bs, int64_t offset, bool exact,
-@@ -800,7 +806,9 @@ static int nfs_reopen_prepare(BDRVReopenState *state,
-                        nfs_get_error(client->context));
-             return ret;
-         }
-+#if !defined(_WIN32)
-         client->st_blocks = st.st_blocks;
-+#endif
-     }
- 
-     return 0;
-@@ -869,7 +877,10 @@ static BlockDriver bdrv_nfs = {
-     .create_opts                    = &nfs_create_opts,
- 
-     .bdrv_has_zero_init             = nfs_has_zero_init,
-+/* libnfs does not provide the allocated filesize of a file on win32. */
-+#if !defined(_WIN32)
-     .bdrv_get_allocated_file_size   = nfs_get_allocated_file_size,
-+#endif
-     .bdrv_co_truncate               = nfs_file_co_truncate,
- 
-     .bdrv_file_open                 = nfs_file_open,
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 900437dd2a..f0209b7a3e 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -109,6 +109,7 @@ windows_msys2_task:
+           mingw-w64-x86_64-cyrus-sasl \
+           mingw-w64-x86_64-curl \
+           mingw-w64-x86_64-gnutls \
++          mingw-w64-x86_64-libnfs \
+           "
+         bitsadmin /transfer msys_download /dynamic /download /priority FOREGROUND `
+           https://repo.msys2.org/mingw/x86_64/mingw-w64-x86_64-python-sphinx-2.3.1-1-any.pkg.tar.xz `
 -- 
 2.28.0.windows.1
 
