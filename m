@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCBCC2A7FBA
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:34:41 +0100 (CET)
-Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 243E22A7FE7
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:48:59 +0100 (CET)
+Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kafPU-0008NS-Nj
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:34:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56616)
+	id 1kafdK-000516-5T
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:48:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kafOZ-0007rV-Aw
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:33:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45425)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafUK-0001PT-ME
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:39:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21238)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1kafOX-0001Ul-8p
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:33:42 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafUI-0003Wz-Sc
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:39:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604583219;
+ s=mimecast20190719; t=1604583577;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=x68mKNv7Ycvpr++JNS22VfSU6aVebEiRsXAtiEg4kY0=;
- b=IMF+2by9Ubh7Z4wKa9uh+BzBtozovwrQio+EKtQuSygWXjI4MDx3YbeUIuRGgDvjdwIioJ
- pE9lqvwQcpDJ9wSHo+QaMB6evrXZQk09eIIa2Hru/noTuRIQInlTr3okARp8THGnu4Rxm0
- 7sWIJomOCcjsPlsZ/ilqXQZ5XDTtewA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ZhBsWtKEEzyMXyBVK47xYEmrwZmbu8ZyE5H5qe6Slng=;
+ b=I6g0p0/fftE4aD2DnEoJXIOJm7Eg4UNGT8jZs8S1wOmFBwsPTQQ2IrqWoG9zcSP2fKEJHX
+ uGhhk4olkF+g0cluBiftmdNa6JDJsNou5p8OdAwZFXNdT4pHmcQMxccVI9w5dhp2dCees+
+ twAs++mbtGfy18grtg5HXroVMQrH+9k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-546-uz7xROP9OMS50V7aPigzWA-1; Thu, 05 Nov 2020 08:33:37 -0500
-X-MC-Unique: uz7xROP9OMS50V7aPigzWA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-356-s3mfQ8n9PDagl_T_ItpsPg-1; Thu, 05 Nov 2020 08:39:35 -0500
+X-MC-Unique: s3mfQ8n9PDagl_T_ItpsPg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ED2191882FB1;
- Thu,  5 Nov 2020 13:33:35 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-117.ams2.redhat.com [10.36.112.117])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5919219930;
- Thu,  5 Nov 2020 13:33:07 +0000 (UTC)
-Subject: Re: [PATCH-for-6.0 3/3] gitlab-ci: Test the --disable-virtio-legacy
- option
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20201105124353.3680057-1-philmd@redhat.com>
- <20201105124353.3680057-4-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <99d3eb29-52a4-609d-c598-aa1801729da3@redhat.com>
-Date: Thu, 5 Nov 2020 14:33:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CD03805F18;
+ Thu,  5 Nov 2020 13:39:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
+ [10.36.114.66])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 58CE21002C10;
+ Thu,  5 Nov 2020 13:39:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 7C1F69D0F; Thu,  5 Nov 2020 14:39:23 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 00/12] microvm: add second ioapic
+Date: Thu,  5 Nov 2020 14:39:11 +0100
+Message-Id: <20201105133923.23821-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20201105124353.3680057-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 22:46:30
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -70,9 +64,8 @@ X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,43 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>, Fam Zheng <fam@euphon.net>,
- Jagannathan Raman <jag.raman@oracle.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/11/2020 13.43, Philippe Mathieu-Daudé wrote:
-> Add the recently introduced '--disable-virtio-legacy' configuration
-> to the 'build-disabled' job.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  .gitlab-ci.yml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 3b15ae5c302..21fa1a459fd 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -218,6 +218,7 @@ build-disabled:
->        --disable-strip --disable-tpm --disable-usb-redir --disable-vdi
->        --disable-vhost-crypto --disable-vhost-net --disable-vhost-scsi
->        --disable-vhost-user --disable-vhost-vdpa --disable-vhost-vsock
-> +      --disable-virtio-legacy
->        --disable-virglrenderer --disable-vnc --disable-vte --disable-vvfat
->        --disable-xen --disable-zstd
->      TARGETS: arm-softmmu i386-softmmu ppc64-softmmu mips64-softmmu
-> 
-
-Acked-by: Thomas Huth <thuth@redhat.com>
+Add a second ioapic to microvm.  Gives us more IRQ lines we can=0D
+use for virtio-mmio devices.  Bump number of possible virtio-mmio=0D
+devices from 8 to 24.=0D
+=0D
+v2:=0D
+ - reorganize code a bit.=0D
+ - add ioapic2=3D option to microvm.=0D
+=0D
+Gerd Hoffmann (12):=0D
+  [testing] disable xhci msix=0D
+  x86: rewrite gsi_handler()=0D
+  x86: add support for second ioapic=0D
+  microvm: make number of virtio transports runtime configurable=0D
+  microvm: make pcie irq base runtime configurable=0D
+  microvm: drop microvm_gsi_handler()=0D
+  microvm: add second ioapic=0D
+  tests/acpi: allow updates for expected data files=0D
+  tests/acpi: add empty data files=0D
+  tests/acpi: add ioapic2=3Don test for microvm=0D
+  tests/acpi: update expected data files=0D
+  tests/acpi: disallow updates for expected data files=0D
+=0D
+ include/hw/i386/ioapic.h             |   1 +=0D
+ include/hw/i386/ioapic_internal.h    |   2 +-=0D
+ include/hw/i386/microvm.h            |   6 +-=0D
+ include/hw/i386/x86.h                |   3 +=0D
+ hw/i386/acpi-common.c                |  10 ++++=0D
+ hw/i386/microvm.c                    |  81 ++++++++++++++++++++-------=0D
+ hw/i386/x86.c                        |  34 +++++++++--=0D
+ hw/usb/hcd-xhci-pci.c                |   2 +-=0D
+ tests/qtest/bios-tables-test.c       |  20 +++++--=0D
+ tests/data/acpi/microvm/APIC.ioapic2 | Bin 0 -> 82 bytes=0D
+ tests/data/acpi/microvm/DSDT.ioapic2 | Bin 0 -> 365 bytes=0D
+ 11 files changed, 126 insertions(+), 33 deletions(-)=0D
+ create mode 100644 tests/data/acpi/microvm/APIC.ioapic2=0D
+ create mode 100644 tests/data/acpi/microvm/DSDT.ioapic2=0D
+=0D
+--=20=0D
+2.27.0=0D
+=0D
 
 
