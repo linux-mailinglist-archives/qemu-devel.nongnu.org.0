@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771B12A85A9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:05:32 +0100 (CET)
-Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FE472A85F5
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:16:09 +0100 (CET)
+Received: from localhost ([::1]:34438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kajdb-0008Cl-2k
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:05:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
+	id 1kajnr-0000HX-QK
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:16:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajQs-0004Lo-RA
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:22 -0500
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37350)
+ id 1kajWs-0003hH-2v
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:58:34 -0500
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:36846)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajQq-0004sD-Vw
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:22 -0500
-Received: by mail-wr1-x441.google.com with SMTP id w1so2797783wrm.4
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:52:20 -0800 (PST)
+ id 1kajWq-0005gJ-7X
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:58:33 -0500
+Received: by mail-wm1-x344.google.com with SMTP id a65so2128784wme.1
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:58:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JUuYXLxqbj/H11iBsBJrgBGgIp9/33Tos9HDbHcOfOU=;
- b=g8P4hbsq5PR4eAB+DvQTRsfkEr4tBEie9gVWObcgehdg2yM0l3T593yMa+2qa5JirD
- lIY+2XM7Uol+Mxus6oNXCWMPlw7xSgGUmts5qZGdvQnyAJk0XU9zCvS01VAsmLr9p49K
- 8qyP5uvdVfO+AbFb/CosYdv1jvmhGRLs+wNxlji0AgL8rvrtgxs6TnEEgBRIJtIuL1C0
- EUJV9PQlP4iJ136z6x5DsocG7gpdshLYBrsMFMIKAlhdl0JDuPp1a+QwpYo7bgKEoHD3
- 9piheMQRo0PCa2Ynprw4KAGJzuZgVybMebhD32FSQUmDJZSAndp5pWnB83y1+qqn6rRX
- RSmA==
+ bh=e1CT0XOx8Vvy8O4jAkV/r0nsAlwbNsoMSDp0qZ+mwlI=;
+ b=IHQhRMPbEglYB1FwSKkG+NGlzWF9RwV19ldmzO/oohRLPXz1nJLWx5YunHxGWGRPxo
+ /Aqz0lTJ/nD7arDBcf0sbMwranwxpNdfVLle85fnpiHqG1927kcijKhgq1httip10pAa
+ KdTz6HLhjzWm0b0qNDlogU0/nN1mAGqhYE2bd3V5QGsXt52QdnSO9PaAy82oAt43TSN+
+ IX8ENd//l1b1wJ2d9sbQ3iK8byU9/O/Q37z6PNy87kYYDQnEJtW9ygaJU0DTlRjf22vW
+ toaG/0eERqixQ/tBJ3vBkMO1QSBse5bEngAD3ByWZ3P4n9rTt9XiI6N7lU+jtJE3csbr
+ 9Iwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JUuYXLxqbj/H11iBsBJrgBGgIp9/33Tos9HDbHcOfOU=;
- b=VMGzaxXZZBR73p569Z/OtE9X0WUK9x0VSE0lcPEmhk8arr0qk9Xf3rl5ZLQY1lh7az
- hecoRcgoLbtEUld8Ae2lEDP1EjCc69W4rTsFSVIDzPM65+RXBESzCVzsnoeU5P1SHvL/
- H5uzh+dibxDqz7K56xrFuX1qcwOOppDIZmr7qgCd3zyx3rao7wOYH+gQadN2HzQut5mZ
- XOhBjK61QjxXeaRSNuIqpvYNxdRaewRar0WIvsKJ3Wn12Fh+RjwQE2wbuthUBdQSPeyF
- PIhBsvHgQjj+BNavkgknW44kocoJsTr2oTZnGRYP3RZvh655uobbu6ccv5jn/4Fk3bQw
- gI2A==
-X-Gm-Message-State: AOAM531xL5YJUSiQyBCLqtmKXX5TFFOLjgP+BHRhL9/fNcHd8FLVz32b
- WQgmtAD/CftH/xfsB0cNhXSu4w==
-X-Google-Smtp-Source: ABdhPJwHXfld+0PUDho8ID5T7Nhk3axT7fNwmvX3sF2CfB/4JpG/XC46ClFAF1NNuoGZtb2cxqvaUA==
-X-Received: by 2002:adf:ef83:: with SMTP id d3mr4345020wro.393.1604598739653; 
- Thu, 05 Nov 2020 09:52:19 -0800 (PST)
+ bh=e1CT0XOx8Vvy8O4jAkV/r0nsAlwbNsoMSDp0qZ+mwlI=;
+ b=HhF12VIGoHe4JA+aNwIs1Vs0FggyfvACoLQFw1dwkipb4eLJADmq+xtDqNFWOHNaiw
+ 9ptjVUxb40NuT9wt1xPiGCcAupG1/Z2RC9Yp7bbUPAnlWtc/xrRaH6TE/Tlipn/BpeN7
+ efi6RG4y9bQysfjOBmnxVndbDtLD3ZDWDSPY9ZZo0oxGIGo/M1JMXHOtx5B2FY41d2MU
+ MelyXpepfGS73HEsHc9kMwSClk8IEnQdzcDYN51k14XTLVDOyKqD7pzPb5ioYZktsgyb
+ NoZBc2C1WoiCgMF0dDJsKUN4mWUsGWuyvjrtBWMXKy1gqiWo9hXr1IJF6pOiAoUeGRUX
+ pcCg==
+X-Gm-Message-State: AOAM533PltJDR5SBXRfuXzjyCt5fLkmRXUDVwSr7KYhEr72tnMMjZ047
+ 4ut+m+5v8TRAvMu2sHPvhPN7SA==
+X-Google-Smtp-Source: ABdhPJzeGNAWfHzipdSqUYwax9p+jCiQ9HF7pckIJMTgj1GksFvaLT2Ts2O4bY3gUQ2QwqxRyqJ0jg==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr3981235wme.171.1604599110309; 
+ Thu, 05 Nov 2020 09:58:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d3sm3965139wrg.16.2020.11.05.09.52.01
+ by smtp.gmail.com with ESMTPSA id l16sm3421423wrr.83.2020.11.05.09.58.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 09:52:08 -0800 (PST)
+ Thu, 05 Nov 2020 09:58:29 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A7A381FF99;
+ by zen.linaroharston (Postfix) with ESMTP id BDA3B1FF9A;
  Thu,  5 Nov 2020 17:51:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 10/15] meson.build: clean-up summary reporting of XEN and
- it's features
-Date: Thu,  5 Nov 2020 17:51:48 +0000
-Message-Id: <20201105175153.30489-11-alex.bennee@linaro.org>
+Subject: [RFC PATCH  11/15] include/hw/xen.h: drop superfluous struct
+Date: Thu,  5 Nov 2020 17:51:49 +0000
+Message-Id: <20201105175153.30489-12-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201105175153.30489-1-alex.bennee@linaro.org>
 References: <20201105175153.30489-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::441;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::344;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x344.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,52 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
- stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
+Cc: Stefano Stabellini <sstabellini@kernel.org>, julien@xen.org,
+ masami.hiramatsu@linaro.org, Paul Durrant <paul@xen.org>,
+ andre.przywara@arm.com, stefano.stabellini@linaro.org,
+ takahiro.akashi@linaro.org, Anthony Perard <anthony.perard@citrix.com>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
  stefano.stabellini@xilinx.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Report XEN support along with the rest of the accelerators. Repurposed
-the existing Xen support line to display details about the control API
-version and the additional enabled features.
+Chardev is already a typedef'ed struct.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- meson.build | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ include/hw/xen/xen.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index 46e4c2fc3a..79b74fbda7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2078,8 +2078,15 @@ if vnc.found()
-   summary_info += {'VNC JPEG support':  jpeg.found()}
-   summary_info += {'VNC PNG support':   png.found()}
- endif
--summary_info += {'xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
- if config_host.has_key('CONFIG_XEN_BACKEND')
-+  xen_features = ['backend']
-+  if config_all.has_key('CONFIG_XEN_HVM')
-+    xen_features += 'HVM'
-+  endif
-+  if config_all.has_key('CONFIG_XEN_PCI_PASSTHROUGH')
-+    xen_features += 'PCI Passthrough'
-+  endif
-+  summary_info += {'xen features':      ' '.join(xen_features)}
-   summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
- endif
- summary_info += {'brlapi support':    config_host.has_key('CONFIG_BRLAPI')}
-@@ -2092,6 +2099,7 @@ summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_
- summary_info += {'ATTR/XATTR support': config_host.has_key('CONFIG_ATTR')}
- summary_info += {'Install blobs':     get_option('install_blobs')}
- summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
-+summary_info += {'XEN support':       config_all.has_key('CONFIG_XEN')}
- summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
- summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
- summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
+diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+index 1406648ca5..0f9962b1c1 100644
+--- a/include/hw/xen/xen.h
++++ b/include/hw/xen/xen.h
+@@ -28,7 +28,7 @@ int xen_is_pirq_msi(uint32_t msi_data);
+ 
+ qemu_irq *xen_interrupt_controller_init(void);
+ 
+-void xenstore_store_pv_console_info(int i, struct Chardev *chr);
++void xenstore_store_pv_console_info(int i, Chardev *chr);
+ 
+ void xen_register_framebuffer(struct MemoryRegion *mr);
+ 
 -- 
 2.20.1
 
