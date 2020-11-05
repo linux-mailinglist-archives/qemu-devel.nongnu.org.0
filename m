@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A9F2A7FC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:41:34 +0100 (CET)
-Received: from localhost ([::1]:53832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBF12A7FE2
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:47:13 +0100 (CET)
+Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kafW9-00031Z-8L
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:41:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58256)
+	id 1kafbc-0001iD-JN
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:47:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafUC-0001GJ-Bc
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:39:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60112)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafUL-0001Sj-Tq
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:39:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafUA-0003S6-N6
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:39:32 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafUI-0003We-TT
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:39:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604583569;
+ s=mimecast20190719; t=1604583576;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=J3xfwgy7x6maB3mzBw+OGNXwMMqUfwN/lS8/5lRWWaM=;
- b=KuUO4zQQI9XOzESEsilFs4b4PsM0/b7ouqkpG/lq+eIv59p3Ln14SVQTApTl12hPOjZhoG
- x4Yc6qVysD5GwQxElkkDZFq68EoXYd1Kgoo3ifuo4rv5HPAMCbiFSzKd2QjVB6JxnA4Mza
- i19D7N2YIkCO5I6Fk/uFSsgZgmXUunw=
+ bh=HsAkdQedvNyjeOcNIHo1UFp8zKNKfkUJO6xO4TDi/Zg=;
+ b=Y6lbSCer1RbKp+d8YmzyJdBvqbSfI2Spkd6jKMHgH6G1HyWxHMOj9lVH4u0t1tfnORyjwi
+ uVuY0rbBm9SPqYWFntOGDE/46id7nuxn+uWTumdMOl5TcD2UQmH8vKcC/dJUYLQ+yDqHTB
+ GkGeU5QZXiOMfoD0E8avob7R3RYbfeo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-418-65sW8Jg9Oeye_DYEFZTSAA-1; Thu, 05 Nov 2020 08:39:28 -0500
-X-MC-Unique: 65sW8Jg9Oeye_DYEFZTSAA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-108-wCb0G4tRPBilbyB9rudAhg-1; Thu, 05 Nov 2020 08:39:34 -0500
+X-MC-Unique: wCb0G4tRPBilbyB9rudAhg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1A6AB19080B5;
- Thu,  5 Nov 2020 13:39:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04A49805F16;
+ Thu,  5 Nov 2020 13:39:33 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D13285C22D;
- Thu,  5 Nov 2020 13:39:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C3435B4CF;
+ Thu,  5 Nov 2020 13:39:27 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id EF0DF9CBC; Thu,  5 Nov 2020 14:39:23 +0100 (CET)
+ id 0431A9B09; Thu,  5 Nov 2020 14:39:24 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 11/12] tests/acpi: update expected data files
-Date: Thu,  5 Nov 2020 14:39:22 +0100
-Message-Id: <20201105133923.23821-12-kraxel@redhat.com>
+Subject: [PATCH v2 12/12] tests/acpi: disallow updates for expected data files
+Date: Thu,  5 Nov 2020 14:39:23 +0100
+Message-Id: <20201105133923.23821-13-kraxel@redhat.com>
 In-Reply-To: <20201105133923.23821-1-kraxel@redhat.com>
 References: <20201105133923.23821-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,34 +90,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/data/acpi/microvm/APIC.ioapic2 | Bin 0 -> 82 bytes
- tests/data/acpi/microvm/DSDT.ioapic2 | Bin 0 -> 365 bytes
- 2 files changed, 0 insertions(+), 0 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/tests/data/acpi/microvm/APIC.ioapic2 b/tests/data/acpi/microvm/APIC.ioapic2
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..a305f89d99eca881109ba54090da0f90262a402c 100644
-GIT binary patch
-literal 82
-zcmZ<^@N^DhU|?W;=H&0}5v<@85#a0y6k`O6f!H9Lf#JbFFwFr}2jnsGfW!{`1Cfk8
-QAd!RrB!DCf+kc<{0EO5N0RR91
-
-literal 0
-HcmV?d00001
-
-diff --git a/tests/data/acpi/microvm/DSDT.ioapic2 b/tests/data/acpi/microvm/DSDT.ioapic2
-index e69de29bb2d1d6434b8b29ae775ad8c2e48c5391..aee44dd3de1bb16585bf571ff0ca8e44d467d009 100644
-GIT binary patch
-literal 365
-zcmX9(OHRWu6nxI7Bu)e7BUK=fDh^QGRy{!CxM`%c32{G2L2@sE#1^qBT~uPt1$qRI
-z!g0E)cy2a+^JYAnd5KEqZv?=)j|(wT-T0*x335n*!Dh1bTB}&s+unF3#-5&JN%$<M
-z3(olfJgw#t4LmI>bs18c66P|Ov_GKU4n#5SpZ>R_KbLrVktO&V!$o6YG)&3CKG@(r
-zGBBRJmC8gnA(1FE&ig|QL1%~pB9n7YgYOpD#K(4M+Q>?#&<5BasZ)OiW))J&ynFMY
-z<#O)7n`OOcKc8!A0kwAJs*35R-rgF}gq5?B3oe>0ED}4*YA|fHd{z~B?WhrH2U~~;
-jFEL&2XlLgGf!^;CECB39$kVA8W3OmXBYkz|P#39x8pcfl
-
-literal 0
-HcmV?d00001
-
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index 191ac230b013..dfb8523c8bf4 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,3 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/microvm/APIC.ioapic2",
+-"tests/data/acpi/microvm/DSDT.ioapic2",
 -- 
 2.27.0
 
