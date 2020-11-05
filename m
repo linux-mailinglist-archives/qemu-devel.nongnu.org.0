@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 363092A7FE3
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:47:15 +0100 (CET)
-Received: from localhost ([::1]:42698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89C12A8008
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 14:53:31 +0100 (CET)
+Received: from localhost ([::1]:35982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kafbe-0001lO-8J
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:47:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59014)
+	id 1kafhi-0002La-TS
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 08:53:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafW0-0003vd-5I
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:41:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30444)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafW1-0003yH-AH
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:41:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29257)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafVx-0004Bv-4B
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:41:23 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1kafVz-0004Cy-6m
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 08:41:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604583680;
+ s=mimecast20190719; t=1604583682;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E6gs2WWgFzBvT/kPNnLYBw7hkr2INdhdSszwgV3IaOc=;
- b=PTrNPJo0mPPq1dfosfuwz71GCzYVUo2ja6jc2QDkdm/AfYkEthlu1XXtQwfhy2b3x+PKyB
- MEidxOwQ5kr1aPcXJkeQFIBjTYbNk+kcv8m5ofwWPG9L2/UQ+TJKP4qz04sURMt3ynUBhg
- kbsPSJMw7XqCDoVDdnT6M4yaDMWfiaE=
+ bh=80TCQjbrNZc8Tey16FVCT4I0xjHk1IwJPsVUBnQHORE=;
+ b=WcGmikMLf4kiku4eROMWCERLWV9wSSaiYzbdnwoLARwEYis1bCSwTIYQE4aE2fiQpTvTpB
+ NSed5dqfyuIGWkRR42IPzHM1QPPST+9cnbRUoVrfsmh3bKJwTafdhYbAKlb7ySyODVEWzS
+ 7DhTm9iPiUsV66fMrX+Z3BPifDnYH58=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-iiK9gwXgOreSP3iiFVXfKg-1; Thu, 05 Nov 2020 08:41:18 -0500
-X-MC-Unique: iiK9gwXgOreSP3iiFVXfKg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-20-6_mOLDQ0OGGA8mofjr6U0A-1; Thu, 05 Nov 2020 08:41:17 -0500
+X-MC-Unique: 6_mOLDQ0OGGA8mofjr6U0A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFAB387950E
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3AEE87951B
  for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 13:41:16 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-66.ams2.redhat.com
  [10.36.114.66])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B9EC60C17;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BBE473679;
  Thu,  5 Nov 2020 13:41:13 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B01AE9ACF; Thu,  5 Nov 2020 14:41:12 +0100 (CET)
+ id B98239AE2; Thu,  5 Nov 2020 14:41:12 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/6] usb-storage: use bool for removable property
-Date: Thu,  5 Nov 2020 14:41:09 +0100
-Message-Id: <20201105134112.25119-4-kraxel@redhat.com>
+Subject: [PATCH 4/6] usb-storage: fill csw on cancel
+Date: Thu,  5 Nov 2020 14:41:10 +0100
+Message-Id: <20201105134112.25119-5-kraxel@redhat.com>
 In-Reply-To: <20201105134112.25119-1-kraxel@redhat.com>
 References: <20201105134112.25119-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,33 +85,30 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+When scsi requests are canceled fill the csw
+(command status word) accordingly.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1901981
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-storage.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/usb/dev-storage.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
-index d5cc6137443c..360e8ca8f2bd 100644
+index 360e8ca8f2bd..f0f005869d25 100644
 --- a/hw/usb/dev-storage.c
 +++ b/hw/usb/dev-storage.c
-@@ -56,7 +56,7 @@ struct MSDState {
-     USBPacket *packet;
-     /* usb-storage only */
-     BlockConf conf;
--    uint32_t removable;
-+    bool removable;
-     bool commandlog;
-     SCSIDevice *scsi_dev;
- };
-@@ -682,7 +682,7 @@ static const VMStateDescription vmstate_usb_msd = {
- static Property msd_properties[] = {
-     DEFINE_BLOCK_PROPERTIES(MSDState, conf),
-     DEFINE_BLOCK_ERROR_PROPERTIES(MSDState, conf),
--    DEFINE_PROP_BIT("removable", MSDState, removable, 0, false),
-+    DEFINE_PROP_BOOL("removable", MSDState, removable, false),
-     DEFINE_PROP_BOOL("commandlog", MSDState, commandlog, false),
-     DEFINE_PROP_END_OF_LIST(),
- };
+@@ -327,6 +327,10 @@ static void usb_msd_request_cancelled(SCSIRequest *req)
+     trace_usb_msd_cmd_cancel(req->tag);
+ 
+     if (req == s->req) {
++        s->csw.sig = cpu_to_le32(0x53425355);
++        s->csw.tag = cpu_to_le32(req->tag);
++        s->csw.status = 1; /* error */
++
+         scsi_req_unref(s->req);
+         s->req = NULL;
+         s->scsi_len = 0;
 -- 
 2.27.0
 
