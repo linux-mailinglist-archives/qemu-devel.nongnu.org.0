@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616CE2A7C98
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 12:07:03 +0100 (CET)
-Received: from localhost ([::1]:33922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 612492A7CB6
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 12:13:39 +0100 (CET)
+Received: from localhost ([::1]:39624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kad6c-0001To-Fo
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 06:07:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57860)
+	id 1kadD0-00047I-EI
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 06:13:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kad5Z-00013h-TL
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:05:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40236)
+ id 1kadAg-0002ZW-5b
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:11:14 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40704)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kad5X-0000Bd-Qg
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:05:57 -0500
+ id 1kadAd-00023v-CN
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 06:11:13 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kad5U-0007Yj-Qe
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 11:05:52 +0000
+ id 1kadAY-00087f-2G
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 11:11:06 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C61D82E80AB
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 11:05:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 093812E80AB
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 11:11:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 05 Nov 2020 10:55:22 -0000
-From: Peter Maydell <741115@bugs.launchpad.net>
+Date: Thu, 05 Nov 2020 10:55:49 -0000
+From: Peter Maydell <1882123@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Wishlist;
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: arm debug gdb
+X-Launchpad-Bug-Tags: arm armhf debian regression
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anton-kochkov pmaydell
-X-Launchpad-Bug-Reporter: Anton Kochkov (anton-kochkov)
+X-Launchpad-Bug-Commenters: joveler pmaydell
+X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
 X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20110323164949.17887.98157.malonedeb@soybean.canonical.com>
-Message-Id: <160457372326.17771.7365236000147075378.launchpad@soybean.canonical.com>
-Subject: [Bug 741115] Re: Add support of coprocessor cp15,
- cp14 registers exposion in the embedded gdb server
+References: <159129432300.4081.5698403082350753204.malonedeb@soybean.canonical.com>
+Message-Id: <160457375020.28892.2404828095520465823.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1882123] Re: ARM cpu emulation regression on QEMU 4.2.0
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: 26a327a77bca22859c8f1f627f02e430d0ae5287
+X-Launchpad-Hash: 73db5ed24c47fbd27e6ade9bcbdd3983adca0d28
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 04:11:06
 X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -60
-X-Spam_score: -6.1
+X-Spam_score_int: -65
+X-Spam_score: -6.6
 X-Spam_bar: ------
-X-Spam_report: (-6.1 / 5.0 requ) BAYES_00=-1.9,
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
  HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URI_NOVOWEL=0.5 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,36 +73,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 741115 <741115@bugs.launchpad.net>
+Reply-To: Bug 1882123 <1882123@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ** Changed in: qemu
-       Status: New =3D> Fix Released
+       Status: New =3D> Confirmed
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/741115
+https://bugs.launchpad.net/bugs/1882123
 
 Title:
-  Add support of coprocessor cp15, cp14 registers exposion in the
-  embedded gdb server
+  ARM cpu emulation regression on QEMU 4.2.0
 
 Status in QEMU:
-  Fix Released
+  Confirmed
 
 Bug description:
-  Please add support of exposion of ARM coprocesor registers/logic at the e=
-mbedded gdb server,
-   for example of cp15, cp14, etc registers.
+  [*] Summary
 
-  Related project http://jtagarmgdbsrvr.sourceforge.net/index.html
+  Latest QEMU has an ARM CPU emulation regression.
+  Regression is reproducible by building any C# project with .NET Core SDK =
+3.1.300 on Debian 10 armhf guest OS.
 
-  Also filled bug in the GDB
-  http://sourceware.org/bugzilla/show_bug.cgi?id=3D12602
+  Releases affected: QEMU 4.2.0, 5.0.0
+  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
+
+  [*] Detail
+
+  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-
+  arm.
+
+  I occasionally test my C# projects on the virtual armhf/arm64 system
+  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK,
+  crashes on QEMU 4.2.0 or later. The crash only happens when MSBuild
+  tries to do any JIT compiling (dotnet build / dotnet test).
+
+  I attached the MSBuild crash logs. MSBuild always crashes with
+  SEHException, which means it tried to call C binary from .NET binary.
+
+  I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
+  4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
+  real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
+  works completely fine.
+
+  [*] Environment
+
+  [Host OS]
+  Distribution: Linux Mint 19.3 amd64
+  CPU: AMD Ryzen 5 3600
+  Kernel: Ubuntu 5.3.0-51-generic
+
+  [QEMU Guest OS]
+  Distribution: Debian 10 Buster armhf
+  Kernel: Debian 4.19.0-9-armmp-lpae
+  .NET Core SDK: 3.1.300
+
+  [Raspberry Pi 2]
+  Distribution: Raspberry Pi OS Buster armhf
+  Kernel: 4.19.118-v7+
+
+  [Tested C# Projects]
+  This is a list of C# projects I have tested on QEMU and RPI2.
+  - https://github.com/ied206/Joveler.DynLoader
+  - https://github.com/ied206/Joveler.Compression
+  - https://github.com/ied206/ManagedWimLib
+
+  [QEMU Launch Arguments]
+  qemu-system-arm \
+  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
+  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
+  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
+  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
+=3Dqcow2,id=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
+  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
+ \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
+  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
+
+  [QEMU Configure Arguments]
+  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
+g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
+able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/741115/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1882123/+subscriptions
 
