@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CBD12A85B2
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:07:29 +0100 (CET)
-Received: from localhost ([::1]:47654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771B12A85A9
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 19:05:32 +0100 (CET)
+Received: from localhost ([::1]:43458 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kajfU-0001xn-BQ
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:07:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1kajdb-0008Cl-2k
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 13:05:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajQz-0004Sw-83
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:31 -0500
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:34211)
+ id 1kajQs-0004Lo-RA
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:22 -0500
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37350)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1kajQt-0004sQ-EB
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:28 -0500
-Received: by mail-wr1-x443.google.com with SMTP id e6so2797984wro.1
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:52:23 -0800 (PST)
+ id 1kajQq-0004sD-Vw
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 12:52:22 -0500
+Received: by mail-wr1-x441.google.com with SMTP id w1so2797783wrm.4
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 09:52:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9rAsNLSka6AMk3Mjx1qnhDke8em3oiSkg4MaBZDRp2A=;
- b=rEcUh+9HaEgS3Rb+ma5TRQbrekXiMD/UO02zP0VaEgmPy7MXyUewjHo495AC/sMh2i
- v85sbu34LqeGJRWj0YXj9iXulkiav/EVNELT2iX33lMXFfpkdXxg8nR9H5AOs4+vgvEy
- bogZZs+3IJchr3Ei9u9cQeKOgslrLQEieTmZq8UE/r0mY78880nyTgqd1aZUC/pGxIGU
- Gm/zZqnpiMxVV7DhxCwxtKYXCCik91muO2F3j5Xk+48+MW9QrayG6rLXQ2b18q9r7aOC
- Z4xoudDKptEsoK2zRzznesXugiqX6HHet9WDidLWsaWWeHUp08u/KX+sptUP1Ids1cZQ
- YxBA==
+ bh=JUuYXLxqbj/H11iBsBJrgBGgIp9/33Tos9HDbHcOfOU=;
+ b=g8P4hbsq5PR4eAB+DvQTRsfkEr4tBEie9gVWObcgehdg2yM0l3T593yMa+2qa5JirD
+ lIY+2XM7Uol+Mxus6oNXCWMPlw7xSgGUmts5qZGdvQnyAJk0XU9zCvS01VAsmLr9p49K
+ 8qyP5uvdVfO+AbFb/CosYdv1jvmhGRLs+wNxlji0AgL8rvrtgxs6TnEEgBRIJtIuL1C0
+ EUJV9PQlP4iJ136z6x5DsocG7gpdshLYBrsMFMIKAlhdl0JDuPp1a+QwpYo7bgKEoHD3
+ 9piheMQRo0PCa2Ynprw4KAGJzuZgVybMebhD32FSQUmDJZSAndp5pWnB83y1+qqn6rRX
+ RSmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9rAsNLSka6AMk3Mjx1qnhDke8em3oiSkg4MaBZDRp2A=;
- b=Zuoz14Jl/Ji/gcFTUFsZplFNagDbIBFCjEObIweItFa+qtJicytkqdbgpMAUVy1M+1
- snx0zMDeu5tghpwlQg8b0X7iABa4yxzz/arTo7flqiVa7HQnixIwenWAnwfdAn2/hm/R
- ms35dNqaRjyk3Brk3U/qCzAJImD3lUHHf9KSIsC1lnyamQC0sae+IrSPs9CchEAwoQ2x
- sSRsncFD36RngqiKlCM4xv6Cy3dTokIGnNiTgbYuZszXkwrIsw7ivwdUNh3FhTO+xH7V
- xbgdAUDgz5DX5Qbr3aI0kGB0p6zDpb3R81SiAIZ9SzQVZ91gJVeMVL62A7ySjPYN6f8C
- KYHA==
-X-Gm-Message-State: AOAM530mYxIhAbhm6cDzVjwbakBlgDrwEusBvaxQKVQ+msoO4C9iCqi3
- a2m6ugaSYCLCKDW9ZT9zOGGW2g==
-X-Google-Smtp-Source: ABdhPJxiZz9cmPHY914vdQ9Gj2L9azVhsH3fW2iAYJRSsbT25axP7Pagw88YwDdnUqlOD82aW7sHFw==
-X-Received: by 2002:adf:e443:: with SMTP id t3mr4397740wrm.14.1604598742039;
- Thu, 05 Nov 2020 09:52:22 -0800 (PST)
+ bh=JUuYXLxqbj/H11iBsBJrgBGgIp9/33Tos9HDbHcOfOU=;
+ b=VMGzaxXZZBR73p569Z/OtE9X0WUK9x0VSE0lcPEmhk8arr0qk9Xf3rl5ZLQY1lh7az
+ hecoRcgoLbtEUld8Ae2lEDP1EjCc69W4rTsFSVIDzPM65+RXBESzCVzsnoeU5P1SHvL/
+ H5uzh+dibxDqz7K56xrFuX1qcwOOppDIZmr7qgCd3zyx3rao7wOYH+gQadN2HzQut5mZ
+ XOhBjK61QjxXeaRSNuIqpvYNxdRaewRar0WIvsKJ3Wn12Fh+RjwQE2wbuthUBdQSPeyF
+ PIhBsvHgQjj+BNavkgknW44kocoJsTr2oTZnGRYP3RZvh655uobbu6ccv5jn/4Fk3bQw
+ gI2A==
+X-Gm-Message-State: AOAM531xL5YJUSiQyBCLqtmKXX5TFFOLjgP+BHRhL9/fNcHd8FLVz32b
+ WQgmtAD/CftH/xfsB0cNhXSu4w==
+X-Google-Smtp-Source: ABdhPJwHXfld+0PUDho8ID5T7Nhk3axT7fNwmvX3sF2CfB/4JpG/XC46ClFAF1NNuoGZtb2cxqvaUA==
+X-Received: by 2002:adf:ef83:: with SMTP id d3mr4345020wro.393.1604598739653; 
+ Thu, 05 Nov 2020 09:52:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i33sm3597425wri.79.2020.11.05.09.52.01
+ by smtp.gmail.com with ESMTPSA id d3sm3965139wrg.16.2020.11.05.09.52.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 05 Nov 2020 09:52:08 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92E741FF98;
+ by zen.linaroharston (Postfix) with ESMTP id A7A381FF99;
  Thu,  5 Nov 2020 17:51:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH  09/15] meson.build: introduce CONFIG_XEN_HVM flag
-Date: Thu,  5 Nov 2020 17:51:47 +0000
-Message-Id: <20201105175153.30489-10-alex.bennee@linaro.org>
+Subject: [RFC PATCH 10/15] meson.build: clean-up summary reporting of XEN and
+ it's features
+Date: Thu,  5 Nov 2020 17:51:48 +0000
+Message-Id: <20201105175153.30489-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201105175153.30489-1-alex.bennee@linaro.org>
 References: <20201105175153.30489-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::443;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x443.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::441;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x441.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,68 +91,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: julien@xen.org, masami.hiramatsu@linaro.org, andre.przywara@arm.com,
  stefano.stabellini@linaro.org, takahiro.akashi@linaro.org,
- Paolo Bonzini <pbonzini@redhat.com>, stefano.stabellini@xilinx.com,
+ stefano.stabellini@xilinx.com,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While Xen traditionally uses i386-softmmu to run it's PV models on all
-architectures some models are very much x86 only. This includes the
-full hardware virtualisation (HVM) which is only used on x86 HW. By
-introducing the symbol we can also fix the inclusion of
-XEN_PCI_PASSTHROUGH which should only be built for x86 (and Linux)
-systems.
+Report XEN support along with the rest of the accelerators. Repurposed
+the existing Xen support line to display details about the control API
+version and the additional enabled features.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- meson.build   | 6 +++++-
- accel/Kconfig | 3 +++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+ meson.build | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index 58e95227ea..46e4c2fc3a 100644
+index 46e4c2fc3a..79b74fbda7 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -83,6 +83,7 @@ endif
- if cpu in ['x86', 'x86_64']
-   accelerator_targets += {
-     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
-+    'CONFIG_XEN_HVM': ['i386-softmmu', 'x86_64-softmmu'],
-     'CONFIG_HVF': ['x86_64-softmmu'],
-     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
-   }
-@@ -204,6 +205,9 @@ if not get_option('kvm').disabled() and targetos == 'linux'
+@@ -2078,8 +2078,15 @@ if vnc.found()
+   summary_info += {'VNC JPEG support':  jpeg.found()}
+   summary_info += {'VNC PNG support':   png.found()}
  endif
- if not get_option('xen').disabled() and 'CONFIG_XEN_BACKEND' in config_host
-   accelerators += 'CONFIG_XEN'
-+  if host_machine.cpu() == 'x86_64'
-+    accelerators += 'CONFIG_XEN_HVM'
+-summary_info += {'xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
+ if config_host.has_key('CONFIG_XEN_BACKEND')
++  xen_features = ['backend']
++  if config_all.has_key('CONFIG_XEN_HVM')
++    xen_features += 'HVM'
 +  endif
-   have_xen_pci_passthrough = not get_option('xen_pci_passthrough').disabled() and targetos == 'linux'
- else
-   have_xen_pci_passthrough = false
-@@ -916,7 +920,7 @@ foreach target : target_dirs
-     if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, [])
-       config_target += { sym: 'y' }
-       config_all += { sym: 'y' }
--      if sym == 'CONFIG_XEN' and have_xen_pci_passthrough
-+      if sym == 'CONFIG_XEN_HVM' and have_xen_pci_passthrough
-         config_target += { 'CONFIG_XEN_PCI_PASSTHROUGH': 'y' }
-       endif
-       have_accel = true
-diff --git a/accel/Kconfig b/accel/Kconfig
-index 2ad94a3839..4cd54029bd 100644
---- a/accel/Kconfig
-+++ b/accel/Kconfig
-@@ -7,3 +7,6 @@ config KVM
- config XEN
-     bool
-     select FSDEV_9P if VIRTFS
-+
-+config XEN_HVM
-+    bool
++  if config_all.has_key('CONFIG_XEN_PCI_PASSTHROUGH')
++    xen_features += 'PCI Passthrough'
++  endif
++  summary_info += {'xen features':      ' '.join(xen_features)}
+   summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
+ endif
+ summary_info += {'brlapi support':    config_host.has_key('CONFIG_BRLAPI')}
+@@ -2092,6 +2099,7 @@ summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_
+ summary_info += {'ATTR/XATTR support': config_host.has_key('CONFIG_ATTR')}
+ summary_info += {'Install blobs':     get_option('install_blobs')}
+ summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
++summary_info += {'XEN support':       config_all.has_key('CONFIG_XEN')}
+ summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
+ summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
+ summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
 -- 
 2.20.1
 
