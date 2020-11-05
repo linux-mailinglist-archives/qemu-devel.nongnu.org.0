@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE992A7667
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 05:28:44 +0100 (CET)
-Received: from localhost ([::1]:58832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013242A7661
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 05:26:59 +0100 (CET)
+Received: from localhost ([::1]:53374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaWt9-0000hW-AF
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 23:28:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40184)
+	id 1kaWrR-0006tQ-Df
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 23:26:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaWqK-0005Vh-FS
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38070)
+ id 1kaWqJ-0005VZ-3S
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1kaWqH-0000Bx-8h
- for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:48 -0500
+ id 1kaWqG-0000At-UU
+ for qemu-devel@nongnu.org; Wed, 04 Nov 2020 23:25:46 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1kaWqG-0002rR-3K
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:25:44 +0000
+ id 1kaWqE-0002t7-MY
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 04:25:42 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 178EC2E8130
- for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 04:25:44 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A80042E8130
+ for <qemu-devel@nongnu.org>; Thu,  5 Nov 2020 04:25:42 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Thu, 05 Nov 2020 04:17:20 -0000
-From: Launchpad Bug Tracker <1715162@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1715715@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor ross th-huth
-X-Launchpad-Bug-Reporter: Ross Burton (ross)
+X-Launchpad-Bug-Commenters: cbparker janitor mark-cave-ayland th-huth
+X-Launchpad-Bug-Reporter: Brad Parker (cbparker)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <150462068248.17409.85035777459599057.malonedeb@gac.canonical.com>
-Message-Id: <160454984104.10129.5238259602719388011.malone@loganberry.canonical.com>
-Subject: [Bug 1715162] Re: qemu-user crashing when writing core dump
+References: <150480734842.32058.3488330551186130563.malonedeb@soybean.canonical.com>
+Message-Id: <160454984026.10129.11833851074669572793.malone@loganberry.canonical.com>
+Subject: [Bug 1715715] Re: [qemu-ppc] Segfault when booting from HD after
+ MacOS9 install
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e39939c02bd86af4202bc6e2123a7708215ec8ea"; Instance="production"
-X-Launchpad-Hash: b077dd8b787d785397fe8a4f5556a8a99c3a8bdf
+X-Launchpad-Hash: 03f89532e383b4994b4a8b796ef43c075d659d3c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/04 21:30:42
@@ -72,7 +73,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1715162 <1715162@bugs.launchpad.net>
+Reply-To: Bug 1715715 <1715715@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -85,128 +86,106 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1715162
+https://bugs.launchpad.net/bugs/1715715
 
 Title:
-  qemu-user crashing when writing core dump
+  [qemu-ppc] Segfault when booting from HD after MacOS9 install
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I've a binary I'm running in qemux86-64 but it is segfaulting.  Whilst
-  qemu writes the core dump for that, qemu itself is segfaulting.
+  I created an empty 128G qcow2 image and booted from a Mac OS 9.2.1
+  Install CD, in which I was able to install the OS successfully to the
+  hard drive. Upon reboot, this time from the hard drive directly, qemu-
+  system-ppc segfaults. Host system is Ubuntu 16.04.2 with latest qemu
+  commit.
 
-  (gdb) bt full
-  #0  0x00007efdd962e32e in sigsuspend () from /data/poky-tmp/master/build/=
-sysroots-uninative/x86_64-linux/lib/libc.so.6
-  No symbol table info available.
-  #1  0x0000559176d74da4 in dump_core_and_abort (target_sig=3Dtarget_sig@en=
-try=3D11)
-      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
-0/qemu-2.10.0/linux-user/signal.c:598
-          cpu =3D <optimized out>
-          env =3D <optimized out>
-          ts =3D 0x55917a42d160
-          core_dumped =3D <optimized out>
-          act =3D {__sigaction_handler =3D {sa_handler =3D 0x0, sa_sigactio=
-n =3D 0x0}, sa_mask =3D {__val =3D {18446744067267099647,
-                18446744073709551615 <repeats 15 times>}}, sa_flags =3D 0, =
-sa_restorer =3D 0x559100004010}
-  #2  0x0000559176d75a38 in handle_pending_signal (cpu_env=3Dcpu_env@entry=
-=3D0x55917a41c2a0, sig=3Dsig@entry=3D11,
-      k=3Dk@entry=3D0x55917a42d190)
-      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
-0/qemu-2.10.0/linux-user/signal.c:6596
-          handler =3D <optimized out>
-          set =3D {__val =3D {4294967297, 4294967297, 94083256460867, 14, 1=
-28, 0, 8, 3, 0, 1, 0, 4243635, 139628765215104,
-              94083255852784, 94083309703424, 3351315493}}
-          target_old_set =3D {sig =3D {0}}
-          sa =3D <optimized out>
-          ts =3D 0x55917a42d160
-  #3  0x0000559176d765ac in process_pending_signals (cpu_env=3D<optimized o=
-ut>)
-      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
-0/qemu-2.10.0/linux-user/signal.c:6674
-          sig =3D 11
-          ts =3D 0x55917a42d160
-          set =3D {__val =3D {18446744067267100671, 18446744073709551615 <r=
-epeats 15 times>}}
-          blocked_set =3D <optimized out>
-  #4  0x0000559176d5e0d8 in cpu_loop (env=3D0x55917a41c2a0)
-      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
-0/qemu-2.10.0/linux-user/main.c:369
-          trapnr =3D 14
-          pc =3D <optimized out>
-          ret =3D <optimized out>
-          info =3D {si_signo =3D 11, si_errno =3D 0, si_code =3D 196609, _s=
-ifields =3D {_pad =3D {101897450, 192, -647518572, 32509,
-                842, 0, 1993519912, 21905, 2051194736, 21905, 1997320506, 2=
-1905, 2051195440, 21905, 1993546713, 0,
-                12767276, 64, 1997233696, 21905, 42, 0, 1997233824, 21905, =
-1997320464, 21905, 350755584, -1438022877},
-              _kill =3D {_pid =3D 101897450, _uid =3D 192}, _timer =3D {_ti=
-mer1 =3D 101897450, _timer2 =3D 192}, _rt =3D {
-                _pid =3D 101897450, _uid =3D 192, _sigval =3D {sival_int =
-=3D -647518572, sival_ptr =3D 139628739274388}},
-              _sigchld =3D {_pid =3D 101897450, _uid =3D 192, _status =3D -=
-647518572, _utime =3D 842, _stime =3D 94083252138792},
-              _sigfault =3D {_addr =3D 824735618282}, _sigpoll =3D {_band =
-=3D 101897450, _fd =3D 192}}}
-  #5  0x0000559176d2a4b8 in main (argc=3D<optimized out>, argv=3D<optimized=
- out>, envp=3D<optimized out>)
-      at /data/poky-tmp/master/build/work/x86_64-linux/qemu-native/2.10.0-r=
-0/qemu-2.10.0/linux-user/main.c:4862
-          regs1 =3D {r15 =3D 0, r14 =3D 0, r13 =3D 0, r12 =3D 0, rbp =3D 0,=
- rbx =3D 0, r11 =3D 0, r10 =3D 0, r9 =3D 0, r8 =3D 0, rax =3D 0,
-            rcx =3D 0, rdx =3D 0, rsi =3D 0, rdi =3D 0, orig_rax =3D 0, rip=
- =3D 274888416832, cs =3D 0, eflags =3D 0,
-            rsp =3D 274888401360, ss =3D 0}
-          regs =3D 0x7ffda5b29fc0
-          info1 =3D {load_bias =3D 274888413184, load_addr =3D 274877906944=
-, start_code =3D 274877906944,
-            end_code =3D 274877917360, start_data =3D 274880015120, end_dat=
-a =3D 274880016400, start_brk =3D 0,
-            brk =3D 274880016472, start_mmap =3D 183251939328, start_stack =
-=3D 274888401360, stack_limit =3D 274880024576,
-            entry =3D 274888416832, code_offset =3D 0, data_offset =3D 0, s=
-aved_auxv =3D 274888402256,
-            auxv_len =3D 18446744073709550728, arg_start =3D 274888401368, =
-arg_end =3D 274888401408,
-            arg_strings =3D 274888402550, env_strings =3D 274888402788, fil=
-e_string =3D 274888413067, elf_flags =3D 0,
-            personality =3D 0}
-          info =3D 0x7ffda5b2a070
-          bprm =3D {
-            buf =3D "\177ELF\002\001\001\000\000\000\000\000\000\000\000\00=
-0\003\000>\000\001\000\000\000@\016\000\000\000\000\000\000@\000\000\000\00=
-0\000\000\000\230`\002\000\000\000\000\000\000\000\000\000@\000\070\000\006=
-\000@\000\027\000\026\000\001\000\000\000\005", '\000' <repeats 27 times>, =
-"\264C\002\000\000\000\000\000\264C\002\000\000\000\000\000\000\000 \000\00=
-0\000\000\000\001\000\000\000\006\000\000\000\240G\002\000\000\000\000\000\=
-240G\"\000\000\000\000\000\240G\"\000\000\000\000\000\330\027\000\000\000\0=
-00\000\000p\031\000\000\000\000\000\000\000\000 \000\000\000\000\000\002\00=
-0\000\000\006\000\000\000\030N\002\000\000\000\000\000\030N\"\000\000\000\0=
-00\000"..., p =3D 274888401360, fd =3D 3,
-            e_uid =3D 1000, e_gid =3D 1000, argc =3D 5, envc =3D 104, argv =
-=3D 0x55917a42d120, envp =3D 0x55917a42a8f0,
-            filename =3D 0x7ffda5b2c683 "/data/poky-tmp/master/build/work/i=
-ntel_corei7_64-poky-linux/core-image-weston/1.0-r0/rootfs/usr/bin/fc-cache"=
-, core_dump =3D 0x559176d76ed0 <elf_core_dump>}
-          ts =3D <optimized out>
-          env =3D 0x55917a41c2a0
-          cpu =3D 0x55917a414010
-          target_environ =3D 0x55917a42a8f0
-          wrk =3D 0x55917a42ac30
-          target_argv =3D 0x55917a42d120
-          target_argc =3D 5
-          i =3D <optimized out>
-          ret =3D <optimized out>
-          execfd =3D <optimized out>
+  qemu --version reports "2.10.50 (v2.10.0-244-gb07d1c2-dirty)", but I
+  used git commit b07d1c2f5607489d4d4a6a65ce36a3e896ac065e and built
+  with "./configure --target-list=3Dppc-softmmu --enable-debug --disable-
+  strip".
 
-  (I'll reproduce this with glibc debug symbols shortly)
+  Here is the command-line arguments:
+
+  qemu-system-ppc -boot c -g 1024x768x32 -M mac99 -m 256 -prom-env
+  'auto-boot?=3Dtrue' -prom-env 'boot-args=3D-v' -prom-env 'vga-ndrv?=3Dtru=
+e'
+  -drive file=3D../os9.img,format=3Draw,media=3Dcdrom -drive
+  file=3DMacOS9.qcow2,format=3Dqcow2,media=3Ddisk -spice
+  port=3D5901,password=3DXXX -net nic,model=3Drtl8139 -net user -monitor st=
+dio
+
+  And the GDB backtrace:
+
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  #0  0x0000559065fe7d3a in timer_mod (ts=3D0x0, expire_time=3D888960717010=
+) at util/qemu-timer.c:462
+  462         timer_mod_ns(ts, expire_time * ts->scale);
+  [Current thread is 1 (Thread 0x7f60e43cb700 (LWP 9853))]
+  (gdb) bt
+  #0  0x0000559065fe7d3a in timer_mod (ts=3D0x0, expire_time=3D888960717010=
+) at util/qemu-timer.c:462
+  #1  0x0000559065d63769 in openpic_tmr_set_tmr (tmr=3D0x5590676fa7e0, val=
+=3D96, enabled=3Dtrue) at hw/intc/openpic.c:861
+  #2  0x0000559065d63995 in openpic_tmr_write (opaque=3D0x5590676f71f0, add=
+r=3D16, val=3D96, len=3D4) at hw/intc/openpic.c:912
+  #3  0x0000559065b02811 in memory_region_write_accessor (mr=3D0x5590676f77=
+10, addr=3D32, value=3D0x7f60e43c7da8, size=3D4, shift=3D0, mask=3D42949672=
+95, attrs=3D...) at /home/bp/qemu/memory.c:529
+  #4  0x0000559065b02a29 in access_with_adjusted_size (addr=3D32, value=3D0=
+x7f60e43c7da8, size=3D1, access_size_min=3D4, access_size_max=3D4, access=
+=3D0x559065b02727 <memory_region_write_accessor>, mr=3D0x5590676f7710, attr=
+s=3D...) at /home/bp/qemu/memory.c:595
+  #5  0x0000559065b051eb in memory_region_dispatch_write (mr=3D0x5590676f77=
+10, addr=3D32, data=3D96, size=3D1, attrs=3D...) at /home/bp/qemu/memory.c:=
+1337
+  #6  0x0000559065aa3a36 in address_space_write_continue (as=3D0x559067614d=
+90, addr=3D2147750160, attrs=3D..., buf=3D0x7f60e43c7ed0 "`_'\310`\177", le=
+n=3D1, addr1=3D32, l=3D1, mr=3D0x5590676f7710) at /home/bp/qemu/exec.c:2942
+  #7  0x0000559065aa3b84 in address_space_write (as=3D0x559067614d90, addr=
+=3D2147750160, attrs=3D..., buf=3D0x7f60e43c7ed0 "`_'\310`\177", len=3D1) a=
+t /home/bp/qemu/exec.c:2987
+  #8  0x0000559065aa2ec0 in subpage_write (opaque=3D0x7f60c8275fc0, addr=3D=
+272, value=3D96, len=3D1, attrs=3D...) at /home/bp/qemu/exec.c:2565
+  #9  0x0000559065b02906 in memory_region_write_with_attrs_accessor (mr=3D0=
+x7f60c8275fc0, addr=3D272, value=3D0x7f60e43c7fc8, size=3D1, shift=3D0, mas=
+k=3D255, attrs=3D...) at /home/bp/qemu/memory.c:555
+  #10 0x0000559065b029d3 in access_with_adjusted_size (addr=3D272, value=3D=
+0x7f60e43c7fc8, size=3D1, access_size_min=3D1, access_size_max=3D8, access=
+=3D0x559065b02818 <memory_region_write_with_attrs_accessor>, mr=3D0x7f60c82=
+75fc0, attrs=3D...) at /home/bp/qemu/memory.c:590
+  #11 0x0000559065b0523a in memory_region_dispatch_write (mr=3D0x7f60c8275f=
+c0, addr=3D272, data=3D96, size=3D1, attrs=3D...) at /home/bp/qemu/memory.c=
+:1344
+  #12 0x0000559065b175db in io_writex (env=3D0x7f60e43d42a0, iotlbentry=3D0=
+x7f60e43e8130, mmu_idx=3D3, val=3D96, addr=3D2147750160, retaddr=3D14005415=
+8295744, size=3D1) at /home/bp/qemu/accel/tcg/cputlb.c:807
+  #13 0x0000559065b18055 in io_writeb (env=3D0x7f60e43d42a0, mmu_idx=3D3, i=
+ndex=3D65, val=3D96 '`', addr=3D2147750160, retaddr=3D140054158295744) at /=
+home/bp/qemu/softmmu_template.h:265
+  #14 0x0000559065b181ea in helper_ret_stb_mmu (env=3D0x7f60e43d42a0, addr=
+=3D2147750160, val=3D96 '`', oi=3D3, retaddr=3D140054158295744) at /home/bp=
+/qemu/softmmu_template.h:300
+  #15 0x00007f60e65ac2c0 in code_gen_buffer ()
+  #16 0x0000559065b1ff26 in cpu_tb_exec (cpu=3D0x7f60e43cc010, itb=3D0x7f60=
+e65ac5c0 <code_gen_buffer+935318>) at /home/bp/qemu/accel/tcg/cpu-exec.c:166
+  #17 0x0000559065b20bfd in cpu_loop_exec_tb (cpu=3D0x7f60e43cc010, tb=3D0x=
+7f60e65ac5c0 <code_gen_buffer+935318>, last_tb=3D0x7f60e43c8678, tb_exit=3D=
+0x7f60e43c8674) at /home/bp/qemu/accel/tcg/cpu-exec.c:578
+  #18 0x0000559065b20eed in cpu_exec (cpu=3D0x7f60e43cc010) at /home/bp/qem=
+u/accel/tcg/cpu-exec.c:676
+  #19 0x0000559065aebc3d in tcg_cpu_exec (cpu=3D0x7f60e43cc010) at /home/bp=
+/qemu/cpus.c:1270
+  #20 0x0000559065aebe64 in qemu_tcg_rr_cpu_thread_fn (arg=3D0x7f60e43cc010=
+) at /home/bp/qemu/cpus.c:1365
+  #21 0x00007f60f56f06ba in start_thread (arg=3D0x7f60e43cb700) at pthread_=
+create.c:333
+  #22 0x00007f60f542682d in clone () at ../sysdeps/unix/sysv/linux/x86_64/c=
+lone.S:109
+
+  Any idea what is going on?
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1715162/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1715715/+subscriptions
 
