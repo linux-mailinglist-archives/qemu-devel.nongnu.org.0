@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44F52A7EB9
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:36:48 +0100 (CET)
-Received: from localhost ([::1]:41922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99652A7EE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 13:47:25 +0100 (CET)
+Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaeVT-0002An-T1
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:36:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44774)
+	id 1kaefk-000685-Q4
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 07:47:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kaeNn-0001n5-PT; Thu, 05 Nov 2020 07:28:51 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:39857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1kaeNk-0004am-RZ; Thu, 05 Nov 2020 07:28:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=YPq/3yfFXLfPvAw4wtoOounGC9mB9vXYDsxqJBUvGTo=; b=Che2Ca+e11VJP8CmIRlpunNLMr
- qRQYJY4aEOG0sW7s1/7HUUp1XpWOrnMQhEb929HTWWJVhd+a4HkpskarxDIq0Mx5NJDMkLSzlv4VU
- yFcXwTsWK9Zs1Mj3kZL1g8mRojrX7WB/Uy3pxPoLLQGo/c55dsUS2KFv/49dHaSDSc5JNGbkRljuE
- qAnqlj3I9P12l8yLegvSKpZyeBET7x7v9yXLWzM3e8xfxSyep95AX6+4VfUDDJoCdPoah94WEtGnQ
- Olx7AccVhzmuG0AHKIG/Nk/isz/Zgy/ZfRPtwS4tbj5DgBKVrZ9xU6aBL0JTHG3q1xebPNdtoNHOe
- kF4G/s6Q==;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: Greg Kurz <groug@kaod.org>
-Cc: Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
- Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- "Daniel P . Berrange" <berrange@redhat.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- Alex =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Cornelia Huck <cohuck@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Richard Henderson <rth@twiddle.net>
-Subject: Re: [PATCH-for-5.2 v3 2/4] hw/9pfs: Fix Kconfig dependency problem
- between 9pfs and Xen
-Date: Thu, 05 Nov 2020 13:28:31 +0100
-Message-ID: <2140852.vo20GZeEQY@silver>
-In-Reply-To: <20201105132346.5e0adf94@bahia.lan>
-References: <20201104115706.3101190-1-philmd@redhat.com>
- <17370310-d69c-91ff-763d-52a1355ad605@redhat.com>
- <20201105132346.5e0adf94@bahia.lan>
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kaeQV-0004yB-NN; Thu, 05 Nov 2020 07:31:40 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:55266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1kaeQT-0005VJ-Jr; Thu, 05 Nov 2020 07:31:39 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id f12so2541pjp.4;
+ Thu, 05 Nov 2020 04:31:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kzubQXn7VmEZvadVDrN2B8ATm1bBIX2uOarIfOPEuCQ=;
+ b=LXpAuO7fJ5Yz0KDiykfhUXZG1Zop0akIO6qmm75iG+aB6rq66j2W1heCLG8Zfg505U
+ 8ty3WADlTHm/Orh7fsqBBtK70VOnAyXqVQbqfKzo7EVhFHAVXjjndaaRr7ZoCG7XU6z/
+ lQPsLo72dGb5oOwtUG4zuRzWKEaRRDTs50ZY3KIZ3Drtkc34BQXWhNDgr3SzdUcVi8ri
+ Y49bXXXmdeEAk37aMIRQju+Q1o4HiLhclY7NMG450Tf1fb2FNvBNwpy7bWYcVya3Bssd
+ vL3duH95B+WLDwVEY/alzrtxd0Y1SvUjPcogQgeMBCw+cuELLm5E6K9c9U+XjBhBIz6w
+ LRkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kzubQXn7VmEZvadVDrN2B8ATm1bBIX2uOarIfOPEuCQ=;
+ b=L5GHqHEWYSF/z/3UGYFNLJYb8O3mvtoE1KBRJVQahD+Wv0rO62LaS3J+d8zIu7DkFy
+ pBpWeGkyIzr422q5PCUl23a21Xj/Wh1XT6Rx+cpznyKkUjPEX1jP4V0arej8pryL6tSo
+ 7lcZL6mHtQ9wjXoTept7mwX0fIumXwvYMXq0GmwR5MFiQW9sqOAJRYEOwS52KRYD6uL1
+ sj+uoeVNkb0qJdIbrxLwK6VdB/oJypOsz4surUIV2mj7cWj0OjWobwQ0pG3Ti0iWITb2
+ W8T1YqEsxdNFr30/fmb8wlmmZKz+vDhjjVhC7Ce9uhLGRk6p3SNLQ8KkOSIUZPCl7H2i
+ viVg==
+X-Gm-Message-State: AOAM533recHYqRbxUXmJ7jCpbFVwXTFtT/h9dAwVzIe3rrLjiEQa/gJ7
+ vUgcRxXG40C17EvqeOh0vsmljw9ekodjtnfE
+X-Google-Smtp-Source: ABdhPJwgw5R2rexkFtzwLCLAc44vpGLH97HPrkq4axiMlAKP0eRSzbqRFGqxjI5jxnX+UfmmJDKT6Q==
+X-Received: by 2002:a17:90a:7784:: with SMTP id
+ v4mr2262718pjk.60.1604579494305; 
+ Thu, 05 Nov 2020 04:31:34 -0800 (PST)
+Received: from localhost.localdomain ([103.94.185.75])
+ by smtp.googlemail.com with ESMTPSA id hi10sm2987008pjb.0.2020.11.05.04.31.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 04:31:33 -0800 (PST)
+From: Yonggang Luo <luoyonggang@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/2] Fixes building nfs on msys2/mingw
+Date: Thu,  5 Nov 2020 20:31:14 +0800
+Message-Id: <20201105123116.674-1-luoyonggang@gmail.com>
+X-Mailer: git-send-email 2.28.0.windows.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=91.194.90.13; envelope-from=qemu_oss@crudebyte.com;
- helo=lizzy.crudebyte.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 07:28:44
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=luoyonggang@gmail.com; helo=mail-pj1-x1033.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,69 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>, Peter Lieven <pl@kamp.de>,
+ Max Reitz <mreitz@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Donnerstag, 5. November 2020 13:23:46 CET Greg Kurz wrote:
-> On Thu, 5 Nov 2020 13:15:59 +0100
->=20
-> Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
-> > On 11/4/20 6:54 PM, Greg Kurz wrote:
-> > > On Wed, 04 Nov 2020 13:18:09 +0100
-> > >=20
-> > > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > >> On Mittwoch, 4. November 2020 12:57:04 CET Philippe Mathieu-Daud=E9=
-=20
-wrote:
-> > >>> Commit b2c00bce54c ("meson: convert hw/9pfs, cleanup") introduced
-> > >>> CONFIG_9PFS (probably a wrong conflict resolution). This config is
-> > >>> not used anywhere. Backends depend on CONFIG_FSDEV_9P which itself
-> > >>> depends on CONFIG_VIRTFS.
-> > >>>=20
-> > >>> Remove the invalid CONFIG_9PFS and use CONFIG_FSDEV_9P instead, to
-> > >>>=20
-> > >>> fix the './configure --without-default-devices --enable-xen' build:
-> > >>>   /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in
-> > >>>   function
-> > >>>=20
-> > >>> `xen_be_register_common': hw/xen/xen-legacy-backend.c:754: undefined
-> > >>> reference to `xen_9pfs_ops' /usr/bin/ld:
-> > >>> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x8): undefined
-> > >>> reference to
-> > >>> `local_ops' /usr/bin/ld:
-> > >>> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x20): undefined
-> > >>> reference
-> > >>> to `synth_ops' /usr/bin/ld:
-> > >>> libcommon.fa.p/fsdev_qemu-fsdev.c.o:(.data.rel+0x38): undefined
-> > >>> reference
-> > >>> to `proxy_ops' collect2: error: ld returned 1 exit status
-> > >>>=20
-> > >>> Fixes: b2c00bce54c ("meson: convert hw/9pfs, cleanup")
-> > >>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > >>> Acked-by: Greg Kurz <groug@kaod.org>
-> > >>> Tested-by: Greg Kurz <groug@kaod.org>
-> > >>> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > >>=20
-> > >> Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > >=20
-> > > Phil,
-> > >=20
-> > > Same questioning as Connie. Do you intend to get this merged or should
-> > > Christian or I take care of that ?
-> >=20
-> > Same answer too =3D) If you are preparing a pull request, please go ahe=
-ad!
->=20
-> Heh I've just seen your answer.
->=20
-> Christian,
->=20
-> Maybe you can add this patch in your next PR ?
-
-Yes, I will prepare a 9p PR today anyway, so I will include this patch.
-
-Best regards,
-Christian Schoenebeck
-
-
+V3-V4=0D
+Use uint64_t instead of blkcnt_t=0D
+V2-V3=0D
+Revise the commit message of=0D
+* block: enable libnfs on msys2/mingw in cirrus.yml=0D
+=0D
+V1-V2=0D
+Apply suggestion from  Peter Lieven=0D
+=0D
+Yonggang Luo (2):=0D
+  block: Fixes nfs compiling error on msys2/mingw=0D
+  block: enable libnfs on msys2/mingw in cirrus.yml=0D
+=0D
+ .cirrus.yml |  1 +=0D
+ block/nfs.c | 13 ++++++++++++-=0D
+ 2 files changed, 13 insertions(+), 1 deletion(-)=0D
+=0D
+-- =0D
+2.28.0.windows.1=0D
+=0D
 
