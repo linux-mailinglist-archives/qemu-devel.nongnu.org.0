@@ -2,35 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED3C2A763B
-	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 04:51:44 +0100 (CET)
-Received: from localhost ([::1]:36678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCCA62A763A
+	for <lists+qemu-devel@lfdr.de>; Thu,  5 Nov 2020 04:51:43 +0100 (CET)
+Received: from localhost ([::1]:36708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaWJL-0006hV-3j
-	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 22:51:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35046)
+	id 1kaWJK-0006i9-Pj
+	for lists+qemu-devel@lfdr.de; Wed, 04 Nov 2020 22:51:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kaWHN-0005NY-Ih; Wed, 04 Nov 2020 22:49:41 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42279 helo=ozlabs.org)
+ id 1kaWHN-0005NZ-KR; Wed, 04 Nov 2020 22:49:41 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:57625 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1kaWHL-0003wX-DQ; Wed, 04 Nov 2020 22:49:41 -0500
+ id 1kaWHL-0003wY-9p; Wed, 04 Nov 2020 22:49:41 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4CRTzb2bsCz9sTD; Thu,  5 Nov 2020 14:49:31 +1100 (AEDT)
+ id 4CRTzb3HnLz9sTL; Thu,  5 Nov 2020 14:49:31 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1604548171;
- bh=OjxTdqml0JkNTFyhEHrZhmtd+j41envfmwID7MLyDvw=;
+ bh=h9uWSlyNbwH/ldEkW6U/uD3o+yRhPlC7O+nq4loYpmE=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=RVNE6zxv4ioloRbaj6RzMDQEAtIg0vhNR3CB7nSkLfDn/pU4kXOU+e1rAJUVqN5Kt
- J8/Q3+QcLYEWRL52FQNXkS4R9WLSM+nmlwQhQ/Oo6DtwhoAvHt9r3nMS5cNcI19m3q
- Y+mrSZMT7mD3Z2py7X7EqdS8sAeySfRbJAdGwx0c=
+ b=MgH6i6/cte9FID8DtM3qPcGauqNXCdIAfE0z9kdQJrOAsQSa2QPPIQNX9nIZRw/6K
+ 2kmofWjWyESp6xGQUJKb44Y5dPDgu9dCJUNQ7JisKJhKb/gRkIqZy+YSTmiBJgaq7+
+ EolkFlRJ3zeXLHsxu34NHq5/gdIxJgx6EUzsh3qw=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Subject: [PULL 2/3] spapr: Drop dead code in spapr_reallocate_hpt()
-Date: Thu,  5 Nov 2020 14:49:18 +1100
-Message-Id: <20201105034919.393653-3-david@gibson.dropbear.id.au>
+Subject: [PULL 3/3] spapr: Convert hpt_prepare_thread() to use
+ qemu_try_memalign()
+Date: Thu,  5 Nov 2020 14:49:19 +1100
+Message-Id: <20201105034919.393653-4-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201105034919.393653-1-david@gibson.dropbear.id.au>
 References: <20201105034919.393653-1-david@gibson.dropbear.id.au>
@@ -65,39 +66,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Greg Kurz <groug@kaod.org>
 
-Sometimes QEMU needs to allocate the HPT in userspace, namely with TCG
-or PR KVM. This is performed with qemu_memalign() because of alignment
-requirements. Like glib's allocators, its behaviour is to abort on OOM
-instead of returning NULL.
+HPT resizing is asynchronous: the guest first kicks off the creation of a
+new HPT, then it waits for that new HPT to be actually created and finally
+it asks the current HPT to be replaced by the new one.
 
-This could be changed to qemu_try_memalign(), but in the specific case
-of spapr_reallocate_hpt(), the outcome would be to terminate QEMU anyway
-since no HPT means no MMU for the guest. Drop the dead code instead.
+In the case of a userland allocated HPT, this currently relies on calling
+qemu_memalign() which aborts on OOM and never returns NULL. Since we seem
+to have path to report the failure to the guest with an H_NO_MEM return
+value, use qemu_try_memalign() instead of qemu_memalign().
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Message-Id: <160398562892.32380.15006707861753544263.stgit@bahia.lan>
+Message-Id: <160398563636.32380.1747166034877173994.stgit@bahia.lan>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr.c | 6 ------
- 1 file changed, 6 deletions(-)
+ hw/ppc/spapr_hcall.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 227075103e..12a012d9dd 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -1522,12 +1522,6 @@ int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp)
-         int i;
+diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+index 607740150f..1d8e8e6a88 100644
+--- a/hw/ppc/spapr_hcall.c
++++ b/hw/ppc/spapr_hcall.c
+@@ -360,7 +360,7 @@ static void *hpt_prepare_thread(void *opaque)
+     SpaprPendingHpt *pending = opaque;
+     size_t size = 1ULL << pending->shift;
  
-         spapr->htab = qemu_memalign(size, size);
--        if (!spapr->htab) {
--            error_setg_errno(errp, errno,
--                             "Could not allocate HPT of order %d", shift);
--            return -ENOMEM;
--        }
--
-         memset(spapr->htab, 0, size);
-         spapr->htab_shift = shift;
- 
+-    pending->hpt = qemu_memalign(size, size);
++    pending->hpt = qemu_try_memalign(size, size);
+     if (pending->hpt) {
+         memset(pending->hpt, 0, size);
+         pending->ret = H_SUCCESS;
 -- 
 2.28.0
 
