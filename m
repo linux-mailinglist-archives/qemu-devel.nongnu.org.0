@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFF972A8E4B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 05:24:54 +0100 (CET)
-Received: from localhost ([::1]:52406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31B32A8E79
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 05:43:51 +0100 (CET)
+Received: from localhost ([::1]:57330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1katIz-00057N-QE
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 23:24:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57266)
+	id 1katb0-0000SN-Uv
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 23:43:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1katHb-0003pD-Kp
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:23:27 -0500
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:45327)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1katZw-0008Ry-4R
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:42:24 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:47004)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1katHZ-0007rM-E2
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:23:27 -0500
-Received: by mail-pl1-x641.google.com with SMTP id z1so65230plo.12
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 20:23:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=6Vj7rJ1HbGvjo2klZQHezr8aeMv8wuLNCnIvPj2MkoI=;
- b=TseiAhqoKYgO8RR7gIQ3TT92ssxzHbstXjcwYWFHww7aXSjgCECeQGa5L1orO2knHz
- cd21h03gy/Cnm8dkVVHjZEco6lgm2zLIE7ip1yO9BLq7uZthA7/7P8lYjcUEyz2RQ+6G
- Cm7Sw5QzZSlr9pVKG7u77qq/1jYbB5D+qIPp1JbgBOPVygpAqcWTWe4msowrqgEYaecd
- UnGih5Uc9C40nx55Bs4wmIsZ/DCfzgXv794urzVqiEl3/ol9EjPbjpy+Qumu7w48Wb3w
- fMGEd2Kmpe1ZmkwaTmoMRcz+FysvpeHRd3a3wdWmpPUVDl9ix0NKyMWjd0dExMeQ8i2J
- vWjw==
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1katZt-0006jn-NI
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:42:23 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id w4so2977407pgg.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 20:42:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=r3YLGzm7snfxXqcurkqYtMnrfBi4+eIbtPBIHL19ksk=;
+ b=JMsLgPnxvu5BzI3WurFwRSXdC1FAZMqP2+UdpodA6Q5sksCkfTAVmxJ+QRssqFImrU
+ jABGGfujiylxHFzDMyLjKlFOzydV3Wg0YspKKNdiRD86JBnlWv8Rcbye3b6Jr6+DVHKk
+ y8W5DovayL/VeDRcReAGawPTxQ3Gckn5chxN3IgrmNz0lHXJB0xCnmAPoHhSY2Zm7nD6
+ qCR8D/omYKqNy2y0nm61FRAC39wi+svaeCVNA2VMdG49bkCRRtHGzQIzDSHV2mupSh/T
+ d3EeZhPx2GzNSCBhrpoWOQajYfEIH/8p1cjTTQ5Pi1StFT+BSUKBG7UtaNFZp9qWRwmi
+ Cf1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=6Vj7rJ1HbGvjo2klZQHezr8aeMv8wuLNCnIvPj2MkoI=;
- b=YLqQQ5txzOKJbi/QCT6/ZfmGSd4nnQfW4lP+oqT8azQlz2PAgG/8zWM2pdjH04Qa01
- iZ9U5kFLrOf8eTtb7CyZMsENroQ238VMqF3yBGdFel1knsMIRGvBwXF2cPWHVewrLzPD
- w9hnWt92MnUJE04jkMFslVsXUv15hd/zOKg85HtvOzxu4GilpSMWRLmhyvvSOHiN6jO8
- 3HvRUZbP+Yq6grPRPveNXtsehMU3o6xIqKWhBcBhO7EnH7JWZiJp/bvwzfEwezNYztUg
- 4mMh76p9WbCq077P8b9bfw+lP+cmBbiyp+yanLv0NKsSERPXaejLbTXaM9d4FKHH2grU
- avyQ==
-X-Gm-Message-State: AOAM530L8E0pO4ZvKIX0DqO5nxlKpnJ9gLhnIxkY8mIlwgnruzJR4NO4
- 0V/+7Mj5vvPIRPf+5CamEMSNdV8GyGU4LA==
-X-Google-Smtp-Source: ABdhPJygeNwn/B7P7Pb7mWhLIAe7CDTJZWzYzKfdTAvlnK7tirU2+udfJiHr1FGEbRLuYIFID6wYrw==
-X-Received: by 2002:a17:902:7242:b029:d4:c719:79ce with SMTP id
- c2-20020a1709027242b02900d4c71979cemr280832pll.26.1604636602692; 
- Thu, 05 Nov 2020 20:23:22 -0800 (PST)
-Received: from software.domain.org (111-252-196-15.dynamic-ip.hinet.net.
- [111.252.196.15])
- by smtp.gmail.com with ESMTPSA id y1sm262235pjl.12.2020.11.05.20.23.19
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 05 Nov 2020 20:23:22 -0800 (PST)
-From: Huacai Chen <zltjiangshi@gmail.com>
-X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH V17 6/6] docs/system: Update MIPS machine documentation
-Date: Fri,  6 Nov 2020 12:21:50 +0800
-Message-Id: <1604636510-8347-7-git-send-email-chenhc@lemote.com>
-X-Mailer: git-send-email 2.7.0
-In-Reply-To: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
-References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::641;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pl1-x641.google.com
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=r3YLGzm7snfxXqcurkqYtMnrfBi4+eIbtPBIHL19ksk=;
+ b=Js44/Mi29tvZqChznR/euU8qtvKMunyRZ9ARpTfuFJ2yjVDBW8kEmE0S0EeDVzdamY
+ zwZx+9NgsgZowc4UYRgJeggfphCGHNwAKJoXANTZ4mNx8bvki6tGk1Bsu3CQFsjn2UGV
+ Qd9of4URySNRMn9SwH68gW+PCnxyINklo2pjiGcLc/MXHkmBnXRjmNha+CRvlsXNePB1
+ 2P8NUGJnqlLng6TbwXk700mrlAlEbBsGhu3YWJBFKgr6nto0Yq6SqBPBCugYMLCgfwjV
+ kuEGPc6TqijXpCj28RWVXuFm7unGggrhZtWi81Lmb+2gnE2Zfeg5d5lfBJO/Zky1w++V
+ BmkA==
+X-Gm-Message-State: AOAM533eEWSM+nzSQSg5RV6Vl5eOpYKMvr0/22ZY3SXxUXcdEDdUwfHo
+ h0+LTHWsEXXJYodchwpiAx1maQ==
+X-Google-Smtp-Source: ABdhPJyXg5zYtGxkmuIrcmMya/9/UiW9vKF04hBpE8fsrQAHdqH9w4wNH3fyl4woCRGgzGT/mz+dRA==
+X-Received: by 2002:a17:90a:3fcb:: with SMTP id
+ u11mr436398pjm.128.1604637739788; 
+ Thu, 05 Nov 2020 20:42:19 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id d22sm12562pgv.87.2020.11.05.20.42.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 05 Nov 2020 20:42:19 -0800 (PST)
+Date: Thu, 05 Nov 2020 20:42:19 -0800 (PST)
+X-Google-Original-Date: Thu, 05 Nov 2020 19:54:42 PST (-0800)
+Subject: Re: Emulation for riscv
+In-Reply-To: <CAKmqyKNoUg9f-NdgAoGrq_DuBwWv_ZgusArvOobxEYM1mpzbRA@mail.gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: alistair23@gmail.com
+Message-ID: <mhng-5ca93c0e-3134-4384-915f-23c4aed71712@palmerdabbelt-glaptop1>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=palmer@dabbelt.com; helo=mail-pg1-x52b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,42 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@gmail.com>, qemu-devel@nongnu.org,
- Aleksandar Markovic <aleksandar.qemu.devel@gmail.com>,
- Huacai Chen <chenhc@lemote.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-devel@nongnu.org, moyarrezam@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Update MIPS machine documentation to add Loongson-3 based machine description.
+On Thu, 22 Oct 2020 17:56:38 PDT (-0700), alistair23@gmail.com wrote:
+> On Thu, Oct 22, 2020 at 4:58 PM Moises Arreola <moyarrezam@gmail.com> wrote:
+>>
+>> Hello everyone, my name is Moses and I'm trying to set up a VM for a risc-v processor, I'm using the Risc-V Getting Started Guide and on the final step I'm getting an error while trying to launch the virtual machine using the cmd:
+>
+> Hello,
+>
+> Please don't use the RISC-V Getting Started Guide. Pretty much all of
+> the information there is out of date and wrong. Unfortunately we are
+> unable to correct it.
+>
+> The QEMU wiki is a much better place for information:
+> https://wiki.qemu.org/Documentation/Platforms/RISCV
 
-Signed-off-by: Huacai Chen <chenhc@lemote.com>
----
- docs/system/target-mips.rst | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Ya, everything at riscv.org is useless.  It's best to stick to the open source
+documentation, as when that gets out of date we can at least fix it.  Using a
+distro helps a lot here, the wiki describes how to run a handful of popular
+ones that were ported to RISC-V early but if your favorite isn't on the list
+then it may have its own documentation somewhere else.
 
-diff --git a/docs/system/target-mips.rst b/docs/system/target-mips.rst
-index cd2a931..138441b 100644
---- a/docs/system/target-mips.rst
-+++ b/docs/system/target-mips.rst
-@@ -84,6 +84,16 @@ The Fuloong 2E emulation supports:
- 
- -  RTL8139D as a network card chipset
- 
-+The Loongson-3 virtual platform emulation supports:
-+
-+-  Loongson 3A CPU
-+
-+-  LIOINTC as interrupt controller
-+
-+-  GPEX and virtio as peripheral devices
-+
-+-  Both KVM and TCG supported
-+
- The mipssim pseudo board emulation provides an environment similar to
- what the proprietary MIPS emulator uses for running Linux. It supports:
- 
--- 
-2.7.0
-
+>> sudo qemu-system-riscv64 -nographic -machine virt \
+>> -kernel linux/arch/riscv/boot/Image -append "root=/dev/vda ro console=ttyS0" \
+>> -drive file=busybox,format=raw,id=hd0 \
+>> -device virtio-blk-device,drive=hd0
+>>
+>> But what I get in return is a message telling me that the file I gave wasn't the right one, the actual output is:
+>>
+>> qemu-system-riscv64: -drive file=busybox,format=raw,id=hd0: A regular file was expected by the 'file' driver, but something else was given
+>>
+>> And I checked the file busybox with de cmd "file" and got the following :
+>> busybox: ELF 64-bit LSB executable, UCB RISC-V, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux-riscv64-lp64d.so.1, for GNU/Linux 4.15.0, stripped
+>
+> That looks like an ELF, which won't work when attached as a drive.
+>
+> How are you building this rootFS?
+>
+> Alistair
+>
+>>
+>> So I was wondering if the error message was related to qemu.
+>> Thanks in advance for answering any suggestions are welcome
 
