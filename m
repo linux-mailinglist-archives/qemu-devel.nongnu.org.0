@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0449D2A9750
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 15:00:44 +0100 (CET)
-Received: from localhost ([::1]:40662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89EB72A9778
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 15:13:10 +0100 (CET)
+Received: from localhost ([::1]:52520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb2IE-0004B1-KS
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 09:00:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46454)
+	id 1kb2UH-0001vt-A6
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 09:13:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kb2GG-0002qQ-Ut
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 08:58:40 -0500
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:43342)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1kb2GF-0002mz-7a
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 08:58:40 -0500
-Received: by mail-io1-xd43.google.com with SMTP id m9so1527010iox.10
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 05:58:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wImSXZg528umXKWV8iWb3tOZ1CJF+0+nBRwHJ18ii/4=;
- b=RerSaBBnX0pVeN9H9+I09Q+OtolkUAEesW5EkNa+PW4T0vABkQn/Rgj7gbg2zsnjBF
- Z2y3Wn8Oi/JGU9Cw8eUcbr91GnTvN3iRr3fA6fMluEuiNgwveUDmqUSQxcjhkrR7bN7J
- E7uHjX2K95iNH7ax2Ymkzhz0JNkw7zcZLl+ZbmkE3z0CjXQyEGZ2hZBVVVXj/xPQiwCE
- fxh3Ps0CJFzeY5I504T0tS9Dkie82yBpBUiOoO0Lg14Hq+RzCo7e4ohzAFz0GgBUKOMr
- wwb2eaDxHbux9AvWqs6CaLELs7IblrGLeWeHROeArhlpbCUoTMLEDjbgheZf9KRfPGwq
- YMVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wImSXZg528umXKWV8iWb3tOZ1CJF+0+nBRwHJ18ii/4=;
- b=fXR55BBWmXf+oNCBIbqWvdkbPxosEXNX9gALITu0beC5G7bQ2iPrcLd6TQ0tADlBna
- TtYqLc4fL37ChQS0LbCyE/ggdBur+VDNLJkOhfdLqLD6Gzf+UlDxwWpa2/nduXRsOsfd
- 82g91JXEcz1gJRnNQk5Aj3VjTAXNPy/68hXeloxlB82emfIHnJ2g9NuZCpjdhkUrGj2o
- Da4s7cOSyDDaAyX5EYTmNusSpPVZTV3hvBCRYFtdC013+ME0Tscfl6df85Dlm89jKqxF
- ilGAIvRPlU1/sMRjesl3YdldI3aPwq46W8z43t0QPcjXh7tc1mje3AAmym6jfiaXsIVv
- A6EA==
-X-Gm-Message-State: AOAM533V3Hxvy+UQuR4dlcKD1cf5iioVoTUZBVaV5+dQJjMygShqNtM+
- JfZJEDndVKQXS0rrtHJvKMP3r2nq2FhOpBs76P5x5GYG
-X-Google-Smtp-Source: ABdhPJyz0pgc/Q8sAzyTbJmzORx3pjNTR42WcY0GFxiPEI0IPq+RlPilA7d0SeCiOHoz9VygKXJVMg3ml/+1g5kk4W4=
-X-Received: by 2002:a6b:9089:: with SMTP id s131mr1549598iod.36.1604671116790; 
- Fri, 06 Nov 2020 05:58:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kb2T3-0001VD-9u
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 09:11:53 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:7794)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kb2T1-0007b6-BT
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 09:11:52 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa559a70002>; Fri, 06 Nov 2020 06:11:51 -0800
+Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov
+ 2020 14:11:49 +0000
+Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 6 Nov 2020 14:11:46 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH 1/1] Change the order of g_free(info) and tracepoint
+Date: Fri, 6 Nov 2020 19:09:24 +0530
+Message-ID: <1604669964-27222-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
+X-NVConfidentiality: public
 MIME-Version: 1.0
-References: <20201022111302.8105-1-pankaj.gupta.linux@gmail.com>
-In-Reply-To: <20201022111302.8105-1-pankaj.gupta.linux@gmail.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Fri, 6 Nov 2020 14:58:25 +0100
-Message-ID: <CAM9Jb+izw67vqXQ-tOCuNugJeBUREopYuh0XHw5QZvKXP278fw@mail.gmail.com>
-Subject: Re: [PATCH] physmem: improve ram size error messages
-To: Qemu Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d43;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-io1-xd43.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604671911; bh=Jweo4nFTC5ew2TJ4Z9vHvjCsDyNlK5ql+OOYLGZbsY8=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+ MIME-Version:Content-Type;
+ b=rRSwLnGXoZvlaNLPDqVwT5Ku6cvhzY47w/YHFkRGJr7hL2JKa+Avq2xrs6+jgU4E1
+ +XkV8C9k7qnNzIY9jqo2UQ7sOBnkt/plFRNLPyUN/ZLI2lTxtVMg4M6+Vz2cpHWWwk
+ TKVq0pTaAnIPiruMnVAC1gNjGur1Tn5Th+WM4UqDaTCHrJpPSLld3Lmy4g0f6KFnZL
+ 5MjXzZ0GOkuDRuZ9RwkPPI8tB1ZN5Hup/xqr11/BsjHEuQWW8zUx778ZD82VmqmS6N
+ 5IqTymR5A86H9YzVJUMv8UN0L6ZoUShyJ5NE2vDicsDFFhIDry3NWVomMfDGLGq0+L
+ zms07NREStFyQ==
+Received-SPF: pass client-ip=216.228.121.143;
+ envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 09:11:49
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,52 +70,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Li Zhang <li.zhang@cloud.ionos.com>
+Cc: mcrossley@nvidia.com, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-devel@nongnu.org, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping
+Fixes Coverity issue:
+CID 1436126:  Memory - illegal accesses  (USE_AFTER_FREE)
 
->  Ram size mismatch condition logs below message.
->
->    "Length mismatch: pc.ram: 0x80000000 in != 0x180000000: Invalid argument"
->
->  This patch improves the readability of error messages.
->  Removed the superflous "in" and changed "Length" to "Size".
->
-> Signed-off-by: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-> Reported-by: Li Zhang <li.zhang@cloud.ionos.com>
-> ---
->  softmmu/physmem.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index e319fb2a1e..8da184f4a6 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -1756,15 +1756,15 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t newsize, Error **errp)
->
->      if (!(block->flags & RAM_RESIZEABLE)) {
->          error_setg_errno(errp, EINVAL,
-> -                         "Length mismatch: %s: 0x" RAM_ADDR_FMT
-> -                         " in != 0x" RAM_ADDR_FMT, block->idstr,
-> +                         "Size mismatch: %s: 0x" RAM_ADDR_FMT
-> +                         " != 0x" RAM_ADDR_FMT, block->idstr,
->                           newsize, block->used_length);
->          return -EINVAL;
->      }
->
->      if (block->max_length < newsize) {
->          error_setg_errno(errp, EINVAL,
-> -                         "Length too large: %s: 0x" RAM_ADDR_FMT
-> +                         "Size too large: %s: 0x" RAM_ADDR_FMT
->                           " > 0x" RAM_ADDR_FMT, block->idstr,
->                           newsize, block->max_length);
->          return -EINVAL;
-> --
-> 2.20.1
->
+Fixes: a9e271ec9b36 ("vfio: Add migration region initialization and finalize
+function")
+
+Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+---
+ hw/vfio/migration.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 3ce285ea395d..55261562d4f3 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -897,8 +897,8 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **errp)
+         goto add_blocker;
+     }
+ 
+-    g_free(info);
+     trace_vfio_migration_probe(vbasedev->name, info->index);
++    g_free(info);
+     return 0;
+ 
+ add_blocker:
+-- 
+2.7.0
+
 
