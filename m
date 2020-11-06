@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C0A2A965B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 13:44:53 +0100 (CET)
-Received: from localhost ([::1]:40098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 915BD2A9663
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 13:46:41 +0100 (CET)
+Received: from localhost ([::1]:48384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb16q-0004da-LN
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 07:44:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59964)
+	id 1kb18a-00085M-Ks
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 07:46:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kb157-0002p7-EV; Fri, 06 Nov 2020 07:43:05 -0500
+ id 1kb15B-0002vg-04; Fri, 06 Nov 2020 07:43:09 -0500
 Received: from mail-eopbgr130093.outbound.protection.outlook.com
  ([40.107.13.93]:31364 helo=EUR01-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1kb153-0001NI-Ij; Fri, 06 Nov 2020 07:43:05 -0500
+ id 1kb158-0001NI-48; Fri, 06 Nov 2020 07:43:08 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Nxon2Zj4fhVX3C3Ymo8mInKab+ENEkcOQWVXVal+XBNB428L6+0Ih/KnSuMhLQiK12IPq5w+mMDPM96xwtXimFjdtEcimH+Gr1/NDcEUHrcQ9qKE9cqIxeipWdR6YVZ4Y81CKyrPxv3Zo9b0fMZ6iRu4V+muVUVtmoHeOqjFOqRpESsUZa1IX4SAgk11BqlrXFt2t1rNNefxwNDHKvNoqXGrtyhRH38nVg25M1H/jreodCD+MgBl9P5cavZdt0ODFpr5m+oamXoxcE4aPnLr8yUosdAD0Z1phpYMcss3wBwpTJAyGdtumqawD63ZAoAKBdLlE9GWQ22b1DEOz3vtyw==
+ b=hFp/J/Egz3VutZlgTjWVwEBcpeur8wErnGbSNMGYGjdZZEozIo2eEZB3fqvHjLzd24580dhXDAzlrcsRLf4FkXyp/35RLX0vfUwUtAHcme644S9NIBOOWdOM1lwNxzr4GgrFAm0Kmvw4Tu+6gUnN0q9X4z0n9gTA/qlqpG92SImHQkwNpWYl/S4R+88ERr1h0wV27A81mmilynBAs2hiD8JyXmHA47LcXMlM2k67Qz9BUZADDgOH0t8mnYCkKl5dGS/5qSZSAA2ERQs2HKotckbjU+INxQ3uo0uQ0evqAedbnDDOcdRpa1Z2KZLjXDNboWoyWBJs/UOMVz/cJLdRqQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AqgRlEpO8pc0gIn++SvBpnJ38xL6IYIPpodKe80tdr8=;
- b=JzxGlwO6TNS7XzZIa+Zg4lgsXDKJSdtdQB7TYdEc1rN/j034n7r9Zz+3Xl3N9RatG8cj7x8k97ft+B+sOUHvawmYSc6sy/yMNEmNI44kG7DrSNurOBq+tbBc1TKthxmgUe6SUfmXU8px+/2uAoKZsL12xa5mbDLTkrL8Kt99dK1t1Bh5Ws9LF6dyTIDEsJ8gjFG2QpS+ltTJ1ub9CXj2CL7XcKpWhjiMwHiiWfHVjYDGtLmBOsf4epGgzoRS/8LeWKUv+gEp5HPZ50cjJxwhab9yGfO/cUF4HiAFKjnflbEk6RzGLxtIXHJ+/cbCfjlf0aRf/ta+mXjlC3YjCFydlg==
+ bh=pdKH/+KGeHxAccGIfDkSCrNAMgVDMyHfJB2ONu6hlVI=;
+ b=OmGvruysamYIsYP7VEbfZx2Le6RL4Bq3n1m2hy2vgR98F+HdopEQNwOkLRpcK6ZNbDq6yCMCu7jhMz1K46Pa0Ayz7UFLWSeHFAirxN725R7INpPCEx42KmAn4V2+wXawJF4u8Vn54cXdGlb8FAYU86wgl0L08OTgbeA7GxjSfnF6SftEuxJTxICyHA5XolP478wrD214J4MzSdPyA9JGur8dmg2iByejD00NEPCe/0Zqz32kwNyP13dYnkOTNW5UcO6KpgXq1mcaGbYUbf2DZ6rcD87SQsd/PxTM/pAB/kL23XwOreKqhDYFxqxUsz7icP4p5TDooNClkUERhrO97g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AqgRlEpO8pc0gIn++SvBpnJ38xL6IYIPpodKe80tdr8=;
- b=jqpQt4eEeLiEIIvtWVW014uQv9Gi7HJK1fcte2vShztAYwzGhQUOZFDa/pMYRFt4Jp7S5Hho6bBAcLQjcLAlKyd6HUzjTfuHhl+2zMTfdR9B7BYFWi0slL/fLKcOuGTUuBvagFLpzCWE9qeasFHryzJTS54GRuXkYJ39D3MdG6Y=
+ bh=pdKH/+KGeHxAccGIfDkSCrNAMgVDMyHfJB2ONu6hlVI=;
+ b=bEsI0izKoRoIAbURKNuv7hZgTe3hCG8wIE3BLTeD36M3saE7AzUOOlNkRRYRTV3KltnBNwqqNUGmGp5A/2HAJ7p6glZlK5Tua8GSJUqTx/rDLgT/Dj2RNKyvKM4u0T+gGOumehQ03pBirMZcVNY/Yab9G+rxatugBOXTor773vE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0801MB1841.eurprd08.prod.outlook.com (2603:10a6:203:2e::7)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Fri, 6 Nov
- 2020 12:42:56 +0000
+ 2020 12:42:57 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::fd02:1330:f620:1243%9]) with mapi id 15.20.3499.032; Fri, 6 Nov 2020
- 12:42:56 +0000
+ 12:42:57 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  berto@igalia.com, vsementsov@virtuozzo.com, den@openvz.org
-Subject: [PATCH v2 0/7] block: permission update fix & refactor
-Date: Fri,  6 Nov 2020 15:42:34 +0300
-Message-Id: <20201106124241.16950-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v2 1/7] block: add forgotten bdrv_abort_perm_update() to
+ bdrv_co_invalidate_cache()
+Date: Fri,  6 Nov 2020 15:42:35 +0300
+Message-Id: <20201106124241.16950-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.21.3
+In-Reply-To: <20201106124241.16950-1-vsementsov@virtuozzo.com>
+References: <20201106124241.16950-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.66]
@@ -63,30 +66,30 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.66) by
  AM3PR07CA0104.eurprd07.prod.outlook.com (2603:10a6:207:7::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.13 via Frontend Transport; Fri, 6 Nov 2020 12:42:55 +0000
+ 15.20.3564.13 via Frontend Transport; Fri, 6 Nov 2020 12:42:56 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: aed2e02d-f737-4961-6581-08d882517c4f
+X-MS-Office365-Filtering-Correlation-Id: b32e9a7d-7d53-409c-438b-08d882517cd3
 X-MS-TrafficTypeDiagnostic: AM5PR0801MB1841:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1841CD7FBF5B130354C0096DC1ED0@AM5PR0801MB1841.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB1841DB7D46647E626F736E00C1ED0@AM5PR0801MB1841.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:265;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ohtvXO2lr+TnjMYAPz4xFzlji8FU7QYnkE0KiNryai89rBOMLabrYJD4r5zss50SgMGi77HJW3GAhbe7t/LHjK1nTCI776dOus1noY1DctzVB4cOkvJGHhkw8hJ7uj3Bv6zxmxVaKHRYoTUPLBvmksdh4VBw1PQ/xBbQNHG5Ta+hvyoGGZkvyymHgMX0peTKH3bTVEtBqDIckV0AiXpUhbpnnDnXA+/FhUaU/HsAEJeu+IU+BkW19kYzNB83nVxw6KeJcRKqfxKEGCrpfFdlmLcCmbL7owwEwynrTrKQ+4ftNQR2gWLttSrzcZMhlvHd0FhoiXOsNAVl58vw9oNl1S5qvTExv8pUmtpL6Lw6jGNrVopLNUioHS41Spk0diOyIDB6UC69Ri0/U5tmXWnb6w==
+X-Microsoft-Antispam-Message-Info: ubRkUjnm/vV3NBolrmqVsdeZDlprhf4/vvf3ALbdlBeSL5BC0ybrAHen9kKh36NvF3uj1ylv1pxJ3PJQ+r0/4Rxq4yTSDe/5lcyHmNhqUNIoYQN6sJERJiZazXlg1pV11aKjStoNmD2aLVJirW76/Up2hcBYhJ9b0+NK2Q5QIHJ2iUjtPAazxIaU/MCjhXX0+mlmM0u61pUwHp3rOwZ4dswSQaf53gY+94k6dIg4bHUmb41Gn43PbY5ep0n+yR+jS3UJi5K83l/tS6N28Bk2Gjt9hrYd90Q6QwP7gFHDekj7UmxM6mfQTdHgqfTqsnuC
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(376002)(366004)(39840400004)(346002)(6916009)(86362001)(66476007)(66946007)(6666004)(2906002)(8936002)(8676002)(1076003)(66556008)(5660300002)(52116002)(83380400001)(4326008)(36756003)(6486002)(2616005)(316002)(16526019)(6506007)(26005)(186003)(6512007)(478600001)(966005)(107886003)(956004)(15650500001);
+ SFS:(4636009)(396003)(136003)(376002)(366004)(39840400004)(346002)(6916009)(86362001)(66476007)(66946007)(6666004)(2906002)(8936002)(8676002)(1076003)(4744005)(66556008)(5660300002)(52116002)(83380400001)(4326008)(36756003)(6486002)(2616005)(316002)(16526019)(6506007)(26005)(186003)(6512007)(478600001)(107886003)(956004);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: 4kEl64Aik9DV7uFOdTXXhN5BRwR6mp9/DKNDw7kTI40hhBbmRoIR1wphpMDGTxm5bEvJWQlh9b3Zs1FEMsuJWuIPmHy0EOebINcD6JDj3HZWK6tuP0hP1v/pBE1GXPBp1OoLSM2Ov6m8F3Lor11BUumJ83Cef1OGz+q1TfKwxhsjEXFjg3J4KvZoCgN6UnMDTULs/BUv6FDNpMK58t9zkIe28DoiOM2/FBkuK8aS+UEmephmYLe7Gm/KGo3ZZfBP5EZkb7vBczM17pCw+T0aclnOPPk1uQfvEMqdxQ7GiRl4IsPNNlhFgMYopN5fn5tRCYAsR16A7ZzXs00xR1kCPMxREXEV6w5yHvXznbh5GqKoTzpDemHbLrg12w+6pk04DX/U3OQCDnF1YzNXywfU0SQ4/9Fr4+d0JH5G1GXsL/Gg+Y4J+SbEvI5rYzxl0v6/ruG42o5f4yNDBUKV3fdzEjT2U6A18SmEb86TG2EYxbIVQi2g/5a6S0S07upY9zdvUyatclSAo2xyABECDaGqqPqZ5O8SmLe0FouQXoC60ORBVc17O+z7sNX/FMa1Y+bE7W5DdxcvjZrA6+ABYui+JytiCg8WWCTMh0MmJ397WfDSGWhB0hLqDv5jsnqqSYc/IU99YAjt8w6ukUSh5DqurQ==
+X-MS-Exchange-AntiSpam-MessageData: F71ZzwM//hPhy3xczfeve3NCjNOtKN8Qr/WKouomqexyIb+eddhPeUteCh8Brv8fzPLBFDJROnjD+rLsBE5Vqirigt4kss8zw2H4SYx2ysNFRBEzTBlp0Z5FiyZQRdUiiwMplmCXbdUgD/c5SJm0E33kbHZSgy9EKCUH8v7RLwZ0Viip7r2l8PA0LKV++Y3Pe3MqHzJ3MTN9ZaIR9cZwPirVSZ3Nh9DDeQ1IRutpeyOg0V7MmQGcm6TPuOWf4AB/7FqQUUkpfcOqMVjiuYqdqA6h7YH3qFhjo3J6l1etamjD++a/7Q+nYkkVnzpX5f3wt2iKGWhkG8JdZoYMZVCD65aeoCwbQxHDRdYEKlOIsK9r1VE927I9/kMbIhvo1IJjy2/SF0hBgzt4b9pXEZjZiCrJyyYGXzcDNwOZZkG9Fw76P3kn/Y0DWvW0kb5NX6PvP8aXirOITaq9BTWJNcqxlQCK/az+R1sNFjOOIcM1qdgVevYlJs/Liwlgk+igRKCr5YQqxbN7hoWT0OaqgwfEaLxENAEcXsEpqy7FZEO0oy2ZcWB7lQdXpusS6wD6EdivkiARmzuezdwho2BuVxfLA9z8pdu8+OnlyPCW7Qt/cfEh/Z1hB+j4IH9t4YCxTh8ajXGvxBEK/TbKjUOLX6kMww==
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: aed2e02d-f737-4961-6581-08d882517c4f
+X-MS-Exchange-CrossTenant-Network-Message-Id: b32e9a7d-7d53-409c-438b-08d882517cd3
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 12:42:56.5043 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 12:42:57.2740 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vfVKx3wkbOvtm3ZAXAMovYIYWlO9sU8LD9gsKCuDTqowUi/jk+lTFZlfQe+n8MQpoZLJY9uRLLZCvQhNx7Xj6DzHMhwWGJsWAt1h5kZmbbQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: uKYD8GkwT21cu9fOt0dwfnq+GsxDpWboeE9uKpDQ89dBLuePfJdSXSNS7PyYQKyL+lbBMKCL5opH1qCKx6toAOT0oSRB8vXMcHKF7IGUb7k=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1841
 Received-SPF: pass client-ip=40.107.13.93;
  envelope-from=vsementsov@virtuozzo.com;
@@ -115,39 +118,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ block.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-These series supersedes "Fix nested permission update" and includes one
-more fix (patch 01) and more improvements.
-
-I think patch 01 is good to have in 5.2, 02 is probably OK for 5.2 and
-the others are OK for next release. Still all may be taken to 5.2, up to
-block maintainers.
-
-Actually the series is a first part of my work announced in
-https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg08386.html
-to bring correct order to permission update (topological sort),
-update permission only on updated graph (and rollback graph changes),
-get rid of .active fields in block jobs.
-
-Supersedes: <20201031123502.4558-1-vsementsov@virtuozzo.com>
-
-v2: all new except for 03:, which uses suggestions by Albert and more
-strict version of bdrv_replace_node.
-
-Vladimir Sementsov-Ogievskiy (7):
-  block: add forgotten bdrv_abort_perm_update() to
-    bdrv_co_invalidate_cache()
-  block: add bdrv_replace_node_common()
-  block: make bdrv_drop_intermediate() less wrong
-  block: add bdrv_refresh_perms() helper
-  block: bdrv_set_perm() drop redundant parameters.
-  block: bdrv_child_set_perm() drop redundant parameters.
-  block: drop tighten_restrictions
-
- block.c | 256 +++++++++++++++++++++++---------------------------------
- 1 file changed, 105 insertions(+), 151 deletions(-)
-
+diff --git a/block.c b/block.c
+index 56bacc9e9f..19db7b7aeb 100644
+--- a/block.c
++++ b/block.c
+@@ -5782,6 +5782,7 @@ int coroutine_fn bdrv_co_invalidate_cache(BlockDriverState *bs, Error **errp)
+         bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
+         ret = bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, errp);
+         if (ret < 0) {
++            bdrv_abort_perm_update(bs);
+             bs->open_flags |= BDRV_O_INACTIVE;
+             return ret;
+         }
 -- 
 2.21.3
 
