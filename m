@@ -2,51 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F3822A8F32
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 07:10:32 +0100 (CET)
-Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF66A2A8F78
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 07:35:38 +0100 (CET)
+Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kauxD-00029w-4z
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 01:10:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51596)
+	id 1kavLV-00006r-PA
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 01:35:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kauwR-0001kL-Vd
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:09:43 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2507)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1kauwO-00060k-LG
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:09:43 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CS92T5Ghgzhd7y;
- Fri,  6 Nov 2020 14:09:21 +0800 (CST)
-Received: from huawei.com (10.175.101.6) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Fri, 6 Nov 2020
- 14:09:15 +0800
-From: Chuan Zheng <zhengchuan@huawei.com>
-To: <quintela@redhat.com>, <dgilbert@redhat.com>, <berrange@redhat.com>
-Subject: [PATCH] migration/multifd: fix hangup with TLS-Multifd due to
- blocking handshake
-Date: Fri, 6 Nov 2020 14:24:53 +0800
-Message-ID: <1604643893-8223-1-git-send-email-zhengchuan@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kavK4-0007xO-GH
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:34:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kavK0-0006TZ-P3
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:34:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604644440;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LzOd+lTVei+ZuKQOyDsGlIZXiCp6TlNaOj/bLla1OnM=;
+ b=aN7TgsLfiKNGAvSyzROtG8YOiK+RYppSJH2eRzzOWYr2YNhYilO+YHGqenj42eHAULDPFX
+ NTqQgkZzhJUSwJFI8EHLbLae1NULowV6VKvwJn81ONXhjMVR8Rq5eZWaEOG1oP8EB+2753
+ Zjxf3aP7dm4YG1ClRJiHezIz6gXhiVE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-KsQkpDxlPaeyD0ArvcAPgA-1; Fri, 06 Nov 2020 01:33:59 -0500
+X-MC-Unique: KsQkpDxlPaeyD0ArvcAPgA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AA4C835B50;
+ Fri,  6 Nov 2020 06:33:57 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04E5121E79;
+ Fri,  6 Nov 2020 06:33:56 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4177F1132BD6; Fri,  6 Nov 2020 07:33:55 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] qtest: Fix bad printf format specifiers
+References: <5FA28117.3020802@huawei.com>
+ <67eca43e-99ea-f2ce-5d9e-a9cb5c7a3a83@redhat.com>
+ <5FA38A32.2020008@huawei.com>
+ <18690aa2-3de9-70ad-477f-934724b284a0@redhat.com>
+Date: Fri, 06 Nov 2020 07:33:55 +0100
+In-Reply-To: <18690aa2-3de9-70ad-477f-934724b284a0@redhat.com> (Thomas Huth's
+ message of "Thu, 5 Nov 2020 06:58:31 +0100")
+Message-ID: <87wnyzouy4.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.175.101.6]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhengchuan@huawei.com; helo=szxga05-in.huawei.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 01:09:28
-X-ACL-Warn: Detected OS   = Linux 3.1-3.10 [fuzzy]
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 21:51:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,80 +86,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
- xiexiangyou@huawei.com, alex.chen@huawei.com, wanghao232@huawei.com
+Cc: AlexChen <alex.chen@huawei.com>, lvivier@redhat.com,
+ QEMU Trivial <qemu-trivial@nongnu.org>, QEMU <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The qemu main loop could hang up forever when we enable TLS+Multifd.
-The Src multifd_send_0 invokes tls handshake, it sends hello to sever
-and wait response.
-However, the Dst main qemu loop has been waiting recvmsg() for multifd_recv_1.
-Both of Src and Dst main qemu loop are blocking and waiting for reponse which
-results in hanging up forever.
+Thomas Huth <thuth@redhat.com> writes:
 
-Src: (multifd_send_0)                                              Dst: (multifd_recv_1)
-multifd_channel_connect                                            migration_channel_process_incoming
-  multifd_tls_channel_connect                                        migration_tls_channel_process_incoming
-    multifd_tls_channel_connect                                        qio_channel_tls_handshake_task
-       qio_channel_tls_handshake                                         gnutls_handshake
-          qio_channel_tls_handshake_task                                       ...
-            qcrypto_tls_session_handshake                                      ...
-              gnutls_handshake                                                 ...
-                   ...                                                         ...
-                recvmsg (Blocking I/O waiting for response)                recvmsg (Blocking I/O waiting for response)
+> On 05/11/2020 06.14, AlexChen wrote:
+>> On 2020/11/4 18:44, Thomas Huth wrote:
+>>> On 04/11/2020 11.23, AlexChen wrote:
+>>>> We should use printf format specifier "%u" instead of "%d" for
+>>>> argument of type "unsigned int".
+>>>>
+>>>> Reported-by: Euler Robot <euler.robot@huawei.com>
+>>>> Signed-off-by: Alex Chen <alex.chen@huawei.com>
+>>>> ---
+>>>>  tests/qtest/arm-cpu-features.c | 8 ++++----
+>>>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>>>
+>>>> diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-feat=
+ures.c
+>>>> index d20094d5a7..bc681a95d5 100644
+>>>> --- a/tests/qtest/arm-cpu-features.c
+>>>> +++ b/tests/qtest/arm-cpu-features.c
+>>>> @@ -536,7 +536,7 @@ static void test_query_cpu_model_expansion_kvm(con=
+st void *data)
+>>>>          if (kvm_supports_sve) {
+>>>>              g_assert(vls !=3D 0);
+>>>>              max_vq =3D 64 - __builtin_clzll(vls);
+>>>> -            sprintf(max_name, "sve%d", max_vq * 128);
+>>>> +            sprintf(max_name, "sve%u", max_vq * 128);
+>>>>
+>>>>              /* Enabling a supported length is of course fine. */
+>>>>              assert_sve_vls(qts, "host", vls, "{ %s: true }", max_name=
+);
+>>>> @@ -556,7 +556,7 @@ static void test_query_cpu_model_expansion_kvm(con=
+st void *data)
+>>>>                   * unless all larger, supported vector lengths are al=
+so
+>>>>                   * disabled.
+>>>>                   */
+>>>> -                sprintf(name, "sve%d", vq * 128);
+>>>> +                sprintf(name, "sve%u", vq * 128);
+>>>>                  error =3D g_strdup_printf("cannot disable %s", name);
+>>>>                  assert_error(qts, "host", error,
+>>>>                               "{ %s: true, %s: false }",
+>>>> @@ -569,7 +569,7 @@ static void test_query_cpu_model_expansion_kvm(con=
+st void *data)
+>>>>               * we need at least one vector length enabled.
+>>>>               */
+>>>>              vq =3D __builtin_ffsll(vls);
+>>>> -            sprintf(name, "sve%d", vq * 128);
+>>>> +            sprintf(name, "sve%u", vq * 128);
+>>>>              error =3D g_strdup_printf("cannot disable %s", name);
+>>>>              assert_error(qts, "host", error, "{ %s: false }", name);
+>>>>              g_free(error);
+>>>> @@ -581,7 +581,7 @@ static void test_query_cpu_model_expansion_kvm(con=
+st void *data)
+>>>>                  }
+>>>>              }
+>>>>              if (vq <=3D SVE_MAX_VQ) {
+>>>> -                sprintf(name, "sve%d", vq * 128);
+>>>> +                sprintf(name, "sve%u", vq * 128);
+>>>>                  error =3D g_strdup_printf("cannot enable %s", name);
+>>>>                  assert_error(qts, "host", error, "{ %s: true }", name=
+);
+>>>>                  g_free(error);
+>>>>
+>>>
+>>> max_vq and vq are both "uint32_t" and not "unsigned int" ... so if you =
+want
+>>> to fix this really really correctly, please use PRIu32 from inttypes.h =
+instead.
+>>>
+>>=20
+>> Hi Thomas,
+>> Thanks for your review.
+>> According to the definition of the macro PRIu32(# define PRIu32         =
+"u"),
+>> using PRIu32 works the same as using %u to print, and using PRIu32 to pr=
+int
+>> is relatively rare in QEMU(%u 720, PRIu32 only 120). Can we continue to =
+use %u to
+>> print max_vq and vq in this patch.
+>> Of course, this is just my small small suggestion. If you think it is be=
+tter to use
+>> PRIu32 for printing, I will send patch V2.
+>
+> Well, %u happens to work since "int" is 32-bit with all current compilers
+> that we support.
 
-Fix this by offloadinig handshake work to a background thread.
+Yes, it works.
 
-Reported-by: Yan Jin <jinyan12@huawei.com>
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
-Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
----
- migration/multifd.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+>                  But if there is ever a compiler where the size of int is
+> different, you'll get a compiler warning here again.
 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 68b171f..88486b9 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -739,6 +739,19 @@ static void multifd_tls_outgoing_handshake(QIOTask *task,
-     multifd_channel_connect(p, ioc, err);
- }
- 
-+static void *multifd_tls_handshake_thread(void *opaque)
-+{
-+    MultiFDSendParams *p = opaque;
-+    QIOChannelTLS *tioc = QIO_CHANNEL_TLS(p->c);
-+
-+    qio_channel_tls_handshake(tioc,
-+                              multifd_tls_outgoing_handshake,
-+                              p,
-+                              NULL,
-+                              NULL);
-+    return NULL;
-+}
-+
- static void multifd_tls_channel_connect(MultiFDSendParams *p,
-                                         QIOChannel *ioc,
-                                         Error **errp)
-@@ -754,12 +767,10 @@ static void multifd_tls_channel_connect(MultiFDSendParams *p,
- 
-     trace_multifd_tls_outgoing_handshake_start(ioc, tioc, hostname);
-     qio_channel_set_name(QIO_CHANNEL(tioc), "multifd-tls-outgoing");
--    qio_channel_tls_handshake(tioc,
--                              multifd_tls_outgoing_handshake,
--                              p,
--                              NULL,
--                              NULL);
--
-+    p->c = QIO_CHANNEL(tioc);
-+    qemu_thread_create(&p->thread, "multifd-tls-handshake-worker",
-+                       multifd_tls_handshake_thread, p,
-+                       QEMU_THREAD_JOINABLE);
- }
- 
- static bool multifd_channel_connect(MultiFDSendParams *p,
--- 
-1.8.3.1
+No, we won't.
+
+If we ever use a compiler where int is narrower than 32 bits, then the
+type of the argument is actually uint32_t[1].  We can forget about this
+case, because "int narrower than 32 bits" is not going to fly with our
+code base.
+
+If we ever use a compiler where int is wider than 32 bits, then the type
+of the argument is *not* uint32_t[2].  PRIu32 will work anyway, because
+it will actually retrieve an unsigned int argument, *not* an uint32_t
+argument[3].
+
+In other words "%" PRIu32 is just a less legible alias for "%u" in all
+cases that matter.
+
+And that's why I would simply use "%u".
+
+>                                                      So if we now fix thi=
+s
+> up, then let's do it really right and use PRIu32, please.
+>
+>  Thomas
+
+
+[1] Because promotion does nothing either argument, and the usual
+arithmetic conversions convert to uint32_t.  See my first reply.
+
+[2] Because uint32_t gets promoted to unsigned int.  See my first reply.
+
+[3] Because variable arguments undergo default argument promotion (=C2=A7
+6.5.2.2 Function calls), which promotes uint32_t to unsigned int.
 
 
