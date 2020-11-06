@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576EE2A96C9
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 14:14:52 +0100 (CET)
-Received: from localhost ([::1]:57974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64FB62A96D3
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 14:17:07 +0100 (CET)
+Received: from localhost ([::1]:35092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb1Zr-0000oI-CO
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 08:14:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38060)
+	id 1kb1c2-0003Cn-F0
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 08:17:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kb1YL-0007xg-02
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 08:13:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44197)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kb1ak-0002LT-M9
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 08:15:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37087)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kb1YJ-0003tL-Du
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 08:13:16 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kb1ai-0004jl-WA
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 08:15:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604668394;
+ s=mimecast20190719; t=1604668544;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=blGWwxB9gyXgVOrWcDqnzivtG1dpJfKI5GBlN/wIPdQ=;
- b=ReQFPk+NS7qxZiv8aX4zlkOR5dvUHni/VSYjLM09U1L+OjOSuO0lTQCCxK8ZXEjDGwyzSM
- WGFMJyTmdXjwRIN0MFSIYzojmCmAc1mVO1mSan9cHO3zoWYgqef8mm7udEaJpTlPNZsmgt
- TxcUiB81/VNQb8Tp/1ViWyYWjCoFQd4=
+ bh=njEU7jFKN8JSzDEhO2YUBRAPqWB0Q6WksBq34KLqCmE=;
+ b=b6PjE/NyDCpJOb4f17j69cV/N2As38zKz399mJmHeuJ3OfLsJG5O6F3WtRCqooFArIZTLw
+ /xyphvurNVH+EWRIRCfrj1LajV6PNVQMediSOOhkIsFFtJg3tsQD2CgT1B5YXW7YbAq2rs
+ MfREnGsD66iQ3/IK02Tqr7NbVHfoPh0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-KsuOtaMkNHqjaaQ1F7n_JA-1; Fri, 06 Nov 2020 08:13:12 -0500
-X-MC-Unique: KsuOtaMkNHqjaaQ1F7n_JA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-399-mfw1qTwMOpaz2pabHkQTaA-1; Fri, 06 Nov 2020 08:15:42 -0500
+X-MC-Unique: mfw1qTwMOpaz2pabHkQTaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 738F9107AD64;
- Fri,  6 Nov 2020 13:13:11 +0000 (UTC)
-Received: from gondolin.redhat.com (ovpn-114-59.ams2.redhat.com [10.36.114.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CDDFA9F63;
- Fri,  6 Nov 2020 13:13:09 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL for-5.2 4/4] s390x: fix build for --without-default-devices
-Date: Fri,  6 Nov 2020 14:12:52 +0100
-Message-Id: <20201106131252.953499-5-cohuck@redhat.com>
-In-Reply-To: <20201106131252.953499-1-cohuck@redhat.com>
-References: <20201106131252.953499-1-cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F33BA1009E2D
+ for <qemu-devel@nongnu.org>; Fri,  6 Nov 2020 13:15:41 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C447419746;
+ Fri,  6 Nov 2020 13:15:41 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 564501132BD6; Fri,  6 Nov 2020 14:15:40 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH for-5.2 3/4] qtest: escape device name in
+ device-introspect-test
+References: <20201103151452.416784-1-pbonzini@redhat.com>
+ <20201103151452.416784-4-pbonzini@redhat.com>
+Date: Fri, 06 Nov 2020 14:15:40 +0100
+In-Reply-To: <20201103151452.416784-4-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Tue, 3 Nov 2020 10:14:51 -0500")
+Message-ID: <87zh3uiq2r.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 07:11:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -78,58 +83,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Matthew Rosato <mjrosato@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-s390x@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s390-pci-vfio.c calls into the vfio code, so we need it to be
-built conditionally on vfio (which implies CONFIG_LINUX).
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Fixes: cd7498d07fbb ("s390x/pci: Add routine to get the vfio dma available count")
-Reported-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-Id: <20201103123237.718242-1-cohuck@redhat.com>
-Acked-by: Greg Kurz <groug@kaod.org>
-Tested-by: Greg Kurz <groug@kaod.org>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- hw/s390x/meson.build             | 2 +-
- include/hw/s390x/s390-pci-vfio.h | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+> device-introspect-test uses HMP, so it should escape the device name
+> properly.  Because of this, a few devices that had commas in their
+> names were escaping testing.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-index f4663a835514..2a7818d94b94 100644
---- a/hw/s390x/meson.build
-+++ b/hw/s390x/meson.build
-@@ -27,7 +27,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
- ))
- s390x_ss.add(when: 'CONFIG_S390_CCW_VIRTIO', if_true: files('s390-virtio-ccw.c'))
- s390x_ss.add(when: 'CONFIG_TERMINAL3270', if_true: files('3270-ccw.c'))
--s390x_ss.add(when: 'CONFIG_LINUX', if_true: files('s390-pci-vfio.c'))
-+s390x_ss.add(when: 'CONFIG_VFIO', if_true: files('s390-pci-vfio.c'))
- 
- virtio_ss = ss.source_set()
- virtio_ss.add(files('virtio-ccw.c'))
-diff --git a/include/hw/s390x/s390-pci-vfio.h b/include/hw/s390x/s390-pci-vfio.h
-index c7984905b3b7..ff708aef500f 100644
---- a/include/hw/s390x/s390-pci-vfio.h
-+++ b/include/hw/s390x/s390-pci-vfio.h
-@@ -13,8 +13,9 @@
- #define HW_S390_PCI_VFIO_H
- 
- #include "hw/s390x/s390-pci-bus.h"
-+#include CONFIG_DEVICES
- 
--#ifdef CONFIG_LINUX
-+#ifdef CONFIG_VFIO
- bool s390_pci_update_dma_avail(int fd, unsigned int *avail);
- S390PCIDMACount *s390_pci_start_dma_count(S390pciState *s,
-                                           S390PCIBusDevice *pbdev);
--- 
-2.26.2
+$ git-grep '\.name *= *"[^"]*,' | cat
+hw/block/fdc.c:    .name          = "SUNW,fdtwo"
+
+Any others?
 
 
