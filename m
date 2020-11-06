@@ -2,73 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490CA2A9B95
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 19:06:29 +0100 (CET)
-Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A68EE2A9B9E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 19:08:53 +0100 (CET)
+Received: from localhost ([::1]:39008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb683-00044r-Qv
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 13:06:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49982)
+	id 1kb6AO-0006Cm-OB
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 13:08:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb66Y-00033P-0J
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:04:54 -0500
-Received: from mail-ed1-x542.google.com ([2a00:1450:4864:20::542]:40129)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb66W-0002Hg-4q
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:04:53 -0500
-Received: by mail-ed1-x542.google.com with SMTP id p93so2165723edd.7
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 10:04:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dxXbOI7ed8dRPBwSnjmcgvk4xlQZYHJtago+2YsXS7Y=;
- b=giVmbD0PGMtfIRdxLfBGh87NwQtGwQZ9kLUlKlZ3AGMQI36Tmen1AShowZd0h0xbQO
- gKvsAJTv+fWfasz4C5ZXud3cddM0gle7XI9F0csIFuZ+3biOj2h4JoZ37pHOUgbmOq1i
- rLzUrboQQ7zn8m7clDnBCmtZuY5I7Du3QUmj6r/zvT98anVvZPeQ8gJeRqZh5SBznqZs
- jzaUJmUG3/W33FFa7w8OtCw5tbbyhyNjR3XpuI+FTGf8EkHoWgtpzviJBTU82UZ4Et5d
- NvsRAdMYu/zxEWmdHfOz52vHdpyhHTU6YgkT+j1P5ct7weyvVp4w+c81Jw1QXi0g3jZT
- EhOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dxXbOI7ed8dRPBwSnjmcgvk4xlQZYHJtago+2YsXS7Y=;
- b=JZiCSsf8C6Q424wMNoQ2mM8oenTD01Xhg8ZgpVAOLvSemORCsznQ06gsGaRH1lgrnb
- B4tvP4kY5tqrTsrxyetCLObn0qYhwg0Q4WF1zl9grofcKP80LZTiuI6F80TSJ3VFtPf7
- SaGmM5mmq9H0O/qShzSWWnkoMaoxhnJcB9GTCPXUanusITuCOv1+trP2hWPX7/QlPYGP
- 1ZLr1PaI0ONqYaFCEL/Yp63Cxl7Vwxil80LZqsm9L2gf3RI39avgoqCgWCjmnIJuji9p
- Ze5imSt+B2WtgAOYuNNIBjy86cIICJv3OTfZy/DpWu/qrWzoXvHn+XtZKlvCMprtVtZt
- UMAA==
-X-Gm-Message-State: AOAM530AVR2iq/2RB3XEiJXbL+zUSdVe5oYcojzWodl1Sb0riWAP0Yxq
- Kqg8dGuza35jY64PAaPKeIApZv4AT1xAroBLHizZtA==
-X-Google-Smtp-Source: ABdhPJwshlhZEWjjBZvWOefPxiAiynKSM4JtzYqC7Dh/7QUQ7+CKNYZciOq7ND6tchpC6ExhxMcGtiuy7bXPhP80/Yk=
-X-Received: by 2002:aa7:df82:: with SMTP id b2mr3177933edy.251.1604685890188; 
- Fri, 06 Nov 2020 10:04:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kb67v-0004Hi-3X
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:06:19 -0500
+Received: from mail-dm6nam08on2113.outbound.protection.outlook.com
+ ([40.107.102.113]:7896 helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1kb67t-0002XB-2J
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:06:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mK1hnd2YAuGMrMFsNq5JwIjpF3UdOQ8g335E6pGIuGqTJ07jn+78gOKgLbbnjD33yb+efO+OYUwl2MB/K48evI2pFeteDr6mghv5oCUwltN1zUjoYJr3dqWQJUvLz6KpQcmGCBpFENiitwtPj82ycYsdQ08JwA/TzDtYNc8zuGq1a4ZomEJRlEh+VL5bXuNlF/7DJY/QLMcBgN3Re//xAv4gBAd1jw5fFC25LOe4EFKyptZbBw6iL+UWdWOO48o3WbqJCwfJT92WVctRkZ6KFRDA7ZWYDo0I3+SqrPMHRxrkKBWsC5952mD6z9+3S5G4TZjAdqWK7Nhs9FM0WnSafA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3r3BgWn85+zSzMGQk2SogxF4oS9rOr9ZOBv1xfN00qY=;
+ b=ZYhIPWmkBwT9UlMwLmFaoTHLrXEnryzEcJI1MpEmktPDIk5wjzTcsE3DUouWopJ63rrMZkTZPHQSpAklxdyBWnP3PNWeDQc/bJcgHK10smb7BPvXUBAQcxaxDYasi3NyfhEIulxbXpkMYDSWTXaQD8lOcnh+wyOHpvScJSho8nUwQ4UlXzqQZ1QlMb7SNEbNktiNqg2Z3D+n9puvpUZJTthWI97CvV6w/xY+hWHJLYDNz4EQJlfGiyMpX7FZ9EayI4Mt1xXpj3K0ZYUZsnZNyCQGVQWS5k2p8jG4C5xskfLQXWN2iWh0Lbg27Hbbdegg3uxrwttnmSYl0z9wYLuzLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3r3BgWn85+zSzMGQk2SogxF4oS9rOr9ZOBv1xfN00qY=;
+ b=l9eRZjUW3KYgj6rhEd8ysF6hNhvPKqokkoWnZ9rHtxkjkBX/VWIAzW70D/gNXVixnyrK7/+4GGaMa9pTPqMlpW6Ecdbv/fQkOopTiwqT2iECZtHt6OB/esLBHvVkLH/faek8xU4LYaSuxURwqoaawLwpFVUOnw6Svzska+Y24Ps=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN2PR03MB2207.namprd03.prod.outlook.com (2603:10b6:804:e::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Fri, 6 Nov
+ 2020 18:06:13 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::d520:4c19:8ce6:7db2]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::d520:4c19:8ce6:7db2%2]) with mapi id 15.20.3499.032; Fri, 6 Nov 2020
+ 18:06:13 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] Fuzzing Documentation Updates
+Date: Fri,  6 Nov 2020 13:05:58 -0500
+Message-Id: <20201106180600.360110-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [72.93.72.163]
+X-ClientProxiedBy: MN2PR06CA0004.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::9) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
 MIME-Version: 1.0
-References: <20201106171153.32673-1-peter.maydell@linaro.org>
- <20201106171153.32673-2-peter.maydell@linaro.org>
- <202011061847.23354.pisa@cmp.felk.cvut.cz>
-In-Reply-To: <202011061847.23354.pisa@cmp.felk.cvut.cz>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Nov 2020 18:04:38 +0000
-Message-ID: <CAFEAcA8rR0Tjx111Xzj5VpZGSVLi8R70PSQ7Wahzb1AQM2TgLA@mail.gmail.com>
-Subject: Re: [PATCH for-5.2 1/4] hw/net/can/ctucan: Don't allow guest to write
- off end of tx_buffer
-To: Pavel Pisa <pisa@cmp.felk.cvut.cz>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::542;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x542.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.93.72.163) by
+ MN2PR06CA0004.namprd06.prod.outlook.com (2603:10b6:208:23d::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3541.21 via Frontend Transport; Fri, 6 Nov 2020 18:06:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 642417e1-4049-4a32-37d5-08d8827ea59a
+X-MS-TrafficTypeDiagnostic: SN2PR03MB2207:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN2PR03MB22079B8C743107C8220EEA13BAED0@SN2PR03MB2207.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: WQy67aYuEfVTMMy3yRsV8kg7V0yEuBJdCAW8iw3BsR7orY7PLcxys5xWoiXnIy2K3IQJBwnrvzgOKTCCUOy9D/Vnw37TF1YF2Lj+rFG8/GUOpxie696PgLrgcC+zYP8L+r6hhuIRxjOkTyTsck7+znzg7Jt5VysdEXbrLlRUqQQWYimNGTHKSdCvWNIiFNrKip8xW/ixRJufMycqP1ren+mqqN1FTHNYGF8u+RnMhCBjThgFc5LZTVKrEKclS5oAyS3MOOVlX+0RvqE3ffnFsEIAAE0nQgAoyWYA4TcU+ETW8sI/4WygUJDyJJl/K8Rot9lr6VDlh5Vi0Hbfz2GuGA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(396003)(39860400002)(346002)(376002)(366004)(478600001)(83380400001)(956004)(786003)(316002)(8676002)(4326008)(66476007)(2906002)(6486002)(186003)(66946007)(36756003)(66556008)(1076003)(52116002)(6916009)(86362001)(16526019)(26005)(5660300002)(6506007)(15650500001)(8936002)(75432002)(6512007)(6666004)(4744005)(2616005);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: 3D9w4tNZ0DJnhqK9gxdxEHT9C52t2luGe9KayL84CytduJE6KTkLzPYrDaByUobz0RDgkkTm/s09eDTcmVHY1vPepyCT5U59/BUh9pHuBYvaK700adwhqbQgeSpsN/h+TxMOdbGmYcrj9pKWTv73xBi8v4uDX3dG4QCPod4Eg2za7wlhkwN6Uz3xRQxH9OoGA2RwJ2afuF07DxqrdCKTMIQksOcVgiGmZeVKva31eRwh7T6pd5JeBvhs0UldAvvUEaili6PSgitbeiApbMXLHwWXrTsXXtj55gqQ2nkLvgvyqZbqg42yyqjsQPQizVsbwaZUbrlXQtE2PFZrwsI/TmJJ/Anc9jK8bFT+bXWCEuqUXWbpF3r35TxZ6HJCfp4fiQcbd/e6nO2zgfN5nt7lejTzmq+dKVSiCYlbrQ05h6d1i+g58kuAKQDxsPQO/HVkDK4BR6imXUBSw1TJmPUT7KMzlk9n8lePQtEdhopdpyZqUHxNfYIihE4jkHKmzwTXcte0pdqmqtER1XYUGjf/w+gErtrjGUbTlgmtJpxLL9YGz5MiqBxbHBXxvrxFXjEVyczKapnzpP+sEZEiwzGT24/MQpFkUSFrb4VqlyHKbsGrwR0S1MYcywJHnJ3HD7yGQK0g73TZ18P0/cPhPM1vaw==
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: 642417e1-4049-4a32-37d5-08d8827ea59a
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 18:06:13.1811 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: m9aq5SQS24BlqQ+sHzggK/as8+Ko02ZkHAheZ6jQkZGeYRQd50/X6fOfG7fc/zee
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN2PR03MB2207
+Received-SPF: pass client-ip=40.107.102.113; envelope-from=alxndr@bu.edu;
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 13:06:14
+X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,83 +110,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Ondrej Ille <ondrej.ille@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?SmFuIENoYXJ2w6F0?= <charvj10@fel.cvut.cz>
+Cc: Alexander Bulekov <alxndr@bu.edu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 6 Nov 2020 at 17:48, Pavel Pisa <pisa@cmp.felk.cvut.cz> wrote:
->
-> Hello Peter,
->
-> thanks much for the catching the problem and investing time into
-> fixing. I hope to find time for more review of remarks and Xilinx
-> patches next week. I do not find reasonable time slot till Sunday.
-> Excuse me. To not block updates, I confirm your changes.
->
-> On Friday 06 of November 2020 18:11:50 Peter Maydell wrote:
-> > The ctucan device has 4 CAN bus cores, each of which has a set of 20
-> > 32-bit registers for writing the transmitted data. The registers are
-> > however not contiguous; each core's buffers is 0x100 bytes after
-> > the last.
-> >
-> > We got the checks on the address wrong in the ctucan_mem_write()
-> > function:
-> >  * the first "is addr in range at all" check allowed
-> >    addr == CTUCAN_CORE_MEM_SIZE, which is actually the first
-> >    byte off the end of the range
-> >  * the decode of addresses into core-number plus offset in the
-> >    tx buffer for that core failed to check that the offset was
-> >    in range, so the guest could write off the end of the
-> >    tx_buffer[] array
-> >  * the decode had an explicit check for whether the core-number
-> >    was out of range, which is actually impossible given the
-> >    CTUCAN_CORE_MEM_SIZE check and the number of cores.
-> >
-> > Fix the top level check, check the offset, and turn the check
-> > on the core-number into an assertion.
-> >
-> > Fixes: Coverity CID 1432874
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  hw/net/can/ctucan_core.c | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
-> > index d20835cd7e9..ea09bf71a0c 100644
-> > --- a/hw/net/can/ctucan_core.c
-> > +++ b/hw/net/can/ctucan_core.c
-> > @@ -303,7 +303,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr,
-> > uint64_t val, DPRINTF("write 0x%02llx addr 0x%02x\n",
-> >              (unsigned long long)val, (unsigned int)addr);
-> >
-> > -    if (addr > CTUCAN_CORE_MEM_SIZE) {
-> > +    if (addr >= CTUCAN_CORE_MEM_SIZE) {
-> >          return;
-> >      }
->
-> Acked-by: Pavel Pisa <pisa@cmp.felk.cvut.cz>
+I converted the docuemntation to markdown and updated build instructions
+that changed after meson.
 
-> > @@ -312,7 +312,8 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr,
-> > uint64_t val, addr -= CTU_CAN_FD_TXTB1_DATA_1;
-> >          buff_num = addr / CTUCAN_CORE_TXBUFF_SPAN;
-> >          addr %= CTUCAN_CORE_TXBUFF_SPAN;
-> > -        if (buff_num < CTUCAN_CORE_TXBUF_NUM) {
-> > +        assert(buff_num < CTUCAN_CORE_TXBUF_NUM);
->
-> Assert is not necessary. If there is not buffer at that location,
-> then write has no effect. Assert would check for driver errors,
-> but it is not a problem of QEMU and for sure should not lead to its
-> crash.
+Alexander Bulekov (2):
+  docs/fuzz: rST-ify the fuzzing documentation
+  docs/fuzz: update fuzzing documentation post-meson
 
-We assert() here as a guide to readers of the code that we know
-that buff_num can't possibly be out of range for the array
-access we're about to do: the values of CTUCAN_CORE_MEM_SIZE,
-CTUCAN_CORE_TXBUFF_SPAN, etc, make it mathematically impossible.
-We prefer to assert() that kind of condition rather than having
-an if() test for it.
+ MAINTAINERS            |   2 +-
+ docs/devel/fuzzing.rst | 236 +++++++++++++++++++++++++++++++++++++++++
+ docs/devel/fuzzing.txt | 214 -------------------------------------
+ docs/devel/index.rst   |   1 +
+ 4 files changed, 238 insertions(+), 215 deletions(-)
+ create mode 100644 docs/devel/fuzzing.rst
+ delete mode 100644 docs/devel/fuzzing.txt
 
-thanks
--- PMM
+-- 
+2.28.0
+
 
