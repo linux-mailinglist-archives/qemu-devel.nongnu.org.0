@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC1892A8E4C
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 05:25:07 +0100 (CET)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69B972A8E48
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 05:23:14 +0100 (CET)
+Received: from localhost ([::1]:46170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1katJD-0005Xc-2B
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 23:25:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56754)
+	id 1katHN-0002ZK-FO
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 23:23:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1katFa-0000iu-3u
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:21:22 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:35997)
+ id 1katGP-0001dB-B4
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:22:13 -0500
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <zltjiangshi@gmail.com>)
- id 1katFY-000785-DI
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:21:21 -0500
-Received: by mail-pf1-x435.google.com with SMTP id w65so151955pfd.3
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 20:21:20 -0800 (PST)
+ id 1katGM-0007PC-SD
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 23:22:13 -0500
+Received: by mail-pf1-x442.google.com with SMTP id y7so125501pfq.11
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 20:22:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aN9v8MBC8BPvxYlbgjVCYfcQYHAkJvABeggpTeTFNNs=;
- b=OzuuTaawF5J+yEReDSvz8z/qwLkrppL+4sXwm6NCz4txDUYXwuQW5Q+UVeiXmoZ4uh
- zZEMaSe3JIig4QuB13Ab5T3U2jBR0MXAFV2bvuCx2ji1AODwWWHie41DXgBz69zvoNyg
- nP8PvK5wB/RUTFwNvLuKu/2HbD0Cw6T84pEmnfU9DgsZZp4D5TgO+SChscpGUOVobhw9
- +ZKumOygXAK6o9W6apv0Wzuk2Vi7nSpfzCE8ni29Qn4uHkgvZlS/xljgRj9uqBAb31lf
- UuY5oSJgQGwNTUSoehp+cgvZ+McCltEHp5EnSuuH2D7We2779IZDb9I9Yk7Y7F2Yfubh
- /lMA==
+ bh=eCD+pauRdp3SBAQI04BtMDy2Ka19nq9jUPcBN5vCWy0=;
+ b=HtDh3RDYydnPr9iS/tJA6QYv/m8gbVIR9aNZzpvz213FklacaYnK65IjpcTYSeIHeI
+ CxVR6YR4hZhoImXLAJo5F1a64HXCmXaxxGTuYIgsTbGuOBvzJvVTZ2TQuiShjpS3bNAD
+ 62zWkXT0kXzOZDDIDAw2e9CYU8MthvA03LPKNMNs4CjncT5WLzmtg2/DerSLyweYjqCo
+ OKnSe2ifgquVfetWJiXKr0sM23X3oIerY21LCAMt5c/FSFJjIwbWgA3mlKZnIk7PSPQ7
+ ZR5qWYAx5xiMsPf1k2KxpP+1ClgTowabRdufBWENBwKv4X7eQ25N2ht4wvU/ktTIXp71
+ 4TjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aN9v8MBC8BPvxYlbgjVCYfcQYHAkJvABeggpTeTFNNs=;
- b=qf4KFT4KVd+f55udOiO6eHIXyyRIgX7eoDjJFXi69GTCX56HVjiLqci/SzFGFjUYQA
- E5MziPX6UxtdmwlPgvx/4Zv0STuSyqo36HXftfIpBX8QFekHFRQr8IcXltubYlhf+XIh
- +b6BIkZFHWFsBDnNB7RT7twxTkODEVPfxrjG7Mrg1DuAnqT5IO7W3r+zcau+Rhos9iwb
- /bhfWm4dd5Tjpe3jnukNSityou9+6uZJIIlcjXMmYNLfAr0WGrfeVcyX3a7iOl2ZTSqx
- nLSu4af78JnzP3qL/Ee9QF5idOK5SDvT4MtBghS19KTgJ21F6jn46n7wfgpBWBuaDu6v
- FDxw==
-X-Gm-Message-State: AOAM532P3CCu80k7uL3+8R8d8NJfLgvXbzDY/HBL6INRZO97HGWD6S86
- qr/UCE3J8Cr3iq+/I4ClyWo=
-X-Google-Smtp-Source: ABdhPJw7Yh3qexOmsO6UZ6iSCHGkI+qSkq+DqVwkKRrPZWYXObVRyiN3q8G3YEcwl5Nab4538RCqIA==
-X-Received: by 2002:a17:90a:4884:: with SMTP id
- b4mr353961pjh.198.1604636479209; 
- Thu, 05 Nov 2020 20:21:19 -0800 (PST)
+ bh=eCD+pauRdp3SBAQI04BtMDy2Ka19nq9jUPcBN5vCWy0=;
+ b=dev7wtar3CezsG6bFf+glzJSPDRKxK2Pr99/yzvApjDLWugV7sUjM0pXyDnL82QnTn
+ MS7P7KZx5EODGg/3X9EudWpxOgz+mbsTheJAovyWLftjOm6x7ojR4PijZXXGCZlILcdx
+ r4CetxXBzWsYWjvJFIZizoofWUKb7Eg7heQBu1qGp8g2NPJ2M5zymEVZQSxhfEqusxd9
+ eEYPupmuygHoHFHmjN1GKQR4hY+7nP5KCZXRGq37pNcRk9VGGKrfZjXPxp6hUlfDl5K1
+ nXqZ41YsAGnZSW76Gpz34U8+/t61XZuBhRLOTP6x2gwmRDZmtJW2W6n5SFGU/+I0oZUl
+ AmHw==
+X-Gm-Message-State: AOAM533rL6sQ3atUE51UZq39lSLt7XCcyHHJWtVgr8MnKWE4kXcrb3pU
+ V/gH9RAnkYcNXMqZpHwHVtk=
+X-Google-Smtp-Source: ABdhPJwtfpC6wHEpGqXxj4DSsBuggRsWmuXs3mOXQJX0/5WOfLWd10ztqibe3nObkDITwY9PFbjftA==
+X-Received: by 2002:a63:5a4f:: with SMTP id k15mr116351pgm.402.1604636529445; 
+ Thu, 05 Nov 2020 20:22:09 -0800 (PST)
 Received: from software.domain.org (111-252-196-15.dynamic-ip.hinet.net.
  [111.252.196.15])
- by smtp.gmail.com with ESMTPSA id y1sm262235pjl.12.2020.11.05.20.21.15
+ by smtp.gmail.com with ESMTPSA id y1sm262235pjl.12.2020.11.05.20.22.05
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 05 Nov 2020 20:21:18 -0800 (PST)
+ Thu, 05 Nov 2020 20:22:08 -0800 (PST)
 From: Huacai Chen <zltjiangshi@gmail.com>
 X-Google-Original-From: Huacai Chen <chenhc@lemote.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: [PATCH V17 3/6] hw/mips: Implement fw_cfg_arch_key_name()
-Date: Fri,  6 Nov 2020 12:21:47 +0800
-Message-Id: <1604636510-8347-4-git-send-email-chenhc@lemote.com>
+Subject: [PATCH V17 4/6] hw/mips: Add Loongson-3 boot parameter helpers
+Date: Fri,  6 Nov 2020 12:21:48 +0800
+Message-Id: <1604636510-8347-5-git-send-email-chenhc@lemote.com>
 X-Mailer: git-send-email 2.7.0
 In-Reply-To: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
 References: <1604636510-8347-1-git-send-email-chenhc@lemote.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::442;
+ envelope-from=zltjiangshi@gmail.com; helo=mail-pf1-x442.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -95,98 +94,451 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement fw_cfg_arch_key_name(), which returns the name of a
-mips-specific key.
+Preparing to add Loongson-3 machine support, add Loongson-3's LEFI (a
+UEFI-like interface for BIOS-Kernel boot parameters) helpers first.
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Huacai Chen <chenhc@lemote.com>
 Co-developed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 ---
- hw/mips/fw_cfg.c    | 35 +++++++++++++++++++++++++++++++++++
- hw/mips/fw_cfg.h    | 19 +++++++++++++++++++
- hw/mips/meson.build |  2 +-
- 3 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 hw/mips/fw_cfg.c
- create mode 100644 hw/mips/fw_cfg.h
+ hw/mips/loongson3_bootp.c | 165 +++++++++++++++++++++++++++++++
+ hw/mips/loongson3_bootp.h | 241 ++++++++++++++++++++++++++++++++++++++++++++++
+ hw/mips/meson.build       |   1 +
+ 3 files changed, 407 insertions(+)
+ create mode 100644 hw/mips/loongson3_bootp.c
+ create mode 100644 hw/mips/loongson3_bootp.h
 
-diff --git a/hw/mips/fw_cfg.c b/hw/mips/fw_cfg.c
+diff --git a/hw/mips/loongson3_bootp.c b/hw/mips/loongson3_bootp.c
 new file mode 100644
-index 0000000..67c4a74
+index 0000000..3a16081
 --- /dev/null
-+++ b/hw/mips/fw_cfg.c
-@@ -0,0 +1,35 @@
++++ b/hw/mips/loongson3_bootp.c
+@@ -0,0 +1,165 @@
 +/*
-+ * QEMU fw_cfg helpers (MIPS specific)
++ * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters) helpers
 + *
-+ * Copyright (c) 2020 Lemote, Inc.
++ * Copyright (c) 2018-2020 Huacai Chen (chenhc@lemote.com)
++ * Copyright (c) 2018-2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
 + *
-+ * Author:
-+ *   Huacai Chen (chenhc@lemote.com)
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
 + *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "hw/mips/fw_cfg.h"
-+#include "hw/nvram/fw_cfg.h"
++#include "qemu/units.h"
++#include "qemu/cutils.h"
++#include "cpu.h"
++#include "hw/boards.h"
++#include "hw/mips/loongson3_bootp.h"
 +
-+const char *fw_cfg_arch_key_name(uint16_t key)
++#define LOONGSON3_CORE_PER_NODE 4
++
++static struct efi_cpuinfo_loongson *init_cpu_info(void *g_cpuinfo, uint64_t cpu_freq)
 +{
-+    static const struct {
-+        uint16_t key;
-+        const char *name;
-+    } fw_cfg_arch_wellknown_keys[] = {
-+        {FW_CFG_MACHINE_VERSION, "machine_version"},
-+        {FW_CFG_CPU_FREQ, "cpu_frequency"},
-+    };
++    struct efi_cpuinfo_loongson *c = g_cpuinfo;
 +
-+    for (size_t i = 0; i < ARRAY_SIZE(fw_cfg_arch_wellknown_keys); i++) {
-+        if (fw_cfg_arch_wellknown_keys[i].key == key) {
-+            return fw_cfg_arch_wellknown_keys[i].name;
-+        }
++    stl_le_p(&c->cputype, Loongson_3A);
++    stl_le_p(&c->processor_id, MIPS_CPU(first_cpu)->env.CP0_PRid);
++    if (cpu_freq > UINT_MAX) {
++        stl_le_p(&c->cpu_clock_freq, UINT_MAX);
++    } else {
++        stl_le_p(&c->cpu_clock_freq, cpu_freq);
 +    }
-+    return NULL;
++
++    stw_le_p(&c->cpu_startup_core_id, 0);
++    stl_le_p(&c->nr_cpus, current_machine->smp.cpus);
++    stl_le_p(&c->total_node, DIV_ROUND_UP(current_machine->smp.cpus,
++                                          LOONGSON3_CORE_PER_NODE));
++
++    return c;
 +}
-diff --git a/hw/mips/fw_cfg.h b/hw/mips/fw_cfg.h
++
++static struct efi_memory_map_loongson *init_memory_map(void *g_map, uint64_t ram_size)
++{
++    struct efi_memory_map_loongson *emap = g_map;
++
++    stl_le_p(&emap->nr_map, 2);
++    stl_le_p(&emap->mem_freq, 300000000);
++
++    stl_le_p(&emap->map[0].node_id, 0);
++    stl_le_p(&emap->map[0].mem_type, 1);
++    stq_le_p(&emap->map[0].mem_start, 0x0);
++    stl_le_p(&emap->map[0].mem_size, 240);
++
++    stl_le_p(&emap->map[1].node_id, 0);
++    stl_le_p(&emap->map[1].mem_type, 2);
++    stq_le_p(&emap->map[1].mem_start, 0x90000000);
++    stl_le_p(&emap->map[1].mem_size, (ram_size / MiB) - 256);
++
++    return emap;
++}
++
++static struct system_loongson *init_system_loongson(void *g_system)
++{
++    struct system_loongson *s = g_system;
++
++    stl_le_p(&s->ccnuma_smp, 0);
++    stl_le_p(&s->sing_double_channel, 1);
++    stl_le_p(&s->nr_uarts, 1);
++    stl_le_p(&s->uarts[0].iotype, 2);
++    stl_le_p(&s->uarts[0].int_offset, 2);
++    stl_le_p(&s->uarts[0].uartclk, 25000000); /* Random value */
++    stq_le_p(&s->uarts[0].uart_base, virt_memmap[VIRT_UART].base);
++
++    return s;
++}
++
++static struct irq_source_routing_table *init_irq_source(void *g_irq_source)
++{
++    struct irq_source_routing_table *irq_info = g_irq_source;
++
++    stl_le_p(&irq_info->node_id, 0);
++    stl_le_p(&irq_info->PIC_type, 0);
++    stw_le_p(&irq_info->dma_mask_bits, 64);
++    stq_le_p(&irq_info->pci_mem_start_addr, virt_memmap[VIRT_PCIE_MMIO].base);
++    stq_le_p(&irq_info->pci_mem_end_addr, virt_memmap[VIRT_PCIE_MMIO].base +
++                                          virt_memmap[VIRT_PCIE_MMIO].size - 1);
++    stq_le_p(&irq_info->pci_io_start_addr, virt_memmap[VIRT_PCIE_PIO].base);
++
++    return irq_info;
++}
++
++static struct interface_info *init_interface_info(void *g_interface)
++{
++    struct interface_info *interface = g_interface;
++
++    stw_le_p(&interface->vers, 0x01);
++    strpadcpy(interface->description, 64, "UEFI_Version_v1.0", '\0');
++
++    return interface;
++}
++
++static struct board_devices *board_devices_info(void *g_board)
++{
++    struct board_devices *bd = g_board;
++
++    strpadcpy(bd->name, 64, "Loongson-3A-VIRT-1w-V1.00-demo", '\0');
++
++    return bd;
++}
++
++static struct loongson_special_attribute *init_special_info(void *g_special)
++{
++    struct loongson_special_attribute *special = g_special;
++
++    strpadcpy(special->special_name, 64, "2018-04-01", '\0');
++
++    return special;
++}
++
++void init_loongson_params(struct loongson_params *lp, void *p,
++                          uint64_t cpu_freq, uint64_t ram_size)
++{
++    stq_le_p(&lp->cpu_offset,
++              (uintptr_t)init_cpu_info(p, cpu_freq) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct efi_cpuinfo_loongson), 64);
++
++    stq_le_p(&lp->memory_offset,
++              (uintptr_t)init_memory_map(p, ram_size) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct efi_memory_map_loongson), 64);
++
++    stq_le_p(&lp->system_offset,
++              (uintptr_t)init_system_loongson(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct system_loongson), 64);
++
++    stq_le_p(&lp->irq_offset,
++              (uintptr_t)init_irq_source(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct irq_source_routing_table), 64);
++
++    stq_le_p(&lp->interface_offset,
++              (uintptr_t)init_interface_info(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct interface_info), 64);
++
++    stq_le_p(&lp->boarddev_table_offset,
++              (uintptr_t)board_devices_info(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct board_devices), 64);
++
++    stq_le_p(&lp->special_offset,
++              (uintptr_t)init_special_info(p) - (uintptr_t)lp);
++    p += ROUND_UP(sizeof(struct loongson_special_attribute), 64);
++}
++
++void init_reset_system(struct efi_reset_system_t *reset)
++{
++    stq_le_p(&reset->Shutdown, 0xffffffffbfc000a8);
++    stq_le_p(&reset->ResetCold, 0xffffffffbfc00080);
++    stq_le_p(&reset->ResetWarm, 0xffffffffbfc00080);
++}
+diff --git a/hw/mips/loongson3_bootp.h b/hw/mips/loongson3_bootp.h
 new file mode 100644
-index 0000000..e317d5b
+index 0000000..bf4fd8c
 --- /dev/null
-+++ b/hw/mips/fw_cfg.h
-@@ -0,0 +1,19 @@
++++ b/hw/mips/loongson3_bootp.h
+@@ -0,0 +1,241 @@
 +/*
-+ * QEMU fw_cfg helpers (MIPS specific)
++ * LEFI (a UEFI-like interface for BIOS-Kernel boot parameters) data structrues
++ * defined at arch/mips/include/asm/mach-loongson64/boot_param.h in Linux kernel
 + *
-+ * Copyright (c) 2020 Huacai Chen
++ * Copyright (c) 2017-2020 Huacai Chen (chenhc@lemote.com)
++ * Copyright (c) 2017-2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
 + *
-+ * SPDX-License-Identifier: MIT
++ * This program is free software: you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation, either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <https://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HW_MIPS_FW_CFG_H
-+#define HW_MIPS_FW_CFG_H
++#ifndef HW_MIPS_LOONGSON3_BOOTP_H
++#define HW_MIPS_LOONGSON3_BOOTP_H
 +
-+#include "hw/boards.h"
-+#include "hw/nvram/fw_cfg.h"
++struct efi_memory_map_loongson {
++    uint16_t vers;               /* version of efi_memory_map */
++    uint32_t nr_map;             /* number of memory_maps */
++    uint32_t mem_freq;           /* memory frequence */
++    struct mem_map {
++        uint32_t node_id;        /* node_id which memory attached to */
++        uint32_t mem_type;       /* system memory, pci memory, pci io, etc. */
++        uint64_t mem_start;      /* memory map start address */
++        uint32_t mem_size;       /* each memory_map size, not the total size */
++    } map[128];
++} QEMU_PACKED;
 +
-+/* Data for BIOS to identify machine */
-+#define FW_CFG_MACHINE_VERSION  (FW_CFG_ARCH_LOCAL + 0)
-+#define FW_CFG_CPU_FREQ         (FW_CFG_ARCH_LOCAL + 1)
++enum loongson_cpu_type {
++    Legacy_2E = 0x0,
++    Legacy_2F = 0x1,
++    Legacy_3A = 0x2,
++    Legacy_3B = 0x3,
++    Legacy_1A = 0x4,
++    Legacy_1B = 0x5,
++    Legacy_2G = 0x6,
++    Legacy_2H = 0x7,
++    Loongson_1A = 0x100,
++    Loongson_1B = 0x101,
++    Loongson_2E = 0x200,
++    Loongson_2F = 0x201,
++    Loongson_2G = 0x202,
++    Loongson_2H = 0x203,
++    Loongson_3A = 0x300,
++    Loongson_3B = 0x301
++};
++
++/*
++ * Capability and feature descriptor structure for MIPS CPU
++ */
++struct efi_cpuinfo_loongson {
++    uint16_t vers;               /* version of efi_cpuinfo_loongson */
++    uint32_t processor_id;       /* PRID, e.g. 6305, 6306 */
++    uint32_t cputype;            /* Loongson_3A/3B, etc. */
++    uint32_t total_node;         /* num of total numa nodes */
++    uint16_t cpu_startup_core_id;   /* Boot core id */
++    uint16_t reserved_cores_mask;
++    uint32_t cpu_clock_freq;     /* cpu_clock */
++    uint32_t nr_cpus;
++    char cpuname[64];
++} QEMU_PACKED;
++
++#define MAX_UARTS 64
++struct uart_device {
++    uint32_t iotype;
++    uint32_t uartclk;
++    uint32_t int_offset;
++    uint64_t uart_base;
++} QEMU_PACKED;
++
++#define MAX_SENSORS 64
++#define SENSOR_TEMPER  0x00000001
++#define SENSOR_VOLTAGE 0x00000002
++#define SENSOR_FAN     0x00000004
++struct sensor_device {
++    char name[32];  /* a formal name */
++    char label[64]; /* a flexible description */
++    uint32_t type;       /* SENSOR_* */
++    uint32_t id;         /* instance id of a sensor-class */
++    uint32_t fan_policy; /* step speed or constant speed */
++    uint32_t fan_percent;/* only for constant speed policy */
++    uint64_t base_addr;  /* base address of device registers */
++} QEMU_PACKED;
++
++struct system_loongson {
++    uint16_t vers;               /* version of system_loongson */
++    uint32_t ccnuma_smp;         /* 0: no numa; 1: has numa */
++    uint32_t sing_double_channel;/* 1: single; 2: double */
++    uint32_t nr_uarts;
++    struct uart_device uarts[MAX_UARTS];
++    uint32_t nr_sensors;
++    struct sensor_device sensors[MAX_SENSORS];
++    char has_ec;
++    char ec_name[32];
++    uint64_t ec_base_addr;
++    char has_tcm;
++    char tcm_name[32];
++    uint64_t tcm_base_addr;
++    uint64_t workarounds;
++    uint64_t of_dtb_addr; /* NULL if not support */
++} QEMU_PACKED;
++
++struct irq_source_routing_table {
++    uint16_t vers;
++    uint16_t size;
++    uint16_t rtr_bus;
++    uint16_t rtr_devfn;
++    uint32_t vendor;
++    uint32_t device;
++    uint32_t PIC_type;           /* conform use HT or PCI to route to CPU-PIC */
++    uint64_t ht_int_bit;         /* 3A: 1<<24; 3B: 1<<16 */
++    uint64_t ht_enable;          /* irqs used in this PIC */
++    uint32_t node_id;            /* node id: 0x0-0; 0x1-1; 0x10-2; 0x11-3 */
++    uint64_t pci_mem_start_addr;
++    uint64_t pci_mem_end_addr;
++    uint64_t pci_io_start_addr;
++    uint64_t pci_io_end_addr;
++    uint64_t pci_config_addr;
++    uint16_t dma_mask_bits;
++    uint16_t dma_noncoherent;
++} QEMU_PACKED;
++
++struct interface_info {
++    uint16_t vers;               /* version of the specificition */
++    uint16_t size;
++    uint8_t  flag;
++    char description[64];
++} QEMU_PACKED;
++
++#define MAX_RESOURCE_NUMBER 128
++struct resource_loongson {
++    uint64_t start;              /* resource start address */
++    uint64_t end;                /* resource end address */
++    char name[64];
++    uint32_t flags;
++};
++
++struct archdev_data {};          /* arch specific additions */
++
++struct board_devices {
++    char name[64];               /* hold the device name */
++    uint32_t num_resources;      /* number of device_resource */
++    /* for each device's resource */
++    struct resource_loongson resource[MAX_RESOURCE_NUMBER];
++    /* arch specific additions */
++    struct archdev_data archdata;
++};
++
++struct loongson_special_attribute {
++    uint16_t vers;               /* version of this special */
++    char special_name[64];       /* special_atribute_name */
++    uint32_t loongson_special_type; /* type of special device */
++    /* for each device's resource */
++    struct resource_loongson resource[MAX_RESOURCE_NUMBER];
++};
++
++struct loongson_params {
++    uint64_t memory_offset;      /* efi_memory_map_loongson struct offset */
++    uint64_t cpu_offset;         /* efi_cpuinfo_loongson struct offset */
++    uint64_t system_offset;      /* system_loongson struct offset */
++    uint64_t irq_offset;         /* irq_source_routing_table struct offset */
++    uint64_t interface_offset;   /* interface_info struct offset */
++    uint64_t special_offset;     /* loongson_special_attribute struct offset */
++    uint64_t boarddev_table_offset;  /* board_devices offset */
++};
++
++struct smbios_tables {
++    uint16_t vers;               /* version of smbios */
++    uint64_t vga_bios;           /* vga_bios address */
++    struct loongson_params lp;
++};
++
++struct efi_reset_system_t {
++    uint64_t ResetCold;
++    uint64_t ResetWarm;
++    uint64_t ResetType;
++    uint64_t Shutdown;
++    uint64_t DoSuspend; /* NULL if not support */
++};
++
++struct efi_loongson {
++    uint64_t mps;                /* MPS table */
++    uint64_t acpi;               /* ACPI table (IA64 ext 0.71) */
++    uint64_t acpi20;             /* ACPI table (ACPI 2.0) */
++    struct smbios_tables smbios; /* SM BIOS table */
++    uint64_t sal_systab;         /* SAL system table */
++    uint64_t boot_info;          /* boot info table */
++};
++
++struct boot_params {
++    struct efi_loongson efi;
++    struct efi_reset_system_t reset_system;
++};
++
++/* Overall MMIO & Memory layout */
++enum {
++    VIRT_LOWMEM,
++    VIRT_PM,
++    VIRT_FW_CFG,
++    VIRT_RTC,
++    VIRT_PCIE_PIO,
++    VIRT_PCIE_ECAM,
++    VIRT_BIOS_ROM,
++    VIRT_UART,
++    VIRT_LIOINTC,
++    VIRT_PCIE_MMIO,
++    VIRT_HIGHMEM
++};
++
++/* Low MEM layout for QEMU kernel loader */
++enum {
++    LOADER_KERNEL,
++    LOADER_INITRD,
++    LOADER_CMDLINE
++};
++
++/* BIOS ROM layout for QEMU kernel loader */
++enum {
++    LOADER_BOOTROM,
++    LOADER_PARAM,
++};
++
++struct MemmapEntry {
++    hwaddr base;
++    hwaddr size;
++};
++
++extern const struct MemmapEntry virt_memmap[];
++void init_loongson_params(struct loongson_params *lp, void *p,
++                          uint64_t cpu_freq, uint64_t ram_size);
++void init_reset_system(struct efi_reset_system_t *reset);
 +
 +#endif
 diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index bcdf96b..0e9f930 100644
+index 0e9f930..9e58c2b 100644
 --- a/hw/mips/meson.build
 +++ b/hw/mips/meson.build
-@@ -1,5 +1,5 @@
+@@ -1,6 +1,7 @@
  mips_ss = ss.source_set()
--mips_ss.add(files('addr.c', 'mips_int.c'))
-+mips_ss.add(files('addr.c', 'mips_int.c', 'fw_cfg.c'))
+ mips_ss.add(files('addr.c', 'mips_int.c', 'fw_cfg.c'))
  mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
++mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c'))
  mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
  mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
+ mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
 -- 
 2.7.0
 
