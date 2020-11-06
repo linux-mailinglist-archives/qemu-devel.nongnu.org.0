@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64FC2A92FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:42:37 +0100 (CET)
-Received: from localhost ([::1]:45320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8D02A9316
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:46:51 +0100 (CET)
+Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kayGS-0002r0-O7
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:42:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39560)
+	id 1kayKY-00051V-8H
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:46:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kayEC-0000gF-TO
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:40:16 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:36759)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kayEA-00087Q-LN
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:40:16 -0500
-Received: by mail-ed1-x536.google.com with SMTP id o20so608165eds.3
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 01:40:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=clcCohQ/GxUfe/kHlcO26RH6tRO/FpNUCb86+lq8Tsk=;
- b=QRLb/wyS6mEeCT72nMJ4cSzcFcJup5aocjNdeBAqrzS2i9XeJ2Fq2Z6dvsjCHNava2
- 606ETQOIIJZJMG3YjfMgpzWYZU7VLti+UXAvnw/65HeRGwsR+Hn8XoT250k2JYo1K1Iv
- 2OR1Y/DkXgGL+0AJ3sx4+lug3gdoevydwvaBSXInRPHSK9egbHJ+Jhuv6pl3QfXMiSzi
- nBek5jmhbB0i5dC9P2QQNkoqAOdE2Lo3mH80cOjehhGMo49KcM9HhJHE0ciuaD9f1iiI
- VpWanQx54ZLVVA3676oCkVZEvEmhpYbo9WnXTopz+thcO5PqqOuZdZqg7gy4lt91GPYS
- swFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=clcCohQ/GxUfe/kHlcO26RH6tRO/FpNUCb86+lq8Tsk=;
- b=IDKqKGqj3XBhqkmbSobwz/jz9R5yCbumd/H5eHTuyRBZ70JUDT5Qfvh1fDI77XCugt
- 5kn5x05H7a+T/DmrehUDpNYOOGeq22oNeEW8O29G25L2vsaB5y34jFxv5iyNoZmJfq0y
- 7d1Of4RPyjyOaxRz4l9cwxHhWUTocnjjD4gwpoms9QKurhuewU1sQRK6Qp+vC4EBQQ/Z
- 0auuUsWHlT3KM/az1hI94tLvVFfnpOf8IMKm8fEVsLBZosNuqAyS/V0j8dFkm9mcbRgc
- i/AZLeG2ilVIeSzzcl6gXW51SyEJVtOX1KyZuroVeiANTL+KtDICgAf7UrHTX0jwLEUM
- Pkyg==
-X-Gm-Message-State: AOAM533UNmEzbvueEHUGHa6uK3QTi8fwh+zTVMp7fBMzyq62cYZtRj5k
- B3aFMeogvbW7iJiQFI88nzIArEgtueqKe6Of4K2JSQ==
-X-Google-Smtp-Source: ABdhPJx8FXRRGkS/XcVIjb4KLA0OdslM2EJE6CYUpZlzQJjK5US8r6rwymmWS1IkV0Wmu/URTTTZw6PND58KssaO9Eo=
-X-Received: by 2002:a05:6402:30b5:: with SMTP id
- df21mr1095921edb.146.1604655612943; 
- Fri, 06 Nov 2020 01:40:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kayJB-0004Qd-Gj
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:45:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1kayJ9-0001W5-3j
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:45:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604655921;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q+YBrll4rGG+yr/UKsg8zc6phmRdhc+n4NdhtMgbKMA=;
+ b=bKpgtE4fYqe6hs+3fXNv1CmEWyQWd8dXU8f/4FBh1FPJoxI4mYKUaUhVMJzgkphAk2qdVY
+ XouoQhn7XI8+8ZxvtvCeXRLSIzxVMKDjPhBHZX7BiOr4LbQfvi/Ls+k9ZZw16B0wfghmUo
+ 4B/mVEP31CpLMYxUsa2nlTN0AHlCI80=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-5tATaai_NmKzuOYk--26Tg-1; Fri, 06 Nov 2020 04:45:19 -0500
+X-MC-Unique: 5tATaai_NmKzuOYk--26Tg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D67064158;
+ Fri,  6 Nov 2020 09:45:18 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-116.ams2.redhat.com [10.36.114.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 304E31002C2A;
+ Fri,  6 Nov 2020 09:45:13 +0000 (UTC)
+Date: Fri, 6 Nov 2020 10:45:11 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v2 00/44] Make qdev static property API usable by any QOM
+ type
+Message-ID: <20201106094511.GA23864@merkur.fritz.box>
+References: <20201104160021.2342108-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-References: <20201105070837.558332-1-laurent@vivier.eu>
-In-Reply-To: <20201105070837.558332-1-laurent@vivier.eu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 6 Nov 2020 09:40:01 +0000
-Message-ID: <CAFEAcA_DxaA175DeX=de-SzpvQb8-JFt03b384ee++HfQ4jzVw@mail.gmail.com>
-Subject: Re: [PULL 0/4] Linux user for 5.2 patches
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
-X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
- That's all we know.
+In-Reply-To: <20201104160021.2342108-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 02:41:26
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,36 +78,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 5 Nov 2020 at 07:10, Laurent Vivier <laurent@vivier.eu> wrote:
->
-> The following changes since commit 8680d6e36468f1ca00e2fe749bef50585d632401:
->
->   Merge remote-tracking branch 'remotes/nvme/tags/pull-nvme-20201102' into st=
-> aging (2020-11-02 17:17:29 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/vivier/qemu.git tags/linux-user-for-5.2-pull-request
->
-> for you to fetch changes up to 022625a8ade3005addb42700a145bae6a1653240:
->
->   linux-user: Check copy_from_user() return value in vma_dump_size() (2020-11=
-> -04 22:28:05 +0100)
->
-> ----------------------------------------------------------------
-> Coverity and compiler warning fixes
->
-> ----------------------------------------------------------------
+Am 04.11.2020 um 16:59 hat Eduardo Habkost geschrieben:
+> This series refactor the qdev property code so the static
+> property system can be used by any QOM type.  As an example, at
+> the end of the series some properties in TYPE_MACHINE are
+> converted to static properties to demonstrate the new API.
+> 
+> Changes v1 -> v2
+> ----------------
+> 
+> * Rename functions and source files to call the new feature
+>   "field property" instead of "static property"
+> 
+> * Change the API signature from an array-based interface similar
+>   to device_class_set_props() to a object_property_add()-like
+>   interface.
+> 
+>   This means instead of doing this:
+> 
+>     object_class_property_add_static_props(oc, my_array_of_props);
+> 
+>   properties are registered like this:
+> 
+>     object_class_property_add_field(oc, "property-name"
+>                                     PROP_XXX(MyState, my_field),
+>                                     prop_allow_set_always);
+> 
+>   where PROP_XXX is a PROP_* macro like PROP_STRING, PROP_BOOL,
+>   etc.
 
+In comparison, I really like the resulting code from the array based
+interface in v1 better.
 
-Applied, thanks.
+I think it's mostly for two reasons: First, the array is much more
+compact and easier to read. And maybe even more importantly, you know
+it's static data and only static data. The function based interface can
+be mixed with other code or the parameter list can contain calls to
+other functions with side effects, so there are a lot more opportunities
+for surprises.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/5.2
-for any user-visible changes.
+What I didn't like about the v1 interface is that there is still a
+separate object_class_property_set_description() for each property, but
+I think that could have been fixed by moving the description to the
+definitions in the array, too.
 
--- PMM
+On Fri, Oct 30, 2020 at 06:10:34PM +0100, Paolo Bonzini wrote:
+> On 29/10/20 23:02, Eduardo Habkost wrote:
+> > +static Property machine_props[] = {
+> > +    DEFINE_PROP_STRING("kernel", MachineState, kernel_filename),
+> > +    DEFINE_PROP_STRING("initrd", MachineState, initrd_filename),
+> > +    DEFINE_PROP_STRING("append", MachineState, kernel_cmdline),
+> > +    DEFINE_PROP_STRING("dtb", MachineState, dtb),
+> > +    DEFINE_PROP_STRING("dumpdtb", MachineState, dumpdtb),
+> > +    DEFINE_PROP_STRING("dt-compatible", MachineState, dt_compatible),
+> > +    DEFINE_PROP_STRING("firmware", MachineState, firmware),
+> > +    DEFINE_PROP_STRING("memory-backend", MachineState, ram_memdev_id),
+> > +    DEFINE_PROP_END_OF_LIST(),
+> > +};
+> > +
+>
+> While I think generalizing the _code_ for static properties is obviously
+> a good idea, I am not sure about generalizing the interface for adding them.
+>
+> The reason is that we already have a place for adding properties in
+> class_init, and having a second makes things "less local", so to speak.
+
+As long as you have the function call to apply the properites array in
+.class_init, it should be obvious enough what you're doing.
+
+Of course, I think we should refrain from mixing both styles in a single
+object, but generally speaking the array feels so much better that I
+don't think we should reject it just because QOM only had a different
+interface so far (and the property array is preexisting in qdev, too, so
+we already have differences between objects - in fact, the majority of
+objects is probably qdev today).
+
+Kevin
+
 
