@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49E7A2A9300
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:42:49 +0100 (CET)
-Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906962A92EA
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:39:34 +0100 (CET)
+Received: from localhost ([::1]:35580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kayGe-0003CX-Ch
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:42:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39196)
+	id 1kayDV-0007BV-L5
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:39:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <22e13675874dabcb314de98134fe6142cd9864a7@lizzy.crudebyte.com>)
- id 1kayCU-0006h2-RI
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:30 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:35461)
+ (envelope-from <e6b99460b14469e0b83febc8d5a501947d1d5c7c@lizzy.crudebyte.com>)
+ id 1kayBw-000632-2n
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:37:56 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:34053)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <22e13675874dabcb314de98134fe6142cd9864a7@lizzy.crudebyte.com>)
- id 1kayCT-0007GK-AM
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:30 -0500
+ (envelope-from <e6b99460b14469e0b83febc8d5a501947d1d5c7c@lizzy.crudebyte.com>)
+ id 1kayBu-00074U-6l
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:37:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=kE1Rd2lNhe5C4t2nRY+ov+TdCYGfSEXqermgTf+ZyXo=; b=OZ1LA
- p7wIrEQ/FaBvd24ilZddJ8vogTrHHTEcX2fzr9Z8lrNYe/hWat5PzF1DApVa81SKW9581ed7BV4SA
- GQoixpSrLOgQspaUXYz6GrFEuIiQgXGayz20uJJGsNQ+sv9S17e+otvhTXg2F/fyFEq8WjclMbYEq
- 7JbfI2BCyy/zZ/OtNrkvRNv5lrOdtwAACsNwU3lPX7c80GhheDzcwts/qDBx1PAwG9yIxtwNXxeUf
- CDMvq3bo8iwZBlNbe4mHuDgL7I0ROvpUEUL7Wo1Oc8xp9gdjOo2KhHbg0Z1MgohvDwaBdvfu06DkP
- avbCf0BGW9lBi8uspDzJHxQfqQskw==;
-Message-Id: <22e13675874dabcb314de98134fe6142cd9864a7.1604653990.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1604653990.git.qemu_oss@crudebyte.com>
-References: <cover.1604653990.git.qemu_oss@crudebyte.com>
+ d=crudebyte.com; s=lizzy; h=Cc:To:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Subject:Date:From:Message-Id:References:In-Reply-To:Content-ID:
+ Content-Description; bh=tfrEytemkaN/RQpqEXQgYkNzTfsRTeUpksJx8K5///k=; b=hu8zz
+ A1+FQy7Q4IHD+vvjUxvDt/nHUaBu8IiZYcjofk4QfTHZy1ofafFuam4X7T5k1R3QlW65ugZ2TVFFb
+ pzcStqwhSVudyruS5UCe7PCw5hvzLC35efcfyefZbIGCKTy7fn+oTx8iNrIOOt4olNglLAMNrloHz
+ UxlJQa1xCwPG0hBMf9mKireFY+dSKSBqNpGeQhT4p+LKpXabpRv/ryJ+y9X1qAPm/4ToC1RXVS9FW
+ UT72s4CmhORKWS2B8r4ZPiVvdFxpnmoot6AkmG4lx/44RJUAd31fGAvo7/OCaxKLymH2d7AS5LuZB
+ TIuoplSFUK7l9YfOy8kiBok9TFhdg==;
+Message-Id: <cover.1604653990.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 06 Nov 2020 10:13:10 +0100
-Subject: [PULL 3/4] hw/9pfs : add space before the open parenthesis '('
+Subject: [PULL 0/4] 9p queue for 5.2 (2020-11-06)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
-Cc: Greg Kurz <groug@kaod.org>, Xinhao Zhang <zhangxinhao1@huawei.com>,
- Kai Deng <dengkai1@huawei.com>
+Cc: Greg Kurz <groug@kaod.org>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=22e13675874dabcb314de98134fe6142cd9864a7@lizzy.crudebyte.com;
+ envelope-from=e6b99460b14469e0b83febc8d5a501947d1d5c7c@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 04:36:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -66,34 +66,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xinhao Zhang <zhangxinhao1@huawei.com>
+The following changes since commit e2766868d45d8c8f8991cfd133e6a0c14abfe577:
 
-Fix code style. Space required before the open parenthesis '('.
+  Merge remote-tracking branch 'remotes/kraxel/tags/fixes-20201104-pull-request' into staging (2020-11-04 22:13:02 +0000)
 
-Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
-Signed-off-by: Kai Deng <dengkai1@huawei.com>
-Reported-by: Euler Robot <euler.robot@huawei.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201030043515.1030223-3-zhangxinhao1@huawei.com>
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/cofs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+are available in the Git repository at:
 
-diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
-index 55991916ec..0b321b456e 100644
---- a/hw/9pfs/cofs.c
-+++ b/hw/9pfs/cofs.c
-@@ -23,7 +23,7 @@ static ssize_t __readlink(V9fsState *s, V9fsPath *path, V9fsString *buf)
-     ssize_t len, maxlen = PATH_MAX;
- 
-     buf->data = g_malloc(PATH_MAX);
--    for(;;) {
-+    for (;;) {
-         len = s->ops->readlink(&s->ctx, path, buf->data, maxlen);
-         if (len < 0) {
-             g_free(buf->data);
--- 
-2.20.1
+  https://github.com/cschoenebeck/qemu.git tags/pull-9p-20201106
 
+for you to fetch changes up to e6b99460b14469e0b83febc8d5a501947d1d5c7c:
+
+  hw/9pfs: Fix Kconfig dependency problem between 9pfs and Xen (2020-11-05 15:21:11 +0100)
+
+----------------------------------------------------------------
+9pfs: some fixes
+
+* Fix meson build config for Xen.
+
+* Code style fixes.
+
+----------------------------------------------------------------
+Philippe Mathieu-Daudé (1):
+      hw/9pfs: Fix Kconfig dependency problem between 9pfs and Xen
+
+Xinhao Zhang (3):
+      hw/9pfs : add spaces around operator
+      hw/9pfs : open brace '{' following struct go on the same line
+      hw/9pfs : add space before the open parenthesis '('
+
+ hw/9pfs/9p-local.c  | 10 +++++-----
+ hw/9pfs/9p.c        | 16 ++++++++--------
+ hw/9pfs/9p.h        |  9 +++------
+ hw/9pfs/Kconfig     |  4 ----
+ hw/9pfs/cofs.c      |  2 +-
+ hw/9pfs/meson.build |  2 +-
+ 6 files changed, 18 insertions(+), 25 deletions(-)
 
