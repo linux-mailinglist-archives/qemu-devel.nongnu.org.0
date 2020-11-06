@@ -2,87 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097EA2A9A62
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:06:39 +0100 (CET)
-Received: from localhost ([::1]:54462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1530C2A9A73
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:10:36 +0100 (CET)
+Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb5C9-0004eQ-V9
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:06:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60926)
+	id 1kb5Fz-0007v2-5M
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:10:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kb5A5-0003Cm-WB
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:04:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54867)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kb5A4-00020M-Fr
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:04:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604682266;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9Y8CFV0FsZyXFJC+vbP/pWrux/jc89V1kGuvlpHPTJ4=;
- b=VpkXAVajuwuKDqJ8kMCoNJUIlYJmPTSQI8eIct1R4I1tRLESCnfcw0tKP8NxrYSGCL0Owd
- NmUFpvf+n/LqFjZhw47IWTo7rBB+hxAtLvZGT6qqsGN5qTqDnxUNAT8+ZTzcZ2cgShQaHG
- REhwNCMCwLZo+BBGNOKBQCZmhyxldwE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-93-ldLX5oNfPcmyEPADy0reZw-1; Fri, 06 Nov 2020 12:04:24 -0500
-X-MC-Unique: ldLX5oNfPcmyEPADy0reZw-1
-Received: by mail-wr1-f71.google.com with SMTP id r16so679666wrw.22
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:04:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kb5El-0007Lo-Da
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:09:19 -0500
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38912)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1kb5Ej-0002xK-Nx
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:09:19 -0500
+Received: by mail-pg1-x541.google.com with SMTP id i7so1404030pgh.6
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:09:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=R5Mya+ZYT8iXtyZrB8C8KT4dNbiypl/gR9Qdx7+noXQ=;
+ b=w4h/PtwwuZ6Lq9ntn8m5fuW4l+fDk7hmk8bNwNlwgmBqeYt6nyi8/G91nBGt1sH6NH
+ lyDA+2NX/jMvAWZX/0h2RHkGH4kyB4hAQYO/wq43Sz035ZUh1jkcxQW3mOPOUtnDAl+F
+ tkbiv3mHsbF6RHYDQhmSEo8RBKlDz7MkFZzOgLfl8BnvPMVAKy+Hk4rS+1K4OSjWVnx5
+ 8IPzPoujqLYhXJthVB0V9HCSX/hcGO6Us1VOXXA9aqXxsOiDfm03RwRQNPmYFq4tFLAl
+ 9/9HIdw/+UpnAOB6T4qAPklvMT9VmYevq2kwPwUhbYxN8l9i5+Wq7JP7ZoCZPlGJ6SON
+ l5Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9Y8CFV0FsZyXFJC+vbP/pWrux/jc89V1kGuvlpHPTJ4=;
- b=lx0kIlxVuNaedR5qAiASlfSltMAnwvpnOC8k+q3xdzuq941pd3iJx7Pnek4kMGlip4
- GLMvmJeIu011nTetO4U6Oc/E25EaISb6Uoof0378iumiJbSoWf0heaGSgqg6sSBFh6n8
- 7HtFRKIuf2kDlHs0xezkzL8QMFwmBPMQc9V7ifQ8m8HVKigGMLpiPlVfsPF7Ai8jNdhW
- 2Od3C3CRmU4YxjwYDkPXBXOzHX9gK8r3XhoE2ffD6DodUmtKyryLEAEHxRTSz32sqj22
- QWClBBgT3E2eU4Us5j8knfDGfmo3HvbiBv0M2DJGrOhWY1l9kw83T6jBaaD4xZAePNyj
- j+mg==
-X-Gm-Message-State: AOAM532QNB/r3KPQtv2jQnqBR6b5WFbzkM13SVX9vg+o+iY0CV+P8f0y
- 5cu2zUJ67mkZGrsg21n6pEzbkx/p3jybpawC8UfBtegrDXF2OV2AI6trkzwAeC6dlye6iuRauDw
- 2JvSexPJHhF72kb0=
-X-Received: by 2002:adf:dd90:: with SMTP id x16mr3527725wrl.47.1604682263037; 
- Fri, 06 Nov 2020 09:04:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyF9dkEmtisMjBG+P10QOqCmJW3OqZAN0NEceG7yctwzhsZWO+NA8vN+kKrXVzUb4fyVfhVRg==
-X-Received: by 2002:adf:dd90:: with SMTP id x16mr3527706wrl.47.1604682262895; 
- Fri, 06 Nov 2020 09:04:22 -0800 (PST)
-Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
- [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id w11sm3254763wmg.36.2020.11.06.09.04.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 09:04:21 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 2/2] hw/scsi/scsi-disk: Use SCSI_DISK_GET_CLASS() macro
-Date: Fri,  6 Nov 2020 18:04:04 +0100
-Message-Id: <20201106170404.4130486-3-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201106170404.4130486-1-philmd@redhat.com>
-References: <20201106170404.4130486-1-philmd@redhat.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=R5Mya+ZYT8iXtyZrB8C8KT4dNbiypl/gR9Qdx7+noXQ=;
+ b=ThzgC5h95S8d3hpUzVhuDeSArhTcgL44SweAEqOaiS6xzlUgJj3PotGw9YUQOAG8ed
+ RDSiN23EyBBtJ7idFzmrpWjRQ7VF6CnnRLckImsP3yTNRbwcoPV/SCJbkEl23GYxNacH
+ BaLfmhGfVFk8YWDm3ZW7BrV1Qto2wPuIJiuuyhXldIcV/fD441Vl0VsqBMneepuE5u1W
+ NAdgj/map6JZIQqH/bO9ltyvWdiArA0J/JhCfZUe9gM1nxU92H/t7DqTXr6Md0sR9UtY
+ KzC1yeKUfanwtzr/ebN9yG1W3oZkwG/IVUYbX2fVlZ7RE7eyaPtisTjrXV7S0FxBjbyk
+ ojfQ==
+X-Gm-Message-State: AOAM531sTjTjFqUZ3cDK9UFdFDWqs/OQcruAFSGjljXOjX/DrDHDCZyw
+ s7OfeFvpB0CtRsDV0F6OXLkxoQ==
+X-Google-Smtp-Source: ABdhPJyV8y+rdngGtrwhdMb8+27o0w/E94QZU/sgEXwccLRE9Ce+mTarSfboI8Y+2MqbMJlpC/LB2Q==
+X-Received: by 2002:a17:90a:3f10:: with SMTP id
+ l16mr558851pjc.110.1604682555972; 
+ Fri, 06 Nov 2020 09:09:15 -0800 (PST)
+Received: from [172.16.1.221] (76-14-210-194.or.wavecable.com. [76.14.210.194])
+ by smtp.gmail.com with ESMTPSA id m68sm2344576pga.46.2020.11.06.09.09.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 06 Nov 2020 09:09:13 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] linux-user/sparc: Correct
+ sparc64_get/set_context() FPU handling
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20201106152738.26026-1-peter.maydell@linaro.org>
+ <20201106152738.26026-2-peter.maydell@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <29cf2911-b92a-ada5-fb03-18cd022fee14@linaro.org>
+Date: Fri, 6 Nov 2020 09:09:11 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 07:11:31
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+In-Reply-To: <20201106152738.26026-2-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,62 +91,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the SCSI_DISK_GET_CLASS() macro to match the rest of
-the codebase.
+On 11/6/20 7:27 AM, Peter Maydell wrote:
+> +        if (fprs & FPRS_DU) {
+> +            for (i = 16; i < 31; i++) {
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- hw/scsi/scsi-disk.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+32.
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index d2b9cb28da1..deb51ec8e7d 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -338,7 +338,7 @@ static void scsi_read_complete(void *opaque, int ret)
- static void scsi_do_read(SCSIDiskReq *r, int ret)
- {
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
--    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
-+    SCSIDiskClass *sdc = SCSI_DISK_GET_CLASS(s);
- 
-     assert (r->req.aiocb == NULL);
-     if (scsi_disk_req_check_error(r, ret, false)) {
-@@ -438,7 +438,7 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
- {
-     bool is_read = (r->req.cmd.mode == SCSI_XFER_FROM_DEV);
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
--    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
-+    SCSIDiskClass *sdc = SCSI_DISK_GET_CLASS(s);
-     BlockErrorAction action = blk_get_error_action(s->qdev.conf.blk,
-                                                    is_read, error);
- 
-@@ -538,7 +538,7 @@ static void scsi_write_data(SCSIRequest *req)
- {
-     SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
--    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
-+    SCSIDiskClass *sdc = SCSI_DISK_GET_CLASS(s);
- 
-     /* No data transfer may already be in progress */
-     assert(r->req.aiocb == NULL);
-@@ -2149,7 +2149,7 @@ static int32_t scsi_disk_dma_command(SCSIRequest *req, uint8_t *buf)
- {
-     SCSIDiskReq *r = DO_UPCAST(SCSIDiskReq, req, req);
-     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, req->dev);
--    SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
-+    SCSIDiskClass *sdc = SCSI_DISK_GET_CLASS(s);
-     uint32_t len;
-     uint8_t command;
- 
--- 
-2.26.2
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
