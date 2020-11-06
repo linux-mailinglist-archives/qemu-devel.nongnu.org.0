@@ -2,50 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683E52A8F7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 07:38:12 +0100 (CET)
-Received: from localhost ([::1]:40848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09F62A8F82
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 07:38:32 +0100 (CET)
+Received: from localhost ([::1]:41960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kavNz-0001Zp-DH
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 01:38:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56714)
+	id 1kavOK-00021H-0J
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 01:38:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kavM9-0000kk-Rr
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:36:17 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:54044)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1kavM7-0007LZ-EZ
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:36:17 -0500
-Received: from [192.168.0.183] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id A9C6740D4004;
- Fri,  6 Nov 2020 06:36:08 +0000 (UTC)
-Subject: Re: [PATCH] target/openrisc: fix icount handling for timer
- instructions
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <160457727672.17573.9713521384015502561.stgit@pasha-ThinkPad-X280>
- <d3185b27-4df1-20b3-605f-cb82e158bb89@linaro.org>
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-Message-ID: <27a08a38-46c6-20c4-3f45-1fb9f7a1fd78@ispras.ru>
-Date: Fri, 6 Nov 2020 09:36:08 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kavMm-00010S-G9
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:36:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36318)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1kavMh-0007Wa-Ax
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 01:36:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1604644606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ac4OdVgQwZBSzTCyiZDUg9So1R3sCXGDWjIdNhFYaMQ=;
+ b=EYDHHpwLPYMgOcEs8KSVSB4/22gtU7AKLKwkCarzuOShEnkLDPxTNwCQL7d/U6ZlTATJ4/
+ /1/07/NidRmhl5KglZfIQfwUkxOTzguBlxpnXFmH56Rp367I8aXtiIIZx6KwqDVSyejP0y
+ AL5SKr+7ePCoohtp21p1aB8IT5SJMoU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-AYfBbK2COPWDVqOusN3fqg-1; Fri, 06 Nov 2020 01:36:45 -0500
+X-MC-Unique: AYfBbK2COPWDVqOusN3fqg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3649879525;
+ Fri,  6 Nov 2020 06:36:43 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-112-103.ams2.redhat.com
+ [10.36.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B2D446E70B;
+ Fri,  6 Nov 2020 06:36:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 0A4AB1132BD6; Fri,  6 Nov 2020 07:36:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: AlexChen <alex.chen@huawei.com>
+Subject: Re: [PATCH V2] qtest: Fix bad printf format specifiers
+References: <5FA3A0C6.5040500@huawei.com>
+Date: Fri, 06 Nov 2020 07:36:42 +0100
+In-Reply-To: <5FA3A0C6.5040500@huawei.com> (AlexChen's message of "Thu, 5 Nov
+ 2020 14:50:46 +0800")
+Message-ID: <87sg9nouth.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <d3185b27-4df1-20b3-605f-cb82e158bb89@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 01:36:09
-X-ACL-Warn: Detected OS   = Linux 3.11 and newer [fuzzy]
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 21:51:30
+X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,32 +81,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shorne@gmail.com, proljc@gmail.com
+Cc: lvivier@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06.11.2020 00:39, Richard Henderson wrote:
-> On 11/5/20 3:54 AM, Pavel Dovgalyuk wrote:
->> This patch adds icount handling to mfspr/mtspr instructions
->> that may deal with hardware timers.
->>
->> Signed-off-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
->> ---
->>   target/openrisc/translate.c |   15 +++++++++++++++
->>   1 file changed, 15 insertions(+)
-> 
-> Looks correct, but it would be better not to duplicate the code from
-> trans_l_mtspr, and use an is_jmp code (called DISAS_UPDATE_EXIT in some other
-> targets).
+AlexChen <alex.chen@huawei.com> writes:
 
-mtspr includes the following comment:
-* Save all of the cpu state first, allowing it to be overwritten.
+> We should use printf format specifier PRIu32 instead of "%d" for
+> argument of type 'uint32_t'.
 
-Does it mean, that helper can overwrite the PC? Then the PC can't be 
-updated in is_jmp handler at the end of instruction translation.
+I prefer v1, which uses %u.
 
-
-Pavel Dovgalyuk
-
+[...]
 
 
