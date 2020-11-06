@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 801612A9A9B
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:16:49 +0100 (CET)
-Received: from localhost ([::1]:52512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 951122A9A8E
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:14:07 +0100 (CET)
+Received: from localhost ([::1]:40692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb5M0-00084G-Jn
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:16:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
+	id 1kb5JO-000358-MR
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:14:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb5HT-0001Hx-DF
+ id 1kb5HV-0001I6-Fe
  for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:10 -0500
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:56188)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb5HR-0003NV-4z
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:07 -0500
-Received: by mail-wm1-x343.google.com with SMTP id c9so2157468wml.5
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:12:04 -0800 (PST)
+ id 1kb5HP-0003NF-2a
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:09 -0500
+Received: by mail-wm1-x341.google.com with SMTP id k18so1998151wmj.5
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:12:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ycwc9PI+oFTz4llRPLtPfpoPPiAd/CZwBx3qyq0lMqg=;
- b=hRAvDh/GWZopBlkU8gG+DllAmis69LSZDLJkjLgrQNgCGDD8nFlgz1po7h2zPk7tMT
- a6hyWqZ7OMJTDRNIM5kJHaEP0AEZgm3M7/HWlk4XYYiL52gkQ8kfK7zEwS02K4e3cfzm
- P1lKXcfK/kvN8FmELI22gWWc5cfDu1XMoi725Iqz7Aj09MWwYoVwjSwTeXmiBQ3cMoUj
- mN0RrFTKyL5XtR9kCIs3K3GSgRTyQYbNrtCfqCqav0e5SFI9kijG7cc3JAI7E02KaMFp
- ibTziG9Q627Vy5IFh0v6H/9ROjYtpEqofUmZoAxMtRD/PHP9pIBhH89BgdQyRpqK1JsZ
- ldbg==
+ bh=nE1i2hAAqaIuOFEo+8UFV1Ok6/fO1ASvmRXI23HSnQQ=;
+ b=qgo/+5ERyCclTWErEzcmtlr813OxzasDLZPv3kGPFB+AWSaQI//UjJxi5Q7MMI05dp
+ HJAcF4xqKYnOmIW5WiuFpEAU6xFrKiwGglz2u2NhxnyxqwdNYKSbaPDyfo5BGBY5iF/J
+ LVsPAni/KdliaS8UL36MOl0GpiMTydgz34e/UUjzhDs0gaYGYMrdLzMYUoxFAp6For31
+ zbzjnlD7wjBH9JWOZ4794W34ZFs66XRdAAI76fUfhMKdIGFGmxeSHa9GvkZjJPdn/ZmO
+ Dp5qX84GQcCMM54qMk8tkOZe3i7dpPnZPmL7lA9YVsOgwc5fZxqYNSMNMOWrJuyPQNzv
+ dj4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ycwc9PI+oFTz4llRPLtPfpoPPiAd/CZwBx3qyq0lMqg=;
- b=c2ze53xPwm78BiCIUCxafLpoDLa+bDDJemOrLxkgEx4w3fm9MCw7Ydr6JnfrdUHaJX
- wkf5SvP6G51Y1oZU3KRanVPHV6eF9xmfTCyjOyAJclzuFBc4P5xBTViKxG1kdEvtAebg
- z/qluomhfnvYmTK/LwiHfJZTAm94SQILopRboeeC8MoEnxM8NNnSsgsL2t1nbURBzuC5
- myze+BJX3RoXkVw6wXj6ZluXj8rs5j62RQwgrDOUhr/ollsCpDeIKXzGg5LvMeiSuphU
- bHi9ZKXa1afmwr/LDpUjoc3g+Cw40tB/EbWYDr1KEh6StzjVxIcjvs4vUDNSKmAVYosv
- mRPQ==
-X-Gm-Message-State: AOAM530A+8S4hsP8QXAOg45I/lJjAKO8/VO/6+7BYzo+EDfK1X1pngRo
- fck4s/PT+ShLdlHygjD1CDbkrNBuByMYtA==
-X-Google-Smtp-Source: ABdhPJw7lcV4n5Abiz/tgeyJiu4G3mp3rgJlKQLD3s4Fd/MwpTRv1M6uhgo96sZa96c97MMj2Hqjtg==
-X-Received: by 2002:a1c:4ca:: with SMTP id 193mr588932wme.137.1604682720400;
- Fri, 06 Nov 2020 09:12:00 -0800 (PST)
+ bh=nE1i2hAAqaIuOFEo+8UFV1Ok6/fO1ASvmRXI23HSnQQ=;
+ b=NhwX4bfbqWm/nNRLU+Eswx5a+TvVaQco9RNyHibRvCGQKZWO9UL1RD2tpGwHRxkEkE
+ eEv3y4SVWdAWbxyBjSdCoYiNdRJ1GApArv2Tx65HePq6/lWGGzU0uR90T9SIjr4Xi3w9
+ ZVxgZra+NMKsaKDkmP41DvSh9oErmeKB619/cENcS8e4dzHHTvQNS1cM+mhftF22ZkM9
+ oPYZhEG7odpQAzEtrvbwq/WZH7JvKjmAJ1XjmnN9ivyYkSuI7ghijHGmI0gGtQ91ZKZA
+ u/XAFvO1dC8tVmx+9WUgZAEH+w4d0dvudYdUAanGlHFPTRctw2av59t9qsw1TRWtzgn7
+ ODgg==
+X-Gm-Message-State: AOAM531/vXqiKZMQoFxC1HXZiFmiPbkM2n7I3/YWNNR2xtmEs8m/9Hg5
+ +miSCtTiLyAebb/meoB/FNZk8seo4J43AA==
+X-Google-Smtp-Source: ABdhPJwE7UbCW3ZL5xhezAlpe5z3+Kb5RRqpkxzitOCO1y9e4AdNpt71q2wKpSDOCsbMItbxEHAexA==
+X-Received: by 2002:a1c:b487:: with SMTP id d129mr672541wmf.38.1604682721478; 
+ Fri, 06 Nov 2020 09:12:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l1sm3162649wrb.1.2020.11.06.09.11.58
+ by smtp.gmail.com with ESMTPSA id l1sm3162649wrb.1.2020.11.06.09.12.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 09:11:59 -0800 (PST)
+ Fri, 06 Nov 2020 09:12:00 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 3/4] hw/net/can/ctucan_core: Handle big-endian hosts
-Date: Fri,  6 Nov 2020 17:11:52 +0000
-Message-Id: <20201106171153.32673-4-peter.maydell@linaro.org>
+Subject: [PATCH for-5.2 4/4] hw/net/ctucan_core: Use stl_le_p to write to
+ tx_buffers
+Date: Fri,  6 Nov 2020 17:11:53 +0000
+Message-Id: <20201106171153.32673-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201106171153.32673-1-peter.maydell@linaro.org>
 References: <20201106171153.32673-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::343;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x343.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::341;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -89,42 +90,29 @@ Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The ctucan driver defines types for its registers which are a union
-of a uint32_t with a struct with bitfields for the individual
-fields within that register. This is a bad idea, because bitfields
-aren't portable. The ctu_can_fd_regs.h header works around the
-most glaring of the portability issues by defining the
-fields in two different orders depending on the setting of the
-__LITTLE_ENDIAN_BITFIELD define. However, in ctucan_core.h this
-is unconditionally set to 1, which is wrong for big-endian hosts.
-
-Set it only if HOST_WORDS_BIGENDIAN is not set. There is no need
-for a "have we defined it already" guard, because the only place
-that should set it is ctucan_core.h, which has the usual
-double-inclusion guard.
+Instead of casting an address within a uint8_t array to a
+uint32_t*, use stl_le_p(). This handles possibly misaligned
+addresses which would otherwise crash on some hosts.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-Ideally all that bitfield-using code would be rewritten to use
-extract32 and deposit32 instead, IMHO.
----
- hw/net/can/ctucan_core.h | 3 +--
+ hw/net/can/ctucan_core.c | 3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/net/can/ctucan_core.h b/hw/net/can/ctucan_core.h
-index f21cb1c5ec3..bbc09ae0678 100644
---- a/hw/net/can/ctucan_core.h
-+++ b/hw/net/can/ctucan_core.h
-@@ -31,8 +31,7 @@
- #include "exec/hwaddr.h"
- #include "net/can_emu.h"
- 
--
--#ifndef __LITTLE_ENDIAN_BITFIELD
-+#ifndef HOST_WORDS_BIGENDIAN
- #define __LITTLE_ENDIAN_BITFIELD 1
- #endif
- 
+diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
+index f2ce978e5ec..e66526efa83 100644
+--- a/hw/net/can/ctucan_core.c
++++ b/hw/net/can/ctucan_core.c
+@@ -305,8 +305,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
+         addr %= CTUCAN_CORE_TXBUFF_SPAN;
+         assert(buff_num < CTUCAN_CORE_TXBUF_NUM);
+         if (addr < sizeof(s->tx_buffer[buff_num].data)) {
+-            uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data + addr);
+-            *bufp = cpu_to_le32(val);
++            stl_le_p(s->tx_buffer[buff_num].data + addr, val);
+         }
+     } else {
+         switch (addr & ~3) {
 -- 
 2.20.1
 
