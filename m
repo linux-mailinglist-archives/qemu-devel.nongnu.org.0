@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AFC42A9A61
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:06:32 +0100 (CET)
-Received: from localhost ([::1]:53932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8A722A9A65
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:06:51 +0100 (CET)
+Received: from localhost ([::1]:55570 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb5C3-0004Ma-2A
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:06:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60842)
+	id 1kb5CM-0005Ch-Ui
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:06:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kb59u-00031V-Bz
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:04:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46932)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kb59y-00037k-QN
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:04:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20116)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kb59s-0001zH-O7
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:04:17 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1kb59x-0001zp-8l
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:04:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604682256;
+ s=mimecast20190719; t=1604682260;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7AwrTJUuq41/XCYK+7UGABhog2BUpWFpH3S0s5kN6W4=;
- b=XZUZGATLmRUoarq+R4o/vPpQWbF2pJOYMOtx+JFDUMlwgua76rSujRT3MG++8wm1CcfzQ8
- ih3qM8CkuycD77p8bUTlaqaD4U4w1xkL4geG5TW24SamddMChWKb5wXSYN5jqBoGp9mgKd
- X6wpws9sKam26v3RRWnfenN4h+hv8xw=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-hotfSxX0PIKOllj05ubaUQ-1; Fri, 06 Nov 2020 12:04:13 -0500
-X-MC-Unique: hotfSxX0PIKOllj05ubaUQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 3so674631wms.9
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:04:13 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=K3wfZcCwMKslEFjXlVJ3jqNVIPb5NGo7EYNvTAtaW0Y=;
+ b=CkJmqr5rq/S0c5B8iLC+5esbs1LfG2GpD7iT6y0xtPh0Hu6TvGs7r7W2cUYgh8P+SwWo9B
+ SvN2CjXcw/nYSBjoNRmB/w3hDg5bqGgR2QXwxFGu7R9oPUSkk4KKwpXav1aexq3wYr2XAB
+ w0DLEXsk8ehFsfFC9m27JVw64nirNFY=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-451-BfMjHUOnPQ-z2WgeBhK1sw-1; Fri, 06 Nov 2020 12:04:18 -0500
+X-MC-Unique: BfMjHUOnPQ-z2WgeBhK1sw-1
+Received: by mail-wm1-f70.google.com with SMTP id g3so658411wmh.9
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:04:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=EbJkJ95FxPswVXG1ztV9sKjvQN1FMmoVTHeFp9snjqk=;
- b=ohKRR1+Aj35douPADgg4JfIFKOLYhvMq0ik/B8nysWvO0wo5ObqqnkuU/2giTCZpWM
- eHhOfCCW6jkDLYaQeVXTreZwLx6HvwrtjXhGciXTW9QULFbfkPdahVcCEWXzkwISWw5a
- WVgVkXV//4coD9jBur7Xk1TGhSUfxitq0dI3RkZkcBqg8TTvfQ5/XGHBiJ9R/zpbiTNm
- prRzSzxRu9cOO5P+4hFjLEKkF1YhsyMo0RQpqq9jBZ63rmjq3VXz7HInESFKCVbCUxBx
- FjnngZXrMsEsq+ZgXnHTVgMbXSIfQ41Zu3Yx8KiPhmOu5EobX0V8ehUJwM57TaFUN0o3
- ci2Q==
-X-Gm-Message-State: AOAM5301pZsZkpLLYmYXTd4r9JkjqiDTzyXyZEuWV0jFCMhoSpgWnoe6
- YiG5b6mOfaiSCkioh4pen6o+ImgaGBtBoatuNEe1WcriE/+N0fpmNRvxXmz58X23P/641E3Q9oD
- 38wJZFAuEQKNnn7I=
-X-Received: by 2002:adf:9e4c:: with SMTP id v12mr3601448wre.22.1604682251861; 
- Fri, 06 Nov 2020 09:04:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxin7zoiwQLwLc3jCv5l0D02DkvnSTIhhmFvlfsktMjWYTB3ZNEmt6ZOI0/EiwBz+uwgafbFA==
-X-Received: by 2002:adf:9e4c:: with SMTP id v12mr3601421wre.22.1604682251640; 
- Fri, 06 Nov 2020 09:04:11 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=K3wfZcCwMKslEFjXlVJ3jqNVIPb5NGo7EYNvTAtaW0Y=;
+ b=c4ORW1AJHfCnswYOuVuGGKpsEvmDj1xtHPTVLE46nAhsk0CE3mA3cH5RuSYiKutcBN
+ VlA4wHhzgGdudKGInKuFg3s/f+KvsNm+p4FnakftiXz1yb8P9eSJ2vnzcNCLH4CNkzD8
+ D8DByGqa/1EhM/DuVyAy4vUdwJbADkiOLHXRbPZ1QhO57lXjGWwM0jKuZUzWaz8XNIkI
+ cZuV63IhhsubmqI7prNuWSQw7MHCSFXzJQPFMX494RO6kwwW5NcfZ9bpp/DzQNQVsRXZ
+ 0Xgn/TM7guqjKkF9FtX/7Viwe94cP7utLEC29odi7xBIz/yHQR9Ldvq3TpCFmYdTJ1L+
+ Te0Q==
+X-Gm-Message-State: AOAM531GViz3DrW7O3hyvLnRYfOeJHvgNwDsxQ0pBJd1wLwuBOPrdoq7
+ 4XegQDnHsgyoNgJHz5FFt1XL4Fsz17ofvQ50sRwCFXLJAEyfg8RqYzj86iJPuzu3P5UbK3nqOAc
+ EzonFzXA3BGLgZ6Y=
+X-Received: by 2002:adf:f104:: with SMTP id r4mr3786246wro.202.1604682257496; 
+ Fri, 06 Nov 2020 09:04:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrk2TqWGpdD7Y2fa525+AMJB0ebORXfqExvGopeDXyoNqS1xNofDTgfu3VzWwoXdNxVQ3rfA==
+X-Received: by 2002:adf:f104:: with SMTP id r4mr3786210wro.202.1604682257274; 
+ Fri, 06 Nov 2020 09:04:17 -0800 (PST)
 Received: from localhost.localdomain (234.red-83-42-66.dynamicip.rima-tde.net.
  [83.42.66.234])
- by smtp.gmail.com with ESMTPSA id t15sm3099502wmn.19.2020.11.06.09.04.09
+ by smtp.gmail.com with ESMTPSA id v123sm3330004wme.7.2020.11.06.09.04.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 09:04:10 -0800 (PST)
+ Fri, 06 Nov 2020 09:04:16 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH-for-6.0 0/2] hw/scsi/scsi-disk: QOM style change
-Date: Fri,  6 Nov 2020 18:04:02 +0100
-Message-Id: <20201106170404.4130486-1-philmd@redhat.com>
+Subject: [PATCH-for-6.0 1/2] hw/scsi/scsi-disk: Rename type as TYPE_SCSI_DISK
+Date: Fri,  6 Nov 2020 18:04:03 +0100
+Message-Id: <20201106170404.4130486-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20201106170404.4130486-1-philmd@redhat.com>
+References: <20201106170404.4130486-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 06:30:30
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 07:11:31
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,18 +102,94 @@ Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some QOM style changes in TYPE_SCSI_DISK to follow=0D
-the rest of the codebase style. No logical change.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  hw/scsi/scsi-disk: Rename type as TYPE_SCSI_DISK=0D
-  hw/scsi/scsi-disk: Use SCSI_DISK_GET_CLASS() macro=0D
-=0D
- hw/scsi/scsi-disk.c | 26 +++++++++++++-------------=0D
- 1 file changed, 13 insertions(+), 13 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+Rename TYPE_SCSI_DISK without the '_BASE' suffix to match
+the other abstract types in the codebase.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ hw/scsi/scsi-disk.c | 18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index e859534eaf3..d2b9cb28da1 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -53,9 +53,9 @@
+ #define DEFAULT_MAX_UNMAP_SIZE      (1 * GiB)
+ #define DEFAULT_MAX_IO_SIZE         INT_MAX     /* 2 GB - 1 block */
+ 
+-#define TYPE_SCSI_DISK_BASE         "scsi-disk-base"
++#define TYPE_SCSI_DISK              "scsi-disk-base"
+ 
+-OBJECT_DECLARE_TYPE(SCSIDiskState, SCSIDiskClass, SCSI_DISK_BASE)
++OBJECT_DECLARE_TYPE(SCSIDiskState, SCSIDiskClass, SCSI_DISK)
+ 
+ struct SCSIDiskClass {
+     SCSIDeviceClass parent_class;
+@@ -2956,7 +2956,7 @@ BlockAIOCB *scsi_dma_writev(int64_t offset, QEMUIOVector *iov,
+ static void scsi_disk_base_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+-    SCSIDiskClass *sdc = SCSI_DISK_BASE_CLASS(klass);
++    SCSIDiskClass *sdc = SCSI_DISK_CLASS(klass);
+ 
+     dc->fw_name = "disk";
+     dc->reset = scsi_disk_reset;
+@@ -2966,7 +2966,7 @@ static void scsi_disk_base_class_initfn(ObjectClass *klass, void *data)
+ }
+ 
+ static const TypeInfo scsi_disk_base_info = {
+-    .name          = TYPE_SCSI_DISK_BASE,
++    .name          = TYPE_SCSI_DISK,
+     .parent        = TYPE_SCSI_DEVICE,
+     .class_init    = scsi_disk_base_class_initfn,
+     .instance_size = sizeof(SCSIDiskState),
+@@ -3036,7 +3036,7 @@ static void scsi_hd_class_initfn(ObjectClass *klass, void *data)
+ 
+ static const TypeInfo scsi_hd_info = {
+     .name          = "scsi-hd",
+-    .parent        = TYPE_SCSI_DISK_BASE,
++    .parent        = TYPE_SCSI_DISK,
+     .class_init    = scsi_hd_class_initfn,
+ };
+ 
+@@ -3067,7 +3067,7 @@ static void scsi_cd_class_initfn(ObjectClass *klass, void *data)
+ 
+ static const TypeInfo scsi_cd_info = {
+     .name          = "scsi-cd",
+-    .parent        = TYPE_SCSI_DISK_BASE,
++    .parent        = TYPE_SCSI_DISK,
+     .class_init    = scsi_cd_class_initfn,
+ };
+ 
+@@ -3090,7 +3090,7 @@ static void scsi_block_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     SCSIDeviceClass *sc = SCSI_DEVICE_CLASS(klass);
+-    SCSIDiskClass *sdc = SCSI_DISK_BASE_CLASS(klass);
++    SCSIDiskClass *sdc = SCSI_DISK_CLASS(klass);
+ 
+     sc->realize      = scsi_block_realize;
+     sc->alloc_req    = scsi_block_new_request;
+@@ -3106,7 +3106,7 @@ static void scsi_block_class_initfn(ObjectClass *klass, void *data)
+ 
+ static const TypeInfo scsi_block_info = {
+     .name          = "scsi-block",
+-    .parent        = TYPE_SCSI_DISK_BASE,
++    .parent        = TYPE_SCSI_DISK,
+     .class_init    = scsi_block_class_initfn,
+ };
+ #endif
+@@ -3146,7 +3146,7 @@ static void scsi_disk_class_initfn(ObjectClass *klass, void *data)
+ 
+ static const TypeInfo scsi_disk_info = {
+     .name          = "scsi-disk",
+-    .parent        = TYPE_SCSI_DISK_BASE,
++    .parent        = TYPE_SCSI_DISK,
+     .class_init    = scsi_disk_class_initfn,
+ };
+ 
+-- 
+2.26.2
 
 
