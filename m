@@ -2,68 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 951122A9A8E
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:14:07 +0100 (CET)
-Received: from localhost ([::1]:40692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB8972A9AB8
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 18:24:13 +0100 (CET)
+Received: from localhost ([::1]:60024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb5JO-000358-MR
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:14:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34750)
+	id 1kb5TA-0003T3-5r
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 12:24:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb5HV-0001I6-Fe
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:10 -0500
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40736)
+ id 1kb5RZ-0002Vp-1s
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:22:34 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:41757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1kb5HP-0003NF-2a
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:12:09 -0500
-Received: by mail-wm1-x341.google.com with SMTP id k18so1998151wmj.5
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:12:02 -0800 (PST)
+ id 1kb5RU-0004cy-TU
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 12:22:32 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id cw8so2976027ejb.8
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 09:22:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=nE1i2hAAqaIuOFEo+8UFV1Ok6/fO1ASvmRXI23HSnQQ=;
- b=qgo/+5ERyCclTWErEzcmtlr813OxzasDLZPv3kGPFB+AWSaQI//UjJxi5Q7MMI05dp
- HJAcF4xqKYnOmIW5WiuFpEAU6xFrKiwGglz2u2NhxnyxqwdNYKSbaPDyfo5BGBY5iF/J
- LVsPAni/KdliaS8UL36MOl0GpiMTydgz34e/UUjzhDs0gaYGYMrdLzMYUoxFAp6For31
- zbzjnlD7wjBH9JWOZ4794W34ZFs66XRdAAI76fUfhMKdIGFGmxeSHa9GvkZjJPdn/ZmO
- Dp5qX84GQcCMM54qMk8tkOZe3i7dpPnZPmL7lA9YVsOgwc5fZxqYNSMNMOWrJuyPQNzv
- dj4A==
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=ihyTT81qp+8FaUp+h0bwSRmqJJGyYtUeEBfeb7eL3/w=;
+ b=ktlrVsxn3GiKqco0SvYmNItCwBjXlQh2IQJoQVAQaLk4hknQt8r19o1YahBrUhZ8lE
+ NY6wNZmNybStwjGBFkOOrUsPDMBbdw5g9Qwdd+5ooLV/EE9MTrNh9enFHo3UMKhKpvIv
+ v9qF8eQRtvpm+U8fLRBSBW5NniY2NGlhQufaABJz91Zq8tyOfry5kZPaDVyT0gDClt+N
+ vulLiOqwrHi/vzOzvPtJ4eIkaMoOeAc4cBYAcdR0tsUl2oAs9elmdZTS03CADndBApTy
+ twJ+CSIoAj0XRjhd/UgjKsfB35L1JhpAc/Dy9aPdNnIdNkY8sHIZHDrnihfYcgMhq9/q
+ /JJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=nE1i2hAAqaIuOFEo+8UFV1Ok6/fO1ASvmRXI23HSnQQ=;
- b=NhwX4bfbqWm/nNRLU+Eswx5a+TvVaQco9RNyHibRvCGQKZWO9UL1RD2tpGwHRxkEkE
- eEv3y4SVWdAWbxyBjSdCoYiNdRJ1GApArv2Tx65HePq6/lWGGzU0uR90T9SIjr4Xi3w9
- ZVxgZra+NMKsaKDkmP41DvSh9oErmeKB619/cENcS8e4dzHHTvQNS1cM+mhftF22ZkM9
- oPYZhEG7odpQAzEtrvbwq/WZH7JvKjmAJ1XjmnN9ivyYkSuI7ghijHGmI0gGtQ91ZKZA
- u/XAFvO1dC8tVmx+9WUgZAEH+w4d0dvudYdUAanGlHFPTRctw2av59t9qsw1TRWtzgn7
- ODgg==
-X-Gm-Message-State: AOAM531/vXqiKZMQoFxC1HXZiFmiPbkM2n7I3/YWNNR2xtmEs8m/9Hg5
- +miSCtTiLyAebb/meoB/FNZk8seo4J43AA==
-X-Google-Smtp-Source: ABdhPJwE7UbCW3ZL5xhezAlpe5z3+Kb5RRqpkxzitOCO1y9e4AdNpt71q2wKpSDOCsbMItbxEHAexA==
-X-Received: by 2002:a1c:b487:: with SMTP id d129mr672541wmf.38.1604682721478; 
- Fri, 06 Nov 2020 09:12:01 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l1sm3162649wrb.1.2020.11.06.09.12.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 06 Nov 2020 09:12:00 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH for-5.2 4/4] hw/net/ctucan_core: Use stl_le_p to write to
- tx_buffers
-Date: Fri,  6 Nov 2020 17:11:53 +0000
-Message-Id: <20201106171153.32673-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201106171153.32673-1-peter.maydell@linaro.org>
-References: <20201106171153.32673-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=ihyTT81qp+8FaUp+h0bwSRmqJJGyYtUeEBfeb7eL3/w=;
+ b=QjRaFRcN8W7aV+XdtDD5rnF1JlbMYQiePQ8NVHTjJOycD0LlTf1ZxicIalfnymBamY
+ HNNckx9A2487bPOUH/8DjEGGr/avIQoFmJB1ZKXz01ZWXNjwH32o1CiyA17GH6lxCB/9
+ lNtmTqWJxlVGhyV4bPb3NXnPq5bZ93d46WmBwDDv9OAu0qdVX7NuRF0Jhr76a+vHxZSw
+ oFZHqz1pl3iiQaVb5KRNw9FpRiLM5Qhno7zwxCit/VpIuN0hhrYxjhrT3YjDPyBIgTiX
+ 6tS3eeFrwffc9ZXM7Hcus59pw1IkZLHiKRAwP/RZTiFs2FuQgCuxunSi5bhoIDw/1BJU
+ sQEg==
+X-Gm-Message-State: AOAM532cEv6Qk8j2H+cdpZ+TqGcGMdBs2fKCmDHoFmPU8bzFdoOTJAjN
+ Y9RvLOPMTvxPixlgI7wx1b/p9AoS59PJ+8TwCqoAUte8kx8=
+X-Google-Smtp-Source: ABdhPJyAfArNwUJi/pTm+qM5EHIaokPJgGEG9d+aHoHW2KrWmN/2Xp6KyjrUf3URdV+0wf8XTYTMK7hBeyUubB9FAgg=
+X-Received: by 2002:a17:906:3a97:: with SMTP id
+ y23mr3022574ejd.250.1604683345192; 
+ Fri, 06 Nov 2020 09:22:25 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::341;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x341.google.com
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 6 Nov 2020 17:22:13 +0000
+Message-ID: <CAFEAcA8keTZEW3MLky3_HKh5cu2HR1O0iBax2c0hs0qSosNYSw@mail.gmail.com>
+Subject: nbd: bitmap_to_extents() calls nbd_extent_array_add() without
+ checking return value: coverity false positive?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -85,35 +77,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Vikram Garhwal <fnu.vikram@xilinx.com>,
- Pavel Pisa <pisa@cmp.felk.cvut.cz>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of casting an address within a uint8_t array to a
-uint32_t*, use stl_le_p(). This handles possibly misaligned
-addresses which would otherwise crash on some hosts.
+Hi; Coverity's "you usually check the return value of this function
+but you didn't do that here" heuristic has fired on the code in
+nbd/server.c:bitmap_to_extents() -- the function nbd_extent_array_add()
+is called five times in server.c, and the return value is checked
+in four of those, but not in the final call at the end of
+bitmap_to_extents(). (CID 1436125.)
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/net/can/ctucan_core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Is this a false positive, or should the caller be handling an
+error here ?
 
-diff --git a/hw/net/can/ctucan_core.c b/hw/net/can/ctucan_core.c
-index f2ce978e5ec..e66526efa83 100644
---- a/hw/net/can/ctucan_core.c
-+++ b/hw/net/can/ctucan_core.c
-@@ -305,8 +305,7 @@ void ctucan_mem_write(CtuCanCoreState *s, hwaddr addr, uint64_t val,
-         addr %= CTUCAN_CORE_TXBUFF_SPAN;
-         assert(buff_num < CTUCAN_CORE_TXBUF_NUM);
-         if (addr < sizeof(s->tx_buffer[buff_num].data)) {
--            uint32_t *bufp = (uint32_t *)(s->tx_buffer[buff_num].data + addr);
--            *bufp = cpu_to_le32(val);
-+            stl_le_p(s->tx_buffer[buff_num].data + addr, val);
-         }
-     } else {
-         switch (addr & ~3) {
--- 
-2.20.1
-
+thanks
+-- PMM
 
