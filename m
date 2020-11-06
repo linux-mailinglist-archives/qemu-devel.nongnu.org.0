@@ -2,94 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53872A9BEE
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 19:22:12 +0100 (CET)
-Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C76622A9C5B
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 19:35:42 +0100 (CET)
+Received: from localhost ([::1]:46858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb6NH-0006Am-97
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 13:22:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53554)
+	id 1kb6aL-0006Kc-T2
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 13:35:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kb6Lq-0005IL-9u
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:20:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35547)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1kb6Lo-0004Al-BZ
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:20:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604686839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yb2hUuidUfRqYTLbucNq8j7Pt7L3YOxL3HCfS/WwPao=;
- b=cL3dJUbcQmhqUhPzNF8LlYkbyx5YjpIikobnL/HTL1P9X5lWTi7EI54RF7OY1POBqt/CjU
- GiGt6TyQL9lelwB9gG4CZ2CktqgMOoQq3eGBnoQgT3JZUKgG36o8tmwPip7m9L1vrD4E+C
- VvpJIZBzpNMYqt7/u9X2xiLxw/UDW8M=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-414-T3_FhjNVOwWLKh0ZASAQdQ-1; Fri, 06 Nov 2020 13:20:37 -0500
-X-MC-Unique: T3_FhjNVOwWLKh0ZASAQdQ-1
-Received: by mail-wr1-f71.google.com with SMTP id q1so766719wrn.5
- for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 10:20:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=yb2hUuidUfRqYTLbucNq8j7Pt7L3YOxL3HCfS/WwPao=;
- b=hOqioRuQT/OGsByjJfOzBtqS97UfEP1p2bhm+9Tircdrne+Lq1M5jqmlLq9HaSnnST
- 65ejmdtzSBInEgSGBDREskbp47/H53vZs8jANga+6IXQdYcLrv6U7dTmb2mPG7S2f3V3
- MXxsjQjv1hx84Qdrtu9kKJ7gYbaKPZy60f180MKV8Ni9T6tuX4quvF7GzDKbl+zf8t0a
- hKKkGM2pRgaGJs3IklVl8OejgY0ifbT2sBm2m+di/6xRkKfeA8PBHy1lWlvWfVWUxroI
- qb3iNVgYXwF/lA7j4S1WPRb4/cVzM0Twyvfz+kBN6Y1I6tbopDvFI70boZqB8BPFpdg3
- ZxKQ==
-X-Gm-Message-State: AOAM530w0R1zFYoarqqditYXDbXxXTig4NiYloRGa7O0okSgH33wn/HU
- hhS61hHtGhbUdG6BW4LPAOV75ucSvukaSJnBNV/uFM1qnFxuUEJxHQ0NssObddeozSnZSK397eI
- gPx2qcnlQYZSZ9pU=
-X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr874131wmc.114.1604686836029; 
- Fri, 06 Nov 2020 10:20:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxy1Fp5OYnSzX77LozgIFMY/qLNmEaWWyguAnGRHmw1dGZ5G635lUlxB4ia1WlAJvPnB9dGLw==
-X-Received: by 2002:a7b:ce0c:: with SMTP id m12mr874120wmc.114.1604686835857; 
- Fri, 06 Nov 2020 10:20:35 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id u6sm3434154wmj.40.2020.11.06.10.20.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 06 Nov 2020 10:20:34 -0800 (PST)
-Subject: Re: [PATCH 2/2] qemu-option: warn for short-form boolean options
-To: Markus Armbruster <armbru@redhat.com>
-References: <20201105142731.623428-1-pbonzini@redhat.com>
- <20201105142731.623428-3-pbonzini@redhat.com>
- <87361mfn1d.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3c094f89-11b6-b6cc-690b-df688e425fd9@redhat.com>
-Date: Fri, 6 Nov 2020 19:20:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kb6ZZ-0005jr-9R
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:34:53 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:8211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1kb6ZX-00066l-EA
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 13:34:52 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B5fa5974d0001>; Fri, 06 Nov 2020 10:34:53 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov
+ 2020 18:34:49 +0000
+Received: from kwankhede-dev.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Fri, 6 Nov 2020 18:34:47 +0000
+From: Kirti Wankhede <kwankhede@nvidia.com>
+To: <alex.williamson@redhat.com>, <cjia@nvidia.com>
+Subject: [PATCH v2 1/1] Fix use after free in vfio_migration_probe
+Date: Fri, 6 Nov 2020 23:32:24 +0530
+Message-ID: <1604685744-25125-1-git-send-email-kwankhede@nvidia.com>
+X-Mailer: git-send-email 2.7.0
 MIME-Version: 1.0
-In-Reply-To: <87361mfn1d.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 06:30:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: text/plain; charset="UTF-8"
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1604687693; bh=Grj6BlRKypQ46ciXgHeY+mq2/Q3EhXp1Rt0NDGRROm0=;
+ h=From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+ Content-Type:X-NVConfidentiality:Content-Transfer-Encoding;
+ b=qXt+WpgdhRWmxVGRE13j3gTbqYm0R49O32wEwxXLpB4uG/gBNT6OaojaSrRvbKJFa
+ k9xuDWvzp9s034/uUEgozhBXfKpyengSLQ2+AfsZ/+Z2K2IRiV3a9HcXRRXJ7MU5vo
+ WRTsYR8NT9/mA6ypLig+j2Yp6KJSW1cpJkbJ8F7LLm3six5IL2z1zfAToiKk6UJxEP
+ oFjeQocLTp5L+Xqu6kAr14m+zuW15+5kjJNz4PE3nD+a7VxwdS3jOpAMyzwXFywDu4
+ gx8wehalJX1mWbR8I0R4q+rYXngWtqJDdY9ZJ2sEGsUIaARIfK9AmK0ZyHf3NZLhRi
+ 6gx2AehVZ+7AQ==
+Received-SPF: pass client-ip=216.228.121.65; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate26.nvidia.com
+X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 13:34:49
+X-ACL-Warn: Detected OS   = Windows 7 or 8 [fuzzy]
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,23 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, qemu-devel@nongnu.org
+Cc: mcrossley@nvidia.com, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-devel@nongnu.org, dnigam@nvidia.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 06/11/20 17:49, Markus Armbruster wrote:
->> Deprecate all this, except for -chardev and -spice where it is in
->> wide use.
-> I consider this a misuse of deprecation, to be frank.  If something is
-> known to be unused, we just remove it.  Deprecation is precisely for
-> things that are used.  I'm with Daniel here: let's deprecate this sugar
-> everywhere.
-> 
-> Wide use may justify extending the deprecation grace period.
+Fixes Coverity issue:
+CID 1436126:  Memory - illegal accesses  (USE_AFTER_FREE)
 
-Fair enough.  However now that I think of it I'd have to remove the 
-coverage of the "feature" in tests, because they'd warn.
+Fixes: a9e271ec9b36 ("vfio: Add migration region initialization and finaliz=
+e
+function")
 
-Paolo
+Signed-off-by: Kirti Wankhede <kwankhede@nvidia.com>
+Reviewed-by: David Edmondson <dme@dme.org>
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ hw/vfio/migration.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+index 3ce285ea395d..55261562d4f3 100644
+--- a/hw/vfio/migration.c
++++ b/hw/vfio/migration.c
+@@ -897,8 +897,8 @@ int vfio_migration_probe(VFIODevice *vbasedev, Error **=
+errp)
+         goto add_blocker;
+     }
+=20
+-    g_free(info);
+     trace_vfio_migration_probe(vbasedev->name, info->index);
++    g_free(info);
+     return 0;
+=20
+ add_blocker:
+--=20
+2.7.0
 
 
