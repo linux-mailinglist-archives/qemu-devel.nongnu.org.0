@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7AF2A9677
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 13:52:35 +0100 (CET)
-Received: from localhost ([::1]:34964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C56AB2A9693
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 13:59:53 +0100 (CET)
+Received: from localhost ([::1]:41114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kb1EI-0005yO-Hc
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 07:52:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60754)
+	id 1kb1LM-0000ps-DF
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 07:59:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kb19t-0002va-FR
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 07:48:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39906)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1kb19q-00035A-Dc
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 07:48:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1604666875;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nqs/jz3bX28xjh91WKoffJfnm1JDLmB0qriFKlRcmMM=;
- b=ZrfWIM9FlrW0DZrtSNZ840CHy5KtOkd4+hmmhakoh8X3U5xXPwWHS+qYtkrvZfZd6vGSBO
- p4JdT0ihcrWSWtrf7bWmAw0yYmcCKpBECkJVgegmHCR4pwlhh0XiF5skQ1Hgnk8n531DjI
- P8AGXyMW/ZeycKHuMXkmecgSeCDU3YE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-510-in20sThdN12l_fX4LjCSbA-1; Fri, 06 Nov 2020 07:47:52 -0500
-X-MC-Unique: in20sThdN12l_fX4LjCSbA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFF7B1842178;
- Fri,  6 Nov 2020 12:47:51 +0000 (UTC)
-Received: from gondolin (ovpn-114-59.ams2.redhat.com [10.36.114.59])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04D2A65F5E;
- Fri,  6 Nov 2020 12:47:49 +0000 (UTC)
-Date: Fri, 6 Nov 2020 13:47:47 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Subject: Re: [PATCH v3 0/9] Add support for Control-Flow Integrity
-Message-ID: <20201106134747.7c9a5050.cohuck@redhat.com>
-In-Reply-To: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
-References: <20201105221905.1350-1-dbuono@linux.vnet.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kb1KF-0000Gn-Vh
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 07:58:44 -0500
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:34219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
+ id 1kb1KE-0006qk-Ck
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 07:58:43 -0500
+Received: by mail-il1-x131.google.com with SMTP id p2so1000143ilg.1
+ for <qemu-devel@nongnu.org>; Fri, 06 Nov 2020 04:58:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=1onDJE/Qdado236lOXN+DWcoXdprPNVoKz0B01rK16A=;
+ b=tTv5O5eg3ftGNTklPULL8nUW5y5TNopxEcc8WqgHb6lP5qHL8Qk/mCfwstM3GIi3Gw
+ fPlj/XXQ/ZPMB4HzQ2Od9qKGQZih/8VzHhfPeHrDnQF2uJnIM/7pb2G5ZdJHOUim9MAU
+ A6oth4r8QgNhTZp8qCZbsuRYcWn+xS5zMEm46Fg+UyjVeSBK4h3iYdQRyelLK7kZWrA2
+ KUSP0II1FbJrUsZXIPxHcJALIUVV1PJnQzGNrmua448qdCs5lWtIGXF5sEiRghdV90ue
+ ar9yo2xQ88kTcS/ve2jzltBt0MLDNJO3rt/087JjKxcZE9xOh5DLO5jNDQgFtYAhTxZU
+ Sisg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=1onDJE/Qdado236lOXN+DWcoXdprPNVoKz0B01rK16A=;
+ b=OyFCKGtztznHRJyd7DFD7w1JCwoV/oKFXZkPy9cVy9n+JhvqHXS8KSjgbWgknIAK6I
+ UukLEYMjg2BuM7mPXc6babKt2mGtjf6/BDWTuB56YOZ/QJNBqN3MCZDXzClef8qCs3/a
+ wYzmPGa8iQlLZjTnNZu4gfqnVUsRakmD6wV6OoYR1gG0GMIq5Yw6zPXmPACxmq90UNJT
+ /a3B7CIMIZ40kbXxaRM8fJDn5ztig2oNgDS70GTRAz/O1jBfRs8tXQKcRPjpLxXa7LQR
+ SEjM6cVbmUYlVru4X3rYPro/WPJrLY8qOF1plmeaVZJxFcaCJvr8A2io950Y7fMuHCPz
+ rOvg==
+X-Gm-Message-State: AOAM533q5MmTRxRsgMUfOkODF9Nh3fIRgIsUvTIWeBHucEYeSXxJmbJZ
+ OYih2xLbT/qOZFXQqu6wJe9j/IysY0cX+Mo6WGQ=
+X-Google-Smtp-Source: ABdhPJzXzf589mwt2Xp90doj7Jjd5LAGCVsS15asIDEmsDTRTnhxZkZiKzhfA/9TMHtGDQMeaHusTZkJ7+V9p9iGrVU=
+X-Received: by 2002:a05:6e02:12ab:: with SMTP id
+ f11mr1185232ilr.89.1604667521073; 
+ Fri, 06 Nov 2020 04:58:41 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 06:30:30
-X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
+References: <CAJ+F1CJ7KpB8C6-_+Gdh6twqjjRMweERUapw4tfjKyMqa6AM0w@mail.gmail.com>
+ <CAFEAcA86UyXfir3JA3E2vuJNZBGOhbxzvomemaCLg6uwOB3c8Q@mail.gmail.com>
+ <20201105163605.GX47859@linux.fritz.box>
+ <CAFEAcA_ff6bRythvzJWs0McUSz3=2=1=hV9wX_BTv00jPfSHsw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_ff6bRythvzJWs0McUSz3=2=1=hV9wX_BTv00jPfSHsw@mail.gmail.com>
+From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+Date: Fri, 6 Nov 2020 13:58:28 +0100
+Message-ID: <CAM9Jb+gRjznE9VbEe4jPrOt5DtzMqS=0UQostv24iZ4PqpCqsw@mail.gmail.com>
+Subject: Re: Documents not in sphinx toctree
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x131.google.com
+X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
+ That's all we know.
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H5=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,69 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Sergio Lopez <slp@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jens Freimann <jfreimann@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu,  5 Nov 2020 17:18:56 -0500
-Daniele Buono <dbuono@linux.vnet.ibm.com> wrote:
+> > >> By running sphinx over the docs/ directory (like readthedocs.org pre=
+sumably does), it finds a couple of rst documents that are not referenced:
+> > >> - cpu-hotplug.rst
+> > >> - microvm.rst
+> > >> - pr-manager.rst
+> > >> - virtio-net-failover.rst
+> >
+> > Given the current structure of the content in
+> > https://qemu.readthedocs.io/en/latest/,
+> > would adding this as a new bullet in "QEMU System Emulation User=E2=80=
+=99s
+> > Guide" be the right thing to do?
+>
+> Adding which?
+>
+> For cpu-hotplug.rst:
+>  I guess the system manual. The document has a bit of a
+>  "tutorial" feel which doesn't entirely fit the rest of the
+>  manuals.
+>
+> For microvm.rst:
+>  docs/system/target-i386.rst should be split into
+>  documentation for each of the machine models separately
+>  (as a list of links to docs in docs/system/i386/, similar
+>  to the structure of target-arm.rst and docs/system/arm/).
+>  Then microvm.rst can go into docs/system/i386.
+>
+> For pr-manager.rst:
+>  The parts that are documenting the qemu-pr-helper invocation
+>  should turn into a docs/tools/ manpage for it.
+>  The other parts should go in the system manual I guess.
+>
+> For virtio-net-failover.rst:
+>  Should go under the "Network emulation" part of the system
+>  manual, I think.
 
-> This patch adds supports for Control-Flow Integrity checks
-> on indirect function calls.
-> 
-> Requires the use of clang, and link-time optimizations
-> 
-> Changes in v3:
-> 
-> - clang 11+ warnings are now handled directly at the source,
-> instead of disabling specific warnings for the whole code.
-> Some more work may be needed here to polish the patch, I
-> would kindly ask for a review from the corresponding
-> maintainers
+Maybe existing memory emulation 'txt' files need to be converted into '.rst=
+',
+and along with virtio-pmem.rst could be moved to a new section?
 
-Process question :)
-
-Would you prefer to have this series merged in one go, or should
-maintainers pick the patches for their subsystem?
-
-> - Remove configure-time checks for toolchain compatibility
-> with LTO.
-> - the decorator to disable cfi checks on functions has
-> been renamed and moved to include/qemu/compiler.h
-> - configure-time checks for cfi support and dependencies
-> has been moved from configure to meson
-> 
-> Link to v2: https://www.mail-archive.com/qemu-devel@nongnu.org/msg753675.html
-> Link to v1: https://www.mail-archive.com/qemu-devel@nongnu.org/msg718786.html
-> 
-> Daniele Buono (9):
->   fuzz: Make fork_fuzz.ld compatible with LLVM's LLD
->   s390x: fix clang 11 warnings in cpu_models.c
->   hw/usb: reorder fields in UASStatus
->   s390x: Avoid variable size warning in ipl.h
->   scsi: fix overflow in scsi_disk_new_request_dump
->   configure,meson: add option to enable LTO
->   cfi: Initial support for cfi-icall in QEMU
->   check-block: enable iotests with cfi-icall
->   configure/meson: support Control-Flow Integrity
-> 
->  accel/tcg/cpu-exec.c          | 11 +++++++++
->  configure                     | 26 ++++++++++++++++++++
->  hw/s390x/ipl.h                |  4 +--
->  hw/scsi/scsi-disk.c           |  4 +++
->  hw/usb/dev-uas.c              |  2 +-
->  include/qemu/compiler.h       | 12 +++++++++
->  meson.build                   | 46 +++++++++++++++++++++++++++++++++++
->  meson_options.txt             |  4 +++
->  plugins/core.c                | 37 ++++++++++++++++++++++++++++
->  plugins/loader.c              |  7 ++++++
->  target/s390x/cpu_models.c     |  8 +++---
->  tcg/tci.c                     |  7 ++++++
->  tests/check-block.sh          | 18 ++++++++------
->  tests/qtest/fuzz/fork_fuzz.ld | 12 ++++++++-
->  util/main-loop.c              | 11 +++++++++
->  util/oslib-posix.c            | 11 +++++++++
->  16 files changed, 205 insertions(+), 15 deletions(-)
-> 
-
+Thanks,
+Pankaj
 
