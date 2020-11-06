@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7CB72A8DCB
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:55:52 +0100 (CET)
-Received: from localhost ([::1]:48796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A792A8DC5
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:51:03 +0100 (CET)
+Received: from localhost ([::1]:36500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kasqt-00075u-Qf
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:55:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47438)
+	id 1kasmE-0001w4-6i
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:51:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasSM-0005tm-Mt
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:30 -0500
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:46562)
+ id 1kasSE-0005di-5S
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:22 -0500
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:47055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasSC-0007ED-Vm
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:30 -0500
-Received: by mail-pg1-x541.google.com with SMTP id w4so2858770pgg.13
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:30:13 -0800 (PST)
+ id 1kasSB-0007Fk-TD
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:30:21 -0500
+Received: by mail-pl1-x643.google.com with SMTP id g11so11785pll.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:30:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=X069CiQ8RfhdePwhlJh4L+vOpoRIhJZjo/+F//DMvos=;
- b=hWfZw76tIAopRt9JUUbxhcXJJAXWvF265V5ztFcYBz/B0G5dw0hCti5EyxYA8ipGKS
- WIyY9hDDSs4GDP1xAECR+P9T6qA935U3ZjFaqG2ITyrjT2MmrX6HERdon/7ZeLLqUVeb
- jLUrJ6mO8OcONSVS+euwjko/N9SUhsuaJBkZOsBk0coag/rkHxod2bcrPsnvX+URAejs
- NBsUk9pbtAJIfoJgPoEsransOcxUB558okPrVhYtxBLGrqnJsWlzCKUPPua70qliW6f6
- IdIpYRVaGUZQHR78oVdQxPK6IUzKT8nrHr1ZhZaDGsmc01bE0Hj8v5u/tttKj4LfApos
- IXSQ==
+ bh=vrSqwZKXMyaSyRVRtm4Hh+vS+LTe1orOUMFlnbJhADM=;
+ b=G6hAM3hIi28RAVNWEStLM2rNDVdFf0W9pSyPNmCzYHmAt1ZLLzUxjjCVHcVoj7jCjz
+ Q9/HFnVNEptMNSHjzjl2bwMnDQC+WBcyJt7TksP859x2/ZN8F3cc12Xl4ABeKasquXdF
+ qt/tgM75gi0cUvnJXhXj1k70urcWwlQzJsonXEaw75PI9L0vl7zv8wtpv818q3nWZyYs
+ /DqeN6JvScQWzTRAuV/xpUUgKfY6Idl+IV6tQQRHDZHtP2APrAV2XgWyotijRtvJnbUI
+ It9a9e3/m6x9BdKAzJjvnML2llNw2K8phx2XF43IKTM+mWir6QCAUIObR1oTnyTXBwrZ
+ +5jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=X069CiQ8RfhdePwhlJh4L+vOpoRIhJZjo/+F//DMvos=;
- b=DZFKDpVngJWsqPLTygXAakhAtVWXj1RUzNEbeG6KecTONP4vZTA+q+uSDgt1m9dkqy
- D5NIAfJwBQiVukMbZqTNhcHYndLPVToBKv2gUVdfUn0ETtWsP31URWqByACWp1fxk/uj
- BUeXgJuvyvE9Bzca8ig0hsyT9m0IirEzKBJOwKNpMP4qnOeD+zxTxfftzuEacXeYtoH3
- pGTzSpsm+UVWZ1B5Y+8/0XP98787qNFtTW6zxh8IrxBc2SVxtDJhEZEUKTZnJ9DnL3tu
- 3uVmBUQfdzbw48GCzEA8zrwSGH++6umjWiIIyxM4bpMQKft5VZNjVE4xDjA+6DUvAW5F
- JP2Q==
-X-Gm-Message-State: AOAM533p1k6REMxSrxDxOjg2Emc+S9N9JRTfnGtzbdMuCmETestrzuy2
- crwWK688SQnoGAnXtYAEVqUBO0A07CmC3Q==
-X-Google-Smtp-Source: ABdhPJwiOrYh7BphkTVTM4tS63LVlREuywa6wrj2QGtbWHGAbZifzlePD4PC2dVB7OdJ+XR90DwohA==
-X-Received: by 2002:a17:90a:e997:: with SMTP id
- v23mr129407pjy.195.1604633411905; 
- Thu, 05 Nov 2020 19:30:11 -0800 (PST)
+ bh=vrSqwZKXMyaSyRVRtm4Hh+vS+LTe1orOUMFlnbJhADM=;
+ b=rWNpwCwKP9G6al5Jpb3j2WuVxvjgLKMZyBQlLWc0cuTZLxkfy2ekHp2svh1ywcdNhQ
+ BhQ9F+dYCI1Mn2Cxcv3tLtsYieRPl2o12FLFHcqI7tMKDdxhc+7xD+jI2xt1IQsCRG11
+ +8W/DqjDBpAHef2JvARqfZIOLrEuBylt9GWVncAZRX3YdAF3v0ZN791wKb/zhQLbZt/w
+ uyuz2aAJFKLp2OAWl9A0qWi7HHC92TDTbutAVa9BcxNHi7BLT6KJCt/GPbK6LvFyz83C
+ 1IkQvwoKPSk+FngWVyFWzaULKhXcDb1Lvi4pFhhmRZFkktU0AWK8gqpdgesvPEXMbOkw
+ viWQ==
+X-Gm-Message-State: AOAM530vSsmjb1bkIVvxFdj+zSelWX897ANmtce6kg5YpQgwl2LQiYUx
+ DFiiZIHnY2FgHhXi1JXA0C7bjTKefF8ARw==
+X-Google-Smtp-Source: ABdhPJy18AYH1Dsf2PDRQRLz6TFG5teLIJ1o4AOTnY3JThL2/1hG1pFJaUrmS2VzkEmDTHLgCK2RCQ==
+X-Received: by 2002:a17:902:c20a:b029:d6:b2d6:8006 with SMTP id
+ 10-20020a170902c20ab02900d6b2d68006mr111993pll.31.1604633414342; 
+ Thu, 05 Nov 2020 19:30:14 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.30.09
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.30.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:30:10 -0800 (PST)
+ Thu, 05 Nov 2020 19:30:12 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 34/41] tcg/riscv: Support split-wx code generation
-Date: Thu,  5 Nov 2020 19:29:14 -0800
-Message-Id: <20201106032921.600200-35-richard.henderson@linaro.org>
+Subject: [PATCH v3 35/41] accel/tcg: Add mips support to
+ alloc_code_gen_buffer_splitwx_memfd
+Date: Thu,  5 Nov 2020 19:29:15 -0800
+Message-Id: <20201106032921.600200-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::541;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x541.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::643;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x643.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,153 +91,88 @@ Cc: j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Re-use the 256MiB region handling from alloc_code_gen_buffer_anon,
+and replace that with the shared file mapping.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/riscv/tcg-target.h     |  2 +-
- tcg/riscv/tcg-target.c.inc | 41 +++++++++++++++++++++-----------------
- 2 files changed, 24 insertions(+), 19 deletions(-)
+ accel/tcg/translate-all.c | 46 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 38 insertions(+), 8 deletions(-)
 
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index 3c2e8305b0..0eb19f2b11 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -179,6 +179,6 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_POOL_LABELS
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 17df6c94fa..b49aaf1026 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1137,24 +1137,40 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
  
- #define TCG_TARGET_HAS_MEMORY_BSWAP 0
--#define TCG_TARGET_SUPPORT_MIRROR   0
-+#define TCG_TARGET_SUPPORT_MIRROR   1
- 
- #endif
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 02beb86977..5c1e0f8fc1 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -425,41 +425,44 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
-  * Relocations
-  */
- 
--static bool reloc_sbimm12(tcg_insn_unit *code_ptr, tcg_insn_unit *target)
-+static bool reloc_sbimm12(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
+ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
  {
--    intptr_t offset = (intptr_t)target - (intptr_t)code_ptr;
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
+-    void *buf_rw, *buf_rx;
++    void *buf_rw = NULL, *buf_rx = MAP_FAILED;
+     int fd = -1;
  
-     tcg_debug_assert((offset & 1) == 0);
-     if (offset == sextreg(offset, 0, 12)) {
--        code_ptr[0] |= encode_sbimm12(offset);
-+        *src_rw |= encode_sbimm12(offset);
-         return true;
++#ifdef __mips__
++    /* Find space for the RX mapping, vs the 256MiB regions. */
++    if (!alloc_code_gen_buffer_anon(size, PROT_NONE,
++                                    MAP_PRIVATE | MAP_ANONYMOUS |
++                                    MAP_NORESERVE, errp)) {
++        return false;
++    }
++    /* The size of the mapping may have been adjusted. */
++    size = tcg_ctx->code_gen_buffer_size;
++    buf_rx = tcg_ctx->code_gen_buffer;
++#endif
++
+     buf_rw = qemu_memfd_alloc("tcg-jit", size, 0, &fd, errp);
+     if (buf_rw == NULL) {
+-        return false;
++        goto fail;
      }
  
-     return false;
++#ifdef __mips__
++    void *tmp = mmap(buf_rx, size, PROT_READ | PROT_EXEC,
++                     MAP_SHARED | MAP_FIXED, fd, 0);
++    if (tmp != buf_rx) {
++        goto fail_rx;
++    }
++#else
+     buf_rx = mmap(NULL, size, PROT_READ | PROT_EXEC, MAP_SHARED, fd, 0);
+     if (buf_rx == MAP_FAILED) {
+-        error_setg_errno(errp, errno,
+-                         "failed to map shared memory for execute");
+-        munmap(buf_rw, size);
+-        close(fd);
+-        return false;
++        goto fail_rx;
+     }
+-    close(fd);
++#endif
+ 
++    close(fd);
+     tcg_ctx->code_gen_buffer = buf_rw;
+     tcg_ctx->code_gen_buffer_size = size;
+     tcg_splitwx_diff = buf_rx - buf_rw;
+@@ -1163,6 +1179,20 @@ static bool alloc_code_gen_buffer_splitwx_memfd(size_t size, Error **errp)
+     qemu_madvise(buf_rw, size, QEMU_MADV_HUGEPAGE);
+     qemu_madvise(buf_rx, size, QEMU_MADV_HUGEPAGE);
+     return true;
++
++ fail_rx:
++    error_setg_errno(errp, errno, "failed to map shared memory for execute");
++ fail:
++    if (buf_rx != MAP_FAILED) {
++        munmap(buf_rx, size);
++    }
++    if (buf_rw) {
++        munmap(buf_rw, size);
++    }
++    if (fd >= 0) {
++        close(fd);
++    }
++    return false;
  }
+ #endif /* CONFIG_POSIX */
  
--static bool reloc_jimm20(tcg_insn_unit *code_ptr, tcg_insn_unit *target)
-+static bool reloc_jimm20(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
- {
--    intptr_t offset = (intptr_t)target - (intptr_t)code_ptr;
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
- 
-     tcg_debug_assert((offset & 1) == 0);
-     if (offset == sextreg(offset, 0, 20)) {
--        code_ptr[0] |= encode_ujimm20(offset);
-+        *src_rw |= encode_ujimm20(offset);
-         return true;
-     }
- 
-     return false;
- }
- 
--static bool reloc_call(tcg_insn_unit *code_ptr, const tcg_insn_unit *target)
-+static bool reloc_call(tcg_insn_unit *src_rw, const tcg_insn_unit *target)
- {
--    intptr_t offset = (intptr_t)target - (intptr_t)code_ptr;
-+    const tcg_insn_unit *src_rx = tcg_splitwx_to_rx(src_rw);
-+    intptr_t offset = (intptr_t)target - (intptr_t)src_rx;
-     int32_t lo = sextreg(offset, 0, 12);
-     int32_t hi = offset - lo;
- 
-     if (offset == hi + lo) {
--        code_ptr[0] |= encode_uimm20(hi);
--        code_ptr[1] |= encode_imm12(lo);
-+        src_rw[0] |= encode_uimm20(hi);
-+        src_rw[1] |= encode_imm12(lo);
-         return true;
-     }
- 
-@@ -532,7 +535,7 @@ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
-     if (tmp == (int32_t)tmp) {
-         tcg_out_opc_upper(s, OPC_AUIPC, rd, 0);
-         tcg_out_opc_imm(s, OPC_ADDI, rd, rd, 0);
--        ret = reloc_call(s->code_ptr - 2, (tcg_insn_unit *)val);
-+        ret = reloc_call(s->code_ptr - 2, (const tcg_insn_unit *)val);
-         tcg_debug_assert(ret == true);
-         return;
-     }
-@@ -917,7 +920,7 @@ QEMU_BUILD_BUG_ON(TCG_TARGET_REG_BITS < TARGET_LONG_BITS);
- QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) > 0);
- QEMU_BUILD_BUG_ON(TLB_MASK_TABLE_OFS(0) < -(1 << 11));
- 
--static void tcg_out_goto(TCGContext *s, tcg_insn_unit *target)
-+static void tcg_out_goto(TCGContext *s, const tcg_insn_unit *target)
- {
-     tcg_out_opc_jump(s, OPC_JAL, TCG_REG_ZERO, 0);
-     bool ok = reloc_jimm20(s->code_ptr - 1, target);
-@@ -993,7 +996,8 @@ static void add_qemu_ldst_label(TCGContext *s, int is_ld, TCGMemOpIdx oi,
-     label->datahi_reg = datahi;
-     label->addrlo_reg = addrlo;
-     label->addrhi_reg = addrhi;
--    label->raddr = raddr;
-+    /* TODO: Cast goes away when all hosts converted */
-+    label->raddr = (void *)tcg_splitwx_to_rx(raddr);
-     label->label_ptr[0] = label_ptr[0];
- }
- 
-@@ -1012,7 +1016,7 @@ static bool tcg_out_qemu_ld_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-     }
- 
-     /* resolve label address */
--    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
-+    if (!reloc_sbimm12(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
-         return false;
-     }
- 
-@@ -1046,7 +1050,7 @@ static bool tcg_out_qemu_st_slow_path(TCGContext *s, TCGLabelQemuLdst *l)
-     }
- 
-     /* resolve label address */
--    if (!reloc_sbimm12(l->label_ptr[0], s->code_ptr)) {
-+    if (!reloc_sbimm12(l->label_ptr[0], tcg_splitwx_to_rx(s->code_ptr))) {
-         return false;
-     }
- 
-@@ -1232,7 +1236,7 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args, bool is_64)
- #endif
- }
- 
--static tcg_insn_unit *tb_ret_addr;
-+static const tcg_insn_unit *tb_ret_addr;
- 
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg *args, const int *const_args)
-@@ -1780,11 +1784,12 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-     tcg_out_opc_imm(s, OPC_JALR, TCG_REG_ZERO, tcg_target_call_iarg_regs[1], 0);
- 
-     /* Return path for goto_ptr. Set return value to 0 */
--    tcg_code_gen_epilogue = s->code_ptr;
-+    /* TODO: Cast goes away when all hosts converted */
-+    tcg_code_gen_epilogue = (void *)tcg_splitwx_to_rx(s->code_ptr);
-     tcg_out_mov(s, TCG_TYPE_REG, TCG_REG_A0, TCG_REG_ZERO);
- 
-     /* TB epilogue */
--    tb_ret_addr = s->code_ptr;
-+    tb_ret_addr = tcg_splitwx_to_rx(s->code_ptr);
-     for (i = 0; i < ARRAY_SIZE(tcg_target_callee_save_regs); i++) {
-         tcg_out_ld(s, TCG_TYPE_REG, tcg_target_callee_save_regs[i],
-                    TCG_REG_SP, SAVE_OFS + i * REG_SIZE);
 -- 
 2.25.1
 
