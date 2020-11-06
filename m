@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053F42A8D99
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:38:54 +0100 (CET)
-Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340162A8D92
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 04:37:06 +0100 (CET)
+Received: from localhost ([::1]:39060 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kasaT-0001DT-2B
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:38:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46908)
+	id 1kasYj-00054h-7L
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 22:37:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRW-0004cy-K4
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:38 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37432)
+ id 1kasRY-0004hY-C0
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:40 -0500
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46557)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1kasRU-0006v4-Lw
- for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:38 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id 13so52227pfy.4
- for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:36 -0800 (PST)
+ id 1kasRW-0006vF-0W
+ for qemu-devel@nongnu.org; Thu, 05 Nov 2020 22:29:40 -0500
+Received: by mail-pg1-x543.google.com with SMTP id w4so2857760pgg.13
+ for <qemu-devel@nongnu.org>; Thu, 05 Nov 2020 19:29:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kmX00pdaVuC+SHXGXI/iAqpTaWv1k3LGabjYAKxqLXM=;
- b=XbfKkVLaa+IAQqdBtN2XUCkLzdXNr01ySCVVkwO/shkGiqT25WpNBGCEMdwxo3fGLa
- 6wgzsRCcGYeRDGzXK3y4eT8EWjxoeS1v1C4qhSqWV2K3UqNZ0eoPe2RHhg98S+jOF5LL
- PYpk5oWzYenqVx0xVelAiXZNSs3vbM7iii4DWIpqJktn2j9Tk1VsVX5yjpym71Gf4acM
- Ir1p5MSKbSVQLA2zmiN+NhZy7WsH6qiR/Fp8jueu3DRLvdUhM1VxH5Fekm8hkby7SnHc
- ttIpYvOb4rTXywlCVKlN7CI/CKl+Lz+uMJX/j09qc1Ad5+vtUNBDPPrtEU/SFEFqeTqO
- KZeg==
+ bh=FN7eaRY1DFewRq+5QytfG73XvKQyLklp5pw6gaXWtVo=;
+ b=aTl3CKeeAoIXQL8RygtWkPZrXgWy7FbT9z/2AwL2LOPDwwXvDFGfKCwgr8yic5d/BI
+ r0o1JcO6UMAHO++B2BedmVpNd3fMgrA1Zy+ogPfovE8GE3H/p8jrLV/999LFfDOv95U+
+ k0laMeeWla6lRwqymnWj0poM5oupdClDQXAukR1eF66wx/2+VC4QEVrKbi7EU6ZRyamt
+ jtrviS4eGO9wqfj06bnxxq0GoK6lQaYUY6q9fHFLPXL677xZgpBJOIe6iH2IH7ESEMrb
+ 42kvr+l9Bnaps/a4ZS2FEOpY2MttaZqE5cMVI4ag1lXLWiSjYck1RqF8e3IZghIZXX9x
+ O8kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kmX00pdaVuC+SHXGXI/iAqpTaWv1k3LGabjYAKxqLXM=;
- b=Mh9NfWfutaEfzWly6Y4O2kOehqMJzE1RqF0dbguoTm7FcztPQyJoA+dckWvZ4ysmjC
- FhA+sWRhhb8+0OEI9Z9rOchs3UpvhSXUpMYyY7xAOqwCZZkOg9pVGYE9EVSQecacfnxJ
- i6vxZSj+HWx+4jNov2qjG/YKKgzIYM2oIMpFh817jeb/PnUoEN3+mgYGu5T2KOmgD3wt
- jve/zbXa5uDL3YCJXvNFsRncro54lx3M+YbPW8lMNyaCFzsxHNCFsrFzB0jBN4wBWXro
- M/CkdJDl0uyp1PoHYH3UysqK2BeFSK4R6Ku4HyxiuPzq71PrdhvG/0f1QE2K+wU9x1Gf
- JIbg==
-X-Gm-Message-State: AOAM530GzP5HoJSISW8yMt8zeBgh2C7FlBWMG3Qw42382Djxfgz3rwY6
- GApodgQzjUYNZTDaFoBNBtOpqsNCBEJ0Rw==
-X-Google-Smtp-Source: ABdhPJxwQOhRBeBZcIbB19oHb1A8H/Mdkh4Zqd70ACLLbbvWSshHthZqRbMEX7zoKy4SsBUTReosqQ==
-X-Received: by 2002:a05:6a00:8ca:b029:15d:7af3:8360 with SMTP id
- s10-20020a056a0008cab029015d7af38360mr12261pfu.12.1604633374845; 
- Thu, 05 Nov 2020 19:29:34 -0800 (PST)
+ bh=FN7eaRY1DFewRq+5QytfG73XvKQyLklp5pw6gaXWtVo=;
+ b=QZzn4aYX/Y7ltyH1wnrrp0jN0pYpBtTwVL2b1IPRKY/tpllnckx4HFPBQI6HGzI6fO
+ AdmEAdIIwqn3XkyvsLEkSj+LR327E38lqIsY7KWTaTdmB9+G7HaVlyhP4Y8vAcS90yvH
+ o2gknITH1MDGTgHZFjrUZu2Y4zgznxzTKBDSBiUN1zAxalPTSoMd+Mty7paiMwMv3xlb
+ N2Pem2iJOWcOxdH4SAotQtJSfUMSBBh2H0bU78Ke9ODVl9wmDcJ1iQSoSL8lfPbaYQh7
+ IVX+wbD0u1+rmpEm3BELc3p3/bxpdedammg4p5TUd9NV84b0UdGhqLzBf42KmoLxJKmg
+ jVVA==
+X-Gm-Message-State: AOAM531laPjNZ5U9utNCf/sGfb3fE/8lFpOs6S++TX3mqZkJXFkQcvPS
+ b249J7Q81u06w8L1Qxu6qBJ1M+pohl0bCw==
+X-Google-Smtp-Source: ABdhPJxDVVK3VFIuzD3qURUJsIXKPehOKdr1Rbx7lr84fd1KKyqMcCb2/kmDADlfX0xcWXc6qO/ZgQ==
+X-Received: by 2002:a17:90a:c201:: with SMTP id e1mr177735pjt.16.1604633376114; 
+ Thu, 05 Nov 2020 19:29:36 -0800 (PST)
 Received: from localhost.localdomain (76-14-210-194.or.wavecable.com.
  [76.14.210.194])
- by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.33
+ by smtp.gmail.com with ESMTPSA id i10sm40773pfd.60.2020.11.05.19.29.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 05 Nov 2020 19:29:34 -0800 (PST)
+ Thu, 05 Nov 2020 19:29:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 09/41] tcg: Adjust tcg_register_jit for const
-Date: Thu,  5 Nov 2020 19:28:49 -0800
-Message-Id: <20201106032921.600200-10-richard.henderson@linaro.org>
+Subject: [PATCH v3 10/41] tcg: Adjust tb_target_set_jmp_target for split-wx
+Date: Thu,  5 Nov 2020 19:28:50 -0800
+Message-Id: <20201106032921.600200-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106032921.600200-1-richard.henderson@linaro.org>
 References: <20201106032921.600200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::543;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x543.google.com
 X-detected-operating-system: by eggs.gnu.org: No matching host in p0f cache.
  That's all we know.
 X-Spam_score_int: -20
@@ -90,186 +89,318 @@ Cc: j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We must change all targets at once, since all must match
-the declaration in tcg.c.
+Pass both rx and rw addresses to tb_target_set_jmp_target.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h            |  2 +-
- tcg/tcg.c                    | 10 +++++-----
- tcg/aarch64/tcg-target.c.inc |  2 +-
- tcg/arm/tcg-target.c.inc     |  2 +-
- tcg/i386/tcg-target.c.inc    |  2 +-
- tcg/mips/tcg-target.c.inc    |  2 +-
- tcg/ppc/tcg-target.c.inc     |  2 +-
- tcg/riscv/tcg-target.c.inc   |  2 +-
- tcg/s390/tcg-target.c.inc    |  2 +-
- tcg/sparc/tcg-target.c.inc   |  2 +-
- 10 files changed, 14 insertions(+), 14 deletions(-)
+ tcg/aarch64/tcg-target.h     |  2 +-
+ tcg/arm/tcg-target.h         |  2 +-
+ tcg/i386/tcg-target.h        |  6 +++---
+ tcg/mips/tcg-target.h        |  2 +-
+ tcg/ppc/tcg-target.h         |  2 +-
+ tcg/riscv/tcg-target.h       |  2 +-
+ tcg/s390/tcg-target.h        |  8 ++++----
+ tcg/sparc/tcg-target.h       |  2 +-
+ tcg/tci/tcg-target.h         |  6 +++---
+ accel/tcg/cpu-exec.c         |  4 +++-
+ tcg/aarch64/tcg-target.c.inc | 12 ++++++------
+ tcg/mips/tcg-target.c.inc    |  8 ++++----
+ tcg/ppc/tcg-target.c.inc     | 16 ++++++++--------
+ tcg/sparc/tcg-target.c.inc   | 14 +++++++-------
+ 14 files changed, 44 insertions(+), 42 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index b2ba16ea8c..67d57695c2 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1250,7 +1250,7 @@ typedef uintptr_t tcg_prologue_fn(CPUArchState *env, const void *tb_ptr);
- extern tcg_prologue_fn *tcg_qemu_tb_exec;
- #endif
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index d0a6a059b7..91313d93be 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -158,7 +158,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+     __builtin___clear_cache((char *)rx, (char *)(rx + len));
+ }
  
--void tcg_register_jit(void *buf, size_t buf_size);
-+void tcg_register_jit(const void *buf, size_t buf_size);
+-void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
  
- #if TCG_TARGET_MAYBE_vec
- /* Return zero if the tuple (opc, type, vece) is unsupportable;
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index e5d2208e88..07a4bd2c57 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -96,7 +96,7 @@ typedef struct QEMU_PACKED {
-     DebugFrameFDEHeader fde;
- } DebugFrameHeader;
+ #ifdef CONFIG_SOFTMMU
+ #define TCG_TARGET_NEED_LDST_LABELS
+diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
+index fa88b24e43..b21a2fb6a1 100644
+--- a/tcg/arm/tcg-target.h
++++ b/tcg/arm/tcg-target.h
+@@ -144,7 +144,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ }
  
--static void tcg_register_jit_int(void *buf, size_t size,
-+static void tcg_register_jit_int(const void *buf, size_t size,
-                                  const void *debug_frame,
-                                  size_t debug_frame_size)
-     __attribute__((unused));
-@@ -1134,7 +1134,7 @@ void tcg_prologue_init(TCGContext *s)
-     total_size -= prologue_size;
-     s->code_gen_buffer_size = total_size;
+ /* not defined -- call should be eliminated at compile time */
+-void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
  
--    tcg_register_jit(s->code_gen_buffer, total_size);
-+    tcg_register_jit(tcg_splitwx_to_rx(s->code_gen_buffer), total_size);
+ #ifdef CONFIG_SOFTMMU
+ #define TCG_TARGET_NEED_LDST_LABELS
+diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
+index 8323e72639..f52ba0ffec 100644
+--- a/tcg/i386/tcg-target.h
++++ b/tcg/i386/tcg-target.h
+@@ -211,11 +211,11 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ {
+ }
  
- #ifdef DEBUG_DISAS
-     if (qemu_loglevel_mask(CPU_LOG_TB_OUT_ASM)) {
-@@ -4502,7 +4502,7 @@ static int find_string(const char *strtab, const char *str)
+-static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+-                                            uintptr_t jmp_addr, uintptr_t addr)
++static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                                            uintptr_t jmp_rw, uintptr_t addr)
+ {
+     /* patch the branch destination */
+-    qatomic_set((int32_t *)jmp_addr, addr - (jmp_addr + 4));
++    qatomic_set((int32_t *)jmp_rw, addr - (jmp_rx + 4));
+     /* no need to flush icache explicitly */
+ }
+ 
+diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
+index 47b1226ee9..cd548dacec 100644
+--- a/tcg/mips/tcg-target.h
++++ b/tcg/mips/tcg-target.h
+@@ -216,7 +216,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+     cacheflush((void *)rx, len, ICACHE);
+ }
+ 
+-void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #ifdef CONFIG_SOFTMMU
+ #define TCG_TARGET_NEED_LDST_LABELS
+diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
+index fbb6dc1b47..8f3e4c924a 100644
+--- a/tcg/ppc/tcg-target.h
++++ b/tcg/ppc/tcg-target.h
+@@ -176,7 +176,7 @@ extern bool have_vsx;
+ #define TCG_TARGET_HAS_cmpsel_vec       0
+ 
+ void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len);
+-void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
+index 0fa6ae358e..e03fd17427 100644
+--- a/tcg/riscv/tcg-target.h
++++ b/tcg/riscv/tcg-target.h
+@@ -169,7 +169,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ }
+ 
+ /* not defined -- call should be eliminated at compile time */
+-void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+ 
+ #define TCG_TARGET_DEFAULT_MO (0)
+ 
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+index c3dc2e8938..c5a749e425 100644
+--- a/tcg/s390/tcg-target.h
++++ b/tcg/s390/tcg-target.h
+@@ -150,12 +150,12 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ {
+ }
+ 
+-static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+-                                            uintptr_t jmp_addr, uintptr_t addr)
++static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                                            uintptr_t jmp_rw, uintptr_t addr)
+ {
+     /* patch the branch destination */
+-    intptr_t disp = addr - (jmp_addr - 2);
+-    qatomic_set((int32_t *)jmp_addr, disp / 2);
++    intptr_t disp = addr - (jmp_rx - 2);
++    qatomic_set((int32_t *)jmp_rw, disp / 2);
+     /* no need to flush icache explicitly */
+ }
+ 
+diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
+index c27c40231e..87e2be61e6 100644
+--- a/tcg/sparc/tcg-target.h
++++ b/tcg/sparc/tcg-target.h
+@@ -178,7 +178,7 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
      }
  }
  
--static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
-+static void tcg_register_jit_int(const void *buf_ptr, size_t buf_size,
-                                  const void *debug_frame,
-                                  size_t debug_frame_size)
- {
-@@ -4704,13 +4704,13 @@ static void tcg_register_jit_int(void *buf_ptr, size_t buf_size,
- /* No support for the feature.  Provide the entry point expected by exec.c,
-    and implement the internal function we declared earlier.  */
+-void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t);
++void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
  
--static void tcg_register_jit_int(void *buf, size_t size,
-+static void tcg_register_jit_int(const void *buf, size_t size,
-                                  const void *debug_frame,
-                                  size_t debug_frame_size)
+ #define TCG_TARGET_NEED_POOL_LABELS
+ 
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 49f3291f8a..a19a6b06e5 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -201,11 +201,11 @@ static inline void flush_idcache_range(uintptr_t rx, uintptr_t rw, size_t len)
+ 
+ #define TCG_TARGET_HAS_MEMORY_BSWAP     1
+ 
+-static inline void tb_target_set_jmp_target(uintptr_t tc_ptr,
+-                                            uintptr_t jmp_addr, uintptr_t addr)
++static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                                            uintptr_t jmp_rw, uintptr_t addr)
  {
+     /* patch the branch destination */
+-    qatomic_set((int32_t *)jmp_addr, addr - (jmp_addr + 4));
++    qatomic_set((int32_t *)jmp_rw, addr - (jmp_rx + 4));
+     /* no need to flush icache explicitly */
  }
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
- }
- #endif /* ELF_HOST_MACHINE */
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 1e3cb570f6..272d596e0c 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -354,7 +354,9 @@ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr)
+     if (TCG_TARGET_HAS_direct_jump) {
+         uintptr_t offset = tb->jmp_target_arg[n];
+         uintptr_t tc_ptr = (uintptr_t)tb->tc.ptr;
+-        tb_target_set_jmp_target(tc_ptr, tc_ptr + offset, addr);
++        uintptr_t jmp_rx = tc_ptr + offset;
++        uintptr_t jmp_rw = jmp_rx - tcg_splitwx_diff;
++        tb_target_set_jmp_target(tc_ptr, jmp_rx, jmp_rw, addr);
+     } else {
+         tb->jmp_target_arg[n] = addr;
+     }
 diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index 6d8152c468..9ace859db3 100644
+index 9ace859db3..fea784cf75 100644
 --- a/tcg/aarch64/tcg-target.c.inc
 +++ b/tcg/aarch64/tcg-target.c.inc
-@@ -2964,7 +2964,7 @@ static const DebugFrame debug_frame = {
+@@ -1340,21 +1340,21 @@ static inline void tcg_out_call(TCGContext *s, const tcg_insn_unit *target)
      }
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
  }
-diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-index a197e6bc45..9b9400f164 100644
---- a/tcg/arm/tcg-target.c.inc
-+++ b/tcg/arm/tcg-target.c.inc
-@@ -2353,7 +2353,7 @@ static const DebugFrame debug_frame = {
+ 
+-void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+-                              uintptr_t addr)
++void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                              uintptr_t jmp_rw, uintptr_t addr)
+ {
+     tcg_insn_unit i1, i2;
+     TCGType rt = TCG_TYPE_I64;
+     TCGReg  rd = TCG_REG_TMP;
+     uint64_t pair;
+ 
+-    ptrdiff_t offset = addr - jmp_addr;
++    ptrdiff_t offset = addr - jmp_rx;
+ 
+     if (offset == sextract64(offset, 0, 26)) {
+         i1 = I3206_B | ((offset >> 2) & 0x3ffffff);
+         i2 = NOP;
+     } else {
+-        offset = (addr >> 12) - (jmp_addr >> 12);
++        offset = (addr >> 12) - (jmp_rx >> 12);
+ 
+         /* patch ADRP */
+         i1 = I3406_ADRP | (offset & 3) << 29 | (offset & 0x1ffffc) << (5 - 2) | rd;
+@@ -1362,8 +1362,8 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+         i2 = I3401_ADDI | rt << 31 | (addr & 0xfff) << 10 | rd << 5 | rd;
      }
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+     pair = (uint64_t)i2 << 32 | i1;
+-    qatomic_set((uint64_t *)jmp_addr, pair);
+-    flush_idcache_range(jmp_addr, jmp_addr, 8);
++    qatomic_set((uint64_t *)jmp_rw, pair);
++    flush_idcache_range(jmp_rx, jmp_rw, 8);
  }
-diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 0ac1ef3d82..7f74c77d7f 100644
---- a/tcg/i386/tcg-target.c.inc
-+++ b/tcg/i386/tcg-target.c.inc
-@@ -3998,7 +3998,7 @@ static const DebugFrame debug_frame = {
- #endif
  
- #if defined(ELF_HOST_MACHINE)
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
- }
+ static inline void tcg_out_goto_label(TCGContext *s, TCGLabel *l)
 diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-index 6d2c369a85..e9c8c24741 100644
+index e9c8c24741..52638e920c 100644
 --- a/tcg/mips/tcg-target.c.inc
 +++ b/tcg/mips/tcg-target.c.inc
-@@ -2703,7 +2703,7 @@ static const DebugFrame debug_frame = {
-     }
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+@@ -2657,11 +2657,11 @@ static void tcg_target_init(TCGContext *s)
+     tcg_regset_set_reg(s->reserved_regs, TCG_REG_GP);   /* global pointer */
  }
+ 
+-void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+-                              uintptr_t addr)
++void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                              uintptr_t jmp_rw, uintptr_t addr)
+ {
+-    qatomic_set((uint32_t *)jmp_addr, deposit32(OPC_J, 0, 26, addr >> 2));
+-    flush_idcache_range(jmp_addr, jmp_addr, 4);
++    qatomic_set((uint32_t *)jmp_rw, deposit32(OPC_J, 0, 26, addr >> 2));
++    flush_idcache_range(jmp_rx, jmp_rw, 4);
+ }
+ 
+ typedef struct {
 diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-index 36129b976f..ff667b1531 100644
+index ff667b1531..bc0057eedf 100644
 --- a/tcg/ppc/tcg-target.c.inc
 +++ b/tcg/ppc/tcg-target.c.inc
-@@ -3847,7 +3847,7 @@ static DebugFrame debug_frame = {
-     }
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     uint8_t *p = &debug_frame.fde_reg_ofs[3];
-     int i;
-diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-index 4416a93e1f..025e3cd0bb 100644
---- a/tcg/riscv/tcg-target.c.inc
-+++ b/tcg/riscv/tcg-target.c.inc
-@@ -1907,7 +1907,7 @@ static const DebugFrame debug_frame = {
-     }
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+@@ -1722,13 +1722,13 @@ static void tcg_out_mb(TCGContext *s, TCGArg a0)
+     tcg_out32(s, insn);
  }
-diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
-index 37f4dc4cfd..1444914428 100644
---- a/tcg/s390/tcg-target.c.inc
-+++ b/tcg/s390/tcg-target.c.inc
-@@ -2620,7 +2620,7 @@ static const DebugFrame debug_frame = {
-     }
- };
  
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
+-void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+-                              uintptr_t addr)
++void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                              uintptr_t jmp_rw, uintptr_t addr)
  {
-     tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+     if (TCG_TARGET_REG_BITS == 64) {
+         tcg_insn_unit i1, i2;
+         intptr_t tb_diff = addr - tc_ptr;
+-        intptr_t br_diff = addr - (jmp_addr + 4);
++        intptr_t br_diff = addr - (jmp_rx + 4);
+         uint64_t pair;
+ 
+         /* This does not exercise the range of the branch, but we do
+@@ -1752,13 +1752,13 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+ 
+         /* As per the enclosing if, this is ppc64.  Avoid the _Static_assert
+            within qatomic_set that would fail to build a ppc32 host.  */
+-        qatomic_set__nocheck((uint64_t *)jmp_addr, pair);
+-        flush_idcache_range(jmp_addr, jmp_addr, 8);
++        qatomic_set__nocheck((uint64_t *)jmp_rw, pair);
++        flush_idcache_range(jmp_rx, jmp_rw, 8);
+     } else {
+-        intptr_t diff = addr - jmp_addr;
++        intptr_t diff = addr - jmp_rx;
+         tcg_debug_assert(in_range_b(diff));
+-        qatomic_set((uint32_t *)jmp_addr, B | (diff & 0x3fffffc));
+-        flush_idcache_range(jmp_addr, jmp_addr, 4);
++        qatomic_set((uint32_t *)jmp_rw, B | (diff & 0x3fffffc));
++        flush_idcache_range(jmp_rx, jmp_rw, 4);
+     }
  }
+ 
 diff --git a/tcg/sparc/tcg-target.c.inc b/tcg/sparc/tcg-target.c.inc
-index 1a40911660..4c81d5f1c2 100644
+index 4c81d5f1c2..d599ae27b5 100644
 --- a/tcg/sparc/tcg-target.c.inc
 +++ b/tcg/sparc/tcg-target.c.inc
-@@ -1816,7 +1816,7 @@ static const DebugFrame debug_frame = {
-     .fde_ret_save = { 9, 15, 31 },      /* DW_CFA_register o7, i7 */
- };
- 
--void tcg_register_jit(void *buf, size_t buf_size)
-+void tcg_register_jit(const void *buf, size_t buf_size)
- {
+@@ -1821,11 +1821,11 @@ void tcg_register_jit(const void *buf, size_t buf_size)
      tcg_register_jit_int(buf, buf_size, &debug_frame, sizeof(debug_frame));
+ }
+ 
+-void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+-                              uintptr_t addr)
++void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
++                              uintptr_t jmp_rw, uintptr_t addr)
+ {
+     intptr_t tb_disp = addr - tc_ptr;
+-    intptr_t br_disp = addr - jmp_addr;
++    intptr_t br_disp = addr - jmp_rx;
+     tcg_insn_unit i1, i2;
+ 
+     /* We can reach the entire address space for ILP32.
+@@ -1834,9 +1834,9 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+     tcg_debug_assert(br_disp == (int32_t)br_disp);
+ 
+     if (!USE_REG_TB) {
+-        qatomic_set((uint32_t *)jmp_addr,
++        qatomic_set((uint32_t *)jmp_rw,
+ 		    deposit32(CALL, 0, 30, br_disp >> 2));
+-        flush_idcache_range(jmp_addr, jmp_addr, 4);
++        flush_idcache_range(jmp_rx, jmp_rw, 4);
+         return;
+     }
+ 
+@@ -1859,6 +1859,6 @@ void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_addr,
+               | INSN_IMM13((tb_disp & 0x3ff) | -0x400));
+     }
+ 
+-    qatomic_set((uint64_t *)jmp_addr, deposit64(i2, 32, 32, i1));
+-    flush_idcache_range(jmp_addr, jmp_addr, 8);
++    qatomic_set((uint64_t *)jmp_rw, deposit64(i2, 32, 32, i1));
++    flush_idcache_range(jmp_rx, jmp_rw, 8);
  }
 -- 
 2.25.1
