@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDE62A92F1
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:39:48 +0100 (CET)
-Received: from localhost ([::1]:36540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49E7A2A9300
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 10:42:49 +0100 (CET)
+Received: from localhost ([::1]:46154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kayDj-0007Zd-Vo
-	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:39:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39116)
+	id 1kayGe-0003CX-Ch
+	for lists+qemu-devel@lfdr.de; Fri, 06 Nov 2020 04:42:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <01011733ea3177e437d8999b77c73caa93266896@lizzy.crudebyte.com>)
- id 1kayCA-0006Cv-Uo
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:12 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:54727)
+ (envelope-from <22e13675874dabcb314de98134fe6142cd9864a7@lizzy.crudebyte.com>)
+ id 1kayCU-0006h2-RI
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:30 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:35461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <01011733ea3177e437d8999b77c73caa93266896@lizzy.crudebyte.com>)
- id 1kayC9-000796-7J
- for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:10 -0500
+ (envelope-from <22e13675874dabcb314de98134fe6142cd9864a7@lizzy.crudebyte.com>)
+ id 1kayCT-0007GK-AM
+ for qemu-devel@nongnu.org; Fri, 06 Nov 2020 04:38:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=cuovt0Feftktuski+XJazOvPm4C/mceIzl+3zbI0FZ8=; b=ok+CN
- syu6BAjYPGwGU0UYN2bpeYrTjLZdPh1CwzhezSepRKgrQvr2Uev6drbO1xxMBL/iBwX9J7UMdeRLJ
- SIkcsrK3FFGpBkjBxxr0EU2D9LGfaDW09bVkp6/pUF22rD0vSydGJe3J1T/qv+yFaajhqAcZAcDRr
- 6OtHteQFPJLlSmzrYNg/0Qe+eW4mwe9yl1sEp5dcxwv6K4V/YHu8ko04X7b5p2E6yUHqLK9jiYkYB
- 411lcz/91HQwdIZJelvj/8gvKOiumPOpJRwSJYXh/hmHaXF3kpZtWChkB3qOZ9I7vj9JMLOEJfWVZ
- SW7pSpOREUuL3NG2Y0urAQEHZBLRw==;
-Message-Id: <01011733ea3177e437d8999b77c73caa93266896.1604653990.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=kE1Rd2lNhe5C4t2nRY+ov+TdCYGfSEXqermgTf+ZyXo=; b=OZ1LA
+ p7wIrEQ/FaBvd24ilZddJ8vogTrHHTEcX2fzr9Z8lrNYe/hWat5PzF1DApVa81SKW9581ed7BV4SA
+ GQoixpSrLOgQspaUXYz6GrFEuIiQgXGayz20uJJGsNQ+sv9S17e+otvhTXg2F/fyFEq8WjclMbYEq
+ 7JbfI2BCyy/zZ/OtNrkvRNv5lrOdtwAACsNwU3lPX7c80GhheDzcwts/qDBx1PAwG9yIxtwNXxeUf
+ CDMvq3bo8iwZBlNbe4mHuDgL7I0ROvpUEUL7Wo1Oc8xp9gdjOo2KhHbg0Z1MgohvDwaBdvfu06DkP
+ avbCf0BGW9lBi8uspDzJHxQfqQskw==;
+Message-Id: <22e13675874dabcb314de98134fe6142cd9864a7.1604653990.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1604653990.git.qemu_oss@crudebyte.com>
 References: <cover.1604653990.git.qemu_oss@crudebyte.com>
 From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Date: Fri, 06 Nov 2020 10:13:10 +0100
-Subject: [PULL 1/4] hw/9pfs : add spaces around operator
+Subject: [PULL 3/4] hw/9pfs : add space before the open parenthesis '('
 To: qemu-devel@nongnu.org,
     Peter Maydell <peter.maydell@linaro.org>
 Cc: Greg Kurz <groug@kaod.org>, Xinhao Zhang <zhangxinhao1@huawei.com>,
  Kai Deng <dengkai1@huawei.com>
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=01011733ea3177e437d8999b77c73caa93266896@lizzy.crudebyte.com;
+ envelope-from=22e13675874dabcb314de98134fe6142cd9864a7@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/06 04:36:52
 X-ACL-Warn: Detected OS   = Linux 2.2.x-3.x [generic] [fuzzy]
@@ -68,103 +68,31 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xinhao Zhang <zhangxinhao1@huawei.com>
 
-Fix code style. Operator needs spaces both sides.
+Fix code style. Space required before the open parenthesis '('.
 
 Signed-off-by: Xinhao Zhang <zhangxinhao1@huawei.com>
 Signed-off-by: Kai Deng <dengkai1@huawei.com>
 Reported-by: Euler Robot <euler.robot@huawei.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20201030043515.1030223-1-zhangxinhao1@huawei.com>
+Message-Id: <20201030043515.1030223-3-zhangxinhao1@huawei.com>
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- hw/9pfs/9p-local.c | 10 +++++-----
- hw/9pfs/9p.c       | 16 ++++++++--------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ hw/9pfs/cofs.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
-index 3107637209..af52c1daac 100644
---- a/hw/9pfs/9p-local.c
-+++ b/hw/9pfs/9p-local.c
-@@ -162,13 +162,13 @@ static void local_mapped_file_attr(int dirfd, const char *name,
-     memset(buf, 0, ATTR_MAX);
-     while (fgets(buf, ATTR_MAX, fp)) {
-         if (!strncmp(buf, "virtfs.uid", 10)) {
--            stbuf->st_uid = atoi(buf+11);
-+            stbuf->st_uid = atoi(buf + 11);
-         } else if (!strncmp(buf, "virtfs.gid", 10)) {
--            stbuf->st_gid = atoi(buf+11);
-+            stbuf->st_gid = atoi(buf + 11);
-         } else if (!strncmp(buf, "virtfs.mode", 11)) {
--            stbuf->st_mode = atoi(buf+12);
-+            stbuf->st_mode = atoi(buf + 12);
-         } else if (!strncmp(buf, "virtfs.rdev", 11)) {
--            stbuf->st_rdev = atoi(buf+12);
-+            stbuf->st_rdev = atoi(buf + 12);
-         }
-         memset(buf, 0, ATTR_MAX);
-     }
-@@ -823,7 +823,7 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
-         if (fd == -1) {
-             goto out;
-         }
--        credp->fc_mode = credp->fc_mode|S_IFREG;
-+        credp->fc_mode = credp->fc_mode | S_IFREG;
-         if (fs_ctx->export_flags & V9FS_SM_MAPPED) {
-             /* Set cleint credentials in xattr */
-             err = local_set_xattrat(dirfd, name, credp);
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 741d222c3f..94df440fc7 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -1091,7 +1091,7 @@ static mode_t v9mode_to_mode(uint32_t mode, V9fsString *extension)
-         }
-     }
+diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
+index 55991916ec..0b321b456e 100644
+--- a/hw/9pfs/cofs.c
++++ b/hw/9pfs/cofs.c
+@@ -23,7 +23,7 @@ static ssize_t __readlink(V9fsState *s, V9fsPath *path, V9fsString *buf)
+     ssize_t len, maxlen = PATH_MAX;
  
--    if (!(ret&~0777)) {
-+    if (!(ret & ~0777)) {
-         ret |= S_IFREG;
-     }
- 
-@@ -2776,7 +2776,7 @@ static void coroutine_fn v9fs_create(void *opaque)
-         v9fs_path_unlock(s);
-     } else {
-         err = v9fs_co_open2(pdu, fidp, &name, -1,
--                            omode_to_uflags(mode)|O_CREAT, perm, &stbuf);
-+                            omode_to_uflags(mode) | O_CREAT, perm, &stbuf);
-         if (err < 0) {
-             goto out;
-         }
-@@ -3428,7 +3428,7 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-      * compute bsize factor based on host file system block size
-      * and client msize
-      */
--    bsize_factor = (s->msize - P9_IOHDRSZ)/stbuf->f_bsize;
-+    bsize_factor = (s->msize - P9_IOHDRSZ) / stbuf->f_bsize;
-     if (!bsize_factor) {
-         bsize_factor = 1;
-     }
-@@ -3440,9 +3440,9 @@ static int v9fs_fill_statfs(V9fsState *s, V9fsPDU *pdu, struct statfs *stbuf)
-      * adjust(divide) the number of blocks, free blocks and available
-      * blocks by bsize factor
-      */
--    f_blocks = stbuf->f_blocks/bsize_factor;
--    f_bfree  = stbuf->f_bfree/bsize_factor;
--    f_bavail = stbuf->f_bavail/bsize_factor;
-+    f_blocks = stbuf->f_blocks / bsize_factor;
-+    f_bfree  = stbuf->f_bfree / bsize_factor;
-+    f_bavail = stbuf->f_bavail / bsize_factor;
-     f_files  = stbuf->f_files;
-     f_ffree  = stbuf->f_ffree;
-     fsid_val = (unsigned int) stbuf->f_fsid.__val[0] |
-@@ -4185,6 +4185,6 @@ static void __attribute__((__constructor__)) v9fs_set_fd_limit(void)
-         error_report("Failed to get the resource limit");
-         exit(1);
-     }
--    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur/3);
--    open_fd_rc = rlim.rlim_cur/2;
-+    open_fd_hw = rlim.rlim_cur - MIN(400, rlim.rlim_cur / 3);
-+    open_fd_rc = rlim.rlim_cur / 2;
- }
+     buf->data = g_malloc(PATH_MAX);
+-    for(;;) {
++    for (;;) {
+         len = s->ops->readlink(&s->ctx, path, buf->data, maxlen);
+         if (len < 0) {
+             g_free(buf->data);
 -- 
 2.20.1
 
