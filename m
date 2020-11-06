@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47E222A8C21
-	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 02:35:07 +0100 (CET)
-Received: from localhost ([::1]:59448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1467F2A8C25
+	for <lists+qemu-devel@lfdr.de>; Fri,  6 Nov 2020 02:38:10 +0100 (CET)
+Received: from localhost ([::1]:35476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1kaqeg-0001ku-BV
-	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 20:35:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54194)
+	id 1kaqhd-0003iZ-5y
+	for lists+qemu-devel@lfdr.de; Thu, 05 Nov 2020 20:38:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1kaqcv-0000XM-Ip; Thu, 05 Nov 2020 20:33:21 -0500
-Received: from mail-dm6nam11on2057.outbound.protection.outlook.com
- ([40.107.223.57]:24857 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ id 1kaqcz-0000Yo-Pw; Thu, 05 Nov 2020 20:33:22 -0500
+Received: from mail-bn7nam10on2068.outbound.protection.outlook.com
+ ([40.107.92.68]:40672 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <komlodi@xilinx.com>)
- id 1kaqcp-0001YU-Iy; Thu, 05 Nov 2020 20:33:17 -0500
+ id 1kaqcp-0001YS-Ek; Thu, 05 Nov 2020 20:33:21 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dmaWjUKTw85wKpCN082S+Ht6xnSnmsn6MG/OYroJFgMTyePgRMHfrPAcjW74o/2Rs+XjJaFEN1toV9Ym9sGz5h00Q24pj3lYu/6z4ZwFiM3e8H6aQo88qWgOV0IonF4vur+8usX7m8m1ZtSMDlTrUq1hQfq68KmfcZnO24feMjKsTsPO/VVd1RJlmqtm8taN86ZxdVXqZT19cEKteqI8c8GpEdK5fzCg8OzL05l+ulBmwz2+VlElZsjp8jLE6J/Qhj/kuiFgFaUJDgaXxnD7iLXms4dD1m7rmxqmPIBwzE4UgteB50Y63a7+Qt4X8ra2V6c5qzHQfgU6jJRTHg+oYg==
+ b=oUxUSN1sGgMrLNLhlptjtTUZzXzOkQptneeWhmCYIN2mTss5f8h8Xt1TzmXA9hya1LuQgcaUZR+WSrvoJeoBoMxGGTSKMY/hdzG9gJo5hFMnOhf07i6haQXxZ736FB+BkAgiV7aQdE1MifCqld6KXr1GPwUXAa/KTecwDOlvmyvS010NWbVNZ5UpApkQQGoT5zwtjhjkPJnIvmA1qH369xLmzk/EFZAnzvpbZQWgsFa9bshgb1cnLFwBVozu4u1jzEGtjELqlmmqUz7HfR517P/Uv66Jfgbwp6qFoX5ZdGWC4JY98tyknvhv5j/H3G8QtVuQntZZsKtZ+Ejz6KPmhA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=86VOIzYt760d0BWlAUqKRdZOBwPR1di2o8CeSFdDiNQ=;
- b=StB1juQD8tqFFeyS+/eSJ6v02rA8mUpEBzfGRUcI8L3tLTQSDHYNdNHZOk3SgG39TK9gPNYB3x0FVKAjSuxQSrrbSeBV456MVxlxzy1I/JTUdPhQYTk1ZZJPc5m+JqLXiSoFabFdSbKCizGmTrjyWUc37sqOQbh1IxFZDcuAmqTOjYvlVSZRU5TDBJ4CZHcmpno3SMM3+mVYvC5ir+cdo3PGBjBiM4mUacq1CL4QlScQ1atvkkyBr+fg/CtuKz47aWQepPz5AUNjOAGghSWepKVa6FxDZwc0L4srqjp1+LHlf4sJVazp0a/R3Zqm3a+fjqVwpedmHjIrrwN4zAAyzA==
+ bh=Bwh3hijBRuOS73J1LNm0G7zEzxHyv2iuKgMzqZooqcI=;
+ b=gTGf3nFyg7xu8Ee57wyq1hSPlD9L5sHv7b/XTilma8NhhNOiF64dN+WjNMOrOLNHbDK78Mt67fsZNeLX81We6lpccAQJw4yAwBydmZuCtFHc26h2ZCG82Xm/LXF2zSXqWe1YVaIIxgWaFfjiaEnnCJglzKkieHtTl/T7sRfcXETxwfR3dy+5VnHSNjV/LGkqX7fiG7tSdXq9qCKengfwxVrtqKUho5fL/nD/Pg7dPPiGxoObhv1wlwHd0rhzuVyE+F8vFXvacwwWgKEhNtpllLEHblstq3ylSQzZlUewQ/lWWBmolrcYss/k3EuLrNSHD17C76EHQWswR0swBJK9PQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=86VOIzYt760d0BWlAUqKRdZOBwPR1di2o8CeSFdDiNQ=;
- b=DDwKA6kkMMgQ9zdbHWYXYQx4V2oMPOnmTvKKb6yr7OzlhM9UGkCvgxIvs6eRt8V4oVagmhR8POIgshWuCZ8v3xduxk9w45ivFn8+DfQudxB1qm8H5sZ0/K0+grnXpyH89XEsogWsjEtrq2UarDFXo7x6Rc31Fq9/YBWPdW84qUI=
-Received: from DM6PR06CA0095.namprd06.prod.outlook.com (2603:10b6:5:336::28)
- by DM5PR02MB2379.namprd02.prod.outlook.com (2603:10b6:3:4f::10) with
+ bh=Bwh3hijBRuOS73J1LNm0G7zEzxHyv2iuKgMzqZooqcI=;
+ b=EslWrGf/ralTzDxZPeji3aOuxH76176JYTomGkmIzdFA+2hzFa5q9QN+NcdYe4qngC4dtS81f+BCj4Z2XnhFtXRMzrfk9vzFHXtDTsrixiTch8jmEiksp9MBvLIvMAw48d6inord7m9XStKK6NTCuEJ4NwB9kPGx8noNCLVLIyo=
+Received: from DM6PR06CA0090.namprd06.prod.outlook.com (2603:10b6:5:336::23)
+ by BL0PR02MB4356.namprd02.prod.outlook.com (2603:10b6:208:41::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.29; Fri, 6 Nov
- 2020 01:33:07 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Fri, 6 Nov
+ 2020 01:33:06 +0000
 Received: from CY1NAM02FT013.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:336:cafe::e3) by DM6PR06CA0095.outlook.office365.com
- (2603:10b6:5:336::28) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:5:336:cafe::98) by DM6PR06CA0090.outlook.office365.com
+ (2603:10b6:5:336::23) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend
- Transport; Fri, 6 Nov 2020 01:33:07 +0000
+ Transport; Fri, 6 Nov 2020 01:33:06 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=bestguesspass action=none
@@ -54,7 +54,7 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
  CY1NAM02FT013.mail.protection.outlook.com (10.152.75.162) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3541.17 via Frontend Transport; Fri, 6 Nov 2020 01:33:07 +0000
+ 15.20.3541.17 via Frontend Transport; Fri, 6 Nov 2020 01:33:06 +0000
 Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -65,13 +65,13 @@ Received: from smtp.xilinx.com (172.19.127.96) by
 Received: from [172.19.2.32] (port=50874 helo=xsjkomlodi50.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <joe.komlodi@xilinx.com>)
- id 1kaqcc-0005r0-7v; Thu, 05 Nov 2020 17:32:58 -0800
+ id 1kaqcc-0005r0-8Y; Thu, 05 Nov 2020 17:32:58 -0800
 From: Joe Komlodi <joe.komlodi@xilinx.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v3 2/3] hw/block/m25p80: Check SPI mode before running some
- Numonyx commands
-Date: Thu, 5 Nov 2020 17:32:57 -0800
-Message-ID: <1604626378-152352-3-git-send-email-komlodi@xilinx.com>
+Subject: [PATCH v3 3/3] hw/block/m25p80: Fix Numonyx fast read dummy cycle
+ count
+Date: Thu, 5 Nov 2020 17:32:58 -0800
+Message-ID: <1604626378-152352-4-git-send-email-komlodi@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1604626378-152352-1-git-send-email-komlodi@xilinx.com>
 References: <1604626378-152352-1-git-send-email-komlodi@xilinx.com>
@@ -80,31 +80,31 @@ Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 80f51326-8df9-4c8f-9b60-08d881f3e9d7
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2379:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB2379F554F5068756A8435847D0ED0@DM5PR02MB2379.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 88ad02c4-acae-4145-28a5-08d881f3e94c
+X-MS-TrafficTypeDiagnostic: BL0PR02MB4356:
+X-Microsoft-Antispam-PRVS: <BL0PR02MB435604C1A4253537BC02FF16D0ED0@BL0PR02MB4356.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:242;
+X-MS-Oob-TLC-OOBClassifiers: OLM:497;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: pWU55vnEs0nF7jgvQ9rNWgpsUzY2O41DMxe+AnowfOG++KTB/+zplnvlXEA9emyrzPMmP69aJ3dTlbgJKoIp6DkTNZfgqobstLrjO1CRgcbAC/ydsl5jofLeP4OFpZodSqjprrrlMGO0ukO64Un3g9w/ajXoYoVUgN+uGuzUIdtTYvMYJTJKdwiLZlXnVNG2LsLl6g9oXH+lIdlSzII0hWoJD1U+iFml73XGDs0jSjOKNJMdQ6PG7Xijo1PYdc1FA0D1wy7ynfBOT3oLRhf8XlgwUKNmfagPbRnikHVDRQlrCs9rPoRIJdV7P67Ebm4Awoj0Z7nPTKwA8p7jQe/JChEX5kXcAs4mW3yMn+Y6Qm8iACm2KkzWWr7cYdp86AIjywVKtqTFYnRKQzEHpm9Js9SpWMfgzuuATIZx65ClT98=
+X-Microsoft-Antispam-Message-Info: kgGR3s0Uq9gXscBJ4H13qF03eoRkI9pagsTRFVtUIA5H17nucj4r/p3ARhWcbE4St3VUmyHqt6dpeDirVw+w9xl+1Pd2miMF2+n7hHb6jsS1GJbt4AZAp8FV+lRgfM5B1ZVEhDzj7cFAHkWSQCg4ZKfDpaRo8yU0upoZ8XhX5w6XTCf8+DUrvcqqzIck8SzNoNwH4zZ6t0eRubr2KgIayFyYoCymsIOKThwsjlU3pVGS3u6Eq5kgW/Xh0I1NhPV+g/cRh6N+6YpmsX/o6mrwTIwu1vbeAgX1oXs71BQ0KncFFo+gw2NybDFBQWR/E3frCqicfE5zg1TNigZ22jfWMGnvAoik3Ot/OB7ORVJR1FgxlPaKRidpqo3tOQWcJrCTL4QUHj6Ag/Bq84ahgnY+l28tAqUqy0hny0eyBDeUczoEzMu1FHYL50EjE1qR7d5GRo7N7P0mTT40l7vUdkUEMRlLSdHhfnM06ulDXhBwMl3YE7m2hZ2Yc7GO0MO8mpQO
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(396003)(39860400002)(136003)(346002)(376002)(46966005)(44832011)(83380400001)(26005)(86362001)(5660300002)(426003)(8676002)(336012)(316002)(186003)(82740400003)(7696005)(478600001)(9786002)(54906003)(4326008)(36906005)(82310400003)(2906002)(6916009)(356005)(70206006)(47076004)(36756003)(7636003)(70586007)(8936002)(2616005)(102446001);
+ SFS:(4636009)(396003)(376002)(346002)(39860400002)(136003)(46966005)(36906005)(186003)(966005)(8936002)(9786002)(86362001)(70206006)(316002)(336012)(70586007)(5660300002)(44832011)(82310400003)(2616005)(426003)(26005)(7636003)(6916009)(4326008)(82740400003)(8676002)(47076004)(83380400001)(2906002)(478600001)(54906003)(36756003)(356005)(7696005)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 01:33:07.2553 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 80f51326-8df9-4c8f-9b60-08d881f3e9d7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2020 01:33:06.3409 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 88ad02c4-acae-4145-28a5-08d881f3e94c
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch02.xlnx.xilinx.com]
 X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT013.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2379
-Received-SPF: pass client-ip=40.107.223.57; envelope-from=komlodi@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR02MB4356
+Received-SPF: pass client-ip=40.107.92.68; envelope-from=komlodi@xilinx.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-detected-operating-system: by eggs.gnu.org: First seen = 2020/11/05 20:33:08
 X-ACL-Warn: Detected OS   = Windows NT kernel [generic] [fuzzy]
 X-Spam_score_int: -18
@@ -130,271 +130,96 @@ Cc: figlesia@xilinx.com, alistair@alistair23.me,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some Numonyx flash commands cannot be executed in DIO and QIO mode, such as
-trying to do DPP or DOR when in QIO mode.
+Numonyx chips determine the number of cycles to wait based on bits 7:4
+in the volatile configuration register.
+
+However, if these bits are 0x0 or 0xF, the number of dummy cycles to wait is
+10 on a QIOR or QIOR4 command, or 8 on any other currently supported
+fast read command. [1]
+
+[1]
+https://www.micron.com/-/media/client/global/documents/products/data-sheet/nor-flash/serial-nor/mt25q/die-rev-b/mt25q_qlkt_u_02g_cbb_0.pdf?rev=9b167fbf2b3645efba6385949a72e453
 
 Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 ---
- hw/block/m25p80.c | 132 ++++++++++++++++++++++++++++++++++++++++++++++++------
- 1 file changed, 119 insertions(+), 13 deletions(-)
+ hw/block/m25p80.c | 43 ++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 40 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
-index 4255a6a..8a1b684 100644
+index 8a1b684..a2cdfb6 100644
 --- a/hw/block/m25p80.c
 +++ b/hw/block/m25p80.c
-@@ -413,6 +413,12 @@ typedef enum {
-     MAN_GENERIC,
- } Manufacturer;
- 
-+typedef enum {
-+    MODE_STD = 0,
-+    MODE_DIO = 1,
-+    MODE_QIO = 2
-+} SPIMode;
-+
- #define M25P80_INTERNAL_DATA_BUFFER_SZ 16
- 
- struct Flash {
-@@ -820,6 +826,70 @@ static void reset_memory(Flash *s)
-     trace_m25p80_reset_done(s);
+@@ -841,6 +841,43 @@ static uint8_t numonyx_get_mode(Flash *s)
+     return mode;
  }
  
-+static uint8_t numonyx_get_mode(Flash *s)
++static uint8_t numonyx_extract_cfg_num_dummies(Flash *s)
 +{
++    uint8_t cycle_count;
++    uint8_t num_dummies;
 +    uint8_t mode;
-+
-+    if (s->enh_volatile_cfg & EVCFG_QUAD_IO_ENABLED) {
-+        mode = MODE_QIO;
-+    } else if (s->enh_volatile_cfg & EVCFG_DUAL_IO_ENABLED) {
-+        mode = MODE_DIO;
-+    } else {
-+        mode = MODE_STD;
-+    }
-+
-+    return mode;
-+}
-+
-+static bool numonyx_check_cmd_mode(Flash *s)
-+{
-+    uint8_t mode;
++    uint8_t cycle_table[0x100][3] = {
++        [FAST_READ] = {8, 8, 10},
++        [FAST_READ4] = {8, 8, 10},
++        [DOR] = {8, 8, 0xff},
++        [DOR4] = {8, 8, 0xff},
++        [QOR] = {8, 0xff, 10},
++        [QOR4] = {8, 0xff, 10},
++        [DIOR] = {8, 8, 0xff},
++        [DIOR4] = {8, 8, 0xff},
++        [QIOR] = {10, 0xff, 10},
++        [QIOR4] = {10, 0xff, 10},
++    };
 +    assert(get_man(s) == MAN_NUMONYX);
 +
 +    mode = numonyx_get_mode(s);
 +
-+    switch (mode) {
-+    case MODE_STD:
-+        return true;
-+    case MODE_DIO:
-+        switch (s->cmd_in_progress) {
-+        case QOR:
-+        case QOR4:
-+        case QIOR:
-+        case QIOR4:
-+        case QPP:
-+        case QPP_4:
-+        case PP4_4:
-+        case JEDEC_READ:
-+        case READ:
-+        case READ4:
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "DIO mode\n", s->cmd_in_progress);
-+            return false;
-+        default:
-+            return true;
-+        }
-+    case MODE_QIO:
-+        switch (s->cmd_in_progress) {
-+        case DOR:
-+        case DOR4:
-+        case DIOR:
-+        case DIOR4:
-+        case DPP:
-+        case JEDEC_READ:
-+        case READ:
-+        case READ4:
-+            qemu_log_mask(LOG_GUEST_ERROR, "M25P80: Cannot execute cmd %x in "
-+                          "QIO mode\n", s->cmd_in_progress);
-+            return false;
-+        default:
-+            return true;
-+        }
-+    default:
-+        g_assert_not_reached();
++    cycle_count = extract32(s->volatile_cfg, 4, 4);
++    if (cycle_count == 0x0 || cycle_count == 0xf) {
++        num_dummies = cycle_table[s->cmd_in_progress][mode];
++    } else {
++        num_dummies = cycle_count;
 +    }
++
++    /*
++     * Validation if the command can be executed should be done outside of
++     * this function. e.g. trying to execute DIOR in QIO mode.
++     */
++    assert(num_dummies != 0xff);
++
++    return num_dummies;
 +}
 +
- static void decode_fast_read_cmd(Flash *s)
+ static bool numonyx_check_cmd_mode(Flash *s)
  {
-     s->needed_bytes = get_addr_length(s);
-@@ -827,9 +897,13 @@ static void decode_fast_read_cmd(Flash *s)
-     /* Dummy cycles - modeled with bytes writes instead of bits */
-     case MAN_WINBOND:
-         s->needed_bytes += 8;
-+        s->state = STATE_COLLECTING_DATA;
+     uint8_t mode;
+@@ -901,7 +938,7 @@ static void decode_fast_read_cmd(Flash *s)
          break;
      case MAN_NUMONYX:
--        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+        if (numonyx_check_cmd_mode(s)) {
-+            s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+            s->state = STATE_COLLECTING_DATA;
-+        }
-         break;
-     case MAN_MACRONIX:
-         if (extract32(s->volatile_cfg, 6, 2) == 1) {
-@@ -837,19 +911,21 @@ static void decode_fast_read_cmd(Flash *s)
-         } else {
-             s->needed_bytes += 8;
+         if (numonyx_check_cmd_mode(s)) {
+-            s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
++            s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+             s->state = STATE_COLLECTING_DATA;
          }
-+        s->state = STATE_COLLECTING_DATA;
          break;
-     case MAN_SPANSION:
-         s->needed_bytes += extract32(s->spansion_cr2v,
-                                     SPANSION_DUMMY_CLK_POS,
-                                     SPANSION_DUMMY_CLK_LEN
-                                     );
-+        s->state = STATE_COLLECTING_DATA;
-         break;
-     default:
-+        s->state = STATE_COLLECTING_DATA;
-         break;
-     }
-     s->pos = 0;
-     s->len = 0;
--    s->state = STATE_COLLECTING_DATA;
- }
- 
- static void decode_dio_read_cmd(Flash *s)
-@@ -859,6 +935,7 @@ static void decode_dio_read_cmd(Flash *s)
-     switch (get_man(s)) {
-     case MAN_WINBOND:
-         s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN;
-+        s->state = STATE_COLLECTING_DATA;
-         break;
-     case MAN_SPANSION:
-         s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
-@@ -866,9 +943,13 @@ static void decode_dio_read_cmd(Flash *s)
-                                     SPANSION_DUMMY_CLK_POS,
-                                     SPANSION_DUMMY_CLK_LEN
-                                     );
-+        s->state = STATE_COLLECTING_DATA;
+@@ -947,7 +984,7 @@ static void decode_dio_read_cmd(Flash *s)
          break;
      case MAN_NUMONYX:
--        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+        if (numonyx_check_cmd_mode(s)) {
-+            s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+            s->state = STATE_COLLECTING_DATA;
-+        }
-         break;
-     case MAN_MACRONIX:
-         switch (extract32(s->volatile_cfg, 6, 2)) {
-@@ -882,13 +963,14 @@ static void decode_dio_read_cmd(Flash *s)
-             s->needed_bytes += 4;
-             break;
+         if (numonyx_check_cmd_mode(s)) {
+-            s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
++            s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+             s->state = STATE_COLLECTING_DATA;
          }
-+        s->state = STATE_COLLECTING_DATA;
          break;
-     default:
-+        s->state = STATE_COLLECTING_DATA;
-         break;
-     }
-     s->pos = 0;
-     s->len = 0;
--    s->state = STATE_COLLECTING_DATA;
- }
- 
- static void decode_qio_read_cmd(Flash *s)
-@@ -899,6 +981,7 @@ static void decode_qio_read_cmd(Flash *s)
-     case MAN_WINBOND:
-         s->needed_bytes += WINBOND_CONTINUOUS_READ_MODE_CMD_LEN;
-         s->needed_bytes += 4;
-+        s->state = STATE_COLLECTING_DATA;
-         break;
-     case MAN_SPANSION:
-         s->needed_bytes += SPANSION_CONTINUOUS_READ_MODE_CMD_LEN;
-@@ -906,9 +989,13 @@ static void decode_qio_read_cmd(Flash *s)
-                                     SPANSION_DUMMY_CLK_POS,
-                                     SPANSION_DUMMY_CLK_LEN
-                                     );
-+        s->state = STATE_COLLECTING_DATA;
+@@ -993,7 +1030,7 @@ static void decode_qio_read_cmd(Flash *s)
          break;
      case MAN_NUMONYX:
--        s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+        if (numonyx_check_cmd_mode(s)) {
-+            s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
-+            s->state = STATE_COLLECTING_DATA;
-+        }
-         break;
-     case MAN_MACRONIX:
-         switch (extract32(s->volatile_cfg, 6, 2)) {
-@@ -922,13 +1009,14 @@ static void decode_qio_read_cmd(Flash *s)
-             s->needed_bytes += 6;
-             break;
+         if (numonyx_check_cmd_mode(s)) {
+-            s->needed_bytes += extract32(s->volatile_cfg, 4, 4);
++            s->needed_bytes += numonyx_extract_cfg_num_dummies(s);
+             s->state = STATE_COLLECTING_DATA;
          }
-+        s->state = STATE_COLLECTING_DATA;
          break;
-     default:
-+        s->state = STATE_COLLECTING_DATA;
-         break;
-     }
-     s->pos = 0;
-     s->len = 0;
--    s->state = STATE_COLLECTING_DATA;
- }
- 
- static void decode_new_cmd(Flash *s, uint32_t value)
-@@ -950,6 +1038,15 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case ERASE4_32K:
-     case ERASE_SECTOR:
-     case ERASE4_SECTOR:
-+    case DIE_ERASE:
-+    case RDID_90:
-+    case RDID_AB:
-+        s->needed_bytes = get_addr_length(s);
-+        s->pos = 0;
-+        s->len = 0;
-+        s->state = STATE_COLLECTING_DATA;
-+        break;
-+
-     case READ:
-     case READ4:
-     case DPP:
-@@ -958,13 +1055,19 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-     case PP:
-     case PP4:
-     case PP4_4:
--    case DIE_ERASE:
--    case RDID_90:
--    case RDID_AB:
--        s->needed_bytes = get_addr_length(s);
--        s->pos = 0;
--        s->len = 0;
--        s->state = STATE_COLLECTING_DATA;
-+        if (get_man(s) == MAN_NUMONYX) {
-+            if (numonyx_check_cmd_mode(s)) {
-+                s->needed_bytes = get_addr_length(s);
-+                s->pos = 0;
-+                s->len = 0;
-+                s->state = STATE_COLLECTING_DATA;
-+            }
-+        } else {
-+            s->needed_bytes = get_addr_length(s);
-+            s->pos = 0;
-+            s->len = 0;
-+            s->state = STATE_COLLECTING_DATA;
-+        }
-         break;
- 
-     case FAST_READ:
-@@ -1035,6 +1138,9 @@ static void decode_new_cmd(Flash *s, uint32_t value)
-         break;
- 
-     case JEDEC_READ:
-+        if (get_man(s) == MAN_NUMONYX && !numonyx_check_cmd_mode(s)) {
-+            break;
-+        }
-         trace_m25p80_populated_jedec(s);
-         for (i = 0; i < s->pi->id_len; i++) {
-             s->data[i] = s->pi->id[i];
 -- 
 2.7.4
 
